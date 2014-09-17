@@ -4,13 +4,13 @@
 
 播放库版本
 
-    #define MY_VERSION      "0.6"
-    #define REVISION        "[dc30fc4]"
-    #define RELEASE_DATE    "[2014-09-12]"
+    #define MY_VERSION    "0.6"
+    #define REVISION      "[761a78f]"
+    #define RELEASE_DATE  "[2014-09-17]"
 
 内置网络库版本
 
-    v2.0.76.3.4[private:v2.0.75.13 20140820.1]
+    v2.0.76.3.5[private:v2.0.75.13 20140917.1]
     
 ## 播放库架构
 
@@ -89,6 +89,11 @@ SearchLanServer
     id, 0, 0, json
     json: {"ip":"", "gid":"", "no":0, "type":0, "count":0,
         "port":0, "variety":0, "timeout":0, "netmod":0, "curmod":0}
+
+queryDevice
+
+    id, 0, 0, json
+    json: {"type":0, "gid":"", "no":0, "ip":"", "port":0}
 
 stat
 

@@ -271,6 +271,20 @@ public class Jni {
 	public static native void clearBuffer(int index);
 
 	/**
+	 * 查询某个设备是否被搜索出来
+	 * 
+	 * @param groudId
+	 *            组标识
+	 * @param cloudSeeId
+	 *            云视通编号
+	 * @param timeout
+	 *            超时时间，毫秒
+	 * @return 调用是否成功，等回调
+	 */
+	public static native boolean queryDevice(String groudId, int cloudSeeId,
+			int timeout);
+
+	/**
 	 * 发送字节数据，参考 {@link JVSUDT#JVC_SendData(int, byte, byte[], int)}
 	 * 
 	 * @param index
@@ -316,7 +330,25 @@ public class Jni {
 	 * @param uchType
 	 * @param data
 	 */
-	public static native void sendString(int index, byte uchType, String data);
+
+	/**
+	 * 发送字符串数据
+	 * 
+	 * @param index
+	 *            窗口索引
+	 * @param uchType
+	 *            发送类型
+	 * @param isExtend
+	 *            是否扩展消息
+	 * @param count
+	 *            扩展包数量
+	 * @param type
+	 *            扩展消息类型
+	 * @param data
+	 *            数据
+	 */
+	public static native void sendString(int index, byte uchType,
+			boolean isExtend, int count, int type, String data);
 
 	/**
 	 * 发送聊天命令，参考 {@link JVSUDT#JVC_SendTextData(int, byte, int, int)}
@@ -564,9 +596,9 @@ public class Jni {
 	 * @param index
 	 *            窗口索引
 	 * @param left
-	 *            X 图像左坐标
+	 *            图像左坐标
 	 * @param bottom
-	 *            Y 图像底坐标
+	 *            图像底坐标
 	 * @param width
 	 *            图像宽
 	 * @param height

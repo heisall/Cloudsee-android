@@ -41,6 +41,7 @@ public class Consts {
 	public static final int CALL_GOT_SCREENSHOT = 0xAB;
 	public static final int CALL_PLAY_DOOMED = 0xAC;
 	public static final int CALL_PLAY_AUDIO = 0xAD;
+	public static final int CALL_QUERY_DEVICE = 0xAE;
 
 	public static final int CHANNEL_JY = 5555;
 

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/functionbgcolor"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/autoimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/upArrow"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:onClick="OnCancelButton"
+            android:src="@drawable/ytauto_bg_selector" />
+
+        <ImageView
+            android:id="@+id/upArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:onClick="OnCancelButton"
+            android:src="@drawable/ytup_bg_selector" />
+
+        <ImageView
+            android:id="@+id/leftArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/upArrow"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/autoimage"
+            android:onClick="OnCancelButton"
+            android:src="@drawable/ytleft_bg_selector" />
+
+        <ImageView
+            android:id="@+id/rightArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/upArrow"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/autoimage"
+            android:onClick="OnCancelButton"
+            android:src="@drawable/ytright_bg_selector" />
+
+        <ImageView
+            android:id="@+id/downArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/autoimage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:onClick="OnCancelButton"
+            android:src="@drawable/ytdown_bg_selector" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" >
+
+        <ImageView
+            android:id="@+id/zoomin_auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ytzoomsmall_bg_selector"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/zoomin_autoup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/yt_trans_bg"
+            android:gravity="center"
+            android:text="@string/str_change_zoom"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/zoomin_auto_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/zoomin_auto"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/yt_trans_bg"
+            android:gravity="center"
+            android:text="@string/str_change_focus"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/zoomin_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/zoomin_auto"
+            android:src="@drawable/ytzoomsmall_bg_selector"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/zoomin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/zoomin_autoup"
+            android:onClick="OnCancelButton"
+            android:src="@drawable/ytzoomsmall_bg_selector"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/scaleSmallImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/zoomin_middle"
+            android:layout_marginTop="7dp"
+            android:layout_toLeftOf="@+id/zoomin_auto_down"
+            android:onClick="OnCancelButton"
+            android:src="@drawable/ytscalesmall_bg_selector" />
+
+        <ImageView
+            android:id="@+id/zoomout_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/zoomin_auto"
+            android:src="@drawable/ytzoomadd_bg_selector"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/scaleAddImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/zoomout_middle"
+            android:layout_marginTop="7dp"
+            android:layout_toRightOf="@+id/zoomin_autoup"
+            android:onClick="OnCancelButton"
+            android:src="@drawable/ytscale_add_bg_selector"
+            android:visibility="visible" />
+        <!--
+            <ImageView
+                android:layout_marginTop="7dp"
+                android:id="@+id/scaleAddImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ytscaleadd_bg_selector"
+                android:layout_alignParentRight="true"
+               android:layout_below="@+id/zoomout_middle"
+               android:onClick="OnCancelButton"/>
+        -->
+
+        <ImageView
+            android:id="@+id/zoomout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/zoomin_autoup"
+            android:onClick="OnCancelButton"
+            android:src="@drawable/ytzoomadd_bg_selector" />
+    </RelativeLayout>
+
+</LinearLayout>

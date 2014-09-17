@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black" >
+
+    <include
+        android:id="@+id/top_bar"
+        layout="@layout/top_bar_layout" />
+
+    <RelativeLayout
+        android:id="@+id/videolayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_bar"
+        android:background="@color/black"
+        android:orientation="vertical" >
+
+        <SurfaceView
+            android:id="@+id/remotesurfaceview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+"
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mainfunction"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/footbar"
+        android:layout_below="@+id/videolayout"
+        android:background="@color/functionbgcolor"
+        android:visibility="visible" >
+
+        <include
+            android:id="@+id/yt_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            layout="@layout/yt_vertical_layout"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@color/transparent"
+            android:orientation="horizontal" >
+
+            <ListView
+                android:id="@+id/play_function_list_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:divider="@null"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/play_function_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@color/transparent"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/audio_monitor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/voice_monitor"
+                    android:text="@string/str_audio_monitor"
+                    android:textColor="@color/userinfocolor"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/yt_operate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/yt_controller"
+                    android:text="@string/str_yt_operate"
+                    android:textColor="@color/userinfocolor"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/remote_playback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/remote_playback"
+                    android:text="@string/str_remote_playback"
+                    android:textColor="@color/userinfocolor"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/footbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/footer_bar_bg"
+        android:orientation="horizontal"
+        android:paddingTop="1dp" >
+
+        <Button
+            android:id="@+id/capture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/function_btn_bg"
+            android:drawableLeft="@drawable/capture"
+            android:paddingLeft="10dp"
+            android:paddingRight="0dp"
+            android:singleLine="true"
+            android:text="@string/str_capture"
+            android:textColor="@drawable/button_font_style"
+            android:textSize="8sp" />
+
+        <Button
+            android:id="@+id/voicecall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/function_btn_bg"
+            android:drawableLeft="@drawable/call_of_voice"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:singleLine="true"
+            android:text="@string/str_voice"
+            android:textColor="@drawable/button_font_style"
+            android:textSize="8sp" />
+
+        <Button
+            android:id="@+id/videotape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/function_btn_bg"
+            android:drawableLeft="@drawable/video_record"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:text="@string/str_video"
+            android:textColor="@drawable/button_font_style"
+            android:textSize="8sp" />
+
+        <Button
+            android:id="@+id/more_features"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/function_btn_bg"
+            android:drawableLeft="@drawable/more_feature"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:singleLine="true"
+            android:text="@string/str_more"
+            android:textColor="@drawable/button_font_style"
+            android:textSize="8sp" />
+    </LinearLayout>
+
+</RelativeLayout>

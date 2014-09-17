@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/left_frame"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@drawable/left_layout_bg" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/leftlayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/device_count_img" />
+
+            <TextView
+                android:id="@+id/devicenum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:text="@string/devicecount"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <ExpandableListView
+            android:id="@+id/deviceexpandlistview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/leftlayout1"
+            android:layout_marginBottom="40dp"
+            android:background="@color/transparent"
+            android:cacheColorHint="@color/transparent"
+            android:childIndicator="@null"
+            android:choiceMode="singleChoice"
+            android:clickable="true"
+            android:dividerHeight="0sp"
+            android:drawSelectorOnTop="false"
+            android:fadingEdge="none"
+            android:footerDividersEnabled="false"
+            android:groupIndicator="@null"
+            android:headerDividersEnabled="false"
+            android:scrollbars="none"
+            android:visibility="visible" >
+        </ExpandableListView>
+
+        <LinearLayout
+            android:id="@+id/leftmorefunction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/left_more_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/setting" />
+
+            <TextView
+                android:id="@+id/left_more_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:text="@string/str_more_features"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

@@ -1,0 +1,57 @@
+# Android generated
+bin
+gen
+obj
+libs/armeabi
+libs/armeabi-v7a
+libs/x86
+proguard
+lint.xml
+
+# Eclipse
+.project
+.cproject
+.classpath
+.settings
+
+# IntelliJ IDEA
+.idea
+*.iml
+*.ipr
+*.iws
+out
+
+# Maven
+target
+release.properties
+pom.xml.*
+
+# Ant
+build.xml
+local.properties
+
+# OSX
+.DS_Store
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Compiled Dynamic libraries
+# *.so
+# *.dylib
+# *.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+bak/

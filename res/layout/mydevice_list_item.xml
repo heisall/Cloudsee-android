@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:paddingTop="3dp" >
+
+    <RelativeLayout
+        android:id="@+id/dev_layout_l"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="1"
+        android:background="@drawable/device_bg_1" >
+
+        <ImageView
+            android:id="@+id/dev_image_l"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/tese_img" />
+
+        <TextView
+            android:id="@+id/dev_name_l"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="我的设备"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/dev_online_l"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/dev_image_l"
+            android:layout_alignParentLeft="true"
+            android:text="在线"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/dev_wifi_l"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/dev_image_l"
+            android:layout_toRightOf="@+id/dev_online_l"
+            android:text="WIFI"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/dev_layout_r"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="1"
+        android:background="@drawable/device_bg_1" >
+
+        <ImageView
+            android:id="@+id/dev_image_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/tese_img" />
+
+        <TextView
+            android:id="@+id/dev_name_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="我的设备"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/dev_online_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/dev_image_r"
+            android:layout_alignParentLeft="true"
+            android:text="在线"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/dev_wifi_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/dev_image_r"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/dev_online_r"
+            android:text="WIFI"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+</LinearLayout>

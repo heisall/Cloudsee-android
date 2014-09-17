@@ -1,0 +1,108 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_bar_layout" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_shadow" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@+id/editoldpass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/regist_edittext"
+                    android:hint="@string/str_old_pass"
+                    android:inputType="textPassword"
+                    android:maxLength="20"
+                    android:paddingLeft="20dp"
+                    android:password="true"
+                    android:singleLine="true"
+                    android:textColor="@color/registtextcolor" />
+
+                <TextView
+                    android:id="@+id/regist_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="14sp"
+                    android:visibility="invisible" />
+
+                <EditText
+                    android:id="@+id/editnewpass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/regist_edittext"
+                    android:hint="@string/str_new_pass"
+                    android:inputType="textPassword"
+                    android:maxLength="20"
+                    android:paddingLeft="20dp"
+                    android:password="true"
+                    android:singleLine="true"
+                    android:textColor="@color/registtextcolor" />
+
+                <TextView
+                    android:id="@+id/regist_tips2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="14sp"
+                    android:visibility="invisible" />
+
+                <EditText
+                    android:id="@+id/editensurepass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/regist_edittext"
+                    android:hint="@string/str_ensure_newpass"
+                    android:inputType="textPassword"
+                    android:maxLength="20"
+                    android:paddingLeft="20dp"
+                    android:password="true"
+                    android:singleLine="true"
+                    android:textColor="@color/registtextcolor" />
+
+                <TextView
+                    android:id="@+id/regist_tips3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="14sp"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/editfinish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/registe_button_bg"
+                    android:text="@string/str_finish"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

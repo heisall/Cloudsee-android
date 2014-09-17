@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <fragment
+        android:id="@+id/mydevice_fragement"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        class="com.jovision.activities.JVMyDeviceFragment" />
+
+    <fragment
+        android:id="@+id/info_fragement"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        class="com.jovision.activities.JVInfoFragment" />
+
+    <fragment
+        android:id="@+id/demo_fragement"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        class="com.jovision.activities.JVDemoFragment" />
+
+    <fragment
+        android:id="@+id/devicemanage_fragement"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        class="com.jovision.activities.JVDeviceManageFragment" />
+
+    <fragment
+        android:id="@+id/more_fragement"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        class="com.jovision.activities.JVMoreFragment" />
+
+    <com.jovision.activities.JVFragmentIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tab_footer_bg" />
+
+</LinearLayout>

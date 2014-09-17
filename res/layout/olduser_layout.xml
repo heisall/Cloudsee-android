@@ -1,0 +1,117 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_bar_layout" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_shadow" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/registusername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/regist_edittext"
+            android:hint="@string/str_enter_username1"
+            android:inputType="text"
+            android:paddingLeft="20dp"
+            android:textColor="@color/registtextcolor" />
+
+        <TextView
+            android:id="@+id/regist_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textSize="14sp"
+            android:visibility="invisible" />
+
+        <!--
+            <EditText
+                android:id="@+id/registpass1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/regist_edittext"
+                android:hint="@string/str_enter_pass1"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:paddingLeft="20dp"
+                android:password="true"
+                android:textColor="@color/registtextcolor" />
+			<TextView
+                android:id="@+id/regist_tips2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="14sp"
+                android:visibility="invisible" />
+            <EditText
+                android:id="@+id/registpass2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/regist_edittext"
+                android:hint="@string/str_enter_pass2"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:paddingLeft="20dp"
+                android:password="true"
+                android:textColor="@color/registtextcolor" />
+            <TextView
+                android:id="@+id/regist_tips3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="14sp"
+                android:visibility="invisible" />
+        -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" >
+
+            <ImageView
+                android:id="@+id/caution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/caution" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/caution"
+                android:singleLine="false"
+                android:text="@string/string_username_modify_tips"
+                android:textColor="@color/logintextcolor1"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/finish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/registe_button_bg"
+            android:text="@string/str_finish"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 页卡数组 -->
+    <string-array name="titles">
+        <item>我的设备</item>
+        <item>系统消息</item>
+        <item>演   示  点</item>
+        <item>视频管理</item>
+        <item>更多功能</item>
+    </string-array>
+
+    <!-- 家庭安防产品 -->
+    <!-- 图片质量 -->
+    <string-array name="array_image_quality">
+        <item>Fluent</item>
+        <item>Clear</item>
+    </string-array>
+    <!-- 帧率 -->
+    <string-array name="array_clear">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+    </string-array>
+    <!-- 码流质量 -->
+    <string-array name="array_fluent">
+        <item>64</item>
+        <item>128</item>
+        <item>256</item>
+        <item>384</item>
+    </string-array>
+
+    <!-- 非家庭安防产品 -->
+    <!-- 图片质量 -->
+    <string-array name="array_image_quality_not">
+        <item>Fluent</item>
+    </string-array>
+    <!-- 帧率 -->
+    <string-array name="array_clear_not">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
+    <!-- 码流质量 -->
+    <string-array name="array_fluent_not">
+        <item>128</item>
+        <item>256</item>
+        <item>384</item>
+    </string-array>
+    <!-- 分屏数 -->
+    <integer-array name="array_screen">
+        <item>4</item>
+        <item>9</item>
+        <item>16</item>
+    </integer-array>
+
+</resources>

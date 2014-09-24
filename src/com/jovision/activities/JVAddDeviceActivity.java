@@ -39,13 +39,11 @@ public class JVAddDeviceActivity extends BaseActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -111,6 +109,10 @@ public class JVAddDeviceActivity extends BaseActivity {
 
 	/**
 	 * 保存设备信息
+	 * 
+	 * @param devNum
+	 * @param userName
+	 * @param userPwd
 	 */
 	public void saveMethod(String devNum, String userName, String userPwd) {
 
@@ -148,103 +150,6 @@ public class JVAddDeviceActivity extends BaseActivity {
 		strParams[1] = String.valueOf(ConfigUtil.getYST(devNum));
 		strParams[2] = String.valueOf(2 * 1000);
 		task.execute(strParams);
-
-		// LoginUtil.deviceName = devNumET.getText().toString().toUpperCase();//
-		// // 云视通号将用户输入的小写均转成大写
-		// LoginUtil.deviceNum = devNumET.getText().toString().toUpperCase();//
-		// // 云视通号将用户输入的小写均转成大写
-		// LoginUtil.deviceLoginUser = userET.getText().toString();
-		// LoginUtil.deviceLoginPass = pwdET.getText().toString();
-		// devNumET.setText("");
-		// userET.setText(getResources().getString(R.string.str_default_user));
-		// pwdET.setText(getResources().getString(R.string.str_default_pass));
-		// // 添加设备线程
-		// // centerLoading.setVisibility(View.VISIBLE);
-		// if (null == dialog) {
-		// dialog = new ProgressDialog(JVMainActivity.this);
-		// dialog.setCancelable(false);
-		// }
-		//
-		// dialog.setMessage(getResources().getString(
-		// R.string.str_loading_adddevice));
-		// dialog.show();
-		// BaseApp.ADDDEVICE = new Device();
-		// BaseApp.ADDDEVICE.deviceNum = LoginUtil.deviceNum;
-		// BaseApp.ADDDEVICE.deviceLoginUser = LoginUtil.deviceLoginUser;
-		// BaseApp.ADDDEVICE.deviceLoginPwd = LoginUtil.deviceLoginPass;
-		//
-		// AddDeviceThread adThread1 = new AddDeviceThread(JVMainActivity.this);
-		// adThread1.start();
-		// // requested = false;
-		//
-		// // 3G添加设备不广播，走两个流程
-		// if (!BaseApp.LOCAL_LOGIN_FLAG) {
-		// // Thread thread = new Thread() {
-		// //
-		// // @Override
-		// // public void run() {
-		// // // TODO Auto-generated method stub
-		// // addDevice2Way();
-		// // super.run();
-		// // }
-		// //
-		// // };
-		// // thread.start();
-		// addDevice.setBackgroundResource(R.drawable.adddevice);
-		// addDeviceLayout.setVisibility(View.GONE);
-		// }
-		// // else {
-		// // BaseApp.ADDDEVICE.devicePointCount = 4;
-		// // }
-		//
-		// // if (BaseApp.is3G( false)) {
-		// // MyLog.v("3G不广播", "直接添加");
-		// // Thread thread = new Thread() {
-		// //
-		// // @Override
-		// // public void run() {
-		// // // TODO Auto-generated method stub
-		// // addDevice2Way();
-		// // super.run();
-		// // }
-		// //
-		// // };
-		// // thread.start();
-		// // addDevice.setBackgroundResource(R.drawable.adddevice);
-		// // addDeviceLayout.setVisibility(View.GONE);
-		// // } else {// wifi添加设备走三个流程
-		// // if (!JVSUDT.IS_BROADCASTING) {// 没有正在广播中
-		// // // requested = true;
-		// //
-		// // // 添加设备广播搜索通道数量
-		// // BaseApp.initBroadCast();
-		// // JVSUDT.ADD_DEVICE = true;// 添加设备广播
-		// // BaseApp.sendBroadCast();
-		// //
-		// // addDevice.setBackgroundResource(R.drawable.adddevice);
-		// // addDeviceLayout.setVisibility(View.GONE);
-		// // } else {// 如果有正在广播的，否则通过从服务器上获取通道和通过连接-1通道获取
-		// // addDevice.setBackgroundResource(R.drawable.adddevice);
-		// // addDeviceLayout.setVisibility(View.GONE);
-		// // Thread thread = new Thread() {
-		// //
-		// // @Override
-		// // public void run() {
-		// // // TODO Auto-generated method stub
-		// // addDevice2Way();
-		// // super.run();
-		// // }
-		// //
-		// // };
-		// // thread.start();
-		// // }
-		// //
-		// // }
-		//
-		// // mTimer = new Timer(true);
-		// // mTimerTask = new BroadCastTask(JVMainActivity.this);
-		// // mTimer.schedule(mTimerTask, 1000, 1000);
-		// }
 	}
 
 	@Override
@@ -266,13 +171,11 @@ public class JVAddDeviceActivity extends BaseActivity {
 
 	@Override
 	protected void saveSettings() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void freeMe() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -302,7 +205,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 				if (null != addDev) {
 					deviceList.add(addDev);
 					if (localFlag) {// 本地添加
-						MySharedPreference.putString(Consts.LOCAL_DEVICE_LIST,
+						MySharedPreference.putString(Consts.DEVICE_LIST,
 								deviceList.toString());
 						addRes = 0;
 					} else {
@@ -328,6 +231,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 			dismissDialog();
 			if (0 == result) {
 				showTextToast(R.string.add_device_succ);
+				JVAddDeviceActivity.this.finish();
 			} else {
 				showTextToast(R.string.add_device_failed);
 			}

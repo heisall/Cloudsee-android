@@ -15,8 +15,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.jovision.Consts;
 import com.jovision.MainApplication;
-import com.jovision.commons.JVConst;
 
 /**
  * 图片滚动类
@@ -113,7 +113,7 @@ public class GuidViewPager extends ViewPager {
 							.setBackgroundResource(focusedId);
 					oldIndex = curIndex;
 					((MainApplication) mActivity.getApplicationContext())
-							.onNotify(JVConst.GUID_PAGE_SCROLL, oldIndex, 0,
+							.onNotify(Consts.GUID_PAGE_SCROLL, oldIndex, 0,
 									null);
 				}
 

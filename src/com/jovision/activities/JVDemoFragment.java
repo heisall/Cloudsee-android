@@ -15,7 +15,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.DemoListAdapter;
 import com.jovision.newbean.BeanUtil;
 import com.jovision.newbean.Device;
-import com.jovision.utils.PlayUtil;
 import com.jovision.views.RefreshableView;
 import com.jovision.views.RefreshableView.PullToRefreshListener;
 
@@ -52,7 +51,7 @@ public class JVDemoFragment extends BaseFragment {
 				1, 2));
 		demoList.add(new Device("", 9101, "S", 52942216, "admin", "123", false,
 				1, 3));
-		PlayUtil.setHelperToList(demoList);
+		// PlayUtil.setHelperToList(demoList);
 
 		refreshableView = (RefreshableView) mParent
 				.findViewById(R.id.refreshable_view);

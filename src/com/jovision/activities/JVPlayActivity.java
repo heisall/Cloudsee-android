@@ -287,6 +287,12 @@ public class JVPlayActivity extends PlayActivity implements
 						channel.getParent().setHomeProduct(false);
 					}
 					channel.getParent().setO5(jobj.optBoolean("is05"));
+
+					if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
+						errorDialog(getResources().getString(
+								R.string.not_support_old));
+					}
+
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -477,7 +483,9 @@ public class JVPlayActivity extends PlayActivity implements
 		Jni.setStat(true);
 		// 2.几的系统有可能花屏
 		if (MobileUtil.mobileSysVersion(JVPlayActivity.this).startsWith("2")) {
-			errorDialog();
+			errorDialog(getResources().getString(R.string.system_lower)
+					.replace("$",
+							MobileUtil.mobileSysVersion(JVPlayActivity.this)));
 		}
 
 		viewPager.setCurrentItem(currentPage);
@@ -489,15 +497,14 @@ public class JVPlayActivity extends PlayActivity implements
 	 * 
 	 * @param tag
 	 */
-	private void errorDialog() {
+	private void errorDialog(String errorMsg) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(
 				JVPlayActivity.this);
 		builder.setCancelable(false);
 
 		// builder.setTitle(getResources().getString(
 		// R.string.str_quick_setting_new_dev));
-		builder.setMessage(getResources().getString(R.string.system_lower)
-				.replace("$", MobileUtil.mobileSysVersion(JVPlayActivity.this)));
+		builder.setMessage(errorMsg);
 
 		builder.setNegativeButton(R.string.download,
 				new DialogInterface.OnClickListener() {

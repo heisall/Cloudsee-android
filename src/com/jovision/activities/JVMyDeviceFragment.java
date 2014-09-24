@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,12 +26,12 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.MyDeviceListAdapter;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.newbean.BeanUtil;
 import com.jovision.newbean.Device;
 import com.jovision.thread.GetDeviceListThread;
+import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.ImageViewPager;
 import com.jovision.views.RefreshableView;
@@ -95,8 +96,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 		myDeviceListView.addHeaderView(adView);
 		rightBtn.setOnClickListener(myOnClickListener);
 
-		((BaseActivity) mActivity).createDialog("");
-		new GetDeviceListThread(mActivity).start();
 		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -116,6 +115,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			public void run() {
 				Log.v(TAG, "三分钟时间到--发广播");
 				Jni.searchLanDevice("", 0, 0, 0, "", 2000, 1);
+
 			}
 
 		};
@@ -136,7 +136,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 			case R.id.btn_right:
 				Intent addIntent = new Intent();
 				addIntent.setClass(mActivity, JVAddDeviceActivity.class);
-				String devJsonString = BeanUtil.deviceListToString(myDeviceList);
+				String devJsonString = BeanUtil
+						.deviceListToString(myDeviceList);
 				addIntent.putExtra("DeviceList", devJsonString);
 				mActivity.startActivity(addIntent);
 				break;
@@ -149,12 +150,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	};
 
-	
-	
 	@Override
 	public void onResume() {
-		String devJsonString = MySharedPreference.getString(Consts.LOCAL_DEVICE_LIST);
+		String devJsonString = MySharedPreference.getString(Consts.DEVICE_LIST);
 		myDeviceList = BeanUtil.stringToDevList(devJsonString);
+		myDLAdapter.setData(myDeviceList);
 		myDLAdapter.notifyDataSetChanged();
 		super.onResume();
 	}
@@ -168,7 +168,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onPause() {
 		String devJsonString = BeanUtil.deviceListToString(myDeviceList);
-		MySharedPreference.putString(Consts.LOCAL_DEVICE_LIST, devJsonString);
+		MySharedPreference.putString(Consts.DEVICE_LIST, devJsonString);
 		imageScroll.stopTimer();
 		super.onPause();
 	}
@@ -221,10 +221,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 		// MyLog.v("TAG",
 		// "onTabAction:what="+what+";arg1="+arg1+";arg2="+arg1+";obj="+obj.toString());
 		switch (what) {
+		case Consts.TAB_ONSTART: {// activity起来后开始加载设备
+			((BaseActivity) mActivity).createDialog("");
+			new GetDeviceListThread(mActivity).start();
+			break;
+		}
 		case Consts.GET_DEVICE_LIST_FUNCTION: {
 			switch (arg1) {
 			// 从服务器端获取设备成功
-			case JVConst.DEVICE_GETDATA_SUCCESS: {
+			case Consts.DEVICE_GETDATA_SUCCESS: {
 				myDeviceList = (ArrayList<Device>) obj;
 				// 给设备列表设置小助手
 				PlayUtil.setHelperToList(myDeviceList);
@@ -236,7 +241,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 				break;
 			}
 			// 从服务器端获取设备成功，但是没有设备
-			case JVConst.DEVICE_NO_DEVICE: {
+			case Consts.DEVICE_NO_DEVICE: {
+				MyLog.v(TAG, "nonedata-too");
 				myDeviceList = (ArrayList<Device>) obj;
 				myDLAdapter.setData(myDeviceList);
 				myDeviceListView.setAdapter(myDLAdapter);
@@ -244,7 +250,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				break;
 			}
 			// 从服务器端获取设备失败
-			case JVConst.DEVICE_GETDATA_FAILED: {
+			case Consts.DEVICE_GETDATA_FAILED: {
 				myDeviceList = (ArrayList<Device>) obj;
 				myDLAdapter.setData(myDeviceList);
 				myDeviceListView.setAdapter(myDLAdapter);
@@ -284,19 +290,107 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			break;
 		}
-		case JVConst.DEVICE_ITEM_CLICK: {
-			((BaseActivity) mActivity).showTextToast(arg1 + "");
-			Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-			String devJsonString = BeanUtil.deviceListToString(myDeviceList);
-			intentPlay.putExtra("DeviceList", devJsonString);
-			intentPlay.putExtra("DeviceIndex", arg1);
-			intentPlay.putExtra("ChannelIndex", 0);
-			mActivity.startActivity(intentPlay);
+		case Consts.DEVICE_ITEM_CLICK: {// 设备单击事件
+			myDLAdapter.setShowDelete(false);
+			myDLAdapter.notifyDataSetChanged();
+			if (1 == myDeviceList.get(arg1).getChannelList().size()) {// 1个通道直接播放
+				((BaseActivity) mActivity).showTextToast(arg1 + "");
+				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
+				String devJsonString = BeanUtil
+						.deviceListToString(myDeviceList);
+				intentPlay.putExtra("DeviceList", devJsonString);
+				intentPlay.putExtra("DeviceIndex", arg1);
+				intentPlay.putExtra("ChannelIndex", 0);
+				mActivity.startActivity(intentPlay);
+			} else {// 多个通道查看通道列表
+				Intent intentPlay = new Intent(mActivity,
+						JVChannelsActivity.class);
+				String devJsonString = BeanUtil
+						.deviceListToString(myDeviceList);
+				intentPlay.putExtra("DeviceList", devJsonString);
+				intentPlay.putExtra("DeviceIndex", arg1);
+				intentPlay.putExtra("ChannelIndex", 0);
+				mActivity.startActivity(intentPlay);
+			}
 
+			break;
+		}
+		case Consts.DEVICE_ITEM_LONG_CLICK: {// 设备长按事件
+			myDLAdapter.setShowDelete(true);
+			myDLAdapter.notifyDataSetChanged();
+			break;
+		}
+		case Consts.DEVICE_ITEM_DEL_CLICK: {// 设备删除事件
+			((BaseActivity) mActivity).showTextToast("删除设备--" + arg1);
+			DelDevTask task = new DelDevTask();
+			String[] strParams = new String[3];
+			strParams[0] = String.valueOf(arg1);
+			task.execute(strParams);
 			break;
 		}
 		}
 
+	}
+
+	// 设置三种类型参数分别为String,Integer,String
+	class DelDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int delRes = -1;
+			boolean localFlag = Boolean
+					.valueOf(((BaseActivity) mActivity).statusHashMap
+							.get(Consts.LOCAL_LOGIN));
+			try {
+				int delIndex = Integer.parseInt(params[0]);
+				if (localFlag) {// 本地添加
+					myDeviceList.remove(delIndex);
+					MySharedPreference.putString(Consts.DEVICE_LIST,
+							myDeviceList.toString());
+					delRes = 0;
+				} else {
+					delRes = DeviceUtil.unbindDevice(
+							((BaseActivity) mActivity).statusHashMap
+									.get("KEY_USERNAME"),
+							myDeviceList.get(delIndex).getFullNo());
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return delRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			((BaseActivity) mActivity).dismissDialog();
+			if (0 == result) {
+				((BaseActivity) mActivity)
+						.showTextToast(R.string.del_device_succ);
+				myDLAdapter.setShowDelete(false);
+				myDLAdapter.notifyDataSetChanged();
+			} else {
+				((BaseActivity) mActivity)
+						.showTextToast(R.string.del_device_failed);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			((BaseActivity) mActivity).createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
 	}
 
 }

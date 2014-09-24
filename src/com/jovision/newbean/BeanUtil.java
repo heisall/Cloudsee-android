@@ -38,6 +38,10 @@ public class BeanUtil {
 	public static String userListToString(ArrayList<UserBean> userlList) {
 		StringBuilder sBuilder = new StringBuilder();
 
+		if (null == userlList || 0 == userlList.size()) {
+			return sBuilder.toString();
+		}
+
 		if (null != userlList && 0 != userlList.size()) {
 			int size = userlList.size();
 			for (int i = 0; i < size; i++) {
@@ -108,15 +112,23 @@ public class BeanUtil {
 	 * @return
 	 */
 	public static String channelListToString(ArrayList<Channel> channelList) {
-		StringBuilder sBuilder = new StringBuilder();
 
-		if (null != channelList && 0 != channelList.size()) {
-			int size = channelList.size();
-			for (int i = 0; i < size; i++) {
-				sBuilder.append(channelList.get(i).toString()).append(",");
-			}
+		StringBuilder sBuilder = new StringBuilder();
+		if (null == channelList || 0 == channelList.size()) {
+			return sBuilder.toString();
 		}
-		sBuilder.deleteCharAt(sBuilder.lastIndexOf(","));
+		try {
+			if (null != channelList && 0 != channelList.size()) {
+				int size = channelList.size();
+				for (int i = 0; i < size; i++) {
+					sBuilder.append(channelList.get(i).toString()).append(",");
+				}
+			}
+			sBuilder.deleteCharAt(sBuilder.lastIndexOf(","));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return sBuilder.toString();
 	}
 
@@ -188,6 +200,9 @@ public class BeanUtil {
 	 * @return
 	 */
 	public static String deviceListToString(ArrayList<Device> devList) {
+		if (null == devList || 0 == devList.size()) {
+			return "";
+		}
 		StringBuilder sBuilder = new StringBuilder();
 		sBuilder.append("[");
 		if (null != devList && 0 != devList.size()) {
@@ -210,6 +225,10 @@ public class BeanUtil {
 	 */
 	public static ArrayList<Device> stringToDevList(String str) {
 		ArrayList<Device> list = new ArrayList<Device>();
+
+		if (str.equalsIgnoreCase("")) {
+			return list;
+		}
 		try {
 			JSONArray jArray = new JSONArray(str);
 			if (null != jArray && 0 != jArray.length()) {

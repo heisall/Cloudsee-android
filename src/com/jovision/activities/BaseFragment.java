@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.JVTabActivity.OnTabListener;
+import com.jovision.commons.MyLog;
 
 /**
  * Fragment 基类
@@ -22,23 +24,25 @@ public class BaseFragment extends Fragment implements OnTabListener {
 	protected FragmentActivity mActivity;
 
 	/** topBar */
+	protected LinearLayout topBar;
 	protected Button leftBtn;
 	protected TextView currentMenu;
 	protected Button rightBtn;
 
-	/**
-	 * Create a new instance of DetailsFragment, initialized to show the text at
-	 * 'index'.
-	 */
-	public static JVMyDeviceFragment newInstance(int index) {
-		JVMyDeviceFragment f = new JVMyDeviceFragment();
-
-		// Supply index input as an argument.
-		Bundle args = new Bundle();
-		args.putInt("index", index);
-		f.setArguments(args);
-		return f;
-	}
+	// /**
+	// * Create a new instance of DetailsFragment, initialized to show the text
+	// at
+	// * 'index'.
+	// */
+	// public static JVMyDeviceFragment newInstance(int index) {
+	// JVMyDeviceFragment f = new JVMyDeviceFragment();
+	//
+	// // Supply index input as an argument.
+	// Bundle args = new Bundle();
+	// args.putInt("index", index);
+	// f.setArguments(args);
+	// return f;
+	// }
 
 	public int getShownIndex() {
 		return getArguments().getInt("index", 0);
@@ -58,13 +62,17 @@ public class BaseFragment extends Fragment implements OnTabListener {
 		mActivity = getActivity();
 		mParent = getView();
 
+		topBar = (LinearLayout) mParent.findViewById(R.id.top_bar);
 		leftBtn = (Button) mParent.findViewById(R.id.btn_left);
 		currentMenu = (TextView) mParent.findViewById(R.id.currentmenu);
 		rightBtn = (Button) mParent.findViewById(R.id.btn_right);
-		currentMenu.setText(mActivity.getResources().getStringArray(
-				R.array.titles)[0]);
-		leftBtn.setOnClickListener(mOnClickListener);
-
+		try {
+			if (null != leftBtn) {
+				leftBtn.setOnClickListener(mOnClickListener);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	OnClickListener mOnClickListener = new OnClickListener() {
@@ -84,6 +92,7 @@ public class BaseFragment extends Fragment implements OnTabListener {
 
 	@Override
 	public void onTabAction(int what, int arg1, int arg2, Object obj) {
+		MyLog.v("BaseFragment", "onTabAction");
 	}
 
 }

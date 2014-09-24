@@ -127,7 +127,6 @@
             android:name="com.jovision.activities.JVMoreFeatureActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.CustomCircleDialog"
             android:windowSoftInputMode="adjustNothing" >
         </activity>
         <activity
@@ -135,7 +134,6 @@
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.CustomCircleDialog"
             android:windowSoftInputMode="adjustNothing" >
         </activity>
         <activity
@@ -165,10 +163,9 @@
             android:windowSoftInputMode="adjustNothing" >
         </activity>
         <activity
-            android:name="com.jovision.activities.JVDataSourceActivity"
+            android:name="com.jovision.activities.JVChannelsActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.CustomCircleDialog"
             android:windowSoftInputMode="adjustNothing" >
         </activity>
         <activity
@@ -182,14 +179,12 @@
             android:name="com.jovision.activities.JVGuideActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.CustomCircleDialog"
             android:windowSoftInputMode="adjustNothing" >
         </activity>
         <activity
             android:name="com.jovision.activities.JVShareActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.CustomCircleDialog"
             android:windowSoftInputMode="stateAlwaysVisible" >
         </activity>
         <activity
@@ -224,8 +219,7 @@
             android:name="com.jovision.activities.JVNoticeActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.CustomCircleDialog" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.jovision.activities.JVEditDeviceActivity"

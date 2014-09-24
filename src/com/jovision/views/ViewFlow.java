@@ -22,9 +22,9 @@ import android.widget.AdapterView;
 import android.widget.Scroller;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.MainApplication;
 import com.jovision.commons.FlowIndicator;
-import com.jovision.commons.JVConst;
 
 public class ViewFlow extends AdapterView<Adapter> {
 
@@ -231,9 +231,8 @@ public class ViewFlow extends AdapterView<Adapter> {
 				handler.removeMessages(0);
 
 			if (1 == activityTag) {// 帮助界面不自动滚动，guideActivity
-				((MainApplication) mContext.getApplicationContext())
-						.onNotify(JVConst.GUID_PAGE_SCROLL,
-								mCurrentAdapterIndex, 0, null);
+				((MainApplication) mContext.getApplicationContext()).onNotify(
+						Consts.GUID_PAGE_SCROLL, mCurrentAdapterIndex, 0, null);
 			}
 			break;
 
@@ -418,7 +417,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 					//
 					// }
 					((MainApplication) mContext.getApplicationContext())
-							.onNotify(JVConst.GUID_PAGE_SCROLL,
+							.onNotify(Consts.GUID_PAGE_SCROLL,
 									mCurrentAdapterIndex, 0, null);
 				}
 			}
@@ -508,11 +507,11 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 		if (1 == activityTag) {// 帮助界面不自动滚动，guideActivity
 			((MainApplication) mContext.getApplicationContext()).onNotify(
-					JVConst.GUID_PAGE_SCROLL, mCurrentAdapterIndex, 0, null);
+					Consts.GUID_PAGE_SCROLL, mCurrentAdapterIndex, 0, null);
 
 		} else if (0 == activityTag) {// MainActivity
 			((MainApplication) mContext.getApplicationContext()).onNotify(
-					JVConst.GUID_PAGE_SCROLL, mCurrentAdapterIndex, 0, null);
+					Consts.GUID_PAGE_SCROLL, mCurrentAdapterIndex, 0, null);
 			// if (null != BaseApp.mainHandler) {
 			// Message msg = BaseApp.mainHandler.obtainMessage();
 			// Bundle data = new Bundle();

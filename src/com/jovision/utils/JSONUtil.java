@@ -27,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import com.jovision.commons.MyLog;
+import com.sun.mail.iap.ConnectionException;
 
 public class JSONUtil {
 

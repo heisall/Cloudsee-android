@@ -101,6 +101,24 @@ public class Consts {
 	/** 获取设备列表方法 */
 	public static final int GUID_FUNCTION = 0xB4;
 
+	/** tab页 onstart */
+	public static final int TAB_ONSTART = 1;
+	/** JVMyDeviceFragmentActivity */
+	public static final int DEVICE_GETDATA_SUCCESS = 2;// 设备加载成功--
+	public static final int DEVICE_GETDATA_FAILED = 3;// 设备加载失败--
+	public static final int DEVICE_ITEM_CLICK = 4;// 设备单击事件--
+	public static final int DEVICE_ITEM_LONG_CLICK = 5;// 设备长按事件--
+	public static final int DEVICE_ITEM_DEL_CLICK = 6;// 设备删除按钮事件--
+	public static final int DEVICE_NO_DEVICE = 7;// 暂无设备--
+
+	/** */
+	public static final int CHANNEL_ITEM_CLICK = 8;// 通道单击事件--
+	public static final int CHANNEL_ITEM_LONG_CLICK = 9;// 通道长按事件--
+	public static final int CHANNEL_ITEM_DEL_CLICK = 10;// 通道删除按钮事件--
+
+	/** 引导界面滑屏 */
+	public static final int GUID_PAGE_SCROLL = 500;// --
+
 	/*********************** 以下是状态变量key的声明 ********************************/
 
 	/** 账号sdk是否初始化的key */
@@ -120,6 +138,9 @@ public class Consts {
 	public static final String NEUTRAL_VERSION = "NEUTRAL_VERSION";
 	/** 本地登陆key */
 	public static final String LOCAL_LOGIN = "LOCAL_LOGIN";
+
+	/** 存储设备列表key */
+	public static String DEVICE_LIST = "";
 
 	/** 本地存储设备列表key */
 	public static final String LOCAL_DEVICE_LIST = "LOCAL_DEVICE_LIST";

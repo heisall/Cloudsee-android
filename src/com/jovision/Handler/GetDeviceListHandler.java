@@ -4,9 +4,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 import com.jovision.adapters.DeviceListAdapter;
-import com.jovision.commons.JVConst;
 
 public class GetDeviceListHandler extends Handler {
 	private Context context;
@@ -21,13 +21,13 @@ public class GetDeviceListHandler extends Handler {
 	public void handleMessage(Message msg) {
 		super.handleMessage(msg);
 		switch (msg.arg1) {
-		case JVConst.DEVICE_GETDATA_SUCCESS:
+		case Consts.DEVICE_GETDATA_SUCCESS:
 			((BaseActivity) context).dismissDialog();
 			break;
-		case JVConst.DEVICE_NO_DEVICE:
+		case Consts.DEVICE_NO_DEVICE:
 			((BaseActivity) context).dismissDialog();
 			break;
-		case JVConst.DEVICE_GETDATA_FAILED:
+		case Consts.DEVICE_GETDATA_FAILED:
 			((BaseActivity) context).dismissDialog();
 			break;
 		}

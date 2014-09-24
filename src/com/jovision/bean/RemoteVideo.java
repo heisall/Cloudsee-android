@@ -5,4 +5,5 @@ public class RemoteVideo {
 	public String remoteChannel = "";
 	public String remoteDate = "";
 	public String remoteDisk = "";
+	public String remoteKind = "";
 }

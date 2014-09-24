@@ -8,7 +8,7 @@ import android.content.Context;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
 import com.jovision.commons.JVAccountConst;
-import com.jovision.commons.JVConst;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.newbean.BeanUtil;
 import com.jovision.newbean.Device;
@@ -16,6 +16,7 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 
 public class GetDeviceListThread extends Thread {
+	private static final String TAG = "GetDeviceListThread";
 	private Context context;
 	private HashMap<String, String> statusHashMap = null;
 	private ArrayList<Device> deviceList;
@@ -69,13 +70,13 @@ public class GetDeviceListThread extends Thread {
 				// "123", true, 1, 2));
 				// demoList.add(new Device("", 9101, "S", 52942216, "admin", "",
 				// false, 1, 3));
-
 				String devJsonString = MySharedPreference
-						.getString(Consts.LOCAL_DEVICE_LIST);
+						.getString(Consts.DEVICE_LIST);
 				// BeanUtil.deviceListToString(demoList);
 				// String devJsonString =
 				// MySharedPreference.getString(Consts.DEVICE_LIST);
 				deviceList = BeanUtil.stringToDevList(devJsonString);
+				MyLog.v(TAG, "size=" + deviceList.size());
 			}
 
 			if (null != deviceList && 0 != deviceList.size()) {// 获取设备成功,去广播设备列表
@@ -86,22 +87,23 @@ public class GetDeviceListThread extends Thread {
 				if (ConfigUtil.is3G(context, false)) {// 3G直接加载设备
 					((MainApplication) context.getApplicationContext())
 							.onNotify(Consts.GET_DEVICE_LIST_FUNCTION,
-									JVConst.DEVICE_GETDATA_SUCCESS, 0, null);
+									Consts.DEVICE_GETDATA_SUCCESS, 0, null);
 				} else {
 					((MainApplication) context.getApplicationContext())
 							.onNotify(Consts.GET_DEVICE_LIST_FUNCTION,
-									JVConst.DEVICE_GETDATA_SUCCESS, 0,
+									Consts.DEVICE_GETDATA_SUCCESS, 0,
 									deviceList);
 				}
 
 			} else if (null != deviceList && 0 == deviceList.size()) {// 无数据
+				MyLog.v(TAG, "nonedata");
 				((MainApplication) context.getApplicationContext()).onNotify(
 						Consts.GET_DEVICE_LIST_FUNCTION,
-						JVConst.DEVICE_NO_DEVICE, 0, deviceList);
+						Consts.DEVICE_NO_DEVICE, 0, deviceList);
 			} else {// 获取设备失败
 				((MainApplication) context.getApplicationContext()).onNotify(
 						Consts.GET_DEVICE_LIST_FUNCTION,
-						JVConst.DEVICE_GETDATA_FAILED, 0, deviceList);
+						Consts.DEVICE_GETDATA_FAILED, 0, deviceList);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

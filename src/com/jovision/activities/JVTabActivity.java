@@ -4,10 +4,13 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
+import com.jovision.commons.MyLog;
 
 public class JVTabActivity extends BaseActivity {
 
+	private static final String TAG = "JVTabActivity";
 	protected Fragment[] mFragments;
 	protected int[] frageIDArray = { R.id.mydevice_fragement,
 			R.id.info_fragement, R.id.demo_fragement,
@@ -52,6 +55,13 @@ public class JVTabActivity extends BaseActivity {
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+		tabListener.onTabAction(Consts.TAB_ONSTART, 0, 0, 0);
+		MyLog.v("TAG", "TAB_ONSTART");
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 	}
@@ -69,12 +79,13 @@ public class JVTabActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		tabListener.onTabAction(what, arg1, arg2, obj);
+		MyLog.v("TAG", "onHandler");
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
-
+		MyLog.v("TAG", "onNotify");
 	}
 
 	@Override
@@ -85,6 +96,13 @@ public class JVTabActivity extends BaseActivity {
 
 	@Override
 	protected void initUi() {
+		Boolean local = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
+		if (local) {
+			Consts.DEVICE_LIST = Consts.LOCAL_DEVICE_LIST;
+		} else {
+			Consts.DEVICE_LIST = Consts.CACHE_DEVICE_LIST;
+		}
+
 		setContentView(R.layout.tab_layout);
 		setFragmentIndicator(0);
 	}

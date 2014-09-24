@@ -22,12 +22,31 @@ import android.widget.LinearLayout;
  * 
  */
 public class ImageViewPager extends ViewPager {
-	Activity mActivity; // 上下文
-	List<View> mListViews; // 图片组
-	int mScrollTime = 0;
-	Timer timer;
-	int oldIndex = 0;
-	int curIndex = 0;
+	private Activity mActivity; // 上下文
+	private List<View> mListViews; // 图片组
+	private int mScrollTime = 0;
+	private Timer timer;
+	private int oldIndex = 0;
+	private int curIndex = 0;
+
+	/** 默认方向 */
+	public static final int GESTURE_TO_NULL = 0x00;
+	/** 手势向左 */
+	public static final int GESTURE_TO_LEFT = 0x01;
+	/** 手势向上 */
+	public static final int GESTURE_TO_UP = 0x02;
+	/** 手势向右 */
+	public static final int GESTURE_TO_RIGHT = 0x03;
+	/** 手势向下 */
+	public static final int GESTURE_TO_DOWN = 0x04;
+
+	private static final int DEFAULT_BLIND_AERA_R_SQUARE = 60;
+
+	private float lastDownX;
+	private float lastDownY;
+	private int currentDirection;
+	private boolean hasReportGesture;
+	private int blindAreaRSquare;
 
 	public ImageViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -77,6 +96,44 @@ public class ImageViewPager extends ViewPager {
 						stopTimer();
 					}
 					return false;
+
+					// switch (event.getAction()) {
+					// case MotionEvent.ACTION_UP:
+					// startTimer();
+					// break;
+					//
+					// case MotionEvent.ACTION_MOVE:
+					// if (hasReportGesture) {
+					// break;
+					// }
+					//
+					// float upOffset = lastDownY - event.getY();
+					// float rightOffset = event.getX() - lastDownX;
+					//
+					// int RR = (int) (upOffset * upOffset + rightOffset
+					// * rightOffset);
+					//
+					// if (RR < blindAreaRSquare) {
+					// break;
+					// }
+					//
+					// if (upOffset + rightOffset > 0
+					// && upOffset - rightOffset < 0) {
+					// ImageViewPager.this.setCurrentItem(ImageViewPager.this
+					// .getCurrentItem() - 1);
+					// } else if (upOffset + rightOffset < 0
+					// && upOffset - rightOffset > 0) {
+					// ImageViewPager.this.setCurrentItem(ImageViewPager.this
+					// .getCurrentItem() + 1);
+					// }
+					// hasReportGesture = true;
+					// break;
+					//
+					// default:
+					// break;
+					// }
+					//
+					// return true;
 				}
 			});
 		}

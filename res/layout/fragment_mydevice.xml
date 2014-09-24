@@ -5,6 +5,7 @@
     android:orientation="vertical" >
 
     <include
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
@@ -25,41 +26,6 @@
             android:listSelector="@color/transparent"
             android:scrollingCache="true" >
         </ListView>
-        <!--
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp" >
-
-            <com.jovision.views.ImageViewPager
-                android:id="@+id/imagescroll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <LinearLayout
-                android:id="@+id/dot_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_gravity="right|bottom"
-                android:layout_marginBottom="10dip"
-                android:layout_marginRight="10dip"
-                android:orientation="horizontal" >
-            </LinearLayout>
-        </FrameLayout>
-
-        <GridView
-            android:id="@+id/device_gridview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="7dp"
-            android:descendantFocusability="blocksDescendants"
-            android:focusableInTouchMode="true"
-            android:horizontalSpacing="7dp"
-            android:listSelector="@color/transparent"
-            android:numColumns="2"
-            android:scrollingCache="true"
-            android:verticalSpacing="7dp" >
-        </GridView>
-        -->
     </com.jovision.views.RefreshableView>
 
 </LinearLayout>

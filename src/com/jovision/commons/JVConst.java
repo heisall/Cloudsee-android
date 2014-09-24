@@ -202,18 +202,13 @@ public final class JVConst {
 	public static final int LOGIN_FAILED_2 = 180;// 网络连接错误
 	public static final int LOGIN_USER_REFRESH = 181;// 刷新用户登录列表
 
-	// JVMainActivity
-	public static final int DEVICE_GETDATA_SUCCESS = 182;// 设备加载成功--
-	public static final int DEVICE_GETDATA_FAILED = 183;// 设备加载失败--
-	public static final int DEVICE_ITEM_CLICK = 184;// 设备加载成功--
-
 	public static final int ACCOUNT_BIND_REQUEST = 184;
 	public static final int ACCOUNT_BIND_RESULT = 185;
 	public static final int DEVICE_DATA_REFRESH = 186;// 刷新列表
 	public static final int DEVICE_SEARCH_BROADCAST = 187;
 	public static final int RELOGIN_SUCCESS = 188;
 	public static final int RELOGIN_FAILED = 189;
-	public static final int DEVICE_NO_DEVICE = 190;// 暂无设备--
+
 	public static final int DEVICE_POS_DATA_REFRESH = 191;// 刷新滑动到指定位置设备列表
 	public static final int MESSAGE_LOAD_IMAGE_SUCCESS = 192;
 	public static final int MESSAGE_LOAD_IMAGE_FAILED = 193;
@@ -386,8 +381,6 @@ public final class JVConst {
 	public static final int JVN_CMD_CHATFAILED = 300;
 
 	/*********************** 以下是 消息声明 ********************************/
-	/** 引导界面滑屏 */
-	public static final int GUID_PAGE_SCROLL = 500;// --
 
 	/** Ap配置界面 */
 	public static final String IPC_FLAG = "IPC-";

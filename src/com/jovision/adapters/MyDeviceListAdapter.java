@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -13,14 +14,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.MainApplication;
-import com.jovision.commons.JVConst;
 import com.jovision.newbean.Device;
 
 public class MyDeviceListAdapter extends BaseAdapter {
 	private ArrayList<Device> deviceList;
 	private Context mContext;
 	private LayoutInflater inflater;
+	private boolean showDelete = false;
+
+	private int[] devResArray = { R.drawable.device_bg_1,
+			R.drawable.device_bg_2, R.drawable.device_bg_3,
+			R.drawable.device_bg_4 };
 
 	public MyDeviceListAdapter(Context con) {
 		mContext = con;
@@ -30,6 +36,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 	public void setData(ArrayList<Device> dataList) {
 		deviceList = dataList;
+	}
+
+	// 控制是否显示删除按钮
+	public void setShowDelete(boolean flag) {
+		showDelete = flag;
 	}
 
 	@Override
@@ -70,6 +81,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_wifi_l);
 			deviceHolder.devImgL = (ImageView) convertView
 					.findViewById(R.id.dev_image_l);
+			deviceHolder.devDeleteL = (ImageView) convertView
+					.findViewById(R.id.dev_delete_l);
 
 			deviceHolder.devLayoutR = (RelativeLayout) convertView
 					.findViewById(R.id.dev_layout_r);
@@ -81,6 +94,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_wifi_r);
 			deviceHolder.devImgR = (ImageView) convertView
 					.findViewById(R.id.dev_image_r);
+			deviceHolder.devDeleteR = (ImageView) convertView
+					.findViewById(R.id.dev_delete_r);
 
 			convertView.setTag(deviceHolder);
 		} else {
@@ -90,20 +105,22 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		deviceHolder.onLineStateL.setText("在线");
 		deviceHolder.wifiStateL.setText("wifi");
 
-		if (0 == (position * 2) % 4) {
-			deviceHolder.devLayoutL
-					.setBackgroundResource(R.drawable.device_bg_1);
-		} else if (2 == (position * 2) % 4) {
-			deviceHolder.devLayoutL
-					.setBackgroundResource(R.drawable.device_bg_3);
+		int last = (position * 2) % 4;
+		int resID = devResArray[last];
+		// 按规律设置背景色
+		if (0 == last || 2 == last) {
+			deviceHolder.devLayoutL.setBackgroundResource(resID);
+		} else {
+			deviceHolder.devLayoutR.setBackgroundResource(resID);
 		}
 
-		if (1 == (position * 2 + 1) % 4) {
-			deviceHolder.devLayoutR
-					.setBackgroundResource(R.drawable.device_bg_2);
-		} else if (3 == (position * 2 + 1) % 4) {
-			deviceHolder.devLayoutR
-					.setBackgroundResource(R.drawable.device_bg_4);
+		// 控制删除按钮显示隐藏
+		if (showDelete) {
+			deviceHolder.devDeleteL.setVisibility(View.VISIBLE);
+			deviceHolder.devDeleteR.setVisibility(View.VISIBLE);
+		} else {
+			deviceHolder.devDeleteL.setVisibility(View.GONE);
+			deviceHolder.devDeleteR.setVisibility(View.GONE);
 		}
 
 		if (position * 2 + 1 < deviceList.size()) {
@@ -116,25 +133,73 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			deviceHolder.devLayoutR.setVisibility(View.GONE);
 		}
 
-		deviceHolder.devLayoutL.setOnClickListener(new OnClickListener() {
+		// 左侧按钮事件
+		deviceHolder.devLayoutL.setOnClickListener(new DevOnClickListener(1, 1,
+				position));
+		deviceHolder.devDeleteL.setOnClickListener(new DevOnClickListener(1, 3,
+				position));
+		deviceHolder.devLayoutL
+				.setOnLongClickListener(new OnLongClickListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				((MainApplication) mContext.getApplicationContext()).onNotify(
-						JVConst.DEVICE_ITEM_CLICK, position * 2, 0, null);
-			}
-		});
+					@Override
+					public boolean onLongClick(View arg0) {
+						((MainApplication) mContext.getApplicationContext())
+								.onNotify(Consts.DEVICE_ITEM_LONG_CLICK,
+										position, 0, null);
+						return false;
+					}
+				});
 
-		deviceHolder.devLayoutR.setOnClickListener(new OnClickListener() {
+		// 右侧按钮事件
+		deviceHolder.devLayoutR.setOnClickListener(new DevOnClickListener(2, 1,
+				position));
+		deviceHolder.devDeleteR.setOnClickListener(new DevOnClickListener(2, 3,
+				position));
+		deviceHolder.devLayoutR
+				.setOnLongClickListener(new OnLongClickListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				((MainApplication) mContext.getApplicationContext()).onNotify(
-						JVConst.DEVICE_ITEM_CLICK, position * 2 + 1, 0, null);
-			}
-		});
+					@Override
+					public boolean onLongClick(View arg0) {
+						((MainApplication) mContext.getApplicationContext())
+								.onNotify(Consts.DEVICE_ITEM_LONG_CLICK,
+										position, 0, null);
+						return false;
+					}
+				});
 
 		return convertView;
+	}
+
+	// 设备单击事件
+	class DevOnClickListener implements OnClickListener {
+		private int tag = 0;// 左右标志 1：左 2：右
+		private int operate = 1;// 1：点击播放 2：点击查看设备通道 3.点击删除设备
+		private int line = 0;// 行号
+		private int position = 0;// 列表中的位置
+
+		public DevOnClickListener(int leftOrRight, int method, int linePos) {
+			tag = leftOrRight;
+			operate = method;
+			line = linePos;
+			if (1 == tag) {
+				position = line * 2;
+			} else if (2 == tag) {
+				position = line * 2 + 1;
+			}
+
+		}
+
+		@Override
+		public void onClick(View arg0) {
+			if (1 == operate || 2 == operate) {
+				((MainApplication) mContext.getApplicationContext()).onNotify(
+						Consts.DEVICE_ITEM_CLICK, position, 0, null);
+			} else if (3 == operate) {
+				((MainApplication) mContext.getApplicationContext()).onNotify(
+						Consts.DEVICE_ITEM_DEL_CLICK, position, 0, null);
+			}
+		}
+
 	}
 
 	class DeviceHolder {
@@ -143,12 +208,14 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		TextView onLineStateL;
 		TextView wifiStateL;
 		ImageView devImgL;
+		ImageView devDeleteL;
 
 		RelativeLayout devLayoutR;
 		TextView devNameR;
 		TextView onLineStateR;
 		TextView wifiStateR;
 		ImageView devImgR;
+		ImageView devDeleteR;
 	}
 
 }

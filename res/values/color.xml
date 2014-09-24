@@ -8,10 +8,22 @@
     <!-- 白色 -->
     <color name="transparent">#00000000</color>
     <color name="halftransparent">#D5000000</color>
+
+    <!-- 设备的背景色 -->
     <color name="device_color_1">#378FE6</color>
     <color name="device_color_2">#13C6CD</color>
     <color name="device_color_3">#84C914</color>
     <color name="device_color_4">#F4B613</color>
+
+    <!-- 通道的背景色 -->
+    <color name="channel_color_1">#6CC142</color>
+    <color name="channel_color_2">#F6C133</color>
+    <color name="channel_color_3">#FD8E35</color>
+    <color name="channel_color_4">#FF565B</color>
+    <color name="channel_color_5">#FE8864</color>
+    <color name="channel_color_6">#42BDE7</color>
+    <color name="channel_color_7">#7B7AD7</color>
+    <color name="channel_color_8">#F5C130</color>
     <color name="ivory">#FFFFF0</color>
     <!-- 象牙色 -->
     <color name="lightyellow">#FFFFE0</color>

@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.views.GuidViewPager;
@@ -120,7 +119,7 @@ public class JVGuideActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case JVConst.GUID_PAGE_SCROLL:
+		case Consts.GUID_PAGE_SCROLL:
 			if (arg1 == (listViews.size() - 1)) {
 				// 获取当前语言
 				if (ConfigUtil.isLanZH()) {// 中文

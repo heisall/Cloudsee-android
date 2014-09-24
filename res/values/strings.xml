@@ -426,6 +426,7 @@
     <string name="no_more_tips">不再提示</string>
     <string name="download">立即下载</string>
     <string name="cancel">取消</string>
+    <string name="not_support_old">该版本不再支持04版解码，如果仍想观看，建议下载2.8.5版本，是否立即下载?</string>
 
     <!-- tab页 下拉刷新 -->
     <string name="pull_to_refresh">下拉可以刷新</string>
@@ -435,6 +436,10 @@
     <string name="updated_at">上次更新于%1$s前</string>
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
+
+    <!-- JVRemotePlayBackActivity -->
+    <string name="video_normal">Manual recording</string>
+    <string name="video_alarm">Alarm recording</string>
 
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>

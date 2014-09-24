@@ -662,25 +662,27 @@ public class PlayUtil {
 			Thread connectThread = new Thread() {
 				@Override
 				public void run() {
-					int size = channelList.size();
-					for (int i = 0; i < size; i++) {
-						Channel channel = channelList.get(i);
-						if (channel.isPause()) {
-							channel.setPause(false);
-							// 继续播放视频
-							Jni.sendBytes(channelList.get(i).getIndex(),
-									(byte) JVNetConst.JVN_CMD_VIDEO,
-									new byte[0], 8);
-						} else if (!channel.isConnected()) {
-							// 调用视频连接
-							try {
-								Thread.sleep(500);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
+					if (null != channelList && 0 != channelList.size()) {
+						int size = channelList.size();
+						for (int i = 0; i < size; i++) {
+							Channel channel = channelList.get(i);
+							if (channel.isPause()) {
+								channel.setPause(false);
+								// 继续播放视频
+								Jni.sendBytes(channelList.get(i).getIndex(),
+										(byte) JVNetConst.JVN_CMD_VIDEO,
+										new byte[0], 8);
+							} else if (!channel.isConnected()) {
+								// 调用视频连接
+								try {
+									Thread.sleep(500);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								channel.setPause(false);
+								connect(channel.getParent(),
+										channel.getChannel(), isOmx);
 							}
-							channel.setPause(false);
-							connect(channel.getParent(), channel.getChannel(),
-									isOmx);
 						}
 					}
 					super.run();
@@ -854,10 +856,25 @@ public class PlayUtil {
 					rv.remoteDate = String.format("%c%c:%c%c:%c%c",
 							pBuffer[i + 1], pBuffer[i + 2], pBuffer[i + 3],
 							pBuffer[i + 4], pBuffer[i + 5], pBuffer[i + 6]);
+					rv.remoteKind = String.format("%c", pBuffer[i + 7]);
 					rv.remoteDisk = String.format("%s%d", "",
 							(pBuffer[i] - 'C') / 10 + 1);
 					datalist.add(rv);
 				}
+				// int nIndex = 0;
+				// for (int i = 0; i <= nSize - 10; i += 10) {
+				// acFLBuffer[nIndex++] = pBuffer[i];// 录像所在盘
+				// acFLBuffer[nIndex++] = pBuffer[i + 7];// 录像类型
+				// RemoteVideo rv = new RemoteVideo();
+				// rv.remoteChannel = String.format("%c%c", pBuffer[i + 8],
+				// pBuffer[i + 9]);
+				// rv.remoteDate = String.format("%c%c:%c%c:%c%c",
+				// pBuffer[i + 1], pBuffer[i + 2], pBuffer[i + 3],
+				// pBuffer[i + 4], pBuffer[i + 5], pBuffer[i + 6]);
+				// rv.remoteDisk = String.format("%s%d", "",
+				// (pBuffer[i] - 'C') / 10 + 1);
+				// datalist.add(rv);
+				// }
 			} else if (deviceType == 2 || deviceType == 3) {
 				for (int i = 0; i <= nSize - 7; i += 7) {
 					RemoteVideo rv = new RemoteVideo();

@@ -73,7 +73,18 @@ public class RemoteVideoAdapter extends BaseAdapter {
 
 		if (null != videoList && 0 != videoList.size()
 				&& position < videoList.size()) {
-			viewHolder.videoDate.setText(videoList.get(position).remoteDate);
+			if ("A".equalsIgnoreCase(videoList.get(position).remoteKind)) {
+				viewHolder.videoDate.setText(videoList.get(position).remoteDate
+						+ "-"
+						+ mContext.getResources().getString(
+								R.string.video_alarm));
+			} else {
+				viewHolder.videoDate.setText(videoList.get(position).remoteDate
+						+ "-"
+						+ mContext.getResources().getString(
+								R.string.video_normal));
+			}
+
 			viewHolder.videoDisk.setText(videoList.get(position).remoteDisk);
 		}
 		return convertView;

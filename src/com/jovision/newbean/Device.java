@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.jovision.Consts;
-import com.jovision.commons.MyLog;
 
 /**
  * 简单的设备集合类
@@ -89,7 +88,7 @@ public class Device implements Serializable {
 				.append("\"").append("channelList").append("\"").append(":[")
 				.append(BeanUtil.channelListToString(channelList)).append("]}");
 
-		MyLog.v(TAG, sBuilder.toString());
+		// MyLog.v(TAG, sBuilder.toString());
 		return sBuilder.toString();
 	}
 

@@ -50,7 +50,7 @@ public class MyLog {
 								"rw");
 						randomAccessFile.seek(randomAccessFile.length());
 						StringBuilder sBuilder = new StringBuilder(
-								msg.length() + 32);
+								msg.length() * 2);
 						sBuilder.append(
 								new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
 										.format(new Date())).append(": ")

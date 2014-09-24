@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:textSize="14sp"
-                android:visibility="invisible" />
+                android:visibility="invisible" />
         -->
 
         <RelativeLayout

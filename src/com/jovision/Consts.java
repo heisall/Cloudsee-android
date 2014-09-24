@@ -111,10 +111,11 @@ public class Consts {
 	public static final int DEVICE_ITEM_DEL_CLICK = 6;// 设备删除按钮事件--
 	public static final int DEVICE_NO_DEVICE = 7;// 暂无设备--
 
-	/** */
+	/** ChannelFragment */
 	public static final int CHANNEL_ITEM_CLICK = 8;// 通道单击事件--
 	public static final int CHANNEL_ITEM_LONG_CLICK = 9;// 通道长按事件--
 	public static final int CHANNEL_ITEM_DEL_CLICK = 10;// 通道删除按钮事件--
+	public static final int CHANNEL_ADD_CLICK = 11;// 通道添加事件--
 
 	/** 引导界面滑屏 */
 	public static final int GUID_PAGE_SCROLL = 500;// --

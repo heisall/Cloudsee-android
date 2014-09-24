@@ -725,74 +725,81 @@ public class PlayUtil {
 	 *            ,设备的通道索引
 	 */
 	public static void connect(Device device, int index, boolean isOmx) {
-		if (null != device) {
-			MyLog.e(TAG, "device=" + device.hashCode() + "--index=" + index);
-			Channel channel = device.getChannelList().get(index);
-			if (null != channel) {
-				MyLog.v(TAG, channel.getIndex() + "");
-				((MainApplication) mContext.getApplicationContext()).onNotify(
-						JVConst.WHAT_STARTING_CONNECT, channel.getIndex(), 0,
-						null);
-				if (channel.isConnecting()) {
-					MyLog.v(TAG, channel.getIndex() + "--正在连接，不需要重复连接");
-					return;
-				}
-				if (channel.isPause()) {
-					Jni.resume(channel.getIndex(), channel.getSurfaceView()
-							.getHolder().getSurface());
-					channel.setPause(false);
-					channel.setConnecting(false);
-					channel.setConnected(true);
-					// 继续播放视频
-					Jni.sendBytes(channel.getIndex(),
-							(byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
-					MyLog.v(TAG, channel.getIndex() + "--发继续播");
-
+		try {
+			if (null != device) {
+				MyLog.e(TAG, "device=" + device.hashCode() + "--index=" + index);
+				Channel channel = device.getChannelList().get(index);
+				if (null != channel) {
+					MyLog.v(TAG, channel.getIndex() + "");
 					((MainApplication) mContext.getApplicationContext())
-							.onNotify(Consts.CALL_FRAME_I_REPORT,
+							.onNotify(JVConst.WHAT_STARTING_CONNECT,
 									channel.getIndex(), 0, null);
+					if (channel.isConnecting()) {
+						MyLog.v(TAG, channel.getIndex() + "--正在连接，不需要重复连接");
+						return;
+					}
+					if (channel.isPause()) {
+						Jni.resume(channel.getIndex(), channel.getSurfaceView()
+								.getHolder().getSurface());
+						channel.setPause(false);
+						channel.setConnecting(false);
+						channel.setConnected(true);
+						// 继续播放视频
+						Jni.sendBytes(channel.getIndex(),
+								(byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
+						MyLog.v(TAG, channel.getIndex() + "--发继续播");
 
-				} else {
-					channel.setConnecting(true);
-					channel.setConnected(false);
-					MyLog.v(TAG, channel.getIndex() + "--调用连接");
+						((MainApplication) mContext.getApplicationContext())
+								.onNotify(Consts.CALL_FRAME_I_REPORT,
+										channel.getIndex(), 0, null);
 
-					if (Consts.CHANNEL_JY == channel.getIndex()) {
-						Jni.connect(Consts.CHANNEL_JY, 0,
-								Consts.IPC_DEFAULT_IP, Consts.IPC_DEFAULT_PORT,
-								Consts.IPC_DEFAULT_USER,
-								Consts.IPC_DEFAULT_PWD, device.getNo(),
-								device.getGid(), true, 1, true, 6, null, false);
 					} else {
-						if ("".equalsIgnoreCase(device.getIp())
-								|| 0 == device.getPort()) {
-							// 云视通连接
-							MyLog.v(TAG, device.getNo() + "--云视通--连接");
-							Jni.connect(channel.getIndex(),
-									channel.getChannel(), device.getIp(),
-									device.getPort(), device.getUser(),
-									device.getPwd(), device.getNo(),
-									device.getGid(), true, 1, true,
-									(device.isHomeProduct() ? 6 : 5), channel
-											.getSurfaceView().getHolder()
-											.getSurface(), isOmx);
-						} else {
-							// IP直连
-							MyLog.v(TAG,
-									device.getNo() + "--IP--连接："
-											+ device.getIp());
-							Jni.connect(channel.getIndex(),
-									channel.getChannel(), device.getIp(),
-									device.getPort(), device.getUser(),
-									device.getPwd(), -1, device.getGid(), true,
-									1, true, (device.isHomeProduct() ? 6 : 5),
-									channel.getSurfaceView().getHolder()
-											.getSurface(), isOmx);
-						}
+						channel.setConnecting(true);
+						channel.setConnected(false);
+						MyLog.v(TAG, channel.getIndex() + "--调用连接");
 
+						if (Consts.CHANNEL_JY == channel.getIndex()) {
+							Jni.connect(Consts.CHANNEL_JY, 0,
+									Consts.IPC_DEFAULT_IP,
+									Consts.IPC_DEFAULT_PORT,
+									Consts.IPC_DEFAULT_USER,
+									Consts.IPC_DEFAULT_PWD, device.getNo(),
+									device.getGid(), true, 1, true, 6, null,
+									false);
+						} else {
+							if ("".equalsIgnoreCase(device.getIp())
+									|| 0 == device.getPort()) {
+								// 云视通连接
+								MyLog.v(TAG, device.getNo() + "--云视通--连接");
+								Jni.connect(channel.getIndex(),
+										channel.getChannel(), device.getIp(),
+										device.getPort(), device.getUser(),
+										device.getPwd(), device.getNo(),
+										device.getGid(), true, 1, true,
+										(device.isHomeProduct() ? 6 : 5),
+										channel.getSurfaceView().getHolder()
+												.getSurface(), isOmx);
+							} else {
+								// IP直连
+								MyLog.v(TAG, device.getNo() + "--IP--连接："
+										+ device.getIp());
+								Jni.connect(channel.getIndex(), channel
+										.getChannel(), device.getIp(), device
+										.getPort(), device.getUser(), device
+										.getPwd(), -1, device.getGid(), true,
+										1, true, (device.isHomeProduct() ? 6
+												: 5), channel.getSurfaceView()
+												.getHolder().getSurface(),
+										isOmx);
+							}
+
+						}
 					}
 				}
 			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}

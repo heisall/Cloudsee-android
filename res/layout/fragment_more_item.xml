@@ -26,7 +26,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/item_img"
-            android:text="@string/more_help"
             android:textColor="#888888"
             android:textSize="16sp" />
 

@@ -64,6 +64,10 @@ public class MySharedPreference {
 	 * @return
 	 */
 	public static String getString(String key) {
+		if (null == sharedPreferences) {
+			sharedPreferences = mContext.getSharedPreferences("JVCONFIG",
+					Context.MODE_PRIVATE);
+		}
 		String value = sharedPreferences.getString(key, "");
 		return value;
 	}
@@ -75,6 +79,10 @@ public class MySharedPreference {
 	 * @return
 	 */
 	public static boolean getBoolean(String key) {
+		if (null == sharedPreferences) {
+			sharedPreferences = mContext.getSharedPreferences("JVCONFIG",
+					Context.MODE_PRIVATE);
+		}
 		boolean value = sharedPreferences.getBoolean(key, false);
 		return value;
 	}
@@ -86,6 +94,10 @@ public class MySharedPreference {
 	 * @return
 	 */
 	public static boolean getBoolean(String key, boolean def) {
+		if (null == sharedPreferences) {
+			sharedPreferences = mContext.getSharedPreferences("JVCONFIG",
+					Context.MODE_PRIVATE);
+		}
 		boolean value = sharedPreferences.getBoolean(key, def);
 		return value;
 	}
@@ -97,6 +109,10 @@ public class MySharedPreference {
 	 * @return
 	 */
 	public static int getInt(String key) {
+		if (null == sharedPreferences) {
+			sharedPreferences = mContext.getSharedPreferences("JVCONFIG",
+					Context.MODE_PRIVATE);
+		}
 		int value = sharedPreferences.getInt(key, 0);
 		return value;
 	}

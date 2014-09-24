@@ -5,7 +5,6 @@ import java.io.Serializable;
 import android.view.SurfaceView;
 
 import com.jovision.Consts;
-import com.jovision.commons.MyLog;
 
 /**
  * 简单的通道集合类
@@ -54,7 +53,7 @@ public class Channel implements Serializable {
 		// .append("\"").append("isVoiceCall").append("\"").append(":").append("\"").append(isVoiceCall).append("\",")
 		// .append("\"").append("surfaceCreated").append("\"").append(":").append("\"").append(surfaceCreated).append("\",")
 		// .append("\"").append("isSendCMD").append("\"").append(":").append("\"").append(isSendCMD).append("\"}");
-		MyLog.v(TAG, sBuilder.toString());
+		// MyLog.v(TAG, sBuilder.toString());
 		return sBuilder.toString();
 	}
 

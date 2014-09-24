@@ -48,7 +48,7 @@ public class ChannelAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return channelList.size();
+		return channelList.size() + 1;
 	}
 
 	@Override
@@ -78,50 +78,69 @@ public class ChannelAdapter extends BaseAdapter {
 			channelHolder = (ChannelHolder) convertView.getTag();
 		}
 
-		if (showDelete) {
-			channelHolder.channelDel.setVisibility(View.VISIBLE);
-		} else {
+		if (position >= channelList.size()) {// 最后一个通道用于添加通道
+			channelHolder.channelName.setText("十");
 			channelHolder.channelDel.setVisibility(View.GONE);
+			channelHolder.channelBG.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					((MainApplication) mContext.getApplicationContext())
+							.onNotify(Consts.CHANNEL_ADD_CLICK, 0, 0, null);
+
+				}
+			});
+
+		} else {// 普通通道
+			if (showDelete) {
+				channelHolder.channelDel.setVisibility(View.VISIBLE);
+			} else {
+				channelHolder.channelDel.setVisibility(View.GONE);
+			}
+			final int channel = channelList.get(position).getChannel();
+			channelHolder.channelName.setText(channelList.get(position)
+					.getChannel() + "");
+
+			int resID = channelResArray[channel % 8];
+			channelHolder.channelBG.setBackgroundResource(resID);
+
+			// 通道单击播放
+			convertView.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					((MainApplication) mContext.getApplicationContext())
+							.onNotify(Consts.CHANNEL_ITEM_CLICK, channel, 0,
+									null);
+
+				}
+			});
+
+			// 长按删除
+			convertView.setOnLongClickListener(new OnLongClickListener() {
+
+				@Override
+				public boolean onLongClick(View arg0) {
+					((MainApplication) mContext.getApplicationContext())
+							.onNotify(Consts.CHANNEL_ITEM_LONG_CLICK, channel,
+									0, null);
+					return false;
+				}
+			});
+
+			// 点击删除通道
+			channelHolder.channelDel.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					((MainApplication) mContext.getApplicationContext())
+							.onNotify(Consts.CHANNEL_ITEM_DEL_CLICK, channel,
+									0, null);
+
+				}
+			});
 		}
-		final int channel = channelList.get(position).getChannel();
-		channelHolder.channelName.setText(channelList.get(position)
-				.getChannel() + "");
 
-		int resID = channelResArray[channel % 8];
-		channelHolder.channelBG.setBackgroundResource(resID);
-
-		// 通道单击播放
-		convertView.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				((MainApplication) mContext.getApplicationContext()).onNotify(
-						Consts.CHANNEL_ITEM_CLICK, channel, 0, null);
-
-			}
-		});
-
-		// 长按删除
-		convertView.setOnLongClickListener(new OnLongClickListener() {
-
-			@Override
-			public boolean onLongClick(View arg0) {
-				((MainApplication) mContext.getApplicationContext()).onNotify(
-						Consts.CHANNEL_ITEM_LONG_CLICK, channel, 0, null);
-				return false;
-			}
-		});
-
-		// 点击删除通道
-		channelHolder.channelDel.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				((MainApplication) mContext.getApplicationContext()).onNotify(
-						Consts.CHANNEL_ITEM_DEL_CLICK, channel, 0, null);
-
-			}
-		});
 		return convertView;
 	}
 

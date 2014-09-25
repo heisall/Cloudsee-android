@@ -14,49 +14,7 @@ public class JVTabActivity extends BaseActivity {
 
 	private int currentIndex = 0;// 当前页卡index
 
-	protected BaseFragment[] mFragments;
-	protected int[] frageIDArray = { R.id.mydevice_fragement,
-			R.id.info_fragement, R.id.demo_fragement,
-			R.id.devicemanage_fragement, R.id.more_fragement };
-
-	private void setFragmentIndicator(int whichIsDefault) {
-		int length = frageIDArray.length;
-		mFragments = new BaseFragment[length];
-		for (int i = 0; i < length; i++) {
-			mFragments[i] = (BaseFragment) getSupportFragmentManager()
-					.findFragmentById(frageIDArray[i]);
-		}
-
-		for (int i = 0; i < length; i++) {
-			getSupportFragmentManager().beginTransaction().hide(mFragments[i])
-					.commit();
-		}
-		getSupportFragmentManager().beginTransaction()
-				.show(mFragments[whichIsDefault]).commit();
-		// tabListener = (OnTabListener) mFragments[whichIsDefault];
-
-		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
-		JVFragmentIndicator.setIndicator(whichIsDefault);
-		mIndicator.setOnIndicateListener(new OnIndicateListener() {
-			@Override
-			public void onIndicate(View v, int which) {
-				try {
-					currentIndex = which;
-					int length = frageIDArray.length;
-					for (int i = 0; i < length; i++) {
-						getSupportFragmentManager().beginTransaction()
-								.hide(mFragments[i]).commit();
-					}
-					getSupportFragmentManager().beginTransaction()
-							.show(mFragments[which]).commit();
-					// tabListener = (OnTabListener) mFragments[which];
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-	}
+	private BaseFragment mFragments[] = new BaseFragment[5];
 
 	@Override
 	protected void onStart() {
@@ -111,7 +69,33 @@ public class JVTabActivity extends BaseActivity {
 		}
 
 		setContentView(R.layout.tab_layout);
-		setFragmentIndicator(0);
+
+		mFragments[0] = new JVMyDeviceFragment();
+		mFragments[1] = new JVInfoFragment();
+		mFragments[2] = new JVDemoFragment();
+		mFragments[3] = new JVDeviceManageFragment();
+		mFragments[4] = new JVMoreFragment();
+
+		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
+		JVFragmentIndicator.setIndicator(0);
+
+		mIndicator.setOnIndicateListener(new OnIndicateListener() {
+			@Override
+			public void onIndicate(View v, int which) {
+				try {
+					currentIndex = which;
+					getSupportFragmentManager().beginTransaction()
+							.replace(R.id.tab_fragment, mFragments[which])
+							.commit();
+					// tabListener = (OnTabListener) mFragments[which];
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.tab_fragment, mFragments[0]).commit();
 	}
 
 	@Override

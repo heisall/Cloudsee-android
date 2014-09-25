@@ -11,7 +11,7 @@
         layout="@layout/top_bar_layout" />
 
     <com.jovision.views.RefreshableView
-        android:id="@+id/refreshable_view"
+        android:id="@+id/device_refreshable_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 

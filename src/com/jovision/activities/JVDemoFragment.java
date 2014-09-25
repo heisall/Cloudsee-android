@@ -54,7 +54,7 @@ public class JVDemoFragment extends BaseFragment {
 		// PlayUtil.setHelperToList(demoList);
 
 		refreshableView = (RefreshableView) mParent
-				.findViewById(R.id.refreshable_view);
+				.findViewById(R.id.demo_refreshable_view);
 		demoAdapter = new DemoListAdapter(mActivity);
 		demoAdapter.setData(demoList);
 		demoListView = (ListView) mParent.findViewById(R.id.demo_listview);
@@ -70,6 +70,12 @@ public class JVDemoFragment extends BaseFragment {
 				}
 				refreshableView.finishRefreshing();
 			}
+
+			@Override
+			public void onLayoutTrue() {
+				refreshableView.finishRefreshing();
+			}
+
 		}, 0);
 
 	}

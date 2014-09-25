@@ -195,7 +195,7 @@ public class JVACCOUNT {
 	 */
 
 	public void JVPushCallBack(int res, String userName, String time, String msg) {
-
+		
 		try {
 
 			MyLog.v("推送的回调函数", "res----:" + res + ";;time----:" + time

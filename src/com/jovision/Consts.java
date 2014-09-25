@@ -109,13 +109,16 @@ public class Consts {
 	public static final int DEVICE_ITEM_CLICK = 4;// 设备单击事件--
 	public static final int DEVICE_ITEM_LONG_CLICK = 5;// 设备长按事件--
 	public static final int DEVICE_ITEM_DEL_CLICK = 6;// 设备删除按钮事件--
-	public static final int DEVICE_NO_DEVICE = 7;// 暂无设备--
+	public static final int DEVICE_EDIT_CLICK = 7;// 设备编辑按钮事件--
+
+	public static final int DEVICE_NO_DEVICE = 19;// 暂无设备--
 
 	/** ChannelFragment */
-	public static final int CHANNEL_ITEM_CLICK = 8;// 通道单击事件--
-	public static final int CHANNEL_ITEM_LONG_CLICK = 9;// 通道长按事件--
-	public static final int CHANNEL_ITEM_DEL_CLICK = 10;// 通道删除按钮事件--
-	public static final int CHANNEL_ADD_CLICK = 11;// 通道添加事件--
+	public static final int CHANNEL_ITEM_CLICK = 20;// 通道单击事件--
+	public static final int CHANNEL_ITEM_LONG_CLICK = 21;// 通道长按事件--
+	public static final int CHANNEL_ITEM_DEL_CLICK = 22;// 通道删除按钮事件--
+	public static final int CHANNEL_ADD_CLICK = 23;// 通道添加事件--
+	public static final int CHANNEL_EDIT_CLICK = 24;// 通道删除按钮事件--
 
 	/** 引导界面滑屏 */
 	public static final int GUID_PAGE_SCROLL = 500;// --
@@ -139,6 +142,10 @@ public class Consts {
 	public static final String NEUTRAL_VERSION = "NEUTRAL_VERSION";
 	/** 本地登陆key */
 	public static final String LOCAL_LOGIN = "LOCAL_LOGIN";
+	/** 屏幕宽度key */
+	public static final String SCREEN_WIDTH = "SCREEN_WIDTH";
+	/** 屏幕高度key */
+	public static final String SCREEN_HEIGHT = "SCREEN_HEIGHT";
 
 	/** 存储设备列表key */
 	public static String DEVICE_LIST = "";

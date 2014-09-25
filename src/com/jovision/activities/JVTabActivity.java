@@ -1,27 +1,30 @@
 package com.jovision.activities;
 
-import android.support.v4.app.Fragment;
+import android.R;
 import android.view.View;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.IHandlerLikeNotify;
 import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
 import com.jovision.commons.MyLog;
 
 public class JVTabActivity extends BaseActivity {
 
 	private static final String TAG = "JVTabActivity";
-	protected Fragment[] mFragments;
+
+	private int currentIndex = 0;// 当前页卡index
+
+	protected BaseFragment[] mFragments;
 	protected int[] frageIDArray = { R.id.mydevice_fragement,
 			R.id.info_fragement, R.id.demo_fragement,
 			R.id.devicemanage_fragement, R.id.more_fragement };
 
 	private void setFragmentIndicator(int whichIsDefault) {
 		int length = frageIDArray.length;
-		mFragments = new Fragment[length];
+		mFragments = new BaseFragment[length];
 		for (int i = 0; i < length; i++) {
-			mFragments[i] = getSupportFragmentManager().findFragmentById(
-					frageIDArray[i]);
+			mFragments[i] = (BaseFragment) getSupportFragmentManager()
+					.findFragmentById(frageIDArray[i]);
 		}
 
 		for (int i = 0; i < length; i++) {
@@ -30,7 +33,7 @@ public class JVTabActivity extends BaseActivity {
 		}
 		getSupportFragmentManager().beginTransaction()
 				.show(mFragments[whichIsDefault]).commit();
-		tabListener = (OnTabListener) mFragments[whichIsDefault];
+		// tabListener = (OnTabListener) mFragments[whichIsDefault];
 
 		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
 		JVFragmentIndicator.setIndicator(whichIsDefault);
@@ -38,6 +41,7 @@ public class JVTabActivity extends BaseActivity {
 			@Override
 			public void onIndicate(View v, int which) {
 				try {
+					currentIndex = which;
 					int length = frageIDArray.length;
 					for (int i = 0; i < length; i++) {
 						getSupportFragmentManager().beginTransaction()
@@ -45,7 +49,7 @@ public class JVTabActivity extends BaseActivity {
 					}
 					getSupportFragmentManager().beginTransaction()
 							.show(mFragments[which]).commit();
-					tabListener = (OnTabListener) mFragments[which];
+					// tabListener = (OnTabListener) mFragments[which];
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -57,13 +61,17 @@ public class JVTabActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		tabListener.onTabAction(Consts.TAB_ONSTART, 0, 0, 0);
-		MyLog.v("TAG", "TAB_ONSTART");
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		BaseFragment currentFrag = mFragments[currentIndex];
+		if (null != currentFrag) {
+			((IHandlerLikeNotify) currentFrag).onNotify(Consts.TAB_ONSTART, 0,
+					0, null);
+		}
+		MyLog.v(TAG, "TAB_onResume");
 	}
 
 	@Override
@@ -78,19 +86,18 @@ public class JVTabActivity extends BaseActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		tabListener.onTabAction(what, arg1, arg2, obj);
-		MyLog.v("TAG", "onHandler");
+		MyLog.v(TAG, "onHandler");
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
+		// TODO 增加过滤
 		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
-		MyLog.v("TAG", "onNotify");
+		MyLog.v(TAG, "onNotify");
 	}
 
 	@Override
 	protected void initSettings() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -109,35 +116,12 @@ public class JVTabActivity extends BaseActivity {
 
 	@Override
 	protected void saveSettings() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void freeMe() {
-		// TODO Auto-generated method stub
 
 	}
-
-	private OnTabListener tabListener;
-
-	// @Override
-	// public void onAttachFragment(Fragment fragment) {
-	// // tabListener = (OnTabListener)mFragments[0];
-	// super.onAttachFragment(fragment);
-	// }
-
-	// 接口
-	public interface OnTabListener {
-
-		public void onTabAction(int what, int arg1, int arg2, Object obj);
-
-	}
-
-	// @Override
-	// public void onFragmentAction(int what, int arg1, int arg2, Object obj) {
-	// // TODO Auto-generated method stub
-	//
-	// }
 
 }

@@ -11,6 +11,7 @@ import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Calendar;
 
+import android.R;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -22,7 +23,6 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.mails.MailSenderInfo;
 import com.jovision.utils.mails.SimpleMailSender;

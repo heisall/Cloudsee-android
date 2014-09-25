@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.R;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Message;
@@ -22,7 +23,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Handler.LoginHandler;
 import com.jovision.adapters.UserSpinnerAdapter;

@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.R;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -18,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.ChannelsPagerAdapter;
 import com.jovision.commons.MyLog;
 import com.jovision.newbean.BeanUtil;
@@ -52,9 +52,11 @@ public class JVChannelsActivity extends BaseActivity {
 	// private int channelIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 
+	// private OnChannelListener channelListener;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		channelListener.onChannel(what, arg1, arg2, obj);
+		// channelListener.onChannel(what, arg1, arg2, obj);
 		MyLog.v("TAG", "onHandler");
 	}
 
@@ -98,7 +100,7 @@ public class JVChannelsActivity extends BaseActivity {
 		initNav();
 		// 初始化viewPager
 		initViewPager();
-		channelListener = (OnChannelListener) fragments.get(deviceIndex);
+		// channelListener = (OnChannelListener) fragments.get(deviceIndex);
 
 		channelPager.setCurrentItem(deviceIndex);
 		MyLog.v(TAG, "initUI-setData");
@@ -244,14 +246,4 @@ public class JVChannelsActivity extends BaseActivity {
 	protected void freeMe() {
 
 	}
-
-	private OnChannelListener channelListener;
-
-	// 接口
-	public interface OnChannelListener {
-
-		public void onChannel(int what, int arg1, int arg2, Object obj);
-
-	}
-
 }

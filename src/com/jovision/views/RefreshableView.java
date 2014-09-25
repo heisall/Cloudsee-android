@@ -1,5 +1,6 @@
 package com.jovision.views;
 
+import android.R;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -16,8 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.jovetech.CloudSee.temp.R;
 
 /**
  * 可进行下拉刷新的自定义控件。

@@ -53,6 +53,7 @@
 		        android:id="@+id/bindpassword2"
 		        android:password="true"
 		        android:hint="@string/str_enter_pass2"/>
+
         -->
 
         <EditText

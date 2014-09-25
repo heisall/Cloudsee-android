@@ -3,6 +3,7 @@ package com.jovision.activities;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -10,7 +11,6 @@ import android.test.AutoLoad;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Handler.LoginHandler;
 import com.jovision.commons.BaseApp;
@@ -61,7 +61,10 @@ public class JVWelcomeActivity extends BaseActivity {
 				ConfigUtil.getIMEI(JVWelcomeActivity.this));
 		statusHashMap.put(Consts.NEUTRAL_VERSION, "false");// 默认非中性版本
 		statusHashMap.put(Consts.LOCAL_LOGIN, "false");// 默认非本地登陆
-
+		statusHashMap.put(Consts.SCREEN_WIDTH,
+				String.valueOf(disMetrics.widthPixels));
+		statusHashMap.put(Consts.SCREEN_HEIGHT,
+				String.valueOf(disMetrics.heightPixels));
 		initThread.start();
 
 		initHandler = new Handler();

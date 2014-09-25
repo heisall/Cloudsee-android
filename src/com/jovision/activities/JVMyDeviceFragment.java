@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -22,15 +23,15 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.MyDeviceListAdapter;
+import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.newbean.BeanUtil;
 import com.jovision.newbean.Device;
-import com.jovision.thread.GetDeviceListThread;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.ImageViewPager;
@@ -60,6 +61,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private Timer broadTimer;
 	private TimerTask broadTimerTask;
 
+	boolean localFlag = false;// 本地登陆标志位
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -71,8 +74,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mActivity = getActivity();
+		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
+
+		localFlag = Boolean.valueOf(mActivity.statusHashMap
+				.get(Consts.LOCAL_LOGIN));
 
 		inflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -89,7 +95,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				R.layout.dot_item, R.id.ad_item_v, R.drawable.dot_focused,
 				R.drawable.dot_normal);
 
-		myDLAdapter = new MyDeviceListAdapter(mActivity);
+		myDLAdapter = new MyDeviceListAdapter(mActivity, this);
 		myDeviceListView = (ListView) mParent
 				.findViewById(R.id.device_listview);
 
@@ -200,30 +206,22 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 	}
 
-	// private OnFragmentListener myDeviceListener;
-	//
-	// /** Acitivity要实现这个接口，这样Fragment和Activity就可以共享事件触发的资源了 */
-	// public interface OnFragmentListener {
-	// public void onFragmentAction(int what, int arg1, int arg2, Object obj);
-	// }
-	//
-	// @Override
-	// public void onAttach(Activity activity) {
-	//
-	// super.onAttach(activity);
-	// myDeviceListener = (OnFragmentListener)activity;
-	// }
-
-	@SuppressWarnings("unchecked")
 	@Override
-	public void onTabAction(int what, int arg1, int arg2, Object obj) {
-		super.onTabAction(what, arg1, arg2, obj);
+	public void onNotify(int what, int arg1, int arg2, Object obj) {
+		fragHandler.sendMessage(fragHandler
+				.obtainMessage(what, arg1, arg2, obj));
+	}
+
+	@Override
+	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// MyLog.v("TAG",
 		// "onTabAction:what="+what+";arg1="+arg1+";arg2="+arg1+";obj="+obj.toString());
 		switch (what) {
 		case Consts.TAB_ONSTART: {// activity起来后开始加载设备
 			((BaseActivity) mActivity).createDialog("");
-			new GetDeviceListThread(mActivity).start();
+			GetDevTask task = new GetDevTask();
+			String[] strParams = new String[3];
+			task.execute(strParams);
 			break;
 		}
 		case Consts.GET_DEVICE_LIST_FUNCTION: {
@@ -328,11 +326,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 			task.execute(strParams);
 			break;
 		}
+		case Consts.DEVICE_EDIT_CLICK: {// 设备编辑事件
+			((BaseActivity) mActivity).showTextToast("编辑设备--" + arg1);
 		}
-
+		}
 	}
 
-	// 设置三种类型参数分别为String,Integer,String
+	// 删除设备线程
 	class DelDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
@@ -359,6 +359,128 @@ public class JVMyDeviceFragment extends BaseFragment {
 				e.printStackTrace();
 			}
 			return delRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			((BaseActivity) mActivity).dismissDialog();
+			if (0 == result) {
+				((BaseActivity) mActivity)
+						.showTextToast(R.string.del_device_succ);
+				myDLAdapter.setShowDelete(false);
+				myDLAdapter.notifyDataSetChanged();
+			} else {
+				((BaseActivity) mActivity)
+						.showTextToast(R.string.del_device_failed);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			((BaseActivity) mActivity).createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
+
+	// 获取设备列表线程
+	class GetDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int getRes = 0;
+			try {
+				if (!localFlag) {// 非本地登录，无论是否刷新都执行
+					// 获取所有设备列表和通道列表
+					// 如果设备请求失败，多请求一次
+					// ArrayList<Device> temlist = myDeviceList;
+					myDeviceList = DeviceUtil
+							.getUserDeviceList(mActivity.statusHashMap
+									.get(Consts.KEY_USERNAME));
+					if (null == myDeviceList || 0 == myDeviceList.size()) {
+						myDeviceList = DeviceUtil
+								.getUserDeviceList(mActivity.statusHashMap
+										.get(Consts.KEY_USERNAME));
+					}
+					JVMyDeviceFragment.this.onNotify(
+							Consts.GET_DEVICE_LIST_FUNCTION,
+							JVAccountConst.REFERSH_DEVICE_LIST_ONLY, 0, null);
+
+					if (null != myDeviceList && 0 != myDeviceList.size()) {
+						int size = myDeviceList.size();
+						if (0 != size) {
+							for (int i = 0; i < myDeviceList.size(); i++) {
+								myDeviceList.get(i)
+										.setChannelList(
+												DeviceUtil.getDevicePointList(
+														myDeviceList.get(i),
+														myDeviceList.get(i)
+																.getFullNo()));
+							}
+						}
+					}
+
+				} else if (localFlag) {// 本地登录且是刷新
+
+					// ArrayList<Device> demoList = new ArrayList<Device>();
+					// demoList.add(new Device("", 9101, "S", 53530352, "admin",
+					// "123", true, 1, 0));
+					// demoList.add(new Device("", 9101, "A", 361, "abc", "123",
+					// false, 1, 1));
+					// demoList.add(new Device("", 9101, "S", 26680286, "admin",
+					// "123", true, 1, 2));
+					// demoList.add(new Device("", 9101, "S", 52942216, "admin",
+					// "",
+					// false, 1, 3));
+					String devJsonString = MySharedPreference
+							.getString(Consts.DEVICE_LIST);
+					// BeanUtil.myDeviceListToString(demoList);
+					// String devJsonString =
+					// MySharedPreference.getString(Consts.DEVICE_LIST);
+					myDeviceList = BeanUtil.stringToDevList(devJsonString);
+					MyLog.v(TAG, "size=" + myDeviceList.size());
+				}
+
+				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
+																		// msg.what
+																		// =
+																		// DEVICE_GETDATA_SUCCESS;
+
+					if (ConfigUtil.is3G(mActivity, false)) {// 3G直接加载设备
+						JVMyDeviceFragment.this.onNotify(
+								Consts.GET_DEVICE_LIST_FUNCTION,
+								Consts.DEVICE_GETDATA_SUCCESS, 0, null);
+					} else {
+						JVMyDeviceFragment.this.onNotify(
+								Consts.GET_DEVICE_LIST_FUNCTION,
+								Consts.DEVICE_GETDATA_SUCCESS, 0, myDeviceList);
+					}
+
+				} else if (null != myDeviceList && 0 == myDeviceList.size()) {// 无数据
+					MyLog.v(TAG, "nonedata");
+					JVMyDeviceFragment.this.onNotify(
+							Consts.GET_DEVICE_LIST_FUNCTION,
+							Consts.DEVICE_NO_DEVICE, 0, myDeviceList);
+				} else {// 获取设备失败
+					JVMyDeviceFragment.this.onNotify(
+							Consts.GET_DEVICE_LIST_FUNCTION,
+							Consts.DEVICE_GETDATA_FAILED, 0, myDeviceList);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return getRes;
 		}
 
 		@Override

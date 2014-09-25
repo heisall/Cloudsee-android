@@ -18,6 +18,7 @@ package barcode.zxing.decoding;
 
 import java.util.Hashtable;
 
+import android.R;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -33,7 +34,6 @@ import com.google.zxing.MultiFormatReader;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
-import com.jovetech.CloudSee.temp.R;
 
 final class DecodeHandler extends Handler {
 

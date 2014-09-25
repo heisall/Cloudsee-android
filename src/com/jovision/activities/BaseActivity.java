@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.HashMap;
 
+import android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -18,7 +19,6 @@ import android.util.DisplayMetrics;
 import android.view.Window;
 import android.widget.Toast;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
@@ -56,7 +56,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	/** 释放资源、解锁、删除不用的对象，不要在这里写费时的操作 */
 	protected abstract void freeMe();
 
-	private IHandlerNotify notify = this;
+	IHandlerNotify notify = this;
 	protected MyHandler handler = new MyHandler(this);
 
 	protected static class MyHandler extends Handler {

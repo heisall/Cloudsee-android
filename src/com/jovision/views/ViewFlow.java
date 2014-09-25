@@ -3,6 +3,7 @@ package com.jovision.views;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import android.R;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -21,7 +22,6 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Scroller;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
 import com.jovision.commons.FlowIndicator;

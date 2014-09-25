@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.lang.ref.WeakReference;
 
+import android.R;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.KeyEvent;
@@ -11,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVConst;
 import com.jovision.utils.AccountUtil;

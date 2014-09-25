@@ -3,6 +3,7 @@ package com.jovision.activities;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import android.R;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -19,7 +20,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.PointListAdapter2;
 import com.jovision.bean.ConnPoint;

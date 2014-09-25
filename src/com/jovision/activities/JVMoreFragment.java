@@ -68,11 +68,11 @@ public class JVMoreFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
-		mActivity = getActivity();
+		mActivity = (BaseActivity) getActivity();
 	}
 
 	@Override
-	public void onTabAction(int what, int arg1, int arg2, Object obj) {
+	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
 
 	}

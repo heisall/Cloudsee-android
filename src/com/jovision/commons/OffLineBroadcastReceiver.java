@@ -2,6 +2,7 @@ package com.jovision.commons;
 
 import java.util.Timer;
 
+import android.R;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,7 +12,6 @@ import android.content.SharedPreferences.Editor;
 import android.os.Handler;
 import android.os.Message;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.JVLoginActivity;
 
 public class OffLineBroadcastReceiver extends BroadcastReceiver {

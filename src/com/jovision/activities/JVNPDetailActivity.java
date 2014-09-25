@@ -3,6 +3,7 @@ package com.jovision.activities;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import android.R;
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.ProgressDialog;
@@ -30,7 +31,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.bean.ConnPoint;
 import com.jovision.bean.Device;
 import com.jovision.bean.NewProduct;

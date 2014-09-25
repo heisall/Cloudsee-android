@@ -62,9 +62,8 @@
                 android:textStyle="bold" />
 <<<<<<< Updated upstream
         </LinearLayout>
-=======
-        </LinearLayout>
->>>>>>> Stashed changes
+
+
         -->
 
     </RelativeLayout>

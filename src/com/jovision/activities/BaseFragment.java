@@ -35,21 +35,6 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 	protected TextView currentMenu;
 	protected Button rightBtn;
 
-	// /**
-	// * Create a new instance of DetailsFragment, initialized to show the text
-	// at
-	// * 'index'.
-	// */
-	// public static JVMyDeviceFragment newInstance(int index) {
-	// JVMyDeviceFragment f = new JVMyDeviceFragment();
-	//
-	// // Supply index input as an argument.
-	// Bundle args = new Bundle();
-	// args.putInt("index", index);
-	// f.setArguments(args);
-	// return f;
-	// }
-
 	protected static class FragHandler extends Handler {
 
 		private BaseFragment fragment;

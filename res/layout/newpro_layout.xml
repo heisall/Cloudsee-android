@@ -87,7 +87,7 @@
 		     	android:layout_height="wrap_content"
 		        android:id="@+id/newprotext"/> 
 	</LinearLayout>
- </ScrollView>
+ </ScrollView>
     -->
 
 </RelativeLayout>

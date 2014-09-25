@@ -43,22 +43,10 @@ public class JVDemoFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
-
-		demoList.add(new Device("", 9101, "S", 53530352, "admin", "123", true,
-				1, 0));
-		demoList.add(new Device("", 9101, "A", 361, "abc", "123", false, 1, 1));
-		demoList.add(new Device("", 9101, "S", 26680286, "admin", "123", true,
-				1, 2));
-		demoList.add(new Device("", 9101, "S", 52942216, "admin", "123", false,
-				1, 3));
-		// PlayUtil.setHelperToList(demoList);
-
 		refreshableView = (RefreshableView) mParent
 				.findViewById(R.id.demo_refreshable_view);
 		demoAdapter = new DemoListAdapter(mActivity);
-		demoAdapter.setData(demoList);
 		demoListView = (ListView) mParent.findViewById(R.id.demo_listview);
-		demoListView.setAdapter(demoAdapter);
 		demoListView.setOnItemClickListener(myOnItemClickListener);
 		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
 			@Override
@@ -77,7 +65,16 @@ public class JVDemoFragment extends BaseFragment {
 			}
 
 		}, 0);
+		demoList.add(new Device("", 9101, "S", 53530352, "admin", "123", true,
+				1, 0));
+		demoList.add(new Device("", 9101, "A", 361, "abc", "123", false, 1, 1));
+		demoList.add(new Device("", 9101, "S", 26680286, "admin", "123", true,
+				1, 2));
+		demoList.add(new Device("", 9101, "S", 52942216, "admin", "123", false,
+				1, 3));
 
+		demoAdapter.setData(demoList);
+		demoListView.setAdapter(demoAdapter);
 	}
 
 	OnItemClickListener myOnItemClickListener = new OnItemClickListener() {
@@ -100,8 +97,12 @@ public class JVDemoFragment extends BaseFragment {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
-
+		switch (what) {
+		// case Consts.TAB_ONRESUME: {// activity起来后开始加载设备
+		//
+		// break;
+		// }
+		}
 	}
 
 	@Override

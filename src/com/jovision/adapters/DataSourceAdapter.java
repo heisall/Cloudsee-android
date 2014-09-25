@@ -2,7 +2,6 @@ package com.jovision.adapters;
 
 import java.util.ArrayList;
 
-import android.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.JVPlayActivity;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVConst;

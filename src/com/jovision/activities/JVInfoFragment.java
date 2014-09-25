@@ -1,10 +1,11 @@
 package com.jovision.activities;
 
-import android.R;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.jovetech.CloudSee.temp.R;
 
 /**
  * 消息

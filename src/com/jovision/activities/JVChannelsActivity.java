@@ -2,7 +2,6 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
-import android.R;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -19,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.ChannelsPagerAdapter;
 import com.jovision.commons.MyLog;
 import com.jovision.newbean.BeanUtil;

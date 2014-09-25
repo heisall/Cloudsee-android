@@ -1,8 +1,8 @@
 package com.jovision.activities;
 
-import android.R;
 import android.view.View;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;

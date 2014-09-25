@@ -2,7 +2,6 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
-import android.R;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.ChannelAdapter;
 import com.jovision.commons.MyLog;

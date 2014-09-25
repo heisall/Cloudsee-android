@@ -3,7 +3,6 @@ package com.jovision.activities;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import android.R;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.text.InputType;
@@ -20,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.RemoteVideoAdapter;
 import com.jovision.bean.RemoteVideo;

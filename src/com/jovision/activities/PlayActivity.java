@@ -3,7 +3,6 @@ package com.jovision.activities;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import android.R;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.view.SurfaceView;
@@ -20,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.FuntionAdapter;
 import com.jovision.adapters.PlayViewPagerAdapter;

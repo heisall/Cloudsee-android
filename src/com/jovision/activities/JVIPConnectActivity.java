@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import android.R;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.util.TypedValue;
@@ -17,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVConst;

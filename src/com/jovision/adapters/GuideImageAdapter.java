@@ -1,12 +1,13 @@
 package com.jovision.adapters;
 
-import android.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import com.jovetech.CloudSee.temp.R;
 
 public class GuideImageAdapter extends BaseAdapter {
 	int[] dataArray = null;

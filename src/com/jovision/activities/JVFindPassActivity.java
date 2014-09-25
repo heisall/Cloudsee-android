@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import android.R;
 import android.annotation.SuppressLint;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +10,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
 

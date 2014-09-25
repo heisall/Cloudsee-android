@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.R;
 import android.app.Dialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -27,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.MainApplication;

@@ -1,10 +1,10 @@
 package com.jovision.Handler;
 
-import android.R;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.thread.LoginThread;

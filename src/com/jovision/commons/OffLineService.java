@@ -1,11 +1,12 @@
 package com.jovision.commons;
 
-import android.R;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+
+import com.jovetech.CloudSee.temp.R;
 
 public class OffLineService extends Service {
 	// // 保持在线

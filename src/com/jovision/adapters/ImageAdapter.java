@@ -2,7 +2,6 @@ package com.jovision.adapters;
 
 import java.util.ArrayList;
 
-import android.R;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.bean.NewProduct;
 import com.jovision.commons.AsyncImageLoader;
 import com.jovision.commons.AsyncImageLoader.ImageCallback;

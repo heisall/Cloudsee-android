@@ -3,7 +3,6 @@ package barcode.zxing.activity;
 import java.io.IOException;
 import java.util.Vector;
 
-import android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -31,6 +30,7 @@ import barcode.zxing.view.ViewfinderView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.JVConst;
 import com.jovision.utils.LoginUtil;
 

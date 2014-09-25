@@ -2,7 +2,6 @@ package com.jovision.adapters;
 
 import java.util.ArrayList;
 
-import android.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.bean.RemoteVideo;
 
 public class RemoteVideoAdapter extends BaseAdapter {

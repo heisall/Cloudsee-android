@@ -3,7 +3,6 @@ package com.jovision.activities;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +10,7 @@ import android.test.AutoLoad;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Handler.LoginHandler;
 import com.jovision.commons.BaseApp;

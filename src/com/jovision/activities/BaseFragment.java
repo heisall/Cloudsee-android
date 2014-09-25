@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import android.R;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 

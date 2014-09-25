@@ -61,9 +61,7 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 <<<<<<< Updated upstream
-        </LinearLayout>
-
-
+        </LinearLayout>
         -->
 
     </RelativeLayout>

@@ -178,4 +178,9 @@ public class JVMoreFragment extends BaseFragment {
 					}
 				});
 	}
+
+	@Override
+	public void onNotify(int what, int arg1, int arg2, Object obj) {
+		// TODO Auto-generated method stub
+	}
 }

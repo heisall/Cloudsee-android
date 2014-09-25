@@ -3,7 +3,6 @@ package com.jovision.adapters;
 import java.util.ArrayList;
 import java.util.Random;
 
-import android.R;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.JVPlayActivity;
 import com.jovision.bean.ConnPoint;
 import com.jovision.bean.Device;

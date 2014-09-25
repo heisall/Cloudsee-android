@@ -2,7 +2,6 @@ package com.jovision.activities;
 
 import java.lang.ref.WeakReference;
 
-import android.R;
 import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -28,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.BaseApp;
 import com.jovision.commons.JVConfigManager;

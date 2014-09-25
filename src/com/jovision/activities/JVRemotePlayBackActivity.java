@@ -7,7 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.view.SurfaceHolder;
@@ -18,6 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.commons.JVConst;

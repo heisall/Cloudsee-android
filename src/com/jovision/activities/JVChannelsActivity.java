@@ -19,8 +19,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.adapters.ChannelsPagerAdapter;
-import com.jovision.commons.MyLog;
 import com.jovision.newbean.BeanUtil;
 import com.jovision.newbean.Device;
 
@@ -52,12 +52,14 @@ public class JVChannelsActivity extends BaseActivity {
 	// private int channelIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 
-	// private OnChannelListener channelListener;
-
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		// channelListener.onChannel(what, arg1, arg2, obj);
-		MyLog.v("TAG", "onHandler");
+		switch (what) {
+		case Consts.CHANNEL_FRAGMENT_ONRESUME:
+			((ChannelFragment) fragments.get(arg1)).setData(arg1, deviceList);
+			channelPager.setCurrentItem(deviceIndex);
+			break;
+		}
 	}
 
 	@Override
@@ -100,12 +102,11 @@ public class JVChannelsActivity extends BaseActivity {
 		initNav();
 		// 初始化viewPager
 		initViewPager();
-		// channelListener = (OnChannelListener) fragments.get(deviceIndex);
+	}
 
-		channelPager.setCurrentItem(deviceIndex);
-		MyLog.v(TAG, "initUI-setData");
-		((ChannelFragment) fragments.get(deviceIndex)).setData(deviceIndex,
-				deviceList);
+	@Override
+	protected void onResume() {
+		super.onResume();
 	}
 
 	private void initViewPager() {
@@ -143,8 +144,8 @@ public class JVChannelsActivity extends BaseActivity {
 				@Override
 				public void onClick(View view) {
 					int index = (Integer) view.getTag();
+					deviceIndex = index;
 					channelPager.setCurrentItem(index);
-					MyLog.v(TAG, "initNav-setData");
 					((ChannelFragment) fragments.get(index)).setData(index,
 							deviceList);
 				}
@@ -174,6 +175,7 @@ public class JVChannelsActivity extends BaseActivity {
 
 		@Override
 		public void onPageSelected(final int position) {
+			// MyLog.v(TAG, "onPageSelected---position="+position);
 			Animation animation = new TranslateAnimation(endPosition, position
 					* item_width, 0, 0);
 
@@ -187,11 +189,16 @@ public class JVChannelsActivity extends BaseActivity {
 				mHorizontalScrollView.smoothScrollTo((currentFragmentIndex - 1)
 						* item_width, 0);
 			}
+			deviceIndex = position;
+			((ChannelFragment) fragments.get(position)).setData(position,
+					deviceList);
+			channelPager.setCurrentItem(position);
 		}
 
 		@Override
 		public void onPageScrolled(int position, float positionOffset,
 				int positionOffsetPixels) {
+			// MyLog.v(TAG, "onPageScrolled---position="+position);
 			if (!isEnd) {
 				if (currentFragmentIndex == position) {
 					endPosition = item_width * currentFragmentIndex
@@ -232,6 +239,8 @@ public class JVChannelsActivity extends BaseActivity {
 					mHorizontalScrollView.invalidate();
 					endPosition = currentFragmentIndex * item_width;
 				}
+				// MyLog.v(TAG,
+				// "onPageScrollStateChanged---currentFragmentIndex="+currentFragmentIndex+"---deviceIndex="+deviceIndex);
 			}
 		}
 

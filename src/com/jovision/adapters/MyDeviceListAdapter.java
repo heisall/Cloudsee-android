@@ -39,8 +39,15 @@ public class MyDeviceListAdapter extends BaseAdapter {
 	}
 
 	// 控制是否显示删除按钮
-	public void setShowDelete(boolean flag) {
-		showDelete = flag;
+	public boolean setShowDelete(boolean flag) {
+		boolean changeSucc;
+		if (showDelete == flag) {
+			changeSucc = false;
+		} else {
+			showDelete = flag;
+			changeSucc = true;
+		}
+		return changeSucc;
 	}
 
 	@Override

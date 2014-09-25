@@ -24,6 +24,7 @@ import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
 import com.jovision.commons.JVConfigManager;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
 
 /**
@@ -294,6 +295,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 						// if (null != BaseApp.mNotificationManager) {
 						// BaseApp.mNotificationManager.cancel(0);
 						// }
+						ConfigUtil.stopBroadCast();
 						android.os.Process.killProcess(android.os.Process
 								.myPid());
 					}

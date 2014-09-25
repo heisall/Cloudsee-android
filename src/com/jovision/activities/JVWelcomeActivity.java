@@ -1,8 +1,5 @@
 package com.jovision.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -18,10 +15,8 @@ import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.newbean.UserBean;
-import com.jovision.old.JVConnectInfo;
 import com.jovision.thread.LoginThread;
 import com.jovision.utils.ConfigUtil;
-import com.jovision.utils.SqlLiteUtil;
 
 public class JVWelcomeActivity extends BaseActivity {
 
@@ -45,13 +40,6 @@ public class JVWelcomeActivity extends BaseActivity {
 	protected void initSettings() {
 		MySharedPreference.init(getApplication());
 		ConfigUtil.getJNIVersion();
-		new SqlLiteUtil(JVWelcomeActivity.this);
-		// 查询所有user
-		ArrayList<UserBean> oldUserList = BaseApp.queryAllUserList();
-		// 查询所有设备
-		List<JVConnectInfo> oldDevList = BaseApp.queryAllDataList(true);
-		// 查询所有通道
-		List<JVConnectInfo> poList = BaseApp.queryAllDataList(false);
 
 		getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
 		loginHandler = new LoginHandler(this, true);
@@ -149,6 +137,9 @@ public class JVWelcomeActivity extends BaseActivity {
 		@Override
 		public void run() {
 			MyLog.w(TAG, "initThread E");
+
+			// 开启广播
+			ConfigUtil.startBroadCast();
 
 			// [Neo] TODO set timer for timeout
 			while (false == HAS_LOADED) {

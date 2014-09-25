@@ -14,6 +14,7 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.jovision.Consts;
 import com.jovision.Jni;
@@ -43,6 +44,22 @@ public class PlayUtil {
 
 	public static void setContext(Context con) {
 		mContext = con;
+	}
+
+	/**
+	 * 广播
+	 * 
+	 * @param con
+	 * @return
+	 */
+	public static boolean broadCast(Context con) {
+		boolean canBroad = false;
+		if (!ConfigUtil.is3G(con, false)) {// 非3G加广播设备
+			canBroad = true;
+			Jni.searchLanDevice("", 0, 0, 0, "", 2000, 1);
+		}
+		Log.v(TAG, "广播--broadCast=" + canBroad);
+		return canBroad;
 	}
 
 	/**

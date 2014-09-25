@@ -44,9 +44,7 @@ import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVPlayActivity extends PlayActivity implements
-		PlayWindowManager.OnClickListener,
-		PlayWindowManager.OnLongClickListener,
-		PlayWindowManager.OnSurfaceLifecycle {
+		PlayWindowManager.OnUiListener {
 	private final String TAG = "JV_PLAY";
 
 	private PlayWindowManager manager;
@@ -1171,12 +1169,53 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	@Override
-	public void onLongClick(Channel channel) {
+	public void onGesture(int direction) {
+		// [Neo] TODO surface 上下左右的手势
 	}
 
 	@Override
-	public void onClick(Channel channel, boolean isFromInner) {
-		if (isFromInner) {// 播放按钮事件
+	public void onLongClick(Channel channel) {
+		// [Neo] TODO surface 长按事件
+	}
+
+	@Override
+	public void onLifecycle(final int index, int status, final Surface surface,
+			int width, int height) {
+		switch (status) {
+		case PlayWindowManager.STATUS_CREATED:
+			surfaceCreatMap.put(index, true);
+			Thread resumeThread = new Thread() {
+				@Override
+				public void run() {
+					manager.getChannel(index).setSurfaceCreated(true);
+					Jni.resume(index, surface);
+					super.run();
+				}
+
+			};
+			resumeThread.start();
+			break;
+		case PlayWindowManager.STATUS_DESTROYED:
+			surfaceCreatMap.put(index, false);
+			Thread pauseThread = new Thread() {
+				@Override
+				public void run() {
+					manager.getChannel(index).setSurfaceCreated(false);
+					Jni.pause(index);
+					super.run();
+				}
+			};
+			pauseThread.start();
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onClick(Channel channel, boolean isFromImageView, int viewId) {
+		if (isFromImageView) {// 播放按钮事件
 			try {
 				loadingState(channel.getIndex(), R.string.connecting1,
 						JVConst.PLAY_CONNECTTED);
@@ -1253,41 +1292,6 @@ public class JVPlayActivity extends PlayActivity implements
 		stopAll(currentIndex, manager.getChannel(currentIndex));
 		manager.pauseAll();
 		PlayUtil.pauseAll(manager.getValidChannelList(currentPage));
-	}
-
-	@Override
-	public void onSurface(final int index, int status, final Surface surface,
-			int width, int height) {
-		switch (status) {
-		case PlayWindowManager.STATUS_CREATED:
-			surfaceCreatMap.put(index, true);
-			Thread resumeThread = new Thread() {
-				@Override
-				public void run() {
-					manager.getChannel(index).setSurfaceCreated(true);
-					Jni.resume(index, surface);
-					super.run();
-				}
-
-			};
-			resumeThread.start();
-			break;
-		case PlayWindowManager.STATUS_DESTROYED:
-			surfaceCreatMap.put(index, false);
-			Thread pauseThread = new Thread() {
-				@Override
-				public void run() {
-					manager.getChannel(index).setSurfaceCreated(false);
-					Jni.pause(index);
-					super.run();
-				}
-			};
-			pauseThread.start();
-			break;
-
-		default:
-			break;
-		}
 	}
 
 	@Override

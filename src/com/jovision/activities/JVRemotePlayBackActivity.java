@@ -23,7 +23,6 @@ import com.jovision.Jni;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
-import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.PlayUtil;
 
 public class JVRemotePlayBackActivity extends PlayActivity {
@@ -183,11 +182,6 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		voiceCall.setOnClickListener(myOnClickListener);
 		videoTape.setOnClickListener(myOnClickListener);
 		moreFeature.setOnClickListener(myOnClickListener);
-
-		if (PlayWindowManager
-				.isApiLessThan(android.os.Build.VERSION_CODES.HONEYCOMB)) {
-			holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-		}
 
 		holder.addCallback(new SurfaceHolder.Callback() {
 

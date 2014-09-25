@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -116,25 +117,14 @@ public class PlayWindowManager implements View.OnClickListener,
 	 * 单例获取管理实例
 	 * 
 	 * @param context
-	 *            内容上下文，必须继承 {@link PlayWindowManager.OnClickListener} 以及
-	 *            {@link PlayWindowManager.OnLongClickListener}
+	 *            内容上下文，必须实现 {@link PlayWindowManager.OnUiListener}
 	 * @return
 	 */
 	public static PlayWindowManager getIntance(Context context) {
 		if (null != context) {
-			if (false == context instanceof OnClickListener) {
+			if (false == context instanceof OnUiListener) {
 				throw new ClassCastException(
-						"Context must an OnClickerListener impl");
-			}
-
-			if (false == context instanceof OnLongClickListener) {
-				throw new ClassCastException(
-						"Context must an OnLongClickerListener impl");
-			}
-
-			if (false == context instanceof OnSurfaceLifecycle) {
-				throw new ClassCastException(
-						"Context must an OnSurfaceLifecycle impl");
+						"Context must an OnUiListener impl");
 			}
 
 			PlayWindowManagerContainer.MANAGER.mContext = context;
@@ -144,30 +134,29 @@ public class PlayWindowManager implements View.OnClickListener,
 	}
 
 	/**
-	 * 获取单个窗口的点击事件接口
+	 * 界面交互监听器
 	 * 
 	 * @author neo
 	 * 
 	 */
-	public interface OnClickListener {
+	public interface OnUiListener {
+
 		/**
 		 * 单个窗口的点击事件
 		 * 
 		 * @param channel
 		 *            窗口所对应的通道
-		 * @param isFromInner
-		 *            判断是否来自中间控制按钮的标识位
+		 * @param isFromImageView
+		 *            判断是否来自图像视图
+		 * @param viewId
+		 *            事件来自视图标识，参考 {@link PlayWindowManager#ID_CONTROL_CENTER},
+		 *            {@link PlayWindowManager#ID_CONTROL_LEFT},
+		 *            {@link PlayWindowManager#ID_CONTROL_UP},
+		 *            {@link PlayWindowManager#ID_CONTROL_RIGHT},
+		 *            {@link PlayWindowManager#ID_CONTROL_BOTTOM}
 		 */
-		public void onClick(Channel channel, boolean isFromInner);
-	}
+		public void onClick(Channel channel, boolean isFromImageView, int viewId);
 
-	/**
-	 * 获取单个窗口的长按点击事件接口
-	 * 
-	 * @author neo
-	 * 
-	 */
-	public interface OnLongClickListener {
 		/**
 		 * 
 		 * 单个窗口的长按点击事件
@@ -176,15 +165,17 @@ public class PlayWindowManager implements View.OnClickListener,
 		 *            窗口所对应的通道
 		 */
 		public void onLongClick(Channel channel);
-	}
 
-	/**
-	 * Surface 生命周期回调
-	 * 
-	 * @author neo
-	 * 
-	 */
-	public interface OnSurfaceLifecycle {
+		/**
+		 * 手势方向事件
+		 * 
+		 * @param direction
+		 *            方向，参考 {@link MyGestureDispatcher#GESTURE_TO_LEFT}，
+		 *            {@link MyGestureDispatcher#GESTURE_TO_UP}，
+		 *            {@link MyGestureDispatcher#GESTURE_TO_RIGHT}，
+		 *            {@link MyGestureDispatcher#GESTURE_TO_DOWN}
+		 */
+		public void onGesture(int direction);
 
 		/**
 		 * 生命周期变化事件
@@ -192,7 +183,9 @@ public class PlayWindowManager implements View.OnClickListener,
 		 * @param index
 		 *            对应窗口索引
 		 * @param status
-		 *            当前生命周期状态
+		 *            当前生命周期状态，参考 {@link PlayWindowManager#STATUS_CREATED},
+		 *            {@link PlayWindowManager#STATUS_CHANGED},
+		 *            {@link PlayWindowManager#STATUS_DESTROYED}
 		 * @param surface
 		 *            当前 Surface 对象
 		 * @param width
@@ -200,7 +193,7 @@ public class PlayWindowManager implements View.OnClickListener,
 		 * @param height
 		 *            宽
 		 */
-		public void onSurface(int index, int status, Surface surface,
+		public void onLifecycle(int index, int status, Surface surface,
 				int width, int height);
 	}
 
@@ -417,7 +410,10 @@ public class PlayWindowManager implements View.OnClickListener,
 	public SurfaceView getView(int index) {
 		SurfaceView view = null;
 		if (index >= 0 && index < mWindowList.size()) {
-			view = mWindowList.get(index).getChannel().getSurfaceView();
+			try {
+				view = mWindowList.get(index).getChannel().getSurfaceView();
+			} catch (Exception e) {
+			}
 		}
 
 		return view;
@@ -639,27 +635,34 @@ public class PlayWindowManager implements View.OnClickListener,
 
 	@Override
 	public void onClick(View v) {
-		if (null != mContext && v.getId() >= BASE_ID) {
+		int id = v.getId();
+		if (null != mContext && id >= BASE_ID) {
 
-			boolean isFromInner = false;
+			boolean isFromImageView = false;
+
 			if (v instanceof ImageView) {
-				isFromInner = true;
+				isFromImageView = true;
 				v = ((ViewGroup) v.getParent()).getChildAt(0);
 			}
 
-			PlayWindow window = mWindowList.get(v.getId() - BASE_ID);
-			((OnClickListener) mContext).onClick(window.getChannel(),
-					isFromInner);
+			PlayWindow window = mWindowList.get(id - BASE_ID);
+
+			((OnUiListener) mContext).onClick(window.getChannel(),
+					isFromImageView, id);
 		}
 	}
 
 	@Override
 	public boolean onLongClick(View v) {
+		boolean result = false;
+
 		if (null != mContext && v.getId() >= BASE_ID) {
 			PlayWindow window = mWindowList.get(v.getId() - BASE_ID);
-			((OnLongClickListener) mContext).onLongClick(window.getChannel());
+			((OnUiListener) mContext).onLongClick(window.getChannel());
+			result = true;
 		}
-		return true;
+
+		return result;
 	}
 
 	/**
@@ -739,6 +742,7 @@ public class PlayWindowManager implements View.OnClickListener,
 							RelativeLayout.LayoutParams.MATCH_PARENT);
 					playerParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 					player.setLayoutParams(playerParams);
+
 					layout.addView(player);
 					player.setVisibility(View.VISIBLE);
 				} else {
@@ -895,7 +899,7 @@ public class PlayWindowManager implements View.OnClickListener,
 			LinearLayout layout = new LinearLayout(mContext);
 			layout.setPadding(playerPadding, playerPadding, playerPadding,
 					playerPadding);
-			// [Neo] TODO background color
+			// TODO
 			// layout.setBackgroundColor(mContext.getResources().getColor(
 			// R.color.videounselect));
 			layout.setOrientation(LinearLayout.VERTICAL);
@@ -968,66 +972,70 @@ public class PlayWindowManager implements View.OnClickListener,
 		private Channel mChannel;
 
 		public PlayWindow(Channel channel) {
-			this.mChannel = channel;
+			index = -1;
 
-			if (null != channel) {
-
-				index = mChannel.getIndex();
-				SurfaceView view = null;
-
-				if (index >= 0) {
-					view = new SurfaceView(mContext);
-					SurfaceHolder holder = view.getHolder();
-
-					if (isApiLessThan(android.os.Build.VERSION_CODES.HONEYCOMB)) {
-						holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-					}
-
-					holder.addCallback(new SurfaceHolder.Callback() {
-
-						@Override
-						public void surfaceDestroyed(SurfaceHolder holder) {
-							((OnSurfaceLifecycle) mContext).onSurface(index,
-									STATUS_DESTROYED, null, -1, -1);
-						}
-
-						@Override
-						public void surfaceCreated(SurfaceHolder holder) {
-							((OnSurfaceLifecycle) mContext).onSurface(index,
-									STATUS_CREATED, holder.getSurface(), -1, -1);
-						}
-
-						@Override
-						public void surfaceChanged(SurfaceHolder holder,
-								int format, int width, int height) {
-							((OnSurfaceLifecycle) mContext).onSurface(index,
-									STATUS_CHANGED, holder.getSurface(), width,
-									height);
-						}
-					});
-				}
-
-				channel.setSurfaceView(view);
-
-			} else {
+			if (null == channel) {
 				mChannel = new Channel(null, -1, -1, false, false);
-				mChannel.setSurfaceView(new SurfaceView(mContext));
+			} else {
+				mChannel = channel;
 			}
 
+			index = mChannel.getIndex();
+			mChannel.setSurfaceView(genSurfaceView());
+		}
+
+		private SurfaceView genSurfaceView() {
+			final MyGestureDispatcher dispatcher = new MyGestureDispatcher(
+					new MyGestureDispatcher.OnGestureListener() {
+
+						@Override
+						public void onGesture(int direction) {
+							((OnUiListener) mContext).onGesture(direction);
+						}
+					});
+
+			SurfaceView view = new SurfaceView(mContext);
+			view.setOnTouchListener(new View.OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					return dispatcher.motion(event);
+				}
+			});
+
+			if (index >= 0) {
+				SurfaceHolder holder = view.getHolder();
+
+				holder.addCallback(new SurfaceHolder.Callback() {
+					@Override
+					public void surfaceDestroyed(SurfaceHolder holder) {
+						((OnUiListener) mContext).onLifecycle(index,
+								STATUS_DESTROYED, null, -1, -1);
+					}
+
+					@Override
+					public void surfaceCreated(SurfaceHolder holder) {
+						((OnUiListener) mContext).onLifecycle(index,
+								STATUS_CREATED, holder.getSurface(), -1, -1);
+					}
+
+					@Override
+					public void surfaceChanged(SurfaceHolder holder,
+							int format, int width, int height) {
+						((OnUiListener) mContext).onLifecycle(index,
+								STATUS_CHANGED, holder.getSurface(), width,
+								height);
+					}
+				});
+			}
+
+			return view;
 		}
 
 		public Channel getChannel() {
 			return mChannel;
 		}
 
-	}
-
-	public static boolean isApiLessThan(int apiLevel) {
-		if (android.os.Build.VERSION.SDK_INT < apiLevel) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 }

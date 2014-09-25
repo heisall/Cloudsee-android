@@ -9,7 +9,7 @@ public class Consts {
 	public static final String SD_CARD_PATH = Environment
 			.getExternalStorageDirectory().getPath() + File.separator;
 
-	public static final String LOG_PATH = SD_CARD_PATH + "CSL";
+	public static final String LOG_PATH = SD_CARD_PATH + "JCS";
 	public static final String ACCOUNT_PATH = SD_CARD_PATH + "ACCOUNT";
 
 	public static final String APP_NAME = "CloudSEE";

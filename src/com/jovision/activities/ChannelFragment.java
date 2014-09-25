@@ -33,8 +33,6 @@ public class ChannelFragment extends BaseFragment {
 	private ChannelAdapter channelAdapter;
 	boolean localFlag = false;
 
-	private float pro = 0.2f;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// Bundle bundle = getArguments();
@@ -61,10 +59,16 @@ public class ChannelFragment extends BaseFragment {
 		mActivity.getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
 		channelGridView = (GridView) mParent
 				.findViewById(R.id.channel_gridview);
-		// channelGridView.setVerticalSpacing((pro * disMetrics / 5).);
 
 		localFlag = Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 				.get(Consts.LOCAL_LOGIN));
+	}
+
+	@Override
+	public void onResume() {
+		mActivity.onNotify(Consts.CHANNEL_FRAGMENT_ONRESUME, deviceIndex, 0,
+				null);
+		super.onResume();
 	}
 
 	// 设置data
@@ -98,15 +102,18 @@ public class ChannelFragment extends BaseFragment {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.CHANNEL_ITEM_CLICK: {// 通道单击事件
-			channelAdapter.setShowDelete(false);
-			channelAdapter.notifyDataSetChanged();
-			((BaseActivity) mActivity).showTextToast(arg1 + "");
-			Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-			String devJsonString = BeanUtil.deviceListToString(deviceList);
-			intentPlay.putExtra("DeviceList", devJsonString);
-			intentPlay.putExtra("DeviceIndex", deviceIndex);
-			intentPlay.putExtra("ChannelIndex", arg1);
-			mActivity.startActivity(intentPlay);
+			boolean changeRes = channelAdapter.setShowDelete(false);
+			if (changeRes) {
+				channelAdapter.notifyDataSetChanged();
+			} else {
+				((BaseActivity) mActivity).showTextToast(arg1 + "");
+				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
+				String devJsonString = BeanUtil.deviceListToString(deviceList);
+				intentPlay.putExtra("DeviceList", devJsonString);
+				intentPlay.putExtra("DeviceIndex", deviceIndex);
+				intentPlay.putExtra("ChannelIndex", arg1);
+				mActivity.startActivity(intentPlay);
+			}
 			break;
 		}
 		case Consts.CHANNEL_ITEM_LONG_CLICK: {// 通道长按事件
@@ -216,7 +223,7 @@ public class ChannelFragment extends BaseFragment {
 		protected Integer doInBackground(String... params) {
 			int delRes = -1;
 			int delDevIndex = Integer.parseInt(params[0]);
-			int delChannelIndex = Integer.parseInt(params[1]);
+			// int delChannelIndex = Integer.parseInt(params[1]);
 			Device modifyDev = deviceList.get(delDevIndex);
 			try {
 				if (localFlag) {// 本地添加
@@ -273,12 +280,14 @@ public class ChannelFragment extends BaseFragment {
 			((BaseActivity) mActivity).dismissDialog();
 			if (0 == result) {
 				((BaseActivity) mActivity)
-						.showTextToast(R.string.del_channel_succ);
+						.showTextToast(R.string.add_channel_succ);
 				channelAdapter.setShowDelete(false);
+				channelAdapter.setData(deviceList.get(deviceIndex)
+						.getChannelList(), disMetrics.widthPixels);
 				channelAdapter.notifyDataSetChanged();
 			} else {
 				((BaseActivity) mActivity)
-						.showTextToast(R.string.del_channel_failed);
+						.showTextToast(R.string.add_channel_failed);
 			}
 		}
 

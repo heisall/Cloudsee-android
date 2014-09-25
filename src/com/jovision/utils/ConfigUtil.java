@@ -258,15 +258,14 @@ public class ConfigUtil {
 	/**
 	 * 开启广播
 	 */
-	public void startBroadCast() {
+	public static void startBroadCast() {
 		Jni.searchLanServer(9400, 6666);
-		Jni.searchLanDevice("", 0, 0, 0, "", 2000, 0);// 55296
 	}
 
 	/**
 	 * 停止广播
 	 */
-	public void stopBroadCast() {
+	public static void stopBroadCast() {
 		Jni.stopSearchLanServer();
 	}
 

@@ -44,8 +44,15 @@ public class ChannelAdapter extends BaseAdapter {
 	}
 
 	// 控制是否显示删除按钮
-	public void setShowDelete(boolean flag) {
-		showDelete = flag;
+	public boolean setShowDelete(boolean flag) {
+		boolean changeSucc;
+		if (showDelete == flag) {
+			changeSucc = false;
+		} else {
+			showDelete = flag;
+			changeSucc = true;
+		}
+		return changeSucc;
 	}
 
 	@Override
@@ -106,8 +113,10 @@ public class ChannelAdapter extends BaseAdapter {
 		} else {// 普通通道
 			if (showDelete) {
 				channelHolder.channelDel.setVisibility(View.VISIBLE);
+				channelHolder.channelEdit.setVisibility(View.VISIBLE);
 			} else {
 				channelHolder.channelDel.setVisibility(View.GONE);
+				channelHolder.channelEdit.setVisibility(View.GONE);
 			}
 			final int channel = channelList.get(position).getChannel();
 			channelHolder.channelName.setText(channelList.get(position)

@@ -9,7 +9,7 @@ public class Consts {
 	public static final String SD_CARD_PATH = Environment
 			.getExternalStorageDirectory().getPath() + File.separator;
 
-	public static final String LOG_PATH = SD_CARD_PATH + "CSL";
+	public static final String LOG_PATH = SD_CARD_PATH + "JCS";
 	public static final String ACCOUNT_PATH = SD_CARD_PATH + "ACCOUNT";
 
 	public static final String APP_NAME = "CloudSEE";
@@ -102,7 +102,7 @@ public class Consts {
 	public static final int GUID_FUNCTION = 0xB4;
 
 	/** tab页 onstart */
-	public static final int TAB_ONSTART = 1;
+	public static final int TAB_ONRESUME = 1;
 	/** JVMyDeviceFragmentActivity */
 	public static final int DEVICE_GETDATA_SUCCESS = 2;// 设备加载成功--
 	public static final int DEVICE_GETDATA_FAILED = 3;// 设备加载失败--
@@ -119,6 +119,10 @@ public class Consts {
 	public static final int CHANNEL_ITEM_DEL_CLICK = 22;// 通道删除按钮事件--
 	public static final int CHANNEL_ADD_CLICK = 23;// 通道添加事件--
 	public static final int CHANNEL_EDIT_CLICK = 24;// 通道删除按钮事件--
+
+	/** ChannelFragment onResume */
+	public static final int CHANNEL_FRAGMENT_ONRESUME = 40;// ChannelFragment
+															// onResume
 
 	/** 引导界面滑屏 */
 	public static final int GUID_PAGE_SCROLL = 500;// --

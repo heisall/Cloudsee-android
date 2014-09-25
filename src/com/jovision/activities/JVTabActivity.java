@@ -68,7 +68,7 @@ public class JVTabActivity extends BaseActivity {
 		super.onResume();
 		BaseFragment currentFrag = mFragments[currentIndex];
 		if (null != currentFrag) {
-			((IHandlerLikeNotify) currentFrag).onNotify(Consts.TAB_ONSTART, 0,
+			((IHandlerLikeNotify) currentFrag).onNotify(Consts.TAB_ONRESUME, 0,
 					0, null);
 		}
 		MyLog.v(TAG, "TAB_onResume");

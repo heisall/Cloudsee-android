@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/device_color_2"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingLeft="10dp"
@@ -19,21 +19,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="演示点1" />
+            android:text="演示点1"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/righttextview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="2014年" />
+            android:text="2014年"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/demo_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:src="@drawable/device_icon_en" />
+        android:layout_marginTop="5dp" />
 
 </LinearLayout>

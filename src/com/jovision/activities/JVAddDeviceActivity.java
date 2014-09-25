@@ -118,14 +118,19 @@ public class JVAddDeviceActivity extends BaseActivity {
 
 		if ("".equalsIgnoreCase(devNum)) {// 云视通号不可为空
 			showTextToast(R.string.login_str_device_ytnum_notnull);
+			return;
 		} else if (!ConfigUtil.checkYSTNum(devNum)) {// 验证云视通号是否合法
 			showTextToast(R.string.increct_yst_tips);
+			return;
 		} else if ("".equalsIgnoreCase(userName)) {// 用户名不可为空
 			showTextToast(R.string.login_str_device_account_notnull);
+			return;
 		} else if (!ConfigUtil.checkDeviceUsername(userName)) {// 用户名是否合法
 			showTextToast(R.string.login_str_device_account_error);
+			return;
 		} else if (!ConfigUtil.checkDevicePwd(userPwd)) {
 			showTextToast(R.string.login_str_device_pass_error);
+			return;
 		} else {
 			// 判断一下是否已存在列表中
 			boolean find = false;

@@ -436,6 +436,8 @@
     <!-- ChannelFragment -->
     <string name="del_channel_succ">通道删除成功</string>
     <string name="del_channel_failed">通道删除失败</string>
+    <string name="add_channel_succ">通道删除成功</string>
+    <string name="add_channel_failed">通道删除失败</string>
 
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">请在此输入您的问题或建议</string>

@@ -86,6 +86,12 @@
     <string name="login_str_add">添加</string>
     <string name="login_str_qq_autho_faild">QQ授权失败</string>
     <string name="login_str_qq_autho_success">QQ授权成功</string>
+    <string name="more_help">"帮助界面"</string>
+    <string name="user_name">账号名称</string>
+    <string name="last_time">最后一次登录时间：</string>
+    <string name="more_modify">修改资料</string>
+    <string name="more_findpassword">找回密码</string>
+    <string name="more_cancel">注销账号</string>
     <string name="str_test_3G">目前处于2G/3G网络，观看视频会产生大量流量费用（由运营商收取），建议使用Wi-Fi网络.</string>
     <string name="str_setting_network">网络连接异常，请检查网络设置</string>
     <string name="tips">提示</string>

@@ -60,7 +60,11 @@
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
                 android:textStyle="bold" />
+<<<<<<< Updated upstream
         </LinearLayout>
+=======
+        </LinearLayout>
+>>>>>>> Stashed changes
         -->
 
     </RelativeLayout>

@@ -52,7 +52,7 @@
 		        android:layout_height="wrap_content"
 		        android:id="@+id/bindpassword2"
 		        android:password="true"
-		        android:hint="@string/str_enter_pass2"/>
+		        android:hint="@string/str_enter_pass2"/>
         -->
 
         <EditText

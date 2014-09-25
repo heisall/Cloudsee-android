@@ -19,7 +19,7 @@ import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.mails.MailSenderInfo;
 
-public class JVFeedbackActivity extends BaseActivity implements OnClickListener {
+public class JVFeedbackActivity extends BaseActivity {
 
 	private Button back; // 后退
 	private TextView title; // 标题
@@ -61,12 +61,6 @@ public class JVFeedbackActivity extends BaseActivity implements OnClickListener 
 	}
 
 	@Override
-	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected void initSettings() {
 		// TODO Auto-generated method stub
 
@@ -76,7 +70,7 @@ public class JVFeedbackActivity extends BaseActivity implements OnClickListener 
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.feedback_layout);
-		back = (Button) findViewById(R.id.back);
+		back = (Button) findViewById(R.id.btn_left);
 		title = (TextView) findViewById(R.id.currentmenu);
 		commit = (Button) findViewById(R.id.btn_right);
 		content = (EditText) findViewById(R.id.content);
@@ -139,7 +133,7 @@ public class JVFeedbackActivity extends BaseActivity implements OnClickListener 
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
-			case R.id.back:
+			case R.id.btn_left:
 				finish();
 				break;
 			case R.id.btn_right:
@@ -148,7 +142,6 @@ public class JVFeedbackActivity extends BaseActivity implements OnClickListener 
 					showTextToast(R.string.str_notice_content);
 				} else {
 					createDialog("");
-
 					String connectStr = connection.getText().toString();// 联系方式
 					String contentStr = content.getText().toString();// 反馈内容
 					if (0 != connectStr.length()) {

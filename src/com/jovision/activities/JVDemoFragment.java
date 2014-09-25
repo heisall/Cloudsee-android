@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.DemoListAdapter;
 import com.jovision.newbean.BeanUtil;
 import com.jovision.newbean.Device;
@@ -42,7 +42,7 @@ public class JVDemoFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
-		mActivity = getActivity();
+		mActivity = (BaseActivity) getActivity();
 
 		demoList.add(new Device("", 9101, "S", 53530352, "admin", "123", true,
 				1, 0));
@@ -91,4 +91,16 @@ public class JVDemoFragment extends BaseFragment {
 		}
 
 	};
+
+	@Override
+	public void onHandler(int what, int arg1, int arg2, Object obj) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onNotify(int what, int arg1, int arg2, Object obj) {
+		fragHandler.sendMessage(fragHandler
+				.obtainMessage(what, arg1, arg2, obj));
+	}
 }

@@ -1,11 +1,10 @@
 package com.jovision.activities;
 
+import android.R;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.jovetech.CloudSee.temp.R;
 
 /**
  * 更多
@@ -23,14 +22,20 @@ public class JVMoreFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
-		mActivity = getActivity();
+		mActivity = (BaseActivity) getActivity();
 
 	}
 
 	@Override
-	public void onTabAction(int what, int arg1, int arg2, Object obj) {
+	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onNotify(int what, int arg1, int arg2, Object obj) {
+		fragHandler.sendMessage(fragHandler
+				.obtainMessage(what, arg1, arg2, obj));
 	}
 
 }

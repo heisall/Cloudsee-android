@@ -3,6 +3,7 @@ package com.jovision.activities;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.R;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Message;
@@ -21,7 +22,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Handler.LoginHandler;
 import com.jovision.Handler.RegistHandler;

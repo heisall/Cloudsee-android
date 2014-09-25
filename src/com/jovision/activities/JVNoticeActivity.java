@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import android.R;
 import android.app.ProgressDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -7,7 +8,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.PushAdapter;
 import com.jovision.commons.BaseApp;
 import com.jovision.commons.JVConst;

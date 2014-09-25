@@ -2,17 +2,17 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.R;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.activities.JVChannelsActivity.OnChannelListener;
 import com.jovision.adapters.ChannelAdapter;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -21,9 +21,10 @@ import com.jovision.newbean.Channel;
 import com.jovision.newbean.Device;
 import com.jovision.utils.DeviceUtil;
 
-public class ChannelFragment extends BaseFragment implements OnChannelListener {
+public class ChannelFragment extends BaseFragment {
 
 	private String TAG = "ChannelFragment";
+	DisplayMetrics disMetrics;
 
 	/** intent传递过来的设备和通道下标 */
 	private int deviceIndex;
@@ -31,6 +32,8 @@ public class ChannelFragment extends BaseFragment implements OnChannelListener {
 	private GridView channelGridView;
 	private ChannelAdapter channelAdapter;
 	boolean localFlag = false;
+
+	private float pro = 0.2f;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,10 +55,13 @@ public class ChannelFragment extends BaseFragment implements OnChannelListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mActivity = getActivity();
+		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
+		disMetrics = new DisplayMetrics();
+		mActivity.getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
 		channelGridView = (GridView) mParent
 				.findViewById(R.id.channel_gridview);
+		// channelGridView.setVerticalSpacing((pro * disMetrics / 5).);
 
 		localFlag = Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 				.get(Consts.LOCAL_LOGIN));
@@ -69,9 +75,10 @@ public class ChannelFragment extends BaseFragment implements OnChannelListener {
 			Device dev = deviceList.get(devIndex);
 			if (null != dev && null != dev.getChannelList()) {
 				if (null == channelAdapter) {
-					channelAdapter = new ChannelAdapter(mActivity);
+					channelAdapter = new ChannelAdapter(this);
 				}
-				channelAdapter.setData(dev.getChannelList());
+				channelAdapter.setData(dev.getChannelList(),
+						disMetrics.widthPixels);
 				channelGridView.setAdapter(channelAdapter);
 				channelAdapter.notifyDataSetChanged();
 			}
@@ -82,7 +89,13 @@ public class ChannelFragment extends BaseFragment implements OnChannelListener {
 	}
 
 	@Override
-	public void onChannel(int what, int arg1, int arg2, Object obj) {
+	public void onNotify(int what, int arg1, int arg2, Object obj) {
+		fragHandler.sendMessage(fragHandler
+				.obtainMessage(what, arg1, arg2, obj));
+	}
+
+	@Override
+	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.CHANNEL_ITEM_CLICK: {// 通道单击事件
 			channelAdapter.setShowDelete(false);
@@ -112,15 +125,15 @@ public class ChannelFragment extends BaseFragment implements OnChannelListener {
 		}
 		case Consts.CHANNEL_ADD_CLICK: { // 通道添加
 			((BaseActivity) mActivity).showTextToast("添加通道--" + arg1);
-			if (localFlag) {// 本地添加
-				AddChannelTask task = new AddChannelTask();
-				String[] strParams = new String[3];
-				strParams[0] = String.valueOf(deviceIndex);// 设备index
-				strParams[1] = String.valueOf(arg1);// 通道index
-				task.execute(strParams);
-			} else {
-
-			}
+			AddChannelTask task = new AddChannelTask();
+			String[] strParams = new String[3];
+			strParams[0] = String.valueOf(deviceIndex);// 设备index
+			strParams[1] = String.valueOf(arg1);// 通道index
+			task.execute(strParams);
+			break;
+		}
+		case Consts.CHANNEL_EDIT_CLICK: {// 通道编辑
+			((BaseActivity) mActivity).showTextToast("编辑通道--" + arg1);
 			break;
 		}
 		}

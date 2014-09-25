@@ -3,6 +3,7 @@ package com.jovision.adapters;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import android.R;
 import android.content.Context;
 import android.content.Intent;
 import android.util.DisplayMetrics;
@@ -16,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.MainApplication;

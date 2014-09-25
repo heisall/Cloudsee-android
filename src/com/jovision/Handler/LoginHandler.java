@@ -3,13 +3,13 @@ package com.jovision.Handler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.test.JVACCOUNT;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVBoundEmailActivity;

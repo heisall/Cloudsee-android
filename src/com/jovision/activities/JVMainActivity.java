@@ -1,9 +1,9 @@
 package com.jovision.activities;
 
+import android.R;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.DeviceListAdapter;
 import com.jovision.views.RefreshableMainListView;

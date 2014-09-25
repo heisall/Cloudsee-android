@@ -2,6 +2,7 @@ package com.jovision.adapters;
 
 import java.util.ArrayList;
 
+import android.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +14,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.MainApplication;
+import com.jovision.activities.BaseFragment;
 import com.jovision.newbean.Channel;
 
 public class ChannelAdapter extends BaseAdapter {
 	private ArrayList<Channel> channelList;
-	private Context mContext;
+	private BaseFragment mfragment;
 	private LayoutInflater inflater;
 
 	private int[] channelResArray = { R.drawable.channel_bg_1,
@@ -30,15 +30,17 @@ public class ChannelAdapter extends BaseAdapter {
 			R.drawable.channel_bg_8 };
 
 	private boolean showDelete = false;
+	private int screenWidth = 0;
 
-	public ChannelAdapter(Context con) {
-		mContext = con;
-		inflater = (LayoutInflater) mContext
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	public ChannelAdapter(BaseFragment fragment) {
+		mfragment = fragment;
+		inflater = (LayoutInflater) fragment.getActivity().getSystemService(
+				Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public void setData(ArrayList<Channel> dataList) {
+	public void setData(ArrayList<Channel> dataList, int width) {
 		channelList = dataList;
+		screenWidth = width;
 	}
 
 	// 控制是否显示删除按钮
@@ -72,21 +74,31 @@ public class ChannelAdapter extends BaseAdapter {
 			channelHolder.channelName = (TextView) convertView
 					.findViewById(R.id.channel_name);
 			channelHolder.channelDel = (ImageView) convertView
-					.findViewById(R.id.channel_delete_l);
+					.findViewById(R.id.channel_delete);
+			channelHolder.channelEdit = (RelativeLayout) convertView
+					.findViewById(R.id.channel_edit);
+			channelHolder.channelEditIV = (ImageView) convertView
+					.findViewById(R.id.channel_edit_iv);
+
 			convertView.setTag(channelHolder);
 		} else {
 			channelHolder = (ChannelHolder) convertView.getTag();
 		}
 
+		int w = screenWidth / 4;
+		int h = w - 20;
+		RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(w, h);
+		channelHolder.channelBG.setLayoutParams(rllp);
+
 		if (position >= channelList.size()) {// 最后一个通道用于添加通道
-			channelHolder.channelName.setText("十");
+			channelHolder.channelName.setText("+");
 			channelHolder.channelDel.setVisibility(View.GONE);
+			channelHolder.channelEdit.setVisibility(View.GONE);
 			channelHolder.channelBG.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View arg0) {
-					((MainApplication) mContext.getApplicationContext())
-							.onNotify(Consts.CHANNEL_ADD_CLICK, 0, 0, null);
+					mfragment.onNotify(Consts.CHANNEL_ADD_CLICK, 0, 0, null);
 
 				}
 			});
@@ -109,9 +121,8 @@ public class ChannelAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View arg0) {
-					((MainApplication) mContext.getApplicationContext())
-							.onNotify(Consts.CHANNEL_ITEM_CLICK, channel, 0,
-									null);
+					mfragment.onNotify(Consts.CHANNEL_ITEM_CLICK, channel, 0,
+							null);
 
 				}
 			});
@@ -121,9 +132,8 @@ public class ChannelAdapter extends BaseAdapter {
 
 				@Override
 				public boolean onLongClick(View arg0) {
-					((MainApplication) mContext.getApplicationContext())
-							.onNotify(Consts.CHANNEL_ITEM_LONG_CLICK, channel,
-									0, null);
+					mfragment.onNotify(Consts.CHANNEL_ITEM_LONG_CLICK, channel,
+							0, null);
 					return false;
 				}
 			});
@@ -133,12 +143,32 @@ public class ChannelAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View arg0) {
-					((MainApplication) mContext.getApplicationContext())
-							.onNotify(Consts.CHANNEL_ITEM_DEL_CLICK, channel,
-									0, null);
+					mfragment.onNotify(Consts.CHANNEL_ITEM_DEL_CLICK, channel,
+							0, null);
 
 				}
 			});
+
+			// 编辑通道
+			channelHolder.channelEdit.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					mfragment.onNotify(Consts.CHANNEL_EDIT_CLICK, channel, 0,
+							null);
+
+				}
+			});
+			channelHolder.channelEditIV
+					.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View arg0) {
+							mfragment.onNotify(Consts.CHANNEL_EDIT_CLICK,
+									channel, 0, null);
+
+						}
+					});
 		}
 
 		return convertView;
@@ -147,8 +177,10 @@ public class ChannelAdapter extends BaseAdapter {
 	class ChannelHolder {
 		RelativeLayout channelBG;
 		TextView channelName;
-
 		ImageView channelDel;
+
+		RelativeLayout channelEdit;
+		ImageView channelEditIV;
 	}
 
 }

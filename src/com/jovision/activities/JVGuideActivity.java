@@ -3,6 +3,7 @@ package com.jovision.activities;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R;
 import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;

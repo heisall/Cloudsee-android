@@ -1,8 +1,10 @@
 package com.jovision.activities;
 
+import android.R;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,17 +13,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
-import com.jovision.activities.JVTabActivity.OnTabListener;
-import com.jovision.commons.MyLog;
+import com.jovision.IHandlerLikeNotify;
+import com.jovision.IHandlerNotify;
 
 /**
  * Fragment 基类
  */
-public class BaseFragment extends Fragment implements OnTabListener {
+public abstract class BaseFragment extends Fragment implements IHandlerNotify,
+		IHandlerLikeNotify {
 	private final String TAG = "BaseFragment";
+
+	protected FragHandler fragHandler = new FragHandler(this);
+	IHandlerNotify fragNotify = this;
+
 	protected View mParent;
-	protected FragmentActivity mActivity;
+	protected BaseActivity mActivity;
 
 	/** topBar */
 	protected LinearLayout topBar;
@@ -44,6 +50,23 @@ public class BaseFragment extends Fragment implements OnTabListener {
 	// return f;
 	// }
 
+	protected static class FragHandler extends Handler {
+
+		private BaseFragment fragment;
+
+		public FragHandler(BaseFragment fragment) {
+			this.fragment = fragment;
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			fragment.fragNotify
+					.onHandler(msg.what, msg.arg1, msg.arg2, msg.obj);
+			super.handleMessage(msg);
+		}
+
+	}
+
 	public int getShownIndex() {
 		return getArguments().getInt("index", 0);
 	}
@@ -59,8 +82,14 @@ public class BaseFragment extends Fragment implements OnTabListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mActivity = getActivity();
+		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
+
+		if (null == mActivity
+				| false == mActivity instanceof IHandlerLikeNotify) {
+			throw new ClassCastException(
+					"mActivity must an IHandlerLikeNotify impl");
+		}
 
 		topBar = (LinearLayout) mParent.findViewById(R.id.top_bar);
 		leftBtn = (Button) mParent.findViewById(R.id.btn_left);
@@ -89,10 +118,5 @@ public class BaseFragment extends Fragment implements OnTabListener {
 		}
 
 	};
-
-	@Override
-	public void onTabAction(int what, int arg1, int arg2, Object obj) {
-		MyLog.v("BaseFragment", "onTabAction");
-	}
 
 }

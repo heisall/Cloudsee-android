@@ -21,7 +21,9 @@ import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ListViewUtil;
+import com.jovision.utils.UserUtil;
 
 /**
  * 更多
@@ -122,6 +124,8 @@ public class JVMoreFragment extends BaseFragment {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.more_cancle:// 注销
+				ConfigUtil.logOut();
+				UserUtil.resetAllUser();
 
 				MyActivityManager.getActivityManager().popAllActivityExceptOne(
 						JVLoginActivity.class);

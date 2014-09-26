@@ -86,6 +86,8 @@ public class JVLoginActivity extends BaseActivity {
 	protected void initUi() {
 		setContentView(R.layout.login_layout);
 
+		userList = UserUtil.getUserList();
+
 		/** userlogin Fuction */
 		userNameET = (EditText) findViewById(R.id.username_et);
 		passwordET = (EditText) findViewById(R.id.password_et);
@@ -95,13 +97,9 @@ public class JVLoginActivity extends BaseActivity {
 		registBtn = (Button) findViewById(R.id.regist_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
 
-		if ("".equalsIgnoreCase(statusHashMap.get(Consts.KEY_USERNAME))) {
-			if (null != userList && 0 != userList.size()) {
-				userNameET.setText(userList.get(0).getUserName());
-				userNameET.setSelection(userList.get(0).getUserName().length());
-			}
-		} else {
-			userNameET.setText(statusHashMap.get(Consts.KEY_USERNAME));
+		if (null != userList && 0 != userList.size()) {
+			userNameET.setText(userList.get(0).getUserName());
+			userNameET.setSelection(userList.get(0).getUserName().length());
 		}
 		userNameET.addTextChangedListener(new TextWatcher() {
 
@@ -130,8 +128,6 @@ public class JVLoginActivity extends BaseActivity {
 		if (null == userList || 0 == userList.size()) {
 			moreUserIV.setVisibility(View.GONE);
 		}
-
-		userList = UserUtil.getUserList();
 		// 设置点击下拉箭头图片事件，点击弹出PopupWindow浮动下拉框
 		moreUserIV.setOnClickListener(new OnClickListener() {
 			@Override
@@ -139,7 +135,8 @@ public class JVLoginActivity extends BaseActivity {
 				if (pop == null) {
 					if (null != userList && 0 != userList.size()) {
 						userAdapter = new UserSpinnerAdapter(
-								JVLoginActivity.this, userList, "");
+								JVLoginActivity.this, "");
+						userAdapter.setData(userList);
 						userListView = new ListView(JVLoginActivity.this);
 						userListView.setDivider(null);
 						pop = new PopupWindow(userListView, userNameLayout
@@ -210,20 +207,17 @@ public class JVLoginActivity extends BaseActivity {
 		@Override
 		public void onItemClick(AdapterView<?> adapterView, View view,
 				int index, long arg3) {
-			try {
-				userListIndex = index;
-				ImageView deleUserIV = (ImageView) adapterView
-						.getChildAt(index).findViewById(R.id.otheruser_del);
-				deleUserIV.setOnClickListener(myOnClickListener);
-
-				userNameET.setText(userList.get(index).getUserName());
-				passwordET.setText(userList.get(index).getUserPwd());
-				if (pop.isShowing()) {
-					pop.dismiss();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			userListIndex = index;
+			userNameET.setText(userList.get(index).getUserName());
+			passwordET.setText(userList.get(index).getUserPwd());
+			if (pop.isShowing()) {
+				pop.dismiss();
 			}
+
+			View deleUserIV = adapterView.getChildAt(index).findViewById(
+					R.id.otheruser_del);
+			deleUserIV.setOnClickListener(myOnClickListener);
+
 		}
 
 	};
@@ -242,7 +236,8 @@ public class JVLoginActivity extends BaseActivity {
 			}
 			/** 删除列表用户 */
 			case R.id.otheruser_del: {
-				userList.remove(userListIndex);
+				userList = UserUtil.deleteUser(userListIndex);
+				userAdapter.setData(userList);
 				userAdapter.notifyDataSetChanged();
 				break;
 			}
@@ -350,12 +345,12 @@ public class JVLoginActivity extends BaseActivity {
 						statusHashMap.get(Consts.KEY_USERNAME));
 				MySharedPreference.putString("PassWord",
 						statusHashMap.get(Consts.KEY_PASSWORD));
-				dismissDialog();
+
 				UserBean user = new UserBean();
 				user.setPrimaryID(System.currentTimeMillis());
 				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
-				// SqlLiteUtil.addUser(user);
+				user.setLastLogin(1);
 				UserUtil.addUser(user);
 				intent.setClass(JVLoginActivity.this, JVTabActivity.class);
 				JVLoginActivity.this.startActivity(intent);
@@ -363,7 +358,6 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.RESET_NAME_AND_PASS: {
-				dismissDialog();
 				intent.setClass(JVLoginActivity.this,
 						JVEditOldUserInfoActivity.class);
 				JVLoginActivity.this.startActivity(intent);
@@ -377,7 +371,6 @@ public class JVLoginActivity extends BaseActivity {
 				statusHashMap.put(Consts.LOCAL_LOGIN, "true");
 				// SqlLiteUtil.addUser(user1);
 				UserUtil.addUser(user1);
-				dismissDialog();
 				String resultJson = JVACCOUNT.GetAccountInfo();
 				JSONObject json = null;
 				try {
@@ -399,12 +392,10 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.PASSWORD_ERROR: {
-				dismissDialog();
 				showTextToast(R.string.str_userpass_error);
 				break;
 			}
 			case JVAccountConst.SESSION_NOT_EXSIT: {
-				dismissDialog();
 				showTextToast(R.string.str_session_not_exist);
 				break;
 			}
@@ -413,12 +404,10 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.USER_NOT_EXIST: {
-				dismissDialog();
 				showTextToast(R.string.str_user_not_exist);
 				break;
 			}
 			case JVAccountConst.LOGIN_FAILED_1: {
-				dismissDialog();
 				if (-5 == loginRes2) {
 					showTextToast(R.string.str_error_code_5);
 				} else if (-6 == loginRes2) {
@@ -431,17 +420,18 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.LOGIN_FAILED_2: {
-				dismissDialog();
 				showTextToast(R.string.str_other_error);
 				break;
 			}
 			}
+
+			dismissDialog();
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			JVLoginActivity.this.createDialog("");
+			createDialog("");
 		}
 
 		@Override

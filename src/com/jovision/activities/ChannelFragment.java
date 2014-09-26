@@ -379,7 +379,7 @@ public class ChannelFragment extends BaseFragment {
 						Channel channel = new Channel();
 						channel.setIndex(addIndexList.get(i));
 						channel.setChannel(addIndexList.get(i));
-						channel.setChannelName(modifyDev + "_"
+						channel.setChannelName(modifyDev.getFullNo() + "_"
 								+ addIndexList.get(i));
 						MyLog.v(TAG, "addIndex=" + addIndexList.get(i));
 						modifyDev.getChannelList().add(addIndexList.get(i),

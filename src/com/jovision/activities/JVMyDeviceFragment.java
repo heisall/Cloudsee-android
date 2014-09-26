@@ -34,7 +34,6 @@ import com.jovision.bean.Device;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
-import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.ImageViewPager;
@@ -199,31 +198,27 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
-		String devJsonString = MySharedPreference.getString(Consts.DEVICE_LIST);
-		myDeviceList = BeanUtil.stringToDevList(devJsonString);
-		myDLAdapter.setData(myDeviceList);
-		myDLAdapter.notifyDataSetChanged();
 		super.onResume();
 	}
 
 	@Override
 	public void onDestroy() {
-		imageScroll.stopTimer();
 		super.onDestroy();
+		imageScroll.stopTimer();
 	}
 
 	@Override
 	public void onPause() {
+		super.onPause();
 		String devJsonString = BeanUtil.deviceListToString(myDeviceList);
 		MySharedPreference.putString(Consts.DEVICE_LIST, devJsonString);
 		imageScroll.stopTimer();
-		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		imageScroll.stopTimer();
 		super.onStop();
+		imageScroll.stopTimer();
 	}
 
 	/**
@@ -259,10 +254,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 		// "onTabAction:what="+what+";arg1="+arg1+";arg2="+arg1+";obj="+obj.toString());
 		switch (what) {
 		case Consts.TAB_ONRESUME: {// activity起来后开始加载设备
-			((BaseActivity) mActivity).createDialog("");
-			GetDevTask task = new GetDevTask();
-			String[] strParams = new String[3];
-			task.execute(strParams);
+			String devJsonString = MySharedPreference
+					.getString(Consts.DEVICE_LIST);
+			if ("".equalsIgnoreCase(devJsonString)) {
+				((BaseActivity) mActivity).createDialog("");
+				GetDevTask task = new GetDevTask();
+				String[] strParams = new String[3];
+				task.execute(strParams);
+			} else {
+				myDeviceList = BeanUtil.stringToDevList(devJsonString);
+				myDLAdapter.setData(myDeviceList);
+				myDeviceListView.setAdapter(myDLAdapter);
+			}
+
 			break;
 		}
 		case Consts.GET_DEVICE_LIST_FUNCTION: {
@@ -566,16 +570,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 	}
 
 	// 获取设备列表线程
-	private class GetDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+	class GetDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
 			int getRes = 0;
 			try {
 				if (!localFlag) {// 非本地登录，无论是否刷新都执行
-					// 获取所有设备列表和通道列表
-					// 如果设备请求失败，多请求一次
-					// ArrayList<Device> temlist = myDeviceList;
+					// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次
 					myDeviceList = DeviceUtil
 							.getUserDeviceList(mActivity.statusHashMap
 									.get(Consts.KEY_USERNAME));
@@ -603,53 +605,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 					}
 
 				} else if (localFlag) {// 本地登录且是刷新
-
-					// ArrayList<Device> demoList = new ArrayList<Device>();
-					// demoList.add(new Device("", 9101, "S", 53530352, "admin",
-					// "123", true, 1, 0));
-					// demoList.add(new Device("", 9101, "A", 361, "abc", "123",
-					// false, 1, 1));
-					// demoList.add(new Device("", 9101, "S", 26680286, "admin",
-					// "123", true, 1, 2));
-					// demoList.add(new Device("", 9101, "S", 52942216, "admin",
-					// "",
-					// false, 1, 3));
 					String devJsonString = MySharedPreference
 							.getString(Consts.DEVICE_LIST);
-					// BeanUtil.myDeviceListToString(demoList);
-					// String devJsonString =
-					// MySharedPreference.getString(Consts.DEVICE_LIST);
 					myDeviceList = BeanUtil.stringToDevList(devJsonString);
-					MyLog.v(TAG, "size=" + myDeviceList.size());
 				}
 
 				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
-																		// msg.what
-																		// =
-																		// DEVICE_GETDATA_SUCCESS;
-
-					if (ConfigUtil.is3G(mActivity, false)) {// 3G直接加载设备
-						JVMyDeviceFragment.this.onNotify(
-								Consts.GET_DEVICE_LIST_FUNCTION,
-								Consts.DEVICE_GETDATA_SUCCESS, 0, null);
-					} else {
-						JVMyDeviceFragment.this.onNotify(
-								Consts.GET_DEVICE_LIST_FUNCTION,
-								Consts.DEVICE_GETDATA_SUCCESS, 0, myDeviceList);
-					}
-
+					getRes = Consts.DEVICE_GETDATA_SUCCESS;
 				} else if (null != myDeviceList && 0 == myDeviceList.size()) {// 无数据
-					MyLog.v(TAG, "nonedata");
-					JVMyDeviceFragment.this.onNotify(
-							Consts.GET_DEVICE_LIST_FUNCTION,
-							Consts.DEVICE_NO_DEVICE, 0, myDeviceList);
+					getRes = Consts.DEVICE_NO_DEVICE;
 				} else {// 获取设备失败
-					JVMyDeviceFragment.this.onNotify(
-							Consts.GET_DEVICE_LIST_FUNCTION,
-							Consts.DEVICE_GETDATA_FAILED, 0, myDeviceList);
+					getRes = Consts.DEVICE_GETDATA_FAILED;
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 			return getRes;
@@ -664,14 +632,32 @@ public class JVMyDeviceFragment extends BaseFragment {
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
-			if (0 == result) {
-				((BaseActivity) mActivity)
-						.showTextToast(R.string.del_device_succ);
-				myDLAdapter.setShowDelete(false);
-				myDLAdapter.notifyDataSetChanged();
-			} else {
-				((BaseActivity) mActivity)
-						.showTextToast(R.string.del_device_failed);
+			switch (result) {
+			// 从服务器端获取设备成功
+			case Consts.DEVICE_GETDATA_SUCCESS: {
+				// 给设备列表设置小助手
+				PlayUtil.setHelperToList(myDeviceList);
+				PlayUtil.broadCast(mActivity);
+				myDLAdapter.setData(myDeviceList);
+				myDeviceListView.setAdapter(myDLAdapter);
+				((BaseActivity) mActivity).dismissDialog();
+				break;
+			}
+			// 从服务器端获取设备成功，但是没有设备
+			case Consts.DEVICE_NO_DEVICE: {
+				MyLog.v(TAG, "nonedata-too");
+				myDLAdapter.setData(myDeviceList);
+				myDeviceListView.setAdapter(myDLAdapter);
+				((BaseActivity) mActivity).dismissDialog();
+				break;
+			}
+			// 从服务器端获取设备失败
+			case Consts.DEVICE_GETDATA_FAILED: {
+				myDLAdapter.setData(myDeviceList);
+				myDeviceListView.setAdapter(myDLAdapter);
+				((BaseActivity) mActivity).dismissDialog();
+				break;
+			}
 			}
 		}
 
@@ -686,5 +672,4 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
-
 }

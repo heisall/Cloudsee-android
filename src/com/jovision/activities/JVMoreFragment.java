@@ -47,6 +47,8 @@ public class JVMoreFragment extends BaseFragment {
 	private RelativeLayout more_cancle;
 	// 用户名称
 	private TextView more_username;
+	// 用户名
+	private String more_name;
 	// 最后一次登录时间
 	private TextView more_lasttime;
 	// 图片数组
@@ -82,6 +84,11 @@ public class JVMoreFragment extends BaseFragment {
 	private void intiUi(View view) {
 		activity = getActivity();
 		name = activity.getResources().getStringArray(R.array.name);
+		if (JVMyDeviceFragment.localFlag) {
+			more_name = "游客A";
+		} else {
+			more_name = JVMyDeviceFragment.devicename;
+		}
 		initDatalist();
 		more_cancle = (RelativeLayout) view.findViewById(R.id.more_cancle);
 		more_modify = (TextView) view.findViewById(R.id.more_modify);
@@ -96,6 +103,7 @@ public class JVMoreFragment extends BaseFragment {
 		more_listView.setAdapter(adapter);
 		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
 
+		more_username.setText(more_name);
 		more_cancle.setOnClickListener(myOnClickListener);
 		more_modify.setOnClickListener(myOnClickListener);
 		more_findpassword.setOnClickListener(myOnClickListener);

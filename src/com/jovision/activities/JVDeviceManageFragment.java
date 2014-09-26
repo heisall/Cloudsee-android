@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.commons.MyLog;
 
 /**
  * 设备管理

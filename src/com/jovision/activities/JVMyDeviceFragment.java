@@ -83,7 +83,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		inflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		refreshableView = (RefreshableView) mParent
-				.findViewById(R.id.refreshable_view);
+				.findViewById(R.id.device_refreshable_view);
 		adView = inflater.inflate(R.layout.ad_layout, null);
 
 		/** 广告条 */
@@ -112,6 +112,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 				refreshableView.finishRefreshing();
 			}
+
+			@Override
+			public void onLayoutTrue() {
+				refreshableView.finishRefreshing();
+			}
+
 		}, 0);
 
 		broadTimer = new Timer();

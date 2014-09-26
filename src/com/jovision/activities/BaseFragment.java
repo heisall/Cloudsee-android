@@ -59,9 +59,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_mydevice, container,
-				false);
-		return view;
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override

@@ -44,7 +44,7 @@ public class JVDemoFragment extends BaseFragment {
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
 		refreshableView = (RefreshableView) mParent
-				.findViewById(R.id.refreshable_view);
+				.findViewById(R.id.demo_refreshable_view);
 		demoAdapter = new DemoListAdapter(mActivity);
 		demoListView = (ListView) mParent.findViewById(R.id.demo_listview);
 		demoListView.setOnItemClickListener(myOnItemClickListener);
@@ -58,6 +58,12 @@ public class JVDemoFragment extends BaseFragment {
 				}
 				refreshableView.finishRefreshing();
 			}
+
+			@Override
+			public void onLayoutTrue() {
+				refreshableView.finishRefreshing();
+			}
+
 		}, 0);
 		demoList.add(new Device("", 9101, "S", 53530352, "admin", "123", true,
 				1, 0));

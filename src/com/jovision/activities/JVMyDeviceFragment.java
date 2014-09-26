@@ -34,12 +34,7 @@ import com.jovision.bean.Device;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
-<<<<<<< HEAD
-import com.jovision.newbean.BeanUtil;
-import com.jovision.newbean.Device;
 import com.jovision.utils.ConfigUtil;
-=======
->>>>>>> 6c290f9c47514900e19c824b2f378750383c41e0
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.ImageViewPager;
@@ -59,27 +54,27 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private ImageViewPager imageScroll; // 图片容器
 	private LinearLayout ovalLayout; // 圆点容器
 	private List<View> listViews; // 图片组
-	/**弹出框*/
-	private Dialog initDialog;//显示弹出框
+	/** 弹出框 */
+	private Dialog initDialog;// 显示弹出框
 	private TextView dialogCancel;// 取消按钮
 	private TextView dialogCompleted;// 确定按钮
-	//设备名称
+	// 设备名称
 	private TextView device_name;
-	//设备号
+	// 设备号
 	private EditText device_numet;
-	//设备号码编辑键
+	// 设备号码编辑键
 	private ImageView device_numet_cancle;
-	//设备昵称
+	// 设备昵称
 	private EditText device_nicket;
-	//设备昵称编辑键
+	// 设备昵称编辑键
 	private ImageView device_niceet_cancle;
-	//设备用户名
+	// 设备用户名
 	private EditText device_nameet;
-	//设备用户名编辑键
+	// 设备用户名编辑键
 	private ImageView device_nameet_cancle;
-	//设备密码
+	// 设备密码
 	private EditText device_passwordet;
-	//设备密码编辑键
+	// 设备密码编辑键
 	private ImageView device_password_cancleI;
 	/** 设备列表 */
 	private ListView myDeviceListView;
@@ -204,6 +199,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
+		Log.i("TAG", "AAAAA");
 		String devJsonString = MySharedPreference.getString(Consts.DEVICE_LIST);
 		myDeviceList = BeanUtil.stringToDevList(devJsonString);
 		myDLAdapter.setData(myDeviceList);
@@ -373,73 +369,76 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 		}
 		case Consts.DEVICE_EDIT_CLICK: {// 设备编辑事件
-			initSummaryDialog(myDeviceList,arg1);
+			initSummaryDialog(myDeviceList, arg1);
 		}
 		}
 	}
-<<<<<<< HEAD
-	/**弹出框初始化*/
-	  private void initSummaryDialog( ArrayList<Device> myDeviceList, final int agr1) {
-			initDialog = new Dialog(mActivity, R.style.mydialog);
-			View view = LayoutInflater.from(mActivity).inflate(
-					R.layout.dialog_summary, null);
-			initDialog.setContentView(view);
-			dialogCancel = (TextView) view.findViewById(R.id.dialog_img_cancel);
-			dialogCompleted = (TextView) view.findViewById(R.id.dialog_img_completed);
-			device_name = (TextView)view.findViewById(R.id.device_name);
-			device_nicket = (EditText)view.findViewById(R.id.device_nicket);
-			device_niceet_cancle = (ImageView)view.findViewById(R.id.device_nicket_cancle);
-			device_nameet = (EditText)view.findViewById(R.id.device_nameet);
-			device_nameet_cancle = (ImageView)view.findViewById(R.id.device_nameet_cancle);
-			device_numet = (EditText)view.findViewById(R.id.device_numet);
-			device_numet_cancle = (ImageView)view.findViewById(R.id.device_numet_cancle);
-			device_passwordet = (EditText)view.findViewById(R.id.device_passwrodet);
-			device_password_cancleI =(ImageView)view.findViewById(R.id.device_passwrodet_cancle);
-			device_numet_cancle.setOnClickListener(myOnClickListener);
-			device_nameet_cancle.setOnClickListener(myOnClickListener);
-			device_niceet_cancle.setOnClickListener(myOnClickListener);
-			device_password_cancleI.setOnClickListener(myOnClickListener);
-			device_name.setText(myDeviceList.get(agr1).getFullNo());
-			device_numet.setText(myDeviceList.get(agr1).getFullNo());
-			device_nameet.setText(myDeviceList.get(agr1).getUser());
-			device_passwordet.setText(myDeviceList.get(agr1).getPwd());
-			if (!myDeviceList.get(agr1).getNickName().equals("")) {
-				device_nicket.setText(myDeviceList.get(agr1).getNickName());
-			}else {
-				device_nicket.setText("未知");
-			}
-			
-			initDialog.show();
-			device_name.setFocusable(true);
-			device_name.setFocusableInTouchMode(true);
-			dialogCancel.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					initDialog.dismiss();
-				}
-			});
-			dialogCompleted.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					ModifyDevTask task = new ModifyDevTask();
-					String[] strParams = new String[5];
-					strParams[0] = agr1+"";
-					strParams[1] = device_numet.getText().toString();
-					strParams[2] = device_nameet.getText().toString();
-					strParams[3] = device_passwordet.getText().toString();
-					strParams[4] = device_nicket.getText().toString();
-					task.execute(strParams);
-				}
-			});
-		}
-	//保存更改设备信息线程
-	class ModifyDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
-=======
 
-	// 删除设备线程
-	private class DelDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
->>>>>>> 6c290f9c47514900e19c824b2f378750383c41e0
+	/** 弹出框初始化 */
+	private void initSummaryDialog(ArrayList<Device> myDeviceList,
+			final int agr1) {
+		initDialog = new Dialog(mActivity, R.style.mydialog);
+		View view = LayoutInflater.from(mActivity).inflate(
+				R.layout.dialog_summary, null);
+		initDialog.setContentView(view);
+		dialogCancel = (TextView) view.findViewById(R.id.dialog_img_cancel);
+		dialogCompleted = (TextView) view
+				.findViewById(R.id.dialog_img_completed);
+		device_name = (TextView) view.findViewById(R.id.device_name);
+		device_nicket = (EditText) view.findViewById(R.id.device_nicket);
+		device_niceet_cancle = (ImageView) view
+				.findViewById(R.id.device_nicket_cancle);
+		device_nameet = (EditText) view.findViewById(R.id.device_nameet);
+		device_nameet_cancle = (ImageView) view
+				.findViewById(R.id.device_nameet_cancle);
+		device_numet = (EditText) view.findViewById(R.id.device_numet);
+		device_numet_cancle = (ImageView) view
+				.findViewById(R.id.device_numet_cancle);
+		device_passwordet = (EditText) view
+				.findViewById(R.id.device_passwrodet);
+		device_password_cancleI = (ImageView) view
+				.findViewById(R.id.device_passwrodet_cancle);
+		device_numet_cancle.setOnClickListener(myOnClickListener);
+		device_nameet_cancle.setOnClickListener(myOnClickListener);
+		device_niceet_cancle.setOnClickListener(myOnClickListener);
+		device_password_cancleI.setOnClickListener(myOnClickListener);
+		device_name.setText(myDeviceList.get(agr1).getFullNo());
+		device_numet.setText(myDeviceList.get(agr1).getFullNo());
+		device_nameet.setText(myDeviceList.get(agr1).getUser());
+		device_passwordet.setText(myDeviceList.get(agr1).getPwd());
+		if (!myDeviceList.get(agr1).getNickName().equals("")) {
+			device_nicket.setText(myDeviceList.get(agr1).getNickName());
+		} else {
+			device_nicket.setText("未知");
+		}
+
+		initDialog.show();
+		device_name.setFocusable(true);
+		device_name.setFocusableInTouchMode(true);
+		dialogCancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				initDialog.dismiss();
+			}
+		});
+		dialogCompleted.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				ModifyDevTask task = new ModifyDevTask();
+				String[] strParams = new String[5];
+				strParams[0] = agr1 + "";
+				strParams[1] = device_numet.getText().toString();
+				strParams[2] = device_nameet.getText().toString();
+				strParams[3] = device_passwordet.getText().toString();
+				strParams[4] = device_nicket.getText().toString();
+				task.execute(strParams);
+			}
+		});
+	}
+
+	// 保存更改设备信息线程
+	class ModifyDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
@@ -449,7 +448,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 							.get(Consts.LOCAL_LOGIN));
 			try {
 				int delIndex = Integer.parseInt(params[0]);
-				Log.i("TAG", localFlag+"dddjj"+params[0]);
+				Log.i("TAG", localFlag + "dddjj" + params[0]);
 				if (localFlag) {// 本地保存修改信息
 					myDeviceList.get(delIndex).setFullNo(params[1]);
 					myDeviceList.get(delIndex).setUser(params[2]);
@@ -459,8 +458,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 							myDeviceList.toString());
 					delRes = 0;
 				} else {
-					String name = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
-					delRes = DeviceUtil.modifyDevice(name, params[1], params[4], params[2], params[3]);
+					String name = mActivity.statusHashMap
+							.get(Consts.KEY_USERNAME);
+					delRes = DeviceUtil.modifyDevice(name, params[1],
+							params[4], params[2], params[3]);
 				}
 
 			} catch (Exception e) {
@@ -481,8 +482,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			if (0 == result) {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.login_str_device_edit_success);
-				String devJsonString = MySharedPreference.getString(Consts.DEVICE_LIST);
-				myDeviceList = BeanUtil.stringToDevList(devJsonString);
 				myDLAdapter.notifyDataSetChanged();
 			} else {
 				((BaseActivity) mActivity)
@@ -502,68 +501,67 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
-	
-	//删除设备线程
-		class DelDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
-			// 可变长的输入参数，与AsyncTask.exucute()对应
-			@Override
-			protected Integer doInBackground(String... params) {
-				int delRes = -1;
-				boolean localFlag = Boolean
-						.valueOf(((BaseActivity) mActivity).statusHashMap
-								.get(Consts.LOCAL_LOGIN));
-				try {
-					int delIndex = Integer.parseInt(params[0]);
-					if (localFlag) {// 本地删除
-						myDeviceList.remove(delIndex);
-						MySharedPreference.putString(Consts.DEVICE_LIST,
-								myDeviceList.toString());
-						delRes = 0;
-					} else {
-						delRes = DeviceUtil.unbindDevice(
-								((BaseActivity) mActivity).statusHashMap
-										.get("KEY_USERNAME"),
-								myDeviceList.get(delIndex).getFullNo());
-					}
 
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return delRes;
-			}
-
-			@Override
-			protected void onCancelled() {
-				super.onCancelled();
-			}
-
-			@Override
-			protected void onPostExecute(Integer result) {
-				// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-				((BaseActivity) mActivity).dismissDialog();
-				if (0 == result) {
-					((BaseActivity) mActivity)
-							.showTextToast(R.string.del_device_succ);
-					myDLAdapter.setShowDelete(false);
-					myDLAdapter.notifyDataSetChanged();
+	// 删除设备线程
+	class DelDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int delRes = -1;
+			boolean localFlag = Boolean
+					.valueOf(((BaseActivity) mActivity).statusHashMap
+							.get(Consts.LOCAL_LOGIN));
+			try {
+				int delIndex = Integer.parseInt(params[0]);
+				if (localFlag) {// 本地删除
+					myDeviceList.remove(delIndex);
+					MySharedPreference.putString(Consts.DEVICE_LIST,
+							myDeviceList.toString());
+					delRes = 0;
 				} else {
-					((BaseActivity) mActivity)
-							.showTextToast(R.string.del_device_failed);
+					delRes = DeviceUtil.unbindDevice(
+							((BaseActivity) mActivity).statusHashMap
+									.get("KEY_USERNAME"),
+							myDeviceList.get(delIndex).getFullNo());
 				}
-			}
 
-			@Override
-			protected void onPreExecute() {
-				// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-				((BaseActivity) mActivity).createDialog("");
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+			return delRes;
+		}
 
-			@Override
-			protected void onProgressUpdate(Integer... values) {
-				// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			((BaseActivity) mActivity).dismissDialog();
+			if (0 == result) {
+				((BaseActivity) mActivity)
+						.showTextToast(R.string.del_device_succ);
+				myDLAdapter.setShowDelete(false);
+				myDLAdapter.notifyDataSetChanged();
+			} else {
+				((BaseActivity) mActivity)
+						.showTextToast(R.string.del_device_failed);
 			}
 		}
 
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			((BaseActivity) mActivity).createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
 
 	// 获取设备列表线程
 	private class GetDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000

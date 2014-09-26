@@ -9,8 +9,6 @@ import android.telephony.TelephonyManager;
  * PS： 必须在加入各种权限 <BR>
  * Date:2012-3-12<BR>
  * 
- * @version 1.00
- * @author CODYY)peijiangping
  */
 public class SIMCardUtil {
 	/**

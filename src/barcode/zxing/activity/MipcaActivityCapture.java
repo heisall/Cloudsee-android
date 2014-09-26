@@ -32,7 +32,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.JVConst;
-import com.jovision.utils.LoginUtil;
+import com.jovision.utils.RegularUtil;
 
 /**
  * Initial the camera
@@ -147,7 +147,7 @@ public class MipcaActivityCapture extends Activity implements Callback {
 
 		resultString = result.getText();
 
-		if (!LoginUtil.checkYSTNum(resultString)) {// 验证云视通号不正确
+		if (!RegularUtil.checkYSTNum(resultString)) {// 验证云视通号不正确
 			errorDeviceDialog();
 		} else {
 			findDeviceDialog();

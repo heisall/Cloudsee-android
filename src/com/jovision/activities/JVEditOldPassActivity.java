@@ -15,10 +15,10 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.bean.UserBean;
 import com.jovision.commons.JVAccountConst;
-import com.jovision.newbean.UserBean;
 import com.jovision.utils.AccountUtil;
-import com.jovision.utils.SqlLiteUtil;
+import com.jovision.utils.UserUtil;
 
 public class JVEditOldPassActivity extends BaseActivity {
 
@@ -60,8 +60,7 @@ public class JVEditOldPassActivity extends BaseActivity {
 				startActivity(intent);
 				finish();
 			} else {
-				intent.setClass(JVEditOldPassActivity.this,
-						JVMainActivity.class);
+				intent.setClass(JVEditOldPassActivity.this, JVTabActivity.class);
 				startActivity(intent);
 				finish();
 			}
@@ -266,13 +265,14 @@ public class JVEditOldPassActivity extends BaseActivity {
 			if (null != activity && !activity.isFinishing()) {
 				int result = AccountUtil.userLogin(
 						activity.statusHashMap.get("KEY_USERNAME"),
-						activity.statusHashMap.get("KEY_PASSWORD"));
+						activity.statusHashMap.get("KEY_PASSWORD"), activity);
 				if (JVAccountConst.SUCCESS == result) {
 					UserBean user = new UserBean();
 					user.setPrimaryID(System.currentTimeMillis());
 					user.setUserName(activity.statusHashMap.get("KEY_USERNAME"));
 					user.setUserPwd(activity.statusHashMap.get("KEY_PASSWORD"));
-					SqlLiteUtil.addUser(user);
+					// SqlLiteUtil.addUser(user);
+					UserUtil.addUser(user);
 					activity.statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 					activity.handler
 							.sendMessage(activity.handler

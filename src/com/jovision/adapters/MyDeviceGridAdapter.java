@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.newbean.Device;
+import com.jovision.bean.Device;
 
 public class MyDeviceGridAdapter extends BaseAdapter {
 	private ArrayList<Device> deviceList;

@@ -19,20 +19,13 @@ import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.MyLog;
 
 public class ImageUtil {
@@ -340,115 +333,6 @@ public class ImageUtil {
 	//
 	// return bmpTemp;
 	// }
-	// 演示点图片叠加
-	public static Bitmap addbackground4onlyicon(Context context, Bitmap icon) {
-		Bitmap b1 = BitmapFactory.decodeResource(context.getResources(),
-				R.drawable.da_marker_red);
-
-		Bitmap b2 = icon;
-
-		if (null == b2) {
-			return b1;
-		}
-		try {
-			if (!b1.isMutable()) {
-				// 设置图片为背景为透明
-				b1 = b1.copy(Bitmap.Config.ARGB_8888, true);
-			}
-			Paint paint = new Paint();
-			Canvas canvas = new Canvas(b1);
-			int b1w = b1.getWidth();
-			int b1h = b1.getHeight();
-			int b2w = b2.getWidth();
-			int b2h = b2.getHeight();
-			int bx = (b1w - b2w) / 2;
-			int by = (b1h - b2h) / 2;
-			canvas.drawBitmap(b2, bx - 1, by - 20, paint);// 叠加新图b2 并且居中
-			canvas.save(Canvas.ALL_SAVE_FLAG);
-			canvas.restore();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return b1;
-	}
-
-	// 生成固定宽度圆角图片的方法
-	public static Bitmap getRoundedCornerBitmap1(Bitmap bitmap, int targetWidth) {
-		float roundPx = 20.0f;
-		if (bitmap == null) {
-			return null;
-		}
-
-		// 比例缩小
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
-		// 计算缩放比例
-		float scaleWidth = ((float) targetWidth) / width;
-		float scaleHeight = ((float) targetWidth) / height;
-		// 取得想要缩放的matrix参数
-		Matrix matrix = new Matrix();
-		matrix.postScale(scaleWidth, scaleHeight);
-		// 得到新的图片
-		Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height,
-				matrix, true);
-
-		// 得到圆角图片
-		Bitmap output = Bitmap.createBitmap(targetWidth, targetWidth,
-				Config.ARGB_8888);
-		Canvas canvas = new Canvas(output);
-
-		final int color = 0xffffffff;
-		final Paint paint = new Paint();
-		final Rect rect = new Rect(0, 0, targetWidth, targetWidth);
-		final RectF rectF = new RectF(rect);
-
-		paint.setAntiAlias(true);
-		canvas.drawARGB(0, 0, 0, 0);
-		paint.setColor(color);
-		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-
-		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-
-		// canvas.drawColor(R.color.white);
-		canvas.drawBitmap(newBitmap, rect, rect, paint);
-		return output;
-	}
-
-	// 生成叠加设备截图
-	public static Bitmap deviceCombine(Context context, Bitmap icon) {
-		Bitmap b1 = BitmapFactory.decodeResource(context.getResources(),
-				R.drawable.device_default_bg);
-		try {
-			if (!b1.isMutable()) {
-				// 设置图片为背景为透明
-				b1 = b1.copy(Bitmap.Config.ARGB_8888, true);
-			}
-			Paint paint1 = new Paint();
-			Canvas canvas1 = new Canvas(b1);
-			Bitmap b2 = getRoundedCornerBitmap1(icon, b1.getWidth() - 10);
-			if (null != b2) {
-				canvas1.drawBitmap(b2, 5, 5, paint1);// 叠加新图b2 并且居中
-				canvas1.save(Canvas.ALL_SAVE_FLAG);
-				canvas1.restore();
-			} else {
-				return null;
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-		// int b1w = b1.getWidth();
-		// int b1h = b1.getHeight();
-		// int b2w = 120;
-		// int b2h = 120;
-		// int bx = (b1w - b2w) / 2;
-		// int by = (b1h - b2h) / 2;
-
-		return b1;
-	}
 
 	static class FlushedInputStream extends FilterInputStream {
 		public FlushedInputStream(InputStream inputStream) {

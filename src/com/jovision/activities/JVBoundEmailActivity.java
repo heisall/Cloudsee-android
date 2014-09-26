@@ -29,7 +29,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 		Intent intent = new Intent();
 		switch (what) {
 		case JVAccountConst.REGIST_SUCCESS_LOGIN_SUCCESS:// 注册成功登陆成功
-			intent.setClass(JVBoundEmailActivity.this, JVMainActivity.class);
+			intent.setClass(JVBoundEmailActivity.this, JVTabActivity.class);
 			JVBoundEmailActivity.this.startActivity(intent);
 			JVBoundEmailActivity.this.finish();
 			break;
@@ -84,7 +84,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 			switch (v.getId()) {
 			case R.id.btn_right:
 				Intent intent = new Intent();
-				intent.setClass(JVBoundEmailActivity.this, JVMainActivity.class);
+				intent.setClass(JVBoundEmailActivity.this, JVTabActivity.class);
 				startActivity(intent);
 				finish();
 				break;
@@ -144,7 +144,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Intent intent = new Intent();
-			intent.setClass(JVBoundEmailActivity.this, JVMainActivity.class);
+			intent.setClass(JVBoundEmailActivity.this, JVTabActivity.class);
 			startActivity(intent);
 			finish();
 		}

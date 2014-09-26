@@ -2,28 +2,22 @@ package com.jovision.activities;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Message;
 import android.test.AutoLoad;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.Handler.LoginHandler;
-import com.jovision.commons.BaseApp;
+import com.jovision.bean.UserBean;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
-import com.jovision.newbean.UserBean;
-import com.jovision.thread.LoginThread;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.UserUtil;
 
 public class JVWelcomeActivity extends BaseActivity {
 
 	private final String TAG = "JVWelcomeActivity";
-	private ImageView imageView;
 	private Handler initHandler;
-	private LoginHandler loginHandler;
 
 	private static boolean HAS_LOADED = false;
 
@@ -42,7 +36,6 @@ public class JVWelcomeActivity extends BaseActivity {
 		ConfigUtil.getJNIVersion();
 
 		getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
-		loginHandler = new LoginHandler(this, true);
 		statusHashMap.put(Consts.KEY_INIT_ACCOUNT_SDK, "false");
 		statusHashMap.put(Consts.KEY_INIT_CLOUD_SDK, "false");
 		statusHashMap.put(Consts.IMEI,
@@ -67,7 +60,6 @@ public class JVWelcomeActivity extends BaseActivity {
 		// + siminfo.getProvidersName());
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void initUi() {
 		MyLog.v(TAG, "initUi");
@@ -93,12 +85,12 @@ public class JVWelcomeActivity extends BaseActivity {
 	Thread jumpThread = new Thread() {
 		@Override
 		public void run() {
+			Intent intent = new Intent();
 			// 首次登陆,且非公共版本
 			if (MySharedPreference.getBoolean(Consts.KEY_SHOW_GUID, true)
 					&& "false".equalsIgnoreCase(statusHashMap
 							.get(Consts.NEUTRAL_VERSION))) {
 
-				Intent intent = new Intent();
 				intent.setClass(JVWelcomeActivity.this, JVGuideActivity.class);
 
 				if (ConfigUtil.isLanZH()) {// 中文
@@ -106,27 +98,27 @@ public class JVWelcomeActivity extends BaseActivity {
 				} else {// 英文或其他
 					intent.putExtra("ArrayFlag", JVConst.LANGUAGE_EN);
 				}
-
-				JVWelcomeActivity.this.startActivity(intent);
 			} else {
-				UserBean user = BaseApp.queryLoginUser();
+				UserBean user = UserUtil.getLastUser();
 				if (ConfigUtil.getNetWorkConnection() && null != user
 						&& !"".equalsIgnoreCase(user.getUserName())
 						&& !"".equalsIgnoreCase(user.getUserPwd())) {
 					statusHashMap.put(Consts.KEY_USERNAME, user.getUserName());
 					statusHashMap.put(Consts.KEY_PASSWORD, user.getUserPwd());
 					createDialog(R.string.login_str_loging);
-					LoginThread loginThread = new LoginThread(
-							JVWelcomeActivity.this);
-					loginThread.start();
-				} else {
-					Intent intent = new Intent();
+
 					intent.setClass(JVWelcomeActivity.this,
 							JVLoginActivity.class);
-					JVWelcomeActivity.this.startActivity(intent);
+					intent.putExtra("AutoLogin", true);
+					intent.putExtra("UserName", user.getUserName());
+					intent.putExtra("UserPass", user.getUserPwd());
+				} else {
+					intent.setClass(JVWelcomeActivity.this,
+							JVLoginActivity.class);
 				}
-			}
 
+			}
+			JVWelcomeActivity.this.startActivity(intent);
 			JVWelcomeActivity.this.finish();
 		}
 	};
@@ -182,14 +174,6 @@ public class JVWelcomeActivity extends BaseActivity {
 		switch (what) {
 		case JVConst.INIT_ACCOUNT_SDK_FAILED:// 初始化SDK失败
 			showTextToast(R.string.str_initsdk_failed);
-			break;
-		case Consts.LOGIN_FUNCTION:
-			Message msg = Message.obtain();
-			msg.arg1 = arg1;
-			msg.arg2 = arg2;
-			msg.what = what;
-			loginHandler.sendMessage(msg);
-
 			break;
 		}
 	}

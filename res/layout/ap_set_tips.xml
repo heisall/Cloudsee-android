@@ -25,7 +25,6 @@
             android:id="@+id/noalert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/setting_selector"
             android:textOff=""
             android:textOn="" />
 

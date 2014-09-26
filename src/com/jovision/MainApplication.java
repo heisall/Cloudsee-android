@@ -3,10 +3,16 @@ package com.jovision;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Application;
 import android.test.JVACCOUNT;
 
 import com.jovision.activities.BaseActivity;
+import com.jovision.bean.PushInfo;
+import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyLog;
 
 /**
@@ -78,72 +84,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	 */
 	public synchronized void onJniNotify(int what, int uchType, int channel,
 			Object obj) {
-		// MyLog.e(Consts.TAG_PLAY, "onJniNotify: " + what + ", " + uchType +
-		// ", "
-		// + channel + ", " + obj);
-
 		if (null != currentNotifyer) {
 			currentNotifyer.onNotify(what, uchType, channel, obj);
 		}
-
-		// if (null != obj) {
-		// try {
-		// Object[] array = (Object[]) obj;
-		// int size = array.length;
-		// for (int i = 0; i < size; i++) {
-		// MyLog.d(Consts.TAG_PLAY, "onJniNotify.obj[" + i + "]: "
-		// + array[i]);
-		// }
-		// } catch (Exception e) {
-		// try {
-		// String str = (String) obj;
-		// MyLog.d(Consts.TAG_PLAY, "onJniNotify.obj = " + str);
-		// } catch (Exception e2) {
-		// }
-		// }
-		// }
-
-		// switch (what) {
-		// case Consts.CONNECT_CHANGE:
-		//
-		// break;
-		//
-		// case Consts.NORMAL_DATA:
-		// break;
-		//
-		// case Consts.CHECK_RESULT:
-		// if (null != obj) {
-		// byte[] array = (byte[]) obj;
-		// int size = array.length;
-		//
-		// StringBuilder sBuilder = new StringBuilder(size * 2);
-		// StringBuilder sBuilder2 = new StringBuilder(size * 2);
-		// for (int i = 0; i < size; i++) {
-		// sBuilder.append(String.format("%c", array[i]));
-		// sBuilder2.append(String.format("%c", array[i]));
-		// if ((i + 1) % 10 == 0) {
-		// sBuilder.append("\n");
-		// }
-		// if ((i + 1) % 7 == 0) {
-		// sBuilder2.append("\n");
-		// }
-		// }
-		// String resultString = sBuilder.toString();
-		// MyLog.d(Consts.TAG_PLAY, "check result: \n" + resultString);
-		// resultString = sBuilder2.toString();
-		// MyLog.d(Consts.TAG_PLAY, "check result: \n" + resultString);
-		// }
-		// break;
-		//
-		// // case Consts.FOO:
-		// // Object[] array = (Object[]) obj;
-		// // MyLog.e(Consts.TAG_PLAY, "onJniNotify: " + (String) array[0]);
-		// // break;
-		//
-		// default:
-		// break;
-		// }
-
 	}
 
 	@Override
@@ -162,4 +105,102 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		this.currentNotifyer = currentNotifyer;
 	}
 
+	public static int errorCount = 0;
+
+	/**
+	 * 7-保持在线的回调函数
+	 * 
+	 * @param res
+	 */
+	public void JVOnLineCallBack(int res) {
+		MyLog.v("保持在线的回调函数", "----:" + res);
+		try {
+			if (res == 0) {// 保持在线成功
+				errorCount = 0;
+			} else {// 保持在线失败
+				MyLog.v("保持在线失败", "----:" + res);
+				errorCount++;
+				if (4 == errorCount) {// 失败4次
+					JVACCOUNT.StopHeartBeat();// 先停止心跳
+					if (null != currentNotifyer) {
+						currentNotifyer.onNotify(
+								Consts.ACCOUNT_KEEP_ONLINE_FAILED, 0, 0, null);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 8-推送的回调函数
+	 * 
+	 * @param res
+	 * @param userName
+	 * @param time
+	 * @param msg
+	 */
+
+	public void JVPushCallBack(int res, String userName, String time, String msg) {
+		try {
+			MyLog.v("推送的回调函数", "res----:" + res + ";;time----:" + time
+					+ ";;msg----:" + msg);
+			if (JVAccountConst.MESSAGE_PUSH_TAG == res) {
+				if (null != currentNotifyer) {
+					PushInfo pushInfo = null;
+					if (null != msg && !"".equalsIgnoreCase(msg)) {
+						try {
+							pushInfo = new PushInfo();
+							JSONObject obj = new JSONObject(msg);
+							pushInfo.strGUID = obj
+									.optString(JVAlarmConst.JK_ALARM_GUID);
+							pushInfo.ystNum = obj
+									.optString(JVAlarmConst.JK_ALARM_CLOUDNUM);
+							pushInfo.coonNum = obj
+									.optInt(JVAlarmConst.JK_ALARM_CLOUDCHN);
+							pushInfo.alarmType = obj
+									.optInt(JVAlarmConst.JK_ALARM_ALARMTYPE);
+							pushInfo.alarmTime = obj
+									.optString(JVAlarmConst.JK_ALARM_ALARMTIME);
+							pushInfo.alarmLevel = obj
+									.optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);
+							pushInfo.deviceName = obj
+									.optString(JVAlarmConst.JK_ALARM_CLOUDNAME);
+							pushInfo.newTag = true;
+							pushInfo.pic = obj
+									.optString(JVAlarmConst.JK_ALARM_PICURL);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+					if (null != pushInfo) {
+						currentNotifyer.onNotify(Consts.PUSH_MESSAGE, 0, 0,
+								pushInfo);
+					}
+				}
+			} else if (JVAccountConst.MESSAGE_OFFLINE == res) {// 提掉线
+
+				if (null != currentNotifyer) {
+					currentNotifyer
+							.onNotify(Consts.ACCOUNT_OFFLINE, 0, 0, null);
+				}
+			} else if (JVAccountConst.PTCP_ERROR == res) {// TCP错误
+				JVACCOUNT.StopHeartBeat();// 先停止心跳
+				if (null != currentNotifyer) {
+					currentNotifyer.onNotify(Consts.ACCOUNT_TCP_ERROR, 0, 0,
+							null);
+				}
+			} else if (JVAccountConst.PTCP_CLOSED == res) {// TCP关闭
+				JVACCOUNT.StopHeartBeat();// 先停止心跳
+				if (null != currentNotifyer) {
+					currentNotifyer.onNotify(Consts.ACCOUNT_TCP_ERROR, 0, 0,
+							null);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 }

@@ -21,8 +21,8 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.ChannelsPagerAdapter;
-import com.jovision.newbean.BeanUtil;
-import com.jovision.newbean.Device;
+import com.jovision.bean.BeanUtil;
+import com.jovision.bean.Device;
 
 public class JVChannelsActivity extends BaseActivity {
 	private String TAG = "ChannelFragment";

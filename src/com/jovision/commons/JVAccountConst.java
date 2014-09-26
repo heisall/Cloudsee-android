@@ -12,6 +12,8 @@ public class JVAccountConst {
 
 	/** 注册/登录成功 */
 	public static final int SUCCESS = 0;
+	/** 注册/登录失败 */
+	public static final int FAILED = -1000;
 	/** 用户已经存在 */
 	public static final int USER_HAS_EXIST = 2;
 	/** 用户不存在 */

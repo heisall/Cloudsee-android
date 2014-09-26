@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseFragment;
-import com.jovision.newbean.Channel;
+import com.jovision.bean.Channel;
 
 public class ChannelAdapter extends BaseAdapter {
 	private ArrayList<Channel> channelList;

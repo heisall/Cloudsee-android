@@ -13,8 +13,8 @@ import android.widget.ListView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.DemoListAdapter;
-import com.jovision.newbean.BeanUtil;
-import com.jovision.newbean.Device;
+import com.jovision.bean.BeanUtil;
+import com.jovision.bean.Device;
 import com.jovision.views.RefreshableView;
 import com.jovision.views.RefreshableView.PullToRefreshListener;
 

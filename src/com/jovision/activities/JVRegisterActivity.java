@@ -4,8 +4,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.os.Message;
+import android.os.AsyncTask;
 import android.text.SpannableString;
 import android.view.KeyEvent;
 import android.view.View;
@@ -23,10 +24,8 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.Handler.LoginHandler;
-import com.jovision.Handler.RegistHandler;
+import com.jovision.bean.UserBean;
 import com.jovision.commons.JVAccountConst;
-import com.jovision.thread.RegistThread;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 
@@ -50,8 +49,6 @@ public class JVRegisterActivity extends BaseActivity {
 	private TextView registTips;
 	private TextView registTips2;
 	private TextView registTips3;
-	private RegistHandler registHandler;
-	private LoginHandler loginHandler;
 
 	/** 用户名是否存在 */
 	private int nameExists;
@@ -60,23 +57,6 @@ public class JVRegisterActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		/** 注册回调 */
-		case Consts.REGIST_FUNCTION: {
-			Message msg = Message.obtain();
-			msg.arg1 = arg1;
-			msg.arg2 = arg2;
-			msg.what = what;
-			registHandler.sendMessage(msg);
-		}
-		/** 登陆返回的结果 */
-		case Consts.LOGIN_FUNCTION: {
-			Message msg = Message.obtain();
-			msg.arg1 = arg1;
-			msg.arg2 = arg2;
-			msg.what = what;
-			loginHandler.sendMessage(msg);
-			break;
-		}
 		/** 注册用户名检测成功 */
 		case JVAccountConst.USERNAME_DETECTION_SUCCESS: {
 			dismissDialog();
@@ -123,8 +103,6 @@ public class JVRegisterActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		registHandler = new RegistHandler(this);
-		loginHandler = new LoginHandler(this, false);
 	}
 
 	@Override
@@ -348,9 +326,14 @@ public class JVRegisterActivity extends BaseActivity {
 							.getText().toString());
 					statusHashMap.put(Consts.KEY_PASSWORD, pass1EditText
 							.getText().toString());
-					RegistThread registThread = new RegistThread(
-							JVRegisterActivity.this);
-					registThread.start();
+
+					// RegistThread registThread = new RegistThread(
+					// JVRegisterActivity.this);
+					// registThread.start();
+
+					RegisterTask task = new RegisterTask();
+					String[] strParams = new String[3];
+					task.execute(strParams);
 				}
 
 				break;
@@ -361,6 +344,107 @@ public class JVRegisterActivity extends BaseActivity {
 		}
 
 	};
+
+	private int errorCode = 0;
+
+	// 用户注册线程
+	private class RegisterTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int registerRes = -1;
+			try {
+				registerRes = AccountUtil.isUserExsit(statusHashMap
+						.get(Consts.KEY_USERNAME));
+				if (JVAccountConst.USER_HAS_EXIST == registerRes) {
+					return registerRes;
+				} else if (JVAccountConst.PHONE_NOT_TRUE == registerRes) {
+					return registerRes;
+				}
+				UserBean user = new UserBean();
+				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
+				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
+				registerRes = AccountUtil.userRegister(user);
+				if (JVAccountConst.SUCCESS == registerRes) {
+					return registerRes;
+				} else {
+					errorCode = registerRes;
+					return JVAccountConst.FAILED;
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return registerRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
+			switch (result) {
+			case JVAccountConst.SUCCESS:// 注册成功
+				showTextToast(R.string.login_str_regist_success);
+				Intent intent = new Intent();
+				intent.setClass(JVRegisterActivity.this, JVLoginActivity.class);
+				String userName = userNameEditText.getText().toString();
+				String userPass = pass1EditText.getText().toString();
+				intent.putExtra("AutoLogin", true);
+				intent.putExtra("UserName", userName);
+				intent.putExtra("UserPass", userPass);
+				JVRegisterActivity.this.startActivity(intent);
+				JVRegisterActivity.this.finish();
+				break;
+			case JVAccountConst.USER_HAS_EXIST:// 账号已注册
+				showTextToast(R.string.str_user_has_exist);
+				break;
+			case JVAccountConst.PHONE_NOT_TRUE:// 邮箱已注册
+				showTextToast(R.string.str_phone_num_error);
+				break;
+			case JVAccountConst.FAILED:// 注册失败
+				if (0 < errorCode) {
+					if (JVAccountConst.PASSWORD_ERROR == errorCode) {
+						showTextToast(R.string.str_user_password_error);
+					} else if (JVAccountConst.SESSION_NOT_EXSIT == errorCode) {
+						showTextToast(R.string.str_session_not_exist);
+					} else if (JVAccountConst.USER_HAS_EXIST == errorCode) {
+						showTextToast(R.string.str_user_has_exist);
+					} else if (JVAccountConst.USER_NOT_EXIST == errorCode) {
+						showTextToast(R.string.str_user_not_exist2);
+					} else {
+						showTextToast(R.string.str_other_error);
+					}
+				} else {
+					if (-5 == errorCode) {
+						showTextToast(R.string.str_error_code_5);
+					} else if (-6 == errorCode) {
+						showTextToast(R.string.str_error_code_6);
+					} else {
+						showTextToast(getResources().getString(
+								R.string.str_error_code)
+								+ (errorCode - 1000));
+					}
+				}
+				break;
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

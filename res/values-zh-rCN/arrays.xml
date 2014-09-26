@@ -51,4 +51,36 @@
         <item>384</item>
     </string-array>
 
+    <!-- 告警类型 -->
+    <string-array name="alarm_type">
+        <item>%%发生存储错误告警。</item>
+        <item>%%发生存储满告警。</item>
+        <item>%%发生连接断开告警。</item>
+        <item>%%发生系统升级告警。</item>
+        <item>%%发生外接告警。</item>
+        <item>%%发生视频丢失告警。</item>
+        <item>%%发生视频遮挡告警。</item>
+        <item>%%发生移动侦测告警。</item>
+        <item>%%发生断电告警。</item>
+        <item>%%发生手动告警。</item>
+        <item>%%发生GPS告警。</item>
+        <item>%%发生红外人体检测告警。</item>
+        <item>%%很安全，请主人不必担心，我会好好看护的。</item>
+        <item>%%有些异常举动，请主人赶快采取措施。</item>
+        <item>%%周围温度太高了。</item>
+        <item>%%周围温度太低了。</item>
+        <item>%%周围湿度太高了。</item>
+        <item>%%周围湿度太低了。</item>
+        <item>%%周围温度过高、湿度过高。</item>
+        <item>%%周围温度过低、湿度过高。</item>
+        <item>%%周围温度过高、湿度过低。</item>
+        <item>%%周围温度过低、湿度过低。</item>
+    </string-array>
+
+    <!-- 播放器选择 -->
+    <string-array name="player_selector">
+        <item>系统播放器</item>
+        <item>第三方播放器</item>
+    </string-array>
+
 </resources>

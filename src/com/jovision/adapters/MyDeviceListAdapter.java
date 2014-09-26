@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseFragment;
-import com.jovision.newbean.Device;
+import com.jovision.bean.Device;
 
 public class MyDeviceListAdapter extends BaseAdapter {
 	private ArrayList<Device> deviceList;

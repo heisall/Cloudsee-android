@@ -11,9 +11,8 @@ import android.test.JVACCOUNT;
 import android.util.Log;
 
 import com.jovision.bean.ClientBean;
-import com.jovision.commons.BaseApp;
+import com.jovision.bean.UserBean;
 import com.jovision.commons.MyLog;
-import com.jovision.newbean.UserBean;
 
 public class AccountUtil {
 
@@ -89,7 +88,7 @@ public class AccountUtil {
 	 * @param deviceType客户端相关信息
 	 * @return 0:成功 其他失败
 	 */
-	public static int judgeUser(String userName, String pwd) {
+	public static int judgeUser(String userName, String pwd, Context con) {
 		int res = -1;
 		res = JVACCOUNT.JudgeUserPasswordStrength(userName);
 		if (3 == res) {
@@ -98,7 +97,7 @@ public class AccountUtil {
 			res = JVACCOUNT.OldUserLogin(userName, pwd);
 			return res;
 		} else if (119 == res) {
-			return userLogin(userName, pwd);
+			return userLogin(userName, pwd, con);
 		} else {
 			return res;
 		}
@@ -112,13 +111,13 @@ public class AccountUtil {
 	 * @param deviceType客户端相关信息
 	 * @return 0:成功 其他失败
 	 */
-	public static int userLogin(String userName, String pwd) {
+	public static int userLogin(String userName, String pwd, Context con) {
 		int res = -1;
 		res = JVACCOUNT.UserLogin(userName, pwd);
 		MyLog.e("userLogin--", "-----||||||" + res + "");
 		// 汇报设备类型
 		if (0 == res) {
-			res = reportClientPlatformInfo();
+			res = reportClientPlatformInfo(con);
 		}
 		if (0 == res) {
 			JVACCOUNT.RegisterServerPushFunc();
@@ -137,13 +136,13 @@ public class AccountUtil {
 	 * @param deviceType客户端相关信息
 	 * @return 0:成功 其他失败
 	 */
-	public static int reportClientPlatformInfo() {
+	public static int reportClientPlatformInfo(Context con) {
 		int res = -1;
 
 		ClientBean cb = new ClientBean();
 		cb.setPlatformType(1);
 		cb.setLanguageType(ConfigUtil.getLanguage());
-		cb.setDeviceUUID(BaseApp.IMEI);
+		cb.setDeviceUUID(ConfigUtil.getIMEI(con));
 
 		res = JVACCOUNT.ReportClientPlatformInfo(cb);
 		MyLog.e("ReportClientPlatformInfo--", "-----|||||" + res + "");

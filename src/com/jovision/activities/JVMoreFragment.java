@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
+import com.jovision.commons.CheckUpdateTask;
+import com.jovision.commons.MyActivityManager;
 import com.jovision.utils.ListViewUtil;
 
 /**
@@ -119,8 +121,14 @@ public class JVMoreFragment extends BaseFragment {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
-			case R.id.more_cancle:
+			case R.id.more_cancle:// 注销
 
+				MyActivityManager.getActivityManager().popAllActivityExceptOne(
+						JVLoginActivity.class);
+				Intent intent = new Intent();
+				intent.setClass(mActivity, JVLoginActivity.class);
+				mActivity.startActivity(intent);
+				mActivity.finish();
 				break;
 			case R.id.more_modify:
 
@@ -171,6 +179,11 @@ public class JVMoreFragment extends BaseFragment {
 						case 6:
 							Toast.makeText(activity, "点击成功6",
 									Toast.LENGTH_SHORT).show();
+							CheckUpdateTask task = new CheckUpdateTask(
+									mActivity);
+							String[] strParams = new String[3];
+							strParams[0] = "1";// 0,手动检查更新
+							task.execute(strParams);
 							break;
 						default:
 							break;

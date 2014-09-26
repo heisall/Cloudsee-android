@@ -25,11 +25,11 @@ import android.widget.ListView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.MyDeviceListAdapter;
+import com.jovision.bean.BeanUtil;
+import com.jovision.bean.Device;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
-import com.jovision.newbean.BeanUtil;
-import com.jovision.newbean.Device;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.ImageViewPager;
@@ -302,7 +302,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	}
 
 	// 删除设备线程
-	class DelDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+	private class DelDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
@@ -363,7 +363,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	}
 
 	// 获取设备列表线程
-	class GetDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+	private class GetDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {

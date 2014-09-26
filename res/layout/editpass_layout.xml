@@ -12,8 +12,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/top_shadow" />
+        android:layout_height="wrap_content" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,7 +33,6 @@
                     android:id="@+id/editoldpass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/regist_edittext"
                     android:hint="@string/str_old_pass"
                     android:inputType="textPassword"
                     android:maxLength="20"
@@ -55,7 +53,6 @@
                     android:id="@+id/editnewpass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/regist_edittext"
                     android:hint="@string/str_new_pass"
                     android:inputType="textPassword"
                     android:maxLength="20"
@@ -76,7 +73,6 @@
                     android:id="@+id/editensurepass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/regist_edittext"
                     android:hint="@string/str_ensure_newpass"
                     android:inputType="textPassword"
                     android:maxLength="20"
@@ -97,7 +93,6 @@
                     android:id="@+id/editfinish"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/registe_button_bg"
                     android:text="@string/str_finish"
                     android:textColor="@color/white"
                     android:textSize="20sp" />

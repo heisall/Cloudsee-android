@@ -37,7 +37,6 @@ import com.jovision.Jni;
 import com.jovision.adapters.IpcWifiAdapter;
 import com.jovision.adapters.MobileWifiAdapter;
 import com.jovision.bean.WifiAdmin;
-import com.jovision.commons.BaseApp;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
@@ -48,7 +47,7 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.views.RefreshableListView;
 import com.jovision.views.RefreshableListView.OnRefreshListener;
 
-public class JVQuickSettingActivity extends BaseActivity {
+public class JVQuickSettingActivity extends ShakeActivity {
 	private final String TAG = "Qick_SetQick_Set";
 	private String setIpcName;// 待设置的IPC
 	private String deviceNum;// 待设置的IPC云视通号
@@ -899,7 +898,8 @@ public class JVQuickSettingActivity extends BaseActivity {
 			try {
 				if (null != activity && !activity.isFinishing()) {
 					boolean flag = activity.wifiAdmin.changeWifi(
-							activity.setIpcName, activity.oldWifiSSID);
+							activity.setIpcName, activity.oldWifiSSID,
+							oldWifiState);
 					int result = -1;
 					int time = 0;
 					MyLog.v("网络恢复完成", flag + "");
@@ -913,11 +913,12 @@ public class JVQuickSettingActivity extends BaseActivity {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							result = AccountUtil.userLogin(
-									activity.statusHashMap
+							result = AccountUtil
+									.userLogin(activity.statusHashMap
 											.get(Consts.KEY_USERNAME),
-									activity.statusHashMap
-											.get(Consts.KEY_PASSWORD));
+											activity.statusHashMap
+													.get(Consts.KEY_PASSWORD),
+											activity);
 							MyLog.v("网络恢复完成---重新登录---"
 									+ activity.statusHashMap
 											.get(Consts.KEY_USERNAME), result
@@ -925,8 +926,8 @@ public class JVQuickSettingActivity extends BaseActivity {
 						}
 						if (JVAccountConst.SUCCESS == result && addFlag) {
 							if (!Boolean.valueOf(activity.statusHashMap
-									.get(Consts.LOCAL_LOGIN))
-									&& BaseApp.deviceList.size() >= 100) {
+									.get(Consts.LOCAL_LOGIN))) {
+								// && BaseApp.deviceList.size() >= 100) {
 
 								activity.handler
 										.sendMessage(activity.handler

@@ -15,10 +15,10 @@ import barcode.zxing.activity.MipcaActivityCapture;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
+import com.jovision.bean.BeanUtil;
+import com.jovision.bean.Device;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MySharedPreference;
-import com.jovision.newbean.BeanUtil;
-import com.jovision.newbean.Device;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 

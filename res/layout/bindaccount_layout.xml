@@ -12,8 +12,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/top_shadow" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +25,6 @@
             android:id="@+id/bindusername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/regist_edittext"
             android:hint="@string/str_enter_username"
             android:paddingLeft="20dp"
             android:textColor="@color/registtextcolor" />
@@ -36,31 +34,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/regist_edittext"
             android:hint="@string/str_enter_pass1"
             android:paddingLeft="20dp"
             android:password="true"
             android:textColor="@color/registtextcolor" />
-        <!--
-            <EditText
-	        
-	        android:textColor="@color/registtextcolor"
-	        android:paddingLeft="20dp"
-	        	android:layout_marginTop="10dp"
-	        	android:background="@drawable/regist_edittext"
-	            android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:id="@+id/bindpassword2"
-		        android:password="true"
-		        android:hint="@string/str_enter_pass2"/>
-        -->
 
         <EditText
             android:id="@+id/bindemail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/regist_edittext"
             android:hint="@string/str_enter_email"
             android:paddingLeft="20dp"
             android:textColor="@color/registtextcolor"
@@ -77,7 +60,6 @@
                 android:id="@+id/bind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/registe_button_bg"
                 android:text="@string/login_str_bind"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -88,7 +70,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/registe_button_bg"
                 android:text="@string/login_str_close"
                 android:textColor="@color/white"
                 android:textSize="20sp"

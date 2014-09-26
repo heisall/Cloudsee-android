@@ -21,7 +21,9 @@ import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ListViewUtil;
+import com.jovision.utils.UserUtil;
 
 /**
  * 更多
@@ -45,6 +47,8 @@ public class JVMoreFragment extends BaseFragment {
 	private RelativeLayout more_cancle;
 	// 用户名称
 	private TextView more_username;
+	// 用户名
+	private String more_name;
 	// 最后一次登录时间
 	private TextView more_lasttime;
 	// 图片数组
@@ -80,6 +84,11 @@ public class JVMoreFragment extends BaseFragment {
 	private void intiUi(View view) {
 		activity = getActivity();
 		name = activity.getResources().getStringArray(R.array.name);
+		if (JVMyDeviceFragment.localFlag) {
+			more_name = "游客A";
+		} else {
+			more_name = JVMyDeviceFragment.devicename;
+		}
 		initDatalist();
 		more_cancle = (RelativeLayout) view.findViewById(R.id.more_cancle);
 		more_modify = (TextView) view.findViewById(R.id.more_modify);
@@ -94,6 +103,7 @@ public class JVMoreFragment extends BaseFragment {
 		more_listView.setAdapter(adapter);
 		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
 
+		more_username.setText(more_name);
 		more_cancle.setOnClickListener(myOnClickListener);
 		more_modify.setOnClickListener(myOnClickListener);
 		more_findpassword.setOnClickListener(myOnClickListener);
@@ -122,6 +132,8 @@ public class JVMoreFragment extends BaseFragment {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.more_cancle:// 注销
+				ConfigUtil.logOut();
+				UserUtil.resetAllUser();
 
 				MyActivityManager.getActivityManager().popAllActivityExceptOne(
 						JVLoginActivity.class);

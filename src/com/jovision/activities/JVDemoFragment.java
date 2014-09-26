@@ -34,6 +34,17 @@ public class JVDemoFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
+		if (null == demoList || 0 == demoList.size()) {
+			demoList.add(new Device("", 9101, "S", 53530352, "admin", "123",
+					true, 1, 0));
+			demoList.add(new Device("", 9101, "A", 361, "abc", "123", false, 1,
+					1));
+			demoList.add(new Device("", 9101, "S", 26680286, "admin", "123",
+					true, 1, 2));
+			demoList.add(new Device("", 9101, "S", 52942216, "admin", "123",
+					false, 1, 3));
+		}
 		View view = inflater.inflate(R.layout.fragment_demo, container, false);
 		return view;
 	}
@@ -65,13 +76,6 @@ public class JVDemoFragment extends BaseFragment {
 			}
 
 		}, 0);
-		demoList.add(new Device("", 9101, "S", 53530352, "admin", "123", true,
-				1, 0));
-		demoList.add(new Device("", 9101, "A", 361, "abc", "123", false, 1, 1));
-		demoList.add(new Device("", 9101, "S", 26680286, "admin", "123", true,
-				1, 2));
-		demoList.add(new Device("", 9101, "S", 52942216, "admin", "123", false,
-				1, 3));
 
 		demoAdapter.setData(demoList);
 		demoListView.setAdapter(demoAdapter);

@@ -26,12 +26,15 @@ public class UserSpinnerAdapter extends BaseAdapter {
 	 * @param handler
 	 * @param list
 	 */
-	public UserSpinnerAdapter(Context c, List<UserBean> aList, String name) {
+	public UserSpinnerAdapter(Context c, String name) {
 		context = c;
 		mInflater = (LayoutInflater) c
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.list = aList;
 		userName = name;
+	}
+
+	public void setData(List<UserBean> aList) {
+		this.list = aList;
 	}
 
 	@Override
@@ -60,7 +63,7 @@ public class UserSpinnerAdapter extends BaseAdapter {
 					.findViewById(R.id.usericon);
 			holder.textView = (TextView) convertView
 					.findViewById(R.id.otherusername);
-			holder.imageView = (ImageView) convertView
+			holder.delImageView = (ImageView) convertView
 					.findViewById(R.id.otheruser_del);
 			holder.dividerImage = (ImageView) convertView
 					.findViewById(R.id.useritemdivider);
@@ -129,7 +132,7 @@ public class UserSpinnerAdapter extends BaseAdapter {
 	class ViewHolder {
 		ImageView userIcon;
 		TextView textView;
-		ImageView imageView;
+		ImageView delImageView;
 		ImageView dividerImage;
 	}
 }

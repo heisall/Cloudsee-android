@@ -21,18 +21,38 @@ public class UserUtil {
 		ArrayList<UserBean> userList = BeanUtil
 				.stringToUserList(MySharedPreference
 						.getString(Consts.LOCAL_USER_LIST));
-		userList.add(user);
+		boolean find = false;
+		if (null == userList) {
+			userList = new ArrayList<UserBean>();
+		} else {
+			int size = userList.size();
+			for (int i = 0; i < size; i++) {
+				if (user.getUserName().equalsIgnoreCase(
+						userList.get(i).getUserName())) {
+					userList.get(i).setUserName(user.getUserName());
+					userList.get(i).setUserPwd(user.getUserPwd());
+					userList.get(i).setUserEmail(user.getUserEmail());
+					userList.get(i).setLastLogin(user.getLastLogin());
+					userList.get(i).setPrimaryID(user.getPrimaryID());
+					find = true;
+					break;
+				}
+			}
+		}
+		if (!find) {
+			userList.add(user);
+		}
 		MySharedPreference.putString(Consts.LOCAL_USER_LIST,
 				userList.toString());
 		return userList;
 	}
 
 	/** 3.删除用户 */
-	public static ArrayList<UserBean> deleteUser(UserBean user) {
+	public static ArrayList<UserBean> deleteUser(int index) {
 		ArrayList<UserBean> userList = BeanUtil
 				.stringToUserList(MySharedPreference
 						.getString(Consts.LOCAL_USER_LIST));
-		userList.remove(user);
+		userList.remove(index);
 		MySharedPreference.putString(Consts.LOCAL_USER_LIST,
 				userList.toString());
 		return userList;
@@ -73,4 +93,19 @@ public class UserUtil {
 		}
 		return lastUser;
 	}
+
+	/** 6.注销，将所有用户都置为非免登陆 */
+	public static void resetAllUser() {
+		ArrayList<UserBean> userList = BeanUtil
+				.stringToUserList(MySharedPreference
+						.getString(Consts.LOCAL_USER_LIST));
+		int size = userList.size();
+		for (int i = 0; i < size; i++) {
+			userList.get(i).setLastLogin(0);
+		}
+		MySharedPreference.putString(Consts.LOCAL_USER_LIST,
+				userList.toString());
+		return;
+	}
+
 }

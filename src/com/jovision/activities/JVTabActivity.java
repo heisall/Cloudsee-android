@@ -259,7 +259,11 @@ public class JVTabActivity extends BaseActivity {
 					getSupportFragmentManager().beginTransaction()
 							.replace(R.id.tab_fragment, mFragments[which])
 							.commit();
-					// tabListener = (OnTabListener) mFragments[which];
+					BaseFragment currentFrag = mFragments[currentIndex];
+					if (null != currentFrag) {
+						((IHandlerLikeNotify) currentFrag).onNotify(
+								Consts.TAB_ONRESUME, 0, 0, null);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -9,7 +9,15 @@
         <item>视频管理</item>
         <item>更多功能</item>
     </string-array>
-
+	<string-array name="name">
+	    <item> 帮助界面</item>
+	    <item> 账户信息</item>
+	    <item> 功能设置</item>
+	    <item> 摇一摇添加设备</item>
+	    <item> 关于我们</item>
+	    <item> 意见反馈</item>
+	    <item> 评论一下</item>
+	</string-array>
     <!-- 家庭安防产品 -->
     <!-- 图片质量 -->
     <string-array name="array_image_quality">

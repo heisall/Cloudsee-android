@@ -136,5 +136,8 @@
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center</item>
     </style>
-
+  <style name="mydialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/dialog_bg</item>
+    </style>
 </resources>

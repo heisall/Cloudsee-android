@@ -29,12 +29,17 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.MyDeviceListAdapter;
+import com.jovision.bean.BeanUtil;
+import com.jovision.bean.Device;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
+<<<<<<< HEAD
 import com.jovision.newbean.BeanUtil;
 import com.jovision.newbean.Device;
 import com.jovision.utils.ConfigUtil;
+=======
+>>>>>>> 6c290f9c47514900e19c824b2f378750383c41e0
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.ImageViewPager;
@@ -107,7 +112,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		inflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		refreshableView = (RefreshableView) mParent
-				.findViewById(R.id.refreshable_view);
+				.findViewById(R.id.device_refreshable_view);
 		adView = inflater.inflate(R.layout.ad_layout, null);
 
 		/** 广告条 */
@@ -136,6 +141,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 				refreshableView.finishRefreshing();
 			}
+
+			@Override
+			public void onLayoutTrue() {
+				refreshableView.finishRefreshing();
+			}
+
 		}, 0);
 
 		broadTimer = new Timer();
@@ -366,6 +377,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 		}
 	}
+<<<<<<< HEAD
 	/**弹出框初始化*/
 	  private void initSummaryDialog( ArrayList<Device> myDeviceList, final int agr1) {
 			initDialog = new Dialog(mActivity, R.style.mydialog);
@@ -423,6 +435,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 	//保存更改设备信息线程
 	class ModifyDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+=======
+
+	// 删除设备线程
+	private class DelDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+>>>>>>> 6c290f9c47514900e19c824b2f378750383c41e0
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
@@ -549,7 +566,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 
 	// 获取设备列表线程
-	class GetDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+	private class GetDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {

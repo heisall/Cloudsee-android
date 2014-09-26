@@ -362,10 +362,10 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				}
 				break;
 			case R.id.more_features:// 更多
-				Intent moreIntent = new Intent();
-				moreIntent.setClass(JVRemotePlayBackActivity.this,
-						JVMoreFeatureActivity.class);
-				JVRemotePlayBackActivity.this.startActivity(moreIntent);
+				// Intent moreIntent = new Intent();
+				// moreIntent.setClass(JVRemotePlayBackActivity.this,
+				// JVMoreFeatureActivity.class);
+				// JVRemotePlayBackActivity.this.startActivity(moreIntent);
 				break;
 			}
 

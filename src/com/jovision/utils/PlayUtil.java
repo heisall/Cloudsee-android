@@ -19,12 +19,12 @@ import android.util.Log;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.MainApplication;
+import com.jovision.bean.Channel;
+import com.jovision.bean.Device;
 import com.jovision.bean.RemoteVideo;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
-import com.jovision.newbean.Channel;
-import com.jovision.newbean.Device;
 
 /**
  * 播放相关功能

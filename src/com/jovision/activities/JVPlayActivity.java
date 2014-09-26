@@ -33,13 +33,13 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.PlayViewPagerAdapter;
 import com.jovision.adapters.ScreenAdapter;
+import com.jovision.bean.BeanUtil;
+import com.jovision.bean.Channel;
+import com.jovision.bean.Device;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
-import com.jovision.newbean.BeanUtil;
-import com.jovision.newbean.Channel;
-import com.jovision.newbean.Device;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 
@@ -947,10 +947,10 @@ public class JVPlayActivity extends PlayActivity implements
 
 				break;
 			case R.id.more_features:// 更多
-				Intent moreIntent = new Intent();
-				moreIntent.setClass(JVPlayActivity.this,
-						JVMoreFeatureActivity.class);
-				JVPlayActivity.this.startActivity(moreIntent);
+				// Intent moreIntent = new Intent();
+				// moreIntent.setClass(JVPlayActivity.this,
+				// JVMoreFeatureActivity.class);
+				// JVPlayActivity.this.startActivity(moreIntent);
 				break;
 			}
 

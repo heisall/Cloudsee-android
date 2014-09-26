@@ -17,6 +17,8 @@ public class Consts {
 			+ File.separator + "capture" + File.separator;
 	public static final String VIDEO_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "video" + File.separator;
+	public static final String SOFTWARE_PATH = Consts.SD_CARD_PATH + APP_NAME
+			+ File.separator + "software" + File.separator;
 
 	public static final String DB_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "db" + File.separator;
@@ -87,6 +89,7 @@ public class Consts {
 
 	public static final int WHAT_DUMMY = 0x04;
 
+	public static final String IPC_FLAG = "IPC-";
 	public static final String IPC_DEFAULT_USER = "jwifiApuser";
 	public static final String IPC_DEFAULT_PWD = "^!^@#&1a**U";
 	public static final String IPC_DEFAULT_IP = "10.10.0.1";
@@ -124,6 +127,14 @@ public class Consts {
 	public static final int CHANNEL_FRAGMENT_ONRESUME = 40;// ChannelFragment
 															// onResume
 
+	/** 推送消息 tag */
+	public static final int PUSH_MESSAGE = 50;
+
+	/** 账号错误 tag */
+	public static final int ACCOUNT_KEEP_ONLINE_FAILED = 55;// 连续三次保持在线失败
+	public static final int ACCOUNT_OFFLINE = 56;// 提掉线
+	public static final int ACCOUNT_TCP_ERROR = 57;// 提掉线
+
 	/** 引导界面滑屏 */
 	public static final int GUID_PAGE_SCROLL = 500;// --
 
@@ -150,6 +161,9 @@ public class Consts {
 	public static final String SCREEN_WIDTH = "SCREEN_WIDTH";
 	/** 屏幕高度key */
 	public static final String SCREEN_HEIGHT = "SCREEN_HEIGHT";
+
+	/** 本地存储user列表key */
+	public static final String LOCAL_USER_LIST = "LOCAL_USER_LIST";
 
 	/** 存储设备列表key */
 	public static String DEVICE_LIST = "";

@@ -19,11 +19,11 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.ChannelAdapter;
+import com.jovision.bean.BeanUtil;
+import com.jovision.bean.Channel;
+import com.jovision.bean.Device;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
-import com.jovision.newbean.BeanUtil;
-import com.jovision.newbean.Channel;
-import com.jovision.newbean.Device;
 import com.jovision.utils.DeviceUtil;
 
 public class ChannelFragment extends BaseFragment {
@@ -338,7 +338,7 @@ public class ChannelFragment extends BaseFragment {
 	}
 
 	// 设置三种类型参数分别为String,Integer,String
-	class AddChannelTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+	private class AddChannelTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {

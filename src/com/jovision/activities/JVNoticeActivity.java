@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.PushAdapter;
-import com.jovision.commons.BaseApp;
 import com.jovision.commons.JVConst;
 
 public class JVNoticeActivity extends BaseActivity {
@@ -63,7 +62,7 @@ public class JVNoticeActivity extends BaseActivity {
 		refresh.setOnClickListener(onClickListener);
 
 		pushAdapter = new PushAdapter(JVNoticeActivity.this);
-		pushAdapter.setData(BaseApp.pushList);
+		// pushAdapter.setData(BaseApp.pushList);
 		pushListView.setAdapter(pushAdapter);
 	}
 

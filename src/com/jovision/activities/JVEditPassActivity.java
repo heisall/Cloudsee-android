@@ -12,10 +12,9 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.commons.BaseApp;
+import com.jovision.bean.UserBean;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVConst;
-import com.jovision.newbean.UserBean;
 import com.jovision.utils.AccountUtil;
 
 public class JVEditPassActivity extends BaseActivity {
@@ -143,8 +142,8 @@ public class JVEditPassActivity extends BaseActivity {
 				UserBean user = new UserBean();
 				user.setUserName(username);
 				user.setUserPwd(newpwd);
-				BaseApp.modifyUserInfo(user);
-				BaseApp.resetUser();
+				// BaseApp.modifyUserInfo(user);
+				// BaseApp.resetUser();
 				if (JVConst.KEEP_ONLINE_FLAG) {// 已经开启服务
 					Intent serviceIntent = new Intent(context.getResources()
 							.getString(R.string.str_offline_class_name));

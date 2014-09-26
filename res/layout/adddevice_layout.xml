@@ -33,7 +33,6 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:background="@drawable/add_device_text_selector"
                 android:paddingLeft="10dp"
                 android:text=""
                 android:textColor="@color/leftdevicecolor"
@@ -59,7 +58,6 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:background="@drawable/add_device_text_selector"
                 android:inputType="textVisiblePassword"
                 android:paddingLeft="10dp"
                 android:text="abc"
@@ -85,7 +83,6 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:background="@drawable/add_device_text_selector"
                 android:paddingLeft="10dp"
                 android:password="true"
                 android:text="123"
@@ -100,7 +97,6 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:text="@string/login_str_save"
-            android:textColor="@drawable/button_font_style1"
             android:textSize="16sp" />
     </TableLayout>
 

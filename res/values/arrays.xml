@@ -57,4 +57,37 @@
         <item>16</item>
     </integer-array>
 
+    <!-- 告警类型 -->
+    <string-array name="alarm_type">
+        <item>Disk Error Alarm, Device:%%.</item>
+        <item>Disk Full Alarm, Device:%%.</item>
+        <item>Disconnection Alarm, Device:%%.</item>
+        <item>System Update Alarm, Device:%%.</item>
+        <item>Input Alarm, Device:%%, Time:$$.</item>
+        <item>Video Lost Alarm, Device:%%.</item>
+        <item>Video Covered Alarm, Device:%%.</item>
+        <item>Motion Detection Alarm, Device:%%.</item>
+        <item>Power Off Alarm, Device:%%.</item>
+        <item>Manual Alarm, Device:%%.</item>
+        <item>GPS Alarm, Device:%%.</item>
+        <item>PIR alarm, Device:%%.</item>
+        <item>ALARM_NONE, Device:%%.</item>
+        <item>ALARM_NOTIFY, Device:%%.</item>
+        <item>ALARM_TEMP_HIGH, Device:%%.</item>
+        <item>ALARM_TEMP_LOW, Device:%%.</item>
+        <item>ALARM_HUM_HIGH, Device:%%.</item>
+        <item>ALARM_HUM_LOW, Device:%%.</item>
+        <item>ALARM_TEMP_HIGH_HUM_HIGH, Device:%%.</item>
+        <item>ALARM_TEMP_HIGH_HUM_LOW, Device:%%.</item>
+        <item>ALARM_TEMP_LOW_HUM_HIGH, Device:%%.</item>
+        <item>ALARM_TEMP_LOW_HUM_LOW, Device:%%.</item>
+        <item>ALARM_TOTAL, Device:%%.</item>
+    </string-array>
+
+    <!-- 播放器选择 -->
+    <string-array name="player_selector">
+        <item>System player</item>
+        <item>The third party player</item>
+    </string-array>
+
 </resources>

@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.newbean.UserBean;
+import com.jovision.bean.UserBean;
 
 public class UserSpinnerAdapter extends BaseAdapter {
 	private Context context;

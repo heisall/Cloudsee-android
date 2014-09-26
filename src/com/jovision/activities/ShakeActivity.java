@@ -23,7 +23,6 @@ import android.os.Vibrator;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.bean.WifiAdmin;
-import com.jovision.commons.BaseApp;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
@@ -45,6 +44,7 @@ public abstract class ShakeActivity extends BaseActivity implements
 	protected MediaPlayer mediaPlayer = new MediaPlayer();
 	protected WifiAdmin wifiAdmin;
 	protected String oldWifiSSID = "";
+	protected static boolean oldWifiState = false;
 	protected boolean threadRunning = false;
 
 	private ShakeHandler shakeHandler;
@@ -186,8 +186,8 @@ public abstract class ShakeActivity extends BaseActivity implements
 				// wifi打开的前提下
 				if (activity.wifiAdmin.getWifiState()) {
 					if (null != activity.wifiAdmin.getSSID()) {
-						BaseApp.oldWifiSSID = activity.wifiAdmin.getSSID()
-								.replace("\"", "");
+						oldWifiSSID = activity.wifiAdmin.getSSID().replace(
+								"\"", "");
 					}
 
 				}
@@ -195,7 +195,7 @@ public abstract class ShakeActivity extends BaseActivity implements
 				boolean openFlag = false;
 
 				if (activity.wifiAdmin.getWifiState()) {// 如果wifi为打开状态无需等待5秒
-					BaseApp.oldWifiState = true;
+					oldWifiState = true;
 					openFlag = true;
 					try {
 						Thread.sleep(2000);
@@ -203,7 +203,7 @@ public abstract class ShakeActivity extends BaseActivity implements
 						e1.printStackTrace();
 					}
 				} else {
-					BaseApp.oldWifiState = false;
+					oldWifiState = false;
 					openFlag = activity.wifiAdmin.openWifi();// 打开wifi需要6秒左右
 
 					boolean state = false;
@@ -279,7 +279,7 @@ public abstract class ShakeActivity extends BaseActivity implements
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						if (BaseApp.oldWifiState) {// 原wifi开着的，什么也不做
+						if (oldWifiState) {// 原wifi开着的，什么也不做
 
 						} else {// 原wifi关闭状态，关闭wifi
 							wifiAdmin.closeWifi();
@@ -338,7 +338,7 @@ public abstract class ShakeActivity extends BaseActivity implements
 			case JVConst.SHAKE_IPC_WIFI_FAILED: {
 				activity.showTextToast(R.string.str_quick_setting_alert_nowifi);
 
-				if (BaseApp.oldWifiState) {// 原wifi开着的，什么也不做
+				if (oldWifiState) {// 原wifi开着的，什么也不做
 
 				} else {// 原wifi关闭状态，关闭wifi
 					activity.wifiAdmin.closeWifi();

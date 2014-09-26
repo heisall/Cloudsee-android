@@ -8,10 +8,10 @@ import org.json.JSONObject;
 
 import android.test.JVACCOUNT;
 
+import com.jovision.bean.Channel;
+import com.jovision.bean.Device;
 import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.MyLog;
-import com.jovision.newbean.Channel;
-import com.jovision.newbean.Device;
 
 public class DeviceUtil {
 

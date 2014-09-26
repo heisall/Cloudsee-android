@@ -21,7 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.commons.BaseApp;
+import com.jovision.utils.ConfigUtil;
 
 public class RefreshableListView extends ListView {
 
@@ -225,7 +225,7 @@ public class RefreshableListView extends ListView {
 		refreshTime = (TextView) mHeaderContainer
 				.findViewById(R.id.refreshable_list_time);
 		refreshTime.setText(getResources().getString(R.string.str_update_at)
-				+ BaseApp.getCurrentTime());
+				+ ConfigUtil.getCurrentTime());
 
 		addHeaderView(mHeaderContainer);
 
@@ -274,7 +274,7 @@ public class RefreshableListView extends ListView {
 				refreshState.setText(R.string.pull_to_refresh_pull_label);
 				refreshTime.setText(getResources().getString(
 						R.string.str_update_at)
-						+ BaseApp.getCurrentTime());
+						+ ConfigUtil.getCurrentTime());
 				rotateArrow();
 				mArrowUp = false;
 			}

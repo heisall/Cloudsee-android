@@ -14,9 +14,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.commons.BaseApp;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.mails.MailSenderInfo;
 
 public class JVFeedbackActivity extends BaseActivity {
@@ -204,7 +204,7 @@ public class JVFeedbackActivity extends BaseActivity {
 				// 这个类主要来发送邮件
 				// BaseApp.sendMailtoMultiReceiver(mailInfo);
 				// SimpleMailSender sms = new SimpleMailSender();
-				boolean flag = BaseApp.sendMailtoMultiReceiver(mailInfo);// 发送文体格式
+				boolean flag = ConfigUtil.sendMailtoMultiReceiver(mailInfo);// 发送文体格式
 				// sms.sendHtmlMail(mailInfo);//发送html格式
 				if (flag) {
 					handler.sendMessage(handler

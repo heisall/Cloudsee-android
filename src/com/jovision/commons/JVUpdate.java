@@ -23,6 +23,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.utils.MobileUtil;
 
 public class JVUpdate {
 
@@ -33,7 +35,7 @@ public class JVUpdate {
 
 	// 返回的安装包url
 	// private String apkUrl =
-	// "http://192.168.32.111:6161/JVCloudSeeClient.apk";
+	// "http://98.126.5.66:6161/JVCloudSeeClient.apk";
 
 	private Dialog noticeDialog;
 
@@ -148,7 +150,9 @@ public class JVUpdate {
 				conn.connect();
 				int length = conn.getContentLength();
 				InputStream is = conn.getInputStream();
-				saveFileName = BaseApp.SDPATH
+				File file = new File(Consts.SOFTWARE_PATH);
+				MobileUtil.createDirectory(file);
+				saveFileName = Consts.SOFTWARE_PATH
 						+ mContext.getResources().getString(
 								R.string.str_save_apk_name);
 				// File file = new File(savePath);
@@ -204,7 +208,9 @@ public class JVUpdate {
 	 * @param url
 	 */
 	private void installApk() {
-		saveFileName = BaseApp.SDPATH
+		File file = new File(Consts.SOFTWARE_PATH);
+		MobileUtil.createDirectory(file);
+		saveFileName = Consts.SOFTWARE_PATH
 				+ mContext.getResources().getString(R.string.str_save_apk_name);
 		File apkfile = new File(saveFileName);
 		if (!apkfile.exists()) {

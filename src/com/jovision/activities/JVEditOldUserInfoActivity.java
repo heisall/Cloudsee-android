@@ -2,7 +2,6 @@ package com.jovision.activities;
 
 import java.lang.ref.WeakReference;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.test.JVACCOUNT;
@@ -16,11 +15,10 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.commons.BaseApp;
+import com.jovision.bean.UserBean;
 import com.jovision.commons.JVAccountConst;
-import com.jovision.newbean.UserBean;
 import com.jovision.utils.AccountUtil;
-import com.jovision.utils.SqlLiteUtil;
+import com.jovision.utils.UserUtil;
 
 public class JVEditOldUserInfoActivity extends BaseActivity {
 
@@ -28,8 +26,6 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 	private Button finish;
 	private TextView currentMenu;
 	private EditText userNameEditText;
-	private Dialog dialog = null;
-	private Dialog dialog2 = null;// 进度dialog
 
 	/** 注册信息提示文本 */
 	private TextView registTips;
@@ -41,12 +37,6 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		Intent intent = new Intent();
-		if (null != dialog && dialog.isShowing()) {
-			dialog.dismiss();
-		}
-		if (null != dialog2 && dialog2.isShowing()) {
-			dialog2.dismiss();
-		}
 		switch (what) {
 		case JVAccountConst.REGIST_SUCCESS:
 
@@ -73,7 +63,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 				finish();
 			} else {
 				intent.setClass(JVEditOldUserInfoActivity.this,
-						JVMainActivity.class);
+						JVTabActivity.class);
 				startActivity(intent);
 				finish();
 			}
@@ -82,41 +72,26 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 			// finish();
 			break;
 		case JVAccountConst.REGIST_SUCCESS_LOGIN_FAILED:
-			if (null != dialog && dialog.isShowing()) {
-				dialog.dismiss();
-			}
 			showTextToast(R.string.str_userpass_error);
 			intent.setClass(JVEditOldUserInfoActivity.this,
 					JVLoginActivity.class);
-			if (null != dialog && dialog.isShowing()) {
-				dialog.dismiss();
-			}
+			dismissDialog();
 			startActivity(intent);
 			finish();
 			break;
 		case JVAccountConst.REGIST_SUCCESS_LOGIN_NET_ERROR:
-			if (null != dialog && dialog.isShowing()) {
-				dialog.dismiss();
-			}
+			dismissDialog();
 			showTextToast(R.string.str_net_error);
 			intent.setClass(JVEditOldUserInfoActivity.this,
 					JVLoginActivity.class);
-			if (null != dialog && dialog.isShowing()) {
-				dialog.dismiss();
-			}
 			startActivity(intent);
 			finish();
 			break;
 		case JVAccountConst.SESSION_NOT_EXSIT:
-			if (null != dialog && dialog.isShowing()) {
-				dialog.dismiss();
-			}
+			dismissDialog();
 			showTextToast(R.string.str_session_not_exist);
 			intent.setClass(JVEditOldUserInfoActivity.this,
 					JVLoginActivity.class);
-			if (null != dialog && dialog.isShowing()) {
-				dialog.dismiss();
-			}
 			startActivity(intent);
 			finish();
 			break;
@@ -185,11 +160,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 						int res = AccountUtil.VerifyUserName(userNameEditText
 								.getText().toString());
 						if (res >= 0) {
-							if (null == dialog2) {
-								dialog2 = BaseApp.createLoadingDialog(
-										JVEditOldUserInfoActivity.this, null);
-							}
-							dialog2.show();
+							createDialog("");
 							new Thread() {
 								public void run() {
 									nameExists = AccountUtil
@@ -269,9 +240,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 						.getText().toString())) {
 					showTextToast(R.string.login_str_username_tips3);
 				} else {
-					if (null != dialog) {
-						dialog.show();
-					}
+					createDialog("");
 					statusHashMap.put(Consts.KEY_USERNAME, userNameEditText
 							.getText().toString());
 					FinishThread finishThread = new FinishThread(
@@ -354,7 +323,8 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 			if (null != activity) {
 				int result = AccountUtil.userLogin(
 						activity.statusHashMap.get(Consts.KEY_USERNAME),
-						activity.statusHashMap.get(Consts.KEY_PASSWORD));
+						activity.statusHashMap.get(Consts.KEY_PASSWORD),
+						activity);
 				if (JVAccountConst.SUCCESS == result) {
 					// //登陆成功开推送，保持在线
 					// LoginUtil.userOnline();
@@ -364,7 +334,8 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 							.get(Consts.KEY_USERNAME));
 					user.setUserPwd(activity.statusHashMap
 							.get(Consts.KEY_PASSWORD));
-					SqlLiteUtil.addUser(user);
+					// SqlLiteUtil.addUser(user);
+					UserUtil.addUser(user);
 					activity.statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 					activity.handler
 							.sendMessage(activity.handler

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.newbean.Channel;
+import com.jovision.bean.Channel;
 
 /**
  * 播放窗口管理工具类
@@ -90,7 +89,7 @@ public class PlayWindowManager implements View.OnClickListener,
 	private int textColor;
 	private int progressWidth;
 
-	private static final int DEFAULT_UI_RES = R.drawable.ic_launcher;
+	private static final int DEFAULT_UI_RES = R.drawable.main;
 
 	private PlayWindowManager() {
 		mPageList = new ArrayList<View>();
@@ -985,23 +984,8 @@ public class PlayWindowManager implements View.OnClickListener,
 		}
 
 		private SurfaceView genSurfaceView() {
-			final MyGestureDispatcher dispatcher = new MyGestureDispatcher(
-					new MyGestureDispatcher.OnGestureListener() {
-
-						@Override
-						public void onGesture(int direction) {
-							((OnUiListener) mContext).onGesture(direction);
-						}
-					});
 
 			SurfaceView view = new SurfaceView(mContext);
-			view.setOnTouchListener(new View.OnTouchListener() {
-
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					return dispatcher.motion(event);
-				}
-			});
 
 			if (index >= 0) {
 				SurfaceHolder holder = view.getHolder();

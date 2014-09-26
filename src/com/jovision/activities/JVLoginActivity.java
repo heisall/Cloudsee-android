@@ -2,9 +2,13 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Message;
+import android.os.AsyncTask;
+import android.test.JVACCOUNT;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -24,16 +28,20 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.Handler.LoginHandler;
 import com.jovision.adapters.UserSpinnerAdapter;
-import com.jovision.newbean.Device;
-import com.jovision.newbean.UserBean;
-import com.jovision.thread.LoginThread;
+import com.jovision.bean.Device;
+import com.jovision.bean.UserBean;
+import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.MySharedPreference;
+import com.jovision.commons.Url;
+import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.UserUtil;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class JVLoginActivity extends BaseActivity {
 
+	private final String TAG = "JVLoginActivity";
 	private String userName = "";
 	private String passWord = "";
 
@@ -49,7 +57,6 @@ public class JVLoginActivity extends BaseActivity {
 	private Button localLoginBtn;
 	private TextView showPointTV;
 	private TextView findPassTV;
-	private LoginHandler loginHandler;
 
 	// 下拉箭头图片组件
 	private ImageView moreUserIV;
@@ -62,15 +69,7 @@ public class JVLoginActivity extends BaseActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		switch (what) {
-		case Consts.LOGIN_FUNCTION:// 登陆返回的结果
-			Message msg = Message.obtain();
-			msg.arg1 = arg1;
-			msg.arg2 = arg2;
-			msg.what = what;
-			loginHandler.sendMessage(msg);
-			break;
-		}
+
 	}
 
 	@Override
@@ -80,82 +79,6 @@ public class JVLoginActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		loginHandler = new LoginHandler(this, false);
-		// // 判断是否免登陆
-		// UserBean user = SqlLiteUtil.queryLoginUser();
-		// if (ConfigUtil.isConnected(JVLoginActivity.this) && null != user) {
-		// statusHashMap.put(Consts.KEY_USERNAME, user.getUserName());
-		// statusHashMap.put(Consts.KEY_PASSWORD, user.getUserPwd());
-		// LoginThread loginThread = new LoginThread(JVLoginActivity.this);
-		// loginThread.start();
-		// } else {// 未联网或者是非免登陆状态
-		//
-		// }
-		// deviceList.add(new Device("", 9101, "S", 53530352, "admin", "123",
-		// true, 1, 0));
-		// deviceList
-		// .add(new Device("", 9101, "A", 361, "abc", "123", false, 1, 1));
-		// deviceList.add(new Device("", 9101, "S", 26680286, "admin", "123",
-		// true, 1, 2));
-		// deviceList.add(new Device("", 9101, "S", 52942216, "admin", "123",
-		// false, 1, 3));
-		//
-		// int size = deviceList.size();
-		// for (int i = 0; i < size; i++) {
-		// Jni.setLinkHelper(PlayUtil.genLinkHelperJson(deviceList));
-		// }
-		for (int i = 0; i < 5; i++) {
-			UserBean userBean = new UserBean();
-			userBean.setUserName("refactor" + i);
-			userBean.setUserPwd("123456");
-			userBean.setUserEmail("juyang@jovision.com");
-			userBean.setLastLogin(0);
-			userList.add(userBean);
-		}
-
-		// String str = userBean.toString();
-		//
-		// UserBean userBean2 = BeanUtil.toUser(str);
-		// userBean2.setLastLogin(0);
-
-		//
-		// Device dev = new Device();
-		// dev.setIp("192.168.14.15");
-		// dev.setPort(9101);
-		// dev.setGid("A");
-		// dev.setNo(361);
-		// dev.setFullNo("A361");
-		// dev.setUser("abc");
-		// dev.setPwd("123");
-		// dev.setHomeProduct(false);
-		// dev.setHelperEnabled(false);
-		// dev.setDeviceType(05);
-		// dev.setO5(true);
-		// dev.setNickName("演示点");
-		// dev.setIsDevice(0);
-		// dev.setOnlineState(0);
-		// dev.setHasWifi(1);
-		//
-		// ArrayList<Channel> list = new ArrayList<Channel>();
-		// for (int i = 0; i < 4; i++) {
-		// Channel channel = new Channel();
-		// channel.setIndex(i);
-		// channel.setChannel(i);
-		// channel.setChannelName("A361_" + i);
-		// channel.setConnecting(false);
-		// channel.setConnecting(false);
-		// channel.setRemotePlay(false);
-		// channel.setConfigChannel(false);
-		// channel.setAuto(false);
-		// channel.setVoiceCall(true);
-		// channel.setSurfaceCreated(true);
-		// channel.setSendCMD(true);
-		// list.add(channel);
-		// }
-		// dev.setChannelList(list);
-		//
-		// String devString = dev.toString();
-		// MyLog.v("devString", devString);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -208,6 +131,7 @@ public class JVLoginActivity extends BaseActivity {
 			moreUserIV.setVisibility(View.GONE);
 		}
 
+		userList = UserUtil.getUserList();
 		// 设置点击下拉箭头图片事件，点击弹出PopupWindow浮动下拉框
 		moreUserIV.setOnClickListener(new OnClickListener() {
 			@Override
@@ -261,6 +185,24 @@ public class JVLoginActivity extends BaseActivity {
 		registBtn.setOnClickListener(myOnClickListener);
 		localLoginBtn.setOnClickListener(myOnClickListener);
 		findPassTV.setOnClickListener(myOnClickListener);
+
+		Intent intent = getIntent();
+		Boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
+
+		if (autoLogin) {
+			String userName = intent.getStringExtra("UserName");
+			String userPass = intent.getStringExtra("UserPass");
+			statusHashMap.put(Consts.KEY_USERNAME, userName);
+			statusHashMap.put(Consts.KEY_PASSWORD, userPass);
+			statusHashMap.put(Consts.LOCAL_LOGIN, "false");
+
+			userNameET.setText(userName);
+			passwordET.setText(userPass);
+
+			LoginTask task = new LoginTask();
+			String[] strParams = new String[3];
+			task.execute(strParams);
+		}
 	}
 
 	OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
@@ -285,6 +227,7 @@ public class JVLoginActivity extends BaseActivity {
 		}
 
 	};
+
 	/**
 	 * click事件
 	 */
@@ -325,10 +268,13 @@ public class JVLoginActivity extends BaseActivity {
 					statusHashMap.put(Consts.KEY_USERNAME, userName);
 					statusHashMap.put(Consts.KEY_PASSWORD, passWord);
 					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
-					// 登录
-					LoginThread loginThread = new LoginThread(
-							JVLoginActivity.this);
-					loginThread.start();
+
+					// LoginThread lt = new LoginThread(JVLoginActivity.this);
+					// lt.start();
+
+					LoginTask task = new LoginTask();
+					String[] strParams = new String[3];
+					task.execute(strParams);
 				}
 				break;
 			case R.id.regist_btn:// 注册
@@ -363,6 +309,146 @@ public class JVLoginActivity extends BaseActivity {
 		}
 
 	};
+
+	private int loginRes1 = 0;
+	private int loginRes2 = 0;
+
+	// 登陆线程
+	private class LoginTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			String strRes = AccountUtil.onLoginProcess(JVLoginActivity.this,
+					statusHashMap.get(Consts.KEY_USERNAME),
+					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,
+					Url.LONGSERVERIP);
+			JSONObject respObj = null;
+			try {
+				respObj = new JSONObject(strRes);
+				loginRes1 = respObj.optInt("arg1", 1);
+				loginRes2 = respObj.optInt("arg2", 0);
+			} catch (JSONException e) {
+				loginRes1 = JVAccountConst.LOGIN_FAILED_2;
+				loginRes2 = 0;
+				e.printStackTrace();
+			}
+			return loginRes1;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			Intent intent = new Intent();
+			switch (result) {
+			case JVAccountConst.LOGIN_SUCCESS: {
+				MySharedPreference.putString("UserName",
+						statusHashMap.get(Consts.KEY_USERNAME));
+				MySharedPreference.putString("PassWord",
+						statusHashMap.get(Consts.KEY_PASSWORD));
+				dismissDialog();
+				UserBean user = new UserBean();
+				user.setPrimaryID(System.currentTimeMillis());
+				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
+				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
+				// SqlLiteUtil.addUser(user);
+				UserUtil.addUser(user);
+				intent.setClass(JVLoginActivity.this, JVTabActivity.class);
+				JVLoginActivity.this.startActivity(intent);
+				finish();
+				break;
+			}
+			case JVAccountConst.RESET_NAME_AND_PASS: {
+				dismissDialog();
+				intent.setClass(JVLoginActivity.this,
+						JVEditOldUserInfoActivity.class);
+				JVLoginActivity.this.startActivity(intent);
+				break;
+			}
+			case JVAccountConst.RESET_PASSWORD_SUCCESS: {
+				UserBean user1 = new UserBean();
+				user1.setPrimaryID(System.currentTimeMillis());
+				user1.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
+				user1.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
+				statusHashMap.put(Consts.LOCAL_LOGIN, "true");
+				// SqlLiteUtil.addUser(user1);
+				UserUtil.addUser(user1);
+				dismissDialog();
+				String resultJson = JVACCOUNT.GetAccountInfo();
+				JSONObject json = null;
+				try {
+					json = new JSONObject(resultJson);
+				} catch (JSONException e) {
+					json = null;
+				}
+				if (null != json && null != json.optString("mail")
+						&& !"".equals(json.optString("mail"))) {
+					intent.setClass(JVLoginActivity.this,
+							JVBoundEmailActivity.class);
+					JVLoginActivity.this.startActivity(intent);
+					finish();
+				} else {
+					intent.setClass(JVLoginActivity.this, JVTabActivity.class);
+					JVLoginActivity.this.startActivity(intent);
+					finish();
+				}
+				break;
+			}
+			case JVAccountConst.PASSWORD_ERROR: {
+				dismissDialog();
+				showTextToast(R.string.str_userpass_error);
+				break;
+			}
+			case JVAccountConst.SESSION_NOT_EXSIT: {
+				dismissDialog();
+				showTextToast(R.string.str_session_not_exist);
+				break;
+			}
+			case JVAccountConst.USER_HAS_EXIST: {
+
+				break;
+			}
+			case JVAccountConst.USER_NOT_EXIST: {
+				dismissDialog();
+				showTextToast(R.string.str_user_not_exist);
+				break;
+			}
+			case JVAccountConst.LOGIN_FAILED_1: {
+				dismissDialog();
+				if (-5 == loginRes2) {
+					showTextToast(R.string.str_error_code_5);
+				} else if (-6 == loginRes2) {
+					showTextToast(R.string.str_error_code_6);
+				} else {
+					showTextToast(getResources().getString(
+							R.string.str_error_code)
+							+ (loginRes2 - 1000));
+				}
+				break;
+			}
+			case JVAccountConst.LOGIN_FAILED_2: {
+				dismissDialog();
+				showTextToast(R.string.str_other_error);
+				break;
+			}
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			JVLoginActivity.this.createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
 
 	@Override
 	protected void saveSettings() {

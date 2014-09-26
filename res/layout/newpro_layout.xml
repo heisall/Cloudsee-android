@@ -1,93 +1,0 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical" >
-
-    <include
-        android:id="@+id/top_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/top_bar_layout" />
-
-    <com.jovision.views.ScaleImageView
-        android:id="@+id/newimage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/top_layout"
-        android:layout_marginBottom="80dp"
-        android:scaleType="matrix" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:padding="20dp" >
-
-        <Button
-            android:id="@+id/startplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/registe_button_bg"
-            android:text="@string/str_watch_newpro"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-    </RelativeLayout>
-    <!--
-"
-<ScrollView 
-    android:background="@color/white"
-    android:descendantFocusability="afterDescendants"
-    android:layout_width="match_parent"
-	android:layout_height="match_parent">
-	    <LinearLayout 
-	        android:orientation="vertical"
-	        android:layout_width="match_parent"
-	    	android:layout_height="wrap_content">
-	    
-	    <LinearLayout 
-	        android:id="@+id/imagelayout"
-	        android:orientation="vertical"
-	        android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"/>
-	    	
-		        <Button
-		           android:layout_margin="20dp"
-		            android:background="@drawable/registe_button_bg"
-		            android:layout_width="match_parent"
-			        android:layout_height="wrap_content"
-			        android:id="@+id/startplay"
-			        android:textColor="@color/white"
-			        android:textSize="20sp"
-			        android:text="@string/str_watch_newpro"/>
-		      <RelativeLayout
-	    	    android:visibility="gone"
-		        android:layout_width="match_parent"
-			    android:layout_height="wrap_content">
-		    	<FrameLayout
-		    	    android:id="@+id/newpiclayout"
-			        android:layout_width="match_parent"
-				    android:layout_height="wrap_content">
-			    	<com.jovetech.util.ViewFlow
-			            android:id="@+id/npviewflow"
-			            android:background="@drawable/viewflow_default_img"
-			            android:layout_width="fill_parent"
-			            android:layout_height="100dip" />
-		    	</FrameLayout>
-		    </RelativeLayout>
-		    <TextView
-		        android:visibility="gone" 
-		        android:layout_marginLeft="15dp"
-		        android:layout_marginTop="15dp"
-		        android:layout_marginRight="15dp"
-		        android:layout_width="match_parent"
-		     	android:layout_height="wrap_content"
-		        android:id="@+id/newprotext"/> 
-	</LinearLayout>
- </ScrollView>
-    -->
-
-</RelativeLayout>

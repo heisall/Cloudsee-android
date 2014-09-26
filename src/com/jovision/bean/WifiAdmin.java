@@ -14,7 +14,7 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
 import android.text.TextUtils;
 
-import com.jovision.commons.BaseApp;
+import com.jovision.Consts;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 
@@ -153,7 +153,7 @@ public class WifiAdmin {
 				String name = mWifiList.get(i).SSID;
 				// .replace("\"", "");
 
-				if (!name.startsWith(BaseApp.IPC_FLAG)) {
+				if (!name.startsWith(Consts.IPC_FLAG)) {
 					mWifiList.remove(i);
 					i--;
 					size = mWifiList.size();
@@ -183,7 +183,7 @@ public class WifiAdmin {
 
 					String name = mWifiList.get(i).SSID;
 
-					if (name.startsWith(BaseApp.IPC_FLAG)
+					if (name.startsWith(Consts.IPC_FLAG)
 							|| name.equalsIgnoreCase("")) {
 						mWifiList.remove(i);
 						i--;
@@ -553,7 +553,8 @@ public class WifiAdmin {
 	 * @param connWifi
 	 * @return
 	 */
-	public boolean changeWifi(String disWifi, String connWifi) {
+	public boolean changeWifi(String disWifi, String connWifi,
+			boolean oldWifiState) {
 
 		MyLog.v(TAG, "changeWifi-E:" + disWifi + "-" + connWifi);
 		boolean changeRes = false;
@@ -565,7 +566,7 @@ public class WifiAdmin {
 				changeRes = true;
 				return changeRes;
 			} else {
-				if (BaseApp.oldWifiState) {// 原wifi开着的，恢复到原来的网络
+				if (oldWifiState) {// 原wifi开着的，恢复到原来的网络
 					// 断开现在的wifi
 					if (null != disWifi && !"".equalsIgnoreCase(disWifi)) {
 						WifiConfiguration currWifi = isExsits(disWifi);

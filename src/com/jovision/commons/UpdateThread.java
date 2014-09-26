@@ -75,9 +75,10 @@ public class UpdateThread extends Thread {
 					// 检查更新失败
 					// 手动检查更新
 				} else if (activityFlag == JVConst.JVMORE_ACTIVITY_FLAG) {
-					BaseApp.moreHandler
-							.sendEmptyMessage(BaseApp.moreHandler
-									.obtainMessage().what = JVConst.CHECK_UPDATE_FAILED);// 检查更新失败
+					// BaseApp.moreHandler
+					// .sendEmptyMessage(BaseApp.moreHandler
+					// .obtainMessage().what = JVConst.CHECK_UPDATE_FAILED);//
+					// 检查更新失败
 				}
 
 			}

@@ -12,15 +12,13 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/top_shadow" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:id="@+id/wifilistbg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:background="@drawable/video_list_bg" >
+        android:layout_margin="20dp" >
 
         <ListView
             android:id="@+id/pushlistview"

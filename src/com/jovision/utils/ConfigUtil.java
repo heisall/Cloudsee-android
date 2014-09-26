@@ -1,10 +1,24 @@
 package com.jovision.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.mail.Address;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -34,6 +48,8 @@ import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
+import com.jovision.utils.mails.MailSenderInfo;
+import com.jovision.utils.mails.MyAuthenticator;
 
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
@@ -227,8 +243,7 @@ public class ConfigUtil {
 				.getApplicationContext()).getStatusHashMap();
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
 
-			result = JVACCOUNT.InitSDK(JVACCOUNT.getInstance(),
-					Consts.ACCOUNT_PATH);
+			result = JVACCOUNT.InitSDK(context, Consts.ACCOUNT_PATH);
 			String channelIp = "";
 			String onlineIp = "";
 			if (ConfigUtil.isLanZH()) {
@@ -544,8 +559,69 @@ public class ConfigUtil {
 		if (0 <= str.length() && 16 > str.length()) {
 			flag = true;
 		}
-
 		return flag;
+	}
 
+	/**
+	 * 发送邮件给多个接收者
+	 * 
+	 * @param mailInfo
+	 *            带发送邮件的信息
+	 * @return
+	 */
+	public static boolean sendMailtoMultiReceiver(MailSenderInfo mailInfo) {
+		MyAuthenticator authenticator = null;
+		if (mailInfo.isValidate()) {
+			authenticator = new MyAuthenticator(mailInfo.getUserName(),
+					mailInfo.getPassword());
+		}
+		Session sendMailSession = Session.getInstance(mailInfo.getProperties(),
+				authenticator);
+		try {
+			Message mailMessage = new MimeMessage(sendMailSession);
+			// 创建邮件发送者地址
+			Address from = new InternetAddress(mailInfo.getFromAddress());
+			mailMessage.setFrom(from);
+			// 创建邮件的接收者地址，并设置到邮件消息中
+			Address[] tos = null;
+			String[] receivers = mailInfo.getReceivers();
+			if (receivers != null) {
+				// 为每个邮件接收者创建一个地址
+				tos = new InternetAddress[receivers.length + 1];
+				tos[0] = new InternetAddress(mailInfo.getToAddress());
+				for (int i = 0; i < receivers.length; i++) {
+					tos[i + 1] = new InternetAddress(receivers[i]);
+				}
+			} else {
+				tos = new InternetAddress[1];
+				tos[0] = new InternetAddress(mailInfo.getToAddress());
+			}
+			// 将所有接收者地址都添加到邮件接收者属性中
+			mailMessage.setRecipients(Message.RecipientType.TO, tos);
+
+			mailMessage.setSubject(mailInfo.getSubject());
+			mailMessage.setSentDate(new Date());
+			// 设置邮件内容
+			Multipart mainPart = new MimeMultipart();
+			BodyPart html = new MimeBodyPart();
+			html.setContent(mailInfo.getContent(), "text/html; charset=GBK");
+			mainPart.addBodyPart(html);
+			mailMessage.setContent(mainPart);
+			// 发送邮件
+			Transport.send(mailMessage);
+			return true;
+		} catch (MessagingException ex) {
+			ex.printStackTrace();
+		}
+		return false;
+	}
+
+	// 获取当前系统时间
+	public static String getCurrentTime() {
+		Date now = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy/MM/dd HH:mm:ss");// 可以方便地修改日期格式
+		String time = dateFormat.format(now);
+		return time;
 	}
 }

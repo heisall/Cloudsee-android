@@ -22,7 +22,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
-import com.jovision.commons.JVConfigManager;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
@@ -37,7 +36,6 @@ public abstract class BaseActivity extends FragmentActivity implements
 		IHandlerNotify, IHandlerLikeNotify {
 	protected ProgressDialog proDialog;
 	protected Toast toast;
-	public JVConfigManager dbManager;
 	DisplayMetrics disMetrics;
 	protected Configuration configuration;
 
@@ -86,7 +84,6 @@ public abstract class BaseActivity extends FragmentActivity implements
 		configuration = getResources().getConfiguration();
 		disMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
-		dbManager = new JVConfigManager(this, "JVConfigTemp.db", null, 2);
 		initSettings();
 		initUi();
 	}
@@ -141,7 +138,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	 * 
 	 * @param msg
 	 */
-	protected void createDialog(String msg) {
+	public void createDialog(String msg) {
 		try {
 			if (null != BaseActivity.this && !BaseActivity.this.isFinishing()) {
 				if (null == proDialog) {

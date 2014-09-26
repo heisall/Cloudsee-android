@@ -12,8 +12,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/top_shadow" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +24,6 @@
             android:id="@+id/registusername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/regist_edittext"
             android:hint="@string/str_enter_username1"
             android:inputType="text"
             android:paddingLeft="20dp"
@@ -38,45 +36,6 @@
             android:layout_marginLeft="5dp"
             android:textSize="14sp"
             android:visibility="invisible" />
-
-        <!--
-            <EditText
-                android:id="@+id/registpass1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/regist_edittext"
-                android:hint="@string/str_enter_pass1"
-                android:inputType="textPassword"
-                android:maxLength="20"
-                android:paddingLeft="20dp"
-                android:password="true"
-                android:textColor="@color/registtextcolor" />
-			<TextView
-                android:id="@+id/regist_tips2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="14sp"
-                android:visibility="invisible" />
-            <EditText
-                android:id="@+id/registpass2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/regist_edittext"
-                android:hint="@string/str_enter_pass2"
-                android:inputType="textPassword"
-                android:maxLength="20"
-                android:paddingLeft="20dp"
-                android:password="true"
-                android:textColor="@color/registtextcolor" />
-            <TextView
-                android:id="@+id/regist_tips3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="14sp"
-                android:visibility="invisible" />
-        -->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -108,7 +67,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:background="@drawable/registe_button_bg"
             android:text="@string/str_finish"
             android:textColor="@color/white"
             android:textSize="20sp" />

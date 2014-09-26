@@ -26,8 +26,8 @@ import com.jovision.adapters.PlayViewPagerAdapter;
 import com.jovision.adapters.ScreenAdapter;
 import com.jovision.audio.MICRecorder;
 import com.jovision.audio.PlayAudio;
+import com.jovision.bean.Channel;
 import com.jovision.commons.MyLog;
-import com.jovision.newbean.Channel;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.MyViewPager;
 

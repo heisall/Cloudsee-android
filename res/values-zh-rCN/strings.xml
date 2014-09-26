@@ -87,6 +87,12 @@
     <string name="login_str_qq_autho_faild">QQ授权失败</string>
     <string name="login_str_qq_autho_success">QQ授权成功</string>
     <string name="more_help">"帮助界面"</string>
+    <string name="more_usermessage">"账户信息"</string>
+    <string name="more_feather">"功能设置"</string>
+    <string name="more_vib">"摇一摇添加设备"</string>
+    <string name="more_aboutus">"关于我们"</string>
+    <string name="more_suggest">"帮助反馈"</string>
+    <string name="more_remark">"评论一下"</string>
     <string name="user_name">账号名称</string>
     <string name="last_time">最后一次登录时间：</string>
     <string name="more_modify">修改资料</string>

@@ -51,14 +51,12 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.more_vibrator_img, R.drawable.more_about_img,
 			R.drawable.more_suggesr_img, R.drawable.more_remark_img };
 	// 功能名称数组
-	private String[] name = { "帮助界面", "账户信息", "功能设置", "摇一摇添加设备", "关于我们",
-			"意见反馈", "评论一下" };
+	private String[] name;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_more, container, false);
-		initDatalist();
 		intiUi(view);
 		listViewClick();
 		return view;
@@ -79,6 +77,8 @@ public class JVMoreFragment extends BaseFragment {
 
 	private void intiUi(View view) {
 		activity = getActivity();
+		name = activity.getResources().getStringArray(R.array.name);
+		initDatalist();
 		more_cancle = (RelativeLayout) view.findViewById(R.id.more_cancle);
 		more_modify = (TextView) view.findViewById(R.id.more_modify);
 		more_findpassword = (TextView) view

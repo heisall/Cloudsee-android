@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -37,16 +37,17 @@ public class ChannelFragment extends BaseFragment {
 	private GridView channelGridView;
 	private ChannelAdapter channelAdapter;
 	boolean localFlag = false;
-	/**弹出框*/
-	private Dialog initDialog;//显示弹出框
+	/** 弹出框 */
+	private Dialog initDialog;// 显示弹出框
 	private TextView dialogCancel;// 取消按钮
 	private TextView dialogCompleted;// 确定按钮
-	//设备名称
+	// 设备名称
 	private TextView device_name;
-	//设备号
+	// 设备号
 	private EditText device_numet;
-	//设备号码编辑键
+	// 设备号码编辑键
 	private ImageView device_numet_cancle;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// Bundle bundle = getArguments();
@@ -154,51 +155,55 @@ public class ChannelFragment extends BaseFragment {
 			break;
 		}
 		case Consts.CHANNEL_EDIT_CLICK: {// 通道编辑
-			initSummaryDialog(deviceList.get(deviceIndex).getChannelList().get(arg1).getChannelName(),arg1);
+			initSummaryDialog(
+					deviceList.get(deviceIndex).getChannelList().get(arg1)
+							.getChannelName(), arg1);
 			break;
 		}
 		}
 	}
 
-	/**弹出框初始化*/
-	  private void initSummaryDialog(String user,final int arg1) {
-			initDialog = new Dialog(mActivity, R.style.mydialog);
-			View view = LayoutInflater.from(mActivity).inflate(
-					R.layout.dialog_channal, null);
-			initDialog.setContentView(view);
-			dialogCancel = (TextView) view.findViewById(R.id.dialog_img_cancel);
-			dialogCompleted = (TextView) view.findViewById(R.id.dialog_img_completed);
-			device_name = (TextView)view.findViewById(R.id.device_name);
-			device_numet = (EditText)view.findViewById(R.id.device_numet);
-			device_numet_cancle = (ImageView)view.findViewById(R.id.device_numet_cancle);
-			device_numet_cancle.setOnClickListener(myOnClickListener);
-			device_numet.setText(user);
-			device_name.setText(user);
-			initDialog.show();
-			device_name.setFocusable(true);
-			device_name.setFocusableInTouchMode(true);
-			dialogCancel.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					initDialog.dismiss();
-				}
-			});
-			dialogCompleted.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					ModifyChannelTask task = new ModifyChannelTask();
-					String[] strParams = new String[3];
-					strParams[0] = String.valueOf(deviceIndex);
-					strParams[1] = String.valueOf(arg1);// 通道index
-					strParams[2] = device_numet.getText().toString();
-					task.execute(strParams);
-				}
-			});
-		}
-	  
-	  OnClickListener myOnClickListener = new OnClickListener() {
-		
+	/** 弹出框初始化 */
+	private void initSummaryDialog(String user, final int arg1) {
+		initDialog = new Dialog(mActivity, R.style.mydialog);
+		View view = LayoutInflater.from(mActivity).inflate(
+				R.layout.dialog_channal, null);
+		initDialog.setContentView(view);
+		dialogCancel = (TextView) view.findViewById(R.id.dialog_img_cancel);
+		dialogCompleted = (TextView) view
+				.findViewById(R.id.dialog_img_completed);
+		device_name = (TextView) view.findViewById(R.id.device_name);
+		device_numet = (EditText) view.findViewById(R.id.device_numet);
+		device_numet_cancle = (ImageView) view
+				.findViewById(R.id.device_numet_cancle);
+		device_numet_cancle.setOnClickListener(myOnClickListener);
+		device_numet.setText(user);
+		device_name.setText(user);
+		initDialog.show();
+		device_name.setFocusable(true);
+		device_name.setFocusableInTouchMode(true);
+		dialogCancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				initDialog.dismiss();
+			}
+		});
+		dialogCompleted.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				ModifyChannelTask task = new ModifyChannelTask();
+				String[] strParams = new String[3];
+				strParams[0] = String.valueOf(deviceIndex);
+				strParams[1] = String.valueOf(arg1);// 通道index
+				strParams[2] = device_numet.getText().toString();
+				task.execute(strParams);
+			}
+		});
+	}
+
+	OnClickListener myOnClickListener = new OnClickListener() {
+
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -210,62 +215,65 @@ public class ChannelFragment extends BaseFragment {
 			}
 		}
 	};
+
 	// 设置三种类型参数分别为String,Integer,String
-		class ModifyChannelTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
-			// 可变长的输入参数，与AsyncTask.exucute()对应
-			@Override
-			protected Integer doInBackground(String... params) {
-				int modRes = -1;
-				int  modDevIndex = Integer.parseInt(params[0]);
-				int  modChannelIndex = Integer.parseInt(params[1]);
-				String Newname = params[2];
-				Device modifyDev = deviceList.get( modDevIndex);
-				try {
-					if (localFlag) {// 本地保存更改
-						modifyDev.getChannelList().get( modChannelIndex).setChannelName(Newname);
-						MySharedPreference.putString(Consts.DEVICE_LIST,
-								deviceList.toString());
-						 modRes = 0;
-					} else {
-						 modRes = DeviceUtil.modifyPointName(modDevIndex+"",  modChannelIndex, Newname);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return  modRes;
-			}
-
-			@Override
-			protected void onCancelled() {
-				super.onCancelled();
-			}
-
-			@Override
-			protected void onPostExecute(Integer result) {
-				// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-				((BaseActivity) mActivity).dismissDialog();
-				if (0 == result) {
-					((BaseActivity) mActivity)
-							.showTextToast(R.string.login_str_point_edit_success);
-					channelAdapter.notifyDataSetChanged();
+	class ModifyChannelTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int modRes = -1;
+			int modDevIndex = Integer.parseInt(params[0]);
+			int modChannelIndex = Integer.parseInt(params[1]);
+			String Newname = params[2];
+			Device modifyDev = deviceList.get(modDevIndex);
+			try {
+				if (localFlag) {// 本地保存更改
+					modifyDev.getChannelList().get(modChannelIndex)
+							.setChannelName(Newname);
+					MySharedPreference.putString(Consts.DEVICE_LIST,
+							deviceList.toString());
+					modRes = 0;
 				} else {
-					((BaseActivity) mActivity)
-							.showTextToast(R.string.login_str_point_edit_failed);
+					modRes = DeviceUtil.modifyPointName(modDevIndex + "",
+							modChannelIndex, Newname);
 				}
-				initDialog.dismiss();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-			@Override
-			protected void onPreExecute() {
-				// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-				((BaseActivity) mActivity).createDialog("");
-			}
-
-			@Override
-			protected void onProgressUpdate(Integer... values) {
-				// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
-			}
+			return modRes;
 		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			((BaseActivity) mActivity).dismissDialog();
+			if (0 == result) {
+				((BaseActivity) mActivity)
+						.showTextToast(R.string.login_str_point_edit_success);
+				channelAdapter.notifyDataSetChanged();
+			} else {
+				((BaseActivity) mActivity)
+						.showTextToast(R.string.login_str_point_edit_failed);
+			}
+			initDialog.dismiss();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			((BaseActivity) mActivity).createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
 
 	// 设置三种类型参数分别为String,Integer,String
 	class DelChannelTask extends AsyncTask<String, Integer, Integer> {// A,361,2000

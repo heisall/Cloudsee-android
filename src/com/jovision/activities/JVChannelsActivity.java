@@ -108,7 +108,7 @@ public class JVChannelsActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 	}
-      
+
 	private void initViewPager() {
 		fragments = new ArrayList<Fragment>();
 		int size = deviceList.size();

@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.jovision.commons.MyLog;
+
 public class BeanUtil {
 
 	/**
@@ -179,8 +181,12 @@ public class BeanUtil {
 			dev.setHomeProduct(object.getBoolean("isHomeProduct"));
 			// dev.setHelperEnabled(object.getBoolean("isHelperEnabled"));
 			dev.setDeviceType(object.getInt("deviceType"));
-			dev.setO5(object.getBoolean("isO5"));
-			dev.setNickName(object.getString("nickName"));
+			dev.setO5(object.getBoolean("is05"));
+			try {
+				// [Neo] may not contains this value
+				dev.setNickName(object.getString("nickName"));
+			} catch (Exception e) {
+			}
 			dev.setIsDevice(object.getInt("isDevice"));
 			dev.setOnlineState(object.getInt("onlineState"));
 			dev.setHasWifi(object.getInt("hasWifi"));

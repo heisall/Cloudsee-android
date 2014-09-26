@@ -1,10 +1,12 @@
 package com.jovision.bean;
 
-import java.io.Serializable;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.view.SurfaceView;
 
 import com.jovision.Consts;
+import com.jovision.commons.MyLog;
 
 /**
  * 简单的通道集合类
@@ -12,11 +14,10 @@ import com.jovision.Consts;
  * @author neo
  * 
  */
-public class Channel implements Serializable {
-
-	private static final long serialVersionUID = -2416035263023889605L;
+public class Channel {
 
 	private final static String TAG = "Channel";
+
 	/** 窗口索引 */
 	private int index;
 	/** 设备通道，从 0 开始 */
@@ -36,26 +37,19 @@ public class Channel implements Serializable {
 	private boolean surfaceCreated = false;// surface是否已经创建
 	private boolean isSendCMD = false;// 是否只发关键帧
 
-	@Override
-	public String toString() {
-		StringBuilder sBuilder = new StringBuilder();
-		sBuilder.append("{\"").append("index").append("\"").append(":")
-				.append(index).append(",").append("\"").append("channel")
-				.append("\"").append(":").append(channel).append(",")
-				.append("\"").append("channelName").append("\"").append(":")
-				.append("\"").append(channelName).append("\"}");
-		// .append("\"").append("isConnecting").append("\"").append(":").append("\"").append(isConnecting).append("\",")
-		// .append("\"").append("isConnected").append("\"").append(":").append("\"").append(isConnected).append("\",")
-		// .append("\"").append("isRemotePlay").append("\"").append(":").append("\"").append(isRemotePlay).append("\",")
-		// .append("\"").append("isConfigChannel").append("\"").append(":").append("\"").append(isConfigChannel).append("\",")
-		// //
-		// .append("\"").append("parent").append("\"").append(":").append("\"").append(parent).append("\",")
-		// .append("\"").append("isAuto").append("\"").append(":").append("\"").append(isAuto).append("\",")
-		// .append("\"").append("isVoiceCall").append("\"").append(":").append("\"").append(isVoiceCall).append("\",")
-		// .append("\"").append("surfaceCreated").append("\"").append(":").append("\"").append(surfaceCreated).append("\",")
-		// .append("\"").append("isSendCMD").append("\"").append(":").append("\"").append(isSendCMD).append("\"}");
-		// MyLog.v(TAG, sBuilder.toString());
-		return sBuilder.toString();
+	public JSONObject toJson() {
+		JSONObject object = new JSONObject();
+
+		try {
+			object.put("index", index);
+			object.put("channel", channel);
+			object.put("channelName", channelName);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		MyLog.d(TAG, "json: " + object.toString());
+		return object;
 	}
 
 	public Channel(Device device, int index, int channel, boolean isConnected,
@@ -116,20 +110,21 @@ public class Channel implements Serializable {
 		return isConfigChannel;
 	}
 
-	// @Override
-	// public String toString() {
-	// StringBuilder sBuilder = new StringBuilder(1024);
-	// sBuilder.append("Channel-")
-	// .append((channel < 0) ? "AP" : channel)
-	// .append(": isConnected = ")
-	// .append(isConnected)
-	// .append(", isRemotePlay: ")
-	// .append(isRemotePlay)
-	// .append(", surfaceView = ")
-	// .append((null != surfaceView) ? surfaceView.hashCode() : "null")
-	// .append(", window = ").append(index);
-	// return sBuilder.toString();
-	// }
+	@Override
+	public String toString() {
+		// StringBuilder sBuilder = new StringBuilder(1024);
+		// sBuilder.append("Channel-")
+		// .append((channel < 0) ? "AP" : channel)
+		// .append(": isConnected = ")
+		// .append(isConnected)
+		// .append(", isRemotePlay: ")
+		// .append(isRemotePlay)
+		// .append(", surfaceView = ")
+		// .append((null != surfaceView) ? surfaceView.hashCode() : "null")
+		// .append(", window = ").append(index);
+		// return sBuilder.toString();
+		return toJson().toString();
+	}
 
 	public Device getParent() {
 		return parent;

@@ -385,6 +385,7 @@ public class ChannelFragment extends BaseFragment {
 						modifyDev.getChannelList().add(addIndexList.get(i),
 								channel);
 					}
+
 					MySharedPreference.putString(Consts.DEVICE_LIST,
 							deviceList.toString());
 					delRes = 0;

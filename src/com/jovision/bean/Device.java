@@ -1,9 +1,13 @@
 package com.jovision.bean;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.jovision.Consts;
+import com.jovision.commons.MyLog;
 
 /**
  * 简单的设备集合类
@@ -11,8 +15,10 @@ import com.jovision.Consts;
  * @author neo
  * 
  */
-public class Device implements Serializable {
+public class Device {
+
 	private final static String TAG = "Device";
+
 	private ArrayList<Channel> channelList;
 
 	/** 设备IP */
@@ -36,7 +42,7 @@ public class Device implements Serializable {
 	/** 设备类型 */
 	private int deviceType;
 
-	private boolean isO5;
+	private boolean is05;
 	/** 设备昵称 */
 	private String nickName;
 
@@ -47,53 +53,42 @@ public class Device implements Serializable {
 	/** 设备是否带Wi-Fi */
 	private int hasWifi = 0;
 
-	@Override
-	public String toString() {
-		StringBuilder sBuilder = new StringBuilder();
-		sBuilder.append("{\"").append("ip").append("\"").append(":")
-				.append("\"").append(ip).append("\",").append("\"")
-				.append("port").append("\"").append(":").append(port)
-				.append(",").append("\"").append("gid").append("\"")
-				.append(":").append("\"").append(gid).append("\",")
-				.append("\"").append("no").append("\"").append(":").append(no)
-				.append(",").append("\"").append("fullNo").append("\"")
-				.append(":").append("\"").append(fullNo).append("\",")
-				.append("\"").append("user").append("\"").append(":")
-				.append("\"").append(user).append("\",")
-				.append("\"")
-				.append("pwd")
-				.append("\"")
-				.append(":")
-				.append("\"")
-				.append(pwd)
-				.append("\",")
-				.append("\"")
-				.append("isHomeProduct")
-				.append("\"")
-				.append(":")
-				.append("\"")
-				.append(isHomeProduct)
-				.append("\",")
-				// .append("\"").append("isHelperEnabled").append("\"").append(":").append("\"").append(isHelperEnabled).append("\",")
-				.append("\"").append("deviceType").append("\"").append(":")
-				.append(deviceType).append(",").append("\"").append("isO5")
-				.append("\"").append(":").append("\"").append(isO5)
-				.append("\",").append("\"").append("nickName").append("\"")
-				.append(":").append("\"").append(nickName).append("\",")
-				.append("\"").append("isDevice").append("\"").append(":")
-				.append(isDevice).append(",").append("\"")
-				.append("onlineState").append("\"").append(":")
-				.append(onlineState).append(",").append("\"").append("hasWifi")
-				.append("\"").append(":").append(hasWifi).append(",")
-				.append("\"").append("channelList").append("\"").append(":[")
-				.append(BeanUtil.channelListToString(channelList)).append("]}");
+	public JSONObject toJson() {
+		JSONObject object = new JSONObject();
+		JSONArray array = new JSONArray();
 
-		// MyLog.v(TAG, sBuilder.toString());
-		return sBuilder.toString();
+		try {
+			object.put("ip", ip);
+			object.put("port", port);
+			object.put("gid", gid);
+			object.put("no", no);
+			object.put("fullNo", fullNo);
+			object.put("user", user);
+			object.put("pwd", pwd);
+			object.put("isHomeProduct", isHomeProduct);
+			object.put("deviceType", deviceType);
+			object.put("is05", is05);
+			object.put("nickName", nickName);
+			object.put("isDevice", isDevice);
+			object.put("onlineState", onlineState);
+			object.put("hasWifi", hasWifi);
+
+			int size = channelList.size();
+			for (int i = 0; i < size; i++) {
+				array.put(channelList.get(i).toJson());
+			}
+
+			object.put("channelList", array);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		MyLog.v(TAG, object.toString());
+		return object;
 	}
 
 	public Device() {
-
+		channelList = new ArrayList<Channel>();
 	}
 
 	/**
@@ -202,21 +197,23 @@ public class Device implements Serializable {
 		return isHelperEnabled;
 	}
 
-	// @Override
-	// public String toString() {
-	// StringBuilder sBuilder = new StringBuilder(1024);
-	// sBuilder.append(fullNo).append("(").append(ip).append(":").append(port)
-	// .append("): ").append("user = ").append(user)
-	// .append(", pwd = ").append(pwd).append(", enabled = ")
-	// .append(isHelperEnabled);
-	// if (null != channelList) {
-	// int size = channelList.size();
-	// for (int i = 0; i < size; i++) {
-	// sBuilder.append("\n").append(channelList.get(i).toString());
-	// }
-	// }
-	// return sBuilder.toString();
-	// }
+	@Override
+	public String toString() {
+		// StringBuilder sBuilder = new StringBuilder(1024);
+		// sBuilder.append(fullNo).append("(").append(ip).append(":").append(port)
+		// .append("): ").append("user = ").append(user)
+		// .append(", pwd = ").append(pwd).append(", enabled = ")
+		// .append(isHelperEnabled);
+		// if (null != channelList) {
+		// int size = channelList.size();
+		// for (int i = 0; i < size; i++) {
+		// sBuilder.append("\n").append(channelList.get(i).toString());
+		// }
+		// }
+		// return sBuilder.toString();
+		return toJson().toString();
+	}
+
 	public int getDeviceType() {
 		return deviceType;
 	}
@@ -225,8 +222,8 @@ public class Device implements Serializable {
 		this.deviceType = deviceType;
 	}
 
-	public boolean isO5() {
-		return isO5;
+	public boolean is05() {
+		return is05;
 	}
 
 	public void setChannelList(ArrayList<Channel> channelList) {
@@ -262,7 +259,7 @@ public class Device implements Serializable {
 	}
 
 	public void setO5(boolean isO5) {
-		this.isO5 = isO5;
+		this.is05 = isO5;
 	}
 
 	public String getNickName() {

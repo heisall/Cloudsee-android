@@ -1106,7 +1106,7 @@ public class JVPlayActivity extends PlayActivity implements
 		remoteIntent.putExtra("DeviceType", manager.getChannel(currentIndex)
 				.getParent().getDeviceType());
 		remoteIntent.putExtra("is05", manager.getChannel(currentIndex)
-				.getParent().isO5());
+				.getParent().is05());
 		JVPlayActivity.this.startActivity(remoteIntent);
 	}
 

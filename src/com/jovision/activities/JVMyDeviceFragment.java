@@ -85,7 +85,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private Timer broadTimer;
 	private TimerTask broadTimerTask;
 
-	boolean localFlag = false;// 本地登陆标志位
+	public static boolean localFlag = false;// 本地登陆标志位
+
+	public static String devicename;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,7 +105,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
-
+		devicename = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
 		inflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		refreshableView = (RefreshableView) mParent
@@ -199,7 +201,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
-		Log.i("TAG", "AAAAA");
 		String devJsonString = MySharedPreference.getString(Consts.DEVICE_LIST);
 		myDeviceList = BeanUtil.stringToDevList(devJsonString);
 		myDLAdapter.setData(myDeviceList);
@@ -460,6 +461,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				} else {
 					String name = mActivity.statusHashMap
 							.get(Consts.KEY_USERNAME);
+					Log.i("TAG", name + "Ddd");
 					delRes = DeviceUtil.modifyDevice(name, params[1],
 							params[4], params[2], params[3]);
 				}

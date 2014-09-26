@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
@@ -83,7 +82,11 @@ public class JVMoreFragment extends BaseFragment {
 	private void intiUi(View view) {
 		activity = getActivity();
 		name = activity.getResources().getStringArray(R.array.name);
-		more_name = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
+		if (JVMyDeviceFragment.localFlag) {
+			more_name = "游客A";
+		} else {
+			more_name = JVMyDeviceFragment.devicename;
+		}
 		initDatalist();
 		more_cancle = (RelativeLayout) view.findViewById(R.id.more_cancle);
 		more_modify = (TextView) view.findViewById(R.id.more_modify);

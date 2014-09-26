@@ -26,50 +26,51 @@ public class JVTabActivity extends BaseActivity {
 
 	private static final String TAG = "JVTabActivity";
 	private int currentIndex = 0;// 当前页卡index
-	private BaseFragment mFragments[] = new BaseFragment[5];
+	
 
 	protected NotificationManager mNotifyer;
 	protected int timer = 16;
 	protected Timer offlineTimer = new Timer();
-
-	private void setFragmentIndicator(int whichIsDefault) {
-		int length = frageIDArray.length;
-		mFragments = new BaseFragment[length];
-		for (int i = 0; i < length; i++) {
-			mFragments[i] = (BaseFragment) getSupportFragmentManager()
-					.findFragmentById(frageIDArray[i]);
-		}
-
-		for (int i = 0; i < length; i++) {
-			getSupportFragmentManager().beginTransaction().hide(mFragments[i])
-					.commit();
-		}
-		getSupportFragmentManager().beginTransaction()
-				.show(mFragments[whichIsDefault]).commit();
-		// tabListener = (OnTabListener) mFragments[whichIsDefault];
-
-		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
-		JVFragmentIndicator.setIndicator(whichIsDefault);
-		mIndicator.setOnIndicateListener(new OnIndicateListener() {
-			@Override
-			public void onIndicate(View v, int which) {
-				try {
-					currentIndex = which;
-					int length = frageIDArray.length;
-					for (int i = 0; i < length; i++) {
-						getSupportFragmentManager().beginTransaction()
-								.hide(mFragments[i]).commit();
-					}
-					getSupportFragmentManager().beginTransaction()
-							.show(mFragments[which]).commit();
-					// tabListener = (OnTabListener) mFragments[which];
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-	}
+	private BaseFragment mFragments[] = new BaseFragment[5];
+	
+//	private void setFragmentIndicator(int whichIsDefault) {
+//		int length = frageIDArray.length;
+//		mFragments = new BaseFragment[length];
+//		for (int i = 0; i < length; i++) {
+//			mFragments[i] = (BaseFragment) getSupportFragmentManager()
+//					.findFragmentById(frageIDArray[i]);
+//		}
+//
+//		for (int i = 0; i < length; i++) {
+//			getSupportFragmentManager().beginTransaction().hide(mFragments[i])
+//					.commit();
+//		}
+//		getSupportFragmentManager().beginTransaction()
+//				.show(mFragments[whichIsDefault]).commit();
+//		// tabListener = (OnTabListener) mFragments[whichIsDefault];
+//
+//		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
+//		JVFragmentIndicator.setIndicator(whichIsDefault);
+//		mIndicator.setOnIndicateListener(new OnIndicateListener() {
+//			@Override
+//			public void onIndicate(View v, int which) {
+//				try {
+//					currentIndex = which;
+//					int length = frageIDArray.length;
+//					for (int i = 0; i < length; i++) {
+//						getSupportFragmentManager().beginTransaction()
+//								.hide(mFragments[i]).commit();
+//					}
+//					getSupportFragmentManager().beginTransaction()
+//							.show(mFragments[which]).commit();
+//					// tabListener = (OnTabListener) mFragments[which];
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//
+//	}
 
 	@Override
 	protected void onStart() {

@@ -1,11 +1,15 @@
 package com.jovision.bean;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.view.SurfaceView;
 
 import com.jovision.Consts;
+import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 
 /**
@@ -37,29 +41,14 @@ public class Channel {
 	private boolean surfaceCreated = false;// surface是否已经创建
 	private boolean isSendCMD = false;// 是否只发关键帧
 
-	public JSONObject toJson() {
-		JSONObject object = new JSONObject();
-
-		try {
-			object.put("index", index);
-			object.put("channel", channel);
-			object.put("channelName", channelName);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		MyLog.d(TAG, "json: " + object.toString());
-		return object;
-	}
-
 	public Channel(Device device, int index, int channel, boolean isConnected,
-			boolean isRemotePlay) {
+			boolean isRemotePlay, String nick) {
 		this.parent = device;
 		this.index = index;
 		this.channel = channel;
 		this.isConnected = isConnected;
 		this.isRemotePlay = isRemotePlay;
-
+		this.channelName = nick;
 		if (Consts.CHANNEL_JY == index) {
 			isConfigChannel = true;
 		} else {
@@ -110,20 +99,91 @@ public class Channel {
 		return isConfigChannel;
 	}
 
+	public JSONObject toJson() {
+		JSONObject object = new JSONObject();
+
+		try {
+			object.put("index", index);
+			object.put("channel", channel);
+			object.put("channelName", channelName);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		MyLog.d(TAG, "json: " + object.toString());
+		return object;
+	}
+
 	@Override
 	public String toString() {
-		// StringBuilder sBuilder = new StringBuilder(1024);
-		// sBuilder.append("Channel-")
-		// .append((channel < 0) ? "AP" : channel)
-		// .append(": isConnected = ")
-		// .append(isConnected)
-		// .append(", isRemotePlay: ")
-		// .append(isRemotePlay)
-		// .append(", surfaceView = ")
-		// .append((null != surfaceView) ? surfaceView.hashCode() : "null")
-		// .append(", window = ").append(index);
-		// return sBuilder.toString();
 		return toJson().toString();
+	}
+
+	public JSONArray toJsonArray(ArrayList<Channel> channelList) {
+		JSONArray channelArray = new JSONArray();
+		try {
+			if (null != channelList && 0 != channelList.size()) {
+				int size = channelList.size();
+				for (int i = 0; i < size; i++) {
+					channelArray.put(i, channelList.get(i).toJson());
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		MyLog.d(TAG, "json: " + channelArray.toString());
+		return channelArray;
+	}
+
+	public String listToString(ArrayList<Channel> devList) {
+		return toJsonArray(devList).toString();
+	}
+
+	public static Channel fromJson(String string) {
+		Channel channel = new Channel();
+		try {
+			JSONObject object = new JSONObject(string);
+			channel.setIndex(object.getInt("index"));
+			channel.setChannel(object.getInt("channel"));
+			channel.setChannelName(object.getString("channelName"));
+			// channel.setConnecting(object.getBoolean("isConnecting"));
+			// channel.setConnecting(object.getBoolean("isConnected"));
+			// channel.setRemotePlay(object.getBoolean("isRemotePlay"));
+			// channel.setConfigChannel(object.getBoolean("isConfigChannel"));
+			// channel.setAuto(object.getBoolean("isAuto"));
+			// channel.setVoiceCall(object.getBoolean("isVoiceCall"));
+			// channel.setSurfaceCreated(object.getBoolean("surfaceCreated"));
+			// channel.setSendCMD(object.getBoolean("isSendCMD"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return channel;
+	}
+
+	public static MyList<Channel> fromJsonArray(String string) {
+		MyList<Channel> channelList = new MyList<Channel>();
+		if (null == string || "".equalsIgnoreCase(string)) {
+			return channelList;
+		}
+		JSONArray channelArray;
+		try {
+			channelArray = new JSONArray(string);
+			if (null != channelArray && 0 != channelArray.length()) {
+				int length = channelArray.length();
+				for (int i = 0; i < length; i++) {
+					Channel channel = fromJson(channelArray.get(i).toString());
+					if (null != channel) {
+						channelList.add(channel);
+					}
+				}
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return channelList;
 	}
 
 	public Device getParent() {

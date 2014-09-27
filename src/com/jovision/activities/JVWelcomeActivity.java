@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.bean.UserBean;
+import com.jovision.bean.User;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -99,7 +99,7 @@ public class JVWelcomeActivity extends BaseActivity {
 					intent.putExtra("ArrayFlag", JVConst.LANGUAGE_EN);
 				}
 			} else {
-				UserBean user = UserUtil.getLastUser();
+				User user = UserUtil.getLastUser();
 				if (ConfigUtil.getNetWorkConnection() && null != user
 						&& !"".equalsIgnoreCase(user.getUserName())
 						&& !"".equalsIgnoreCase(user.getUserPwd())) {

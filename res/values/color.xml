@@ -24,6 +24,14 @@
     <color name="channel_color_6">#42BDE7</color>
     <color name="channel_color_7">#7B7AD7</color>
     <color name="channel_color_8">#F5C130</color>
+
+    <!-- 视频管理背景色 -->
+    <color name="manage_color_1">#6AB840</color>
+    <color name="manage_color_2">#10C5DA</color>
+    <color name="manage_color_3">#F0882F</color>
+    <color name="manage_color_4">#E84C50</color>
+    <color name="manage_color_5">#F6C133</color>
+    <color name="manage_color_6">#994289</color>
     <color name="ivory">#FFFFF0</color>
     <!-- 象牙色 -->
     <color name="lightyellow">#FFFFE0</color>

@@ -19,11 +19,11 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.ChannelAdapter;
-import com.jovision.bean.BeanUtil;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
-import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
 
 public class ChannelFragment extends BaseFragment {
@@ -74,7 +74,6 @@ public class ChannelFragment extends BaseFragment {
 		mActivity.getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
 		channelGridView = (GridView) mParent
 				.findViewById(R.id.channel_gridview);
-
 		localFlag = Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 	}
@@ -96,7 +95,7 @@ public class ChannelFragment extends BaseFragment {
 				if (null == channelAdapter) {
 					channelAdapter = new ChannelAdapter(this);
 				}
-				channelAdapter.setData(dev.getChannelList(),
+				channelAdapter.setData(dev.getChannelList().toList(),
 						disMetrics.widthPixels);
 				channelGridView.setAdapter(channelAdapter);
 				channelAdapter.notifyDataSetChanged();
@@ -123,7 +122,7 @@ public class ChannelFragment extends BaseFragment {
 			} else {
 				((BaseActivity) mActivity).showTextToast(arg1 + "");
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				String devJsonString = BeanUtil.deviceListToString(deviceList);
+				String devJsonString = Device.listToString(deviceList);
 				intentPlay.putExtra("DeviceList", devJsonString);
 				intentPlay.putExtra("DeviceIndex", deviceIndex);
 				intentPlay.putExtra("ChannelIndex", arg1);
@@ -137,7 +136,6 @@ public class ChannelFragment extends BaseFragment {
 			break;
 		}
 		case Consts.CHANNEL_ITEM_DEL_CLICK: {// 通道删除事件
-			((BaseActivity) mActivity).showTextToast("删除通道--" + arg1);
 			DelChannelTask task = new DelChannelTask();
 			String[] strParams = new String[3];
 			strParams[0] = String.valueOf(deviceIndex);// 设备index
@@ -146,7 +144,6 @@ public class ChannelFragment extends BaseFragment {
 			break;
 		}
 		case Consts.CHANNEL_ADD_CLICK: { // 通道添加
-			((BaseActivity) mActivity).showTextToast("添加通道--" + arg1);
 			AddChannelTask task = new AddChannelTask();
 			String[] strParams = new String[3];
 			strParams[0] = String.valueOf(deviceIndex);// 设备index
@@ -155,9 +152,11 @@ public class ChannelFragment extends BaseFragment {
 			break;
 		}
 		case Consts.CHANNEL_EDIT_CLICK: {// 通道编辑
-			initSummaryDialog(
-					deviceList.get(deviceIndex).getChannelList().get(arg1)
-							.getChannelName(), arg1);
+			Device dev = deviceList.get(deviceIndex);
+			MyList<Channel> list = dev.getChannelList();
+			Channel channel = list.get(arg1);
+			String name = channel.channelName;
+			initSummaryDialog(name, arg1);
 			break;
 		}
 		}
@@ -205,11 +204,12 @@ public class ChannelFragment extends BaseFragment {
 	OnClickListener myOnClickListener = new OnClickListener() {
 
 		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.device_numet_cancle:
+		public void onClick(View view) {
+			switch (view.getId()) {
+			case R.id.device_numet_cancle: {
 				device_numet.setText("");
 				break;
+			}
 			default:
 				break;
 			}
@@ -224,19 +224,22 @@ public class ChannelFragment extends BaseFragment {
 			int modRes = -1;
 			int modDevIndex = Integer.parseInt(params[0]);
 			int modChannelIndex = Integer.parseInt(params[1]);
-			String Newname = params[2];
+			String newName = params[2];
 			Device modifyDev = deviceList.get(modDevIndex);
 			try {
 				if (localFlag) {// 本地保存更改
 					modifyDev.getChannelList().get(modChannelIndex)
-							.setChannelName(Newname);
-					MySharedPreference.putString(Consts.DEVICE_LIST,
-							deviceList.toString());
+							.setChannelName(newName);
 					modRes = 0;
 				} else {
 					modRes = DeviceUtil.modifyPointName(modDevIndex + "",
-							modChannelIndex, Newname);
+							modChannelIndex, newName);
 				}
+				if (0 == modRes) {
+					modifyDev.setNickName(newName);
+					CacheUtil.saveDevList(deviceList);
+				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -253,6 +256,7 @@ public class ChannelFragment extends BaseFragment {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
 			if (0 == result) {
+
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.login_str_point_edit_success);
 				channelAdapter.notifyDataSetChanged();
@@ -291,8 +295,6 @@ public class ChannelFragment extends BaseFragment {
 					} else {// 删通道
 						modifyDev.getChannelList().remove(delChannelIndex);
 					}
-					MySharedPreference.putString(Consts.DEVICE_LIST,
-							deviceList.toString());
 					delRes = 0;
 				} else {
 					if (1 == modifyDev.getChannelList().size()) {// 删设备
@@ -300,11 +302,20 @@ public class ChannelFragment extends BaseFragment {
 								((BaseActivity) mActivity).statusHashMap
 										.get("KEY_USERNAME"), modifyDev
 										.getFullNo());
+						if (0 == delRes) {
+							deviceList.remove(delDevIndex);
+						}
 					} else {// 删通道
 						delRes = DeviceUtil.deletePoint(modifyDev.getFullNo(),
 								delChannelIndex);
+						if (0 == delRes) {
+							modifyDev.getChannelList().remove(delChannelIndex);
+						}
 					}
+				}
 
+				if (0 == delRes) {
+					CacheUtil.saveDevList(deviceList);
 				}
 
 			} catch (Exception e) {
@@ -385,9 +396,7 @@ public class ChannelFragment extends BaseFragment {
 						modifyDev.getChannelList().add(addIndexList.get(i),
 								channel);
 					}
-
-					MySharedPreference.putString(Consts.DEVICE_LIST,
-							deviceList.toString());
+					CacheUtil.saveDevList(deviceList);
 					delRes = 0;
 				} else {
 
@@ -413,7 +422,7 @@ public class ChannelFragment extends BaseFragment {
 						.showTextToast(R.string.add_channel_succ);
 				channelAdapter.setShowDelete(false);
 				channelAdapter.setData(deviceList.get(deviceIndex)
-						.getChannelList(), disMetrics.widthPixels);
+						.getChannelList().toList(), disMetrics.widthPixels);
 				channelAdapter.notifyDataSetChanged();
 			} else {
 				((BaseActivity) mActivity)

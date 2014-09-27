@@ -8,17 +8,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 
-public class ChannelsPagerAdapter extends FragmentPagerAdapter {
+public class TabPagerAdapter extends FragmentPagerAdapter {
 	private ArrayList<Fragment> fragments;
 	private FragmentManager fm;
 
-	public ChannelsPagerAdapter(FragmentManager fm) {
+	public TabPagerAdapter(FragmentManager fm) {
 		super(fm);
 		this.fm = fm;
 	}
 
-	public ChannelsPagerAdapter(FragmentManager fm,
-			ArrayList<Fragment> fragments) {
+	public TabPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments) {
 		super(fm);
 		this.fm = fm;
 		this.fragments = fragments;

@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.jovision.Consts;
+import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 
 /**
@@ -19,7 +20,7 @@ public class Device {
 
 	private final static String TAG = "Device";
 
-	private ArrayList<Channel> channelList;
+	private MyList<Channel> channelList;
 
 	/** 设备IP */
 	private String ip;
@@ -53,42 +54,8 @@ public class Device {
 	/** 设备是否带Wi-Fi */
 	private int hasWifi = 0;
 
-	public JSONObject toJson() {
-		JSONObject object = new JSONObject();
-		JSONArray array = new JSONArray();
-
-		try {
-			object.put("ip", ip);
-			object.put("port", port);
-			object.put("gid", gid);
-			object.put("no", no);
-			object.put("fullNo", fullNo);
-			object.put("user", user);
-			object.put("pwd", pwd);
-			object.put("isHomeProduct", isHomeProduct);
-			object.put("deviceType", deviceType);
-			object.put("is05", is05);
-			object.put("nickName", nickName);
-			object.put("isDevice", isDevice);
-			object.put("onlineState", onlineState);
-			object.put("hasWifi", hasWifi);
-
-			int size = channelList.size();
-			for (int i = 0; i < size; i++) {
-				array.put(channelList.get(i).toJson());
-			}
-
-			object.put("channelList", array);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		MyLog.v(TAG, object.toString());
-		return object;
-	}
-
 	public Device() {
-		channelList = new ArrayList<Channel>();
+		channelList = new MyList<Channel>();
 	}
 
 	/**
@@ -109,8 +76,9 @@ public class Device {
 		isHomeProduct = true;
 		isHelperEnabled = false;
 
-		channelList = new ArrayList<Channel>();
-		channelList.add(new Channel(this, -1, Consts.CHANNEL_JY, false, false));
+		channelList = new MyList<Channel>();
+		channelList.add(new Channel(this, -1, Consts.CHANNEL_JY, false, false,
+				""));
 	}
 
 	/**
@@ -134,22 +102,24 @@ public class Device {
 		this.gid = gid;
 		this.no = no;
 		this.fullNo = gid + no;
+		this.nickName = fullNo;
 		this.user = user;
 		this.pwd = pwd;
 		this.isHomeProduct = isHomeProduct;
 
 		isHelperEnabled = false;
 
-		channelList = new ArrayList<Channel>();
+		channelList = new MyList<Channel>();
 		Channel channel = null;
 
 		for (int i = 0; i < channelCount; i++) {
-			channel = new Channel(this, startWindowIndex + i, i, false, false);
+			channel = new Channel(this, startWindowIndex + i, i, false, false,
+					fullNo + "_" + (i + 1));
 			channelList.add(channel);
 		}
 	}
 
-	public ArrayList<Channel> getChannelList() {
+	public MyList<Channel> getChannelList() {
 		return channelList;
 	}
 
@@ -197,21 +167,140 @@ public class Device {
 		return isHelperEnabled;
 	}
 
+	public JSONObject toJson() {
+		JSONObject object = new JSONObject();
+		JSONArray array = new JSONArray();
+
+		try {
+			object.put("ip", ip);
+			object.put("port", port);
+			object.put("gid", gid);
+			object.put("no", no);
+			object.put("fullNo", fullNo);
+			object.put("user", user);
+			object.put("pwd", pwd);
+			object.put("isHomeProduct", isHomeProduct);
+			object.put("deviceType", deviceType);
+			object.put("is05", is05);
+			object.put("nickName", nickName);
+			object.put("isDevice", isDevice);
+			object.put("onlineState", onlineState);
+			object.put("hasWifi", hasWifi);
+			try {
+				int size = channelList.size();
+				for (int i = 0; i < size; i++) {
+					if (null != channelList.get(i)) {
+						array.put(i, channelList.get(i).toJson());
+					}
+				}
+				object.put("channelList", array);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		MyLog.v(TAG, object.toString());
+		return object;
+	}
+
 	@Override
 	public String toString() {
-		// StringBuilder sBuilder = new StringBuilder(1024);
-		// sBuilder.append(fullNo).append("(").append(ip).append(":").append(port)
-		// .append("): ").append("user = ").append(user)
-		// .append(", pwd = ").append(pwd).append(", enabled = ")
-		// .append(isHelperEnabled);
-		// if (null != channelList) {
-		// int size = channelList.size();
-		// for (int i = 0; i < size; i++) {
-		// sBuilder.append("\n").append(channelList.get(i).toString());
-		// }
-		// }
-		// return sBuilder.toString();
 		return toJson().toString();
+	}
+
+	public static JSONArray toJsonArray(ArrayList<Device> devList) {
+		JSONArray devArray = new JSONArray();
+		try {
+			if (null != devList && 0 != devList.size()) {
+				int size = devList.size();
+				for (int i = 0; i < size; i++) {
+					devArray.put(i, devList.get(i).toJson());
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		MyLog.d(TAG, "json: " + devArray.toString());
+		return devArray;
+	}
+
+	public static String listToString(ArrayList<Device> devList) {
+		return toJsonArray(devList).toString();
+	}
+
+	/**
+	 * JSON转成Device
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public static Device fromJson(String string) {
+		Device dev = new Device();
+		try {
+			JSONObject object = new JSONObject(string);
+			dev.setIp(object.getString("ip"));
+			dev.setPort(object.getInt("port"));
+			dev.setGid(object.getString("gid"));
+			dev.setNo(object.getInt("no"));
+			dev.setFullNo(object.getString("fullNo"));
+			dev.setUser(object.getString("user"));
+			dev.setPwd(object.getString("pwd"));
+			dev.setHomeProduct(object.getBoolean("isHomeProduct"));
+			// dev.setHelperEnabled(object.getBoolean("isHelperEnabled"));
+			dev.setDeviceType(object.getInt("deviceType"));
+			dev.setO5(object.getBoolean("is05"));
+			try {
+				// [Neo] may not contains this value
+				dev.setNickName(object.getString("nickName"));
+			} catch (Exception e) {
+				dev.setNickName("");
+				e.printStackTrace();
+			}
+			dev.setIsDevice(object.getInt("isDevice"));
+			dev.setOnlineState(object.getInt("onlineState"));
+			dev.setHasWifi(object.getInt("hasWifi"));
+			dev.setChannelList(Channel.fromJsonArray(object
+					.getString("channelList")));
+			try {
+				int size = dev.getChannelList().size();
+				for (int i = 0; i < size; i++) {
+					dev.getChannelList().get(i).setParent(dev);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return dev;
+	}
+
+	public static ArrayList<Device> fromJsonArray(String string) {
+		ArrayList<Device> devList = new ArrayList<Device>();
+		if (null == string || "".equalsIgnoreCase(string)) {
+			return devList;
+		}
+		JSONArray devArray;
+		try {
+			devArray = new JSONArray(string);
+			if (null != devArray && 0 != devArray.length()) {
+				int length = devArray.length();
+				for (int i = 0; i < length; i++) {
+					Device dev = fromJson(devArray.get(i).toString());
+					if (null != dev) {
+						devList.add(dev);
+					}
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return devList;
 	}
 
 	public int getDeviceType() {
@@ -226,7 +315,7 @@ public class Device {
 		return is05;
 	}
 
-	public void setChannelList(ArrayList<Channel> channelList) {
+	public void setChannelList(MyList<Channel> channelList) {
 		this.channelList = channelList;
 	}
 

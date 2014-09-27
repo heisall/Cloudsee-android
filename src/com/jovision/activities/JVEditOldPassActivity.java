@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.bean.UserBean;
+import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.UserUtil;
@@ -267,7 +267,7 @@ public class JVEditOldPassActivity extends BaseActivity {
 						activity.statusHashMap.get("KEY_USERNAME"),
 						activity.statusHashMap.get("KEY_PASSWORD"), activity);
 				if (JVAccountConst.SUCCESS == result) {
-					UserBean user = new UserBean();
+					User user = new User();
 					user.setPrimaryID(System.currentTimeMillis());
 					user.setUserName(activity.statusHashMap.get("KEY_USERNAME"));
 					user.setUserPwd(activity.statusHashMap.get("KEY_PASSWORD"));

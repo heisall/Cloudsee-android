@@ -33,7 +33,6 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.PlayViewPagerAdapter;
 import com.jovision.adapters.ScreenAdapter;
-import com.jovision.bean.BeanUtil;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVConst;
@@ -413,7 +412,7 @@ public class JVPlayActivity extends PlayActivity implements
 		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
 		channelIndex = intent.getIntExtra("ChannelIndex", 0);
 		String devJsonString = intent.getStringExtra("DeviceList");
-		deviceList = BeanUtil.stringToDevList(devJsonString);
+		deviceList = Device.fromJsonArray(devJsonString);
 
 		// [Neo] TODO make omx enable as default
 		isOmx = true;

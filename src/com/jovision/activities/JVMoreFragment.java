@@ -17,10 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ListViewUtil;
 import com.jovision.utils.UserUtil;
@@ -134,7 +136,7 @@ public class JVMoreFragment extends BaseFragment {
 			case R.id.more_cancle:// 注销
 				ConfigUtil.logOut();
 				UserUtil.resetAllUser();
-
+				MySharedPreference.putString(Consts.DEVICE_LIST, "");
 				MyActivityManager.getActivityManager().popAllActivityExceptOne(
 						JVLoginActivity.class);
 				Intent intent = new Intent();

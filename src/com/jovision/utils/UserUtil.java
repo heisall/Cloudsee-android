@@ -3,27 +3,24 @@ package com.jovision.utils;
 import java.util.ArrayList;
 
 import com.jovision.Consts;
-import com.jovision.bean.BeanUtil;
-import com.jovision.bean.UserBean;
+import com.jovision.bean.User;
 import com.jovision.commons.MySharedPreference;
 
 public class UserUtil {
 	/** 1.查询所有用户 */
-	public static ArrayList<UserBean> getUserList() {
-		ArrayList<UserBean> userList = BeanUtil
-				.stringToUserList(MySharedPreference
-						.getString(Consts.LOCAL_USER_LIST));
+	public static ArrayList<User> getUserList() {
+		ArrayList<User> userList = User.fromJsonArray(MySharedPreference
+				.getString(Consts.LOCAL_USER_LIST));
 		return userList;
 	}
 
 	/** 2.增加用户 */
-	public static ArrayList<UserBean> addUser(UserBean user) {
-		ArrayList<UserBean> userList = BeanUtil
-				.stringToUserList(MySharedPreference
-						.getString(Consts.LOCAL_USER_LIST));
+	public static ArrayList<User> addUser(User user) {
+		ArrayList<User> userList = User.fromJsonArray(MySharedPreference
+				.getString(Consts.LOCAL_USER_LIST));
 		boolean find = false;
 		if (null == userList) {
-			userList = new ArrayList<UserBean>();
+			userList = new ArrayList<User>();
 		} else {
 			int size = userList.size();
 			for (int i = 0; i < size; i++) {
@@ -48,10 +45,9 @@ public class UserUtil {
 	}
 
 	/** 3.删除用户 */
-	public static ArrayList<UserBean> deleteUser(int index) {
-		ArrayList<UserBean> userList = BeanUtil
-				.stringToUserList(MySharedPreference
-						.getString(Consts.LOCAL_USER_LIST));
+	public static ArrayList<User> deleteUser(int index) {
+		ArrayList<User> userList = User.fromJsonArray(MySharedPreference
+				.getString(Consts.LOCAL_USER_LIST));
 		userList.remove(index);
 		MySharedPreference.putString(Consts.LOCAL_USER_LIST,
 				userList.toString());
@@ -59,10 +55,9 @@ public class UserUtil {
 	}
 
 	/** 4.修改用户 */
-	public static ArrayList<UserBean> editUser(UserBean user) {
-		ArrayList<UserBean> userList = BeanUtil
-				.stringToUserList(MySharedPreference
-						.getString(Consts.LOCAL_USER_LIST));
+	public static ArrayList<User> editUser(User user) {
+		ArrayList<User> userList = User.fromJsonArray(MySharedPreference
+				.getString(Consts.LOCAL_USER_LIST));
 		userList.remove(user);
 		int size = userList.size();
 		for (int i = 0; i < size; i++) {
@@ -80,11 +75,10 @@ public class UserUtil {
 	}
 
 	/** 5.获取上次登陆用户 */
-	public static UserBean getLastUser() {
-		UserBean lastUser = null;
-		ArrayList<UserBean> userList = BeanUtil
-				.stringToUserList(MySharedPreference
-						.getString(Consts.LOCAL_USER_LIST));
+	public static User getLastUser() {
+		User lastUser = null;
+		ArrayList<User> userList = User.fromJsonArray(MySharedPreference
+				.getString(Consts.LOCAL_USER_LIST));
 		int size = userList.size();
 		for (int i = 0; i < size; i++) {
 			if (1 == userList.get(i).getLastLogin()) {
@@ -96,9 +90,8 @@ public class UserUtil {
 
 	/** 6.注销，将所有用户都置为非免登陆 */
 	public static void resetAllUser() {
-		ArrayList<UserBean> userList = BeanUtil
-				.stringToUserList(MySharedPreference
-						.getString(Consts.LOCAL_USER_LIST));
+		ArrayList<User> userList = User.fromJsonArray(MySharedPreference
+				.getString(Consts.LOCAL_USER_LIST));
 		int size = userList.size();
 		for (int i = 0; i < size; i++) {
 			userList.get(i).setLastLogin(0);

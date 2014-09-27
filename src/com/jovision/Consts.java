@@ -126,6 +126,10 @@ public class Consts {
 	/** ChannelFragment onResume */
 	public static final int CHANNEL_FRAGMENT_ONRESUME = 40;// ChannelFragment
 															// onResume
+	/** ManageFragment onResume */
+	public static final int MANAGE_FRAGMENT_ONRESUME = 41;// ManageFragment
+	public static final int MANAGE_ITEM_CLICK = 42;// 通道单击事件--
+	// onResume
 
 	/** 推送消息 tag */
 	public static final int PUSH_MESSAGE = 50;

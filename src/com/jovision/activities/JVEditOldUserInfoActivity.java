@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.bean.UserBean;
+import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.UserUtil;
@@ -328,7 +328,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 				if (JVAccountConst.SUCCESS == result) {
 					// //登陆成功开推送，保持在线
 					// LoginUtil.userOnline();
-					UserBean user = new UserBean();
+					User user = new User();
 					user.setPrimaryID(System.currentTimeMillis());
 					user.setUserName(activity.statusHashMap
 							.get(Consts.KEY_USERNAME));

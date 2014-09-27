@@ -11,11 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.bean.UserBean;
+import com.jovision.bean.User;
 
 public class UserSpinnerAdapter extends BaseAdapter {
 	private Context context;
-	private List<UserBean> list;
+	private List<User> list;
 	private LayoutInflater mInflater;
 	private String userName;
 
@@ -33,7 +33,7 @@ public class UserSpinnerAdapter extends BaseAdapter {
 		userName = name;
 	}
 
-	public void setData(List<UserBean> aList) {
+	public void setData(List<User> aList) {
 		this.list = aList;
 	}
 
@@ -71,7 +71,7 @@ public class UserSpinnerAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		final UserBean info = list.get(position);
+		final User info = list.get(position);
 		holder.textView.setText(info.getUserName());
 
 		if (info.getUserName().equalsIgnoreCase(userName)) {

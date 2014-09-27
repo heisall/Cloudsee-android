@@ -974,7 +974,7 @@ public class PlayWindowManager implements View.OnClickListener,
 			index = -1;
 
 			if (null == channel) {
-				mChannel = new Channel(null, -1, -1, false, false);
+				mChannel = new Channel(null, -1, -1, false, false, "");
 			} else {
 				mChannel = channel;
 			}

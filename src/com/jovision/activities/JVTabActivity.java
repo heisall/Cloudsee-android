@@ -216,8 +216,22 @@ public class JVTabActivity extends BaseActivity {
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
+		BaseFragment currentFrag = mFragments[currentIndex];
 		// TODO 增加过滤
-		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
+		switch (what) {
+		case Consts.CALL_NORMAL_DATA:
+		case Consts.CALL_CONNECT_CHANGE:
+		case Consts.CALL_TEXT_DATA:
+			if (null != currentFrag) {
+				((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
+						obj);
+			}
+			break;
+		default:
+			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
+			break;
+
+		}
 		MyLog.v(TAG, "onNotify");
 	}
 

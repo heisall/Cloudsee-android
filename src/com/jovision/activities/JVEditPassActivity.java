@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.bean.UserBean;
+import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVConst;
 import com.jovision.utils.AccountUtil;
@@ -139,7 +139,7 @@ public class JVEditPassActivity extends BaseActivity {
 			int res = AccountUtil.modifyUserPassword(oldpwd, newpwd);
 			if (JVAccountConst.SUCCESS == res) {
 				// 修改数据库中的用户名密码
-				UserBean user = new UserBean();
+				User user = new User();
 				user.setUserName(username);
 				user.setUserPwd(newpwd);
 				// BaseApp.modifyUserInfo(user);

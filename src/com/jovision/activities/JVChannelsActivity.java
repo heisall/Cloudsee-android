@@ -20,8 +20,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.adapters.ChannelsPagerAdapter;
-import com.jovision.bean.BeanUtil;
+import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
 
 public class JVChannelsActivity extends BaseActivity {
@@ -74,7 +73,7 @@ public class JVChannelsActivity extends BaseActivity {
 		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
 		// channelIndex = intent.getIntExtra("ChannelIndex", 0);
 		String devJsonString = intent.getStringExtra("DeviceList");
-		deviceList = BeanUtil.stringToDevList(devJsonString);
+		deviceList = Device.fromJsonArray(devJsonString);
 	}
 
 	@Override
@@ -120,7 +119,7 @@ public class JVChannelsActivity extends BaseActivity {
 			// fragment.setArguments(data);
 			fragments.add(fragment);
 		}
-		ChannelsPagerAdapter fragmentPagerAdapter = new ChannelsPagerAdapter(
+		TabPagerAdapter fragmentPagerAdapter = new TabPagerAdapter(
 				getSupportFragmentManager(), fragments);
 		channelPager.setAdapter(fragmentPagerAdapter);
 		fragmentPagerAdapter.setFragments(fragments);

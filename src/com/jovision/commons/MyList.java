@@ -118,12 +118,11 @@ public class MyList<E> {
 	}
 
 	/**
-	 * 添加元素，自动计算稀松位置
+	 * 预先检查默认添加元素的索引
 	 * 
-	 * @param e
-	 * @return 添加是否成功
+	 * @return
 	 */
-	public boolean add(E e) {
+	public int precheck() {
 		int current = startIndex;
 		Iterator<Map.Entry<Integer, E>> iterator = (Iterator<Map.Entry<Integer, E>>) map
 				.entrySet().iterator();
@@ -136,7 +135,17 @@ public class MyList<E> {
 			}
 			current++;
 		}
-		return add(current, e);
+		return current;
+	}
+
+	/**
+	 * 添加元素，自动计算稀松位置
+	 * 
+	 * @param e
+	 * @return 添加是否成功
+	 */
+	public boolean add(E e) {
+		return add(precheck(), e);
 	}
 
 	/**

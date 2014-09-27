@@ -120,6 +120,9 @@ public class ChannelFragment extends BaseFragment {
 			if (changeRes) {
 				channelAdapter.notifyDataSetChanged();
 			} else {
+
+				// [Neo] TODO 多设备模式？播放列表需要重新生成索引！！
+
 				((BaseActivity) mActivity).showTextToast(arg1 + "");
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 				String devJsonString = Device.listToString(deviceList);
@@ -136,6 +139,8 @@ public class ChannelFragment extends BaseFragment {
 			break;
 		}
 		case Consts.CHANNEL_ITEM_DEL_CLICK: {// 通道删除事件
+			MyLog.d(Consts.TAG_XX, deviceList.get(deviceIndex).getChannelList()
+					+ "\n--> remove channel: " + arg1);
 			DelChannelTask task = new DelChannelTask();
 			String[] strParams = new String[3];
 			strParams[0] = String.valueOf(deviceIndex);// 设备index
@@ -144,6 +149,8 @@ public class ChannelFragment extends BaseFragment {
 			break;
 		}
 		case Consts.CHANNEL_ADD_CLICK: { // 通道添加
+			MyLog.d(Consts.TAG_XX, deviceList.get(deviceIndex).getChannelList()
+					+ "\n--> add channel: " + arg1);
 			AddChannelTask task = new AddChannelTask();
 			String[] strParams = new String[3];
 			strParams[0] = String.valueOf(deviceIndex);// 设备index
@@ -337,6 +344,8 @@ public class ChannelFragment extends BaseFragment {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.del_channel_succ);
 				channelAdapter.setShowDelete(false);
+				channelAdapter.setData(deviceList.get(deviceIndex)
+						.getChannelList().toList(), disMetrics.widthPixels);
 				channelAdapter.notifyDataSetChanged();
 			} else {
 				((BaseActivity) mActivity)
@@ -367,35 +376,19 @@ public class ChannelFragment extends BaseFragment {
 			Device modifyDev = deviceList.get(delDevIndex);
 			try {
 				if (localFlag) {// 本地添加
-					ArrayList<Integer> addIndexList = new ArrayList<Integer>();
-					int size = modifyDev.getChannelList().size();
-					for (int i = 0; i < size; i++) {
-						Channel channel = modifyDev.getChannelList().get(i);
-
-						if (i == channel.getChannel()) {
-							continue;
-						} else {
-							addIndexList.add(i);
-						}
-					}
-
-					int cha = 4 - addIndexList.size();
-					if (cha > 0) {
-						for (int k = 0; k < cha; k++) {
-							addIndexList.add(k + size);
-						}
-					}
+					int target = -1;
+					Channel channel = null;
+					MyList<Channel> list = modifyDev.getChannelList();
 
 					for (int i = 0; i < 4; i++) {
-						Channel channel = new Channel();
-						channel.setIndex(addIndexList.get(i));
-						channel.setChannel(addIndexList.get(i));
+						channel = new Channel();
+						target = list.precheck();
+						channel.setChannel(target);
 						channel.setChannelName(modifyDev.getFullNo() + "_"
-								+ addIndexList.get(i));
-						MyLog.v(TAG, "addIndex=" + addIndexList.get(i));
-						modifyDev.getChannelList().add(addIndexList.get(i),
-								channel);
+								+ target);
+						list.add(channel);
 					}
+
 					CacheUtil.saveDevList(deviceList);
 					delRes = 0;
 				} else {

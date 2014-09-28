@@ -197,6 +197,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
+		myDeviceList = CacheUtil.getDevList();
 		super.onResume();
 	}
 

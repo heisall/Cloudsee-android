@@ -213,6 +213,15 @@ public class JVDeviceManageFragment extends BaseFragment {
 	}
 
 	@Override
+	public void onResume() {
+		manageDeviceList = CacheUtil.getDevList();
+		MyLog.w(Consts.TAG_XX, "DF: "
+				+ ((null != manageDeviceList) ? manageDeviceList.get(0)
+						.getChannelList().toString() : "0"));
+		super.onResume();
+	}
+
+	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.TAB_ONRESUME: {// activity起来后开始加载设备

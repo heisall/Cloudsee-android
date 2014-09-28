@@ -36,8 +36,9 @@ public abstract class BaseActivity extends FragmentActivity implements
 		IHandlerNotify, IHandlerLikeNotify {
 	protected ProgressDialog proDialog;
 	protected Toast toast;
-	DisplayMetrics disMetrics;
 	protected Configuration configuration;
+	
+	protected DisplayMetrics disMetrics;
 
 	public HashMap<String, String> statusHashMap;
 

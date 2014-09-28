@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -315,8 +316,9 @@ public class PlayWindowManager implements View.OnClickListener,
 	 */
 	public void addChannel(Channel channel) {
 		if (null != channel && false == channel.isConfigChannel()) {
-			int index = mWindowList.size();
-			channel.setIndex(index);
+			// [Neo] TODO 在这里是否合适
+			// channel.setIndex(mWindowList.size() %
+			// Consts.MAX_CHANNEL_CONNECTION);
 			PlayWindow window = new PlayWindow(channel);
 			mWindowList.add(window);
 		}
@@ -644,8 +646,7 @@ public class PlayWindowManager implements View.OnClickListener,
 				v = ((ViewGroup) v.getParent()).getChildAt(0);
 			}
 
-			PlayWindow window = mWindowList.get(id - BASE_ID);
-
+			PlayWindow window = mWindowList.get(v.getId() - BASE_ID);
 			((OnUiListener) mContext).onClick(window.getChannel(),
 					isFromImageView, id);
 		}
@@ -984,8 +985,23 @@ public class PlayWindowManager implements View.OnClickListener,
 		}
 
 		private SurfaceView genSurfaceView() {
+			final MyGestureDispatcher dispatcher = new MyGestureDispatcher(
+					new MyGestureDispatcher.OnGestureListener() {
+
+						@Override
+						public void onGesture(int direction) {
+							((OnUiListener) mContext).onGesture(direction);
+						}
+					});
 
 			SurfaceView view = new SurfaceView(mContext);
+			view.setOnTouchListener(new View.OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					return dispatcher.motion(event);
+				}
+			});
 
 			if (index >= 0) {
 				SurfaceHolder holder = view.getHolder();

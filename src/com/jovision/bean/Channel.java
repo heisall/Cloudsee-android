@@ -10,7 +10,6 @@ import android.view.SurfaceView;
 
 import com.jovision.Consts;
 import com.jovision.commons.MyList;
-import com.jovision.commons.MyLog;
 
 /**
  * 简单的通道集合类
@@ -110,7 +109,6 @@ public class Channel {
 			e.printStackTrace();
 		}
 
-		MyLog.d(TAG, "json: " + object.toString());
 		return object;
 	}
 
@@ -121,6 +119,7 @@ public class Channel {
 
 	public JSONArray toJsonArray(ArrayList<Channel> channelList) {
 		JSONArray channelArray = new JSONArray();
+
 		try {
 			if (null != channelList && 0 != channelList.size()) {
 				int size = channelList.size();
@@ -131,7 +130,7 @@ public class Channel {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		MyLog.d(TAG, "json: " + channelArray.toString());
+
 		return channelArray;
 	}
 
@@ -161,7 +160,7 @@ public class Channel {
 		return channel;
 	}
 
-	public static MyList<Channel> fromJsonArray(String string) {
+	public static MyList<Channel> fromJsonArray(String string, Device device) {
 		MyList<Channel> channelList = new MyList<Channel>();
 		if (null == string || "".equalsIgnoreCase(string)) {
 			return channelList;
@@ -173,8 +172,9 @@ public class Channel {
 				int length = channelArray.length();
 				for (int i = 0; i < length; i++) {
 					Channel channel = fromJson(channelArray.get(i).toString());
+					channel.setParent(device);
 					if (null != channel) {
-						channelList.add(channel);
+						channelList.add(channel.getChannel(), channel);
 					}
 				}
 			}

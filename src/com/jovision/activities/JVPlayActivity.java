@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MotionEvent;
 import android.view.Surface;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -39,6 +38,7 @@ import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 
@@ -65,6 +65,9 @@ public class JVPlayActivity extends PlayActivity implements
 	private int connNum = 4;// 保持连接数
 
 	private HashMap<Integer, Channel> channelMap;
+
+	private int startWindowIndex;
+	private ArrayList<Channel> playChannelList;
 
 	private boolean hasCheckDoubleClick = false;
 	private boolean isSwitching = false;
@@ -296,20 +299,6 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			break;
 		}
-		// [Neo] surface.step 3
-		case Consts.WHAT_DUMMY: {
-			int size = manager.getValidChannelList(currentPage).size();
-			for (int i = 0; i < size; i++) {
-				SurfaceView v = manager.getValidChannelList(currentPage).get(i)
-						.getSurfaceView();
-				if (null != v && surfaceWidth > 0 && surfaceHeight > 0) {
-					MyLog.d(Consts.TAG_APP, "setFixedSize-" + i + ": "
-							+ surfaceWidth + "x" + surfaceHeight);
-					v.getHolder().setFixedSize(surfaceWidth, surfaceHeight);
-				}
-			}
-			break;
-		}
 
 		// // 进播放开始连接开始连接
 		// case JVConst.WHAT_START_CONNECT: {
@@ -408,27 +397,69 @@ public class JVPlayActivity extends PlayActivity implements
 		manager = PlayWindowManager.getIntance(this);
 		manager.setArrowId(R.drawable.left, R.drawable.up, R.drawable.right,
 				R.drawable.down);
-		Intent intent = getIntent();
-		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
-		channelIndex = intent.getIntExtra("ChannelIndex", 0);
-		String devJsonString = intent.getStringExtra("DeviceList");
-		deviceList = Device.fromJsonArray(devJsonString);
 
 		// [Neo] TODO make omx enable as default
 		isOmx = true;
 
-		int deviceSize = deviceList.size();
-		for (int i = 0; i < deviceSize; i++) {
-			int channelSize = deviceList.get(i).getChannelList().size();
-			for (int j = 0; j < channelSize; j++) {
+		Intent intent = getIntent();
+		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
+		channelIndex = intent.getIntExtra("ChannelIndex", 0);
 
-				if (i == deviceIndex && j == channelIndex) {
-					currentPage = manager.getChannelList().size();
-					lastClickIndex = currentPage;
-				}
-				manager.addChannel(deviceList.get(i).getChannelList().get(j));
-			}
+		// putExtra("ChannelList", clist.toString());
+		startWindowIndex = intent.getIntExtra("startWindowIndex", 0);
+
+		// String devJsonString = intent.getStringExtra("DeviceList");
+		// deviceList = Device.fromJsonArray(devJsonString);
+		deviceList = CacheUtil.getDevList();
+
+		// [Neo] TODO 多设备模式
+		boolean multiDeviceMode = false;
+
+		// [Neo] precheck
+		if (deviceList.size() < deviceIndex
+				|| deviceList.get(deviceIndex).getChannelList().size() < channelIndex) {
+			// [Neo] TODO 错误的参数，需要检查之前的活动
 		}
+
+		if (multiDeviceMode) {
+			playChannelList = new ArrayList<Channel>();
+			for (Device device : deviceList) {
+				playChannelList.addAll(device.getChannelList().toList());
+			}
+		} else {
+			playChannelList = deviceList.get(deviceIndex).getChannelList()
+					.toList();
+		}
+
+		int size = playChannelList.size();
+
+		if (size < startWindowIndex) {
+			// [Neo] TODO 错误的参数，需要检查之前的活动
+		}
+
+		for (int i = 0; i < size; i++) {
+			manager.addChannel(playChannelList.get(i));
+		}
+
+		currentPage = startWindowIndex;
+
+		MyLog.i(Consts.TAG_XX, "JVPlay.init: " + currentPage + "/"
+				+ playChannelList.size() + ", connectIndex = "
+				+ playChannelList.get(startWindowIndex).getIndex());
+
+		// int deviceSize = deviceList.size();
+		// for (int i = 0; i < deviceSize; i++) {
+		// int channelSize = deviceList.get(i).getChannelList().size();
+		// for (int j = 0; j < channelSize; j++) {
+		//
+		// if (i == deviceIndex && j == channelIndex) {
+		// [Neo] TODO what for
+		// currentPage = manager.getChannelList().size();
+		// lastClickIndex = currentPage;
+		// }
+		// manager.addChannel(deviceList.get(i).getChannelList().get(j));
+		// }
+		// }
 
 	}
 
@@ -1142,17 +1173,6 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		// [Neo] surface.step 1
-		for (int i = 0; i < 4; i++) {
-			SurfaceView v = manager.getChannel(i).getSurfaceView();
-			if (null != v) {
-				MyLog.d(Consts.TAG_APP, "surface first setFixedSize-" + i);
-				v.getHolder().setFixedSize(1, 1);
-			}
-		}
-
-		// [Neo] surface.step 2
-		handler.sendEmptyMessageDelayed(Consts.WHAT_DUMMY, 100);
 	}
 
 	@Override
@@ -1190,7 +1210,6 @@ public class JVPlayActivity extends PlayActivity implements
 					Jni.resume(index, surface);
 					super.run();
 				}
-
 			};
 			resumeThread.start();
 			break;

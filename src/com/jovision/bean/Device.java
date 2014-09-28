@@ -187,11 +187,10 @@ public class Device {
 			object.put("onlineState", onlineState);
 			object.put("hasWifi", hasWifi);
 			try {
-				int size = channelList.size();
+				ArrayList<Channel> list = channelList.toList();
+				int size = list.size();
 				for (int i = 0; i < size; i++) {
-					if (null != channelList.get(i)) {
-						array.put(i, channelList.get(i).toJson());
-					}
+					array.put(i, list.get(i).toJson());
 				}
 				object.put("channelList", array);
 			} catch (Exception e) {
@@ -202,7 +201,6 @@ public class Device {
 			e.printStackTrace();
 		}
 
-		MyLog.v(TAG, object.toString());
 		return object;
 	}
 
@@ -213,6 +211,7 @@ public class Device {
 
 	public static JSONArray toJsonArray(ArrayList<Device> devList) {
 		JSONArray devArray = new JSONArray();
+
 		try {
 			if (null != devList && 0 != devList.size()) {
 				int size = devList.size();
@@ -223,7 +222,7 @@ public class Device {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		MyLog.d(TAG, "json: " + devArray.toString());
+
 		return devArray;
 	}
 
@@ -259,19 +258,12 @@ public class Device {
 				dev.setNickName("");
 				e.printStackTrace();
 			}
+
 			dev.setIsDevice(object.getInt("isDevice"));
 			dev.setOnlineState(object.getInt("onlineState"));
 			dev.setHasWifi(object.getInt("hasWifi"));
-			dev.setChannelList(Channel.fromJsonArray(object
-					.getString("channelList")));
-			try {
-				int size = dev.getChannelList().size();
-				for (int i = 0; i < size; i++) {
-					dev.getChannelList().get(i).setParent(dev);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			dev.setChannelList(Channel.fromJsonArray(
+					object.getString("channelList"), dev));
 
 		} catch (JSONException e) {
 			e.printStackTrace();

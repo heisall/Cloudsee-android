@@ -99,6 +99,14 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>
+          <activity
+            android:name="com.jovision.activities.JVIpconnectActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
         <activity
             android:name="com.jovision.activities.HelpActivity"
             android:configChanges="orientation|keyboardHidden"

@@ -181,8 +181,8 @@ public class JVMoreFragment extends BaseFragment {
 									Toast.LENGTH_SHORT).show();
 							break;
 						case 4:
-							Toast.makeText(activity, "点击成功4",
-									Toast.LENGTH_SHORT).show();
+							activity.startActivity(new Intent(activity,
+									JVIpconnectActivity.class));
 							break;
 						case 5:
 							activity.startActivity(new Intent(activity,

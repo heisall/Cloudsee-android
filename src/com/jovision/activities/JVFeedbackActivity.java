@@ -137,13 +137,17 @@ public class JVFeedbackActivity extends BaseActivity {
 				finish();
 				break;
 			case R.id.btn_right:
-
-				if (0 == content.getText().toString().length()) {
-					showTextToast(R.string.str_notice_content);
+				String connectStr = connection.getText().toString();// 联系方式
+				String contentStr = content.getText().toString();// 反馈内容
+				if (0 == content.getText().toString().length()||("").equals(connectStr)) {
+					if (0 == content.getText().toString().length()) {
+						showTextToast(R.string.str_notice_content);
+					}else {
+						showTextToast(R.string.str_notice_connection);
+					}
+					
 				} else {
 					createDialog("");
-					String connectStr = connection.getText().toString();// 联系方式
-					String contentStr = content.getText().toString();// 反馈内容
 					if (0 != connectStr.length()) {
 						contentStr += "联系方式" + connectStr;
 					}

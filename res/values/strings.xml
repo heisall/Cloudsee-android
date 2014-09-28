@@ -266,7 +266,7 @@
     <string name="str_skip">skip</string>
     <string name="str_reset">reseting</string>
     <!-- 修改密码 -->
-    <string name="login_str_ipaddress">IP Address</string>
+    <string name="cloud_number">CloudNum</string>
     <string name="login_str_port">Port</string>
     <string name="login_str_user_name">Username</string>
     <string name="str_pass">Password</string>

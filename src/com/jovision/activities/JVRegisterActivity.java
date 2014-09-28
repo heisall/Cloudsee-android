@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.bean.UserBean;
+import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
@@ -361,7 +361,7 @@ public class JVRegisterActivity extends BaseActivity {
 				} else if (JVAccountConst.PHONE_NOT_TRUE == registerRes) {
 					return registerRes;
 				}
-				UserBean user = new UserBean();
+				User user = new User();
 				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				registerRes = AccountUtil.userRegister(user);

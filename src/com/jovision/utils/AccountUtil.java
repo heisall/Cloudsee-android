@@ -11,7 +11,7 @@ import android.test.JVACCOUNT;
 import android.util.Log;
 
 import com.jovision.bean.ClientBean;
-import com.jovision.bean.UserBean;
+import com.jovision.bean.User;
 import com.jovision.commons.MyLog;
 
 public class AccountUtil {
@@ -38,7 +38,7 @@ public class AccountUtil {
 	 *            用户基本信息（目前只包括用户名和邮箱），用户密码（由上层直接传入加密的密码）
 	 * @return
 	 */
-	public static int userRegister(UserBean user) {
+	public static int userRegister(User user) {
 		int res = -1;
 		res = JVACCOUNT.UserRegister(user.getUserName(), user.getUserPwd());
 		MyLog.e("userRegister--", "-----|||||" + res + "");

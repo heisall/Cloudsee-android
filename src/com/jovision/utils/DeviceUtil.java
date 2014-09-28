@@ -11,6 +11,7 @@ import android.test.JVACCOUNT;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVDeviceConst;
+import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 
 public class DeviceUtil {
@@ -126,9 +127,9 @@ public class DeviceUtil {
 	 *            设备云视通号
 	 * @return ArrayList<ConnPoint> 设备通道列表
 	 */
-	public static ArrayList<Channel> getDevicePointList(Device parentDevice,
+	public static MyList<Channel> getDevicePointList(Device parentDevice,
 			String dGuid) {
-		ArrayList<Channel> pointList = null;
+		MyList<Channel> pointList = null;
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
@@ -161,7 +162,7 @@ public class DeviceUtil {
 					if (0 != rt) {// 获取失败
 						pointList = null;
 					} else {// 获取成功
-						pointList = new ArrayList<Channel>();
+						pointList = new MyList<Channel>();
 					}
 					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
 					JSONArray plist = new JSONArray(

@@ -19,9 +19,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
-import com.jovision.adapters.ChannelsPagerAdapter;
-import com.jovision.bean.BeanUtil;
+import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
 
 public class JVChannelsActivity extends BaseActivity {
@@ -52,14 +50,16 @@ public class JVChannelsActivity extends BaseActivity {
 	// private int channelIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 
+	private int widthPixels;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		switch (what) {
-		case Consts.CHANNEL_FRAGMENT_ONRESUME:
-			((ChannelFragment) fragments.get(arg1)).setData(arg1, deviceList);
-			channelPager.setCurrentItem(deviceIndex);
-			break;
-		}
+		// switch (what) {
+		// case Consts.CHANNEL_FRAGMENT_ONRESUME:
+		// ((ChannelFragment) fragments.get(arg1)).setData(arg1, deviceList);
+		// channelPager.setCurrentItem(deviceIndex);
+		// break;
+		// }
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class JVChannelsActivity extends BaseActivity {
 		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
 		// channelIndex = intent.getIntExtra("ChannelIndex", 0);
 		String devJsonString = intent.getStringExtra("DeviceList");
-		deviceList = BeanUtil.stringToDevList(devJsonString);
+		deviceList = Device.fromJsonArray(devJsonString);
 	}
 
 	@Override
@@ -98,6 +98,8 @@ public class JVChannelsActivity extends BaseActivity {
 		mImageView.getLayoutParams().width = item_width;
 		channelPager = (ViewPager) findViewById(R.id.channels_pager);
 
+		widthPixels = disMetrics.widthPixels;
+
 		// 初始化导航
 		initNav();
 		// 初始化viewPager
@@ -112,15 +114,17 @@ public class JVChannelsActivity extends BaseActivity {
 	private void initViewPager() {
 		fragments = new ArrayList<Fragment>();
 		int size = deviceList.size();
+
 		for (int i = 0; i < size; i++) {
 			// Bundle data = new Bundle();
 			// data.putString("DeviceList", deviceList.toString());
 			// data.putInt("DeviceIndex", deviceIndex);
-			ChannelFragment fragment = new ChannelFragment();
+			ChannelFragment fragment = new ChannelFragment(i, deviceList,
+					widthPixels);
 			// fragment.setArguments(data);
 			fragments.add(fragment);
 		}
-		ChannelsPagerAdapter fragmentPagerAdapter = new ChannelsPagerAdapter(
+		TabPagerAdapter fragmentPagerAdapter = new TabPagerAdapter(
 				getSupportFragmentManager(), fragments);
 		channelPager.setAdapter(fragmentPagerAdapter);
 		fragmentPagerAdapter.setFragments(fragments);
@@ -147,7 +151,7 @@ public class JVChannelsActivity extends BaseActivity {
 					deviceIndex = index;
 					channelPager.setCurrentItem(index);
 					((ChannelFragment) fragments.get(index)).setData(index,
-							deviceList);
+							deviceList, widthPixels);
 				}
 			});
 			layout.setTag(i);
@@ -191,7 +195,7 @@ public class JVChannelsActivity extends BaseActivity {
 			}
 			deviceIndex = position;
 			((ChannelFragment) fragments.get(position)).setData(position,
-					deviceList);
+					deviceList, widthPixels);
 			channelPager.setCurrentItem(position);
 		}
 

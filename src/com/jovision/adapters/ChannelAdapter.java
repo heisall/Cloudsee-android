@@ -41,6 +41,7 @@ public class ChannelAdapter extends BaseAdapter {
 	public void setData(ArrayList<Channel> dataList, int width) {
 		channelList = dataList;
 		screenWidth = width;
+		notifyDataSetChanged();
 	}
 
 	// 控制是否显示删除按钮
@@ -57,12 +58,12 @@ public class ChannelAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return channelList.size() + 1;
+		return (null != channelList) ? (channelList.size() + 1) : 0;
 	}
 
 	@Override
 	public Object getItem(int arg0) {
-		return channelList.get(arg0);
+		return (null != channelList) ? (channelList.get(arg0)) : null;
 	}
 
 	@Override
@@ -73,6 +74,7 @@ public class ChannelAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ChannelHolder channelHolder;
+
 		if (null == convertView) {
 			convertView = inflater.inflate(R.layout.channel_item, null);
 			channelHolder = new ChannelHolder();
@@ -88,6 +90,7 @@ public class ChannelAdapter extends BaseAdapter {
 					.findViewById(R.id.channel_edit_iv);
 
 			convertView.setTag(channelHolder);
+
 		} else {
 			channelHolder = (ChannelHolder) convertView.getTag();
 		}
@@ -97,20 +100,8 @@ public class ChannelAdapter extends BaseAdapter {
 		RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(w, h);
 		channelHolder.channelBG.setLayoutParams(rllp);
 
-		if (position >= channelList.size()) {// 最后一个通道用于添加通道
-			channelHolder.channelName.setText("+");
-			channelHolder.channelDel.setVisibility(View.GONE);
-			channelHolder.channelEdit.setVisibility(View.GONE);
-			channelHolder.channelBG.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View arg0) {
-					mfragment.onNotify(Consts.CHANNEL_ADD_CLICK, 0, 0, null);
-
-				}
-			});
-
-		} else {// 普通通道
+		// 普通通道
+		if (position < channelList.size()) {
 			if (showDelete) {
 				channelHolder.channelDel.setVisibility(View.VISIBLE);
 				channelHolder.channelEdit.setVisibility(View.VISIBLE);
@@ -118,34 +109,33 @@ public class ChannelAdapter extends BaseAdapter {
 				channelHolder.channelDel.setVisibility(View.GONE);
 				channelHolder.channelEdit.setVisibility(View.GONE);
 			}
+
 			final int channel = channelList.get(position).getChannel();
-			channelHolder.channelName.setText(channelList.get(position)
-					.getChannel() + "");
+			channelHolder.channelName.setText(String.valueOf(channel));
 
-			int resID = channelResArray[channel % 8];
-			channelHolder.channelBG.setBackgroundResource(resID);
-
+			channelHolder.channelBG
+					.setBackgroundResource(channelResArray[channel % 8]);
 			// 通道单击播放
-			convertView.setOnClickListener(new OnClickListener() {
+			channelHolder.channelBG.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View arg0) {
 					mfragment.onNotify(Consts.CHANNEL_ITEM_CLICK, channel, 0,
 							null);
-
 				}
 			});
 
 			// 长按删除
-			convertView.setOnLongClickListener(new OnLongClickListener() {
+			channelHolder.channelBG
+					.setOnLongClickListener(new OnLongClickListener() {
 
-				@Override
-				public boolean onLongClick(View arg0) {
-					mfragment.onNotify(Consts.CHANNEL_ITEM_LONG_CLICK, channel,
-							0, null);
-					return false;
-				}
-			});
+						@Override
+						public boolean onLongClick(View arg0) {
+							mfragment.onNotify(Consts.CHANNEL_ITEM_LONG_CLICK,
+									channel, 0, null);
+							return true;
+						}
+					});
 
 			// 点击删除通道
 			channelHolder.channelDel.setOnClickListener(new OnClickListener() {
@@ -154,7 +144,6 @@ public class ChannelAdapter extends BaseAdapter {
 				public void onClick(View arg0) {
 					mfragment.onNotify(Consts.CHANNEL_ITEM_DEL_CLICK, channel,
 							0, null);
-
 				}
 			});
 
@@ -165,9 +154,9 @@ public class ChannelAdapter extends BaseAdapter {
 				public void onClick(View arg0) {
 					mfragment.onNotify(Consts.CHANNEL_EDIT_CLICK, channel, 0,
 							null);
-
 				}
 			});
+
 			channelHolder.channelEditIV
 					.setOnClickListener(new OnClickListener() {
 
@@ -175,9 +164,24 @@ public class ChannelAdapter extends BaseAdapter {
 						public void onClick(View arg0) {
 							mfragment.onNotify(Consts.CHANNEL_EDIT_CLICK,
 									channel, 0, null);
-
 						}
 					});
+
+		} else {
+			// 最后一个通道用于添加通道
+			channelHolder.channelName.setText("+");
+			channelHolder.channelDel.setVisibility(View.GONE);
+			channelHolder.channelEdit.setVisibility(View.GONE);
+
+			// [Neo] stable
+			channelHolder.channelBG.setBackgroundResource(channelResArray[5]);
+			channelHolder.channelBG.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					mfragment.onNotify(Consts.CHANNEL_ADD_CLICK, 0, 0, null);
+				}
+			});
 		}
 
 		return convertView;

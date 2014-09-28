@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.bean.UserBean;
+import com.jovision.bean.User;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -99,7 +99,7 @@ public class JVWelcomeActivity extends BaseActivity {
 					intent.putExtra("ArrayFlag", JVConst.LANGUAGE_EN);
 				}
 			} else {
-				UserBean user = UserUtil.getLastUser();
+				User user = UserUtil.getLastUser();
 				if (ConfigUtil.getNetWorkConnection() && null != user
 						&& !"".equalsIgnoreCase(user.getUserName())
 						&& !"".equalsIgnoreCase(user.getUserPwd())) {
@@ -130,9 +130,6 @@ public class JVWelcomeActivity extends BaseActivity {
 		public void run() {
 			MyLog.w(TAG, "initThread E");
 
-			// 开启广播
-			ConfigUtil.startBroadCast();
-
 			// [Neo] TODO set timer for timeout
 			while (false == HAS_LOADED) {
 				try {
@@ -141,11 +138,13 @@ public class JVWelcomeActivity extends BaseActivity {
 				}
 			}
 
+			// [Neo] you fool!
+			ConfigUtil.initCloudSDK(getApplication());// 初始化CloudSDK
+			// HelperUtil.setHelpToSavedDevice();// 给设备设置小助手
+
 			if (ConfigUtil.getNetWorkConnection()) {
 				boolean initASdkState = ConfigUtil
 						.initAccountSDK(getApplication());// 初始化账号SDK
-				ConfigUtil.initCloudSDK(getApplication());// 初始化CloudSDK
-				// HelperUtil.setHelpToSavedDevice();// 给设备设置小助手
 
 				ConfigUtil.getIMEI(JVWelcomeActivity.this);
 
@@ -158,6 +157,9 @@ public class JVWelcomeActivity extends BaseActivity {
 				}
 
 			}
+
+			// 开启广播，顺序！顺序！
+			ConfigUtil.startBroadCast();
 
 			MyLog.w(TAG, "initThread X");
 		}

@@ -1,4 +1,48 @@
-# 2014年 09月 25日
+# 规范
+
+## java 源文件
+
++ 接口命名 IAdjNoun
++ 类名 NounPhrase，即 UpperCamelCase
++ 派生类命名 XXXParentClzName
++ 常量全部大写，下划线分割，使用 static final 修饰
++ 变量、参数都采用 lowerCamelCase 命名
++ 尽量不使用枚举类型
++ 修饰符的顺序依次为 private static final native int
++ 工具类可存放在 xx.commons，xx.commons.net，xx.commons.views 包里面
++ 界面类可存放在 xx.activites，xx.views，xx.examples
++ 列宽 80 个字节
++ 缩进使用 4 字节宽
++ 重载方法在源码物理行上连续实现，永不分离
++ 不要用类对象调用类静态方法
++ 只要有异常就应该捕获
++ switch 中必须有 default
++ 代码块即使只有一行，也必须有大括号包裹
++ 注释统一写在待注释语句的上面，而不是后面
++ Eclipse 统一使用默认格式化 Ctrl + Shift + F
++ Eclipse 通过 Ctrl + Shift + O 导入包，手写 import 不要带通配符
+
+## c/c++ 源文件
+
++ 文件名统一小写，下划线分割
++ 后缀名统一用 cc 和 h
++ 变量名需要有描述性，统一小写，下划线分割，成员变量结尾添加下划线
++ 只要可以不用全局变量，就不使用他，必要情况下，使用 `g_` 做前缀
++ 常亮使用 `c_` 做前缀
++ 类、结构体、类型定义、方法名称大写字母开头，不使用下划线
++ 短小的内联函数也可以用小写字母命名
++ 枚举值采用常量的命名方式
++ 尽量避免使用宏，必要情况下，统一大写，下划线分割
+
+## Javadoc
+
++ 每个 public 以及 protected 的方法和成员都需要 javadoc
++ 不含 @XXX 的注释可以单行标注
++ 分段需要添加 `<p>`
++ 必要的位置添加 @param， @return, @throws, @deprecated
++ 对于明显的 getter 和 setter 方法，完全可以不去写
+
+## 消息分发
 
 消息传递 `what` 常量要求
 
@@ -17,9 +61,39 @@
 
 根据以上数值，可推算出消息的 `what` 为 `0x01022E`
 
-# 2014年 09月 17日
+# 应用层
 
-新版 CloudSEE 仓库，含重构后的播放库，新应用层逻辑(未完结)
+## 包分布
+
++ 全局常量、Jni 接口等都定义在 `com.jovision` 包中
++ 活动都在 `com.jovision.activities` 包中
++ 集合类都在 `com.jovision.beans` 包中
++ 通用方法都在 `com.jovision.commons` 包中，可再细分 `net`，`resource` 等子包
+
+## 消息分发
+
++ MainApplication 负责消息分发，包括底层所有回调和应用层活动之间的通信
++ BaseActivity 作为所有活动基类，实现消息分发、生命周期规划等
++ BaseFragment 作为所有碎片基类，实现子消息分发、子生命周期规划等
++ 每个活动、碎片必须实现 `onHandler` 和 `onNotify` 接口，处理消息
++ 每个活动将对应事务写入对应方法体中
+
+    + initSettings，从配置文件中获取配置，在父类的 onCreate 已调用
+    + initUi， 界面相关初始化，在父类中的 onCreate 已调用
+    + saveSettings，将变更的设置或状态存储起来，在父类 onPause 已调用
+    + freeMe，解锁、删除不用的对象，释放资源，在父类 onDestroy 中调用
+    + onNotify，作为外部回调，接口回调的入口，重写具体的实现
+
+## 设备与通道索引
+
++ 设备包含通道，一对多
++ 通道包含一个通道索引和一个窗口索引
++ 通道索引从固定数值开始，递增，最多 64 个，用户可定制个数、顺序
++ 窗口索引是进入播放界面后，可播放的通道序列，从 0 开始，最多同时维持 36 个连接
+
+# 接口层
+
+## 版本
 
 播放库版本
 
@@ -27,13 +101,11 @@
     #define REVISION      "[761a78f]"
     #define RELEASE_DATE  "[2014-09-17]"
 
-内置网络库版本
+网络库版本
 
     v2.0.76.3.5[private:v2.0.75.13 20140917.1]
-    
-## 播放库架构
 
-播放库主要功能
+## 播放库主要功能
 
 + 局域网搜索，仅全部网络旧接口
 + 使用链接小助手链接视频源，播放视频源、远程回放
@@ -45,7 +117,7 @@
 + 向设备直接发送命令
 + 编码 PCM 至 g711 或 amr
 
-播放库调用流程
+## 播放库调用流程
 
 1. 初始化
 2. 局域网搜索，可选
@@ -56,7 +128,7 @@
 7. 断开所有连接并接收指定回调
 8. 反初始化
 
-文件树结构
+## 文件树结构
 
 + `depends`: 解码、显示、网络库等依赖头文件
 + `libs`: 依赖静态库文件
@@ -66,7 +138,7 @@
 + `utils/callbacks.*`: 网络库回调函数
 + `utils/threads.*`: 内部线程函数
 
-回调说明
+## 回调说明
 
 ConnectChange
 
@@ -141,23 +213,4 @@ play
     // play audio
     id, index, is_play_back, byte[]
     byte: pcm raw data
-
-## 应用层架构
-
-包分布
-
-+ 全局常量、Jni 接口等都定义在 `com.jovision` 包中
-+ 活动都在 `com.jovision.activities` 包中
-+ 集合类都在 `com.jovision.beans` 包中
-+ 通用方法都在 `com.jovision.commons` 包中，可再细分 `net`，`resource` 等子包
-
-消息分发
-
-+ MainApplication 负责消息分发，包括底层所有回调和应用层活动之间的通信
-+ BaseActivity 作为所有活动基类，实现消息分发、生命周期规划等
-+ BaseFragment 作为所有碎片基类，实现子消息分发、子生命周期规划等
-+ 每个活动、碎片必须实现 `onHandler` 和 `onNotify` 接口，处理消息
-+ 每个活动将对应事务写入 `iniSettings`、`initUi`、`saveSettings` 和 `freeMe`
-
-待完善
 

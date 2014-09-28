@@ -13,7 +13,6 @@ import android.widget.ListView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.DemoListAdapter;
-import com.jovision.bean.BeanUtil;
 import com.jovision.bean.Device;
 import com.jovision.views.RefreshableView;
 import com.jovision.views.RefreshableView.PullToRefreshListener;
@@ -87,7 +86,7 @@ public class JVDemoFragment extends BaseFragment {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 
-			String devJsonString = BeanUtil.deviceListToString(demoList);
+			String devJsonString = Device.listToString(demoList);
 			// MySharedPreference.putString(Consts.DEVICE_LIST, devJsonString);
 			Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 			intentPlay.putExtra("DeviceList", devJsonString);

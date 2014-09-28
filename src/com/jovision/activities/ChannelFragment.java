@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,21 +18,24 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.ChannelAdapter;
-import com.jovision.bean.BeanUtil;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
-import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
 
 public class ChannelFragment extends BaseFragment {
 
 	private String TAG = "ChannelFragment";
-	DisplayMetrics disMetrics;
 
 	/** intent传递过来的设备和通道下标 */
 	private int deviceIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
+	private Device device;
+
+	private int widthPixels;
+
 	private GridView channelGridView;
 	private ChannelAdapter channelAdapter;
 	boolean localFlag = false;
@@ -70,41 +72,47 @@ public class ChannelFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
-		disMetrics = new DisplayMetrics();
-		mActivity.getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
+
 		channelGridView = (GridView) mParent
 				.findViewById(R.id.channel_gridview);
+
+		channelAdapter = new ChannelAdapter(this);
+		MyLog.d(Consts.TAG_XX, "ChannelF.created: "
+				+ device.getChannelList().toString());
+		channelAdapter.setData(device.getChannelList().toList(), widthPixels);
+		channelGridView.setAdapter(channelAdapter);
 
 		localFlag = Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 	}
 
+	public ChannelFragment(int devIndex, ArrayList<Device> devList,
+			int widthPixels) {
+		deviceIndex = devIndex;
+		deviceList = devList;
+		this.widthPixels = widthPixels;
+
+		device = deviceList.get(devIndex);
+	}
+
 	@Override
-	public void onResume() {
-		mActivity.onNotify(Consts.CHANNEL_FRAGMENT_ONRESUME, deviceIndex, 0,
-				null);
-		super.onResume();
+	public void onPause() {
+		CacheUtil.saveDevList(deviceList);
+		super.onPause();
 	}
 
 	// 设置data
-	public void setData(int devIndex, ArrayList<Device> devList) {
+	public void setData(int devIndex, ArrayList<Device> devList, int widthPixels) {
 		deviceIndex = devIndex;
 		deviceList = devList;
-		try {
-			Device dev = deviceList.get(devIndex);
-			if (null != dev && null != dev.getChannelList()) {
-				if (null == channelAdapter) {
-					channelAdapter = new ChannelAdapter(this);
-				}
-				channelAdapter.setData(dev.getChannelList(),
-						disMetrics.widthPixels);
-				channelGridView.setAdapter(channelAdapter);
-				channelAdapter.notifyDataSetChanged();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		this.widthPixels = widthPixels;
 
+		device = deviceList.get(devIndex);
+		if (null != channelAdapter && null != device
+				&& null != device.getChannelList()) {
+			channelAdapter.setData(device.getChannelList().toList(),
+					widthPixels);
+		}
 	}
 
 	@Override
@@ -121,12 +129,50 @@ public class ChannelFragment extends BaseFragment {
 			if (changeRes) {
 				channelAdapter.notifyDataSetChanged();
 			} else {
+				// [Neo] TODO 多设备模式？
+				boolean multiDeviceMode = false;
+
+				int startWindowIndex = 0;
+				ArrayList<Channel> clist = new ArrayList<Channel>();
+				ArrayList<Channel> cDummyList = null;
+
+				if (multiDeviceMode) {
+					int dsize = deviceList.size();
+					for (int i = 0; i < dsize; i++) {
+						cDummyList = deviceList.get(i).getChannelList()
+								.toList();
+						if (deviceIndex < i) {
+							startWindowIndex += cDummyList.size();
+						} else if (deviceIndex == i) {
+							startWindowIndex += arg1;
+						}
+						clist.addAll(cDummyList);
+					}
+				} else {
+					clist = deviceList.get(deviceIndex).getChannelList()
+							.toList();
+					startWindowIndex = arg1;
+				}
+
+				int size = clist.size();
+				for (int i = 0; i < size; i++) {
+					// [Neo] 循环利用播放数组，我 tm 就是个天才
+					clist.get(i).setIndex(i % Consts.MAX_CHANNEL_CONNECTION);
+				}
+
 				((BaseActivity) mActivity).showTextToast(arg1 + "");
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				String devJsonString = BeanUtil.deviceListToString(deviceList);
-				intentPlay.putExtra("DeviceList", devJsonString);
+
+				// [Neo] 应该从文件中重新读取，不需传递
+				// String devJsonString = Device.listToString(deviceList);
+				// intentPlay.putExtra("DeviceList", devJsonString);
+
 				intentPlay.putExtra("DeviceIndex", deviceIndex);
+				// [Neo] 实际上是 int channel
 				intentPlay.putExtra("ChannelIndex", arg1);
+
+				// intentPlay.putExtra("playChannelList", clist.toString());
+				intentPlay.putExtra("startWindowIndex", startWindowIndex);
 				mActivity.startActivity(intentPlay);
 			}
 			break;
@@ -137,7 +183,6 @@ public class ChannelFragment extends BaseFragment {
 			break;
 		}
 		case Consts.CHANNEL_ITEM_DEL_CLICK: {// 通道删除事件
-			((BaseActivity) mActivity).showTextToast("删除通道--" + arg1);
 			DelChannelTask task = new DelChannelTask();
 			String[] strParams = new String[3];
 			strParams[0] = String.valueOf(deviceIndex);// 设备index
@@ -146,7 +191,6 @@ public class ChannelFragment extends BaseFragment {
 			break;
 		}
 		case Consts.CHANNEL_ADD_CLICK: { // 通道添加
-			((BaseActivity) mActivity).showTextToast("添加通道--" + arg1);
 			AddChannelTask task = new AddChannelTask();
 			String[] strParams = new String[3];
 			strParams[0] = String.valueOf(deviceIndex);// 设备index
@@ -155,9 +199,9 @@ public class ChannelFragment extends BaseFragment {
 			break;
 		}
 		case Consts.CHANNEL_EDIT_CLICK: {// 通道编辑
-			initSummaryDialog(
-					deviceList.get(deviceIndex).getChannelList().get(arg1)
-							.getChannelName(), arg1);
+			Channel channel = device.getChannelList().get(arg1);
+			String name = channel.channelName;
+			initSummaryDialog(name, arg1);
 			break;
 		}
 		}
@@ -205,11 +249,12 @@ public class ChannelFragment extends BaseFragment {
 	OnClickListener myOnClickListener = new OnClickListener() {
 
 		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.device_numet_cancle:
+		public void onClick(View view) {
+			switch (view.getId()) {
+			case R.id.device_numet_cancle: {
 				device_numet.setText("");
 				break;
+			}
 			default:
 				break;
 			}
@@ -224,19 +269,22 @@ public class ChannelFragment extends BaseFragment {
 			int modRes = -1;
 			int modDevIndex = Integer.parseInt(params[0]);
 			int modChannelIndex = Integer.parseInt(params[1]);
-			String Newname = params[2];
-			Device modifyDev = deviceList.get(modDevIndex);
+			String newName = params[2];
+
 			try {
 				if (localFlag) {// 本地保存更改
-					modifyDev.getChannelList().get(modChannelIndex)
-							.setChannelName(Newname);
-					MySharedPreference.putString(Consts.DEVICE_LIST,
-							deviceList.toString());
+					device.getChannelList().get(modChannelIndex)
+							.setChannelName(newName);
 					modRes = 0;
 				} else {
 					modRes = DeviceUtil.modifyPointName(modDevIndex + "",
-							modChannelIndex, Newname);
+							modChannelIndex, newName);
 				}
+				if (0 == modRes) {
+					// [Neo] TODO 修改通道还是设备
+					// device.setNickName(newName);
+				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -253,6 +301,7 @@ public class ChannelFragment extends BaseFragment {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
 			if (0 == result) {
+
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.login_str_point_edit_success);
 				channelAdapter.notifyDataSetChanged();
@@ -283,28 +332,35 @@ public class ChannelFragment extends BaseFragment {
 			int delRes = -1;
 			int delDevIndex = Integer.parseInt(params[0]);
 			int delChannelIndex = Integer.parseInt(params[1]);
-			Device modifyDev = deviceList.get(delDevIndex);
+
 			try {
 				if (localFlag) {// 本地删除
-					if (1 == modifyDev.getChannelList().size()) {// 删设备
+					if (1 == device.getChannelList().size()) {// 删设备
+						device = null;
 						deviceList.remove(delDevIndex);
+						delRes = 1;
 					} else {// 删通道
-						modifyDev.getChannelList().remove(delChannelIndex);
+						device.getChannelList().remove(delChannelIndex);
+						delRes = 0;
 					}
-					MySharedPreference.putString(Consts.DEVICE_LIST,
-							deviceList.toString());
-					delRes = 0;
 				} else {
-					if (1 == modifyDev.getChannelList().size()) {// 删设备
+					if (1 == device.getChannelList().size()) {// 删设备
 						delRes = DeviceUtil.unbindDevice(
 								((BaseActivity) mActivity).statusHashMap
-										.get("KEY_USERNAME"), modifyDev
+										.get("KEY_USERNAME"), device
 										.getFullNo());
+						if (0 == delRes) {
+							device = null;
+							deviceList.remove(delDevIndex);
+							delRes = 1;
+						}
 					} else {// 删通道
-						delRes = DeviceUtil.deletePoint(modifyDev.getFullNo(),
+						delRes = DeviceUtil.deletePoint(device.getFullNo(),
 								delChannelIndex);
+						if (0 == delRes) {
+							device.getChannelList().remove(delChannelIndex);
+						}
 					}
-
 				}
 
 			} catch (Exception e) {
@@ -326,7 +382,13 @@ public class ChannelFragment extends BaseFragment {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.del_channel_succ);
 				channelAdapter.setShowDelete(false);
-				channelAdapter.notifyDataSetChanged();
+				channelAdapter.setData(device.getChannelList().toList(),
+						widthPixels);
+			} else if (1 == result) {
+				// [Neo] 删除最后一个应该退出通过管理界面
+				((BaseActivity) mActivity)
+						.showTextToast(R.string.del_channel_succ);
+				((BaseActivity) mActivity).finish();
 			} else {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.del_channel_failed);
@@ -350,53 +412,37 @@ public class ChannelFragment extends BaseFragment {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
-			int delRes = -1;
-			int delDevIndex = Integer.parseInt(params[0]);
+			int result = -1;
+			int addIndex = Integer.parseInt(params[0]);
 			// int delChannelIndex = Integer.parseInt(params[1]);
-			Device modifyDev = deviceList.get(delDevIndex);
+
 			try {
 				if (localFlag) {// 本地添加
-					ArrayList<Integer> addIndexList = new ArrayList<Integer>();
-					int size = modifyDev.getChannelList().size();
-					for (int i = 0; i < size; i++) {
-						Channel channel = modifyDev.getChannelList().get(i);
-
-						if (i == channel.getChannel()) {
-							continue;
-						} else {
-							addIndexList.add(i);
-						}
-					}
-
-					int cha = 4 - addIndexList.size();
-					if (cha > 0) {
-						for (int k = 0; k < cha; k++) {
-							addIndexList.add(k + size);
-						}
-					}
+					int target = -1;
+					Channel channel = null;
+					MyList<Channel> list = device.getChannelList();
 
 					for (int i = 0; i < 4; i++) {
-						Channel channel = new Channel();
-						channel.setIndex(addIndexList.get(i));
-						channel.setChannel(addIndexList.get(i));
-						channel.setChannelName(modifyDev.getFullNo() + "_"
-								+ addIndexList.get(i));
-						MyLog.v(TAG, "addIndex=" + addIndexList.get(i));
-						modifyDev.getChannelList().add(addIndexList.get(i),
-								channel);
+						channel = new Channel();
+						target = list.precheck();
+						channel.setChannel(target);
+						channel.setChannelName(device.getFullNo() + "_"
+								+ target);
+						list.add(channel);
 					}
 
-					MySharedPreference.putString(Consts.DEVICE_LIST,
-							deviceList.toString());
-					delRes = 0;
+					result = 0;
+
 				} else {
+					// [Neo] TODO 服务器
 
 				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return delRes;
+
+			return result;
 		}
 
 		@Override
@@ -412,9 +458,8 @@ public class ChannelFragment extends BaseFragment {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.add_channel_succ);
 				channelAdapter.setShowDelete(false);
-				channelAdapter.setData(deviceList.get(deviceIndex)
-						.getChannelList(), disMetrics.widthPixels);
-				channelAdapter.notifyDataSetChanged();
+				channelAdapter.setData(device.getChannelList().toList(),
+						widthPixels);
 			} else {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.add_channel_failed);

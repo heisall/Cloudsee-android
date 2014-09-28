@@ -30,7 +30,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.UserSpinnerAdapter;
 import com.jovision.bean.Device;
-import com.jovision.bean.UserBean;
+import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
@@ -60,7 +60,7 @@ public class JVLoginActivity extends BaseActivity {
 
 	// 下拉箭头图片组件
 	private ImageView moreUserIV;
-	private ArrayList<UserBean> userList = new ArrayList<UserBean>();
+	private ArrayList<User> userList = new ArrayList<User>();
 	private PopupWindow pop;
 	private UserSpinnerAdapter userAdapter;
 	private ListView userListView;
@@ -346,7 +346,7 @@ public class JVLoginActivity extends BaseActivity {
 				MySharedPreference.putString("PassWord",
 						statusHashMap.get(Consts.KEY_PASSWORD));
 
-				UserBean user = new UserBean();
+				User user = new User();
 				user.setPrimaryID(System.currentTimeMillis());
 				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
@@ -364,7 +364,7 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.RESET_PASSWORD_SUCCESS: {
-				UserBean user1 = new UserBean();
+				User user1 = new User();
 				user1.setPrimaryID(System.currentTimeMillis());
 				user1.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
 				user1.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));

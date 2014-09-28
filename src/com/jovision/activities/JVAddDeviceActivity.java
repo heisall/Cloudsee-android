@@ -15,15 +15,16 @@ import barcode.zxing.activity.MipcaActivityCapture;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
-import com.jovision.bean.BeanUtil;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVConst;
-import com.jovision.commons.MySharedPreference;
+import com.jovision.commons.MyLog;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 
 public class JVAddDeviceActivity extends BaseActivity {
 
+	private static final String TAG = "JVAddDeviceActivity";
 	/** topBar */
 	private Button leftBtn;
 	private TextView currentMenu;
@@ -51,7 +52,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 	protected void initSettings() {
 		Intent intent = getIntent();
 		String devJsonString = intent.getStringExtra("DeviceList");
-		deviceList = BeanUtil.stringToDevList(devJsonString);
+		deviceList = Device.fromJsonArray(devJsonString);
 	}
 
 	@Override
@@ -206,17 +207,19 @@ public class JVAddDeviceActivity extends BaseActivity {
 						Integer.parseInt(params[1]), userET.getText()
 								.toString(), pwdET.getText().toString(), false,
 						channelCount, 0);
-
+				MyLog.v(TAG, "dev = " + addDev.toString());
 				if (null != addDev) {
-					deviceList.add(addDev);
 					if (localFlag) {// 本地添加
-						MySharedPreference.putString(Consts.DEVICE_LIST,
-								deviceList.toString());
 						addRes = 0;
 					} else {
 						addRes = DeviceUtil.addDevice(
 								statusHashMap.get("KEY_USERNAME"), addDev);
 					}
+				}
+
+				if (0 == addRes) {
+					deviceList.add(addDev);
+					CacheUtil.saveDevList(deviceList);
 				}
 
 			} catch (Exception e) {

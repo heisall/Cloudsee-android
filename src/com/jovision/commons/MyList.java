@@ -7,8 +7,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import android.util.SparseArray;
+
 /**
- * 类似稀松数组的集合，实现了基本 Map 和 List 功能
+ * 类似稀松数组的集合，实现了基本 List 功能
  * 
  * @author neo
  * 
@@ -16,8 +18,10 @@ import java.util.Map;
  */
 public class MyList<E> {
 
+	private static final boolean IS_IN_DROID = false;
 	private static final int DEFAULT_START_INDEX = 0;
 
+	private SparseArray<E> array;
 	private HashMap<Integer, E> map;
 
 	private int startIndex = DEFAULT_START_INDEX;
@@ -26,7 +30,11 @@ public class MyList<E> {
 	 * 构造，默认从 0 开始的索引
 	 */
 	public MyList() {
-		map = new HashMap<Integer, E>();
+		if (IS_IN_DROID) {
+			array = new SparseArray<E>();
+		} else {
+			map = new HashMap<Integer, E>();
+		}
 	}
 
 	/**
@@ -36,7 +44,11 @@ public class MyList<E> {
 	 */
 	public MyList(int startIndex) {
 		this.startIndex = startIndex;
-		map = new HashMap<Integer, E>();
+		if (IS_IN_DROID) {
+			array = new SparseArray<E>();
+		} else {
+			map = new HashMap<Integer, E>();
+		}
 	}
 
 	/**
@@ -58,17 +70,18 @@ public class MyList<E> {
 	public boolean swap(int org, int dst) {
 		boolean result = false;
 		if (hasIndex(org) && hasIndex(dst)) {
-			Integer orgInteger = Integer.valueOf(org);
-			Integer dstInteger = Integer.valueOf(dst);
-
-			// [Neo] classic way
-			// E tmp = map.get(orgInteger);
-			// map.put(orgInteger, map.get(dstInteger));
-			// map.put(dstInteger, tmp);
-
-			if (null != map.put(dstInteger,
-					map.put(orgInteger, map.get(dstInteger)))) {
+			if (IS_IN_DROID) {
+				E tmp = array.get(org);
+				array.put(org, array.get(dst));
+				array.put(dst, tmp);
 				result = true;
+			} else {
+				Integer orgInteger = Integer.valueOf(org);
+				Integer dstInteger = Integer.valueOf(dst);
+				if (null != map.put(dstInteger,
+						map.put(orgInteger, map.get(dstInteger)))) {
+					result = true;
+				}
 			}
 		}
 		return result;
@@ -83,8 +96,13 @@ public class MyList<E> {
 	public boolean remove(int index) {
 		boolean result = false;
 		if (hasIndex(index)) {
-			if (null != map.remove(Integer.valueOf(index))) {
+			if (IS_IN_DROID) {
+				array.remove(index);
 				result = true;
+			} else {
+				if (null != map.remove(Integer.valueOf(index))) {
+					result = true;
+				}
 			}
 		}
 		return result;
@@ -98,23 +116,73 @@ public class MyList<E> {
 	 */
 	public boolean remove(E e) {
 		boolean result = false;
+
+		int index = -1;
 		if (hasElement(e)) {
+			if (IS_IN_DROID) {
+				int size = array.size();
+				for (int i = 0; i < size; i++) {
+					if (array.valueAt(i).equals(e)) {
+						index = array.keyAt(i);
+						result = true;
+						break;
+					}
+				}
+			} else {
+				Iterator<Map.Entry<Integer, E>> iterator = (Iterator<Map.Entry<Integer, E>>) map
+						.entrySet().iterator();
+				while (iterator.hasNext()) {
+					Map.Entry<Integer, E> entry = (Map.Entry<Integer, E>) iterator
+							.next();
+					Integer key = (Integer) entry.getKey();
+					E value = (E) entry.getValue();
+					if (value.equals(e)) {
+						index = key;
+						result = true;
+						break;
+					}
+				}
+			}
+		}
+
+		if (result) {
+			result = remove(index);
+		}
+
+		return result;
+	}
+
+	/**
+	 * 预先检查默认添加元素的索引
+	 * 
+	 * @return
+	 */
+	public int precheck() {
+		int current = startIndex;
+
+		if (IS_IN_DROID) {
+			int size = array.size();
+			for (int i = 0; i < size; i++) {
+				if (array.keyAt(i) > current && false == hasIndex(current)) {
+					break;
+				}
+				current++;
+			}
+		} else {
 			Iterator<Map.Entry<Integer, E>> iterator = (Iterator<Map.Entry<Integer, E>>) map
 					.entrySet().iterator();
 			while (iterator.hasNext()) {
 				Map.Entry<Integer, E> entry = (Map.Entry<Integer, E>) iterator
 						.next();
 				Integer key = (Integer) entry.getKey();
-				E value = (E) map.get(key);
-				if (value.equals(e)) {
-					if (null != map.remove(key)) {
-						result = true;
-					}
+				if (key.intValue() > current && false == hasIndex(current)) {
 					break;
 				}
+				current++;
 			}
 		}
-		return result;
+
+		return current;
 	}
 
 	/**
@@ -124,19 +192,7 @@ public class MyList<E> {
 	 * @return 添加是否成功
 	 */
 	public boolean add(E e) {
-		int current = startIndex;
-		Iterator<Map.Entry<Integer, E>> iterator = (Iterator<Map.Entry<Integer, E>>) map
-				.entrySet().iterator();
-		while (iterator.hasNext()) {
-			Map.Entry<Integer, E> entry = (Map.Entry<Integer, E>) iterator
-					.next();
-			Integer key = (Integer) entry.getKey();
-			if (key.intValue() > current) {
-				break;
-			}
-			current++;
-		}
-		return add(current, e);
+		return add(precheck(), e);
 	}
 
 	/**
@@ -148,8 +204,13 @@ public class MyList<E> {
 	 */
 	public boolean add(int index, E e) {
 		boolean result = false;
-		if (null != map.put(Integer.valueOf(index), e)) {
+		if (IS_IN_DROID) {
+			array.put(index, e);
 			result = true;
+		} else {
+			if (null != map.put(Integer.valueOf(index), e)) {
+				result = true;
+			}
 		}
 		return result;
 	}
@@ -159,7 +220,11 @@ public class MyList<E> {
 	 * 
 	 */
 	public void clear() {
-		map.clear();
+		if (IS_IN_DROID) {
+			array.clear();
+		} else {
+			map.clear();
+		}
 	}
 
 	/**
@@ -169,7 +234,15 @@ public class MyList<E> {
 	 * @return
 	 */
 	public boolean hasIndex(int index) {
-		return map.containsKey(Integer.valueOf(index));
+		boolean result = false;
+		if (IS_IN_DROID) {
+			if (null != array.get(index)) {
+				result = true;
+			}
+		} else {
+			result = map.containsKey(Integer.valueOf(index));
+		}
+		return result;
 	}
 
 	/**
@@ -179,7 +252,19 @@ public class MyList<E> {
 	 * @return
 	 */
 	public boolean hasElement(E e) {
-		return map.containsValue(e);
+		boolean result = false;
+		if (IS_IN_DROID) {
+			int size = array.size();
+			for (int i = 0; i < size; i++) {
+				if (array.valueAt(i).equals(e)) {
+					result = true;
+					break;
+				}
+			}
+		} else {
+			result = map.containsValue(e);
+		}
+		return result;
 	}
 
 	/**
@@ -189,7 +274,13 @@ public class MyList<E> {
 	 * @return
 	 */
 	public E get(int index) {
-		return map.get(Integer.valueOf(index));
+		E e = null;
+		if (IS_IN_DROID) {
+			e = array.get(index);
+		} else {
+			e = map.get(Integer.valueOf(index));
+		}
+		return e;
 	}
 
 	/**
@@ -198,7 +289,13 @@ public class MyList<E> {
 	 * @return
 	 */
 	public boolean isEmpty() {
-		return map.isEmpty();
+		boolean result = false;
+		if (IS_IN_DROID) {
+			result = (0 == array.size());
+		} else {
+			result = map.isEmpty();
+		}
+		return result;
 	}
 
 	/**
@@ -207,20 +304,35 @@ public class MyList<E> {
 	 * @return
 	 */
 	public int size() {
-		return map.size();
+		int result = -1;
+		if (IS_IN_DROID) {
+			result = array.size();
+		} else {
+			result = map.size();
+		}
+		return result;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sBuilder = new StringBuilder();
-		Iterator<Map.Entry<Integer, E>> iterator = (Iterator<Map.Entry<Integer, E>>) map
-				.entrySet().iterator();
-		while (iterator.hasNext()) {
-			Map.Entry<Integer, E> entry = (Map.Entry<Integer, E>) iterator
-					.next();
-			Integer key = (Integer) entry.getKey();
-			E value = (E) map.get(key);
-			sBuilder.append(key).append(" => ").append(value).append("\n");
+
+		if (IS_IN_DROID) {
+			int size = array.size();
+			for (int i = 0; i < size; i++) {
+				sBuilder.append(array.keyAt(i)).append(" => ")
+						.append(array.valueAt(i)).append("\n");
+			}
+		} else {
+			Iterator<Map.Entry<Integer, E>> iterator = (Iterator<Map.Entry<Integer, E>>) map
+					.entrySet().iterator();
+			while (iterator.hasNext()) {
+				Map.Entry<Integer, E> entry = (Map.Entry<Integer, E>) iterator
+						.next();
+				Integer key = (Integer) entry.getKey();
+				E value = (E) entry.getValue();
+				sBuilder.append(key).append(" => ").append(value).append("\n");
+			}
 		}
 		return sBuilder.toString();
 	}
@@ -231,21 +343,30 @@ public class MyList<E> {
 	 * @return
 	 */
 	public ArrayList<E> toList() {
-		ArrayList<Map.Entry<Integer, E>> list = new ArrayList<Map.Entry<Integer, E>>(
-				map.entrySet());
-		Collections.sort(list, new Comparator<Map.Entry<Integer, E>>() {
-
-			@Override
-			public int compare(Map.Entry<Integer, E> o1,
-					Map.Entry<Integer, E> o2) {
-				return o1.getKey().intValue() - o2.getKey().intValue();
-			}
-		});
-
 		ArrayList<E> result = new ArrayList<E>();
-		for (Map.Entry<Integer, E> entry : list) {
-			result.add(entry.getValue());
+
+		if (IS_IN_DROID) {
+			int size = array.size();
+			for (int i = 0; i < size; i++) {
+				result.add(array.valueAt(i));
+			}
+		} else {
+			ArrayList<Map.Entry<Integer, E>> list = new ArrayList<Map.Entry<Integer, E>>(
+					map.entrySet());
+			Collections.sort(list, new Comparator<Map.Entry<Integer, E>>() {
+
+				@Override
+				public int compare(Map.Entry<Integer, E> o1,
+						Map.Entry<Integer, E> o2) {
+					return o1.getKey().intValue() - o2.getKey().intValue();
+				}
+			});
+
+			for (Map.Entry<Integer, E> entry : list) {
+				result.add(entry.getValue());
+			}
 		}
+
 		return result;
 	}
 

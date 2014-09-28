@@ -407,16 +407,6 @@ public final class JVConst {
 	public static final int DEVICE_MOST_COUNT = 332;// 设备超过最大数
 	public static final int QUICK_SETTING_WIFI_CHANGED_FAIL = 270;// 快速设置退出时wifi切换失败
 
-	public static final int CONNECT_CHANGE = 0xA1;
-	public static final int NORMAL_DATA = 0xA2;
-	public static final int CHECK_RESULT = 0xA3;
-	public static final int CHAT_DATA = 0xA4;// 对讲
-	public static final int TEXT_DATA = 0xA5;// 文本
-	public static final int DOWNLOAD = 0xA6;
-	public static final int PLAY_DATA = 0xA7;
-	public static final int SEARCH_LAN_SERVER = 0xA8;
-	public static final int FOO = 0xA9;
-
 	public static final int INIT_ACCOUNT_SDK_FAILED = 360;// 初始化账号sdk失败
 	public static final int REMOTE_PLAY_DISMISS_PROGRESS = 361;// 隐藏远程回放进度条
 }

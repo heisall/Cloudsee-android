@@ -821,6 +821,27 @@ public class PlayUtil {
 
 	}
 
+	/**
+	 * 连接设备
+	 * 
+	 * @param ipcWifi
+	 */
+	public static void connectDevice(Device dev) {
+
+		Jni.connect(Consts.CHANNEL_JY, 0, dev.getIp(), dev.getPort(),
+				dev.getUser(), dev.getPwd(),
+				ConfigUtil.getYST(dev.getFullNo()),
+				ConfigUtil.getGroup(dev.getFullNo()), true, 1, true, 6, null,
+				false);
+	}
+
+	/**
+	 * 断开视频
+	 */
+	public static void disconnectDevice() {
+		Jni.disconnect(Consts.CHANNEL_JY);
+	}
+
 	/***************** 以下为远程回放所有功能 ***************************/
 
 	private static byte[] acFLBuffer = new byte[2048];

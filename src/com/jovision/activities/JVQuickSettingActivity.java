@@ -754,7 +754,7 @@ public class JVQuickSettingActivity extends ShakeActivity {
 			JVQuickSettingActivity.this.startActivity(intent);
 			JVQuickSettingActivity.this.finish();
 			break;
-		case JVConst.CONNECT_CHANGE: // 连接回调
+		case Consts.CALL_CONNECT_CHANGE: // 连接回调
 			MyLog.e(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
 			switch (arg1) {
@@ -783,7 +783,7 @@ public class JVQuickSettingActivity extends ShakeActivity {
 			}
 
 			break;
-		case JVConst.TEXT_DATA:// 文本回调
+		case Consts.CALL_TEXT_DATA:// 文本回调
 			MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
 			switch (arg1) {

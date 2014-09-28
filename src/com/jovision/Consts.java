@@ -30,6 +30,9 @@ public class Consts {
 	public static final String TAG_PLAY = "CS_PLAY";
 	public static final String TAG_JY = "CS_JY";
 
+	/** [Neo] 专用调试 tag */
+	public static final String TAG_XX = "CS_XX";
+
 	public static final int CALL_CONNECT_CHANGE = 0xA1;
 	public static final int CALL_NORMAL_DATA = 0xA2;
 	public static final int CALL_CHECK_RESULT = 0xA3;
@@ -46,6 +49,7 @@ public class Consts {
 	public static final int CALL_QUERY_DEVICE = 0xAE;
 
 	public static final int CHANNEL_JY = 5555;
+	public static final int MAX_CHANNEL_CONNECTION = 36;
 
 	public static final int DEVICE_TYPE_UNKOWN = -1;
 	public static final int DEVICE_TYPE_DVR = 0x01;
@@ -126,6 +130,10 @@ public class Consts {
 	/** ChannelFragment onResume */
 	public static final int CHANNEL_FRAGMENT_ONRESUME = 40;// ChannelFragment
 															// onResume
+	/** ManageFragment onResume */
+	public static final int MANAGE_FRAGMENT_ONRESUME = 41;// ManageFragment
+	public static final int MANAGE_ITEM_CLICK = 42;// 通道单击事件--
+	// onResume
 
 	/** 推送消息 tag */
 	public static final int PUSH_MESSAGE = 50;

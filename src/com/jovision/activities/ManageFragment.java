@@ -42,7 +42,6 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		MyLog.d(Consts.TAG_XX, "MF.create");
 		Bundle bundle = getArguments();
 		deviceIndex = bundle.getInt("DeviceIndex");
 		deviceList = CacheUtil.getDevList();
@@ -54,7 +53,6 @@ public class ManageFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		MyLog.d(Consts.TAG_XX, "MF.createView");
 		View view = inflater.inflate(R.layout.manage_layout, null);
 		return view;
 	}
@@ -62,7 +60,6 @@ public class ManageFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		MyLog.d(Consts.TAG_XX, "MF.activityCreated");
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 		disMetrics = new DisplayMetrics();
@@ -80,12 +77,6 @@ public class ManageFragment extends BaseFragment {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void onResume() {
-		MyLog.d(Consts.TAG_XX, "MF.resume");
-		super.onResume();
 	}
 
 	// public ManageFragment(int devIndex, ArrayList<Device> devList) {

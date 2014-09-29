@@ -55,7 +55,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		MyLog.d(Consts.TAG_XX, "JDM.createView");
 		View view = inflater.inflate(R.layout.fragment_devicemanage, container,
 				false);
 		return view;
@@ -79,8 +78,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 		mImageView.getLayoutParams().width = item_width;
 		managePager = (ViewPager) mActivity.findViewById(R.id.manage_pager);
 
-		manageDeviceList = CacheUtil.getDevList();
-
 		// 初始化导航
 		initNav();
 		// 初始化viewPager
@@ -89,15 +86,22 @@ public class JVDeviceManageFragment extends BaseFragment {
 	}
 
 	private void initNav() {
+		manageDeviceList = CacheUtil.getDevList();
 		int size = manageDeviceList.size();
+		fragments = new ArrayList<Fragment>();
+
 		for (int i = 0; i < size; i++) {
+			// [Neo] viewpager
+			Bundle data = new Bundle();
+			data.putInt("DeviceIndex", i);
+			ManageFragment fragment = new ManageFragment();
+			fragment.setArguments(data);
+			fragments.add(fragment);
+
+			// [Neo] nav
 			RelativeLayout layout = new RelativeLayout(mActivity);
 			TextView view = new TextView(mActivity);
 			view.setText(manageDeviceList.get(i).getFullNo());
-
-			MyLog.d(Consts.TAG_XX, "JDM.activityCreated: "
-					+ manageDeviceList.get(i).getFullNo());
-
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -117,21 +121,12 @@ public class JVDeviceManageFragment extends BaseFragment {
 	}
 
 	private void initViewPager() {
-		fragments = new ArrayList<Fragment>();
-		int size = manageDeviceList.size();
-		for (int i = 0; i < size; i++) {
-			Bundle data = new Bundle();
-			data.putInt("DeviceIndex", i);
-			ManageFragment fragment = new ManageFragment();
-			fragment.setArguments(data);
-			fragments.add(fragment);
-		}
 		TabPagerAdapter fragmentPagerAdapter = new TabPagerAdapter(
 				getChildFragmentManager(), fragments);
 		managePager.setAdapter(fragmentPagerAdapter);
-		fragmentPagerAdapter.setFragments(fragments);
 		managePager.setOnPageChangeListener(new ManagePageChangeListener());
-
+		// [Neo] no need to reset this one
+		// fragmentPagerAdapter.setFragments(fragments);
 	}
 
 	OnClickListener mOnClickListener = new OnClickListener() {
@@ -222,14 +217,12 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
-		MyLog.d(Consts.TAG_XX, "JDM.resume");
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
 		CacheUtil.saveDevList(manageDeviceList);
-		MyLog.d(Consts.TAG_XX, "JDM.pause & saved");
 		super.onPause();
 	}
 

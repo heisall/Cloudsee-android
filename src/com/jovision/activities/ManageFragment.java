@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -8,7 +7,6 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +21,7 @@ import com.jovision.adapters.ManageAdapter;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.PlayUtil;
 
 public class ManageFragment extends BaseFragment {
@@ -30,19 +29,22 @@ public class ManageFragment extends BaseFragment {
 	private String TAG = "ManageFragment";
 	DisplayMetrics disMetrics;
 
-	/** intent传递过来的设备和通道下标 */
+	/** 构造参数 */
 	private int deviceIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
+	private Device device;
+
 	private GridView manageGridView;
 	private ManageAdapter manageAdapter;
 	boolean localFlag = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// Bundle bundle = getArguments();
-		// deviceIndex = bundle.getInt("DeviceIndex");
-		// deviceList =
-		// BeanUtil.stringToDevList(bundle.getString("DeviceList"));
+		MyLog.d(Consts.TAG_XX, "MF.create");
+		Bundle bundle = getArguments();
+		deviceIndex = bundle.getInt("DeviceIndex");
+		deviceList = CacheUtil.getDevList();
+		device = deviceList.get(deviceIndex);
 		super.onCreate(savedInstanceState);
 	}
 
@@ -50,6 +52,7 @@ public class ManageFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
+		MyLog.d(Consts.TAG_XX, "MF.createView");
 		View view = inflater.inflate(R.layout.manage_layout, null);
 		return view;
 	}
@@ -57,6 +60,7 @@ public class ManageFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		MyLog.d(Consts.TAG_XX, "MF.activityCreated");
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 		disMetrics = new DisplayMetrics();
@@ -64,34 +68,30 @@ public class ManageFragment extends BaseFragment {
 		manageGridView = (GridView) mParent.findViewById(R.id.manage_gridview);
 		localFlag = Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 				.get(Consts.LOCAL_LOGIN));
-	}
-
-	@Override
-	public void onResume() {
-		mActivity.onNotify(Consts.MANAGE_FRAGMENT_ONRESUME, deviceIndex, 0,
-				null);
-		super.onResume();
-	}
-
-	// 设置data
-	public void setData(int devIndex, ArrayList<Device> devList) {
-		deviceIndex = devIndex;
-		deviceList = devList;
+		manageAdapter = new ManageAdapter(this);
 		try {
-			Device dev = deviceList.get(devIndex);
-			if (null != dev) {
-				if (null == manageAdapter) {
-					manageAdapter = new ManageAdapter(this);
-				}
-				manageAdapter.setData(dev, disMetrics.widthPixels);
+			if (null != device) {
+				manageAdapter.setData(disMetrics.widthPixels);
 				manageGridView.setAdapter(manageAdapter);
 				manageAdapter.notifyDataSetChanged();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
+
+	@Override
+	public void onResume() {
+		MyLog.d(Consts.TAG_XX, "MF.resume");
+		super.onResume();
+	}
+
+	// public ManageFragment(int devIndex, ArrayList<Device> devList) {
+	// deviceIndex = devIndex;
+	// deviceList = devList;
+	// device = deviceList.get(devIndex);
+	// MyLog.v(TAG, "ManageFragment: device=" + device);
+	// }
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
@@ -260,7 +260,6 @@ public class ManageFragment extends BaseFragment {
 		}
 		default:
 			break;
-
 		}
 	};
 
@@ -276,21 +275,4 @@ public class ManageFragment extends BaseFragment {
 		}
 	};
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		try {
-			Field childFragmentManager = Fragment.class
-					.getDeclaredField("mChildFragmentManager");
-			childFragmentManager.setAccessible(true);
-			childFragmentManager.set(this, null);
-
-		} catch (NoSuchFieldException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
-
-	}
-	// http://blog.csdn.net/leewenjin/article/details/19410949
 }

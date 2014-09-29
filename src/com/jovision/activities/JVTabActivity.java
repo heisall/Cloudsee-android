@@ -80,11 +80,6 @@ public class JVTabActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		BaseFragment currentFrag = mFragments[currentIndex];
-		if (null != currentFrag) {
-			((IHandlerLikeNotify) currentFrag).onNotify(Consts.TAB_ONRESUME, 0,
-					0, null);
-		}
 		MyLog.v(TAG, "TAB_onResume");
 	}
 
@@ -273,11 +268,6 @@ public class JVTabActivity extends BaseActivity {
 					getSupportFragmentManager().beginTransaction()
 							.replace(R.id.tab_fragment, mFragments[which])
 							.commit();
-					BaseFragment currentFrag = mFragments[currentIndex];
-					if (null != currentFrag) {
-						((IHandlerLikeNotify) currentFrag).onNotify(
-								Consts.TAB_ONRESUME, 0, 0, null);
-					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

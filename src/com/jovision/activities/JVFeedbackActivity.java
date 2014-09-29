@@ -139,13 +139,14 @@ public class JVFeedbackActivity extends BaseActivity {
 			case R.id.btn_right:
 				String connectStr = connection.getText().toString();// 联系方式
 				String contentStr = content.getText().toString();// 反馈内容
-				if (0 == content.getText().toString().length()||("").equals(connectStr)) {
+				if (0 == content.getText().toString().length()
+						|| ("").equals(connectStr)) {
 					if (0 == content.getText().toString().length()) {
 						showTextToast(R.string.str_notice_content);
-					}else {
+					} else {
 						showTextToast(R.string.str_notice_connection);
 					}
-					
+
 				} else {
 					createDialog("");
 					if (0 != connectStr.length()) {

@@ -29,7 +29,7 @@ public class ChannelFragment extends BaseFragment {
 
 	private String TAG = "ChannelFragment";
 
-	/** intent传递过来的设备和通道下标 */
+	/** 构造参数 */
 	private int deviceIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private Device device;
@@ -77,8 +77,6 @@ public class ChannelFragment extends BaseFragment {
 				.findViewById(R.id.channel_gridview);
 
 		channelAdapter = new ChannelAdapter(this);
-		MyLog.d(Consts.TAG_XX, "ChannelF.created: "
-				+ device.getChannelList().toString());
 		channelAdapter.setData(device.getChannelList().toList(), widthPixels);
 		channelGridView.setAdapter(channelAdapter);
 
@@ -101,19 +99,20 @@ public class ChannelFragment extends BaseFragment {
 		super.onPause();
 	}
 
-	// 设置data
-	public void setData(int devIndex, ArrayList<Device> devList, int widthPixels) {
-		deviceIndex = devIndex;
-		deviceList = devList;
-		this.widthPixels = widthPixels;
-
-		device = deviceList.get(devIndex);
-		if (null != channelAdapter && null != device
-				&& null != device.getChannelList()) {
-			channelAdapter.setData(device.getChannelList().toList(),
-					widthPixels);
-		}
-	}
+	// // 设置data
+	// public void setData(int devIndex, ArrayList<Device> devList, int
+	// widthPixels) {
+	// deviceIndex = devIndex;
+	// deviceList = devList;
+	// this.widthPixels = widthPixels;
+	//
+	// device = deviceList.get(devIndex);
+	// if (null != channelAdapter && null != device
+	// && null != device.getChannelList()) {
+	// channelAdapter.setData(device.getChannelList().toList(),
+	// widthPixels);
+	// }
+	// }
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
@@ -131,27 +130,15 @@ public class ChannelFragment extends BaseFragment {
 			} else {
 				// [Neo] TODO 多设备模式？
 				boolean multiDeviceMode = false;
-
-				int startWindowIndex = 0;
 				ArrayList<Channel> clist = new ArrayList<Channel>();
-				ArrayList<Channel> cDummyList = null;
 
 				if (multiDeviceMode) {
-					int dsize = deviceList.size();
-					for (int i = 0; i < dsize; i++) {
-						cDummyList = deviceList.get(i).getChannelList()
-								.toList();
-						if (deviceIndex < i) {
-							startWindowIndex += cDummyList.size();
-						} else if (deviceIndex == i) {
-							startWindowIndex += arg1;
-						}
-						clist.addAll(cDummyList);
+					for (Device device : deviceList) {
+						clist.addAll(device.getChannelList().toList());
 					}
 				} else {
-					clist = deviceList.get(deviceIndex).getChannelList()
-							.toList();
-					startWindowIndex = arg1;
+					clist.addAll(deviceList.get(deviceIndex).getChannelList()
+							.toList());
 				}
 
 				int size = clist.size();
@@ -171,8 +158,6 @@ public class ChannelFragment extends BaseFragment {
 				// [Neo] 实际上是 int channel
 				intentPlay.putExtra("ChannelIndex", arg1);
 
-				// intentPlay.putExtra("playChannelList", clist.toString());
-				intentPlay.putExtra("startWindowIndex", startWindowIndex);
 				mActivity.startActivity(intentPlay);
 			}
 			break;

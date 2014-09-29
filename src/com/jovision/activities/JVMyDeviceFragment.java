@@ -156,6 +156,22 @@ public class JVMyDeviceFragment extends BaseFragment {
 		};
 
 		broadTimer.schedule(broadTimerTask, 3 * 60 * 1000, 3 * 60 * 1000);
+
+		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
+				.get(Consts.HAG_GOT_DEVICE));
+
+		if (hasGot) {
+			myDeviceList = CacheUtil.getDevList();
+			myDLAdapter.setData(myDeviceList);
+			myDeviceListView.setAdapter(myDLAdapter);
+			myDLAdapter.notifyDataSetChanged();
+		} else {
+			((BaseActivity) mActivity).createDialog("");
+			GetDevTask task = new GetDevTask();
+			String[] strParams = new String[3];
+			task.execute(strParams);
+		}
+
 	}
 
 	@Override
@@ -197,8 +213,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
-		myDeviceList = CacheUtil.getDevList();
 		super.onResume();
+		myDeviceList = CacheUtil.getDevList();
+		myDLAdapter.setData(myDeviceList);
+		myDeviceListView.setAdapter(myDLAdapter);
+		myDLAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -210,6 +229,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onPause() {
 		super.onPause();
+		CacheUtil.saveDevList(myDeviceList);
 		imageScroll.stopTimer();
 	}
 
@@ -251,22 +271,22 @@ public class JVMyDeviceFragment extends BaseFragment {
 		// MyLog.v("TAG",
 		// "onTabAction:what="+what+";arg1="+arg1+";arg2="+arg1+";obj="+obj.toString());
 		switch (what) {
-		case Consts.TAB_ONRESUME: {// activity起来后开始加载设备
-			if (!localFlag) {
-				myDeviceList = CacheUtil.getDevList();
-			}
-			if (null == myDeviceList || 0 == myDeviceList.size()) {
-				((BaseActivity) mActivity).createDialog("");
-				GetDevTask task = new GetDevTask();
-				String[] strParams = new String[3];
-				task.execute(strParams);
-			} else {
-				myDLAdapter.setData(myDeviceList);
-				myDeviceListView.setAdapter(myDLAdapter);
-			}
-
-			break;
-		}
+		// case Consts.TAB_ONRESUME: {// activity起来后开始加载设备
+		// if (!localFlag) {
+		// myDeviceList = CacheUtil.getDevList();
+		// }
+		// if (null == myDeviceList || 0 == myDeviceList.size()) {
+		// ((BaseActivity) mActivity).createDialog("");
+		// GetDevTask task = new GetDevTask();
+		// String[] strParams = new String[3];
+		// task.execute(strParams);
+		// } else {
+		// myDLAdapter.setData(myDeviceList);
+		// myDeviceListView.setAdapter(myDLAdapter);
+		// }
+		//
+		// break;
+		// }
 
 		// 广播回调
 		case Consts.CALL_LAN_SEARCH: {
@@ -301,12 +321,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 		case Consts.DEVICE_ITEM_CLICK: {// 设备单击事件
 			myDLAdapter.setShowDelete(false);
 			myDLAdapter.notifyDataSetChanged();
-			if (1 == myDeviceList.get(arg1).getChannelList().size()) {// 1个通道直接播放
+			Device dev = myDeviceList.get(arg1);
+			if (1 == dev.getChannelList().size()) {// 1个通道直接播放
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				String devJsonString = Device.listToString(myDeviceList);
-				intentPlay.putExtra("DeviceList", devJsonString);
+				// String devJsonString = Device.listToString(myDeviceList);
+				// [Neo] no need to do this
+				// intentPlay.putExtra("DeviceList", devJsonString);
 				intentPlay.putExtra("DeviceIndex", arg1);
-				intentPlay.putExtra("ChannelIndex", 0);
+				intentPlay.putExtra("ChannelIndex", dev.getChannelList()
+						.toList().get(0).getChannel());
 				mActivity.startActivity(intentPlay);
 			} else {// 多个通道查看通道列表
 				Intent intentPlay = new Intent(mActivity,
@@ -423,7 +446,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 					myDeviceList.get(delIndex).setUser(params[2]);
 					myDeviceList.get(delIndex).setPwd(params[3]);
 					myDeviceList.get(delIndex).setNickName(params[4]);
-					CacheUtil.saveDevList(myDeviceList);
 				}
 
 			} catch (Exception e) {
@@ -486,7 +508,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 				if (0 == delRes) {
 					myDeviceList.remove(delIndex);
-					CacheUtil.saveDevList(myDeviceList);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -567,9 +588,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
 					getRes = Consts.DEVICE_GETDATA_SUCCESS;
-					if (!localFlag) {
-						CacheUtil.saveDevList(myDeviceList);
-					}
 				} else if (null != myDeviceList && 0 == myDeviceList.size()) {// 无数据
 					getRes = Consts.DEVICE_NO_DEVICE;
 				} else {// 获取设备失败
@@ -593,6 +611,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			switch (result) {
 			// 从服务器端获取设备成功
 			case Consts.DEVICE_GETDATA_SUCCESS: {
+				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 				// 给设备列表设置小助手
 				PlayUtil.setHelperToList(myDeviceList);
 				PlayUtil.broadCast(mActivity);
@@ -630,4 +649,5 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
+
 }

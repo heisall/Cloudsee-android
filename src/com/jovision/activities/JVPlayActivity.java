@@ -405,62 +405,68 @@ public class JVPlayActivity extends PlayActivity implements
 		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
 		channelIndex = intent.getIntExtra("ChannelIndex", 0);
 
-		// putExtra("ChannelList", clist.toString());
-		startWindowIndex = intent.getIntExtra("startWindowIndex", 0);
-
 		// String devJsonString = intent.getStringExtra("DeviceList");
 		// deviceList = Device.fromJsonArray(devJsonString);
 		deviceList = CacheUtil.getDevList();
 
+		// [Neo] precheck
+		if (deviceList.size() < deviceIndex
+				|| false == deviceList.get(deviceIndex).getChannelList()
+						.hasIndex(channelIndex)) {
+			MyLog.e(Consts.TAG_XX, "JVPlay init: precheck 1 failed!");
+			// [Neo] TODO 错误的参数，需要检查之前的活动
+		}
+
 		// [Neo] TODO 多设备模式
 		boolean multiDeviceMode = false;
 
-		// [Neo] precheck
-		if (deviceList.size() < deviceIndex
-				|| deviceList.get(deviceIndex).getChannelList().size() < channelIndex) {
-			// [Neo] TODO 错误的参数，需要检查之前的活动
-		}
+		startWindowIndex = 0;
+		playChannelList = new ArrayList<Channel>();
 
 		if (multiDeviceMode) {
-			playChannelList = new ArrayList<Channel>();
-			for (Device device : deviceList) {
-				playChannelList.addAll(device.getChannelList().toList());
+			int size = deviceList.size();
+			for (int i = 0; i < size; i++) {
+				ArrayList<Channel> cList = deviceList.get(i).getChannelList()
+						.toList();
+				int csize = cList.size();
+
+				if (i < deviceIndex) {
+					startWindowIndex += csize;
+				} else if (i == deviceIndex) {
+					for (int j = 0; j < csize; j++) {
+						if (cList.get(j).getChannel() < channelIndex) {
+							startWindowIndex++;
+						}
+					}
+				}
+
+				playChannelList.addAll(cList);
 			}
 		} else {
-			playChannelList = deviceList.get(deviceIndex).getChannelList()
-					.toList();
+			ArrayList<Channel> cList = deviceList.get(deviceIndex)
+					.getChannelList().toList();
+			int csize = cList.size();
+			for (int j = 0; j < csize; j++) {
+				if (cList.get(j).getChannel() < channelIndex) {
+					startWindowIndex++;
+				}
+			}
+
+			playChannelList.addAll(cList);
 		}
 
 		int size = playChannelList.size();
-
-		if (size < startWindowIndex) {
-			// [Neo] TODO 错误的参数，需要检查之前的活动
-		}
-
 		for (int i = 0; i < size; i++) {
 			manager.addChannel(playChannelList.get(i));
 		}
 
 		currentPage = startWindowIndex;
+		lastClickIndex = currentIndex;
 
 		MyLog.i(Consts.TAG_XX, "JVPlay.init: " + currentPage + "/"
-				+ playChannelList.size() + ", connectIndex = "
+				+ playChannelList.size() + ", channel/index = "
+				+ playChannelList.get(startWindowIndex).getChannel() + "/"
 				+ playChannelList.get(startWindowIndex).getIndex());
-
-		// int deviceSize = deviceList.size();
-		// for (int i = 0; i < deviceSize; i++) {
-		// int channelSize = deviceList.get(i).getChannelList().size();
-		// for (int j = 0; j < channelSize; j++) {
-		//
-		// if (i == deviceIndex && j == channelIndex) {
-		// [Neo] TODO what for
-		// currentPage = manager.getChannelList().size();
-		// lastClickIndex = currentPage;
-		// }
-		// manager.addChannel(deviceList.get(i).getChannelList().get(j));
-		// }
-		// }
-
 	}
 
 	@SuppressLint("UseSparseArrays")
@@ -1310,6 +1316,7 @@ public class JVPlayActivity extends PlayActivity implements
 		stopAll(currentIndex, manager.getChannel(currentIndex));
 		manager.pauseAll();
 		PlayUtil.pauseAll(manager.getValidChannelList(currentPage));
+		CacheUtil.saveDevList(deviceList);
 	}
 
 	@Override

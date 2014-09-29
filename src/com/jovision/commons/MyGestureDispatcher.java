@@ -6,7 +6,7 @@ import android.view.MotionEvent;
  * 手势分发
  * 
  * @author neo
- *
+ * 
  */
 public class MyGestureDispatcher {
 

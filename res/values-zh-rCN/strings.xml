@@ -142,8 +142,8 @@
     <string name="str_switch_video">正在切换到视频播放...</string>
     <string name="str_has_call">设备已在其他客户端开启云对讲，请稍后重试。</string>
     <string name="str_call_close"> 对讲功能成功关闭</string>
-	<!-- 连接方式 -->
-	<string name="cloud_number">云视通号</string>
+    <!-- 连接方式 -->
+    <string name="cloud_number">云视通号</string>
     <!-- 更多功能 -->
     <string name="str_more_features">更多功能</string>
     <string name="str_share">分享</string>
@@ -448,7 +448,7 @@
     <string name="add_channel_succ">通道删除成功</string>
     <string name="add_channel_failed">通道删除失败</string>
 
-    <!-- JVFeedbackActivity --> 
+    <!-- JVFeedbackActivity -->
     <string name="str_notice_content">请在此输入您的问题或建议</string>
     <string name="str_notice_connection">您的联系方式（方便我们后续跟踪您提的问题和建议）</string>
     <string name="str_idea_and_feedback">意见反馈</string>

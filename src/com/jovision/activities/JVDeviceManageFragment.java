@@ -80,7 +80,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 		managePager = (ViewPager) mActivity.findViewById(R.id.manage_pager);
 
 		manageDeviceList = CacheUtil.getDevList();
-		MyLog.d(Consts.TAG_XX, "JDM.activityCreated: " + manageDeviceList);
+
 		// 初始化导航
 		initNav();
 		// 初始化viewPager
@@ -94,6 +94,10 @@ public class JVDeviceManageFragment extends BaseFragment {
 			RelativeLayout layout = new RelativeLayout(mActivity);
 			TextView view = new TextView(mActivity);
 			view.setText(manageDeviceList.get(i).getFullNo());
+
+			MyLog.d(Consts.TAG_XX, "JDM.activityCreated: "
+					+ manageDeviceList.get(i).getFullNo());
+
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.CENTER_IN_PARENT);

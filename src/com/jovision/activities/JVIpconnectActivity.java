@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import android.view.View;
+
 import android.view.View.OnClickListener;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -12,7 +13,6 @@ import android.widget.RadioButton;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.utils.Rotate3dUtil;
-
 public class JVIpconnectActivity extends BaseActivity {
 	//ip连接形式的RadioButton
 	private RadioButton ipconnnect_ip;
@@ -93,7 +93,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			switch (v.getId()) {
 			case R.id.ipconnect_ip:
 				if (isturn) {
-					applyRotation(0,0,90);  
+					applyRotation(0,0,-90);  
 					isturn = false;
 				}
 				break;
@@ -133,7 +133,7 @@ public class JVIpconnectActivity extends BaseActivity {
 	        final float centerY = mContainer.getHeight() / 2.0f;  
 	        final Rotate3dUtil rotation =  
 	                new Rotate3dUtil(start, end, centerX, centerY, 310.0f, true);  
-	        rotation.setDuration(500);  
+	        rotation.setDuration(2000);  
 	        rotation.setFillAfter(true);  
 	        rotation.setInterpolator(new AccelerateInterpolator());  
 	        rotation.setAnimationListener(new DisplayNextView(position));  
@@ -162,7 +162,7 @@ public class JVIpconnectActivity extends BaseActivity {
 	            final float centerY = mContainer.getHeight() / 2.0f;  
 	            Rotate3dUtil rotation;             
 	            rotation = new Rotate3dUtil(270,360,centerX, centerY, 310.0f, false);  
-	            rotation.setDuration(500);  
+	            rotation.setDuration(2000);  
 	            rotation.setFillAfter(true);  
 	            rotation.setInterpolator(new DecelerateInterpolator());  
 	            mContainer.startAnimation(rotation);  

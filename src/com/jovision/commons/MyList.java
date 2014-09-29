@@ -25,7 +25,7 @@ public class MyList<E> {
 	private HashMap<Integer, E> map;
 
 	private int startIndex = DEFAULT_START_INDEX;
-
+	
 	/**
 	 * 构造，默认从 0 开始的索引
 	 */
@@ -57,7 +57,7 @@ public class MyList<E> {
 	public void echo() {
 		System.out.println(toString() + "-----");
 	}
-
+	
 	/**
 	 * 交换两个元素位置
 	 * 

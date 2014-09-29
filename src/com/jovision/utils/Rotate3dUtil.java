@@ -6,7 +6,8 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
 public class Rotate3dUtil extends Animation{  
-	 private final float mFromDegrees;  
+	
+		private final float mFromDegrees;  
 	    private final float mToDegrees;  
 	    private final float mCenterX;  
 	    private final float mCenterY;  
@@ -41,10 +42,13 @@ public class Rotate3dUtil extends Animation{
 	        } else {  
 	            camera.translate(0.0f, 0.0f, mDepthZ * (1.0f - interpolatedTime));  
 	        }  
+	        //设置绕Y轴旋转
 	        camera.rotateY(degrees);  
+	        //设置canera作用矩阵
 	        camera.getMatrix(matrix);  
 	        camera.restore();  
-	 
+	        
+	        //设置翻转中心点
 	        matrix.preTranslate(-centerX, -centerY);  
 	        matrix.postTranslate(centerX, centerY);  
 	    }  

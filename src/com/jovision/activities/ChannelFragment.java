@@ -77,8 +77,6 @@ public class ChannelFragment extends BaseFragment {
 				.findViewById(R.id.channel_gridview);
 
 		channelAdapter = new ChannelAdapter(this);
-		MyLog.d(Consts.TAG_XX, "ChannelF.created: "
-				+ device.getChannelList().toString());
 		channelAdapter.setData(device.getChannelList().toList(), widthPixels);
 		channelGridView.setAdapter(channelAdapter);
 

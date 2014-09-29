@@ -32,6 +32,11 @@ import com.sun.mail.iap.ConnectionException;
 public class JSONUtil {
 
 	private static final String TAG = "JSONUtil";
+	
+	
+	public void stringToMap(String jsonStr){
+		
+	}
 
 	// /**
 	// * 向api发送get请求，返回从后台取得的信息。

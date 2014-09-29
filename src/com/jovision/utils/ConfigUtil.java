@@ -22,6 +22,9 @@ import javax.mail.internet.MimeMultipart;
 
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -624,4 +627,23 @@ public class ConfigUtil {
 		String time = dateFormat.format(now);
 		return time;
 	}
+
+	/**
+	 * 特定 json 转 HashMap
+	 * 
+	 * @param json
+	 * @param keyOfMsg
+	 *            消息的键名
+	 * @return
+	 */
+	public static HashMap<String, String> genMsgMap(String msg) {
+		HashMap<String, String> map = new HashMap<String, String>();
+
+		Matcher matcher = Pattern.compile("([^=;]+)=([^=;]+)").matcher(msg);
+		while (matcher.find()) {
+			map.put(matcher.group(1), matcher.group(2));
+		}
+		return map;
+	}
+
 }

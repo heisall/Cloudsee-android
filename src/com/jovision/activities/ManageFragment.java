@@ -157,7 +157,7 @@ public class ManageFragment extends BaseFragment {
 				e.printStackTrace();
 			}
 			MyLog.v(TAG, obj.toString());
-			if (3 == devType) {// 是IPC
+			if (Consts.DEVICE_TYPE_IPC == devType) {// 是IPC
 				// 暂停视频
 				Jni.sendBytes(Consts.CHANNEL_JY, JVNetConst.JVN_CMD_VIDEOPAUSE,
 						new byte[0], 8);
@@ -271,23 +271,55 @@ public class ManageFragment extends BaseFragment {
 				break;
 
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
+				String allStr = obj.toString();
 				try {
-					JSONArray dataArray = new JSONArray(obj.toString());
+					JSONArray dataArray = new JSONArray(allStr);
 					int size = dataArray.length();
 					JSONObject dataObj = null;
 					if (size > 0) {//
 						dataObj = dataArray.getJSONObject(0);
-
+//						MyLog.v(TAG, "文本数据--"+obj.toString());
 						switch (dataObj.getInt("flag")) {
 						// 远程配置请求，获取到配置文本数据
 						case JVNetConst.JVN_REMOTE_SETTING: {
+							
+							String settingJSON = dataObj.getString("msg");
+//							文本数据--[{"flag":1,"msg":"CONFIG_VER=1;[ALL];YSTID=52942216;YSTGROUP=83;YSTSTATUS=1;nTimeFormat=0;MobileCH=2;Version=V1.1.0.341;DevName=HD IPC;nLanguage=0;nPosition=0;SN=19711;bSntp=0;sntpInterval=24;ntpServer=ntp.fudan.edu.cn;PhoneServer=0;viWidth=1280;viHeight=720;maxFramerate=30;YSTPort=9101;WebServer=0;WebPort=80;nAlarmDelay=10;acMailSender=ipcmail@163.com;acSMTPServer=smtp.163.com;acSMTPUser=ipcmail;acSMTPPasswd=ipcam71a;acReceiver0=;acReceiver1=;acReceiver2=;acReceiver3=;acSMTPPort=25;acSMTPCrypto=;GpioAlarmMode=0;WebSrvPort=80;bOnvif=1;OnvifPort=8099;alarmSrvAddr=120.192.19.4;alarmSrvPort=7070;alarmSrvType=0;ETH_GW=192.168.15.1;ETH_IP=192.168.15.4;ETH_NM=255.255.255.0;ACTIVED=0;bDHCP=1;ETH_DNS=202.102.128.68;ETH_MAC=e0:62:90:c1:18:d6;WIFI_IP=0.0.0.0;WIFI_GW=0.0.0.0;WIFI_NM=0.0.0.0;WIFI_DNS=202.102.128.68;WIFI_MAC=00:00:00:00:00:00;WIFI_ID=neiwang-2G;WIFI_PW=0123456789;WIFI_AUTH=4;WIFI_ENC=3;WIFI_Q=80;WIFI_ON=1;YSTID=52942216;YSTGROUP=83;YSTSTATUS=1;DEV_VERSION=1;","type":81}]
 							// // 获取主控码流信息请求
 							// Jni.sendTextData(1,
 							// JVNetConst.JVN_RSP_TEXTDATA, 8,
 							// JVNetConst.JVN_STREAM_INFO);
+							
+//							String textString1 = new String(pBuffer);
+//							// Log.v("pBuffer", "pBuffer:"+ pBuffer.length);
+//							Log.v("远程配置请求", "textString1:" + textString1);
+//							if (!textString1.equalsIgnoreCase("")) {
+//								String[] arrayStr = textString1.split(";");
+//								if (null != arrayStr) {
+//									for (int i = 0; i < arrayStr.length; i++) {
+//										if (arrayStr[i].contains("=")) {
+//											String[] arrayStr1 = arrayStr[i].split("=");
+//											if (null == BaseApp.settingMap) {
+//												BaseApp.settingMap = new HashMap<String, String>();
+//											}
+//											if (arrayStr1.length == 1) {
+//												BaseApp.settingMap
+//														.put(arrayStr1[0], "");
+//											} else {
+//												BaseApp.settingMap.put(arrayStr1[0],
+//														arrayStr1[1]);
+//											}
+//
+//										}
+//									}
+//								}
+//							}
+							
 							mActivity.dismissDialog();
 							Intent intent = new Intent(mActivity,
-									JVRemoteSettingActivity.class);;
+									JVRemoteSettingActivity.class);
+							intent.putExtra("SettingJSON", settingJSON);
+							intent.putExtra("Device", device.toString());
 							mActivity.startActivity(intent);
 							break;
 						}

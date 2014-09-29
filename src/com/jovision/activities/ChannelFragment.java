@@ -131,27 +131,15 @@ public class ChannelFragment extends BaseFragment {
 			} else {
 				// [Neo] TODO 多设备模式？
 				boolean multiDeviceMode = false;
-
-				int startWindowIndex = 0;
 				ArrayList<Channel> clist = new ArrayList<Channel>();
-				ArrayList<Channel> cDummyList = null;
 
 				if (multiDeviceMode) {
-					int dsize = deviceList.size();
-					for (int i = 0; i < dsize; i++) {
-						cDummyList = deviceList.get(i).getChannelList()
-								.toList();
-						if (deviceIndex < i) {
-							startWindowIndex += cDummyList.size();
-						} else if (deviceIndex == i) {
-							startWindowIndex += arg1;
-						}
-						clist.addAll(cDummyList);
+					for (Device device : deviceList) {
+						clist.addAll(device.getChannelList().toList());
 					}
 				} else {
-					clist = deviceList.get(deviceIndex).getChannelList()
-							.toList();
-					startWindowIndex = arg1;
+					clist.addAll(deviceList.get(deviceIndex).getChannelList()
+							.toList());
 				}
 
 				int size = clist.size();
@@ -171,8 +159,6 @@ public class ChannelFragment extends BaseFragment {
 				// [Neo] 实际上是 int channel
 				intentPlay.putExtra("ChannelIndex", arg1);
 
-				// intentPlay.putExtra("playChannelList", clist.toString());
-				intentPlay.putExtra("startWindowIndex", startWindowIndex);
 				mActivity.startActivity(intentPlay);
 			}
 			break;

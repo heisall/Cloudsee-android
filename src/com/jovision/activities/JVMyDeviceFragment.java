@@ -303,10 +303,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 			myDLAdapter.notifyDataSetChanged();
 			if (1 == myDeviceList.get(arg1).getChannelList().size()) {// 1个通道直接播放
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				String devJsonString = Device.listToString(myDeviceList);
-				intentPlay.putExtra("DeviceList", devJsonString);
+				// String devJsonString = Device.listToString(myDeviceList);
+				// [Neo] no need to do this
+				// intentPlay.putExtra("DeviceList", devJsonString);
 				intentPlay.putExtra("DeviceIndex", arg1);
-				intentPlay.putExtra("ChannelIndex", 0);
+				intentPlay.putExtra("ChannelIndex", myDeviceList.get(arg1)
+						.getChannelList().toList().get(0).getChannel());
 				mActivity.startActivity(intentPlay);
 			} else {// 多个通道查看通道列表
 				Intent intentPlay = new Intent(mActivity,

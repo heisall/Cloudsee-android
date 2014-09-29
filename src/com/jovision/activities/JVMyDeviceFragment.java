@@ -324,8 +324,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 			Device dev = myDeviceList.get(arg1);
 			if (1 == dev.getChannelList().size()) {// 1个通道直接播放
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				String devJsonString = Device.listToString(myDeviceList);
-				intentPlay.putExtra("DeviceList", devJsonString);
+				// String devJsonString = Device.listToString(myDeviceList);
+				// [Neo] no need to do this
+				// intentPlay.putExtra("DeviceList", devJsonString);
 				intentPlay.putExtra("DeviceIndex", arg1);
 				intentPlay.putExtra("ChannelIndex", dev.getChannelList()
 						.toList().get(0).getChannel());

@@ -18,7 +18,7 @@ import android.util.SparseArray;
  */
 public class MyList<E> {
 
-	private static final boolean IS_IN_DROID = false;
+	private static final boolean IS_IN_DROID = true;
 	private static final int DEFAULT_START_INDEX = 0;
 
 	private SparseArray<E> array;
@@ -263,6 +263,16 @@ public class MyList<E> {
 			}
 		} else {
 			result = map.containsValue(e);
+		}
+		return result;
+	}
+
+	public int indexOfKey(int key) {
+		int result = -1;
+		if (IS_IN_DROID) {
+			result = array.indexOfKey(key);
+		} else {
+			result = toList().indexOf(get(key));
 		}
 		return result;
 	}

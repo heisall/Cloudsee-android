@@ -9,44 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
-<<<<<<< HEAD
-    <TextView 
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        />
-    <ScrollView
-=======
-
-    <LinearLayout
-        android:id="@+id/mContainer"
->>>>>>> 8d1dec862944e5c3a6af3797113a71359fa8a31f
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:layout_width="match_parent"
-<<<<<<< HEAD
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-	<LinearLayout 
-	     android:id="@+id/mContainer"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:orientation="vertical"
-	    >
-=======
-            android:layout_height="wrap_content"
-            android:background="@drawable/top_shadow" />
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none" >
-
->>>>>>> 8d1dec862944e5c3a6af3797113a71359fa8a31f
             <LinearLayout
-                android:id="@+id/ipconLinear"
+                android:id="@+id/mContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
@@ -285,13 +253,5 @@
                         android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
-<<<<<<< HEAD
-            </LinearLayout>
-</LinearLayout>
-</ScrollView>
-=======
         </ScrollView>
-    </LinearLayout>
-
->>>>>>> 8d1dec862944e5c3a6af3797113a71359fa8a31f
 </LinearLayout>

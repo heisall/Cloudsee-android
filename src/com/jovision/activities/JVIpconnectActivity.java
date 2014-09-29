@@ -95,11 +95,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			switch (v.getId()) {
 			case R.id.ipconnect_ip:
 				if (isturn) {
-<<<<<<< HEAD
-					applyRotation(0,0,-90);  
-=======
-					applyRotation(0, 0, 90);
->>>>>>> 8d1dec862944e5c3a6af3797113a71359fa8a31f
+					applyRotation(0,-90,0);  
 					isturn = false;
 				}
 				break;
@@ -192,59 +188,5 @@ public class JVIpconnectActivity extends BaseActivity {
 				portLayout.setVisibility(View.GONE);
 			}
 		}
-	}
-<<<<<<< HEAD
-	//设置旋转中心点，开始和结束位置
-	 private void applyRotation(int position, float start, float end) {  
-	        // Find the center of the container  
-	        final float centerX = mContainer.getWidth() / 2.0f;  
-	        final float centerY = mContainer.getHeight() / 2.0f;  
-	        final Rotate3dUtil rotation =  
-	                new Rotate3dUtil(start, end, centerX, centerY, 310.0f, true);  
-	        rotation.setDuration(2000);  
-	        rotation.setFillAfter(true);  
-	        rotation.setInterpolator(new AccelerateInterpolator());  
-	        rotation.setAnimationListener(new DisplayNextView(position));  
-	        mContainer.startAnimation(rotation);  
-	    }      
-	 //动画 监听
-	 private final class DisplayNextView implements Animation.AnimationListener {  
-	        private final int mPosition;  
-	        private DisplayNextView(int position) {  
-	            mPosition = position;  
-	        }  
-	        public void onAnimationStart(Animation animation) {  
-	        }  
-	        public void onAnimationEnd(Animation animation) {  
-	            mContainer.post(new SwapViews(mPosition));  
-	        }  
-	        public void onAnimationRepeat(Animation animation) {  
-	        }  
-	    }  
-	   //动画旋转显示或隐藏的布局
-	    private final class SwapViews implements Runnable {  
-	        public SwapViews(int position) {  
-	        }  
-	        public void run() {  
-	            final float centerX = mContainer.getWidth() / 2.0f;  
-	            final float centerY = mContainer.getHeight() / 2.0f;  
-	            Rotate3dUtil rotation;             
-	            rotation = new Rotate3dUtil(270,360,centerX, centerY, 310.0f, false);  
-	            rotation.setDuration(2000);  
-	            rotation.setFillAfter(true);  
-	            rotation.setInterpolator(new DecelerateInterpolator());  
-	            mContainer.startAnimation(rotation);  
-	            if (!isturn) {
-		        	addressLayout.setVisibility(View.VISIBLE);
-					couldnumLayout.setVisibility(View.GONE);
-					portLayout.setVisibility(View.VISIBLE);
-				}else {
-					addressLayout.setVisibility(View.GONE);
-					couldnumLayout.setVisibility(View.VISIBLE);
-					portLayout.setVisibility(View.GONE);
-				}    
-	        }  
-	    }  
-=======
->>>>>>> 8d1dec862944e5c3a6af3797113a71359fa8a31f
 }
+	}

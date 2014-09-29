@@ -20,8 +20,10 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 
 /**
@@ -53,6 +55,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		MyLog.d(Consts.TAG_XX, "JDM.createView");
 		View view = inflater.inflate(R.layout.fragment_devicemanage, container,
 				false);
 		return view;
@@ -77,6 +80,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 		managePager = (ViewPager) mActivity.findViewById(R.id.manage_pager);
 
 		manageDeviceList = CacheUtil.getDevList();
+		MyLog.d(Consts.TAG_XX, "JDM.activityCreated: " + manageDeviceList);
 		// 初始化导航
 		initNav();
 		// 初始化viewPager
@@ -214,12 +218,14 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
+		MyLog.d(Consts.TAG_XX, "JDM.resume");
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
 		CacheUtil.saveDevList(manageDeviceList);
+		MyLog.d(Consts.TAG_XX, "JDM.pause & saved");
 		super.onPause();
 	}
 

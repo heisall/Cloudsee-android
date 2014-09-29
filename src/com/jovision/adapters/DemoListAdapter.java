@@ -11,12 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.bean.DemoBean;
 import com.jovision.bean.Device;
 
 public class DemoListAdapter extends BaseAdapter {
-	private ArrayList<Device> deviceList;
+	private ArrayList<DemoBean> deviceList;
 	private Context mContext;
 	private LayoutInflater inflater;
+	private boolean isclicked;
 
 	public DemoListAdapter(Context con) {
 		mContext = con;
@@ -24,10 +26,10 @@ public class DemoListAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public void setData(ArrayList<Device> dataList) {
+	public void setData(ArrayList<DemoBean> dataList,boolean isclick) {
+		isclicked = isclick;
 		deviceList = dataList;
 	}
-
 	@Override
 	public int getCount() {
 		return deviceList.size();
@@ -47,30 +49,53 @@ public class DemoListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		DeviceHolder deviceHolder;
 		if (null == convertView) {
-			convertView = inflater.inflate(R.layout.demo_item, null);
+			if (isclicked) {
+				convertView = inflater.inflate(R.layout.demo_item, null);
+				deviceHolder = new DeviceHolder();
+				deviceHolder.demoaddress = (TextView)convertView.findViewById(R.id.item_address);
+				deviceHolder.demopictrue = (ImageView)convertView.findViewById(R.id.item_pictrue);
+				deviceHolder.democlass = (TextView)convertView.findViewById(R.id.item_class);
+				deviceHolder.demodevicename = (TextView)convertView.findViewById(R.id.item_devicename);
+				deviceHolder.demotime = (TextView)convertView.findViewById(R.id.item_time);
+				convertView.setTag(deviceHolder);
+			}else {
+			convertView = inflater.inflate(R.layout.demo_itemclicked, null);
 			deviceHolder = new DeviceHolder();
-			deviceHolder.demoTextViewL = (TextView) convertView
-					.findViewById(R.id.lefttextview);
-			deviceHolder.demoTextViewR = (TextView) convertView
-					.findViewById(R.id.righttextview);
-			deviceHolder.demoImg = (ImageView) convertView
-					.findViewById(R.id.demo_img);
+			deviceHolder.demoaddress = (TextView)convertView.findViewById(R.id.item_address_clicked);
+			deviceHolder.demopictrue = (ImageView)convertView.findViewById(R.id.item_pictrue_clicked);
+			deviceHolder.demotime = (TextView)convertView.findViewById(R.id.item_time_clicked);
 			convertView.setTag(deviceHolder);
+			}
 		} else {
 			deviceHolder = (DeviceHolder) convertView.getTag();
 		}
-		deviceHolder.demoTextViewL
-				.setText(deviceList.get(position).getFullNo());
-		deviceHolder.demoTextViewR.setText("在线");
-		// deviceHolder.demoImg.setText("wifi");
-
+		if (isclicked) {
+			deviceHolder.demoaddress.setText(deviceList.get(position).getDemoaddress());
+			deviceHolder.demodevicename.setText(deviceList.get(position).getDemodevicename());
+			deviceHolder.democlass.setText(deviceList.get(position).getDemoclass());
+			deviceHolder.demotime.setText(deviceList.get(position).getDemotime());
+		}else {
+			deviceHolder.demoaddress.setText(deviceList.get(position).getDemoaddress());
+			deviceHolder.demotime.setText(deviceList.get(position).getDemotime());
+		}
+		switch (position%2) {
+		case 0:
+			deviceHolder.demopictrue.setBackgroundResource(R.drawable.pictrue_one);
+			break;
+		case 1:
+			deviceHolder.demopictrue.setBackgroundResource(R.drawable.pictrue_two);
+			break;
+		default:
+			break;
+		}
 		return convertView;
 	}
 
 	class DeviceHolder {
-		TextView demoTextViewL;
-		TextView demoTextViewR;
-		ImageView demoImg;
+		private ImageView demopictrue;
+		private TextView demodevicename;
+		private TextView  demoaddress;
+		private TextView democlass;
+		private TextView demotime;
 	}
-
 }

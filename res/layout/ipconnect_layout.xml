@@ -9,25 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
-
-    <LinearLayout
-        android:id="@+id/mContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/top_shadow" />
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none" >
-
             <LinearLayout
-                android:id="@+id/ipconLinear"
+                android:id="@+id/mContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
@@ -267,6 +254,4 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-    </LinearLayout>
-
 </LinearLayout>

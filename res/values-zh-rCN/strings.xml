@@ -104,6 +104,8 @@
     <string name="str_setting">设置</string>
     <string name="str_sure">确认</string>
     <string name="str_cancel">取消</string>
+    <!-- JVMoreFrament -->
+    <string name="location_login">游客A</string>
     <!-- leftMenu -->
     <string name="devicecount">共有0个设备</string>
     <string name="nikename">昵    称</string>

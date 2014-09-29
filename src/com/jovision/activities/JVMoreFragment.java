@@ -2,6 +2,8 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import javax.security.auth.PrivateCredentialPermission;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.commons.MyList;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ListViewUtil;
@@ -87,7 +90,7 @@ public class JVMoreFragment extends BaseFragment {
 		activity = getActivity();
 		name = activity.getResources().getStringArray(R.array.name);
 		if (JVMyDeviceFragment.localFlag) {
-			more_name = "游客A";
+			more_name = activity.getResources().getString(R.string.location_login);
 		} else {
 			more_name = JVMyDeviceFragment.devicename;
 		}

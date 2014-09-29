@@ -42,7 +42,7 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		MyLog.v(TAG, "onCreate");
+		MyLog.d(Consts.TAG_XX, "MF.create");
 		Bundle bundle = getArguments();
 		deviceIndex = bundle.getInt("DeviceIndex");
 		deviceList = CacheUtil.getDevList();
@@ -54,7 +54,7 @@ public class ManageFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		MyLog.v(TAG, "onCreateView");
+		MyLog.d(Consts.TAG_XX, "MF.createView");
 		View view = inflater.inflate(R.layout.manage_layout, null);
 		return view;
 	}
@@ -62,7 +62,7 @@ public class ManageFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		MyLog.v(TAG, "onActivityCreated");
+		MyLog.d(Consts.TAG_XX, "MF.activityCreated");
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 		disMetrics = new DisplayMetrics();
@@ -84,7 +84,7 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
-		MyLog.v(TAG, "onResume");
+		MyLog.d(Consts.TAG_XX, "MF.resume");
 		super.onResume();
 	}
 
@@ -340,21 +340,4 @@ public class ManageFragment extends BaseFragment {
 		}
 	};
 
-	// @Override
-	// public void onDetach() {
-	// super.onDetach();
-	// try {
-	// Field childFragmentManager = Fragment.class
-	// .getDeclaredField("mChildFragmentManager");
-	// childFragmentManager.setAccessible(true);
-	// childFragmentManager.set(this, null);
-	//
-	// } catch (NoSuchFieldException e) {
-	// throw new RuntimeException(e);
-	// } catch (IllegalAccessException e) {
-	// throw new RuntimeException(e);
-	// }
-	//
-	// }
-	// http://blog.csdn.net/leewenjin/article/details/19410949
 }

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.view.ViewGroup;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
 	private ArrayList<Fragment> fragments;
@@ -33,10 +32,11 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 		return fragments.get(position);
 	}
 
-	@Override
-	public int getItemPosition(Object object) {
-		return POSITION_NONE;
-	}
+	// [Neo] no need
+	// @Override
+	// public int getItemPosition(Object object) {
+	// return POSITION_NONE;
+	// }
 
 	public void setFragments(ArrayList<Fragment> fragments) {
 		if (this.fragments != null) {
@@ -45,17 +45,11 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 				ft.remove(f);
 			}
 			ft.commit();
-			ft = null;
 			fm.executePendingTransactions();
 		}
+
 		this.fragments = fragments;
 		notifyDataSetChanged();
-	}
-
-	@Override
-	public Object instantiateItem(ViewGroup container, final int position) {
-		Object obj = super.instantiateItem(container, position);
-		return obj;
 	}
 
 }

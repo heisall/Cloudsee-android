@@ -27,7 +27,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 	private final String TAG = "BaseFragment";
 
 	protected FragHandler fragHandler = new FragHandler(this);
-	IHandlerNotify fragNotify = this;
+	protected IHandlerNotify fragNotify = this;
 
 	protected View mParent;
 	protected BaseActivity mActivity;

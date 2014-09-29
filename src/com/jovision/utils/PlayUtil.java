@@ -827,7 +827,6 @@ public class PlayUtil {
 	 * @param ipcWifi
 	 */
 	public static void connectDevice(Device dev) {
-
 		Jni.connect(Consts.CHANNEL_JY, 0, dev.getIp(), dev.getPort(),
 				dev.getUser(), dev.getPwd(),
 				ConfigUtil.getYST(dev.getFullNo()),

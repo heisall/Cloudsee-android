@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -105,10 +107,12 @@ public class ManageFragment extends BaseFragment {
 		case Consts.MANAGE_ITEM_CLICK: {// adapter item 单击事件
 			switch (arg1) {
 			case 0: {// 远程设置
+				mActivity.createDialog("");
 				PlayUtil.connectDevice(deviceList.get(deviceIndex));
 				break;
 			}
 			case 1: {// 设备管理
+				mActivity.dismissDialog();
 				PlayUtil.disconnectDevice();
 				break;
 			}
@@ -152,7 +156,7 @@ public class ManageFragment extends BaseFragment {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
+			MyLog.v(TAG, obj.toString());
 			if (3 == devType) {// 是IPC
 				// 暂停视频
 				Jni.sendBytes(Consts.CHANNEL_JY, JVNetConst.JVN_CMD_VIDEOPAUSE,
@@ -160,8 +164,23 @@ public class ManageFragment extends BaseFragment {
 				// 请求文本聊天
 				Jni.sendBytes(Consts.CHANNEL_JY, JVNetConst.JVN_REQ_TEXT,
 						new byte[0], 8);
-			} else {
+			} else { // 不是IPC
+				PlayUtil.disconnectDevice();
+				mActivity.dismissDialog();
+				AlertDialog.Builder builder1 = new AlertDialog.Builder(
+						mActivity);
 
+				builder1.setTitle(R.string.tips);
+				builder1.setMessage(R.string.str_not_support_this_device);
+				builder1.setNegativeButton(R.string.str_cancel,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.dismiss();
+							}
+						});
+				builder1.create().show();
 			}
 
 			MyLog.v("NORMALDATA", obj.toString());
@@ -170,27 +189,68 @@ public class ManageFragment extends BaseFragment {
 		case Consts.CALL_CONNECT_CHANGE: { // 连接回调
 			MyLog.e(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			switch (arg1) {
-			case JVNetConst.CONNECT_OK:// 1 -- 连接成功
-				// // 暂停视频
-				// Jni.sendBytes(Consts.CHANNEL_JY,
-				// JVNetConst.JVN_CMD_VIDEOPAUSE,
-				// new byte[0], 8);
-				// // 请求文本聊天
-				// Jni.sendBytes(Consts.CHANNEL_JY, JVNetConst.JVN_REQ_TEXT,
-				// new byte[0], 8);
-				break;
-			case JVNetConst.DISCONNECT_OK:// 2 -- 断开连接成功
-
-				break;
-			case JVNetConst.CONNECT_FAILED:// 4 -- 连接失败
-				break;
-			case JVNetConst.ABNORMAL_DISCONNECT:// 6 -- 连接异常断开
-
-				break;
-			default:
-				break;
+			if(1 != arg1){
+				mActivity.dismissDialog();
+				mActivity.showTextToast(R.string.str_host_connect_timeout);
 			}
+			
+//			switch (arg1) {
+//			// 1 -- 连接成功
+//			case JVNetConst.CONNECT_OK: {
+////				mActivity.showTextToast(R.string.str_host_connect_timeout);
+//				break;
+//			}
+//
+//			// 2 -- 断开连接成功
+//			case JVNetConst.DISCONNECT_OK: {
+//				mActivity.showTextToast(R.string.str_host_connect_timeout);
+//				break;
+//			}
+//
+//			// 3 -- 不必要重复连接
+//			case JVNetConst.NO_RECONNECT: {
+//				mActivity.showTextToast(R.string.str_host_connect_timeout);
+//				break;
+//			}
+//
+//			// 4 -- 连接失败
+//			case JVNetConst.CONNECT_FAILED: {
+//				mActivity.showTextToast(R.string.str_host_connect_timeout);
+//				break;
+//			}
+//
+//			// 5 -- 没有连接
+//			case JVNetConst.NO_CONNECT: {
+//				mActivity.showTextToast(R.string.str_host_connect_timeout);
+//				break;
+//			}
+//
+//			// 6 -- 连接异常断开
+//			case JVNetConst.ABNORMAL_DISCONNECT: {
+//				mActivity.showTextToast(R.string.str_host_connect_timeout);
+//				break;
+//			}
+//
+//			// 7 -- 服务停止连接，连接断开
+//			case JVNetConst.SERVICE_STOP: {
+//				mActivity.showTextToast(R.string.str_host_connect_timeout);
+//				break;
+//			}
+//
+//			// 8 -- 断开连接失败
+//			case JVNetConst.DISCONNECT_FAILED: {
+//				mActivity.showTextToast(R.string.str_host_connect_timeout);
+//				break;
+//			}
+//
+//			// 9 -- 其他错误
+//			case JVNetConst.OHTER_ERROR: {
+//				mActivity.showTextToast(R.string.str_host_connect_timeout);
+//				break;
+//			}
+//			default:
+//				break;
+//			}
 
 			break;
 		}
@@ -205,7 +265,9 @@ public class ManageFragment extends BaseFragment {
 						JVNetConst.JVN_REMOTE_SETTING);
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
-
+				PlayUtil.disconnectDevice();
+				mActivity.dismissDialog();
+				mActivity.showTextToast(R.string.str_only_administator_use_this_function);
 				break;
 
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
@@ -223,7 +285,10 @@ public class ManageFragment extends BaseFragment {
 							// Jni.sendTextData(1,
 							// JVNetConst.JVN_RSP_TEXTDATA, 8,
 							// JVNetConst.JVN_STREAM_INFO);
-
+							mActivity.dismissDialog();
+							Intent intent = new Intent(mActivity,
+									JVRemoteSettingActivity.class);;
+							mActivity.startActivity(intent);
 							break;
 						}
 						case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求

@@ -219,7 +219,6 @@ public class JVAddDeviceActivity extends BaseActivity {
 
 				if (0 == addRes) {
 					deviceList.add(addDev);
-					CacheUtil.saveDevList(deviceList);
 				}
 
 			} catch (Exception e) {
@@ -257,4 +256,9 @@ public class JVAddDeviceActivity extends BaseActivity {
 		}
 	}
 
+	@Override
+	public void onPause() {
+		CacheUtil.saveDevList(deviceList);
+		super.onPause();
+	}
 }

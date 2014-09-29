@@ -104,6 +104,8 @@ public class JVChannelsActivity extends BaseActivity {
 		initNav();
 		// 初始化viewPager
 		initViewPager();
+
+		channelPager.setCurrentItem(deviceIndex);
 	}
 
 	@Override
@@ -150,8 +152,8 @@ public class JVChannelsActivity extends BaseActivity {
 					int index = (Integer) view.getTag();
 					deviceIndex = index;
 					channelPager.setCurrentItem(index);
-					((ChannelFragment) fragments.get(index)).setData(index,
-							deviceList, widthPixels);
+					// ((ChannelFragment) fragments.get(index)).setData(index,
+					// deviceList, widthPixels);
 				}
 			});
 			layout.setTag(i);
@@ -194,8 +196,8 @@ public class JVChannelsActivity extends BaseActivity {
 						* item_width, 0);
 			}
 			deviceIndex = position;
-			((ChannelFragment) fragments.get(position)).setData(position,
-					deviceList, widthPixels);
+			// ((ChannelFragment) fragments.get(position)).setData(position,
+			// deviceList, widthPixels);
 			channelPager.setCurrentItem(position);
 		}
 

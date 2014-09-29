@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import com.jovision.Consts;
 import com.jovision.commons.MyList;
-import com.jovision.commons.MyLog;
 
 /**
  * 简单的设备集合类

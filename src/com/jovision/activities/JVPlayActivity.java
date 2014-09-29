@@ -1310,6 +1310,7 @@ public class JVPlayActivity extends PlayActivity implements
 		stopAll(currentIndex, manager.getChannel(currentIndex));
 		manager.pauseAll();
 		PlayUtil.pauseAll(manager.getValidChannelList(currentPage));
+		CacheUtil.saveDevList(deviceList);
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public class ChannelFragment extends BaseFragment {
 
 	private String TAG = "ChannelFragment";
 
-	/** intent传递过来的设备和通道下标 */
+	/** 构造参数 */
 	private int deviceIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private Device device;
@@ -101,19 +101,20 @@ public class ChannelFragment extends BaseFragment {
 		super.onPause();
 	}
 
-	// 设置data
-	public void setData(int devIndex, ArrayList<Device> devList, int widthPixels) {
-		deviceIndex = devIndex;
-		deviceList = devList;
-		this.widthPixels = widthPixels;
-
-		device = deviceList.get(devIndex);
-		if (null != channelAdapter && null != device
-				&& null != device.getChannelList()) {
-			channelAdapter.setData(device.getChannelList().toList(),
-					widthPixels);
-		}
-	}
+	// // 设置data
+	// public void setData(int devIndex, ArrayList<Device> devList, int
+	// widthPixels) {
+	// deviceIndex = devIndex;
+	// deviceList = devList;
+	// this.widthPixels = widthPixels;
+	//
+	// device = deviceList.get(devIndex);
+	// if (null != channelAdapter && null != device
+	// && null != device.getChannelList()) {
+	// channelAdapter.setData(device.getChannelList().toList(),
+	// widthPixels);
+	// }
+	// }
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {

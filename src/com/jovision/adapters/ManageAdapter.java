@@ -12,10 +12,9 @@ import android.widget.RelativeLayout;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseFragment;
-import com.jovision.bean.Device;
 
 public class ManageAdapter extends BaseAdapter {
-	private Device device;
+
 	private BaseFragment mfragment;
 	private LayoutInflater inflater;
 
@@ -33,13 +32,13 @@ public class ManageAdapter extends BaseAdapter {
 		mfragment = fragment;
 		inflater = (LayoutInflater) fragment.getActivity().getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
-	}
-
-	public void setData(Device dev, int width) {
-		device = dev;
-		screenWidth = width;
 		fuctionArray = mfragment.getActivity().getResources()
 				.getStringArray(R.array.manage_function);
+	}
+
+	public void setData(int width) {
+		screenWidth = width;
+
 	}
 
 	// 控制是否显示删除按钮

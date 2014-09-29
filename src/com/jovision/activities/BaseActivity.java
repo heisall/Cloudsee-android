@@ -37,7 +37,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	protected ProgressDialog proDialog;
 	protected Toast toast;
 	protected Configuration configuration;
-	
+
 	protected DisplayMetrics disMetrics;
 
 	public HashMap<String, String> statusHashMap;

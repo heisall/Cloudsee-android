@@ -9,264 +9,264 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
-	<LinearLayout 
-	     android:id="@+id/mContainer"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:orientation="vertical"
-	    >
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/top_shadow" />
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/mContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none" >
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-        <LinearLayout
-            android:id="@+id/ipconLinear"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content"
+            android:background="@drawable/top_shadow" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" >
 
             <LinearLayout
+                android:id="@+id/ipconLinear"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:orientation="horizontal" >
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
 
-                <RadioGroup
-                    android:id="@+id/change"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="2.2"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
                     android:orientation="horizontal" >
 
-                    <RadioButton
-                        android:id="@+id/ipconnect_ip"
-                        android:layout_width="wrap_content"
+                    <RadioGroup
+                        android:id="@+id/change"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:button="@null"
-                        android:drawableLeft="@drawable/select_selector_ip"
-                        android:drawablePadding="5dp"
-                        android:paddingBottom="15dp"
-                        android:paddingTop="15dp"
-                        android:text="@string/str_ip_connect"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="2.2"
+                        android:orientation="horizontal" >
 
-                    <RadioButton
-                        android:id="@+id/ipconnect_cloud"
-                        android:layout_width="wrap_content"
+                        <RadioButton
+                            android:id="@+id/ipconnect_ip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:button="@null"
+                            android:drawableLeft="@drawable/select_selector_ip"
+                            android:drawablePadding="5dp"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="15dp"
+                            android:text="@string/str_ip_connect"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:id="@+id/ipconnect_cloud"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:background="@null"
+                            android:button="@null"
+                            android:drawableLeft="@drawable/select_selector_cloudsee"
+                            android:drawablePadding="5dp"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="15dp"
+                            android:text="@string/str_yst_connect"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                    </RadioGroup>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Addresslayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/ipAddress"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:background="@null"
-                        android:button="@null"
-                        android:drawableLeft="@drawable/select_selector_cloudsee"
-                        android:drawablePadding="5dp"
-                        android:paddingBottom="15dp"
-                        android:paddingTop="15dp"
-                        android:text="@string/str_yst_connect"
+                        android:layout_weight="1"
+                        android:text="@string/login_str_ipaddress"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
-                </RadioGroup>
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+
+                    <EditText
+                        android:id="@+id/ipconnnect_address"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.2"
+                        android:background="@drawable/regist_edittext"
+                        android:lines="1"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/NumberLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:id="@+id/cloud_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cloud_number"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/cloudnumber_text"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="2.2"
+                        android:background="#cccccc"
+                        android:gravity="center_vertical"
+                        android:lines="1"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:text="A361"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/portlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/port"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/login_str_port"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+
+                    <EditText
+                        android:id="@+id/ipconnect_port"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.2"
+                        android:background="@drawable/regist_edittext"
+                        android:lines="1"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/userNameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/login_str_user_name_2"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+
+                    <EditText
+                        android:id="@+id/ipconnect_username"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.2"
+                        android:background="@drawable/regist_edittext"
+                        android:inputType="textVisiblePassword"
+                        android:lines="1"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/pwd_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/pwd"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/login_str_user_pass"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="normal" >
+                    </TextView>
+
+                    <EditText
+                        android:id="@+id/ipconnect_pwd"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.2"
+                        android:background="@drawable/regist_edittext"
+                        android:inputType="textPassword"
+                        android:lines="1"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" >
+                    </TextView>
+
+                    <Button
+                        android:id="@+id/editsave"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="2.5"
+                        android:background="@drawable/registe_button_bg"
+                        android:text="@string/login_str_save"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+                </LinearLayout>
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/Addresslayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="horizontal" 
-                >
-
-                <TextView
-                    android:id="@+id/ipAddress"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/login_str_ipaddress"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="normal" />
-
-                <EditText
-                    android:id="@+id/ipconnnect_address"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2.2"
-                    android:background="@drawable/regist_edittext"
-                    android:lines="1"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/NumberLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                 >
-
-                <TextView
-                    android:id="@+id/cloud_number"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/cloud_number"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/cloudnumber_text"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="2.2"
-                    android:background="#cccccc"
-                    android:lines="1"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:text="A361"
-                    android:textSize="20sp"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/portlayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="horizontal"
-                 >
-
-                <TextView
-                    android:id="@+id/port"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/login_str_port"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="normal" />
-
-                <EditText
-                    android:id="@+id/ipconnect_port"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2.2"
-                    android:background="@drawable/regist_edittext"
-                    android:lines="1"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/userNameLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/userName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/login_str_user_name_2"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="normal" />
-
-                <EditText
-                    android:id="@+id/ipconnect_username"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2.2"
-                    android:background="@drawable/regist_edittext"
-                    android:inputType="textVisiblePassword"
-                    android:lines="1"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/pwd_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/pwd"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/login_str_user_pass"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="normal" >
-                </TextView>
-
-                <EditText
-                    android:id="@+id/ipconnect_pwd"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2.2"
-                    android:background="@drawable/regist_edittext"
-                    android:inputType="textPassword"
-                    android:lines="1"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" >
-                </TextView>
-
-                <Button
-                    android:id="@+id/editsave"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="2.5"
-                    android:background="@drawable/registe_button_bg"
-                    android:text="@string/login_str_save"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </LinearLayout>
         </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

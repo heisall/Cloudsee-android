@@ -109,7 +109,7 @@ public class Consts {
 	public static final int GUID_FUNCTION = 0xB4;
 
 	/** tab页 onstart */
-	public static final int TAB_ONRESUME = 1;
+	// public static final int TAB_ONRESUME = 1;
 	/** JVMyDeviceFragmentActivity */
 	public static final int DEVICE_GETDATA_SUCCESS = 2;// 设备加载成功--
 	public static final int DEVICE_GETDATA_FAILED = 3;// 设备加载失败--
@@ -182,4 +182,6 @@ public class Consts {
 	/** 缓存设备列表key */
 	public static final String CACHE_DEVICE_LIST = "CACHE_DEVICE_LIST";
 
+	/** 存储取没取过设备列表key */
+	public static String HAG_GOT_DEVICE = "HAG_GOT_DEVICE";
 }

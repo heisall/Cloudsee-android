@@ -20,10 +20,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
-import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 
 /**
@@ -77,6 +75,13 @@ public class JVDeviceManageFragment extends BaseFragment {
 		item_width = (int) ((mScreenWidth / 4.0 + 0.5f));
 		mImageView.getLayoutParams().width = item_width;
 		managePager = (ViewPager) mActivity.findViewById(R.id.manage_pager);
+
+		manageDeviceList = CacheUtil.getDevList();
+		// 初始化导航
+		initNav();
+		// 初始化viewPager
+		initViewPager();
+		managePager.setCurrentItem(deviceIndex);
 	}
 
 	private void initNav() {
@@ -97,8 +102,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 					int index = (Integer) view.getTag();
 					deviceIndex = index;
 					managePager.setCurrentItem(index);
-					((ManageFragment) fragments.get(index)).setData(index,
-							manageDeviceList);
 				}
 			});
 			layout.setTag(i);
@@ -109,11 +112,10 @@ public class JVDeviceManageFragment extends BaseFragment {
 		fragments = new ArrayList<Fragment>();
 		int size = manageDeviceList.size();
 		for (int i = 0; i < size; i++) {
-			// Bundle data = new Bundle();
-			// data.putString("DeviceList", deviceList.toString());
-			// data.putInt("DeviceIndex", deviceIndex);
+			Bundle data = new Bundle();
+			data.putInt("DeviceIndex", i);
 			ManageFragment fragment = new ManageFragment();
-			// fragment.setArguments(data);
+			fragment.setArguments(data);
 			fragments.add(fragment);
 		}
 		TabPagerAdapter fragmentPagerAdapter = new TabPagerAdapter(
@@ -156,8 +158,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 						* item_width, 0);
 			}
 			deviceIndex = position;
-			((ManageFragment) fragments.get(position)).setData(position,
-					manageDeviceList);
 			managePager.setCurrentItem(position);
 		}
 
@@ -214,31 +214,29 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
-		manageDeviceList = CacheUtil.getDevList();
-		MyLog.w(Consts.TAG_XX, "DF: "
-				+ ((null != manageDeviceList) ? manageDeviceList.get(0)
-						.getChannelList().toString() : "0"));
 		super.onResume();
+	}
+
+	@Override
+	public void onPause() {
+		CacheUtil.saveDevList(manageDeviceList);
+		super.onPause();
 	}
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case Consts.TAB_ONRESUME: {// activity起来后开始加载设备
-			MyLog.v(TAG, "TAB_ONRESUME");
-			manageDeviceList = CacheUtil.getDevList();
-			// 初始化导航
-			initNav();
-			// 初始化viewPager
-			initViewPager();
-			break;
-		}
-		case Consts.MANAGE_FRAGMENT_ONRESUME:
-			MyLog.v(TAG, "MANAGE_FRAGMENT_ONRESUME");
-			((ManageFragment) fragments.get(arg1)).setData(arg1,
-					manageDeviceList);
-			managePager.setCurrentItem(arg1);
-			break;
+		// case Consts.TAB_ONRESUME: {// activity起来后开始加载设备
+		// MyLog.v(TAG, "TAB_ONRESUME");
+		// manageDeviceList = CacheUtil.getDevList();
+		// // 初始化导航
+		// initNav();
+		// // 初始化viewPager
+		// initViewPager();
+		// managePager.setCurrentItem(deviceIndex);
+		// break;
+		// }
+
 		}
 	}
 

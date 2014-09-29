@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:background="@drawable/login_6"
+            android:background="@drawable/more_cancel_bg"
             android:text="@string/login_str_user_login"
             android:textColor="@color/white"
             android:textSize="20sp" />

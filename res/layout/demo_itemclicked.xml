@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="170dp"
     android:background="#ffffff"
     android:orientation="vertical"
     >
@@ -36,6 +36,8 @@
             android:id="@+id/item_pictrue_clicked"
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:background="@drawable/pictrue_one" />
+            android:background="@drawable/pictrue_one" 
+            android:layout_marginBottom="10dp"
+            />
 
 </LinearLayout>

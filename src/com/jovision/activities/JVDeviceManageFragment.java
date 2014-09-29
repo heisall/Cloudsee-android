@@ -48,6 +48,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	private ArrayList<Fragment> fragments;
 
+	private TextView top_name;
+	
 	/** intent传递过来的设备和通道下标 */
 	private int deviceIndex;
 	private ArrayList<Device> manageDeviceList = new ArrayList<Device>();
@@ -67,7 +69,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
 
-		currentMenu.setText(R.string.str_help1_1);
+		top_name = (TextView)mParent.findViewById(R.id.currentmenu);
+		top_name.setText(R.string.str_help1_1);
 		rightBtn.setOnClickListener(mOnClickListener);
 
 		mScreenWidth = mActivity.disMetrics.widthPixels;

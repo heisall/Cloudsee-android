@@ -85,6 +85,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public static boolean localFlag = false;// 本地登陆标志位
 
 	public static String devicename;
+	
+	private TextView top_name;
+	
+	private String top_string;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,6 +104,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 
+		top_name = (TextView)mParent.findViewById(R.id.currentmenu);
+		top_string = mActivity.getResources().getString(R.string.my_device);
+		top_name.setText(top_string);
+		
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 		devicename = mActivity.statusHashMap.get(Consts.KEY_USERNAME);

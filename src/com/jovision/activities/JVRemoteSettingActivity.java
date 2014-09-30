@@ -17,7 +17,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,11 +43,12 @@ import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.RefreshableListView;
+import com.jovision.views.RefreshableListView.OnRefreshListener;
 
 public class JVRemoteSettingActivity extends BaseActivity {
 
 	private static final String TAG = "JVRemoteSettingActivity";
-	
+
 	private HashMap<String, String> settingMap = new HashMap<String, String>();
 	private HashMap<String, String> allStreamMap = new HashMap<String, String>();
 	private String[] array = null;
@@ -56,7 +56,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	private String[] array2 = null;
 	private ArrayList<Wifi> wifiList = new ArrayList<Wifi>();// wifi数据列表
 	private Device device;
-	
+
 	/** topBar */
 	private Button leftBtn;
 	private TextView currentMenu;
@@ -128,27 +128,15 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	private int arrayIndex1;
 	private int arrayIndex2;
 
-	private String deviceNum = "";// 设备名
-	private int deviceIndex = -1;// 设备index
 	private int wifiIndex = -1;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		switch(what){
+		switch (what) {
 		case Consts.CALL_TEXT_DATA: {// 文本回调
 			MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
 			switch (arg1) {
-			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本聊天
-				// 获取基本文本信息
-				Jni.sendTextData(Consts.CHANNEL_JY,
-						JVNetConst.JVN_RSP_TEXTDATA, 8,
-						JVNetConst.JVN_REMOTE_SETTING);
-				break;
-			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
-				PlayUtil.disconnectDevice();
-				break;
-
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
 				String allStr = obj.toString();
 				try {
@@ -157,22 +145,106 @@ public class JVRemoteSettingActivity extends BaseActivity {
 					JSONObject dataObj = null;
 					if (size > 0) {//
 						dataObj = dataArray.getJSONObject(0);
-						MyLog.v(TAG, "文本数据--"+obj.toString());
+
 						switch (dataObj.getInt("flag")) {
-						// 远程配置请求，获取到配置文本数据
-						case JVNetConst.JVN_REMOTE_SETTING: {
-//							文本数据--[{"flag":1,"msg":"CONFIG_VER=1;[ALL];YSTID=52942216;YSTGROUP=83;YSTSTATUS=1;nTimeFormat=0;MobileCH=2;Version=V1.1.0.341;DevName=HD IPC;nLanguage=0;nPosition=0;SN=19711;bSntp=0;sntpInterval=24;ntpServer=ntp.fudan.edu.cn;PhoneServer=0;viWidth=1280;viHeight=720;maxFramerate=30;YSTPort=9101;WebServer=0;WebPort=80;nAlarmDelay=10;acMailSender=ipcmail@163.com;acSMTPServer=smtp.163.com;acSMTPUser=ipcmail;acSMTPPasswd=ipcam71a;acReceiver0=;acReceiver1=;acReceiver2=;acReceiver3=;acSMTPPort=25;acSMTPCrypto=;GpioAlarmMode=0;WebSrvPort=80;bOnvif=1;OnvifPort=8099;alarmSrvAddr=120.192.19.4;alarmSrvPort=7070;alarmSrvType=0;ETH_GW=192.168.15.1;ETH_IP=192.168.15.4;ETH_NM=255.255.255.0;ACTIVED=0;bDHCP=1;ETH_DNS=202.102.128.68;ETH_MAC=e0:62:90:c1:18:d6;WIFI_IP=0.0.0.0;WIFI_GW=0.0.0.0;WIFI_NM=0.0.0.0;WIFI_DNS=202.102.128.68;WIFI_MAC=00:00:00:00:00:00;WIFI_ID=neiwang-2G;WIFI_PW=0123456789;WIFI_AUTH=4;WIFI_ENC=3;WIFI_Q=80;WIFI_ON=1;YSTID=52942216;YSTGROUP=83;YSTSTATUS=1;DEV_VERSION=1;","type":81}]
-							break;
-						}
+						// case JVNetConst.JVN_REMOTE_SETTING: {
+						// //
+						// 文本数据--[{"flag":1,"msg":"CONFIG_VER=1;[ALL];YSTID=52942216;YSTGROUP=83;YSTSTATUS=1;nTimeFormat=0;MobileCH=2;Version=V1.1.0.341;DevName=HD IPC;nLanguage=0;nPosition=0;SN=19711;bSntp=0;sntpInterval=24;ntpServer=ntp.fudan.edu.cn;PhoneServer=0;viWidth=1280;viHeight=720;maxFramerate=30;YSTPort=9101;WebServer=0;WebPort=80;nAlarmDelay=10;acMailSender=ipcmail@163.com;acSMTPServer=smtp.163.com;acSMTPUser=ipcmail;acSMTPPasswd=ipcam71a;acReceiver0=;acReceiver1=;acReceiver2=;acReceiver3=;acSMTPPort=25;acSMTPCrypto=;GpioAlarmMode=0;WebSrvPort=80;bOnvif=1;OnvifPort=8099;alarmSrvAddr=120.192.19.4;alarmSrvPort=7070;alarmSrvType=0;ETH_GW=192.168.15.1;ETH_IP=192.168.15.4;ETH_NM=255.255.255.0;ACTIVED=0;bDHCP=1;ETH_DNS=202.102.128.68;ETH_MAC=e0:62:90:c1:18:d6;WIFI_IP=0.0.0.0;WIFI_GW=0.0.0.0;WIFI_NM=0.0.0.0;WIFI_DNS=202.102.128.68;WIFI_MAC=00:00:00:00:00:00;WIFI_ID=neiwang-2G;WIFI_PW=0123456789;WIFI_AUTH=4;WIFI_ENC=3;WIFI_Q=80;WIFI_ON=1;YSTID=52942216;YSTGROUP=83;YSTSTATUS=1;DEV_VERSION=1;","type":81}]
+						// break;
+						// }
 						case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
-							// 获取主控码流信息请求
-							Jni.sendTextData(Consts.CHANNEL_JY,
-									JVNetConst.JVN_RSP_TEXTDATA, 8,
-									JVNetConst.JVN_STREAM_INFO);
+							MyLog.v(TAG, "AP,WIFI热点请求--" + obj.toString());
+							if (!allStr.equalsIgnoreCase("")) {
+								String[] arrayStr = allStr.split("©");
+								if (null != arrayStr && 0 != arrayStr.length) {
+									for (int i = 0; i < arrayStr.length; i++) {
+										Wifi wifi = new Wifi();
+										if (!arrayStr[i].equalsIgnoreCase("")) {
+											String[] arrayStr1 = arrayStr[i]
+													.split(";");
+
+											if (null != arrayStr1
+													&& 0 != arrayStr1.length) {
+												for (int j = 0; j < arrayStr1.length; j++) {
+
+													if (arrayStr1[j]
+															.contains("=")) {
+														String[] arrayStr2 = arrayStr1[j]
+																.split("=");
+														if (null == wifiList) {
+															wifiList = new ArrayList<Wifi>();
+														}
+														if (arrayStr2[0]
+																.equalsIgnoreCase("wifiUserName")) {
+															if (arrayStr2.length == 2) {
+																wifi.wifiUserName = arrayStr2[1];
+															}
+														} else if (arrayStr2[0]
+																.equalsIgnoreCase("wifiPassWord")) {
+															if (arrayStr2.length == 2) {
+																wifi.wifiPassWord = arrayStr2[1];
+															}
+														} else if (arrayStr2[0]
+																.equalsIgnoreCase("wifiQuality")) {
+															if (arrayStr2.length == 2) {
+																wifi.wifiQuality = Integer
+																		.parseInt(arrayStr2[1]);
+															}
+														} else if (arrayStr2[0]
+																.equalsIgnoreCase("wifiKeyStat")) {
+															if (arrayStr2.length == 2) {
+																wifi.wifiKeyStat = Integer
+																		.parseInt(arrayStr2[1]);
+															}
+														} else if (arrayStr2[0]
+																.equalsIgnoreCase("wifiIestat_iauth")) {
+
+															wifi.wifiAuth = String
+																	.valueOf(arrayStr2[1]);
+														} else if (arrayStr2[0]
+																.equalsIgnoreCase("wifiIestat_ienc")) {
+															wifi.wifiEnc = String
+																	.valueOf(arrayStr2[1]);
+														}
+													}
+												}
+											}
+										}
+										wifiList.add(wifi);
+									}
+								}
+							}
+							wifiListView.completeRefreshing();
+							loadingWifi.setVisibility(View.GONE);
+
+							wifiAdapter = new WifiAdapter(
+									JVRemoteSettingActivity.this);
+							wifiAdapter.setData1(wifiList, 1, true);
+							wifiListView.setAdapter(wifiAdapter);
+							wifiListView
+									.setOnItemClickListener(mOnItemClickListener);
 							break;
 						case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
-							allStreamMap = ConfigUtil.genMsgMap(allStr);
-							MyLog.v(TAG, "码流配置数据--"+obj.toString());
+							MyLog.v(TAG, "码流配置请求--" + obj.toString());
+							setStreamData(allStr);
+
+							// 值为2双码流是家庭安防产品
+							if (null != settingMap.get("MobileCH")
+									&& "2".equalsIgnoreCase(settingMap
+											.get("MobileCH"))) {// 家庭安防
+								// 获取主控配置信息成功后，才发其他请求
+								if (null != settingMap
+										&& settingMap.get("ACTIVED")
+												.equalsIgnoreCase("2")) {// 无线状态不能发
+																			// 无线请求
+
+								} else {// 有线时发送
+										// 获取主控AP信息请求
+									Jni.sendTextData(Consts.CHANNEL_JY,
+											(byte) JVNetConst.JVN_RSP_TEXTDATA,
+											8, JVNetConst.JVN_WIFI_INFO);
+								}
+							}
 							break;
 						case JVNetConst.EX_WIFI_AP_CONFIG:// 11 ---新wifi配置流程
 							break;
@@ -194,7 +266,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				}
 
 				break;
-		}
+			}
 
 			break;
 		}
@@ -215,62 +287,6 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		settingMap = ConfigUtil.genMsgMap(jsonStr);
 		device = Device.fromJson(intent.getStringExtra("Device"));
 
-		
-		if (null != settingMap
-				&& settingMap.get("ACTIVED").equalsIgnoreCase("0")) {// 有线
-			currIndex = 0;
-
-			// 值为2双码流是家庭安防产品，显示加载wifi动画
-			if (null != settingMap.get("MobileCH")
-					&& "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {
-				// 可选取无线网络进行配置
-				wifiSelect.setVisibility(View.VISIBLE);
-				wifiListView.setVisibility(View.VISIBLE);
-				wifiListBG.setVisibility(View.VISIBLE);
-				loadingWifi.setVisibility(View.VISIBLE);
-				wifiName.setEnabled(true);
-				wifiPwd.setEnabled(true);
-			} else {// 非家庭安防不能修改,也不显示加载wifi动画
-					// 可选取无线网络进行配置
-				wifiSelect.setVisibility(View.GONE);
-				wifiListView.setVisibility(View.GONE);
-				wifiListBG.setVisibility(View.GONE);
-				loadingWifi.setVisibility(View.GONE);
-				wifiName.setEnabled(false);
-				wifiPwd.setEnabled(false);
-			}
-		} else if (null != settingMap
-				&& settingMap.get("ACTIVED").equalsIgnoreCase("2")) {// 无线
-			wifiDetail.setVisibility(View.VISIBLE);
-			wifiSelect.setVisibility(View.GONE);
-			loadingWifi.setVisibility(View.GONE);
-			wifiListView.setVisibility(View.GONE);
-			wifiListBG.setVisibility(View.GONE);
-			currIndex = 1;
-		}
-		tabMenuList.get(currIndex).setBackgroundDrawable(
-				getResources().getDrawable(R.drawable.tab_menu_hover));
-		tabMenuList.get(currIndex).setTextColor(Color.WHITE);
-		mPager.setCurrentItem(currIndex);
-		Log.e("tags", "-------------------------------------------------");
-		// 获取主控码流信息请求
-		Jni.sendTextData(Consts.CHANNEL_JY, JVNetConst.JVN_RSP_TEXTDATA, 8,
-				JVNetConst.JVN_STREAM_INFO);
-
-		// 值为2双码流是家庭安防产品
-		if (null != settingMap.get("MobileCH")
-				&& "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {// 家庭安防
-			// 获取主控配置信息成功后，才发其他请求
-			if (null != settingMap
-					&& settingMap.get("ACTIVED").equalsIgnoreCase("2")) {// 无线状态不能发
-																					// 无线请求
-
-			} else {// 有线时发送
-					// 获取主控AP信息请求
-				Jni.sendTextData(Consts.CHANNEL_JY, (byte) JVNetConst.JVN_RSP_TEXTDATA,
-						8, JVNetConst.JVN_WIFI_INFO);
-			}
-		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -285,6 +301,11 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		currentMenu.setText(R.string.str_help1_1);
 		leftBtn.setOnClickListener(mOnClickListener);
 		rightBtn.setOnClickListener(mOnClickListener);
+
+		rightBtn.setTextColor(Color.WHITE);
+		rightBtn.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.setting_save));
+		rightBtn.setText(getResources().getString(R.string.login_str_save));
 
 		t1 = (TextView) findViewById(R.id.text1);
 		t2 = (TextView) findViewById(R.id.text2);
@@ -321,8 +342,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		autoImage = (ImageView) listViews.get(0).findViewById(R.id.autoselect);
 		manuImage = (ImageView) listViews.get(0).findViewById(R.id.manuselect);
 
-		if (null != settingMap
-				&& settingMap.get("bDHCP").equalsIgnoreCase("0")) {// 手动
+		if (null != settingMap && settingMap.get("bDHCP").equalsIgnoreCase("0")) {// 手动
 			autoImage.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.obtain_unselected_icon));
 			manuImage.setBackgroundDrawable(getResources().getDrawable(
@@ -354,8 +374,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		stateET.setEnabled(false);
 		stateET.setTextColor(getResources().getColor(R.color.userinfocolor));
 
-		if (null != settingMap
-				&& settingMap.get("bDHCP").equalsIgnoreCase("1")) {// 自动
+		if (null != settingMap && settingMap.get("bDHCP").equalsIgnoreCase("1")) {// 自动
 			ipET.setEnabled(false);
 			netmaskET.setEnabled(false);
 			gateWayET.setEnabled(false);
@@ -388,7 +407,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			dnsET.setText(dnsStr);// 域名服务器
 
 			macET.setText(settingMap.get("ETH_MAC"));// 网卡地址
-			cloudseeidET.setText(deviceNum);// 设备号
+			cloudseeidET.setText(device.getFullNo());// 设备号
 		}
 
 		if (null != settingMap
@@ -460,15 +479,57 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		imageFluent = (TextView) listViews.get(2).findViewById(
 				R.id.image_fluent);
 
-//		wifiListView.setOnRefreshListener(new OnRefreshListener() {
-//			@Override
-//			public void onRefresh(RefreshableListView listView) {
-//				// 获取主控AP信息请求
-//				JVSUDT.JVC_SendTextData(1, (byte) JVNetConst.JVN_RSP_TEXTDATA,
-//						8, JVNetConst.JVN_WIFI_INFO);
-//			}
-//
-//		});
+		wifiListView.setOnRefreshListener(new OnRefreshListener() {
+			@Override
+			public void onRefresh(RefreshableListView listView) {
+				// 获取主控AP信息请求
+				Jni.sendTextData(Consts.CHANNEL_JY,
+						(byte) JVNetConst.JVN_RSP_TEXTDATA, 8,
+						JVNetConst.JVN_WIFI_INFO);
+			}
+
+		});
+
+		if (null != settingMap
+				&& settingMap.get("ACTIVED").equalsIgnoreCase("0")) {// 有线
+			currIndex = 0;
+
+			// 值为2双码流是家庭安防产品，显示加载wifi动画
+			if (null != settingMap.get("MobileCH")
+					&& "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {
+				// 可选取无线网络进行配置
+				wifiSelect.setVisibility(View.VISIBLE);
+				wifiListView.setVisibility(View.VISIBLE);
+				wifiListBG.setVisibility(View.VISIBLE);
+				loadingWifi.setVisibility(View.VISIBLE);
+				wifiName.setEnabled(true);
+				wifiPwd.setEnabled(true);
+			} else {// 非家庭安防不能修改,也不显示加载wifi动画
+					// 可选取无线网络进行配置
+				wifiSelect.setVisibility(View.GONE);
+				wifiListView.setVisibility(View.GONE);
+				wifiListBG.setVisibility(View.GONE);
+				loadingWifi.setVisibility(View.GONE);
+				wifiName.setEnabled(false);
+				wifiPwd.setEnabled(false);
+			}
+		} else if (null != settingMap
+				&& settingMap.get("ACTIVED").equalsIgnoreCase("2")) {// 无线
+			wifiDetail.setVisibility(View.VISIBLE);
+			wifiSelect.setVisibility(View.GONE);
+			loadingWifi.setVisibility(View.GONE);
+			wifiListView.setVisibility(View.GONE);
+			wifiListBG.setVisibility(View.GONE);
+			currIndex = 1;
+		}
+		tabMenuList.get(currIndex).setBackgroundDrawable(
+				getResources().getDrawable(R.drawable.tab_menu_hover));
+		tabMenuList.get(currIndex).setTextColor(Color.WHITE);
+		mPager.setCurrentItem(currIndex);
+		Log.e("tags", "-------------------------------------------------");
+		// 获取主控码流信息请求
+		Jni.sendTextData(Consts.CHANNEL_JY, JVNetConst.JVN_RSP_TEXTDATA, 8,
+				JVNetConst.JVN_STREAM_INFO);
 	}
 
 	// wifi列表点击事件
@@ -495,204 +556,182 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				goToBack();
 				break;
 			}
-//			case R.id.btn_right:
-//				if (0 == currIndex) {// 有线
-//					
-//					if (null != settingMap
-//							&& null != settingMap.get("ClientPower")
-//							&& (JVNetConst.POWER_USER & Integer
-//									.parseInt(settingMap
-//											.get("ClientPower"))) > 0) {// 大于0是普通用户
-//						Message msg = BaseApp.settingHandler.obtainMessage();
-//						msg.what = JVConst.DEVICE_MAN_HOST_NO_POWER_EDIT;
-//						BaseApp.settingHandler.sendMessage(msg);
-//					} else {
-//						// 设备处于STA模式，应该不能修改有线的IP地址
-//						if (null != settingMap
-//								&& settingMap.get("ACTIVED")
-//										.equalsIgnoreCase("2")) {// 无线不允许改手动输入的ip，改了不起作用
-//
-//						} else {
-//							int bdhcp = bdhcpTag;
-//							int oldbdhcp = Integer.parseInt(settingMap
-//									.get("bDHCP"));
-//							String str1 = ipET.getText().toString();
-//							String str2 = netmaskET.getText().toString();
-//							String str3 = gateWayET.getText().toString();
-//							String str4 = dnsET.getText().toString();
-//							// 都一样根本没改
-//							if (oldbdhcp == bdhcp
-//									&& str1.equalsIgnoreCase(settingMap
-//											.get("ETH_IP"))
-//									&& str2.equalsIgnoreCase(settingMap
-//											.get("ETH_NM"))
-//									&& str3.equalsIgnoreCase(settingMap
-//											.get("ETH_GW"))
-//									&& str4.equalsIgnoreCase(settingMap
-//											.get("ETH_DNS"))) {
-//							} else {
-//								JVSUDT.JVC_SetDHCP(1,
-//										(byte) JVNetConst.JVN_RSP_TEXTDATA,
-//										bdhcp, str1, str2, str3, str4);
-//							}
-//
-//						}
-//						Message msg = BaseApp.settingHandler.obtainMessage();
-//						msg.what = JVConst.DEVICE_MAN_HOST_EDIT_WIRED_SUCC;
-//						BaseApp.settingHandler.sendMessage(msg);
-//					}
-//				} else if (1 == currIndex) { // 无线
-//					// 非家庭安防且有ClientPower字段
-//					if (null != settingMap
-//							&& null != settingMap.get("ClientPower")
-//							&& (JVNetConst.POWER_USER & Integer
-//									.parseInt(settingMap
-//											.get("ClientPower"))) > 0) {// 大于0是普通用户
-//						Message msg = BaseApp.settingHandler.obtainMessage();
-//						msg.what = JVConst.DEVICE_MAN_HOST_NO_POWER_EDIT;
-//						BaseApp.settingHandler.sendMessage(msg);
-//					} else {
-//						// 无线状态不能发请求
-//						if (null != settingMap
-//								&& settingMap.get("ACTIVED")
-//										.equalsIgnoreCase("2")) {// 无线
-//							// 断开视频连接
-//							disConnectVideo();
-//							try {
-//								Thread.sleep(200);
-//							} catch (InterruptedException e) {
-//								e.printStackTrace();
-//							}
-//							Message msg = BaseApp.settingHandler
-//									.obtainMessage();
-//							msg.what = JVConst.DEVICE_MAN_HOST_EDIT_WIRED_SUCC;
-//							BaseApp.settingHandler.sendMessage(msg);
-//						} else {
-//
-//							// 值为2双码流是家庭安防产品
-//							if (null != settingMap
-//									&& null != settingMap
-//											.get("MobileCH")
-//									&& "2".equalsIgnoreCase(settingMap
-//											.get("MobileCH"))) {
-//								String wifiname = wifiName.getText().toString();
-//								String wifipwd = wifiPwd.getText().toString();
-//
-//								if ("".equalsIgnoreCase(wifiname)) {
-//									BaseApp.showTextToast(
-//											JVRemoteSettingActivity.this,
-//											R.string.str_wifiname_not_null);
-//								} else {
-//									if (null == dialog) {
-//										dialog = new ProgressDialog(
-//												JVRemoteSettingActivity.this);
-//									}
-//									dialog.setMessage(getResources().getString(
-//											R.string.str_editing_wifi));
-//									dialog.setCancelable(false);
-//									dialog.show();
-//
-//									String auth = "";
-//									String enc = "";
-//
-//									if (null != wifiList
-//											&& 0 != wifiList.size()
-//											&& wifiIndex < wifiList
-//													.size()) {
-//										auth = String.valueOf(wifiList
-//												.get(wifiIndex).wifiAuth);
-//										enc = String.valueOf(wifiList
-//												.get(wifiIndex).wifiEnc);
-//									}
-//
-//									JVSUDT.DEVICE_MANAGE_FLAG = true;
-//									JVSUDT.QUICK_SETTING_FLAG = false;
-//									JVSUDT.JVC_SaveWifi(1,
-//											(byte) JVNetConst.JVN_RSP_TEXTDATA,
-//											wifiname, wifipwd, 2, 9, auth, enc);
-//
-//								}
-//							} else {// 非家庭安防不能修改wifi
-//								try {
-//									Thread.sleep(200);
-//								} catch (InterruptedException e) {
-//									e.printStackTrace();
-//								}
-//								Message msg = BaseApp.settingHandler
-//										.obtainMessage();
-//								msg.what = JVConst.DEVICE_MAN_HOST_EDIT_WIRED_SUCC;
-//								BaseApp.settingHandler.sendMessage(msg);
-//							}
-//
-//						}
-//					}
-//
-//				} else if (2 == currIndex) { // 码流
-//
-//					int mobilech = 0;
-//					int width = 0;
-//					int height = 0;
-//					String proTag = settingMap.get("MobileCH");
-//
-//					if ("2".equalsIgnoreCase(proTag)) {
-//						mobilech = 2;
-//						if (0 == arrayIndex0) {
-//							width = 352;
-//							height = 288;
-//						} else {
-//							width = 720;
-//							height = 480;
-//						}
-//					} else {
-//						if (null != settingMap.get("*CH*")) {
-//							mobilech = Integer.parseInt(settingMap
-//									.get("*CH*"));
-//						}
-//
-//						width = 352;
-//						height = 288;
-//					}
-//					try {
-//						// 还没获取到数据
-//						if (imageFluent
-//								.getText()
-//								.toString()
-//								.equalsIgnoreCase(
-//										getResources().getString(
-//												R.string.str_fluent))
-//								|| imageClear
-//										.getText()
-//										.toString()
-//										.equalsIgnoreCase(
-//												getResources().getString(
-//														R.string.str_clear))) {
-//
-//						} else {
-//							int arg1 = Integer.parseInt(imageFluent.getText()
-//									.toString());// nMBPH
-//							int arg2 = Integer.parseInt(imageClear.getText()
-//									.toString());// framerate
-//							JVSUDT.JVC_SetStreamsAll(1,
-//									(byte) JVNetConst.JVN_RSP_TEXTDATA,
-//									mobilech, width, height, arg1, arg2);
-//						}
-//						try {
-//							Thread.sleep(200);
-//						} catch (InterruptedException e) {
-//							e.printStackTrace();
-//						}
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//
-//					Message msg = BaseApp.settingHandler.obtainMessage();
-//					msg.what = JVConst.DEVICE_MAN_HOST_EDIT_WIRED_SUCC;
-//					BaseApp.settingHandler.sendMessage(msg);
-//				}
-//
-//				// }
-//
-//				break;
+			case R.id.btn_right:
+				if (0 == currIndex) {// 有线
+
+					if (null != settingMap
+							&& null != settingMap.get("ClientPower")
+							&& (JVNetConst.POWER_USER & Integer
+									.parseInt(settingMap.get("ClientPower"))) > 0) {// 大于0是普通用户
+						showTextToast(R.string.str_no_permission);
+					} else {
+						// 设备处于STA模式，应该不能修改有线的IP地址
+						if (null != settingMap
+								&& settingMap.get("ACTIVED").equalsIgnoreCase(
+										"2")) {// 无线不允许改手动输入的ip，改了不起作用
+
+						} else {
+							int bdhcp = bdhcpTag;
+							int oldbdhcp = Integer.parseInt(settingMap
+									.get("bDHCP"));
+							String str1 = ipET.getText().toString();
+							String str2 = netmaskET.getText().toString();
+							String str3 = gateWayET.getText().toString();
+							String str4 = dnsET.getText().toString();
+							// 都一样根本没改
+							if (oldbdhcp == bdhcp
+									&& str1.equalsIgnoreCase(settingMap
+											.get("ETH_IP"))
+									&& str2.equalsIgnoreCase(settingMap
+											.get("ETH_NM"))
+									&& str3.equalsIgnoreCase(settingMap
+											.get("ETH_GW"))
+									&& str4.equalsIgnoreCase(settingMap
+											.get("ETH_DNS"))) {
+							} else {
+								Jni.setDhcp(Consts.CHANNEL_JY,
+										(byte) JVNetConst.JVN_RSP_TEXTDATA,
+										bdhcp, str1, str2, str3, str4);
+							}
+
+						}
+						try {
+							Thread.sleep(200);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						goToBack();
+					}
+				} else if (1 == currIndex) { // 无线
+					// 非家庭安防且有ClientPower字段
+					if (null != settingMap
+							&& null != settingMap.get("ClientPower")
+							&& (JVNetConst.POWER_USER & Integer
+									.parseInt(settingMap.get("ClientPower"))) > 0) {// 大于0是普通用户
+						showTextToast(R.string.str_no_permission);
+					} else {
+						// 无线状态不能发请求
+						if (null != settingMap
+								&& settingMap.get("ACTIVED").equalsIgnoreCase(
+										"2")) {// 无线
+							// 断开视频连接
+							PlayUtil.disconnectDevice();
+							try {
+								Thread.sleep(200);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							goToBack();
+						} else {
+
+							// 值为2双码流是家庭安防产品
+							if (null != settingMap
+									&& null != settingMap.get("MobileCH")
+									&& "2".equalsIgnoreCase(settingMap
+											.get("MobileCH"))) {
+								String wifiname = wifiName.getText().toString();
+								String wifipwd = wifiPwd.getText().toString();
+
+								if ("".equalsIgnoreCase(wifiname)) {
+									showTextToast(R.string.str_wifiname_not_null);
+								} else {
+									if (null == dialog) {
+										dialog = new ProgressDialog(
+												JVRemoteSettingActivity.this);
+									}
+									dialog.setMessage(getResources().getString(
+											R.string.str_editing_wifi));
+									dialog.setCancelable(false);
+									dialog.show();
+
+									String auth = "";
+									String enc = "";
+
+									if (null != wifiList
+											&& 0 != wifiList.size()
+											&& wifiIndex < wifiList.size()) {
+										auth = String.valueOf(wifiList
+												.get(wifiIndex).wifiAuth);
+										enc = String.valueOf(wifiList
+												.get(wifiIndex).wifiEnc);
+									}
+
+									Jni.saveWifi(Consts.CHANNEL_JY,
+											(byte) JVNetConst.JVN_RSP_TEXTDATA,
+											wifiname, wifipwd, 2, 9, auth, enc);
+
+								}
+							} else {// 非家庭安防不能修改wifi
+								try {
+									Thread.sleep(200);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								goToBack();
+							}
+
+						}
+					}
+
+				} else if (2 == currIndex) { // 码流
+
+					int mobilech = 0;
+					int width = 0;
+					int height = 0;
+					String proTag = settingMap.get("MobileCH");
+
+					if ("2".equalsIgnoreCase(proTag)) {
+						mobilech = 2;
+						if (0 == arrayIndex0) {
+							width = 352;
+							height = 288;
+						} else {
+							width = 720;
+							height = 480;
+						}
+					} else {
+						if (null != settingMap.get("*CH*")) {
+							mobilech = Integer.parseInt(settingMap.get("*CH*"));
+						}
+
+						width = 352;
+						height = 288;
+					}
+					try {
+						// 还没获取到数据
+						if (imageFluent
+								.getText()
+								.toString()
+								.equalsIgnoreCase(
+										getResources().getString(
+												R.string.str_fluent))
+								|| imageClear
+										.getText()
+										.toString()
+										.equalsIgnoreCase(
+												getResources().getString(
+														R.string.str_clear))) {
+
+						} else {
+							int arg1 = Integer.parseInt(imageFluent.getText()
+									.toString());// nMBPH
+							int arg2 = Integer.parseInt(imageClear.getText()
+									.toString());// framerate
+							Jni.setBpsAndFps(Consts.CHANNEL_JY,
+									(byte) JVNetConst.JVN_RSP_TEXTDATA,
+									mobilech, width, height, arg1, arg2);
+						}
+						try {
+							Thread.sleep(200);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					goToBack();
+				}
+				break;
 			case R.id.obtainauto:// 自动获取
 				bdhcpTag = 1;// 1为自动获取
 				ipStr = ipET.getText().toString();// IP地址
@@ -720,8 +759,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 					// 网关为空
 					if (null != settingMap
-							&& !"".equalsIgnoreCase(settingMap
-									.get("ETH_GW"))) {
+							&& !"".equalsIgnoreCase(settingMap.get("ETH_GW"))) {
 						gateWayET.setText(settingMap.get("ETH_GW"));// 默认网关
 					} else {
 						gateWayET.setText("0.0.0.0");// 默认网关
@@ -729,7 +767,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 					dnsET.setText(settingMap.get("ETH_DNS"));// 域名服务器
 					macET.setText(settingMap.get("ETH_MAC"));// 网卡地址
-					cloudseeidET.setText(deviceNum);// 设备号
+					cloudseeidET.setText(device.getFullNo());// 设备号
 				}
 
 				autoImage.setBackgroundDrawable(getResources().getDrawable(
@@ -782,8 +820,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int which) {
-										imageQuality
-												.setText(array[which]);
+										imageQuality.setText(array[which]);
 										arrayIndex0 = which;
 										dialog.dismiss();
 									}
@@ -800,8 +837,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int which) {
-										imageClear
-												.setText(array1[which]);
+										imageClear.setText(array1[which]);
 										arrayIndex1 = which;
 										dialog.dismiss();
 									}
@@ -817,8 +853,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int which) {
-										imageFluent
-												.setText(array2[which]);
+										imageFluent.setText(array2[which]);
 										arrayIndex2 = which;
 										dialog.dismiss();
 									}
@@ -840,6 +875,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				secondLayout.setVisibility(View.GONE);
 				firstLayout.setVisibility(View.VISIBLE);
 			} else {
+				PlayUtil.disconnectDevice();
 				JVRemoteSettingActivity.this.finish();
 			}
 		} else if (currIndex == 1) {// 无线连接
@@ -847,9 +883,11 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				wifiSecondLayout.setVisibility(View.GONE);
 				wifiFirstLayout.setVisibility(View.VISIBLE);
 			} else {
+				PlayUtil.disconnectDevice();
 				JVRemoteSettingActivity.this.finish();
 			}
 		} else {// 码流设置
+			PlayUtil.disconnectDevice();
 			JVRemoteSettingActivity.this.finish();
 		}
 	}
@@ -1032,260 +1070,160 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		}
 	}
 
-
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {// 返回按钮
-			goToBack();
-			return true;
-		}
-
-		return super.onKeyDown(keyCode, event);
+	public void onBackPressed() {
+		super.onBackPressed();
+		goToBack();
 	}
 
-//	public static class SettingHandler extends Handler {
-//
-//		private final WeakReference<JVRemoteSettingActivity> mActivity;
-//
-//		public SettingHandler(JVRemoteSettingActivity activity) {
-//			mActivity = new WeakReference<JVRemoteSettingActivity>(activity);
-//		}
-//
-//		@Override
-//		public void handleMessage(Message msg) {
-//			super.handleMessage(msg);
-//			JVRemoteSettingActivity activity = mActivity.get();
-//			if (null != activity && !activity.isFinishing()) {
-//				switch (msg.what) {
-//				case JVConst.DEVICE_SETTING_WIFI_DET:
-//					if (msg.arg1 == 0) {
-//						if (null != settingMap) {
-//							activity.wifiipET.setText("");// IP地址
-//							activity.wifinetmaskET.setText("");// 子网掩码
-//							activity.wifigateWayET.setText("");// 默认网关
-//							activity.wifidnsET.setText("");// 域名服务器
-//							activity.wifimacET.setText("");// 网卡地址
-//						}
-//					} else {
-//						if (null != settingMap) {
-//							activity.wifiipET.setText(settingMap
-//									.get("WIFI_IP"));// IP地址
-//							activity.wifinetmaskET.setText(settingMap
-//									.get("WIFI_NM"));// 子网掩码
-//							activity.wifigateWayET.setText(settingMap
-//									.get("WIFI_GW"));// 默认网关
-//							activity.wifidnsET.setText(settingMap
-//									.get("WIFI_DNS"));// 域名服务器
-//							activity.wifimacET.setText(settingMap
-//									.get("WIFI_MAC"));// 网卡地址
-//						}
-//					}
-//					activity.currentMenu.setText(R.string.str_wifi_info);
-//					activity.wifiSecondLayout.setVisibility(View.VISIBLE);
-//					activity.wifiFirstLayout.setVisibility(View.GONE);
-//
-//					break;
-//				case JVConst.DEVICE_MAN_HOST_WIFI_TEXT:// 获取到WIFI配置文本数据
-//					activity.wifiListView.completeRefreshing();
-//					activity.loadingWifi.setVisibility(View.GONE);
-//
-//					activity.wifiAdapter = new WifiAdapter(activity);
-//					activity.wifiAdapter.setData1(wifiList, 1, true);
-//					activity.wifiListView.setAdapter(activity.wifiAdapter);
-//					activity.wifiListView
-//							.setOnItemClickListener(activity.mOnItemClickListener);
-//
-//					// //获取主控码流信息请求
-//					// JVSUDT.JVC_SendTextData(1,
-//					// (byte)JVNetConst.JVN_RSP_TEXTDATA,
-//					// 8,JVNetConst.JVN_STREAM_INFO);
-//
-//					break;
-//				case JVConst.DEVICE_MAN_HOST_STREAM_TEXT:// 获取到码流配置数据
-//					if (null != settingMap) {
-//						// 值为2双码流是家庭安防产品
-//						if (null != settingMap.get("MobileCH")
-//								&& "2".equalsIgnoreCase(settingMap
-//										.get("MobileCH"))) {
-//							array = activity
-//									.getResources()
-//									.getStringArray(R.array.array_image_quality);
-//							array1 = activity.getResources()
-//									.getStringArray(R.array.array_clear);
-//							array2 = activity.getResources()
-//									.getStringArray(R.array.array_fluent);
-//						} else {
-//							array = activity.getResources()
-//									.getStringArray(
-//											R.array.array_image_quality_not);
-//							array1 = activity.getResources()
-//									.getStringArray(R.array.array_clear_not);
-//							array2 = activity.getResources()
-//									.getStringArray(R.array.array_fluent_not);
-//						}
-//
-//						// 图像质量
-//						if (null != settingMap.get("MobileCH")
-//								&& "2".equalsIgnoreCase(settingMap
-//										.get("MobileCH"))) {
-//							if (Integer.parseInt(settingMap
-//									.get("width")) == 720) {
-//								activity.arrayIndex0 = 1;
-//								activity.imageQuality
-//										.setText(array[activity.arrayIndex0]);
-//							} else if (Integer.parseInt(settingMap
-//									.get("width")) == 352) {
-//								activity.arrayIndex0 = 0;
-//								activity.imageQuality
-//										.setText(array[activity.arrayIndex0]);
-//							}
-//						} else {
-//							activity.arrayIndex0 = 0;
-//							activity.imageQuality
-//									.setText(array[activity.arrayIndex0]);
-//						}
-//
-//						// 码率
-//						for (int i = 0; i < array1.length; i++) {
-//							if (array1[i]
-//									.equalsIgnoreCase(settingMap
-//											.get("framerate"))) {
-//								activity.arrayIndex1 = i;
-//								activity.imageClear
-//										.setText(array1[activity.arrayIndex1]);
-//							}
-//						}
-//						if (Integer.parseInt(settingMap
-//								.get("framerate")) < Integer
-//								.parseInt(array1[0])) {
-//							activity.arrayIndex1 = 0;
-//							activity.imageClear
-//									.setText(array1[activity.arrayIndex1]);
-//						} else if (Integer.parseInt(settingMap
-//								.get("framerate")) > Integer
-//								.parseInt(array1[array1.length - 1])) {
-//							activity.arrayIndex1 = array1.length - 1;
-//							activity.imageClear
-//									.setText(array1[activity.arrayIndex1]);
-//						}
-//						int temMBPH = Integer.parseInt(settingMap
-//								.get("nMBPH"));
-//						// 码流质量
-//						for (int i = 1; i < array2.length; i++) {
-//							// if(array2[i].equalsIgnoreCase(settingMap.get("nMBPH"))){
-//							// arrayIndex2 = i;
-//							// imageFluent.setText(array2[arrayIndex2]);
-//							// }
-//
-//							if (temMBPH >= Integer
-//									.parseInt(array2[i - 1])
-//									&& temMBPH < Integer
-//											.parseInt(array2[i])) {
-//								activity.arrayIndex2 = i - 1;
-//								activity.imageFluent
-//										.setText(array2[activity.arrayIndex2]);
-//							}
-//
-//							// 最后一个
-//							if (i == array2.length - 1
-//									&& temMBPH >= Integer
-//											.parseInt(array2[i])) {
-//								activity.arrayIndex2 = array2.length - 1;
-//								activity.imageFluent
-//										.setText(array2[activity.arrayIndex2]);
-//							}
-//
-//						}
-//
-//						if (Integer.parseInt(settingMap.get("nMBPH")) < Integer
-//								.parseInt(array2[0])) {
-//							activity.arrayIndex2 = 0;
-//							activity.imageFluent
-//									.setText(array2[activity.arrayIndex2]);
-//						} else if (Integer.parseInt(settingMap
-//								.get("nMBPH")) > Integer
-//								.parseInt(array2[array2.length - 1])) {
-//							activity.arrayIndex2 = array2.length - 1;
-//							activity.imageFluent
-//									.setText(array2[activity.arrayIndex2]);
-//						}
-//
-//					}
-//
-//					activity.imageQualitySetting
-//							.setOnClickListener(activity.mOnClickListener);
-//					activity.clearSetting
-//							.setOnClickListener(activity.mOnClickListener);
-//					activity.fluentSetting
-//							.setOnClickListener(activity.mOnClickListener);
-//					break;
-//
-//				case JVConst.DEVICE_MAN_HOST_CONNECT_WIFI_SUCC:// 主控wifi连接成功
-////					if (null != activity.dialog && activity.dialog.isShowing()) {
-////						activity.dialog.dismiss();
-////					}
-////					activity.dialog = null;
-////
-////					if (-1 != activity.deviceIndex) {
-////						BaseApp.deviceList.get(activity.deviceIndex).deviceLocalIp = activity.ipET
-////								.getText().toString();
-////					}
-////					JVSUDT.DEVICE_MANAGE_FLAG = false;
-////					activity.showTextToast(R.string.str_connect_succ);
-////					try {
-////						Thread.sleep(200);
-////					} catch (InterruptedException e) {
-////						e.printStackTrace();
-////					}
-////					activity.finish();
-//					break;
-//				case JVConst.DEVICE_MAN_HOST_CONNECT_WIFI_FAIL:// 主控wifi连接失败
-//
-//					if (null != activity.dialog && activity.dialog.isShowing()) {
-//						activity.dialog.dismiss();
-//					}
-//					activity.dialog = null;
-//
-//					activity.showTextToast(R.string.str_connect_fail);
-//					try {
-//						Thread.sleep(200);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//					activity.finish();
-//					break;
-//				case JVConst.DEVICE_MAN_HOST_EDIT_WIRED_SUCC:// 主控修改有线信息成功
-//					try {
-//						Thread.sleep(200);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//					activity.finish();
-//					break;
-//				case JVConst.DEVICE_MAN_HOST_NO_POWER_EDIT:// 没有权限修改网络信息
-//					activity.showTextToast(R.string.str_no_permission);
-//					break;
-//				case JVConst.DEVICE_MAN_HOST_EDIT_WIRED_FAIL:// 主控修改有线信息失败
-//
-//					if (null != activity.dialog && activity.dialog.isShowing()) {
-//						activity.dialog.dismiss();
-//					}
-//					activity.dialog = null;
-//
-//					activity.showTextToast(R.string.str_save_fail);
-//					try {
-//						Thread.sleep(200);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//					activity.finish();
-//					break;
-//				}
-//
-//			}
-//		}
-//
-//	}
+	/**
+	 * 设置码流数据
+	 * 
+	 * @param allStr
+	 */
+	public void setStreamData(String allStr) {
+		allStreamMap = ConfigUtil.genMsgMap(allStr);
+
+		if (!allStr.equalsIgnoreCase("")) {
+			String textString4 = "";
+
+			if (null != allStreamMap.get("MobileCH")
+					&& "2".equalsIgnoreCase(allStreamMap.get("MobileCH"))) {// 家用取第二码流
+				if (allStr.contains("[CH2];")) {
+					textString4 = allStr.substring(
+							allStr.lastIndexOf("[CH2];") + 6, allStr.length());
+					settingMap.put("*CH*", "2");
+				}
+			} else {// 非家用取第三码流
+				if (allStr.contains("[CH3];")) {
+					textString4 = allStr.substring(
+							allStr.lastIndexOf("[CH3];") + 6, allStr.length());
+					settingMap.put("*CH*", "3");
+				} else {
+					if (allStr.contains("[CH2];")) {
+						textString4 = allStr.substring(
+								allStr.lastIndexOf("[CH2];") + 6,
+								allStr.length());
+						settingMap.put("*CH*", "2");
+					} else {
+						textString4 = allStr.substring(
+								allStr.lastIndexOf("[CH1];") + 6,
+								allStr.length());
+						settingMap.put("*CH*", "1");
+					}
+				}
+			}
+			String[] arrayStr = textString4.split(";");
+			if (null != arrayStr) {
+				for (int i = 0; i < arrayStr.length; i++) {
+					if (arrayStr[i].contains("=")) {
+						String[] arrayStr1 = arrayStr[i].split("=");
+						if (null == settingMap) {
+							settingMap = new HashMap<String, String>();
+						}
+						if (arrayStr1.length == 1) {
+							if (!settingMap.containsKey(arrayStr1[0])) {
+								settingMap.put(arrayStr1[0], "");
+							}
+
+						} else {
+							if (!settingMap.containsKey(arrayStr1[0])) {
+								settingMap.put(arrayStr1[0], arrayStr1[1]);
+							}
+						}
+
+					}
+				}
+			}
+		}
+
+		if (null != settingMap) {
+			// 值为2双码流是家庭安防产品
+			if (null != settingMap.get("MobileCH")
+					&& "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {
+				array = getResources().getStringArray(
+						R.array.array_image_quality);
+				array1 = getResources().getStringArray(R.array.array_clear);
+				array2 = getResources().getStringArray(R.array.array_fluent);
+			} else {
+				array = getResources().getStringArray(
+						R.array.array_image_quality_not);
+				array1 = getResources().getStringArray(R.array.array_clear_not);
+				array2 = getResources()
+						.getStringArray(R.array.array_fluent_not);
+			}
+
+			// 图像质量
+			if (null != settingMap.get("MobileCH")
+					&& "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {
+				if (Integer.parseInt(settingMap.get("width")) == 720) {
+					arrayIndex0 = 1;
+					imageQuality.setText(array[arrayIndex0]);
+				} else if (Integer.parseInt(settingMap.get("width")) == 352) {
+					arrayIndex0 = 0;
+					imageQuality.setText(array[arrayIndex0]);
+				}
+			} else {
+				arrayIndex0 = 0;
+				imageQuality.setText(array[arrayIndex0]);
+			}
+
+			// 码率
+			for (int i = 0; i < array1.length; i++) {
+				if (array1[i].equalsIgnoreCase(settingMap.get("framerate"))) {
+					arrayIndex1 = i;
+					imageClear.setText(array1[arrayIndex1]);
+				}
+			}
+			if (Integer.parseInt(settingMap.get("framerate")) < Integer
+					.parseInt(array1[0])) {
+				arrayIndex1 = 0;
+				imageClear.setText(array1[arrayIndex1]);
+			} else if (Integer.parseInt(settingMap.get("framerate")) > Integer
+					.parseInt(array1[array1.length - 1])) {
+				arrayIndex1 = array1.length - 1;
+				imageClear.setText(array1[arrayIndex1]);
+			}
+			int temMBPH = Integer.parseInt(settingMap.get("nMBPH"));
+			// 码流质量
+			for (int i = 1; i < array2.length; i++) {
+				// if(array2[i].equalsIgnoreCase(settingMap.get("nMBPH"))){
+				// arrayIndex2 = i;
+				// imageFluent.setText(array2[arrayIndex2]);
+				// }
+
+				if (temMBPH >= Integer.parseInt(array2[i - 1])
+						&& temMBPH < Integer.parseInt(array2[i])) {
+					arrayIndex2 = i - 1;
+					imageFluent.setText(array2[arrayIndex2]);
+				}
+
+				// 最后一个
+				if (i == array2.length - 1
+						&& temMBPH >= Integer.parseInt(array2[i])) {
+					arrayIndex2 = array2.length - 1;
+					imageFluent.setText(array2[arrayIndex2]);
+				}
+
+			}
+
+			if (Integer.parseInt(settingMap.get("nMBPH")) < Integer
+					.parseInt(array2[0])) {
+				arrayIndex2 = 0;
+				imageFluent.setText(array2[arrayIndex2]);
+			} else if (Integer.parseInt(settingMap.get("nMBPH")) > Integer
+					.parseInt(array2[array2.length - 1])) {
+				arrayIndex2 = array2.length - 1;
+				imageFluent.setText(array2[arrayIndex2]);
+			}
+
+		}
+
+		imageQualitySetting.setOnClickListener(mOnClickListener);
+		clearSetting.setOnClickListener(mOnClickListener);
+		fluentSetting.setOnClickListener(mOnClickListener);
+
+	}
 
 	@Override
 	protected void saveSettings() {

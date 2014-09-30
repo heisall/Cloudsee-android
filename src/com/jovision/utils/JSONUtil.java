@@ -32,10 +32,9 @@ import com.sun.mail.iap.ConnectionException;
 public class JSONUtil {
 
 	private static final String TAG = "JSONUtil";
-	
-	
-	public void stringToMap(String jsonStr){
-		
+
+	public void stringToMap(String jsonStr) {
+
 	}
 
 	// /**

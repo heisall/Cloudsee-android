@@ -2,45 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    >
-    <RelativeLayout 
+    android:background="#ffffff" >
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        >
-        <ImageView 
+        android:layout_height="120dp" >
+
+        <ImageView
             android:id="@+id/item_pictrue"
             android:layout_width="150dp"
             android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/pictrue_one"
-            />
+            android:background="@drawable/pictrue_one" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:orientation="vertical"
             android:layout_toRightOf="@+id/item_pictrue"
-             >
-			
-            <TextView 
+            android:orientation="vertical" >
+
+            <TextView
                 android:id="@+id/item_devicename"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="A361"
                 android:textColor="#888888"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
+
             <TextView
                 android:id="@+id/item_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="山师附中幼儿园"
                 android:layout_marginTop="5dp"
+                android:text="山师附中幼儿园"
                 android:textColor="#888888"
                 android:textSize="16sp" />
 
@@ -62,6 +60,6 @@
                 android:textColor="#888888"
                 android:textSize="14sp" />
         </LinearLayout>
-
     </RelativeLayout>
+
 </LinearLayout>

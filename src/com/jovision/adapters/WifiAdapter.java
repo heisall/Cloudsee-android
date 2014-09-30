@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.net.wifi.ScanResult;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.bean.Wifi;
-import com.jovision.commons.JVConst;
 
 public class WifiAdapter extends BaseAdapter {
 
@@ -129,17 +127,17 @@ public class WifiAdapter extends BaseAdapter {
 						@Override
 						public void onClick(View v) {
 							// TODO Auto-generated method stub
-//							Message msg = BaseApp.settingHandler
-//									.obtainMessage();
-//							msg.arg1 = 0;
-//							if (BaseApp.settingMap
-//									.get("WIFI_ID")
-//									.equalsIgnoreCase(
-//											wifiList.get(position).wifiUserName)) {
-//								msg.arg1 = 1;
-//							}
-//							msg.what = JVConst.DEVICE_SETTING_WIFI_DET;
-//							BaseApp.settingHandler.sendMessage(msg);
+							// Message msg = BaseApp.settingHandler
+							// .obtainMessage();
+							// msg.arg1 = 0;
+							// if (BaseApp.settingMap
+							// .get("WIFI_ID")
+							// .equalsIgnoreCase(
+							// wifiList.get(position).wifiUserName)) {
+							// msg.arg1 = 1;
+							// }
+							// msg.what = JVConst.DEVICE_SETTING_WIFI_DET;
+							// BaseApp.settingHandler.sendMessage(msg);
 						}
 
 					});

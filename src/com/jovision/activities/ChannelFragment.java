@@ -21,7 +21,6 @@ import com.jovision.adapters.ChannelAdapter;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
-import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
 
@@ -258,16 +257,14 @@ public class ChannelFragment extends BaseFragment {
 
 			try {
 				if (localFlag) {// 本地保存更改
-					device.getChannelList().get(modChannelIndex)
-							.setChannelName(newName);
 					modRes = 0;
 				} else {
 					modRes = DeviceUtil.modifyPointName(modDevIndex + "",
 							modChannelIndex, newName);
 				}
 				if (0 == modRes) {
-					// [Neo] TODO 修改通道还是设备
-					// device.setNickName(newName);
+					device.getChannelList().get(modChannelIndex)
+							.setChannelName(newName);
 				}
 
 			} catch (Exception e) {

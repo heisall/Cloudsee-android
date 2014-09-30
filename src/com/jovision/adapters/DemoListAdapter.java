@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.bean.DemoBean;
-import com.jovision.bean.Device;
 
 public class DemoListAdapter extends BaseAdapter {
 	private ArrayList<DemoBean> deviceList;
@@ -26,10 +25,11 @@ public class DemoListAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public void setData(ArrayList<DemoBean> dataList,boolean isclick) {
+	public void setData(ArrayList<DemoBean> dataList, boolean isclick) {
 		isclicked = isclick;
 		deviceList = dataList;
 	}
+
 	@Override
 	public int getCount() {
 		return deviceList.size();
@@ -52,38 +52,54 @@ public class DemoListAdapter extends BaseAdapter {
 			if (isclicked) {
 				convertView = inflater.inflate(R.layout.demo_item, null);
 				deviceHolder = new DeviceHolder();
-				deviceHolder.demoaddress = (TextView)convertView.findViewById(R.id.item_address);
-				deviceHolder.demopictrue = (ImageView)convertView.findViewById(R.id.item_pictrue);
-				deviceHolder.democlass = (TextView)convertView.findViewById(R.id.item_class);
-				deviceHolder.demodevicename = (TextView)convertView.findViewById(R.id.item_devicename);
-				deviceHolder.demotime = (TextView)convertView.findViewById(R.id.item_time);
+				deviceHolder.demoaddress = (TextView) convertView
+						.findViewById(R.id.item_address);
+				deviceHolder.demopictrue = (ImageView) convertView
+						.findViewById(R.id.item_pictrue);
+				deviceHolder.democlass = (TextView) convertView
+						.findViewById(R.id.item_class);
+				deviceHolder.demodevicename = (TextView) convertView
+						.findViewById(R.id.item_devicename);
+				deviceHolder.demotime = (TextView) convertView
+						.findViewById(R.id.item_time);
 				convertView.setTag(deviceHolder);
-			}else {
-			convertView = inflater.inflate(R.layout.demo_itemclicked, null);
-			deviceHolder = new DeviceHolder();
-			deviceHolder.demoaddress = (TextView)convertView.findViewById(R.id.item_address_clicked);
-			deviceHolder.demopictrue = (ImageView)convertView.findViewById(R.id.item_pictrue_clicked);
-			deviceHolder.demotime = (TextView)convertView.findViewById(R.id.item_time_clicked);
-			convertView.setTag(deviceHolder);
+			} else {
+				convertView = inflater.inflate(R.layout.demo_itemclicked, null);
+				deviceHolder = new DeviceHolder();
+				deviceHolder.demoaddress = (TextView) convertView
+						.findViewById(R.id.item_address_clicked);
+				deviceHolder.demopictrue = (ImageView) convertView
+						.findViewById(R.id.item_pictrue_clicked);
+				deviceHolder.demotime = (TextView) convertView
+						.findViewById(R.id.item_time_clicked);
+				convertView.setTag(deviceHolder);
 			}
 		} else {
 			deviceHolder = (DeviceHolder) convertView.getTag();
 		}
 		if (isclicked) {
-			deviceHolder.demoaddress.setText(deviceList.get(position).getDemoaddress());
-			deviceHolder.demodevicename.setText(deviceList.get(position).getDemodevicename());
-			deviceHolder.democlass.setText(deviceList.get(position).getDemoclass());
-			deviceHolder.demotime.setText(deviceList.get(position).getDemotime());
-		}else {
-			deviceHolder.demoaddress.setText(deviceList.get(position).getDemoaddress());
-			deviceHolder.demotime.setText(deviceList.get(position).getDemotime());
+			deviceHolder.demoaddress.setText(deviceList.get(position)
+					.getDemoaddress());
+			deviceHolder.demodevicename.setText(deviceList.get(position)
+					.getDemodevicename());
+			deviceHolder.democlass.setText(deviceList.get(position)
+					.getDemoclass());
+			deviceHolder.demotime.setText(deviceList.get(position)
+					.getDemotime());
+		} else {
+			deviceHolder.demoaddress.setText(deviceList.get(position)
+					.getDemoaddress());
+			deviceHolder.demotime.setText(deviceList.get(position)
+					.getDemotime());
 		}
-		switch (position%2) {
+		switch (position % 2) {
 		case 0:
-			deviceHolder.demopictrue.setBackgroundResource(R.drawable.pictrue_one);
+			deviceHolder.demopictrue
+					.setBackgroundResource(R.drawable.pictrue_one);
 			break;
 		case 1:
-			deviceHolder.demopictrue.setBackgroundResource(R.drawable.pictrue_two);
+			deviceHolder.demopictrue
+					.setBackgroundResource(R.drawable.pictrue_two);
 			break;
 		default:
 			break;
@@ -94,7 +110,7 @@ public class DemoListAdapter extends BaseAdapter {
 	class DeviceHolder {
 		private ImageView demopictrue;
 		private TextView demodevicename;
-		private TextView  demoaddress;
+		private TextView demoaddress;
 		private TextView democlass;
 		private TextView demotime;
 	}

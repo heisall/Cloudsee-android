@@ -10,8 +10,6 @@ public class AutoLoad {
 
 		try {
 			System.loadLibrary("gnustl_shared");
-			System.loadLibrary("EventSo.2.0.21");
-			System.loadLibrary("Json7.6.1");
 			System.loadLibrary("stlport_shared");
 			System.loadLibrary("accountsdk");
 

@@ -20,10 +20,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
-import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 
 /**

@@ -99,6 +99,16 @@ public class Consts {
 	public static final String IPC_DEFAULT_IP = "10.10.0.1";
 	public static final int IPC_DEFAULT_PORT = 9101;
 
+	/** 播放tag */
+	public static final int PLAY_NORMAL = 0x01;
+	public static final int PLAY_DEMO = 0x02;
+	public static final int PLAY_AP = 0x03;
+
+	/** 播放key */
+	public static final String KEY_PLAY_NORMAL = "PLAY_NORMAL";
+	public static final String KEY_PLAY_DEMO = "PLAY_DEMO";
+	public static final String KEY_PLAY_AP = "PLAY_AP";
+
 	/** 登录方法 */
 	public static final int LOGIN_FUNCTION = 0xB1;
 	/** 注册方法 */
@@ -108,8 +118,8 @@ public class Consts {
 	/** 获取设备列表方法 */
 	public static final int GUID_FUNCTION = 0xB4;
 
-	/** tab页 onstart */
-	// public static final int TAB_ONRESUME = 1;
+	/** tab页 onback */
+	public static final int TAB_BACK = 1;
 	/** JVMyDeviceFragmentActivity */
 	public static final int DEVICE_GETDATA_SUCCESS = 2;// 设备加载成功--
 	public static final int DEVICE_GETDATA_FAILED = 3;// 设备加载失败--
@@ -184,4 +194,5 @@ public class Consts {
 
 	/** 存储取没取过设备列表key */
 	public static String HAG_GOT_DEVICE = "HAG_GOT_DEVICE";
+
 }

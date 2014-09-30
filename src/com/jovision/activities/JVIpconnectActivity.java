@@ -1,7 +1,6 @@
 package com.jovision.activities;
 
 import android.view.View;
-
 import android.view.View.OnClickListener;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -13,6 +12,7 @@ import android.widget.RadioButton;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.utils.Rotate3dUtil;
+
 public class JVIpconnectActivity extends BaseActivity {
 	// ip连接形式的RadioButton
 	private RadioButton ipconnnect_ip;
@@ -95,7 +95,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			switch (v.getId()) {
 			case R.id.ipconnect_ip:
 				if (isturn) {
-					applyRotation(0,-90,0);  
+					applyRotation(0, -90, 0);
 					isturn = false;
 				}
 				break;
@@ -188,5 +188,5 @@ public class JVIpconnectActivity extends BaseActivity {
 				portLayout.setVisibility(View.GONE);
 			}
 		}
-}
 	}
+}

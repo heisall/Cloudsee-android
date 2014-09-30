@@ -31,6 +31,7 @@ import com.jovision.Jni;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
@@ -287,6 +288,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 		//
 		// break;
 		// }
+		case Consts.TAB_BACK: {// tab 返回事件，保存数据
+			CacheUtil.saveDevList(myDeviceList);
+			break;
+		}
 
 		// 广播回调
 		case Consts.CALL_LAN_SEARCH: {
@@ -324,9 +329,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 			Device dev = myDeviceList.get(arg1);
 			if (1 == dev.getChannelList().size()) {// 1个通道直接播放
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				// String devJsonString = Device.listToString(myDeviceList);
+				String devJsonString = Device.listToString(myDeviceList);
 				// [Neo] no need to do this
 				// intentPlay.putExtra("DeviceList", devJsonString);
+				intentPlay.putExtra("PlayFlag", Consts.PLAY_DEMO);
+				MySharedPreference.putString(Consts.KEY_PLAY_NORMAL,
+						devJsonString);
 				intentPlay.putExtra("DeviceIndex", arg1);
 				intentPlay.putExtra("ChannelIndex", dev.getChannelList()
 						.toList().get(0).getChannel());

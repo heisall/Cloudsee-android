@@ -35,10 +35,10 @@
                 android:src="@drawable/login_3" />
 
             <EditText
-                android:layout_centerVertical="true"
                 android:id="@+id/username_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/user_icon"
                 android:background="@color/transparent"

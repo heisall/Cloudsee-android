@@ -147,73 +147,49 @@ public class JVRemoteSettingActivity extends BaseActivity {
 						dataObj = dataArray.getJSONObject(0);
 
 						switch (dataObj.getInt("flag")) {
-						// case JVNetConst.JVN_REMOTE_SETTING: {
-						// //
-						// 文本数据--[{"flag":1,"msg":"CONFIG_VER=1;[ALL];YSTID=52942216;YSTGROUP=83;YSTSTATUS=1;nTimeFormat=0;MobileCH=2;Version=V1.1.0.341;DevName=HD IPC;nLanguage=0;nPosition=0;SN=19711;bSntp=0;sntpInterval=24;ntpServer=ntp.fudan.edu.cn;PhoneServer=0;viWidth=1280;viHeight=720;maxFramerate=30;YSTPort=9101;WebServer=0;WebPort=80;nAlarmDelay=10;acMailSender=ipcmail@163.com;acSMTPServer=smtp.163.com;acSMTPUser=ipcmail;acSMTPPasswd=ipcam71a;acReceiver0=;acReceiver1=;acReceiver2=;acReceiver3=;acSMTPPort=25;acSMTPCrypto=;GpioAlarmMode=0;WebSrvPort=80;bOnvif=1;OnvifPort=8099;alarmSrvAddr=120.192.19.4;alarmSrvPort=7070;alarmSrvType=0;ETH_GW=192.168.15.1;ETH_IP=192.168.15.4;ETH_NM=255.255.255.0;ACTIVED=0;bDHCP=1;ETH_DNS=202.102.128.68;ETH_MAC=e0:62:90:c1:18:d6;WIFI_IP=0.0.0.0;WIFI_GW=0.0.0.0;WIFI_NM=0.0.0.0;WIFI_DNS=202.102.128.68;WIFI_MAC=00:00:00:00:00:00;WIFI_ID=neiwang-2G;WIFI_PW=0123456789;WIFI_AUTH=4;WIFI_ENC=3;WIFI_Q=80;WIFI_ON=1;YSTID=52942216;YSTGROUP=83;YSTSTATUS=1;DEV_VERSION=1;","type":81}]
-						// break;
-						// }
 						case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
 							MyLog.v(TAG, "AP,WIFI热点请求--" + obj.toString());
-							if (!allStr.equalsIgnoreCase("")) {
-								String[] arrayStr = allStr.split("©");
-								if (null != arrayStr && 0 != arrayStr.length) {
-									for (int i = 0; i < arrayStr.length; i++) {
-										Wifi wifi = new Wifi();
-										if (!arrayStr[i].equalsIgnoreCase("")) {
-											String[] arrayStr1 = arrayStr[i]
-													.split(";");
-
-											if (null != arrayStr1
-													&& 0 != arrayStr1.length) {
-												for (int j = 0; j < arrayStr1.length; j++) {
-
-													if (arrayStr1[j]
-															.contains("=")) {
-														String[] arrayStr2 = arrayStr1[j]
-																.split("=");
-														if (null == wifiList) {
-															wifiList = new ArrayList<Wifi>();
-														}
-														if (arrayStr2[0]
-																.equalsIgnoreCase("wifiUserName")) {
-															if (arrayStr2.length == 2) {
-																wifi.wifiUserName = arrayStr2[1];
-															}
-														} else if (arrayStr2[0]
-																.equalsIgnoreCase("wifiPassWord")) {
-															if (arrayStr2.length == 2) {
-																wifi.wifiPassWord = arrayStr2[1];
-															}
-														} else if (arrayStr2[0]
-																.equalsIgnoreCase("wifiQuality")) {
-															if (arrayStr2.length == 2) {
-																wifi.wifiQuality = Integer
-																		.parseInt(arrayStr2[1]);
-															}
-														} else if (arrayStr2[0]
-																.equalsIgnoreCase("wifiKeyStat")) {
-															if (arrayStr2.length == 2) {
-																wifi.wifiKeyStat = Integer
-																		.parseInt(arrayStr2[1]);
-															}
-														} else if (arrayStr2[0]
-																.equalsIgnoreCase("wifiIestat_iauth")) {
-
-															wifi.wifiAuth = String
-																	.valueOf(arrayStr2[1]);
-														} else if (arrayStr2[0]
-																.equalsIgnoreCase("wifiIestat_ienc")) {
-															wifi.wifiEnc = String
-																	.valueOf(arrayStr2[1]);
-														}
-													}
-												}
-											}
-										}
-										wifiList.add(wifi);
-									}
-								}
+//							
+							
+//							[{"flag":2,"type":81},
+//							 [{"auth":4,"enc":3,"keystat":0,"name":"360WiFi-7F08","pwd":"","quality":69},
+//							  {"auth":4,"enc":2,"keystat":0,"name":"kanq.com.cn","pwd":"","quality":34},
+//							  {"auth":4,"enc":2,"keystat":0,"name":"D-Link-629","pwd":"","quality":94},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"just do IT","pwd":"","quality":90},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"TP-LINK_0006","pwd":"","quality":79},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"360WiFi-A776","pwd":"","quality":24},
+//							  {"auth":3,"enc":3,"keystat":0,"name":"hehe","pwd":"","quality":94},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"TP-LINK123","pwd":"","quality":82},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"dlink繸1悶2膄E況5","pwd":"","quality":92},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"TP-LINK_2.4GHz_FF4EA1","pwd":"","quality":94},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"aily11","pwd":"","quality":94},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"dlink_zy","pwd":"","quality":82},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"NetGear-520","pwd":"","quality":93},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"waiwang-2G","pwd":"","quality":82},
+//							  {"auth":3,"enc":3,"keystat":0,"name":"bjcs-001","pwd":"","quality":90},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"dlink_lw","pwd":"","quality":87},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"jovetech","pwd":"","quality":47},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"neiwang-2G","pwd":"","quality":94},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"droid-2","pwd":"","quality":69},
+//							  {"auth":3,"enc":3,"keystat":0,"name":"Netcore","pwd":"","quality":87},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"IPC-H-2333670","pwd":"","quality":75},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"9-d-link","pwd":"","quality":92},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"4Test","pwd":"","quality":89},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"dlink-DIR-600N","pwd":"","quality":62},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"haha1","pwd":"","quality":5},
+//							  {"auth":4,"enc":2,"keystat":0,"name":"IPC-H-S64983237","pwd":"","quality":3},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"DILNK-LN","pwd":"","quality":50},
+//							  {"auth":4,"enc":3,"keystat":0,"name":"yoho","pwd":"","quality":66},
+//							  {"auth":0,"enc":0,"keystat":-1,"name":"ChinaUnicom","pwd":"","quality":66},
+//							  {"auth":0,"enc":0,"keystat":-1,"name":"HD Smart Display 211","pwd":"","quality":56},
+//							  {"auth":0,"enc":0,"keystat":-1,"name":"DEB9","pwd":"","quality":15}]]
+							
+							
+							if(null != allStr && !allStr.equalsIgnoreCase("")){
+								String wifiStrArray = dataObj.optString("wifi");
+								wifiList = ConfigUtil.genWifiList(wifiStrArray);
 							}
+									
 							wifiListView.completeRefreshing();
 							loadingWifi.setVisibility(View.GONE);
 
@@ -275,8 +251,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		handler.handleMessage(handler.obtainMessage(what, arg1, arg2, obj));
-
+		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 	}
 
 	@SuppressWarnings("deprecation")

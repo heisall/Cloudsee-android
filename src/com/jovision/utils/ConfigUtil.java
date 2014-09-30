@@ -2,6 +2,7 @@ package com.jovision.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -22,6 +23,9 @@ import javax.mail.internet.MimeMultipart;
 
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -44,6 +48,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.MainApplication;
+import com.jovision.bean.Wifi;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -641,6 +646,39 @@ public class ConfigUtil {
 			map.put(matcher.group(1), matcher.group(2));
 		}
 		return map;
+	}
+
+	/**
+	 * JSON 数组转成对象列表
+	 * @param msg
+	 * @return
+	 */
+	public static ArrayList<Wifi> genWifiList(String msg) {
+		ArrayList<Wifi> wifiList = new ArrayList<Wifi>();
+		JSONArray array;
+		try {
+			array = new JSONArray(msg);
+			if (null != array && 0 != array.length()) {
+				int length = array.length();
+
+				for (int i = 0; i < length; i++) {
+					Wifi wifi = new Wifi();
+					JSONObject obj = (JSONObject) array.get(i);
+					wifi.wifiAuth = obj.getString("auth");
+					wifi.wifiEnc = obj.getString("enc");
+					wifi.wifiKeyStat = obj.getInt("keystat");
+					wifi.wifiUserName = obj.getString("name");
+					wifi.wifiPassWord = obj.getString("pwd");
+					wifi.wifiQuality = obj.getInt("quality");
+					wifiList.add(wifi);
+				}
+
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return wifiList;
 	}
 
 }

@@ -27,7 +27,7 @@ public class JVWelcomeActivity extends BaseActivity {
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		handler.handleMessage(handler.obtainMessage(what, arg1, arg2, obj));
+		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 	}
 
 	@Override

@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
-import com.jovision.MainApplication;
 
 /**
  * Fragment 基类
@@ -120,7 +119,6 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 	@Override
 	public void onResume() {
 		super.onResume();
-		((MainApplication) mActivity.getApplication()).setCurrentNotifyer(this);
 	}
 
 	@Override

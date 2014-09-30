@@ -8,7 +8,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,8 +43,8 @@ public class JVFragmentIndicator extends LinearLayout implements
 			R.drawable.icon_message_sel, R.drawable.icon_demo_sel,
 			R.drawable.icon_video_sel, R.drawable.icon_more_sel };
 
-	private static final int COLOR_UNSELECT = Color.argb(100, 0xff, 0xff, 0xff);
-	private static final int COLOR_SELECT = Color.WHITE;
+	private static final int COLOR_UNSELECT = R.color.tab_text_color;
+	private static final int COLOR_SELECT = R.color.tab_text_color;
 
 	private JVFragmentIndicator(Context context) {
 		super(context);

@@ -20,6 +20,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.IHandlerLikeNotify;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
 import com.jovision.utils.CacheUtil;
@@ -47,7 +48,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private ArrayList<Fragment> fragments;
 
 	private TextView top_name;
-	
+
 	/** intent传递过来的设备和通道下标 */
 	private int deviceIndex;
 	private ArrayList<Device> manageDeviceList = new ArrayList<Device>();
@@ -66,7 +67,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
 
-		top_name = (TextView)mParent.findViewById(R.id.currentmenu);
+		top_name = (TextView) mParent.findViewById(R.id.currentmenu);
 		top_name.setText(R.string.str_help1_1);
 		rightBtn.setOnClickListener(mOnClickListener);
 
@@ -229,19 +230,14 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		switch (what) {
-		// case Consts.TAB_ONRESUME: {// activity起来后开始加载设备
-		// MyLog.v(TAG, "TAB_ONRESUME");
-		// manageDeviceList = CacheUtil.getDevList();
-		// // 初始化导航
-		// initNav();
-		// // 初始化viewPager
-		// initViewPager();
-		// managePager.setCurrentItem(deviceIndex);
-		// break;
-		// }
-
+		// TODO 以后增加过滤
+		Fragment currentFrag = fragments.get(deviceIndex);
+		if (null != currentFrag) {
+			((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2, obj);
 		}
+
+		// switch (what) {
+		// }
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,6 +26,9 @@ import com.jovision.commons.MyLog;
 public class JVTabActivity extends BaseActivity {
 
 	private static final String TAG = "JVTabActivity";
+
+	public static final int TAB_BACK = 0x21;
+
 	private int currentIndex = 0;// 当前页卡index
 
 	protected NotificationManager mNotifyer;
@@ -80,6 +84,7 @@ public class JVTabActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		MyLog.v("currentNotifyer-2", "" + JVTabActivity.this);
 		MyLog.v(TAG, "TAB_onResume");
 	}
 
@@ -92,8 +97,7 @@ public class JVTabActivity extends BaseActivity {
 	public void onBackPressed() {
 		BaseFragment currentFrag = mFragments[currentIndex];
 		if (null != currentFrag) {
-			((IHandlerLikeNotify) currentFrag).onNotify(Consts.TAB_BACK, 0, 0,
-					null);
+			((IHandlerLikeNotify) currentFrag).onNotify(TAB_BACK, 0, 0, null);
 		}
 		openExitDialog();
 	}
@@ -172,6 +176,7 @@ public class JVTabActivity extends BaseActivity {
 			break;
 		}
 		case Consts.ACCOUNT_OFFLINE: {// 提掉线
+			showTextToast(R.string.str_offline);
 			// TimerTask task = new TimerTask() {
 			// public void run() {
 			// timer = timer - 1;
@@ -182,55 +187,82 @@ public class JVTabActivity extends BaseActivity {
 			// };
 			//
 			// offlineTimer.schedule(task, 0, 1000);
-			AlertDialog alert;
-			AlertDialog.Builder builder = new Builder(
-					JVTabActivity.this.getApplicationContext());
-			builder.setMessage(JVTabActivity.this.getResources().getString(
-					R.string.str_offline));
-			builder.setTitle(JVTabActivity.this.getResources().getString(
-					R.string.tips)
-					+ "  " + String.valueOf(timer));
-			builder.setPositiveButton(R.string.str_offline_exit,
-					new DialogInterface.OnClickListener() {
+			// AlertDialog alert;
+			// AlertDialog.Builder builder = new Builder(
+			// JVTabActivity.this.getApplicationContext());
+			// builder.setMessage(JVTabActivity.this.getResources().getString(
+			// R.string.str_offline));
+			// builder.setTitle(JVTabActivity.this.getResources().getString(
+			// R.string.tips)
+			// + "  " + String.valueOf(timer));
+			// builder.setPositiveButton(R.string.str_offline_exit,
+			// new DialogInterface.OnClickListener() {
+			//
+			// public void onClick(DialogInterface dialog, int which) {
+			//
+			// }
+			// });
+			// builder.setNegativeButton(R.string.str_offline_keeponline2,
+			// new DialogInterface.OnClickListener() {
+			// public void onClick(DialogInterface dialog, int which) {
+			// // TODO
+			// }
+			// });
+			// alert = builder.create();
+			// alert.getWindow().setType(
+			// WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+			// alert.setCancelable(false);
+			// alert.show();
 
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("是否接受文件?")
+					.setPositiveButton("是",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+
+								}
+							}).setNegativeButton("否", new OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int which) {
-
 						}
 					});
-			builder.setNegativeButton(R.string.str_offline_keeponline2,
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO
-						}
-					});
-			alert = builder.create();
-			alert.getWindow().setType(
-					WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-			alert.setCancelable(false);
-			alert.show();
+			AlertDialog ad = builder.create();
+			// ad.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
+			// //系统中关机对话框就是这个属性
+			ad.getWindow()
+					.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+			ad.setCanceledOnTouchOutside(false); // 点击外面区域不会让dialog消失
+			ad.show();
 			break;
 		}
 
 		}
 	}
 
+	// case Consts.CALL_NORMAL_DATA:
+	// case Consts.CALL_CONNECT_CHANGE:
+	// case Consts.CALL_TEXT_DATA:
+
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		BaseFragment currentFrag = mFragments[currentIndex];
+
 		// TODO 增加过滤
 		switch (what) {
-		case Consts.CALL_NORMAL_DATA:
-		case Consts.CALL_CONNECT_CHANGE:
-		case Consts.CALL_TEXT_DATA:
+		case Consts.PUSH_MESSAGE:
+		case Consts.ACCOUNT_TCP_ERROR:
+		case Consts.ACCOUNT_KEEP_ONLINE_FAILED:
+		case Consts.ACCOUNT_OFFLINE:
+			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
+			break;
+		default:
+			BaseFragment currentFrag = mFragments[currentIndex];
 			if (null != currentFrag) {
 				((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
 						obj);
 			}
 			break;
-		default:
-			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
-			break;
-
 		}
 		MyLog.v(TAG, "onNotify");
 	}

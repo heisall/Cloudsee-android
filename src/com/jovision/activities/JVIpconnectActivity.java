@@ -95,7 +95,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			switch (v.getId()) {
 			case R.id.ipconnect_ip:
 				if (isturn) {
-					applyRotation(0,0,-90);  
+					applyRotation(0, 0, -90);
 					isturn = false;
 				}
 				break;

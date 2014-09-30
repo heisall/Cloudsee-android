@@ -78,6 +78,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:onClick="onFlip"
+            android:id="@+id/decodeway"
+            android:textColor="@color/white"
+            android:background="@color/transparent"
             android:text="flip HD/ff" />
     </RelativeLayout>
 

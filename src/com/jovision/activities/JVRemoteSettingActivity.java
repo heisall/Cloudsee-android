@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -94,8 +92,6 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	private String gateWayStr = "";// 默认网关
 	private String dnsStr = "";// 域名服务器
 
-	private ProgressDialog dialog = null;// 进度dialog
-
 	// 无线连接
 	private Button wifiDetail;
 	private LinearLayout wifiFirstLayout;
@@ -140,101 +136,59 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
 				String allStr = obj.toString();
 				try {
-					JSONArray dataArray = new JSONArray(allStr);
-					int size = dataArray.length();
-					JSONObject dataObj = null;
-					if (size > 0) {//
-						dataObj = dataArray.getJSONObject(0);
-
-						switch (dataObj.getInt("flag")) {
-						case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
-							MyLog.v(TAG, "AP,WIFI热点请求--" + obj.toString());
-//							
-							
-//							[{"flag":2,"type":81},
-//							 [{"auth":4,"enc":3,"keystat":0,"name":"360WiFi-7F08","pwd":"","quality":69},
-//							  {"auth":4,"enc":2,"keystat":0,"name":"kanq.com.cn","pwd":"","quality":34},
-//							  {"auth":4,"enc":2,"keystat":0,"name":"D-Link-629","pwd":"","quality":94},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"just do IT","pwd":"","quality":90},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"TP-LINK_0006","pwd":"","quality":79},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"360WiFi-A776","pwd":"","quality":24},
-//							  {"auth":3,"enc":3,"keystat":0,"name":"hehe","pwd":"","quality":94},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"TP-LINK123","pwd":"","quality":82},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"dlink繸1悶2膄E況5","pwd":"","quality":92},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"TP-LINK_2.4GHz_FF4EA1","pwd":"","quality":94},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"aily11","pwd":"","quality":94},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"dlink_zy","pwd":"","quality":82},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"NetGear-520","pwd":"","quality":93},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"waiwang-2G","pwd":"","quality":82},
-//							  {"auth":3,"enc":3,"keystat":0,"name":"bjcs-001","pwd":"","quality":90},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"dlink_lw","pwd":"","quality":87},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"jovetech","pwd":"","quality":47},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"neiwang-2G","pwd":"","quality":94},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"droid-2","pwd":"","quality":69},
-//							  {"auth":3,"enc":3,"keystat":0,"name":"Netcore","pwd":"","quality":87},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"IPC-H-2333670","pwd":"","quality":75},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"9-d-link","pwd":"","quality":92},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"4Test","pwd":"","quality":89},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"dlink-DIR-600N","pwd":"","quality":62},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"haha1","pwd":"","quality":5},
-//							  {"auth":4,"enc":2,"keystat":0,"name":"IPC-H-S64983237","pwd":"","quality":3},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"DILNK-LN","pwd":"","quality":50},
-//							  {"auth":4,"enc":3,"keystat":0,"name":"yoho","pwd":"","quality":66},
-//							  {"auth":0,"enc":0,"keystat":-1,"name":"ChinaUnicom","pwd":"","quality":66},
-//							  {"auth":0,"enc":0,"keystat":-1,"name":"HD Smart Display 211","pwd":"","quality":56},
-//							  {"auth":0,"enc":0,"keystat":-1,"name":"DEB9","pwd":"","quality":15}]]
-							
-							
-							if(null != allStr && !allStr.equalsIgnoreCase("")){
-								String wifiStrArray = dataObj.optString("wifi");
-								wifiList = ConfigUtil.genWifiList(wifiStrArray);
-							}
-									
-							wifiListView.completeRefreshing();
-							loadingWifi.setVisibility(View.GONE);
-
-							wifiAdapter = new WifiAdapter(
-									JVRemoteSettingActivity.this);
-							wifiAdapter.setData1(wifiList, 1, true);
-							wifiListView.setAdapter(wifiAdapter);
-							wifiListView
-									.setOnItemClickListener(mOnItemClickListener);
-							break;
-						case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
-							MyLog.v(TAG, "码流配置请求--" + obj.toString());
-							setStreamData(allStr);
-
-							// 值为2双码流是家庭安防产品
-							if (null != settingMap.get("MobileCH")
-									&& "2".equalsIgnoreCase(settingMap
-											.get("MobileCH"))) {// 家庭安防
-								// 获取主控配置信息成功后，才发其他请求
-								if (null != settingMap
-										&& settingMap.get("ACTIVED")
-												.equalsIgnoreCase("2")) {// 无线状态不能发
-																			// 无线请求
-
-								} else {// 有线时发送
-										// 获取主控AP信息请求
-									Jni.sendTextData(Consts.CHANNEL_JY,
-											(byte) JVNetConst.JVN_RSP_TEXTDATA,
-											8, JVNetConst.JVN_WIFI_INFO);
-								}
-							}
-							break;
-						case JVNetConst.EX_WIFI_AP_CONFIG:// 11 ---新wifi配置流程
-							break;
-						case JVNetConst.JVN_WIFI_SETTING_SUCCESS:// 4-- wifi配置成功
-							break;
-						case JVNetConst.JVN_WIFI_SETTING_FAILED:// 5--WIFI配置失败
-							break;
-						case JVNetConst.JVN_WIFI_IS_SETTING:// -- 6 正在配置wifi
-
-							break;
-
-						default:
-							break;
+					JSONObject dataObj = new JSONObject(allStr);
+					switch (dataObj.getInt("flag")) {
+					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
+						MyLog.v(TAG, "AP,WIFI热点请求--" + obj.toString());
+						if (null != allStr && !allStr.equalsIgnoreCase("")) {
+							String wifiStrArray = dataObj.optString("wifi");
+							wifiList = ConfigUtil.genWifiList(wifiStrArray);
 						}
+
+						wifiListView.completeRefreshing();
+						loadingWifi.setVisibility(View.GONE);
+
+						wifiAdapter = new WifiAdapter(
+								JVRemoteSettingActivity.this);
+						wifiAdapter.setData1(wifiList, 1, true);
+						wifiListView.setAdapter(wifiAdapter);
+						wifiListView
+								.setOnItemClickListener(mOnItemClickListener);
+						break;
+					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
+						MyLog.v(TAG, "码流配置请求--" + obj.toString());
+						setStreamData(allStr);
+
+						// 值为2双码流是家庭安防产品
+						if (null != settingMap.get("MobileCH")
+								&& "2".equalsIgnoreCase(settingMap
+										.get("MobileCH"))) {// 家庭安防
+							// 获取主控配置信息成功后，才发其他请求
+							if (null != settingMap
+									&& settingMap.get("ACTIVED")
+											.equalsIgnoreCase("2")) {// 无线状态不能发
+																		// 无线请求
+
+							} else {// 有线时发送
+									// 获取主控AP信息请求
+								Jni.sendTextData(Consts.CHANNEL_JY,
+										(byte) JVNetConst.JVN_RSP_TEXTDATA, 8,
+										JVNetConst.JVN_WIFI_INFO);
+							}
+						}
+						break;
+					case JVNetConst.EX_WIFI_AP_CONFIG:// 11 ---新wifi配置流程
+						break;
+					case JVNetConst.JVN_WIFI_SETTING_SUCCESS:// 4-- wifi配置成功
+						break;
+					case JVNetConst.JVN_WIFI_SETTING_FAILED:// 5--WIFI配置失败
+						break;
+					case JVNetConst.JVN_WIFI_IS_SETTING:// -- 6 正在配置wifi
+
+						break;
+
+					default:
+						break;
 					}
 
 				} catch (Exception e) {
@@ -575,7 +529,8 @@ public class JVRemoteSettingActivity extends BaseActivity {
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						goToBack();
+						PlayUtil.disconnectDevice();
+						JVRemoteSettingActivity.this.finish();
 					}
 				} else if (1 == currIndex) { // 无线
 					// 非家庭安防且有ClientPower字段
@@ -596,7 +551,8 @@ public class JVRemoteSettingActivity extends BaseActivity {
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
-							goToBack();
+							PlayUtil.disconnectDevice();
+							JVRemoteSettingActivity.this.finish();
 						} else {
 
 							// 值为2双码流是家庭安防产品
@@ -610,14 +566,6 @@ public class JVRemoteSettingActivity extends BaseActivity {
 								if ("".equalsIgnoreCase(wifiname)) {
 									showTextToast(R.string.str_wifiname_not_null);
 								} else {
-									if (null == dialog) {
-										dialog = new ProgressDialog(
-												JVRemoteSettingActivity.this);
-									}
-									dialog.setMessage(getResources().getString(
-											R.string.str_editing_wifi));
-									dialog.setCancelable(false);
-									dialog.show();
 
 									String auth = "";
 									String enc = "";
@@ -636,14 +584,15 @@ public class JVRemoteSettingActivity extends BaseActivity {
 											wifiname, wifipwd, 2, 9, auth, enc);
 
 								}
-							} else {// 非家庭安防不能修改wifi
-								try {
-									Thread.sleep(200);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-								goToBack();
 							}
+
+							try {
+								Thread.sleep(200);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							PlayUtil.disconnectDevice();
+							JVRemoteSettingActivity.this.finish();
 
 						}
 					}
@@ -704,7 +653,8 @@ public class JVRemoteSettingActivity extends BaseActivity {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					goToBack();
+					PlayUtil.disconnectDevice();
+					JVRemoteSettingActivity.this.finish();
 				}
 				break;
 			case R.id.obtainauto:// 自动获取

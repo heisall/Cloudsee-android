@@ -31,7 +31,6 @@ import com.jovision.Jni;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyLog;
-import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
@@ -44,6 +43,11 @@ import com.jovision.views.RefreshableView.PullToRefreshListener;
  */
 public class JVMyDeviceFragment extends BaseFragment {
 	private String TAG = "MyDeviceFragment";
+
+	private static final int WHAT_SHOW_PRO = 0x01;
+	public static final int DEVICE_GETDATA_SUCCESS = 0x02;// 设备加载成功--
+	public static final int DEVICE_GETDATA_FAILED = 0x03;// 设备加载失败--
+	public static final int DEVICE_NO_DEVICE = 19;// 暂无设备--
 
 	private RefreshableView refreshableView;
 	/** 广告位 */
@@ -86,9 +90,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public static boolean localFlag = false;// 本地登陆标志位
 
 	public static String devicename;
-	
+
 	private TextView top_name;
-	
+
 	private String top_string;
 
 	@Override
@@ -105,10 +109,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 
-		top_name = (TextView)mParent.findViewById(R.id.currentmenu);
+		top_name = (TextView) mParent.findViewById(R.id.currentmenu);
 		top_string = mActivity.getResources().getString(R.string.my_device);
 		top_name.setText(top_string);
-		
+
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 		devicename = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
@@ -175,7 +179,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			myDeviceListView.setAdapter(myDLAdapter);
 			myDLAdapter.notifyDataSetChanged();
 		} else {
-			((BaseActivity) mActivity).createDialog("");
 			GetDevTask task = new GetDevTask();
 			String[] strParams = new String[3];
 			task.execute(strParams);
@@ -280,23 +283,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 		// MyLog.v("TAG",
 		// "onTabAction:what="+what+";arg1="+arg1+";arg2="+arg1+";obj="+obj.toString());
 		switch (what) {
-		// case Consts.TAB_ONRESUME: {// activity起来后开始加载设备
-		// if (!localFlag) {
-		// myDeviceList = CacheUtil.getDevList();
-		// }
-		// if (null == myDeviceList || 0 == myDeviceList.size()) {
-		// ((BaseActivity) mActivity).createDialog("");
-		// GetDevTask task = new GetDevTask();
-		// String[] strParams = new String[3];
-		// task.execute(strParams);
-		// } else {
-		// myDLAdapter.setData(myDeviceList);
-		// myDeviceListView.setAdapter(myDLAdapter);
-		// }
-		//
-		// break;
-		// }
-		case Consts.TAB_BACK: {// tab 返回事件，保存数据
+		case WHAT_SHOW_PRO: {
+			((BaseActivity) mActivity).createDialog("");
+			break;
+		}
+		case JVTabActivity.TAB_BACK: {// tab 返回事件，保存数据
 			CacheUtil.saveDevList(myDeviceList);
 			break;
 		}
@@ -331,21 +322,22 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			break;
 		}
-		case Consts.DEVICE_ITEM_CLICK: {// 设备单击事件
+		case MyDeviceListAdapter.DEVICE_ITEM_CLICK: {// 设备单击事件
 			myDLAdapter.setShowDelete(false);
 			myDLAdapter.notifyDataSetChanged();
 			Device dev = myDeviceList.get(arg1);
 			if (1 == dev.getChannelList().size()) {// 1个通道直接播放
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				String devJsonString = Device.listToString(myDeviceList);
+				// String devJsonString = Device.listToString(myDeviceList);
 				// [Neo] no need to do this
 				// intentPlay.putExtra("DeviceList", devJsonString);
-				intentPlay.putExtra("PlayFlag", Consts.PLAY_DEMO);
-				MySharedPreference.putString(Consts.KEY_PLAY_NORMAL,
-						devJsonString);
+				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+				// MySharedPreference.putString(Consts.KEY_PLAY_NORMAL,
+				// devJsonString);
 				intentPlay.putExtra("DeviceIndex", arg1);
 				intentPlay.putExtra("ChannelIndex", dev.getChannelList()
 						.toList().get(0).getChannel());
+				// intentPlay.putExtra("DevJsonString", devJsonString);
 				mActivity.startActivity(intentPlay);
 			} else {// 多个通道查看通道列表
 				Intent intentPlay = new Intent(mActivity,
@@ -359,12 +351,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			break;
 		}
-		case Consts.DEVICE_ITEM_LONG_CLICK: {// 设备长按事件
+		case MyDeviceListAdapter.DEVICE_ITEM_LONG_CLICK: {// 设备长按事件
 			myDLAdapter.setShowDelete(true);
 			myDLAdapter.notifyDataSetChanged();
 			break;
 		}
-		case Consts.DEVICE_ITEM_DEL_CLICK: {// 设备删除事件
+		case MyDeviceListAdapter.DEVICE_ITEM_DEL_CLICK: {// 设备删除事件
 			((BaseActivity) mActivity).showTextToast("删除设备--" + arg1);
 			DelDevTask task = new DelDevTask();
 			String[] strParams = new String[3];
@@ -372,7 +364,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			task.execute(strParams);
 			break;
 		}
-		case Consts.DEVICE_EDIT_CLICK: {// 设备编辑事件
+		case MyDeviceListAdapter.DEVICE_EDIT_CLICK: {// 设备编辑事件
 			initSummaryDialog(myDeviceList, arg1);
 		}
 		}
@@ -571,6 +563,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			int getRes = 0;
 			try {
 				if (!localFlag) {// 非本地登录，无论是否刷新都执行
+					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 					// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次
 					myDeviceList = DeviceUtil
 							.getUserDeviceList(mActivity.statusHashMap
@@ -603,11 +596,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 
 				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
-					getRes = Consts.DEVICE_GETDATA_SUCCESS;
+					getRes = DEVICE_GETDATA_SUCCESS;
 				} else if (null != myDeviceList && 0 == myDeviceList.size()) {// 无数据
-					getRes = Consts.DEVICE_NO_DEVICE;
+					getRes = DEVICE_NO_DEVICE;
 				} else {// 获取设备失败
-					getRes = Consts.DEVICE_GETDATA_FAILED;
+					getRes = DEVICE_GETDATA_FAILED;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -626,7 +619,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			((BaseActivity) mActivity).dismissDialog();
 			switch (result) {
 			// 从服务器端获取设备成功
-			case Consts.DEVICE_GETDATA_SUCCESS: {
+			case DEVICE_GETDATA_SUCCESS: {
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 				// 给设备列表设置小助手
 				PlayUtil.setHelperToList(myDeviceList);
@@ -637,7 +630,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				break;
 			}
 			// 从服务器端获取设备成功，但是没有设备
-			case Consts.DEVICE_NO_DEVICE: {
+			case DEVICE_NO_DEVICE: {
 				MyLog.v(TAG, "nonedata-too");
 				myDLAdapter.setData(myDeviceList);
 				myDeviceListView.setAdapter(myDLAdapter);
@@ -645,7 +638,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				break;
 			}
 			// 从服务器端获取设备失败
-			case Consts.DEVICE_GETDATA_FAILED: {
+			case DEVICE_GETDATA_FAILED: {
 				myDLAdapter.setData(myDeviceList);
 				myDeviceListView.setAdapter(myDLAdapter);
 				((BaseActivity) mActivity).dismissDialog();

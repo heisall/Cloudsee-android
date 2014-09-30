@@ -214,6 +214,20 @@ public class JVAddDeviceActivity extends BaseActivity {
 					} else {
 						addRes = DeviceUtil.addDevice(
 								statusHashMap.get("KEY_USERNAME"), addDev);
+						if (0 <= addDev.getChannelList().size()) {
+							if (0 == DeviceUtil.addPoint(addDev.getFullNo(),
+									addDev.getChannelList().size())) {
+								addDev.setChannelList(DeviceUtil
+										.getDevicePointList(addDev,
+												addDev.getFullNo()));
+								addRes = 0;
+							} else {
+								DeviceUtil.unbindDevice(
+										statusHashMap.get(Consts.KEY_USERNAME),
+										addDev.getFullNo());
+								addRes = -1;
+							}
+						}
 					}
 				}
 

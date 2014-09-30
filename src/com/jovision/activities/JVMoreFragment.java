@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.test.JVACCOUNT;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.activities.JVMyDeviceFragment.ModifyDevTask;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
@@ -28,7 +26,6 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
-import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.ListViewUtil;
 import com.jovision.utils.UserUtil;
 
@@ -65,10 +62,10 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.more_suggesr_img, R.drawable.more_remark_img };
 	// 功能名称数组
 	private String[] name;
-	
-    private TextView top_name;
-    
-    public static boolean localFlag = false;// 本地登陆标志位
+
+	private TextView top_name;
+
+	public static boolean localFlag = false;// 本地登陆标志位
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,7 +83,7 @@ public class JVMoreFragment extends BaseFragment {
 		mActivity = (BaseActivity) getActivity();
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
-		top_name = (TextView)mParent.findViewById(R.id.currentmenu);
+		top_name = (TextView) mParent.findViewById(R.id.currentmenu);
 		top_name.setText(R.string.more_featrue);
 	}
 
@@ -218,17 +215,15 @@ public class JVMoreFragment extends BaseFragment {
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
 	}
-	
-	
-	
-	//注销线程
+
+	// 注销线程
 	class LogOutTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
 			int logRes = -1;
 			try {
-				if(!localFlag){
+				if (!localFlag) {
 					AccountUtil.userLogout();
 				}
 				ConfigUtil.logOut();

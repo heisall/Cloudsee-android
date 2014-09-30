@@ -51,9 +51,9 @@ public class JVChannelsActivity extends BaseActivity {
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 
 	private int widthPixels;
-	
+
 	private TextView top_name;
-	
+
 	private String top_string;
 
 	@Override
@@ -86,7 +86,7 @@ public class JVChannelsActivity extends BaseActivity {
 		setContentView(R.layout.channels_layout);
 
 		/** top bar */
-		top_name = (TextView)findViewById(R.id.currentmenu);
+		top_name = (TextView) findViewById(R.id.currentmenu);
 		top_string = getResources().getString(R.string.channal_list);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);

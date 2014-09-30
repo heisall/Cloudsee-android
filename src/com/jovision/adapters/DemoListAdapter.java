@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.bean.DemoBean;
+import com.jovision.bean.Device;
 
 public class DemoListAdapter extends BaseAdapter {
-	private ArrayList<DemoBean> deviceList;
+	private ArrayList<Device> deviceList;
 	private Context mContext;
 	private LayoutInflater inflater;
 	private boolean isclicked;
@@ -25,7 +25,7 @@ public class DemoListAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public void setData(ArrayList<DemoBean> dataList, boolean isclick) {
+	public void setData(ArrayList<Device> dataList, boolean isclick) {
 		isclicked = isclick;
 		deviceList = dataList;
 	}
@@ -79,18 +79,15 @@ public class DemoListAdapter extends BaseAdapter {
 		}
 		if (isclicked) {
 			deviceHolder.demoaddress.setText(deviceList.get(position)
-					.getDemoaddress());
+					.getNickName());
 			deviceHolder.demodevicename.setText(deviceList.get(position)
-					.getDemodevicename());
-			deviceHolder.democlass.setText(deviceList.get(position)
-					.getDemoclass());
-			deviceHolder.demotime.setText(deviceList.get(position)
-					.getDemotime());
+					.getFullNo());
+			deviceHolder.democlass.setText(deviceList.get(position).getUser());
+			deviceHolder.demotime.setText(deviceList.get(position).getPwd());
 		} else {
 			deviceHolder.demoaddress.setText(deviceList.get(position)
-					.getDemoaddress());
-			deviceHolder.demotime.setText(deviceList.get(position)
-					.getDemotime());
+					.getNickName());
+			deviceHolder.demotime.setText(deviceList.get(position).getFullNo());
 		}
 		switch (position % 2) {
 		case 0:

@@ -14,11 +14,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
 import com.jovision.activities.BaseFragment;
 import com.jovision.bean.Device;
 
 public class MyDeviceListAdapter extends BaseAdapter {
+
+	public static final int DEVICE_ITEM_CLICK = 0x10;// 设备单击事件--
+	public static final int DEVICE_ITEM_LONG_CLICK = 0x11;// 设备长按事件--
+	public static final int DEVICE_ITEM_DEL_CLICK = 0x12;// 设备删除按钮事件--
+	public static final int DEVICE_EDIT_CLICK = 0x13;// 设备编辑按钮事件--
+
 	private ArrayList<Device> deviceList;
 	private BaseFragment mfragment;
 	private LayoutInflater inflater;
@@ -168,8 +173,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 					@Override
 					public boolean onLongClick(View arg0) {
-						mfragment.onNotify(Consts.DEVICE_ITEM_LONG_CLICK,
-								position, 0, null);
+						mfragment.onNotify(DEVICE_ITEM_LONG_CLICK, position, 0,
+								null);
 						return false;
 					}
 				});
@@ -188,8 +193,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 					@Override
 					public boolean onLongClick(View arg0) {
-						mfragment.onNotify(Consts.DEVICE_ITEM_LONG_CLICK,
-								position, 0, null);
+						mfragment.onNotify(DEVICE_ITEM_LONG_CLICK, position, 0,
+								null);
 						return false;
 					}
 				});
@@ -222,12 +227,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		@Override
 		public void onClick(View arg0) {
 			if (1 == operate || 2 == operate) {
-				mfragment.onNotify(Consts.DEVICE_ITEM_CLICK, position, 0, null);
+				mfragment.onNotify(DEVICE_ITEM_CLICK, position, 0, null);
 			} else if (3 == operate) {
-				mfragment.onNotify(Consts.DEVICE_ITEM_DEL_CLICK, position, 0,
-						null);
+				mfragment.onNotify(DEVICE_ITEM_DEL_CLICK, position, 0, null);
 			} else if (4 == operate) {
-				mfragment.onNotify(Consts.DEVICE_EDIT_CLICK, position, 0, null);
+				mfragment.onNotify(DEVICE_EDIT_CLICK, position, 0, null);
 			}
 		}
 

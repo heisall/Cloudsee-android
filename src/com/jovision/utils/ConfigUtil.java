@@ -378,9 +378,9 @@ public class ConfigUtil {
 	 */
 	public static void logOut() {
 		Jni.stopSearchLanServer();
-		Jni.enableLinkHelper(false, 3, 0);
-		Jni.deinitAudioEncoder();
-		Jni.deinit();
+		// Jni.enableLinkHelper(false, 3, 0);
+		// Jni.deinitAudioEncoder();
+		// Jni.deinit();
 	}
 
 	/**
@@ -650,6 +650,7 @@ public class ConfigUtil {
 
 	/**
 	 * JSON 数组转成对象列表
+	 * 
 	 * @param msg
 	 * @return
 	 */

@@ -182,6 +182,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 			} else if (JVAccountConst.MESSAGE_OFFLINE == res) {// 提掉线
 
 				if (null != currentNotifyer) {
+					MyLog.v("currentNotifyer-1", "" + currentNotifyer);
 					currentNotifyer
 							.onNotify(Consts.ACCOUNT_OFFLINE, 0, 0, null);
 				}

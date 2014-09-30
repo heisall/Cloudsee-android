@@ -129,7 +129,7 @@ public class DeviceUtil {
 	 */
 	public static MyList<Channel> getDevicePointList(Device parentDevice,
 			String dGuid) {
-		MyList<Channel> pointList = null;
+		MyList<Channel> pointList = new MyList<Channel>();
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
@@ -143,14 +143,13 @@ public class DeviceUtil {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("getDevicePointList", jObj.toString());
+		MyLog.v("getDevicePointList---request", jObj.toString());
 		byte[] resultStr = new byte[1024 * 30];
 		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
 		String result = new String(resultStr);
 
-		MyLog.v("selectDeviceList---error", error + "");
-		MyLog.v("selectDeviceList---result", result);
+		MyLog.v("getDevicePointList---result", result);
 
 		if (null != result && !"".equalsIgnoreCase(result)) {
 			try {

@@ -23,6 +23,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -81,6 +82,9 @@ public class JVPlayActivity extends PlayActivity implements
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
 
 	private int playFlag = -1;
+
+	private boolean isOmx = false;
+	private Button decodeBtn;
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
@@ -157,6 +161,12 @@ public class JVPlayActivity extends PlayActivity implements
 							// object.getDouble("audio_play_delay")
 							);
 					sBuilder.append(msg).append("\n");
+					isOmx = object.getBoolean("is_omx");
+					if (isOmx) {
+						decodeBtn.setText("硬解");
+					} else {
+						decodeBtn.setText("软解");
+					}
 				}
 				linkMode.setText(sBuilder.toString());
 
@@ -410,18 +420,12 @@ public class JVPlayActivity extends PlayActivity implements
 		playFlag = intent.getIntExtra("PlayFlag", 0);
 
 		if (Consts.PLAY_NORMAL == playFlag) {
-			String devJsonString = MySharedPreference
-					.getString(Consts.KEY_PLAY_NORMAL);
-			deviceList = Device.fromJsonArray(devJsonString);
+			deviceList = CacheUtil.getDevList();
 		} else if (Consts.PLAY_DEMO == playFlag) {
 			String devJsonString = MySharedPreference
 					.getString(Consts.KEY_PLAY_DEMO);
 			deviceList = Device.fromJsonArray(devJsonString);
 		}
-
-		// String devJsonString = intent.getStringExtra("DeviceList");
-		// deviceList = Device.fromJsonArray(devJsonString);
-		deviceList = CacheUtil.getDevList();
 
 		// [Neo] precheck
 		if (deviceList.size() < deviceIndex
@@ -432,7 +436,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		// [Neo] TODO 多设备模式
-		boolean multiDeviceMode = false;
+		boolean multiDeviceMode = true;
 
 		startWindowIndex = 0;
 		playChannelList = new ArrayList<Channel>();
@@ -497,6 +501,8 @@ public class JVPlayActivity extends PlayActivity implements
 		currentMenu.setOnClickListener(myOnClickListener);
 		currentMenu.setText(R.string.str_video_play);
 		selectScreenNum.setVisibility(View.VISIBLE);
+		linkMode.setVisibility(View.GONE);
+		decodeBtn = (Button) findViewById(R.id.decodeway);
 
 		/** 中 */
 		viewPager.setVisibility(View.VISIBLE);
@@ -1330,7 +1336,10 @@ public class JVPlayActivity extends PlayActivity implements
 		stopAll(currentIndex, manager.getChannel(currentIndex));
 		manager.pauseAll();
 		PlayUtil.pauseAll(manager.getValidChannelList(currentPage));
-		CacheUtil.saveDevList(deviceList);
+
+		if (Consts.PLAY_NORMAL == playFlag) {
+			CacheUtil.saveDevList(deviceList);
+		}
 	}
 
 	@Override

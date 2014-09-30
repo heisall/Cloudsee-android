@@ -119,23 +119,23 @@ public class Consts {
 	public static final int GUID_FUNCTION = 0xB4;
 
 	/** tab页 onback */
-	public static final int TAB_BACK = 1;
+	// public static final int TAB_BACK = 1;
 	/** JVMyDeviceFragmentActivity */
-	public static final int DEVICE_GETDATA_SUCCESS = 2;// 设备加载成功--
-	public static final int DEVICE_GETDATA_FAILED = 3;// 设备加载失败--
-	public static final int DEVICE_ITEM_CLICK = 4;// 设备单击事件--
-	public static final int DEVICE_ITEM_LONG_CLICK = 5;// 设备长按事件--
-	public static final int DEVICE_ITEM_DEL_CLICK = 6;// 设备删除按钮事件--
-	public static final int DEVICE_EDIT_CLICK = 7;// 设备编辑按钮事件--
+	// public static final int DEVICE_GETDATA_SUCCESS = 2;// 设备加载成功--
+	// public static final int DEVICE_GETDATA_FAILED = 3;// 设备加载失败--
+	// public static final int DEVICE_ITEM_CLICK = 4;// 设备单击事件--
+	// public static final int DEVICE_ITEM_LONG_CLICK = 5;// 设备长按事件--
+	// public static final int DEVICE_ITEM_DEL_CLICK = 6;// 设备删除按钮事件--
+	// public static final int DEVICE_EDIT_CLICK = 7;// 设备编辑按钮事件--
 
-	public static final int DEVICE_NO_DEVICE = 19;// 暂无设备--
+	// public static final int DEVICE_NO_DEVICE = 19;// 暂无设备--
 
 	/** ChannelFragment */
-	public static final int CHANNEL_ITEM_CLICK = 20;// 通道单击事件--
-	public static final int CHANNEL_ITEM_LONG_CLICK = 21;// 通道长按事件--
-	public static final int CHANNEL_ITEM_DEL_CLICK = 22;// 通道删除按钮事件--
-	public static final int CHANNEL_ADD_CLICK = 23;// 通道添加事件--
-	public static final int CHANNEL_EDIT_CLICK = 24;// 通道删除按钮事件--
+	// public static final int CHANNEL_ITEM_CLICK = 20;// 通道单击事件--
+	// public static final int CHANNEL_ITEM_LONG_CLICK = 21;// 通道长按事件--
+	// public static final int CHANNEL_ITEM_DEL_CLICK = 22;// 通道删除按钮事件--
+	// public static final int CHANNEL_ADD_CLICK = 23;// 通道添加事件--
+	// public static final int CHANNEL_EDIT_CLICK = 24;// 通道删除按钮事件--
 
 	/** ChannelFragment onResume */
 	public static final int CHANNEL_FRAGMENT_ONRESUME = 40;// ChannelFragment

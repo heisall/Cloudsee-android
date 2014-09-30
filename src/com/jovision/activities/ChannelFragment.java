@@ -37,7 +37,6 @@ public class ChannelFragment extends BaseFragment {
 
 	private GridView channelGridView;
 	private ChannelAdapter channelAdapter;
-	boolean localFlag = false;
 	/** 弹出框 */
 	private Dialog initDialog;// 显示弹出框
 	private TextView dialogCancel;// 取消按钮
@@ -79,8 +78,6 @@ public class ChannelFragment extends BaseFragment {
 		channelAdapter.setData(device.getChannelList().toList(), widthPixels);
 		channelGridView.setAdapter(channelAdapter);
 
-		localFlag = Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
-				.get(Consts.LOCAL_LOGIN));
 	}
 
 	public ChannelFragment(int devIndex, ArrayList<Device> devList,
@@ -122,7 +119,7 @@ public class ChannelFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case Consts.CHANNEL_ITEM_CLICK: {// 通道单击事件
+		case ChannelAdapter.CHANNEL_ITEM_CLICK: {// 通道单击事件
 			boolean changeRes = channelAdapter.setShowDelete(false);
 			if (changeRes) {
 				channelAdapter.notifyDataSetChanged();
@@ -152,7 +149,7 @@ public class ChannelFragment extends BaseFragment {
 				// [Neo] 应该从文件中重新读取，不需传递
 				// String devJsonString = Device.listToString(deviceList);
 				// intentPlay.putExtra("DeviceList", devJsonString);
-
+				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 				intentPlay.putExtra("DeviceIndex", deviceIndex);
 				// [Neo] 实际上是 int channel
 				intentPlay.putExtra("ChannelIndex", arg1);
@@ -161,12 +158,12 @@ public class ChannelFragment extends BaseFragment {
 			}
 			break;
 		}
-		case Consts.CHANNEL_ITEM_LONG_CLICK: {// 通道长按事件
+		case ChannelAdapter.CHANNEL_ITEM_LONG_CLICK: {// 通道长按事件
 			channelAdapter.setShowDelete(true);
 			channelAdapter.notifyDataSetChanged();
 			break;
 		}
-		case Consts.CHANNEL_ITEM_DEL_CLICK: {// 通道删除事件
+		case ChannelAdapter.CHANNEL_ITEM_DEL_CLICK: {// 通道删除事件
 			DelChannelTask task = new DelChannelTask();
 			String[] strParams = new String[3];
 			strParams[0] = String.valueOf(deviceIndex);// 设备index
@@ -174,7 +171,7 @@ public class ChannelFragment extends BaseFragment {
 			task.execute(strParams);
 			break;
 		}
-		case Consts.CHANNEL_ADD_CLICK: { // 通道添加
+		case ChannelAdapter.CHANNEL_ADD_CLICK: { // 通道添加
 			AddChannelTask task = new AddChannelTask();
 			String[] strParams = new String[3];
 			strParams[0] = String.valueOf(deviceIndex);// 设备index
@@ -182,7 +179,7 @@ public class ChannelFragment extends BaseFragment {
 			task.execute(strParams);
 			break;
 		}
-		case Consts.CHANNEL_EDIT_CLICK: {// 通道编辑
+		case ChannelAdapter.CHANNEL_EDIT_CLICK: {// 通道编辑
 			Channel channel = device.getChannelList().get(arg1);
 			String name = channel.channelName;
 			initSummaryDialog(name, arg1);
@@ -254,9 +251,9 @@ public class ChannelFragment extends BaseFragment {
 			int modDevIndex = Integer.parseInt(params[0]);
 			int modChannelIndex = Integer.parseInt(params[1]);
 			String newName = params[2];
-
 			try {
-				if (localFlag) {// 本地保存更改
+				if (Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {// 本地保存更改
 					modRes = 0;
 				} else {
 					modRes = DeviceUtil.modifyPointName(modDevIndex + "",
@@ -316,7 +313,8 @@ public class ChannelFragment extends BaseFragment {
 			int delChannelIndex = Integer.parseInt(params[1]);
 
 			try {
-				if (localFlag) {// 本地删除
+				if (Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {// 本地删除
 					if (1 == device.getChannelList().size()) {// 删设备
 						device = null;
 						deviceList.remove(delDevIndex);
@@ -397,13 +395,18 @@ public class ChannelFragment extends BaseFragment {
 			int result = -1;
 			int addIndex = Integer.parseInt(params[0]);
 			// int delChannelIndex = Integer.parseInt(params[1]);
-
+			int target = -1;
+			Channel channel = null;
+			MyList<Channel> list = device.getChannelList();
 			try {
-				if (localFlag) {// 本地添加
-					int target = -1;
-					Channel channel = null;
-					MyList<Channel> list = device.getChannelList();
+				if (Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {// 本地添加
+					result = 0;
+				} else {
+					result = DeviceUtil.addPoint(device.getFullNo(), 4);
+				}
 
+				if (0 == result) {
 					for (int i = 0; i < 4; i++) {
 						channel = new Channel();
 						target = list.precheck();
@@ -412,12 +415,23 @@ public class ChannelFragment extends BaseFragment {
 								+ target);
 						list.add(channel);
 					}
-
-					result = 0;
-
-				} else {
-					// [Neo] TODO 服务器
-
+					// TODO 通道添加成功后是否要去服务器端获取
+					// if (Boolean.valueOf(((BaseActivity)
+					// mActivity).statusHashMap
+					// .get(Consts.LOCAL_LOGIN))) {// 本地添加
+					// device.setChannelList(list);
+					// } else {
+					//
+					// MyList<Channel> mList = DeviceUtil.getDevicePointList(
+					// device,
+					// ((BaseActivity) mActivity).statusHashMap
+					// .get("KEY_USERNAME"));
+					// // device.setChannelList(DeviceUtil.getDevicePointList(
+					// // device,
+					// // ((BaseActivity) mActivity).statusHashMap
+					// // .get("KEY_USERNAME")));
+					// }
+					device.setChannelList(list);
 				}
 
 			} catch (Exception e) {

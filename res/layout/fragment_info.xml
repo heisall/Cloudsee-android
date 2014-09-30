@@ -12,7 +12,7 @@
     <TextView
         android:id="@+id/fragment_search_text"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="fragment_search_text"
         android:textSize="18sp" />
 

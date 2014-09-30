@@ -92,15 +92,18 @@
                 android:textColor="@color/leftdevicecolor"
                 android:textSize="16sp" />
         </TableRow>
-
-        <Button
-            android:id="@+id/save_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:text="@string/login_str_save"
-            android:textSize="16sp" />
     </TableLayout>
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/save_bg"
+        android:text="@string/login_str_save"
+        android:textSize="16sp" />
 
 </LinearLayout>

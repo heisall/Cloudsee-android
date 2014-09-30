@@ -38,6 +38,7 @@ public class ManageFragment extends BaseFragment {
 	private GridView manageGridView;
 	private ManageAdapter manageAdapter;
 	boolean localFlag = false;
+	private int isDevice;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -107,7 +108,11 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 2: {// 连接模式
-
+				isDevice = deviceList.get(deviceIndex).getIsDevice();
+				Intent intent = new Intent();
+				intent.putExtra("deviceIndex", deviceIndex);
+				intent.putExtra("isDevice", isDevice);
+				startActivity(new Intent(mActivity, JVIpconnectActivity.class));
 				break;
 			}
 			case 3: {// 通道管理

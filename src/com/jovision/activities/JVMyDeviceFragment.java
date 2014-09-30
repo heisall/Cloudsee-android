@@ -594,7 +594,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				} else if (localFlag) {// 本地登录
 					myDeviceList = CacheUtil.getDevList();
 				}
-
 				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
 					getRes = DEVICE_GETDATA_SUCCESS;
 				} else if (null != myDeviceList && 0 == myDeviceList.size()) {// 无数据

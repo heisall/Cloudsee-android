@@ -33,7 +33,7 @@
             android:text="社会主义"
             android:textColor="#888888"
             android:textSize="14sp" />
-    </RelativeLayout>
+
 
     <ImageView
         android:id="@+id/item_pictrue_clicked"

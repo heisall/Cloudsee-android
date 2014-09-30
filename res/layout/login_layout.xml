@@ -35,6 +35,7 @@
                 android:src="@drawable/login_3" />
 
             <EditText
+                android:layout_centerVertical="true"
                 android:id="@+id/username_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:background="@drawable/more_cancel_bg"
+            android:background="@drawable/login_6"
             android:text="@string/login_str_user_login"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -116,24 +117,24 @@
             android:background="@drawable/login_7" >
 
             <Button
-                android:layout_gravity="center_vertical"
-                android:background="@color/transparent"
                 android:id="@+id/regist_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:textColor="@color/white"
-                android:text="@string/login_str_user_regist" />
+                android:background="@color/transparent"
+                android:text="@string/login_str_user_regist"
+                android:textColor="@color/white" />
 
             <Button
-                android:layout_gravity="center_vertical"
-                android:background="@color/transparent"
                 android:id="@+id/editpass_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:textColor="@color/white"
-                android:text="@string/str_find_pass" />
+                android:background="@color/transparent"
+                android:text="@string/str_find_pass"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <Button
@@ -156,10 +157,10 @@
             android:visibility="visible" >
 
             <TextView
-                android:layout_alignParentRight="true"
                 android:id="@+id/findpass_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:autoLink="web"
                 android:gravity="right"
                 android:text="@string/str_find_pass"
@@ -169,7 +170,6 @@
     </LinearLayout>
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/showpoint_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -179,6 +179,7 @@
         android:paddingTop="2dp"
         android:text="@string/login_str_showpoint"
         android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 </RelativeLayout>

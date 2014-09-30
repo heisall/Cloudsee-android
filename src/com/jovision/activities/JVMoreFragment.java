@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.test.JVACCOUNT;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,12 +20,15 @@ import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.activities.JVMyDeviceFragment.ModifyDevTask;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.ListViewUtil;
 import com.jovision.utils.UserUtil;
 
@@ -62,6 +67,8 @@ public class JVMoreFragment extends BaseFragment {
 	private String[] name;
 	
     private TextView top_name;
+    
+    public static boolean localFlag = false;// 本地登陆标志位
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,6 +84,8 @@ public class JVMoreFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
+		localFlag = Boolean.valueOf(mActivity.statusHashMap
+				.get(Consts.LOCAL_LOGIN));
 		top_name = (TextView)mParent.findViewById(R.id.currentmenu);
 		top_name.setText(R.string.more_featrue);
 	}
@@ -139,15 +148,9 @@ public class JVMoreFragment extends BaseFragment {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.more_cancle:// 注销
-				ConfigUtil.logOut();
-				UserUtil.resetAllUser();
-				MySharedPreference.putString(Consts.DEVICE_LIST, "");
-				MyActivityManager.getActivityManager().popAllActivityExceptOne(
-						JVLoginActivity.class);
-				Intent intent = new Intent();
-				intent.setClass(mActivity, JVLoginActivity.class);
-				mActivity.startActivity(intent);
-				mActivity.finish();
+				LogOutTask task = new LogOutTask();
+				String[] strParams = new String[3];
+				task.execute(strParams);
 				break;
 			case R.id.more_modify:
 
@@ -214,5 +217,56 @@ public class JVMoreFragment extends BaseFragment {
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
+	}
+	
+	
+	
+	//注销线程
+	class LogOutTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int logRes = -1;
+			try {
+				if(!localFlag){
+					AccountUtil.userLogout();
+				}
+				ConfigUtil.logOut();
+				UserUtil.resetAllUser();
+				MySharedPreference.putString(Consts.DEVICE_LIST, "");
+				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return logRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			((BaseActivity) mActivity).dismissDialog();
+			MyActivityManager.getActivityManager().popAllActivityExceptOne(
+					JVLoginActivity.class);
+			Intent intent = new Intent();
+			intent.setClass(mActivity, JVLoginActivity.class);
+			mActivity.startActivity(intent);
+			mActivity.finish();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			((BaseActivity) mActivity).createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
 	}
 }

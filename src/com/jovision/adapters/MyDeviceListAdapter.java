@@ -53,12 +53,17 @@ public class MyDeviceListAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		int count = 0;
-		int last = deviceList.size() % 2;
-		if (0 == last) {
-			count = deviceList.size() / 2;
-		} else {
-			count = deviceList.size() / 2 + 1;
+		try {
+			int last = deviceList.size() % 2;
+			if (0 == last) {
+				count = deviceList.size() / 2;
+			} else {
+				count = deviceList.size() / 2 + 1;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 		return count;
 	}
 

@@ -37,12 +37,12 @@ public class JVFragmentIndicator extends LinearLayout implements
 			"text_tag_2", "text_tag_3", "text_tag_4" };
 
 	private static String[] titleArray;// 5个标题数组
-	private static int[] unSelectedArray = { R.drawable.icon_home_nor,
-			R.drawable.icon_meassage_nor, R.drawable.icon_home_nor,
-			R.drawable.icon_home_nor, R.drawable.icon_more_nor };
+	private static int[] unSelectedArray = { R.drawable.icon_home_sel,
+			R.drawable.icon_message_nor, R.drawable.icon_demo_nor,
+			R.drawable.icon_video_nor, R.drawable.icon_more_nor };
 	private static int[] selectedArray = { R.drawable.icon_home_sel,
-			R.drawable.icon_meassage_sel, R.drawable.icon_home_sel,
-			R.drawable.icon_home_sel, R.drawable.icon_more_sel };
+			R.drawable.icon_message_sel, R.drawable.icon_demo_sel,
+			R.drawable.icon_video_sel, R.drawable.icon_more_sel };
 
 	private static final int COLOR_UNSELECT = Color.argb(100, 0xff, 0xff, 0xff);
 	private static final int COLOR_SELECT = Color.WHITE;
@@ -66,9 +66,6 @@ public class JVFragmentIndicator extends LinearLayout implements
 			String iconTag, String textTag) {
 		RelativeLayout tabLayout = (RelativeLayout) inflater.inflate(
 				R.layout.tab_item, null);
-		FrameLayout infoFrame = (FrameLayout) tabLayout
-				.findViewById(R.id.info_framelayout);
-		infoFrame.setVisibility(View.GONE);
 		ImageView tabIcon = (ImageView) tabLayout.findViewById(R.id.tab_icon);
 		TextView tabTitle = (TextView) tabLayout.findViewById(R.id.tab_title);
 

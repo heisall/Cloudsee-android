@@ -60,6 +60,8 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.more_suggesr_img, R.drawable.more_remark_img };
 	// 功能名称数组
 	private String[] name;
+	
+    private TextView top_name;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,6 +77,8 @@ public class JVMoreFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
+		top_name = (TextView)mParent.findViewById(R.id.currentmenu);
+		top_name.setText(R.string.more_featrue);
 	}
 
 	@Override

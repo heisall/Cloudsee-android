@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -38,7 +39,8 @@ public class JVDemoFragment extends BaseFragment {
 	private Button btn_right;
 	private Button btn_left;
 	private boolean isclicked;
-
+	private TextView top_name;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class JVDemoFragment extends BaseFragment {
 		if (null == demoList || 0 == demoList.size()) {
 			demoList.add(new Device("", 9101, "S", 52942216, "admin", "", true,
 					1, 0));
+			
 			demoList.add(new Device("", 9101, "A", 361, "abc", "123", false, 1,
 					1));
 			demoList.add(new Device("", 9101, "A", 362, "abc", "123", true, 1,
@@ -74,6 +77,8 @@ public class JVDemoFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
+		top_name = (TextView)mParent.findViewById(R.id.currentmenu);
+		top_name.setText(R.string.demo);
 		refreshableView = (RefreshableView) mParent
 				.findViewById(R.id.demo_refreshable_view);
 		btn_left = (Button) mParent.findViewById(R.id.btn_left);

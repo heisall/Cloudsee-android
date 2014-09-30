@@ -95,7 +95,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			switch (v.getId()) {
 			case R.id.ipconnect_ip:
 				if (isturn) {
-					applyRotation(0, -90, 0);
+					applyRotation(0,0,-90);  
 					isturn = false;
 				}
 				break;
@@ -137,7 +137,7 @@ public class JVIpconnectActivity extends BaseActivity {
 		final float centerY = mContainer.getHeight() / 2.0f;
 		final Rotate3dUtil rotation = new Rotate3dUtil(start, end, centerX,
 				centerY, 310.0f, true);
-		rotation.setDuration(500);
+		rotation.setDuration(200);
 		rotation.setFillAfter(true);
 		rotation.setInterpolator(new AccelerateInterpolator());
 		rotation.setAnimationListener(new DisplayNextView(position));
@@ -174,7 +174,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			Rotate3dUtil rotation;
 			rotation = new Rotate3dUtil(270, 360, centerX, centerY, 310.0f,
 					false);
-			rotation.setDuration(500);
+			rotation.setDuration(200);
 			rotation.setFillAfter(true);
 			rotation.setInterpolator(new DecelerateInterpolator());
 			mContainer.startAnimation(rotation);

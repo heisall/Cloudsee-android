@@ -447,7 +447,7 @@ public class JVLoginActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
-
+		dismissDialog();
 	}
 
 	/**

@@ -37,6 +37,7 @@ import com.jovision.bean.Device;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.MobileUtil;
@@ -78,6 +79,8 @@ public class JVPlayActivity extends PlayActivity implements
 	private int channelIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
+
+	private int playFlag = -1;
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
@@ -404,6 +407,17 @@ public class JVPlayActivity extends PlayActivity implements
 		Intent intent = getIntent();
 		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
 		channelIndex = intent.getIntExtra("ChannelIndex", 0);
+		playFlag = intent.getIntExtra("PlayFlag", 0);
+
+		if (Consts.PLAY_NORMAL == playFlag) {
+			String devJsonString = MySharedPreference
+					.getString(Consts.KEY_PLAY_NORMAL);
+			deviceList = Device.fromJsonArray(devJsonString);
+		} else if (Consts.PLAY_DEMO == playFlag) {
+			String devJsonString = MySharedPreference
+					.getString(Consts.KEY_PLAY_DEMO);
+			deviceList = Device.fromJsonArray(devJsonString);
+		}
 
 		// String devJsonString = intent.getStringExtra("DeviceList");
 		// deviceList = Device.fromJsonArray(devJsonString);

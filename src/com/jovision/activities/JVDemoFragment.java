@@ -15,9 +15,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.adapters.DemoListAdapter;
 import com.jovision.bean.DemoBean;
 import com.jovision.bean.Device;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.views.RefreshableView;
 import com.jovision.views.RefreshableView.PullToRefreshListener;
 
@@ -44,14 +46,14 @@ public class JVDemoFragment extends BaseFragment {
 			Bundle savedInstanceState) {
 
 		if (null == demoList || 0 == demoList.size()) {
-			demoList.add(new Device("", 9101, "S", 53530352, "admin", "123",
-					true, 1, 0));
+			demoList.add(new Device("", 9101, "S", 52942216, "admin", "", true,
+					1, 0));
 
 			demoList.add(new Device("", 9101, "A", 361, "abc", "123", false, 1,
 					1));
-			demoList.add(new Device("", 9101, "S", 26680286, "admin", "123",
-					true, 1, 2));
-			demoList.add(new Device("", 9101, "S", 52942216, "admin", "123",
+			demoList.add(new Device("", 9101, "A", 362, "abc", "123", true, 1,
+					2));
+			demoList.add(new Device("", 9101, "S", 52942216, "admin", "",
 					false, 1, 3));
 			dataList.add(new DemoBean("S53530352", "山师附中幼儿园", "小三班-9室",
 					"2014年09月"));
@@ -143,12 +145,14 @@ public class JVDemoFragment extends BaseFragment {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-
+			Device dev = demoList.get(arg2);
 			String devJsonString = Device.listToString(demoList);
 			Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-			intentPlay.putExtra("DeviceList", devJsonString);
 			intentPlay.putExtra("DeviceIndex", arg2);
-			intentPlay.putExtra("ChannelIndex", 0);
+			intentPlay.putExtra("ChannelIndex", dev.getChannelList().toList()
+					.get(0).getChannel());
+			intentPlay.putExtra("PlayFlag", Consts.PLAY_DEMO);
+			MySharedPreference.putString(Consts.KEY_PLAY_DEMO, devJsonString);
 			mActivity.startActivity(intentPlay);
 
 		}
@@ -158,10 +162,6 @@ public class JVDemoFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		// case Consts.TAB_ONRESUME: {// activity起来后开始加载设备
-		//
-		// break;
-		// }
 		}
 	}
 

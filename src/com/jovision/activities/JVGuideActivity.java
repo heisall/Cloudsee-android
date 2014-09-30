@@ -21,10 +21,11 @@ import com.jovision.views.GuidViewPager;
 
 public class JVGuideActivity extends BaseActivity {
 
-	private int[] imgIdArray = { R.drawable.guide0, R.drawable.guide1,
-			R.drawable.guide2, R.drawable.guide3 };
-	private int[] imgIDArrayEn = { R.drawable.guide0_en, R.drawable.guide1_en,
-			R.drawable.guide2_en, R.drawable.guide3_en };
+	private int[] imgIdArray = { R.drawable.guide1, R.drawable.guide2,
+			R.drawable.guide3, R.drawable.guide4 };
+	private int[] imgIDArrayEn = { R.drawable.guide1, R.drawable.guide2,
+			R.drawable.guide3, R.drawable.guide4 };
+
 	private int[] imageArray = null;
 	private Button startBtn;
 	// private int arrayFlag = 1;// 图片数组标志位
@@ -45,7 +46,6 @@ public class JVGuideActivity extends BaseActivity {
 		} else {
 			imageArray = imgIDArrayEn;
 		}
-
 	}
 
 	@Override

@@ -257,16 +257,14 @@ public class ChannelFragment extends BaseFragment {
 
 			try {
 				if (localFlag) {// 本地保存更改
-					device.getChannelList().get(modChannelIndex)
-							.setChannelName(newName);
 					modRes = 0;
 				} else {
 					modRes = DeviceUtil.modifyPointName(modDevIndex + "",
 							modChannelIndex, newName);
 				}
 				if (0 == modRes) {
-					// [Neo] TODO 修改通道还是设备
-					// device.setNickName(newName);
+					device.getChannelList().get(modChannelIndex)
+							.setChannelName(newName);
 				}
 
 			} catch (Exception e) {

@@ -90,6 +90,11 @@ public class JVTabActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
+		BaseFragment currentFrag = mFragments[currentIndex];
+		if (null != currentFrag) {
+			((IHandlerLikeNotify) currentFrag).onNotify(Consts.TAB_BACK, 0, 0,
+					null);
+		}
 		openExitDialog();
 	}
 

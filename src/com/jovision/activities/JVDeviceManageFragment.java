@@ -20,10 +20,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
-import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 
 /**
@@ -49,7 +47,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private ArrayList<Fragment> fragments;
 
 	private TextView top_name;
-	
+
 	/** intent传递过来的设备和通道下标 */
 	private int deviceIndex;
 	private ArrayList<Device> manageDeviceList = new ArrayList<Device>();
@@ -68,7 +66,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
 
-		top_name = (TextView)mParent.findViewById(R.id.currentmenu);
+		top_name = (TextView) mParent.findViewById(R.id.currentmenu);
 		top_name.setText(R.string.str_help1_1);
 		rightBtn.setOnClickListener(mOnClickListener);
 

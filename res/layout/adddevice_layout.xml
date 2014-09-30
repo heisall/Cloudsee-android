@@ -33,11 +33,11 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:background="@drawable/shuru"
                 android:paddingLeft="10dp"
                 android:text=""
                 android:textColor="@color/leftdevicecolor"
                 android:textSize="16sp"
-                android:background="@drawable/shuru"
                 android:textStyle="normal" />
         </TableRow>
 
@@ -59,11 +59,11 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:background="@drawable/shuru"
                 android:inputType="textVisiblePassword"
                 android:paddingLeft="10dp"
                 android:text="abc"
                 android:textColor="@color/leftdevicecolor"
-                android:background="@drawable/shuru"
                 android:textSize="16sp" />
         </TableRow>
 
@@ -85,23 +85,25 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:background="@drawable/shuru"
                 android:paddingLeft="10dp"
                 android:password="true"
                 android:text="123"
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="16sp" 
-                android:background="@drawable/shuru"
-                />
+                android:textSize="16sp" />
         </TableRow>
-
-        <Button
-            android:id="@+id/save_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:text="@string/login_str_save"
-            android:textSize="16sp" />
     </TableLayout>
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/save_bg"
+        android:text="@string/login_str_save"
+        android:textSize="16sp" />
 
 </LinearLayout>

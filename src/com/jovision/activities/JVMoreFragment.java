@@ -2,8 +2,6 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
-import javax.security.auth.PrivateCredentialPermission;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +22,6 @@ import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyActivityManager;
-import com.jovision.commons.MyList;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ListViewUtil;
@@ -63,8 +60,8 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.more_suggesr_img, R.drawable.more_remark_img };
 	// 功能名称数组
 	private String[] name;
-	
-    private TextView top_name;
+
+	private TextView top_name;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,7 +77,7 @@ public class JVMoreFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
-		top_name = (TextView)mParent.findViewById(R.id.currentmenu);
+		top_name = (TextView) mParent.findViewById(R.id.currentmenu);
 		top_name.setText(R.string.more_featrue);
 	}
 
@@ -94,7 +91,8 @@ public class JVMoreFragment extends BaseFragment {
 		activity = getActivity();
 		name = activity.getResources().getStringArray(R.array.name);
 		if (JVMyDeviceFragment.localFlag) {
-			more_name = activity.getResources().getString(R.string.location_login);
+			more_name = activity.getResources().getString(
+					R.string.location_login);
 		} else {
 			more_name = JVMyDeviceFragment.devicename;
 		}
@@ -190,8 +188,8 @@ public class JVMoreFragment extends BaseFragment {
 									Toast.LENGTH_SHORT).show();
 							break;
 						case 4:
-							activity.startActivity(new Intent(activity,
-									JVIpconnectActivity.class));
+							Toast.makeText(activity, "点击成功4",
+									Toast.LENGTH_SHORT).show();
 							break;
 						case 5:
 							activity.startActivity(new Intent(activity,

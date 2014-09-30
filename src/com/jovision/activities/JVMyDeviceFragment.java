@@ -85,10 +85,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public static boolean localFlag = false;// 本地登陆标志位
 
 	public static String devicename;
-	
+
 	private TextView top_name;
-	
-	private String top_string;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,10 +102,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 
-		top_name = (TextView)mParent.findViewById(R.id.currentmenu);
-		top_string = mActivity.getResources().getString(R.string.my_device);
-		top_name.setText(top_string);
-		
+		top_name = (TextView) mParent.findViewById(R.id.currentmenu);
+		top_name.setText(R.string.my_device);
+
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 		devicename = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
@@ -593,7 +590,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				} else if (localFlag) {// 本地登录
 					myDeviceList = CacheUtil.getDevList();
 				}
-
 				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
 					getRes = Consts.DEVICE_GETDATA_SUCCESS;
 				} else if (null != myDeviceList && 0 == myDeviceList.size()) {// 无数据

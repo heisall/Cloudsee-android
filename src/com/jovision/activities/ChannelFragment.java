@@ -21,7 +21,6 @@ import com.jovision.adapters.ChannelAdapter;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
-import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
 

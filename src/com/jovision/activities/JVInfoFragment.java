@@ -12,11 +12,10 @@ import com.jovetech.CloudSee.temp.R;
  * 消息
  */
 
-
 public class JVInfoFragment extends BaseFragment {
 
 	private TextView top_name;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -29,10 +28,10 @@ public class JVInfoFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
-		
-		top_name = (TextView)mParent.findViewById(R.id.currentmenu);
+
+		top_name = (TextView) mParent.findViewById(R.id.currentmenu);
 		top_name.setText(R.string.message);
-		
+
 	}
 
 	private void backHomeFragment() {

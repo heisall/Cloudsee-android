@@ -413,13 +413,6 @@
     <string name="login_str_port_format_err">Wrong Port number</string>
     <string name="login_str_ip_adress_notnull">Please input IP.</string>
     <string name="str_shake_scene_pic_tips">Scene picture function can\'t be used for there is no SD card in your mobile phone</string>
-    <!-- JVFeedbackActivity -->
-    <string name="str_notice_content">Please input your problems or suggestion.</string>
-    <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>
-    <string name="str_idea_and_feedback">Feedback</string>
-    <string name="str_commit">Send</string>
-    <string name="str_commit_success">Thanks for your feedback, we shall work more to provide better service.</string>
-    <string name="str_ok">Ok</string>
 
     <!-- 2.3系统视频播放提示 -->
     <string name="system_lower">您的手机系统是Android$,视频播放时有可能出现花屏，为达到最佳播放效果，建议下载2.8.5版本，是否立即下载?</string>
@@ -436,6 +429,32 @@
     <string name="updated_at">上次更新于%1$s前</string>
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
+
+    <!-- JVMyDeviceFragment -->
+    <string name="del_device_succ">Device deleted successfully</string>
+    <string name="del_device_failed">Device deleted failed</string>
+
+    <!-- JVAddDeviceActivity -->
+    <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
+    <string name="add_device_succ">Device added successfully</string>
+    <string name="add_device_failed">Failed to add device</string>
+
+    <!-- ChannelFragment -->
+    <string name="channel_name">Channel ?</string>
+    <string name="del_channel_succ">Channel deleted successfully</string>
+    <string name="del_channel_failed">Channel deleted failed</string>
+    <string name="add_channel_succ">Channel added successfully</string>
+    <string name="add_channel_failed">Channel added failed</string>
+    <string name="channel_full">Fail to add due to upto limition of Device channel quantity.</string>
+
+    <!-- JVFeedbackActivity -->
+    <string name="str_notice_content">Please input your problems or suggestion.</string>
+    <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>
+    <string name="str_idea_and_feedback">Feedback</string>
+    <string name="str_commit">Send</string>
+    <string name="str_commit_success">Thanks for your feedback, we shall work more to provide better service.</string>
+    <string name="str_ok">OK</string>
+    <string name="str_check_now">立即查看</string>
 
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">Manual recording</string>

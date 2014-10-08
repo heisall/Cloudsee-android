@@ -117,7 +117,10 @@ public class ChannelAdapter extends BaseAdapter {
 			}
 
 			final int channel = channelList.get(position).getChannel();
-			channelHolder.channelName.setText(String.valueOf(channel));
+			String name = mfragment.getActivity().getResources()
+					.getString(R.string.channel_name);
+			channelHolder.channelName.setText(name.replace("?",
+					String.valueOf(channel + 1)));
 
 			channelHolder.channelBG
 					.setBackgroundResource(channelResArray[channel % 8]);

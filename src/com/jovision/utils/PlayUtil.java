@@ -427,28 +427,64 @@ public class PlayUtil {
 	/**
 	 * 给设备列表添加小助手
 	 * 
-	 * @param device
+	 * @param deviceList
 	 */
 	public static void setHelperToList(ArrayList<Device> deviceList) {
 
 		JSONArray array = new JSONArray();
 		JSONObject object = null;
-
 		for (Device device : deviceList) {
+			if (!hasEnableHelper(device.getFullNo())) {
+				try {
+					object = new JSONObject();
+					object.put("gid", device.getGid());
+					object.put("no", device.getNo());
+					object.put("channel", 1);
+					object.put("name", device.getUser());
+					object.put("pwd", device.getPwd());
+					array.put(object);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		if (!"".equalsIgnoreCase(array.toString())) {
+			Jni.setLinkHelper(array.toString());
+		}
+
+	}
+
+	/**
+	 * 获取小助手是否已设置状态
+	 * 
+	 * @param deviceNum
+	 * @return
+	 */
+	public static boolean hasEnableHelper(String deviceNum) {
+		boolean isEnable = false;
+
+		String allStr = Jni.getAllDeviceStatus();
+		if (null != allStr && !"".equalsIgnoreCase(allStr)) {
 			try {
-				object = new JSONObject();
-				object.put("gid", device.getGid());
-				object.put("no", device.getNo());
-				object.put("channel", 1);
-				object.put("name", device.getUser());
-				object.put("pwd", device.getPwd());
-				array.put(object);
+				JSONArray devArray = new JSONArray(allStr);
+				if (null != devArray) {
+					int length = devArray.length();
+					for (int i = 0; i < length; i++) {
+						JSONObject obj = devArray.getJSONObject(i);
+						if (deviceNum.equalsIgnoreCase(obj.getString("cno"))) {
+							isEnable = obj.getBoolean("enable");
+							break;
+						}
+					}
+				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
+		MyLog.v(TAG, deviceNum + "--小助手状态--" + isEnable);
 
-		Jni.setLinkHelper(array.toString());
+		return isEnable;
 	}
 
 	/**
@@ -732,6 +768,26 @@ public class PlayUtil {
 		// } catch (Exception e) {
 		// e.printStackTrace();
 		// }
+	}
+
+	public static void prepareConnect(ArrayList<Device> deviceList,
+			int deviceIndex) {
+		boolean multiDeviceMode = true;
+		ArrayList<Channel> clist = new ArrayList<Channel>();
+
+		if (multiDeviceMode) {
+			for (Device device : deviceList) {
+				clist.addAll(device.getChannelList().toList());
+			}
+		} else {
+			clist.addAll(deviceList.get(deviceIndex).getChannelList().toList());
+		}
+
+		int size = clist.size();
+		for (int i = 0; i < size; i++) {
+			// [Neo] 循环利用播放数组，我 tm 就是个天才
+			clist.get(i).setIndex(i % Consts.MAX_CHANNEL_CONNECTION);
+		}
 	}
 
 	/**

@@ -482,16 +482,24 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
 
 		@Override
 		protected Integer doInBackground(Void... params) {
-			int topMargin = headerLayoutParams.topMargin;
-			while (true) {
-				topMargin = topMargin + SCROLL_SPEED;
-				if (topMargin <= hideHeaderHeight) {
-					topMargin = hideHeaderHeight;
-					break;
+			int topMargin = 0;
+			try {
+				if (null != headerLayoutParams) {
+					topMargin = headerLayoutParams.topMargin;
+					while (true) {
+						topMargin = topMargin + SCROLL_SPEED;
+						if (topMargin <= hideHeaderHeight) {
+							topMargin = hideHeaderHeight;
+							break;
+						}
+						publishProgress(topMargin);
+						sleep(10);
+					}
 				}
-				publishProgress(topMargin);
-				sleep(10);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+
 			return topMargin;
 		}
 

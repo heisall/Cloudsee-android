@@ -32,6 +32,8 @@ public class JVRemoteListActivity extends BaseActivity {
 	private final String TAG = "JV_RemoteList";
 	private Button back;
 	private TextView currentMenu;
+	private Button rightFunc;
+
 	private EditText selectDate;// 选择的日期
 	private ImageView moreData;// 下三角
 	private Button search;// 检索
@@ -132,7 +134,10 @@ public class JVRemoteListActivity extends BaseActivity {
 		setContentView(R.layout.remoteplayback_layout);
 
 		back = (Button) findViewById(R.id.btn_left);
+		rightFunc = (Button) findViewById(R.id.btn_right);
 		back.setVisibility(View.VISIBLE);
+		rightFunc.setVisibility(View.GONE);
+
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.str_remote_playback);
 		selectDate = (EditText) findViewById(R.id.datetext);

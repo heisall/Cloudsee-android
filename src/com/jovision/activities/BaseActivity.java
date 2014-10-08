@@ -276,6 +276,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	 * 退出程序方法
 	 */
 	protected void openExitDialog() {
+		// http://www.jb51.net/article/32031.htm
 		AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
 
 		builder.setTitle(R.string.tips);

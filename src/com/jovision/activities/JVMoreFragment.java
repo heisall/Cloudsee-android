@@ -96,11 +96,11 @@ public class JVMoreFragment extends BaseFragment {
 	private void intiUi(View view) {
 		activity = getActivity();
 		name = activity.getResources().getStringArray(R.array.name);
-		if (JVMyDeviceFragment.localFlag) {
+		if (Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {
 			more_name = activity.getResources().getString(
 					R.string.location_login);
 		} else {
-			more_name = JVMyDeviceFragment.devicename;
+			more_name = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
 		}
 		initDatalist();
 		more_cancle = (RelativeLayout) view.findViewById(R.id.more_cancle);

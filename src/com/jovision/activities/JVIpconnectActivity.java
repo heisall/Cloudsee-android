@@ -19,6 +19,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.bean.Device;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
@@ -97,11 +98,11 @@ public class JVIpconnectActivity extends BaseActivity {
 
 		deviceIndex = JVDeviceManageFragment.deviceIndex;
 		isDevice = getIntent().getIntExtra("isDevice", 0);
-		if (JVMyDeviceFragment.localFlag) {
+		if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
 			deviceList = CacheUtil.getDevList();
 		} else {
-			deviceList = DeviceUtil
-					.getUserDeviceList(JVMyDeviceFragment.devicename);
+			deviceList = DeviceUtil.getUserDeviceList(statusHashMap
+					.get(Consts.KEY_USERNAME));
 		}
 		device = deviceList.get(deviceIndex);
 		deviceedit = new Device();
@@ -251,7 +252,8 @@ public class JVIpconnectActivity extends BaseActivity {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_device_pass_notnull);
 					} else {
-						if (!JVMyDeviceFragment.localFlag) {
+						if (!Boolean.valueOf(statusHashMap
+								.get(Consts.LOCAL_LOGIN))) {
 							deviceedit.setIp(getInetAddress(ipString));
 							deviceedit.setPort(Integer.valueOf(portString));
 							deviceedit.setUser(userString);
@@ -260,7 +262,7 @@ public class JVIpconnectActivity extends BaseActivity {
 								deviceedit.setIsDevice(1);
 							}
 							DeviceUtil.editDeviceConnType(deviceedit,
-									JVMyDeviceFragment.devicename);
+									statusHashMap.get(Consts.KEY_USERNAME));
 						} else {
 							deviceList.get(deviceIndex).setIp(
 									getInetAddress(ipString));
@@ -283,13 +285,14 @@ public class JVIpconnectActivity extends BaseActivity {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_device_pass_notnull);
 					} else {
-						if (!JVMyDeviceFragment.localFlag) {
+						if (!Boolean.valueOf(statusHashMap
+								.get(Consts.LOCAL_LOGIN))) {
 							deviceedit.setIp("");
 							deviceedit.setPort(0);
 							deviceedit.setUser(userString);
 							deviceedit.setPwd(pwdString);
 							DeviceUtil.editDeviceConnType(deviceedit,
-									JVMyDeviceFragment.devicename);
+									statusHashMap.get(Consts.KEY_USERNAME));
 						} else {
 							deviceList.get(deviceIndex).setIp("");
 							deviceList.get(deviceIndex).setPort(0);

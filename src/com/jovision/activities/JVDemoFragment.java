@@ -17,6 +17,7 @@ import com.jovision.Consts;
 import com.jovision.adapters.DemoListAdapter;
 import com.jovision.bean.Device;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.PlayUtil;
 import com.jovision.views.RefreshableView;
 import com.jovision.views.RefreshableView.PullToRefreshListener;
 
@@ -104,9 +105,10 @@ public class JVDemoFragment extends BaseFragment {
 				long arg3) {
 
 			Device dev = demoList.get(arg2);
-			mActivity.showTextToast("arg2=" + arg2 + ";dev=" + dev.getFullNo());
+			// mActivity.showTextToast("arg2=" + arg2 + ";dev=" +
+			// dev.getFullNo());
+			PlayUtil.prepareConnect(demoList, arg2);
 			String devJsonString = Device.listToString(demoList);
-
 			Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 			intentPlay.putExtra("DeviceIndex", arg2);
 			intentPlay.putExtra("ChannelIndex", dev.getChannelList().toList()

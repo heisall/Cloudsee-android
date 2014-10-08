@@ -27,11 +27,11 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.Jni;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.ImageViewPager;
@@ -44,10 +44,14 @@ import com.jovision.views.RefreshableView.PullToRefreshListener;
 public class JVMyDeviceFragment extends BaseFragment {
 	private String TAG = "MyDeviceFragment";
 
-	private static final int WHAT_SHOW_PRO = 0x01;
+	private static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
 	public static final int DEVICE_GETDATA_SUCCESS = 0x02;// 设备加载成功--
 	public static final int DEVICE_GETDATA_FAILED = 0x03;// 设备加载失败--
-	public static final int DEVICE_NO_DEVICE = 19;// 暂无设备--
+	public static final int DEVICE_NO_DEVICE = 0x04;// 暂无设备--
+
+	public static final int BROAD_DEVICE_LIST = 0x05;// 广播设备列表--
+	public static final int BROAD_ADD_DEVICE = 0x06;// 添加设备的广播--
+	public static final int BROAD_THREE_MINITE = 0x07;// 三分钟广播--
 
 	private RefreshableView refreshableView;
 	/** 广告位 */
@@ -87,13 +91,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private Timer broadTimer;
 	private TimerTask broadTimerTask;
 
-	public static boolean localFlag = false;// 本地登陆标志位
+	public boolean localFlag = false;// 本地登陆标志位
+	public String devicename;
 
-	public static String devicename;
-
-	private TextView top_name;
-
-	private String top_string;
+	public int broadTag = 0;
+	private ArrayList<Device> broadList = new ArrayList<Device>();// 广播到的设备列表
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,9 +111,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 
-		top_name = (TextView) mParent.findViewById(R.id.currentmenu);
-		top_string = mActivity.getResources().getString(R.string.my_device);
-		top_name.setText(top_string);
+		currentMenu.setText(mActivity.getResources().getString(
+				R.string.my_device));
 
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
@@ -141,12 +142,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
 			@Override
 			public void onRefresh() {
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				refreshableView.finishRefreshing();
+				GetDevTask task = new GetDevTask();
+				String[] strParams = new String[3];
+				task.execute(strParams);
 			}
 
 			@Override
@@ -156,19 +154,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		}, 0);
 
-		broadTimer = new Timer();
-		broadTimerTask = new TimerTask() {
-
-			@Override
-			public void run() {
-				Log.v(TAG, "三分钟时间到--发广播");
-				Jni.searchLanDevice("", 0, 0, 0, "", 2000, 1);
-
-			}
-
-		};
-
-		broadTimer.schedule(broadTimerTask, 3 * 60 * 1000, 3 * 60 * 1000);
+		// 非3G加广播设备
+		if (!ConfigUtil.is3G(mActivity, false)) {
+			broadTimer = new Timer();
+			broadTimerTask = new TimerTask() {
+				@Override
+				public void run() {
+					Log.v(TAG, "三分钟时间到--发广播");
+					broadTag = BROAD_THREE_MINITE;
+					PlayUtil.broadCast(mActivity);
+				}
+			};
+			broadTimer.schedule(broadTimerTask, 3 * 60 * 1000, 3 * 60 * 1000);
+		}
 
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
 				.get(Consts.HAG_GOT_DEVICE));
@@ -197,11 +195,22 @@ public class JVMyDeviceFragment extends BaseFragment {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.btn_right:
-				Intent addIntent = new Intent();
-				addIntent.setClass(mActivity, JVAddDeviceActivity.class);
-				String devJsonString = Device.listToString(myDeviceList);
-				addIntent.putExtra("DeviceList", devJsonString);
-				mActivity.startActivity(addIntent);
+				// Intent addIntent = new Intent();
+				// addIntent.setClass(mActivity, JVAddDeviceActivity.class);
+				// String devJsonString = Device.listToString(myDeviceList);
+				// addIntent.putExtra("DeviceList", devJsonString);
+				// mActivity.startActivity(addIntent);
+
+				if (!ConfigUtil.is3G(mActivity, false)) {// 非3G加广播设备
+					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+					broadTag = BROAD_ADD_DEVICE;
+					broadList.clear();
+					PlayUtil.broadCast(mActivity);
+				} else {
+					((BaseActivity) mActivity)
+							.showTextToast(R.string.notwifi_forbid_func);
+				}
+
 				break;
 			case R.id.device_numet_cancle:
 				device_numet.setText("");
@@ -295,29 +304,68 @@ public class JVMyDeviceFragment extends BaseFragment {
 		// 广播回调
 		case Consts.CALL_LAN_SEARCH: {
 			// onTabAction:what=168;arg1=0;arg2=0;obj={"count":1,"curmod":0,"gid":"A","ip":"192.168.21.238","netmod":0,"no":283827713,"port":9101,"timeout":0,"type":59162,"variety":3}
-			JSONObject broadObj;
-			try {
-				broadObj = new JSONObject(obj.toString());
-				if (0 == broadObj.optInt("timeout")) {
-					int size = myDeviceList.size();
-					for (int i = 0; i < size; i++) {
-						Device device = myDeviceList.get(i);
-						// 是同一个设备
-						if (device.getGid().equalsIgnoreCase(
-								broadObj.optString("gid"))
-								&& device.getNo() == broadObj.optInt("no")) {
-							device.setIp(broadObj.optString("ip"));
-							device.setPort(broadObj.optInt("port"));
-							device.setOnlineState(1);// 广播都在线
-						}
-					}
-				} else if (1 == broadObj.optInt("timeout")) {
 
+			if (broadTag == BROAD_DEVICE_LIST || broadTag == BROAD_THREE_MINITE) {// 三分钟广播
+																					// 或
+																					// 广播设备列表
+				JSONObject broadObj;
+				try {
+					broadObj = new JSONObject(obj.toString());
+					if (0 == broadObj.optInt("timeout")) {
+						int size = myDeviceList.size();
+						for (int i = 0; i < size; i++) {
+							Device device = myDeviceList.get(i);
+							// 是同一个设备
+							if (device.getGid().equalsIgnoreCase(
+									broadObj.optString("gid"))
+									&& device.getNo() == broadObj.optInt("no")) {
+								device.setIp(broadObj.optString("ip"));
+								device.setPort(broadObj.optInt("port"));
+								device.setOnlineState(1);// 广播都在线
+							}
+						}
+					} else if (1 == broadObj.optInt("timeout")) {
+
+					}
+					MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
+							+ ";arg2=" + arg1 + ";obj=" + obj.toString());
+				} catch (JSONException e) {
+					e.printStackTrace();
 				}
-				MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
-						+ ";arg2=" + arg1 + ";obj=" + obj.toString());
-			} catch (JSONException e) {
-				e.printStackTrace();
+			} else if (broadTag == BROAD_ADD_DEVICE) {// 广播添加设备
+				JSONObject broadObj;
+				try {
+					broadObj = new JSONObject(obj.toString());
+					if (0 == broadObj.optInt("timeout")) {
+						String gid = broadObj.optString("gid");
+						int no = broadObj.optInt("no");
+						String ip = broadObj.optString("ip");
+						int port = broadObj.optInt("port");
+						int count = broadObj.optInt("count");
+						String broadDevNum = gid + no;
+
+						if (!hasDev(broadDevNum)) {
+							Device broadDev = new Device(ip, port, gid, no,
+									mActivity.getResources().getString(
+											R.string.str_default_user),
+									mActivity.getResources().getString(
+											R.string.str_default_pass), false,
+									count, 0);
+							broadList.add(broadDev);
+							MyLog.v(TAG, "广播到一个设备--" + broadDevNum);
+						}
+					} else if (1 == broadObj.optInt("timeout")) {
+
+						AddDevTask task = new AddDevTask();
+						String[] strParams = new String[3];
+						strParams[0] = broadList.toString();
+						task.execute(strParams);
+					}
+					MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
+							+ ";arg2=" + arg1 + ";obj=" + obj.toString());
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
 
 			break;
@@ -327,6 +375,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			myDLAdapter.notifyDataSetChanged();
 			Device dev = myDeviceList.get(arg1);
 			if (1 == dev.getChannelList().size()) {// 1个通道直接播放
+				PlayUtil.prepareConnect(myDeviceList, arg1);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 				// String devJsonString = Device.listToString(myDeviceList);
 				// [Neo] no need to do this
@@ -357,7 +406,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 		}
 		case MyDeviceListAdapter.DEVICE_ITEM_DEL_CLICK: {// 设备删除事件
-			((BaseActivity) mActivity).showTextToast("删除设备--" + arg1);
 			DelDevTask task = new DelDevTask();
 			String[] strParams = new String[3];
 			strParams[0] = String.valueOf(arg1);
@@ -368,6 +416,25 @@ public class JVMyDeviceFragment extends BaseFragment {
 			initSummaryDialog(myDeviceList, arg1);
 		}
 		}
+	}
+
+	/**
+	 * 判断设备是否在设备列表里
+	 * 
+	 * @param devNum
+	 * @return
+	 */
+	public boolean hasDev(String devNum) {
+		boolean has = false;
+		// for (int i = 0; i < size; i++) {
+		// Device device = myDeviceList.get(i);
+		for (Device dev : myDeviceList) {
+			if (devNum.equalsIgnoreCase(dev.getFullNo())) {
+				has = true;
+				break;
+			}
+		}
+		return has;
 	}
 
 	/** 弹出框初始化 */
@@ -565,28 +632,30 @@ public class JVMyDeviceFragment extends BaseFragment {
 				if (!localFlag) {// 非本地登录，无论是否刷新都执行
 					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 					// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次
-					myDeviceList = DeviceUtil
-							.getUserDeviceList(mActivity.statusHashMap
-									.get(Consts.KEY_USERNAME));
 					if (null == myDeviceList || 0 == myDeviceList.size()) {
 						myDeviceList = DeviceUtil
 								.getUserDeviceList(mActivity.statusHashMap
 										.get(Consts.KEY_USERNAME));
 					}
-					// JVMyDeviceFragment.this.onNotify(
-					// Consts.GET_DEVICE_LIST_FUNCTION,
-					// JVAccountConst.REFERSH_DEVICE_LIST_ONLY, 0, null);
-
+					if (null == myDeviceList || 0 == myDeviceList.size()) {
+						myDeviceList = DeviceUtil
+								.getUserDeviceList(mActivity.statusHashMap
+										.get(Consts.KEY_USERNAME));
+					}
 					if (null != myDeviceList && 0 != myDeviceList.size()) {
 						int size = myDeviceList.size();
 						if (0 != size) {
 							for (int i = 0; i < myDeviceList.size(); i++) {
-								myDeviceList.get(i)
-										.setChannelList(
-												DeviceUtil.getDevicePointList(
-														myDeviceList.get(i),
-														myDeviceList.get(i)
-																.getFullNo()));
+								if (null == myDeviceList.get(i)
+										.getChannelList()
+										|| 0 == myDeviceList.get(i)
+												.getChannelList().size()) {
+									myDeviceList.get(i).setChannelList(
+											DeviceUtil.getDevicePointList(
+													myDeviceList.get(i),
+													myDeviceList.get(i)
+															.getFullNo()));
+								}
 							}
 						}
 					}
@@ -616,16 +685,17 @@ public class JVMyDeviceFragment extends BaseFragment {
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
+			refreshableView.finishRefreshing();
 			switch (result) {
 			// 从服务器端获取设备成功
 			case DEVICE_GETDATA_SUCCESS: {
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 				// 给设备列表设置小助手
 				PlayUtil.setHelperToList(myDeviceList);
+				broadTag = BROAD_DEVICE_LIST;
 				PlayUtil.broadCast(mActivity);
 				myDLAdapter.setData(myDeviceList);
 				myDeviceListView.setAdapter(myDLAdapter);
-				((BaseActivity) mActivity).dismissDialog();
 				break;
 			}
 			// 从服务器端获取设备成功，但是没有设备
@@ -633,14 +703,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 				MyLog.v(TAG, "nonedata-too");
 				myDLAdapter.setData(myDeviceList);
 				myDeviceListView.setAdapter(myDLAdapter);
-				((BaseActivity) mActivity).dismissDialog();
 				break;
 			}
 			// 从服务器端获取设备失败
 			case DEVICE_GETDATA_FAILED: {
 				myDLAdapter.setData(myDeviceList);
 				myDeviceListView.setAdapter(myDLAdapter);
-				((BaseActivity) mActivity).dismissDialog();
 				break;
 			}
 			}
@@ -649,7 +717,85 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			((BaseActivity) mActivity).createDialog("");
+			// ((BaseActivity) mActivity).createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
+
+	// 设置三种类型参数分别为String,Integer,String
+	class AddDevTask extends AsyncTask<String, Integer, Integer> {
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int addRes = -1;
+			ArrayList<Device> list = new ArrayList<Device>();// 广播到的设备列表
+			list = Device.fromJsonArray(params[0]);
+			try {
+				for (Device addDev : list) {
+					if (null != addDev) {
+						if (localFlag) {// 本地添加
+							addRes = 0;
+						} else {
+							addRes = DeviceUtil
+									.addDevice(mActivity.statusHashMap
+											.get("KEY_USERNAME"), addDev);
+							if (0 <= addDev.getChannelList().size()) {
+								if (0 == DeviceUtil.addPoint(
+										addDev.getFullNo(), addDev
+												.getChannelList().size())) {
+									addDev.setChannelList(DeviceUtil
+											.getDevicePointList(addDev,
+													addDev.getFullNo()));
+									addRes = 0;
+								} else {
+									DeviceUtil.unbindDevice(
+											mActivity.statusHashMap
+													.get(Consts.KEY_USERNAME),
+											addDev.getFullNo());
+									addRes = -1;
+								}
+							}
+						}
+					}
+					if (0 == addRes) {
+						myDeviceList.add(addDev);
+					}
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return addRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+
+			((BaseActivity) mActivity).dismissDialog();
+			if (0 == result) {
+				myDLAdapter.setData(myDeviceList);
+				myDeviceListView.setAdapter(myDLAdapter);
+				mActivity.showTextToast(R.string.add_device_succ);
+			} else {
+				myDLAdapter.setData(myDeviceList);
+				myDeviceListView.setAdapter(myDLAdapter);
+				mActivity.showTextToast(R.string.add_device_failed);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
 		}
 
 		@Override

@@ -467,8 +467,10 @@ public class DeviceUtil {
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
-
-		MyLog.v("editDeviceConnType", jObj.toString());
+		// {"username":"refactor","dvlt":1,"mt":2013,
+		// "dvpassword":"123","dvusername":"abc","lpt":1,"pv":"1.0",
+		// "dvport":9101,"dvip":"192.168.1.5"}
+		MyLog.v("editDeviceConnType-request", jObj.toString());
 
 		// 返回参数示例
 		// {"mt":2014,"rt":0,"mid":1}
@@ -479,6 +481,7 @@ public class DeviceUtil {
 				jObj.toString(), resultStr);
 		String result = new String(resultStr);
 		// String result = "{\"mt\":2014,\"rt\":0,\"mid\":1}";
+		MyLog.v("editDeviceConnType-result", result);
 		if (null != result && !"".equalsIgnoreCase(result)) {
 			try {
 				JSONObject temObj = new JSONObject(result);

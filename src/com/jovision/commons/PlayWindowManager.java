@@ -31,6 +31,7 @@ import com.jovision.bean.Channel;
 public class PlayWindowManager implements View.OnClickListener,
 		View.OnLongClickListener {
 
+	private static final String TAG = "PlayWindowManager";
 	private Context mContext;
 
 	/** 全部窗口列表 */
@@ -319,6 +320,7 @@ public class PlayWindowManager implements View.OnClickListener,
 			// [Neo] TODO 在这里是否合适
 			// channel.setIndex(mWindowList.size() %
 			// Consts.MAX_CHANNEL_CONNECTION);
+			MyLog.v(TAG, channel.toString());
 			PlayWindow window = new PlayWindow(channel);
 			mWindowList.add(window);
 		}

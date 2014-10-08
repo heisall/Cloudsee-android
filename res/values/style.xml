@@ -16,14 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 <<<<<<< Updated upstream
- */
+ */
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
 <<<<<<< Updated upstream
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <item name="android:background">@color/transparent</item>
@@ -38,7 +38,7 @@
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
 <<<<<<< Updated upstream
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -70,7 +70,7 @@
         
         <item name="android:windowContentOverlay">@null</item>  
 <<<<<<< Updated upstream
-        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
         -->
 
     </style>

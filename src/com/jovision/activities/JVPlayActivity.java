@@ -229,6 +229,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
+				// ConnectChange [0x795718f0]: E, 0, 0x4, password is wrong!, 0
 				loadingState(arg2, R.string.connect_failed,
 						JVConst.PLAY_DIS_CONNECTTED);
 				channel.setConnecting(false);

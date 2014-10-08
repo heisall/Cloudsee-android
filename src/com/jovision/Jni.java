@@ -129,7 +129,7 @@ public class Jni {
 	/**
 	 * 获取已设置的云视通列表，参考 {@link JVSUDT#JVC_GetHelpYSTNO(byte[], int)}
 	 * 
-	 * @return json [{no: "A361", enable: false},{no: "A362", enable: false}]
+	 * @return json [{cno: "A361", enable: false},{no: "A362", enable: false}]
 	 */
 	public static native String getAllDeviceStatus();
 

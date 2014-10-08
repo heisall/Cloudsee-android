@@ -3,7 +3,6 @@ package com.jovision.activities;
 import java.util.ArrayList;
 
 import android.app.Dialog;
-import android.bluetooth.BluetoothAdapter.LeScanCallback;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +23,7 @@ import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
+import com.jovision.utils.PlayUtil;
 
 public class ChannelFragment extends BaseFragment {
 
@@ -126,25 +126,24 @@ public class ChannelFragment extends BaseFragment {
 				channelAdapter.notifyDataSetChanged();
 			} else {
 				// [Neo] TODO 多设备模式？
-				boolean multiDeviceMode = false;
-				ArrayList<Channel> clist = new ArrayList<Channel>();
-
-				if (multiDeviceMode) {
-					for (Device device : deviceList) {
-						clist.addAll(device.getChannelList().toList());
-					}
-				} else {
-					clist.addAll(deviceList.get(deviceIndex).getChannelList()
-							.toList());
-				}
-
-				int size = clist.size();
-				for (int i = 0; i < size; i++) {
-					// [Neo] 循环利用播放数组，我 tm 就是个天才
-					clist.get(i).setIndex(i % Consts.MAX_CHANNEL_CONNECTION);
-				}
-
-				((BaseActivity) mActivity).showTextToast(arg1 + "");
+				// boolean multiDeviceMode = false;
+				// ArrayList<Channel> clist = new ArrayList<Channel>();
+				//
+				// if (multiDeviceMode) {
+				// for (Device device : deviceList) {
+				// clist.addAll(device.getChannelList().toList());
+				// }
+				// } else {
+				// clist.addAll(deviceList.get(deviceIndex).getChannelList()
+				// .toList());
+				// }
+				//
+				// int size = clist.size();
+				// for (int i = 0; i < size; i++) {
+				// // [Neo] 循环利用播放数组，我 tm 就是个天才
+				// clist.get(i).setIndex(i % Consts.MAX_CHANNEL_CONNECTION);
+				// }
+				PlayUtil.prepareConnect(deviceList, deviceIndex);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 
 				// [Neo] 应该从文件中重新读取，不需传递
@@ -393,9 +392,8 @@ public class ChannelFragment extends BaseFragment {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
-			int result = -1;
+			int addRes = -1;
 			int addIndex = Integer.parseInt(params[0]);
-			// int delChannelIndex = Integer.parseInt(params[1]);
 
 			int target = -1;
 			int left2Add = -1;
@@ -414,13 +412,13 @@ public class ChannelFragment extends BaseFragment {
 					if (Boolean
 							.valueOf(((BaseActivity) mActivity).statusHashMap
 									.get(Consts.LOCAL_LOGIN))) {// 本地添加
-						result = 0;
+						addRes = 0;
 					} else {
-						result = DeviceUtil.addPoint(device.getFullNo(),
+						addRes = DeviceUtil.addPoint(device.getFullNo(),
 								left2Add);
 					}
 
-					if (0 == result) {
+					if (0 == addRes) {
 						for (int i = 0; i < left2Add; i++) {
 							channel = new Channel();
 							target = list.precheck();
@@ -454,11 +452,11 @@ public class ChannelFragment extends BaseFragment {
 					e.printStackTrace();
 				}
 			} else {
-				// [Neo] TODO 达到添加上限
+				addRes = 9999;
 
 			}
 
-			return result;
+			return addRes;
 		}
 
 		@Override
@@ -476,6 +474,8 @@ public class ChannelFragment extends BaseFragment {
 				channelAdapter.setShowDelete(false);
 				channelAdapter.setData(device.getChannelList().toList(),
 						widthPixels);
+			} else if (9999 == result) {
+				((BaseActivity) mActivity).showTextToast(R.string.channel_full);
 			} else {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.add_channel_failed);

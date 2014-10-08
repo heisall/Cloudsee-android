@@ -3,7 +3,6 @@ package com.jovision.activities;
 import java.util.ArrayList;
 
 import android.app.Dialog;
-import android.bluetooth.BluetoothAdapter.LeScanCallback;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;

@@ -96,10 +96,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	public static String devicename;
 
-	private TextView top_name;
-
-	private String top_string;
-
 	private PopupWindow popupWindow; // 声明PopupWindow对象；
 
 	@Override
@@ -116,9 +112,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 
-		top_name = (TextView) mParent.findViewById(R.id.currentmenu);
-		top_string = mActivity.getResources().getString(R.string.my_device);
-		top_name.setText(top_string);
+		currentMenu.setText(R.string.my_device);
 
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));

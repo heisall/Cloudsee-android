@@ -420,8 +420,6 @@
     <string name="str_help8">可添加、修改、删除通道和设备</string>
     <string name="str_help10">设备在线，显示为橘红色，设备离线显示为灰色</string>
     <string name="str_help11">设备有Wi-Fi功能时，此标志为橘红色，设备无Wi-Fi功能时，此标志为灰色</string>
-    <string name="str_device_online">在线</string>
-    <string name="str_device_offline">离线</string>
     <string name="str_editing_wifi">正在配置设备\n请等待...</string>
     <string name="str_save_succ">修改成功</string>
     <string name="str_save_fail">修改失败</string>
@@ -472,6 +470,9 @@
     <string name="video_normal">手动录像</string>
     <string name="video_alarm">报警录像</string>
 
+    <!-- MyDeviceListAdapter -->
+    <string name="str_device_online">在线</string>
+    <string name="str_device_offline">离线</string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">切换IP直连和云视通连接模式</string>
     <string name="str_cloudsee_id">云视通号</string>

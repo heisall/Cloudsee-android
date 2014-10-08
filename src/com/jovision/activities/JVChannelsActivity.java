@@ -10,15 +10,20 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
 
@@ -56,6 +61,14 @@ public class JVChannelsActivity extends BaseActivity {
 
 	private String top_string;
 
+	private RelativeLayout relative;
+	private TextView device_num;
+	private ImageView devmore_hide;
+	private ListView devicemanage_listView;
+	private LinearLayout linear;
+	private ImageView devmore;
+	private ManageListAdapter adapter;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// switch (what) {
@@ -86,6 +99,12 @@ public class JVChannelsActivity extends BaseActivity {
 		setContentView(R.layout.channels_layout);
 
 		/** top bar */
+		relative = (RelativeLayout) findViewById(R.id.relative);
+		device_num = (TextView) findViewById(R.id.device_num);
+		devmore_hide = (ImageView) findViewById(R.id.devmore_hide);
+		devicemanage_listView = (ListView) findViewById(R.id.devicemanage_listView);
+		linear = (LinearLayout) findViewById(R.id.linear);
+		devmore = (ImageView) findViewById(R.id.devmore);
 		top_name = (TextView) findViewById(R.id.currentmenu);
 		top_string = getResources().getString(R.string.channal_list);
 		leftBtn = (Button) findViewById(R.id.btn_left);
@@ -95,6 +114,8 @@ public class JVChannelsActivity extends BaseActivity {
 		currentMenu.setText(R.string.channal_list);
 		leftBtn.setOnClickListener(mOnClickListener);
 		rightBtn.setOnClickListener(mOnClickListener);
+		devmore_hide.setOnClickListener(mOnClickListener);
+		devmore.setOnClickListener(mOnClickListener);
 
 		mScreenWidth = disMetrics.widthPixels;
 		mHorizontalScrollView = (HorizontalScrollView) findViewById(R.id.hsv_view);
@@ -112,6 +133,10 @@ public class JVChannelsActivity extends BaseActivity {
 		initViewPager();
 
 		channelPager.setCurrentItem(deviceIndex);
+		adapter = new ManageListAdapter(JVChannelsActivity.this);
+		adapter.setData(deviceList);
+		devicemanage_listView.setAdapter(adapter);
+		ListViewClick();
 	}
 
 	@Override
@@ -158,12 +183,24 @@ public class JVChannelsActivity extends BaseActivity {
 					int index = (Integer) view.getTag();
 					deviceIndex = index;
 					channelPager.setCurrentItem(index);
-					// ((ChannelFragment) fragments.get(index)).setData(index,
-					// deviceList, widthPixels);
 				}
 			});
 			layout.setTag(i);
 		}
+	}
+
+	// 设备列表的点击事件
+	private void ListViewClick() {
+		devicemanage_listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				String name = deviceList.get(position).getFullNo();
+				Toast.makeText(getApplicationContext(), name,
+						Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	OnClickListener mOnClickListener = new OnClickListener() {
@@ -171,13 +208,25 @@ public class JVChannelsActivity extends BaseActivity {
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
-			case R.id.btn_left: {
+			case R.id.btn_left:
 				JVChannelsActivity.this.finish();
 				break;
-			}
-			case R.id.btn_right: {
+
+			case R.id.btn_right:
 				break;
-			}
+
+			case R.id.devmore:
+				device_num.setText("一共有" + deviceList.size() + "个设备");
+				relative.setVisibility(View.VISIBLE);
+				linear.setVisibility(View.GONE);
+				break;
+			case R.id.devmore_hide:
+				linear.setVisibility(View.VISIBLE);
+				relative.setVisibility(View.GONE);
+				break;
+			default:
+
+				break;
 			}
 
 		}

@@ -42,6 +42,7 @@ import com.jovision.utils.UserUtil;
 public class JVLoginActivity extends BaseActivity {
 
 	private final String TAG = "JVLoginActivity";
+	private static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
 	private String userName = "";
 	private String passWord = "";
 
@@ -69,7 +70,12 @@ public class JVLoginActivity extends BaseActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-
+		switch (what) {
+		case WHAT_SHOW_PRO: {
+			createDialog("");
+			break;
+		}
+		}
 	}
 
 	@Override
@@ -196,6 +202,7 @@ public class JVLoginActivity extends BaseActivity {
 			userNameET.setText(userName);
 			passwordET.setText(userPass);
 
+			createDialog(R.string.login_str_loging);
 			LoginTask task = new LoginTask();
 			String[] strParams = new String[3];
 			task.execute(strParams);
@@ -313,6 +320,7 @@ public class JVLoginActivity extends BaseActivity {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
+			handler.sendEmptyMessage(WHAT_SHOW_PRO);
 			String strRes = AccountUtil.onLoginProcess(JVLoginActivity.this,
 					statusHashMap.get(Consts.KEY_USERNAME),
 					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,

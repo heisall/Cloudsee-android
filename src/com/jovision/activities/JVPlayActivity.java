@@ -122,8 +122,7 @@ public class JVPlayActivity extends PlayActivity implements
 		// 每秒状态回调
 		case Consts.CALL_STAT_REPORT: {
 			// PlayUtil.updateState(manager.getChannelList());
-
-			// loadingState(arg1, 0, JVConst.PLAY_CONNECTTED);
+			loadingState(arg1, 0, JVConst.PLAY_CONNECTTED);
 			try {
 				// MyLog.e(Consts.TAG_PLAY, obj.toString());
 				JSONArray array = new JSONArray(obj.toString());

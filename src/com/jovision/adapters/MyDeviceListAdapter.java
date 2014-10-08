@@ -14,6 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.activities.BaseActivity;
 import com.jovision.activities.BaseFragment;
 import com.jovision.bean.Device;
 
@@ -96,6 +98,10 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_online_l);
 			deviceHolder.wifiStateL = (TextView) convertView
 					.findViewById(R.id.dev_wifi_l);
+			deviceHolder.dev_online_img_l = (ImageView) convertView
+					.findViewById(R.id.dev_online_img_l);
+			deviceHolder.dev_wifi_img_l = (ImageView) convertView
+					.findViewById(R.id.wifi_online_img_l);
 			deviceHolder.devImgL = (ImageView) convertView
 					.findViewById(R.id.dev_image_l);
 			deviceHolder.devDeleteL = (ImageView) convertView
@@ -113,6 +119,10 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_online_r);
 			deviceHolder.wifiStateR = (TextView) convertView
 					.findViewById(R.id.dev_wifi_r);
+			deviceHolder.dev_online_img_r = (ImageView) convertView
+					.findViewById(R.id.dev_online_img_r);
+			deviceHolder.dev_wifi_img_r = (ImageView) convertView
+					.findViewById(R.id.wifi_online_img_r);
 			deviceHolder.devImgR = (ImageView) convertView
 					.findViewById(R.id.dev_image_r);
 			deviceHolder.devDeleteR = (ImageView) convertView
@@ -127,9 +137,36 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			deviceHolder = (DeviceHolder) convertView.getTag();
 		}
 		deviceHolder.devNameL.setText(deviceList.get(position * 2).getFullNo());
-		deviceHolder.onLineStateL.setText("在线");
-		deviceHolder.wifiStateL.setText("wifi");
+		if (Boolean
+				.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {
+			deviceHolder.onLineStateL.setVisibility(View.GONE);
+			deviceHolder.wifiStateL.setVisibility(View.GONE);
+			deviceHolder.dev_online_img_l.setVisibility(View.GONE);
+			deviceHolder.dev_wifi_img_l.setVisibility(View.GONE);
+		} else {
+			if (deviceList.get(position * 2).getHasWifi() == 1) {
+				deviceHolder.dev_wifi_img_l
+						.setImageResource(R.drawable.wifionline);
+				deviceHolder.wifiStateL.setTextColor(0xffE8793F);
+			} else {
+				deviceHolder.dev_wifi_img_l
+						.setImageResource(R.drawable.wifioffline);
+				deviceHolder.wifiStateL.setTextColor(0xffB4B3B3);
+			}
 
+			if (deviceList.get(position * 2).getOnlineState() == 1) {
+				deviceHolder.onLineStateL.setText(R.string.str_device_online);
+				deviceHolder.onLineStateL.setTextColor(0xffE8793F);
+				deviceHolder.dev_online_img_l
+						.setImageResource(R.drawable.deviceonline);
+			} else {
+				deviceHolder.onLineStateL.setText(R.string.str_device_offline);
+				deviceHolder.onLineStateL.setTextColor(0xffB4B3B3);
+				deviceHolder.dev_online_img_l
+						.setImageResource(R.drawable.deviceoffline);
+			}
+		}
 		int lastL = (position * 2) % 4;
 		int lastR = (position * 2 + 1) % 4;
 		// 按规律设置背景色
@@ -157,8 +194,37 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			deviceHolder.devLayoutR.setVisibility(View.VISIBLE);
 			deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
 					.getFullNo());
-			deviceHolder.onLineStateR.setText("在线");
-			deviceHolder.wifiStateR.setText("wifi");
+			if (Boolean
+					.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
+							.get(Consts.LOCAL_LOGIN))) {
+				deviceHolder.onLineStateR.setVisibility(View.GONE);
+				deviceHolder.wifiStateR.setVisibility(View.GONE);
+				deviceHolder.dev_online_img_r.setVisibility(View.GONE);
+				deviceHolder.dev_wifi_img_r.setVisibility(View.GONE);
+			} else {
+				if (deviceList.get(position * 2 + 1).getHasWifi() == 1) {
+					deviceHolder.dev_wifi_img_r
+							.setImageResource(R.drawable.wifionline);
+					deviceHolder.wifiStateR.setTextColor(0xffE8793F);
+				} else {
+					deviceHolder.dev_wifi_img_r
+							.setImageResource(R.drawable.wifioffline);
+					deviceHolder.wifiStateR.setTextColor(0xffB4B3B3);
+				}
+				if (deviceList.get(position * 2 + 1).getOnlineState() == 1) {
+					deviceHolder.onLineStateR
+							.setText(R.string.str_device_online);
+					deviceHolder.onLineStateR.setTextColor(0xffE8793F);
+					deviceHolder.dev_online_img_r
+							.setImageResource(R.drawable.deviceonline);
+				} else {
+					deviceHolder.onLineStateR
+							.setText(R.string.str_device_offline);
+					deviceHolder.onLineStateR.setTextColor(0xffB4B3B3);
+					deviceHolder.dev_online_img_r
+							.setImageResource(R.drawable.deviceoffline);
+				}
+			}
 		} else {
 			deviceHolder.devLayoutR.setVisibility(View.GONE);
 		}
@@ -255,6 +321,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		ImageView devDeleteR;
 		RelativeLayout editDevR;
 		ImageView editDevIVR;
+
+		ImageView dev_online_img_l;
+		ImageView dev_wifi_img_l;
+		ImageView dev_online_img_r;
+		ImageView dev_wifi_img_r;
 	}
 
 }

@@ -15,14 +15,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -96,6 +100,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	public int broadTag = 0;
 	private ArrayList<Device> broadList = new ArrayList<Device>();// 广播到的设备列表
+
+	private PopupWindow popupWindow; // 声明PopupWindow对象；
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -195,22 +201,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.btn_right:
-				// Intent addIntent = new Intent();
-				// addIntent.setClass(mActivity, JVAddDeviceActivity.class);
-				// String devJsonString = Device.listToString(myDeviceList);
-				// addIntent.putExtra("DeviceList", devJsonString);
-				// mActivity.startActivity(addIntent);
-
-				if (!ConfigUtil.is3G(mActivity, false)) {// 非3G加广播设备
-					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
-					broadTag = BROAD_ADD_DEVICE;
-					broadList.clear();
-					PlayUtil.broadCast(mActivity);
+				initPop();
+				// 点击按钮时，pop显示状态，显示中就消失，否则显示
+				if (popupWindow.isShowing()) {
+					popupWindow.dismiss();
 				} else {
-					((BaseActivity) mActivity)
-							.showTextToast(R.string.notwifi_forbid_func);
+					// 显示在below正下方
+					popupWindow.showAsDropDown(view, -120, 10);
 				}
-
 				break;
 			case R.id.device_numet_cancle:
 				device_numet.setText("");
@@ -224,6 +222,30 @@ public class JVMyDeviceFragment extends BaseFragment {
 			case R.id.device_nicket_cancle:
 				device_nicket.setText("");
 				break;
+			case R.id.pop_content:
+				Intent addIntent = new Intent();
+				addIntent.setClass(mActivity, JVAddDeviceActivity.class);
+				String devJsonString = Device.listToString(myDeviceList);
+				addIntent.putExtra("DeviceList", devJsonString);
+				mActivity.startActivity(addIntent);
+				popupWindow.dismiss();
+				break;
+			case R.id.pop_addfriend:
+				fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+				if (!ConfigUtil.is3G(mActivity, false)) {// 非3G加广播设备
+					broadTag = BROAD_ADD_DEVICE;
+					broadList.clear();
+					PlayUtil.broadCast(mActivity);
+				} else {
+					((BaseActivity) mActivity)
+							.showTextToast(R.string.notwifi_forbid_func);
+				}
+				popupWindow.dismiss();
+				break;
+			case R.id.pop_personnal:
+
+				popupWindow.dismiss();
+				break;
 			default:
 				break;
 			}
@@ -231,6 +253,37 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 
 	};
+
+	// 点击加号弹出的popWindow
+	private void initPop() {
+		View v = LayoutInflater.from(mActivity).inflate(R.layout.popview, null); // 将布局转化为view
+		TextView pop_content = (TextView) v.findViewById(R.id.pop_content);
+		TextView pop_addfriend = (TextView) v.findViewById(R.id.pop_addfriend);
+		TextView pop_personnal = (TextView) v.findViewById(R.id.pop_personnal);
+		pop_content.setOnClickListener(myOnClickListener);
+		pop_addfriend.setOnClickListener(myOnClickListener);
+		pop_personnal.setOnClickListener(myOnClickListener);
+		if (popupWindow == null) {
+			/**
+			 * public PopupWindow (View contentView, int width, int height)
+			 * contentView:布局view width：布局的宽 height：布局的高
+			 */
+			popupWindow = new PopupWindow(v, 200, LayoutParams.WRAP_CONTENT);
+		}
+		popupWindow.setFocusable(true); // 获得焦点
+		popupWindow.setOutsideTouchable(true);// 是否可点击
+
+		popupWindow.getContentView().setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				popupWindow.setFocusable(false); // 失去焦点
+				popupWindow.dismiss(); // pop消失
+				return false;
+			}
+		});
+
+	}
 
 	@Override
 	public void onResume() {
@@ -271,8 +324,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 			ImageView imageView = new ImageView(mActivity);
 			imageView.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {// 设置图片点击事件
-					((BaseActivity) mActivity).showTextToast("点击了:"
-							+ imageScroll.getCurIndex());
+				// ((BaseActivity) mActivity).showTextToast("点击了:"
+				// + imageScroll.getCurIndex());
 				}
 			});
 			imageView.setImageResource(imageResId[i]);

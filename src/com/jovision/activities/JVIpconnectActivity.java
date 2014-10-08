@@ -258,9 +258,7 @@ public class JVIpconnectActivity extends BaseActivity {
 							deviceedit.setPort(Integer.valueOf(portString));
 							deviceedit.setUser(userString);
 							deviceedit.setPwd(pwdString);
-							if (device.getIsDevice() == 0) {
-								deviceedit.setIsDevice(1);
-							}
+							deviceedit.setIsDevice(1);
 							DeviceUtil.editDeviceConnType(deviceedit,
 									statusHashMap.get(Consts.KEY_USERNAME));
 						} else {

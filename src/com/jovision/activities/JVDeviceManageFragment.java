@@ -12,15 +12,20 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.IHandlerLikeNotify;
+import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
 import com.jovision.utils.CacheUtil;
@@ -44,6 +49,13 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private int beginPosition;
 	private int currentFragmentIndex;
 	private boolean isEnd;
+	private ImageView devmore;
+	private TextView device_num;
+	private ListView devicemanage_listView;
+	private ManageListAdapter adapter;
+	private RelativeLayout relalist;
+	private RelativeLayout relative;
+	private ImageView image_hide;
 
 	private ArrayList<Fragment> fragments;
 
@@ -67,7 +79,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 		currentMenu.setText(R.string.str_help1_1);
 		rightBtn.setVisibility(View.GONE);
-
 		rightBtn.setOnClickListener(mOnClickListener);
 
 		mScreenWidth = mActivity.disMetrics.widthPixels;
@@ -77,13 +88,38 @@ public class JVDeviceManageFragment extends BaseFragment {
 		mImageView = (ImageView) mActivity.findViewById(R.id.img);
 		item_width = (int) ((mScreenWidth / 4.0 + 0.5f));
 		mImageView.getLayoutParams().width = item_width;
-		managePager = (ViewPager) mActivity.findViewById(R.id.manage_pager);
-
+		managePager = (ViewPager) mParent.findViewById(R.id.manage_pagerer);
 		// 初始化导航
 		initNav();
 		// 初始化viewPager
 		initViewPager();
 		managePager.setCurrentItem(deviceIndex);
+		device_num = (TextView) mParent.findViewById(R.id.device_num);
+		relalist = (RelativeLayout) mParent.findViewById(R.id.relalist);
+		relative = (RelativeLayout) mParent.findViewById(R.id.relative);
+		image_hide = (ImageView) mParent.findViewById(R.id.devmore_hide);
+		devicemanage_listView = (ListView) mParent
+				.findViewById(R.id.devicemanage_listView);
+		devmore = (ImageView) mParent.findViewById(R.id.devmore);
+		adapter = new ManageListAdapter(JVDeviceManageFragment.this);
+		adapter.setData(manageDeviceList);
+		devicemanage_listView.setAdapter(adapter);
+		devmore.setOnClickListener(mOnClickListener);
+		image_hide.setOnClickListener(mOnClickListener);
+		ListViewClick();
+	}
+
+	// 设备列表的点击事件
+	private void ListViewClick() {
+		devicemanage_listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				String name = manageDeviceList.get(position).getFullNo();
+				Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	private void initNav() {
@@ -135,9 +171,24 @@ public class JVDeviceManageFragment extends BaseFragment {
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
-			case R.id.btn_right: {
+			case R.id.btn_right:
+
 				break;
-			}
+			case R.id.devmore:
+				device_num.setText("一共有" + manageDeviceList.size() + "个设备");
+				relalist.setVisibility(View.VISIBLE);
+				devicemanage_listView.setVisibility(View.VISIBLE);
+				managePager.setVisibility(View.GONE);
+				relative.setVisibility(View.GONE);
+				break;
+			case R.id.devmore_hide:
+				relalist.setVisibility(View.GONE);
+				devicemanage_listView.setVisibility(View.GONE);
+				managePager.setVisibility(View.VISIBLE);
+				relative.setVisibility(View.VISIBLE);
+				break;
+			default:
+				break;
 			}
 
 		}

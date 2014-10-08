@@ -120,7 +120,7 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 4: {// 立即观看
-			// ((BaseActivity) mActivity).showTextToast(arg1 + "");
+				// ((BaseActivity) mActivity).showTextToast(arg1 + "");
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 				// String devJsonString = Device.listToString(deviceList);
 				// intentPlay.putExtra("DeviceList", devJsonString);

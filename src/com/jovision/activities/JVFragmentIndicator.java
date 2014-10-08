@@ -3,7 +3,6 @@ package com.jovision.activities;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,7 +71,7 @@ public class JVFragmentIndicator extends LinearLayout implements
 		tabIcon.setImageResource(iconResID);
 		tabTitle.setTag(textTag);
 		tabTitle.setTextColor(stringColor);
-		tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+		// tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
 		tabTitle.setText(title);
 
 		LinearLayout view = new LinearLayout(getContext());

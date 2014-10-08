@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <com.jovision.activities.JVFragmentIndicator
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#F5F5F5" />
+        android:background="@color/tab_bg_color"/>
 
     <FrameLayout
         android:id="@+id/tab_fragment"

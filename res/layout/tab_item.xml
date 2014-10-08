@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tabsLayout"
-    android:background="#F5F5F5"
+    android:background="@color/tab_bg_color"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="3dp" >
+    android:layout_height="wrap_content"
+    android:paddingTop="4dp" 
+    android:paddingBottom="3dp" >
 
     <ImageView
         android:id="@+id/tab_icon"
@@ -14,11 +15,12 @@
         android:src="@drawable/icon_home_sel" />
 
     <TextView
+        android:layout_marginTop="2dp"
         android:id="@+id/tab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tab_icon"
-        android:layout_centerHorizontal="true"
-        android:text="我的视频" />
+        android:textSize="11sp"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

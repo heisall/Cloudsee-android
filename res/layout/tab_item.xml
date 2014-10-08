@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tabsLayout"
-    android:background="@color/tab_bg_color"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="4dp" 
-    android:paddingBottom="3dp" >
+    android:background="@color/tab_bg_color"
+    android:paddingBottom="3dp"
+    android:paddingTop="4dp" >
 
     <ImageView
         android:id="@+id/tab_icon"
@@ -15,12 +15,12 @@
         android:src="@drawable/icon_home_sel" />
 
     <TextView
-        android:layout_marginTop="2dp"
         android:id="@+id/tab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tab_icon"
-        android:textSize="11sp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:textSize="11sp" />
 
 </RelativeLayout>

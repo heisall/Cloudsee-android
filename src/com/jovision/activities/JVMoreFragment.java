@@ -83,8 +83,8 @@ public class JVMoreFragment extends BaseFragment {
 		mActivity = (BaseActivity) getActivity();
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
-		top_name = (TextView) mParent.findViewById(R.id.currentmenu);
-		top_name.setText(R.string.more_featrue);
+		currentMenu.setText(R.string.more_featrue);
+		rightBtn.setVisibility(View.GONE);
 	}
 
 	@Override

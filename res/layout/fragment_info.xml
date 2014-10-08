@@ -36,7 +36,7 @@
             android:listSelector="@color/transparent"
             android:scrollingCache="true" >
         </ListView>
-    </com.jovision.views.RefreshableView>
+    </com.jovision.views.RefreshableView>
     -->
 
 </LinearLayout>

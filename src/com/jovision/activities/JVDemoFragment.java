@@ -10,9 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -33,43 +31,17 @@ public class JVDemoFragment extends BaseFragment {
 	/** 设备列表 */
 	private ListView demoListView;
 	private ArrayList<Device> demoList = new ArrayList<Device>();
-	// private ArrayList<DemoBean> dataList = new ArrayList<DemoBean>();
 	DemoListAdapter demoAdapter;
-	private Button btn_right;
-	private Button btn_left;
-	private boolean isclicked;
-	private TextView top_name;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		if (null == demoList || 0 == demoList.size()) {
-			// demoList = CacheUtil.getDevList();
 			demoList.add(new Device("", 9101, "A", 365, "abc", "123", true, 1,
 					0));
-
-			// demoList.add(new Device("", 9101, "A", 361, "abc", "123", false,
-			// 1,
-			// 1));
 			demoList.add(new Device("", 9101, "A", 362, "abc", "123", true, 4,
 					1));
-			// demoList.add(new Device("", 9101, "S", 53530352, "admin", "",
-			// false, 1, 3));
-			// dataList.add(new DemoBean("S53530352", "山师附中幼儿园", "小三班-9室",
-			// "2014年09月"));
-			// dataList.add(new DemoBean("A361", "山大幼儿园", "幼儿班-1室",
-			// "2014年09月"));
-			// dataList.add(new DemoBean("S26680286", "北京幼儿园", "大班-2室",
-			// "2014年09月"));
-			// dataList.add(new DemoBean("S52942216", "清华附中幼儿园", "小五班-6室",
-			// "2014年09月"));
-			// dataList.add(new DemoBean("A361", "山大幼儿园", "幼儿班-1室",
-			// "2014年09月"));
-			// dataList.add(new DemoBean("S53530352", "山师附中幼儿园", "小三班-9室",
-			// "2014年09月"));
-			// dataList.add(new DemoBean("A361", "山大幼儿园", "幼儿班-1室",
-			// "2014年09月"));
 		}
 
 		View view = inflater.inflate(R.layout.fragment_demo, container, false);
@@ -82,17 +54,12 @@ public class JVDemoFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
-		top_name = (TextView) mParent.findViewById(R.id.currentmenu);
-		top_name.setText(R.string.demo);
+		currentMenu.setText(R.string.demo);
+		rightBtn.setVisibility(View.GONE);
 		refreshableView = (RefreshableView) mParent
 				.findViewById(R.id.demo_refreshable_view);
-		btn_left = (Button) mParent.findViewById(R.id.btn_left);
-		btn_right = (Button) mParent.findViewById(R.id.btn_right);
 		demoAdapter = new DemoListAdapter(mActivity);
 		demoListView = (ListView) mParent.findViewById(R.id.demo_listview);
-
-		btn_left.setOnClickListener(myOnClickListener);
-		btn_right.setOnClickListener(myOnClickListener);
 
 		demoListView.setOnItemClickListener(myOnItemClickListener);
 		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
@@ -121,23 +88,8 @@ public class JVDemoFragment extends BaseFragment {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			switch (v.getId()) {
-			case R.id.btn_left:
-
-				break;
 			case R.id.btn_right:
-				// if (!isclicked) {
-				// demoAdapter.setData(demoList, false);
-				// demoAdapter.notifyDataSetChanged();
-				// demoListView.setAdapter(demoAdapter);
-				// isclicked = true;
-				// } else {
-				// demoAdapter.setData(demoList, true);
-				// demoAdapter.notifyDataSetChanged();
-				// demoListView.setAdapter(demoAdapter);
-				// isclicked = false;
-				// }
 				break;
 			default:
 				break;

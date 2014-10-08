@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 
@@ -13,8 +12,6 @@ import com.jovetech.CloudSee.temp.R;
  */
 
 public class JVInfoFragment extends BaseFragment {
-
-	private TextView top_name;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,9 +26,8 @@ public class JVInfoFragment extends BaseFragment {
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
 
-		top_name = (TextView) mParent.findViewById(R.id.currentmenu);
-		top_name.setText(R.string.message);
-
+		currentMenu.setText(R.string.message);
+		rightBtn.setVisibility(View.GONE);
 	}
 
 	private void backHomeFragment() {

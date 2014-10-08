@@ -10,34 +10,48 @@
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
 
-    <HorizontalScrollView
-        android:id="@+id/hsv_view"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@android:color/white"
-        android:fadingEdge="@null"
-        android:scrollbars="none" >
+        android:background="@color/white" >
 
-        <RelativeLayout
+        <HorizontalScrollView
+            android:id="@+id/hsv_view"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:fadingEdge="@null"
+            android:scrollbars="none" >
 
-            <LinearLayout
-                android:id="@+id/hsv_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" >
 
-            <ImageView
-                android:id="@+id/img"
-                android:layout_width="100dp"
-                android:layout_height="4dp"
-                android:layout_alignParentBottom="true"
-                android:background="#33b5e5" />
-        </RelativeLayout>
-    </HorizontalScrollView>
+                <LinearLayout
+                    android:id="@+id/hsv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="100dp"
+                    android:layout_height="4dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#33b5e5" />
+            </RelativeLayout>
+        </HorizontalScrollView>
+
+        <ImageView
+            android:id="@+id/devmore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_demo_sel" />
+    </RelativeLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/manage_pager"

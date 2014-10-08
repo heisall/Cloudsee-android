@@ -171,9 +171,10 @@ ChatData
 
 TextData
 
-    id, type, channel, jsonArray
-    jsonArray: [{"result":0, "msg":"", "flag":0, "type":0},
-        {"name":"", "pwd":"", "quality":0, "keystat":0, "auth":0, "env":0}]
+    id, type, channel, json
+    json: {"result":0, "msg":"", "flag":0, "type":0,
+        "wifi":[{"name":"", "pwd":"", "quality":0, "keystat":0, "auth":0, "env":0},{}]
+        }
 
 SearchLanServer
 

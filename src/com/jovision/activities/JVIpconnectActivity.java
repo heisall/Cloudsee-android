@@ -95,9 +95,14 @@ public class JVIpconnectActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		setContentView(R.layout.ipconnect_layout);
 
-		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
+		deviceIndex = JVDeviceManageFragment.deviceIndex;
 		isDevice = getIntent().getIntExtra("isDevice", 0);
-		deviceList = CacheUtil.getDevList();
+		if (JVMyDeviceFragment.localFlag) {
+			deviceList = CacheUtil.getDevList();
+		} else {
+			deviceList = DeviceUtil
+					.getUserDeviceList(JVMyDeviceFragment.devicename);
+		}
 		device = deviceList.get(deviceIndex);
 		deviceedit = new Device();
 		change = (RadioGroup) findViewById(R.id.change);
@@ -122,19 +127,20 @@ public class JVIpconnectActivity extends BaseActivity {
 			addressLayout.setVisibility(View.GONE);
 			couldnumLayout.setVisibility(View.VISIBLE);
 			portLayout.setVisibility(View.GONE);
+			cloud_number.setText(device.getFullNo());
+			ipconnect_user.setText(device.getUser());
+			ipconnect_pwd.setText(device.getPwd());
 		} else {
 			change.check(R.id.ipconnect_ip);
 			isturn = true;
 			addressLayout.setVisibility(View.VISIBLE);
 			couldnumLayout.setVisibility(View.GONE);
 			portLayout.setVisibility(View.VISIBLE);
+			ipconnect_address.setText(device.getIp());
+			ipconnect_port.setText(device.getPort() + "");
+			ipconnect_user.setText(device.getUser());
+			ipconnect_pwd.setText(device.getPwd());
 		}
-
-		ipconnect_address.setText(device.getIp());
-		ipconnect_port.setText(device.getPort() + "");
-		ipconnect_user.setText(device.getUser());
-		ipconnect_pwd.setText(device.getPwd());
-
 		ipconnect_address.setFocusable(true);
 		ipconnect_address.setFocusableInTouchMode(true);
 		change.setOnCheckedChangeListener(mylistener);

@@ -442,7 +442,6 @@ public class DeviceUtil {
 	 */
 	public static int editDeviceConnType(Device device, String userName) {
 		int res = -1;
-
 		// 请求参数示例
 		/**
 		 * {"mt":2013, "pv":"1.0", "lpt":1, "dguid":"ABCD0005", "dvlt":1,(0-云视通

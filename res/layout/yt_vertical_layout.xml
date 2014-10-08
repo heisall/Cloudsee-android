@@ -160,6 +160,7 @@
                 android:src="@drawable/ytscaleadd_bg_selector"
                 android:layout_alignParentRight="true"
                android:layout_below="@+id/zoomout_middle"
+<<<<<<< Updated upstream
                android:onClick="OnCancelButton"/>
         -->
 

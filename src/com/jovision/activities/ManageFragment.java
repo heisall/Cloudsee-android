@@ -42,8 +42,7 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Bundle bundle = getArguments();
-		deviceIndex = bundle.getInt("DeviceIndex");
+		deviceIndex = JVDeviceManageFragment.deviceIndex;
 		deviceList = CacheUtil.getDevList();
 		device = deviceList.get(deviceIndex);
 		super.onCreate(savedInstanceState);

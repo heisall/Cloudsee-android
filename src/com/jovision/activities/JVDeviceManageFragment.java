@@ -48,7 +48,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private ArrayList<Fragment> fragments;
 
 	/** intent传递过来的设备和通道下标 */
-	private int deviceIndex;
+	public static int deviceIndex;
 	private ArrayList<Device> manageDeviceList = new ArrayList<Device>();
 
 	@Override
@@ -235,8 +235,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 			((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2, obj);
 		}
 
-		// switch (what) {
-		// }
 	}
 
 	@Override

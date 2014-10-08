@@ -175,7 +175,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
-			myDLAdapter.setData(myDeviceList);
+			myDLAdapter.setData(myDeviceList, localFlag);
 			myDeviceListView.setAdapter(myDLAdapter);
 			myDLAdapter.notifyDataSetChanged();
 		} else {
@@ -227,7 +227,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public void onResume() {
 		super.onResume();
 		myDeviceList = CacheUtil.getDevList();
-		myDLAdapter.setData(myDeviceList);
+		myDLAdapter.setData(myDeviceList, localFlag);
 		myDeviceListView.setAdapter(myDLAdapter);
 		myDLAdapter.notifyDataSetChanged();
 	}
@@ -623,7 +623,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				// 给设备列表设置小助手
 				PlayUtil.setHelperToList(myDeviceList);
 				PlayUtil.broadCast(mActivity);
-				myDLAdapter.setData(myDeviceList);
+				myDLAdapter.setData(myDeviceList, localFlag);
 				myDeviceListView.setAdapter(myDLAdapter);
 				((BaseActivity) mActivity).dismissDialog();
 				break;
@@ -631,14 +631,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 从服务器端获取设备成功，但是没有设备
 			case DEVICE_NO_DEVICE: {
 				MyLog.v(TAG, "nonedata-too");
-				myDLAdapter.setData(myDeviceList);
+				myDLAdapter.setData(myDeviceList, localFlag);
 				myDeviceListView.setAdapter(myDLAdapter);
 				((BaseActivity) mActivity).dismissDialog();
 				break;
 			}
 			// 从服务器端获取设备失败
 			case DEVICE_GETDATA_FAILED: {
-				myDLAdapter.setData(myDeviceList);
+				myDLAdapter.setData(myDeviceList, localFlag);
 				myDeviceListView.setAdapter(myDLAdapter);
 				((BaseActivity) mActivity).dismissDialog();
 				break;

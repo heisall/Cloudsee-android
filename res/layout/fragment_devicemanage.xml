@@ -11,6 +11,7 @@
         layout="@layout/top_bar_layout" />
 
     <RelativeLayout
+        android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white" >
@@ -53,10 +54,47 @@
             android:src="@drawable/icon_demo_sel" />
     </RelativeLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/manage_pager"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    </android.support.v4.view.ViewPager>
+
+        <RelativeLayout
+            android:id="@+id/relalist"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/device_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/devmore_hide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_demo_sel" />
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/devicemanage_listView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relalist"
+            android:divider="#ffffff"
+            android:fadingEdge="none"
+            android:visibility="gone" >
+        </ListView>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/manage_pagerer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </android.support.v4.view.ViewPager>
+    </RelativeLayout>
 
 </LinearLayout>

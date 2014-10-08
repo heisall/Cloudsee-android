@@ -23,7 +23,6 @@ import com.jovision.bean.Device;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
 
-
 public class JVIpconnectActivity extends BaseActivity {
 	// ip连接形式的RadioButton
 	private RadioButton ipconnnect_ip;
@@ -96,9 +95,14 @@ public class JVIpconnectActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		setContentView(R.layout.ipconnect_layout);
 
-		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
+		deviceIndex = JVDeviceManageFragment.deviceIndex;
 		isDevice = getIntent().getIntExtra("isDevice", 0);
-		deviceList = CacheUtil.getDevList();
+		if (JVMyDeviceFragment.localFlag) {
+			deviceList = CacheUtil.getDevList();
+		} else {
+			deviceList = DeviceUtil
+					.getUserDeviceList(JVMyDeviceFragment.devicename);
+		}
 		device = deviceList.get(deviceIndex);
 		deviceedit = new Device();
 		change = (RadioGroup) findViewById(R.id.change);
@@ -123,19 +127,20 @@ public class JVIpconnectActivity extends BaseActivity {
 			addressLayout.setVisibility(View.GONE);
 			couldnumLayout.setVisibility(View.VISIBLE);
 			portLayout.setVisibility(View.GONE);
+			cloud_number.setText(device.getFullNo());
+			ipconnect_user.setText(device.getUser());
+			ipconnect_pwd.setText(device.getPwd());
 		} else {
 			change.check(R.id.ipconnect_ip);
 			isturn = true;
 			addressLayout.setVisibility(View.VISIBLE);
 			couldnumLayout.setVisibility(View.GONE);
 			portLayout.setVisibility(View.VISIBLE);
+			ipconnect_address.setText(device.getIp());
+			ipconnect_port.setText(device.getPort() + "");
+			ipconnect_user.setText(device.getUser());
+			ipconnect_pwd.setText(device.getPwd());
 		}
-
-		ipconnect_address.setText(device.getIp());
-		ipconnect_port.setText(device.getPort() + "");
-		ipconnect_user.setText(device.getUser());
-		ipconnect_pwd.setText(device.getPwd());
-
 		ipconnect_address.setFocusable(true);
 		ipconnect_address.setFocusableInTouchMode(true);
 		change.setOnCheckedChangeListener(mylistener);
@@ -331,30 +336,4 @@ public class JVIpconnectActivity extends BaseActivity {
 		return IPAddress;
 	}
 
-	// 动画旋转显示或隐藏的布局
-	private final class SwapViews implements Runnable {
-		public SwapViews(int position) {
-		}
-
-		public void run() {
-			final float centerX = mContainer.getWidth() / 2.0f;
-			final float centerY = mContainer.getHeight() / 2.0f;
-			Rotate3dUtil rotation;
-			rotation = new Rotate3dUtil(270, 360, centerX, centerY, 310.0f,
-					false);
-			rotation.setDuration(200);
-			rotation.setFillAfter(true);
-			rotation.setInterpolator(new DecelerateInterpolator());
-			mContainer.startAnimation(rotation);
-			if (!isturn) {
-				addressLayout.setVisibility(View.VISIBLE);
-				couldnumLayout.setVisibility(View.GONE);
-				portLayout.setVisibility(View.VISIBLE);
-			} else {
-				addressLayout.setVisibility(View.GONE);
-				couldnumLayout.setVisibility(View.VISIBLE);
-				portLayout.setVisibility(View.GONE);
-			}
-		}
-	}
 }

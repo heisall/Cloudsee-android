@@ -42,8 +42,7 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Bundle bundle = getArguments();
-		deviceIndex = bundle.getInt("DeviceIndex");
+		deviceIndex = JVDeviceManageFragment.deviceIndex;
 		deviceList = CacheUtil.getDevList();
 		device = deviceList.get(deviceIndex);
 		super.onCreate(savedInstanceState);
@@ -120,7 +119,7 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 4: {// 立即观看
-			// ((BaseActivity) mActivity).showTextToast(arg1 + "");
+				// ((BaseActivity) mActivity).showTextToast(arg1 + "");
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 				// String devJsonString = Device.listToString(deviceList);
 				// intentPlay.putExtra("DeviceList", devJsonString);

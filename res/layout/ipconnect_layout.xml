@@ -57,7 +57,7 @@
                         android:layout_marginLeft="20dp"
                         android:background="@null"
                         android:button="@null"
-                        android:drawableLeft="@drawable/select_selector_cloudsee"
+                        android:drawableLeft="@drawable/select_selector_ip"
                         android:drawablePadding="5dp"
                         android:paddingBottom="15dp"
                         android:paddingTop="15dp"

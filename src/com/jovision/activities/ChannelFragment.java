@@ -3,6 +3,7 @@ package com.jovision.activities;
 import java.util.ArrayList;
 
 import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter.LeScanCallback;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -395,47 +396,66 @@ public class ChannelFragment extends BaseFragment {
 			int result = -1;
 			int addIndex = Integer.parseInt(params[0]);
 			// int delChannelIndex = Integer.parseInt(params[1]);
+
 			int target = -1;
+			int left2Add = -1;
+
 			Channel channel = null;
 			MyList<Channel> list = device.getChannelList();
-			try {
-				if (Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
-						.get(Consts.LOCAL_LOGIN))) {// 本地添加
-					result = 0;
-				} else {
-					result = DeviceUtil.addPoint(device.getFullNo(), 4);
-				}
 
-				if (0 == result) {
-					for (int i = 0; i < 4; i++) {
-						channel = new Channel();
-						target = list.precheck();
-						channel.setChannel(target);
-						channel.setChannelName(device.getFullNo() + "_"
-								+ target);
-						list.add(channel);
+			left2Add = Consts.MAX_DEVICE_CHANNEL_COUNT - list.size();
+
+			if (left2Add > Consts.DEFAULT_ADD_CHANNEL_COUNT) {
+				left2Add = Consts.DEFAULT_ADD_CHANNEL_COUNT;
+			}
+
+			if (left2Add > 0) {
+				try {
+					if (Boolean
+							.valueOf(((BaseActivity) mActivity).statusHashMap
+									.get(Consts.LOCAL_LOGIN))) {// 本地添加
+						result = 0;
+					} else {
+						result = DeviceUtil.addPoint(device.getFullNo(),
+								left2Add);
 					}
-					// TODO 通道添加成功后是否要去服务器端获取
-					// if (Boolean.valueOf(((BaseActivity)
-					// mActivity).statusHashMap
-					// .get(Consts.LOCAL_LOGIN))) {// 本地添加
-					// device.setChannelList(list);
-					// } else {
-					//
-					// MyList<Channel> mList = DeviceUtil.getDevicePointList(
-					// device,
-					// ((BaseActivity) mActivity).statusHashMap
-					// .get("KEY_USERNAME"));
-					// // device.setChannelList(DeviceUtil.getDevicePointList(
-					// // device,
-					// // ((BaseActivity) mActivity).statusHashMap
-					// // .get("KEY_USERNAME")));
-					// }
-					device.setChannelList(list);
-				}
 
-			} catch (Exception e) {
-				e.printStackTrace();
+					if (0 == result) {
+						for (int i = 0; i < left2Add; i++) {
+							channel = new Channel();
+							target = list.precheck();
+							channel.setChannel(target);
+							channel.setChannelName(device.getFullNo() + "_"
+									+ target);
+							list.add(channel);
+						}
+						// TODO 通道添加成功后是否要去服务器端获取
+						// if (Boolean.valueOf(((BaseActivity)
+						// mActivity).statusHashMap
+						// .get(Consts.LOCAL_LOGIN))) {// 本地添加
+						// device.setChannelList(list);
+						// } else {
+						//
+						// MyList<Channel> mList =
+						// DeviceUtil.getDevicePointList(
+						// device,
+						// ((BaseActivity) mActivity).statusHashMap
+						// .get("KEY_USERNAME"));
+						// //
+						// device.setChannelList(DeviceUtil.getDevicePointList(
+						// // device,
+						// // ((BaseActivity) mActivity).statusHashMap
+						// // .get("KEY_USERNAME")));
+						// }
+						device.setChannelList(list);
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				// [Neo] TODO 达到添加上限
+
 			}
 
 			return result;

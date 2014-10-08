@@ -50,6 +50,8 @@ public class Consts {
 
 	public static final int CHANNEL_JY = 5555;
 	public static final int MAX_CHANNEL_CONNECTION = 36;
+	public static final int MAX_DEVICE_CHANNEL_COUNT = 64;
+	public static final int DEFAULT_ADD_CHANNEL_COUNT = 4;
 
 	public static final int DEVICE_TYPE_UNKOWN = -1;
 	public static final int DEVICE_TYPE_DVR = 0x01;

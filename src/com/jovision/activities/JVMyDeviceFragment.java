@@ -235,20 +235,20 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		imageScroll.stopTimer();
+		// imageScroll.stopTimer();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		CacheUtil.saveDevList(myDeviceList);
-		imageScroll.stopTimer();
+		// imageScroll.stopTimer();
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		imageScroll.stopTimer();
+		// imageScroll.stopTimer();
 	}
 
 	/**

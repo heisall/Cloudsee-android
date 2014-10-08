@@ -29,6 +29,34 @@
             android:text="社会主义"
             android:textColor="#888888"
             android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/item_pictrue_clicked"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/pictrue_one" />
+
+        <TextView
+            android:id="@+id/item_address_clicked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:text="幼儿园"
+            android:textColor="#888888"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/item_time_clicked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:text="社会主义"
+            android:textColor="#888888"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <ImageView

@@ -17,9 +17,7 @@
  * limitations under the License.
 <<<<<<< Updated upstream
  */
-=======
- */
->>>>>>> Stashed changes
+
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -27,9 +25,7 @@
         Base application theme, dependent on API level. This theme is replaced
 <<<<<<< Updated upstream
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-=======
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
->>>>>>> Stashed changes
+
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <item name="android:background">@color/transparent</item>
@@ -45,9 +41,7 @@
             res/values-vXX/styles.xml, while customizations related to
 <<<<<<< Updated upstream
             backward-compatibility can go here.
-=======
-            backward-compatibility can go here.
->>>>>>> Stashed changes
+
         -->
     </style>
 
@@ -80,9 +74,7 @@
         <item name="android:windowContentOverlay">@null</item>  
 <<<<<<< Updated upstream
         <item name="android:backgroundDimEnabled">true</item>
-=======
-        <item name="android:backgroundDimEnabled">true</item>
->>>>>>> Stashed changes
+
         -->
 
     </style>

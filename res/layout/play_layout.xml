@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black" >
-
+	<RelativeLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    >
     <include
         android:id="@+id/top_bar"
         layout="@layout/top_bar_layout" />
@@ -26,7 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_centerHorizontal="true" />
-
         <TextView
             android:id="@+id/linkstate"
             android:layout_width="wrap_content"
@@ -231,5 +233,60 @@
             android:textColor="@drawable/button_font_style"
             android:textSize="8sp" />
     </LinearLayout>
+     <include
+        android:id="@+id/top_bartwo"
+        layout="@layout/top_bar_layout" 
+        android:visibility="gone"
+        />
+    
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true" 
+		android:visibility="gone"
+        >
 
+        <Button
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/function_btn_bg"
+            android:text="123"
+             />
+
+        <Button
+            android:layout_height="match_parent"
+             android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/function_btn_bg"
+            android:text="123"
+             />
+
+        <Button
+            android:layout_height="match_parent"
+             android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/function_btn_bg"
+            android:text="123"
+             />
+
+        <Button
+            android:layout_height="match_parent"
+             android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/function_btn_bg"
+            android:text="123"
+          />
+
+        <Button
+            android:layout_height="match_parent"
+             android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/function_btn_bg"
+            android:text="123"
+           />
+    </LinearLayout>
+    
 </RelativeLayout>
+</FrameLayout>

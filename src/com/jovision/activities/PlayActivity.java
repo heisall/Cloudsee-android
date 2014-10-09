@@ -5,6 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
+import android.os.CountDownTimer;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class PlayActivity extends BaseActivity {
 
 	/** layout 上 */
 	protected LinearLayout topBar;// 顶部标题栏
+	protected LinearLayout topBartwo;// 顶部标题栏
 	protected Button back;// 返回
 	protected Button rightFuncButton;// 右边按钮事件
 	protected TextView currentMenu;// 当前标题
@@ -100,6 +102,8 @@ public class PlayActivity extends BaseActivity {
 
 	protected MICRecorder recorder;// 音频采集
 
+	private LinearLayout bottom;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 
@@ -125,6 +129,7 @@ public class PlayActivity extends BaseActivity {
 
 		/** 上 */
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
+		topBartwo = (LinearLayout) findViewById(R.id.top_bartwo);// 顶部标题栏
 		back = (Button) findViewById(R.id.btn_left);
 		rightFuncButton = (Button) findViewById(R.id.btn_right);
 
@@ -149,6 +154,9 @@ public class PlayActivity extends BaseActivity {
 
 		linkState = (TextView) findViewById(R.id.playstate);// 连接文字
 		loading = (ProgressBar) findViewById(R.id.videoloading);// 加载进度
+		/** 下 */
+
+		bottom = (LinearLayout) findViewById(R.id.bottom);
 
 		if ((disMetrics.heightPixels > 800 && disMetrics.widthPixels > 480)
 				|| (disMetrics.heightPixels > 480 && disMetrics.widthPixels > 800)) {// 大屏
@@ -242,7 +250,8 @@ public class PlayActivity extends BaseActivity {
 							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			topBar.setVisibility(View.VISIBLE);// 顶部标题栏
 			footerBar.setVisibility(View.VISIBLE);// 底部工具栏
-
+			bottom.setVisibility(View.GONE);
+			topBartwo.setVisibility(View.GONE);
 			reParamsV = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
 					(int) (0.75 * disMetrics.widthPixels));
 			MyLog.e(TAG, "v-w=" + disMetrics.widthPixels + ";v-h="
@@ -259,8 +268,11 @@ public class PlayActivity extends BaseActivity {
 		} else {// 横
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//			topBar.setVisibility(View.GONE);// 顶部标题栏
-//			footerBar.setVisibility(View.GONE);// 底部工具栏
+			topBar.setVisibility(View.GONE);// 顶部标题栏
+			footerBar.setVisibility(View.GONE);// 底部工具栏
+			bottom.setVisibility(View.VISIBLE);
+			topBartwo.setVisibility(View.VISIBLE);
+			init();
 
 			reParamsH = new RelativeLayout.LayoutParams(
 					ViewGroup.LayoutParams.MATCH_PARENT,
@@ -269,7 +281,6 @@ public class PlayActivity extends BaseActivity {
 					+ disMetrics.widthPixels);
 			viewPager.setLayoutParams(reParamsH);
 			playSurface.setLayoutParams(reParamsH);
-
 			// [Neo] surface.step 0
 			if (surfaceWidth < 0 || surfaceHeight < 0) {
 				surfaceWidth = disMetrics.widthPixels;
@@ -404,4 +415,19 @@ public class PlayActivity extends BaseActivity {
 
 	}
 
+	private void init() {
+		new CountDownTimer(3000, 2000) {
+
+			@Override
+			public void onTick(long millisUntilFinished) {
+
+			}
+
+			@Override
+			public void onFinish() {
+				bottom.setVisibility(View.GONE);
+				topBartwo.setVisibility(View.GONE);
+			}
+		}.start();
+	}
 }

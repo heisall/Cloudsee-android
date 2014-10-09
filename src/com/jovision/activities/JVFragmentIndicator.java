@@ -54,7 +54,7 @@ public class JVFragmentIndicator extends LinearLayout implements
 		mContext = context;
 		inflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		titleArray = mContext.getResources().getStringArray(R.array.titles);
+		titleArray = mContext.getResources().getStringArray(R.array.array_tab);
 		mCurIndicator = mDefaultIndicator;
 		setOrientation(LinearLayout.HORIZONTAL);
 		init();
@@ -86,7 +86,8 @@ public class JVFragmentIndicator extends LinearLayout implements
 
 	private void init() {
 		if (null != titleArray) {
-			titleArray = mContext.getResources().getStringArray(R.array.titles);
+			titleArray = mContext.getResources().getStringArray(
+					R.array.array_tab);
 		}
 		int length = titleArray.length;
 		mIndicators = new View[titleArray.length];

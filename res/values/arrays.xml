@@ -2,12 +2,31 @@
 <resources>
 
     <!-- 页卡数组 -->
-    <string-array name="titles">
+    <string-array name="array_tab">
         <item>我的设备</item>
         <item>系统消息</item>
         <item>演   示  点</item>
         <item>视频管理</item>
         <item>更多功能</item>
+    </string-array>
+
+    <!-- more feature func -->
+    <string-array name="array_more">
+        <item> 帮助界面</item>
+        <item> 账户信息</item>
+        <item> 功能设置</item>
+        <item> 摇一摇添加设备</item>
+        <item> 关于我们</item>
+        <item> 意见反馈</item>
+        <item> 评论一下</item>
+    </string-array>
+
+    <!-- add Dev pop menu -->
+    <string-array name="array_pop">
+        <item>云视通号</item>
+        <item>二维码扫描</item>
+        <item>无线设备</item>
+        <item>局域网设备</item>
     </string-array>
 
     <!-- 家庭安防产品 -->

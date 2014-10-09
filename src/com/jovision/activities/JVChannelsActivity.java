@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.ManageListAdapter;
@@ -183,6 +182,7 @@ public class JVChannelsActivity extends BaseActivity {
 					int index = (Integer) view.getTag();
 					deviceIndex = index;
 					channelPager.setCurrentItem(index);
+					((ChannelFragment) fragments.get(index)).deviceIndex = deviceIndex;
 				}
 			});
 			layout.setTag(i);
@@ -196,9 +196,11 @@ public class JVChannelsActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				String name = deviceList.get(position).getFullNo();
-				Toast.makeText(getApplicationContext(), name,
-						Toast.LENGTH_SHORT).show();
+				deviceIndex = position;
+				channelPager.setCurrentItem(position);
+				((ChannelFragment) fragments.get(position)).deviceIndex = deviceIndex;
+				linear.setVisibility(View.VISIBLE);
+				relative.setVisibility(View.GONE);
 			}
 		});
 	}
@@ -251,8 +253,7 @@ public class JVChannelsActivity extends BaseActivity {
 						* item_width, 0);
 			}
 			deviceIndex = position;
-			// ((ChannelFragment) fragments.get(position)).setData(position,
-			// deviceList, widthPixels);
+			((ChannelFragment) fragments.get(position)).deviceIndex = deviceIndex;
 			channelPager.setCurrentItem(position);
 		}
 

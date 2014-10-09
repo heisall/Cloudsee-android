@@ -30,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -109,11 +108,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	private ListView popListView;
 
-	private String[] name;
+	private String[] popFunArray;
 
 	private PopWindowAdapter popWindowAdapter;
 
-	private int[] drawablearray = new int[] { R.drawable.icon_demo_nor,
+	private int[] popDrawarray = new int[] { R.drawable.icon_demo_nor,
 			R.drawable.icon_message_nor, R.drawable.icon_more_nor,
 			R.drawable.icon_demo_nor };
 
@@ -131,7 +130,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 
-		name = mActivity.getResources().getStringArray(R.array.poplist);
+		popFunArray = mActivity.getResources()
+				.getStringArray(R.array.array_pop);
 		currentMenu.setText(mActivity.getResources().getString(
 				R.string.my_device));
 		currentMenu.setText(R.string.my_device);
@@ -223,7 +223,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 					popupWindow.dismiss();
 				} else {
 					// 显示在below正下方
-					popupWindow.showAsDropDown(view, -120, 10);
+					popupWindow.showAsDropDown(view, 0, 20);
 				}
 				break;
 			case R.id.device_numet_cancle:
@@ -251,14 +251,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 		View v = LayoutInflater.from(mActivity).inflate(R.layout.popview, null); // 将布局转化为view
 		popListView = (ListView) v.findViewById(R.id.popwindowlist);
 		popWindowAdapter = new PopWindowAdapter(JVMyDeviceFragment.this);
-		popWindowAdapter.setData(name, drawablearray);
+		popWindowAdapter.setData(popFunArray, popDrawarray);
 		popListView.setAdapter(popWindowAdapter);
 		if (popupWindow == null) {
 			/**
 			 * public PopupWindow (View contentView, int width, int height)
 			 * contentView:布局view width：布局的宽 height：布局的高
 			 */
-			popupWindow = new PopupWindow(v, 200, LayoutParams.WRAP_CONTENT);
+			popupWindow = new PopupWindow(v,
+					mActivity.disMetrics.widthPixels / 2,
+					LayoutParams.WRAP_CONTENT);
 		}
 		popupWindow.setFocusable(true); // 获得焦点
 		popupWindow.setOutsideTouchable(true);// 是否可点击
@@ -277,9 +279,44 @@ public class JVMyDeviceFragment extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
-				Toast.makeText(mActivity, name[position], Toast.LENGTH_SHORT)
-						.show();
+
+				switch (position) {
+				case 0: {// 云视通号
+					Intent addIntent = new Intent();
+					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
+					String devJsonString = Device.listToString(myDeviceList);
+					addIntent.putExtra("DeviceList", devJsonString);
+					addIntent.putExtra("QR", false);
+					mActivity.startActivity(addIntent);
+					break;
+				}
+				case 1: {// 二维码扫描
+					Intent addIntent = new Intent();
+					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
+					String devJsonString = Device.listToString(myDeviceList);
+					addIntent.putExtra("DeviceList", devJsonString);
+					addIntent.putExtra("QR", true);
+					mActivity.startActivity(addIntent);
+					break;
+				}
+				case 2: {// 无线设备
+					break;
+				}
+				case 3: {// 局域网设备
+					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+					if (!ConfigUtil.is3G(mActivity, false)) {// 闈3G鍔犲箍鎾­璁惧¤
+						broadTag = BROAD_ADD_DEVICE;
+						broadList.clear();
+						PlayUtil.broadCast(mActivity);
+					} else {
+						((BaseActivity) mActivity)
+								.showTextToast(R.string.notwifi_forbid_func);
+					}
+					break;
+				}
+
+				}
+				popupWindow.dismiss(); // pop消失
 			}
 		});
 	}

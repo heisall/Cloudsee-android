@@ -93,7 +93,7 @@ public class JVMoreFragment extends BaseFragment {
 
 	private void intiUi(View view) {
 		activity = getActivity();
-		name = activity.getResources().getStringArray(R.array.name);
+		name = activity.getResources().getStringArray(R.array.array_more);
 		if (Boolean.valueOf(((BaseActivity) activity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			more_name = activity.getResources().getString(

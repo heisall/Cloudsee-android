@@ -240,7 +240,8 @@ public class JVPlayActivity extends PlayActivity implements
 				try {
 					JSONObject connectObj = new JSONObject(obj.toString());
 					String errorMsg = connectObj.getString("msg");
-					if ("pass word is wrong!".equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
+					if ("password is wrong!".equalsIgnoreCase(errorMsg)
+							|| "pass word is wrong!".equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
 						loadingState(arg2, R.string.connfailed_auth,
 								JVConst.PLAY_DIS_CONNECTTED);
 					} else if ("channel is not open!"
@@ -251,7 +252,7 @@ public class JVPlayActivity extends PlayActivity implements
 							.equalsIgnoreCase(errorMsg)) {// 连接类型无效
 						loadingState(arg2, R.string.connfailed_type_invalid,
 								JVConst.PLAY_DIS_CONNECTTED);
-					} else if ("client count limit".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
+					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
 						loadingState(arg2, R.string.connfailed_maxcount,
 								JVConst.PLAY_DIS_CONNECTTED);
 					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//

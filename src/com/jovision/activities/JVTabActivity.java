@@ -86,11 +86,12 @@ public class JVTabActivity extends BaseActivity {
 		super.onResume();
 		Intent intent = getIntent();
 		int index = intent.getIntExtra("tabIndex", -1);
-		
-		if(-1 != index){
+
+		if (-1 != index) {
 			currentIndex = index;
 			getSupportFragmentManager().beginTransaction()
-			.replace(R.id.tab_fragment, mFragments[currentIndex]).commit();
+					.replace(R.id.tab_fragment, mFragments[currentIndex])
+					.commit();
 		}
 		MyLog.v(TAG, "TAB_onResume" + currentIndex);
 	}

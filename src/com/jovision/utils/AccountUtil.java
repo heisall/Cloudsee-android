@@ -13,6 +13,7 @@ import android.util.Log;
 import com.jovision.bean.ClientBean;
 import com.jovision.bean.User;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 
 public class AccountUtil {
 
@@ -119,9 +120,19 @@ public class AccountUtil {
 		if (0 == res) {
 			res = reportClientPlatformInfo(con);
 		}
+
+		boolean alarmSwitch = MySharedPreference.getBoolean("AlarmSwitch",
+				false);
+
+		if (0 == res) {
+			JVACCOUNT.SetCurrentAlarmFlag(alarmSwitch ? 0 : 1,
+					ConfigUtil.getIMEI(con));
+		}
+
 		if (0 == res) {
 			JVACCOUNT.RegisterServerPushFunc();
 		}
+
 		if (res == 0) {// 登陆成功必须调online
 			userOnline();
 		}

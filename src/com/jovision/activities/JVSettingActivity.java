@@ -2,6 +2,9 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.os.AsyncTask;
+import android.test.JVACCOUNT;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -13,7 +16,9 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.SettingAdapter;
 import com.jovision.bean.SettingBean;
+import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.ConfigUtil;
 
 public class JVSettingActivity extends BaseActivity {
 
@@ -29,25 +34,21 @@ public class JVSettingActivity extends BaseActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void initSettings() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void initUi() {
-		// TODO Auto-generated method stub
 		setContentView(R.layout.setting);
 
 		leftBtn = (Button) findViewById(R.id.btn_left);
@@ -69,13 +70,10 @@ public class JVSettingActivity extends BaseActivity {
 
 	@Override
 	protected void saveSettings() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void freeMe() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -93,7 +91,6 @@ public class JVSettingActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.btn_left:
 				finish();
@@ -111,32 +108,38 @@ public class JVSettingActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
 				if (dataArrayList.get(position).getIsclick()) {
 					dataArrayList.get(position).setIsclick(false);
-					setShare(position, "select");
+					setShare(position, false);
 				} else {
 					dataArrayList.get(position).setIsclick(true);
-					setShare(position, "selected");
+					setShare(position, true);
 				}
 				settingAdapter.notifyDataSetChanged();
 			}
 		});
 	}
 
-	private void setShare(int pos, String setting) {
+	private void setShare(int pos, Boolean flag) {
 		switch (pos) {
 		case 0:
-			MySharedPreference.putString("SCENE", setting);
+			MySharedPreference.putBoolean("SCENE", flag);
 			break;
 		case 1:
-			MySharedPreference.putString("HELP", setting);
+			MySharedPreference.putBoolean("HELP", flag);
 			break;
-		case 2:
-			MySharedPreference.putString("ALERT", setting);
+		case 2:// 报警开关
+			AlarmTask task = new AlarmTask();
+			Integer[] params = new Integer[3];
+			if (flag) {// 1是关 0是开
+				params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
+			} else {
+				params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
+			}
+			task.execute(params);
 			break;
 		case 3:
-			MySharedPreference.putString("SEE_MODEL", setting);
+			MySharedPreference.putBoolean("SEE_MODEL", flag);
 			break;
 		default:
 			break;
@@ -144,17 +147,68 @@ public class JVSettingActivity extends BaseActivity {
 	}
 
 	private void initShare() {
-		if (("selected").equals(MySharedPreference.getString("SCENE"))) {
+		if (MySharedPreference.getBoolean("SCENE")) {
 			dataArrayList.get(0).setIsclick(true);
 		}
-		if (("selected").equals(MySharedPreference.getString("HELP"))) {
+		if (MySharedPreference.getBoolean("HELP")) {
 			dataArrayList.get(1).setIsclick(true);
 		}
-		if (("selected").equals(MySharedPreference.getString("ALERT"))) {
+		if (MySharedPreference.getBoolean("AlarmSwitch")) {
 			dataArrayList.get(2).setIsclick(true);
 		}
-		if (("selected").equals(MySharedPreference.getString("SEE_MODEL"))) {
+		if (MySharedPreference.getBoolean("SEE_MODEL")) {
 			dataArrayList.get(3).setIsclick(true);
+		}
+	}
+
+	// 设置三种类型参数分别为String,Integer,String
+	private class AlarmTask extends AsyncTask<Integer, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(Integer... params) {
+			int switchRes = -1;
+			if (JVAlarmConst.ALARM_ON == params[0]) {// 开报警
+				switchRes = JVACCOUNT.SetCurrentAlarmFlag(
+						JVAlarmConst.ALARM_ON,
+						ConfigUtil.getIMEI(JVSettingActivity.this));
+				if (0 == switchRes) {
+					MySharedPreference.putBoolean("AlarmSwitch", true);
+					dataArrayList.get(2).setIsclick(true);
+				}
+			} else {// 关报警
+				switchRes = JVACCOUNT.SetCurrentAlarmFlag(
+						JVAlarmConst.ALARM_OFF,
+						ConfigUtil.getIMEI(JVSettingActivity.this));
+				if (0 == switchRes) {
+					MySharedPreference.putBoolean("AlarmSwitch", false);
+					dataArrayList.get(2).setIsclick(false);
+				}
+			}
+			Log.e("JVAlarmConst.ALARM_ON---", switchRes + "");
+			return switchRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
+			settingAdapter.notifyDataSetChanged();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
 }

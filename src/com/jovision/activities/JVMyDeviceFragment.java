@@ -119,6 +119,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		currentMenu.setText(mActivity.getResources().getString(
 				R.string.my_device));
+		currentMenu.setText(R.string.my_device);
 
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));

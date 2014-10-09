@@ -200,4 +200,6 @@ public class Consts {
 	/** 存储取没取过设备列表key */
 	public static String HAG_GOT_DEVICE = "HAG_GOT_DEVICE";
 
+	/** 帮助图案首次显示标志 */
+	public static String MORE_FREGMENT_FEEDBACK = "IS_FIRST";
 }

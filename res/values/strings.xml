@@ -428,14 +428,16 @@
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>
 
-    <!-- JVInfoFragement -->
+    <!-- JVDeviceManageFragment -->
+    <string name="str_fre">一共有</string>
+    <string name="str_aft">个设备</string>    <!-- JVInfoFragement -->
     <string name="xlistview_footer_hint_normal">More</string>
     <string name="xlistview_footer_hint_ready">Pull up to load more.</string>
     <string name="xlistview_no_more">No alert now</string>
 
     <!-- JVPlayActivity -->
     <string name="connfailed_auth">Failed to very ID.</string>
-    <string name="connfailed_channel_notopen">无该通道服务</string>
+    <string name="connfailed_channel_notopen">本通道无效</string>
     <string name="connfailed_type_invalid">连接类型无效</string>
     <string name="connfailed_maxcount">Connections have exceeded limitations!</string>
     <string name="connfailed_timeout">Connect timeout!</string>
@@ -470,6 +472,14 @@
     <string name="video_normal">Manual recording</string>
     <string name="video_alarm">Alarm recording</string>
 
+    <!-- Dialog -->
+    <string name="str_save">保存</string>
+    <string name="str_cancle">取消</string>
+    <string name="str_nickname">昵称 ：</string>
+    <string name="str_devicename">设备号  ：</string>
+    <string name="str_username">用户名  ：</string>
+    <string name="str_password">密码   ：  </string>
+    <string name="str_nicknametwo">昵称   ：  </string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
     <string name="str_yst_connect">CloudSEE</string>

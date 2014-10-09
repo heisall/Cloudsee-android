@@ -22,7 +22,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:text="我的设备"
+        android:text="@string/my_device"
         android:textColor="@color/white" />
 
     <TextView
@@ -33,7 +33,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
-        android:text="在线"
+        android:text="@string/str_device_online"
         android:textColor="@color/white" />
 
     <TextView
@@ -44,7 +44,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/device_online"
-        android:text="WIFI"
+        android:text="@string/str_wifistr"
         android:textColor="@color/white" />
 
 </RelativeLayout>

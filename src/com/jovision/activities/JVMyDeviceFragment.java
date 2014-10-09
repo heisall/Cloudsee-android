@@ -559,12 +559,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 		device_numet.setText(myDeviceList.get(agr1).getFullNo());
 		device_nameet.setText(myDeviceList.get(agr1).getUser());
 		device_passwordet.setText(myDeviceList.get(agr1).getPwd());
-		if (!myDeviceList.get(agr1).getNickName().equals("")) {
+		if (!("").equals(myDeviceList.get(agr1).getNickName())) {
 			device_nicket.setText(myDeviceList.get(agr1).getNickName());
-		} else {
-			device_nicket.setText("未知");
 		}
-
 		initDialog.show();
 		device_name.setFocusable(true);
 		device_name.setFocusableInTouchMode(true);

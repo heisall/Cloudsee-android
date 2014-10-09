@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="设备号  ：" />
+                    android:text="@string/str_devicename" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -72,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="   昵称   ：" />
+                    android:text="@string/str_nicknametwo" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -105,7 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="用户名  ：" />
+                    android:text="@string/str_username" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -138,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="   密码   ：" />
+                    android:text="@string/str_password" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -148,7 +148,8 @@
                         android:id="@+id/device_passwrodet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical" />
+                        android:layout_gravity="center_vertical"
+                        android:password="true" />
 
                     <ImageView
                         android:id="@+id/device_passwrodet_cancle"

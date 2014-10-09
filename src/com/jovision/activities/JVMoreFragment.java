@@ -61,7 +61,7 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.more_vibrator_img, R.drawable.more_about_img,
 			R.drawable.more_suggesr_img, R.drawable.more_remark_img };
 	// 功能名称数组
-	private String[] name;
+	private String[] fragment_name;
 
 	public static boolean localFlag = false;// 本地登陆标志位
 
@@ -70,7 +70,6 @@ public class JVMoreFragment extends BaseFragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_more, container, false);
 		intiUi(view);
-		listViewClick();
 		return view;
 	}
 
@@ -79,6 +78,7 @@ public class JVMoreFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
+		listViewClick();
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 		currentMenu.setText(R.string.more_featrue);
@@ -93,7 +93,8 @@ public class JVMoreFragment extends BaseFragment {
 
 	private void intiUi(View view) {
 		activity = getActivity();
-		name = activity.getResources().getStringArray(R.array.array_more);
+		fragment_name = activity.getResources().getStringArray(
+				R.array.array_more);
 		if (Boolean.valueOf(((BaseActivity) activity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			more_name = activity.getResources().getString(
@@ -128,7 +129,7 @@ public class JVMoreFragment extends BaseFragment {
 		for (int i = 0; i < Image.length; i++) {
 			MoreFragmentBean bean = new MoreFragmentBean();
 			bean.setItem_img(Image[i]);
-			bean.setName(name[i]);
+			bean.setName(fragment_name[i]);
 			if (i == 0 || i == 2 || i == 6) {
 				bean.setIsnew(true);
 			} else {
@@ -192,8 +193,20 @@ public class JVMoreFragment extends BaseFragment {
 									Toast.LENGTH_SHORT).show();
 							break;
 						case 5:
-							activity.startActivity(new Intent(activity,
-									JVFeedbackActivity.class));
+							if (("firsted").equals(MySharedPreference
+									.getString(Consts.MORE_FREGMENT_FEEDBACK))) {
+								Intent intent = new Intent(mActivity,
+										JVFeedbackActivity.class);
+								startActivity(intent);
+							} else {
+								Intent intent = new Intent(mActivity,
+										JVIntroduceAty.class);
+								MySharedPreference.putString(
+										Consts.MORE_FREGMENT_FEEDBACK,
+										"firsted");
+								intent.putExtra("viewnum", 3);
+								startActivity(intent);
+							}
 							break;
 						case 6:
 							Toast.makeText(activity, "点击成功6",

@@ -483,6 +483,17 @@
     <!-- MyDeviceListAdapter -->
     <string name="str_device_online">在线</string>
     <string name="str_device_offline">离线</string>
+    <!-- JVDeviceManageFragment -->
+    <string name="str_fre">一共有</string>
+    <string name="str_aft">个设备</string>
+    <!-- Dialog -->
+    <string name="str_save">保存</string>
+    <string name="str_cancle">取消</string>
+    <string name="str_nickname">昵称 ：</string>
+    <string name="str_devicename">设备号  ：</string>
+    <string name="str_username">用户名  ：</string>
+    <string name="str_password">   密码   ：</string>
+    <string name="str_nicknametwo">   昵称   ：</string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">切换IP直连和云视通连接模式</string>
     <string name="str_cloudsee_id">云视通号</string>

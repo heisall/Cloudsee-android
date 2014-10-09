@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:text="我的设备"
+                android:text="@string/my_device"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="3dp"
-                    android:text="WIFI"
+                    android:text="@string/str_wifistr"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
             </LinearLayout>
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:text="我的设备"
+                android:text="@string/my_device"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -183,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="3dp"
-                    android:text="WIFI"
+                    android:text="@string/str_wifistr"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
             </LinearLayout>

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ffffff"
+    android:background="@color/more_fragment_color3"
     android:orientation="vertical" >
 
     <include
@@ -23,7 +23,7 @@
                 android:id="@+id/more_usertop"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="#eeeeee" >
+                android:background="@color/more_fragment_color4" >
 
                 <ImageView
                     android:id="@+id/more_head_img"
@@ -46,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/user_name"
-                        android:textColor="#3c72c4"
+                        android:textColor="@color/more_fragment_color"
                         android:textSize="18sp" />
 
                     <LinearLayout
@@ -59,7 +59,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/last_time"
-                            android:textColor="#666666"
+                            android:textColor="@color/more_fragment_color2"
                             android:textSize="14sp" />
 
                         <TextView
@@ -67,7 +67,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2014-09-22"
-                            android:textColor="#666666"
+                            android:textColor="@color/more_fragment_color2"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -82,7 +82,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/more_modify"
-                            android:textColor="#666666"
+                            android:textColor="@color/more_fragment_color2"
                             android:textSize="14sp" />
 
                         <TextView
@@ -91,7 +91,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text="@string/more_findpassword"
-                            android:textColor="#666666"
+                            android:textColor="@color/more_fragment_color2"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -101,7 +101,7 @@
                 android:id="@+id/more_listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="#00000000" >
+                android:divider="@null" >
             </ListView>
 
             <RelativeLayout

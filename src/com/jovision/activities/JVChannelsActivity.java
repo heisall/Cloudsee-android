@@ -104,10 +104,9 @@ public class JVChannelsActivity extends BaseActivity {
 		devicemanage_listView = (ListView) findViewById(R.id.devicemanage_listView);
 		linear = (LinearLayout) findViewById(R.id.linear);
 		devmore = (ImageView) findViewById(R.id.devmore);
-		top_name = (TextView) findViewById(R.id.currentmenu);
-		top_string = getResources().getString(R.string.channal_list);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		currentMenu.setText(R.string.channal_list);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setBackgroundResource(R.drawable.qr_icon);
 		currentMenu.setText(R.string.channal_list);
@@ -218,7 +217,8 @@ public class JVChannelsActivity extends BaseActivity {
 				break;
 
 			case R.id.devmore:
-				device_num.setText("一共有" + deviceList.size() + "个设备");
+				device_num.setText(R.string.str_fre + deviceList.size()
+						+ R.string.str_aft);
 				relative.setVisibility(View.VISIBLE);
 				linear.setVisibility(View.GONE);
 				break;

@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relalist"
-            android:divider="#ffffff"
+            android:divider="@null"
             android:fadingEdge="none"
             android:visibility="gone" >
         </ListView>

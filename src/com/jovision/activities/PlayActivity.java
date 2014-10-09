@@ -259,8 +259,8 @@ public class PlayActivity extends BaseActivity {
 		} else {// 横
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
-			topBar.setVisibility(View.GONE);// 顶部标题栏
-			footerBar.setVisibility(View.GONE);// 底部工具栏
+//			topBar.setVisibility(View.GONE);// 顶部标题栏
+//			footerBar.setVisibility(View.GONE);// 底部工具栏
 
 			reParamsH = new RelativeLayout.LayoutParams(
 					ViewGroup.LayoutParams.MATCH_PARENT,

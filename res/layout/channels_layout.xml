@@ -52,7 +52,7 @@
     <LinearLayout
         android:id="@+id/linear"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical" >
 
@@ -74,15 +74,13 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" >
-
                     <LinearLayout
-                        android:id="@+id/hsv_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal" >
-                    </LinearLayout>
-
+                    android:id="@+id/hsv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+                </LinearLayout>
                     <ImageView
                         android:id="@+id/img"
                         android:layout_width="100dp"
@@ -102,12 +100,17 @@
                 android:layout_marginRight="5dp"
                 android:src="@drawable/icon_demo_sel" />
         </RelativeLayout>
-
+ 
         <android.support.v4.view.ViewPager
             android:id="@+id/channels_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content" >
         </android.support.v4.view.ViewPager>
+      <TextView 
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="dasdfasd"
+          />
     </LinearLayout>
-
+    
 </LinearLayout>

@@ -439,7 +439,8 @@
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
     <string name="del_device_succ">设备删除成功</string>
     <string name="del_device_failed">设备删除失败</string>
-
+	<string name="str_modify">修改</string>
+	<string name="str_update">当前设备已全部更新</string>
     <!-- JVInfoFragement -->
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加载更多</string>

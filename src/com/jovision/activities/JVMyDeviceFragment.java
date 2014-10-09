@@ -405,6 +405,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 									mActivity.getResources().getString(
 											R.string.str_default_pass), false,
 									count, 0);
+							broadDev.setOnlineState(1);// 广播都在线
 							broadList.add(broadDev);
 							MyLog.v(TAG, "广播到一个设备--" + broadDevNum);
 						}

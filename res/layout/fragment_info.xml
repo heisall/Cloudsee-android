@@ -13,30 +13,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
+        <com.jovision.views.XListView
+            android:id="@+id/pushlistview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:cacheColorHint="@color/deviceitembgcolor"
+            android:divider="@color/transparent"
+            android:dividerHeight="10dp"
+            android:fadingEdge="none"
+            android:footerDividersEnabled="true"
+            android:listSelector="@color/transparent" />
+
         <ImageView
+            android:id="@+id/nomess"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:src="@drawable/nomessage" />
     </RelativeLayout>
-    <!--
-    <com.jovision.views.RefreshableView
-        android:id="@+id/device_refreshable_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <ListView
-            android:id="@+id/device_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:descendantFocusability="blocksDescendants"
-            android:divider="@null"
-            android:fadingEdge="none"
-            android:focusableInTouchMode="true"
-            android:listSelector="@color/transparent"
-            android:scrollingCache="true" >
-        </ListView>
-    </com.jovision.views.RefreshableView>
-    -->
 
 </LinearLayout>

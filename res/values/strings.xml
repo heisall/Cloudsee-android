@@ -428,6 +428,11 @@
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>
 
+    <!-- JVInfoFragement -->
+    <string name="xlistview_footer_hint_normal">More</string>
+    <string name="xlistview_footer_hint_ready">Pull up to load more.</string>
+    <string name="xlistview_no_more">No alert now</string>
+
     <!-- JVPlayActivity -->
     <string name="connfailed_auth">Failed to very ID.</string>
     <string name="connfailed_channel_notopen">无该通道服务</string>

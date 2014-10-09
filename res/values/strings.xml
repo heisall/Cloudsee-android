@@ -430,7 +430,8 @@
 
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">一共有</string>
-    <string name="str_aft">个设备</string>    <!-- JVInfoFragement -->
+    <string name="str_aft">个设备</string>
+ <!-- JVInfoFragement -->
     <string name="xlistview_footer_hint_normal">More</string>
     <string name="xlistview_footer_hint_ready">Pull up to load more.</string>
     <string name="xlistview_no_more">No alert now</string>

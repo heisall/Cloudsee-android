@@ -85,10 +85,13 @@ public class JVTabActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 		Intent intent = getIntent();
-		currentIndex = intent.getIntExtra("tabIndex", 0);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.tab_fragment, mFragments[currentIndex]).commit();
-		MyLog.v("currentNotifyer-2", "" + JVTabActivity.this);
+		int index = intent.getIntExtra("tabIndex", -1);
+		
+		if(-1 != index){
+			currentIndex = index;
+			getSupportFragmentManager().beginTransaction()
+			.replace(R.id.tab_fragment, mFragments[currentIndex]).commit();
+		}
 		MyLog.v(TAG, "TAB_onResume" + currentIndex);
 	}
 

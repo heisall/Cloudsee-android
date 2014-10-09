@@ -63,8 +63,6 @@ public class JVMoreFragment extends BaseFragment {
 	// 功能名称数组
 	private String[] name;
 
-	private TextView top_name;
-
 	public static boolean localFlag = false;// 本地登陆标志位
 
 	@Override

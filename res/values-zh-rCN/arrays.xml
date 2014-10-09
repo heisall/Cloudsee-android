@@ -18,6 +18,12 @@
         <item> 意见反馈</item>
         <item> 评论一下</item>
     </string-array>
+    <string-array name="poplist">
+        <item> 帮助界面</item>
+        <item> 账户信息</item>
+        <item> 功能设置</item>
+        <item> 评论一下</item>
+    </string-array>
     <!-- 家庭安防产品 -->
     <!-- 图片质量 -->
     <string-array name="array_image_quality">

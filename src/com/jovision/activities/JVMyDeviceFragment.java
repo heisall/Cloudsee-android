@@ -21,6 +21,8 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -28,10 +30,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.MyDeviceListAdapter;
+import com.jovision.adapters.PopWindowAdapter;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
@@ -103,6 +107,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	private PopupWindow popupWindow; // 声明PopupWindow对象；
 
+	private ListView popListView;
+
+	private String[] name;
+
+	private PopWindowAdapter popWindowAdapter;
+
+	private int[] drawablearray = new int[] { R.drawable.icon_demo_nor,
+			R.drawable.icon_message_nor, R.drawable.icon_more_nor,
+			R.drawable.icon_demo_nor };
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -117,6 +131,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 
+		name = mActivity.getResources().getStringArray(R.array.poplist);
 		currentMenu.setText(mActivity.getResources().getString(
 				R.string.my_device));
 		currentMenu.setText(R.string.my_device);
@@ -223,30 +238,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			case R.id.device_nicket_cancle:
 				device_nicket.setText("");
 				break;
-			case R.id.pop_content:
-				Intent addIntent = new Intent();
-				addIntent.setClass(mActivity, JVAddDeviceActivity.class);
-				String devJsonString = Device.listToString(myDeviceList);
-				addIntent.putExtra("DeviceList", devJsonString);
-				mActivity.startActivity(addIntent);
-				popupWindow.dismiss();
-				break;
-			case R.id.pop_addfriend:
-				fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
-				if (!ConfigUtil.is3G(mActivity, false)) {// 非3G加广播设备
-					broadTag = BROAD_ADD_DEVICE;
-					broadList.clear();
-					PlayUtil.broadCast(mActivity);
-				} else {
-					((BaseActivity) mActivity)
-							.showTextToast(R.string.notwifi_forbid_func);
-				}
-				popupWindow.dismiss();
-				break;
-			case R.id.pop_personnal:
-
-				popupWindow.dismiss();
-				break;
 			default:
 				break;
 			}
@@ -258,12 +249,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 	// 点击加号弹出的popWindow
 	private void initPop() {
 		View v = LayoutInflater.from(mActivity).inflate(R.layout.popview, null); // 将布局转化为view
-		TextView pop_content = (TextView) v.findViewById(R.id.pop_content);
-		TextView pop_addfriend = (TextView) v.findViewById(R.id.pop_addfriend);
-		TextView pop_personnal = (TextView) v.findViewById(R.id.pop_personnal);
-		pop_content.setOnClickListener(myOnClickListener);
-		pop_addfriend.setOnClickListener(myOnClickListener);
-		pop_personnal.setOnClickListener(myOnClickListener);
+		popListView = (ListView) v.findViewById(R.id.popwindowlist);
+		popWindowAdapter = new PopWindowAdapter(JVMyDeviceFragment.this);
+		popWindowAdapter.setData(name, drawablearray);
+		popListView.setAdapter(popWindowAdapter);
 		if (popupWindow == null) {
 			/**
 			 * public PopupWindow (View contentView, int width, int height)
@@ -283,7 +272,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 				return false;
 			}
 		});
+		popListView.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				Toast.makeText(mActivity, name[position], Toast.LENGTH_SHORT)
+						.show();
+			}
+		});
 	}
 
 	@Override

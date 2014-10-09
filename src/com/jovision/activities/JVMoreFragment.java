@@ -181,12 +181,12 @@ public class JVMoreFragment extends BaseFragment {
 									Toast.LENGTH_SHORT).show();
 							break;
 						case 2:
-							Toast.makeText(activity, "点击成功2",
-									Toast.LENGTH_SHORT).show();
+							Intent settingintent = new Intent(mActivity,
+									JVSettingActivity.class);
+							startActivity(settingintent);
 							break;
 						case 3:
-							Toast.makeText(activity, "点击成功3",
-									Toast.LENGTH_SHORT).show();
+
 							break;
 						case 4:
 							Toast.makeText(activity, "点击成功4",
@@ -205,6 +205,7 @@ public class JVMoreFragment extends BaseFragment {
 										Consts.MORE_FREGMENT_FEEDBACK,
 										"firsted");
 								intent.putExtra("viewnum", 3);
+								intent.putExtra("pagenum", 0);
 								startActivity(intent);
 							}
 							break;

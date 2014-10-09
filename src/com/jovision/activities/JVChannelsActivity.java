@@ -56,10 +56,6 @@ public class JVChannelsActivity extends BaseActivity {
 
 	private int widthPixels;
 
-	private TextView top_name;
-
-	private String top_string;
-
 	private RelativeLayout relative;
 	private TextView device_num;
 	private ImageView devmore_hide;
@@ -109,7 +105,6 @@ public class JVChannelsActivity extends BaseActivity {
 		currentMenu.setText(R.string.channal_list);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setBackgroundResource(R.drawable.qr_icon);
-		currentMenu.setText(R.string.channal_list);
 		leftBtn.setOnClickListener(mOnClickListener);
 		rightBtn.setOnClickListener(mOnClickListener);
 		devmore_hide.setOnClickListener(mOnClickListener);
@@ -217,8 +212,11 @@ public class JVChannelsActivity extends BaseActivity {
 				break;
 
 			case R.id.devmore:
-				device_num.setText(R.string.str_fre + deviceList.size()
-						+ R.string.str_aft);
+				device_num.setText(JVChannelsActivity.this.getResources()
+						.getString(R.string.str_fre)
+						+ deviceList.size()
+						+ JVChannelsActivity.this.getResources().getString(
+								R.string.str_aft));
 				relative.setVisibility(View.VISIBLE);
 				linear.setVisibility(View.GONE);
 				break;

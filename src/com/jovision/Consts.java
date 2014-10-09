@@ -199,4 +199,17 @@ public class Consts {
 
 	/** 帮助图案首次显示标志 */
 	public static String MORE_FREGMENT_FEEDBACK = "IS_FIRST";
+
+	/** 功能设置页面场景图片标志位 */
+	public static String SETTING_SCENE = "SCENE";
+
+	/** 功能设置页面帮助标志位 */
+	public static String SETTING_HELP = "HELP";
+
+	/** 功能设置页面报警标志位 */
+	public static String SETTING_ALERT = "ALERT";
+
+	/** 功能设置页面观看模式标志位 */
+	public static String SETTING_SEE_MODEL = "SEE_MODEL";
+
 }

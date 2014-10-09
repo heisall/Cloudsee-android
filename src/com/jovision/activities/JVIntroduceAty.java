@@ -19,17 +19,24 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.MyPagerAdp;
 
 public class JVIntroduceAty extends Activity implements OnPageChangeListener {
-	private ViewPager viewpager; // 显示滑动图片
-	private List<View> pics; // 图片集合
+	// 显示滑动图片
+	private ViewPager viewpager;
+	// 图片集合
+	private List<View> pics;
 	// 图片数组
-	private int[] images = { R.drawable.one, R.drawable.two, R.drawable.three };
-	private List<ImageView> dots; // 点集合
-	private int currentImage = 0; // 当前页面索引
-	private int oldImage = 0; // 前一个页面索引
-	private MyPagerAdp adp; // ViewPager适配器
-
+	private int[] images;
+	// 点集合
+	private List<ImageView> dots;
+	// 当前页面索引
+	private int currentImage = 0;
+	// 前一个页面索引
+	private int oldImage = 0;
+	// ViewPager适配器
+	private MyPagerAdp adp;
+	// 帮助页面数量
 	private int viewnum;
-
+	// 页面标志位
+	private int pagenum;
 	// 更新布局
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -43,8 +50,19 @@ public class JVIntroduceAty extends Activity implements OnPageChangeListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.introduce);
 
+		pagenum = getIntent().getIntExtra("pagenum", 0);
 		viewnum = getIntent().getIntExtra("viewnum", 2);
+		switch (pagenum) {
+		case 0:
+			images = new int[] { R.drawable.one, R.drawable.two,
+					R.drawable.three };
+			break;
+		case 1:
 
+			break;
+		default:
+			break;
+		}
 		initView();
 		initDot();
 		getPic();
@@ -64,8 +82,17 @@ public class JVIntroduceAty extends Activity implements OnPageChangeListener {
 
 					@Override
 					public void onClick(View v) {
-						startActivity(new Intent(JVIntroduceAty.this,
-								JVFeedbackActivity.class));
+						switch (pagenum) {
+						case 0:
+							startActivity(new Intent(JVIntroduceAty.this,
+									JVFeedbackActivity.class));
+							break;
+						case 1:
+
+							break;
+						default:
+							break;
+						}
 						finish();
 					}
 				});
@@ -141,4 +168,5 @@ public class JVIntroduceAty extends Activity implements OnPageChangeListener {
 		msg.arg1 = currentImage;
 		handler.sendMessage(msg);
 	}
+
 }

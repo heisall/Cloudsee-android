@@ -180,8 +180,10 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 				break;
 			case R.id.devmore:
-				device_num.setText(R.string.str_fre + manageDeviceList.size()
-						+ R.string.str_aft);
+				device_num.setText(mActivity.getResources().getString(
+						R.string.str_fre)
+						+ manageDeviceList.size()
+						+ mActivity.getResources().getString(R.string.str_aft));
 				relalist.setVisibility(View.VISIBLE);
 				devicemanage_listView.setVisibility(View.VISIBLE);
 				managePager.setVisibility(View.GONE);

@@ -146,4 +146,12 @@
         <item name="android:windowBackground">@drawable/dialog_bg</item>
     </style>
 
+    <!-- 报警级别 -->
+    <style name="gradeRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/grade_ratingbar_drawable</item>
+        <item name="android:minHeight">15dp</item>
+        <item name="android:maxHeight">15dp</item>
+        <item name="android:adjustViewBounds">true</item>
+    </style>
+
 </resources>

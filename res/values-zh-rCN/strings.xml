@@ -440,6 +440,11 @@
     <string name="del_device_succ">设备删除成功</string>
     <string name="del_device_failed">设备删除失败</string>
 
+    <!-- JVInfoFragement -->
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">上拉加载更多</string>
+    <string name="xlistview_no_more">没有报警信息了</string>
+
     <!-- JVPlayActivity -->
     <string name="connfailed_auth">身份验证失败</string>
     <string name="connfailed_channel_notopen">无该通道服务</string>

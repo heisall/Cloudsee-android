@@ -53,6 +53,9 @@ public class Consts {
 	public static final int MAX_DEVICE_CHANNEL_COUNT = 64;
 	public static final int DEFAULT_ADD_CHANNEL_COUNT = 4;
 
+	public static int pushHisCount = 0;
+	public static final int PUSH_PAGESIZE = 5;
+
 	public static final int DEVICE_TYPE_UNKOWN = -1;
 	public static final int DEVICE_TYPE_DVR = 0x01;
 	public static final int DEVICE_TYPE_950 = 0x02;

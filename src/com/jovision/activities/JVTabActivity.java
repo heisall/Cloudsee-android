@@ -84,8 +84,12 @@ public class JVTabActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Intent intent = getIntent();
+		currentIndex = intent.getIntExtra("tabIndex", 0);
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.tab_fragment, mFragments[currentIndex]).commit();
 		MyLog.v("currentNotifyer-2", "" + JVTabActivity.this);
-		MyLog.v(TAG, "TAB_onResume");
+		MyLog.v(TAG, "TAB_onResume" + currentIndex);
 	}
 
 	@Override
@@ -119,7 +123,6 @@ public class JVTabActivity extends BaseActivity {
 			CharSequence tickerText = JVTabActivity.this.getResources()
 					.getString(R.string.str_alarm);
 			long when = System.currentTimeMillis();
-			@SuppressWarnings("deprecation")
 			Notification notification = new Notification(icon, tickerText, when);
 
 			notification.defaults |= Notification.DEFAULT_SOUND;// 声音
@@ -140,9 +143,12 @@ public class JVTabActivity extends BaseActivity {
 					.getString(R.string.str_alarm_info);
 			// CharSequence contentText = pushMessage;
 			Intent notificationIntent = new Intent(JVTabActivity.this,
-					JVNoticeActivity.class);
+					JVTabActivity.class);
+			notificationIntent.putExtra("tabIndex", 1);
+
 			PendingIntent contentIntent = PendingIntent.getActivity(
-					JVTabActivity.this, 0, notificationIntent, 0);
+					JVTabActivity.this, 0, notificationIntent,
+					PendingIntent.FLAG_UPDATE_CURRENT);
 			notification.setLatestEventInfo(context, contentTitle, contentText,
 					contentIntent);
 
@@ -269,7 +275,8 @@ public class JVTabActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-
+		Intent intent = getIntent();
+		currentIndex = intent.getIntExtra("tabIndex", 0);
 	}
 
 	@Override
@@ -295,7 +302,7 @@ public class JVTabActivity extends BaseActivity {
 		mFragments[4] = new JVMoreFragment();
 
 		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
-		JVFragmentIndicator.setIndicator(0);
+		JVFragmentIndicator.setIndicator(currentIndex);
 
 		mIndicator.setOnIndicateListener(new OnIndicateListener() {
 			@Override

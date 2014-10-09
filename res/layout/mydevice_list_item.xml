@@ -38,7 +38,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:text="@string/my_device"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -51,7 +52,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/deviceonline" />
+                    android:background="@drawable/deviceonline"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/dev_online_l"
@@ -61,7 +63,7 @@
                     android:layout_marginLeft="3dp"
                     android:text="@string/str_device_online"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/wifi_online_img_l"
@@ -69,7 +71,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/wifionline" />
+                    android:background="@drawable/wifionline"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/dev_wifi_l"
@@ -79,7 +82,7 @@
                     android:layout_marginLeft="3dp"
                     android:text="@string/str_wifistr"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <ImageView
@@ -139,7 +142,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:text="@string/my_device"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -152,7 +156,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/deviceonline" />
+                    android:background="@drawable/deviceonline"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/dev_online_r"
@@ -161,7 +166,7 @@
                     android:layout_marginLeft="3dp"
                     android:text="@string/str_device_online"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/wifi_online_img_r"
@@ -169,7 +174,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/wifionline" />
+                    android:background="@drawable/wifionline"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/dev_wifi_r"
@@ -179,7 +185,7 @@
                     android:layout_marginLeft="3dp"
                     android:text="@string/str_wifistr"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <ImageView

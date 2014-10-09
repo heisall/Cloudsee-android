@@ -34,6 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:src="@drawable/icon_demo_sel" />
         </RelativeLayout>
 
@@ -64,6 +66,7 @@
                 android:id="@+id/hsv_view"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_toLeftOf="@+id/devmore"
                 android:background="@android:color/white"
                 android:fadingEdge="@null"
                 android:scrollbars="none" >
@@ -95,6 +98,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:src="@drawable/icon_demo_sel" />
         </RelativeLayout>
 

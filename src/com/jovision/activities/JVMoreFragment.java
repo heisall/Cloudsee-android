@@ -70,7 +70,6 @@ public class JVMoreFragment extends BaseFragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_more, container, false);
 		intiUi(view);
-		listViewClick();
 		return view;
 	}
 
@@ -79,6 +78,7 @@ public class JVMoreFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
+		listViewClick();
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 		currentMenu.setText(R.string.more_featrue);
@@ -192,8 +192,20 @@ public class JVMoreFragment extends BaseFragment {
 									Toast.LENGTH_SHORT).show();
 							break;
 						case 5:
-							activity.startActivity(new Intent(activity,
-									JVFeedbackActivity.class));
+							if (("firsted").equals(MySharedPreference
+									.getString(Consts.MORE_FREGMENT_FEEDBACK))) {
+								Intent intent = new Intent(mActivity,
+										JVFeedbackActivity.class);
+								startActivity(intent);
+							} else {
+								Intent intent = new Intent(mActivity,
+										JVIntroduceAty.class);
+								MySharedPreference.putString(
+										Consts.MORE_FREGMENT_FEEDBACK,
+										"firsted");
+								intent.putExtra("viewnum", 3);
+								startActivity(intent);
+							}
 							break;
 						case 6:
 							Toast.makeText(activity, "点击成功6",

@@ -5,13 +5,11 @@
     android:background="#666E72"
     android:orientation="vertical" >
 
-    
-    <ListView 
+    <ListView
         android:id="@+id/popwindowlist"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:divider="#ffffff"
-        >
+        android:divider="#ffffff" >
     </ListView>
 
 </LinearLayout>

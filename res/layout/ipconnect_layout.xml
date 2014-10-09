@@ -225,6 +225,7 @@
                     android:inputType="textPassword"
                     android:lines="1"
                     android:paddingLeft="10dp"
+                    android:password="true"
                     android:singleLine="true"
                     android:textColor="@color/black" />
             </LinearLayout>

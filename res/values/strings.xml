@@ -198,15 +198,9 @@
     <string name="str_finish">Finish</string>
     <string name="tipsRelativeSrc">Long click to relative source</string>
     <string name="connFailed">Failed</string>
-    <string name="connfailed_auth">Failed to very ID.</string>
-    <string name="connfailed_auth_tips">Failed to verify indentification, do you need to modify username and password?</string>
-    <string name="connfailed_maxcount">Connections have exceeded limitations!</string>
     <string name="timedOut">Timed out</string>
     <string name="closed">Closed</string>
     <string name="paused">Paused</string>
-    <string name="connect_failed">connect failed</string>
-    <string name="connecting1">Connecting...</string>
-    <string name="connecting_buffer">Buffering now...</string>
     <string name="str_out_memery">Your mobile phone is not insert SDCard, temporarily unable to use this feature</string>
     <string name="str_sdcard_notenough">Your mobile phone card memory space is insufficient,请删除部分数据后重新开启此功能。</string>
     <!-- 数据源 -->
@@ -437,6 +431,16 @@
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">一共有</string>
     <string name="str_aft">个设备</string>
+    <!-- JVPlayActivity -->
+    <string name="connfailed_auth">Failed to very ID.</string>
+    <string name="connfailed_channel_notopen">本通道无效</string>
+    <string name="connfailed_type_invalid">连接类型无效</string>
+    <string name="connfailed_maxcount">Connections have exceeded limitations!</string>
+    <string name="connfailed_timeout">Connect timeout!</string>
+    <string name="connfailed_auth_tips">Failed to verify indentification, do you need to modify username and password?</string>
+    <string name="connect_failed">Connect failed</string>
+    <string name="connecting">Connecting...</string>
+    <string name="connecting_buffer">Buffering now...</string>
 
     <!-- JVAddDeviceActivity -->
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
@@ -464,6 +468,14 @@
     <string name="video_normal">Manual recording</string>
     <string name="video_alarm">Alarm recording</string>
 
+    <!-- Dialog -->
+    <string name="str_save">保存</string>
+    <string name="str_cancle">取消</string>
+    <string name="str_nickname">昵称 ：</string>
+    <string name="str_devicename">设备号  ：</string>
+    <string name="str_username">用户名  ：</string>
+    <string name="str_password">密码   ：  </string>
+    <string name="str_nicknametwo">昵称   ：  </string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
     <string name="str_yst_connect">CloudSEE</string>

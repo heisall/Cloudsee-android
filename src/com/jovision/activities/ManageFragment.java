@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
@@ -31,7 +32,7 @@ public class ManageFragment extends BaseFragment {
 	DisplayMetrics disMetrics;
 
 	/** 构造参数 */
-	private int deviceIndex;
+	public int deviceIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private Device device;
 
@@ -189,67 +190,34 @@ public class ManageFragment extends BaseFragment {
 					+ ", " + obj);
 			if (1 != arg1) {
 				mActivity.dismissDialog();
-				mActivity.showTextToast(R.string.str_host_connect_timeout);
+
+				try {
+					JSONObject connectObj = new JSONObject(obj.toString());
+					String errorMsg = connectObj.getString("msg");
+					if ("pass word is wrong!".equalsIgnoreCase(errorMsg)
+							|| "pass word is wrong!".equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
+						mActivity.showTextToast(R.string.connfailed_auth);
+					} else if ("channel is not open!"
+							.equalsIgnoreCase(errorMsg)) {// 无该通道服务
+						mActivity
+								.showTextToast(R.string.connfailed_channel_notopen);
+					} else if ("connect type invalid!"
+							.equalsIgnoreCase(errorMsg)) {// 连接类型无效
+						mActivity
+								.showTextToast(R.string.connfailed_type_invalid);
+					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
+						mActivity.showTextToast(R.string.connfailed_maxcount);
+					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
+						mActivity.showTextToast(R.string.connfailed_timeout);
+					} else {
+						mActivity.showTextToast(R.string.connect_failed);
+					}
+
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
 			}
-
-			// switch (arg1) {
-			// // 1 -- 连接成功
-			// case JVNetConst.CONNECT_OK: {
-			// // mActivity.showTextToast(R.string.str_host_connect_timeout);
-			// break;
-			// }
-			//
-			// // 2 -- 断开连接成功
-			// case JVNetConst.DISCONNECT_OK: {
-			// mActivity.showTextToast(R.string.str_host_connect_timeout);
-			// break;
-			// }
-			//
-			// // 3 -- 不必要重复连接
-			// case JVNetConst.NO_RECONNECT: {
-			// mActivity.showTextToast(R.string.str_host_connect_timeout);
-			// break;
-			// }
-			//
-			// // 4 -- 连接失败
-			// case JVNetConst.CONNECT_FAILED: {
-			// mActivity.showTextToast(R.string.str_host_connect_timeout);
-			// break;
-			// }
-			//
-			// // 5 -- 没有连接
-			// case JVNetConst.NO_CONNECT: {
-			// mActivity.showTextToast(R.string.str_host_connect_timeout);
-			// break;
-			// }
-			//
-			// // 6 -- 连接异常断开
-			// case JVNetConst.ABNORMAL_DISCONNECT: {
-			// mActivity.showTextToast(R.string.str_host_connect_timeout);
-			// break;
-			// }
-			//
-			// // 7 -- 服务停止连接，连接断开
-			// case JVNetConst.SERVICE_STOP: {
-			// mActivity.showTextToast(R.string.str_host_connect_timeout);
-			// break;
-			// }
-			//
-			// // 8 -- 断开连接失败
-			// case JVNetConst.DISCONNECT_FAILED: {
-			// mActivity.showTextToast(R.string.str_host_connect_timeout);
-			// break;
-			// }
-			//
-			// // 9 -- 其他错误
-			// case JVNetConst.OHTER_ERROR: {
-			// mActivity.showTextToast(R.string.str_host_connect_timeout);
-			// break;
-			// }
-			// default:
-			// break;
-			// }
-
 			break;
 		}
 		case Consts.CALL_TEXT_DATA: {// 文本回调
@@ -257,6 +225,12 @@ public class ManageFragment extends BaseFragment {
 					+ ", " + obj);
 			switch (arg1) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本聊天
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				// 获取基本文本信息
 				Jni.sendTextData(Consts.CHANNEL_JY,
 						JVNetConst.JVN_RSP_TEXTDATA, 8,
@@ -280,37 +254,6 @@ public class ManageFragment extends BaseFragment {
 					case JVNetConst.JVN_REMOTE_SETTING: {
 
 						String settingJSON = dataObj.getString("msg");
-						// 文本数据--[{"flag":1,"msg":"CONFIG_VER=1;[ALL];YSTID=52942216;YSTGROUP=83;YSTSTATUS=1;nTimeFormat=0;MobileCH=2;Version=V1.1.0.341;DevName=HD IPC;nLanguage=0;nPosition=0;SN=19711;bSntp=0;sntpInterval=24;ntpServer=ntp.fudan.edu.cn;PhoneServer=0;viWidth=1280;viHeight=720;maxFramerate=30;YSTPort=9101;WebServer=0;WebPort=80;nAlarmDelay=10;acMailSender=ipcmail@163.com;acSMTPServer=smtp.163.com;acSMTPUser=ipcmail;acSMTPPasswd=ipcam71a;acReceiver0=;acReceiver1=;acReceiver2=;acReceiver3=;acSMTPPort=25;acSMTPCrypto=;GpioAlarmMode=0;WebSrvPort=80;bOnvif=1;OnvifPort=8099;alarmSrvAddr=120.192.19.4;alarmSrvPort=7070;alarmSrvType=0;ETH_GW=192.168.15.1;ETH_IP=192.168.15.4;ETH_NM=255.255.255.0;ACTIVED=0;bDHCP=1;ETH_DNS=202.102.128.68;ETH_MAC=e0:62:90:c1:18:d6;WIFI_IP=0.0.0.0;WIFI_GW=0.0.0.0;WIFI_NM=0.0.0.0;WIFI_DNS=202.102.128.68;WIFI_MAC=00:00:00:00:00:00;WIFI_ID=neiwang-2G;WIFI_PW=0123456789;WIFI_AUTH=4;WIFI_ENC=3;WIFI_Q=80;WIFI_ON=1;YSTID=52942216;YSTGROUP=83;YSTSTATUS=1;DEV_VERSION=1;","type":81}]
-						// // 获取主控码流信息请求
-						// Jni.sendTextData(1,
-						// JVNetConst.JVN_RSP_TEXTDATA, 8,
-						// JVNetConst.JVN_STREAM_INFO);
-
-						// String textString1 = new String(pBuffer);
-						// // Log.v("pBuffer", "pBuffer:"+ pBuffer.length);
-						// Log.v("远程配置请求", "textString1:" + textString1);
-						// if (!textString1.equalsIgnoreCase("")) {
-						// String[] arrayStr = textString1.split(";");
-						// if (null != arrayStr) {
-						// for (int i = 0; i < arrayStr.length; i++) {
-						// if (arrayStr[i].contains("=")) {
-						// String[] arrayStr1 = arrayStr[i].split("=");
-						// if (null == BaseApp.settingMap) {
-						// BaseApp.settingMap = new HashMap<String,
-						// String>();
-						// }
-						// if (arrayStr1.length == 1) {
-						// BaseApp.settingMap
-						// .put(arrayStr1[0], "");
-						// } else {
-						// BaseApp.settingMap.put(arrayStr1[0],
-						// arrayStr1[1]);
-						// }
-						//
-						// }
-						// }
-						// }
-						// }
 
 						mActivity.dismissDialog();
 						Intent intent = new Intent(mActivity,

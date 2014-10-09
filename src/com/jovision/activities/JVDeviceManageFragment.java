@@ -21,7 +21,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.IHandlerLikeNotify;
@@ -49,7 +48,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private int beginPosition;
 	private int currentFragmentIndex;
 	private boolean isEnd;
-	private ImageView devmore;
+	private ImageView devMore;
 	private TextView device_num;
 	private ListView devicemanage_listView;
 	private ManageListAdapter adapter;
@@ -100,11 +99,11 @@ public class JVDeviceManageFragment extends BaseFragment {
 		image_hide = (ImageView) mParent.findViewById(R.id.devmore_hide);
 		devicemanage_listView = (ListView) mParent
 				.findViewById(R.id.devicemanage_listView);
-		devmore = (ImageView) mParent.findViewById(R.id.devmore);
+		devMore = (ImageView) mParent.findViewById(R.id.devmore);
 		adapter = new ManageListAdapter(JVDeviceManageFragment.this);
 		adapter.setData(manageDeviceList);
 		devicemanage_listView.setAdapter(adapter);
-		devmore.setOnClickListener(mOnClickListener);
+		devMore.setOnClickListener(mOnClickListener);
 		image_hide.setOnClickListener(mOnClickListener);
 		ListViewClick();
 	}
@@ -116,8 +115,13 @@ public class JVDeviceManageFragment extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				String name = manageDeviceList.get(position).getFullNo();
-				Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
+				deviceIndex = position;
+				((ManageFragment) fragments.get(position)).deviceIndex = deviceIndex;
+				managePager.setCurrentItem(position);
+				relalist.setVisibility(View.GONE);
+				devicemanage_listView.setVisibility(View.GONE);
+				managePager.setVisibility(View.VISIBLE);
+				relative.setVisibility(View.VISIBLE);
 			}
 		});
 	}
@@ -150,6 +154,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 				public void onClick(View view) {
 					int index = (Integer) view.getTag();
 					deviceIndex = index;
+					((ManageFragment) fragments.get(index)).deviceIndex = deviceIndex;
 					managePager.setCurrentItem(index);
 				}
 			});
@@ -214,6 +219,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 						* item_width, 0);
 			}
 			deviceIndex = position;
+			((ManageFragment) fragments.get(position)).deviceIndex = deviceIndex;
 			managePager.setCurrentItem(position);
 		}
 

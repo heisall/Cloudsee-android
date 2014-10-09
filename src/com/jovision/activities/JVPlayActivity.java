@@ -234,10 +234,38 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
-				MyLog.v(TAG, "connect--arg1=" + arg1 + "--arg2=" + arg2);
-				// ConnectChange [0x795718f0]: E, 0, 0x4, password is wrong!, 0
-				loadingState(arg2, R.string.connect_failed,
-						JVConst.PLAY_DIS_CONNECTTED);
+				// MyLog.e(TAG, "connect--arg1=" + arg1 + "--arg2=" +
+				// arg2+"--obj="+obj.toString());
+				// connect--arg1=4--arg2=0--obj={"data":0,"msg":"connect timeout!"}
+				try {
+					JSONObject connectObj = new JSONObject(obj.toString());
+					String errorMsg = connectObj.getString("msg");
+					if ("password is wrong!".equalsIgnoreCase(errorMsg)
+							|| "pass word is wrong!".equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
+						loadingState(arg2, R.string.connfailed_auth,
+								JVConst.PLAY_DIS_CONNECTTED);
+					} else if ("channel is not open!"
+							.equalsIgnoreCase(errorMsg)) {// 无该通道服务
+						loadingState(arg2, R.string.connfailed_channel_notopen,
+								JVConst.PLAY_DIS_CONNECTTED);
+					} else if ("connect type invalid!"
+							.equalsIgnoreCase(errorMsg)) {// 连接类型无效
+						loadingState(arg2, R.string.connfailed_type_invalid,
+								JVConst.PLAY_DIS_CONNECTTED);
+					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
+						loadingState(arg2, R.string.connfailed_maxcount,
+								JVConst.PLAY_DIS_CONNECTTED);
+					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
+						loadingState(arg2, R.string.connfailed_timeout,
+								JVConst.PLAY_DIS_CONNECTTED);
+					} else {
+						loadingState(arg2, R.string.connect_failed,
+								JVConst.PLAY_DIS_CONNECTTED);
+					}
+
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 				channel.setConnecting(false);
 				channel.setConnected(false);
 				break;
@@ -338,7 +366,7 @@ public class JVPlayActivity extends PlayActivity implements
 			// handler.sendEmptyMessageDelayed(Consts.WHAT_DUMMY, 100);
 			// MyLog.v(TAG + ":222", arg1 + "");
 			channelMap.put(arg1 % connNum, manager.getChannel(arg1));
-			loadingState(arg1, R.string.connecting1, JVConst.PLAY_CONNECTING);
+			loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTING);
 			break;
 		}
 
@@ -1118,7 +1146,7 @@ public class JVPlayActivity extends PlayActivity implements
 						Channel channel = channleList.get(i);
 						Device dev = channel.getParent();
 
-						while (!surfaceCreatMap.get(channel.getChannel())) {
+						while (!surfaceCreatMap.get(channel.getIndex())) {
 							try {
 								Thread.sleep(100);
 							} catch (InterruptedException e) {
@@ -1273,11 +1301,11 @@ public class JVPlayActivity extends PlayActivity implements
 	public void onClick(Channel channel, boolean isFromImageView, int viewId) {
 		if (isFromImageView) {// 播放按钮事件
 			try {
-				loadingState(channel.getIndex(), R.string.connecting1,
+				loadingState(channel.getIndex(), R.string.connecting,
 						JVConst.PLAY_CONNECTTED);
 
 				if (null != channel) {
-					while (!surfaceCreatMap.get(channel.getChannel())) {
+					while (!surfaceCreatMap.get(channel.getIndex())) {
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException e) {

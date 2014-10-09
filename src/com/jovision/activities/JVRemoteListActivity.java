@@ -176,7 +176,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-			createDialog(R.string.connecting1);
+			createDialog(R.string.connecting);
 			RemoteVideo videoBean = videoList.get(arg2);
 			String acBuffStr = PlayUtil.getPlayFileString(videoBean, is05,
 					deviceType, year, month, day, arg2);

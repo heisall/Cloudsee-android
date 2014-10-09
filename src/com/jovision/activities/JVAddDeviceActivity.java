@@ -37,6 +37,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 	private Button saveBtn;
 
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
+	private Boolean qrAdd = false;// 是否二维码扫描添加设备
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -53,6 +54,14 @@ public class JVAddDeviceActivity extends BaseActivity {
 		Intent intent = getIntent();
 		String devJsonString = intent.getStringExtra("DeviceList");
 		deviceList = Device.fromJsonArray(devJsonString);
+		qrAdd = intent.getBooleanExtra("QR", false);
+		if (qrAdd) {
+			Intent openCameraIntent = new Intent(JVAddDeviceActivity.this,
+					MipcaActivityCapture.class);
+			openCameraIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			JVAddDeviceActivity.this
+					.startActivityForResult(openCameraIntent, 0);
+		}
 	}
 
 	@Override
@@ -171,6 +180,8 @@ public class JVAddDeviceActivity extends BaseActivity {
 			Bundle bundle = data.getExtras();
 			String scanResult = bundle.getString("result");
 			devNumET.setText(scanResult);
+		} else {
+			JVAddDeviceActivity.this.finish();
 		}
 
 	}

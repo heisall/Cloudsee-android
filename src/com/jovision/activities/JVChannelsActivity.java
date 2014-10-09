@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.ManageListAdapter;
@@ -105,10 +104,9 @@ public class JVChannelsActivity extends BaseActivity {
 		devicemanage_listView = (ListView) findViewById(R.id.devicemanage_listView);
 		linear = (LinearLayout) findViewById(R.id.linear);
 		devmore = (ImageView) findViewById(R.id.devmore);
-		top_name = (TextView) findViewById(R.id.currentmenu);
-		top_string = getResources().getString(R.string.channal_list);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		currentMenu.setText(R.string.channal_list);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setBackgroundResource(R.drawable.qr_icon);
 		currentMenu.setText(R.string.channal_list);
@@ -183,6 +181,7 @@ public class JVChannelsActivity extends BaseActivity {
 					int index = (Integer) view.getTag();
 					deviceIndex = index;
 					channelPager.setCurrentItem(index);
+					((ChannelFragment) fragments.get(index)).deviceIndex = deviceIndex;
 				}
 			});
 			layout.setTag(i);
@@ -196,9 +195,11 @@ public class JVChannelsActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				String name = deviceList.get(position).getFullNo();
-				Toast.makeText(getApplicationContext(), name,
-						Toast.LENGTH_SHORT).show();
+				deviceIndex = position;
+				channelPager.setCurrentItem(position);
+				((ChannelFragment) fragments.get(position)).deviceIndex = deviceIndex;
+				linear.setVisibility(View.VISIBLE);
+				relative.setVisibility(View.GONE);
 			}
 		});
 	}
@@ -216,7 +217,8 @@ public class JVChannelsActivity extends BaseActivity {
 				break;
 
 			case R.id.devmore:
-				device_num.setText("一共有" + deviceList.size() + "个设备");
+				device_num.setText(R.string.str_fre + deviceList.size()
+						+ R.string.str_aft);
 				relative.setVisibility(View.VISIBLE);
 				linear.setVisibility(View.GONE);
 				break;
@@ -251,8 +253,7 @@ public class JVChannelsActivity extends BaseActivity {
 						* item_width, 0);
 			}
 			deviceIndex = position;
-			// ((ChannelFragment) fragments.get(position)).setData(position,
-			// deviceList, widthPixels);
+			((ChannelFragment) fragments.get(position)).deviceIndex = deviceIndex;
 			channelPager.setCurrentItem(position);
 		}
 

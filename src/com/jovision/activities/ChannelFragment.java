@@ -30,7 +30,7 @@ public class ChannelFragment extends BaseFragment {
 	private String TAG = "ChannelFragment";
 
 	/** 构造参数 */
-	private int deviceIndex;
+	public int deviceIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private Device device;
 

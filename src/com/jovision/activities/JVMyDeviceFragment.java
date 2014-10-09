@@ -324,8 +324,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 			ImageView imageView = new ImageView(mActivity);
 			imageView.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {// 设置图片点击事件
-				// ((BaseActivity) mActivity).showTextToast("点击了:"
-				// + imageScroll.getCurIndex());
+					// ((BaseActivity) mActivity).showTextToast("点击了:"
+					// + imageScroll.getCurIndex());
 				}
 			});
 			imageView.setImageResource(imageResId[i]);

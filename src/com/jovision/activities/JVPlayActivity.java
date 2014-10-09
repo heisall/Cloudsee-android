@@ -122,7 +122,7 @@ public class JVPlayActivity extends PlayActivity implements
 		// 每秒状态回调
 		case Consts.CALL_STAT_REPORT: {
 			// PlayUtil.updateState(manager.getChannelList());
-			loadingState(arg1, 0, JVConst.PLAY_CONNECTTED);
+
 			try {
 				// MyLog.e(Consts.TAG_PLAY, obj.toString());
 				JSONArray array = new JSONArray(obj.toString());
@@ -166,6 +166,9 @@ public class JVPlayActivity extends PlayActivity implements
 					} else {
 						decodeBtn.setText("软解");
 					}
+
+					int index = object.getInt("index");
+					loadingState(index, 0, JVConst.PLAY_CONNECTTED);
 				}
 				linkMode.setText(sBuilder.toString());
 
@@ -192,6 +195,9 @@ public class JVPlayActivity extends PlayActivity implements
 						8);
 				manager.getChannel(arg1).setSendCMD(true);
 			}
+
+			manager.getChannel(arg1).setConnecting(false);
+			manager.getChannel(arg1).setConnected(true);
 			break;
 		}
 
@@ -228,6 +234,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
+				MyLog.v(TAG, "connect--arg1=" + arg1 + "--arg2=" + arg2);
 				// ConnectChange [0x795718f0]: E, 0, 0x4, password is wrong!, 0
 				loadingState(arg2, R.string.connect_failed,
 						JVConst.PLAY_DIS_CONNECTTED);
@@ -479,8 +486,8 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		currentPage = startWindowIndex;
-		lastClickIndex = currentIndex;
-
+		lastClickIndex = playChannelList.get(startWindowIndex).getIndex();
+		currentIndex = lastClickIndex;
 		MyLog.i(Consts.TAG_XX, "JVPlay.init: " + currentPage + "/"
 				+ playChannelList.size() + ", channel/index = "
 				+ playChannelList.get(startWindowIndex).getChannel() + "/"
@@ -689,6 +696,9 @@ public class JVPlayActivity extends PlayActivity implements
 				currentIndex = currentPage * currentScreen + currentWindow;
 				connectAll(currentPage);
 			}
+
+			MyLog.v(TAG, "onPageScrolled-----currentPage=" + currentPage
+					+ "---;currentIndex=" + currentIndex);
 		}
 
 		@Override
@@ -1085,7 +1095,9 @@ public class JVPlayActivity extends PlayActivity implements
 	 * 
 	 */
 	public void connectAll(final int page) {
-		MyLog.v(TAG, "---------connectAll----------" + page + "");
+
+		MyLog.v(TAG, "---------connectAll----------page=" + page
+				+ "--currentIndex=" + currentIndex);
 		try {
 			Thread connectThread = new Thread() {
 				@Override
@@ -1134,7 +1146,7 @@ public class JVPlayActivity extends PlayActivity implements
 	 */
 	public boolean allowThisFuc(boolean changToOneScreen) {
 		boolean allow = false;
-
+		MyLog.v(TAG, "currentIndex = " + currentIndex);
 		if (currentScreen != oneScreen && changToOneScreen) {
 			// jy计算分屏数据并连接
 			computeScreenData(currentScreen, oneScreen);
@@ -1273,7 +1285,6 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 					}
 				}
-
 				PlayUtil.connect(channel.getParent(), channel.getChannel(),
 						isOmx);
 			} catch (Exception e) {

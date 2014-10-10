@@ -117,7 +117,6 @@ public class JVChannelsActivity extends BaseActivity {
 		item_width = (int) ((mScreenWidth / 4.0 + 0.5f));
 		mImageView.getLayoutParams().width = item_width;
 		channelPager = (ViewPager) findViewById(R.id.channels_pager);
-
 		widthPixels = disMetrics.widthPixels;
 
 		// 初始化导航
@@ -164,6 +163,8 @@ public class JVChannelsActivity extends BaseActivity {
 			RelativeLayout layout = new RelativeLayout(this);
 			TextView view = new TextView(this);
 			view.setText(deviceList.get(i).getFullNo());
+			view.setTextColor(JVChannelsActivity.this.getResources().getColor(
+					R.color.devicemanagename));
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.CENTER_IN_PARENT);

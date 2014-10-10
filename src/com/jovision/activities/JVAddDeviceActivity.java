@@ -80,6 +80,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 		userET = (EditText) findViewById(R.id.user_et);
 		pwdET = (EditText) findViewById(R.id.pwd_et);
 		saveBtn = (Button) findViewById(R.id.save_btn);
+		saveBtn.setBackgroundResource(R.drawable.blue_bg);
 		saveBtn.setOnClickListener(mOnClickListener);
 	}
 

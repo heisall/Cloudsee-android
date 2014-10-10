@@ -117,6 +117,7 @@ public class JVMoreFragment extends BaseFragment {
 		more_listView.setAdapter(adapter);
 		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
 
+		more_cancle.setBackgroundResource(R.drawable.blue_bg);
 		more_username.setText(more_name);
 		more_cancle.setOnClickListener(myOnClickListener);
 		more_modify.setOnClickListener(myOnClickListener);

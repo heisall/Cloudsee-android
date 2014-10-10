@@ -102,7 +102,16 @@ public class PlayActivity extends BaseActivity {
 
 	protected MICRecorder recorder;// 音频采集
 
-	private LinearLayout bottom;
+	protected LinearLayout bottom;
+
+	protected RelativeLayout bottombut1;
+	protected RelativeLayout bottombut2;
+	protected RelativeLayout bottombut3;
+	protected RelativeLayout bottombut4;
+	protected RelativeLayout bottombut5;
+	protected RelativeLayout bottombut6;
+	protected RelativeLayout bottombut7;
+	protected RelativeLayout bottombut8;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -157,6 +166,14 @@ public class PlayActivity extends BaseActivity {
 		/** 下 */
 
 		bottom = (LinearLayout) findViewById(R.id.bottom);
+		bottombut1 = (RelativeLayout) findViewById(R.id.bottom_but1);
+		bottombut2 = (RelativeLayout) findViewById(R.id.bottom_but2);
+		bottombut3 = (RelativeLayout) findViewById(R.id.bottom_but3);
+		bottombut4 = (RelativeLayout) findViewById(R.id.bottom_but4);
+		bottombut5 = (RelativeLayout) findViewById(R.id.bottom_but5);
+		bottombut6 = (RelativeLayout) findViewById(R.id.bottom_but6);
+		bottombut7 = (RelativeLayout) findViewById(R.id.bottom_but7);
+		bottombut8 = (RelativeLayout) findViewById(R.id.bottom_but8);
 
 		if ((disMetrics.heightPixels > 800 && disMetrics.widthPixels > 480)
 				|| (disMetrics.heightPixels > 480 && disMetrics.widthPixels > 800)) {// 大屏
@@ -415,7 +432,7 @@ public class PlayActivity extends BaseActivity {
 
 	}
 
-	private void init() {
+	protected void init() {
 		new CountDownTimer(3000, 2000) {
 
 			@Override

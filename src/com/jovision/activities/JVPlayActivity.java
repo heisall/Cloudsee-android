@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -134,10 +135,10 @@ public class JVPlayActivity extends PlayActivity implements
 					object = array.getJSONObject(i);
 					String msg = String
 							.format("%d(%s|%s), kbps=%.0fK, fps=%.0f+%.0f/%.0f/%d, %.0fms+%.0fms, left=%2d,\n",// \t\t%dx%d;
-																												// audio(%d):
-																												// kbps=%.2fK,
-																												// fps=%.0f/%.0f,
-																												// %.2fms+%.2fms
+									// audio(%d):
+									// kbps=%.2fK,
+									// fps=%.0f/%.0f,
+									// %.2fms+%.2fms
 									object.getInt("index"),
 									(object.getBoolean("is_turn") ? "TURN"
 											: "P2P"),
@@ -526,7 +527,6 @@ public class JVPlayActivity extends PlayActivity implements
 		/** 中 */
 		viewPager.setVisibility(View.VISIBLE);
 		playSurface.setVisibility(View.GONE);
-
 		viewPager.setOnPageChangeListener(onPageChangeListener);
 		pagerAdapter = new PlayViewPagerAdapter();
 		pagerAdapter.update(manager.genPageList(currentScreen));
@@ -552,6 +552,14 @@ public class JVPlayActivity extends PlayActivity implements
 		voiceCall.setOnClickListener(myOnClickListener);
 		videoTape.setOnClickListener(myOnClickListener);
 		moreFeature.setOnClickListener(myOnClickListener);
+		bottombut1.setOnClickListener(myOnClickListener);
+		bottombut2.setOnClickListener(myOnClickListener);
+		bottombut3.setOnClickListener(myOnClickListener);
+		bottombut4.setOnClickListener(myOnClickListener);
+		bottombut5.setOnClickListener(myOnClickListener);
+		bottombut6.setOnClickListener(myOnClickListener);
+		bottombut7.setOnClickListener(myOnClickListener);
+		bottombut8.setOnClickListener(myOnClickListener);
 
 		Jni.setStat(true);
 		// 2.几的系统有可能花屏
@@ -1029,6 +1037,39 @@ public class JVPlayActivity extends PlayActivity implements
 				// JVMoreFeatureActivity.class);
 				// JVPlayActivity.this.startActivity(moreIntent);
 				break;
+
+			case R.id.bottom_but1:
+				Toast.makeText(JVPlayActivity.this, "点击图标1", Toast.LENGTH_SHORT)
+						.show();
+				break;
+			case R.id.bottom_but2:
+				Toast.makeText(JVPlayActivity.this, "点击图标2", Toast.LENGTH_SHORT)
+						.show();
+				break;
+			case R.id.bottom_but3:
+				Toast.makeText(JVPlayActivity.this, "点击图标3", Toast.LENGTH_SHORT)
+						.show();
+				break;
+			case R.id.bottom_but4:
+				Toast.makeText(JVPlayActivity.this, "点击图标4", Toast.LENGTH_SHORT)
+						.show();
+				break;
+			case R.id.bottom_but5:
+				Toast.makeText(JVPlayActivity.this, "点击图标5", Toast.LENGTH_SHORT)
+						.show();
+				break;
+			case R.id.bottom_but6:
+				Toast.makeText(JVPlayActivity.this, "点击图标6", Toast.LENGTH_SHORT)
+						.show();
+				break;
+			case R.id.bottom_but7:
+				Toast.makeText(JVPlayActivity.this, "点击图标7", Toast.LENGTH_SHORT)
+						.show();
+				break;
+			case R.id.bottom_but8:
+				Toast.makeText(JVPlayActivity.this, "点击图标8", Toast.LENGTH_SHORT)
+						.show();
+				break;
 			}
 
 		}
@@ -1332,6 +1373,10 @@ public class JVPlayActivity extends PlayActivity implements
 					((View) mLastPlayView.getParent())
 							.setBackgroundColor(getResources().getColor(
 									R.color.videoselect));
+				} else {
+					bottom.setVisibility(View.VISIBLE);
+					topBartwo.setVisibility(View.VISIBLE);
+					init();
 				}
 				handler.sendEmptyMessageDelayed(
 						JVConst.WHAT_CHECK_DOUBLE_CLICK,

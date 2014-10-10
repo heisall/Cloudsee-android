@@ -24,6 +24,7 @@
     <color name="channel_color_6">#42BDE7</color>
     <color name="channel_color_7">#7B7AD7</color>
     <color name="channel_color_8">#F5C130</color>
+    <color name="channel_color_9">#33b5e5</color>
 
     <!-- 视频管理背景色 -->
     <color name="manage_color_1">#6AB840</color>
@@ -41,6 +42,12 @@
     <color name="more_fragment_color2">#666666</color>
     <color name="more_fragment_color3">#ffffff</color>
     <color name="more_fragment_color4">#eeeeee</color>
+    <color name="more_fragment_color5">#727373</color>
+    <color name="more_cancle">#007aff</color>
+    <color name="more_canclepre">#3f5fbf</color>
+    <color name="more_devicename">#2886e4</color>
+    <!-- 视频播放 -->
+    <color name="play_color">#1eFFFFFF</color>
     <!-- 我的设备字体颜色 -->
     <color name="mydevice_modify">#519DE8</color>
     <!-- 象牙色 -->
@@ -358,7 +365,7 @@
     <color name="deviceinfocolor">#686868</color>
     <color name="deviceitembgcolor">#EEEEEE</color>
     <color name="deviceitembgcolor_longclick">#DEDEDE</color>
-    <color name="leftdevicecolor">#a9b8cc</color>
+    <color name="leftdevicecolor">#747575</color>
     <color name="leftdevicecolor2">#363940</color>
     <color name="leftpointcolor">#dee7f2</color>
     <color name="leftpointcolor2">#485676</color>
@@ -375,6 +382,7 @@
     <color name="functionbgcolor">#e6e6e6</color>
     <color name="videoselect">#3087F0</color>
     <color name="videounselect">#001839</color>
+    <color name="devicemanagename">#525352</color>
 
     <!-- zxing color -->
     <color name="bg_color">#EDEDED</color>

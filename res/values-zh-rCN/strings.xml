@@ -482,6 +482,7 @@
     <string name="del_channel_failed">通道删除失败</string>
     <string name="add_channel_succ">通道添加成功</string>
     <string name="add_channel_failed">通道添加失败</string>
+    <string name="device_connect">全连设备</string>
     <string name="channel_full">该设备的通道数量达到上限，不能继续添加。</string>
 
     <!-- JVFeedbackActivity -->
@@ -517,7 +518,7 @@
     <string name="app_name">CloudSEE</string>
     <string name="login_str_device_ytnum_notnull">请输入云视通号</string>
     <string name="increct_yst_tips">云视通号不正确</string>
-    <string name="login_str_yst_num">云视通号</string>
+    <string name="login_str_yst_num">设备号</string>
     <string name="str_not_qr_device">不属于云视通设备</string>
     <!-- 不同软件反馈邮箱不一样 -->
     <string name="str_feedback_error">该手机不支持邮件发送或者是邮件发送功能没有被设置，请发送邮件到mfg@jovision.com 以请求进一步的协助。</string>

@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -25,6 +28,7 @@ import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 
+@SuppressLint("ValidFragment")
 public class ChannelFragment extends BaseFragment {
 
 	private String TAG = "ChannelFragment";
@@ -49,6 +53,8 @@ public class ChannelFragment extends BaseFragment {
 	// 设备号码编辑键
 	private ImageView device_numet_cancle;
 
+	private Button channel_but;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// Bundle bundle = getArguments();
@@ -56,6 +62,7 @@ public class ChannelFragment extends BaseFragment {
 		// deviceList =
 		// BeanUtil.stringToDevList(bundle.getString("DeviceList"));
 		super.onCreate(savedInstanceState);
+
 	}
 
 	@Override
@@ -63,6 +70,8 @@ public class ChannelFragment extends BaseFragment {
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.channel_layout, null);
+		channel_but = (Button) view.findViewById(R.id.channel_but);
+		channel_but.setOnClickListener(myOnClickListener);
 		return view;
 	}
 
@@ -221,6 +230,10 @@ public class ChannelFragment extends BaseFragment {
 				device_numet.setText("");
 				break;
 			}
+			case R.id.channel_but:
+				Toast.makeText(mActivity, "quan lian she bei",
+						Toast.LENGTH_SHORT).show();
+				break;
 			default:
 				break;
 			}

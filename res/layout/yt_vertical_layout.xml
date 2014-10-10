@@ -161,7 +161,11 @@
                 android:layout_alignParentRight="true"
                android:layout_below="@+id/zoomout_middle"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                android:onClick="OnCancelButton"/>
+=======
+               android:onClick="OnCancelButton"/>
+>>>>>>> Stashed changes
         -->
 
         <ImageView

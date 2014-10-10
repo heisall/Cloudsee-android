@@ -58,6 +58,18 @@ public class MySharedPreference {
 	}
 
 	/**
+	 * 保存 long
+	 * 
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public static boolean putLong(String key, long value) {
+		editor.putLong(key, value);
+		return editor.commit();
+	}
+
+	/**
 	 * 读取String
 	 * 
 	 * @param key
@@ -115,6 +127,20 @@ public class MySharedPreference {
 		}
 		int value = sharedPreferences.getInt(key, 0);
 		return value;
+	}
+
+	/**
+	 * 读取 long
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public static long getLong(String key, long defaultValue) {
+		if (null == sharedPreferences) {
+			sharedPreferences = mContext.getSharedPreferences("JVCONFIG",
+					Context.MODE_PRIVATE);
+		}
+		return sharedPreferences.getLong(key, defaultValue);
 	}
 
 }

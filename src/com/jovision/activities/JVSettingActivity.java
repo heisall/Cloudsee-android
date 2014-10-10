@@ -111,9 +111,23 @@ public class JVSettingActivity extends BaseActivity {
 				if (dataArrayList.get(position).getIsclick()) {
 					dataArrayList.get(position).setIsclick(false);
 					setShare(position, false);
+					if (position == 3) {
+						dataArrayList.get(position).setSetting_name(
+								JVSettingActivity.this.getResources()
+										.getString(R.string.str_video_modetwo));
+					}
 				} else {
 					dataArrayList.get(position).setIsclick(true);
 					setShare(position, true);
+					if (position == 3) {
+						dataArrayList
+								.get(position)
+								.setSetting_name(
+										JVSettingActivity.this
+												.getResources()
+												.getString(
+														R.string.str_video_more_mode));
+					}
 				}
 				settingAdapter.notifyDataSetChanged();
 			}
@@ -158,6 +172,9 @@ public class JVSettingActivity extends BaseActivity {
 		}
 		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
 			dataArrayList.get(3).setIsclick(true);
+			dataArrayList.get(3).setSetting_name(
+					JVSettingActivity.this.getResources().getString(
+							R.string.str_video_more_mode));
 		}
 	}
 

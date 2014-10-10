@@ -168,6 +168,7 @@
     <string name="str_position">地理位置</string>
     <string name="str_scenepic">场景图片</string>
     <string name="str_video_mode">观看模式</string>
+    <string name="str_video_modetwo">观看模式(单设备)</string>
     <string name="str_video_single_mode">单设备</string>
     <string name="str_video_more_mode">多设备</string>
     <string name="str_shake_device">摇一摇加设备</string>

@@ -185,6 +185,9 @@ public class Consts {
 	/** 屏幕高度key */
 	public static final String SCREEN_HEIGHT = "SCREEN_HEIGHT";
 
+	/** 推送消息JsonArray key */
+	public static final String PUSH_JSONARRAY = "PUSH_JSONARRAY";
+
 	/** 本地存储user列表key */
 	public static final String LOCAL_USER_LIST = "LOCAL_USER_LIST";
 

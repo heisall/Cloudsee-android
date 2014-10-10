@@ -88,11 +88,11 @@ public class JVDeviceManageFragment extends BaseFragment {
 		item_width = (int) ((mScreenWidth / 4.0 + 0.5f));
 		mImageView.getLayoutParams().width = item_width;
 		managePager = (ViewPager) mParent.findViewById(R.id.manage_pagerer);
-		// 初始化导航
-		initNav();
-		// 初始化viewPager
-		initViewPager();
-		managePager.setCurrentItem(deviceIndex);
+		// // 初始化导航
+		// initNav();
+		// // 初始化viewPager
+		// initViewPager();
+		// managePager.setCurrentItem(deviceIndex);
 		device_num = (TextView) mParent.findViewById(R.id.device_num);
 		relalist = (RelativeLayout) mParent.findViewById(R.id.relalist);
 		relative = (RelativeLayout) mParent.findViewById(R.id.relative);
@@ -130,7 +130,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 		manageDeviceList = CacheUtil.getDevList();
 		int size = manageDeviceList.size();
 		fragments = new ArrayList<Fragment>();
-
+		mLinearLayout.removeAllViews();
 		for (int i = 0; i < size; i++) {
 			// [Neo] viewpager
 			Bundle data = new Bundle();
@@ -280,6 +280,11 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
+		// 初始化导航
+		initNav();
+		// 初始化viewPager
+		initViewPager();
+		managePager.setCurrentItem(deviceIndex);
 		super.onResume();
 	}
 

@@ -294,6 +294,8 @@ public abstract class BaseActivity extends FragmentActivity implements
 						// }
 
 						// ConfigUtil.stopBroadCast();
+						MyActivityManager.getActivityManager()
+								.popAllActivityExceptOne(null);
 						android.os.Process.killProcess(android.os.Process
 								.myPid());
 					}

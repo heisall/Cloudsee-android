@@ -1,15 +1,12 @@
 package com.jovision.activities;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,7 +15,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
-import com.jovision.bean.PushInfo;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
@@ -110,56 +106,9 @@ public class JVTabActivity extends BaseActivity {
 		openExitDialog();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case Consts.PUSH_MESSAGE: {// 过来一条推送信息
-			PushInfo pushInfo = (PushInfo) obj;
-			String[] alarmArray = JVTabActivity.this.getResources()
-					.getStringArray(R.array.alarm_type);
-
-			String ns = Context.NOTIFICATION_SERVICE;
-			mNotifyer = (NotificationManager) JVTabActivity.this
-					.getSystemService(ns);
-			// 定义通知栏展现的内容信息
-			int icon = R.drawable.notification_icon;
-			CharSequence tickerText = JVTabActivity.this.getResources()
-					.getString(R.string.str_alarm);
-			long when = System.currentTimeMillis();
-			Notification notification = new Notification(icon, tickerText, when);
-
-			notification.defaults |= Notification.DEFAULT_SOUND;// 声音
-			// notification.defaults |=
-			// Notification.DEFAULT_LIGHTS;//灯
-			// notification.defaults |=
-			// Notification.DEFAULT_VIBRATE;//震动
-
-			// 定义下拉通知栏时要展现的内容信息
-			Context context = JVTabActivity.this.getApplicationContext();
-
-			CharSequence contentText = pushInfo.alarmTime
-					+ "-"
-					+ alarmArray[pushInfo.alarmType].replace("%%",
-							pushInfo.deviceNickName);
-
-			CharSequence contentTitle = JVTabActivity.this.getResources()
-					.getString(R.string.str_alarm_info);
-			// CharSequence contentText = pushMessage;
-			Intent notificationIntent = new Intent(JVTabActivity.this,
-					JVTabActivity.class);
-			notificationIntent.putExtra("tabIndex", 1);
-
-			PendingIntent contentIntent = PendingIntent.getActivity(
-					JVTabActivity.this, 0, notificationIntent,
-					PendingIntent.FLAG_UPDATE_CURRENT);
-			notification.setLatestEventInfo(context, contentTitle, contentText,
-					contentIntent);
-
-			// 用mNotificationManager的notify方法通知用户生成标题栏消息通知
-			mNotifyer.notify(0, notification);
-			break;
-		}
 		case Consts.ACCOUNT_TCP_ERROR:
 		case Consts.ACCOUNT_KEEP_ONLINE_FAILED: {// 连续三次保持在线失败
 			AlertDialog alert;
@@ -187,64 +136,44 @@ public class JVTabActivity extends BaseActivity {
 		}
 		case Consts.ACCOUNT_OFFLINE: {// 提掉线
 			showTextToast(R.string.str_offline);
-			// TimerTask task = new TimerTask() {
-			// public void run() {
-			// timer = timer - 1;
-			// if (timer == -1) {
-			//
-			// }
-			// }
-			// };
-			//
-			// offlineTimer.schedule(task, 0, 1000);
-			// AlertDialog alert;
-			// AlertDialog.Builder builder = new Builder(
-			// JVTabActivity.this.getApplicationContext());
-			// builder.setMessage(JVTabActivity.this.getResources().getString(
-			// R.string.str_offline));
-			// builder.setTitle(JVTabActivity.this.getResources().getString(
-			// R.string.tips)
-			// + "  " + String.valueOf(timer));
-			// builder.setPositiveButton(R.string.str_offline_exit,
-			// new DialogInterface.OnClickListener() {
-			//
-			// public void onClick(DialogInterface dialog, int which) {
-			//
-			// }
-			// });
-			// builder.setNegativeButton(R.string.str_offline_keeponline2,
-			// new DialogInterface.OnClickListener() {
-			// public void onClick(DialogInterface dialog, int which) {
-			// // TODO
-			// }
-			// });
-			// alert = builder.create();
-			// alert.getWindow().setType(
-			// WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-			// alert.setCancelable(false);
-			// alert.show();
+			TimerTask task = new TimerTask() {
+				public void run() {
+					timer = timer - 1;
+					if (timer == -1) {
 
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage("是否接受文件?")
-					.setPositiveButton("是",
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
+					}
+				}
+			};
 
-								}
-							}).setNegativeButton("否", new OnClickListener() {
-						@Override
+			offlineTimer.schedule(task, 0, 1000);
+
+			AlertDialog alert;
+			AlertDialog.Builder builder = new Builder(
+					JVTabActivity.this.getApplicationContext());
+			builder.setMessage(JVTabActivity.this.getResources().getString(
+					R.string.str_offline));
+			builder.setTitle(JVTabActivity.this.getResources().getString(
+					R.string.tips)
+					+ "  " + String.valueOf(timer));
+			builder.setPositiveButton(R.string.str_offline_exit,
+					new DialogInterface.OnClickListener() {
+
 						public void onClick(DialogInterface dialog, int which) {
+
 						}
 					});
-			AlertDialog ad = builder.create();
-			// ad.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
-			// //系统中关机对话框就是这个属性
-			ad.getWindow()
-					.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-			ad.setCanceledOnTouchOutside(false); // 点击外面区域不会让dialog消失
-			ad.show();
+			builder.setNegativeButton(R.string.str_offline_keeponline2,
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO
+						}
+					});
+			alert = builder.create();
+			alert.getWindow().setType(
+					WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+			alert.setCancelable(false);
+			alert.show();
+
 			break;
 		}
 

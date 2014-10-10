@@ -28,6 +28,7 @@ public class Consts {
 	public static final String TAG_APP = "CS_APP";
 	public static final String TAG_UI = "CS_UI";
 	public static final String TAG_PLAY = "CS_PLAY";
+	public static final String TAG_LOGICAL = "CS_LOGICAL";
 	public static final String TAG_JY = "CS_JY";
 
 	/** [Neo] 专用调试 tag */
@@ -226,5 +227,10 @@ public class Consts {
 
 	/** 功能设置页面观看模式标志位 */
 	public static String SETTING_SEE_MODEL = "SEE_MODEL";
+
+	public static final String KEY_LAST_PUT_STAMP = "last_put_stamp";
+
+	public static final String BO_ID = "d6mhYSnBpnv26S7aCo0GwcxX";
+	public static final String BO_SECRET = "D9t2XqYQgH92eVGzlW30Pw9ZrRtqKpPs";
 
 }

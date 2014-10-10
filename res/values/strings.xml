@@ -152,6 +152,8 @@
     <string name="str_video_mode">Browse model</string>
     <string name="str_video_single_mode">Single</string>
     <string name="str_video_more_mode">Multi</string>
+    <string name="str_video_modetwo">观看模式(单设备)</string>
+    <string name="str_video_more_modetwo">观看模式(多设备)</string>
     <string name="str_shake_device">Shake</string>
     <string name="str_shake_device_tips">Shake function is for Home Security products only.It\'s normal that WLAN has been switched during configuring. Shake function steps as below：\n1.Shake the mobile phone and the device signal IPC-H-*** can be found then, click to enter the configuration interface.\n2.Choose the WiFi and input the password, click Done until the configuration has been finished.</string>
     <string name="str_open_shake_device">Open</string>
@@ -425,7 +427,6 @@
     <string name="updated_at">上次更新于%1$s前</string>
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
-
     <!-- JVMyDeviceFragment -->
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>

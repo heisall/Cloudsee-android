@@ -126,7 +126,7 @@ public class JVSettingActivity extends BaseActivity {
 										JVSettingActivity.this
 												.getResources()
 												.getString(
-														R.string.str_video_more_mode));
+														R.string.str_video_more_modetwo));
 					}
 				}
 				settingAdapter.notifyDataSetChanged();
@@ -174,7 +174,7 @@ public class JVSettingActivity extends BaseActivity {
 			dataArrayList.get(3).setIsclick(true);
 			dataArrayList.get(3).setSetting_name(
 					JVSettingActivity.this.getResources().getString(
-							R.string.str_video_more_mode));
+							R.string.str_video_more_modetwo));
 		}
 	}
 

@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relalist"
-            android:divider="#ffffff"
+            android:divider="@null"
             android:fadingEdge="none" >
         </ListView>
     </RelativeLayout>
@@ -88,7 +88,7 @@
                         android:layout_width="100dp"
                         android:layout_height="4dp"
                         android:layout_alignParentBottom="true"
-                        android:background="#33b5e5" />
+                        android:background="@color/channel_color_9" />
                 </RelativeLayout>
             </HorizontalScrollView>
 
@@ -108,11 +108,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
         </android.support.v4.view.ViewPager>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="dasdfasd" />
     </LinearLayout>
 
 </LinearLayout>

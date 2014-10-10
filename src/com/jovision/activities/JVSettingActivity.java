@@ -27,10 +27,10 @@ public class JVSettingActivity extends BaseActivity {
 	private TextView currentMenu;
 	private Button rightBtn;
 
-	private ListView setting_listView;
+	private ListView settingListView;
 	private SettingAdapter settingAdapter;
 	private ArrayList<SettingBean> dataArrayList;
-	private String[] setting_array;
+	private String[] settingArray;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -56,14 +56,14 @@ public class JVSettingActivity extends BaseActivity {
 		currentMenu.setText(R.string.more_feather);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
-		setting_array = JVSettingActivity.this.getResources().getStringArray(
+		settingArray = JVSettingActivity.this.getResources().getStringArray(
 				R.array.array_setting);
 		initData();
 		initShare();
-		setting_listView = (ListView) findViewById(R.id.setting_listView);
+		settingListView = (ListView) findViewById(R.id.setting_listView);
 		settingAdapter = new SettingAdapter(JVSettingActivity.this,
 				dataArrayList);
-		setting_listView.setAdapter(settingAdapter);
+		settingListView.setAdapter(settingAdapter);
 		itemClick();
 		leftBtn.setOnClickListener(myOnClickListener);
 	}
@@ -79,9 +79,9 @@ public class JVSettingActivity extends BaseActivity {
 
 	private void initData() {
 		dataArrayList = new ArrayList<SettingBean>();
-		for (int i = 0; i < setting_array.length; i++) {
+		for (int i = 0; i < settingArray.length; i++) {
 			SettingBean bean = new SettingBean();
-			bean.setSetting_name(setting_array[i]);
+			bean.setSetting_name(settingArray[i]);
 			bean.setIsclick(false);
 			dataArrayList.add(bean);
 		}
@@ -103,7 +103,7 @@ public class JVSettingActivity extends BaseActivity {
 	};
 
 	private void itemClick() {
-		setting_listView.setOnItemClickListener(new OnItemClickListener() {
+		settingListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,

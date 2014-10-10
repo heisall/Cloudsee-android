@@ -143,6 +143,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 			RelativeLayout layout = new RelativeLayout(mActivity);
 			TextView view = new TextView(mActivity);
 			view.setText(manageDeviceList.get(i).getFullNo());
+			view.setTextColor(mActivity.getResources().getColor(
+					R.color.devicemanagename));
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.CENTER_IN_PARENT);

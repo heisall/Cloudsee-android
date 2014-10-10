@@ -99,6 +99,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 				break;
 			default:
 				break;
+
 			}
 		}
 

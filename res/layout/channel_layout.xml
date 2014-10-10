@@ -1,20 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-    <GridView
-        android:id="@+id/channel_gridview"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="20px"
-        android:cacheColorHint="@color/transparent"
-        android:horizontalSpacing="20px"
-        android:listSelector="@color/transparent"
-        android:numColumns="4"
-        android:verticalSpacing="20px" >
-    </GridView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <com.jovision.views.MyGridView
+                android:id="@+id/channel_gridview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="20px"
+                android:cacheColorHint="@color/transparent"
+                android:horizontalSpacing="20px"
+                android:listSelector="@color/transparent"
+                android:numColumns="4"
+                android:verticalSpacing="20px" >
+            </com.jovision.views.MyGridView>
+
+            <Button
+                android:id="@+id/channel_but"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/channel_gridview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/blue_bg"
+                android:text="@string/device_connect"
+                android:textColor="@color/more_fragment_color3"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/channel_but"
+                android:layout_marginTop="10dp" />
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

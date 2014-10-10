@@ -102,10 +102,9 @@
 
         <Button
             android:id="@+id/onlinelogin_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:layout_marginTop="40dp"
-            android:background="@drawable/login_6"
             android:text="@string/login_str_user_login"
             android:textColor="@color/white"
             android:textSize="20sp" />

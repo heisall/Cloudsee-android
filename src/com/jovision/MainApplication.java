@@ -16,10 +16,12 @@ import android.test.JVACCOUNT;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
+import com.jovision.activities.JVOffLineDialogActivity;
 import com.jovision.activities.JVTabActivity;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 
 /**
  * 整个应用的入口，管理状态、活动集合，消息队列以及漏洞汇报
@@ -129,10 +131,11 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				errorCount++;
 				if (4 == errorCount) {// 失败4次
 					JVACCOUNT.StopHeartBeat();// 先停止心跳
-					if (null != currentNotifyer) {
-						currentNotifyer.onNotify(
-								Consts.ACCOUNT_KEEP_ONLINE_FAILED, 0, 0, null);
-					}
+					Intent intent = new Intent(getApplicationContext(),
+							JVOffLineDialogActivity.class);
+					intent.putExtra("ErrorCode", 4);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent);
 				}
 			}
 		} catch (Exception e) {
@@ -155,89 +158,93 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 			MyLog.v("推送的回调函数", "res----:" + res + ";;time----:" + time
 					+ ";;msg----:" + msg);
 			if (JVAccountConst.MESSAGE_PUSH_TAG == res) {
-				if (null != currentNotifyer) {
-					if (null != msg && !"".equalsIgnoreCase(msg)) {
-						JSONObject obj = new JSONObject(msg);
-						String arrayStr = statusHashMap
-								.get(Consts.PUSH_JSONARRAY);
-						JSONArray pushArray = null;
-						if (null == arrayStr || "".equalsIgnoreCase(arrayStr)) {
-							pushArray = new JSONArray();
-						} else {
-							pushArray = new JSONArray(arrayStr);
+				if (MySharedPreference.getBoolean("AlarmSwitch", false)) {
+					if (null != currentNotifyer) {
+						if (null != msg && !"".equalsIgnoreCase(msg)) {
+							JSONObject obj = new JSONObject(msg);
+							String arrayStr = statusHashMap
+									.get(Consts.PUSH_JSONARRAY);
+							JSONArray pushArray = null;
+							if (null == arrayStr
+									|| "".equalsIgnoreCase(arrayStr)) {
+								pushArray = new JSONArray();
+							} else {
+								pushArray = new JSONArray(arrayStr);
+							}
+							pushArray.put(obj);
+							statusHashMap.put(Consts.PUSH_JSONARRAY,
+									pushArray.toString());
+
+							String[] alarmArray = getResources()
+									.getStringArray(R.array.alarm_type);
+
+							String ns = Context.NOTIFICATION_SERVICE;
+							mNotifyer = (NotificationManager) getSystemService(ns);
+							// 定义通知栏展现的内容信息
+							int icon = R.drawable.notification_icon;
+							CharSequence tickerText = getResources().getString(
+									R.string.str_alarm);
+							long when = System.currentTimeMillis();
+							Notification notification = new Notification(icon,
+									tickerText, when);
+
+							notification.defaults |= Notification.DEFAULT_SOUND;// 声音
+							// notification.defaults |=
+							// Notification.DEFAULT_LIGHTS;//灯
+							// notification.defaults |=
+							// Notification.DEFAULT_VIBRATE;//震动
+
+							// 定义下拉通知栏时要展现的内容信息
+							Context context = this;
+
+							CharSequence contentText = obj
+									.optString(JVAlarmConst.JK_ALARM_ALARMTIME
+											+ "-"
+											+ alarmArray[obj
+													.optInt(JVAlarmConst.JK_ALARM_ALARMTYPE)].replace(
+													"%%",
+													obj.optString(JVAlarmConst.JK_ALARM_CLOUDNAME)));
+
+							CharSequence contentTitle = getResources()
+									.getString(R.string.str_alarm_info);
+							// CharSequence contentText = pushMessage;
+
+							Intent notificationIntent = new Intent(this,
+									JVTabActivity.class);
+							notificationIntent.putExtra("tabIndex", 1);
+
+							PendingIntent contentIntent = PendingIntent
+									.getActivity(this, 0, notificationIntent,
+											PendingIntent.FLAG_UPDATE_CURRENT);
+							notification.setLatestEventInfo(context,
+									contentTitle, contentText, contentIntent);
+
+							// 用mNotificationManager的notify方法通知用户生成标题栏消息通知
+							mNotifyer.notify(0, notification);
 						}
-						pushArray.put(obj);
-						statusHashMap.put(Consts.PUSH_JSONARRAY,
-								pushArray.toString());
 
-						String[] alarmArray = getResources().getStringArray(
-								R.array.alarm_type);
-
-						String ns = Context.NOTIFICATION_SERVICE;
-						mNotifyer = (NotificationManager) getSystemService(ns);
-						// 定义通知栏展现的内容信息
-						int icon = R.drawable.notification_icon;
-						CharSequence tickerText = getResources().getString(
-								R.string.str_alarm);
-						long when = System.currentTimeMillis();
-						Notification notification = new Notification(icon,
-								tickerText, when);
-
-						notification.defaults |= Notification.DEFAULT_SOUND;// 声音
-						// notification.defaults |=
-						// Notification.DEFAULT_LIGHTS;//灯
-						// notification.defaults |=
-						// Notification.DEFAULT_VIBRATE;//震动
-
-						// 定义下拉通知栏时要展现的内容信息
-						Context context = this;
-
-						CharSequence contentText = obj
-								.optString(JVAlarmConst.JK_ALARM_ALARMTIME
-										+ "-"
-										+ alarmArray[obj
-												.optInt(JVAlarmConst.JK_ALARM_ALARMTYPE)].replace(
-												"%%",
-												obj.optString(JVAlarmConst.JK_ALARM_CLOUDNAME)));
-
-						CharSequence contentTitle = getResources().getString(
-								R.string.str_alarm_info);
-						// CharSequence contentText = pushMessage;
-
-						Intent notificationIntent = new Intent(this,
-								JVTabActivity.class);
-						notificationIntent.putExtra("tabIndex", 1);
-
-						PendingIntent contentIntent = PendingIntent
-								.getActivity(this, 0, notificationIntent,
-										PendingIntent.FLAG_UPDATE_CURRENT);
-						notification.setLatestEventInfo(context, contentTitle,
-								contentText, contentIntent);
-
-						// 用mNotificationManager的notify方法通知用户生成标题栏消息通知
-						mNotifyer.notify(0, notification);
 					}
-
 				}
 			} else if (JVAccountConst.MESSAGE_OFFLINE == res) {// 提掉线
-
-				if (null != currentNotifyer) {
-					MyLog.v("currentNotifyer-1", "" + currentNotifyer);
-					currentNotifyer
-							.onNotify(Consts.ACCOUNT_OFFLINE, 0, 0, null);
-				}
+				Intent intent = new Intent(getApplicationContext(),
+						JVOffLineDialogActivity.class);
+				intent.putExtra("ErrorCode", JVAccountConst.MESSAGE_OFFLINE);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
 			} else if (JVAccountConst.PTCP_ERROR == res) {// TCP错误
 				JVACCOUNT.StopHeartBeat();// 先停止心跳
-				if (null != currentNotifyer) {
-					currentNotifyer.onNotify(Consts.ACCOUNT_TCP_ERROR, 0, 0,
-							null);
-				}
+				Intent intent = new Intent(getApplicationContext(),
+						JVOffLineDialogActivity.class);
+				intent.putExtra("ErrorCode", JVAccountConst.PTCP_ERROR);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
 			} else if (JVAccountConst.PTCP_CLOSED == res) {// TCP关闭
 				JVACCOUNT.StopHeartBeat();// 先停止心跳
-				if (null != currentNotifyer) {
-					currentNotifyer.onNotify(Consts.ACCOUNT_TCP_ERROR, 0, 0,
-							null);
-				}
+				Intent intent = new Intent(getApplicationContext(),
+						JVOffLineDialogActivity.class);
+				intent.putExtra("ErrorCode", JVAccountConst.PTCP_CLOSED);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

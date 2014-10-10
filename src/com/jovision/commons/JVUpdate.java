@@ -123,7 +123,7 @@ public class JVUpdate {
 		mProgress = (ProgressBar) v.findViewById(R.id.progress);
 
 		builder.setView(v);
-		builder.setNegativeButton(mContext.getString(R.string.str_cancel),
+		builder.setNegativeButton(mContext.getString(R.string.cancel),
 				new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

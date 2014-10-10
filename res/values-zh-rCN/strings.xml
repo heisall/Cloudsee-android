@@ -99,10 +99,7 @@
     <string name="more_cancel">注销账号</string>
     <string name="str_test_3G">目前处于2G/3G网络，观看视频会产生大量流量费用（由运营商收取），建议使用Wi-Fi网络.</string>
     <string name="str_setting_network">网络连接异常，请检查网络设置</string>
-    <string name="tips">提示</string>
-    <string name="str_setting">设置</string>
-    <string name="str_sure">确认</string>
-    <string name="str_cancel">取消</string>
+
     <!-- JVMoreFrament -->
     <string name="location_login">游客A</string>
     <!-- leftMenu -->
@@ -227,11 +224,6 @@
     <string name="login_str_searching_device">正在扫描设备\n请等待...</string>
     <string name="login_str_search_nodevice">未扫描出设备，请检查Wi-Fi</string>
     <string name="str_local_login">访客登录</string>
-    <string name="str_sureExit">您确定要退出吗?</string>
-    <string name="str_offline">账号在其他地方登入或者账号异常</string>
-    <string name="str_offline2">网络连接异常，请重新登录</string>
-    <string name="str_offline_keeponline2">继续登录</string>
-    <string name="str_offline_exit">退出</string>
     <string name="str_offline_keeponline_success">保持在线成功!</string>
     <string name="str_offline_keeponline_failed">保持在线失败!</string>
     <string name="str_offline_keeponline">保持在线</string>
@@ -435,6 +427,27 @@
     <string name="str_qr_device">发现设备 </string>
     <string name="str_shake_scene_pic_tips">您的手机未插入SD卡，暂时无法使用场景图片功能。</string>
 
+    <!-- JVTab -->
+    <string name="sure_exit">您确定要退出吗?</string>
+
+    <!-- 2.3系统视频播放提示 -->
+    <string name="system_lower">您的手机系统是Android$,视频播放时有可能出现花屏，为达到最佳播放效果，建议下载2.8.5版本，是否立即下载?</string>
+    <string name="no_more_tips">不再提示</string>
+    <string name="download">立即下载</string>
+    <string name="not_support_old">该版本不再支持04版解码，如果仍想观看，建议下载2.8.5版本，是否立即下载?</string>
+
+    <!-- JVOffline -->
+    <string name="offline_other_login">账号在其他地方登入或者账号异常.</string>
+    <string name="offline_net_error">网络连接异常，请重新登录.</string>
+    <string name="exit">退出</string>
+    <string name="keeponline">继续登录</string>
+    <string name="tips">提示</string>
+    <string name="setting">设置</string>
+    <string name="sure">确认</string>
+    <string name="cancel">取消</string>
+    <string name="keeponline_success">保持在线成功!</string>
+    <string name="keeponline_failed">保持在线失败!</string>
+
     <!-- JVMyDeviceFragment -->
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
     <string name="del_device_succ">设备删除成功</string>
@@ -475,9 +488,9 @@
     <string name="str_notice_content">请在此输入您的问题或建议</string>
     <string name="str_notice_connection">您的联系方式（方便我们后续跟踪您提的问题和建议）</string>
     <string name="str_idea_and_feedback">意见反馈</string>
-    <string name="str_commit">提交</string>
+    <string name="commit">提交</string>
     <string name="str_commit_success">感谢您的反馈，我们将不断努力，为您提供更优质的服务</string>
-    <string name="str_ok">确定</string>
+    <string name="ok">确定</string>
     <string name="str_check_now">立即查看</string>
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">手动录像</string>
@@ -490,8 +503,8 @@
     <string name="str_fre">一共有</string>
     <string name="str_aft">个设备</string>
     <!-- Dialog -->
-    <string name="str_save">保存</string>
-    <string name="str_cancle">取消</string>
+    <string name="save">保存</string>
+    <string name="cancle">取消</string>
     <string name="str_nickname">昵称 ：</string>
     <string name="str_devicename">设备号  ：</string>
     <string name="str_username">用户名  ：</string>

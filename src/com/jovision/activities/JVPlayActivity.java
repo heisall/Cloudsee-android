@@ -348,19 +348,6 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 
-		// // 进播放开始连接开始连接
-		// case JVConst.WHAT_START_CONNECT: {
-		// int size = deviceList.size();
-		// for(int i = 0 ; i < size ; i ++){
-		// MyLog.v(TAG, deviceList.get(i).toString());
-		// }
-		//
-		// MyLog.e(TAG, "deviceIndex="+deviceIndex+"");
-		// showTextToast("视频播放--" + currentPage);
-		// PlayUtil.connect(deviceList.get(deviceIndex),channelIndex);
-		// break;
-		// }
-
 		// 开始连接
 		case JVConst.WHAT_STARTING_CONNECT: {
 			// handler.sendEmptyMessageDelayed(Consts.WHAT_DUMMY, 100);
@@ -470,13 +457,10 @@ public class JVPlayActivity extends PlayActivity implements
 			// [Neo] TODO 错误的参数，需要检查之前的活动
 		}
 
-		// [Neo] TODO 多设备模式
-		boolean multiDeviceMode = true;
-
 		startWindowIndex = 0;
 		playChannelList = new ArrayList<Channel>();
 
-		if (multiDeviceMode) {
+		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
 			int size = deviceList.size();
 			for (int i = 0; i < size; i++) {
 				ArrayList<Channel> cList = deviceList.get(i).getChannelList()
@@ -653,7 +637,6 @@ public class JVPlayActivity extends PlayActivity implements
 						getResources().getString(loadingState));// 连接文字
 				break;
 			case JVConst.PLAY_CONNECTTED:// 已连接
-				MyLog.e(TAG + "--已连接--", "index=" + index);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, View.GONE);// loading
 				manager.setViewVisibility(container,

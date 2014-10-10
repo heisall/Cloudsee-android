@@ -41,6 +41,8 @@ public class ManageFragment extends BaseFragment {
 	boolean localFlag = false;
 	private int isDevice;
 
+	int devType = 0;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		deviceIndex = JVDeviceManageFragment.deviceIndex;
@@ -79,13 +81,6 @@ public class ManageFragment extends BaseFragment {
 		}
 	}
 
-	// public ManageFragment(int devIndex, ArrayList<Device> devList) {
-	// deviceIndex = devIndex;
-	// deviceList = devList;
-	// device = deviceList.get(devIndex);
-	// MyLog.v(TAG, "ManageFragment: device=" + device);
-	// }
-
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		fragHandler.sendMessage(fragHandler
@@ -103,8 +98,7 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 1: {// 设备管理
-				mActivity.dismissDialog();
-				PlayUtil.disconnectDevice();
+
 				break;
 			}
 			case 2: {// 连接模式
@@ -120,11 +114,8 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 4: {// 立即观看
-				// ((BaseActivity) mActivity).showTextToast(arg1 + "");
 				PlayUtil.prepareConnect(deviceList, deviceIndex);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				// String devJsonString = Device.listToString(deviceList);
-				// intentPlay.putExtra("DeviceList", devJsonString);
 				intentPlay.putExtra("DeviceIndex", deviceIndex);
 				intentPlay.putExtra("ChannelIndex", device.getChannelList()
 						.toList().get(0).getChannel());
@@ -134,9 +125,10 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 5: {// 添加设备
-				Intent intent = new Intent();
-				intent.setClass(mActivity, JVAddDeviceActivity.class);
-				mActivity.startActivity(intent);
+				Intent addIntent = new Intent();
+				addIntent.setClass(mActivity, JVAddDeviceActivity.class);
+				addIntent.putExtra("QR", false);
+				mActivity.startActivity(addIntent);
 				break;
 			}
 
@@ -145,7 +137,6 @@ public class ManageFragment extends BaseFragment {
 		}
 
 		case Consts.CALL_NORMAL_DATA: {
-			int devType = 0;
 			try {
 				JSONObject jobj;
 				jobj = new JSONObject(obj.toString());
@@ -171,7 +162,7 @@ public class ManageFragment extends BaseFragment {
 
 				builder1.setTitle(R.string.tips);
 				builder1.setMessage(R.string.str_not_support_this_device);
-				builder1.setNegativeButton(R.string.str_cancel,
+				builder1.setNegativeButton(R.string.cancel,
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog,
@@ -188,35 +179,41 @@ public class ManageFragment extends BaseFragment {
 		case Consts.CALL_CONNECT_CHANGE: { // 连接回调
 			MyLog.e(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			if (1 != arg1) {
-				mActivity.dismissDialog();
+			if (1 != arg1) {// IPC连接失败才提示
+				if (0 == devType || Consts.DEVICE_TYPE_IPC == devType) {// 没取到设备类型，或者IPC才显示连接结果
+					mActivity.dismissDialog();
+					try {
+						JSONObject connectObj = new JSONObject(obj.toString());
+						String errorMsg = connectObj.getString("msg");
+						if ("pass word is wrong!".equalsIgnoreCase(errorMsg)
+								|| "pass word is wrong!"
+										.equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
+							mActivity.showTextToast(R.string.connfailed_auth);
+						} else if ("channel is not open!"
+								.equalsIgnoreCase(errorMsg)) {// 无该通道服务
+							mActivity
+									.showTextToast(R.string.connfailed_channel_notopen);
+						} else if ("connect type invalid!"
+								.equalsIgnoreCase(errorMsg)) {// 连接类型无效
+							mActivity
+									.showTextToast(R.string.connfailed_type_invalid);
+						} else if ("client count limit!"
+								.equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
+							mActivity
+									.showTextToast(R.string.connfailed_maxcount);
+						} else if ("connect timeout!"
+								.equalsIgnoreCase(errorMsg)) {//
+							mActivity
+									.showTextToast(R.string.connfailed_timeout);
+						} else {
+							mActivity.showTextToast(R.string.connect_failed);
+						}
 
-				try {
-					JSONObject connectObj = new JSONObject(obj.toString());
-					String errorMsg = connectObj.getString("msg");
-					if ("pass word is wrong!".equalsIgnoreCase(errorMsg)
-							|| "pass word is wrong!".equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
-						mActivity.showTextToast(R.string.connfailed_auth);
-					} else if ("channel is not open!"
-							.equalsIgnoreCase(errorMsg)) {// 无该通道服务
-						mActivity
-								.showTextToast(R.string.connfailed_channel_notopen);
-					} else if ("connect type invalid!"
-							.equalsIgnoreCase(errorMsg)) {// 连接类型无效
-						mActivity
-								.showTextToast(R.string.connfailed_type_invalid);
-					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
-						mActivity.showTextToast(R.string.connfailed_maxcount);
-					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
-						mActivity.showTextToast(R.string.connfailed_timeout);
-					} else {
-						mActivity.showTextToast(R.string.connect_failed);
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
 
-				} catch (JSONException e) {
-					e.printStackTrace();
 				}
-
 			}
 			break;
 		}
@@ -228,7 +225,6 @@ public class ManageFragment extends BaseFragment {
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				// 获取基本文本信息

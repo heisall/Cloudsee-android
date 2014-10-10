@@ -54,7 +54,7 @@ public class Device {
 	private int hasWifi = 0;
 
 	public Device() {
-		channelList = new MyList<Channel>();
+		channelList = new MyList<Channel>(1);
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class Device {
 		isHomeProduct = true;
 		isHelperEnabled = false;
 
-		channelList = new MyList<Channel>();
+		channelList = new MyList<Channel>(1);
 		channelList.add(new Channel(this, -1, Consts.CHANNEL_JY, false, false,
 				""));
 	}
@@ -108,7 +108,7 @@ public class Device {
 
 		isHelperEnabled = false;
 
-		channelList = new MyList<Channel>();
+		channelList = new MyList<Channel>(1);
 		Channel channel = null;
 
 		for (int i = 0; i < channelCount; i++) {

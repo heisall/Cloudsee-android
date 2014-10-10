@@ -52,8 +52,6 @@ public class JVAddDeviceActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		Intent intent = getIntent();
-		// String devJsonString = intent.getStringExtra("DeviceList");
-		// deviceList = Device.fromJsonArray(devJsonString);
 		deviceList = CacheUtil.getDevList();
 		qrAdd = intent.getBooleanExtra("QR", false);
 		if (qrAdd) {

@@ -115,7 +115,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/video_list_bg" >
+            android:background="@drawable/dialog_bg" >
 
             <com.jovision.views.RefreshableListView
                 android:id="@+id/wifilistview"

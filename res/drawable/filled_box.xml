@@ -9,6 +9,6 @@
         <padding android:bottom="20dp" android:left="20dp" android:right="20dp" android:top="20dp" />
     </shape>
 
-    <item android:drawable="@drawable/video_list_bg"/>
+    <item android:drawable="@drawable/dialog_bg"/>
 
 </selector>

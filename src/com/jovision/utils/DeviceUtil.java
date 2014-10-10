@@ -129,7 +129,7 @@ public class DeviceUtil {
 	 */
 	public static MyList<Channel> getDevicePointList(Device parentDevice,
 			String dGuid) {
-		MyList<Channel> pointList = new MyList<Channel>();
+		MyList<Channel> pointList = new MyList<Channel>(1);
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
@@ -161,7 +161,7 @@ public class DeviceUtil {
 					if (0 != rt) {// 获取失败
 						pointList = null;
 					} else {// 获取成功
-						pointList = new MyList<Channel>();
+						pointList = new MyList<Channel>(1);
 					}
 					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
 					JSONArray plist = new JSONArray(
@@ -173,7 +173,7 @@ public class DeviceUtil {
 								Channel cl = new Channel();
 								cl.setParent(parentDevice);
 								cl.setChannel(obj
-										.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_NO) - 1);
+										.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_NO));
 								cl.setChannelName(obj
 										.optString(JVDeviceConst.JK_DEVICE_CHANNEL_NAME));// BaseApp.UnicodeToString(obj.optString(JVDeviceConst.JK_DEVICE_NAME));
 								pointList.add(cl);

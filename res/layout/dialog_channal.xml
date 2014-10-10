@@ -76,7 +76,7 @@
                 android:layout_height="30dp"
                 android:background="@drawable/dialog_cancel"
                 android:gravity="center"
-                android:text="@string/str_save"
+                android:text="@string/save"
                 android:textColor="#404040"
                 android:textSize="13sp" />
 
@@ -87,7 +87,7 @@
                 android:layout_marginLeft="50dp"
                 android:background="@drawable/dialog_cancel"
                 android:gravity="center"
-                android:text="@string/str_cancle"
+                android:text="@string/cancle"
                 android:textColor="#404040"
                 android:textSize="13sp" />
         </LinearLayout>

@@ -163,9 +163,8 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
                android:onClick="OnCancelButton"/>
-=======
-               android:onClick="OnCancelButton"/>
->>>>>>> Stashed changes
+
+
         -->
 
         <ImageView

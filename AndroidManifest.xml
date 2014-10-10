@@ -92,6 +92,15 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
+            android:name="com.jovision.activities.JVOffLineDialogActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyDialogTheme"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
             android:name="com.jovision.activities.JVSettingActivity"
             android:configChanges="orientation|keyboardHidden"
             android:hardwareAccelerated="true"

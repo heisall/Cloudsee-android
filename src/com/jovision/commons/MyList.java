@@ -29,13 +29,13 @@ public class MyList<E> {
 	/**
 	 * 构造，默认从 0 开始的索引
 	 */
-	public MyList() {
-		if (IS_IN_DROID) {
-			array = new SparseArray<E>();
-		} else {
-			map = new HashMap<Integer, E>();
-		}
-	}
+	// public MyList() {
+	// if (IS_IN_DROID) {
+	// array = new SparseArray<E>();
+	// } else {
+	// map = new HashMap<Integer, E>();
+	// }
+	// }
 
 	/**
 	 * 通过指定开始索引的构造

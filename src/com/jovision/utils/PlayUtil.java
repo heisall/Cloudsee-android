@@ -25,6 +25,7 @@ import com.jovision.bean.RemoteVideo;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 
 /**
  * 播放相关功能
@@ -772,10 +773,9 @@ public class PlayUtil {
 
 	public static void prepareConnect(ArrayList<Device> deviceList,
 			int deviceIndex) {
-		boolean multiDeviceMode = true;
 		ArrayList<Channel> clist = new ArrayList<Channel>();
 
-		if (multiDeviceMode) {
+		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
 			for (Device device : deviceList) {
 				clist.addAll(device.getChannelList().toList());
 			}

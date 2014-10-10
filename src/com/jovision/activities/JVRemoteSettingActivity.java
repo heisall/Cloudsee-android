@@ -751,8 +751,8 @@ public class JVRemoteSettingActivity extends BaseActivity {
 									}
 								})
 						.setNegativeButton(
-								getResources().getString(R.string.str_cancel),
-								null).show();
+								getResources().getString(R.string.cancel), null)
+						.show();
 				break;
 			case R.id.clearsetting:
 
@@ -768,8 +768,8 @@ public class JVRemoteSettingActivity extends BaseActivity {
 									}
 								})
 						.setNegativeButton(
-								getResources().getString(R.string.str_cancel),
-								null).show();
+								getResources().getString(R.string.cancel), null)
+						.show();
 				break;
 			case R.id.fluentsetting:
 				new AlertDialog.Builder(JVRemoteSettingActivity.this)
@@ -784,8 +784,8 @@ public class JVRemoteSettingActivity extends BaseActivity {
 									}
 								})
 						.setNegativeButton(
-								getResources().getString(R.string.str_cancel),
-								null).show();
+								getResources().getString(R.string.cancel), null)
+						.show();
 				break;
 			}
 		}

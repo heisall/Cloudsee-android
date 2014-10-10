@@ -260,7 +260,7 @@ public abstract class ShakeActivity extends BaseActivity implements
 				scanIpcWifiList.size() + "");
 		builder.setMessage(str);
 
-		builder.setPositiveButton(R.string.str_sure,
+		builder.setPositiveButton(R.string.sure,
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -275,7 +275,7 @@ public abstract class ShakeActivity extends BaseActivity implements
 
 					}
 				});
-		builder.setNegativeButton(R.string.str_cancel,
+		builder.setNegativeButton(R.string.cancel,
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

@@ -20,10 +20,6 @@
             android:id="@+id/remotesurfaceview"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
-<<<<<<< Updated upstream
-=======
-"
->>>>>>> Stashed changes
     </RelativeLayout>
 
     <RelativeLayout

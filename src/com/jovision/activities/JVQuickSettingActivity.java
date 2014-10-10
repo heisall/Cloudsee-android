@@ -426,7 +426,7 @@ public class JVQuickSettingActivity extends ShakeActivity {
 
 		builder.setView(layout);
 
-		builder.setPositiveButton(R.string.str_cancel,
+		builder.setPositiveButton(R.string.cancel,
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -464,7 +464,7 @@ public class JVQuickSettingActivity extends ShakeActivity {
 				R.string.str_quick_setting_alert2));
 		builder.setMessage(R.string.net_errors);
 
-		builder.setPositiveButton(R.string.str_sure,
+		builder.setPositiveButton(R.string.sure,
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -730,7 +730,7 @@ public class JVQuickSettingActivity extends ShakeActivity {
 				builder1.setTitle(R.string.tips);
 				builder1.setMessage(R.string.str_host_connect_failed);
 
-				builder1.setPositiveButton(R.string.str_sure,
+				builder1.setPositiveButton(R.string.sure,
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog,

@@ -38,7 +38,7 @@ public class JVFeedbackActivity extends BaseActivity {
 					JVFeedbackActivity.this);
 			builder.setMessage(R.string.str_commit_success);
 			builder.setCancelable(false);
-			builder.setPositiveButton(R.string.str_ok,
+			builder.setPositiveButton(R.string.ok,
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -78,8 +78,8 @@ public class JVFeedbackActivity extends BaseActivity {
 		back.setVisibility(View.VISIBLE);
 		commit.setVisibility(View.VISIBLE);
 		commit.setTextColor(getResources().getColor(R.color.white));
-		back.setText(getResources().getString(R.string.str_cancel));
-		commit.setText(getResources().getString(R.string.str_commit));
+		back.setText(getResources().getString(R.string.cancel));
+		commit.setText(getResources().getString(R.string.commit));
 
 		connection = (EditText) findViewById(R.id.connectway);
 

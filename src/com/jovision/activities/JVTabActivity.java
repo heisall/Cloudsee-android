@@ -1,22 +1,16 @@
 package com.jovision.activities;
 
 import java.util.Timer;
-import java.util.TimerTask;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.NotificationManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
-import android.view.WindowManager;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
 import com.jovision.commons.CheckUpdateTask;
-import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 
 public class JVTabActivity extends BaseActivity {
@@ -108,76 +102,76 @@ public class JVTabActivity extends BaseActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		switch (what) {
-		case Consts.ACCOUNT_TCP_ERROR:
-		case Consts.ACCOUNT_KEEP_ONLINE_FAILED: {// 连续三次保持在线失败
-			AlertDialog alert;
-			AlertDialog.Builder builder = new Builder(JVTabActivity.this);
-			builder.setMessage(R.string.str_no_response_data);
-			builder.setPositiveButton(R.string.str_sure,
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							MyActivityManager.getActivityManager()
-									.popAllActivityExceptOne(
-											JVLoginActivity.class);
-							Intent intent = new Intent();
-							intent.setClass(JVTabActivity.this,
-									JVLoginActivity.class);
-							JVTabActivity.this.startActivity(intent);
-							JVTabActivity.this.finish();
-						}
-					});
-
-			alert = builder.create();
-			alert.getWindow().setType(
-					WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-			alert.show();
-			break;
-		}
-		case Consts.ACCOUNT_OFFLINE: {// 提掉线
-			showTextToast(R.string.str_offline);
-			TimerTask task = new TimerTask() {
-				public void run() {
-					timer = timer - 1;
-					if (timer == -1) {
-
-					}
-				}
-			};
-
-			offlineTimer.schedule(task, 0, 1000);
-
-			AlertDialog alert;
-			AlertDialog.Builder builder = new Builder(
-					JVTabActivity.this.getApplicationContext());
-			builder.setMessage(JVTabActivity.this.getResources().getString(
-					R.string.str_offline));
-			builder.setTitle(JVTabActivity.this.getResources().getString(
-					R.string.tips)
-					+ "  " + String.valueOf(timer));
-			builder.setPositiveButton(R.string.str_offline_exit,
-					new DialogInterface.OnClickListener() {
-
-						public void onClick(DialogInterface dialog, int which) {
-
-						}
-					});
-			builder.setNegativeButton(R.string.str_offline_keeponline2,
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO
-						}
-					});
-			alert = builder.create();
-			alert.getWindow().setType(
-					WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-			alert.setCancelable(false);
-			alert.show();
-
-			break;
-		}
-
-		}
+		// switch (what) {
+		// case Consts.ACCOUNT_TCP_ERROR:
+		// case Consts.ACCOUNT_KEEP_ONLINE_FAILED: {// 连续三次保持在线失败
+		// AlertDialog alert;
+		// AlertDialog.Builder builder = new Builder(JVTabActivity.this);
+		// builder.setMessage(R.string.str_no_response_data);
+		// builder.setPositiveButton(R.string.str_sure,
+		// new DialogInterface.OnClickListener() {
+		// public void onClick(DialogInterface dialog, int which) {
+		// MyActivityManager.getActivityManager()
+		// .popAllActivityExceptOne(
+		// JVLoginActivity.class);
+		// Intent intent = new Intent();
+		// intent.setClass(JVTabActivity.this,
+		// JVLoginActivity.class);
+		// JVTabActivity.this.startActivity(intent);
+		// JVTabActivity.this.finish();
+		// }
+		// });
+		//
+		// alert = builder.create();
+		// alert.getWindow().setType(
+		// WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+		// alert.show();
+		// break;
+		// }
+		// case Consts.ACCOUNT_OFFLINE: {// 提掉线
+		// // showTextToast(R.string.str_offline);
+		// // TimerTask task = new TimerTask() {
+		// // public void run() {
+		// // timer = timer - 1;
+		// // if (timer == -1) {
+		// //
+		// // }
+		// // }
+		// // };
+		// //
+		// // offlineTimer.schedule(task, 0, 1000);
+		// //
+		// // AlertDialog alert;
+		// // AlertDialog.Builder builder = new Builder(
+		// // JVTabActivity.this.getApplicationContext());
+		// // builder.setMessage(JVTabActivity.this.getResources().getString(
+		// // R.string.str_offline));
+		// // builder.setTitle(JVTabActivity.this.getResources().getString(
+		// // R.string.tips)
+		// // + "  " + String.valueOf(timer));
+		// // builder.setPositiveButton(R.string.exit,
+		// // new DialogInterface.OnClickListener() {
+		// //
+		// // public void onClick(DialogInterface dialog, int which) {
+		// //
+		// // }
+		// // });
+		// // builder.setNegativeButton(R.string.keeponline,
+		// // new DialogInterface.OnClickListener() {
+		// // public void onClick(DialogInterface dialog, int which) {
+		// // // TODO
+		// // }
+		// // });
+		// // alert = builder.create();
+		// // alert.getWindow().setType(
+		// // WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+		// // alert.setCancelable(false);
+		// // alert.show();
+		//
+		// break;
+		// }
+		//
+		// }
 	}
 
 	// case Consts.CALL_NORMAL_DATA:
@@ -189,12 +183,12 @@ public class JVTabActivity extends BaseActivity {
 
 		// TODO 增加过滤
 		switch (what) {
-		case Consts.PUSH_MESSAGE:
-		case Consts.ACCOUNT_TCP_ERROR:
-		case Consts.ACCOUNT_KEEP_ONLINE_FAILED:
-		case Consts.ACCOUNT_OFFLINE:
-			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
-			break;
+		// case Consts.PUSH_MESSAGE:
+		// case Consts.ACCOUNT_TCP_ERROR:
+		// case Consts.ACCOUNT_KEEP_ONLINE_FAILED:
+		// case Consts.ACCOUNT_OFFLINE:
+		// handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
+		// break;
 		default:
 			BaseFragment currentFrag = mFragments[currentIndex];
 			if (null != currentFrag) {

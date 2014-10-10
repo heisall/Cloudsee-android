@@ -114,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/video_list_bg" >
+                android:background="@drawable/dialog_bg" >
 
                 <com.jovision.views.RefreshableListView
                     android:id="@+id/mobilewifilistview"

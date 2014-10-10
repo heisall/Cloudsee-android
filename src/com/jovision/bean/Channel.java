@@ -23,7 +23,7 @@ public class Channel {
 
 	/** 窗口索引 */
 	private int index;
-	/** 设备通道，从 0 开始 */
+	/** 设备通道，从1 开始，与张帅服务器统一从1开始 */
 	private int channel;
 
 	/** 通道昵称 */
@@ -161,7 +161,7 @@ public class Channel {
 	}
 
 	public static MyList<Channel> fromJsonArray(String string, Device device) {
-		MyList<Channel> channelList = new MyList<Channel>();
+		MyList<Channel> channelList = new MyList<Channel>(1);
 		if (null == string || "".equalsIgnoreCase(string)) {
 			return channelList;
 		}

@@ -293,6 +293,7 @@ public class JVLoginActivity extends BaseActivity {
 				// JVLoginActivity.this.startActivity(intent);
 				break;
 			case R.id.locallogin_btn:// 本地登录
+
 				Intent intentMain = new Intent(JVLoginActivity.this,
 						JVTabActivity.class);
 				statusHashMap.put(Consts.LOCAL_LOGIN, "true");

@@ -284,8 +284,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				case 0: {// 云视通号
 					Intent addIntent = new Intent();
 					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
-					String devJsonString = Device.listToString(myDeviceList);
-					addIntent.putExtra("DeviceList", devJsonString);
 					addIntent.putExtra("QR", false);
 					mActivity.startActivity(addIntent);
 					break;
@@ -293,8 +291,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				case 1: {// 二维码扫描
 					Intent addIntent = new Intent();
 					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
-					String devJsonString = Device.listToString(myDeviceList);
-					addIntent.putExtra("DeviceList", devJsonString);
 					addIntent.putExtra("QR", true);
 					mActivity.startActivity(addIntent);
 					break;

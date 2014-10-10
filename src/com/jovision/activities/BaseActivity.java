@@ -280,27 +280,19 @@ public abstract class BaseActivity extends FragmentActivity implements
 		AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
 
 		builder.setTitle(R.string.tips);
-		builder.setMessage(R.string.str_sureExit);
+		builder.setMessage(R.string.sure_exit);
 
-		builder.setPositiveButton(R.string.str_sure,
+		builder.setPositiveButton(R.string.sure,
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// BaseApp.saveDeviceToLocal(BaseApp.getSP(getApplicationContext()),
-						// BaseApp.getEditor(getApplicationContext()),
-						// Boolean.getBoolean(statusHashMap.get(Consts.LOCAL_LOGIN)));
-						// if (null != BaseApp.mNotificationManager) {
-						// BaseApp.mNotificationManager.cancel(0);
-						// }
-
-						// ConfigUtil.stopBroadCast();
 						MyActivityManager.getActivityManager()
 								.popAllActivityExceptOne(null);
 						android.os.Process.killProcess(android.os.Process
 								.myPid());
 					}
 				});
-		builder.setNegativeButton(R.string.str_cancel,
+		builder.setNegativeButton(R.string.cancel,
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -309,4 +301,5 @@ public abstract class BaseActivity extends FragmentActivity implements
 				});
 		builder.create().show();
 	}
+
 }

@@ -9,7 +9,6 @@
     <string name="title_settings">"设置"</string>
     <string name="back">"返回"</string>
     <string name="help">"帮助"</string>
-    <string name="exit">"退出"</string>
     <string name="fragment_home_text">"这是首页"</string>
     <string name="fragment_search_text">"这是搜索"</string>
     <string name="fragment_settings_text">"这是设置"</string>
@@ -99,10 +98,6 @@
     <string name="login_str_qq_autho_success">QQ authorized success</string>
     <string name="str_test_3G">You are using the 3G/4G network now.It shall cause a lot mobile data fee if you continute to view the video.You are suggested to use Wi-Fi network.</string>
     <string name="str_setting_network">Network connection exception,please check the network</string>
-    <string name="tips">Tips</string>
-    <string name="str_setting">Setting</string>
-    <string name="str_sure">Sure</string>
-    <string name="str_cancel">Cancel</string>
     <!-- leftMenu -->
     <string name="devicecount">Total of 0 Device</string>
     <string name="nikename">NickName</string>
@@ -224,19 +219,12 @@
     <string name="login_str_searching_device">The device is being searched\nWait a moment...</string>
     <string name="login_str_search_nodevice">The device is not searched,please check Wi-Fi</string>
     <string name="str_local_login">Visitor Login</string>
-    <string name="str_sureExit">Are you sure to exit?</string>
-    <string name="str_offline">Account login elsewhere or account exception</string>
-    <string name="str_offline2">Network connection exception,please login again.</string>
-    <string name="str_offline_keeponline2">Continue exit</string>
-    <string name="str_offline_exit">Quit</string>
     <string name="str_offline_keeponline">Maintain</string>
     <string name="str_userpass_error">Wrong username or password, please input again.</string>
     <string name="str_net_error">Connection failed, please verify again.</string>
     <string name="str_initsdk_failed">Iinit error, due to network problem.</string>
     <string name="str_edit_pass">Modify</string>
     <string name="str_find_pass">Retrieve</string>
-    <string name="str_offline_keeponline_success">Keep successful online!</string>
-    <string name="str_offline_keeponline_failed">Failed to keep online!</string>
     <string name="str_user_has_exist">Username has been registered by others, please modify.</string>
     <string name="str_phone_num_error">Mobile phone format is not correct.</string>
     <string name="str_user_not_exist">Username not exist.</string>
@@ -408,12 +396,26 @@
     <string name="login_str_ip_adress_notnull">Please input IP.</string>
     <string name="str_shake_scene_pic_tips">Scene picture function can\'t be used for there is no SD card in your mobile phone</string>
 
+    <!-- JVTab -->
+    <string name="sure_exit">Are you sure to exit?</string>
+
     <!-- 2.3系统视频播放提示 -->
     <string name="system_lower">您的手机系统是Android$,视频播放时有可能出现花屏，为达到最佳播放效果，建议下载2.8.5版本，是否立即下载?</string>
     <string name="no_more_tips">不再提示</string>
     <string name="download">立即下载</string>
-    <string name="cancel">取消</string>
     <string name="not_support_old">该版本不再支持04版解码，如果仍想观看，建议下载2.8.5版本，是否立即下载?</string>
+
+    <!-- JVOffline -->
+    <string name="offline_other_login">Account login elsewhere or account exception.</string>
+    <string name="offline_net_error">Network connection exception,please login again.</string>
+    <string name="exit">Quit</string>
+    <string name="keeponline">Maintain</string>
+    <string name="tips">Tips</string>
+    <string name="setting">Setting</string>
+    <string name="sure">Sure</string>
+    <string name="cancel">Cancel</string>
+    <string name="skeeponline_success">Keep successful online!</string>
+    <string name="keeponline_failed">Failed to keep online!</string>
 
     <!-- tab页 下拉刷新 -->
     <string name="pull_to_refresh">下拉可以刷新</string>
@@ -469,9 +471,9 @@
     <string name="str_notice_content">Please input your problems or suggestion.</string>
     <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>
     <string name="str_idea_and_feedback">Feedback</string>
-    <string name="str_commit">Send</string>
+    <string name="commit">Send</string>
     <string name="str_commit_success">Thanks for your feedback, we shall work more to provide better service.</string>
-    <string name="str_ok">OK</string>
+    <string name="ok">OK</string>
     <string name="str_check_now">立即查看</string>
 
     <!-- JVRemotePlayBackActivity -->
@@ -479,8 +481,8 @@
     <string name="video_alarm">Alarm recording</string>
 
     <!-- Dialog -->
-    <string name="str_save">保存</string>
-    <string name="str_cancle">取消</string>
+    <string name="save">保存</string>
+    <string name="cancle">取消</string>
     <string name="str_nickname">昵称 ：</string>
     <string name="str_devicename">设备号  ：</string>
     <string name="str_username">用户名  ：</string>

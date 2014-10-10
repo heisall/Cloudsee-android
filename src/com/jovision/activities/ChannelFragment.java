@@ -105,21 +105,6 @@ public class ChannelFragment extends BaseFragment {
 		super.onPause();
 	}
 
-	// // 设置data
-	// public void setData(int devIndex, ArrayList<Device> devList, int
-	// widthPixels) {
-	// deviceIndex = devIndex;
-	// deviceList = devList;
-	// this.widthPixels = widthPixels;
-	//
-	// device = deviceList.get(devIndex);
-	// if (null != channelAdapter && null != device
-	// && null != device.getChannelList()) {
-	// channelAdapter.setData(device.getChannelList().toList(),
-	// widthPixels);
-	// }
-	// }
-
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		fragHandler.sendMessage(fragHandler
@@ -134,11 +119,10 @@ public class ChannelFragment extends BaseFragment {
 			if (changeRes) {
 				channelAdapter.notifyDataSetChanged();
 			} else {
-				// [Neo] TODO 多设备模式？
-				// boolean multiDeviceMode = false;
+				// // [Neo] TODO 多设备模式？
 				// ArrayList<Channel> clist = new ArrayList<Channel>();
 				//
-				// if (multiDeviceMode) {
+				// if (MySharedPreference.getBoolean("PlayDeviceMode")) {
 				// for (Device device : deviceList) {
 				// clist.addAll(device.getChannelList().toList());
 				// }
@@ -173,6 +157,7 @@ public class ChannelFragment extends BaseFragment {
 			break;
 		}
 		case ChannelAdapter.CHANNEL_ITEM_DEL_CLICK: {// 通道删除事件
+
 			DelChannelTask task = new DelChannelTask();
 			String[] strParams = new String[3];
 			strParams[0] = String.valueOf(deviceIndex);// 设备index

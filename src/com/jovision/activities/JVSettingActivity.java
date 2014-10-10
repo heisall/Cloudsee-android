@@ -139,7 +139,7 @@ public class JVSettingActivity extends BaseActivity {
 			task.execute(params);
 			break;
 		case 3:
-			MySharedPreference.putBoolean("SEE_MODEL", flag);
+			MySharedPreference.putBoolean("PlayDeviceMode", flag);
 			break;
 		default:
 			break;
@@ -156,7 +156,7 @@ public class JVSettingActivity extends BaseActivity {
 		if (MySharedPreference.getBoolean("AlarmSwitch")) {
 			dataArrayList.get(2).setIsclick(true);
 		}
-		if (MySharedPreference.getBoolean("SEE_MODEL")) {
+		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
 			dataArrayList.get(3).setIsclick(true);
 		}
 	}

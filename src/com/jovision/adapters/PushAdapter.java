@@ -200,7 +200,6 @@ public class PushAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-				mfragment.onNotify(DELETE_ALARM_MESS, position, 0, null);
 				try {
 					if (null != pushList && 0 != pushList.size()
 							&& position < pushList.size()) {

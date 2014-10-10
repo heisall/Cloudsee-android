@@ -336,13 +336,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					}
 				}
 				if (!doDelete) {
-					mActivity.showTextToast(R.string.del_alarm_succ);
-				} else {
 					mActivity.showTextToast(R.string.del_alarm_failed);
+				} else {
+					mActivity.showTextToast(R.string.del_alarm_succ);
 				}
 			} else {
 				mActivity.showTextToast(R.string.del_alarm_failed);
 			}
+			pushAdapter.setRefCount(pushList.size());
 			pushAdapter.notifyDataSetChanged();
 			((BaseActivity) mActivity).dismissDialog();
 		}

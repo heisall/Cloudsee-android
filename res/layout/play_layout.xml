@@ -1,292 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black" >
-	<RelativeLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    >
-    <include
-        android:id="@+id/top_bar"
-        layout="@layout/top_bar_layout" />
 
     <RelativeLayout
-        android:id="@+id/videolayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/top_bar"
-        android:background="@color/black"
-        android:orientation="vertical" >
-
-        <SurfaceView
-            android:id="@+id/remotesurfaceview"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
-
-        <com.jovision.views.MyViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_centerHorizontal="true" />
-        <TextView
-            android:id="@+id/linkstate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:visibility="gone" />
-
-        <SeekBar
-            android:id="@+id/playback_seekback"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/remotesurfaceview"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:paddingBottom="0dip"
-            android:paddingLeft="3dip"
-            android:paddingRight="3dip"
-            android:paddingTop="0dip"
-            android:progressDrawable="@drawable/seekbar_bg_selector"
-            android:thumb="@drawable/seekbar_thumb"
-            android:thumbOffset="0dp"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/playstate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:paddingTop="43dp"
-            android:textColor="@color/green"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
-
-        <ProgressBar
-            android:id="@+id/videoloading"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/decodeway"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:background="@color/transparent"
-            android:onClick="onFlip"
-            android:text="flip HD/ff"
-            android:textColor="@color/white" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/mainfunction"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/footbar"
-        android:layout_below="@+id/videolayout"
-        android:background="@color/functionbgcolor"
-        android:visibility="visible" >
+        android:layout_height="match_parent" >
 
         <include
-            android:id="@+id/yt_layout"
+            android:id="@+id/top_bar"
+            layout="@layout/top_bar_layout" />
+
+        <RelativeLayout
+            android:id="@+id/videolayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            layout="@layout/yt_vertical_layout"
-            android:visibility="gone" />
+            android:layout_below="@+id/top_bar"
+            android:background="@color/black"
+            android:orientation="vertical" >
 
-        <LinearLayout
+            <SurfaceView
+                android:id="@+id/remotesurfaceview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <com.jovision.views.MyViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/linkstate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <SeekBar
+                android:id="@+id/playback_seekback"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/remotesurfaceview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:paddingBottom="0dip"
+                android:paddingLeft="3dip"
+                android:paddingRight="3dip"
+                android:paddingTop="0dip"
+                android:progressDrawable="@drawable/seekbar_bg_selector"
+                android:thumb="@drawable/seekbar_thumb"
+                android:thumbOffset="0dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/playstate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingTop="43dp"
+                android:textColor="@color/green"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/videoloading"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/decodeway"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@color/transparent"
+                android:onClick="onFlip"
+                android:text="flip HD/ff"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/mainfunction"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:background="@color/transparent"
-            android:orientation="horizontal" >
+            android:layout_above="@+id/footbar"
+            android:layout_below="@+id/videolayout"
+            android:background="@color/functionbgcolor"
+            android:visibility="visible" >
 
-            <ListView
-                android:id="@+id/play_function_list_layout"
+            <include
+                android:id="@+id/yt_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:divider="@null"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                layout="@layout/yt_vertical_layout"
                 android:visibility="gone" />
 
             <LinearLayout
-                android:id="@+id/play_function_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
                 android:background="@color/transparent"
                 android:orientation="horizontal" >
 
-                <Button
-                    android:id="@+id/audio_monitor"
-                    android:layout_width="wrap_content"
+                <ListView
+                    android:id="@+id/play_function_list_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@color/transparent"
-                    android:drawablePadding="10dp"
-                    android:drawableTop="@drawable/voice_monitor"
-                    android:text="@string/str_audio_monitor"
-                    android:textColor="@color/userinfocolor"
-                    android:textSize="16sp" />
+                    android:divider="@null"
+                    android:visibility="gone" />
 
-                <Button
-                    android:id="@+id/yt_operate"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/play_function_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
                     android:background="@color/transparent"
-                    android:drawablePadding="10dp"
-                    android:drawableTop="@drawable/yt_controller"
-                    android:text="@string/str_yt_operate"
-                    android:textColor="@color/userinfocolor"
-                    android:textSize="16sp" />
+                    android:orientation="horizontal" >
 
-                <Button
-                    android:id="@+id/remote_playback"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/transparent"
-                    android:drawablePadding="10dp"
-                    android:drawableTop="@drawable/remote_playback"
-                    android:text="@string/str_remote_playback"
-                    android:textColor="@color/userinfocolor"
-                    android:textSize="16sp" />
+                    <Button
+                        android:id="@+id/audio_monitor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:drawablePadding="10dp"
+                        android:drawableTop="@drawable/voice_monitor"
+                        android:text="@string/str_audio_monitor"
+                        android:textColor="@color/userinfocolor"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/yt_operate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:drawablePadding="10dp"
+                        android:drawableTop="@drawable/yt_controller"
+                        android:text="@string/str_yt_operate"
+                        android:textColor="@color/userinfocolor"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/remote_playback"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:drawablePadding="10dp"
+                        android:drawableTop="@drawable/remote_playback"
+                        android:text="@string/str_remote_playback"
+                        android:textColor="@color/userinfocolor"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/footbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/footer_bar_bg"
+            android:orientation="horizontal"
+            android:paddingTop="1dp" >
+
+            <Button
+                android:id="@+id/capture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:drawableLeft="@drawable/capture"
+                android:paddingLeft="10dp"
+                android:paddingRight="0dp"
+                android:singleLine="true"
+                android:text="@string/str_capture"
+                android:textColor="@drawable/button_font_style"
+                android:textSize="8sp" />
+
+            <Button
+                android:id="@+id/voicecall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:drawableLeft="@drawable/call_of_voice"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:text="@string/str_voice"
+                android:textColor="@drawable/button_font_style"
+                android:textSize="8sp" />
+
+            <Button
+                android:id="@+id/videotape"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:drawableLeft="@drawable/video_record"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:text="@string/str_video"
+                android:textColor="@drawable/button_font_style"
+                android:textSize="8sp" />
+
+            <Button
+                android:id="@+id/more_features"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:drawableLeft="@drawable/more_feature"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:text="@string/str_more"
+                android:textColor="@drawable/button_font_style"
+                android:textSize="8sp" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/top_bartwo"
+            layout="@layout/top_bar_layout"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:text="123" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:text="123" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:text="123" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:text="123" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:text="123" />
         </LinearLayout>
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/footbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/footer_bar_bg"
-        android:orientation="horizontal"
-        android:paddingTop="1dp" >
-
-        <Button
-            android:id="@+id/capture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="1dp"
-            android:layout_weight="1"
-            android:background="@drawable/function_btn_bg"
-            android:drawableLeft="@drawable/capture"
-            android:paddingLeft="10dp"
-            android:paddingRight="0dp"
-            android:singleLine="true"
-            android:text="@string/str_capture"
-            android:textColor="@drawable/button_font_style"
-            android:textSize="8sp" />
-
-        <Button
-            android:id="@+id/voicecall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="1dp"
-            android:layout_weight="1"
-            android:background="@drawable/function_btn_bg"
-            android:drawableLeft="@drawable/call_of_voice"
-            android:paddingLeft="10dp"
-            android:paddingRight="5dp"
-            android:singleLine="true"
-            android:text="@string/str_voice"
-            android:textColor="@drawable/button_font_style"
-            android:textSize="8sp" />
-
-        <Button
-            android:id="@+id/videotape"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="1dp"
-            android:layout_weight="1"
-            android:background="@drawable/function_btn_bg"
-            android:drawableLeft="@drawable/video_record"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:text="@string/str_video"
-            android:textColor="@drawable/button_font_style"
-            android:textSize="8sp" />
-
-        <Button
-            android:id="@+id/more_features"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/function_btn_bg"
-            android:drawableLeft="@drawable/more_feature"
-            android:paddingLeft="10dp"
-            android:paddingRight="5dp"
-            android:singleLine="true"
-            android:text="@string/str_more"
-            android:textColor="@drawable/button_font_style"
-            android:textSize="8sp" />
-    </LinearLayout>
-     <include
-        android:id="@+id/top_bartwo"
-        layout="@layout/top_bar_layout" 
-        android:visibility="gone"
-        />
-    
-    <LinearLayout
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true" 
-		android:visibility="gone"
-        >
-
-        <Button
-            android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/function_btn_bg"
-            android:text="123"
-             />
-
-        <Button
-            android:layout_height="match_parent"
-             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/function_btn_bg"
-            android:text="123"
-             />
-
-        <Button
-            android:layout_height="match_parent"
-             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/function_btn_bg"
-            android:text="123"
-             />
-
-        <Button
-            android:layout_height="match_parent"
-             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/function_btn_bg"
-            android:text="123"
-          />
-
-        <Button
-            android:layout_height="match_parent"
-             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/function_btn_bg"
-            android:text="123"
-           />
-    </LinearLayout>
-    
-</RelativeLayout>
 </FrameLayout>

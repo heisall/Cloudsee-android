@@ -470,17 +470,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 				// MySharedPreference.putString(Consts.KEY_PLAY_NORMAL,
 				// devJsonString);
 				intentPlay.putExtra("DeviceIndex", arg1);
-				intentPlay.putExtra("ChannelIndex", dev.getChannelList()
+				intentPlay.putExtra("ChannelofChannel", dev.getChannelList()
 						.toList().get(0).getChannel());
 				// intentPlay.putExtra("DevJsonString", devJsonString);
 				mActivity.startActivity(intentPlay);
 			} else {// 多个通道查看通道列表
 				Intent intentPlay = new Intent(mActivity,
 						JVChannelsActivity.class);
-				String devJsonString = Device.listToString(myDeviceList);
-				intentPlay.putExtra("DeviceList", devJsonString);
 				intentPlay.putExtra("DeviceIndex", arg1);
-				intentPlay.putExtra("ChannelIndex", 0);
 				mActivity.startActivity(intentPlay);
 			}
 

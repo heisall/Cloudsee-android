@@ -29,7 +29,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 	private final String TAG = "JV_REMOTE_PLAY";
 
-	private int currentIndex;
+	private int indexOfChannel;
 	private String acBuffStr;
 	private int currentProgress;// 当前进度
 	private int seekProgress;// 手动进度
@@ -187,20 +187,22 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 			@Override
 			public void surfaceDestroyed(SurfaceHolder holder) {
-				Jni.pause(currentIndex);// boolean result =
+				Jni.pause(indexOfChannel);// boolean result =
 				// MyLog.i(Consts.TAG_PLAY, "playback-" + currentIndex
 				// + " destroy: " + result);
 			}
 
 			@Override
 			public void surfaceCreated(SurfaceHolder holder) {
-				Jni.resume(currentIndex, holder.getSurface());// boolean result
+				Jni.resume(indexOfChannel, holder.getSurface());// boolean
+																// result
 																// =
 				// MyLog.v(Consts.TAG_PLAY, "playback-" + currentIndex
 				// + " created: " + result);
-				boolean enable = Jni.enablePlayback(currentIndex, true);
+				boolean enable = Jni.enablePlayback(indexOfChannel, true);
 				if (enable) {
-					Jni.sendBytes(currentIndex, (byte) JVNetConst.JVN_REQ_PLAY,
+					Jni.sendBytes(indexOfChannel,
+							(byte) JVNetConst.JVN_REQ_PLAY,
 							(byte[]) acBuffStr.getBytes(),
 							acBuffStr.getBytes().length);
 				}
@@ -218,7 +220,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 		Intent intent = getIntent();
 		if (null != intent) {
-			currentIndex = intent.getIntExtra("ChannelIndex", 0);
+			indexOfChannel = intent.getIntExtra("IndexOfChannel", 0);
 			acBuffStr = intent.getStringExtra("acBuffStr");
 		}
 
@@ -285,7 +287,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		@Override
 		public void onStopTrackingTouch(SeekBar arg0) {
 			currentProgress = seekProgress;
-			Jni.sendInteger(currentIndex, JVNetConst.JVN_CMD_PLAYSEEK,
+			Jni.sendInteger(indexOfChannel, JVNetConst.JVN_CMD_PLAYSEEK,
 					seekProgress);
 			MyLog.v(TAG, "手动调节 = " + currentProgress);
 		}
@@ -299,7 +301,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				long arg3) {
 			if (0 == arg2) {// 音频监听
 				initAudio();
-				if (!PlayUtil.audioPlay(currentIndex)) {
+				if (!PlayUtil.audioPlay(indexOfChannel)) {
 					functionListAdapter.selectIndex = -1;
 				} else {
 					functionListAdapter.selectIndex = arg2;
@@ -321,7 +323,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
-			case R.id.back:// 返回
+			case R.id.btn_left:// 返回
 				backMethod();
 				break;
 			case R.id.remotesurfaceview:// 单击视频打开隐藏进度条
@@ -333,7 +335,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				break;
 			case R.id.audio_monitor:// 音频监听
 				initAudio();
-				PlayUtil.audioPlay(currentIndex);
+				PlayUtil.audioPlay(indexOfChannel);
 				break;
 			case R.id.yt_operate:// 云台
 				showTextToast(R.string.str_forbidden_operation);
@@ -343,7 +345,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				break;
 			case R.id.capture:// 抓拍
 				if (hasSDCard()) {
-					boolean capture = PlayUtil.capture(currentIndex);
+					boolean capture = PlayUtil.capture(indexOfChannel);
 					MyLog.v(TAG, "capture=" + capture);
 				}
 				break;
@@ -352,7 +354,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				break;
 			case R.id.videotape:// 录像
 				if (hasSDCard()) {
-					if (PlayUtil.videoRecord(currentIndex)) {// 打开
+					if (PlayUtil.videoRecord(indexOfChannel)) {// 打开
 						tapeSelected(true);
 						showTextToast(R.string.str_start_record);
 					} else {// 关闭
@@ -377,7 +379,8 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	 * 返回事件
 	 */
 	private void backMethod() {
-		Jni.sendBytes(currentIndex, JVNetConst.JVN_CMD_PLAYSTOP, new byte[0], 0);
+		Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYSTOP, new byte[0],
+				0);
 
 		JVRemotePlayBackActivity.this.finish();
 	}
@@ -392,16 +395,17 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	protected void onResume() {
 		super.onResume();
 		// 继续播放视频
-		Jni.sendBytes(currentIndex, JVNetConst.JVN_CMD_PLAYGOON, new byte[0], 0);
+		Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYGOON, new byte[0],
+				0);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		stopAll(currentIndex, null);
+		stopAll(indexOfChannel, null);
 		// 暂停视频
-		Jni.sendBytes(currentIndex, JVNetConst.JVN_CMD_PLAYPAUSE, new byte[0],
-				0);
+		Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYPAUSE,
+				new byte[0], 0);
 	}
 
 	@Override
@@ -412,7 +416,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	@Override
 	protected void freeMe() {
 		super.freeMe();
-		Jni.enablePlayback(currentIndex, false);
+		Jni.enablePlayback(indexOfChannel, false);
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public class JVRemoteListActivity extends BaseActivity {
 
 	private ArrayList<RemoteVideo> videoList;
 	private int deviceType;// 设备类型
-	private int channelIndex;// 通道index
+	private int indexOfChannel;// 通道index
 	private boolean is05;// 是否05版解码器
 
 	@Override
@@ -58,7 +58,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		case Consts.CALL_CHECK_RESULT: {// 查询远程回放数据
 			byte[] pBuffer = (byte[]) obj;
 			videoList = PlayUtil.getRemoteList(pBuffer, deviceType,
-					channelIndex);
+					indexOfChannel);
 			if (null != videoList && 0 != videoList.size()) {
 				handler.sendMessage(handler
 						.obtainMessage(JVConst.REMOTE_DATA_SUCCESS));
@@ -162,7 +162,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		Intent intent = getIntent();
 		if (null != intent) {
 			deviceType = intent.getIntExtra("DeviceType", 0);
-			channelIndex = intent.getIntExtra("ChannelIndex", 0);
+			indexOfChannel = intent.getIntExtra("IndexOfChannel", 0);
 			is05 = intent.getBooleanExtra("is05", false);
 		}
 		searchRemoteData(2 * 1000);
@@ -180,11 +180,12 @@ public class JVRemoteListActivity extends BaseActivity {
 			RemoteVideo videoBean = videoList.get(arg2);
 			String acBuffStr = PlayUtil.getPlayFileString(videoBean, is05,
 					deviceType, year, month, day, arg2);
+			MyLog.v(TAG, "acBuffStr:"+acBuffStr);
 			if (null != acBuffStr && !"".equalsIgnoreCase(acBuffStr)) {
 				Intent intent = new Intent();
 				intent.setClass(JVRemoteListActivity.this,
 						JVRemotePlayBackActivity.class);
-				intent.putExtra("ChannelIndex", channelIndex);
+				intent.putExtra("IndexOfChannel", indexOfChannel);
 				intent.putExtra("acBuffStr", acBuffStr);
 				JVRemoteListActivity.this.startActivity(intent);
 			}
@@ -200,7 +201,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.back:
+			case R.id.btn_left:
 				JVRemoteListActivity.this.finish();
 				break;
 			case R.id.search:
@@ -225,7 +226,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		date = String.format("%04d%02d%02d000000%04d%02d%02d000000", year,
 				month, day, year, month, day);
 
-		MyLog.e("tas", "searchCheck  windowIndex: " + (channelIndex) + "date: "
+		MyLog.e("tas", "searchCheck  windowIndex: " + (indexOfChannel) + "date: "
 				+ date.toString());
 
 		Thread searchThread = new Thread() {
@@ -238,7 +239,7 @@ public class JVRemoteListActivity extends BaseActivity {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				PlayUtil.checkRemoteData(channelIndex, date);
+				PlayUtil.checkRemoteData(indexOfChannel, date);
 			}
 
 		};

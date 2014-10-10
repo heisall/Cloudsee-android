@@ -246,42 +246,111 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:visibility="gone" >
+            android:background="@color/play_color" >
 
-            <Button
+            <RelativeLayout
+                android:id="@+id/bottom_but1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/function_btn_bg"
-                android:text="123" />
+                android:layout_weight="1" >
 
-            <Button
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bottom_but" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bottom_but2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/function_btn_bg"
-                android:text="123" />
+                android:layout_weight="1" >
 
-            <Button
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bottom_but" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bottom_but3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/function_btn_bg"
-                android:text="123" />
+                android:layout_weight="1" >
 
-            <Button
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bottom_but" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bottom_but4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/function_btn_bg"
-                android:text="123" />
+                android:layout_weight="1" >
 
-            <Button
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bottom_but" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bottom_but5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/function_btn_bg"
-                android:text="123" />
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bottom_but" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bottom_but6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bottom_but" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bottom_but7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bottom_but" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bottom_but8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bottom_but" />
+            </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
 

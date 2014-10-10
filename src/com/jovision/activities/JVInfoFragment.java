@@ -2,9 +2,12 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +20,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.PushAdapter;
 import com.jovision.bean.PushInfo;
+import com.jovision.commons.JVAlarmConst;
 import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.views.XListView;
@@ -27,18 +31,19 @@ import com.jovision.views.XListView.IXListViewListener;
  */
 
 public class JVInfoFragment extends BaseFragment implements IXListViewListener {
+	private static final String TAG = "JVInfoFragment";
 
 	private ImageView noMess;
 	private int pushIndex = 0;// 推送消息index
 	private XListView pushListView;// 列表
 	private PushAdapter pushAdapter;
 
-	public ArrayList<PushInfo> pushList = new ArrayList<PushInfo>();
+	private ArrayList<PushInfo> pushList = new ArrayList<PushInfo>();
 
-	public ArrayList<PushInfo> temList = new ArrayList<PushInfo>();
-	public static Handler mHandler;
+	private ArrayList<PushInfo> temList = new ArrayList<PushInfo>();
+	private boolean pullUp = false;
 
-	private boolean firstIntoPush = false;// 是否第一次进入pushmessage界面
+	// private boolean firstIntoPush = false;// 是否第一次进入pushmessage界面
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,10 +58,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
 		rightBtn.setVisibility(View.GONE);
-
 		currentMenu.setText(getResources().getString(R.string.str_alarm_info));
 
-		leftBtn.setOnClickListener(onClickListener);
 		pushListView = (XListView) mParent.findViewById(R.id.pushlistview);
 		getResources().getDrawable(R.drawable.refresh_broadcast);
 		rightBtn.setVisibility(View.VISIBLE);
@@ -67,7 +70,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		// // [lkp]
 		// pushListView.setOnItemClickListener(mOnItemClickListener);
 		// pushListView.setOnItemLongClickListener(mOnLongClickListener);
-		pushAdapter = new PushAdapter(mActivity);
+		pushAdapter = new PushAdapter(this);
 		pushListView.setPullLoadEnable(true);
 		pushListView.setXListViewListener(this);
 		noMess = (ImageView) mParent.findViewById(R.id.nomess);
@@ -139,6 +142,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	// 上拉加载更多
 	@Override
 	public void onLoadMore() {
+		pullUp = true;
 		((BaseActivity) mActivity).createDialog("");
 		RefreshAlarmTask task = new RefreshAlarmTask();
 		String[] params = new String[3];
@@ -184,7 +188,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 				int addLen = temList.size();
 				pushList.addAll(temList);
-				Consts.pushHisCount = Consts.pushHisCount + temList.size();
+				Consts.pushHisCount = Consts.pushHisCount + addLen;
 				temList.clear();
 
 				if (null != pushList && 0 != pushList.size()) {
@@ -192,12 +196,12 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					pushAdapter.setData(pushList);
 					pushAdapter.setRefCount(pushList.size());
 					pushListView.setAdapter(pushAdapter);
-					if (!firstIntoPush) {
-						firstIntoPush = true;
-					} else {
+					if (pullUp) {
 						pushListView.setSelection(pushAdapter.getCount());
-
+					} else {
+						pushListView.setSelection(0);
 					}
+					pullUp = false;
 					pushAdapter.notifyDataSetChanged();
 				}
 			} else {
@@ -218,6 +222,58 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 	@Override
 	public void onResume() {
+		String arrayStr = mActivity.statusHashMap.get(Consts.PUSH_JSONARRAY);
+		JSONArray pushArray = null;
+		try {
+			if (null == arrayStr || "".equalsIgnoreCase(arrayStr)) {
+				pushArray = new JSONArray();
+			} else {
+				pushArray = new JSONArray(arrayStr);
+			}
+
+			int length = pushArray.length();
+			if (0 != length) {
+				for (int i = 0; i < length; i++) {
+					try {
+						JSONObject obj = pushArray.getJSONObject(i);
+						PushInfo pi = new PushInfo();
+						pi.strGUID = obj.optString(JVAlarmConst.JK_ALARM_GUID);
+						pi.ystNum = obj
+								.optString(JVAlarmConst.JK_ALARM_CLOUDNUM);
+						pi.coonNum = obj.optInt(JVAlarmConst.JK_ALARM_CLOUDCHN);
+
+						// pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
+						pi.alarmType = obj
+								.optInt(JVAlarmConst.JK_ALARM_ALARMTYPE);
+						pi.alarmTime = obj
+								.optString(JVAlarmConst.JK_ALARM_ALARMTIME);
+						pi.alarmLevel = obj
+								.optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);
+						pi.deviceName = obj
+								.optString(JVAlarmConst.JK_ALARM_CLOUDNAME);
+						pi.newTag = true;
+						// pi.pic =
+						// AlarmUtil.getAlarmPic(LoginUtil.userName,pi.strGUID);
+						// pi.video =
+						// AlarmUtil.getAlarmVideo(LoginUtil.userName,pi.strGUID);
+						// Log.v("推送的回调函数--pic-----","pi.pic----:"+pi.pic);
+						// Log.v("推送的回调函数--video-----","pi.video----:"+pi.video);
+						pi.pic = obj.optString(JVAlarmConst.JK_ALARM_PICURL);
+						pushList.add(0, pi);// 新消息置顶
+						Consts.pushHisCount++;
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+			pushListView.setSelection(0);
+			pushAdapter.notifyDataSetChanged();
+			mActivity.statusHashMap.put(Consts.PUSH_JSONARRAY, "");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
 		super.onResume();
 	}
 
@@ -230,13 +286,77 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
+		switch (what) {
+		case PushAdapter.DELETE_ALARM_MESS: {// 删除报警
+			pushIndex = arg1;
 
+			DelAlarmTask task = new DelAlarmTask();
+			Integer[] params = new Integer[3];
+			params[0] = pushIndex;
+			task.execute(params);
+			break;
+		}
+		}
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		fragHandler.sendMessage(fragHandler
 				.obtainMessage(what, arg1, arg2, obj));
+	}
+
+	// 设置三种类型参数分别为String,Integer,String
+	class DelAlarmTask extends AsyncTask<Integer, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(Integer... params) {
+			int delRes = -1;
+			String deleteGuid = pushList.get(params[0]).strGUID;
+			delRes = AlarmUtil.deleteAlarmInfo(
+					mActivity.statusHashMap.get("KEY_USERNAME"), deleteGuid);
+			return delRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			if (result > 0) {
+				String deleteGuid = pushList.get(pushIndex).strGUID;
+				boolean doDelete = false;
+				for (int i = 0; i < pushList.size(); i++) {
+					if (deleteGuid.equalsIgnoreCase(pushList.get(i).strGUID)) {
+						pushList.remove(i);
+						doDelete = true;
+						break;
+					}
+				}
+				if (!doDelete) {
+					mActivity.showTextToast(R.string.del_alarm_succ);
+				} else {
+					mActivity.showTextToast(R.string.del_alarm_failed);
+				}
+			} else {
+				mActivity.showTextToast(R.string.del_alarm_failed);
+			}
+			pushAdapter.notifyDataSetChanged();
+			((BaseActivity) mActivity).dismissDialog();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			((BaseActivity) mActivity).createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
 	}
 
 }

@@ -444,6 +444,8 @@
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加载更多</string>
     <string name="xlistview_no_more">没有报警信息了</string>
+    <string name="del_alarm_succ">报警删除成功</string>
+    <string name="del_alarm_failed">报警删除失败</string>
 
     <!-- JVPlayActivity -->
     <string name="connfailed_auth">身份验证失败</string>

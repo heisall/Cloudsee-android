@@ -3,7 +3,6 @@ package com.jovision.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,26 +15,29 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.activities.BaseFragment;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVConst;
 import com.jovision.utils.ConfigUtil;
 
 public class PushAdapter extends BaseAdapter {
 
+	public static final int DELETE_ALARM_MESS = 0x40;// 删除报警
+
 	private ArrayList<PushInfo> pushList = new ArrayList<PushInfo>();
-	private Context mContext = null;
 	private LayoutInflater inflater;
-	private int wifiIndex = -1;
-	private Bitmap bitmap;
+	// private Bitmap bitmap;
 	int refCount = 0;
 	public boolean deleteState = false;
 	private boolean bdeleting = false;
 	private String[] alarmArray = null;
 
-	public PushAdapter(Context con) {
-		mContext = con;
-		inflater = (LayoutInflater) mContext
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	private BaseFragment mfragment;
+
+	public PushAdapter(BaseFragment fragment) {
+		mfragment = fragment;
+		inflater = (LayoutInflater) fragment.getActivity().getSystemService(
+				Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	public int getRefCount() {
@@ -106,19 +108,19 @@ public class PushAdapter extends BaseAdapter {
 		}
 
 		if (alarmArray == null) {
-			alarmArray = mContext.getResources().getStringArray(
-					R.array.alarm_type);
+			alarmArray = mfragment.getActivity().getResources()
+					.getStringArray(R.array.alarm_type);
 		}
 		if (null != pushList && 0 != pushList.size()
 				&& position < pushList.size()) {
 			if (pushList.get(position).newTag) {// 新的未读消息
 				viewHolder.newTag.setVisibility(View.VISIBLE);
 				if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
-					viewHolder.newTag.setImageDrawable(mContext.getResources()
-							.getDrawable(R.drawable.new_tag_ch));
+					viewHolder.newTag.setImageDrawable(mfragment.getActivity()
+							.getResources().getDrawable(R.drawable.new_tag_ch));
 				} else {
-					viewHolder.newTag.setImageDrawable(mContext.getResources()
-							.getDrawable(R.drawable.new_tag_en));
+					viewHolder.newTag.setImageDrawable(mfragment.getActivity()
+							.getResources().getDrawable(R.drawable.new_tag_en));
 				}
 				try {
 					viewHolder.alarmTitle.setText(alarmArray[pushList
@@ -152,11 +154,10 @@ public class PushAdapter extends BaseAdapter {
 		}
 		final ViewHolder holder = viewHolder;
 
-		bitmap = null;
 		if (null != pushList && 0 != pushList.size()) {
 			// [TODO] lkp 获取图片Uri，改为点击获取
-			viewHolder.alarmImg.setImageDrawable(mContext.getResources()
-					.getDrawable(R.drawable.device_alarm_img));
+			viewHolder.alarmImg.setImageDrawable(mfragment.getActivity()
+					.getResources().getDrawable(R.drawable.device_alarm_img));
 
 		}
 		viewHolder.func1.setOnClickListener(new OnClickListener() {
@@ -180,6 +181,9 @@ public class PushAdapter extends BaseAdapter {
 				}
 				pushList.get(position).newTag = false;
 				holder.newTag.setVisibility(View.GONE);
+
+				deleteState = false;
+				notifyDataSetChanged();
 			}
 		});
 		convertView.setOnLongClickListener(new OnLongClickListener() {
@@ -196,79 +200,21 @@ public class PushAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-				// try {
-				// if (null != pushList && 0 != pushList.size()
-				// && position < pushList.size()) {
-				// Message msg = BaseApp.pushHandler.obtainMessage();
-				// msg.what = JVConst.ADD_DIALOG;
-				// BaseApp.pushHandler.sendMessage(msg);
-				// new DeleteThread(pushList.get(position).strGUID)
-				// .start();
-				// } else {
-				// Log.e("deleteItem.onClick",
-				// "-------------else--DISMISS_DIALOG-------------");
-				// Message msg1 = new Message();
-				// msg1.what = JVConst.DISMISS_DIALOG;
-				// BaseApp.pushHandler.sendMessage(msg1);
-				// }
-				// } catch (Exception e) {
-				// e.printStackTrace();
-				// }
+				mfragment.onNotify(DELETE_ALARM_MESS, position, 0, null);
+				try {
+					if (null != pushList && 0 != pushList.size()
+							&& position < pushList.size()) {
+						mfragment
+								.onNotify(DELETE_ALARM_MESS, position, 0, null);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 
 		return convertView;
 	}
-
-	// class DeleteThread extends Thread {
-	// private String deleteGuid;
-	//
-	// DeleteThread(String arg) {
-	// deleteGuid = arg;
-	// }
-	//
-	// @Override
-	// public void run() {
-	// bdeleting = true;
-	// Log.e("DeleteThread",
-	// "--------------AlarmUtil.deleteAlarmInfo begin-------------");
-	// int res = AlarmUtil.deleteAlarmInfo(LoginUtil.userName, deleteGuid);
-	// Log.e("DeleteThread",
-	// "--------------AlarmUtil.deleteAlarmInfo end-------------");
-	// // [lkp]
-	// // try {
-	// // Thread.sleep(1000);
-	// // } catch (InterruptedException e) {
-	// // e.printStackTrace();
-	// // }
-	// // [lkp]
-	// Message msg = BaseApp.pushHandler.obtainMessage();
-	// // msg.arg1 = JVConst.MESSAGE_PUSH;
-	// if (res > 0) {
-	// boolean doDelete = false;
-	// for (int i = 0; i < BaseApp.pushList.size(); i++) {
-	// if (deleteGuid
-	// .equalsIgnoreCase(BaseApp.pushList.get(i).strGUID)) {
-	// BaseApp.pushList.remove(i);
-	// doDelete = true;
-	// break;
-	// }
-	// }
-	// if (!doDelete) {
-	// msg.what = JVConst.PUSH_MSG_CMD_DELETE_SUCC;
-	// BaseApp.pushHandler.sendMessage(msg);
-	// // 列表中其实这项已经删掉了 GG
-	// msg.what = JVConst.PUSH_MSG_CMD_DELETE_FAIL;
-	// BaseApp.pushHandler.sendMessage(msg);
-	// return;
-	// }
-	// msg.what = JVConst.PUSH_MSG_CMD_DELETE_SUCC;
-	// } else {
-	// msg.what = JVConst.PUSH_MSG_CMD_DELETE_FAIL;
-	// }
-	// BaseApp.pushHandler.sendMessage(msg);
-	// }
-	// }
 
 	class ViewHolder {
 		TextView messTime;

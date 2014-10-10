@@ -3,14 +3,20 @@ package com.jovision;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.test.JVACCOUNT;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
-import com.jovision.bean.PushInfo;
+import com.jovision.activities.JVTabActivity;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyLog;
@@ -25,8 +31,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 	public HashMap<String, String> statusHashMap;
 	private ArrayList<BaseActivity> openedActivityList;
-
 	private IHandlerLikeNotify currentNotifyer;
+
+	protected NotificationManager mNotifyer;
 
 	/**
 	 * 获取活动集合
@@ -142,42 +149,75 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	 * @param msg
 	 */
 
+	@SuppressWarnings("deprecation")
 	public void JVPushCallBack(int res, String userName, String time, String msg) {
 		try {
 			MyLog.v("推送的回调函数", "res----:" + res + ";;time----:" + time
 					+ ";;msg----:" + msg);
 			if (JVAccountConst.MESSAGE_PUSH_TAG == res) {
 				if (null != currentNotifyer) {
-					PushInfo pushInfo = null;
 					if (null != msg && !"".equalsIgnoreCase(msg)) {
-						try {
-							pushInfo = new PushInfo();
-							JSONObject obj = new JSONObject(msg);
-							pushInfo.strGUID = obj
-									.optString(JVAlarmConst.JK_ALARM_GUID);
-							pushInfo.ystNum = obj
-									.optString(JVAlarmConst.JK_ALARM_CLOUDNUM);
-							pushInfo.coonNum = obj
-									.optInt(JVAlarmConst.JK_ALARM_CLOUDCHN);
-							pushInfo.alarmType = obj
-									.optInt(JVAlarmConst.JK_ALARM_ALARMTYPE);
-							pushInfo.alarmTime = obj
-									.optString(JVAlarmConst.JK_ALARM_ALARMTIME);
-							pushInfo.alarmLevel = obj
-									.optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);
-							pushInfo.deviceName = obj
-									.optString(JVAlarmConst.JK_ALARM_CLOUDNAME);
-							pushInfo.newTag = true;
-							pushInfo.pic = obj
-									.optString(JVAlarmConst.JK_ALARM_PICURL);
-						} catch (JSONException e) {
-							e.printStackTrace();
+						JSONObject obj = new JSONObject(msg);
+						String arrayStr = statusHashMap
+								.get(Consts.PUSH_JSONARRAY);
+						JSONArray pushArray = null;
+						if (null == arrayStr || "".equalsIgnoreCase(arrayStr)) {
+							pushArray = new JSONArray();
+						} else {
+							pushArray = new JSONArray(arrayStr);
 						}
+						pushArray.put(obj);
+						statusHashMap.put(Consts.PUSH_JSONARRAY,
+								pushArray.toString());
+
+						String[] alarmArray = getResources().getStringArray(
+								R.array.alarm_type);
+
+						String ns = Context.NOTIFICATION_SERVICE;
+						mNotifyer = (NotificationManager) getSystemService(ns);
+						// 定义通知栏展现的内容信息
+						int icon = R.drawable.notification_icon;
+						CharSequence tickerText = getResources().getString(
+								R.string.str_alarm);
+						long when = System.currentTimeMillis();
+						Notification notification = new Notification(icon,
+								tickerText, when);
+
+						notification.defaults |= Notification.DEFAULT_SOUND;// 声音
+						// notification.defaults |=
+						// Notification.DEFAULT_LIGHTS;//灯
+						// notification.defaults |=
+						// Notification.DEFAULT_VIBRATE;//震动
+
+						// 定义下拉通知栏时要展现的内容信息
+						Context context = this;
+
+						CharSequence contentText = obj
+								.optString(JVAlarmConst.JK_ALARM_ALARMTIME
+										+ "-"
+										+ alarmArray[obj
+												.optInt(JVAlarmConst.JK_ALARM_ALARMTYPE)].replace(
+												"%%",
+												obj.optString(JVAlarmConst.JK_ALARM_CLOUDNAME)));
+
+						CharSequence contentTitle = getResources().getString(
+								R.string.str_alarm_info);
+						// CharSequence contentText = pushMessage;
+
+						Intent notificationIntent = new Intent(this,
+								JVTabActivity.class);
+						notificationIntent.putExtra("tabIndex", 1);
+
+						PendingIntent contentIntent = PendingIntent
+								.getActivity(this, 0, notificationIntent,
+										PendingIntent.FLAG_UPDATE_CURRENT);
+						notification.setLatestEventInfo(context, contentTitle,
+								contentText, contentIntent);
+
+						// 用mNotificationManager的notify方法通知用户生成标题栏消息通知
+						mNotifyer.notify(0, notification);
 					}
-					if (null != pushInfo) {
-						currentNotifyer.onNotify(Consts.PUSH_MESSAGE, 0, 0,
-								pushInfo);
-					}
+
 				}
 			} else if (JVAccountConst.MESSAGE_OFFLINE == res) {// 提掉线
 

@@ -6,15 +6,15 @@
 
     <GridView
         android:id="@+id/manage_gridview"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_margin="60px"
+        android:layout_margin="50px"
         android:cacheColorHint="@color/transparent"
-        android:horizontalSpacing="60px"
+        android:horizontalSpacing="50px"
         android:listSelector="@color/transparent"
         android:numColumns="3"
-        android:verticalSpacing="60px" >
+        android:verticalSpacing="50px" >
     </GridView>
 
 </RelativeLayout>

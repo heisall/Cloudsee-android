@@ -800,8 +800,9 @@ public class PlayUtil {
 		try {
 			if (null != channel) {
 				Device device = channel.getParent();
-//				MyLog.e(TAG, "device=" + device.hashCode() + "--index=" + index);
-//				Channel channel = device.getChannelList().get(index);
+				// MyLog.e(TAG, "device=" + device.hashCode() + "--index=" +
+				// index);
+				// Channel channel = device.getChannelList().get(index);
 				if (null != channel) {
 					MyLog.v(TAG, channel.getIndex() + "");
 					((MainApplication) mContext.getApplicationContext())
@@ -883,11 +884,20 @@ public class PlayUtil {
 	 * @param ipcWifi
 	 */
 	public static void connectDevice(Device dev) {
-		Jni.connect(Consts.CHANNEL_JY, 0, dev.getIp(), dev.getPort(),
-				dev.getUser(), dev.getPwd(),
-				ConfigUtil.getYST(dev.getFullNo()),
-				ConfigUtil.getGroup(dev.getFullNo()), true, 1, true, 6, null,
-				false);
+
+		if (!"".equalsIgnoreCase(dev.getIp())) {// IP直连云视通号置为-1
+			Jni.connect(Consts.CHANNEL_JY, 1, dev.getIp(), dev.getPort(),
+					dev.getUser(), dev.getPwd(), -1,
+					ConfigUtil.getGroup(dev.getFullNo()), true, 1, true, 6,
+					null, false);
+		} else {
+			Jni.connect(Consts.CHANNEL_JY, 1, dev.getIp(), dev.getPort(),
+					dev.getUser(), dev.getPwd(),
+					ConfigUtil.getYST(dev.getFullNo()),
+					ConfigUtil.getGroup(dev.getFullNo()), true, 1, true, 6,
+					null, false);
+		}
+
 	}
 
 	/**

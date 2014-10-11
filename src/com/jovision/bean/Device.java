@@ -112,8 +112,8 @@ public class Device {
 		Channel channel = null;
 
 		for (int i = 0; i < channelCount; i++) {
-			channel = new Channel(this, startWindowIndex + i + 1, i + 1, false, false,
-					fullNo + "_" + (i + 1));
+			channel = new Channel(this, startWindowIndex + i + 1, i + 1, false,
+					false, fullNo + "_" + (i + 1));
 			channelList.add(channel);
 		}
 	}

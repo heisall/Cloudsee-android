@@ -16,7 +16,6 @@ import android.text.TextUtils;
 
 import com.jovision.Consts;
 import com.jovision.commons.JVConst;
-import com.jovision.commons.MyLog;
 
 public class WifiAdmin {
 	private final String TAG = "WifiAdmin";
@@ -292,7 +291,6 @@ public class WifiAdmin {
 		}
 
 		int wcgID = mWifiManager.addNetwork(wcg);
-		MyLog.v(" 添加一个网络并连接wcgID---", "" + wcgID);
 		boolean b = mWifiManager.enableNetwork(wcgID, true);
 		return b;
 	}
@@ -303,7 +301,6 @@ public class WifiAdmin {
 			return false;
 		}
 		int wcgID = wcg.networkId;
-		MyLog.v(" 连接一个网络wcgID---", "" + wcgID);
 		boolean b = mWifiManager.enableNetwork(wcgID, true);
 		return b;
 	}
@@ -355,7 +352,6 @@ public class WifiAdmin {
 		config.allowedPairwiseCiphers.clear();
 		config.allowedProtocols.clear();
 		config.SSID = "\"" + SSID + "\"";
-		MyLog.v("TYPE=", "Type =2.");
 		WifiConfiguration tempConfig = isExsits(SSID);
 		if (tempConfig != null) {
 			mWifiManager.removeNetwork(tempConfig.networkId);
@@ -516,7 +512,7 @@ public class WifiAdmin {
 					int size = combines.length;
 					for (int i = 0; i < size; i++) {
 						for (int j = 0; j < 6; j++) {
-							System.out.println("auth: " + j);
+							// System.out.println("auth: " + j);
 							if (combines[i].contains(auth[j])) {
 								result[0] = j;
 								isFound = true;
@@ -525,14 +521,14 @@ public class WifiAdmin {
 						}
 
 						for (int j = 0; j < 4; j++) {
-							System.out.println("enc: " + j);
+							// System.out.println("enc: " + j);
 							if (combines[i].contains(enc[j])) {
 								result[1] = j;
 								break;
 							}
 						}
 
-						System.out.println("combine: " + combines[i]);
+						// System.out.println("combine: " + combines[i]);
 
 						if (isFound) {
 							// break;
@@ -542,7 +538,6 @@ public class WifiAdmin {
 				}
 			}
 		}
-		MyLog.v("result--", "auth:" + result[0] + "---enc:" + result[1]);
 		return result;
 	}
 
@@ -556,7 +551,6 @@ public class WifiAdmin {
 	public boolean changeWifi(String disWifi, String connWifi,
 			boolean oldWifiState) {
 
-		MyLog.v(TAG, "changeWifi-E:" + disWifi + "-" + connWifi);
 		boolean changeRes = false;
 		try {
 			// 断开跟连接的wifi 一样不做任何处理
@@ -571,7 +565,6 @@ public class WifiAdmin {
 					if (null != disWifi && !"".equalsIgnoreCase(disWifi)) {
 						WifiConfiguration currWifi = isExsits(disWifi);
 						if (null != currWifi) {
-							MyLog.v("完成配置断开", disWifi);
 							disconnectWifi(currWifi, true);
 							try {
 								Thread.sleep(1000);
@@ -586,7 +579,6 @@ public class WifiAdmin {
 					if (null != connWifi) {
 						WifiConfiguration oldWifi = isExsits(connWifi);
 						if (null != oldWifi) {
-							MyLog.v("完成配置连接", connWifi);
 							boolean connRes = false;
 							int count = 0;
 							while (!connRes) {// 没连接调用连接方法
@@ -599,8 +591,6 @@ public class WifiAdmin {
 										e.printStackTrace();
 									}
 									connRes = connNetwork(oldWifi);
-									MyLog.v("完成配置", connWifi + "----" + count
-											+ "-----调用连接-----" + connRes);
 								} else {
 									connRes = true;
 									break;
@@ -619,9 +609,6 @@ public class WifiAdmin {
 											e.printStackTrace();
 										}
 										changeRes = getWifiState(oldWifi.SSID);
-										MyLog.v("完成配置", connWifi + "----"
-												+ count + "-----连接结果-----"
-												+ changeRes);
 									} else {
 										changeRes = false;
 										break;
@@ -645,7 +632,6 @@ public class WifiAdmin {
 			e1.printStackTrace();
 		}
 
-		MyLog.v(TAG, "changeWifi-X:" + changeRes);
 		return changeRes;
 
 	}
@@ -657,7 +643,6 @@ public class WifiAdmin {
 	 * @return
 	 */
 	public boolean getWifiState(String wifiName) {
-		MyLog.v(TAG, "getWifiState:E:" + wifiName);
 		boolean flag = false;
 		try {
 			if (null == connectivityManager) {
@@ -688,7 +673,6 @@ public class WifiAdmin {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		MyLog.v(TAG, "getWifiState:X:" + flag);
 		return flag;
 	}
 

@@ -23,12 +23,14 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -61,6 +63,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public static final int BROAD_THREE_MINITE = 0x07;// 三分钟广播--
 
 	private RefreshableView refreshableView;
+
+	/** 叠加两个 布局 */
+	private LinearLayout deviceLayout; // 设备列表界面
+	private ScrollView quickSetSV; // 快速配置界面
+	private Button quickSet;
+	private Button addDevice;
+
 	/** 广告位 */
 	private LayoutInflater inflater;
 	private View adView;
@@ -144,6 +153,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 		refreshableView = (RefreshableView) mParent
 				.findViewById(R.id.device_refreshable_view);
 		adView = inflater.inflate(R.layout.ad_layout, null);
+
+		deviceLayout = (LinearLayout) mParent.findViewById(R.id.devicelayout);
+		quickSetSV = (ScrollView) mParent.findViewById(R.id.quickinstalllayout);
+		quickSet = (Button) mParent.findViewById(R.id.quickinstall);
+		addDevice = (Button) mParent.findViewById(R.id.adddevice);
+		quickSet.setOnClickListener(myOnClickListener);
+		addDevice.setOnClickListener(myOnClickListener);
 
 		/** 广告条 */
 		imageScroll = (ImageViewPager) adView.findViewById(R.id.imagescroll);
@@ -238,6 +254,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 			case R.id.device_nicket_cancle:
 				device_nicket.setText("");
 				break;
+			case R.id.quickinstall:
+				((ShakeActivity) mActivity).startSearch(false);
+				break;
+			case R.id.adddevice:
+				Intent addIntent = new Intent();
+				addIntent.setClass(mActivity, JVAddDeviceActivity.class);
+				addIntent.putExtra("QR", false);
+				mActivity.startActivity(addIntent);
+				break;
 			default:
 				break;
 			}
@@ -296,6 +321,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 					break;
 				}
 				case 2: {// 无线设备
+					((ShakeActivity) mActivity).startSearch(false);
 					break;
 				}
 				case 3: {// 局域网设备
@@ -324,6 +350,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 		myDLAdapter.setData(myDeviceList);
 		myDeviceListView.setAdapter(myDLAdapter);
 		myDLAdapter.notifyDataSetChanged();
+
+		if (null == myDeviceList || 0 == myDeviceList.size()) {
+			deviceLayout.setVisibility(View.GONE);
+			quickSetSV.setVisibility(View.VISIBLE);
+		} else {
+			deviceLayout.setVisibility(View.VISIBLE);
+			quickSetSV.setVisibility(View.GONE);
+		}
+
 	}
 
 	@Override

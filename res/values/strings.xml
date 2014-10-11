@@ -173,7 +173,6 @@
     <string name="str_quick_setting_new_user">New user</string>
     <string name="str_quick_setting_old_user">Old user</string>
     <string name="str_quick_setting_alert1">Configuring now…</string>
-    <string name="str_quick_setting_alert3">Connecting now…</string>
     <string name="str_quick_setting_alert2">Connection timeout, please check.</string>
     <string name="net_errors"> Reasons maybe:\n1.wrong password for router;\n2.unable to get IP address from router, please check router;\n3.Wi-Fi function of mobile phone abnormal.</string>
     <string name="str_quick_setting_new_dev">New version found</string>
@@ -309,11 +308,8 @@
     <string name="str_change_video_type">Switch video standard,Records re-packed.</string>
     <!-- 设备管理 -->
     <string name="str_quick_setting">Quickset</string>
-    <string name="str_quick_setting_connect">Configure</string>
     <string name="str_quick_setting_alert_nowifi">Failed to find the device</string>
     <string name="str_quick_setting_alert_wifiinfo">1 device found, go to configure it?</string>
-    <string name="str_quick_setting_alert">Searching nearby devices now</string>
-    <string name="str_quick_setting_alert_1">Connecting with AP network of the device</string>
     <string name="str_quick_setting_alert_2">Connecting with device now</string>
     <string name="str_quick_setting_alert_3">Connected successfully, asking for text info now</string>
     <string name="str_quick_setting_alert_4">Asking for Wi-Fi list of host-end</string>
@@ -322,7 +318,6 @@
     <string name="str_quick_setting_ipc_net_failed">Failed to connect with AP network</string>
     <string name="str_quick_setting_ap_net_failed">Failed to connect with AP network</string>
     <string name="str_quick_setting_ap_net_timeout">Timeout to connect with AP network</string>
-    <string name="str_quick_setting_alert_6">Finishing configuration now</string>
     <string name="str_quick_setting_ap_net_disconnect">disconnection with network</string>
     <string name="str_quick_setting_success">Quick configuration finished</string>
     <string name="str_quick_setting_failed">Failed to finish Quick configuration</string>
@@ -330,7 +325,6 @@
     <string name="str_quick_setting_finish">Finish</string>
     <string name="str_quick_setting_reset">Configure again</string>
     <string name="str_wifi_reset_succ">Network recovered successfuly</string>
-    <string name="str_wifi_reset_fail">Failed to recover network</string>
     <string name="str_device_manage">Device Manager</string>
     <string name="str_user_setting">User Setting</string>
     <string name="str_remote_setting">Remote Setting</string>
@@ -397,6 +391,22 @@
     <string name="login_str_port_format_err">Wrong Port number</string>
     <string name="login_str_ip_adress_notnull">Please input IP.</string>
     <string name="str_shake_scene_pic_tips">Scene picture function can\'t be used for there is no SD card in your mobile phone</string>
+
+    <!-- JVQuickSet -->
+    <!-- ap配置流程模块 -->
+    <string name="quick_setting_searching">Searching nearby devices now</string>
+    <string name="str_quiksetting_tips_txt">Please choose the device you want to configure.</string>
+    <string name="str_quick_setting_alert_1">Connecting with device now, please wait.</string>
+    <string name="str_quick_setting_connect">Configure</string>
+    <string name="str_quick_setting_waiting">Waiting</string>
+    <string name="next_step">Next Step</string>
+    <string name="set_error">配置出错，错误码</string>
+    <string name="try_again">重试</string>
+    <string name="quick_setting_connecting">Connecting now…</string>
+    <string name="quick_setting_exiting">Exiting configuration now</string>
+    <string name="wifi_reset_failed">Failed to recover network</string>
+    <string name="str_quick_install">Quick Install Wireless device</string>
+    <string name="str_quick_install_tips2">Step:\n1.Connect mobile phone to the same network with the device..\n2.Choose the device that you want to configure Wifi.\n3.Choose the network\n4.Configure the device and the configuration is completed successfully when you hear "Configured".</string>
 
     <!-- JVTab -->
     <string name="sure_exit">Are you sure to exit?</string>

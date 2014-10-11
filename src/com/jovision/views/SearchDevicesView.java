@@ -10,12 +10,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 
 import com.jovetech.CloudSee.temp.BuildConfig;
 import com.jovetech.CloudSee.temp.R;
@@ -28,8 +25,7 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 	public static final boolean D = BuildConfig.DEBUG;
 
 	@SuppressWarnings("unused")
-//	private long TIME_DIFF = 6000;
-
+	// private long TIME_DIFF = 6000;
 	int[] lineColor = new int[] { 0x7B, 0x7B, 0x7B };
 	int[] innerCircle0 = new int[] { 0xb9, 0xff, 0xFF };
 	int[] innerCircle1 = new int[] { 0xdf, 0xff, 0xFF };
@@ -98,8 +94,8 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 		super.onDraw(canvas);
 		// canvas.drawBitmap(bitmap, getWidth() / 2 - bitmap.getWidth() / 2,
 		// getHeight() / 2 - bitmap.getHeight() / 2, null);
-		Rect rMoon = new Rect(-(getHeight() - getWidth()) / 2-getWidth()/2, getHeight() / 2,
-				getWidth() / 2, getHeight());
+		Rect rMoon = new Rect(-(getHeight() - getWidth()) / 2 - getWidth() / 2,
+				getHeight() / 2, getWidth() / 2, getHeight());
 		if (isSearching) {
 			canvas.rotate(offsetArgs, getWidth() / 2, getHeight() / 2);
 			canvas.drawBitmap(bitmap2, null, rMoon, null);
@@ -119,34 +115,34 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 			invalidate();
 	}
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			handleActionDownEvenet(event);
-			return true;
-		case MotionEvent.ACTION_MOVE:
-			return true;
-		case MotionEvent.ACTION_UP:
-			return true;
-		}
-		return super.onTouchEvent(event);
-	}
+	// @Override
+	// public boolean onTouchEvent(MotionEvent event) {
+	// switch (event.getAction()) {
+	// case MotionEvent.ACTION_DOWN:
+	// handleActionDownEvenet(event);
+	// return true;
+	// case MotionEvent.ACTION_MOVE:
+	// return true;
+	// case MotionEvent.ACTION_UP:
+	// return true;
+	// }
+	// return super.onTouchEvent(event);
+	// }
 
-	private void handleActionDownEvenet(MotionEvent event) {
-		RectF rectF = new RectF(getWidth() / 2, getHeight() / 2,
-				getWidth() / 2, getHeight() / 2);
-
-		if (rectF.contains(event.getX(), event.getY())) {
-			if (D)
-				Log.d(TAG, "click search device button");
-			if (!isSearching()) {
-				setSearching(true);
-			} else {
-				setSearching(false);
-			}
-		}
-	}
+	// private void handleActionDownEvenet(MotionEvent event) {
+	// RectF rectF = new RectF(getWidth() / 2, getHeight() / 2,
+	// getWidth() / 2, getHeight() / 2);
+	//
+	// if (rectF.contains(event.getX(), event.getY())) {
+	// if (D)
+	// Log.d(TAG, "click search device button");
+	// if (!isSearching()) {
+	// setSearching(true);
+	// } else {
+	// setSearching(false);
+	// }
+	// }
+	// }
 
 	/**
 	 * 播放声音
@@ -197,5 +193,12 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void stopPlayer() {
+		if (null != mediaPlayer) {
+			mediaPlayer.stop();
+		}
+
 	}
 }

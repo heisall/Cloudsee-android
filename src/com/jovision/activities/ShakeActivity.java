@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -9,7 +8,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -81,33 +79,28 @@ public abstract class ShakeActivity extends BaseActivity implements
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void initSettings() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void initUi() {
-		// TODO Auto-generated method stub
-		if (shakeState) {
-			initShake();
-		}
+		// if (shakeState) {
+		initShake();
+		// }
 	}
 
 	@Override
 	protected void saveSettings() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void freeMe() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -145,22 +138,31 @@ public abstract class ShakeActivity extends BaseActivity implements
 		if (sensorType == Sensor.TYPE_ACCELEROMETER) {
 			if (Math.abs(values[0]) > 13 || Math.abs(values[1]) > 13
 					|| Math.abs(values[2]) > 13) {
-				if (!threadRunning) {
-					mVibrator.vibrate(100);
-					threadRunning = true;
-					prepareAndPlay(1);
-					// 加载设备通道数据
-					if (null == proDialog) {
-						proDialog = new ProgressDialog(ShakeActivity.this);
-						proDialog.setCancelable(false);
-					}
-					proDialog.setMessage(getResources().getString(
-							R.string.str_quick_setting_alert));
-					proDialog.show();
-					GetWifiThread gwt = new GetWifiThread(ShakeActivity.this);
-					gwt.start();
+				if (shakeState) {
+					startSearch(true);
 				}
 			}
+		}
+	}
+
+	public void startSearch(boolean playSound) {
+		if (!threadRunning) {
+			threadRunning = true;
+			if (playSound) {
+				mVibrator.vibrate(100);
+				prepareAndPlay(1);
+			}
+
+			// 加载设备通道数据
+			if (null == proDialog) {
+				proDialog = new ProgressDialog(ShakeActivity.this);
+				proDialog.setCancelable(false);
+			}
+			proDialog.setMessage(getResources().getString(
+					R.string.quick_setting_searching));
+			proDialog.show();
+			GetWifiThread gwt = new GetWifiThread(ShakeActivity.this);
+			gwt.start();
 		}
 	}
 
@@ -249,7 +251,7 @@ public abstract class ShakeActivity extends BaseActivity implements
 	/**
 	 * 搜索附近IPCwifi
 	 */
-	private void openSearchDialog() {
+	private void openSearchDialog1() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(
 				ShakeActivity.this);
 
@@ -294,32 +296,32 @@ public abstract class ShakeActivity extends BaseActivity implements
 	}
 
 	private void prepareAndPlay(int state) {
-		try {
-			// 打开指定音乐文件
-			String file = "";
-			if (1 == state) {
-				file = "shake_1.mp3";
-			} else {
-				file = "shake_match_2.mp3";
-			}
-
-			AssetFileDescriptor afd = assetMgr.openFd(file);
-			mediaPlayer.reset();
-
-			// 使用MediaPlayer加载指定的声音文件。
-			mediaPlayer.setDataSource(afd.getFileDescriptor(),
-					afd.getStartOffset(), afd.getLength());
-			// 准备声音
-			mediaPlayer.prepare();
-			// 播放
-			mediaPlayer.start();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		// try {
+		// // 打开指定音乐文件
+		// String file = "";
+		// if (1 == state) {
+		// file = "shake_1.mp3";
+		// } else {
+		// file = "shake_match_2.mp3";
+		// }
+		//
+		// AssetFileDescriptor afd = assetMgr.openFd(file);
+		// mediaPlayer.reset();
+		//
+		// // 使用MediaPlayer加载指定的声音文件。
+		// mediaPlayer.setDataSource(afd.getFileDescriptor(),
+		// afd.getStartOffset(), afd.getLength());
+		// // 准备声音
+		// mediaPlayer.prepare();
+		// // 播放
+		// mediaPlayer.start();
+		//
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 	}
 
-	private static class ShakeHandler extends Handler {
+	private class ShakeHandler extends Handler {
 		private ShakeActivity activity;
 
 		public ShakeHandler(ShakeActivity activity) {
@@ -332,7 +334,15 @@ public abstract class ShakeActivity extends BaseActivity implements
 			switch (msg.what) {
 			case JVConst.SHAKE_IPC_WIFI_SUCCESS: {
 				activity.prepareAndPlay(2);
-				activity.openSearchDialog();
+				// activity.openSearchDialog();
+				threadRunning = false;
+
+				Intent intent = new Intent(ShakeActivity.this,
+						JVQuickSettingActivity.class);
+				intent.putExtra("OLD_WIFI", oldWifiSSID);
+				intent.putExtra("IPC_LIST", scanIpcWifiList);
+				intent.putExtra("MOBILE_LIST", scanMobileWifiList);
+				ShakeActivity.this.startActivity(intent);
 				break;
 			}
 			case JVConst.SHAKE_IPC_WIFI_FAILED: {

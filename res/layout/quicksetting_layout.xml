@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/quickSetParentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -30,6 +31,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="1dp"
                 android:cacheColorHint="@color/transparent"
+                android:divider="@color/transparent"
                 android:dividerHeight="10dp"
                 android:fadingEdge="none"
                 android:footerDividersEnabled="true"
@@ -92,7 +94,8 @@
                         android:layout_marginRight="15dp"
                         android:background="@drawable/edittext_bg"
                         android:hint="@string/str_wifi_pass"
-                        android:inputType="textPassword"
+                        android:inputType=""
+                        android:password="true"
                         android:singleLine="true"
                         android:textColor="@color/userinfocolor"
                         android:textSize="18sp" />
@@ -105,16 +108,18 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/eye_selector"
+                        android:checked="true"
                         android:textOff=""
                         android:textOn="" />
                 </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/mobilewifibg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/dialog_bg" >
+                android:background="@drawable/video_list_bg" >
 
                 <com.jovision.views.RefreshableListView
                     android:id="@+id/mobilewifilistview"
@@ -128,6 +133,27 @@
                     android:listSelector="@color/transparent"
                     android:scrollbars="none" />
             </LinearLayout>
+        </LinearLayout>
+
+        <!-- 帮助网页 -->
+
+        <LinearLayout
+            android:id="@+id/helplayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ImageView
+                    android:id="@+id/helpimg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/h400_update" />
+            </ScrollView>
         </LinearLayout>
     </RelativeLayout>
 

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/quick_set_searchbg" >
+
+    <com.jovision.views.SearchDevicesView
+        android:id="@+id/searchView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <ImageView
+        android:id="@+id/quickSetCloudImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/jovision_logo"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/quickSetDeviceImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="30dip"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/quick_set_device"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/quickSetBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/quick_set_back"
+        android:text="@string/exit"
+        android:visibility="gone" />
+
+</RelativeLayout>

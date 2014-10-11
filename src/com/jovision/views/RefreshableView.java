@@ -511,9 +511,12 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
 
 		@Override
 		protected void onPostExecute(Integer topMargin) {
-			headerLayoutParams.topMargin = topMargin;
-			header.setLayoutParams(headerLayoutParams);
-			currentStatus = STATUS_REFRESH_FINISHED;
+			if (null != headerLayoutParams) {
+				headerLayoutParams.topMargin = topMargin;
+				header.setLayoutParams(headerLayoutParams);
+				currentStatus = STATUS_REFRESH_FINISHED;
+			}
+
 		}
 	}
 

@@ -180,7 +180,7 @@ public class JVRemoteListActivity extends BaseActivity {
 			RemoteVideo videoBean = videoList.get(arg2);
 			String acBuffStr = PlayUtil.getPlayFileString(videoBean, is05,
 					deviceType, year, month, day, arg2);
-			MyLog.v(TAG, "acBuffStr:"+acBuffStr);
+			MyLog.v(TAG, "acBuffStr:" + acBuffStr);
 			if (null != acBuffStr && !"".equalsIgnoreCase(acBuffStr)) {
 				Intent intent = new Intent();
 				intent.setClass(JVRemoteListActivity.this,
@@ -226,8 +226,8 @@ public class JVRemoteListActivity extends BaseActivity {
 		date = String.format("%04d%02d%02d000000%04d%02d%02d000000", year,
 				month, day, year, month, day);
 
-		MyLog.e("tas", "searchCheck  windowIndex: " + (indexOfChannel) + "date: "
-				+ date.toString());
+		MyLog.e("tas", "searchCheck  windowIndex: " + (indexOfChannel)
+				+ "date: " + date.toString());
 
 		Thread searchThread = new Thread() {
 

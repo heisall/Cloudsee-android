@@ -171,6 +171,10 @@ public class Consts {
 	public static final int SOUNDSEVINE = 7;// 配置完成，请点击图标查看设备
 	public static final int SOUNDEIGHT = 8;// // 搜索声音
 
+	public static final int QUICK_SETTING_ERROR = 100;// 快速设置出错
+	public static final int QUICK_SETTING_DEV_ONLINE = 101;// 快速配置，设备上线
+	public static final int QUICK_SETTING_CONNECT_FAILED = 102;// 快速设置IPC连接失败
+
 	/*********************** 以下是状态变量key的声明 ********************************/
 
 	/** 账号sdk是否初始化的key */
@@ -216,17 +220,23 @@ public class Consts {
 	/** 帮助图案首次显示标志 */
 	public static String MORE_FREGMENT_FEEDBACK = "IS_FIRST";
 
-	/** 功能设置页面场景图片标志位 */
-	public static String SETTING_SCENE = "SCENE";
+	// /** 功能设置页面场景图片标志位 */
+	// public static String SETTING_SCENE = "SCENE";
+	//
+	// /** 功能设置页面帮助标志位 */
+	// public static String SETTING_HELP = "HELP";
+	//
+	// /** 功能设置页面报警标志位 */
+	// public static String SETTING_ALERT = "ALERT";
+	//
+	// /** 功能设置页面观看模式标志位 */
+	// public static String SETTING_SEE_MODEL = "SEE_MODEL";
 
-	/** 功能设置页面帮助标志位 */
-	public static String SETTING_HELP = "HELP";
+	/** 进程序WiFi名称 */
+	public static final String KEY_OLD_WIFI = "OLD_WIFI";
 
-	/** 功能设置页面报警标志位 */
-	public static String SETTING_ALERT = "ALERT";
-
-	/** 功能设置页面观看模式标志位 */
-	public static String SETTING_SEE_MODEL = "SEE_MODEL";
+	/** 进程序WiFi状态 */
+	public static final String KEY_OLD_WIFI_STATE = "OLD_WIFI_STATE";
 
 	public static final String KEY_LAST_PUT_STAMP = "last_put_stamp";
 

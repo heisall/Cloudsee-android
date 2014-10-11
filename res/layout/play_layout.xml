@@ -352,6 +352,26 @@
                     android:background="@drawable/bottom_but" />
             </RelativeLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/apfunclayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/functionbgcolor"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:paddingTop="1dp" >
+
+            <Button
+                android:id="@+id/nextstep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/next_step_bg"
+                android:text="@string/next_step"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
     </RelativeLayout>
 
 </FrameLayout>

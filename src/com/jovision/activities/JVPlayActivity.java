@@ -82,8 +82,6 @@ public class JVPlayActivity extends PlayActivity implements
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
 
-	private int playFlag = -1;
-
 	private boolean isOmx = false;
 	private Button decodeBtn;
 
@@ -448,6 +446,10 @@ public class JVPlayActivity extends PlayActivity implements
 			String devJsonString = MySharedPreference
 					.getString(Consts.KEY_PLAY_DEMO);
 			deviceList = Device.fromJsonArray(devJsonString);
+		} else if (Consts.PLAY_AP == playFlag) {
+			String devJsonString = MySharedPreference
+					.getString(Consts.KEY_PLAY_AP);
+			deviceList = Device.fromJsonArray(devJsonString);
 		}
 
 		// [Neo] precheck
@@ -560,6 +562,8 @@ public class JVPlayActivity extends PlayActivity implements
 		bottombut6.setOnClickListener(myOnClickListener);
 		bottombut7.setOnClickListener(myOnClickListener);
 		bottombut8.setOnClickListener(myOnClickListener);
+
+		nextStep.setOnClickListener(myOnClickListener);
 
 		Jni.setStat(true);
 		// 2.几的系统有可能花屏
@@ -933,10 +937,15 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
-			case R.id.btn_left:// 左边按钮
+			case R.id.nextstep: {// AP下一步
 				backMethod();
 				break;
-			case R.id.btn_right:// 右边按钮
+			}
+			case R.id.btn_left: {// 左边按钮
+				backMethod();
+				break;
+			}
+			case R.id.btn_right: {// 右边按钮
 
 				if (View.VISIBLE == linkMode.getVisibility()) {
 					linkMode.setVisibility(View.GONE);
@@ -944,6 +953,7 @@ public class JVPlayActivity extends PlayActivity implements
 					linkMode.setVisibility(View.VISIBLE);
 				}
 				break;
+			}
 			case R.id.currentmenu:
 			case R.id.selectscreen:// 下拉选择多屏
 				if (popScreen == null) {
@@ -1221,8 +1231,8 @@ public class JVPlayActivity extends PlayActivity implements
 	public void startRemote() {
 		Intent remoteIntent = new Intent();
 		remoteIntent.setClass(JVPlayActivity.this, JVRemoteListActivity.class);
-		remoteIntent.putExtra("IndexOfChannel", manager.getChannel(currentIndex)
-				.getIndex());
+		remoteIntent.putExtra("IndexOfChannel", manager
+				.getChannel(currentIndex).getIndex());
 		remoteIntent.putExtra("DeviceType", manager.getChannel(currentIndex)
 				.getParent().getDeviceType());
 		remoteIntent.putExtra("is05", manager.getChannel(currentIndex)
@@ -1250,7 +1260,14 @@ public class JVPlayActivity extends PlayActivity implements
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			JVPlayActivity.this.finish();
+
+			if (Consts.PLAY_AP == playFlag) {
+				Intent aintent = new Intent();
+				setResult(JVConst.AP_CONNECT_FINISHED, aintent);
+				JVPlayActivity.this.finish();
+			} else {
+				JVPlayActivity.this.finish();
+			}
 		}
 
 	}
@@ -1337,8 +1354,7 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 					}
 				}
-				PlayUtil.connect(channel,
-						isOmx);
+				PlayUtil.connect(channel, isOmx);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

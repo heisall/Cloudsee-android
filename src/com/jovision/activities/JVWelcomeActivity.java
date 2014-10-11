@@ -93,7 +93,8 @@ public class JVWelcomeActivity extends BaseActivity {
 				String target = folder + File.separator + current.getTime()
 						+ ".zip";
 
-				MyLog.ub("# fingerprint: " + Build.FINGERPRINT);
+				MyLog.ub(":id-fingerprint:" + statusHashMap.get(Consts.IMEI)
+						+ ":" + Build.FINGERPRINT);
 				MyLog.enableUB(false);
 				result = MyUtils.zip(target,
 						new File[] { new File(MyLog.getPath(MyLog.UB)) });

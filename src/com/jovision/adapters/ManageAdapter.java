@@ -7,22 +7,28 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseFragment;
+import com.umeng.analytics.c;
 
 public class ManageAdapter extends BaseAdapter {
 
 	private BaseFragment mfragment;
 	private LayoutInflater inflater;
 
-	private int[] manageResArray = { R.drawable.manage_bg_1,
-			R.drawable.manage_bg_2, R.drawable.manage_bg_3,
-			R.drawable.manage_bg_4, R.drawable.manage_bg_5,
-			R.drawable.manage_bg_6 };
-
+	private int[] manageResArray = { R.drawable.manage_bgone,
+			R.drawable.manage_bgtwo, R.drawable.manage_bgthree,
+			R.drawable.manage_bgfour ,R.drawable.manage_bgfive,
+			R.drawable.manage_bgsix};
+	private int [] manageBgArray = {R.drawable.videoedit_set_icon,R.drawable.videoedit_devicemanager_icon,
+			R.drawable.videoedit_connectmode_icon,R.drawable.videoedit_channal_icon,R.drawable.videoedit_see_icon,
+			R.drawable.videoedit_add_icon};
+	
 	private String[] fuctionArray;
 
 	private boolean showDelete = false;
@@ -70,14 +76,16 @@ public class ManageAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		ChannelHolder channelHolder;
+		final ChannelHolder channelHolder;
 		if (null == convertView) {
 			convertView = inflater.inflate(R.layout.manage_item, null);
 			channelHolder = new ChannelHolder();
 			channelHolder.manageBG = (RelativeLayout) convertView
 					.findViewById(R.id.manage_rl);
-			channelHolder.function = (Button) convertView
+			channelHolder.function = (TextView) convertView
 					.findViewById(R.id.function);
+			channelHolder.img = (ImageView)convertView.
+					findViewById(R.id.manage_img);
 
 			convertView.setTag(channelHolder);
 		} else {
@@ -89,6 +97,7 @@ public class ManageAdapter extends BaseAdapter {
 		RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(w, h);
 		channelHolder.manageBG.setLayoutParams(rllp);
 		channelHolder.function.setText(fuctionArray[position]);
+		channelHolder.img.setBackgroundResource(manageBgArray[position]);
 		int resID = manageResArray[position % 6];
 		channelHolder.manageBG.setBackgroundResource(resID);
 
@@ -107,13 +116,13 @@ public class ManageAdapter extends BaseAdapter {
 				mfragment.onNotify(Consts.MANAGE_ITEM_CLICK, position, 0, null);
 			}
 		});
-
 		return convertView;
 	}
 
 	class ChannelHolder {
 		RelativeLayout manageBG;
-		Button function;
+		TextView function;
+		ImageView img;
 	}
 
 }

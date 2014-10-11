@@ -28,11 +28,17 @@
 
     <!-- 视频管理背景色 -->
     <color name="manage_color_1">#6AB840</color>
+     <color name="manage_color_pre1">#00fa9a</color>
     <color name="manage_color_2">#10C5DA</color>
+    <color name="manage_color_pre2">#00ced1</color>
     <color name="manage_color_3">#F0882F</color>
+    <color name="manage_color_pre3">#d2b48c</color>
     <color name="manage_color_4">#E84C50</color>
+    <color name="manage_color_pre4">#cd5c5c</color>
     <color name="manage_color_5">#F6C133</color>
+    <color name="manage_color_pre5">#f5deb3</color>
     <color name="manage_color_6">#994289</color>
+    <color name="manage_color_pre6">#8a2be2</color>
     <color name="tab_text_color">#898989</color>
     <color name="tab_bg_color">#F5F5F5</color>
     <color name="ivory">#FFFFF0</color>

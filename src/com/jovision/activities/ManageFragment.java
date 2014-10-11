@@ -98,7 +98,10 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 1: {// 设备管理
-
+				Intent deviceIntent = new Intent(mActivity,
+						JVDeviceManageActivity.class);
+				deviceIntent.putExtra("deviceIndex", deviceIndex);
+				startActivity(deviceIntent);
 				break;
 			}
 			case 2: {// 连接模式
@@ -110,7 +113,10 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 3: {// 通道管理
-
+				Intent channerIntent = new Intent(mActivity,
+						JVChannelListActivity.class);
+				channerIntent.putExtra("deviceIndex", deviceIndex);
+				startActivity(channerIntent);
 				break;
 			}
 			case 4: {// 立即观看

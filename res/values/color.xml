@@ -28,7 +28,7 @@
 
     <!-- 视频管理背景色 -->
     <color name="manage_color_1">#6AB840</color>
-     <color name="manage_color_pre1">#00fa9a</color>
+    <color name="manage_color_pre1">#00fa9a</color>
     <color name="manage_color_2">#10C5DA</color>
     <color name="manage_color_pre2">#00ced1</color>
     <color name="manage_color_3">#F0882F</color>

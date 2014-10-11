@@ -90,8 +90,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relalist"
-            android:divider="@null"
             android:background="@drawable/videoedit_pull_bg"
+            android:divider="@null"
             android:fadingEdge="none"
             android:visibility="gone" >
         </ListView>

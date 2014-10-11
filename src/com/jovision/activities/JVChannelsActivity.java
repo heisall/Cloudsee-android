@@ -85,7 +85,8 @@ public class JVChannelsActivity extends BaseActivity {
 	protected void initSettings() {
 		Intent intent = getIntent();
 		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
-		deviceList = CacheUtil.getDevList();;
+		deviceList = CacheUtil.getDevList();
+		;
 	}
 
 	@Override

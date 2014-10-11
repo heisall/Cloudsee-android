@@ -3,7 +3,6 @@ package com.jovision.adapters;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,10 +27,11 @@ public class ManageListAdapter extends BaseAdapter {
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
+
 	public ManageListAdapter(BaseFragment fragments) {
 		fragment = fragments;
-		inflater = (LayoutInflater) fragment.getActivity()
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) fragment.getActivity().getSystemService(
+				Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	public void setData(ArrayList<Device> dataLis) {

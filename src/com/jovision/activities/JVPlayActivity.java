@@ -1221,8 +1221,8 @@ public class JVPlayActivity extends PlayActivity implements
 	public void startRemote() {
 		Intent remoteIntent = new Intent();
 		remoteIntent.setClass(JVPlayActivity.this, JVRemoteListActivity.class);
-		remoteIntent.putExtra("IndexOfChannel", manager.getChannel(currentIndex)
-				.getIndex());
+		remoteIntent.putExtra("IndexOfChannel", manager
+				.getChannel(currentIndex).getIndex());
 		remoteIntent.putExtra("DeviceType", manager.getChannel(currentIndex)
 				.getParent().getDeviceType());
 		remoteIntent.putExtra("is05", manager.getChannel(currentIndex)
@@ -1337,8 +1337,7 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 					}
 				}
-				PlayUtil.connect(channel,
-						isOmx);
+				PlayUtil.connect(channel, isOmx);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

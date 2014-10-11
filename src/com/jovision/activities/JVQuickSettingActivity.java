@@ -1,4 +1,5 @@
 package com.jovision.activities;
+
 //
 //import java.io.IOException;
 //import java.lang.ref.WeakReference;

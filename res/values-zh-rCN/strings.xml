@@ -508,11 +508,11 @@
     <!-- Dialog -->
     <string name="save">保存</string>
     <string name="cancle">取消</string>
-    <string name="str_nickname">昵称 ：</string>
-    <string name="str_devicename">设备号  ：</string>
-    <string name="str_username">用户名  ：</string>
-    <string name="str_password">   密码   ：</string>
-    <string name="str_nicknametwo">   昵称   ：</string>
+    <string name="str_nickname">昵        称 </string>
+    <string name="str_devicename">设  备  号</string>
+    <string name="str_username">用  户  名</string>
+    <string name="str_password">密        码</string>
+    <string name="str_nicknametwo">昵        称</string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">切换IP直连和云视通连接模式</string>
     <string name="str_cloudsee_id">云视通号</string>
@@ -520,7 +520,7 @@
     <string name="app_name">CloudSEE</string>
     <string name="login_str_device_ytnum_notnull">请输入云视通号</string>
     <string name="increct_yst_tips">云视通号不正确</string>
-    <string name="login_str_yst_num">设备号</string>
+    <string name="login_str_yst_num">云视通号</string>
     <string name="str_not_qr_device">不属于云视通设备</string>
     <!-- 不同软件反馈邮箱不一样 -->
     <string name="str_feedback_error">该手机不支持邮件发送或者是邮件发送功能没有被设置，请发送邮件到mfg@jovision.com 以请求进一步的协助。</string>

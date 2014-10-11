@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseFragment;
-import com.umeng.analytics.c;
 
 public class ManageAdapter extends BaseAdapter {
 
@@ -23,12 +21,14 @@ public class ManageAdapter extends BaseAdapter {
 
 	private int[] manageResArray = { R.drawable.manage_bgone,
 			R.drawable.manage_bgtwo, R.drawable.manage_bgthree,
-			R.drawable.manage_bgfour ,R.drawable.manage_bgfive,
-			R.drawable.manage_bgsix};
-	private int [] manageBgArray = {R.drawable.videoedit_set_icon,R.drawable.videoedit_devicemanager_icon,
-			R.drawable.videoedit_connectmode_icon,R.drawable.videoedit_channal_icon,R.drawable.videoedit_see_icon,
-			R.drawable.videoedit_add_icon};
-	
+			R.drawable.manage_bgfour, R.drawable.manage_bgfive,
+			R.drawable.manage_bgsix };
+	private int[] manageBgArray = { R.drawable.videoedit_set_icon,
+			R.drawable.videoedit_devicemanager_icon,
+			R.drawable.videoedit_connectmode_icon,
+			R.drawable.videoedit_channal_icon, R.drawable.videoedit_see_icon,
+			R.drawable.videoedit_add_icon };
+
 	private String[] fuctionArray;
 
 	private boolean showDelete = false;
@@ -84,8 +84,8 @@ public class ManageAdapter extends BaseAdapter {
 					.findViewById(R.id.manage_rl);
 			channelHolder.function = (TextView) convertView
 					.findViewById(R.id.function);
-			channelHolder.img = (ImageView)convertView.
-					findViewById(R.id.manage_img);
+			channelHolder.img = (ImageView) convertView
+					.findViewById(R.id.manage_img);
 
 			convertView.setTag(channelHolder);
 		} else {

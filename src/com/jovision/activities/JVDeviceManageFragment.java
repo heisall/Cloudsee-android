@@ -125,7 +125,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	private void initNav() {
 		manageDeviceList = CacheUtil.getDevList();
-		adapter = new ManageListAdapter((BaseFragment)JVDeviceManageFragment.this);
+		adapter = new ManageListAdapter(
+				(BaseFragment) JVDeviceManageFragment.this);
 		adapter.setData(manageDeviceList);
 		devicemanage_listView.setAdapter(adapter);
 		int size = manageDeviceList.size();

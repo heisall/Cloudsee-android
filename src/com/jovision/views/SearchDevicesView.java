@@ -28,8 +28,7 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 	public static final boolean D = BuildConfig.DEBUG;
 
 	@SuppressWarnings("unused")
-//	private long TIME_DIFF = 6000;
-
+	// private long TIME_DIFF = 6000;
 	int[] lineColor = new int[] { 0x7B, 0x7B, 0x7B };
 	int[] innerCircle0 = new int[] { 0xb9, 0xff, 0xFF };
 	int[] innerCircle1 = new int[] { 0xdf, 0xff, 0xFF };
@@ -98,8 +97,8 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 		super.onDraw(canvas);
 		// canvas.drawBitmap(bitmap, getWidth() / 2 - bitmap.getWidth() / 2,
 		// getHeight() / 2 - bitmap.getHeight() / 2, null);
-		Rect rMoon = new Rect(-(getHeight() - getWidth()) / 2-getWidth()/2, getHeight() / 2,
-				getWidth() / 2, getHeight());
+		Rect rMoon = new Rect(-(getHeight() - getWidth()) / 2 - getWidth() / 2,
+				getHeight() / 2, getWidth() / 2, getHeight());
 		if (isSearching) {
 			canvas.rotate(offsetArgs, getWidth() / 2, getHeight() / 2);
 			canvas.drawBitmap(bitmap2, null, rMoon, null);

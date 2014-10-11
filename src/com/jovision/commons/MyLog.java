@@ -16,7 +16,7 @@ import android.util.Log;
  */
 public class MyLog {
 
-	public static final String UB = "UB";
+	public static final String UB = "UB.log";
 
 	private static final String V = "V";
 	private static final String D = "D";

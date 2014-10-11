@@ -70,7 +70,9 @@ public class JVWelcomeActivity extends BaseActivity {
 				Date current = MyUtils.getChinaTime();
 				if (null == current) {
 					current = new Date();
-					MyLog.ub("use localtime: " + current);
+					MyLog.ub("# localtime: " + current);
+				} else {
+					MyLog.ub("# remotetime: " + current);
 				}
 
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -91,9 +93,8 @@ public class JVWelcomeActivity extends BaseActivity {
 				String target = folder + File.separator + current.getTime()
 						+ ".zip";
 
-				StringBuilder sBuilder = new StringBuilder();
-				sBuilder.append(Build.FINGERPRINT).append("\n").append(current);
-				MyLog.ub(sBuilder.toString());
+				MyLog.ub(":id-fingerprint:" + statusHashMap.get(Consts.IMEI)
+						+ ":" + Build.FINGERPRINT);
 				MyLog.enableUB(false);
 				result = MyUtils.zip(target,
 						new File[] { new File(MyLog.getPath(MyLog.UB)) });
@@ -127,7 +128,6 @@ public class JVWelcomeActivity extends BaseActivity {
 
 				// [Neo] 3. update config
 				if (result) {
-					MyLog.ub("start a new page!");
 					MySharedPreference.putLong(Consts.KEY_LAST_PUT_STAMP,
 							current.getTime());
 				}

@@ -98,11 +98,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 		relative = (RelativeLayout) mParent.findViewById(R.id.relative);
 		image_hide = (ImageView) mParent.findViewById(R.id.devmore_hide);
 		devicemanage_listView = (ListView) mParent
-				.findViewById(R.id.devicemanage_listView);
+				.findViewById(R.id.device_listView);
 		devMore = (ImageView) mParent.findViewById(R.id.devmore);
-		adapter = new ManageListAdapter(JVDeviceManageFragment.this);
-		adapter.setData(manageDeviceList);
-		devicemanage_listView.setAdapter(adapter);
 		devMore.setOnClickListener(mOnClickListener);
 		image_hide.setOnClickListener(mOnClickListener);
 		ListViewClick();
@@ -128,6 +125,10 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	private void initNav() {
 		manageDeviceList = CacheUtil.getDevList();
+		adapter = new ManageListAdapter(
+				(BaseFragment) JVDeviceManageFragment.this);
+		adapter.setData(manageDeviceList);
+		devicemanage_listView.setAdapter(adapter);
 		int size = manageDeviceList.size();
 		fragments = new ArrayList<Fragment>();
 		mLinearLayout.removeAllViews();

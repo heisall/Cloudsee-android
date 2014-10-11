@@ -54,6 +54,24 @@ public class Consts {
 	public static final int MAX_DEVICE_CHANNEL_COUNT = 64;
 	public static final int DEFAULT_ADD_CHANNEL_COUNT = 4;
 
+	public static final int TYPE_GET_PARAM = 0x02;
+	public static final int COUNT_EX_STORAGE = 0x03;
+	public static final int TYPE_EX_STORAGE_SWITCH = 0x07;
+	public static final String FORMATTER_STORAGE_MODE = "storageMode=%d";
+
+	{
+		// [Neo] 设置存储模式
+		// Jni.sendString(index, uchType, true, Consts.COUNT_EX_STORAGE,
+		// Consts.TYPE_EX_STORAGE_SWITCH,
+		// String.format(Consts.FORMATTER_STORAGE_MODE, mode));
+
+		// [Neo] 获取存储模式
+		// Jni.sendString(index, uchType, false, 0, Consts.TYPE_GET_PARAM,
+		// null);
+
+		// [Neo] 结果检查，通过判断 TextData 的 flag 是否等于 100
+	}
+
 	public static int pushHisCount = 0;
 	public static final int PUSH_PAGESIZE = 5;
 

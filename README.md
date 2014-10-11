@@ -91,15 +91,48 @@
 + 通道索引从固定数值开始，递增，最多 64 个，用户可定制个数、顺序
 + 窗口索引是进入播放界面后，可播放的通道序列，从 0 开始，最多同时维持 36 个连接
 
+## 用户行为日志
+
+通过 `MyLog.ub(String)` 方式调用即可，默认会有 DEBUG 级别的 logcat 输出，  
+同时自动追加到 `MyLog` 初始化指定的目录中的 `UB.log` 文件。
+
+日志内容需求
+
++ 不要换行
++ 字符数量尽量简短
++ 层级描述使用 `.` 分割
++ 数据信息键值用 `:` 包裹
++ 必要说明信息用 `#` 开头
++ 不需要额外对时间进行描述
++ 尽量不要添加中文
+
+举例
+
+    // 生命周期，TabA 表示 TabActivity，ChannelF 表示 ChannelFragment
+    MyLog.ub("TabA.initUi");
+    MyLog.ub("TabA.onPause");
+
+    // 调用关键方法，ControlFragment 内部的 fetchTask 方法或线程
+    MyLog.ub("ControlF.fetchTask");
+
+    // 用户操作，ChannelFragment 第二页，长按第四个条目
+    MyLog.ub("ChannelF.page.2.longclick.4");
+
+    // 用户数据，使用 `:` 包裹数据键值，后面追加数值
+    MyLog.ub(":DeviceList:" + deviceList.toString);
+
+    // 必要说明，比如重置操作
+    MyLog.ub("# reset");
+
 # 接口层
 
 ## 版本
 
 播放库版本
 
-    #define MY_VERSION    "0.6"
-    #define REVISION      "[761a78f]"
-    #define RELEASE_DATE  "[2014-09-17]"
+    #define MY_VERSION    "0.6d"
+    #define REVISION      "[33c4a84]"
+    #define RELEASE_DATE  "[2014-10-11]"
 
 网络库版本
 

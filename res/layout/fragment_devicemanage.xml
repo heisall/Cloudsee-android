@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/devmore"
-            android:background="@android:color/white"
+            android:background="@drawable/videoedit_channalnum_bg"
             android:fadingEdge="@null"
             android:scrollbars="none" >
 
@@ -42,7 +42,7 @@
                     android:layout_width="100dp"
                     android:layout_height="4dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/channel_color_9" />
+                    android:background="@drawable/videoedit_select_bg" />
             </RelativeLayout>
         </HorizontalScrollView>
 
@@ -54,7 +54,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:src="@drawable/icon_demo_sel" />
+            android:src="@drawable/videoedit_pull_icon" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -82,14 +82,15 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/icon_demo_sel" />
+                android:src="@drawable/videoedit_pull_icon" />
         </RelativeLayout>
 
         <ListView
-            android:id="@+id/devicemanage_listView"
+            android:id="@+id/device_listView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relalist"
+            android:background="@drawable/videoedit_pull_bg"
             android:divider="@null"
             android:fadingEdge="none"
             android:visibility="gone" >

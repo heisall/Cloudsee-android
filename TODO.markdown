@@ -1,11 +1,36 @@
-# 2014年 09月 27日
+## 网络库，Android 已知测试问题
 
-* <del>device `<->` channel, list auto update</del>
-* <del>sparse array bug</del>
-* <del>pwm view.getId bug</del>
-* <del>channel button & add button figure</del>
+1. 连接视频，连接中...断开慢。（10s）  （100%）
+3. 获取通道数量不走回调。
+4. 新版网络库错误密码可以连接视频
+5. AP 配置文本聊天获取文本信息不走回调。
 
-+ <del>keep color stable</del>
-+ <del>play activity, reorder the index of channels</del>
-+ custom channel name, show up
+### 不处理的问题
+
+1. AP 连接视频存在check password timeout错误。（20%）
+2. 释放sdk挂库。（10%）
+3. 远程回放无法给当前帧数。
+
+## 播放库
+
++ 旧设备参数对应关系
+
+## 应用层
+
++ 更多里面的相关功能和开关未完成。
++ 报警未调。
++ 帮助未增加。
++ 视频播放后期新增加的功能未增加。
++ 视频管理和通道管理下拉选择功能未完成。
++ 设备列表下拉刷新功能未写。
++ 视频管理下拉搜索局域网设备并添加到账号未写。
++ 视频管理里面的设备管理和通道管理未完成。
++ 系统消息不知道如何写。
++ 界面细节和功能细节需要微调。
++ 老程序本地数据导入
+
+## 新功能
+
++ 软硬解用户级切换
++ 用户行为日志，要求详见 README.md
 

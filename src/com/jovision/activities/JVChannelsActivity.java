@@ -25,6 +25,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
+import com.jovision.utils.CacheUtil;
 
 public class JVChannelsActivity extends BaseActivity {
 	private String TAG = "ChannelFragment";
@@ -84,9 +85,7 @@ public class JVChannelsActivity extends BaseActivity {
 	protected void initSettings() {
 		Intent intent = getIntent();
 		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
-		// channelIndex = intent.getIntExtra("ChannelIndex", 0);
-		String devJsonString = intent.getStringExtra("DeviceList");
-		deviceList = Device.fromJsonArray(devJsonString);
+		deviceList = CacheUtil.getDevList();;
 	}
 
 	@Override

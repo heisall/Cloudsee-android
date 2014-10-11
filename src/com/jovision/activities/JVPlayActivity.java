@@ -78,7 +78,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 	/** intent传递过来的设备和通道下标 */
 	private int deviceIndex;
-	private int channelIndex;
+	private int channelOfChannel;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
 
@@ -439,7 +439,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		Intent intent = getIntent();
 		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
-		channelIndex = intent.getIntExtra("ChannelIndex", 0);
+		channelOfChannel = intent.getIntExtra("ChannelofChannel", 0);
 		playFlag = intent.getIntExtra("PlayFlag", 0);
 
 		if (Consts.PLAY_NORMAL == playFlag) {
@@ -453,7 +453,7 @@ public class JVPlayActivity extends PlayActivity implements
 		// [Neo] precheck
 		if (deviceList.size() < deviceIndex
 				|| false == deviceList.get(deviceIndex).getChannelList()
-						.hasIndex(channelIndex)) {
+						.hasIndex(channelOfChannel)) {
 			MyLog.e(Consts.TAG_XX, "JVPlay init: precheck 1 failed!");
 			// [Neo] TODO 错误的参数，需要检查之前的活动
 		}
@@ -472,7 +472,7 @@ public class JVPlayActivity extends PlayActivity implements
 					startWindowIndex += csize;
 				} else if (i == deviceIndex) {
 					for (int j = 0; j < csize; j++) {
-						if (cList.get(j).getChannel() < channelIndex) {
+						if (cList.get(j).getChannel() < channelOfChannel) {
 							startWindowIndex++;
 						}
 					}
@@ -485,7 +485,7 @@ public class JVPlayActivity extends PlayActivity implements
 					.getChannelList().toList();
 			int csize = cList.size();
 			for (int j = 0; j < csize; j++) {
-				if (cList.get(j).getChannel() < channelIndex) {
+				if (cList.get(j).getChannel() < channelOfChannel) {
 					startWindowIndex++;
 				}
 			}
@@ -574,7 +574,7 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	/**
-	 * 设备升级Dialog
+	 * 2.3系统提示下载老软件
 	 * 
 	 * @param tag
 	 */
@@ -1177,7 +1177,7 @@ public class JVPlayActivity extends PlayActivity implements
 								e.printStackTrace();
 							}
 						}
-						PlayUtil.connect(dev, channel.getChannel(), isOmx);
+						PlayUtil.connect(channel, isOmx);
 					}
 
 					super.run();
@@ -1221,7 +1221,7 @@ public class JVPlayActivity extends PlayActivity implements
 	public void startRemote() {
 		Intent remoteIntent = new Intent();
 		remoteIntent.setClass(JVPlayActivity.this, JVRemoteListActivity.class);
-		remoteIntent.putExtra("ChannelIndex", manager.getChannel(currentIndex)
+		remoteIntent.putExtra("IndexOfChannel", manager.getChannel(currentIndex)
 				.getIndex());
 		remoteIntent.putExtra("DeviceType", manager.getChannel(currentIndex)
 				.getParent().getDeviceType());
@@ -1337,7 +1337,7 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 					}
 				}
-				PlayUtil.connect(channel.getParent(), channel.getChannel(),
+				PlayUtil.connect(channel,
 						isOmx);
 			} catch (Exception e) {
 				e.printStackTrace();

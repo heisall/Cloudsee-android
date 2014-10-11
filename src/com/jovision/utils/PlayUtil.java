@@ -734,8 +734,7 @@ public class PlayUtil {
 									e.printStackTrace();
 								}
 								channel.setPause(false);
-								connect(channel.getParent(),
-										channel.getChannel(), isOmx);
+								connect(channel, isOmx);
 							}
 						}
 					}
@@ -797,11 +796,12 @@ public class PlayUtil {
 	 * @param index
 	 *            ,设备的通道索引
 	 */
-	public static void connect(Device device, int index, boolean isOmx) {
+	public static void connect(Channel channel, boolean isOmx) {
 		try {
-			if (null != device) {
-				MyLog.e(TAG, "device=" + device.hashCode() + "--index=" + index);
-				Channel channel = device.getChannelList().get(index);
+			if (null != channel) {
+				Device device = channel.getParent();
+//				MyLog.e(TAG, "device=" + device.hashCode() + "--index=" + index);
+//				Channel channel = device.getChannelList().get(index);
 				if (null != channel) {
 					MyLog.v(TAG, channel.getIndex() + "");
 					((MainApplication) mContext.getApplicationContext())

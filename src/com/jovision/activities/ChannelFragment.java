@@ -145,7 +145,7 @@ public class ChannelFragment extends BaseFragment {
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 				intentPlay.putExtra("DeviceIndex", deviceIndex);
 				// [Neo] 实际上是 int channel
-				intentPlay.putExtra("ChannelIndex", arg1);
+				intentPlay.putExtra("ChannelofChannel", arg1);
 
 				mActivity.startActivity(intentPlay);
 			}

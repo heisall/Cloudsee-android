@@ -117,7 +117,7 @@ public class ManageFragment extends BaseFragment {
 				PlayUtil.prepareConnect(deviceList, deviceIndex);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 				intentPlay.putExtra("DeviceIndex", deviceIndex);
-				intentPlay.putExtra("ChannelIndex", device.getChannelList()
+				intentPlay.putExtra("ChannelofChannel", device.getChannelList()
 						.toList().get(0).getChannel());
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 

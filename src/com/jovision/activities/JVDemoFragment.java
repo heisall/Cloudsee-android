@@ -112,7 +112,7 @@ public class JVDemoFragment extends BaseFragment {
 			String devJsonString = Device.listToString(demoList);
 			Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 			intentPlay.putExtra("DeviceIndex", arg2);
-			intentPlay.putExtra("ChannelIndex", dev.getChannelList().toList()
+			intentPlay.putExtra("ChannelofChannel", dev.getChannelList().toList()
 					.get(0).getChannel());
 			// intentPlay.putExtra("DevJsonString", devJsonString);
 			intentPlay.putExtra("PlayFlag", Consts.PLAY_DEMO);

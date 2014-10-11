@@ -28,6 +28,7 @@ public class Consts {
 	public static final String TAG_APP = "CS_APP";
 	public static final String TAG_UI = "CS_UI";
 	public static final String TAG_PLAY = "CS_PLAY";
+	public static final String TAG_LOGICAL = "CS_LOGICAL";
 	public static final String TAG_JY = "CS_JY";
 
 	/** [Neo] 专用调试 tag */
@@ -161,6 +162,15 @@ public class Consts {
 	/** 引导界面滑屏 */
 	public static final int GUID_PAGE_SCROLL = 500;// --
 
+	public static final int SOUNDONE = 1;// 请选择要配置设备 声音
+	public static final int SOUNDTOW = 2;// 正在连接设备
+	public static final int SOUNDTHREE = 3;// 请点击下一步，配置无线网络
+	public static final int SOUNDFOUR = 4;// 请选择无线路由，输入密码，并点击右上角声波配置按钮
+	public static final int SOUNDFIVE = 5;// 请将手机靠近设备
+	public static final int SOUNDSIX = 6;// 叮
+	public static final int SOUNDSEVINE = 7;// 配置完成，请点击图标查看设备
+	public static final int SOUNDEIGHT = 8;// // 搜索声音
+
 	/*********************** 以下是状态变量key的声明 ********************************/
 
 	/** 账号sdk是否初始化的key */
@@ -217,5 +227,10 @@ public class Consts {
 
 	/** 功能设置页面观看模式标志位 */
 	public static String SETTING_SEE_MODEL = "SEE_MODEL";
+
+	public static final String KEY_LAST_PUT_STAMP = "last_put_stamp";
+
+	public static final String BO_ID = "d6mhYSnBpnv26S7aCo0GwcxX";
+	public static final String BO_SECRET = "D9t2XqYQgH92eVGzlW30Pw9ZrRtqKpPs";
 
 }

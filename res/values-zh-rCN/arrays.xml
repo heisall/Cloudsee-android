@@ -112,4 +112,11 @@
         <item>添加设备</item>
     </string-array>
 
+    <!-- 码流切换 -->
+    <string-array name="array_stream">
+        <item>高清</item>
+        <item>标清</item>
+        <item>流畅</item>
+    </string-array>
+
 </resources>

@@ -193,6 +193,18 @@ public class Consts {
 	public static final int QUICK_SETTING_DEV_ONLINE = 101;// 快速配置，设备上线
 	public static final int QUICK_SETTING_CONNECT_FAILED = 102;// 快速设置IPC连接失败
 
+	/** 设备接口对应值 **/
+
+	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
+	public static final int STORAGEMODE_ALARM = 2;// 报警录像
+
+	public static final int SCREEN_NORMAL = 0;// 0(正),4(反)
+	public static final int SCREEN_OVERTURN = 4;// 0(正),4(反)
+
+	// Jni底层规定
+	public static final int DECODE_OMX = 0;// 0软 1硬
+	public static final int DECODE_NOTOMX = 1;// 0软 1硬
+
 	/*********************** 以下是状态变量key的声明 ********************************/
 
 	/** 账号sdk是否初始化的key */

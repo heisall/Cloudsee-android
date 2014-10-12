@@ -40,6 +40,61 @@ public class Channel {
 	private boolean surfaceCreated = false;// surface是否已经创建
 	private boolean isSendCMD = false;// 是否只发关键帧
 
+	private boolean agreeTextData = false;// 是否同意文本聊天
+	private boolean isOMX = false;// 是否硬解
+	private boolean singleVoice = false;// 单向对讲标识位，默认是双向的
+	private int storageMode = -1;// 录像模式// 1: 手动录像 2. 报警录像 storageMode
+	private int streamTag = -1;// 码流参数值 MainStreamQos 123
+	private int screenTag = -1;// 屏幕方向值 effect_flag 0(正),4(反)
+
+	public boolean isAgreeTextData() {
+		return agreeTextData;
+	}
+
+	public void setAgreeTextData(boolean agreeTextData) {
+		this.agreeTextData = agreeTextData;
+	}
+
+	public boolean isOMX() {
+		return isOMX;
+	}
+
+	public void setOMX(boolean isOMX) {
+		this.isOMX = isOMX;
+	}
+
+	public boolean isSingleVoice() {
+		return singleVoice;
+	}
+
+	public void setSingleVoice(boolean singleVoice) {
+		this.singleVoice = singleVoice;
+	}
+
+	public int getStorageMode() {
+		return storageMode;
+	}
+
+	public void setStorageMode(int storageMode) {
+		this.storageMode = storageMode;
+	}
+
+	public int getStreamTag() {
+		return streamTag;
+	}
+
+	public void setStreamTag(int streamTag) {
+		this.streamTag = streamTag;
+	}
+
+	public int getScreenTag() {
+		return screenTag;
+	}
+
+	public void setScreenTag(int screenTag) {
+		this.screenTag = screenTag;
+	}
+
 	public Channel(Device device, int index, int channel, boolean isConnected,
 			boolean isRemotePlay, String nick) {
 		this.parent = device;

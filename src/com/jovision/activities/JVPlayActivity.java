@@ -42,6 +42,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 
@@ -82,8 +83,13 @@ public class JVPlayActivity extends PlayActivity implements
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
 
-	private boolean isOmx = false;
+	// private boolean isOmx = false;
+
+	/** IPC独有特性 */
 	private Button decodeBtn;
+	private Button videTurnBtn;// 视频翻转
+
+	// 录像模式----rightFuncButton
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
@@ -160,11 +166,15 @@ public class JVPlayActivity extends PlayActivity implements
 							);
 					sBuilder.append(msg).append("\n");
 					isOmx = object.getBoolean("is_omx");
-					if (isOmx) {
-						decodeBtn.setText("硬解");
-					} else {
-						decodeBtn.setText("软解");
-					}
+					manager.getChannel(arg2).setOMX(isOmx);
+
+					MyLog.v("ChannelTag--1", "isOmx=" + isOmx);
+
+					// if (isOmx) {
+					// decodeBtn.setText(R.string.is_omx);
+					// } else {
+					// decodeBtn.setText(R.string.not_omx);
+					// }
 
 					int index = object.getInt("index");
 					loadingState(index, 0, JVConst.PLAY_CONNECTTED);
@@ -181,7 +191,7 @@ public class JVPlayActivity extends PlayActivity implements
 		case Consts.CALL_FRAME_I_REPORT: {
 			loadingState(arg1, 0, JVConst.PLAY_CONNECTTED);
 			MyLog.e(TAG + "-IFrame", "new Frame I: index = " + arg1
-					+ ", left = " + arg2);
+					+ ", arg2 = " + arg2);// arg2 --- 0软 1硬
 			// 多于四屏只发关键帧
 			if (currentScreen > fourScreen
 					&& !manager.getChannel(arg1).isSendCMD()) {
@@ -197,6 +207,14 @@ public class JVPlayActivity extends PlayActivity implements
 
 			manager.getChannel(arg1).setConnecting(false);
 			manager.getChannel(arg1).setConnected(true);
+
+			if (Consts.DECODE_OMX == arg2) {
+				manager.getChannel(arg1).setOMX(true);
+			} else if (Consts.DECODE_NOTOMX == arg2) {
+				manager.getChannel(arg1).setOMX(false);
+			}
+
+			refreshIPCFun(manager.getChannel(arg1));
 			break;
 		}
 
@@ -330,8 +348,10 @@ public class JVPlayActivity extends PlayActivity implements
 							jobj.optInt("device_type"));
 					if (4 == jobj.optInt("device_type")) {
 						channel.getParent().setHomeProduct(true);
+						channel.setSingleVoice(true);
 					} else {
 						channel.getParent().setHomeProduct(false);
+						channel.setSingleVoice(false);
 					}
 					channel.getParent().setO5(jobj.optBoolean("is05"));
 
@@ -343,6 +363,137 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
+			}
+			MyLog.v("ChannelTag--2", "HomeProduct="
+					+ channel.getParent().isHomeProduct());
+			MyLog.v("ChannelTag--3", "SingleVoice=" + channel.isSingleVoice());
+
+			// 是IPC，发文本聊天请求
+			if (channel.getParent().isHomeProduct()) {
+				// 请求文本聊天
+				Jni.sendBytes(arg2, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+			}
+
+			break;
+		}
+		case Consts.CALL_TEXT_DATA: {// 文本回调
+			MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
+					+ ", " + obj);
+			switch (arg1) {
+			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本聊天
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				// // 获取基本文本信息
+				// Jni.sendTextData(arg1,
+				// JVNetConst.JVN_RSP_TEXTDATA, 8,
+				// JVNetConst.JVN_REMOTE_SETTING);
+				// 获取主控码流信息请求
+				MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
+						+ ", " + obj);
+				Jni.sendTextData(arg2, JVNetConst.JVN_RSP_TEXTDATA, 8,
+						JVNetConst.JVN_STREAM_INFO);
+				manager.getChannel(arg2).setAgreeTextData(true);
+				MyLog.v("ChannelTag--4",
+						"AgreeTextData="
+								+ manager.getChannel(arg2).isSingleVoice());
+				break;
+			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
+				MyLog.v("ChannelTag--4",
+						"AgreeTextData="
+								+ manager.getChannel(arg2).isSingleVoice());
+				manager.getChannel(arg2).setAgreeTextData(false);
+				break;
+
+			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
+				String allStr = obj.toString();
+				try {
+					JSONObject dataObj = new JSONObject(allStr);
+					// MyLog.v(TAG, "文本数据--"+obj.toString());
+					switch (dataObj.getInt("flag")) {
+					// 远程配置请求，获取到配置文本数据
+					case JVNetConst.JVN_REMOTE_SETTING: {
+						String settingJSON = dataObj.getString("msg");
+						break;
+					}
+					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
+						break;
+					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
+						MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", "
+								+ arg2 + ", " + obj);
+						String streamJSON = dataObj.getString("msg");
+						HashMap<String, String> streamMap = ConfigUtil
+								.genMsgMap(streamJSON);
+						if (null != streamMap) {
+							if (null != streamMap.get("effect_flag")
+									&& !"".equalsIgnoreCase(streamMap
+											.get("effect_flag"))) {
+								manager.getChannel(arg2).setScreenTag(
+										Integer.parseInt(streamMap
+												.get("effect_flag")));
+							}
+
+							if (null != streamMap.get("MainStreamQos")
+									&& !"".equalsIgnoreCase(streamMap
+											.get("MainStreamQos"))) {
+								manager.getChannel(arg2).setStreamTag(
+										Integer.parseInt(streamMap
+												.get("MainStreamQos")));
+							}
+
+							if (null != streamMap.get("storageMode")
+									&& !"".equalsIgnoreCase(streamMap
+											.get("storageMode"))) {
+								manager.getChannel(arg2).setStorageMode(
+										Integer.parseInt(streamMap
+												.get("storageMode")));
+							}
+
+							MyLog.v("ChannelTag--5", "ScreenTag="
+									+ manager.getChannel(arg2).getScreenTag());
+							MyLog.v("ChannelTag--6", "StreamTag="
+									+ manager.getChannel(arg2).getStreamTag());
+							MyLog.v("ChannelTag--7", "StorageMode="
+									+ manager.getChannel(arg2).getStorageMode());
+						}
+
+						refreshIPCFun(manager.getChannel(arg1));
+
+						break;
+					case JVNetConst.EX_WIFI_AP_CONFIG:// 11 ---新wifi配置流程
+						break;
+					case JVNetConst.JVN_WIFI_SETTING_SUCCESS:// 4-- wifi配置成功
+						break;
+					case JVNetConst.JVN_WIFI_SETTING_FAILED:// 5--WIFI配置失败
+						break;
+					case JVNetConst.JVN_WIFI_IS_SETTING:// -- 6 正在配置wifi
+
+						break;
+					case JVNetConst.JVN_RECORD_RESULT:// -- 100 录像模式切换回调
+						dismissDialog();
+						// 录像模式
+						if (Consts.STORAGEMODE_NORMAL == manager.getChannel(
+								arg2).getStorageMode()) {
+							manager.getChannel(arg2).setStorageMode(
+									Consts.STORAGEMODE_ALARM);
+						} else if (Consts.STORAGEMODE_ALARM == manager
+								.getChannel(arg2).getStorageMode()) {
+							manager.getChannel(arg2).setStorageMode(
+									Consts.STORAGEMODE_NORMAL);
+						}
+						refreshIPCFun(manager.getChannel(arg2));
+						break;
+					default:
+						break;
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				break;
 			}
 			break;
 		}
@@ -518,13 +669,18 @@ public class JVPlayActivity extends PlayActivity implements
 
 		/** 上 */
 		back.setOnClickListener(myOnClickListener);
-		rightFuncButton.setOnClickListener(myOnClickListener);
+
 		selectScreenNum.setOnClickListener(myOnClickListener);
 		currentMenu.setOnClickListener(myOnClickListener);
 		currentMenu.setText(R.string.str_video_play);
 		selectScreenNum.setVisibility(View.VISIBLE);
 		linkMode.setVisibility(View.GONE);
 		decodeBtn = (Button) findViewById(R.id.decodeway);
+		videTurnBtn = (Button) findViewById(R.id.overturn);
+
+		decodeBtn.setOnClickListener(myOnClickListener);
+		videTurnBtn.setOnClickListener(myOnClickListener);
+		rightFuncButton.setOnClickListener(myOnClickListener);
 
 		/** 中 */
 		viewPager.setVisibility(View.VISIBLE);
@@ -930,6 +1086,50 @@ public class JVPlayActivity extends PlayActivity implements
 	};
 
 	/**
+	 * 刷新IPC状态显示
+	 * 
+	 * @param channel
+	 */
+	private void refreshIPCFun(Channel channel) {
+		if (currentScreen == oneScreen) {
+			// 获取软硬解状态
+			if (channel.isOMX()) {
+				decodeBtn.setText(R.string.is_omx);
+			} else {
+				decodeBtn.setText(R.string.not_omx);
+			}
+
+			// 录像模式
+			if (Consts.STORAGEMODE_NORMAL == channel.getStorageMode()) {
+				rightFuncButton.setVisibility(View.VISIBLE);
+				rightFuncButton.setText(R.string.video_normal);
+			} else if (Consts.STORAGEMODE_ALARM == channel.getStorageMode()) {
+				rightFuncButton.setVisibility(View.VISIBLE);
+				rightFuncButton.setText(R.string.video_alarm);
+			} else {
+				rightFuncButton.setVisibility(View.GONE);
+			}
+
+			// 屏幕方向
+			if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
+				videTurnBtn.setVisibility(View.VISIBLE);
+				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.turn_left_selector));
+			} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
+				videTurnBtn.setVisibility(View.VISIBLE);
+				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.turn_right_selector));
+			} else {
+				videTurnBtn.setVisibility(View.GONE);
+			}
+		} else {
+			decodeBtn.setVisibility(View.GONE);
+			rightFuncButton.setVisibility(View.GONE);
+			videTurnBtn.setVisibility(View.GONE);
+		}
+	}
+
+	/**
 	 * 所有按钮事件
 	 */
 	OnClickListener myOnClickListener = new OnClickListener() {
@@ -945,12 +1145,57 @@ public class JVPlayActivity extends PlayActivity implements
 				backMethod();
 				break;
 			}
-			case R.id.btn_right: {// 右边按钮
+			case R.id.decodeway: {// 软硬解切换
+				if (allowThisFuc(false)) {
+					Channel channel = manager.getChannel(currentIndex);
 
-				if (View.VISIBLE == linkMode.getVisibility()) {
-					linkMode.setVisibility(View.GONE);
-				} else {
-					linkMode.setVisibility(View.VISIBLE);
+					if (channel.isOMX()) {
+						Jni.setOmx(currentIndex, false);
+					} else {
+						Jni.setOmx(currentIndex, true);
+					}
+					// I帧通知成功失败
+				}
+				break;
+			}
+			case R.id.overturn: {// 视频翻转
+				if (allowThisFuc(false)) {
+					Channel channel = manager.getChannel(currentIndex);
+					String turnParam = "";
+					if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
+						turnParam = "effect_flag=" + Consts.SCREEN_OVERTURN;
+					} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
+						turnParam = "effect_flag=" + Consts.SCREEN_NORMAL;
+					}
+					Jni.rotateVideo(currentIndex, JVNetConst.JVN_RSP_TEXTDATA,
+							turnParam);
+
+					Jni.sendTextData(currentIndex, JVNetConst.JVN_RSP_TEXTDATA,
+							8, JVNetConst.JVN_STREAM_INFO);
+				}
+				break;
+			}
+			case R.id.btn_right: {// 右边按钮----录像切换
+				if (allowThisFuc(false)) {
+					Channel channel = manager.getChannel(currentIndex);
+					try {
+						createDialog(R.string.str_deleting);
+						if (Consts.STORAGEMODE_ALARM == channel
+								.getStorageMode()) {
+							Jni.setStorage(currentIndex,
+									JVNetConst.JVN_RSP_TEXTDATA,
+									String.valueOf(Consts.STORAGEMODE_NORMAL));
+						} else if (Consts.STORAGEMODE_NORMAL == channel
+								.getStorageMode()) {
+							Jni.setStorage(currentIndex,
+									JVNetConst.JVN_RSP_TEXTDATA,
+									String.valueOf(Consts.STORAGEMODE_ALARM));
+						}
+
+					} catch (Exception e) {
+						dismissDialog();
+						e.printStackTrace();
+					}
 				}
 				break;
 			}

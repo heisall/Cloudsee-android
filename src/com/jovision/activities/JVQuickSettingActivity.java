@@ -29,7 +29,6 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -611,11 +610,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	};
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			backMethod();
-		}
-		return true;
+	public void onBackPressed() {
+		backMethod();
+		super.onBackPressed();
 	}
 
 	/**

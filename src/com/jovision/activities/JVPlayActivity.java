@@ -34,6 +34,7 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.PlayViewPagerAdapter;
 import com.jovision.adapters.ScreenAdapter;
+import com.jovision.adapters.StreamAdapter;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVConst;
@@ -83,13 +84,14 @@ public class JVPlayActivity extends PlayActivity implements
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
 
-	// private boolean isOmx = false;
-
 	/** IPC独有特性 */
 	private Button decodeBtn;
 	private Button videTurnBtn;// 视频翻转
-
 	// 录像模式----rightFuncButton
+	// 码流切换----moreFeature
+	private String[] streamArray;
+	private ListView streamListView;// 码流listview
+	private StreamAdapter streamAdapter;// 码流adapter
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
@@ -214,6 +216,7 @@ public class JVPlayActivity extends PlayActivity implements
 				manager.getChannel(arg1).setOMX(false);
 			}
 
+			MyLog.v("refreshIPCFun--IFrame=", arg1 + "");
 			refreshIPCFun(manager.getChannel(arg1));
 			break;
 		}
@@ -459,7 +462,8 @@ public class JVPlayActivity extends PlayActivity implements
 									+ manager.getChannel(arg2).getStorageMode());
 						}
 
-						refreshIPCFun(manager.getChannel(arg1));
+						MyLog.v("refreshIPCFun--Stream=", arg2 + "");
+						refreshIPCFun(manager.getChannel(arg2));
 
 						break;
 					case JVNetConst.EX_WIFI_AP_CONFIG:// 11 ---新wifi配置流程
@@ -483,6 +487,7 @@ public class JVPlayActivity extends PlayActivity implements
 							manager.getChannel(arg2).setStorageMode(
 									Consts.STORAGEMODE_NORMAL);
 						}
+						MyLog.v("refreshIPCFun--record=", arg2 + "");
 						refreshIPCFun(manager.getChannel(arg2));
 						break;
 					default:
@@ -538,6 +543,13 @@ public class JVPlayActivity extends PlayActivity implements
 			computeScreenData(currentScreen, selectedScreen);
 			// jy连接所有
 			connectAll(currentPage);
+			break;
+		}
+		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换
+			String streamParam = "MainStreamQos=" + (arg1 + 1);
+			Jni.changeStream(currentIndex, JVNetConst.JVN_RSP_TEXTDATA,
+					streamParam);
+			streamListView.setVisibility(View.GONE);
 			break;
 		}
 
@@ -704,6 +716,24 @@ public class JVPlayActivity extends PlayActivity implements
 		downArrow.setOnTouchListener(new LongClickListener());
 		leftArrow.setOnTouchListener(new LongClickListener());
 		rightArrow.setOnTouchListener(new LongClickListener());
+
+		if (null == streamArray) {
+			streamArray = getResources().getStringArray(R.array.array_stream);
+		}
+		streamListView = (ListView) findViewById(R.id.streamlistview);
+		streamAdapter = new StreamAdapter(JVPlayActivity.this);
+		streamAdapter.setData(streamArray);
+		streamListView.setAdapter(streamAdapter);
+		streamListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				String streamParam = "MainStreamQos=" + (arg2 + 1);
+				Jni.changeStream(0, JVNetConst.JVN_RSP_TEXTDATA, streamParam);
+			}
+
+		});
 
 		/** 下 */
 		capture.setOnClickListener(myOnClickListener);
@@ -1122,6 +1152,12 @@ public class JVPlayActivity extends PlayActivity implements
 			} else {
 				videTurnBtn.setVisibility(View.GONE);
 			}
+
+			if (-1 != channel.getStreamTag()) {
+				streamAdapter.selectStream = channel.getStreamTag() - 1;
+				streamAdapter.notifyDataSetChanged();
+				moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
+			}
 		} else {
 			decodeBtn.setVisibility(View.GONE);
 			rightFuncButton.setVisibility(View.GONE);
@@ -1286,11 +1322,15 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 				break;
-			case R.id.more_features:// 更多
-				// Intent moreIntent = new Intent();
-				// moreIntent.setClass(JVPlayActivity.this,
-				// JVMoreFeatureActivity.class);
-				// JVPlayActivity.this.startActivity(moreIntent);
+			case R.id.more_features:// 码流
+				if (allowThisFuc(true)) {
+					if (-1 == manager.getChannel(currentIndex).getStreamTag()) {
+						showTextToast("不支持码流切换");
+					} else {
+						streamListView.setVisibility(View.VISIBLE);
+					}
+				}
+
 				break;
 
 			case R.id.bottom_but1:

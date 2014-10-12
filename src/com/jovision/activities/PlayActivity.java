@@ -183,6 +183,8 @@ public class PlayActivity extends BaseActivity {
 			bigScreen = true;
 		}
 
+		bigScreen = true;
+
 		/** 小分辨率功能 */
 		playFuctionLayout = (LinearLayout) findViewById(R.id.play_function_layout);
 		audioMonitor = (Button) findViewById(R.id.audio_monitor);// 音频监听

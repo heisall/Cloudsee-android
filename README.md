@@ -238,7 +238,7 @@ play
     id, index, result, null
 
     // frame I report
-    id, index, queue_left, null
+    id, index, try_omx, null
 
     // play doomed
     id, index, bad_status, null

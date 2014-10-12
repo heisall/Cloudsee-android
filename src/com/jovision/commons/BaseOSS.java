@@ -1,7 +1,6 @@
 package com.jovision.commons;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 /**
  * Open Storage Service super class
@@ -26,22 +25,5 @@ public abstract class BaseOSS {
 
 	public abstract boolean put(String localTarget)
 			throws FileNotFoundException;
-
-	public abstract boolean get(String bucketName, String remoteTarget,
-			String localFolder) throws IOException;
-
-	public abstract boolean get(String remoteTarget, String localFolder)
-			throws IOException;
-
-	public abstract boolean pull(String bucketName, String localFolder)
-			throws IOException;
-
-	public abstract boolean pull(String localFolder) throws IOException;
-
-	public abstract boolean drop(String bucketName);
-
-	public abstract boolean drop();
-
-	public abstract boolean clean();
 
 }

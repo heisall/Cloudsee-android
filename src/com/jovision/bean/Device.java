@@ -36,11 +36,11 @@ public class Device {
 	/** 设备密码 */
 	private String pwd;
 	/** 是否是家用产品 */
-	private boolean isHomeProduct;
+	private boolean isHomeProduct;// true 家用 ，false 非家用
 
 	private boolean isHelperEnabled;
 	/** 设备类型 */
-	private int deviceType;
+	private int deviceType;// 服务端定义 2：家用设备 其他值 非家用
 
 	private boolean is05;
 	/** 设备昵称 */
@@ -52,6 +52,8 @@ public class Device {
 	private int onlineState = 0;
 	/** 设备是否带Wi-Fi */
 	private int hasWifi = 0;
+
+	private int alarmSwitch = 0;// 告警开关，0-关闭，1-打开
 
 	public Device() {
 		channelList = new MyList<Channel>(1);
@@ -372,6 +374,14 @@ public class Device {
 
 	public void setHasWifi(int hasWifi) {
 		this.hasWifi = hasWifi;
+	}
+
+	public int getAlarmSwitch() {
+		return alarmSwitch;
+	}
+
+	public void setAlarmSwitch(int alarmSwitch) {
+		this.alarmSwitch = alarmSwitch;
 	}
 
 }

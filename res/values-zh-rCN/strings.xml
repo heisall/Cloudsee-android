@@ -469,6 +469,8 @@
     <string name="connect_failed">连接失败</string>
     <string name="connecting">连接中...</string>
     <string name="connecting_buffer">正在缓冲数据...</string>
+    <string name="is_omx">硬解</string>
+    <string name="not_omx">软解</string>
 
     <!-- JVQuickSet -->
     <!-- ap配置流程模块 -->

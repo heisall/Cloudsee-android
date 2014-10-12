@@ -462,6 +462,8 @@
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting...</string>
     <string name="connecting_buffer">Buffering now...</string>
+    <string name="is_omx">硬解</string>
+    <string name="not_omx">软解</string>
 
     <!-- JVAddDeviceActivity -->
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>

@@ -702,6 +702,13 @@ public class DeviceUtil {
 												MyLog.v("刷新:" + dev.getFullNo(),
 														"在线状态："
 																+ dev.getOnlineState());
+												dev.setDeviceType(obj
+														.optInt(JVDeviceConst.JK_DEVICE_TYPE));
+
+												if (2 == dev.getDeviceType()) {// 家用设备
+													dev.setAlarmSwitch(obj
+															.optInt(JVDeviceConst.JK_ALARM_SWITCH));
+												}
 												flag[k] = true;
 											}
 										}

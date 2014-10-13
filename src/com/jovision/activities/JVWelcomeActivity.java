@@ -20,6 +20,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.MyUtils;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.ImportOldData;
 import com.jovision.utils.UserUtil;
 
 public class JVWelcomeActivity extends BaseActivity {
@@ -42,6 +43,16 @@ public class JVWelcomeActivity extends BaseActivity {
 	protected void initSettings() {
 		MySharedPreference.init(getApplication());
 		ConfigUtil.getJNIVersion();
+
+		ImportOldData importOld = new ImportOldData(JVWelcomeActivity.this);
+		if (!MySharedPreference.getBoolean("HasImport")) {
+			Consts.DEVICE_LIST = Consts.LOCAL_DEVICE_LIST;
+
+			importOld.queryAllUserList();
+			importOld.getDevList();
+			deleteDatabase(Consts.JVCONFIG_DATABASE);
+			MySharedPreference.putBoolean("HasImport", true);
+		}
 
 		getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
 		statusHashMap.put(Consts.KEY_INIT_ACCOUNT_SDK, "false");
@@ -70,9 +81,9 @@ public class JVWelcomeActivity extends BaseActivity {
 				Date current = MyUtils.getChinaTime();
 				if (null == current) {
 					current = new Date();
-					MyLog.ub("# localtime: " + current);
+					MyLog.ubTopic("local", current.toString());
 				} else {
-					MyLog.ub("# remotetime: " + current);
+					MyLog.ubTopic("remote", current.toString());
 				}
 
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -93,8 +104,8 @@ public class JVWelcomeActivity extends BaseActivity {
 				String target = folder + File.separator + current.getTime()
 						+ ".zip";
 
-				MyLog.ub(":id-fingerprint:" + statusHashMap.get(Consts.IMEI)
-						+ ":" + Build.FINGERPRINT);
+				MyLog.ubPhone(statusHashMap.get(Consts.IMEI),
+						Build.MANUFACTURER, Build.MODEL, Build.FINGERPRINT);
 				MyLog.enableUB(false);
 				result = MyUtils.zip(target,
 						new File[] { new File(MyLog.getPath(MyLog.UB)) });

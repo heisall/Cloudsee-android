@@ -15,15 +15,16 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -83,14 +84,9 @@ public class JVPlayActivity extends PlayActivity implements
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
 
-	/** IPC独有特性 */
-	private Button decodeBtn;
-	private Button videTurnBtn;// 视频翻转
-	// 录像模式----rightFuncButton
-	// 码流切换----moreFeature
-	private String[] streamArray;
-	private ListView streamListView;// 码流listview
-	private StreamAdapter streamAdapter;// 码流adapter
+	public static boolean AUDIO_SINGLE = false;// 单向对讲标志
+	public static boolean VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
+	public static boolean VOICECALLING = false;// 对讲功能已经开启
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
@@ -378,6 +374,11 @@ public class JVPlayActivity extends PlayActivity implements
 				Jni.sendBytes(arg2, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 			}
 
+			if (recoding) {
+				showTextToast(R.string.video_repaked);
+				PlayUtil.videoRecord(currentIndex);
+			}
+
 			break;
 		}
 		case Consts.CALL_TEXT_DATA: {// 文本回调
@@ -419,7 +420,8 @@ public class JVPlayActivity extends PlayActivity implements
 					switch (dataObj.getInt("flag")) {
 					// 远程配置请求，获取到配置文本数据
 					case JVNetConst.JVN_REMOTE_SETTING: {
-						String settingJSON = dataObj.getString("msg");
+						// String settingJSON =
+						dataObj.getString("msg");
 						break;
 					}
 					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
@@ -554,17 +556,28 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 
-		// 音频监听
+		// 语音数据，包含音频监听数据和对讲数据
 		case Consts.CALL_PLAY_AUDIO: {
 			if (null != obj && null != audioQueue) {
-				byte[] data = (byte[]) obj;
-				audioQueue.offer(data);
+				if (AUDIO_SINGLE) {// 单向对讲长按才发送语音数据
+					if (VOICECALL_LONG_CLICK) {
+						// 长按时只发送语音，不接收语音
+					} else {
+						byte[] data = (byte[]) obj;
+						audioQueue.offer(data);
+					}
+				} else {// 双向对讲直接播放设备传过来的语音
+					byte[] data = (byte[]) obj;
+					audioQueue.offer(data);
+				}
 			}
+
 			break;
 		}
 		// 对讲数据
 		case Consts.CALL_CHAT_DATA: {
-			MyLog.v(TAG + "Chat", "CALL_CHAT_DATA:arg1=" + arg1);
+			MyLog.v(TAG + "Chat", "CALL_CHAT_DATA:arg1=" + arg1 + ",arg2="
+					+ arg2);
 			switch (arg1) {
 			// 语音数据
 			case JVNetConst.JVN_RSP_CHATDATA: {
@@ -574,6 +587,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 同意语音请求
 			case JVNetConst.JVN_RSP_CHATACCEPT: {
+				manager.getChannel(currentIndex).setVoiceCall(true);
+				VOICECALLING = true;
 				voiceCallSelected(true);
 				recorder.start();
 				break;
@@ -685,11 +700,15 @@ public class JVPlayActivity extends PlayActivity implements
 
 		selectScreenNum.setOnClickListener(myOnClickListener);
 		currentMenu.setOnClickListener(myOnClickListener);
-		currentMenu.setText(R.string.str_video_play);
-		selectScreenNum.setVisibility(View.VISIBLE);
+		if (playFlag == Consts.PLAY_AP) {
+			currentMenu.setText(R.string.video_check);
+			selectScreenNum.setVisibility(View.GONE);
+		} else {
+			currentMenu.setText(R.string.str_video_play);
+			selectScreenNum.setVisibility(View.VISIBLE);
+		}
+
 		linkMode.setVisibility(View.GONE);
-		decodeBtn = (Button) findViewById(R.id.decodeway);
-		videTurnBtn = (Button) findViewById(R.id.overturn);
 
 		decodeBtn.setOnClickListener(myOnClickListener);
 		videTurnBtn.setOnClickListener(myOnClickListener);
@@ -725,20 +744,9 @@ public class JVPlayActivity extends PlayActivity implements
 		streamAdapter = new StreamAdapter(JVPlayActivity.this);
 		streamAdapter.setData(streamArray);
 		streamListView.setAdapter(streamAdapter);
-		streamListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				String streamParam = "MainStreamQos=" + (arg2 + 1);
-				Jni.changeStream(0, JVNetConst.JVN_RSP_TEXTDATA, streamParam);
-			}
-
-		});
 
 		/** 下 */
 		capture.setOnClickListener(myOnClickListener);
-		voiceCall.setOnClickListener(myOnClickListener);
 		videoTape.setOnClickListener(myOnClickListener);
 		moreFeature.setOnClickListener(myOnClickListener);
 		bottombut1.setOnClickListener(myOnClickListener);
@@ -761,6 +769,192 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		viewPager.setCurrentItem(currentPage);
+
+		voiceCall.setOnClickListener(myOnClickListener);
+		voiceCall.setOnTouchListener(callOnTouchListener);
+		voiceCall.setOnLongClickListener(callOnLongClickListener);
+	}
+
+	OnTouchListener callOnTouchListener = new OnTouchListener() {
+
+		@Override
+		public boolean onTouch(View arg0, MotionEvent arg1) {
+			if (manager.getChannel(currentIndex).isSingleVoice()) {// 单向对讲
+				if (arg1.getAction() == MotionEvent.ACTION_UP
+						|| arg1.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
+					JVPlayActivity.this.showTextToast("停止发送时数据");
+					new TalkThread(0).start();
+					VOICECALL_LONG_CLICK = false;
+					voiceTip.setVisibility(View.GONE);
+				}
+			}
+			return false;
+		}
+
+	};
+
+	OnLongClickListener callOnLongClickListener = new OnLongClickListener() {
+
+		@Override
+		public boolean onLongClick(View arg0) {
+			if (manager.getChannel(currentIndex).isSingleVoice()) {// 单向对讲
+				if (VOICECALLING) {// 正在喊话
+					JVPlayActivity.this.showTextToast("开始发送时数据");
+					VOICECALL_LONG_CLICK = true;
+					voiceTip.setVisibility(View.VISIBLE);
+					new TalkThread(1).start();
+				}
+			}
+			return true;
+		}
+
+	};
+
+	class MyOnGestureListener extends SimpleOnGestureListener {
+
+		@Override
+		public boolean onSingleTapUp(MotionEvent e) {
+			return false;
+		}
+
+		@Override
+		public void onLongPress(MotionEvent e) {
+			if (VOICECALLING) {// 正在喊话
+				JVPlayActivity.this.showTextToast("开始发送时数据");
+				VOICECALL_LONG_CLICK = true;
+				voiceTip.setVisibility(View.VISIBLE);
+				new TalkThread(1).start();
+			}
+			MyLog.v(getClass().getName(),
+					"onLongPress-----" + getActionName(e.getAction()));
+		}
+
+		@Override
+		public boolean onScroll(MotionEvent e1, MotionEvent e2,
+				float distanceX, float distanceY) {
+			float disX = e2.getX() - e1.getX();
+			float disY = e2.getY() - e1.getY();
+
+			MyLog.v(getClass().getName(),
+					"onScroll-----" + getActionName(e2.getAction()) + ",("
+							+ e1.getX() + "," + e1.getY() + ") ,(" + e2.getX()
+							+ "," + e2.getY() + ")" + "disX = " + disX
+							+ "disY = " + disY);
+
+			if (Math.abs(disX) >= 5 || Math.abs(disY) >= 5) {
+				JVPlayActivity.this.showTextToast("停止发送时数据");
+				new TalkThread(0).start();
+				VOICECALL_LONG_CLICK = false;
+				voiceTip.setVisibility(View.GONE);
+			}
+			return false;
+		}
+
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+				float velocityY) {
+			float disX = e2.getX() - e1.getX();
+			float disY = e2.getY() - e1.getY();
+
+			MyLog.v(getClass().getName(),
+					"onFling-----" + getActionName(e2.getAction()) + ",("
+							+ e1.getX() + "," + e1.getY() + ") ,(" + e2.getX()
+							+ "," + e2.getY() + ")" + "disX = " + disX
+							+ "disY = " + disY);
+
+			if (Math.abs(disX) >= 5 || Math.abs(disY) >= 5) {
+				JVPlayActivity.this.showTextToast("停止发送时数据");
+				new TalkThread(0).start();
+				VOICECALL_LONG_CLICK = false;
+				voiceTip.setVisibility(View.GONE);
+			}
+
+			return false;
+		}
+
+		@Override
+		public void onShowPress(MotionEvent e) {
+			MyLog.v(getClass().getName(),
+					"onShowPress-----" + getActionName(e.getAction()));
+		}
+
+		@Override
+		public boolean onDown(MotionEvent e) {
+			MyLog.v(getClass().getName(),
+					"onDown-----" + getActionName(e.getAction()));
+			return false;
+		}
+
+		@Override
+		public boolean onDoubleTap(MotionEvent e) {
+			MyLog.v(getClass().getName(),
+					"onDoubleTap-----" + getActionName(e.getAction()));
+			return false;
+		}
+
+		@Override
+		public boolean onDoubleTapEvent(MotionEvent e) {
+			MyLog.v(getClass().getName(), "onDoubleTapEvent-----"
+					+ getActionName(e.getAction()));
+			return false;
+		}
+
+		@Override
+		public boolean onSingleTapConfirmed(MotionEvent e) {
+			MyLog.v(getClass().getName(), "onSingleTapConfirmed-----"
+					+ getActionName(e.getAction()));
+			return false;
+		}
+
+	}
+
+	private String getActionName(int action) {
+		String name = "";
+		switch (action) {
+		case MotionEvent.ACTION_DOWN: {
+			name = "ACTION_DOWN";
+			break;
+		}
+		case MotionEvent.ACTION_MOVE: {
+			name = "ACTION_MOVE";
+			break;
+		}
+		case MotionEvent.ACTION_UP: {
+			name = "ACTION_UP";
+			JVPlayActivity.this.showTextToast("停止发送时数据");
+			new TalkThread(0).start();
+			VOICECALL_LONG_CLICK = false;
+			voiceTip.setVisibility(View.GONE);
+			break;
+		}
+		default:
+			JVPlayActivity.this.showTextToast("停止发送时数据");
+			new TalkThread(0).start();
+			VOICECALL_LONG_CLICK = false;
+			voiceTip.setVisibility(View.GONE);
+			break;
+		}
+		return name;
+	}
+
+	/** 开关对讲名线程 */
+	class TalkThread extends Thread {
+		private int tag = 0;
+
+		TalkThread(int param) {
+			tag = param;
+		}
+
+		@Override
+		public void run() {
+			// "talkSwitch=" + tag;// 1开始 0关闭
+			for (int i = 0; i < 3; i++) {
+				Jni.sendString(currentIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						false, 0, Consts.TYPE_SET_PARAM,
+						String.format(Consts.FORMATTER_TALK_SWITCH, tag));
+			}
+			super.run();
+		}
 
 	}
 
@@ -1089,15 +1283,22 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (0 == arg2) {// 音频监听
 				if (allowThisFuc(true)) {
-					initAudio();
-					if (!PlayUtil.audioPlay(currentIndex)) {
+					if (manager.getChannel(currentIndex).isVoiceCall()) {
 						functionListAdapter.selectIndex = -1;
+						showTextToast(R.string.audio_monitor_forbidden);
 					} else {
-						functionListAdapter.selectIndex = arg2;
+						initAudio();
+						if (!PlayUtil.audioPlay(currentIndex)) {
+							functionListAdapter.selectIndex = -1;
+						} else {
+							functionListAdapter.selectIndex = arg2;
+						}
 					}
+
 				} else {
 					functionListAdapter.selectIndex = -1;
 				}
+
 			} else if (1 == arg2) {// 云台
 				if (allowThisFuc(false)) {
 					showPTZ();
@@ -1105,12 +1306,25 @@ public class JVPlayActivity extends PlayActivity implements
 					functionListAdapter.selectIndex = -1;
 				}
 
-			} else if (2 == arg2) {// 远程回放
-				if (allowThisFuc(true)) {
-					startRemote();
+			} else if (2 == arg2) {// 远程回放 或 对讲
+
+				if (playFlag == Consts.PLAY_AP) {
+
+					View view = arg0.getChildAt(arg2).findViewById(
+							R.id.funclayout);
+
+					view.setOnClickListener(myOnClickListener);
+					view.setOnTouchListener(callOnTouchListener);
+					view.setOnLongClickListener(callOnLongClickListener);
+
 				} else {
-					functionListAdapter.selectIndex = -1;
+					if (allowThisFuc(true)) {
+						startRemote();
+					} else {
+						functionListAdapter.selectIndex = -1;
+					}
 				}
+
 			}
 			functionListAdapter.notifyDataSetChanged();
 		}
@@ -1121,6 +1335,7 @@ public class JVPlayActivity extends PlayActivity implements
 	 * 
 	 * @param channel
 	 */
+	@SuppressWarnings("deprecation")
 	private void refreshIPCFun(Channel channel) {
 		if (currentScreen == oneScreen) {
 			// 获取软硬解状态
@@ -1305,19 +1520,43 @@ public class JVPlayActivity extends PlayActivity implements
 					MyLog.v(TAG, "capture=" + capture);
 				}
 				break;
+			case R.id.funclayout:// AP功能列表对讲功能
 			case R.id.voicecall:// 语音对讲
 				initAudio();
 				if (allowThisFuc(true)) {
-					PlayUtil.audioPlay(currentIndex);
+					// 停止音频监听
+					if (PlayUtil.isPlayAudio(currentIndex)) {
+						PlayUtil.audioPlay(currentIndex);
+						functionListAdapter.selectIndex = -1;
+						functionListAdapter.notifyDataSetChanged();
+					}
+
 					playAudio.setIndex(currentIndex);
 					if (manager.getChannel(currentIndex).isVoiceCall()) {
-						recorder.stop();
+						if (null != recorder) {
+							recorder.stop();
+						}
+						if (null != audioQueue) {// 清队列，防止停止后仍然播放
+							audioQueue.clear();
+						}
 						PlayUtil.stopVoiceCall(currentIndex);
 						manager.getChannel(currentIndex).setVoiceCall(false);
 						voiceCallSelected(false);
+						showTextToast("关闭对讲");
+						VOICECALLING = false;
+						if (Consts.PLAY_AP == playFlag) {
+							functionListAdapter.selectIndex = -1;
+							functionListAdapter.notifyDataSetChanged();
+						}
 					} else {
+						JVPlayActivity.AUDIO_SINGLE = manager.getChannel(
+								currentIndex).isSingleVoice();
+						showTextToast("开启对讲");
 						PlayUtil.startVoiceCall(currentIndex);
-						manager.getChannel(currentIndex).setVoiceCall(true);
+						if (Consts.PLAY_AP == playFlag) {
+							functionListAdapter.selectIndex = 2;
+							functionListAdapter.notifyDataSetChanged();
+						}
 					}
 				}
 				break;
@@ -1334,14 +1573,18 @@ public class JVPlayActivity extends PlayActivity implements
 
 				break;
 			case R.id.more_features:// 码流
-				if (allowThisFuc(true)) {
-					if (-1 == manager.getChannel(currentIndex).getStreamTag()) {
-						showTextToast("不支持码流切换");
-					} else {
-						streamListView.setVisibility(View.VISIBLE);
+				if (View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				} else {
+					if (allowThisFuc(true)) {
+						if (-1 == manager.getChannel(currentIndex)
+								.getStreamTag()) {
+							showTextToast(R.string.stream_not_support);
+						} else {
+							streamListView.setVisibility(View.VISIBLE);
+						}
 					}
 				}
-
 				break;
 
 			case R.id.bottom_but1:
@@ -1530,7 +1773,7 @@ public class JVPlayActivity extends PlayActivity implements
 							e.printStackTrace();
 						}
 						Channel channel = channleList.get(i);
-						Device dev = channel.getParent();
+						// Device dev = channel.getParent();
 
 						while (!surfaceCreatMap.get(channel.getIndex())) {
 							try {
@@ -1606,6 +1849,8 @@ public class JVPlayActivity extends PlayActivity implements
 				playFuctionLayout.setVisibility(View.VISIBLE);
 			}
 		} else {
+			stopAllFunc();
+
 			PlayUtil.disConnectAll(manager.getChannelList());
 			try {
 				Thread.sleep(500);
@@ -1639,14 +1884,20 @@ public class JVPlayActivity extends PlayActivity implements
 
 	}
 
-	@Override
-	protected void freeMe() {
-		super.freeMe();
+	/**
+	 * 停止所有事件
+	 */
+	public void stopAllFunc() {
 		// 停止音频监听
-		PlayUtil.audioPlay(currentIndex);
+		if (PlayUtil.isPlayAudio(currentIndex)) {
+			PlayUtil.audioPlay(currentIndex);
+			functionListAdapter.selectIndex = -1;
+			functionListAdapter.notifyDataSetChanged();
+		}
+
 		// 正在录像停止录像
 		if (PlayUtil.checkRecord(currentIndex)) {
-			if (PlayUtil.videoRecord(currentIndex)) {// 打开
+			if (!PlayUtil.videoRecord(currentIndex)) {// 打开
 				showTextToast(Consts.VIDEO_PATH);
 				tapeSelected(false);
 			}
@@ -1654,15 +1905,27 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 停止对讲
 		if (manager.getChannel(currentIndex).isVoiceCall()) {
-			recorder.stop();
+			if (null != recorder) {
+				recorder.stop();
+			}
+			if (null != audioQueue) {
+				audioQueue.clear();
+			}
+			// if (null != playAudio) {
+			// playAudio.interrupt();
+			// }
 			manager.getChannel(currentIndex).setVoiceCall(false);
 			voiceCallSelected(false);
 			PlayUtil.stopVoiceCall(currentIndex);
 		}
+	}
 
+	@Override
+	protected void freeMe() {
+		stopAllFunc();
 		manager.destroy();
 		PlayUtil.disConnectAll(manager.getChannelList());
-
+		super.freeMe();
 	}
 
 	@Override
@@ -1732,17 +1995,18 @@ public class JVPlayActivity extends PlayActivity implements
 
 		} else {// OPenglFrame
 			if (hasCheckDoubleClick && lastClickIndex == channel.getIndex()) {// 双击
-				if (isSwitching) {
-					MyLog.e(TAG, "JVPlay.onClick.double: "
-							+ "switching, ignore");
-					return;
+				if (Consts.PLAY_AP != playFlag) {
+					if (isSwitching) {
+						MyLog.e(TAG, "JVPlay.onClick.double: "
+								+ "switching, ignore");
+						return;
+					}
+					isSwitching = true;
+					hasCheckDoubleClick = false;
+					handler.sendMessage(handler.obtainMessage(
+							JVConst.WHAT_CHANGE_LAYOUT, JVConst.ARG1_SET_ITEM,
+							channel.getIndex()));
 				}
-				isSwitching = true;
-				hasCheckDoubleClick = false;
-				handler.sendMessage(handler.obtainMessage(
-						JVConst.WHAT_CHANGE_LAYOUT, JVConst.ARG1_SET_ITEM,
-						channel.getIndex()));
-
 			} else {// 单击
 				if (null != mLastPlayView
 						&& mLastPlayView != manager.getView(channel.getIndex())) {

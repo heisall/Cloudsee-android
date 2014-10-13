@@ -576,6 +576,7 @@ public class Jni {
 	 * @param index
 	 *            窗口索引
 	 * @param enable
+	 *            true:播放A帧数据 false：过滤掉A帧只播放对讲数据
 	 * @return
 	 */
 	public static native boolean enablePlayAudio(int index, boolean enable);

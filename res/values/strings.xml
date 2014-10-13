@@ -407,9 +407,22 @@
     <string name="wifi_reset_failed">Failed to recover network</string>
     <string name="str_quick_install">Quick Install Wireless device</string>
     <string name="str_quick_install_tips2">Step:\n1.Connect mobile phone to the same network with the device..\n2.Choose the device that you want to configure Wifi.\n3.Choose the network\n4.Configure the device and the configuration is completed successfully when you hear "Configured".</string>
+    <string name="video_check">视频检测</string>
+    <string name="voice_call_ap">语音对讲</string>
+    <string name="voice_call_ap_tips">实时进行语音对讲</string>
 
     <!-- JVTab -->
     <string name="sure_exit">Are you sure to exit?</string>
+    <!-- 页面顶部名称 -->
+    <string name="my_device">我的设备</string>
+    <string name="video_edit">视频编辑</string>
+    <string name="more_featrue">更多功能</string>
+    <string name="channal_list">通道列表</string>
+    <string name="demo_list">演示点列表</string>
+    <string name="demo">演示点</string>
+    <string name="video_list">视频列表</string>
+    <string name="video_manager">视频管理</string>
+    <string name="message">系统消息</string>
 
     <!-- 2.3系统视频播放提示 -->
     <string name="system_lower">您的手机系统是Android$,视频播放时有可能出现花屏，为达到最佳播放效果，建议下载2.8.5版本，是否立即下载?</string>
@@ -464,7 +477,9 @@
     <string name="connecting_buffer">Buffering now...</string>
     <string name="is_omx">硬解</string>
     <string name="not_omx">软解</string>
-
+    <string name="stream_not_support">This device doesn\'t support video quality switch.</string>
+    <string name="audio_monitor_forbidden">This function is not available during two-way talk.</string>
+    <string name="video_repaked">Switch video standard,Records re-packed.</string>
     <!-- JVAddDeviceActivity -->
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
     <string name="add_device_succ">Device added successfully</string>
@@ -543,6 +558,6 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.0(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.1(重构) - DJ</string>
 
 </resources>

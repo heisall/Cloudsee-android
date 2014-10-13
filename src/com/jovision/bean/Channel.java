@@ -21,6 +21,8 @@ public class Channel {
 
 	private final static String TAG = "Channel";
 
+	private long primaryID = 0;
+
 	/** 窗口索引 */
 	private int index;
 	/** 设备通道，从1 开始，与张帅服务器统一从1开始 */
@@ -311,6 +313,14 @@ public class Channel {
 
 	public void setSendCMD(boolean isSendCMD) {
 		this.isSendCMD = isSendCMD;
+	}
+
+	public long getPrimaryID() {
+		return primaryID;
+	}
+
+	public void setPrimaryID(long primaryID) {
+		this.primaryID = primaryID;
 	}
 
 }

@@ -12,6 +12,7 @@ import android.media.MediaRecorder;
 
 import com.jovision.Consts;
 import com.jovision.Jni;
+import com.jovision.activities.JVPlayActivity;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 
@@ -45,26 +46,17 @@ public class MICRecorder {
 		indexOfChannel = index;
 	}
 
-	// private MICRecorder() {
-	// isWorking = false;
-	// bufferSize = AudioRecord
-	// .getMinBufferSize(SAMPLERATE, CHANNEL, ENCODING);
-	// encodeSize = ENCODE_SIZE;
-	// MyLog.i(TAG, "construction, size = " + bufferSize);
-	// }
-
-	// private static class MICRecorderContainer {
-	// private static MICRecorder RECORDER = new MICRecorder();
-	// }
+	private MICRecorder() {
+		isWorking = false;
+		bufferSize = AudioRecord
+				.getMinBufferSize(SAMPLERATE, CHANNEL, ENCODING);
+		encodeSize = ENCODE_SIZE;
+		MyLog.i(TAG, "construction, size = " + bufferSize);
+	}
 
 	public static MICRecorder getInstance() {
 		if (null == RECORDER) {
 			RECORDER = new MICRecorder();
-			isWorking = false;
-			bufferSize = AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
-					ENCODING);
-			encodeSize = ENCODE_SIZE;
-			MyLog.i(TAG, "construction, size = " + bufferSize);
 		}
 
 		return RECORDER;
@@ -119,12 +111,21 @@ public class MICRecorder {
 											// out = Audio.enc(buffer);
 											byte[] enc = Jni
 													.encodeAudio(buffer);
+
 											if (null != enc) {
-												// outputStream.write(out);
-												Jni.sendBytes(
-														indexOfChannel,
-														JVNetConst.JVN_RSP_CHATDATA,
-														enc, enc.length);
+												if (JVPlayActivity.AUDIO_SINGLE) {// 单向对讲长按才发送语音数据
+													if (JVPlayActivity.VOICECALL_LONG_CLICK) {
+														Jni.sendBytes(
+																indexOfChannel,
+																JVNetConst.JVN_RSP_CHATDATA,
+																enc, enc.length);
+													}
+												} else {// 双向对讲长按才发送语音数据
+													Jni.sendBytes(
+															indexOfChannel,
+															JVNetConst.JVN_RSP_CHATDATA,
+															enc, enc.length);
+												}
 											} else {
 												MyLog.e(Consts.TAG_APP,
 														"record decode null");

@@ -18,6 +18,7 @@ import com.jovision.commons.MyList;
 public class Device {
 
 	private final static String TAG = "Device";
+	private long primaryID = 0;
 
 	private MyList<Channel> channelList;
 
@@ -382,6 +383,14 @@ public class Device {
 
 	public void setAlarmSwitch(int alarmSwitch) {
 		this.alarmSwitch = alarmSwitch;
+	}
+
+	public long getPrimaryID() {
+		return primaryID;
+	}
+
+	public void setPrimaryID(long primaryID) {
+		this.primaryID = primaryID;
 	}
 
 }

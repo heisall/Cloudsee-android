@@ -122,7 +122,6 @@
     <!-- 视频播放 -->
     <string name="str_screen">分屏</string>
     <string name="str_video_play">视频播放</string>
-    <string name="str_video_check">视频检测</string>
     <string name="str_audio_monitor">音频监听</string>
     <string name="str_audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
     <string name="str_yt_operate">云台控制</string>
@@ -130,8 +129,6 @@
     <string name="str_audio_monitor_tips">随时了解音频信息</string>
     <string name="str_yt_operate_tips">随时调整监控画面信息</string>
     <string name="str_remote_playback_tips">随时查看录像信息</string>
-    <string name="str_voice_call">语音对讲</string>
-    <string name="str_voice_call_tips">实时进行语音对讲</string>
     <string name="str_start_record">开始录像</string>
     <string name="str_stop_record">停止录像,录像文件保存在</string>
     <string name="str_wait_connect">请等待视频连接成功后再执行此操作</string>
@@ -471,6 +468,9 @@
     <string name="connecting_buffer">正在缓冲数据...</string>
     <string name="is_omx">硬解</string>
     <string name="not_omx">软解</string>
+    <string name="stream_not_support">该设备暂时不支持画质切换</string>
+    <string name="audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
+    <string name="video_repaked">切换视频制式，录像文件已重新打包</string>
 
     <!-- JVQuickSet -->
     <!-- ap配置流程模块 -->
@@ -487,6 +487,9 @@
     <string name="wifi_reset_failed">网络恢复失败</string>
     <string name="str_quick_install">快速安装无线设备</string>
     <string name="str_quick_install_tips2">安装步骤：\n1.将手机连接到设备要配置的网络上.\n2.选择要进行无线配置的设备.\n3.设置设备接入的网络环境.\n4.配置设备，当听到“配置成功”后，表示配置成功.</string>
+    <string name="video_check">视频检测</string>
+    <string name="voice_call_ap">语音对讲</string>
+    <string name="voice_call_ap_tips">实时进行语音对讲</string>
 
     <!-- JVAddDeviceActivity -->
     <string name="add_device_succ">设备添加成功</string>
@@ -566,6 +569,6 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">V3.1.12 - DJ</string>
+    <string name="str_current_version">BetaV4.1.1(重构) - DJ</string>
 
 </resources>

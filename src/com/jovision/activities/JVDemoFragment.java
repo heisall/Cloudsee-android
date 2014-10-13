@@ -105,9 +105,9 @@ public class JVDemoFragment extends BaseFragment {
 				long arg3) {
 
 			Device dev = demoList.get(arg2);
-			mActivity.showTextToast("arg2="
-					+ dev.getChannelList().toList().get(0).getChannel()
-					+ ";dev=" + dev.getFullNo());
+			// mActivity.showTextToast("arg2="
+			// + dev.getChannelList().toList().get(0).getChannel()
+			// + ";dev=" + dev.getFullNo());
 			PlayUtil.prepareConnect(demoList, arg2);
 			String devJsonString = Device.listToString(demoList);
 			Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);

@@ -410,6 +410,16 @@
 
     <!-- JVTab -->
     <string name="sure_exit">Are you sure to exit?</string>
+    <!-- 页面顶部名称 -->
+    <string name="my_device">我的设备</string>
+    <string name="video_edit">视频编辑</string>
+    <string name="more_featrue">更多功能</string>
+    <string name="channal_list">通道列表</string>
+    <string name="demo_list">演示点列表</string>
+    <string name="demo">演示点</string>
+    <string name="video_list">视频列表</string>
+    <string name="video_manager">视频管理</string>
+    <string name="message">系统消息</string>
 
     <!-- 2.3系统视频播放提示 -->
     <string name="system_lower">您的手机系统是Android$,视频播放时有可能出现花屏，为达到最佳播放效果，建议下载2.8.5版本，是否立即下载?</string>
@@ -464,7 +474,9 @@
     <string name="connecting_buffer">Buffering now...</string>
     <string name="is_omx">硬解</string>
     <string name="not_omx">软解</string>
-
+    <string name="stream_not_support">This device doesn\'t support video quality switch.</string>
+    <string name="audio_monitor_forbidden">This function is not available during two-way talk.</string>
+   
     <!-- JVAddDeviceActivity -->
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
     <string name="add_device_succ">Device added successfully</string>
@@ -543,6 +555,6 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.0(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.1(重构) - DJ</string>
 
 </resources>

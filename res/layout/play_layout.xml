@@ -84,7 +84,7 @@
                 android:layout_alignParentLeft="true"
                 android:onClick="onFlip"
                 android:text="flip HD/ff"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/overturn"

@@ -33,7 +33,6 @@ public class IpcWifiAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		int size = 0;
 		if (null != scanWifiList && 0 != scanWifiList.size()) {
 			size = scanWifiList.size();
@@ -43,7 +42,6 @@ public class IpcWifiAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		Object obj = null;
 		if (null != scanWifiList && 0 != scanWifiList.size()) {
 			obj = scanWifiList.get(position);
@@ -53,14 +51,12 @@ public class IpcWifiAdapter extends BaseAdapter {
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		WifiHolder wifiHolder = null;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.wifi_item, null);
@@ -68,6 +64,9 @@ public class IpcWifiAdapter extends BaseAdapter {
 			wifiHolder.wifiName = (TextView) convertView
 					.findViewById(R.id.videodate);
 			wifiHolder.wifiImg = (ImageView) convertView
+					.findViewById(R.id.wifistate);
+
+			wifiHolder.wifiState = (ImageView) convertView
 					.findViewById(R.id.wifistate);
 			wifiHolder.wifiDetail = (ImageView) convertView
 					.findViewById(R.id.wifidetail);
@@ -77,14 +76,14 @@ public class IpcWifiAdapter extends BaseAdapter {
 		}
 
 		// 与当前网络一致
-		if (oldWifi.equalsIgnoreCase(scanWifiList.get(position).SSID)) {
-			wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
-					R.color.string_content));
-		} else {
-			wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
-					R.color.black));
-		}
-
+		// if (oldWifi.equalsIgnoreCase(scanWifiList.get(position).SSID)) {
+		// wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
+		// R.color.string_content));
+		// } else {
+		wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
+				R.color.black));
+		// }
+		wifiHolder.wifiState.setVisibility(View.GONE);
 		wifiHolder.wifiName.setText(scanWifiList.get(position).SSID);
 		wifiHolder.wifiDetail.setImageDrawable(mContext.getResources()
 				.getDrawable(R.drawable.more_feature_right_icon));
@@ -105,6 +104,8 @@ public class IpcWifiAdapter extends BaseAdapter {
 	class WifiHolder {
 		TextView wifiName;
 		ImageView wifiImg;
+
+		ImageView wifiState;
 		ImageView wifiDetail;
 	}
 

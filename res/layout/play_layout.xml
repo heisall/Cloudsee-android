@@ -82,10 +82,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:background="@color/transparent"
                 android:onClick="onFlip"
                 android:text="flip HD/ff"
                 android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/overturn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/viewpager"
+                android:layout_alignRight="@+id/viewpager"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/turn_right_selector" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -127,7 +136,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@color/transparent"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
 
                     <Button
                         android:id="@+id/audio_monitor"
@@ -166,6 +176,24 @@
                         android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <ListView
+                android:id="@+id/streamlistview"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/stream_selector_bg"
+                android:divider="@color/transparent"
+                android:fadingEdge="none"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:visibility="gone" >
+            </ListView>
         </RelativeLayout>
 
         <LinearLayout
@@ -351,6 +379,26 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/bottom_but" />
             </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/apfunclayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/functionbgcolor"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:paddingTop="1dp" >
+
+            <Button
+                android:id="@+id/nextstep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/next_step_bg"
+                android:text="@string/next_step"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
         </LinearLayout>
     </RelativeLayout>
 

@@ -328,14 +328,12 @@
     <string name="str_device_ap_process">1.选择要进行无线配置的设备,体验视频、音频、对讲以及云台功能.\n2.设置设备接入的网络环境.\n3.配置设备，当听到“设备上线”后，表示配置成功.</string>
     <string name="str_quick_setting_no_tips">不再提示</string>
     <string name="str_quick_setting">快速配置</string>
-    <string name="str_quick_setting_connect">配置</string>
     <string name="str_quick_setting_alert_nowifi">未搜索到设备</string>
     <string name="str_quick_setting_alert_wifiinfo">搜索到1个设备，是否现在去配置?</string>
     <string name="str_quick_setting_searching_wifi">正在搜索附近设备网络</string>
     <string name="str_quick_setting_now">正在配置</string>
     <string name="str_quick_setting_now_1">正在连接网络</string>
     <string name="str_quick_setting_now_2">正在连接设备的AP网络</string>
-    <string name="str_quick_setting_now_3">正在连接设备</string>
     <string name="str_quick_setting_now_4">正在获取基本信息</string>
     <string name="str_quick_setting_now_5">正在发送配置信息</string>
     <string name="str_dev_try_online">设备正在努力上线!</string>
@@ -343,7 +341,6 @@
     <string name="str_online_fail">设备上线失败!</string>
     <string name="str_try_again">重试</string>
     <string name="str_no_voice_way">还未取到单双向对讲标识</string>
-    <string name="str_quick_setting_alert_1">正在连接设备的AP网络</string>
     <string name="str_quick_setting_alert_2">正在连接设备</string>
     <string name="str_quick_setting_alert_3">连接成功，正在获取文本信息</string>
     <string name="str_quick_setting_alert_4">正在获取主控wifi列表</string>
@@ -353,7 +350,6 @@
     <string name="str_quick_setting_ipc_net_failed">设备AP网络连接失败</string>
     <string name="str_quick_setting_ap_net_failed">设备AP网络连接失败</string>
     <string name="str_quick_setting_ap_net_timeout">设备AP网络连接超时</string>
-    <string name="str_quick_setting_alert_6">正在完成配置</string>
     <string name="str_quick_setting_ap_net_disconnect">网络连接已断开</string>
     <string name="str_quick_setting_success">快速配置成功</string>
     <string name="str_quick_setting_goon">继续配置</string>
@@ -473,6 +469,24 @@
     <string name="connect_failed">连接失败</string>
     <string name="connecting">连接中...</string>
     <string name="connecting_buffer">正在缓冲数据...</string>
+    <string name="is_omx">硬解</string>
+    <string name="not_omx">软解</string>
+
+    <!-- JVQuickSet -->
+    <!-- ap配置流程模块 -->
+    <string name="quick_setting_searching">正在搜索附近设备网络</string>
+    <string name="str_quiksetting_tips_txt">请选择要配置设备</string>
+    <string name="str_quick_setting_alert_1">正在连接设备,请稍候</string>
+    <string name="str_quick_setting_connect">无线配置</string>
+    <string name="str_quick_setting_waiting">继续等待</string>
+    <string name="next_step">下一步</string>
+    <string name="set_error">配置出错，错误码</string>
+    <string name="try_again">重试</string>
+    <string name="quick_setting_connecting">正在连接设备</string>
+    <string name="quick_setting_exiting">正在退出配置</string>
+    <string name="wifi_reset_failed">网络恢复失败</string>
+    <string name="str_quick_install">快速安装无线设备</string>
+    <string name="str_quick_install_tips2">安装步骤：\n1.将手机连接到设备要配置的网络上.\n2.选择要进行无线配置的设备.\n3.设置设备接入的网络环境.\n4.配置设备，当听到“配置成功”后，表示配置成功.</string>
 
     <!-- JVAddDeviceActivity -->
     <string name="add_device_succ">设备添加成功</string>

@@ -10,12 +10,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 
 import com.jovetech.CloudSee.temp.BuildConfig;
 import com.jovetech.CloudSee.temp.R;
@@ -118,34 +115,34 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 			invalidate();
 	}
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			handleActionDownEvenet(event);
-			return true;
-		case MotionEvent.ACTION_MOVE:
-			return true;
-		case MotionEvent.ACTION_UP:
-			return true;
-		}
-		return super.onTouchEvent(event);
-	}
+	// @Override
+	// public boolean onTouchEvent(MotionEvent event) {
+	// switch (event.getAction()) {
+	// case MotionEvent.ACTION_DOWN:
+	// handleActionDownEvenet(event);
+	// return true;
+	// case MotionEvent.ACTION_MOVE:
+	// return true;
+	// case MotionEvent.ACTION_UP:
+	// return true;
+	// }
+	// return super.onTouchEvent(event);
+	// }
 
-	private void handleActionDownEvenet(MotionEvent event) {
-		RectF rectF = new RectF(getWidth() / 2, getHeight() / 2,
-				getWidth() / 2, getHeight() / 2);
-
-		if (rectF.contains(event.getX(), event.getY())) {
-			if (D)
-				Log.d(TAG, "click search device button");
-			if (!isSearching()) {
-				setSearching(true);
-			} else {
-				setSearching(false);
-			}
-		}
-	}
+	// private void handleActionDownEvenet(MotionEvent event) {
+	// RectF rectF = new RectF(getWidth() / 2, getHeight() / 2,
+	// getWidth() / 2, getHeight() / 2);
+	//
+	// if (rectF.contains(event.getX(), event.getY())) {
+	// if (D)
+	// Log.d(TAG, "click search device button");
+	// if (!isSearching()) {
+	// setSearching(true);
+	// } else {
+	// setSearching(false);
+	// }
+	// }
+	// }
 
 	/**
 	 * 播放声音
@@ -196,5 +193,12 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void stopPlayer() {
+		if (null != mediaPlayer) {
+			mediaPlayer.stop();
+		}
+
 	}
 }

@@ -702,6 +702,13 @@ public class DeviceUtil {
 												MyLog.v("刷新:" + dev.getFullNo(),
 														"在线状态："
 																+ dev.getOnlineState());
+												dev.setDeviceType(obj
+														.optInt(JVDeviceConst.JK_DEVICE_TYPE));
+
+												if (2 == dev.getDeviceType()) {// 家用设备
+													dev.setAlarmSwitch(obj
+															.optInt(JVDeviceConst.JK_ALARM_SWITCH));
+												}
 												flag[k] = true;
 											}
 										}
@@ -1304,4 +1311,67 @@ public class DeviceUtil {
 		}
 		return device1;
 	}
+
+	/**
+	 * 2014-9-5 接口说明：根据设备云视通号，获取此设备的在线状态。
+	 * 
+	 */
+	public static int getDevOnlineState(String deviceGuid) {
+		int res = -1;
+
+		// 请求参数示例
+		/**
+		 * {"mt":2017, "pv":"1.0", "lpt":1, "username":"zhangs",
+		 * "dguid":"ABCD0005"}
+		 */
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.GET_DEVICE_ONLINE_STATE);// mt 2009
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// pv
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.DEV_INFO_PRO);// lpt
+			jObj.put(JVDeviceConst.JK_DEVICE_GUID, deviceGuid);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		MyLog.v("getDevOnlineState---request", jObj.toString());
+
+		// 返回参数示例
+		// {"pv":"1.0","lpt":1,"mt":2009,"mid":42,"dguid":"S79808869"}
+		// 接收返回数据
+		byte[] resultStr = new byte[1024];
+		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+		String result = new String(resultStr);
+
+		MyLog.v("getDevOnlineState---result", result);
+
+		// String result = "{"mt":2010,"rt":0,"mid":42,"dsls":1}";
+		if (null != result && !"".equalsIgnoreCase(result)) {
+			try {
+				JSONObject temObj = new JSONObject(result);
+				if (null != temObj) {
+					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// (USER_BIND_DEVICE_RESPONSE
+																			// 2016)
+					int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// 0正确；-10请求格式错误；-1云视通通信失败。
+					if (0 == rt) {
+						res = temObj
+								.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS);// (1在线
+																				// 0不在线)
+					} else {
+						res = rt;
+					}
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				res = -1;
+				e.printStackTrace();
+			}
+		}
+		return res;
+	}
+
 }

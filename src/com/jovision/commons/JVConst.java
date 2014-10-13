@@ -299,8 +299,6 @@ public final class JVConst {
 	public static final int QUICK_SETTING_HOST_AGREE_TEXT = 249;// 快速设置主控同意文本聊天
 	public static final int QUICK_SETTING_HOST_NOT_AGREE_TEXT = 250;// 快速设置主控不同意文本聊天
 
-	public static final int QUICK_SETTING_MOBILE_WIFI_SUCC = 251;// 快速设置获取手机wifi列表
-
 	public static final int QUICK_SETTING_IPC_BROAD_SUCCESS = 252;// 快速设置获取IP广播成功
 	public static final int QUICK_SETTING_IPC_BROAD_FAILED = 253;// 快速设置获取IPC广播失败
 
@@ -389,7 +387,6 @@ public final class JVConst {
 	public static final String IPC_DEFAULT_IP = "10.10.0.1";
 	public static final int IPC_DEFAULT_PORT = 9101;
 
-	public static final int QUICK_SETTING_CONNECT_FAILED = 246;// 快速设置IPC连接失败
 	public static final int SHAKE_IPC_WIFI_SUCCESS = 268;// 摇一摇搜索IPC网络成功
 	public static final int SHAKE_IPC_WIFI_FAILED = 269;// 摇一摇搜索IPC网络失败
 
@@ -401,7 +398,7 @@ public final class JVConst {
 	public static final int TCP_ERROR_OFFLINE = 354;// 连接掉线
 	public static final int IPC_WIFI_CON_FAILED = 245;// 快速设置IPCwifi连接失败
 	public static final int MOBILE_WIFI_CON_FAILED = 358;// 快速设置mobile wifi连接失败
-	public static final int AP_SET_ORDER = 359;// 刷新AP配置提示信息
+	// public static final int AP_SET_ORDER = 359;// 刷新AP配置提示信息
 	public static final int AP_SET_SUCCESS = 360;// AP配置成功
 	public static final int AP_SET_FAILED = 361;// 刷新AP配置失败
 	public static final int DEVICE_MOST_COUNT = 332;// 设备超过最大数
@@ -409,4 +406,16 @@ public final class JVConst {
 
 	public static final int INIT_ACCOUNT_SDK_FAILED = 360;// 初始化账号sdk失败
 	public static final int REMOTE_PLAY_DISMISS_PROGRESS = 361;// 隐藏远程回放进度条
+	public static final int AP_CONNECT_FINISHED = 337;// AP视频检测完成
+	public static final int QUICK_SETTING_MOBILE_WIFI_SUCC = 338;// 快速配置手机wifi列表获取成功
+	public static final int QUICK_SETTING_MOBILE_WIFI_FAILED = 355;// 快速配置手机wifi列表获取失败
+	public static final int QUICK_SETTING_IPC_WIFI_AUTO_SUCCESS = 328;// 快速设置获取IPCwifi成功,自动刷新
+	public static final int QUICK_SETTING_AP_CON_SUCCESS = 336;// 快速设置AP连接成功
+	public static final int AP_CONNECT_REQUEST = 354;// AP请求ActivityForResult
+	public static final int QUICK_SETTING_DEV_START_ONLINE = 309;// 设备开始努力上线
+	// 成功
+	public static final int QUICK_SETTING_DEV_ONLINE_SUCC = 310;// 上线成功
+	// 成功
+	public static final int QUICK_SETTING_DEV_ONLINE_FAILED = 311;// 上线失败
+
 }

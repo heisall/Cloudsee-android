@@ -45,6 +45,7 @@ public class PlayActivity extends BaseActivity {
 	protected RelativeLayout.LayoutParams reParamsH;
 	protected int surfaceWidth = -1;
 	protected int surfaceHeight = -1;
+	protected int playFlag = -1;
 
 	/** layout 上 */
 	protected LinearLayout topBar;// 顶部标题栏
@@ -89,6 +90,8 @@ public class PlayActivity extends BaseActivity {
 	protected Button videoTape;// 录像
 	protected Button moreFeature;// 更多
 	protected LinearLayout footerBar;// 底部工具栏
+	protected LinearLayout apFuncLayout;// 底部Ap下一步按钮
+	protected Button nextStep;// 下一步
 
 	/** 录像按钮 */
 	protected Drawable videoTapeLeft1 = null;
@@ -180,6 +183,8 @@ public class PlayActivity extends BaseActivity {
 			bigScreen = true;
 		}
 
+		bigScreen = true;
+
 		/** 小分辨率功能 */
 		playFuctionLayout = (LinearLayout) findViewById(R.id.play_function_layout);
 		audioMonitor = (Button) findViewById(R.id.audio_monitor);// 音频监听
@@ -233,6 +238,8 @@ public class PlayActivity extends BaseActivity {
 		moreFeature = (Button) findViewById(R.id.more_features);// 更多
 
 		footerBar = (LinearLayout) findViewById(R.id.footbar);// 底部工具栏
+		apFuncLayout = (LinearLayout) findViewById(R.id.apfunclayout);// 底部AP下一步
+		nextStep = (Button) findViewById(R.id.nextstep);// 下一步
 
 		videoTapeLeft1 = getResources().getDrawable(R.drawable.video_record_1);
 		videoTapeLeft2 = getResources().getDrawable(R.drawable.video_record_2);
@@ -267,6 +274,13 @@ public class PlayActivity extends BaseActivity {
 							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			topBar.setVisibility(View.VISIBLE);// 顶部标题栏
 			footerBar.setVisibility(View.VISIBLE);// 底部工具栏
+
+			if (Consts.PLAY_AP == playFlag) {
+				apFuncLayout.setVisibility(View.VISIBLE);
+			} else {
+				apFuncLayout.setVisibility(View.GONE);
+			}
+
 			bottom.setVisibility(View.GONE);
 			topBartwo.setVisibility(View.GONE);
 			reParamsV = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
@@ -287,6 +301,7 @@ public class PlayActivity extends BaseActivity {
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			topBar.setVisibility(View.GONE);// 顶部标题栏
 			footerBar.setVisibility(View.GONE);// 底部工具栏
+			apFuncLayout.setVisibility(View.GONE);
 			bottom.setVisibility(View.GONE);
 			topBartwo.setVisibility(View.GONE);
 			init();

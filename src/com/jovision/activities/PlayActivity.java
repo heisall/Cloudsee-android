@@ -105,16 +105,24 @@ public class PlayActivity extends BaseActivity {
 
 	protected MICRecorder recorder;// 音频采集
 
-	protected LinearLayout bottom;
+	protected RelativeLayout bottom;
 
-	protected RelativeLayout bottombut1;
-	protected RelativeLayout bottombut2;
-	protected RelativeLayout bottombut3;
-	protected RelativeLayout bottombut4;
-	protected RelativeLayout bottombut5;
-	protected RelativeLayout bottombut6;
-	protected RelativeLayout bottombut7;
-	protected RelativeLayout bottombut8;
+	protected ImageView bottombut1;
+	protected ImageView bottombut2;
+	protected ImageView bottombut3;
+	protected ImageView bottombut4;
+	protected ImageView bottombut5;
+	protected ImageView bottombut6;
+	protected ImageView bottombut7;
+	protected ImageView bottombut8;
+	protected boolean bottomboolean1;
+	protected boolean bottomboolean2;
+	protected boolean bottomboolean3;
+	protected boolean bottomboolean4;
+	protected boolean bottomboolean5;
+	protected boolean bottomboolean6;
+	protected boolean bottomboolean7;
+	protected boolean bottomboolean8;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -168,15 +176,15 @@ public class PlayActivity extends BaseActivity {
 		loading = (ProgressBar) findViewById(R.id.videoloading);// 加载进度
 		/** 下 */
 
-		bottom = (LinearLayout) findViewById(R.id.bottom);
-		bottombut1 = (RelativeLayout) findViewById(R.id.bottom_but1);
-		bottombut2 = (RelativeLayout) findViewById(R.id.bottom_but2);
-		bottombut3 = (RelativeLayout) findViewById(R.id.bottom_but3);
-		bottombut4 = (RelativeLayout) findViewById(R.id.bottom_but4);
-		bottombut5 = (RelativeLayout) findViewById(R.id.bottom_but5);
-		bottombut6 = (RelativeLayout) findViewById(R.id.bottom_but6);
-		bottombut7 = (RelativeLayout) findViewById(R.id.bottom_but7);
-		bottombut8 = (RelativeLayout) findViewById(R.id.bottom_but8);
+		bottom = (RelativeLayout) findViewById(R.id.bottom);
+		bottombut1 = (ImageView) findViewById(R.id.bottom_but1);
+		bottombut2 = (ImageView) findViewById(R.id.bottom_but2);
+		bottombut3 = (ImageView) findViewById(R.id.bottom_but3);
+		bottombut4 = (ImageView) findViewById(R.id.bottom_but4);
+		bottombut5 = (ImageView) findViewById(R.id.bottom_but5);
+		bottombut6 = (ImageView) findViewById(R.id.bottom_but6);
+		bottombut7 = (ImageView) findViewById(R.id.bottom_but7);
+		bottombut8 = (ImageView) findViewById(R.id.bottom_but8);
 
 		if ((disMetrics.heightPixels > 800 && disMetrics.widthPixels > 480)
 				|| (disMetrics.heightPixels > 480 && disMetrics.widthPixels > 800)) {// 大屏
@@ -302,8 +310,8 @@ public class PlayActivity extends BaseActivity {
 			topBar.setVisibility(View.GONE);// 顶部标题栏
 			footerBar.setVisibility(View.GONE);// 底部工具栏
 			apFuncLayout.setVisibility(View.GONE);
-			bottom.setVisibility(View.GONE);
-			topBartwo.setVisibility(View.GONE);
+			bottom.setVisibility(View.VISIBLE);
+			topBartwo.setVisibility(View.VISIBLE);
 			init();
 
 			reParamsH = new RelativeLayout.LayoutParams(

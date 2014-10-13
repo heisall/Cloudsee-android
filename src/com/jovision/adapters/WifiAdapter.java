@@ -144,7 +144,7 @@ public class WifiAdapter extends BaseAdapter {
 		} else if (2 == tag) {
 			wifiHolder.wifiName.setText(wifiConfigList.get(position).SSID);
 			wifiHolder.wifiDetail.setImageDrawable(mContext.getResources()
-					.getDrawable(R.drawable.more_feature_right_icon));
+					.getDrawable(R.drawable.morefragment_next_icon));
 			if (wifiIndex == position) {
 				wifiHolder.wifiImg.setBackgroundDrawable(mContext
 						.getResources().getDrawable(

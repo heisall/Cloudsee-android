@@ -53,8 +53,16 @@
     <color name="more_cancle">#007aff</color>
     <color name="more_canclepre">#3f5fbf</color>
     <color name="more_devicename">#2886e4</color>
+    <color name="morefragment_color1">#42BDE8</color>
+    <color name="morefragment_color2">#6CC143</color>
+    <color name="morefragment_color3">#FD8E35</color>
+    <color name="morefragment_color4">#FF565B</color>
+    <color name="morefragment_color5">#7B7AD7</color>
+    <color name="morefragment_color6">#FD8E35</color>
+    <color name="morefragment_color7">#FF565B</color>
     <!-- 视频播放 -->
     <color name="play_color">#1eFFFFFF</color>
+    <color name="play_bq">#007AFF</color>
     <!-- 我的设备字体颜色 -->
     <color name="mydevice_modify">#519DE8</color>
     <!-- 象牙色 -->

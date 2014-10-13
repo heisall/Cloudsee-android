@@ -56,10 +56,16 @@ public class JVMoreFragment extends BaseFragment {
 	// 最后一次登录时间
 	private TextView more_lasttime;
 	// 图片数组
-	private int[] Image = { R.drawable.more_help_img,
-			R.drawable.more_usermessage_img, R.drawable.more_feature_img,
-			R.drawable.more_vibrator_img, R.drawable.more_about_img,
-			R.drawable.more_suggesr_img, R.drawable.more_remark_img };
+	private int[] Image = { R.drawable.morefragment_help_icon,
+			R.drawable.morefragment_user_icon, R.drawable.morefragment_set_icon,
+			R.drawable.morefragment_shark_icon, R.drawable.morefragment_aboutus_icon,
+			R.drawable.morefragment_edit_icon, R.drawable.morefragment_remark_icon };
+	// 图片背景数组
+		private int[] imageBg = { R.drawable.morefragment_color1,
+				R.drawable.morefragment_color2, R.drawable.morefragment_color3,
+				R.drawable.morefragment_color4, R.drawable.morefragment_color5,
+				R.drawable.morefragment_color6, R.drawable.morefragment_color7 };
+		// 功能名称数组
 	// 功能名称数组
 	private String[] fragment_name;
 
@@ -130,6 +136,7 @@ public class JVMoreFragment extends BaseFragment {
 		for (int i = 0; i < Image.length; i++) {
 			MoreFragmentBean bean = new MoreFragmentBean();
 			bean.setItem_img(Image[i]);
+			bean.setItem_linear(imageBg[i]);
 			bean.setName(fragment_name[i]);
 			if (i == 0 || i == 2 || i == 6) {
 				bean.setIsnew(true);

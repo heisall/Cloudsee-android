@@ -31,7 +31,7 @@
                     android:layout_height="80dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/more_head_img" />
+                    android:background="@drawable/morefragment_head_icon" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -101,7 +101,7 @@
                 android:id="@+id/more_listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@null" >
+                android:divider="#EBEAEB" >
             </ListView>
 
             <RelativeLayout

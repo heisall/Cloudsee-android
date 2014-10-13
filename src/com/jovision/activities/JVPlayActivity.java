@@ -1346,36 +1346,76 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 
 			case R.id.bottom_but1:
-				Toast.makeText(JVPlayActivity.this, "点击图标1", Toast.LENGTH_SHORT)
-						.show();
+				if (bottomboolean1) {
+					bottombut1.setBackgroundResource(R.drawable.video_stop_icon);
+					bottomboolean1 = false;
+				}else {
+					bottombut1.setBackgroundResource(R.drawable.video_stopselect_icon);
+					bottomboolean1 = true;
+				}
 				break;
 			case R.id.bottom_but2:
-				Toast.makeText(JVPlayActivity.this, "点击图标2", Toast.LENGTH_SHORT)
-						.show();
+				if (bottomboolean2) {
+					bottombut2.setBackgroundResource(R.drawable.video_play_icon);
+					bottomboolean2 = false;
+				}else {
+					bottombut2.setBackgroundResource(R.drawable.video_playselect_bg);
+					bottomboolean2= true;
+				}
 				break;
 			case R.id.bottom_but3:
-				Toast.makeText(JVPlayActivity.this, "点击图标3", Toast.LENGTH_SHORT)
-						.show();
+				if (bottomboolean3) {
+					bottombut3.setBackgroundResource(R.drawable.video_snap_icon);
+					bottomboolean3 = false;
+				}else {
+					bottombut3.setBackgroundResource(R.drawable.video_snapselect_icon);
+					bottomboolean3= true;
+				}
 				break;
 			case R.id.bottom_but4:
-				Toast.makeText(JVPlayActivity.this, "点击图标4", Toast.LENGTH_SHORT)
-						.show();
+				if (bottomboolean4) {
+					bottombut4.setBackgroundResource(R.drawable.video_yuanback_icon);
+					bottomboolean4 = false;
+				}else {
+					bottombut4.setBackgroundResource(R.drawable.video_yuanbackselect_icon);
+					bottomboolean4 = true;
+				}
 				break;
 			case R.id.bottom_but5:
-				Toast.makeText(JVPlayActivity.this, "点击图标5", Toast.LENGTH_SHORT)
-						.show();
+				if (bottomboolean5) {
+					bottombut5.setBackgroundResource(R.drawable.video_talkback_icon);
+					bottomboolean5 = false;
+				}else {
+					bottombut5.setBackgroundResource(R.drawable.video_talkselect_icon);
+					bottomboolean5 = true;
+				}
 				break;
 			case R.id.bottom_but6:
-				Toast.makeText(JVPlayActivity.this, "点击图标6", Toast.LENGTH_SHORT)
-						.show();
+				if (bottomboolean6) {
+					bottombut6.setBackgroundResource(R.drawable.video_voiceopen_icon);
+					bottomboolean6 = false;
+				}else {
+					bottombut6.setBackgroundResource(R.drawable.video_voiceopenselect_icon);
+					bottomboolean6 = true;
+				}
 				break;
 			case R.id.bottom_but7:
-				Toast.makeText(JVPlayActivity.this, "点击图标7", Toast.LENGTH_SHORT)
-						.show();
+				if (bottomboolean7) {
+					bottombut7.setBackgroundResource(R.drawable.video_voiceclose_icon);
+					bottomboolean7 = false;
+				}else {
+					bottombut7.setBackgroundResource(R.drawable.video_voiceselect_icon);
+					bottomboolean7 = true;
+				}
 				break;
 			case R.id.bottom_but8:
-				Toast.makeText(JVPlayActivity.this, "点击图标8", Toast.LENGTH_SHORT)
-						.show();
+				if (bottomboolean8) {
+					bottombut8.setBackgroundResource(R.drawable.video_monitor_icon);
+					bottomboolean8 = false;
+				}else {
+					bottombut8.setBackgroundResource(R.drawable.video_monitorselect_icon);
+					bottomboolean8 = true;
+				}
 				break;
 			}
 
@@ -1706,9 +1746,9 @@ public class JVPlayActivity extends PlayActivity implements
 							.setBackgroundColor(getResources().getColor(
 									R.color.videoselect));
 				} else {
-					bottom.setVisibility(View.GONE);
-					topBartwo.setVisibility(View.GONE);
-					init();
+					bottom.setVisibility(View.VISIBLE);
+					topBartwo.setVisibility(View.VISIBLE);
+//					init();
 				}
 				handler.sendEmptyMessageDelayed(
 						JVConst.WHAT_CHECK_DOUBLE_CLICK,

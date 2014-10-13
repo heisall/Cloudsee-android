@@ -117,9 +117,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	private PopWindowAdapter popWindowAdapter;
 
-	private int[] popDrawarray = new int[] { R.drawable.icon_demo_nor,
-			R.drawable.icon_message_nor, R.drawable.icon_more_nor,
-			R.drawable.icon_demo_nor };
+	private int[] popDrawarray = new int[] { R.drawable.mydevice_popwindowonse_icon,
+			R.drawable.mydevice_popwindowtwo_icon, R.drawable.mydevice_popwindowthree_icon,
+			R.drawable.mydevice_popwindowfour_icon };
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -235,7 +235,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 					popupWindow.dismiss();
 				} else {
 					// 显示在below正下方
-					popupWindow.showAsDropDown(view, 0, 20);
+					popupWindow.showAsDropDown(view,-mActivity.disMetrics.widthPixels / 2+50,10);
 				}
 				break;
 			case R.id.device_nameet_cancle:

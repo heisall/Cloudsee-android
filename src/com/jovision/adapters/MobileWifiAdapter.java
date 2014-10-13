@@ -87,7 +87,7 @@ public class MobileWifiAdapter extends BaseAdapter {
 
 		wifiHolder.wifiName.setText(scanWifiList.get(position).SSID);
 		wifiHolder.wifiDetail.setImageDrawable(mContext.getResources()
-				.getDrawable(R.drawable.more_feature_right_icon));
+				.getDrawable(R.drawable.morefragment_next_icon));
 		wifiHolder.wifiDetail.setVisibility(View.GONE);
 		if (wifiIndex == position) {
 			wifiHolder.wifiImg.setBackgroundDrawable(mContext.getResources()

@@ -35,12 +35,12 @@ public class JVFragmentIndicator extends LinearLayout implements
 			"text_tag_2", "text_tag_3", "text_tag_4" };
 
 	private static String[] titleArray;// 5个标题数组
-	private static int[] unSelectedArray = { R.drawable.icon_home_sel,
-			R.drawable.icon_message_nor, R.drawable.icon_demo_nor,
-			R.drawable.icon_video_nor, R.drawable.icon_more_nor };
-	private static int[] selectedArray = { R.drawable.icon_home_sel,
-			R.drawable.icon_message_sel, R.drawable.icon_demo_sel,
-			R.drawable.icon_video_sel, R.drawable.icon_more_sel };
+	private static int[] unSelectedArray = { R.drawable.mydevice_devicenormal_icon,
+			R.drawable.mydevice_messagenormal_icon, R.drawable.mydevice_examplenormal_icon,
+			R.drawable.mydevice_videomanagenormal_icon, R.drawable.mydevice_moremessagenormal_icon };
+	private static int[] selectedArray =  { R.drawable.mydevice_devicepress_icon,
+		R.drawable.mydevice_messagepress_icon, R.drawable.mydevice_examplepress_icon,
+		R.drawable.mydevice_videomanagepress_icon, R.drawable.mydevice_moremessagepress_icon };
 
 	private static final int COLOR_UNSELECT = R.color.tab_text_color;
 	private static final int COLOR_SELECT = R.color.tab_text_color;

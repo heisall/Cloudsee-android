@@ -302,8 +302,8 @@ public class PlayActivity extends BaseActivity {
 			topBar.setVisibility(View.GONE);// 顶部标题栏
 			footerBar.setVisibility(View.GONE);// 底部工具栏
 			apFuncLayout.setVisibility(View.GONE);
-			bottom.setVisibility(View.VISIBLE);
-			topBartwo.setVisibility(View.VISIBLE);
+			bottom.setVisibility(View.GONE);
+			topBartwo.setVisibility(View.GONE);
 			init();
 
 			reParamsH = new RelativeLayout.LayoutParams(

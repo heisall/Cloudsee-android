@@ -25,6 +25,7 @@ import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 
@@ -211,12 +212,24 @@ public class ChannelFragment extends BaseFragment {
 
 			@Override
 			public void onClick(View v) {
-				ModifyChannelTask task = new ModifyChannelTask();
-				String[] strParams = new String[3];
-				strParams[0] = String.valueOf(deviceIndex);
-				strParams[1] = String.valueOf(arg1);// 通道index
-				strParams[2] = device_numet.getText().toString();
-				task.execute(strParams);
+				// 通道昵称不能为空
+				if ("".equalsIgnoreCase(device_numet.getText().toString())) {
+					mActivity.showTextToast(mActivity.getResources().getString(
+							R.string.str_nikename_notnull));
+				}
+				// 通道昵称验证
+				else if (!ConfigUtil.checkNickName(device_numet.getText()
+						.toString())) {
+					mActivity.showTextToast(mActivity.getResources().getString(
+							R.string.login_str_nike_name_order));
+				} else {
+					ModifyChannelTask task = new ModifyChannelTask();
+					String[] strParams = new String[3];
+					strParams[0] = device.getFullNo();
+					strParams[1] = arg1 + "";// 通道index
+					strParams[2] = device_numet.getText().toString();
+					task.execute(strParams);
+				}
 			}
 		});
 	}
@@ -246,7 +259,6 @@ public class ChannelFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {
 			int modRes = -1;
-			int modDevIndex = Integer.parseInt(params[0]);
 			int modChannelIndex = Integer.parseInt(params[1]);
 			String newName = params[2];
 			try {
@@ -254,7 +266,7 @@ public class ChannelFragment extends BaseFragment {
 						.get(Consts.LOCAL_LOGIN))) {// 本地保存更改
 					modRes = 0;
 				} else {
-					modRes = DeviceUtil.modifyPointName(modDevIndex + "",
+					modRes = DeviceUtil.modifyPointName(params[0],
 							modChannelIndex, newName);
 				}
 				if (0 == modRes) {
@@ -278,7 +290,6 @@ public class ChannelFragment extends BaseFragment {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
 			if (0 == result) {
-
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.login_str_point_edit_success);
 				channelAdapter.notifyDataSetChanged();

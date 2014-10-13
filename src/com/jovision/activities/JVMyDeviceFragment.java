@@ -82,10 +82,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private TextView dialogCompleted;// 确定按钮
 	// 设备名称
 	private TextView device_name;
-	// 设备号
-	private EditText device_numet;
-	// 设备号码编辑键
-	private ImageView device_numet_cancle;
 	// 设备昵称
 	private EditText device_nicket;
 	// 设备昵称编辑键
@@ -241,9 +237,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 					// 显示在below正下方
 					popupWindow.showAsDropDown(view, 0, 20);
 				}
-				break;
-			case R.id.device_numet_cancle:
-				device_numet.setText("");
 				break;
 			case R.id.device_nameet_cancle:
 				device_nameet.setText("");
@@ -572,19 +565,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 		device_nameet = (EditText) view.findViewById(R.id.device_nameet);
 		device_nameet_cancle = (ImageView) view
 				.findViewById(R.id.device_nameet_cancle);
-		device_numet = (EditText) view.findViewById(R.id.device_numet);
-		device_numet_cancle = (ImageView) view
-				.findViewById(R.id.device_numet_cancle);
 		device_passwordet = (EditText) view
 				.findViewById(R.id.device_passwrodet);
 		device_password_cancleI = (ImageView) view
 				.findViewById(R.id.device_passwrodet_cancle);
-		device_numet_cancle.setOnClickListener(myOnClickListener);
 		device_nameet_cancle.setOnClickListener(myOnClickListener);
 		device_niceet_cancle.setOnClickListener(myOnClickListener);
 		device_password_cancleI.setOnClickListener(myOnClickListener);
 		device_name.setText(myDeviceList.get(agr1).getFullNo());
-		device_numet.setText(myDeviceList.get(agr1).getFullNo());
 		device_nameet.setText(myDeviceList.get(agr1).getUser());
 		device_passwordet.setText(myDeviceList.get(agr1).getPwd());
 		if (!("").equals(myDeviceList.get(agr1).getNickName())) {
@@ -603,14 +591,27 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			@Override
 			public void onClick(View v) {
-				ModifyDevTask task = new ModifyDevTask();
-				String[] strParams = new String[5];
-				strParams[0] = agr1 + "";
-				strParams[1] = device_numet.getText().toString();
-				strParams[2] = device_nameet.getText().toString();
-				strParams[3] = device_passwordet.getText().toString();
-				strParams[4] = device_nicket.getText().toString();
-				task.execute(strParams);
+				if ("".equalsIgnoreCase(device_nameet.getText().toString())) {// 用户名不可为空，其他不用验证
+					mActivity.showTextToast(mActivity.getResources().getString(
+							R.string.login_str_device_account_notnull));
+				} else if (!ConfigUtil.checkDeviceUsername(device_nameet
+						.getText().toString())) {
+					mActivity.showTextToast(mActivity.getResources().getString(
+							R.string.login_str_device_account_error));
+				} else if (!ConfigUtil.checkDevicePwd(device_passwordet
+						.getText().toString())) {
+					mActivity.showTextToast(mActivity.getResources().getString(
+							R.string.login_str_device_pass_error));
+				} else {
+					ModifyDevTask task = new ModifyDevTask();
+					String[] strParams = new String[5];
+					strParams[0] = agr1 + "";
+					strParams[1] = device_name.getText().toString();
+					strParams[2] = device_nameet.getText().toString();
+					strParams[3] = device_passwordet.getText().toString();
+					strParams[4] = device_nicket.getText().toString();
+					task.execute(strParams);
+				}
 			}
 		});
 	}

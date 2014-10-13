@@ -390,7 +390,7 @@
     <string name="str_no_permission">没有权限!</string>
     <string name="str_host_connect_failed">与主控建立连接不成功，请重试...</string>
     <string name="str_not_support_this_device">暂时不支持设置此设备,仅支持IPC设备。</string>
-    <string name="str_help1_1">视频管理</string>
+    <string name="str_help1_1">添加设备</string>
     <string name="str_help1_2">设备管理</string>
     <string name="str_help2_1">可以对该设备增加通道路数</string>
     <string name="str_help2_2">左滑设备列表</string>

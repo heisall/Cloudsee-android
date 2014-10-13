@@ -287,8 +287,8 @@ public class PlayActivity extends BaseActivity {
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			topBar.setVisibility(View.GONE);// 顶部标题栏
 			footerBar.setVisibility(View.GONE);// 底部工具栏
-			bottom.setVisibility(View.VISIBLE);
-			topBartwo.setVisibility(View.VISIBLE);
+			bottom.setVisibility(View.GONE);
+			topBartwo.setVisibility(View.GONE);
 			init();
 
 			reParamsH = new RelativeLayout.LayoutParams(

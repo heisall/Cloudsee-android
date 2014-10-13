@@ -416,6 +416,17 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	@Override
 	protected void freeMe() {
 		super.freeMe();
+		// 停止音频监听
+		PlayUtil.audioPlay(indexOfChannel);
+
+		// 正在录像停止录像
+		if (PlayUtil.checkRecord(indexOfChannel)) {
+			if (PlayUtil.videoRecord(indexOfChannel)) {// 打开
+				showTextToast(Consts.VIDEO_PATH);
+				tapeSelected(false);
+			}
+		}
+
 		Jni.enablePlayback(indexOfChannel, false);
 	}
 

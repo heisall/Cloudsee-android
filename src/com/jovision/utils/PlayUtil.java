@@ -850,7 +850,7 @@ public class PlayUtil {
 										device.getPort(), device.getUser(),
 										device.getPwd(), device.getNo(),
 										device.getGid(), true, 1, true,
-										(device.isHomeProduct() ? 6 : 5),
+										(device.isHomeProduct() ? 6 : 6),
 										channel.getSurfaceView().getHolder()
 												.getSurface(), isOmx);
 							} else {
@@ -862,7 +862,7 @@ public class PlayUtil {
 										.getPort(), device.getUser(), device
 										.getPwd(), -1, device.getGid(), true,
 										1, true, (device.isHomeProduct() ? 6
-												: 5), channel.getSurfaceView()
+												: 6), channel.getSurfaceView()
 												.getHolder().getSurface(),
 										isOmx);
 							}

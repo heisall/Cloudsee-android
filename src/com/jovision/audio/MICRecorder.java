@@ -31,27 +31,43 @@ public class MICRecorder {
 	private static final String TARGET_FILE = Consts.LOG_PATH + File.separator
 			+ "o.pcm";
 
-	private int encodeSize;
-	private int bufferSize;
-	private boolean isWorking;
+	private static int encodeSize;
+	private static int bufferSize;
+	private static boolean isWorking;
 
 	private AudioTrack track;
 	private AudioRecord record;
 
-	private MICRecorder() {
-		isWorking = false;
-		bufferSize = AudioRecord
-				.getMinBufferSize(SAMPLERATE, CHANNEL, ENCODING);
-		encodeSize = ENCODE_SIZE;
-		MyLog.i(TAG, "construction, size = " + bufferSize);
+	private int indexOfChannel;
+	private static MICRecorder RECORDER;
+
+	public void setIndex(int index) {
+		indexOfChannel = index;
 	}
 
-	private static class MICRecorderContainer {
-		private static MICRecorder RECORDER = new MICRecorder();
-	}
+	// private MICRecorder() {
+	// isWorking = false;
+	// bufferSize = AudioRecord
+	// .getMinBufferSize(SAMPLERATE, CHANNEL, ENCODING);
+	// encodeSize = ENCODE_SIZE;
+	// MyLog.i(TAG, "construction, size = " + bufferSize);
+	// }
+
+	// private static class MICRecorderContainer {
+	// private static MICRecorder RECORDER = new MICRecorder();
+	// }
 
 	public static MICRecorder getInstance() {
-		return MICRecorderContainer.RECORDER;
+		if (null == RECORDER) {
+			RECORDER = new MICRecorder();
+			isWorking = false;
+			bufferSize = AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
+					ENCODING);
+			encodeSize = ENCODE_SIZE;
+			MyLog.i(TAG, "construction, size = " + bufferSize);
+		}
+
+		return RECORDER;
 	}
 
 	public int getEncodeSize() {
@@ -106,7 +122,7 @@ public class MICRecorder {
 											if (null != enc) {
 												// outputStream.write(out);
 												Jni.sendBytes(
-														0,
+														indexOfChannel,
 														JVNetConst.JVN_RSP_CHATDATA,
 														enc, enc.length);
 											} else {
@@ -218,7 +234,7 @@ public class MICRecorder {
 		return result;
 	}
 
-	public boolean foo() {
+	public boolean foo1() {
 		boolean result = false;
 
 		if (false == isWorking && bufferSize > 128) {

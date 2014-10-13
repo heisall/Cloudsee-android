@@ -18,11 +18,17 @@ public class PlayAudio extends Thread {
 
 	private LinkedBlockingQueue<byte[]> audioQueue;
 
-	MICRecorder recorder;
+	public MICRecorder recorder;
+	private int indexOfChannel;
 
 	public PlayAudio(LinkedBlockingQueue<byte[]> queue) {
 		audioQueue = queue;
 		recorder = MICRecorder.getInstance();
+	}
+
+	public void setIndex(int index) {
+		indexOfChannel = index;
+		recorder.setIndex(indexOfChannel);
 	}
 
 	@Override

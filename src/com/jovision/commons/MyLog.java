@@ -6,6 +6,9 @@ import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.util.Log;
 
 /**
@@ -17,6 +20,22 @@ import android.util.Log;
 public class MyLog {
 
 	public static final String UB = "UB.log";
+
+	public static final String KEY_TOPIC = "topic";
+	public static final String KEY_DESC = "desc";
+	public static final String KEY_IMEI = "imei";
+	public static final String KEY_VENDOR = "vendor";
+	public static final String KEY_MODEL = "model";
+	public static final String KEY_FP = "fingerprint";
+	public static final String KEY_COUNT = "count";
+	public static final String KEY_DURATION = "duration";
+	public static final String KEY_ENV = "env";
+	public static final String KEY_TYPE = "type";
+
+	public static final String TYPE_TOPIC = "topic";
+	public static final String TYPE_PHONE = "phone";
+	public static final String TYPE_LOG = "log";
+	public static final String TYPE_STAT = "stat";
 
 	private static final String V = "V";
 	private static final String D = "D";
@@ -134,18 +153,63 @@ public class MyLog {
 		}
 	}
 
-	public static void ub(String data) {
-		if (ENABLE_UB) {
-			append(checkTag(UB), prepare(null, data));
-			Log.d(UB, data);
+	private static void ub(String msg) {
+		if (ENABLE_UB && null != msg) {
+			append(checkTag(UB), prepare(null, msg));
+			Log.d(UB, msg);
 		}
 	}
 
-	public static void ub(String tag, String msg) {
-		if (ENABLE_UB) {
-			append(checkTag(UB), prepare(tag, msg));
-			Log.d(UB, tag + ": " + msg);
+	private static void ub(JSONArray array) {
+		if (ENABLE_UB && null != array) {
+			String msg = array.toString();
+			append(checkTag(UB), prepare(null, msg));
+			Log.d(UB, msg);
 		}
+	}
+
+	private static void ub(JSONObject object) {
+		if (ENABLE_UB && null != object) {
+			String msg = object.toString();
+			append(checkTag(UB), prepare(null, msg));
+			Log.d(UB, msg);
+		}
+	}
+
+	public static void ubPhone(String imei, String vender, String model,
+			String fingerprint) {
+		StringBuilder sBuilder = new StringBuilder(128);
+		sBuilder.append("{\"").append(KEY_IMEI).append("\":\"").append(imei)
+				.append("\",\"").append(KEY_VENDOR).append("\":\"")
+				.append(vender).append("\",\"").append(KEY_MODEL)
+				.append("\":\"").append(model).append("\",\"").append(KEY_FP)
+				.append("\":\"").append(fingerprint).append("\"}");
+		ub(sBuilder.toString());
+	}
+
+	public static void ubTopic(String topic, String desc) {
+		StringBuilder sBuilder = new StringBuilder(128);
+		sBuilder.append("{\"").append(KEY_TOPIC).append("\":\"").append(topic)
+				.append("\",\"").append(KEY_DESC).append("\":\"").append(desc)
+				.append("\"}");
+		ub(sBuilder.toString());
+	}
+
+	public static void ubLog(String topic, String env) {
+		StringBuilder sBuilder = new StringBuilder(128);
+		sBuilder.append("{\"").append(KEY_TOPIC).append("\":\"").append(topic)
+				.append("\",\"").append(KEY_ENV).append("\":\"").append(env)
+				.append("\"}");
+		ub(sBuilder.toString());
+	}
+
+	public static void ubStat(String topic, int count, int duration) {
+		StringBuilder sBuilder = new StringBuilder(128);
+		sBuilder.append("{\"").append(KEY_TOPIC).append("\":\"").append(topic)
+				.append("\",\"").append(KEY_COUNT).append("\":").append(count)
+				.append(",\"").append(KEY_DURATION).append("\":")
+				.append(duration).append("}");
+		ub(sBuilder.toString());
 	}
 
 	public static String getPath(String tag) {

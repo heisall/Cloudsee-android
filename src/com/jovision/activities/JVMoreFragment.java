@@ -57,15 +57,18 @@ public class JVMoreFragment extends BaseFragment {
 	private TextView more_lasttime;
 	// 图片数组
 	private int[] Image = { R.drawable.morefragment_help_icon,
-			R.drawable.morefragment_user_icon, R.drawable.morefragment_set_icon,
-			R.drawable.morefragment_shark_icon, R.drawable.morefragment_aboutus_icon,
-			R.drawable.morefragment_edit_icon, R.drawable.morefragment_remark_icon };
+			R.drawable.morefragment_user_icon,
+			R.drawable.morefragment_set_icon,
+			R.drawable.morefragment_shark_icon,
+			R.drawable.morefragment_aboutus_icon,
+			R.drawable.morefragment_edit_icon,
+			R.drawable.morefragment_remark_icon };
 	// 图片背景数组
-		private int[] imageBg = { R.drawable.morefragment_color1,
-				R.drawable.morefragment_color2, R.drawable.morefragment_color3,
-				R.drawable.morefragment_color4, R.drawable.morefragment_color5,
-				R.drawable.morefragment_color6, R.drawable.morefragment_color7 };
-		// 功能名称数组
+	private int[] imageBg = { R.drawable.morefragment_color1,
+			R.drawable.morefragment_color2, R.drawable.morefragment_color3,
+			R.drawable.morefragment_color4, R.drawable.morefragment_color5,
+			R.drawable.morefragment_color6, R.drawable.morefragment_color7 };
+	// 功能名称数组
 	// 功能名称数组
 	private String[] fragment_name;
 

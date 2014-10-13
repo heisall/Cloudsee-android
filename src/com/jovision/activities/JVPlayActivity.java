@@ -27,7 +27,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -1347,73 +1346,89 @@ public class JVPlayActivity extends PlayActivity implements
 
 			case R.id.bottom_but1:
 				if (bottomboolean1) {
-					bottombut1.setBackgroundResource(R.drawable.video_stop_icon);
+					bottombut1
+							.setBackgroundResource(R.drawable.video_stop_icon);
 					bottomboolean1 = false;
-				}else {
-					bottombut1.setBackgroundResource(R.drawable.video_stopselect_icon);
+				} else {
+					bottombut1
+							.setBackgroundResource(R.drawable.video_stopselect_icon);
 					bottomboolean1 = true;
 				}
 				break;
 			case R.id.bottom_but2:
 				if (bottomboolean2) {
-					bottombut2.setBackgroundResource(R.drawable.video_play_icon);
+					bottombut2
+							.setBackgroundResource(R.drawable.video_play_icon);
 					bottomboolean2 = false;
-				}else {
-					bottombut2.setBackgroundResource(R.drawable.video_playselect_bg);
-					bottomboolean2= true;
+				} else {
+					bottombut2
+							.setBackgroundResource(R.drawable.video_playselect_bg);
+					bottomboolean2 = true;
 				}
 				break;
 			case R.id.bottom_but3:
 				if (bottomboolean3) {
-					bottombut3.setBackgroundResource(R.drawable.video_snap_icon);
+					bottombut3
+							.setBackgroundResource(R.drawable.video_snap_icon);
 					bottomboolean3 = false;
-				}else {
-					bottombut3.setBackgroundResource(R.drawable.video_snapselect_icon);
-					bottomboolean3= true;
+				} else {
+					bottombut3
+							.setBackgroundResource(R.drawable.video_snapselect_icon);
+					bottomboolean3 = true;
 				}
 				break;
 			case R.id.bottom_but4:
 				if (bottomboolean4) {
-					bottombut4.setBackgroundResource(R.drawable.video_yuanback_icon);
+					bottombut4
+							.setBackgroundResource(R.drawable.video_yuanback_icon);
 					bottomboolean4 = false;
-				}else {
-					bottombut4.setBackgroundResource(R.drawable.video_yuanbackselect_icon);
+				} else {
+					bottombut4
+							.setBackgroundResource(R.drawable.video_yuanbackselect_icon);
 					bottomboolean4 = true;
 				}
 				break;
 			case R.id.bottom_but5:
 				if (bottomboolean5) {
-					bottombut5.setBackgroundResource(R.drawable.video_talkback_icon);
+					bottombut5
+							.setBackgroundResource(R.drawable.video_talkback_icon);
 					bottomboolean5 = false;
-				}else {
-					bottombut5.setBackgroundResource(R.drawable.video_talkselect_icon);
+				} else {
+					bottombut5
+							.setBackgroundResource(R.drawable.video_talkselect_icon);
 					bottomboolean5 = true;
 				}
 				break;
 			case R.id.bottom_but6:
 				if (bottomboolean6) {
-					bottombut6.setBackgroundResource(R.drawable.video_voiceopen_icon);
+					bottombut6
+							.setBackgroundResource(R.drawable.video_voiceopen_icon);
 					bottomboolean6 = false;
-				}else {
-					bottombut6.setBackgroundResource(R.drawable.video_voiceopenselect_icon);
+				} else {
+					bottombut6
+							.setBackgroundResource(R.drawable.video_voiceopenselect_icon);
 					bottomboolean6 = true;
 				}
 				break;
 			case R.id.bottom_but7:
 				if (bottomboolean7) {
-					bottombut7.setBackgroundResource(R.drawable.video_voiceclose_icon);
+					bottombut7
+							.setBackgroundResource(R.drawable.video_voiceclose_icon);
 					bottomboolean7 = false;
-				}else {
-					bottombut7.setBackgroundResource(R.drawable.video_voiceselect_icon);
+				} else {
+					bottombut7
+							.setBackgroundResource(R.drawable.video_voiceselect_icon);
 					bottomboolean7 = true;
 				}
 				break;
 			case R.id.bottom_but8:
 				if (bottomboolean8) {
-					bottombut8.setBackgroundResource(R.drawable.video_monitor_icon);
+					bottombut8
+							.setBackgroundResource(R.drawable.video_monitor_icon);
 					bottomboolean8 = false;
-				}else {
-					bottombut8.setBackgroundResource(R.drawable.video_monitorselect_icon);
+				} else {
+					bottombut8
+							.setBackgroundResource(R.drawable.video_monitorselect_icon);
 					bottomboolean8 = true;
 				}
 				break;
@@ -1748,7 +1763,7 @@ public class JVPlayActivity extends PlayActivity implements
 				} else {
 					bottom.setVisibility(View.VISIBLE);
 					topBartwo.setVisibility(View.VISIBLE);
-//					init();
+					// init();
 				}
 				handler.sendEmptyMessageDelayed(
 						JVConst.WHAT_CHECK_DOUBLE_CLICK,

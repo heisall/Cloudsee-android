@@ -74,7 +74,8 @@ public class ChannelListAdapter extends BaseAdapter {
 
 			Holder.channellist_pull = (LinearLayout) convertView
 					.findViewById(R.id.channellist_pull);
-			Holder.item_img = (ImageView)convertView.findViewById(R.id.item_img);
+			Holder.item_img = (ImageView) convertView
+					.findViewById(R.id.item_img);
 			convertView.setTag(Holder);
 		} else {
 			Holder = (DeviceHolder) convertView.getTag();
@@ -107,8 +108,9 @@ public class ChannelListAdapter extends BaseAdapter {
 		if (!dataList.get(position).isIspull()) {
 			Holder.channellist_pull.setVisibility(View.GONE);
 			Holder.channel_list_img
-			.setImageResource(R.drawable.devicemanage_edit_icon);
-			Holder.item_img.setImageResource(R.drawable.devicemanage_normal_icon);
+					.setImageResource(R.drawable.devicemanage_edit_icon);
+			Holder.item_img
+					.setImageResource(R.drawable.devicemanage_normal_icon);
 			ModifyDevTask task = new ModifyDevTask();
 			String[] strParams = new String[3];
 			strParams[0] = dataList.get(position).getCloudnum();
@@ -117,7 +119,8 @@ public class ChannelListAdapter extends BaseAdapter {
 			task.execute(strParams);
 		} else {
 			Holder.channellist_pull.setVisibility(View.VISIBLE);
-			Holder.channel_list_img.setImageResource(R.drawable.devicemanage_selected_icon);
+			Holder.channel_list_img
+					.setImageResource(R.drawable.devicemanage_selected_icon);
 			Holder.item_img.setImageResource(R.drawable.devicemanage_sure_icon);
 		}
 		notifyDataSetChanged();

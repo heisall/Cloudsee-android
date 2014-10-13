@@ -25,6 +25,7 @@ import com.jovision.Consts;
 import com.jovision.adapters.FuntionAdapter;
 import com.jovision.adapters.PlayViewPagerAdapter;
 import com.jovision.adapters.ScreenAdapter;
+import com.jovision.adapters.StreamAdapter;
 import com.jovision.audio.MICRecorder;
 import com.jovision.audio.PlayAudio;
 import com.jovision.bean.Channel;
@@ -93,6 +94,8 @@ public class PlayActivity extends BaseActivity {
 	protected LinearLayout apFuncLayout;// 底部Ap下一步按钮
 	protected Button nextStep;// 下一步
 
+	protected Boolean recoding = false;
+
 	/** 录像按钮 */
 	protected Drawable videoTapeLeft1 = null;
 	protected Drawable videoTapeLeft2 = null;
@@ -115,6 +118,16 @@ public class PlayActivity extends BaseActivity {
 	protected RelativeLayout bottombut6;
 	protected RelativeLayout bottombut7;
 	protected RelativeLayout bottombut8;
+
+	/** IPC独有特性 */
+	protected Button decodeBtn;
+	protected Button videTurnBtn;// 视频翻转
+	// 录像模式----rightFuncButton
+	// 码流切换----moreFeature
+	protected String[] streamArray;
+	protected ListView streamListView;// 码流listview
+	protected StreamAdapter streamAdapter;// 码流adapter
+	protected RelativeLayout voiceTip;// 单向对讲提示
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -166,6 +179,11 @@ public class PlayActivity extends BaseActivity {
 
 		linkState = (TextView) findViewById(R.id.playstate);// 连接文字
 		loading = (ProgressBar) findViewById(R.id.videoloading);// 加载进度
+
+		decodeBtn = (Button) findViewById(R.id.decodeway);
+		videTurnBtn = (Button) findViewById(R.id.overturn);
+		voiceTip = (RelativeLayout) findViewById(R.id.voicetip);
+
 		/** 下 */
 
 		bottom = (LinearLayout) findViewById(R.id.bottom);
@@ -197,7 +215,8 @@ public class PlayActivity extends BaseActivity {
 		functionList.add(getResources().getString(R.string.str_yt_operate));
 		functionList
 				.add(getResources().getString(R.string.str_remote_playback));
-		functionListAdapter = new FuntionAdapter(PlayActivity.this, bigScreen);
+		functionListAdapter = new FuntionAdapter(PlayActivity.this, bigScreen,
+				playFlag);
 		functionListAdapter.setData(functionList);
 		playFunctionList.setAdapter(functionListAdapter);
 
@@ -343,6 +362,8 @@ public class PlayActivity extends BaseActivity {
 			videoTape.setCompoundDrawablesWithIntrinsicBounds(videoTapeLeft1,
 					null, null, null);
 		}
+
+		recoding = selected;
 	}
 
 	/**

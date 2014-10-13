@@ -5,6 +5,9 @@ import java.io.File;
 import android.os.Environment;
 
 public class Consts {
+	/** 老数据库数据 **/
+	public static final String JVCONFIG_DATABASE = "JVConfigTemp.db";
+	public static final int JVCONFIG_DB_VER = 2;
 
 	public static final String SD_CARD_PATH = Environment
 			.getExternalStorageDirectory().getPath() + File.separator;
@@ -59,7 +62,8 @@ public class Consts {
 	public static final int COUNT_EX_STORAGE = 0x03;
 	public static final int TYPE_EX_STORAGE_SWITCH = 0x07;
 	public static final String FORMATTER_STORAGE_MODE = "storageMode=%d";
-	public static final String FORMATTER_TALK_SWITCH = "talkSwitch=%d";
+	public static final String FORMATTER_TALK_SWITCH = "talkSwitch=%d";// 1开始
+																		// 0关闭
 
 	{
 		// [Neo] 设置存储模式

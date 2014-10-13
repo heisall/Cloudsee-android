@@ -565,7 +565,8 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 		// 对讲数据
 		case Consts.CALL_CHAT_DATA: {
-			MyLog.v(TAG + "Chat", "CALL_CHAT_DATA:arg1=" + arg1);
+			MyLog.v(TAG + "Chat", "CALL_CHAT_DATA:arg1=" + arg1 + ",arg2="
+					+ arg2);
 			switch (arg1) {
 			// 语音数据
 			case JVNetConst.JVN_RSP_CHATDATA: {
@@ -575,6 +576,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 同意语音请求
 			case JVNetConst.JVN_RSP_CHATACCEPT: {
+				manager.getChannel(currentIndex).setVoiceCall(true);
 				voiceCallSelected(true);
 				recorder.start();
 				break;
@@ -1090,15 +1092,22 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (0 == arg2) {// 音频监听
 				if (allowThisFuc(true)) {
-					initAudio();
-					if (!PlayUtil.audioPlay(currentIndex)) {
+					if (manager.getChannel(currentIndex).isVoiceCall()) {
 						functionListAdapter.selectIndex = -1;
+						showTextToast(R.string.audio_monitor_forbidden);
 					} else {
-						functionListAdapter.selectIndex = arg2;
+						initAudio();
+						if (!PlayUtil.audioPlay(currentIndex)) {
+							functionListAdapter.selectIndex = -1;
+						} else {
+							functionListAdapter.selectIndex = arg2;
+						}
 					}
+
 				} else {
 					functionListAdapter.selectIndex = -1;
 				}
+
 			} else if (1 == arg2) {// 云台
 				if (allowThisFuc(false)) {
 					showPTZ();
@@ -1309,10 +1318,21 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.voicecall:// 语音对讲
 				initAudio();
 				if (allowThisFuc(true)) {
-					PlayUtil.audioPlay(currentIndex);
+					// 停止音频监听
+					if (PlayUtil.isPlayAudio(currentIndex)) {
+						PlayUtil.audioPlay(currentIndex);
+						functionListAdapter.selectIndex = -1;
+						functionListAdapter.notifyDataSetChanged();
+					}
+
 					playAudio.setIndex(currentIndex);
 					if (manager.getChannel(currentIndex).isVoiceCall()) {
-						recorder.stop();
+						if (null != recorder) {
+							recorder.stop();
+						}
+						if (null != audioQueue) {// 请队列，防止停止后仍然播放
+							audioQueue.clear();
+						}
 						PlayUtil.stopVoiceCall(currentIndex);
 						manager.getChannel(currentIndex).setVoiceCall(false);
 						voiceCallSelected(false);
@@ -1337,7 +1357,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.more_features:// 码流
 				if (allowThisFuc(true)) {
 					if (-1 == manager.getChannel(currentIndex).getStreamTag()) {
-						showTextToast("不支持码流切换");
+						showTextToast(R.string.stream_not_support);
 					} else {
 						streamListView.setVisibility(View.VISIBLE);
 					}
@@ -1551,6 +1571,8 @@ public class JVPlayActivity extends PlayActivity implements
 				playFuctionLayout.setVisibility(View.VISIBLE);
 			}
 		} else {
+			stopAllFunc();
+
 			PlayUtil.disConnectAll(manager.getChannelList());
 			try {
 				Thread.sleep(500);
@@ -1584,11 +1606,17 @@ public class JVPlayActivity extends PlayActivity implements
 
 	}
 
-	@Override
-	protected void freeMe() {
-		super.freeMe();
+	/**
+	 * 停止所有事件
+	 */
+	public void stopAllFunc() {
 		// 停止音频监听
-		PlayUtil.audioPlay(currentIndex);
+		if (PlayUtil.isPlayAudio(currentIndex)) {
+			PlayUtil.audioPlay(currentIndex);
+			functionListAdapter.selectIndex = -1;
+			functionListAdapter.notifyDataSetChanged();
+		}
+
 		// 正在录像停止录像
 		if (PlayUtil.checkRecord(currentIndex)) {
 			if (PlayUtil.videoRecord(currentIndex)) {// 打开
@@ -1599,15 +1627,27 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 停止对讲
 		if (manager.getChannel(currentIndex).isVoiceCall()) {
-			recorder.stop();
+			if (null != recorder) {
+				recorder.stop();
+			}
+			if (null != audioQueue) {
+				audioQueue.clear();
+			}
+			// if (null != playAudio) {
+			// playAudio.interrupt();
+			// }
 			manager.getChannel(currentIndex).setVoiceCall(false);
 			voiceCallSelected(false);
 			PlayUtil.stopVoiceCall(currentIndex);
 		}
+	}
 
+	@Override
+	protected void freeMe() {
+		stopAllFunc();
 		manager.destroy();
 		PlayUtil.disConnectAll(manager.getChannelList());
-
+		super.freeMe();
 	}
 
 	@Override

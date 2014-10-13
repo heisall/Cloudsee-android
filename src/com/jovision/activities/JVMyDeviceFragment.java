@@ -137,8 +137,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		popFunArray = mActivity.getResources()
 				.getStringArray(R.array.array_pop);
-		currentMenu.setText(mActivity.getResources().getString(
-				R.string.my_device));
 		currentMenu.setText(R.string.my_device);
 
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
@@ -720,6 +718,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 						.showTextToast(R.string.del_device_succ);
 				myDLAdapter.setShowDelete(false);
 				myDLAdapter.notifyDataSetChanged();
+				if (null == myDeviceList || 0 == myDeviceList.size()) {
+					deviceLayout.setVisibility(View.GONE);
+					quickSetSV.setVisibility(View.VISIBLE);
+				} else {
+					deviceLayout.setVisibility(View.VISIBLE);
+					quickSetSV.setVisibility(View.GONE);
+				}
 			} else {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.del_device_failed);

@@ -434,6 +434,9 @@ public class PlayActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
+		if (null != recorder) {
+			recorder.stop();
+		}
 		if (null != audioQueue) {
 			audioQueue.clear();
 		}

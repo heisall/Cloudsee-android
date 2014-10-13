@@ -45,26 +45,17 @@ public class MICRecorder {
 		indexOfChannel = index;
 	}
 
-	// private MICRecorder() {
-	// isWorking = false;
-	// bufferSize = AudioRecord
-	// .getMinBufferSize(SAMPLERATE, CHANNEL, ENCODING);
-	// encodeSize = ENCODE_SIZE;
-	// MyLog.i(TAG, "construction, size = " + bufferSize);
-	// }
-
-	// private static class MICRecorderContainer {
-	// private static MICRecorder RECORDER = new MICRecorder();
-	// }
+	private MICRecorder() {
+		isWorking = false;
+		bufferSize = AudioRecord
+				.getMinBufferSize(SAMPLERATE, CHANNEL, ENCODING);
+		encodeSize = ENCODE_SIZE;
+		MyLog.i(TAG, "construction, size = " + bufferSize);
+	}
 
 	public static MICRecorder getInstance() {
 		if (null == RECORDER) {
 			RECORDER = new MICRecorder();
-			isWorking = false;
-			bufferSize = AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
-					ENCODING);
-			encodeSize = ENCODE_SIZE;
-			MyLog.i(TAG, "construction, size = " + bufferSize);
 		}
 
 		return RECORDER;

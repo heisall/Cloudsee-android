@@ -379,9 +379,9 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	 * 返回事件
 	 */
 	private void backMethod() {
+		stopAllFunc();
 		Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYSTOP, new byte[0],
 				0);
-
 		JVRemotePlayBackActivity.this.finish();
 	}
 
@@ -413,11 +413,11 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 	}
 
-	@Override
-	protected void freeMe() {
-		super.freeMe();
+	private void stopAllFunc() {
 		// 停止音频监听
-		PlayUtil.audioPlay(indexOfChannel);
+		if (PlayUtil.isPlayAudio(indexOfChannel)) {
+			PlayUtil.audioPlay(indexOfChannel);
+		}
 
 		// 正在录像停止录像
 		if (PlayUtil.checkRecord(indexOfChannel)) {
@@ -426,8 +426,13 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				tapeSelected(false);
 			}
 		}
+	}
 
+	@Override
+	protected void freeMe() {
+		stopAllFunc();
 		Jni.enablePlayback(indexOfChannel, false);
+		super.freeMe();
 	}
 
 	@Override

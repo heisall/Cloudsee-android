@@ -471,6 +471,8 @@
     <string name="connecting_buffer">正在缓冲数据...</string>
     <string name="is_omx">硬解</string>
     <string name="not_omx">软解</string>
+    <string name="stream_not_support">该设备暂时不支持画质切换</string>
+    <string name="audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
 
     <!-- JVQuickSet -->
     <!-- ap配置流程模块 -->
@@ -566,6 +568,6 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">V3.1.12 - DJ</string>
+    <string name="str_current_version">BetaV4.1.1(重构) - DJ</string>
 
 </resources>

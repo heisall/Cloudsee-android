@@ -1675,8 +1675,8 @@ public class JVPlayActivity extends PlayActivity implements
 							.setBackgroundColor(getResources().getColor(
 									R.color.videoselect));
 				} else {
-					bottom.setVisibility(View.VISIBLE);
-					topBartwo.setVisibility(View.VISIBLE);
+					bottom.setVisibility(View.GONE);
+					topBartwo.setVisibility(View.GONE);
 					init();
 				}
 				handler.sendEmptyMessageDelayed(

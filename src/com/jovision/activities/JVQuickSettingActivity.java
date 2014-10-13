@@ -612,7 +612,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	@Override
 	public void onBackPressed() {
 		backMethod();
-		super.onBackPressed();
 	}
 
 	/**

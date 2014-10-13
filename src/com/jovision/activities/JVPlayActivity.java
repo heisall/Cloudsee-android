@@ -170,8 +170,8 @@ public class JVPlayActivity extends PlayActivity implements
 					isOmx = object.getBoolean("is_omx");
 					manager.getChannel(arg2).setOMX(isOmx);
 
-					MyLog.v("ChannelTag--1", "isOmx=" + isOmx);
-
+					MyLog.v("ChannelTag--IFrame=isOmx", "isOmx=" + isOmx);
+					//
 					// if (isOmx) {
 					// decodeBtn.setText(R.string.is_omx);
 					// } else {
@@ -210,10 +210,12 @@ public class JVPlayActivity extends PlayActivity implements
 			manager.getChannel(arg1).setConnecting(false);
 			manager.getChannel(arg1).setConnected(true);
 
+			MyLog.v("ChannelTag--IFrame=arg2", "arg2=" + arg2);
+
 			if (Consts.DECODE_OMX == arg2) {
-				manager.getChannel(arg1).setOMX(true);
-			} else if (Consts.DECODE_NOTOMX == arg2) {
 				manager.getChannel(arg1).setOMX(false);
+			} else if (Consts.DECODE_NOTOMX == arg2) {
+				manager.getChannel(arg1).setOMX(true);
 			}
 
 			MyLog.v("refreshIPCFun--IFrame=", arg1 + "");
@@ -1153,10 +1155,18 @@ public class JVPlayActivity extends PlayActivity implements
 				videTurnBtn.setVisibility(View.GONE);
 			}
 
+			// 码流设置
 			if (-1 != channel.getStreamTag()) {
 				streamAdapter.selectStream = channel.getStreamTag() - 1;
 				streamAdapter.notifyDataSetChanged();
 				moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
+			}
+
+			// 软硬解
+			if (channel.isOMX()) {
+				decodeBtn.setText(R.string.is_omx);
+			} else {
+				decodeBtn.setText(R.string.not_omx);
 			}
 		} else {
 			decodeBtn.setVisibility(View.GONE);
@@ -1299,9 +1309,11 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.voicecall:// 语音对讲
 				initAudio();
 				if (allowThisFuc(true)) {
+					PlayUtil.audioPlay(currentIndex);
+					playAudio.setIndex(currentIndex);
 					if (manager.getChannel(currentIndex).isVoiceCall()) {
-						PlayUtil.stopVoiceCall(currentIndex);
 						recorder.stop();
+						PlayUtil.stopVoiceCall(currentIndex);
 						manager.getChannel(currentIndex).setVoiceCall(false);
 						voiceCallSelected(false);
 					} else {
@@ -1575,8 +1587,27 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	protected void freeMe() {
 		super.freeMe();
+		// 停止音频监听
+		PlayUtil.audioPlay(currentIndex);
+		// 正在录像停止录像
+		if (PlayUtil.checkRecord(currentIndex)) {
+			if (PlayUtil.videoRecord(currentIndex)) {// 打开
+				showTextToast(Consts.VIDEO_PATH);
+				tapeSelected(false);
+			}
+		}
+
+		// 停止对讲
+		if (manager.getChannel(currentIndex).isVoiceCall()) {
+			recorder.stop();
+			manager.getChannel(currentIndex).setVoiceCall(false);
+			voiceCallSelected(false);
+			PlayUtil.stopVoiceCall(currentIndex);
+		}
+
 		manager.destroy();
 		PlayUtil.disConnectAll(manager.getChannelList());
+
 	}
 
 	@Override

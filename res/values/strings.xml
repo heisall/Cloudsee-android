@@ -518,6 +518,7 @@
     <!-- Dialog -->
     <string name="save">保存</string>
     <string name="cancle">取消</string>
+    <string name="delect">删除</string>
     <string name="str_nickname">昵        称 </string>
     <string name="str_devicename">设  备  号</string>
     <string name="str_username">用  户  名</string>

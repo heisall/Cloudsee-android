@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.bean.ChannellistBean;
@@ -27,6 +28,7 @@ public class ChannelListAdapter extends BaseAdapter {
 	private ArrayList<ChannellistBean> dataList;
 	private Boolean localFlag;
 	private ArrayList<Device> manageDeviceList;
+	private int deviceindex;
 
 	public ChannelListAdapter(Activity activitys) {
 		activity = activitys;
@@ -35,9 +37,11 @@ public class ChannelListAdapter extends BaseAdapter {
 		manageDeviceList = CacheUtil.getDevList();
 	}
 
-	public void setData(ArrayList<ChannellistBean> dataList, Boolean localFlag) {
+	public void setData(ArrayList<ChannellistBean> dataList, Boolean localFlag,
+		int deviceindex) {
 		this.dataList = dataList;
 		this.localFlag = localFlag;
+		this. deviceindex =  deviceindex;
 	}
 
 	@Override
@@ -57,7 +61,7 @@ public class ChannelListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		DeviceHolder Holder;
+		final DeviceHolder Holder;
 		if (null == convertView) {
 			convertView = inflater.inflate(R.layout.channellist_item_layout,
 					null);
@@ -76,14 +80,15 @@ public class ChannelListAdapter extends BaseAdapter {
 					.findViewById(R.id.channellist_pull);
 			Holder.item_img = (ImageView) convertView
 					.findViewById(R.id.item_img);
+			Holder.channel_list_text.setText(dataList.get(position)
+					.getChannelName());
+			Holder.channel_list_edit.setText(dataList.get(position)
+					.getChannelName());
 			convertView.setTag(Holder);
 		} else {
 			Holder = (DeviceHolder) convertView.getTag();
 		}
-		Holder.channel_list_text.setText(dataList.get(position)
-				.getChannelName());
-		Holder.channel_list_edit.setText(dataList.get(position)
-				.getChannelName());
+
 		Holder.channel_list_img.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -93,6 +98,14 @@ public class ChannelListAdapter extends BaseAdapter {
 					if (position == i) {
 						if (dataList.get(i).isIspull()) {
 							dataList.get(i).setIspull(false);
+							ModifyDevTask task = new ModifyDevTask();
+							String[] strParams = new String[5];
+							strParams[0] = dataList.get(position).getCloudnum();
+							strParams[1] = dataList.get(position).getChannelnum() + "";
+							strParams[2] = Holder.channel_list_edit.getText().toString();
+							strParams[3] = position+"";
+							strParams[4] = deviceindex+"";
+							task.execute(strParams);
 						} else {
 							dataList.get(i).setIspull(true);
 						}
@@ -108,20 +121,17 @@ public class ChannelListAdapter extends BaseAdapter {
 		if (!dataList.get(position).isIspull()) {
 			Holder.channellist_pull.setVisibility(View.GONE);
 			Holder.channel_list_img
-					.setImageResource(R.drawable.devicemanage_edit_icon);
+			.setImageResource(R.drawable.devicemanage_edit_icon);
 			Holder.item_img
-					.setImageResource(R.drawable.devicemanage_normal_icon);
-			ModifyDevTask task = new ModifyDevTask();
-			String[] strParams = new String[3];
-			strParams[0] = dataList.get(position).getCloudnum();
-			strParams[1] = dataList.get(position).getChannelnum() + "";
-			strParams[2] = Holder.channel_list_edit.getText().toString();
-			task.execute(strParams);
+			.setImageResource(R.drawable.devicemanage_normal_icon);
 		} else {
 			Holder.channellist_pull.setVisibility(View.VISIBLE);
+			Holder.channel_list_edit.setFocusable(true);
+			Holder.channel_list_edit.setFocusableInTouchMode(true);
+			Holder.channel_list_edit.requestFocus();
 			Holder.channel_list_img
-					.setImageResource(R.drawable.devicemanage_selected_icon);
-			Holder.item_img.setImageResource(R.drawable.devicemanage_sure_icon);
+			.setImageResource(R.drawable.devicemanage_sure_icon);
+			Holder.item_img.setImageResource(R.drawable.devicemanage_selected_icon);
 		}
 		notifyDataSetChanged();
 		return convertView;
@@ -142,10 +152,13 @@ public class ChannelListAdapter extends BaseAdapter {
 		protected Integer doInBackground(String... params) {
 			int delRes = -1;
 			try {
+				int num = Integer.valueOf(params[1]);
+				int position = Integer.valueOf(params[4]);
+				int deviceindex = Integer.valueOf(params[5]);
+				manageDeviceList.get(deviceindex).getChannelList().get(position).setChannelName(params[2]);
 				if (localFlag) {// 本地保存修改信息
 					delRes = 0;
 				} else {
-					int num = Integer.valueOf(params[1]);
 					delRes = DeviceUtil.modifyPointName(params[0], num,
 							params[2]);
 				}
@@ -163,6 +176,7 @@ public class ChannelListAdapter extends BaseAdapter {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			Toast.makeText(activity, "dsafdas", Toast.LENGTH_LONG).show();
 			CacheUtil.saveDevList(manageDeviceList);
 		}
 

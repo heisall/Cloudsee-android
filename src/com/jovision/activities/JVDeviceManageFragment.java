@@ -85,7 +85,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
 
-		currentMenu.setText(R.string.str_help1_1);
+		currentMenu.setText(R.string.str_help1_2);
 		rightBtn.setVisibility(View.GONE);
 		rightBtn.setOnClickListener(mOnClickListener);
 
@@ -208,7 +208,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 				managePager.setVisibility(View.GONE);
 				relative.setVisibility(View.GONE);
 				break;
-			case R.id.devmore_hide:
+			case R.id.devmore_hie:
 				relalist.setVisibility(View.GONE);
 				devicemanage_listView.setVisibility(View.GONE);
 				managePager.setVisibility(View.VISIBLE);

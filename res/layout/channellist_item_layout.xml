@@ -28,7 +28,7 @@
             android:layout_toRightOf="@+id/item_img"
             android:text="A361"
             android:textColor="@color/more_fragment_color2"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/channel_item_img"
@@ -36,8 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/devicemanage_edit_icon" />
+            android:layout_marginRight="10dp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -46,8 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/shuru"
-        android:visibility="gone" >
+        android:background="@drawable/hover" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,6 +53,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:text="@string/str_nickname"
+            android:textSize="16sp"
             android:textColor="@color/more_fragment_color2" />
 
         <EditText
@@ -63,6 +62,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
+            android:background="@null"
             android:text="dsasd" />
     </LinearLayout>
 

@@ -62,7 +62,7 @@ public class JVChannelListActivity extends BaseActivity {
 		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
 		channelList = deviceList.get(deviceIndex).getChannelList();
 		initChannelBean();
-		adapter.setData(channelbeanList, localFlag);
+		adapter.setData(channelbeanList, localFlag,deviceIndex);
 		channel_listView.setAdapter(adapter);
 
 		btn_left.setOnClickListener(myOnClickListener);

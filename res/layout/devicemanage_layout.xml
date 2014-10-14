@@ -27,18 +27,22 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/str_nicknametwo"
-                android:textColor="@color/more_fragment_color2" />
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="16sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/shuru" >
 
                 <EditText
                     android:id="@+id/manage_nick"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/shuru" />
+                    android:layout_marginLeft="10dp"
+                    android:background="@null" />
 
                 <ImageView
                     android:id="@+id/manage_nick_cancle"
@@ -63,18 +67,22 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/str_username"
-                android:textColor="@color/more_fragment_color2" />
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="16sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/shuru" >
 
                 <EditText
                     android:id="@+id/manage_user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/shuru" />
+                    android:layout_marginLeft="10dp"
+                    android:background="@null" />
 
                 <ImageView
                     android:id="@+id/manage_user_cancle"
@@ -99,18 +107,22 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/str_password"
-                android:textColor="@color/more_fragment_color2" />
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="16sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/shuru" >
 
                 <EditText
                     android:id="@+id/manage_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/shuru"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
                     android:password="true" />
 
                 <ImageView
@@ -123,18 +135,40 @@
             </FrameLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/manage_save"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/blue_bg"
-            android:gravity="center"
-            android:text="@string/save"
-            android:textColor="@color/more_fragment_color3"
-            android:textSize="18sp" />
+            android:layout_marginTop="40dp" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" >
+
+                <TextView
+                    android:id="@+id/manage_delect"
+                    android:layout_width="120dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/blue_bg"
+                    android:gravity="center"
+                    android:text="@string/login_str_delete"
+                    android:textColor="@color/more_fragment_color3"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/manage_save"
+                    android:layout_width="120dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/blue_bg"
+                    android:gravity="center"
+                    android:text="@string/save"
+                    android:textColor="@color/more_fragment_color3"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

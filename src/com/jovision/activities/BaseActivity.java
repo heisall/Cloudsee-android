@@ -23,6 +23,7 @@ import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.commons.MyLog;
 import com.jovision.utils.MobileUtil;
 
 /**
@@ -38,6 +39,10 @@ public abstract class BaseActivity extends FragmentActivity implements
 	protected Configuration configuration;
 
 	protected DisplayMetrics disMetrics;
+
+	private long duration;
+	protected String topicName = "A";
+	private static final String RUNTIME = ".runtime";
 
 	public HashMap<String, String> statusHashMap;
 
@@ -92,10 +97,15 @@ public abstract class BaseActivity extends FragmentActivity implements
 	protected void onResume() {
 		((MainApplication) getApplication()).setCurrentNotifyer(this);
 		super.onResume();
+
+		duration = System.currentTimeMillis();
 	}
 
 	@Override
 	protected void onPause() {
+		duration = System.currentTimeMillis() - duration;
+		MyLog.ubStat(topicName + RUNTIME, (int) (duration / 1000));
+
 		dismissDialog();
 		saveSettings();
 		super.onPause();

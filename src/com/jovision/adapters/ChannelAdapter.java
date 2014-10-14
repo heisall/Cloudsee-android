@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.activities.BaseActivity;
 import com.jovision.activities.BaseFragment;
 import com.jovision.bean.Channel;
 
@@ -47,6 +46,7 @@ public class ChannelAdapter extends BaseAdapter {
 		inflater = (LayoutInflater) fragment.getActivity().getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
 	}
+
 	public void setData(ArrayList<Channel> dataList, int width) {
 		channelList = dataList;
 		screenWidth = width;

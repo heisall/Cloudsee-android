@@ -79,7 +79,7 @@ public class ChannelListAdapter extends BaseAdapter {
 					.findViewById(R.id.channellist_pull);
 			Holder.item_img = (ImageView) convertView
 					.findViewById(R.id.item_img);
-			
+
 			convertView.setTag(Holder);
 		} else {
 			Holder = (DeviceHolder) convertView.getTag();
@@ -93,7 +93,7 @@ public class ChannelListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		if (!dataList.get(position).isIspull()) {
@@ -156,7 +156,7 @@ public class ChannelListAdapter extends BaseAdapter {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			
+
 		}
 
 		@Override

@@ -114,7 +114,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 		devicemanage_listView = (ListView) mParent
 				.findViewById(R.id.device_listView);
 		devmorere = (RelativeLayout) mParent.findViewById(R.id.devmorere);
-		devmore_hie = (RelativeLayout)mParent.findViewById(R.id.devmore_hie);
+		devmore_hie = (RelativeLayout) mParent.findViewById(R.id.devmore_hie);
 		devmorere.setOnClickListener(mOnClickListener);
 		devmore_hie.setOnClickListener(mOnClickListener);
 		ListViewClick();

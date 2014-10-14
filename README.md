@@ -96,33 +96,28 @@
 通过 `MyLog.ub(String)` 方式调用即可，默认会有 DEBUG 级别的 logcat 输出，  
 同时自动追加到 `MyLog` 初始化指定的目录中的 `UB.log` 文件。
 
-日志内容需求
+日志标题需求
 
 + 不要换行
 + 字符数量尽量简短
 + 层级描述使用 `.` 分割
-+ 数据信息键值用 `:` 包裹
-+ 必要说明信息用 `#` 开头
 + 不需要额外对时间进行描述
 + 尽量不要添加中文
++ 存储成常亮以便触发日志或统计事件时使用
 
 举例
 
     // 生命周期，TabA 表示 TabActivity，ChannelF 表示 ChannelFragment
-    MyLog.ub("TabA.initUi");
-    MyLog.ub("TabA.onPause");
-
-    // 调用关键方法，ControlFragment 内部的 fetchTask 方法或线程
-    MyLog.ub("ControlF.fetchTask");
-
-    // 用户操作，ChannelFragment 第二页，长按第四个条目
-    MyLog.ub("ChannelF.page.2.longclick.4");
-
-    // 用户数据，使用 `:` 包裹数据键值，后面追加数值
-    MyLog.ub(":DeviceList:" + deviceList.toString);
-
-    // 必要说明，比如重置操作
-    MyLog.ub("# reset");
+    MyLog.ubTopic(topicName, "TabActivity initialize");
+    
+    // 状态、配置、内部列表发生变化时，注意使用统一的标题名称
+    final String topicName = "ChannelF.clean";
+    MyLog.ubLog(topicName);
+    MyLog.ubLog(topicName, deviceList.toString);
+    
+    // 运行次数、周期统计等
+    final String topicName = "MainA.runtime";
+    MyLog.ubStat(topicName, 100);
 
 # 接口层
 

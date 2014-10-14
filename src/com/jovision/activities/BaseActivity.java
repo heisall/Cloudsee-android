@@ -41,7 +41,8 @@ public abstract class BaseActivity extends FragmentActivity implements
 	protected DisplayMetrics disMetrics;
 
 	private long duration;
-	protected String topicName;
+	protected String topicName = "A";
+	private static final String RUNTIME = ".runtime";
 
 	public HashMap<String, String> statusHashMap;
 
@@ -103,7 +104,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	@Override
 	protected void onPause() {
 		duration = System.currentTimeMillis() - duration;
-		MyLog.ubStat(topicName, (int) (duration / 1000));
+		MyLog.ubStat(topicName + RUNTIME, (int) (duration / 1000));
 
 		dismissDialog();
 		saveSettings();

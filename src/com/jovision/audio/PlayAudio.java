@@ -13,7 +13,7 @@ public class PlayAudio extends Thread {
 	private static final int SAMPLERATE = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-	private static final int STREAM_TYPE = AudioManager.STREAM_VOICE_CALL;
+	private static final int STREAM_TYPE = AudioManager.STREAM_MUSIC;
 	private static final int TRACK_MODE = AudioTrack.MODE_STREAM;
 
 	private LinkedBlockingQueue<byte[]> audioQueue;

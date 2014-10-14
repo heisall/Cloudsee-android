@@ -150,11 +150,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		} else {
 			if (deviceList.get(position * 2).getHasWifi() == 1) {
 				deviceHolder.dev_wifi_img_l
-				.setImageResource(R.drawable.wifionline);
+						.setImageResource(R.drawable.wifionline);
 				deviceHolder.wifiStateL.setTextColor(0xffE8793F);
 			} else {
 				deviceHolder.dev_wifi_img_l
-				.setImageResource(R.drawable.wifioffline);
+						.setImageResource(R.drawable.wifioffline);
 				deviceHolder.wifiStateL.setTextColor(0xffB4B3B3);
 			}
 
@@ -162,12 +162,12 @@ public class MyDeviceListAdapter extends BaseAdapter {
 				deviceHolder.onLineStateL.setText(R.string.str_device_online);
 				deviceHolder.onLineStateL.setTextColor(0xffE8793F);
 				deviceHolder.dev_online_img_l
-				.setImageResource(R.drawable.deviceonline);
+						.setImageResource(R.drawable.deviceonline);
 			} else {
 				deviceHolder.onLineStateL.setText(R.string.str_device_offline);
 				deviceHolder.onLineStateL.setTextColor(0xffB4B3B3);
 				deviceHolder.dev_online_img_l
-				.setImageResource(R.drawable.deviceoffline);
+						.setImageResource(R.drawable.deviceoffline);
 			}
 		}
 		int lastL = (position * 2) % 4;
@@ -207,25 +207,25 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			} else {
 				if (deviceList.get(position * 2 + 1).getHasWifi() == 1) {
 					deviceHolder.dev_wifi_img_r
-					.setImageResource(R.drawable.wifionline);
+							.setImageResource(R.drawable.wifionline);
 					deviceHolder.wifiStateR.setTextColor(0xffE8793F);
 				} else {
 					deviceHolder.dev_wifi_img_r
-					.setImageResource(R.drawable.wifioffline);
+							.setImageResource(R.drawable.wifioffline);
 					deviceHolder.wifiStateR.setTextColor(0xffB4B3B3);
 				}
 				if (deviceList.get(position * 2 + 1).getOnlineState() == 1) {
 					deviceHolder.onLineStateR
-					.setText(R.string.str_device_online);
+							.setText(R.string.str_device_online);
 					deviceHolder.onLineStateR.setTextColor(0xffE8793F);
 					deviceHolder.dev_online_img_r
-					.setImageResource(R.drawable.deviceonline);
+							.setImageResource(R.drawable.deviceonline);
 				} else {
 					deviceHolder.onLineStateR
-					.setText(R.string.str_device_offline);
+							.setText(R.string.str_device_offline);
 					deviceHolder.onLineStateR.setTextColor(0xffB4B3B3);
 					deviceHolder.dev_online_img_r
-					.setImageResource(R.drawable.deviceoffline);
+							.setImageResource(R.drawable.deviceoffline);
 				}
 			}
 		} else {
@@ -238,15 +238,15 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		deviceHolder.devDeleteL.setOnClickListener(new DevOnClickListener(1, 3,
 				position));
 		deviceHolder.devLayoutL
-		.setOnLongClickListener(new OnLongClickListener() {
+				.setOnLongClickListener(new OnLongClickListener() {
 
-			@Override
-			public boolean onLongClick(View arg0) {
-				mfragment.onNotify(DEVICE_ITEM_LONG_CLICK, position, 0,
-						null);
-				return false;
-			}
-		});
+					@Override
+					public boolean onLongClick(View arg0) {
+						mfragment.onNotify(DEVICE_ITEM_LONG_CLICK, position, 0,
+								null);
+						return false;
+					}
+				});
 		deviceHolder.editDevL.setOnClickListener(new DevOnClickListener(1, 4,
 				position));
 		// 右侧按钮事件
@@ -255,15 +255,15 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		deviceHolder.devDeleteR.setOnClickListener(new DevOnClickListener(2, 3,
 				position));
 		deviceHolder.devLayoutR
-		.setOnLongClickListener(new OnLongClickListener() {
+				.setOnLongClickListener(new OnLongClickListener() {
 
-			@Override
-			public boolean onLongClick(View arg0) {
-				mfragment.onNotify(DEVICE_ITEM_LONG_CLICK, position, 0,
-						null);
-				return false;
-			}
-		});
+					@Override
+					public boolean onLongClick(View arg0) {
+						mfragment.onNotify(DEVICE_ITEM_LONG_CLICK, position, 0,
+								null);
+						return false;
+					}
+				});
 		deviceHolder.editDevR.setOnClickListener(new DevOnClickListener(2, 4,
 				position));
 		return convertView;
@@ -325,12 +325,13 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		ImageView dev_online_img_r;
 		ImageView dev_wifi_img_r;
 	}
+
 	protected void dialog(final int position) {
 		AlertDialog.Builder builder = new Builder(mfragment.getActivity());
 		builder.setMessage("确认删除该设备吗？");
 		builder.setTitle("提示");
 		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
@@ -338,7 +339,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			}
 		});
 		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub

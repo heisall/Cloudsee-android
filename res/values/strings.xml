@@ -450,9 +450,16 @@
     <string name="updated_at">上次更新于%1$s前</string>
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
+
     <!-- JVMyDeviceFragment -->
+    <!-- JVMyDeviceFragment -->
+    <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
+    <string name="str_modify">修改</string>
+    <string name="str_update">当前设备已全部更新</string>
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>
+    <string name="wifi_device">无线设备</string>
+    <string name="line_device">有线设备</string>
 
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">一共有</string>
@@ -480,12 +487,12 @@
     <string name="stream_not_support">This device doesn\'t support video quality switch.</string>
     <string name="audio_monitor_forbidden">This function is not available during two-way talk.</string>
     <string name="video_repaked">Switch video standard,Records re-packed.</string>
+    <string name="voice_tips1">You can speak to the other now.</string>
+    <string name="voice_tips2">Audio talk is enabled successfully. You can speak to the other through long-click "Mic".</string>
+
     <!-- JVAddDeviceActivity -->
-    <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
     <string name="add_device_succ">Device added successfully</string>
     <string name="add_device_failed">Failed to add device</string>
-    <string name="str_modify">修改</string>
-    <string name="str_update">当前设备已全部更新</string>
 
     <!-- ChannelFragment -->
     <string name="channel_name">Channel ?</string>
@@ -560,5 +567,7 @@
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
     <string name="str_current_version">BetaV4.1.1(重构) - DJ</string>
+    <!-- 版权 -->
+    <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 
 </resources>

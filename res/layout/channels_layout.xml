@@ -14,15 +14,13 @@
         android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" 
-        >
+        android:visibility="gone" >
 
         <RelativeLayout
             android:id="@+id/relalist"
             android:layout_width="match_parent"
-            android:layout_height="50dp" 
-            android:background="@color/video_channelcolor"
-            >
+            android:layout_height="50dp"
+            android:background="@color/video_channelcolor" >
 
             <TextView
                 android:id="@+id/device_num"
@@ -36,8 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/videoedit_pull_bgtwo"
-                 >
+                android:background="@drawable/videoedit_pull_bgtwo" >
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

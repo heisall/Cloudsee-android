@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/top_bar"
-        android:orientation="vertical"
-        android:visibility="gone" >
+        android:orientation="vertical" >
 
         <com.jovision.views.RefreshableView
             android:id="@+id/device_refreshable_view"
@@ -36,82 +35,11 @@
         </com.jovision.views.RefreshableView>
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/quickinstalllayout"
+    <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top_bar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:scrollbars="none" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="visible" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:text="无线设备"
-                android:textColor="@color/gray"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"
-                android:src="@drawable/wire_device_img" />
-
-            <Button
-                android:id="@+id/quickinstall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dip"
-                android:background="@drawable/quick_install_bg"
-                android:text="@string/str_quick_install"
-                android:textColor="@color/quickinstall_btn_normal"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="有线设备"
-                android:textColor="@color/gray"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"
-                android:src="@drawable/unwire_device_img" />
-
-            <Button
-                android:id="@+id/adddevice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dip"
-                android:background="@drawable/quick_install_bg"
-                android:text="@string/str_help1_1"
-                android:textColor="@color/quickinstall_btn_normal"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:text="@string/str_quick_install_tips2"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:visibility="gone" />
-        </LinearLayout>
-    </ScrollView>
+        layout="@layout/no_device_help" >
+    </include>
 
 </RelativeLayout>

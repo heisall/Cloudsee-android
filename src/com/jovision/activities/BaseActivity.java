@@ -33,7 +33,7 @@ import com.jovision.utils.MobileUtil;
  * 
  */
 public abstract class BaseActivity extends FragmentActivity implements
-		IHandlerNotify, IHandlerLikeNotify {
+		IHandlerNotify,IHandlerLikeNotify {
 	protected ProgressDialog proDialog;
 	protected Toast toast;
 	protected Configuration configuration;

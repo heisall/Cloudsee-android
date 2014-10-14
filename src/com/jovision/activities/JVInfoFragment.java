@@ -62,7 +62,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 		pushListView = (XListView) mParent.findViewById(R.id.pushlistview);
 		getResources().getDrawable(R.drawable.refresh_broadcast);
-		rightBtn.setVisibility(View.VISIBLE);
+		rightBtn.setVisibility(View.GONE);
 		rightBtn.setOnClickListener(onClickListener);
 
 		// pushAdapter.setData(pushList);

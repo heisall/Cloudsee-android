@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.activities.BaseActivity;
 import com.jovision.activities.BaseFragment;
 import com.jovision.bean.Channel;
 
@@ -46,7 +47,6 @@ public class ChannelAdapter extends BaseAdapter {
 		inflater = (LayoutInflater) fragment.getActivity().getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
 	}
-
 	public void setData(ArrayList<Channel> dataList, int width) {
 		channelList = dataList;
 		screenWidth = width;
@@ -149,7 +149,7 @@ public class ChannelAdapter extends BaseAdapter {
 					});
 
 			// 点击删除通道
-		channelHolder.channelDel.setOnClickListener(new OnClickListener() {
+			channelHolder.channelDel.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View arg0) {
@@ -204,21 +204,21 @@ public class ChannelAdapter extends BaseAdapter {
 		RelativeLayout channelEdit;
 		ImageView channelEditIV;
 	}
+
 	protected void dialog(final int channel) {
 		AlertDialog.Builder builder = new Builder(mfragment.getActivity());
 		builder.setMessage("确认删除该通道吗？");
 		builder.setTitle("提示");
 		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				mfragment
-				.onNotify(CHANNEL_ITEM_DEL_CLICK, channel, 0, null);
+				mfragment.onNotify(CHANNEL_ITEM_DEL_CLICK, channel, 0, null);
 			}
 		});
 		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub

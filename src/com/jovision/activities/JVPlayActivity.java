@@ -64,7 +64,7 @@ public class JVPlayActivity extends PlayActivity implements
 	private int oneScreen = 1;// 单屏
 	private int fourScreen = 4;// 四屏
 	private int nineScreen = 9;// 九屏
-	// private int sixteenScreen = 16;// 十六屏
+	private int sixteenScreen = 16;// 十六屏
 
 	private int connNum = 4;// 保持连接数
 
@@ -618,6 +618,8 @@ public class JVPlayActivity extends PlayActivity implements
 		channelOfChannel = intent.getIntExtra("ChannelofChannel", 0);
 		playFlag = intent.getIntExtra("PlayFlag", 0);
 
+		currentScreen = intent.getIntExtra("Screen", 1);
+
 		if (Consts.PLAY_NORMAL == playFlag) {
 			deviceList = CacheUtil.getDevList();
 		} else if (Consts.PLAY_DEMO == playFlag) {
@@ -774,6 +776,10 @@ public class JVPlayActivity extends PlayActivity implements
 		voiceCall.setOnClickListener(myOnClickListener);
 		voiceCall.setOnTouchListener(callOnTouchListener);
 		voiceCall.setOnLongClickListener(callOnLongClickListener);
+
+		if (oneScreen != currentScreen) {
+			computeScreenData(oneScreen, currentScreen);
+		}
 	}
 
 	OnTouchListener callOnTouchListener = new OnTouchListener() {
@@ -1210,6 +1216,7 @@ public class JVPlayActivity extends PlayActivity implements
 	@SuppressWarnings("deprecation")
 	private void refreshIPCFun(Channel channel) {
 		if (currentScreen == oneScreen) {
+			decodeBtn.setVisibility(View.VISIBLE);
 			// 获取软硬解状态
 			if (channel.isOMX()) {
 				decodeBtn.setText(R.string.is_omx);
@@ -1238,7 +1245,7 @@ public class JVPlayActivity extends PlayActivity implements
 						R.color.white));
 				rightFuncButton.setBackgroundDrawable(null);
 			} else {
-				rightFuncButton.setVisibility(View.VISIBLE);
+				rightFuncButton.setVisibility(View.GONE);
 
 			}
 
@@ -1284,11 +1291,11 @@ public class JVPlayActivity extends PlayActivity implements
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.nextstep: {// AP下一步
-				backMethod();
+				backMethod(false);
 				break;
 			}
 			case R.id.btn_left: {// 左边按钮
-				backMethod();
+				backMethod(true);
 				break;
 			}
 			case R.id.decodeway: {// 软硬解切换
@@ -1363,6 +1370,16 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 
 						screenListView.setAdapter(screenAdapter);
+
+						if (fourScreen == currentScreen) {
+							screenAdapter.selectIndex = 0;
+						} else if (nineScreen == currentScreen) {
+							screenAdapter.selectIndex = 1;
+						} else if (sixteenScreen == currentScreen) {
+							screenAdapter.selectIndex = 2;
+						}
+						screenAdapter.notifyDataSetChanged();
+
 						screenListView.setVerticalScrollBarEnabled(false);
 						screenListView.setHorizontalScrollBarEnabled(false);
 						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -1729,7 +1746,7 @@ public class JVPlayActivity extends PlayActivity implements
 	/**
 	 * 返回事件
 	 */
-	private void backMethod() {
+	private void backMethod(boolean apBack) {
 		if (View.VISIBLE == ytLayout.getVisibility()) {
 			ytLayout.setVisibility(View.GONE);
 			if (bigScreen) {
@@ -1751,6 +1768,11 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (Consts.PLAY_AP == playFlag) {
 				Intent aintent = new Intent();
+				if (apBack) {
+					aintent.putExtra("AP_Back", true);
+				} else {// next
+					aintent.putExtra("AP_Back", false);
+				}
 				setResult(JVConst.AP_CONNECT_FINISHED, aintent);
 				JVPlayActivity.this.finish();
 			} else {
@@ -1762,7 +1784,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	public void onBackPressed() {
-		backMethod();
+		backMethod(true);
 	}
 
 	@Override

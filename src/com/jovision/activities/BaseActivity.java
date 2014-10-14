@@ -6,15 +6,21 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -253,15 +259,71 @@ public abstract class BaseActivity extends FragmentActivity implements
 	}
 
 	/**
-	 * 没有网络提示
+	 * 没有网络提示 打开设置网络界面
+	 * */
+	public void alertNetDialog() {
+		// 提示对话框
+		AlertDialog.Builder builder = new Builder(this);
+		builder.setTitle(R.string.tips)
+				.setMessage(R.string.network_error)
+				.setPositiveButton(R.string.setting,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								Intent intent = null;
+								// 判断手机系统的版本 即API大于10 就是3.0或以上版本
+								if (android.os.Build.VERSION.SDK_INT > 10) {
+									intent = new Intent(
+											android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+								} else {
+									intent = new Intent();
+									ComponentName component = new ComponentName(
+											"com.android.settings",
+											"com.android.settings.WirelessSettings");
+									intent.setComponent(component);
+									intent.setAction("android.intent.action.VIEW");
+								}
+								BaseActivity.this.startActivity(intent);
+							}
+						})
+				.setNegativeButton(R.string.cancel,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.dismiss();
+							}
+						}).show();
+	}
+
+	/**
+	 * 是否是3G网络环境
 	 * 
 	 * @param context
+	 *            上下文
+	 * @param alert
+	 *            是否弹出提示
+	 * @return 是否是3G网络
 	 */
-	public void alertNetDialog() {
-		AlertDialog.Builder builder = new Builder(BaseActivity.this);
-		builder.setMessage(R.string.str_setting_network);
-		builder.setTitle(R.string.tips);
-		builder.create().show();
+	public boolean is3G(boolean alert) {
+		ConnectivityManager cManager = (ConnectivityManager) this
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo info = cManager.getActiveNetworkInfo();
+		if (info != null && info.isAvailable()) {
+			int type = info.getType();
+			if (type == ConnectivityManager.TYPE_WIFI) {
+				return false;
+			} else {
+				if (alert) {
+					this.showTextToast(R.string.tips_3g);
+				}
+				return true;
+			}
+		} else
+			return false;
 	}
 
 	/**
@@ -286,30 +348,57 @@ public abstract class BaseActivity extends FragmentActivity implements
 	 * 退出程序方法
 	 */
 	protected void openExitDialog() {
-		// http://www.jb51.net/article/32031.htm
-		AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
+		exit();
+		// // http://www.jb51.net/article/32031.htm
+		// AlertDialog.Builder builder = new
+		// AlertDialog.Builder(BaseActivity.this);
+		//
+		// builder.setTitle(R.string.tips);
+		// builder.setMessage(R.string.sure_exit);
+		//
+		// builder.setPositiveButton(R.string.sure,
+		// new DialogInterface.OnClickListener() {
+		// @Override
+		// public void onClick(DialogInterface dialog, int which) {
+		// MyActivityManager.getActivityManager()
+		// .popAllActivityExceptOne(null);
+		// android.os.Process.killProcess(android.os.Process
+		// .myPid());
+		// }
+		// });
+		// builder.setNegativeButton(R.string.cancel,
+		// new DialogInterface.OnClickListener() {
+		// @Override
+		// public void onClick(DialogInterface dialog, int which) {
+		//
+		// }
+		// });
+		// builder.create().show();
 
-		builder.setTitle(R.string.tips);
-		builder.setMessage(R.string.sure_exit);
-
-		builder.setPositiveButton(R.string.sure,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						MyActivityManager.getActivityManager()
-								.popAllActivityExceptOne(null);
-						android.os.Process.killProcess(android.os.Process
-								.myPid());
-					}
-				});
-		builder.setNegativeButton(R.string.cancel,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-
-					}
-				});
-		builder.create().show();
 	}
 
+	private long exitTime = 0;
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+			exit();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	public void exit() {
+		if ((System.currentTimeMillis() - exitTime) > 2000) {
+			Toast.makeText(getApplicationContext(), "再按一次退出程序",
+					Toast.LENGTH_SHORT).show();
+			exitTime = System.currentTimeMillis();
+		} else {
+			MyActivityManager.getActivityManager()
+					.popAllActivityExceptOne(null);
+			android.os.Process.killProcess(android.os.Process.myPid());
+			System.exit(0);
+		}
+	}
 }

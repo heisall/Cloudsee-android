@@ -174,6 +174,12 @@ public class JVWelcomeActivity extends BaseActivity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.welcome_layout);
+
+		if (!ConfigUtil.isConnected(JVWelcomeActivity.this)) {
+			alertNetDialog();
+		} else {
+			is3G(true);
+		}
 	}
 
 	@Override

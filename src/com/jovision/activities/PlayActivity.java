@@ -171,6 +171,7 @@ public class PlayActivity extends BaseActivity {
 		topBartwo = (LinearLayout) findViewById(R.id.top_bartwo);// 顶部标题栏
 		back = (Button) findViewById(R.id.btn_left);
 		rightFuncButton = (Button) findViewById(R.id.btn_right);
+		rightFuncButton.setVisibility(View.GONE);
 
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		selectScreenNum = (ImageView) findViewById(R.id.selectscreen);
@@ -200,6 +201,8 @@ public class PlayActivity extends BaseActivity {
 
 		decodeBtn = (Button) findViewById(R.id.decodeway);
 		videTurnBtn = (Button) findViewById(R.id.overturn);
+		decodeBtn.setVisibility(View.GONE);
+		videTurnBtn.setVisibility(View.GONE);
 		voiceTip = (RelativeLayout) findViewById(R.id.voicetip);
 
 		/** 下 */

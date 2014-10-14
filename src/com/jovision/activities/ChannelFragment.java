@@ -229,6 +229,19 @@ public class ChannelFragment extends BaseFragment {
 
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 				intentPlay.putExtra("DeviceIndex", deviceIndex);
+
+				int screen = 0;
+				int size = deviceList.get(deviceIndex).getChannelList().size();
+				if (size > 0 && size <= 4) {
+					screen = 4;
+				} else if (size > 4 && size <= 9) {
+					screen = 9;
+				} else if (size > 9) {
+					screen = 16;
+				}
+
+				intentPlay.putExtra("Screen", screen);
+
 				// [Neo] 实际上是 int channel
 
 				intentPlay.putExtra("ChannelofChannel",

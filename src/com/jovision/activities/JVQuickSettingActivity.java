@@ -112,7 +112,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	private RefreshableListView mobileWifiListView;
 	private MobileWifiAdapter mobileAdapter;
 
-	private String oldWifiSSID;
+	// private String oldWifiSSID;
 	private WifiAdmin wifiAdmin;
 	private int connectFailedCounts = 0;// 连接设备失败次数
 	private Boolean hasLogout = false;// 是否已经注销账号
@@ -725,9 +725,14 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (JVConst.AP_CONNECT_REQUEST == requestCode) {
 			switch (resultCode) {
 			case JVConst.AP_CONNECT_FINISHED:// AP检测视频完成
-				showIpcLayout(false);// ipc列表切换Wi-Fi列表
-				// 播放提示声音
-				playSound(Consts.SOUNDFOUR);
+				boolean back = data.getBooleanExtra("AP_Back", false);
+				if (back) {
+					showIpcLayout(true);// ipc列表切换Wi-Fi列表
+				} else {
+					showIpcLayout(false);// ipc列表切换Wi-Fi列表
+					// 播放提示声音
+					playSound(Consts.SOUNDFOUR);
+				}
 				break;
 			}
 		}
@@ -804,7 +809,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.QUICK_SETTING_DEV_ONLINE: {// 网络恢复成功
 			playSound(Consts.SOUNDSIX);// 播放“叮”的一声
 			showSearch(false);
-
+			quickSetDeviceImg.setVisibility(View.VISIBLE);
 			break;
 		}
 		case Consts.QUICK_SETTING_ERROR:// 配置出错
@@ -1084,6 +1089,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
+
+			stopRefreshWifiTimer();
 			int resetRes = -1;// 0：成功 1：失败:2：不需要添加设备直接退出
 			boolean addFlag = Boolean.valueOf(params[0]);
 			boolean changeRes = wifiAdmin.changeWifi(setIpcName, oldWifiSSID,
@@ -1182,7 +1189,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					resetRes = 1007;
 				}
 			}
-			if (addFlag) {
+			if (0 == resetRes && addFlag) {
 				handler.sendMessage(handler.obtainMessage(
 						Consts.QUICK_SETTING_DEV_ONLINE, 0, 0));
 			}
@@ -1210,6 +1217,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				if (0 == result) {
 					playSound(Consts.SOUNDSIX);
 					showSearch(false);
+					quickSetDeviceImg.setVisibility(View.VISIBLE);
 				} else if (2 == result) {
 					JVQuickSettingActivity.this.finish();
 				} else {
@@ -1537,6 +1545,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 	// 配制出错，错误dialog
 	public void errorDialog(int errorCode) {
+		quickSetDeviceImg.setVisibility(View.GONE);
 		// 断开连接
 		manuDiscon = true;
 		PlayUtil.disconnectDevice();
@@ -1553,6 +1562,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						// 暂停扫瞄器
+						showSearch(false);
+						if (null != mediaPlayer) {
+							mediaPlayer.stop();
+						}
+						dismisQuickPopWindow();
 						showIpcLayout(false);
 					}
 
@@ -1605,7 +1620,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				isSearching = false;
 				searchView.stopPlayer();
-				quickSetDeviceImg.setVisibility(View.VISIBLE);// 弹出设备
 				quickSetBackImg.setVisibility(View.GONE);
 			}
 		}

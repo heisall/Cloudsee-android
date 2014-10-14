@@ -36,7 +36,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/icon_demo_sel" />
+                android:src="@drawable/videoedit_pull_icon" />
         </RelativeLayout>
 
         <ListView
@@ -100,7 +100,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/icon_demo_sel" />
+                android:src="@drawable/videoedit_pull_icon" />
         </RelativeLayout>
 
         <android.support.v4.view.ViewPager

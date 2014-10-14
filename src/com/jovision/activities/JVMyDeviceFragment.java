@@ -119,9 +119,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	private PopWindowAdapter popWindowAdapter;
 
-	private int[] popDrawarray = new int[] { R.drawable.icon_demo_nor,
-			R.drawable.icon_message_nor, R.drawable.icon_more_nor,
-			R.drawable.icon_demo_nor };
+	private int[] popDrawarray = new int[] {
+			R.drawable.mydevice_popwindowonse_icon,
+			R.drawable.mydevice_popwindowtwo_icon,
+			R.drawable.mydevice_popwindowthree_icon,
+			R.drawable.mydevice_popwindowfour_icon };
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -139,6 +141,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		popFunArray = mActivity.getResources()
 				.getStringArray(R.array.array_pop);
+		currentMenu.setText(mActivity.getResources().getString(
+				R.string.my_device));
 		currentMenu.setText(R.string.my_device);
 
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
@@ -235,7 +239,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 					popupWindow.dismiss();
 				} else {
 					// 显示在below正下方
-					popupWindow.showAsDropDown(view, 0, 20);
+					popupWindow.showAsDropDown(view,
+							-mActivity.disMetrics.widthPixels / 2 + 60, 10);
 				}
 				break;
 			case R.id.device_nameet_cancle:
@@ -714,13 +719,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 						.showTextToast(R.string.del_device_succ);
 				myDLAdapter.setShowDelete(false);
 				myDLAdapter.notifyDataSetChanged();
-				if (null == myDeviceList || 0 == myDeviceList.size()) {
-					deviceLayout.setVisibility(View.GONE);
-					quickSetSV.setVisibility(View.VISIBLE);
-				} else {
-					deviceLayout.setVisibility(View.VISIBLE);
-					quickSetSV.setVisibility(View.GONE);
-				}
 			} else {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.del_device_failed);

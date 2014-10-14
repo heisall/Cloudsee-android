@@ -54,6 +54,7 @@
                 android:layout_alignRight="@+id/userdivider_iv"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/app_name"
+                android:padding="10dp"
                 android:src="@drawable/login_pull_icon" />
 
             <ImageView

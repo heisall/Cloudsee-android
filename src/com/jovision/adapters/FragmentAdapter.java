@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -56,16 +57,21 @@ public class FragmentAdapter extends BaseAdapter {
 			holder.item_new = (ImageView) convertView
 					.findViewById(R.id.item_new);
 			holder.name = (TextView) convertView.findViewById(R.id.item_name);
+			holder.item_linear = (LinearLayout) convertView
+					.findViewById(R.id.item_linear);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.item_img.setBackgroundResource(dataList.get(position)
 				.getItem_img());
+		holder.item_linear.setBackgroundResource(dataList.get(position)
+				.getItem_linear());
 		holder.name.setText(dataList.get(position).getName());
 		if (dataList.get(position).isIsnew()) {
 			if (position == 2) {
-				holder.item_new.setBackgroundResource(R.drawable.more_red_new);
+				holder.item_new
+						.setBackgroundResource(R.drawable.morefragment_red_icon);
 			}
 			holder.item_new.setVisibility(View.VISIBLE);
 		} else {
@@ -78,5 +84,6 @@ public class FragmentAdapter extends BaseAdapter {
 		private ImageView item_img;
 		private TextView name;
 		private ImageView item_new;
+		private LinearLayout item_linear;
 	}
 }

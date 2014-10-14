@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import com.jovision.bean.ChannellistBean;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.DeviceUtil;
 
 public class JVChannelListActivity extends BaseActivity {
 
@@ -62,7 +64,7 @@ public class JVChannelListActivity extends BaseActivity {
 		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
 		channelList = deviceList.get(deviceIndex).getChannelList();
 		initChannelBean();
-		adapter.setData(channelbeanList, localFlag, deviceIndex);
+		adapter.setData(channelbeanList);
 		channel_listView.setAdapter(adapter);
 
 		btn_left.setOnClickListener(myOnClickListener);
@@ -113,4 +115,47 @@ public class JVChannelListActivity extends BaseActivity {
 			}
 		}
 	};
+
+	// 保存更改设备信息线程
+	class ModifyDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int delRes = -1;
+			try {
+				int num = Integer.valueOf(params[1]);
+				if (localFlag) {// 本地保存修改信息
+					delRes = 0;
+				} else {
+					delRes = DeviceUtil.modifyPointName(params[0], num,
+							params[2]);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return delRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
 }

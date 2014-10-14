@@ -25,6 +25,7 @@
     <color name="channel_color_7">#7B7AD7</color>
     <color name="channel_color_8">#F5C130</color>
     <color name="channel_color_9">#33b5e5</color>
+    <color name="channel_color_10">#e6e6e5</color>
 
     <!-- 视频管理背景色 -->
     <color name="quickinstall_btn_normal">#007aff</color>

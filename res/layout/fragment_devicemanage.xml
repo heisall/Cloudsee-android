@@ -86,7 +86,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="" />
+                    android:text=""
+                    android:textSize="16sp" />
 
                 <RelativeLayout
                     android:id="@+id/devmore_hie"
@@ -101,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
-                        android:src="@drawable/videoedit_pull_icon" />
+                        android:src="@drawable/videoedit_pulled_icon" />
                 </RelativeLayout>
             </RelativeLayout>
 

@@ -3,7 +3,6 @@ package com.jovision.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,31 +15,21 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.JVChannelListActivity;
 import com.jovision.bean.ChannellistBean;
-import com.jovision.bean.Device;
-import com.jovision.utils.CacheUtil;
-import com.jovision.utils.DeviceUtil;
 
 public class ChannelListAdapter extends BaseAdapter {
 
 	private JVChannelListActivity activity;
 	private LayoutInflater inflater;
 	private ArrayList<ChannellistBean> dataList;
-	private Boolean localFlag;
-	private ArrayList<Device> manageDeviceList;
-	private int deviceindex;
 
 	public ChannelListAdapter(JVChannelListActivity activitys) {
 		activity = activitys;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		manageDeviceList = CacheUtil.getDevList();
 	}
 
-	public void setData(ArrayList<ChannellistBean> dataList, Boolean localFlag,
-			int deviceindex) {
+	public void setData(ArrayList<ChannellistBean> dataList) {
 		this.dataList = dataList;
-		this.localFlag = localFlag;
-		this.deviceindex = deviceindex;
 	}
 
 	@Override
@@ -93,7 +82,19 @@ public class ChannelListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				for (int i = 0; i < dataList.size(); i++) {
+					if (position == i) {
+						if (dataList.get(i).isIspull()) {
+							dataList.get(i).setIspull(false);
+						} else {
+							dataList.get(i).setIspull(true);
+						}
+					} else {
+						dataList.get(i).setIspull(false);
 
+					}
+					notifyDataSetChanged();
+				}
 			}
 		});
 		if (!dataList.get(position).isIspull()) {
@@ -122,52 +123,5 @@ public class ChannelListAdapter extends BaseAdapter {
 		private EditText channel_list_edit;
 		private LinearLayout channellist_pull;
 		private ImageView item_img;
-	}
-
-	// 保存更改设备信息线程
-	class ModifyDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
-		// 可变长的输入参数，与AsyncTask.exucute()对应
-		@Override
-		protected Integer doInBackground(String... params) {
-			int delRes = -1;
-			try {
-				int num = Integer.valueOf(params[1]);
-				int position = Integer.valueOf(params[4]);
-				int deviceindex = Integer.valueOf(params[5]);
-				manageDeviceList.get(deviceindex).getChannelList()
-						.get(position).setChannelName(params[2]);
-				if (localFlag) {// 本地保存修改信息
-					delRes = 0;
-				} else {
-					delRes = DeviceUtil.modifyPointName(params[0], num,
-							params[2]);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return delRes;
-		}
-
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-
-		}
-
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
-		}
 	}
 }

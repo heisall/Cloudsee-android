@@ -28,7 +28,7 @@
             android:layout_toRightOf="@+id/item_img"
             android:text="A361"
             android:textColor="@color/more_fragment_color2"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/channel_item_img"

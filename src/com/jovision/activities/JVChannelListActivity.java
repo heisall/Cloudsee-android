@@ -34,12 +34,25 @@ public class JVChannelListActivity extends BaseActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
+		switch (what) {
+		case 1:
+			ModifyDevTask task = new ModifyDevTask();
+			String[] strParams = new String[4];
+			strParams[0] = channelbeanList.get(arg1).getCloudnum();
+			strParams[1] = channelbeanList.get(arg1).getChannelnum() + "";
+			strParams[2] = obj.toString();
+			strParams[3] = arg1 + "";
+			task.execute(strParams);
+			break;
 
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-
+		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 	}
 
 	@Override
@@ -118,11 +131,17 @@ public class JVChannelListActivity extends BaseActivity {
 			int delRes = -1;
 			try {
 				int num = Integer.valueOf(params[1]);
+				int position = Integer.valueOf(params[3]);
+
 				if (localFlag) {// 本地保存修改信息
 					delRes = 0;
 				} else {
 					delRes = DeviceUtil.modifyPointName(params[0], num,
 							params[2]);
+				}
+				if (delRes == 0) {
+					deviceList.get(deviceIndex).getChannelList()
+							.get(position + 1).setChannelName(params[2]);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -138,7 +157,7 @@ public class JVChannelListActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-
+			CacheUtil.saveDevList(deviceList);
 		}
 
 		@Override

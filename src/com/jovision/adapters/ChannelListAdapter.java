@@ -13,16 +13,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.activities.JVChannelListActivity;
+import com.jovision.activities.BaseActivity;
 import com.jovision.bean.ChannellistBean;
 
 public class ChannelListAdapter extends BaseAdapter {
 
-	private JVChannelListActivity activity;
+	private BaseActivity activity;
 	private LayoutInflater inflater;
 	private ArrayList<ChannellistBean> dataList;
 
-	public ChannelListAdapter(JVChannelListActivity activitys) {
+	public ChannelListAdapter(BaseActivity activitys) {
 		activity = activitys;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -73,10 +73,6 @@ public class ChannelListAdapter extends BaseAdapter {
 		} else {
 			Holder = (DeviceHolder) convertView.getTag();
 		}
-		Holder.channel_list_text.setText(dataList.get(position)
-				.getChannelName());
-		Holder.channel_list_edit.setText(dataList.get(position)
-				.getChannelName());
 		Holder.channel_list_img.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -85,13 +81,18 @@ public class ChannelListAdapter extends BaseAdapter {
 				for (int i = 0; i < dataList.size(); i++) {
 					if (position == i) {
 						if (dataList.get(i).isIspull()) {
+							activity.onNotify(1, position, 0,
+									Holder.channel_list_edit.getText()
+											.toString());
+							dataList.get(position).setChannelName(
+									Holder.channel_list_edit.getText()
+											.toString());
 							dataList.get(i).setIspull(false);
 						} else {
 							dataList.get(i).setIspull(true);
 						}
 					} else {
 						dataList.get(i).setIspull(false);
-
 					}
 					notifyDataSetChanged();
 				}
@@ -113,7 +114,11 @@ public class ChannelListAdapter extends BaseAdapter {
 			Holder.item_img
 					.setImageResource(R.drawable.devicemanage_selected_icon);
 		}
-		notifyDataSetChanged();
+		Holder.channel_list_text.setText(dataList.get(position)
+				.getChannelName());
+		Holder.channel_list_edit.setText(dataList.get(position)
+				.getChannelName());
+
 		return convertView;
 	}
 

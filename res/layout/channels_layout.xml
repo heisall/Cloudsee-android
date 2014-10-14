@@ -27,8 +27,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:textSize="16sp"
-                android:text="" />
+                android:text=""
+                android:textSize="16sp" />
 
             <RelativeLayout
                 android:id="@+id/devmore_hide"

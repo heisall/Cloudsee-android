@@ -1350,11 +1350,25 @@ public class JVPlayActivity extends PlayActivity implements
 			if (Consts.STORAGEMODE_NORMAL == channel.getStorageMode()) {
 				rightFuncButton.setVisibility(View.VISIBLE);
 				rightFuncButton.setText(R.string.video_normal);
+				rightFuncButton.setCompoundDrawablesWithIntrinsicBounds(null,
+						normalRecordDrawableTop, null, null);
+				rightFuncButton.setTextSize(8);
+				rightFuncButton.setTextColor(getResources().getColor(
+						R.color.white));
+				rightFuncButton.setBackgroundDrawable(null);
+
 			} else if (Consts.STORAGEMODE_ALARM == channel.getStorageMode()) {
 				rightFuncButton.setVisibility(View.VISIBLE);
 				rightFuncButton.setText(R.string.video_alarm);
+				rightFuncButton.setCompoundDrawablesWithIntrinsicBounds(null,
+						alarmRecordDrawableTop, null, null);
+				rightFuncButton.setTextSize(8);
+				rightFuncButton.setTextColor(getResources().getColor(
+						R.color.white));
+				rightFuncButton.setBackgroundDrawable(null);
 			} else {
-				rightFuncButton.setVisibility(View.GONE);
+				rightFuncButton.setVisibility(View.VISIBLE);
+
 			}
 
 			// 屏幕方向
@@ -1892,8 +1906,14 @@ public class JVPlayActivity extends PlayActivity implements
 			Thread resumeThread = new Thread() {
 				@Override
 				public void run() {
-					manager.getChannel(index).setSurfaceCreated(true);
-					Jni.resume(index, surface);
+					try {
+						manager.getChannel(index).setSurfaceCreated(true);
+						Jni.resume(index, surface);
+					} catch (Exception e) {
+						MyLog.v(TAG, "resumeThread--error--index=" + index);
+						e.printStackTrace();
+					}
+
 					super.run();
 				}
 			};

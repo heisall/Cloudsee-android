@@ -128,6 +128,9 @@ public class PlayActivity extends BaseActivity {
 	protected ListView streamListView;// 码流listview
 	protected StreamAdapter streamAdapter;// 码流adapter
 	protected RelativeLayout voiceTip;// 单向对讲提示
+	// 按钮图
+	protected Drawable alarmRecordDrawableTop = null;
+	protected Drawable normalRecordDrawableTop = null;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -160,6 +163,10 @@ public class PlayActivity extends BaseActivity {
 
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		selectScreenNum = (ImageView) findViewById(R.id.selectscreen);
+		alarmRecordDrawableTop = getResources().getDrawable(
+				R.drawable.record_alarm);
+		normalRecordDrawableTop = getResources().getDrawable(
+				R.drawable.record_normal);
 
 		int[] screenArray = getResources().getIntArray(R.array.array_screen);
 		if (null != screenArray) {

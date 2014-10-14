@@ -62,6 +62,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public static final int BROAD_ADD_DEVICE = 0x06;// 添加设备的广播--
 	public static final int BROAD_THREE_MINITE = 0x07;// 三分钟广播--
 
+	public static final int ADD_DEV_REQUEST = 0x08;// 添加设备请求--
+
 	private RefreshableView refreshableView;
 
 	/** 叠加两个 布局 */
@@ -252,7 +254,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				Intent addIntent = new Intent();
 				addIntent.setClass(mActivity, JVAddDeviceActivity.class);
 				addIntent.putExtra("QR", false);
-				mActivity.startActivity(addIntent);
+				mActivity.startActivityForResult(addIntent, ADD_DEV_REQUEST);
 				break;
 			default:
 				break;
@@ -489,16 +491,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			if (1 == dev.getChannelList().size()) {// 1个通道直接播放
 				PlayUtil.prepareConnect(myDeviceList, arg1);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				// String devJsonString = Device.listToString(myDeviceList);
-				// [Neo] no need to do this
-				// intentPlay.putExtra("DeviceList", devJsonString);
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-				// MySharedPreference.putString(Consts.KEY_PLAY_NORMAL,
-				// devJsonString);
 				intentPlay.putExtra("DeviceIndex", arg1);
 				intentPlay.putExtra("ChannelofChannel", dev.getChannelList()
 						.toList().get(0).getChannel());
-				// intentPlay.putExtra("DevJsonString", devJsonString);
 				mActivity.startActivity(intentPlay);
 			} else {// 多个通道查看通道列表
 				Intent intentPlay = new Intent(mActivity,

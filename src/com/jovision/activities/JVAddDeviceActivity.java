@@ -2,6 +2,8 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +27,10 @@ import com.jovision.utils.DeviceUtil;
 public class JVAddDeviceActivity extends BaseActivity {
 
 	private static final String TAG = "JVAddDeviceActivity";
+
+	public static final int ADD_DEV_SUCCESS = 0x60;// 添加设备成功--
+	public static final int ADD_DEV_FAILED = 0x61;// 添加设备失败--
+
 	/** topBar */
 	private Button leftBtn;
 	private TextView currentMenu;
@@ -37,16 +43,41 @@ public class JVAddDeviceActivity extends BaseActivity {
 	private Button saveBtn;
 
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
+	private Device addDevice;
 	private Boolean qrAdd = false;// 是否二维码扫描添加设备
+
+	boolean hasBroadIP = false;// 是否广播完IP
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
+		switch (what) {
+		case Consts.CALL_QUERY_DEVICE: {// 广播到设备IP
+			hasBroadIP = true;
+			JSONObject broadObj;
+			try {
+				broadObj = new JSONObject(obj.toString());
+				if (1 == broadObj.optInt("type")) {// 广播到了
+					addDevice.setOnlineState(1);
+					addDevice.setIp(broadObj.optString("ip"));
+					addDevice.setPort(broadObj.optInt("port"));
+				} else {
+					addDevice.setIp("");
+					addDevice.setPort(0);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			MyLog.e(TAG, "hasBroadIP: " + what + ", " + arg1 + ", " + arg2
+					+ ", " + obj);
 
+			break;
+		}
+		}
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-
+		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 	}
 
 	@Override
@@ -90,6 +121,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.btn_left: {
+				CacheUtil.saveDevList(deviceList);
 				JVAddDeviceActivity.this.finish();
 				break;
 			}
@@ -169,6 +201,9 @@ public class JVAddDeviceActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
+		// Intent intent = new Intent();
+		// setResult(ADD_DEV_FAILED, intent);
+		CacheUtil.saveDevList(deviceList);
 		JVAddDeviceActivity.this.finish();
 		super.onBackPressed();
 	}
@@ -214,28 +249,28 @@ public class JVAddDeviceActivity extends BaseActivity {
 					channelCount = 4;
 				}
 
-				Device addDev = new Device("", 0, params[0],
+				addDevice = new Device("", 0, params[0],
 						Integer.parseInt(params[1]), userET.getText()
 								.toString(), pwdET.getText().toString(), false,
 						channelCount, 0);
-				MyLog.v(TAG, "dev = " + addDev.toString());
-				if (null != addDev) {
+				// MyLog.v(TAG, "dev = " + addDev.toString());
+				if (null != addDevice) {
 					if (localFlag) {// 本地添加
 						addRes = 0;
 					} else {
 						addRes = DeviceUtil.addDevice(
-								statusHashMap.get("KEY_USERNAME"), addDev);
-						if (0 <= addDev.getChannelList().size()) {
-							if (0 == DeviceUtil.addPoint(addDev.getFullNo(),
-									addDev.getChannelList().size())) {
-								addDev.setChannelList(DeviceUtil
-										.getDevicePointList(addDev,
-												addDev.getFullNo()));
+								statusHashMap.get("KEY_USERNAME"), addDevice);
+						if (0 <= addDevice.getChannelList().size()) {
+							if (0 == DeviceUtil.addPoint(addDevice.getFullNo(),
+									addDevice.getChannelList().size())) {
+								addDevice.setChannelList(DeviceUtil
+										.getDevicePointList(addDevice,
+												addDevice.getFullNo()));
 								addRes = 0;
 							} else {
 								DeviceUtil.unbindDevice(
 										statusHashMap.get(Consts.KEY_USERNAME),
-										addDev.getFullNo());
+										addDevice.getFullNo());
 								addRes = -1;
 							}
 						}
@@ -243,7 +278,13 @@ public class JVAddDeviceActivity extends BaseActivity {
 				}
 
 				if (0 == addRes) {
-					deviceList.add(addDev);
+					Jni.queryDevice(ConfigUtil.getGroup(addDevice.getFullNo()),
+							ConfigUtil.getYST(addDevice.getFullNo()), 5 * 1000);
+
+					while (!hasBroadIP) {
+						Thread.sleep(1000);
+					}
+					deviceList.add(addDevice);
 				}
 
 			} catch (Exception e) {
@@ -263,7 +304,11 @@ public class JVAddDeviceActivity extends BaseActivity {
 			dismissDialog();
 			if (0 == result) {
 				showTextToast(R.string.add_device_succ);
+				// Intent intent = new Intent();
+				// setResult(ADD_DEV_SUCCESS, intent);
+				CacheUtil.saveDevList(deviceList);
 				JVAddDeviceActivity.this.finish();
+
 			} else {
 				showTextToast(R.string.add_device_failed);
 			}
@@ -283,7 +328,6 @@ public class JVAddDeviceActivity extends BaseActivity {
 
 	@Override
 	public void onPause() {
-		CacheUtil.saveDevList(deviceList);
 		super.onPause();
 	}
 }

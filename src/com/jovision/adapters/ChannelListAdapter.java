@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.IHandlerLikeNotify;
+import com.jovision.activities.BaseActivity;
+import com.jovision.activities.JVChannelListActivity;
 import com.jovision.bean.ChannellistBean;
 import com.jovision.bean.Device;
 import com.jovision.utils.CacheUtil;
@@ -81,7 +85,7 @@ public class ChannelListAdapter extends BaseAdapter {
 			Holder.item_img = (ImageView) convertView
 					.findViewById(R.id.item_img);
 			Holder.channel_list_text.setText(dataList.get(position)
-					.getChannelName());
+					.getChannelnum()+"");
 			Holder.channel_list_edit.setText(dataList.get(position)
 					.getChannelName());
 			convertView.setTag(Holder);
@@ -97,7 +101,6 @@ public class ChannelListAdapter extends BaseAdapter {
 				for (int i = 0; i < dataList.size(); i++) {
 					if (position == i) {
 						if (dataList.get(i).isIspull()) {
-							dataList.get(i).setIspull(false);
 							ModifyDevTask task = new ModifyDevTask();
 							String[] strParams = new String[5];
 							strParams[0] = dataList.get(position).getCloudnum();
@@ -106,6 +109,7 @@ public class ChannelListAdapter extends BaseAdapter {
 							strParams[3] = position+"";
 							strParams[4] = deviceindex+"";
 							task.execute(strParams);
+							dataList.get(i).setIspull(false);
 						} else {
 							dataList.get(i).setIspull(true);
 						}
@@ -155,7 +159,9 @@ public class ChannelListAdapter extends BaseAdapter {
 				int num = Integer.valueOf(params[1]);
 				int position = Integer.valueOf(params[4]);
 				int deviceindex = Integer.valueOf(params[5]);
-				manageDeviceList.get(deviceindex).getChannelList().get(position).setChannelName(params[2]);
+				Log.i("TAG", position+""+deviceindex);
+				manageDeviceList.get(0).getChannelList().get(0).setChannelName("asdas");
+				CacheUtil.saveDevList(manageDeviceList);
 				if (localFlag) {// 本地保存修改信息
 					delRes = 0;
 				} else {
@@ -176,8 +182,7 @@ public class ChannelListAdapter extends BaseAdapter {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			Toast.makeText(activity, "dsafdas", Toast.LENGTH_LONG).show();
-			CacheUtil.saveDevList(manageDeviceList);
+			
 		}
 
 		@Override

@@ -2,11 +2,16 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.database.DataSetObserver;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -67,6 +72,7 @@ public class JVChannelListActivity extends BaseActivity {
 
 		btn_left.setOnClickListener(myOnClickListener);
 		btn_right.setOnClickListener(myOnClickListener);
+		
 	}
 
 	@Override

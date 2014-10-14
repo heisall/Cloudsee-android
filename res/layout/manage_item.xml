@@ -5,26 +5,31 @@
 
     <RelativeLayout
         android:id="@+id/manage_rl"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/manage_bg_1" >
 
-        <ImageView
-            android:id="@+id/manage_img"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/videoedit_add_icon" />
-
-        <TextView
-            android:id="@+id/function"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/manage_img"
             android:layout_centerInParent="true"
-            android:text="sdsd"
-            android:textColor="@color/white" />
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/manage_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/videoedit_add_icon" />
+
+            <TextView
+                android:id="@+id/function"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="sdsd"
+                android:textColor="@color/white" />
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

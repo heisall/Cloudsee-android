@@ -2,7 +2,10 @@ package com.jovision.adapters;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -146,12 +149,11 @@ public class ChannelAdapter extends BaseAdapter {
 					});
 
 			// 点击删除通道
-			channelHolder.channelDel.setOnClickListener(new OnClickListener() {
+		channelHolder.channelDel.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View arg0) {
-					mfragment
-							.onNotify(CHANNEL_ITEM_DEL_CLICK, channel, 0, null);
+					dialog(channel);
 				}
 			});
 
@@ -202,5 +204,27 @@ public class ChannelAdapter extends BaseAdapter {
 		RelativeLayout channelEdit;
 		ImageView channelEditIV;
 	}
-
+	protected void dialog(final int channel) {
+		AlertDialog.Builder builder = new Builder(mfragment.getActivity());
+		builder.setMessage("确认删除该通道吗？");
+		builder.setTitle("提示");
+		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				mfragment
+				.onNotify(CHANNEL_ITEM_DEL_CLICK, channel, 0, null);
+			}
+		});
+		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+			}
+		});
+		builder.create().show();
+	}
 }

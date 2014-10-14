@@ -54,7 +54,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private ManageListAdapter adapter;
 	private RelativeLayout relalist;
 	private RelativeLayout relative;
-	private ImageView image_hide;
+	private RelativeLayout image_hide;
 
 	private ArrayList<Fragment> fragments;
 
@@ -76,7 +76,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
 
-		currentMenu.setText(R.string.str_help1_1);
+		currentMenu.setText(R.string.str_help1_2);
 		rightBtn.setVisibility(View.GONE);
 		rightBtn.setOnClickListener(mOnClickListener);
 
@@ -96,7 +96,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 		device_num = (TextView) mParent.findViewById(R.id.device_num);
 		relalist = (RelativeLayout) mParent.findViewById(R.id.relalist);
 		relative = (RelativeLayout) mParent.findViewById(R.id.relative);
-		image_hide = (ImageView) mParent.findViewById(R.id.devmore_hide);
+		image_hide = (RelativeLayout) mParent.findViewById(R.id.devmore_hie);
 		devicemanage_listView = (ListView) mParent
 				.findViewById(R.id.device_listView);
 		devMore = (ImageView) mParent.findViewById(R.id.devmore);
@@ -192,7 +192,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 				managePager.setVisibility(View.GONE);
 				relative.setVisibility(View.GONE);
 				break;
-			case R.id.devmore_hide:
+			case R.id.devmore_hie:
 				relalist.setVisibility(View.GONE);
 				devicemanage_listView.setVisibility(View.GONE);
 				managePager.setVisibility(View.VISIBLE);

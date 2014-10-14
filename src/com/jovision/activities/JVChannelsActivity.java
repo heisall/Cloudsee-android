@@ -59,10 +59,10 @@ public class JVChannelsActivity extends BaseActivity {
 
 	private RelativeLayout relative;
 	private TextView device_num;
-	private ImageView devmore_hide;
+	private RelativeLayout devmore_hide;
 	private ListView devicemanage_listView;
 	private LinearLayout linear;
-	private ImageView devmore;
+	private RelativeLayout devmore;
 	private ManageListAdapter adapter;
 
 	@Override
@@ -96,10 +96,10 @@ public class JVChannelsActivity extends BaseActivity {
 		/** top bar */
 		relative = (RelativeLayout) findViewById(R.id.relative);
 		device_num = (TextView) findViewById(R.id.device_num);
-		devmore_hide = (ImageView) findViewById(R.id.devmore_hide);
+		devmore_hide = (RelativeLayout) findViewById(R.id.devmore_hide);
 		devicemanage_listView = (ListView) findViewById(R.id.devicemanage_listView);
 		linear = (LinearLayout) findViewById(R.id.linear);
-		devmore = (ImageView) findViewById(R.id.devmore);
+		devmore = (RelativeLayout) findViewById(R.id.devmorerelative);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.channal_list);
@@ -212,7 +212,7 @@ public class JVChannelsActivity extends BaseActivity {
 			case R.id.btn_right:
 				break;
 
-			case R.id.devmore:
+			case R.id.devmorerelative:
 				device_num.setText(JVChannelsActivity.this.getResources()
 						.getString(R.string.str_fre)
 						+ deviceList.size()

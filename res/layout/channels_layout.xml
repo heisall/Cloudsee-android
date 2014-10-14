@@ -14,12 +14,15 @@
         android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" >
+        android:visibility="gone" 
+        >
 
         <RelativeLayout
             android:id="@+id/relalist"
             android:layout_width="match_parent"
-            android:layout_height="50dp" >
+            android:layout_height="50dp" 
+            android:background="@color/video_channelcolor"
+            >
 
             <TextView
                 android:id="@+id/device_num"
@@ -28,15 +31,20 @@
                 android:layout_centerVertical="true"
                 android:text="" />
 
-            <ImageView
+            <RelativeLayout
                 android:id="@+id/devmore_hide"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/videoedit_pull_icon" />
+                android:background="@drawable/videoedit_pull_bgtwo"
+                 >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/videoedit_pull_icon" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <ListView
@@ -66,8 +74,8 @@
                 android:id="@+id/hsv_view"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_toLeftOf="@+id/devmore"
-                android:background="@android:color/white"
+                android:layout_toLeftOf="@+id/devmorerelative"
+                android:background="@color/video_channelcolor"
                 android:fadingEdge="@null"
                 android:scrollbars="none" >
 
@@ -92,15 +100,21 @@
                 </RelativeLayout>
             </HorizontalScrollView>
 
-            <ImageView
-                android:id="@+id/devmore"
+            <RelativeLayout
+                android:id="@+id/devmorerelative"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/videoedit_pull_icon" />
+                android:background="@drawable/videoedit_pull_bgtwo" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/videoedit_pull_icon" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <android.support.v4.view.ViewPager

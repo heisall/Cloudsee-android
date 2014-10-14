@@ -63,6 +63,8 @@
     <!-- 视频播放 -->
     <color name="play_color">#1eFFFFFF</color>
     <color name="play_bq">#007AFF</color>
+    <!-- 设备管理 -->
+    <color name="video_channelcolor">#EFEFEF</color>
     <!-- 我的设备字体颜色 -->
     <color name="mydevice_modify">#519DE8</color>
     <!-- 象牙色 -->

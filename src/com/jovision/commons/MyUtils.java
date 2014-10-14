@@ -30,20 +30,6 @@ import android.net.NetworkInfo.State;
  */
 public class MyUtils {
 
-	public static String b2str(byte[] bytes, int start, int length) {
-		int size = bytes.length;
-		if (start + length >= size) {
-			length = size - start;
-		}
-
-		StringBuilder sBuilder = new StringBuilder(length * 6);
-		for (int i = 0; i < length; i++) {
-			sBuilder.append(String.format("%02X, ", bytes[start + i]));
-		}
-
-		return sBuilder.toString();
-	}
-
 	public static boolean zip(String target, File[] files) {
 		boolean result = false;
 
@@ -193,8 +179,8 @@ public class MyUtils {
 			connection.setRequestProperty("Accept", "*/*");
 			connection.setRequestProperty("User-Agent", ua);
 			connection.setRequestProperty("Charset", enc);
-			connection.setConnectTimeout(5 * 1000);
-			connection.setReadTimeout(5 * 1000);
+			connection.setConnectTimeout(2 * 1000);
+			connection.setReadTimeout(2 * 1000);
 			InputStream inputStream = connection.getInputStream();
 
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -218,7 +204,7 @@ public class MyUtils {
 			reader.close();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			// [Neo] Empty
 		}
 
 		try {

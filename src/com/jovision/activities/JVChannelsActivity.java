@@ -86,7 +86,6 @@ public class JVChannelsActivity extends BaseActivity {
 		Intent intent = getIntent();
 		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
 		deviceList = CacheUtil.getDevList();
-		;
 	}
 
 	@Override
@@ -107,6 +106,7 @@ public class JVChannelsActivity extends BaseActivity {
 		rightBtn.setBackgroundResource(R.drawable.qr_icon);
 		leftBtn.setOnClickListener(mOnClickListener);
 		rightBtn.setOnClickListener(mOnClickListener);
+		rightBtn.setVisibility(View.GONE);
 		devmore_hide.setOnClickListener(mOnClickListener);
 		devmore.setOnClickListener(mOnClickListener);
 

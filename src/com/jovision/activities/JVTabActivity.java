@@ -92,6 +92,18 @@ public class JVTabActivity extends ShakeActivity {
 	}
 
 	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		// //添加设备请求
+		// if(JVMyDeviceFragment.ADD_DEV_REQUEST == requestCode){
+		// if(JVAddDeviceActivity.ADD_DEV_SUCCESS == resultCode){
+		// PlayUtil.broadCast(this);
+		// }
+		// }
+
+	}
+
+	@Override
 	public void onBackPressed() {
 		BaseFragment currentFrag = mFragments[currentIndex];
 		if (null != currentFrag) {
@@ -110,6 +122,14 @@ public class JVTabActivity extends ShakeActivity {
 
 		// TODO 增加过滤
 		switch (what) {
+		// case Consts.CALL_LAN_SEARCH:{
+		// BaseFragment currentFrag = mFragments[currentIndex];
+		// if (null != currentFrag) {
+		// ((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
+		// obj);
+		// }
+		// break;
+		// }
 		default:
 			BaseFragment currentFrag = mFragments[currentIndex];
 			if (null != currentFrag) {

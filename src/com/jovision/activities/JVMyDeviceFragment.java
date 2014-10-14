@@ -30,7 +30,6 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -62,13 +61,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public static final int BROAD_ADD_DEVICE = 0x06;// 添加设备的广播--
 	public static final int BROAD_THREE_MINITE = 0x07;// 三分钟广播--
 
-	public static final int ADD_DEV_REQUEST = 0x08;// 添加设备请求--
-
 	private RefreshableView refreshableView;
 
 	/** 叠加两个 布局 */
 	private LinearLayout deviceLayout; // 设备列表界面
-	private ScrollView quickSetSV; // 快速配置界面
+	private LinearLayout quickSetSV; // 快速配置界面
 	private Button quickSet;
 	private Button addDevice;
 
@@ -155,7 +152,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		adView = inflater.inflate(R.layout.ad_layout, null);
 
 		deviceLayout = (LinearLayout) mParent.findViewById(R.id.devicelayout);
-		quickSetSV = (ScrollView) mParent.findViewById(R.id.quickinstalllayout);
+		quickSetSV = (LinearLayout) mParent
+				.findViewById(R.id.quickinstalllayout);
 		quickSet = (Button) mParent.findViewById(R.id.quickinstall);
 		addDevice = (Button) mParent.findViewById(R.id.adddevice);
 		quickSet.setOnClickListener(myOnClickListener);
@@ -211,9 +209,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
-			myDLAdapter.setData(myDeviceList);
-			myDeviceListView.setAdapter(myDLAdapter);
-			myDLAdapter.notifyDataSetChanged();
+			refreshList();
 		} else {
 			GetDevTask task = new GetDevTask();
 			String[] strParams = new String[3];
@@ -259,7 +255,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				Intent addIntent = new Intent();
 				addIntent.setClass(mActivity, JVAddDeviceActivity.class);
 				addIntent.putExtra("QR", false);
-				mActivity.startActivityForResult(addIntent, ADD_DEV_REQUEST);
+				mActivity.startActivity(addIntent);
 				break;
 			default:
 				break;
@@ -345,18 +341,30 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public void onResume() {
 		super.onResume();
 		myDeviceList = CacheUtil.getDevList();
+		refreshList();
+	}
+
+	/**
+	 * 刷新列表
+	 */
+	public void refreshList() {
+
+		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
+				.get(Consts.HAG_GOT_DEVICE));
+
 		myDLAdapter.setData(myDeviceList);
 		myDeviceListView.setAdapter(myDLAdapter);
 		myDLAdapter.notifyDataSetChanged();
 
-		if (null == myDeviceList || 0 == myDeviceList.size()) {
-			deviceLayout.setVisibility(View.GONE);
-			quickSetSV.setVisibility(View.VISIBLE);
-		} else {
-			deviceLayout.setVisibility(View.VISIBLE);
-			quickSetSV.setVisibility(View.GONE);
+		if (hasGot) {
+			if (null == myDeviceList || 0 == myDeviceList.size()) {
+				deviceLayout.setVisibility(View.GONE);
+				quickSetSV.setVisibility(View.VISIBLE);
+			} else {
+				deviceLayout.setVisibility(View.VISIBLE);
+				quickSetSV.setVisibility(View.GONE);
+			}
 		}
-
 	}
 
 	@Override
@@ -718,7 +726,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.del_device_succ);
 				myDLAdapter.setShowDelete(false);
-				myDLAdapter.notifyDataSetChanged();
+				refreshList();
 			} else {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.del_device_failed);
@@ -778,6 +786,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 				} else if (localFlag) {// 本地登录
 					myDeviceList = CacheUtil.getDevList();
 				}
+
+				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
 					getRes = DEVICE_GETDATA_SUCCESS;
 				} else if (null != myDeviceList && 0 == myDeviceList.size()) {// 无数据
@@ -809,21 +819,18 @@ public class JVMyDeviceFragment extends BaseFragment {
 				PlayUtil.setHelperToList(myDeviceList);
 				broadTag = BROAD_DEVICE_LIST;
 				PlayUtil.broadCast(mActivity);
-				myDLAdapter.setData(myDeviceList);
-				myDeviceListView.setAdapter(myDLAdapter);
+				refreshList();
 				break;
 			}
 			// 从服务器端获取设备成功，但是没有设备
 			case DEVICE_NO_DEVICE: {
 				MyLog.v(TAG, "nonedata-too");
-				myDLAdapter.setData(myDeviceList);
-				myDeviceListView.setAdapter(myDLAdapter);
+				refreshList();
 				break;
 			}
 			// 从服务器端获取设备失败
 			case DEVICE_GETDATA_FAILED: {
-				myDLAdapter.setData(myDeviceList);
-				myDeviceListView.setAdapter(myDLAdapter);
+				refreshList();
 				break;
 			}
 			}

@@ -29,7 +29,9 @@ import com.jovision.adapters.StreamAdapter;
 import com.jovision.audio.MICRecorder;
 import com.jovision.audio.PlayAudio;
 import com.jovision.bean.Channel;
+import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.MyViewPager;
 
@@ -270,6 +272,18 @@ public class PlayActivity extends BaseActivity {
 		voiceCall = (Button) findViewById(R.id.voicecall);// 喊话
 		videoTape = (Button) findViewById(R.id.videotape);// 录像
 		moreFeature = (Button) findViewById(R.id.more_features);// 更多
+
+		if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+			capture.setTextSize(12);// 抓拍
+			voiceCall.setTextSize(12);// 喊话
+			videoTape.setTextSize(12);// 录像
+			moreFeature.setTextSize(12);
+		} else {
+			capture.setTextSize(8);// 抓拍
+			voiceCall.setTextSize(8);// 喊话
+			videoTape.setTextSize(8);// 录像
+			moreFeature.setTextSize(8);
+		}
 
 		footerBar = (LinearLayout) findViewById(R.id.footbar);// 底部工具栏
 		apFuncLayout = (LinearLayout) findViewById(R.id.apfunclayout);// 底部AP下一步

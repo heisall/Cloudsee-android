@@ -10,72 +10,50 @@
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
 
-    <RelativeLayout
-        android:id="@+id/relative"
+    <LinearLayout
+        android:id="@+id/datalayout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white" >
-
-        <HorizontalScrollView
-            android:id="@+id/hsv_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/devmore"
-            android:background="@drawable/videoedit_channalnum_bg"
-            android:fadingEdge="@null"
-            android:scrollbars="none" >
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" >
-
-                <LinearLayout
-                    android:id="@+id/hsv_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal" >
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/img"
-                    android:layout_width="100dp"
-                    android:layout_height="4dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@drawable/videoedit_select_bg" />
-            </RelativeLayout>
-        </HorizontalScrollView>
-
-        <ImageView
-            android:id="@+id/devmore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/videoedit_pull_icon" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent" 
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/relalist"
+            android:id="@+id/relative"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:visibility="gone" >
+            android:background="@color/white" >
 
-            <TextView
-                android:id="@+id/device_num"
-                android:layout_width="wrap_content"
+            <HorizontalScrollView
+                android:id="@+id/hsv_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="" />
+                android:layout_toLeftOf="@+id/devmore"
+                android:background="@drawable/videoedit_channalnum_bg"
+                android:fadingEdge="@null"
+                android:scrollbars="none" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" >
+
+                    <LinearLayout
+                        android:id="@+id/hsv_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/img"
+                        android:layout_width="100dp"
+                        android:layout_height="4dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/videoedit_select_bg" />
+                </RelativeLayout>
+            </HorizontalScrollView>
 
             <ImageView
-                android:id="@+id/devmore_hide"
+                android:id="@+id/devmore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -85,22 +63,56 @@
                 android:src="@drawable/videoedit_pull_icon" />
         </RelativeLayout>
 
-        <ListView
-            android:id="@+id/device_listView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/relalist"
-            android:background="@drawable/videoedit_pull_bg"
-            android:divider="@null"
-            android:fadingEdge="none"
-            android:visibility="gone" >
-        </ListView>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/manage_pagerer"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-        </android.support.v4.view.ViewPager>
-    </RelativeLayout>
 
-</LinearLayout>
+            <RelativeLayout
+                android:id="@+id/relalist"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/device_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="" />
+
+                <ImageView
+                    android:id="@+id/devmore_hide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/videoedit_pull_icon" />
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/device_listView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relalist"
+                android:background="@drawable/videoedit_pull_bg"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:visibility="gone" >
+            </ListView>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/manage_pagerer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </android.support.v4.view.ViewPager>
+        </RelativeLayout>
+
+        </LinearLayout>
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/no_device_help" >
+        </include>
+    </LinearLayout>

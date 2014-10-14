@@ -30,7 +30,7 @@
         android:id="@+id/mydevice_update"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/more_fragment_color4"
+        android:background="@color/white"
         android:orientation="horizontal" >
 
         <ImageView
@@ -58,7 +58,8 @@
             android:layout_marginLeft="5dp"
             android:text="@string/str_modify"
             android:textColor="@color/mydevice_modify"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

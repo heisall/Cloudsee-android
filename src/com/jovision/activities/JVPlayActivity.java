@@ -15,7 +15,6 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
@@ -782,7 +781,6 @@ public class JVPlayActivity extends PlayActivity implements
 			if (manager.getChannel(currentIndex).isSingleVoice()) {// 单向对讲
 				if (arg1.getAction() == MotionEvent.ACTION_UP
 						|| arg1.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
-					JVPlayActivity.this.showTextToast("停止发送时数据");
 					new TalkThread(0).start();
 					VOICECALL_LONG_CLICK = false;
 					voiceTip.setVisibility(View.GONE);
@@ -799,7 +797,6 @@ public class JVPlayActivity extends PlayActivity implements
 		public boolean onLongClick(View arg0) {
 			if (manager.getChannel(currentIndex).isSingleVoice()) {// 单向对讲
 				if (VOICECALLING) {// 正在喊话
-					JVPlayActivity.this.showTextToast("开始发送时数据");
 					VOICECALL_LONG_CLICK = true;
 					voiceTip.setVisibility(View.VISIBLE);
 					new TalkThread(1).start();
@@ -810,134 +807,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 	};
 
-	class MyOnGestureListener extends SimpleOnGestureListener {
-
-		@Override
-		public boolean onSingleTapUp(MotionEvent e) {
-			return false;
-		}
-
-		@Override
-		public void onLongPress(MotionEvent e) {
-			if (VOICECALLING) {// 正在喊话
-				JVPlayActivity.this.showTextToast("开始发送时数据");
-				VOICECALL_LONG_CLICK = true;
-				voiceTip.setVisibility(View.VISIBLE);
-				new TalkThread(1).start();
-			}
-			MyLog.v(getClass().getName(),
-					"onLongPress-----" + getActionName(e.getAction()));
-		}
-
-		@Override
-		public boolean onScroll(MotionEvent e1, MotionEvent e2,
-				float distanceX, float distanceY) {
-			float disX = e2.getX() - e1.getX();
-			float disY = e2.getY() - e1.getY();
-
-			MyLog.v(getClass().getName(),
-					"onScroll-----" + getActionName(e2.getAction()) + ",("
-							+ e1.getX() + "," + e1.getY() + ") ,(" + e2.getX()
-							+ "," + e2.getY() + ")" + "disX = " + disX
-							+ "disY = " + disY);
-
-			if (Math.abs(disX) >= 5 || Math.abs(disY) >= 5) {
-				JVPlayActivity.this.showTextToast("停止发送时数据");
-				new TalkThread(0).start();
-				VOICECALL_LONG_CLICK = false;
-				voiceTip.setVisibility(View.GONE);
-			}
-			return false;
-		}
-
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-				float velocityY) {
-			float disX = e2.getX() - e1.getX();
-			float disY = e2.getY() - e1.getY();
-
-			MyLog.v(getClass().getName(),
-					"onFling-----" + getActionName(e2.getAction()) + ",("
-							+ e1.getX() + "," + e1.getY() + ") ,(" + e2.getX()
-							+ "," + e2.getY() + ")" + "disX = " + disX
-							+ "disY = " + disY);
-
-			if (Math.abs(disX) >= 5 || Math.abs(disY) >= 5) {
-				JVPlayActivity.this.showTextToast("停止发送时数据");
-				new TalkThread(0).start();
-				VOICECALL_LONG_CLICK = false;
-				voiceTip.setVisibility(View.GONE);
-			}
-
-			return false;
-		}
-
-		@Override
-		public void onShowPress(MotionEvent e) {
-			MyLog.v(getClass().getName(),
-					"onShowPress-----" + getActionName(e.getAction()));
-		}
-
-		@Override
-		public boolean onDown(MotionEvent e) {
-			MyLog.v(getClass().getName(),
-					"onDown-----" + getActionName(e.getAction()));
-			return false;
-		}
-
-		@Override
-		public boolean onDoubleTap(MotionEvent e) {
-			MyLog.v(getClass().getName(),
-					"onDoubleTap-----" + getActionName(e.getAction()));
-			return false;
-		}
-
-		@Override
-		public boolean onDoubleTapEvent(MotionEvent e) {
-			MyLog.v(getClass().getName(), "onDoubleTapEvent-----"
-					+ getActionName(e.getAction()));
-			return false;
-		}
-
-		@Override
-		public boolean onSingleTapConfirmed(MotionEvent e) {
-			MyLog.v(getClass().getName(), "onSingleTapConfirmed-----"
-					+ getActionName(e.getAction()));
-			return false;
-		}
-
-	}
-
-	private String getActionName(int action) {
-		String name = "";
-		switch (action) {
-		case MotionEvent.ACTION_DOWN: {
-			name = "ACTION_DOWN";
-			break;
-		}
-		case MotionEvent.ACTION_MOVE: {
-			name = "ACTION_MOVE";
-			break;
-		}
-		case MotionEvent.ACTION_UP: {
-			name = "ACTION_UP";
-			JVPlayActivity.this.showTextToast("停止发送时数据");
-			new TalkThread(0).start();
-			VOICECALL_LONG_CLICK = false;
-			voiceTip.setVisibility(View.GONE);
-			break;
-		}
-		default:
-			JVPlayActivity.this.showTextToast("停止发送时数据");
-			new TalkThread(0).start();
-			VOICECALL_LONG_CLICK = false;
-			voiceTip.setVisibility(View.GONE);
-			break;
-		}
-		return name;
-	}
-
-	/** 开关对讲名线程 */
+	/** 开关对讲线程 */
 	class TalkThread extends Thread {
 		private int tag = 0;
 
@@ -1556,7 +1426,6 @@ public class JVPlayActivity extends PlayActivity implements
 						PlayUtil.stopVoiceCall(currentIndex);
 						manager.getChannel(currentIndex).setVoiceCall(false);
 						voiceCallSelected(false);
-						showTextToast("关闭对讲");
 						VOICECALLING = false;
 						if (Consts.PLAY_AP == playFlag) {
 							functionListAdapter.selectIndex = -1;
@@ -1565,7 +1434,7 @@ public class JVPlayActivity extends PlayActivity implements
 					} else {
 						JVPlayActivity.AUDIO_SINGLE = manager.getChannel(
 								currentIndex).isSingleVoice();
-						showTextToast("开启对讲");
+						showTextToast(R.string.voice_tips2);
 						PlayUtil.startVoiceCall(currentIndex);
 						if (Consts.PLAY_AP == playFlag) {
 							functionListAdapter.selectIndex = 2;

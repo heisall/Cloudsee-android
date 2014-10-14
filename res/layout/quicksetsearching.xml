@@ -38,6 +38,7 @@
         android:layout_marginTop="10dip"
         android:background="@drawable/quick_set_back"
         android:text="@string/exit"
+        android:textColor="@color/white"
         android:visibility="gone" />
 
 </RelativeLayout>

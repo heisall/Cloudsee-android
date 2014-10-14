@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -14,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,8 +54,15 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private TextView device_num;
 	private ListView devicemanage_listView;
 	private ManageListAdapter adapter;
+	/** 两个列表界面 */
+	private LinearLayout dataLayout;// 数据界面
 	private RelativeLayout relalist;
 	private RelativeLayout relative;
+	/** 帮助引导 */
+	private LinearLayout quickSetSV; // 快速配置界面
+	private Button quickSet;
+	private Button addDevice;
+
 	private ImageView image_hide;
 
 	private ArrayList<Fragment> fragments;
@@ -88,14 +97,21 @@ public class JVDeviceManageFragment extends BaseFragment {
 		item_width = (int) ((mScreenWidth / 4.0 + 0.5f));
 		mImageView.getLayoutParams().width = item_width;
 		managePager = (ViewPager) mParent.findViewById(R.id.manage_pagerer);
-		// // 初始化导航
-		// initNav();
-		// // 初始化viewPager
-		// initViewPager();
-		// managePager.setCurrentItem(deviceIndex);
+
+		/** 管理功能 */
 		device_num = (TextView) mParent.findViewById(R.id.device_num);
+		dataLayout = (LinearLayout) mParent.findViewById(R.id.datalayout);
 		relalist = (RelativeLayout) mParent.findViewById(R.id.relalist);
 		relative = (RelativeLayout) mParent.findViewById(R.id.relative);
+
+		/** 引导加设备 */
+		quickSetSV = (LinearLayout) mParent
+				.findViewById(R.id.quickinstalllayout);
+		quickSet = (Button) mParent.findViewById(R.id.quickinstall);
+		addDevice = (Button) mParent.findViewById(R.id.adddevice);
+		quickSet.setOnClickListener(mOnClickListener);
+		addDevice.setOnClickListener(mOnClickListener);
+
 		image_hide = (ImageView) mParent.findViewById(R.id.devmore_hide);
 		devicemanage_listView = (ListView) mParent
 				.findViewById(R.id.device_listView);
@@ -124,7 +140,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 	}
 
 	private void initNav() {
-		manageDeviceList = CacheUtil.getDevList();
 		adapter = new ManageListAdapter(
 				(BaseFragment) JVDeviceManageFragment.this);
 		adapter.setData(manageDeviceList);
@@ -163,6 +178,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 			});
 			layout.setTag(i);
 		}
+
 	}
 
 	private void initViewPager() {
@@ -197,6 +213,15 @@ public class JVDeviceManageFragment extends BaseFragment {
 				devicemanage_listView.setVisibility(View.GONE);
 				managePager.setVisibility(View.VISIBLE);
 				relative.setVisibility(View.VISIBLE);
+				break;
+			case R.id.quickinstall:
+				((ShakeActivity) mActivity).startSearch(false);
+				break;
+			case R.id.adddevice:
+				Intent addIntent = new Intent();
+				addIntent.setClass(mActivity, JVAddDeviceActivity.class);
+				addIntent.putExtra("QR", false);
+				mActivity.startActivity(addIntent);
 				break;
 			default:
 				break;
@@ -281,11 +306,19 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
-		// 初始化导航
-		initNav();
-		// 初始化viewPager
-		initViewPager();
-		managePager.setCurrentItem(deviceIndex);
+		manageDeviceList = CacheUtil.getDevList();
+		if (null == manageDeviceList || 0 == manageDeviceList.size()) {
+			dataLayout.setVisibility(View.GONE);
+			quickSetSV.setVisibility(View.VISIBLE);
+		} else {
+			dataLayout.setVisibility(View.VISIBLE);
+			quickSetSV.setVisibility(View.GONE);
+			// 初始化导航
+			initNav();
+			// 初始化viewPager
+			initViewPager();
+			managePager.setCurrentItem(deviceIndex);
+		}
 		super.onResume();
 	}
 

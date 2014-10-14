@@ -28,8 +28,8 @@ public class JVAddDeviceActivity extends BaseActivity {
 
 	private static final String TAG = "JVAddDeviceActivity";
 
-	public static final int ADD_DEV_SUCCESS = 0x60;// 添加设备成功--
-	public static final int ADD_DEV_FAILED = 0x61;// 添加设备失败--
+	// public static final int ADD_DEV_SUCCESS = 0x60;// 添加设备成功--
+	// public static final int ADD_DEV_FAILED = 0x61;// 添加设备失败--
 
 	/** topBar */
 	private Button leftBtn;

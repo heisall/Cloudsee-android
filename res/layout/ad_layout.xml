@@ -38,7 +38,7 @@
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/icon_message_nor" />
+            android:background="@drawable/mydevice_refresh_icon" />
 
         <TextView
             android:id="@+id/update"

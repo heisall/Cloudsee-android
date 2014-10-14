@@ -171,6 +171,9 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		progressBar.setOnSeekBarChangeListener(mOnSeekBarChangeListener);
 		progressBar.setProgress(0);
 
+		decodeBtn.setVisibility(View.GONE);
+		videTurnBtn.setVisibility(View.GONE);
+
 		linkState.setText(R.string.connecting);// 连接文字
 		linkState.setVisibility(View.VISIBLE);
 		loading.setVisibility(View.VISIBLE);// 加载进度

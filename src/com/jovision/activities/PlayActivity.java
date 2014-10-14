@@ -25,6 +25,7 @@ import com.jovision.Consts;
 import com.jovision.adapters.FuntionAdapter;
 import com.jovision.adapters.PlayViewPagerAdapter;
 import com.jovision.adapters.ScreenAdapter;
+import com.jovision.adapters.StreamAdapter;
 import com.jovision.audio.MICRecorder;
 import com.jovision.audio.PlayAudio;
 import com.jovision.bean.Channel;
@@ -93,6 +94,8 @@ public class PlayActivity extends BaseActivity {
 	protected LinearLayout apFuncLayout;// 底部Ap下一步按钮
 	protected Button nextStep;// 下一步
 
+	protected Boolean recoding = false;
+
 	/** 录像按钮 */
 	protected Drawable videoTapeLeft1 = null;
 	protected Drawable videoTapeLeft2 = null;
@@ -105,16 +108,37 @@ public class PlayActivity extends BaseActivity {
 
 	protected MICRecorder recorder;// 音频采集
 
-	protected LinearLayout bottom;
+	protected RelativeLayout bottom;
 
-	protected RelativeLayout bottombut1;
-	protected RelativeLayout bottombut2;
-	protected RelativeLayout bottombut3;
-	protected RelativeLayout bottombut4;
-	protected RelativeLayout bottombut5;
-	protected RelativeLayout bottombut6;
-	protected RelativeLayout bottombut7;
-	protected RelativeLayout bottombut8;
+	protected ImageView bottombut1;
+	protected ImageView bottombut2;
+	protected ImageView bottombut3;
+	protected ImageView bottombut4;
+	protected ImageView bottombut5;
+	protected ImageView bottombut6;
+	protected ImageView bottombut7;
+	protected ImageView bottombut8;
+	protected boolean bottomboolean1;
+	protected boolean bottomboolean2;
+	protected boolean bottomboolean3;
+	protected boolean bottomboolean4;
+	protected boolean bottomboolean5;
+	protected boolean bottomboolean6;
+	protected boolean bottomboolean7;
+	protected boolean bottomboolean8;
+
+	/** IPC独有特性 */
+	protected Button decodeBtn;
+	protected Button videTurnBtn;// 视频翻转
+	// 录像模式----rightFuncButton
+	// 码流切换----moreFeature
+	protected String[] streamArray;
+	protected ListView streamListView;// 码流listview
+	protected StreamAdapter streamAdapter;// 码流adapter
+	protected RelativeLayout voiceTip;// 单向对讲提示
+	// 按钮图
+	protected Drawable alarmRecordDrawableTop = null;
+	protected Drawable normalRecordDrawableTop = null;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -147,6 +171,10 @@ public class PlayActivity extends BaseActivity {
 
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		selectScreenNum = (ImageView) findViewById(R.id.selectscreen);
+		alarmRecordDrawableTop = getResources().getDrawable(
+				R.drawable.record_alarm);
+		normalRecordDrawableTop = getResources().getDrawable(
+				R.drawable.record_normal);
 
 		int[] screenArray = getResources().getIntArray(R.array.array_screen);
 		if (null != screenArray) {
@@ -166,17 +194,22 @@ public class PlayActivity extends BaseActivity {
 
 		linkState = (TextView) findViewById(R.id.playstate);// 连接文字
 		loading = (ProgressBar) findViewById(R.id.videoloading);// 加载进度
+
+		decodeBtn = (Button) findViewById(R.id.decodeway);
+		videTurnBtn = (Button) findViewById(R.id.overturn);
+		voiceTip = (RelativeLayout) findViewById(R.id.voicetip);
+
 		/** 下 */
 
-		bottom = (LinearLayout) findViewById(R.id.bottom);
-		bottombut1 = (RelativeLayout) findViewById(R.id.bottom_but1);
-		bottombut2 = (RelativeLayout) findViewById(R.id.bottom_but2);
-		bottombut3 = (RelativeLayout) findViewById(R.id.bottom_but3);
-		bottombut4 = (RelativeLayout) findViewById(R.id.bottom_but4);
-		bottombut5 = (RelativeLayout) findViewById(R.id.bottom_but5);
-		bottombut6 = (RelativeLayout) findViewById(R.id.bottom_but6);
-		bottombut7 = (RelativeLayout) findViewById(R.id.bottom_but7);
-		bottombut8 = (RelativeLayout) findViewById(R.id.bottom_but8);
+		bottom = (RelativeLayout) findViewById(R.id.bottom);
+		bottombut1 = (ImageView) findViewById(R.id.bottom_but1);
+		bottombut2 = (ImageView) findViewById(R.id.bottom_but2);
+		bottombut3 = (ImageView) findViewById(R.id.bottom_but3);
+		bottombut4 = (ImageView) findViewById(R.id.bottom_but4);
+		bottombut5 = (ImageView) findViewById(R.id.bottom_but5);
+		bottombut6 = (ImageView) findViewById(R.id.bottom_but6);
+		bottombut7 = (ImageView) findViewById(R.id.bottom_but7);
+		bottombut8 = (ImageView) findViewById(R.id.bottom_but8);
 
 		if ((disMetrics.heightPixels > 800 && disMetrics.widthPixels > 480)
 				|| (disMetrics.heightPixels > 480 && disMetrics.widthPixels > 800)) {// 大屏
@@ -197,7 +230,8 @@ public class PlayActivity extends BaseActivity {
 		functionList.add(getResources().getString(R.string.str_yt_operate));
 		functionList
 				.add(getResources().getString(R.string.str_remote_playback));
-		functionListAdapter = new FuntionAdapter(PlayActivity.this, bigScreen);
+		functionListAdapter = new FuntionAdapter(PlayActivity.this, bigScreen,
+				playFlag);
 		functionListAdapter.setData(functionList);
 		playFunctionList.setAdapter(functionListAdapter);
 
@@ -302,8 +336,8 @@ public class PlayActivity extends BaseActivity {
 			topBar.setVisibility(View.GONE);// 顶部标题栏
 			footerBar.setVisibility(View.GONE);// 底部工具栏
 			apFuncLayout.setVisibility(View.GONE);
-			bottom.setVisibility(View.GONE);
-			topBartwo.setVisibility(View.GONE);
+			bottom.setVisibility(View.VISIBLE);
+			topBartwo.setVisibility(View.VISIBLE);
 			init();
 
 			reParamsH = new RelativeLayout.LayoutParams(
@@ -343,6 +377,8 @@ public class PlayActivity extends BaseActivity {
 			videoTape.setCompoundDrawablesWithIntrinsicBounds(videoTapeLeft1,
 					null, null, null);
 		}
+
+		recoding = selected;
 	}
 
 	/**

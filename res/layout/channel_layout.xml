@@ -25,7 +25,7 @@
             </com.jovision.views.MyGridView>
 
             <Button
-                android:id="@+id/channel_but"
+                android:id="@+id/connect_all"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_below="@+id/channel_gridview"

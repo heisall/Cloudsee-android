@@ -10,13 +10,22 @@
         android:layout_height="wrap_content"
         android:background="@drawable/more_center" >
 
-        <ImageView
-            android:id="@+id/item_img"
+        <LinearLayout
+            android:id="@+id/item_linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/more_help_img" />
+            android:background="@drawable/morefragment_color1"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <ImageView
+                android:id="@+id/item_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/morefragment_help_icon" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/item_name"
@@ -24,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/item_img"
+            android:layout_toRightOf="@+id/item_linear"
             android:textColor="@color/more_fragment_color5"
             android:textSize="16sp" />
 
@@ -35,7 +44,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@drawable/more_next_but" />
+            android:background="@drawable/morefragment_next_icon" />
 
         <ImageView
             android:id="@+id/item_new"
@@ -44,7 +53,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@+id/item_next"
-            android:background="@drawable/more_yellow_new" />
+            android:background="@drawable/morefragment_yellow_icon" />
     </RelativeLayout>
 
 </LinearLayout>

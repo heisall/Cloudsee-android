@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/icon_video_nor"
+            android:background="@drawable/mydevice_videomanagenormal_icon"
             android:paddingBottom="5dp"
             android:paddingTop="5dp" />
 

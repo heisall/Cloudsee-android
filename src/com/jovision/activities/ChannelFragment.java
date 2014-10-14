@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -54,7 +53,7 @@ public class ChannelFragment extends BaseFragment {
 	// 设备号码编辑键
 	private ImageView device_numet_cancle;
 
-	private Button channel_but;
+	private Button connectAll;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,8 +70,8 @@ public class ChannelFragment extends BaseFragment {
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.channel_layout, null);
-		channel_but = (Button) view.findViewById(R.id.channel_but);
-		channel_but.setOnClickListener(myOnClickListener);
+		connectAll = (Button) view.findViewById(R.id.connect_all);
+		connectAll.setOnClickListener(myOnClickListener);
 		return view;
 	}
 
@@ -120,29 +119,10 @@ public class ChannelFragment extends BaseFragment {
 			if (changeRes) {
 				channelAdapter.notifyDataSetChanged();
 			} else {
-				// // [Neo] TODO 多设备模式？
-				// ArrayList<Channel> clist = new ArrayList<Channel>();
-				//
-				// if (MySharedPreference.getBoolean("PlayDeviceMode")) {
-				// for (Device device : deviceList) {
-				// clist.addAll(device.getChannelList().toList());
-				// }
-				// } else {
-				// clist.addAll(deviceList.get(deviceIndex).getChannelList()
-				// .toList());
-				// }
-				//
-				// int size = clist.size();
-				// for (int i = 0; i < size; i++) {
-				// // [Neo] 循环利用播放数组，我 tm 就是个天才
-				// clist.get(i).setIndex(i % Consts.MAX_CHANNEL_CONNECTION);
-				// }
+
 				PlayUtil.prepareConnect(deviceList, deviceIndex);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 
-				// [Neo] 应该从文件中重新读取，不需传递
-				// String devJsonString = Device.listToString(deviceList);
-				// intentPlay.putExtra("DeviceList", devJsonString);
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 				intentPlay.putExtra("DeviceIndex", deviceIndex);
 				// [Neo] 实际上是 int channel
@@ -243,9 +223,18 @@ public class ChannelFragment extends BaseFragment {
 				device_numet.setText("");
 				break;
 			}
-			case R.id.channel_but:
-				Toast.makeText(mActivity, "quan lian she bei",
-						Toast.LENGTH_SHORT).show();
+			case R.id.connect_all:
+				PlayUtil.prepareConnect(deviceList, deviceIndex);
+				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
+
+				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+				intentPlay.putExtra("DeviceIndex", deviceIndex);
+				// [Neo] 实际上是 int channel
+
+				intentPlay.putExtra("ChannelofChannel",
+						deviceList.get(deviceIndex).getChannelList().toList()
+								.get(0).getChannel());
+				mActivity.startActivity(intentPlay);
 				break;
 			default:
 				break;

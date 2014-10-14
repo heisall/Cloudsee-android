@@ -62,6 +62,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public static final int BROAD_ADD_DEVICE = 0x06;// 添加设备的广播--
 	public static final int BROAD_THREE_MINITE = 0x07;// 三分钟广播--
 
+	public static final int ADD_DEV_REQUEST = 0x08;// 添加设备请求--
+
 	private RefreshableView refreshableView;
 
 	/** 叠加两个 布局 */
@@ -117,9 +119,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	private PopWindowAdapter popWindowAdapter;
 
-	private int[] popDrawarray = new int[] { R.drawable.icon_demo_nor,
-			R.drawable.icon_message_nor, R.drawable.icon_more_nor,
-			R.drawable.icon_demo_nor };
+	private int[] popDrawarray = new int[] {
+			R.drawable.mydevice_popwindowonse_icon,
+			R.drawable.mydevice_popwindowtwo_icon,
+			R.drawable.mydevice_popwindowthree_icon,
+			R.drawable.mydevice_popwindowfour_icon };
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,6 +141,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		popFunArray = mActivity.getResources()
 				.getStringArray(R.array.array_pop);
+		currentMenu.setText(mActivity.getResources().getString(
+				R.string.my_device));
 		currentMenu.setText(R.string.my_device);
 
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
@@ -233,7 +239,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 					popupWindow.dismiss();
 				} else {
 					// 显示在below正下方
-					popupWindow.showAsDropDown(view, 0, 20);
+					popupWindow.showAsDropDown(view,
+							-mActivity.disMetrics.widthPixels / 2 + 60, 10);
 				}
 				break;
 			case R.id.device_nameet_cancle:
@@ -252,7 +259,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				Intent addIntent = new Intent();
 				addIntent.setClass(mActivity, JVAddDeviceActivity.class);
 				addIntent.putExtra("QR", false);
-				mActivity.startActivity(addIntent);
+				mActivity.startActivityForResult(addIntent, ADD_DEV_REQUEST);
 				break;
 			default:
 				break;
@@ -489,16 +496,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			if (1 == dev.getChannelList().size()) {// 1个通道直接播放
 				PlayUtil.prepareConnect(myDeviceList, arg1);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				// String devJsonString = Device.listToString(myDeviceList);
-				// [Neo] no need to do this
-				// intentPlay.putExtra("DeviceList", devJsonString);
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-				// MySharedPreference.putString(Consts.KEY_PLAY_NORMAL,
-				// devJsonString);
 				intentPlay.putExtra("DeviceIndex", arg1);
 				intentPlay.putExtra("ChannelofChannel", dev.getChannelList()
 						.toList().get(0).getChannel());
-				// intentPlay.putExtra("DevJsonString", devJsonString);
 				mActivity.startActivity(intentPlay);
 			} else {// 多个通道查看通道列表
 				Intent intentPlay = new Intent(mActivity,
@@ -718,13 +719,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 						.showTextToast(R.string.del_device_succ);
 				myDLAdapter.setShowDelete(false);
 				myDLAdapter.notifyDataSetChanged();
-				if (null == myDeviceList || 0 == myDeviceList.size()) {
-					deviceLayout.setVisibility(View.GONE);
-					quickSetSV.setVisibility(View.VISIBLE);
-				} else {
-					deviceLayout.setVisibility(View.VISIBLE);
-					quickSetSV.setVisibility(View.GONE);
-				}
 			} else {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.del_device_failed);

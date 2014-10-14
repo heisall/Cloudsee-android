@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 
 public class FuntionAdapter extends BaseAdapter {
 	private Context mContext;
@@ -18,10 +20,12 @@ public class FuntionAdapter extends BaseAdapter {
 	private ArrayList<String> functionList = new ArrayList<String>();
 	public int selectIndex = -1;
 	private boolean bigScreen = false;
+	private int playFlag;
 
-	public FuntionAdapter(Context con, boolean flag) {
+	public FuntionAdapter(Context con, boolean flag, int playFlag) {
 		mContext = con;
 		bigScreen = flag;
+		this.playFlag = playFlag;
 		inflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -51,6 +55,8 @@ public class FuntionAdapter extends BaseAdapter {
 		if (null == convertView) {
 			convertView = inflater.inflate(R.layout.function_item, null);
 			viewHolder = new ViewHolder();
+			viewHolder.funcLayout = (RelativeLayout) convertView
+					.findViewById(R.id.funclayout);
 			viewHolder.funtionImageView = (ImageView) convertView
 					.findViewById(R.id.funtion_image);
 			viewHolder.funtionTitle1 = (TextView) convertView
@@ -80,15 +86,38 @@ public class FuntionAdapter extends BaseAdapter {
 						.setImageResource(R.drawable.yt_controller_small_1);
 				viewHolder.funtionTitle2.setText(R.string.str_yt_operate_tips);
 			} else if (2 == position) {
-				viewHolder.funtionImageView
-						.setImageResource(R.drawable.remote_playback_small_1);
-				viewHolder.funtionTitle2
-						.setText(R.string.str_remote_playback_tips);
+
+				if (Consts.PLAY_AP == playFlag) {
+					viewHolder.funtionImageView
+							.setImageResource(R.drawable.apv_call);
+					viewHolder.funtionTitle1.setText(R.string.voice_call_ap);
+					viewHolder.funtionTitle2
+							.setText(R.string.voice_call_ap_tips);
+				} else {
+					viewHolder.funtionImageView
+							.setImageResource(R.drawable.remote_playback_small_1);
+					viewHolder.funtionTitle2
+							.setText(R.string.str_remote_playback_tips);
+				}
+
 			}
 			if (selectIndex == position && selectIndex == 0) {
 				viewHolder.funtionImageView
 						.setImageResource(R.drawable.voice_monitor_small_2);
 			}
+			if (selectIndex == position && selectIndex == 2) {
+				if (Consts.PLAY_AP == playFlag) {
+					viewHolder.funtionImageView
+							.setImageResource(R.drawable.apv_call_2);
+				}
+			}
+			if (2 == position && selectIndex != position) {
+				if (Consts.PLAY_AP == playFlag) {
+					viewHolder.funtionImageView
+							.setImageResource(R.drawable.apv_call_1);
+				}
+			}
+
 		} else {
 			if (0 == position) {
 				viewHolder.funtionArrow.setVisibility(View.GONE);
@@ -116,6 +145,8 @@ public class FuntionAdapter extends BaseAdapter {
 	}
 
 	class ViewHolder {
+		RelativeLayout funcLayout;
+
 		ImageView funtionImageView;
 		TextView funtionTitle1;
 		TextView funtionTitle2;

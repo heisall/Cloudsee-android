@@ -6,9 +6,7 @@ import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -160,55 +158,60 @@ public class MyLog {
 		}
 	}
 
-	private static void ub(JSONArray array) {
-		if (ENABLE_UB && null != array) {
-			String msg = array.toString();
-			append(checkTag(UB), prepare(null, msg));
-			Log.d(UB, msg);
+	private static String checkString(String string) {
+		String result = "";
+
+		if (false == TextUtils.isEmpty(string)) {
+			result = string;
 		}
+
+		return result;
 	}
 
-	private static void ub(JSONObject object) {
-		if (ENABLE_UB && null != object) {
-			String msg = object.toString();
-			append(checkTag(UB), prepare(null, msg));
-			Log.d(UB, msg);
-		}
-	}
-
-	public static void ubPhone(String imei, String vender, String model,
+	public static void ubPhone(String imei, String vendor, String model,
 			String fingerprint) {
-		StringBuilder sBuilder = new StringBuilder(128);
-		sBuilder.append("{\"").append(KEY_IMEI).append("\":\"").append(imei)
-				.append("\",\"").append(KEY_VENDOR).append("\":\"")
-				.append(vender).append("\",\"").append(KEY_MODEL)
-				.append("\":\"").append(model).append("\",\"").append(KEY_FP)
-				.append("\":\"").append(fingerprint).append("\"}");
+		StringBuilder sBuilder = new StringBuilder(256);
+		sBuilder.append("{\"").append(KEY_TYPE).append("\":\"")
+				.append(TYPE_PHONE).append("\",\"").append(KEY_IMEI)
+				.append("\":\"").append(checkString(imei)).append("\",\"")
+				.append(KEY_VENDOR).append("\":\"").append(checkString(vendor))
+				.append("\",\"").append(KEY_MODEL).append("\":\"")
+				.append(checkString(model)).append("\",\"").append(KEY_FP)
+				.append("\":\"").append(checkString(fingerprint)).append("\"}");
 		ub(sBuilder.toString());
 	}
 
 	public static void ubTopic(String topic, String desc) {
-		StringBuilder sBuilder = new StringBuilder(128);
-		sBuilder.append("{\"").append(KEY_TOPIC).append("\":\"").append(topic)
-				.append("\",\"").append(KEY_DESC).append("\":\"").append(desc)
+		StringBuilder sBuilder = new StringBuilder(256);
+		sBuilder.append("{\"").append(KEY_TYPE).append("\":\"")
+				.append(TYPE_TOPIC).append("\",\"").append(KEY_TOPIC)
+				.append("\":\"").append(checkString(topic)).append("\",\"")
+				.append(KEY_DESC).append("\":\"").append(checkString(desc))
 				.append("\"}");
 		ub(sBuilder.toString());
+	}
+
+	public static void ubLog(String topic) {
+		ubLog(topic, null);
 	}
 
 	public static void ubLog(String topic, String env) {
-		StringBuilder sBuilder = new StringBuilder(128);
-		sBuilder.append("{\"").append(KEY_TOPIC).append("\":\"").append(topic)
-				.append("\",\"").append(KEY_ENV).append("\":\"").append(env)
+		StringBuilder sBuilder = new StringBuilder(1024);
+		sBuilder.append("{\"").append(KEY_TYPE).append("\":\"")
+				.append(TYPE_LOG).append("\",\"").append(KEY_TOPIC)
+				.append("\":\"").append(checkString(topic)).append("\",\"")
+				.append(KEY_ENV).append("\":\"").append(checkString(env))
 				.append("\"}");
 		ub(sBuilder.toString());
 	}
 
-	public static void ubStat(String topic, int count, int duration) {
-		StringBuilder sBuilder = new StringBuilder(128);
-		sBuilder.append("{\"").append(KEY_TOPIC).append("\":\"").append(topic)
-				.append("\",\"").append(KEY_COUNT).append("\":").append(count)
-				.append(",\"").append(KEY_DURATION).append("\":")
-				.append(duration).append("}");
+	public static void ubStat(String topic, int duration) {
+		StringBuilder sBuilder = new StringBuilder(256);
+		sBuilder.append("{\"").append(KEY_TYPE).append("\":\"")
+				.append(TYPE_STAT).append("\",\"").append(KEY_TOPIC)
+				.append("\":\"").append(checkString(topic)).append("\",\"")
+				.append(KEY_DURATION).append("\":").append(duration)
+				.append("}");
 		ub(sBuilder.toString());
 	}
 

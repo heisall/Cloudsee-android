@@ -63,16 +63,15 @@ public class JVWelcomeActivity extends BaseActivity {
 
 			@Override
 			public void run() {
-				// [Neo] 0. precheck
 				Date last = new Date(MySharedPreference.getLong(
 						Consts.KEY_LAST_PUT_STAMP, 1l));
 
+				boolean useLocal = false;
 				Date current = MyUtils.getChinaTime();
+
 				if (null == current) {
+					useLocal = true;
 					current = new Date();
-					MyLog.ubTopic("local", current.toString());
-				} else {
-					MyLog.ubTopic("remote", current.toString());
 				}
 
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -80,54 +79,68 @@ public class JVWelcomeActivity extends BaseActivity {
 					return;
 				}
 
-				// [Neo] 1. zip
-				MyLog.w(Consts.TAG_LOGICAL, "auto upload condition matched! "
-						+ last + " => " + current);
-
 				String folder = MyLog.getFolder(MyLog.UB);
 				if (null == folder) {
 					return;
 				}
 
 				boolean result = false;
-				String target = folder + File.separator + current.getTime()
-						+ ".zip";
+				if (last.getTime() > 1l) {
 
-				MyLog.ubPhone(statusHashMap.get(Consts.IMEI),
-						Build.MANUFACTURER, Build.MODEL, Build.FINGERPRINT);
-				MyLog.enableUB(false);
-				result = MyUtils.zip(target,
-						new File[] { new File(MyLog.getPath(MyLog.UB)) });
+					File file = new File(MyLog.getPath(MyLog.UB));
+					if (file.length() < 55 * 1024) {
+						return;
+					}
 
-				if (false == result) {
-					MyLog.e(Consts.TAG_LOGICAL, "zip failed!");
-					return;
+					String target = folder + File.separator + current.getTime()
+							+ ".zip";
+
+					MyLog.enableUB(false);
+					result = MyUtils.zip(target, new File[] { file });
+
+					if (false == result) {
+						MyLog.e(Consts.TAG_LOGICAL, "zip failed!");
+						return;
+					}
+
+					try {
+						BaseOSS oss = BaiOSS
+								.getInstance(
+										Consts.BO_ID,
+										Consts.BO_SECRET,
+										BaiOSS.BUCKET_PREFIX
+												+ new SimpleDateFormat(
+														BaseOSS.BUCKET_SUBFIX_FORMATTER)
+														.format(current));
+						result = oss.put(target);
+						oss.deinit();
+					} catch (Exception e) {
+						result = false;
+					}
+
+					new File(target).delete();
+
+					if (result) {
+						MyLog.clean(MyLog.UB);
+					}
+					MyLog.enableUB(true);
+
+				} else {
+					result = true;
 				}
-
-				// [Neo] 2. put & clean
-				try {
-					BaseOSS oss = BaiOSS.getInstance(
-							Consts.BO_ID,
-							Consts.BO_SECRET,
-							BaseOSS.BUCKET_PREFIX
-									+ new SimpleDateFormat(
-											BaseOSS.BUCKET_SUBFIX_FORMATTER)
-											.format(current));
-					result = oss.put(target);
-					oss.deinit();
-				} catch (Exception e) {
-					result = false;
-				}
-
-				new File(target).delete();
 
 				if (result) {
-					MyLog.clean(MyLog.UB);
-				}
-				MyLog.enableUB(true);
+					MyLog.ubPhone(statusHashMap.get(Consts.IMEI),
+							Build.MANUFACTURER, Build.MODEL, Build.FINGERPRINT);
 
-				// [Neo] 3. update config
-				if (result) {
+					if (useLocal) {
+						MyLog.ubTopic("local",
+								String.valueOf(current.getTime()));
+					} else {
+						MyLog.ubTopic("remote",
+								String.valueOf(current.getTime()));
+					}
+
 					MySharedPreference.putLong(Consts.KEY_LAST_PUT_STAMP,
 							current.getTime());
 				}

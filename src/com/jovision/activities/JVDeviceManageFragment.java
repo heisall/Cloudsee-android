@@ -63,8 +63,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private Button quickSet;
 	private Button addDevice;
 
-	private ImageView image_hide;
-
 	private ArrayList<Fragment> fragments;
 
 	/** intent传递过来的设备和通道下标 */
@@ -112,12 +110,10 @@ public class JVDeviceManageFragment extends BaseFragment {
 		quickSet.setOnClickListener(mOnClickListener);
 		addDevice.setOnClickListener(mOnClickListener);
 
-		image_hide = (ImageView) mParent.findViewById(R.id.devmore_hide);
 		devicemanage_listView = (ListView) mParent
 				.findViewById(R.id.device_listView);
 		devMore = (ImageView) mParent.findViewById(R.id.devmore);
 		devMore.setOnClickListener(mOnClickListener);
-		image_hide.setOnClickListener(mOnClickListener);
 		ListViewClick();
 	}
 

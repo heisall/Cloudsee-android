@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -48,7 +47,7 @@ import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVPlayActivity extends PlayActivity implements
-PlayWindowManager.OnUiListener {
+		PlayWindowManager.OnUiListener {
 	private final String TAG = "JV_PLAY";
 
 	private PlayWindowManager manager;
@@ -143,8 +142,8 @@ PlayWindowManager.OnUiListener {
 									object.getInt("index"),
 									(object.getBoolean("is_turn") ? "TURN"
 											: "P2P"),
-											(object.getBoolean("is_omx") ? "HD" : "ff"),
-											object.getDouble("kbps"), object
+									(object.getBoolean("is_omx") ? "HD" : "ff"),
+									object.getDouble("kbps"), object
 											.getDouble("decoder_fps"), object
 											.getDouble("jump_fps"), object
 											.getDouble("network_fps"), object
@@ -152,15 +151,15 @@ PlayWindowManager.OnUiListener {
 											.getDouble("decoder_delay"), object
 											.getDouble("render_delay"), object
 											.getInt("left")
-											// ,object.getInt("width"), object
-											// .getInt("height"), object
-											// .getInt("audio_type"), object
-											// .getDouble("audio_kbps"), object
-											// .getDouble("audio_decoder_fps"),
-											// object.getDouble("audio_network_fps"),
-											// object.getDouble("audio_decoder_delay"),
-											// object.getDouble("audio_play_delay")
-									);
+							// ,object.getInt("width"), object
+							// .getInt("height"), object
+							// .getInt("audio_type"), object
+							// .getDouble("audio_kbps"), object
+							// .getDouble("audio_decoder_fps"),
+							// object.getDouble("audio_network_fps"),
+							// object.getDouble("audio_decoder_delay"),
+							// object.getDouble("audio_play_delay")
+							);
 					sBuilder.append(msg).append("\n");
 					isOmx = object.getBoolean("is_omx");
 					manager.getChannel(arg2).setOMX(isOmx);
@@ -634,7 +633,7 @@ PlayWindowManager.OnUiListener {
 		// [Neo] precheck
 		if (deviceList.size() < deviceIndex
 				|| false == deviceList.get(deviceIndex).getChannelList()
-				.hasIndex(channelOfChannel)) {
+						.hasIndex(channelOfChannel)) {
 			MyLog.e(Consts.TAG_XX, "JVPlay init: precheck 1 failed!");
 			// [Neo] TODO 错误的参数，需要检查之前的活动
 		}
@@ -759,7 +758,7 @@ PlayWindowManager.OnUiListener {
 		bottombut8.setOnClickListener(myOnClickListener);
 		bottom.setOnClickListener(myOnClickListener);
 		bottom_video.setOnClickListener(myOnClickListener);
-		
+
 		nextStep.setOnClickListener(myOnClickListener);
 
 		Jni.setStat(true);
@@ -847,29 +846,29 @@ PlayWindowManager.OnUiListener {
 
 		builder.setNegativeButton(R.string.download,
 				new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-				Uri uri = Uri
-						.parse("http://www.jovetech.com/UpLoadFiles/file/CloudSEE_V3.0.2_anzhi.apk");
-				Intent it = new Intent(Intent.ACTION_VIEW, uri);
-				startActivity(it);
-			}
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						Uri uri = Uri
+								.parse("http://www.jovetech.com/UpLoadFiles/file/CloudSEE_V3.0.2_anzhi.apk");
+						Intent it = new Intent(Intent.ACTION_VIEW, uri);
+						startActivity(it);
+					}
 
-		});
+				});
 
 		builder.setPositiveButton(R.string.cancel,
 				new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int arg1) {
-				dialog.dismiss();
-				handler.sendMessageDelayed(handler
-						.obtainMessage(JVConst.WHAT_START_CONNECT),
-						1000);
-			}
+					@Override
+					public void onClick(DialogInterface dialog, int arg1) {
+						dialog.dismiss();
+						handler.sendMessageDelayed(handler
+								.obtainMessage(JVConst.WHAT_START_CONNECT),
+								1000);
+					}
 
-		});
+				});
 
 		builder.show();
 	}
@@ -1476,87 +1475,88 @@ PlayWindowManager.OnUiListener {
 			case R.id.bottom_but1:
 				if (bottomboolean1) {
 					bottombut1
-					.setBackgroundResource(R.drawable.video_stop_icon);
+							.setBackgroundResource(R.drawable.video_stop_icon);
 					bottomboolean1 = false;
 				} else {
 					bottombut1
-					.setBackgroundResource(R.drawable.video_stopselect_icon);
+							.setBackgroundResource(R.drawable.video_stopselect_icon);
 					bottomboolean1 = true;
 				}
 				break;
 			case R.id.bottom_but2:
 				if (bottomboolean2) {
 					bottombut2
-					.setBackgroundResource(R.drawable.video_play_icon);
+							.setBackgroundResource(R.drawable.video_play_icon);
 					bottomboolean2 = false;
 				} else {
 					bottombut2
-					.setBackgroundResource(R.drawable.video_playselect_bg);
+							.setBackgroundResource(R.drawable.video_playselect_bg);
 					bottomboolean2 = true;
 				}
 				break;
 			case R.id.bottom_but3:
 				if (bottomboolean3) {
 					bottombut3
-					.setBackgroundResource(R.drawable.video_snap_icon);
+							.setBackgroundResource(R.drawable.video_snap_icon);
 					bottomboolean3 = false;
 				} else {
 					bottombut3
-					.setBackgroundResource(R.drawable.video_snapselect_icon);
+							.setBackgroundResource(R.drawable.video_snapselect_icon);
 					bottomboolean3 = true;
 				}
 				break;
 			case R.id.bottom_but4:
 				if (bottomboolean4) {
 					bottombut4
-					.setBackgroundResource(R.drawable.video_yuanback_icon);
+							.setBackgroundResource(R.drawable.video_yuanback_icon);
 					bottomboolean4 = false;
 				} else {
 					bottombut4
-					.setBackgroundResource(R.drawable.video_yuanbackselect_icon);
+							.setBackgroundResource(R.drawable.video_yuanbackselect_icon);
 					bottomboolean4 = true;
 				}
 				break;
 			case R.id.bottom_but5:
 				if (bottomboolean5) {
 					bottombut5
-					.setBackgroundResource(R.drawable.video_talkback_icon);
+							.setBackgroundResource(R.drawable.video_talkback_icon);
 					bottomboolean5 = false;
 				} else {
 					bottombut5
-					.setBackgroundResource(R.drawable.video_talkselect_icon);
+							.setBackgroundResource(R.drawable.video_talkselect_icon);
 					bottomboolean5 = true;
 				}
 				break;
 			case R.id.bottom_but6:
 				if (bottomboolean6) {
-					bottombut6.setBackgroundResource(R.drawable.video_voiceopen_icon);
+					bottombut6
+							.setBackgroundResource(R.drawable.video_voiceopen_icon);
 					bottomboolean6 = false;
 				} else {
 					bottombut6
-					.setBackgroundResource(R.drawable.video_voiceopenselect_icon);
+							.setBackgroundResource(R.drawable.video_voiceopenselect_icon);
 					bottomboolean6 = true;
 				}
 				break;
 			case R.id.bottom_but7:
 				if (bottomboolean7) {
 					bottombut7
-					.setBackgroundResource(R.drawable.video_voiceclose_icon);
+							.setBackgroundResource(R.drawable.video_voiceclose_icon);
 					bottomboolean7 = false;
 				} else {
 					bottombut7
-					.setBackgroundResource(R.drawable.video_voiceselect_icon);
+							.setBackgroundResource(R.drawable.video_voiceselect_icon);
 					bottomboolean7 = true;
 				}
 				break;
 			case R.id.bottom_but8:
 				if (bottomboolean8) {
 					bottombut8
-					.setBackgroundResource(R.drawable.video_monitor_icon);
+							.setBackgroundResource(R.drawable.video_monitor_icon);
 					bottomboolean8 = false;
 				} else {
 					bottombut8
-					.setBackgroundResource(R.drawable.video_monitorselect_icon);
+							.setBackgroundResource(R.drawable.video_monitorselect_icon);
 					bottomboolean8 = true;
 				}
 				break;
@@ -1629,8 +1629,8 @@ PlayWindowManager.OnUiListener {
 		// 多屏选中才变蓝色
 		if (currentScreen > oneScreen) {
 			((View) mLastPlayView.getParent())
-			.setBackgroundColor(getResources().getColor(
-					R.color.videoselect));
+					.setBackgroundColor(getResources().getColor(
+							R.color.videoselect));
 		}
 
 		manager.resumePage(currentPage);
@@ -1908,8 +1908,8 @@ PlayWindowManager.OnUiListener {
 				if (null != mLastPlayView
 						&& mLastPlayView != manager.getView(channel.getIndex())) {
 					((View) mLastPlayView.getParent())
-					.setBackgroundColor(getResources().getColor(
-							R.color.videounselect));
+							.setBackgroundColor(getResources().getColor(
+									R.color.videounselect));
 				}
 				mLastPlayView = manager.getView(channel.getIndex());
 				lastClickIndex = channel.getIndex();
@@ -1919,12 +1919,12 @@ PlayWindowManager.OnUiListener {
 				// 多屏选中才变蓝色
 				if (currentScreen > oneScreen) {
 					((View) mLastPlayView.getParent())
-					.setBackgroundColor(getResources().getColor(
-							R.color.videoselect));
+							.setBackgroundColor(getResources().getColor(
+									R.color.videoselect));
 				} else {
 					bottom.setVisibility(View.VISIBLE);
 					topBartwo.setVisibility(View.VISIBLE);
-					 init();
+					init();
 				}
 				handler.sendEmptyMessageDelayed(
 						JVConst.WHAT_CHECK_DOUBLE_CLICK,

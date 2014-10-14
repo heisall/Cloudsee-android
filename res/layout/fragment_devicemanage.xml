@@ -13,24 +13,21 @@
     <LinearLayout
         android:id="@+id/datalayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
         <RelativeLayout
             android:id="@+id/relative"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/devmorere"
-            android:background="@color/video_channelcolor"
-            android:fadingEdge="@null"
-            android:scrollbars="none" >
+            android:layout_height="50dp"
+            android:background="@color/white" >
 
             <HorizontalScrollView
                 android:id="@+id/hsv_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/devmore"
-                android:background="@drawable/videoedit_channalnum_bg"
+                android:layout_toLeftOf="@+id/devmorere"
+                android:background="@color/video_channelcolor"
                 android:fadingEdge="@null"
                 android:scrollbars="none" >
 
@@ -46,54 +43,30 @@
                         android:orientation="horizontal" >
                     </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/devmorere"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/videoedit_pull_bgtwo" >
+                    <ImageView
+                        android:id="@+id/img"
+                        android:layout_width="100dp"
+                        android:layout_height="4dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/videoedit_select_bg" />
+                </RelativeLayout>
+            </HorizontalScrollView>
 
-            <ImageView
-                android:id="@+id/devmore"
+            <RelativeLayout
+                android:id="@+id/devmorere"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/videoedit_pull_icon" />
-        </RelativeLayout>
-    </RelativeLayout>
+                android:background="@drawable/videoedit_pull_bgtwo" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <RelativeLayout
-            android:id="@+id/relalist"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/video_channelcolor"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/device_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="" />
- 		<RelativeLayout
-            android:id="@+id/devmore_hie"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/videoedit_pull_bgtwo" >
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/videoedit_pull_icon" />
+                <ImageView
+                    android:id="@+id/devmore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/videoedit_pull_icon" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -105,6 +78,7 @@
                 android:id="@+id/relalist"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:background="@color/video_channelcolor"
                 android:visibility="gone" >
 
                 <TextView
@@ -114,15 +88,21 @@
                     android:layout_centerVertical="true"
                     android:text="" />
 
-                <ImageView
-                    android:id="@+id/devmore_hide"
+                <RelativeLayout
+                    android:id="@+id/devmore_hie"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/videoedit_pull_icon" />
+                    android:background="@drawable/videoedit_pull_bgtwo" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/videoedit_pull_icon" />
+                </RelativeLayout>
             </RelativeLayout>
 
             <ListView
@@ -142,11 +122,12 @@
                 android:layout_height="match_parent" >
             </android.support.v4.view.ViewPager>
         </RelativeLayout>
-
-        </LinearLayout>
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/no_device_help" >
-        </include>
     </LinearLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/no_device_help" >
+    </include>
+
+</LinearLayout>

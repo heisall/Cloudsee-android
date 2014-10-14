@@ -213,7 +213,7 @@ public class PlayActivity extends BaseActivity {
 		bottombut6 = (ImageView) findViewById(R.id.bottom_but6);
 		bottombut7 = (ImageView) findViewById(R.id.bottom_but7);
 		bottombut8 = (ImageView) findViewById(R.id.bottom_but8);
-		bottom_video = (TextView)findViewById(R.id.video_bq);
+		bottom_video = (TextView) findViewById(R.id.video_bq);
 
 		if ((disMetrics.heightPixels > 800 && disMetrics.widthPixels > 480)
 				|| (disMetrics.heightPixels > 480 && disMetrics.widthPixels > 800)) {// 大屏

@@ -149,7 +149,7 @@ public class ChannelAdapter extends BaseAdapter {
 					});
 
 			// 点击删除通道
-		channelHolder.channelDel.setOnClickListener(new OnClickListener() {
+			channelHolder.channelDel.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View arg0) {
@@ -204,21 +204,21 @@ public class ChannelAdapter extends BaseAdapter {
 		RelativeLayout channelEdit;
 		ImageView channelEditIV;
 	}
+
 	protected void dialog(final int channel) {
 		AlertDialog.Builder builder = new Builder(mfragment.getActivity());
 		builder.setMessage("确认删除该通道吗？");
 		builder.setTitle("提示");
 		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				mfragment
-				.onNotify(CHANNEL_ITEM_DEL_CLICK, channel, 0, null);
+				mfragment.onNotify(CHANNEL_ITEM_DEL_CLICK, channel, 0, null);
 			}
 		});
 		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub

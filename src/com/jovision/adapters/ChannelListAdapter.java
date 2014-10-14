@@ -38,10 +38,10 @@ public class ChannelListAdapter extends BaseAdapter {
 	}
 
 	public void setData(ArrayList<ChannellistBean> dataList, Boolean localFlag,
-		int deviceindex) {
+			int deviceindex) {
 		this.dataList = dataList;
 		this.localFlag = localFlag;
-		this. deviceindex =  deviceindex;
+		this.deviceindex = deviceindex;
 	}
 
 	@Override
@@ -101,10 +101,12 @@ public class ChannelListAdapter extends BaseAdapter {
 							ModifyDevTask task = new ModifyDevTask();
 							String[] strParams = new String[5];
 							strParams[0] = dataList.get(position).getCloudnum();
-							strParams[1] = dataList.get(position).getChannelnum() + "";
-							strParams[2] = Holder.channel_list_edit.getText().toString();
-							strParams[3] = position+"";
-							strParams[4] = deviceindex+"";
+							strParams[1] = dataList.get(position)
+									.getChannelnum() + "";
+							strParams[2] = Holder.channel_list_edit.getText()
+									.toString();
+							strParams[3] = position + "";
+							strParams[4] = deviceindex + "";
 							task.execute(strParams);
 						} else {
 							dataList.get(i).setIspull(true);
@@ -121,17 +123,18 @@ public class ChannelListAdapter extends BaseAdapter {
 		if (!dataList.get(position).isIspull()) {
 			Holder.channellist_pull.setVisibility(View.GONE);
 			Holder.channel_list_img
-			.setImageResource(R.drawable.devicemanage_edit_icon);
+					.setImageResource(R.drawable.devicemanage_edit_icon);
 			Holder.item_img
-			.setImageResource(R.drawable.devicemanage_normal_icon);
+					.setImageResource(R.drawable.devicemanage_normal_icon);
 		} else {
 			Holder.channellist_pull.setVisibility(View.VISIBLE);
 			Holder.channel_list_edit.setFocusable(true);
 			Holder.channel_list_edit.setFocusableInTouchMode(true);
 			Holder.channel_list_edit.requestFocus();
 			Holder.channel_list_img
-			.setImageResource(R.drawable.devicemanage_sure_icon);
-			Holder.item_img.setImageResource(R.drawable.devicemanage_selected_icon);
+					.setImageResource(R.drawable.devicemanage_sure_icon);
+			Holder.item_img
+					.setImageResource(R.drawable.devicemanage_selected_icon);
 		}
 		notifyDataSetChanged();
 		return convertView;
@@ -155,7 +158,8 @@ public class ChannelListAdapter extends BaseAdapter {
 				int num = Integer.valueOf(params[1]);
 				int position = Integer.valueOf(params[4]);
 				int deviceindex = Integer.valueOf(params[5]);
-				manageDeviceList.get(deviceindex).getChannelList().get(position).setChannelName(params[2]);
+				manageDeviceList.get(deviceindex).getChannelList()
+						.get(position).setChannelName(params[2]);
 				if (localFlag) {// 本地保存修改信息
 					delRes = 0;
 				} else {

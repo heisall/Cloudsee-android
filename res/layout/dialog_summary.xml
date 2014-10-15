@@ -18,7 +18,7 @@
             android:layout_marginLeft="35dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="@string/str_device_name"
+            android:text=""
             android:textColor="#55A0FF"
             android:textSize="24sp" />
 

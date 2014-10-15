@@ -32,6 +32,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.google.zxing.oned.rss.FinderPattern;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.MyDeviceListAdapter;
@@ -566,8 +567,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		View view = LayoutInflater.from(mActivity).inflate(
 				R.layout.dialog_summary, null);
 		initDialog.setContentView(view);
-		dialog_cancle_img = (ImageView) view
-				.findViewById(R.id.dialog_cancle_img);
+		dialog_cancle_img = (ImageView)view.findViewById(R.id.dialog_cancle_img);
 		dialogCancel = (TextView) view.findViewById(R.id.dialog_img_cancel);
 		dialogCompleted = (TextView) view
 				.findViewById(R.id.dialog_img_completed);

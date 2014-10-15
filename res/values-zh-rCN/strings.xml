@@ -307,7 +307,7 @@
     <string name="str_no_response_data">网络连接异常，请重新登录.</string>
     <string name="str_change_video_type">切换视频制式，录像文件已重新打包</string>
     <string name="str_device">设备</string>
-    <string name="str_device_name">设备A361</string>
+    <string name="str_device_name">A361</string>
     <!-- 设备管理 -->
     <string name="str_quick_setting_nextstep">下一步</string>
     <string name="str_quick_setting_neterror">连接网络超时，请检查.</string>

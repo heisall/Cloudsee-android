@@ -100,7 +100,8 @@
         <RelativeLayout
             android:id="@+id/mainfunction"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/footbar"
             android:layout_below="@+id/videolayout"
             android:background="@color/functionbgcolor"
             android:visibility="visible" >
@@ -175,137 +176,256 @@
                         android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <ListView
+                android:id="@+id/streamlistview"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/stream_selector_bg"
+                android:divider="@color/transparent"
+                android:fadingEdge="none"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:visibility="gone" >
+            </ListView>
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/bottomfunction"
+        <LinearLayout
+            android:id="@+id/footbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:visibility="visible" >
+            android:background="@drawable/footer_bar_bg"
+            android:orientation="horizontal"
+            android:paddingTop="1dp" >
 
-            <LinearLayout
-                android:id="@+id/footbar"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/capture"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/footer_bar_bg"
-                android:orientation="horizontal"
-                android:paddingTop="1dp" >
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:drawableLeft="@drawable/capture"
+                android:paddingLeft="10dp"
+                android:paddingRight="0dp"
+                android:singleLine="true"
+                android:text="@string/str_capture"
+                android:textColor="@drawable/button_font_style"
+                android:textSize="8sp" />
 
-                <Button
-                    android:id="@+id/capture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/function_btn_bg"
-                    android:drawableLeft="@drawable/capture"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="0dp"
-                    android:singleLine="true"
-                    android:text="@string/str_capture"
-                    android:textColor="@drawable/button_font_style"
-                    android:textSize="8sp" />
-
-                <Button
-                    android:id="@+id/voicecall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/function_btn_bg"
-                    android:drawableLeft="@drawable/call_of_voice"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="5dp"
-                    android:singleLine="true"
-                    android:text="@string/str_voice"
-                    android:textColor="@drawable/button_font_style"
-                    android:textSize="8sp" />
-
-                <Button
-                    android:id="@+id/videotape"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/function_btn_bg"
-                    android:drawableLeft="@drawable/video_record"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:text="@string/str_video"
-                    android:textColor="@drawable/button_font_style"
-                    android:textSize="8sp" />
-
-                <Button
-                    android:id="@+id/more_features"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/function_btn_bg"
-                    android:drawableLeft="@drawable/more_feature"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="5dp"
-                    android:singleLine="true"
-                    android:text="@string/default_stream"
-                    android:textColor="@drawable/button_font_style"
-                    android:textSize="8sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/apfunclayout"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/voicecall"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="@color/functionbgcolor"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:paddingTop="1dp" >
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:drawableLeft="@drawable/call_of_voice"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:text="@string/str_voice"
+                android:textColor="@drawable/button_font_style"
+                android:textSize="8sp" />
 
-                <Button
-                    android:id="@+id/nextstep"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/next_step_bg"
-                    android:text="@string/next_step"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </RelativeLayout>
+            <Button
+                android:id="@+id/videotape"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:drawableLeft="@drawable/video_record"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:text="@string/str_video"
+                android:textColor="@drawable/button_font_style"
+                android:textSize="8sp" />
 
-        <ListView
-            android:id="@+id/streamlistview"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/bottomfunction"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="60dp"
-            android:layout_marginRight="3dp"
-            android:background="@drawable/stream_selector_bg"
-            android:divider="@color/transparent"
-            android:fadingEdge="none"
-            android:paddingBottom="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:visibility="gone" >
-        </ListView>
+            <Button
+                android:id="@+id/more_features"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/function_btn_bg"
+                android:drawableLeft="@drawable/more_feature"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:text="@string/str_more"
+                android:textColor="@drawable/button_font_style"
+                android:textSize="8sp" />
+        </LinearLayout>
 
         <include
-            android:id="@+id/voicetip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            layout="@layout/send_voice"
+            android:id="@+id/top_bartwo"
+            layout="@layout/top_bar_layout"
             android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/video_bq" >
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" >
+
+                    <ImageView
+                        android:id="@+id/bottom_but1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/video_stop_icon" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" >
+
+                    <ImageView
+                        android:id="@+id/bottom_but2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/video_play_icon" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" >
+
+                    <ImageView
+                        android:id="@+id/bottom_but3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/video_snap_icon" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" >
+
+                    <ImageView
+                        android:id="@+id/bottom_but4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/video_yuanback_icon" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" >
+
+                    <ImageView
+                        android:id="@+id/bottom_but5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/video_talkback_icon" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" >
+
+                    <ImageView
+                        android:id="@+id/bottom_but6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/video_voiceopen_icon" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" >
+
+                    <ImageView
+                        android:id="@+id/bottom_but7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/video_voiceclose_icon" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" >
+
+                    <ImageView
+                        android:id="@+id/bottom_but8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/video_monitor_icon" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/video_bq"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/video_modle"
+                android:gravity="center"
+                android:text="标清" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/apfunclayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/functionbgcolor"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:paddingTop="1dp" >
+
+            <Button
+                android:id="@+id/nextstep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/next_step_bg"
+                android:text="@string/next_step"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
     </RelativeLayout>
 
     <include
-        android:id="@+id/play_hor_func"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        layout="@layout/play_horfunc_layout"
+        android:id="@+id/voicetip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        layout="@layout/send_voice"
         android:visibility="gone" />
 
 </FrameLayout>

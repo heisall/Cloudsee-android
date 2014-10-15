@@ -18,12 +18,14 @@
         android:visibility="visible" >
 
         <LinearLayout
+            android:id="@+id/linear"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/video_bq" >
 
             <RelativeLayout
+                android:id="@+id/relative1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
@@ -37,6 +39,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/relative2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
@@ -49,6 +52,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/relative3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
@@ -62,6 +66,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/relative4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
@@ -75,6 +80,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/relative5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
@@ -88,6 +94,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/relative6"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
@@ -101,6 +108,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/relative7"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
@@ -114,6 +122,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/relative8"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >

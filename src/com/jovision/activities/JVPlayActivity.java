@@ -765,11 +765,12 @@ public class JVPlayActivity extends PlayActivity implements
 		pagerAdapter.update(manager.genPageList(currentScreen));
 		viewPager.setAdapter(pagerAdapter);
 		playFunctionList.setOnItemClickListener(onItemClickListener);
-
+//		yt_cancle.setOnClickListener(myOnClickListener);
 		audioMonitor.setOnClickListener(myOnClickListener);
 		ytOperate.setOnClickListener(myOnClickListener);
 		remotePlayback.setOnClickListener(myOnClickListener);
 
+		
 		autoimage.setOnTouchListener(new LongClickListener());
 		zoomIn.setOnTouchListener(new LongClickListener());
 		zoomout.setOnTouchListener(new LongClickListener());
@@ -1277,6 +1278,9 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
+//			case R.id.yt_cancle:
+//				
+//				break;
 			case R.id.nextstep: {// AP下一步
 				backMethod(false);
 				break;
@@ -1425,7 +1429,6 @@ public class JVPlayActivity extends PlayActivity implements
 				if (allowThisFuc(false)) {
 					showPTZ();
 				}
-
 				break;
 			case R.id.bottom_but4:
 			case R.id.remote_playback:// 远程回放

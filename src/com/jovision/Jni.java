@@ -66,12 +66,10 @@ public class Jni {
 	/**
 	 * 获取通道个数，参考 {@link JVSUDT#JVC_WANGetChannelCount(String, int, int)}
 	 * 
-	 * // [Neo] TODO 未验证
-	 * 
 	 * @param group
 	 * @param cloudSeeId
 	 * @param timeout
-	 *            秒
+	 *            注意：单位是秒
 	 * @return
 	 * 
 	 */
@@ -88,6 +86,7 @@ public class Jni {
 	 * @param variety
 	 * @param deviceName
 	 * @param timeout
+	 *            单位是毫秒
 	 * @param frequence
 	 * @return
 	 */
@@ -142,6 +141,7 @@ public class Jni {
 	 * @param group
 	 * @param cloudSeeId
 	 * @param timeout
+	 *            单位是毫秒
 	 * @return
 	 */
 	public static native int isDeviceOnline(String group, int cloudSeeId,
@@ -577,7 +577,7 @@ public class Jni {
 	 * @param index
 	 *            窗口索引
 	 * @param enable
-	 *            true:播放A帧数据 false：过滤掉A帧只播放对讲数据
+	 *            是否播放 Normaldata 的音频数据
 	 * @return
 	 */
 	public static native boolean enablePlayAudio(int index, boolean enable);
@@ -614,7 +614,9 @@ public class Jni {
 	 * 初始化音频编码
 	 * 
 	 * @param type
-	 *            类型，amr/alaw/ulaw
+	 *            类型，amr/alaw/ulaw，参考 {@link Consts#JAE_ENCODER_SAMR},
+	 *            {@link Consts#JAE_ENCODER_ALAW},
+	 *            {@link Consts#JAE_ENCODER_ULAW}
 	 * @param sampleRate
 	 * @param channelCount
 	 * @param bitCount

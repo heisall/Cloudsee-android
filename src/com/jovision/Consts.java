@@ -51,6 +51,7 @@ public class Consts {
 	public static final int CALL_PLAY_DOOMED = 0xAC;
 	public static final int CALL_PLAY_AUDIO = 0xAD;
 	public static final int CALL_QUERY_DEVICE = 0xAE;
+	public static final int CALL_HDEC_TYPE = 0xAF;
 
 	public static final int CHANNEL_JY = 5555;
 	public static final int MAX_CHANNEL_CONNECTION = 36;

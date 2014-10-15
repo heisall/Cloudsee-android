@@ -126,12 +126,12 @@
 播放库版本
 
     #define MY_VERSION    "0.6d"
-    #define REVISION      "[33c4a84]"
-    #define RELEASE_DATE  "[2014-10-11]"
+    #define REVISION      "[394bf28]"
+    #define RELEASE_DATE  "[2014-10-15]"
 
 网络库版本
 
-    v2.0.76.3.5[private:v2.0.75.13 20140917.1]
+    v2.0.76.3.6[private:v2.0.75.13 201401014.1]
 
 ## 播放库主要功能
 

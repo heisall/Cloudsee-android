@@ -6,8 +6,6 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-import com.jovision.Jni;
-
 public class PlayAudio extends Thread {
 
 	private static final int SAMPLERATE = 8000;
@@ -44,7 +42,6 @@ public class PlayAudio extends Thread {
 		// } catch (FileNotFoundException e) {
 		// e.printStackTrace();
 		// }
-		Jni.initAudioEncoder(1, 8000, 1, 16, 640);
 
 		AudioTrack track = new AudioTrack(STREAM_TYPE, SAMPLERATE, CHANNEL,
 				ENCODING, 1024, TRACK_MODE);
@@ -73,7 +70,7 @@ public class PlayAudio extends Thread {
 				}
 			}
 		}
-		Jni.deinitAudioEncoder();
+
 		// if (null != outputStream) {
 		// try {
 		// outputStream.close();

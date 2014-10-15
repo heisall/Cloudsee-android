@@ -966,9 +966,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			MyLog.e(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
 			if (JVNetConst.CONNECT_OK == arg1) {
-				// 暂停视频
-				Jni.sendBytes(Consts.CHANNEL_JY, JVNetConst.JVN_CMD_VIDEOPAUSE,
-						new byte[0], 8);
+				// // 暂停视频
+				// Jni.sendBytes(Consts.CHANNEL_JY,
+				// JVNetConst.JVN_CMD_VIDEOPAUSE,
+				// new byte[0], 8);
 				// 请求文本聊天
 				Jni.sendBytes(Consts.CHANNEL_JY, JVNetConst.JVN_REQ_TEXT,
 						new byte[0], 8);

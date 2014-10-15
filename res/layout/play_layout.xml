@@ -247,7 +247,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="5dp"
                     android:singleLine="true"
-                    android:text="@string/str_more"
+                    android:text="@string/default_stream"
                     android:textColor="@drawable/button_font_style"
                     android:textSize="8sp" />
             </LinearLayout>
@@ -288,6 +288,7 @@
             android:paddingBottom="20dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:paddingTop="10dp"
             android:visibility="gone" >
         </ListView>
 
@@ -306,5 +307,5 @@
         android:layout_height="match_parent"
         layout="@layout/play_horfunc_layout"
         android:visibility="gone" />
-    
+
 </FrameLayout>

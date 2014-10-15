@@ -27,8 +27,6 @@ import com.jovision.utils.PlayUtil;
 
 public class JVRemotePlayBackActivity extends PlayActivity {
 
-	private final String TAG = "JV_REMOTE_PLAY";
-
 	private int indexOfChannel;
 	private String acBuffStr;
 	private int currentProgress;// 当前进度
@@ -38,6 +36,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	private Timer playTimer;
 	private PlayTimerTask playTask;
 	private int seconds;
+	private int audioByte;// 音频监听比特率
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -153,6 +152,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 	@Override
 	protected void initSettings() {
+		TAG = "RemotePlayA";
 		currentProgress = 0;
 	}
 
@@ -225,6 +225,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		if (null != intent) {
 			indexOfChannel = intent.getIntExtra("IndexOfChannel", 0);
 			acBuffStr = intent.getStringExtra("acBuffStr");
+			audioByte = intent.getIntExtra("AudioByte", 0);
 		}
 
 	}
@@ -303,7 +304,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			if (0 == arg2) {// 音频监听
-				initAudio();
+				initAudio(audioByte);
 				if (!PlayUtil.audioPlay(indexOfChannel)) {
 					functionListAdapter.selectIndex = -1;
 				} else {
@@ -337,7 +338,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				}
 				break;
 			case R.id.audio_monitor:// 音频监听
-				initAudio();
+				initAudio(audioByte);
 				PlayUtil.audioPlay(indexOfChannel);
 				break;
 			case R.id.yt_operate:// 云台

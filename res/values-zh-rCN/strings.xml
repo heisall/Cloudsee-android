@@ -468,11 +468,13 @@
     <string name="connecting_buffer">正在缓冲数据...</string>
     <string name="is_omx">硬解</string>
     <string name="not_omx">软解</string>
+    <string name="not_support_oxm">您的手机可能不支持硬解奥。</string>
     <string name="stream_not_support">该设备暂时不支持画质切换</string>
     <string name="audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
     <string name="video_repaked">切换视频制式，录像文件已重新打包</string>
     <string name="voice_tips1">亲，你现在可以和对方说话了...</string>
-    <string name="voice_tips2">对讲功能成功开启，长按\"麦克风\"向对方喊话吧。</string>
+    <string name="voice_tips2">对讲功能成功开启，长按向对方喊话吧。</string>
+    <string name="default_stream">默认</string>
 
     <!-- JVQuickSet -->
     <!-- ap配置流程模块 -->

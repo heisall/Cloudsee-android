@@ -51,6 +51,7 @@ public class StreamAdapter extends BaseAdapter {
 		return position;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;

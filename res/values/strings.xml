@@ -486,11 +486,13 @@
     <string name="connecting_buffer">Buffering now...</string>
     <string name="is_omx">硬解</string>
     <string name="not_omx">软解</string>
+    <string name="not_support_oxm">您的手机可能不支持硬解奥。</string>
     <string name="stream_not_support">This device doesn\'t support video quality switch.</string>
     <string name="audio_monitor_forbidden">This function is not available during two-way talk.</string>
     <string name="video_repaked">Switch video standard,Records re-packed.</string>
     <string name="voice_tips1">You can speak to the other now.</string>
-    <string name="voice_tips2">Audio talk is enabled successfully. You can speak to the other through long-click "Mic".</string>
+    <string name="voice_tips2">Audio talk is enabled successfully. You can speak to the other through long-click.</string>
+    <string name="default_stream">Default</string>
 
     <!-- JVAddDeviceActivity -->
     <string name="add_device_succ">Device added successfully</string>

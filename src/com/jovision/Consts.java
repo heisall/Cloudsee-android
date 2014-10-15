@@ -51,7 +51,7 @@ public class Consts {
 	public static final int CALL_PLAY_DOOMED = 0xAC;
 	public static final int CALL_PLAY_AUDIO = 0xAD;
 	public static final int CALL_QUERY_DEVICE = 0xAE;
-	public static final int CALL_HDEC_TYPE = 0xAF;
+	public static final int CALL_HDEC_TYPE = 0xAF;//
 
 	public static final int CHANNEL_JY = 5555;
 	public static final int MAX_CHANNEL_CONNECTION = 36;
@@ -213,8 +213,8 @@ public class Consts {
 	public static final int SCREEN_OVERTURN = 4;// 0(正),4(反)
 
 	// Jni底层规定
-	public static final int DECODE_OMX = 0;// 0软 1硬
-	public static final int DECODE_NOTOMX = 1;// 0软 1硬
+	public static final int DECODE_OMX = 1;// 1硬
+	public static final int DECODE_SOFT = 0;// 0软
 
 	/*********************** 以下是状态变量key的声明 ********************************/
 

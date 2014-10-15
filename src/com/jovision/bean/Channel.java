@@ -42,6 +42,9 @@ public class Channel {
 	private boolean surfaceCreated = false;// surface是否已经创建
 	private boolean isSendCMD = false;// 是否只发关键帧
 
+	private int audioType = 0;// 音频类型
+	private int audioByte = 0;// 音频比特率
+
 	private boolean agreeTextData = false;// 是否同意文本聊天
 	private boolean isOMX = false;// 是否硬解
 	private boolean singleVoice = false;// 单向对讲标识位，默认是双向的
@@ -321,6 +324,22 @@ public class Channel {
 
 	public void setPrimaryID(long primaryID) {
 		this.primaryID = primaryID;
+	}
+
+	public int getAudioType() {
+		return audioType;
+	}
+
+	public void setAudioType(int audioType) {
+		this.audioType = audioType;
+	}
+
+	public int getAudioByte() {
+		return audioByte;
+	}
+
+	public void setAudioByte(int audioByte) {
+		this.audioByte = audioByte;
 	}
 
 }

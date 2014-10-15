@@ -10,7 +10,8 @@ public class PlayAudio extends Thread {
 
 	private static final int SAMPLERATE = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
-	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+	// TODO
+	private static int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 	private static final int STREAM_TYPE = AudioManager.STREAM_MUSIC;
 	private static final int TRACK_MODE = AudioTrack.MODE_STREAM;
 
@@ -19,9 +20,15 @@ public class PlayAudio extends Thread {
 	public MICRecorder recorder;
 	private int indexOfChannel;
 
-	public PlayAudio(LinkedBlockingQueue<byte[]> queue) {
+	public PlayAudio(LinkedBlockingQueue<byte[]> queue, int audioByte) {
 		audioQueue = queue;
 		recorder = MICRecorder.getInstance();
+
+		if (8 == audioByte) {
+			ENCODING = AudioFormat.ENCODING_PCM_8BIT;
+		} else {
+			ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+		}
 	}
 
 	public void setIndex(int index) {

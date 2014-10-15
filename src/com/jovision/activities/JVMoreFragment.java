@@ -92,6 +92,13 @@ public class JVMoreFragment extends BaseFragment {
 				.get(Consts.LOCAL_LOGIN));
 		currentMenu.setText(R.string.more_featrue);
 		rightBtn.setVisibility(View.GONE);
+
+		if (null != mActivity.statusHashMap.get(Consts.KEY_LAST_LOGIN_TIME)) {
+			more_lasttime.setText(mActivity.statusHashMap
+					.get(Consts.KEY_LAST_LOGIN_TIME));
+		} else {
+			more_lasttime.setText("");
+		}
 	}
 
 	@Override
@@ -119,6 +126,7 @@ public class JVMoreFragment extends BaseFragment {
 				.findViewById(R.id.more_findpassword);
 		more_username = (TextView) view.findViewById(R.id.more_uesrname);
 		more_lasttime = (TextView) view.findViewById(R.id.more_lasttime);
+
 		more_head = (ImageView) view.findViewById(R.id.more_head_img);
 
 		more_listView = (ListView) view.findViewById(R.id.more_listView);
@@ -184,11 +192,11 @@ public class JVMoreFragment extends BaseFragment {
 						// TODO Auto-generated method stub
 						switch (position) {
 						case 0:
-							Toast.makeText(activity, "点击成功0",
+							Toast.makeText(activity, "开发中..0",
 									Toast.LENGTH_SHORT).show();
 							break;
 						case 1:
-							Toast.makeText(activity, "点击成功1",
+							Toast.makeText(activity, "开发中..1",
 									Toast.LENGTH_SHORT).show();
 							break;
 						case 2:
@@ -200,7 +208,7 @@ public class JVMoreFragment extends BaseFragment {
 
 							break;
 						case 4:
-							Toast.makeText(activity, "点击成功4",
+							Toast.makeText(activity, "开发中..4",
 									Toast.LENGTH_SHORT).show();
 							break;
 						case 5:
@@ -221,8 +229,6 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 6:
-							Toast.makeText(activity, "点击成功6",
-									Toast.LENGTH_SHORT).show();
 							CheckUpdateTask task = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];

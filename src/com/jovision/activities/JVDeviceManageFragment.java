@@ -128,8 +128,10 @@ public class JVDeviceManageFragment extends BaseFragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				deviceIndex = position;
-				((ManageFragment) fragments.get(position)).deviceIndex = deviceIndex;
+				((ManageFragment) fragments.get(position))
+						.setDevIndex(deviceIndex);
 				managePager.setCurrentItem(position);
+
 				relalist.setVisibility(View.GONE);
 				devicemanage_listView.setVisibility(View.GONE);
 				managePager.setVisibility(View.VISIBLE);
@@ -171,7 +173,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 				public void onClick(View view) {
 					int index = (Integer) view.getTag();
 					deviceIndex = index;
-					((ManageFragment) fragments.get(index)).deviceIndex = deviceIndex;
+					((ManageFragment) fragments.get(index))
+							.setDevIndex(deviceIndex);
 					managePager.setCurrentItem(index);
 				}
 			});
@@ -248,7 +251,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 						* item_width, 0);
 			}
 			deviceIndex = position;
-			((ManageFragment) fragments.get(position)).deviceIndex = deviceIndex;
+			((ManageFragment) fragments.get(position)).setDevIndex(deviceIndex);
 			managePager.setCurrentItem(position);
 		}
 

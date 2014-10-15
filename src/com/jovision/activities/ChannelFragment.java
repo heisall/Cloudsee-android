@@ -232,7 +232,9 @@ public class ChannelFragment extends BaseFragment {
 
 				int screen = 0;
 				int size = deviceList.get(deviceIndex).getChannelList().size();
-				if (size > 0 && size <= 4) {
+				if (size > 0 && size <= 1) {
+					screen = 1;
+				} else if (size > 1 && size <= 4) {
 					screen = 4;
 				} else if (size > 4 && size <= 9) {
 					screen = 9;

@@ -32,7 +32,7 @@ public class ManageFragment extends BaseFragment {
 	DisplayMetrics disMetrics;
 
 	/** 构造参数 */
-	public int deviceIndex;
+	private int deviceIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private Device device;
 
@@ -45,7 +45,8 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		deviceIndex = JVDeviceManageFragment.deviceIndex;
+		Bundle bundle = getArguments();
+		deviceIndex = bundle.getInt("DeviceIndex");
 		deviceList = CacheUtil.getDevList();
 		device = deviceList.get(deviceIndex);
 		super.onCreate(savedInstanceState);
@@ -57,6 +58,11 @@ public class ManageFragment extends BaseFragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.manage_layout, null);
 		return view;
+	}
+
+	public void setDevIndex(int index) {
+		deviceIndex = index;
+		MyLog.v(TAG, "setDevIndex=" + index);
 	}
 
 	@Override

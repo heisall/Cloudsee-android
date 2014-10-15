@@ -65,6 +65,14 @@ public class JVWelcomeActivity extends BaseActivity {
 				String.valueOf(disMetrics.widthPixels));
 		statusHashMap.put(Consts.SCREEN_HEIGHT,
 				String.valueOf(disMetrics.heightPixels));
+
+		if (null == statusHashMap.get(Consts.KEY_LAST_LOGIN_TIME)
+				|| "".equalsIgnoreCase(statusHashMap
+						.get(Consts.KEY_LAST_LOGIN_TIME))) {
+			statusHashMap.put(Consts.KEY_LAST_LOGIN_TIME,
+					ConfigUtil.getCurrentTime());
+		}
+
 		initThread.start();
 
 		initHandler = new Handler();

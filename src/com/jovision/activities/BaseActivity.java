@@ -20,16 +20,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
-import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
 
 /**
@@ -379,22 +380,14 @@ public abstract class BaseActivity extends FragmentActivity implements
 
 	private long exitTime = 0;
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-			exit();
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
-
 	public void exit() {
 		if ((System.currentTimeMillis() - exitTime) > 2000) {
 			Toast.makeText(getApplicationContext(), "再按一次退出程序",
 					Toast.LENGTH_SHORT).show();
 			exitTime = System.currentTimeMillis();
 		} else {
+			statusHashMap.put(Consts.KEY_LAST_LOGIN_TIME,
+					ConfigUtil.getCurrentTime());
 			MyActivityManager.getActivityManager()
 					.popAllActivityExceptOne(null);
 			android.os.Process.killProcess(android.os.Process.myPid());

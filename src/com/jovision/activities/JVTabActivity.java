@@ -4,6 +4,7 @@ import java.util.Timer;
 
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.jovetech.CloudSee.temp.R;
@@ -200,6 +201,16 @@ public class JVTabActivity extends ShakeActivity {
 	@Override
 	protected void freeMe() {
 
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+			exit();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 }

@@ -52,7 +52,7 @@ public class PlayActivity extends BaseActivity {
 
 	/** layout 上 */
 	protected LinearLayout topBar;// 顶部标题栏
-	protected LinearLayout topBartwo;// 顶部标题栏
+	protected LinearLayout topBarH;// 顶部标题栏
 	protected Button back;// 返回
 	protected Button rightFuncButton;// 右边按钮事件
 	protected TextView currentMenu;// 当前标题
@@ -112,14 +112,14 @@ public class PlayActivity extends BaseActivity {
 
 	protected RelativeLayout bottom;
 
-	protected ImageView bottombut1;
-	protected ImageView bottombut2;
-	protected ImageView bottombut3;
-	protected ImageView bottombut4;
-	protected ImageView bottombut5;
-	protected ImageView bottombut6;
-	protected ImageView bottombut7;
-	protected ImageView bottombut8;
+	protected Button bottombut1;
+	protected Button bottombut2;
+	protected Button bottombut3;
+	protected Button bottombut4;
+	protected Button bottombut5;
+	protected Button bottombut6;
+	protected Button bottombut7;
+	protected Button bottombut8;
 	protected TextView bottom_video;
 	protected boolean bottomboolean1;
 	protected boolean bottomboolean2;
@@ -168,7 +168,7 @@ public class PlayActivity extends BaseActivity {
 
 		/** 上 */
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
-		topBartwo = (LinearLayout) findViewById(R.id.top_bartwo);// 顶部标题栏
+		topBarH = (LinearLayout) findViewById(R.id.top_bartwo);// 顶部标题栏
 		back = (Button) findViewById(R.id.btn_left);
 		rightFuncButton = (Button) findViewById(R.id.btn_right);
 		rightFuncButton.setVisibility(View.GONE);
@@ -208,14 +208,14 @@ public class PlayActivity extends BaseActivity {
 		/** 下 */
 
 		bottom = (RelativeLayout) findViewById(R.id.bottom);
-		bottombut1 = (ImageView) findViewById(R.id.bottom_but1);
-		bottombut2 = (ImageView) findViewById(R.id.bottom_but2);
-		bottombut3 = (ImageView) findViewById(R.id.bottom_but3);
-		bottombut4 = (ImageView) findViewById(R.id.bottom_but4);
-		bottombut5 = (ImageView) findViewById(R.id.bottom_but5);
-		bottombut6 = (ImageView) findViewById(R.id.bottom_but6);
-		bottombut7 = (ImageView) findViewById(R.id.bottom_but7);
-		bottombut8 = (ImageView) findViewById(R.id.bottom_but8);
+		bottombut1 = (Button) findViewById(R.id.bottom_but1);
+		bottombut2 = (Button) findViewById(R.id.bottom_but2);
+		bottombut3 = (Button) findViewById(R.id.bottom_but3);
+		bottombut4 = (Button) findViewById(R.id.bottom_but4);
+		bottombut5 = (Button) findViewById(R.id.bottom_but5);
+		bottombut6 = (Button) findViewById(R.id.bottom_but6);
+		bottombut7 = (Button) findViewById(R.id.bottom_but7);
+		bottombut8 = (Button) findViewById(R.id.bottom_but8);
 		bottom_video = (TextView) findViewById(R.id.video_bq);
 
 		if ((disMetrics.heightPixels > 800 && disMetrics.widthPixels > 480)
@@ -335,7 +335,7 @@ public class PlayActivity extends BaseActivity {
 			}
 
 			bottom.setVisibility(View.GONE);
-			topBartwo.setVisibility(View.GONE);
+			topBarH.setVisibility(View.GONE);
 			reParamsV = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
 					(int) (0.75 * disMetrics.widthPixels));
 			MyLog.e(TAG, "v-w=" + disMetrics.widthPixels + ";v-h="
@@ -356,8 +356,11 @@ public class PlayActivity extends BaseActivity {
 			footerBar.setVisibility(View.GONE);// 底部工具栏
 			apFuncLayout.setVisibility(View.GONE);
 			bottom.setVisibility(View.VISIBLE);
-			topBartwo.setVisibility(View.VISIBLE);
+			topBarH.setVisibility(View.VISIBLE);
 			init();
+
+			decodeBtn.setVisibility(View.GONE);
+			videTurnBtn.setVisibility(View.GONE);
 
 			reParamsH = new RelativeLayout.LayoutParams(
 					ViewGroup.LayoutParams.MATCH_PARENT,
@@ -371,6 +374,126 @@ public class PlayActivity extends BaseActivity {
 				surfaceWidth = disMetrics.widthPixels;
 				surfaceHeight = disMetrics.heightPixels;
 			}
+		}
+	}
+
+	/**
+	 * 刷新IPC状态显示
+	 * 
+	 * @param channel
+	 */
+	@SuppressWarnings("deprecation")
+	protected void refreshIPCFun(Channel channel) {
+
+		// 获取软硬解状态
+		if (channel.isOMX()) {
+			decodeBtn.setText(R.string.is_omx);
+			bottombut2.setText(R.string.is_omx);
+		} else {
+			decodeBtn.setText(R.string.not_omx);
+			bottombut2.setText(R.string.not_omx);
+		}
+
+		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+			bottombut2.setVisibility(View.VISIBLE);
+			decodeBtn.setVisibility(View.GONE);
+		} else {
+			bottombut2.setVisibility(View.GONE);
+			decodeBtn.setVisibility(View.VISIBLE);
+		}
+
+		// 录像模式
+		if (Consts.STORAGEMODE_NORMAL == channel.getStorageMode()) {
+			rightFuncButton.setText(R.string.video_normal);
+			rightFuncButton.setCompoundDrawablesWithIntrinsicBounds(null,
+					normalRecordDrawableTop, null, null);
+			rightFuncButton.setTextSize(8);
+			rightFuncButton
+					.setTextColor(getResources().getColor(R.color.white));
+			rightFuncButton.setBackgroundDrawable(null);
+
+			bottombut7.setText(R.string.video_normal);
+			bottombut7.setCompoundDrawablesWithIntrinsicBounds(null,
+					normalRecordDrawableTop, null, null);
+			bottombut7.setTextSize(8);
+			bottombut7.setTextColor(getResources().getColor(R.color.white));
+			bottombut7.setBackgroundDrawable(null);
+
+			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+				bottombut7.setVisibility(View.VISIBLE);
+				rightFuncButton.setVisibility(View.GONE);
+			} else {
+				bottombut7.setVisibility(View.GONE);
+				rightFuncButton.setVisibility(View.VISIBLE);
+			}
+
+		} else if (Consts.STORAGEMODE_ALARM == channel.getStorageMode()) {
+			rightFuncButton.setText(R.string.video_alarm);
+			rightFuncButton.setCompoundDrawablesWithIntrinsicBounds(null,
+					alarmRecordDrawableTop, null, null);
+			rightFuncButton.setTextSize(8);
+			rightFuncButton
+					.setTextColor(getResources().getColor(R.color.white));
+			rightFuncButton.setBackgroundDrawable(null);
+
+			bottombut7.setText(R.string.video_alarm);
+			bottombut7.setCompoundDrawablesWithIntrinsicBounds(null,
+					alarmRecordDrawableTop, null, null);
+			bottombut7.setTextSize(8);
+			bottombut7.setTextColor(getResources().getColor(R.color.white));
+			bottombut7.setBackgroundDrawable(null);
+
+			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+				bottombut7.setVisibility(View.VISIBLE);
+				rightFuncButton.setVisibility(View.GONE);
+			} else {
+				bottombut7.setVisibility(View.GONE);
+				rightFuncButton.setVisibility(View.VISIBLE);
+			}
+		} else {
+			rightFuncButton.setVisibility(View.GONE);
+			bottombut7.setVisibility(View.GONE);
+		}
+
+		// 屏幕方向
+		if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
+			videTurnBtn.setVisibility(View.VISIBLE);
+			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turn_left_selector));
+			bottombut6.setVisibility(View.VISIBLE);
+			bottombut6.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turn_left_selector));
+			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+				bottombut6.setVisibility(View.VISIBLE);
+				videTurnBtn.setVisibility(View.GONE);
+			} else {
+				bottombut6.setVisibility(View.GONE);
+				videTurnBtn.setVisibility(View.VISIBLE);
+			}
+		} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
+			videTurnBtn.setVisibility(View.VISIBLE);
+			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turn_right_selector));
+			bottombut6.setVisibility(View.VISIBLE);
+			bottombut6.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turn_right_selector));
+			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+				bottombut6.setVisibility(View.VISIBLE);
+				videTurnBtn.setVisibility(View.GONE);
+			} else {
+				bottombut6.setVisibility(View.GONE);
+				videTurnBtn.setVisibility(View.VISIBLE);
+			}
+		} else {
+			videTurnBtn.setVisibility(View.GONE);
+			bottombut6.setVisibility(View.GONE);
+		}
+
+		// 码流设置
+		if (-1 != channel.getStreamTag()) {
+			streamAdapter.selectStream = channel.getStreamTag() - 1;
+			streamAdapter.notifyDataSetChanged();
+			moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
 		}
 	}
 
@@ -516,7 +639,7 @@ public class PlayActivity extends BaseActivity {
 			@Override
 			public void onFinish() {
 				bottom.setVisibility(View.GONE);
-				topBartwo.setVisibility(View.GONE);
+				topBarH.setVisibility(View.GONE);
 			}
 		}.start();
 	}

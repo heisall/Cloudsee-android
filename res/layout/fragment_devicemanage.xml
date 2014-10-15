@@ -114,6 +114,7 @@
                 android:background="@drawable/videoedit_pull_bg"
                 android:divider="@null"
                 android:fadingEdge="none"
+                android:layout_marginTop="10dp"
                 android:visibility="gone" >
             </ListView>
 

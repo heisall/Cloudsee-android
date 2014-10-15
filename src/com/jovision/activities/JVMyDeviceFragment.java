@@ -93,6 +93,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private EditText device_passwordet;
 	// 设备密码编辑键
 	private ImageView device_password_cancleI;
+	private ImageView dialog_cancle_img;
 	/** 设备列表 */
 	private ListView myDeviceListView;
 	private ArrayList<Device> myDeviceList = new ArrayList<Device>();
@@ -228,6 +229,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
+			case R.id.dialog_cancle_img:
+				initDialog.dismiss();
+				break;
 			case R.id.btn_right:
 				initPop();
 				// 点击按钮时，pop显示状态，显示中就消失，否则显示
@@ -562,10 +566,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 		View view = LayoutInflater.from(mActivity).inflate(
 				R.layout.dialog_summary, null);
 		initDialog.setContentView(view);
+		dialog_cancle_img = (ImageView) view
+				.findViewById(R.id.dialog_cancle_img);
 		dialogCancel = (TextView) view.findViewById(R.id.dialog_img_cancel);
 		dialogCompleted = (TextView) view
 				.findViewById(R.id.dialog_img_completed);
-		device_name = (TextView) view.findViewById(R.id.device_name);
+		device_name = (TextView) view.findViewById(R.id.device_namew);
 		device_nicket = (EditText) view.findViewById(R.id.device_nicket);
 		device_niceet_cancle = (ImageView) view
 				.findViewById(R.id.device_nicket_cancle);
@@ -576,6 +582,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				.findViewById(R.id.device_passwrodet);
 		device_password_cancleI = (ImageView) view
 				.findViewById(R.id.device_passwrodet_cancle);
+		dialog_cancle_img.setOnClickListener(myOnClickListener);
 		device_nameet_cancle.setOnClickListener(myOnClickListener);
 		device_niceet_cancle.setOnClickListener(myOnClickListener);
 		device_password_cancleI.setOnClickListener(myOnClickListener);

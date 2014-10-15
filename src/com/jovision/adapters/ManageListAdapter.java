@@ -66,9 +66,20 @@ public class ManageListAdapter extends BaseAdapter {
 			Holder.listitem_name = (TextView) convertView
 					.findViewById(R.id.listitem_name);
 
+			Holder.manage_item_img = (ImageView) convertView
+					.findViewById(R.id.manage_item_img);
 			convertView.setTag(Holder);
 		} else {
 			Holder = (DeviceHolder) convertView.getTag();
+		}
+		if (dataList.get(position).getIsselect()) {
+			Holder.manage_item_img.setVisibility(View.VISIBLE);
+			Holder.listitem_img
+					.setImageResource(R.drawable.devicemanage_selected_icon);
+		} else {
+			Holder.manage_item_img.setVisibility(View.GONE);
+			Holder.listitem_img
+					.setImageResource(R.drawable.devicemanage_normal_icon);
 		}
 		Holder.listitem_name.setText(dataList.get(position).getFullNo());
 		return convertView;
@@ -77,6 +88,7 @@ public class ManageListAdapter extends BaseAdapter {
 	class DeviceHolder {
 		private ImageView listitem_img;
 		private TextView listitem_name;
+		private ImageView manage_item_img;
 	}
 
 }

@@ -137,7 +137,7 @@
 
     <style name="mydialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/dialog_bg</item>
+        <item name="android:windowBackground">@drawable/dialog_bg_color</item>
     </style>
 
     <!-- 报警级别 -->

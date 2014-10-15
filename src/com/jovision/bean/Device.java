@@ -53,7 +53,8 @@ public class Device {
 	private int onlineState = 0;
 	/** 设备是否带Wi-Fi */
 	private int hasWifi = 0;
-
+	/** 设备列表中是否被选中 */
+	private Boolean isselect;
 	private int alarmSwitch = 0;// 告警开关，0-关闭，1-打开
 
 	public Device() {
@@ -391,6 +392,14 @@ public class Device {
 
 	public void setPrimaryID(long primaryID) {
 		this.primaryID = primaryID;
+	}
+
+	public Boolean getIsselect() {
+		return isselect;
+	}
+
+	public void setIsselect(Boolean isselect) {
+		this.isselect = isselect;
 	}
 
 }

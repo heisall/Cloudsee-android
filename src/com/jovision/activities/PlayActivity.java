@@ -52,7 +52,6 @@ public class PlayActivity extends BaseActivity {
 
 	/** layout 上 */
 	protected LinearLayout topBar;// 顶部标题栏
-	protected LinearLayout topBarH;// 顶部标题栏
 	protected Button back;// 返回
 	protected Button rightFuncButton;// 右边按钮事件
 	protected TextView currentMenu;// 当前标题
@@ -70,6 +69,9 @@ public class PlayActivity extends BaseActivity {
 
 	protected SeekBar progressBar;// 远程回放进度
 
+	/** 　横屏播放工具bar　 */
+	protected RelativeLayout horPlayBarLayout;
+
 	/** 远程回放连接状态 */
 	protected TextView linkState;// 连接文字
 	protected ProgressBar loading;// 加载进度
@@ -78,7 +80,7 @@ public class PlayActivity extends BaseActivity {
 	protected Button ytOperate;// 云台
 	protected Button remotePlayback;// 远程回放
 	protected LinearLayout ytLayout;// 云台布局
-	protected LinearLayout playFuctionLayout;// 小分辨率时功能界面
+	// protected LinearLayout playFuctionLayout;// 小分辨率时功能界面
 	protected ListView playFunctionList;// 大分辨率时功能列表
 	protected FuntionAdapter functionListAdapter;
 	protected ArrayList<String> functionList = new ArrayList<String>();
@@ -110,10 +112,8 @@ public class PlayActivity extends BaseActivity {
 
 	protected MICRecorder recorder;// 音频采集
 
-	protected RelativeLayout bottom;
-
 	protected Button bottombut1;
-	protected Button bottombut2;
+	protected Button bottombut2;// 软硬解
 	protected Button bottombut3;
 	protected Button bottombut4;
 	protected Button bottombut5;
@@ -168,7 +168,6 @@ public class PlayActivity extends BaseActivity {
 
 		/** 上 */
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
-		topBarH = (LinearLayout) findViewById(R.id.top_bartwo);// 顶部标题栏
 		back = (Button) findViewById(R.id.btn_left);
 		rightFuncButton = (Button) findViewById(R.id.btn_right);
 		rightFuncButton.setVisibility(View.GONE);
@@ -205,9 +204,8 @@ public class PlayActivity extends BaseActivity {
 		videTurnBtn.setVisibility(View.GONE);
 		voiceTip = (RelativeLayout) findViewById(R.id.voicetip);
 
-		/** 下 */
-
-		bottom = (RelativeLayout) findViewById(R.id.bottom);
+		/** 水平播放function bar */
+		horPlayBarLayout = (RelativeLayout) findViewById(R.id.play_hor_func);
 		bottombut1 = (Button) findViewById(R.id.bottom_but1);
 		bottombut2 = (Button) findViewById(R.id.bottom_but2);
 		bottombut3 = (Button) findViewById(R.id.bottom_but3);
@@ -226,7 +224,8 @@ public class PlayActivity extends BaseActivity {
 		bigScreen = true;
 
 		/** 小分辨率功能 */
-		playFuctionLayout = (LinearLayout) findViewById(R.id.play_function_layout);
+		// playFuctionLayout = (LinearLayout)
+		// findViewById(R.id.play_function_layout);
 		audioMonitor = (Button) findViewById(R.id.audio_monitor);// 音频监听
 		ytOperate = (Button) findViewById(R.id.yt_operate);// 云台
 		remotePlayback = (Button) findViewById(R.id.remote_playback);// 远程回放
@@ -244,10 +243,10 @@ public class PlayActivity extends BaseActivity {
 
 		if (bigScreen) {
 			playFunctionList.setVisibility(View.VISIBLE);
-			playFuctionLayout.setVisibility(View.GONE);
+			// playFuctionLayout.setVisibility(View.GONE);
 		} else {
 			playFunctionList.setVisibility(View.GONE);
-			playFuctionLayout.setVisibility(View.VISIBLE);
+			// playFuctionLayout.setVisibility(View.VISIBLE);
 		}
 
 		/** 云台 布局 */
@@ -334,8 +333,7 @@ public class PlayActivity extends BaseActivity {
 				apFuncLayout.setVisibility(View.GONE);
 			}
 
-			bottom.setVisibility(View.GONE);
-			topBarH.setVisibility(View.GONE);
+			horPlayBarLayout.setVisibility(View.GONE);
 			reParamsV = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
 					(int) (0.75 * disMetrics.widthPixels));
 			MyLog.e(TAG, "v-w=" + disMetrics.widthPixels + ";v-h="
@@ -355,8 +353,7 @@ public class PlayActivity extends BaseActivity {
 			topBar.setVisibility(View.GONE);// 顶部标题栏
 			footerBar.setVisibility(View.GONE);// 底部工具栏
 			apFuncLayout.setVisibility(View.GONE);
-			bottom.setVisibility(View.VISIBLE);
-			topBarH.setVisibility(View.VISIBLE);
+			horPlayBarLayout.setVisibility(View.VISIBLE);
 			init();
 
 			decodeBtn.setVisibility(View.GONE);
@@ -374,6 +371,7 @@ public class PlayActivity extends BaseActivity {
 				surfaceWidth = disMetrics.widthPixels;
 				surfaceHeight = disMetrics.heightPixels;
 			}
+
 		}
 	}
 
@@ -554,7 +552,7 @@ public class PlayActivity extends BaseActivity {
 		if (View.GONE == ytLayout.getVisibility()) {
 			ytLayout.setVisibility(View.VISIBLE);
 			playFunctionList.setVisibility(View.GONE);
-			playFuctionLayout.setVisibility(View.GONE);
+			// playFuctionLayout.setVisibility(View.GONE);
 		}
 	}
 
@@ -629,7 +627,7 @@ public class PlayActivity extends BaseActivity {
 	}
 
 	protected void init() {
-		new CountDownTimer(3000, 2000) {
+		new CountDownTimer(6 * 1000, 2 * 1000) {
 
 			@Override
 			public void onTick(long millisUntilFinished) {
@@ -638,8 +636,7 @@ public class PlayActivity extends BaseActivity {
 
 			@Override
 			public void onFinish() {
-				bottom.setVisibility(View.GONE);
-				topBarH.setVisibility(View.GONE);
+				horPlayBarLayout.setVisibility(View.GONE);
 			}
 		}.start();
 	}

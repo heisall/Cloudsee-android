@@ -778,7 +778,6 @@ public class JVPlayActivity extends PlayActivity implements
 		bottombut6.setOnClickListener(myOnClickListener);
 		bottombut7.setOnClickListener(myOnClickListener);
 		bottombut8.setOnClickListener(myOnClickListener);
-		bottom.setOnClickListener(myOnClickListener);
 		bottom_video.setOnClickListener(myOnClickListener);
 
 		nextStep.setOnClickListener(myOnClickListener);
@@ -1459,93 +1458,10 @@ public class JVPlayActivity extends PlayActivity implements
 							.setBackgroundResource(R.drawable.video_stop_icon);
 				}
 				break;
-			// case R.id.bottom_but2:
-			// if (bottomboolean2) {
-			// Jni.sendBytes(currentIndex,
-			// (byte) JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
-			// bottombut2
-			// .setBackgroundResource(R.drawable.video_play_icon);
-			// bottomboolean2 = false;
-			// } else {
-			// Jni.sendBytes(currentIndex,
-			// (byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
-			// bottombut2
-			// .setBackgroundResource(R.drawable.video_playselect_bg);
-			// bottomboolean2 = true;
-			// }
-			// break;
-			// case R.id.bottom_but3:
-			// if (bottomboolean3) {
-			// bottombut3
-			// .setBackgroundResource(R.drawable.video_snap_icon);
-			// bottomboolean3 = false;
-			// } else {
-			// bottombut3
-			// .setBackgroundResource(R.drawable.video_snapselect_icon);
-			// bottomboolean3 = true;
-			// }
-			// break;
-			// case R.id.bottom_but4:
-			// if (bottomboolean4) {
-			// bottombut4
-			// .setBackgroundResource(R.drawable.video_yuanback_icon);
-			// bottomboolean4 = false;
-			// } else {
-			// bottombut4
-			// .setBackgroundResource(R.drawable.video_yuanbackselect_icon);
-			// bottomboolean4 = true;
-			// }
-			// break;
-			// case R.id.bottom_but5:
-			// if (bottomboolean5) {
-			// bottombut5
-			// .setBackgroundResource(R.drawable.video_talkback_icon);
-			// bottomboolean5 = false;
-			// } else {
-			// bottombut5
-			// .setBackgroundResource(R.drawable.video_talkselect_icon);
-			// bottomboolean5 = true;
-			// }
-			// break;
-			// case R.id.bottom_but6:
-			// if (bottomboolean6) {
-			// bottombut6
-			// .setBackgroundResource(R.drawable.video_voiceopen_icon);
-			// bottomboolean6 = false;
-			// } else {
-			// bottombut6
-			// .setBackgroundResource(R.drawable.video_voiceopenselect_icon);
-			// bottomboolean6 = true;
-			// }
-			// break;
-			// case R.id.bottom_but7:
-			// if (bottomboolean7) {
-			// bottombut7
-			// .setBackgroundResource(R.drawable.video_voiceclose_icon);
-			// bottomboolean7 = false;
-			// } else {
-			// bottombut7
-			// .setBackgroundResource(R.drawable.video_voiceselect_icon);
-			// bottomboolean7 = true;
-			// }
-			// break;
-			// case R.id.bottom_but8:
-			// if (bottomboolean8) {
-			// bottombut8
-			// .setBackgroundResource(R.drawable.video_monitor_icon);
-			// bottomboolean8 = false;
-			// } else {
-			// bottombut8
-			// .setBackgroundResource(R.drawable.video_monitorselect_icon);
-			// bottomboolean8 = true;
-			// }
-			// break;
+
 			case R.id.bottom:
 
 				break;
-			// case R.id.video_bq:
-			//
-			// break;
 			}
 
 		}
@@ -1716,10 +1632,10 @@ public class JVPlayActivity extends PlayActivity implements
 			ytLayout.setVisibility(View.GONE);
 			if (bigScreen) {
 				playFunctionList.setVisibility(View.VISIBLE);
-				playFuctionLayout.setVisibility(View.GONE);
+				// playFuctionLayout.setVisibility(View.GONE);
 			} else {
 				playFunctionList.setVisibility(View.GONE);
-				playFuctionLayout.setVisibility(View.VISIBLE);
+				// playFuctionLayout.setVisibility(View.VISIBLE);
 			}
 		} else {
 			stopAllFunc();
@@ -1755,6 +1671,14 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		if (currentScreen == oneScreen) {
+			refreshIPCFun(manager.getChannel(currentIndex));
+		} else {
+			decodeBtn.setVisibility(View.GONE);
+			rightFuncButton.setVisibility(View.GONE);
+			videTurnBtn.setVisibility(View.GONE);
+		}
+
 	}
 
 	@Override
@@ -1789,9 +1713,6 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null != audioQueue) {
 				audioQueue.clear();
 			}
-			// if (null != playAudio) {
-			// playAudio.interrupt();
-			// }
 			manager.getChannel(currentIndex).setVoiceCall(false);
 			voiceCallSelected(false);
 			PlayUtil.stopVoiceCall(currentIndex);
@@ -1910,8 +1831,7 @@ public class JVPlayActivity extends PlayActivity implements
 									R.color.videoselect));
 				} else {
 					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-						bottom.setVisibility(View.VISIBLE);
-						topBarH.setVisibility(View.VISIBLE);
+						horPlayBarLayout.setVisibility(View.VISIBLE);
 						init();
 					}
 				}

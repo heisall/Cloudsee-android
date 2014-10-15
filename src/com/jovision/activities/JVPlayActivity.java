@@ -609,7 +609,8 @@ public class JVPlayActivity extends PlayActivity implements
 				manager.getChannel(currentIndex).setVoiceCall(true);
 				VOICECALLING = true;
 				voiceCallSelected(true);
-				recorder.start();
+				// [Neo] TODO 根据连接的设备 NORMAL_DATA 取出 audio_type，填进来
+				recorder.start(Consts.JAE_ENCODER_ALAW);
 				break;
 			}
 

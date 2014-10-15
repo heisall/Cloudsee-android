@@ -5,7 +5,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
-import android.os.CountDownTimer;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +34,7 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.MyViewPager;
 
-public class PlayActivity extends BaseActivity {
-
-	private final String TAG = "PLAY_BASE";
+public abstract class PlayActivity extends BaseActivity {
 
 	protected boolean bigScreen = false;// 大小屏标识
 
@@ -52,7 +49,6 @@ public class PlayActivity extends BaseActivity {
 
 	/** layout 上 */
 	protected LinearLayout topBar;// 顶部标题栏
-	protected LinearLayout topBarH;// 顶部标题栏
 	protected Button back;// 返回
 	protected Button rightFuncButton;// 右边按钮事件
 	protected TextView currentMenu;// 当前标题
@@ -69,6 +65,9 @@ public class PlayActivity extends BaseActivity {
 	protected TextView linkMode;// 测试显示连接方式
 
 	protected SeekBar progressBar;// 远程回放进度
+
+	/** 　横屏播放工具bar　 */
+	protected RelativeLayout horPlayBarLayout;
 
 	/** 远程回放连接状态 */
 	protected TextView linkState;// 连接文字
@@ -110,17 +109,18 @@ public class PlayActivity extends BaseActivity {
 
 	protected MICRecorder recorder;// 音频采集
 
-	protected RelativeLayout bottom;
+	protected Button left_btn_h;// 横屏返回键
+	protected Button right_btn_h;// 横屏手动录像，报警录像键
 
-	protected Button bottombut1;
-	protected Button bottombut2;
-	protected Button bottombut3;
-	protected Button bottombut4;
-	protected Button bottombut5;
-	protected Button bottombut6;
-	protected Button bottombut7;
-	protected Button bottombut8;
-	protected TextView bottom_video;
+	protected Button bottombut1;// 视频播放和暂停
+	protected Button bottombut2;// 软硬解
+	protected Button bottombut3;// 抓拍
+	protected Button bottombut4;// 远程回放
+	protected Button bottombut5;// 对讲
+	protected Button bottombut6;// 视频翻转
+	protected Button bottombut7;// 录像
+	protected Button bottombut8;// 音频监听
+	protected TextView bottomStream;
 	protected boolean bottomboolean1;
 	protected boolean bottomboolean2;
 	protected boolean bottomboolean3;
@@ -168,7 +168,6 @@ public class PlayActivity extends BaseActivity {
 
 		/** 上 */
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
-		topBarH = (LinearLayout) findViewById(R.id.top_bartwo);// 顶部标题栏
 		back = (Button) findViewById(R.id.btn_left);
 		rightFuncButton = (Button) findViewById(R.id.btn_right);
 		rightFuncButton.setVisibility(View.GONE);
@@ -205,9 +204,13 @@ public class PlayActivity extends BaseActivity {
 		videTurnBtn.setVisibility(View.GONE);
 		voiceTip = (RelativeLayout) findViewById(R.id.voicetip);
 
-		/** 下 */
+		/** 水平播放function bar */
+		horPlayBarLayout = (RelativeLayout) findViewById(R.id.play_hor_func);
 
-		bottom = (RelativeLayout) findViewById(R.id.bottom);
+		left_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_left);// 横屏返回键
+		right_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_right);// 横屏手动录像，报警录像键
+		right_btn_h.setVisibility(View.GONE);
+
 		bottombut1 = (Button) findViewById(R.id.bottom_but1);
 		bottombut2 = (Button) findViewById(R.id.bottom_but2);
 		bottombut3 = (Button) findViewById(R.id.bottom_but3);
@@ -216,7 +219,7 @@ public class PlayActivity extends BaseActivity {
 		bottombut6 = (Button) findViewById(R.id.bottom_but6);
 		bottombut7 = (Button) findViewById(R.id.bottom_but7);
 		bottombut8 = (Button) findViewById(R.id.bottom_but8);
-		bottom_video = (TextView) findViewById(R.id.video_bq);
+		bottomStream = (TextView) findViewById(R.id.video_bq);
 
 		if ((disMetrics.heightPixels > 800 && disMetrics.widthPixels > 480)
 				|| (disMetrics.heightPixels > 480 && disMetrics.widthPixels > 800)) {// 大屏
@@ -226,7 +229,8 @@ public class PlayActivity extends BaseActivity {
 		bigScreen = true;
 
 		/** 小分辨率功能 */
-		playFuctionLayout = (LinearLayout) findViewById(R.id.play_function_layout);
+		// playFuctionLayout = (LinearLayout)
+		// findViewById(R.id.play_function_layout);
 		audioMonitor = (Button) findViewById(R.id.audio_monitor);// 音频监听
 		ytOperate = (Button) findViewById(R.id.yt_operate);// 云台
 		remotePlayback = (Button) findViewById(R.id.remote_playback);// 远程回放
@@ -244,10 +248,10 @@ public class PlayActivity extends BaseActivity {
 
 		if (bigScreen) {
 			playFunctionList.setVisibility(View.VISIBLE);
-			playFuctionLayout.setVisibility(View.GONE);
+			// playFuctionLayout.setVisibility(View.GONE);
 		} else {
 			playFunctionList.setVisibility(View.GONE);
-			playFuctionLayout.setVisibility(View.VISIBLE);
+			// playFuctionLayout.setVisibility(View.VISIBLE);
 		}
 
 		/** 云台 布局 */
@@ -334,8 +338,7 @@ public class PlayActivity extends BaseActivity {
 				apFuncLayout.setVisibility(View.GONE);
 			}
 
-			bottom.setVisibility(View.GONE);
-			topBarH.setVisibility(View.GONE);
+			horPlayBarLayout.setVisibility(View.GONE);
 			reParamsV = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
 					(int) (0.75 * disMetrics.widthPixels));
 			MyLog.e(TAG, "v-w=" + disMetrics.widthPixels + ";v-h="
@@ -355,9 +358,8 @@ public class PlayActivity extends BaseActivity {
 			topBar.setVisibility(View.GONE);// 顶部标题栏
 			footerBar.setVisibility(View.GONE);// 底部工具栏
 			apFuncLayout.setVisibility(View.GONE);
-			bottom.setVisibility(View.VISIBLE);
-			topBarH.setVisibility(View.VISIBLE);
-			init();
+			horPlayBarLayout.setVisibility(View.VISIBLE);
+			// init();
 
 			decodeBtn.setVisibility(View.GONE);
 			videTurnBtn.setVisibility(View.GONE);
@@ -374,7 +376,25 @@ public class PlayActivity extends BaseActivity {
 				surfaceWidth = disMetrics.widthPixels;
 				surfaceHeight = disMetrics.heightPixels;
 			}
+
 		}
+	}
+
+	/**
+	 * 清空所有状态
+	 */
+	public void resetFunc() {
+		decodeBtn.setVisibility(View.GONE);// 软硬解
+		bottombut2.setVisibility(View.GONE);
+
+		videTurnBtn.setVisibility(View.GONE);// 视频翻转
+		bottombut6.setVisibility(View.GONE);
+
+		rightFuncButton.setVisibility(View.GONE);// 录像模式
+		right_btn_h.setVisibility(View.GONE);// 录像模式
+
+		moreFeature.setText(R.string.default_stream);// 码流
+		bottomStream.setText(R.string.default_stream);
 	}
 
 	/**
@@ -412,18 +432,18 @@ public class PlayActivity extends BaseActivity {
 					.setTextColor(getResources().getColor(R.color.white));
 			rightFuncButton.setBackgroundDrawable(null);
 
-			bottombut7.setText(R.string.video_normal);
-			bottombut7.setCompoundDrawablesWithIntrinsicBounds(null,
+			right_btn_h.setText(R.string.video_normal);
+			right_btn_h.setCompoundDrawablesWithIntrinsicBounds(null,
 					normalRecordDrawableTop, null, null);
-			bottombut7.setTextSize(8);
-			bottombut7.setTextColor(getResources().getColor(R.color.white));
-			bottombut7.setBackgroundDrawable(null);
+			right_btn_h.setTextSize(8);
+			right_btn_h.setTextColor(getResources().getColor(R.color.white));
+			right_btn_h.setBackgroundDrawable(null);
 
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-				bottombut7.setVisibility(View.VISIBLE);
+				right_btn_h.setVisibility(View.VISIBLE);
 				rightFuncButton.setVisibility(View.GONE);
 			} else {
-				bottombut7.setVisibility(View.GONE);
+				right_btn_h.setVisibility(View.GONE);
 				rightFuncButton.setVisibility(View.VISIBLE);
 			}
 
@@ -436,23 +456,23 @@ public class PlayActivity extends BaseActivity {
 					.setTextColor(getResources().getColor(R.color.white));
 			rightFuncButton.setBackgroundDrawable(null);
 
-			bottombut7.setText(R.string.video_alarm);
-			bottombut7.setCompoundDrawablesWithIntrinsicBounds(null,
+			right_btn_h.setText(R.string.video_alarm);
+			right_btn_h.setCompoundDrawablesWithIntrinsicBounds(null,
 					alarmRecordDrawableTop, null, null);
-			bottombut7.setTextSize(8);
-			bottombut7.setTextColor(getResources().getColor(R.color.white));
-			bottombut7.setBackgroundDrawable(null);
+			right_btn_h.setTextSize(8);
+			right_btn_h.setTextColor(getResources().getColor(R.color.white));
+			right_btn_h.setBackgroundDrawable(null);
 
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-				bottombut7.setVisibility(View.VISIBLE);
+				right_btn_h.setVisibility(View.VISIBLE);
 				rightFuncButton.setVisibility(View.GONE);
 			} else {
-				bottombut7.setVisibility(View.GONE);
+				right_btn_h.setVisibility(View.GONE);
 				rightFuncButton.setVisibility(View.VISIBLE);
 			}
 		} else {
 			rightFuncButton.setVisibility(View.GONE);
-			bottombut7.setVisibility(View.GONE);
+			right_btn_h.setVisibility(View.GONE);
 		}
 
 		// 屏幕方向
@@ -494,6 +514,7 @@ public class PlayActivity extends BaseActivity {
 			streamAdapter.selectStream = channel.getStreamTag() - 1;
 			streamAdapter.notifyDataSetChanged();
 			moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
+			bottomStream.setText(streamArray[channel.getStreamTag() - 1]);
 		}
 	}
 
@@ -511,6 +532,8 @@ public class PlayActivity extends BaseActivity {
 					R.drawable.function_btn_bg_2));
 			videoTape.setCompoundDrawablesWithIntrinsicBounds(videoTapeLeft2,
 					null, null, null);
+			bottombut7.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.video_record_2));
 		} else {
 			videoTape.setTextColor(getResources().getColor(
 					R.color.functionbtncolor1));
@@ -518,6 +541,8 @@ public class PlayActivity extends BaseActivity {
 					R.drawable.function_btn_bg_1));
 			videoTape.setCompoundDrawablesWithIntrinsicBounds(videoTapeLeft1,
 					null, null, null);
+			bottombut7.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.video_record_1));
 		}
 
 		recoding = selected;
@@ -537,6 +562,9 @@ public class PlayActivity extends BaseActivity {
 					R.drawable.function_btn_bg_2));
 			voiceCall.setCompoundDrawablesWithIntrinsicBounds(voiceCallLeft2,
 					null, null, null);
+			bottombut5.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.video_talkselect_icon));
+
 		} else {
 			voiceCall.setTextColor(getResources().getColor(
 					R.color.functionbtncolor1));
@@ -544,6 +572,9 @@ public class PlayActivity extends BaseActivity {
 					R.drawable.function_btn_bg_1));
 			voiceCall.setCompoundDrawablesWithIntrinsicBounds(voiceCallLeft1,
 					null, null, null);
+			bottombut5.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.video_talkback_icon));
+
 		}
 	}
 
@@ -554,19 +585,20 @@ public class PlayActivity extends BaseActivity {
 		if (View.GONE == ytLayout.getVisibility()) {
 			ytLayout.setVisibility(View.VISIBLE);
 			playFunctionList.setVisibility(View.GONE);
-			playFuctionLayout.setVisibility(View.GONE);
+			// playFuctionLayout.setVisibility(View.GONE);
 		}
 	}
 
 	/**
 	 * 音频监听时初始化audio和队列
 	 */
-	protected void initAudio() {
+	protected void initAudio(int audioByte) {
 		if (null == audioQueue) {
 			audioQueue = new LinkedBlockingQueue<byte[]>();
 		}
+
 		if (null == playAudio) {
-			playAudio = new PlayAudio(audioQueue);
+			playAudio = new PlayAudio(audioQueue, audioByte);
 			playAudio.start();
 		}
 	}
@@ -628,19 +660,18 @@ public class PlayActivity extends BaseActivity {
 
 	}
 
-	protected void init() {
-		new CountDownTimer(3000, 2000) {
-
-			@Override
-			public void onTick(long millisUntilFinished) {
-
-			}
-
-			@Override
-			public void onFinish() {
-				bottom.setVisibility(View.GONE);
-				topBarH.setVisibility(View.GONE);
-			}
-		}.start();
-	}
+	// protected void init() {
+	// new CountDownTimer(6 * 1000, 2 * 1000) {
+	//
+	// @Override
+	// public void onTick(long millisUntilFinished) {
+	//
+	// }
+	//
+	// @Override
+	// public void onFinish() {
+	// horPlayBarLayout.setVisibility(View.GONE);
+	// }
+	// }.start();
+	// }
 }

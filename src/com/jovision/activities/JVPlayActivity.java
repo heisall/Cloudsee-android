@@ -48,8 +48,6 @@ import com.jovision.utils.PlayUtil;
 
 public class JVPlayActivity extends PlayActivity implements
 		PlayWindowManager.OnUiListener {
-	private final String TAG = "JV_PLAY";
-
 	private PlayWindowManager manager;
 
 	private int selectedScreen = 4;// 默认分四屏
@@ -87,13 +85,15 @@ public class JVPlayActivity extends PlayActivity implements
 	public static boolean VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
 	public static boolean VOICECALLING = false;// 对讲功能已经开启
 
+	private boolean needToast = false;
+
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 	}
 
 	@Override
-	// int what, int uchType, int channel,
+	// int what, hint uchType, int channel,
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		// 抓拍回调
@@ -206,10 +206,19 @@ public class JVPlayActivity extends PlayActivity implements
 
 			MyLog.v("ChannelTag--IFrame=arg2", "arg2=" + arg2);
 
+			if (!manager.getChannel(arg1).isOMX() && arg2 == Consts.DECODE_SOFT) {
+				// TODO
+				if (needToast) {
+					showTextToast(R.string.not_support_oxm);
+					needToast = false;
+				}
+
+			}
+
 			if (Consts.DECODE_OMX == arg2) {
-				manager.getChannel(arg1).setOMX(false);
-			} else if (Consts.DECODE_NOTOMX == arg2) {
 				manager.getChannel(arg1).setOMX(true);
+			} else if (Consts.DECODE_SOFT == arg2) {
+				manager.getChannel(arg1).setOMX(false);
 			}
 
 			MyLog.v("refreshIPCFun--IFrame=", arg1 + "");
@@ -218,6 +227,7 @@ public class JVPlayActivity extends PlayActivity implements
 			} else {
 				decodeBtn.setVisibility(View.GONE);
 				rightFuncButton.setVisibility(View.GONE);
+				right_btn_h.setVisibility(View.GONE);
 				videTurnBtn.setVisibility(View.GONE);
 			}
 
@@ -360,8 +370,11 @@ public class JVPlayActivity extends PlayActivity implements
 						channel.setSingleVoice(false);
 					}
 					channel.getParent().setO5(jobj.optBoolean("is05"));
+					channel.setAudioType(jobj.getInt("audio_type"));
+					channel.setAudioByte(jobj.getInt("audio_bit"));
 
 					if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
+						// TODO
 						errorDialog(getResources().getString(
 								R.string.not_support_old));
 					}
@@ -478,6 +491,7 @@ public class JVPlayActivity extends PlayActivity implements
 						} else {
 							decodeBtn.setVisibility(View.GONE);
 							rightFuncButton.setVisibility(View.GONE);
+							right_btn_h.setVisibility(View.GONE);
 							videTurnBtn.setVisibility(View.GONE);
 						}
 
@@ -509,6 +523,7 @@ public class JVPlayActivity extends PlayActivity implements
 						} else {
 							decodeBtn.setVisibility(View.GONE);
 							rightFuncButton.setVisibility(View.GONE);
+							right_btn_h.setVisibility(View.GONE);
 							videTurnBtn.setVisibility(View.GONE);
 						}
 						break;
@@ -609,7 +624,8 @@ public class JVPlayActivity extends PlayActivity implements
 				manager.getChannel(currentIndex).setVoiceCall(true);
 				VOICECALLING = true;
 				voiceCallSelected(true);
-				recorder.start();
+				// [Neo] TODO 根据连接的设备 NORMAL_DATA 取出 audio_type，填进来
+				recorder.start(manager.getChannel(currentIndex).getAudioType());
 				break;
 			}
 
@@ -620,11 +636,15 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			break;
 		}
+		case Consts.CALL_HDEC_TYPE: {// 统计硬解格式
+			String objStr = obj.toString();
+		}
 		}
 	}
 
 	@Override
 	protected void initSettings() {
+		TAG = "PlayA";
 		PlayUtil.setContext(JVPlayActivity.this);
 		manager = PlayWindowManager.getIntance(this);
 		manager.setArrowId(R.drawable.left, R.drawable.up, R.drawable.right,
@@ -718,6 +738,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		/** 上 */
 		back.setOnClickListener(myOnClickListener);
+		left_btn_h.setOnClickListener(myOnClickListener);
 
 		selectScreenNum.setOnClickListener(myOnClickListener);
 		currentMenu.setOnClickListener(myOnClickListener);
@@ -734,6 +755,7 @@ public class JVPlayActivity extends PlayActivity implements
 		decodeBtn.setOnClickListener(myOnClickListener);
 		videTurnBtn.setOnClickListener(myOnClickListener);
 		rightFuncButton.setOnClickListener(myOnClickListener);
+		right_btn_h.setOnClickListener(myOnClickListener);
 
 		/** 中 */
 		viewPager.setVisibility(View.VISIBLE);
@@ -778,8 +800,7 @@ public class JVPlayActivity extends PlayActivity implements
 		bottombut6.setOnClickListener(myOnClickListener);
 		bottombut7.setOnClickListener(myOnClickListener);
 		bottombut8.setOnClickListener(myOnClickListener);
-		bottom.setOnClickListener(myOnClickListener);
-		bottom_video.setOnClickListener(myOnClickListener);
+		bottomStream.setOnClickListener(myOnClickListener);
 
 		nextStep.setOnClickListener(myOnClickListener);
 
@@ -796,6 +817,10 @@ public class JVPlayActivity extends PlayActivity implements
 		voiceCall.setOnClickListener(myOnClickListener);
 		voiceCall.setOnTouchListener(callOnTouchListener);
 		voiceCall.setOnLongClickListener(callOnLongClickListener);
+
+		bottombut5.setOnClickListener(myOnClickListener);
+		bottombut5.setOnTouchListener(callOnTouchListener);
+		bottombut5.setOnLongClickListener(callOnLongClickListener);
 
 		if (oneScreen != currentScreen) {
 			computeScreenData(oneScreen, currentScreen);
@@ -988,11 +1013,13 @@ public class JVPlayActivity extends PlayActivity implements
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
 			stopAll(currentIndex, manager.getChannel(currentIndex));
 			if (arg0 - currentPage > 0) {// 向左滑
+				resetFunc();
 				currentPage = arg0;
 				currentWindow = 0;
 				currentIndex = currentPage * currentScreen + currentWindow;
 				connectAll(currentPage);
 			} else if (arg0 - currentPage < 0) {// 向右滑
+				resetFunc();
 				currentPage = arg0;
 				currentWindow = 0;
 				currentIndex = currentPage * currentScreen + currentWindow;
@@ -1175,6 +1202,7 @@ public class JVPlayActivity extends PlayActivity implements
 	 */
 	OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
@@ -1185,16 +1213,28 @@ public class JVPlayActivity extends PlayActivity implements
 						functionListAdapter.selectIndex = -1;
 						showTextToast(R.string.audio_monitor_forbidden);
 					} else {
-						initAudio();
+						initAudio(manager.getChannel(currentIndex)
+								.getAudioByte());
 						if (!PlayUtil.audioPlay(currentIndex)) {
 							functionListAdapter.selectIndex = -1;
+							bottombut8
+									.setBackgroundDrawable(getResources()
+											.getDrawable(
+													R.drawable.video_monitor_icon));
 						} else {
 							functionListAdapter.selectIndex = arg2;
+							bottombut8
+									.setBackgroundDrawable(getResources()
+											.getDrawable(
+													R.drawable.video_monitorselect_icon));
+							functionListAdapter.notifyDataSetChanged();
 						}
 					}
 
 				} else {
 					functionListAdapter.selectIndex = -1;
+					bottombut8.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.video_monitor_icon));
 				}
 
 			} else if (1 == arg2) {// 云台
@@ -1233,6 +1273,7 @@ public class JVPlayActivity extends PlayActivity implements
 	 */
 	OnClickListener myOnClickListener = new OnClickListener() {
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
@@ -1252,6 +1293,7 @@ public class JVPlayActivity extends PlayActivity implements
 					if (channel.isOMX()) {
 						Jni.setOmx(currentIndex, false);
 					} else {
+						needToast = true;
 						Jni.setOmx(currentIndex, true);
 					}
 					// I帧通知成功失败
@@ -1276,7 +1318,6 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 				break;
 			}
-			case R.id.bottom_but7:
 			case R.id.btn_right: {// 右边按钮----录像切换
 				if (allowThisFuc(false)) {
 					Channel channel = manager.getChannel(currentIndex);
@@ -1350,9 +1391,34 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but8:
 			case R.id.audio_monitor:// 音频监听
-				initAudio();
-				if (allowThisFuc(false)) {
-					PlayUtil.audioPlay(currentIndex);
+				initAudio(manager.getChannel(currentIndex).getAudioByte());
+				if (allowThisFuc(true)) {
+					if (manager.getChannel(currentIndex).isVoiceCall()) {
+						functionListAdapter.selectIndex = -1;
+						showTextToast(R.string.audio_monitor_forbidden);
+					} else {
+						initAudio(manager.getChannel(currentIndex)
+								.getAudioByte());
+						if (!PlayUtil.audioPlay(currentIndex)) {
+							functionListAdapter.selectIndex = -1;
+							bottombut8
+									.setBackgroundDrawable(getResources()
+											.getDrawable(
+													R.drawable.video_monitor_icon));
+						} else {
+							functionListAdapter.selectIndex = 1;
+							bottombut8
+									.setBackgroundDrawable(getResources()
+											.getDrawable(
+													R.drawable.video_monitorselect_icon));
+						}
+						functionListAdapter.notifyDataSetChanged();
+					}
+
+				} else {
+					functionListAdapter.selectIndex = -1;
+					bottombut8.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.video_monitor_icon));
 				}
 				break;
 			case R.id.yt_operate:// 云台
@@ -1378,12 +1444,14 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but5:
 			case R.id.funclayout:// AP功能列表对讲功能
 			case R.id.voicecall:// 语音对讲
-				initAudio();
+				initAudio(manager.getChannel(currentIndex).getAudioByte());
 				if (allowThisFuc(true)) {
 					// 停止音频监听
 					if (PlayUtil.isPlayAudio(currentIndex)) {
 						PlayUtil.audioPlay(currentIndex);
 						functionListAdapter.selectIndex = -1;
+						bottombut8.setBackgroundDrawable(getResources()
+								.getDrawable(R.drawable.video_monitor_icon));
 						functionListAdapter.notifyDataSetChanged();
 					}
 
@@ -1406,7 +1474,10 @@ public class JVPlayActivity extends PlayActivity implements
 					} else {
 						JVPlayActivity.AUDIO_SINGLE = manager.getChannel(
 								currentIndex).isSingleVoice();
-						showTextToast(R.string.voice_tips2);
+						if (manager.getChannel(currentIndex).isSingleVoice()) {
+							showTextToast(R.string.voice_tips2);
+						}
+
 						PlayUtil.startVoiceCall(currentIndex);
 						if (Consts.PLAY_AP == playFlag) {
 							functionListAdapter.selectIndex = 2;
@@ -1415,6 +1486,7 @@ public class JVPlayActivity extends PlayActivity implements
 					}
 				}
 				break;
+			case R.id.bottom_but7:
 			case R.id.videotape:// 录像
 				if (hasSDCard() && allowThisFuc(true)) {
 					if (PlayUtil.videoRecord(currentIndex)) {// 打开
@@ -1449,103 +1521,20 @@ public class JVPlayActivity extends PlayActivity implements
 							(byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
 					manager.getChannel(currentIndex).setPause(false);
 					bottombut1
-							.setBackgroundResource(R.drawable.video_play_icon);
+							.setBackgroundResource(R.drawable.video_stop_icon);
 				} else {
 					Jni.sendBytes(currentIndex,
 							(byte) JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0],
 							8);
 					manager.getChannel(currentIndex).setPause(true);
 					bottombut1
-							.setBackgroundResource(R.drawable.video_stop_icon);
+							.setBackgroundResource(R.drawable.video_play_icon);
 				}
 				break;
-			// case R.id.bottom_but2:
-			// if (bottomboolean2) {
-			// Jni.sendBytes(currentIndex,
-			// (byte) JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
-			// bottombut2
-			// .setBackgroundResource(R.drawable.video_play_icon);
-			// bottomboolean2 = false;
-			// } else {
-			// Jni.sendBytes(currentIndex,
-			// (byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
-			// bottombut2
-			// .setBackgroundResource(R.drawable.video_playselect_bg);
-			// bottomboolean2 = true;
-			// }
-			// break;
-			// case R.id.bottom_but3:
-			// if (bottomboolean3) {
-			// bottombut3
-			// .setBackgroundResource(R.drawable.video_snap_icon);
-			// bottomboolean3 = false;
-			// } else {
-			// bottombut3
-			// .setBackgroundResource(R.drawable.video_snapselect_icon);
-			// bottomboolean3 = true;
-			// }
-			// break;
-			// case R.id.bottom_but4:
-			// if (bottomboolean4) {
-			// bottombut4
-			// .setBackgroundResource(R.drawable.video_yuanback_icon);
-			// bottomboolean4 = false;
-			// } else {
-			// bottombut4
-			// .setBackgroundResource(R.drawable.video_yuanbackselect_icon);
-			// bottomboolean4 = true;
-			// }
-			// break;
-			// case R.id.bottom_but5:
-			// if (bottomboolean5) {
-			// bottombut5
-			// .setBackgroundResource(R.drawable.video_talkback_icon);
-			// bottomboolean5 = false;
-			// } else {
-			// bottombut5
-			// .setBackgroundResource(R.drawable.video_talkselect_icon);
-			// bottomboolean5 = true;
-			// }
-			// break;
-			// case R.id.bottom_but6:
-			// if (bottomboolean6) {
-			// bottombut6
-			// .setBackgroundResource(R.drawable.video_voiceopen_icon);
-			// bottomboolean6 = false;
-			// } else {
-			// bottombut6
-			// .setBackgroundResource(R.drawable.video_voiceopenselect_icon);
-			// bottomboolean6 = true;
-			// }
-			// break;
-			// case R.id.bottom_but7:
-			// if (bottomboolean7) {
-			// bottombut7
-			// .setBackgroundResource(R.drawable.video_voiceclose_icon);
-			// bottomboolean7 = false;
-			// } else {
-			// bottombut7
-			// .setBackgroundResource(R.drawable.video_voiceselect_icon);
-			// bottomboolean7 = true;
-			// }
-			// break;
-			// case R.id.bottom_but8:
-			// if (bottomboolean8) {
-			// bottombut8
-			// .setBackgroundResource(R.drawable.video_monitor_icon);
-			// bottomboolean8 = false;
-			// } else {
-			// bottombut8
-			// .setBackgroundResource(R.drawable.video_monitorselect_icon);
-			// bottomboolean8 = true;
-			// }
-			// break;
+
 			case R.id.bottom:
 
 				break;
-			// case R.id.video_bq:
-			//
-			// break;
 			}
 
 		}
@@ -1705,6 +1694,8 @@ public class JVPlayActivity extends PlayActivity implements
 				.getParent().getDeviceType());
 		remoteIntent.putExtra("is05", manager.getChannel(currentIndex)
 				.getParent().is05());
+		remoteIntent.putExtra("AudioByte", manager.getChannel(currentIndex)
+				.getAudioByte());
 		JVPlayActivity.this.startActivity(remoteIntent);
 	}
 
@@ -1716,10 +1707,10 @@ public class JVPlayActivity extends PlayActivity implements
 			ytLayout.setVisibility(View.GONE);
 			if (bigScreen) {
 				playFunctionList.setVisibility(View.VISIBLE);
-				playFuctionLayout.setVisibility(View.GONE);
+				// playFuctionLayout.setVisibility(View.GONE);
 			} else {
 				playFunctionList.setVisibility(View.GONE);
-				playFuctionLayout.setVisibility(View.VISIBLE);
+				// playFuctionLayout.setVisibility(View.VISIBLE);
 			}
 		} else {
 			stopAllFunc();
@@ -1755,6 +1746,15 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		if (currentScreen == oneScreen) {
+			refreshIPCFun(manager.getChannel(currentIndex));
+		} else {
+			decodeBtn.setVisibility(View.GONE);
+			rightFuncButton.setVisibility(View.GONE);
+			right_btn_h.setVisibility(View.GONE);
+			videTurnBtn.setVisibility(View.GONE);
+		}
+
 	}
 
 	@Override
@@ -1770,6 +1770,8 @@ public class JVPlayActivity extends PlayActivity implements
 		if (PlayUtil.isPlayAudio(currentIndex)) {
 			PlayUtil.audioPlay(currentIndex);
 			functionListAdapter.selectIndex = -1;
+			bottombut8.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.video_monitor_icon));
 			functionListAdapter.notifyDataSetChanged();
 		}
 
@@ -1789,9 +1791,6 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null != audioQueue) {
 				audioQueue.clear();
 			}
-			// if (null != playAudio) {
-			// playAudio.interrupt();
-			// }
 			manager.getChannel(currentIndex).setVoiceCall(false);
 			voiceCallSelected(false);
 			PlayUtil.stopVoiceCall(currentIndex);
@@ -1910,9 +1909,13 @@ public class JVPlayActivity extends PlayActivity implements
 									R.color.videoselect));
 				} else {
 					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-						bottom.setVisibility(View.VISIBLE);
-						topBarH.setVisibility(View.VISIBLE);
-						init();
+						if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
+							horPlayBarLayout.setVisibility(View.GONE);
+						} else {
+							horPlayBarLayout.setVisibility(View.VISIBLE);
+						}
+
+						// init();
 					}
 				}
 				handler.sendEmptyMessageDelayed(

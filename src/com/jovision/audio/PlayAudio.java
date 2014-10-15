@@ -6,13 +6,12 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-import com.jovision.Jni;
-
 public class PlayAudio extends Thread {
 
 	private static final int SAMPLERATE = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
-	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+	// TODO
+	private static int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 	private static final int STREAM_TYPE = AudioManager.STREAM_MUSIC;
 	private static final int TRACK_MODE = AudioTrack.MODE_STREAM;
 
@@ -21,9 +20,15 @@ public class PlayAudio extends Thread {
 	public MICRecorder recorder;
 	private int indexOfChannel;
 
-	public PlayAudio(LinkedBlockingQueue<byte[]> queue) {
+	public PlayAudio(LinkedBlockingQueue<byte[]> queue, int audioByte) {
 		audioQueue = queue;
 		recorder = MICRecorder.getInstance();
+
+		if (8 == audioByte) {
+			ENCODING = AudioFormat.ENCODING_PCM_8BIT;
+		} else {
+			ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+		}
 	}
 
 	public void setIndex(int index) {
@@ -44,7 +49,6 @@ public class PlayAudio extends Thread {
 		// } catch (FileNotFoundException e) {
 		// e.printStackTrace();
 		// }
-		Jni.initAudioEncoder(1, 8000, 1, 16, 640);
 
 		AudioTrack track = new AudioTrack(STREAM_TYPE, SAMPLERATE, CHANNEL,
 				ENCODING, 1024, TRACK_MODE);
@@ -73,7 +77,7 @@ public class PlayAudio extends Thread {
 				}
 			}
 		}
-		Jni.deinitAudioEncoder();
+
 		// if (null != outputStream) {
 		// try {
 		// outputStream.close();

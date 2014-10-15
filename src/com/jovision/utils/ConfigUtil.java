@@ -42,7 +42,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -381,35 +380,6 @@ public class ConfigUtil {
 		// Jni.enableLinkHelper(false, 3, 0);
 		// Jni.deinitAudioEncoder();
 		// Jni.deinit();
-	}
-
-	/**
-	 * 是否是3G网络环境
-	 * 
-	 * @param context
-	 *            上下文
-	 * @param alert
-	 *            是否弹出提示
-	 * @return 是否是3G网络
-	 */
-	public static boolean is3G(Context context, boolean alert) {
-		ConnectivityManager cManager = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo info = cManager.getActiveNetworkInfo();
-		if (info != null && info.isAvailable()) {
-			int type = info.getType();
-			if (type == ConnectivityManager.TYPE_WIFI) {
-				return false;
-			} else {
-				if (alert) {
-					Toast.makeText(context,
-							context.getString(R.string.str_test_3G),
-							Toast.LENGTH_SHORT).show();
-				}
-				return true;
-			}
-		} else
-			return false;
 	}
 
 	/**

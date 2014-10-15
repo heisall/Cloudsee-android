@@ -195,7 +195,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 		String[] strParams = new String[3];
 		strParams[0] = ConfigUtil.getGroup(devNum);
 		strParams[1] = String.valueOf(ConfigUtil.getYST(devNum));
-		strParams[2] = String.valueOf(2 * 1000);
+		strParams[2] = String.valueOf(2);
 		task.execute(strParams);
 	}
 
@@ -279,7 +279,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 
 				if (0 == addRes) {
 					Jni.queryDevice(ConfigUtil.getGroup(addDevice.getFullNo()),
-							ConfigUtil.getYST(addDevice.getFullNo()), 5 * 1000);
+							ConfigUtil.getYST(addDevice.getFullNo()), 2 * 1000);
 
 					while (!hasBroadIP) {
 						Thread.sleep(1000);

@@ -19,12 +19,13 @@ public class MyLog {
 
 	public static final String UB = "UB.log";
 
-	public static final String KEY_TOPIC = "topic";
+	public static final String KEY_NAME = "name";
 	public static final String KEY_DESC = "desc";
 	public static final String KEY_IMEI = "imei";
 	public static final String KEY_VENDOR = "vendor";
 	public static final String KEY_MODEL = "model";
 	public static final String KEY_FP = "fingerprint";
+	public static final String KEY_TOPIC = "topic";
 	public static final String KEY_COUNT = "count";
 	public static final String KEY_DURATION = "duration";
 	public static final String KEY_ENV = "env";
@@ -181,11 +182,11 @@ public class MyLog {
 		ub(sBuilder.toString());
 	}
 
-	public static void ubTopic(String topic, String desc) {
+	public static void ubTopic(String name, String desc) {
 		StringBuilder sBuilder = new StringBuilder(256);
 		sBuilder.append("{\"").append(KEY_TYPE).append("\":\"")
-				.append(TYPE_TOPIC).append("\",\"").append(KEY_TOPIC)
-				.append("\":\"").append(checkString(topic)).append("\",\"")
+				.append(TYPE_TOPIC).append("\",\"").append(KEY_NAME)
+				.append("\":\"").append(checkString(name)).append("\",\"")
 				.append(KEY_DESC).append("\":\"").append(checkString(desc))
 				.append("\"}");
 		ub(sBuilder.toString());

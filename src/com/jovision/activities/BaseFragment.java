@@ -17,13 +17,15 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
+import com.jovision.MainApplication;
+import com.jovision.commons.MyLog;
 
 /**
  * Fragment 基类
  */
 public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 		IHandlerLikeNotify {
-	private final String TAG = "BaseFragment";
+	private final static String TAG = "BaseFragment";
 
 	protected FragHandler fragHandler = new FragHandler(this);
 	protected IHandlerNotify fragNotify = this;
@@ -47,8 +49,11 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 
 		@Override
 		public void handleMessage(Message msg) {
+			MyLog.e(TAG, "onHandler: " + msg.what + ", " + msg.arg1 + ", "
+					+ msg.arg2 + ", " + msg.obj);
 			fragment.fragNotify
 					.onHandler(msg.what, msg.arg1, msg.arg2, msg.obj);
+
 			super.handleMessage(msg);
 		}
 
@@ -119,6 +124,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 
 	@Override
 	public void onResume() {
+		((MainApplication) mActivity.getApplication()).setCurrentNotifyer(this);
 		super.onResume();
 	}
 

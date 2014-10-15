@@ -225,9 +225,11 @@ public class Consts {
 	/** 云视通sdk是否初始化的key */
 	public static final String KEY_INIT_CLOUD_SDK = "initCloudSdk";
 	/** 用户名key */
-	public static final String KEY_USERNAME = "userName";
+	public static final String KEY_USERNAME = "USER_NAME";
 	/** 密码key */
-	public static final String KEY_PASSWORD = "passWord";
+	public static final String KEY_PASSWORD = "PASSWORD";
+	/** 上次登陆时间key */
+	public static final String KEY_LAST_LOGIN_TIME = "LAST_TIME";
 	/** IMEIkey */
 	public static final String IMEI = "IMEI";
 	/** 公共版本key */

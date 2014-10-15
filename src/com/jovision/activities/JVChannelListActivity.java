@@ -34,7 +34,6 @@ public class JVChannelListActivity extends BaseActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 		switch (what) {
 		case 1:
 			ModifyDevTask task = new ModifyDevTask();
@@ -58,17 +57,16 @@ public class JVChannelListActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		// TODO Auto-generated method stub
 		deviceList = CacheUtil.getDevList();
 	}
 
 	@Override
 	protected void initUi() {
-		// TODO Auto-generated method stub
 		setContentView(R.layout.channellist_layout);
 		localFlag = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 		btn_left = (Button) findViewById(R.id.btn_left);
 		btn_right = (Button) findViewById(R.id.btn_right);
+		btn_right.setVisibility(View.GONE);
 		currentmenu = (TextView) findViewById(R.id.currentmenu);
 		currentmenu.setText(R.string.channal_list);
 		channel_listView = (ListView) findViewById(R.id.channel_listView);
@@ -86,13 +84,11 @@ public class JVChannelListActivity extends BaseActivity {
 
 	@Override
 	protected void saveSettings() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void freeMe() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -113,7 +109,6 @@ public class JVChannelListActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.btn_left:
 				finish();

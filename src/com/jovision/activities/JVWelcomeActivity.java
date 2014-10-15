@@ -65,6 +65,14 @@ public class JVWelcomeActivity extends BaseActivity {
 				String.valueOf(disMetrics.widthPixels));
 		statusHashMap.put(Consts.SCREEN_HEIGHT,
 				String.valueOf(disMetrics.heightPixels));
+
+		if (null == statusHashMap.get(Consts.KEY_LAST_LOGIN_TIME)
+				|| "".equalsIgnoreCase(statusHashMap
+						.get(Consts.KEY_LAST_LOGIN_TIME))) {
+			statusHashMap.put(Consts.KEY_LAST_LOGIN_TIME,
+					ConfigUtil.getCurrentTime());
+		}
+
 		initThread.start();
 
 		initHandler = new Handler();
@@ -174,6 +182,12 @@ public class JVWelcomeActivity extends BaseActivity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.welcome_layout);
+
+		if (!ConfigUtil.isConnected(JVWelcomeActivity.this)) {
+			alertNetDialog();
+		} else {
+			is3G(true);
+		}
 	}
 
 	@Override

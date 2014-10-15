@@ -19,6 +19,7 @@ import android.util.Log;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.MainApplication;
+import com.jovision.activities.BaseActivity;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.bean.RemoteVideo;
@@ -55,7 +56,7 @@ public class PlayUtil {
 	 */
 	public static boolean broadCast(Context con) {
 		boolean canBroad = false;
-		if (!ConfigUtil.is3G(con, false)) {// 非3G加广播设备
+		if (!((BaseActivity) con).is3G(false)) {// 非3G加广播设备
 			canBroad = true;
 			Jni.searchLanDevice("", 0, 0, 0, "", 2000, 1);
 		}

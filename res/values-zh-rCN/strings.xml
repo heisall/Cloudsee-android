@@ -96,8 +96,6 @@
     <string name="more_modify">修改资料</string>
     <string name="more_findpassword">找回密码</string>
     <string name="more_cancel">注销账号</string>
-    <string name="str_test_3G">目前处于2G/3G网络，观看视频会产生大量流量费用（由运营商收取），建议使用Wi-Fi网络.</string>
-    <string name="str_setting_network">网络连接异常，请检查网络设置</string>
 
     <!-- JVMoreFrament -->
     <string name="location_login">游客A</string>
@@ -420,7 +418,9 @@
     <string name="str_shake_scene_pic_tips">您的手机未插入SD卡，暂时无法使用场景图片功能。</string>
 
     <!-- JVTab -->
-    <string name="sure_exit">您确定要退出吗?</string>
+    <string name="sure_exit"> 再按一次退出程序</string>
+    <string name="network_error">网络连接不可用,是否进行设置?</string>
+    <string name="tips_3g">目前处于2G/3G网络，观看视频会产生大量流量费用（由运营商收取），建议使用Wi-Fi网络.</string>
 
     <!-- 2.3系统视频播放提示 -->
     <string name="system_lower">您的手机系统是Android$,视频播放时有可能出现花屏，为达到最佳播放效果，建议下载2.8.5版本，是否立即下载?</string>
@@ -571,7 +571,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.1(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.2(重构) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

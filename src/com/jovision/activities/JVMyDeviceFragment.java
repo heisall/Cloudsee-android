@@ -191,7 +191,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}, 0);
 
 		// 非3G加广播设备
-		if (!ConfigUtil.is3G(mActivity, false)) {
+		if (!mActivity.is3G(false)) {
 			broadTimer = new Timer();
 			broadTimerTask = new TimerTask() {
 				@Override
@@ -236,7 +236,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				} else {
 					// 显示在below正下方
 					popupWindow.showAsDropDown(view,
-							-mActivity.disMetrics.widthPixels / 2 + 60, 10);
+							mActivity.disMetrics.widthPixels / 2, 10);
 				}
 				break;
 			case R.id.device_nameet_cancle:
@@ -320,7 +320,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 				case 3: {// 局域网设备
 					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
-					if (!ConfigUtil.is3G(mActivity, false)) {// 闈3G鍔犲箍鎾­璁惧¤
+					if (!mActivity.is3G(false)) {// 3G网提示不支持
 						broadTag = BROAD_ADD_DEVICE;
 						broadList.clear();
 						PlayUtil.broadCast(mActivity);

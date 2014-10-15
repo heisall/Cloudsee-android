@@ -287,21 +287,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" >
 
-                    <ImageView
+                    <Button
                         android:id="@+id/bottom_but1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/video_stop_icon" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" >
-
-                    <ImageView
-                        android:id="@+id/bottom_but2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -313,7 +300,19 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" >
 
-                    <ImageView
+                    <Button
+                        android:id="@+id/bottom_but2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" >
+
+                    <Button
                         android:id="@+id/bottom_but3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -326,7 +325,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" >
 
-                    <ImageView
+                    <Button
                         android:id="@+id/bottom_but4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -339,7 +338,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" >
 
-                    <ImageView
+                    <Button
                         android:id="@+id/bottom_but5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -352,7 +351,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" >
 
-                    <ImageView
+                    <Button
                         android:id="@+id/bottom_but6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -365,7 +364,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" >
 
-                    <ImageView
+                    <Button
                         android:id="@+id/bottom_but7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -378,7 +377,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" >
 
-                    <ImageView
+                    <Button
                         android:id="@+id/bottom_but8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

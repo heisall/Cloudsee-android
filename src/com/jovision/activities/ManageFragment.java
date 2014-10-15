@@ -32,7 +32,7 @@ public class ManageFragment extends BaseFragment {
 	DisplayMetrics disMetrics;
 
 	/** 构造参数 */
-	public int deviceIndex;
+	private int deviceIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private Device device;
 
@@ -45,7 +45,8 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		deviceIndex = JVDeviceManageFragment.deviceIndex;
+		Bundle bundle = getArguments();
+		deviceIndex = bundle.getInt("DeviceIndex");
 		deviceList = CacheUtil.getDevList();
 		device = deviceList.get(deviceIndex);
 		super.onCreate(savedInstanceState);
@@ -57,6 +58,11 @@ public class ManageFragment extends BaseFragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.manage_layout, null);
 		return view;
+	}
+
+	public void setDevIndex(int index) {
+		deviceIndex = index;
+		MyLog.v(TAG, "setDevIndex=" + index);
 	}
 
 	@Override
@@ -98,6 +104,7 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 1: {// 设备管理
+				devType = 0;
 				Intent deviceIntent = new Intent(mActivity,
 						JVDeviceManageActivity.class);
 				deviceIntent.putExtra("deviceIndex", deviceIndex);
@@ -185,41 +192,34 @@ public class ManageFragment extends BaseFragment {
 		case Consts.CALL_CONNECT_CHANGE: { // 连接回调
 			MyLog.e(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			if (1 != arg1) {// IPC连接失败才提示
-				if (0 == devType || Consts.DEVICE_TYPE_IPC == devType) {// 没取到设备类型，或者IPC才显示连接结果
-					mActivity.dismissDialog();
-					try {
-						JSONObject connectObj = new JSONObject(obj.toString());
-						String errorMsg = connectObj.getString("msg");
-						if ("pass word is wrong!".equalsIgnoreCase(errorMsg)
-								|| "pass word is wrong!"
-										.equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
-							mActivity.showTextToast(R.string.connfailed_auth);
-						} else if ("channel is not open!"
-								.equalsIgnoreCase(errorMsg)) {// 无该通道服务
-							mActivity
-									.showTextToast(R.string.connfailed_channel_notopen);
-						} else if ("connect type invalid!"
-								.equalsIgnoreCase(errorMsg)) {// 连接类型无效
-							mActivity
-									.showTextToast(R.string.connfailed_type_invalid);
-						} else if ("client count limit!"
-								.equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
-							mActivity
-									.showTextToast(R.string.connfailed_maxcount);
-						} else if ("connect timeout!"
-								.equalsIgnoreCase(errorMsg)) {//
-							mActivity
-									.showTextToast(R.string.connfailed_timeout);
-						} else {
-							mActivity.showTextToast(R.string.connect_failed);
-						}
-
-					} catch (JSONException e) {
-						e.printStackTrace();
+			if (1 != arg1 && 2 != arg1) {// IPC连接失败才提示(非连接成功和断开连接)
+				mActivity.dismissDialog();
+				try {
+					JSONObject connectObj = new JSONObject(obj.toString());
+					String errorMsg = connectObj.getString("msg");
+					if ("pass word is wrong!".equalsIgnoreCase(errorMsg)
+							|| "pass word is wrong!".equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
+						mActivity.showTextToast(R.string.connfailed_auth);
+					} else if ("channel is not open!"
+							.equalsIgnoreCase(errorMsg)) {// 无该通道服务
+						mActivity
+								.showTextToast(R.string.connfailed_channel_notopen);
+					} else if ("connect type invalid!"
+							.equalsIgnoreCase(errorMsg)) {// 连接类型无效
+						mActivity
+								.showTextToast(R.string.connfailed_type_invalid);
+					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
+						mActivity.showTextToast(R.string.connfailed_maxcount);
+					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
+						mActivity.showTextToast(R.string.connfailed_timeout);
+					} else {
+						mActivity.showTextToast(R.string.connect_failed);
 					}
 
+				} catch (JSONException e) {
+					e.printStackTrace();
 				}
+
 			}
 			break;
 		}

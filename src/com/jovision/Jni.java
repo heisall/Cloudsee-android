@@ -71,6 +71,7 @@ public class Jni {
 	 * @param group
 	 * @param cloudSeeId
 	 * @param timeout
+	 *            秒
 	 * @return
 	 * 
 	 */

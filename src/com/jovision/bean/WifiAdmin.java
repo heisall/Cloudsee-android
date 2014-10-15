@@ -16,6 +16,7 @@ import android.text.TextUtils;
 
 import com.jovision.Consts;
 import com.jovision.commons.JVConst;
+import com.jovision.commons.MyLog;
 
 public class WifiAdmin {
 	private final String TAG = "WifiAdmin";
@@ -541,6 +542,101 @@ public class WifiAdmin {
 		return result;
 	}
 
+	// /**
+	// * 切换到原来网络
+	// *
+	// * @param disWifi
+	// * @param connWifi
+	// * @return
+	// */
+	// public boolean changeWifi(String disWifi, String connWifi,
+	// boolean oldWifiState) {
+	//
+	// boolean changeRes = false;
+	// try {
+	// // 断开跟连接的wifi 一样不做任何处理
+	// if (null != disWifi && !"".equalsIgnoreCase(disWifi)
+	// && null != connWifi && !"".equalsIgnoreCase(connWifi)
+	// && disWifi.equalsIgnoreCase(connWifi)) {
+	// changeRes = true;
+	// return changeRes;
+	// } else {
+	// if (oldWifiState) {// 原wifi开着的，恢复到原来的网络
+	// // 断开现在的wifi
+	// if (null != disWifi && !"".equalsIgnoreCase(disWifi)) {
+	// WifiConfiguration currWifi = isExsits(disWifi);
+	// if (null != currWifi) {
+	// disconnectWifi(currWifi, true);
+	// try {
+	// Thread.sleep(1000);
+	// } catch (InterruptedException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
+	// }
+	//
+	// // 完成配置连上原来的wifi
+	// if (null != connWifi) {
+	// WifiConfiguration oldWifi = isExsits(connWifi);
+	// if (null != oldWifi) {
+	// boolean connRes = false;
+	// int count = 0;
+	// while (!connRes) {// 没连接调用连接方法
+	// if (count < 10) {
+	// count++;
+	// try {
+	// Thread.sleep(1000);
+	// } catch (InterruptedException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// connRes = connNetwork(oldWifi);
+	// } else {
+	// connRes = true;
+	// break;
+	// }
+	// }
+	//
+	// count = 0;
+	// if (connRes) {// 已连接
+	// while (!changeRes) {// 没连接调用连接方法
+	// if (count < 20) {
+	// count++;
+	// try {
+	// Thread.sleep(1000);
+	// } catch (InterruptedException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// changeRes = getWifiState(oldWifi.SSID);
+	// } else {
+	// changeRes = false;
+	// break;
+	// }
+	//
+	// }
+	// } else {
+	// changeRes = false;
+	// }
+	//
+	// }
+	// } else {
+	// changeRes = true;
+	// }
+	// } else {// 原wifi关闭状态，关闭wifi
+	// closeWifi();
+	// changeRes = true;
+	// }
+	// }
+	// } catch (Exception e1) {
+	// e1.printStackTrace();
+	// }
+	//
+	// return changeRes;
+	//
+	// }
+
 	/**
 	 * 切换到原来网络
 	 * 
@@ -550,7 +646,14 @@ public class WifiAdmin {
 	 */
 	public boolean changeWifi(String disWifi, String connWifi,
 			boolean oldWifiState) {
+		oldWifiState = true;
+		boolean state = getWifiState(connWifi);
 
+		if (state) {
+			return state;
+		}
+
+		MyLog.v(TAG, "changeWifi-E:" + disWifi + "-" + connWifi);
 		boolean changeRes = false;
 		try {
 			// 断开跟连接的wifi 一样不做任何处理
@@ -565,6 +668,7 @@ public class WifiAdmin {
 					if (null != disWifi && !"".equalsIgnoreCase(disWifi)) {
 						WifiConfiguration currWifi = isExsits(disWifi);
 						if (null != currWifi) {
+							MyLog.v("完成配置断开", disWifi);
 							disconnectWifi(currWifi, true);
 							try {
 								Thread.sleep(1000);
@@ -579,6 +683,7 @@ public class WifiAdmin {
 					if (null != connWifi) {
 						WifiConfiguration oldWifi = isExsits(connWifi);
 						if (null != oldWifi) {
+							MyLog.v("完成配置连接", connWifi);
 							boolean connRes = false;
 							int count = 0;
 							while (!connRes) {// 没连接调用连接方法
@@ -591,6 +696,8 @@ public class WifiAdmin {
 										e.printStackTrace();
 									}
 									connRes = connNetwork(oldWifi);
+									MyLog.v("完成配置", connWifi + "----" + count
+											+ "-----调用连接-----" + connRes);
 								} else {
 									connRes = true;
 									break;
@@ -609,6 +716,9 @@ public class WifiAdmin {
 											e.printStackTrace();
 										}
 										changeRes = getWifiState(oldWifi.SSID);
+										MyLog.v("完成配置", connWifi + "----"
+												+ count + "-----连接结果-----"
+												+ changeRes);
 									} else {
 										changeRes = false;
 										break;
@@ -632,6 +742,7 @@ public class WifiAdmin {
 			e1.printStackTrace();
 		}
 
+		MyLog.v(TAG, "changeWifi-X:" + changeRes);
 		return changeRes;
 
 	}

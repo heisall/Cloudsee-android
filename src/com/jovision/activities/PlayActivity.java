@@ -73,9 +73,9 @@ public abstract class PlayActivity extends BaseActivity {
 	protected TextView linkState;// 连接文字
 	protected ProgressBar loading;// 加载进度
 
-	protected Button audioMonitor;// 音频监听
-	protected Button ytOperate;// 云台
-	protected Button remotePlayback;// 远程回放
+	// protected Button audioMonitor;// 音频监听
+	// protected Button ytOperate;// 云台
+	// protected Button remotePlayback;// 远程回放
 	protected LinearLayout ytLayout;// 云台布局
 	protected LinearLayout playFuctionLayout;// 小分辨率时功能界面
 	protected ListView playFunctionList;// 大分辨率时功能列表
@@ -111,6 +111,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 	protected Button left_btn_h;// 横屏返回键
 	protected Button right_btn_h;// 横屏手动录像，报警录像键
+	protected RelativeLayout topBarH;// 横屏topbar
 
 	protected Button bottombut1;// 视频播放和暂停
 	protected Button bottombut2;// 软硬解
@@ -207,9 +208,12 @@ public abstract class PlayActivity extends BaseActivity {
 		/** 水平播放function bar */
 		horPlayBarLayout = (RelativeLayout) findViewById(R.id.play_hor_func);
 
+		topBarH = (RelativeLayout) horPlayBarLayout.findViewById(R.id.topbarh);
 		left_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_left);// 横屏返回键
 		right_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_right);// 横屏手动录像，报警录像键
 		right_btn_h.setVisibility(View.GONE);
+		topBarH.setBackgroundColor(getResources().getColor(
+				R.color.halftransparent));
 
 		bottombut1 = (Button) findViewById(R.id.bottom_but1);
 		bottombut2 = (Button) findViewById(R.id.bottom_but2);
@@ -231,9 +235,10 @@ public abstract class PlayActivity extends BaseActivity {
 		/** 小分辨率功能 */
 		// playFuctionLayout = (LinearLayout)
 		// findViewById(R.id.play_function_layout);
-		audioMonitor = (Button) findViewById(R.id.audio_monitor);// 音频监听
-		ytOperate = (Button) findViewById(R.id.yt_operate);// 云台
-		remotePlayback = (Button) findViewById(R.id.remote_playback);// 远程回放
+		// audioMonitor = (Button) findViewById(R.id.audio_monitor);// 音频监听
+		// ytOperate = (Button) findViewById(R.id.yt_operate);// 云台
+		// remotePlayback = (RelativeLayout)
+		// findViewById(R.id.remote_playback);// 远程回放
 
 		/** 大分辨率功能 */
 		playFunctionList = (ListView) findViewById(R.id.play_function_list_layout);

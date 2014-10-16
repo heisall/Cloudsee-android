@@ -22,6 +22,8 @@ public class Consts {
 			+ File.separator + "video" + File.separator;
 	public static final String SOFTWARE_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "software" + File.separator;
+	public static final String BUG_PATH = Consts.SD_CARD_PATH + APP_NAME
+			+ File.separator + "bugs" + File.separator;
 
 	public static final String DB_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "db" + File.separator;
@@ -215,6 +217,9 @@ public class Consts {
 	// Jni底层规定
 	public static final int DECODE_OMX = 1;// 1硬
 	public static final int DECODE_SOFT = 0;// 0软
+
+	/** 程序崩溃 */
+	public static final int APP_CRASH = 9999;
 
 	/*********************** 以下是状态变量key的声明 ********************************/
 

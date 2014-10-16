@@ -256,10 +256,11 @@ public class JVMoreFragment extends BaseFragment {
 			try {
 				if (!localFlag) {
 					AccountUtil.userLogout();
+					MySharedPreference.putString(Consts.DEVICE_LIST, "");
 				}
 				ConfigUtil.logOut();
 				UserUtil.resetAllUser();
-				MySharedPreference.putString(Consts.DEVICE_LIST, "");
+
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 			} catch (Exception e) {
 				e.printStackTrace();

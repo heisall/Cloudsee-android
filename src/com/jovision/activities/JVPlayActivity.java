@@ -164,7 +164,7 @@ public class JVPlayActivity extends PlayActivity implements
 					isOmx = object.getBoolean("is_omx");
 					manager.getChannel(arg2).setOMX(isOmx);
 
-					MyLog.v("ChannelTag--IFrame=isOmx", "isOmx=" + isOmx);
+					// MyLog.v("ChannelTag--IFrame=isOmx", "isOmx=" + isOmx);
 					//
 					// if (isOmx) {
 					// decodeBtn.setText(R.string.is_omx);
@@ -255,6 +255,7 @@ public class JVPlayActivity extends PlayActivity implements
 				loadingState(arg2, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				channel.setConnecting(false);
 				channel.setConnected(false);
+				resetFunc();
 				break;
 			}
 
@@ -316,6 +317,7 @@ public class JVPlayActivity extends PlayActivity implements
 				loadingState(arg2, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				channel.setConnecting(false);
 				channel.setConnected(false);
+				resetFunc();
 				break;
 			}
 
@@ -324,6 +326,7 @@ public class JVPlayActivity extends PlayActivity implements
 				loadingState(arg2, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				channel.setConnecting(false);
 				channel.setConnected(false);
+				resetFunc();
 				break;
 			}
 
@@ -338,6 +341,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.OHTER_ERROR: {
 				channel.setConnecting(false);
 				channel.setConnected(false);
+				resetFunc();
 				break;
 			}
 			default:
@@ -766,9 +770,9 @@ public class JVPlayActivity extends PlayActivity implements
 		viewPager.setAdapter(pagerAdapter);
 		playFunctionList.setOnItemClickListener(onItemClickListener);
 
-		audioMonitor.setOnClickListener(myOnClickListener);
-		ytOperate.setOnClickListener(myOnClickListener);
-		remotePlayback.setOnClickListener(myOnClickListener);
+		// audioMonitor.setOnClickListener(myOnClickListener);
+		// ytOperate.setOnClickListener(myOnClickListener);
+		// remotePlayback.setOnClickListener(myOnClickListener);
 
 		autoimage.setOnTouchListener(new LongClickListener());
 		zoomIn.setOnTouchListener(new LongClickListener());
@@ -1322,7 +1326,7 @@ public class JVPlayActivity extends PlayActivity implements
 				if (allowThisFuc(false)) {
 					Channel channel = manager.getChannel(currentIndex);
 					try {
-						createDialog(R.string.str_deleting);
+						createDialog("");
 						if (Consts.STORAGEMODE_ALARM == channel
 								.getStorageMode()) {
 							Jni.setStorage(currentIndex,
@@ -1746,6 +1750,15 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+
+		if (manager.getChannel(currentIndex).isSingleVoice()) {// 单向对讲
+			if (VOICECALL_LONG_CLICK) {
+				new TalkThread(0).start();
+				VOICECALL_LONG_CLICK = false;
+				voiceTip.setVisibility(View.GONE);
+			}
+		}
+
 		if (currentScreen == oneScreen) {
 			refreshIPCFun(manager.getChannel(currentIndex));
 		} else {

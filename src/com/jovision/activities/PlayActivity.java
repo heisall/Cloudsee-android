@@ -549,6 +549,7 @@ public abstract class PlayActivity extends BaseActivity {
 				videTurnBtn.setVisibility(View.VISIBLE);
 			}
 		}
+
 	}
 
 	/**

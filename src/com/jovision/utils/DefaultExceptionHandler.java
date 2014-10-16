@@ -30,16 +30,16 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 	public void uncaughtException(Thread thread, Throwable ex) {
 
 		// 收集异常信息 并且发送到服务器
-		// String error = sendCrashReport(ex);
-		//
-		// // 等待半秒
-		// try {
-		// Thread.sleep(500);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
+		String error = sendCrashReport(ex);
+		ex.printStackTrace();
+		// 等待半秒
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
-		// 处理异常
+		// //处理异常
 		// handleException(error);
 
 		// System.out.println("CaughtException: " + ex.toString());
@@ -49,7 +49,7 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 
 		Intent intent = new Intent(context, JVOffLineDialogActivity.class);
 		intent.putExtra("ErrorCode", Consts.APP_CRASH);
-		intent.putExtra("ErrorMsg", ex.toString());
+		intent.putExtra("ErrorMsg", error);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 

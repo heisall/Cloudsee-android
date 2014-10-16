@@ -805,7 +805,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case JVConst.QUICK_SETTING_IPC_WIFI_FAILED:// 获取IPC 列表失败
 			ipcWifiListView.completeRefreshing();
 			dismissDialog();
-			finish();
+			// finish();
 			break;
 		case Consts.QUICK_SETTING_DEV_ONLINE: {// 网络恢复成功
 			playSound(Consts.SOUNDSIX);// 播放“叮”的一声

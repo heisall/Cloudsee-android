@@ -1428,7 +1428,7 @@ public class JVPlayActivity extends PlayActivity implements
 											.getDrawable(
 													R.drawable.video_monitor_icon));
 						} else {
-							functionListAdapter.selectIndex = 1;
+							functionListAdapter.selectIndex = 0;
 							bottombut8
 									.setBackgroundDrawable(getResources()
 											.getDrawable(

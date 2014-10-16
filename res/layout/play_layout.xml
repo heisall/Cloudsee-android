@@ -101,6 +101,7 @@
             android:id="@+id/mainfunction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
             android:layout_below="@+id/videolayout"
             android:background="@color/functionbgcolor"
             android:visibility="visible" >
@@ -109,7 +110,7 @@
                 android:id="@+id/yt_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
                 android:layout_marginTop="15dp"
                 layout="@layout/yt_vertical_layout"
                 android:visibility="gone" />
@@ -187,7 +188,7 @@
             <LinearLayout
                 android:id="@+id/footbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/footer_bar_bg"
                 android:orientation="horizontal"
@@ -280,7 +281,7 @@
             android:layout_above="@+id/bottomfunction"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="50dp"
             android:layout_marginRight="3dp"
             android:background="@drawable/stream_selector_bg"
             android:divider="@color/transparent"

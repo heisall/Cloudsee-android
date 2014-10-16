@@ -127,6 +127,14 @@ public class JVDeviceManageFragment extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				for (int i = 0; i < manageDeviceList.size(); i++) {
+					if (i == position) {
+						manageDeviceList.get(i).setIsselect(true);
+					} else {
+						manageDeviceList.get(i).setIsselect(false);
+					}
+				}
+				adapter.notifyDataSetChanged();
 				deviceIndex = position;
 				((ManageFragment) fragments.get(position))
 						.setDevIndex(deviceIndex);
@@ -309,6 +317,14 @@ public class JVDeviceManageFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		manageDeviceList = CacheUtil.getDevList();
+		for (int i = 0; i < manageDeviceList.size(); i++) {
+			if (i == deviceIndex) {
+				manageDeviceList.get(i).setIsselect(true);
+			} else {
+				manageDeviceList.get(i).setIsselect(false);
+			}
+		}
+
 		if (null == manageDeviceList || 0 == manageDeviceList.size()) {
 			dataLayout.setVisibility(View.GONE);
 			quickSetSV.setVisibility(View.VISIBLE);

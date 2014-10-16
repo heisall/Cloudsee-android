@@ -18,8 +18,8 @@
         android:layout_below="@+id/topbar"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp" >
 
         <TableRow
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login_str_yst_num"
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/ystnum_et"
@@ -43,7 +43,7 @@
                 android:paddingLeft="10dp"
                 android:text=""
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="normal" />
         </TableRow>
 
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login_str_user_name_2"
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/user_et"
@@ -70,7 +70,7 @@
                 android:paddingLeft="10dp"
                 android:text="abc"
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </TableRow>
 
         <TableRow
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login_str_pass"
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/pwd_et"
@@ -96,7 +96,7 @@
                 android:password="true"
                 android:text="123"
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </TableRow>
     </TableLayout>
 

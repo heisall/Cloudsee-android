@@ -126,8 +126,8 @@
 播放库版本
 
     #define MY_VERSION    "0.6d"
-    #define REVISION      "[394bf28]"
-    #define RELEASE_DATE  "[2014-10-15]"
+	#define REVISION      "[90d6e3b]"
+	#define RELEASE_DATE  "[2014-10-15]"
 
 网络库版本
 

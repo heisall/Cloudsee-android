@@ -108,11 +108,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			deviceHolder.devImgL = (ImageView) convertView
 					.findViewById(R.id.dev_image_l);
 			deviceHolder.devDeleteL = (ImageView) convertView
-					.findViewById(R.id.dev_delete_l);
+					.findViewById(R.id.mydevice_cancle_l);
 			deviceHolder.editDevL = (RelativeLayout) convertView
 					.findViewById(R.id.dev_edit_l);
 			deviceHolder.editDevIVL = (ImageView) convertView
-					.findViewById(R.id.dev_editiv_l);
+					.findViewById(R.id.mydevice_edit_l);
 
 			deviceHolder.devLayoutR = (RelativeLayout) convertView
 					.findViewById(R.id.dev_layout_r);
@@ -129,11 +129,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			deviceHolder.devImgR = (ImageView) convertView
 					.findViewById(R.id.dev_image_r);
 			deviceHolder.devDeleteR = (ImageView) convertView
-					.findViewById(R.id.dev_delete_r);
+					.findViewById(R.id.mydevice_cancle_r);
 			deviceHolder.editDevR = (RelativeLayout) convertView
 					.findViewById(R.id.dev_edit_r);
 			deviceHolder.editDevIVR = (ImageView) convertView
-					.findViewById(R.id.dev_editiv_r);
+					.findViewById(R.id.mydevice_edit_r);
 
 			convertView.setTag(deviceHolder);
 		} else {
@@ -247,7 +247,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						return false;
 					}
 				});
-		deviceHolder.editDevL.setOnClickListener(new DevOnClickListener(1, 4,
+		deviceHolder.editDevIVL.setOnClickListener(new DevOnClickListener(1, 4,
 				position));
 		// 右侧按钮事件
 		deviceHolder.devLayoutR.setOnClickListener(new DevOnClickListener(2, 1,
@@ -264,7 +264,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						return false;
 					}
 				});
-		deviceHolder.editDevR.setOnClickListener(new DevOnClickListener(2, 4,
+		deviceHolder.editDevIVR.setOnClickListener(new DevOnClickListener(2, 4,
 				position));
 		return convertView;
 	}

@@ -130,7 +130,15 @@ public abstract class PlayActivity extends BaseActivity {
 	protected boolean bottomboolean6;
 	protected boolean bottomboolean7;
 	protected boolean bottomboolean8;
-
+	private LinearLayout linear;
+	private RelativeLayout relative1;
+	private RelativeLayout relative2;
+	private RelativeLayout relative3;
+	private RelativeLayout relative4;
+	private RelativeLayout relative5;
+	private RelativeLayout relative6;
+	private RelativeLayout relative7;
+	private RelativeLayout relative8;
 	/** IPC独有特性 */
 	protected Button decodeBtn;
 	protected Button videTurnBtn;// 视频翻转
@@ -224,6 +232,15 @@ public abstract class PlayActivity extends BaseActivity {
 		bottombut7 = (Button) findViewById(R.id.bottom_but7);
 		bottombut8 = (Button) findViewById(R.id.bottom_but8);
 		bottomStream = (TextView) findViewById(R.id.video_bq);
+		relative1 = (RelativeLayout) findViewById(R.id.relative1);
+		relative2 = (RelativeLayout) findViewById(R.id.relative2);
+		relative3 = (RelativeLayout) findViewById(R.id.relative3);
+		relative4 = (RelativeLayout) findViewById(R.id.relative4);
+		relative5 = (RelativeLayout) findViewById(R.id.relative5);
+		relative6 = (RelativeLayout) findViewById(R.id.relative6);
+		relative7 = (RelativeLayout) findViewById(R.id.relative7);
+		relative8 = (RelativeLayout) findViewById(R.id.relative8);
+		linear = (LinearLayout) findViewById(R.id.linear);
 
 		if ((disMetrics.heightPixels > 800 && disMetrics.widthPixels > 480)
 				|| (disMetrics.heightPixels > 480 && disMetrics.widthPixels > 800)) {// 大屏
@@ -233,8 +250,7 @@ public abstract class PlayActivity extends BaseActivity {
 		bigScreen = true;
 
 		/** 小分辨率功能 */
-		// playFuctionLayout = (LinearLayout)
-		// findViewById(R.id.play_function_layout);
+		playFuctionLayout = (LinearLayout) findViewById(R.id.play_function_layout);
 		// audioMonitor = (Button) findViewById(R.id.audio_monitor);// 音频监听
 		// ytOperate = (Button) findViewById(R.id.yt_operate);// 云台
 		// remotePlayback = (RelativeLayout)
@@ -253,14 +269,15 @@ public abstract class PlayActivity extends BaseActivity {
 
 		if (bigScreen) {
 			playFunctionList.setVisibility(View.VISIBLE);
-			// playFuctionLayout.setVisibility(View.GONE);
+			playFuctionLayout.setVisibility(View.GONE);
 		} else {
 			playFunctionList.setVisibility(View.GONE);
-			// playFuctionLayout.setVisibility(View.VISIBLE);
+			playFuctionLayout.setVisibility(View.VISIBLE);
 		}
 
 		/** 云台 布局 */
 		ytLayout = (LinearLayout) findViewById(R.id.yt_layout);
+		// yt_cancle = (ImageView)findViewById(R.id.yt_cancle);
 		autoimage = (ImageView) ytLayout.findViewById(R.id.autoimage);
 		zoomIn = (ImageView) ytLayout.findViewById(R.id.zoomin);
 		zoomout = (ImageView) ytLayout.findViewById(R.id.zoomout);
@@ -391,9 +408,13 @@ public abstract class PlayActivity extends BaseActivity {
 	public void resetFunc() {
 		decodeBtn.setVisibility(View.GONE);// 软硬解
 		bottombut2.setVisibility(View.GONE);
+		linear.removeView(relative2);
+		linear.addView(relative2, linear.getChildCount());
 
 		videTurnBtn.setVisibility(View.GONE);// 视频翻转
 		bottombut6.setVisibility(View.GONE);
+		linear.removeView(relative6);
+		linear.addView(relative6, linear.getChildCount());
 
 		rightFuncButton.setVisibility(View.GONE);// 录像模式
 		right_btn_h.setVisibility(View.GONE);// 录像模式
@@ -424,6 +445,8 @@ public abstract class PlayActivity extends BaseActivity {
 			decodeBtn.setVisibility(View.GONE);
 		} else {
 			bottombut2.setVisibility(View.GONE);
+			linear.removeView(relative2);
+			linear.addView(relative2, linear.getChildCount());
 			decodeBtn.setVisibility(View.VISIBLE);
 		}
 
@@ -486,13 +509,19 @@ public abstract class PlayActivity extends BaseActivity {
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_left_selector));
 			bottombut6.setVisibility(View.VISIBLE);
+			linear.removeViewAt(linear.getChildCount());
+			linear.addView(relative6, 6);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_left_selector));
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 				bottombut6.setVisibility(View.VISIBLE);
+				linear.removeViewAt(linear.getChildCount());
+				linear.addView(relative6, 6);
 				videTurnBtn.setVisibility(View.GONE);
 			} else {
 				bottombut6.setVisibility(View.GONE);
+				linear.removeView(relative6);
+				linear.addView(relative6, linear.getChildCount());
 				videTurnBtn.setVisibility(View.VISIBLE);
 			}
 		} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
@@ -500,18 +529,26 @@ public abstract class PlayActivity extends BaseActivity {
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_right_selector));
 			bottombut6.setVisibility(View.VISIBLE);
+			linear.removeViewAt(linear.getChildCount());
+			linear.addView(relative6, 6);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_right_selector));
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 				bottombut6.setVisibility(View.VISIBLE);
+				linear.removeViewAt(linear.getChildCount());
+				linear.addView(relative6, 6);
 				videTurnBtn.setVisibility(View.GONE);
 			} else {
 				bottombut6.setVisibility(View.GONE);
+				linear.removeView(relative6);
+				linear.addView(relative6, linear.getChildCount());
 				videTurnBtn.setVisibility(View.VISIBLE);
 			}
 		} else {
 			videTurnBtn.setVisibility(View.GONE);
 			bottombut6.setVisibility(View.GONE);
+			linear.removeView(relative6);
+			linear.addView(relative6, linear.getChildCount());
 		}
 
 		// 码流设置
@@ -590,7 +627,7 @@ public abstract class PlayActivity extends BaseActivity {
 		if (View.GONE == ytLayout.getVisibility()) {
 			ytLayout.setVisibility(View.VISIBLE);
 			playFunctionList.setVisibility(View.GONE);
-			// playFuctionLayout.setVisibility(View.GONE);
+			playFuctionLayout.setVisibility(View.GONE);
 		}
 	}
 

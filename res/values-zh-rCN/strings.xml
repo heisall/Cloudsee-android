@@ -65,17 +65,17 @@
     <string name="login_str_save">保存</string>
     <string name="login_str_advance">高级</string>
     <string name="login_str_close">关闭</string>
-    <string name="login_str_device_num">设  备  号</string>
-    <string name="login_str_account">账      户</string>
-    <string name="login_str_pass">密        码</string>
+    <string name="login_str_device_num">设 备 号</string>
+    <string name="login_str_account">账    户</string>
+    <string name="login_str_pass">密      码</string>
     <string name="login_str_point_num">通道数量</string>
     <string name="login_str_group_name">分组名称</string>
     <string name="login_str_group_pid">父分组编号</string>
     <string name="login_str_edit">编辑</string>
     <string name="login_str_delete">删除</string>
-    <string name="login_str_user_name_2">用  户  名</string>
-    <string name="login_str_user_pass">密    码</string>
-    <string name="login_str_user_email">邮     箱</string>
+    <string name="login_str_user_name_2">用 户 名</string>
+    <string name="login_str_user_pass">密  码</string>
+    <string name="login_str_user_email">邮   箱</string>
     <string name="login_str_user_login">登   录</string>
     <string name="qqloginstr">用QQ账号登录</string>
     <string name="login_str_user_regist">注  册</string>
@@ -306,6 +306,8 @@
     <string name="str_exiting_now">正在断开,请等待...</string>
     <string name="str_no_response_data">网络连接异常，请重新登录.</string>
     <string name="str_change_video_type">切换视频制式，录像文件已重新打包</string>
+    <string name="str_device">设备</string>
+    <string name="str_device_name">A361</string>
     <!-- 设备管理 -->
     <string name="str_quick_setting_nextstep">下一步</string>
     <string name="str_quick_setting_neterror">连接网络超时，请检查.</string>
@@ -408,7 +410,6 @@
     <string name="str_crash_cancel">取消</string>
     <string name="str_send_success">邮件发送成功，感谢您的反馈！</string>
     <string name="str_wifi_pwd">12345678</string>
-    <string name="str_device">设备</string>
     <string name="login_str_ipadress_format_err">域名/IP不合法</string>
     <string name="login_str_domain_format_err">域名解析失败</string>
     <string name="login_str_port_notnull">请输入端口号</string>
@@ -532,9 +533,9 @@
     <string name="cancle">取消</string>
     <string name="str_nickname">昵        称 </string>
     <string name="str_devicename">设  备  号</string>
-    <string name="str_username">用  户  名</string>
-    <string name="str_password">密        码</string>
-    <string name="str_nicknametwo">昵        称</string>
+    <string name="str_username">用 户 名:</string>
+    <string name="str_password">密     码 :</string>
+    <string name="str_nicknametwo">昵     称 :</string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">切换IP直连和云视通连接模式</string>
     <string name="str_cloudsee_id">云视通号</string>

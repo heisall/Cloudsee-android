@@ -11,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.activities.BaseActivity;
+import com.jovision.activities.JVLoginActivity;
 import com.jovision.bean.User;
 
 public class UserSpinnerAdapter extends BaseAdapter {
-	private Context context;
+	private BaseActivity activity;
 	private List<User> list;
 	private LayoutInflater mInflater;
 	private String userName;
@@ -26,9 +28,9 @@ public class UserSpinnerAdapter extends BaseAdapter {
 	 * @param handler
 	 * @param list
 	 */
-	public UserSpinnerAdapter(Context c, String name) {
-		context = c;
-		mInflater = (LayoutInflater) c
+	public UserSpinnerAdapter(BaseActivity activity, String name) {
+		this.activity = activity;
+		mInflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		userName = name;
 	}
@@ -75,16 +77,25 @@ public class UserSpinnerAdapter extends BaseAdapter {
 		holder.textView.setText(info.getUserName());
 
 		if (info.getUserName().equalsIgnoreCase(userName)) {
-			holder.userIcon.setImageDrawable(context.getResources()
+			holder.userIcon.setImageDrawable(activity.getResources()
 					.getDrawable(R.drawable.user_icon_2));
-			holder.textView.setTextColor(context.getResources().getColor(
+			holder.textView.setTextColor(activity.getResources().getColor(
 					R.color.userinfocolor2));
 		} else {
-			holder.userIcon.setImageDrawable(context.getResources()
+			holder.userIcon.setImageDrawable(activity.getResources()
 					.getDrawable(R.drawable.user_icon));
-			holder.textView.setTextColor(context.getResources().getColor(
+			holder.textView.setTextColor(activity.getResources().getColor(
 					R.color.userinfocolor));
 		}
+		holder.delImageView.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				activity.onNotify(JVLoginActivity.DELECT_USER, position, 0,
+						null);
+			}
+		});
 		//
 		// // 为下拉框选项文字部分设置事件，最终效果是点击将其文字填充到文本框
 		// holder.textView.setOnClickListener(new View.OnClickListener() {

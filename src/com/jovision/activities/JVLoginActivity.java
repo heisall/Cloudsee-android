@@ -43,6 +43,7 @@ public class JVLoginActivity extends BaseActivity {
 
 	private final String TAG = "JVLoginActivity";
 	private static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
+	public static final int DELECT_USER = 0x02;// 删除用户
 	private String userName = "";
 	private String passWord = "";
 
@@ -75,6 +76,12 @@ public class JVLoginActivity extends BaseActivity {
 			createDialog("");
 			break;
 		}
+		case DELECT_USER:
+			pop.dismiss();
+			userNameET.setText("");
+			passwordET.setText("");
+			UserUtil.deleteUser(arg1);
+			break;
 		}
 	}
 

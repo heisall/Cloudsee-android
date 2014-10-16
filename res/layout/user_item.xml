@@ -37,10 +37,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginBottom="15dp"
         android:layout_marginRight="12dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/login_dialog_close" />
+        android:background="@drawable/login_dialog_close"
+        android:padding="8dp" />
 
     <ImageView
         android:id="@+id/useritemdivider"

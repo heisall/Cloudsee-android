@@ -84,7 +84,8 @@ public abstract class PlayActivity extends BaseActivity {
 
 	/** 云台操作 */
 	protected ImageView autoimage, zoomIn, zoomout, scaleSmallImage,
-			scaleAddImage, upArrow, downArrow, leftArrow, rightArrow;
+			scaleAddImage, upArrow, downArrow, leftArrow, rightArrow,
+			yt_cancle;
 
 	/** layout 下 */
 	protected Button capture;// 抓拍
@@ -272,7 +273,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 		/** 云台 布局 */
 		ytLayout = (LinearLayout) findViewById(R.id.yt_layout);
-		// yt_cancle = (ImageView)findViewById(R.id.yt_cancle);
+		// yt_cancle = (ImageView)ytLayout.findViewById(R.id.yt_cancled);
 		autoimage = (ImageView) ytLayout.findViewById(R.id.autoimage);
 		zoomIn = (ImageView) ytLayout.findViewById(R.id.zoomin);
 		zoomout = (ImageView) ytLayout.findViewById(R.id.zoomout);

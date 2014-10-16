@@ -60,28 +60,23 @@ public class Consts {
 
 	public static final int TYPE_GET_PARAM = 0x02;
 	public static final int TYPE_SET_PARAM = 0x03;
-	public static final int COUNT_EX_STORAGE = 0x03;
+
+	public static final int TYPE_EX_UPDATE = 0x01;
+	public static final int TYPE_EX_SENSOR = 0x02;
 	public static final int TYPE_EX_STORAGE_SWITCH = 0x07;
+	public static final int TYPE_EX_SET_DHCP = 0x09;
+
+	public static final int COUNT_EX_UPDATE = 0x01;
+	public static final int COUNT_EX_NETWORK = 0x02;
+	public static final int COUNT_EX_STORAGE = 0x03;
+	public static final int COUNT_EX_SENSOR = 0x08;
+
 	public static final String FORMATTER_STORAGE_MODE = "storageMode=%d";
-	public static final String FORMATTER_TALK_SWITCH = "talkSwitch=%d";// 1开始
-																		// 0关闭
-
-	{
-		// [Neo] 设置存储模式
-		// Jni.sendString(index, uchType, true, Consts.COUNT_EX_STORAGE,
-		// Consts.TYPE_EX_STORAGE_SWITCH,
-		// String.format(Consts.FORMATTER_STORAGE_MODE, mode));
-
-		// [Neo] 获取存储模式
-		// Jni.sendString(index, uchType, false, 0, Consts.TYPE_GET_PARAM,
-		// null);
-
-		// [Neo] 结果检查，通过判断 TextData 的 flag 是否等于 100
-
-		// [Neo] 切换对讲
-		// Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM,
-		// String.format(Consts.FORMATTER_TALK_SWITCH, switcher));
-	}
+	public static final String FORMATTER_TALK_SWITCH = "talkSwitch=%d";
+	public static final String FORMATTER_SET_WIFI = "ACTIVED=%d;WIFI_ID=%s;WIFI_PW=%s;";
+	public static final String FORMATTER_SAVE_WIFI = "ACTIVED=%d;WIFI_ID=%s;WIFI_PW=%s;WIFI_AUTH=%s;WIFI_ENC=%s;";
+	public static final String FORMATTER_SET_DHCP = "ACTIVED=0;bDHCP=%d;nlIP=%d;nlNM=%d;nlGW=%d;nlDNS=%d;";
+	public static final String FORMATTER_SET_BPS_FPS = "[CH%d];width=%d;height=%d;nMBPH=%d;framerate=%d;rcMode=0;";
 
 	public static int pushHisCount = 0;
 	public static final int PUSH_PAGESIZE = 5;

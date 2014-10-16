@@ -10,22 +10,20 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 
-import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.text.format.DateFormat;
 
 import com.jovision.Consts;
-import com.jovision.MainService;
+import com.jovision.activities.JVOffLineDialogActivity;
 
 public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 
-	private Context act = null;
-	AlertDialog alert;
-	AlertDialog alert1;
+	private Context context = null;
 
 	public DefaultExceptionHandler(Context act) {
-		this.act = act;
+		this.context = act;
 	}
 
 	@Override
@@ -83,7 +81,14 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 	}
 
 	private void handleException(String error) {
-		((MainService) act).onNotify(Consts.APP_CRASH, 0, 0, error);
+		// ((MainService) act).onNotify(Consts.APP_CRASH, 0, 0, error);
+		Intent intent = new Intent(context, JVOffLineDialogActivity.class);
+		intent.putExtra("ErrorCode", Consts.APP_CRASH);
+		intent.putExtra("ErrorMsg", error);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
+
+		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 
 	// 写入Log信息的方法，写入到SD卡里面

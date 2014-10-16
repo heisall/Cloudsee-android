@@ -7,15 +7,11 @@ import java.util.TimerTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,6 +32,10 @@ public class JVOffLineDialogActivity extends BaseActivity {
 	protected static final int COUNT_END = 0x50;// 倒计时结束
 	protected static final int COUNTING = 0x51;// 倒计时
 
+	protected static final int SEND_MAIL_SUCC = 0x52;// 邮件发送成功
+	protected static final int SEND_MAIL_FAIL = 0x53;// 邮件发送失败
+	protected static final int SEND_MAIL_SHOWMSG = 0x54;// 谈提示
+
 	/** 账号踢退 */
 	private LinearLayout otherLoginLayout;
 	private TextView lastCount;// 15秒倒计时
@@ -55,6 +55,8 @@ public class JVOffLineDialogActivity extends BaseActivity {
 
 	private int errorCode = 0;
 	private String errorMsg = "";// 崩溃日志
+	private SimpleMailSender sms;
+	MailSenderInfo mailInfo;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -65,6 +67,23 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		}
 		case COUNT_END: {
 			reLogin();
+			break;
+		}
+		case SEND_MAIL_SHOWMSG: {
+			dismissDialog();
+			showTextToast(R.string.str_send_success);
+			break;
+		}
+		case SEND_MAIL_SUCC: {
+			android.os.Process.killProcess(android.os.Process.myPid());
+			System.exit(0);
+
+			break;
+		}
+		case SEND_MAIL_FAIL: {
+			dismissDialog();
+			android.os.Process.killProcess(android.os.Process.myPid());
+			System.exit(0);
 			break;
 		}
 
@@ -98,6 +117,13 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		sure = (Button) findViewById(R.id.sure);
 		sure.setOnClickListener(mOnClickListener);
 
+		/** 程序崩溃 */
+		exceptionLayout = (LinearLayout) findViewById(R.id.exception_layout);
+		send = (Button) findViewById(R.id.send);
+		cancel = (Button) findViewById(R.id.cancel);
+		send.setOnClickListener(mOnClickListener);
+		cancel.setOnClickListener(mOnClickListener);
+
 		if (errorCode == JVAccountConst.MESSAGE_OFFLINE) {// 提掉线
 			otherLoginLayout.setVisibility(View.VISIBLE);
 			offlineLayout.setVisibility(View.GONE);
@@ -130,13 +156,6 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			exceptionLayout.setVisibility(View.GONE);
 		}
 
-		/** 程序崩溃 */
-		exceptionLayout = (LinearLayout) findViewById(R.id.exception_layout);
-		send = (Button) findViewById(R.id.send);
-		cancel = (Button) findViewById(R.id.cancel);
-		sure.setOnClickListener(mOnClickListener);
-		cancel.setOnClickListener(mOnClickListener);
-
 	}
 
 	OnClickListener mOnClickListener = new OnClickListener() {
@@ -157,70 +176,40 @@ public class JVOffLineDialogActivity extends BaseActivity {
 				break;
 			}
 			case R.id.send: {
-				try {
-					AlertDialog alert1;
-					Calendar rightNow = Calendar.getInstance();
-					String str = rightNow.get(Calendar.YEAR)
-							+ "_"
-							+ (rightNow.get(Calendar.MONTH) + 1 + "_" + rightNow
-									.get(Calendar.DATE));
-					MailSenderInfo mailInfo = new MailSenderInfo();
-					mailInfo.setMailServerHost("smtp.qq.com");
-					mailInfo.setMailServerPort("25");
-					mailInfo.setValidate(true);
-					mailInfo.setUserName("741376209@qq.com"); // 你的邮箱地址
-					mailInfo.setPassword("mfq_zsw");// 您的邮箱密码
-					mailInfo.setFromAddress("741376209@qq.com");
-					mailInfo.setToAddress("jovision1203@163.com");// jovetech1203**
-					// mailInfo.setToAddress("jy0329@163.com");
-					mailInfo.setSubject("[BUG]["
-							+ JVOffLineDialogActivity.this.getResources()
-									.getString(R.string.app_name)
-							+ "]"
-							+ JVOffLineDialogActivity.this.getResources()
-									.getString(R.string.str_current_version));
-					mailInfo.setContent("[" + str + "]" + errorMsg);
 
-					// 这个类主要来发送邮件
-					SimpleMailSender sms = new SimpleMailSender();
-					boolean flag = sms.sendTextMail(mailInfo);// 发送文体格式
-					// sms.sendHtmlMail(mailInfo);//发送html格式
-					if (flag) {
-						AlertDialog.Builder builder1 = new Builder(
-								JVOffLineDialogActivity.this
-										.getApplicationContext());
-						builder1.setTitle(JVOffLineDialogActivity.this
-								.getResources().getString(R.string.tips));
-						builder1.setMessage(R.string.str_send_success);
-						builder1.setPositiveButton(R.string.login_str_close,
-								new DialogInterface.OnClickListener() {
+				Calendar rightNow = Calendar.getInstance();
+				String str = rightNow.get(Calendar.YEAR)
+						+ "_"
+						+ (rightNow.get(Calendar.MONTH) + 1 + "_" + rightNow
+								.get(Calendar.DATE));
+				mailInfo = new MailSenderInfo();
+				mailInfo.setMailServerHost("smtp.qq.com");
+				mailInfo.setMailServerPort("25");
+				mailInfo.setValidate(true);
+				mailInfo.setUserName("741376209@qq.com"); // 你的邮箱地址
+				mailInfo.setPassword("mfq_zsw");// 您的邮箱密码
+				mailInfo.setFromAddress("741376209@qq.com");
+				mailInfo.setToAddress("jovision1203@163.com");// jovetech1203**
+				// mailInfo.setToAddress("jy0329@163.com");
+				mailInfo.setSubject("[BUG]["
+						+ JVOffLineDialogActivity.this.getResources()
+								.getString(R.string.app_name)
+						+ "]"
+						+ JVOffLineDialogActivity.this.getResources()
+								.getString(R.string.str_current_version));
+				mailInfo.setContent("[" + str + "]" + errorMsg);
 
-									public void onClick(DialogInterface dialog,
-											int which) {
-										System.exit(0);
-										android.os.Process
-												.killProcess(android.os.Process
-														.myPid());
-									}
-								});
-						alert1 = builder1.create();
-						alert1.getWindow().setType(
-								WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-						alert1.setCancelable(false);
-						alert1.show();
-					} else {
-						System.exit(0);
-						android.os.Process.killProcess(android.os.Process
-								.myPid());
-					}
-				} catch (Exception e) {
-					MyLog.e("SendMail", e.getMessage());
-				}
+				// 这个类主要来发送邮件
+				sms = new SimpleMailSender();
+
+				createDialog("");
+				SendMailThread thread = new SendMailThread();
+				thread.start();
 				break;
 			}
 			case R.id.cancel: {
 				System.exit(0);
-				android.os.Process.killProcess(android.os.Process.myPid());
+
 				break;
 			}
 			}
@@ -310,6 +299,80 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		intent.setClass(JVOffLineDialogActivity.this, JVLoginActivity.class);
 		JVOffLineDialogActivity.this.startActivity(intent);
 		JVOffLineDialogActivity.this.finish();
+	}
+
+	class SendMailThread extends Thread {
+
+		@Override
+		public void run() {
+			super.run();
+			boolean flag = sms.sendTextMail(mailInfo);// 发送文体格式
+			if (flag) {
+				handler.sendEmptyMessage(SEND_MAIL_SHOWMSG);
+				try {
+					Thread.sleep(1500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				handler.sendEmptyMessage(SEND_MAIL_SUCC);
+			} else {
+				handler.sendEmptyMessage(SEND_MAIL_FAIL);
+			}
+		}
+
+	}
+
+	// 设置三种类型参数分别为String,Integer,String
+	class SendMailTask extends AsyncTask<String, Integer, Integer> {
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int sendRes = -1;// 0成功 1失败
+			boolean flag = false;
+			try {
+				flag = sms.sendTextMail(mailInfo);// 发送文体格式
+				// sms.sendHtmlMail(mailInfo);//发送html格式
+			} catch (Exception e) {
+				MyLog.e("SendMail", e.getMessage());
+			}
+			if (flag) {
+				sendRes = 0;
+			} else {
+				sendRes = 1;
+			}
+
+			return sendRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+
+			dismissDialog();
+			if (0 == result) {
+				showTextToast(R.string.str_send_success);
+				System.exit(0);
+			} else {
+				System.exit(0);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
 	}
 
 }

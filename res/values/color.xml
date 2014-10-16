@@ -63,6 +63,8 @@
     <color name="play_color">#1eFFFFFF</color>
     <color name="dialog_bg_color">#00FFFFFF</color>
     <color name="play_bq">#007AFF</color>
+    <color name="dialog_divider"> #CECECE</color>
+
     <!-- 设备管理 -->
     <color name="video_channelcolor">#EFEFEF</color>
     <!-- 我的设备字体颜色 -->

@@ -12,12 +12,11 @@ import java.lang.Thread.UncaughtExceptionHandler;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Environment;
 import android.text.format.DateFormat;
 
 import com.jovision.Consts;
-import com.jovision.activities.JVOffLineDialogActivity;
+import com.jovision.MainService;
 
 public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 
@@ -84,13 +83,7 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 	}
 
 	private void handleException(String error) {
-
-		Intent intent = new Intent(act, JVOffLineDialogActivity.class);
-		intent.putExtra("ErrorCode", Consts.APP_CRASH);
-		intent.putExtra("ErrorMsg", error);
-		// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		act.startActivity(intent);
-
+		((MainService) act).onNotify(Consts.APP_CRASH, 0, 0, error);
 	}
 
 	// 写入Log信息的方法，写入到SD卡里面

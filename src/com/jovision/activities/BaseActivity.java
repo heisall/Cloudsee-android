@@ -301,7 +301,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 									int which) {
 								dialog.dismiss();
 							}
-						}).show();
+						}).create().show();
 	}
 
 	/**
@@ -386,7 +386,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 
 	public void exit() {
 		if ((System.currentTimeMillis() - exitTime) > 2000) {
-			Toast.makeText(getApplicationContext(), "再按一次退出程序",
+			Toast.makeText(getApplicationContext(), R.string.pressback_exit,
 					Toast.LENGTH_SHORT).show();
 			exitTime = System.currentTimeMillis();
 		} else {

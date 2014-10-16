@@ -307,17 +307,11 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
-        <receiver android:name="com.jovision.commons.OffLineBroadcastReceiver" >
-            <intent-filter android:priority="1000" >
-                <action android:name="CLOUDSEEOFFLINE" />
-            </intent-filter>
-        </receiver>
-
         <service
-            android:name="com.jovision.commons.OffLineService"
+            android:name="com.jovision.MainService"
             android:enabled="true" >
             <intent-filter>
-                <action android:name="com.jovetech.util.OffLineService" />
+                <action android:name="mainService" />
             </intent-filter>
         </service>
     </application>

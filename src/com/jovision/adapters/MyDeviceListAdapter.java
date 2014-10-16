@@ -12,7 +12,9 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -89,10 +91,12 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		DeviceHolder deviceHolder;
+		final DeviceHolder deviceHolder;
 		if (null == convertView) {
 			convertView = inflater.inflate(R.layout.mydevice_list_item, null);
 			deviceHolder = new DeviceHolder();
+			deviceHolder.mydevice_parent = (FrameLayout) convertView
+					.findViewById(R.id.mydevice_parent);
 			deviceHolder.devLayoutL = (RelativeLayout) convertView
 					.findViewById(R.id.dev_layout_l);
 			deviceHolder.devNameL = (TextView) convertView
@@ -107,11 +111,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.wifi_online_img_l);
 			deviceHolder.devImgL = (ImageView) convertView
 					.findViewById(R.id.dev_image_l);
-			deviceHolder.devDeleteL = (ImageView) convertView
+			deviceHolder.devDeleteL = (LinearLayout) convertView
 					.findViewById(R.id.mydevice_cancle_l);
 			deviceHolder.editDevL = (RelativeLayout) convertView
 					.findViewById(R.id.dev_edit_l);
-			deviceHolder.editDevIVL = (ImageView) convertView
+			deviceHolder.editDevIVL = (LinearLayout) convertView
 					.findViewById(R.id.mydevice_edit_l);
 
 			deviceHolder.devLayoutR = (RelativeLayout) convertView
@@ -179,7 +183,6 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		if (1 == lastR || 3 == lastR) {
 			deviceHolder.devLayoutR.setBackgroundResource(devResArray[lastR]);
 		}
-
 		// 控制删除按钮显示隐藏
 		if (showDelete) {
 			deviceHolder.devDeleteL.setVisibility(View.VISIBLE);
@@ -192,7 +195,24 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			deviceHolder.editDevL.setVisibility(View.GONE);
 			deviceHolder.editDevR.setVisibility(View.GONE);
 		}
+		deviceHolder.editDevL.setOnClickListener(new View.OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				setShowDelete(false);
+				notifyDataSetChanged();
+			}
+		});
+		deviceHolder.editDevR.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				setShowDelete(false);
+				notifyDataSetChanged();
+			}
+		});
 		if (position * 2 + 1 < deviceList.size()) {
 			deviceHolder.devLayoutR.setVisibility(View.VISIBLE);
 			deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
@@ -302,14 +322,16 @@ public class MyDeviceListAdapter extends BaseAdapter {
 	}
 
 	class DeviceHolder {
+		FrameLayout mydevice_parent;
+
 		RelativeLayout devLayoutL;
 		TextView devNameL;
 		TextView onLineStateL;
 		TextView wifiStateL;
 		ImageView devImgL;
-		ImageView devDeleteL;
+		LinearLayout devDeleteL;
 		RelativeLayout editDevL;
-		ImageView editDevIVL;
+		LinearLayout editDevIVL;
 
 		RelativeLayout devLayoutR;
 		TextView devNameR;

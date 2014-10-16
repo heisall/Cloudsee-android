@@ -170,6 +170,7 @@ public class JVChannelsActivity extends BaseActivity {
 			RelativeLayout layout = new RelativeLayout(this);
 			TextView view = new TextView(this);
 			view.setText(deviceList.get(i).getFullNo());
+			view.setSingleLine(true);
 			view.setTextColor(JVChannelsActivity.this.getResources().getColor(
 					R.color.devicemanagename));
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(

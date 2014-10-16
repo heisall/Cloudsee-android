@@ -135,26 +135,31 @@ public class JVDeviceManageActivity extends BaseActivity {
 
 				break;
 			case R.id.manage_save:
-				if ("".equalsIgnoreCase(manageNick.getText().toString())) {// 用户名不可为空，其他不用验证
+				// 设备昵称不为空
+				if ("".equalsIgnoreCase(manageNick.getText().toString())) {
 					JVDeviceManageActivity.this
-							.showTextToast(JVDeviceManageActivity.this
-									.getResources()
-									.getString(
-											R.string.login_str_device_account_notnull));
-				} else if (!ConfigUtil.checkDeviceUsername(manageNick.getText()
+							.showTextToast(R.string.str_nikename_notnull);
+				}
+				// 设备昵称验证
+				else if (!ConfigUtil.checkNickName(manageNick.getText()
 						.toString())) {
 					JVDeviceManageActivity.this
-							.showTextToast(JVDeviceManageActivity.this
-									.getResources()
-									.getString(
-											R.string.login_str_device_account_error));
+							.showTextToast(R.string.login_str_nike_name_order);
+				}
+				// 设备用户名不为空
+				else if ("".equalsIgnoreCase(manageUser.getText().toString())) {
+					JVDeviceManageActivity.this
+							.showTextToast(R.string.login_str_device_account_notnull);
+				}
+				// 设备用户名验证
+				else if (!ConfigUtil.checkDeviceUsername(manageUser.getText()
+						.toString())) {
+					JVDeviceManageActivity.this
+							.showTextToast(R.string.login_str_device_account_error);
 				} else if (!ConfigUtil.checkDevicePwd(managePassword.getText()
 						.toString())) {
 					JVDeviceManageActivity.this
-							.showTextToast(JVDeviceManageActivity.this
-									.getResources()
-									.getString(
-											R.string.login_str_device_pass_error));
+							.showTextToast(R.string.login_str_device_pass_error);
 				} else {
 					ModifyDevTask task = new ModifyDevTask();
 					String[] strParams = new String[4];

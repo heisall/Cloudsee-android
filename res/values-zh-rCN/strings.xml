@@ -442,7 +442,8 @@
     <string name="cancel">取消</string>
     <string name="keeponline_success">保持在线成功!</string>
     <string name="keeponline_failed">保持在线失败!</string>
-
+    <!-- JVInfoFragment -->
+    <string name="nomessage">暂时没有报警数据</string>
     <!-- JVMyDeviceFragment -->
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
     <string name="del_device_succ">设备删除成功</string>
@@ -514,6 +515,7 @@
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">请在此输入您的问题或建议</string>
     <string name="str_notice_connection">您的联系方式（方便我们后续跟踪您提的问题和建议）</string>
+    <string name="str_warm_connection">请输入正确的手机号码（方便我们后续跟踪您提的问题和建议）</string>
     <string name="str_idea_and_feedback">意见反馈</string>
     <string name="commit">提交</string>
     <string name="str_commit_success">感谢您的反馈，我们将不断努力，为您提供更优质的服务</string>

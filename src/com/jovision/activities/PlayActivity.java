@@ -148,6 +148,11 @@ public abstract class PlayActivity extends BaseActivity {
 	protected ListView streamListView;// 码流listview
 	protected StreamAdapter streamAdapter;// 码流adapter
 	protected RelativeLayout voiceTip;// 单向对讲提示
+
+	public static boolean AUDIO_SINGLE = false;// 单向对讲标志
+	public static boolean VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
+	public static boolean VOICECALLING = false;// 对讲功能已经开启
+
 	// 按钮图
 	protected Drawable alarmRecordDrawableTop = null;
 	protected Drawable normalRecordDrawableTop = null;
@@ -406,6 +411,11 @@ public abstract class PlayActivity extends BaseActivity {
 	 * 清空所有状态
 	 */
 	public void resetFunc() {
+
+		AUDIO_SINGLE = false;// 单向对讲标志
+		VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
+		VOICECALLING = false;// 对讲功能已经开启
+
 		decodeBtn.setVisibility(View.GONE);// 软硬解
 		bottombut2.setVisibility(View.GONE);
 		linear.removeView(relative2);

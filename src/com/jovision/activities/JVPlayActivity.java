@@ -81,10 +81,6 @@ public class JVPlayActivity extends PlayActivity implements
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
 
-	public static boolean AUDIO_SINGLE = false;// 单向对讲标志
-	public static boolean VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
-	public static boolean VOICECALLING = false;// 对讲功能已经开启
-
 	private boolean needToast = false;
 
 	@Override
@@ -1332,14 +1328,29 @@ public class JVPlayActivity extends PlayActivity implements
 						createDialog("");
 						if (Consts.STORAGEMODE_ALARM == channel
 								.getStorageMode()) {
-							Jni.setStorage(currentIndex,
-									JVNetConst.JVN_RSP_TEXTDATA,
-									String.valueOf(Consts.STORAGEMODE_NORMAL));
+							Jni.sendString(currentIndex,
+									JVNetConst.JVN_RSP_TEXTDATA, true,
+									Consts.COUNT_EX_STORAGE,
+									Consts.TYPE_EX_STORAGE_SWITCH,
+									String.format(
+											Consts.FORMATTER_STORAGE_MODE,
+											Consts.STORAGEMODE_NORMAL));
+
+							// Jni.setStorage(currentIndex,
+							// JVNetConst.JVN_RSP_TEXTDATA,
+							// String.valueOf(Consts.STORAGEMODE_NORMAL));
 						} else if (Consts.STORAGEMODE_NORMAL == channel
 								.getStorageMode()) {
-							Jni.setStorage(currentIndex,
-									JVNetConst.JVN_RSP_TEXTDATA,
-									String.valueOf(Consts.STORAGEMODE_ALARM));
+							Jni.sendString(currentIndex,
+									JVNetConst.JVN_RSP_TEXTDATA, true,
+									Consts.COUNT_EX_STORAGE,
+									Consts.TYPE_EX_STORAGE_SWITCH,
+									String.format(
+											Consts.FORMATTER_STORAGE_MODE,
+											Consts.STORAGEMODE_ALARM));
+							// Jni.setStorage(currentIndex,
+							// JVNetConst.JVN_RSP_TEXTDATA,
+							// String.valueOf(Consts.STORAGEMODE_ALARM));
 						}
 
 					} catch (Exception e) {

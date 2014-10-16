@@ -136,7 +136,8 @@
                 android:layout_toLeftOf="@+id/zoomin_auto_down"
                 android:onClick="OnCancelButton"
                 android:src="@drawable/ytscalesmall_bg_selector" />
-            <ImageView
+
+            <ImageView
                 android:id="@+id/zoomout_middle"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -144,7 +145,8 @@
                 android:layout_toRightOf="@+id/zoomin_auto"
                 android:src="@drawable/ytzoomadd_bg_selector"
                 android:visibility="invisible" />
-            <ImageView
+
+            <ImageView
                 android:id="@+id/scaleAddImage"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -154,7 +156,8 @@
                 android:onClick="OnCancelButton"
                 android:src="@drawable/ytscale_add_bg_selector"
                 android:visibility="visible" />
-            <ImageView
+
+            <ImageView
                 android:id="@+id/zoomout"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -163,4 +166,5 @@
                 android:src="@drawable/ytzoomadd_bg_selector" />
         </RelativeLayout>
     </LinearLayout>
-</LinearLayout>
+
+</LinearLayout>

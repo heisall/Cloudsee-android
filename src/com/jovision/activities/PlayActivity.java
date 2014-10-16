@@ -455,7 +455,6 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 
 		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-			bottombut2.setVisibility(View.VISIBLE);
 			decodeBtn.setVisibility(View.GONE);
 		} else {
 

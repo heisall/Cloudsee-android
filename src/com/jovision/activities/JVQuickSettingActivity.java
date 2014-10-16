@@ -611,6 +611,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 	@Override
 	public void onBackPressed() {
+		searchView.stopPlayer();
 		backMethod();
 	}
 
@@ -1683,4 +1684,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 		builder.show();
 	}
+
+	@Override
+	protected void onPause() {
+		searchView.stopPlayer();
+		super.onPause();
+	}
+
 }

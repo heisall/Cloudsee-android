@@ -58,9 +58,10 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		// Thread.setDefaultUncaughtExceptionHandler(new
-		// DefaultExceptionHandler(
-		// this.getApplicationContext()));
+		// 开启服务
+		Intent intent = new Intent();
+		intent.setClass(this, MainService.class);
+		startService(intent);
 
 		MyLog.init(Consts.LOG_PATH);
 		statusHashMap = new HashMap<String, String>();

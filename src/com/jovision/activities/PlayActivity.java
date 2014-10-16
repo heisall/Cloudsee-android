@@ -520,17 +520,12 @@ public abstract class PlayActivity extends BaseActivity {
 			right_btn_h.setVisibility(View.GONE);
 		}
 
-		// 屏幕方向
-		if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
-			videTurnBtn.setVisibility(View.VISIBLE);
-			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turn_left_selector));
-			bottombut6.setVisibility(View.VISIBLE);
-			linear.removeViewAt(linear.getChildCount());
-			linear.addView(relative6, 6);
-			bottombut6.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turn_left_selector));
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+		try {
+			// 屏幕方向
+			if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
+				videTurnBtn.setVisibility(View.VISIBLE);
+				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.turn_left_selector));
 				bottombut6.setVisibility(View.VISIBLE);
 				linear.removeViewAt(linear.getChildCount());
 				linear.addView(relative6, 6);
@@ -542,28 +537,31 @@ public abstract class PlayActivity extends BaseActivity {
 					bottombut6.setVisibility(View.GONE);
 				}
 				videTurnBtn.setVisibility(View.VISIBLE);
-			}
-		} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
-			videTurnBtn.setVisibility(View.VISIBLE);
-			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turn_right_selector));
-			bottombut6.setVisibility(View.VISIBLE);
-			linear.removeViewAt(linear.getChildCount());
-			linear.addView(relative6, 6);
-			bottombut6.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turn_right_selector));
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.turn_right_selector));
 				bottombut6.setVisibility(View.VISIBLE);
 				linear.removeViewAt(linear.getChildCount());
 				linear.addView(relative6, 6);
-				videTurnBtn.setVisibility(View.GONE);
+				bottombut6.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.turn_right_selector));
+				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+					bottombut6.setVisibility(View.VISIBLE);
+					linear.removeViewAt(linear.getChildCount());
+					linear.addView(relative6, 6);
+					videTurnBtn.setVisibility(View.GONE);
+				} else {
+					bottombut6.setVisibility(View.GONE);
+					linear.removeView(relative6);
+					linear.addView(relative6, linear.getChildCount());
+					videTurnBtn.setVisibility(View.VISIBLE);
+				}
 			} else {
+				videTurnBtn.setVisibility(View.GONE);
 				if (relative6.getVisibility() == 0) {
 					linear.removeView(relative6);
 					linear.addView(relative6, linear.getChildCount());
 					bottombut6.setVisibility(View.GONE);
 				}
-				videTurnBtn.setVisibility(View.VISIBLE);
 			}
 		} else {
 			videTurnBtn.setVisibility(View.GONE);
@@ -574,13 +572,6 @@ public abstract class PlayActivity extends BaseActivity {
 			}
 		}
 
-		// 码流设置
-		if (-1 != channel.getStreamTag()) {
-			streamAdapter.selectStream = channel.getStreamTag() - 1;
-			streamAdapter.notifyDataSetChanged();
-			moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
-			bottomStream.setText(streamArray[channel.getStreamTag() - 1]);
-		}
 	}
 
 	/**

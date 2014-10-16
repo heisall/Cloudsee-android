@@ -354,8 +354,11 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 		//
 		case Consts.CALL_PLAY_DOOMED: {
-			loadingState(arg2, R.string.connecting_buffer,
-					JVConst.PLAY_CONNECTING_BUFFER);
+			if (Consts.HDEC_BUFFERING == arg2) {
+				loadingState(arg1, R.string.connecting_buffer,
+						JVConst.PLAY_CONNECTING_BUFFER);
+			}
+
 			break;
 		}
 		// O帧

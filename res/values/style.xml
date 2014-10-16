@@ -17,16 +17,14 @@
  * limitations under the License.
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
- */
--->
+ */-->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.    -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <item name="android:background">@color/transparent</item>
         <item name="android:windowNoTitle">true</item>
@@ -41,8 +39,7 @@
             res/values-vXX/styles.xml, while customizations related to
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
-            backward-compatibility can go here.
-        -->
+            backward-compatibility can go here.        -->
     </style>
 
     <!-- Application theme. -->
@@ -63,8 +60,7 @@
         <item name="android:windowBackground">@drawable/my_dialog_bg</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:background">@color/transparent</item>
-:                                                                                                                                                                                                                                                                <item name="android:windowIsFloating">true</item>
-        <item name="android:windowIsTranslucent">true</item>
+:                                                                                                                                                                                                                                                                <item name="android:windowIsFloating">true</item>        <item name="android:windowIsTranslucent">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
     </style>

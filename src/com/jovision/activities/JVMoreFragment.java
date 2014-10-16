@@ -260,7 +260,6 @@ public class JVMoreFragment extends BaseFragment {
 				}
 				ConfigUtil.logOut();
 				UserUtil.resetAllUser();
-
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 			} catch (Exception e) {
 				e.printStackTrace();

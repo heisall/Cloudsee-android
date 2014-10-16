@@ -9,6 +9,7 @@
     android:paddingRight="3dp" >
 
     <FrameLayout
+        android:id="@+id/mydevice_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -97,22 +98,50 @@
             android:layout_height="match_parent"
             android:background="@color/halftransparent" >
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/mydevice_cancle_l"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="25dp"
-                android:background="@drawable/mydevice_cancale_icon" />
+                android:orientation="vertical" >
 
-            <ImageView
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/mydevice_cancale_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:text="@string/login_str_delete"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/mydevice_edit_l"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="25dp"
-                android:background="@drawable/mydevice_cancleedit_icon" />
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/mydevice_cancleedit_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:text="@string/login_str_edit"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </RelativeLayout>
     </FrameLayout>
 
@@ -203,22 +232,50 @@
                 android:layout_height="match_parent"
                 android:background="@color/halftransparent" >
 
-                <ImageView
+                <LinearLayout
                     android:id="@+id/mydevice_cancle_r"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="25dp"
-                    android:background="@drawable/mydevice_cancale_icon" />
+                    android:orientation="vertical" >
 
-                <ImageView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/mydevice_cancale_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/login_str_delete"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/mydevice_edit_r"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="25dp"
-                    android:background="@drawable/mydevice_cancleedit_icon" />
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/mydevice_cancleedit_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/login_str_edit"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
     </FrameLayout>

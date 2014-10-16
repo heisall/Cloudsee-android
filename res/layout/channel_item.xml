@@ -3,43 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/channel_rl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/device_bg_1" >
 
-        <TextView
-            android:id="@+id/channel_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="第1通道"
-            android:textColor="@color/white" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-        <ImageView
-            android:id="@+id/channel_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/del_dev_icon" />
+            <TextView
+                android:id="@+id/channel_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="第1通道"
+                android:textColor="@color/white" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/channel_edit"
             android:layout_width="match_parent"
-            android:layout_height="30dip"
-            android:layout_alignParentBottom="true"
+            android:layout_height="match_parent"
             android:background="@color/halftransparent" >
 
             <ImageView
-                android:id="@+id/channel_edit_iv"
+                android:id="@+id/channel_cancle"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/mydevice_cancale_icon" />
+
+            <ImageView
+                android:id="@+id/channel_cancleedit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/del_dev_icon" />
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/mydevice_cancleedit_icon" />
         </RelativeLayout>
-    </RelativeLayout>
+    </FrameLayout>
 
 </RelativeLayout>

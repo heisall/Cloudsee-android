@@ -101,6 +101,7 @@ public class JVLoginActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
+		// throw(new NullPointerException());
 	}
 
 	@SuppressWarnings("deprecation")

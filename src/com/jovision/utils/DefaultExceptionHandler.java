@@ -17,7 +17,6 @@ import android.text.format.DateFormat;
 
 import com.jovision.Consts;
 import com.jovision.activities.JVOffLineDialogActivity;
-import com.jovision.activities.JVWelcomeActivity;
 
 public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 
@@ -43,8 +42,14 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 		// 处理异常
 		// handleException(error);
 
-		System.out.println("CaughtException: " + ex.toString());
-		Intent intent = new Intent(context, JVWelcomeActivity.class);
+		// System.out.println("CaughtException: " + ex.toString());
+		// Intent intent = new Intent(context, JVWelcomeActivity.class);
+		// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		// context.startActivity(intent);
+
+		Intent intent = new Intent(context, JVOffLineDialogActivity.class);
+		intent.putExtra("ErrorCode", Consts.APP_CRASH);
+		intent.putExtra("ErrorMsg", ex.toString());
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 

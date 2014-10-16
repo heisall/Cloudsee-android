@@ -3,8 +3,6 @@ package com.jovision.activities;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import javax.security.auth.PrivateCredentialPermission;
-
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.view.SurfaceView;
@@ -138,7 +136,7 @@ public abstract class PlayActivity extends BaseActivity {
 	private RelativeLayout relative4;
 	private RelativeLayout relative5;
 	private RelativeLayout relative6;
-	private RelativeLayout relative7;	
+	private RelativeLayout relative7;
 	private RelativeLayout relative8;
 	/** IPC独有特性 */
 	protected Button decodeBtn;
@@ -215,7 +213,7 @@ public abstract class PlayActivity extends BaseActivity {
 		voiceTip = (RelativeLayout) findViewById(R.id.voicetip);
 
 		/** 水平播放function bar */
-//		horPlayBarLayout = (RelativeLayout) findViewById(R.id.play_hor_func);
+		horPlayBarLayout = (RelativeLayout) findViewById(R.id.play_hor_func);
 
 		left_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_left);// 横屏返回键
 		right_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_right);// 横屏手动录像，报警录像键
@@ -230,16 +228,16 @@ public abstract class PlayActivity extends BaseActivity {
 		bottombut7 = (Button) findViewById(R.id.bottom_but7);
 		bottombut8 = (Button) findViewById(R.id.bottom_but8);
 		bottomStream = (TextView) findViewById(R.id.video_bq);
-		relative1 =  (RelativeLayout)findViewById(R.id.relative1);
-		relative2 =  (RelativeLayout)findViewById(R.id.relative2);
-		relative3 =  (RelativeLayout)findViewById(R.id.relative3);
-		relative4 =  (RelativeLayout)findViewById(R.id.relative4);
-		relative5 =  (RelativeLayout)findViewById(R.id.relative5);
-		relative6 =  (RelativeLayout)findViewById(R.id.relative6);
-		relative7 =  (RelativeLayout)findViewById(R.id.relative7);
-		relative8 =  (RelativeLayout)findViewById(R.id.relative8);
-		linear = (LinearLayout)findViewById(R.id.linear);
-		
+		relative1 = (RelativeLayout) findViewById(R.id.relative1);
+		relative2 = (RelativeLayout) findViewById(R.id.relative2);
+		relative3 = (RelativeLayout) findViewById(R.id.relative3);
+		relative4 = (RelativeLayout) findViewById(R.id.relative4);
+		relative5 = (RelativeLayout) findViewById(R.id.relative5);
+		relative6 = (RelativeLayout) findViewById(R.id.relative6);
+		relative7 = (RelativeLayout) findViewById(R.id.relative7);
+		relative8 = (RelativeLayout) findViewById(R.id.relative8);
+		linear = (LinearLayout) findViewById(R.id.linear);
+
 		if ((disMetrics.heightPixels > 800 && disMetrics.widthPixels > 480)
 				|| (disMetrics.heightPixels > 480 && disMetrics.widthPixels > 800)) {// 大屏
 			bigScreen = true;
@@ -248,8 +246,7 @@ public abstract class PlayActivity extends BaseActivity {
 		bigScreen = true;
 
 		/** 小分辨率功能 */
-		// playFuctionLayout = (LinearLayout)
-		// findViewById(R.id.play_function_layout);
+		playFuctionLayout = (LinearLayout) findViewById(R.id.play_function_layout);
 		audioMonitor = (Button) findViewById(R.id.audio_monitor);// 音频监听
 		ytOperate = (Button) findViewById(R.id.yt_operate);// 云台
 		remotePlayback = (Button) findViewById(R.id.remote_playback);// 远程回放
@@ -267,15 +264,15 @@ public abstract class PlayActivity extends BaseActivity {
 
 		if (bigScreen) {
 			playFunctionList.setVisibility(View.VISIBLE);
-			// playFuctionLayout.setVisibility(View.GONE);
+			playFuctionLayout.setVisibility(View.GONE);
 		} else {
 			playFunctionList.setVisibility(View.GONE);
-			// playFuctionLayout.setVisibility(View.VISIBLE);
+			playFuctionLayout.setVisibility(View.VISIBLE);
 		}
 
 		/** 云台 布局 */
 		ytLayout = (LinearLayout) findViewById(R.id.yt_layout);
-//		yt_cancle = (ImageView)findViewById(R.id.yt_cancle);
+		// yt_cancle = (ImageView)findViewById(R.id.yt_cancle);
 		autoimage = (ImageView) ytLayout.findViewById(R.id.autoimage);
 		zoomIn = (ImageView) ytLayout.findViewById(R.id.zoomin);
 		zoomout = (ImageView) ytLayout.findViewById(R.id.zoomout);
@@ -295,7 +292,7 @@ public abstract class PlayActivity extends BaseActivity {
 		downArrow.setOnClickListener(imageOnClickListener);
 		leftArrow.setOnClickListener(imageOnClickListener);
 		rightArrow.setOnClickListener(imageOnClickListener);
-		
+
 		/** 下 */
 		capture = (Button) findViewById(R.id.capture);// 抓拍
 		voiceCall = (Button) findViewById(R.id.voicecall);// 喊话
@@ -420,6 +417,7 @@ public abstract class PlayActivity extends BaseActivity {
 		moreFeature.setText(R.string.default_stream);// 码流
 		bottomStream.setText(R.string.default_stream);
 	}
+
 	/**
 	 * 刷新IPC状态显示
 	 * 
@@ -507,13 +505,13 @@ public abstract class PlayActivity extends BaseActivity {
 					R.drawable.turn_left_selector));
 			bottombut6.setVisibility(View.VISIBLE);
 			linear.removeViewAt(linear.getChildCount());
-			linear.addView(relative6,6);
+			linear.addView(relative6, 6);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_left_selector));
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 				bottombut6.setVisibility(View.VISIBLE);
 				linear.removeViewAt(linear.getChildCount());
-				linear.addView(relative6,6);
+				linear.addView(relative6, 6);
 				videTurnBtn.setVisibility(View.GONE);
 			} else {
 				bottombut6.setVisibility(View.GONE);
@@ -527,13 +525,13 @@ public abstract class PlayActivity extends BaseActivity {
 					R.drawable.turn_right_selector));
 			bottombut6.setVisibility(View.VISIBLE);
 			linear.removeViewAt(linear.getChildCount());
-			linear.addView(relative6,6);
+			linear.addView(relative6, 6);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_right_selector));
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 				bottombut6.setVisibility(View.VISIBLE);
 				linear.removeViewAt(linear.getChildCount());
-				linear.addView(relative6,6);
+				linear.addView(relative6, 6);
 				videTurnBtn.setVisibility(View.GONE);
 			} else {
 				bottombut6.setVisibility(View.GONE);
@@ -624,7 +622,7 @@ public abstract class PlayActivity extends BaseActivity {
 		if (View.GONE == ytLayout.getVisibility()) {
 			ytLayout.setVisibility(View.VISIBLE);
 			playFunctionList.setVisibility(View.GONE);
-			// playFuctionLayout.setVisibility(View.GONE);
+			playFuctionLayout.setVisibility(View.GONE);
 		}
 	}
 

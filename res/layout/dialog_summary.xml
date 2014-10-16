@@ -27,9 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/device_namew"
-            android:layout_marginTop="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="30dp"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -50,18 +50,16 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp" 
-                    >
+                    android:layout_marginLeft="5dp" >
 
                     <EditText
                         android:id="@+id/device_nicket"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
-                        android:padding="10dp"
-                        android:textColor="@color/more_fragment_color6"
                         android:background="@drawable/shuru"
-                         />
+                        android:padding="10dp"
+                        android:textColor="@color/more_fragment_color6" />
 
                     <ImageView
                         android:id="@+id/device_nicket_cancle"
@@ -99,9 +97,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:background="@drawable/shuru"
                         android:padding="10dp"
-                        android:textColor="@color/more_fragment_color6"
-                        android:background="@drawable/shuru" />
+                        android:textColor="@color/more_fragment_color6" />
 
                     <ImageView
                         android:id="@+id/device_nameet_cancle"
@@ -139,10 +137,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:padding="10dp"
-                        android:textColor="@color/more_fragment_color6"
                         android:background="@drawable/shuru"
-                        android:password="true" />
+                        android:padding="10dp"
+                        android:password="true"
+                        android:textColor="@color/more_fragment_color6" />
 
                     <ImageView
                         android:id="@+id/device_passwrodet_cancle"

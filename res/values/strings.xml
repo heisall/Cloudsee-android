@@ -38,7 +38,7 @@
     <string name="login_str_registing">Registing</string>
     <string name="str_have_registed">This user name has been registered</string>
     <string name="login_str_device">Device List</string>
-     <string name="str_device_name">A361</string>
+    <string name="str_device_name">A361</string>
     <string name="login_str_group">Group</string>
     <string name="login_str_add_device">Add Device</string>
     <string name="login_str_add_group">increase the grouping</string>

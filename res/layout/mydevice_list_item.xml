@@ -8,211 +8,219 @@
     android:paddingLeft="3dp"
     android:paddingRight="3dp" >
 
-    <RelativeLayout
-        android:id="@+id/dev_layout_l"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/device_bg_1" >
+        android:paddingBottom="3dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp" >
 
         <RelativeLayout
+            android:id="@+id/dev_layout_l"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp" >
+            android:background="@drawable/device_bg_1" >
 
-            <ImageView
-                android:id="@+id/dev_image_l"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/dev_default" />
-
-            <TextView
-                android:id="@+id/dev_name_l"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/my_device"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/dev_image_l"
-                android:orientation="horizontal" >
+                android:padding="8dp" >
 
                 <ImageView
-                    android:id="@+id/dev_online_img_l"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/deviceonline"
-                    android:visibility="gone" />
+                    android:id="@+id/dev_image_l"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/dev_default" />
 
                 <TextView
-                    android:id="@+id/dev_online_l"
+                    android:id="@+id/dev_name_l"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="3dp"
-                    android:text="@string/str_device_online"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/my_device"
                     android:textColor="@color/white"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
-                <ImageView
-                    android:id="@+id/wifi_online_img_l"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/wifionline"
-                    android:visibility="gone" />
+                    android:layout_alignBottom="@+id/dev_image_l"
+                    android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/dev_wifi_l"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="3dp"
-                    android:text="@string/str_wifistr"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/dev_online_img_l"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/deviceonline"
+                        android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/dev_delete_l"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="-3dp"
-                android:layout_marginTop="-3dp"
-                android:src="@drawable/del_dev_icon" />
+                    <TextView
+                        android:id="@+id/dev_online_l"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/str_device_online"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+
+                    <ImageView
+                        android:id="@+id/wifi_online_img_l"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/wifionline"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/dev_wifi_l"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/str_wifistr"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/dev_edit_l"
             android:layout_width="match_parent"
-            android:layout_height="30dip"
-            android:layout_alignParentBottom="true"
+            android:layout_height="match_parent"
             android:background="@color/halftransparent" >
 
             <ImageView
-                android:id="@+id/dev_editiv_l"
+                android:id="@+id/mydevice_cancle_l"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/mydevice_cancale_icon" />
+
+            <ImageView
+                android:id="@+id/mydevice_edit_l"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/del_dev_icon" />
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/mydevice_cancleedit_icon" />
         </RelativeLayout>
-    </RelativeLayout>
+    </FrameLayout>
 
-    <RelativeLayout
-        android:id="@+id/dev_layout_r"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/device_bg_1" >
+        android:paddingBottom="3dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp" >
 
         <RelativeLayout
+            android:id="@+id/dev_layout_r"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp" >
+            android:background="@drawable/device_bg_1" >
 
-            <ImageView
-                android:id="@+id/dev_image_r"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/dev_default" />
-
-            <TextView
-                android:id="@+id/dev_name_r"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/my_device"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/dev_image_r"
-                android:orientation="horizontal" >
+                android:padding="8dp" >
 
                 <ImageView
-                    android:id="@+id/dev_online_img_r"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/deviceonline"
-                    android:visibility="gone" />
+                    android:id="@+id/dev_image_r"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/dev_default" />
 
                 <TextView
-                    android:id="@+id/dev_online_r"
+                    android:id="@+id/dev_name_r"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:text="@string/str_device_online"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/my_device"
                     android:textColor="@color/white"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/dev_image_r"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:id="@+id/dev_online_img_r"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/deviceonline"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/dev_online_r"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/str_device_online"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+
+                    <ImageView
+                        android:id="@+id/wifi_online_img_r"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/wifionline"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/dev_wifi_r"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/str_wifistr"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/dev_edit_r"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/halftransparent" >
 
                 <ImageView
-                    android:id="@+id/wifi_online_img_r"
+                    android:id="@+id/mydevice_cancle_r"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/wifionline"
-                    android:visibility="gone" />
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/mydevice_cancale_icon" />
 
-                <TextView
-                    android:id="@+id/dev_wifi_r"
+                <ImageView
+                    android:id="@+id/mydevice_edit_r"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="3dp"
-                    android:text="@string/str_wifistr"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/dev_delete_r"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="-3dp"
-                android:layout_marginTop="-3dp"
-                android:src="@drawable/del_dev_icon" />
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/mydevice_cancleedit_icon" />
+            </RelativeLayout>
         </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/dev_edit_r"
-            android:layout_width="match_parent"
-            android:layout_height="30dip"
-            android:layout_alignParentBottom="true"
-            android:background="@color/halftransparent" >
-
-            <ImageView
-                android:id="@+id/dev_editiv_r"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/del_dev_icon" />
-        </RelativeLayout>
-    </RelativeLayout>
+    </FrameLayout>
 
 </LinearLayout>

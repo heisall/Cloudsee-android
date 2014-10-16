@@ -36,6 +36,7 @@ import com.jovision.adapters.ScreenAdapter;
 import com.jovision.adapters.StreamAdapter;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
+import com.jovision.bean.WifiAdmin;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
@@ -82,6 +83,9 @@ public class JVPlayActivity extends PlayActivity implements
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
 
 	private boolean needToast = false;
+
+	private WifiAdmin wifiAdmin;
+	private String ssid;
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
@@ -348,7 +352,15 @@ public class JVPlayActivity extends PlayActivity implements
 
 			break;
 		}
+		//
+		case Consts.CALL_PLAY_DOOMED: {
+			if (Consts.HDEC_BUFFERING == arg2) {
+				loadingState(arg1, R.string.connecting_buffer,
+						JVConst.PLAY_CONNECTING_BUFFER);
+			}
 
+			break;
+		}
 		// O帧
 		case Consts.CALL_NORMAL_DATA: {
 
@@ -736,8 +748,22 @@ public class JVPlayActivity extends PlayActivity implements
 	protected void initUi() {
 		super.initUi();
 
-		channelMap = new HashMap<Integer, Channel>();
+		wifiAdmin = new WifiAdmin(JVPlayActivity.this);
 
+		// wifi打开的前提下,获取oldwifiSSID
+		if (wifiAdmin.getWifiState()) {
+			if (null != wifiAdmin.getSSID()) {
+				if (wifiAdmin.getSSID().contains(Consts.IPC_TAG)) {
+					ssid = wifiAdmin.getSSID().replace("\"", "")
+							.replace(Consts.IPC_TAG, "");
+				} else {
+					ssid = null;
+				}
+
+			}
+		}
+
+		channelMap = new HashMap<Integer, Channel>();
 		/** 上 */
 		back.setOnClickListener(myOnClickListener);
 		left_btn_h.setOnClickListener(myOnClickListener);
@@ -1663,7 +1689,8 @@ public class JVPlayActivity extends PlayActivity implements
 								e.printStackTrace();
 							}
 						}
-						PlayUtil.connect(channel, isOmx);
+
+						PlayUtil.connect(channel, isOmx, ssid);
 					}
 
 					super.run();
@@ -1905,7 +1932,8 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 					}
 				}
-				PlayUtil.connect(channel, isOmx);
+
+				PlayUtil.connect(channel, isOmx, ssid);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1967,7 +1995,8 @@ public class JVPlayActivity extends PlayActivity implements
 	protected void onResume() {
 		super.onResume();
 		manager.resumeAll();
-		PlayUtil.resumeAll(manager.getValidChannelList(currentPage), isOmx);
+		PlayUtil.resumeAll(manager.getValidChannelList(currentPage), isOmx,
+				ssid);
 	}
 
 	@Override
@@ -1981,9 +2010,9 @@ public class JVPlayActivity extends PlayActivity implements
 		manager.pauseAll();
 		PlayUtil.pauseAll(manager.getValidChannelList(currentPage));
 
-		if (Consts.PLAY_NORMAL == playFlag) {
-			CacheUtil.saveDevList(deviceList);
-		}
+		// if (Consts.PLAY_NORMAL == playFlag) {
+		// CacheUtil.saveDevList(deviceList);
+		// }
 	}
 
 	@Override

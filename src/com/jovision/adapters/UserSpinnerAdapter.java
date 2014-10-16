@@ -28,15 +28,18 @@ public class UserSpinnerAdapter extends BaseAdapter {
 	 * @param handler
 	 * @param list
 	 */
-	public UserSpinnerAdapter(BaseActivity activity, String name) {
+	public UserSpinnerAdapter(BaseActivity activity) {
 		this.activity = activity;
 		mInflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		userName = name;
 	}
 
 	public void setData(List<User> aList) {
 		this.list = aList;
+	}
+
+	public void setName(String name) {
+		userName = name;
 	}
 
 	@Override

@@ -22,7 +22,6 @@ import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
-import com.jovision.utils.DefaultExceptionHandler;
 
 /**
  * 整个应用的入口，管理状态、活动集合，消息队列以及漏洞汇报
@@ -59,8 +58,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(
-				this.getApplicationContext()));
+		// Thread.setDefaultUncaughtExceptionHandler(new
+		// DefaultExceptionHandler(
+		// this.getApplicationContext()));
 
 		MyLog.init(Consts.LOG_PATH);
 		statusHashMap = new HashMap<String, String>();

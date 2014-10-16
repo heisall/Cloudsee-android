@@ -94,6 +94,8 @@ public class UserSpinnerAdapter extends BaseAdapter {
 				// TODO Auto-generated method stub
 				activity.onNotify(JVLoginActivity.DELECT_USER, position, 0,
 						null);
+				list.remove(position);
+				notifyDataSetChanged();
 			}
 		});
 		//

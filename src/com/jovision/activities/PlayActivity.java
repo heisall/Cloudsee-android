@@ -435,6 +435,13 @@ public abstract class PlayActivity extends BaseActivity {
 
 		moreFeature.setText(R.string.default_stream);// 码流
 		bottomStream.setText(R.string.default_stream);
+
+		tapeSelected(false);
+		recorder.stop();
+		functionListAdapter.selectIndex = -1;
+		functionListAdapter.notifyDataSetChanged();
+		voiceCallSelected(false);
+
 	}
 
 	/**
@@ -550,6 +557,13 @@ public abstract class PlayActivity extends BaseActivity {
 			}
 		}
 
+		// 码流设置
+		if (-1 != channel.getStreamTag()) {
+			streamAdapter.selectStream = channel.getStreamTag() - 1;
+			streamAdapter.notifyDataSetChanged();
+			moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
+			bottomStream.setText(streamArray[channel.getStreamTag() - 1]);
+		}
 	}
 
 	/**

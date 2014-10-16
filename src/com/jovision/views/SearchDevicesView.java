@@ -39,7 +39,7 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 	// private Bitmap bitmap1;
 	private Bitmap bitmap2;
 	private Context context;
-	private MediaPlayer mediaPlayer;
+	public MediaPlayer myPlayer = new MediaPlayer();
 
 	public boolean isSearching() {
 		return isSearching;
@@ -103,8 +103,8 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 		} else {
 
 			canvas.drawBitmap(bitmap2, null, rMoon, null);
-			if (null != mediaPlayer) {
-				mediaPlayer.stop();
+			if (null != myPlayer) {
+				myPlayer.stop();
 			}
 		}
 
@@ -175,20 +175,18 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 			audioMgr.setStreamVolume(AudioManager.STREAM_MUSIC, curVolume,
 					AudioManager.FLAG_PLAY_SOUND);
 			AssetManager assetMgr = this.context.getAssets();
-			; // 资源管理器
+			// 资源管理器
 			AssetFileDescriptor afd = assetMgr.openFd(file);
-			if (null == mediaPlayer) {
-				mediaPlayer = new MediaPlayer();
-			}
-			mediaPlayer.reset();
+
+			myPlayer.reset();
 
 			// 使用MediaPlayer加载指定的声音文件。
-			mediaPlayer.setDataSource(afd.getFileDescriptor(),
+			myPlayer.setDataSource(afd.getFileDescriptor(),
 					afd.getStartOffset(), afd.getLength());
 			// 准备声音
-			mediaPlayer.prepare();
+			myPlayer.prepare();
 			// 播放
-			mediaPlayer.start();
+			myPlayer.start();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -196,8 +194,8 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 	}
 
 	public void stopPlayer() {
-		if (null != mediaPlayer) {
-			mediaPlayer.stop();
+		if (null != myPlayer) {
+			myPlayer.stop();
 		}
 
 	}

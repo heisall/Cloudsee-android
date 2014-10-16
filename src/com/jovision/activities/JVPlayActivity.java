@@ -290,7 +290,7 @@ public class JVPlayActivity extends PlayActivity implements
 					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
 						loadingState(arg2, R.string.connfailed_timeout,
 								JVConst.PLAY_DIS_CONNECTTED);
-					} else {
+					} else {// "Connect failed!"
 						loadingState(arg2, R.string.connect_failed,
 								JVConst.PLAY_DIS_CONNECTTED);
 					}

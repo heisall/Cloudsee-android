@@ -75,11 +75,14 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			break;
 		}
 		case SEND_MAIL_SUCC: {
+			android.os.Process.killProcess(android.os.Process.myPid());
 			System.exit(0);
+
 			break;
 		}
 		case SEND_MAIL_FAIL: {
 			dismissDialog();
+			android.os.Process.killProcess(android.os.Process.myPid());
 			System.exit(0);
 			break;
 		}

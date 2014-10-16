@@ -19,7 +19,6 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
@@ -611,7 +610,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 	@Override
 	public void onBackPressed() {
-		searchView.stopPlayer();
 		backMethod();
 	}
 
@@ -621,6 +619,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	 * @param id
 	 */
 	public void backMethod() {
+		searchView.stopPlayer();
 		try {
 			if (isSearching) {// 正在搜索设备是，提示是否退出
 				Log.e("tags", "back isSearching");
@@ -1409,18 +1408,16 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			AssetManager assetMgr = this.getAssets();
 			// 资源管理器
 			AssetFileDescriptor afd = assetMgr.openFd(file);
-			if (null == mediaPlayer) {
-				mediaPlayer = new MediaPlayer();
-			}
-			mediaPlayer.reset();
 
-			// 使用MediaPlayer加载指定的声音文件。
-			mediaPlayer.setDataSource(afd.getFileDescriptor(),
+			searchView.myPlayer.reset();
+
+			// 使用searchView.myPlayer加载指定的声音文件。
+			searchView.myPlayer.setDataSource(afd.getFileDescriptor(),
 					afd.getStartOffset(), afd.getLength());
 			// 准备声音
-			mediaPlayer.prepare();
+			searchView.myPlayer.prepare();
 			// 播放
-			mediaPlayer.start();
+			searchView.myPlayer.start();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -1456,8 +1453,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			case R.id.quickSetBack:// 返回
 				// 暂停扫瞄器
 				showSearch(false);
-				if (null != mediaPlayer) {
-					mediaPlayer.stop();
+				if (null != searchView.myPlayer) {
+					searchView.myPlayer.stop();
 				}
 				dismisQuickPopWindow();
 				isBack = true;
@@ -1528,8 +1525,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != mediaPlayer) {
-							mediaPlayer.stop();
+						if (null != searchView.myPlayer) {
+							searchView.myPlayer.stop();
 						}
 						dismisQuickPopWindow();
 						isBack = true;
@@ -1566,8 +1563,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != mediaPlayer) {
-							mediaPlayer.stop();
+						if (null != searchView.myPlayer) {
+							searchView.myPlayer.stop();
 						}
 						dismisQuickPopWindow();
 						showIpcLayout(false);
@@ -1580,8 +1577,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != mediaPlayer) {
-							mediaPlayer.stop();
+						if (null != searchView.myPlayer) {
+							searchView.myPlayer.stop();
 						}
 						dismisQuickPopWindow();
 						isBack = true;
@@ -1655,8 +1652,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 								.setText(R.string.str_quick_setting_devupdate_order);
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != mediaPlayer) {
-							mediaPlayer.stop();
+						if (null != searchView.myPlayer) {
+							searchView.myPlayer.stop();
 						}
 
 						dismisQuickPopWindow();
@@ -1670,8 +1667,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != mediaPlayer) {
-							mediaPlayer.stop();
+						if (null != searchView.myPlayer) {
+							searchView.myPlayer.stop();
 						}
 
 						dismisQuickPopWindow();

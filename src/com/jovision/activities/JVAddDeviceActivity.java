@@ -105,6 +105,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 		currentMenu.setText(R.string.str_help1_1);
 		leftBtn.setOnClickListener(mOnClickListener);
 		rightBtn.setOnClickListener(mOnClickListener);
+		rightBtn.setVisibility(View.GONE);
 
 		/** add device layout */
 		devNumET = (EditText) findViewById(R.id.ystnum_et);

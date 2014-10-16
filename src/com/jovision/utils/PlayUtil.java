@@ -712,7 +712,7 @@ public class PlayUtil {
 	 * @param channelList
 	 */
 	public static void resumeAll(final ArrayList<Channel> channelList,
-			final boolean isOmx) {
+			final boolean isOmx, final String ssid) {
 		try {
 			Thread connectThread = new Thread() {
 				@Override
@@ -735,7 +735,7 @@ public class PlayUtil {
 									e.printStackTrace();
 								}
 								channel.setPause(false);
-								connect(channel, isOmx);
+								connect(channel, isOmx, ssid);
 							}
 						}
 					}
@@ -797,7 +797,7 @@ public class PlayUtil {
 	 * @param index
 	 *            ,设备的通道索引
 	 */
-	public static void connect(Channel channel, boolean isOmx) {
+	public static void connect(Channel channel, boolean isOmx, String ssid) {
 		try {
 			if (null != channel) {
 				Device device = channel.getParent();
@@ -833,14 +833,30 @@ public class PlayUtil {
 						channel.setConnected(false);
 						MyLog.v(TAG, channel.getIndex() + "--调用连接");
 
-						if (Consts.CHANNEL_JY == channel.getIndex()) {
-							Jni.connect(Consts.CHANNEL_JY, 0,
-									Consts.IPC_DEFAULT_IP,
-									Consts.IPC_DEFAULT_PORT,
-									Consts.IPC_DEFAULT_USER,
-									Consts.IPC_DEFAULT_PWD, device.getNo(),
-									device.getGid(), true, 1, true, 6, null,
-									false);
+						// if (Consts.CHANNEL_JY == channel.getIndex()) {
+						// Jni.connect(Consts.CHANNEL_JY, 0,
+						// Consts.IPC_DEFAULT_IP,
+						// Consts.IPC_DEFAULT_PORT,
+						// Consts.IPC_DEFAULT_USER,
+						// Consts.IPC_DEFAULT_PWD, device.getNo(),
+						// device.getGid(), true, 1, true, 6, null,
+						// false);
+						// } else {
+
+						if (null != ssid
+								&& channel.getParent().getFullNo()
+										.equalsIgnoreCase(ssid)) {
+							// IP直连
+							MyLog.v(TAG,
+									device.getNo() + "--AP--直连接："
+											+ device.getIp());
+							Jni.connect(channel.getIndex(),
+									channel.getChannel(), device.getIp(),
+									device.getPort(), device.getUser(),
+									device.getPwd(), -1, device.getGid(), true,
+									1, true, (device.isHomeProduct() ? 6 : 6),
+									channel.getSurfaceView().getHolder()
+											.getSurface(), isOmx);
 						} else {
 							if ("".equalsIgnoreCase(device.getIp())
 									|| 0 == device.getPort()) {
@@ -867,8 +883,9 @@ public class PlayUtil {
 												.getHolder().getSurface(),
 										isOmx);
 							}
-
 						}
+
+						// }
 					}
 				}
 			}

@@ -126,6 +126,7 @@ public class Consts {
 	public static final int WHAT_DUMMY = 0x04;
 
 	public static final String IPC_FLAG = "IPC-";
+	public static final String IPC_TAG = "IPC-";
 	public static final String IPC_DEFAULT_USER = "jwifiApuser";
 	public static final String IPC_DEFAULT_PWD = "^!^@#&1a**U";
 	public static final String IPC_DEFAULT_IP = "10.10.0.1";

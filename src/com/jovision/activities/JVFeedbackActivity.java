@@ -26,8 +26,8 @@ public class JVFeedbackActivity extends BaseActivity {
 	private Button commit; // 提交按钮
 	private EditText content; // 意见反馈内容
 	private TextView wordsNum; // 文字数量统计
-//	private GetPhoneNumber phone;//验证手机号码
-	
+	// private GetPhoneNumber phone;//验证手机号码
+
 	private EditText connection; // 意见反馈联系方式
 	private int number = 256;
 

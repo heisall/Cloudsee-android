@@ -95,10 +95,10 @@ public class JVChannelsActivity extends BaseActivity {
 		/** top bar */
 		relative = (RelativeLayout) findViewById(R.id.relative);
 		device_num = (TextView) findViewById(R.id.device_num);
-		devmore_hide = (RelativeLayout) findViewById(R.id.devmore_hide);
 		devicemanage_listView = (ListView) findViewById(R.id.devicemanage_listView);
 		linear = (LinearLayout) findViewById(R.id.linear);
 		devmore = (RelativeLayout) findViewById(R.id.devmorerelative);
+		devmore_hide = (RelativeLayout) findViewById(R.id.devmore_hide);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.channal_list);
@@ -134,6 +134,13 @@ public class JVChannelsActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		for (int i = 0; i < deviceList.size(); i++) {
+			if (deviceIndex == i) {
+				deviceList.get(i).setIsselect(true);
+			} else {
+				deviceList.get(i).setIsselect(false);
+			}
+		}
 	}
 
 	private void initViewPager() {
@@ -191,6 +198,14 @@ public class JVChannelsActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				for (int i = 0; i < deviceList.size(); i++) {
+					if (i == position) {
+						deviceList.get(i).setIsselect(true);
+					} else {
+						deviceList.get(i).setIsselect(false);
+					}
+				}
+				adapter.notifyDataSetChanged();
 				deviceIndex = position;
 				channelPager.setCurrentItem(position);
 				((ChannelFragment) fragments.get(position)).deviceIndex = deviceIndex;

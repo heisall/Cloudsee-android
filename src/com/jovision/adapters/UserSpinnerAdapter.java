@@ -77,13 +77,11 @@ public class UserSpinnerAdapter extends BaseAdapter {
 		holder.textView.setText(info.getUserName());
 
 		if (info.getUserName().equalsIgnoreCase(userName)) {
-			holder.userIcon.setImageDrawable(activity.getResources()
-					.getDrawable(R.drawable.user_icon_2));
+			holder.userIcon.setVisibility(View.VISIBLE);
 			holder.textView.setTextColor(activity.getResources().getColor(
 					R.color.userinfocolor2));
 		} else {
-			holder.userIcon.setImageDrawable(activity.getResources()
-					.getDrawable(R.drawable.user_icon));
+			holder.userIcon.setVisibility(View.GONE);
 			holder.textView.setTextColor(activity.getResources().getColor(
 					R.color.userinfocolor));
 		}

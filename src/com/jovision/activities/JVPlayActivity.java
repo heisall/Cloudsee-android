@@ -158,7 +158,7 @@ public class JVPlayActivity extends PlayActivity implements
 							);
 					sBuilder.append(msg).append("\n");
 					isOmx = object.getBoolean("is_omx");
-					manager.getChannel(arg2).setOMX(isOmx);
+					// manager.getChannel(arg2).setOMX(isOmx);
 
 					// MyLog.v("ChannelTag--IFrame=isOmx", "isOmx=" + isOmx);
 					//
@@ -200,7 +200,8 @@ public class JVPlayActivity extends PlayActivity implements
 			manager.getChannel(arg1).setConnecting(false);
 			manager.getChannel(arg1).setConnected(true);
 
-			MyLog.v("ChannelTag--IFrame=arg2", "arg2=" + arg2);
+			MyLog.v("ChannelTag--IFrame=arg2", "arg2=" + arg2 + ",isomx="
+					+ manager.getChannel(arg1).isOMX());
 
 			if (!manager.getChannel(arg1).isOMX() && arg2 == Consts.DECODE_SOFT) {
 				// TODO
@@ -210,6 +211,7 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 			}
+			dismissDialog();
 
 			if (Consts.DECODE_OMX == arg2) {
 				manager.getChannel(arg1).setOMX(true);
@@ -1294,7 +1296,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.decodeway: {// 软硬解切换
 				if (allowThisFuc(false)) {
 					Channel channel = manager.getChannel(currentIndex);
-
+					createDialog("");
 					if (channel.isOMX()) {
 						Jni.setOmx(currentIndex, false);
 					} else {
@@ -1999,4 +2001,46 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
+	// @Override
+	// public void onGesture(int direction) {
+	// if (JVSUDT.PLAY_FLAG == 0
+	// && config.orientation == Configuration.ORIENTATION_LANDSCAPE
+	// && BaseApp.SCREEN == BaseApp.SINGLE_SCREEN) {// 正常播放,横屏,单屏
+	// JVSChannel cn = getChannel(getChannelMapKey());
+	// if (null == cn) {
+	// return;
+	// }
+	// int c = 0;
+	// // [Neo] TODO 不论时候什么，只要在 Surface 上手势，都会判断出来并汇报到这里
+	// switch (direction) {
+	// case GLFrameSurface.GESTURE_TO_LEFT:
+	// System.out.println("gesture: left");
+	// c = JVNetConst.JVN_YTCTRL_L;
+	// sendCmd(cn, c);
+	// break;
+	//
+	// case GLFrameSurface.GESTURE_TO_UP:
+	// System.out.println("gesture: up");
+	// c = JVNetConst.JVN_YTCTRL_U;
+	// sendCmd(cn, c);
+	// break;
+	//
+	// case GLFrameSurface.GESTURE_TO_RIGHT:
+	// System.out.println("gesture: right");
+	// c = JVNetConst.JVN_YTCTRL_R;
+	// sendCmd(cn, c);
+	// break;
+	//
+	// case GLFrameSurface.GESTURE_TO_DOWN:
+	// System.out.println("gesture: down");
+	// c = JVNetConst.JVN_YTCTRL_D;
+	// sendCmd(cn, c);
+	// break;
+	//
+	// default:
+	// break;
+	//
+	// }
+	// }
+	// }
 }

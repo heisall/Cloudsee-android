@@ -5,14 +5,14 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.jovision.activities.JVOffLineDialogActivity;
-import com.jovision.utils.DefaultExceptionHandler;
 
 public class MainService extends Service implements IHandlerLikeNotify {
 
 	@Override
 	public void onCreate() {
-		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(
-				MainService.this));
+		// Thread.setDefaultUncaughtExceptionHandler(new
+		// DefaultExceptionHandler(
+		// MainService.this));
 		super.onCreate();
 	}
 

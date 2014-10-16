@@ -11,12 +11,12 @@ import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.text.format.DateFormat;
-import android.widget.Toast;
 
 import com.jovision.Consts;
-import com.jovision.MainService;
+import com.jovision.activities.JVOffLineDialogActivity;
 
 public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 
@@ -30,18 +30,30 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 	public void uncaughtException(Thread thread, Throwable ex) {
 
 		// 收集异常信息 并且发送到服务器
-
-		String error = sendCrashReport(ex);
-
-		// 等待半秒
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		// String error = sendCrashReport(ex);
+		//
+		// // 等待半秒
+		// try {
+		// Thread.sleep(500);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
 
 		// 处理异常
-		handleException(error);
+		// handleException(error);
+
+		// System.out.println("CaughtException: " + ex.toString());
+		// Intent intent = new Intent(context, JVWelcomeActivity.class);
+		// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		// context.startActivity(intent);
+
+		Intent intent = new Intent(context, JVOffLineDialogActivity.class);
+		intent.putExtra("ErrorCode", Consts.APP_CRASH);
+		intent.putExtra("ErrorMsg", ex.toString());
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
+
+		android.os.Process.killProcess(android.os.Process.myPid());
 
 	}
 
@@ -81,8 +93,13 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 	}
 
 	private void handleException(String error) {
-		Toast.makeText(context, "程序崩溃了！", Toast.LENGTH_LONG).show();
-		((MainService) context).onNotify(Consts.APP_CRASH, 0, 0, error);
+		// ((MainService) act).onNotify(Consts.APP_CRASH, 0, 0, error);
+		Intent intent = new Intent(context, JVOffLineDialogActivity.class);
+		intent.putExtra("ErrorCode", Consts.APP_CRASH);
+		intent.putExtra("ErrorMsg", error);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
+
 		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 

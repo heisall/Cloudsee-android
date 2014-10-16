@@ -17,6 +17,7 @@ import android.text.format.DateFormat;
 
 import com.jovision.Consts;
 import com.jovision.activities.JVOffLineDialogActivity;
+import com.jovision.activities.JVWelcomeActivity;
 
 public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 
@@ -30,18 +31,24 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 	public void uncaughtException(Thread thread, Throwable ex) {
 
 		// 收集异常信息 并且发送到服务器
-
-		String error = sendCrashReport(ex);
-
-		// 等待半秒
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		// String error = sendCrashReport(ex);
+		//
+		// // 等待半秒
+		// try {
+		// Thread.sleep(500);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
 
 		// 处理异常
-		handleException(error);
+		// handleException(error);
+
+		System.out.println("CaughtException: " + ex.toString());
+		Intent intent = new Intent(context, JVWelcomeActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
+
+		android.os.Process.killProcess(android.os.Process.myPid());
 
 	}
 

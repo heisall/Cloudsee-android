@@ -10,23 +10,21 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 
-import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
 import com.jovision.Consts;
-import com.jovision.MainService;
+import com.jovision.activities.JVOffLineDialogActivity;
 
 public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 
-	private Context act = null;
-	AlertDialog alert;
-	AlertDialog alert1;
+	private Context context = null;
 
 	public DefaultExceptionHandler(Context act) {
-		this.act = act;
+		this.context = act;
 	}
 
 	@Override

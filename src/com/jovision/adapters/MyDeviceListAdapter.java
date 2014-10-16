@@ -132,11 +132,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.wifi_online_img_r);
 			deviceHolder.devImgR = (ImageView) convertView
 					.findViewById(R.id.dev_image_r);
-			deviceHolder.devDeleteR = (ImageView) convertView
+			deviceHolder.devDeleteR = (LinearLayout) convertView
 					.findViewById(R.id.mydevice_cancle_r);
 			deviceHolder.editDevR = (RelativeLayout) convertView
 					.findViewById(R.id.dev_edit_r);
-			deviceHolder.editDevIVR = (ImageView) convertView
+			deviceHolder.editDevIVR = (LinearLayout) convertView
 					.findViewById(R.id.mydevice_edit_r);
 
 			convertView.setTag(deviceHolder);
@@ -338,9 +338,9 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		TextView onLineStateR;
 		TextView wifiStateR;
 		ImageView devImgR;
-		ImageView devDeleteR;
+		LinearLayout devDeleteR;
 		RelativeLayout editDevR;
-		ImageView editDevIVR;
+		LinearLayout editDevIVR;
 
 		ImageView dev_online_img_l;
 		ImageView dev_wifi_img_l;

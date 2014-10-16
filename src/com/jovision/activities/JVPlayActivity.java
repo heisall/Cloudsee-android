@@ -1308,8 +1308,6 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			}
 			case R.id.bottom_but6:
-
-				break;
 			case R.id.overturn: {// 视频翻转
 				if (allowThisFuc(false)) {
 					Channel channel = manager.getChannel(currentIndex);

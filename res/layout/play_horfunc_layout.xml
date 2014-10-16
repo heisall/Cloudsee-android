@@ -2,12 +2,52 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/transparent"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/top_bartwo"
-        layout="@layout/top_bar_layout"
-        android:visibility="visible" />
+    <RelativeLayout
+        android:id="@+id/topbarh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/halftransparent"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:background="@drawable/videoedit_back_icon" />
+
+        <TextView
+            android:id="@+id/currentmenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/str_video_play"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/selectscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/currentmenu"
+            android:src="@drawable/screen_down_icon"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:background="@drawable/tab_2" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/bottom"

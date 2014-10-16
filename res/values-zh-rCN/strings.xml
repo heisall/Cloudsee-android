@@ -422,6 +422,7 @@
     <string name="sure_exit"> 再按一次退出程序</string>
     <string name="network_error">网络连接不可用,是否进行设置?</string>
     <string name="tips_3g">目前处于2G/3G网络，观看视频会产生大量流量费用（由运营商收取），建议使用Wi-Fi网络.</string>
+    <string name="waiting">请稍等...</string>
 
     <!-- 2.3系统视频播放提示 -->
     <string name="system_lower">您的手机系统是Android$,视频播放时有可能出现花屏，为达到最佳播放效果，建议下载2.8.5版本，是否立即下载?</string>

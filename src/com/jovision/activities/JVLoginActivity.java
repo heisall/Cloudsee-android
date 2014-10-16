@@ -267,6 +267,8 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case R.id.onlinelogin_btn:// 在线登陆
+				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
+				userNameET = null;
 				if ("".equalsIgnoreCase(userNameET.getText().toString())) {
 					showTextToast(R.string.login_str_username_notnull);
 				} else if ("".equalsIgnoreCase(passwordET.getText().toString())) {
@@ -300,6 +302,7 @@ public class JVLoginActivity extends BaseActivity {
 				// JVLoginActivity.this.startActivity(intent);
 				break;
 			case R.id.locallogin_btn:// 本地登录
+				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				Intent intentMain = new Intent(JVLoginActivity.this,
 						JVTabActivity.class);
 				statusHashMap.put(Consts.LOCAL_LOGIN, "true");

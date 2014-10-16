@@ -7,7 +7,7 @@
     <color name="white">#FFFFFF</color>
     <!-- 白色 -->
     <color name="transparent">#00000000</color>
-    <color name="halftransparent">#D5000000</color>
+    <color name="halftransparent">#90000000</color>
 
     <!-- 设备的背景色 -->
     <color name="device_color_1">#378FE6</color>

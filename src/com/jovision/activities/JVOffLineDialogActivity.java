@@ -1,16 +1,21 @@
 package com.jovision.activities;
 
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,8 +24,11 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
+import com.jovision.utils.mails.MailSenderInfo;
+import com.jovision.utils.mails.SimpleMailSender;
 
 public class JVOffLineDialogActivity extends BaseActivity {
 
@@ -40,7 +48,13 @@ public class JVOffLineDialogActivity extends BaseActivity {
 	private LinearLayout offlineLayout;
 	private Button sure;
 
+	/** 崩溃日志发送 */
+	private LinearLayout exceptionLayout;
+	private Button send;
+	private Button cancel;
+
 	private int errorCode = 0;
+	private String errorMsg = "";// 崩溃日志
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -65,6 +79,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		errorCode = getIntent().getIntExtra("ErrorCode", 0);
+		errorMsg = getIntent().getStringExtra("ErrorMsg");
 	}
 
 	@Override
@@ -86,6 +101,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		if (errorCode == JVAccountConst.MESSAGE_OFFLINE) {// 提掉线
 			otherLoginLayout.setVisibility(View.VISIBLE);
 			offlineLayout.setVisibility(View.GONE);
+			exceptionLayout.setVisibility(View.GONE);
 			lastSeconds = COUNTS;
 			offlineTimer = new Timer();
 			TimerTask offlineTask = new TimerTask() {
@@ -104,10 +120,22 @@ public class JVOffLineDialogActivity extends BaseActivity {
 
 			};
 			offlineTimer.schedule(offlineTask, 1 * 1000, 1 * 1000);
+		} else if (errorCode == Consts.APP_CRASH) {// 程序崩溃
+			otherLoginLayout.setVisibility(View.GONE);
+			offlineLayout.setVisibility(View.GONE);
+			exceptionLayout.setVisibility(View.VISIBLE);
 		} else {
 			otherLoginLayout.setVisibility(View.GONE);
 			offlineLayout.setVisibility(View.VISIBLE);
+			exceptionLayout.setVisibility(View.GONE);
 		}
+
+		/** 程序崩溃 */
+		exceptionLayout = (LinearLayout) findViewById(R.id.exception_layout);
+		send = (Button) findViewById(R.id.send);
+		cancel = (Button) findViewById(R.id.cancel);
+		sure.setOnClickListener(mOnClickListener);
+		cancel.setOnClickListener(mOnClickListener);
 
 	}
 
@@ -126,6 +154,73 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			case R.id.exit:
 			case R.id.sure: {
 				reLogin();
+				break;
+			}
+			case R.id.send: {
+				try {
+					AlertDialog alert1;
+					Calendar rightNow = Calendar.getInstance();
+					String str = rightNow.get(Calendar.YEAR)
+							+ "_"
+							+ (rightNow.get(Calendar.MONTH) + 1 + "_" + rightNow
+									.get(Calendar.DATE));
+					MailSenderInfo mailInfo = new MailSenderInfo();
+					mailInfo.setMailServerHost("smtp.qq.com");
+					mailInfo.setMailServerPort("25");
+					mailInfo.setValidate(true);
+					mailInfo.setUserName("741376209@qq.com"); // 你的邮箱地址
+					mailInfo.setPassword("mfq_zsw");// 您的邮箱密码
+					mailInfo.setFromAddress("741376209@qq.com");
+					mailInfo.setToAddress("jovision1203@163.com");// jovetech1203**
+					// mailInfo.setToAddress("jy0329@163.com");
+					mailInfo.setSubject("[BUG]["
+							+ JVOffLineDialogActivity.this.getResources()
+									.getString(R.string.app_name)
+							+ "]"
+							+ JVOffLineDialogActivity.this.getResources()
+									.getString(R.string.str_current_version));
+					mailInfo.setContent("[" + str + "]" + errorMsg);
+
+					// 这个类主要来发送邮件
+					SimpleMailSender sms = new SimpleMailSender();
+					boolean flag = sms.sendTextMail(mailInfo);// 发送文体格式
+					// sms.sendHtmlMail(mailInfo);//发送html格式
+					if (flag) {
+						AlertDialog.Builder builder1 = new Builder(
+								JVOffLineDialogActivity.this
+										.getApplicationContext());
+						builder1.setTitle(JVOffLineDialogActivity.this
+								.getResources().getString(R.string.tips));
+						builder1.setMessage(R.string.str_send_success);
+						builder1.setPositiveButton(R.string.login_str_close,
+								new DialogInterface.OnClickListener() {
+
+									public void onClick(DialogInterface dialog,
+											int which) {
+										System.exit(0);
+										android.os.Process
+												.killProcess(android.os.Process
+														.myPid());
+									}
+								});
+						alert1 = builder1.create();
+						alert1.getWindow().setType(
+								WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+						alert1.setCancelable(false);
+						alert1.show();
+					} else {
+						System.exit(0);
+						android.os.Process.killProcess(android.os.Process
+								.myPid());
+					}
+				} catch (Exception e) {
+					MyLog.e("SendMail", e.getMessage());
+				}
+				break;
+			}
+			case R.id.cancel: {
+				System.exit(0);
+				android.os.Process.killProcess(android.os.Process.myPid());
 				break;
 			}
 			}

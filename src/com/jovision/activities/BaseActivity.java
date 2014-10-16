@@ -156,6 +156,10 @@ public abstract class BaseActivity extends FragmentActivity implements
 	 * @param msg
 	 */
 	public void createDialog(String msg) {
+
+		if (null == msg || "".equalsIgnoreCase(msg)) {
+			msg = getResources().getString(R.string.waiting);
+		}
 		try {
 			if (null != BaseActivity.this && !BaseActivity.this.isFinishing()) {
 				if (null == proDialog) {
@@ -386,6 +390,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 					Toast.LENGTH_SHORT).show();
 			exitTime = System.currentTimeMillis();
 		} else {
+			statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 			statusHashMap.put(Consts.KEY_LAST_LOGIN_TIME,
 					ConfigUtil.getCurrentTime());
 			MyActivityManager.getActivityManager()

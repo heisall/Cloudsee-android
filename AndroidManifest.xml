@@ -189,7 +189,7 @@
         </activity>
         <activity
             android:name="com.jovision.activities.JVRemoteListActivity"
-            android:launchMode="standard"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" >
         </activity>
@@ -197,7 +197,7 @@
             android:name="com.jovision.activities.JVRemotePlayBackActivity"
             android:configChanges="orientation|keyboardHidden"
             android:hardwareAccelerated="true"
-            android:launchMode="standard"
+            android:launchMode="singleTop"
             android:screenOrientation="sensor"
             android:windowSoftInputMode="adjustNothing" >
         </activity>

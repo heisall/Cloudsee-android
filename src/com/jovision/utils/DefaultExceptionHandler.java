@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Environment;
 import android.text.format.DateFormat;
+import android.widget.Toast;
 
 import com.jovision.Consts;
 import com.jovision.MainService;
@@ -83,6 +84,7 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 	}
 
 	private void handleException(String error) {
+		Toast.makeText(act, "程序崩溃了！", Toast.LENGTH_LONG).show();
 		((MainService) act).onNotify(Consts.APP_CRASH, 0, 0, error);
 	}
 

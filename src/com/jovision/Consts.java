@@ -117,6 +117,7 @@ public class Consts {
 	public static final int BAD_STATUS_AUDIO = 0x04;
 	public static final int BAD_STATUS_DECODE = 0x05;
 	public static final int PLAYBACK_DONE = 0x06;
+	public static final int HDEC_BUFFERING = 0x07;
 
 	public static final int BAD_SCREENSHOT_NOOP = 0x00;//
 	public static final int BAD_SCREENSHOT_INIT = 0x01;//

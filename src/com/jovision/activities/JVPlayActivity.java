@@ -1782,7 +1782,7 @@ public class JVPlayActivity extends PlayActivity implements
 			right_btn_h.setVisibility(View.GONE);
 			videTurnBtn.setVisibility(View.GONE);
 		}
-		
+
 		if (oneScreen != currentScreen) {
 			computeScreenData(currentScreen, oneScreen);
 		}

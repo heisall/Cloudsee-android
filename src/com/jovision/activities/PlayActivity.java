@@ -514,18 +514,18 @@ public abstract class PlayActivity extends BaseActivity {
 			right_btn_h.setVisibility(View.GONE);
 		}
 
-		try{
+		try {
 			// 屏幕方向
 			if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
 				videTurnBtn.setVisibility(View.VISIBLE);
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turn_left_selector));
 				bottombut6.setVisibility(View.VISIBLE);
-				if(null != linear){
+				if (null != linear) {
 					linear.removeViewAt(linear.getChildCount());
 					linear.addView(relative6, 6);
-					bottombut6.setBackgroundDrawable(getResources().getDrawable(
-							R.drawable.turn_left_selector));
+					bottombut6.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.turn_left_selector));
 					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 						bottombut6.setVisibility(View.VISIBLE);
 						linear.removeViewAt(linear.getChildCount());
@@ -538,8 +538,7 @@ public abstract class PlayActivity extends BaseActivity {
 						videTurnBtn.setVisibility(View.VISIBLE);
 					}
 				}
-				
-				
+
 			} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
 				videTurnBtn.setVisibility(View.VISIBLE);
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
@@ -574,10 +573,10 @@ public abstract class PlayActivity extends BaseActivity {
 				moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
 				bottomStream.setText(streamArray[channel.getStreamTag() - 1]);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	/**

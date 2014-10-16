@@ -267,6 +267,7 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case R.id.onlinelogin_btn:// 在线登陆
+
 				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				// userNameET = null;
 				if ("".equalsIgnoreCase(userNameET.getText().toString())) {

@@ -11,13 +11,12 @@ import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Environment;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
 import com.jovision.Consts;
-import com.jovision.activities.JVOffLineDialogActivity;
+import com.jovision.MainService;
 
 public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 
@@ -82,8 +81,9 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 	}
 
 	private void handleException(String error) {
-		Toast.makeText(act, "程序崩溃了！", Toast.LENGTH_LONG).show();
-		((MainService) act).onNotify(Consts.APP_CRASH, 0, 0, error);
+		Toast.makeText(context, "程序崩溃了！", Toast.LENGTH_LONG).show();
+		((MainService) context).onNotify(Consts.APP_CRASH, 0, 0, error);
+		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 
 	// 写入Log信息的方法，写入到SD卡里面

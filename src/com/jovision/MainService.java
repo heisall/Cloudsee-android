@@ -28,7 +28,6 @@ public class MainService extends Service implements IHandlerLikeNotify {
 
 	@Override
 	public IBinder onBind(Intent arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

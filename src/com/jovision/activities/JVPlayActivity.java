@@ -1011,23 +1011,25 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
-			stopAll(currentIndex, manager.getChannel(currentIndex));
-			if (arg0 - currentPage > 0) {// 向左滑
-				resetFunc();
-				currentPage = arg0;
-				currentWindow = 0;
-				currentIndex = currentPage * currentScreen + currentWindow;
-				connectAll(currentPage);
-			} else if (arg0 - currentPage < 0) {// 向右滑
-				resetFunc();
-				currentPage = arg0;
-				currentWindow = 0;
-				currentIndex = currentPage * currentScreen + currentWindow;
-				connectAll(currentPage);
-			}
+			if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
+				stopAll(currentIndex, manager.getChannel(currentIndex));
+				if (arg0 - currentPage > 0) {// 向左滑
+					resetFunc();
+					currentPage = arg0;
+					currentWindow = 0;
+					currentIndex = currentPage * currentScreen + currentWindow;
+					connectAll(currentPage);
+				} else if (arg0 - currentPage < 0) {// 向右滑
+					resetFunc();
+					currentPage = arg0;
+					currentWindow = 0;
+					currentIndex = currentPage * currentScreen + currentWindow;
+					connectAll(currentPage);
+				}
 
-			MyLog.v(TAG, "onPageScrolled-----currentPage=" + currentPage
-					+ "---;currentIndex=" + currentIndex);
+				MyLog.v(TAG, "onPageScrolled-----currentPage=" + currentPage
+						+ "---;currentIndex=" + currentIndex);
+			}
 		}
 
 		@Override
@@ -1781,6 +1783,10 @@ public class JVPlayActivity extends PlayActivity implements
 			videTurnBtn.setVisibility(View.GONE);
 		}
 
+		if (oneScreen != currentScreen) {
+			computeScreenData(currentScreen, oneScreen);
+		}
+
 	}
 
 	@Override
@@ -1904,17 +1910,20 @@ public class JVPlayActivity extends PlayActivity implements
 
 		} else {// OPenglFrame
 			if (hasCheckDoubleClick && lastClickIndex == channel.getIndex()) {// 双击
-				if (Consts.PLAY_AP != playFlag) {
-					if (isSwitching) {
-						MyLog.e(TAG, "JVPlay.onClick.double: "
-								+ "switching, ignore");
-						return;
+				if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏)
+																						// {
+					if (Consts.PLAY_AP != playFlag) {
+						if (isSwitching) {
+							MyLog.e(TAG, "JVPlay.onClick.double: "
+									+ "switching, ignore");
+							return;
+						}
+						isSwitching = true;
+						hasCheckDoubleClick = false;
+						handler.sendMessage(handler.obtainMessage(
+								JVConst.WHAT_CHANGE_LAYOUT,
+								JVConst.ARG1_SET_ITEM, channel.getIndex()));
 					}
-					isSwitching = true;
-					hasCheckDoubleClick = false;
-					handler.sendMessage(handler.obtainMessage(
-							JVConst.WHAT_CHANGE_LAYOUT, JVConst.ARG1_SET_ITEM,
-							channel.getIndex()));
 				}
 			} else {// 单击
 				if (null != mLastPlayView

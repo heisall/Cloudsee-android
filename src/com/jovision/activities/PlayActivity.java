@@ -418,14 +418,17 @@ public abstract class PlayActivity extends BaseActivity {
 		VOICECALLING = false;// 对讲功能已经开启
 
 		decodeBtn.setVisibility(View.GONE);// 软硬解
-		bottombut2.setVisibility(View.GONE);
-		linear.removeView(relative2);
-		linear.addView(relative2, linear.getChildCount());
-
+		if (relative2.getVisibility() == 0) {
+			linear.removeView(relative2);
+			linear.addView(relative2, linear.getChildCount());
+			bottombut2.setVisibility(View.GONE);
+		}
 		videTurnBtn.setVisibility(View.GONE);// 视频翻转
-		bottombut6.setVisibility(View.GONE);
-		linear.removeView(relative6);
-		linear.addView(relative6, linear.getChildCount());
+		if (relative6.getVisibility() == 0) {
+			linear.removeView(relative6);
+			linear.addView(relative6, linear.getChildCount());
+			bottombut6.setVisibility(View.GONE);
+		}
 
 		rightFuncButton.setVisibility(View.GONE);// 录像模式
 		right_btn_h.setVisibility(View.GONE);// 录像模式
@@ -455,9 +458,12 @@ public abstract class PlayActivity extends BaseActivity {
 			bottombut2.setVisibility(View.VISIBLE);
 			decodeBtn.setVisibility(View.GONE);
 		} else {
-			bottombut2.setVisibility(View.GONE);
-			linear.removeView(relative2);
-			linear.addView(relative2, linear.getChildCount());
+
+			if (relative2.getVisibility() == 0) {
+				linear.removeView(relative2);
+				linear.addView(relative2, linear.getChildCount());
+				bottombut2.setVisibility(View.GONE);
+			}
 			decodeBtn.setVisibility(View.VISIBLE);
 		}
 
@@ -520,34 +526,21 @@ public abstract class PlayActivity extends BaseActivity {
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_left_selector));
 			bottombut6.setVisibility(View.VISIBLE);
-			linear.removeViewAt(linear.getChildCount());
-			linear.addView(relative6, 6);
-			bottombut6.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turn_left_selector));
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-				bottombut6.setVisibility(View.VISIBLE);
-				linear.removeViewAt(linear.getChildCount());
-				linear.addView(relative6, 6);
-				videTurnBtn.setVisibility(View.GONE);
-			} else {
-				bottombut6.setVisibility(View.GONE);
+			videTurnBtn.setVisibility(View.GONE);
+		} else {
+			if (relative6.getVisibility() == 0) {
 				linear.removeView(relative6);
 				linear.addView(relative6, linear.getChildCount());
-				videTurnBtn.setVisibility(View.VISIBLE);
+				bottombut6.setVisibility(View.GONE);
 			}
-		} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
 			videTurnBtn.setVisibility(View.VISIBLE);
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_right_selector));
 			bottombut6.setVisibility(View.VISIBLE);
-			linear.removeViewAt(linear.getChildCount());
-			linear.addView(relative6, 6);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_right_selector));
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 				bottombut6.setVisibility(View.VISIBLE);
-				linear.removeViewAt(linear.getChildCount());
-				linear.addView(relative6, 6);
 				videTurnBtn.setVisibility(View.GONE);
 			} else {
 				bottombut6.setVisibility(View.GONE);
@@ -555,19 +548,6 @@ public abstract class PlayActivity extends BaseActivity {
 				linear.addView(relative6, linear.getChildCount());
 				videTurnBtn.setVisibility(View.VISIBLE);
 			}
-		} else {
-			videTurnBtn.setVisibility(View.GONE);
-			bottombut6.setVisibility(View.GONE);
-			linear.removeView(relative6);
-			linear.addView(relative6, linear.getChildCount());
-		}
-
-		// 码流设置
-		if (-1 != channel.getStreamTag()) {
-			streamAdapter.selectStream = channel.getStreamTag() - 1;
-			streamAdapter.notifyDataSetChanged();
-			moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
-			bottomStream.setText(streamArray[channel.getStreamTag() - 1]);
 		}
 	}
 

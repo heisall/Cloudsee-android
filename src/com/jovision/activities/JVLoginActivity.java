@@ -44,6 +44,7 @@ public class JVLoginActivity extends BaseActivity {
 	private final String TAG = "JVLoginActivity";
 	private static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
 	public static final int DELECT_USER = 0x02;// 删除用户
+	public static final int SELECT_USER = 0x03;// 选择用户
 	private String userName = "";
 	private String passWord = "";
 
@@ -82,7 +83,15 @@ public class JVLoginActivity extends BaseActivity {
 			passwordET.setText("");
 			UserUtil.deleteUser(arg1);
 			break;
+		case SELECT_USER:
+			userNameET.setText(((User) obj).getUserName());
+			passwordET.setText(((User) obj).getUserPwd());
+			pop.dismiss();
+			userAdapter.setName(obj.toString());
+			userAdapter.notifyDataSetChanged();
+			break;
 		}
+
 	}
 
 	@Override
@@ -148,8 +157,9 @@ public class JVLoginActivity extends BaseActivity {
 				if (pop == null) {
 					if (null != userList && 0 != userList.size()) {
 						userAdapter = new UserSpinnerAdapter(
-								JVLoginActivity.this, "");
+								JVLoginActivity.this);
 						userAdapter.setData(userList);
+						userAdapter.setName(userNameET.getText().toString());
 						userListView = new ListView(JVLoginActivity.this);
 						userListView.setDivider(null);
 						pop = new PopupWindow(userListView, userNameLayout
@@ -223,18 +233,8 @@ public class JVLoginActivity extends BaseActivity {
 		public void onItemClick(AdapterView<?> adapterView, View view,
 				int index, long arg3) {
 			userListIndex = index;
-			userNameET.setText(userList.get(index).getUserName());
-			passwordET.setText(userList.get(index).getUserPwd());
-			if (pop.isShowing()) {
-				pop.dismiss();
-			}
-
-			View deleUserIV = adapterView.getChildAt(index).findViewById(
-					R.id.otheruser_del);
-			deleUserIV.setOnClickListener(myOnClickListener);
-
+			onNotify(SELECT_USER, index, 0, userList.get(index));
 		}
-
 	};
 
 	/**

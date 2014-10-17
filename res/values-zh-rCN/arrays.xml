@@ -27,6 +27,7 @@
         <item>二维码扫描</item>
         <item>无线设备</item>
         <item>局域网设备</item>
+        <item>IP/域名设备</item>
     </string-array>
 
     <!-- 家庭安防产品 -->

@@ -15,10 +15,10 @@
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="#eeeeee"
+            android:background="@color/more_fragment_color4"
             android:gravity="center"
             android:text="name"
-            android:textColor="#666666"
+            android:textColor="@color/more_fragment_color2"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -77,7 +77,7 @@
                 android:background="@drawable/dialog_cancel"
                 android:gravity="center"
                 android:text="@string/save"
-                android:textColor="#404040"
+                android:textColor="@color/dialogchannal"
                 android:textSize="13sp" />
 
             <TextView
@@ -88,7 +88,7 @@
                 android:background="@drawable/dialog_cancel"
                 android:gravity="center"
                 android:text="@string/cancle"
-                android:textColor="#404040"
+                android:textColor="@color/dialogchannal"
                 android:textSize="13sp" />
         </LinearLayout>
     </RelativeLayout>

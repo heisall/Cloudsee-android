@@ -250,6 +250,7 @@
     <string name="str_reset">正在重置</string>
     <!-- 修改密码 -->
     <string name="login_str_ipaddress">IP</string>
+    <string name="login_str_ipaddressdevice">IP/域名</string>
     <string name="login_str_port">端    口</string>
     <string name="login_str_user_name">用户名</string>
     <string name="str_pass">密    码</string>
@@ -283,6 +284,7 @@
     <string name="pull_to_refresh_refreshing_label">加载中...</string>
     <string name="pull_to_refresh_repeat_label">刷新频繁，请稍后再试</string>
     <string name="pull_to_refresh_tap_label">单击可以刷新</string>
+    <string name="pull_from_time">更新于：</string>
     <string name="str_data_load_success">设备加载成功</string>
     <string name="str_data_load_nodevice">您还没有添加过设备</string>
     <string name="str_data_load_failed">设备加载失败</string>

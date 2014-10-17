@@ -19,7 +19,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text=""
-            android:textColor="#55A0FF"
+            android:textColor="@color/dialogchannaltext"
             android:textSize="24sp" />
 
         <LinearLayout
@@ -153,36 +153,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/middle"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="35dp"
-            android:paddingBottom="15dp" >
-
-            <TextView
-                android:id="@+id/dialog_img_completed"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:background="@drawable/dialog_cancel"
-                android:gravity="center"
-                android:text="保存"
-                android:textColor="#404040"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/dialog_img_cancel"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="50dp"
-                android:background="@drawable/dialog_cancel"
-                android:gravity="center"
-                android:text="取消"
-                android:textColor="#404040"
-                android:textSize="13sp" />
-        </LinearLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -204,7 +174,7 @@
                     android:background="@drawable/blue_bg"
                     android:gravity="center"
                     android:text="@string/save"
-                    android:textColor="#D2E7ED"
+                    android:textColor="@color/dialogchannal"
                     android:textSize="16sp" />
 
                 <TextView
@@ -215,7 +185,7 @@
                     android:background="@drawable/blue_bg"
                     android:gravity="center"
                     android:text="@string/cancle"
-                    android:textColor="#D2E7ED"
+                    android:textColor="@color/dialogchannal"
                     android:textSize="16sp" />
             </LinearLayout>
         </RelativeLayout>

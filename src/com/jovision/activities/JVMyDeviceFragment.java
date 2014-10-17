@@ -121,6 +121,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 			R.drawable.mydevice_popwindowonse_icon,
 			R.drawable.mydevice_popwindowtwo_icon,
 			R.drawable.mydevice_popwindowthree_icon,
+			R.drawable.mydevice_popwindowfour_icon, };
+	private int[] popDrawarrayno = new int[] {
+			R.drawable.mydevice_popwindowonse_icon,
+			R.drawable.mydevice_popwindowtwo_icon,
+			R.drawable.mydevice_popwindowthree_icon,
+			R.drawable.mydevice_popwindowfour_icon,
 			R.drawable.mydevice_popwindowfour_icon };
 
 	@Override
@@ -136,9 +142,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
-
-		popFunArray = mActivity.getResources()
-				.getStringArray(R.array.array_pop);
+		localFlag = Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+				.get(Consts.LOCAL_LOGIN));
+		if (!localFlag) {
+			popFunArray = mActivity.getResources().getStringArray(
+					R.array.array_popno);
+		} else {
+			popFunArray = mActivity.getResources().getStringArray(
+					R.array.array_pop);
+		}
 		currentMenu.setText(mActivity.getResources().getString(
 				R.string.my_device));
 		currentMenu.setText(R.string.my_device);
@@ -274,8 +286,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 		View v = LayoutInflater.from(mActivity).inflate(R.layout.popview, null); // 将布局转化为view
 		popListView = (ListView) v.findViewById(R.id.popwindowlist);
 		popWindowAdapter = new PopWindowAdapter(JVMyDeviceFragment.this);
-		popWindowAdapter.setData(popFunArray, popDrawarray);
+		if (!localFlag) {
+			popWindowAdapter.setData(popFunArray, popDrawarray);
+		} else {
+			popWindowAdapter.setData(popFunArray, popDrawarrayno);
+		}
 		popListView.setAdapter(popWindowAdapter);
+
 		if (popupWindow == null) {
 			/**
 			 * public PopupWindow (View contentView, int width, int height)
@@ -332,6 +349,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 						((BaseActivity) mActivity)
 								.showTextToast(R.string.notwifi_forbid_func);
 					}
+					break;
+				}
+				case 4: {// IP/域名设备
+					Intent intent = new Intent();
+					intent.setClass(mActivity, JVAddipcDeviceActivity.class);
+					mActivity.startActivity(intent);
 					break;
 				}
 
@@ -569,9 +592,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		initDialog.setContentView(view);
 		dialog_cancle_img = (ImageView) view
 				.findViewById(R.id.dialog_cancle_img);
-		dialogCancel = (TextView) view.findViewById(R.id.dialog_img_cancel);
-		dialogCompleted = (TextView) view
-				.findViewById(R.id.dialog_img_completed);
+		dialogCancel = (TextView) view.findViewById(R.id.dialog_cancel);
+		dialogCompleted = (TextView) view.findViewById(R.id.dialog_completed);
 		device_name = (TextView) view.findViewById(R.id.device_namew);
 		device_nicket = (EditText) view.findViewById(R.id.device_nicket);
 		device_niceet_cancle = (ImageView) view

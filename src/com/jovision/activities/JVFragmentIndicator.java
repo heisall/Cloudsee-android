@@ -29,22 +29,24 @@ public class JVFragmentIndicator extends LinearLayout implements
 	private LayoutInflater inflater;
 
 	private static final String[] iconTagArray = { "icon_tag_0", "icon_tag_1",
-			"icon_tag_3", "icon_tag_4" };// "icon_tag_2",
+			"icon_tag_2", "icon_tag_3", "icon_tag_4" };
 
 	private static final String[] textTagArray = { "text_tag_0", "text_tag_1",
-			"text_tag_3", "text_tag_4" };// "text_tag_2",
+			"text_tag_2", "text_tag_3", "text_tag_4" };
 
 	private static String[] titleArray;// 5个标题数组
 	private static int[] unSelectedArray = {
 			R.drawable.mydevice_devicenormal_icon,
 			R.drawable.mydevice_messagenormal_icon,
+			R.drawable.mydevice_examplenormal_icon,
 			R.drawable.mydevice_videomanagenormal_icon,
-			R.drawable.mydevice_moremessagenormal_icon };// R.drawable.mydevice_examplenormal_icon,
+			R.drawable.mydevice_moremessagenormal_icon };
 	private static int[] selectedArray = {
 			R.drawable.mydevice_devicepress_icon,
 			R.drawable.mydevice_messagepress_icon,
+			R.drawable.mydevice_examplepress_icon,
 			R.drawable.mydevice_videomanagepress_icon,
-			R.drawable.mydevice_moremessagepress_icon };// R.drawable.mydevice_examplepress_icon,
+			R.drawable.mydevice_moremessagepress_icon };
 
 	private static final int COLOR_UNSELECT = R.color.tab_text_color;
 	private static final int COLOR_SELECT = R.color.tab_text_color;
@@ -75,6 +77,7 @@ public class JVFragmentIndicator extends LinearLayout implements
 		tabIcon.setImageResource(iconResID);
 		tabTitle.setTag(textTag);
 		tabTitle.setTextColor(stringColor);
+		// tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
 		tabTitle.setText(title);
 
 		LinearLayout view = new LinearLayout(getContext());
@@ -98,7 +101,7 @@ public class JVFragmentIndicator extends LinearLayout implements
 		for (int i = 0; i < length; i++) {
 			mIndicators[i] = createIndicator(unSelectedArray[i], titleArray[i],
 					COLOR_UNSELECT, iconTagArray[i], textTagArray[i]);
-			 mIndicators[i].setBackgroundResource(R.drawable.indic_select);
+			// mIndicators[i].setBackgroundResource(R.drawable.indic_select);
 			mIndicators[i].setTag(Integer.valueOf(i));
 			mIndicators[i].setOnClickListener(this);
 			addView(mIndicators[i]);
@@ -107,7 +110,7 @@ public class JVFragmentIndicator extends LinearLayout implements
 
 	public static void setIndicator(int which) {
 		// clear previous status.
-//		mIndicators[mCurIndicator].setBackgroundColor(Color.alpha(0));
+		mIndicators[mCurIndicator].setBackgroundColor(Color.alpha(0));
 		ImageView prevIcon;
 		TextView prevText;
 

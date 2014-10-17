@@ -12,6 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:orientation="vertical" >
 
@@ -161,7 +162,7 @@
                     android:id="@+id/manage_save"
                     android:layout_width="120dp"
                     android:layout_height="45dp"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@drawable/blue_bg"
                     android:gravity="center"
                     android:text="@string/save"

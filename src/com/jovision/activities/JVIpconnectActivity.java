@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -22,6 +21,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.Device;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 
 public class JVIpconnectActivity extends BaseActivity {
@@ -238,19 +238,30 @@ public class JVIpconnectActivity extends BaseActivity {
 					portString = ipconnect_port.getText().toString();
 					userString = ipconnect_user.getText().toString();
 					pwdString = ipconnect_pwd.getText().toString();
-					if ("".equals(ipString)) {
-						Log.i("TAG", R.string.login_str_ip_adress_notnull + "f");
+					if ("".equalsIgnoreCase(ipString)) {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_ip_adress_notnull);
-					} else if ("".equals(portString)) {
+					} else if (!ConfigUtil.checkIPAdress(ipString)) {
+						JVIpconnectActivity.this
+								.showTextToast(R.string.login_str_ipadress_format_err);
+					} else if ("".equalsIgnoreCase(portString)) {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_port_notnull);
-					} else if ("".equals(userString)) {
+					} else if (!ConfigUtil.checkPortNum(portString)) {
+						JVIpconnectActivity.this
+								.showTextToast(R.string.login_str_port_format_err);
+					} else if ("".equalsIgnoreCase(userString)) {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_device_account_notnull);
-					} else if ("".equals(pwdString)) {
+					} else if (!ConfigUtil.checkDeviceUsername(userString)) {
+						JVIpconnectActivity.this
+								.showTextToast(R.string.login_str_device_account_error);
+					} else if ("".equalsIgnoreCase(pwdString)) {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_device_pass_notnull);
+					} else if (!ConfigUtil.checkDevicePwd(pwdString)) {
+						JVIpconnectActivity.this
+								.showTextToast(R.string.login_str_device_pass_error);
 					} else {
 						if (!Boolean.valueOf(statusHashMap
 								.get(Consts.LOCAL_LOGIN))) {
@@ -276,12 +287,18 @@ public class JVIpconnectActivity extends BaseActivity {
 					userString = ipconnect_user.getText().toString();
 					pwdString = ipconnect_pwd.getText().toString();
 
-					if ("".equals(userString)) {
+					if ("".equalsIgnoreCase(userString)) {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_device_account_notnull);
-					} else if ("".equals(pwdString)) {
+					} else if (!ConfigUtil.checkDeviceUsername(userString)) {
+						JVIpconnectActivity.this
+								.showTextToast(R.string.login_str_device_account_error);
+					} else if ("".equalsIgnoreCase(pwdString)) {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_device_pass_notnull);
+					} else if (!ConfigUtil.checkDevicePwd(pwdString)) {
+						JVIpconnectActivity.this
+								.showTextToast(R.string.login_str_device_pass_error);
 					} else {
 						if (!Boolean.valueOf(statusHashMap
 								.get(Consts.LOCAL_LOGIN))) {

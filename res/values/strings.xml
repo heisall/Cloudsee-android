@@ -97,7 +97,8 @@
     <string name="login_str_add">Add</string>
     <string name="login_str_qq_autho_faild">QQ Authorization failed</string>
     <string name="login_str_qq_autho_success">QQ authorized success</string>
-
+    <!-- JVInfoFragment -->
+    <string name="nomessage">暂时没有报警数据</string>
     <!-- leftMenu -->
     <string name="devicecount">Total of 0 Device</string>
     <string name="nikename">NickName</string>

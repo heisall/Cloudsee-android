@@ -240,7 +240,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				} else {
 					// 显示在below正下方
 					popupWindow.showAsDropDown(view,
-							mActivity.disMetrics.widthPixels / 2, 10);
+							(mActivity.disMetrics.widthPixels / 2), 10);
 				}
 				break;
 			case R.id.device_nameet_cancle:
@@ -436,8 +436,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// onTabAction:what=168;arg1=0;arg2=0;obj={"count":1,"curmod":0,"gid":"A","ip":"192.168.21.238","netmod":0,"no":283827713,"port":9101,"timeout":0,"type":59162,"variety":3}
 
 			if (broadTag == BROAD_DEVICE_LIST || broadTag == BROAD_THREE_MINITE) {// 三分钟广播
-																					// 或
-																					// 广播设备列表
+				// 或
+				// 广播设备列表
 				JSONObject broadObj;
 				try {
 					broadObj = new JSONObject(obj.toString());
@@ -605,10 +605,25 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			@Override
 			public void onClick(View v) {
-				if ("".equalsIgnoreCase(device_nameet.getText().toString())) {// 用户名不可为空，其他不用验证
+				// 设备昵称不为空
+				if ("".equalsIgnoreCase(device_nicket.getText().toString())) {
 					mActivity.showTextToast(mActivity.getResources().getString(
-							R.string.login_str_device_account_notnull));
-				} else if (!ConfigUtil.checkDeviceUsername(device_nameet
+							R.string.str_nikename_notnull));
+				}
+				// 设备昵称验证
+				else if (!ConfigUtil.checkNickName(device_nicket.getText()
+						.toString())) {
+					mActivity.showTextToast(mActivity.getResources().getString(
+							R.string.login_str_nike_name_order));
+				}
+				// 设备用户名不为空
+				else if (""
+						.equalsIgnoreCase(device_nameet.getText().toString())) {
+					mActivity
+							.showTextToast(R.string.login_str_device_account_notnull);
+				}
+				// 设备用户名验证
+				else if (!ConfigUtil.checkDeviceUsername(device_nameet
 						.getText().toString())) {
 					mActivity.showTextToast(mActivity.getResources().getString(
 							R.string.login_str_device_account_error));
@@ -671,6 +686,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			if (0 == result) {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.login_str_device_edit_success);
+				myDLAdapter.setShowDelete(false);
 				myDLAdapter.notifyDataSetChanged();
 			} else {
 				((BaseActivity) mActivity)

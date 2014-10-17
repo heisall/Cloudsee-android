@@ -10,11 +10,13 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
 import com.jovision.bean.ChannellistBean;
+import com.jovision.utils.ConfigUtil;
 
 public class ChannelListAdapter extends BaseAdapter {
 
@@ -68,12 +70,14 @@ public class ChannelListAdapter extends BaseAdapter {
 					.findViewById(R.id.channellist_pull);
 			Holder.item_img = (ImageView) convertView
 					.findViewById(R.id.item_img);
-
+			Holder.parent_relative = (RelativeLayout) convertView
+					.findViewById(R.id.parent_relative);
 			convertView.setTag(Holder);
 		} else {
 			Holder = (DeviceHolder) convertView.getTag();
 		}
-		Holder.channel_list_img.setOnClickListener(new View.OnClickListener() {
+
+		Holder.parent_relative.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -81,13 +85,22 @@ public class ChannelListAdapter extends BaseAdapter {
 				for (int i = 0; i < dataList.size(); i++) {
 					if (position == i) {
 						if (dataList.get(i).isIspull()) {
-							activity.onNotify(1, position, 0,
-									Holder.channel_list_edit.getText()
-											.toString());
-							dataList.get(position).setChannelName(
-									Holder.channel_list_edit.getText()
-											.toString());
-							dataList.get(i).setIspull(false);
+							if ("".equalsIgnoreCase(Holder.channel_list_edit
+									.getText().toString())) {
+								activity.showTextToast(R.string.str_nikename_notnull);
+							} else if (!ConfigUtil
+									.checkNickName(Holder.channel_list_edit
+											.getText().toString())) {
+								activity.showTextToast(R.string.login_str_nike_name_order);
+							} else {
+								activity.onNotify(1, position, 0,
+										Holder.channel_list_edit.getText()
+												.toString());
+								dataList.get(position).setChannelName(
+										Holder.channel_list_edit.getText()
+												.toString());
+								dataList.get(i).setIspull(false);
+							}
 						} else {
 							dataList.get(i).setIspull(true);
 						}
@@ -123,6 +136,7 @@ public class ChannelListAdapter extends BaseAdapter {
 	}
 
 	class DeviceHolder {
+		private RelativeLayout parent_relative;
 		private TextView channel_list_text;
 		private ImageView channel_list_img;
 		private EditText channel_list_edit;

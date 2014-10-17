@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,9 +35,13 @@ public class ChannelAdapter extends BaseAdapter {
 
 	private int[] channelResArray = { R.drawable.channel_bg_1,
 			R.drawable.channel_bg_2, R.drawable.channel_bg_3,
-			R.drawable.channel_bg_4, R.drawable.channel_bg_5,
-			R.drawable.channel_bg_6, R.drawable.channel_bg_7,
-			R.drawable.channel_bg_8 };
+			R.drawable.channel_bg_4, R.drawable.channel_bg_1,
+			R.drawable.channel_bg_2, R.drawable.channel_bg_3,
+			R.drawable.channel_bg_4, R.drawable.channel_bg_1,
+			R.drawable.channel_bg_2, R.drawable.channel_bg_3,
+			R.drawable.channel_bg_4, R.drawable.channel_bg_1,
+			R.drawable.channel_bg_2, R.drawable.channel_bg_3,
+			R.drawable.channel_bg_4 };
 
 	private boolean showDelete = false;
 	private int screenWidth = 0;
@@ -87,16 +92,16 @@ public class ChannelAdapter extends BaseAdapter {
 		if (null == convertView) {
 			convertView = inflater.inflate(R.layout.channel_item, null);
 			channelHolder = new ChannelHolder();
-			channelHolder.channelBG = (RelativeLayout) convertView
+			channelHolder.channelBG = (FrameLayout) convertView
 					.findViewById(R.id.channel_rl);
 			channelHolder.channelName = (TextView) convertView
 					.findViewById(R.id.channel_name);
 			channelHolder.channelDel = (ImageView) convertView
-					.findViewById(R.id.channel_delete);
+					.findViewById(R.id.channel_cancle);
 			channelHolder.channelEdit = (RelativeLayout) convertView
 					.findViewById(R.id.channel_edit);
 			channelHolder.channelEditIV = (ImageView) convertView
-					.findViewById(R.id.channel_edit_iv);
+					.findViewById(R.id.channel_cancleedit);
 
 			convertView.setTag(channelHolder);
 
@@ -112,10 +117,8 @@ public class ChannelAdapter extends BaseAdapter {
 		// 普通通道
 		if (position < channelList.size()) {
 			if (showDelete) {
-				channelHolder.channelDel.setVisibility(View.VISIBLE);
 				channelHolder.channelEdit.setVisibility(View.VISIBLE);
 			} else {
-				channelHolder.channelDel.setVisibility(View.GONE);
 				channelHolder.channelEdit.setVisibility(View.GONE);
 			}
 
@@ -124,9 +127,9 @@ public class ChannelAdapter extends BaseAdapter {
 					.getString(R.string.channel_name);
 			channelHolder.channelName.setText(name.replace("?",
 					String.valueOf(channel)));
-
 			channelHolder.channelBG
-					.setBackgroundResource(channelResArray[channel % 8]);
+					.setBackgroundResource(channelResArray[(channel - 1) / 4]);
+
 			// 通道单击播放
 			channelHolder.channelBG.setOnClickListener(new OnClickListener() {
 
@@ -158,14 +161,6 @@ public class ChannelAdapter extends BaseAdapter {
 			});
 
 			// 编辑通道
-			channelHolder.channelEdit.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View arg0) {
-					mfragment.onNotify(CHANNEL_EDIT_CLICK, channel, 0, null);
-				}
-			});
-
 			channelHolder.channelEditIV
 					.setOnClickListener(new OnClickListener() {
 
@@ -175,7 +170,6 @@ public class ChannelAdapter extends BaseAdapter {
 									null);
 						}
 					});
-
 		} else {
 			// 最后一个通道用于添加通道
 			channelHolder.channelName.setText("+");
@@ -183,7 +177,7 @@ public class ChannelAdapter extends BaseAdapter {
 			channelHolder.channelEdit.setVisibility(View.GONE);
 
 			// [Neo] stable
-			channelHolder.channelBG.setBackgroundResource(channelResArray[5]);
+			channelHolder.channelBG.setBackgroundResource(channelResArray[0]);
 			channelHolder.channelBG.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -197,7 +191,7 @@ public class ChannelAdapter extends BaseAdapter {
 	}
 
 	class ChannelHolder {
-		RelativeLayout channelBG;
+		FrameLayout channelBG;
 		TextView channelName;
 		ImageView channelDel;
 

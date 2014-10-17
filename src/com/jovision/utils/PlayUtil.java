@@ -801,6 +801,12 @@ public class PlayUtil {
 		try {
 			if (null != channel) {
 				Device device = channel.getParent();
+
+				// 如果是域名添加的设备需要先去解析IP
+				if (2 == device.getIsDevice()) {
+					device.setIp(ConfigUtil.getInetAddress(device.getDoMain()));
+				}
+
 				// MyLog.e(TAG, "device=" + device.hashCode() + "--index=" +
 				// index);
 				// Channel channel = device.getChannelList().get(index);

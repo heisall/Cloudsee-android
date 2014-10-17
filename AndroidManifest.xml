@@ -84,7 +84,7 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name="com.jovision.activities.JVAddipcDeviceActivity"
+            android:name="com.jovision.activities.JVAddIpDeviceActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"
             android:screenOrientation="portrait"

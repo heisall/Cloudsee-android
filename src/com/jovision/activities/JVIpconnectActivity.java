@@ -1,7 +1,5 @@
 package com.jovision.activities;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import android.view.View;
@@ -265,7 +263,8 @@ public class JVIpconnectActivity extends BaseActivity {
 					} else {
 						if (!Boolean.valueOf(statusHashMap
 								.get(Consts.LOCAL_LOGIN))) {
-							deviceedit.setIp(getInetAddress(ipString));
+							deviceedit.setIp(ConfigUtil
+									.getInetAddress(ipString));
 							deviceedit.setPort(Integer.valueOf(portString));
 							deviceedit.setUser(userString);
 							deviceedit.setPwd(pwdString);
@@ -274,7 +273,7 @@ public class JVIpconnectActivity extends BaseActivity {
 									statusHashMap.get(Consts.KEY_USERNAME));
 						} else {
 							deviceList.get(deviceIndex).setIp(
-									getInetAddress(ipString));
+									ConfigUtil.getInetAddress(ipString));
 							deviceList.get(deviceIndex).setPort(
 									Integer.valueOf(portString));
 							deviceList.get(deviceIndex).setUser(userString);
@@ -339,19 +338,6 @@ public class JVIpconnectActivity extends BaseActivity {
 	@Override
 	protected void freeMe() {
 
-	}
-
-	public static String getInetAddress(String host) {
-		String IPAddress = "";
-		InetAddress ReturnStr1 = null;
-		try {
-			ReturnStr1 = java.net.InetAddress.getByName(host);
-			IPAddress = ReturnStr1.getHostAddress();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			return IPAddress;
-		}
-		return IPAddress;
 	}
 
 }

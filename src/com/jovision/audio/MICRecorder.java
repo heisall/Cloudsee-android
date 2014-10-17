@@ -47,7 +47,7 @@ public class MICRecorder {
 		return RECORDER;
 	}
 
-	public boolean start(final int type) {
+	public boolean start(final int type, final int audioByte) {
 		boolean result = false;
 
 		if (false == isWorking && bufferSize > 128) {
@@ -72,14 +72,19 @@ public class MICRecorder {
 							int ret = 0;
 							byte[] buffer = new byte[ENCODE_SIZE];
 
-							Jni.initAudioEncoder(type, SAMPLERATE, 1, 16,
-									ENCODE_SIZE);
+							Jni.initAudioEncoder(type, SAMPLERATE, 1,
+									audioByte, ENCODE_SIZE);
 
 							while (isWorking) {
 								ret = record.read(buffer, 0, ENCODE_SIZE);
 
 								if (ret == ENCODE_SIZE) {
-									byte[] enc = Jni.encodeAudio(buffer);
+									byte[] enc = buffer;
+									if (Consts.JAE_ENCODER_SAMR == type
+											|| Consts.JAE_ENCODER_ALAW == type
+											|| Consts.JAE_ENCODER_ULAW == type) {
+										enc = Jni.encodeAudio(buffer);
+									}
 
 									if (null != enc) {
 										if (JVPlayActivity.AUDIO_SINGLE) {// 单向对讲长按才发送语音数据

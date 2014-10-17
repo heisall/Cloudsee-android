@@ -51,6 +51,14 @@ public class Device {
 	private int isDevice = 0;
 	/** 是否在线 0.不在线 1.在线 */
 	private int onlineState = 0;
+
+	/**
+	 * 设备在线服务器（报警服务器）上线状态标识 dimols为0表示此设备在设备在线服务器离线，为1表示在线
+	 * 在设备管理界面（报警防护开关界面）需判断此标识，如果此标识为离线，则不允许用户操作报警防护开关。
+	 * 需要通过设备服务器操作设备的业务（报警防护，报警时段，baby模式等）需要此标识在线。
+	 */
+	private int alarmOnlineState = 0;
+
 	/** 设备是否带Wi-Fi */
 	private int hasWifi = 0;
 	/** 设备列表中是否被选中 */
@@ -400,6 +408,14 @@ public class Device {
 
 	public void setIsselect(Boolean isselect) {
 		this.isselect = isselect;
+	}
+
+	public int getAlarmOnlineState() {
+		return alarmOnlineState;
+	}
+
+	public void setAlarmOnlineState(int alarmOnlineState) {
+		this.alarmOnlineState = alarmOnlineState;
 	}
 
 }

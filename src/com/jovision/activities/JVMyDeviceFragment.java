@@ -729,6 +729,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
+			CacheUtil.saveDevList(myDeviceList);
 			if (0 == result) {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.del_device_succ);
@@ -909,7 +910,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-
+			CacheUtil.saveDevList(myDeviceList);
 			((BaseActivity) mActivity).dismissDialog();
 			if (0 == result) {
 				myDLAdapter.setData(myDeviceList);

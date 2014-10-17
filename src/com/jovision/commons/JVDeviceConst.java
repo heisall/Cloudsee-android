@@ -135,6 +135,8 @@ public class JVDeviceConst {
 	public static final String JK_DEVICE_BABY_MODE = "dbbm";
 	public static final String JK_DEVICE_FULL_ALARM_MODE = "dfam";
 
+	public static final String JK_DEVICE_IM_ONLINE_STATUS = "dimols";
+
 	public static final String JK_DEVICE_NAME_RESULT = "dnamers";
 	public static final String JK_NET_STORAGE_SWITCH_RESULT = "netssrs";
 	public static final String JK_TF_STORAGE_SWITCH_RESULT = "tfssrs";

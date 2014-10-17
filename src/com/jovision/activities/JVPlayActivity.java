@@ -39,6 +39,7 @@ import com.jovision.bean.Device;
 import com.jovision.bean.WifiAdmin;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
+import com.jovision.commons.MyGestureDispatcher;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.PlayWindowManager;
@@ -173,7 +174,7 @@ public class JVPlayActivity extends PlayActivity implements
 					// }
 
 					int index = object.getInt("index");
-					loadingState(index, 0, JVConst.PLAY_CONNECTTED);
+					// loadingState(index, 0, JVConst.PLAY_CONNECTTED);
 				}
 				linkMode.setText(sBuilder.toString());
 
@@ -352,7 +353,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			break;
 		}
-		//
+		// 非高通码流切换花屏
 		case Consts.CALL_PLAY_DOOMED: {
 			if (Consts.HDEC_BUFFERING == arg2) {
 				loadingState(arg1, R.string.connecting_buffer,
@@ -1034,12 +1035,16 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public void onPageScrollStateChanged(int arg0) {// arg0==1的时辰默示正在滑动，arg0==2的时辰默示滑动完毕了，arg0==0的时辰默示什么都没做，就是停在那
-
+			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+				return;
+			}
 		}
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
-			if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
+			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+				return;
+			} else if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
 				stopAll(currentIndex, manager.getChannel(currentIndex));
 				if (arg0 - currentPage > 0) {// 向左滑
 					resetFunc();
@@ -1062,7 +1067,9 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public void onPageSelected(int arg0) {
-
+			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+				return;
+			}
 		}
 	};
 
@@ -1868,7 +1875,54 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	public void onGesture(int direction) {
-		// [Neo] TODO surface 上下左右的手势
+		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+			Channel channel = manager.getChannel(currentIndex);
+			if (null != channel && channel.isConnected()
+					&& !channel.isConnecting() && !channel.isPause()) {
+				int c = 0;
+				// [Neo] TODO 不论时候什么，只要在 Surface 上手势，都会判断出来并汇报到这里
+				switch (direction) {
+				case MyGestureDispatcher.GESTURE_TO_LEFT:
+					System.out.println("gesture: left");
+					c = JVNetConst.JVN_YTCTRL_L;
+					sendCmd(c);
+					break;
+
+				case MyGestureDispatcher.GESTURE_TO_UP:
+					System.out.println("gesture: up");
+					c = JVNetConst.JVN_YTCTRL_U;
+					sendCmd(c);
+					break;
+
+				case MyGestureDispatcher.GESTURE_TO_RIGHT:
+					System.out.println("gesture: right");
+					c = JVNetConst.JVN_YTCTRL_R;
+					sendCmd(c);
+					break;
+
+				case MyGestureDispatcher.GESTURE_TO_DOWN:
+					System.out.println("gesture: down");
+					c = JVNetConst.JVN_YTCTRL_D;
+					sendCmd(c);
+					break;
+
+				default:
+					break;
+
+				}
+			}
+
+		}
+	}
+
+	public void sendCmd(int cmd) {
+		PlayUtil.sendCtrlCMDLongPush(currentIndex, cmd, true);
+		try {
+			Thread.sleep(400);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		PlayUtil.sendCtrlCMDLongPush(currentIndex, cmd, false);
 	}
 
 	@Override
@@ -2010,9 +2064,9 @@ public class JVPlayActivity extends PlayActivity implements
 		manager.pauseAll();
 		PlayUtil.pauseAll(manager.getValidChannelList(currentPage));
 
-		// if (Consts.PLAY_NORMAL == playFlag) {
-		// CacheUtil.saveDevList(deviceList);
-		// }
+		if (Consts.PLAY_NORMAL == playFlag) {
+			CacheUtil.saveDevList(deviceList);
+		}
 	}
 
 	@Override
@@ -2028,46 +2082,4 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
-	// @Override
-	// public void onGesture(int direction) {
-	// if (JVSUDT.PLAY_FLAG == 0
-	// && config.orientation == Configuration.ORIENTATION_LANDSCAPE
-	// && BaseApp.SCREEN == BaseApp.SINGLE_SCREEN) {// 正常播放,横屏,单屏
-	// JVSChannel cn = getChannel(getChannelMapKey());
-	// if (null == cn) {
-	// return;
-	// }
-	// int c = 0;
-	// // [Neo] TODO 不论时候什么，只要在 Surface 上手势，都会判断出来并汇报到这里
-	// switch (direction) {
-	// case GLFrameSurface.GESTURE_TO_LEFT:
-	// System.out.println("gesture: left");
-	// c = JVNetConst.JVN_YTCTRL_L;
-	// sendCmd(cn, c);
-	// break;
-	//
-	// case GLFrameSurface.GESTURE_TO_UP:
-	// System.out.println("gesture: up");
-	// c = JVNetConst.JVN_YTCTRL_U;
-	// sendCmd(cn, c);
-	// break;
-	//
-	// case GLFrameSurface.GESTURE_TO_RIGHT:
-	// System.out.println("gesture: right");
-	// c = JVNetConst.JVN_YTCTRL_R;
-	// sendCmd(cn, c);
-	// break;
-	//
-	// case GLFrameSurface.GESTURE_TO_DOWN:
-	// System.out.println("gesture: down");
-	// c = JVNetConst.JVN_YTCTRL_D;
-	// sendCmd(cn, c);
-	// break;
-	//
-	// default:
-	// break;
-	//
-	// }
-	// }
-	// }
 }

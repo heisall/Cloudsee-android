@@ -193,12 +193,12 @@ public class JVPlayActivity extends PlayActivity implements
 			if (currentScreen > fourScreen
 					&& !manager.getChannel(arg1).isSendCMD()) {
 				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_ONLYI, new byte[0],
-						8);
+						0);
 				manager.getChannel(arg1).setSendCMD(true);
 			} else if (currentScreen <= fourScreen
 					&& manager.getChannel(arg1).isSendCMD()) {
 				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_FULL, new byte[0],
-						8);
+						0);
 				manager.getChannel(arg1).setSendCMD(true);
 			}
 

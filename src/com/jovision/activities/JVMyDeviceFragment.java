@@ -528,7 +528,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 			myDLAdapter.setShowDelete(false);
 			myDLAdapter.notifyDataSetChanged();
 			Device dev = myDeviceList.get(arg1);
-			if (1 == dev.getChannelList().size()) {// 1个通道直接播放
+			if (0 == dev.getChannelList().size()) {// 0个通道直接播放
+				mActivity.showTextToast(R.string.selectone_to_connect);
+			} else if (1 == dev.getChannelList().size()) {// 1个通道直接播放
 				PlayUtil.prepareConnect(myDeviceList, arg1);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
@@ -558,6 +560,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 		}
 		case MyDeviceListAdapter.DEVICE_EDIT_CLICK: {// 设备编辑事件
+			myDLAdapter.setShowDelete(false);
 			initSummaryDialog(myDeviceList, arg1);
 		}
 		}
@@ -620,6 +623,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		dialogCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				myDLAdapter.notifyDataSetChanged();
 				initDialog.dismiss();
 			}
 		});

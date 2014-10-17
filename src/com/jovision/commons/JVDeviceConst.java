@@ -16,6 +16,8 @@ public class JVDeviceConst {
 	public static final int DEVICE_SWITCH_OPEN = 1; // 打开
 	public static final int DEVICE_SWITCH_CLOSE = 0; // 关闭
 
+	public static final int DEVICE_SERVER_ONLINE = 1; // 设备服务器上上线
+	public static final int DEVICE_SERVER_OFFLINE = 0; // 设备服务器上离线
 	/**
 	 * 2014_2_19
 	 */
@@ -311,6 +313,14 @@ public class JVDeviceConst {
 	public static final int MODIFY_DEVICE_CHANNEL_NAME = 2045;
 	/** 修改通道名Response */
 	public static final int MODIFY_DEVICE_CHANNEL_NAME_RESPONSE = 2046;
+
+	/** 获取演示点 Request */
+	public static final int GET_DEMO_POINT = 2057;
+	/** 获取演示点 Response */
+	public static final int GET_DEMO_POINT_RESPONSE = 2058;
+	/** 软件类型 */
+	public static final String JK_CUSTOM_TYPE = "custom_type";
+
 	/**
 	 * 2014-2-20 新增消息类型：
 	 */

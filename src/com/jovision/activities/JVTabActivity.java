@@ -168,9 +168,9 @@ public class JVTabActivity extends ShakeActivity {
 
 		mFragments[0] = new JVMyDeviceFragment();
 		mFragments[1] = new JVInfoFragment();
-		mFragments[2] = new JVDemoFragment();
-		mFragments[3] = new JVDeviceManageFragment();
-		mFragments[4] = new JVMoreFragment();
+		// mFragments[2] = new JVDemoFragment();
+		mFragments[2] = new JVDeviceManageFragment();
+		mFragments[3] = new JVMoreFragment();
 
 		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
 		JVFragmentIndicator.setIndicator(currentIndex);

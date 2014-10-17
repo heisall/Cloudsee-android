@@ -5,7 +5,6 @@
     <string-array name="array_tab">
         <item>我的设备</item>
         <item>报警消息</item>
-        <item>演   示  点</item>
         <item>视频管理</item>
         <item>更多功能</item>
     </string-array>
@@ -131,6 +130,7 @@
         <item>通道管理</item>
         <item>立即观看</item>
         <item>添加设备</item>
+        <item>安全防护</item>
     </string-array>
 
     <!-- 码流切换 -->

@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/morefragment_color1"
             android:orientation="horizontal"
             android:padding="5dp" >
 

@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.test.JVACCOUNT;
+import android.util.Log;
 
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
@@ -192,7 +193,19 @@ public class DeviceUtil {
 		}
 		return pointList;
 	}
-
+	/**
+	 * 修改用户密码
+	 * 
+	 * @param oldPwd旧密码
+	 * @param newPwd新密码
+	 * @return
+	 */
+	public static int modifyUserPassword(String oldPwd, String newPwd) {
+		int res = -1;
+		res = JVACCOUNT.ModifyUserPassword(oldPwd, newPwd);
+		Log.v("modifyUserPassword--", "-----||||||" + res + "");
+		return res;
+	}
 	/**
 	 * 修改通道名称
 	 * 

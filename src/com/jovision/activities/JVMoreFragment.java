@@ -186,8 +186,12 @@ public class JVMoreFragment extends BaseFragment {
 						// TODO Auto-generated method stub
 						switch (position) {
 						case 0:
-							Intent editpassintent = new Intent(mActivity,JVEditPassActivity.class);
-							startActivity(editpassintent);
+							if (!localFlag) {
+								Intent editpassintent = new Intent(mActivity,JVEditPassActivity.class);
+								startActivity(editpassintent);
+							}else {
+								mActivity.showTextToast(R.string.more_nologin);
+							}
 							break;
 						case 1:
 							if (("firsted").equals(MySharedPreference

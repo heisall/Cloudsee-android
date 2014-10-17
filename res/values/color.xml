@@ -40,7 +40,9 @@
     <color name="tab_text_color">#898989</color>
     <color name="tab_bg_color">#F5F5F5</color>
     <color name="ivory">#FFFFF0</color>
-
+	<!-- Dialog颜色值 -->
+	<color name = "dialogchannal">#404040</color>
+	<color name = "dialogchannaltext">#55A0FF</color>
     <!-- 更多功能字体颜色 -->
     <color name="more_fragment_color">#888888</color>
     <color name="more_fragment_color1">#3c72c4</color>

@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -640,7 +641,8 @@ public class JVPlayActivity extends PlayActivity implements
 				VOICECALLING = true;
 				voiceCallSelected(true);
 				// [Neo] TODO 根据连接的设备 NORMAL_DATA 取出 audio_type，填进来
-				recorder.start(manager.getChannel(currentIndex).getAudioType());
+				recorder.start(manager.getChannel(currentIndex).getAudioType(),
+						manager.getChannel(currentIndex).getAudioByte());
 				break;
 			}
 
@@ -839,6 +841,8 @@ public class JVPlayActivity extends PlayActivity implements
 			errorDialog(getResources().getString(R.string.system_lower)
 					.replace("$",
 							MobileUtil.mobileSysVersion(JVPlayActivity.this)));
+		} else if (Build.VERSION_CODES.JELLY_BEAN > Build.VERSION.SDK_INT) {// 小于4.1的系统，不允许硬解
+			lowerSystem = true;
 		}
 
 		viewPager.setCurrentItem(currentPage);
@@ -1688,7 +1692,6 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 						Channel channel = channleList.get(i);
 						// Device dev = channel.getParent();
-
 						while (!surfaceCreatMap.get(channel.getIndex())) {
 							try {
 								Thread.sleep(100);

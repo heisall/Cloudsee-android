@@ -128,10 +128,16 @@ public class ManageFragment extends BaseFragment {
 			}
 			case 2: {// 连接模式
 				isDevice = deviceList.get(deviceIndex).getIsDevice();
-				Intent intent = new Intent();
-				intent.putExtra("deviceIndex", deviceIndex);
-				intent.putExtra("isDevice", isDevice);
-				startActivity(new Intent(mActivity, JVIpconnectActivity.class));
+				if (2 == isDevice) {
+					mActivity.showTextToast(R.string.ip_add_notallow);
+				} else {
+					Intent intent = new Intent();
+					intent.putExtra("deviceIndex", deviceIndex);
+					intent.putExtra("isDevice", isDevice);
+					startActivity(new Intent(mActivity,
+							JVIpconnectActivity.class));
+				}
+
 				break;
 			}
 			case 3: {// 通道管理

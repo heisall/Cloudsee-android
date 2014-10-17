@@ -24,6 +24,10 @@ public class Device {
 
 	/** 设备IP */
 	private String ip;
+
+	/** 设备域名 */
+	private String doMain = "";
+
 	/** 设备端口 */
 	private int port;
 	/** 分组 A */
@@ -47,7 +51,7 @@ public class Device {
 	/** 设备昵称 */
 	private String nickName;
 
-	/** 连接方式标志位 0:云视通号连接 1:手动ip直连 */
+	/** 连接方式标志位 0:云视通号连接 1:手动ip直连 2:域名设备 */
 	private int isDevice = 0;
 	/** 是否在线 0.不在线 1.在线 */
 	private int onlineState = 0;
@@ -112,9 +116,17 @@ public class Device {
 		this.ip = ip;
 		this.port = port;
 		this.gid = gid;
-		this.no = no;
-		this.fullNo = gid + no;
-		this.nickName = fullNo;
+
+		if (-1 == no) {
+			this.no = -1;
+			this.fullNo = gid;
+			this.nickName = fullNo;
+		} else {
+			this.no = no;
+			this.fullNo = gid + no;
+			this.nickName = fullNo;
+		}
+
 		this.user = user;
 		this.pwd = pwd;
 		this.isHomeProduct = isHomeProduct;
@@ -186,6 +198,7 @@ public class Device {
 		try {
 			object.put("ip", ip);
 			object.put("port", port);
+			object.put("doMain", doMain);
 			object.put("gid", gid);
 			object.put("no", no);
 			object.put("fullNo", fullNo);
@@ -256,6 +269,7 @@ public class Device {
 			JSONObject object = new JSONObject(string);
 			dev.setIp(object.getString("ip"));
 			dev.setPort(object.getInt("port"));
+			dev.setDoMain(object.getString("doMain"));
 			dev.setGid(object.getString("gid"));
 			dev.setNo(object.getInt("no"));
 			dev.setFullNo(object.getString("fullNo"));
@@ -272,7 +286,6 @@ public class Device {
 				dev.setNickName("");
 				e.printStackTrace();
 			}
-
 			dev.setIsDevice(object.getInt("isDevice"));
 			dev.setOnlineState(object.getInt("onlineState"));
 			dev.setHasWifi(object.getInt("hasWifi"));
@@ -421,6 +434,14 @@ public class Device {
 
 	public void setServerState(int serverState) {
 		this.serverState = serverState;
+	}
+
+	public String getDoMain() {
+		return doMain;
+	}
+
+	public void setDoMain(String doMain) {
+		this.doMain = doMain;
 	}
 
 }

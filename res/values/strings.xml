@@ -471,6 +471,7 @@
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">一共有</string>
     <string name="str_aft">个设备</string>
+    <string name="ip_add_notallow">Do not support devices added  by domain name/IP address.</string>
     <string name="protect_open_succ">安全防护打开成功</string>
     <string name="protect_open_fail">安全防护打开失败</string>
     <string name="protect_close_succ">安全防护关闭成功</string>

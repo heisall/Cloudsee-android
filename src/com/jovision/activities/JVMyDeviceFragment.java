@@ -353,7 +353,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 				case 4: {// IP/域名设备
 					Intent intent = new Intent();
-					intent.setClass(mActivity, JVAddipcDeviceActivity.class);
+					intent.setClass(mActivity, JVAddIpDeviceActivity.class);
 					mActivity.startActivity(intent);
 					break;
 				}
@@ -418,8 +418,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 */
 	private void InitViewPager() {
 		listViews = new ArrayList<View>();
-		int[] imageResId = new int[] { R.drawable.a, R.drawable.b,
-				R.drawable.c, R.drawable.d, R.drawable.e };
+		int[] imageResId = new int[] { R.drawable.a, R.drawable.b };
 		for (int i = 0; i < imageResId.length; i++) {
 			ImageView imageView = new ImageView(mActivity);
 			imageView.setOnClickListener(new OnClickListener() {
@@ -468,14 +467,18 @@ public class JVMyDeviceFragment extends BaseFragment {
 						int size = myDeviceList.size();
 						for (int i = 0; i < size; i++) {
 							Device device = myDeviceList.get(i);
-							// 是同一个设备
-							if (device.getGid().equalsIgnoreCase(
-									broadObj.optString("gid"))
-									&& device.getNo() == broadObj.optInt("no")) {
-								device.setIp(broadObj.optString("ip"));
-								device.setPort(broadObj.optInt("port"));
-								device.setOnlineState(1);// 广播都在线
+							if (null != device && 0 == device.getIsDevice()) {
+								// 是同一个设备
+								if (device.getGid().equalsIgnoreCase(
+										broadObj.optString("gid"))
+										&& device.getNo() == broadObj
+												.optInt("no")) {
+									device.setIp(broadObj.optString("ip"));
+									device.setPort(broadObj.optInt("port"));
+									device.setOnlineState(1);// 广播都在线
+								}
 							}
+
 						}
 					} else if (1 == broadObj.optInt("timeout")) {
 

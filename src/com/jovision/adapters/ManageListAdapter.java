@@ -81,7 +81,12 @@ public class ManageListAdapter extends BaseAdapter {
 			Holder.listitem_img
 					.setImageResource(R.drawable.devicemanage_normal_icon);
 		}
-		Holder.listitem_name.setText(dataList.get(position).getFullNo());
+		if (2 == dataList.get(position).getIsDevice()) {
+			Holder.listitem_name.setText(dataList.get(position).getDoMain());
+		} else {
+			Holder.listitem_name.setText(dataList.get(position).getFullNo());
+		}
+
 		return convertView;
 	}
 

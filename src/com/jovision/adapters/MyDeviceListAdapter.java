@@ -146,7 +146,14 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		} else {
 			deviceHolder = (DeviceHolder) convertView.getTag();
 		}
-		deviceHolder.devNameL.setText(deviceList.get(position * 2).getFullNo());
+		if (2 == deviceList.get(position * 2).getIsDevice()) {
+			deviceHolder.devNameL.setText(deviceList.get(position * 2)
+					.getDoMain());
+		} else {
+			deviceHolder.devNameL.setText(deviceList.get(position * 2)
+					.getFullNo());
+		}
+
 		if (Boolean
 				.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {
@@ -218,8 +225,14 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		int size = deviceList.size();
 		if (rightPos < size) {
 			deviceHolder.mydeviceParentR.setVisibility(View.VISIBLE);
-			deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
-					.getFullNo());
+			if (2 == deviceList.get(position * 2 + 1).getIsDevice()) {
+				deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
+						.getDoMain());
+			} else {
+				deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
+						.getFullNo());
+			}
+
 			if (Boolean
 					.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
 							.get(Consts.LOCAL_LOGIN))) {

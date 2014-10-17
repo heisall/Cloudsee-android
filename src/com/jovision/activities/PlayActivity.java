@@ -545,7 +545,7 @@ public abstract class PlayActivity extends BaseActivity {
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_right_selector));
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-			// bottombut6.setVisibility(View.VISIBLE);
+				// bottombut6.setVisibility(View.VISIBLE);
 				relative6.setVisibility(View.VISIBLE);
 				videTurnBtn.setVisibility(View.GONE);
 			} else {

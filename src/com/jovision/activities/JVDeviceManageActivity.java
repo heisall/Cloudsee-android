@@ -87,6 +87,8 @@ public class JVDeviceManageActivity extends BaseActivity {
 		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
 		btn_left = (Button) findViewById(R.id.btn_left);
 		btn_right = (Button) findViewById(R.id.btn_right);
+		btn_right.setVisibility(View.GONE);
+
 		currentmenu = (TextView) findViewById(R.id.currentmenu);
 		currentmenu.setText(R.string.str_device_manage);
 		manageNick = (EditText) findViewById(R.id.manage_nick);

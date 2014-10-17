@@ -535,6 +535,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 		}
 		case MyDeviceListAdapter.DEVICE_EDIT_CLICK: {// 设备编辑事件
+			myDLAdapter.setShowDelete(false);
 			initSummaryDialog(myDeviceList, arg1);
 		}
 		}
@@ -598,6 +599,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		dialogCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				myDLAdapter.notifyDataSetChanged();
 				initDialog.dismiss();
 			}
 		});

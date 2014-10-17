@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseFragment;
+import com.jovision.bean.Device;
+import com.jovision.commons.JVDeviceConst;
 
 public class ManageAdapter extends BaseAdapter {
 
@@ -22,17 +24,20 @@ public class ManageAdapter extends BaseAdapter {
 	private int[] manageResArray = { R.drawable.manage_bgone,
 			R.drawable.manage_bgtwo, R.drawable.manage_bgthree,
 			R.drawable.manage_bgfour, R.drawable.manage_bgfive,
-			R.drawable.manage_bgsix };
+			R.drawable.manage_bgsix, R.drawable.manage_bgseven, };
 	private int[] manageBgArray = { R.drawable.videoedit_set_icon,
 			R.drawable.videoedit_devicemanager_icon,
 			R.drawable.videoedit_connectmode_icon,
 			R.drawable.videoedit_channal_icon, R.drawable.videoedit_see_icon,
-			R.drawable.videoedit_add_icon };
+			R.drawable.videoedit_add_icon, R.drawable.videoedit_set_icon, };
 
 	private String[] fuctionArray;
 
 	private boolean showDelete = false;
 	private int screenWidth = 0;
+
+	private Device device;
+	private boolean loacal;// 本地登陆
 
 	public ManageAdapter(BaseFragment fragment) {
 		mfragment = fragment;
@@ -42,9 +47,10 @@ public class ManageAdapter extends BaseAdapter {
 				.getStringArray(R.array.manage_function);
 	}
 
-	public void setData(int width) {
+	public void setData(int width, Device dev, boolean local) {
 		screenWidth = width;
-
+		device = dev;
+		this.loacal = local;
 	}
 
 	// 控制是否显示删除按钮
@@ -98,7 +104,7 @@ public class ManageAdapter extends BaseAdapter {
 		channelHolder.manageBG.setLayoutParams(rllp);
 		channelHolder.function.setText(fuctionArray[position]);
 		channelHolder.img.setBackgroundResource(manageBgArray[position]);
-		int resID = manageResArray[position % 6];
+		int resID = manageResArray[position % 7];
 		channelHolder.manageBG.setBackgroundResource(resID);
 
 		channelHolder.manageBG.setOnClickListener(new OnClickListener() {
@@ -116,6 +122,30 @@ public class ManageAdapter extends BaseAdapter {
 				mfragment.onNotify(Consts.MANAGE_ITEM_CLICK, position, 0, null);
 			}
 		});
+
+		// 本地登陆
+		if (loacal) {
+			if (6 == position) {
+				convertView.setVisibility(View.GONE);
+			}
+		} else {
+			if (6 == position) {
+				if (2 == device.getDeviceType()) {
+					convertView.setVisibility(View.VISIBLE);
+					if (JVDeviceConst.DEVICE_SWITCH_OPEN == device
+							.getAlarmSwitch()) {
+						channelHolder.function.setText(R.string.protect_opened);
+					} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
+							.getAlarmSwitch()) {
+						channelHolder.function.setText(R.string.protect_closed);
+					}
+				} else {
+					convertView.setVisibility(View.GONE);
+				}
+
+			}
+		}
+
 		return convertView;
 	}
 

@@ -104,7 +104,9 @@ public class DeviceUtil {
 										dev.setIsDevice(1);
 									}
 
-									dev.setAlarmOnlineState(obj
+									dev.setDeviceType(obj
+											.optInt(JVDeviceConst.JK_DEVICE_TYPE));
+									dev.setServerState(obj
 											.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
 									deviceList.add(dev);
 								}
@@ -113,7 +115,6 @@ public class DeviceUtil {
 					}
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -712,7 +713,7 @@ public class DeviceUtil {
 													dev.setAlarmSwitch(obj
 															.optInt(JVDeviceConst.JK_ALARM_SWITCH));
 												}
-												dev.setAlarmOnlineState(obj
+												dev.setServerState(obj
 														.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
 												flag[k] = true;
 											}

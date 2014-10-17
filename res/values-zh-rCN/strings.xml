@@ -531,6 +531,14 @@
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">一共有</string>
     <string name="str_aft">个设备</string>
+    <string name="protect_open_succ">安全防护打开成功</string>
+    <string name="protect_open_fail">安全防护打开失败</string>
+    <string name="protect_close_succ">安全防护关闭成功</string>
+    <string name="protect_close_fail">安全防护关闭失败</string>
+    <string name="device_offline">设备离线不能执行此操作</string>
+    <string name="protect_opened">安全防护开启</string>
+    <string name="protect_closed">安全防护关闭</string>
+
     <!-- Dialog -->
     <string name="save">保存</string>
     <string name="cancle">取消</string>
@@ -578,7 +586,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.4(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.5(重构) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

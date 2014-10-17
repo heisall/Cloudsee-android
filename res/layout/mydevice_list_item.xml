@@ -146,9 +146,9 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/mydevice_parent_r"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mydevice_parent_r"
         android:layout_weight="1"
         android:paddingBottom="3dp"
         android:paddingLeft="3dp"

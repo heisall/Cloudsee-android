@@ -110,6 +110,7 @@
         <item>通道管理</item>
         <item>立即观看</item>
         <item>添加设备</item>
+        <item>安全防护</item>
     </string-array>
 
     <!-- 码流切换 -->

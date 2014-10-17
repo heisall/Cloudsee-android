@@ -57,7 +57,8 @@ public class Device {
 	 * 在设备管理界面（报警防护开关界面）需判断此标识，如果此标识为离线，则不允许用户操作报警防护开关。
 	 * 需要通过设备服务器操作设备的业务（报警防护，报警时段，baby模式等）需要此标识在线。
 	 */
-	private int alarmOnlineState = 0;
+	/** 　设备服务器是否上线　 */
+	private int serverState = 0;// 1,在线 0,离线
 
 	/** 设备是否带Wi-Fi */
 	private int hasWifi = 0;
@@ -197,6 +198,8 @@ public class Device {
 			object.put("isDevice", isDevice);
 			object.put("onlineState", onlineState);
 			object.put("hasWifi", hasWifi);
+			object.put("serverState", serverState);
+
 			try {
 				ArrayList<Channel> list = channelList.toList();
 				int size = list.size();
@@ -273,6 +276,8 @@ public class Device {
 			dev.setIsDevice(object.getInt("isDevice"));
 			dev.setOnlineState(object.getInt("onlineState"));
 			dev.setHasWifi(object.getInt("hasWifi"));
+			dev.setServerState(object.getInt("serverState"));
+
 			dev.setChannelList(Channel.fromJsonArray(
 					object.getString("channelList"), dev));
 
@@ -410,12 +415,12 @@ public class Device {
 		this.isselect = isselect;
 	}
 
-	public int getAlarmOnlineState() {
-		return alarmOnlineState;
+	public int getServerState() {
+		return serverState;
 	}
 
-	public void setAlarmOnlineState(int alarmOnlineState) {
-		this.alarmOnlineState = alarmOnlineState;
+	public void setServerState(int serverState) {
+		this.serverState = serverState;
 	}
 
 }

@@ -103,6 +103,9 @@ public class DeviceUtil {
 									} else {
 										dev.setIsDevice(1);
 									}
+
+									dev.setAlarmOnlineState(obj
+											.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
 									deviceList.add(dev);
 								}
 							}
@@ -709,6 +712,8 @@ public class DeviceUtil {
 													dev.setAlarmSwitch(obj
 															.optInt(JVDeviceConst.JK_ALARM_SWITCH));
 												}
+												dev.setAlarmOnlineState(obj
+														.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
 												flag[k] = true;
 											}
 										}

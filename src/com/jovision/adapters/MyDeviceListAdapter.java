@@ -95,8 +95,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		if (null == convertView) {
 			convertView = inflater.inflate(R.layout.mydevice_list_item, null);
 			deviceHolder = new DeviceHolder();
-			deviceHolder.mydevice_parent = (FrameLayout) convertView
-					.findViewById(R.id.mydevice_parent);
+			deviceHolder.mydeviceParentL = (FrameLayout) convertView
+					.findViewById(R.id.mydevice_parent_l);
 			deviceHolder.devLayoutL = (RelativeLayout) convertView
 					.findViewById(R.id.dev_layout_l);
 			deviceHolder.devNameL = (TextView) convertView
@@ -105,9 +105,9 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_online_l);
 			deviceHolder.wifiStateL = (TextView) convertView
 					.findViewById(R.id.dev_wifi_l);
-			deviceHolder.dev_online_img_l = (ImageView) convertView
+			deviceHolder.devOnlineImgL = (ImageView) convertView
 					.findViewById(R.id.dev_online_img_l);
-			deviceHolder.dev_wifi_img_l = (ImageView) convertView
+			deviceHolder.devWifiImgL = (ImageView) convertView
 					.findViewById(R.id.wifi_online_img_l);
 			deviceHolder.devImgL = (ImageView) convertView
 					.findViewById(R.id.dev_image_l);
@@ -118,6 +118,9 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			deviceHolder.editDevIVL = (LinearLayout) convertView
 					.findViewById(R.id.mydevice_edit_l);
 
+			deviceHolder.mydeviceParentR = (FrameLayout) convertView
+					.findViewById(R.id.mydevice_parent_r);
+
 			deviceHolder.devLayoutR = (RelativeLayout) convertView
 					.findViewById(R.id.dev_layout_r);
 			deviceHolder.devNameR = (TextView) convertView
@@ -126,9 +129,9 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_online_r);
 			deviceHolder.wifiStateR = (TextView) convertView
 					.findViewById(R.id.dev_wifi_r);
-			deviceHolder.dev_online_img_r = (ImageView) convertView
+			deviceHolder.devOnlineImgR = (ImageView) convertView
 					.findViewById(R.id.dev_online_img_r);
-			deviceHolder.dev_wifi_img_r = (ImageView) convertView
+			deviceHolder.devWifiImgR = (ImageView) convertView
 					.findViewById(R.id.wifi_online_img_r);
 			deviceHolder.devImgR = (ImageView) convertView
 					.findViewById(R.id.dev_image_r);
@@ -149,15 +152,15 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						.get(Consts.LOCAL_LOGIN))) {
 			deviceHolder.onLineStateL.setVisibility(View.GONE);
 			deviceHolder.wifiStateL.setVisibility(View.GONE);
-			deviceHolder.dev_online_img_l.setVisibility(View.GONE);
-			deviceHolder.dev_wifi_img_l.setVisibility(View.GONE);
+			deviceHolder.devOnlineImgL.setVisibility(View.GONE);
+			deviceHolder.devWifiImgL.setVisibility(View.GONE);
 		} else {
 			if (deviceList.get(position * 2).getHasWifi() == 1) {
-				deviceHolder.dev_wifi_img_l
+				deviceHolder.devWifiImgL
 						.setImageResource(R.drawable.wifionline);
 				deviceHolder.wifiStateL.setTextColor(0xffE8793F);
 			} else {
-				deviceHolder.dev_wifi_img_l
+				deviceHolder.devWifiImgL
 						.setImageResource(R.drawable.wifioffline);
 				deviceHolder.wifiStateL.setTextColor(0xffB4B3B3);
 			}
@@ -165,12 +168,12 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			if (deviceList.get(position * 2).getOnlineState() == 1) {
 				deviceHolder.onLineStateL.setText(R.string.str_device_online);
 				deviceHolder.onLineStateL.setTextColor(0xffE8793F);
-				deviceHolder.dev_online_img_l
+				deviceHolder.devOnlineImgL
 						.setImageResource(R.drawable.deviceonline);
 			} else {
 				deviceHolder.onLineStateL.setText(R.string.str_device_offline);
 				deviceHolder.onLineStateL.setTextColor(0xffB4B3B3);
-				deviceHolder.dev_online_img_l
+				deviceHolder.devOnlineImgL
 						.setImageResource(R.drawable.deviceoffline);
 			}
 		}
@@ -199,7 +202,6 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				setShowDelete(false);
 				notifyDataSetChanged();
 			}
@@ -208,13 +210,14 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				setShowDelete(false);
 				notifyDataSetChanged();
 			}
 		});
-		if (position * 2 + 1 < deviceList.size()) {
-			deviceHolder.devLayoutR.setVisibility(View.VISIBLE);
+		int rightPos = position * 2 + 1;
+		int size = deviceList.size();
+		if (rightPos < size) {
+			deviceHolder.mydeviceParentR.setVisibility(View.VISIBLE);
 			deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
 					.getFullNo());
 			if (Boolean
@@ -222,15 +225,15 @@ public class MyDeviceListAdapter extends BaseAdapter {
 							.get(Consts.LOCAL_LOGIN))) {
 				deviceHolder.onLineStateR.setVisibility(View.GONE);
 				deviceHolder.wifiStateR.setVisibility(View.GONE);
-				deviceHolder.dev_online_img_r.setVisibility(View.GONE);
-				deviceHolder.dev_wifi_img_r.setVisibility(View.GONE);
+				deviceHolder.devOnlineImgR.setVisibility(View.GONE);
+				deviceHolder.devWifiImgR.setVisibility(View.GONE);
 			} else {
 				if (deviceList.get(position * 2 + 1).getHasWifi() == 1) {
-					deviceHolder.dev_wifi_img_r
+					deviceHolder.devWifiImgR
 							.setImageResource(R.drawable.wifionline);
 					deviceHolder.wifiStateR.setTextColor(0xffE8793F);
 				} else {
-					deviceHolder.dev_wifi_img_r
+					deviceHolder.devWifiImgR
 							.setImageResource(R.drawable.wifioffline);
 					deviceHolder.wifiStateR.setTextColor(0xffB4B3B3);
 				}
@@ -238,18 +241,18 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					deviceHolder.onLineStateR
 							.setText(R.string.str_device_online);
 					deviceHolder.onLineStateR.setTextColor(0xffE8793F);
-					deviceHolder.dev_online_img_r
+					deviceHolder.devOnlineImgR
 							.setImageResource(R.drawable.deviceonline);
 				} else {
 					deviceHolder.onLineStateR
 							.setText(R.string.str_device_offline);
 					deviceHolder.onLineStateR.setTextColor(0xffB4B3B3);
-					deviceHolder.dev_online_img_r
+					deviceHolder.devOnlineImgR
 							.setImageResource(R.drawable.deviceoffline);
 				}
 			}
 		} else {
-			deviceHolder.devLayoutR.setVisibility(View.GONE);
+			deviceHolder.mydeviceParentR.setVisibility(View.GONE);
 		}
 
 		// 左侧按钮事件
@@ -322,8 +325,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 	}
 
 	class DeviceHolder {
-		FrameLayout mydevice_parent;
-
+		FrameLayout mydeviceParentL;
 		RelativeLayout devLayoutL;
 		TextView devNameL;
 		TextView onLineStateL;
@@ -332,7 +334,10 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		LinearLayout devDeleteL;
 		RelativeLayout editDevL;
 		LinearLayout editDevIVL;
+		ImageView devOnlineImgL;
+		ImageView devWifiImgL;
 
+		FrameLayout mydeviceParentR;
 		RelativeLayout devLayoutR;
 		TextView devNameR;
 		TextView onLineStateR;
@@ -341,11 +346,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		LinearLayout devDeleteR;
 		RelativeLayout editDevR;
 		LinearLayout editDevIVR;
-
-		ImageView dev_online_img_l;
-		ImageView dev_wifi_img_l;
-		ImageView dev_online_img_r;
-		ImageView dev_wifi_img_r;
+		ImageView devOnlineImgR;
+		ImageView devWifiImgR;
 	}
 
 	protected void dialog(final int position) {
@@ -356,7 +358,6 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				mfragment.onNotify(DEVICE_ITEM_DEL_CLICK, position, 0, null);
 			}
 		});
@@ -364,7 +365,6 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				dialog.dismiss();
 			}
 		});

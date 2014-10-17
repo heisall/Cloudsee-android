@@ -18,7 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -521,41 +520,41 @@ public abstract class PlayActivity extends BaseActivity {
 			videTurnBtn.setVisibility(View.VISIBLE);
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_left_selector));
-//			bottombut6.setVisibility(View.VISIBLE);
+			// bottombut6.setVisibility(View.VISIBLE);
 			relative6.setVisibility(View.VISIBLE);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_left_selector));
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 				relative6.setVisibility(View.VISIBLE);
-//				bottombut6.setVisibility(View.VISIBLE);
+				// bottombut6.setVisibility(View.VISIBLE);
 				videTurnBtn.setVisibility(View.GONE);
 			} else {
-//				if (relative6.getVisibility() == 0) {
-//					linear.removeView(relative6);
-//					linear.addView(relative6, linear.getChildCount());
-//					bottombut6.setVisibility(View.GONE);
-//					videTurnBtn.setVisibility(View.VISIBLE);
-//				}
+				// if (relative6.getVisibility() == 0) {
+				// linear.removeView(relative6);
+				// linear.addView(relative6, linear.getChildCount());
+				// bottombut6.setVisibility(View.GONE);
+				// videTurnBtn.setVisibility(View.VISIBLE);
+				// }
 			}
 		} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
 			videTurnBtn.setVisibility(View.VISIBLE);
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_right_selector));
 			relative6.setVisibility(View.VISIBLE);
-//			bottombut6.setVisibility(View.VISIBLE);
+			// bottombut6.setVisibility(View.VISIBLE);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_right_selector));
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-//				bottombut6.setVisibility(View.VISIBLE);
+			// bottombut6.setVisibility(View.VISIBLE);
 				relative6.setVisibility(View.VISIBLE);
 				videTurnBtn.setVisibility(View.GONE);
 			} else {
-//				if (relative6.getVisibility() == 0) {
-//					linear.removeView(relative6);
-//					linear.addView(relative6, linear.getChildCount());
-//					bottombut6.setVisibility(View.GONE);
-					videTurnBtn.setVisibility(View.VISIBLE);
-//				}
+				// if (relative6.getVisibility() == 0) {
+				// linear.removeView(relative6);
+				// linear.addView(relative6, linear.getChildCount());
+				// bottombut6.setVisibility(View.GONE);
+				videTurnBtn.setVisibility(View.VISIBLE);
+				// }
 			}
 		} else {
 			if (relative6.getVisibility() == View.VISIBLE) {

@@ -166,6 +166,13 @@
 + `utils/callbacks.*`: 网络库回调函数
 + `utils/threads.*`: 内部线程函数
 
+## 延迟统计
+
++ searchLanDevice -> `JVC_MOLANSerchDevice`: ms
++ queryDevice -> `JVC_QueryDevice`: ms
++ getChannelCount -> `JVC_WANGetChannelCount`: s
++ isDeviceOnlin -> `JVC_GetYSTStatus`: s
+
 ## 回调说明
 
 ConnectChange
@@ -238,6 +245,7 @@ play
     // play doomed
     id, index, bad_status, null
     id, index, playback_done, null
+    id, index, hdec_buffering, null
 
     // play audio
     id, index, is_play_back, byte[]

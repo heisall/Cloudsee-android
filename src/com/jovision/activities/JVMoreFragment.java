@@ -56,18 +56,13 @@ public class JVMoreFragment extends BaseFragment {
 	// 最后一次登录时间
 	private TextView more_lasttime;
 	// 图片数组
-	private int[] Image = { R.drawable.morefragment_help_icon,
-			R.drawable.morefragment_user_icon,
-			R.drawable.morefragment_set_icon,
-			R.drawable.morefragment_shark_icon,
+	private int[] Image = { R.drawable.morefragment_modifypwd_icon,
+			R.drawable.morefragment_feedback_icon,
+			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon,
-			R.drawable.morefragment_edit_icon,
-			R.drawable.morefragment_remark_icon };
-	// 图片背景数组
-	private int[] imageBg = { R.drawable.morefragment_color1,
-			R.drawable.morefragment_color2, R.drawable.morefragment_color3,
-			R.drawable.morefragment_color4, R.drawable.morefragment_color5,
-			R.drawable.morefragment_color6, R.drawable.morefragment_color7 };
+			R.drawable.morefragment_help_icon,
+			R.drawable.morefragment_warmmessage_icon,
+			R.drawable.morefragment_setting_icon };
 	// 功能名称数组
 	// 功能名称数组
 	private String[] fragment_name;
@@ -147,9 +142,8 @@ public class JVMoreFragment extends BaseFragment {
 		for (int i = 0; i < Image.length; i++) {
 			MoreFragmentBean bean = new MoreFragmentBean();
 			bean.setItem_img(Image[i]);
-			bean.setItem_linear(imageBg[i]);
 			bean.setName(fragment_name[i]);
-			if (i == 0 || i == 2 || i == 6) {
+			if (i == 1 || i == 3) {
 				bean.setIsnew(true);
 			} else {
 				bean.setIsnew(false);
@@ -196,22 +190,6 @@ public class JVMoreFragment extends BaseFragment {
 									Toast.LENGTH_SHORT).show();
 							break;
 						case 1:
-							Toast.makeText(activity, "开发中..1",
-									Toast.LENGTH_SHORT).show();
-							break;
-						case 2:
-							Intent settingintent = new Intent(mActivity,
-									JVSettingActivity.class);
-							startActivity(settingintent);
-							break;
-						case 3:
-
-							break;
-						case 4:
-							Toast.makeText(activity, "开发中..4",
-									Toast.LENGTH_SHORT).show();
-							break;
-						case 5:
 							if (("firsted").equals(MySharedPreference
 									.getString(Consts.MORE_FREGMENT_FEEDBACK))) {
 								Intent intent = new Intent(mActivity,
@@ -228,16 +206,55 @@ public class JVMoreFragment extends BaseFragment {
 								startActivity(intent);
 							}
 							break;
-						case 6:
+						case 2:
 							CheckUpdateTask task = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];
 							strParams[0] = "1";// 0,手动检查更新
 							task.execute(strParams);
 							break;
+						case 3:
+
+							break;
+						case 4:
+							if (MySharedPreference.getBoolean("HELP")) {
+								MySharedPreference.putBoolean("HELP", false);
+							} else {
+								MySharedPreference.putBoolean("HELP", true);
+							}
+							break;
+						case 5:
+							if (MySharedPreference.getBoolean("AlarmSwitch")) {
+								MySharedPreference.putBoolean("AlarmSwitch",
+										false);
+							} else {
+								MySharedPreference.putBoolean("AlarmSwitch",
+										true);
+							}
+							break;
+						case 6:
+							if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+								MySharedPreference.putBoolean("PlayDeviceMode",
+										false);
+								dataList.get(6).setName(
+										mActivity.getResources().getString(
+												R.string.str_video_modetwo));
+							} else {
+								MySharedPreference.putBoolean("PlayDeviceMode",
+										true);
+								dataList.get(6)
+										.setName(
+												mActivity
+														.getResources()
+														.getString(
+																R.string.str_video_more_modetwo));
+							}
+
+							break;
 						default:
 							break;
 						}
+						adapter.notifyDataSetChanged();
 					}
 				});
 	}

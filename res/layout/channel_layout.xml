@@ -18,10 +18,10 @@
                 android:layout_centerHorizontal="true"
                 android:layout_margin="20px"
                 android:cacheColorHint="@color/transparent"
-                android:horizontalSpacing="20px"
+                android:horizontalSpacing="15px"
                 android:listSelector="@color/transparent"
                 android:numColumns="4"
-                android:verticalSpacing="20px" >
+                android:verticalSpacing="15px" >
             </com.jovision.views.MyGridView>
 
             <Button

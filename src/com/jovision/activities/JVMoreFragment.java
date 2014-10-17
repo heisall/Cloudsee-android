@@ -186,8 +186,8 @@ public class JVMoreFragment extends BaseFragment {
 						// TODO Auto-generated method stub
 						switch (position) {
 						case 0:
-							Toast.makeText(activity, "开发中..0",
-									Toast.LENGTH_SHORT).show();
+							Intent editpassintent = new Intent(mActivity,JVEditPassActivity.class);
+							startActivity(editpassintent);
 							break;
 						case 1:
 							if (("firsted").equals(MySharedPreference

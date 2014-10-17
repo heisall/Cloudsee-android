@@ -75,7 +75,6 @@ public class JVFragmentIndicator extends LinearLayout implements
 		tabIcon.setImageResource(iconResID);
 		tabTitle.setTag(textTag);
 		tabTitle.setTextColor(stringColor);
-		// tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
 		tabTitle.setText(title);
 
 		LinearLayout view = new LinearLayout(getContext());
@@ -99,7 +98,7 @@ public class JVFragmentIndicator extends LinearLayout implements
 		for (int i = 0; i < length; i++) {
 			mIndicators[i] = createIndicator(unSelectedArray[i], titleArray[i],
 					COLOR_UNSELECT, iconTagArray[i], textTagArray[i]);
-			// mIndicators[i].setBackgroundResource(R.drawable.indic_select);
+			 mIndicators[i].setBackgroundResource(R.drawable.indic_select);
 			mIndicators[i].setTag(Integer.valueOf(i));
 			mIndicators[i].setOnClickListener(this);
 			addView(mIndicators[i]);
@@ -108,7 +107,7 @@ public class JVFragmentIndicator extends LinearLayout implements
 
 	public static void setIndicator(int which) {
 		// clear previous status.
-		mIndicators[mCurIndicator].setBackgroundColor(Color.alpha(0));
+//		mIndicators[mCurIndicator].setBackgroundColor(Color.alpha(0));
 		ImageView prevIcon;
 		TextView prevText;
 

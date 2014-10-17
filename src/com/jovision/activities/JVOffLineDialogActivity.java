@@ -75,6 +75,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			break;
 		}
 		case SEND_MAIL_SUCC: {
+			this.finish();
 			android.os.Process.killProcess(android.os.Process.myPid());
 			System.exit(0);
 
@@ -82,6 +83,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		}
 		case SEND_MAIL_FAIL: {
 			dismissDialog();
+			this.finish();
 			android.os.Process.killProcess(android.os.Process.myPid());
 			System.exit(0);
 			break;
@@ -312,7 +314,6 @@ public class JVOffLineDialogActivity extends BaseActivity {
 				try {
 					Thread.sleep(1500);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				handler.sendEmptyMessage(SEND_MAIL_SUCC);

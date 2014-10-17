@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -21,9 +22,11 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.ManageAdapter;
 import com.jovision.bean.Device;
+import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 
 public class ManageFragment extends BaseFragment {
@@ -62,6 +65,17 @@ public class ManageFragment extends BaseFragment {
 
 	public void setDevIndex(int index) {
 		deviceIndex = index;
+		device = deviceList.get(deviceIndex);
+		try {
+			if (null != device) {
+				manageAdapter
+						.setData(disMetrics.widthPixels, device, localFlag);
+				manageGridView.setAdapter(manageAdapter);
+				manageAdapter.notifyDataSetChanged();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		MyLog.v(TAG, "setDevIndex=" + index);
 	}
 
@@ -78,7 +92,8 @@ public class ManageFragment extends BaseFragment {
 		manageAdapter = new ManageAdapter(this);
 		try {
 			if (null != device) {
-				manageAdapter.setData(disMetrics.widthPixels);
+				manageAdapter
+						.setData(disMetrics.widthPixels, device, localFlag);
 				manageGridView.setAdapter(manageAdapter);
 				manageAdapter.notifyDataSetChanged();
 			}
@@ -145,6 +160,12 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 
+			case 6: {// 安全防护开关
+				mActivity.createDialog("");
+				AlarmSwitchTask task = new AlarmSwitchTask();
+				String[] params = new String[3];
+				task.execute(params);
+			}
 			}
 			break;
 		}
@@ -319,5 +340,84 @@ public class ManageFragment extends BaseFragment {
 			}
 		}
 	};
+
+	// 设置三种类型参数分别为String,Integer,String
+	class AlarmSwitchTask extends AsyncTask<String, Integer, Integer> {
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int switchRes = -1;// 0成功， 1失败，1000离线
+			try {
+				if (null == device) {
+					device = deviceList.get(deviceIndex);
+				}
+
+				if (JVDeviceConst.DEVICE_SERVER_ONLINE == device
+						.getServerState()) {
+					int sendTag = 0;
+					if (JVDeviceConst.DEVICE_SWITCH_OPEN == device
+							.getAlarmSwitch()) {
+						sendTag = JVDeviceConst.DEVICE_SWITCH_CLOSE;
+					} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
+							.getAlarmSwitch()) {
+						sendTag = JVDeviceConst.DEVICE_SWITCH_OPEN;
+					}
+					switchRes = DeviceUtil.saveSettings(
+							JVDeviceConst.DEVICE_ALARTM_SWITCH, sendTag,
+							mActivity.statusHashMap.get(Consts.KEY_USERNAME),
+							device.getFullNo());
+				} else {
+					switchRes = 1000;
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return switchRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			mActivity.dismissDialog();
+			if (0 == result) {
+				if (JVDeviceConst.DEVICE_SWITCH_OPEN == device.getAlarmSwitch()) {
+					device.setAlarmSwitch(JVDeviceConst.DEVICE_SWITCH_CLOSE);
+					mActivity.showTextToast(R.string.protect_close_succ);
+				} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
+						.getAlarmSwitch()) {
+					device.setAlarmSwitch(JVDeviceConst.DEVICE_SWITCH_OPEN);
+					mActivity.showTextToast(R.string.protect_open_succ);
+				}
+				manageAdapter.notifyDataSetChanged();
+			} else if (1000 == result) {
+				mActivity.showTextToast(R.string.device_offline);
+			} else {
+				if (JVDeviceConst.DEVICE_SWITCH_OPEN == device.getAlarmSwitch()) {
+					mActivity.showTextToast(R.string.protect_close_fail);
+				} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
+						.getAlarmSwitch()) {
+					mActivity.showTextToast(R.string.protect_open_fail);
+				}
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			mActivity.createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
 
 }

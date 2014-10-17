@@ -16,6 +16,8 @@ public class JVDeviceConst {
 	public static final int DEVICE_SWITCH_OPEN = 1; // 打开
 	public static final int DEVICE_SWITCH_CLOSE = 0; // 关闭
 
+	public static final int DEVICE_SERVER_ONLINE = 1; // 设备服务器上上线
+	public static final int DEVICE_SERVER_OFFLINE = 0; // 设备服务器上离线
 	/**
 	 * 2014_2_19
 	 */

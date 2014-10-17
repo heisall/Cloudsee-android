@@ -35,6 +35,13 @@
         <item>二维码扫描</item>
         <item>无线设备</item>
         <item>局域网设备</item>
+        <item>IP/域名设备</item>
+    </string-array>
+     <string-array name="array_popno">
+        <item>云视通号</item>
+        <item>二维码扫描</item>
+        <item>无线设备</item>
+        <item>局域网设备</item>
     </string-array>
 
     <!-- 家庭安防产品 -->
@@ -124,6 +131,7 @@
         <item>通道管理</item>
         <item>立即观看</item>
         <item>添加设备</item>
+        <item>安全防护</item>
     </string-array>
 
     <!-- 码流切换 -->

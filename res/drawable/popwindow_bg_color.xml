@@ -3,7 +3,7 @@
 
     <stroke
         android:width="5dip"
-        android:color="#696969" />
+        android:color="@color/popwindow_bg_color" />
     <!-- 描边 ：边框宽度与颜色 -->
     <padding
         android:bottom="0dip"
@@ -20,10 +20,10 @@
 
     <gradient
         android:angle="270"
-        android:endColor="#696969"
-        android:startColor="#696969" />
+        android:endColor="@color/popwindow_bg_color"
+        android:startColor="@color/popwindow_bg_color" />
     <!-- 渐变 -->
-    <solid android:color="#696969" />
+    <solid android:color="@color/popwindow_bg_color" />
     <!-- 没有描边的中间部分 -->
     <!-- solid 与  gradient 只能显示在代码最后那个 -->
 

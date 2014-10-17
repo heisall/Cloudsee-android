@@ -40,9 +40,18 @@
     <color name="tab_text_color">#898989</color>
     <color name="tab_bg_color">#F5F5F5</color>
     <color name="ivory">#FFFFF0</color>
-	<!-- Dialog颜色值 -->
-	<color name = "dialogchannal">#404040</color>
-	<color name = "dialogchannaltext">#55A0FF</color>
+    <!-- Dialog颜色值 -->
+    <color name="dialogchannal">#404040</color>
+    <color name="dialogchannaltext">#55A0FF</color>
+    <color name="poplistBg">#565656</color>
+    <color name="slectorDialogBg">#333333</color>
+    <color name="popwindow_bg_color">#696969</color>
+    <color name="my_wane_shape">#F7F7F7</color>
+    <color name="my_toast_bg">#BB000000</color>
+    <color name="button_select_textcolor">#289cff</color>
+    <color name="button_fontstyle">#a9b8cc</color>
+    <color name="button_fontstyl11">#b4b4b8</color>
+    <color name="button_fontstyle2">#94b9d9</color>
     <!-- 更多功能字体颜色 -->
     <color name="more_fragment_color">#888888</color>
     <color name="more_fragment_color1">#3c72c4</color>

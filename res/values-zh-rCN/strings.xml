@@ -283,6 +283,7 @@
     <string name="pull_to_refresh_refreshing_label">加载中...</string>
     <string name="pull_to_refresh_repeat_label">刷新频繁，请稍后再试</string>
     <string name="pull_to_refresh_tap_label">单击可以刷新</string>
+    <string name="pull_from_time">更新于：</string>
     <string name="str_data_load_success">设备加载成功</string>
     <string name="str_data_load_nodevice">您还没有添加过设备</string>
     <string name="str_data_load_failed">设备加载失败</string>

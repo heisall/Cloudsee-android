@@ -569,8 +569,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		dialog_cancle_img = (ImageView) view
 				.findViewById(R.id.dialog_cancle_img);
 		dialogCancel = (TextView) view.findViewById(R.id.dialog_cancel);
-		dialogCompleted = (TextView) view
-				.findViewById(R.id.dialog_completed);
+		dialogCompleted = (TextView) view.findViewById(R.id.dialog_completed);
 		device_name = (TextView) view.findViewById(R.id.device_namew);
 		device_nicket = (EditText) view.findViewById(R.id.device_nicket);
 		device_niceet_cancle = (ImageView) view

@@ -3,7 +3,7 @@
 
     <stroke
         android:width="0dip"
-        android:color="#BB000000" />
+        android:color="@color/my_toast_bg" />
     <!-- 描边 ：边框宽度与颜色 -->
     <padding
         android:bottom="0dip"
@@ -20,10 +20,10 @@
 
     <gradient
         android:angle="270"
-        android:endColor="#BB000000"
-        android:startColor="#BB000000" />
+        android:endColor="@color/my_toast_bg"
+        android:startColor="@color/my_toast_bg" />
     <!-- 渐变 -->
-    <solid android:color="#BB000000" />
+    <solid android:color="@color/my_toast_bg" />
     <!-- 没有描边的中间部分 -->
     <!-- solid 与  gradient 只能显示在代码最后那个 -->
 

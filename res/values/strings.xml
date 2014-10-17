@@ -280,6 +280,7 @@
     <string name="str_refresh_data">Refresh Data</string>
     <string name="str_refreshing_data">Refreshing Data...</string>
     <string name="pull_to_refresh_pull_label">Pull to refresh...</string>
+    <string name="pull_from_time">更新于：</string>
     <string name="pull_to_refresh_release_label">Release to refresh...</string>
     <string name="pull_to_refresh_refreshing_label">Loading...</string>
     <string name="pull_to_refresh_repeat_label">Refresh frequently, please try again later</string>

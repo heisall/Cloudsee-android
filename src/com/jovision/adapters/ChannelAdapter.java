@@ -200,25 +200,36 @@ public class ChannelAdapter extends BaseAdapter {
 	}
 
 	protected void dialog(final int channel) {
+		String okString = mfragment.getActivity().getResources()
+				.getString(R.string.ok);
+		String delectString = mfragment.getActivity().getResources()
+				.getString(R.string.str_delete_sure);
+		String warmString = mfragment.getActivity().getResources()
+				.getString(R.string.str_delete_tip);
+		String cancleString = mfragment.getActivity().getResources()
+				.getString(R.string.str_crash_cancel);
 		AlertDialog.Builder builder = new Builder(mfragment.getActivity());
-		builder.setMessage("确认删除该通道吗？");
-		builder.setTitle("提示");
-		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+		builder.setMessage(delectString);
+		builder.setTitle(warmString);
+		builder.setPositiveButton(okString,
+				new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				mfragment.onNotify(CHANNEL_ITEM_DEL_CLICK, channel, 0, null);
-			}
-		});
-		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						mfragment.onNotify(CHANNEL_ITEM_DEL_CLICK, channel, 0,
+								null);
+					}
+				});
+		builder.setNegativeButton(cancleString,
+				new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-			}
-		});
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						dialog.dismiss();
+					}
+				});
 		builder.create().show();
 	}
 }

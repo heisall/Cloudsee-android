@@ -250,6 +250,7 @@
     <string name="str_reset">正在重置</string>
     <!-- 修改密码 -->
     <string name="login_str_ipaddress">IP</string>
+    <string name="login_str_ipaddressdevice">IP/域名</string>
     <string name="login_str_port">端    口</string>
     <string name="login_str_user_name">用户名</string>
     <string name="str_pass">密    码</string>

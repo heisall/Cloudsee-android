@@ -313,6 +313,14 @@ public class JVDeviceConst {
 	public static final int MODIFY_DEVICE_CHANNEL_NAME = 2045;
 	/** 修改通道名Response */
 	public static final int MODIFY_DEVICE_CHANNEL_NAME_RESPONSE = 2046;
+
+	/** 获取演示点 Request */
+	public static final int GET_DEMO_POINT = 2057;
+	/** 获取演示点 Response */
+	public static final int GET_DEMO_POINT_RESPONSE = 2058;
+	/** 软件类型 */
+	public static final String JK_CUSTOM_TYPE = "custom_type";
+
 	/**
 	 * 2014-2-20 新增消息类型：
 	 */

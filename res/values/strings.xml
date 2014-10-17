@@ -467,7 +467,7 @@
     <string name="del_device_failed">Device deleted failed</string>
     <string name="wifi_device">无线设备</string>
     <string name="line_device">有线设备</string>
-
+    <string name="selectone_to_connect">请选择至少一个通道进行连接</string>
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">一共有</string>
     <string name="str_aft">个设备</string>

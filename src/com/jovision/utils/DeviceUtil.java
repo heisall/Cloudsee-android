@@ -1380,4 +1380,79 @@ public class DeviceUtil {
 		return res;
 	}
 
+	/**
+	 * 2014-10-17 获取演示点设备
+	 * 
+	 * @param
+	 * @return ArrayList<Device> 设备列表
+	 */
+	public static ArrayList<Device> getDemoDeviceList(String softName) {
+
+		ArrayList<Device> demoList = null;
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.GET_DEMO_POINT);// 2057
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// 1.0
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.DEV_INFO_PRO);// 1
+			jObj.put(JVDeviceConst.JK_CUSTOM_TYPE, softName);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		MyLog.v("getDemoDeviceList", jObj.toString());
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024 * 2];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+		String result = new String(resultStr);
+
+		MyLog.v("getDemoDeviceList---error", error + "");
+		MyLog.v("getDemoDeviceList---result", result);
+
+		if (null != result && !"".equalsIgnoreCase(result)) {
+			try {
+				JSONObject temObj = new JSONObject(result);
+				if (null != temObj) {
+					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// 2058
+					int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+
+					if (0 != rt) {// 获取失败
+						demoList = null;
+					} else {// 获取成功
+						demoList = new ArrayList<Device>();
+						JSONArray dlist = new JSONArray(
+								temObj.optString(JVDeviceConst.JK_DEVICE_LIST));
+						if (null != dlist && 0 != dlist.length()) {
+							for (int i = 0; i < dlist.length(); i++) {
+								JSONObject obj = dlist.getJSONObject(i);
+								if (null != obj) {
+									String fullNum = obj
+											.optString(JVDeviceConst.JK_DEVICE_GUID);
+									String gid = ConfigUtil.getGroup(fullNum);
+									int no = ConfigUtil.getYST(fullNum);
+									String user = obj
+											.optString(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME);
+									String pwd = obj
+											.optString(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD);
+									int counts = obj
+											.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_SUM);
+
+									Device dev = new Device("", 9101, gid, no,
+											user, pwd, true, counts, 1);
+									demoList.add(dev);
+								}
+							}
+						}
+					}
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return demoList;
+	}
 }

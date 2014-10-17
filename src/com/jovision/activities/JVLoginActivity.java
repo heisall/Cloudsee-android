@@ -295,6 +295,7 @@ public class JVLoginActivity extends BaseActivity {
 				}
 				break;
 			case R.id.regist_btn:// 注册
+				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				Intent registIntent = new Intent();
 				registIntent.setClass(JVLoginActivity.this,
 						JVRegisterActivity.class);

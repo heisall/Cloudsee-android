@@ -422,6 +422,7 @@ public class Jni {
 	 * @param uchType
 	 * @param data
 	 * @param size
+	 *            一定写0
 	 * @return
 	 */
 	public static native int sendCmd(int index, byte uchType, byte[] data,

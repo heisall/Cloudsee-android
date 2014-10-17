@@ -454,7 +454,7 @@
     <string name="str_update">当前设备已全部更新</string>
     <string name="wifi_device">无线设备</string>
     <string name="line_device">有线设备</string>
-
+    <string name="selectone_to_connect">请选择至少一个通道进行连接</string>
     <!-- JVInfoFragement -->
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加载更多</string>

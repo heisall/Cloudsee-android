@@ -113,7 +113,7 @@
                 android:id="@+id/more_listView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="#EBEAEB" >
+                android:divider="@color/morefragment" >
             </ListView>
 
             <RelativeLayout

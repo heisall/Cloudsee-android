@@ -173,7 +173,6 @@ public class JVChannelsActivity extends BaseActivity {
 			TextView view = new TextView(this);
 			view.setText(deviceList.get(i).getFullNo());
 			view.setSingleLine(true);
-			view.setId(4);
 			view.setTextColor(JVChannelsActivity.this.getResources().getColor(
 					R.color.devicemanagename));
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -256,19 +255,7 @@ public class JVChannelsActivity extends BaseActivity {
 
 		@Override
 		public void onPageSelected(final int position) {
-			// MyLog.v(TAG, "onPageSelected---position="+position);
-			for (int i = 0; i < deviceList.size(); i++) {
-				if (i == position) {
-					TextView view = (TextView) mLinearLayout.getChildAt(
-							position).findViewById(4);
-					view.setTextColor(R.color.cyan);
-				} else {
-					TextView view = (TextView) mLinearLayout.getChildAt(i)
-							.findViewById(4);
-					view.setTextColor(R.color.darkmagenta);
-				}
-			}
-
+			// MyLog.v(TAG, "onPageSelected---position="+position)
 			Animation animation = new TranslateAnimation(endPosition, position
 					* item_width, 0, 0);
 

@@ -125,6 +125,7 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 			}
 		}
 	};
+	String ip = "";
 
 	// 设置三种类型参数分别为String,Integer,String
 	class AddDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
@@ -133,7 +134,7 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 		protected Integer doInBackground(String... params) {
 			int addRes = -1;// 0:成功，其他失败
 			try {
-				String ip = ConfigUtil.getInetAddress(ipString);
+				ip = ConfigUtil.getInetAddress(ipString);
 				Device dev = new Device(ip, Integer.valueOf(portString),
 						ipString, -1, userString, pwdString, false, 4, 0);
 				dev.setIsDevice(2);
@@ -158,7 +159,8 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
 			if (0 == result) {
-				showTextToast(R.string.add_device_succ);
+				showTextToast(getResources()
+						.getString(R.string.add_device_succ) + ip);
 				JVAddIpDeviceActivity.this.finish();
 			} else {
 				showTextToast(R.string.add_device_failed);

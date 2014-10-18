@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -34,9 +35,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.handmark.pulltorefresh.extras.listfragment.PullToRefreshListFragment;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -54,8 +57,8 @@ import com.jovision.views.ImageViewPager;
 /**
  * 我的设备
  */
-public class JVMyDeviceFragment extends BaseFragment implements
-		PullToRefreshBase.OnRefreshListener<ListView> {
+public class JVMyDeviceFragment extends BaseFragment {
+
 	private String TAG = "MyDeviceFragment";
 
 	private static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
@@ -69,7 +72,6 @@ public class JVMyDeviceFragment extends BaseFragment implements
 
 	// private RefreshableView refreshableView;
 	private PullToRefreshListView mPullRefreshListView;
-	private PullToRefreshListFragment mPullRefreshListFragment;
 
 	/** 叠加两个 布局 */
 	private LinearLayout deviceLayout; // 设备列表界面
@@ -172,13 +174,38 @@ public class JVMyDeviceFragment extends BaseFragment implements
 		// refreshableView = (RefreshableView) mParent
 		// .findViewById(R.id.device_refreshable_view);
 
-		mPullRefreshListFragment = (PullToRefreshListFragment) getActivity()
-				.getSupportFragmentManager().findFragmentById(
-						R.id.device_refreshable_view);
-		mPullRefreshListView = mPullRefreshListFragment
-				.getPullToRefreshListView();
+		mPullRefreshListView = (PullToRefreshListView) getActivity()
+				.findViewById(R.id.device_refreshable_view);
 
-		mPullRefreshListView.setOnRefreshListener(this);
+		mPullRefreshListView
+				.setOnRefreshListener(new OnRefreshListener<ListView>() {
+					@Override
+					public void onRefresh(
+							PullToRefreshBase<ListView> refreshView) {
+						String label = DateUtils.formatDateTime(getActivity(),
+								System.currentTimeMillis(),
+								DateUtils.FORMAT_SHOW_TIME
+										| DateUtils.FORMAT_SHOW_DATE
+										| DateUtils.FORMAT_ABBREV_ALL);
+
+						// Update the LastUpdatedLabel
+						refreshView.getLoadingLayoutProxy()
+								.setLastUpdatedLabel(label);
+
+						// Do work to refresh the list here.
+						new GetDataTask().execute();
+					}
+				});
+
+		mPullRefreshListView
+				.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+
+					@Override
+					public void onLastItemVisible() {
+						Toast.makeText(getActivity(), "End of List!",
+								Toast.LENGTH_SHORT).show();
+					}
+				});
 
 		adView = inflater.inflate(R.layout.ad_layout, null);
 
@@ -200,12 +227,10 @@ public class JVMyDeviceFragment extends BaseFragment implements
 				R.drawable.dot_normal);
 
 		myDLAdapter = new MyDeviceListAdapter(mActivity, this);
+
 		// myDeviceListView = (ListView) mParent
 		// .findViewById(R.id.device_listview);
-
 		myDeviceListView = mPullRefreshListView.getRefreshableView();
-
-		myDeviceListView.setDivider(null);
 		// .setDividerDrawable(getResources().getDrawable(R.drawable.red_rank));
 
 		myDeviceListView.addHeaderView(adView);
@@ -251,8 +276,6 @@ public class JVMyDeviceFragment extends BaseFragment implements
 			String[] strParams = new String[3];
 			task.execute(strParams);
 		}
-
-		mPullRefreshListFragment.setListShown(true);
 	}
 
 	@Override
@@ -741,11 +764,6 @@ public class JVMyDeviceFragment extends BaseFragment implements
 				}
 			}
 		});
-	}
-
-	@Override
-	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-		new GetDataTask().execute();
 	}
 
 	private class GetDataTask extends AsyncTask<Void, Void, String[]> {

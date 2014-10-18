@@ -59,6 +59,8 @@ public class FragmentAdapter extends BaseAdapter {
 			holder.item_next = (ImageView) convertView
 					.findViewById(R.id.item_next);
 			holder.name = (TextView) convertView.findViewById(R.id.item_name);
+			holder.item_version = (TextView) convertView
+					.findViewById(R.id.item_version);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -66,26 +68,33 @@ public class FragmentAdapter extends BaseAdapter {
 		holder.item_img.setBackgroundResource(dataList.get(position)
 				.getItem_img());
 		holder.name.setText(dataList.get(position).getName());
-		if (position > 3 && position < 7) {
+		if (position == 5) {
+			holder.item_next.setVisibility(View.GONE);
+			holder.item_version.setVisibility(View.VISIBLE);
+			holder.item_version.setText(activity.getResources().getString(
+					R.string.str_current_version));
+		}
+		if (position > -1 && position < 3) {
 			holder.item_next
 					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			switch (position) {
-			case 4:
+			case 0:
 				if (MySharedPreference.getBoolean("HELP")) {
 					holder.item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}
 				break;
-			case 5:
+			case 1:
 				if (MySharedPreference.getBoolean("AlarmSwitch")) {
 					holder.item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}
 				break;
-			case 6:
+			case 2:
 				if (MySharedPreference.getBoolean("PlayDeviceMode")) {
 					holder.item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+
 				}
 				break;
 			default:
@@ -93,14 +102,11 @@ public class FragmentAdapter extends BaseAdapter {
 			}
 		}
 		if (dataList.get(position).isIsnew()) {
-			if (position == 3) {
-				holder.item_new
-						.setBackgroundResource(R.drawable.morefragment_red_icon);
-			} else if (position == 1) {
+			holder.item_new.setVisibility(View.VISIBLE);
+			if (position == 4) {
 				holder.item_new
 						.setBackgroundResource(R.drawable.morefragment_yellow_icon);
 			}
-			holder.item_new.setVisibility(View.VISIBLE);
 		} else {
 			holder.item_new.setVisibility(View.GONE);
 		}
@@ -112,6 +118,6 @@ public class FragmentAdapter extends BaseAdapter {
 		private TextView name;
 		private ImageView item_new;
 		private ImageView item_next;
-
+		private TextView item_version;
 	}
 }

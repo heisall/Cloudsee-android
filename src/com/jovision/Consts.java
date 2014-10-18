@@ -113,7 +113,7 @@ public class Consts {
 	public static final int EX_WIFI_CONFIG = 0x0A;
 
 	public static final int ARG1_PLAY_BAD = 0x01;
-	
+
 	public static final int DOWNLOAD_REQUEST = 0x20;
 	public static final int DOWNLOAD_START = 0x21;
 	public static final int DOWNLOAD_FINISHED = 0x22;

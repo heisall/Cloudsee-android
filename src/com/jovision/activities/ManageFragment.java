@@ -65,6 +65,9 @@ public class ManageFragment extends BaseFragment {
 
 	public void setDevIndex(int index) {
 		try {
+			if (null == deviceList || 0 == deviceList.size()) {
+				deviceList = CacheUtil.getDevList();
+			}
 			deviceIndex = index;
 			device = deviceList.get(deviceIndex);
 			if (null != device) {

@@ -88,8 +88,6 @@ public class JVLoginActivity extends BaseActivity {
 			userNameET.setText(((User) obj).getUserName());
 			passwordET.setText(((User) obj).getUserPwd());
 			pop.dismiss();
-			userAdapter.setName(obj.toString());
-			userAdapter.notifyDataSetChanged();
 			break;
 		}
 
@@ -241,7 +239,9 @@ public class JVLoginActivity extends BaseActivity {
 		public void onItemClick(AdapterView<?> adapterView, View view,
 				int index, long arg3) {
 			userListIndex = index;
-			onNotify(SELECT_USER, index, 0, userList.get(index));
+			onNotify(SELECT_USER, 0, 0, userList.get(index));
+			userAdapter.setName(userList.get(index).getUserName());
+			userAdapter.notifyDataSetChanged();
 		}
 	};
 

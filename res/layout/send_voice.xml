@@ -14,8 +14,8 @@
         android:padding="15dp" >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:src="@drawable/voice_call_2" />
 
         <TextView

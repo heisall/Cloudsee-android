@@ -17,11 +17,11 @@
     </ImageView>
 
     <LinearLayout
-        android:layout_marginBottom="20dp"
         android:id="@+id/centerlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -70,10 +70,10 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_marginTop="15dp"
             android:id="@+id/pass_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp" >
 
             <ImageView
                 android:id="@+id/pass_icon"
@@ -156,10 +156,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/funclayout" >
+        android:layout_below="@+id/funclayout"
+        android:layout_marginBottom="20dp" >
 
         <Button
             android:id="@+id/showpoint_btn"
@@ -167,9 +167,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:drawablePadding="15dp"
             android:background="@color/transparent"
             android:drawableLeft="@drawable/demo_icon"
+            android:drawablePadding="15dp"
             android:text="@string/login_str_showpoint"
             android:textColor="@color/white"
             android:textStyle="bold"

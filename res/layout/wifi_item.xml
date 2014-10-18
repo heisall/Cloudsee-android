@@ -28,14 +28,14 @@
 
         <ImageView
             android:id="@+id/wifistate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:src="@drawable/wifi_flag_close_bg" />
 
         <ImageView
             android:id="@+id/wifidetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginLeft="5dp"
             android:src="@drawable/wifi_flag_close_bg" />
     </LinearLayout>

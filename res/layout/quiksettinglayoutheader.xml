@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/quicksetting_tips_img"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ipc_banner" />
 

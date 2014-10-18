@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -187,9 +186,10 @@ public class JVMoreFragment extends BaseFragment {
 						switch (position) {
 						case 0:
 							if (!localFlag) {
-								Intent editpassintent = new Intent(mActivity,JVEditPassActivity.class);
+								Intent editpassintent = new Intent(mActivity,
+										JVEditPassActivity.class);
 								startActivity(editpassintent);
-							}else {
+							} else {
 								mActivity.showTextToast(R.string.more_nologin);
 							}
 							break;

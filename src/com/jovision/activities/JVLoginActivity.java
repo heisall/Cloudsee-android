@@ -57,9 +57,8 @@ public class JVLoginActivity extends BaseActivity {
 	private Button onlineLoginBtn;
 	private Animation mAnimationRight;// 演示点动画
 	private Button registBtn;
-	private Button findPsw;
 	private Button localLoginBtn;
-	private TextView showPointTV;
+	private TextView showPointBtn;
 	private TextView findPassTV;
 
 	// 下拉箭头图片组件
@@ -117,9 +116,8 @@ public class JVLoginActivity extends BaseActivity {
 		passwordET = (EditText) findViewById(R.id.password_et);
 		onlineLoginBtn = (Button) findViewById(R.id.onlinelogin_btn);
 		findPassTV = (TextView) findViewById(R.id.findpass_tv);
-		showPointTV = (TextView) findViewById(R.id.showpoint_tv);
+		showPointBtn = (TextView) findViewById(R.id.showpoint_btn);
 		registBtn = (Button) findViewById(R.id.regist_btn);
-		findPsw = (Button) findViewById(R.id.editpass_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
 
 		if (null != userList && 0 != userList.size()) {
@@ -202,12 +200,12 @@ public class JVLoginActivity extends BaseActivity {
 		mAnimationRight = AnimationUtils.loadAnimation(JVLoginActivity.this,
 				R.anim.rotate_right);
 		mAnimationRight.setFillAfter(true);
-		showPointTV.setAnimation(mAnimationRight);
+		showPointBtn.setAnimation(mAnimationRight);
 		onlineLoginBtn.setBackgroundResource(R.drawable.blue_bg);
 		onlineLoginBtn.setOnClickListener(myOnClickListener);
-		showPointTV.setOnClickListener(myOnClickListener);
+		showPointBtn.setOnClickListener(myOnClickListener);
 		registBtn.setOnClickListener(myOnClickListener);
-		findPsw.setOnClickListener(myOnClickListener);
+		// findPsw.setOnClickListener(myOnClickListener);
 		localLoginBtn.setOnClickListener(myOnClickListener);
 		findPassTV.setOnClickListener(myOnClickListener);
 
@@ -301,11 +299,15 @@ public class JVLoginActivity extends BaseActivity {
 						JVRegisterActivity.class);
 				JVLoginActivity.this.startActivity(registIntent);
 				break;
-			case R.id.showpoint_tv:// 演示点
-				// Intent intent = new Intent(JVLoginActivity.this,
-				// JVMarkerActivity.class);
-				// intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				// JVLoginActivity.this.startActivity(intent);
+			case R.id.showpoint_btn:// 演示点
+				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
+					alertNetDialog();
+				} else {
+					Intent demoIntent = new Intent();
+					demoIntent.setClass(JVLoginActivity.this,
+							JVDemoActivity.class);
+					JVLoginActivity.this.startActivity(demoIntent);
+				}
 				break;
 			case R.id.locallogin_btn:// 本地登录
 				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
@@ -322,17 +324,6 @@ public class JVLoginActivity extends BaseActivity {
 				// JVPlayActivity.class);
 				// JVLoginActivity.this.startActivity(intentMain);
 				// JVLoginActivity.this.finish();
-				break;
-			case R.id.editpass_btn:
-
-				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
-					alertNetDialog();
-				} else {
-					Intent demoIntent = new Intent();
-					demoIntent.setClass(JVLoginActivity.this,
-							JVDemoActivity.class);
-					JVLoginActivity.this.startActivity(demoIntent);
-				}
 				break;
 			}
 		}

@@ -193,6 +193,7 @@ public class DeviceUtil {
 		}
 		return pointList;
 	}
+
 	/**
 	 * 修改用户密码
 	 * 
@@ -206,6 +207,7 @@ public class DeviceUtil {
 		Log.v("modifyUserPassword--", "-----||||||" + res + "");
 		return res;
 	}
+
 	/**
 	 * 修改通道名称
 	 * 

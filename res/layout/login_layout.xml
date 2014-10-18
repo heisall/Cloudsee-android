@@ -2,30 +2,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp"
     android:background="@drawable/login_bg" >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical" >
-
-        <ImageView
+    <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_above="@+id/centerlayout"
+            android:layout_marginBottom="30dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/login_logo_icon" >
         </ImageView>
-
+        
+    <LinearLayout
+        android:id="@+id/centerlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical" >
         <RelativeLayout
             android:id="@+id/user_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp" >
+            android:layout_marginTop="10dp" >
 
             <ImageView
                 android:id="@+id/user_icon"
@@ -71,7 +72,7 @@
             android:id="@+id/pass_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp" >
+            android:layout_marginTop="10dp" >
 
             <ImageView
                 android:id="@+id/pass_icon"
@@ -101,86 +102,78 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/login_user_divider" />
         </RelativeLayout>
-
-        <Button
+    </LinearLayout>
+    
+    
+     <Button
+         android:background="@drawable/login_online_bg"
+         android:layout_below="@+id/centerlayout"
             android:id="@+id/onlinelogin_btn"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/login_str_user_login"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
-        <LinearLayout
+     
+     <Button
+         android:background="@drawable/login_local_bg"
+         android:layout_below="@+id/onlinelogin_btn"
+            android:id="@+id/locallogin_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/str_local_login"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+     
+     <RelativeLayout
+         android:id="@+id/funclayout"
+         android:layout_below="@+id/locallogin_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/login_register_bg" >
-
-            <Button
+            android:layout_marginTop="10dp">
+         
+         <Button
+             android:layout_alignParentLeft="true"
                 android:id="@+id/regist_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
                 android:background="@color/transparent"
                 android:text="@string/login_str_user_regist"
                 android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/editpass_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:text="@string/login_str_showpoint"
-                android:textColor="@color/white" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/locallogin_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/login_register_bg"
-            android:text="@string/str_local_login"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="15dp"
-            android:visibility="visible" >
-
-            <TextView
+         <TextView
+             android:layout_alignParentRight="true"
                 android:id="@+id/findpass_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:autoLink="web"
                 android:gravity="right"
                 android:text="@string/str_find_pass"
                 android:textColor="@color/agreementcolor"
                 android:visibility="visible" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/showpoint_tv"
+     </RelativeLayout>
+     
+     
+     
+     <Button
+         android:background="@color/transparent"
+         android:drawableLeft="@drawable/demo_icon"
+         android:layout_below="@+id/funclayout"
+        android:id="@+id/showpoint_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:gravity="center_horizontal|top"
-        android:paddingTop="2dp"
         android:text="@string/login_str_showpoint"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:visibility="gone" />
+        android:visibility="visible" />
+     
+     
+     
+     
 
 </RelativeLayout>

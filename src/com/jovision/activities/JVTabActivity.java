@@ -27,7 +27,6 @@ public class JVTabActivity extends ShakeActivity {
 	protected Timer offlineTimer = new Timer();
 	private BaseFragment mFragments[] = new BaseFragment[5];
 
-
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -130,7 +129,7 @@ public class JVTabActivity extends ShakeActivity {
 
 		mFragments[0] = new JVMyDeviceFragment();
 		mFragments[1] = new JVInfoFragment();
-//		 mFragments[2] = new JVDemoFragment();
+		// mFragments[2] = new JVDemoFragment();
 		mFragments[2] = new JVDeviceManageFragment();
 		mFragments[3] = new JVMoreFragment();
 

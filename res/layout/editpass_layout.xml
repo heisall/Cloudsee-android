@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
 
-         <LinearLayout
+    <LinearLayout
         android:id="@+id/Addresslayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,7 +77,6 @@
             android:textColor="@color/black"
             android:textSize="20sp" />
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/userNameLayout"
@@ -173,4 +172,5 @@
             android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
+
 </LinearLayout>

@@ -32,6 +32,9 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.handmark.pulltorefresh.extras.listfragment.PullToRefreshListFragment;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.MyDeviceListAdapter;
@@ -43,13 +46,12 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.ImageViewPager;
-import com.jovision.views.RefreshableView;
-import com.jovision.views.RefreshableView.PullToRefreshListener;
 
 /**
  * 我的设备
  */
-public class JVMyDeviceFragment extends BaseFragment {
+public class JVMyDeviceFragment extends BaseFragment implements
+		PullToRefreshBase.OnRefreshListener<ListView> {
 	private String TAG = "MyDeviceFragment";
 
 	private static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
@@ -61,7 +63,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public static final int BROAD_ADD_DEVICE = 0x06;// 添加设备的广播--
 	public static final int BROAD_THREE_MINITE = 0x07;// 三分钟广播--
 
-	private RefreshableView refreshableView;
+	// private RefreshableView refreshableView;
+	private PullToRefreshListView mPullRefreshListView;
+	private PullToRefreshListFragment mPullRefreshListFragment;
 
 	/** 叠加两个 布局 */
 	private LinearLayout deviceLayout; // 设备列表界面
@@ -160,8 +164,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 		devicename = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
 		inflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		refreshableView = (RefreshableView) mParent
-				.findViewById(R.id.device_refreshable_view);
+		// refreshableView = (RefreshableView) mParent
+		// .findViewById(R.id.device_refreshable_view);
+
+		mPullRefreshListFragment = (PullToRefreshListFragment) getActivity()
+				.getSupportFragmentManager().findFragmentById(
+						R.id.device_refreshable_view);
+		mPullRefreshListView = mPullRefreshListFragment
+				.getPullToRefreshListView();
+		mPullRefreshListView.setOnRefreshListener(this);
+
 		adView = inflater.inflate(R.layout.ad_layout, null);
 
 		deviceLayout = (LinearLayout) mParent.findViewById(R.id.devicelayout);
@@ -182,26 +194,28 @@ public class JVMyDeviceFragment extends BaseFragment {
 				R.drawable.dot_normal);
 
 		myDLAdapter = new MyDeviceListAdapter(mActivity, this);
-		myDeviceListView = (ListView) mParent
-				.findViewById(R.id.device_listview);
+		// myDeviceListView = (ListView) mParent
+		// .findViewById(R.id.device_listview);
+
+		myDeviceListView = mPullRefreshListView.getRefreshableView();
 
 		myDeviceListView.addHeaderView(adView);
 		rightBtn.setOnClickListener(myOnClickListener);
 
-		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
-			@Override
-			public void onRefresh() {
-				GetDevTask task = new GetDevTask();
-				String[] strParams = new String[3];
-				task.execute(strParams);
-			}
-
-			@Override
-			public void onLayoutTrue() {
-				refreshableView.finishRefreshing();
-			}
-
-		}, 0);
+		// refreshableView.setOnRefreshListener(new PullToRefreshListener() {
+		// @Override
+		// public void onRefresh() {
+		// GetDevTask task = new GetDevTask();
+		// String[] strParams = new String[3];
+		// task.execute(strParams);
+		// }
+		//
+		// @Override
+		// public void onLayoutTrue() {
+		// refreshableView.finishRefreshing();
+		// }
+		//
+		// }, 0);
 
 		// 非3G加广播设备
 		if (!mActivity.is3G(false)) {
@@ -229,6 +243,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			task.execute(strParams);
 		}
 
+		mPullRefreshListFragment.setListShown(true);
 	}
 
 	@Override
@@ -674,6 +689,36 @@ public class JVMyDeviceFragment extends BaseFragment {
 		});
 	}
 
+	@Override
+	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+		new GetDataTask().execute();
+	}
+
+	private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+
+		@Override
+		protected String[] doInBackground(Void... params) {
+			try {
+				// [Neo] TODO
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String[] result) {
+			// [Neo] TODO add data here
+			// myDLAdapter.notifyDataSetChanged();
+
+			// [Neo] notify refreshed
+			mPullRefreshListView.onRefreshComplete();
+
+			super.onPostExecute(result);
+		}
+	}
+
 	// 保存更改设备信息线程
 	class ModifyDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -863,7 +908,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
-			refreshableView.finishRefreshing();
+			// refreshableView.finishRefreshing();
 			switch (result) {
 			// 从服务器端获取设备成功
 			case DEVICE_GETDATA_SUCCESS: {

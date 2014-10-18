@@ -324,12 +324,14 @@ public class JVLoginActivity extends BaseActivity {
 				// JVLoginActivity.this.finish();
 				break;
 			case R.id.editpass_btn:
+
 				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
 					alertNetDialog();
 				} else {
-					Intent intentFP = new Intent(JVLoginActivity.this,
-							JVFindPassActivity.class);
-					JVLoginActivity.this.startActivity(intentFP);
+					Intent demoIntent = new Intent();
+					demoIntent.setClass(JVLoginActivity.this,
+							JVDemoActivity.class);
+					JVLoginActivity.this.startActivity(demoIntent);
 				}
 				break;
 			}

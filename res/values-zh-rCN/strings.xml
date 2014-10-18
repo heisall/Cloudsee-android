@@ -420,6 +420,10 @@
     <string name="str_qr_device">发现设备 </string>
     <string name="str_shake_scene_pic_tips">您的手机未插入SD卡，暂时无法使用场景图片功能。</string>
 
+    
+    <!-- JVDemoActivity -->
+    <string name="demo_get_failed">演示点加载失败</string>
+    
     <!-- JVTab -->
     <string name="sure_exit"> 再按一次退出程序</string>
     <string name="network_error">网络连接不可用,是否进行设置?</string>
@@ -589,7 +593,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.5(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.6(重构) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

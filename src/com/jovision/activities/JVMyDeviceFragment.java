@@ -8,8 +8,11 @@ import java.util.TimerTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,6 +44,7 @@ import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.adapters.PopWindowAdapter;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
@@ -110,6 +114,7 @@ public class JVMyDeviceFragment extends BaseFragment implements
 	public boolean localFlag = false;// 本地登陆标志位
 	public String devicename;
 
+	private boolean hasAdd = false;
 	public int broadTag = 0;
 	private ArrayList<Device> broadList = new ArrayList<Device>();// 广播到的设备列表
 
@@ -480,35 +485,34 @@ public class JVMyDeviceFragment extends BaseFragment implements
 				// 或
 				// 广播设备列表
 				JSONObject broadObj;
-				try {
-					broadObj = new JSONObject(obj.toString());
-					if (0 == broadObj.optInt("timeout")) {
-						int size = myDeviceList.size();
-						for (int i = 0; i < size; i++) {
-							Device device = myDeviceList.get(i);
-							if (null != device && 0 == device.getIsDevice()) {
-								// 是同一个设备
-								if (device.getGid().equalsIgnoreCase(
-										broadObj.optString("gid"))
-										&& device.getNo() == broadObj
-												.optInt("no")) {
-									device.setIp(broadObj.optString("ip"));
-									device.setPort(broadObj.optInt("port"));
-									device.setOnlineState(1);// 广播都在线
-								}
-							}
+				// try {
+				// broadObj = new JSONObject(obj.toString());
+				// if (0 == broadObj.optInt("timeout")) {
+				// int size = myDeviceList.size();
+				// for (int i = 0; i < size; i++) {
+				// Device device = myDeviceList.get(i);
+				// if (null != device && 0 == device.getIsDevice()) {
+				// // 是同一个设备
+				// if (device.getGid().equalsIgnoreCase(
+				// broadObj.optString("gid"))
+				// && device.getNo() == broadObj
+				// .optInt("no")) {
+				// device.setIp(broadObj.optString("ip"));
+				// device.setPort(broadObj.optInt("port"));
+				// device.setOnlineState(1);// 广播都在线
+				// }
+				// }
+				//
+				// }
+				// } else if (1 == broadObj.optInt("timeout")) {
+				//
+				// }
+				// MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
+				// + ";arg2=" + arg1 + ";obj=" + obj.toString());
+				// } catch (JSONException e) {
+				// e.printStackTrace();
+				// }
 
-						}
-					} else if (1 == broadObj.optInt("timeout")) {
-
-					}
-					MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
-							+ ";arg2=" + arg1 + ";obj=" + obj.toString());
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			} else if (broadTag == BROAD_ADD_DEVICE) {// 广播添加设备
-				JSONObject broadObj;
 				try {
 					broadObj = new JSONObject(obj.toString());
 					if (0 == broadObj.optInt("timeout")) {
@@ -519,7 +523,7 @@ public class JVMyDeviceFragment extends BaseFragment implements
 						int count = broadObj.optInt("count");
 						String broadDevNum = gid + no;
 
-						if (!hasDev(broadDevNum)) {
+						if (!hasDev(broadDevNum, ip, port)) {
 							Device broadDev = new Device(ip, port, gid, no,
 									mActivity.getResources().getString(
 											R.string.str_default_user),
@@ -529,19 +533,62 @@ public class JVMyDeviceFragment extends BaseFragment implements
 							broadDev.setOnlineState(1);// 广播都在线
 							broadList.add(broadDev);
 							MyLog.v(TAG, "广播到一个设备--" + broadDevNum);
+						} else {
+
 						}
 					} else if (1 == broadObj.optInt("timeout")) {
+						// 广播自动添加设备
+						if (MySharedPreference.getBoolean("AddLanDevice")) {
+							if (!hasAdd) {
+								hasAdd = true;
+								if (null != broadList && 0 != broadList.size()) {
+									alertAddDialog();
+								}
 
-						AddDevTask task = new AddDevTask();
-						String[] strParams = new String[3];
-						strParams[0] = broadList.toString();
-						task.execute(strParams);
+							}
+						}
+
 					}
 					MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
 							+ ";arg2=" + arg1 + ";obj=" + obj.toString());
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
+			} else if (broadTag == BROAD_ADD_DEVICE) {// 广播添加设备
+			// JSONObject broadObj;
+			// try {
+			// broadObj = new JSONObject(obj.toString());
+			// if (0 == broadObj.optInt("timeout")) {
+			// String gid = broadObj.optString("gid");
+			// int no = broadObj.optInt("no");
+			// String ip = broadObj.optString("ip");
+			// int port = broadObj.optInt("port");
+			// int count = broadObj.optInt("count");
+			// String broadDevNum = gid + no;
+			//
+			// if (!hasDev(broadDevNum)) {
+			// Device broadDev = new Device(ip, port, gid, no,
+			// mActivity.getResources().getString(
+			// R.string.str_default_user),
+			// mActivity.getResources().getString(
+			// R.string.str_default_pass), false,
+			// count, 0);
+			// broadDev.setOnlineState(1);// 广播都在线
+			// broadList.add(broadDev);
+			// MyLog.v(TAG, "广播到一个设备--" + broadDevNum);
+			// }
+			// } else if (1 == broadObj.optInt("timeout")) {
+			//
+			// AddDevTask task = new AddDevTask();
+			// String[] strParams = new String[3];
+			// strParams[0] = broadList.toString();
+			// task.execute(strParams);
+			// }
+			// MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
+			// + ";arg2=" + arg1 + ";obj=" + obj.toString());
+			// } catch (JSONException e) {
+			// e.printStackTrace();
+			// }
 			}
 
 			break;
@@ -594,12 +641,15 @@ public class JVMyDeviceFragment extends BaseFragment implements
 	 * @param devNum
 	 * @return
 	 */
-	public boolean hasDev(String devNum) {
+	public boolean hasDev(String devNum, String ip, int port) {
 		boolean has = false;
 		// for (int i = 0; i < size; i++) {
 		// Device device = myDeviceList.get(i);
 		for (Device dev : myDeviceList) {
 			if (devNum.equalsIgnoreCase(dev.getFullNo())) {
+				dev.setIp(ip);
+				dev.setPort(port);
+				dev.setOnlineState(1);// 广播都在线
 				has = true;
 				break;
 			}
@@ -1026,6 +1076,40 @@ public class JVMyDeviceFragment extends BaseFragment implements
 		protected void onProgressUpdate(Integer... values) {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
+	}
+
+	/**
+	 * 弹搜出来几个设备界面
+	 * */
+	public void alertAddDialog() {
+		// 提示对话框
+		AlertDialog.Builder builder = new Builder(mActivity);
+		builder.setTitle(R.string.tips)
+				.setMessage(
+						getResources().getString(R.string.add_broad_dev)
+								.replace("?", String.valueOf(broadList.size())))
+				.setPositiveButton(R.string.sure,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								mActivity.createDialog("");
+								AddDevTask task = new AddDevTask();
+								String[] strParams = new String[3];
+								strParams[0] = broadList.toString();
+								task.execute(strParams);
+							}
+						})
+				.setNegativeButton(R.string.cancel,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.dismiss();
+							}
+						}).create().show();
 	}
 
 }

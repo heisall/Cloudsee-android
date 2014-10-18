@@ -110,7 +110,7 @@ public class FragmentAdapter extends BaseAdapter {
 		}
 		if (dataList.get(position).isIsnew()) {
 			holder.item_new.setVisibility(View.VISIBLE);
-			if (position ==5) {
+			if (position == 5) {
 				holder.item_new
 						.setBackgroundResource(R.drawable.morefragment_yellow_icon);
 			}

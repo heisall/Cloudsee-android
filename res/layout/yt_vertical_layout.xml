@@ -12,7 +12,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/functionbgcolor" >
+            android:background="@color/white" >
 
             <ImageView
                 android:id="@+id/yt_cancled"
@@ -28,7 +28,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@color/functionbgcolor"
+            android:background="@color/white"
             android:gravity="center_horizontal"
             android:orientation="horizontal" >
 

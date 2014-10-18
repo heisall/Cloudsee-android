@@ -463,7 +463,6 @@
     <string name="time_error">时间有问题</string>
 
     <!-- JVMyDeviceFragment -->
-    <!-- JVMyDeviceFragment -->
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
     <string name="str_modify">修改</string>
     <string name="str_update">当前设备已全部更新</string>
@@ -472,6 +471,7 @@
     <string name="wifi_device">无线设备</string>
     <string name="line_device">有线设备</string>
     <string name="selectone_to_connect">请选择至少一个通道进行连接</string>
+    <string name="add_broad_dev">广播到？个设备，是否立即添加？</string>
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">一共有</string>
     <string name="str_aft">个设备</string>

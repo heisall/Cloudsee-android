@@ -98,7 +98,7 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 				break;
 			case 3:
-				if (MySharedPreference.getBoolean("LanDevice")) {
+				if (MySharedPreference.getBoolean("AddLanDevice")) {
 					holder.item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 

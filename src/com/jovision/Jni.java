@@ -186,6 +186,20 @@ public class Jni {
 	public static native boolean setOmx(int index, boolean isOmx);
 
 	/**
+	 * 设置下载文件路径
+	 * 
+	 * @param fileName
+	 */
+	public static native void setDownloadFileName(String fileName);
+
+	/**
+	 * 获取下载文件路径
+	 * 
+	 * @return
+	 */
+	public static native String getDownloadFileName();
+
+	/**
 	 * 暂停底层显示
 	 * 
 	 * @param index
@@ -351,54 +365,68 @@ public class Jni {
 	public static native void sendString(int index, byte uchType,
 			boolean isExtend, int count, int type, String data);
 
-	/*
-	 * { int index = 0; byte uchType = 0;
-	 * 
-	 * int mode = 0; int switcher = 0;
-	 * 
-	 * int type = 0; int flag = 0; String ssid = ""; String pwd = ""; String
-	 * auth = ""; String enc = "";
-	 * 
-	 * String custom = "";
-	 * 
-	 * // [Neo] 设置存储模式 Jni.sendString(index, uchType, true,
-	 * Consts.COUNT_EX_STORAGE, Consts.TYPE_EX_STORAGE_SWITCH,
-	 * String.format(Consts.FORMATTER_STORAGE_MODE, mode));
-	 * 
-	 * // [Neo] 获取存储模式 Jni.sendString(index, uchType, false, 0,
-	 * Consts.TYPE_GET_PARAM, null);
-	 * 
-	 * // [Neo] 结果检查，通过判断 TextData 的 flag 是否等于 100
-	 * 
-	 * // [Neo] 切换对讲 Jni.sendString(index, uchType, false, 0,
-	 * Consts.TYPE_SET_PARAM, String.format(Consts.FORMATTER_TALK_SWITCH,
-	 * switcher));
-	 * 
-	 * // [Neo] 设置 wifi Jni.sendString(index, uchType, true,
-	 * Consts.COUNT_EX_NETWORK, type, String.format(Consts.FORMATTER_SET_WIFI,
-	 * flag, ssid, pwd));
-	 * 
-	 * // [Neo] 保存 wifi Jni.sendString(index, uchType, true,
-	 * Consts.COUNT_EX_NETWORK, type, String.format(Consts.FORMATTER_SAVE_WIFI,
-	 * flag, ssid, pwd, auth, enc));
-	 * 
-	 * // [Neo] 设置 DHCP Jni.sendString(index, uchType, true,
-	 * Consts.COUNT_EX_NETWORK, Consts.TYPE_EX_SET_DHCP,
-	 * String.format(Consts.FORMATTER_SET_DHCP, 1, 1, 1, 1, 1));
-	 * 
-	 * // [Neo] 设置码流 Jni.sendString(index, uchType, false, 0,
-	 * Consts.TYPE_SET_PARAM, String.format(Consts.FORMATTER_SET_BPS_FPS, 1, 1,
-	 * 1, 1));
-	 * 
-	 * // [Neo] 切换码流、设置设备名称、设置存储 Jni.sendString(index, uchType, false, 0,
-	 * Consts.TYPE_SET_PARAM, custom);
-	 * 
-	 * // [Neo] 翻转视频 Jni.sendString(index, uchType, true,
-	 * Consts.COUNT_EX_SENSOR, Consts.TYPE_EX_SENSOR, custom);
-	 * 
-	 * // [Neo] 更新设备 Jni.sendString(index, uchType, true, Consts.TYPE_EX_UPDATE,
-	 * Consts.COUNT_EX_UPDATE, null); }
-	 */
+	{
+		int index = 0;
+		byte uchType = 0;
+
+		int mode = 0;
+		int switcher = 0;
+
+		int type = 0;
+		int flag = 0;
+		String ssid = "";
+		String pwd = "";
+		String auth = "";
+		String enc = "";
+
+		String custom = "";
+
+		// [Neo] 设置存储模式
+		Jni.sendString(index, uchType, true, Consts.COUNT_EX_STORAGE,
+				Consts.TYPE_EX_STORAGE_SWITCH,
+				String.format(Consts.FORMATTER_STORAGE_MODE, mode));
+
+		// [Neo] 获取存储模式
+		Jni.sendString(index, uchType, false, 0, Consts.TYPE_GET_PARAM, null);
+
+		// [Neo] 结果检查，通过判断 TextData 的 flag 是否等于 100
+
+		// [Neo] 切换对讲
+		Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM,
+				String.format(Consts.FORMATTER_TALK_SWITCH, switcher));
+
+		// [Neo] 设置 wifi
+		Jni.sendString(index, uchType, true, Consts.COUNT_EX_NETWORK, type,
+				String.format(Consts.FORMATTER_SET_WIFI, flag, ssid, pwd));
+
+		// [Neo] 保存 wifi
+		Jni.sendString(index, uchType, true, Consts.COUNT_EX_NETWORK, type,
+				String.format(Consts.FORMATTER_SAVE_WIFI, flag, ssid, pwd,
+						auth, enc));
+
+		// [Neo] 设置 DHCP
+		Jni.sendString(index, uchType, true, Consts.COUNT_EX_NETWORK,
+				Consts.TYPE_EX_SET_DHCP,
+				String.format(Consts.FORMATTER_SET_DHCP, 1, 1, 1, 1, 1));
+
+		// [Neo] 设置码流
+		Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM,
+				String.format(Consts.FORMATTER_SET_BPS_FPS, 1, 1, 1, 1));
+
+		// [Neo] 切换码流、设置设备名称、设置存储
+		Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM, custom);
+
+		// [Neo] 翻转视频
+		Jni.sendString(index, uchType, true, Consts.COUNT_EX_SENSOR,
+				Consts.TYPE_EX_SENSOR, custom);
+
+		// [Neo] 更新设备
+		Jni.sendString(index, uchType, true, Consts.TYPE_EX_UPDATE,
+				Consts.COUNT_EX_UPDATE, null);
+
+		// [Neo] 门瓷与手环
+		Jni.sendString(index, uchType, false, type, 0, custom);
+	}
 
 	/**
 	 * 发送聊天命令，参考 {@link JVSUDT#JVC_SendTextData(int, byte, int, int)}
@@ -422,7 +450,6 @@ public class Jni {
 	 * @param uchType
 	 * @param data
 	 * @param size
-	 *            一定写0
 	 * @return
 	 */
 	public static native int sendCmd(int index, byte uchType, byte[] data,

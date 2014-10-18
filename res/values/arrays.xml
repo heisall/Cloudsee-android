@@ -12,8 +12,9 @@
     <!-- more feature func -->
     <string-array name="array_more">
         <item> 帮助界面</item>
-        <item> 报警信息</item>
+        <item> 报警</item>
         <item> 观看模式(单设备)</item>
+        <item>自动添加局域网设备</item>
         <item> 意见反馈</item>
         <item> 检查更新</item>
         <item> 关于</item>
@@ -22,6 +23,7 @@
         <item> 帮助界面</item>
         <item> 报警信息</item>
         <item> 观看模式(多设备)</item>
+        <item>自动添加局域网设备</item>
         <item> 意见反馈</item>
         <item> 检查更新</item>
         <item> 关于</item>
@@ -39,7 +41,6 @@
         <item>云视通号</item>
         <item>二维码扫描</item>
         <item>无线设备</item>
-        <item>局域网设备</item>
         <item>IP/域名设备</item>
     </string-array>
     <string-array name="array_popno">

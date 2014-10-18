@@ -68,13 +68,13 @@ public class FragmentAdapter extends BaseAdapter {
 		holder.item_img.setBackgroundResource(dataList.get(position)
 				.getItem_img());
 		holder.name.setText(dataList.get(position).getName());
-		if (position == 5) {
+		if (position == 6) {
 			holder.item_next.setVisibility(View.GONE);
 			holder.item_version.setVisibility(View.VISIBLE);
 			holder.item_version.setText(activity.getResources().getString(
 					R.string.str_current_version));
 		}
-		if (position > -1 && position < 3) {
+		if (position > -1 && position < 4) {
 			holder.item_next
 					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			switch (position) {
@@ -97,13 +97,20 @@ public class FragmentAdapter extends BaseAdapter {
 
 				}
 				break;
+			case 3:
+				if (MySharedPreference.getBoolean("LanDevice")) {
+					holder.item_next
+							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+
+				}
+				break;
 			default:
 				break;
 			}
 		}
 		if (dataList.get(position).isIsnew()) {
 			holder.item_new.setVisibility(View.VISIBLE);
-			if (position == 4) {
+			if (position == 5) {
 				holder.item_new
 						.setBackgroundResource(R.drawable.morefragment_yellow_icon);
 			}

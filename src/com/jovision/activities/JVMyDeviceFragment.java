@@ -172,6 +172,7 @@ public class JVMyDeviceFragment extends BaseFragment implements
 						R.id.device_refreshable_view);
 		mPullRefreshListView = mPullRefreshListFragment
 				.getPullToRefreshListView();
+
 		mPullRefreshListView.setOnRefreshListener(this);
 
 		adView = inflater.inflate(R.layout.ad_layout, null);
@@ -198,6 +199,9 @@ public class JVMyDeviceFragment extends BaseFragment implements
 		// .findViewById(R.id.device_listview);
 
 		myDeviceListView = mPullRefreshListView.getRefreshableView();
+
+		myDeviceListView.setDivider(null);
+		// .setDividerDrawable(getResources().getDrawable(R.drawable.red_rank));
 
 		myDeviceListView.addHeaderView(adView);
 		rightBtn.setOnClickListener(myOnClickListener);

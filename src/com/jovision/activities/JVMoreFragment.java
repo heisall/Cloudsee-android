@@ -152,7 +152,7 @@ public class JVMoreFragment extends BaseFragment {
 			MoreFragmentBean bean = new MoreFragmentBean();
 			bean.setItem_img(Image[i]);
 			bean.setName(fragment_name[i]);
-			if (i == 4) {
+			if (i == 5) {
 				bean.setIsnew(true);
 			} else {
 				bean.setIsnew(false);

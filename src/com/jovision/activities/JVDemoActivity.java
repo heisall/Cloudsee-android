@@ -86,7 +86,7 @@ public class JVDemoActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.btn_right:
+			case R.id.btn_left:
 				JVDemoActivity.this.finish();
 				break;
 			default:

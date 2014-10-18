@@ -350,9 +350,14 @@ public class JVDeviceManageFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO 以后增加过滤
-		Fragment currentFrag = fragments.get(deviceIndex);
-		if (null != currentFrag) {
-			((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2, obj);
+		try {
+			Fragment currentFrag = fragments.get(deviceIndex);
+			if (null != currentFrag) {
+				((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
+						obj);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}

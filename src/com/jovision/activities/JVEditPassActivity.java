@@ -2,7 +2,9 @@ package com.jovision.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +17,9 @@ import com.jovision.Consts;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVConst;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
+import com.jovision.utils.DeviceUtil;
 
 public class JVEditPassActivity extends BaseActivity {
 	private Button back;// 左侧返回按钮
@@ -25,11 +29,6 @@ public class JVEditPassActivity extends BaseActivity {
 	private EditText userNewPass = null;
 	private EditText userEnsurePass = null;
 	private Button finishEdit = null;
-
-	/** 修改信息提示文本 */
-	private TextView registTips;
-	private TextView registTips2;
-	private TextView registTips3;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -52,7 +51,7 @@ public class JVEditPassActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.editpass_layout);
-		back = (Button) findViewById(R.id.back);
+		back = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		if (!TextUtils.isEmpty(statusHashMap.get(Consts.KEY_USERNAME))) {
 			currentMenu.setText(statusHashMap.get(Consts.KEY_USERNAME));
@@ -60,11 +59,8 @@ public class JVEditPassActivity extends BaseActivity {
 		back.setOnClickListener(onClickListener);
 		userOldPass = (EditText) findViewById(R.id.editoldpass);
 		userNewPass = (EditText) findViewById(R.id.editnewpass);
-		userEnsurePass = (EditText) findViewById(R.id.editensurepass);
+		userEnsurePass = (EditText) findViewById(R.id.editcommitpass);
 		finishEdit = (Button) findViewById(R.id.editfinish);
-		registTips = (TextView) findViewById(R.id.regist_tips);
-		registTips2 = (TextView) findViewById(R.id.regist_tips2);
-		registTips3 = (TextView) findViewById(R.id.regist_tips3);
 		finishEdit.setOnClickListener(onClickListener);
 
 	}
@@ -74,8 +70,8 @@ public class JVEditPassActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.back:
-				JVEditPassActivity.this.finish();
+			case R.id.btn_left:
+				finish();
 				break;
 			case R.id.editfinish:
 				if ("".equalsIgnoreCase(userOldPass.getText().toString().trim())) {
@@ -106,67 +102,64 @@ public class JVEditPassActivity extends BaseActivity {
 					userNewPass.setSelection(userNewPass.getText().toString()
 							.length());
 				} else {
-					createDialog(R.string.str_deleting);
-					EditThread editThread = new EditThread(currentMenu
-							.getText().toString(), userOldPass.getText()
-							.toString(), userNewPass.getText().toString(),
-							JVEditPassActivity.this);
-					editThread.start();
-				}
+					ModifyPwdTask task = new ModifyPwdTask();
+					String[] strParams = new String[2];
+					strParams[0] = userOldPass.getText().toString();
+					strParams[1] = userNewPass.getText().toString();
+					task.execute(strParams);
+ 				}
 				break;
 			}
 		}
 	};
 
-	// 修改密码线程
-	private class EditThread extends Thread {
-		String username = "";
-		String oldpwd = "";
-		String newpwd = "";
-		Context context;
 
-		public EditThread(String arg0, String arg1, String arg2, Context c) {
-			username = arg0;
-			oldpwd = arg1;
-			newpwd = arg2;
-			context = c;
+	// 保存更改设备信息线程
+	class ModifyPwdTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int delRes = -1;
+			try {
+					delRes = DeviceUtil.modifyUserPassword(params[0], params[1]);
+				if (0 == delRes) {
+					MySharedPreference.putString(Consts.KEY_PASSWORD, params[1]);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return delRes;
 		}
 
 		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			super.run();
-			int res = AccountUtil.modifyUserPassword(oldpwd, newpwd);
-			if (JVAccountConst.SUCCESS == res) {
-				// 修改数据库中的用户名密码
-				User user = new User();
-				user.setUserName(username);
-				user.setUserPwd(newpwd);
-				// BaseApp.modifyUserInfo(user);
-				// BaseApp.resetUser();
-				if (JVConst.KEEP_ONLINE_FLAG) {// 已经开启服务
-					Intent serviceIntent = new Intent(context.getResources()
-							.getString(R.string.str_offline_class_name));
-					context.stopService(serviceIntent);
-					JVConst.KEEP_ONLINE_FLAG = false;
-				}
-				AccountUtil.signOut(context);
-				handler.sendMessage(handler
-						.obtainMessage(JVConst.EDIT_PWD_SUCCESS));
-			} else {
-				handler.sendMessage(handler
-						.obtainMessage(JVConst.EDIT_PWD_FAILED));
-			}
-
+		protected void onCancelled() {
+			super.onCancelled();
 		}
 
-	}
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
+			Intent intent = new Intent(JVEditPassActivity.this,JVLoginActivity.class);
+			startActivity(intent);
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog(R.string.str_deleting);
+		}
 
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			JVEditPassActivity.this.finish();
+			finish();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
@@ -188,54 +181,3 @@ public class JVEditPassActivity extends BaseActivity {
 		super.onResume();
 	}
 }
-
-//
-// // 检查软件更新handler
-// public static class EditHandler extends Handler {
-// private final WeakReference<JVEditPassActivity> mActivity;
-//
-// public EditHandler(JVEditPassActivity activity) {
-// mActivity = new WeakReference<JVEditPassActivity>(activity);
-// }
-//
-// @Override
-// public void handleMessage(Message msg) {
-// // TODO Auto-generated method stub
-// super.handleMessage(msg);
-//
-// JVEditPassActivity activity = mActivity.get();
-// if (null != activity && !activity.isFinishing()) {
-// activity.dismissDialog(activity.proDialog);
-//
-// switch (msg.what) {
-// case JVConst.EDIT_PWD_SUCCESS:
-// activity.showTextToast(R.string.str_edit_success);
-// if (null != BaseApp.deviceList
-// && 0 != BaseApp.deviceList.size()) {
-// BaseApp.deviceList.clear();
-// }
-// try {
-//
-// Intent intent = new Intent();
-// intent.setClass(activity, JVLoginActivity.class);
-// intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-// activity.startActivity(intent);
-// activity.finish();
-// } catch (Exception e) {
-// e.printStackTrace();
-// }
-// break;
-// case JVConst.EDIT_PWD_FAILED:
-// activity.showTextToast(
-// R.string.str_edit_oldpass_error);
-// activity.userOldPass.requestFocus();
-// activity.userOldPass.setSelection(activity.userOldPass
-// .getText().toString().length());
-// break;
-// }
-//
-// }
-// }
-//
-// };
-//

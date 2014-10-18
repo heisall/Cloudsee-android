@@ -27,45 +27,6 @@ public class JVTabActivity extends ShakeActivity {
 	protected Timer offlineTimer = new Timer();
 	private BaseFragment mFragments[] = new BaseFragment[5];
 
-	// private void setFragmentIndicator(int whichIsDefault) {
-	// int length = frageIDArray.length;
-	// mFragments = new BaseFragment[length];
-	// for (int i = 0; i < length; i++) {
-	// mFragments[i] = (BaseFragment) getSupportFragmentManager()
-	// .findFragmentById(frageIDArray[i]);
-	// }
-	//
-	// for (int i = 0; i < length; i++) {
-	// getSupportFragmentManager().beginTransaction().hide(mFragments[i])
-	// .commit();
-	// }
-	// getSupportFragmentManager().beginTransaction()
-	// .show(mFragments[whichIsDefault]).commit();
-	// // tabListener = (OnTabListener) mFragments[whichIsDefault];
-	//
-	// JVFragmentIndicator mIndicator = (JVFragmentIndicator)
-	// findViewById(R.id.indicator);
-	// JVFragmentIndicator.setIndicator(whichIsDefault);
-	// mIndicator.setOnIndicateListener(new OnIndicateListener() {
-	// @Override
-	// public void onIndicate(View v, int which) {
-	// try {
-	// currentIndex = which;
-	// int length = frageIDArray.length;
-	// for (int i = 0; i < length; i++) {
-	// getSupportFragmentManager().beginTransaction()
-	// .hide(mFragments[i]).commit();
-	// }
-	// getSupportFragmentManager().beginTransaction()
-	// .show(mFragments[which]).commit();
-	// // tabListener = (OnTabListener) mFragments[which];
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// });
-	//
-	// }
 
 	@Override
 	protected void onStart() {
@@ -151,6 +112,9 @@ public class JVTabActivity extends ShakeActivity {
 	@Override
 	protected void initUi() {
 		super.initUi();
+		setContentView(R.layout.tab_layout);
+		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
+		JVFragmentIndicator.setIndicator(currentIndex);
 
 		Boolean local = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 		if (local) {
@@ -164,16 +128,11 @@ public class JVTabActivity extends ShakeActivity {
 			task.execute(strParams);
 		}
 
-		setContentView(R.layout.tab_layout);
-
 		mFragments[0] = new JVMyDeviceFragment();
 		mFragments[1] = new JVInfoFragment();
-		// mFragments[2] = new JVDemoFragment();
+//		 mFragments[2] = new JVDemoFragment();
 		mFragments[2] = new JVDeviceManageFragment();
 		mFragments[3] = new JVMoreFragment();
-
-		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
-		JVFragmentIndicator.setIndicator(currentIndex);
 
 		mIndicator.setOnIndicateListener(new OnIndicateListener() {
 			@Override

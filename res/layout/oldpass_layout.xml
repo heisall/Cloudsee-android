@@ -78,11 +78,11 @@
 
         <Button
             android:id="@+id/finish"
-            android:layout_height="45dp"
             android:layout_width="match_parent"
+            android:layout_height="45dp"
             android:layout_marginTop="15dp"
-            android:text="@string/str_finish"
             android:background="@drawable/blue_bg"
+            android:text="@string/str_finish"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>

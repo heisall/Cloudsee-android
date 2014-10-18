@@ -200,8 +200,8 @@ public class JVLoginActivity extends BaseActivity {
 		mAnimationRight = AnimationUtils.loadAnimation(JVLoginActivity.this,
 				R.anim.rotate_right);
 		mAnimationRight.setFillAfter(true);
-		showPointBtn.setAnimation(mAnimationRight);
-		onlineLoginBtn.setBackgroundResource(R.drawable.blue_bg);
+		// showPointBtn.setAnimation(mAnimationRight);
+		// onlineLoginBtn.setBackgroundResource(R.drawable.blue_bg);
 		onlineLoginBtn.setOnClickListener(myOnClickListener);
 		showPointBtn.setOnClickListener(myOnClickListener);
 		registBtn.setOnClickListener(myOnClickListener);

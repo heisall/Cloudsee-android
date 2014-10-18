@@ -40,9 +40,16 @@ public class JVTabActivity extends ShakeActivity {
 
 		if (-1 != index) {
 			currentIndex = index;
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.tab_fragment, mFragments[currentIndex])
-					.commit();
+			android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+			if (null != manager) {
+				getSupportFragmentManager().beginTransaction()
+						.replace(R.id.tab_fragment, mFragments[currentIndex])
+						.commit();
+			} else {
+				MyLog.e(TAG, "TAB_onresume_manager null" + currentIndex);
+				this.finish();
+			}
+
 		}
 		MyLog.v(TAG, "TAB_onResume" + currentIndex);
 	}
@@ -147,8 +154,15 @@ public class JVTabActivity extends ShakeActivity {
 			}
 		});
 
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.tab_fragment, mFragments[0]).commit();
+		android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+		if (null != manager) {
+			manager.beginTransaction()
+					.replace(R.id.tab_fragment, mFragments[0]).commit();
+		} else {
+			MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
+			this.finish();
+		}
+
 	}
 
 	@Override

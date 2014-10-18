@@ -358,19 +358,19 @@ public class JVMyDeviceFragment extends BaseFragment implements
 					((ShakeActivity) mActivity).startSearch(false);
 					break;
 				}
-				case 3: {// 局域网设备
-					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
-					if (!mActivity.is3G(false)) {// 3G网提示不支持
-						broadTag = BROAD_ADD_DEVICE;
-						broadList.clear();
-						PlayUtil.broadCast(mActivity);
-					} else {
-						((BaseActivity) mActivity)
-								.showTextToast(R.string.notwifi_forbid_func);
-					}
-					break;
-				}
-				case 4: {// IP/域名设备
+				// case 3: {// 局域网设备
+				// fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+				// if (!mActivity.is3G(false)) {// 3G网提示不支持
+				// broadTag = BROAD_ADD_DEVICE;
+				// broadList.clear();
+				// PlayUtil.broadCast(mActivity);
+				// } else {
+				// ((BaseActivity) mActivity)
+				// .showTextToast(R.string.notwifi_forbid_func);
+				// }
+				// break;
+				// }
+				case 3: {// IP/域名设备
 					Intent intent = new Intent();
 					intent.setClass(mActivity, JVAddIpDeviceActivity.class);
 					mActivity.startActivity(intent);

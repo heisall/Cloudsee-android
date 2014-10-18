@@ -55,15 +55,15 @@ public class JVMoreFragment extends BaseFragment {
 	private String more_name;
 	// 最后一次登录时间
 	private TextView more_lasttime;
+	// 修改密码
+	private TextView more_modifypwd;
 	// 图片数组
-	private int[] Image = { R.drawable.morefragment_modifypwd_icon,
+	private int[] Image = { R.drawable.morefragment_help_icon,
+			R.drawable.morefragment_warmmessage_icon,
+			R.drawable.morefragment_setting_icon,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
-			R.drawable.morefragment_aboutus_icon,
-			R.drawable.morefragment_help_icon,
-			R.drawable.morefragment_warmmessage_icon,
-			R.drawable.morefragment_setting_icon };
-	// 功能名称数组
+			R.drawable.morefragment_aboutus_icon };
 	// 功能名称数组
 	private String[] fragment_name;
 
@@ -104,8 +104,14 @@ public class JVMoreFragment extends BaseFragment {
 
 	private void intiUi(View view) {
 		activity = getActivity();
-		fragment_name = activity.getResources().getStringArray(
-				R.array.array_more);
+		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+			fragment_name = activity.getResources().getStringArray(
+					R.array.array_moreduo);
+		} else {
+			fragment_name = activity.getResources().getStringArray(
+					R.array.array_more);
+		}
+
 		if (Boolean.valueOf(((BaseActivity) activity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			more_name = activity.getResources().getString(
@@ -115,6 +121,7 @@ public class JVMoreFragment extends BaseFragment {
 					.get(Consts.KEY_USERNAME);
 		}
 		initDatalist();
+		more_modifypwd = (TextView) view.findViewById(R.id.more_modifypwd);
 		more_cancle = (RelativeLayout) view.findViewById(R.id.more_cancle);
 		more_modify = (TextView) view.findViewById(R.id.more_modify);
 		more_findpassword = (TextView) view
@@ -129,6 +136,7 @@ public class JVMoreFragment extends BaseFragment {
 		more_listView.setAdapter(adapter);
 		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
 
+		more_modifypwd.setOnClickListener(myOnClickListener);
 		more_cancle.setBackgroundResource(R.drawable.blue_bg);
 		more_username.setText(more_name);
 		more_cancle.setOnClickListener(myOnClickListener);
@@ -143,7 +151,7 @@ public class JVMoreFragment extends BaseFragment {
 			MoreFragmentBean bean = new MoreFragmentBean();
 			bean.setItem_img(Image[i]);
 			bean.setName(fragment_name[i]);
-			if (i == 1 || i == 3) {
+			if (i == 4) {
 				bean.setIsnew(true);
 			} else {
 				bean.setIsnew(false);
@@ -166,6 +174,15 @@ public class JVMoreFragment extends BaseFragment {
 			case R.id.more_modify:
 
 				break;
+			case R.id.more_modifypwd:
+				if (!localFlag) {
+					Intent editpassintent = new Intent(mActivity,
+							JVEditPassActivity.class);
+					startActivity(editpassintent);
+				} else {
+					mActivity.showTextToast(R.string.more_nologin);
+				}
+				break;
 			case R.id.more_findpassword:
 
 				break;
@@ -186,15 +203,40 @@ public class JVMoreFragment extends BaseFragment {
 						// TODO Auto-generated method stub
 						switch (position) {
 						case 0:
-							if (!localFlag) {
-								Intent editpassintent = new Intent(mActivity,
-										JVEditPassActivity.class);
-								startActivity(editpassintent);
+							if (MySharedPreference.getBoolean("HELP")) {
+								MySharedPreference.putBoolean("HELP", false);
 							} else {
-								mActivity.showTextToast(R.string.more_nologin);
+								MySharedPreference.putBoolean("HELP", true);
 							}
 							break;
 						case 1:
+							if (MySharedPreference.getBoolean("AlarmSwitch")) {
+								MySharedPreference.putBoolean("AlarmSwitch",
+										false);
+							} else {
+								MySharedPreference.putBoolean("AlarmSwitch",
+										true);
+							}
+							break;
+						case 2:
+							if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+								MySharedPreference.putBoolean("PlayDeviceMode",
+										false);
+								dataList.get(2).setName(
+										mActivity.getResources().getString(
+												R.string.str_video_modetwo));
+							} else {
+								MySharedPreference.putBoolean("PlayDeviceMode",
+										true);
+								dataList.get(2)
+										.setName(
+												mActivity
+														.getResources()
+														.getString(
+																R.string.str_video_more_modetwo));
+							}
+							break;
+						case 3:
 							if (("firsted").equals(MySharedPreference
 									.getString(Consts.MORE_FREGMENT_FEEDBACK))) {
 								Intent intent = new Intent(mActivity,
@@ -211,51 +253,17 @@ public class JVMoreFragment extends BaseFragment {
 								startActivity(intent);
 							}
 							break;
-						case 2:
+						case 4:
 							CheckUpdateTask task = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];
 							strParams[0] = "1";// 0,手动检查更新
 							task.execute(strParams);
 							break;
-						case 3:
-
-							break;
-						case 4:
-							if (MySharedPreference.getBoolean("HELP")) {
-								MySharedPreference.putBoolean("HELP", false);
-							} else {
-								MySharedPreference.putBoolean("HELP", true);
-							}
-							break;
 						case 5:
-							if (MySharedPreference.getBoolean("AlarmSwitch")) {
-								MySharedPreference.putBoolean("AlarmSwitch",
-										false);
-							} else {
-								MySharedPreference.putBoolean("AlarmSwitch",
-										true);
-							}
-							break;
-						case 6:
-							if (MySharedPreference.getBoolean("PlayDeviceMode")) {
-								MySharedPreference.putBoolean("PlayDeviceMode",
-										false);
-								dataList.get(6).setName(
-										mActivity.getResources().getString(
-												R.string.str_video_modetwo));
-							} else {
-								MySharedPreference.putBoolean("PlayDeviceMode",
-										true);
-								dataList.get(6)
-										.setName(
-												mActivity
-														.getResources()
-														.getString(
-																R.string.str_video_more_modetwo));
-							}
 
 							break;
+
 						default:
 							break;
 						}

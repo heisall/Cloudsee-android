@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -27,6 +28,7 @@ import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
 import com.jovision.utils.CacheUtil;
 
+@SuppressLint("ResourceAsColor")
 public class JVChannelsActivity extends BaseActivity {
 	private String TAG = "ChannelFragment";
 
@@ -171,6 +173,7 @@ public class JVChannelsActivity extends BaseActivity {
 			TextView view = new TextView(this);
 			view.setText(deviceList.get(i).getFullNo());
 			view.setSingleLine(true);
+			view.setId(4);
 			view.setTextColor(JVChannelsActivity.this.getResources().getColor(
 					R.color.devicemanagename));
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -254,6 +257,18 @@ public class JVChannelsActivity extends BaseActivity {
 		@Override
 		public void onPageSelected(final int position) {
 			// MyLog.v(TAG, "onPageSelected---position="+position);
+			for (int i = 0; i < deviceList.size(); i++) {
+				if (i == position) {
+					TextView view = (TextView) mLinearLayout.getChildAt(
+							position).findViewById(4);
+					view.setTextColor(R.color.cyan);
+				} else {
+					TextView view = (TextView) mLinearLayout.getChildAt(i)
+							.findViewById(4);
+					view.setTextColor(R.color.darkmagenta);
+				}
+			}
+
 			Animation animation = new TranslateAnimation(endPosition, position
 					* item_width, 0, 0);
 
@@ -285,7 +300,6 @@ public class JVChannelsActivity extends BaseActivity {
 					endPosition = item_width * currentFragmentIndex
 							- (int) (item_width * (1 - positionOffset));
 				}
-				// mLinearLayout.getChildAt(position).setTextAlignment(sda)
 				Animation mAnimation = new TranslateAnimation(beginPosition,
 						endPosition, 0, 0);
 				mAnimation.setFillAfter(true);

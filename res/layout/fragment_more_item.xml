@@ -53,6 +53,18 @@
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@+id/item_next"
             android:background="@drawable/morefragment_yellow_icon" />
+
+        <TextView
+            android:id="@+id/item_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:text="v1.9.0"
+            android:textColor="@color/morefragment_version"
+            android:textSize="16sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
 </LinearLayout>

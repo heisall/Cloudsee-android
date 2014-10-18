@@ -70,6 +70,7 @@
     <color name="morefragment_color5">#7B7AD7</color>
     <color name="morefragment_color6">#FD8E35</color>
     <color name="morefragment_color7">#FF565B</color>
+    <color name="morefragment_version">#2F84DF</color>
     <!-- 视频播放 -->
     <color name="play_color">#1eFFFFFF</color>
     <color name="dialog_bg_color">#00FFFFFF</color>

@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -187,9 +187,10 @@ public class JVMoreFragment extends BaseFragment {
 						switch (position) {
 						case 0:
 							if (!localFlag) {
-								Intent editpassintent = new Intent(mActivity,JVEditPassActivity.class);
+								Intent editpassintent = new Intent(mActivity,
+										JVEditPassActivity.class);
 								startActivity(editpassintent);
-							}else {
+							} else {
 								mActivity.showTextToast(R.string.more_nologin);
 							}
 							break;
@@ -300,6 +301,9 @@ public class JVMoreFragment extends BaseFragment {
 			MyActivityManager.getActivityManager().popAllActivityExceptOne(
 					JVLoginActivity.class);
 			Intent intent = new Intent();
+			String userName = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
+			Log.i("TAG", userName + "aaaaaaaaaa");
+			intent.putExtra("username", userName);
 			intent.setClass(mActivity, JVLoginActivity.class);
 			mActivity.startActivity(intent);
 			mActivity.finish();

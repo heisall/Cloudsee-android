@@ -88,7 +88,7 @@
     <string name="more_usermessage">"账户信息"</string>
     <string name="more_feather">"功能设置"</string>
     <string name="more_vib">"摇一摇添加设备"</string>
-     <string name ="more_nologin">"请在登陆后做此操作" </string>
+    <string name="more_nologin">"请在登陆后做此操作" </string>
     <string name="more_aboutus">"关于我们"</string>
     <string name="more_suggest">"帮助反馈"</string>
     <string name="more_remark">"评论一下"</string>
@@ -421,10 +421,9 @@
     <string name="str_qr_device">发现设备 </string>
     <string name="str_shake_scene_pic_tips">您的手机未插入SD卡，暂时无法使用场景图片功能。</string>
 
-    
     <!-- JVDemoActivity -->
     <string name="demo_get_failed">演示点加载失败</string>
-    
+
     <!-- JVTab -->
     <string name="sure_exit"> 再按一次退出程序</string>
     <string name="network_error">网络连接不可用,是否进行设置?</string>

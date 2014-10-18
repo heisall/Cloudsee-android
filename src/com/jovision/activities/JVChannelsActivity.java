@@ -285,7 +285,7 @@ public class JVChannelsActivity extends BaseActivity {
 					endPosition = item_width * currentFragmentIndex
 							- (int) (item_width * (1 - positionOffset));
 				}
-
+				// mLinearLayout.getChildAt(position).setTextAlignment(sda)
 				Animation mAnimation = new TranslateAnimation(beginPosition,
 						endPosition, 0, 0);
 				mAnimation.setFillAfter(true);

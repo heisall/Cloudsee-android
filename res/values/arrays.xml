@@ -11,13 +11,13 @@
 
     <!-- more feature func -->
     <string-array name="array_more">
-        <item> 帮助界面</item>
-        <item> 账户信息</item>
-        <item> 功能设置</item>
-        <item> 摇一摇添加设备</item>
-        <item> 关于我们</item>
+        <item> 修改密码</item>
         <item> 意见反馈</item>
         <item> 检查更新</item>
+        <item> 关于我们</item>
+        <item> 帮助界面</item>
+        <item> 报警信息</item>
+        <item> 观看模式(单设备)</item>
     </string-array>
 
     <!-- setting -->

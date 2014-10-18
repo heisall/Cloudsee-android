@@ -1,10 +1,8 @@
 package com.jovision.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,9 +12,6 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.bean.User;
-import com.jovision.commons.JVAccountConst;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.DeviceUtil;
@@ -107,12 +102,11 @@ public class JVEditPassActivity extends BaseActivity {
 					strParams[0] = userOldPass.getText().toString();
 					strParams[1] = userNewPass.getText().toString();
 					task.execute(strParams);
- 				}
+				}
 				break;
 			}
 		}
 	};
-
 
 	// 保存更改设备信息线程
 	class ModifyPwdTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
@@ -121,9 +115,10 @@ public class JVEditPassActivity extends BaseActivity {
 		protected Integer doInBackground(String... params) {
 			int delRes = -1;
 			try {
-					delRes = DeviceUtil.modifyUserPassword(params[0], params[1]);
+				delRes = DeviceUtil.modifyUserPassword(params[0], params[1]);
 				if (0 == delRes) {
-					MySharedPreference.putString(Consts.KEY_PASSWORD, params[1]);
+					MySharedPreference
+							.putString(Consts.KEY_PASSWORD, params[1]);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -140,10 +135,11 @@ public class JVEditPassActivity extends BaseActivity {
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
-			Intent intent = new Intent(JVEditPassActivity.this,JVLoginActivity.class);
+			Intent intent = new Intent(JVEditPassActivity.this,
+					JVLoginActivity.class);
 			startActivity(intent);
 		}
-		
+
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
@@ -155,6 +151,7 @@ public class JVEditPassActivity extends BaseActivity {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub

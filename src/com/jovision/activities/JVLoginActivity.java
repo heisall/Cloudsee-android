@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.test.JVACCOUNT;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -122,9 +123,14 @@ public class JVLoginActivity extends BaseActivity {
 		findPsw = (Button) findViewById(R.id.editpass_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
 
-		if (null != userList && 0 != userList.size()) {
-			userNameET.setText(userList.get(0).getUserName());
-			userNameET.setSelection(userList.get(0).getUserName().length());
+		Log.i("TAG", getIntent().getStringExtra("username") + "aaaaaaaaaa");
+		if (null != getIntent().getStringExtra("username")) {
+			userNameET.setText(getIntent().getStringExtra("username"));
+		} else {
+			if (null != userList && 0 != userList.size()) {
+				userNameET.setText(userList.get(0).getUserName());
+				userNameET.setSelection(userList.get(0).getUserName().length());
+			}
 		}
 		userNameET.addTextChangedListener(new TextWatcher() {
 

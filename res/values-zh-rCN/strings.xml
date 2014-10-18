@@ -88,7 +88,7 @@
     <string name="more_usermessage">"账户信息"</string>
     <string name="more_feather">"功能设置"</string>
     <string name="more_vib">"摇一摇添加设备"</string>
-     <string name ="more_nologin">"请在登陆后做此操作"</string>
+     <string name ="more_nologin">"请在登陆后做此操作" </string>
     <string name="more_aboutus">"关于我们"</string>
     <string name="more_suggest">"帮助反馈"</string>
     <string name="more_remark">"评论一下"</string>

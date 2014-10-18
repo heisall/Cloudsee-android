@@ -242,8 +242,8 @@ public class JVMoreFragment extends BaseFragment {
 								MySharedPreference.putBoolean("LanDevice",
 										false);
 							} else {
-								MySharedPreference.putBoolean("LanDevice",
-										true);
+								MySharedPreference
+										.putBoolean("LanDevice", true);
 							}
 							break;
 						case 4:

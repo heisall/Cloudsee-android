@@ -22,13 +22,13 @@
             <RelativeLayout
                 android:id="@+id/more_usertop"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="110dp"
                 android:background="@color/more_fragment_color4" >
 
                 <ImageView
                     android:id="@+id/more_head_img"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/morefragment_head_icon" />
@@ -122,7 +122,7 @@
                 android:layout_marginBottom="3dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp" >
+                android:layout_marginTop="40dp" >
 
                 <TextView
                     android:layout_width="wrap_content"

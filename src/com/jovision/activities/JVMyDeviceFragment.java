@@ -131,7 +131,7 @@ public class JVMyDeviceFragment extends BaseFragment implements
 			R.drawable.mydevice_popwindowtwo_icon,
 			R.drawable.mydevice_popwindowthree_icon,
 			R.drawable.mydevice_popwindowfour_icon,
-			R.drawable.mydevice_popwindowfour_icon };
+			R.drawable.mydevice_popwindowfive_icon };
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

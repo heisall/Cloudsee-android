@@ -45,6 +45,8 @@
     <color name="dialogchannaltext">#55A0FF</color>
     <color name="poplistBg">#565656</color>
     <color name="slectorDialogBg">#333333</color>
+    <color name="popwindow_item_color">#565656</color>
+    <color name="popwindow_item_color2">#316AC5</color>
     <color name="popwindow_bg_color">#696969</color>
     <color name="my_wane_shape">#F7F7F7</color>
     <color name="my_toast_bg">#BB000000</color>

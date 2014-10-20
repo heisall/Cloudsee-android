@@ -99,7 +99,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		}
 
 		case Consts.CALL_PLAY_DATA: {// 远程回放数据
-			if (arg1 == JVNetConst.JVN_DATA_O) {
+			if (arg2 == JVNetConst.JVN_DATA_O) {
 				linkState.setVisibility(View.GONE);
 				loading.setVisibility(View.GONE);// 加载进度
 				startTimer();
@@ -116,9 +116,9 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 						e.printStackTrace();
 					}
 				}
-			} else if (arg1 == JVNetConst.JVN_DATA_I
-					|| arg1 == JVNetConst.JVN_DATA_B
-					|| arg1 == JVNetConst.JVN_DATA_P) {
+			} else if (arg2 == JVNetConst.JVN_DATA_I
+					|| arg2 == JVNetConst.JVN_DATA_B
+					|| arg2 == JVNetConst.JVN_DATA_P) {
 				currentProgress++;
 				progressBar.setProgress(currentProgress);
 				MyLog.v(TAG, "currentProgress = " + currentProgress);

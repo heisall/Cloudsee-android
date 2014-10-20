@@ -306,16 +306,17 @@ public class JVDeviceManageActivity extends BaseActivity {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
+
 	protected void dialog(final int position) {
-		String okString = JVDeviceManageActivity.this.getResources()
-				.getString(R.string.ok);
+		String okString = JVDeviceManageActivity.this.getResources().getString(
+				R.string.ok);
 		String delectString = JVDeviceManageActivity.this.getResources()
 				.getString(R.string.str_delete_sure);
-		String warmString =  JVDeviceManageActivity.this.getResources()
+		String warmString = JVDeviceManageActivity.this.getResources()
 				.getString(R.string.str_delete_tip);
-		String cancleString =  JVDeviceManageActivity.this.getResources()
+		String cancleString = JVDeviceManageActivity.this.getResources()
 				.getString(R.string.str_crash_cancel);
-		AlertDialog.Builder builder = new Builder( JVDeviceManageActivity.this);
+		AlertDialog.Builder builder = new Builder(JVDeviceManageActivity.this);
 		builder.setMessage(delectString);
 		builder.setTitle(warmString);
 		builder.setPositiveButton(okString,

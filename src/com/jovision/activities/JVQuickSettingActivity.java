@@ -969,7 +969,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.CALL_CONNECT_CHANGE: // 连接回调
 			MyLog.e(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			if (JVNetConst.CONNECT_OK == arg1) {
+			if (JVNetConst.CONNECT_OK == arg2) {
 				// // 暂停视频
 				// Jni.sendBytes(Consts.CHANNEL_JY,
 				// JVNetConst.JVN_CMD_VIDEOPAUSE,
@@ -992,7 +992,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.CALL_TEXT_DATA:// 文本回调
 			MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			switch (arg1) {
+			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本聊天
 				// 获取基本文本信息
 				Jni.sendTextData(Consts.CHANNEL_JY,

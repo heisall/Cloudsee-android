@@ -170,17 +170,11 @@ public class ConfigUtil {
 			String country = getCountry();
 			if (country.contains("中国") || country.contains("China")
 					|| country.contains("china")) {
-				lan = 0;
+				lan = JVConst.LANGUAGE_ZH;
 			} else {
-				lan = 1;
+				lan = JVConst.LANGUAGE_EN;
 			}
 		}
-		// String language = Locale.getDefault().getLanguage();
-		// if (language.equalsIgnoreCase("zh")) {// 中文
-		// lan = 0;
-		// } else {// 英文
-		// lan = 1;
-		// }
 		return lan;
 	}
 

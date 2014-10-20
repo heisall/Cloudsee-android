@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="旧密码"
-            android:textColor="@color/black"
+            android:textColor="@color/leftdevicecolor"
             android:textSize="16sp"
             android:textStyle="normal" />
 
@@ -40,7 +40,7 @@
             android:lines="1"
             android:paddingLeft="10dp"
             android:singleLine="true"
-            android:textColor="@color/black" />
+            android:textColor="@color/leftdevicecolor" />
     </LinearLayout>
 
     <LinearLayout
@@ -60,7 +60,7 @@
             android:layout_weight="1"
             android:text="@string/cloud_number"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="normal" />
 
         <TextView
@@ -94,8 +94,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="新密码"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textColor="@color/leftdevicecolor"
+            android:textSize="18sp"
             android:textStyle="normal" />
 
         <EditText
@@ -109,7 +109,7 @@
             android:paddingLeft="10dp"
             android:password="true"
             android:singleLine="true"
-            android:textColor="@color/black" />
+            android:textColor="@color/leftdevicecolor" />
     </LinearLayout>
 
     <LinearLayout
@@ -128,8 +128,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="确定密码"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textColor="@color/leftdevicecolor"
+            android:textSize="18sp"
             android:textStyle="normal" >
         </TextView>
 
@@ -144,7 +144,7 @@
             android:paddingLeft="10dp"
             android:password="true"
             android:singleLine="true"
-            android:textColor="@color/black" />
+            android:textColor="@color/leftdevicecolor" />
     </LinearLayout>
 
     <LinearLayout

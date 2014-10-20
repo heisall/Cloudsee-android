@@ -242,6 +242,7 @@ public class JVChannelsActivity extends BaseActivity {
 				linear.setVisibility(View.GONE);
 				break;
 			case R.id.devmore_hide:
+				adapter.notifyDataSetChanged();
 				linear.setVisibility(View.VISIBLE);
 				relative.setVisibility(View.GONE);
 				break;
@@ -273,11 +274,13 @@ public class JVChannelsActivity extends BaseActivity {
 			}
 			for (int i = 0; i < deviceList.size(); i++) {
 				if (position == i) {
+					deviceList.get(i).setIsselect(true);
 					TextView view = (TextView) mLinearLayout.getChildAt(i)
 							.findViewById(i);
 					view.setTextColor(JVChannelsActivity.this.getResources()
 							.getColor(R.color.quickinstall_btn_normal));
 				} else {
+					deviceList.get(i).setIsselect(false);
 					TextView view = (TextView) mLinearLayout.getChildAt(i)
 							.findViewById(i);
 					view.setTextColor(JVChannelsActivity.this.getResources()

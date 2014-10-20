@@ -227,7 +227,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setBackgroundResource(R.drawable.qr_icon);
-		currentMenu.setText(R.string.str_help1_1);
+		currentMenu.setText(R.string.str_help1_0);
 		leftBtn.setOnClickListener(mOnClickListener);
 		rightBtn.setOnClickListener(mOnClickListener);
 

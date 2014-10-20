@@ -202,8 +202,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 					@Override
 					public void onLastItemVisible() {
-						Toast.makeText(getActivity(), "End of List!",
-								Toast.LENGTH_SHORT).show();
+						mActivity.showTextToast(R.string.end_list);
 					}
 				});
 

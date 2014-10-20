@@ -457,6 +457,7 @@
     <string name="del_device_succ">设备删除成功</string>
     <string name="del_device_failed">设备删除失败</string>
     <string name="str_modify">修改</string>
+     <string name="end_list">已到最后</string>
     <string name="str_update">当前设备已全部更新</string>
     <string name="wifi_device">无线设备</string>
     <string name="line_device">有线设备</string>
@@ -557,9 +558,9 @@
     <string name="cancle">取消</string>
     <string name="str_nickname">昵        称 </string>
     <string name="str_devicename">设  备  号</string>
-    <string name="str_username">用 户 名:</string>
-    <string name="str_password">密     码 :</string>
-    <string name="str_nicknametwo">昵     称 :</string>
+    <string name="str_username">用 户 名</string>
+    <string name="str_password">密     码 </string>
+    <string name="str_nicknametwo">昵     称 </string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">切换IP直连和云视通连接模式</string>
     <string name="str_cloudsee_id">云视通号</string>

@@ -24,9 +24,9 @@ public class Channel {
 	private long primaryID = 0;
 
 	/** 窗口索引 */
-	private int index;
+	private int index;// 0-35
 	/** 设备通道，从1 开始，与张帅服务器统一从1开始 */
-	private int channel;
+	private int channel;// 1-4
 
 	/** 通道昵称 */
 	public String channelName = "";

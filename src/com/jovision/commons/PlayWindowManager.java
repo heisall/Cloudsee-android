@@ -334,6 +334,7 @@ public class PlayWindowManager implements View.OnClickListener,
 	 * @return 通道对象
 	 */
 	public Channel getChannel(int index) {
+
 		Channel channel = null;
 
 		if (index >= 0 && index < mWindowList.size()) {

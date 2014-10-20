@@ -462,7 +462,7 @@
     <string name="selectone_to_connect">请选择至少一个通道进行连接</string>
     <string name="add_broad_dev">广播到?个设备，是否立即添加？</string>
     <string name="broad_zero">未广播到设备。</string>
-    
+
     <!-- JVInfoFragement -->
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加载更多</string>

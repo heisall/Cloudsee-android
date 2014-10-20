@@ -20,7 +20,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyActivityManager;
-import com.jovision.commons.MyLog;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.mails.MailSenderInfo;
@@ -335,7 +334,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 				flag = sms.sendTextMail(mailInfo);// 发送文体格式
 				// sms.sendHtmlMail(mailInfo);//发送html格式
 			} catch (Exception e) {
-				MyLog.e("SendMail", e.getMessage());
+				e.printStackTrace();
 			}
 			if (flag) {
 				sendRes = 0;

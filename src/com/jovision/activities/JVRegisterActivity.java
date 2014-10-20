@@ -387,15 +387,27 @@ public class JVRegisterActivity extends BaseActivity {
 			switch (result) {
 			case JVAccountConst.SUCCESS:// 注册成功
 				showTextToast(R.string.login_str_regist_success);
-				Intent intent = new Intent();
-				intent.setClass(JVRegisterActivity.this, JVLoginActivity.class);
+				// Intent intent = new Intent();
+				// intent.setClass(JVRegisterActivity.this,
+				// JVLoginActivity.class);
+				// String userName = userNameEditText.getText().toString();
+				// String userPass = pass1EditText.getText().toString();
+				// intent.putExtra("AutoLogin", true);
+				// intent.putExtra("UserName", userName);
+				// intent.putExtra("UserPass", userPass);
+				// JVRegisterActivity.this.startActivity(intent);
+				// JVRegisterActivity.this.finish();
+
+				Intent emailIntent = new Intent(JVRegisterActivity.this,
+						JVBoundEmailActivity.class);
 				String userName = userNameEditText.getText().toString();
 				String userPass = pass1EditText.getText().toString();
-				intent.putExtra("AutoLogin", true);
-				intent.putExtra("UserName", userName);
-				intent.putExtra("UserPass", userPass);
-				JVRegisterActivity.this.startActivity(intent);
-				JVRegisterActivity.this.finish();
+				emailIntent.putExtra("AutoLogin", true);
+				emailIntent.putExtra("UserName", userName);
+				emailIntent.putExtra("UserPass", userPass);
+				JVRegisterActivity.this.startActivity(emailIntent);
+				// JVRegisterActivity.this.finish();
+
 				break;
 			case JVAccountConst.USER_HAS_EXIST:// 账号已注册
 				showTextToast(R.string.str_user_has_exist);

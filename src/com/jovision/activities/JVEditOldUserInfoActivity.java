@@ -1,11 +1,9 @@
 package com.jovision.activities;
 
-import java.lang.ref.WeakReference;
-
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.test.JVACCOUNT;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -15,19 +13,18 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.utils.AccountUtil;
-import com.jovision.utils.UserUtil;
 
 public class JVEditOldUserInfoActivity extends BaseActivity {
 
+	/** topBar */
 	private Button back;
 	private Button finish;
 	private TextView currentMenu;
-	private EditText userNameEditText;
 
 	/** 注册信息提示文本 */
+	private EditText userNameEditText;
 	private TextView registTips;
 	private TextView registTips2;
 	private TextView registTips3;
@@ -38,22 +35,6 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		Intent intent = new Intent();
 		switch (what) {
-		case JVAccountConst.REGIST_SUCCESS:
-
-			DirectLoginThread dLThread = new DirectLoginThread(
-					JVEditOldUserInfoActivity.this);
-			dLThread.start();
-			break;
-		case JVAccountConst.HAVE_REGISTED:// 已注册
-			showTextToast(R.string.str_user_has_exist);
-			break;
-		case JVAccountConst.HAVE_REGISTED2:// 已注册
-			showTextToast(R.string.str_phone_num_error);
-			break;
-		case JVAccountConst.REGIST_FAILED:
-
-			showTextToast(R.string.str_reset_not_success);
-			break;
 		case JVAccountConst.REGIST_SUCCESS_LOGIN_SUCCESS:
 			if (0 < AccountUtil.VerifyUserName(statusHashMap
 					.get(Consts.KEY_USERNAME))) {
@@ -133,7 +114,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.olduser_layout);
-		back = (Button) findViewById(R.id.back);
+		back = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.str_modify_user_info);
 		finish = (Button) findViewById(R.id.finish);
@@ -218,7 +199,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
-			case R.id.back:
+			case R.id.btn_left:
 				JVEditOldUserInfoActivity.this.finish();
 				break;
 			case R.id.finish:
@@ -243,9 +224,10 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 					createDialog("");
 					statusHashMap.put(Consts.KEY_USERNAME, userNameEditText
 							.getText().toString());
-					FinishThread finishThread = new FinishThread(
-							JVEditOldUserInfoActivity.this);
-					finishThread.start();
+
+					EditTask task = new EditTask();
+					String[] params = new String[3];
+					task.execute(params);
 				}
 
 				break;
@@ -255,103 +237,91 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 	};
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			JVEditOldUserInfoActivity.this.finish();
-		}
-		return false;
+	public void onBackPressed() {
+		this.finish();
 	}
 
-	// 注册线程
-	private static class FinishThread extends Thread {
-		private final WeakReference<JVEditOldUserInfoActivity> mActivity;
+	private int verifyRes = 0;
 
-		public FinishThread(JVEditOldUserInfoActivity activity) {
-			mActivity = new WeakReference<JVEditOldUserInfoActivity>(activity);
-		}
-
+	// 设置三种类型参数分别为String,Integer,String
+	class EditTask extends AsyncTask<String, Integer, Integer> {
+		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			JVEditOldUserInfoActivity activity = mActivity.get();
-			if (null != activity) {
-				int nameExists = AccountUtil
-						.isUserExsit(activity.userNameEditText.getText()
-								.toString());
-				if (JVAccountConst.USER_HAS_EXIST == nameExists) {
-					activity.handler.sendMessage(activity.handler
-							.obtainMessage(JVAccountConst.HAVE_REGISTED));
-					return;
-				} else if (JVAccountConst.PHONE_NOT_TRUE == nameExists) {
-					activity.handler.sendMessage(activity.handler
-							.obtainMessage(JVAccountConst.HAVE_REGISTED2));
-					return;
-				}
-				int result = JVACCOUNT.ResetUserNameAndPassword(
-						activity.statusHashMap.get(Consts.KEY_USERNAME),
-						activity.statusHashMap.get(Consts.KEY_PASSWORD));
+		protected Integer doInBackground(String... params) {
+			int resetRes = -1;// 0成功 2用户已存在 -15手机号格式错误
+			verifyRes = 0;
+			try {
+				resetRes = AccountUtil.isUserExsit(userNameEditText.getText()
+						.toString());
+				if (JVAccountConst.USER_HAS_EXIST != nameExists
+						&& JVAccountConst.PHONE_NOT_TRUE != nameExists) {
+					resetRes = JVACCOUNT.ResetUserNameAndPassword(
+							statusHashMap.get(Consts.KEY_USERNAME),
+							statusHashMap.get(Consts.KEY_PASSWORD));
 
-				if (JVAccountConst.SUCCESS == result) {
-					activity.handler.sendMessage(activity.handler
-							.obtainMessage(JVAccountConst.REGIST_SUCCESS));
-				} else {// 注册失败
-					activity.handler
-							.sendMessage(activity.handler.obtainMessage(
-									JVAccountConst.REGIST_FAILED, result));
-				}
-				super.run();
-			}
-
-		}
-	}
-
-	// 免 登录线程
-	private static class DirectLoginThread extends Thread {
-		String sessionKey = "";
-		private final WeakReference<JVEditOldUserInfoActivity> mActivity;
-
-		public DirectLoginThread(JVEditOldUserInfoActivity activity) {
-			mActivity = new WeakReference<JVEditOldUserInfoActivity>(activity);
-		}
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			JVEditOldUserInfoActivity activity = mActivity.get();
-			if (null != activity) {
-				int result = AccountUtil.userLogin(
-						activity.statusHashMap.get(Consts.KEY_USERNAME),
-						activity.statusHashMap.get(Consts.KEY_PASSWORD),
-						activity);
-				if (JVAccountConst.SUCCESS == result) {
-					// //登陆成功开推送，保持在线
-					// LoginUtil.userOnline();
-					User user = new User();
-					user.setPrimaryID(System.currentTimeMillis());
-					user.setUserName(activity.statusHashMap
+					verifyRes = AccountUtil.VerifyUserName(statusHashMap
 							.get(Consts.KEY_USERNAME));
-					user.setUserPwd(activity.statusHashMap
-							.get(Consts.KEY_PASSWORD));
-					// SqlLiteUtil.addUser(user);
-					UserUtil.addUser(user);
-					activity.statusHashMap.put(Consts.LOCAL_LOGIN, "false");
-					activity.handler
-							.sendMessage(activity.handler
-									.obtainMessage(
-											JVAccountConst.REGIST_SUCCESS_LOGIN_SUCCESS,
-											result));// 注册成功登陆成功
-				} else {
-					activity.handler
-							.sendMessage(activity.handler.obtainMessage(
-									JVAccountConst.REGIST_FAILED, result));// 注册成功网络错误
 				}
-				super.run();
+
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
+			return resetRes;
 		}
 
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
+			if (JVAccountConst.USER_HAS_EXIST == result) {
+				showTextToast(R.string.str_user_has_exist);
+			} else if (JVAccountConst.PHONE_NOT_TRUE == result) {
+				showTextToast(R.string.str_phone_num_error);
+			} else if (JVAccountConst.SUCCESS == result) {
+				if (0 < verifyRes) {
+					Intent emailIntent = new Intent(
+							JVEditOldUserInfoActivity.this,
+							JVBoundEmailActivity.class);
+					emailIntent.putExtra("AutoLogin", true);
+					emailIntent.putExtra("UserName",
+							statusHashMap.get(Consts.KEY_USERNAME));
+					emailIntent.putExtra("UserPass",
+							statusHashMap.get(Consts.KEY_PASSWORD));
+					JVEditOldUserInfoActivity.this.startActivity(emailIntent);
+					JVEditOldUserInfoActivity.this.finish();
+				} else {
+					Intent intent = new Intent();
+					intent.setClass(JVEditOldUserInfoActivity.this,
+							JVLoginActivity.class);
+					intent.putExtra("AutoLogin", true);
+					intent.putExtra("UserName",
+							statusHashMap.get(Consts.KEY_USERNAME));
+					intent.putExtra("UserPass",
+							statusHashMap.get(Consts.KEY_PASSWORD));
+					JVEditOldUserInfoActivity.this.startActivity(intent);
+					JVEditOldUserInfoActivity.this.finish();// 注册成功登陆成功
+				}
+			} else {// 注册失败
+				showTextToast(R.string.str_reset_not_success);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
 	}
 
 	@Override

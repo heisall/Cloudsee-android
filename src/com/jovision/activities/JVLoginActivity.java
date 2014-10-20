@@ -119,9 +119,9 @@ public class JVLoginActivity extends BaseActivity {
 		registBtn = (Button) findViewById(R.id.regist_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
 
-		Log.i("TAG", getIntent().getStringExtra("username") + "aaaaaaaaaa");
-		if (null != getIntent().getStringExtra("username")) {
-			userNameET.setText(getIntent().getStringExtra("username"));
+		Log.i("TAG", getIntent().getStringExtra("UserName") + "aaaaaaaaaa");
+		if (null != getIntent().getStringExtra("UserName")) {
+			userNameET.setText(getIntent().getStringExtra("UserName"));
 		} else {
 			if (null != userList && 0 != userList.size()) {
 				userNameET.setText(userList.get(0).getUserName());

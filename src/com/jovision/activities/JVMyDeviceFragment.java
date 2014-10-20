@@ -566,6 +566,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 								hasAdd = true;
 								if (null != broadList && 0 != broadList.size()) {
 									alertAddDialog();
+								} else {
+									mActivity
+											.showTextToast(R.string.broad_zero);
 								}
 
 							}
@@ -995,6 +998,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 从服务器端获取设备成功，但是没有设备
 			case DEVICE_NO_DEVICE: {
 				MyLog.v(TAG, "nonedata-too");
+				if (MySharedPreference.getBoolean("AddLanDevice") && !hasAdd) {
+					broadTag = BROAD_DEVICE_LIST;
+					PlayUtil.broadCast(mActivity);
+				}
 				refreshList();
 				break;
 			}
@@ -1075,10 +1082,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			CacheUtil.saveDevList(myDeviceList);
 			((BaseActivity) mActivity).dismissDialog();
 			if (0 == result) {
-				myDLAdapter.setData(myDeviceList);
-				myDeviceListView.setAdapter(myDLAdapter);
+				refreshList();
 				mActivity.showTextToast(R.string.add_device_succ);
 			} else {
+				refreshList();
 				myDLAdapter.setData(myDeviceList);
 				myDeviceListView.setAdapter(myDLAdapter);
 				mActivity.showTextToast(R.string.add_device_failed);

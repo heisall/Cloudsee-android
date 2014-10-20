@@ -648,6 +648,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 暂停语音聊天
 			case JVNetConst.JVN_CMD_CHATSTOP: {
+				showTextToast(R.string.has_calling);
 				break;
 			}
 			}
@@ -1700,6 +1701,11 @@ public class JVPlayActivity extends PlayActivity implements
 							}
 						}
 
+						if (oneScreen == currentScreen && !lowerSystem) {
+							isOmx = true;
+						} else {
+							isOmx = false;
+						}
 						PlayUtil.connect(channel, isOmx, ssid);
 					}
 
@@ -1772,8 +1778,12 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 		} else {
 			stopAllFunc();
+			if (Consts.PLAY_AP == playFlag) {
+				Jni.disconnect(0);
+			} else {
+				PlayUtil.disConnectAll(manager.getChannelList());
+			}
 
-			PlayUtil.disConnectAll(manager.getChannelList());
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -1836,6 +1846,7 @@ public class JVPlayActivity extends PlayActivity implements
 	/**
 	 * 停止所有事件
 	 */
+	@SuppressWarnings("deprecation")
 	public void stopAllFunc() {
 		// 停止音频监听
 		if (PlayUtil.isPlayAudio(currentIndex)) {
@@ -1990,6 +2001,11 @@ public class JVPlayActivity extends PlayActivity implements
 					}
 				}
 
+				if (oneScreen == currentScreen && !lowerSystem) {
+					isOmx = true;
+				} else {
+					isOmx = false;
+				}
 				PlayUtil.connect(channel, isOmx, ssid);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -2052,6 +2068,11 @@ public class JVPlayActivity extends PlayActivity implements
 	protected void onResume() {
 		super.onResume();
 		manager.resumeAll();
+		if (oneScreen == currentScreen && !lowerSystem) {
+			isOmx = true;
+		} else {
+			isOmx = false;
+		}
 		PlayUtil.resumeAll(manager.getValidChannelList(currentPage), isOmx,
 				ssid);
 	}

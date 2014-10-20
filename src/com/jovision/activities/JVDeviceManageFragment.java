@@ -68,7 +68,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private ArrayList<Fragment> fragments;
 
 	/** intent传递过来的设备和通道下标 */
-	public static int deviceIndex;
+	private int deviceIndex;
 	private ArrayList<Device> manageDeviceList = new ArrayList<Device>();
 
 	@Override

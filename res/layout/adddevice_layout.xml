@@ -119,6 +119,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/blue_bg"
                 android:text="@string/login_str_save"
                 android:textColor="@color/white"
                 android:textSize="20sp" />

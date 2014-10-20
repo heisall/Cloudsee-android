@@ -809,6 +809,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.QUICK_SETTING_DEV_ONLINE: {// 网络恢复成功
 			playSound(Consts.SOUNDSIX);// 播放“叮”的一声
 			showSearch(false);
+			// 设置全屏
+			JVQuickSettingActivity.this.getWindow().setFlags(
+					WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			quickSetDeviceImg.setVisibility(View.VISIBLE);
 			break;
 		}
@@ -1218,6 +1222,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				if (0 == result) {
 					playSound(Consts.SOUNDSIX);
 					showSearch(false);
+					// 设置全屏
+					JVQuickSettingActivity.this.getWindow().setFlags(
+							WindowManager.LayoutParams.FLAG_FULLSCREEN,
+							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 					quickSetDeviceImg.setVisibility(View.VISIBLE);
 				} else if (2 == result) {
 					JVQuickSettingActivity.this.finish();
@@ -1604,7 +1612,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (show) {
 				isSearching = true;
 				// 开始声波配置，弹出配置对话框
-				searchView.setSearching(show);
+				searchView.setSearching(true);
 				// 设置全屏
 				JVQuickSettingActivity.this.getWindow().setFlags(
 						WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -1612,7 +1620,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				quickSetDeviceImg.setVisibility(View.GONE);// 弹出设备
 				quickSetBackImg.setVisibility(View.VISIBLE);
 			} else {
-				searchView.setSearching(show);
+				searchView.setSearching(false);
 				getWindow().setFlags(
 						disMetrics.widthPixels
 								- getStatusHeight(JVQuickSettingActivity.this),

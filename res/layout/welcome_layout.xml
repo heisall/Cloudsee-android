@@ -41,8 +41,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="云视通"
-                    android:textColor="#e0eaf6"
+                    android:text="@string/cloud1"
+                    android:textColor="@color/white"
                     android:textSize="24sp"
                     android:typeface="monospace" />
 
@@ -52,7 +52,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:text="CloudSEE to You "
-                    android:textColor="#6fb4ff"
+                    android:textColor="@color/welcome1"
                     android:textSize="10sp" />
             </LinearLayout>
 
@@ -66,8 +66,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="通天下"
-                    android:textColor="#e0eaf6"
+                    android:text="@string/cloud2"
+                    android:textColor="@color/white"
                     android:textSize="24sp" />
 
                 <TextView
@@ -76,7 +76,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:text="Vision to World "
-                    android:textColor="#6fb4ff"
+                    android:textColor="@color/welcome1"
                     android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>

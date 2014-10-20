@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-     android:background="@drawable/login_bg"
+    android:background="@drawable/login_bg"
     android:paddingLeft="30dp"
     android:paddingRight="30dp" >
 
@@ -12,16 +12,15 @@
         android:layout_above="@+id/centerlayout"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="30dp"
-        android:src="@drawable/login_logo_icon" 
-        >
+        android:src="@drawable/login_logo_icon" >
     </ImageView>
-    
+
     <LinearLayout
         android:id="@+id/centerlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_above="@+id/moddle"
+        android:layout_centerVertical="true"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -66,7 +65,7 @@
                 android:layout_below="@+id/user_icon"
                 android:layout_marginTop="5dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/login_user_divider"/>
+                android:src="@drawable/login_user_divider" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -104,13 +103,15 @@
                 android:src="@drawable/login_user_divider" />
         </RelativeLayout>
     </LinearLayout>
+
     <TextView
         android:id="@+id/moddle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="" />
-<Button
+
+    <Button
         android:id="@+id/onlinelogin_btn"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -130,6 +131,7 @@
         android:text="@string/str_local_login"
         android:textColor="@color/white"
         android:textSize="20sp" />
+
     <RelativeLayout
         android:id="@+id/funclayout"
         android:layout_width="match_parent"
@@ -145,9 +147,8 @@
             android:layout_gravity="center_vertical"
             android:background="@color/transparent"
             android:text="@string/login_str_user_regist"
-            android:textColor="@color/white" 
-            android:textSize="18sp"
-            />
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/findpass_tv"
@@ -158,21 +159,20 @@
             android:gravity="right"
             android:text="@string/str_find_pass"
             android:textColor="@color/white"
-            android:visibility="visible" 
             android:textSize="18sp"
-            />
+            android:visibility="visible" />
     </RelativeLayout>
-    <Button 
+
+    <Button
         android:id="@+id/showpoint_btn"
-       android:layout_width="80dp"
-       android:layout_height="60dp"
-       android:background="@drawable/login_demo_bg"
-       android:layout_alignParentBottom="true"
-       android:layout_centerHorizontal="true"
-       android:text="演示点"
-       android:paddingTop="10dp"
-       android:textSize="18sp"
-       android:textColor="#d8e5f1"
-        />
-    
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/login_demo_bg"
+        android:paddingTop="10dp"
+        android:text="@string/login_demo"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
 </RelativeLayout>

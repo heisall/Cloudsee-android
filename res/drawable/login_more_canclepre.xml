@@ -3,7 +3,7 @@
 
     <stroke
         android:width="5dip"
-        android:color="#59a4ff" />
+        android:color="@color/login_more_canclepre" />
     <!-- 描边 ：边框宽度与颜色 -->
     <padding
         android:bottom="0dip"
@@ -20,10 +20,10 @@
 
     <gradient
         android:angle="90"
-        android:endColor="#59a4ff"
-        android:startColor="#59a4ff" />
+        android:endColor="@color/login_more_canclepre"
+        android:startColor="@color/login_more_canclepre" />
     <!-- 渐变 -->
-    <solid android:color="#59a4ff" />
+    <solid android:color="@color/login_more_canclepre" />
     <!-- 没有描边的中间部分 -->
     <!-- solid 与  gradient 只能显示在代码最后那个 -->
 

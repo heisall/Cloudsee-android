@@ -35,9 +35,10 @@ import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
+import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.CacheUtil;
 public class CustomDialogActivity extends BaseActivity implements
-		android.view.View.OnClickListener, ActionReceiver.EventHandler {
+		android.view.View.OnClickListener{
 	/** 查看按钮 **/
 	private Button lookVideoBtn;
 	/** 报警图片 **/
@@ -104,15 +105,15 @@ public class CustomDialogActivity extends BaseActivity implements
 //				imgLoaderFilePath = "file://"+localImgPath;				
 			}	
 				
-			MyLog.i("New Alarm", "img_url:"+strImgUrl+", vod_url:"+vod_uri_);	
-			MyLog.i("New Alarm", "localVodPath:"+localVodPath);	
-			MyLog.e("New Alarm", "localImgPath:"+localImgPath);
+			MyLog.d("New Alarm", "img_url:"+strImgUrl+", vod_url:"+vod_uri_);	
+			MyLog.d("New Alarm", "localVodPath:"+localVodPath);	
+			MyLog.d("New Alarm", "localImgPath:"+localImgPath);
 			
 			if(!fileIsExists(localImgPath)){
 				bLocalFile = false;
 				if(!strImgUrl.equals("")){
 					Jni.setDownloadFileName(localImgPath);
-					AlarmConnect(strYstNum);					
+					AlarmUtil.OnlyConnect(strYstNum);					
 				}
 				if(!vod_uri_.equals("")){
 					lookVideoBtn.setEnabled(true);
@@ -137,20 +138,17 @@ public class CustomDialogActivity extends BaseActivity implements
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		ActionReceiver.ehList.add(this);
-		MyLog.e("CloudSEE[alarm]", "CustomDialogActivity onResume() Invoked");
 	}
 	@Override
 	public void onPause() {
-		// TODO Auto-generated method stub
-		ActionReceiver.ehList.remove(this);
+		// TODO Auto-generated method stub"		
 		super.onPause();
-		MyLog.e("CloudSEE[alarm]", "CustomDialogActivity onPause() Invoked");
+		
 	}	
 	@Override
 	public void onDestroy() {
 		if(!bLocalFile && bConnectFlag){
-			JVSUDT.JVC_DisConnect(JVConst.ONLY_CONNECT);//断开连接
+			
 		}
 
 		super.onDestroy();
@@ -203,38 +201,16 @@ public class CustomDialogActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.alarm_lookup_video_btn:// 查看录像
+			
 			if (null != vod_uri_ && !"".equalsIgnoreCase(vod_uri_)) {
-				//先判断本地是否存在
-				if(fileIsExists(localVodPath)){
-					//启动播放界面
-					Intent intent = new Intent();
-					intent.setClass(CustomDialogActivity.this, JVVideoActivity.class);
-					intent.putExtra("URL", localVodPath);
-					intent.putExtra("IS_LOCAL", true);		
-					startActivity(intent);
+				bDownLoadFileType = 1;
+				if(!bConnectFlag){
+					AlarmUtil.OnlyConnect(strYstNum);
 				}
-				else
-				{
-					bDownLoadFileType = 1;//下载录像
-					Jni.setDownloadFileName(localVodPath);
-					progressdialog.show();
-					if(!bConnectFlag)//如果没连接，先连接
-					{
-						AlarmConnect(strYstNum);
-						//在连接成功后发送下载命令
-					}
-					else{
-						//如果已经连接上，发送下载命令
-						
-						Jni.sendBytes(0,
-								 (byte) JVNetConst.JVN_CMD_DOWNLOADSTOP, new byte[0], 0);
-						byte[]dataByte = vod_uri_.getBytes();
-						MyLog.e("new alarm", "vedio_url: "+vod_uri_+"nsize: "+dataByte.length);
-						Jni.sendBytes(0,
-								 (byte) JVNetConst.JVN_REQ_DOWNLOAD, dataByte, dataByte.length);	
-					}					
+				else{
+					//已经连接上走远程播放
 				}
-
+				
 			}			
 			break;
 		default:
@@ -252,185 +228,7 @@ public class CustomDialogActivity extends BaseActivity implements
 		return super.onKeyDown(keyCode, event);
 	}
 
-	private void AlarmConnect(String strYstNum) {
-//		Device devs = null;
-//		boolean bfind = false;
-//		for (int j = 0; j < CacheUtil.getDevList().size(); j++) {
-//			devs = CacheUtil.getDevList().get(j);
-//			MyLog.e("AlarmConnect", "dst:" + strYstNum + "---yst-num = "
-//					+ devs.getFullNo());
-//			if (strYstNum.equalsIgnoreCase(devs.devs.getFullNo())) {
-//				bfind = true;
-//				break;
-//			}
-//		}
-//		if (bfind) {
-//			JVConnectInfo info = new JVConnectInfo();
-//			info.setAction(false);
-//			// info.setBackLight(false);
-//			info.setByUDP(true);
-//			info.setCsNumber(devs.yst);
-//			// info.setDeleNum("-1,");
-//			info.setChannel(1);
-//			// info.setHaveSearchChannel(1);
-//			info.setRemoteIp(devs.deviceLocalIp);
-//			info.setPort(devs.deviceLocalPort);
-//			// info.setSavePasswd(true);
-//			// info.setChannelCount(-1);
-//			if(devs.deviceLocalIp.equals("") && !JVConst.DEFAULT_IP.equals(devs.deviceLocalIp)){
-//				info.setConnType(JVConst.JV_CONNECT_CS);
-//			}
-//			else{
-//				info.setConnType(JVConst.JV_CONNECT_IP);
-//				info.setRemoteIp(devs.deviceLocalIp);
-//				info.setPort(devs.deviceLocalPort);
-//			}
-//			// info.setChannelRealCount(-1);
-//			info.setGroup(devs.group);
-//			info.setLocalTry(true);
-//			info.setSrcName("1");
-//			info.setUserName(devs.deviceLoginUser);
-//			info.setPasswd(devs.deviceLoginPwd);
-//			info.isRequestVedio = false;
-//			
-//			
-//			if (info.getConnType() == JVConst.JV_CONNECT_CS) {// 通过号码连接
-//				Log.v("tags............云视通号连接", "csNumber=" + info.getCsNumber()
-//						+ ",channel=" + info.getChannel());
-//				synchronized (JVSUDT.disconnect) {
-//					JVSUDT.JVC_Connect(JVConst.ONLY_CONNECT, info.getChannel(), "", info.getPort(),
-//							info.getUserName(), info.getPasswd(),
-//							info.getCsNumber(), info.getGroup().toUpperCase(),
-//							info.isLocalTry(), JVConst.JVN_TRYTURN, true,
-//							JVNetConst.TYPE_3GMOHOME_UDP, null, info.isRequestVedio);
-//					Log.v("clientSize", "connect----------------");
-//				}
-//			}
-//			else{
-//				Log.v("tags ......IP", ",windowIndex:" + BaseApp.windowIndex
-//						+ ",info.getChannel():" + info.getChannel()
-//						+ ",info.getRemoteIp():" + info.getRemoteIp()
-//						+ ",info.getPort():" + info.getPort()
-//						+ ",info.getUserName():" + info.getUserName()
-//						+ ",info.getPasswd():" + info.getPasswd()
-//						+ ",info.getGroup():" + info.getGroup()
-//						+ ",info.isLocalTry():" + info.isLocalTry()
-//						+ ",JVConst.JVN_TRYTURN:" + JVConst.JVN_TRYTURN);				
-//				synchronized (JVSUDT.disconnect) {
-//					JVSUDT.JVC_Connect(JVConst.ONLY_CONNECT, info.getChannel(), info
-//							.getRemoteIp(), info.getPort(), info
-//							.getUserName(), info.getPasswd(), -1, info
-//							.getGroup().toUpperCase(), info.isLocalTry(),
-//							JVConst.JVN_TRYTURN, true,
-//							JVNetConst.TYPE_3GMOHOME_UDP, null, info.isRequestVedio);
-//					}			
-//			}
-//			
-//		}
-//		else{
-//			Log.e("AlarmConnect", "not find dst:"+strYstNum);
-//		}
-	}
 
-	@Override
-	public void onHandlerNotify(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
-//		switch (what) {
-//		case 9001: //一级：远程下载
-//		{
-//			switch (arg1) { //二级: 结果代码
-//			case JVNetConst.JVN_RSP_DOWNLOADOVER://文件下载完毕
-//				showToast("文件下载完毕", Toast.LENGTH_SHORT);
-//				//JVSUDT.JVC_DisConnect(JVConst.ONLY_CONNECT);//断开连接,如果视频走远程回放，这个连接需要现在断开，因为通道不同
-//	
-//				if(bDownLoadFileType == 0){
-//					//下载图片
-//					if (!vod_uri_.equals("")){
-//						lookVideoBtn.setEnabled(true);	
-//					}
-//					
-//					Bitmap bmp= getLoacalBitmap(localImgPath);
-//					if(null != bmp){
-//						alarmImage.setImageBitmap(bmp);
-//					}
-//				}
-//				else if(bDownLoadFileType == 1){
-//					//下载录像完毕
-//					if(progressdialog.isShowing()){
-//						progressdialog.dismiss();
-//					}
-//					//启动播放界面
-//					Intent intent = new Intent();
-//					intent.setClass(CustomDialogActivity.this, JVVideoActivity.class);
-//					intent.putExtra("URL", localVodPath);
-//					intent.putExtra("IS_LOCAL", true);		
-//					startActivity(intent);
-//				}
-//				else{
-//					
-//				}
-//				if(progressdialog.isShowing()){
-//					progressdialog.dismiss();
-//				}
-//				break;
-//			case JVNetConst.JVN_CMD_DOWNLOADSTOP://停止文件下载
-//				showToast("停止文件下载", Toast.LENGTH_SHORT);
-//				break;
-//			case JVNetConst.JVN_RSP_DOWNLOADE://文件下载失败
-//				showToast("文件下载失败", Toast.LENGTH_SHORT);
-//				break;
-//			case JVNetConst.JVN_RSP_DLTIMEOUT://文件下载超时
-//				showToast("文件下载超时", Toast.LENGTH_SHORT);
-//				break;	
-//			default:
-//				break;
-//			}
-//		}	
-//		break;
-//
-//		default:
-//			break;
-//		}
-	}
-
-	@Override
-	public void onHandleConnectRes(int ret, Object obj) {
-		// TODO Auto-generated method stub
-//		switch (ret) {
-//		case 1://连接成功
-//		case 3://已经连上，如正在播放视频界面
-//			Log.e("New alarm", "连接成功");
-//			bConnectFlag = true;
-//			showToast("连接成功", Toast.LENGTH_SHORT);
-//			String strFilePath = ""; 
-//			if(bDownLoadFileType == 0){
-//				strFilePath = strImgUrl;
-//			}else if(bDownLoadFileType == 1){
-//				strFilePath = vod_uri_;
-//			}
-//			else{
-//				
-//			}
-//			Log.e("New Alarm", "DownFile Path:"+strFilePath);
-//			 JVSUDT.JVC_SendData(5007,
-//			 (byte) JVNetConst.JVN_CMD_DOWNLOADSTOP, new byte[0], 0);
-//			 byte[]dataByte = strFilePath.getBytes();
-//			 JVSUDT.JVC_SendDataStr(5007,
-//			 (byte) JVNetConst.JVN_REQ_DOWNLOAD, strFilePath);			
-//			break;
-//		case 2://断开连接成功
-//			bConnectFlag = false;
-//			break;
-//		case 4://连接失败
-//			Log.e("New alarm", "连接失败");
-//			bConnectFlag = false;
-//			showToast("连接失败", Toast.LENGTH_SHORT);
-//			break;
-//		default:
-//			showToast("连接:"+ret, Toast.LENGTH_SHORT);
-//			break;
-//		}
-	}
 	
 	private void showToast(String text, int duration){
 		Toast.makeText(this, "[DEBUG] "+text, duration).show();
@@ -484,7 +282,7 @@ public class CustomDialogActivity extends BaseActivity implements
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
 		MyLog.v(TAG, "onHandler--what=" + what + ";arg1=" + arg1 + ";arg2="
-				+ arg2);		
+				+ arg1);		
 		switch (what) {
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE:
@@ -493,7 +291,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				MyLog.e("CustomDialogActivity onHandler", "the channel "+arg2+" is null");
 				return;
 			}
-			switch (arg1) {
+			switch (arg2) {
 				
 				case JVNetConst.NO_RECONNECT:// 1 -- 连接成功//3 不必重新连接
 				case JVNetConst.CONNECT_OK: {// 1 -- 连接成功
@@ -506,18 +304,19 @@ public class CustomDialogActivity extends BaseActivity implements
 					String strFilePath = ""; 
 					if(bDownLoadFileType == 0){
 						strFilePath = strImgUrl;
+						MyLog.e("New Alarm", "DownFile Path:"+strFilePath);
+						Jni.sendBytes(0,
+						(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP, new byte[0], 0);
+						byte[]dataByte = strFilePath.getBytes();
+						Jni.sendBytes(0,
+						(byte) JVNetConst.JVN_REQ_DOWNLOAD, dataByte, dataByte.length);							
 					}else if(bDownLoadFileType == 1){
-						strFilePath = vod_uri_;
+						strFilePath = vod_uri_;		
+						//走远程回放
 					}
 					else{
 						
 					}
-					MyLog.e("New Alarm", "DownFile Path:"+strFilePath);
-					Jni.sendBytes(0,
-					(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP, new byte[0], 0);
-					byte[]dataByte = strFilePath.getBytes();
-					Jni.sendBytes(0,
-					(byte) JVNetConst.JVN_REQ_DOWNLOAD, dataByte, dataByte.length);							
 				}
 				break;
 				// 2 -- 断开连接成功
@@ -525,11 +324,20 @@ public class CustomDialogActivity extends BaseActivity implements
 					channel.setConnecting(false);
 					channel.setConnected(false);
 					bConnectFlag = false;
+					
+					
+					if (!vod_uri_.equals("")){
+						lookVideoBtn.setEnabled(true);	
+					}						
 				}
 				break;
 				// 4 -- 连接失败
 				case JVNetConst.CONNECT_FAILED: {
 					bConnectFlag = false;
+					
+					if (!vod_uri_.equals("")){
+						lookVideoBtn.setEnabled(true);	
+					}						
 					try {
 						JSONObject connectObj = new JSONObject(obj.toString());
 						String errorMsg = connectObj.getString("msg");
@@ -557,11 +365,17 @@ public class CustomDialogActivity extends BaseActivity implements
 					channel.setConnected(false);
 				}	
 				break;
+				default:
+					channel.setConnecting(false);
+					channel.setConnected(false);
+					showTextToast(R.string.connect_failed);
+					if (!vod_uri_.equals("")){
+						lookVideoBtn.setEnabled(true);	
+					}	
+					break;
 			};
-			
-			case JVNetConst.JVN_REQ_DOWNLOAD:
-			{
-				switch (arg1) { //二级: 结果代码
+			case Consts.CALL_DOWNLOAD:{
+				switch (arg2) {
 				case JVNetConst.JVN_RSP_DOWNLOADOVER://文件下载完毕
 					showToast("文件下载完毕", Toast.LENGTH_SHORT);
 					//JVSUDT.JVC_DisConnect(JVConst.ONLY_CONNECT);//断开连接,如果视频走远程回放，这个连接需要现在断开，因为通道不同
@@ -607,9 +421,18 @@ public class CustomDialogActivity extends BaseActivity implements
 					break;	
 				default:
 					break;
-				}
+				};
+				if (!vod_uri_.equals("")){
+					lookVideoBtn.setEnabled(true);	
+				}				
 			}
 			break;
+//			case JVNetConst.JVN_REQ_DOWNLOAD:
+//			{
+//				switch (arg1) { //二级: 结果代码
+//
+//			}
+//			break;
 		}
 	}
 	@Override

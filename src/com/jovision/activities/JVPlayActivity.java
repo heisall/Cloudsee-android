@@ -241,11 +241,11 @@ public class JVPlayActivity extends PlayActivity implements
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE: {
 
-			Channel channel = manager.getChannel(arg2);
+			Channel channel = manager.getChannel(arg1);
 			if (null == channel) {
 				return;
 			}
-			switch (arg1) {
+			switch (arg2) {
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
 				channel.setConnecting(false);

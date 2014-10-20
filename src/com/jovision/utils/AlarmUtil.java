@@ -7,7 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.test.JVACCOUNT;
-
+import com.jovision.Jni;
+import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyLog;
@@ -215,5 +216,49 @@ public class AlarmUtil {
 
 		MyLog.v("deleteAlarmInfo---res", deleteRes + "");
 		return deleteRes;
+	}
+	
+	public static int OnlyConnect(String strYstNum){
+		Device device = null;
+		boolean bfind = false;
+		for (int j = 0; j < CacheUtil.getDevList().size(); j++) {
+			device = CacheUtil.getDevList().get(j);
+			MyLog.e("AlarmConnect", "dst:" + strYstNum + "---yst-num = "
+					+ device.getFullNo());
+			if (strYstNum.equalsIgnoreCase(device.getFullNo())) {
+				bfind = true;
+				break;
+			}
+		}
+		if (bfind) {
+			if ("".equalsIgnoreCase(device.getIp())
+					|| 0 == device.getPort()) {
+				// 云视通连接
+				MyLog.v("New Alarm", device.getNo() + "--云视通--连接");
+				Jni.connect(0,
+						1, device.getIp(),
+						device.getPort(), device.getUser(),
+						device.getPwd(), device.getNo(),
+						device.getGid(), true, 1, true,
+						(device.isHomeProduct() ? 6 : 6),
+						null, false);
+			} else {
+				// IP直连
+				MyLog.v("New Alarm", device.getNo() + "--IP--连接："
+						+ device.getIp());
+				Jni.connect(0, 1, device.getIp(), device
+						.getPort(), device.getUser(), device
+						.getPwd(), -1, device.getGid(), true,
+						1, true, (device.isHomeProduct() ? 6
+								: 6),null,
+						false);
+			}	
+			
+			return 0;
+		}
+		else{
+			MyLog.e("AlarmConnect", "not find dst:"+strYstNum);
+			return -1;
+		}
 	}
 }

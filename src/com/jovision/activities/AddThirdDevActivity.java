@@ -6,15 +6,19 @@ import org.json.JSONObject;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
+import com.jovision.activities.AddThirdDeviceMenuFragment.OnDeviceClassSelectedListener;
+import com.jovision.activities.BindThirdDevNicknameFragment.OnSetNickNameListener;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.bean.ThirdAlarmDev;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
+import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.CacheUtil;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
@@ -28,7 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddThirdDevActivity extends BaseActivity implements
-		OnClickListener, OnDeviceClassSelectedListener {
+		OnClickListener, OnDeviceClassSelectedListener, OnSetNickNameListener {
 	private AddThirdDeviceMenuFragment third_dev_menu_fragment;
 	private Button backBtn;
 	public TextView titleTv;
@@ -38,6 +42,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private PlayWindowManager manager;
 	private ProgressDialog dialog;
 	private int dev_uid;
+	private String nickName;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -116,7 +121,12 @@ public class AddThirdDevActivity extends BaseActivity implements
 			dialog.show();
 			if(!bConnectedFlag){
 				AlarmUtil.OnlyConnect(strYstNum);
-			}			
+			}
+			else{
+				//首先需要发送文本聊天请求
+				Jni.sendBytes(0,
+						(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+			}
 			break;
 		case 2:
 			titleTv.setText(R.string.str_bracelet_device);
@@ -126,7 +136,12 @@ public class AddThirdDevActivity extends BaseActivity implements
 			dialog.show();
 			if(!bConnectedFlag){
 				AlarmUtil.OnlyConnect(strYstNum);
-			}			
+			}	
+			else{
+				//首先需要发送文本聊天请求
+				Jni.sendBytes(0,
+						(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+			}
 			break;
 		default:
 			break;
@@ -137,16 +152,16 @@ public class AddThirdDevActivity extends BaseActivity implements
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
 		MyLog.v(TAG, "onHandler--what=" + what + ";arg1=" + arg1 + ";arg2="
-				+ arg2);		
+				+ arg2 + "; obj = "+(obj==null?"":obj.toString()));		
 		switch (what) {
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE:
-			Channel channel = manager.getChannel(arg2);
+			Channel channel = manager.getChannel(arg1);
 			if (null == channel) {
 				MyLog.e("CustomDialogActivity onHandler", "the channel "+arg2+" is null");
 				return;
 			}
-			switch (arg1) {
+			switch (arg2) {
 				
 				case JVNetConst.NO_RECONNECT:// 1 -- 连接成功//3 不必重新连接
 				case JVNetConst.CONNECT_OK: {// 1 -- 连接成功
@@ -203,43 +218,127 @@ public class AddThirdDevActivity extends BaseActivity implements
 				break;
 			};
 			break;
-		case Consts.RC_GPIN_ADD://绑定设备
-			if(arg1 == 1){
-				//ok
-				if(arg1 == 0){//failed					
-					showTextToast("绑定设备失败");
-				}
-				else if(arg1 == 1){//OK
-					showTextToast("绑定设备成功");
-					dev_uid = arg2;			
-					BindThirdDevNicknameFragment nicknameFragment = new BindThirdDevNicknameFragment();
-					FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-					// Replace whatever is in the fragment_container view with this
-					// fragment,
-					// and add the transaction to the back stack so the user can
-					// navigate back
-					transaction.replace(R.id.fragment_container, nicknameFragment);
-					transaction.addToBackStack(null);
+		case Consts.CALL_TEXT_DATA:
+		{
+			switch (arg2) {
+				case JVNetConst.JVN_RSP_TEXTACCEPT://同意文本请求后才发送请求,这里要区分出是添加还是最后的绑定昵称
+					String req_data = "type="+dev_type_mark+";";
+					Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_ADD, req_data.trim());
+					break;				
+						
+				case Consts.RC_GPIN_ADD://绑定设备
+				if(obj != null){
+					JSONObject respObject;
+					try {
+						respObject = new JSONObject(obj.toString());
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						showTextToast("TextData回调obj参数转Json异常");
+						return;
+					}
+					String addStr = respObject.optString("msg");
+					String addStrArray[] =addStr.split(";");
+					ThirdAlarmDev addAlarm = new ThirdAlarmDev();
+					int addResult = -1;
+					for(int i=0;i<addStrArray.length;i++){
+						String[] split = addStrArray[i].split("=");
+						if("res".equals(split[0])){
+							addResult = Integer.parseInt(split[1]);
+							break;
+						}
+					}
 
-					// Commit the transaction
-					transaction.commit();					
-				}
-				else if(arg1 == 2){//超过最大数
-					showTextToast("超过最大数");
-				}
-				else{
-					showTextToast("绑定失败");
-				}
+					if(addResult == 1){//add success
+						for(int i=0;i<addStrArray.length;i++){
+							String[] split = addStrArray[i].split("=");
+							if("guid".equals(split[0])){
+								addAlarm.dev_uid = Integer.parseInt(split[1]);
+							}else if("type".equals(split[0])){
+								addAlarm.dev_type_mark = Integer.parseInt(split[1]);
+							}			
+						}
+						showTextToast("绑定设备成功");
+						dev_uid = addAlarm.dev_uid;			///////////////////////////
+						BindThirdDevNicknameFragment nicknameFragment = new BindThirdDevNicknameFragment();
+						FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+						// Replace whatever is in the fragment_container view with this
+						// fragment,
+						// and add the transaction to the back stack so the user can
+						// navigate back
+						transaction.replace(R.id.fragment_container, nicknameFragment);
+						transaction.addToBackStack(null);
+
+						// Commit the transaction
+						transaction.commit();							
+					}				
+					else if(addResult == 2){//超过最大数
+						showTextToast("超过最大数");
+					}
+					else{
+						showTextToast("绑定设备失败");
+					}					
+				}				
+				break;
+
+				case Consts.RC_GPIN_SET://设置昵称
+					if(obj != null){
+						JSONObject respObject;
+						try {
+							respObject = new JSONObject(obj.toString());
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							showTextToast("TextData回调obj参数转Json异常");
+							return;
+						}
+						String setStr = respObject.optString("msg");
+						String setStrArray[] =setStr.split(";");
+						ThirdAlarmDev setalarm = new ThirdAlarmDev();
+						int setResult = -1;
+						for(int i=0;i<setStrArray.length;i++){
+							String[] split = setStrArray[i].split("=");
+							if("res".equals(split[0])){
+								setResult = Integer.parseInt(split[1]);
+								break;
+							}
+						}
+						
+
+						if(setResult == 1){//SET success
+							for(int i=0;i<setStrArray.length;i++){
+								String[] split = setStrArray[i].split("=");
+								if("guid".equals(split[0])){
+									setalarm.dev_uid = Integer.parseInt(split[1]);
+								}else if("type".equals(split[0])){
+									setalarm.dev_type_mark = Integer.parseInt(split[1]);
+								}														
+							}
+							//成功
+							// 返回第三方设备列表activity
+							Intent data = new Intent();
+							data.putExtra("nickname", nickName);
+							data.putExtra("dev_type_mark", dev_type_mark);
+							data.putExtra("dev_uid", setalarm.dev_uid);
+							// 请求代码可以自己设置，这里设置成10
+							setResult(10, data);
+							// 关闭掉这个Activity
+							finish();
+						}else{
+							//失败
+							showTextToast("设置昵称失败");
+						}						
+					}else{
+						showTextToast("TextData回调obj参数is null");
+					}
+					break;
+				default:
+					break;
 			}
-			else{
-				showTextToast("绑定失败");
-			}
-			break;			
-		case JVNetConst.JVN_RSP_TEXTACCEPT://同意文本请求后才发送请求,这里要区分出是添加还是最后的绑定昵称
-			String req_data = "type="+dev_type_mark+";";
-			Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_ADD, req_data.trim());
-			break;
-		case Consts.RC_GPIN_SET://设置昵称
+		}
+		break;		
+
+		
 		}				
 	}
 
@@ -272,4 +371,25 @@ public class AddThirdDevActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void OnSetNickName(String strNickName) {
+		// TODO Auto-generated method stub
+		if(!bConnectedFlag){
+			//
+		}
+		else{
+			nickName = strNickName;
+			SendBingNickName(nickName);
+		}
+	}
+	private void SendBingNickName(String nickName){
+		String strType = "type="+dev_type_mark+";";
+		String strGuid = "guid="+dev_uid+";";
+		String strNickName = "name="+nickName+";";
+		String strSwitch = "enable=1;";
+		String reqData = strType+strGuid+strNickName+strSwitch;	
+		MyLog.e("Third Dev", "bing nick name req:"+reqData);
+		Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_SET, reqData.trim());				
+	}	
 }

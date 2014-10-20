@@ -13,6 +13,7 @@ import com.jovision.bean.ThirdAlarmDev;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
+import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.views.XListView;
 
@@ -27,6 +28,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -46,7 +48,7 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 
 public class ThirdDevListActivity extends BaseActivity implements
-	OnClickListener,ActionReceiver.EventHandler {
+	OnClickListener{
 	private Button backBtn;
 	private Button bindBtn;
 	private Button topClickAddBtn;
@@ -98,20 +100,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 			selected_dev_index = 0;
 		}
 		Device device_itemDevice = CacheUtil.getDevList().get(selected_dev_index);
-		// 测试数据
-		// ThirdAlarmDev testThirdDev = new ThirdAlarmDev();
-		// testThirdDev.dev_id = "0";
-		// testThirdDev.dev_nick_name = "测试南区北门";
-		// testThirdDev.dev_type_mark = 0;
-		// device_itemDevice.thirdDevMap.put(testThirdDev.dev_id, testThirdDev);
-		//
-		// ThirdAlarmDev testThirdDev2 = new ThirdAlarmDev();
-		// testThirdDev2.dev_id = "1";
-		// testThirdDev2.dev_nick_name = "城管大队队长的手环";
-		// testThirdDev.dev_type_mark = 1;
-		// testThirdDev2.dev_safeguard_flag = 1;
-		// device_itemDevice.thirdDevMap.put(testThirdDev2.dev_id,
-		// testThirdDev2);
+
 		strYstNum = device_itemDevice.getFullNo();
 		thirdDevAdapter = new ThirdDevAdapter(this,
 				device_itemDevice.getThirdDevList(), device_itemDevice);
@@ -137,13 +126,11 @@ public class ThirdDevListActivity extends BaseActivity implements
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		ActionReceiver.ehList.add(this);
 	}
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		ActionReceiver.ehList.remove(this);
 	}
 	@Override
 	protected void onDestroy() {
@@ -196,135 +183,6 @@ public class ThirdDevListActivity extends BaseActivity implements
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	@Override
-	public void onHandlerNotify(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
-//		if (dialog != null && dialog.isShowing())
-//			dialog.dismiss();		
-//		switch (what) {
-//		case 9006://设置属性
-//			if(arg1 == 1){
-//				//ok
-//				Device device_itemDevice = CacheUtil.getDevList()
-//						.get(selected_dev_index);	
-//				device_itemDevice.getThirdDevList().get(saved_index).dev_safeguard_flag = arg2;//
-//				thirdDevAdapter.notifyDataSetChanged();
-//			}
-//			else{
-//				showToast("设置属性失败", Toast.LENGTH_SHORT);
-//			}
-//			break;
-//		case 9007://查询第三方设备
-//			if(arg1 == 1){
-//				//成功
-//				
-//				String selectStr = obj.toString();
-//				String []selectStrArray = selectStr.split("\\$");
-//				Device device_itemDevice = CacheUtil.getDevList()
-//						.get(selected_dev_index);
-//				device_itemDevice.getThirdDevList().clear();
-//				if(selectStrArray.length > 0){
-//					topAddLayout.setVisibility(View.GONE);					
-//				}
-//				else{
-//					topAddLayout.setVisibility(View.VISIBLE);
-//				}
-//				for(int i=0;i<selectStrArray.length;i++){
-//					String inArray[] = selectStrArray[i].split(";");
-//					//type=1;guid=1;enable=1;name=south;$
-//					//type=1;guid=2;enable=1;name=south;$
-//					ThirdAlarmDev selectalarm = new ThirdAlarmDev();
-//					for(int j=0;j<inArray.length;j++){
-//						String[] split = inArray[j].split("=");
-//
-//						if("guid".equals(split[0])){
-//							selectalarm.dev_uid = Integer.parseInt(split[1]);
-//						}else if("type".equals(split[0])){
-//							selectalarm.dev_type_mark = Integer.parseInt(split[1]);
-//						}else if("enable".equals(split[0])){
-//							selectalarm.dev_safeguard_flag = Integer.parseInt(split[1]);
-//						}else if("name".equals(split[0])){
-//							if(split.length > 1){
-//								selectalarm.dev_nick_name = split[1];
-//							}
-//							else{
-//								selectalarm.dev_nick_name = "No Name";
-//							}
-//						}						
-//					}
-//					device_itemDevice.getThirdDevList()
-//					.add(selectalarm);																	
-//				}	
-//				thirdDevAdapter.notifyDataSetChanged();
-//			}else{
-//				//失败
-//				showToast("查询设备失败:"+arg1, Toast.LENGTH_SHORT);
-//			}
-//			break;
-//		case JVNetConst.JVN_RSP_TEXTACCEPT://同意文本请求后才发送请求
-//			StringBuffer videoBuffer = new StringBuffer();
-//			JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SECLECT, videoBuffer.toString().trim());
-//			break;
-//		case 9008://删除
-//			if(arg1 == 1){ //arg1 结果  arg2 guid
-//				//OK
-//				Device device_itemDevice = CacheUtil.getDevList()
-//						.get(selected_dev_index);	
-//				if(RemoveItemWithGuid(device_itemDevice.getThirdDevList(), arg2, Integer.parseInt(obj.toString()))){
-//					thirdDevAdapter.notifyDataSetChanged();
-//				}
-//				
-//			}else{
-//				//Failed
-//				showToast("删除设备失败", Toast.LENGTH_SHORT);
-//			}
-//		case 9009://开关
-//			//arg1 开关标志  arg2 索引 obj 请求参数
-//			if(obj != null){
-//				saved_index = arg2;
-//				JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SET, obj.toString());
-//			}	
-//			break;
-//		default:
-//			break;
-//		}		
-	}
-	@Override
-	public void onHandleConnectRes(int ret, Object obj) {
-		// TODO Auto-generated method stub
-//		if (dialog != null && dialog.isShowing())
-//			dialog.dismiss();			
-//		switch (ret) {
-//		case 1://连接成功
-//		case 3://已经连上，如正在播放视频界面
-//			MyLog.e("New alarm", "连接成功");
-//			bConnectFlag = true;
-//			showToast("连接成功", Toast.LENGTH_SHORT);
-//			//首先需要发送文本聊天请求
-//			JVSUDT.JVC_SendData(JVConst.ONLY_CONNECT,
-//					(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
-//		
-//			break;
-//		case 2://断开连接成功
-//			bConnectFlag = false;
-//			if (dialog != null && dialog.isShowing())
-//				dialog.dismiss();			
-//			break;
-//		case 4://连接失败
-//			if (dialog != null && dialog.isShowing())
-//				dialog.dismiss();			
-//			MyLog.e("New alarm", "连接失败");
-//			bConnectFlag = false;
-//			showToast("连接失败", Toast.LENGTH_SHORT);
-//			break;
-//		default:
-//			if (dialog != null && dialog.isShowing())
-//				dialog.dismiss();			
-//			bConnectFlag = false;
-//			showToast("连接:"+ret, Toast.LENGTH_SHORT);
-//			break;
-//		}		
-	}
 	private void showToast(String text, int duration){
 		Toast.makeText(this, "[DEBUG] "+text, duration).show();
 	}
@@ -380,7 +238,6 @@ public class ThirdDevListActivity extends BaseActivity implements
 			String arg2 = "guid="+thirdDev.dev_uid+";";
 			bb.append(arg1).append(arg2);
 			Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_DEL, bb.toString().trim());
-//			JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_DEL, bb.toString().trim());
 			dialog.dismiss();
 			mActivity.dialog.show();
 		}
@@ -405,12 +262,12 @@ public class ThirdDevListActivity extends BaseActivity implements
 		switch (what) {
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE:
-			Channel channel = manager.getChannel(arg2);
+			Channel channel = manager.getChannel(arg1);
 			if (null == channel) {
 				MyLog.e("CustomDialogActivity onHandler", "the channel "+arg2+" is null");
 				return;
 			}
-			switch (arg1) {
+			switch (arg2) {
 				
 				case JVNetConst.NO_RECONNECT:// 1 -- 连接成功//3 不必重新连接
 				case JVNetConst.CONNECT_OK: {// 1 -- 连接成功
@@ -468,93 +325,179 @@ public class ThirdDevListActivity extends BaseActivity implements
 				break;
 			};
 			break;
-		case 9006://设置属性
-			if(arg1 == 1){
-				//ok
-				Device device_itemDevice = CacheUtil.getDevList()
-						.get(selected_dev_index);	
-				device_itemDevice.getThirdDevList().get(saved_index).dev_safeguard_flag = arg2;//
-				thirdDevAdapter.notifyDataSetChanged();
-			}
-			else{
-				showToast("设置属性失败", Toast.LENGTH_SHORT);
-			}
-			break;			
-		case JVNetConst.JVN_RSP_TEXTACCEPT://同意文本请求后才发送请求
-			StringBuffer videoBuffer = new StringBuffer();
-			Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_SECLECT, videoBuffer.toString().trim());
-//			JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SECLECT, videoBuffer.toString().trim());
-			break;
-		case 9007://查询第三方设备
-			if(arg1 == 1){
-				//成功
-				
-				String selectStr = obj.toString();
-				String []selectStrArray = selectStr.split("\\$");
-				Device device_itemDevice = CacheUtil.getDevList()
-						.get(selected_dev_index);
-				device_itemDevice.getThirdDevList().clear();
-				if(selectStrArray.length > 0){
-					topAddLayout.setVisibility(View.GONE);					
-				}
-				else{
-					topAddLayout.setVisibility(View.VISIBLE);
-				}
-				for(int i=0;i<selectStrArray.length;i++){
-					String inArray[] = selectStrArray[i].split(";");
-					//type=1;guid=1;enable=1;name=south;$
-					//type=1;guid=2;enable=1;name=south;$
-					ThirdAlarmDev selectalarm = new ThirdAlarmDev();
-					for(int j=0;j<inArray.length;j++){
-						String[] split = inArray[j].split("=");
+		case Consts.CALL_TEXT_DATA:
+		{
+			switch (arg2) {
+				case JVNetConst.JVN_RSP_TEXTACCEPT://同意文本请求后才发送请求,这里要区分出是添加还是最后的绑定昵称
+					StringBuffer videoBuffer = new StringBuffer();
+					Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_SECLECT, videoBuffer.toString().trim());				
+					break;	
+				case Consts.RC_GPIN_SECLECT:
+					if(obj != null){
+						JSONObject respObject;
+						try {
+							respObject = new JSONObject(obj.toString());
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							showTextToast("TextData回调obj参数转Json异常");
+							return;
+						}
+						String selectStr = respObject.optString("msg");
+						
 
-						if("guid".equals(split[0])){
-							selectalarm.dev_uid = Integer.parseInt(split[1]);
-						}else if("type".equals(split[0])){
-							selectalarm.dev_type_mark = Integer.parseInt(split[1]);
-						}else if("enable".equals(split[0])){
-							selectalarm.dev_safeguard_flag = Integer.parseInt(split[1]);
-						}else if("name".equals(split[0])){
-							if(split.length > 1){
-								selectalarm.dev_nick_name = split[1];
+						if(!selectStr.equals("")){
+							//成功
+							String []selectStrArray = selectStr.split("\\$");
+							Device device_itemDevice = CacheUtil.getDevList()
+									.get(selected_dev_index);
+							device_itemDevice.getThirdDevList().clear();
+							if(selectStrArray.length > 0){
+								topAddLayout.setVisibility(View.GONE);					
 							}
 							else{
-								selectalarm.dev_nick_name = "No Name";
+								topAddLayout.setVisibility(View.VISIBLE);
 							}
+							for(int i=0;i<selectStrArray.length;i++){
+								String inArray[] = selectStrArray[i].split(";");
+								//type=1;guid=1;enable=1;name=south;$
+								//type=1;guid=2;enable=1;name=south;$
+								ThirdAlarmDev selectalarm = new ThirdAlarmDev();
+								for(int j=0;j<inArray.length;j++){
+									String[] split = inArray[j].split("=");
+
+									if("guid".equals(split[0])){
+										selectalarm.dev_uid = Integer.parseInt(split[1]);
+									}else if("type".equals(split[0])){
+										selectalarm.dev_type_mark = Integer.parseInt(split[1]);
+									}else if("enable".equals(split[0])){
+										selectalarm.dev_safeguard_flag = Integer.parseInt(split[1]);
+									}else if("name".equals(split[0])){
+										if(split.length > 1){
+											selectalarm.dev_nick_name = split[1];
+										}
+										else{
+											selectalarm.dev_nick_name = "No Name";
+										}
+									}						
+								}
+								device_itemDevice.getThirdDevList()
+								.add(selectalarm);																	
+							}	
+							thirdDevAdapter.notifyDataSetChanged();
+						}else{
+							//失败
+							showToast("查询第三方设备失败", Toast.LENGTH_SHORT);
 						}						
+					}else{
+						showTextToast("TextData回调obj参数is null");
 					}
-					device_itemDevice.getThirdDevList()
-					.add(selectalarm);																	
-				}	
-				thirdDevAdapter.notifyDataSetChanged();
-			}else{
-				//失败
-				showToast("查询设备失败:"+arg1, Toast.LENGTH_SHORT);
+					break;
+				case Consts.RC_GPIN_SET://设置开关
+					if(obj != null){
+						JSONObject respObject;
+						try {
+							respObject = new JSONObject(obj.toString());
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							showTextToast("TextData回调obj参数转Json异常");
+							return;
+						}
+						String setStr = respObject.optString("msg");
+						String setStrArray[] =setStr.split(";");
+						ThirdAlarmDev setalarm = new ThirdAlarmDev();
+						int setResult = -1;
+						for(int i=0;i<setStrArray.length;i++){
+							String[] split = setStrArray[i].split("=");
+							if("res".equals(split[0])){
+								setResult = Integer.parseInt(split[1]);
+								break;
+							}
+						}
+						
+
+						if(setResult == 1){//SET success
+							for(int i=0;i<setStrArray.length;i++){
+								String[] split = setStrArray[i].split("=");
+								if("guid".equals(split[0])){
+									setalarm.dev_uid = Integer.parseInt(split[1]);
+								}else if("type".equals(split[0])){
+									setalarm.dev_type_mark = Integer.parseInt(split[1]);
+								}														
+							}
+							//ok
+							int onoff_flag = respObject.optInt("flag");
+							Device device_itemDevice = CacheUtil.getDevList()
+									.get(selected_dev_index);	
+							device_itemDevice.getThirdDevList().get(saved_index).dev_safeguard_flag = onoff_flag;//
+							thirdDevAdapter.notifyDataSetChanged();							
+							
+						}else{
+							showToast("设置属性失败", Toast.LENGTH_SHORT);
+						}					
+					}else{
+						showTextToast("TextData回调obj参数is null");
+					}
+					break;
+				case Consts.RC_GPIN_DEL://删除
+					if(obj != null){
+						JSONObject respObject;
+						try {
+							respObject = new JSONObject(obj.toString());
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							showTextToast("TextData回调obj参数转Json异常");
+							return;
+						}
+						String delStr = respObject.optString("msg");
+						String delStrArray[] =delStr.split(";");
+						ThirdAlarmDev delalarm = new ThirdAlarmDev();
+						int delResult = -1;
+						for(int i=0;i<delStrArray.length;i++){
+							String[] split = delStrArray[i].split("=");
+							if("res".equals(split[0])){
+								delResult = Integer.parseInt(split[1]);
+								break;
+							}
+						}
+						
+						if(delResult == 1){//SET success
+							for(int i=0;i<delStrArray.length;i++){
+								String[] split = delStrArray[i].split("=");
+								if("guid".equals(split[0])){
+									delalarm.dev_uid = Integer.parseInt(split[1]);
+								}else if("type".equals(split[0])){
+									delalarm.dev_type_mark = Integer.parseInt(split[1]);
+								}														
+							}
+							//OK
+							Device device_itemDevice = CacheUtil.getDevList()
+									.get(selected_dev_index);	
+							if(RemoveItemWithGuid(device_itemDevice.getThirdDevList(), delalarm.dev_uid, delalarm.dev_type_mark)){
+								thirdDevAdapter.notifyDataSetChanged();
+							}	
+						}else{
+							//Failed
+							showToast("删除设备失败", Toast.LENGTH_SHORT);
+						}					
+					}else{
+						showTextToast("TextData回调obj参数is null");
+					}					
+					break;
+				default:
+					break;
 			}
-			break; 
-			
-		case 9008://删除
-			if(arg1 == 1){ //arg1 结果  arg2 guid
-				//OK
-				Device device_itemDevice = CacheUtil.getDevList()
-						.get(selected_dev_index);	
-				if(RemoveItemWithGuid(device_itemDevice.getThirdDevList(), arg2, Integer.parseInt(obj.toString()))){
-					thirdDevAdapter.notifyDataSetChanged();
-				}
-				
-			}else{
-				//Failed
-				showToast("删除设备失败", Toast.LENGTH_SHORT);
-			}
-			break;
-		case 9009://开关
-			//arg1 开关标志  arg2 索引 obj 请求参数
-			if(obj != null){
-				saved_index = arg2;
-				Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_SET, obj.toString());
-//				JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SET, obj.toString());
-			}	
-			break;			
+		}			
+//		case 9009://开关
+//			//arg1 开关标志  arg2 索引 obj 请求参数
+//			if(obj != null){
+//				saved_index = arg2;
+//				Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_SET, obj.toString());
+////				JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SET, obj.toString());
+//			}	
+//			break;			
 		}		
 	}
 

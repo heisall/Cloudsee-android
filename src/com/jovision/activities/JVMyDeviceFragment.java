@@ -566,6 +566,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 								hasAdd = true;
 								if (null != broadList && 0 != broadList.size()) {
 									alertAddDialog();
+								} else {
+									mActivity
+											.showTextToast(R.string.broad_zero);
 								}
 
 							}
@@ -578,40 +581,40 @@ public class JVMyDeviceFragment extends BaseFragment {
 					e.printStackTrace();
 				}
 			} else if (broadTag == BROAD_ADD_DEVICE) {// 广播添加设备
-			// JSONObject broadObj;
-			// try {
-			// broadObj = new JSONObject(obj.toString());
-			// if (0 == broadObj.optInt("timeout")) {
-			// String gid = broadObj.optString("gid");
-			// int no = broadObj.optInt("no");
-			// String ip = broadObj.optString("ip");
-			// int port = broadObj.optInt("port");
-			// int count = broadObj.optInt("count");
-			// String broadDevNum = gid + no;
-			//
-			// if (!hasDev(broadDevNum)) {
-			// Device broadDev = new Device(ip, port, gid, no,
-			// mActivity.getResources().getString(
-			// R.string.str_default_user),
-			// mActivity.getResources().getString(
-			// R.string.str_default_pass), false,
-			// count, 0);
-			// broadDev.setOnlineState(1);// 广播都在线
-			// broadList.add(broadDev);
-			// MyLog.v(TAG, "广播到一个设备--" + broadDevNum);
-			// }
-			// } else if (1 == broadObj.optInt("timeout")) {
-			//
-			// AddDevTask task = new AddDevTask();
-			// String[] strParams = new String[3];
-			// strParams[0] = broadList.toString();
-			// task.execute(strParams);
-			// }
-			// MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
-			// + ";arg2=" + arg1 + ";obj=" + obj.toString());
-			// } catch (JSONException e) {
-			// e.printStackTrace();
-			// }
+				// JSONObject broadObj;
+				// try {
+				// broadObj = new JSONObject(obj.toString());
+				// if (0 == broadObj.optInt("timeout")) {
+				// String gid = broadObj.optString("gid");
+				// int no = broadObj.optInt("no");
+				// String ip = broadObj.optString("ip");
+				// int port = broadObj.optInt("port");
+				// int count = broadObj.optInt("count");
+				// String broadDevNum = gid + no;
+				//
+				// if (!hasDev(broadDevNum)) {
+				// Device broadDev = new Device(ip, port, gid, no,
+				// mActivity.getResources().getString(
+				// R.string.str_default_user),
+				// mActivity.getResources().getString(
+				// R.string.str_default_pass), false,
+				// count, 0);
+				// broadDev.setOnlineState(1);// 广播都在线
+				// broadList.add(broadDev);
+				// MyLog.v(TAG, "广播到一个设备--" + broadDevNum);
+				// }
+				// } else if (1 == broadObj.optInt("timeout")) {
+				//
+				// AddDevTask task = new AddDevTask();
+				// String[] strParams = new String[3];
+				// strParams[0] = broadList.toString();
+				// task.execute(strParams);
+				// }
+				// MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
+				// + ";arg2=" + arg1 + ";obj=" + obj.toString());
+				// } catch (JSONException e) {
+				// e.printStackTrace();
+				// }
 			}
 
 			break;
@@ -995,6 +998,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 从服务器端获取设备成功，但是没有设备
 			case DEVICE_NO_DEVICE: {
 				MyLog.v(TAG, "nonedata-too");
+				if (MySharedPreference.getBoolean("AddLanDevice") && !hasAdd) {
+					broadTag = BROAD_DEVICE_LIST;
+					PlayUtil.broadCast(mActivity);
+				}
 				refreshList();
 				break;
 			}
@@ -1075,10 +1082,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			CacheUtil.saveDevList(myDeviceList);
 			((BaseActivity) mActivity).dismissDialog();
 			if (0 == result) {
-				myDLAdapter.setData(myDeviceList);
-				myDeviceListView.setAdapter(myDLAdapter);
+				refreshList();
 				mActivity.showTextToast(R.string.add_device_succ);
 			} else {
+				refreshList();
 				myDLAdapter.setData(myDeviceList);
 				myDeviceListView.setAdapter(myDLAdapter);
 				mActivity.showTextToast(R.string.add_device_failed);

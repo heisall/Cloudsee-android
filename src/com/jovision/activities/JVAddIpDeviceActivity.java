@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.bean.Device;
@@ -15,13 +16,16 @@ import com.jovision.utils.ConfigUtil;
 
 public class JVAddIpDeviceActivity extends BaseActivity {
 
+	/** topBar */
+	private Button btn_left;
+	private TextView currentMenu;
+	private Button btn_right;
+
 	private EditText ipAddressEdt;
 	private EditText portEdt;
 	private EditText userNameEdt;
 	private EditText passwordEdt;
 	private Button saveButton;
-	private Button btn_left;
-	private Button btn_right;
 	private String ipString;
 	private String portString;
 	private String userString;
@@ -47,8 +51,9 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.addipcdevice_layout);
-
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		btn_left = (Button) findViewById(R.id.btn_left);
+		currentMenu.setText(R.string.str_help1_1);
 		btn_right = (Button) findViewById(R.id.btn_right);
 		ipAddressEdt = (EditText) findViewById(R.id.addipconnnect_address);
 		portEdt = (EditText) findViewById(R.id.addipconnect_port);
@@ -112,6 +117,9 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 				} else if (!ConfigUtil.checkDevicePwd(pwdString)) {
 					JVAddIpDeviceActivity.this
 							.showTextToast(R.string.login_str_device_pass_error);
+				} else if (hasDev(ipString)) {// 已经添加过该设备
+					ipAddressEdt.setText("");
+					showTextToast(R.string.str_device_exsit);
 				} else {
 					createDialog("");
 					AddDevTask task = new AddDevTask();
@@ -125,6 +133,24 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 			}
 		}
 	};
+
+	/**
+	 * 判断设备是否在设备列表里
+	 * 
+	 * @param devNum
+	 * @return
+	 */
+	public boolean hasDev(String devDomain) {
+		boolean has = false;
+		for (Device dev : deviceList) {
+			if (devDomain.equalsIgnoreCase(dev.getDoMain())) {
+				has = true;
+				break;
+			}
+		}
+		return has;
+	}
+
 	String ip = "";
 
 	// 设置三种类型参数分别为String,Integer,String

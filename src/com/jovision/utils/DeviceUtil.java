@@ -467,6 +467,9 @@ public class DeviceUtil {
 		 * 1-IP端口) "dvusername":"henghenghahei", "dvpassword":"henghengpwd",
 		 * "dvip":"158.568.65.36", "dvport":7777}
 		 */
+
+		// {"username":"refactor","dvlt":1,"mt":2013,"dvpassword":"123",
+		// "dvusername":"abc","lpt":1,"pv":"1.0","dvport":9101,"dvip":"192.168.15.4"}
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,

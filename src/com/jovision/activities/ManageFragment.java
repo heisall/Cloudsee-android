@@ -139,11 +139,10 @@ public class ManageFragment extends BaseFragment {
 				if (2 == isDevice) {
 					mActivity.showTextToast(R.string.ip_add_notallow);
 				} else {
-					Intent intent = new Intent();
+					Intent intent = new Intent(mActivity,
+							JVIpconnectActivity.class);
 					intent.putExtra("deviceIndex", deviceIndex);
-					intent.putExtra("isDevice", isDevice);
-					startActivity(new Intent(mActivity,
-							JVIpconnectActivity.class));
+					startActivity(intent);
 				}
 
 				break;

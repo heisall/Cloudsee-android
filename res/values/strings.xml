@@ -250,9 +250,11 @@
     <string name="str_skip">skip</string>
     <string name="str_reset">reseting</string>
     <!-- 修改密码 -->
-    <string name="cloud_number">CloudNum</string>
+    <string name="login_str_ipaddress">IP/域名</string>
+    <string name="login_str_ipaddressdevice">IP/域名</string>
     <string name="login_str_port">Port</string>
     <string name="login_str_user_name">Username</string>
+    <string name="cloud_number">CloudNum</string>
     <string name="str_pass">Password</string>
     <string name="str_old_pass">Old Password</string>
     <string name="str_new_pass">New Password</string>
@@ -471,7 +473,9 @@
     <string name="wifi_device">无线设备</string>
     <string name="line_device">有线设备</string>
     <string name="selectone_to_connect">请选择至少一个通道进行连接</string>
-    <string name="add_broad_dev">广播到？个设备，是否立即添加？</string>
+    <string name="add_broad_dev">广播到?个设备，是否立即添加？</string>
+    <string name="broad_zero">未广播到设备。</string>
+
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">一共有</string>
     <string name="str_aft">个设备</string>
@@ -510,7 +514,7 @@
     <string name="voice_tips1">You can speak to the other now.</string>
     <string name="voice_tips2">Audio talk is enabled successfully. You can speak to the other through long-click.</string>
     <string name="default_stream">Default</string>
-
+    <string name="has_calling">Another client is using Cloud Talk function, please use this function later.</string>
     <!-- JVAddDeviceActivity -->
     <string name="add_device_succ">Device added successfully</string>
     <string name="add_device_failed">Failed to add device</string>
@@ -587,7 +591,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.7(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.9(重构) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

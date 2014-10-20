@@ -247,10 +247,10 @@
                 <Button
                     android:id="@+id/editsave"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="2.5"
-                    android:background="@drawable/registe_button_bg"
+                    android:background="@drawable/blue_bg"
                     android:text="@string/login_str_save"
                     android:textColor="@color/white"
                     android:textSize="20sp" />

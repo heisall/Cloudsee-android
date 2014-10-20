@@ -99,6 +99,12 @@
     <string name="more_findpassword">找回密码</string>
     <string name="more_cancel">注销账号</string>
 
+    
+    <!--  JVWelcomeActivity-->
+    <string name="cloud1">云视通</string>
+    <string name="cloud2">通天下</string>
+     <!-- JVLoginActivity -->
+    <string name="login_demo">演示点</string>
     <!-- JVMoreFrament -->
     <string name="location_login">访客</string>
     <!-- leftMenu -->
@@ -228,7 +234,7 @@
     <string name="str_net_error">网络连接错误，请重新验证</string>
     <string name="str_initsdk_failed">网络异常，初始化失败</string>
     <string name="str_edit_pass">修改密码</string>
-    <string name="str_find_pass">找回密码</string>
+    <string name="str_find_pass">忘记密码</string>
     <string name="str_user_has_exist">亲， 用户名已经被别人占领，请修改。</string>
     <string name="str_phone_num_error">手机号格式不正确。</string>
     <string name="str_user_not_exist">用户不存在。</string>

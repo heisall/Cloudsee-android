@@ -2,7 +2,6 @@ package com.jovision.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,11 +47,11 @@ public class JVEditPassActivity extends BaseActivity {
 	protected void initUi() {
 		setContentView(R.layout.editpass_layout);
 		back = (Button) findViewById(R.id.btn_left);
-		rightButton = (Button)findViewById(R.id.btn_right);
+		rightButton = (Button) findViewById(R.id.btn_right);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-//		if (!TextUtils.isEmpty(statusHashMap.get(Consts.KEY_USERNAME))) {
-			currentMenu.setText(R.string.more_modifypwd);
-//		}
+		// if (!TextUtils.isEmpty(statusHashMap.get(Consts.KEY_USERNAME))) {
+		currentMenu.setText(R.string.more_modifypwd);
+		// }
 		rightButton.setVisibility(View.GONE);
 		back.setOnClickListener(onClickListener);
 		userOldPass = (EditText) findViewById(R.id.editoldpass);

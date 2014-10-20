@@ -248,7 +248,12 @@ public abstract class PlayActivity extends BaseActivity {
 		relative7 = (RelativeLayout) findViewById(R.id.relative7);
 		relative8 = (RelativeLayout) findViewById(R.id.relative8);
 		linear = (LinearLayout) findViewById(R.id.linear);
-
+		//
+		// if (relative1.getVisibility()==View.VISIBLE) {
+		// linear.removeView(relative1);
+		// linear.addView(relative1, linear.getChildCount());
+		// bottombut1.setVisibility(View.GONE);
+		// }
 		if ((disMetrics.heightPixels > 800 && disMetrics.widthPixels > 480)
 				|| (disMetrics.heightPixels > 480 && disMetrics.widthPixels > 800)) {// 大屏
 			bigScreen = true;

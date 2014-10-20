@@ -228,7 +228,7 @@
     <string name="str_net_error">网络连接错误，请重新验证</string>
     <string name="str_initsdk_failed">网络异常，初始化失败</string>
     <string name="str_edit_pass">修改密码</string>
-    <string name="str_find_pass">找回密码</string>
+    <string name="str_find_pass">忘记密码</string>
     <string name="str_user_has_exist">亲， 用户名已经被别人占领，请修改。</string>
     <string name="str_phone_num_error">手机号格式不正确。</string>
     <string name="str_user_not_exist">用户不存在。</string>
@@ -390,7 +390,7 @@
     <string name="str_host_connect_failed">与主控建立连接不成功，请重试...</string>
     <string name="str_not_support_this_device">暂时不支持设置此设备,仅支持IPC设备。</string>
     <string name="str_help1_1">添加设备</string>
-      <string name="str_help1_0">远程设置</string>
+    <string name="str_help1_0">远程设置</string>
     <string name="str_help1_2">设备管理</string>
     <string name="str_help2_1">可以对该设备增加通道路数</string>
     <string name="str_help2_2">左滑设备列表</string>
@@ -424,16 +424,6 @@
     <string name="str_qr_device">发现设备 </string>
     <string name="str_shake_scene_pic_tips">您的手机未插入SD卡，暂时无法使用场景图片功能。</string>
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <!-- JVDemoActivity -->
     <string name="demo_get_failed">演示点加载失败</string>
 

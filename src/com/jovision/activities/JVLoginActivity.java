@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.test.JVACCOUNT;
 import android.text.Editable;
@@ -57,7 +58,7 @@ public class JVLoginActivity extends BaseActivity {
 
 	private Button onlineLoginBtn;
 	private Animation mAnimationRight;// 演示点动画
-	private Button registBtn;
+	private TextView registBtn;
 	private Button localLoginBtn;
 	private TextView showPointBtn;
 	private TextView findPassTV;
@@ -116,8 +117,13 @@ public class JVLoginActivity extends BaseActivity {
 		onlineLoginBtn = (Button) findViewById(R.id.onlinelogin_btn);
 		findPassTV = (TextView) findViewById(R.id.findpass_tv);
 		showPointBtn = (TextView) findViewById(R.id.showpoint_btn);
-		registBtn = (Button) findViewById(R.id.regist_btn);
+		registBtn = (TextView) findViewById(R.id.regist_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
+
+		findPassTV.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
+		findPassTV.getPaint().setAntiAlias(true);
+		registBtn.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
+		registBtn.getPaint().setAntiAlias(true);
 
 		Log.i("TAG", getIntent().getStringExtra("username") + "aaaaaaaaaa");
 		if (null != getIntent().getStringExtra("username")) {

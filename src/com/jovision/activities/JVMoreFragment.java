@@ -316,7 +316,7 @@ public class JVMoreFragment extends BaseFragment {
 			Intent intent = new Intent();
 			String userName = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
 			Log.i("TAG", userName + "aaaaaaaaaa");
-			intent.putExtra("username", userName);
+			intent.putExtra("UserName", userName);
 			intent.setClass(mActivity, JVLoginActivity.class);
 			mActivity.startActivity(intent);
 			mActivity.finish();

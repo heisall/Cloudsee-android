@@ -125,9 +125,9 @@ public class JVLoginActivity extends BaseActivity {
 		registBtn.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
 		registBtn.getPaint().setAntiAlias(true);
 
-		Log.i("TAG", getIntent().getStringExtra("username") + "aaaaaaaaaa");
-		if (null != getIntent().getStringExtra("username")) {
-			userNameET.setText(getIntent().getStringExtra("username"));
+		Log.i("TAG", getIntent().getStringExtra("UserName") + "aaaaaaaaaa");
+		if (null != getIntent().getStringExtra("UserName")) {
+			userNameET.setText(getIntent().getStringExtra("UserName"));
 		} else {
 			if (null != userList && 0 != userList.size()) {
 				userNameET.setText(userList.get(0).getUserName());

@@ -227,7 +227,8 @@ public class ManageFragment extends BaseFragment {
 		case Consts.CALL_CONNECT_CHANGE: { // 连接回调
 			MyLog.e(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			if (1 != arg1 && 2 != arg1) {// IPC连接失败才提示(非连接成功和断开连接)
+			if (JVNetConst.CONNECT_OK != arg2
+					&& JVNetConst.DISCONNECT_OK != arg2) {// IPC连接失败才提示(非连接成功和断开连接)
 				mActivity.dismissDialog();
 				try {
 					JSONObject connectObj = new JSONObject(obj.toString());
@@ -261,7 +262,7 @@ public class ManageFragment extends BaseFragment {
 		case Consts.CALL_TEXT_DATA: {// 文本回调
 			MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			switch (arg1) {
+			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本聊天
 				try {
 					Thread.sleep(50);

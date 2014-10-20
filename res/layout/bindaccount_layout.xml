@@ -58,8 +58,9 @@
 
             <Button
                 android:id="@+id/bind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/blue_bg"
                 android:text="@string/login_str_bind"
                 android:textColor="@color/white"
                 android:textSize="20sp" />

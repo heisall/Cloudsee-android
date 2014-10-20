@@ -14,11 +14,10 @@
 
         <ImageView
             android:id="@+id/item_img"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/devicemanage_normal_icon"
             android:padding="5dp" />
 
         <TextView

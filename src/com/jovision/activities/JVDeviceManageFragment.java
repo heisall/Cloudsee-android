@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -169,6 +170,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 			TextView view = new TextView(mActivity);
 			view.setText(manageDeviceList.get(i).getFullNo());
 			view.setSingleLine(true);
+			view.setTextSize(16);
+			view.setId(i);
 			view.setTextColor(mActivity.getResources().getColor(
 					R.color.devicemanagename));
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -243,6 +246,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	public class ManagePageChangeListener implements OnPageChangeListener {
 
+		@SuppressLint("ResourceAsColor")
 		@Override
 		public void onPageSelected(final int position) {
 			// MyLog.v(TAG, "onPageSelected---position="+position);
@@ -258,6 +262,19 @@ public class JVDeviceManageFragment extends BaseFragment {
 				mImageView.startAnimation(animation);
 				mHorizontalScrollView.smoothScrollTo((currentFragmentIndex - 1)
 						* item_width, 0);
+			}
+			for (int i = 0; i < manageDeviceList.size(); i++) {
+				if (position == i) {
+					TextView view = (TextView) mLinearLayout.getChildAt(i)
+							.findViewById(i);
+					view.setTextColor(mActivity.getResources().getColor(
+							R.color.quickinstall_btn_normal));
+				} else {
+					TextView view = (TextView) mLinearLayout.getChildAt(i)
+							.findViewById(i);
+					view.setTextColor(mActivity.getResources().getColor(
+							R.color.devicemanagename));
+				}
 			}
 			deviceIndex = position;
 			((ManageFragment) fragments.get(position)).setDevIndex(deviceIndex);

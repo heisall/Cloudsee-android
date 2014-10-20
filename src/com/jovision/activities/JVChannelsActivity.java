@@ -275,7 +275,8 @@ public class JVChannelsActivity extends BaseActivity {
 				if (position == i) {
 					TextView view = (TextView) mLinearLayout.getChildAt(i)
 							.findViewById(i);
-					view.setTextColor(R.color.burlywood);
+					view.setTextColor(JVChannelsActivity.this.getResources()
+							.getColor(R.color.quickinstall_btn_normal));
 				} else {
 					TextView view = (TextView) mLinearLayout.getChildAt(i)
 							.findViewById(i);

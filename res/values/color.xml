@@ -25,6 +25,7 @@
 
     <!-- 视频管理背景色 -->
     <color name="quickinstall_btn_normal">#007aff</color>
+    <color name="manage_device_text">#0058A8</color>
     <color name="manage_color_1">#6AB840</color>
     <color name="manage_color_pre1">#00fa9a</color>
     <color name="manage_color_2">#10C5DA</color>
@@ -416,7 +417,7 @@
     <color name="functionbgcolor">#e6e6e6</color>
     <color name="videoselect">#3087F0</color>
     <color name="videounselect">#001839</color>
-    <color name="devicemanagename">#525352</color>
+    <color name="devicemanagename">#2F302F</color>
 
     <!-- zxing color -->
     <color name="bg_color">#EDEDED</color>

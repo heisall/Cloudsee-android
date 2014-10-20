@@ -578,40 +578,40 @@ public class JVMyDeviceFragment extends BaseFragment {
 					e.printStackTrace();
 				}
 			} else if (broadTag == BROAD_ADD_DEVICE) {// 广播添加设备
-			// JSONObject broadObj;
-			// try {
-			// broadObj = new JSONObject(obj.toString());
-			// if (0 == broadObj.optInt("timeout")) {
-			// String gid = broadObj.optString("gid");
-			// int no = broadObj.optInt("no");
-			// String ip = broadObj.optString("ip");
-			// int port = broadObj.optInt("port");
-			// int count = broadObj.optInt("count");
-			// String broadDevNum = gid + no;
-			//
-			// if (!hasDev(broadDevNum)) {
-			// Device broadDev = new Device(ip, port, gid, no,
-			// mActivity.getResources().getString(
-			// R.string.str_default_user),
-			// mActivity.getResources().getString(
-			// R.string.str_default_pass), false,
-			// count, 0);
-			// broadDev.setOnlineState(1);// 广播都在线
-			// broadList.add(broadDev);
-			// MyLog.v(TAG, "广播到一个设备--" + broadDevNum);
-			// }
-			// } else if (1 == broadObj.optInt("timeout")) {
-			//
-			// AddDevTask task = new AddDevTask();
-			// String[] strParams = new String[3];
-			// strParams[0] = broadList.toString();
-			// task.execute(strParams);
-			// }
-			// MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
-			// + ";arg2=" + arg1 + ";obj=" + obj.toString());
-			// } catch (JSONException e) {
-			// e.printStackTrace();
-			// }
+				// JSONObject broadObj;
+				// try {
+				// broadObj = new JSONObject(obj.toString());
+				// if (0 == broadObj.optInt("timeout")) {
+				// String gid = broadObj.optString("gid");
+				// int no = broadObj.optInt("no");
+				// String ip = broadObj.optString("ip");
+				// int port = broadObj.optInt("port");
+				// int count = broadObj.optInt("count");
+				// String broadDevNum = gid + no;
+				//
+				// if (!hasDev(broadDevNum)) {
+				// Device broadDev = new Device(ip, port, gid, no,
+				// mActivity.getResources().getString(
+				// R.string.str_default_user),
+				// mActivity.getResources().getString(
+				// R.string.str_default_pass), false,
+				// count, 0);
+				// broadDev.setOnlineState(1);// 广播都在线
+				// broadList.add(broadDev);
+				// MyLog.v(TAG, "广播到一个设备--" + broadDevNum);
+				// }
+				// } else if (1 == broadObj.optInt("timeout")) {
+				//
+				// AddDevTask task = new AddDevTask();
+				// String[] strParams = new String[3];
+				// strParams[0] = broadList.toString();
+				// task.execute(strParams);
+				// }
+				// MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
+				// + ";arg2=" + arg1 + ";obj=" + obj.toString());
+				// } catch (JSONException e) {
+				// e.printStackTrace();
+				// }
 			}
 
 			break;

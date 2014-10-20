@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.jovision.Consts;
 import com.jovision.commons.MyList;
 
@@ -69,9 +68,11 @@ public class Device {
 	/** 设备列表中是否被选中 */
 	private Boolean isselect;
 	private int alarmSwitch = 0;// 告警开关，0-关闭，1-打开
+	private ArrayList<ThirdAlarmDev> thirdDevList = null; // 第三方报警设备
 
 	public Device() {
 		channelList = new MyList<Channel>(1);
+		thirdDevList = new ArrayList<ThirdAlarmDev>();
 	}
 
 	/**
@@ -95,6 +96,8 @@ public class Device {
 		channelList = new MyList<Channel>(1);
 		channelList.add(new Channel(this, -1, Consts.CHANNEL_JY, false, false,
 				""));
+
+		thirdDevList = new ArrayList<ThirdAlarmDev>();
 	}
 
 	/**
@@ -141,10 +144,16 @@ public class Device {
 					false, fullNo + "_" + (i + 1));
 			channelList.add(channel);
 		}
+
+		thirdDevList = new ArrayList<ThirdAlarmDev>();
 	}
 
 	public MyList<Channel> getChannelList() {
 		return channelList;
+	}
+
+	public ArrayList<ThirdAlarmDev> getThirdDevList() {
+		return thirdDevList;
 	}
 
 	public String getIp() {

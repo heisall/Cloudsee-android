@@ -172,7 +172,6 @@ public class JVLoginActivity extends BaseActivity {
 						userAdapter.setData(userList);
 						userAdapter.setName(userNameET.getText().toString());
 						userListView = new ListView(JVLoginActivity.this);
-						userListView.setDivider(null);
 						pop = new PopupWindow(userListView, userNameLayout
 								.getWidth(), 300);
 						userListView.setAdapter(userAdapter);
@@ -182,17 +181,16 @@ public class JVLoginActivity extends BaseActivity {
 								.setOnItemClickListener(mOnItemClickListener);
 						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 								LinearLayout.LayoutParams.MATCH_PARENT, 290);
-						params.bottomMargin = 10;
 						userListView.setLayoutParams(params);
-						userListView.setFadingEdgeLength(0);
+						userListView.setFadingEdgeLength(10);
 						userListView.setDivider(JVLoginActivity.this
 								.getResources().getDrawable(
-										R.drawable.user_list_divider));
+										R.color.login_pop_bg));
 						userListView.setCacheColorHint(JVLoginActivity.this
 								.getResources().getColor(R.color.transparent));
 
-						pop.setBackgroundDrawable(getResources().getDrawable(
-								R.drawable.user_list_bg));
+						userListView.setBackgroundDrawable(getResources()
+								.getDrawable(R.drawable.pop_bg));
 						pop.showAsDropDown(userNameLayout);
 					}
 				} else if (pop.isShowing()) {

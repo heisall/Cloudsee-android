@@ -24,7 +24,7 @@ import com.jovision.Jni;
 import com.jovision.commons.JVNetConst;
 
 public class AddThirdDeviceMenuFragment extends Fragment implements
-		OnClickListener{
+		OnClickListener {
 	private View rootView;// 缓存Fragment view
 	private Button doorBtn; // 门磁
 	private Button braceletBtn; // 手环
@@ -62,19 +62,22 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		doorBtn.setOnClickListener(this);
 		braceletBtn = (Button) rootView.findViewById(R.id.add_bracelet_btn);
 		braceletBtn.setOnClickListener(this);
-		
+
 		return rootView;
 	}
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 	}
+
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 	}
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -85,13 +88,13 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 			// TODO
 			break;
 		case R.id.add_bracelet_btn:// 手环设备
-			mListener.OnDeviceClassSelected(2);			
-			
+			mListener.OnDeviceClassSelected(2);
+
 			// 实际应该起个线程，然后开始播放动画
 			// TODO
 			break;
 		default:
 			break;
 		}
-	}	
+	}
 }

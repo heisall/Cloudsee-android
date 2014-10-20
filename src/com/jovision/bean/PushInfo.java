@@ -2,10 +2,10 @@ package com.jovision.bean;
 
 import java.io.Serializable;
 
-public class PushInfo implements Serializable{
-	
-	private static final long serialVersionUID = -7060210544600464481L; 
-	
+public class PushInfo implements Serializable {
+
+	private static final long serialVersionUID = -7060210544600464481L;
+
 	public int nMobileSysType;// 设备type
 	public String strMobileID;// Imei
 	public int nAppType;// 区分哪个软件，区分中性与非中性
@@ -22,7 +22,7 @@ public class PushInfo implements Serializable{
 	public boolean newTag = false;
 	public String pic = "";// 推送图片地址
 	public String video = "";// 推送视频地址
-	//[lkp]
+	// [lkp]
 	public int messageTag; // 报警标志，区分新旧报警，兼容旧的报警主控 4602老报警流程 4604 新报警流程
-	public String timestamp; //时间戳
+	public String timestamp; // 时间戳
 }

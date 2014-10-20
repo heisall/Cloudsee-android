@@ -79,16 +79,25 @@ public class JVFeedbackActivity extends BaseActivity {
 		wordsNum = (TextView) findViewById(R.id.wordsnum);
 		back.setVisibility(View.VISIBLE);
 		commit.setVisibility(View.VISIBLE);
-		commit.setTextColor(getResources().getColor(R.color.white));
+
+		// back.setTextColor(Color.WHITE);
+		// back.setBackgroundDrawable(getResources().getDrawable(
+		// R.drawable.setting_save));
+		//
+		// commit.setTextColor(Color.WHITE);
+		// commit.setBackgroundDrawable(getResources().getDrawable(
+		// R.drawable.setting_save));
+
+		// commit.setTextColor(getResources().getColor(R.color.white));
 		back.setText(getResources().getString(R.string.cancel));
 		commit.setText(getResources().getString(R.string.commit));
 
 		connection = (EditText) findViewById(R.id.connectway);
 
-		back.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.send_btn_selector_1));
-		commit.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.send_btn_selector_2));
+		// back.setBackgroundDrawable(getResources().getDrawable(
+		// R.drawable.send_btn_selector_1));
+		// commit.setBackgroundDrawable(getResources().getDrawable(
+		// R.drawable.send_btn_selector_2));
 		title.setText(getResources().getString(R.string.str_idea_and_feedback));
 		back.setOnClickListener(myOnClickListener);
 		commit.setOnClickListener(myOnClickListener);

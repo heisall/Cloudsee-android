@@ -60,7 +60,7 @@ public class JVIpconnectActivity extends BaseActivity {
 	private int deviceIndex;
 
 	private int isDevice;
-	
+
 	private TextView currentmenu;
 
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
@@ -97,7 +97,6 @@ public class JVIpconnectActivity extends BaseActivity {
 	protected void initUi() {
 		setContentView(R.layout.ipconnect_layout);
 
-		
 		change = (RadioGroup) findViewById(R.id.change);
 		mContainer = (LinearLayout) findViewById(R.id.mContainer);
 		cloud_number = (TextView) findViewById(R.id.cloudnumber_text);
@@ -111,7 +110,7 @@ public class JVIpconnectActivity extends BaseActivity {
 		ipconnect_user = (EditText) findViewById(R.id.ipconnect_username);
 		ipconnect_pwd = (EditText) findViewById(R.id.ipconnect_pwd);
 		editsave = (Button) findViewById(R.id.editsave);
-		currentmenu = (TextView)findViewById(R.id.currentmenu);
+		currentmenu = (TextView) findViewById(R.id.currentmenu);
 		currentmenu.setText(R.string.str_ipconnect);
 		back = (Button) findViewById(R.id.btn_left);
 		plus_btu = (Button) findViewById(R.id.btn_right);

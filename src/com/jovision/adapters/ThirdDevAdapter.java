@@ -80,36 +80,54 @@ public class ThirdDevAdapter extends BaseAdapter {
 				@Override
 				public void handleMessage(Message msg) {
 					switch (msg.what) {
-					
+
 					case 0:
-//						viewHolder.switch_btn
-//								.setBackgroundResource(R.drawable.sw_button);
-//						third_dev_list_.get(msg.arg1).dev_safeguard_flag = 0;
-//						
-						String strType = "type="+third_dev_list_.get(msg.arg1).dev_type_mark+";";
-						String strGuid = "guid="+third_dev_list_.get(msg.arg1).dev_uid+";";
-						String strNickName = "name="+third_dev_list_.get(msg.arg1).dev_nick_name+";";					
+						// viewHolder.switch_btn
+						// .setBackgroundResource(R.drawable.sw_button);
+						// third_dev_list_.get(msg.arg1).dev_safeguard_flag = 0;
+						//
+						String strType = "type="
+								+ third_dev_list_.get(msg.arg1).dev_type_mark
+								+ ";";
+						String strGuid = "guid="
+								+ third_dev_list_.get(msg.arg1).dev_uid + ";";
+						String strNickName = "name="
+								+ third_dev_list_.get(msg.arg1).dev_nick_name
+								+ ";";
 						String strSwitch = "enable=0;";
-						String reqData = strType+strGuid+strNickName+strSwitch;	
-						MyLog.e("Third Dev", "set switch [off] req:"+reqData);
-//						JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SET, reqData.trim());										
-						
-//						BaseApp.getInstance().onNotify(9009, 0, msg.arg1, reqData.trim());
+						String reqData = strType + strGuid + strNickName
+								+ strSwitch;
+						MyLog.e("Third Dev", "set switch [off] req:" + reqData);
+						// JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT,
+						// (byte)JVNetConst.JVN_RSP_TEXTDATA,
+						// (byte)JVConst.RC_GPIN_SET, reqData.trim());
+
+						// BaseApp.getInstance().onNotify(9009, 0, msg.arg1,
+						// reqData.trim());
 						break;
 					case 1:
-//						viewHolder.switch_btn
-//								.setBackgroundResource(R.drawable.sw_button_on);
-						//third_dev_list_.get(msg.arg1).dev_safeguard_flag = 1;
-						
-						String strType1 = "type="+third_dev_list_.get(msg.arg1).dev_type_mark+";";
-						String strGuid1 = "guid="+third_dev_list_.get(msg.arg1).dev_uid+";";
-						String strNickName1 = "name="+third_dev_list_.get(msg.arg1).dev_nick_name+";";					
+						// viewHolder.switch_btn
+						// .setBackgroundResource(R.drawable.sw_button_on);
+						// third_dev_list_.get(msg.arg1).dev_safeguard_flag = 1;
+
+						String strType1 = "type="
+								+ third_dev_list_.get(msg.arg1).dev_type_mark
+								+ ";";
+						String strGuid1 = "guid="
+								+ third_dev_list_.get(msg.arg1).dev_uid + ";";
+						String strNickName1 = "name="
+								+ third_dev_list_.get(msg.arg1).dev_nick_name
+								+ ";";
 						String strSwitch1 = "enable=1;";
-						String reqData1 = strType1+strGuid1+strNickName1+strSwitch1;	
-						MyLog.e("Third Dev", "set switch [on] req:"+reqData1);
-//						JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SET, reqData1.trim());																
-						
-//						BaseApp.getInstance().onNotify(9009, 1, msg.arg1, reqData1.trim());
+						String reqData1 = strType1 + strGuid1 + strNickName1
+								+ strSwitch1;
+						MyLog.e("Third Dev", "set switch [on] req:" + reqData1);
+						// JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT,
+						// (byte)JVNetConst.JVN_RSP_TEXTDATA,
+						// (byte)JVConst.RC_GPIN_SET, reqData1.trim());
+
+						// BaseApp.getInstance().onNotify(9009, 1, msg.arg1,
+						// reqData1.trim());
 						break;
 					default:
 
@@ -173,17 +191,17 @@ public class ThirdDevAdapter extends BaseAdapter {
 		public Button switch_btn;
 		public ImageView dev_type_img;
 	}
-	
-//	class Onlongclick implements OnLongClickListener{
-//		public boolean onLongClick(View v) {
-//			String[] choices={"删除"};  
-//            //包含多个选项的对话框  
-//			AlertDialog dialog = new AlertDialog.Builder(context_)  
-//               .setIcon(android.R.drawable.btn_star)  
-//               .setTitle("分享")  
-//               .setItems(choices, onselect).create();  
-//			dialog.show();  
-//			// TODO Auto-generated method stub
-//		}
-//	}
+
+	// class Onlongclick implements OnLongClickListener{
+	// public boolean onLongClick(View v) {
+	// String[] choices={"删除"};
+	// //包含多个选项的对话框
+	// AlertDialog dialog = new AlertDialog.Builder(context_)
+	// .setIcon(android.R.drawable.btn_star)
+	// .setTitle("分享")
+	// .setItems(choices, onselect).create();
+	// dialog.show();
+	// // TODO Auto-generated method stub
+	// }
+	// }
 }

@@ -242,21 +242,21 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 4:
-//							if (("firsted").equals(MySharedPreference
-//									.getString(Consts.MORE_FREGMENT_FEEDBACK))) {
-								Intent intent = new Intent(mActivity,
-										JVFeedbackActivity.class);
-								startActivity(intent);
-//							} else {
-//								Intent intent = new Intent(mActivity,
-//										JVIntroduceAty.class);
-//								MySharedPreference.putString(
-//										Consts.MORE_FREGMENT_FEEDBACK,
-//										"firsted");
-//								intent.putExtra("viewnum", 3);
-//								intent.putExtra("pagenum", 0);
-//								startActivity(intent);
-//							}
+							// if (("firsted").equals(MySharedPreference
+							// .getString(Consts.MORE_FREGMENT_FEEDBACK))) {
+							Intent intent = new Intent(mActivity,
+									JVFeedbackActivity.class);
+							startActivity(intent);
+							// } else {
+							// Intent intent = new Intent(mActivity,
+							// JVIntroduceAty.class);
+							// MySharedPreference.putString(
+							// Consts.MORE_FREGMENT_FEEDBACK,
+							// "firsted");
+							// intent.putExtra("viewnum", 3);
+							// intent.putExtra("pagenum", 0);
+							// startActivity(intent);
+							// }
 							break;
 						case 5:
 							CheckUpdateTask task = new CheckUpdateTask(
@@ -316,7 +316,7 @@ public class JVMoreFragment extends BaseFragment {
 			Intent intent = new Intent();
 			String userName = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
 			Log.i("TAG", userName + "aaaaaaaaaa");
-			intent.putExtra("username", userName);
+			intent.putExtra("UserName", userName);
 			intent.setClass(mActivity, JVLoginActivity.class);
 			mActivity.startActivity(intent);
 			mActivity.finish();

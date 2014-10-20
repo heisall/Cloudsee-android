@@ -171,8 +171,8 @@ public class PushAdapter extends BaseAdapter {
 				}
 				pushList.get(position).newTag = false;
 				holder.newTag.setVisibility(View.GONE);
-				
-				if(pushList.get(position).messageTag == 4604){//new alarm
+
+				if (pushList.get(position).messageTag == 4604) {// new alarm
 					// ------new alarm-----
 					PushInfo pushInfo = new PushInfo();
 					pushInfo.alarmTime = pushList.get(position).alarmTime;
@@ -180,12 +180,13 @@ public class PushAdapter extends BaseAdapter {
 					pushInfo.pic = pushList.get(position).pic;
 					pushInfo.video = pushList.get(position).video;
 					pushInfo.ystNum = pushList.get(position).ystNum;
-					
+
 					Intent intent = new Intent();
-					intent.setClass(mfragment.getActivity(), CustomDialogActivity.class);
+					intent.setClass(mfragment.getActivity(),
+							CustomDialogActivity.class);
 					intent.putExtra("PUSH_INFO", pushInfo);
 					mfragment.getActivity().startActivity(intent);
-					// --------end---------					
+					// --------end---------
 				}
 			}
 		});
@@ -201,8 +202,8 @@ public class PushAdapter extends BaseAdapter {
 
 				deleteState = false;
 				notifyDataSetChanged();
-				
-				if(pushList.get(position).messageTag == 4604){//new alarm
+
+				if (pushList.get(position).messageTag == 4604) {// new alarm
 					// ------new alarm-----
 					PushInfo pushInfo = new PushInfo();
 					pushInfo.alarmTime = pushList.get(position).alarmTime;
@@ -210,13 +211,14 @@ public class PushAdapter extends BaseAdapter {
 					pushInfo.pic = pushList.get(position).pic;
 					pushInfo.video = pushList.get(position).video;
 					pushInfo.ystNum = pushList.get(position).ystNum;
-					
+
 					Intent intent = new Intent();
-					intent.setClass(mfragment.getActivity(), CustomDialogActivity.class);
+					intent.setClass(mfragment.getActivity(),
+							CustomDialogActivity.class);
 					intent.putExtra("PUSH_INFO", pushInfo);
 					mfragment.getActivity().startActivity(intent);
-					// --------end---------					
-				}			
+					// --------end---------
+				}
 			}
 		});
 		convertView.setOnLongClickListener(new OnLongClickListener() {

@@ -17,7 +17,6 @@ import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
-
 public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 		OnCompletionListener, OnPreparedListener {
 	private VideoView mVideoView;
@@ -73,7 +72,7 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 
 	@Override
 	protected void onPause() {
-		
+
 		getWindow().getDecorView().setKeepScreenOn(false);
 		if (null != mVideoView) {
 			mVideoView.pause();
@@ -87,7 +86,7 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 			mVideoView.stopPlayback();
 			mVideoView = null;
 		}
-		super.onDestroy();		
+		super.onDestroy();
 	}
 
 	@Override
@@ -125,37 +124,37 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void initSettings() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void initUi() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void saveSettings() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void freeMe() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

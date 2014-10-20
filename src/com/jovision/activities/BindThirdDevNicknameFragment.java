@@ -21,18 +21,19 @@ import com.jovision.commons.MyLog;
 import com.jovision.utils.RegularUtil;
 
 public class BindThirdDevNicknameFragment extends Fragment implements
-		OnClickListener{
+		OnClickListener {
 
 	private View rootView;// 缓存Fragment view
 	private Button completeBtn;
 	private EditText nickNameEdt;
 	private String nickName;
-	
+
 	public interface OnSetNickNameListener {
 		public void OnSetNickName(String strNickName);
 	}
 
 	private OnSetNickNameListener mListener;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -43,6 +44,7 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 					+ "must implement OnSetNickNameListener");
 		}
 	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -59,23 +61,27 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 		completeBtn.setOnClickListener(this);
 		nickNameEdt = (EditText) rootView.findViewById(R.id.third_dev_nick_edt);
 		nickNameEdt.setFocusable(true);
-	
+
 		return rootView;
 	}
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 	}
+
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 	}
+
 	@Override
-	public void onDestroy(){
+	public void onDestroy() {
 		super.onDestroy();
 	}
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -85,8 +91,8 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 			if (nickName.equals("")) {
 				Toast.makeText(getActivity(), "请输入昵称", Toast.LENGTH_SHORT)
 						.show();
-			} else {	
-				if(!RegularUtil.checkNickName(nickName)){
+			} else {
+				if (!RegularUtil.checkNickName(nickName)) {
 					showToast("输入的昵称不合法，请重新输入", Toast.LENGTH_SHORT);
 					return;
 				}
@@ -98,8 +104,8 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 			break;
 		}
 	}
-	
-	private void showToast(String text, int duration){
+
+	private void showToast(String text, int duration) {
 		Toast.makeText(getActivity(), text, duration).show();
-	}	
+	}
 }

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.test.JVACCOUNT;
 import android.text.Editable;
@@ -57,7 +58,7 @@ public class JVLoginActivity extends BaseActivity {
 
 	private Button onlineLoginBtn;
 	private Animation mAnimationRight;// 演示点动画
-	private Button registBtn;
+	private TextView registBtn;
 	private Button localLoginBtn;
 	private TextView showPointBtn;
 	private TextView findPassTV;
@@ -116,12 +117,17 @@ public class JVLoginActivity extends BaseActivity {
 		onlineLoginBtn = (Button) findViewById(R.id.onlinelogin_btn);
 		findPassTV = (TextView) findViewById(R.id.findpass_tv);
 		showPointBtn = (TextView) findViewById(R.id.showpoint_btn);
-		registBtn = (Button) findViewById(R.id.regist_btn);
+		registBtn = (TextView) findViewById(R.id.regist_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
 
-		Log.i("TAG", getIntent().getStringExtra("username") + "aaaaaaaaaa");
-		if (null != getIntent().getStringExtra("username")) {
-			userNameET.setText(getIntent().getStringExtra("username"));
+		findPassTV.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
+		findPassTV.getPaint().setAntiAlias(true);
+		registBtn.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
+		registBtn.getPaint().setAntiAlias(true);
+
+		Log.i("TAG", getIntent().getStringExtra("UserName") + "aaaaaaaaaa");
+		if (null != getIntent().getStringExtra("UserName")) {
+			userNameET.setText(getIntent().getStringExtra("UserName"));
 		} else {
 			if (null != userList && 0 != userList.size()) {
 				userNameET.setText(userList.get(0).getUserName());
@@ -166,7 +172,6 @@ public class JVLoginActivity extends BaseActivity {
 						userAdapter.setData(userList);
 						userAdapter.setName(userNameET.getText().toString());
 						userListView = new ListView(JVLoginActivity.this);
-						userListView.setDivider(null);
 						pop = new PopupWindow(userListView, userNameLayout
 								.getWidth(), 300);
 						userListView.setAdapter(userAdapter);
@@ -176,17 +181,16 @@ public class JVLoginActivity extends BaseActivity {
 								.setOnItemClickListener(mOnItemClickListener);
 						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 								LinearLayout.LayoutParams.MATCH_PARENT, 290);
-						params.bottomMargin = 10;
 						userListView.setLayoutParams(params);
-						userListView.setFadingEdgeLength(0);
+						userListView.setFadingEdgeLength(10);
 						userListView.setDivider(JVLoginActivity.this
 								.getResources().getDrawable(
-										R.drawable.user_list_divider));
+										R.color.login_pop_bg));
 						userListView.setCacheColorHint(JVLoginActivity.this
 								.getResources().getColor(R.color.transparent));
 
-						pop.setBackgroundDrawable(getResources().getDrawable(
-								R.drawable.user_list_bg));
+						userListView.setBackgroundDrawable(getResources()
+								.getDrawable(R.drawable.pop_bg));
 						pop.showAsDropDown(userNameLayout);
 					}
 				} else if (pop.isShowing()) {

@@ -141,7 +141,7 @@ public class JVPlayActivity extends PlayActivity implements
 									// kbps=%.2fK,
 									// fps=%.0f/%.0f,
 									// %.2fms+%.2fms
-									object.getInt("index"),
+									object.getInt("window"),
 									(object.getBoolean("is_turn") ? "TURN"
 											: "P2P"),
 									(object.getBoolean("is_omx") ? "HD" : "ff"),
@@ -250,14 +250,14 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.CONNECT_OK: {
 				channel.setConnecting(false);
 				channel.setConnected(true);
-				loadingState(arg2, R.string.connecting_buffer,
+				loadingState(arg1, R.string.connecting_buffer,
 						JVConst.PLAY_CONNECTING_BUFFER);
 				break;
 			}
 
 			// 2 -- 断开连接成功
 			case JVNetConst.DISCONNECT_OK: {
-				loadingState(arg2, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
+				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				channel.setConnecting(false);
 				channel.setConnected(false);
 				resetFunc();
@@ -281,24 +281,24 @@ public class JVPlayActivity extends PlayActivity implements
 					String errorMsg = connectObj.getString("msg");
 					if ("password is wrong!".equalsIgnoreCase(errorMsg)
 							|| "pass word is wrong!".equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
-						loadingState(arg2, R.string.connfailed_auth,
+						loadingState(arg1, R.string.connfailed_auth,
 								JVConst.PLAY_DIS_CONNECTTED);
 					} else if ("channel is not open!"
 							.equalsIgnoreCase(errorMsg)) {// 无该通道服务
-						loadingState(arg2, R.string.connfailed_channel_notopen,
+						loadingState(arg1, R.string.connfailed_channel_notopen,
 								JVConst.PLAY_DIS_CONNECTTED);
 					} else if ("connect type invalid!"
 							.equalsIgnoreCase(errorMsg)) {// 连接类型无效
-						loadingState(arg2, R.string.connfailed_type_invalid,
+						loadingState(arg1, R.string.connfailed_type_invalid,
 								JVConst.PLAY_DIS_CONNECTTED);
 					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
-						loadingState(arg2, R.string.connfailed_maxcount,
+						loadingState(arg1, R.string.connfailed_maxcount,
 								JVConst.PLAY_DIS_CONNECTTED);
 					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
-						loadingState(arg2, R.string.connfailed_timeout,
+						loadingState(arg1, R.string.connfailed_timeout,
 								JVConst.PLAY_DIS_CONNECTTED);
 					} else {// "Connect failed!"
-						loadingState(arg2, R.string.connect_failed,
+						loadingState(arg1, R.string.connect_failed,
 								JVConst.PLAY_DIS_CONNECTTED);
 					}
 
@@ -319,7 +319,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 6 -- 连接异常断开
 			case JVNetConst.ABNORMAL_DISCONNECT: {
-				loadingState(arg2, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
+				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				channel.setConnecting(false);
 				channel.setConnected(false);
 				resetFunc();
@@ -328,7 +328,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 7 -- 服务停止连接，连接断开
 			case JVNetConst.SERVICE_STOP: {
-				loadingState(arg2, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
+				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				channel.setConnecting(false);
 				channel.setConnected(false);
 				resetFunc();
@@ -367,7 +367,7 @@ public class JVPlayActivity extends PlayActivity implements
 		// O帧
 		case Consts.CALL_NORMAL_DATA: {
 
-			Channel channel = manager.getChannel(arg2);
+			Channel channel = manager.getChannel(arg1);
 			if (null == channel) {
 				return;
 			}
@@ -407,7 +407,7 @@ public class JVPlayActivity extends PlayActivity implements
 			// 是IPC，发文本聊天请求
 			if (channel.getParent().isHomeProduct()) {
 				// 请求文本聊天
-				Jni.sendBytes(arg2, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+				Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 			}
 
 			if (recoding) {
@@ -420,7 +420,7 @@ public class JVPlayActivity extends PlayActivity implements
 		case Consts.CALL_TEXT_DATA: {// 文本回调
 			MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			switch (arg1) {
+			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本聊天
 				try {
 					Thread.sleep(50);
@@ -434,18 +434,18 @@ public class JVPlayActivity extends PlayActivity implements
 				// 获取主控码流信息请求
 				MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 						+ ", " + obj);
-				Jni.sendTextData(arg2, JVNetConst.JVN_RSP_TEXTDATA, 8,
+				Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
-				manager.getChannel(arg2).setAgreeTextData(true);
+				manager.getChannel(arg1).setAgreeTextData(true);
 				MyLog.v("ChannelTag--4",
 						"AgreeTextData="
-								+ manager.getChannel(arg2).isSingleVoice());
+								+ manager.getChannel(arg1).isSingleVoice());
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
 				MyLog.v("ChannelTag--4",
 						"AgreeTextData="
-								+ manager.getChannel(arg2).isSingleVoice());
-				manager.getChannel(arg2).setAgreeTextData(false);
+								+ manager.getChannel(arg1).isSingleVoice());
+				manager.getChannel(arg1).setAgreeTextData(false);
 				break;
 
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
@@ -472,7 +472,7 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("effect_flag")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("effect_flag"))) {
-								manager.getChannel(arg2).setScreenTag(
+								manager.getChannel(arg1).setScreenTag(
 										Integer.parseInt(streamMap
 												.get("effect_flag")));
 							}
@@ -480,7 +480,7 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("MainStreamQos")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("MainStreamQos"))) {
-								manager.getChannel(arg2).setStreamTag(
+								manager.getChannel(arg1).setStreamTag(
 										Integer.parseInt(streamMap
 												.get("MainStreamQos")));
 							}
@@ -488,23 +488,23 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("storageMode")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("storageMode"))) {
-								manager.getChannel(arg2).setStorageMode(
+								manager.getChannel(arg1).setStorageMode(
 										Integer.parseInt(streamMap
 												.get("storageMode")));
 							}
 
 							MyLog.v("ChannelTag--5", "ScreenTag="
-									+ manager.getChannel(arg2).getScreenTag());
+									+ manager.getChannel(arg1).getScreenTag());
 							MyLog.v("ChannelTag--6", "StreamTag="
-									+ manager.getChannel(arg2).getStreamTag());
+									+ manager.getChannel(arg1).getStreamTag());
 							MyLog.v("ChannelTag--7", "StorageMode="
-									+ manager.getChannel(arg2).getStorageMode());
+									+ manager.getChannel(arg1).getStorageMode());
 						}
 
-						MyLog.v("refreshIPCFun--Stream=", arg2 + "");
+						MyLog.v("refreshIPCFun--Stream=", arg1 + "");
 
 						if (currentScreen == oneScreen) {
-							refreshIPCFun(manager.getChannel(arg2));
+							refreshIPCFun(manager.getChannel(arg1));
 						} else {
 							decodeBtn.setVisibility(View.GONE);
 							rightFuncButton.setVisibility(View.GONE);
@@ -526,17 +526,17 @@ public class JVPlayActivity extends PlayActivity implements
 						dismissDialog();
 						// 录像模式
 						if (Consts.STORAGEMODE_NORMAL == manager.getChannel(
-								arg2).getStorageMode()) {
-							manager.getChannel(arg2).setStorageMode(
+								arg1).getStorageMode()) {
+							manager.getChannel(arg1).setStorageMode(
 									Consts.STORAGEMODE_ALARM);
 						} else if (Consts.STORAGEMODE_ALARM == manager
-								.getChannel(arg2).getStorageMode()) {
-							manager.getChannel(arg2).setStorageMode(
+								.getChannel(arg1).getStorageMode()) {
+							manager.getChannel(arg1).setStorageMode(
 									Consts.STORAGEMODE_NORMAL);
 						}
-						MyLog.v("refreshIPCFun--record=", arg2 + "");
+						MyLog.v("refreshIPCFun--record=", arg1 + "");
 						if (currentScreen == oneScreen) {
-							refreshIPCFun(manager.getChannel(arg2));
+							refreshIPCFun(manager.getChannel(arg1));
 						} else {
 							decodeBtn.setVisibility(View.GONE);
 							rightFuncButton.setVisibility(View.GONE);
@@ -792,6 +792,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		/** 中 */
 		viewPager.setVisibility(View.VISIBLE);
+		viewPager.setContext(JVPlayActivity.this);
 		playSurface.setVisibility(View.GONE);
 		viewPager.setOnPageChangeListener(onPageChangeListener);
 		pagerAdapter = new PlayViewPagerAdapter();

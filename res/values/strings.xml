@@ -254,6 +254,7 @@
     <string name="login_str_ipaddressdevice">IP/域名</string>
     <string name="login_str_port">Port</string>
     <string name="login_str_user_name">Username</string>
+    <string name="more_nologin">"请在登陆后做此操作" </string>
     <string name="cloud_number">CloudNum</string>
     <string name="str_pass">Password</string>
     <string name="str_old_pass">Old Password</string>
@@ -363,6 +364,7 @@
     <string name="str_host_connect_failed">Connecting with host-end unsuccessfully\nplease try again...</string>
     <string name="str_not_support_this_device">Doesn\'t support this device.Supports IPC only.</string>
     <string name="str_help1_1">Add device</string>
+     <string name="str_help1_0">远程设置</string>
     <string name="str_help1_2">Device Manager</string>
     <string name="str_help2_1">It can add channel numbers of this device.</string>
     <string name="str_help2_2">Slide to see the device list.</string>
@@ -396,6 +398,12 @@
     <string name="login_str_ip_adress_notnull">Please input IP.</string>
     <string name="str_shake_scene_pic_tips">Scene picture function can\'t be used for there is no SD card in your mobile phone</string>
 
+    
+    
+    
+    
+    <!-- JVMoreFrament -->
+    <string name="location_login">访客</string>
     <!-- JVQuickSet -->
     <!-- ap配置流程模块 -->
     <string name="quick_setting_searching">Searching nearby devices now</string>
@@ -453,7 +461,7 @@
     <string name="setting">Setting</string>
     <string name="sure">Sure</string>
     <string name="cancel">Cancel</string>
-    <string name="skeeponline_success">Keep successful online!</string>
+    <string name="keeponline_success">Keep successful online!</string>
     <string name="keeponline_failed">Failed to keep online!</string>
 
     <!-- tab页 下拉刷新 -->
@@ -496,7 +504,8 @@
     <string name="xlistview_no_more">No alert now</string>
     <string name="del_alarm_succ">报警删除成功</string>
     <string name="del_alarm_failed">报警删除失败</string>
-
+	<!-- JVIpconnectActivity -->
+	<string name="str_ipconnect">连接模式</string>
     <!-- JVPlayActivity -->
     <string name="connfailed_auth">Failed to very ID.</string>
     <string name="connfailed_channel_notopen">本通道无效</string>

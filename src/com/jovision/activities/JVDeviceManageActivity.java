@@ -308,28 +308,36 @@ public class JVDeviceManageActivity extends BaseActivity {
 	}
 
 	protected void dialog(final int position) {
+		String okString = JVDeviceManageActivity.this.getResources().getString(
+				R.string.ok);
+		String delectString = JVDeviceManageActivity.this.getResources()
+				.getString(R.string.str_delete_sure);
+		String warmString = JVDeviceManageActivity.this.getResources()
+				.getString(R.string.str_delete_tip);
+		String cancleString = JVDeviceManageActivity.this.getResources()
+				.getString(R.string.str_crash_cancel);
 		AlertDialog.Builder builder = new Builder(JVDeviceManageActivity.this);
-		builder.setMessage("确认删除该设备吗？");
-		builder.setTitle("提示");
-		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+		builder.setMessage(delectString);
+		builder.setTitle(warmString);
+		builder.setPositiveButton(okString,
+				new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				DelDevTask task = new DelDevTask();
-				String[] strParams = new String[1];
-				strParams[0] = deviceIndex + "";
-				task.execute(strParams);
-			}
-		});
-		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						DelDevTask task = new DelDevTask();
+						String[] strParams = new String[1];
+						strParams[0] = deviceIndex + "";
+						task.execute(strParams);
+					}
+				});
+		builder.setNegativeButton(cancleString,
+				new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-			}
-		});
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
 		builder.create().show();
 	}
 }

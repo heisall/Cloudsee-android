@@ -61,7 +61,7 @@ public class JVMoreFragment extends BaseFragment {
 	private int[] Image = { R.drawable.morefragment_help_icon,
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon,
-			R.drawable.morefragment_setting_icon,
+			R.drawable.morefragment_clear_icon,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -152,11 +152,6 @@ public class JVMoreFragment extends BaseFragment {
 			MoreFragmentBean bean = new MoreFragmentBean();
 			bean.setItem_img(Image[i]);
 			bean.setName(fragment_name[i]);
-			if (i == 5) {
-				bean.setIsnew(true);
-			} else {
-				bean.setIsnew(false);
-			}
 			dataList.add(bean);
 		}
 	}
@@ -247,21 +242,21 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 4:
-							if (("firsted").equals(MySharedPreference
-									.getString(Consts.MORE_FREGMENT_FEEDBACK))) {
-								Intent intent = new Intent(mActivity,
-										JVFeedbackActivity.class);
-								startActivity(intent);
-							} else {
-								Intent intent = new Intent(mActivity,
-										JVIntroduceAty.class);
-								MySharedPreference.putString(
-										Consts.MORE_FREGMENT_FEEDBACK,
-										"firsted");
-								intent.putExtra("viewnum", 3);
-								intent.putExtra("pagenum", 0);
-								startActivity(intent);
-							}
+							// if (("firsted").equals(MySharedPreference
+							// .getString(Consts.MORE_FREGMENT_FEEDBACK))) {
+							Intent intent = new Intent(mActivity,
+									JVFeedbackActivity.class);
+							startActivity(intent);
+							// } else {
+							// Intent intent = new Intent(mActivity,
+							// JVIntroduceAty.class);
+							// MySharedPreference.putString(
+							// Consts.MORE_FREGMENT_FEEDBACK,
+							// "firsted");
+							// intent.putExtra("viewnum", 3);
+							// intent.putExtra("pagenum", 0);
+							// startActivity(intent);
+							// }
 							break;
 						case 5:
 							CheckUpdateTask task = new CheckUpdateTask(

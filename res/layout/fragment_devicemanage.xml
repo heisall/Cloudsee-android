@@ -48,7 +48,7 @@
                         android:layout_width="100dp"
                         android:layout_height="4dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@drawable/videoedit_select_bg" />
+                        android:background="@color/quickinstall_btn_normal" />
                 </RelativeLayout>
             </HorizontalScrollView>
 

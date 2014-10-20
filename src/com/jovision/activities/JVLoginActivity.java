@@ -185,8 +185,6 @@ public class JVLoginActivity extends BaseActivity {
 						userListView.setCacheColorHint(JVLoginActivity.this
 								.getResources().getColor(R.color.transparent));
 
-						userListView.setBackgroundDrawable(getResources()
-								.getDrawable(R.drawable.user_list_bg));
 						pop.setBackgroundDrawable(getResources().getDrawable(
 								R.drawable.user_list_bg));
 						pop.showAsDropDown(userNameLayout);

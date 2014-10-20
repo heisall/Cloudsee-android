@@ -528,14 +528,14 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 		builder.setView(layout);
 
-		builder.setPositiveButton(R.string.cancel,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-
-				});
+		// builder.setPositiveButton(R.string.cancel,
+		// new DialogInterface.OnClickListener() {
+		// @Override
+		// public void onClick(DialogInterface dialog, int which) {
+		// dialog.dismiss();
+		// }
+		//
+		// });
 		builder.setNegativeButton(R.string.str_device_ap_start,
 				new DialogInterface.OnClickListener() {
 
@@ -809,6 +809,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.QUICK_SETTING_DEV_ONLINE: {// 网络恢复成功
 			playSound(Consts.SOUNDSIX);// 播放“叮”的一声
 			showSearch(false);
+			// 设置全屏
+			JVQuickSettingActivity.this.getWindow().setFlags(
+					WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			quickSetDeviceImg.setVisibility(View.VISIBLE);
 			break;
 		}
@@ -965,7 +969,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.CALL_CONNECT_CHANGE: // 连接回调
 			MyLog.e(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			if (JVNetConst.CONNECT_OK == arg1) {
+			if (JVNetConst.CONNECT_OK == arg2) {
 				// // 暂停视频
 				// Jni.sendBytes(Consts.CHANNEL_JY,
 				// JVNetConst.JVN_CMD_VIDEOPAUSE,
@@ -988,7 +992,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.CALL_TEXT_DATA:// 文本回调
 			MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			switch (arg1) {
+			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本聊天
 				// 获取基本文本信息
 				Jni.sendTextData(Consts.CHANNEL_JY,
@@ -1216,8 +1220,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 			} else {
 				if (0 == result) {
-					playSound(Consts.SOUNDSIX);
+					playSound(Consts.SOUNDSEVINE);
 					showSearch(false);
+					// 设置全屏
+					JVQuickSettingActivity.this.getWindow().setFlags(
+							WindowManager.LayoutParams.FLAG_FULLSCREEN,
+							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 					quickSetDeviceImg.setVisibility(View.VISIBLE);
 				} else if (2 == result) {
 					JVQuickSettingActivity.this.finish();
@@ -1604,7 +1612,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (show) {
 				isSearching = true;
 				// 开始声波配置，弹出配置对话框
-				searchView.setSearching(show);
+				searchView.setSearching(true);
 				// 设置全屏
 				JVQuickSettingActivity.this.getWindow().setFlags(
 						WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -1612,7 +1620,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				quickSetDeviceImg.setVisibility(View.GONE);// 弹出设备
 				quickSetBackImg.setVisibility(View.VISIBLE);
 			} else {
-				searchView.setSearching(show);
+				searchView.setSearching(false);
 				getWindow().setFlags(
 						disMetrics.widthPixels
 								- getStatusHeight(JVQuickSettingActivity.this),

@@ -172,7 +172,9 @@ public class JVChannelsActivity extends BaseActivity {
 			RelativeLayout layout = new RelativeLayout(this);
 			TextView view = new TextView(this);
 			view.setText(deviceList.get(i).getFullNo());
+			view.setTextSize(16);
 			view.setSingleLine(true);
+			view.setId(i);
 			view.setTextColor(JVChannelsActivity.this.getResources().getColor(
 					R.color.devicemanagename));
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -240,6 +242,7 @@ public class JVChannelsActivity extends BaseActivity {
 				linear.setVisibility(View.GONE);
 				break;
 			case R.id.devmore_hide:
+				adapter.notifyDataSetChanged();
 				linear.setVisibility(View.VISIBLE);
 				relative.setVisibility(View.GONE);
 				break;
@@ -268,6 +271,21 @@ public class JVChannelsActivity extends BaseActivity {
 				mImageView.startAnimation(animation);
 				mHorizontalScrollView.smoothScrollTo((currentFragmentIndex - 1)
 						* item_width, 0);
+			}
+			for (int i = 0; i < deviceList.size(); i++) {
+				if (position == i) {
+					deviceList.get(i).setIsselect(true);
+					TextView view = (TextView) mLinearLayout.getChildAt(i)
+							.findViewById(i);
+					view.setTextColor(JVChannelsActivity.this.getResources()
+							.getColor(R.color.quickinstall_btn_normal));
+				} else {
+					deviceList.get(i).setIsselect(false);
+					TextView view = (TextView) mLinearLayout.getChildAt(i)
+							.findViewById(i);
+					view.setTextColor(JVChannelsActivity.this.getResources()
+							.getColor(R.color.devicemanagename));
+				}
 			}
 			deviceIndex = position;
 			((ChannelFragment) fragments.get(position)).deviceIndex = deviceIndex;

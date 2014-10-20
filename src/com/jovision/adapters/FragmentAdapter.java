@@ -54,8 +54,6 @@ public class FragmentAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.item_img = (ImageView) convertView
 					.findViewById(R.id.item_img);
-			holder.item_new = (ImageView) convertView
-					.findViewById(R.id.item_new);
 			holder.item_next = (ImageView) convertView
 					.findViewById(R.id.item_next);
 			holder.name = (TextView) convertView.findViewById(R.id.item_name);
@@ -98,7 +96,7 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 				break;
 			case 3:
-				if (MySharedPreference.getBoolean("LanDevice")) {
+				if (MySharedPreference.getBoolean("AddLanDevice")) {
 					holder.item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 
@@ -108,22 +106,12 @@ public class FragmentAdapter extends BaseAdapter {
 				break;
 			}
 		}
-		if (dataList.get(position).isIsnew()) {
-			holder.item_new.setVisibility(View.VISIBLE);
-			if (position == 5) {
-				holder.item_new
-						.setBackgroundResource(R.drawable.morefragment_yellow_icon);
-			}
-		} else {
-			holder.item_new.setVisibility(View.GONE);
-		}
 		return convertView;
 	}
 
 	private static class ViewHolder {
 		private ImageView item_img;
 		private TextView name;
-		private ImageView item_new;
 		private ImageView item_next;
 		private TextView item_version;
 	}

@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login_str_yst_num"
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/ystnum_et"
@@ -43,7 +43,7 @@
                 android:paddingLeft="10dp"
                 android:text=""
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="normal" />
         </TableRow>
 
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login_str_user_name_2"
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/user_et"
@@ -71,7 +71,7 @@
                 android:paddingLeft="10dp"
                 android:text="abc"
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
         </TableRow>
 
         <TableRow
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login_str_pass"
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/pwd_et"
@@ -98,7 +98,7 @@
                 android:password="true"
                 android:text="123"
                 android:textColor="@color/leftdevicecolor"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
         </TableRow>
 
         <TableRow
@@ -111,7 +111,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:visibility="invisible" />
 
             <Button
@@ -119,6 +119,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/blue_bg"
                 android:text="@string/login_str_save"
                 android:textColor="@color/white"
                 android:textSize="20sp" />

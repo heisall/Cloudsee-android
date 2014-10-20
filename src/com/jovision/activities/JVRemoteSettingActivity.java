@@ -132,7 +132,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		case Consts.CALL_TEXT_DATA: {// 文本回调
 			MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			switch (arg1) {
+			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
 				String allStr = obj.toString();
 				try {
@@ -227,7 +227,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setBackgroundResource(R.drawable.qr_icon);
-		currentMenu.setText(R.string.str_help1_1);
+		currentMenu.setText(R.string.str_help1_0);
 		leftBtn.setOnClickListener(mOnClickListener);
 		rightBtn.setOnClickListener(mOnClickListener);
 

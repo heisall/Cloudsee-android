@@ -45,15 +45,6 @@
             android:layout_marginRight="15dp"
             android:background="@drawable/morefragment_next_icon" />
 
-        <ImageView
-            android:id="@+id/item_new"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@+id/item_next"
-            android:background="@drawable/morefragment_yellow_icon" />
-
         <TextView
             android:id="@+id/item_version"
             android:layout_width="wrap_content"

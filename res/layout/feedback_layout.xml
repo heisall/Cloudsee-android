@@ -5,10 +5,49 @@
     android:background="@color/transparent"
     android:orientation="vertical" >
 
-    <include
+    <RelativeLayout
+        android:id="@+id/topbarh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/top_bar_layout" />
+        android:layout_height="55dp"
+        android:background="@color/welcome_blue"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_left"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/currentmenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/str_video_play"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/selectscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/currentmenu"
+            android:src="@drawable/screen_down_icon"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_right"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:gravity="center" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"

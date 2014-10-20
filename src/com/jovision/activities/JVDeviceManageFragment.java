@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -67,7 +68,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private ArrayList<Fragment> fragments;
 
 	/** intent传递过来的设备和通道下标 */
-	public static int deviceIndex;
+	private int deviceIndex;
 	private ArrayList<Device> manageDeviceList = new ArrayList<Device>();
 
 	@Override
@@ -169,6 +170,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 			TextView view = new TextView(mActivity);
 			view.setText(manageDeviceList.get(i).getFullNo());
 			view.setSingleLine(true);
+			view.setTextSize(16);
+			view.setId(i);
 			view.setTextColor(mActivity.getResources().getColor(
 					R.color.devicemanagename));
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -220,6 +223,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 				relative.setVisibility(View.GONE);
 				break;
 			case R.id.devmore_hie:
+				adapter.notifyDataSetChanged();
 				relalist.setVisibility(View.GONE);
 				devicemanage_listView.setVisibility(View.GONE);
 				managePager.setVisibility(View.VISIBLE);
@@ -243,6 +247,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	public class ManagePageChangeListener implements OnPageChangeListener {
 
+		@SuppressLint("ResourceAsColor")
 		@Override
 		public void onPageSelected(final int position) {
 			// MyLog.v(TAG, "onPageSelected---position="+position);
@@ -258,6 +263,21 @@ public class JVDeviceManageFragment extends BaseFragment {
 				mImageView.startAnimation(animation);
 				mHorizontalScrollView.smoothScrollTo((currentFragmentIndex - 1)
 						* item_width, 0);
+			}
+			for (int i = 0; i < manageDeviceList.size(); i++) {
+				if (position == i) {
+					manageDeviceList.get(i).setIsselect(true);
+					TextView view = (TextView) mLinearLayout.getChildAt(i)
+							.findViewById(i);
+					view.setTextColor(mActivity.getResources().getColor(
+							R.color.quickinstall_btn_normal));
+				} else {
+					manageDeviceList.get(i).setIsselect(false);
+					TextView view = (TextView) mLinearLayout.getChildAt(i)
+							.findViewById(i);
+					view.setTextColor(mActivity.getResources().getColor(
+							R.color.devicemanagename));
+				}
 			}
 			deviceIndex = position;
 			((ManageFragment) fragments.get(position)).setDevIndex(deviceIndex);

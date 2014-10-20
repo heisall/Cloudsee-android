@@ -79,12 +79,15 @@
 
             <Button
                 android:id="@+id/decodeway"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/decode_bg"
                 android:onClick="onFlip"
-                android:text="flip HD/ff"
-                android:textColor="@color/black" />
+                android:text="flip"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/overturn"
@@ -103,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/videolayout"
             android:layout_marginBottom="50dp"
-            android:background="@color/functionbgcolor"
+            android:background="@color/white"
             android:visibility="visible" >
 
             <include
@@ -231,7 +234,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_weight="1"
                     android:background="@drawable/function_btn_bg"
-                    android:drawableLeft="@drawable/video_record"
+                    android:drawableLeft="@drawable/video_record_1"
                     android:paddingLeft="10dp"
                     android:singleLine="true"
                     android:text="@string/str_video"
@@ -258,7 +261,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/functionbgcolor"
+                android:background="@color/white"
                 android:orientation="horizontal"
                 android:padding="10dp"
                 android:paddingTop="1dp" >

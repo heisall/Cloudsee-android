@@ -29,7 +29,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/str_nicknametwo"
                 android:textColor="@color/more_fragment_color2"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -69,7 +69,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/str_username"
                 android:textColor="@color/more_fragment_color2"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -109,7 +109,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/str_password"
                 android:textColor="@color/more_fragment_color2"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"

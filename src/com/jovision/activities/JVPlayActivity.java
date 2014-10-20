@@ -240,6 +240,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE: {
+
 			Channel channel = manager.getChannel(arg2);
 			if (null == channel) {
 				return;
@@ -970,7 +971,9 @@ public class JVPlayActivity extends PlayActivity implements
 	public void loadingState(int index, int loadingState, int tag) {
 		try {
 			if (null == manager.getView(index)) {
-				MyLog.e(TAG, "--loadingState--manager.getView(index)--isNull");
+				MyLog.e(TAG,
+						"--loadingState--manager.getView(index)--isNull---index="
+								+ index);
 				return;
 			}
 			ViewGroup container = (ViewGroup) manager.getView(index)

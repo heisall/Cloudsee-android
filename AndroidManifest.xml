@@ -323,6 +323,13 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
+          <activity
+            android:name="com.jovision.activities.JVRemotePlay"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
         <service
             android:name="com.jovision.MainService"
             android:enabled="true" >

@@ -68,7 +68,8 @@
                 android:id="@+id/relative1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" >
+                android:layout_weight="1"
+                android:visibility="gone" >
 
                 <Button
                     android:id="@+id/bottom_but1"
@@ -86,9 +87,10 @@
 
                 <Button
                     android:id="@+id/bottom_but2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/decode_bg" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -178,7 +180,7 @@
 
         <TextView
             android:id="@+id/video_bq"
-            android:layout_width="80dp"
+            android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"

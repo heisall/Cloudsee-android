@@ -1,7 +1,11 @@
 package com.jovision.utils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -125,6 +129,59 @@ public class ConfigUtil {
 			yst = Integer.parseInt(ystSB.toString());
 		}
 		return yst;
+	}
+
+	/**
+	 * 获取手机IP
+	 * 
+	 * @return
+	 */
+	public static String getCountry() {
+		String ip = "";
+		BufferedReader in = null;
+		try {
+			URL whatismyip = new URL(
+					"http://int.dpool.sina.com.cn/iplookup/iplookup.php");
+			in = new BufferedReader(new InputStreamReader(
+					whatismyip.openStream(), "GBK"));
+
+			ip = in.readLine();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return ip;
+	}
+
+	public static int lan = -1;
+
+	// 中文 0 英文 1
+	public static int getServerLanguage() {
+
+		if (-1 == lan) {
+			String country = getCountry();
+			if (country.contains("中国") || country.contains("China")
+					|| country.contains("china")) {
+				lan = 0;
+			} else {
+				lan = 1;
+			}
+		}
+		// String language = Locale.getDefault().getLanguage();
+		// if (language.equalsIgnoreCase("zh")) {// 中文
+		// lan = 0;
+		// } else {// 英文
+		// lan = 1;
+		// }
+		return lan;
 	}
 
 	/**

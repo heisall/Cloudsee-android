@@ -792,6 +792,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		/** 中 */
 		viewPager.setVisibility(View.VISIBLE);
+		viewPager.setContext(JVPlayActivity.this);
 		playSurface.setVisibility(View.GONE);
 		viewPager.setOnPageChangeListener(onPageChangeListener);
 		pagerAdapter = new PlayViewPagerAdapter();

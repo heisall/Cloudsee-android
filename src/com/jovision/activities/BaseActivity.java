@@ -43,7 +43,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 		IHandlerNotify, IHandlerLikeNotify {
 	protected ProgressDialog proDialog;
 	protected Toast toast;
-	protected Configuration configuration;
+	public Configuration configuration;
 
 	protected DisplayMetrics disMetrics;
 

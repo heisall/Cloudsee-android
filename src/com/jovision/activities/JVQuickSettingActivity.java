@@ -528,14 +528,14 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 		builder.setView(layout);
 
-		builder.setPositiveButton(R.string.cancel,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-
-				});
+		// builder.setPositiveButton(R.string.cancel,
+		// new DialogInterface.OnClickListener() {
+		// @Override
+		// public void onClick(DialogInterface dialog, int which) {
+		// dialog.dismiss();
+		// }
+		//
+		// });
 		builder.setNegativeButton(R.string.str_device_ap_start,
 				new DialogInterface.OnClickListener() {
 
@@ -1220,7 +1220,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 			} else {
 				if (0 == result) {
-					playSound(Consts.SOUNDSIX);
+					playSound(Consts.SOUNDSEVINE);
 					showSearch(false);
 					// 设置全屏
 					JVQuickSettingActivity.this.getWindow().setFlags(

@@ -64,7 +64,7 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.morefragment_clear_icon,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
-			R.drawable.morefragment_aboutus_icon};
+			R.drawable.morefragment_aboutus_icon };
 	// 功能名称数组
 	private String[] fragment_name;
 

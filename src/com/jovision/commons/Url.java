@@ -18,8 +18,8 @@ public class Url {
 
 	// public static String SHORTSERVERIP = "58.56.19.187";
 	// public static String LONGSERVERIP = "58.56.19.187";
-	public static String SHORTSERVERIP = ConfigUtil.getLanguage() == JVConst.LANGUAGE_ZH ? "appchannel.afdvr.com"
+	public static String SHORTSERVERIP = ConfigUtil.getServerLanguage() == JVConst.LANGUAGE_ZH ? "appchannel.afdvr.com"
 			: "appchannelen.afdvr.com"; // "appchannel.jovecloud.com";
-	public static String LONGSERVERIP = ConfigUtil.getLanguage() == JVConst.LANGUAGE_ZH ? "apponline.afdvr.com"
+	public static String LONGSERVERIP = ConfigUtil.getServerLanguage() == JVConst.LANGUAGE_ZH ? "apponline.afdvr.com"
 			: "apponlineen.afdvr.com"; // "apponline.jovecloud.com";
 }

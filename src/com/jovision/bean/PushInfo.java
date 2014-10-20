@@ -17,5 +17,7 @@ public class PushInfo {
 	public boolean newTag = false;
 	public String pic = "";// 推送图片地址
 	public String video = "";// 推送视频地址
-
+	//[lkp]
+	public int messageTag; // 报警标志，区分新旧报警，兼容旧的报警主控 4602老报警流程 4604 新报警流程
+	public String timestamp; //时间戳
 }

@@ -27,8 +27,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/login_str_ipaddressdevice"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textColor="@color/leftdevicecolor"
+            android:textSize="18sp"
             android:textStyle="normal" />
 
         <EditText
@@ -94,8 +94,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/login_str_port"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textColor="@color/leftdevicecolor"
+            android:textSize="18sp"
             android:textStyle="normal" />
 
         <EditText
@@ -108,7 +108,7 @@
             android:paddingLeft="10dp"
             android:singleLine="true"
             android:text="9101"
-            android:textColor="@color/black" />
+            android:textColor="@color/leftdevicecolor" />
     </LinearLayout>
 
     <LinearLayout
@@ -127,8 +127,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/login_str_user_name_2"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textColor="@color/leftdevicecolor"
+            android:textSize="18sp"
             android:textStyle="normal" />
 
         <EditText
@@ -142,7 +142,7 @@
             android:paddingLeft="10dp"
             android:singleLine="true"
             android:text="abc"
-            android:textColor="@color/black" />
+            android:textColor="@color/leftdevicecolor" />
     </LinearLayout>
 
     <LinearLayout
@@ -161,8 +161,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/login_str_user_pass"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textColor="@color/leftdevicecolor"
+            android:textSize="18sp"
             android:textStyle="normal" >
         </TextView>
 
@@ -178,7 +178,7 @@
             android:password="true"
             android:singleLine="true"
             android:text="123"
-            android:textColor="@color/black" />
+            android:textColor="@color/leftdevicecolor" />
     </LinearLayout>
 
     <LinearLayout

@@ -18,8 +18,8 @@
             android:layout_height="35dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:gravity="center"
-            android:layout_marginLeft="16dp" />
+            android:layout_marginLeft="16dp"
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/currentmenu"
@@ -45,8 +45,8 @@
             android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:gravity="center"
-            android:layout_marginRight="16dp" />
+            android:layout_marginRight="16dp"
+            android:gravity="center" />
     </RelativeLayout>
 
     <ScrollView

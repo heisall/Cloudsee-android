@@ -45,7 +45,6 @@
             android:layout_marginRight="15dp"
             android:background="@drawable/morefragment_next_icon" />
 
-
         <TextView
             android:id="@+id/item_version"
             android:layout_width="wrap_content"

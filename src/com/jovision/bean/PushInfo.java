@@ -1,6 +1,11 @@
 package com.jovision.bean;
 
-public class PushInfo {
+import java.io.Serializable;
+
+public class PushInfo implements Serializable{
+	
+	private static final long serialVersionUID = -7060210544600464481L; 
+	
 	public int nMobileSysType;// 设备type
 	public String strMobileID;// Imei
 	public int nAppType;// 区分哪个软件，区分中性与非中性

@@ -129,7 +129,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 		dialog.show();
 		
 		if(!bConnectFlag){
-//			AlarmUtil.OnlyConnect(strYstNum);
+			AlarmUtil.OnlyConnect(strYstNum);
 		}		
 	}
 
@@ -379,7 +379,8 @@ public class ThirdDevListActivity extends BaseActivity implements
 			String arg1 = "type="+thirdDev.dev_type_mark+";";
 			String arg2 = "guid="+thirdDev.dev_uid+";";
 			bb.append(arg1).append(arg2);
-			JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_DEL, bb.toString().trim());
+			Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_DEL, bb.toString().trim());
+//			JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_DEL, bb.toString().trim());
 			dialog.dismiss();
 			mActivity.dialog.show();
 		}
@@ -470,9 +471,9 @@ public class ThirdDevListActivity extends BaseActivity implements
 		case 9006://设置属性
 			if(arg1 == 1){
 				//ok
-				Device device_itemDevice = BaseApp.deviceList
+				Device device_itemDevice = CacheUtil.getDevList()
 						.get(selected_dev_index);	
-				device_itemDevice.thirdDevList.get(saved_index).dev_safeguard_flag = arg2;//
+				device_itemDevice.getThirdDevList().get(saved_index).dev_safeguard_flag = arg2;//
 				thirdDevAdapter.notifyDataSetChanged();
 			}
 			else{
@@ -481,7 +482,8 @@ public class ThirdDevListActivity extends BaseActivity implements
 			break;			
 		case JVNetConst.JVN_RSP_TEXTACCEPT://同意文本请求后才发送请求
 			StringBuffer videoBuffer = new StringBuffer();
-			JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SECLECT, videoBuffer.toString().trim());
+			Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_SECLECT, videoBuffer.toString().trim());
+//			JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SECLECT, videoBuffer.toString().trim());
 			break;
 		case 9007://查询第三方设备
 			if(arg1 == 1){
@@ -549,7 +551,8 @@ public class ThirdDevListActivity extends BaseActivity implements
 			//arg1 开关标志  arg2 索引 obj 请求参数
 			if(obj != null){
 				saved_index = arg2;
-				JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SET, obj.toString());
+				Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_SET, obj.toString());
+//				JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SET, obj.toString());
 			}	
 			break;			
 		}		

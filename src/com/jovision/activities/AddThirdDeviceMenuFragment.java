@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.ActionReceiver;
+import com.jovision.Consts;
+import com.jovision.Jni;
+import com.jovision.commons.JVNetConst;
 
 public class AddThirdDeviceMenuFragment extends Fragment implements
 		OnClickListener,ActionReceiver.EventHandler {
@@ -94,6 +97,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		switch (v.getId()) {
 		case R.id.add_door_btn:// 门磁设备
 			dev_type_mark = 1;
+			mListener.OnDeviceClassSelected(1);
 			dialog.setMessage(getResources().getString(
 					R.string.str_loading_data));
 			dialog.show();
@@ -106,8 +110,9 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 //				JVSUDT.JVC_SendData(JVConst.ONLY_CONNECT,
 //						(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);				
 				String req_data = "type=1;";
-				JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA,
-						 (byte)JVConst.RC_GPIN_ADD, req_data.trim());				
+				Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_ADD, req_data.trim());
+//				JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA,
+//						 (byte)JVConst.RC_GPIN_ADD, req_data.trim());				
 			}
 			// 实际应该起个线程，然后开始播放动画
 			// TODO
@@ -126,8 +131,9 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 //				JVSUDT.JVC_SendData(JVConst.ONLY_CONNECT,
 //						(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);				
 				String req_data = "type=2;";
-				JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA,
-						 (byte)JVConst.RC_GPIN_ADD, req_data.trim());				
+				Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_ADD, req_data.trim());				
+//				JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA,
+//						 (byte)JVConst.RC_GPIN_ADD, req_data.trim());				
 			}			
 			// 实际应该起个线程，然后开始播放动画
 			// TODO
@@ -200,8 +206,9 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 			break;
 		case JVNetConst.JVN_RSP_TEXTACCEPT://同意文本请求后才发送请求
 			String req_data = "type="+dev_type_mark+";";
-			JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA,
-					 (byte)JVConst.RC_GPIN_ADD, req_data.trim());
+			Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0, (byte)Consts.RC_GPIN_ADD, req_data.trim());			
+//			JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT, (byte)JVNetConst.JVN_RSP_TEXTDATA,
+//					 (byte)JVConst.RC_GPIN_ADD, req_data.trim());
 			break;
 		default:
 			myHandler.sendEmptyMessage(-1);

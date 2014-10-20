@@ -29,6 +29,7 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
+import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
@@ -64,25 +65,18 @@ public class CustomDialogActivity extends BaseActivity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.custom_alarm_dialog);
 		InitViews();
-		Bundle extras = getIntent().getExtras();
+
+		Intent intent = getIntent();
 		bDownLoadFileType = 0;//默认先下载图片
-		msg_tag = extras.getInt("MSG_TAG");
-		if(msg_tag == 0 || msg_tag == JVAccountConst.MESSAGE_PUSH_TAG){//旧的报警
-			String strTime = extras.getString("ALR_TIME");
-			alarmTime.setText(strTime);
-			strImgUrl = extras.getString("IMG_URL");
-			if (strImgUrl.equals("")) {
-				strImgUrl = "http://no picture";// 为空的话，会显示空白
-			}
-			vod_uri_ = extras.getString("VOD_URL");
-			if (vod_uri_.equals("") || vod_uri_ == null) {
-				lookVideoBtn.setEnabled(false);
-				lookVideoBtn.setText(getResources().getString(
-						R.string.str_alarm_no_video));
-			}
-		} else if (msg_tag == JVAccountConst.MESSAGE_NEW_PUSH_TAG) {// 新报警
-			int index = extras.getInt("POS");
-			PushInfo pushInfo = BaseApp.pushList.get(index);
+		PushInfo pushInfo = (PushInfo)intent.getSerializableExtra("PUSH_INFO");
+		if(pushInfo == null){
+			showTextToast("数据为空");
+			return;
+		}
+		msg_tag = pushInfo.messageTag;
+		
+		if (msg_tag == JVAccountConst.MESSAGE_NEW_PUSH_TAG) {// 新报警
+			
 			strYstNum = pushInfo.ystNum;
 			String strAlarmTime = new String(pushInfo.alarmTime);
 			strImgUrl = new String(pushInfo.pic);
@@ -117,7 +111,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			if(!fileIsExists(localImgPath)){
 				bLocalFile = false;
 				if(!strImgUrl.equals("")){
-					JVSUDT.JVC_SetDownLoadFileUrl(localImgPath);
+					Jni.setDownloadFileName(localImgPath);
 					AlarmConnect(strYstNum);					
 				}
 				if(!vod_uri_.equals("")){
@@ -222,7 +216,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				else
 				{
 					bDownLoadFileType = 1;//下载录像
-					JVSUDT.JVC_SetDownLoadFileUrl(localVodPath);
+					Jni.setDownloadFileName(localVodPath);
 					progressdialog.show();
 					if(!bConnectFlag)//如果没连接，先连接
 					{

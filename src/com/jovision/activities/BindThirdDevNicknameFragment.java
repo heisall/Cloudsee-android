@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.test.JVSUDT;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,13 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.jovetech.util.ActionReceiver;
-import com.jovetech.util.AlarmUtil;
-import com.jovetech.util.JVConst;
-import com.jovetech.util.JVNetConst;
-import com.jovetech.util.Log;
-import com.jovetech.util.LoginUtil;
-import com.nvsip.temp.R;
+
+import com.jovetech.CloudSee.temp.R;
+import com.jovision.ActionReceiver;
+import com.jovision.activities.AddThirdDeviceMenuFragment.OnDeviceClassSelectedListener;
+import com.jovision.commons.JVNetConst;
+import com.jovision.commons.MyLog;
+import com.jovision.utils.RegularUtil;
 
 public class BindThirdDevNicknameFragment extends Fragment implements
 		OnClickListener, ActionReceiver.EventHandler {
@@ -32,6 +31,13 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 	private int dev_uid;
 	private boolean bConnectedFlag;
 	private ProgressDialog dialog;
+	
+	public interface OnSetNickNameListener {
+		public void OnSetNickName(int index);
+	}
+
+	private OnSetNickNameListener mListener;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -84,7 +90,7 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 				Toast.makeText(getActivity(), "请输入昵称", Toast.LENGTH_SHORT)
 						.show();
 			} else {	
-				if(!LoginUtil.checkNickName(nickName)){
+				if(!RegularUtil.checkNickName(nickName)){
 					showToast("输入的昵称不合法，请重新输入", Toast.LENGTH_SHORT);
 					return;
 				}
@@ -138,7 +144,7 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 		switch (ret) {
 		case 1://连接成功
 		case 3://已经连上，如正在播放视频界面
-			Log.e("New alarm", "连接成功");
+			MyLog.e("New alarm", "连接成功");
 			bConnectedFlag = true;
 			showToast("连接成功", Toast.LENGTH_SHORT);
 			JVSUDT.JVC_SendData(JVConst.ONLY_CONNECT,

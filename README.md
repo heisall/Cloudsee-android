@@ -177,12 +177,12 @@
 
 ConnectChange
 
-    id, type, channel, json
+    id, window, type, json
     json: {"msg":"", "data":0}
 
 PlayData
 
-    id, type, channel, json
+    id, window, type, json
     json: {"count":0,
         "audio_type":0, "audio_sample_rate":0, "audio_bit":0, "audio_channel":0,
         "width":0, "height":0, "fps":0.0, "total":0}
@@ -191,25 +191,29 @@ PlayData
 
 NormalData
 
-    id, type, channel, json
+    id, window, type, json
     json: {"is05":true, "fps":0.0, "device_type":0, "start_code":0,
         "reserved":0, "width":0, "height":0, "auto_stop_recorder":false,
         "audio_type":0, "audio_sample_rate":0, "audio_bit":0, "audio_channel":0}
 
 CheckResult
 
-    id, 0, channel, byte[]
+    id, window, 0, byte[]
 
 ChatData
 
-    id, type, channel, byte[]
+    id, window, type, byte[]
 
 TextData
 
-    id, type, channel, json
+    id, window, type, json
     json: {"result":0, "msg":"", "flag":0, "type":0,
         "wifi":[{"name":"", "pwd":"", "quality":0, "keystat":0, "auth":0, "env":0},{}]
         }
+
+Download
+
+    id, window, type, NULL
 
 SearchLanServer
 
@@ -225,7 +229,7 @@ queryDevice
 stat
 
     id, 0, 0, jsonArray
-    jsonArray: [{"index":0, "delay":0.0, "kbps":0.0,
+    jsonArray: [{"window":0, "delay":0.0, "kbps":0.0,
         "audio_type":1, "audio_kbps":0.0,
         "audio_network_fps":0.0, "audio_decoder_fps":0.0,
         "audio_decoder_delay":0.0, "audio_play_delay":0.0, 
@@ -237,17 +241,17 @@ stat
 play
 
     // screenshot
-    id, index, result, null
+    id, window, result, null
 
     // frame I report
-    id, index, try_omx, null
+    id, window, try_omx, null
 
     // play doomed
-    id, index, bad_status, null
-    id, index, playback_done, null
-    id, index, hdec_buffering, null
+    id, window, bad_status, null
+    id, window, playback_done, null
+    id, window, hdec_buffering, null
 
     // play audio
-    id, index, is_play_back, byte[]
+    id, window, is_play_back, byte[]
     byte: pcm raw data
 

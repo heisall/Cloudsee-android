@@ -1,9 +1,8 @@
 package com.jovision.activities;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -48,7 +47,7 @@ public class JVIpconnectActivity extends BaseActivity {
 	// 旋转的外层包裹布局
 	private LinearLayout mContainer;
 	// 更改形式的标志位
-	private boolean isturn = false;
+	private boolean isTurn = false;
 	// 返回按钮
 	private Button back;
 	// 添加按钮
@@ -64,9 +63,9 @@ public class JVIpconnectActivity extends BaseActivity {
 
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 
-	private Device device;
+	// private Device device;
 
-	private Device deviceedit;
+	private Device editDevice;
 
 	private String ipString;
 	private String portString;
@@ -75,37 +74,27 @@ public class JVIpconnectActivity extends BaseActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void initSettings() {
-		// TODO Auto-generated method stub
+		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
+		deviceList = CacheUtil.getDevList();
+		editDevice = deviceList.get(deviceIndex);
+		isDevice = editDevice.getIsDevice();
 
 	}
 
 	@Override
 	protected void initUi() {
-		// TODO Auto-generated method stub
 		setContentView(R.layout.ipconnect_layout);
 
-		deviceIndex = JVDeviceManageFragment.deviceIndex;
-		isDevice = getIntent().getIntExtra("isDevice", 0);
-		if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
-			deviceList = CacheUtil.getDevList();
-		} else {
-			deviceList = DeviceUtil.getUserDeviceList(statusHashMap
-					.get(Consts.KEY_USERNAME));
-		}
-		device = deviceList.get(deviceIndex);
-		deviceedit = new Device();
 		change = (RadioGroup) findViewById(R.id.change);
 		mContainer = (LinearLayout) findViewById(R.id.mContainer);
 		cloud_number = (TextView) findViewById(R.id.cloudnumber_text);
@@ -124,23 +113,23 @@ public class JVIpconnectActivity extends BaseActivity {
 
 		if (isDevice == 0) {
 			change.check(R.id.ipconnect_cloud);
-			isturn = false;
+			isTurn = false;
 			addressLayout.setVisibility(View.GONE);
 			couldnumLayout.setVisibility(View.VISIBLE);
 			portLayout.setVisibility(View.GONE);
-			cloud_number.setText(device.getFullNo());
-			ipconnect_user.setText(device.getUser());
-			ipconnect_pwd.setText(device.getPwd());
+			cloud_number.setText(editDevice.getFullNo());
+			ipconnect_user.setText(editDevice.getUser());
+			ipconnect_pwd.setText(editDevice.getPwd());
 		} else {
 			change.check(R.id.ipconnect_ip);
-			isturn = true;
+			isTurn = true;
 			addressLayout.setVisibility(View.VISIBLE);
 			couldnumLayout.setVisibility(View.GONE);
 			portLayout.setVisibility(View.VISIBLE);
-			ipconnect_address.setText(device.getIp());
-			ipconnect_port.setText(device.getPort() + "");
-			ipconnect_user.setText(device.getUser());
-			ipconnect_pwd.setText(device.getPwd());
+			ipconnect_address.setText(editDevice.getIp());
+			ipconnect_port.setText(editDevice.getPort() + "");
+			ipconnect_user.setText(editDevice.getUser());
+			ipconnect_pwd.setText(editDevice.getPwd());
 		}
 		ipconnect_address.setFocusable(true);
 		ipconnect_address.setFocusableInTouchMode(true);
@@ -156,7 +145,6 @@ public class JVIpconnectActivity extends BaseActivity {
 
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			// TODO Auto-generated method stub
 			switch (checkedId) {
 			case R.id.ipconnect_ip:
 				change.check(R.id.ipconnect_ip);
@@ -173,15 +161,15 @@ public class JVIpconnectActivity extends BaseActivity {
 
 					@Override
 					public void onAnimationEnd(Animation animation) {
-						isturn = true;
+						isTurn = true;
 						addressLayout.setVisibility(View.VISIBLE);
 						couldnumLayout.setVisibility(View.GONE);
 						portLayout.setVisibility(View.VISIBLE);
 
-						ipconnect_address.setText(device.getIp());
-						ipconnect_port.setText(device.getPort() + "");
-						ipconnect_user.setText(device.getUser());
-						ipconnect_pwd.setText(device.getPwd());
+						ipconnect_address.setText(editDevice.getIp());
+						ipconnect_port.setText(editDevice.getPort() + "");
+						ipconnect_user.setText(editDevice.getUser());
+						ipconnect_pwd.setText(editDevice.getPwd());
 						mContainer.startAnimation(AnimationUtils.loadAnimation(
 								JVIpconnectActivity.this, R.anim.rotate_in));
 					}
@@ -203,14 +191,14 @@ public class JVIpconnectActivity extends BaseActivity {
 
 					@Override
 					public void onAnimationEnd(Animation animation) {
-						isturn = false;
+						isTurn = false;
 						addressLayout.setVisibility(View.GONE);
 						couldnumLayout.setVisibility(View.VISIBLE);
 						portLayout.setVisibility(View.GONE);
 
-						cloud_number.setText(device.getFullNo());
-						ipconnect_user.setText(device.getUser());
-						ipconnect_pwd.setText(device.getPwd());
+						cloud_number.setText(editDevice.getFullNo());
+						ipconnect_user.setText(editDevice.getUser());
+						ipconnect_pwd.setText(editDevice.getPwd());
 
 						userString = ipconnect_user.getText().toString();
 						pwdString = ipconnect_pwd.getText().toString();
@@ -230,10 +218,9 @@ public class JVIpconnectActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.editsave:
-				if (isturn) {
+				if (isTurn) {
 					ipString = ipconnect_address.getText().toString();
 					portString = ipconnect_port.getText().toString();
 					userString = ipconnect_user.getText().toString();
@@ -263,25 +250,32 @@ public class JVIpconnectActivity extends BaseActivity {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_device_pass_error);
 					} else {
-						if (!Boolean.valueOf(statusHashMap
-								.get(Consts.LOCAL_LOGIN))) {
-							deviceedit.setIp(getInetAddress(ipString));
-							deviceedit.setPort(Integer.valueOf(portString));
-							deviceedit.setUser(userString);
-							deviceedit.setPwd(pwdString);
-							deviceedit.setIsDevice(1);
-							DeviceUtil.editDeviceConnType(deviceedit,
-									statusHashMap.get(Consts.KEY_USERNAME));
-						} else {
-							deviceList.get(deviceIndex).setIp(
-									getInetAddress(ipString));
-							deviceList.get(deviceIndex).setPort(
-									Integer.valueOf(portString));
-							deviceList.get(deviceIndex).setUser(userString);
-							deviceList.get(deviceIndex).setPwd(pwdString);
-							deviceList.get(deviceIndex).setIsDevice(1);
-							CacheUtil.saveDevList(deviceList);
-						}
+
+						EditDevTask task = new EditDevTask();
+						String[] params = new String[3];
+						params[0] = "1";
+						task.execute(params);
+
+						// if (!Boolean.valueOf(statusHashMap
+						// .get(Consts.LOCAL_LOGIN))) {
+						// editDevice.setIp(ConfigUtil
+						// .getInetAddress(ipString));
+						// editDevice.setPort(Integer.valueOf(portString));
+						// editDevice.setUser(userString);
+						// editDevice.setPwd(pwdString);
+						// editDevice.setIsDevice(1);
+						// DeviceUtil.editDeviceConnType(editDevice,
+						// statusHashMap.get(Consts.KEY_USERNAME));
+						// } else {
+						// deviceList.get(deviceIndex).setIp(
+						// ConfigUtil.getInetAddress(ipString));
+						// deviceList.get(deviceIndex).setPort(
+						// Integer.valueOf(portString));
+						// deviceList.get(deviceIndex).setUser(userString);
+						// deviceList.get(deviceIndex).setPwd(pwdString);
+						// deviceList.get(deviceIndex).setIsDevice(1);
+						// CacheUtil.saveDevList(deviceList);
+						// }
 					}
 				} else {
 					userString = ipconnect_user.getText().toString();
@@ -300,21 +294,26 @@ public class JVIpconnectActivity extends BaseActivity {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_device_pass_error);
 					} else {
-						if (!Boolean.valueOf(statusHashMap
-								.get(Consts.LOCAL_LOGIN))) {
-							deviceedit.setIp("");
-							deviceedit.setPort(0);
-							deviceedit.setUser(userString);
-							deviceedit.setPwd(pwdString);
-							DeviceUtil.editDeviceConnType(deviceedit,
-									statusHashMap.get(Consts.KEY_USERNAME));
-						} else {
-							deviceList.get(deviceIndex).setIp("");
-							deviceList.get(deviceIndex).setPort(0);
-							deviceList.get(deviceIndex).setUser(userString);
-							deviceList.get(deviceIndex).setPwd(pwdString);
-							CacheUtil.saveDevList(deviceList);
-						}
+
+						EditDevTask task = new EditDevTask();
+						String[] params = new String[3];
+						params[0] = "0";
+						task.execute(params);
+						// if (!Boolean.valueOf(statusHashMap
+						// .get(Consts.LOCAL_LOGIN))) {
+						// editDevice.setIp("");
+						// editDevice.setPort(0);
+						// editDevice.setUser(userString);
+						// editDevice.setPwd(pwdString);
+						// DeviceUtil.editDeviceConnType(editDevice,
+						// statusHashMap.get(Consts.KEY_USERNAME));
+						// } else {
+						// deviceList.get(deviceIndex).setIp("");
+						// deviceList.get(deviceIndex).setPort(0);
+						// deviceList.get(deviceIndex).setUser(userString);
+						// deviceList.get(deviceIndex).setPwd(pwdString);
+						// CacheUtil.saveDevList(deviceList);
+						// }
 					}
 				}
 
@@ -331,6 +330,89 @@ public class JVIpconnectActivity extends BaseActivity {
 		}
 	};
 
+	// 保存更改设备信息线程
+	class EditDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int editRes = -1;
+			try {
+				int isDevice = Integer.parseInt(params[0]);
+
+				if (1 == isDevice) {// IP
+					editDevice.setIp(ConfigUtil.getInetAddress(ipString));
+					editDevice.setPort(Integer.valueOf(portString));
+					editDevice.setUser(userString);
+					editDevice.setPwd(pwdString);
+					editDevice.setIsDevice(1);// Ip设备
+				} else {
+					editDevice.setIp("");
+					editDevice.setPort(0);
+					editDevice.setUser(userString);
+					editDevice.setPwd(pwdString);
+					editDevice.setIsDevice(0);// 云视通
+				}
+				if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+
+					editRes = DeviceUtil.editDeviceConnType(editDevice,
+							statusHashMap.get(Consts.KEY_USERNAME));
+				} else {
+					editRes = 0;
+				}
+
+				if (0 == editRes) {
+					CacheUtil.saveDevList(deviceList);
+				}
+
+				// if (!Boolean.valueOf(statusHashMap
+				// .get(Consts.LOCAL_LOGIN))) {
+				// editDevice.setIp("");
+				// editDevice.setPort(0);
+				// editDevice.setUser(userString);
+				// editDevice.setPwd(pwdString);
+				// DeviceUtil.editDeviceConnType(editDevice,
+				// statusHashMap.get(Consts.KEY_USERNAME));
+				// } else {
+				// deviceList.get(deviceIndex).setIp("");
+				// deviceList.get(deviceIndex).setPort(0);
+				// deviceList.get(deviceIndex).setUser(userString);
+				// deviceList.get(deviceIndex).setPwd(pwdString);
+				// CacheUtil.saveDevList(deviceList);
+				// }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return editRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
+			if (0 == result) {
+				showTextToast(R.string.login_str_device_edit_success);
+			} else {
+				showTextToast(R.string.login_str_device_edit_failed);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
+
 	@Override
 	protected void saveSettings() {
 
@@ -339,19 +421,6 @@ public class JVIpconnectActivity extends BaseActivity {
 	@Override
 	protected void freeMe() {
 
-	}
-
-	public static String getInetAddress(String host) {
-		String IPAddress = "";
-		InetAddress ReturnStr1 = null;
-		try {
-			ReturnStr1 = java.net.InetAddress.getByName(host);
-			IPAddress = ReturnStr1.getHostAddress();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			return IPAddress;
-		}
-		return IPAddress;
 	}
 
 }

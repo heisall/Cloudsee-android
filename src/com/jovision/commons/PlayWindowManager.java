@@ -334,6 +334,7 @@ public class PlayWindowManager implements View.OnClickListener,
 	 * @return 通道对象
 	 */
 	public Channel getChannel(int index) {
+
 		Channel channel = null;
 
 		if (index >= 0 && index < mWindowList.size()) {
@@ -361,6 +362,33 @@ public class PlayWindowManager implements View.OnClickListener,
 
 			if (position < size) {
 				channel = group.getWindow(position).getChannel();
+			}
+		}
+
+		return channel;
+	}
+
+	/**
+	 * 获取指定页面下指定窗口的通道
+	 * 
+	 * @param pageId
+	 *            页面标识，从 0 开始
+	 * @param index
+	 *            取余的索引
+	 * @return 通道对象
+	 */
+	public Channel getChannelByPage(int pageId, int index) {
+		Channel channel = null;
+		int size = mGroupList.size();
+		if (pageId < size) {
+			PlayWindowGroup group = mGroupList.get(pageId);
+			size = group.getCount();
+
+			for (int i = 0; i < size; i++) {
+				if (index == group.getWindow(i).getChannel().getIndex()) {
+					channel = group.getWindow(i).getChannel();
+					break;
+				}
 			}
 		}
 

@@ -96,7 +96,7 @@
             android:id="@+id/dev_edit_l"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/halftransparent" >
+            android:background="@drawable/mydevice_delectedit_bg" >
 
             <LinearLayout
                 android:id="@+id/mydevice_cancle_l"
@@ -117,6 +117,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="3dp"
                     android:text="@string/login_str_delete"
+                    android:textColor="@color/more_fragment_color3"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -140,6 +141,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="3dp"
                     android:text="@string/login_str_edit"
+                    android:textColor="@color/more_fragment_color3"
                     android:textSize="16sp" />
             </LinearLayout>
         </RelativeLayout>
@@ -231,7 +233,7 @@
                 android:id="@+id/dev_edit_r"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/halftransparent" >
+                android:background="@drawable/mydevice_delectedit_bg" >
 
                 <LinearLayout
                     android:id="@+id/mydevice_cancle_r"
@@ -252,6 +254,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="3dp"
                         android:text="@string/login_str_delete"
+                        android:textColor="@color/more_fragment_color3"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -275,6 +278,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="3dp"
                         android:text="@string/login_str_edit"
+                        android:textColor="@color/more_fragment_color3"
                         android:textSize="16sp" />
                 </LinearLayout>
             </RelativeLayout>

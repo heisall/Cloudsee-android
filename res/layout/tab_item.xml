@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tabsLayout"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/tab_bg_color"
-    android:paddingBottom="3dp"
-    android:paddingTop="4dp" >
+    android:background="@color/tab_bg_color" >
 
     <ImageView
         android:id="@+id/tab_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerHorizontal="true"
         android:padding="4dp"
         android:src="@drawable/mydevice_devicenormal_icon" />
@@ -21,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tab_icon"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="2dp"
-        android:textSize="11sp" />
+        android:layout_marginBottom="2dp"
+        android:textSize="11dp" />
 
 </RelativeLayout>

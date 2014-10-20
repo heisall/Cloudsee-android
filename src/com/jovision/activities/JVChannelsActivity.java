@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -27,6 +28,7 @@ import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
 import com.jovision.utils.CacheUtil;
 
+@SuppressLint("ResourceAsColor")
 public class JVChannelsActivity extends BaseActivity {
 	private String TAG = "ChannelFragment";
 
@@ -170,7 +172,9 @@ public class JVChannelsActivity extends BaseActivity {
 			RelativeLayout layout = new RelativeLayout(this);
 			TextView view = new TextView(this);
 			view.setText(deviceList.get(i).getFullNo());
+			view.setTextSize(16);
 			view.setSingleLine(true);
+			view.setId(i);
 			view.setTextColor(JVChannelsActivity.this.getResources().getColor(
 					R.color.devicemanagename));
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -253,7 +257,7 @@ public class JVChannelsActivity extends BaseActivity {
 
 		@Override
 		public void onPageSelected(final int position) {
-			// MyLog.v(TAG, "onPageSelected---position="+position);
+			// MyLog.v(TAG, "onPageSelected---position="+position)
 			Animation animation = new TranslateAnimation(endPosition, position
 					* item_width, 0, 0);
 
@@ -266,6 +270,19 @@ public class JVChannelsActivity extends BaseActivity {
 				mImageView.startAnimation(animation);
 				mHorizontalScrollView.smoothScrollTo((currentFragmentIndex - 1)
 						* item_width, 0);
+			}
+			for (int i = 0; i < deviceList.size(); i++) {
+				if (position == i) {
+					TextView view = (TextView) mLinearLayout.getChildAt(i)
+							.findViewById(i);
+					view.setTextColor(JVChannelsActivity.this.getResources()
+							.getColor(R.color.quickinstall_btn_normal));
+				} else {
+					TextView view = (TextView) mLinearLayout.getChildAt(i)
+							.findViewById(i);
+					view.setTextColor(JVChannelsActivity.this.getResources()
+							.getColor(R.color.devicemanagename));
+				}
 			}
 			deviceIndex = position;
 			((ChannelFragment) fragments.get(position)).deviceIndex = deviceIndex;
@@ -285,7 +302,6 @@ public class JVChannelsActivity extends BaseActivity {
 					endPosition = item_width * currentFragmentIndex
 							- (int) (item_width * (1 - positionOffset));
 				}
-
 				Animation mAnimation = new TranslateAnimation(beginPosition,
 						endPosition, 0, 0);
 				mAnimation.setFillAfter(true);

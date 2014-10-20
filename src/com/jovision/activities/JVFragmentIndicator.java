@@ -29,22 +29,24 @@ public class JVFragmentIndicator extends LinearLayout implements
 	private LayoutInflater inflater;
 
 	private static final String[] iconTagArray = { "icon_tag_0", "icon_tag_1",
-			"icon_tag_3", "icon_tag_4" };// "icon_tag_2",
+			"icon_tag_2", "icon_tag_3", "icon_tag_4" };
 
 	private static final String[] textTagArray = { "text_tag_0", "text_tag_1",
-			"text_tag_3", "text_tag_4" };// "text_tag_2",
+			"text_tag_2", "text_tag_3", "text_tag_4" };
 
 	private static String[] titleArray;// 5个标题数组
 	private static int[] unSelectedArray = {
 			R.drawable.mydevice_devicenormal_icon,
 			R.drawable.mydevice_messagenormal_icon,
+			R.drawable.mydevice_examplenormal_icon,
 			R.drawable.mydevice_videomanagenormal_icon,
-			R.drawable.mydevice_moremessagenormal_icon };// R.drawable.mydevice_examplenormal_icon,
+			R.drawable.mydevice_moremessagenormal_icon };
 	private static int[] selectedArray = {
 			R.drawable.mydevice_devicepress_icon,
 			R.drawable.mydevice_messagepress_icon,
+			R.drawable.mydevice_examplepress_icon,
 			R.drawable.mydevice_videomanagepress_icon,
-			R.drawable.mydevice_moremessagepress_icon };// R.drawable.mydevice_examplepress_icon,
+			R.drawable.mydevice_moremessagepress_icon };
 
 	private static final int COLOR_UNSELECT = R.color.tab_text_color;
 	private static final int COLOR_SELECT = R.color.tab_text_color;

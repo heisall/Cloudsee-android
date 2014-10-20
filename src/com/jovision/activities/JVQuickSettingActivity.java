@@ -185,8 +185,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		mobileLayout = (LinearLayout) findViewById(R.id.mobilewifilayout);
 		desWifiName = (EditText) findViewById(R.id.deswifiname);
 		desWifiPass = (EditText) findViewById(R.id.deswifipwd);
-		desWifiPass.setInputType(InputType.TYPE_CLASS_TEXT
-				| InputType.TYPE_TEXT_VARIATION_PASSWORD);// 隐藏密码
+		desWifiPass
+				.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);// 显示密码
 		destWifiEye = (ToggleButton) findViewById(R.id.deswifieye);
 		mobileWifiListView = (RefreshableListView) findViewById(R.id.mobilewifilistview);
 		mobileWifiListView.setOnRefreshListener(new WifiRefreshListener(false));
@@ -196,7 +196,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			mobileAdapter.setData(scanMobileWifiList, oldWifiSSID);
 			mobileWifiListView.setAdapter(mobileAdapter);
 		}
-		destWifiEye.setChecked(false);
+		destWifiEye.setChecked(true);
 		destWifiEye.setOnCheckedChangeListener(myOnCheckedChangeListener);
 
 		helpLayout = (LinearLayout) findViewById(R.id.helplayout);
@@ -809,6 +809,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.QUICK_SETTING_DEV_ONLINE: {// 网络恢复成功
 			playSound(Consts.SOUNDSIX);// 播放“叮”的一声
 			showSearch(false);
+			// 设置全屏
+			JVQuickSettingActivity.this.getWindow().setFlags(
+					WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			quickSetDeviceImg.setVisibility(View.VISIBLE);
 			break;
 		}
@@ -1218,6 +1222,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				if (0 == result) {
 					playSound(Consts.SOUNDSIX);
 					showSearch(false);
+					// 设置全屏
+					JVQuickSettingActivity.this.getWindow().setFlags(
+							WindowManager.LayoutParams.FLAG_FULLSCREEN,
+							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 					quickSetDeviceImg.setVisibility(View.VISIBLE);
 				} else if (2 == result) {
 					JVQuickSettingActivity.this.finish();
@@ -1604,7 +1612,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (show) {
 				isSearching = true;
 				// 开始声波配置，弹出配置对话框
-				searchView.setSearching(show);
+				searchView.setSearching(true);
 				// 设置全屏
 				JVQuickSettingActivity.this.getWindow().setFlags(
 						WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -1612,7 +1620,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				quickSetDeviceImg.setVisibility(View.GONE);// 弹出设备
 				quickSetBackImg.setVisibility(View.VISIBLE);
 			} else {
-				searchView.setSearching(show);
+				searchView.setSearching(false);
 				getWindow().setFlags(
 						disMetrics.widthPixels
 								- getStatusHeight(JVQuickSettingActivity.this),

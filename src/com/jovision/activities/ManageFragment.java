@@ -64,9 +64,12 @@ public class ManageFragment extends BaseFragment {
 	}
 
 	public void setDevIndex(int index) {
-		deviceIndex = index;
-		device = deviceList.get(deviceIndex);
 		try {
+			if (null == deviceList || 0 == deviceList.size()) {
+				deviceList = CacheUtil.getDevList();
+			}
+			deviceIndex = index;
+			device = deviceList.get(deviceIndex);
 			if (null != device) {
 				manageAdapter
 						.setData(disMetrics.widthPixels, device, localFlag);
@@ -110,12 +113,17 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
+		isDevice = deviceList.get(deviceIndex).getIsDevice();
 		switch (what) {
 		case Consts.MANAGE_ITEM_CLICK: {// adapter item 单击事件
 			switch (arg1) {
 			case 0: {// 远程设置
-				mActivity.createDialog("");
-				PlayUtil.connectDevice(deviceList.get(deviceIndex));
+				if (2 == isDevice) {
+					mActivity.showTextToast(R.string.ip_add_notallow);
+				} else {
+					mActivity.createDialog("");
+					PlayUtil.connectDevice(deviceList.get(deviceIndex));
+				}
 				break;
 			}
 			case 1: {// 设备管理
@@ -127,11 +135,16 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 2: {// 连接模式
-				isDevice = deviceList.get(deviceIndex).getIsDevice();
-				Intent intent = new Intent();
-				intent.putExtra("deviceIndex", deviceIndex);
-				intent.putExtra("isDevice", isDevice);
-				startActivity(new Intent(mActivity, JVIpconnectActivity.class));
+
+				if (2 == isDevice) {
+					mActivity.showTextToast(R.string.ip_add_notallow);
+				} else {
+					Intent intent = new Intent(mActivity,
+							JVIpconnectActivity.class);
+					intent.putExtra("deviceIndex", deviceIndex);
+					startActivity(intent);
+				}
+
 				break;
 			}
 			case 3: {// 通道管理

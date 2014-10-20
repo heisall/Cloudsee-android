@@ -1,8 +1,5 @@
 package com.jovision.activities;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -476,24 +473,24 @@ public class JVRegisterActivity extends BaseActivity {
 	};
 
 	private void inputMethod(final int view) {
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				InputMethodManager imm = (InputMethodManager) JVRegisterActivity.this
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
-				if (1 == view) {
-					pass1EditText.setFocusable(true);
-					pass1EditText.setFocusableInTouchMode(true);
-					pass1EditText.requestFocus();
-					imm.showSoftInput(pass1EditText, 0);
-				} else if (2 == view) {
-					pass2EditText.setFocusable(true);
-					pass2EditText.setFocusableInTouchMode(true);
-					pass2EditText.requestFocus();
-					imm.showSoftInput(pass2EditText, 0);
-				}
-			}
-		}, 500);
+		// Timer timer = new Timer();
+		// timer.schedule(new TimerTask() {
+		// public void run() {
+		InputMethodManager imm = (InputMethodManager) JVRegisterActivity.this
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (1 == view) {
+			pass1EditText.setFocusable(true);
+			pass1EditText.setFocusableInTouchMode(true);
+			pass1EditText.requestFocus();
+			imm.showSoftInput(pass1EditText, 0);
+		} else if (2 == view) {
+			pass2EditText.setFocusable(true);
+			pass2EditText.setFocusableInTouchMode(true);
+			pass2EditText.requestFocus();
+			imm.showSoftInput(pass2EditText, 0);
+		}
+		// }
+		// }, 500);
 
 	}
 

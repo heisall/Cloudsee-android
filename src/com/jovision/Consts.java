@@ -105,10 +105,21 @@ public class Consts {
 	public static final int FLAG_CONFIG_FAILED = 0x05;
 	public static final int FLAG_CONFIG_ING = 0x06;
 	public static final int FLAG_SET_PARAM = 0x07;
+	public static final int FLAG_GPIN_ADD = 0x10;
+	public static final int FLAG_GPIN_SET = 0x11;
+	public static final int FLAG_GPIN_SELECT = 0x12;
+	public static final int FLAG_GPIN_DEL = 0x13;
 
 	public static final int EX_WIFI_CONFIG = 0x0A;
 
 	public static final int ARG1_PLAY_BAD = 0x01;
+
+	public static final int DOWNLOAD_REQUEST = 0x20;
+	public static final int DOWNLOAD_START = 0x21;
+	public static final int DOWNLOAD_FINISHED = 0x22;
+	public static final int DOWNLOAD_ERROR = 0x23;
+	public static final int DOWNLOAD_STOP = 0x24;
+	public static final int DOWNLOAD_TIMEOUT = 0x76;
 
 	public static final int BAD_STATUS_NOOP = 0x00;
 	public static final int BAD_STATUS_OMX = 0x01;

@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -67,7 +68,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private ArrayList<Fragment> fragments;
 
 	/** intent传递过来的设备和通道下标 */
-	public static int deviceIndex;
+	private int deviceIndex;
 	private ArrayList<Device> manageDeviceList = new ArrayList<Device>();
 
 	@Override
@@ -168,6 +169,9 @@ public class JVDeviceManageFragment extends BaseFragment {
 			RelativeLayout layout = new RelativeLayout(mActivity);
 			TextView view = new TextView(mActivity);
 			view.setText(manageDeviceList.get(i).getFullNo());
+			view.setSingleLine(true);
+			view.setTextSize(16);
+			view.setId(i);
 			view.setTextColor(mActivity.getResources().getColor(
 					R.color.devicemanagename));
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -242,6 +246,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	public class ManagePageChangeListener implements OnPageChangeListener {
 
+		@SuppressLint("ResourceAsColor")
 		@Override
 		public void onPageSelected(final int position) {
 			// MyLog.v(TAG, "onPageSelected---position="+position);
@@ -257,6 +262,19 @@ public class JVDeviceManageFragment extends BaseFragment {
 				mImageView.startAnimation(animation);
 				mHorizontalScrollView.smoothScrollTo((currentFragmentIndex - 1)
 						* item_width, 0);
+			}
+			for (int i = 0; i < manageDeviceList.size(); i++) {
+				if (position == i) {
+					TextView view = (TextView) mLinearLayout.getChildAt(i)
+							.findViewById(i);
+					view.setTextColor(mActivity.getResources().getColor(
+							R.color.quickinstall_btn_normal));
+				} else {
+					TextView view = (TextView) mLinearLayout.getChildAt(i)
+							.findViewById(i);
+					view.setTextColor(mActivity.getResources().getColor(
+							R.color.devicemanagename));
+				}
 			}
 			deviceIndex = position;
 			((ManageFragment) fragments.get(position)).setDevIndex(deviceIndex);
@@ -349,9 +367,14 @@ public class JVDeviceManageFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO 以后增加过滤
-		Fragment currentFrag = fragments.get(deviceIndex);
-		if (null != currentFrag) {
-			((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2, obj);
+		try {
+			Fragment currentFrag = fragments.get(deviceIndex);
+			if (null != currentFrag) {
+				((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
+						obj);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}

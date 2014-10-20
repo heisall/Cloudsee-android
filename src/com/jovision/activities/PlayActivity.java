@@ -39,6 +39,7 @@ public abstract class PlayActivity extends BaseActivity {
 	protected boolean bigScreen = false;// 大小屏标识
 
 	protected boolean isOmx = false;
+	protected Boolean lowerSystem = false;// 低于4.1的系统
 
 	/** 播放相关 */
 	protected RelativeLayout.LayoutParams reParamsV;
@@ -460,6 +461,11 @@ public abstract class PlayActivity extends BaseActivity {
 			decodeBtn.setVisibility(View.GONE);
 		} else {
 			decodeBtn.setVisibility(View.VISIBLE);
+		}
+
+		if (lowerSystem) {
+			bottombut2.setVisibility(View.GONE);
+			decodeBtn.setVisibility(View.GONE);
 		}
 
 		// 录像模式

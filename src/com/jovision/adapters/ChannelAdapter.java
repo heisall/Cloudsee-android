@@ -97,7 +97,7 @@ public class ChannelAdapter extends BaseAdapter {
 			channelHolder.channelName = (TextView) convertView
 					.findViewById(R.id.channel_name);
 			channelHolder.channelDel = (ImageView) convertView
-					.findViewById(R.id.channel_cancle);
+					.findViewById(R.id.channeldelect);
 			channelHolder.channelEdit = (RelativeLayout) convertView
 					.findViewById(R.id.channel_edit);
 			channelHolder.channelEditIV = (ImageView) convertView
@@ -112,14 +112,17 @@ public class ChannelAdapter extends BaseAdapter {
 		int w = screenWidth / 4;
 		int h = w - 20;
 		RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(w, h);
+		rllp.setMargins(0, 10, 10, 0);
 		channelHolder.channelBG.setLayoutParams(rllp);
 
 		// 普通通道
 		if (position < channelList.size()) {
 			if (showDelete) {
 				channelHolder.channelEdit.setVisibility(View.VISIBLE);
+				channelHolder.channelDel.setVisibility(View.VISIBLE);
 			} else {
 				channelHolder.channelEdit.setVisibility(View.GONE);
+				channelHolder.channelDel.setVisibility(View.GONE);
 			}
 
 			final int channel = channelList.get(position).getChannel();

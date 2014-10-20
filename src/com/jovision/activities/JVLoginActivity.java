@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.test.JVACCOUNT;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -57,9 +58,8 @@ public class JVLoginActivity extends BaseActivity {
 	private Button onlineLoginBtn;
 	private Animation mAnimationRight;// 演示点动画
 	private Button registBtn;
-	private Button findPsw;
 	private Button localLoginBtn;
-	private TextView showPointTV;
+	private TextView showPointBtn;
 	private TextView findPassTV;
 
 	// 下拉箭头图片组件
@@ -88,8 +88,6 @@ public class JVLoginActivity extends BaseActivity {
 			userNameET.setText(((User) obj).getUserName());
 			passwordET.setText(((User) obj).getUserPwd());
 			pop.dismiss();
-			userAdapter.setName(obj.toString());
-			userAdapter.notifyDataSetChanged();
 			break;
 		}
 
@@ -117,14 +115,18 @@ public class JVLoginActivity extends BaseActivity {
 		passwordET = (EditText) findViewById(R.id.password_et);
 		onlineLoginBtn = (Button) findViewById(R.id.onlinelogin_btn);
 		findPassTV = (TextView) findViewById(R.id.findpass_tv);
-		showPointTV = (TextView) findViewById(R.id.showpoint_tv);
+		showPointBtn = (TextView) findViewById(R.id.showpoint_btn);
 		registBtn = (Button) findViewById(R.id.regist_btn);
-		findPsw = (Button) findViewById(R.id.editpass_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
 
-		if (null != userList && 0 != userList.size()) {
-			userNameET.setText(userList.get(0).getUserName());
-			userNameET.setSelection(userList.get(0).getUserName().length());
+		Log.i("TAG", getIntent().getStringExtra("username") + "aaaaaaaaaa");
+		if (null != getIntent().getStringExtra("username")) {
+			userNameET.setText(getIntent().getStringExtra("username"));
+		} else {
+			if (null != userList && 0 != userList.size()) {
+				userNameET.setText(userList.get(0).getUserName());
+				userNameET.setSelection(userList.get(0).getUserName().length());
+			}
 		}
 		userNameET.addTextChangedListener(new TextWatcher() {
 
@@ -202,12 +204,12 @@ public class JVLoginActivity extends BaseActivity {
 		mAnimationRight = AnimationUtils.loadAnimation(JVLoginActivity.this,
 				R.anim.rotate_right);
 		mAnimationRight.setFillAfter(true);
-		showPointTV.setAnimation(mAnimationRight);
-		onlineLoginBtn.setBackgroundResource(R.drawable.blue_bg);
+		// showPointBtn.setAnimation(mAnimationRight);
+		// onlineLoginBtn.setBackgroundResource(R.drawable.blue_bg);
 		onlineLoginBtn.setOnClickListener(myOnClickListener);
-		showPointTV.setOnClickListener(myOnClickListener);
+		showPointBtn.setOnClickListener(myOnClickListener);
 		registBtn.setOnClickListener(myOnClickListener);
-		findPsw.setOnClickListener(myOnClickListener);
+		// findPsw.setOnClickListener(myOnClickListener);
 		localLoginBtn.setOnClickListener(myOnClickListener);
 		findPassTV.setOnClickListener(myOnClickListener);
 
@@ -237,7 +239,9 @@ public class JVLoginActivity extends BaseActivity {
 		public void onItemClick(AdapterView<?> adapterView, View view,
 				int index, long arg3) {
 			userListIndex = index;
-			onNotify(SELECT_USER, index, 0, userList.get(index));
+			onNotify(SELECT_USER, 0, 0, userList.get(index));
+			userAdapter.setName(userList.get(index).getUserName());
+			userAdapter.notifyDataSetChanged();
 		}
 	};
 
@@ -301,11 +305,15 @@ public class JVLoginActivity extends BaseActivity {
 						JVRegisterActivity.class);
 				JVLoginActivity.this.startActivity(registIntent);
 				break;
-			case R.id.showpoint_tv:// 演示点
-				// Intent intent = new Intent(JVLoginActivity.this,
-				// JVMarkerActivity.class);
-				// intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				// JVLoginActivity.this.startActivity(intent);
+			case R.id.showpoint_btn:// 演示点
+				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
+					alertNetDialog();
+				} else {
+					Intent demoIntent = new Intent();
+					demoIntent.setClass(JVLoginActivity.this,
+							JVDemoActivity.class);
+					JVLoginActivity.this.startActivity(demoIntent);
+				}
 				break;
 			case R.id.locallogin_btn:// 本地登录
 				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
@@ -322,15 +330,6 @@ public class JVLoginActivity extends BaseActivity {
 				// JVPlayActivity.class);
 				// JVLoginActivity.this.startActivity(intentMain);
 				// JVLoginActivity.this.finish();
-				break;
-			case R.id.editpass_btn:
-				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
-					alertNetDialog();
-				} else {
-					Intent intentFP = new Intent(JVLoginActivity.this,
-							JVFindPassActivity.class);
-					JVLoginActivity.this.startActivity(intentFP);
-				}
 				break;
 			}
 		}

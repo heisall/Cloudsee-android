@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -239,6 +240,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE: {
+
 			Channel channel = manager.getChannel(arg2);
 			if (null == channel) {
 				return;
@@ -640,12 +642,14 @@ public class JVPlayActivity extends PlayActivity implements
 				VOICECALLING = true;
 				voiceCallSelected(true);
 				// [Neo] TODO 根据连接的设备 NORMAL_DATA 取出 audio_type，填进来
-				recorder.start(manager.getChannel(currentIndex).getAudioType());
+				recorder.start(manager.getChannel(currentIndex).getAudioType(),
+						manager.getChannel(currentIndex).getAudioByte());
 				break;
 			}
 
 			// 暂停语音聊天
 			case JVNetConst.JVN_CMD_CHATSTOP: {
+				showTextToast(R.string.has_calling);
 				break;
 			}
 			}
@@ -839,6 +843,8 @@ public class JVPlayActivity extends PlayActivity implements
 			errorDialog(getResources().getString(R.string.system_lower)
 					.replace("$",
 							MobileUtil.mobileSysVersion(JVPlayActivity.this)));
+		} else if (Build.VERSION_CODES.JELLY_BEAN > Build.VERSION.SDK_INT) {// 小于4.1的系统，不允许硬解
+			lowerSystem = true;
 		}
 
 		viewPager.setCurrentItem(currentPage);
@@ -965,7 +971,9 @@ public class JVPlayActivity extends PlayActivity implements
 	public void loadingState(int index, int loadingState, int tag) {
 		try {
 			if (null == manager.getView(index)) {
-				MyLog.e(TAG, "--loadingState--manager.getView(index)--isNull");
+				MyLog.e(TAG,
+						"--loadingState--manager.getView(index)--isNull---index="
+								+ index);
 				return;
 			}
 			ViewGroup container = (ViewGroup) manager.getView(index)
@@ -1688,7 +1696,6 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 						Channel channel = channleList.get(i);
 						// Device dev = channel.getParent();
-
 						while (!surfaceCreatMap.get(channel.getIndex())) {
 							try {
 								Thread.sleep(100);
@@ -1697,6 +1704,11 @@ public class JVPlayActivity extends PlayActivity implements
 							}
 						}
 
+						if (oneScreen == currentScreen && !lowerSystem) {
+							isOmx = true;
+						} else {
+							isOmx = false;
+						}
 						PlayUtil.connect(channel, isOmx, ssid);
 					}
 
@@ -1769,8 +1781,12 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 		} else {
 			stopAllFunc();
+			if (Consts.PLAY_AP == playFlag) {
+				Jni.disconnect(0);
+			} else {
+				PlayUtil.disConnectAll(manager.getChannelList());
+			}
 
-			PlayUtil.disConnectAll(manager.getChannelList());
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -1833,6 +1849,7 @@ public class JVPlayActivity extends PlayActivity implements
 	/**
 	 * 停止所有事件
 	 */
+	@SuppressWarnings("deprecation")
 	public void stopAllFunc() {
 		// 停止音频监听
 		if (PlayUtil.isPlayAudio(currentIndex)) {
@@ -1987,6 +2004,11 @@ public class JVPlayActivity extends PlayActivity implements
 					}
 				}
 
+				if (oneScreen == currentScreen && !lowerSystem) {
+					isOmx = true;
+				} else {
+					isOmx = false;
+				}
 				PlayUtil.connect(channel, isOmx, ssid);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -2049,6 +2071,11 @@ public class JVPlayActivity extends PlayActivity implements
 	protected void onResume() {
 		super.onResume();
 		manager.resumeAll();
+		if (oneScreen == currentScreen && !lowerSystem) {
+			isOmx = true;
+		} else {
+			isOmx = false;
+		}
 		PlayUtil.resumeAll(manager.getValidChannelList(currentPage), isOmx,
 				ssid);
 	}

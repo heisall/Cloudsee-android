@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.test.JVACCOUNT;
+import android.util.Log;
 
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
@@ -191,6 +192,20 @@ public class DeviceUtil {
 			}
 		}
 		return pointList;
+	}
+
+	/**
+	 * 修改用户密码
+	 * 
+	 * @param oldPwd旧密码
+	 * @param newPwd新密码
+	 * @return
+	 */
+	public static int modifyUserPassword(String oldPwd, String newPwd) {
+		int res = -1;
+		res = JVACCOUNT.ModifyUserPassword(oldPwd, newPwd);
+		Log.v("modifyUserPassword--", "-----||||||" + res + "");
+		return res;
 	}
 
 	/**
@@ -452,6 +467,9 @@ public class DeviceUtil {
 		 * 1-IP端口) "dvusername":"henghenghahei", "dvpassword":"henghengpwd",
 		 * "dvip":"158.568.65.36", "dvport":7777}
 		 */
+
+		// {"username":"refactor","dvlt":1,"mt":2013,"dvpassword":"123",
+		// "dvusername":"abc","lpt":1,"pv":"1.0","dvport":9101,"dvip":"192.168.15.4"}
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,

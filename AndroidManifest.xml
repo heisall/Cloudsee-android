@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="38"
-    android:versionName="V4.1.5" >
+    android:versionName="V4.1.9" >
 
     <supports-screens
         android:anyDensity="true"
@@ -46,7 +46,8 @@
         android:name="com.jovision.MainApplication"
         android:allowBackup="true"
         android:icon="@drawable/main"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Light" >
         <uses-library android:name="android.test.runner" />
 
         <meta-data
@@ -84,7 +85,7 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name="com.jovision.activities.JVAddipcDeviceActivity"
+            android:name="com.jovision.activities.JVAddIpDeviceActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"
             android:screenOrientation="portrait"
@@ -131,6 +132,14 @@
         </activity>
         <activity
             android:name="com.jovision.activities.JVAddDeviceActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.jovision.activities.JVDemoActivity"
             android:configChanges="orientation|keyboardHidden"
             android:hardwareAccelerated="true"
             android:launchMode="standard"

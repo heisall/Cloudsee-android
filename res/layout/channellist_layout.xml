@@ -10,7 +10,7 @@
     <ListView
         android:id="@+id/channel_listView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:divider="@color/channel_color_10"
         android:dividerHeight="1px"
         android:fadingEdge="none" >

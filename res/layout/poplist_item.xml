@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:background="@drawable/pop_item_bg"
         android:orientation="horizontal" >
 
         <ImageView
@@ -15,6 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
             android:padding="8dp" />
 
         <TextView
@@ -22,8 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:text="text"
+            android:textColor="@color/more_fragment_color3"
             android:textSize="18sp" />
     </LinearLayout>
 

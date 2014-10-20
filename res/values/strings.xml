@@ -251,9 +251,11 @@
     <string name="str_skip">skip</string>
     <string name="str_reset">reseting</string>
     <!-- 修改密码 -->
-    <string name="cloud_number">CloudNum</string>
+    <string name="login_str_ipaddress">IP/域名</string>
+    <string name="login_str_ipaddressdevice">IP/域名</string>
     <string name="login_str_port">Port</string>
     <string name="login_str_user_name">Username</string>
+    <string name="cloud_number">CloudNum</string>
     <string name="str_pass">Password</string>
     <string name="str_old_pass">Old Password</string>
     <string name="str_new_pass">New Password</string>
@@ -414,6 +416,9 @@
     <string name="voice_call_ap">语音对讲</string>
     <string name="voice_call_ap_tips">实时进行语音对讲</string>
 
+    <!-- JVDemoActivity -->
+    <string name="demo_get_failed">演示点加载失败</string>
+
     <!-- JVTab -->
     <string name="sure_exit"> 再按一次退出程序</string>
     <string name="network_error">Network connection exception,please check the network.</string>
@@ -425,7 +430,9 @@
     <string name="my_device">我的设备</string>
     <string name="video_edit">视频编辑</string>
     <string name="more_featrue">更多功能</string>
+    <string name="more_modifypwd">修改密码</string>
     <string name="channal_list">通道列表</string>
+    <string name="channalmanager">通道管理</string>
     <string name="demo_list">演示点列表</string>
     <string name="demo">演示点</string>
     <string name="video_list">视频列表</string>
@@ -460,18 +467,22 @@
     <string name="time_error">时间有问题</string>
 
     <!-- JVMyDeviceFragment -->
-    <!-- JVMyDeviceFragment -->
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
     <string name="str_modify">修改</string>
+    <string name="end_list">已到最后</string>
     <string name="str_update">当前设备已全部更新</string>
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>
     <string name="wifi_device">无线设备</string>
     <string name="line_device">有线设备</string>
     <string name="selectone_to_connect">请选择至少一个通道进行连接</string>
+    <string name="add_broad_dev">广播到?个设备，是否立即添加？</string>
+    <string name="broad_zero">未广播到设备。</string>
+
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">一共有</string>
     <string name="str_aft">个设备</string>
+    <string name="ip_add_notallow">Do not support devices added  by domain name/IP address.</string>
     <string name="protect_open_succ">安全防护打开成功</string>
     <string name="protect_open_fail">安全防护打开失败</string>
     <string name="protect_close_succ">安全防护关闭成功</string>
@@ -506,7 +517,7 @@
     <string name="voice_tips1">You can speak to the other now.</string>
     <string name="voice_tips2">Audio talk is enabled successfully. You can speak to the other through long-click.</string>
     <string name="default_stream">Default</string>
-
+    <string name="has_calling">Another client is using Cloud Talk function, please use this function later.</string>
     <!-- JVAddDeviceActivity -->
     <string name="add_device_succ">Device added successfully</string>
     <string name="add_device_failed">Failed to add device</string>
@@ -538,9 +549,9 @@
     <string name="delect">删除</string>
     <string name="str_nickname">昵        称 </string>
     <string name="str_devicename">设  备  号</string>
-    <string name="str_username">用 户 名:</string>
-    <string name="str_password">密     码 :</string>
-    <string name="str_nicknametwo">昵     称 :</string>
+    <string name="str_username">用 户 名</string>
+    <string name="str_password">密     码 </string>
+    <string name="str_nicknametwo">昵     称 </string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
     <string name="str_yst_connect">CloudSEE</string>
@@ -583,7 +594,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.5(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.9(重构) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

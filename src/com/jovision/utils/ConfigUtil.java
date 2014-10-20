@@ -1,6 +1,8 @@
 package com.jovision.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -439,11 +441,25 @@ public class ConfigUtil {
 	 * @return
 	 */
 	public static boolean checkIPAdress(String ipAddress) {
-		if (ipAddress
-				.matches("^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$")) {
+		// if (ipAddress
+		// .matches("^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$"))
+		// {
+		// return true;
+		// } else {
+		// return false;
+		// }
+		Pattern pattern = Pattern
+				.compile("^([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,6}$");
+		Matcher matcher = pattern.matcher(ipAddress);
+		if (matcher.find()) {
 			return true;
 		} else {
-			return false;
+			if (ipAddress
+					.matches("^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$")) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 
@@ -594,8 +610,7 @@ public class ConfigUtil {
 	// 获取当前系统时间
 	public static String getCurrentTime() {
 		Date now = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"yyyy/MM/dd HH:mm:ss");// 可以方便地修改日期格式
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");// 可以方便地修改日期格式
 		String time = dateFormat.format(now);
 		return time;
 	}
@@ -646,10 +661,21 @@ public class ConfigUtil {
 
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return wifiList;
 	}
 
+	public static String getInetAddress(String host) {
+		String IPAddress = "";
+		InetAddress ReturnStr1 = null;
+		try {
+			ReturnStr1 = java.net.InetAddress.getByName(host);
+			IPAddress = ReturnStr1.getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		MyLog.v(TAG, "解析域名=" + host + ";IP=" + IPAddress);
+		return IPAddress;
+	}
 }

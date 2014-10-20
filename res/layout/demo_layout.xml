@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_bar_layout" />
+
+    <com.jovision.views.RefreshableView
+        android:id="@+id/demo_refreshable_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ListView
+            android:id="@+id/demo_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
+            android:fadingEdge="none"
+            android:focusableInTouchMode="true"
+            android:listSelector="@color/transparent"
+            android:scrollingCache="true" >
+        </ListView>
+    </com.jovision.views.RefreshableView>
+
+</LinearLayout>

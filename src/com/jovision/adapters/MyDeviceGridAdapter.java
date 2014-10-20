@@ -61,7 +61,12 @@ public class MyDeviceGridAdapter extends BaseAdapter {
 		} else {
 			deviceHolder = (DeviceHolder) convertView.getTag();
 		}
-		deviceHolder.devName.setText(deviceList.get(position).getFullNo());
+		if (2 == deviceList.get(position).getIsDevice()) {
+			deviceHolder.devName.setText(deviceList.get(position).getDoMain());
+		} else {
+			deviceHolder.devName.setText(deviceList.get(position).getFullNo());
+		}
+
 		deviceHolder.onLineState.setText("在线");
 		deviceHolder.wifiState.setText("wifi");
 		// deviceHolder.devName.setText(position+"");

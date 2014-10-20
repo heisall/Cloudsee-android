@@ -25,6 +25,7 @@
 
     <!-- 视频管理背景色 -->
     <color name="quickinstall_btn_normal">#007aff</color>
+    <color name="manage_device_text">#0058A8</color>
     <color name="manage_color_1">#6AB840</color>
     <color name="manage_color_pre1">#00fa9a</color>
     <color name="manage_color_2">#10C5DA</color>
@@ -45,6 +46,8 @@
     <color name="dialogchannaltext">#55A0FF</color>
     <color name="poplistBg">#565656</color>
     <color name="slectorDialogBg">#333333</color>
+    <color name="popwindow_item_color">#565656</color>
+    <color name="popwindow_item_color2">#316AC5</color>
     <color name="popwindow_bg_color">#696969</color>
     <color name="my_wane_shape">#F7F7F7</color>
     <color name="my_toast_bg">#BB000000</color>
@@ -70,6 +73,8 @@
     <color name="morefragment_color5">#7B7AD7</color>
     <color name="morefragment_color6">#FD8E35</color>
     <color name="morefragment_color7">#FF565B</color>
+    <color name="morefragment_version">#2F84DF</color>
+    <color name="morefragment">#EBEAEB</color>
     <!-- 视频播放 -->
     <color name="play_color">#1eFFFFFF</color>
     <color name="dialog_bg_color">#00FFFFFF</color>
@@ -412,7 +417,7 @@
     <color name="functionbgcolor">#e6e6e6</color>
     <color name="videoselect">#3087F0</color>
     <color name="videounselect">#001839</color>
-    <color name="devicemanagename">#525352</color>
+    <color name="devicemanagename">#2F302F</color>
 
     <!-- zxing color -->
     <color name="bg_color">#EDEDED</color>

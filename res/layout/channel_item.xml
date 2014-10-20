@@ -26,25 +26,22 @@
             android:id="@+id/channel_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/halftransparent" >
-
-            <ImageView
-                android:id="@+id/channel_cancle"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/mydevice_cancale_icon" />
+            android:background="@drawable/mydevice_delectedit_bg" >
 
             <ImageView
                 android:id="@+id/channel_cancleedit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
+                android:layout_centerInParent="true"
                 android:background="@drawable/mydevice_cancleedit_icon" />
         </RelativeLayout>
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/channeldelect"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/close_icon" />
 
 </RelativeLayout>

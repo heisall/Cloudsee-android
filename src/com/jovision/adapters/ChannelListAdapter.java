@@ -111,6 +111,17 @@ public class ChannelListAdapter extends BaseAdapter {
 				}
 			}
 		});
+		Holder.parent_relative
+				.setOnLongClickListener(new View.OnLongClickListener() {
+
+					@Override
+					public boolean onLongClick(View v) {
+						// TODO Auto-generated method stub
+						activity.onNotify(2, position, 0,
+								Holder.channel_list_edit.getText().toString());
+						return false;
+					}
+				});
 		if (!dataList.get(position).isIspull()) {
 			Holder.channellist_pull.setVisibility(View.GONE);
 			Holder.channel_list_img

@@ -16,14 +16,13 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/morefragment_color1"
             android:orientation="horizontal"
             android:padding="5dp" >
 
             <ImageView
                 android:id="@+id/item_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/morefragment_help_icon" />
         </LinearLayout>
 
@@ -39,21 +38,24 @@
 
         <ImageView
             android:id="@+id/item_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:background="@drawable/morefragment_next_icon" />
 
-        <ImageView
-            android:id="@+id/item_new"
+        <TextView
+            android:id="@+id/item_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@+id/item_next"
-            android:background="@drawable/morefragment_yellow_icon" />
+            android:layout_marginRight="30dp"
+            android:text="v1.9.0"
+            android:textColor="@color/morefragment_version"
+            android:textSize="16sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
 </LinearLayout>

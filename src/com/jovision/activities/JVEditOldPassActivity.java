@@ -118,7 +118,7 @@ public class JVEditOldPassActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.oldpass_layout);
-		back = (Button) findViewById(R.id.back);
+		back = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.str_modify_user_info);
 		finish = (Button) findViewById(R.id.finish);

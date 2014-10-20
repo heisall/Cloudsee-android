@@ -102,7 +102,7 @@
     
     <!--  JVWelcomeActivity-->
     <string name="cloud1">云视通</string>
-    <string name="cloud1">通天下</string>
+    <string name="cloud2">通天下</string>
      <!-- JVLoginActivity -->
     <string name="login_demo">演示点</string>
     <!-- JVMoreFrament -->

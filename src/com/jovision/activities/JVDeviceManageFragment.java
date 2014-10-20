@@ -223,6 +223,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 				relative.setVisibility(View.GONE);
 				break;
 			case R.id.devmore_hie:
+				adapter.notifyDataSetChanged();
 				relalist.setVisibility(View.GONE);
 				devicemanage_listView.setVisibility(View.GONE);
 				managePager.setVisibility(View.VISIBLE);
@@ -265,11 +266,13 @@ public class JVDeviceManageFragment extends BaseFragment {
 			}
 			for (int i = 0; i < manageDeviceList.size(); i++) {
 				if (position == i) {
+					manageDeviceList.get(i).setIsselect(true);
 					TextView view = (TextView) mLinearLayout.getChildAt(i)
 							.findViewById(i);
 					view.setTextColor(mActivity.getResources().getColor(
 							R.color.quickinstall_btn_normal));
 				} else {
+					manageDeviceList.get(i).setIsselect(false);
 					TextView view = (TextView) mLinearLayout.getChildAt(i)
 							.findViewById(i);
 					view.setTextColor(mActivity.getResources().getColor(

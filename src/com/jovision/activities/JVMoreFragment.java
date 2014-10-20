@@ -64,7 +64,7 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.morefragment_clear_icon,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
-			R.drawable.morefragment_aboutus_icon};
+			R.drawable.morefragment_aboutus_icon };
 	// 功能名称数组
 	private String[] fragment_name;
 
@@ -242,21 +242,21 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 4:
-							if (("firsted").equals(MySharedPreference
-									.getString(Consts.MORE_FREGMENT_FEEDBACK))) {
+//							if (("firsted").equals(MySharedPreference
+//									.getString(Consts.MORE_FREGMENT_FEEDBACK))) {
 								Intent intent = new Intent(mActivity,
 										JVFeedbackActivity.class);
 								startActivity(intent);
-							} else {
-								Intent intent = new Intent(mActivity,
-										JVIntroduceAty.class);
-								MySharedPreference.putString(
-										Consts.MORE_FREGMENT_FEEDBACK,
-										"firsted");
-								intent.putExtra("viewnum", 3);
-								intent.putExtra("pagenum", 0);
-								startActivity(intent);
-							}
+//							} else {
+//								Intent intent = new Intent(mActivity,
+//										JVIntroduceAty.class);
+//								MySharedPreference.putString(
+//										Consts.MORE_FREGMENT_FEEDBACK,
+//										"firsted");
+//								intent.putExtra("viewnum", 3);
+//								intent.putExtra("pagenum", 0);
+//								startActivity(intent);
+//							}
 							break;
 						case 5:
 							CheckUpdateTask task = new CheckUpdateTask(

@@ -398,8 +398,7 @@
     <string name="login_str_ip_adress_notnull">Please input IP.</string>
     <string name="str_shake_scene_pic_tips">Scene picture function can\'t be used for there is no SD card in your mobile phone</string>
 
-    
-      <!--  JVWelcomeActivity-->
+    <!-- JVWelcomeActivity -->
     <string name="cloud1">云视通</string>
     <string name="cloud2">通天下</string>
     <!-- JVLoginActivity -->

@@ -418,11 +418,11 @@
     <color name="videoselect">#3087F0</color>
     <color name="videounselect">#001839</color>
     <color name="devicemanagename">#2F302F</color>
-	<!--JVLoginActivity -->
-	<color name="login_more_cancle">#4AADFF</color>
-	<color name="login_more_canclepre">#59A4FF</color>
-	<!-- JVWelcomeActivity -->
-	<color name="welcome1">#6FB4FF</color>
+    <!-- JVLoginActivity -->
+    <color name="login_more_cancle">#4AADFF</color>
+    <color name="login_more_canclepre">#59A4FF</color>
+    <!-- JVWelcomeActivity -->
+    <color name="welcome1">#6FB4FF</color>
     <!-- zxing color -->
     <color name="bg_color">#EDEDED</color>
     <color name="contents_text">#ff000000</color>

@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/devmorere"
-                android:background="@color/video_channelcolor"
+                android:background="@color/more_fragment_color3"
                 android:fadingEdge="@null"
                 android:scrollbars="none" >
 
@@ -48,7 +48,7 @@
                         android:layout_width="100dp"
                         android:layout_height="4dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@drawable/videoedit_select_bg" />
+                        android:background="@color/quickinstall_btn_normal" />
                 </RelativeLayout>
             </HorizontalScrollView>
 

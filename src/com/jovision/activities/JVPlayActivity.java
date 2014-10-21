@@ -630,7 +630,7 @@ public class JVPlayActivity extends PlayActivity implements
 		case Consts.CALL_CHAT_DATA: {
 			MyLog.v(TAG + "Chat", "CALL_CHAT_DATA:arg1=" + arg1 + ",arg2="
 					+ arg2);
-			switch (arg1) {
+			switch (arg2) {
 			// 语音数据
 			case JVNetConst.JVN_RSP_CHATDATA: {
 				MyLog.v(TAG, "chatdata");
@@ -1698,12 +1698,20 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 						Channel channel = channleList.get(i);
 						// Device dev = channel.getParent();
-						while (!surfaceCreatMap.get(channel.getIndex())) {
-							try {
-								Thread.sleep(100);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
+						try {
+							while (!surfaceCreatMap.get(channel.getIndex())) {
+								try {
+									Thread.sleep(100);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
 							}
+
+						} catch (Exception e) {
+							MyLog.e(TAG, "surfaceCreatMap--error, size="
+									+ surfaceCreatMap.size() + ",channelIndex="
+									+ channel.getIndex());
+							e.printStackTrace();
 						}
 
 						if (oneScreen == currentScreen && !lowerSystem) {

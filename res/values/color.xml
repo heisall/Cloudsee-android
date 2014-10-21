@@ -40,6 +40,7 @@
     <color name="manage_color_pre6">#8a2be2</color>
     <color name="tab_text_color">#898989</color>
     <color name="tab_bg_color">#F5F5F5</color>
+    <color name="play_tab_text">#606772</color>
     <color name="ivory">#FFFFF0</color>
     <!-- Dialog颜色值 -->
     <color name="dialogchannal">#404040</color>
@@ -76,6 +77,7 @@
     <color name="morefragment_version">#2F84DF</color>
     <color name="morefragment">#EBEAEB</color>
     <!-- 视频播放 -->
+    <color name="play_divider">#D9D9D9</color>
     <color name="play_color">#1eFFFFFF</color>
     <color name="dialog_bg_color">#00FFFFFF</color>
     <color name="play_bq">#007AFF</color>

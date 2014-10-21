@@ -10,11 +10,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -24,6 +26,7 @@ import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.views.AlarmDialog;
 import com.jovision.views.XListView;
 import com.jovision.views.XListView.IXListViewListener;
 
@@ -35,6 +38,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	private static final String TAG = "JVInfoFragment";
 
 	private ImageView noMess;
+	private TextView noMessTv;
 	private int pushIndex = 0;// 推送消息index
 	private XListView pushListView;// 列表
 	private PushAdapter pushAdapter;
@@ -75,6 +79,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		pushListView.setPullLoadEnable(true);
 		pushListView.setXListViewListener(this);
 		noMess = (ImageView) mParent.findViewById(R.id.nomess);
+		noMessTv = (TextView)mParent.findViewById(R.id.nomess_tv);
 		noMess.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -194,6 +199,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 				if (null != pushList && 0 != pushList.size()) {
 					noMess.setVisibility(View.GONE);
+					noMessTv.setVisibility(View.GONE);
 					pushAdapter.setData(pushList);
 					pushAdapter.setRefCount(pushList.size());
 					pushListView.setAdapter(pushAdapter);
@@ -288,15 +294,21 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case PushAdapter.DELETE_ALARM_MESS: {// 删除报警
-			pushIndex = arg1;
-
-			DelAlarmTask task = new DelAlarmTask();
-			Integer[] params = new Integer[3];
-			params[0] = pushIndex;
-			task.execute(params);
-			break;
-		}
+			case PushAdapter.DELETE_ALARM_MESS: {// 删除报警
+				pushIndex = arg1;
+	
+				DelAlarmTask task = new DelAlarmTask();
+				Integer[] params = new Integer[3];
+				params[0] = pushIndex;
+				task.execute(params);
+			}
+				break;
+			case Consts.PUSH_MESSAGE:
+				//弹出对话框
+				AlarmDialog.getInstance(getActivity()).Show(obj.toString()); 
+				break;	
+			default:
+				break;
 		}
 	}
 

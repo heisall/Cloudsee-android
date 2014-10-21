@@ -51,6 +51,7 @@ import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
+import com.jovision.views.AlarmDialog;
 import com.jovision.views.ImageViewPager;
 
 /**
@@ -656,6 +657,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 			myDLAdapter.setShowDelete(false);
 			initSummaryDialog(myDeviceList, arg1);
 		}
+		break;
+		case Consts.PUSH_MESSAGE:
+			//弹出对话框
+			AlarmDialog.getInstance(getActivity()).Show(obj.toString()); 
+			break;	
 		}
 	}
 

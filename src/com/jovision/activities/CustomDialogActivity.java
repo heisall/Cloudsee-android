@@ -212,9 +212,17 @@ public class CustomDialogActivity extends BaseActivity implements
 			if (null != vod_uri_ && !"".equalsIgnoreCase(vod_uri_)) {
 				bDownLoadFileType = 1;
 				if (!bConnectFlag) {
+					progressdialog.show();
 					AlarmUtil.OnlyConnect(strYstNum);
 				} else {
-					// 已经连接上走远程播放
+					// 已经连接上走远程回放
+					Intent intent = new Intent();
+					intent.setClass(this,
+							JVRemotePlayBackActivity.class);
+					intent.putExtra("IndexOfChannel", 0);
+					intent.putExtra("acBuffStr", vod_uri_);
+					intent.putExtra("AudioByte", 0);
+					this.startActivity(intent);							
 				}
 
 			}
@@ -293,19 +301,11 @@ public class CustomDialogActivity extends BaseActivity implements
 		switch (what) {
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE:
-//			Channel channel = manager.getChannel(arg2);
-//			if (null == channel) {
-//				MyLog.e("CustomDialogActivity onHandler", "the channel " + arg2
-//						+ " is null");
-//				return;
-//			}
+
 			switch (arg2) {
 
 			case JVNetConst.NO_RECONNECT:// 1 -- 连接成功//3 不必重新连接
 			case JVNetConst.CONNECT_OK: {// 1 -- 连接成功
-//				channel.setConnecting(false);
-//				channel.setConnected(true);
-
 				MyLog.e("New alarm", "连接成功");
 				bConnectFlag = true;
 				showToast("连接成功", Toast.LENGTH_SHORT);
@@ -319,8 +319,18 @@ public class CustomDialogActivity extends BaseActivity implements
 					Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_DOWNLOAD,
 							dataByte, dataByte.length);
 				} else if (bDownLoadFileType == 1) {
+					if(progressdialog.isShowing()){
+						progressdialog.dismiss();
+					}
 					strFilePath = vod_uri_;
 					// 走远程回放
+					Intent intent = new Intent();
+					intent.setClass(this,
+							JVRemotePlayBackActivity.class);
+					intent.putExtra("IndexOfChannel", 0);
+					intent.putExtra("acBuffStr", vod_uri_);
+					intent.putExtra("AudioByte", 0);
+					this.startActivity(intent);					
 				} else {
 
 				}
@@ -328,10 +338,11 @@ public class CustomDialogActivity extends BaseActivity implements
 				break;
 			// 2 -- 断开连接成功
 			case JVNetConst.DISCONNECT_OK: {
-//				channel.setConnecting(false);
-//				channel.setConnected(false);
-				bConnectFlag = false;
 
+				bConnectFlag = false;
+				if(progressdialog.isShowing()){
+					progressdialog.dismiss();
+				}
 				if (!vod_uri_.equals("")) {
 					lookVideoBtn.setEnabled(true);
 				}
@@ -340,7 +351,9 @@ public class CustomDialogActivity extends BaseActivity implements
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
 				bConnectFlag = false;
-
+				if(progressdialog.isShowing()){
+					progressdialog.dismiss();
+				}
 				if (!vod_uri_.equals("")) {
 					lookVideoBtn.setEnabled(true);
 				}
@@ -367,13 +380,12 @@ public class CustomDialogActivity extends BaseActivity implements
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-//				channel.setConnecting(false);
-//				channel.setConnected(false);
 			}
 				break;
 			default:
-//				channel.setConnecting(false);
-//				channel.setConnected(false);
+				if(progressdialog.isShowing()){
+					progressdialog.dismiss();
+				}
 				showTextToast(R.string.connect_failed);
 				if (!vod_uri_.equals("")) {
 					lookVideoBtn.setEnabled(true);
@@ -385,7 +397,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_DOWNLOADOVER:// 文件下载完毕
 				showToast("文件下载完毕", Toast.LENGTH_SHORT);
-				// JVSUDT.JVC_DisConnect(JVConst.ONLY_CONNECT);//断开连接,如果视频走远程回放，这个连接需要现在断开，因为通道不同
+				// JVSUDT.JVC_DisConnect(JVConst.ONLY_CONNECT);//断开连接,如果视频走远程回放
 
 				if (bDownLoadFileType == 0) {
 					// 下载图片

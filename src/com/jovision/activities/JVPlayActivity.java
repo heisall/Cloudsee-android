@@ -190,6 +190,12 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 等待I帧成功
 		case Consts.CALL_FRAME_I_REPORT: {
+			Channel channel = manager.getChannel(arg1);
+			if (null == channel) {
+				return;
+			}
+			channel.setConnected(true);
+
 			loadingState(arg1, 0, JVConst.PLAY_CONNECTTED);
 			MyLog.e(TAG + "-IFrame", "new Frame I: index = " + arg1
 					+ ", arg2 = " + arg2);// arg2 --- 0软 1硬
@@ -252,7 +258,7 @@ public class JVPlayActivity extends PlayActivity implements
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
 				channel.setConnecting(false);
-				channel.setConnected(true);
+				channel.setConnected(false);
 				loadingState(arg1, R.string.connecting_buffer,
 						JVConst.PLAY_CONNECTING_BUFFER);
 				break;

@@ -167,10 +167,10 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 5: {// 添加设备
-			// Intent addIntent = new Intent();
-			// addIntent.setClass(mActivity, JVAddDeviceActivity.class);
-			// addIntent.putExtra("QR", false);
-			// mActivity.startActivity(addIntent);
+				// Intent addIntent = new Intent();
+				// addIntent.setClass(mActivity, JVAddDeviceActivity.class);
+				// addIntent.putExtra("QR", false);
+				// mActivity.startActivity(addIntent);
 				// [lkp]改成报警管理
 				Intent playIntent = new Intent();
 				// playIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

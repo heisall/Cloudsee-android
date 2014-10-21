@@ -592,7 +592,7 @@ public abstract class PlayActivity extends BaseActivity {
 			videoTape.setCompoundDrawablesWithIntrinsicBounds(null,
 					videoTapeTop1, null, null);
 			bottombut7.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.video_record_1));
+					R.drawable.video_record));
 		}
 
 		recoding = selected;

@@ -12,12 +12,12 @@ import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -34,7 +34,7 @@ public class JVRegisterActivity extends BaseActivity {
 	private Button rightButton;
 
 	private Button regist;
-	private CheckBox agreeCheckBox;
+	private ToggleButton agreeTBtn;
 	private TextView agreeMent;
 	private EditText userNameEditText;
 	private EditText pass1EditText;
@@ -118,7 +118,7 @@ public class JVRegisterActivity extends BaseActivity {
 		registTips = (TextView) findViewById(R.id.regist_tips);
 		registTips2 = (TextView) findViewById(R.id.regist_tips2);
 		registTips3 = (TextView) findViewById(R.id.regist_tips3);
-		agreeCheckBox = (CheckBox) findViewById(R.id.agree);
+		agreeTBtn = (ToggleButton) findViewById(R.id.agree);
 		agreeMent = (TextView) findViewById(R.id.agreement);
 		mWebView = (WebView) findViewById(R.id.mywebview);
 		agreeLayout = (LinearLayout) findViewById(R.id.registagreelayout);
@@ -137,9 +137,9 @@ public class JVRegisterActivity extends BaseActivity {
 		back.setOnClickListener(onClickListener);
 		regist.setOnClickListener(onClickListener);
 		agreeMent.setOnClickListener(onClickListener);
-		agreeCheckBox.setChecked(true);
+		agreeTBtn.setChecked(true);
 		agreeProtocol = true;
-		agreeCheckBox.setOnCheckedChangeListener(onCheckedChangeListener);
+		agreeTBtn.setOnCheckedChangeListener(onCheckedChangeListener);
 
 		// 中性版本的隐藏注册协议
 		if ("true".equalsIgnoreCase(statusHashMap.get(Consts.NEUTRAL_VERSION))) {
@@ -343,6 +343,7 @@ public class JVRegisterActivity extends BaseActivity {
 	};
 
 	private int errorCode = 0;
+	private int verifyCode = 0;
 
 	// 用户注册线程
 	private class RegisterTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
@@ -363,6 +364,7 @@ public class JVRegisterActivity extends BaseActivity {
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				registerRes = AccountUtil.userRegister(user);
 				if (JVAccountConst.SUCCESS == registerRes) {
+					verifyCode = AccountUtil.VerifyUserName(user.getUserName());
 					return registerRes;
 				} else {
 					errorCode = registerRes;
@@ -386,28 +388,29 @@ public class JVRegisterActivity extends BaseActivity {
 			dismissDialog();
 			switch (result) {
 			case JVAccountConst.SUCCESS:// 注册成功
+				if (verifyCode > 0) {
+					Intent emailIntent = new Intent(JVRegisterActivity.this,
+							JVBoundEmailActivity.class);
+					String userName = userNameEditText.getText().toString();
+					String userPass = pass1EditText.getText().toString();
+					emailIntent.putExtra("AutoLogin", true);
+					emailIntent.putExtra("UserName", userName);
+					emailIntent.putExtra("UserPass", userPass);
+					JVRegisterActivity.this.startActivity(emailIntent);
+					JVRegisterActivity.this.finish();
+				} else {
+					Intent intent = new Intent();
+					intent.setClass(JVRegisterActivity.this,
+							JVLoginActivity.class);
+					String userName = userNameEditText.getText().toString();
+					String userPass = pass1EditText.getText().toString();
+					intent.putExtra("AutoLogin", true);
+					intent.putExtra("UserName", userName);
+					intent.putExtra("UserPass", userPass);
+					JVRegisterActivity.this.startActivity(intent);
+					JVRegisterActivity.this.finish();
+				}
 				showTextToast(R.string.login_str_regist_success);
-				// Intent intent = new Intent();
-				// intent.setClass(JVRegisterActivity.this,
-				// JVLoginActivity.class);
-				// String userName = userNameEditText.getText().toString();
-				// String userPass = pass1EditText.getText().toString();
-				// intent.putExtra("AutoLogin", true);
-				// intent.putExtra("UserName", userName);
-				// intent.putExtra("UserPass", userPass);
-				// JVRegisterActivity.this.startActivity(intent);
-				// JVRegisterActivity.this.finish();
-
-				Intent emailIntent = new Intent(JVRegisterActivity.this,
-						JVBoundEmailActivity.class);
-				String userName = userNameEditText.getText().toString();
-				String userPass = pass1EditText.getText().toString();
-				emailIntent.putExtra("AutoLogin", true);
-				emailIntent.putExtra("UserName", userName);
-				emailIntent.putExtra("UserPass", userPass);
-				JVRegisterActivity.this.startActivity(emailIntent);
-				// JVRegisterActivity.this.finish();
-
 				break;
 			case JVAccountConst.USER_HAS_EXIST:// 账号已注册
 				showTextToast(R.string.str_user_has_exist);
@@ -479,7 +482,7 @@ public class JVRegisterActivity extends BaseActivity {
 		@Override
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 			agreeProtocol = arg1;
-			agreeCheckBox.setChecked(arg1);
+			agreeTBtn.setChecked(arg1);
 		}
 
 	};

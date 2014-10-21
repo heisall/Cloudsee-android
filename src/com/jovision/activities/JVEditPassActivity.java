@@ -11,9 +11,12 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
+import com.jovision.utils.UserUtil;
 
 public class JVEditPassActivity extends BaseActivity {
 	private Button back;// 左侧返回按钮
@@ -115,17 +118,25 @@ public class JVEditPassActivity extends BaseActivity {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
-			int delRes = -1;
+			int editRes = -1;
 			try {
-				delRes = DeviceUtil.modifyUserPassword(params[0], params[1]);
-				if (0 == delRes) {
+				editRes = DeviceUtil.modifyUserPassword(params[0], params[1]);
+				if (0 == editRes) {
+					if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+						AccountUtil.userLogout();
+						MySharedPreference.putString(Consts.DEVICE_LIST, "");
+					}
+					ConfigUtil.logOut();
+					UserUtil.resetAllUser();
+					statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
+
 					MySharedPreference
 							.putString(Consts.KEY_PASSWORD, params[1]);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return delRes;
+			return editRes;
 		}
 
 		@Override
@@ -137,15 +148,23 @@ public class JVEditPassActivity extends BaseActivity {
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
-			Intent intent = new Intent(JVEditPassActivity.this,
-					JVLoginActivity.class);
-			startActivity(intent);
+			if (0 == result) {
+				MyActivityManager.getActivityManager().popAllActivityExceptOne(
+						JVLoginActivity.class);
+				Intent intent = new Intent(JVEditPassActivity.this,
+						JVLoginActivity.class);
+				startActivity(intent);
+				JVEditPassActivity.this.finish();
+			} else {
+				showTextToast(R.string.edit_failed);
+			}
+
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog(R.string.str_deleting);
+			createDialog("");
 		}
 
 		@Override

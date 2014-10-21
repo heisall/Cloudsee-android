@@ -89,6 +89,8 @@ public class JVPlayActivity extends PlayActivity implements
 	private WifiAdmin wifiAdmin;
 	private String ssid;
 
+	boolean isScroll = false;
+
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
@@ -188,6 +190,12 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 等待I帧成功
 		case Consts.CALL_FRAME_I_REPORT: {
+			Channel channel = manager.getChannel(arg1);
+			if (null == channel) {
+				return;
+			}
+			channel.setConnected(true);
+
 			loadingState(arg1, 0, JVConst.PLAY_CONNECTTED);
 			MyLog.e(TAG + "-IFrame", "new Frame I: index = " + arg1
 					+ ", arg2 = " + arg2);// arg2 --- 0软 1硬
@@ -250,7 +258,7 @@ public class JVPlayActivity extends PlayActivity implements
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
 				channel.setConnecting(false);
-				channel.setConnected(true);
+				channel.setConnected(false);
 				loadingState(arg1, R.string.connecting_buffer,
 						JVConst.PLAY_CONNECTING_BUFFER);
 				break;
@@ -575,6 +583,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 视频双击事件
 		case JVConst.WHAT_CHANGE_LAYOUT: {
+			isScroll = false;
 			isSwitching = true;
 			if (currentScreen == oneScreen) {
 				// jy计算分屏数据并连接
@@ -583,13 +592,16 @@ public class JVPlayActivity extends PlayActivity implements
 				// jy计算分屏数据并连接
 				computeScreenData(currentScreen, oneScreen);
 			}
+
 			// jy连接所有
-			connectAll(currentPage);
+			connectAll();
 			break;
 		}
 
 		// 下拉选择多屏
 		case JVConst.WHAT_SELECT_SCREEN: {
+			isScroll = false;
+
 			selectedScreen = screenList.get(arg1);
 			screenAdapter.selectIndex = arg1;
 			screenAdapter.notifyDataSetChanged();
@@ -597,7 +609,7 @@ public class JVPlayActivity extends PlayActivity implements
 			// jy计算分屏数据并连接
 			computeScreenData(currentScreen, selectedScreen);
 			// jy连接所有
-			connectAll(currentPage);
+			connectAll();
 			break;
 		}
 		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换
@@ -630,7 +642,7 @@ public class JVPlayActivity extends PlayActivity implements
 		case Consts.CALL_CHAT_DATA: {
 			MyLog.v(TAG + "Chat", "CALL_CHAT_DATA:arg1=" + arg1 + ",arg2="
 					+ arg2);
-			switch (arg1) {
+			switch (arg2) {
 			// 语音数据
 			case JVNetConst.JVN_RSP_CHATDATA: {
 				MyLog.v(TAG, "chatdata");
@@ -1052,22 +1064,27 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+			if (!isScroll) {
+				return;
+			}
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 				return;
 			} else if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
 				stopAll(currentIndex, manager.getChannel(currentIndex));
+				PlayUtil.disAndPause(currentScreen, currentPage, channelMap);// 连接之前暂停该暂停的，断开多余的
 				if (arg0 - currentPage > 0) {// 向左滑
 					resetFunc();
 					currentPage = arg0;
 					currentWindow = 0;
 					currentIndex = currentPage * currentScreen + currentWindow;
-					connectAll(currentPage);
+					connectAll();
 				} else if (arg0 - currentPage < 0) {// 向右滑
 					resetFunc();
 					currentPage = arg0;
 					currentWindow = 0;
 					currentIndex = currentPage * currentScreen + currentWindow;
-					connectAll(currentPage);
+					connectAll();
 				}
 
 				MyLog.v(TAG, "onPageScrolled-----currentPage=" + currentPage
@@ -1081,6 +1098,7 @@ public class JVPlayActivity extends PlayActivity implements
 				return;
 			}
 		}
+
 	};
 
 	/**
@@ -1615,6 +1633,7 @@ public class JVPlayActivity extends PlayActivity implements
 	 */
 	public void computeScreenData(int source, int target) {
 		stopAll(currentIndex, manager.getChannel(currentIndex));
+		PlayUtil.disAndPause(currentScreen, currentPage, channelMap);// 连接之前暂停该暂停的，断开多余的
 		// 计算保持连接数
 		if (target == oneScreen) {
 			connNum = fourScreen;// 单屏保持四路连接
@@ -1630,6 +1649,8 @@ public class JVPlayActivity extends PlayActivity implements
 			currentPage = lastClickIndex / currentScreen;
 			currentWindow = lastClickIndex % currentScreen;
 		}
+		MyLog.v(TAG, "--1computeScreenData----currentPage=" + currentPage
+				+ "--currentIndex=" + currentIndex);
 
 		// 不同多屏播放文字，loading框大小，文字颜色
 		if (currentScreen == oneScreen) {// 单屏
@@ -1642,7 +1663,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// [Neo] no need to call it anymore
 		// manager.clearPageLayout();
-		viewPager.removeAllViews();
+		// viewPager.removeAllViews();
 
 		manager.setArrowId(R.drawable.left, R.drawable.up, R.drawable.right,
 				R.drawable.down);
@@ -1655,7 +1676,7 @@ public class JVPlayActivity extends PlayActivity implements
 		if (oneScreen == target) {//
 			viewPager.setCurrentItem(lastClickIndex, false);
 		} else {
-			viewPager.setCurrentItem(lastClickIndex / target, true);
+			viewPager.setCurrentItem(lastClickIndex / target, false);
 		}
 
 		mLastPlayView = manager.getView(lastClickIndex);
@@ -1669,41 +1690,58 @@ public class JVPlayActivity extends PlayActivity implements
 		manager.resumePage(currentPage);
 		isSwitching = false;
 
+		MyLog.v(TAG, "--2computeScreenData----currentPage=" + currentPage
+				+ "--currentIndex=" + currentIndex);
+		isScroll = true;
 	}
 
 	/**
 	 * 连接单页所有通道
 	 * 
 	 */
-	public void connectAll(final int page) {
-
-		MyLog.v(TAG, "---------connectAll----------page=" + page
+	public void connectAll() {
+		MyLog.v(TAG, "---------connectAll----------currentPage=" + currentPage
 				+ "--currentIndex=" + currentIndex);
 		try {
 			Thread connectThread = new Thread() {
 				@Override
 				public void run() {
-					PlayUtil.disAndPause(currentScreen, page, channelMap);// 连接之前暂停该暂停的，断开多余的
 					ArrayList<Channel> channleList = manager
-							.getValidChannelList(page);
-					int size = channleList.size();
-					MyLog.v(TAG,
-							"---------connectAll-----channleList.size()-----"
-									+ size + "");
-					for (int i = 0; i < size; i++) {
+							.getValidChannelList(currentPage);
+
+					MyLog.v(TAG, "---------connectAll1-----channleList-----"
+							+ channleList);
+					for (Channel channel : channleList) {
+						MyLog.v(TAG,
+								"---------connectAll2-----channleList-----"
+										+ channleList);
 						try {
 							Thread.sleep(500);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						Channel channel = channleList.get(i);
+
+						MyLog.v(TAG,
+								"---------connectAll3-----channleList-----"
+										+ channleList);
 						// Device dev = channel.getParent();
-						while (!surfaceCreatMap.get(channel.getIndex())) {
-							try {
-								Thread.sleep(100);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
+
+						MyLog.v(TAG, "---------channel-----" + channel);
+
+						try {
+							while (!surfaceCreatMap.get(channel.getIndex())) {
+								try {
+									Thread.sleep(100);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
 							}
+
+						} catch (Exception e) {
+							MyLog.e(TAG, "surfaceCreatMap--error, size="
+									+ surfaceCreatMap.size() + ",channelIndex="
+									+ channel.getIndex());
+							e.printStackTrace();
 						}
 
 						if (oneScreen == currentScreen && !lowerSystem) {
@@ -1713,7 +1751,6 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 						PlayUtil.connect(channel, isOmx, ssid);
 					}
-
 					super.run();
 				}
 
@@ -1737,7 +1774,7 @@ public class JVPlayActivity extends PlayActivity implements
 			// jy计算分屏数据并连接
 			computeScreenData(currentScreen, oneScreen);
 			// jy连接所有
-			connectAll(currentPage);
+			connectAll();
 		}
 
 		if (manager.getChannel(currentIndex).isConnected()

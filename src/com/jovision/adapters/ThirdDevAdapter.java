@@ -52,6 +52,11 @@ public class ThirdDevAdapter extends BaseAdapter {
 		return position;
 	}
 
+	public void setDataList(ArrayList<ThirdAlarmDev> devList) {
+		third_dev_list_ = devList;
+
+	}
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
@@ -68,6 +73,8 @@ public class ThirdDevAdapter extends BaseAdapter {
 						.findViewById(R.id.alarm_switch);
 				viewHolder.dev_type_img = (ImageView) convertView
 						.findViewById(R.id.dev_type_icon);
+				viewHolder.dev_yst = (TextView) convertView
+						.findViewById(R.id.third_dev_yst);
 				convertView.setTag(viewHolder);
 			} else {
 				viewHolder = (ItemViewHolder) convertView.getTag();
@@ -133,6 +140,7 @@ public class ThirdDevAdapter extends BaseAdapter {
 				}
 			}
 			viewHolder.dev_nick_name.setText(devItem.dev_nick_name);
+			viewHolder.dev_yst.setText(devItem.dev_belong_yst);
 			if (third_dev_list_.get(position).dev_safeguard_flag == 0) {
 				viewHolder.switch_btn
 						.setBackgroundResource(R.drawable.sw_button);
@@ -142,10 +150,10 @@ public class ThirdDevAdapter extends BaseAdapter {
 			}
 			if (devItem.dev_type_mark == 1) {// 门磁设备
 				viewHolder.dev_type_img
-						.setBackgroundResource(R.drawable.third_door_bg);
+						.setBackgroundResource(R.drawable.third_door_default);
 			} else if (devItem.dev_type_mark == 2) {// 手环设备
 				viewHolder.dev_type_img
-						.setBackgroundResource(R.drawable.third_bracelet_bg);
+						.setBackgroundResource(R.drawable.third_bracelet_default);
 			}
 			final ListHandler handler = new ListHandler();
 			viewHolder.switch_btn
@@ -165,7 +173,7 @@ public class ThirdDevAdapter extends BaseAdapter {
 								new Thread() {
 									public void run() {
 										Message msg = handler.obtainMessage(0,
-												position, 0); // 1 打开防护
+												position, 0); // 0 关闭防护
 										handler.sendMessage(msg);
 									};
 								}.start();
@@ -187,6 +195,7 @@ public class ThirdDevAdapter extends BaseAdapter {
 		public TextView dev_nick_name;
 		public Button switch_btn;
 		public ImageView dev_type_img;
+		public TextView dev_yst;
 	}
 
 	// class Onlongclick implements OnLongClickListener{

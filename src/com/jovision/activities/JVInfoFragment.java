@@ -10,19 +10,23 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.PushAdapter;
 import com.jovision.bean.PushInfo;
+import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.views.AlarmDialog;
 import com.jovision.views.XListView;
 import com.jovision.views.XListView.IXListViewListener;
 
@@ -34,6 +38,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	private static final String TAG = "JVInfoFragment";
 
 	private ImageView noMess;
+	private TextView noMessTv;
 	private int pushIndex = 0;// 推送消息index
 	private XListView pushListView;// 列表
 	private PushAdapter pushAdapter;
@@ -74,6 +79,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		pushListView.setPullLoadEnable(true);
 		pushListView.setXListViewListener(this);
 		noMess = (ImageView) mParent.findViewById(R.id.nomess);
+		noMessTv = (TextView) mParent.findViewById(R.id.nomess_tv);
 		noMess.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -193,6 +199,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 				if (null != pushList && 0 != pushList.size()) {
 					noMess.setVisibility(View.GONE);
+					noMessTv.setVisibility(View.GONE);
 					pushAdapter.setData(pushList);
 					pushAdapter.setRefCount(pushList.size());
 					pushListView.setAdapter(pushAdapter);
@@ -237,28 +244,29 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					try {
 						JSONObject obj = pushArray.getJSONObject(i);
 						PushInfo pi = new PushInfo();
-						pi.strGUID = obj.optString(JVAlarmConst.JK_ALARM_GUID);
+						pi.strGUID = obj
+								.optString(JVAlarmConst.JK_ALARM_NEW_GUID);
 						pi.ystNum = obj
-								.optString(JVAlarmConst.JK_ALARM_CLOUDNUM);
-						pi.coonNum = obj.optInt(JVAlarmConst.JK_ALARM_CLOUDCHN);
-
+								.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNUM);
+						pi.coonNum = obj
+								.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
+						//
 						// pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
+						pi.deviceNickName = pi.ystNum;
 						pi.alarmType = obj
-								.optInt(JVAlarmConst.JK_ALARM_ALARMTYPE);
-						pi.alarmTime = obj
-								.optString(JVAlarmConst.JK_ALARM_ALARMTIME);
-						pi.alarmLevel = obj
-								.optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);
+								.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
+						pi.timestamp = obj
+								.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
+						pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);
+
 						pi.deviceName = obj
-								.optString(JVAlarmConst.JK_ALARM_CLOUDNAME);
+								.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 						pi.newTag = true;
-						// pi.pic =
-						// AlarmUtil.getAlarmPic(LoginUtil.userName,pi.strGUID);
-						// pi.video =
-						// AlarmUtil.getAlarmVideo(LoginUtil.userName,pi.strGUID);
-						// Log.v("推送的回调函数--pic-----","pi.pic----:"+pi.pic);
-						// Log.v("推送的回调函数--video-----","pi.video----:"+pi.video);
-						pi.pic = obj.optString(JVAlarmConst.JK_ALARM_PICURL);
+						pi.pic = obj
+								.optString(JVAlarmConst.JK_ALARM_NEW_PICURL);
+						pi.messageTag = JVAccountConst.MESSAGE_NEW_PUSH_TAG;
+						pi.video = obj
+								.optString(JVAlarmConst.JK_ALARM_NEW_VIDEOURL);
 						pushList.add(0, pi);// 新消息置顶
 						Consts.pushHisCount++;
 					} catch (JSONException e) {
@@ -294,8 +302,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			Integer[] params = new Integer[3];
 			params[0] = pushIndex;
 			task.execute(params);
-			break;
 		}
+			break;
+		case Consts.PUSH_MESSAGE:
+			// 弹出对话框
+			AlarmDialog.getInstance(getActivity()).Show(obj.toString());
+			break;
+		default:
+			break;
 		}
 	}
 

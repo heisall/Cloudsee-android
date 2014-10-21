@@ -349,6 +349,10 @@ public class Device {
 		this.channelList = channelList;
 	}
 
+	public void setThirdDevList(ArrayList<ThirdAlarmDev> thirdDevList) {
+		this.thirdDevList = thirdDevList;
+	}
+
 	public void setIp(String ip) {
 		this.ip = ip;
 	}

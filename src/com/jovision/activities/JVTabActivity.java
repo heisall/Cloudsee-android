@@ -6,13 +6,13 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
-
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyLog;
+import com.jovision.views.AlarmDialog;
 
 public class JVTabActivity extends ShakeActivity {
 

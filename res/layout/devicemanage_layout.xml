@@ -44,7 +44,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/editimport"
                     android:padding="10dp"
-                    android:paddingLeft="10dp" />
+                    android:textColor="@color/leftdevicecolor" />
 
                 <ImageView
                     android:id="@+id/manage_nick_cancle"
@@ -74,7 +74,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="8dp"
                 android:background="@null" >
 
                 <EditText
@@ -84,7 +84,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/editimport"
                     android:padding="10dp"
-                    android:paddingLeft="10dp" />
+                    android:textColor="@color/leftdevicecolor" />
 
                 <ImageView
                     android:id="@+id/manage_user_cancle"
@@ -124,8 +124,8 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/editimport"
                     android:padding="10dp"
-                    android:paddingLeft="10dp"
-                    android:password="true" />
+                    android:password="true"
+                    android:textColor="@color/leftdevicecolor" />
 
                 <ImageView
                     android:id="@+id/manage_password_cancle"

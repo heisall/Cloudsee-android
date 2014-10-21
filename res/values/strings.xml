@@ -563,8 +563,8 @@
     <string name="delect">删除</string>
     <string name="str_devicename">设  备  号</string>
     <string name="str_username"> 用 户 名</string>
-    <string name="str_password">密      码 </string>
-    <string name="str_nicknametwo">昵      称 </string>
+    <string name="str_password">密   码 </string>
+    <string name="str_nicknametwo">昵   称 </string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
     <string name="str_yst_connect">CloudSEE</string>
@@ -624,7 +624,7 @@
     <string name="str_alarm_type">Type :</string>
     <string name="str_alarm_preview">View</string>
     <string name="str_alarm_ignore">Ignore</string>
-    <string name="str_alarm_manage">Alarm Manage</string>
+    <string name="str_alarm_manage">Add Alarm Device</string>
     <string name="str_alarm_third_nickname">Enter the NickName :</string>
     <string name="str_third_device_name">Device Name</string>
     <string name="str_door_device">Door Device</string>

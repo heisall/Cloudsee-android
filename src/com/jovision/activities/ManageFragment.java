@@ -28,6 +28,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
+import com.jovision.views.AlarmDialog;
 
 public class ManageFragment extends BaseFragment {
 
@@ -166,10 +167,16 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 5: {// 添加设备
-				Intent addIntent = new Intent();
-				addIntent.setClass(mActivity, JVAddDeviceActivity.class);
-				addIntent.putExtra("QR", false);
-				mActivity.startActivity(addIntent);
+				// Intent addIntent = new Intent();
+				// addIntent.setClass(mActivity, JVAddDeviceActivity.class);
+				// addIntent.putExtra("QR", false);
+				// mActivity.startActivity(addIntent);
+				// [lkp]改成报警管理
+				Intent playIntent = new Intent();
+				// playIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				playIntent.setClass(mActivity, ThirdDevListActivity.class);
+				playIntent.putExtra("dev_index", deviceIndex);
+				mActivity.startActivity(playIntent);
 				break;
 			}
 
@@ -329,6 +336,10 @@ public class ManageFragment extends BaseFragment {
 			}
 			break;
 		}
+		case Consts.PUSH_MESSAGE:
+			// 弹出对话框
+			AlarmDialog.getInstance(getActivity()).Show(obj.toString());
+			break;
 		default:
 			break;
 		}

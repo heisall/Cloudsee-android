@@ -202,7 +202,7 @@ public class PushAdapter extends BaseAdapter {
 
 				deleteState = false;
 				notifyDataSetChanged();
-
+				
 				if (pushList.get(position).messageTag == 4604) {// new alarm
 					// ------new alarm-----
 					PushInfo pushInfo = new PushInfo();

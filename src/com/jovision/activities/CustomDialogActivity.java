@@ -150,7 +150,7 @@ public class CustomDialogActivity extends BaseActivity implements
 	@Override
 	public void onDestroy() {
 		if (!bLocalFile && bConnectFlag) {
-
+			Jni.disconnect(0);
 		}
 
 		super.onDestroy();
@@ -293,18 +293,18 @@ public class CustomDialogActivity extends BaseActivity implements
 		switch (what) {
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE:
-			Channel channel = manager.getChannel(arg2);
-			if (null == channel) {
-				MyLog.e("CustomDialogActivity onHandler", "the channel " + arg2
-						+ " is null");
-				return;
-			}
+//			Channel channel = manager.getChannel(arg2);
+//			if (null == channel) {
+//				MyLog.e("CustomDialogActivity onHandler", "the channel " + arg2
+//						+ " is null");
+//				return;
+//			}
 			switch (arg2) {
 
 			case JVNetConst.NO_RECONNECT:// 1 -- 连接成功//3 不必重新连接
 			case JVNetConst.CONNECT_OK: {// 1 -- 连接成功
-				channel.setConnecting(false);
-				channel.setConnected(true);
+//				channel.setConnecting(false);
+//				channel.setConnected(true);
 
 				MyLog.e("New alarm", "连接成功");
 				bConnectFlag = true;
@@ -328,8 +328,8 @@ public class CustomDialogActivity extends BaseActivity implements
 				break;
 			// 2 -- 断开连接成功
 			case JVNetConst.DISCONNECT_OK: {
-				channel.setConnecting(false);
-				channel.setConnected(false);
+//				channel.setConnecting(false);
+//				channel.setConnected(false);
 				bConnectFlag = false;
 
 				if (!vod_uri_.equals("")) {
@@ -367,13 +367,13 @@ public class CustomDialogActivity extends BaseActivity implements
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				channel.setConnecting(false);
-				channel.setConnected(false);
+//				channel.setConnecting(false);
+//				channel.setConnected(false);
 			}
 				break;
 			default:
-				channel.setConnecting(false);
-				channel.setConnected(false);
+//				channel.setConnecting(false);
+//				channel.setConnected(false);
 				showTextToast(R.string.connect_failed);
 				if (!vod_uri_.equals("")) {
 					lookVideoBtn.setEnabled(true);

@@ -1,5 +1,6 @@
 package com.jovision;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -74,6 +75,11 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		openedActivityList = new ArrayList<BaseActivity>();
 
 		currentNotifyer = null;
+		
+		String strAlarmFilePath = Consts.SD_CARD_PATH  + "CSAlarmIMG" + File.separator;
+		File file=new File(strAlarmFilePath); 
+		if(!file.exists()) 
+			file.mkdir(); 		
 	}
 
 	/**

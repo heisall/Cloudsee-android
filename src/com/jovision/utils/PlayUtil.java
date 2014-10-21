@@ -786,7 +786,7 @@ public class PlayUtil {
 		int size = clist.size();
 		for (int i = 0; i < size; i++) {
 			// [Neo] 循环利用播放数组，我 tm 就是个天才
-			clist.get(i).setIndex(i % Consts.MAX_CHANNEL_CONNECTION);
+			clist.get(i).setIndex(i);// % Consts.MAX_CHANNEL_CONNECTION);
 		}
 	}
 
@@ -910,14 +910,12 @@ public class PlayUtil {
 	public static void connectDevice(Device dev) {
 
 		if (!"".equalsIgnoreCase(dev.getIp())) {// IP直连云视通号置为-1
-			Jni.connect(Consts.CHANNEL_JY, 1, dev.getIp(), dev.getPort(),
-					dev.getUser(), dev.getPwd(), -1,
-					ConfigUtil.getGroup(dev.getFullNo()), true, 1, true, 6,
-					null, false);
+			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(),
+					dev.getPwd(), -1, ConfigUtil.getGroup(dev.getFullNo()),
+					true, 1, true, 6, null, false);
 		} else {
-			Jni.connect(Consts.CHANNEL_JY, 1, dev.getIp(), dev.getPort(),
-					dev.getUser(), dev.getPwd(),
-					ConfigUtil.getYST(dev.getFullNo()),
+			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(),
+					dev.getPwd(), ConfigUtil.getYST(dev.getFullNo()),
 					ConfigUtil.getGroup(dev.getFullNo()), true, 1, true, 6,
 					null, false);
 		}
@@ -928,7 +926,7 @@ public class PlayUtil {
 	 * 断开视频
 	 */
 	public static void disconnectDevice() {
-		Jni.disconnect(Consts.CHANNEL_JY);
+		Jni.disconnect(1);
 	}
 
 	/***************** 以下为远程回放所有功能 ***************************/

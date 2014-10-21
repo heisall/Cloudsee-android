@@ -1,25 +1,22 @@
 package com.jovision.adapters;
 
 import java.util.ArrayList;
-import java.util.Map;
 
-import com.jovetech.CloudSee.temp.R;
-import com.jovision.bean.Device;
-import com.jovision.bean.ThirdAlarmDev;
-import com.jovision.commons.MyLog;
-
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.jovetech.CloudSee.temp.R;
+import com.jovision.bean.Device;
+import com.jovision.bean.ThirdAlarmDev;
+import com.jovision.commons.MyLog;
 
 //因为删除信息走的回调在Activity中，因此把该Apapter放在Actvity中实现
 public class ThirdDevAdapter extends BaseAdapter {

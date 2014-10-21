@@ -11,9 +11,9 @@
         layout="@layout/top_bar_layout" />
 
     <RelativeLayout
+        android:id="@+id/top_add_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/top_add_layout"
         android:padding="12dp"
         android:paddingBottom="6dp" >
 

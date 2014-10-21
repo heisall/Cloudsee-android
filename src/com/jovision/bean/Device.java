@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.jovision.Consts;
 import com.jovision.commons.MyList;
 
@@ -94,8 +95,7 @@ public class Device {
 		isHelperEnabled = false;
 
 		channelList = new MyList<Channel>(1);
-		channelList.add(new Channel(this, -1, Consts.CHANNEL_JY, false, false,
-				""));
+		channelList.add(new Channel(this, -1, 1, false, false, ""));
 
 		thirdDevList = new ArrayList<ThirdAlarmDev>();
 	}

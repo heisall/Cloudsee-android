@@ -1,8 +1,6 @@
 package com.jovision.activities;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,10 +12,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.ActionReceiver;
-import com.jovision.activities.AddThirdDeviceMenuFragment.OnDeviceClassSelectedListener;
-import com.jovision.commons.JVNetConst;
-import com.jovision.commons.MyLog;
 import com.jovision.utils.RegularUtil;
 
 public class BindThirdDevNicknameFragment extends Fragment implements

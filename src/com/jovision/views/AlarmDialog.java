@@ -1,19 +1,16 @@
 package com.jovision.views;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.activities.JVPlayActivity;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
-
-import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 //单例模式使用
 public class AlarmDialog extends Dialog {

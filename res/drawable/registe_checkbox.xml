@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/registe_checkbox_2" android:state_checked="true"></item>
-    <item android:drawable="@drawable/registe_checkbox_2" android:state_selected="true"></item>
-    <item android:drawable="@drawable/registe_checkbox_2" android:state_pressed="true"></item>
-    <item android:drawable="@drawable/registe_checkbox_1"></item>
+    <item android:drawable="@drawable/morefragment_selector_icon" android:state_checked="true"></item>
+    <item android:drawable="@drawable/morefragment_selector_icon" android:state_selected="true"></item>
+    <item android:drawable="@drawable/morefragment_selector_icon" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/morefragment_normal_icon"></item>
 
 </selector>

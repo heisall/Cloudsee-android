@@ -618,15 +618,16 @@
     <string name="str_alarm_no_video">暂无报警视频</string>
     <string name="str_buffering">正在缓冲...</string>
     <string name="str_safe_protected">安全防护</string>
-	<string name="str_downloading_vod">正在获取录像文件...</string>
+    <string name="str_downloading_vod">正在获取录像文件...</string>
     <string name="str_alarm_dev">设备  :</string>
     <string name="str_alarm_type">类型  :</string>
     <string name="str_alarm_preview">查看</string>
-    <string name="str_alarm_ignore">忽略</string>	
+    <string name="str_alarm_ignore">忽略</string>
     <string name="str_third_device_name">设备名称</string>
     <string name="str_door_device">门磁设备</string>
     <string name="str_bracelet_device">手环设备</string>
-    <string name="str_click_add_device">点击此处添加新的设备</string>    
+    <string name="str_click_add_device">点击此处添加新的设备</string>
     <string name="str_alarm_third_nickname">请输入绑定设备昵称 ：</string>
     <string name="str_alarm_manage">报警管理</string>
+
 </resources>

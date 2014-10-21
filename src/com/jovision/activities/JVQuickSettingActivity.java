@@ -814,6 +814,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			quickSetDeviceImg.setVisibility(View.VISIBLE);
+
 			break;
 		}
 		case Consts.QUICK_SETTING_ERROR:// 配置出错
@@ -1191,10 +1192,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					resetRes = 1007;
 				}
 			}
-			if (0 == resetRes && addFlag) {
-				handler.sendMessage(handler.obtainMessage(
-						Consts.QUICK_SETTING_DEV_ONLINE, 0, 0));
-			}
+			handler.sendMessage(handler.obtainMessage(
+					Consts.QUICK_SETTING_DEV_ONLINE, 0, 0));
 
 			return resetRes;
 		}
@@ -1217,8 +1216,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 			} else {
 				if (0 == result) {
-					playSound(Consts.SOUNDSEVINE);
 					showSearch(false);
+					playSound(Consts.SOUNDSEVINE);
 					// 设置全屏
 					JVQuickSettingActivity.this.getWindow().setFlags(
 							WindowManager.LayoutParams.FLAG_FULLSCREEN,

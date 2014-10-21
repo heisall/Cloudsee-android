@@ -96,8 +96,6 @@ public class IpcWifiAdapter extends BaseAdapter {
 		}
 
 		wifiHolder.wifiDetail.setVisibility(View.VISIBLE);
-		convertView.setBackgroundDrawable(mContext.getResources().getDrawable(
-				R.drawable.editimport));
 		return convertView;
 	}
 

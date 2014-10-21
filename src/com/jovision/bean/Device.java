@@ -95,8 +95,7 @@ public class Device {
 		isHelperEnabled = false;
 
 		channelList = new MyList<Channel>(1);
-		channelList.add(new Channel(this, -1, Consts.CHANNEL_JY, false, false,
-				""));
+		channelList.add(new Channel(this, -1, 1, false, false, ""));
 
 		thirdDevList = new ArrayList<ThirdAlarmDev>();
 	}

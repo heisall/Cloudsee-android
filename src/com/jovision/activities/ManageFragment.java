@@ -200,8 +200,7 @@ public class ManageFragment extends BaseFragment {
 				// JVNetConst.JVN_CMD_VIDEOPAUSE,
 				// new byte[0], 8);
 				// 请求文本聊天
-				Jni.sendBytes(Consts.CHANNEL_JY, JVNetConst.JVN_REQ_TEXT,
-						new byte[0], 8);
+				Jni.sendBytes(1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 			} else { // 不是IPC
 				PlayUtil.disconnectDevice();
 				mActivity.dismissDialog();
@@ -270,8 +269,7 @@ public class ManageFragment extends BaseFragment {
 					e1.printStackTrace();
 				}
 				// 获取基本文本信息
-				Jni.sendTextData(Consts.CHANNEL_JY,
-						JVNetConst.JVN_RSP_TEXTDATA, 8,
+				Jni.sendTextData(1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_REMOTE_SETTING);
 
 				break;
@@ -303,8 +301,7 @@ public class ManageFragment extends BaseFragment {
 					}
 					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
 						// 获取主控码流信息请求
-						Jni.sendTextData(Consts.CHANNEL_JY,
-								JVNetConst.JVN_RSP_TEXTDATA, 8,
+						Jni.sendTextData(1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 								JVNetConst.JVN_STREAM_INFO);
 						break;
 					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求

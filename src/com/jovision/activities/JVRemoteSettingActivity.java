@@ -171,7 +171,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 							} else {// 有线时发送
 									// 获取主控AP信息请求
-								Jni.sendTextData(Consts.CHANNEL_JY,
+								Jni.sendTextData(1,
 										(byte) JVNetConst.JVN_RSP_TEXTDATA, 8,
 										JVNetConst.JVN_WIFI_INFO);
 							}
@@ -412,8 +412,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			@Override
 			public void onRefresh(RefreshableListView listView) {
 				// 获取主控AP信息请求
-				Jni.sendTextData(Consts.CHANNEL_JY,
-						(byte) JVNetConst.JVN_RSP_TEXTDATA, 8,
+				Jni.sendTextData(1, (byte) JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_WIFI_INFO);
 			}
 
@@ -457,7 +456,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		mPager.setCurrentItem(currIndex);
 		Log.e("tags", "-------------------------------------------------");
 		// 获取主控码流信息请求
-		Jni.sendTextData(Consts.CHANNEL_JY, JVNetConst.JVN_RSP_TEXTDATA, 8,
+		Jni.sendTextData(1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 				JVNetConst.JVN_STREAM_INFO);
 	}
 
@@ -518,7 +517,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 									&& str4.equalsIgnoreCase(settingMap
 											.get("ETH_DNS"))) {
 							} else {
-								Jni.setDhcp(Consts.CHANNEL_JY,
+								Jni.setDhcp(1,
 										(byte) JVNetConst.JVN_RSP_TEXTDATA,
 										bdhcp, str1, str2, str3, str4);
 							}
@@ -579,7 +578,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 												.get(wifiIndex).wifiEnc);
 									}
 
-									Jni.saveWifi(Consts.CHANNEL_JY,
+									Jni.saveWifi(1,
 											(byte) JVNetConst.JVN_RSP_TEXTDATA,
 											wifiname, wifipwd, 2, 9, auth, enc);
 
@@ -641,7 +640,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 									.toString());// nMBPH
 							int arg2 = Integer.parseInt(imageClear.getText()
 									.toString());// framerate
-							Jni.setBpsAndFps(Consts.CHANNEL_JY,
+							Jni.setBpsAndFps(1,
 									(byte) JVNetConst.JVN_RSP_TEXTDATA,
 									mobilech, width, height, arg1, arg2);
 						}

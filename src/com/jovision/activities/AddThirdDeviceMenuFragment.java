@@ -1,27 +1,15 @@
 package com.jovision.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.ActionReceiver;
-import com.jovision.Consts;
-import com.jovision.Jni;
-import com.jovision.commons.JVNetConst;
 
 public class AddThirdDeviceMenuFragment extends Fragment implements
 		OnClickListener {

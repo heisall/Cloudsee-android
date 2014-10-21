@@ -3,25 +3,9 @@ package com.jovision.activities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
-import com.jovision.Jni;
-import com.jovision.activities.AddThirdDeviceMenuFragment.OnDeviceClassSelectedListener;
-import com.jovision.activities.BindThirdDevNicknameFragment.OnSetNickNameListener;
-import com.jovision.bean.Channel;
-import com.jovision.bean.Device;
-import com.jovision.bean.ThirdAlarmDev;
-import com.jovision.commons.JVNetConst;
-import com.jovision.commons.MyLog;
-import com.jovision.commons.PlayWindowManager;
-import com.jovision.utils.AlarmUtil;
-import com.jovision.utils.CacheUtil;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -29,7 +13,18 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.Jni;
+import com.jovision.activities.AddThirdDeviceMenuFragment.OnDeviceClassSelectedListener;
+import com.jovision.activities.BindThirdDevNicknameFragment.OnSetNickNameListener;
+import com.jovision.bean.Channel;
+import com.jovision.bean.ThirdAlarmDev;
+import com.jovision.commons.JVNetConst;
+import com.jovision.commons.MyLog;
+import com.jovision.commons.PlayWindowManager;
+import com.jovision.utils.AlarmUtil;
 
 public class AddThirdDevActivity extends BaseActivity implements
 		OnClickListener, OnDeviceClassSelectedListener, OnSetNickNameListener {

@@ -2,16 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    >
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/third_dev_bg"
         android:clickable="true"
+        android:descendantFocusability="blocksDescendants"
         android:longClickable="true"
-        android:descendantFocusability="blocksDescendants" 
         android:padding="12dp" >
 
         <Button

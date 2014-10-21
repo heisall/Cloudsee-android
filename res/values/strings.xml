@@ -625,6 +625,7 @@
     <string name="str_alarm_third_nickname">Enter the NickName :</string>
     <string name="str_third_device_name">Device Name</string>
     <string name="str_door_device">Door Device</string>
-    <string name="str_bracelet_device">Bracelet Device</string>    
+    <string name="str_bracelet_device">Bracelet Device</string>
     <string name="str_click_add_device">Click here to add new equipment</string>
+
 </resources>

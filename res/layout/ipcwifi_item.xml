@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shuru"
+    android:layout_margin="10dp" >
+
+    <TextView
+        android:id="@+id/videodate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="15:16:13"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/wifistate"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/wifi_flag_close_bg" />
+
+        <ImageView
+            android:id="@+id/wifidetail"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/wifi_flag_close_bg" />
+    </LinearLayout>
+
+</RelativeLayout>

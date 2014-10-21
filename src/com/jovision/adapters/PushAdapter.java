@@ -14,11 +14,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseFragment;
 import com.jovision.activities.CustomDialogActivity;
 import com.jovision.bean.PushInfo;
-import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVConst;
 import com.jovision.utils.ConfigUtil;
 

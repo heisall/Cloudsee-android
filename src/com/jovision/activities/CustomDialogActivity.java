@@ -9,7 +9,6 @@ import java.io.InputStream;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,19 +23,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.ActionReceiver;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.bean.Channel;
-import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.AlarmUtil;
-import com.jovision.utils.CacheUtil;
 
 public class CustomDialogActivity extends BaseActivity implements
 		android.view.View.OnClickListener {

@@ -5,6 +5,7 @@
     android:orientation="vertical" >
 
     <TextView
+        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -25,10 +26,12 @@
             android:id="@+id/noalert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/registe_checkbox"
             android:textOff=""
             android:textOn="" />
 
         <TextView
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/str_quick_setting_no_tips"

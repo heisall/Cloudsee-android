@@ -660,11 +660,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 			myDLAdapter.setShowDelete(false);
 			initSummaryDialog(myDeviceList, arg1);
 		}
-		break;
+			break;
 		case Consts.PUSH_MESSAGE:
-			//弹出对话框
-			AlarmDialog.getInstance(getActivity()).Show(obj.toString()); 
-			break;	
+			// 弹出对话框
+			AlarmDialog.getInstance(getActivity()).Show(obj.toString());
+			break;
 		}
 	}
 

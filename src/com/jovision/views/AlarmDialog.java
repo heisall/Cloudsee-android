@@ -99,14 +99,16 @@ public class AlarmDialog extends Dialog {
 					// getDeivceIndex(ystNum));
 					// playIntent.putExtra("PointIndex", 0);
 					// context.startActivity(playIntent);
-					
-					Intent intentPlay = new Intent(context, JVPlayActivity.class);
+
+					Intent intentPlay = new Intent(context,
+							JVPlayActivity.class);
 					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 					int dev_index = getDeivceIndex(ystNum);
-					intentPlay.putExtra("DeviceIndex",  dev_index);
-					intentPlay.putExtra("ChannelofChannel", CacheUtil.getDevList().get(dev_index).getChannelList()
+					intentPlay.putExtra("DeviceIndex", dev_index);
+					intentPlay.putExtra("ChannelofChannel", CacheUtil
+							.getDevList().get(dev_index).getChannelList()
 							.toList().get(0).getChannel());
-					context.startActivity(intentPlay);					
+					context.startActivity(intentPlay);
 				}
 
 				mAlarmDialog.dismiss();

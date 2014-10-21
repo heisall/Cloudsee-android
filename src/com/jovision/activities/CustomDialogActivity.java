@@ -217,12 +217,11 @@ public class CustomDialogActivity extends BaseActivity implements
 				} else {
 					// 已经连接上走远程回放
 					Intent intent = new Intent();
-					intent.setClass(this,
-							JVRemotePlayBackActivity.class);
+					intent.setClass(this, JVRemotePlayBackActivity.class);
 					intent.putExtra("IndexOfChannel", 0);
 					intent.putExtra("acBuffStr", vod_uri_);
 					intent.putExtra("AudioByte", 0);
-					this.startActivity(intent);							
+					this.startActivity(intent);
 				}
 
 			}
@@ -319,18 +318,17 @@ public class CustomDialogActivity extends BaseActivity implements
 					Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_DOWNLOAD,
 							dataByte, dataByte.length);
 				} else if (bDownLoadFileType == 1) {
-					if(progressdialog.isShowing()){
+					if (progressdialog.isShowing()) {
 						progressdialog.dismiss();
 					}
 					strFilePath = vod_uri_;
 					// 走远程回放
 					Intent intent = new Intent();
-					intent.setClass(this,
-							JVRemotePlayBackActivity.class);
+					intent.setClass(this, JVRemotePlayBackActivity.class);
 					intent.putExtra("IndexOfChannel", 0);
 					intent.putExtra("acBuffStr", vod_uri_);
 					intent.putExtra("AudioByte", 0);
-					this.startActivity(intent);					
+					this.startActivity(intent);
 				} else {
 
 				}
@@ -340,7 +338,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			case JVNetConst.DISCONNECT_OK: {
 
 				bConnectFlag = false;
-				if(progressdialog.isShowing()){
+				if (progressdialog.isShowing()) {
 					progressdialog.dismiss();
 				}
 				if (!vod_uri_.equals("")) {
@@ -351,7 +349,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
 				bConnectFlag = false;
-				if(progressdialog.isShowing()){
+				if (progressdialog.isShowing()) {
 					progressdialog.dismiss();
 				}
 				if (!vod_uri_.equals("")) {
@@ -383,7 +381,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			}
 				break;
 			default:
-				if(progressdialog.isShowing()){
+				if (progressdialog.isShowing()) {
 					progressdialog.dismiss();
 				}
 				showTextToast(R.string.connect_failed);

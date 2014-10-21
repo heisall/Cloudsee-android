@@ -75,11 +75,12 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		openedActivityList = new ArrayList<BaseActivity>();
 
 		currentNotifyer = null;
-		
-		String strAlarmFilePath = Consts.SD_CARD_PATH  + "CSAlarmIMG" + File.separator;
-		File file=new File(strAlarmFilePath); 
-		if(!file.exists()) 
-			file.mkdir(); 		
+
+		String strAlarmFilePath = Consts.SD_CARD_PATH + "CSAlarmIMG"
+				+ File.separator;
+		File file = new File(strAlarmFilePath);
+		if (!file.exists())
+			file.mkdir();
 	}
 
 	/**
@@ -255,9 +256,10 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				 */
 				MyLog.e("tags", "new msg: " + msg);
 				String strYstNumString = "";
-				if (MySharedPreference.getBoolean("AlarmSwitch", false)){
-					if (null != currentNotifyer && null != msg && !"".equalsIgnoreCase(msg)) {
-						
+				if (MySharedPreference.getBoolean("AlarmSwitch", false)) {
+					if (null != currentNotifyer && null != msg
+							&& !"".equalsIgnoreCase(msg)) {
+
 						try {
 							JSONObject obj = new JSONObject(msg);
 							String arrayStr = statusHashMap
@@ -271,7 +273,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 							}
 							pushArray.put(obj);
 							statusHashMap.put(Consts.PUSH_JSONARRAY,
-									pushArray.toString());							
+									pushArray.toString());
 							PushInfo pi = new PushInfo();
 							pi.strGUID = obj
 									.optString(JVAlarmConst.JK_ALARM_NEW_GUID);
@@ -280,14 +282,15 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 							strYstNumString = pi.ystNum;
 							pi.coonNum = obj
 									.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
-//
-//							pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
+							//
+							// pi.deviceNickName =
+							// BaseApp.getNikeName(pi.ystNum);
 							pi.alarmType = obj
 									.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
 							pi.timestamp = obj
 									.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
 							pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);
-							
+
 							pi.deviceName = obj
 									.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 							pi.newTag = true;
@@ -296,9 +299,10 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 							pi.messageTag = JVAccountConst.MESSAGE_NEW_PUSH_TAG;
 							pi.video = obj
 									.optString(JVAlarmConst.JK_ALARM_NEW_VIDEOURL);
-//							BaseApp.pushList.add(0, pi);// 新消息置顶
-//							BaseApp.pushHisCount++;
-							onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0, strYstNumString);
+							// BaseApp.pushList.add(0, pi);// 新消息置顶
+							// BaseApp.pushHisCount++;
+							onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
+									strYstNumString);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -308,7 +312,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				} else {
 
 				}
-			}else if (JVAccountConst.MESSAGE_OFFLINE == res) {// 提掉线
+			} else if (JVAccountConst.MESSAGE_OFFLINE == res) {// 提掉线
 				Intent intent = new Intent(getApplicationContext(),
 						JVOffLineDialogActivity.class);
 				intent.putExtra("ErrorCode", JVAccountConst.MESSAGE_OFFLINE);

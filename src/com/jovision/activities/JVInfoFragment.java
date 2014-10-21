@@ -79,7 +79,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		pushListView.setPullLoadEnable(true);
 		pushListView.setXListViewListener(this);
 		noMess = (ImageView) mParent.findViewById(R.id.nomess);
-		noMessTv = (TextView)mParent.findViewById(R.id.nomess_tv);
+		noMessTv = (TextView) mParent.findViewById(R.id.nomess_tv);
 		noMess.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -250,14 +250,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 								.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNUM);
 						pi.coonNum = obj
 								.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
-//
-//						pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
+						//
+						// pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
 						pi.alarmType = obj
 								.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
 						pi.timestamp = obj
 								.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
 						pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);
-						
+
 						pi.deviceName = obj
 								.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 						pi.newTag = true;
@@ -294,21 +294,21 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-			case PushAdapter.DELETE_ALARM_MESS: {// 删除报警
-				pushIndex = arg1;
-	
-				DelAlarmTask task = new DelAlarmTask();
-				Integer[] params = new Integer[3];
-				params[0] = pushIndex;
-				task.execute(params);
-			}
-				break;
-			case Consts.PUSH_MESSAGE:
-				//弹出对话框
-				AlarmDialog.getInstance(getActivity()).Show(obj.toString()); 
-				break;	
-			default:
-				break;
+		case PushAdapter.DELETE_ALARM_MESS: {// 删除报警
+			pushIndex = arg1;
+
+			DelAlarmTask task = new DelAlarmTask();
+			Integer[] params = new Integer[3];
+			params[0] = pushIndex;
+			task.execute(params);
+		}
+			break;
+		case Consts.PUSH_MESSAGE:
+			// 弹出对话框
+			AlarmDialog.getInstance(getActivity()).Show(obj.toString());
+			break;
+		default:
+			break;
 		}
 	}
 

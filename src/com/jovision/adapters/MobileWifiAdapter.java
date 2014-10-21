@@ -30,6 +30,7 @@ public class MobileWifiAdapter extends BaseAdapter {
 		scanWifiList = list;
 		oldWifi = wifi;
 	}
+
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub

@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-     >
+    android:orientation="vertical" >
 
-    <TextView 
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="10dp"
-        android:text=""
-        />
+        android:text="" />
+
     <RelativeLayout
         android:id="@+id/wifiRelative"
         android:layout_width="match_parent"

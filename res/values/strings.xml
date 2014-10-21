@@ -425,6 +425,9 @@
     <string name="voice_call_ap">语音对讲</string>
     <string name="voice_call_ap_tips">实时进行语音对讲</string>
 
+    <!-- JVEditPassActivity -->
+    <string name="edit_failed">修改失败</string>
+
     <!-- JVDemoActivity -->
     <string name="demo_get_failed">演示点加载失败</string>
 

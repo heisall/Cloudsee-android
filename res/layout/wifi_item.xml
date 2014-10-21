@@ -30,7 +30,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/wifi_flag_close_bg" />
-
     </LinearLayout>
 
 </RelativeLayout>

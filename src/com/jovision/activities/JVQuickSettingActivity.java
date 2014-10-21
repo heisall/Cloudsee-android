@@ -665,7 +665,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							&& arg2 - 1 < scanIpcWifiList.size()) {
 						ipcAdapter.init(arg2);
 						ipcAdapter.notifyDataSetChanged();
-						Log.i("TAG", arg2+"SDSD");
+						Log.i("TAG", arg2 + "SDSD");
 						setIpcName = scanIpcWifiList.get(arg2 - 1).SSID
 								.replace("\"", "");
 

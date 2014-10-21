@@ -76,17 +76,21 @@ public class ManageListAdapter extends BaseAdapter {
 			Holder.manage_item_img.setVisibility(View.VISIBLE);
 			Holder.listitem_img
 					.setImageResource(R.drawable.devicemanage_selected_icon);
-			if (activity==null) {
-				Holder.listitem_name.setTextColor(fragment.getActivity().getResources().getColor(R.color.dialogchannaltext));
-			}else {
-				Holder.listitem_name.setTextColor(activity.getResources().getColor(R.color.dialogchannaltext));
+			if (activity == null) {
+				Holder.listitem_name.setTextColor(fragment.getActivity()
+						.getResources().getColor(R.color.dialogchannaltext));
+			} else {
+				Holder.listitem_name.setTextColor(activity.getResources()
+						.getColor(R.color.dialogchannaltext));
 			}
 		} else {
 			Holder.manage_item_img.setVisibility(View.GONE);
-			if (activity==null) {
-				Holder.listitem_name.setTextColor(fragment.getActivity().getResources().getColor(R.color.more_fragment_color2));
-			}else {
-				Holder.listitem_name.setTextColor(activity.getResources().getColor(R.color.more_fragment_color2));
+			if (activity == null) {
+				Holder.listitem_name.setTextColor(fragment.getActivity()
+						.getResources().getColor(R.color.more_fragment_color2));
+			} else {
+				Holder.listitem_name.setTextColor(activity.getResources()
+						.getColor(R.color.more_fragment_color2));
 			}
 			Holder.listitem_img
 					.setImageResource(R.drawable.devicemanage_normal_icon);

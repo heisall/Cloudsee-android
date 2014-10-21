@@ -166,7 +166,7 @@ public class JVPlayActivity extends PlayActivity implements
 							);
 					sBuilder.append(msg).append("\n");
 					isOmx = object.getBoolean("is_omx");
-					// manager.getChannel(arg2).setOMX(isOmx);
+					// getChannelByIndex(arg2).setOMX(isOmx);
 
 					// MyLog.v("ChannelTag--IFrame=isOmx", "isOmx=" + isOmx);
 					//
@@ -190,7 +190,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 等待I帧成功
 		case Consts.CALL_FRAME_I_REPORT: {
-			Channel channel = manager.getChannel(arg1);
+			Channel channel = getChannelByIndex(arg1);
 			if (null == channel) {
 				return;
 			}
@@ -201,24 +201,24 @@ public class JVPlayActivity extends PlayActivity implements
 					+ ", arg2 = " + arg2);// arg2 --- 0软 1硬
 			// 多于四屏只发关键帧
 			if (currentScreen > fourScreen
-					&& !manager.getChannel(arg1).isSendCMD()) {
+					&& !getChannelByIndex(arg1).isSendCMD()) {
 				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_ONLYI, new byte[0],
 						0);
-				manager.getChannel(arg1).setSendCMD(true);
+				getChannelByIndex(arg1).setSendCMD(true);
 			} else if (currentScreen <= fourScreen
-					&& manager.getChannel(arg1).isSendCMD()) {
+					&& getChannelByIndex(arg1).isSendCMD()) {
 				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_FULL, new byte[0],
 						0);
-				manager.getChannel(arg1).setSendCMD(true);
+				getChannelByIndex(arg1).setSendCMD(true);
 			}
 
-			manager.getChannel(arg1).setConnecting(false);
-			manager.getChannel(arg1).setConnected(true);
+			getChannelByIndex(arg1).setConnecting(false);
+			getChannelByIndex(arg1).setConnected(true);
 
 			MyLog.v("ChannelTag--IFrame=arg2", "arg2=" + arg2 + ",isomx="
-					+ manager.getChannel(arg1).isOMX());
+					+ getChannelByIndex(arg1).isOMX());
 
-			if (!manager.getChannel(arg1).isOMX() && arg2 == Consts.DECODE_SOFT) {
+			if (!getChannelByIndex(arg1).isOMX() && arg2 == Consts.DECODE_SOFT) {
 				// TODO
 				if (needToast) {
 					showTextToast(R.string.not_support_oxm);
@@ -229,14 +229,14 @@ public class JVPlayActivity extends PlayActivity implements
 			dismissDialog();
 
 			if (Consts.DECODE_OMX == arg2) {
-				manager.getChannel(arg1).setOMX(true);
+				getChannelByIndex(arg1).setOMX(true);
 			} else if (Consts.DECODE_SOFT == arg2) {
-				manager.getChannel(arg1).setOMX(false);
+				getChannelByIndex(arg1).setOMX(false);
 			}
 
 			MyLog.v("refreshIPCFun--IFrame=", arg1 + "");
 			if (currentScreen == oneScreen) {
-				refreshIPCFun(manager.getChannel(arg1));
+				refreshIPCFun(getChannelByIndex(arg1));
 			} else {
 				decodeBtn.setVisibility(View.GONE);
 				rightFuncButton.setVisibility(View.GONE);
@@ -250,7 +250,7 @@ public class JVPlayActivity extends PlayActivity implements
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE: {
 
-			Channel channel = manager.getChannel(arg1);
+			Channel channel = getChannelByIndex(arg1);
 			if (null == channel) {
 				return;
 			}
@@ -376,7 +376,7 @@ public class JVPlayActivity extends PlayActivity implements
 		// O帧
 		case Consts.CALL_NORMAL_DATA: {
 
-			Channel channel = manager.getChannel(arg1);
+			Channel channel = getChannelByIndex(arg1);
 			if (null == channel) {
 				return;
 			}
@@ -445,16 +445,16 @@ public class JVPlayActivity extends PlayActivity implements
 						+ ", " + obj);
 				Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
-				manager.getChannel(arg1).setAgreeTextData(true);
+				getChannelByIndex(arg1).setAgreeTextData(true);
 				MyLog.v("ChannelTag--4",
 						"AgreeTextData="
-								+ manager.getChannel(arg1).isSingleVoice());
+								+ getChannelByIndex(arg1).isSingleVoice());
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
 				MyLog.v("ChannelTag--4",
 						"AgreeTextData="
-								+ manager.getChannel(arg1).isSingleVoice());
-				manager.getChannel(arg1).setAgreeTextData(false);
+								+ getChannelByIndex(arg1).isSingleVoice());
+				getChannelByIndex(arg1).setAgreeTextData(false);
 				break;
 
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
@@ -481,7 +481,7 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("effect_flag")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("effect_flag"))) {
-								manager.getChannel(arg1).setScreenTag(
+								getChannelByIndex(arg1).setScreenTag(
 										Integer.parseInt(streamMap
 												.get("effect_flag")));
 							}
@@ -489,7 +489,7 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("MainStreamQos")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("MainStreamQos"))) {
-								manager.getChannel(arg1).setStreamTag(
+								getChannelByIndex(arg1).setStreamTag(
 										Integer.parseInt(streamMap
 												.get("MainStreamQos")));
 							}
@@ -497,23 +497,23 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("storageMode")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("storageMode"))) {
-								manager.getChannel(arg1).setStorageMode(
+								getChannelByIndex(arg1).setStorageMode(
 										Integer.parseInt(streamMap
 												.get("storageMode")));
 							}
 
 							MyLog.v("ChannelTag--5", "ScreenTag="
-									+ manager.getChannel(arg1).getScreenTag());
+									+ getChannelByIndex(arg1).getScreenTag());
 							MyLog.v("ChannelTag--6", "StreamTag="
-									+ manager.getChannel(arg1).getStreamTag());
+									+ getChannelByIndex(arg1).getStreamTag());
 							MyLog.v("ChannelTag--7", "StorageMode="
-									+ manager.getChannel(arg1).getStorageMode());
+									+ getChannelByIndex(arg1).getStorageMode());
 						}
 
 						MyLog.v("refreshIPCFun--Stream=", arg1 + "");
 
 						if (currentScreen == oneScreen) {
-							refreshIPCFun(manager.getChannel(arg1));
+							refreshIPCFun(getChannelByIndex(arg1));
 						} else {
 							decodeBtn.setVisibility(View.GONE);
 							rightFuncButton.setVisibility(View.GONE);
@@ -534,18 +534,18 @@ public class JVPlayActivity extends PlayActivity implements
 					case JVNetConst.JVN_RECORD_RESULT:// -- 100 录像模式切换回调
 						dismissDialog();
 						// 录像模式
-						if (Consts.STORAGEMODE_NORMAL == manager.getChannel(
-								arg1).getStorageMode()) {
-							manager.getChannel(arg1).setStorageMode(
+						if (Consts.STORAGEMODE_NORMAL == getChannelByIndex(arg1)
+								.getStorageMode()) {
+							getChannelByIndex(arg1).setStorageMode(
 									Consts.STORAGEMODE_ALARM);
-						} else if (Consts.STORAGEMODE_ALARM == manager
-								.getChannel(arg1).getStorageMode()) {
-							manager.getChannel(arg1).setStorageMode(
+						} else if (Consts.STORAGEMODE_ALARM == getChannelByIndex(
+								arg1).getStorageMode()) {
+							getChannelByIndex(arg1).setStorageMode(
 									Consts.STORAGEMODE_NORMAL);
 						}
 						MyLog.v("refreshIPCFun--record=", arg1 + "");
 						if (currentScreen == oneScreen) {
-							refreshIPCFun(manager.getChannel(arg1));
+							refreshIPCFun(getChannelByIndex(arg1));
 						} else {
 							decodeBtn.setVisibility(View.GONE);
 							rightFuncButton.setVisibility(View.GONE);
@@ -570,7 +570,7 @@ public class JVPlayActivity extends PlayActivity implements
 		case JVConst.WHAT_STARTING_CONNECT: {
 			// handler.sendEmptyMessageDelayed(Consts.WHAT_DUMMY, 100);
 			// MyLog.v(TAG + ":222", arg1 + "");
-			channelMap.put(arg1 % connNum, manager.getChannel(arg1));
+			channelMap.put(arg1 % connNum, getChannelByIndex(arg1));
 			loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTING);
 			break;
 		}
@@ -651,12 +651,12 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 同意语音请求
 			case JVNetConst.JVN_RSP_CHATACCEPT: {
-				manager.getChannel(currentIndex).setVoiceCall(true);
+				getChannelByIndex(currentIndex).setVoiceCall(true);
 				VOICECALLING = true;
 				voiceCallSelected(true);
 				// [Neo] TODO 根据连接的设备 NORMAL_DATA 取出 audio_type，填进来
-				recorder.start(manager.getChannel(currentIndex).getAudioType(),
-						manager.getChannel(currentIndex).getAudioByte());
+				recorder.start(getChannelByIndex(currentIndex).getAudioType(),
+						getChannelByIndex(currentIndex).getAudioByte());
 				break;
 			}
 
@@ -876,14 +876,17 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
+	/**
+	 * 单项对讲用功能
+	 */
 	OnTouchListener callOnTouchListener = new OnTouchListener() {
 
 		@Override
 		public boolean onTouch(View arg0, MotionEvent arg1) {
-			if (manager.getChannel(currentIndex).isSingleVoice()) {// 单向对讲
+			if (getChannelByIndex(currentIndex).isSingleVoice()) {// 单向对讲
 				if (arg1.getAction() == MotionEvent.ACTION_UP
 						|| arg1.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
-					new TalkThread(0).start();
+					new TalkThread(currentIndex, 0).start();
 					VOICECALL_LONG_CLICK = false;
 					voiceTip.setVisibility(View.GONE);
 				}
@@ -893,15 +896,18 @@ public class JVPlayActivity extends PlayActivity implements
 
 	};
 
+	/**
+	 * 单项对讲用功能
+	 */
 	OnLongClickListener callOnLongClickListener = new OnLongClickListener() {
 
 		@Override
 		public boolean onLongClick(View arg0) {
-			if (manager.getChannel(currentIndex).isSingleVoice()) {// 单向对讲
+			if (getChannelByIndex(currentIndex).isSingleVoice()) {// 单向对讲
 				if (VOICECALLING) {// 正在喊话
 					VOICECALL_LONG_CLICK = true;
 					voiceTip.setVisibility(View.VISIBLE);
-					new TalkThread(1).start();
+					new TalkThread(currentIndex, 1).start();
 				}
 			}
 			return true;
@@ -911,19 +917,21 @@ public class JVPlayActivity extends PlayActivity implements
 
 	/** 开关对讲线程 */
 	class TalkThread extends Thread {
-		private int tag = 0;
+		private int index = 0;
+		private int param = 0;
 
-		TalkThread(int param) {
-			tag = param;
+		TalkThread(int index, int param) {
+			this.index = index;
+			this.param = param;
 		}
 
 		@Override
 		public void run() {
 			// "talkSwitch=" + tag;// 1开始 0关闭
 			for (int i = 0; i < 3; i++) {
-				Jni.sendString(currentIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						false, 0, Consts.TYPE_SET_PARAM,
-						String.format(Consts.FORMATTER_TALK_SWITCH, tag));
+				Jni.sendString(index, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+						Consts.TYPE_SET_PARAM,
+						String.format(Consts.FORMATTER_TALK_SWITCH, param));
 			}
 			super.run();
 		}
@@ -939,9 +947,6 @@ public class JVPlayActivity extends PlayActivity implements
 		AlertDialog.Builder builder = new AlertDialog.Builder(
 				JVPlayActivity.this);
 		builder.setCancelable(false);
-
-		// builder.setTitle(getResources().getString(
-		// R.string.str_quick_setting_new_dev));
 		builder.setMessage(errorMsg);
 
 		builder.setNegativeButton(R.string.download,
@@ -1071,7 +1076,7 @@ public class JVPlayActivity extends PlayActivity implements
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 				return;
 			} else if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
-				stopAll(currentIndex, manager.getChannel(currentIndex));
+				stopAll(currentIndex, getChannelByIndex(currentIndex));
 				PlayUtil.disAndPause(currentScreen, currentPage, channelMap);// 连接之前暂停该暂停的，断开多余的
 				if (arg0 - currentPage > 0) {// 向左滑
 					resetFunc();
@@ -1115,9 +1120,7 @@ public class JVPlayActivity extends PlayActivity implements
 					.getParent();
 			int action = event.getAction();
 			int cmd = 0;
-			ArrayList<Channel> list = manager.getValidChannelList(currentPage);
-			MyLog.v("list-size=", list.size() + "");
-			Channel channel = manager.getChannel(currentIndex);
+			Channel channel = getChannelByIndex(currentIndex);
 			if (null == channel) {
 				return false;
 			}
@@ -1263,6 +1266,16 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	/**
+	 * 获取对应index的channel
+	 * 
+	 * @return
+	 */
+	public Channel getChannelByIndex(int index) {
+		Channel channel = manager.getChannel(index);
+		return channel;
+	}
+
+	/**
 	 * 大分辨率功能列表点击事件
 	 */
 	OnItemClickListener onItemClickListener = new OnItemClickListener() {
@@ -1274,11 +1287,11 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (0 == arg2) {// 音频监听
 				if (allowThisFuc(true)) {
-					if (manager.getChannel(currentIndex).isVoiceCall()) {
+					if (getChannelByIndex(currentIndex).isVoiceCall()) {
 						functionListAdapter.selectIndex = -1;
 						showTextToast(R.string.audio_monitor_forbidden);
 					} else {
-						initAudio(manager.getChannel(currentIndex)
+						initAudio(getChannelByIndex(currentIndex)
 								.getAudioByte());
 						if (!PlayUtil.audioPlay(currentIndex)) {
 							functionListAdapter.selectIndex = -1;
@@ -1341,6 +1354,9 @@ public class JVPlayActivity extends PlayActivity implements
 		@SuppressWarnings("deprecation")
 		@Override
 		public void onClick(View view) {
+
+			Channel channel = getChannelByIndex(currentIndex);
+
 			switch (view.getId()) {
 			// case R.id.yt_cancle:
 			//
@@ -1356,7 +1372,6 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but2:
 			case R.id.decodeway: {// 软硬解切换
 				if (allowThisFuc(false)) {
-					Channel channel = manager.getChannel(currentIndex);
 					createDialog("");
 					if (channel.isOMX()) {
 						Jni.setOmx(currentIndex, false);
@@ -1371,7 +1386,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but6:
 			case R.id.overturn: {// 视频翻转
 				if (allowThisFuc(false)) {
-					Channel channel = manager.getChannel(currentIndex);
+
 					String turnParam = "";
 					if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
 						turnParam = "effect_flag=" + Consts.SCREEN_OVERTURN;
@@ -1388,7 +1403,6 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			case R.id.btn_right: {// 右边按钮----录像切换
 				if (allowThisFuc(false)) {
-					Channel channel = manager.getChannel(currentIndex);
 					try {
 						createDialog("");
 						if (Consts.STORAGEMODE_ALARM == channel
@@ -1474,13 +1488,13 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but8:
 			case R.id.audio_monitor:// 音频监听
-				initAudio(manager.getChannel(currentIndex).getAudioByte());
+				initAudio(getChannelByIndex(currentIndex).getAudioByte());
 				if (allowThisFuc(true)) {
-					if (manager.getChannel(currentIndex).isVoiceCall()) {
+					if (getChannelByIndex(currentIndex).isVoiceCall()) {
 						functionListAdapter.selectIndex = -1;
 						showTextToast(R.string.audio_monitor_forbidden);
 					} else {
-						initAudio(manager.getChannel(currentIndex)
+						initAudio(getChannelByIndex(currentIndex)
 								.getAudioByte());
 						if (!PlayUtil.audioPlay(currentIndex)) {
 							functionListAdapter.selectIndex = -1;
@@ -1526,7 +1540,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but5:
 			case R.id.funclayout:// AP功能列表对讲功能
 			case R.id.voicecall:// 语音对讲
-				initAudio(manager.getChannel(currentIndex).getAudioByte());
+				initAudio(getChannelByIndex(currentIndex).getAudioByte());
 				if (allowThisFuc(true)) {
 					// 停止音频监听
 					if (PlayUtil.isPlayAudio(currentIndex)) {
@@ -1538,7 +1552,7 @@ public class JVPlayActivity extends PlayActivity implements
 					}
 
 					playAudio.setIndex(currentIndex);
-					if (manager.getChannel(currentIndex).isVoiceCall()) {
+					if (getChannelByIndex(currentIndex).isVoiceCall()) {
 						if (null != recorder) {
 							recorder.stop();
 						}
@@ -1546,7 +1560,7 @@ public class JVPlayActivity extends PlayActivity implements
 							audioQueue.clear();
 						}
 						PlayUtil.stopVoiceCall(currentIndex);
-						manager.getChannel(currentIndex).setVoiceCall(false);
+						getChannelByIndex(currentIndex).setVoiceCall(false);
 						voiceCallSelected(false);
 						VOICECALLING = false;
 						if (Consts.PLAY_AP == playFlag) {
@@ -1554,9 +1568,9 @@ public class JVPlayActivity extends PlayActivity implements
 							functionListAdapter.notifyDataSetChanged();
 						}
 					} else {
-						JVPlayActivity.AUDIO_SINGLE = manager.getChannel(
+						JVPlayActivity.AUDIO_SINGLE = getChannelByIndex(
 								currentIndex).isSingleVoice();
-						if (manager.getChannel(currentIndex).isSingleVoice()) {
+						if (getChannelByIndex(currentIndex).isSingleVoice()) {
 							showTextToast(R.string.voice_tips2);
 						}
 
@@ -1587,7 +1601,7 @@ public class JVPlayActivity extends PlayActivity implements
 					streamListView.setVisibility(View.GONE);
 				} else {
 					if (allowThisFuc(true)) {
-						if (-1 == manager.getChannel(currentIndex)
+						if (-1 == getChannelByIndex(currentIndex)
 								.getStreamTag()) {
 							showTextToast(R.string.stream_not_support);
 						} else {
@@ -1598,17 +1612,17 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 
 			case R.id.bottom_but1:// 暂停继续播
-				if (manager.getChannel(currentIndex).isPause()) {
+				if (getChannelByIndex(currentIndex).isPause()) {
 					Jni.sendBytes(currentIndex,
 							(byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
-					manager.getChannel(currentIndex).setPause(false);
+					getChannelByIndex(currentIndex).setPause(false);
 					bottombut1
 							.setBackgroundResource(R.drawable.video_stop_icon);
 				} else {
 					Jni.sendBytes(currentIndex,
 							(byte) JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0],
 							8);
-					manager.getChannel(currentIndex).setPause(true);
+					getChannelByIndex(currentIndex).setPause(true);
 					bottombut1
 							.setBackgroundResource(R.drawable.video_play_icon);
 				}
@@ -1632,7 +1646,7 @@ public class JVPlayActivity extends PlayActivity implements
 	 *            ,初始化不做当前页非当前页判断
 	 */
 	public void computeScreenData(int source, int target) {
-		stopAll(currentIndex, manager.getChannel(currentIndex));
+		stopAll(currentIndex, getChannelByIndex(currentIndex));
 		PlayUtil.disAndPause(currentScreen, currentPage, channelMap);// 连接之前暂停该暂停的，断开多余的
 		// 计算保持连接数
 		if (target == oneScreen) {
@@ -1700,8 +1714,6 @@ public class JVPlayActivity extends PlayActivity implements
 	 * 
 	 */
 	public void connectAll() {
-		MyLog.v(TAG, "---------connectAll----------currentPage=" + currentPage
-				+ "--currentIndex=" + currentIndex);
 		try {
 			Thread connectThread = new Thread() {
 				@Override
@@ -1709,25 +1721,12 @@ public class JVPlayActivity extends PlayActivity implements
 					ArrayList<Channel> channleList = manager
 							.getValidChannelList(currentPage);
 
-					MyLog.v(TAG, "---------connectAll1-----channleList-----"
-							+ channleList);
 					for (Channel channel : channleList) {
-						MyLog.v(TAG,
-								"---------connectAll2-----channleList-----"
-										+ channleList);
 						try {
 							Thread.sleep(500);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-
-						MyLog.v(TAG,
-								"---------connectAll3-----channleList-----"
-										+ channleList);
-						// Device dev = channel.getParent();
-
-						MyLog.v(TAG, "---------channel-----" + channel);
-
 						try {
 							while (!surfaceCreatMap.get(channel.getIndex())) {
 								try {
@@ -1777,8 +1776,8 @@ public class JVPlayActivity extends PlayActivity implements
 			connectAll();
 		}
 
-		if (manager.getChannel(currentIndex).isConnected()
-				&& !manager.getChannel(currentIndex).isPause()) {
+		if (getChannelByIndex(currentIndex).isConnected()
+				&& !getChannelByIndex(currentIndex).isPause()) {
 
 			allow = true;
 		} else {
@@ -1794,13 +1793,13 @@ public class JVPlayActivity extends PlayActivity implements
 	public void startRemote() {
 		Intent remoteIntent = new Intent();
 		remoteIntent.setClass(JVPlayActivity.this, JVRemoteListActivity.class);
-		remoteIntent.putExtra("IndexOfChannel", manager
-				.getChannel(currentIndex).getIndex());
-		remoteIntent.putExtra("DeviceType", manager.getChannel(currentIndex)
+		remoteIntent.putExtra("IndexOfChannel", getChannelByIndex(currentIndex)
+				.getIndex());
+		remoteIntent.putExtra("DeviceType", getChannelByIndex(currentIndex)
 				.getParent().getDeviceType());
-		remoteIntent.putExtra("is05", manager.getChannel(currentIndex)
+		remoteIntent.putExtra("is05", getChannelByIndex(currentIndex)
 				.getParent().is05());
-		remoteIntent.putExtra("AudioByte", manager.getChannel(currentIndex)
+		remoteIntent.putExtra("AudioByte", getChannelByIndex(currentIndex)
 				.getAudioByte());
 		JVPlayActivity.this.startActivity(remoteIntent);
 	}
@@ -1813,10 +1812,8 @@ public class JVPlayActivity extends PlayActivity implements
 			ytLayout.setVisibility(View.GONE);
 			if (bigScreen) {
 				playFunctionList.setVisibility(View.VISIBLE);
-				// playFuctionLayout.setVisibility(View.GONE);
 			} else {
 				playFunctionList.setVisibility(View.GONE);
-				// playFuctionLayout.setVisibility(View.VISIBLE);
 			}
 		} else {
 			stopAllFunc();
@@ -1857,16 +1854,16 @@ public class JVPlayActivity extends PlayActivity implements
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 
-		if (manager.getChannel(currentIndex).isSingleVoice()) {// 单向对讲
+		if (getChannelByIndex(currentIndex).isSingleVoice()) {// 单向对讲
 			if (VOICECALL_LONG_CLICK) {
-				new TalkThread(0).start();
+				new TalkThread(currentIndex, 0).start();
 				VOICECALL_LONG_CLICK = false;
 				voiceTip.setVisibility(View.GONE);
 			}
 		}
 
 		if (currentScreen == oneScreen) {
-			refreshIPCFun(manager.getChannel(currentIndex));
+			refreshIPCFun(getChannelByIndex(currentIndex));
 		} else {
 			decodeBtn.setVisibility(View.GONE);
 			rightFuncButton.setVisibility(View.GONE);
@@ -1908,14 +1905,14 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		// 停止对讲
-		if (manager.getChannel(currentIndex).isVoiceCall()) {
+		if (getChannelByIndex(currentIndex).isVoiceCall()) {
 			if (null != recorder) {
 				recorder.stop();
 			}
 			if (null != audioQueue) {
 				audioQueue.clear();
 			}
-			manager.getChannel(currentIndex).setVoiceCall(false);
+			getChannelByIndex(currentIndex).setVoiceCall(false);
 			voiceCallSelected(false);
 			PlayUtil.stopVoiceCall(currentIndex);
 		}
@@ -1932,7 +1929,7 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onGesture(int direction) {
 		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-			Channel channel = manager.getChannel(currentIndex);
+			Channel channel = getChannelByIndex(currentIndex);
 			if (null != channel && channel.isConnected()
 					&& !channel.isConnecting() && !channel.isPause()) {
 				int c = 0;
@@ -1996,7 +1993,7 @@ public class JVPlayActivity extends PlayActivity implements
 				@Override
 				public void run() {
 					try {
-						manager.getChannel(index).setSurfaceCreated(true);
+						getChannelByIndex(index).setSurfaceCreated(true);
 						Jni.resume(index, surface);
 					} catch (Exception e) {
 						MyLog.v(TAG, "resumeThread--error--index=" + index);
@@ -2013,7 +2010,7 @@ public class JVPlayActivity extends PlayActivity implements
 			Thread pauseThread = new Thread() {
 				@Override
 				public void run() {
-					manager.getChannel(index).setSurfaceCreated(false);
+					getChannelByIndex(index).setSurfaceCreated(false);
 					Jni.pause(index);
 					super.run();
 				}
@@ -2126,7 +2123,7 @@ public class JVPlayActivity extends PlayActivity implements
 			screenAdapter.notifyDataSetChanged();
 			popScreen.dismiss();
 		}
-		stopAll(currentIndex, manager.getChannel(currentIndex));
+		stopAll(currentIndex, getChannelByIndex(currentIndex));
 		manager.pauseAll();
 		PlayUtil.pauseAll(manager.getValidChannelList(currentPage));
 

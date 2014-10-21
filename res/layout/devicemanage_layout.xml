@@ -38,13 +38,13 @@
                 android:background="@null" >
 
                 <EditText
-                    android:paddingLeft="10dp"
                     android:id="@+id/manage_nick"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/editimport"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:paddingLeft="10dp" />
 
                 <ImageView
                     android:id="@+id/manage_nick_cancle"
@@ -78,13 +78,13 @@
                 android:background="@null" >
 
                 <EditText
-                    android:paddingLeft="10dp"
                     android:id="@+id/manage_user"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/editimport"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:paddingLeft="10dp" />
 
                 <ImageView
                     android:id="@+id/manage_user_cancle"
@@ -118,13 +118,13 @@
                 android:background="@null" >
 
                 <EditText
-                    android:paddingLeft="10dp"
                     android:id="@+id/manage_password"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/editimport"
                     android:padding="10dp"
+                    android:paddingLeft="10dp"
                     android:password="true" />
 
                 <ImageView

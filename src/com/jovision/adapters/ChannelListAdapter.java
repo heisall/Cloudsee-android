@@ -128,6 +128,7 @@ public class ChannelListAdapter extends BaseAdapter {
 					.setImageResource(R.drawable.devicemanage_edit_icon);
 			Holder.item_img
 					.setImageResource(R.drawable.devicemanage_normal_icon);
+			Holder.channel_list_text.setTextColor(activity.getResources().getColor(R.color.more_fragment_color2));
 		} else {
 			Holder.channellist_pull.setVisibility(View.VISIBLE);
 			Holder.channel_list_edit.setFocusable(true);
@@ -135,6 +136,7 @@ public class ChannelListAdapter extends BaseAdapter {
 			Holder.channel_list_edit.requestFocus();
 			Holder.channel_list_img
 					.setImageResource(R.drawable.devicemanage_sure_icon);
+			Holder.channel_list_text.setTextColor(activity.getResources().getColor(R.color.dialogchannaltext));
 			Holder.item_img
 					.setImageResource(R.drawable.devicemanage_selected_icon);
 		}

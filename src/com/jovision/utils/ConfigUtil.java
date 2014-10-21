@@ -161,20 +161,19 @@ public class ConfigUtil {
 		return ip;
 	}
 
-	public static int lan = -1;
+	public static int lan = JVConst.LANGUAGE_ZH;
 
 	// 中文 0 英文 1
 	public static int getServerLanguage() {
 
-		if (-1 == lan) {
-			String country = getCountry();
-			if (country.contains("中国") || country.contains("China")
-					|| country.contains("china")) {
-				lan = JVConst.LANGUAGE_ZH;
-			} else {
-				lan = JVConst.LANGUAGE_EN;
-			}
+		String country = getCountry();
+		if (country.contains("中国") || country.contains("China")
+				|| country.contains("china")) {
+			lan = JVConst.LANGUAGE_ZH;
+		} else {
+			lan = JVConst.LANGUAGE_EN;
 		}
+
 		return lan;
 	}
 

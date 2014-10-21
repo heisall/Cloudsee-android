@@ -113,9 +113,16 @@ public class CustomDialogActivity extends BaseActivity implements
 				bLocalFile = false;
 				if (!strImgUrl.equals("")) {
 					Jni.setDownloadFileName(localImgPath);
-					AlarmUtil.OnlyConnect(strYstNum);
-				}
-				if (!vod_uri_.equals("")) {
+					if (!AlarmUtil.OnlyConnect(strYstNum)) {
+						showTextToast("连接失败，已经连接或者超过最大连接数");
+						if (!vod_uri_.equals("")) {
+							lookVideoBtn.setEnabled(true);
+						}
+					} else {
+						lookVideoBtn.setEnabled(false);
+					}
+
+				} else if (!vod_uri_.equals("")) {
 					lookVideoBtn.setEnabled(true);
 				}
 			} else {
@@ -213,7 +220,10 @@ public class CustomDialogActivity extends BaseActivity implements
 				bDownLoadFileType = 1;
 				if (!bConnectFlag) {
 					progressdialog.show();
-					AlarmUtil.OnlyConnect(strYstNum);
+					if (!AlarmUtil.OnlyConnect(strYstNum)) {
+						progressdialog.dismiss();
+						showTextToast("连接失败，已经连接或者超过最大连接数");
+					}
 				} else {
 					// 已经连接上走远程回放
 					Intent intent = new Intent();

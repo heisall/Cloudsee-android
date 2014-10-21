@@ -33,6 +33,7 @@
                 android:id="@+id/user_icon"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:layout_marginLeft="8dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/login_user_icon" />
 
@@ -55,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignRight="@+id/userdivider_iv"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/login_pull_icon" />
 
@@ -78,6 +80,7 @@
                 android:id="@+id/pass_icon"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:layout_marginLeft="8dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/login_password_icon" />
 

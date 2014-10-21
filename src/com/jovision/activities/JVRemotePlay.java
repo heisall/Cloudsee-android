@@ -1,18 +1,5 @@
 package com.jovision.activities;
 
-
-import java.util.ArrayList;
-
-import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
-import com.jovision.Jni;
-import com.jovision.bean.Channel;
-import com.jovision.bean.Device;
-import com.jovision.commons.JVNetConst;
-import com.jovision.commons.MyLog;
-import com.jovision.utils.PlayUtil;
-
-import android.content.DialogInterface;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -20,26 +7,32 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.jovetech.CloudSee.temp.R;
+import com.jovision.Jni;
+import com.jovision.bean.Channel;
+import com.jovision.bean.Device;
+import com.jovision.commons.JVNetConst;
 
 public class JVRemotePlay extends BaseActivity {
 	private SurfaceView remoteSufaceView;
 	private Button btnRemotePaly;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-		Log.e("tags", arg1+","+arg2+",");
+		Log.e("tags", arg1 + "," + arg2 + ",");
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void initSettings() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -51,13 +44,13 @@ public class JVRemotePlay extends BaseActivity {
 		btnRemotePaly = (Button) findViewById(R.id.btnRemotePaly);
 		btnRemotePaly.setOnClickListener(myOnClickListener);
 		handler.postDelayed(new ConnectThread(), 200);
-		
+
 	}
 
 	/**
 	 * 连接线程
 	 */
-	class ConnectThread extends Thread{
+	class ConnectThread extends Thread {
 
 		@Override
 		public void run() {
@@ -74,18 +67,15 @@ public class JVRemotePlay extends BaseActivity {
 			channel.setChannel(1);
 			channel.setIndex(1);
 			channel.setSurfaceView(remoteSufaceView);
-			
-			Jni.connect(1,
-					1, device.getIp(),
-					device.getPort(), device.getUser(),
-					device.getPwd(), device.getNo(), device.getGid(), true,
-					1, true, (device.isHomeProduct() ? 6 : 6),
-					channel.getSurfaceView().getHolder()
-							.getSurface(), true);
+
+			Jni.connect(1, 1, device.getIp(), device.getPort(), device
+					.getUser(), device.getPwd(), device.getNo(), device
+					.getGid(), true, 1, true, (device.isHomeProduct() ? 6 : 6),
+					channel.getSurfaceView().getHolder().getSurface(), true);
 		}
-		
+
 	}
-	
+
 	/**
 	 * 所有按钮事件
 	 */
@@ -95,35 +85,34 @@ public class JVRemotePlay extends BaseActivity {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.btnRemotePaly:// 返回
-				// channel = 5007, uchType = 20, pbuffer = ./rec/00/20141020/A01130921.mp4,  nsize: 31
+				// channel = 5007, uchType = 20, pbuffer =
+				// ./rec/00/20141020/A01130921.mp4, nsize: 31
 				Jni.enablePlayback(1, true);
-				Jni.sendBytes(1,
-							(byte) JVNetConst.JVN_CMD_PLAYSTOP, new byte[0], 0);
-				 String mp4Url = "./rec/00/20141020/A01100427.mp4";
-				 byte[] data = (byte[]) mp4Url.getBytes();
-				 Jni.sendBytes(1,
-				(byte)JVNetConst.JVN_REQ_PLAY,
-				 data,
-				 data.length);
-				 
+				Jni.sendBytes(1, (byte) JVNetConst.JVN_CMD_PLAYSTOP,
+						new byte[0], 0);
+				String mp4Url = "./rec/00/20141020/A01100427.mp4";
+				byte[] data = (byte[]) mp4Url.getBytes();
+				Jni.sendBytes(1, (byte) JVNetConst.JVN_REQ_PLAY, data,
+						data.length);
+
 				break;
-			
+
 			}
 
 		}
 
 	};
-	
+
 	@Override
 	protected void saveSettings() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void freeMe() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

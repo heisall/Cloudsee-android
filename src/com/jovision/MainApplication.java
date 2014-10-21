@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Application;
@@ -12,16 +13,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Message;
 import android.test.JVACCOUNT;
-
+import android.util.Log;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVOffLineDialogActivity;
 import com.jovision.activities.JVTabActivity;
+import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.AlarmUtil;
 
 /**
  * 整个应用的入口，管理状态、活动集合，消息队列以及漏洞汇报
@@ -232,7 +236,100 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 					}
 				}
-			} else if (JVAccountConst.MESSAGE_OFFLINE == res) {// 提掉线
+			} else if (JVAccountConst.MESSAGE_NEW_PUSH_TAG == res) {// 新报警协议推送信息
+				/**
+				 * message_type：4604 res----:4604;;time----:;;msg----:
+				 * {"p2rmt":4604,"mt":2219,"username":"18254152812_p",
+				 * "aguid":"4e01e9916109c821af63fe5a0195275a"
+				 * ,"dguid":"S90252170","dname":"HD IPC",
+				 * "dcn":1,"atype":7,"ats":1413035825,"amt":0,
+				 * "apic":"./rec/00/20141011/A01135705.jpg"
+				 * ,"avd":"./rec/00/20141011/A01135705.mp4"}
+				 * 
+				 */
+				MyLog.e("tags", "new msg: " + msg);
+				String strYstNumString = "";
+				if (MySharedPreference.getBoolean("AlarmSwitch", false)){
+					if (null != currentNotifyer && null != msg && !"".equalsIgnoreCase(msg)) {
+						
+						try {
+							JSONObject obj = new JSONObject(msg);
+							String arrayStr = statusHashMap
+									.get(Consts.PUSH_JSONARRAY);
+							JSONArray pushArray = null;
+							if (null == arrayStr
+									|| "".equalsIgnoreCase(arrayStr)) {
+								pushArray = new JSONArray();
+							} else {
+								pushArray = new JSONArray(arrayStr);
+							}
+							pushArray.put(obj);
+							statusHashMap.put(Consts.PUSH_JSONARRAY,
+									pushArray.toString());							
+							PushInfo pi = new PushInfo();
+							pi.strGUID = obj
+									.optString(JVAlarmConst.JK_ALARM_NEW_GUID);
+							pi.ystNum = obj
+									.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNUM);
+							strYstNumString = pi.ystNum;
+							pi.coonNum = obj
+									.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
+//
+//							pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
+							pi.alarmType = obj
+									.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
+							pi.timestamp = obj
+									.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
+							pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);
+							
+							pi.deviceName = obj
+									.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+							pi.newTag = true;
+							pi.pic = obj
+									.optString(JVAlarmConst.JK_ALARM_NEW_PICURL);
+							pi.messageTag = JVAccountConst.MESSAGE_NEW_PUSH_TAG;
+							pi.video = obj
+									.optString(JVAlarmConst.JK_ALARM_NEW_VIDEOURL);
+//							BaseApp.pushList.add(0, pi);// 新消息置顶
+//							BaseApp.pushHisCount++;
+							onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0, strYstNumString);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+
+					Log.e("[new]BaseApp.pushList", BaseApp.pushList.size() + "");
+
+					if (null != BaseApp.mainHandler
+							&& 0 != BaseApp.pushList.size()) {
+						if (null != BaseApp.pushList.get(0)) {
+							Message message = BaseApp.mainHandler
+									.obtainMessage();
+							message.what = JVConst.RECEVICE_PUSH_MSG;
+							message.obj = strYstNumString;
+
+							BaseApp.mainHandler.sendMessage(message);
+							BaseApp.getInstance().onNotify(9002, 0, 0, strYstNumString);												
+						}
+
+					}
+
+					// // 刷新条数
+					// if (null != JVTabActivity.getInstance()
+					// && null != JVTabActivity.getInstance().jvTabHandler) {
+					// Message message =
+					// JVTabActivity.getInstance().jvTabHandler
+					// .obtainMessage();
+					// message.what = JVConst.MESSAGE_PUSH_COUNT;
+					// JVTabActivity.getInstance().jvTabHandler
+					// .sendMessage(message);
+					// }
+				} else {
+
+				}
+			}else if (JVAccountConst.MESSAGE_OFFLINE == res) {// 提掉线
 				Intent intent = new Intent(getApplicationContext(),
 						JVOffLineDialogActivity.class);
 				intent.putExtra("ErrorCode", JVAccountConst.MESSAGE_OFFLINE);

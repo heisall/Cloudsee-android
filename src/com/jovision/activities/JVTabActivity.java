@@ -6,13 +6,13 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
-
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyLog;
+import com.jovision.views.AlarmDialog;
 
 public class JVTabActivity extends ShakeActivity {
 
@@ -82,12 +82,21 @@ public class JVTabActivity extends ShakeActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
+		switch (what) {
+		case Consts.PUSH_MESSAGE:
+			//弹出对话框
+			AlarmDialog.getInstance(this).Show(obj.toString()); 
+			break;
 
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 
+		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));//所有界面弹出报警
 		// TODO 增加过滤
 		switch (what) {
 		// case Consts.CALL_LAN_SEARCH:{

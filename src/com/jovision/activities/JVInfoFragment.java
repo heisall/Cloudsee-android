@@ -20,6 +20,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.PushAdapter;
 import com.jovision.bean.PushInfo;
+import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.ConfigUtil;
@@ -237,28 +238,28 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					try {
 						JSONObject obj = pushArray.getJSONObject(i);
 						PushInfo pi = new PushInfo();
-						pi.strGUID = obj.optString(JVAlarmConst.JK_ALARM_GUID);
+						pi.strGUID = obj
+								.optString(JVAlarmConst.JK_ALARM_NEW_GUID);
 						pi.ystNum = obj
-								.optString(JVAlarmConst.JK_ALARM_CLOUDNUM);
-						pi.coonNum = obj.optInt(JVAlarmConst.JK_ALARM_CLOUDCHN);
-
-						// pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
+								.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNUM);
+						pi.coonNum = obj
+								.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
+//
+//						pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
 						pi.alarmType = obj
-								.optInt(JVAlarmConst.JK_ALARM_ALARMTYPE);
-						pi.alarmTime = obj
-								.optString(JVAlarmConst.JK_ALARM_ALARMTIME);
-						pi.alarmLevel = obj
-								.optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);
+								.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
+						pi.timestamp = obj
+								.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
+						pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);
+						
 						pi.deviceName = obj
-								.optString(JVAlarmConst.JK_ALARM_CLOUDNAME);
+								.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 						pi.newTag = true;
-						// pi.pic =
-						// AlarmUtil.getAlarmPic(LoginUtil.userName,pi.strGUID);
-						// pi.video =
-						// AlarmUtil.getAlarmVideo(LoginUtil.userName,pi.strGUID);
-						// Log.v("推送的回调函数--pic-----","pi.pic----:"+pi.pic);
-						// Log.v("推送的回调函数--video-----","pi.video----:"+pi.video);
-						pi.pic = obj.optString(JVAlarmConst.JK_ALARM_PICURL);
+						pi.pic = obj
+								.optString(JVAlarmConst.JK_ALARM_NEW_PICURL);
+						pi.messageTag = JVAccountConst.MESSAGE_NEW_PUSH_TAG;
+						pi.video = obj
+								.optString(JVAlarmConst.JK_ALARM_NEW_VIDEOURL);
 						pushList.add(0, pi);// 新消息置顶
 						Consts.pushHisCount++;
 					} catch (JSONException e) {

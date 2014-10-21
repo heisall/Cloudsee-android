@@ -2,12 +2,15 @@ package com.jovision.views;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.activities.JVPlayActivity;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
@@ -56,7 +59,7 @@ public class AlarmDialog extends Dialog {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.dialog_summary);
+		this.setContentView(R.layout.alarm_dialog_summary);
 		setCanceledOnTouchOutside(false);
 		dialogCancel = (TextView) findViewById(R.id.dialog_cancel);
 		dialogView = (TextView) findViewById(R.id.dialog_view);
@@ -96,6 +99,14 @@ public class AlarmDialog extends Dialog {
 					// getDeivceIndex(ystNum));
 					// playIntent.putExtra("PointIndex", 0);
 					// context.startActivity(playIntent);
+					
+					Intent intentPlay = new Intent(context, JVPlayActivity.class);
+					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+					int dev_index = getDeivceIndex(ystNum);
+					intentPlay.putExtra("DeviceIndex",  dev_index);
+					intentPlay.putExtra("ChannelofChannel", CacheUtil.getDevList().get(dev_index).getChannelList()
+							.toList().get(0).getChannel());
+					context.startActivity(intentPlay);					
 				}
 
 				mAlarmDialog.dismiss();

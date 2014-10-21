@@ -91,7 +91,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			if (!vod_uri_.equals("")) {
 				String temp[] = vod_uri_.split("/");
 				localVodName = temp[temp.length - 1];
-				localVodPath = Consts.SD_CARD_PATH + "CSAlarmIMG/"
+				localVodPath = Consts.SD_CARD_PATH + "CSAlarmVOD/"
 						+ localVodName;
 
 			}
@@ -99,7 +99,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			if (!strImgUrl.equals("")) {
 				String temp[] = strImgUrl.split("/");
 				localImgName = temp[temp.length - 1];
-				localImgPath = Consts.SD_CARD_PATH + "CSAlarmVOD/"
+				localImgPath = Consts.SD_CARD_PATH + "CSAlarmIMG/"
 						+ localImgName;
 				// imgLoaderFilePath = "file://"+localImgPath;
 			}

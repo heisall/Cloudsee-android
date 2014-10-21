@@ -91,7 +91,6 @@ public class JVQuickSettingActivity1 extends BaseActivity implements
 
 	/** IPCwifi列表 */
 	private LinearLayout ipcLayout;
-	private ImageView ipcImage;
 	/** IPC网络 */
 	private ArrayList<ScanResult> scanIpcWifiList = new ArrayList<ScanResult>();
 	private RefreshableListView ipcWifiListView;
@@ -231,9 +230,6 @@ public class JVQuickSettingActivity1 extends BaseActivity implements
 		ipcWifiListView = (RefreshableListView) findViewById(R.id.ipcwifilistview);
 		LinearLayout layout = (LinearLayout) layoutFlater.inflate(
 				R.layout.quiksettinglayoutheader, null);
-		ipcImage = (ImageView) layout.findViewById(R.id.quicksetting_tips_img);
-		// ipcImage.setImageDrawable(getResources().getDrawable(
-		// R.drawable.ipc_banner));
 		ipcWifiListView.addHeaderView(layout);
 
 		ipcWifiListView.setOnRefreshListener(new WifiRefreshListener(true));

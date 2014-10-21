@@ -649,6 +649,10 @@ public class PlayWindowManager implements View.OnClickListener,
 
 		for (PlayWindowGroup g : mGroupList) {
 			mPageList.add(g.genPage());
+			for (PlayWindow window : g.getWindowList()) {
+				MyLog.e(Consts.TAG_PLAY, "check window: "
+						+ window.getChannel().getIndex());
+			}
 		}
 
 		return mPageList;

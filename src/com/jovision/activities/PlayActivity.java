@@ -578,8 +578,8 @@ public abstract class PlayActivity extends BaseActivity {
 	@SuppressWarnings("deprecation")
 	protected void tapeSelected(Boolean selected) {
 		if (selected) {// 选中
-		// videoTape.setTextColor(getResources().getColor(
-		// R.color.functionbtncolor2));
+			// videoTape.setTextColor(getResources().getColor(
+			// R.color.functionbtncolor2));
 
 			videoTape.setCompoundDrawablesWithIntrinsicBounds(null,
 					videoTapeTop2, null, null);
@@ -606,8 +606,8 @@ public abstract class PlayActivity extends BaseActivity {
 	@SuppressWarnings("deprecation")
 	protected void voiceCallSelected(Boolean selected) {
 		if (selected) {// 选中
-		// voiceCall.setTextColor(getResources().getColor(
-		// R.color.functionbtncolor2));
+			// voiceCall.setTextColor(getResources().getColor(
+			// R.color.functionbtncolor2));
 
 			voiceCall.setCompoundDrawablesWithIntrinsicBounds(null,
 					voiceCallTop2, null, null);

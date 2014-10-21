@@ -1,51 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="50dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/transparent" >
 
-    <ImageView
-        android:id="@+id/usericon"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/login_selector_icon" />
+        android:layout_height="50dp" >
 
-    <TextView
-        android:id="@+id/otherusername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="15dp"
-        android:layout_toRightOf="@+id/usericon"
-        android:hint="@string/str_enter_username"
-        android:singleLine="true"
-        android:textColor="@color/userinfocolor"
-        android:textSize="18sp" />
+        <ImageView
+            android:id="@+id/usericon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/login_selector_icon" />
 
-    <ImageView
-        android:id="@+id/otheruser_del"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="12dp"
-        android:background="@drawable/login_dialog_close"
-        android:padding="8dp" />
+        <TextView
+            android:id="@+id/otherusername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/usericon"
+            android:hint="@string/str_enter_username"
+            android:singleLine="true"
+            android:textColor="@color/userinfocolor"
+            android:textSize="18sp" />
 
-    <ImageView
-        android:id="@+id/useritemdivider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/user_list_divider" />
+        <ImageView
+            android:id="@+id/otheruser_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/login_dialog_close"
+            android:padding="8dp" />
+
+        <ImageView
+            android:id="@+id/useritemdivider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/user_list_divider" />
+    </RelativeLayout>
 
 </RelativeLayout>

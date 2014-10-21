@@ -116,7 +116,7 @@ public class JVChannelsActivity extends BaseActivity {
 		mHorizontalScrollView = (HorizontalScrollView) findViewById(R.id.hsv_view);
 		mLinearLayout = (LinearLayout) findViewById(R.id.hsv_content);
 		mImageView = (ImageView) findViewById(R.id.img);
-		item_width = (int) ((mScreenWidth /3.0 + 0.5f));
+		item_width = (int) ((mScreenWidth / 3.0 + 0.5f));
 		mImageView.getLayoutParams().width = item_width;
 		channelPager = (ViewPager) findViewById(R.id.channels_pager);
 		widthPixels = disMetrics.widthPixels;
@@ -174,7 +174,6 @@ public class JVChannelsActivity extends BaseActivity {
 			view.setText(deviceList.get(i).getFullNo());
 			view.setTextSize(16);
 			view.setSingleLine(true);
-			view.setPadding(10,5,10,5);
 			view.setId(i);
 			view.setTextColor(JVChannelsActivity.this.getResources().getColor(
 					R.color.devicemanagename));
@@ -182,7 +181,7 @@ public class JVChannelsActivity extends BaseActivity {
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.CENTER_IN_PARENT);
 			layout.addView(view, params);
-			mLinearLayout.addView(layout, (int) (mScreenWidth /3 + 0.5f), 50);
+			mLinearLayout.addView(layout, (int) (mScreenWidth / 3 + 0.5f),60);
 			layout.setOnClickListener(new OnClickListener() {
 
 				@Override

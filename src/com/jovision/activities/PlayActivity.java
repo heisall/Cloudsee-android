@@ -100,11 +100,11 @@ public abstract class PlayActivity extends BaseActivity {
 	protected Boolean recoding = false;
 
 	/** 录像按钮 */
-	protected Drawable videoTapeLeft1 = null;
-	protected Drawable videoTapeLeft2 = null;
+	protected Drawable videoTapeTop1 = null;
+	protected Drawable videoTapeTop2 = null;
 	/** 对讲按钮 */
-	protected Drawable voiceCallLeft1 = null;
-	protected Drawable voiceCallLeft2 = null;
+	protected Drawable voiceCallTop1 = null;
+	protected Drawable voiceCallTop2 = null;
 
 	protected PlayAudio playAudio;// 音频监听
 	protected LinkedBlockingQueue<byte[]> audioQueue;
@@ -332,11 +332,11 @@ public abstract class PlayActivity extends BaseActivity {
 		apFuncLayout = (LinearLayout) findViewById(R.id.apfunclayout);// 底部AP下一步
 		nextStep = (Button) findViewById(R.id.nextstep);// 下一步
 
-		videoTapeLeft1 = getResources().getDrawable(R.drawable.video_record_1);
-		videoTapeLeft2 = getResources().getDrawable(R.drawable.video_record_2);
+		videoTapeTop1 = getResources().getDrawable(R.drawable.video_record_1);
+		videoTapeTop2 = getResources().getDrawable(R.drawable.video_record_2);
 
-		voiceCallLeft1 = getResources().getDrawable(R.drawable.voice_call_1);
-		voiceCallLeft2 = getResources().getDrawable(R.drawable.voice_call_2);
+		voiceCallTop1 = getResources().getDrawable(R.drawable.voice_call_1);
+		voiceCallTop2 = getResources().getDrawable(R.drawable.voice_call_2);
 		setPlayViewSize();
 	}
 
@@ -578,21 +578,19 @@ public abstract class PlayActivity extends BaseActivity {
 	@SuppressWarnings("deprecation")
 	protected void tapeSelected(Boolean selected) {
 		if (selected) {// 选中
-			videoTape.setTextColor(getResources().getColor(
-					R.color.functionbtncolor2));
-			videoTape.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.function_btn_bg_2));
-			videoTape.setCompoundDrawablesWithIntrinsicBounds(videoTapeLeft2,
-					null, null, null);
+			// videoTape.setTextColor(getResources().getColor(
+			// R.color.functionbtncolor2));
+
+			videoTape.setCompoundDrawablesWithIntrinsicBounds(null,
+					videoTapeTop2, null, null);
 			bottombut7.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.video_record_2));
 		} else {
-			videoTape.setTextColor(getResources().getColor(
-					R.color.functionbtncolor1));
-			videoTape.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.function_btn_bg_1));
-			videoTape.setCompoundDrawablesWithIntrinsicBounds(videoTapeLeft1,
-					null, null, null);
+			// videoTape.setTextColor(getResources().getColor(
+			// R.color.functionbtncolor1));
+
+			videoTape.setCompoundDrawablesWithIntrinsicBounds(null,
+					videoTapeTop1, null, null);
 			bottombut7.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.video_record_1));
 		}
@@ -608,22 +606,20 @@ public abstract class PlayActivity extends BaseActivity {
 	@SuppressWarnings("deprecation")
 	protected void voiceCallSelected(Boolean selected) {
 		if (selected) {// 选中
-			voiceCall.setTextColor(getResources().getColor(
-					R.color.functionbtncolor2));
-			voiceCall.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.function_btn_bg_2));
-			voiceCall.setCompoundDrawablesWithIntrinsicBounds(voiceCallLeft2,
-					null, null, null);
+			// voiceCall.setTextColor(getResources().getColor(
+			// R.color.functionbtncolor2));
+
+			voiceCall.setCompoundDrawablesWithIntrinsicBounds(null,
+					voiceCallTop2, null, null);
 			bottombut5.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.video_talkselect_icon));
 
 		} else {
-			voiceCall.setTextColor(getResources().getColor(
-					R.color.functionbtncolor1));
-			voiceCall.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.function_btn_bg_1));
-			voiceCall.setCompoundDrawablesWithIntrinsicBounds(voiceCallLeft1,
-					null, null, null);
+			// voiceCall.setTextColor(getResources().getColor(
+			// R.color.functionbtncolor1));
+
+			voiceCall.setCompoundDrawablesWithIntrinsicBounds(null,
+					voiceCallTop1, null, null);
 			bottombut5.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.video_talkback_icon));
 

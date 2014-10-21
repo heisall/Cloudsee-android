@@ -39,10 +39,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/str_nicknametwo" 
+                    android:text="@string/str_nicknametwo"
                     android:textColor="@color/more_fragment_color6"
-                    android:textSize="20sp"
-                    />
+                    android:textSize="20sp" />
 
                 <FrameLayout
                     android:layout_width="match_parent"

@@ -44,7 +44,8 @@ public class ThirdDevListActivity extends BaseActivity implements
 	private TextView titleTv;
 	private XListView thirdDevListView = null;// 设备列表view
 	private ThirdDevAdapter thirdDevAdapter;
-	private int selected_dev_index = -1;
+	private int selected_dev_index = -1;// 保存当前修改防护开关的设备索引
+	private int saved_third_safe_flag = 1;// 保存第三方设备防护开关的要被设置成的标志，等返回成功后再设置，默认开
 	private RelativeLayout topAddLayout;
 	private boolean btopaddvisible = true;
 	private String strYstNum;
@@ -429,12 +430,12 @@ public class ThirdDevListActivity extends BaseActivity implements
 								}
 							}
 							// ok
-							int onoff_flag = respObject.optInt("flag");
-							Device device_itemDevice = CacheUtil.getDevList()
-									.get(selected_dev_index);
-							device_itemDevice.getThirdDevList()
-									.get(saved_index).dev_safeguard_flag = onoff_flag;//
+							thirdList.get(saved_index).dev_safeguard_flag = saved_third_safe_flag;
+							thirdDevAdapter.setDataList(thirdList);
+							thirdDevListView.setAdapter(thirdDevAdapter);
 							thirdDevAdapter.notifyDataSetChanged();
+							device.setThirdDevList(thirdList);
+							break;
 
 						} else {
 							showToast("设置属性失败", Toast.LENGTH_SHORT);
@@ -500,6 +501,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 				break;
 			}
 		}
+			break;
 		// case 9009://开关
 		// //arg1 开关标志 arg2 索引 obj 请求参数
 		// if(obj != null){
@@ -511,6 +513,13 @@ public class ThirdDevListActivity extends BaseActivity implements
 		// obj.toString());
 		// }
 		// break;
+		case Consts.RC_GPIN_SET_SWITCH:// 设置开关，内部使用
+			saved_index = arg2;
+			saved_third_safe_flag = arg1;
+			MyLog.e("RC_GPIN_SET_SWITCH", "arg1 : " + arg1 + ", arg2:" + arg2);
+			Jni.sendString(0, (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+					(byte) Consts.RC_GPIN_SET, obj.toString().trim());
+			break;
 		}
 	}
 

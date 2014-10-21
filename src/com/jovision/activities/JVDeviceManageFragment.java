@@ -94,7 +94,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 				.findViewById(R.id.hsv_view);
 		mLinearLayout = (LinearLayout) mActivity.findViewById(R.id.hsv_content);
 		mImageView = (ImageView) mActivity.findViewById(R.id.img);
-		item_width = (int) ((mScreenWidth / 4.0 + 0.5f));
+		item_width = (int) ((mScreenWidth / 3.0 + 0.5f));
 		mImageView.getLayoutParams().width = item_width;
 		managePager = (ViewPager) mParent.findViewById(R.id.manage_pagerer);
 
@@ -178,7 +178,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.CENTER_IN_PARENT);
 			layout.addView(view, params);
-			mLinearLayout.addView(layout, (int) (mScreenWidth / 4 + 0.5f), 50);
+			mLinearLayout.addView(layout, (int) (mScreenWidth / 3 + 0.5f), 50);
 			layout.setOnClickListener(new OnClickListener() {
 
 				@Override

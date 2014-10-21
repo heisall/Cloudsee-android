@@ -74,7 +74,7 @@
     <string name="login_str_edit">编辑</string>
     <string name="login_str_delete">删除</string>
     <string name="login_str_user_name_2">用 户 名</string>
-    <string name="login_str_user_pass">密  码</string>
+    <string name="login_str_user_pass">密      码</string>
     <string name="login_str_user_email">邮   箱</string>
     <string name="login_str_user_login">登   录</string>
     <string name="qqloginstr">用QQ账号登录</string>
@@ -260,9 +260,9 @@
     <!-- 修改密码 -->
     <string name="login_str_ipaddress">IP/域名</string>
     <string name="login_str_ipaddressdevice">IP/域名</string>
-    <string name="login_str_port">端    口</string>
-    <string name="login_str_user_name">用户名</string>
-    <string name="str_pass">密    码</string>
+    <string name="login_str_port">端      口</string>
+    <string name="login_str_user_name">用 户 名</string>
+    <string name="str_pass">密      码</string>
     <string name="str_old_pass">旧密码</string>
     <string name="str_new_pass">新密码</string>
     <string name="str_ensure_newpass">确认密码</string>
@@ -564,9 +564,9 @@
     <string name="save">保存</string>
     <string name="cancle">取消</string>
     <string name="str_devicename">设  备  号</string>
-    <string name="str_username">  用 户 名</string>
-    <string name="str_password">密      码 </string>
-    <string name="str_nicknametwo">昵      称 </string>
+    <string name="str_username">用  户  名</string>
+    <string name="str_password">密       码 </string>
+    <string name="str_nicknametwo">昵       称 </string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">切换IP直连和云视通连接模式</string>
     <string name="str_cloudsee_id">云视通号</string>

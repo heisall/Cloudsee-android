@@ -83,7 +83,7 @@
                 android:background="@drawable/blue_bg"
                 android:gravity="center"
                 android:text="@string/save"
-                android:textColor="@color/dialogchannal"
+                android:textColor="@color/more_fragment_color3"
                 android:textSize="13sp" />
 
             <TextView
@@ -94,7 +94,7 @@
                 android:background="@drawable/blue_bg"
                 android:gravity="center"
                 android:text="@string/cancle"
-                android:textColor="@color/dialogchannal"
+                android:textColor="@color/more_fragment_color3"
                 android:textSize="13sp" />
         </LinearLayout>
     </RelativeLayout>

@@ -43,6 +43,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/editimport"
+                    android:textColor="@color/leftdevicecolor"
                     android:padding="10dp" />
 
                 <ImageView
@@ -74,16 +75,17 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="8dp"
                 android:background="@null" >
 
                 <EditText
                     android:id="@+id/manage_user"
-                    android:layout_width="match_parent"
+                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/editimport"
-                    android:padding="10dp" />
+                    android:textColor="@color/leftdevicecolor"
+                    android:padding="10dp"/>
 
                 <ImageView
                     android:id="@+id/manage_user_cancle"
@@ -124,6 +126,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/editimport"
                     android:padding="10dp"
+                     android:textColor="@color/leftdevicecolor"
                     android:password="true" />
 
                 <ImageView

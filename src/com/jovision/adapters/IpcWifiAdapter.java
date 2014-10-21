@@ -31,12 +31,14 @@ public class IpcWifiAdapter extends BaseAdapter {
 
 	public void setData(ArrayList<ScanResult> list, String wifi) {
 		scanWifiList = list;
-//		this.dataList = dataList;
+		// this.dataList = dataList;
 		oldWifi = wifi;
 	}
-   public void init(int index) {
-	   this.index = index;
-   }
+
+	public void init(int index) {
+		this.index = index;
+	}
+
 	@Override
 	public int getCount() {
 		int size = 0;
@@ -71,27 +73,27 @@ public class IpcWifiAdapter extends BaseAdapter {
 					.findViewById(R.id.videodate);
 			wifiHolder.wifiImg = (ImageView) convertView
 					.findViewById(R.id.wifistate);
-			
+
 			wifiHolder.wifiState = (ImageView) convertView
 					.findViewById(R.id.wifistate);
 			wifiHolder.wifiDetail = (ImageView) convertView
 					.findViewById(R.id.wifidetail);
-			wifiHolder.relativeLayout = (RelativeLayout)convertView
+			wifiHolder.relativeLayout = (RelativeLayout) convertView
 					.findViewById(R.id.wifiRelative);
 			convertView.setTag(wifiHolder);
 		} else {
 			wifiHolder = (WifiHolder) convertView.getTag();
 		}
-	
-			if (position==index-1) {
-				wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
-						R.color.dialogchannaltext));
-				wifiHolder.relativeLayout.setBackgroundResource(R.drawable.hover);
-			}else {
-				wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
-						R.color.more_fragment_color2));
-				wifiHolder.relativeLayout.setBackgroundResource(R.drawable.normal);
-			}
+
+		if (position == index - 1) {
+			wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
+					R.color.dialogchannaltext));
+			wifiHolder.relativeLayout.setBackgroundResource(R.drawable.hover);
+		} else {
+			wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
+					R.color.more_fragment_color2));
+			wifiHolder.relativeLayout.setBackgroundResource(R.drawable.normal);
+		}
 		wifiHolder.wifiState.setVisibility(View.GONE);
 		wifiHolder.wifiName.setText(scanWifiList.get(position).SSID);
 		wifiHolder.wifiDetail.setImageDrawable(mContext.getResources()

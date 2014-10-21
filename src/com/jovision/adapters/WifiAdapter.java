@@ -40,6 +40,7 @@ public class WifiAdapter extends BaseAdapter {
 		wifiConfigList = list;
 		tag = arg0;
 	}
+
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub

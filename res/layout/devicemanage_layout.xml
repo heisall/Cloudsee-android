@@ -38,6 +38,7 @@
                 android:background="@null" >
 
                 <EditText
+                    android:paddingLeft="10dp"
                     android:id="@+id/manage_nick"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -46,10 +47,9 @@
 
                 <ImageView
                     android:id="@+id/manage_nick_cancle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="10dp"
                     android:background="@drawable/close_btn" />
             </FrameLayout>
         </LinearLayout>
@@ -77,6 +77,7 @@
                 android:background="@null" >
 
                 <EditText
+                    android:paddingLeft="10dp"
                     android:id="@+id/manage_user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -85,10 +86,9 @@
 
                 <ImageView
                     android:id="@+id/manage_user_cancle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="10dp"
                     android:background="@drawable/close_btn" />
             </FrameLayout>
         </LinearLayout>
@@ -116,6 +116,7 @@
                 android:background="@null" >
 
                 <EditText
+                    android:paddingLeft="10dp"
                     android:id="@+id/manage_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -125,10 +126,9 @@
 
                 <ImageView
                     android:id="@+id/manage_password_cancle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="10dp"
                     android:background="@drawable/close_btn" />
             </FrameLayout>
         </LinearLayout>

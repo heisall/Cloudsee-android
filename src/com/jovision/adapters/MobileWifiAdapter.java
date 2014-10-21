@@ -30,7 +30,6 @@ public class MobileWifiAdapter extends BaseAdapter {
 		scanWifiList = list;
 		oldWifi = wifi;
 	}
-
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -69,8 +68,6 @@ public class MobileWifiAdapter extends BaseAdapter {
 					.findViewById(R.id.videodate);
 			wifiHolder.wifiImg = (ImageView) convertView
 					.findViewById(R.id.wifistate);
-			wifiHolder.wifiDetail = (ImageView) convertView
-					.findViewById(R.id.wifidetail);
 			convertView.setTag(wifiHolder);
 		} else {
 			wifiHolder = (WifiHolder) convertView.getTag();
@@ -86,9 +83,6 @@ public class MobileWifiAdapter extends BaseAdapter {
 		}
 
 		wifiHolder.wifiName.setText(scanWifiList.get(position).SSID);
-		wifiHolder.wifiDetail.setImageDrawable(mContext.getResources()
-				.getDrawable(R.drawable.morefragment_next_icon));
-		wifiHolder.wifiDetail.setVisibility(View.GONE);
 		if (wifiIndex == position) {
 			wifiHolder.wifiImg.setBackgroundDrawable(mContext.getResources()
 					.getDrawable(R.drawable.wifi_flag_open_bg));
@@ -97,14 +91,12 @@ public class MobileWifiAdapter extends BaseAdapter {
 					.getDrawable(R.drawable.wifi_flag_close_bg));
 		}
 
-		wifiHolder.wifiDetail.setVisibility(View.GONE);
 		return convertView;
 	}
 
 	class WifiHolder {
 		TextView wifiName;
 		ImageView wifiImg;
-		ImageView wifiDetail;
 	}
 
 }

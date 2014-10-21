@@ -28,14 +28,17 @@
                 android:id="@+id/ipcwifilistview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="1dp"
                 android:cacheColorHint="@color/transparent"
                 android:divider="@color/transparent"
-                android:dividerHeight="10dp"
                 android:fadingEdge="none"
                 android:footerDividersEnabled="true"
                 android:listSelector="@color/transparent"
                 android:scrollbars="none" />
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:text=""
+                />
         </LinearLayout>
 
         <!-- 待配置wifi -->
@@ -127,7 +130,8 @@
                     android:layout_height="match_parent"
                     android:layout_margin="1dp"
                     android:cacheColorHint="@color/transparent"
-                    android:divider="@drawable/remote_list_divider"
+                    android:divider="@color/more_fragment_color2"
+                    android:dividerHeight="1px"
                     android:fadingEdge="none"
                     android:footerDividersEnabled="true"
                     android:listSelector="@color/transparent"

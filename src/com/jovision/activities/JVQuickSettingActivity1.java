@@ -1550,25 +1550,25 @@ public class JVQuickSettingActivity1 extends BaseActivity implements
 			} else {
 				switch (soundType) {
 				case Consts.SOUNDONE:// 选择设备，并进入预览
-					file = "1_en.wav";
+					file = "1_en.mp3";
 					break;
 				case Consts.SOUNDTOW:// 正在连接设备
-					file = "2_en.wav";
+					file = "2_en.mp3";
 					break;
 				case Consts.SOUNDTHREE:// 请点击下一步，配置无线网络
-					file = "3_en.wav";
+					file = "3_en.mp3";
 					break;
 				case Consts.SOUNDFOUR:// 请选择无线路由，输入密码，并点击右上角声波配置按钮
-					file = "4_en.wav";
+					file = "4_en.mp3";
 					break;
 				case Consts.SOUNDFIVE:// 请将手机靠近设备
-					file = "5_en.wav";
+					file = "5_en.mp3";
 					break;
 				case Consts.SOUNDSIX:// 叮
 					file = "6.mp3";
 					break;
 				case Consts.SOUNDSEVINE:// 配置完成，请点击图标查看设备
-					file = "7_en.wav";
+					file = "7_en.mp3";
 					break;
 				case Consts.SOUNDEIGHT:// 搜索声音
 					file = "quicksetsound.mp3";

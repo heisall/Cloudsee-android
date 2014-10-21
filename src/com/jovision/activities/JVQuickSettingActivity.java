@@ -975,8 +975,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				// JVNetConst.JVN_CMD_VIDEOPAUSE,
 				// new byte[0], 8);
 				// 请求文本聊天
-				Jni.sendBytes(Consts.CHANNEL_JY, JVNetConst.JVN_REQ_TEXT,
-						new byte[0], 8);
+				Jni.sendBytes(1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 			} else {
 				if (manuDiscon) {
 					manuDiscon = false;
@@ -995,8 +994,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本聊天
 				// 获取基本文本信息
-				Jni.sendTextData(Consts.CHANNEL_JY,
-						JVNetConst.JVN_RSP_TEXTDATA, 8,
+				Jni.sendTextData(1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_REMOTE_SETTING);
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
@@ -1038,8 +1036,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					}
 					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
 						// 获取主控码流信息请求
-						Jni.sendTextData(Consts.CHANNEL_JY,
-								JVNetConst.JVN_RSP_TEXTDATA, 8,
+						Jni.sendTextData(1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 								JVNetConst.JVN_STREAM_INFO);
 						break;
 					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
@@ -1322,8 +1319,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			e1.printStackTrace();
 		}
 
-		Jni.setAccessPoint(Consts.CHANNEL_JY, JVNetConst.JVN_RSP_TEXTDATA,
-				newObj.toString());
+		Jni.setAccessPoint(1, JVNetConst.JVN_RSP_TEXTDATA, newObj.toString());
 		MyLog.e("配置wifi请求", newObj.toString());
 	}
 

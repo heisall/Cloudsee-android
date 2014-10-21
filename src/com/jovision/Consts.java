@@ -55,8 +55,6 @@ public class Consts {
 	public static final int CALL_QUERY_DEVICE = 0xAE;
 	public static final int CALL_HDEC_TYPE = 0xAF;//
 
-	public static final int CHANNEL_JY = 5555;
-	public static final int MAX_CHANNEL_CONNECTION = 36;
 	public static final int MAX_DEVICE_CHANNEL_COUNT = 64;
 	public static final int DEFAULT_ADD_CHANNEL_COUNT = 4;
 
@@ -298,5 +296,11 @@ public class Consts {
 
 	public static final String BO_ID = "d6mhYSnBpnv26S7aCo0GwcxX";
 	public static final String BO_SECRET = "D9t2XqYQgH92eVGzlW30Pw9ZrRtqKpPs";
+
+	public static final int RC_GPIN_ADD = 0x10; // 外设报警添加
+	public static final int RC_GPIN_SET = 0x11; // 外设报警设置
+	public static final int RC_GPIN_SECLECT = 0x12; // 外设报警查询
+	public static final int RC_GPIN_DEL = 0x13; // 外设报警查询
+	public static final int RC_GPIN_SET_SWITCH = 0x14; // 外设报警设置开关(只内部使用)
 
 }

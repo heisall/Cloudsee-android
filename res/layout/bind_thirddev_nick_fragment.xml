@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/deviceitembgcolor"
+    android:padding="12dp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_container_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="12dp" >
+
+        <TextView
+            android:id="@+id/label_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_alarm_third_nickname"
+            android:textColor="@color/deviceinfocolor"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/third_dev_nick_edt"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/label_tv"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/third_input"
+            android:paddingLeft="6dp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/complete_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/layout_container_1"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/third_complete"
+        android:text="完 成"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+</RelativeLayout>

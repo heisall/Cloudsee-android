@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import android.view.SurfaceView;
 
-import com.jovision.Consts;
 import com.jovision.commons.MyList;
 
 /**
@@ -108,11 +107,7 @@ public class Channel {
 		this.isConnected = isConnected;
 		this.isRemotePlay = isRemotePlay;
 		this.channelName = nick;
-		if (Consts.CHANNEL_JY == index) {
-			isConfigChannel = true;
-		} else {
-			isConfigChannel = false;
-		}
+		isConfigChannel = false;
 	}
 
 	public Channel() {

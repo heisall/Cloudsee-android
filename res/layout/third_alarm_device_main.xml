@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/deviceitembgcolor"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_bar_layout" />
+
+    <RelativeLayout
+        android:id="@+id/top_add_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:paddingBottom="6dp" >
+
+        <Button
+            android:id="@+id/add_third_dev_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/add_third_dev" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/add_third_dev_top"
+            android:singleLine="false"
+            android:text="@string/str_click_add_device"
+            android:textColor="@color/deviceinfocolor"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <com.jovision.views.XListView
+        android:id="@+id/third_dev_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/deviceitembgcolor"
+        android:cacheColorHint="#EEEEEE"
+        android:divider="#00000000"
+        android:dividerHeight="12dp"
+        android:fadingEdge="none"
+        android:footerDividersEnabled="true"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp" />
+
+</LinearLayout>

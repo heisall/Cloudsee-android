@@ -83,6 +83,8 @@ public class JVAccountConst {
 	public static final int OFFLINE_CALL_BACK2 = 220;
 	/** 推送消息 标识 */
 	public static final int MESSAGE_PUSH_TAG = 4602;
+	/** 推送新协议 标示 */
+	public static final int MESSAGE_NEW_PUSH_TAG = 4604;
 	/** 异地登陆 */
 	public static final int MESSAGE_OFFLINE = 4301;
 	/** TCP错误 */

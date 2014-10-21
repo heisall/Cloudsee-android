@@ -3,6 +3,7 @@ package com.jovision.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseFragment;
+import com.jovision.activities.CustomDialogActivity;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVConst;
 import com.jovision.utils.ConfigUtil;
@@ -170,6 +172,22 @@ public class PushAdapter extends BaseAdapter {
 				pushList.get(position).newTag = false;
 				holder.newTag.setVisibility(View.GONE);
 
+				if (pushList.get(position).messageTag == 4604) {// new alarm
+					// ------new alarm-----
+					PushInfo pushInfo = new PushInfo();
+					pushInfo.alarmTime = pushList.get(position).alarmTime;
+					pushInfo.messageTag = pushList.get(position).messageTag;
+					pushInfo.pic = pushList.get(position).pic;
+					pushInfo.video = pushList.get(position).video;
+					pushInfo.ystNum = pushList.get(position).ystNum;
+
+					Intent intent = new Intent();
+					intent.setClass(mfragment.getActivity(),
+							CustomDialogActivity.class);
+					intent.putExtra("PUSH_INFO", pushInfo);
+					mfragment.getActivity().startActivity(intent);
+					// --------end---------
+				}
 			}
 		});
 		convertView.setOnClickListener(new OnClickListener() {
@@ -184,6 +202,23 @@ public class PushAdapter extends BaseAdapter {
 
 				deleteState = false;
 				notifyDataSetChanged();
+
+				if (pushList.get(position).messageTag == 4604) {// new alarm
+					// ------new alarm-----
+					PushInfo pushInfo = new PushInfo();
+					pushInfo.alarmTime = pushList.get(position).alarmTime;
+					pushInfo.messageTag = pushList.get(position).messageTag;
+					pushInfo.pic = pushList.get(position).pic;
+					pushInfo.video = pushList.get(position).video;
+					pushInfo.ystNum = pushList.get(position).ystNum;
+
+					Intent intent = new Intent();
+					intent.setClass(mfragment.getActivity(),
+							CustomDialogActivity.class);
+					intent.putExtra("PUSH_INFO", pushInfo);
+					mfragment.getActivity().startActivity(intent);
+					// --------end---------
+				}
 			}
 		});
 		convertView.setOnLongClickListener(new OnLongClickListener() {

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/third_dev_bg"
+        android:clickable="true"
+        android:descendantFocusability="blocksDescendants"
+        android:longClickable="true"
+        android:padding="12dp" >
+
+        <Button
+            android:id="@+id/alarm_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/sw_button" />
+
+        <ImageView
+            android:id="@+id/dev_type_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true" />
+
+        <LinearLayout
+            android:id="@+id/layout_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="2dp"
+            android:layout_toLeftOf="@id/alarm_switch"
+            android:layout_toRightOf="@id/dev_type_icon"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/third_dev_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/str_device_name"
+                android:textColor="@color/deviceinfocolor"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/third_dev_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="2dp"
+                android:singleLine="false"
+                android:text="NickName11111111111111111111111"
+                android:textColor="@color/deviceinfocolor"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

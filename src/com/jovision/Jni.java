@@ -30,8 +30,7 @@ public class Jni {
 	 * 
 	 * @param handle
 	 *            回调句柄，要传 MainApplication 的实例对象哦，因为回调方式是：<br />
-	 *            public synchronized void onJniNotify(int what, int uchType,
-	 *            int channel, Object obj)
+	 *            {@link MainApplication#onJniNotify(int, int, int, Object)}
 	 * @param port
 	 *            本地端口
 	 * @param path
@@ -154,7 +153,7 @@ public class Jni {
 	 * @param index
 	 *            窗口索引，从 0 开始
 	 * @param channel
-	 *            设备通道，从 0 开始
+	 *            设备通道，从 1 开始
 	 * @param ip
 	 * @param port
 	 * @param username
@@ -167,7 +166,7 @@ public class Jni {
 	 * @param connectType
 	 * @param surface
 	 * @param isTryOmx
-	 * @return 启用 omx 是否成功
+	 * @return 播放线程是否成功启动
 	 */
 	public static native boolean connect(int index, int channel, String ip,
 			int port, String username, String password, int cloudSeeId,
@@ -275,7 +274,7 @@ public class Jni {
 	 * @param index
 	 *            窗口索引
 	 */
-	public static native void disconnect(int index);
+	public static native boolean disconnect(int index);
 
 	/**
 	 * 清理本地缓存，参考 {@link JVSUDT#JVC_ClearBuffer(int)}
@@ -283,7 +282,7 @@ public class Jni {
 	 * @param index
 	 *            窗口索引
 	 */
-	public static native void clearBuffer(int index);
+	public static native boolean clearBuffer(int index);
 
 	/**
 	 * 查询某个设备是否被搜索出来
@@ -308,8 +307,8 @@ public class Jni {
 	 * @param data
 	 * @param size
 	 */
-	public static native void sendBytes(int index, byte uchType, byte[] data,
-			int size);
+	public static native boolean sendBytes(int index, byte uchType,
+			byte[] data, int size);
 
 	/**
 	 * 发送音频数据 {@link JVSUDT#JVC_SendAudioData(int, byte, byte[], int)}
@@ -322,7 +321,7 @@ public class Jni {
 	 * @param data
 	 * @param size
 	 */
-	public static native void sendAudioData(int index, byte uchType,
+	public static native boolean sendAudioData(int index, byte uchType,
 			byte[] data, int size);
 
 	/**
@@ -335,7 +334,7 @@ public class Jni {
 	 * @param uchType
 	 * @param data
 	 */
-	public static native void sendInteger(int index, byte uchType, int data);
+	public static native boolean sendInteger(int index, byte uchType, int data);
 
 	/**
 	 * 发送字符串数据
@@ -362,7 +361,7 @@ public class Jni {
 	 * @param data
 	 *            数据
 	 */
-	public static native void sendString(int index, byte uchType,
+	public static native boolean sendString(int index, byte uchType,
 			boolean isExtend, int count, int type, String data);
 
 	{
@@ -437,8 +436,8 @@ public class Jni {
 	 * @param size
 	 * @param flag
 	 */
-	public static native void sendTextData(int index, byte uchType, int size,
-			int flag);
+	public static native boolean sendTextData(int index, byte uchType,
+			int size, int flag);
 
 	/**
 	 * 发送命令，参考 {@link JVSUDT#JVC_SendCMD(int, byte, byte[], int)}
@@ -469,7 +468,7 @@ public class Jni {
 	 * @param flag
 	 * @param tag
 	 */
-	public static native void setWifi(int index, byte uchType, String ssid,
+	public static native boolean setWifi(int index, byte uchType, String ssid,
 			String password, int flag, int tag);
 
 	/**
@@ -488,7 +487,7 @@ public class Jni {
 	 * @param auth
 	 * @param enc
 	 */
-	public static native void saveWifi(int index, byte uchType, String ssid,
+	public static native boolean saveWifi(int index, byte uchType, String ssid,
 			String password, int flag, int type, String auth, String enc);
 
 	/**
@@ -499,7 +498,7 @@ public class Jni {
 	 * @param uchType
 	 * @param json
 	 */
-	public static native void setAccessPoint(int index, byte uchType,
+	public static native boolean setAccessPoint(int index, byte uchType,
 			String json);
 
 	/**
@@ -536,7 +535,7 @@ public class Jni {
 	 * @param mbps
 	 * @param fps
 	 */
-	public static native void setBpsAndFps(int index, byte uchType,
+	public static native boolean setBpsAndFps(int index, byte uchType,
 			int channel, int width, int height, int mbps, int fps);
 
 	/**
@@ -549,7 +548,8 @@ public class Jni {
 	 * @param uchType
 	 * @param cmd
 	 */
-	public static native void changeStream(int index, byte uchType, String cmd);
+	public static native boolean changeStream(int index, byte uchType,
+			String cmd);
 
 	/**
 	 * 设置设备名称，参考 {@link JVSUDT#JVC_SetDeviceName(int, byte, byte[])}
@@ -561,7 +561,8 @@ public class Jni {
 	 * @param uchType
 	 * @param json
 	 */
-	public static native void setDeviceName(int index, byte uchType, String cmd);
+	public static native boolean setDeviceName(int index, byte uchType,
+			String cmd);
 
 	/**
 	 * 设置存储地址，参考 {@link JVSUDT#JVC_SetStorage(int, byte, byte[])}
@@ -573,7 +574,7 @@ public class Jni {
 	 * @param uchType
 	 * @param cmd
 	 */
-	public static native void setStorage(int index, byte uchType, String cmd);
+	public static native boolean setStorage(int index, byte uchType, String cmd);
 
 	/**
 	 * 翻转视频，参考 {@link JVSUDT#JVC_TurnVideo(int, byte, byte[])}
@@ -585,7 +586,7 @@ public class Jni {
 	 * @param uchType
 	 * @param cmd
 	 */
-	public static native void rotateVideo(int index, byte uchType, String cmd);
+	public static native boolean rotateVideo(int index, byte uchType, String cmd);
 
 	/**
 	 * 设备升级，参考 {@link JVSUDT#JVC_DeviceUpdate(int, byte)}
@@ -596,7 +597,7 @@ public class Jni {
 	 *            窗口索引
 	 * @param uchType
 	 */
-	public static native void updateDevice(int index, byte uchType);
+	public static native boolean updateDevice(int index, byte uchType);
 
 	/**
 	 * 启用底层日志打印，参考 {@link JVSUDT#JVC_EnableLog(boolean)}
@@ -740,7 +741,7 @@ public class Jni {
 	 * @param turnType
 	 * 
 	 */
-	public static native void tcpConnect(int index, int channel, String ip,
+	public static native boolean tcpConnect(int index, int channel, String ip,
 			int port, String username, String password, int cloudSeeId,
 			String groupId, boolean isLocalDetect, int connectType, int turnType);
 

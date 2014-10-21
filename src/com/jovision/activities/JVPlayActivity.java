@@ -174,8 +174,9 @@ public class JVPlayActivity extends PlayActivity implements
 					// decodeBtn.setText(R.string.not_omx);
 					// }
 
-					int index = object.getInt("index");
-					// loadingState(index, 0, JVConst.PLAY_CONNECTTED);
+					// [Neo] TODO
+					int index = object.getInt("window");
+					loadingState(index, 0, JVConst.PLAY_CONNECTTED);
 				}
 				linkMode.setText(sBuilder.toString());
 

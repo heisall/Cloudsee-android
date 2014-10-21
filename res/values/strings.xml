@@ -425,6 +425,9 @@
     <string name="voice_call_ap">语音对讲</string>
     <string name="voice_call_ap_tips">实时进行语音对讲</string>
 
+    <!-- JVEditPassActivity -->
+    <string name="edit_failed">修改失败</string>
+
     <!-- JVDemoActivity -->
     <string name="demo_get_failed">演示点加载失败</string>
 
@@ -559,8 +562,8 @@
     <string name="delect">删除</string>
     <string name="str_devicename">设  备  号</string>
     <string name="str_username"> 用 户 名</string>
-    <string name="str_password">密      码 </string>
-    <string name="str_nicknametwo">昵      称 </string>
+    <string name="str_password">密   码 </string>
+    <string name="str_nicknametwo">昵   称 </string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
     <string name="str_yst_connect">CloudSEE</string>

@@ -2,6 +2,7 @@ package com.jovision.adapters;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.view.LayoutInflater;
@@ -9,15 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 
 public class IpcWifiAdapter extends BaseAdapter {
 	private ArrayList<ScanResult> scanWifiList = new ArrayList<ScanResult>();
+	private ArrayList<Boolean> dataList = new ArrayList<Boolean>();
 	private Context mContext = null;
 	private LayoutInflater inflater;
-	private int wifiIndex = -1;
+	private int index = 9000;
 	private String oldWifi = "";
 
 	public IpcWifiAdapter(Context con) {
@@ -28,7 +31,12 @@ public class IpcWifiAdapter extends BaseAdapter {
 
 	public void setData(ArrayList<ScanResult> list, String wifi) {
 		scanWifiList = list;
+		// this.dataList = dataList;
 		oldWifi = wifi;
+	}
+
+	public void init(int index) {
+		this.index = index;
 	}
 
 	@Override
@@ -54,10 +62,10 @@ public class IpcWifiAdapter extends BaseAdapter {
 		return position;
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressLint("ResourceAsColor")
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		WifiHolder wifiHolder = null;
+		final WifiHolder wifiHolder;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.ipcwifi_item, null);
 			wifiHolder = new WifiHolder();
@@ -70,30 +78,26 @@ public class IpcWifiAdapter extends BaseAdapter {
 					.findViewById(R.id.wifistate);
 			wifiHolder.wifiDetail = (ImageView) convertView
 					.findViewById(R.id.wifidetail);
+			wifiHolder.relativeLayout = (RelativeLayout) convertView
+					.findViewById(R.id.wifiRelative);
 			convertView.setTag(wifiHolder);
 		} else {
 			wifiHolder = (WifiHolder) convertView.getTag();
 		}
 
-		// 与当前网络一致
-		// if (oldWifi.equalsIgnoreCase(scanWifiList.get(position).SSID)) {
-		// wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
-		// R.color.string_content));
-		// } else {
-		wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
-				R.color.black));
-		// }
+		if (position == index - 1) {
+			wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
+					R.color.dialogchannaltext));
+			wifiHolder.relativeLayout.setBackgroundResource(R.drawable.hover);
+		} else {
+			wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
+					R.color.more_fragment_color2));
+			wifiHolder.relativeLayout.setBackgroundResource(R.drawable.normal);
+		}
 		wifiHolder.wifiState.setVisibility(View.GONE);
 		wifiHolder.wifiName.setText(scanWifiList.get(position).SSID);
 		wifiHolder.wifiDetail.setImageDrawable(mContext.getResources()
 				.getDrawable(R.drawable.morefragment_next_icon));
-		if (wifiIndex == position) {
-			wifiHolder.wifiImg.setBackgroundDrawable(mContext.getResources()
-					.getDrawable(R.drawable.wifi_flag_open_bg));
-		} else {
-			wifiHolder.wifiImg.setBackgroundDrawable(mContext.getResources()
-					.getDrawable(R.drawable.wifi_flag_close_bg));
-		}
 
 		wifiHolder.wifiDetail.setVisibility(View.VISIBLE);
 		return convertView;
@@ -102,7 +106,7 @@ public class IpcWifiAdapter extends BaseAdapter {
 	class WifiHolder {
 		TextView wifiName;
 		ImageView wifiImg;
-
+		RelativeLayout relativeLayout;
 		ImageView wifiState;
 		ImageView wifiDetail;
 	}

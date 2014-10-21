@@ -47,8 +47,8 @@
                         android:paddingBottom="15dp"
                         android:paddingTop="15dp"
                         android:text="@string/str_ip_connect"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textColor="@color/leftdevicecolor"
+                        android:textSize="18sp" />
 
                     <RadioButton
                         android:id="@+id/ipconnect_cloud"
@@ -62,8 +62,8 @@
                         android:paddingBottom="15dp"
                         android:paddingTop="15dp"
                         android:text="@string/str_yst_connect"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textColor="@color/leftdevicecolor"
+                        android:textSize="18sp" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -82,8 +82,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/login_str_ipaddress"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textColor="@color/leftdevicecolor"
+                    android:textSize="18sp"
                     android:textStyle="normal" />
 
                 <EditText
@@ -114,8 +114,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/cloud_number"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textColor="@color/leftdevicecolor"
+                    android:textSize="18sp"
                     android:textStyle="normal" />
 
                 <TextView
@@ -129,7 +129,7 @@
                     android:paddingLeft="10dp"
                     android:singleLine="true"
                     android:text="A361"
-                    android:textColor="@color/black"
+                    android:textColor="@color/leftdevicecolor"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -148,8 +148,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/login_str_port"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textColor="@color/leftdevicecolor"
+                    android:textSize="18sp"
                     android:textStyle="normal" />
 
                 <EditText
@@ -161,7 +161,7 @@
                     android:lines="1"
                     android:paddingLeft="10dp"
                     android:singleLine="true"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/leftdevicecolor" />
             </LinearLayout>
 
             <LinearLayout
@@ -179,8 +179,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/login_str_user_name_2"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textColor="@color/leftdevicecolor"
+                    android:textSize="18sp"
                     android:textStyle="normal" />
 
                 <EditText
@@ -193,7 +193,7 @@
                     android:lines="1"
                     android:paddingLeft="10dp"
                     android:singleLine="true"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/leftdevicecolor" />
             </LinearLayout>
 
             <LinearLayout
@@ -210,9 +210,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/login_str_user_pass"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:text="@string/str_pass"
+                    android:textColor="@color/leftdevicecolor"
+                    android:textSize="18sp"
                     android:textStyle="normal" >
                 </TextView>
 
@@ -227,7 +227,7 @@
                     android:paddingLeft="10dp"
                     android:password="true"
                     android:singleLine="true"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/leftdevicecolor" />
             </LinearLayout>
 
             <LinearLayout

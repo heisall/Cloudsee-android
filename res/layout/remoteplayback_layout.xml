@@ -43,11 +43,11 @@
 
         <Button
             android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="43dp"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="13dp"
-            android:background="@drawable/search_btn_bg"
+            android:background="@drawable/blue_bg"
             android:text="@string/str_search"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -101,7 +101,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@+id/topdivider"
-            android:divider="@drawable/remote_list_divider"
+            android:divider="@color/more_fragment_color2"
+            android:dividerHeight="1dp"
             android:fadingEdge="none" >
         </ListView>
 

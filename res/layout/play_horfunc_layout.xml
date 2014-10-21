@@ -8,14 +8,14 @@
     <RelativeLayout
         android:id="@+id/topbarh"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="45dp"
         android:background="@color/halftransparent"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/btn_left"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
@@ -41,8 +41,8 @@
 
         <Button
             android:id="@+id/btn_right"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
@@ -52,7 +52,7 @@
     <RelativeLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:background="@color/halftransparent"
         android:visibility="visible" >
@@ -111,7 +111,8 @@
                 android:id="@+id/relative4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" >
+                android:layout_weight="1"
+                android:visibility="gone" >
 
                 <Button
                     android:id="@+id/bottom_but4"
@@ -184,7 +185,7 @@
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="15dp"
             android:background="@drawable/video_modle"
             android:gravity="center"
             android:text="@string/default_stream"

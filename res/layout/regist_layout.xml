@@ -87,21 +87,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_marginTop="15dp"
                 android:orientation="horizontal" >
 
-                <CheckBox
+                <ToggleButton
                     android:id="@+id/agree"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center_vertical"
-                    android:button="@drawable/registe_checkbox"
-                    android:checked="true" />
+                    android:background="@drawable/registe_checkbox"
+                    android:textOff=""
+                    android:textOn="" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
                     android:text="@string/str_read_agree"
                     android:textColor="@color/registtextcolor"
                     android:textSize="14sp" />

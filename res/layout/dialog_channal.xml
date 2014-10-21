@@ -11,15 +11,14 @@
 
         <TextView
             android:id="@+id/device_name"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="10dp"
             android:background="@color/more_fragment_color4"
-            android:gravity="center"
             android:text="name"
-            android:textColor="@color/more_fragment_color2"
-            android:textSize="20sp" />
+            android:textColor="@color/dialogchannaltext"
+            android:textSize="24sp" />
 
         <LinearLayout
             android:id="@+id/middle"
@@ -33,13 +32,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/str_nickname" />
+                    android:text="@string/str_nicknametwo" 
+                    android:textColor="@color/more_fragment_color6"
+                    android:textSize="20sp"
+                    />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -49,7 +52,8 @@
                         android:id="@+id/device_numet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp" />
 
                     <ImageView
                         android:id="@+id/device_numet_cancle"
@@ -67,14 +71,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/middle"
             android:layout_centerInParent="true"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="25dp"
             android:paddingBottom="15dp" >
 
             <TextView
                 android:id="@+id/dialog_img_completed"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:background="@drawable/dialog_cancel"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/blue_bg"
                 android:gravity="center"
                 android:text="@string/save"
                 android:textColor="@color/dialogchannal"
@@ -82,10 +86,10 @@
 
             <TextView
                 android:id="@+id/dialog_img_cancel"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="50dp"
-                android:background="@drawable/dialog_cancel"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/blue_bg"
                 android:gravity="center"
                 android:text="@string/cancle"
                 android:textColor="@color/dialogchannal"

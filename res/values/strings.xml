@@ -556,11 +556,10 @@
     <string name="save">保存</string>
     <string name="cancle">取消</string>
     <string name="delect">删除</string>
-    <string name="str_nickname">昵        称 </string>
     <string name="str_devicename">设  备  号</string>
-    <string name="str_username">用 户 名</string>
-    <string name="str_password">密     码 </string>
-    <string name="str_nicknametwo">昵     称 </string>
+    <string name="str_username"> 用 户 名</string>
+    <string name="str_password">密      码 </string>
+    <string name="str_nicknametwo">昵      称 </string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
     <string name="str_yst_connect">CloudSEE</string>

@@ -192,7 +192,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 								.setLastUpdatedLabel(label);
 
 						// Do work to refresh the list here.
-						new GetDataTask().execute();
+						// new GetDataTask().execute();
+						GetDevTask task = new GetDevTask();
+						String[] strParams = new String[3];
+						task.execute(strParams);
 					}
 				});
 
@@ -767,30 +770,30 @@ public class JVMyDeviceFragment extends BaseFragment {
 		});
 	}
 
-	private class GetDataTask extends AsyncTask<Void, Void, String[]> {
-
-		@Override
-		protected String[] doInBackground(Void... params) {
-			try {
-				// [Neo] TODO
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-			}
-
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(String[] result) {
-			// [Neo] TODO add data here
-			// myDLAdapter.notifyDataSetChanged();
-
-			// [Neo] notify refreshed
-			mPullRefreshListView.onRefreshComplete();
-
-			super.onPostExecute(result);
-		}
-	}
+	// private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+	//
+	// @Override
+	// protected String[] doInBackground(Void... params) {
+	// try {
+	// // [Neo] TODO
+	// Thread.sleep(1000);
+	// } catch (InterruptedException e) {
+	// }
+	//
+	// return null;
+	// }
+	//
+	// @Override
+	// protected void onPostExecute(String[] result) {
+	// // [Neo] TODO add data here
+	// // myDLAdapter.notifyDataSetChanged();
+	//
+	// // [Neo] notify refreshed
+	// mPullRefreshListView.onRefreshComplete();
+	//
+	// super.onPostExecute(result);
+	// }
+	// }
 
 	// 保存更改设备信息线程
 	class ModifyDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
@@ -982,6 +985,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
 			// refreshableView.finishRefreshing();
+			mPullRefreshListView.onRefreshComplete();
 			switch (result) {
 			// 从服务器端获取设备成功
 			case DEVICE_GETDATA_SUCCESS: {

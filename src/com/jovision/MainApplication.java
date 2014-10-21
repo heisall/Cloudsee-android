@@ -299,33 +299,6 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 						}
 
 					}
-
-					Log.e("[new]BaseApp.pushList", BaseApp.pushList.size() + "");
-
-					if (null != BaseApp.mainHandler
-							&& 0 != BaseApp.pushList.size()) {
-						if (null != BaseApp.pushList.get(0)) {
-							Message message = BaseApp.mainHandler
-									.obtainMessage();
-							message.what = JVConst.RECEVICE_PUSH_MSG;
-							message.obj = strYstNumString;
-
-							BaseApp.mainHandler.sendMessage(message);
-							BaseApp.getInstance().onNotify(9002, 0, 0, strYstNumString);												
-						}
-
-					}
-
-					// // 刷新条数
-					// if (null != JVTabActivity.getInstance()
-					// && null != JVTabActivity.getInstance().jvTabHandler) {
-					// Message message =
-					// JVTabActivity.getInstance().jvTabHandler
-					// .obtainMessage();
-					// message.what = JVConst.MESSAGE_PUSH_COUNT;
-					// JVTabActivity.getInstance().jvTabHandler
-					// .sendMessage(message);
-					// }
 				} else {
 
 				}

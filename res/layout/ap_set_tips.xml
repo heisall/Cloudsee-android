@@ -5,12 +5,12 @@
     android:orientation="vertical" >
 
     <TextView
-        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:text="@string/str_device_ap_process"
+        android:textColor="@color/white"
         android:textSize="18sp" />
 
     <LinearLayout
@@ -24,17 +24,17 @@
 
         <ToggleButton
             android:id="@+id/noalert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/registe_checkbox"
             android:textOff=""
             android:textOn="" />
 
         <TextView
-            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/str_quick_setting_no_tips"
+            android:textColor="@color/white"
             android:textSize="18sp" />
     </LinearLayout>
 

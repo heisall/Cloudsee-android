@@ -59,7 +59,7 @@ public class IpcWifiAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		WifiHolder wifiHolder = null;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.wifi_item, null);
+			convertView = inflater.inflate(R.layout.ipcwifi_item, null);
 			wifiHolder = new WifiHolder();
 			wifiHolder.wifiName = (TextView) convertView
 					.findViewById(R.id.videodate);

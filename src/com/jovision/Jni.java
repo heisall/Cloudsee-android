@@ -1,8 +1,6 @@
 package com.jovision;
 
-import neo.droid.cloudsee.Consts;
-import neo.droid.cloudsee.JVNetConst;
-import neo.droid.cloudsee.MainApplication;
+import com.jovision.commons.JVNetConst;
 
 /**
  * 所有与 NDK 交互的接口都在这儿

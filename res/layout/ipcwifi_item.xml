@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shuru"
-    android:layout_margin="10dp" >
+    android:layout_margin="10dp"
+    android:background="@drawable/shuru" >
 
     <TextView
         android:id="@+id/videodate"
@@ -24,11 +24,11 @@
         android:orientation="horizontal" >
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/wifistate"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/wifi_flag_close_bg" />
+            android:src="@drawable/wifi_flag_close_bg"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/wifidetail"

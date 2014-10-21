@@ -6,33 +6,55 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginTop="50dp"
         android:orientation="vertical" >
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_height="wrap_content" >
 
             <Button
                 android:id="@+id/add_door_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/third_door_bg" />
+            
+            <TextView 
+                android:layout_alignBottom="@id/add_door_btn"
+                android:layout_centerHorizontal="true"
+                android:text="@string/str_door_device"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="11dp"
+                />
+                
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_marginTop="60dp"
+            >
 
             <Button
                 android:id="@+id/add_bracelet_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/third_bracelet_bg" />
+            
+            <TextView 
+                android:layout_alignBottom="@id/add_bracelet_btn"
+                android:layout_centerHorizontal="true"
+                android:text="@string/str_bracelet_device"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="11dp"
+                />            
         </RelativeLayout>
     </LinearLayout>
 

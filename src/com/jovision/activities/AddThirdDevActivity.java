@@ -30,6 +30,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 		OnClickListener, OnDeviceClassSelectedListener, OnSetNickNameListener {
 	private AddThirdDeviceMenuFragment third_dev_menu_fragment;
 	private Button backBtn;
+	private Button rightBtn;
 	public TextView titleTv;
 	private String strYstNum;
 	private boolean bConnectedFlag;
@@ -38,6 +39,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private ProgressDialog dialog;
 	private int dev_uid;
 	private String nickName;
+	private int fragment_tag = 0;// 0，添加界面； 1 绑定界面
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					.beginTransaction();
 			ft.add(R.id.fragment_container, third_dev_menu_fragment)
 					.commitAllowingStateLoss();
+			fragment_tag = 0;
 		}
 		InitViews();
 
@@ -84,10 +87,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 	}
 
 	private void InitViews() {
-		backBtn = (Button) findViewById(R.id.back);
+		backBtn = (Button) findViewById(R.id.btn_left);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		rightBtn.setVisibility(View.GONE);
 		titleTv = (TextView) findViewById(R.id.currentmenu);
-
-		backBtn.setBackgroundResource(R.drawable.back);
 		backBtn.setOnClickListener(this);
 		titleTv.setText(R.string.str_help1_1);
 	}
@@ -96,8 +99,19 @@ public class AddThirdDevActivity extends BaseActivity implements
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		case R.id.back:
-			finish();
+		case R.id.btn_left:
+			if (fragment_tag == 0) {
+				finish();
+			} else {
+				Intent data = new Intent();
+				data.putExtra("nickname", "未命名");
+				data.putExtra("dev_type_mark", dev_type_mark);
+				data.putExtra("dev_uid", dev_uid);
+				// 请求代码可以自己设置，这里设置成10
+				setResult(10, data);
+				// 关闭掉这个Activity
+				finish();
+			}
 			break;
 
 		default:
@@ -116,7 +130,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 					R.string.str_loading_data));
 			dialog.show();
 			if (!bConnectedFlag) {
-				AlarmUtil.OnlyConnect(strYstNum);
+				if (!AlarmUtil.OnlyConnect(strYstNum)) {
+					showTextToast("连接失败，已经连接或者超过最大连接数");
+					dialog.dismiss();
+				}
 			} else {
 				// 首先需要发送文本聊天请求
 				Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
@@ -129,7 +146,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 					R.string.str_loading_data));
 			dialog.show();
 			if (!bConnectedFlag) {
-				AlarmUtil.OnlyConnect(strYstNum);
+				if (!AlarmUtil.OnlyConnect(strYstNum)) {
+					showTextToast("连接失败，已经连接或者超过最大连接数");
+					dialog.dismiss();
+				}
 			} else {
 				// 首先需要发送文本聊天请求
 				Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
@@ -143,24 +163,15 @@ public class AddThirdDevActivity extends BaseActivity implements
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-		MyLog.v(TAG, "onHandler--what=" + what + ";arg1=" + arg1 + ";arg2="
+		MyLog.e(TAG, "onHandler--what=" + what + ";arg1=" + arg1 + ";arg2="
 				+ arg2 + "; obj = " + (obj == null ? "" : obj.toString()));
 		switch (what) {
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE:
-			Channel channel = manager.getChannel(arg1);
-			if (null == channel) {
-				MyLog.e("CustomDialogActivity onHandler", "the channel " + arg2
-						+ " is null");
-				return;
-			}
 			switch (arg2) {
 
 			case JVNetConst.NO_RECONNECT:// 1 -- 连接成功//3 不必重新连接
 			case JVNetConst.CONNECT_OK: {// 1 -- 连接成功
-				channel.setConnecting(false);
-				channel.setConnected(true);
-
 				MyLog.e("New alarm", "连接成功");
 				bConnectedFlag = true;
 				showTextToast("连接成功");
@@ -170,8 +181,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 				break;
 			// 2 -- 断开连接成功
 			case JVNetConst.DISCONNECT_OK: {
-				channel.setConnecting(false);
-				channel.setConnected(false);
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
 				bConnectedFlag = false;
 
 			}
@@ -204,8 +215,6 @@ public class AddThirdDevActivity extends BaseActivity implements
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				channel.setConnecting(false);
-				channel.setConnected(false);
 			}
 				break;
 			}
@@ -218,10 +227,11 @@ public class AddThirdDevActivity extends BaseActivity implements
 				Jni.sendString(0, (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 						(byte) Consts.RC_GPIN_ADD, req_data.trim());
 				break;
-
-			case Consts.RC_GPIN_ADD:// 绑定设备
+			case JVNetConst.JVN_RSP_TEXTDATA: {
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
+				JSONObject respObject = null;
 				if (obj != null) {
-					JSONObject respObject;
 					try {
 						respObject = new JSONObject(obj.toString());
 					} catch (JSONException e) {
@@ -229,111 +239,124 @@ public class AddThirdDevActivity extends BaseActivity implements
 						e.printStackTrace();
 						showTextToast("TextData回调obj参数转Json异常");
 						return;
-					}
-					String addStr = respObject.optString("msg");
-					String addStrArray[] = addStr.split(";");
-					ThirdAlarmDev addAlarm = new ThirdAlarmDev();
-					int addResult = -1;
-					for (int i = 0; i < addStrArray.length; i++) {
-						String[] split = addStrArray[i].split("=");
-						if ("res".equals(split[0])) {
-							addResult = Integer.parseInt(split[1]);
-							break;
-						}
-					}
-
-					if (addResult == 1) {// add success
-						for (int i = 0; i < addStrArray.length; i++) {
-							String[] split = addStrArray[i].split("=");
-							if ("guid".equals(split[0])) {
-								addAlarm.dev_uid = Integer.parseInt(split[1]);
-							} else if ("type".equals(split[0])) {
-								addAlarm.dev_type_mark = Integer
-										.parseInt(split[1]);
-							}
-						}
-						showTextToast("绑定设备成功");
-						dev_uid = addAlarm.dev_uid; // /////////////////////////
-						BindThirdDevNicknameFragment nicknameFragment = new BindThirdDevNicknameFragment();
-						FragmentTransaction transaction = getSupportFragmentManager()
-								.beginTransaction();
-						// Replace whatever is in the fragment_container view
-						// with this
-						// fragment,
-						// and add the transaction to the back stack so the user
-						// can
-						// navigate back
-						transaction.replace(R.id.fragment_container,
-								nicknameFragment);
-						transaction.addToBackStack(null);
-
-						// Commit the transaction
-						transaction.commit();
-					} else if (addResult == 2) {// 超过最大数
-						showTextToast("超过最大数");
-					} else {
-						showTextToast("绑定设备失败");
-					}
-				}
-				break;
-
-			case Consts.RC_GPIN_SET:// 设置昵称
-				if (obj != null) {
-					JSONObject respObject;
-					try {
-						respObject = new JSONObject(obj.toString());
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						showTextToast("TextData回调obj参数转Json异常");
-						return;
-					}
-					String setStr = respObject.optString("msg");
-					String setStrArray[] = setStr.split(";");
-					ThirdAlarmDev setalarm = new ThirdAlarmDev();
-					int setResult = -1;
-					for (int i = 0; i < setStrArray.length; i++) {
-						String[] split = setStrArray[i].split("=");
-						if ("res".equals(split[0])) {
-							setResult = Integer.parseInt(split[1]);
-							break;
-						}
-					}
-
-					if (setResult == 1) {// SET success
-						for (int i = 0; i < setStrArray.length; i++) {
-							String[] split = setStrArray[i].split("=");
-							if ("guid".equals(split[0])) {
-								setalarm.dev_uid = Integer.parseInt(split[1]);
-							} else if ("type".equals(split[0])) {
-								setalarm.dev_type_mark = Integer
-										.parseInt(split[1]);
-							}
-						}
-						// 成功
-						// 返回第三方设备列表activity
-						Intent data = new Intent();
-						data.putExtra("nickname", nickName);
-						data.putExtra("dev_type_mark", dev_type_mark);
-						data.putExtra("dev_uid", setalarm.dev_uid);
-						// 请求代码可以自己设置，这里设置成10
-						setResult(10, data);
-						// 关闭掉这个Activity
-						finish();
-					} else {
-						// 失败
-						showTextToast("设置昵称失败");
 					}
 				} else {
 					showTextToast("TextData回调obj参数is null");
+					MyLog.e("Third Dev", "TextData回调obj参数is null");
+					return;
 				}
+				int flag = respObject.optInt("flag");
+				switch (flag) {
+				case Consts.RC_GPIN_ADD:// 绑定设备
+					if (obj != null) {
+						String addStr = respObject.optString("msg");
+						String addStrArray[] = addStr.split(";");
+						ThirdAlarmDev addAlarm = new ThirdAlarmDev();
+						int addResult = -1;
+						for (int i = 0; i < addStrArray.length; i++) {
+							String[] split = addStrArray[i].split("=");
+							if ("res".equals(split[0])) {
+								addResult = Integer.parseInt(split[1]);
+								break;
+							}
+						}
+
+						if (addResult == 1) {// add success
+							for (int i = 0; i < addStrArray.length; i++) {
+								String[] split = addStrArray[i].split("=");
+								if ("guid".equals(split[0])) {
+									addAlarm.dev_uid = Integer
+											.parseInt(split[1]);
+								} else if ("type".equals(split[0])) {
+									addAlarm.dev_type_mark = Integer
+											.parseInt(split[1]);
+								}
+							}
+							showTextToast("绑定设备成功");
+							dev_uid = addAlarm.dev_uid; // /////////////////////////
+							BindThirdDevNicknameFragment nicknameFragment = new BindThirdDevNicknameFragment();
+							FragmentTransaction transaction = getSupportFragmentManager()
+									.beginTransaction();
+							// Replace whatever is in the fragment_container
+							// view
+							// with this
+							// fragment,
+							// and add the transaction to the back stack so the
+							// user
+							// can
+							// navigate back
+							transaction.replace(R.id.fragment_container,
+									nicknameFragment);
+							transaction.addToBackStack(null);
+							fragment_tag = 1;
+							// Commit the transaction
+							transaction.commit();
+						} else if (addResult == 2) {// 超过最大数
+							showTextToast("超过最大数");
+						} else {
+							showTextToast("绑定设备失败");
+						}
+					}
+					break;
+
+				case Consts.RC_GPIN_SET:// 设置昵称
+					if (obj != null) {
+						if (dialog != null && dialog.isShowing())
+							dialog.dismiss();
+						String setStr = respObject.optString("msg");
+						String setStrArray[] = setStr.split(";");
+						ThirdAlarmDev setalarm = new ThirdAlarmDev();
+						int setResult = -1;
+						for (int i = 0; i < setStrArray.length; i++) {
+							String[] split = setStrArray[i].split("=");
+							if ("res".equals(split[0])) {
+								setResult = Integer.parseInt(split[1]);
+								break;
+							}
+						}
+
+						if (setResult == 1) {// SET success
+							for (int i = 0; i < setStrArray.length; i++) {
+								String[] split = setStrArray[i].split("=");
+								if ("guid".equals(split[0])) {
+									setalarm.dev_uid = Integer
+											.parseInt(split[1]);
+								} else if ("type".equals(split[0])) {
+									setalarm.dev_type_mark = Integer
+											.parseInt(split[1]);
+								}
+							}
+							// 成功
+							// 返回第三方设备列表activity
+							Intent data = new Intent();
+							data.putExtra("nickname", nickName);
+							data.putExtra("dev_type_mark", dev_type_mark);
+							data.putExtra("dev_uid", setalarm.dev_uid);
+							// 请求代码可以自己设置，这里设置成10
+							setResult(10, data);
+							// 关闭掉这个Activity
+							finish();
+						} else {
+							// 失败
+							showTextToast("设置昵称失败");
+						}
+					} else {
+						showTextToast("TextData回调obj参数is null");
+					}
+					break;
+				default:
+					break;
+				}
+			}
 				break;
-			default:
-				break;
+
 			}
 		}
 			break;
-
+		default:
+			if (dialog != null && dialog.isShowing())
+				dialog.dismiss();
+			break;
 		}
 	}
 
@@ -373,6 +396,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 		if (!bConnectedFlag) {
 			//
 		} else {
+			dialog.show();
 			nickName = strNickName;
 			SendBingNickName(nickName);
 		}

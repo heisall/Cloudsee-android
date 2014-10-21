@@ -149,6 +149,7 @@ public class JVEditPassActivity extends BaseActivity {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
 			if (0 == result) {
+				showTextToast(R.string.edit_succ);
 				MyActivityManager.getActivityManager().popAllActivityExceptOne(
 						JVLoginActivity.class);
 				Intent intent = new Intent(JVEditPassActivity.this,

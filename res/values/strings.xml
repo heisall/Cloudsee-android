@@ -427,6 +427,7 @@
 
     <!-- JVEditPassActivity -->
     <string name="edit_failed">修改失败</string>
+    <string name="edit_succ">密码修改成功，请重新登陆。</string>
 
     <!-- JVDemoActivity -->
     <string name="demo_get_failed">演示点加载失败</string>
@@ -623,7 +624,7 @@
     <string name="str_alarm_type">Type :</string>
     <string name="str_alarm_preview">View</string>
     <string name="str_alarm_ignore">Ignore</string>
-    <string name="str_alarm_manage">Alarm Manage</string>
+    <string name="str_alarm_manage">Add Alarm Device</string>
     <string name="str_alarm_third_nickname">Enter the NickName :</string>
     <string name="str_third_device_name">Device Name</string>
     <string name="str_door_device">Door Device</string>

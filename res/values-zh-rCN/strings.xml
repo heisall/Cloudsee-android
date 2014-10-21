@@ -432,7 +432,7 @@
 
     <!-- JVEditPassActivity -->
     <string name="edit_failed">修改失败</string>
-
+    <string name="edit_succ">密码修改成功，请重新登陆。</string>
     <!-- JVDemoActivity -->
     <string name="demo_get_failed">演示点加载失败</string>
 
@@ -630,6 +630,6 @@
     <string name="str_bracelet_device">手环设备</string>
     <string name="str_click_add_device">点击此处添加新的设备</string>
     <string name="str_alarm_third_nickname">请输入绑定设备昵称 ：</string>
-    <string name="str_alarm_manage">报警管理</string>
+    <string name="str_alarm_manage">添加报警设备</string>
 
 </resources>

@@ -28,6 +28,7 @@ import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ListViewUtil;
 import com.jovision.utils.UserUtil;
+import com.jovision.views.AlarmDialog;
 
 /**
  * 更多
@@ -100,7 +101,12 @@ public class JVMoreFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-
+		switch (what) {
+		case Consts.PUSH_MESSAGE:
+			// 弹出对话框
+			AlarmDialog.getInstance(getActivity()).Show(obj.toString());
+			break;
+		}
 	}
 
 	private void intiUi(View view) {
@@ -280,6 +286,8 @@ public class JVMoreFragment extends BaseFragment {
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
+		fragHandler.sendMessage(fragHandler
+				.obtainMessage(what, arg1, arg2, obj));
 	}
 
 	// 注销线程

@@ -285,6 +285,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 							//
 							// pi.deviceNickName =
 							// BaseApp.getNikeName(pi.ystNum);
+							pi.deviceNickName = pi.ystNum;
 							pi.alarmType = obj
 									.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
 							pi.timestamp = obj

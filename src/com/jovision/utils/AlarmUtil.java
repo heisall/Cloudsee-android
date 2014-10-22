@@ -300,7 +300,8 @@ public class AlarmUtil {
 									// "ainfo":[{"aguid":"bff9ff1eaa772acf47f2d0043990f777",
 									// "asln":0,"dguid":"S90252170","dname":"HD IPC","dcn":1,"atype":7,
 									// "apic":".\/rec\/00\/20141014\/A01092715.jpg","avd":"1413278835","ats":1413278835},}
-
+									pi.deviceNickName = obj
+											.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 									pi.strGUID = obj
 											.optString(JVAlarmConst.JK_ALARM_NEW_GUID);
 									pi.ystNum = obj
@@ -321,7 +322,8 @@ public class AlarmUtil {
 									MyLog.e("报警ID---strGUID---", pi.strGUID
 											+ "");
 									MyLog.e("报警时间---alarmTime---", pi.alarmTime
-											+ "");
+
+									+ "");
 									pi.deviceName = obj
 											.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 									pi.pic = obj

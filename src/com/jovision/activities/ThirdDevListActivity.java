@@ -347,9 +347,13 @@ public class ThirdDevListActivity extends BaseActivity implements
 			case JVNetConst.SERVICE_STOP:
 				bConnectFlag = false;
 				showTextToast(R.string.str_alarm_connect_except);
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
 				break;
 			default:
 				bConnectFlag = false;
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
 				showTextToast(R.string.connect_failed);
 				finish();
 				break;
@@ -366,7 +370,8 @@ public class ThirdDevListActivity extends BaseActivity implements
 						(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 						(byte) Consts.RC_GPIN_SECLECT, videoBuffer.toString()
 								.trim());
-				new Thread(new TimeOutProcess(Consts.RC_GPIN_SECLECT)).start();
+				// new Thread(new
+				// TimeOutProcess(Consts.RC_GPIN_SECLECT)).start();
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:
 				if (dialog != null && dialog.isShowing())
@@ -561,6 +566,10 @@ public class ThirdDevListActivity extends BaseActivity implements
 					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 					(byte) Consts.RC_GPIN_SET, obj.toString().trim());
 			break;
+		default:
+			if (dialog != null && dialog.isShowing())
+				dialog.dismiss();
+			break;
 		}
 	}
 
@@ -630,16 +639,16 @@ public class ThirdDevListActivity extends BaseActivity implements
 		return 0;
 	}
 
-	class TimeOutProcess implements Runnable {
-		private int tag;
-
-		public TimeOutProcess(int arg1) {
-			tag = arg1;
-		}
-
-		@Override
-		public void run() {
-			myHandler.sendEmptyMessageDelayed(tag, 10000);
-		}
-	}
+	// class TimeOutProcess implements Runnable {
+	// private int tag;
+	//
+	// public TimeOutProcess(int arg1) {
+	// tag = arg1;
+	// }
+	//
+	// @Override
+	// public void run() {
+	// myHandler.sendEmptyMessageDelayed(tag, 10000);
+	// }
+	// }
 }

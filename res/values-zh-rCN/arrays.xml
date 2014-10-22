@@ -96,7 +96,7 @@
         <item>%%发生断电告警。</item>
         <item>%%发生手动告警。</item>
         <item>%%发生GPS告警。</item>
-        <item>%%。</item>
+        <item>%%发生第三方设备报警。</item>
         <item>%%很安全，请主人不必担心，我会好好看护的。</item>
         <item>%%有些异常举动，请主人赶快采取措施。</item>
         <item>%%周围温度太高了。</item>

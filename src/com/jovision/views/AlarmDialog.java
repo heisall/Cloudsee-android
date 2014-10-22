@@ -28,7 +28,8 @@ public class AlarmDialog extends Dialog {
 
 	private static AlarmDialog mAlarmDialog;
 	private String ystNum; // 云视通号
-	private String alarmTypeName;//报警类型
+	private String alarmTypeName;// 报警类型
+
 	private AlarmDialog(Context context) {
 		super(context);
 		mAlarmDialog = this;
@@ -142,16 +143,15 @@ public class AlarmDialog extends Dialog {
 		// 已经在显示了，就不显示了
 		if (!mAlarmDialog.isShowing()) {
 			mAlarmDialog.ystNum = strYstNum;
-			if(alarmType == 7){
+			if (alarmType == 7) {
 				mAlarmDialog.alarmTypeName = "移动侦测";
-			}else if(alarmType == 11){
+			} else if (alarmType == 11) {
 				mAlarmDialog.alarmTypeName = "第三方设备报警";
-			}
-			else{
+			} else {
 				mAlarmDialog.alarmTypeName = "未知报警类型";
 			}
 			mAlarmDialog.dialogDeviceName.setText(mAlarmDialog.ystNum);
-			mAlarmDialog.dialogDeviceModle.setText(mAlarmDialog.alarmTypeName);			
+			mAlarmDialog.dialogDeviceModle.setText(mAlarmDialog.alarmTypeName);
 			mAlarmDialog.show();
 		}
 	}

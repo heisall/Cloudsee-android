@@ -321,11 +321,13 @@ public class CustomDialogActivity extends BaseActivity implements
 				if (bDownLoadFileType == 0) {
 					strFilePath = strImgUrl;
 					MyLog.e("New Alarm", "DownFile Path:" + strFilePath);
-					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX, (byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
+					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
 							new byte[0], 0);
 					byte[] dataByte = strFilePath.getBytes();
-					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX, (byte) JVNetConst.JVN_REQ_DOWNLOAD,
-							dataByte, dataByte.length);
+					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_REQ_DOWNLOAD, dataByte,
+							dataByte.length);
 				} else if (bDownLoadFileType == 1) {
 					if (progressdialog.isShowing()) {
 						progressdialog.dismiss();

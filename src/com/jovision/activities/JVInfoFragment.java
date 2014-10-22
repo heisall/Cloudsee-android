@@ -305,7 +305,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			break;
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-			AlarmDialog.getInstance(getActivity()).Show(obj.toString(), arg1);//arg1 是报警类型
+			AlarmDialog.getInstance(getActivity()).Show(obj.toString(), arg1);// arg1
+																				// 是报警类型
 			break;
 		default:
 			break;

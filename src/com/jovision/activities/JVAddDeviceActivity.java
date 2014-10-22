@@ -286,6 +286,9 @@ public class JVAddDeviceActivity extends BaseActivity {
 						Thread.sleep(1000);
 					}
 					deviceList.add(addDevice);
+
+					DeviceUtil.refreshDeviceState(
+							statusHashMap.get(Consts.KEY_USERNAME), deviceList);
 				}
 
 			} catch (Exception e) {

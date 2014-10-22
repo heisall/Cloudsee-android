@@ -180,7 +180,7 @@ public class JVLoginActivity extends BaseActivity {
 						userListView
 								.setOnItemClickListener(mOnItemClickListener);
 						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-								LinearLayout.LayoutParams.MATCH_PARENT,400);
+								LinearLayout.LayoutParams.MATCH_PARENT, 400);
 						userListView.setLayoutParams(params);
 						userListView.setDivider(JVLoginActivity.this
 								.getResources().getDrawable(

@@ -34,6 +34,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -221,6 +222,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		/** 广告条 */
 		imageScroll = (ImageViewPager) adView.findViewById(R.id.imagescroll);
+		RelativeLayout.LayoutParams reParams = new RelativeLayout.LayoutParams(
+				mActivity.disMetrics.widthPixels,
+				(int) (0.45 * mActivity.disMetrics.widthPixels));
+		imageScroll.setLayoutParams(reParams);
 		ovalLayout = (LinearLayout) adView.findViewById(R.id.dot_layout);
 		InitViewPager();// 初始化图片
 		// 开始滚动
@@ -477,7 +482,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 			});
 			imageView.setImageResource(imageResId[i]);
-			imageView.setScaleType(ScaleType.CENTER_CROP);
+			imageView.setScaleType(ScaleType.FIT_CENTER);
 			listViews.add(imageView);
 		}
 	}

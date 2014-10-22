@@ -19,7 +19,6 @@ import com.jovision.MainApplication;
 import com.jovision.bean.Device;
 import com.jovision.bean.ThirdAlarmDev;
 import com.jovision.commons.MyLog;
-import com.jovision.MainApplication;
 
 //因为删除信息走的回调在Activity中，因此把该Apapter放在Actvity中实现
 public class ThirdDevAdapter extends BaseAdapter {

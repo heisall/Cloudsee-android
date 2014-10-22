@@ -178,6 +178,7 @@ public class JVPlayActivity extends PlayActivity implements
 			viewPager.setDisableSliding(false);
 			break;
 		}
+
 		default:
 			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 			break;
@@ -887,7 +888,9 @@ public class JVPlayActivity extends PlayActivity implements
 		playSurface.setVisibility(View.GONE);
 		pagerAdapter = new MyPagerAdapter();
 		changeWindow(1);
-		currentPageChannelList = manager.getValidChannelList(0);
+		currentPageChannelList = manager.getValidChannelList(lastItemIndex);
+		handler.sendMessage(handler.obtainMessage(WHAT_CHECK_SURFACE,
+				lastItemIndex, lastItemIndex));
 
 		viewPager.setLongClickable(true);
 

@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.FuntionAdapter;
-import com.jovision.adapters.PlayViewPagerAdapter;
 import com.jovision.adapters.ScreenAdapter;
 import com.jovision.adapters.StreamAdapter;
 import com.jovision.audio.MICRecorder;
@@ -61,7 +60,6 @@ public abstract class PlayActivity extends BaseActivity {
 
 	/** layout 中 */
 	protected MyViewPager viewPager;
-	protected PlayViewPagerAdapter pagerAdapter;
 	protected SurfaceView playSurface;
 	protected TextView linkMode;// 测试显示连接方式
 

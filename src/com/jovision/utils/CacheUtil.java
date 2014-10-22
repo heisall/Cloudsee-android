@@ -25,8 +25,11 @@ public class CacheUtil {
 	 * @param userList
 	 */
 	public static void saveUserList(ArrayList<User> userList) {
-		MySharedPreference.putString(Consts.LOCAL_USER_LIST,
-				userList.toString());
+		if(null !=userList){
+			MySharedPreference.putString(Consts.LOCAL_USER_LIST,
+					userList.toString());
+		}
+		
 	}
 
 	/**
@@ -37,7 +40,9 @@ public class CacheUtil {
 	public static ArrayList<Device> getDevList() {
 		ArrayList<Device> devList = new ArrayList<Device>();
 		String devJsonString = MySharedPreference.getString(Consts.DEVICE_LIST);
-		devList = Device.fromJsonArray(devJsonString);
+		if(null != devJsonString && !"".equals(devJsonString)){
+			devList = Device.fromJsonArray(devJsonString);
+		}
 		return devList;
 	}
 
@@ -47,6 +52,9 @@ public class CacheUtil {
 	 * @param userList
 	 */
 	public static void saveDevList(ArrayList<Device> devList) {
-		MySharedPreference.putString(Consts.DEVICE_LIST, devList.toString());
+		if(null != devList){
+			MySharedPreference.putString(Consts.DEVICE_LIST, devList.toString());
+		}
+		
 	}
 }

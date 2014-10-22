@@ -95,7 +95,7 @@
                     android:lines="1"
                     android:paddingLeft="10dp"
                     android:singleLine="true"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/leftdevicecolor" />
             </LinearLayout>
 
             <LinearLayout

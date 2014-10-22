@@ -3,7 +3,6 @@ package com.jovision.utils;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.test.JVACCOUNT;
@@ -37,11 +36,11 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);
 			jObj.put(JVDeviceConst.JK_USERNAME, userName);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("getUserDeviceList", jObj.toString());
+		MyLog.v("getUserDeviceList---request", jObj.toString());
 
 		// 返回值范例：{"pv":"1.0","lpt":1,"username":"zhangs","mt":2003,"mid":1}
 		/**
@@ -54,71 +53,74 @@ public class DeviceUtil {
 		byte[] resultStr = new byte[1024 * 30];
 		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("getUserDeviceList---result", result);
 
-		MyLog.v("getUserDeviceList---error", error + "");
-		MyLog.v("getUserDeviceList---result", result);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
 
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
-					int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+						if (0 != rt) {// 获取失败
+							deviceList = null;
+						} else {// 获取成功
+							deviceList = new ArrayList<Device>();
+							// int mid =
+							// temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+							JSONArray dlist = new JSONArray(
+									temObj.optString(JVDeviceConst.JK_DEVICE_LIST));
+							if (null != dlist && 0 != dlist.length()) {
+								for (int i = 0; i < dlist.length(); i++) {
+									JSONObject obj = dlist.getJSONObject(i);
+									if (null != obj) {
+										Device dev = new Device();
+										dev.setFullNo(obj
+												.optString(JVDeviceConst.JK_DEVICE_GUID));
+										dev.setGid(ConfigUtil.getGroup(obj
+												.optString(JVDeviceConst.JK_DEVICE_GUID)));
+										dev.setNo(ConfigUtil.getYST(obj
+												.optString(JVDeviceConst.JK_DEVICE_GUID)));
+										dev.setDeviceType(obj
+												.optInt(JVDeviceConst.JK_DEVICE_TYPE));
+										dev.setNickName(obj
+												.optString(JVDeviceConst.JK_DEVICE_NAME));
+										dev.setUser(obj
+												.optString(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME));
+										dev.setPwd(obj
+												.optString(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD));
+										dev.setIp(obj
+												.optString(JVDeviceConst.JK_DEVICE_VIDEO_IP));
+										dev.setPort(obj
+												.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT));
+										if (dev.getIp() == null
+												|| "".equals(dev.getIp())
+												|| "null".equalsIgnoreCase(dev
+														.getIp())) {
+											dev.setIsDevice(0);
+										} else {
+											dev.setIsDevice(1);
+										}
 
-					if (0 != rt) {// 获取失败
-						deviceList = null;
-					} else {// 获取成功
-						deviceList = new ArrayList<Device>();
-						int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
-						JSONArray dlist = new JSONArray(
-								temObj.optString(JVDeviceConst.JK_DEVICE_LIST));
-						if (null != dlist && 0 != dlist.length()) {
-							for (int i = 0; i < dlist.length(); i++) {
-								JSONObject obj = dlist.getJSONObject(i);
-								if (null != obj) {
-									Device dev = new Device();
-									dev.setFullNo(obj
-											.optString(JVDeviceConst.JK_DEVICE_GUID));
-									dev.setGid(ConfigUtil.getGroup(obj
-											.optString(JVDeviceConst.JK_DEVICE_GUID)));
-									dev.setNo(ConfigUtil.getYST(obj
-											.optString(JVDeviceConst.JK_DEVICE_GUID)));
-									dev.setDeviceType(obj
-											.optInt(JVDeviceConst.JK_DEVICE_TYPE));
-									dev.setNickName(obj
-											.optString(JVDeviceConst.JK_DEVICE_NAME));
-									dev.setUser(obj
-											.optString(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME));
-									dev.setPwd(obj
-											.optString(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD));
-									dev.setIp(obj
-											.optString(JVDeviceConst.JK_DEVICE_VIDEO_IP));
-									dev.setPort(obj
-											.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT));
-									if (dev.getIp() == null
-											|| "".equals(dev.getIp())
-											|| "null".equalsIgnoreCase(dev
-													.getIp())) {
-										dev.setIsDevice(0);
-									} else {
-										dev.setIsDevice(1);
+										dev.setDeviceType(obj
+												.optInt(JVDeviceConst.JK_DEVICE_TYPE));
+										dev.setServerState(obj
+												.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
+										deviceList.add(dev);
 									}
-
-									dev.setDeviceType(obj
-											.optInt(JVDeviceConst.JK_DEVICE_TYPE));
-									dev.setServerState(obj
-											.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
-									deviceList.add(dev);
 								}
 							}
 						}
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
 			}
 		}
+
 		if (null != deviceList && 0 != deviceList.size()) {
 			refreshDeviceState(userName, deviceList);
 		}
@@ -144,7 +146,7 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
@@ -152,45 +154,49 @@ public class DeviceUtil {
 		byte[] resultStr = new byte[1024 * 30];
 		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
 
-		MyLog.v("getDevicePointList---result", result);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("getDevicePointList---result", result);
 
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
-					int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
 
-					if (0 != rt) {// 获取失败
-						pointList = null;
-					} else {// 获取成功
-						pointList = new MyList<Channel>(1);
-					}
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
-					JSONArray plist = new JSONArray(
-							temObj.optString(JVDeviceConst.JK_CHANNEL_LIST));
-					if (null != plist && 0 != plist.length()) {
-						for (int i = 0; i < plist.length(); i++) {
-							JSONObject obj = plist.getJSONObject(i);
-							if (null != obj) {
-								Channel cl = new Channel();
-								cl.setParent(parentDevice);
-								cl.setChannel(obj
-										.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_NO));
-								cl.setChannelName(obj
-										.optString(JVDeviceConst.JK_DEVICE_CHANNEL_NAME));// BaseApp.UnicodeToString(obj.optString(JVDeviceConst.JK_DEVICE_NAME));
-								pointList.add(cl);
+						if (0 != rt) {// 获取失败
+							pointList = null;
+						} else {// 获取成功
+							pointList = new MyList<Channel>(1);
+						}
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+						JSONArray plist = new JSONArray(
+								temObj.optString(JVDeviceConst.JK_CHANNEL_LIST));
+						if (null != plist && 0 != plist.length()) {
+							for (int i = 0; i < plist.length(); i++) {
+								JSONObject obj = plist.getJSONObject(i);
+								if (null != obj) {
+									Channel cl = new Channel();
+									cl.setParent(parentDevice);
+									cl.setChannel(obj
+											.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_NO));
+									cl.setChannelName(obj
+											.optString(JVDeviceConst.JK_DEVICE_CHANNEL_NAME));// BaseApp.UnicodeToString(obj.optString(JVDeviceConst.JK_DEVICE_NAME));
+									pointList.add(cl);
+								}
 							}
 						}
-					}
 
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
 			}
 		}
+
 		return pointList;
 	}
 
@@ -232,32 +238,34 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);
 			jObj.put(JVDeviceConst.JK_DEVICE_CHANNEL_NO, pNum);
 			jObj.put(JVDeviceConst.JK_DEVICE_CHANNEL_NAME, pNewName);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("modifyPointName", jObj.toString());
-		byte[] resultStr = new byte[1024 * 30];
+		MyLog.v("modifyPointName--request", jObj.toString());
+		byte[] resultStr = new byte[512];
 		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
-
-		MyLog.v("modifyPointName---error", error + "");
-		MyLog.v("modifyPointName---result", result);
-
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// (USER_BIND_DEVICE_RESPONSE
-																			// 2016)
-					res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("modifyPointName---result", result);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);//
+						// (USER_BIND_DEVICE_RESPONSE
+						// 2016)
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				return res;
 			}
 		}
+
 		return res;
 	}
 
@@ -274,7 +282,7 @@ public class DeviceUtil {
 	 */
 	public static int addPoint(String dGuid, int sum) {
 		int res = -1;
-		ArrayList<Channel> pointList = null;
+		// ArrayList<Channel> pointList = null;
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
@@ -285,32 +293,36 @@ public class DeviceUtil {
 					JVDeviceConst.DEV_INFO_PRO);
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);
 			jObj.put(JVDeviceConst.JK_DEVICE_CHANNEL_SUM, sum);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("addPoint", jObj.toString());
-		byte[] resultStr = new byte[1024 * 30];
+		MyLog.v("addPoint---request", jObj.toString());
+		byte[] resultStr = new byte[512];
 		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
 
-		MyLog.v("addPoint---error", error + "");
-		MyLog.v("addPoint---result", result);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("addPoint---result", result);
 
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// (USER_BIND_DEVICE_RESPONSE
-																			// 2016)
-					res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);//
+						// (USER_BIND_DEVICE_RESPONSE
+						// 2016)
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				return res;
 			}
 		}
+
 		return res;
 	}
 
@@ -327,7 +339,7 @@ public class DeviceUtil {
 	 */
 	public static int deletePoint(String dGuid, int pNum) {
 		int res = -1;
-		ArrayList<Channel> pointList = null;
+		// ArrayList<Channel> pointList = null;
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
@@ -338,32 +350,36 @@ public class DeviceUtil {
 					JVDeviceConst.DEV_INFO_PRO);
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);
 			jObj.put(JVDeviceConst.JK_DEVICE_CHANNEL_NO, pNum);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("deletePoint", jObj.toString());
-		byte[] resultStr = new byte[1024 * 30];
+		MyLog.v("deletePoint---request", jObj.toString());
+		byte[] resultStr = new byte[512];
 		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
 
-		MyLog.v("deletePoint---error", error + "");
-		MyLog.v("deletePoint---result", result);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("deletePoint---result", result);
 
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// (USER_BIND_DEVICE_RESPONSE
-																			// 2016)
-					res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);//
+						// (USER_BIND_DEVICE_RESPONSE
+						// 2016)
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				return res;
 			}
 		}
+
 		return res;
 	}
 
@@ -386,7 +402,7 @@ public class DeviceUtil {
 	// JVDeviceConst.DEV_INFO_PRO);
 	// jObj.put(JVDeviceConst.JK_USERNAME, userName);
 	// jObj.put(JVDeviceConst.JK_DEVICE_GUID, deviceGuid);
-	// } catch (JSONException e1) {
+	// } catch (Exception e1) {
 	// e1.printStackTrace();
 	// }
 	//
@@ -446,8 +462,7 @@ public class DeviceUtil {
 	// }
 	// }
 	// }
-	// } catch (JSONException e) {
-	// // TODO Auto-generated catch block
+	// } catch (Exception e) {
 	// e.printStackTrace();
 	// }
 	//
@@ -486,7 +501,7 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PORT, device.getPort());// dvport
 			jObj.put(JVDeviceConst.JK_USERNAME, userName);
 
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		// {"username":"refactor","dvlt":1,"mt":2013,
@@ -498,27 +513,29 @@ public class DeviceUtil {
 		// {"mt":2014,"rt":0,"mid":1}
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 30];
-		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
-		// String result = "{\"mt\":2014,\"rt\":0,\"mid\":1}";
-		MyLog.v("editDeviceConnType-result", result);
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
-					int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// 0正确,其他为错误码
-					res = rt;
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+
+		if (0 == error) {
+			String result = new String(resultStr);
+			// String result = "{\"mt\":2014,\"rt\":0,\"mid\":1}";
+			MyLog.v("editDeviceConnType-result", result);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// 0正确,其他为错误码
+						res = rt;
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
-
 		return res;
 	}
 
@@ -546,39 +563,44 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, device.getFullNo());
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME, device.getUser());
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD, device.getPwd());
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("bindDevice", jObj.toString());
+		MyLog.v("addDevice---request", jObj.toString());
 
 		// 返回参数示例
 		// {"mt":2016,"rt":0,"mid":1}
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 30];
-		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
 
-		// String result = "{\"mt\":2016,\"rt\":0,\"mid\":1}";
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// (USER_BIND_DEVICE_RESPONSE
-																			// 2016)
-					int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码MY_SQL_ERROR,FAILD,PASSWORD_ERROR)
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
-					// int drf =
-					// temObj.optInt(JVDeviceConst.JK_DEVICE_RESET_FLAG);
-					res = rt;
-					// res[1] = drf;
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("addDevice---result", result);
+			// String result = "{\"mt\":2016,\"rt\":0,\"mid\":1}";
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);//
+						// (USER_BIND_DEVICE_RESPONSE
+						// 2016)
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码MY_SQL_ERROR,FAILD,PASSWORD_ERROR)
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+						// int drf =
+						// temObj.optInt(JVDeviceConst.JK_DEVICE_RESET_FLAG);
+						res = rt;
+						// res[1] = drf;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
+
 		return res;
 	}
 
@@ -603,36 +625,41 @@ public class DeviceUtil {
 					JVDeviceConst.DEV_INFO_PRO);// lpt
 			jObj.put(JVDeviceConst.JK_USERNAME, loginUserName);
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, deviceGuid);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("unbindDevice", jObj.toString());
+		MyLog.v("unbindDevice---request", jObj.toString());
 
 		// 返回参数示例
 		// {"mt":2018,"rt":0,"mid":1}
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 30];
-		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
 
-		// String result = "{\"mt\":2018,\"rt\":0,\"mid\":1}";
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// (USER_BIND_DEVICE_RESPONSE
-																			// 2016)
-					int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
-					res = rt;
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("unbindDevice---result", result);
+			// String result = "{\"mt\":2018,\"rt\":0,\"mid\":1}";
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);//
+						// (USER_BIND_DEVICE_RESPONSE
+						// 2016)
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
+						res = rt;
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
+
 		return res;
 	}
 
@@ -655,7 +682,7 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);
 			jObj.put(JVDeviceConst.JK_USERNAME, userName);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
@@ -663,101 +690,90 @@ public class DeviceUtil {
 
 		// 返回值范例：//
 		// {"mt":2024,"rt":0,"mid":8,"dlist":[{"dnst":0,"netss":0,"tfss":0,"aswitch":0,"dsls":1,"dts":"2014-02-27 10:59:40","dtem":22.990875,"dhum":39.074707},{"dnst":1,"netss":1,"tfss":1,"aswitch":1,"dsls":0,"dts":"1900-01-00 00:00:00","dtem":0,"dhum":0},{"dnst":1,"netss":1,"tfss":1,"aswitch":1,"dsls":0,"dts":"1900-01-00 00:00:00","dtem":0,"dhum":0}]}
-		/**
-		 * // {"mt":2024, "rt":0, "mid":8, "dlist":[
-		 * {"dguid":"ABCD0001","dnst":0
-		 * ,"netss":0,"tfss":0,"aswitch":0,"dsls":1,"dts"
-		 * :"2014-02-27 10:59:40","dtem":22.990875,"dhum":39.074707},
-		 * {"dguid":"ABCD0001"
-		 * ,"dnst":1,"netss":1,"tfss":1,"aswitch":1,"dsls":0,"dts"
-		 * :"1900-01-00 00:00:00","dtem":0,"dhum":0},
-		 * {"dguid":"ABCD0001","dnst":
-		 * 1,"netss":1,"tfss":1,"aswitch":1,"dsls":0,"dts"
-		 * :"1900-01-00 00:00:00","dtem":0,"dhum":0}]}
-		 */
-
 		// 接收返回数据
 		byte[] resultStr = new byte[1024 * 30];
-		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("refreshDeviceState--result:", result);
+			// {"username":"aaasss","lpt":1,"pv":"1.0","mt":2025}
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+						if (0 == rt) {
+							res = true;
+						}
+						if (null != temObj
+								.optString(JVDeviceConst.JK_DEVICE_LIST)
+								&& !"".equalsIgnoreCase(temObj
+										.optString(JVDeviceConst.JK_DEVICE_LIST))) {
+							JSONArray dlist = new JSONArray(
+									temObj.optString(JVDeviceConst.JK_DEVICE_LIST));
+							if (null != dlist && 0 != dlist.length()
+									&& null != deviceList
+									&& 0 != deviceList.size()) {
+								boolean[] flag = new boolean[deviceList.size()];
+								for (int j = 0; j < flag.length; j++) {
+									flag[j] = false;
+								}
+								for (int i = 0; i < dlist.length(); i++) {
+									JSONObject obj = dlist.getJSONObject(i);
+									if (null != obj) {// 找到列表中的设备修改设备属性
+										if (null != deviceList
+												&& 0 != deviceList.size()) {
+											for (int k = 0; k < deviceList
+													.size(); k++) {
+												if (deviceList
+														.get(k)
+														.getFullNo()
+														.equalsIgnoreCase(
+																obj.optString(JVDeviceConst.JK_DEVICE_GUID))) {
+													Device dev = deviceList
+															.get(k);
+													dev.setOnlineState(obj
+															.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));// dsls
+													dev.setHasWifi(obj
+															.optInt(JVDeviceConst.JK_DEVICE_WIFI_FLAG));// dsls
+													MyLog.v("刷新:"
+															+ dev.getFullNo(),
+															"在线状态："
+																	+ dev.getOnlineState());
+													dev.setDeviceType(obj
+															.optInt(JVDeviceConst.JK_DEVICE_TYPE));
 
-		MyLog.v("refreshDeviceState--result:", jObj.toString());
-
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
-					int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
-					if (0 == rt) {
-						res = true;
-					}
-					if (null != temObj.optString(JVDeviceConst.JK_DEVICE_LIST)
-							&& !"".equalsIgnoreCase(temObj
-									.optString(JVDeviceConst.JK_DEVICE_LIST))) {
-						JSONArray dlist = new JSONArray(
-								temObj.optString(JVDeviceConst.JK_DEVICE_LIST));
-						if (null != dlist && 0 != dlist.length()
-								&& null != deviceList && 0 != deviceList.size()) {
-							boolean[] flag = new boolean[deviceList.size()];
-							for (int j = 0; j < flag.length; j++) {
-								flag[j] = false;
-							}
-							for (int i = 0; i < dlist.length(); i++) {
-								JSONObject obj = dlist.getJSONObject(i);
-								if (null != obj) {// 找到列表中的设备修改设备属性
-									if (null != deviceList
-											&& 0 != deviceList.size()) {
-										for (int k = 0; k < deviceList.size(); k++) {
-											if (deviceList
-													.get(k)
-													.getFullNo()
-													.equalsIgnoreCase(
-															obj.optString(JVDeviceConst.JK_DEVICE_GUID))) {
-												Device dev = deviceList.get(k);
-												dev.setOnlineState(obj
-														.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));// dsls
-												dev.setHasWifi(obj
-														.optInt(JVDeviceConst.JK_DEVICE_WIFI_FLAG));// dsls
-												MyLog.v("刷新:" + dev.getFullNo(),
-														"在线状态："
-																+ dev.getOnlineState());
-												dev.setDeviceType(obj
-														.optInt(JVDeviceConst.JK_DEVICE_TYPE));
-
-												if (2 == dev.getDeviceType()) {// 家用设备
-													dev.setAlarmSwitch(obj
-															.optInt(JVDeviceConst.JK_ALARM_SWITCH));
+													if (2 == dev
+															.getDeviceType()) {// 家用设备
+														dev.setAlarmSwitch(obj
+																.optInt(JVDeviceConst.JK_ALARM_SWITCH));
+													}
+													dev.setServerState(obj
+															.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
+													flag[k] = true;
 												}
-												dev.setServerState(obj
-														.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
-												flag[k] = true;
 											}
 										}
-									}
 
+									}
 								}
-							}
-							// for (int j = 0; j < flag.length; j++) {
-							// if (!flag[j] && null != BaseApp.deviceList && 0
-							// != BaseApp.deviceList.size()) {
-							// BaseApp.deviceList.remove(j);
-							// }
-							// }
-						} else {
-							if (null == deviceList) {
-								deviceList = new ArrayList<Device>();
+							} else {
+								if (null == deviceList) {
+									deviceList = new ArrayList<Device>();
+								}
 							}
 						}
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
+
 		return res;
 	}
 
@@ -794,31 +810,36 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_DEVICE_NAME, devName);// devname
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME, devUserName);// devusername
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD, devUserPass);// devuserpass
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("modifyDevice", jObj.toString());
+		MyLog.v("modifyDevice---request", jObj.toString());
 
 		// 返回参数示例
 		// {"mt":2008,"rt":0,"mid":8}
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 30];
-		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// (USER_BIND_DEVICE_RESPONSE
-																			// 2016)
-					res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("modifyDevice---result", result);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);//
+						// (USER_BIND_DEVICE_RESPONSE
+						// 2016)
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				return res;
 			}
 		}
 		return res;
@@ -852,33 +873,41 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, devYstnum);// devguid
 			jObj.put(JVDeviceConst.JK_DEVICE_USERNAME, devUserName);// devusername
 			jObj.put(JVDeviceConst.JK_DEVICE_PASSWORD, devUserPass);// devuserpass
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("modifyDevice", jObj.toString());
+		MyLog.v("initDevice---request", jObj.toString());
 
 		// 返回参数示例
 		// {"mt":2008,"rt":0,"mid":8}
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 30];
-		JVACCOUNT.GetResponseByRequestDevicePersistConnectionServer(
-				jObj.toString(), resultStr);
-		String result = new String(resultStr);
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// (USER_BIND_DEVICE_RESPONSE
-																			// 2016)
-					res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT
+				.GetResponseByRequestDevicePersistConnectionServer(
+						jObj.toString(), resultStr);
+
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("initDevice---result", result);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);//
+						// (USER_BIND_DEVICE_RESPONSE
+						// 2016)
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				return res;
 			}
 		}
+
 		if (0 == res) {
 			res = saveDeviceToDB(devYstnum, devUserName, devUserPass);
 		}
@@ -912,33 +941,39 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, devYstnum);// devguid
 			jObj.put(JVDeviceConst.JK_DEVICE_USERNAME, devUserName);// devusername
 			jObj.put(JVDeviceConst.JK_DEVICE_PASSWORD, devUserPass);// devuserpass
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("modifyDevice", jObj.toString());
+		MyLog.v("saveDeviceToDB---request", jObj.toString());
 
 		// 返回参数示例
 		// {"mt":2008,"rt":0,"mid":8}
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 30];
-		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// (USER_BIND_DEVICE_RESPONSE
-																			// 2016)
-					res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("saveDeviceToDB---result", result);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);//
+						// (USER_BIND_DEVICE_RESPONSE
+						// 2016)
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				return res;
 			}
 		}
+
 		return res;
 	}
 
@@ -987,8 +1022,7 @@ public class DeviceUtil {
 				paramObj.put(JVDeviceConst.JK_DEVICE_BABY_MODE, state);// 0关 1开
 				break;
 			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		int res = -1;
@@ -1003,11 +1037,11 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_USERNAME, loginUserName);
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);
 			jObj.put(JVDeviceConst.JK_DEVICE_INFO, paramObj);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("saveSettings----", jObj.toString());
+		MyLog.v("saveSettings---request", jObj.toString());
 
 		// 返回值范例：
 		/**
@@ -1015,23 +1049,26 @@ public class DeviceUtil {
 		 */
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024];
-		JVACCOUNT.GetResponseByRequestDevicePersistConnectionServer(
-				jObj.toString(), resultStr);
-		String result = new String(resultStr);
-
-		MyLog.v("saveSettings--result--", result);
-
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
-					res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功 ，其他失败
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT
+				.GetResponseByRequestDevicePersistConnectionServer(
+						jObj.toString(), resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("saveSettings---result", result);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
+																		// ，其他失败
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
 			}
 		}
 
@@ -1065,8 +1102,7 @@ public class DeviceUtil {
 				paramObj.put(JVDeviceConst.JK_ALARM_TIME, dName);// 0关 1开
 				break;
 			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		int res = -1;
@@ -1081,11 +1117,11 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_USERNAME, loginUserName);
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);
 			jObj.put(JVDeviceConst.JK_DEVICE_INFO, paramObj);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("saveSettings----", jObj.toString());
+		MyLog.v("saveSettings---request", jObj.toString());
 
 		// 返回值范例：
 		/**
@@ -1093,25 +1129,30 @@ public class DeviceUtil {
 		 */
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024];
-		JVACCOUNT.GetResponseByRequestDevicePersistConnectionServer(
-				jObj.toString(), resultStr);
-		String result = new String(resultStr);
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT
+				.GetResponseByRequestDevicePersistConnectionServer(
+						jObj.toString(), resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("saveSettings--result--", result);
 
-		MyLog.v("saveSettings--result--", result);
-
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
-					res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功 ，其他失败
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
+																		// ，其他失败
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
 			}
 		}
+
 		if (res == 0 && !"".equals(saveKey)) {
 			saveToDB(loginUserName, dGuid, saveKey, dName);
 		}
@@ -1135,21 +1176,11 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// pv
 			jObj.put(key, value);
-			// jObj.put(JVDeviceConst.JK_DEVICE_NET_STATE, loginUserName);//dnst
-			// jObj.put(JVDeviceConst.JK_TF_STORAGE_SWITCH,
-			// loginUserName);//tfss
-			// jObj.put(JVDeviceConst.JK_ALARM_SWITCH, loginUserName);//aswitch
-			// jObj.put(JVDeviceConst.JK_ALARM_TIME, loginUserName);//atime
-			// jObj.put(JVDeviceConst.JK_PIC_UPLOAD_TIMEING,
-			// loginUserName);//dpicut
-			// jObj.put(JVDeviceConst.JK_VIDEO_FLUENCY,
-			// loginUserName);//dvfluency
-
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("saveToDB----", jObj.toString());
+		MyLog.v("saveToDB1---request", jObj.toString());
 
 		// 返回值范例：
 		/**
@@ -1157,25 +1188,29 @@ public class DeviceUtil {
 		 */
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024];
-		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("saveToDB1---result", result);
 
-		MyLog.v("saveToDB--result--", result);
-
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
-					res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功 ，其他失败
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
+																		// ，其他失败
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
 			}
 		}
+
 		return res;
 	}
 
@@ -1196,21 +1231,12 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// pv
 			jObj.put(key, value);
-			// jObj.put(JVDeviceConst.JK_DEVICE_NET_STATE, loginUserName);//dnst
-			// jObj.put(JVDeviceConst.JK_TF_STORAGE_SWITCH,
-			// loginUserName);//tfss
-			// jObj.put(JVDeviceConst.JK_ALARM_SWITCH, loginUserName);//aswitch
-			// jObj.put(JVDeviceConst.JK_ALARM_TIME, loginUserName);//atime
-			// jObj.put(JVDeviceConst.JK_PIC_UPLOAD_TIMEING,
-			// loginUserName);//dpicut
-			// jObj.put(JVDeviceConst.JK_VIDEO_FLUENCY,
-			// loginUserName);//dvfluency
 
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("saveToDB----", jObj.toString());
+		MyLog.v("saveToDB2---request", jObj.toString());
 
 		// 返回值范例：
 		/**
@@ -1218,23 +1244,26 @@ public class DeviceUtil {
 		 */
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024];
-		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("saveToDB2---result", result);
 
-		MyLog.v("saveToDB--result--", result);
-
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
-					res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功 ，其他失败
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
+																		// ，其他失败
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
 			}
 		}
 		return res;
@@ -1262,34 +1291,36 @@ public class DeviceUtil {
 					JVDeviceConst.DEV_INFO_PRO);// lpt
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, deviceGuid);
 			jObj.put(JVDeviceConst.JK_DEVICE_WIFI_FLAG, hasWifi);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("modifyDeviceWifi", jObj.toString());
+		MyLog.v("modifyDeviceWifi---request", jObj.toString());
 
 		// 返回参数示例
 		// {"mt":2018,"rt":0,"mid":1}
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 2];
-		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
-
-		// String result = "{\"mt\":2018,\"rt\":0,\"mid\":1}";
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// (USER_BIND_DEVICE_RESPONSE
-																			// 2016)
-					int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
-					res = rt;
-					int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("modifyDeviceWifi---result", result);
+			// String result = "{\"mt\":2018,\"rt\":0,\"mid\":1}";
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);//
+						// (USER_BIND_DEVICE_RESPONSE
+						// 2016)
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码)
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 		return res;
@@ -1309,21 +1340,6 @@ public class DeviceUtil {
 			if ("".equalsIgnoreCase(device1.getNickName())) {
 				device1.setNickName(device1.getFullNo());
 			}
-
-			// JVConnectInfo jvc = device1.toJVConnectInfo();
-			// JVConnectInfo resultInfo = BaseApp.queryChannelByYst(jvc);
-			// if (null == resultInfo) {
-			// jvc.setParent(true);
-			// int res = BaseApp.addItem(jvc);
-			//
-			// if (res > 0) {
-			// return device1;
-			// } else {
-			// device1 = null;
-			// }
-			// MyLog.v("本地添加设备--", "" + res);
-			// }
-
 		} else {// 发请求添加设备
 			if ("".equalsIgnoreCase(device1.getNickName())) {
 				device1.setNickName(device1.getFullNo());
@@ -1357,7 +1373,7 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);// lpt
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, deviceGuid);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
@@ -1366,35 +1382,37 @@ public class DeviceUtil {
 		// 返回参数示例
 		// {"pv":"1.0","lpt":1,"mt":2009,"mid":42,"dguid":"S79808869"}
 		// 接收返回数据
-		byte[] resultStr = new byte[1024];
-		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("getDevOnlineState---result", result);
 
-		MyLog.v("getDevOnlineState---result", result);
-
-		// String result = "{"mt":2010,"rt":0,"mid":42,"dsls":1}";
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// (USER_BIND_DEVICE_RESPONSE
-																			// 2016)
-					int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// 0正确；-10请求格式错误；-1云视通通信失败。
-					if (0 == rt) {
-						res = temObj
-								.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS);// (1在线
-																				// 0不在线)
-					} else {
-						res = rt;
+			// String result = "{"mt":2010,"rt":0,"mid":42,"dsls":1}";
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);//
+						// (USER_BIND_DEVICE_RESPONSE
+						// 2016)
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// 0正确；-10请求格式错误；-1云视通通信失败。
+						if (0 == rt) {
+							res = temObj
+									.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS);// (1在线
+																					// 0不在线)
+						} else {
+							res = rt;
+						}
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				res = -1;
-				e.printStackTrace();
 			}
 		}
+
 		return res;
 	}
 
@@ -1406,7 +1424,7 @@ public class DeviceUtil {
 	 */
 	public static ArrayList<Device> getDemoDeviceList(String softName) {
 
-		ArrayList<Device> demoList = null;
+		ArrayList<Device> demoList = new ArrayList<Device>();
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
@@ -1416,61 +1434,65 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);// 1
 			jObj.put(JVDeviceConst.JK_CUSTOM_TYPE, softName);
-		} catch (JSONException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		MyLog.v("getDemoDeviceList", jObj.toString());
+		MyLog.v("getDemoDeviceList---request", jObj.toString());
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 2];
+		byte[] resultStr = new byte[1024 * 3];
 		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
 
-		MyLog.v("getDemoDeviceList---error", error + "");
-		MyLog.v("getDemoDeviceList---result", result);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("getDemoDeviceList---result", result);
 
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// 2058
-					int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// 2058
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
 
-					if (0 != rt) {// 获取失败
-						demoList = null;
-					} else {// 获取成功
-						demoList = new ArrayList<Device>();
-						JSONArray dlist = new JSONArray(
-								temObj.optString(JVDeviceConst.JK_DEVICE_LIST));
-						if (null != dlist && 0 != dlist.length()) {
-							for (int i = 0; i < dlist.length(); i++) {
-								JSONObject obj = dlist.getJSONObject(i);
-								if (null != obj) {
-									String fullNum = obj
-											.optString(JVDeviceConst.JK_DEVICE_GUID);
-									String gid = ConfigUtil.getGroup(fullNum);
-									int no = ConfigUtil.getYST(fullNum);
-									String user = obj
-											.optString(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME);
-									String pwd = obj
-											.optString(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD);
-									int counts = obj
-											.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_SUM);
+						if (0 != rt) {// 获取失败
+							demoList = null;
+						} else {// 获取成功
+							demoList = new ArrayList<Device>();
+							JSONArray dlist = new JSONArray(
+									temObj.optString(JVDeviceConst.JK_DEVICE_LIST));
+							if (null != dlist && 0 != dlist.length()) {
+								for (int i = 0; i < dlist.length(); i++) {
+									JSONObject obj = dlist.getJSONObject(i);
+									if (null != obj) {
+										String fullNum = obj
+												.optString(JVDeviceConst.JK_DEVICE_GUID);
+										String gid = ConfigUtil
+												.getGroup(fullNum);
+										int no = ConfigUtil.getYST(fullNum);
+										String user = obj
+												.optString(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME);
+										String pwd = obj
+												.optString(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD);
+										int counts = obj
+												.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_SUM);
 
-									Device dev = new Device("", 9101, gid, no,
-											user, pwd, true, counts, 1);
-									demoList.add(dev);
+										Device dev = new Device("", 9101, gid,
+												no, user, pwd, true, counts, 1);
+										demoList.add(dev);
+									}
 								}
 							}
 						}
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
 			}
 		}
+
 		return demoList;
 	}
 }

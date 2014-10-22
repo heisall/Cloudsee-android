@@ -173,16 +173,15 @@ public class JVLoginActivity extends BaseActivity {
 						userAdapter.setName(userNameET.getText().toString());
 						userListView = new ListView(JVLoginActivity.this);
 						pop = new PopupWindow(userListView, userNameLayout
-								.getWidth(), 300);
+								.getWidth(), 400);
 						userListView.setAdapter(userAdapter);
 						userListView.setVerticalScrollBarEnabled(false);
 						userListView.setHorizontalScrollBarEnabled(false);
 						userListView
 								.setOnItemClickListener(mOnItemClickListener);
 						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-								LinearLayout.LayoutParams.MATCH_PARENT, 290);
+								LinearLayout.LayoutParams.MATCH_PARENT,400);
 						userListView.setLayoutParams(params);
-						userListView.setFadingEdgeLength(10);
 						userListView.setDivider(JVLoginActivity.this
 								.getResources().getDrawable(
 										R.color.login_pop_bg));

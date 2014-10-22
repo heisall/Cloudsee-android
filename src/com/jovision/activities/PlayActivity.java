@@ -85,8 +85,8 @@ public abstract class PlayActivity extends BaseActivity {
 
 	/** 云台操作 */
 	protected ImageView autoimage, zoomIn, zoomout, scaleSmallImage,
-			scaleAddImage, upArrow, downArrow, leftArrow, rightArrow,
-			yt_cancle;
+	scaleAddImage, upArrow, downArrow, leftArrow, rightArrow,
+	yt_cancle;
 
 	/** layout 下 */
 	protected Button capture;// 抓拍
@@ -273,7 +273,7 @@ public abstract class PlayActivity extends BaseActivity {
 		functionList.add(getResources().getString(R.string.str_audio_monitor));
 		functionList.add(getResources().getString(R.string.str_yt_operate));
 		functionList
-				.add(getResources().getString(R.string.str_remote_playback));
+		.add(getResources().getString(R.string.str_remote_playback));
 		functionListAdapter = new FuntionAdapter(PlayActivity.this, bigScreen,
 				playFlag);
 		functionListAdapter.setData(functionList);
@@ -359,10 +359,10 @@ public abstract class PlayActivity extends BaseActivity {
 	protected void setPlayViewSize() {
 		if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
 			getWindow()
-					.setFlags(
-							disMetrics.widthPixels
-									- getStatusHeight(PlayActivity.this),
-							WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			.setFlags(
+					disMetrics.widthPixels
+					- getStatusHeight(PlayActivity.this),
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			topBar.setVisibility(View.VISIBLE);// 顶部标题栏
 			footerBar.setVisibility(View.VISIBLE);// 底部工具栏
 
@@ -394,7 +394,29 @@ public abstract class PlayActivity extends BaseActivity {
 			apFuncLayout.setVisibility(View.GONE);
 			horPlayBarLayout.setVisibility(View.VISIBLE);
 			// init();
-
+			if (Consts.PLAY_AP == playFlag) {
+				if (relative2.getVisibility()==View.VISIBLE) {
+					 linear.removeView(relative2);
+					 linear.addView(relative2, linear.getChildCount());
+					 bottombut2.setVisibility(View.GONE);
+				}
+				if (relative3.getVisibility()==View.VISIBLE) {
+					 linear.removeView(relative3);
+					 linear.addView(relative3, linear.getChildCount());
+					 bottombut3.setVisibility(View.GONE);
+				}
+				if (relative6.getVisibility()==View.VISIBLE) {
+					 linear.removeView(relative6);
+					 linear.addView(relative6, linear.getChildCount());
+					 bottombut6.setVisibility(View.GONE);
+				}
+				if (relative7.getVisibility()==View.VISIBLE) {
+					 linear.removeView(relative7);
+					 linear.addView(relative7, linear.getChildCount());
+					 bottombut7.setVisibility(View.GONE);
+				}
+				bottomStream.setVisibility(View.GONE);
+			}
 			decodeBtn.setVisibility(View.GONE);
 			videTurnBtn.setVisibility(View.GONE);
 
@@ -480,7 +502,7 @@ public abstract class PlayActivity extends BaseActivity {
 					normalRecordDrawableTop, null, null);
 			rightFuncButton.setTextSize(8);
 			rightFuncButton
-					.setTextColor(getResources().getColor(R.color.white));
+			.setTextColor(getResources().getColor(R.color.white));
 			rightFuncButton.setBackgroundDrawable(null);
 
 			right_btn_h.setText(R.string.video_normal);
@@ -504,7 +526,7 @@ public abstract class PlayActivity extends BaseActivity {
 					alarmRecordDrawableTop, null, null);
 			rightFuncButton.setTextSize(8);
 			rightFuncButton
-					.setTextColor(getResources().getColor(R.color.white));
+			.setTextColor(getResources().getColor(R.color.white));
 			rightFuncButton.setBackgroundDrawable(null);
 
 			right_btn_h.setText(R.string.video_alarm);

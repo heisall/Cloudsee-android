@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
-import com.jovision.bean.Channel;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVNetConst;
@@ -157,7 +156,7 @@ public class CustomDialogActivity extends BaseActivity implements
 	@Override
 	public void onDestroy() {
 		if (!bLocalFile && bConnectFlag) {
-			Jni.disconnect(0);
+			Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
 		}
 
 		super.onDestroy();
@@ -322,11 +321,13 @@ public class CustomDialogActivity extends BaseActivity implements
 				if (bDownLoadFileType == 0) {
 					strFilePath = strImgUrl;
 					MyLog.e("New Alarm", "DownFile Path:" + strFilePath);
-					Jni.sendBytes(0, (byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
+					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
 							new byte[0], 0);
 					byte[] dataByte = strFilePath.getBytes();
-					Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_DOWNLOAD,
-							dataByte, dataByte.length);
+					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_REQ_DOWNLOAD, dataByte,
+							dataByte.length);
 				} else if (bDownLoadFileType == 1) {
 					if (progressdialog.isShowing()) {
 						progressdialog.dismiss();

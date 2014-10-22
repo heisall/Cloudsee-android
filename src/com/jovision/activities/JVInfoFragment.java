@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -306,7 +305,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			break;
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-			AlarmDialog.getInstance(getActivity()).Show(obj.toString());
+			AlarmDialog.getInstance(getActivity()).Show(obj.toString(), arg1);// arg1
+																				// 是报警类型
 			break;
 		default:
 			break;

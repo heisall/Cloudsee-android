@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="38"
-    android:versionName="V4.1.11" >
+    android:versionName="V4.1.14" >
 
     <supports-screens
         android:anyDensity="true"
@@ -348,6 +348,7 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" >
         </activity>
+
         <service
             android:name="com.jovision.MainService"
             android:enabled="true" >

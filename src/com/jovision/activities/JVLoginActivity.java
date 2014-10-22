@@ -180,7 +180,7 @@ public class JVLoginActivity extends BaseActivity {
 						userListView
 								.setOnItemClickListener(mOnItemClickListener);
 						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-								LinearLayout.LayoutParams.MATCH_PARENT,400);
+								LinearLayout.LayoutParams.MATCH_PARENT, 400);
 						userListView.setLayoutParams(params);
 						userListView.setDivider(JVLoginActivity.this
 								.getResources().getDrawable(
@@ -339,6 +339,7 @@ public class JVLoginActivity extends BaseActivity {
 
 	private int loginRes1 = 0;
 	private int loginRes2 = 0;
+	private int verifyCode = 0;
 
 	// 登陆线程
 	private class LoginTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
@@ -360,6 +361,9 @@ public class JVLoginActivity extends BaseActivity {
 				loginRes2 = 0;
 				e.printStackTrace();
 			}
+
+			verifyCode = AccountUtil.VerifyUserName(statusHashMap
+					.get(Consts.KEY_USERNAME));
 			return loginRes1;
 		}
 
@@ -412,9 +416,14 @@ public class JVLoginActivity extends BaseActivity {
 					json = null;
 				}
 				if (null != json && null != json.optString("mail")
-						&& !"".equals(json.optString("mail"))) {
+						&& "".equals(json.optString("mail")) && verifyCode > 0) {
 					intent.setClass(JVLoginActivity.this,
 							JVBoundEmailActivity.class);
+					intent.putExtra("AutoLogin", true);
+					intent.putExtra("UserName",
+							statusHashMap.get(Consts.KEY_USERNAME));
+					intent.putExtra("UserPass",
+							statusHashMap.get(Consts.KEY_PASSWORD));
 					JVLoginActivity.this.startActivity(intent);
 					finish();
 				} else {
@@ -422,6 +431,7 @@ public class JVLoginActivity extends BaseActivity {
 					JVLoginActivity.this.startActivity(intent);
 					finish();
 				}
+				// {"result":0,"mail":"","phone":"","username":"aaasss","nickname":"aaasss"}
 				break;
 			}
 			case JVAccountConst.PASSWORD_ERROR: {

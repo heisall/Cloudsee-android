@@ -47,7 +47,6 @@ import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.adapters.PopWindowAdapter;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyLog;
-import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
@@ -117,7 +116,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public boolean localFlag = false;// 本地登陆标志位
 	public String devicename;
 
-	private boolean hasAdd = false;
 	public int broadTag = 0;
 	private ArrayList<Device> broadList = new ArrayList<Device>();// 广播到的设备列表
 
@@ -128,7 +126,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private String[] popFunArray;
 
 	private PopWindowAdapter popWindowAdapter;
-	
+
 	private int[] popDrawarray = new int[] {
 			R.drawable.mydevice_popwindowonse_icon,
 			R.drawable.mydevice_popwindowtwo_icon,
@@ -222,6 +220,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		/** 广告条 */
 		imageScroll = (ImageViewPager) adView.findViewById(R.id.imagescroll);
+		RelativeLayout.LayoutParams reParams = new RelativeLayout.LayoutParams(
+				mActivity.disMetrics.widthPixels,
+				(int) (0.45 * mActivity.disMetrics.widthPixels));
+		imageScroll.setLayoutParams(reParams);
 		ovalLayout = (LinearLayout) adView.findViewById(R.id.dot_layout);
 		InitViewPager();// 初始化图片
 		// 开始滚动
@@ -389,19 +391,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 					((ShakeActivity) mActivity).startSearch(false);
 					break;
 				}
-				// case 3: {// 局域网设备
-				// fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
-				// if (!mActivity.is3G(false)) {// 3G网提示不支持
-				// broadTag = BROAD_ADD_DEVICE;
-				// broadList.clear();
-				// PlayUtil.broadCast(mActivity);
-				// } else {
-				// ((BaseActivity) mActivity)
-				// .showTextToast(R.string.notwifi_forbid_func);
-				// }
-				// break;
-				// }
-				case 3: {// IP/域名设备
+				case 3: {// 局域网设备
+					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+					if (!mActivity.is3G(false)) {// 3G网提示不支持
+						broadTag = BROAD_ADD_DEVICE;
+						broadList.clear();
+						PlayUtil.broadCast(mActivity);
+					} else {
+						((BaseActivity) mActivity)
+								.showTextToast(R.string.notwifi_forbid_func);
+					}
+					break;
+				}
+				case 4: {// IP/域名设备
 					Intent intent = new Intent();
 					intent.setClass(mActivity, JVAddIpDeviceActivity.class);
 					mActivity.startActivity(intent);
@@ -478,7 +480,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 			});
 			imageView.setImageResource(imageResId[i]);
-			imageView.setScaleType(ScaleType.CENTER_CROP);
+			imageView.setScaleType(ScaleType.FIT_CENTER);
 			listViews.add(imageView);
 		}
 	}
@@ -508,37 +510,32 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// onTabAction:what=168;arg1=0;arg2=0;obj={"count":1,"curmod":0,"gid":"A","ip":"192.168.21.238","netmod":0,"no":283827713,"port":9101,"timeout":0,"type":59162,"variety":3}
 
 			if (broadTag == BROAD_DEVICE_LIST || broadTag == BROAD_THREE_MINITE) {// 三分钟广播
-				// 或
-				// 广播设备列表
+																					// 或
+																					// 广播设备列表
 				JSONObject broadObj;
-				// try {
-				// broadObj = new JSONObject(obj.toString());
-				// if (0 == broadObj.optInt("timeout")) {
-				// int size = myDeviceList.size();
-				// for (int i = 0; i < size; i++) {
-				// Device device = myDeviceList.get(i);
-				// if (null != device && 0 == device.getIsDevice()) {
-				// // 是同一个设备
-				// if (device.getGid().equalsIgnoreCase(
-				// broadObj.optString("gid"))
-				// && device.getNo() == broadObj
-				// .optInt("no")) {
-				// device.setIp(broadObj.optString("ip"));
-				// device.setPort(broadObj.optInt("port"));
-				// device.setOnlineState(1);// 广播都在线
-				// }
-				// }
-				//
-				// }
-				// } else if (1 == broadObj.optInt("timeout")) {
-				//
-				// }
-				// MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
-				// + ";arg2=" + arg1 + ";obj=" + obj.toString());
-				// } catch (JSONException e) {
-				// e.printStackTrace();
-				// }
+				try {
+					broadObj = new JSONObject(obj.toString());
+					if (0 == broadObj.optInt("timeout")) {
 
+						String gid = broadObj.optString("gid");
+						int no = broadObj.optInt("no");
+						String ip = broadObj.optString("ip");
+						int port = broadObj.optInt("port");
+						String broadDevNum = gid + no;
+
+						hasDev(broadDevNum, ip, port);
+
+					} else if (1 == broadObj.optInt("timeout")) {
+
+					}
+					MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
+							+ ";arg2=" + arg1 + ";obj=" + obj.toString());
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+			} else if (broadTag == BROAD_ADD_DEVICE) {// 广播添加设备
+				JSONObject broadObj;
 				try {
 					broadObj = new JSONObject(obj.toString());
 					if (0 == broadObj.optInt("timeout")) {
@@ -559,65 +556,20 @@ public class JVMyDeviceFragment extends BaseFragment {
 							broadDev.setOnlineState(1);// 广播都在线
 							broadList.add(broadDev);
 							MyLog.v(TAG, "广播到一个设备--" + broadDevNum);
-						} else {
-
 						}
 					} else if (1 == broadObj.optInt("timeout")) {
-						// 广播自动添加设备
-						if (MySharedPreference.getBoolean("AddLanDevice")) {
-							if (!hasAdd) {
-								hasAdd = true;
-								if (null != broadList && 0 != broadList.size()) {
-									alertAddDialog();
-								} else {
-									mActivity
-											.showTextToast(R.string.broad_zero);
-								}
-
-							}
+						mActivity.dismissDialog();
+						if (null != broadList && 0 != broadList.size()) {
+							alertAddDialog();
+						} else {
+							mActivity.showTextToast(R.string.broad_zero);
 						}
-
 					}
 					MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
 							+ ";arg2=" + arg1 + ";obj=" + obj.toString());
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-			} else if (broadTag == BROAD_ADD_DEVICE) {// 广播添加设备
-				// JSONObject broadObj;
-				// try {
-				// broadObj = new JSONObject(obj.toString());
-				// if (0 == broadObj.optInt("timeout")) {
-				// String gid = broadObj.optString("gid");
-				// int no = broadObj.optInt("no");
-				// String ip = broadObj.optString("ip");
-				// int port = broadObj.optInt("port");
-				// int count = broadObj.optInt("count");
-				// String broadDevNum = gid + no;
-				//
-				// if (!hasDev(broadDevNum)) {
-				// Device broadDev = new Device(ip, port, gid, no,
-				// mActivity.getResources().getString(
-				// R.string.str_default_user),
-				// mActivity.getResources().getString(
-				// R.string.str_default_pass), false,
-				// count, 0);
-				// broadDev.setOnlineState(1);// 广播都在线
-				// broadList.add(broadDev);
-				// MyLog.v(TAG, "广播到一个设备--" + broadDevNum);
-				// }
-				// } else if (1 == broadObj.optInt("timeout")) {
-				//
-				// AddDevTask task = new AddDevTask();
-				// String[] strParams = new String[3];
-				// strParams[0] = broadList.toString();
-				// task.execute(strParams);
-				// }
-				// MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
-				// + ";arg2=" + arg1 + ";obj=" + obj.toString());
-				// } catch (JSONException e) {
-				// e.printStackTrace();
-				// }
 			}
 
 			break;
@@ -664,7 +616,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-			AlarmDialog.getInstance(getActivity()).Show(obj.toString());
+			AlarmDialog.getInstance(getActivity()).Show(obj.toString(), arg1);// arg1
+																				// 是报警类型
 			break;
 		}
 	}
@@ -940,6 +893,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 						myDeviceList = DeviceUtil
 								.getUserDeviceList(mActivity.statusHashMap
 										.get(Consts.KEY_USERNAME));
+					} else {
+						DeviceUtil.refreshDeviceState(mActivity.statusHashMap
+								.get(Consts.KEY_USERNAME), myDeviceList);
 					}
 					if (null == myDeviceList || 0 == myDeviceList.size()) {
 						myDeviceList = DeviceUtil
@@ -1007,10 +963,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 从服务器端获取设备成功，但是没有设备
 			case DEVICE_NO_DEVICE: {
 				MyLog.v(TAG, "nonedata-too");
-				if (MySharedPreference.getBoolean("AddLanDevice") && !hasAdd) {
-					broadTag = BROAD_DEVICE_LIST;
-					PlayUtil.broadCast(mActivity);
-				}
+				broadTag = BROAD_DEVICE_LIST;
+				PlayUtil.broadCast(mActivity);
 				refreshList();
 				break;
 			}

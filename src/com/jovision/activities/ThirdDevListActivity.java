@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -26,7 +27,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.ThirdDevAdapter;
-import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.bean.ThirdAlarmDev;
 import com.jovision.commons.JVNetConst;
@@ -44,7 +44,8 @@ public class ThirdDevListActivity extends BaseActivity implements
 	private TextView titleTv;
 	private XListView thirdDevListView = null;// 设备列表view
 	private ThirdDevAdapter thirdDevAdapter;
-	private int selected_dev_index = -1;
+	private int selected_dev_index = -1;// 保存当前修改防护开关的设备索引
+	private int saved_third_safe_flag = 1;// 保存第三方设备防护开关的要被设置成的标志，等返回成功后再设置，默认开
 	private RelativeLayout topAddLayout;
 	private boolean btopaddvisible = true;
 	private String strYstNum;
@@ -56,6 +57,9 @@ public class ThirdDevListActivity extends BaseActivity implements
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private Device device;
 	private ArrayList<ThirdAlarmDev> thirdList = new ArrayList<ThirdAlarmDev>();
+	private boolean bNeedSendTextReq = true;
+	private MyHandler myHandler;
+	private int process_flag = Consts.RC_GPIN_SECLECT;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,13 +112,15 @@ public class ThirdDevListActivity extends BaseActivity implements
 					R.string.str_loading_data));
 		}
 		dialog.show();
-
+		myHandler = new MyHandler();
 		if (!bConnectFlag) {
 			if (!AlarmUtil.OnlyConnect(strYstNum)) {
 				showTextToast("连接失败，已经连接或者超过最大连接数");
 				dialog.dismiss();
+				finish();
 			}
 		}
+
 	}
 
 	@Override
@@ -135,7 +141,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		if (bConnectFlag) {
 			// JVSUDT.JVC_DisConnect(JVConst.ONLY_CONNECT);//断开连接
-			Jni.disconnect(0);
+			Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
 		}
 		super.onDestroy();
 	}
@@ -153,6 +159,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 					AddThirdDevActivity.class);
 			intent.putExtra("dev_num", strYstNum);
 			intent.putExtra("conn_flag", bConnectFlag);
+			intent.putExtra("text_req_flag", bNeedSendTextReq);
 			startActivityForResult(intent, 10);
 		default:
 			break;
@@ -231,14 +238,16 @@ public class ThirdDevListActivity extends BaseActivity implements
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 			// TODO Auto-generated method stub
-
+			process_flag = Consts.RC_GPIN_DEL;
 			ThirdAlarmDev thirdDev = device.getThirdDevList().get(index_);
 
 			StringBuffer bb = new StringBuffer();
 			String arg1 = "type=" + thirdDev.dev_type_mark + ";";
 			String arg2 = "guid=" + thirdDev.dev_uid + ";";
 			bb.append(arg1).append(arg2);
-			Jni.sendString(0, (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+
+			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 					(byte) Consts.RC_GPIN_DEL, bb.toString().trim());
 			dialog.dismiss();
 			mActivity.dialog.show();
@@ -260,6 +269,21 @@ public class ThirdDevListActivity extends BaseActivity implements
 		return false;
 	}
 
+	class MyHandler extends Handler {
+		@Override
+		public void dispatchMessage(Message msg) {
+			switch (msg.what) {
+			case Consts.RC_GPIN_SECLECT:
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
+				showTextToast("获取主控绑定设备超时");
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
@@ -276,7 +300,8 @@ public class ThirdDevListActivity extends BaseActivity implements
 				bConnectFlag = true;
 				showToast("连接成功", Toast.LENGTH_SHORT);
 				// 首先需要发送文本聊天请求
-				Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+				Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+						(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 			}
 				break;
 			// 2 -- 断开连接成功
@@ -314,22 +339,44 @@ public class ThirdDevListActivity extends BaseActivity implements
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
+				finish();
 			}
+				break;
+			case JVNetConst.ABNORMAL_DISCONNECT:
+			case JVNetConst.SERVICE_STOP:
+				bConnectFlag = false;
+				showTextToast(R.string.str_alarm_connect_except);
+				break;
+			default:
+				bConnectFlag = false;
+				showTextToast(R.string.connect_failed);
+				finish();
 				break;
 			}
 			;
 			break;
 		case Consts.CALL_TEXT_DATA: {
+			myHandler.removeMessages(Consts.RC_GPIN_SECLECT);
 			switch (arg2) {
-			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本请求后才发送请求,这里要区分出是添加还是最后的绑定昵称
+			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本请求后才发送请求
+				bNeedSendTextReq = false;
 				StringBuffer videoBuffer = new StringBuffer();
-				Jni.sendString(0, (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+				Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+						(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 						(byte) Consts.RC_GPIN_SECLECT, videoBuffer.toString()
 								.trim());
+				new Thread(new TimeOutProcess(Consts.RC_GPIN_SECLECT)).start();
+				break;
+			case JVNetConst.JVN_CMD_TEXTSTOP:
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
+				bNeedSendTextReq = true;
+				showTextToast("文本请求聊天终止");
 				break;
 			case JVNetConst.JVN_RSP_TEXTDATA: {
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
+
 				JSONObject respObject = null;
 				if (obj != null) {
 					try {
@@ -384,7 +431,9 @@ public class ThirdDevListActivity extends BaseActivity implements
 										if (split.length > 1) {
 											selectalarm.dev_nick_name = split[1];
 										} else {
-											selectalarm.dev_nick_name = "未命名";
+											selectalarm.dev_nick_name = getResources()
+													.getString(
+															R.string.str_alarm_thirddev_default_name);
 										}
 									}
 								}
@@ -429,12 +478,12 @@ public class ThirdDevListActivity extends BaseActivity implements
 								}
 							}
 							// ok
-							int onoff_flag = respObject.optInt("flag");
-							Device device_itemDevice = CacheUtil.getDevList()
-									.get(selected_dev_index);
-							device_itemDevice.getThirdDevList()
-									.get(saved_index).dev_safeguard_flag = onoff_flag;//
+							thirdList.get(saved_index).dev_safeguard_flag = saved_third_safe_flag;
+							thirdDevAdapter.setDataList(thirdList);
+							thirdDevListView.setAdapter(thirdDevAdapter);
 							thirdDevAdapter.notifyDataSetChanged();
+							device.setThirdDevList(thirdList);
+							break;
 
 						} else {
 							showToast("设置属性失败", Toast.LENGTH_SHORT);
@@ -497,20 +546,20 @@ public class ThirdDevListActivity extends BaseActivity implements
 			default:
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
+				showTextToast("文本请求其他回调");
 				break;
 			}
 		}
-		// case 9009://开关
-		// //arg1 开关标志 arg2 索引 obj 请求参数
-		// if(obj != null){
-		// saved_index = arg2;
-		// Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-		// (byte)Consts.RC_GPIN_SET, obj.toString());
-		// // JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT,
-		// (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SET,
-		// obj.toString());
-		// }
-		// break;
+			break;
+		case Consts.RC_GPIN_SET_SWITCH:// 设置开关，内部使用
+			process_flag = Consts.RC_GPIN_SET_SWITCH;
+			saved_index = arg2;
+			saved_third_safe_flag = arg1;
+			MyLog.e("RC_GPIN_SET_SWITCH", "arg1 : " + arg1 + ", arg2:" + arg2);
+			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+					(byte) Consts.RC_GPIN_SET, obj.toString().trim());
+			break;
 		}
 	}
 
@@ -542,5 +591,54 @@ public class ThirdDevListActivity extends BaseActivity implements
 	protected void freeMe() {
 		// TODO Auto-generated method stub
 
+	}
+
+	private int onSendCmdProcess(int process_flag, int arg1, int arg2,
+			Object obj) {
+
+		switch (process_flag) {
+		case Consts.RC_GPIN_SECLECT:// 发送查询指令
+			StringBuffer videoBuffer = new StringBuffer();
+			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+					(byte) Consts.RC_GPIN_SECLECT, videoBuffer.toString()
+							.trim());
+			break;
+		case Consts.RC_GPIN_DEL:// 发送删除指令
+			ThirdAlarmDev thirdDev = device.getThirdDevList().get(arg1);// arg1
+																		// 删除的索引
+			StringBuffer bb = new StringBuffer();
+			String sarg1 = "type=" + thirdDev.dev_type_mark + ";";
+			String sarg2 = "guid=" + thirdDev.dev_uid + ";";
+			bb.append(sarg1).append(sarg2);
+			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+					(byte) Consts.RC_GPIN_DEL, bb.toString().trim());
+			break;
+		case Consts.RC_GPIN_SET_SWITCH:// 发送设置开关指令
+			saved_index = arg2;
+			saved_third_safe_flag = arg1;
+			MyLog.e("RC_GPIN_SET_SWITCH", "arg1 : " + arg1 + ", arg2:" + arg2);
+			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+					(byte) Consts.RC_GPIN_SET, obj.toString().trim());
+			break;
+		default:
+			break;
+		}
+		return 0;
+	}
+
+	class TimeOutProcess implements Runnable {
+		private int tag;
+
+		public TimeOutProcess(int arg1) {
+			tag = arg1;
+		}
+
+		@Override
+		public void run() {
+			myHandler.sendEmptyMessageDelayed(tag, 10000);
+		}
 	}
 }

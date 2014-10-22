@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.bean.Device;
 import com.jovision.bean.ThirdAlarmDev;
 import com.jovision.commons.MyLog;
@@ -108,6 +110,9 @@ public class ThirdDevAdapter extends BaseAdapter {
 
 						// BaseApp.getInstance().onNotify(9009, 0, msg.arg1,
 						// reqData.trim());
+						((MainApplication) context_.getApplicationContext())
+								.onNotify(Consts.RC_GPIN_SET_SWITCH, 0,
+										msg.arg1, reqData.trim());
 						break;
 					case 1:
 						// viewHolder.switch_btn
@@ -132,6 +137,9 @@ public class ThirdDevAdapter extends BaseAdapter {
 
 						// BaseApp.getInstance().onNotify(9009, 1, msg.arg1,
 						// reqData1.trim());
+						((MainApplication) context_.getApplicationContext())
+								.onNotify(Consts.RC_GPIN_SET_SWITCH, 1,
+										msg.arg1, reqData1.trim());
 						break;
 					default:
 

@@ -73,7 +73,7 @@ public class ManageFragment extends BaseFragment {
 			device = deviceList.get(deviceIndex);
 			if (null != device) {
 				manageAdapter
-				.setData(disMetrics.widthPixels, device, localFlag);
+						.setData(disMetrics.widthPixels, device, localFlag);
 				manageGridView.setAdapter(manageAdapter);
 				manageAdapter.notifyDataSetChanged();
 			}
@@ -97,7 +97,7 @@ public class ManageFragment extends BaseFragment {
 		try {
 			if (null != device) {
 				manageAdapter
-				.setData(disMetrics.widthPixels, device, localFlag);
+						.setData(disMetrics.widthPixels, device, localFlag);
 				manageGridView.setAdapter(manageAdapter);
 				manageAdapter.notifyDataSetChanged();
 			}
@@ -111,12 +111,14 @@ public class ManageFragment extends BaseFragment {
 		fragHandler.sendMessage(fragHandler
 				.obtainMessage(what, arg1, arg2, obj));
 	}
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		isDevice = deviceList.get(deviceIndex).getIsDevice();
 	}
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 
@@ -223,12 +225,12 @@ public class ManageFragment extends BaseFragment {
 				builder1.setMessage(R.string.str_not_support_this_device);
 				builder1.setNegativeButton(R.string.cancel,
 						new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog,
-							int which) {
-						dialog.dismiss();
-					}
-				});
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.dismiss();
+							}
+						});
 				builder1.create().show();
 			}
 
@@ -250,11 +252,11 @@ public class ManageFragment extends BaseFragment {
 					} else if ("channel is not open!"
 							.equalsIgnoreCase(errorMsg)) {// 无该通道服务
 						mActivity
-						.showTextToast(R.string.connfailed_channel_notopen);
+								.showTextToast(R.string.connfailed_channel_notopen);
 					} else if ("connect type invalid!"
 							.equalsIgnoreCase(errorMsg)) {// 连接类型无效
 						mActivity
-						.showTextToast(R.string.connfailed_type_invalid);
+								.showTextToast(R.string.connfailed_type_invalid);
 					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
 						mActivity.showTextToast(R.string.connfailed_maxcount);
 					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
@@ -289,7 +291,7 @@ public class ManageFragment extends BaseFragment {
 				PlayUtil.disconnectDevice();
 				mActivity.dismissDialog();
 				mActivity
-				.showTextToast(R.string.str_only_administator_use_this_function);
+						.showTextToast(R.string.str_only_administator_use_this_function);
 				break;
 
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
@@ -343,7 +345,8 @@ public class ManageFragment extends BaseFragment {
 		}
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-			AlarmDialog.getInstance(getActivity()).Show(obj.toString());
+			AlarmDialog.getInstance(getActivity()).Show(obj.toString(), arg1);// arg1
+																				// 是报警类型
 			break;
 		default:
 			break;

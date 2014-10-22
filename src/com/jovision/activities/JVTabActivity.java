@@ -6,14 +6,12 @@ import java.util.Timer;
 
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,9 +26,9 @@ import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
-import com.jovision.views.AlarmDialog;
 
-public class JVTabActivity extends ShakeActivity implements OnPageChangeListener{
+public class JVTabActivity extends ShakeActivity implements
+		OnPageChangeListener {
 
 	private static final String TAG = "JVTabActivity";
 
@@ -62,6 +60,7 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 	// 点集合
 	private List<ImageView> dots;
 	private LinearLayout ll_dot;
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -69,11 +68,16 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 
 	private void getPic() {
 		pics = new ArrayList<View>();
-		View view1  = LayoutInflater.from(JVTabActivity.this).inflate(R.layout.help_item1, null);
-		View view2 = LayoutInflater.from(JVTabActivity.this).inflate(R.layout.help_item2, null);
-		View view3  = LayoutInflater.from(JVTabActivity.this).inflate(R.layout.help_item3, null);
-		View view4  = LayoutInflater.from(JVTabActivity.this).inflate(R.layout.help_item4, null);
-		View view5  = LayoutInflater.from(JVTabActivity.this).inflate(R.layout.help_item5, null);
+		View view1 = LayoutInflater.from(JVTabActivity.this).inflate(
+				R.layout.help_item1, null);
+		View view2 = LayoutInflater.from(JVTabActivity.this).inflate(
+				R.layout.help_item2, null);
+		View view3 = LayoutInflater.from(JVTabActivity.this).inflate(
+				R.layout.help_item3, null);
+		View view4 = LayoutInflater.from(JVTabActivity.this).inflate(
+				R.layout.help_item4, null);
+		View view5 = LayoutInflater.from(JVTabActivity.this).inflate(
+				R.layout.help_item5, null);
 		pics.add(view1);
 		pics.add(view2);
 		pics.add(view3);
@@ -89,9 +93,11 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 			}
 		});
 	}
+
 	private void getPicone() {
 		pics = new ArrayList<View>();
-		View view  = LayoutInflater.from(JVTabActivity.this).inflate(R.layout.help_item, null);
+		View view = LayoutInflater.from(JVTabActivity.this).inflate(
+				R.layout.help_item, null);
 		pics.add(view);
 		view.setOnClickListener(new View.OnClickListener() {
 
@@ -103,6 +109,7 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 			}
 		});
 	}
+
 	private void initDot() {
 		dots = new ArrayList<ImageView>();
 		// 得到点的父布局
@@ -113,6 +120,7 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 		}
 		dots.get(currentImage).setEnabled(true); // 因为默认显示第一张图片，将第一个点设置为黑色
 	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -124,8 +132,8 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 			android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 			if (null != manager) {
 				getSupportFragmentManager().beginTransaction()
-				.replace(R.id.tab_fragment, mFragments[currentIndex])
-				.commit();
+						.replace(R.id.tab_fragment, mFragments[currentIndex])
+						.commit();
 			} else {
 				MyLog.e(TAG, "TAB_onresume_manager null" + currentIndex);
 				this.finish();
@@ -206,7 +214,7 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 	protected void initUi() {
 		super.initUi();
 		setContentView(R.layout.tab_layout);
-		viewpager = (ViewPager)findViewById(R.id.tab_viewpager);
+		viewpager = (ViewPager) findViewById(R.id.tab_viewpager);
 		viewpager.setOnPageChangeListener(JVTabActivity.this);
 		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
 		JVFragmentIndicator.setIndicator(currentIndex);
@@ -242,11 +250,11 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 				try {
 					currentIndex = which;
 					getSupportFragmentManager().beginTransaction()
-					.replace(R.id.tab_fragment, mFragments[which])
-					.commit();
+							.replace(R.id.tab_fragment, mFragments[which])
+							.commit();
 					switch (which) {
 					case 0:
-						if (!page2&&!MySharedPreference.getBoolean("page2")) {
+						if (!page2 && !MySharedPreference.getBoolean("page2")) {
 							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 							ll_dot.setVisibility(View.GONE);
 							viewpager.setVisibility(View.VISIBLE);
@@ -254,8 +262,9 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 							adp = new MyPagerAdp(pics);
 							viewpager.setAdapter(adp);
 							MySharedPreference.putBoolean("page2", true);
-						}else {
-							if (MySharedPreference.getBoolean("HELP")&&!MySharedPreference.getBoolean("page2")) {
+						} else {
+							if (MySharedPreference.getBoolean("HELP")
+									&& !MySharedPreference.getBoolean("page2")) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.GONE);
 								viewpager.setVisibility(View.VISIBLE);
@@ -269,19 +278,10 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 						break;
 					case 2:
 						myDeviceList = CacheUtil.getDevList();
-						Log.i("TAG", myDeviceList.size()+"输啦@");
-						if (0!=myDeviceList.size()) {
-						if (!page1&&!MySharedPreference.getBoolean("page1")) {
-							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
-							ll_dot.setVisibility(View.VISIBLE);
-							viewpager.setVisibility(View.VISIBLE);
-							getPic();
-							initDot();
-							adp = new MyPagerAdp(pics);
-							viewpager.setAdapter(adp);
-							MySharedPreference.putBoolean("page1", true);
-						}else {
-							if (MySharedPreference.getBoolean("HELP")&&!MySharedPreference.getBoolean("page1")) {
+						Log.i("TAG", myDeviceList.size() + "输啦@");
+						if (0 != myDeviceList.size()) {
+							if (!page1
+									&& !MySharedPreference.getBoolean("page1")) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.VISIBLE);
 								viewpager.setVisibility(View.VISIBLE);
@@ -289,10 +289,23 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 								initDot();
 								adp = new MyPagerAdp(pics);
 								viewpager.setAdapter(adp);
-								MySharedPreference.putBoolean("page1", false);
-								page1 = true;
+								MySharedPreference.putBoolean("page1", true);
+							} else {
+								if (MySharedPreference.getBoolean("HELP")
+										&& !MySharedPreference
+												.getBoolean("page1")) {
+									ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
+									ll_dot.setVisibility(View.VISIBLE);
+									viewpager.setVisibility(View.VISIBLE);
+									getPic();
+									initDot();
+									adp = new MyPagerAdp(pics);
+									viewpager.setAdapter(adp);
+									MySharedPreference.putBoolean("page1",
+											false);
+									page1 = true;
+								}
 							}
-						}
 						}
 						break;
 					default:
@@ -301,7 +314,8 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				if (MySharedPreference.getBoolean("page2")&&MySharedPreference.getBoolean("page1")) {
+				if (MySharedPreference.getBoolean("page2")
+						&& MySharedPreference.getBoolean("page1")) {
 					MySharedPreference.putBoolean("HELP", false);
 				}
 			}
@@ -310,7 +324,7 @@ public class JVTabActivity extends ShakeActivity implements OnPageChangeListener
 		android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 		if (null != manager) {
 			manager.beginTransaction()
-			.replace(R.id.tab_fragment, mFragments[0]).commit();
+					.replace(R.id.tab_fragment, mFragments[0]).commit();
 		} else {
 			MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
 			this.finish();

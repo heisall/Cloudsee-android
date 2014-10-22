@@ -34,6 +34,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -127,7 +128,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private String[] popFunArray;
 
 	private PopWindowAdapter popWindowAdapter;
-
+	
 	private int[] popDrawarray = new int[] {
 			R.drawable.mydevice_popwindowonse_icon,
 			R.drawable.mydevice_popwindowtwo_icon,

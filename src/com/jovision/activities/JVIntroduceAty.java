@@ -99,22 +99,6 @@ public class JVIntroduceAty extends Activity implements OnPageChangeListener {
 			}
 			pics.add(v);
 		}
-		// //将最后一个图单独设置成一个布局，加入按钮并设置按钮的点击事件
-		// View v =
-		// LayoutInflater.from(IntroduceAty.this).inflate(R.layout.last_picture,
-		// null);
-		// pics.add(v);
-		// ImageView button =
-		// (ImageView)v.findViewById(R.id.last_picture_tiyan);
-		// button.setOnClickListener(new View.OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View v) {
-		// startActivity(new
-		// Intent(IntroduceAty.this,LocationSourceActivity.class));
-		// finish();
-		// }
-		// });
 		// 初始化ViewPager的适配器
 		adp = new MyPagerAdp(pics);
 		viewpager.setAdapter(adp);

@@ -62,7 +62,6 @@ public class JVMoreFragment extends BaseFragment {
 	private int[] Image = { R.drawable.morefragment_help_icon,
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon,
-			R.drawable.morefragment_clear_icon,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -209,6 +208,8 @@ public class JVMoreFragment extends BaseFragment {
 								MySharedPreference.putBoolean("HELP", false);
 							} else {
 								MySharedPreference.putBoolean("HELP", true);
+								MySharedPreference.putBoolean("page1", false);
+								MySharedPreference.putBoolean("page2", false);
 							}
 							break;
 						case 1:
@@ -239,15 +240,6 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 3:
-							if (MySharedPreference.getBoolean("AddLanDevice")) {
-								MySharedPreference.putBoolean("AddLanDevice",
-										false);
-							} else {
-								MySharedPreference.putBoolean("AddLanDevice",
-										true);
-							}
-							break;
-						case 4:
 							// if (("firsted").equals(MySharedPreference
 							// .getString(Consts.MORE_FREGMENT_FEEDBACK))) {
 							Intent intent = new Intent(mActivity,
@@ -264,14 +256,14 @@ public class JVMoreFragment extends BaseFragment {
 							// startActivity(intent);
 							// }
 							break;
-						case 5:
+						case 4:
 							CheckUpdateTask task = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];
 							strParams[0] = "1";// 0,手动检查更新
 							task.execute(strParams);
 							break;
-						case 6:
+						case 5:
 
 							break;
 

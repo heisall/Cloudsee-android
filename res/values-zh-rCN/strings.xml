@@ -631,5 +631,6 @@
     <string name="str_click_add_device">点击此处添加新的设备</string>
     <string name="str_alarm_third_nickname">请输入绑定设备昵称 ：</string>
     <string name="str_alarm_manage">添加报警设备</string>
-
+	<string name="str_alarm_connect_except">连接异常断开</string>
+	<string name="str_alarm_thirddev_default_name">报警设备</string>
 </resources>

@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.test.JVACCOUNT;
 
+import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
@@ -426,18 +427,18 @@ public class AlarmUtil {
 			if ("".equalsIgnoreCase(device.getIp()) || 0 == device.getPort()) {
 				// 云视通连接
 				MyLog.v("New Alarm", device.getNo() + "--云视通--连接");
-				con_res = Jni.connect(0, 1, device.getIp(), device.getPort(),
-						device.getUser(), device.getPwd(), device.getNo(),
-						device.getGid(), true, 1, true,
-						(device.isHomeProduct() ? 6 : 6), null, false);
+				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1,
+						device.getIp(), device.getPort(), device.getUser(),
+						device.getPwd(), device.getNo(), device.getGid(), true,
+						1, true, (device.isHomeProduct() ? 6 : 6), null, false);
 			} else {
 				// IP直连
 				MyLog.v("New Alarm",
 						device.getNo() + "--IP--连接：" + device.getIp());
-				con_res = Jni.connect(0, 1, device.getIp(), device.getPort(),
-						device.getUser(), device.getPwd(), -1, device.getGid(),
-						true, 1, true, (device.isHomeProduct() ? 6 : 6), null,
-						false);
+				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1,
+						device.getIp(), device.getPort(), device.getUser(),
+						device.getPwd(), -1, device.getGid(), true, 1, true,
+						(device.isHomeProduct() ? 6 : 6), null, false);
 
 			}
 			return con_res;

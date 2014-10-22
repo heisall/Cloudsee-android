@@ -556,7 +556,13 @@
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">Manual recording</string>
     <string name="video_alarm">Alarm recording</string>
-
+    <!-- Help -->
+    <string name="str_help_zero">展开多种方式添加设备</string>
+    <string name="str_help_one">远程配置IPC设备的网络和码流</string>
+    <string name="str_help_two">添加、修改、删除设备</string>
+    <string name="str_help_three">切换IP直连和云视通连接模式</string>
+    <string name="str_help_four">添加、修改、删除通道</string>
+    <string name="str_help_five">添加报警设备</string>
     <!-- Dialog -->
     <string name="save">保存</string>
     <string name="cancle">取消</string>
@@ -630,5 +636,7 @@
     <string name="str_door_device">Door Device</string>
     <string name="str_bracelet_device">Bracelet Device</string>
     <string name="str_click_add_device">Click here to add new equipment</string>
+    <string name="str_alarm_connect_except">Abnormal connection disconnected</string>
+    <string name="str_alarm_thirddev_default_name">Alarm Device</string>
 
 </resources>

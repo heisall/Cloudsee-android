@@ -28,6 +28,7 @@ public class AlarmDialog extends Dialog {
 
 	private static AlarmDialog mAlarmDialog;
 	private String ystNum; // 云视通号
+	private String alarmTypeName;// 报警类型
 
 	private AlarmDialog(Context context) {
 		super(context);
@@ -68,6 +69,7 @@ public class AlarmDialog extends Dialog {
 		dialogDeviceModle = (TextView) findViewById(R.id.dialog_devicemodle);
 
 		dialogDeviceName.setText(ystNum);
+		dialogDeviceModle.setText(alarmTypeName);
 		dialogCancel.setOnClickListener(myOnClickListener);
 		dialogView.setOnClickListener(myOnClickListener);
 		dialogCancleImg.setOnClickListener(myOnClickListener);
@@ -137,10 +139,19 @@ public class AlarmDialog extends Dialog {
 		return -1;
 	}
 
-	public static void Show(String strYstNum) {
+	public static void Show(String strYstNum, int alarmType) {
 		// 已经在显示了，就不显示了
 		if (!mAlarmDialog.isShowing()) {
 			mAlarmDialog.ystNum = strYstNum;
+			if (alarmType == 7) {
+				mAlarmDialog.alarmTypeName = "移动侦测";
+			} else if (alarmType == 11) {
+				mAlarmDialog.alarmTypeName = "第三方设备报警";
+			} else {
+				mAlarmDialog.alarmTypeName = "未知报警类型";
+			}
+			mAlarmDialog.dialogDeviceName.setText(mAlarmDialog.ystNum);
+			mAlarmDialog.dialogDeviceModle.setText(mAlarmDialog.alarmTypeName);
 			mAlarmDialog.show();
 		}
 	}

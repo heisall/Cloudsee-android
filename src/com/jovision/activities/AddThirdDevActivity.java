@@ -43,6 +43,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private int fragment_tag = 0;// 0，添加界面； 1 绑定界面
 	private boolean bNeedSendTextReq = true;
 	private MyHandler myHandler;
+	private int process_flag = 0; // 0 绑定设备 1绑定昵称
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			dialog = new ProgressDialog(this);
 			dialog.setCancelable(false);
 		}
+		dialog.setMessage(getResources().getString(R.string.waiting));
 		// Check that the activity is using the layout version with
 		// the fragment_container FrameLayout
 		if (findViewById(R.id.fragment_container) != null) {
@@ -108,7 +110,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 				finish();
 			} else {
 				Intent data = new Intent();
-				data.putExtra("nickname", "未命名");
+				data.putExtra(
+						"nickname",
+						getResources().getString(
+								R.string.str_alarm_thirddev_default_name));
 				data.putExtra("dev_type_mark", dev_type_mark);
 				data.putExtra("dev_uid", dev_uid);
 				// 请求代码可以自己设置，这里设置成10
@@ -126,12 +131,11 @@ public class AddThirdDevActivity extends BaseActivity implements
 	@Override
 	public void OnDeviceClassSelected(int index) {
 		// TODO Auto-generated method stub
+		process_flag = 0;
 		switch (index) {
 		case 1:
 			titleTv.setText(R.string.str_door_device);
 			dev_type_mark = 1;// 门禁
-			dialog.setMessage(getResources().getString(
-					R.string.str_loading_data));
 			dialog.show();
 			if (!bConnectedFlag) {
 				if (!AlarmUtil.OnlyConnect(strYstNum)) {
@@ -141,18 +145,21 @@ public class AddThirdDevActivity extends BaseActivity implements
 			} else {
 				// 首先需要发送文本聊天请求
 				if (bNeedSendTextReq) {
-					Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT,
-							new byte[0], 8);
-					myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
-							10000);// 10秒获取不到就取消Dialog
+					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
+					// 10000);// 10秒获取不到就取消Dialog
+				} else {
+					String req_data = "type=" + dev_type_mark + ";";
+					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+							(byte) Consts.RC_GPIN_ADD, req_data.trim());
 				}
 			}
 			break;
 		case 2:
 			titleTv.setText(R.string.str_bracelet_device);
 			dev_type_mark = 2;// 手环
-			dialog.setMessage(getResources().getString(
-					R.string.str_loading_data));
 			dialog.show();
 			if (!bConnectedFlag) {
 				if (!AlarmUtil.OnlyConnect(strYstNum)) {
@@ -162,10 +169,15 @@ public class AddThirdDevActivity extends BaseActivity implements
 			} else {
 				// 首先需要发送文本聊天请求
 				if (bNeedSendTextReq) {
-					Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT,
-							new byte[0], 8);
-					myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
-							10000);// 10秒获取不到就取消Dialog
+					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
+					// 10000);// 10秒获取不到就取消Dialog
+				} else {
+					String req_data = "type=" + dev_type_mark + ";";
+					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+							(byte) Consts.RC_GPIN_ADD, req_data.trim());
 				}
 
 			}
@@ -208,9 +220,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 				bConnectedFlag = true;
 				showTextToast("连接成功");
 				// 首先需要发送文本聊天请求
-				Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
-				myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
-						10000);// 10秒获取不到就取消Dialog
+				Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+						(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 			}
 				break;
 			// 2 -- 断开连接成功
@@ -251,6 +262,14 @@ public class AddThirdDevActivity extends BaseActivity implements
 				}
 			}
 				break;
+			case JVNetConst.ABNORMAL_DISCONNECT:
+			case JVNetConst.SERVICE_STOP:
+				bConnectedFlag = false;
+				showTextToast(R.string.str_alarm_connect_except);
+				break;
+			default:
+				bConnectedFlag = false;
+				break;
 			}
 			;
 			break;
@@ -260,11 +279,16 @@ public class AddThirdDevActivity extends BaseActivity implements
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本请求后才发送请求,这里要区分出是添加还是最后的绑定昵称
 				bNeedSendTextReq = false;
-				String req_data = "type=" + dev_type_mark + ";";
-				Jni.sendString(0, (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-						(byte) Consts.RC_GPIN_ADD, req_data.trim());
-				myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_RSP_TEXTDATA,
-						10000);// 10秒获取不到就取消Dialog
+				if (process_flag == 0) {
+					String req_data = "type=" + dev_type_mark + ";";
+					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+							(byte) Consts.RC_GPIN_ADD, req_data.trim());
+				} else {
+					SendBingNickName(nickName);
+				}
+				// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_RSP_TEXTDATA,
+				// 10000);// 10秒获取不到就取消Dialog
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 文本请求聊天终止
 				if (dialog != null && dialog.isShowing())
@@ -442,11 +466,17 @@ public class AddThirdDevActivity extends BaseActivity implements
 	@Override
 	public void OnSetNickName(String strNickName) {
 		// TODO Auto-generated method stub
+		process_flag = 1;
+		nickName = strNickName;
 		if (!bConnectedFlag) {
 			//
+			dialog.show();
+			if (!AlarmUtil.OnlyConnect(strYstNum)) {
+				showTextToast("连接失败，已经连接或者超过最大连接数");
+				dialog.dismiss();
+			}
 		} else {
 			dialog.show();
-			nickName = strNickName;
 			SendBingNickName(nickName);
 		}
 	}
@@ -458,7 +488,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 		String strSwitch = "enable=1;";
 		String reqData = strType + strGuid + strNickName + strSwitch;
 		MyLog.e("Third Dev", "bing nick name req:" + reqData);
-		Jni.sendString(0, (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+		Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+				(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 				(byte) Consts.RC_GPIN_SET, reqData.trim());
 	}
 }

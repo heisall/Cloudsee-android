@@ -59,6 +59,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 	private ArrayList<ThirdAlarmDev> thirdList = new ArrayList<ThirdAlarmDev>();
 	private boolean bNeedSendTextReq = true;
 	private MyHandler myHandler;
+	private int process_flag = Consts.RC_GPIN_SECLECT;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,14 +112,15 @@ public class ThirdDevListActivity extends BaseActivity implements
 					R.string.str_loading_data));
 		}
 		dialog.show();
-
+		myHandler = new MyHandler();
 		if (!bConnectFlag) {
 			if (!AlarmUtil.OnlyConnect(strYstNum)) {
 				showTextToast("连接失败，已经连接或者超过最大连接数");
 				dialog.dismiss();
+				finish();
 			}
 		}
-		myHandler = new MyHandler();
+
 	}
 
 	@Override
@@ -139,7 +141,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		if (bConnectFlag) {
 			// JVSUDT.JVC_DisConnect(JVConst.ONLY_CONNECT);//断开连接
-			Jni.disconnect(0);
+			Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
 		}
 		super.onDestroy();
 	}
@@ -236,14 +238,16 @@ public class ThirdDevListActivity extends BaseActivity implements
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 			// TODO Auto-generated method stub
-
+			process_flag = Consts.RC_GPIN_DEL;
 			ThirdAlarmDev thirdDev = device.getThirdDevList().get(index_);
 
 			StringBuffer bb = new StringBuffer();
 			String arg1 = "type=" + thirdDev.dev_type_mark + ";";
 			String arg2 = "guid=" + thirdDev.dev_uid + ";";
 			bb.append(arg1).append(arg2);
-			Jni.sendString(0, (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+
+			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 					(byte) Consts.RC_GPIN_DEL, bb.toString().trim());
 			dialog.dismiss();
 			mActivity.dialog.show();
@@ -269,13 +273,11 @@ public class ThirdDevListActivity extends BaseActivity implements
 		@Override
 		public void dispatchMessage(Message msg) {
 			switch (msg.what) {
-			case JVNetConst.JVN_REQ_TEXT:
-			case JVNetConst.JVN_RSP_TEXTDATA:
+			case Consts.RC_GPIN_SECLECT:
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
 				showTextToast("获取主控绑定设备超时");
 				break;
-
 			default:
 				break;
 			}
@@ -298,9 +300,8 @@ public class ThirdDevListActivity extends BaseActivity implements
 				bConnectFlag = true;
 				showToast("连接成功", Toast.LENGTH_SHORT);
 				// 首先需要发送文本聊天请求
-				Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
-				myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
-						10000);// 10秒获取不到就取消Dialog
+				Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+						(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 			}
 				break;
 			// 2 -- 断开连接成功
@@ -338,24 +339,33 @@ public class ThirdDevListActivity extends BaseActivity implements
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
+				finish();
 			}
+				break;
+			case JVNetConst.ABNORMAL_DISCONNECT:
+			case JVNetConst.SERVICE_STOP:
+				bConnectFlag = false;
+				showTextToast(R.string.str_alarm_connect_except);
+				break;
+			default:
+				bConnectFlag = false;
+				showTextToast(R.string.connect_failed);
+				finish();
 				break;
 			}
 			;
 			break;
 		case Consts.CALL_TEXT_DATA: {
-			myHandler.removeMessages(JVNetConst.JVN_REQ_TEXT);
-			myHandler.removeMessages(JVNetConst.JVN_RSP_TEXTDATA);
+			myHandler.removeMessages(Consts.RC_GPIN_SECLECT);
 			switch (arg2) {
-			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本请求后才发送请求,这里要区分出是添加还是最后的绑定昵称
+			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本请求后才发送请求
 				bNeedSendTextReq = false;
 				StringBuffer videoBuffer = new StringBuffer();
-				Jni.sendString(0, (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+				Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+						(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 						(byte) Consts.RC_GPIN_SECLECT, videoBuffer.toString()
 								.trim());
-				myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_RSP_TEXTDATA,
-						10000);// 10秒获取不到就取消Dialog
-
+				new Thread(new TimeOutProcess(Consts.RC_GPIN_SECLECT)).start();
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:
 				if (dialog != null && dialog.isShowing())
@@ -421,7 +431,9 @@ public class ThirdDevListActivity extends BaseActivity implements
 										if (split.length > 1) {
 											selectalarm.dev_nick_name = split[1];
 										} else {
-											selectalarm.dev_nick_name = "未命名";
+											selectalarm.dev_nick_name = getResources()
+													.getString(
+															R.string.str_alarm_thirddev_default_name);
 										}
 									}
 								}
@@ -539,30 +551,15 @@ public class ThirdDevListActivity extends BaseActivity implements
 			}
 		}
 			break;
-		// case 9009://开关
-		// //arg1 开关标志 arg2 索引 obj 请求参数
-		// if(obj != null){
-		// saved_index = arg2;
-		// Jni.sendString(0, (byte)JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-		// (byte)Consts.RC_GPIN_SET, obj.toString());
-		// // JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT,
-		// (byte)JVNetConst.JVN_RSP_TEXTDATA, (byte)JVConst.RC_GPIN_SET,
-		// obj.toString());
-		// }
-		// break;
 		case Consts.RC_GPIN_SET_SWITCH:// 设置开关，内部使用
+			process_flag = Consts.RC_GPIN_SET_SWITCH;
 			saved_index = arg2;
 			saved_third_safe_flag = arg1;
 			MyLog.e("RC_GPIN_SET_SWITCH", "arg1 : " + arg1 + ", arg2:" + arg2);
-			Jni.sendString(0, (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 					(byte) Consts.RC_GPIN_SET, obj.toString().trim());
 			break;
-
-		// default:
-		// if (dialog != null && dialog.isShowing())
-		// dialog.dismiss();
-		// showTextToast("其他回调");
-		// break;
 		}
 	}
 
@@ -594,5 +591,54 @@ public class ThirdDevListActivity extends BaseActivity implements
 	protected void freeMe() {
 		// TODO Auto-generated method stub
 
+	}
+
+	private int onSendCmdProcess(int process_flag, int arg1, int arg2,
+			Object obj) {
+
+		switch (process_flag) {
+		case Consts.RC_GPIN_SECLECT:// 发送查询指令
+			StringBuffer videoBuffer = new StringBuffer();
+			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+					(byte) Consts.RC_GPIN_SECLECT, videoBuffer.toString()
+							.trim());
+			break;
+		case Consts.RC_GPIN_DEL:// 发送删除指令
+			ThirdAlarmDev thirdDev = device.getThirdDevList().get(arg1);// arg1
+																		// 删除的索引
+			StringBuffer bb = new StringBuffer();
+			String sarg1 = "type=" + thirdDev.dev_type_mark + ";";
+			String sarg2 = "guid=" + thirdDev.dev_uid + ";";
+			bb.append(sarg1).append(sarg2);
+			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+					(byte) Consts.RC_GPIN_DEL, bb.toString().trim());
+			break;
+		case Consts.RC_GPIN_SET_SWITCH:// 发送设置开关指令
+			saved_index = arg2;
+			saved_third_safe_flag = arg1;
+			MyLog.e("RC_GPIN_SET_SWITCH", "arg1 : " + arg1 + ", arg2:" + arg2);
+			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+					(byte) Consts.RC_GPIN_SET, obj.toString().trim());
+			break;
+		default:
+			break;
+		}
+		return 0;
+	}
+
+	class TimeOutProcess implements Runnable {
+		private int tag;
+
+		public TimeOutProcess(int arg1) {
+			tag = arg1;
+		}
+
+		@Override
+		public void run() {
+			myHandler.sendEmptyMessageDelayed(tag, 10000);
+		}
 	}
 }

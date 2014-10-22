@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -26,7 +25,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.ThirdDevAdapter;
-import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.bean.ThirdAlarmDev;
 import com.jovision.commons.JVNetConst;

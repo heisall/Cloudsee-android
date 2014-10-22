@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
-import com.jovision.bean.Channel;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVNetConst;

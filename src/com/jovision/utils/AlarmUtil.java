@@ -7,15 +7,14 @@ import java.util.Date;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.test.JVACCOUNT;
 
-import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
-import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 
 public class AlarmUtil {

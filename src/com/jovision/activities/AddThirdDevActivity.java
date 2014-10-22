@@ -19,7 +19,6 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.activities.AddThirdDeviceMenuFragment.OnDeviceClassSelectedListener;
 import com.jovision.activities.BindThirdDevNicknameFragment.OnSetNickNameListener;
-import com.jovision.bean.Channel;
 import com.jovision.bean.ThirdAlarmDev;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;

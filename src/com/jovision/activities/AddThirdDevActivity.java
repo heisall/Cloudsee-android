@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.activities.AddThirdDeviceMenuFragment.OnDeviceClassSelectedListener;
 import com.jovision.activities.BindThirdDevNicknameFragment.OnSetNickNameListener;
+import com.jovision.activities.ThirdDevListActivity.MyHandler;
 import com.jovision.bean.Channel;
 import com.jovision.bean.ThirdAlarmDev;
 import com.jovision.commons.JVNetConst;
@@ -40,6 +43,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private int dev_uid;
 	private String nickName;
 	private int fragment_tag = 0;// 0，添加界面； 1 绑定界面
+	private boolean bNeedSendTextReq = true;
+	private MyHandler myHandler;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 		Bundle extras = getIntent().getExtras();
 		strYstNum = extras.getString("dev_num");
 		bConnectedFlag = extras.getBoolean("conn_flag");
+		bNeedSendTextReq = extras.getBoolean("text_req_flag");
 		if (null == dialog) {
 			dialog = new ProgressDialog(this);
 			dialog.setCancelable(false);
@@ -77,7 +83,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			fragment_tag = 0;
 		}
 		InitViews();
-
+		myHandler = new MyHandler();
 	}
 
 	@Override
@@ -136,7 +142,12 @@ public class AddThirdDevActivity extends BaseActivity implements
 				}
 			} else {
 				// 首先需要发送文本聊天请求
-				Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+				if (bNeedSendTextReq) {
+					Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT,
+							new byte[0], 8);
+					myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
+							10000);// 10秒获取不到就取消Dialog
+				}
 			}
 			break;
 		case 2:
@@ -152,11 +163,34 @@ public class AddThirdDevActivity extends BaseActivity implements
 				}
 			} else {
 				// 首先需要发送文本聊天请求
-				Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+				if (bNeedSendTextReq) {
+					Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT,
+							new byte[0], 8);
+					myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
+							10000);// 10秒获取不到就取消Dialog
+				}
+
 			}
 			break;
 		default:
 			break;
+		}
+	}
+
+	class MyHandler extends Handler {
+		@Override
+		public void dispatchMessage(Message msg) {
+			switch (msg.what) {
+			case JVNetConst.JVN_REQ_TEXT:
+			case JVNetConst.JVN_RSP_TEXTDATA:
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
+				showTextToast("主控绑定设备超时");
+				break;
+
+			default:
+				break;
+			}
 		}
 	}
 
@@ -177,6 +211,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 				showTextToast("连接成功");
 				// 首先需要发送文本聊天请求
 				Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+				myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
+						10000);// 10秒获取不到就取消Dialog
 			}
 				break;
 			// 2 -- 断开连接成功
@@ -221,11 +257,22 @@ public class AddThirdDevActivity extends BaseActivity implements
 			;
 			break;
 		case Consts.CALL_TEXT_DATA: {
+			myHandler.removeMessages(JVNetConst.JVN_REQ_TEXT);
+			myHandler.removeMessages(JVNetConst.JVN_RSP_TEXTDATA);
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本请求后才发送请求,这里要区分出是添加还是最后的绑定昵称
+				bNeedSendTextReq = false;
 				String req_data = "type=" + dev_type_mark + ";";
 				Jni.sendString(0, (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 						(byte) Consts.RC_GPIN_ADD, req_data.trim());
+				myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_RSP_TEXTDATA,
+						10000);// 10秒获取不到就取消Dialog
+				break;
+			case JVNetConst.JVN_CMD_TEXTSTOP:// 文本请求聊天终止
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
+				bNeedSendTextReq = true;
+				showTextToast("文本请求聊天终止");
 				break;
 			case JVNetConst.JVN_RSP_TEXTDATA: {
 				if (dialog != null && dialog.isShowing())
@@ -349,14 +396,18 @@ public class AddThirdDevActivity extends BaseActivity implements
 				}
 			}
 				break;
-
+			default:
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
+				showTextToast("TextData其他回调" + arg2);
+				break;
 			}
 		}
 			break;
-		default:
-			if (dialog != null && dialog.isShowing())
-				dialog.dismiss();
-			break;
+		// default:
+		// if (dialog != null && dialog.isShowing())
+		// dialog.dismiss();
+		// break;
 		}
 	}
 

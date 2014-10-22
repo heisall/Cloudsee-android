@@ -181,7 +181,7 @@ public class JVChannelsActivity extends BaseActivity {
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.CENTER_IN_PARENT);
 			layout.addView(view, params);
-			mLinearLayout.addView(layout, (int) (mScreenWidth / 3 + 0.5f),60);
+			mLinearLayout.addView(layout, (int) (mScreenWidth / 3 + 0.5f), 60);
 			layout.setOnClickListener(new OnClickListener() {
 
 				@Override

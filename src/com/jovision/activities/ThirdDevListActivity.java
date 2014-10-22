@@ -12,6 +12,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -57,6 +60,8 @@ public class ThirdDevListActivity extends BaseActivity implements
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private Device device;
 	private ArrayList<ThirdAlarmDev> thirdList = new ArrayList<ThirdAlarmDev>();
+	private boolean bNeedSendTextReq = true;
+	private MyHandler myHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +121,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 				dialog.dismiss();
 			}
 		}
+		myHandler = new MyHandler();
 	}
 
 	@Override
@@ -154,6 +160,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 					AddThirdDevActivity.class);
 			intent.putExtra("dev_num", strYstNum);
 			intent.putExtra("conn_flag", bConnectFlag);
+			intent.putExtra("text_req_flag", bNeedSendTextReq);
 			startActivityForResult(intent, 10);
 		default:
 			break;
@@ -261,6 +268,23 @@ public class ThirdDevListActivity extends BaseActivity implements
 		return false;
 	}
 
+	class MyHandler extends Handler {
+		@Override
+		public void dispatchMessage(Message msg) {
+			switch (msg.what) {
+			case JVNetConst.JVN_REQ_TEXT:
+			case JVNetConst.JVN_RSP_TEXTDATA:
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
+				showTextToast("获取主控绑定设备超时");
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
@@ -278,6 +302,8 @@ public class ThirdDevListActivity extends BaseActivity implements
 				showToast("连接成功", Toast.LENGTH_SHORT);
 				// 首先需要发送文本聊天请求
 				Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+				myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
+						10000);// 10秒获取不到就取消Dialog
 			}
 				break;
 			// 2 -- 断开连接成功
@@ -321,16 +347,29 @@ public class ThirdDevListActivity extends BaseActivity implements
 			;
 			break;
 		case Consts.CALL_TEXT_DATA: {
+			myHandler.removeMessages(JVNetConst.JVN_REQ_TEXT);
+			myHandler.removeMessages(JVNetConst.JVN_RSP_TEXTDATA);
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本请求后才发送请求,这里要区分出是添加还是最后的绑定昵称
+				bNeedSendTextReq = false;
 				StringBuffer videoBuffer = new StringBuffer();
 				Jni.sendString(0, (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 						(byte) Consts.RC_GPIN_SECLECT, videoBuffer.toString()
 								.trim());
+				myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_RSP_TEXTDATA,
+						10000);// 10秒获取不到就取消Dialog
+
+				break;
+			case JVNetConst.JVN_CMD_TEXTSTOP:
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
+				bNeedSendTextReq = true;
+				showTextToast("文本请求聊天终止");
 				break;
 			case JVNetConst.JVN_RSP_TEXTDATA: {
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
+
 				JSONObject respObject = null;
 				if (obj != null) {
 					try {
@@ -498,6 +537,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 			default:
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
+				showTextToast("文本请求其他回调");
 				break;
 			}
 		}
@@ -520,6 +560,12 @@ public class ThirdDevListActivity extends BaseActivity implements
 			Jni.sendString(0, (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 					(byte) Consts.RC_GPIN_SET, obj.toString().trim());
 			break;
+
+		// default:
+		// if (dialog != null && dialog.isShowing())
+		// dialog.dismiss();
+		// showTextToast("其他回调");
+		// break;
 		}
 	}
 

@@ -14,9 +14,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Message;
 import android.test.JVACCOUNT;
-import android.util.Log;
+
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVOffLineDialogActivity;

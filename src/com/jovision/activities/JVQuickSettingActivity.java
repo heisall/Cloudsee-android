@@ -1028,12 +1028,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 								saveWifi();
 							} else {// 旧版
 								dismissDialog();
-								updateDialog();
+								updateDialog1();
 								break;
 							}
 						} else {
 							dismissDialog();
-							updateDialog();
+							updateDialog1();
 							break;
 						}
 						break;
@@ -1636,7 +1636,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	 * 
 	 * @param tag
 	 */
-	private void updateDialog() {
+	private void updateDialog1() {
 		manuDiscon = true;
 		PlayUtil.disconnectDevice();
 		AlertDialog.Builder builder = new AlertDialog.Builder(

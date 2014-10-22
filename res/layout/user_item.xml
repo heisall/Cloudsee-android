@@ -15,16 +15,16 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="15dp"
             android:src="@drawable/login_selector_icon" />
 
         <TextView
             android:id="@+id/otherusername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/usericon"
             android:hint="@string/str_enter_username"

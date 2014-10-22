@@ -90,8 +90,8 @@ public class WifiAdapter extends BaseAdapter {
 					.findViewById(R.id.videodate);
 			wifiHolder.wifiImg = (ImageView) convertView
 					.findViewById(R.id.wifistate);
-			wifiHolder.wifiDetail = (ImageView) convertView
-					.findViewById(R.id.wifidetail);
+			// wifiHolder.wifiDetail = (ImageView) convertView
+			// .findViewById(R.id.wifidetail);
 			convertView.setTag(wifiHolder);
 		} else {
 			wifiHolder = (WifiHolder) convertView.getTag();
@@ -102,8 +102,8 @@ public class WifiAdapter extends BaseAdapter {
 
 		if (1 == tag) {
 			wifiHolder.wifiName.setText(wifiList.get(position).wifiUserName);
-			wifiHolder.wifiDetail.setImageDrawable(mContext.getResources()
-					.getDrawable(R.drawable.wifi_detail_icon));
+			// wifiHolder.wifiDetail.setImageDrawable(mContext.getResources()
+			// .getDrawable(R.drawable.wifi_detail_icon));
 			if (wifiIndex == position) {
 				wifiHolder.wifiImg.setBackgroundDrawable(mContext
 						.getResources().getDrawable(
@@ -114,37 +114,37 @@ public class WifiAdapter extends BaseAdapter {
 								R.drawable.wifi_flag_close_bg));
 			}
 
-			// 显示详细信息按钮
-			if (showDetailIcon) {
-				wifiHolder.wifiDetail.setVisibility(View.VISIBLE);
-			} else {
-				wifiHolder.wifiDetail.setVisibility(View.GONE);
-			}
-
-			wifiHolder.wifiDetail
-					.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							// TODO Auto-generated method stub
-							// Message msg = BaseApp.settingHandler
-							// .obtainMessage();
-							// msg.arg1 = 0;
-							// if (BaseApp.settingMap
-							// .get("WIFI_ID")
-							// .equalsIgnoreCase(
-							// wifiList.get(position).wifiUserName)) {
-							// msg.arg1 = 1;
-							// }
-							// msg.what = JVConst.DEVICE_SETTING_WIFI_DET;
-							// BaseApp.settingHandler.sendMessage(msg);
-						}
-
-					});
+			// // 显示详细信息按钮
+			// if (showDetailIcon) {
+			// wifiHolder.wifiDetail.setVisibility(View.VISIBLE);
+			// } else {
+			// wifiHolder.wifiDetail.setVisibility(View.GONE);
+			// }
+			//
+			// wifiHolder.wifiDetail
+			// .setOnClickListener(new View.OnClickListener() {
+			//
+			// @Override
+			// public void onClick(View v) {
+			// // TODO Auto-generated method stub
+			// // Message msg = BaseApp.settingHandler
+			// // .obtainMessage();
+			// // msg.arg1 = 0;
+			// // if (BaseApp.settingMap
+			// // .get("WIFI_ID")
+			// // .equalsIgnoreCase(
+			// // wifiList.get(position).wifiUserName)) {
+			// // msg.arg1 = 1;
+			// // }
+			// // msg.what = JVConst.DEVICE_SETTING_WIFI_DET;
+			// // BaseApp.settingHandler.sendMessage(msg);
+			// }
+			//
+			// });
 		} else if (2 == tag) {
 			wifiHolder.wifiName.setText(wifiConfigList.get(position).SSID);
-			wifiHolder.wifiDetail.setImageDrawable(mContext.getResources()
-					.getDrawable(R.drawable.morefragment_next_icon));
+			// wifiHolder.wifiDetail.setImageDrawable(mContext.getResources()
+			// .getDrawable(R.drawable.morefragment_next_icon));
 			if (wifiIndex == position) {
 				wifiHolder.wifiImg.setBackgroundDrawable(mContext
 						.getResources().getDrawable(
@@ -155,30 +155,31 @@ public class WifiAdapter extends BaseAdapter {
 								R.drawable.wifi_flag_close_bg));
 			}
 
-			wifiHolder.wifiDetail.setVisibility(View.VISIBLE);
+			// wifiHolder.wifiDetail.setVisibility(View.VISIBLE);
 
 			convertView.setBackgroundDrawable(mContext.getResources()
 					.getDrawable(R.drawable.ap_wifi_list_bg));
 
-			wifiHolder.wifiDetail
-					.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							// TODO Auto-generated method stub
-							// Message msg =
-							// BaseApp.settingHandler.obtainMessage();
-							// msg.arg1 = 0;
-							// if(BaseApp.settingMap.get("WIFI_ID").equalsIgnoreCase(wifiList.get(position).wifiUserName)){
-							// msg.arg1 = 1;
-							// }
-							//
-							//
-							// msg.what = JVConst.DEVICE_SETTING_WIFI_DET;
-							// BaseApp.settingHandler.sendMessage(msg);
-						}
-
-					});
+			// wifiHolder.wifiDetail
+			// .setOnClickListener(new View.OnClickListener() {
+			//
+			// @Override
+			// public void onClick(View v) {
+			// // TODO Auto-generated method stub
+			// // Message msg =
+			// // BaseApp.settingHandler.obtainMessage();
+			// // msg.arg1 = 0;
+			// //
+			// if(BaseApp.settingMap.get("WIFI_ID").equalsIgnoreCase(wifiList.get(position).wifiUserName)){
+			// // msg.arg1 = 1;
+			// // }
+			// //
+			// //
+			// // msg.what = JVConst.DEVICE_SETTING_WIFI_DET;
+			// // BaseApp.settingHandler.sendMessage(msg);
+			// }
+			//
+			// });
 		}
 
 		return convertView;
@@ -187,7 +188,7 @@ public class WifiAdapter extends BaseAdapter {
 	class WifiHolder {
 		TextView wifiName;
 		ImageView wifiImg;
-		ImageView wifiDetail;
+		// ImageView wifiDetail;
 	}
 
 }

@@ -132,7 +132,12 @@ public class JVIpconnectActivity extends BaseActivity {
 			couldnumLayout.setVisibility(View.GONE);
 			portLayout.setVisibility(View.VISIBLE);
 			ipconnect_address.setText(editDevice.getIp());
-			ipconnect_port.setText(editDevice.getPort() + "");
+
+			if (0 == editDevice.getPort()) {
+				ipconnect_port.setText(9101);
+			} else {
+				ipconnect_port.setText(editDevice.getPort() + "");
+			}
 			ipconnect_user.setText(editDevice.getUser());
 			ipconnect_pwd.setText(editDevice.getPwd());
 		}

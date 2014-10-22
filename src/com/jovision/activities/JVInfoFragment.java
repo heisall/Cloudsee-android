@@ -340,7 +340,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			if (result > 0) {
+			if (result == 0) {
 				String deleteGuid = pushList.get(pushIndex).strGUID;
 				boolean doDelete = false;
 				for (int i = 0; i < pushList.size(); i++) {

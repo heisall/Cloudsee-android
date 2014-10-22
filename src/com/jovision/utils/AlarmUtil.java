@@ -390,7 +390,7 @@ public class AlarmUtil {
 		MyLog.v("deleteAlarmInfo", jObj.toString());
 		// 接收返回数据
 		byte[] resultStr = new byte[1024 * 2];
-		JVACCOUNT.GetResponseByRequestShortConnectionServer(ALARMTAG,
+		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
 		String result = new String(resultStr);
 
@@ -401,7 +401,7 @@ public class AlarmUtil {
 					// int mid = temObj.optInt(JVAlarmConst.JK_ALARM_MID);
 					// String guid =
 					// temObj.optString(JVAlarmConst.JK_ALARM_GUID);
-					deleteRes = temObj.optInt(JVAlarmConst.JK_ALARM_OPTFLAG);
+					deleteRes = temObj.optInt(JVAlarmConst.JK_ALARM_NEW_RT);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

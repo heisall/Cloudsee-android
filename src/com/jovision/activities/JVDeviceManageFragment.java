@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.adapters.ManageListAdapter;

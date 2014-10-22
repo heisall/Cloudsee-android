@@ -19,42 +19,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/third_door_bg" />
-            
-            <TextView 
-                android:layout_alignBottom="@id/add_door_btn"
-                android:layout_centerHorizontal="true"
-                android:text="@string/str_door_device"
-                android:textSize="16sp"
-                android:textColor="@color/white"
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/add_door_btn"
+                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="11dp"
-                />
-                
+                android:text="@string/str_door_device"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            >
+            android:layout_marginTop="60dp" >
 
             <Button
                 android:id="@+id/add_bracelet_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/third_bracelet_bg" />
-            
-            <TextView 
-                android:layout_alignBottom="@id/add_bracelet_btn"
-                android:layout_centerHorizontal="true"
-                android:text="@string/str_bracelet_device"
-                android:textSize="16sp"
-                android:textColor="@color/white"
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/add_bracelet_btn"
+                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="11dp"
-                />            
+                android:text="@string/str_bracelet_device"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
         </RelativeLayout>
     </LinearLayout>
 

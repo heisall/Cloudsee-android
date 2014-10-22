@@ -210,7 +210,7 @@ public class JVPlayActivity extends PlayActivity implements
 			// 2 -- 断开连接成功
 			case JVNetConst.DISCONNECT_OK: {
 				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
-				resetFunc();
+				resetFunc(channel);
 				break;
 			}
 			// 4 -- 连接失败
@@ -250,19 +250,19 @@ public class JVPlayActivity extends PlayActivity implements
 			// 6 -- 连接异常断开
 			case JVNetConst.ABNORMAL_DISCONNECT: {
 				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
-				resetFunc();
+				resetFunc(channel);
 				break;
 			}
 
 			// 7 -- 服务停止连接，连接断开
 			case JVNetConst.SERVICE_STOP: {
 				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
-				resetFunc();
+				resetFunc(channel);
 				break;
 			}
 			// 9 -- 其他错误
 			case JVNetConst.OHTER_ERROR: {
-				resetFunc();
+				resetFunc(channel);
 				break;
 			}
 			default:
@@ -750,6 +750,21 @@ public class JVPlayActivity extends PlayActivity implements
 	protected void initSettings() {
 		TAG = "PlayA";
 
+		wifiAdmin = new WifiAdmin(JVPlayActivity.this);
+
+		// wifi打开的前提下,获取oldwifiSSID
+		if (wifiAdmin.getWifiState()) {
+			if (null != wifiAdmin.getSSID()) {
+				if (wifiAdmin.getSSID().contains(Consts.IPC_TAG)) {
+					ssid = wifiAdmin.getSSID().replace("\"", "")
+							.replace(Consts.IPC_TAG, "");
+				} else {
+					ssid = null;
+				}
+
+			}
+		}
+
 		isPlayAudioIndeed = false;
 		PlayUtil.setContext(JVPlayActivity.this);
 		manager = PlayWindowManager.getIntance(this);
@@ -1160,51 +1175,65 @@ public class JVPlayActivity extends PlayActivity implements
 	public void onClick(Channel channel, boolean isFromImageView, int viewId) {
 		MyLog.v(Consts.TAG_UI, ">>> click: " + channel.getIndex());
 
-		if (isDoubleClickCheck && lastClickIndex == channel.getIndex()) {// 双击
-			if (ONE_SCREEN == currentScreen) {
-				changeWindow(selectedScreen);
-			} else {
-				changeWindow(ONE_SCREEN);
+		if (isFromImageView) {// 播放按钮事件
+			try {
+				loadingState(channel.getIndex(), R.string.connecting,
+						JVConst.PLAY_CONNECTTED);
+				connect(channel.getParent(), channel, false, false, false);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
-				new Thread() {
+		} else {
+			if (isDoubleClickCheck && lastClickIndex == channel.getIndex()) {// 双击
+				if (ONE_SCREEN == currentScreen) {
+					changeWindow(selectedScreen);
+				} else {
+					changeWindow(ONE_SCREEN);
 
-					@Override
-					public void run() {
-						int size = channelList.size();
-						for (int i = 0; i < size; i++) {
-							if (lastClickIndex != channelList.get(i).getIndex()) {
-								Jni.disconnect(channelList.get(i).getIndex());
+					new Thread() {
+
+						@Override
+						public void run() {
+							int size = channelList.size();
+							for (int i = 0; i < size; i++) {
+								if (lastClickIndex != channelList.get(i)
+										.getIndex()) {
+									Jni.disconnect(channelList.get(i)
+											.getIndex());
+								}
 							}
 						}
-					}
 
-				}.start();
-			}
-		} else {// 单击
-			changeBorder(channel.getIndex());
+					}.start();
+				}
+			} else {// 单击
+				changeBorder(channel.getIndex());
 
-			lastClickIndex = channel.getIndex();
-			// 多屏选中才变蓝色
-			if (currentScreen > ONE_SCREEN) {
-			} else {
-				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-					if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
-						horPlayBarLayout.setVisibility(View.GONE);
-					} else {
-						horPlayBarLayout.setVisibility(View.VISIBLE);
+				lastClickIndex = channel.getIndex();
+				// 多屏选中才变蓝色
+				if (currentScreen > ONE_SCREEN) {
+				} else {
+					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+						if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
+							horPlayBarLayout.setVisibility(View.GONE);
+						} else {
+							horPlayBarLayout.setVisibility(View.VISIBLE);
+						}
 					}
 				}
-			}
 
-			isDoubleClickCheck = true;
-			if (null != doubleClickTimer) {
-				doubleClickTimer.cancel();
-			}
+				isDoubleClickCheck = true;
+				if (null != doubleClickTimer) {
+					doubleClickTimer.cancel();
+				}
 
-			doubleClickTimer = new Timer();
-			doubleClickTimer.schedule(new DoubleClickChecker(),
-					DELAY_DOUBLE_CHECKER);
+				doubleClickTimer = new Timer();
+				doubleClickTimer.schedule(new DoubleClickChecker(),
+						DELAY_DOUBLE_CHECKER);
+			}
 		}
+
 	}
 
 	@Override

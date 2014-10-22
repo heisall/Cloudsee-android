@@ -437,32 +437,31 @@ public abstract class PlayActivity extends BaseActivity {
 	/**
 	 * 清空所有状态
 	 */
-	public void resetFunc() {
+	public void resetFunc(Channel channel) {
 
 		AUDIO_SINGLE = false;// 单向对讲标志
 		VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
 		VOICECALLING = false;// 对讲功能已经开启
 
-		decodeBtn.setVisibility(View.GONE);// 软硬解
-		videTurnBtn.setVisibility(View.GONE);// 视频翻转
-		if (relative6.getVisibility() == 0) {
-			linear.removeView(relative6);
-			linear.addView(relative6, linear.getChildCount());
-			bottombut6.setVisibility(View.GONE);
-		}
-
-		rightFuncButton.setVisibility(View.GONE);// 录像模式
-		right_btn_h.setVisibility(View.GONE);// 录像模式
-
-		moreFeature.setText(R.string.default_stream);// 码流
-		bottomStream.setText(R.string.default_stream);
-
-		tapeSelected(false);
-		recorder.stop();
-		functionListAdapter.selectIndex = -1;
-		functionListAdapter.notifyDataSetChanged();
-		voiceCallSelected(false);
-
+		// decodeBtn.setVisibility(View.GONE);// 软硬解
+		// videTurnBtn.setVisibility(View.GONE);// 视频翻转
+		// if (relative6.getVisibility() == 0) {
+		// linear.removeView(relative6);
+		// linear.addView(relative6, linear.getChildCount());
+		// bottombut6.setVisibility(View.GONE);
+		// }
+		//
+		// rightFuncButton.setVisibility(View.GONE);// 录像模式
+		// right_btn_h.setVisibility(View.GONE);// 录像模式
+		//
+		// moreFeature.setText(R.string.default_stream);// 码流
+		// bottomStream.setText(R.string.default_stream);
+		//
+		// tapeSelected(false);
+		// recorder.stop();
+		// functionListAdapter.selectIndex = -1;
+		// functionListAdapter.notifyDataSetChanged();
+		// voiceCallSelected(false);
 	}
 
 	/**

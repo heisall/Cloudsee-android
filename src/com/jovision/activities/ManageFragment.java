@@ -113,8 +113,15 @@ public class ManageFragment extends BaseFragment {
 	}
 
 	@Override
-	public void onHandler(int what, int arg1, int arg2, Object obj) {
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 		isDevice = deviceList.get(deviceIndex).getIsDevice();
+	}
+
+	@Override
+	public void onHandler(int what, int arg1, int arg2, Object obj) {
+
 		switch (what) {
 		case Consts.MANAGE_ITEM_CLICK: {// adapter item 单击事件
 			switch (arg1) {

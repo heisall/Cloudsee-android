@@ -66,13 +66,13 @@ public class FragmentAdapter extends BaseAdapter {
 		holder.item_img.setBackgroundResource(dataList.get(position)
 				.getItem_img());
 		holder.name.setText(dataList.get(position).getName());
-		if (position == 6) {
+		if (position == 5) {
 			holder.item_next.setVisibility(View.GONE);
 			holder.item_version.setVisibility(View.VISIBLE);
 			holder.item_version.setText(activity.getResources().getString(
 					R.string.str_current_version));
 		}
-		if (position > -1 && position < 4) {
+		if (position > -1 && position < 3) {
 			holder.item_next
 					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			switch (position) {
@@ -90,13 +90,6 @@ public class FragmentAdapter extends BaseAdapter {
 				break;
 			case 2:
 				if (MySharedPreference.getBoolean("PlayDeviceMode")) {
-					holder.item_next
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
-
-				}
-				break;
-			case 3:
-				if (MySharedPreference.getBoolean("AddLanDevice")) {
 					holder.item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 

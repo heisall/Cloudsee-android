@@ -156,7 +156,7 @@ public class CustomDialogActivity extends BaseActivity implements
 	@Override
 	public void onDestroy() {
 		if (!bLocalFile && bConnectFlag) {
-			Jni.disconnect(0);
+			Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
 		}
 
 		super.onDestroy();
@@ -321,10 +321,10 @@ public class CustomDialogActivity extends BaseActivity implements
 				if (bDownLoadFileType == 0) {
 					strFilePath = strImgUrl;
 					MyLog.e("New Alarm", "DownFile Path:" + strFilePath);
-					Jni.sendBytes(0, (byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
+					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX, (byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
 							new byte[0], 0);
 					byte[] dataByte = strFilePath.getBytes();
-					Jni.sendBytes(0, (byte) JVNetConst.JVN_REQ_DOWNLOAD,
+					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX, (byte) JVNetConst.JVN_REQ_DOWNLOAD,
 							dataByte, dataByte.length);
 				} else if (bDownLoadFileType == 1) {
 					if (progressdialog.isShowing()) {

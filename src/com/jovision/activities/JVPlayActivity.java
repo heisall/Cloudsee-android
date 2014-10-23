@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
@@ -272,7 +273,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_NORMAL_DATA: {
-
+			Log.i("TAG", arg1 + "index");
 			Channel channel = channelList.get(arg1);
 			if (null == channel) {
 				return;

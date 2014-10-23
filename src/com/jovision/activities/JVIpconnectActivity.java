@@ -294,12 +294,6 @@ public class JVIpconnectActivity extends BaseActivity {
 					} else if (!ConfigUtil.checkDeviceUsername(userString)) {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_device_account_error);
-					} else if ("".equalsIgnoreCase(pwdString)) {
-						JVIpconnectActivity.this
-								.showTextToast(R.string.login_str_device_pass_notnull);
-					} else if (!ConfigUtil.checkDevicePwd(pwdString)) {
-						JVIpconnectActivity.this
-								.showTextToast(R.string.login_str_device_pass_error);
 					} else {
 
 						EditDevTask task = new EditDevTask();

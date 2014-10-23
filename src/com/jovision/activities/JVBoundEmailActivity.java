@@ -163,8 +163,8 @@ public class JVBoundEmailActivity extends BaseActivity {
 				e.printStackTrace();
 			}
 
-			Log.i("TAG", bindRes+"sdadasd"+userEmailEditText
-					.getText().toString());
+			Log.i("TAG", bindRes + "sdadasd"
+					+ userEmailEditText.getText().toString());
 			return bindRes;
 		}
 

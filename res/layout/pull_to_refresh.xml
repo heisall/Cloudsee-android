@@ -41,9 +41,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
                 android:layout_weight="1"
-                android:textColor="@color/more_fragment_color2"
                 android:gravity="center_horizontal|bottom"
-                android:text="@string/pull_to_refresh" />
+                android:text="@string/pull_to_refresh"
+                android:textColor="@color/more_fragment_color2" />
 
             <TextView
                 android:id="@+id/updated_at"

@@ -1,17 +1,7 @@
 package com.jovision.commons;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
-import com.baidu.inf.iis.bcs.BaiduBCS;
-import com.baidu.inf.iis.bcs.auth.BCSCredentials;
-import com.baidu.inf.iis.bcs.model.BucketSummary;
-import com.baidu.inf.iis.bcs.model.ObjectMetadata;
-import com.baidu.inf.iis.bcs.request.ListBucketRequest;
-import com.baidu.inf.iis.bcs.request.PutObjectRequest;
-import com.baidu.inf.iis.bcs.response.BaiduBCSResponse;
 
 /**
  * Baidu.OSS impl
@@ -26,7 +16,7 @@ public class BaiOSS extends BaseOSS {
 
 	private static BaiOSS OSS;
 
-	private BaiduBCS bcs;
+	// private BaiduBCS bcs;
 	private String bucketName;
 
 	private BaiOSS() {
@@ -55,34 +45,34 @@ public class BaiOSS extends BaseOSS {
 	protected boolean init(String id, String secret, String bucketName) {
 		boolean result = false;
 
-		bcs = new BaiduBCS(new BCSCredentials(id, secret), HOST);
-		bcs.setDefaultEncoding(ENC);
-
-		ListBucketRequest listBucketRequest = new ListBucketRequest();
-		ArrayList<BucketSummary> summaries = (ArrayList<BucketSummary>) bcs
-				.listBucket(listBucketRequest).getResult();
-		int size = summaries.size();
-
-		for (int i = 0; i < size; i++) {
-			if (summaries.get(i).getBucket().equals(bucketName)) {
-				result = true;
-				break;
-			}
-		}
-
-		if (false == result) {
-			bcs.createBucket(bucketName);
-			summaries = (ArrayList<BucketSummary>) bcs.listBucket(
-					listBucketRequest).getResult();
-			size = summaries.size();
-
-			for (int i = 0; i < size; i++) {
-				if (summaries.get(i).getBucket().equals(bucketName)) {
-					result = true;
-					break;
-				}
-			}
-		}
+		// bcs = new BaiduBCS(new BCSCredentials(id, secret), HOST);
+		// bcs.setDefaultEncoding(ENC);
+		//
+		// ListBucketRequest listBucketRequest = new ListBucketRequest();
+		// ArrayList<BucketSummary> summaries = (ArrayList<BucketSummary>) bcs
+		// .listBucket(listBucketRequest).getResult();
+		// int size = summaries.size();
+		//
+		// for (int i = 0; i < size; i++) {
+		// if (summaries.get(i).getBucket().equals(bucketName)) {
+		// result = true;
+		// break;
+		// }
+		// }
+		//
+		// if (false == result) {
+		// bcs.createBucket(bucketName);
+		// summaries = (ArrayList<BucketSummary>) bcs.listBucket(
+		// listBucketRequest).getResult();
+		// size = summaries.size();
+		//
+		// for (int i = 0; i < size; i++) {
+		// if (summaries.get(i).getBucket().equals(bucketName)) {
+		// result = true;
+		// break;
+		// }
+		// }
+		// }
 
 		this.bucketName = result ? bucketName : null;
 		return result;
@@ -97,8 +87,6 @@ public class BaiOSS extends BaseOSS {
 
 	@Override
 	public boolean deinit() {
-		bcs = null;
-
 		OSS = null;
 		return true;
 	}
@@ -108,21 +96,21 @@ public class BaiOSS extends BaseOSS {
 			throws FileNotFoundException {
 		boolean result = false;
 
-		File file = new File(localTarget);
-		if (false == file.exists()) {
-			throw new FileNotFoundException();
-		}
-
-		String md5 = MyUtils.md5(localTarget);
-		if (null != md5) {
-			BaiduBCSResponse<ObjectMetadata> response = bcs
-					.putObject(new PutObjectRequest(bucketName, OBJECT_PREFIX
-							+ file.getName(), file));
-			String tag = response.getResult().getETag();
-			if (null != tag) {
-				result = md5.equals(tag.toUpperCase());
-			}
-		}
+		// File file = new File(localTarget);
+		// if (false == file.exists()) {
+		// throw new FileNotFoundException();
+		// }
+		//
+		// String md5 = MyUtils.md5(localTarget);
+		// if (null != md5) {
+		// BaiduBCSResponse<ObjectMetadata> response = bcs
+		// .putObject(new PutObjectRequest(bucketName, OBJECT_PREFIX
+		// + file.getName(), file));
+		// String tag = response.getResult().getETag();
+		// if (null != tag) {
+		// result = md5.equals(tag.toUpperCase());
+		// }
+		// }
 
 		return result;
 	}

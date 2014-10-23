@@ -100,6 +100,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		switch (what) {
 		case Consts.CALL_CONNECT_CHANGE: {
+			Log.i("TAG", channelList.size()+"size"+arg1);
 			Channel channel = channelList.get(arg1);
 			if (null == channel) {
 				return;

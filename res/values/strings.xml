@@ -184,7 +184,7 @@
     <string name="net_errors"> Reasons maybe:\n1.wrong password for router;\n2.unable to get IP address from router, please check router;\n3.Wi-Fi function of mobile phone abnormal.</string>
     <string name="str_quick_setting_new_dev">New version found</string>
     <string name="str_quick_setting_new_dev_tips">You are unable to use the latest functions due to version is not the latest.Suggest you update the camera software over to version V1.1.0.31.</string>
-        <string name="str_quick_setting_devupdate_order">设备升级教程</string>
+    <string name="str_quick_setting_devupdate_order">设备升级教程</string>
     <string name="str_quick_setting_update">Update</string>
     <!-- 注册 -->
     <string name="str_enter_username">Email/Username</string>
@@ -355,7 +355,7 @@
     <string name="str_quick_setting_reset">Configure again</string>
     <string name="str_wifi_reset_succ">Network recovered successfuly</string>
     <string name="str_device_manage">Device Manager</string>
-        <string name="str_wifi_reset_fail">网络恢复失败</string>
+    <string name="str_wifi_reset_fail">网络恢复失败</string>
     <string name="str_user_setting">User Setting</string>
     <string name="str_remote_setting">Remote Setting</string>
     <string name="str_connect_mode">Link Mode</string>

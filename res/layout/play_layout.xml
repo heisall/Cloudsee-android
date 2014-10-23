@@ -273,7 +273,7 @@
                 android:orientation="horizontal"
                 android:padding="10dp"
                 android:paddingTop="1dp"
-                android:visibility="gone" >
+                android:visibility="visible" >
 
                 <Button
                     android:id="@+id/nextstep"

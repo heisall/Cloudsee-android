@@ -28,10 +28,9 @@
             android:layout_height="45dp"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="60dp"
-            android:text="@string/start_now"
             android:background="@drawable/start_now"
-            android:textSize="18sp"
-             />
+            android:text="@string/start_now"
+            android:textSize="18sp" />
     </FrameLayout>
 
 </LinearLayout>

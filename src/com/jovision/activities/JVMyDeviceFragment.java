@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import neo.droid.p2r.PullToRefreshBase;
+import neo.droid.p2r.PullToRefreshBase.OnLastItemVisibleListener;
+import neo.droid.p2r.PullToRefreshBase.OnRefreshListener;
+import neo.droid.p2r.PullToRefreshListView;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,10 +42,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.MyDeviceListAdapter;

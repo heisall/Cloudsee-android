@@ -356,7 +356,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 			initNav();
 			// 初始化viewPager
 			initViewPager();
-			managePager.setCurrentItem(deviceIndex);
 		}
 		super.onResume();
 	}

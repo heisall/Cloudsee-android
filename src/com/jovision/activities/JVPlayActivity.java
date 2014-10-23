@@ -1537,6 +1537,10 @@ public class JVPlayActivity extends PlayActivity implements
 									.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.video_monitor_icon));
+							if (null != playAudio) {
+								playAudio.interrupt();
+								playAudio = null;
+							}
 						} else {
 							functionListAdapter.selectIndex = 0;
 							bottombut8
@@ -1584,6 +1588,11 @@ public class JVPlayActivity extends PlayActivity implements
 						functionListAdapter.selectIndex = -1;
 						bottombut8.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.video_monitor_icon));
+						if (null != playAudio) {
+							playAudio.interrupt();
+							playAudio = null;
+						}
+
 					}
 
 					playAudio.setIndex(lastClickIndex);
@@ -2056,6 +2065,10 @@ public class JVPlayActivity extends PlayActivity implements
 									.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.video_monitor_icon));
+							if (null != playAudio) {
+								playAudio.interrupt();
+								playAudio = null;
+							}
 						} else {
 							functionListAdapter.selectIndex = arg2;
 							bottombut8

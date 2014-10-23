@@ -220,6 +220,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		/** 广告条 */
 		imageScroll = (ImageViewPager) adView.findViewById(R.id.imagescroll);
+		// 防止广告图片变形
 		RelativeLayout.LayoutParams reParams = new RelativeLayout.LayoutParams(
 				mActivity.disMetrics.widthPixels,
 				(int) (0.45 * mActivity.disMetrics.widthPixels));

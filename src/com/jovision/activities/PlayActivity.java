@@ -459,6 +459,10 @@ public abstract class PlayActivity extends BaseActivity {
 			bottombut8.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.video_monitor_icon));
 			functionListAdapter.notifyDataSetChanged();
+			if (null != playAudio) {
+				playAudio.interrupt();
+				playAudio = null;
+			}
 		}
 
 		// 正在录像停止录像
@@ -694,10 +698,14 @@ public abstract class PlayActivity extends BaseActivity {
 			audioQueue = new LinkedBlockingQueue<byte[]>();
 		}
 
-		if (null == playAudio) {
-			playAudio = new PlayAudio(audioQueue, audioByte);
-			playAudio.start();
+		if (null != playAudio) {
+			playAudio.interrupt();
+			playAudio = null;
 		}
+
+		playAudio = new PlayAudio(audioQueue, audioByte);
+		playAudio.start();
+
 	}
 
 	/**
@@ -749,6 +757,7 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 		if (null != playAudio) {
 			playAudio.interrupt();
+			playAudio = null;
 		}
 
 	}

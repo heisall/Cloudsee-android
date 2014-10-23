@@ -161,19 +161,20 @@ public class ConfigUtil {
 		return ip;
 	}
 
-	public static int lan = JVConst.LANGUAGE_ZH;
+	public static int lan = -1;
 
 	// 中文 0 英文 1
 	public static int getServerLanguage() {
 
-		String country = getCountry();
-		if (country.contains("中国") || country.contains("China")
-				|| country.contains("china")) {
-			lan = JVConst.LANGUAGE_ZH;
-		} else {
-			lan = JVConst.LANGUAGE_EN;
+		if (-1 == lan) {
+			String country = getCountry();
+			if (country.contains("中国") || country.contains("China")
+					|| country.contains("china")) {
+				lan = JVConst.LANGUAGE_ZH;
+			} else {
+				lan = JVConst.LANGUAGE_EN;
+			}
 		}
-
 		return lan;
 	}
 
@@ -302,7 +303,7 @@ public class ConfigUtil {
 			result = JVACCOUNT.InitSDK(context, Consts.ACCOUNT_PATH);
 			String channelIp = "";
 			String onlineIp = "";
-			if (ConfigUtil.isLanZH()) {
+			if (JVConst.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
 				channelIp = MySharedPreference.getString("ChannelIP");
 				onlineIp = MySharedPreference.getString("OnlineIP");
 			} else {
@@ -318,6 +319,7 @@ public class ConfigUtil {
 							Url.LONGSERVERIP);
 				}
 			}
+
 			statusHashMap.put(Consts.KEY_INIT_ACCOUNT_SDK,
 					String.valueOf(result));
 

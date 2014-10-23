@@ -344,6 +344,7 @@ public class JVRegisterActivity extends BaseActivity {
 
 	private int errorCode = 0;
 	private int verifyCode = 0;
+	private int loginRes = 0;
 
 	// 用户注册线程
 	private class RegisterTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
@@ -365,6 +366,12 @@ public class JVRegisterActivity extends BaseActivity {
 				registerRes = AccountUtil.userRegister(user);
 				if (JVAccountConst.SUCCESS == registerRes) {
 					verifyCode = AccountUtil.VerifyUserName(user.getUserName());
+					if (verifyCode > 0) {
+						loginRes = AccountUtil.userLogin(
+								statusHashMap.get(Consts.KEY_USERNAME),
+								statusHashMap.get(Consts.KEY_PASSWORD),
+								JVRegisterActivity.this);
+					}
 					return registerRes;
 				} else {
 					errorCode = registerRes;
@@ -388,7 +395,7 @@ public class JVRegisterActivity extends BaseActivity {
 			dismissDialog();
 			switch (result) {
 			case JVAccountConst.SUCCESS:// 注册成功
-				if (verifyCode > 0) {
+				if (verifyCode > 0 && 0 == loginRes) {
 					Intent emailIntent = new Intent(JVRegisterActivity.this,
 							JVBoundEmailActivity.class);
 					String userName = userNameEditText.getText().toString();

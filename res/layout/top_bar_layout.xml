@@ -16,9 +16,9 @@
             android:id="@+id/btn_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
+            android:padding="10dp"
             android:background="@drawable/videoedit_back_icon" />
 
         <TextView

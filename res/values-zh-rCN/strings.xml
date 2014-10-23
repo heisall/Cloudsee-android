@@ -84,15 +84,7 @@
     <string name="login_str_add">添加</string>
     <string name="login_str_qq_autho_faild">QQ授权失败</string>
     <string name="login_str_qq_autho_success">QQ授权成功</string>
-    <string name="more_help">"帮助界面"</string>
-    <string name="more_usermessage">"账户信息"</string>
-    <string name="more_feather">"功能设置"</string>
-    <string name="more_vib">"摇一摇添加设备"</string>
     <string name="more_nologin">"请在登陆后做此操作" </string>
-    <string name="more_aboutus">"关于我们"</string>
-    <string name="more_suggest">"帮助反馈"</string>
-    <string name="more_remark">"评论一下"</string>
-    <string name="user_name">"账号名称"</string>
     <string name="last_time">最后一次登录时间：</string>
     <string name="more_modify">修改资料</string>
     <string name="more_modifypwd">修改密码</string>
@@ -225,10 +217,11 @@
     <!-- 帮助提示图 -->
     <string name="str_help_zero">展开多种方式添加设备</string>
     <string name="str_help_one">远程配置IPC设备的网络和码流</string>
-    <string name="str_help_two">添加、修改、删除设备</string>
+    <string name="str_help_two">修改、删除设备</string>
     <string name="str_help_three">切换IP直连和云视通连接模式</string>
     <string name="str_help_four">添加、修改、删除通道</string>
     <string name="str_help_five">添加报警设备</string>
+    <string name="start_now">立即体验</string>
     <!-- 登录 -->
     <string name="login_str_fast_view">快速观看</string>
     <string name="login_str_searching_device">正在扫描设备\n请等待...</string>

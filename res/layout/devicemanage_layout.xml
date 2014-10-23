@@ -44,6 +44,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/editimport"
                     android:padding="10dp"
+                    android:singleLine="true"
                     android:textColor="@color/leftdevicecolor" />
 
                 <ImageView
@@ -84,6 +85,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/editimport"
                     android:padding="10dp"
+                    android:singleLine="true"
                     android:textColor="@color/leftdevicecolor" />
 
                 <ImageView
@@ -125,6 +127,7 @@
                     android:background="@drawable/editimport"
                     android:padding="10dp"
                     android:password="true"
+                    android:singleLine="true"
                     android:textColor="@color/leftdevicecolor" />
 
                 <ImageView

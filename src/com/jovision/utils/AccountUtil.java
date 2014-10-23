@@ -44,7 +44,6 @@ public class AccountUtil {
 		res = JVACCOUNT.UserRegister(user.getUserName(), user.getUserPwd());
 		MyLog.e("userRegister--", "-----|||||" + res + "");
 
-		// bindMailOrPhone(user.getUserName(), user.getUserEmail());
 		return res;
 	}
 

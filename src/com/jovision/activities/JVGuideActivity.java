@@ -23,8 +23,8 @@ public class JVGuideActivity extends BaseActivity {
 
 	private int[] imgIdArray = { R.drawable.guide1, R.drawable.guide2,
 			R.drawable.guide3, R.drawable.guide4 };
-	private int[] imgIDArrayEn = { R.drawable.guide1, R.drawable.guide2,
-			R.drawable.guide3, R.drawable.guide4 };
+	private int[] imgIDArrayEn = { R.drawable.guide1e, R.drawable.guide2e,
+			R.drawable.guide3e, R.drawable.guide4e};
 
 	private int[] imageArray = null;
 	private Button startBtn;
@@ -121,14 +121,6 @@ public class JVGuideActivity extends BaseActivity {
 		switch (what) {
 		case Consts.GUID_PAGE_SCROLL:
 			if (arg1 == (listViews.size() - 1)) {
-				// 获取当前语言
-				if (ConfigUtil.isLanZH()) {// 中文
-					startBtn.setBackgroundDrawable(getResources().getDrawable(
-							R.drawable.start_now));
-				} else {// 英文或其他
-					startBtn.setBackgroundDrawable(getResources().getDrawable(
-							R.drawable.start_now_en));
-				}
 				startBtn.setVisibility(View.VISIBLE);
 			} else {
 				startBtn.setVisibility(View.GONE);

@@ -113,8 +113,15 @@ public class ManageFragment extends BaseFragment {
 	}
 
 	@Override
-	public void onHandler(int what, int arg1, int arg2, Object obj) {
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 		isDevice = deviceList.get(deviceIndex).getIsDevice();
+	}
+
+	@Override
+	public void onHandler(int what, int arg1, int arg2, Object obj) {
+
 		switch (what) {
 		case Consts.MANAGE_ITEM_CLICK: {// adapter item 单击事件
 			switch (arg1) {
@@ -338,8 +345,8 @@ public class ManageFragment extends BaseFragment {
 		}
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-			AlarmDialog.getInstance(getActivity()).Show(obj.toString(), arg1);// arg1
-																				// 是报警类型
+			AlarmDialog.getInstance(getActivity()).Show(obj);
+
 			break;
 		default:
 			break;

@@ -222,6 +222,13 @@
     <!-- leftFragment -->
     <string name="str_delete_sure">确认删除吗？</string>
     <string name="str_delete_tip">提示</string>
+    <!-- 帮助提示图 -->
+    <string name="str_help_zero">展开多种方式添加设备</string>
+    <string name="str_help_one">远程配置IPC设备的网络和码流</string>
+    <string name="str_help_two">添加、修改、删除设备</string>
+    <string name="str_help_three">切换IP直连和云视通连接模式</string>
+    <string name="str_help_four">添加、修改、删除通道</string>
+    <string name="str_help_five">添加报警设备</string>
     <!-- 登录 -->
     <string name="login_str_fast_view">快速观看</string>
     <string name="login_str_searching_device">正在扫描设备\n请等待...</string>
@@ -609,7 +616,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.14(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.15(重构) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->
@@ -631,6 +638,7 @@
     <string name="str_click_add_device">点击此处添加新的设备</string>
     <string name="str_alarm_third_nickname">请输入绑定设备昵称 ：</string>
     <string name="str_alarm_manage">添加报警设备</string>
-	<string name="str_alarm_connect_except">连接异常断开</string>
-	<string name="str_alarm_thirddev_default_name">报警设备</string>
+    <string name="str_alarm_connect_except">连接异常断开</string>
+    <string name="str_alarm_thirddev_default_name">报警设备</string>
+
 </resources>

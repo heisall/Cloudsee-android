@@ -74,6 +74,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		deviceIndex = 0;
+		currentFragmentIndex = 0;
 		View view = inflater.inflate(R.layout.fragment_devicemanage, container,
 				false);
 		return view;
@@ -357,12 +359,17 @@ public class JVDeviceManageFragment extends BaseFragment {
 			// 初始化viewPager
 			initViewPager();
 		}
+		((ManageFragment) fragments.get(deviceIndex)).setDevIndex(deviceIndex);
+		managePager.setCurrentItem(deviceIndex);
+		mHorizontalScrollView.smoothScrollTo((deviceIndex - 1)
+				* item_width, 0);
+		mHorizontalScrollView.invalidate();
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		CacheUtil.saveDevList(manageDeviceList);
+//		CacheUtil.saveDevList(manageDeviceList);
 		super.onPause();
 	}
 

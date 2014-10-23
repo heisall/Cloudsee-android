@@ -39,7 +39,8 @@ public abstract class PlayActivity extends BaseActivity {
 
 	protected boolean isOmx = false;
 	protected Boolean lowerSystem = false;// 低于4.1的系统
-
+	protected boolean realStop = false;
+	
 	/** 播放相关 */
 	protected RelativeLayout.LayoutParams reParamsV;
 	protected RelativeLayout.LayoutParams reParamsH;
@@ -482,6 +483,7 @@ public abstract class PlayActivity extends BaseActivity {
 				audioQueue.clear();
 			}
 			channel.setVoiceCall(false);
+			realStop = true;
 			voiceCallSelected(false);
 			PlayUtil.stopVoiceCall(channel.getIndex());
 		}
@@ -732,6 +734,7 @@ public abstract class PlayActivity extends BaseActivity {
 		if (null != channel && channel.isVoiceCall()) {
 			PlayUtil.stopVoiceCall(index);
 			channel.setVoiceCall(false);
+			realStop = true;
 			voiceCallSelected(false);
 		}
 	}

@@ -70,7 +70,8 @@ public class JVPlayActivity extends PlayActivity implements
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
 
 	private boolean needToast = false;
-
+	
+	
 	private WifiAdmin wifiAdmin;
 	private String ssid;
 
@@ -552,7 +553,12 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 暂停语音聊天
 			case JVNetConst.JVN_CMD_CHATSTOP: {
-				showTextToast(R.string.has_calling);
+				if(realStop){
+					realStop = false;
+				}else{
+					showTextToast(R.string.has_calling);
+				}
+				
 				break;
 			}
 			}
@@ -1605,6 +1611,7 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 						PlayUtil.stopVoiceCall(lastClickIndex);
 						channelList.get(lastClickIndex).setVoiceCall(false);
+						realStop = true;
 						voiceCallSelected(false);
 						VOICECALLING = false;
 						if (Consts.PLAY_AP == playFlag) {
@@ -1757,6 +1764,7 @@ public class JVPlayActivity extends PlayActivity implements
 				audioQueue.clear();
 			}
 			channelList.get(lastClickIndex).setVoiceCall(false);
+			realStop = true;
 			voiceCallSelected(false);
 			PlayUtil.stopVoiceCall(lastClickIndex);
 		}

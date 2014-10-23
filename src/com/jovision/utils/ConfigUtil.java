@@ -27,8 +27,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -314,7 +312,7 @@ public class ConfigUtil {
 					&& !"".equals(onlineIp)) {
 				JVACCOUNT.SetServerIP(channelIp, onlineIp);
 			} else {
-				if (getNetWorkConnection()) {
+				if (getNetWorkConnection(context)) {
 					JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,
 							Url.LONGSERVERIP);
 				}
@@ -374,35 +372,49 @@ public class ConfigUtil {
 	 * 
 	 * @return 是否可用
 	 */
-	public static boolean getNetWorkConnection() {
+	public static boolean getNetWorkConnection(Context context) {
 		flag = false;
-		new Thread() {
-			public void run() {
-				String serverURL = "";
-				if (isLanZH()) {
-					serverURL = "http://www.baidu.com/";
-				} else {
-					serverURL = "http://www.google.com/";
-				}
-				HttpGet httpRequest = new HttpGet(serverURL);// 建立http get联机
-				// HttpResponse httpResponse;
-				try {
-					new DefaultHttpClient().execute(httpRequest);
-					flag = true;
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			};
-		}.start();
-		for (int i = 0; i < 3; i++) {
-			if (!flag) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+		
+		ConnectivityManager cManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo info = cManager.getActiveNetworkInfo();
+		if (info != null && info.isAvailable()) {
+			int type = info.getType();
+			if (type == ConnectivityManager.TYPE_WIFI) {
+			} else {
 			}
+			flag = true;
+		} else {
+			flag = false;
 		}
+		
+//		new Thread() {
+//			public void run() {
+//				String serverURL = "";
+//				if (isLanZH()) {
+//					serverURL = "http://www.baidu.com/";
+//				} else {
+//					serverURL = "http://www.google.com/";
+//				}
+//				HttpGet httpRequest = new HttpGet(serverURL);// 建立http get联机
+//				// HttpResponse httpResponse;
+//				try {
+//					new DefaultHttpClient().execute(httpRequest);
+//					flag = true;
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			};
+//		}.start();
+//		for (int i = 0; i < 3; i++) {
+//			if (!flag) {
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
 		return flag;
 	}
 

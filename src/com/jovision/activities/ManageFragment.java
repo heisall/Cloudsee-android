@@ -66,9 +66,7 @@ public class ManageFragment extends BaseFragment {
 
 	public void setDevIndex(int index) {
 		try {
-			if (null == deviceList || 0 == deviceList.size()) {
-				deviceList = CacheUtil.getDevList();
-			}
+			deviceList = CacheUtil.getDevList();
 			deviceIndex = index;
 			device = deviceList.get(deviceIndex);
 			if (null != device) {
@@ -417,6 +415,7 @@ public class ManageFragment extends BaseFragment {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mActivity.dismissDialog();
 			if (0 == result) {
+				
 				if (JVDeviceConst.DEVICE_SWITCH_OPEN == device.getAlarmSwitch()) {
 					device.setAlarmSwitch(JVDeviceConst.DEVICE_SWITCH_CLOSE);
 					mActivity.showTextToast(R.string.protect_close_succ);
@@ -426,6 +425,8 @@ public class ManageFragment extends BaseFragment {
 					mActivity.showTextToast(R.string.protect_open_succ);
 				}
 				manageAdapter.notifyDataSetChanged();
+//				[{"fullNo":"S52942216","port":0,"hasWifi":1,"isDevice":0,"no":52942216,"is05":false,"onlineState":-1182329167,"channelList":[{"channel":1,"channelName":"S52942216_1","index":0}],"isHomeProduct":false,"ip":"","pwd":"123","nickName":"S52942216","deviceType":2,"alarmSwitch":1,"gid":"S","user":"abc","serverState":1,"doMain":""}]
+				CacheUtil.saveDevList(deviceList);
 			} else if (1000 == result) {
 				mActivity.showTextToast(R.string.device_offline);
 			} else {

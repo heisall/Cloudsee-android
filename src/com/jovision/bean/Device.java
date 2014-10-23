@@ -221,7 +221,8 @@ public class Device {
 			object.put("onlineState", onlineState);
 			object.put("hasWifi", hasWifi);
 			object.put("serverState", serverState);
-
+			object.put("alarmSwitch", alarmSwitch);
+			
 			try {
 				ArrayList<Channel> list = channelList.toList();
 				int size = list.size();
@@ -299,7 +300,7 @@ public class Device {
 			dev.setOnlineState(object.getInt("onlineState"));
 			dev.setHasWifi(object.getInt("hasWifi"));
 			dev.setServerState(object.getInt("serverState"));
-
+			dev.setAlarmSwitch(object.getInt("alarmSwitch"));
 			dev.setChannelList(Channel.fromJsonArray(
 					object.getString("channelList"), dev));
 

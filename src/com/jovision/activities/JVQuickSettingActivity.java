@@ -818,7 +818,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			// finish();
 			break;
 		case Consts.QUICK_SETTING_DEV_ONLINE: {// 网络恢复成功
-			playSound(Consts.SOUNDSIX);// 播放“叮”的一声
+			playSound(Consts.SOUNDSEVINE);// 播放“叮”的一声
 			showSearch(false);
 			// 设置全屏
 			JVQuickSettingActivity.this.getWindow().setFlags(
@@ -1228,12 +1228,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			} else {
 				if (0 == result) {
 					showSearch(false);
-					playSound(Consts.SOUNDSEVINE);
 					// 设置全屏
 					JVQuickSettingActivity.this.getWindow().setFlags(
 							WindowManager.LayoutParams.FLAG_FULLSCREEN,
 							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 					quickSetDeviceImg.setVisibility(View.VISIBLE);
+					playSound(Consts.SOUNDSEVINE);
 				} else if (2 == result) {
 					JVQuickSettingActivity.this.finish();
 				} else {

@@ -51,6 +51,10 @@ import com.jovision.utils.PlayUtil;
 
 public class JVPlayActivity extends PlayActivity implements
 		PlayWindowManager.OnUiListener {
+
+	private static final int CONNECTING = 0x70;
+	private static final int BUFFERING = 0x71;
+
 	private PlayWindowManager manager;
 
 	private int selectedScreen = 4;// 默认分四屏
@@ -188,6 +192,16 @@ public class JVPlayActivity extends PlayActivity implements
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 
 		switch (what) {
+		case CONNECTING: {
+			loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTTED);
+			break;
+		}
+		case BUFFERING: {
+			loadingState(arg1, R.string.connecting_buffer,
+					JVConst.PLAY_CONNECTING_BUFFER);
+			break;
+		}
+
 		// 开始连接
 		case JVConst.WHAT_STARTING_CONNECT: {
 			loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTING);
@@ -2029,7 +2043,6 @@ public class JVPlayActivity extends PlayActivity implements
 						getResources().getString(loadingState));// 连接文字
 				break;
 			case JVConst.PLAY_CONNECTTED:// 已连接
-				MyLog.e(Consts.TAG_XX, "loadingState.PLAY_CONNECTTED");
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, View.GONE);// loading
 				manager.setViewVisibility(container,
@@ -2060,7 +2073,6 @@ public class JVPlayActivity extends PlayActivity implements
 						getResources().getString(loadingState));// 连接文字
 				break;
 			case JVConst.PLAY_CONNECTING_BUFFER:// 缓冲中
-				MyLog.e(Consts.TAG_XX, "loadingState.PLAY_CONNECTING_BUFFER");
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, View.VISIBLE);// loading
 				manager.setViewVisibility(container,

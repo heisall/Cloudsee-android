@@ -24,7 +24,7 @@ public class JVGuideActivity extends BaseActivity {
 	private int[] imgIdArray = { R.drawable.guide1, R.drawable.guide2,
 			R.drawable.guide3, R.drawable.guide4 };
 	private int[] imgIDArrayEn = { R.drawable.guide1e, R.drawable.guide2e,
-			R.drawable.guide3e, R.drawable.guide4e};
+			R.drawable.guide3e, R.drawable.guide4e };
 
 	private int[] imageArray = null;
 	private Button startBtn;

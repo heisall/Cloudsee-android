@@ -69,13 +69,14 @@ public class ManageFragment extends BaseFragment {
 			deviceList = CacheUtil.getDevList();
 			deviceIndex = index;
 			device = deviceList.get(deviceIndex);
-			if (null != device) {
+			if (null != device && null != manageAdapter) {
 				manageAdapter
 						.setData(disMetrics.widthPixels, device, localFlag);
 				manageGridView.setAdapter(manageAdapter);
 				manageAdapter.notifyDataSetChanged();
 			}
 		} catch (Exception e) {
+			MyLog.v(TAG, "setDevIndex=device" + device + "--" + localFlag);
 			e.printStackTrace();
 		}
 		MyLog.v(TAG, "setDevIndex=" + index);

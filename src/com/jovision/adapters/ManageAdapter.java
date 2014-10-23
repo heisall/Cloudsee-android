@@ -24,12 +24,12 @@ public class ManageAdapter extends BaseAdapter {
 	private int[] manageResArray = { R.drawable.manage_bgone,
 			R.drawable.manage_bgtwo, R.drawable.manage_bgthree,
 			R.drawable.manage_bgfour, R.drawable.manage_bgfive,
-			R.drawable.manage_bgsix, R.drawable.manage_bgseven, };
+			R.drawable.manage_bgsix, R.drawable.manage_bgseven };
 	private int[] manageBgArray = { R.drawable.videoedit_set_icon,
 			R.drawable.videoedit_devicemanager_icon,
 			R.drawable.videoedit_connectmode_icon,
 			R.drawable.videoedit_channal_icon, R.drawable.videoedit_see_icon,
-			R.drawable.videoedit_add_icon, R.drawable.videoedit_set_icon, };
+			R.drawable.videoedit_add_icon, R.drawable.protect_close };
 
 	private String[] fuctionArray;
 
@@ -134,9 +134,13 @@ public class ManageAdapter extends BaseAdapter {
 					convertView.setVisibility(View.VISIBLE);
 					if (JVDeviceConst.DEVICE_SWITCH_OPEN == device
 							.getAlarmSwitch()) {
+						channelHolder.img
+								.setBackgroundResource(R.drawable.protect_open);
 						channelHolder.function.setText(R.string.protect_opened);
 					} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
 							.getAlarmSwitch()) {
+						channelHolder.img
+								.setBackgroundResource(R.drawable.protect_close);
 						channelHolder.function.setText(R.string.protect_closed);
 					}
 				} else {

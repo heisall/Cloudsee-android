@@ -34,6 +34,8 @@ import com.jovision.adapters.UserSpinnerAdapter;
 import com.jovision.bean.Device;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.JVConst;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
@@ -356,6 +358,26 @@ public class JVLoginActivity extends BaseActivity {
 				respObj = new JSONObject(strRes);
 				loginRes1 = respObj.optInt("arg1", 1);
 				loginRes2 = respObj.optInt("arg2", 0);
+				// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
+				MyLog.v(TAG, strRes);
+				String data = respObj.optString("data");
+				if (null != data && !"".equalsIgnoreCase(data)) {
+					JSONObject dataObj = new JSONObject(data);
+					String channelIp = dataObj.optString("channel_ip");
+					String onlineIp = dataObj.optString("online_ip");
+					if (JVConst.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
+						MySharedPreference.putString("ChannelIP", channelIp);
+						MySharedPreference.putString("OnlineIP", onlineIp);
+						MySharedPreference.putString("ChannelIP_en", "");
+						MySharedPreference.putString("OnlineIP_en", "");
+					} else {
+						MySharedPreference.putString("ChannelIP_en", channelIp);
+						MySharedPreference.putString("OnlineIP_en", onlineIp);
+						MySharedPreference.putString("ChannelIP", "");
+						MySharedPreference.putString("OnlineIP", "");
+					}
+				}
+
 			} catch (JSONException e) {
 				loginRes1 = JVAccountConst.LOGIN_FAILED_2;
 				loginRes2 = 0;

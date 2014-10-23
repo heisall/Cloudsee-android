@@ -41,6 +41,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -170,8 +171,15 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		ipcWifiListView = (RefreshableListView) findViewById(R.id.ipcwifilistview);
 
 		layoutFlater = JVQuickSettingActivity.this.getLayoutInflater();
-		LinearLayout layout = (LinearLayout) layoutFlater.inflate(
+
+		RelativeLayout layout = (RelativeLayout) layoutFlater.inflate(
 				R.layout.quiksettinglayoutheader, null);
+		ImageView imgView = (ImageView) layout
+				.findViewById(R.id.quicksetting_tips_img);
+		RelativeLayout.LayoutParams reParams = new RelativeLayout.LayoutParams(
+				disMetrics.widthPixels, (int) (0.5 * disMetrics.widthPixels));
+		imgView.setLayoutParams(reParams);
+
 		ipcWifiListView.addHeaderView(layout);
 		ipcWifiListView.setOnRefreshListener(new WifiRefreshListener(true));
 		ipcWifiListView.setOnItemClickListener(mOnItemClickListener);

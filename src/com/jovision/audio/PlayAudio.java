@@ -6,12 +6,14 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
+import com.jovision.commons.MyLog;
+
 public class PlayAudio extends Thread {
 
 	private static final int SAMPLERATE = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	// TODO
-	private static int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+	private int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 	private static final int STREAM_TYPE = AudioManager.STREAM_MUSIC;
 	private static final int TRACK_MODE = AudioTrack.MODE_STREAM;
 
@@ -54,6 +56,7 @@ public class PlayAudio extends Thread {
 				ENCODING, 1024, TRACK_MODE);
 		track.play();
 
+		MyLog.v("ENCODING", ENCODING + "");
 		byte[] data = null;
 		byte[] enc = null;
 		while (false == isInterrupted()) {

@@ -888,9 +888,11 @@ public class JVPlayActivity extends PlayActivity implements
 		selectScreenNum.setOnClickListener(myOnClickListener);
 		currentMenu.setOnClickListener(myOnClickListener);
 		if (playFlag == Consts.PLAY_AP) {
+			currentMenu_h.setText(R.string.video_check);
 			currentMenu.setText(R.string.video_check);
 			selectScreenNum.setVisibility(View.GONE);
 		} else {
+			currentMenu_h.setText(R.string.str_video_play);
 			currentMenu.setText(R.string.str_video_play);
 			selectScreenNum.setVisibility(View.VISIBLE);
 		}

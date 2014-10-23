@@ -78,6 +78,7 @@
                 android:visibility="gone" />
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/overturn"
                 android:layout_width="50dp"
                 android:layout_height="30dp"

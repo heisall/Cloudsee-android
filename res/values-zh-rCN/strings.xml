@@ -622,7 +622,7 @@
     <!-- 报警 -->
     <string name="str_alarm_check">立即查看</string>
     <string name="str_pass_extra_err">传递数据异常</string>
-    <string name="str_alarm_time">报警时间:</string>
+    <string name="str_alarm_time">报警时间  :</string>
     <string name="str_alarm_check_video">查看报警视频</string>
     <string name="str_alarm_no_video">暂无报警视频</string>
     <string name="str_buffering">正在缓冲...</string>
@@ -640,5 +640,6 @@
     <string name="str_alarm_manage">添加报警设备</string>
     <string name="str_alarm_connect_except">连接异常断开</string>
     <string name="str_alarm_thirddev_default_name">报警设备</string>
-
+	<string name="str_alarm_thirddev_learning">学习中...</string>
+	<string name="str_alarm_thirddev_bind_hint">如:客厅/卧室/厨房等</string>
 </resources>

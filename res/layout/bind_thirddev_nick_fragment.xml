@@ -27,6 +27,7 @@
             android:layout_below="@id/label_tv"
             android:layout_marginTop="12dp"
             android:background="@drawable/third_input"
+            android:hint="@string/str_alarm_thirddev_bind_hint"
             android:paddingLeft="6dp" />
     </RelativeLayout>
 

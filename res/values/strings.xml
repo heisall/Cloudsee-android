@@ -320,8 +320,6 @@
     <string name="str_exiting_now">Disconnecting now Please wait...</string>
     <string name="str_no_response_data">Network connection exception,please login again.</string>
     <string name="str_change_video_type">Switch video standard,Records re-packed.</string>
-    <string name="str_device">Device</string>
-    <string name="str_device_name">A361</string>
     <!-- 设备管理 -->
     <string name="str_quick_setting_nextstep">Next</string>
     <string name="str_quick_setting_neterror">连接网络超时，请检查.</string>
@@ -640,7 +638,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.17(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.18(重构) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

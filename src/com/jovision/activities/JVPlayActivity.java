@@ -99,6 +99,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		switch (what) {
 		case Consts.CALL_CONNECT_CHANGE: {
+			MyLog.i("TAG", channelList.size() + "size" + arg1);
 			Channel channel = channelList.get(arg1);
 			if (null == channel) {
 				return;
@@ -192,16 +193,6 @@ public class JVPlayActivity extends PlayActivity implements
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 
 		switch (what) {
-		case CONNECTING: {
-			loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTTED);
-			break;
-		}
-		case BUFFERING: {
-			loadingState(arg1, R.string.connecting_buffer,
-					JVConst.PLAY_CONNECTING_BUFFER);
-			break;
-		}
-
 		// 开始连接
 		case JVConst.WHAT_STARTING_CONNECT: {
 			loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTING);
@@ -897,9 +888,11 @@ public class JVPlayActivity extends PlayActivity implements
 		selectScreenNum.setOnClickListener(myOnClickListener);
 		currentMenu.setOnClickListener(myOnClickListener);
 		if (playFlag == Consts.PLAY_AP) {
+			currentMenu_h.setText(R.string.video_check);
 			currentMenu.setText(R.string.video_check);
 			selectScreenNum.setVisibility(View.GONE);
 		} else {
+			currentMenu_h.setText(R.string.str_video_play);
 			currentMenu.setText(R.string.str_video_play);
 			selectScreenNum.setVisibility(View.VISIBLE);
 		}
@@ -1135,6 +1128,8 @@ public class JVPlayActivity extends PlayActivity implements
 				}.start();
 
 			} else if (channel.isPaused() && null != channel.getSurface()) {
+				// loadingState(channel.getIndex(), R.string.connecting_buffer,
+				// JVConst.PLAY_CONNECTING_BUFFER);
 				result = Jni.resume(channel.getIndex(), channel.getSurface());
 				if (result) {
 					Jni.sendBytes(channel.getIndex(), JVNetConst.JVN_CMD_VIDEO,
@@ -1365,7 +1360,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 					@Override
 					public void run() {
-						connect(deviceList.get(0), channel, false, false, false);
+						connect(channel.getParent(), channel, false, false,
+								false);
 					}
 
 				}.start();

@@ -524,7 +524,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						int port = broadObj.optInt("port");
 						String broadDevNum = gid + no;
 
-						hasDev(broadDevNum, ip, port);
+						hasDev(myDeviceList, broadDevNum, ip, port);
 
 					} else if (1 == broadObj.optInt("timeout")) {
 
@@ -547,7 +547,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						int count = broadObj.optInt("count");
 						String broadDevNum = gid + no;
 
-						if (!hasDev(broadDevNum, ip, port)) {
+						if (!hasDev(broadList, broadDevNum, ip, port)) {
 							Device broadDev = new Device(ip, port, gid, no,
 									mActivity.getResources().getString(
 											R.string.str_default_user),
@@ -629,11 +629,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 * @param devNum
 	 * @return
 	 */
-	public boolean hasDev(String devNum, String ip, int port) {
+	public boolean hasDev(ArrayList<Device> devList, String devNum, String ip,
+			int port) {
 		boolean has = false;
 		// for (int i = 0; i < size; i++) {
 		// Device device = myDeviceList.get(i);
-		for (Device dev : myDeviceList) {
+		for (Device dev : devList) {
 			if (devNum.equalsIgnoreCase(dev.getFullNo())) {
 				dev.setIp(ip);
 				dev.setPort(port);

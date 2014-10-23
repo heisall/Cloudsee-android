@@ -25,6 +25,7 @@ public class AlarmDialog extends Dialog {
 	private TextView dialogView;
 	private TextView dialogDeviceName;
 	private TextView dialogDeviceModle;
+	private TextView dialogAlarmTime;
 	private ImageView dialogCancleImg;
 
 	private static AlarmDialog mAlarmDialog;
@@ -78,9 +79,10 @@ public class AlarmDialog extends Dialog {
 		dialogCancleImg = (ImageView) findViewById(R.id.dialog_cancle_img);
 		dialogDeviceName = (TextView) findViewById(R.id.dialog_devicename);
 		dialogDeviceModle = (TextView) findViewById(R.id.dialog_devicemodle);
+		dialogAlarmTime = (TextView) findViewById(R.id.dialog_alarm_time);
 
-		dialogDeviceName.setText(deviceNickName + "(" + alarmTime + ")");
-		dialogDeviceModle.setText(alarmTypeName);
+		// dialogDeviceName.setText(deviceNickName + "(" + alarmTime + ")");
+		// dialogDeviceModle.setText(alarmTypeName);
 		dialogCancel.setOnClickListener(myOnClickListener);
 		dialogView.setOnClickListener(myOnClickListener);
 		dialogCancleImg.setOnClickListener(myOnClickListener);
@@ -88,8 +90,9 @@ public class AlarmDialog extends Dialog {
 
 	@Override
 	protected void onStart() {
-		dialogDeviceName.setText(deviceNickName + "(" + alarmTime + ")");
+		dialogDeviceName.setText(deviceNickName);
 		dialogDeviceModle.setText(alarmTypeName);
+		dialogAlarmTime.setText(alarmTime);
 	}
 
 	android.view.View.OnClickListener myOnClickListener = new View.OnClickListener() {
@@ -163,9 +166,9 @@ public class AlarmDialog extends Dialog {
 		PushInfo pi = (PushInfo) obj;
 		// 已经在显示了，就不显示了
 		if (!mAlarmDialog.isShowing()) {
-			mAlarmDialog.deviceNickName = pi.deviceNickName + "--"
-					+ pi.alarmTime;
+			mAlarmDialog.deviceNickName = pi.deviceNickName;
 			mAlarmDialog.ystNum = pi.ystNum;
+			mAlarmDialog.alarmTime = pi.alarmTime;
 			String strAlarmTypeName = "";
 			if (pi.alarmType == 7) {
 				strAlarmTypeName = "移动侦测";

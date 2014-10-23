@@ -620,7 +620,7 @@
     <!-- 报警 -->
     <string name="str_alarm_check">Check Now</string>
     <string name="str_pass_extra_err">Pass Data Extra Error</string>
-    <string name="str_alarm_time">Alarm Time:</string>
+    <string name="str_alarm_time">Alarm Time :</string>
     <string name="str_alarm_check_video">Check Alarm Video</string>
     <string name="str_alarm_no_video">No Alarm Video</string>
     <string name="str_buffering">Buffering...</string>
@@ -638,5 +638,6 @@
     <string name="str_click_add_device">Click here to add new equipment</string>
     <string name="str_alarm_connect_except">Abnormal connection disconnected</string>
     <string name="str_alarm_thirddev_default_name">Alarm Device</string>
-
+	<string name="str_alarm_thirddev_learning">do in learning...</string>
+	<string name="str_alarm_thirddev_bind_hint">e.g:Parlor/bedroom/kitchen...</string>
 </resources>

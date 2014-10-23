@@ -8,14 +8,14 @@
     <RelativeLayout
         android:id="@+id/topbarh"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:background="@color/halftransparent"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/btn_left"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
@@ -41,8 +41,8 @@
 
         <Button
             android:id="@+id/btn_right"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
@@ -144,8 +144,8 @@
 
                 <Button
                     android:id="@+id/bottom_but6"
-                    android:layout_width="30dp"
-                    android:layout_height="50dp"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/turn_right_selector" />
             </RelativeLayout>

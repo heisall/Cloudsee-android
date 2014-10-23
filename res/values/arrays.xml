@@ -109,7 +109,7 @@
         <item>Power Off Alarm, Device:%%.</item>
         <item>Manual Alarm, Device:%%.</item>
         <item>GPS Alarm, Device:%%.</item>
-        <item>PIR alarm, Device:%%.</item>
+        <item>Third Device alarm, Device:%%.</item>
         <item>ALARM_NONE, Device:%%.</item>
         <item>ALARM_NOTIFY, Device:%%.</item>
         <item>ALARM_TEMP_HIGH, Device:%%.</item>

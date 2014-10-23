@@ -222,7 +222,8 @@ public class JVWelcomeActivity extends BaseActivity {
 				}
 			} else {
 				User user = UserUtil.getLastUser();
-				if (ConfigUtil.getNetWorkConnection() && null != user
+				if (ConfigUtil.getNetWorkConnection(JVWelcomeActivity.this)
+						&& null != user
 						&& !"".equalsIgnoreCase(user.getUserName())
 						&& !"".equalsIgnoreCase(user.getUserPwd())) {
 					statusHashMap.put(Consts.KEY_USERNAME, user.getUserName());
@@ -264,7 +265,7 @@ public class JVWelcomeActivity extends BaseActivity {
 			ConfigUtil.initCloudSDK(getApplication());// 初始化CloudSDK
 			// HelperUtil.setHelpToSavedDevice();// 给设备设置小助手
 
-			if (ConfigUtil.getNetWorkConnection()) {
+			if (ConfigUtil.getNetWorkConnection(JVWelcomeActivity.this)) {
 				boolean initASdkState = ConfigUtil
 						.initAccountSDK(getApplication());// 初始化账号SDK
 

@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.view.Surface;
 import android.view.SurfaceView;
 
 import com.jovision.commons.MyList;
@@ -50,6 +51,9 @@ public class Channel {
 	private int storageMode = -1;// 录像模式// 1: 手动录像 2. 报警录像 storageMode
 	private int streamTag = -1;// 码流参数值 MainStreamQos 123
 	private int screenTag = -1;// 屏幕方向值 effect_flag 0(正),4(反)
+
+	private boolean isPaused;
+	private Surface surface;
 
 	public boolean isAgreeTextData() {
 		return agreeTextData;
@@ -335,6 +339,22 @@ public class Channel {
 
 	public void setAudioByte(int audioByte) {
 		this.audioByte = audioByte;
+	}
+
+	public boolean isPaused() {
+		return isPaused;
+	}
+
+	public void setPaused(boolean isPaused) {
+		this.isPaused = isPaused;
+	}
+
+	public Surface getSurface() {
+		return surface;
+	}
+
+	public void setSurface(Surface surface) {
+		this.surface = surface;
 	}
 
 }

@@ -346,9 +346,13 @@ public class ThirdDevListActivity extends BaseActivity implements
 			case JVNetConst.SERVICE_STOP:
 				bConnectFlag = false;
 				showTextToast(R.string.str_alarm_connect_except);
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
 				break;
 			default:
 				bConnectFlag = false;
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
 				showTextToast(R.string.connect_failed);
 				finish();
 				break;
@@ -376,7 +380,6 @@ public class ThirdDevListActivity extends BaseActivity implements
 			case JVNetConst.JVN_RSP_TEXTDATA: {
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
-
 				JSONObject respObject = null;
 				if (obj != null) {
 					try {
@@ -556,6 +559,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 			saved_index = arg2;
 			saved_third_safe_flag = arg1;
 			MyLog.e("RC_GPIN_SET_SWITCH", "arg1 : " + arg1 + ", arg2:" + arg2);
+			dialog.show();
 			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 					(byte) Consts.RC_GPIN_SET, obj.toString().trim());

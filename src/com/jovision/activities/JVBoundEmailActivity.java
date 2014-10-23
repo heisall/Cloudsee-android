@@ -11,8 +11,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
+import com.jovision.utils.UserUtil;
 
 public class JVBoundEmailActivity extends BaseActivity {
 	/** topBar */
@@ -88,13 +92,26 @@ public class JVBoundEmailActivity extends BaseActivity {
 			switch (v.getId()) {
 			case R.id.btn_right:
 				Intent intent = new Intent();
-				intent.setClass(JVBoundEmailActivity.this,
-						JVLoginActivity.class);
-				intent.putExtra("AutoLogin", true);
-				intent.putExtra("UserName", userName);
-				intent.putExtra("UserPass", userPass);
+				MySharedPreference.putString("UserName", userName);
+				MySharedPreference.putString("PassWord", userPass);
+
+				User user = new User();
+				user.setPrimaryID(System.currentTimeMillis());
+				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
+				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
+				user.setLastLogin(1);
+				UserUtil.addUser(user);
+				intent.setClass(JVBoundEmailActivity.this, JVTabActivity.class);
 				JVBoundEmailActivity.this.startActivity(intent);
-				JVBoundEmailActivity.this.finish();
+				finish();
+				// Intent intent = new Intent();
+				// intent.setClass(JVBoundEmailActivity.this,
+				// JVLoginActivity.class);
+				// intent.putExtra("AutoLogin", true);
+				// intent.putExtra("UserName", userName);
+				// intent.putExtra("UserPass", userPass);
+				// JVBoundEmailActivity.this.startActivity(intent);
+				// JVBoundEmailActivity.this.finish();
 				break;
 			case R.id.finish:
 				if ("".equalsIgnoreCase(userEmailEditText.getText().toString())) {
@@ -162,13 +179,27 @@ public class JVBoundEmailActivity extends BaseActivity {
 			dismissDialog();
 			if (0 == result) {
 				Intent intent = new Intent();
-				intent.setClass(JVBoundEmailActivity.this,
-						JVLoginActivity.class);
-				intent.putExtra("AutoLogin", true);
-				intent.putExtra("UserName", userName);
-				intent.putExtra("UserPass", userPass);
+				MySharedPreference.putString("UserName", userName);
+				MySharedPreference.putString("PassWord", userPass);
+
+				User user = new User();
+				user.setPrimaryID(System.currentTimeMillis());
+				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
+				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
+				user.setLastLogin(1);
+				UserUtil.addUser(user);
+				intent.setClass(JVBoundEmailActivity.this, JVTabActivity.class);
 				JVBoundEmailActivity.this.startActivity(intent);
-				JVBoundEmailActivity.this.finish();// 注册成功登陆成功
+				finish();
+
+				// Intent intent = new Intent();
+				// intent.setClass(JVBoundEmailActivity.this,
+				// JVLoginActivity.class);
+				// intent.putExtra("AutoLogin", true);
+				// intent.putExtra("UserName", userName);
+				// intent.putExtra("UserPass", userPass);
+				// JVBoundEmailActivity.this.startActivity(intent);
+				// JVBoundEmailActivity.this.finish();// 注册成功登陆成功
 			} else if (2 == result) {
 				showTextToast(R.string.str_bound_email_exist);
 			} else {

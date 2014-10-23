@@ -41,7 +41,7 @@ public class Device {
 	/** 设备密码 */
 	private String pwd;
 	/** 是否是家用产品 */
-	private boolean isHomeProduct;// true 家用 ，false 非家用
+	private boolean isHomeProduct;// true IPC ，false 非IPC
 
 	private boolean isHelperEnabled;
 	/** 设备类型 */
@@ -221,6 +221,7 @@ public class Device {
 			object.put("onlineState", onlineState);
 			object.put("hasWifi", hasWifi);
 			object.put("serverState", serverState);
+			object.put("alarmSwitch", alarmSwitch);
 
 			try {
 				ArrayList<Channel> list = channelList.toList();
@@ -299,7 +300,7 @@ public class Device {
 			dev.setOnlineState(object.getInt("onlineState"));
 			dev.setHasWifi(object.getInt("hasWifi"));
 			dev.setServerState(object.getInt("serverState"));
-
+			dev.setAlarmSwitch(object.getInt("alarmSwitch"));
 			dev.setChannelList(Channel.fromJsonArray(
 					object.getString("channelList"), dev));
 

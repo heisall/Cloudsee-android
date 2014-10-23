@@ -27,8 +27,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -161,19 +159,20 @@ public class ConfigUtil {
 		return ip;
 	}
 
-	public static int lan = JVConst.LANGUAGE_ZH;
+	public static int lan = -1;
 
 	// 中文 0 英文 1
 	public static int getServerLanguage() {
 
-		String country = getCountry();
-		if (country.contains("中国") || country.contains("China")
-				|| country.contains("china")) {
-			lan = JVConst.LANGUAGE_ZH;
-		} else {
-			lan = JVConst.LANGUAGE_EN;
+		if (-1 == lan) {
+			String country = getCountry();
+			if (country.contains("中国") || country.contains("China")
+					|| country.contains("china")) {
+				lan = JVConst.LANGUAGE_ZH;
+			} else {
+				lan = JVConst.LANGUAGE_EN;
+			}
 		}
-
 		return lan;
 	}
 
@@ -302,7 +301,7 @@ public class ConfigUtil {
 			result = JVACCOUNT.InitSDK(context, Consts.ACCOUNT_PATH);
 			String channelIp = "";
 			String onlineIp = "";
-			if (ConfigUtil.isLanZH()) {
+			if (JVConst.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
 				channelIp = MySharedPreference.getString("ChannelIP");
 				onlineIp = MySharedPreference.getString("OnlineIP");
 			} else {
@@ -313,11 +312,12 @@ public class ConfigUtil {
 					&& !"".equals(onlineIp)) {
 				JVACCOUNT.SetServerIP(channelIp, onlineIp);
 			} else {
-				if (getNetWorkConnection()) {
+				if (getNetWorkConnection(context)) {
 					JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,
 							Url.LONGSERVERIP);
 				}
 			}
+
 			statusHashMap.put(Consts.KEY_INIT_ACCOUNT_SDK,
 					String.valueOf(result));
 
@@ -372,35 +372,49 @@ public class ConfigUtil {
 	 * 
 	 * @return 是否可用
 	 */
-	public static boolean getNetWorkConnection() {
+	public static boolean getNetWorkConnection(Context context) {
 		flag = false;
-		new Thread() {
-			public void run() {
-				String serverURL = "";
-				if (isLanZH()) {
-					serverURL = "http://www.baidu.com/";
-				} else {
-					serverURL = "http://www.google.com/";
-				}
-				HttpGet httpRequest = new HttpGet(serverURL);// 建立http get联机
-				// HttpResponse httpResponse;
-				try {
-					new DefaultHttpClient().execute(httpRequest);
-					flag = true;
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			};
-		}.start();
-		for (int i = 0; i < 3; i++) {
-			if (!flag) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+
+		ConnectivityManager cManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo info = cManager.getActiveNetworkInfo();
+		if (info != null && info.isAvailable()) {
+			int type = info.getType();
+			if (type == ConnectivityManager.TYPE_WIFI) {
+			} else {
 			}
+			flag = true;
+		} else {
+			flag = false;
 		}
+
+		// new Thread() {
+		// public void run() {
+		// String serverURL = "";
+		// if (isLanZH()) {
+		// serverURL = "http://www.baidu.com/";
+		// } else {
+		// serverURL = "http://www.google.com/";
+		// }
+		// HttpGet httpRequest = new HttpGet(serverURL);// 建立http get联机
+		// // HttpResponse httpResponse;
+		// try {
+		// new DefaultHttpClient().execute(httpRequest);
+		// flag = true;
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// };
+		// }.start();
+		// for (int i = 0; i < 3; i++) {
+		// if (!flag) {
+		// try {
+		// Thread.sleep(1000);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// }
 		return flag;
 	}
 

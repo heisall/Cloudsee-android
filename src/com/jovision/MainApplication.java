@@ -255,6 +255,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				 */
 				MyLog.e("tags", "new msg: " + msg);
 				String strYstNumString = "";
+				// Toast.makeText(getApplicationContext(),
+				// "new msg push call back", Toast.LENGTH_SHORT).show();
 				if (MySharedPreference.getBoolean("AlarmSwitch", false)) {
 					if (null != currentNotifyer && null != msg
 							&& !"".equalsIgnoreCase(msg)) {
@@ -284,9 +286,19 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 							//
 							// pi.deviceNickName =
 							// BaseApp.getNikeName(pi.ystNum);
-							pi.deviceNickName = pi.ystNum;
 							pi.alarmType = obj
 									.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
+							if (pi.alarmType == 7) {
+								pi.deviceNickName = obj
+										.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+							} else if (pi.alarmType == 11)// 第三方
+							{
+								pi.deviceNickName = obj
+										.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+							} else {
+
+							}
+
 							pi.timestamp = obj
 									.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
 							pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);
@@ -301,8 +313,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 									.optString(JVAlarmConst.JK_ALARM_NEW_VIDEOURL);
 							// BaseApp.pushList.add(0, pi);// 新消息置顶
 							// BaseApp.pushHisCount++;
-							onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
-									strYstNumString);
+							onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0, pi);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

@@ -40,22 +40,24 @@ public class AlarmUtil {
 
 		// 接收返回数据
 		byte[] resultStr = new byte[1024 * 2];
-		JVACCOUNT.GetResponseByRequestShortConnectionServer(ALARMTAG,
+		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
+		if (ret == 0) {
+			String result = new String(resultStr);
 
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					// int mid = temObj.optInt(JVAlarmConst.JK_ALARM_MID);
-					imgUrl = temObj.optString(JVAlarmConst.JK_ALARM_PICURL);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mid = temObj.optInt(JVAlarmConst.JK_ALARM_MID);
+						imgUrl = temObj.optString(JVAlarmConst.JK_ALARM_PICURL);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+			MyLog.v("getAlarmPic---res", imgUrl);
 		}
-		MyLog.v("getAlarmPic---res", imgUrl);
 		return imgUrl;
 	}
 
@@ -78,22 +80,26 @@ public class AlarmUtil {
 
 		// 接收返回数据
 		byte[] resultStr = new byte[1024 * 2];
-		JVACCOUNT.GetResponseByRequestShortConnectionServer(ALARMTAG,
+		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
+		if (ret == 0) {
+			String result = new String(resultStr);
 
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					// int mid = temObj.optInt(JVAlarmConst.JK_ALARM_MID);
-					videoUrl = temObj.optString(JVAlarmConst.JK_ALARM_VIDEOURL);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mid = temObj.optInt(JVAlarmConst.JK_ALARM_MID);
+						videoUrl = temObj
+								.optString(JVAlarmConst.JK_ALARM_VIDEOURL);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+			MyLog.v("getAlarmVideo---res", videoUrl);
 		}
-		MyLog.v("getAlarmVideo---res", videoUrl);
+
 		return videoUrl;
 	}
 
@@ -225,133 +231,150 @@ public class AlarmUtil {
 
 		// 接收返回数据
 		byte[] resultStr = new byte[1024 * 10];
-		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		String result = new String(resultStr);
+		if (ret == 0) {
 
-		MyLog.v("getUserAlarmList---result---res", result + "");
+			String result = new String(resultStr);
 
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					/**
-					 * 老协议报警
-					 */
-					// int mid = temObj.optInt(JVAlarmConst.JK_ALARM_MID);
-					// int pushCount = temObj
-					// .optInt(JVAlarmConst.JK_ALARM_SEARCHCOUNT);
-					// if (pushCount > 0) {
-					// JSONArray dlist = new JSONArray(
-					// temObj.optString(JVAlarmConst.JK_ALARM_LIST));
-					// if (null != dlist && 0 != dlist.length()) {
-					// for (int i = 0; i < dlist.length(); i++) {
-					// JSONObject obj = dlist.getJSONObject(i);
-					// if (null != obj) {
-					// PushInfo pi = new PushInfo();
-					// // if(){
-					// //
-					// // }
-					// pi.strGUID = obj
-					// .optString(JVAlarmConst.JK_ALARM_GUID);
-					// pi.ystNum = obj
-					// .optString(JVAlarmConst.JK_ALARM_CLOUDNUM);
-					// pi.coonNum = obj
-					// .optInt(JVAlarmConst.JK_ALARM_CLOUDCHN);
-					// pi.alarmType = obj
-					// .optInt(JVAlarmConst.JK_ALARM_ALARMTYPE);
-					// pi.alarmLevel = obj
-					// .optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);//
-					// 2014.03.08报警级别：1级最高
-					// pi.alarmTime = obj
-					// .optString(JVAlarmConst.JK_ALARM_ALARMTIME);
-					// Log.e("报警ID---strGUID---", pi.strGUID + "");
-					// Log.e("报警时间---alarmTime---", pi.alarmTime
-					// + "");
-					// pi.deviceName = obj
-					// .optString(JVAlarmConst.JK_ALARM_CLOUDNAME);
-					// pi.pic = obj
-					// .optString(JVAlarmConst.JK_ALARM_PICURL);
-					// pushList.add(pi);
-					// }
-					// }
-					// }
-					// }
+			MyLog.v("getUserAlarmList---result---res", result + "");
 
-					/**
-					 * 新协议报警
-					 */
-					int mid = temObj.optInt(JVAlarmConst.JK_ALARM_MID);
-					int rt = temObj.optInt(JVAlarmConst.JK_ALARM_NEW_RT);
-					switch (rt) {
-					case 0:// 获取数据成功
-						pushList = new ArrayList<PushInfo>();
-						JSONArray dlist = temObj
-								.getJSONArray(JVAlarmConst.JK_ALARM_NEW_AINFO);
-						if (null != dlist && 0 != dlist.length()) {
-							for (int i = 0; i < dlist.length(); i++) {
-								JSONObject obj = dlist.getJSONObject(i);
-								if (null != obj) {
-									PushInfo pi = new PushInfo();
-									// if(){
-									//
-									// }
-									// {"mt":6001,"rt":0,"mid":30,
-									// "ainfo":[{"aguid":"bff9ff1eaa772acf47f2d0043990f777",
-									// "asln":0,"dguid":"S90252170","dname":"HD IPC","dcn":1,"atype":7,
-									// "apic":".\/rec\/00\/20141014\/A01092715.jpg","avd":"1413278835","ats":1413278835},}
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						/**
+						 * 老协议报警
+						 */
+						// int mid = temObj.optInt(JVAlarmConst.JK_ALARM_MID);
+						// int pushCount = temObj
+						// .optInt(JVAlarmConst.JK_ALARM_SEARCHCOUNT);
+						// if (pushCount > 0) {
+						// JSONArray dlist = new JSONArray(
+						// temObj.optString(JVAlarmConst.JK_ALARM_LIST));
+						// if (null != dlist && 0 != dlist.length()) {
+						// for (int i = 0; i < dlist.length(); i++) {
+						// JSONObject obj = dlist.getJSONObject(i);
+						// if (null != obj) {
+						// PushInfo pi = new PushInfo();
+						// // if(){
+						// //
+						// // }
+						// pi.strGUID = obj
+						// .optString(JVAlarmConst.JK_ALARM_GUID);
+						// pi.ystNum = obj
+						// .optString(JVAlarmConst.JK_ALARM_CLOUDNUM);
+						// pi.coonNum = obj
+						// .optInt(JVAlarmConst.JK_ALARM_CLOUDCHN);
+						// pi.alarmType = obj
+						// .optInt(JVAlarmConst.JK_ALARM_ALARMTYPE);
+						// pi.alarmLevel = obj
+						// .optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);//
+						// 2014.03.08报警级别：1级最高
+						// pi.alarmTime = obj
+						// .optString(JVAlarmConst.JK_ALARM_ALARMTIME);
+						// Log.e("报警ID---strGUID---", pi.strGUID + "");
+						// Log.e("报警时间---alarmTime---", pi.alarmTime
+						// + "");
+						// pi.deviceName = obj
+						// .optString(JVAlarmConst.JK_ALARM_CLOUDNAME);
+						// pi.pic = obj
+						// .optString(JVAlarmConst.JK_ALARM_PICURL);
+						// pushList.add(pi);
+						// }
+						// }
+						// }
+						// }
 
-									pi.strGUID = obj
-											.optString(JVAlarmConst.JK_ALARM_NEW_GUID);
-									pi.ystNum = obj
-											.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNUM);
-									pi.coonNum = obj
-											.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
-									pi.alarmType = obj
-											.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
-									// pi.alarmLevel = obj
-									// .optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);//
-									// 2014.03.08报警级别：1级最高
-									pi.timestamp = obj
-											.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
-									pi.alarmTime = getStrTime(pi.timestamp);
-									// String timeS = obj
-									// .optString(JVAlarmConst.JK_ALARM_NEW_ALARM_ATS);
+						/**
+						 * 新协议报警
+						 */
+						int mid = temObj.optInt(JVAlarmConst.JK_ALARM_MID);
+						int rt = temObj.optInt(JVAlarmConst.JK_ALARM_NEW_RT);
+						switch (rt) {
+						case 0:// 获取数据成功
+							pushList = new ArrayList<PushInfo>();
+							JSONArray dlist = temObj
+									.getJSONArray(JVAlarmConst.JK_ALARM_NEW_AINFO);
+							if (null != dlist && 0 != dlist.length()) {
+								for (int i = 0; i < dlist.length(); i++) {
+									JSONObject obj = dlist.getJSONObject(i);
+									if (null != obj) {
+										PushInfo pi = new PushInfo();
+										// if(){
+										//
+										// }
+										// {"mt":6001,"rt":0,"mid":30,
+										// "ainfo":[{"aguid":"bff9ff1eaa772acf47f2d0043990f777",
+										// "asln":0,"dguid":"S90252170","dname":"HD IPC","dcn":1,"atype":7,
+										// "apic":".\/rec\/00\/20141014\/A01092715.jpg","avd":"1413278835","ats":1413278835},}
+										pi.alarmType = obj
+												.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
+										if (pi.alarmType == 7) {
+											pi.deviceNickName = obj
+													.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+										} else if (pi.alarmType == 11)// 第三方
+										{
+											pi.deviceNickName = obj
+													.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+										} else {
 
-									MyLog.e("报警ID---strGUID---", pi.strGUID
-											+ "");
-									MyLog.e("报警时间---alarmTime---", pi.alarmTime
-											+ "");
-									pi.deviceName = obj
-											.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
-									pi.pic = obj
-											.optString(JVAlarmConst.JK_ALARM_NEW_PICURL);
-									pi.video = obj
-											.optString(JVAlarmConst.JK_ALARM_NEW_VIDEOURL);
-									pi.messageTag = JVAccountConst.MESSAGE_NEW_PUSH_TAG;
-									pushList.add(pi);
+										}
+
+										pi.strGUID = obj
+												.optString(JVAlarmConst.JK_ALARM_NEW_GUID);
+										pi.ystNum = obj
+												.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNUM);
+										pi.coonNum = obj
+												.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
+										// pi.alarmLevel = obj
+										// .optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);//
+										// 2014.03.08报警级别：1级最高
+										pi.timestamp = obj
+												.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
+										pi.alarmTime = getStrTime(pi.timestamp);
+										// String timeS = obj
+										// .optString(JVAlarmConst.JK_ALARM_NEW_ALARM_ATS);
+
+										MyLog.e("报警ID---strGUID---", pi.strGUID
+												+ "");
+										MyLog.e("报警时间---alarmTime---",
+												pi.alarmTime
+
+												+ "");
+										pi.deviceName = obj
+												.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+										pi.pic = obj
+												.optString(JVAlarmConst.JK_ALARM_NEW_PICURL);
+										pi.video = obj
+												.optString(JVAlarmConst.JK_ALARM_NEW_VIDEOURL);
+										pi.messageTag = JVAccountConst.MESSAGE_NEW_PUSH_TAG;
+										pushList.add(pi);
+									}
 								}
 							}
+							break;
+						case -10:// 请求格式错误
+							MyLog.e("tags", "请求格式错误");
+							break;
+						case -3:
+							MyLog.e("tags", "缓存操作错误");
+							break;
+						case -1://
+							MyLog.e("tags", "其它错误");
+							break;
+						default:
+							break;
 						}
-						break;
-					case -10:// 请求格式错误
-						MyLog.e("tags", "请求格式错误");
-						break;
-					case -3:
-						MyLog.e("tags", "缓存操作错误");
-						break;
-					case -1://
-						MyLog.e("tags", "其它错误");
-						break;
-					default:
-						break;
-					}
 
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+		} else {
+
 		}
 		// Log.v("getUserAlarmList---res", pushList.size() + "");
 		return pushList;
@@ -388,22 +411,27 @@ public class AlarmUtil {
 		MyLog.v("deleteAlarmInfo", jObj.toString());
 		// 接收返回数据
 		byte[] resultStr = new byte[1024 * 2];
-		JVACCOUNT.GetResponseByRequestShortConnectionServer(ALARMTAG,
-				jObj.toString(), resultStr);
-		String result = new String(resultStr);
 
-		if (null != result && !"".equalsIgnoreCase(result)) {
-			try {
-				JSONObject temObj = new JSONObject(result);
-				if (null != temObj) {
-					// int mid = temObj.optInt(JVAlarmConst.JK_ALARM_MID);
-					// String guid =
-					// temObj.optString(JVAlarmConst.JK_ALARM_GUID);
-					deleteRes = temObj.optInt(JVAlarmConst.JK_ALARM_OPTFLAG);
+		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+		if (ret == 0) {// 操作成功
+			String result = new String(resultStr);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mid = temObj.optInt(JVAlarmConst.JK_ALARM_MID);
+						// String guid =
+						// temObj.optString(JVAlarmConst.JK_ALARM_GUID);
+						deleteRes = temObj.optInt(JVAlarmConst.JK_ALARM_NEW_RT);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+		} else {
+			deleteRes = -1;
 		}
 
 		MyLog.v("deleteAlarmInfo---res", deleteRes + "");
@@ -452,7 +480,7 @@ public class AlarmUtil {
 	public static String getStrTime(String cc_time) {
 		String re_StrTime = null;
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		// 例如：cc_time=1291778220
 		long lcc_time = Long.valueOf(cc_time);
 		re_StrTime = sdf.format(new Date(lcc_time * 1000L));

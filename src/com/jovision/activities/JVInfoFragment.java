@@ -251,9 +251,19 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 								.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
 						//
 						// pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
-						pi.deviceNickName = pi.ystNum;
 						pi.alarmType = obj
 								.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
+						if (pi.alarmType == 7) {
+							pi.deviceNickName = obj
+									.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+						} else if (pi.alarmType == 11)// 第三方
+						{
+							pi.deviceNickName = obj
+									.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+						} else {
+
+						}
+
 						pi.timestamp = obj
 								.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
 						pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);
@@ -305,8 +315,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			break;
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-			AlarmDialog.getInstance(getActivity()).Show(obj.toString(), arg1);// arg1
-																				// 是报警类型
+			AlarmDialog.getInstance(getActivity()).Show(obj);
+
 			break;
 		default:
 			break;
@@ -339,7 +349,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			if (result > 0) {
+			if (result == 0) {
 				String deleteGuid = pushList.get(pushIndex).strGUID;
 				boolean doDelete = false;
 				for (int i = 0; i < pushList.size(); i++) {
@@ -352,13 +362,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				if (!doDelete) {
 					mActivity.showTextToast(R.string.del_alarm_failed);
 				} else {
+					pushAdapter.setRefCount(pushList.size());
+					pushAdapter.notifyDataSetChanged();
 					mActivity.showTextToast(R.string.del_alarm_succ);
 				}
 			} else {
 				mActivity.showTextToast(R.string.del_alarm_failed);
 			}
-			pushAdapter.setRefCount(pushList.size());
-			pushAdapter.notifyDataSetChanged();
+
 			((BaseActivity) mActivity).dismissDialog();
 		}
 

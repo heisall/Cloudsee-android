@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.FuntionAdapter;
-import com.jovision.adapters.PlayViewPagerAdapter;
 import com.jovision.adapters.ScreenAdapter;
 import com.jovision.adapters.StreamAdapter;
 import com.jovision.audio.MICRecorder;
@@ -40,6 +39,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 	protected boolean isOmx = false;
 	protected Boolean lowerSystem = false;// 低于4.1的系统
+	protected boolean realStop = false;
 
 	/** 播放相关 */
 	protected RelativeLayout.LayoutParams reParamsV;
@@ -61,7 +61,6 @@ public abstract class PlayActivity extends BaseActivity {
 
 	/** layout 中 */
 	protected MyViewPager viewPager;
-	protected PlayViewPagerAdapter pagerAdapter;
 	protected SurfaceView playSurface;
 	protected TextView linkMode;// 测试显示连接方式
 
@@ -439,12 +438,7 @@ public abstract class PlayActivity extends BaseActivity {
 	/**
 	 * 清空所有状态
 	 */
-	public void resetFunc() {
-
-		AUDIO_SINGLE = false;// 单向对讲标志
-		VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
-		VOICECALLING = false;// 对讲功能已经开启
-
+	public void resetFunc(Channel channel) {
 		decodeBtn.setVisibility(View.GONE);// 软硬解
 		videTurnBtn.setVisibility(View.GONE);// 视频翻转
 		if (relative6.getVisibility() == 0) {
@@ -459,11 +453,50 @@ public abstract class PlayActivity extends BaseActivity {
 		moreFeature.setText(R.string.default_stream);// 码流
 		bottomStream.setText(R.string.default_stream);
 
+		// 停止音频监听
+		if (PlayUtil.isPlayAudio(channel.getIndex())) {
+			PlayUtil.audioPlay(channel.getIndex());
+			functionListAdapter.selectIndex = -1;
+			bottombut8.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.video_monitor_icon));
+			functionListAdapter.notifyDataSetChanged();
+			if (null != playAudio) {
+				playAudio.interrupt();
+				playAudio = null;
+			}
+		}
+
+		// 正在录像停止录像
+		if (PlayUtil.checkRecord(channel.getIndex())) {
+			if (!PlayUtil.videoRecord(channel.getIndex())) {// 打开
+				showTextToast(Consts.VIDEO_PATH);
+				tapeSelected(false);
+			}
+		}
+
+		// 停止对讲
+		if (channel.isVoiceCall()) {
+			if (null != recorder) {
+				recorder.stop();
+			}
+			if (null != audioQueue) {
+				audioQueue.clear();
+			}
+			channel.setVoiceCall(false);
+			realStop = true;
+			voiceCallSelected(false);
+			PlayUtil.stopVoiceCall(channel.getIndex());
+		}
+
 		tapeSelected(false);
 		recorder.stop();
 		functionListAdapter.selectIndex = -1;
 		functionListAdapter.notifyDataSetChanged();
 		voiceCallSelected(false);
+
+		AUDIO_SINGLE = false;// 单向对讲标志
+		VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
+		VOICECALLING = false;// 对讲功能已经开启
 
 	}
 
@@ -667,10 +700,14 @@ public abstract class PlayActivity extends BaseActivity {
 			audioQueue = new LinkedBlockingQueue<byte[]>();
 		}
 
-		if (null == playAudio) {
-			playAudio = new PlayAudio(audioQueue, audioByte);
-			playAudio.start();
+		if (null != playAudio) {
+			playAudio.interrupt();
+			playAudio = null;
 		}
+
+		playAudio = new PlayAudio(audioQueue, audioByte);
+		playAudio.start();
+
 	}
 
 	/**
@@ -697,6 +734,7 @@ public abstract class PlayActivity extends BaseActivity {
 		if (null != channel && channel.isVoiceCall()) {
 			PlayUtil.stopVoiceCall(index);
 			channel.setVoiceCall(false);
+			realStop = true;
 			voiceCallSelected(false);
 		}
 	}
@@ -722,6 +760,7 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 		if (null != playAudio) {
 			playAudio.interrupt();
+			playAudio = null;
 		}
 
 	}

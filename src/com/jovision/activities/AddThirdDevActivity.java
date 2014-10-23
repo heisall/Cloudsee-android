@@ -44,6 +44,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private boolean bNeedSendTextReq = true;
 	private MyHandler myHandler;
 	private int process_flag = 0; // 0 绑定设备 1绑定昵称
+	private boolean bind_nick_res = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -136,14 +137,18 @@ public class AddThirdDevActivity extends BaseActivity implements
 		case 1:
 			titleTv.setText(R.string.str_door_device);
 			dev_type_mark = 1;// 门禁
+
 			dialog.show();
 			if (!bConnectedFlag) {
+				dialog.setMessage(getResources().getString(R.string.waiting));
 				if (!AlarmUtil.OnlyConnect(strYstNum)) {
 					showTextToast("连接失败，已经连接或者超过最大连接数");
 					dialog.dismiss();
 				}
 			} else {
 				// 首先需要发送文本聊天请求
+				dialog.setMessage(getResources().getString(
+						R.string.str_alarm_thirddev_learning));
 				if (bNeedSendTextReq) {
 					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
@@ -160,13 +165,17 @@ public class AddThirdDevActivity extends BaseActivity implements
 		case 2:
 			titleTv.setText(R.string.str_bracelet_device);
 			dev_type_mark = 2;// 手环
+
 			dialog.show();
 			if (!bConnectedFlag) {
+				dialog.setMessage(getResources().getString(R.string.waiting));
 				if (!AlarmUtil.OnlyConnect(strYstNum)) {
 					showTextToast("连接失败，已经连接或者超过最大连接数");
 					dialog.dismiss();
 				}
 			} else {
+				dialog.setMessage(getResources().getString(
+						R.string.str_alarm_thirddev_learning));
 				// 首先需要发送文本聊天请求
 				if (bNeedSendTextReq) {
 					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
@@ -407,6 +416,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 							data.putExtra("dev_uid", setalarm.dev_uid);
 							// 请求代码可以自己设置，这里设置成10
 							setResult(10, data);
+							bind_nick_res = true;
 							// 关闭掉这个Activity
 							finish();
 						} else {
@@ -430,10 +440,6 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 		}
 			break;
-		// default:
-		// if (dialog != null && dialog.isShowing())
-		// dialog.dismiss();
-		// break;
 		}
 	}
 

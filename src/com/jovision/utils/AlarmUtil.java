@@ -300,16 +300,24 @@ public class AlarmUtil {
 									// "ainfo":[{"aguid":"bff9ff1eaa772acf47f2d0043990f777",
 									// "asln":0,"dguid":"S90252170","dname":"HD IPC","dcn":1,"atype":7,
 									// "apic":".\/rec\/00\/20141014\/A01092715.jpg","avd":"1413278835","ats":1413278835},}
-									pi.deviceNickName = obj
-											.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+									pi.alarmType = obj
+											.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
+									if (pi.alarmType == 7) {
+										pi.deviceNickName = obj
+												.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+									} else if (pi.alarmType == 11)// 第三方
+									{
+										pi.deviceNickName = obj
+												.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+									} else {
+
+									}
 									pi.strGUID = obj
 											.optString(JVAlarmConst.JK_ALARM_NEW_GUID);
 									pi.ystNum = obj
 											.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNUM);
 									pi.coonNum = obj
 											.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
-									pi.alarmType = obj
-											.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
 									// pi.alarmLevel = obj
 									// .optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);//
 									// 2014.03.08报警级别：1级最高
@@ -454,7 +462,7 @@ public class AlarmUtil {
 	public static String getStrTime(String cc_time) {
 		String re_StrTime = null;
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		// 例如：cc_time=1291778220
 		long lcc_time = Long.valueOf(cc_time);
 		re_StrTime = sdf.format(new Date(lcc_time * 1000L));

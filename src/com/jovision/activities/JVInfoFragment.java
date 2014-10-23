@@ -251,10 +251,19 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 								.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
 						//
 						// pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
-						pi.deviceNickName = obj
-								.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 						pi.alarmType = obj
 								.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
+						if (pi.alarmType == 7) {
+							pi.deviceNickName = obj
+									.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+						} else if (pi.alarmType == 11)// 第三方
+						{
+							pi.deviceNickName = obj
+									.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+						} else {
+
+						}
+
 						pi.timestamp = obj
 								.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
 						pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);

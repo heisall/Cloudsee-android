@@ -51,8 +51,6 @@ public class PlayWindowManager implements View.OnClickListener,
 
 	public static final int BASE_ID = 0x1000;
 
-	/** 单个播放窗口的边框标识 */
-	public static final int ID_BORDER = BASE_ID + 0xFF;
 	/** 单个播放窗口的中间控制标识 */
 	public static final int ID_CONTROL_CENTER = BASE_ID + 0x100;
 	/** 单个播放窗口的控制向左标识 */
@@ -68,11 +66,10 @@ public class PlayWindowManager implements View.OnClickListener,
 	/** 单个播放窗口的进度条标识 */
 	public static final int ID_INFO_PROGRESS = BASE_ID + 0x106;
 
-	private static final int DEFUALT_PLAYER_PADDING = 3;
-	private static final int DEFUALT_TEXT_SIZE = 16;
-	private static final int DEFUALT_TEXT_COLOR = Color.GREEN;
-	private static final int DEFUALT_PROGRESS_WIDTH = 30;
-
+	private static final int DEFAULT_PLAYER_PADDING = 3;
+	private static final int DEFAULT_TEXT_SIZE = 16;
+	private static final int DEFAULT_TEXT_COLOR = Color.GREEN;
+	private static final int DEFAULT_PROGRESS_WIDTH = 30;
 	private static final int DEFAULT_VISIBILITY = View.GONE;
 
 	public static final int STATUS_CREATED = 0x01;
@@ -98,16 +95,16 @@ public class PlayWindowManager implements View.OnClickListener,
 		mWindowList = new ArrayList<PlayWindow>();
 		mGroupList = new ArrayList<PlayWindowGroup>();
 
-		playerPadding = DEFUALT_PLAYER_PADDING;
+		playerPadding = DEFAULT_PLAYER_PADDING;
 
 		// leftResId = DEFAULT_UI_RES;
 		// upResId = DEFAULT_UI_RES;
 		// rightResId = DEFAULT_UI_RES;
 		// bottomResId = DEFAULT_UI_RES;
 
-		progressWidth = DEFUALT_PROGRESS_WIDTH;
-		textSize = DEFUALT_TEXT_SIZE;
-		textColor = DEFUALT_TEXT_COLOR;
+		progressWidth = DEFAULT_PROGRESS_WIDTH;
+		textSize = DEFAULT_TEXT_SIZE;
+		textColor = DEFAULT_TEXT_COLOR;
 	}
 
 	private static class PlayWindowManagerContainer {
@@ -288,8 +285,7 @@ public class PlayWindowManager implements View.OnClickListener,
 	 * @param container
 	 *            包含中间提示文字的容器视图
 	 * @param viewId
-	 *            控件标识，参考 {@link PlayWindowManager#ID_BORDER}，
-	 *            {@link PlayWindowManager#ID_CONTROL_BOTTOM}，
+	 *            控件标识，参考 {@link PlayWindowManager#ID_CONTROL_BOTTOM}，
 	 *            {@link PlayWindowManager#ID_CONTROL_CENTER}，
 	 *            {@link PlayWindowManager#ID_CONTROL_LEFT}，
 	 *            {@link PlayWindowManager#ID_CONTROL_RIGHT}，
@@ -760,6 +756,7 @@ public class PlayWindowManager implements View.OnClickListener,
 				// [Neo] 播放视图
 				View player = mWindowGroupList.get(0).getChannel()
 						.getSurfaceView();
+
 				if (null != player) {
 					player.setId(BASE_ID
 							+ mWindowGroupList.get(0).getChannel().getIndex());
@@ -772,14 +769,12 @@ public class PlayWindowManager implements View.OnClickListener,
 							RelativeLayout.LayoutParams.MATCH_PARENT);
 					playerParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 					player.setLayoutParams(playerParams);
+					player.setVisibility(View.VISIBLE);
 
 					layout.addView(player);
-					player.setVisibility(View.VISIBLE);
-				} else {
-					MyLog.e(Consts.TAG_APP, "PWM.genPage, null player");
+					addCoverViews(layout);
 				}
 
-				addCoverViews(layout);
 				break;
 
 			case SCREEN_2:
@@ -950,7 +945,6 @@ public class PlayWindowManager implements View.OnClickListener,
 
 				for (int j = 0; j < cols; j++) {
 					RelativeLayout border = new RelativeLayout(mContext);
-					border.setId(ID_BORDER);
 					// [Neo] TODO background color
 					// border.setBackgroundColor(Color.BLACK);
 					border.setLayoutParams(horizontalLayoutParams);
@@ -958,27 +952,27 @@ public class PlayWindowManager implements View.OnClickListener,
 							playerPadding, playerPadding);
 
 					int index = i * cols + j;
+					Channel channel = mWindowGroupList.get(index).getChannel();
 
-					View player = mWindowGroupList.get(index).getChannel()
-							.getSurfaceView();
+					View player = channel.getSurfaceView();
 					if (null != player) {
-						player.setId(BASE_ID
-								+ mWindowGroupList.get(index).getChannel()
-										.getIndex());
-						player.setOnClickListener(PlayWindowManager
-								.getIntance(null));
-						player.setOnLongClickListener(PlayWindowManager
-								.getIntance(null));
+						if (channel.getIndex() >= 0) {
+							player.setId(BASE_ID + channel.getIndex());
+							player.setOnClickListener(PlayWindowManager
+									.getIntance(null));
+							player.setOnLongClickListener(PlayWindowManager
+									.getIntance(null));
+						}
+
 						player.setLayoutParams(playerLayoutParams);
-
-						border.addView(player);
 						player.setVisibility(View.VISIBLE);
-					} else {
-						MyLog.e(Consts.TAG_APP,
-								"PWM.genPlayerGridLayout, null player");
-					}
+						border.addView(player);
+						addCoverViews(border);
 
-					addCoverViews(border);
+						if (channel.getIndex() < 0) {
+							// [Neo] TODO not in service
+						}
+					}
 
 					ll.addView(border);
 				}
@@ -1015,27 +1009,27 @@ public class PlayWindowManager implements View.OnClickListener,
 		}
 
 		private SurfaceView genSurfaceView() {
-			final MyGestureDispatcher dispatcher = new MyGestureDispatcher(
-					new MyGestureDispatcher.OnGestureListener() {
-
-						@Override
-						public void onGesture(int direction) {
-							((OnUiListener) mContext).onGesture(direction);
-						}
-					});
-
 			SurfaceView view = new SurfaceView(mContext);
-			view.setOnTouchListener(new View.OnTouchListener() {
-
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					return dispatcher.motion(event);
-				}
-			});
 
 			if (index >= 0) {
-				SurfaceHolder holder = view.getHolder();
+				final MyGestureDispatcher dispatcher = new MyGestureDispatcher(
+						new MyGestureDispatcher.OnGestureListener() {
 
+							@Override
+							public void onGesture(int direction) {
+								((OnUiListener) mContext).onGesture(direction);
+							}
+						});
+
+				view.setOnTouchListener(new View.OnTouchListener() {
+
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						return dispatcher.motion(event);
+					}
+				});
+
+				SurfaceHolder holder = view.getHolder();
 				holder.addCallback(new SurfaceHolder.Callback() {
 					@Override
 					public void surfaceDestroyed(SurfaceHolder holder) {

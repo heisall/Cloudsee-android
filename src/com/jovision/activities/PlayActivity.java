@@ -189,7 +189,7 @@ public abstract class PlayActivity extends BaseActivity {
 		rightFuncButton.setVisibility(View.GONE);
 
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		
+
 		selectScreenNum = (ImageView) findViewById(R.id.selectscreen);
 		alarmRecordDrawableTop = getResources().getDrawable(
 				R.drawable.record_alarm);
@@ -226,7 +226,8 @@ public abstract class PlayActivity extends BaseActivity {
 
 		topBarH = (RelativeLayout) horPlayBarLayout.findViewById(R.id.topbarh);
 		left_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_left);// 横屏返回键
-		currentMenu_h = (TextView) horPlayBarLayout.findViewById(R.id.currentmenu);
+		currentMenu_h = (TextView) horPlayBarLayout
+				.findViewById(R.id.currentmenu);
 		right_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_right);// 横屏手动录像，报警录像键
 		right_btn_h.setVisibility(View.GONE);
 		topBarH.setBackgroundColor(getResources().getColor(

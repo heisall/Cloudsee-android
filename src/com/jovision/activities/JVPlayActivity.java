@@ -99,7 +99,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		switch (what) {
 		case Consts.CALL_CONNECT_CHANGE: {
-			Log.i("TAG", channelList.size()+"size"+arg1);
+			MyLog.i("TAG", channelList.size() + "size" + arg1);
 			Channel channel = channelList.get(arg1);
 			if (null == channel) {
 				return;
@@ -1361,7 +1361,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 					@Override
 					public void run() {
-						connect(deviceList.get(0), channel, false, false, false);
+						connect(channel.getParent(), channel, false, false,
+								false);
 					}
 
 				}.start();

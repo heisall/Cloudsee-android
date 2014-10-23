@@ -360,7 +360,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			} else {
 				mActivity.showTextToast(R.string.del_alarm_failed);
 			}
-			
+
 			((BaseActivity) mActivity).dismissDialog();
 		}
 

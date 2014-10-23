@@ -300,7 +300,8 @@ public class AlarmUtil {
 									// "ainfo":[{"aguid":"bff9ff1eaa772acf47f2d0043990f777",
 									// "asln":0,"dguid":"S90252170","dname":"HD IPC","dcn":1,"atype":7,
 									// "apic":".\/rec\/00\/20141014\/A01092715.jpg","avd":"1413278835","ats":1413278835},}
-
+									pi.deviceNickName = obj
+											.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 									pi.strGUID = obj
 											.optString(JVAlarmConst.JK_ALARM_NEW_GUID);
 									pi.ystNum = obj
@@ -321,7 +322,8 @@ public class AlarmUtil {
 									MyLog.e("报警ID---strGUID---", pi.strGUID
 											+ "");
 									MyLog.e("报警时间---alarmTime---", pi.alarmTime
-											+ "");
+
+									+ "");
 									pi.deviceName = obj
 											.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 									pi.pic = obj
@@ -388,7 +390,7 @@ public class AlarmUtil {
 		MyLog.v("deleteAlarmInfo", jObj.toString());
 		// 接收返回数据
 		byte[] resultStr = new byte[1024 * 2];
-		JVACCOUNT.GetResponseByRequestShortConnectionServer(ALARMTAG,
+		JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
 		String result = new String(resultStr);
 
@@ -399,7 +401,7 @@ public class AlarmUtil {
 					// int mid = temObj.optInt(JVAlarmConst.JK_ALARM_MID);
 					// String guid =
 					// temObj.optString(JVAlarmConst.JK_ALARM_GUID);
-					deleteRes = temObj.optInt(JVAlarmConst.JK_ALARM_OPTFLAG);
+					deleteRes = temObj.optInt(JVAlarmConst.JK_ALARM_NEW_RT);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

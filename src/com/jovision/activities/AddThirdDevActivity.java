@@ -264,18 +264,22 @@ public class AddThirdDevActivity extends BaseActivity implements
 				break;
 			case JVNetConst.ABNORMAL_DISCONNECT:
 			case JVNetConst.SERVICE_STOP:
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
 				bConnectedFlag = false;
 				showTextToast(R.string.str_alarm_connect_except);
 				break;
 			default:
+				if (dialog != null && dialog.isShowing())
+					dialog.dismiss();
 				bConnectedFlag = false;
 				break;
 			}
 			;
 			break;
 		case Consts.CALL_TEXT_DATA: {
-			myHandler.removeMessages(JVNetConst.JVN_REQ_TEXT);
-			myHandler.removeMessages(JVNetConst.JVN_RSP_TEXTDATA);
+			// myHandler.removeMessages(JVNetConst.JVN_REQ_TEXT);
+			// myHandler.removeMessages(JVNetConst.JVN_RSP_TEXTDATA);
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本请求后才发送请求,这里要区分出是添加还是最后的绑定昵称
 				bNeedSendTextReq = false;

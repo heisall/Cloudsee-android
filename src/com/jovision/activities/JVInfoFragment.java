@@ -251,7 +251,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 								.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
 						//
 						// pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
-						pi.deviceNickName = pi.ystNum;
+						pi.deviceNickName = obj
+								.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 						pi.alarmType = obj
 								.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
 						pi.timestamp = obj
@@ -305,8 +306,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			break;
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-			AlarmDialog.getInstance(getActivity()).Show(obj.toString(), arg1);// arg1
-																				// 是报警类型
+			AlarmDialog.getInstance(getActivity()).Show(obj);
+
 			break;
 		default:
 			break;
@@ -339,7 +340,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			if (result > 0) {
+			if (result == 0) {
 				String deleteGuid = pushList.get(pushIndex).strGUID;
 				boolean doDelete = false;
 				for (int i = 0; i < pushList.size(); i++) {

@@ -137,7 +137,7 @@ public class PushAdapter extends BaseAdapter {
 				try {
 					viewHolder.alarmTitle.setText(alarmArray[pushList
 							.get(position).alarmType].replace("%%",
-							pushList.get(position).ystNum));
+							pushList.get(position).deviceNickName));
 				} catch (Exception e) {
 					viewHolder.alarmTitle.setText("");
 				}

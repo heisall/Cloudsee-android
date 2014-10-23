@@ -294,8 +294,8 @@ public class Consts {
 
 	public static final String KEY_LAST_PUT_STAMP = "last_put_stamp";
 
-	public static final String BO_ID = "d6mhYSnBpnv26S7aCo0GwcxX";
-	public static final String BO_SECRET = "D9t2XqYQgH92eVGzlW30Pw9ZrRtqKpPs";
+	public static final String BO_ID = "";
+	public static final String BO_SECRET = "";
 
 	public static final int RC_GPIN_ADD = 0x10; // 外设报警添加
 	public static final int RC_GPIN_SET = 0x11; // 外设报警设置

@@ -41,7 +41,7 @@ public class Device {
 	/** 设备密码 */
 	private String pwd;
 	/** 是否是家用产品 */
-	private boolean isHomeProduct;// true 家用 ，false 非家用
+	private boolean isHomeProduct;// true IPC ，false 非IPC
 
 	private boolean isHelperEnabled;
 	/** 设备类型 */

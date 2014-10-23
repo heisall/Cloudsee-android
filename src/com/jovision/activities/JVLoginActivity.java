@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import android.test.JVACCOUNT;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -125,7 +124,6 @@ public class JVLoginActivity extends BaseActivity {
 		registBtn.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
 		registBtn.getPaint().setAntiAlias(true);
 
-		Log.i("TAG", getIntent().getStringExtra("UserName") + "aaaaaaaaaa");
 		if (null != getIntent().getStringExtra("UserName")) {
 			userNameET.setText(getIntent().getStringExtra("UserName"));
 		} else {

@@ -42,6 +42,7 @@
                 android:background="@drawable/editimport"
                 android:paddingLeft="10dp"
                 android:text=""
+                android:singleLine="true"
                 android:textColor="@color/leftdevicecolor"
                 android:textSize="18sp"
                 android:textStyle="normal" />
@@ -70,6 +71,7 @@
                 android:inputType="textVisiblePassword"
                 android:paddingLeft="10dp"
                 android:text="abc"
+                android:singleLine="true"
                 android:textColor="@color/leftdevicecolor"
                 android:textSize="18sp" />
         </TableRow>
@@ -97,6 +99,7 @@
                 android:paddingLeft="10dp"
                 android:password="true"
                 android:text="123"
+                android:singleLine="true"
                 android:textColor="@color/leftdevicecolor"
                 android:textSize="18sp" />
         </TableRow>

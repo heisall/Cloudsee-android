@@ -86,6 +86,8 @@
     <string name="login_str_group_pid">parent group number</string>
     <string name="login_str_edit">Edit</string>
     <string name="login_str_delete">Delete</string>
+    <string name="user_name">"账号名称"</string>
+    <string name="last_time">最后一次登录时间：</string>
     <string name="login_str_user_name_2">Username</string>
     <string name="login_str_user_pass">Password</string>
     <string name="login_str_user_email">Email</string>
@@ -110,6 +112,7 @@
     <string name="str_screen"> channels</string>
     <string name="str_video_play">Video Display</string>
     <string name="str_audio_monitor">Audio</string>
+    <string name="str_audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
     <string name="str_yt_operate">PTZ Control</string>
     <string name="str_remote_playback">Play back</string>
     <string name="str_audio_monitor_tips">Learn audio info at any time</string>
@@ -120,6 +123,7 @@
     <string name="str_wait_connect">This operation is only available when video connected</string>
     <string name="str_wait_stop_connect">This operation is only available when video disconnected</string>
     <string name="str_forbidden_operation">Unable to use this function during remote playback.</string>
+    <string name="str_not_support_remoteplay">该设备在远程回放时暂停使用</string>
     <string name="str_picture_savepath">Capture is kept in </string>
     <string name="str_capture">Capture</string>
     <string name="str_voice">Megaphone</string>
@@ -130,6 +134,7 @@
     <string name="str_capture_error3">文件打开失败</string>
     <string name="str_switch_video">Switching to video now...</string>
     <string name="str_has_call">Another client is using Cloud Talk function, please use this function later.</string>
+    <string name="str_call_close"> 对讲功能成功关闭</string>
     <string name="str_play_failed"> play the video failed</string>
     <!-- 更多功能 -->
     <string name="str_more_features">More function</string>
@@ -179,6 +184,7 @@
     <string name="net_errors"> Reasons maybe:\n1.wrong password for router;\n2.unable to get IP address from router, please check router;\n3.Wi-Fi function of mobile phone abnormal.</string>
     <string name="str_quick_setting_new_dev">New version found</string>
     <string name="str_quick_setting_new_dev_tips">You are unable to use the latest functions due to version is not the latest.Suggest you update the camera software over to version V1.1.0.31.</string>
+        <string name="str_quick_setting_devupdate_order">设备升级教程</string>
     <string name="str_quick_setting_update">Update</string>
     <!-- 注册 -->
     <string name="str_enter_username">Email/Username</string>
@@ -222,6 +228,8 @@
     <string name="login_str_searching_device">The device is being searched\nWait a moment...</string>
     <string name="login_str_search_nodevice">The device is not searched,please check Wi-Fi</string>
     <string name="str_local_login">Visitor Login</string>
+    <string name="str_offline_keeponline_success">保持在线成功!</string>
+    <string name="str_offline_keeponline_failed">保持在线失败!</string>
     <string name="str_offline_keeponline">Maintain</string>
     <string name="str_userpass_error">Wrong username or password, please input again.</string>
     <string name="str_net_error">Connection failed, please verify again.</string>
@@ -312,10 +320,25 @@
     <string name="str_exiting_now">Disconnecting now Please wait...</string>
     <string name="str_no_response_data">Network connection exception,please login again.</string>
     <string name="str_change_video_type">Switch video standard,Records re-packed.</string>
+    <string name="str_device">Device</string>
+    <string name="str_device_name">A361</string>
     <!-- 设备管理 -->
+    <string name="str_quick_setting_nextstep">Next</string>
+    <string name="str_quick_setting_neterror">连接网络超时，请检查.</string>
     <string name="str_quick_setting">Quickset</string>
     <string name="str_quick_setting_alert_nowifi">Failed to find the device</string>
     <string name="str_quick_setting_alert_wifiinfo">1 device found, go to configure it?</string>
+    <string name="str_quick_setting_searching_wifi">正在搜索附近设备网络</string>
+    <string name="str_quick_setting_now">正在配置</string>
+    <string name="str_quick_setting_now_1">正在连接网络</string>
+    <string name="str_quick_setting_now_2">正在连接设备的AP网络</string>
+    <string name="str_quick_setting_now_4">正在获取基本信息</string>
+    <string name="str_quick_setting_now_5">正在发送配置信息</string>
+    <string name="str_dev_try_online">设备正在努力上线!</string>
+    <string name="str_online_succ">设备上线成功!</string>
+    <string name="str_online_fail">设备上线失败!</string>
+    <string name="str_try_again">重试</string>
+    <string name="str_no_voice_way">还未取到单双向对讲标识</string>
     <string name="str_quick_setting_alert_2">Connecting with device now</string>
     <string name="str_quick_setting_alert_3">Connected successfully, asking for text info now</string>
     <string name="str_quick_setting_alert_4">Asking for Wi-Fi list of host-end</string>
@@ -332,6 +355,7 @@
     <string name="str_quick_setting_reset">Configure again</string>
     <string name="str_wifi_reset_succ">Network recovered successfuly</string>
     <string name="str_device_manage">Device Manager</string>
+        <string name="str_wifi_reset_fail">网络恢复失败</string>
     <string name="str_user_setting">User Setting</string>
     <string name="str_remote_setting">Remote Setting</string>
     <string name="str_connect_mode">Link Mode</string>
@@ -394,6 +418,7 @@
     <string name="str_send_success">Sent successfully,thanks for your feedback!</string>
     <string name="str_wifi_pwd">12345678</string>
     <string name="login_str_ipadress_format_err">IP is invalid, please modify</string>
+    <string name="login_str_domain_format_err">域名解析失败</string>
     <string name="login_str_port_notnull">Please input the port</string>
     <string name="login_str_port_format_err">Wrong Port number</string>
     <string name="login_str_ip_adress_notnull">Please input IP.</string>
@@ -444,6 +469,7 @@
     <string name="video_edit">视频编辑</string>
     <string name="more_featrue">更多功能</string>
     <string name="more_modifypwd">修改密码</string>
+    <string name="more_modify">修改资料</string>
     <string name="channal_list">通道列表</string>
     <string name="channalmanager">通道管理</string>
     <string name="demo_list">演示点列表</string>
@@ -451,6 +477,7 @@
     <string name="video_list">视频列表</string>
     <string name="video_manager">视频管理</string>
     <string name="message">系统消息</string>
+    <string name="start_now">Enjoy it now</string>
 
     <!-- 2.3系统视频播放提示 -->
     <string name="system_lower">您的手机系统是Android$,视频播放时有可能出现花屏，为达到最佳播放效果，建议下载2.8.5版本，是否立即下载?</string>
@@ -481,7 +508,7 @@
 
     <!-- JVMyDeviceFragment -->
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
-    <string name="str_modify">修改</string>
+    <string name="str_modify">Modify</string>
     <string name="end_list">已到最后</string>
     <string name="str_update">当前设备已全部更新</string>
     <string name="del_device_succ">Device deleted successfully</string>
@@ -559,18 +586,18 @@
     <!-- Help -->
     <string name="str_help_zero">展开多种方式添加设备</string>
     <string name="str_help_one">远程配置IPC设备的网络和码流</string>
-    <string name="str_help_two">添加、修改、删除设备</string>
+    <string name="str_help_two">修改、删除设备</string>
     <string name="str_help_three">切换IP直连和云视通连接模式</string>
     <string name="str_help_four">添加、修改、删除通道</string>
     <string name="str_help_five">添加报警设备</string>
     <!-- Dialog -->
-    <string name="save">保存</string>
-    <string name="cancle">取消</string>
-    <string name="delect">删除</string>
-    <string name="str_devicename">设  备  号</string>
-    <string name="str_username"> 用 户 名</string>
-    <string name="str_password">密   码 </string>
-    <string name="str_nicknametwo">昵   称 </string>
+    <string name="save">Save</string>
+    <string name="cancle">Cancle</string>
+    <string name="delect">Delect</string>
+    <string name="str_devicename">Device Number</string>
+    <string name="str_username"> Username</string>
+    <string name="str_password">Password </string>
+    <string name="str_nicknametwo">Nickname </string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
     <string name="str_yst_connect">CloudSEE</string>

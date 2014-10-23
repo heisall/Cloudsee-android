@@ -3,6 +3,7 @@ package com.jovision.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -145,6 +146,8 @@ public class JVBoundEmailActivity extends BaseActivity {
 				e.printStackTrace();
 			}
 
+			Log.i("TAG", bindRes+"sdadasd"+userEmailEditText
+					.getText().toString());
 			return bindRes;
 		}
 

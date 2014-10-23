@@ -111,12 +111,6 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 				} else if (!ConfigUtil.checkDeviceUsername(userString)) {
 					JVAddIpDeviceActivity.this
 							.showTextToast(R.string.login_str_device_account_error);
-				} else if ("".equalsIgnoreCase(pwdString)) {
-					JVAddIpDeviceActivity.this
-							.showTextToast(R.string.login_str_device_pass_notnull);
-				} else if (!ConfigUtil.checkDevicePwd(pwdString)) {
-					JVAddIpDeviceActivity.this
-							.showTextToast(R.string.login_str_device_pass_error);
 				} else if (hasDev(ipString)) {// 已经添加过该设备
 					ipAddressEdt.setText("");
 					showTextToast(R.string.str_device_exsit);

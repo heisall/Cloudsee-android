@@ -278,7 +278,6 @@ public class JVTabActivity extends ShakeActivity implements
 						break;
 					case 2:
 						myDeviceList = CacheUtil.getDevList();
-						Log.i("TAG", myDeviceList.size() + "输啦@");
 						if (0 != myDeviceList.size()) {
 							if (!page1
 									&& !MySharedPreference.getBoolean("page1")) {

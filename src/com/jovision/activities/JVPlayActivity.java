@@ -936,8 +936,12 @@ public class JVPlayActivity extends PlayActivity implements
 					ArrayList<Channel> lastList = manager
 							.getValidChannelList(lastItemIndex);
 					size = lastList.size();
+					Channel channel = null;
 					for (int i = 0; i < size; i++) {
-						Jni.disconnect(lastList.get(i).getIndex());
+						channel = lastList.get(i);
+						if (channel.isConnected()) {
+							Jni.disconnect(channel.getIndex());
+						}
 					}
 				} else {
 					try {
@@ -1087,9 +1091,9 @@ public class JVPlayActivity extends PlayActivity implements
 				// loadingState(channel.getIndex(), R.string.connecting,
 				// JVConst.PLAY_CONNECTTED);
 				if (connect(channel.getParent(), channel, true, false, false)) {
-
 					channel.setPaused(false);
 					result = true;
+					// [Neo] TODO add connect info
 				}
 			} else if (channel.isPaused() && null != channel.getSurface()) {
 				// loadingState(channel.getIndex(), R.string.connecting_buffer,
@@ -1099,6 +1103,7 @@ public class JVPlayActivity extends PlayActivity implements
 					Jni.sendBytes(channel.getIndex(), JVNetConst.JVN_CMD_VIDEO,
 							new byte[0], 8);
 					channel.setPaused(false);
+					// [Neo] TODO add resume info
 
 					// [Neo] TODO
 					viewPager.setDisableSliding(false);
@@ -1116,10 +1121,10 @@ public class JVPlayActivity extends PlayActivity implements
 		if (null != channel) {
 			if (channel.isConnected()) {
 				if (false == channel.isPaused()) {
+					channel.setPaused(true);
 					result = Jni.pause(channel.getIndex());
 
 					if (result) {
-						channel.setPaused(true);
 						Jni.sendBytes(channel.getIndex(),
 								JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
 					}
@@ -1175,7 +1180,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 			handler.sendMessage(handler.obtainMessage(
 					JVConst.WHAT_STARTING_CONNECT, channel.getIndex(), 0));
-			channel.setConnected(true);
 
 			if (null != ssid
 					&& channel.getParent().getFullNo().equalsIgnoreCase(ssid)) {
@@ -1208,6 +1212,8 @@ public class JVPlayActivity extends PlayActivity implements
 							null, isTryOmx);
 					channel.setPaused(true);
 				}
+
+				channel.setConnected(true);
 
 			}
 
@@ -1245,11 +1251,12 @@ public class JVPlayActivity extends PlayActivity implements
 						@Override
 						public void run() {
 							int size = channelList.size();
+							Channel channel = null;
 							for (int i = 0; i < size; i++) {
-								if (lastClickIndex != channelList.get(i)
-										.getIndex()) {
-									Jni.disconnect(channelList.get(i)
-											.getIndex());
+								channel = channelList.get(i);
+								if (channel.isConnected()
+										&& lastClickIndex != channel.getIndex()) {
+									Jni.disconnect(channel.getIndex());
 								}
 							}
 						}

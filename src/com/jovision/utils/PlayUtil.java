@@ -3,7 +3,6 @@ package com.jovision.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +22,6 @@ import com.jovision.activities.BaseActivity;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.bean.RemoteVideo;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -489,147 +487,149 @@ public class PlayUtil {
 		return isEnable;
 	}
 
-	/**
-	 * 暂停继续播对应视频
-	 * 
-	 * @param currentScreen
-	 *            当前分屏
-	 * @param currentPage
-	 *            当前页
-	 * @param channelMap
-	 *            存放channel的集合
-	 */
-	public static void disAndPause(int currentScreen, int currentPage,
-			HashMap<Integer, Channel> channelMap) {
-
-		MyLog.v(TAG, "disAndPause--E--currentScreen=" + currentScreen
-				+ "currentPage=" + currentPage);
-		int start = 0;
-		int end = 4;
-		if (currentScreen == 1) {// 单屏
-			start = 0;
-			end = 4;
-		} else {
-			start = currentPage * currentScreen;
-			end = (currentPage + 1) * currentScreen;
-		}
-
-		if (null == channelMap) {
-			return;
-		}
-		try {
-			// 单屏
-			if (currentScreen == 1) {
-				for (int key : channelMap.keySet()) {
-					Channel channel = channelMap.get(key);
-					if (null == channel) {
-						continue;
-					}
-
-					if (key >= 4) {// 多屏切到单屏需断开多余的
-						// 断开连接
-						MyLog.v(TAG, "--" + channel.getIndex() + "不在范围内--"
-								+ "断开视频");
-						channel.setPause(false);
-						Jni.disconnect(channel.getIndex());
-
-					} else {
-						if (channel.isConnecting()) {// 正在连接调断开
-							MyLog.v(TAG, "--" + channel.getIndex() + "在范围内--"
-									+ "正在连接调断开");
-							channel.setPause(false);
-							Jni.disconnect(channel.getIndex());
-						} else if (channel.isConnected() && !channel.isPause()) {// 已连接的,非暂停的，需要发暂停
-							MyLog.v(TAG, "--" + channel.getIndex() + "在范围内--"
-									+ "暂停视频");
-							channel.setPause(true);
-							// 暂停视频
-							Jni.sendBytes(channel.getIndex(),
-									(byte) JVNetConst.JVN_CMD_VIDEOPAUSE,
-									new byte[0], 8);
-
-						}
-					}
-
-				}
-			} else {
-				for (int key : channelMap.keySet()) {
-					// int flag = 0;
-					Channel channel = channelMap.get(key);
-					if (null == channel) {
-						continue;
-					}
-					if (channel.getIndex() >= start && channel.getIndex() < end) {
-						if (channel.isConnecting()) {// 正在连接调断开
-							MyLog.v(TAG, "--" + channel.getIndex() + "在范围内--"
-									+ "正在连接调断开");
-							channel.setPause(false);
-							Jni.disconnect(channel.getIndex());
-						} else if (channel.isConnected() && !channel.isPause()) {// 已连接的,非暂停的，需要发暂停
-							MyLog.v(TAG, "--" + channel.getIndex() + "在范围内--"
-									+ "暂停视频");
-							channel.setPause(true);
-							// 暂停视频
-							Jni.sendBytes(channel.getIndex(),
-									(byte) JVNetConst.JVN_CMD_VIDEOPAUSE,
-									new byte[0], 8);
-						}
-					} else {
-						if (channel.isConnected() || channel.isConnecting()) {// 已连接的，需要断开
-							MyLog.v(TAG, "--" + channel.getIndex() + "不在范围内--"
-									+ "断开视频");
-							channel.setPause(false);
-							// 断开连接
-							Jni.disconnect(channel.getIndex());
-						}
-					}
-
-					// // 在map中找到在这个要连接的范围内的
-					// if (channel.isConnected()) {
-					// for (int i = start; i < end; i++) {
-					// if (channel.getIndex() == i) {
-					// // if (channel.isConnecting()) {// 正在连接调断开
-					// // MyLog.v(TAG, "--" + channel.getIndex()
-					// // + "在范围内--" + "正在连接调断开");
-					// // channel.setPause(false);
-					// // Jni.disconnect(channel.getIndex());
-					// // } else if (channel.isConnected()
-					// // && !channel.isPause()) {// 已连接的,非暂停的，需要发暂停
-					// // MyLog.v(TAG, "--" + channel.getIndex()
-					// // + "在范围内--" + "暂停视频");
-					// // channel.setPause(true);
-					// // // 暂停视频
-					// // Jni.sendBytes(
-					// // channel.getIndex(),
-					// // (byte) JVNetConst.JVN_CMD_VIDEOPAUSE,
-					// // new byte[0], 8);
-					// // }
-					// flag = 1;
-					// break;
-					// }
-					// }
-					// }
-					// // 找不到在这个范围内的
-					// if (0 == flag) {
-					// if (channel.isConnected() || channel.isConnecting()) {//
-					// 已连接的，需要断开
-					// MyLog.v(TAG, "--" + channel.getIndex() + "不在范围内--"
-					// + "断开视频");
-					// channel.setPause(false);
-					// // 断开连接
-					// Jni.disconnect(channel.getIndex());
-					// }
-					// }
-
-				}
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		MyLog.v(TAG, "disAndPause--X");
-	}
+	// /**
+	// * 暂停继续播对应视频
+	// *
+	// * @param currentScreen
+	// * 当前分屏
+	// * @param currentPage
+	// * 当前页
+	// * @param channelMap
+	// * 存放channel的集合
+	// */
+	// public static void disAndPause(int currentScreen, int currentPage,
+	// HashMap<Integer, Channel> channelMap) {
+	//
+	// MyLog.v(TAG, "disAndPause--E--currentScreen=" + currentScreen
+	// + "currentPage=" + currentPage);
+	// int start = 0;
+	// int end = 4;
+	// if (currentScreen == 1) {// 单屏
+	// start = 0;
+	// end = 4;
+	// } else {
+	// start = currentPage * currentScreen;
+	// end = (currentPage + 1) * currentScreen;
+	// }
+	//
+	// if (null == channelMap) {
+	// return;
+	// }
+	// try {
+	// // 单屏
+	// if (currentScreen == 1) {
+	// for (int key : channelMap.keySet()) {
+	// Channel channel = channelMap.get(key);
+	// if (null == channel) {
+	// continue;
+	// }
+	//
+	// if (key >= 4) {// 多屏切到单屏需断开多余的
+	// // 断开连接
+	// MyLog.v(TAG, "--" + channel.getIndex() + "不在范围内--"
+	// + "断开视频");
+	// channel.setPause(false);
+	// Jni.disconnect(channel.getIndex());
+	//
+	// } else {
+	// if (channel.isConnecting()) {// 正在连接调断开
+	// MyLog.v(TAG, "--" + channel.getIndex() + "在范围内--"
+	// + "正在连接调断开");
+	// channel.setPause(false);
+	// Jni.disconnect(channel.getIndex());
+	// } else if (channel.isConnected() && !channel.isPause()) {//
+	// 已连接的,非暂停的，需要发暂停
+	// MyLog.v(TAG, "--" + channel.getIndex() + "在范围内--"
+	// + "暂停视频");
+	// channel.setPause(true);
+	// // 暂停视频
+	// Jni.sendBytes(channel.getIndex(),
+	// (byte) JVNetConst.JVN_CMD_VIDEOPAUSE,
+	// new byte[0], 8);
+	//
+	// }
+	// }
+	//
+	// }
+	// } else {
+	// for (int key : channelMap.keySet()) {
+	// // int flag = 0;
+	// Channel channel = channelMap.get(key);
+	// if (null == channel) {
+	// continue;
+	// }
+	// if (channel.getIndex() >= start && channel.getIndex() < end) {
+	// if (channel.isConnecting()) {// 正在连接调断开
+	// MyLog.v(TAG, "--" + channel.getIndex() + "在范围内--"
+	// + "正在连接调断开");
+	// channel.setPause(false);
+	// Jni.disconnect(channel.getIndex());
+	// } else if (channel.isConnected() && !channel.isPause()) {//
+	// 已连接的,非暂停的，需要发暂停
+	// MyLog.v(TAG, "--" + channel.getIndex() + "在范围内--"
+	// + "暂停视频");
+	// channel.setPause(true);
+	// // 暂停视频
+	// Jni.sendBytes(channel.getIndex(),
+	// (byte) JVNetConst.JVN_CMD_VIDEOPAUSE,
+	// new byte[0], 8);
+	// }
+	// } else {
+	// if (channel.isConnected() || channel.isConnecting()) {// 已连接的，需要断开
+	// MyLog.v(TAG, "--" + channel.getIndex() + "不在范围内--"
+	// + "断开视频");
+	// channel.setPause(false);
+	// // 断开连接
+	// Jni.disconnect(channel.getIndex());
+	// }
+	// }
+	//
+	// // // 在map中找到在这个要连接的范围内的
+	// // if (channel.isConnected()) {
+	// // for (int i = start; i < end; i++) {
+	// // if (channel.getIndex() == i) {
+	// // // if (channel.isConnecting()) {// 正在连接调断开
+	// // // MyLog.v(TAG, "--" + channel.getIndex()
+	// // // + "在范围内--" + "正在连接调断开");
+	// // // channel.setPause(false);
+	// // // Jni.disconnect(channel.getIndex());
+	// // // } else if (channel.isConnected()
+	// // // && !channel.isPause()) {// 已连接的,非暂停的，需要发暂停
+	// // // MyLog.v(TAG, "--" + channel.getIndex()
+	// // // + "在范围内--" + "暂停视频");
+	// // // channel.setPause(true);
+	// // // // 暂停视频
+	// // // Jni.sendBytes(
+	// // // channel.getIndex(),
+	// // // (byte) JVNetConst.JVN_CMD_VIDEOPAUSE,
+	// // // new byte[0], 8);
+	// // // }
+	// // flag = 1;
+	// // break;
+	// // }
+	// // }
+	// // }
+	// // // 找不到在这个范围内的
+	// // if (0 == flag) {
+	// // if (channel.isConnected() || channel.isConnecting()) {//
+	// // 已连接的，需要断开
+	// // MyLog.v(TAG, "--" + channel.getIndex() + "不在范围内--"
+	// // + "断开视频");
+	// // channel.setPause(false);
+	// // // 断开连接
+	// // Jni.disconnect(channel.getIndex());
+	// // }
+	// // }
+	//
+	// }
+	// }
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	//
+	// MyLog.v(TAG, "disAndPause--X");
+	// }
 
 	/**
 	 * 断开所有视频
@@ -676,100 +676,100 @@ public class PlayUtil {
 		}
 	}
 
-	/**
-	 * 暂停所有
-	 * 
-	 * @param channelList
-	 */
-	public static void pauseAll(ArrayList<Channel> channelList) {
-		try {
-			// ArrayList<Channel> channelList = manager
-			// .getValidChannelList(currentPage);
-			int size = channelList.size();
-			for (int i = 0; i < size; i++) {
-				Channel channel = channelList.get(i);
-				if (channel.isConnected()) {// 已连接上的发暂停
-					channel.setPause(true);
-					// 暂停视频
-					Jni.sendBytes(channelList.get(i).getIndex(),
-							(byte) JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0],
-							8);
-					// loadingState(channelList.get(i).getIndex(),
-					// R.string.paused, JVConst.PLAY_DIS_CONNECTTED);
-				} else if (channel.isConnecting()) {// 正在连接调断开
-					channel.setPause(false);
-					Jni.disconnect(channel.getIndex());
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	// /**
+	// * 暂停所有
+	// *
+	// * @param channelList
+	// */
+	// public static void pauseAll(ArrayList<Channel> channelList) {
+	// try {
+	// // ArrayList<Channel> channelList = manager
+	// // .getValidChannelList(currentPage);
+	// int size = channelList.size();
+	// for (int i = 0; i < size; i++) {
+	// Channel channel = channelList.get(i);
+	// if (channel.isConnected()) {// 已连接上的发暂停
+	// channel.setPause(true);
+	// // 暂停视频
+	// Jni.sendBytes(channelList.get(i).getIndex(),
+	// (byte) JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0],
+	// 8);
+	// // loadingState(channelList.get(i).getIndex(),
+	// // R.string.paused, JVConst.PLAY_DIS_CONNECTTED);
+	// } else if (channel.isConnecting()) {// 正在连接调断开
+	// channel.setPause(false);
+	// Jni.disconnect(channel.getIndex());
+	// }
+	// }
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
 
-	/**
-	 * resume所有
-	 * 
-	 * @param channelList
-	 */
-	public static void resumeAll(final ArrayList<Channel> channelList,
-			final boolean isOmx, final String ssid) {
-		try {
-			Thread connectThread = new Thread() {
-				@Override
-				public void run() {
-					if (null != channelList && 0 != channelList.size()) {
-						int size = channelList.size();
-						for (int i = 0; i < size; i++) {
-							Channel channel = channelList.get(i);
-							if (channel.isPause()) {
-								channel.setPause(false);
-								// 继续播放视频
-								Jni.sendBytes(channelList.get(i).getIndex(),
-										(byte) JVNetConst.JVN_CMD_VIDEO,
-										new byte[0], 8);
-							} else if (!channel.isConnected()) {
-								// 调用视频连接
-								try {
-									Thread.sleep(500);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-								channel.setPause(false);
-								connect(channel, isOmx, ssid);
-							}
-						}
-					}
-					super.run();
-				}
-
-			};
-			connectThread.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		// try {
-		// int size = channelList.size();
-		// for (int i = 0; i < size; i++) {
-		// Channel channel = channelList.get(i);
-		// if (channel.isPause()) {
-		// channel.setPause(false);
-		// // 继续播放视频
-		// Jni.sendBytes(channelList.get(i).getIndex(),
-		// (byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
-		// // loadingState(channelList.get(i).getIndex(),
-		// // R.string.connecting_buffer,
-		// // JVConst.PLAY_CONNECTING_BUFFER);
-		// } else if (!channel.isConnected()) {
-		// // 调用视频连接
-		// channel.setPause(false);
-		// connect(channel.getParent(), channel.getChannel());
-		// }
-		// }
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-	}
+	// /**
+	// * resume所有
+	// *
+	// * @param channelList
+	// */
+	// public static void resumeAll(final ArrayList<Channel> channelList,
+	// final boolean isOmx, final String ssid) {
+	// try {
+	// Thread connectThread = new Thread() {
+	// @Override
+	// public void run() {
+	// if (null != channelList && 0 != channelList.size()) {
+	// int size = channelList.size();
+	// for (int i = 0; i < size; i++) {
+	// Channel channel = channelList.get(i);
+	// if (channel.isPause()) {
+	// channel.setPause(false);
+	// // 继续播放视频
+	// Jni.sendBytes(channelList.get(i).getIndex(),
+	// (byte) JVNetConst.JVN_CMD_VIDEO,
+	// new byte[0], 8);
+	// } else if (!channel.isConnected()) {
+	// // 调用视频连接
+	// try {
+	// Thread.sleep(500);
+	// } catch (InterruptedException e) {
+	// e.printStackTrace();
+	// }
+	// channel.setPause(false);
+	// connect(channel, isOmx, ssid);
+	// }
+	// }
+	// }
+	// super.run();
+	// }
+	//
+	// };
+	// connectThread.start();
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	//
+	// // try {
+	// // int size = channelList.size();
+	// // for (int i = 0; i < size; i++) {
+	// // Channel channel = channelList.get(i);
+	// // if (channel.isPause()) {
+	// // channel.setPause(false);
+	// // // 继续播放视频
+	// // Jni.sendBytes(channelList.get(i).getIndex(),
+	// // (byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
+	// // // loadingState(channelList.get(i).getIndex(),
+	// // // R.string.connecting_buffer,
+	// // // JVConst.PLAY_CONNECTING_BUFFER);
+	// // } else if (!channel.isConnected()) {
+	// // // 调用视频连接
+	// // channel.setPause(false);
+	// // connect(channel.getParent(), channel.getChannel());
+	// // }
+	// // }
+	// // } catch (Exception e) {
+	// // e.printStackTrace();
+	// // }
+	// }
 
 	public static void prepareConnect(ArrayList<Device> deviceList,
 			int deviceIndex) {
@@ -790,117 +790,117 @@ public class PlayUtil {
 		}
 	}
 
-	/**
-	 * 视频连接
-	 * 
-	 * @param device
-	 * @param index
-	 *            ,设备的通道索引
-	 */
-	public static void connect(Channel channel, boolean isOmx, String ssid) {
-		try {
-			if (null != channel) {
-				Device device = channel.getParent();
-
-				// 如果是域名添加的设备需要先去解析IP
-				if (2 == device.getIsDevice()) {
-					device.setIp(ConfigUtil.getInetAddress(device.getDoMain()));
-				}
-
-				// MyLog.e(TAG, "device=" + device.hashCode() + "--index=" +
-				// index);
-				// Channel channel = device.getChannelList().get(index);
-				if (null != channel) {
-					MyLog.v(TAG, channel.getIndex() + "");
-					((MainApplication) mContext.getApplicationContext())
-							.onNotify(JVConst.WHAT_STARTING_CONNECT,
-									channel.getIndex(), 0, null);
-					if (channel.isConnecting()) {
-						MyLog.v(TAG, channel.getIndex() + "--正在连接，不需要重复连接");
-						return;
-					}
-					if (channel.isPause()) {
-						Jni.resume(channel.getIndex(), channel.getSurfaceView()
-								.getHolder().getSurface());
-						channel.setPause(false);
-						channel.setConnecting(false);
-						channel.setConnected(true);
-						// 继续播放视频
-						Jni.sendBytes(channel.getIndex(),
-								(byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
-						MyLog.v(TAG, channel.getIndex() + "--发继续播");
-
-						((MainApplication) mContext.getApplicationContext())
-								.onNotify(Consts.CALL_FRAME_I_REPORT,
-										channel.getIndex(), 0, null);
-
-					} else {
-						channel.setConnecting(true);
-						channel.setConnected(false);
-						MyLog.v(TAG, channel.getIndex() + "--调用连接");
-
-						// if (Consts.CHANNEL_JY == channel.getIndex()) {
-						// Jni.connect(Consts.CHANNEL_JY, 0,
-						// Consts.IPC_DEFAULT_IP,
-						// Consts.IPC_DEFAULT_PORT,
-						// Consts.IPC_DEFAULT_USER,
-						// Consts.IPC_DEFAULT_PWD, device.getNo(),
-						// device.getGid(), true, 1, true, 6, null,
-						// false);
-						// } else {
-
-						if (null != ssid
-								&& channel.getParent().getFullNo()
-										.equalsIgnoreCase(ssid)) {
-							// IP直连
-							MyLog.v(TAG,
-									device.getNo() + "--AP--直连接："
-											+ device.getIp());
-							Jni.connect(channel.getIndex(),
-									channel.getChannel(), device.getIp(),
-									device.getPort(), device.getUser(),
-									device.getPwd(), -1, device.getGid(), true,
-									1, true, (device.isHomeProduct() ? 6 : 6),
-									channel.getSurfaceView().getHolder()
-											.getSurface(), isOmx);
-						} else {
-							if ("".equalsIgnoreCase(device.getIp())
-									|| 0 == device.getPort()) {
-								// 云视通连接
-								MyLog.v(TAG, device.getNo() + "--云视通--连接");
-								Jni.connect(channel.getIndex(),
-										channel.getChannel(), device.getIp(),
-										device.getPort(), device.getUser(),
-										device.getPwd(), device.getNo(),
-										device.getGid(), true, 1, true,
-										(device.isHomeProduct() ? 6 : 6),
-										channel.getSurfaceView().getHolder()
-												.getSurface(), isOmx);
-							} else {
-								// IP直连
-								MyLog.v(TAG, device.getNo() + "--IP--连接："
-										+ device.getIp());
-								Jni.connect(channel.getIndex(), channel
-										.getChannel(), device.getIp(), device
-										.getPort(), device.getUser(), device
-										.getPwd(), -1, device.getGid(), true,
-										1, true, (device.isHomeProduct() ? 6
-												: 6), channel.getSurfaceView()
-												.getHolder().getSurface(),
-										isOmx);
-							}
-						}
-
-						// }
-					}
-				}
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+	// /**
+	// * 视频连接
+	// *
+	// * @param device
+	// * @param index
+	// * ,设备的通道索引
+	// */
+	// public static void connect(Channel channel, boolean isOmx, String ssid) {
+	// try {
+	// if (null != channel) {
+	// Device device = channel.getParent();
+	//
+	// // 如果是域名添加的设备需要先去解析IP
+	// if (2 == device.getIsDevice()) {
+	// device.setIp(ConfigUtil.getInetAddress(device.getDoMain()));
+	// }
+	//
+	// // MyLog.e(TAG, "device=" + device.hashCode() + "--index=" +
+	// // index);
+	// // Channel channel = device.getChannelList().get(index);
+	// if (null != channel) {
+	// MyLog.v(TAG, channel.getIndex() + "");
+	// ((MainApplication) mContext.getApplicationContext())
+	// .onNotify(JVConst.WHAT_STARTING_CONNECT,
+	// channel.getIndex(), 0, null);
+	// if (channel.isConnecting()) {
+	// MyLog.v(TAG, channel.getIndex() + "--正在连接，不需要重复连接");
+	// return;
+	// }
+	// if (channel.isPause()) {
+	// Jni.resume(channel.getIndex(), channel.getSurfaceView()
+	// .getHolder().getSurface());
+	// channel.setPause(false);
+	// channel.setConnecting(false);
+	// channel.setConnected(true);
+	// // 继续播放视频
+	// Jni.sendBytes(channel.getIndex(),
+	// (byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
+	// MyLog.v(TAG, channel.getIndex() + "--发继续播");
+	//
+	// ((MainApplication) mContext.getApplicationContext())
+	// .onNotify(Consts.CALL_FRAME_I_REPORT,
+	// channel.getIndex(), 0, null);
+	//
+	// } else {
+	// channel.setConnecting(true);
+	// channel.setConnected(false);
+	// MyLog.v(TAG, channel.getIndex() + "--调用连接");
+	//
+	// // if (Consts.CHANNEL_JY == channel.getIndex()) {
+	// // Jni.connect(Consts.CHANNEL_JY, 0,
+	// // Consts.IPC_DEFAULT_IP,
+	// // Consts.IPC_DEFAULT_PORT,
+	// // Consts.IPC_DEFAULT_USER,
+	// // Consts.IPC_DEFAULT_PWD, device.getNo(),
+	// // device.getGid(), true, 1, true, 6, null,
+	// // false);
+	// // } else {
+	//
+	// if (null != ssid
+	// && channel.getParent().getFullNo()
+	// .equalsIgnoreCase(ssid)) {
+	// // IP直连
+	// MyLog.v(TAG,
+	// device.getNo() + "--AP--直连接："
+	// + device.getIp());
+	// Jni.connect(channel.getIndex(),
+	// channel.getChannel(), device.getIp(),
+	// device.getPort(), device.getUser(),
+	// device.getPwd(), -1, device.getGid(), true,
+	// 1, true, (device.isHomeProduct() ? 6 : 6),
+	// channel.getSurfaceView().getHolder()
+	// .getSurface(), isOmx);
+	// } else {
+	// if ("".equalsIgnoreCase(device.getIp())
+	// || 0 == device.getPort()) {
+	// // 云视通连接
+	// MyLog.v(TAG, device.getNo() + "--云视通--连接");
+	// Jni.connect(channel.getIndex(),
+	// channel.getChannel(), device.getIp(),
+	// device.getPort(), device.getUser(),
+	// device.getPwd(), device.getNo(),
+	// device.getGid(), true, 1, true,
+	// (device.isHomeProduct() ? 6 : 6),
+	// channel.getSurfaceView().getHolder()
+	// .getSurface(), isOmx);
+	// } else {
+	// // IP直连
+	// MyLog.v(TAG, device.getNo() + "--IP--连接："
+	// + device.getIp());
+	// Jni.connect(channel.getIndex(), channel
+	// .getChannel(), device.getIp(), device
+	// .getPort(), device.getUser(), device
+	// .getPwd(), -1, device.getGid(), true,
+	// 1, true, (device.isHomeProduct() ? 6
+	// : 6), channel.getSurfaceView()
+	// .getHolder().getSurface(),
+	// isOmx);
+	// }
+	// }
+	//
+	// // }
+	// }
+	// }
+	// }
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	//
+	// }
 
 	/**
 	 * 连接设备

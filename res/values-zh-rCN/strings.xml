@@ -640,6 +640,7 @@
     <string name="str_alarm_manage">添加报警设备</string>
     <string name="str_alarm_connect_except">连接异常断开</string>
     <string name="str_alarm_thirddev_default_name">报警设备</string>
-	<string name="str_alarm_thirddev_learning">学习中...</string>
-	<string name="str_alarm_thirddev_bind_hint">如:客厅/卧室/厨房等</string>
+    <string name="str_alarm_thirddev_learning">学习中...</string>
+    <string name="str_alarm_thirddev_bind_hint">如:客厅/卧室/厨房等</string>
+
 </resources>

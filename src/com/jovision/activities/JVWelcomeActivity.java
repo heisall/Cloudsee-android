@@ -222,7 +222,8 @@ public class JVWelcomeActivity extends BaseActivity {
 				}
 			} else {
 				User user = UserUtil.getLastUser();
-				if (ConfigUtil.getNetWorkConnection(JVWelcomeActivity.this) && null != user
+				if (ConfigUtil.getNetWorkConnection(JVWelcomeActivity.this)
+						&& null != user
 						&& !"".equalsIgnoreCase(user.getUserName())
 						&& !"".equalsIgnoreCase(user.getUserPwd())) {
 					statusHashMap.put(Consts.KEY_USERNAME, user.getUserName());

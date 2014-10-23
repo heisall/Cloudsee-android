@@ -134,7 +134,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			ipconnect_address.setText(editDevice.getIp());
 
 			if (0 == editDevice.getPort()) {
-				ipconnect_port.setText(9101);
+				ipconnect_port.setText("9101");
 			} else {
 				ipconnect_port.setText(editDevice.getPort() + "");
 			}
@@ -177,7 +177,11 @@ public class JVIpconnectActivity extends BaseActivity {
 						portLayout.setVisibility(View.VISIBLE);
 
 						ipconnect_address.setText(editDevice.getIp());
-						ipconnect_port.setText(editDevice.getPort() + "");
+						if (0 == editDevice.getPort()) {
+							ipconnect_port.setText("9101");
+						} else {
+							ipconnect_port.setText(editDevice.getPort() + "");
+						}
 						ipconnect_user.setText(editDevice.getUser());
 						ipconnect_pwd.setText(editDevice.getPwd());
 						mContainer.startAnimation(AnimationUtils.loadAnimation(
@@ -253,14 +257,7 @@ public class JVIpconnectActivity extends BaseActivity {
 					} else if (!ConfigUtil.checkDeviceUsername(userString)) {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_device_account_error);
-					} else if ("".equalsIgnoreCase(pwdString)) {
-						JVIpconnectActivity.this
-								.showTextToast(R.string.login_str_device_pass_notnull);
-					} else if (!ConfigUtil.checkDevicePwd(pwdString)) {
-						JVIpconnectActivity.this
-								.showTextToast(R.string.login_str_device_pass_error);
 					} else {
-
 						EditDevTask task = new EditDevTask();
 						String[] params = new String[3];
 						params[0] = "1";
@@ -371,6 +368,22 @@ public class JVIpconnectActivity extends BaseActivity {
 				}
 
 				if (0 == editRes) {
+					if (1 == isDevice) {// IP
+						deviceList.get(deviceIndex).setIp(
+								ConfigUtil.getInetAddress(ipString));
+						deviceList.get(deviceIndex).setPort(
+								Integer.valueOf(portString));
+						deviceList.get(deviceIndex).setUser(userString);
+						deviceList.get(deviceIndex).setPwd(pwdString);
+						deviceList.get(deviceIndex).setIsDevice(1);// Ip设备
+					} else {
+						deviceList.get(deviceIndex).setIp("");
+						deviceList.get(deviceIndex).setPort(0);
+						deviceList.get(deviceIndex).setUser(userString);
+						deviceList.get(deviceIndex).setPwd(pwdString);
+						deviceList.get(deviceIndex).setIsDevice(0);// 云视通
+					}
+
 					CacheUtil.saveDevList(deviceList);
 				}
 

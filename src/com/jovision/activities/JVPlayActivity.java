@@ -70,8 +70,7 @@ public class JVPlayActivity extends PlayActivity implements
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
 
 	private boolean needToast = false;
-	
-	
+
 	private WifiAdmin wifiAdmin;
 	private String ssid;
 
@@ -553,12 +552,12 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 暂停语音聊天
 			case JVNetConst.JVN_CMD_CHATSTOP: {
-				if(realStop){
+				if (realStop) {
 					realStop = false;
-				}else{
+				} else {
 					showTextToast(R.string.has_calling);
 				}
-				
+
 				break;
 			}
 			}
@@ -1539,7 +1538,6 @@ public class JVPlayActivity extends PlayActivity implements
 				initAudio(channelList.get(lastClickIndex).getAudioByte());
 				if (allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).isVoiceCall()) {
-						functionListAdapter.selectIndex = -1;
 						showTextToast(R.string.audio_monitor_forbidden);
 					} else {
 						initAudio(channelList.get(lastClickIndex)
@@ -1601,6 +1599,7 @@ public class JVPlayActivity extends PlayActivity implements
 						functionListAdapter.selectIndex = -1;
 						bottombut8.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.video_monitor_icon));
+						playAudio.setIndex(lastClickIndex);
 						if (null != playAudio) {
 							playAudio.interrupt();
 							playAudio = null;
@@ -1608,7 +1607,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 					}
 
-					playAudio.setIndex(lastClickIndex);
 					if (channelList.get(lastClickIndex).isVoiceCall()) {
 						if (null != recorder) {
 							recorder.stop();
@@ -1668,22 +1666,22 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 				break;
 
-			case R.id.bottom_but1:// 暂停继续播
-				if (channelList.get(lastClickIndex).isPause()) {
-					Jni.sendBytes(lastClickIndex,
-							(byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
-					channelList.get(lastClickIndex).setPause(false);
-					bottombut1
-							.setBackgroundResource(R.drawable.video_stop_icon);
-				} else {
-					Jni.sendBytes(lastClickIndex,
-							(byte) JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0],
-							8);
-					channelList.get(lastClickIndex).setPause(true);
-					bottombut1
-							.setBackgroundResource(R.drawable.video_play_icon);
-				}
-				break;
+			// case R.id.bottom_but1:// 暂停继续播
+			// if (channelList.get(lastClickIndex).isPause()) {
+			// Jni.sendBytes(lastClickIndex,
+			// (byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
+			// channelList.get(lastClickIndex).setPause(false);
+			// bottombut1
+			// .setBackgroundResource(R.drawable.video_stop_icon);
+			// } else {
+			// Jni.sendBytes(lastClickIndex,
+			// (byte) JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0],
+			// 8);
+			// channelList.get(lastClickIndex).setPause(true);
+			// bottombut1
+			// .setBackgroundResource(R.drawable.video_play_icon);
+			// }
+			// break;
 
 			case R.id.bottom:
 
@@ -1790,7 +1788,7 @@ public class JVPlayActivity extends PlayActivity implements
 		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 			Channel channel = channelList.get(lastClickIndex);
 			if (null != channel && channel.isConnected()
-					&& !channel.isConnecting() && !channel.isPause()) {
+					&& !channel.isConnecting()) {
 				int c = 0;
 				// [Neo] TODO 不论时候什么，只要在 Surface 上手势，都会判断出来并汇报到这里
 				switch (direction) {
@@ -1849,8 +1847,7 @@ public class JVPlayActivity extends PlayActivity implements
 			changeWindow(ONE_SCREEN);
 		}
 
-		if (channelList.get(lastClickIndex).isConnected()
-				&& !channelList.get(lastClickIndex).isPause()) {
+		if (channelList.get(lastClickIndex).isConnected()) {
 
 			allow = true;
 		} else {
@@ -2069,7 +2066,6 @@ public class JVPlayActivity extends PlayActivity implements
 			if (0 == arg2) {// 音频监听
 				if (allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).isVoiceCall()) {
-						functionListAdapter.selectIndex = -1;
 						showTextToast(R.string.audio_monitor_forbidden);
 					} else {
 						initAudio(channelList.get(lastClickIndex)
@@ -2298,7 +2294,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 		stopAll(lastClickIndex, channelList.get(lastClickIndex));
 		manager.pauseAll();
-		PlayUtil.pauseAll(manager.getValidChannelList(lastItemIndex));
+		// PlayUtil.pauseAll(manager.getValidChannelList(lastItemIndex));
 
 		if (Consts.PLAY_NORMAL == playFlag) {
 			CacheUtil.saveDevList(deviceList);

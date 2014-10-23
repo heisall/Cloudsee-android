@@ -361,15 +361,14 @@ public class JVDeviceManageFragment extends BaseFragment {
 		}
 		((ManageFragment) fragments.get(deviceIndex)).setDevIndex(deviceIndex);
 		managePager.setCurrentItem(deviceIndex);
-		mHorizontalScrollView.smoothScrollTo((deviceIndex - 1)
-				* item_width, 0);
+		mHorizontalScrollView.smoothScrollTo((deviceIndex - 1) * item_width, 0);
 		mHorizontalScrollView.invalidate();
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-//		CacheUtil.saveDevList(manageDeviceList);
+		CacheUtil.saveDevList(manageDeviceList);
 		super.onPause();
 	}
 

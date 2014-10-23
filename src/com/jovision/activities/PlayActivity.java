@@ -40,7 +40,7 @@ public abstract class PlayActivity extends BaseActivity {
 	protected boolean isOmx = false;
 	protected Boolean lowerSystem = false;// 低于4.1的系统
 	protected boolean realStop = false;
-	
+
 	/** 播放相关 */
 	protected RelativeLayout.LayoutParams reParamsV;
 	protected RelativeLayout.LayoutParams reParamsH;

@@ -374,7 +374,7 @@ public class ConfigUtil {
 	 */
 	public static boolean getNetWorkConnection(Context context) {
 		flag = false;
-		
+
 		ConnectivityManager cManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = cManager.getActiveNetworkInfo();
@@ -387,34 +387,34 @@ public class ConfigUtil {
 		} else {
 			flag = false;
 		}
-		
-//		new Thread() {
-//			public void run() {
-//				String serverURL = "";
-//				if (isLanZH()) {
-//					serverURL = "http://www.baidu.com/";
-//				} else {
-//					serverURL = "http://www.google.com/";
-//				}
-//				HttpGet httpRequest = new HttpGet(serverURL);// 建立http get联机
-//				// HttpResponse httpResponse;
-//				try {
-//					new DefaultHttpClient().execute(httpRequest);
-//					flag = true;
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			};
-//		}.start();
-//		for (int i = 0; i < 3; i++) {
-//			if (!flag) {
-//				try {
-//					Thread.sleep(1000);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
+
+		// new Thread() {
+		// public void run() {
+		// String serverURL = "";
+		// if (isLanZH()) {
+		// serverURL = "http://www.baidu.com/";
+		// } else {
+		// serverURL = "http://www.google.com/";
+		// }
+		// HttpGet httpRequest = new HttpGet(serverURL);// 建立http get联机
+		// // HttpResponse httpResponse;
+		// try {
+		// new DefaultHttpClient().execute(httpRequest);
+		// flag = true;
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// };
+		// }.start();
+		// for (int i = 0; i < 3; i++) {
+		// if (!flag) {
+		// try {
+		// Thread.sleep(1000);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// }
 		return flag;
 	}
 

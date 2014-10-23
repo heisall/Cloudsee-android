@@ -222,7 +222,7 @@ public class Device {
 			object.put("hasWifi", hasWifi);
 			object.put("serverState", serverState);
 			object.put("alarmSwitch", alarmSwitch);
-			
+
 			try {
 				ArrayList<Channel> list = channelList.toList();
 				int size = list.size();

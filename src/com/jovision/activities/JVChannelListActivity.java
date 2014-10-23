@@ -117,12 +117,13 @@ public class JVChannelListActivity extends BaseActivity {
 	}
 
 	private void initChannelBean() {
-		for (int i = 0; i < channelList.size() + 1; i++) {
+		for (int i = 0; i < channelList.size()+1; i++) {
 			ChannellistBean bean = new ChannellistBean();
-			if (channelList.get(i) == null) {
-				Log.i("TAG", "aaaaaa" + i);
+			
+			if (channelList.get(i) != null) {
+				Log.i("TAG", channelList.get(i).getChannelName());
 			}
-			if (i != channelList.size() + 1 && null != channelList.get(i)) {
+			if (null != channelList.get(i)&&i != channelList.size()+1) {
 				bean.setChannelName(channelList.get(i).getChannelName());
 				bean.setCloudnum(channelList.get(i).getParent().getFullNo());
 				bean.setChannelnum(channelList.get(i).getChannel());

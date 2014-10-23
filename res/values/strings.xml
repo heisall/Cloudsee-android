@@ -526,8 +526,8 @@
     <string name="protect_close_succ">安全防护关闭成功</string>
     <string name="protect_close_fail">安全防护关闭失败</string>
     <string name="device_offline">设备离线不能执行此操作</string>
-    <string name="protect_opened">安全防护开启</string>
-    <string name="protect_closed">安全防护关闭</string>
+    <string name="protect_opened">安全防护</string>
+    <string name="protect_closed">安全防护</string>
 
     <!-- JVInfoFragement -->
     <string name="xlistview_footer_hint_normal">More</string>

@@ -136,12 +136,10 @@ public class ManageAdapter extends BaseAdapter {
 							.getAlarmSwitch()) {
 						channelHolder.img
 								.setBackgroundResource(R.drawable.protect_open);
-						channelHolder.function.setText(R.string.protect_opened);
 					} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
 							.getAlarmSwitch()) {
 						channelHolder.img
 								.setBackgroundResource(R.drawable.protect_close);
-						channelHolder.function.setText(R.string.protect_closed);
 					}
 				} else {
 					convertView.setVisibility(View.GONE);

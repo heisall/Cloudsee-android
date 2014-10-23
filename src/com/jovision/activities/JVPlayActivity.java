@@ -52,6 +52,10 @@ import com.jovision.utils.PlayUtil;
 
 public class JVPlayActivity extends PlayActivity implements
 		PlayWindowManager.OnUiListener {
+
+	private static final int CONNECTING = 0x70;
+	private static final int BUFFERING = 0x71;
+
 	private PlayWindowManager manager;
 
 	private int selectedScreen = 4;// 默认分四屏
@@ -189,6 +193,16 @@ public class JVPlayActivity extends PlayActivity implements
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 
 		switch (what) {
+		case CONNECTING: {
+			loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTTED);
+			break;
+		}
+		case BUFFERING: {
+			loadingState(arg1, R.string.connecting_buffer,
+					JVConst.PLAY_CONNECTING_BUFFER);
+			break;
+		}
+
 		// 开始连接
 		case JVConst.WHAT_STARTING_CONNECT: {
 			loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTING);
@@ -1094,23 +1108,23 @@ public class JVPlayActivity extends PlayActivity implements
 
 		if (null != channel) {
 			if (false == channel.isConnected()) {
-				// loadingState(channel.getIndex(), R.string.connecting,
-				// JVConst.PLAY_CONNECTTED);
+
 				if (connect(channel.getParent(), channel, true, false, false)) {
 					channel.setPaused(false);
 					result = true;
 					// [Neo] TODO add connect info
+					handler.sendMessage(handler.obtainMessage(CONNECTING,
+							channel.getIndex(), 0));
 				}
 			} else if (channel.isPaused() && null != channel.getSurface()) {
-				// loadingState(channel.getIndex(), R.string.connecting_buffer,
-				// JVConst.PLAY_CONNECTING_BUFFER);
 				result = Jni.resume(channel.getIndex(), channel.getSurface());
 				if (result) {
 					Jni.sendBytes(channel.getIndex(), JVNetConst.JVN_CMD_VIDEO,
 							new byte[0], 8);
 					channel.setPaused(false);
 					// [Neo] TODO add resume info
-
+					handler.sendMessage(handler.obtainMessage(BUFFERING,
+							channel.getIndex(), 0));
 					// [Neo] TODO
 					viewPager.setDisableSliding(false);
 				}

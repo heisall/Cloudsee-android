@@ -87,7 +87,7 @@ public class Jni {
 	 * @param timeout
 	 *            单位是毫秒
 	 * @param frequence
-	 * @return
+	 * @return 1,成功 0,失败
 	 */
 	public static native int searchLanDevice(String group, int cloudSeeId,
 			int cardType, int variety, String deviceName, int timeout,

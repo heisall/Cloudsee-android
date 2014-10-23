@@ -27,6 +27,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
+import com.jovision.Jni;
 import com.jovision.MainApplication;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
@@ -390,6 +391,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 					Toast.LENGTH_SHORT).show();
 			exitTime = System.currentTimeMillis();
 		} else {
+			Jni.stopSearchLanServer();
 			statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 			statusHashMap.put(Consts.KEY_LAST_LOGIN_TIME,
 					ConfigUtil.getCurrentTime());

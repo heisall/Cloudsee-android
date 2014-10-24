@@ -3,25 +3,29 @@ package com.jovision.adapters;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.activities.BaseActivity;
+import com.jovision.activities.BaseFragment;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.MySharedPreference;
 
 public class FragmentAdapter extends BaseAdapter {
-	private Context activity;
+	private BaseFragment mfragment;
 	private List<MoreFragmentBean> dataList;
+	private boolean localFlag;
 
-	public FragmentAdapter(Context activity,
+	public FragmentAdapter(BaseFragment mfragment,
 			ArrayList<MoreFragmentBean> dataList) {
-		this.activity = activity;
+		this.mfragment = mfragment;
 		this.dataList = dataList;
 	}
 
@@ -49,9 +53,11 @@ public class FragmentAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final ViewHolder holder;
 		if (convertView == null) {
-			convertView = LayoutInflater.from(activity).inflate(
+			convertView = LayoutInflater.from(mfragment.getActivity()).inflate(
 					R.layout.fragment_more_item, null);
 			holder = new ViewHolder();
+			holder.more_relative = (RelativeLayout) convertView
+					.findViewById(R.id.more_relative);
 			holder.item_img = (ImageView) convertView
 					.findViewById(R.id.item_img);
 			holder.item_next = (ImageView) convertView
@@ -63,14 +69,25 @@ public class FragmentAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
+		localFlag = Boolean
+				.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
+						.get(Consts.LOCAL_LOGIN));
 		holder.item_img.setBackgroundResource(dataList.get(position)
 				.getItem_img());
 		holder.name.setText(dataList.get(position).getName());
+		if (position == 1 && localFlag) {
+			holder.more_relative.setVisibility(View.VISIBLE);
+			holder.more_relative.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+				}
+			});
+		}
 		if (position == 5) {
 			holder.item_next.setVisibility(View.GONE);
 			holder.item_version.setVisibility(View.VISIBLE);
-			holder.item_version.setText(activity.getResources().getString(
-					R.string.str_current_version));
+			holder.item_version.setText(mfragment.getActivity().getResources()
+					.getString(R.string.str_current_version));
 		}
 		if (position > -1 && position < 3) {
 			holder.item_next
@@ -107,5 +124,6 @@ public class FragmentAdapter extends BaseAdapter {
 		private TextView name;
 		private ImageView item_next;
 		private TextView item_version;
+		private RelativeLayout more_relative;
 	}
 }

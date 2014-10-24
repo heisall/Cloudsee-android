@@ -51,6 +51,8 @@ public class JVTabActivity extends ShakeActivity implements
 
 	private boolean page2;
 
+	private boolean localFlag;
+
 	private ArrayList<Device> myDeviceList = new ArrayList<Device>();
 	// 当前页面索引
 	private int currentImage = 0;
@@ -59,6 +61,8 @@ public class JVTabActivity extends ShakeActivity implements
 	// 点集合
 	private List<ImageView> dots;
 	private LinearLayout ll_dot;
+
+	private ImageView img_five;
 
 	@Override
 	protected void onStart() {
@@ -77,20 +81,39 @@ public class JVTabActivity extends ShakeActivity implements
 				R.layout.help_item4, null);
 		View view5 = LayoutInflater.from(JVTabActivity.this).inflate(
 				R.layout.help_item5, null);
-		pics.add(view1);
-		pics.add(view2);
-		pics.add(view3);
-		pics.add(view4);
-		pics.add(view5);
-		view5.setOnClickListener(new View.OnClickListener() {
+		if (localFlag) {
+			pics.add(view1);
+			pics.add(view2);
+			pics.add(view3);
+			pics.add(view4);
+			view4.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				viewpager.setVisibility(View.GONE);
-				ll_dot.setVisibility(View.GONE);
-			}
-		});
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					viewpager.setVisibility(View.GONE);
+					ll_dot.setVisibility(View.GONE);
+				}
+			});
+			img_five.setVisibility(View.GONE);
+			initDot(4);
+		} else {
+			pics.add(view1);
+			pics.add(view2);
+			pics.add(view3);
+			pics.add(view4);
+			pics.add(view5);
+			view5.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					viewpager.setVisibility(View.GONE);
+					ll_dot.setVisibility(View.GONE);
+				}
+			});
+			initDot(5);
+		}
 	}
 
 	private void getPicone() {
@@ -109,10 +132,10 @@ public class JVTabActivity extends ShakeActivity implements
 		});
 	}
 
-	private void initDot() {
+	private void initDot(int dotnum) {
 		dots = new ArrayList<ImageView>();
 		// 得到点的父布局
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < dotnum; i++) {
 			ll_dot.getChildAt(i);// 得到点
 			dots.add((ImageView) ll_dot.getChildAt(i));
 			dots.get(i).setEnabled(false);// 将点设置为白色
@@ -207,6 +230,7 @@ public class JVTabActivity extends ShakeActivity implements
 	protected void initSettings() {
 		Intent intent = getIntent();
 		currentIndex = intent.getIntExtra("tabIndex", 0);
+		localFlag = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 	}
 
 	@Override
@@ -216,6 +240,7 @@ public class JVTabActivity extends ShakeActivity implements
 
 		viewpager = (ViewPager) findViewById(R.id.tab_viewpager);
 		viewpager.setOnPageChangeListener(JVTabActivity.this);
+		img_five = (ImageView) findViewById(R.id.img_five);
 		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
 		JVFragmentIndicator.setIndicator(currentIndex);
 
@@ -285,7 +310,6 @@ public class JVTabActivity extends ShakeActivity implements
 								ll_dot.setVisibility(View.VISIBLE);
 								viewpager.setVisibility(View.VISIBLE);
 								getPic();
-								initDot();
 								adp = new MyPagerAdp(pics);
 								viewpager.setAdapter(adp);
 								MySharedPreference.putBoolean("page1", true);
@@ -297,7 +321,6 @@ public class JVTabActivity extends ShakeActivity implements
 									ll_dot.setVisibility(View.VISIBLE);
 									viewpager.setVisibility(View.VISIBLE);
 									getPic();
-									initDot();
 									adp = new MyPagerAdp(pics);
 									viewpager.setAdapter(adp);
 									MySharedPreference.putBoolean("page1",

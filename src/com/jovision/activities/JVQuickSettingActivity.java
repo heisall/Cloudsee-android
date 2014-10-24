@@ -1111,6 +1111,67 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		}
 	}
 
+	/**
+	 * 连接wifi 30s超时
+	 * 
+	 * @param wifi
+	 * @param password
+	 * @return
+	 */
+	public boolean resetWifi(String wifi, String password) {
+		boolean flag = wifiAdmin.getWifiState(wifi);
+		int errorCount = 0;
+		while (!flag) {
+			MyLog.v(TAG, "wifi=" + wifi + ";errorCount=" + errorCount
+					+ ";flag=" + flag);
+			if (errorCount > 30) {
+				break;
+			}
+			if (errorCount == 0 || errorCount == 10 || errorCount == 20) {
+				WifiConfiguration desWifi = wifiAdmin.isExsits(wifi);
+
+				if (!"".equalsIgnoreCase(wifi)) {
+					if (null != desWifi) {// 目标Ap已存在wifi列表里，需要移除重新连接，防止连接已存在的一直连接不上
+						wifiAdmin.disconnectWifi(desWifi, true);// 关掉，移除,不移除会记住原来的密码
+						try {
+							Thread.sleep(1 * 1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						desWifi = wifiAdmin.isExsits(wifi);
+					}
+
+					if (null == desWifi) {
+						int enc = 0;
+						if ("".equalsIgnoreCase(password)) {
+							enc = 1;
+						} else {
+							enc = 3;
+						}
+						desWifi = wifiAdmin.CreateWifiInfo(wifi, password, enc);
+					}
+				}
+
+				if (null != desWifi) {
+					wifiAdmin.ConnectWifiByConfig(desWifi);
+				}
+
+			}
+
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			errorCount += 2;
+
+			flag = wifiAdmin.getWifiState(wifi);
+		}
+
+		return flag;
+	}
+
 	// 设置三种类型参数分别为String,Integer,String
 	class ResetWifiTask extends AsyncTask<String, Integer, Integer> {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -1120,8 +1181,16 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			stopRefreshWifiTimer();
 			int resetRes = -1;// 0：成功 1：失败:2：不需要添加设备直接退出
 			boolean addFlag = Boolean.valueOf(params[0]);
-			boolean changeRes = wifiAdmin.changeWifi(setIpcName, oldWifiSSID,
-					oldWifiState);
+			boolean changeRes = false;
+			// desWifiName;
+			// private EditText desWifiPass;
+			if ("".equalsIgnoreCase(desWifiName.getText().toString())) {
+				changeRes = wifiAdmin.changeWifi(setIpcName, oldWifiSSID,
+						oldWifiState);
+			} else {
+				changeRes = resetWifi(oldWifiSSID, desWifiPWD);
+			}
+
 			MyLog.v("网络恢复完成", changeRes + "");
 
 			int reLoginRes = -1;

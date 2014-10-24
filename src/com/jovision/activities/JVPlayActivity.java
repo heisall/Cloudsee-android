@@ -849,6 +849,8 @@ public class JVPlayActivity extends PlayActivity implements
 					.getString(Consts.KEY_PLAY_AP);
 			deviceList = Device.fromJsonArray(devJsonString);
 		}
+		
+		MyLog.v(TAG,"Connect--"+deviceList.toString());
 		startWindowIndex = 0;
 		channelList = new ArrayList<Channel>();
 
@@ -1311,11 +1313,12 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 		} else {
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-				return;
-			}
+			
 
 			if (isDoubleClickCheck && lastClickIndex == channel.getIndex()) {// 双击
+				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+					return;
+				}
 				if (ONE_SCREEN == currentScreen) {
 					changeWindow(selectedScreen);
 				} else {
@@ -1339,29 +1342,29 @@ public class JVPlayActivity extends PlayActivity implements
 					}.start();
 				}
 			} else {// 单击
-				changeBorder(channel.getIndex());
-
-				lastClickIndex = channel.getIndex();
-				// 多屏选中才变蓝色
-				if (currentScreen > ONE_SCREEN) {
-				} else {
-					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-						if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
-							horPlayBarLayout.setVisibility(View.GONE);
-						} else {
-							horPlayBarLayout.setVisibility(View.VISIBLE);
-						}
+				
+				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+					if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
+						horPlayBarLayout.setVisibility(View.GONE);
+					} else {
+						horPlayBarLayout.setVisibility(View.VISIBLE);
 					}
-				}
+				}else{
+					changeBorder(channel.getIndex());
+					lastClickIndex = channel.getIndex();
+					
 
-				isDoubleClickCheck = true;
-				if (null != doubleClickTimer) {
-					doubleClickTimer.cancel();
-				}
+					isDoubleClickCheck = true;
+					if (null != doubleClickTimer) {
+						doubleClickTimer.cancel();
+					}
 
-				doubleClickTimer = new Timer();
-				doubleClickTimer.schedule(new DoubleClickChecker(),
-						DELAY_DOUBLE_CHECKER);
+					doubleClickTimer = new Timer();
+					doubleClickTimer.schedule(new DoubleClickChecker(),
+							DELAY_DOUBLE_CHECKER);
+				}
+				
+				
 			}
 		}
 

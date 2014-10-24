@@ -164,7 +164,9 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 4: {// 立即观看
+				MyLog.v(TAG, "prepareConnect1--" + deviceList.toString());
 				PlayUtil.prepareConnect(deviceList, deviceIndex);
+				MyLog.v(TAG, "prepareConnect2--" + deviceList.toString());
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 				intentPlay.putExtra("DeviceIndex", deviceIndex);
 				intentPlay.putExtra("ChannelofChannel", device.getChannelList()
@@ -356,7 +358,11 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onPause() {
+		MyLog.v(TAG, "onPause1--" + deviceList.toString());
 		CacheUtil.saveDevList(deviceList);
+
+		ArrayList<Device> dList = CacheUtil.getDevList();
+		MyLog.v(TAG, "onPause2--" + dList.toString());
 		super.onPause();
 	}
 

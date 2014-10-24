@@ -37,7 +37,7 @@ public class ManageFragment extends BaseFragment {
 
 	/** 构造参数 */
 	private int deviceIndex;
-	private ArrayList<Device> deviceList = new ArrayList<Device>();
+	private ArrayList<Device> deviceList;
 	private Device device;
 
 	private GridView manageGridView;
@@ -48,11 +48,14 @@ public class ManageFragment extends BaseFragment {
 
 	int devType = 0;
 
+	public ManageFragment(ArrayList<Device> deviceList) {
+		this.deviceList = deviceList;
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		bundle = getArguments();
 		deviceIndex = bundle.getInt("DeviceIndex");
-		deviceList = CacheUtil.getDevList();
 		device = deviceList.get(deviceIndex);
 		super.onCreate(savedInstanceState);
 	}
@@ -67,7 +70,6 @@ public class ManageFragment extends BaseFragment {
 
 	public void setDevIndex(int index) {
 		try {
-			deviceList = CacheUtil.getDevList();
 			deviceIndex = index;
 			device = deviceList.get(deviceIndex);
 			if (null != device && null != manageAdapter) {
@@ -355,16 +357,6 @@ public class ManageFragment extends BaseFragment {
 			break;
 		}
 	};
-
-	@Override
-	public void onPause() {
-		MyLog.v(TAG, "onPause1--" + deviceList.toString());
-		CacheUtil.saveDevList(deviceList);
-
-		ArrayList<Device> dList = CacheUtil.getDevList();
-		MyLog.v(TAG, "onPause2--" + dList.toString());
-		super.onPause();
-	}
 
 	OnClickListener myOnClickListener = new OnClickListener() {
 

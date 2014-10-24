@@ -662,6 +662,7 @@
     <string name="str_third_device_name">Device Name</string>
     <string name="str_door_device">Door Device</string>
     <string name="str_bracelet_device">Bracelet Device</string>
+    <string name="str_telecontrol_device">Telecontrol Device</string>
     <string name="str_click_add_device">Click here to add new equipment</string>
     <string name="str_alarm_connect_except">Abnormal connection disconnected</string>
     <string name="str_alarm_thirddev_default_name">Alarm Device</string>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+     >
+    
+    <ImageView 
+        android:id="@+id/guide_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        />
+
+    
+    <RelativeLayout 
+		android:background="@drawable/loading_bg" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:layout_centerHorizontal="true"
+		android:layout_alignParentBottom="true"
+		android:paddingLeft="10dp"
+		android:paddingTop="2dp"
+		android:paddingBottom="2dp"
+		android:paddingRight="20dp"
+		android:layout_marginBottom="10dp"
+		>
+        <ProgressBar 
+            android:id="@+id/progressBarLoading" 
+            android:layout_width="45.0dip" 
+            android:layout_height="45.0dip" 
+            android:layout_marginTop="10.0dip" 
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
+        <TextView 
+            android:textSize="16.0dip" 
+            android:textColor="#FFFFFF" 
+            android:id="@+id/loadingText" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:text="学习中..." 
+            android:layout_toRightOf="@id/progressBarLoading"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+</RelativeLayout>

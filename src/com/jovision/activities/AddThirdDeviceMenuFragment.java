@@ -16,6 +16,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 	private View rootView;// 缓存Fragment view
 	private Button doorBtn; // 门磁
 	private Button braceletBtn; // 手环
+	private Button telecontrolBtn; // 手环
 
 	public interface OnDeviceClassSelectedListener {
 		public void OnDeviceClassSelected(int index);
@@ -50,6 +51,9 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		doorBtn.setOnClickListener(this);
 		braceletBtn = (Button) rootView.findViewById(R.id.add_bracelet_btn);
 		braceletBtn.setOnClickListener(this);
+		telecontrolBtn = (Button) rootView
+				.findViewById(R.id.add_telecontrol_btn);
+		telecontrolBtn.setOnClickListener(this);
 
 		return rootView;
 	}
@@ -80,6 +84,9 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 
 			// 实际应该起个线程，然后开始播放动画
 			// TODO
+			break;
+		case R.id.add_telecontrol_btn:// 遥控
+			mListener.OnDeviceClassSelected(3);
 			break;
 		default:
 			break;

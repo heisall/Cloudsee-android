@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
 import com.jovision.bean.Channel;
-import com.jovision.commons.MyList;
 import com.jovision.utils.ConfigUtil;
 
 public class ChannelListAdapter extends BaseAdapter {
@@ -94,7 +93,7 @@ public class ChannelListAdapter extends BaseAdapter {
 											.getText().toString())) {
 								activity.showTextToast(R.string.login_str_nike_name_order);
 							} else {
-								activity.onNotify(1,i, 0,
+								activity.onNotify(1, i, 0,
 										Holder.channel_list_edit.getText()
 												.toString());
 								dataList.get(position).setChannelName(

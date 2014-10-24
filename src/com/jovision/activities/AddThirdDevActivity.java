@@ -3,7 +3,6 @@ package com.jovision.activities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;

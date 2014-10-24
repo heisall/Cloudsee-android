@@ -41,12 +41,12 @@ public class JVChannelListActivity extends BaseActivity {
 			ModifyDevTask task = new ModifyDevTask();
 			String[] strParams = new String[4];
 			strParams[0] = device.getFullNo();
-			strParams[1] = channelList.get(arg1).getChannel()+"";
+			strParams[1] = channelList.get(arg1).getChannel() + "";
 			strParams[2] = obj.toString();
 			strParams[3] = arg1 + "";
 			task.execute(strParams);
 			break;
-		case 1222 :
+		case 1222:
 			dialog(channelList.get(arg1).getChannel());
 			break;
 		default:
@@ -69,6 +69,7 @@ public class JVChannelListActivity extends BaseActivity {
 		CacheUtil.saveDevList(deviceList);
 		super.onPause();
 	}
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -77,11 +78,12 @@ public class JVChannelListActivity extends BaseActivity {
 		device = deviceList.get(deviceIndex);
 		channelList = device.getChannelList().toList();
 		for (int i = 1; i < channelList.size(); i++) {
-				channelList.get(i).setIspull(false);
+			channelList.get(i).setIspull(false);
 		}
 		adapter.setData(device.getChannelList().toList());
 		channel_listView.setAdapter(adapter);
 	}
+
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.channellist_layout);
@@ -92,7 +94,7 @@ public class JVChannelListActivity extends BaseActivity {
 		currentmenu.setText(R.string.channalmanager);
 		channel_listView = (ListView) findViewById(R.id.channel_listView);
 		adapter = new ChannelListAdapter(JVChannelListActivity.this);
-		
+
 		btn_left.setOnClickListener(myOnClickListener);
 		btn_right.setOnClickListener(myOnClickListener);
 
@@ -338,7 +340,6 @@ public class JVChannelListActivity extends BaseActivity {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
-
 
 	protected void dialog(final int index) {
 		String okString = JVChannelListActivity.this.getResources().getString(

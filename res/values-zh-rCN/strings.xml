@@ -635,5 +635,6 @@
     <string name="str_alarm_thirddev_default_name">报警设备</string>
     <string name="str_alarm_thirddev_learning">学习中...</string>
     <string name="str_alarm_thirddev_bind_hint">设备昵称</string>
-	<string name="str_telecontrol_device">遥控设备</string>
+    <string name="str_telecontrol_device">遥控设备</string>
+
 </resources>

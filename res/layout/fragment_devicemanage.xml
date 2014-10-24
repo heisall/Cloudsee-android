@@ -89,7 +89,7 @@
                     android:layout_marginLeft="15dp"
                     android:text=""
                     android:textColor="@color/more_fragment_color2"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <RelativeLayout
                     android:id="@+id/devmore_hie"

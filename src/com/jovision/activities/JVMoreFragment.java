@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.test.JVACCOUNT;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.jovision.Consts;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
+import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
@@ -204,7 +206,7 @@ public class JVMoreFragment extends BaseFragment {
 							int position, long id) {
 						// TODO Auto-generated method stub
 						switch (position) {
-						case 0:
+						case 0: {
 							if (MySharedPreference.getBoolean("HELP")) {
 								MySharedPreference.putBoolean("HELP", false);
 							} else {
@@ -213,16 +215,30 @@ public class JVMoreFragment extends BaseFragment {
 								MySharedPreference.putBoolean("page2", false);
 							}
 							break;
-						case 1:
-							if (MySharedPreference.getBoolean("AlarmSwitch")) {
-								MySharedPreference.putBoolean("AlarmSwitch",
-										false);
+						}
+						case 1: {
+							// if (MySharedPreference.getBoolean("AlarmSwitch"))
+							// {
+							// MySharedPreference.putBoolean("AlarmSwitch",
+							// false);
+							// } else {
+							// MySharedPreference.putBoolean("AlarmSwitch",
+							// true);
+							// }
+
+							AlarmTask task = new AlarmTask();
+							Integer[] params = new Integer[3];
+							if (!MySharedPreference.getBoolean("AlarmSwitch")) {// 1是关
+																				// 0是开
+								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
 							} else {
-								MySharedPreference.putBoolean("AlarmSwitch",
-										true);
+								params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
 							}
+							task.execute(params);
+
 							break;
-						case 2:
+						}
+						case 2: {
 							if (MySharedPreference.getBoolean("PlayDeviceMode")) {
 								MySharedPreference.putBoolean("PlayDeviceMode",
 										false);
@@ -240,7 +256,8 @@ public class JVMoreFragment extends BaseFragment {
 																R.string.str_video_more_modetwo));
 							}
 							break;
-						case 3:
+						}
+						case 3: {
 							// if (("firsted").equals(MySharedPreference
 							// .getString(Consts.MORE_FREGMENT_FEEDBACK))) {
 							Intent intent = new Intent(mActivity,
@@ -257,16 +274,19 @@ public class JVMoreFragment extends BaseFragment {
 							// startActivity(intent);
 							// }
 							break;
-						case 4:
+						}
+						case 4: {
 							CheckUpdateTask task = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];
 							strParams[0] = "1";// 0,手动检查更新
 							task.execute(strParams);
 							break;
-						case 5:
+						}
+						case 5: {
 
 							break;
+						}
 
 						default:
 							break;
@@ -281,6 +301,55 @@ public class JVMoreFragment extends BaseFragment {
 		// TODO Auto-generated method stub
 		fragHandler.sendMessage(fragHandler
 				.obtainMessage(what, arg1, arg2, obj));
+	}
+
+	// 设置三种类型参数分别为String,Integer,String
+	private class AlarmTask extends AsyncTask<Integer, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(Integer... params) {
+			int switchRes = -1;
+			if (JVAlarmConst.ALARM_ON == params[0]) {// 开报警
+				switchRes = JVACCOUNT.SetCurrentAlarmFlag(
+						JVAlarmConst.ALARM_ON, ConfigUtil.getIMEI(mActivity));
+				if (0 == switchRes) {
+					Log.e("JVAlarmConst.ALARM--ON-", switchRes + "");
+					MySharedPreference.putBoolean("AlarmSwitch", true);
+				}
+			} else {// 关报警
+				switchRes = JVACCOUNT.SetCurrentAlarmFlag(
+						JVAlarmConst.ALARM_OFF, ConfigUtil.getIMEI(mActivity));
+				if (0 == switchRes) {
+					Log.e("JVAlarmConst.ALARM--CLOSE-", switchRes + "");
+					MySharedPreference.putBoolean("AlarmSwitch", false);
+				}
+			}
+
+			return switchRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			mActivity.dismissDialog();
+			adapter.notifyDataSetChanged();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			mActivity.createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
 	}
 
 	// 注销线程

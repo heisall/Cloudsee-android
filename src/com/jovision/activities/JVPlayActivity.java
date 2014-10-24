@@ -284,10 +284,10 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			MyLog.v("NORMALDATA", obj.toString());
 			// {"autdio_bit":16,"autdio_channel":1,"autdio_sample_rate":8000,"autdio_type":2,"auto_stop_recorder":false,"device_type":4,"fps":15.0,"height":288,"is05":true,"reserved":0,"start_code":290674250,"width":352}
-			
+
 			int newWidth = 0;
 			int newHeight = 0;
-					
+
 			try {
 				JSONObject jobj;
 				jobj = new JSONObject(obj.toString());
@@ -307,7 +307,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 					newWidth = jobj.getInt("width");
 					newHeight = jobj.getInt("height");
-					
+
 					if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
 						// TODO
 						errorDialog(getResources().getString(
@@ -323,9 +323,10 @@ public class JVPlayActivity extends PlayActivity implements
 			MyLog.v("ChannelTag--3", "SingleVoice=" + channel.isSingleVoice());
 
 			// if (arg1 == lastClickIndex) {//当前屏幕
-			
-			if(newWidth != channel.getWidth() || newHeight != channel.getHeight()){//宽高变了才发文本聊天
-				
+			// TODO 不应该只对比宽高
+			if (newWidth != channel.getWidth()
+					|| newHeight != channel.getHeight()) {// 宽高变了才发文本聊天
+
 				channel.setHeight(newHeight);
 				channel.setWidth(newWidth);
 				// 是IPC，发文本聊天请求
@@ -1453,7 +1454,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 	}
 
-	
 	// jy
 	/**
 	 * 所有按钮事件
@@ -2347,19 +2347,18 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 	}
+
 	@Override
 	protected void onResume() {
 		manager.resumeAll();
-		
-		
+
 		handler.removeMessages(WHAT_CHECK_SURFACE);
 		handler.sendMessage(handler.obtainMessage(WHAT_CHECK_SURFACE,
 				lastItemIndex, lastItemIndex));
-//		PlayUtil.resumeAll(manager.getValidChannelList(lastItemIndex),false,ssid);
+		// PlayUtil.resumeAll(manager.getValidChannelList(lastItemIndex),false,ssid);
 		super.onResume();
 	}
 
-	
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -2400,6 +2399,9 @@ public class JVPlayActivity extends PlayActivity implements
 			viewPager.setDisableSliding(true);
 		} else {
 			viewPager.setDisableSliding(false);
+			if (currentScreen == ONE_SCREEN) {
+				refreshIPCFun(channelList.get(lastClickIndex));
+			}
 		}
 	}
 

@@ -213,6 +213,7 @@ public class JVTabActivity extends ShakeActivity implements
 	protected void initUi() {
 		super.initUi();
 		setContentView(R.layout.tab_layout);
+
 		viewpager = (ViewPager) findViewById(R.id.tab_viewpager);
 		viewpager.setOnPageChangeListener(JVTabActivity.this);
 		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);

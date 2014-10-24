@@ -421,6 +421,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			dismissDialog();
 			if (0 == result) {
 				showTextToast(R.string.login_str_device_edit_success);
+				JVIpconnectActivity.this.finish();
 			} else {
 				showTextToast(R.string.login_str_device_edit_failed);
 			}

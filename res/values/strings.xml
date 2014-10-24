@@ -86,8 +86,8 @@
     <string name="login_str_group_pid">parent group number</string>
     <string name="login_str_edit">Edit</string>
     <string name="login_str_delete">Delete</string>
-    <string name="user_name">"账号名称"</string>
-    <string name="last_time">最后一次登录时间：</string>
+    <string name="user_name">Account Name</string>
+    <string name="last_time">Previous login time:</string>
     <string name="login_str_user_name_2">Username</string>
     <string name="login_str_user_pass">Password</string>
     <string name="login_str_user_email">Email</string>
@@ -100,7 +100,10 @@
     <string name="login_str_qq_autho_faild">QQ Authorization failed</string>
     <string name="login_str_qq_autho_success">QQ authorized success</string>
     <!-- JVInfoFragment -->
-    <string name="nomessage">暂时没有报警数据</string>
+    <string name="nomessage">No alarm now.</string>
+    <string name="alerm">报警级别</string>
+    <string name="more_findpassword">Retrieve Password</string>
+    <string name="more_cancel">Cancel the account</string>
     <!-- leftMenu -->
     <string name="devicecount">Total of 0 Device</string>
     <string name="nikename">NickName</string>
@@ -112,7 +115,7 @@
     <string name="str_screen"> channels</string>
     <string name="str_video_play">Video Display</string>
     <string name="str_audio_monitor">Audio</string>
-    <string name="str_audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
+    <string name="str_audio_monitor_forbidden">This function is unavailable during Two-way Talk.</string>
     <string name="str_yt_operate">PTZ Control</string>
     <string name="str_remote_playback">Play back</string>
     <string name="str_audio_monitor_tips">Learn audio info at any time</string>
@@ -123,7 +126,7 @@
     <string name="str_wait_connect">This operation is only available when video connected</string>
     <string name="str_wait_stop_connect">This operation is only available when video disconnected</string>
     <string name="str_forbidden_operation">Unable to use this function during remote playback.</string>
-    <string name="str_not_support_remoteplay">该设备在远程回放时暂停使用</string>
+    <string name="str_not_support_remoteplay">This device is temporarily unable to operate during remote playback.</string>
     <string name="str_picture_savepath">Capture is kept in </string>
     <string name="str_capture">Capture</string>
     <string name="str_voice">Megaphone</string>
@@ -134,20 +137,20 @@
     <string name="str_capture_error3">文件打开失败</string>
     <string name="str_switch_video">Switching to video now...</string>
     <string name="str_has_call">Another client is using Cloud Talk function, please use this function later.</string>
-    <string name="str_call_close"> 对讲功能成功关闭</string>
+    <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="str_play_failed"> play the video failed</string>
     <!-- 更多功能 -->
     <string name="str_more_features">More function</string>
     <string name="str_share">Share</string>
-    <string name="str_sina_share">分享到新浪微博</string>
-    <string name="str_sina_share_default">中维世纪</string>
-    <string name="str_sina_share_tips">您还可以输入0字</string>
-    <string name="str_sina_share_tips_error">文本微博限制在140字以内</string>
-    <string name="str_sina_share_success">微博发布成功</string>
-    <string name="str_sina_share_failed">微博发布失败</string>
-    <string name="str_publish">发表</string>
-    <string name="str_publishing">正在发表...</string>
-    <string name="str_sina_success">认证成功</string>
+    <string name="str_sina_share">Share to Twitter</string>
+    <string name="str_sina_share_default">Jovision</string>
+    <string name="str_sina_share_tips">You can input 0 characters more.</string>
+    <string name="str_sina_share_tips_error">This Microblog is limited to 140 characters.</string>
+    <string name="str_sina_share_success">Released Successfully</string>
+    <string name="str_sina_share_failed">Released Failed </string>
+    <string name="str_publish">Release</string>
+    <string name="str_publishing">Releasing...</string>
+    <string name="str_sina_success">Authenticated successfully</string>
     <string name="str_alarm">Alarm</string>
     <string name="str_alarm_info">Alarm information</string>
     <string name="str_watchtype">Online detection</string>
@@ -159,8 +162,8 @@
     <string name="str_video_mode">Browse model</string>
     <string name="str_video_single_mode">Single</string>
     <string name="str_video_more_mode">Multi</string>
-    <string name="str_video_modetwo">观看模式(单设备)</string>
-    <string name="str_video_more_modetwo">观看模式(多设备)</string>
+    <string name="str_video_modetwo">Viewing Mode(Single-device)</string>
+    <string name="str_video_more_modetwo">Viewing Mode(Multi-device)</string>
     <string name="str_shake_device">Shake</string>
     <string name="str_shake_device_tips">Shake function is for Home Security products only.It\'s normal that WLAN has been switched during configuring. Shake function steps as below：\n1.Shake the mobile phone and the device signal IPC-H-*** can be found then, click to enter the configuration interface.\n2.Choose the WiFi and input the password, click Done until the configuration has been finished.</string>
     <string name="str_open_shake_device">Open</string>
@@ -184,7 +187,7 @@
     <string name="net_errors"> Reasons maybe:\n1.wrong password for router;\n2.unable to get IP address from router, please check router;\n3.Wi-Fi function of mobile phone abnormal.</string>
     <string name="str_quick_setting_new_dev">New version found</string>
     <string name="str_quick_setting_new_dev_tips">You are unable to use the latest functions due to version is not the latest.Suggest you update the camera software over to version V1.1.0.31.</string>
-    <string name="str_quick_setting_devupdate_order">设备升级教程</string>
+    <string name="str_quick_setting_devupdate_order">Demo for updating device.</string>
     <string name="str_quick_setting_update">Update</string>
     <!-- 注册 -->
     <string name="str_enter_username">Email/Username</string>
@@ -228,8 +231,8 @@
     <string name="login_str_searching_device">The device is being searched\nWait a moment...</string>
     <string name="login_str_search_nodevice">The device is not searched,please check Wi-Fi</string>
     <string name="str_local_login">Visitor Login</string>
-    <string name="str_offline_keeponline_success">保持在线成功!</string>
-    <string name="str_offline_keeponline_failed">保持在线失败!</string>
+    <string name="str_offline_keeponline_success">Keep online successfully.</string>
+    <string name="str_offline_keeponline_failed">Failed to be online.</string>
     <string name="str_offline_keeponline">Maintain</string>
     <string name="str_userpass_error">Wrong username or password, please input again.</string>
     <string name="str_net_error">Connection failed, please verify again.</string>
@@ -259,11 +262,11 @@
     <string name="str_skip">skip</string>
     <string name="str_reset">reseting</string>
     <!-- 修改密码 -->
-    <string name="login_str_ipaddress">IP/域名</string>
-    <string name="login_str_ipaddressdevice">IP/域名</string>
+    <string name="login_str_ipaddress">IP/Domain Name</string>
+    <string name="login_str_ipaddressdevice">IP/Domain Name</string>
     <string name="login_str_port">Port</string>
     <string name="login_str_user_name">Username</string>
-    <string name="more_nologin">"请在登陆后做此操作" </string>
+    <string name="more_nologin">Operate after login.</string>
     <string name="cloud_number">CloudNum</string>
     <string name="str_pass">Password</string>
     <string name="str_old_pass">Old Password</string>
@@ -322,21 +325,21 @@
     <string name="str_change_video_type">Switch video standard,Records re-packed.</string>
     <!-- 设备管理 -->
     <string name="str_quick_setting_nextstep">Next</string>
-    <string name="str_quick_setting_neterror">连接网络超时，请检查.</string>
+    <string name="str_quick_setting_neterror">Connect timeout, please check network.</string>
     <string name="str_quick_setting">Quickset</string>
     <string name="str_quick_setting_alert_nowifi">Failed to find the device</string>
     <string name="str_quick_setting_alert_wifiinfo">1 device found, go to configure it?</string>
-    <string name="str_quick_setting_searching_wifi">正在搜索附近设备网络</string>
-    <string name="str_quick_setting_now">正在配置</string>
-    <string name="str_quick_setting_now_1">正在连接网络</string>
-    <string name="str_quick_setting_now_2">正在连接设备的AP网络</string>
-    <string name="str_quick_setting_now_4">正在获取基本信息</string>
-    <string name="str_quick_setting_now_5">正在发送配置信息</string>
-    <string name="str_dev_try_online">设备正在努力上线!</string>
-    <string name="str_online_succ">设备上线成功!</string>
-    <string name="str_online_fail">设备上线失败!</string>
-    <string name="str_try_again">重试</string>
-    <string name="str_no_voice_way">还未取到单双向对讲标识</string>
+    <string name="str_quick_setting_searching_wifi">Searching nearby device now.</string>
+    <string name="str_quick_setting_now">Configuring now</string>
+    <string name="str_quick_setting_now_1">Connecting with network now</string>
+    <string name="str_quick_setting_now_2">Connecting with AP network of the device.</string>
+    <string name="str_quick_setting_now_4">Acquiring basic info now.</string>
+    <string name="str_quick_setting_now_5">Sending config info now.</string>
+    <string name="str_dev_try_online">Device is trying to be onlinw now.</string>
+    <string name="str_online_succ">Device online successfully.</string>
+    <string name="str_online_fail">Device failed to be online.</string>
+    <string name="str_try_again">Retry</string>
+    <string name="str_no_voice_way">Have not acquired Sing- or Two-way talk signal now.</string>
     <string name="str_quick_setting_alert_2">Connecting with device now</string>
     <string name="str_quick_setting_alert_3">Connected successfully, asking for text info now</string>
     <string name="str_quick_setting_alert_4">Asking for Wi-Fi list of host-end</string>
@@ -353,7 +356,7 @@
     <string name="str_quick_setting_reset">Configure again</string>
     <string name="str_wifi_reset_succ">Network recovered successfuly</string>
     <string name="str_device_manage">Device Manager</string>
-    <string name="str_wifi_reset_fail">网络恢复失败</string>
+    <string name="str_wifi_reset_fail">Failed to restore network.</string>
     <string name="str_user_setting">User Setting</string>
     <string name="str_remote_setting">Remote Setting</string>
     <string name="str_connect_mode">Link Mode</string>
@@ -416,7 +419,7 @@
     <string name="str_send_success">Sent successfully,thanks for your feedback!</string>
     <string name="str_wifi_pwd">12345678</string>
     <string name="login_str_ipadress_format_err">IP is invalid, please modify</string>
-    <string name="login_str_domain_format_err">域名解析失败</string>
+    <string name="login_str_domain_format_err">Failed to resolute Domain Name.</string>
     <string name="login_str_port_notnull">Please input the port</string>
     <string name="login_str_port_format_err">Wrong Port number</string>
     <string name="login_str_ip_adress_notnull">Please input IP.</string>
@@ -426,9 +429,9 @@
     <string name="cloud1">云视通</string>
     <string name="cloud2">通天下</string>
     <!-- JVLoginActivity -->
-    <string name="login_demo">演示点</string>
+    <string name="login_demo">Demo</string>
     <!-- JVMoreFrament -->
-    <string name="location_login">访客</string>
+    <string name="location_login">Visitor</string>
     <!-- JVQuickSet -->
     <!-- ap配置流程模块 -->
     <string name="quick_setting_searching">Searching nearby devices now</string>
@@ -437,51 +440,51 @@
     <string name="str_quick_setting_connect">Configure</string>
     <string name="str_quick_setting_waiting">Waiting</string>
     <string name="next_step">Next Step</string>
-    <string name="set_error">配置出错，错误码</string>
-    <string name="try_again">重试</string>
+    <string name="set_error">Failed to configure, error code</string>
+    <string name="try_again">Retry</string>
     <string name="quick_setting_connecting">Connecting now…</string>
     <string name="quick_setting_exiting">Exiting configuration now</string>
     <string name="wifi_reset_failed">Failed to recover network</string>
     <string name="str_quick_install">Quick Install Wireless device</string>
     <string name="str_quick_install_tips2">Step:\n1.Connect mobile phone to the same network with the device..\n2.Choose the device that you want to configure Wifi.\n3.Choose the network\n4.Configure the device and the configuration is completed successfully when you hear "Configured".</string>
-    <string name="video_check">视频检测</string>
-    <string name="voice_call_ap">语音对讲</string>
-    <string name="voice_call_ap_tips">实时进行语音对讲</string>
+    <string name="video_check">Video Detection</string>
+    <string name="voice_call_ap">Two-way Talk</string>
+    <string name="voice_call_ap_tips">Realtime Two-way Talk</string>
 
     <!-- JVEditPassActivity -->
-    <string name="edit_failed">修改失败</string>
-    <string name="edit_succ">密码修改成功，请重新登陆。</string>
+    <string name="edit_failed">Failed to change.</string>
+    <string name="edit_succ">Password changed successfully, please login again.</string>
 
     <!-- JVDemoActivity -->
-    <string name="demo_get_failed">演示点加载失败</string>
+    <string name="demo_get_failed">Unable to connect with demo.</string>
 
     <!-- JVTab -->
-    <string name="sure_exit"> 再按一次退出程序</string>
+    <string name="sure_exit">Press again to quit the App.</string>
     <string name="network_error">Network connection exception,please check the network.</string>
     <string name="tips_3g">You are using the 3G/4G network now.It shall cause a lot mobile data fee if you continute to view the video.You are suggested to use Wi-Fi network.</string>
     <string name="waiting">Waiting...</string>
-    <string name="pressback_exit">再按一次退出程序</string>
+    <string name="pressback_exit">Press again to quit the App.</string>
 
     <!-- 页面顶部名称 -->
-    <string name="my_device">我的设备</string>
-    <string name="video_edit">视频编辑</string>
-    <string name="more_featrue">更多功能</string>
-    <string name="more_modifypwd">修改密码</string>
-    <string name="more_modify">修改资料</string>
-    <string name="channal_list">通道列表</string>
-    <string name="channalmanager">通道管理</string>
-    <string name="demo_list">演示点列表</string>
-    <string name="demo">演示点</string>
-    <string name="video_list">视频列表</string>
-    <string name="video_manager">视频管理</string>
-    <string name="message">系统消息</string>
+    <string name="my_device">My Device</string>
+    <string name="video_edit">Video Edit</string>
+    <string name="more_featrue">More</string>
+    <string name="more_modifypwd">Change the password</string>
+    <string name="more_modify">Modify</string>
+    <string name="channal_list">Channel List</string>
+    <string name="channalmanager">Channel Management</string>
+    <string name="demo_list">Demo List</string>
+    <string name="demo">Demo</string>
+    <string name="video_list">Video List</string>
+    <string name="video_manager">Video Management</string>
+    <string name="message">System Message</string>
     <string name="start_now">Enjoy it now</string>
 
     <!-- 2.3系统视频播放提示 -->
-    <string name="system_lower">您的手机系统是Android$,视频播放时有可能出现花屏，为达到最佳播放效果，建议下载2.8.5版本，是否立即下载?</string>
-    <string name="no_more_tips">不再提示</string>
-    <string name="download">立即下载</string>
-    <string name="not_support_old">该版本不再支持04版解码，如果仍想观看，建议下载2.8.5版本，是否立即下载?</string>
+    <string name="system_lower">Your mobile phone O/S is Android$,The video maybe dazzling during playing, please download O/S 2.8.5, do you want to download now?</string>
+    <string name="no_more_tips">No reminding</string>
+    <string name="download">Download now</string>
+    <string name="not_support_old">This version does not support 04 version decoding,if you want to view, please download version2.8.5, do you want to download now?</string>
 
     <!-- JVOffline -->
     <string name="offline_other_login">Account login elsewhere or account exception.</string>
@@ -505,58 +508,58 @@
     <string name="time_error">时间有问题</string>
 
     <!-- JVMyDeviceFragment -->
-    <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
+    <string name="notwifi_forbid_func">This function is not available under 3G/4G network.</string>
     <string name="str_modify">Modify</string>
-    <string name="end_list">已到最后</string>
-    <string name="str_update">当前设备已全部更新</string>
+    <string name="end_list">The last one.</string>
+    <string name="str_update">Have updated for all devices.</string>
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>
-    <string name="wifi_device">无线设备</string>
-    <string name="line_device">有线设备</string>
-    <string name="selectone_to_connect">请选择至少一个通道进行连接</string>
-    <string name="add_broad_dev">广播到?个设备，是否立即添加？</string>
-    <string name="broad_zero">未广播到设备。</string>
+    <string name="wifi_device">Wireless Device</string>
+    <string name="line_device">Wired Device</string>
+    <string name="selectone_to_connect">Please choose at least one channel to connect.</string>
+    <string name="add_broad_dev">Broadcasting to ? devices,do you want to add?</string>
+    <string name="broad_zero">Unable to broadcast device.</string>
 
     <!-- JVDeviceManageFragment -->
-    <string name="str_fre">一共有</string>
-    <string name="str_aft">个设备</string>
+    <string name="str_fre">Total</string>
+    <string name="str_aft">devices.</string>
     <string name="ip_add_notallow">Do not support devices added  by domain name/IP address.</string>
-    <string name="protect_open_succ">安全防护打开成功</string>
-    <string name="protect_open_fail">安全防护打开失败</string>
-    <string name="protect_close_succ">安全防护关闭成功</string>
-    <string name="protect_close_fail">安全防护关闭失败</string>
-    <string name="device_offline">设备离线不能执行此操作</string>
-    <string name="protect_opened">安全防护</string>
-    <string name="protect_closed">安全防护</string>
+    <string name="protect_open_succ">Enable Security Protection Successfully.</string>
+    <string name="protect_open_fail">Failed to enable Security Protection.</string>
+    <string name="protect_close_succ">Disable Security Protection Successfully.</string>
+    <string name="protect_close_fail">Failed to disable Security Protection.</string>
+    <string name="device_offline">This operation is unavailable since the device is offline now.</string>
+    <string name="protect_opened">Security Protection</string>
+    <string name="protect_closed">Security Protection</string>
 
     <!-- JVInfoFragement -->
     <string name="xlistview_footer_hint_normal">More</string>
     <string name="xlistview_footer_hint_ready">Pull up to load more.</string>
     <string name="xlistview_no_more">No alert now</string>
-    <string name="del_alarm_succ">报警删除成功</string>
-    <string name="del_alarm_failed">报警删除失败</string>
+    <string name="del_alarm_succ">Delete alarm successfully.</string>
+    <string name="del_alarm_failed">Failed to delete alarm.</string>
     <!-- JVIpconnectActivity -->
     <string name="str_ipconnect">连接模式</string>
     <!-- JVPlayActivity -->
     <string name="connfailed_auth">Failed to very ID.</string>
-    <string name="connfailed_channel_notopen">本通道无效</string>
-    <string name="connfailed_type_invalid">连接类型无效</string>
+    <string name="connfailed_channel_notopen">Invalid Channel.</string>
+    <string name="connfailed_type_invalid">Invalid Connection Mode.</string>
     <string name="connfailed_maxcount">Connections have exceeded limitations!</string>
     <string name="connfailed_timeout">Connect timeout!</string>
     <string name="connfailed_auth_tips">Failed to verify indentification, do you need to modify username and password?</string>
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting...</string>
     <string name="connecting_buffer">Buffering now...</string>
-    <string name="is_omx">硬解</string>
-    <string name="not_omx">软解</string>
-    <string name="not_support_oxm">您的手机可能不支持硬解奥。</string>
+    <string name="is_omx">Hardware Decoding</string>
+    <string name="not_omx">Software Decoding</string>
+    <string name="not_support_oxm">Your mobile phone does not support hardware decoding.</string>
     <string name="stream_not_support">This device doesn\'t support video quality switch.</string>
     <string name="audio_monitor_forbidden">This function is not available during two-way talk.</string>
     <string name="video_repaked">Switch video standard,Records re-packed.</string>
     <string name="voice_tips1">You can speak to the other now.</string>
     <string name="voice_tips2">Audio talk is enabled successfully. You can speak to the other through long-click.</string>
     <string name="default_stream">Default</string>
-    <string name="has_calling">设备未开启对讲或已在其他客户端开启云对讲，请稍后重试。</string>
+    <string name="has_calling">The Two-way Talk has not been enabled or is being used by other user, so please try again later.</string>
     <!-- JVAddDeviceActivity -->
     <string name="add_device_succ">Device added successfully</string>
     <string name="add_device_failed">Failed to add device</string>
@@ -576,18 +579,18 @@
     <string name="commit">Send</string>
     <string name="str_commit_success">Thanks for your feedback, we shall work more to provide better service.</string>
     <string name="ok">OK</string>
-    <string name="str_check_now">立即查看</string>
+    <string name="str_check_now">View now</string>
 
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">Manual recording</string>
     <string name="video_alarm">Alarm recording</string>
     <!-- Help -->
-    <string name="str_help_zero">展开多种方式添加设备</string>
-    <string name="str_help_one">远程配置IPC设备的网络和码流</string>
-    <string name="str_help_two">修改、删除设备</string>
-    <string name="str_help_three">切换IP直连和云视通连接模式</string>
-    <string name="str_help_four">添加、修改、删除通道</string>
-    <string name="str_help_five">添加报警设备</string>
+    <string name="str_help_zero">Stretch to add device</string>
+    <string name="str_help_one">Remote set network and stream for IP cameras.</string>
+    <string name="str_help_two">Change/Delete Device</string>
+    <string name="str_help_three">Switch between IP connection and CloudSEE connection.</string>
+    <string name="str_help_four">Add,Change,Delete channel</string>
+    <string name="str_help_five">Add Alarm Device</string>
     <!-- Dialog -->
     <string name="save">Save</string>
     <string name="cancle">Cancle</string>

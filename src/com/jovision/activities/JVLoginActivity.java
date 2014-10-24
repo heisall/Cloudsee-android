@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -186,8 +184,6 @@ public class JVLoginActivity extends BaseActivity {
 						userListView.setAdapter(userAdapter);
 						userListView.setVerticalScrollBarEnabled(false);
 						userListView.setHorizontalScrollBarEnabled(false);
-						userListView
-								.setOnItemClickListener(mOnItemClickListener);
 						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 								LinearLayout.LayoutParams.MATCH_PARENT, 400);
 						userListView.setLayoutParams(params);
@@ -242,18 +238,6 @@ public class JVLoginActivity extends BaseActivity {
 			task.execute(strParams);
 		}
 	}
-
-	OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
-
-		@Override
-		public void onItemClick(AdapterView<?> adapterView, View view,
-				int index, long arg3) {
-			userListIndex = index;
-			onNotify(SELECT_USER, 0, 0, userList.get(index));
-			userAdapter.setName(userList.get(index).getUserName());
-			userAdapter.notifyDataSetChanged();
-		}
-	};
 
 	/**
 	 * click事件

@@ -18,8 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:background="@drawable/videoedit_back_icon"
-            android:padding="10dp" />
+            android:background="@drawable/tab_1" />
 
         <TextView
             android:id="@+id/currentmenu"

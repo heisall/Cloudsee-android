@@ -169,7 +169,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			} else {
 				deviceHolder.devWifiImgL
 						.setImageResource(R.drawable.wifioffline);
-				deviceHolder.wifiStateL.setTextColor(0xffB4B3B3);
+				deviceHolder.wifiStateL.setTextColor(0xffffffff);
 			}
 
 			if (deviceList.get(position * 2).getOnlineState() == 1) {
@@ -179,7 +179,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						.setImageResource(R.drawable.deviceonline);
 			} else {
 				deviceHolder.onLineStateL.setText(R.string.str_device_offline);
-				deviceHolder.onLineStateL.setTextColor(0xffB4B3B3);
+				deviceHolder.onLineStateL.setTextColor(0xffffffff);
 				deviceHolder.devOnlineImgL
 						.setImageResource(R.drawable.deviceoffline);
 			}
@@ -248,7 +248,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 				} else {
 					deviceHolder.devWifiImgR
 							.setImageResource(R.drawable.wifioffline);
-					deviceHolder.wifiStateR.setTextColor(0xffB4B3B3);
+					deviceHolder.wifiStateR.setTextColor(0xffffffff);
 				}
 				if (deviceList.get(position * 2 + 1).getOnlineState() == 1) {
 					deviceHolder.onLineStateR
@@ -259,7 +259,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 				} else {
 					deviceHolder.onLineStateR
 							.setText(R.string.str_device_offline);
-					deviceHolder.onLineStateR.setTextColor(0xffB4B3B3);
+					deviceHolder.onLineStateR.setTextColor(0xffffffff);
 					deviceHolder.devOnlineImgR
 							.setImageResource(R.drawable.deviceoffline);
 				}

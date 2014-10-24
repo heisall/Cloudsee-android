@@ -3,50 +3,50 @@
 
     <!-- 页卡数组 -->
     <string-array name="array_tab">
-        <item>我的设备</item>
-        <item>报警消息</item>
-        <item>视频管理</item>
-        <item>更多功能</item>
+        <item>My Device</item>
+        <item>Alarm Message</item>
+        <item>Video Management</item>
+        <item>More</item>
     </string-array>
 
     <!-- more feature func -->
     <string-array name="array_more">
-        <item> 帮助界面</item>
-        <item> 报警</item>
-        <item> 观看模式(单设备)</item>
-        <item> 意见反馈</item>
-        <item> 检查更新</item>
-        <item> 关于</item>
+        <item> Help</item>
+        <item> Alarm</item>
+        <item> Viewing Mode(Single-device)</item>
+        <item> Feedback</item>
+        <item> Update</item>
+        <item> About</item>
     </string-array>
     <string-array name="array_moreduo">
-        <item> 帮助界面</item>
-        <item> 报警信息</item>
-        <item> 观看模式(多设备)</item>
-        <item> 意见反馈</item>
-        <item> 检查更新</item>
-        <item> 关于</item>
+        <item> Help</item>
+        <item> Alarm</item>
+        <item> Viewing Mode(Multi-device)</item>
+        <item> Feedback</item>
+        <item> Update</item>
+        <item> About</item>
     </string-array>
     <!-- setting -->
     <string-array name="array_setting">
-        <item>场景图片</item>
-        <item> 帮助</item>
-        <item> 报警</item>
-        <item> 观看模式(单设备)</item>
+        <item>Scene Picture</item>
+        <item> Help</item>
+        <item> Alerm</item>
+        <item> Viewing Mode(Single-device)</item>
     </string-array>
 
     <!-- add Dev pop menu -->
     <string-array name="array_pop">
-        <item>云视通号</item>
-        <item>二维码扫描</item>
-        <item>无线设备</item>
-        <item>局域网设备</item>
-        <item>IP/域名设备</item>
+        <item>CloudSEE ID</item>
+        <item>QR Scanning</item>
+        <item>Wireless Device</item>
+        <item>Devices in LAN</item>
+        <item>IP/Domain Name</item>
     </string-array>
     <string-array name="array_popno">
-        <item>云视通号</item>
-        <item>二维码扫描</item>
-        <item>无线设备</item>
-        <item>局域网设备</item>
+        <item>CloudSEE ID</item>
+        <item>QR Scanning</item>
+        <item>Wireless Device</item>
+        <item>Devices in LAN</item>
     </string-array>
 
     <!-- 家庭安防产品 -->
@@ -130,13 +130,13 @@
     </string-array>
     <!-- 视频管理功能 -->
     <string-array name="manage_function">
-        <item>远程设置</item>
-        <item>设备管理</item>
-        <item>连接模式</item>
-        <item>通道管理</item>
-        <item>立即观看</item>
-        <item>报警设置</item>
-        <item>安全防护</item>
+        <item>Remote Configure</item>
+        <item>Device Management</item>
+        <item>Connection Mode</item>
+        <item>Channel Management</item>
+        <item>View now</item>
+        <item>Alarm Device</item>
+        <item>Security Protection</item>
     </string-array>
 
     <!-- 码流切换 -->

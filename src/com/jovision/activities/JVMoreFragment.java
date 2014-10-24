@@ -139,7 +139,7 @@ public class JVMoreFragment extends BaseFragment {
 		more_head = (ImageView) view.findViewById(R.id.more_head_img);
 
 		more_listView = (ListView) view.findViewById(R.id.more_listView);
-		adapter = new FragmentAdapter(activity, dataList);
+		adapter = new FragmentAdapter(JVMoreFragment.this, dataList);
 		more_listView.setAdapter(adapter);
 		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
 

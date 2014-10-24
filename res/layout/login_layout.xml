@@ -150,8 +150,8 @@
             android:layout_gravity="center_vertical"
             android:background="@color/transparent"
             android:text="@string/login_str_user_regist"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textColor="@color/login_more_canclepre"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/findpass_tv"
@@ -161,8 +161,8 @@
             android:autoLink="web"
             android:gravity="right"
             android:text="@string/str_find_pass"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textColor="@color/login_more_canclepre"
+            android:textSize="16sp"
             android:visibility="visible" />
     </RelativeLayout>
 

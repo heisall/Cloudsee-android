@@ -548,7 +548,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 						int count = broadObj.optInt("count");
 						String broadDevNum = gid + no;
 
-						if (!hasDev(broadList, broadDevNum, ip, port)) {
+						// 广播列表和设备列表里面都没有这个设备
+						if (!hasDev(broadList, broadDevNum, ip, port)
+								&& !hasDev(myDeviceList, broadDevNum, ip, port)) {
 							Device broadDev = new Device(ip, port, gid, no,
 									mActivity.getResources().getString(
 											R.string.str_default_user),
@@ -559,8 +561,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 							broadList.add(broadDev);
 							MyLog.v(TAG, "广播到一个设备--" + broadDevNum);
 						}
+
 					} else if (1 == broadObj.optInt("timeout")) {
 						mActivity.dismissDialog();
+
 						if (null != broadList && 0 != broadList.size()) {
 							alertAddDialog();
 						} else {

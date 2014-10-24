@@ -284,6 +284,10 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			MyLog.v("NORMALDATA", obj.toString());
 			// {"autdio_bit":16,"autdio_channel":1,"autdio_sample_rate":8000,"autdio_type":2,"auto_stop_recorder":false,"device_type":4,"fps":15.0,"height":288,"is05":true,"reserved":0,"start_code":290674250,"width":352}
+			
+			int newWidth = 0;
+			int newHeight = 0;
+					
 			try {
 				JSONObject jobj;
 				jobj = new JSONObject(obj.toString());
@@ -301,6 +305,9 @@ public class JVPlayActivity extends PlayActivity implements
 					channel.setAudioType(jobj.getInt("audio_type"));
 					channel.setAudioByte(jobj.getInt("audio_bit"));
 
+					newWidth = jobj.getInt("width");
+					newHeight = jobj.getInt("height");
+					
 					if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
 						// TODO
 						errorDialog(getResources().getString(
@@ -316,10 +323,16 @@ public class JVPlayActivity extends PlayActivity implements
 			MyLog.v("ChannelTag--3", "SingleVoice=" + channel.isSingleVoice());
 
 			// if (arg1 == lastClickIndex) {//当前屏幕
-			// 是IPC，发文本聊天请求
-			if (channel.getParent().isHomeProduct()) {
-				// 请求文本聊天
-				Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+			
+			if(newWidth != channel.getWidth() || newHeight != channel.getHeight()){//宽高变了才发文本聊天
+				
+				channel.setHeight(newHeight);
+				channel.setWidth(newWidth);
+				// 是IPC，发文本聊天请求
+				if (channel.getParent().isHomeProduct()) {
+					// 请求文本聊天
+					Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+				}
 			}
 
 			if (recoding) {
@@ -454,6 +467,29 @@ public class JVPlayActivity extends PlayActivity implements
 								channelList.get(arg1).setStreamTag(
 										Integer.parseInt(streamMap
 												.get("MainStreamQos")));
+
+								if (1 == channelList.get(arg1).getStreamTag()) {
+									// public static native boolean
+									// setBpsAndFps(int index, byte uchType,
+									// int channel, int width, int height, int
+									// mbps, int fps);
+									Jni.setBpsAndFps(arg1,
+											JVNetConst.JVN_RSP_TEXTDATA, 1,
+											1280, 720, 800, 15);
+
+									// arg1,
+									// (byte) JVNetConst.JVN_RSP_TEXTDATA,
+									// 1, 800, 15);
+									MyLog.v("JVSUDT-原高清码流---", arg1
+											+ "---改为--1, 1280, 720, 800, 15");
+								} else if (2 == channelList.get(arg1)
+										.getStreamTag()) {
+									Jni.setBpsAndFps(arg1,
+											JVNetConst.JVN_RSP_TEXTDATA, 1,
+											720, 480, 500, 20);
+									MyLog.v("JVSUDT-原标清码流---", arg1
+											+ "---改为--1, 720, 480, 500, 20");
+								}
 							}
 
 							if (null != streamMap.get("storageMode")
@@ -1417,12 +1453,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 	}
 
-	@Override
-	protected void onResume() {
-		manager.resumeAll();
-		super.onResume();
-	}
-
+	
 	// jy
 	/**
 	 * 所有按钮事件
@@ -2316,7 +2347,19 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 	}
+	@Override
+	protected void onResume() {
+		manager.resumeAll();
+		
+		
+		handler.removeMessages(WHAT_CHECK_SURFACE);
+		handler.sendMessage(handler.obtainMessage(WHAT_CHECK_SURFACE,
+				lastItemIndex, lastItemIndex));
+//		PlayUtil.resumeAll(manager.getValidChannelList(lastItemIndex),false,ssid);
+		super.onResume();
+	}
 
+	
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -2326,7 +2369,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 		stopAll(lastClickIndex, channelList.get(lastClickIndex));
 		manager.pauseAll();
-		// PlayUtil.pauseAll(manager.getValidChannelList(lastItemIndex));
+		PlayUtil.pauseAll(manager.getValidChannelList(lastItemIndex));
 
 		if (Consts.PLAY_NORMAL == playFlag) {
 			CacheUtil.saveDevList(deviceList);
@@ -2355,6 +2398,8 @@ public class JVPlayActivity extends PlayActivity implements
 				videTurnBtn.setVisibility(View.GONE);
 			}
 			viewPager.setDisableSliding(true);
+		} else {
+			viewPager.setDisableSliding(false);
 		}
 	}
 

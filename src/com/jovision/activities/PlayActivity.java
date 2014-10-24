@@ -367,11 +367,12 @@ public abstract class PlayActivity extends BaseActivity {
 									- getStatusHeight(PlayActivity.this),
 							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			topBar.setVisibility(View.VISIBLE);// 顶部标题栏
-			footerBar.setVisibility(View.VISIBLE);// 底部工具栏
 
 			if (Consts.PLAY_AP == playFlag) {
+				footerBar.setVisibility(View.GONE);// 底部工具栏
 				apFuncLayout.setVisibility(View.VISIBLE);
 			} else {
+				footerBar.setVisibility(View.VISIBLE);// 底部工具栏
 				apFuncLayout.setVisibility(View.GONE);
 			}
 

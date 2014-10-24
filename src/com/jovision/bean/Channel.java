@@ -41,6 +41,7 @@ public class Channel {
 	private boolean isVoiceCall = false;// 是否正在对讲
 	private boolean surfaceCreated = false;// surface是否已经创建
 	private boolean isSendCMD = false;// 是否只发关键帧
+	private boolean ispull;//是否展开channal
 
 	private int audioType = 0;// 音频类型
 	private int audioByte = 0;// 音频比特率
@@ -355,6 +356,14 @@ public class Channel {
 
 	public void setSurface(Surface surface) {
 		this.surface = surface;
+	}
+
+	public boolean isIspull() {
+		return ispull;
+	}
+
+	public void setIspull(boolean ispull) {
+		this.ispull = ispull;
 	}
 
 }

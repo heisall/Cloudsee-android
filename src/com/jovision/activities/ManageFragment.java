@@ -44,12 +44,13 @@ public class ManageFragment extends BaseFragment {
 	private ManageAdapter manageAdapter;
 	boolean localFlag = false;
 	private int isDevice;
+	private Bundle bundle;
 
 	int devType = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Bundle bundle = getArguments();
+		bundle = getArguments();
 		deviceIndex = bundle.getInt("DeviceIndex");
 		deviceList = CacheUtil.getDevList();
 		device = deviceList.get(deviceIndex);
@@ -155,6 +156,7 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 3: {// 通道管理
+				deviceIndex = bundle.getInt("DeviceIndex");
 				Intent channerIntent = new Intent(mActivity,
 						JVChannelListActivity.class);
 				channerIntent.putExtra("deviceIndex", deviceIndex);

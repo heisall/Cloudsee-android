@@ -269,7 +269,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 					PlayUtil.broadCast(mActivity);
 				}
 			};
-			broadTimer.schedule(broadTimerTask, 3 * 60 * 1000, 3 * 60 * 1000);
+			broadTimer.schedule(broadTimerTask, 5 * 60 * 1000, 5 * 60 * 1000);
 		}
 
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap

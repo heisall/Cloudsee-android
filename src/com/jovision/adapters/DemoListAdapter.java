@@ -77,18 +77,23 @@ public class DemoListAdapter extends BaseAdapter {
 		} else {
 			deviceHolder = (DeviceHolder) convertView.getTag();
 		}
-		if (isclicked) {
-			deviceHolder.demoaddress.setText(deviceList.get(position)
-					.getNickName());
-			deviceHolder.demodevicename.setText(deviceList.get(position)
-					.getFullNo());
-			deviceHolder.democlass.setText(deviceList.get(position).getUser());
-			deviceHolder.demotime.setText(deviceList.get(position).getPwd());
-		} else {
-			deviceHolder.demoaddress.setText(deviceList.get(position)
-					.getNickName());
-			deviceHolder.demotime.setText(deviceList.get(position).getFullNo());
-		}
+		// if (isclicked) {
+		// deviceHolder.demoaddress.setText(deviceList.get(position)
+		// .getNickName());
+		// deviceHolder.demodevicename.setText(deviceList.get(position)
+		// .getFullNo());
+		// deviceHolder.democlass.setText(deviceList.get(position).getUser());
+		// deviceHolder.demotime.setText(deviceList.get(position).getPwd());
+		// } else {
+		// deviceHolder.demoaddress.setText(deviceList.get(position)
+		// .getNickName());
+		// deviceHolder.demotime.setText(deviceList.get(position).getFullNo());
+		// }
+		deviceHolder.demodevicename.setText(mContext.getResources().getString(
+				R.string.demo)
+				+ (position + 1));
+		deviceHolder.demoaddress.setText(deviceList.get(position).getFullNo());
+
 		switch (position % 2) {
 		case 0:
 			deviceHolder.demopictrue

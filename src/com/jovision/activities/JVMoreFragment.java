@@ -279,7 +279,7 @@ public class JVMoreFragment extends BaseFragment {
 							CheckUpdateTask task = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];
-							strParams[0] = "1";// 0,手动检查更新
+							strParams[0] = "1";// 1,手动检查更新
 							task.execute(strParams);
 							break;
 						}

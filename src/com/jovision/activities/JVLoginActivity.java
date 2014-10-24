@@ -349,12 +349,16 @@ public class JVLoginActivity extends BaseActivity {
 	private int loginRes1 = 0;
 	private int loginRes2 = 0;
 	private int verifyCode = 0;
+	String country = "";
 
 	// 登陆线程
 	private class LoginTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
+
+			country = ConfigUtil.getCountry();
+
 			handler.sendEmptyMessage(WHAT_SHOW_PRO);
 			String strRes = AccountUtil.onLoginProcess(JVLoginActivity.this,
 					statusHashMap.get(Consts.KEY_USERNAME),
@@ -366,7 +370,8 @@ public class JVLoginActivity extends BaseActivity {
 				loginRes1 = respObj.optInt("arg1", 1);
 				loginRes2 = respObj.optInt("arg2", 0);
 				// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
-				MyLog.v(TAG, strRes);
+				MyLog.v(TAG, Url.SHORTSERVERIP + "--" + Url.LONGSERVERIP + "--"
+						+ country + "--" + strRes);
 				String data = respObj.optString("data");
 				if (null != data && !"".equalsIgnoreCase(data)) {
 					JSONObject dataObj = new JSONObject(data);

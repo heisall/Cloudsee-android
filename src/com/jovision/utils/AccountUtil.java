@@ -12,6 +12,8 @@ import android.util.Log;
 
 import com.jovision.bean.ClientBean;
 import com.jovision.bean.User;
+import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 
@@ -72,6 +74,19 @@ public class AccountUtil {
 		JSONObject respObj = null;
 		try {
 			respObj = new JSONObject(strRes);
+
+			// 登陆成功，汇报报警状态
+			int loginRes1 = respObj.optInt("arg1", 1);
+			if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
+
+				if (MySharedPreference.getBoolean("AlarmSwitch")) {
+					JVACCOUNT.SetCurrentAlarmFlag(JVAlarmConst.ALARM_ON,
+							ConfigUtil.getIMEI(mContext));
+				} else {
+					JVACCOUNT.SetCurrentAlarmFlag(JVAlarmConst.ALARM_OFF,
+							ConfigUtil.getIMEI(mContext));
+				}
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

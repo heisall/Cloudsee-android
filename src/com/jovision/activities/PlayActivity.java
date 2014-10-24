@@ -592,6 +592,7 @@ public abstract class PlayActivity extends BaseActivity {
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_left_selector));
 			relative6.setVisibility(View.VISIBLE);
+			bottombut6.setVisibility(View.VISIBLE);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_left_selector));
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
@@ -605,6 +606,7 @@ public abstract class PlayActivity extends BaseActivity {
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_right_selector));
 			relative6.setVisibility(View.VISIBLE);
+			bottombut6.setVisibility(View.VISIBLE);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_right_selector));
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏

@@ -377,6 +377,7 @@ public class JVLoginActivity extends BaseActivity {
 
 			verifyCode = AccountUtil.VerifyUserName(statusHashMap
 					.get(Consts.KEY_USERNAME));
+
 			return loginRes1;
 		}
 

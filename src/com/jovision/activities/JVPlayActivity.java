@@ -849,6 +849,7 @@ public class JVPlayActivity extends PlayActivity implements
 					.getString(Consts.KEY_PLAY_AP);
 			deviceList = Device.fromJsonArray(devJsonString);
 		}
+
 		startWindowIndex = 0;
 		channelList = new ArrayList<Channel>();
 
@@ -865,6 +866,7 @@ public class JVPlayActivity extends PlayActivity implements
 					for (int j = 0; j < csize; j++) {
 						if (cList.get(j).getChannel() < channelOfChannel) {
 							startWindowIndex++;
+							break;
 						}
 					}
 				}
@@ -878,6 +880,7 @@ public class JVPlayActivity extends PlayActivity implements
 			for (int j = 0; j < csize; j++) {
 				if (cList.get(j).getChannel() < channelOfChannel) {
 					startWindowIndex++;
+					break;
 				}
 			}
 
@@ -892,9 +895,8 @@ public class JVPlayActivity extends PlayActivity implements
 		isDoubleClickCheck = false;
 		lastClickIndex = channelList.get(startWindowIndex).getIndex();
 		lastItemIndex = lastClickIndex;
-		MyLog.i(Consts.TAG_XX, "JVPlay.init: startWindowIndex="
-				+ startWindowIndex + "," + channelList.size()
-				+ ", channel/index = "
+		MyLog.i(Consts.TAG_XX, "JVPlay.init: start/size: " + startWindowIndex
+				+ "/" + channelList.size() + ", channel/index: "
 				+ channelList.get(startWindowIndex).getChannel() + "/"
 				+ channelList.get(startWindowIndex).getIndex());
 

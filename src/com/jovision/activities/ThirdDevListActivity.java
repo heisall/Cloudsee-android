@@ -281,6 +281,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 					dialog.dismiss();
 				strDescString = "查询主控绑定设备超时";
 				showTextToast(strDescString);
+				finish();
 				break;
 			default:
 				break;
@@ -455,10 +456,11 @@ public class ThirdDevListActivity extends BaseActivity implements
 							thirdDevAdapter.notifyDataSetChanged();
 						} else {
 							// 失败
-							showToast("该设备暂无绑定第三方设备或者查询失败", Toast.LENGTH_SHORT);
+							showToast("该设备暂无绑定第三方设备", Toast.LENGTH_SHORT);
 						}
 					} else {
 						showTextToast("TextData回调obj参数is null");
+						finish();
 					}
 					break;
 				case Consts.RC_GPIN_SET:// 设置开关

@@ -38,7 +38,7 @@
             android:id="@+id/loadingText" 
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content" 
-            android:text="学习中..." 
+            android:text="@string/str_alarm_thirddev_learning" 
             android:layout_toRightOf="@id/progressBarLoading"
             android:layout_centerVertical="true" />
     </RelativeLayout>

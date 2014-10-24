@@ -1,12 +1,11 @@
 package com.jovision.views;
 
-import com.jovetech.CloudSee.temp.R;
-
-import android.R.integer;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.ImageView;
+
+import com.jovetech.CloudSee.temp.R;
 
 public class CustomDialog extends Dialog {
 	private ImageView img_guide;

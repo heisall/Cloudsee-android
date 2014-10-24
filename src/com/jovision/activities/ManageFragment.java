@@ -37,21 +37,25 @@ public class ManageFragment extends BaseFragment {
 
 	/** 构造参数 */
 	private int deviceIndex;
-	private ArrayList<Device> deviceList = new ArrayList<Device>();
+	private ArrayList<Device> deviceList;
 	private Device device;
 
 	private GridView manageGridView;
 	private ManageAdapter manageAdapter;
 	boolean localFlag = false;
 	private int isDevice;
+	private Bundle bundle;
 
 	int devType = 0;
 
+	public ManageFragment(ArrayList<Device> deviceList) {
+		this.deviceList = deviceList;
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Bundle bundle = getArguments();
+		bundle = getArguments();
 		deviceIndex = bundle.getInt("DeviceIndex");
-		deviceList = CacheUtil.getDevList();
 		device = deviceList.get(deviceIndex);
 		super.onCreate(savedInstanceState);
 	}
@@ -66,7 +70,6 @@ public class ManageFragment extends BaseFragment {
 
 	public void setDevIndex(int index) {
 		try {
-			deviceList = CacheUtil.getDevList();
 			deviceIndex = index;
 			device = deviceList.get(deviceIndex);
 			if (null != device && null != manageAdapter) {
@@ -155,6 +158,7 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 3: {// 通道管理
+				deviceIndex = bundle.getInt("DeviceIndex");
 				Intent channerIntent = new Intent(mActivity,
 						JVChannelListActivity.class);
 				channerIntent.putExtra("deviceIndex", deviceIndex);
@@ -162,7 +166,9 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 4: {// 立即观看
+				MyLog.v(TAG, "prepareConnect1--" + deviceList.toString());
 				PlayUtil.prepareConnect(deviceList, deviceIndex);
+				MyLog.v(TAG, "prepareConnect2--" + deviceList.toString());
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 				intentPlay.putExtra("DeviceIndex", deviceIndex);
 				intentPlay.putExtra("ChannelofChannel", device.getChannelList()
@@ -350,12 +356,6 @@ public class ManageFragment extends BaseFragment {
 			break;
 		}
 	};
-
-	@Override
-	public void onPause() {
-		CacheUtil.saveDevList(deviceList);
-		super.onPause();
-	}
 
 	OnClickListener myOnClickListener = new OnClickListener() {
 

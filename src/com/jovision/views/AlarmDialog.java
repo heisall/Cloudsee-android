@@ -1,5 +1,7 @@
 package com.jovision.views;
 
+import java.util.ArrayList;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.PlayUtil;
 
 //单例模式使用
 public class AlarmDialog extends Dialog {
@@ -33,9 +36,10 @@ public class AlarmDialog extends Dialog {
 	private String alarmTypeName;// 报警类型
 	private String alarmTime;
 	private static int alarmDialogObjs = 0;//new 出来的对象数量
-	
+	private ArrayList<Device> deviceList = new ArrayList<Device>();;
 	public AlarmDialog(Context context) {
 		super(context, R.style.mydialog);
+		this.context = context;
 		// TODO Auto-generated constructor stub
 		synchronized(AlarmDialog.class){
 			alarmDialogObjs++;
@@ -94,13 +98,24 @@ public class AlarmDialog extends Dialog {
 						contextString.indexOf("@"));
 				if (strTempNameString.equals("JVPlayActivity")) {
 				} else {
+					int dev_index = getDeivceIndex(ystNum);
+					deviceList = CacheUtil.getDevList();
+					if(dev_index >= deviceList.size()){
+						Toast.makeText(context, "error index:"+dev_index+", size:"+deviceList.size(), Toast.LENGTH_SHORT).show();
+						return;
+					}
+					
+					MyLog.v("Alarm", "prepareConnect1--" + deviceList.toString());
+					PlayUtil.prepareConnect(deviceList, dev_index);//该函数里已经调用SaveList了
+					MyLog.v("Alarm", "prepareConnect2--" + deviceList.toString());	
+					CacheUtil.saveDevList(deviceList);
+//					deviceList = CacheUtil.getDevList();//再取一次
 					Intent intentPlay = new Intent(context,
 							JVPlayActivity.class);
 					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-					int dev_index = getDeivceIndex(ystNum);
+					
 					intentPlay.putExtra("DeviceIndex", dev_index);
-					intentPlay.putExtra("ChannelofChannel", CacheUtil
-							.getDevList().get(dev_index).getChannelList()
+					intentPlay.putExtra("ChannelofChannel", deviceList.get(dev_index).getChannelList()
 							.toList().get(0).getChannel());
 					Toast.makeText(context, "DeviceIndex:"+dev_index, Toast.LENGTH_SHORT).show();
 					context.startActivity(intentPlay);		

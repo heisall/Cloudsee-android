@@ -15,14 +15,14 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
-import com.jovision.bean.ChannellistBean;
+import com.jovision.bean.Channel;
 import com.jovision.utils.ConfigUtil;
 
 public class ChannelListAdapter extends BaseAdapter {
 
 	private BaseActivity activity;
 	private LayoutInflater inflater;
-	private ArrayList<ChannellistBean> dataList;
+	private ArrayList<Channel> dataList;
 
 	public ChannelListAdapter(BaseActivity activitys) {
 		activity = activitys;
@@ -30,7 +30,7 @@ public class ChannelListAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public void setData(ArrayList<ChannellistBean> dataList) {
+	public void setData(ArrayList<Channel> dataList) {
 		this.dataList = dataList;
 	}
 
@@ -93,7 +93,7 @@ public class ChannelListAdapter extends BaseAdapter {
 											.getText().toString())) {
 								activity.showTextToast(R.string.login_str_nike_name_order);
 							} else {
-								activity.onNotify(1, position, 0,
+								activity.onNotify(1, i, 0,
 										Holder.channel_list_edit.getText()
 												.toString());
 								dataList.get(position).setChannelName(
@@ -104,10 +104,10 @@ public class ChannelListAdapter extends BaseAdapter {
 						} else {
 							dataList.get(i).setIspull(true);
 						}
+						notifyDataSetChanged();
 					} else {
 						dataList.get(i).setIspull(false);
 					}
-					notifyDataSetChanged();
 				}
 			}
 		});
@@ -117,7 +117,7 @@ public class ChannelListAdapter extends BaseAdapter {
 					@Override
 					public boolean onLongClick(View v) {
 						// TODO Auto-generated method stub
-						activity.onNotify(2, position, 0,
+						activity.onNotify(1222, position, 0,
 								Holder.channel_list_edit.getText().toString());
 						return false;
 					}
@@ -146,7 +146,6 @@ public class ChannelListAdapter extends BaseAdapter {
 				.getChannelName());
 		Holder.channel_list_edit.setText(dataList.get(position)
 				.getChannelName());
-
 		return convertView;
 	}
 

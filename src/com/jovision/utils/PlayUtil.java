@@ -788,6 +788,7 @@ public class PlayUtil {
 			// [Neo] 循环利用播放数组，我 tm 就是个天才
 			clist.get(i).setIndex(i);// % Consts.MAX_CHANNEL_CONNECTION);
 		}
+		CacheUtil.saveDevList(deviceList);
 	}
 
 	// /**

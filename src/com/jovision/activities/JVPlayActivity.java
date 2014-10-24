@@ -468,28 +468,29 @@ public class JVPlayActivity extends PlayActivity implements
 										Integer.parseInt(streamMap
 												.get("MainStreamQos")));
 
-								if (1 == channelList.get(arg1).getStreamTag()) {
-									// public static native boolean
-									// setBpsAndFps(int index, byte uchType,
-									// int channel, int width, int height, int
-									// mbps, int fps);
-									Jni.setBpsAndFps(arg1,
-											JVNetConst.JVN_RSP_TEXTDATA, 1,
-											1280, 720, 800, 15);
-
-									// arg1,
-									// (byte) JVNetConst.JVN_RSP_TEXTDATA,
-									// 1, 800, 15);
-									MyLog.v("JVSUDT-原高清码流---", arg1
-											+ "---改为--1, 1280, 720, 800, 15");
-								} else if (2 == channelList.get(arg1)
-										.getStreamTag()) {
-									Jni.setBpsAndFps(arg1,
-											JVNetConst.JVN_RSP_TEXTDATA, 1,
-											720, 480, 500, 20);
-									MyLog.v("JVSUDT-原标清码流---", arg1
-											+ "---改为--1, 720, 480, 500, 20");
-								}
+								// if (1 ==
+								// channelList.get(arg1).getStreamTag()) {
+								// // public static native boolean
+								// // setBpsAndFps(int index, byte uchType,
+								// // int channel, int width, int height, int
+								// // mbps, int fps);
+								// Jni.setBpsAndFps(arg1,
+								// JVNetConst.JVN_RSP_TEXTDATA, 1,
+								// 1280, 720, 800, 15);
+								//
+								// // arg1,
+								// // (byte) JVNetConst.JVN_RSP_TEXTDATA,
+								// // 1, 800, 15);
+								// MyLog.v("JVSUDT-原高清码流---", arg1
+								// + "---改为--1, 1280, 720, 800, 15");
+								// } else if (2 == channelList.get(arg1)
+								// .getStreamTag()) {
+								// Jni.setBpsAndFps(arg1,
+								// JVNetConst.JVN_RSP_TEXTDATA, 1,
+								// 720, 480, 500, 20);
+								// MyLog.v("JVSUDT-原标清码流---", arg1
+								// + "---改为--1, 720, 480, 500, 20");
+								// }
 							}
 
 							if (null != streamMap.get("storageMode")
@@ -791,9 +792,25 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换
-			String streamParam = "MainStreamQos=" + (arg1 + 1);
-			Jni.changeStream(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-					streamParam);
+		// String streamParam = "MainStreamQos=" + (arg1 + 1);
+		// Jni.changeStream(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+		// streamParam);
+			if (0 == arg1) {
+				Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						1, 1280, 720, 1024, 15);
+				MyLog.v("JVSUDT-切到高清码流--0-", arg1
+						+ "---改为--1, 1280, 720, 1024, 15");
+			} else if (1 == arg1) {
+				Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						1, 720, 480, 768, 25);
+				MyLog.v("JVSUDT-切到标清码流--1-", arg1
+						+ "---改为--1, 720, 480, 768, 25");
+			} else if (2 == arg1) {
+				Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						1, 352, 288, 512, 25);
+				MyLog.v("JVSUDT-切到流畅码流--2-", arg1
+						+ "---改为--1, 352, 288, 512, 25");
+			}
 			streamListView.setVisibility(View.GONE);
 			break;
 		}

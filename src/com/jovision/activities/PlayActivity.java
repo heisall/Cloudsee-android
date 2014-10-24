@@ -111,6 +111,7 @@ public abstract class PlayActivity extends BaseActivity {
 	protected MICRecorder recorder;// 音频采集
 
 	protected Button left_btn_h;// 横屏返回键
+	protected TextView currentMenu_h;// 横屏手动录像，报警录像键
 	protected Button right_btn_h;// 横屏手动录像，报警录像键
 	protected RelativeLayout topBarH;// 横屏topbar
 
@@ -188,6 +189,7 @@ public abstract class PlayActivity extends BaseActivity {
 		rightFuncButton.setVisibility(View.GONE);
 
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
+
 		selectScreenNum = (ImageView) findViewById(R.id.selectscreen);
 		alarmRecordDrawableTop = getResources().getDrawable(
 				R.drawable.record_alarm);
@@ -224,6 +226,8 @@ public abstract class PlayActivity extends BaseActivity {
 
 		topBarH = (RelativeLayout) horPlayBarLayout.findViewById(R.id.topbarh);
 		left_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_left);// 横屏返回键
+		currentMenu_h = (TextView) horPlayBarLayout
+				.findViewById(R.id.currentmenu);
 		right_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_right);// 横屏手动录像，报警录像键
 		right_btn_h.setVisibility(View.GONE);
 		topBarH.setBackgroundColor(getResources().getColor(
@@ -363,11 +367,12 @@ public abstract class PlayActivity extends BaseActivity {
 									- getStatusHeight(PlayActivity.this),
 							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			topBar.setVisibility(View.VISIBLE);// 顶部标题栏
-			footerBar.setVisibility(View.VISIBLE);// 底部工具栏
 
 			if (Consts.PLAY_AP == playFlag) {
+				footerBar.setVisibility(View.GONE);// 底部工具栏
 				apFuncLayout.setVisibility(View.VISIBLE);
 			} else {
+				footerBar.setVisibility(View.VISIBLE);// 底部工具栏
 				apFuncLayout.setVisibility(View.GONE);
 			}
 

@@ -86,7 +86,7 @@ public class JVWelcomeActivity extends BaseActivity {
 						Consts.KEY_LAST_PUT_STAMP, 1l));
 
 				boolean useLocal = false;
-				Date current = MyUtils.getChinaTime();
+				Date current = null; // MyUtils.getChinaTime();
 
 				if (null == current) {
 					useLocal = true;

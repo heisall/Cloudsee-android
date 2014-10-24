@@ -41,8 +41,8 @@
                 android:layout_marginLeft="12dp"
                 android:background="@drawable/editimport"
                 android:paddingLeft="10dp"
-                android:text=""
                 android:singleLine="true"
+                android:text=""
                 android:textColor="@color/leftdevicecolor"
                 android:textSize="18sp"
                 android:textStyle="normal" />
@@ -70,8 +70,8 @@
                 android:background="@drawable/editimport"
                 android:inputType="textVisiblePassword"
                 android:paddingLeft="10dp"
-                android:text="abc"
                 android:singleLine="true"
+                android:text="abc"
                 android:textColor="@color/leftdevicecolor"
                 android:textSize="18sp" />
         </TableRow>
@@ -98,8 +98,8 @@
                 android:background="@drawable/editimport"
                 android:paddingLeft="10dp"
                 android:password="true"
-                android:text="123"
                 android:singleLine="true"
+                android:text="123"
                 android:textColor="@color/leftdevicecolor"
                 android:textSize="18sp" />
         </TableRow>

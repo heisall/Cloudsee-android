@@ -442,7 +442,7 @@ public class ConfigUtil {
 	 * 注销方法
 	 */
 	public static void logOut() {
-		Jni.stopSearchLanServer();
+		// Jni.stopSearchLanServer();
 		// Jni.enableLinkHelper(false, 3, 0);
 		// Jni.deinitAudioEncoder();
 		// Jni.deinit();

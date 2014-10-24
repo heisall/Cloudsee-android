@@ -294,13 +294,15 @@ public class JVIpconnectActivity extends BaseActivity {
 					} else if (!ConfigUtil.checkDeviceUsername(userString)) {
 						JVIpconnectActivity.this
 								.showTextToast(R.string.login_str_device_account_error);
-					} else if ("".equalsIgnoreCase(pwdString)) {
-						JVIpconnectActivity.this
-								.showTextToast(R.string.login_str_device_pass_notnull);
-					} else if (!ConfigUtil.checkDevicePwd(pwdString)) {
-						JVIpconnectActivity.this
-								.showTextToast(R.string.login_str_device_pass_error);
-					} else {
+					}
+					// else if ("".equalsIgnoreCase(pwdString)) {
+					// JVIpconnectActivity.this
+					// .showTextToast(R.string.login_str_device_pass_notnull);
+					// } else if (!ConfigUtil.checkDevicePwd(pwdString)) {
+					// JVIpconnectActivity.this
+					// .showTextToast(R.string.login_str_device_pass_error);
+					// }
+					else {
 
 						EditDevTask task = new EditDevTask();
 						String[] params = new String[3];
@@ -353,8 +355,8 @@ public class JVIpconnectActivity extends BaseActivity {
 					editDevice.setPwd(pwdString);
 					editDevice.setIsDevice(1);// Ip设备
 				} else {
-					editDevice.setIp("");
-					editDevice.setPort(0);
+					// editDevice.setIp("");
+					// editDevice.setPort(0);
 					editDevice.setUser(userString);
 					editDevice.setPwd(pwdString);
 					editDevice.setIsDevice(0);// 云视通
@@ -377,8 +379,8 @@ public class JVIpconnectActivity extends BaseActivity {
 						deviceList.get(deviceIndex).setPwd(pwdString);
 						deviceList.get(deviceIndex).setIsDevice(1);// Ip设备
 					} else {
-						deviceList.get(deviceIndex).setIp("");
-						deviceList.get(deviceIndex).setPort(0);
+						// deviceList.get(deviceIndex).setIp("");
+						// deviceList.get(deviceIndex).setPort(0);
 						deviceList.get(deviceIndex).setUser(userString);
 						deviceList.get(deviceIndex).setPwd(pwdString);
 						deviceList.get(deviceIndex).setIsDevice(0);// 云视通

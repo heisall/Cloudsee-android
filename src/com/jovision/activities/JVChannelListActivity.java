@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -37,7 +38,7 @@ public class JVChannelListActivity extends BaseActivity {
 	private TextView currentmenu;
 	private boolean localFlag;
 	private Device device;
-	private int myindex;
+	private int myindex = -1;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -67,7 +68,19 @@ public class JVChannelListActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
+
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 		deviceList = CacheUtil.getDevList();
+		device = deviceList.get(deviceIndex);
+		channelList = deviceList.get(deviceIndex).getChannelList();
+		initChannelBean();
+		adapter.setData(channelbeanList);
+		channel_listView.setAdapter(adapter);
 	}
 
 	@Override
@@ -87,11 +100,6 @@ public class JVChannelListActivity extends BaseActivity {
 		channel_listView = (ListView) findViewById(R.id.channel_listView);
 		adapter = new ChannelListAdapter(JVChannelListActivity.this);
 		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
-		device = deviceList.get(deviceIndex);
-		channelList = deviceList.get(deviceIndex).getChannelList();
-		initChannelBean();
-		adapter.setData(channelbeanList);
-		channel_listView.setAdapter(adapter);
 
 		btn_left.setOnClickListener(myOnClickListener);
 		btn_right.setOnClickListener(myOnClickListener);
@@ -111,6 +119,9 @@ public class JVChannelListActivity extends BaseActivity {
 	private void initChannelBean() {
 		for (int i = 0; i < channelList.size() + 1; i++) {
 			ChannellistBean bean = new ChannellistBean();
+			if (channelList.get(i) == null) {
+				Log.i("TAG", "aaaaaa" + i);
+			}
 			if (i != channelList.size() + 1 && null != channelList.get(i)) {
 				bean.setChannelName(channelList.get(i).getChannelName());
 				bean.setCloudnum(channelList.get(i).getParent().getFullNo());
@@ -119,6 +130,7 @@ public class JVChannelListActivity extends BaseActivity {
 				channelbeanList.add(bean);
 			}
 		}
+		Log.i("TAG", channelList.size() + "ddddddddd" + channelbeanList.size());
 	}
 
 	OnClickListener myOnClickListener = new OnClickListener() {

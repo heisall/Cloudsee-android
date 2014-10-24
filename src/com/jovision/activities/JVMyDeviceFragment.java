@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import neo.droid.p2r.PullToRefreshBase;
+import neo.droid.p2r.PullToRefreshBase.OnLastItemVisibleListener;
+import neo.droid.p2r.PullToRefreshBase.OnRefreshListener;
+import neo.droid.p2r.PullToRefreshListView;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,10 +42,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.MyDeviceListAdapter;
@@ -524,7 +525,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						int port = broadObj.optInt("port");
 						String broadDevNum = gid + no;
 
-						hasDev(broadDevNum, ip, port);
+						hasDev(myDeviceList, broadDevNum, ip, port);
 
 					} else if (1 == broadObj.optInt("timeout")) {
 
@@ -547,7 +548,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 						int count = broadObj.optInt("count");
 						String broadDevNum = gid + no;
 
-						if (!hasDev(broadDevNum, ip, port)) {
+						// 广播列表和设备列表里面都没有这个设备
+						if (!hasDev(broadList, broadDevNum, ip, port)
+								&& !hasDev(myDeviceList, broadDevNum, ip, port)) {
 							Device broadDev = new Device(ip, port, gid, no,
 									mActivity.getResources().getString(
 											R.string.str_default_user),
@@ -558,8 +561,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 							broadList.add(broadDev);
 							MyLog.v(TAG, "广播到一个设备--" + broadDevNum);
 						}
+
 					} else if (1 == broadObj.optInt("timeout")) {
 						mActivity.dismissDialog();
+
 						if (null != broadList && 0 != broadList.size()) {
 							alertAddDialog();
 						} else {
@@ -629,11 +634,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 * @param devNum
 	 * @return
 	 */
-	public boolean hasDev(String devNum, String ip, int port) {
+	public boolean hasDev(ArrayList<Device> devList, String devNum, String ip,
+			int port) {
 		boolean has = false;
 		// for (int i = 0; i < size; i++) {
 		// Device device = myDeviceList.get(i);
-		for (Device dev : myDeviceList) {
+		for (Device dev : devList) {
 			if (devNum.equalsIgnoreCase(dev.getFullNo())) {
 				dev.setIp(ip);
 				dev.setPort(port);

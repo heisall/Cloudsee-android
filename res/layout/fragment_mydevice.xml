@@ -16,7 +16,7 @@
         android:layout_below="@+id/top_bar"
         android:orientation="vertical" >
 
-        <com.handmark.pulltorefresh.library.PullToRefreshListView
+        <neo.droid.p2r.PullToRefreshListView
             android:id="@+id/device_refreshable_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -184,7 +184,7 @@
     <string name="net_errors"> Reasons maybe:\n1.wrong password for router;\n2.unable to get IP address from router, please check router;\n3.Wi-Fi function of mobile phone abnormal.</string>
     <string name="str_quick_setting_new_dev">New version found</string>
     <string name="str_quick_setting_new_dev_tips">You are unable to use the latest functions due to version is not the latest.Suggest you update the camera software over to version V1.1.0.31.</string>
-        <string name="str_quick_setting_devupdate_order">设备升级教程</string>
+    <string name="str_quick_setting_devupdate_order">设备升级教程</string>
     <string name="str_quick_setting_update">Update</string>
     <!-- 注册 -->
     <string name="str_enter_username">Email/Username</string>
@@ -320,8 +320,6 @@
     <string name="str_exiting_now">Disconnecting now Please wait...</string>
     <string name="str_no_response_data">Network connection exception,please login again.</string>
     <string name="str_change_video_type">Switch video standard,Records re-packed.</string>
-    <string name="str_device">Device</string>
-    <string name="str_device_name">A361</string>
     <!-- 设备管理 -->
     <string name="str_quick_setting_nextstep">Next</string>
     <string name="str_quick_setting_neterror">连接网络超时，请检查.</string>
@@ -355,7 +353,7 @@
     <string name="str_quick_setting_reset">Configure again</string>
     <string name="str_wifi_reset_succ">Network recovered successfuly</string>
     <string name="str_device_manage">Device Manager</string>
-        <string name="str_wifi_reset_fail">网络恢复失败</string>
+    <string name="str_wifi_reset_fail">网络恢复失败</string>
     <string name="str_user_setting">User Setting</string>
     <string name="str_remote_setting">Remote Setting</string>
     <string name="str_connect_mode">Link Mode</string>
@@ -640,7 +638,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.17(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.19(重构) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

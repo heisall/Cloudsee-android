@@ -80,7 +80,7 @@ public class UserSpinnerAdapter extends BaseAdapter {
 		holder.textView.setText(info.getUserName());
 
 		if (info.getUserName().equalsIgnoreCase(userName)) {
-			holder.userIcon.setVisibility(View.VISIBLE);
+			holder.userIcon.setVisibility(View.INVISIBLE);
 			holder.textView.setTextColor(activity.getResources().getColor(
 					R.color.userinfocolor2));
 		} else {

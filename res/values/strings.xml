@@ -638,7 +638,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.18(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.19(重构) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 
@@ -660,6 +660,7 @@
     <string name="str_third_device_name">Device Name</string>
     <string name="str_door_device">Door Device</string>
     <string name="str_bracelet_device">Bracelet Device</string>
+    <string name="str_telecontrol_device">Telecontrol Device</string>
     <string name="str_click_add_device">Click here to add new equipment</string>
     <string name="str_alarm_connect_except">Abnormal connection disconnected</string>
     <string name="str_alarm_thirddev_default_name">Alarm Device</string>

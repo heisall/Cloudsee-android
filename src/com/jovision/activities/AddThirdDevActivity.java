@@ -3,6 +3,7 @@ package com.jovision.activities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.integer;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.AlarmUtil;
+import com.jovision.views.CustomDialog;
 
 public class AddThirdDevActivity extends BaseActivity implements
 		OnClickListener, OnDeviceClassSelectedListener, OnSetNickNameListener {
@@ -37,7 +39,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private boolean bConnectedFlag;
 	private int dev_type_mark;
 	private PlayWindowManager manager;
-	private ProgressDialog dialog;
+	private ProgressDialog waitingDialog;
 	private int dev_uid;
 	private String nickName;
 	private int fragment_tag = 0;// 0，添加界面； 1 绑定界面
@@ -45,6 +47,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private MyHandler myHandler;
 	private int process_flag = 0; // 0 绑定设备 1绑定昵称
 	private boolean bind_nick_res = false;
+	private CustomDialog learningDialog;
+	private int[] add_device_types = { R.drawable.third_guide_door,
+			R.drawable.third_guide_door, R.drawable.third_guide_bracelet,
+			R.drawable.third_guide_telecontrol, };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,11 +62,18 @@ public class AddThirdDevActivity extends BaseActivity implements
 		strYstNum = extras.getString("dev_num");
 		bConnectedFlag = extras.getBoolean("conn_flag");
 		bNeedSendTextReq = extras.getBoolean("text_req_flag");
-		if (null == dialog) {
-			dialog = new ProgressDialog(this);
-			dialog.setCancelable(false);
+		if (null == learningDialog) {
+			learningDialog = new CustomDialog(this,
+					android.R.style.Theme_NoTitleBar_Fullscreen);
+			learningDialog.setCancelable(false);
 		}
-		dialog.setMessage(getResources().getString(R.string.waiting));
+		if (null == waitingDialog) {
+			waitingDialog = new ProgressDialog(this);
+			waitingDialog.setCancelable(false);
+			waitingDialog
+					.setMessage(getResources().getString(R.string.waiting));
+		}
+
 		// Check that the activity is using the layout version with
 		// the fragment_container FrameLayout
 		if (findViewById(R.id.fragment_container) != null) {
@@ -138,23 +151,23 @@ public class AddThirdDevActivity extends BaseActivity implements
 			titleTv.setText(R.string.str_door_device);
 			dev_type_mark = 1;// 门禁
 
-			dialog.show();
 			if (!bConnectedFlag) {
-				dialog.setMessage(getResources().getString(R.string.waiting));
+				waitingDialog.show();
 				if (!AlarmUtil.OnlyConnect(strYstNum)) {
 					showTextToast("连接失败，已经连接或者超过最大连接数");
-					dialog.dismiss();
+					waitingDialog.dismiss();
 				}
 			} else {
-				// 首先需要发送文本聊天请求
-				dialog.setMessage(getResources().getString(
-						R.string.str_alarm_thirddev_learning));
+
 				if (bNeedSendTextReq) {
+					// 首先需要发送文本聊天请求
+					waitingDialog.show();
 					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
 					// 10000);// 10秒获取不到就取消Dialog
 				} else {
+					learningDialog.Show(add_device_types[index]);
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -166,23 +179,52 @@ public class AddThirdDevActivity extends BaseActivity implements
 			titleTv.setText(R.string.str_bracelet_device);
 			dev_type_mark = 2;// 手环
 
-			dialog.show();
 			if (!bConnectedFlag) {
-				dialog.setMessage(getResources().getString(R.string.waiting));
+				waitingDialog.show();
 				if (!AlarmUtil.OnlyConnect(strYstNum)) {
 					showTextToast("连接失败，已经连接或者超过最大连接数");
-					dialog.dismiss();
+					waitingDialog.dismiss();
 				}
 			} else {
-				dialog.setMessage(getResources().getString(
-						R.string.str_alarm_thirddev_learning));
+
 				// 首先需要发送文本聊天请求
 				if (bNeedSendTextReq) {
+					waitingDialog.show();
 					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
 					// 10000);// 10秒获取不到就取消Dialog
 				} else {
+					learningDialog.Show(add_device_types[index]);
+					String req_data = "type=" + dev_type_mark + ";";
+					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+							(byte) Consts.RC_GPIN_ADD, req_data.trim());
+				}
+
+			}
+			break;
+		case 3:
+			titleTv.setText(R.string.str_telecontrol_device);
+			dev_type_mark = 3;// 遥控
+
+			if (!bConnectedFlag) {
+				waitingDialog.show();
+				if (!AlarmUtil.OnlyConnect(strYstNum)) {
+					showTextToast("连接失败，已经连接或者超过最大连接数");
+					waitingDialog.dismiss();
+				}
+			} else {
+
+				// 首先需要发送文本聊天请求
+				if (bNeedSendTextReq) {
+					waitingDialog.show();
+					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
+					// 10000);// 10秒获取不到就取消Dialog
+				} else {
+					learningDialog.Show(add_device_types[index]);
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -202,8 +244,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			switch (msg.what) {
 			case JVNetConst.JVN_REQ_TEXT:
 			case JVNetConst.JVN_RSP_TEXTDATA:
-				if (dialog != null && dialog.isShowing())
-					dialog.dismiss();
+				DismissDialog();
 				showTextToast("主控绑定设备超时");
 				break;
 
@@ -235,8 +276,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 				break;
 			// 2 -- 断开连接成功
 			case JVNetConst.DISCONNECT_OK: {
-				if (dialog != null && dialog.isShowing())
-					dialog.dismiss();
+
 				bConnectedFlag = false;
 
 			}
@@ -244,8 +284,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
 				bConnectedFlag = false;
-				if (dialog != null && dialog.isShowing())
-					dialog.dismiss();
+				if (waitingDialog != null && waitingDialog.isShowing())
+					waitingDialog.dismiss();
 				try {
 					JSONObject connectObj = new JSONObject(obj.toString());
 					String errorMsg = connectObj.getString("msg");
@@ -273,14 +313,14 @@ public class AddThirdDevActivity extends BaseActivity implements
 				break;
 			case JVNetConst.ABNORMAL_DISCONNECT:
 			case JVNetConst.SERVICE_STOP:
-				if (dialog != null && dialog.isShowing())
-					dialog.dismiss();
+				if (waitingDialog != null && waitingDialog.isShowing())
+					waitingDialog.dismiss();
 				bConnectedFlag = false;
 				showTextToast(R.string.str_alarm_connect_except);
 				break;
 			default:
-				if (dialog != null && dialog.isShowing())
-					dialog.dismiss();
+				if (waitingDialog != null && waitingDialog.isShowing())
+					waitingDialog.dismiss();
 				bConnectedFlag = false;
 				break;
 			}
@@ -293,6 +333,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本请求后才发送请求,这里要区分出是添加还是最后的绑定昵称
 				bNeedSendTextReq = false;
 				if (process_flag == 0) {
+					if (waitingDialog.isShowing()) {
+						waitingDialog.dismiss();
+					}
+					learningDialog.Show(add_device_types[dev_type_mark]);
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -304,14 +348,12 @@ public class AddThirdDevActivity extends BaseActivity implements
 				// 10000);// 10秒获取不到就取消Dialog
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 文本请求聊天终止
-				if (dialog != null && dialog.isShowing())
-					dialog.dismiss();
+				DismissDialog();
 				bNeedSendTextReq = true;
 				showTextToast("文本请求聊天终止");
 				break;
 			case JVNetConst.JVN_RSP_TEXTDATA: {
-				if (dialog != null && dialog.isShowing())
-					dialog.dismiss();
+				DismissDialog();
 				JSONObject respObject = null;
 				if (obj != null) {
 					try {
@@ -330,6 +372,9 @@ public class AddThirdDevActivity extends BaseActivity implements
 				int flag = respObject.optInt("flag");
 				switch (flag) {
 				case Consts.RC_GPIN_ADD:// 绑定设备
+					if (learningDialog.isShowing()) {
+						learningDialog.dismiss();
+					}
 					if (obj != null) {
 						String addStr = respObject.optString("msg");
 						String addStrArray[] = addStr.split(";");
@@ -383,8 +428,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 
 				case Consts.RC_GPIN_SET:// 设置昵称
 					if (obj != null) {
-						if (dialog != null && dialog.isShowing())
-							dialog.dismiss();
+						if (waitingDialog != null && waitingDialog.isShowing())
+							waitingDialog.dismiss();
 						String setStr = respObject.optString("msg");
 						String setStrArray[] = setStr.split(";");
 						ThirdAlarmDev setalarm = new ThirdAlarmDev();
@@ -433,8 +478,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 				break;
 			default:
-				if (dialog != null && dialog.isShowing())
-					dialog.dismiss();
+				DismissDialog();
 				showTextToast("TextData其他回调" + arg2);
 				break;
 			}
@@ -480,13 +524,13 @@ public class AddThirdDevActivity extends BaseActivity implements
 		nickName = strNickName;
 		if (!bConnectedFlag) {
 			//
-			dialog.show();
+			waitingDialog.show();
 			if (!AlarmUtil.OnlyConnect(strYstNum)) {
 				showTextToast("连接失败，已经连接或者超过最大连接数");
-				dialog.dismiss();
+				waitingDialog.dismiss();
 			}
 		} else {
-			dialog.show();
+			waitingDialog.show();
 			SendBingNickName(nickName);
 		}
 	}
@@ -501,5 +545,12 @@ public class AddThirdDevActivity extends BaseActivity implements
 		Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 				(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 				(byte) Consts.RC_GPIN_SET, reqData.trim());
+	}
+
+	private void DismissDialog() {
+		if (learningDialog != null && learningDialog.isShowing())
+			learningDialog.dismiss();
+		if (waitingDialog != null && waitingDialog.isShowing())
+			waitingDialog.dismiss();
 	}
 }

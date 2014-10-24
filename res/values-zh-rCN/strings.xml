@@ -609,7 +609,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.18(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.19(重构) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->
@@ -634,6 +634,6 @@
     <string name="str_alarm_connect_except">连接异常断开</string>
     <string name="str_alarm_thirddev_default_name">报警设备</string>
     <string name="str_alarm_thirddev_learning">学习中...</string>
-    <string name="str_alarm_thirddev_bind_hint">如:客厅/卧室/厨房等</string>
-
+    <string name="str_alarm_thirddev_bind_hint">设备昵称</string>
+	<string name="str_telecontrol_device">遥控设备</string>
 </resources>

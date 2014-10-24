@@ -359,10 +359,20 @@ public class JVDeviceManageFragment extends BaseFragment {
 			// 初始化viewPager
 			initViewPager();
 		}
-		((ManageFragment) fragments.get(deviceIndex)).setDevIndex(deviceIndex);
-		managePager.setCurrentItem(deviceIndex);
-		mHorizontalScrollView.smoothScrollTo((deviceIndex - 1) * item_width, 0);
-		mHorizontalScrollView.invalidate();
+		try {
+			ManageFragment fragement = ((ManageFragment) fragments
+					.get(deviceIndex));
+			if (null != fragement) {
+				fragement.setDevIndex(deviceIndex);
+			}
+			managePager.setCurrentItem(deviceIndex);
+			mHorizontalScrollView.smoothScrollTo(
+					(deviceIndex - 1) * item_width, 0);
+			mHorizontalScrollView.invalidate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		super.onResume();
 	}
 

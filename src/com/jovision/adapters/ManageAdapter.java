@@ -125,7 +125,7 @@ public class ManageAdapter extends BaseAdapter {
 
 		// 本地登陆
 		if (loacal) {
-			if (6 == position) {
+			if (6 == position || 5 == position) {
 				convertView.setVisibility(View.GONE);
 			}
 		} else {

@@ -85,6 +85,15 @@ public class JVLoginActivity extends BaseActivity {
 			userNameET.setText("");
 			passwordET.setText("");
 			UserUtil.deleteUser(arg1);
+
+			userList = UserUtil.getUserList();
+			if (null == userList || 0 == userList.size()) {
+				moreUserIV.setVisibility(View.GONE);
+			} else {
+				moreUserIV.setVisibility(View.VISIBLE);
+				userAdapter.setData(userList);
+				userAdapter.notifyDataSetChanged();
+			}
 			break;
 		case SELECT_USER:
 			userNameET.setText(((User) obj).getUserName());

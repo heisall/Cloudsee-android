@@ -1073,7 +1073,7 @@ public class DeviceUtil {
 		}
 
 		if (res == 0) {
-			saveToDB(loginUserName, dGuid, saveKey, saveValue);
+			int saveRes = saveToDB(loginUserName, dGuid, saveKey, saveValue);
 		}
 		return res;
 	}

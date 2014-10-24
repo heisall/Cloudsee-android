@@ -53,6 +53,9 @@ public class Channel {
 	private int streamTag = -1;// 码流参数值 MainStreamQos 123
 	private int screenTag = -1;// 屏幕方向值 effect_flag 0(正),4(反)
 
+	private int width = 0;// 音频类型
+	private int height = 0;// 音频比特率
+
 	private boolean isPaused;
 	private Surface surface;
 
@@ -358,12 +361,20 @@ public class Channel {
 		this.surface = surface;
 	}
 
-	public boolean isIspull() {
-		return ispull;
+	public int getWidth() {
+		return width;
 	}
 
-	public void setIspull(boolean ispull) {
-		this.ispull = ispull;
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 }

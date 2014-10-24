@@ -162,6 +162,9 @@ public class ThirdDevAdapter extends BaseAdapter {
 			} else if (devItem.dev_type_mark == 2) {// 手环设备
 				viewHolder.dev_type_img
 						.setBackgroundResource(R.drawable.third_bracelet_default);
+			} else if (devItem.dev_type_mark == 3) {// 遥控设备
+				viewHolder.dev_type_img
+						.setBackgroundResource(R.drawable.third_telecontrol_default);
 			}
 			final ListHandler handler = new ListHandler();
 			viewHolder.switch_btn

@@ -310,6 +310,18 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			}
 			if (errorCount == 0 || errorCount == 10 || errorCount == 20) {
 				WifiConfiguration desWifi = wifiAdmin.isExsits(wifi);
+
+				if (null != desWifi) {// 目标Ap已存在wifi列表里，需要移除重新连接，防止连接已存在的一直连接不上
+					wifiAdmin.disconnectWifi(desWifi, true);// 关掉，移除,不移除会记住原来的密码
+					try {
+						Thread.sleep(1 * 1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					desWifi = wifiAdmin.isExsits(wifi);
+				}
+
 				if (null == desWifi) {
 					int enc = 0;
 					if ("".equalsIgnoreCase(password)) {
@@ -818,7 +830,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			// finish();
 			break;
 		case Consts.QUICK_SETTING_DEV_ONLINE: {// 网络恢复成功
-			playSound(Consts.SOUNDSEVINE);// 播放“叮”的一声
+
+			playSound(Consts.SOUNDSIX);// 播放“叮”的一声
 			showSearch(false);
 			// 设置全屏
 			JVQuickSettingActivity.this.getWindow().setFlags(
@@ -1227,13 +1240,22 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 			} else {
 				if (0 == result) {
+					handler.postDelayed(new Thread() {// 播放，配置完成声音
+
+								@Override
+								public void run() {
+									super.run();
+									playSound(Consts.SOUNDSEVINE);
+								}
+
+							}, 200);
+
 					showSearch(false);
 					// 设置全屏
 					JVQuickSettingActivity.this.getWindow().setFlags(
 							WindowManager.LayoutParams.FLAG_FULLSCREEN,
 							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 					quickSetDeviceImg.setVisibility(View.VISIBLE);
-					playSound(Consts.SOUNDSEVINE);
 				} else if (2 == result) {
 					JVQuickSettingActivity.this.finish();
 				} else {

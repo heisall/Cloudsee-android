@@ -665,6 +665,6 @@
     <string name="str_alarm_connect_except">Abnormal connection disconnected</string>
     <string name="str_alarm_thirddev_default_name">Alarm Device</string>
     <string name="str_alarm_thirddev_learning">do in learning...</string>
-    <string name="str_alarm_thirddev_bind_hint">e.g:Parlor/bedroom/kitchen...</string>
+    <string name="str_alarm_thirddev_bind_hint">Device NickName</string>
 
 </resources>

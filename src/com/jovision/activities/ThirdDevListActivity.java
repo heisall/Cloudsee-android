@@ -193,7 +193,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 	}
 
 	private void showToast(String text, int duration) {
-		Toast.makeText(this, "[DEBUG] " + text, duration).show();
+		Toast.makeText(this, text, duration).show();
 	}
 
 	// [lkp]

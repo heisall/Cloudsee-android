@@ -378,7 +378,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	@Override
 	public void onPause() {
-		CacheUtil.saveDevList(manageDeviceList);
+		// CacheUtil.saveDevList(manageDeviceList);
 		super.onPause();
 	}
 

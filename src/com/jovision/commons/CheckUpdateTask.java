@@ -16,6 +16,7 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 	private String versionCode = "";// 远端版本号
 	private String fileSize = "";// //远端文件大小
 	private String updateLog = "";// 远端升级日志
+	private int autoUpdate = 0;// 0,自动检查更新,,1,手动检查更新
 
 	public CheckUpdateTask(Context con) {
 		mContext = con;
@@ -25,16 +26,20 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 	@Override
 	protected Integer doInBackground(String... params) {
 		int checkRes = -1;
+		autoUpdate = Integer.parseInt(params[0]);
+
 		String lan = String.valueOf(ConfigUtil.getLanguage());
 		try {
-			JSONArray array = JSONUtil.getJSON(Url.CHECK_UPDATE_URL
-					+ "?Language=" + String.valueOf(lan)
+			String checkUrl = Url.CHECK_UPDATE_URL + "?Language="
+					+ String.valueOf(lan)
 					+ "&"
 					+ "RequestType=3&"
 					+ "MobileType=1&"// 1 代表android
 					+ "Version="
 					+ mContext.getResources().getString(
-							R.string.str_update_app_version));
+							R.string.str_update_app_version);
+			MyLog.v("CheckUrl", checkUrl);
+			JSONArray array = JSONUtil.getJSON(checkUrl);
 			int curVersion = mContext.getPackageManager().getPackageInfo(
 					mContext.getResources()
 							.getString(R.string.str_package_name), 0).versionCode;
@@ -57,10 +62,7 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 				if (curVersion < Integer.parseInt(versionCode)) {
 					checkRes = 1;// 有更新
 				} else {
-					int tag = Integer.parseInt(params[0]);
-					if (1 == tag) {// 手动更新才提示没有更新，自动更新没有更新时不提示
-						checkRes = 0;// 没更新
-					}
+					checkRes = 0;// 没更新
 				}
 
 			}
@@ -84,8 +86,16 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 			JVUpdate jvUpdate = new JVUpdate(mContext);
 			jvUpdate.checkUpdateInfo(updateLog);
 		} else if (0 == result) {
-			((BaseActivity) mContext)
-					.showTextToast(R.string.str_already_newest);
+			if (1 == autoUpdate) {// 手动更新才提示没有更新，自动更新没有更新时不提示
+				((BaseActivity) mContext)
+						.showTextToast(R.string.str_already_newest);
+			}
+
+		} else {
+			if (1 == autoUpdate) {// 手动更新才提示没有更新，自动更新没有更新时不提示
+				((BaseActivity) mContext)
+						.showTextToast(R.string.str_check_update_failed);
+			}
 		}
 
 	}

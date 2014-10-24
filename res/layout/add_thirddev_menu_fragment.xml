@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/add_door_btn"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="11dp"
+                android:layout_marginBottom="18dp"
                 android:text="@string/str_door_device"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -34,7 +34,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp" >
+            android:layout_marginTop="6dp" >
 
             <Button
                 android:id="@+id/add_bracelet_btn"
@@ -47,8 +47,30 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/add_bracelet_btn"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="11dp"
+                android:layout_marginBottom="18dp"
                 android:text="@string/str_bracelet_device"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp" >
+
+            <Button
+                android:id="@+id/add_telecontrol_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/third_telecontrol_bg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/add_telecontrol_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="18dp"
+                android:text="@string/str_telecontrol_device"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </RelativeLayout>

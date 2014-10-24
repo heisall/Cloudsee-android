@@ -526,8 +526,8 @@
     <string name="protect_close_succ">安全防护关闭成功</string>
     <string name="protect_close_fail">安全防护关闭失败</string>
     <string name="device_offline">设备离线不能执行此操作</string>
-    <string name="protect_opened">安全防护开启</string>
-    <string name="protect_closed">安全防护关闭</string>
+    <string name="protect_opened">安全防护</string>
+    <string name="protect_closed">安全防护</string>
 
     <!-- JVInfoFragement -->
     <string name="xlistview_footer_hint_normal">More</string>
@@ -660,10 +660,11 @@
     <string name="str_third_device_name">Device Name</string>
     <string name="str_door_device">Door Device</string>
     <string name="str_bracelet_device">Bracelet Device</string>
+    <string name="str_telecontrol_device">Telecontrol Device</string>
     <string name="str_click_add_device">Click here to add new equipment</string>
     <string name="str_alarm_connect_except">Abnormal connection disconnected</string>
     <string name="str_alarm_thirddev_default_name">Alarm Device</string>
     <string name="str_alarm_thirddev_learning">do in learning...</string>
-    <string name="str_alarm_thirddev_bind_hint">e.g:Parlor/bedroom/kitchen...</string>
+    <string name="str_alarm_thirddev_bind_hint">Device NickName</string>
 
 </resources>

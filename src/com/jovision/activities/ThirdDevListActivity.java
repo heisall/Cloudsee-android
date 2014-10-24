@@ -193,7 +193,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 	}
 
 	private void showToast(String text, int duration) {
-		Toast.makeText(this, "[DEBUG] " + text, duration).show();
+		Toast.makeText(this, text, duration).show();
 	}
 
 	// [lkp]
@@ -272,11 +272,16 @@ public class ThirdDevListActivity extends BaseActivity implements
 	class MyHandler extends Handler {
 		@Override
 		public void dispatchMessage(Message msg) {
+			String strDescString = "";
 			switch (msg.what) {
+			case JVNetConst.JVN_REQ_TEXT:
+				strDescString = "等待文本请求结果超时";
 			case Consts.RC_GPIN_SECLECT:
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
-				showTextToast("获取主控绑定设备超时");
+				strDescString = "查询主控绑定设备超时";
+				showTextToast(strDescString);
+				finish();
 				break;
 			default:
 				break;
@@ -302,6 +307,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 				// 首先需要发送文本聊天请求
 				Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
 						(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+				new Thread(new TimeOutProcess(JVNetConst.JVN_REQ_TEXT)).start();
 			}
 				break;
 			// 2 -- 断开连接成功
@@ -360,6 +366,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 			;
 			break;
 		case Consts.CALL_TEXT_DATA: {
+			myHandler.removeMessages(JVNetConst.JVN_REQ_TEXT);
 			myHandler.removeMessages(Consts.RC_GPIN_SECLECT);
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本请求后才发送请求
@@ -449,10 +456,11 @@ public class ThirdDevListActivity extends BaseActivity implements
 							thirdDevAdapter.notifyDataSetChanged();
 						} else {
 							// 失败
-							showToast("该设备暂无绑定第三方设备或者查询失败", Toast.LENGTH_SHORT);
+							showToast("该设备暂无绑定第三方设备", Toast.LENGTH_SHORT);
 						}
 					} else {
 						showTextToast("TextData回调obj参数is null");
+						finish();
 					}
 					break;
 				case Consts.RC_GPIN_SET:// 设置开关

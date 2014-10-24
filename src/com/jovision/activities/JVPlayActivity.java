@@ -277,7 +277,6 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_NORMAL_DATA: {
-
 			Channel channel = channelList.get(arg1);
 			if (null == channel) {
 				return;

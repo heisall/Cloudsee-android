@@ -1,14 +1,11 @@
 package com.jovision.activities;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,7 +16,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.ChannelListAdapter;
 import com.jovision.bean.Channel;
-import com.jovision.bean.ChannellistBean;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
 import com.jovision.utils.CacheUtil;
@@ -29,16 +25,14 @@ public class JVChannelListActivity extends BaseActivity {
 
 	private ListView channel_listView;
 	private ChannelListAdapter adapter;
-	private MyList<Channel> channelList = new MyList<Channel>(1);
+	private ArrayList<Channel> channelList = new ArrayList<Channel>(1);
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
-	private ArrayList<ChannellistBean> channelbeanList = new ArrayList<ChannellistBean>();
 	private int deviceIndex;
 	private Button btn_left;
 	private Button btn_right;
 	private TextView currentmenu;
 	private boolean localFlag;
 	private Device device;
-	private int myindex = -1;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -46,15 +40,14 @@ public class JVChannelListActivity extends BaseActivity {
 		case 1:
 			ModifyDevTask task = new ModifyDevTask();
 			String[] strParams = new String[4];
-			strParams[0] = channelbeanList.get(arg1).getCloudnum();
-			strParams[1] = channelbeanList.get(arg1).getChannelnum() + "";
+			strParams[0] = device.getFullNo();
+			strParams[1] = channelList.get(arg1).getChannel() + "";
 			strParams[2] = obj.toString();
 			strParams[3] = arg1 + "";
 			task.execute(strParams);
 			break;
-		case 2:
-			myindex = arg1;
-			dialog(channelbeanList.get(arg1).getChannelnum());
+		case 1222:
+			dialog(channelList.get(arg1).getChannel());
 			break;
 		default:
 			break;
@@ -68,25 +61,27 @@ public class JVChannelListActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-
-	}
-
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
 		deviceList = CacheUtil.getDevList();
-		device = deviceList.get(deviceIndex);
-		channelList = deviceList.get(deviceIndex).getChannelList();
-		initChannelBean();
-		adapter.setData(channelbeanList);
-		channel_listView.setAdapter(adapter);
 	}
 
 	@Override
 	public void onPause() {
 		CacheUtil.saveDevList(deviceList);
 		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
+		device = deviceList.get(deviceIndex);
+		channelList = device.getChannelList().toList();
+		for (int i = 1; i < channelList.size(); i++) {
+			channelList.get(i).setIspull(false);
+		}
+		adapter.setData(device.getChannelList().toList());
+		channel_listView.setAdapter(adapter);
 	}
 
 	@Override
@@ -99,7 +94,6 @@ public class JVChannelListActivity extends BaseActivity {
 		currentmenu.setText(R.string.channalmanager);
 		channel_listView = (ListView) findViewById(R.id.channel_listView);
 		adapter = new ChannelListAdapter(JVChannelListActivity.this);
-		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
 
 		btn_left.setOnClickListener(myOnClickListener);
 		btn_right.setOnClickListener(myOnClickListener);
@@ -114,23 +108,6 @@ public class JVChannelListActivity extends BaseActivity {
 	@Override
 	protected void freeMe() {
 
-	}
-
-	private void initChannelBean() {
-		for (int i = 0; i < channelList.size() + 1; i++) {
-			ChannellistBean bean = new ChannellistBean();
-			if (channelList.get(i) == null) {
-				Log.i("TAG", "aaaaaa" + i);
-			}
-			if (i != channelList.size() + 1 && null != channelList.get(i)) {
-				bean.setChannelName(channelList.get(i).getChannelName());
-				bean.setCloudnum(channelList.get(i).getParent().getFullNo());
-				bean.setChannelnum(channelList.get(i).getChannel());
-				bean.setIspull(false);
-				channelbeanList.add(bean);
-			}
-		}
-		Log.i("TAG", channelList.size() + "ddddddddd" + channelbeanList.size());
 	}
 
 	OnClickListener myOnClickListener = new OnClickListener() {
@@ -171,8 +148,8 @@ public class JVChannelListActivity extends BaseActivity {
 							params[2]);
 				}
 				if (delRes == 0) {
-					deviceList.get(deviceIndex).getChannelList()
-							.get(position + 1).setChannelName(params[2]);
+					deviceList.get(deviceIndex).getChannelList().toList()
+							.get(position).setChannelName(params[2]);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -188,7 +165,7 @@ public class JVChannelListActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			CacheUtil.saveDevList(deviceList);
+
 		}
 
 		@Override
@@ -240,13 +217,6 @@ public class JVChannelListActivity extends BaseActivity {
 							channel.setChannelName(device.getFullNo() + "_"
 									+ target);
 							list.add(channel);
-							ChannellistBean bean = new ChannellistBean();
-							bean.setChannelName(device.getFullNo() + "_"
-									+ target);
-							bean.setCloudnum(device.getFullNo());
-							bean.setChannelnum(target);
-							bean.setIspull(false);
-							channelbeanList.add(bean);
 						}
 						device.setChannelList(list);
 					}
@@ -256,7 +226,6 @@ public class JVChannelListActivity extends BaseActivity {
 				}
 			} else {
 				addRes = 9999;
-
 			}
 			return addRes;
 		}
@@ -272,9 +241,8 @@ public class JVChannelListActivity extends BaseActivity {
 			dismissDialog();
 			if (0 == result) {
 				showTextToast(R.string.add_channel_succ);
-				Comparator comparator = new MyComparator();// 重要部分
-				Collections.sort(channelbeanList, comparator);
-				adapter.setData(channelbeanList);
+				channelList = device.getChannelList().toList();
+				adapter.setData(channelList);
 				adapter.notifyDataSetChanged();
 			} else if (9999 == result) {
 				showTextToast(R.string.channel_full);
@@ -349,8 +317,8 @@ public class JVChannelListActivity extends BaseActivity {
 			dismissDialog();
 			if (0 == result) {
 				showTextToast(R.string.del_channel_succ);
-				channelbeanList.remove(myindex);
-				adapter.setData(channelbeanList);
+				channelList = device.getChannelList().toList();
+				adapter.setData(channelList);
 				adapter.notifyDataSetChanged();
 			} else if (1 == result) {
 				// [Neo] 删除最后一个应该退出通过管理界面
@@ -371,19 +339,6 @@ public class JVChannelListActivity extends BaseActivity {
 		protected void onProgressUpdate(Integer... values) {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
-	}
-
-	class MyComparator implements Comparator<ChannellistBean> {
-
-		public int compare(ChannellistBean s1, ChannellistBean s2) {
-			if (s1.getChannelnum() > s2.getChannelnum()) {
-				return 1;
-			} else if (s1.getChannelnum() < s2.getChannelnum()) {
-				return -1;
-			}
-			return 0;
-		}
-
 	}
 
 	protected void dialog(final int index) {

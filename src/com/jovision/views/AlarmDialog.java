@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -27,47 +28,20 @@ public class AlarmDialog extends Dialog {
 	private TextView dialogDeviceModle;
 	private TextView dialogAlarmTime;
 	private ImageView dialogCancleImg;
-
-	private static AlarmDialog mAlarmDialog;
 	private String ystNum; // 云视通号
 	private String deviceNickName;// 昵称
 	private String alarmTypeName;// 报警类型
 	private String alarmTime;
-
-	private AlarmDialog(Context context) {
-		super(context);
-		mAlarmDialog = this;
+	private static int alarmDialogObjs = 0;//new 出来的对象数量
+	
+	public AlarmDialog(Context context) {
+		super(context, R.style.mydialog);
 		// TODO Auto-generated constructor stub
+		synchronized(AlarmDialog.class){
+			alarmDialogObjs++;
+		}		
 	}
-
-	private AlarmDialog(Context context, int theme) {
-		super(context, theme);
-		this.context = context;
-		mAlarmDialog = this;
-	}
-
-	private AlarmDialog(Context context, int theme, String ystnum) {
-		super(context, theme);
-		this.context = context;
-		this.ystNum = ystnum;
-		mAlarmDialog = this;
-	}
-
-	public static synchronized AlarmDialog getInstance(Context context) {
-		if (sSingleton == null) {
-			sSingleton = new AlarmDialog(context, R.style.mydialog);
-		}
-		return sSingleton;
-	}
-
-	public void setDeviceNickName(String strNickName) {
-		dialogDeviceName.setText(strNickName);
-	}
-
-	public void setDeviceAlarmType(String strAlarmType) {
-		dialogDeviceName.setText(strAlarmType);
-	}
-
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -81,8 +55,6 @@ public class AlarmDialog extends Dialog {
 		dialogDeviceModle = (TextView) findViewById(R.id.dialog_devicemodle);
 		dialogAlarmTime = (TextView) findViewById(R.id.dialog_alarm_time);
 
-		// dialogDeviceName.setText(deviceNickName + "(" + alarmTime + ")");
-		// dialogDeviceModle.setText(alarmTypeName);
 		dialogCancel.setOnClickListener(myOnClickListener);
 		dialogView.setOnClickListener(myOnClickListener);
 		dialogCancleImg.setOnClickListener(myOnClickListener);
@@ -95,16 +67,25 @@ public class AlarmDialog extends Dialog {
 		dialogAlarmTime.setText(alarmTime);
 	}
 
+	@Override
+	protected void onStop() {
+		synchronized(AlarmDialog.class){
+			alarmDialogObjs--;
+		}
+	}
+	public synchronized static int getDialogObjs(){
+		return alarmDialogObjs;
+	}
 	android.view.View.OnClickListener myOnClickListener = new View.OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.dialog_cancel:
-				mAlarmDialog.cancel();
+				dismiss();
 				break;
 			case R.id.dialog_cancle_img:
-				mAlarmDialog.cancel();
+				dismiss();
 				break;
 			case R.id.dialog_view:
 				String contextString = context.toString();
@@ -113,15 +94,6 @@ public class AlarmDialog extends Dialog {
 						contextString.indexOf("@"));
 				if (strTempNameString.equals("JVPlayActivity")) {
 				} else {
-					// Intent playIntent = new Intent();
-					// playIntent.setClass(context, JVPlayActivity.class);
-					// playIntent
-					// .putExtra("PlayTag", JVConst.NORMAL_PLAY_FLAG);
-					// playIntent.putExtra("DeviceIndex",
-					// getDeivceIndex(ystNum));
-					// playIntent.putExtra("PointIndex", 0);
-					// context.startActivity(playIntent);
-
 					Intent intentPlay = new Intent(context,
 							JVPlayActivity.class);
 					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
@@ -130,10 +102,11 @@ public class AlarmDialog extends Dialog {
 					intentPlay.putExtra("ChannelofChannel", CacheUtil
 							.getDevList().get(dev_index).getChannelList()
 							.toList().get(0).getChannel());
-					context.startActivity(intentPlay);
+					Toast.makeText(context, "DeviceIndex:"+dev_index, Toast.LENGTH_SHORT).show();
+					context.startActivity(intentPlay);		
 				}
 
-				mAlarmDialog.cancel();
+				dismiss();
 				break;
 
 			default:
@@ -159,26 +132,28 @@ public class AlarmDialog extends Dialog {
 		return -1;
 	}
 
-	public static void Show(Object obj) {
+	public void Show(Object obj) {
+		
 		if (obj == null) {
 			return;
 		}
-		PushInfo pi = (PushInfo) obj;
+		
 		// 已经在显示了，就不显示了
-		if (!mAlarmDialog.isShowing()) {
-			mAlarmDialog.deviceNickName = pi.deviceNickName;
-			mAlarmDialog.ystNum = pi.ystNum;
-			mAlarmDialog.alarmTime = pi.alarmTime;
+		if (getDialogObjs() <= 1) {
+			PushInfo pi = (PushInfo) obj;
+			deviceNickName = pi.deviceNickName;
+			ystNum = pi.ystNum;
+			alarmTime = pi.alarmTime;
 			String strAlarmTypeName = "";
 			if (pi.alarmType == 7) {
-				strAlarmTypeName = "移动侦测";
+				strAlarmTypeName = context.getResources().getString(R.string.str_alarm_type_move);
 			} else if (pi.alarmType == 11) {
-				strAlarmTypeName = "第三方设备报警";
+				strAlarmTypeName = context.getResources().getString(R.string.str_alarm_type_third);
 			} else {
-				strAlarmTypeName = "未知报警类型";
+				strAlarmTypeName = context.getResources().getString(R.string.str_alarm_type_unknown);
 			}
-			mAlarmDialog.alarmTypeName = strAlarmTypeName;
-			mAlarmDialog.show();
+			alarmTypeName = strAlarmTypeName;
+			show();
 		}
 	}
 }

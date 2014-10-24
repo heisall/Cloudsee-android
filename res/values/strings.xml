@@ -101,6 +101,7 @@
     <string name="login_str_qq_autho_success">QQ authorized success</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">暂时没有报警数据</string>
+    <string name="get_alarm_list_failed">Get Alarm info list failed</string>
     <!-- leftMenu -->
     <string name="devicecount">Total of 0 Device</string>
     <string name="nikename">NickName</string>
@@ -666,5 +667,8 @@
     <string name="str_alarm_thirddev_default_name">Alarm Device</string>
     <string name="str_alarm_thirddev_learning">do in learning...</string>
     <string name="str_alarm_thirddev_bind_hint">Device NickName</string>
-
+	<string name="str_bind_finish">OK</string>
+	<string name="str_alarm_type_move">Motion Detection Alarm</string>
+	<string name="str_alarm_type_third">Third Device Alarm</string>
+	<string name="str_alarm_type_unknown">Unknown Alarm</string>	
 </resources>

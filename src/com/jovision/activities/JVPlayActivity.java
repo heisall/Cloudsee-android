@@ -70,7 +70,7 @@ public class JVPlayActivity extends PlayActivity implements
 	/** intent传递过来的设备和通道下标 */
 	private int deviceIndex;
 	private int channelOfChannel;
-	private ArrayList<Device> deviceList = new ArrayList<Device>();
+	 private ArrayList<Device> deviceList = new ArrayList<Device>();
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
 
 	private boolean needToast = false;
@@ -850,6 +850,7 @@ public class JVPlayActivity extends PlayActivity implements
 			deviceList = Device.fromJsonArray(devJsonString);
 		}
 
+		MyLog.v(TAG, "Connect--" + deviceList.toString());
 		startWindowIndex = 0;
 		channelList = new ArrayList<Channel>();
 
@@ -866,7 +867,6 @@ public class JVPlayActivity extends PlayActivity implements
 					for (int j = 0; j < csize; j++) {
 						if (cList.get(j).getChannel() < channelOfChannel) {
 							startWindowIndex++;
-							break;
 						}
 					}
 				}
@@ -880,7 +880,6 @@ public class JVPlayActivity extends PlayActivity implements
 			for (int j = 0; j < csize; j++) {
 				if (cList.get(j).getChannel() < channelOfChannel) {
 					startWindowIndex++;
-					break;
 				}
 			}
 
@@ -895,8 +894,9 @@ public class JVPlayActivity extends PlayActivity implements
 		isDoubleClickCheck = false;
 		lastClickIndex = channelList.get(startWindowIndex).getIndex();
 		lastItemIndex = lastClickIndex;
-		MyLog.i(Consts.TAG_XX, "JVPlay.init: start/size: " + startWindowIndex
-				+ "/" + channelList.size() + ", channel/index: "
+		MyLog.i(Consts.TAG_XX, "JVPlay.init: startWindowIndex="
+				+ startWindowIndex + "," + channelList.size()
+				+ ", channel/index = "
 				+ channelList.get(startWindowIndex).getChannel() + "/"
 				+ channelList.get(startWindowIndex).getIndex());
 
@@ -1313,7 +1313,6 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 		} else {
-			
 
 			if (isDoubleClickCheck && lastClickIndex == channel.getIndex()) {// 双击
 				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
@@ -1342,17 +1341,16 @@ public class JVPlayActivity extends PlayActivity implements
 					}.start();
 				}
 			} else {// 单击
-				
+
 				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
 						horPlayBarLayout.setVisibility(View.GONE);
 					} else {
 						horPlayBarLayout.setVisibility(View.VISIBLE);
 					}
-				}else{
+				} else {
 					changeBorder(channel.getIndex());
 					lastClickIndex = channel.getIndex();
-					
 
 					isDoubleClickCheck = true;
 					if (null != doubleClickTimer) {
@@ -1363,8 +1361,7 @@ public class JVPlayActivity extends PlayActivity implements
 					doubleClickTimer.schedule(new DoubleClickChecker(),
 							DELAY_DOUBLE_CHECKER);
 				}
-				
-				
+
 			}
 		}
 

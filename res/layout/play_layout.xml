@@ -77,7 +77,6 @@
                 android:layout_centerInParent="true"
                 android:visibility="gone" />
 
-            
             <Button
                 android:id="@+id/kbps"
                 android:layout_width="60dp"
@@ -90,8 +89,7 @@
                 android:onClick="onFlip"
                 android:text="flip"
                 android:textColor="@color/white" />
-            
-            
+
             <Button
                 android:id="@+id/overturn"
                 android:layout_width="50dp"

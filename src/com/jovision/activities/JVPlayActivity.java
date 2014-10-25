@@ -217,6 +217,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.DISCONNECT_OK: {
 				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
+				showFunc(channel, currentScreen);
 				break;
 			}
 			// 4 -- 连接失败
@@ -257,6 +258,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.ABNORMAL_DISCONNECT: {
 				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
+				showFunc(channel, currentScreen);
 				break;
 			}
 
@@ -264,11 +266,13 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.SERVICE_STOP: {
 				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
+				showFunc(channel, currentScreen);
 				break;
 			}
 			// 9 -- 其他错误
 			case JVNetConst.OHTER_ERROR: {
 				resetFunc(channel);
+				showFunc(channel, currentScreen);
 				break;
 			}
 			default:
@@ -517,16 +521,7 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 
 						MyLog.v("refreshIPCFun--Stream=", arg1 + "");
-
-						if (currentScreen == ONE_SCREEN) {
-							refreshIPCFun(channelList.get(arg1));
-						} else {
-							currentKbps.setVisibility(View.GONE);
-							decodeBtn.setVisibility(View.GONE);
-							rightFuncButton.setVisibility(View.GONE);
-							right_btn_h.setVisibility(View.GONE);
-							videTurnBtn.setVisibility(View.GONE);
-						}
+						showFunc(channelList.get(arg1), currentScreen);
 
 						break;
 					case JVNetConst.EX_WIFI_AP_CONFIG:// 11 ---新wifi配置流程
@@ -551,15 +546,7 @@ public class JVPlayActivity extends PlayActivity implements
 									Consts.STORAGEMODE_NORMAL);
 						}
 						MyLog.v("refreshIPCFun--record=", arg1 + "");
-						if (currentScreen == ONE_SCREEN) {
-							refreshIPCFun(channelList.get(arg1));
-						} else {
-							currentKbps.setVisibility(View.GONE);
-							decodeBtn.setVisibility(View.GONE);
-							rightFuncButton.setVisibility(View.GONE);
-							right_btn_h.setVisibility(View.GONE);
-							videTurnBtn.setVisibility(View.GONE);
-						}
+						showFunc(channelList.get(arg1), currentScreen);
 						break;
 					default:
 						break;
@@ -665,15 +652,8 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			MyLog.v("refreshIPCFun--IFrame=", arg1 + "");
-			if (currentScreen == ONE_SCREEN) {
-				refreshIPCFun(channelList.get(arg1));
-			} else {
-				currentKbps.setVisibility(View.GONE);
-				decodeBtn.setVisibility(View.GONE);
-				rightFuncButton.setVisibility(View.GONE);
-				right_btn_h.setVisibility(View.GONE);
-				videTurnBtn.setVisibility(View.GONE);
-			}
+
+			showFunc(channelList.get(arg1), currentScreen);
 			MyLog.i(Consts.TAG_PLAY, "new Frame I: window = " + arg1
 					+ ", omx = " + arg2);
 			break;
@@ -721,6 +701,7 @@ public class JVPlayActivity extends PlayActivity implements
 						handler.obtainMessage(WHAT_CHECK_SURFACE, arg1, arg2),
 						DELAY_CHECK_SURFACE);
 			}
+
 			break;
 		}
 
@@ -765,7 +746,7 @@ public class JVPlayActivity extends PlayActivity implements
 					isOmx = object.getBoolean("is_omx");
 					// channelList.get(arg2).setOMX(isOmx);
 
-					String kbps = String.format("%.0fK",
+					String kbps = String.format("%.0f",
 							object.getDouble("kbps"))
 							+ "kBps";
 					currentKbps.setText(kbps);
@@ -1374,6 +1355,11 @@ public class JVPlayActivity extends PlayActivity implements
 						horPlayBarLayout.setVisibility(View.VISIBLE);
 					}
 				} else {
+					if (View.VISIBLE == verPlayBarLayout.getVisibility()) {
+						verPlayBarLayout.setVisibility(View.GONE);
+					} else {
+						verPlayBarLayout.setVisibility(View.VISIBLE);
+					}
 					changeBorder(channel.getIndex());
 					lastClickIndex = channel.getIndex();
 
@@ -2483,23 +2469,13 @@ public class JVPlayActivity extends PlayActivity implements
 					voiceTip.setVisibility(View.GONE);
 				}
 			}
-
-			if (currentScreen == ONE_SCREEN) {
-				refreshIPCFun(channelList.get(lastClickIndex));
-			} else {
-				changeWindow(ONE_SCREEN);
-				decodeBtn.setVisibility(View.GONE);
-				rightFuncButton.setVisibility(View.GONE);
-				right_btn_h.setVisibility(View.GONE);
-				videTurnBtn.setVisibility(View.GONE);
-			}
+			changeWindow(ONE_SCREEN);
 			viewPager.setDisableSliding(true);
 		} else {
 			viewPager.setDisableSliding(false);
-			if (currentScreen == ONE_SCREEN) {
-				refreshIPCFun(channelList.get(lastClickIndex));
-			}
 		}
+
+		showFunc(channelList.get(lastClickIndex), currentScreen);
 	}
 
 }

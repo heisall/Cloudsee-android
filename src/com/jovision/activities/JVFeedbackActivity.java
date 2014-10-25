@@ -14,11 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.GetPhoneNumber;
 import com.jovision.utils.mails.MailSenderInfo;
+import com.jovision.views.AlarmDialog;
 
 public class JVFeedbackActivity extends BaseActivity {
 
@@ -53,6 +55,10 @@ public class JVFeedbackActivity extends BaseActivity {
 
 		case JVConst.FEEDBACK_FAILED:// 反馈失败
 			// 提交建议失败，什么也不做
+			break;
+		case Consts.PUSH_MESSAGE:
+			// 弹出对话框
+			new AlarmDialog(this).Show(obj);
 			break;
 		}
 	}
@@ -261,6 +267,15 @@ public class JVFeedbackActivity extends BaseActivity {
 
 	}
 
+	// @Override
+	// protected void onCreate(Bundle savedInstanceState) {
+	// super.onCreate(savedInstanceState);
+	// MyActivityManager.getActivityManager().pushAlarmActivity(this);
+	// getWindow().addFlags(
+	// WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+	// WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+	// WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	// }
 	@Override
 	protected void onResume() {
 		super.onResume();

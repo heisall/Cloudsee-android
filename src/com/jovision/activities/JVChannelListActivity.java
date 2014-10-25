@@ -20,6 +20,7 @@ import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
+import com.jovision.views.AlarmDialog;
 
 public class JVChannelListActivity extends BaseActivity {
 
@@ -49,6 +50,10 @@ public class JVChannelListActivity extends BaseActivity {
 		case 1222:
 			dialog(channelList.get(arg1).getChannel());
 			break;
+		case Consts.PUSH_MESSAGE:
+			// 弹出对话框
+			new AlarmDialog(this).Show(obj);
+			break;
 		default:
 			break;
 		}
@@ -70,6 +75,15 @@ public class JVChannelListActivity extends BaseActivity {
 		super.onPause();
 	}
 
+	// @Override
+	// protected void onCreate(Bundle savedInstanceState) {
+	// super.onCreate(savedInstanceState);
+	// MyActivityManager.getActivityManager().pushAlarmActivity(this);
+	// getWindow().addFlags(
+	// WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+	// WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+	// WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	// }
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub

@@ -34,17 +34,15 @@ public class JVFragmentIndicator extends LinearLayout implements
 	private static final String[] textTagArray = { "text_tag_0", "text_tag_1",
 			"text_tag_2", "text_tag_3", "text_tag_4" };
 
-	private static String[] titleArray;// 5个标题数组
+	private static String[] titleArray;// 4个标题数组
 	private static int[] unSelectedArray = {
 			R.drawable.mydevice_devicenormal_icon,
 			R.drawable.mydevice_messagenormal_icon,
-			R.drawable.mydevice_examplenormal_icon,
 			R.drawable.mydevice_videomanagenormal_icon,
 			R.drawable.mydevice_moremessagenormal_icon };
 	private static int[] selectedArray = {
 			R.drawable.mydevice_devicepress_icon,
 			R.drawable.mydevice_messagepress_icon,
-			R.drawable.mydevice_examplepress_icon,
 			R.drawable.mydevice_videomanagepress_icon,
 			R.drawable.mydevice_moremessagepress_icon };
 

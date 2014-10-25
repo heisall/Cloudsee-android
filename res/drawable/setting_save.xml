@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@drawable/setting_save_1" android:state_enabled="false"/>
-    <item android:drawable="@drawable/setting_save_2" android:state_pressed="true"/>
-    <item android:drawable="@drawable/setting_save_2" android:state_focused="true"/>
+    <item android:drawable="@drawable/setting_save_1" android:state_pressed="true"/>
+    <item android:drawable="@drawable/setting_save_1" android:state_focused="true"/>
 
 </selector>

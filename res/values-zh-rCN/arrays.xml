@@ -94,7 +94,7 @@
         <item>%%发生断电告警。</item>
         <item>%%发生手动告警。</item>
         <item>%%发生GPS告警。</item>
-        <item>%%发生第三方设备报警。</item>
+        <item>%%发生报警。</item>
         <item>%%很安全，请主人不必担心，我会好好看护的。</item>
         <item>%%有些异常举动，请主人赶快采取措施。</item>
         <item>%%周围温度太高了。</item>
@@ -129,6 +129,12 @@
         <item>高清</item>
         <item>标清</item>
         <item>流畅</item>
+    </string-array>
+    <string-array name="array_third_guide">
+        <item>请将设备打开，等待配置完成。</item>
+        <item>请将设备打开，等待配置完成。</item>
+        <item>请长按红色按键，等待配置完成。</item>
+        <item>请长按任意键，等待配置完成。</item>
     </string-array>
 
 </resources>

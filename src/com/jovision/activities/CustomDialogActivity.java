@@ -155,7 +155,7 @@ public class CustomDialogActivity extends BaseActivity implements
 
 	@Override
 	public void onDestroy() {
-		if (!bLocalFile && bConnectFlag) {
+		if (bConnectFlag) {
 			Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
 		}
 
@@ -225,12 +225,18 @@ public class CustomDialogActivity extends BaseActivity implements
 					}
 				} else {
 					// 已经连接上走远程回放
-					Intent intent = new Intent();
-					intent.setClass(this, JVRemotePlayBackActivity.class);
-					intent.putExtra("IndexOfChannel", 0);
-					intent.putExtra("acBuffStr", vod_uri_);
-					intent.putExtra("AudioByte", 0);
-					this.startActivity(intent);
+					Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
+					progressdialog.show();
+					if (!AlarmUtil.OnlyConnect(strYstNum)) {
+						progressdialog.dismiss();
+						showTextToast("连接失败，已经连接或者超过最大连接数");
+					}
+					// Intent intent = new Intent();
+					// intent.setClass(this, JVRemotePlayBackActivity.class);
+					// intent.putExtra("IndexOfChannel", 1);
+					// intent.putExtra("acBuffStr", vod_uri_);
+					// intent.putExtra("AudioByte", 0);
+					// this.startActivity(intent);
 				}
 
 			}
@@ -407,7 +413,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			case JVNetConst.JVN_RSP_DOWNLOADOVER:// 文件下载完毕
 				showToast("文件下载完毕", Toast.LENGTH_SHORT);
 				// JVSUDT.JVC_DisConnect(JVConst.ONLY_CONNECT);//断开连接,如果视频走远程回放
-
+				Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
 				if (bDownLoadFileType == 0) {
 					// 下载图片
 					if (!vod_uri_.equals("")) {

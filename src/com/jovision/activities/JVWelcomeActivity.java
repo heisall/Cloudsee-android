@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.test.AutoLoad;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -27,6 +29,10 @@ public class JVWelcomeActivity extends BaseActivity {
 
 	private final String TAG = "JVWelcomeActivity";
 	private Handler initHandler;
+	private TextView cloud1;
+	private TextView cloud2;
+	private TextView clouden1;
+	private TextView clouden2;
 
 	private static boolean HAS_LOADED = false;
 
@@ -183,6 +189,20 @@ public class JVWelcomeActivity extends BaseActivity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.welcome_layout);
 
+		cloud1 = (TextView) findViewById(R.id.cloud1);
+		cloud2 = (TextView) findViewById(R.id.cloud2);
+		clouden1 = (TextView) findViewById(R.id.clouden1);
+		clouden2 = (TextView) findViewById(R.id.clouden2);
+		if (!ConfigUtil.isLanZH()) {
+			cloud1.setVisibility(View.GONE);
+			cloud2.setVisibility(View.GONE);
+			clouden1.setTextSize((float) 16.0);
+			clouden1.setTextColor(JVWelcomeActivity.this.getResources()
+					.getColor(R.color.more_fragment_color3));
+			clouden2.setTextSize((float) 16.0);
+			clouden2.setTextColor(JVWelcomeActivity.this.getResources()
+					.getColor(R.color.more_fragment_color3));
+		}
 		if (!ConfigUtil.isConnected(JVWelcomeActivity.this)) {
 			alertNetDialog();
 		} else {

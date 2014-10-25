@@ -207,7 +207,7 @@ public class JVQuickSettingActivity1 extends BaseActivity implements
 		back.setVisibility(View.VISIBLE);
 		saveSet.setTextColor(Color.WHITE);
 		saveSet.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.setting_save));
+				R.drawable.setting_save_1));
 		saveSet.setText(getResources().getString(
 				R.string.str_quick_setting_connect));
 		saveSet.setVisibility(View.VISIBLE);

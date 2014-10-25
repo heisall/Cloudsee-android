@@ -36,9 +36,9 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_below="@id/layout_container_1"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/third_complete"
-        android:text="完 成"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/blue_bg"
+        android:text="@string/str_bind_finish"
         android:textColor="@color/white"
         android:textSize="20sp" />
 

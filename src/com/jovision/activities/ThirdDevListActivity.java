@@ -354,6 +354,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 				showTextToast(R.string.str_alarm_connect_except);
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
+				finish();
 				break;
 			default:
 				bConnectFlag = false;

@@ -94,7 +94,7 @@ public class DemoListAdapter extends BaseAdapter {
 				+ (position + 1));
 		deviceHolder.demoaddress.setText(deviceList.get(position).getFullNo());
 
-		switch (position % 2) {
+		switch (position) {
 		case 0:
 			deviceHolder.demopictrue
 					.setBackgroundResource(R.drawable.pictrue_one);
@@ -102,6 +102,10 @@ public class DemoListAdapter extends BaseAdapter {
 		case 1:
 			deviceHolder.demopictrue
 					.setBackgroundResource(R.drawable.pictrue_two);
+			break;
+		case 2:
+			deviceHolder.demopictrue
+					.setBackgroundResource(R.drawable.pictrue_three);
 			break;
 		default:
 			break;

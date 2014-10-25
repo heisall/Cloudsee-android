@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/centerlayout"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
         android:src="@drawable/login_logo_icon" >
     </ImageView>
@@ -20,13 +20,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/moddle"
-        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:orientation="vertical" >
 
         <RelativeLayout
             android:id="@+id/user_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp" >
 
             <ImageView
@@ -74,6 +75,7 @@
             android:id="@+id/pass_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp" >
 
             <ImageView

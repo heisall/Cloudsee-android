@@ -62,8 +62,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 		bConnectedFlag = extras.getBoolean("conn_flag");
 		bNeedSendTextReq = extras.getBoolean("text_req_flag");
 		if (null == learningDialog) {
-			learningDialog = new CustomDialog(this,
-					android.R.style.Theme_NoTitleBar_Fullscreen);
+			learningDialog = new CustomDialog(this);
 			learningDialog.setCancelable(false);
 		}
 		if (null == waitingDialog) {
@@ -166,7 +165,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
 					// 10000);// 10秒获取不到就取消Dialog
 				} else {
-					learningDialog.Show(add_device_types[index]);
+					learningDialog.Show(add_device_types[index], dev_type_mark);
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -194,7 +193,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
 					// 10000);// 10秒获取不到就取消Dialog
 				} else {
-					learningDialog.Show(add_device_types[index]);
+					learningDialog.Show(add_device_types[index], dev_type_mark);
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -223,7 +222,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
 					// 10000);// 10秒获取不到就取消Dialog
 				} else {
-					learningDialog.Show(add_device_types[index]);
+					learningDialog.Show(add_device_types[index], dev_type_mark);
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -335,7 +334,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 					if (waitingDialog.isShowing()) {
 						waitingDialog.dismiss();
 					}
-					learningDialog.Show(add_device_types[dev_type_mark]);
+					learningDialog.Show(add_device_types[dev_type_mark],
+							dev_type_mark);
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -552,4 +552,5 @@ public class AddThirdDevActivity extends BaseActivity implements
 		if (waitingDialog != null && waitingDialog.isShowing())
 			waitingDialog.dismiss();
 	}
+
 }

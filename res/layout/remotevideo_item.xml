@@ -4,24 +4,31 @@
     android:layout_height="wrap_content"
     android:background="@drawable/remote_list_selector" >
 
-    <TextView
-        android:id="@+id/videodate"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="20dp"
-        android:text="15:16:13"
-        android:textColor="@color/listtextcolor" />
+        android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/videodisk"
-        android:layout_width="75dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="20dp"
-        android:text="300KB"
-        android:textColor="@color/listtextcolor" />
+        <TextView
+            android:id="@+id/videodate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="20dp"
+            android:text="15:16:13"
+            android:textColor="@color/listtextcolor"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/videodisk"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="20dp"
+            android:text="@string/remote_filepath"
+            android:textColor="@color/listtextcolor"
+            android:textSize="16sp" />
+    </RelativeLayout>
 
 </RelativeLayout>

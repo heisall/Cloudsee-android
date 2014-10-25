@@ -6,11 +6,13 @@ import java.util.Timer;
 
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,6 +24,7 @@ import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
 import com.jovision.adapters.MyPagerAdp;
 import com.jovision.bean.Device;
 import com.jovision.commons.CheckUpdateTask;
+import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
@@ -63,6 +66,16 @@ public class JVTabActivity extends ShakeActivity implements
 	private LinearLayout ll_dot;
 
 	private ImageView img_five;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		MyActivityManager.getActivityManager().pushAlarmActivity(this);
+		getWindow().addFlags(
+				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	}
 
 	@Override
 	protected void onStart() {

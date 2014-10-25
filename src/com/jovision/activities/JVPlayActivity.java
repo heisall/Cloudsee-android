@@ -500,16 +500,13 @@ public class JVPlayActivity extends PlayActivity implements
 								// int nMBPH =
 								// Integer.parseInt(streamCH1.get("nMBPH"));
 								//
-								// if(1 ==
-								// channelList.get(arg1).getScreenTag()){
-								// if(framerate > 15 || nMBPH > 1024){
-								// Jni.setBpsAndFps(lastClickIndex,
-								// JVNetConst.JVN_RSP_TEXTDATA,
-								// 1, 1280, 720, 1024, 15);
-								// MyLog.v("JVSUDT-切到高清码流--0-", arg1
-								// + "---改为--1, 1280, 720, 1024, 15");
-								// }
-								// }
+								if (1 == channelList.get(arg1).getStreamTag()) {
+									Jni.setBpsAndFps(lastClickIndex,
+											JVNetConst.JVN_RSP_TEXTDATA, 1,
+											1280, 720, 1024, 15);
+									MyLog.v("JVSUDT-切到高清码流--0-", arg1
+											+ "---改为--1, 1280, 720, 1024, 15");
+								}
 
 							}
 
@@ -1861,11 +1858,12 @@ public class JVPlayActivity extends PlayActivity implements
 
 			backFunc = Boolean.getBoolean(params[0]);
 			try {
-				if (Consts.PLAY_AP == playFlag) {
-					Jni.disconnect(0);
-				} else {
-					PlayUtil.disConnectAll(manager.getChannelList());
-				}
+				// if (Consts.PLAY_AP == playFlag) {
+				// Jni.disconnect(0);
+				// } else {
+				// PlayUtil.disConnectAll(manager.getChannelList());
+				// }
+				PlayUtil.disConnectAll(manager.getChannelList());
 
 				try {
 					Thread.sleep(500);

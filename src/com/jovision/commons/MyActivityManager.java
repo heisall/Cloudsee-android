@@ -6,6 +6,7 @@ import android.app.Activity;
 
 public class MyActivityManager {
 	private static Stack<Activity> activityStack;
+	private static Stack<Activity> alarmPopupActivityStack;// 保存可以弹出报警对话框的Activity
 	private static MyActivityManager instance;
 
 	private MyActivityManager() {
@@ -15,6 +16,7 @@ public class MyActivityManager {
 	public static MyActivityManager getActivityManager() {
 		if (instance == null) {
 			instance = new MyActivityManager();
+			alarmPopupActivityStack = new Stack<Activity>();
 		}
 		return instance;
 	}
@@ -43,6 +45,21 @@ public class MyActivityManager {
 			activityStack = new Stack<Activity>();
 		}
 		activityStack.add(activity);
+	}
+
+	// 将当前需要弹出报警的Activity推入栈中
+	public void pushAlarmActivity(Activity activity) {
+		alarmPopupActivityStack.add(activity);
+	}
+
+	// 将当前需要弹出报警的Activity推入栈中
+	public boolean findAlarmActivity(Activity activity) {
+		for (int i = 0; i < alarmPopupActivityStack.size(); i++) {
+			if (activity == alarmPopupActivityStack.get(i)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	// 退出栈中所有Activity

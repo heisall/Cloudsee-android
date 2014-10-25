@@ -100,7 +100,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 		switch (what) {
 		case Consts.CALL_CONNECT_CHANGE: {
-			MyLog.i("TAG", channelList.size() + "size" + arg1);
+			MyLog.i("onNotify", "what=" + what + ",arg1=" + arg1 + ",arg2="
+					+ arg2 + ",obj=" + obj);
 			Channel channel = channelList.get(arg1);
 			if (null == channel) {
 				return;
@@ -192,7 +193,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-
+		MyLog.i("onHandler", "what=" + what + ",arg1=" + arg1 + ",arg2=" + arg2
+				+ ",obj=" + obj);
 		switch (what) {
 		// 开始连接
 		case JVConst.WHAT_STARTING_CONNECT: {
@@ -1863,8 +1865,16 @@ public class JVPlayActivity extends PlayActivity implements
 				// } else {
 				// PlayUtil.disConnectAll(manager.getChannelList());
 				// }
-				PlayUtil.disConnectAll(manager.getChannelList());
 
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				MyLog.v("disconnect-ALL-E", "E");
+				PlayUtil.disConnectAll(manager.getChannelList());
+				MyLog.v("disconnect-ALL-X", "X");
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {

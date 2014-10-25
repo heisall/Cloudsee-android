@@ -637,6 +637,7 @@ public class PlayUtil {
 	 * @param channleList
 	 */
 	public static void disConnectAll(ArrayList<Channel> channleList) {
+		MyLog.v("disconnect-A", channleList.toString() + "");
 		try {
 			int size = channleList.size();
 			for (int i = 0; i < size; i++) {
@@ -646,6 +647,7 @@ public class PlayUtil {
 
 					// ((View) mLastPlayView.getParent())
 					// .setBackgroundColor(Color.BLACK);
+					MyLog.v("disconnect", channleList.get(i).toString() + "");
 					Jni.disconnect(channleList.get(i).getIndex());
 				}
 			}

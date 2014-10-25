@@ -142,8 +142,10 @@ public abstract class PlayActivity extends BaseActivity {
 	private RelativeLayout relative7;
 	private RelativeLayout relative8;
 	/** IPC独有特性 */
-	protected Button decodeBtn;
+	protected Button decodeBtn;// 软硬解
 	protected Button videTurnBtn;// 视频翻转
+	protected Button currentKbps;// 当前统计
+
 	// 录像模式----rightFuncButton
 	// 码流切换----moreFeature
 	protected String[] streamArray;
@@ -217,8 +219,11 @@ public abstract class PlayActivity extends BaseActivity {
 
 		decodeBtn = (Button) findViewById(R.id.decodeway);
 		videTurnBtn = (Button) findViewById(R.id.overturn);
+		currentKbps = (Button) findViewById(R.id.kbps);
+
 		decodeBtn.setVisibility(View.GONE);
 		videTurnBtn.setVisibility(View.GONE);
+		currentKbps.setVisibility(View.GONE);
 		voiceTip = (RelativeLayout) findViewById(R.id.voicetip);
 
 		/** 水平播放function bar */
@@ -383,7 +388,8 @@ public abstract class PlayActivity extends BaseActivity {
 					+ (int) (0.75 * disMetrics.widthPixels));
 			viewPager.setLayoutParams(reParamsV);
 			playSurface.setLayoutParams(reParamsV);
-
+			decodeBtn.setVisibility(View.VISIBLE);
+			currentKbps.setVisibility(View.VISIBLE);
 			// [Neo] surface.step 0
 			if (surfaceWidth < 0 || surfaceHeight < 0) {
 				surfaceWidth = disMetrics.widthPixels;
@@ -423,6 +429,7 @@ public abstract class PlayActivity extends BaseActivity {
 			}
 			decodeBtn.setVisibility(View.GONE);
 			videTurnBtn.setVisibility(View.GONE);
+			currentKbps.setVisibility(View.GONE);
 
 			reParamsH = new RelativeLayout.LayoutParams(
 					ViewGroup.LayoutParams.MATCH_PARENT,
@@ -444,7 +451,7 @@ public abstract class PlayActivity extends BaseActivity {
 	 * 清空所有状态
 	 */
 	public void resetFunc(Channel channel) {
-		decodeBtn.setVisibility(View.GONE);// 软硬解
+		// decodeBtn.setVisibility(View.GONE);// 软硬解
 		videTurnBtn.setVisibility(View.GONE);// 视频翻转
 		if (relative6.getVisibility() == 0) {
 			linear.removeView(relative6);
@@ -512,7 +519,7 @@ public abstract class PlayActivity extends BaseActivity {
 	 */
 	@SuppressWarnings("deprecation")
 	protected void refreshIPCFun(Channel channel) {
-
+		currentKbps.setVisibility(View.VISIBLE);
 		// 获取软硬解状态
 		if (channel.isOMX()) {
 			decodeBtn.setText(R.string.is_omx);

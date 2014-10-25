@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -520,6 +521,7 @@ public class JVPlayActivity extends PlayActivity implements
 						if (currentScreen == ONE_SCREEN) {
 							refreshIPCFun(channelList.get(arg1));
 						} else {
+							currentKbps.setVisibility(View.GONE);
 							decodeBtn.setVisibility(View.GONE);
 							rightFuncButton.setVisibility(View.GONE);
 							right_btn_h.setVisibility(View.GONE);
@@ -552,6 +554,7 @@ public class JVPlayActivity extends PlayActivity implements
 						if (currentScreen == ONE_SCREEN) {
 							refreshIPCFun(channelList.get(arg1));
 						} else {
+							currentKbps.setVisibility(View.GONE);
 							decodeBtn.setVisibility(View.GONE);
 							rightFuncButton.setVisibility(View.GONE);
 							right_btn_h.setVisibility(View.GONE);
@@ -665,6 +668,7 @@ public class JVPlayActivity extends PlayActivity implements
 			if (currentScreen == ONE_SCREEN) {
 				refreshIPCFun(channelList.get(arg1));
 			} else {
+				currentKbps.setVisibility(View.GONE);
 				decodeBtn.setVisibility(View.GONE);
 				rightFuncButton.setVisibility(View.GONE);
 				right_btn_h.setVisibility(View.GONE);
@@ -761,7 +765,11 @@ public class JVPlayActivity extends PlayActivity implements
 					isOmx = object.getBoolean("is_omx");
 					// channelList.get(arg2).setOMX(isOmx);
 
-					// MyLog.v("ChannelTag--IFrame=isOmx", "isOmx=" + isOmx);
+					String kbps = String.format("%.0fK",
+							object.getDouble("kbps"))
+							+ "kBps";
+					currentKbps.setText(kbps);
+					MyLog.v(TAG, sBuilder.toString());
 					//
 					// if (isOmx) {
 					// decodeBtn.setText(R.string.is_omx);
@@ -792,9 +800,9 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换
-		// String streamParam = "MainStreamQos=" + (arg1 + 1);
-		// Jni.changeStream(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-		// streamParam);
+			// String streamParam = "MainStreamQos=" + (arg1 + 1);
+			// Jni.changeStream(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+			// streamParam);
 			if (0 == arg1) {
 				Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
 						1, 1280, 720, 1024, 15);
@@ -1784,30 +1792,36 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 		} else {
 			stopAllFunc();
-			if (Consts.PLAY_AP == playFlag) {
-				Jni.disconnect(0);
-			} else {
-				PlayUtil.disConnectAll(manager.getChannelList());
-			}
 
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-			if (Consts.PLAY_AP == playFlag) {
-				Intent aintent = new Intent();
-				if (apBack) {
-					aintent.putExtra("AP_Back", true);
-				} else {// next
-					aintent.putExtra("AP_Back", false);
-				}
-				setResult(JVConst.AP_CONNECT_FINISHED, aintent);
-				JVPlayActivity.this.finish();
-			} else {
-				JVPlayActivity.this.finish();
-			}
+			createDialog("");
+			DisconnetTask task = new DisconnetTask();
+			String[] params = new String[3];
+			params[0] = String.valueOf(apBack);
+			task.execute(params);
+			// if (Consts.PLAY_AP == playFlag) {
+			// Jni.disconnect(0);
+			// } else {
+			// PlayUtil.disConnectAll(manager.getChannelList());
+			// }
+			//
+			// try {
+			// Thread.sleep(500);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
+			//
+			// if (Consts.PLAY_AP == playFlag) {
+			// Intent aintent = new Intent();
+			// if (apBack) {
+			// aintent.putExtra("AP_Back", true);
+			// } else {// next
+			// aintent.putExtra("AP_Back", false);
+			// }
+			// setResult(JVConst.AP_CONNECT_FINISHED, aintent);
+			// JVPlayActivity.this.finish();
+			// } else {
+			// JVPlayActivity.this.finish();
+			// }
 		}
 
 	}
@@ -1815,6 +1829,73 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onBackPressed() {
 		backMethod(true);
+	}
+
+	boolean backFunc = false;
+
+	// 设置三种类型参数分别为String,Integer,String
+	class DisconnetTask extends AsyncTask<String, Integer, Integer> {
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int sendRes = 0;// 0成功 1失败
+
+			backFunc = Boolean.getBoolean(params[0]);
+			try {
+				if (Consts.PLAY_AP == playFlag) {
+					Jni.disconnect(0);
+				} else {
+					PlayUtil.disConnectAll(manager.getChannelList());
+				}
+
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return sendRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			if (0 == result) {
+				if (Consts.PLAY_AP == playFlag) {
+					Intent aintent = new Intent();
+					if (backFunc) {
+						aintent.putExtra("AP_Back", true);
+					} else {// next
+						aintent.putExtra("AP_Back", false);
+					}
+					setResult(JVConst.AP_CONNECT_FINISHED, aintent);
+					JVPlayActivity.this.finish();
+				} else {
+					JVPlayActivity.this.finish();
+				}
+			}
+
+			dismissDialog();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
 	}
 
 	/**

@@ -365,7 +365,7 @@ public class ConfigUtil {
 				.getApplicationContext()).getStatusHashMap();
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
 			result = Jni.init(context, 9200, Consts.LOG_PATH);
-			Jni.enableLinkHelper(true, 3, 20);// 开小助手
+			Jni.enableLinkHelper(true, 3, 10);// 开小助手
 			Jni.searchLanServer(9400, 6666);// 开广播
 			statusHashMap
 					.put(Consts.KEY_INIT_CLOUD_SDK, String.valueOf(result));

@@ -77,6 +77,21 @@
                 android:layout_centerInParent="true"
                 android:visibility="gone" />
 
+            
+            <Button
+                android:id="@+id/kbps"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_alignBottom="@+id/viewpager"
+                android:layout_alignLeft="@+id/viewpager"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/decode_selector"
+                android:onClick="onFlip"
+                android:text="flip"
+                android:textColor="@color/white" />
+            
+            
             <Button
                 android:id="@+id/overturn"
                 android:layout_width="50dp"

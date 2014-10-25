@@ -9,12 +9,10 @@ import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.TextureView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovetech.CloudSee.temp.R.id;
 import com.jovision.commons.CommonInterface;
 import com.jovision.commons.JVConst;
 import com.jovision.utils.ConfigUtil;

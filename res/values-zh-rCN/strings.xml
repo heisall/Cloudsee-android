@@ -6,6 +6,7 @@
     <!-- getResources().getString(R.string.login_str_loging) -->
     <!-- LoginUtil -->
     <string name="login_str_loging">正在登录...</string>
+    <string name="remote_filepath">C://我的文件</string>
     <string name="login_str_username_notnull">请输入用户名</string>
     <string name="login_str_loginpass1_notnull">请输入密码</string>
     <string name="login_str_loginpass2_notnull">请输入确认密码</string>
@@ -561,8 +562,8 @@
     <string name="protect_close_succ">安全防护关闭成功</string>
     <string name="protect_close_fail">安全防护关闭失败</string>
     <string name="device_offline">设备离线不能执行此操作</string>
-    <string name="protect_opened">安全防护开启</string>
-    <string name="protect_closed">安全防护关闭</string>
+    <string name="protect_opened">安全防护</string>
+    <string name="protect_closed">安全防护</string>
 
     <!-- Dialog -->
     <string name="save">保存</string>
@@ -610,7 +611,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.23(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.24(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->

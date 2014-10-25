@@ -19,7 +19,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:background="@drawable/setting_save"
+            android:background="@drawable/feedback_bg"
             android:gravity="center"
             android:textColor="@color/white" />
 
@@ -48,7 +48,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
-            android:background="@drawable/setting_save"
+            android:background="@drawable/feedback_bg"
             android:gravity="center"
             android:textColor="@color/white" />
     </RelativeLayout>

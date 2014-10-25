@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
-import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -23,7 +22,6 @@ import android.test.JVACCOUNT;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
-import com.jovision.activities.JVLoginActivity;
 import com.jovision.activities.JVOffLineDialogActivity;
 import com.jovision.activities.JVTabActivity;
 import com.jovision.bean.PushInfo;

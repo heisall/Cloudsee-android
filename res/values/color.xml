@@ -44,6 +44,7 @@
     <color name="tab_bg_color">#F5F5F5</color>
     <color name="play_tab_text">#606772</color>
     <color name="ivory">#FFFFF0</color>
+    <color name="mydevice_online">#595757</color>
     <!-- Dialog颜色值 -->
     <color name="dialogchannal">#404040</color>
     <color name="dialogchannaltext">#55A0FF</color>

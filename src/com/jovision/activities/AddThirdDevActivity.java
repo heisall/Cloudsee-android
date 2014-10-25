@@ -1,16 +1,10 @@
 package com.jovision.activities;
 
-import java.io.IOException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,13 +22,10 @@ import com.jovision.Jni;
 import com.jovision.activities.AddThirdDeviceMenuFragment.OnDeviceClassSelectedListener;
 import com.jovision.activities.BindThirdDevNicknameFragment.OnSetNickNameListener;
 import com.jovision.bean.ThirdAlarmDev;
-import com.jovision.commons.CommonInterface;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.AlarmUtil;
-import com.jovision.utils.ConfigUtil;
 import com.jovision.views.CustomDialog;
 
 public class AddThirdDevActivity extends BaseActivity implements

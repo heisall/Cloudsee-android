@@ -709,14 +709,33 @@ public class ConfigUtil {
 		return map;
 	}
 
-	// public String getCH1(String key,String msg){
+	// public static HashMap<String, String> getCH1(String key,String msg){
+	// HashMap<String, String> map = new HashMap<String, String>();
 	// String ch1Str = "";
-	//
-	//
-	//
-	// return ch1Str;
+	// String[] array = msg.split("CH1");
+	// int length = array.length;
+	// MyLog.v("splitStr", msg);
+	// String splitStr = "";
+	// for(int i = 0 ; i < length ; i++){
+	// splitStr = array[i];
+	// if(splitStr.contains(";[")){
+	// splitStr = array[i].subSequence(0,
+	// array[i].lastIndexOf(";[")).toString();
 	// }
-
+	// MyLog.v("splitStr", splitStr);
+	// if(splitStr.contains("width")
+	// && array[i].contains("height")
+	// && array[i].contains("framerate")
+	// && array[i].contains("nMBPH")){
+	// break;
+	// }
+	// }
+	//
+	// map = genMsgMap(splitStr);
+	//
+	// return map;
+	// }
+	//
 	/**
 	 * JSON 数组转成对象列表
 	 * 

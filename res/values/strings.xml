@@ -17,6 +17,7 @@
     <!-- getResources().getString(R.string.login_str_loging) -->
     <!-- LoginUtil -->
     <string name="login_str_loging">Login now...</string>
+    <string name="remote_filepath">C://我的文件</string>
     <string name="login_str_username_notnull">Please input username.</string>
     <string name="login_str_loginpass1_notnull">Please input password.</string>
     <string name="login_str_loginpass2_notnull">Please input password confirmation.</string>
@@ -642,7 +643,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.23(reconsitution) - DJ</string>
+    <string name="str_current_version">BetaV4.1.24(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

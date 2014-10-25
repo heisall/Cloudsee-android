@@ -3,9 +3,7 @@ package com.jovision.activities;
 import java.util.ArrayList;
 
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -21,7 +19,6 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.Device;
-import com.jovision.commons.MyActivityManager;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;

@@ -286,12 +286,14 @@
 
             <LinearLayout
                 android:id="@+id/apfunclayout"
+                android:paddingLeft="10dp"
+                 android:paddingRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@color/white"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:paddingBottom="5dp"
                 android:paddingTop="1dp"
                 android:visibility="visible" >
 

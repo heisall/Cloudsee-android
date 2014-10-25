@@ -29,7 +29,7 @@
                 android:id="@+id/datetext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/date_edittext_bg"
+                android:background="@drawable/normal"
                 android:paddingLeft="10dp" />
 
             <ImageView
@@ -37,8 +37,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|right"
-                android:paddingRight="13dp"
-                android:src="@drawable/more_btn" />
+                android:layout_marginRight="13dp"
+                android:background="@drawable/login_pull_icon" />
         </FrameLayout>
 
         <Button
@@ -103,7 +103,8 @@
             android:layout_below="@+id/topdivider"
             android:divider="@color/more_fragment_color4"
             android:dividerHeight="1dp"
-            android:fadingEdge="none" >
+            android:fadingEdge="none"
+            android:listSelector="@color/welcome_blue" >
         </ListView>
 
         <ProgressBar

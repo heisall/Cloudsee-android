@@ -31,6 +31,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:src="@drawable/wire_device_img" />
 
             <Button
@@ -55,6 +56,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:src="@drawable/unwire_device_img" />
 
             <Button

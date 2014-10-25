@@ -77,11 +77,11 @@
                 android:visibility="gone" />
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/play_ver_func"
-                android:layout_alignBottom="@+id/viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/viewpager"
+                android:visibility="gone" >
 
                 <Button
                     android:id="@+id/kbps"
@@ -93,8 +93,8 @@
                     android:background="@drawable/decode_selector"
                     android:onClick="onFlip"
                     android:text="flip"
-                    android:textSize="14sp"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/overturn"
@@ -107,17 +107,17 @@
                     android:visibility="visible" />
 
                 <Button
-                    android:textSize="14sp"
-                    android:layout_alignParentRight="true"
                     android:id="@+id/decodeway"
                     android:layout_width="50dp"
                     android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
                     android:layout_marginBottom="5dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/decode_selector"
                     android:onClick="onFlip"
                     android:text="flip"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
             </RelativeLayout>
         </RelativeLayout>
 

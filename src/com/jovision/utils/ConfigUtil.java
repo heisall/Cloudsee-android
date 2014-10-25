@@ -709,6 +709,14 @@ public class ConfigUtil {
 		return map;
 	}
 
+//	public String getCH1(String key,String msg){
+//		String ch1Str = "";
+//		
+//		
+//		
+//		return ch1Str;
+//	}
+	
 	/**
 	 * JSON 数组转成对象列表
 	 * 

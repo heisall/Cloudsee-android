@@ -374,6 +374,7 @@ public abstract class PlayActivity extends BaseActivity {
 	 */
 	protected void setPlayViewSize() {
 		if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
+			viewPager.setDisableSliding(false);
 			getWindow()
 					.setFlags(
 							disMetrics.widthPixels
@@ -406,6 +407,7 @@ public abstract class PlayActivity extends BaseActivity {
 			}
 
 		} else {// 横
+			viewPager.setDisableSliding(true);
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			topBar.setVisibility(View.GONE);// 顶部标题栏
@@ -512,7 +514,7 @@ public abstract class PlayActivity extends BaseActivity {
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_right_selector));
 		} else {
-			videTurnBtn.setVisibility(View.GONE);
+			videTurnBtn.setVisibility(View.VISIBLE);
 		}
 		// 码流设置
 		if (-1 != channel.getStreamTag()) {

@@ -180,7 +180,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
-			viewPager.setDisableSliding(false);
+			// viewPager.setDisableSliding(false);
 			break;
 		}
 
@@ -251,6 +251,9 @@ public class JVPlayActivity extends PlayActivity implements
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
+
+				// resetFunc(channel);
+				showFunc(channel, currentScreen);
 				break;
 			}
 
@@ -455,15 +458,31 @@ public class JVPlayActivity extends PlayActivity implements
 						MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", "
 								+ arg2 + ", " + obj);
 						String streamJSON = dataObj.getString("msg");
+//						String streamCH1 = ConfigUtil.getCH1("CH1",streamJSON);
+						
 						HashMap<String, String> streamMap = ConfigUtil
 								.genMsgMap(streamJSON);
 						if (null != streamMap) {
 							if (null != streamMap.get("effect_flag")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("effect_flag"))) {
-								channelList.get(arg1).setScreenTag(
+
+								MyLog.v("effect_flag",
+										streamMap.get("effect_flag"));
+								int effect_flag = Integer.parseInt(streamMap
+										.get("effect_flag"));
+								channelList.get(arg1).setEffect_flag(
 										Integer.parseInt(streamMap
 												.get("effect_flag")));
+
+								if (0 == (0x04 & effect_flag)) {
+									channelList.get(arg1).setScreenTag(
+											Consts.SCREEN_NORMAL);
+								} else {
+									channelList.get(arg1).setScreenTag(
+											Consts.SCREEN_OVERTURN);
+								}
+
 							}
 
 							if (null != streamMap.get("MainStreamQos")
@@ -473,29 +492,11 @@ public class JVPlayActivity extends PlayActivity implements
 										Integer.parseInt(streamMap
 												.get("MainStreamQos")));
 
-								// if (1 ==
-								// channelList.get(arg1).getStreamTag()) {
-								// // public static native boolean
-								// // setBpsAndFps(int index, byte uchType,
-								// // int channel, int width, int height, int
-								// // mbps, int fps);
-								// Jni.setBpsAndFps(arg1,
-								// JVNetConst.JVN_RSP_TEXTDATA, 1,
-								// 1280, 720, 800, 15);
-								//
-								// // arg1,
-								// // (byte) JVNetConst.JVN_RSP_TEXTDATA,
-								// // 1, 800, 15);
-								// MyLog.v("JVSUDT-原高清码流---", arg1
-								// + "---改为--1, 1280, 720, 800, 15");
-								// } else if (2 == channelList.get(arg1)
-								// .getStreamTag()) {
-								// Jni.setBpsAndFps(arg1,
-								// JVNetConst.JVN_RSP_TEXTDATA, 1,
-								// 720, 480, 500, 20);
-								// MyLog.v("JVSUDT-原标清码流---", arg1
-								// + "---改为--1, 720, 480, 500, 20");
-								// }
+								String width = streamMap.get("width");
+								String height = streamMap.get("height");
+								String framerate = streamMap.get("framerate");
+								String nMBPH = streamMap.get("nMBPH");
+
 							}
 
 							if (null != streamMap.get("storageMode")
@@ -1185,7 +1186,11 @@ public class JVPlayActivity extends PlayActivity implements
 							JVNetConst.CONNECT_OK));
 
 					// [Neo] TODO
-					viewPager.setDisableSliding(false);
+					if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
+						viewPager.setDisableSliding(false);
+					} else {
+						viewPager.setDisableSliding(true);
+					}
 				}
 			}
 		}
@@ -1355,11 +1360,14 @@ public class JVPlayActivity extends PlayActivity implements
 						horPlayBarLayout.setVisibility(View.VISIBLE);
 					}
 				} else {
-					if (View.VISIBLE == verPlayBarLayout.getVisibility()) {
-						verPlayBarLayout.setVisibility(View.GONE);
-					} else {
-						verPlayBarLayout.setVisibility(View.VISIBLE);
+					if (ONE_SCREEN == currentScreen) {
+						if (View.VISIBLE == verPlayBarLayout.getVisibility()) {
+							verPlayBarLayout.setVisibility(View.GONE);
+						} else {
+							verPlayBarLayout.setVisibility(View.VISIBLE);
+						}
 					}
+
 					changeBorder(channel.getIndex());
 					lastClickIndex = channel.getIndex();
 
@@ -1505,13 +1513,24 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but6:
 			case R.id.overturn: {// 视频翻转
 				if (allowThisFuc(false)) {
-
+					int send = 0;
+					int effect = channelList.get(lastClickIndex)
+							.getEffect_flag();
+					// if(0 == (0x04 & effect)) {
+					// // 正
+					// send = (~0x04) & effect
+					// } else {
+					// // 反
+					// send = 0x04 | effect
+					// }
 					String turnParam = "";
 					if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
-						turnParam = "effect_flag=" + Consts.SCREEN_OVERTURN;
+						send = 0x04 | effect;
 					} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
-						turnParam = "effect_flag=" + Consts.SCREEN_NORMAL;
+						send = (~0x04) & effect;// + Consts.SCREEN_NORMAL;
 					}
+					turnParam = "effect_flag=" + send;
+					MyLog.v(TAG, turnParam);
 					Jni.rotateVideo(lastClickIndex,
 							JVNetConst.JVN_RSP_TEXTDATA, turnParam);
 
@@ -2461,10 +2480,9 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		// [Neo] add black screen time
+		Jni.setColor(lastClickIndex, 0, 0, 0, 0);
 		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-			// [Neo] add black screen time
-			Jni.setColor(lastClickIndex, 0, 0, 0, 0);
-
 			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
 				if (VOICECALL_LONG_CLICK) {
 					new TalkThread(lastClickIndex, 0).start();
@@ -2473,9 +2491,6 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 			}
 			changeWindow(ONE_SCREEN);
-			viewPager.setDisableSliding(true);
-		} else {
-			viewPager.setDisableSliding(false);
 		}
 
 		showFunc(channelList.get(lastClickIndex), currentScreen);

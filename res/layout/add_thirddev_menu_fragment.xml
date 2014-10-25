@@ -61,11 +61,11 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/top_layout1"
         android:layout_alignParentLeft="false"
         android:layout_below="@id/top_layout1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dip"
-        android:layout_alignLeft="@id/top_layout1" >
+        android:layout_marginTop="15dip" >
 
         <RelativeLayout
             android:layout_width="wrap_content"

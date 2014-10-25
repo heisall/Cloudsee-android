@@ -483,7 +483,7 @@
     <string name="xlistview_no_more">没有报警信息了</string>
     <string name="del_alarm_succ">报警删除成功</string>
     <string name="del_alarm_failed">报警删除失败</string>
-	<string name="get_alarm_list_failed">获取报警信息失败</string>
+    <string name="get_alarm_list_failed">获取报警信息失败</string>
     <!-- JVPlayActivity -->
     <string name="connfailed_auth">身份验证失败</string>
     <string name="connfailed_channel_notopen">无该通道服务</string>
@@ -637,9 +637,10 @@
     <string name="str_alarm_thirddev_default_name">报警设备</string>
     <string name="str_alarm_thirddev_learning">学习中...</string>
     <string name="str_alarm_thirddev_bind_hint">设备昵称</string>
-	<string name="str_bind_finish">完  成</string>
-	<string name="str_alarm_type_move">移动侦测</string>
-	<string name="str_alarm_type_third">第三方设备报警</string>
-	<string name="str_alarm_type_unknown">未知报警类型</string>
+    <string name="str_bind_finish">完  成</string>
+    <string name="str_alarm_type_move">移动侦测</string>
+    <string name="str_alarm_type_third">第三方设备报警</string>
+    <string name="str_alarm_type_unknown">未知报警类型</string>
     <string name="str_telecontrol_device">遥控设备</string>
+
 </resources>

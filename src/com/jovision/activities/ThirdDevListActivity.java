@@ -28,7 +28,6 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.ThirdDevAdapter;
 import com.jovision.bean.Device;
-import com.jovision.bean.PushInfo;
 import com.jovision.bean.ThirdAlarmDev;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;

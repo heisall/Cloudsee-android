@@ -2476,6 +2476,9 @@ public class JVPlayActivity extends PlayActivity implements
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+			// [Neo] add black screen time
+			Jni.setColor(lastClickIndex, 0, 0, 0, 0);
+
 			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
 				if (VOICECALL_LONG_CLICK) {
 					new TalkThread(lastClickIndex, 0).start();

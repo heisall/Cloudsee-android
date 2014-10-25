@@ -87,7 +87,7 @@ public class Jni {
 	 * @param timeout
 	 *            单位是毫秒
 	 * @param frequence
-	 * @return 1,成功 0,失败
+	 * @return
 	 */
 	public static native int searchLanDevice(String group, int cloudSeeId,
 			int cardType, int variety, String deviceName, int timeout,
@@ -183,6 +183,24 @@ public class Jni {
 	 * @return 设置是否生效
 	 */
 	public static native boolean setOmx(int index, boolean isOmx);
+
+	/**
+	 * 设置窗口颜色
+	 * 
+	 * @param index
+	 *            窗口索引
+	 * @param red
+	 *            红，0~1
+	 * @param green
+	 *            绿，0~1
+	 * @param blue
+	 *            蓝，0~1
+	 * @param alpha
+	 *            透明，0~1
+	 * @return
+	 */
+	public static native boolean setColor(int index, float red, float green,
+			float blue, float alpha);
 
 	/**
 	 * 设置下载文件路径

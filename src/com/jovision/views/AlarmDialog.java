@@ -35,17 +35,18 @@ public class AlarmDialog extends Dialog {
 	private String deviceNickName;// 昵称
 	private String alarmTypeName;// 报警类型
 	private String alarmTime;
-	private static int alarmDialogObjs = 0;//new 出来的对象数量
+	private static int alarmDialogObjs = 0;// new 出来的对象数量
 	private ArrayList<Device> deviceList = new ArrayList<Device>();;
+
 	public AlarmDialog(Context context) {
 		super(context, R.style.mydialog);
 		this.context = context;
 		// TODO Auto-generated constructor stub
-		synchronized(AlarmDialog.class){
+		synchronized (AlarmDialog.class) {
 			alarmDialogObjs++;
-		}		
+		}
 	}
-		
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -73,13 +74,15 @@ public class AlarmDialog extends Dialog {
 
 	@Override
 	protected void onStop() {
-		synchronized(AlarmDialog.class){
+		synchronized (AlarmDialog.class) {
 			alarmDialogObjs--;
 		}
 	}
-	public synchronized static int getDialogObjs(){
+
+	public synchronized static int getDialogObjs() {
 		return alarmDialogObjs;
 	}
+
 	android.view.View.OnClickListener myOnClickListener = new View.OnClickListener() {
 
 		@Override
@@ -98,27 +101,40 @@ public class AlarmDialog extends Dialog {
 						contextString.indexOf("@"));
 				if (strTempNameString.equals("JVPlayActivity")) {
 				} else {
-					int dev_index = getDeivceIndex(ystNum);
-					deviceList = CacheUtil.getDevList();
-					if(dev_index >= deviceList.size()){
-						Toast.makeText(context, "error index:"+dev_index+", size:"+deviceList.size(), Toast.LENGTH_SHORT).show();
-						return;
+					try {
+						int dev_index = getDeivceIndex(ystNum);
+						deviceList = CacheUtil.getDevList();
+						if (dev_index >= deviceList.size()) {
+							Toast.makeText(
+									context,
+									"error index:" + dev_index + ", size:"
+											+ deviceList.size(),
+									Toast.LENGTH_SHORT).show();
+							return;
+						}
+
+						MyLog.v("Alarm",
+								"prepareConnect1--" + deviceList.toString());
+						PlayUtil.prepareConnect(deviceList, dev_index);// 该函数里已经调用SaveList了
+						MyLog.v("Alarm",
+								"prepareConnect2--" + deviceList.toString());
+						// CacheUtil.saveDevList(deviceList);
+						// deviceList = CacheUtil.getDevList();//再取一次
+						Intent intentPlay = new Intent(context,
+								JVPlayActivity.class);
+						intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+
+						intentPlay.putExtra("DeviceIndex", dev_index);
+						intentPlay.putExtra("ChannelofChannel",
+								deviceList.get(dev_index).getChannelList()
+										.toList().get(0).getChannel());
+						Toast.makeText(context, "DeviceIndex:" + dev_index,
+								Toast.LENGTH_SHORT).show();
+						context.startActivity(intentPlay);
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					
-					MyLog.v("Alarm", "prepareConnect1--" + deviceList.toString());
-					PlayUtil.prepareConnect(deviceList, dev_index);//该函数里已经调用SaveList了
-					MyLog.v("Alarm", "prepareConnect2--" + deviceList.toString());	
-					CacheUtil.saveDevList(deviceList);
-//					deviceList = CacheUtil.getDevList();//再取一次
-					Intent intentPlay = new Intent(context,
-							JVPlayActivity.class);
-					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-					
-					intentPlay.putExtra("DeviceIndex", dev_index);
-					intentPlay.putExtra("ChannelofChannel", deviceList.get(dev_index).getChannelList()
-							.toList().get(0).getChannel());
-					Toast.makeText(context, "DeviceIndex:"+dev_index, Toast.LENGTH_SHORT).show();
-					context.startActivity(intentPlay);		
 				}
 
 				dismiss();
@@ -148,11 +164,11 @@ public class AlarmDialog extends Dialog {
 	}
 
 	public void Show(Object obj) {
-		
+
 		if (obj == null) {
 			return;
 		}
-		
+
 		// 已经在显示了，就不显示了
 		if (getDialogObjs() <= 1) {
 			PushInfo pi = (PushInfo) obj;
@@ -161,11 +177,14 @@ public class AlarmDialog extends Dialog {
 			alarmTime = pi.alarmTime;
 			String strAlarmTypeName = "";
 			if (pi.alarmType == 7) {
-				strAlarmTypeName = context.getResources().getString(R.string.str_alarm_type_move);
+				strAlarmTypeName = context.getResources().getString(
+						R.string.str_alarm_type_move);
 			} else if (pi.alarmType == 11) {
-				strAlarmTypeName = context.getResources().getString(R.string.str_alarm_type_third);
+				strAlarmTypeName = context.getResources().getString(
+						R.string.str_alarm_type_third);
 			} else {
-				strAlarmTypeName = context.getResources().getString(R.string.str_alarm_type_unknown);
+				strAlarmTypeName = context.getResources().getString(
+						R.string.str_alarm_type_unknown);
 			}
 			alarmTypeName = strAlarmTypeName;
 			show();

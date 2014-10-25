@@ -310,14 +310,14 @@ public class ThirdDevListActivity extends BaseActivity implements
 						(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 				new Thread(new TimeOutProcess(JVNetConst.JVN_REQ_TEXT)).start();
 			}
-			break;
+				break;
 			// 2 -- 断开连接成功
 			case JVNetConst.DISCONNECT_OK: {
 				bConnectFlag = false;
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
 			}
-			break;
+				break;
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
 				bConnectFlag = false;
@@ -348,7 +348,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 				}
 				finish();
 			}
-			break;
+				break;
 			case JVNetConst.ABNORMAL_DISCONNECT:
 			case JVNetConst.SERVICE_STOP:
 				bConnectFlag = false;

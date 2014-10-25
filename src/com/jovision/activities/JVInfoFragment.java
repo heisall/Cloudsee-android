@@ -163,18 +163,18 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			try {
 				temList = AlarmUtil.getUserAlarmList(Consts.pushHisCount,
 						Consts.PUSH_PAGESIZE);
-				if(temList == null){
-					//null肯定失败,不为null一定成功，可能信息为0,因为只有成功才会new list，因此temList肯定不为null
+				if (temList == null) {
+					// null肯定失败,不为null一定成功，可能信息为0,因为只有成功才会new
+					// list，因此temList肯定不为null
 					refreshRes = 0;
-				}
-				else{
+				} else {
 					refreshRes = 1;
 				}
-//				if (null != temList && 0 != temList.size()) {
-//					refreshRes = 1;
-//				} else {
-//					refreshRes = 0;
-//				}
+				// if (null != temList && 0 != temList.size()) {
+				// refreshRes = 1;
+				// } else {
+				// refreshRes = 0;
+				// }
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -196,7 +196,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				if (null == temList) {
 					temList = new ArrayList<PushInfo>();
 				}
-				if(temList.size() == 0){
+				if (temList.size() == 0) {
 					mActivity.showTextToast(R.string.nomessage);
 					return;
 				}

@@ -70,7 +70,7 @@ public class JVPlayActivity extends PlayActivity implements
 	/** intent传递过来的设备和通道下标 */
 	private int deviceIndex;
 	private int channelOfChannel;
-	 private ArrayList<Device> deviceList = new ArrayList<Device>();
+	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	HashMap<Integer, Boolean> surfaceCreatMap = new HashMap<Integer, Boolean>();
 
 	private boolean needToast = false;

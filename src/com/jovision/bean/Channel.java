@@ -53,7 +53,7 @@ public class Channel {
 	private int streamTag = -1;// 码流参数值 MainStreamQos 123
 	private int screenTag = -1;// 屏幕方向值 effect_flag 老设备 0(正),4(反) 新设备不一定
 	private int effect_flag = -1;// 屏幕方向值 effect_flag 新设备
-	
+
 	private int width = 0;// 音频类型
 	private int height = 0;// 音频比特率
 

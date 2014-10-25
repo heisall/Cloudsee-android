@@ -5,14 +5,20 @@
     android:background="@color/deviceitembgcolor" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical" >
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" 
+        android:id="@+id/top_layout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dip"
+        >
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+           android:layout_marginLeft="10dip"
+             >
 
             <Button
                 android:id="@+id/add_door_btn"
@@ -34,7 +40,9 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp" >
+            android:layout_marginLeft="8dip"
+            
+            >
 
             <Button
                 android:id="@+id/add_bracelet_btn"
@@ -53,10 +61,23 @@
                 android:textSize="16sp" />
         </RelativeLayout>
 
-        <RelativeLayout
+       
+    </LinearLayout>
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_layout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dip"
+        android:layout_alignParentLeft="true"
+         >
+        
+         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp" >
+             android:layout_marginLeft="10dip"
+             >
 
             <Button
                 android:id="@+id/add_telecontrol_btn"
@@ -74,6 +95,6 @@
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </RelativeLayout>
+        
     </LinearLayout>
-
 </RelativeLayout>

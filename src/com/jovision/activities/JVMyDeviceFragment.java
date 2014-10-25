@@ -927,6 +927,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 						}
 					}
 
+					if (null == myDeviceList || 0 == myDeviceList.size()) {
+						CacheUtil.saveDevList(myDeviceList);
+					}
+
 				} else if (localFlag) {// 本地登录
 					myDeviceList = CacheUtil.getDevList();
 				}

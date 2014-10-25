@@ -92,7 +92,7 @@
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/decode_selector"
                     android:onClick="onFlip"
-                    android:text="flip"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
@@ -115,7 +115,7 @@
                     android:layout_marginRight="5dp"
                     android:background="@drawable/decode_selector"
                     android:onClick="onFlip"
-                    android:text="flip"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </RelativeLayout>

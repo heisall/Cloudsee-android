@@ -9,7 +9,8 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <item name="android:backgroundDimEnabled">true</item>
---></style>
+-->
+</style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">

@@ -100,9 +100,14 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 				break;
 			case 1:
-				if (MySharedPreference.getBoolean("AlarmSwitch")) {
+				if (!localFlag) {
+					if (MySharedPreference.getBoolean("AlarmSwitch")) {
+						holder.item_next
+								.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					}
+				} else {
 					holder.item_next
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+							.setBackgroundResource(R.drawable.morefragment_normal_icon);
 				}
 				break;
 			case 2:

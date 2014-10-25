@@ -101,7 +101,7 @@
     <string name="login_str_qq_autho_success">QQ authorized success</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">No alarm now.</string>
-    <string name="alerm">报警级别</string>
+    <string name="alerm">Alerm Level</string>
     <string name="more_findpassword">Retrieve Password</string>
     <string name="more_cancel">Cancel the account</string>
     <!-- leftMenu -->
@@ -641,7 +641,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.22(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.22(reconsitution) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

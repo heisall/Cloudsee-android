@@ -141,7 +141,7 @@ public class JVMoreFragment extends BaseFragment {
 		more_head = (ImageView) view.findViewById(R.id.more_head_img);
 
 		more_listView = (ListView) view.findViewById(R.id.more_listView);
-		adapter = new FragmentAdapter(activity, dataList);
+		adapter = new FragmentAdapter(JVMoreFragment.this, dataList);
 		more_listView.setAdapter(adapter);
 		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
 
@@ -279,7 +279,7 @@ public class JVMoreFragment extends BaseFragment {
 							CheckUpdateTask task = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];
-							strParams[0] = "1";// 0,手动检查更新
+							strParams[0] = "1";// 1,手动检查更新
 							task.execute(strParams);
 							break;
 						}

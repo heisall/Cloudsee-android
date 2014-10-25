@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="38"
-    android:versionName="V4.1.20" >
+    android:versionName="V4.1.22" >
 
     <supports-screens
         android:anyDensity="true"
@@ -109,7 +109,7 @@
             android:name="com.jovision.activities.JVTabActivity"
             android:configChanges="orientation|keyboardHidden"
             android:hardwareAccelerated="true"
-            android:launchMode="standard"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -245,6 +245,7 @@
         <activity
             android:name="com.jovision.activities.JVDeviceManageActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:hardwareAccelerated="true"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
@@ -273,7 +274,7 @@
         <activity
             android:name="com.jovision.activities.JVNoticeActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -311,7 +312,7 @@
         <activity
             android:name="com.jovision.activities.JVFeedbackActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>

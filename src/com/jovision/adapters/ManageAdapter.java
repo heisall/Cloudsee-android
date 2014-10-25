@@ -100,13 +100,15 @@ public class ManageAdapter extends BaseAdapter {
 
 		int w = screenWidth / 3;
 		int h = w - 70;
-		RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(w, h);
-		channelHolder.manageBG.setLayoutParams(rllp);
-		channelHolder.function.setText(fuctionArray[position]);
-		channelHolder.img.setBackgroundResource(manageBgArray[position]);
-		int resID = manageResArray[position % 7];
-		channelHolder.manageBG.setBackgroundResource(resID);
-
+		if (position != 6) {
+			RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
+					w, h);
+			channelHolder.manageBG.setLayoutParams(rllp);
+			channelHolder.function.setText(fuctionArray[position]);
+			channelHolder.img.setBackgroundResource(manageBgArray[position]);
+			int resID = manageResArray[position % 7];
+			channelHolder.manageBG.setBackgroundResource(resID);
+		}
 		channelHolder.manageBG.setOnClickListener(new OnClickListener() {
 
 			@Override

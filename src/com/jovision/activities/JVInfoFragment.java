@@ -62,10 +62,11 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
 		rightBtn.setVisibility(View.GONE);
-		currentMenu.setText(getResources().getString(R.string.str_alarm_info));
+		currentMenu.setText(mActivity.getResources().getString(
+				R.string.str_alarm_info));
 
 		pushListView = (XListView) mParent.findViewById(R.id.pushlistview);
-		getResources().getDrawable(R.drawable.refresh_broadcast);
+		mActivity.getResources().getDrawable(R.drawable.refresh_broadcast);
 		rightBtn.setVisibility(View.GONE);
 		rightBtn.setOnClickListener(onClickListener);
 
@@ -111,7 +112,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	private void onLoadPush() {
 		pushListView.stopRefresh();
 		pushListView.stopLoadMore();
-		pushListView.setRefreshTime(getResources().getString(
+		pushListView.setRefreshTime(mActivity.getResources().getString(
 				R.string.str_update_at)
 				+ ConfigUtil.getCurrentTime());
 	}

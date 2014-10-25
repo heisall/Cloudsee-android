@@ -3,7 +3,9 @@ package com.jovision.activities;
 import java.util.ArrayList;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -19,9 +21,11 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyActivityManager;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
+import com.jovision.views.AlarmDialog;
 
 public class JVIpconnectActivity extends BaseActivity {
 	// ip连接形式的RadioButton
@@ -76,14 +80,30 @@ public class JVIpconnectActivity extends BaseActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-
+		switch (what) {
+		case Consts.PUSH_MESSAGE:
+			// 弹出对话框
+			new AlarmDialog(this).Show(obj);
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-
+		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 	}
 
+	// @Override
+	// protected void onCreate(Bundle savedInstanceState) {
+	// super.onCreate(savedInstanceState);
+	// MyActivityManager.getActivityManager().pushAlarmActivity(this);//保存需要弹出报警的Activity
+	// getWindow().addFlags(
+	// WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+	// WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+	// WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	// }
 	@Override
 	protected void initSettings() {
 		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
@@ -421,6 +441,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			dismissDialog();
 			if (0 == result) {
 				showTextToast(R.string.login_str_device_edit_success);
+				JVIpconnectActivity.this.finish();
 			} else {
 				showTextToast(R.string.login_str_device_edit_failed);
 			}

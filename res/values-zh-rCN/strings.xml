@@ -462,6 +462,7 @@
     <string name="keeponline_failed">保持在线失败!</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">暂时没有报警数据</string>
+    <string name="alerm">报警级别</string>
     <!-- JVMyDeviceFragment -->
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
     <string name="del_device_succ">设备删除成功</string>
@@ -609,7 +610,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.20(重构) - DJ</string>
+    <string name="str_current_version">BetaV4.1.22(重构) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->

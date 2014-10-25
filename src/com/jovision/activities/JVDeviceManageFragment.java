@@ -379,8 +379,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	@Override
 	public void onPause() {
-		CacheUtil.saveDevList(manageDeviceList);
-		MyLog.e(TAG, "~~~onPause invoked~~~~~~~~~~");
+		// CacheUtil.saveDevList(manageDeviceList);
 		super.onPause();
 	}
 

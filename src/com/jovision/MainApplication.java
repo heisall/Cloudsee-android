@@ -3,11 +3,16 @@ package com.jovision;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -18,11 +23,13 @@ import android.test.JVACCOUNT;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
+import com.jovision.activities.JVLoginActivity;
 import com.jovision.activities.JVOffLineDialogActivity;
 import com.jovision.activities.JVTabActivity;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
+import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AlarmUtil;
@@ -40,6 +47,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	private IHandlerLikeNotify currentNotifyer;
 
 	protected NotificationManager mNotifyer;
+	private ActivityManager activityManager;
+	private String packageName;
+	private Context context;
 
 	/**
 	 * 获取活动集合
@@ -63,6 +73,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	public void onCreate() {
 		super.onCreate();
 		// // 开启服务
+		context = this;
 		// Intent intent = new Intent();
 		// intent.setClass(this, MainService.class);
 		// startService(intent);
@@ -80,6 +91,10 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		File file = new File(strAlarmFilePath);
 		if (!file.exists())
 			file.mkdir();
+
+		activityManager = (ActivityManager) this
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		packageName = this.getPackageName();
 	}
 
 	/**
@@ -313,7 +328,39 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 									.optString(JVAlarmConst.JK_ALARM_NEW_VIDEOURL);
 							// BaseApp.pushList.add(0, pi);// 新消息置顶
 							// BaseApp.pushHisCount++;
-							onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0, pi);
+
+							if (isAppOnForeground()) {
+								MyLog.d("PushCallBack",
+										"the app is OnForeground.........");
+								onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
+										pi);
+							} else {
+								onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
+										pi);
+
+								MyLog.d("PushCallBack",
+										"the app is not OnForeground.........");
+								Activity currentActivity = MyActivityManager
+										.getActivityManager().currentActivity();
+								if (MyActivityManager.getActivityManager()
+										.findAlarmActivity(currentActivity)) {
+									Intent intentMain = new Intent(
+											getApplicationContext(),
+											currentActivity.getClass());
+									intentMain
+											.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+									// statusHashMap.put(Consts.LOCAL_LOGIN,
+									// "false");
+									currentActivity.startActivity(intentMain);
+								} else {
+									MyLog.e("PushCallBack",
+											"this "
+													+ currentActivity
+															.toString()
+													+ " is not need to pop alarm activity");
+								}
+							}
+
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -348,5 +395,21 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 			e.printStackTrace();
 		}
 
+	}
+
+	public boolean isAppOnForeground() {
+		List<RunningAppProcessInfo> appProcesses = activityManager
+				.getRunningAppProcesses();
+		if (appProcesses == null)
+			return false;
+
+		for (RunningAppProcessInfo appProcess : appProcesses) {
+			// The name of the process that this object is associated with.
+			if (appProcess.processName.equals(packageName)
+					&& appProcess.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

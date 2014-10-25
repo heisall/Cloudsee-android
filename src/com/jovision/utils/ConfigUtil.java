@@ -135,7 +135,7 @@ public class ConfigUtil {
 	 * @return
 	 */
 	public static String getCountry() {
-		String ip = "";
+		String ip = "China";
 		BufferedReader in = null;
 		try {
 			URL whatismyip = new URL(
@@ -156,6 +156,8 @@ public class ConfigUtil {
 				}
 			}
 		}
+		MyLog.v("getCountry", ip);
+
 		return ip;
 	}
 
@@ -166,6 +168,7 @@ public class ConfigUtil {
 
 		if (-1 == lan) {
 			String country = getCountry();
+
 			if (country.contains("中国") || country.contains("China")
 					|| country.contains("china")) {
 				lan = JVConst.LANGUAGE_ZH;
@@ -173,6 +176,7 @@ public class ConfigUtil {
 				lan = JVConst.LANGUAGE_EN;
 			}
 		}
+
 		return lan;
 	}
 
@@ -313,8 +317,16 @@ public class ConfigUtil {
 				JVACCOUNT.SetServerIP(channelIp, onlineIp);
 			} else {
 				if (getNetWorkConnection(context)) {
+
+					MyLog.v("initAccountSDK", Url.SHORTSERVERIP + "--"
+							+ Url.LONGSERVERIP);
 					JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,
 							Url.LONGSERVERIP);
+					// String ip = JVACCOUNT.GetServerIP();
+					// if(ip.length() < 5){//无ip
+					// JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,
+					// Url.LONGSERVERIP);
+					// }
 				}
 			}
 
@@ -353,7 +365,7 @@ public class ConfigUtil {
 				.getApplicationContext()).getStatusHashMap();
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
 			result = Jni.init(context, 9200, Consts.LOG_PATH);
-			Jni.enableLinkHelper(true, 3, 20);// 开小助手
+			Jni.enableLinkHelper(true, 3, 10);// 开小助手
 			Jni.searchLanServer(9400, 6666);// 开广播
 			statusHashMap
 					.put(Consts.KEY_INIT_CLOUD_SDK, String.valueOf(result));

@@ -96,7 +96,8 @@
             android:id="@+id/dev_edit_l"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/mydevice_delectedit_bg" >
+            android:background="@drawable/mydevice_delectedit_bg"
+            android:visibility="gone" >
 
             <LinearLayout
                 android:id="@+id/mydevice_cancle_l"

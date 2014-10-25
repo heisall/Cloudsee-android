@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -59,11 +60,13 @@ public class UserSpinnerAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		ViewHolder holder = null;
+		final ViewHolder holder;
 		if (convertView == null) {
 			holder = new ViewHolder();
 			// 下拉项布局
 			convertView = mInflater.inflate(R.layout.user_item, null);
+			holder.pop_relative = (RelativeLayout) convertView
+					.findViewById(R.id.pop_relative);
 			holder.userIcon = (ImageView) convertView
 					.findViewById(R.id.usericon);
 			holder.textView = (TextView) convertView
@@ -88,6 +91,18 @@ public class UserSpinnerAdapter extends BaseAdapter {
 			holder.textView.setTextColor(activity.getResources().getColor(
 					R.color.userinfocolor));
 		}
+		holder.pop_relative.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				activity.onNotify(JVLoginActivity.SELECT_USER, position, 0,
+						list.get(position));
+				holder.textView.setText(list.get(position).getUserName());
+				userName = list.get(position).getUserName();
+				notifyDataSetChanged();
+			}
+		});
 		holder.delImageView.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -148,5 +163,6 @@ public class UserSpinnerAdapter extends BaseAdapter {
 		TextView textView;
 		ImageView delImageView;
 		ImageView dividerImage;
+		RelativeLayout pop_relative;
 	}
 }

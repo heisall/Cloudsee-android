@@ -2,8 +2,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
-    <!-- 广告滚动圆点View -->
-
     <View
         android:id="@+id/ad_item_v"
         android:layout_width="8dip"

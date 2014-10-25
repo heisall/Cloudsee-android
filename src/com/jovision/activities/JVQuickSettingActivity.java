@@ -221,10 +221,35 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 		/************* 以下声波所需 **************/
 		quickSetParentLayout = (LinearLayout) findViewById(R.id.quickSetParentLayout);
-		initPopwindow();// 初始化快速配置弹出框所需要的内容
+		try {
+			LayoutInflater layoutInflater = LayoutInflater.from(this);
+			View view = layoutInflater
+					.inflate(R.layout.quicksetsearching, null);
+			Display display = getWindowManager().getDefaultDisplay();
+			int screenWidth = display.getWidth();
+			int screenHeight = display.getHeight();
+			quickSetPop = new PopupWindow(view, screenWidth, screenHeight);
 
-		// 播放声音
-		playSound(Consts.SOUNDONE);
+			/**
+			 * 为控件添加事件
+			 * 
+			 */
+			quickSetBackImg = (Button) view.findViewById(R.id.quickSetBack);
+			quickSetBackImg.setOnClickListener(quickSetOnClick);
+
+			quickSetDeviceImg = (ImageView) view
+					.findViewById(R.id.quickSetDeviceImg);
+			quickSetDeviceImg.setOnClickListener(quickSetOnClick);
+			searchView = (SearchDevicesView) view.findViewById(R.id.searchView);
+			searchView.setWillNotDraw(false);
+
+			// 播放声音
+			playSound(Consts.SOUNDONE);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -738,6 +763,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (null != quickSetPop) {
 			quickSetPop.dismiss();
 		}
+		searchView.myPlayer.release();
 		stopRefreshWifiTimer();
 	}
 
@@ -1601,6 +1627,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			quickSetDeviceImg.setOnClickListener(quickSetOnClick);
 			searchView = (SearchDevicesView) view.findViewById(R.id.searchView);
 			searchView.setWillNotDraw(false);
+
+			// 播放声音
+			playSound(Consts.SOUNDONE);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

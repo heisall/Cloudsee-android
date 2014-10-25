@@ -104,7 +104,7 @@ public class AlarmDialog extends Dialog {
 					try {
 						int dev_index = getDeivceIndex(ystNum);
 						deviceList = CacheUtil.getDevList();
-						if (dev_index >= deviceList.size()) {
+						if (dev_index == -1 || dev_index >= deviceList.size()) {
 							Toast.makeText(
 									context,
 									"error index:" + dev_index + ", size:"

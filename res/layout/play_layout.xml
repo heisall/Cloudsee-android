@@ -272,7 +272,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/white"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:paddingBottom="5dp"
                 android:paddingTop="1dp"
                 android:visibility="visible" >
 

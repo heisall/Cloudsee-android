@@ -792,9 +792,9 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换
-		// String streamParam = "MainStreamQos=" + (arg1 + 1);
-		// Jni.changeStream(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-		// streamParam);
+			// String streamParam = "MainStreamQos=" + (arg1 + 1);
+			// Jni.changeStream(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+			// streamParam);
 			if (0 == arg1) {
 				Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
 						1, 1280, 720, 1024, 15);

@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="sdsd"
+                android:text="@string/str_safe_protected"
                 android:textColor="@color/white" />
         </LinearLayout>
     </RelativeLayout>

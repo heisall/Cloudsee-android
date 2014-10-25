@@ -109,7 +109,7 @@
         <item>Power Off Alarm, Device:%%.</item>
         <item>Manual Alarm, Device:%%.</item>
         <item>GPS Alarm, Device:%%.</item>
-        <item>Third Device alarm, Device:%%.</item>
+        <item>Alarm Occurs, Device:%%.</item>
         <item>ALARM_NONE, Device:%%.</item>
         <item>ALARM_NOTIFY, Device:%%.</item>
         <item>ALARM_TEMP_HIGH, Device:%%.</item>
@@ -146,4 +146,10 @@
         <item>Fluent</item>
     </string-array>
 
+    <string-array name="array_third_guide">
+        <item>请将设备打开，等待配置完成。</item>
+        <item>请将设备打开，等待配置完成。</item>
+        <item>请长按红色按键，等待配置完成。</item>
+        <item>请长按任意键，等待配置完成。</item>
+    </string-array>
 </resources>

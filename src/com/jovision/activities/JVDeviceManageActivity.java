@@ -6,7 +6,9 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,10 +17,14 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.activities.JVInfoFragment.DelAlarmTask;
+import com.jovision.adapters.PushAdapter;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyActivityManager;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
+import com.jovision.views.AlarmDialog;
 
 public class JVDeviceManageActivity extends BaseActivity {
 
@@ -53,13 +59,20 @@ public class JVDeviceManageActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-
+		switch (what) {
+		case Consts.PUSH_MESSAGE:
+			// 弹出对话框
+			new AlarmDialog(this).Show(obj);
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-
+		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 	}
 
 	@Override
@@ -68,6 +81,15 @@ public class JVDeviceManageActivity extends BaseActivity {
 
 	}
 
+	// @Override
+	// protected void onCreate(Bundle savedInstanceState) {
+	// super.onCreate(savedInstanceState);
+	// MyActivityManager.getActivityManager().pushAlarmActivity(this);//保存需要弹出报警的Activity
+	// getWindow().addFlags(
+	// WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+	// WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+	// WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	// }
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub

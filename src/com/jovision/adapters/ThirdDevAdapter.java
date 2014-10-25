@@ -151,10 +151,10 @@ public class ThirdDevAdapter extends BaseAdapter {
 			viewHolder.dev_yst.setText(devItem.dev_belong_yst);
 			if (third_dev_list_.get(position).dev_safeguard_flag == 0) {
 				viewHolder.switch_btn
-						.setBackgroundResource(R.drawable.sw_button);
+						.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			} else {
 				viewHolder.switch_btn
-						.setBackgroundResource(R.drawable.sw_button_on);
+						.setBackgroundResource(R.drawable.morefragment_selector_icon);
 			}
 			if (devItem.dev_type_mark == 1) {// 门磁设备
 				viewHolder.dev_type_img

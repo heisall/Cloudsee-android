@@ -66,6 +66,9 @@ public abstract class PlayActivity extends BaseActivity {
 
 	protected SeekBar progressBar;// 远程回放进度
 
+	/** 　竖屏播放工具bar　 */
+	protected RelativeLayout verPlayBarLayout;
+
 	/** 　横屏播放工具bar　 */
 	protected RelativeLayout horPlayBarLayout;
 
@@ -141,9 +144,12 @@ public abstract class PlayActivity extends BaseActivity {
 	private RelativeLayout relative6;
 	private RelativeLayout relative7;
 	private RelativeLayout relative8;
+
 	/** IPC独有特性 */
-	protected Button decodeBtn;
+	protected Button decodeBtn;// 软硬解
 	protected Button videTurnBtn;// 视频翻转
+	protected Button currentKbps;// 当前统计
+
 	// 录像模式----rightFuncButton
 	// 码流切换----moreFeature
 	protected String[] streamArray;
@@ -206,6 +212,7 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 
 		/** 中 */
+		viewPager = new MyViewPager(PlayActivity.this);
 		viewPager = (MyViewPager) findViewById(R.id.viewpager);
 		playSurface = (SurfaceView) findViewById(R.id.remotesurfaceview);
 		linkMode = (TextView) findViewById(R.id.linkstate);
@@ -215,10 +222,16 @@ public abstract class PlayActivity extends BaseActivity {
 		linkState = (TextView) findViewById(R.id.playstate);// 连接文字
 		loading = (ProgressBar) findViewById(R.id.videoloading);// 加载进度
 
+		/** 竖直播放function bar */
+		verPlayBarLayout = (RelativeLayout) findViewById(R.id.play_ver_func);
+
 		decodeBtn = (Button) findViewById(R.id.decodeway);
 		videTurnBtn = (Button) findViewById(R.id.overturn);
+		currentKbps = (Button) findViewById(R.id.kbps);
+
 		decodeBtn.setVisibility(View.GONE);
 		videTurnBtn.setVisibility(View.GONE);
+		currentKbps.setVisibility(View.GONE);
 		voiceTip = (RelativeLayout) findViewById(R.id.voicetip);
 
 		/** 水平播放function bar */
@@ -361,6 +374,7 @@ public abstract class PlayActivity extends BaseActivity {
 	 */
 	protected void setPlayViewSize() {
 		if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
+			viewPager.setDisableSliding(false);
 			getWindow()
 					.setFlags(
 							disMetrics.widthPixels
@@ -376,6 +390,7 @@ public abstract class PlayActivity extends BaseActivity {
 				apFuncLayout.setVisibility(View.GONE);
 			}
 
+			verPlayBarLayout.setVisibility(View.VISIBLE);
 			horPlayBarLayout.setVisibility(View.GONE);
 			reParamsV = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
 					(int) (0.75 * disMetrics.widthPixels));
@@ -383,7 +398,8 @@ public abstract class PlayActivity extends BaseActivity {
 					+ (int) (0.75 * disMetrics.widthPixels));
 			viewPager.setLayoutParams(reParamsV);
 			playSurface.setLayoutParams(reParamsV);
-
+			decodeBtn.setVisibility(View.VISIBLE);
+			currentKbps.setVisibility(View.VISIBLE);
 			// [Neo] surface.step 0
 			if (surfaceWidth < 0 || surfaceHeight < 0) {
 				surfaceWidth = disMetrics.widthPixels;
@@ -391,11 +407,13 @@ public abstract class PlayActivity extends BaseActivity {
 			}
 
 		} else {// 横
+			viewPager.setDisableSliding(true);
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			topBar.setVisibility(View.GONE);// 顶部标题栏
 			footerBar.setVisibility(View.GONE);// 底部工具栏
 			apFuncLayout.setVisibility(View.GONE);
+			verPlayBarLayout.setVisibility(View.GONE);
 			horPlayBarLayout.setVisibility(View.VISIBLE);
 			// init();
 			if (Consts.PLAY_AP == playFlag) {
@@ -423,6 +441,7 @@ public abstract class PlayActivity extends BaseActivity {
 			}
 			decodeBtn.setVisibility(View.GONE);
 			videTurnBtn.setVisibility(View.GONE);
+			currentKbps.setVisibility(View.GONE);
 
 			reParamsH = new RelativeLayout.LayoutParams(
 					ViewGroup.LayoutParams.MATCH_PARENT,
@@ -441,23 +460,167 @@ public abstract class PlayActivity extends BaseActivity {
 	}
 
 	/**
+	 * 显示横屏功能
+	 * 
+	 * @param channnel
+	 */
+	@SuppressWarnings("deprecation")
+	public void showVerFuc(Channel channel) {
+		verPlayBarLayout.setVisibility(View.VISIBLE);
+		horPlayBarLayout.setVisibility(View.GONE);
+
+		currentKbps.setVisibility(View.VISIBLE);
+		// 获取软硬解状态
+		if (channel.isOMX()) {
+			decodeBtn.setText(R.string.is_omx);
+		} else {
+			decodeBtn.setText(R.string.not_omx);
+		}
+
+		if (lowerSystem) {
+			decodeBtn.setVisibility(View.GONE);
+		} else {
+			decodeBtn.setVisibility(View.VISIBLE);
+		}
+
+		// 录像模式
+		rightFuncButton.setTextSize(8);
+		rightFuncButton.setTextColor(getResources().getColor(R.color.white));
+		rightFuncButton.setBackgroundDrawable(null);
+		if (Consts.STORAGEMODE_NORMAL == channel.getStorageMode()) {
+			rightFuncButton.setText(R.string.video_normal);
+			rightFuncButton.setCompoundDrawablesWithIntrinsicBounds(null,
+					normalRecordDrawableTop, null, null);
+
+			rightFuncButton.setVisibility(View.VISIBLE);
+
+		} else if (Consts.STORAGEMODE_ALARM == channel.getStorageMode()) {
+			rightFuncButton.setText(R.string.video_alarm);
+			rightFuncButton.setCompoundDrawablesWithIntrinsicBounds(null,
+					alarmRecordDrawableTop, null, null);
+			rightFuncButton.setVisibility(View.VISIBLE);
+		} else {
+			rightFuncButton.setVisibility(View.GONE);
+			right_btn_h.setVisibility(View.GONE);
+		}
+
+		// 屏幕方向
+		if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
+			videTurnBtn.setVisibility(View.VISIBLE);
+			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turn_left_selector));
+		} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
+			videTurnBtn.setVisibility(View.VISIBLE);
+			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turn_right_selector));
+		} else {
+			videTurnBtn.setVisibility(View.VISIBLE);
+		}
+		// 码流设置
+		if (-1 != channel.getStreamTag()) {
+			streamAdapter.selectStream = channel.getStreamTag() - 1;
+			streamAdapter.notifyDataSetChanged();
+			moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
+
+			bottomStream.setText(streamArray[channel.getStreamTag() - 1]);
+		}
+	}
+
+	public void showFunc(Channel channel, int screen) {
+		if (screen > 1 || !channel.isConnected()) {
+			verPlayBarLayout.setVisibility(View.GONE);
+			horPlayBarLayout.setVisibility(View.GONE);
+		} else {
+			if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
+				showVerFuc(channel);
+			} else {
+				showHorFuc(channel);
+			}
+		}
+	}
+
+	/**
+	 * 显示横屏功能
+	 * 
+	 * @param channnel
+	 */
+	@SuppressWarnings("deprecation")
+	public void showHorFuc(Channel channel) {
+		verPlayBarLayout.setVisibility(View.GONE);
+		horPlayBarLayout.setVisibility(View.VISIBLE);
+
+		// 获取软硬解状态
+		if (channel.isOMX()) {
+			bottombut2.setText(R.string.is_omx);
+		} else {
+			bottombut2.setText(R.string.not_omx);
+		}
+
+		if (lowerSystem) {
+			bottombut2.setVisibility(View.GONE);
+		} else {
+			bottombut2.setVisibility(View.VISIBLE);
+		}
+
+		// 录像模式
+		right_btn_h.setTextSize(8);
+		right_btn_h.setTextColor(getResources().getColor(R.color.white));
+		right_btn_h.setBackgroundDrawable(null);
+		if (Consts.STORAGEMODE_NORMAL == channel.getStorageMode()) {
+			right_btn_h.setText(R.string.video_normal);
+			right_btn_h.setCompoundDrawablesWithIntrinsicBounds(null,
+					normalRecordDrawableTop, null, null);
+			right_btn_h.setVisibility(View.VISIBLE);
+		} else if (Consts.STORAGEMODE_ALARM == channel.getStorageMode()) {
+			right_btn_h.setText(R.string.video_alarm);
+			right_btn_h.setCompoundDrawablesWithIntrinsicBounds(null,
+					alarmRecordDrawableTop, null, null);
+			right_btn_h.setVisibility(View.VISIBLE);
+		} else {
+			right_btn_h.setVisibility(View.GONE);
+		}
+
+		// 屏幕方向
+		if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
+			relative6.setVisibility(View.VISIBLE);
+			bottombut6.setVisibility(View.VISIBLE);
+			bottombut6.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turn_left_selector));
+		} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
+			relative6.setVisibility(View.VISIBLE);
+			bottombut6.setVisibility(View.VISIBLE);
+			bottombut6.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turn_right_selector));
+		} else {
+			if (relative6.getVisibility() == View.VISIBLE) {
+				linear.removeView(relative6);
+				linear.addView(relative6, linear.getChildCount());
+				bottombut6.setVisibility(View.GONE);
+				videTurnBtn.setVisibility(View.GONE);
+			}
+		}
+		// 码流设置
+		if (-1 != channel.getStreamTag()) {
+			streamAdapter.selectStream = channel.getStreamTag() - 1;
+			streamAdapter.notifyDataSetChanged();
+			moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
+			bottomStream.setText(streamArray[channel.getStreamTag() - 1]);
+		}
+	}
+
+	/**
 	 * 清空所有状态
 	 */
 	public void resetFunc(Channel channel) {
-		decodeBtn.setVisibility(View.GONE);// 软硬解
-		videTurnBtn.setVisibility(View.GONE);// 视频翻转
+		verPlayBarLayout.setVisibility(View.GONE);
 		if (relative6.getVisibility() == 0) {
 			linear.removeView(relative6);
 			linear.addView(relative6, linear.getChildCount());
 			bottombut6.setVisibility(View.GONE);
 		}
-
-		rightFuncButton.setVisibility(View.GONE);// 录像模式
 		right_btn_h.setVisibility(View.GONE);// 录像模式
-
 		moreFeature.setText(R.string.default_stream);// 码流
 		bottomStream.setText(R.string.default_stream);
-
 		// 停止音频监听
 		if (PlayUtil.isPlayAudio(channel.getIndex())) {
 			PlayUtil.audioPlay(channel.getIndex());
@@ -505,132 +668,137 @@ public abstract class PlayActivity extends BaseActivity {
 
 	}
 
-	/**
-	 * 刷新IPC状态显示
-	 * 
-	 * @param channel
-	 */
-	@SuppressWarnings("deprecation")
-	protected void refreshIPCFun(Channel channel) {
-
-		// 获取软硬解状态
-		if (channel.isOMX()) {
-			decodeBtn.setText(R.string.is_omx);
-			bottombut2.setText(R.string.is_omx);
-		} else {
-			decodeBtn.setText(R.string.not_omx);
-			bottombut2.setText(R.string.not_omx);
-		}
-
-		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-			decodeBtn.setVisibility(View.GONE);
-		} else {
-			decodeBtn.setVisibility(View.VISIBLE);
-		}
-
-		if (lowerSystem) {
-			bottombut2.setVisibility(View.GONE);
-			decodeBtn.setVisibility(View.GONE);
-		}
-
-		// 录像模式
-		if (Consts.STORAGEMODE_NORMAL == channel.getStorageMode()) {
-			rightFuncButton.setText(R.string.video_normal);
-			rightFuncButton.setCompoundDrawablesWithIntrinsicBounds(null,
-					normalRecordDrawableTop, null, null);
-			rightFuncButton.setTextSize(8);
-			rightFuncButton
-					.setTextColor(getResources().getColor(R.color.white));
-			rightFuncButton.setBackgroundDrawable(null);
-
-			right_btn_h.setText(R.string.video_normal);
-			right_btn_h.setCompoundDrawablesWithIntrinsicBounds(null,
-					normalRecordDrawableTop, null, null);
-			right_btn_h.setTextSize(8);
-			right_btn_h.setTextColor(getResources().getColor(R.color.white));
-			right_btn_h.setBackgroundDrawable(null);
-
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-				right_btn_h.setVisibility(View.VISIBLE);
-				rightFuncButton.setVisibility(View.GONE);
-			} else {
-				right_btn_h.setVisibility(View.GONE);
-				rightFuncButton.setVisibility(View.VISIBLE);
-			}
-
-		} else if (Consts.STORAGEMODE_ALARM == channel.getStorageMode()) {
-			rightFuncButton.setText(R.string.video_alarm);
-			rightFuncButton.setCompoundDrawablesWithIntrinsicBounds(null,
-					alarmRecordDrawableTop, null, null);
-			rightFuncButton.setTextSize(8);
-			rightFuncButton
-					.setTextColor(getResources().getColor(R.color.white));
-			rightFuncButton.setBackgroundDrawable(null);
-
-			right_btn_h.setText(R.string.video_alarm);
-			right_btn_h.setCompoundDrawablesWithIntrinsicBounds(null,
-					alarmRecordDrawableTop, null, null);
-			right_btn_h.setTextSize(8);
-			right_btn_h.setTextColor(getResources().getColor(R.color.white));
-			right_btn_h.setBackgroundDrawable(null);
-
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-				right_btn_h.setVisibility(View.VISIBLE);
-				rightFuncButton.setVisibility(View.GONE);
-			} else {
-				right_btn_h.setVisibility(View.GONE);
-				rightFuncButton.setVisibility(View.VISIBLE);
-			}
-		} else {
-			rightFuncButton.setVisibility(View.GONE);
-			right_btn_h.setVisibility(View.GONE);
-		}
-
-		// 屏幕方向
-		if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
-			videTurnBtn.setVisibility(View.VISIBLE);
-			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turn_left_selector));
-			relative6.setVisibility(View.VISIBLE);
-			bottombut6.setVisibility(View.VISIBLE);
-			bottombut6.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turn_left_selector));
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-				relative6.setVisibility(View.VISIBLE);
-				videTurnBtn.setVisibility(View.GONE);
-			} else {
-				videTurnBtn.setVisibility(View.VISIBLE);
-			}
-		} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
-			videTurnBtn.setVisibility(View.VISIBLE);
-			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turn_right_selector));
-			relative6.setVisibility(View.VISIBLE);
-			bottombut6.setVisibility(View.VISIBLE);
-			bottombut6.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turn_right_selector));
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-				relative6.setVisibility(View.VISIBLE);
-				videTurnBtn.setVisibility(View.GONE);
-			} else {
-				videTurnBtn.setVisibility(View.VISIBLE);
-			}
-		} else {
-			if (relative6.getVisibility() == View.VISIBLE) {
-				linear.removeView(relative6);
-				linear.addView(relative6, linear.getChildCount());
-				bottombut6.setVisibility(View.GONE);
-				videTurnBtn.setVisibility(View.GONE);
-			}
-		}
-		// 码流设置
-		if (-1 != channel.getStreamTag()) {
-			streamAdapter.selectStream = channel.getStreamTag() - 1;
-			streamAdapter.notifyDataSetChanged();
-			moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
-			bottomStream.setText(streamArray[channel.getStreamTag() - 1]);
-		}
-	}
+	// /**
+	// * 刷新IPC状态显示
+	// *
+	// * @param channel
+	// */
+	// @SuppressWarnings("deprecation")
+	// protected void refreshIPCFun(Channel channel) {
+	// currentKbps.setVisibility(View.VISIBLE);
+	// // 获取软硬解状态
+	// if (channel.isOMX()) {
+	// decodeBtn.setText(R.string.is_omx);
+	// bottombut2.setText(R.string.is_omx);
+	// } else {
+	// decodeBtn.setText(R.string.not_omx);
+	// bottombut2.setText(R.string.not_omx);
+	// }
+	//
+	// if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {//
+	// 横屏
+	// decodeBtn.setVisibility(View.GONE);
+	// } else {
+	// decodeBtn.setVisibility(View.VISIBLE);
+	// }
+	//
+	// if (lowerSystem) {
+	// bottombut2.setVisibility(View.GONE);
+	// decodeBtn.setVisibility(View.GONE);
+	// }
+	//
+	// // 录像模式
+	// if (Consts.STORAGEMODE_NORMAL == channel.getStorageMode()) {
+	// rightFuncButton.setText(R.string.video_normal);
+	// rightFuncButton.setCompoundDrawablesWithIntrinsicBounds(null,
+	// normalRecordDrawableTop, null, null);
+	// rightFuncButton.setTextSize(8);
+	// rightFuncButton
+	// .setTextColor(getResources().getColor(R.color.white));
+	// rightFuncButton.setBackgroundDrawable(null);
+	//
+	// right_btn_h.setText(R.string.video_normal);
+	// right_btn_h.setCompoundDrawablesWithIntrinsicBounds(null,
+	// normalRecordDrawableTop, null, null);
+	// right_btn_h.setTextSize(8);
+	// right_btn_h.setTextColor(getResources().getColor(R.color.white));
+	// right_btn_h.setBackgroundDrawable(null);
+	//
+	// if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {//
+	// 横屏
+	// right_btn_h.setVisibility(View.VISIBLE);
+	// rightFuncButton.setVisibility(View.GONE);
+	// } else {
+	// right_btn_h.setVisibility(View.GONE);
+	// rightFuncButton.setVisibility(View.VISIBLE);
+	// }
+	//
+	// } else if (Consts.STORAGEMODE_ALARM == channel.getStorageMode()) {
+	// rightFuncButton.setText(R.string.video_alarm);
+	// rightFuncButton.setCompoundDrawablesWithIntrinsicBounds(null,
+	// alarmRecordDrawableTop, null, null);
+	// rightFuncButton.setTextSize(8);
+	// rightFuncButton
+	// .setTextColor(getResources().getColor(R.color.white));
+	// rightFuncButton.setBackgroundDrawable(null);
+	//
+	// right_btn_h.setText(R.string.video_alarm);
+	// right_btn_h.setCompoundDrawablesWithIntrinsicBounds(null,
+	// alarmRecordDrawableTop, null, null);
+	// right_btn_h.setTextSize(8);
+	// right_btn_h.setTextColor(getResources().getColor(R.color.white));
+	// right_btn_h.setBackgroundDrawable(null);
+	//
+	// if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {//
+	// 横屏
+	// right_btn_h.setVisibility(View.VISIBLE);
+	// rightFuncButton.setVisibility(View.GONE);
+	// } else {
+	// right_btn_h.setVisibility(View.GONE);
+	// rightFuncButton.setVisibility(View.VISIBLE);
+	// }
+	// } else {
+	// rightFuncButton.setVisibility(View.GONE);
+	// right_btn_h.setVisibility(View.GONE);
+	// }
+	//
+	// // 屏幕方向
+	// if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
+	// videTurnBtn.setVisibility(View.VISIBLE);
+	// videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+	// R.drawable.turn_left_selector));
+	// relative6.setVisibility(View.VISIBLE);
+	// bottombut6.setVisibility(View.VISIBLE);
+	// bottombut6.setBackgroundDrawable(getResources().getDrawable(
+	// R.drawable.turn_left_selector));
+	// if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {//
+	// 横屏
+	// relative6.setVisibility(View.VISIBLE);
+	// videTurnBtn.setVisibility(View.GONE);
+	// } else {
+	// videTurnBtn.setVisibility(View.VISIBLE);
+	// }
+	// } else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
+	// videTurnBtn.setVisibility(View.VISIBLE);
+	// videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+	// R.drawable.turn_right_selector));
+	// relative6.setVisibility(View.VISIBLE);
+	// bottombut6.setVisibility(View.VISIBLE);
+	// bottombut6.setBackgroundDrawable(getResources().getDrawable(
+	// R.drawable.turn_right_selector));
+	// if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {//
+	// 横屏
+	// relative6.setVisibility(View.VISIBLE);
+	// videTurnBtn.setVisibility(View.GONE);
+	// } else {
+	// videTurnBtn.setVisibility(View.VISIBLE);
+	// }
+	// } else {
+	// if (relative6.getVisibility() == View.VISIBLE) {
+	// linear.removeView(relative6);
+	// linear.addView(relative6, linear.getChildCount());
+	// bottombut6.setVisibility(View.GONE);
+	// videTurnBtn.setVisibility(View.GONE);
+	// }
+	// }
+	// // 码流设置
+	// if (-1 != channel.getStreamTag()) {
+	// streamAdapter.selectStream = channel.getStreamTag() - 1;
+	// streamAdapter.notifyDataSetChanged();
+	// moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
+	// bottomStream.setText(streamArray[channel.getStreamTag() - 1]);
+	// }
+	// }
 
 	/**
 	 * 录像

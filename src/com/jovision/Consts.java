@@ -302,5 +302,5 @@ public class Consts {
 	public static final int RC_GPIN_SECLECT = 0x12; // 外设报警查询
 	public static final int RC_GPIN_DEL = 0x13; // 外设报警查询
 	public static final int RC_GPIN_SET_SWITCH = 0x14; // 外设报警设置开关(只内部使用)
-	public static final int ONLY_CONNECT_INDEX = 32; // 仅供报警相关连接云视通的window index
+	public static final int ONLY_CONNECT_INDEX = 0; // 仅供报警相关连接云视通的window index
 }

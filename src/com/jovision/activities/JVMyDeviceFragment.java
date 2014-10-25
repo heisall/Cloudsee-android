@@ -622,7 +622,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-			AlarmDialog.getInstance(getActivity()).Show(obj);
+			new AlarmDialog(mActivity).Show(obj);
 
 			break;
 		}

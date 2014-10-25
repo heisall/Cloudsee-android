@@ -28,6 +28,7 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.ThirdDevAdapter;
 import com.jovision.bean.Device;
+import com.jovision.bean.PushInfo;
 import com.jovision.bean.ThirdAlarmDev;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
@@ -354,6 +355,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 				showTextToast(R.string.str_alarm_connect_except);
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
+				finish();
 				break;
 			default:
 				bConnectFlag = false;

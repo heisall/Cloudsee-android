@@ -350,8 +350,7 @@ public class ManageFragment extends BaseFragment {
 		}
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-			AlarmDialog.getInstance(getActivity()).Show(obj);
-
+			new AlarmDialog(mActivity).Show(obj);
 			break;
 		default:
 			break;

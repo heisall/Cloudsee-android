@@ -104,7 +104,8 @@ public class ManageAdapter extends BaseAdapter {
 			RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
 					w, h);
 			channelHolder.manageBG.setLayoutParams(rllp);
-			channelHolder.function.setText(fuctionArray[position]);
+			channelHolder.function.setText(fuctionArray[position]
+					+ device.getDeviceType() + device.getFullNo());
 			channelHolder.img.setBackgroundResource(manageBgArray[position]);
 			int resID = manageResArray[position % 7];
 			channelHolder.manageBG.setBackgroundResource(resID);

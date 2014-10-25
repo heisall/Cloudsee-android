@@ -30,6 +30,7 @@ import com.jovision.IHandlerLikeNotify;
 import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 
 /**

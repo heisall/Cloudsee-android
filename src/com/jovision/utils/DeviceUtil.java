@@ -84,8 +84,8 @@ public class DeviceUtil {
 												.optString(JVDeviceConst.JK_DEVICE_GUID)));
 										dev.setNo(ConfigUtil.getYST(obj
 												.optString(JVDeviceConst.JK_DEVICE_GUID)));
-										dev.setDeviceType(obj
-												.optInt(JVDeviceConst.JK_DEVICE_TYPE));
+										// dev.setDeviceType(obj
+										// .optInt(JVDeviceConst.JK_DEVICE_TYPE));
 										dev.setNickName(obj
 												.optString(JVDeviceConst.JK_DEVICE_NAME));
 										dev.setUser(obj

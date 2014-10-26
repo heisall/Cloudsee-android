@@ -125,6 +125,14 @@ public class AlarmDialog extends Dialog {
 						intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 
 						intentPlay.putExtra("DeviceIndex", dev_index);
+						if (deviceList.get(dev_index).getChannelList().size() == 0) {
+							Toast.makeText(
+									context,
+									"error channel list size 0, dev_index:"
+											+ dev_index, Toast.LENGTH_SHORT)
+									.show();
+							return;
+						}
 						intentPlay.putExtra("ChannelofChannel",
 								deviceList.get(dev_index).getChannelList()
 										.toList().get(0).getChannel());

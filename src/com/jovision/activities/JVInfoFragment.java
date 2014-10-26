@@ -321,6 +321,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		String arrayStr = mActivity.statusHashMap.get(Consts.PUSH_JSONARRAY);
 		mActivity.statusHashMap.put(Consts.PUSH_JSONARRAY, "");
 		JSONArray pushArray = null;
+		MyLog.e("JVInfoFragment", "arrayStr = " + arrayStr);
 		try {
 			if (null == arrayStr || "".equalsIgnoreCase(arrayStr)) {
 				pushArray = new JSONArray();
@@ -373,10 +374,11 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 						e.printStackTrace();
 					}
 				}
+
+				pushListView.setSelection(0);
+				pushAdapter.notifyDataSetChanged();
 			}
 
-			pushListView.setSelection(0);
-			pushAdapter.notifyDataSetChanged();
 			// mActivity.statusHashMap.put(Consts.PUSH_JSONARRAY, "");
 		} catch (JSONException e) {
 			e.printStackTrace();

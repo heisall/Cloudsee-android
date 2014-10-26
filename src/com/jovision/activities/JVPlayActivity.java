@@ -2512,7 +2512,11 @@ public class JVPlayActivity extends PlayActivity implements
 					voiceTip.setVisibility(View.GONE);
 				}
 			}
-			changeWindow(ONE_SCREEN);
+			if (ONE_SCREEN == currentScreen) {
+			} else {
+				changeWindow(ONE_SCREEN);
+			}
+
 		}
 
 		showFunc(channelList.get(lastClickIndex), currentScreen);

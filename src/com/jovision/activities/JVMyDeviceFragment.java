@@ -265,14 +265,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 				@Override
 				public void run() {
 					Log.v(TAG, "三分钟时间到--发广播");
-					while (0 != broadTag) {
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
+					// while (0 != broadTag) {
+					// try {
+					// Thread.sleep(1000);
+					// } catch (InterruptedException e) {
+					// // TODO Auto-generated catch block
+					// e.printStackTrace();
+					// }
+					// }
 					broadTag = BROAD_THREE_MINITE;
 					PlayUtil.broadCast(mActivity);
 				}
@@ -404,14 +404,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 				case 3: {// 局域网设备
 					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 					if (!mActivity.is3G(false)) {// 3G网提示不支持
-						while (0 != broadTag) {
-							try {
-								Thread.sleep(1000);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
+						// while (0 != broadTag) {
+						// try {
+						// Thread.sleep(1000);
+						// } catch (InterruptedException e) {
+						// // TODO Auto-generated catch block
+						// e.printStackTrace();
+						// }
+						// }
 						broadTag = BROAD_ADD_DEVICE;
 						broadList.clear();
 						PlayUtil.broadCast(mActivity);
@@ -998,14 +998,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 				// 给设备列表设置小助手
 				PlayUtil.setHelperToList(myDeviceList);
-				while (0 != broadTag) {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+				// while (0 != broadTag) {
+				// try {
+				// Thread.sleep(1000);
+				// } catch (InterruptedException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// }
+				// }
 				broadTag = BROAD_DEVICE_LIST;
 				PlayUtil.broadCast(mActivity);
 				refreshList();
@@ -1014,14 +1014,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 从服务器端获取设备成功，但是没有设备
 			case DEVICE_NO_DEVICE: {
 				MyLog.v(TAG, "nonedata-too");
-				while (0 != broadTag) {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+				// while (0 != broadTag) {
+				// try {
+				// Thread.sleep(1000);
+				// } catch (InterruptedException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// }
+				// }
 				broadTag = BROAD_DEVICE_LIST;
 				PlayUtil.broadCast(mActivity);
 				refreshList();

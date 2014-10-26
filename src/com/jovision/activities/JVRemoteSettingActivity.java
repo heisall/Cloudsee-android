@@ -640,9 +640,14 @@ public class JVRemoteSettingActivity extends BaseActivity {
 									.toString());// nMBPH
 							int arg2 = Integer.parseInt(imageClear.getText()
 									.toString());// framerate
-							Jni.setBpsAndFps(1,
-									(byte) JVNetConst.JVN_RSP_TEXTDATA,
-									mobilech, width, height, arg1, arg2);
+							// Jni.setBpsAndFps(1,
+							// (byte) JVNetConst.JVN_RSP_TEXTDATA,
+							// mobilech, width, height, arg1, arg2);
+							Jni.sendString(1, JVNetConst.JVN_RSP_TEXTDATA,
+									false, 0, Consts.TYPE_SET_PARAM,
+									String.format(Consts.FORMATTER_SET_BPS_FPS,
+											mobilech, width, height, arg1,
+											arg2, 1));
 						}
 						try {
 							Thread.sleep(200);

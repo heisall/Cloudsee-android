@@ -438,8 +438,8 @@ public class Jni {
 		// [Neo] 设置 DHCP
 		Jni.sendString(index, uchType, true, Consts.COUNT_EX_NETWORK,
 				Consts.TYPE_EX_SET_DHCP, String.format(
-						Consts.FORMATTER_SET_DHCP, flag, dhcp, ip, mask,
-						gateway, dns));
+						Consts.FORMATTER_SET_DHCP, ch, dhcp, ip, mask, gateway,
+						dns));
 
 		// [Neo] 设置码流
 		Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM, String
@@ -569,8 +569,8 @@ public class Jni {
 	 * @param mbps
 	 * @param fps
 	 */
-	public static native boolean setBpsAndFps(int index, byte uchType,
-			int channel, int width, int height, int mbps, int fps);
+	// public static native boolean setBpsAndFps(int index, byte uchType,
+	// int channel, int width, int height, int mbps, int fps);
 
 	/**
 	 * 修改码流，参考 {@link JVSUDT#JVC_ChangeStreams(int, byte, byte[])}

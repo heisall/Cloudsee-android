@@ -79,6 +79,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(
 				this));
 		MyLog.init(Consts.LOG_PATH);
+		MyLog.enableFile(false);
 		statusHashMap = new HashMap<String, String>();
 		openedActivityList = new ArrayList<BaseActivity>();
 

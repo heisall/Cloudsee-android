@@ -503,11 +503,21 @@ public class JVPlayActivity extends PlayActivity implements
 								// Integer.parseInt(streamCH1.get("nMBPH"));
 								//
 								if (1 == channelList.get(arg1).getStreamTag()) {
-									Jni.setBpsAndFps(lastClickIndex,
-											JVNetConst.JVN_RSP_TEXTDATA, 1,
-											1280, 720, 1024, 15);
+									// Jni.setBpsAndFps(lastClickIndex,
+									// JVNetConst.JVN_RSP_TEXTDATA, 1,
+									// 1280, 720, 1024, 15);
+									Jni.sendString(
+											lastClickIndex,
+											JVNetConst.JVN_RSP_TEXTDATA,
+											false,
+											0,
+											Consts.TYPE_SET_PARAM,
+											String.format(
+													Consts.FORMATTER_SET_BPS_FPS,
+													1, 1280, 720, 1024, 15, 1));
 									MyLog.v("JVSUDT-切到高清码流--0-", arg1
 											+ "---改为--1, 1280, 720, 1024, 15");
+
 								}
 
 							}
@@ -799,18 +809,30 @@ public class JVPlayActivity extends PlayActivity implements
 			// Jni.changeStream(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
 			// streamParam);
 			if (0 == arg1) {
-				Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						1, 1280, 720, 1024, 15);
+				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						false, 0, Consts.TYPE_SET_PARAM, String.format(
+								Consts.FORMATTER_SET_BPS_FPS, 1, 1280, 720,
+								1024, 15, 1));
+				// Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+				// 1, 1280, 720, 1024, 15);
 				MyLog.v("JVSUDT-切到高清码流--0-", arg1
 						+ "---改为--1, 1280, 720, 1024, 15");
 			} else if (1 == arg1) {
-				Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						1, 720, 480, 768, 25);
+				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						false, 0, Consts.TYPE_SET_PARAM, String.format(
+								Consts.FORMATTER_SET_BPS_FPS, 1, 720, 480, 768,
+								25, 1));
+				// Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+				// 1, 720, 480, 768, 25);
 				MyLog.v("JVSUDT-切到标清码流--1-", arg1
 						+ "---改为--1, 720, 480, 768, 25");
 			} else if (2 == arg1) {
-				Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						1, 352, 288, 512, 25);
+				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						false, 0, Consts.TYPE_SET_PARAM, String.format(
+								Consts.FORMATTER_SET_BPS_FPS, 1, 352, 288, 512,
+								25, 1));
+				// Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+				// 1, 352, 288, 512, 25);
 				MyLog.v("JVSUDT-切到流畅码流--2-", arg1
 						+ "---改为--1, 352, 288, 512, 25");
 			}

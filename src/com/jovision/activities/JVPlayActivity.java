@@ -301,8 +301,8 @@ public class JVPlayActivity extends PlayActivity implements
 				JSONObject jobj;
 				jobj = new JSONObject(obj.toString());
 				if (null != jobj) {
-					channel.getParent().setDeviceType(
-							jobj.optInt("device_type"));
+					// channel.getParent().setDeviceType(
+					// jobj.optInt("device_type"));
 					if (Consts.DEVICE_TYPE_IPC == jobj.optInt("device_type")) {
 						channel.getParent().setHomeProduct(true);
 						// channel.setSingleVoice(true);
@@ -860,6 +860,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		if (Consts.PLAY_NORMAL == playFlag) {
 			deviceList = CacheUtil.getDevList();
+			MyLog.v("播放-E", deviceList.toString());
 		} else if (Consts.PLAY_DEMO == playFlag) {
 			String devJsonString = MySharedPreference
 					.getString(Consts.KEY_PLAY_DEMO);
@@ -2495,6 +2496,7 @@ public class JVPlayActivity extends PlayActivity implements
 		PlayUtil.pauseAll(manager.getValidChannelList(lastItemIndex));
 
 		if (Consts.PLAY_NORMAL == playFlag) {
+			MyLog.v("播放-X", deviceList.toString());
 			CacheUtil.saveDevList(deviceList);
 		}
 	}

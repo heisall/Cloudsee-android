@@ -414,6 +414,7 @@ public abstract class PlayActivity extends BaseActivity {
 			footerBar.setVisibility(View.GONE);// 底部工具栏
 			apFuncLayout.setVisibility(View.GONE);
 			verPlayBarLayout.setVisibility(View.GONE);
+
 			horPlayBarLayout.setVisibility(View.VISIBLE);
 			// init();
 			if (Consts.PLAY_AP == playFlag) {

@@ -301,8 +301,7 @@ public class JVPlayActivity extends PlayActivity implements
 				JSONObject jobj;
 				jobj = new JSONObject(obj.toString());
 				if (null != jobj) {
-					// channel.getParent().setDeviceType(
-					// jobj.optInt("device_type"));
+					channel.getParent().setType(jobj.optInt("device_type"));
 					if (Consts.DEVICE_TYPE_IPC == jobj.optInt("device_type")) {
 						channel.getParent().setHomeProduct(true);
 						// channel.setSingleVoice(true);
@@ -2076,7 +2075,7 @@ public class JVPlayActivity extends PlayActivity implements
 		remoteIntent.putExtra("IndexOfChannel", channelList.get(lastClickIndex)
 				.getIndex());
 		remoteIntent.putExtra("DeviceType", channelList.get(lastClickIndex)
-				.getParent().getDeviceType());
+				.getParent().getType());
 		remoteIntent.putExtra("is05", channelList.get(lastClickIndex)
 				.getParent().is05());
 		remoteIntent.putExtra("AudioByte", channelList.get(lastClickIndex)

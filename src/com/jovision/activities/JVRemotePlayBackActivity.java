@@ -175,7 +175,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		videTurnBtn.setVisibility(View.GONE);
 
 		linkState.setText(R.string.connecting);// 连接文字
-		linkState.setVisibility(View.VISIBLE);
+		linkState.setVisibility(View.GONE);
 		loading.setVisibility(View.VISIBLE);// 加载进度
 
 		back.setOnClickListener(myOnClickListener);
@@ -450,5 +450,6 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 		// [Neo] surface.step 2
 		handler.sendEmptyMessageDelayed(Consts.WHAT_DUMMY, 100);
+		horPlayBarLayout.setVisibility(View.GONE);
 	}
 }

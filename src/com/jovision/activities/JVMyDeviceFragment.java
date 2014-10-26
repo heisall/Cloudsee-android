@@ -495,8 +495,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		// MyLog.v("TAG",
-		// "onTabAction:what="+what+";arg1="+arg1+";arg2="+arg1+";obj="+obj.toString());
+		MyLog.v("JVMyDeviceFragment", "onTabAction:what=" + what + ";arg1="
+				+ arg1 + ";arg2=" + arg1);
 		switch (what) {
 		case WHAT_SHOW_PRO: {
 			((BaseActivity) mActivity).createDialog("");

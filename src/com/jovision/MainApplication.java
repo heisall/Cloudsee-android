@@ -19,6 +19,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.test.JVACCOUNT;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
@@ -332,9 +333,11 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 										"the app is OnForeground.........");
 								onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
 										pi);
+								Activity currentActivity = MyActivityManager
+										.getActivityManager().currentActivity();
+								MyLog.e("PushCallBack", "currentActivity:"
+										+ currentActivity.toString());
 							} else {
-								onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
-										pi);
 
 								MyLog.d("PushCallBack",
 										"the app is not OnForeground.........");
@@ -350,6 +353,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 									// statusHashMap.put(Consts.LOCAL_LOGIN,
 									// "false");
 									currentActivity.startActivity(intentMain);
+									// Thread.sleep(100);
+									onNotify(Consts.PUSH_MESSAGE, pi.alarmType,
+											0, pi);
 								} else {
 									MyLog.e("PushCallBack",
 											"this "

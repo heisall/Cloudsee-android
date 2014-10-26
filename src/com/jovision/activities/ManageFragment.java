@@ -123,7 +123,8 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-
+		MyLog.v("ManageFragment", "onTabAction:what=" + what + ";arg1=" + arg1
+				+ ";arg2=" + arg1);
 		switch (what) {
 		case Consts.MANAGE_ITEM_CLICK: {// adapter item 单击事件
 			switch (arg1) {

@@ -19,7 +19,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.test.JVACCOUNT;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;

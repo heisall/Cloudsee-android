@@ -265,6 +265,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 				@Override
 				public void run() {
 					Log.v(TAG, "三分钟时间到--发广播");
+					while (0 != broadTag) {
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 					broadTag = BROAD_THREE_MINITE;
 					PlayUtil.broadCast(mActivity);
 				}
@@ -396,6 +404,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 				case 3: {// 局域网设备
 					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 					if (!mActivity.is3G(false)) {// 3G网提示不支持
+						while (0 != broadTag) {
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
 						broadTag = BROAD_ADD_DEVICE;
 						broadList.clear();
 						PlayUtil.broadCast(mActivity);
@@ -509,8 +525,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		// 广播回调
 		case Consts.CALL_LAN_SEARCH: {
+			MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1
+					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
 			// onTabAction:what=168;arg1=0;arg2=0;obj={"count":1,"curmod":0,"gid":"A","ip":"192.168.21.238","netmod":0,"no":283827713,"port":9101,"timeout":0,"type":59162,"variety":3}
-
 			if (broadTag == BROAD_DEVICE_LIST || broadTag == BROAD_THREE_MINITE) {// 三分钟广播
 																					// 或
 																					// 广播设备列表
@@ -528,9 +545,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 						hasDev(myDeviceList, broadDevNum, ip, port);
 
 					} else if (1 == broadObj.optInt("timeout")) {
-
+						broadTag = 0;
 					}
-					MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
+					MyLog.v(TAG, "onTabAction1:what=" + what + ";arg1=" + arg1
 							+ ";arg2=" + arg1 + ";obj=" + obj.toString());
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -540,7 +557,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 				JSONObject broadObj;
 				try {
 					broadObj = new JSONObject(obj.toString());
+
+					MyLog.v("广播回调--add", broadObj.optInt("timeout") + "");
+
 					if (0 == broadObj.optInt("timeout")) {
+						MyLog.v("广播回调-0-add", broadObj.optInt("timeout") + "");
 						String gid = broadObj.optString("gid");
 						int no = broadObj.optInt("no");
 						String ip = broadObj.optString("ip");
@@ -563,6 +584,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 						}
 
 					} else if (1 == broadObj.optInt("timeout")) {
+						broadTag = 0;
+						MyLog.v("广播回调-1-add", broadObj.optInt("timeout") + "");
 						mActivity.dismissDialog();
 
 						if (null != broadList && 0 != broadList.size()) {
@@ -571,7 +594,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 							mActivity.showTextToast(R.string.broad_zero);
 						}
 					}
-					MyLog.v(TAG, "onTabAction:what=" + what + ";arg1=" + arg1
+					MyLog.v(TAG, "onTabAction2:what=" + what + ";arg1=" + arg1
 							+ ";arg2=" + arg1 + ";obj=" + obj.toString());
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -966,6 +989,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 				// 给设备列表设置小助手
 				PlayUtil.setHelperToList(myDeviceList);
+				while (0 != broadTag) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				broadTag = BROAD_DEVICE_LIST;
 				PlayUtil.broadCast(mActivity);
 				refreshList();
@@ -974,6 +1005,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 从服务器端获取设备成功，但是没有设备
 			case DEVICE_NO_DEVICE: {
 				MyLog.v(TAG, "nonedata-too");
+				while (0 != broadTag) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				broadTag = BROAD_DEVICE_LIST;
 				PlayUtil.broadCast(mActivity);
 				refreshList();

@@ -32,6 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dip"
                 android:src="@drawable/wire_device_img" />
 
             <Button
@@ -39,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dip"
+                android:layout_marginTop="10dip"
                 android:background="@drawable/quick_install_bg"
                 android:text="@string/str_quick_install"
                 android:textColor="@color/quickinstall_btn_normal"
@@ -57,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dip"
                 android:src="@drawable/unwire_device_img" />
 
             <Button
@@ -64,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dip"
+                android:layout_marginTop="10dip"
                 android:background="@drawable/quick_install_bg"
                 android:text="@string/str_help1_1"
                 android:textColor="@color/quickinstall_btn_normal"

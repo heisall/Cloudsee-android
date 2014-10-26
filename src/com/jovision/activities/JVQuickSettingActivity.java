@@ -341,7 +341,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					try {
 						Thread.sleep(1 * 1000);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					desWifi = wifiAdmin.isExsits(wifi);
@@ -1030,6 +1029,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			} else {
 				if (manuDiscon) {
 					manuDiscon = false;
+					// handler.sendMessage(handler.obtainMessage(
+					// Consts.QUICK_SETTING_CONNECT_FAILED,
+					// R.string.connect_failed, 0));
 				} else {
 					handler.sendMessage(handler.obtainMessage(
 							Consts.QUICK_SETTING_CONNECT_FAILED,
@@ -1162,7 +1164,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						try {
 							Thread.sleep(1 * 1000);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						desWifi = wifiAdmin.isExsits(wifi);
@@ -1384,6 +1385,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 		String temIp = ipcDevice.getIp();
 		int temPort = ipcDevice.getPort();
+		ipcDevice.setDeviceType(2);
 		boolean addSucc = false;
 		ipcDevice.setUser(getResources().getString(R.string.str_default_user));
 		ipcDevice.setPwd(getResources().getString(R.string.str_default_pass));
@@ -1410,6 +1412,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						addSucc = false;
 					}
 				}
+				DeviceUtil.refreshDeviceState(
+						statusHashMap.get(Consts.KEY_USERNAME), deviceList);
 			} else {
 				addSucc = false;
 			}

@@ -1038,6 +1038,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 						myDeviceList.add(addDev);
 					}
 				}
+				DeviceUtil.refreshDeviceState(
+						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
+						myDeviceList);
 
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -1858,7 +1858,7 @@ public class JVPlayActivity extends PlayActivity implements
 		protected Integer doInBackground(String... params) {
 			int sendRes = 0;// 0成功 1失败
 
-			backFunc = Boolean.getBoolean(params[0]);
+			backFunc = Boolean.valueOf(params[0]);
 			try {
 				// if (Consts.PLAY_AP == playFlag) {
 				// Jni.disconnect(0);
@@ -2140,7 +2140,7 @@ public class JVPlayActivity extends PlayActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
 						Uri uri = Uri
-								.parse("http://www.jovetech.com/UpLoadFiles/file/CloudSEE_V3.0.2_anzhi.apk");
+								.parse("http://down.jovision.com:81/cn/data/CloudSEE2.8.5.apk");
 						Intent it = new Intent(Intent.ACTION_VIEW, uri);
 						startActivity(it);
 					}

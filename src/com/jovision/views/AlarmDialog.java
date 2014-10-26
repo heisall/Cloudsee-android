@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class AlarmDialog extends Dialog {
 		// TODO Auto-generated constructor stub
 		synchronized (AlarmDialog.class) {
 			alarmDialogObjs++;
+//			MyLog.e("AlarmDialog", "AlarmDialog(Context context)" + getDialogObjs());
 		}
 	}
 
@@ -64,6 +66,7 @@ public class AlarmDialog extends Dialog {
 		dialogCancel.setOnClickListener(myOnClickListener);
 		dialogView.setOnClickListener(myOnClickListener);
 		dialogCancleImg.setOnClickListener(myOnClickListener);
+//		MyLog.e("AlarmDialog", "onCreate" + getDialogObjs());
 	}
 
 	@Override
@@ -71,12 +74,14 @@ public class AlarmDialog extends Dialog {
 		dialogDeviceName.setText(deviceNickName);
 		dialogDeviceModle.setText(alarmTypeName);
 		dialogAlarmTime.setText(alarmTime);
+//		MyLog.e("AlarmDialog", "onStart" + getDialogObjs());
 	}
 
 	@Override
 	protected void onStop() {
 		synchronized (AlarmDialog.class) {
 			alarmDialogObjs = 0;
+//			MyLog.e("AlarmDialog", "onStop" + getDialogObjs());
 		}
 	}
 
@@ -115,8 +120,8 @@ public class AlarmDialog extends Dialog {
 						}
 
 						PlayUtil.prepareConnect(deviceList, dev_index);// 该函数里已经调用SaveList了
-						MyLog.v("Alarm",
-								"prepareConnect2--" + deviceList.toString());
+//						MyLog.v("Alarm",
+//								"prepareConnect2--" + deviceList.toString());
 						// CacheUtil.saveDevList(deviceList);
 						// deviceList = CacheUtil.getDevList();//再取一次
 						Intent intentPlay = new Intent(context,
@@ -195,14 +200,25 @@ public class AlarmDialog extends Dialog {
 			}
 			alarmTypeName = strAlarmTypeName;
 			show();
+//			MyLog.e("AlarmDialog", "收到信息，1但不提示:" + getDialogObjs());
 		} else {
-			MyLog.e("AlarmDialog", "收到信息，但不提示:" + getDialogObjs());
+			
 			synchronized (AlarmDialog.class) {
-				alarmDialogObjs--;
+				alarmDialogObjs=1;
+//				MyLog.e("AlarmDialog", "收到信息，2但不提示:" + getDialogObjs());
+				
 			}
 			// Toast.makeText(context, "收到信息，但不提示:"+getDialogObjs(),
 			// Toast.LENGTH_SHORT).show();
-
+			//alarmDialogObjs = 0;
 		}
 	}
+
+	@Override
+	public void dismiss() {
+		// TODO Auto-generated method stub
+		super.dismiss();
+//		MyLog.e("AlarmDialog", "dismiss" + getDialogObjs());
+	}
+	
 }

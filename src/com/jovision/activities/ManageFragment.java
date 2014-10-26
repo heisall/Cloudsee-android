@@ -116,7 +116,6 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		isDevice = deviceList.get(deviceIndex).getIsDevice();
 	}

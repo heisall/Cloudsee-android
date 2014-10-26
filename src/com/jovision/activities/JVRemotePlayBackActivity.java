@@ -186,6 +186,9 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		videoTape.setOnClickListener(myOnClickListener);
 		moreFeature.setOnClickListener(myOnClickListener);
 
+		verPlayBarLayout.setVisibility(View.GONE);
+		horPlayBarLayout.setVisibility(View.GONE);
+
 		holder.addCallback(new SurfaceHolder.Callback() {
 
 			@Override

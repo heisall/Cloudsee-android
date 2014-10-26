@@ -996,7 +996,7 @@ public class JVPlayActivity extends PlayActivity implements
 		// lastItemIndex, lastItemIndex));
 
 		viewPager.setLongClickable(true);
-
+		viewPager.setDisableSliding(false);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 			@Override
@@ -2541,6 +2541,8 @@ public class JVPlayActivity extends PlayActivity implements
 				changeWindow(ONE_SCREEN);
 			}
 
+		} else {
+			viewPager.setDisableSliding(false);
 		}
 
 		showFunc(channelList.get(lastClickIndex), currentScreen);

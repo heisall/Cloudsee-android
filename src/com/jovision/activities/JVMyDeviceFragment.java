@@ -404,14 +404,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 				case 3: {// 局域网设备
 					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 					if (!mActivity.is3G(false)) {// 3G网提示不支持
-					// while (0 != broadTag) {
-					// try {
-					// Thread.sleep(1000);
-					// } catch (InterruptedException e) {
-					// // TODO Auto-generated catch block
-					// e.printStackTrace();
-					// }
-					// }
+						// while (0 != broadTag) {
+						// try {
+						// Thread.sleep(1000);
+						// } catch (InterruptedException e) {
+						// // TODO Auto-generated catch block
+						// e.printStackTrace();
+						// }
+						// }
 						broadTag = BROAD_ADD_DEVICE;
 						broadList.clear();
 						PlayUtil.broadCast(mActivity);

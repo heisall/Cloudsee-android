@@ -774,9 +774,9 @@ public class DeviceUtil {
 			}
 		}
 
-		if (res) {
-			CacheUtil.saveDevList(deviceList);
-		}
+		// if (res) {
+		// CacheUtil.saveDevList(deviceList);
+		// }
 		return res;
 	}
 

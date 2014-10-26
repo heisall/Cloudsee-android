@@ -187,8 +187,17 @@ public class ThirdDevListActivity extends BaseActivity implements
 			if (btopaddvisible) {
 				topAddLayout.setVisibility(View.GONE);
 			}
+		} else if (30 == resultCode) {
+			// ThirdAlarmDev devItem = getItemWithGuid(
+			// data.getExtras().getInt("dev_uid"), data.getExtras()
+			// .getInt("dev_type_mark"));
+			// if (devItem == null) {
+			// showTextToast("未找到该设备");
+			// } else {
+			// showTextToast("该设备" + devItem.dev_nick_name + "已绑定，不能重复绑定");
+			// }
+			showTextToast("该设备已绑定，不能重复绑定");
 		}
-
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
@@ -267,6 +276,18 @@ public class ThirdDevListActivity extends BaseActivity implements
 			}
 		}
 		return false;
+	}
+
+	private ThirdAlarmDev getItemWithGuid(int guid, int dev_type) {
+		MyLog.e("Get Third Dev", "guid:" + guid + ", type:" + dev_type);
+		ArrayList<ThirdAlarmDev> tmpthirdList = device.getThirdDevList();
+		for (int i = 0; i < tmpthirdList.size(); i++) {
+			if (guid == tmpthirdList.get(i).dev_uid
+					&& dev_type == tmpthirdList.get(i).dev_type_mark) {
+				return tmpthirdList.get(i);
+			}
+		}
+		return null;
 	}
 
 	class MyHandler extends Handler {

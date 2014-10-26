@@ -348,10 +348,10 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 											getApplicationContext(),
 											currentActivity.getClass());
 									intentMain
-											.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+											.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 									// statusHashMap.put(Consts.LOCAL_LOGIN,
 									// "false");
-									currentActivity.startActivity(intentMain);
+									startActivity(intentMain);
 									// Thread.sleep(100);
 									onNotify(Consts.PUSH_MESSAGE, pi.alarmType,
 											0, pi);

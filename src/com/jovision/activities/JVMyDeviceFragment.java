@@ -645,6 +645,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
+
+			ArrayList<Device> deviceList = CacheUtil.getDevList();
+			MyLog.v("Alarm", "prepareConnect 00--" + deviceList.toString());
 			new AlarmDialog(mActivity).Show(obj);
 
 			break;
@@ -918,6 +921,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			try {
 				if (!localFlag) {// 非本地登录，无论是否刷新都执行
 					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+
+					MyLog.v("Alarm",
+							"prepareConnect -3- 3-2 --"
+									+ myDeviceList.toString());
 					// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次
 					if (null == myDeviceList || 0 == myDeviceList.size()) {
 						myDeviceList = DeviceUtil
@@ -949,15 +956,17 @@ public class JVMyDeviceFragment extends BaseFragment {
 							}
 						}
 					}
+					MyLog.v("Alarm",
+							"prepareConnect -2- 2-2 --"
+									+ myDeviceList.toString());
 
-					if (null == myDeviceList || 0 == myDeviceList.size()) {
+					if (null != myDeviceList && 0 != myDeviceList.size()) {
 						CacheUtil.saveDevList(myDeviceList);
 					}
 
 				} else if (localFlag) {// 本地登录
 					myDeviceList = CacheUtil.getDevList();
 				}
-
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
 					getRes = DEVICE_GETDATA_SUCCESS;

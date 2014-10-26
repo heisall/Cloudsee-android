@@ -77,7 +77,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		// pushListView.setOnItemClickListener(mOnItemClickListener);
 		// pushListView.setOnItemLongClickListener(mOnLongClickListener);
 		pushAdapter = new PushAdapter(this);
-		pushListView.setPullLoadEnable(true);
+		pushListView.setPullLoadEnable(false);
 		pushListView.setXListViewListener(this);
 		noMess = (ImageView) mParent.findViewById(R.id.nomess);
 		noMessTv = (TextView) mParent.findViewById(R.id.nomess_tv);
@@ -100,7 +100,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 		// 先获取报警信息
 		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
-
+			Consts.pushHisCount = 0;
+			pushList.clear();
 			((BaseActivity) mActivity).createDialog("");
 			RefreshAlarmTask task = new RefreshAlarmTask();
 			String[] params = new String[3];
@@ -241,7 +242,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		protected Integer doInBackground(String... params) {
 			int refreshRes = -1;
 			try {
-				temList = AlarmUtil.getUserAlarmList(Consts.pushHisCount,
+				temList = AlarmUtil.getUserAlarmList(Consts.pushHisCount + 1,
 						Consts.PUSH_PAGESIZE);
 				if (temList == null) {
 					// null肯定失败,不为null一定成功，可能信息为0,因为只有成功才会new

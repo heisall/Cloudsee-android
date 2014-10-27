@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import android.R;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -7,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Jni;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;

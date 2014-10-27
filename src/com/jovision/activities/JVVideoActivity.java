@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import android.R;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -12,8 +13,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
-
-import com.jovetech.CloudSee.temp.R;
 
 public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 		OnCompletionListener, OnPreparedListener {

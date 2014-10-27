@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import android.R;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -11,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.jovetech.CloudSee.temp.R;
 
 /**
  * @author Administrator 功能描述：自定义底部工具栏

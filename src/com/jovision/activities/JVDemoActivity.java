@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.R;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.DemoListAdapter;
 import com.jovision.bean.Device;

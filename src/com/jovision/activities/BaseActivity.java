@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.HashMap;
 
+import android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -23,7 +24,6 @@ import android.util.DisplayMetrics;
 import android.view.Window;
 import android.widget.Toast;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;

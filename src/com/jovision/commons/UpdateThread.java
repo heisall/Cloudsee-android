@@ -5,9 +5,9 @@ import java.util.Locale;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.R;
 import android.content.Context;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.utils.JSONUtil;
 
 public class UpdateThread extends Thread {

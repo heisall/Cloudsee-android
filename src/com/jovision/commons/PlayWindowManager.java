@@ -2,6 +2,7 @@ package com.jovision.commons;
 
 import java.util.ArrayList;
 
+import android.R;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -18,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.Channel;
 

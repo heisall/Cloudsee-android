@@ -2,6 +2,7 @@ package com.jovision.adapters;
 
 import java.util.ArrayList;
 
+import android.R;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -13,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
 import com.jovision.bean.Device;

@@ -2,6 +2,7 @@ package neo.droid.p2r.internal;
 
 import neo.droid.p2r.PullToRefreshBase.Mode;
 import neo.droid.p2r.PullToRefreshBase.Orientation;
+import android.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Matrix;
@@ -9,8 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView.ScaleType;
-
-import com.jovetech.CloudSee.temp.R;
 
 public class RotateLoadingLayout extends LoadingLayout {
 

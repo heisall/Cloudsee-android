@@ -2,6 +2,7 @@ package com.jovision.views;
 
 import java.io.IOException;
 
+import android.R;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
@@ -12,7 +13,6 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.CommonInterface;
 import com.jovision.commons.JVConst;
 import com.jovision.utils.ConfigUtil;

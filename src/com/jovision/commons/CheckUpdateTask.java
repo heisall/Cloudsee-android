@@ -3,10 +3,10 @@ package com.jovision.commons;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.R;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;

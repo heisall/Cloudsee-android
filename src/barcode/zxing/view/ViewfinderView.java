@@ -19,6 +19,7 @@ package barcode.zxing.view;
 import java.util.Collection;
 import java.util.HashSet;
 
+import android.R;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -32,7 +33,6 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.google.zxing.ResultPoint;
-import com.jovetech.CloudSee.temp.R;
 
 /**
  * This view is overlaid on top of the camera preview. It adds the viewfinder

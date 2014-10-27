@@ -18,6 +18,7 @@ package barcode.zxing.decoding;
 
 import java.util.Vector;
 
+import android.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,7 +32,6 @@ import barcode.zxing.view.ViewfinderResultPointCallback;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.MyLog;
 
 /**

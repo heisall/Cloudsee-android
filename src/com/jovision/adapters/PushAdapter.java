@@ -2,6 +2,7 @@ package com.jovision.adapters;
 
 import java.util.ArrayList;
 
+import android.R;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -15,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseFragment;
 import com.jovision.activities.CustomDialogActivity;
 import com.jovision.bean.PushInfo;

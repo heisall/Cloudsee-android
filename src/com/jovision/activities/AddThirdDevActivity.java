@@ -3,6 +3,7 @@ package com.jovision.activities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +17,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.activities.AddThirdDeviceMenuFragment.OnDeviceClassSelectedListener;

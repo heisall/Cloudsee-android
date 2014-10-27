@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.lang.ref.WeakReference;
 
+import android.R;
 import android.content.Intent;
 import android.graphics.Color;
 import android.test.JVACCOUNT;
@@ -13,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;

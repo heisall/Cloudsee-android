@@ -3,6 +3,7 @@ package neo.droid.p2r.internal;
 import neo.droid.p2r.ILoadingLayout;
 import neo.droid.p2r.PullToRefreshBase.Mode;
 import neo.droid.p2r.PullToRefreshBase.Orientation;
+import android.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -22,8 +23,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.jovetech.CloudSee.temp.R;
 
 @SuppressLint("ViewConstructor")
 public abstract class LoadingLayout extends FrameLayout implements

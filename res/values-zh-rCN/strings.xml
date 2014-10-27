@@ -197,7 +197,7 @@
     <string name="timedOut">超时</string>
     <string name="closed">已断开</string>
     <string name="str_out_memery">您的手机未插入SDCard,暂时无法使用此功能</string>
-    <string name="str_sdcard_notenough">您的手机内存卡内存不足，录像已关闭</string>
+    <string name="str_sdcard_notenough">您的手机内存卡内存不足.</string>
     <string name="str_finish">完成</string>
     <!-- 数据源 -->
     <string name="str_data_source">通道列表</string>

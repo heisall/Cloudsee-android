@@ -105,7 +105,7 @@ public class JVDemoActivity extends BaseActivity {
 			// JVDemoActivity.this.showTextToast("arg2="
 			// + dev.getChannelList().toList().get(0).getChannel()
 			// + ";dev=" + dev.getFullNo());
-			PlayUtil.prepareConnect(demoList, arg2);
+			PlayUtil.prepareConnect(demoList, arg2, false);
 			String devJsonString = Device.listToString(demoList);
 			Intent intentPlay = new Intent(JVDemoActivity.this,
 					JVPlayActivity.class);

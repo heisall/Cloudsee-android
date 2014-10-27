@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/viewpager"
                 android:layout_marginBottom="5dp"
-                android:visibility="visible" >
+                android:visibility="gone" >
 
                 <Button
                     android:id="@+id/kbps"
@@ -95,7 +95,8 @@
                     android:onClick="onFlip"
                     android:text=""
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -110,7 +111,7 @@
                         android:layout_width="50dp"
                         android:layout_height="30dp"
                         android:background="@drawable/turn_right_selector"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/decodeway"
@@ -121,7 +122,8 @@
                         android:onClick="onFlip"
                         android:text=""
                         android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:visibility="gone" />
                 </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>

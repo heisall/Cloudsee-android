@@ -2202,6 +2202,27 @@ public class JVPlayActivity extends PlayActivity implements
 								+ index);
 				return;
 			}
+
+			int textSize = 14;
+			switch (currentScreen) {
+			case ONE_SCREEN: {
+				textSize = 18;
+				break;
+			}
+			case FOUR_SCREEN: {
+				textSize = 16;
+				break;
+			}
+			case NINE_SCREEN: {
+				textSize = 12;
+				break;
+			}
+			case SIXTEEN_SCREEN: {
+				textSize = 10;
+				break;
+			}
+			}
+
 			ViewGroup container = (ViewGroup) manager.getView(index)
 					.getParent();
 			switch (tag) {
@@ -2213,7 +2234,7 @@ public class JVPlayActivity extends PlayActivity implements
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_CONTROL_CENTER, View.GONE);// 播放按钮
 				manager.setInfo(container,
-						getResources().getString(loadingState));// 连接文字
+						getResources().getString(loadingState), textSize);// 连接文字
 				break;
 			case JVConst.PLAY_CONNECTTED:// 已连接
 				manager.setViewVisibility(container,
@@ -2243,7 +2264,7 @@ public class JVPlayActivity extends PlayActivity implements
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_TEXT, View.VISIBLE);// 连接文字
 				manager.setInfo(container,
-						getResources().getString(loadingState));// 连接文字
+						getResources().getString(loadingState), textSize);// 连接文字
 				break;
 			case JVConst.PLAY_CONNECTING_BUFFER:// 缓冲中
 				manager.setViewVisibility(container,
@@ -2253,7 +2274,7 @@ public class JVPlayActivity extends PlayActivity implements
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_CONTROL_CENTER, View.GONE);// 播放按钮
 				manager.setInfo(container,
-						getResources().getString(loadingState));// 连接文字
+						getResources().getString(loadingState), textSize);// 连接文字
 				break;
 			}
 		} catch (Exception e) {

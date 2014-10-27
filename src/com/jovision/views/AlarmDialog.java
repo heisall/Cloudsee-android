@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -120,7 +119,7 @@ public class AlarmDialog extends Dialog {
 							return;
 						}
 
-						PlayUtil.prepareConnect(deviceList, dev_index);// 该函数里已经调用SaveList了
+						PlayUtil.prepareConnect(deviceList, dev_index, true);// 该函数里已经调用SaveList了
 						// MyLog.v("Alarm",
 						// "prepareConnect2--" + deviceList.toString());
 						// CacheUtil.saveDevList(deviceList);

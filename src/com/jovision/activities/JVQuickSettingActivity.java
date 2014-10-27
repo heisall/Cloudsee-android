@@ -459,7 +459,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (0 == result) {
 				ArrayList<Device> devList = new ArrayList<Device>();
 				devList.add(ipcDevice);
-				PlayUtil.prepareConnect(devList, 0);
+				PlayUtil.prepareConnect(devList, 0, false);
 				String devJsonString = Device.listToString(devList);
 				Intent apIntent = new Intent(JVQuickSettingActivity.this,
 						JVPlayActivity.class);

@@ -270,11 +270,12 @@ public class PlayWindowManager implements View.OnClickListener,
 	 * @param text
 	 *            待修改的文字内容
 	 */
-	public void setInfo(View container, String text) {
+	public void setInfo(View container, String text, int size) {
 		if (null != container) {
 			TextView view = ((TextView) container.findViewById(ID_INFO_TEXT));
 			if (null != view) {
 				view.setText(text);
+				view.setTextSize(size);
 			}
 		}
 	}

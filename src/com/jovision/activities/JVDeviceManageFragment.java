@@ -9,8 +9,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -24,6 +26,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.IHandlerLikeNotify;
@@ -118,6 +121,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 				.findViewById(R.id.device_listView);
 		devmorere = (RelativeLayout) mParent.findViewById(R.id.devmorere);
 		devmore_hie = (RelativeLayout) mParent.findViewById(R.id.devmore_hie);
+
 		devmorere.setOnClickListener(mOnClickListener);
 		devmore_hie.setOnClickListener(mOnClickListener);
 		ListViewClick();
@@ -252,6 +256,12 @@ public class JVDeviceManageFragment extends BaseFragment {
 		@SuppressLint("ResourceAsColor")
 		@Override
 		public void onPageSelected(final int position) {
+			if (position == 0) {
+				mActivity.showTextToast(R.string.start_list);
+			}
+			if (position == manageDeviceList.size() - 1) {
+				mActivity.showTextToast(R.string.end_list);
+			}
 			// MyLog.v(TAG, "onPageSelected---position="+position);
 			Animation animation = new TranslateAnimation(endPosition, position
 					* item_width, 0, 0);

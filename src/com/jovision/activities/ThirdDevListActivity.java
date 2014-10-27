@@ -115,7 +115,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 		myHandler = new MyHandler();
 		if (!bConnectFlag) {
 			if (!AlarmUtil.OnlyConnect(strYstNum)) {
-				showTextToast("连接失败，已经连接或者超过最大连接数");
+				showTextToast(R.string.str_alarm_connect_failed_1);
 				dialog.dismiss();
 				finish();
 			}
@@ -196,7 +196,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 			// } else {
 			// showTextToast("该设备" + devItem.dev_nick_name + "已绑定，不能重复绑定");
 			// }
-			showTextToast("该设备已绑定，不能重复绑定");
+			showTextToast(R.string.str_alarm_binddev_repeat_error);
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -213,14 +213,19 @@ public class ThirdDevListActivity extends BaseActivity implements
 		public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 				int arg2, long arg3) {
 			// TODO Auto-generated method stub
-
-			String[] choices = { "删除" };
+			String strDelete = getResources().getString(
+					R.string.str_alarm_thirddev_delete);
+			String strTitle = getResources().getString(
+					R.string.str_alarm_binddev_delete);
+			String strCancel = getResources().getString(
+					R.string.str_alarm_thirddev_cancel);
+			String[] choices = { strDelete };
 			// 包含多个选项的对话框
 			onSelect onSelect = new onSelect(mActivity, arg2 - 1);
 			AlertDialog dialog = new AlertDialog.Builder(mActivity)
-					.setTitle("删除设备")
+					.setTitle(strTitle)
 					.setItems(choices, onSelect)
-					.setNegativeButton("取消",
+					.setNegativeButton(strCancel,
 							new DialogInterface.OnClickListener() {
 
 								public void onClick(DialogInterface dialog,
@@ -264,8 +269,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 	}
 
 	private boolean RemoveItemWithGuid(int guid, int dev_type) {
-		MyLog.e("Delete Third Dev", "delete guid:" + guid + ", type:"
-				+ dev_type);
+		MyLog.e("Alarm", "delete guid:" + guid + ", type:" + dev_type);
 		ArrayList<ThirdAlarmDev> tmpthirdList = device.getThirdDevList();
 		for (int i = 0; i < tmpthirdList.size(); i++) {
 			if (guid == tmpthirdList.get(i).dev_uid
@@ -279,7 +283,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 	}
 
 	private ThirdAlarmDev getItemWithGuid(int guid, int dev_type) {
-		MyLog.e("Get Third Dev", "guid:" + guid + ", type:" + dev_type);
+		MyLog.e("Alarm", "guid:" + guid + ", type:" + dev_type);
 		ArrayList<ThirdAlarmDev> tmpthirdList = device.getThirdDevList();
 		for (int i = 0; i < tmpthirdList.size(); i++) {
 			if (guid == tmpthirdList.get(i).dev_uid
@@ -296,11 +300,13 @@ public class ThirdDevListActivity extends BaseActivity implements
 			String strDescString = "";
 			switch (msg.what) {
 			case JVNetConst.JVN_REQ_TEXT:
-				strDescString = "等待文本请求结果超时";
+				strDescString = getResources().getString(
+						R.string.str_alarm_wait_textresp_timeout);
 			case Consts.RC_GPIN_SECLECT:
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
-				strDescString = "查询主控绑定设备超时";
+				strDescString = getResources().getString(
+						R.string.str_alarm_query_thirddev_timeout);
 				showTextToast(strDescString);
 				finish();
 				break;
@@ -313,7 +319,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-		MyLog.e(TAG, "onHandler--what=" + what + ";arg1=" + arg1 + ";arg2="
+		MyLog.e("Alarm", "onHandler--what=" + what + ";arg1=" + arg1 + ";arg2="
 				+ arg2 + "; obj = " + (obj == null ? "" : obj.toString()));
 		switch (what) {
 		// 连接结果
@@ -322,9 +328,9 @@ public class ThirdDevListActivity extends BaseActivity implements
 
 			case JVNetConst.NO_RECONNECT:// 1 -- 连接成功//3 不必重新连接
 			case JVNetConst.CONNECT_OK: {// 1 -- 连接成功
-				MyLog.e("New alarm", "连接成功");
+				MyLog.e("Alarm", "连接成功");
 				bConnectFlag = true;
-				showToast("连接成功", Toast.LENGTH_SHORT);
+				showTextToast(R.string.str_alarm_connect_success);
 				// 首先需要发送文本聊天请求
 				Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
 						(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
@@ -404,7 +410,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
 				bNeedSendTextReq = true;
-				showTextToast("文本请求聊天终止");
+				showTextToast(R.string.str_alarm_textdata_req_over);
 				break;
 			case JVNetConst.JVN_RSP_TEXTDATA: {
 				if (dialog != null && dialog.isShowing())
@@ -416,12 +422,13 @@ public class ThirdDevListActivity extends BaseActivity implements
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-						showTextToast("TextData回调obj参数转Json异常");
+						// showTextToast("TextData回调obj参数转Json异常");
+						MyLog.e("Alarm", "TextData回调obj参数转Json异常");
 						return;
 					}
 				} else {
-					showTextToast("TextData回调obj参数is null");
-					MyLog.e("Third Dev", "TextData回调obj参数is null");
+					// showTextToast("TextData回调obj参数is null");
+					MyLog.e("Alarm", "TextData回调obj参数is null");
 					return;
 				}
 				int flag = respObject.optInt("flag");
@@ -478,10 +485,12 @@ public class ThirdDevListActivity extends BaseActivity implements
 							thirdDevAdapter.notifyDataSetChanged();
 						} else {
 							// 失败
-							showToast("该设备暂无绑定第三方设备", Toast.LENGTH_SHORT);
+							// showToast("该设备暂无绑定第三方设备", Toast.LENGTH_SHORT);
+							showTextToast(R.string.str_alarm_query_thirddev_zero);
 						}
 					} else {
-						showTextToast("TextData回调obj参数is null");
+						// showTextToast("TextData回调obj参数is null");
+						MyLog.e("Alarm", "TextData回调obj参数is null");
 						finish();
 					}
 					break;
@@ -519,10 +528,11 @@ public class ThirdDevListActivity extends BaseActivity implements
 							break;
 
 						} else {
-							showToast("设置属性失败", Toast.LENGTH_SHORT);
+							showTextToast(R.string.str_alarm_setdevalarm_switch_error);
 						}
 					} else {
-						showTextToast("TextData回调obj参数is null");
+						// showTextToast("TextData回调obj参数is null");
+						MyLog.e("Alarm", "TextData回调obj参数is null");
 					}
 					break;
 				case Consts.RC_GPIN_DEL:// 删除
@@ -565,10 +575,11 @@ public class ThirdDevListActivity extends BaseActivity implements
 							}
 						} else {
 							// Failed
-							showToast("删除设备失败", Toast.LENGTH_SHORT);
+							showTextToast(R.string.str_alarm_delete_device_failed);
 						}
 					} else {
-						showTextToast("TextData回调obj参数is null");
+						// showTextToast("TextData回调obj参数is null");
+						MyLog.e("Aalarm", "TextData回调obj参数is null");
 					}
 					break;
 				default:
@@ -579,7 +590,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 			default:
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
-				showTextToast("文本请求其他回调");
+				// showTextToast("文本请求其他回调");
 				break;
 			}
 		}
@@ -588,7 +599,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 			process_flag = Consts.RC_GPIN_SET_SWITCH;
 			saved_index = arg2;
 			saved_third_safe_flag = arg1;
-			MyLog.e("RC_GPIN_SET_SWITCH", "arg1 : " + arg1 + ", arg2:" + arg2);
+			MyLog.e("Alarm", "arg1 : " + arg1 + ", arg2:" + arg2);
 			dialog.show();
 			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -652,7 +663,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 		case Consts.RC_GPIN_SET_SWITCH:// 发送设置开关指令
 			saved_index = arg2;
 			saved_third_safe_flag = arg1;
-			MyLog.e("RC_GPIN_SET_SWITCH", "arg1 : " + arg1 + ", arg2:" + arg2);
+			MyLog.e("Alarm", "arg1 : " + arg1 + ", arg2:" + arg2);
 			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 					(byte) Consts.RC_GPIN_SET, obj.toString().trim());

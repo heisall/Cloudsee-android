@@ -645,11 +645,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-
-			ArrayList<Device> deviceList = CacheUtil.getDevList();
-			MyLog.v("Alarm", "prepareConnect 00--" + deviceList.toString());
-			new AlarmDialog(mActivity).Show(obj);
-
+			//
+			// ArrayList<Device> deviceList = CacheUtil.getDevList();
+			// MyLog.v("Alarm", "prepareConnect 00--" + deviceList.toString());
+			if (null != mActivity) {
+				new AlarmDialog(mActivity).Show(obj);
+			} else {
+				MyLog.e("Alarm",
+						"onHandler mActivity is null ,so dont show the alarm dialog");
+			}
 			break;
 		}
 	}

@@ -231,7 +231,7 @@
     <string name="str_user_has_exist">Username has been registered by others, please modify.</string>
     <string name="str_phone_num_error">Mobile phone format is not correct.</string>
     <string name="str_user_not_exist">Username not exist.</string>
-    <string name="str_user_not_exist2">Congratulations,username can register。</string>
+    <string name="str_user_not_exist2">Congratulations,username can register.</string>
     <string name="str_user_password_error">Password is incorrect,please check.</string>
     <string name="str_session_not_exist">Your login has expired.</string>
     <string name="str_other_error">The server is unavailable.</string>
@@ -239,7 +239,7 @@
     <string name="str_error_code_5">Timeout,please try again later.</string>
     <string name="str_error_code_6">Connection timeout.</string>
     <string name="str_email_has_exist">Email has been registered by others, please modify.</string>
-    <string name="str_email_not_exist">Congratulations,email can register。</string>
+    <string name="str_email_not_exist">Congratulations,email can register.</string>
     <string name="str_reset_not_success">Failed to modify.</string>
     <string name="str_modify_user_info">Complete the user info</string>
     <string name="str_bound_email">bind Email</string>
@@ -500,6 +500,7 @@
     <string name="notwifi_forbid_func">This function is not available under 3G/4G network.</string>
     <string name="str_modify">Modify</string>
     <string name="end_list">The last one.</string>
+    <string name="start_list">The first one.</string>
     <string name="str_update">Have updated for all devices.</string>
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>

@@ -645,11 +645,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-
-			ArrayList<Device> deviceList = CacheUtil.getDevList();
-			MyLog.v("Alarm", "prepareConnect 00--" + deviceList.toString());
-			new AlarmDialog(mActivity).Show(obj);
-
+			//
+			// ArrayList<Device> deviceList = CacheUtil.getDevList();
+			// MyLog.v("Alarm", "prepareConnect 00--" + deviceList.toString());
+			if (null != mActivity) {
+				new AlarmDialog(mActivity).Show(obj);
+			} else {
+				MyLog.e("Alarm",
+						"onHandler mActivity is null ,so dont show the alarm dialog");
+			}
 			break;
 		}
 	}
@@ -1137,7 +1141,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		builder.setTitle(R.string.tips)
 				.setMessage(
 						getResources().getString(R.string.add_broad_dev)
-								.replace("?", String.valueOf(broadList.size())))
+								.replaceFirst("?",
+										String.valueOf(broadList.size())))
 				.setPositiveButton(R.string.sure,
 						new DialogInterface.OnClickListener() {
 

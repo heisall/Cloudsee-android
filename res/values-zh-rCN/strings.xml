@@ -5,7 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <!-- getResources().getString(R.string.login_str_loging) -->
     <!-- LoginUtil -->
-    <string name="login_str_loging">正在登录...</string>
+    <string name="login_str_loging">正在登录…</string>
     <string name="remote_filepath">C://我的文件</string>
     <string name="login_str_username_notnull">请输入用户名</string>
     <string name="login_str_loginpass1_notnull">请输入密码</string>
@@ -17,7 +17,7 @@
     <string name="login_str_username_tips">用户名格式不正确，只能为手机号或邮箱.</string>
     <string name="login_str_username_tips2">用户名不能全为数字，请确认输入的是手机号.</string>
     <string name="login_str_username_tips3">用户名由英文、数字及-_组成</string>
-    <string name="login_str_username_tips4">用户名长度只能在4-28位字符之间</string>
+    <string name="login_str_username_tips4">用户名长度只能在4–28位字符之间</string>
     <string name="login_str_password_tips1">密码长度应在6~20位字符之间</string>
     <string name="login_str_password_tips2">密码不能全是相同的字母和数字</string>
     <string name="login_str_password_tips3">请不要使用连续的数字或字符做密码</string>
@@ -32,12 +32,12 @@
     <string name="login_str_add_device">增加设备</string>
     <string name="login_str_add_group">增加分组</string>
     <string name="login_str_device_devicename_notnull">请输入设备昵称</string>
-    <string name="login_str_nike_name_order">含有非法字符,昵称由1-20个字母、数字、汉字及特殊字符-_+().组成</string>
+    <string name="login_str_nike_name_order">含有非法字符,昵称由1–20个字母、数字、汉字及特殊字符–_+().组成</string>
     <string name="login_str_device_account_notnull">请输入用户名</string>
     <string name="login_str_device_pass_notnull">请输入密码</string>
     <string name="login_str_device_connnum_notnull">通道数量不能为空</string>
-    <string name="login_str_device_account_error">用户名格式不正确，用户名只能由1-16位的英文、数字及_-组成.</string>
-    <string name="login_str_device_pass_error">密码格式不正确，密码只能由0-16位字符组成.</string>
+    <string name="login_str_device_account_error">用户名格式不正确，用户名只能由1–16位的英文、数字及_–组成.</string>
+    <string name="login_str_device_pass_error">密码格式不正确，密码只能由0–16位字符组成.</string>
     <string name="login_str_device_add_success">添加设备成功</string>
     <string name="login_str_device_add_failed">添加设备失败</string>
     <string name="login_str_group_name_notnull">分组名称不能为空</string>
@@ -103,7 +103,7 @@
     <string name="devicecount">共有0个设备</string>
     <string name="nikename">昵    称</string>
     <string name="nikename2">昵 称 </string>
-    <string name="str_deleting">正在执行...</string>
+    <string name="str_deleting">正在执行…</string>
     <string name="str_point_nikename_exist">通道昵称已存在，请重新命名</string>
     <string name="str_nikename_notnull">请输入昵称</string>
     <!-- 页面顶部名称 -->
@@ -138,7 +138,7 @@
     <string name="str_voice">对讲</string>
     <string name="str_video">录像</string>
     <string name="str_more">更多</string>
-    <string name="str_switch_video">正在切换到视频播放...</string>
+    <string name="str_switch_video">正在切换到视频播放…</string>
     <string name="str_has_call">设备未开启对讲或已在其他客户端开启云对讲，请稍后重试.</string>
     <string name="str_call_close"> 对讲功能成功关闭</string>
     <string name="str_play_failed"> 播放失败</string>
@@ -154,7 +154,7 @@
     <string name="str_sina_share_success">微博发布成功</string>
     <string name="str_sina_share_failed">微博发布失败</string>
     <string name="str_publish">发表</string>
-    <string name="str_publishing">正在发表...</string>
+    <string name="str_publishing">正在发表…</string>
     <string name="str_sina_success">认证成功</string>
     <string name="str_alarm">报警</string>
     <string name="str_alarm_info">报警信息</string>
@@ -174,8 +174,8 @@
     <string name="str_check_update_failed">检查更新失败</string>
     <string name="str_account">账户</string>
     <string name="str_help">帮助</string>
-    <string name="str_checkupdating">正在检查更新...</string>
-    <string name="str_logining_out">正在注销...</string>
+    <string name="str_checkupdating">正在检查更新…</string>
+    <string name="str_logining_out">正在注销…</string>
     <string name="str_already_newest">已经是最新版本，无需更新</string>
     <string name="str_about">关于</string>
     <string name="str_feedback">反馈</string>
@@ -225,7 +225,7 @@
     <string name="start_now">立即体验</string>
     <!-- 登录 -->
     <string name="login_str_fast_view">快速观看</string>
-    <string name="login_str_searching_device">正在扫描设备\n请等待...</string>
+    <string name="login_str_searching_device">正在扫描设备\n请等待…</string>
     <string name="login_str_search_nodevice">未扫描出设备，请检查Wi-Fi</string>
     <string name="str_local_login">访客登录</string>
     <string name="str_offline_keeponline_success">保持在线成功!</string>
@@ -276,22 +276,22 @@
     <string name="str_ensurenewpass_notnull">请输入确认密码</string>
     <!-- 演示点 -->
     <string name="str_pointdlg_showpoing">演示点</string>
-    <string name="str_loading_showpoint">正在加载演示点,请等待...</string>
+    <string name="str_loading_showpoint">正在加载演示点,请等待…</string>
     <string name="str_failed_load_showpoint">演示点加载失败</string>
     <string name="str_no_device">暂无设备</string>
     <!-- 中间界面 -->
     <string name="str_wifistr">WiFi</string>
-    <string name="str_loading_data">正在加载数据,请等待...</string>
-    <string name="str_loading_adddevice">正在加载设备，请等待...</string>
+    <string name="str_loading_data">正在加载数据,请等待…</string>
+    <string name="str_loading_adddevice">正在加载设备，请等待…</string>
     <string name="str_device_exsit">您已添加过该设备，不能重复添加.</string>
     <string name="str_click_offline">关闭设置界面中设备在线检测，就可以查看离线设备</string>
     <string name="str_setting_offline">您关闭设备在线检测，设备的状态将全变为在线状态</string>
     <string name="str_newpro_load_failed">新品图片加载失败</string>
     <string name="str_refresh_data">刷新数据</string>
-    <string name="str_refreshing_data">正在刷新数据...</string>
+    <string name="str_refreshing_data">正在刷新数据…</string>
     <string name="pull_to_refresh_pull_label">下拉可以刷新</string>
     <string name="pull_to_refresh_release_label">松开可以刷新</string>
-    <string name="pull_to_refresh_refreshing_label">加载中...</string>
+    <string name="pull_to_refresh_refreshing_label">加载中…</string>
     <string name="pull_to_refresh_repeat_label">刷新频繁，请稍后再试</string>
     <string name="pull_to_refresh_tap_label">单击可以刷新</string>
     <string name="pull_from_time">更新于：</string>
@@ -301,7 +301,7 @@
     <string name="str_update_at">更新于:</string>
     <string name="str_newpro_show">新品展示</string>
     <string name="str_watch_newpro">观看效果</string>
-    <string name="str_scanning_device">正在扫描设备\n请耐心等待...</string>
+    <string name="str_scanning_device">正在扫描设备\n请耐心等待…</string>
     <string name="str_continue_qr_device">继续</string>
     <string name="str_return_qr_device">返回</string>
     <string name="str_net_push_error">网络异常，推送服务停止.</string>
@@ -315,7 +315,7 @@
     <string name="str_updating">正在下载更新软件</string>
     <string name="str_change_zoom">变倍</string>
     <string name="str_change_focus">变焦</string>
-    <string name="str_exiting_now">正在断开,请等待...</string>
+    <string name="str_exiting_now">正在断开,请等待…</string>
     <string name="str_no_response_data">网络连接异常，请重新登录.</string>
     <string name="str_change_video_type">切换视频制式，录像文件已重新打包</string>
     <string name="str_device">设备</string>
@@ -369,7 +369,7 @@
     <string name="str_connect_mode">连接模式</string>
     <string name="str_ip_connect">域名/IP</string>
     <string name="str_data_not_compare">本地数据与服务器数据不一致，是否同步数据?</string>
-    <string name="str_uploading">正在上传...</string>
+    <string name="str_uploading">正在上传…</string>
     <string name="str_ethernet">有线连接</string>
     <string name="str_wifi">无线连接</string>
     <string name="str_stream_setting">码流设置</string>
@@ -377,7 +377,7 @@
     <string name="str_wifi_pass">密码</string>
     <string name="str_wifi_detail_info">Wi-Fi详细信息</string>
     <string name="str_wifi_info">无线网络信息</string>
-    <string name="str_selectwifi">选取网络...</string>
+    <string name="str_selectwifi">选取网络…</string>
     <string name="str_wifiname_not_null">请输入无线网络名称</string>
     <string name="str_obtain_automatically">自动获取</string>
     <string name="str_input_manually">手动输入</string>
@@ -390,11 +390,11 @@
     <string name="str_image_quality">图片质量</string>
     <string name="str_clear">帧率</string>
     <string name="str_fluent">码流质量</string>
-    <string name="str_host_connect">正在与主控建立连接，请等待...</string>
+    <string name="str_host_connect">正在与主控建立连接，请等待…</string>
     <string name="str_host_connect_timeout">连接超时</string>
     <string name="str_only_administator_use_this_function">不是管理员用户，无法使用此功能.</string>
     <string name="str_no_permission">没有权限!</string>
-    <string name="str_host_connect_failed">与主控建立连接不成功，请重试...</string>
+    <string name="str_host_connect_failed">与主控建立连接不成功，请重试…</string>
     <string name="str_not_support_this_device">暂时不支持设置此设备,仅支持IPC设备.</string>
     <string name="str_help1_1">添加设备</string>
     <string name="str_help1_0">远程设置</string>
@@ -411,7 +411,7 @@
     <string name="str_help8">可添加、修改、删除通道和设备</string>
     <string name="str_help10">设备在线，显示为橘红色，设备离线显示为灰色</string>
     <string name="str_help11">设备有Wi-Fi功能时，此标志为橘红色，设备无Wi-Fi功能时，此标志为灰色</string>
-    <string name="str_editing_wifi">正在配置设备\n请等待...</string>
+    <string name="str_editing_wifi">正在配置设备\n请等待…</string>
     <string name="str_save_succ">修改成功</string>
     <string name="str_save_fail">修改失败</string>
     <string name="str_connect_succ">配置Wi-Fi完成.</string>
@@ -419,7 +419,7 @@
     <string name="str_push_message_tip">想要给您发送推送通知，\"通知\"可以包括提醒、声音和图标上的标记.您可以在\"更多功能\"中对此进行配置.</string>
     <string name="str_crash_tips">是否发送错误报告给我们?</string>
     <string name="str_crash_send">发送</string>
-    <string name="str_crash_sending">正在发送...</string>
+    <string name="str_crash_sending">正在发送…</string>
     <string name="str_crash_cancel">取消</string>
     <string name="str_send_success">邮件发送成功，感谢您的反馈!</string>
     <string name="str_wifi_pwd">12345678</string>
@@ -441,7 +441,7 @@
     <string name="sure_exit"> 再按一次退出程序</string>
     <string name="network_error">网络连接不可用,是否进行设置?</string>
     <string name="tips_3g">目前处于2G/3G网络，观看视频会产生大量流量费用（由运营商收取），建议使用Wi-Fi网络.</string>
-    <string name="waiting">请稍等...</string>
+    <string name="waiting">请稍等…</string>
     <string name="pressback_exit">再按一次退出程序</string>
 
     <!-- 2.3系统视频播放提示 -->
@@ -470,7 +470,7 @@
     <string name="del_device_failed">设备删除失败</string>
     <string name="str_modify">修改</string>
     <string name="end_list">已到最后</string>
-     <string name="start_list">已到顶端</string>
+    <string name="start_list">已到顶端</string>
     <string name="str_update">当前设备已全部更新</string>
     <string name="wifi_device">无线设备</string>
     <string name="line_device">有线设备</string>
@@ -493,8 +493,8 @@
     <string name="connfailed_timeout">连接超时</string>
     <string name="connfailed_auth_tips">身份验证不成功，是否修改用户名密码?</string>
     <string name="connect_failed">连接失败</string>
-    <string name="connecting">连接中...</string>
-    <string name="connecting_buffer">正在缓冲...</string>
+    <string name="connecting">连接中…</string>
+    <string name="connecting_buffer">正在缓冲…</string>
     <string name="is_omx">硬解</string>
     <string name="not_omx">软解</string>
     <string name="not_support_oxm">您的手机可能不支持硬解.</string>
@@ -612,7 +612,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.31(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.32(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->
@@ -621,9 +621,9 @@
     <string name="str_alarm_time">报警时间  :</string>
     <string name="str_alarm_check_video">查看报警视频</string>
     <string name="str_alarm_no_video">暂无报警视频</string>
-    <string name="str_buffering">正在缓冲...</string>
+    <string name="str_buffering">正在缓冲…</string>
     <string name="str_safe_protected">安全防护</string>
-    <string name="str_downloading_vod">正在获取录像文件...</string>
+    <string name="str_downloading_vod">正在获取录像文件…</string>
     <string name="str_alarm_dev">设备  :</string>
     <string name="str_alarm_type">类型  :</string>
     <string name="str_alarm_preview">查看</string>
@@ -636,14 +636,13 @@
     <string name="str_alarm_manage">添加报警设备</string>
     <string name="str_alarm_connect_except">连接异常断开</string>
     <string name="str_alarm_thirddev_default_name">报警设备</string>
-    <string name="str_alarm_thirddev_learning">学习中...</string>
+    <string name="str_alarm_thirddev_learning">学习中…</string>
     <string name="str_alarm_thirddev_bind_hint">设备昵称</string>
     <string name="str_bind_finish">完  成</string>
     <string name="str_alarm_type_move">移动侦测</string>
     <string name="str_alarm_type_third">门磁或者手环报警</string>
     <string name="str_alarm_type_unknown">未知报警类型</string>
     <string name="str_telecontrol_device">遥控设备</string>
-
     <string name="str_alarm_connect_success">连接成功</string>
     <string name="str_alarm_connect_failed_1">连接失败，已经连接或者超过最大连接数</string>
     <string name="str_alarm_binddev_timeout">主控绑定设备超时</string>
@@ -664,4 +663,5 @@
     <string name="str_alarm_download_alarmimg_timeout">获取报警图片超时</string>
     <string name="str_alarm_download_alarmimg_failed">获取报警图片失败</string>
     <string name="str_alarm_download_alarmimg_stopped">下载报警图片停止</string>
+
 </resources>

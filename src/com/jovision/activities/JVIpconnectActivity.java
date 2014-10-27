@@ -128,7 +128,7 @@ public class JVIpconnectActivity extends BaseActivity {
 		ipconnect_pwd = (EditText) findViewById(R.id.ipconnect_pwd);
 		editsave = (Button) findViewById(R.id.editsave);
 		currentmenu = (TextView) findViewById(R.id.currentmenu);
-		currentmenu.setText(R.string.str_ipconnect);
+		currentmenu.setText(R.string.str_connect_mode);
 		back = (Button) findViewById(R.id.btn_left);
 		plus_btu = (Button) findViewById(R.id.btn_right);
 		plus_btu.setVisibility(View.GONE);

@@ -341,6 +341,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 								MyLog.d("PushCallBack",
 										"the app is not OnForeground.........");
+								onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
+										pi);
 								Activity currentActivity = MyActivityManager
 										.getActivityManager().currentActivity();
 								if (MyActivityManager.getActivityManager()
@@ -354,8 +356,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 									// "false");
 									startActivity(intentMain);
 									// Thread.sleep(100);
-									onNotify(Consts.PUSH_MESSAGE, pi.alarmType,
-											0, pi);
+									// onNotify(Consts.PUSH_MESSAGE,
+									// pi.alarmType,
+									// 0, pi);
 								} else {
 									MyLog.e("PushCallBack",
 											"this "

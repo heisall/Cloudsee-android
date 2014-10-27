@@ -762,6 +762,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (null != quickSetPop) {
 			quickSetPop.dismiss();
 		}
+		// searchView.stopPlayer();
 		searchView.myPlayer.release();
 		stopRefreshWifiTimer();
 	}
@@ -1823,7 +1824,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 	@Override
 	protected void onPause() {
-		searchView.stopPlayer();
 		super.onPause();
 	}
 

@@ -1364,7 +1364,8 @@ public class JVPlayActivity extends PlayActivity implements
 		} else {
 
 			if (isDoubleClickCheck && lastClickIndex == channel.getIndex()) {// 双击
-				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation
+						|| Consts.PLAY_AP == playFlag) {// 横屏
 					return;
 				}
 				if (ONE_SCREEN == currentScreen) {

@@ -1141,7 +1141,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		builder.setTitle(R.string.tips)
 				.setMessage(
 						getResources().getString(R.string.add_broad_dev)
-								.replace("?", String.valueOf(broadList.size())))
+								.replaceFirst("?",
+										String.valueOf(broadList.size())))
 				.setPositiveButton(R.string.sure,
 						new DialogInterface.OnClickListener() {
 

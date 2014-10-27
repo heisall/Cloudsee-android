@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
-    <string name="tab_home">"首页"</string>
-    <string name="tab_search">"搜索"</string>
-    <string name="tab_settings">"设置"</string>
-    <string name="title_home">"首页"</string>
-    <string name="title_search">"搜索"</string>
-    <string name="title_settings">"设置"</string>
-    <string name="back">"返回"</string>
-    <string name="help">"帮助"</string>
-    <string name="fragment_home_text">"这是首页"</string>
-    <string name="fragment_search_text">"这是搜索"</string>
-    <string name="fragment_settings_text">"这是设置"</string>
-    <string name="action_settings">Setting</string>
+    <string name="action_settings">Setting</string>
     <string name="hello_world">Hello world!</string>
     <!-- getResources().getString(R.string.login_str_loging) -->
     <!-- LoginUtil -->
     <string name="login_str_loging">Login now...</string>
-    <string name="remote_filepath">C://我的文件</string>
     <string name="login_str_username_notnull">Please input username.</string>
     <string name="login_str_loginpass1_notnull">Please input password.</string>
     <string name="login_str_loginpass2_notnull">Please input password confirmation.</string>
@@ -297,7 +284,7 @@
     <string name="str_refresh_data">Refresh Data</string>
     <string name="str_refreshing_data">Refreshing Data...</string>
     <string name="pull_to_refresh_pull_label">Pull to refresh...</string>
-    <string name="pull_from_time">更新于：</string>
+    <string name="pull_from_time">Update at:</string>
     <string name="pull_to_refresh_release_label">Release to refresh...</string>
     <string name="pull_to_refresh_refreshing_label">Loading...</string>
     <string name="pull_to_refresh_repeat_label">Refresh frequently, please try again later</string>
@@ -392,7 +379,7 @@
     <string name="str_host_connect_failed">Connecting with host-end unsuccessfully\nplease try again...</string>
     <string name="str_not_support_this_device">Doesn\'t support this device.Supports IPC only.</string>
     <string name="str_help1_1">Add device</string>
-    <string name="str_help1_0">远程设置</string>
+    <string name="str_help1_0">Remote Setting</string>
     <string name="str_help1_2">Device Manager</string>
     <string name="str_help2_1">It can add channel numbers of this device.</string>
     <string name="str_help2_2">Slide to see the device list.</string>
@@ -428,8 +415,8 @@
     <string name="str_shake_scene_pic_tips">Scene picture function can\'t be used for there is no SD card in your mobile phone</string>
 
     <!-- JVWelcomeActivity -->
-    <string name="cloud1">云视通</string>
-    <string name="cloud2">通天下</string>
+    <string name="cloud1">CloudSEE</string>
+    <string name="cloud2">Vision to world</string>
     <!-- JVLoginActivity -->
     <string name="login_demo">Demo</string>
     <!-- JVMoreFrament -->
@@ -541,7 +528,6 @@
     <string name="del_alarm_succ">Delete alarm successfully.</string>
     <string name="del_alarm_failed">Failed to delete alarm.</string>
     <!-- JVIpconnectActivity -->
-    <string name="str_ipconnect">连接模式</string>
     <!-- JVPlayActivity -->
     <string name="connfailed_auth">Failed to very ID.</string>
     <string name="connfailed_channel_notopen">Invalid Channel.</string>

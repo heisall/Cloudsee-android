@@ -596,6 +596,9 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 同意语音请求
 			case JVNetConst.JVN_RSP_CHATACCEPT: {
+				if (channelList.get(lastClickIndex).isSingleVoice()) {
+					showTextToast(R.string.voice_tips2);
+				}
 				channelList.get(lastClickIndex).setVoiceCall(true);
 				VOICECALLING = true;
 				voiceCallSelected(true);
@@ -1752,10 +1755,6 @@ public class JVPlayActivity extends PlayActivity implements
 					} else {
 						JVPlayActivity.AUDIO_SINGLE = channelList.get(
 								lastClickIndex).isSingleVoice();
-						if (channelList.get(lastClickIndex).isSingleVoice()) {
-							showTextToast(R.string.voice_tips2);
-						}
-
 						PlayUtil.startVoiceCall(lastClickIndex);
 						if (Consts.PLAY_AP == playFlag) {
 							functionListAdapter.selectIndex = 2;
@@ -2227,6 +2226,7 @@ public class JVPlayActivity extends PlayActivity implements
 					.getParent();
 			switch (tag) {
 			case JVConst.PLAY_CONNECTING:// 连接中
+				verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, View.VISIBLE);// loading
 				manager.setViewVisibility(container,
@@ -2267,6 +2267,7 @@ public class JVPlayActivity extends PlayActivity implements
 						getResources().getString(loadingState), textSize);// 连接文字
 				break;
 			case JVConst.PLAY_CONNECTING_BUFFER:// 缓冲中
+				verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, View.VISIBLE);// loading
 				manager.setViewVisibility(container,

@@ -121,7 +121,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 				.findViewById(R.id.device_listView);
 		devmorere = (RelativeLayout) mParent.findViewById(R.id.devmorere);
 		devmore_hie = (RelativeLayout) mParent.findViewById(R.id.devmore_hie);
-		
+
 		devmorere.setOnClickListener(mOnClickListener);
 		devmore_hie.setOnClickListener(mOnClickListener);
 		ListViewClick();
@@ -250,16 +250,16 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 		}
 	};
-	
+
 	public class ManagePageChangeListener implements OnPageChangeListener {
 
 		@SuppressLint("ResourceAsColor")
 		@Override
 		public void onPageSelected(final int position) {
-			if (position==0) {
+			if (position == 0) {
 				mActivity.showTextToast(R.string.start_list);
 			}
-			if (position==manageDeviceList.size()-1) {
+			if (position == manageDeviceList.size() - 1) {
 				mActivity.showTextToast(R.string.end_list);
 			}
 			// MyLog.v(TAG, "onPageSelected---position="+position);

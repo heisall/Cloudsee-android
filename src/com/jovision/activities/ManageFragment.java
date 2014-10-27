@@ -117,6 +117,7 @@ public class ManageFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		mActivity = (BaseActivity) getActivity();
 		isDevice = deviceList.get(deviceIndex).getIsDevice();
 	}
 
@@ -350,7 +351,12 @@ public class ManageFragment extends BaseFragment {
 		}
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-			new AlarmDialog(mActivity).Show(obj);
+			if (null != mActivity) {
+				new AlarmDialog(mActivity).Show(obj);
+			} else {
+				MyLog.e("Alarm",
+						"onHandler mActivity is null ,so dont show the alarm dialog");
+			}
 			break;
 		default:
 			break;

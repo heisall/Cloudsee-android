@@ -391,6 +391,20 @@ public class Jni {
 
 		int type = 0;
 		int flag = 0;
+
+		int dhcp = 0;
+		int ip = 0;
+		int mask = 0;
+		int gateway = 0;
+		int dns = 0;
+
+		int ch = 0;
+		int width = 0;
+		int height = 0;
+		int mbph = 0;
+		int fps = 0;
+		int rc = 0;
+
 		String ssid = "";
 		String pwd = "";
 		String auth = "";
@@ -423,12 +437,14 @@ public class Jni {
 
 		// [Neo] 设置 DHCP
 		Jni.sendString(index, uchType, true, Consts.COUNT_EX_NETWORK,
-				Consts.TYPE_EX_SET_DHCP,
-				String.format(Consts.FORMATTER_SET_DHCP, 1, 1, 1, 1, 1));
+				Consts.TYPE_EX_SET_DHCP, String.format(
+						Consts.FORMATTER_SET_DHCP, ch, dhcp, ip, mask, gateway,
+						dns));
 
 		// [Neo] 设置码流
-		Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM,
-				String.format(Consts.FORMATTER_SET_BPS_FPS, 1, 1, 1, 1));
+		Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM, String
+				.format(Consts.FORMATTER_SET_BPS_FPS, flag, width, height,
+						mbph, fps, rc));
 
 		// [Neo] 切换码流、设置设备名称、设置存储
 		Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM, custom);
@@ -553,8 +569,8 @@ public class Jni {
 	 * @param mbps
 	 * @param fps
 	 */
-	public static native boolean setBpsAndFps(int index, byte uchType,
-			int channel, int width, int height, int mbps, int fps);
+	// public static native boolean setBpsAndFps(int index, byte uchType,
+	// int channel, int width, int height, int mbps, int fps);
 
 	/**
 	 * 修改码流，参考 {@link JVSUDT#JVC_ChangeStreams(int, byte, byte[])}

@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,7 +37,8 @@ public class AlarmDialog extends Dialog {
 	private String alarmTypeName;// 报警类型
 	private String alarmTime;
 	private static int alarmDialogObjs = 0;// new 出来的对象数量
-	private ArrayList<Device> deviceList = new ArrayList<Device>();;
+
+	private ArrayList<Device> deviceList = new ArrayList<Device>();
 
 	public AlarmDialog(Context context) {
 		super(context, R.style.mydialog);
@@ -44,6 +46,8 @@ public class AlarmDialog extends Dialog {
 		// TODO Auto-generated constructor stub
 		synchronized (AlarmDialog.class) {
 			alarmDialogObjs++;
+			// MyLog.e("AlarmDialog", "AlarmDialog(Context context)" +
+			// getDialogObjs());
 		}
 	}
 
@@ -63,6 +67,7 @@ public class AlarmDialog extends Dialog {
 		dialogCancel.setOnClickListener(myOnClickListener);
 		dialogView.setOnClickListener(myOnClickListener);
 		dialogCancleImg.setOnClickListener(myOnClickListener);
+		// MyLog.e("AlarmDialog", "onCreate" + getDialogObjs());
 	}
 
 	@Override
@@ -70,12 +75,14 @@ public class AlarmDialog extends Dialog {
 		dialogDeviceName.setText(deviceNickName);
 		dialogDeviceModle.setText(alarmTypeName);
 		dialogAlarmTime.setText(alarmTime);
+		// MyLog.e("AlarmDialog", "onStart" + getDialogObjs());
 	}
 
 	@Override
 	protected void onStop() {
 		synchronized (AlarmDialog.class) {
-			alarmDialogObjs--;
+			alarmDialogObjs = 0;
+			// MyLog.e("AlarmDialog", "onStop" + getDialogObjs());
 		}
 	}
 
@@ -102,8 +109,8 @@ public class AlarmDialog extends Dialog {
 				if (strTempNameString.equals("JVPlayActivity")) {
 				} else {
 					try {
+						deviceList = CacheUtil.getDevList();// 再取一次
 						int dev_index = getDeivceIndex(ystNum);
-						deviceList = CacheUtil.getDevList();
 						if (dev_index == -1 || dev_index >= deviceList.size()) {
 							Toast.makeText(
 									context,
@@ -113,11 +120,9 @@ public class AlarmDialog extends Dialog {
 							return;
 						}
 
-						MyLog.v("Alarm",
-								"prepareConnect1--" + deviceList.toString());
 						PlayUtil.prepareConnect(deviceList, dev_index);// 该函数里已经调用SaveList了
-						MyLog.v("Alarm",
-								"prepareConnect2--" + deviceList.toString());
+						// MyLog.v("Alarm",
+						// "prepareConnect2--" + deviceList.toString());
 						// CacheUtil.saveDevList(deviceList);
 						// deviceList = CacheUtil.getDevList();//再取一次
 						Intent intentPlay = new Intent(context,
@@ -125,11 +130,19 @@ public class AlarmDialog extends Dialog {
 						intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 
 						intentPlay.putExtra("DeviceIndex", dev_index);
+						if (deviceList.get(dev_index).getChannelList().size() == 0) {
+							Toast.makeText(
+									context,
+									"error channel list size 0, dev_index:"
+											+ dev_index, Toast.LENGTH_SHORT)
+									.show();
+							return;
+						}
 						intentPlay.putExtra("ChannelofChannel",
 								deviceList.get(dev_index).getChannelList()
 										.toList().get(0).getChannel());
-						Toast.makeText(context, "DeviceIndex:" + dev_index,
-								Toast.LENGTH_SHORT).show();
+						// Toast.makeText(context, "DeviceIndex:" + dev_index,
+						// Toast.LENGTH_SHORT).show();
 						context.startActivity(intentPlay);
 					} catch (IllegalArgumentException e) {
 						// TODO Auto-generated catch block
@@ -188,6 +201,25 @@ public class AlarmDialog extends Dialog {
 			}
 			alarmTypeName = strAlarmTypeName;
 			show();
+			// MyLog.e("AlarmDialog", "收到信息，1但不提示:" + getDialogObjs());
+		} else {
+
+			synchronized (AlarmDialog.class) {
+				alarmDialogObjs = 1;
+				// MyLog.e("AlarmDialog", "收到信息，2但不提示:" + getDialogObjs());
+
+			}
+			// Toast.makeText(context, "收到信息，但不提示:"+getDialogObjs(),
+			// Toast.LENGTH_SHORT).show();
+			// alarmDialogObjs = 0;
 		}
 	}
+
+	@Override
+	public void dismiss() {
+		// TODO Auto-generated method stub
+		super.dismiss();
+		// MyLog.e("AlarmDialog", "dismiss" + getDialogObjs());
+	}
+
 }

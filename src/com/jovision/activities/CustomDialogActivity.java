@@ -134,7 +134,7 @@ public class CustomDialogActivity extends BaseActivity implements
 					alarmImage.setImageBitmap(bmp);
 				}
 				bLocalFile = true;
-				showToast("文件已存在", Toast.LENGTH_SHORT);
+				// showToast("文件已存在", Toast.LENGTH_SHORT);
 			}
 		}
 
@@ -216,20 +216,29 @@ public class CustomDialogActivity extends BaseActivity implements
 		case R.id.alarm_lookup_video_btn:// 查看录像
 
 			if (null != vod_uri_ && !"".equalsIgnoreCase(vod_uri_)) {
+				lookVideoBtn.setEnabled(false);
 				bDownLoadFileType = 1;
 				if (!bConnectFlag) {
 					progressdialog.show();
 					if (!AlarmUtil.OnlyConnect(strYstNum)) {
 						progressdialog.dismiss();
 						showTextToast("连接失败，已经连接或者超过最大连接数");
+						lookVideoBtn.setEnabled(true);
 					}
 				} else {
 					// 已经连接上走远程回放
 					Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
 					progressdialog.show();
+					// try {
+					// Thread.sleep(100);
+					// } catch (InterruptedException e) {
+					// // TODO Auto-generated catch block
+					// e.printStackTrace();
+					// }
 					if (!AlarmUtil.OnlyConnect(strYstNum)) {
 						progressdialog.dismiss();
 						showTextToast("连接失败，已经连接或者超过最大连接数");
+						lookVideoBtn.setEnabled(true);
 					}
 					// Intent intent = new Intent();
 					// intent.setClass(this, JVRemotePlayBackActivity.class);
@@ -322,7 +331,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			case JVNetConst.CONNECT_OK: {// 1 -- 连接成功
 				MyLog.e("New alarm", "连接成功");
 				bConnectFlag = true;
-				showToast("连接成功", Toast.LENGTH_SHORT);
+				// showToast("连接成功", Toast.LENGTH_SHORT);
 				String strFilePath = "";
 				if (bDownLoadFileType == 0) {
 					strFilePath = strImgUrl;
@@ -339,6 +348,7 @@ public class CustomDialogActivity extends BaseActivity implements
 						progressdialog.dismiss();
 					}
 					strFilePath = vod_uri_;
+					lookVideoBtn.setEnabled(true);
 					// 走远程回放
 					Intent intent = new Intent();
 					intent.setClass(this, JVRemotePlayBackActivity.class);
@@ -411,7 +421,7 @@ public class CustomDialogActivity extends BaseActivity implements
 		case Consts.CALL_DOWNLOAD: {
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_DOWNLOADOVER:// 文件下载完毕
-				showToast("文件下载完毕", Toast.LENGTH_SHORT);
+				// showToast("文件下载完毕", Toast.LENGTH_SHORT);
 				// JVSUDT.JVC_DisConnect(JVConst.ONLY_CONNECT);//断开连接,如果视频走远程回放
 				Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
 				if (bDownLoadFileType == 0) {
@@ -447,10 +457,10 @@ public class CustomDialogActivity extends BaseActivity implements
 				showTextToast("停止文件下载");
 				break;
 			case JVNetConst.JVN_RSP_DOWNLOADE:// 文件下载失败
-				showTextToast("文件下载失败");
+				showTextToast("获取图片失败");
 				break;
 			case JVNetConst.JVN_RSP_DLTIMEOUT:// 文件下载超时
-				showTextToast("文件下载超时");
+				showTextToast("获取图片超时");
 				break;
 			default:
 				break;

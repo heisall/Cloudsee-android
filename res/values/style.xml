@@ -29,7 +29,10 @@
         <item name="android:windowBackground">@drawable/my_dialog_bg</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:background">@color/transparent</item>
+<<<<<<< HEAD
 :                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <item name="android:windowIsFloating">true</item>
+=======
+>>>>>>> e2950817532b7b912020054e4672a10ebb60ba0f
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>

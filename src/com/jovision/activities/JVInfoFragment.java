@@ -23,6 +23,7 @@ import com.jovision.adapters.PushAdapter;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
+import com.jovision.commons.MyLog;
 import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.views.AlarmDialog;
@@ -76,7 +77,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		// pushListView.setOnItemClickListener(mOnItemClickListener);
 		// pushListView.setOnItemLongClickListener(mOnLongClickListener);
 		pushAdapter = new PushAdapter(this);
-		pushListView.setPullLoadEnable(true);
+		pushListView.setPullLoadEnable(false);
 		pushListView.setXListViewListener(this);
 		noMess = (ImageView) mParent.findViewById(R.id.nomess);
 		noMessTv = (TextView) mParent.findViewById(R.id.nomess_tv);
@@ -99,7 +100,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 		// 先获取报警信息
 		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
-
+			Consts.pushHisCount = 0;
+			pushList.clear();
 			((BaseActivity) mActivity).createDialog("");
 			RefreshAlarmTask task = new RefreshAlarmTask();
 			String[] params = new String[3];
@@ -135,14 +137,11 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	// 下拉刷新
 	@Override
 	public void onRefresh() {
-		fragHandler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				pushAdapter.setRefCount(5);
-				pushAdapter.notifyDataSetChanged();
-				onLoadPush();
-			}
-		}, 1000);
+		pullUp = false;
+		((BaseActivity) mActivity).createDialog("");
+		PullRefreshAlarmTask task = new PullRefreshAlarmTask();
+		String[] params = new String[3];
+		task.execute(params);
 	}
 
 	// 上拉加载更多
@@ -156,13 +155,94 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	}
 
 	// 刷新报警信息线程
+	class PullRefreshAlarmTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int refreshRes = -1;
+			try {
+				temList = AlarmUtil.getUserAlarmList(0, Consts.PUSH_PAGESIZE);
+				if (temList == null) {
+					// null肯定失败,不为null一定成功，可能信息为0,因为只有成功才会new
+					// list，因此temList肯定不为null
+					refreshRes = 0;
+				} else {
+					refreshRes = 1;
+				}
+				// if (null != temList && 0 != temList.size()) {
+				// refreshRes = 1;
+				// } else {
+				// refreshRes = 0;
+				// }
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return refreshRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			((BaseActivity) mActivity).dismissDialog();
+			if (1 == result) {
+				onLoadPush();
+				if (null == temList) {
+					temList = new ArrayList<PushInfo>();
+				}
+				if (temList.size() == 0) {
+					mActivity.showTextToast(R.string.nomessage);
+					return;
+				}
+				int addLen = temList.size();
+				pushList.clear();
+				pushList.addAll(temList);
+				Consts.pushHisCount = addLen;
+				temList.clear();
+
+				if (null != pushList && 0 != pushList.size()) {
+					noMess.setVisibility(View.GONE);
+					noMessTv.setVisibility(View.GONE);
+					pushAdapter.setData(pushList);
+					pushAdapter.setRefCount(pushList.size());
+					pushListView.setAdapter(pushAdapter);
+					if (pullUp) {
+						pushListView.setSelection(pushAdapter.getCount());
+					} else {
+						pushListView.setSelection(0);
+					}
+					pushAdapter.notifyDataSetChanged();
+				}
+			} else {
+				mActivity.showTextToast(R.string.get_alarm_list_failed);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			((BaseActivity) mActivity).createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
+
+	// 上拉加载报警信息线程
 	class RefreshAlarmTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
 			int refreshRes = -1;
 			try {
-				temList = AlarmUtil.getUserAlarmList(Consts.pushHisCount,
+				temList = AlarmUtil.getUserAlarmList(Consts.pushHisCount + 1,
 						Consts.PUSH_PAGESIZE);
 				if (temList == null) {
 					// null肯定失败,不为null一定成功，可能信息为0,因为只有成功才会new
@@ -240,7 +320,9 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	@Override
 	public void onResume() {
 		String arrayStr = mActivity.statusHashMap.get(Consts.PUSH_JSONARRAY);
+		mActivity.statusHashMap.put(Consts.PUSH_JSONARRAY, "");
 		JSONArray pushArray = null;
+		MyLog.e("JVInfoFragment", "arrayStr = " + arrayStr);
 		try {
 			if (null == arrayStr || "".equalsIgnoreCase(arrayStr)) {
 				pushArray = new JSONArray();
@@ -293,11 +375,12 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 						e.printStackTrace();
 					}
 				}
+
+				pushListView.setSelection(0);
+				pushAdapter.notifyDataSetChanged();
 			}
 
-			pushListView.setSelection(0);
-			pushAdapter.notifyDataSetChanged();
-			mActivity.statusHashMap.put(Consts.PUSH_JSONARRAY, "");
+			// mActivity.statusHashMap.put(Consts.PUSH_JSONARRAY, "");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -314,6 +397,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
+		MyLog.v("JVInfoFragment", "onTabAction:what=" + what + ";arg1=" + arg1
+				+ ";arg2=" + arg1);
 		switch (what) {
 		case PushAdapter.DELETE_ALARM_MESS: {// 删除报警
 			pushIndex = arg1;
@@ -372,6 +457,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				if (!doDelete) {
 					mActivity.showTextToast(R.string.del_alarm_failed);
 				} else {
+					Consts.pushHisCount--;
 					pushAdapter.setRefCount(pushList.size());
 					pushAdapter.notifyDataSetChanged();
 					mActivity.showTextToast(R.string.del_alarm_succ);

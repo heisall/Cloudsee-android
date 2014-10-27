@@ -45,6 +45,9 @@ public class Device {
 
 	private boolean isHelperEnabled;
 	/** 设备类型 */
+	private int type;// 云视通端定义 4：家用设备 其他值 非家用
+
+	/** 设备类型 */
 	private int deviceType;// 服务端定义 2：家用设备 其他值 非家用
 
 	private boolean is05;
@@ -456,6 +459,14 @@ public class Device {
 
 	public void setDoMain(String doMain) {
 		this.doMain = doMain;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 }

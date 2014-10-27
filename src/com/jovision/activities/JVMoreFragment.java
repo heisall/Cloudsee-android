@@ -25,6 +25,7 @@ import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
@@ -102,6 +103,8 @@ public class JVMoreFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
+		MyLog.v("JVMyMoreFragment", "onTabAction:what=" + what + ";arg1="
+				+ arg1 + ";arg2=" + arg1);
 		switch (what) {
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框

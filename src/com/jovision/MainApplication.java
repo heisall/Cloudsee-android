@@ -79,6 +79,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(
 				this));
 		MyLog.init(Consts.LOG_PATH);
+		MyLog.enableFile(false);
 		statusHashMap = new HashMap<String, String>();
 		openedActivityList = new ArrayList<BaseActivity>();
 
@@ -332,9 +333,11 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 										"the app is OnForeground.........");
 								onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
 										pi);
+								Activity currentActivity = MyActivityManager
+										.getActivityManager().currentActivity();
+								MyLog.e("PushCallBack", "currentActivity:"
+										+ currentActivity.toString());
 							} else {
-								onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
-										pi);
 
 								MyLog.d("PushCallBack",
 										"the app is not OnForeground.........");
@@ -346,10 +349,13 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 											getApplicationContext(),
 											currentActivity.getClass());
 									intentMain
-											.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+											.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 									// statusHashMap.put(Consts.LOCAL_LOGIN,
 									// "false");
-									currentActivity.startActivity(intentMain);
+									startActivity(intentMain);
+									// Thread.sleep(100);
+									onNotify(Consts.PUSH_MESSAGE, pi.alarmType,
+											0, pi);
 								} else {
 									MyLog.e("PushCallBack",
 											"this "

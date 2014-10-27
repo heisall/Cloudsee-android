@@ -419,8 +419,25 @@ public class AddThirdDevActivity extends BaseActivity implements
 							transaction.commit();
 						} else if (addResult == 2) {// 超过最大数
 							showTextToast("超过最大数");
-						} else {
-							showTextToast("绑定设备失败");
+						} else if (addResult == 3) {// 重复绑定
+							ThirdAlarmDev tmp_alarm = new ThirdAlarmDev();
+							for (int i = 0; i < addStrArray.length; i++) {
+								String[] split = addStrArray[i].split("=");
+								if ("guid".equals(split[0])) {
+									tmp_alarm.dev_uid = Integer
+											.parseInt(split[1]);
+								} else if ("type".equals(split[0])) {
+									tmp_alarm.dev_type_mark = Integer
+											.parseInt(split[1]);
+								}
+							}
+							// 返回第三方设备列表activity
+							Intent data = new Intent();
+							data.putExtra("dev_type_mark", tmp_alarm.dev_uid);
+							data.putExtra("dev_uid", tmp_alarm.dev_uid);
+							// 请求代码可以自己设置，这里设置成10
+							setResult(30, data);
+							finish();
 						}
 					}
 					break;

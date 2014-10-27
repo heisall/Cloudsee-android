@@ -211,7 +211,7 @@
     <string name="closed">Closed</string>
     <string name="paused">Paused</string>
     <string name="str_out_memery">Your mobile phone is not insert SDCard, temporarily unable to use this feature</string>
-    <string name="str_sdcard_notenough">Your mobile phone card memory space is insufficient,请删除部分数据后重新开启此功能。</string>
+    <string name="str_sdcard_notenough">Your mobile phone card memory space is insufficient</string>
     <!-- 数据源 -->
     <string name="str_data_source">Channel List</string>
     <!-- 远程回放 -->

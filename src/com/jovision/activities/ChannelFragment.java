@@ -120,7 +120,7 @@ public class ChannelFragment extends BaseFragment {
 				channelAdapter.notifyDataSetChanged();
 			} else {
 
-				PlayUtil.prepareConnect(deviceList, deviceIndex);
+				PlayUtil.prepareConnect(deviceList, deviceIndex, true);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
@@ -224,7 +224,7 @@ public class ChannelFragment extends BaseFragment {
 				break;
 			}
 			case R.id.connect_all:
-				PlayUtil.prepareConnect(deviceList, deviceIndex);
+				PlayUtil.prepareConnect(deviceList, deviceIndex, true);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);

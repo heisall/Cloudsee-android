@@ -107,11 +107,11 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 	private void writeLog(String log, String name) {
 		CharSequence timestamp = DateFormat.format("yyyyMMdd_kkmmss",
 				System.currentTimeMillis());
-		String filename = Consts.BUG_PATH + "Bug_" + timestamp + ".txt";
-
 		File file = new File(Consts.BUG_PATH);
 		MobileUtil.createDirectory(file);
 
+		String filename = Consts.BUG_PATH + "Bug_" + timestamp + ".txt";
+		File logFile = new File(filename);
 		try {
 			FileOutputStream stream = new FileOutputStream(filename);
 			OutputStreamWriter output = new OutputStreamWriter(stream);

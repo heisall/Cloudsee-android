@@ -167,7 +167,7 @@ public class ManageFragment extends BaseFragment {
 			}
 			case 4: {// 立即观看
 				MyLog.v(TAG, "prepareConnect1--" + deviceList.toString());
-				PlayUtil.prepareConnect(deviceList, deviceIndex);
+				PlayUtil.prepareConnect(deviceList, deviceIndex, true);
 				MyLog.v(TAG, "prepareConnect2--" + deviceList.toString());
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 				intentPlay.putExtra("DeviceIndex", deviceIndex);

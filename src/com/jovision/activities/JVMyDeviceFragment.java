@@ -610,7 +610,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			if (0 == dev.getChannelList().size()) {// 0个通道直接播放
 				mActivity.showTextToast(R.string.selectone_to_connect);
 			} else if (1 == dev.getChannelList().size()) {// 1个通道直接播放
-				PlayUtil.prepareConnect(myDeviceList, arg1);
+				PlayUtil.prepareConnect(myDeviceList, arg1, true);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 				intentPlay.putExtra("DeviceIndex", arg1);

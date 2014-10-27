@@ -774,7 +774,7 @@ public class PlayUtil {
 	}
 
 	public static void prepareConnect(ArrayList<Device> deviceList,
-			int deviceIndex) {
+			int deviceIndex, boolean save) {
 		ArrayList<Channel> clist = new ArrayList<Channel>();
 
 		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
@@ -790,7 +790,10 @@ public class PlayUtil {
 			// [Neo] 循环利用播放数组，我 tm 就是个天才
 			clist.get(i).setIndex(i);// % Consts.MAX_CHANNEL_CONNECTION);
 		}
-		CacheUtil.saveDevList(deviceList);
+		if (save) {
+			CacheUtil.saveDevList(deviceList);
+		}
+
 	}
 
 	// /**

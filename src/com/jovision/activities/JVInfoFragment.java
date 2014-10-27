@@ -103,7 +103,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			Consts.pushHisCount = 0;
 			pushList.clear();
 			((BaseActivity) mActivity).createDialog("");
-			RefreshAlarmTask task = new RefreshAlarmTask();
+			PullRefreshAlarmTask task = new PullRefreshAlarmTask();
 			String[] params = new String[3];
 			task.execute(params);
 		}
@@ -369,6 +369,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 						pi.messageTag = JVAccountConst.MESSAGE_NEW_PUSH_TAG;
 						pi.video = obj
 								.optString(JVAlarmConst.JK_ALARM_NEW_VIDEOURL);
+						RemoveRepetitiveAlarmInfoFromPushList(pi.strGUID);// 先删除重复的
 						pushList.add(0, pi);// 新消息置顶
 						Consts.pushHisCount++;
 					} catch (JSONException e) {
@@ -481,4 +482,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		}
 	}
 
+	private void RemoveRepetitiveAlarmInfoFromPushList(String dstAgid) {
+		for (int i = 0; i < pushList.size(); i++) {
+			PushInfo pushInfo = pushList.get(i);
+			if (pushInfo.strGUID.equalsIgnoreCase(dstAgid)) {
+				pushList.remove(i);
+				Consts.pushHisCount--;
+			}
+		}
+
+	}
 }

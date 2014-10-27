@@ -152,7 +152,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			if (!bConnectedFlag) {
 				waitingDialog.show();
 				if (!AlarmUtil.OnlyConnect(strYstNum)) {
-					showTextToast("连接失败，已经连接或者超过最大连接数");
+					showTextToast(R.string.str_alarm_connect_failed_1);
 					waitingDialog.dismiss();
 				}
 			} else {
@@ -180,7 +180,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			if (!bConnectedFlag) {
 				waitingDialog.show();
 				if (!AlarmUtil.OnlyConnect(strYstNum)) {
-					showTextToast("连接失败，已经连接或者超过最大连接数");
+					showTextToast(R.string.str_alarm_connect_failed_1);
 					waitingDialog.dismiss();
 				}
 			} else {
@@ -209,7 +209,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			if (!bConnectedFlag) {
 				waitingDialog.show();
 				if (!AlarmUtil.OnlyConnect(strYstNum)) {
-					showTextToast("连接失败，已经连接或者超过最大连接数");
+					showTextToast(R.string.str_alarm_connect_failed_1);
 					waitingDialog.dismiss();
 				}
 			} else {
@@ -243,7 +243,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			case JVNetConst.JVN_REQ_TEXT:
 			case JVNetConst.JVN_RSP_TEXTDATA:
 				DismissDialog();
-				showTextToast("主控绑定设备超时");
+				showTextToast(R.string.str_alarm_binddev_timeout);
 				break;
 
 			default:
@@ -266,7 +266,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			case JVNetConst.CONNECT_OK: {// 1 -- 连接成功
 				MyLog.e("New alarm", "连接成功");
 				bConnectedFlag = true;
-				showTextToast("连接成功");
+				showTextToast(R.string.str_alarm_connect_success);
 				// 首先需要发送文本聊天请求
 				Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
 						(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
@@ -349,7 +349,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 文本请求聊天终止
 				DismissDialog();
 				bNeedSendTextReq = true;
-				showTextToast("文本请求聊天终止");
+				showTextToast(R.string.str_alarm_textdata_req_over);
 				break;
 			case JVNetConst.JVN_RSP_TEXTDATA: {
 				DismissDialog();
@@ -360,11 +360,12 @@ public class AddThirdDevActivity extends BaseActivity implements
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-						showTextToast("TextData回调obj参数转Json异常");
+						// showTextToast("TextData回调obj参数转Json异常");
+						MyLog.e("Third Dev", "TextData回调obj参数转Json异常");
 						return;
 					}
 				} else {
-					showTextToast("TextData回调obj参数is null");
+					// showTextToast("TextData回调obj参数is null");
 					MyLog.e("Third Dev", "TextData回调obj参数is null");
 					return;
 				}
@@ -398,7 +399,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 											.parseInt(split[1]);
 								}
 							}
-							showTextToast("绑定设备成功");
+							showTextToast(R.string.str_alarm_binddev_success);
 							dev_uid = addAlarm.dev_uid; // /////////////////////////
 							BindThirdDevNicknameFragment nicknameFragment = new BindThirdDevNicknameFragment();
 							FragmentTransaction transaction = getSupportFragmentManager()
@@ -418,7 +419,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 							// Commit the transaction
 							transaction.commit();
 						} else if (addResult == 2) {// 超过最大数
-							showTextToast("超过最大数");
+							showTextToast(R.string.str_alarm_binddev_max);
 						} else if (addResult == 3) {// 重复绑定
 							ThirdAlarmDev tmp_alarm = new ThirdAlarmDev();
 							for (int i = 0; i < addStrArray.length; i++) {
@@ -482,10 +483,11 @@ public class AddThirdDevActivity extends BaseActivity implements
 							finish();
 						} else {
 							// 失败
-							showTextToast("设置昵称失败");
+							showTextToast(R.string.str_alarm_binddev_setnickname_failed);
 						}
 					} else {
-						showTextToast("TextData回调obj参数is null");
+						// showTextToast("TextData回调obj参数is null");
+						MyLog.e("Alarm", "TextData回调obj参数is null");
 					}
 					break;
 				default:
@@ -495,7 +497,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 				break;
 			default:
 				DismissDialog();
-				showTextToast("TextData其他回调" + arg2);
+				// showTextToast("TextData其他回调" + arg2);
 				break;
 			}
 		}
@@ -542,7 +544,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			//
 			waitingDialog.show();
 			if (!AlarmUtil.OnlyConnect(strYstNum)) {
-				showTextToast("连接失败，已经连接或者超过最大连接数");
+				showTextToast(R.string.str_alarm_connect_failed_1);
 				waitingDialog.dismiss();
 			}
 		} else {

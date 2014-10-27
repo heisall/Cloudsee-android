@@ -2,7 +2,6 @@ package neo.droid.p2r;
 
 import neo.droid.p2r.internal.EmptyViewMethodAccessor;
 import neo.droid.p2r.internal.IndicatorLayout;
-import android.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -19,6 +18,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+
+import com.jovetech.CloudSee.temp.R;
 
 public abstract class PullToRefreshAdapterViewBase<T extends AbsListView>
 		extends PullToRefreshBase<T> implements OnScrollListener {

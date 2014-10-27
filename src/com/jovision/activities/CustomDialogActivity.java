@@ -9,7 +9,6 @@ import java.io.InputStream;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.bean.PushInfo;

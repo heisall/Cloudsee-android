@@ -1,7 +1,6 @@
 package neo.droid.p2r.internal;
 
 import neo.droid.p2r.PullToRefreshBase;
-import android.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Matrix;
@@ -16,6 +15,8 @@ import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+
+import com.jovetech.CloudSee.temp.R;
 
 @SuppressLint("ViewConstructor")
 public class IndicatorLayout extends FrameLayout implements AnimationListener {

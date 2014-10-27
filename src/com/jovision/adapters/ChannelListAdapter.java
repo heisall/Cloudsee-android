@@ -2,7 +2,6 @@ package com.jovision.adapters;
 
 import java.util.ArrayList;
 
-import android.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
 import com.jovision.bean.Channel;
 import com.jovision.utils.ConfigUtil;

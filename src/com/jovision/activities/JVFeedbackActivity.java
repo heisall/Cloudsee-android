@@ -2,7 +2,6 @@ package com.jovision.activities;
 
 import java.util.Calendar;
 
-import android.R;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.Editable;
@@ -14,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;

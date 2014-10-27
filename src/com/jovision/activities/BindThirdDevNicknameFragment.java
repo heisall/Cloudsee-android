@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import android.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.utils.RegularUtil;
 
 public class BindThirdDevNicknameFragment extends Fragment implements

@@ -2,7 +2,6 @@ package neo.droid.p2r;
 
 import neo.droid.p2r.internal.EmptyViewMethodAccessor;
 import neo.droid.p2r.internal.LoadingLayout;
-import android.R;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -16,6 +15,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.jovetech.CloudSee.temp.R;
 
 public class PullToRefreshListView extends
 		PullToRefreshAdapterViewBase<ListView> {

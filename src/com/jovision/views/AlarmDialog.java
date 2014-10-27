@@ -2,7 +2,6 @@ package com.jovision.views;
 
 import java.util.ArrayList;
 
-import android.R;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.JVPlayActivity;
 import com.jovision.bean.Device;

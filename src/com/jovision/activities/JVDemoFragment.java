@@ -2,7 +2,6 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
-import android.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.DemoListAdapter;
 import com.jovision.bean.Device;

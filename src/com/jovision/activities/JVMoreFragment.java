@@ -2,7 +2,6 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
-import android.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,6 +18,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;

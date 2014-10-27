@@ -10,7 +10,6 @@ import java.util.TimerTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -46,6 +45,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.IpcWifiAdapter;

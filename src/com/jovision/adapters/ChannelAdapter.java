@@ -2,7 +2,6 @@ package com.jovision.adapters;
 
 import java.util.ArrayList;
 
-import android.R;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -18,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseFragment;
 import com.jovision.bean.Channel;
 

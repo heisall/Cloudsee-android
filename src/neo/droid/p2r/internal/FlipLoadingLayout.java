@@ -2,7 +2,6 @@ package neo.droid.p2r.internal;
 
 import neo.droid.p2r.PullToRefreshBase.Mode;
 import neo.droid.p2r.PullToRefreshBase.Orientation;
-import android.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -13,6 +12,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView.ScaleType;
+
+import com.jovetech.CloudSee.temp.R;
 
 @SuppressLint("ViewConstructor")
 public class FlipLoadingLayout extends LoadingLayout {

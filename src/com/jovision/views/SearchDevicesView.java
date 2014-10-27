@@ -2,7 +2,6 @@ package com.jovision.views;
 
 import java.io.IOException;
 
-import android.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
@@ -16,6 +15,7 @@ import android.media.MediaPlayer;
 import android.util.AttributeSet;
 
 import com.jovetech.CloudSee.temp.BuildConfig;
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.CommonInterface;
 

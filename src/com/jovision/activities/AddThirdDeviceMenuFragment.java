@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import android.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +8,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.jovetech.CloudSee.temp.R;
 
 public class AddThirdDeviceMenuFragment extends Fragment implements
 		OnClickListener {

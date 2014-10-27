@@ -3,7 +3,6 @@ package com.jovision.activities;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import android.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -20,6 +19,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.bean.WifiAdmin;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyActivityManager;

@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import android.R;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;

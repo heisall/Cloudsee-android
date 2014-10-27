@@ -2,7 +2,6 @@ package com.jovision.adapters;
 
 import java.util.ArrayList;
 
-import android.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.wifi.ScanResult;
@@ -13,6 +12,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.jovetech.CloudSee.temp.R;
 
 public class IpcWifiAdapter extends BaseAdapter {
 	private ArrayList<ScanResult> scanWifiList = new ArrayList<ScanResult>();

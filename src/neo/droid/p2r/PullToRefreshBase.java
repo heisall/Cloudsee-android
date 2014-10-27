@@ -5,7 +5,6 @@ import neo.droid.p2r.internal.LoadingLayout;
 import neo.droid.p2r.internal.RotateLoadingLayout;
 import neo.droid.p2r.internal.Utils;
 import neo.droid.p2r.internal.ViewCompat;
-import android.R;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -26,6 +25,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
+import com.jovetech.CloudSee.temp.R;
 
 public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 		implements IPullToRefresh<T> {

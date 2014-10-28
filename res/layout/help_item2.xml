@@ -8,8 +8,7 @@
         android:id="@+id/item_one"
         android:layout_width="match_parent"
         android:layout_height="115dp"
-        android:alpha="0.6"
-        android:background="@color/black"
+        android:background="@color/helptransparent"
         android:orientation="horizontal" >
     </LinearLayout>
 
@@ -23,8 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/mydevice_img"
-            android:alpha="0.6"
-            android:background="@color/black"
+            android:background="@color/helptransparent"
             android:orientation="horizontal" >
         </LinearLayout>
 
@@ -32,8 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toRightOf="@+id/mydevice_img"
-            android:alpha="0.6"
-            android:background="@color/black" >
+            android:background="@color/helptransparent" >
         </RelativeLayout>
 
         <ImageView
@@ -48,8 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/mydevice_relative"
-        android:alpha="0.6"
-        android:background="@color/black" >
+        android:background="@color/helptransparent" >
 
         <ImageView
             android:id="@+id/help_img"

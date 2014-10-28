@@ -27,10 +27,13 @@ public class PlayAudio extends Thread {
 		recorder = MICRecorder.getInstance();
 
 		if (8 == audioByte) {
+			MyLog.v("ENCODING", "8---" + ENCODING);
 			ENCODING = AudioFormat.ENCODING_PCM_8BIT;
 		} else {
+			MyLog.v("ENCODING", "16---" + ENCODING);
 			ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 		}
+
 	}
 
 	public void setIndex(int index) {

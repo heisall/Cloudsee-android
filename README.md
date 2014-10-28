@@ -42,25 +42,6 @@
 + 必要的位置添加 @param， @return, @throws, @deprecated
 + 对于明显的 getter 和 setter 方法，完全可以不去写
 
-## 消息分发
-
-消息传递 `what` 常量要求
-
-+ 界面内控件、事件、延迟操作: `0x00` ~ `0x9F`
-+ 底层播放库、外部或第三方库接口回调: `0xA0` ~ `0xFF`
-+ 碎片间消息：`0x0100` ~ `0xFF00`，低两位是零，与前面两项或运算
-+ 活动间消息：`0x010000` ~ `0xFF0000`，低四位是零，与前几项或运算
-
-举个栗子：
-
-界面 A 的碎片 B 想把界面变动事件(0x2E)，告之界面 B
-
-    ActivityA: 0x010000
-    FragmentB: 0x0200
-    OnUiChanged: 0x2E
-
-根据以上数值，可推算出消息的 `what` 为 `0x01022E`
-
 # 应用层
 
 ## 包分布
@@ -91,47 +72,19 @@
 + 通道索引从固定数值开始，递增，最多 64 个，用户可定制个数、顺序
 + 窗口索引是进入播放界面后，可播放的通道序列，从 0 开始，最多同时维持 36 个连接
 
-## 用户行为日志
-
-通过 `MyLog.ub(String)` 方式调用即可，默认会有 DEBUG 级别的 logcat 输出，  
-同时自动追加到 `MyLog` 初始化指定的目录中的 `UB.log` 文件。
-
-日志标题需求
-
-+ 不要换行
-+ 字符数量尽量简短
-+ 层级描述使用 `.` 分割
-+ 不需要额外对时间进行描述
-+ 尽量不要添加中文
-+ 存储成常亮以便触发日志或统计事件时使用
-
-举例
-
-    // 生命周期，TabA 表示 TabActivity，ChannelF 表示 ChannelFragment
-    MyLog.ubTopic(topicName, "TabActivity initialize");
-    
-    // 状态、配置、内部列表发生变化时，注意使用统一的标题名称
-    final String topicName = "ChannelF.clean";
-    MyLog.ubLog(topicName);
-    MyLog.ubLog(topicName, deviceList.toString);
-    
-    // 运行次数、周期统计等
-    final String topicName = "MainA.runtime";
-    MyLog.ubStat(topicName, 100);
-
 # 接口层
 
 ## 版本
 
 播放库版本
 
-    #define MY_VERSION    "0.6d"
-	#define REVISION      "[90d6e3b]"
-	#define RELEASE_DATE  "[2014-10-15]"
+    #define MY_VERSION    "0.7"
+    #define REVISION      "[5711925]"
+    #define RELEASE_DATE  "[2014-10-27]"
 
 网络库版本
 
-    v2.0.76.3.6[private:v2.0.75.13 201401014.1]
+    v2.0.76.3.7[private:v2.0.75.13 201401014.1]
 
 ## 播放库主要功能
 
@@ -155,16 +108,6 @@
 6. 编码音频可独立使用
 7. 断开所有连接并接收指定回调
 8. 反初始化
-
-## 文件树结构
-
-+ `depends`: 解码、显示、网络库等依赖头文件
-+ `libs`: 依赖静态库文件
-+ `defines.h`: 全局定义头文件
-+ `play.*`: 应用层对应接口及实现
-+ `utils/commons.*`: 底层通用方法
-+ `utils/callbacks.*`: 网络库回调函数
-+ `utils/threads.*`: 内部线程函数
 
 ## 延迟统计
 

@@ -108,8 +108,12 @@ public class JVMoreFragment extends BaseFragment {
 		switch (what) {
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-			new AlarmDialog(mActivity).Show(obj);
-
+			if (null != mActivity) {
+				new AlarmDialog(mActivity).Show(obj);
+			} else {
+				MyLog.e("Alarm",
+						"onHandler mActivity is null ,so dont show the alarm dialog");
+			}
 			break;
 		}
 	}

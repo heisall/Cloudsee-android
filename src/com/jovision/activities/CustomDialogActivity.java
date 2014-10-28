@@ -67,7 +67,7 @@ public class CustomDialogActivity extends BaseActivity implements
 		bDownLoadFileType = 0;// 默认先下载图片
 		PushInfo pushInfo = (PushInfo) intent.getSerializableExtra("PUSH_INFO");
 		if (pushInfo == null) {
-			showTextToast("数据为空");
+			showTextToast(R.string.str_alarm_pushinfo_obj_null);
 			return;
 		}
 		msg_tag = pushInfo.messageTag;
@@ -113,7 +113,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				if (!strImgUrl.equals("")) {
 					Jni.setDownloadFileName(localImgPath);
 					if (!AlarmUtil.OnlyConnect(strYstNum)) {
-						showTextToast("连接失败，已经连接或者超过最大连接数");
+						showTextToast(R.string.str_alarm_connect_failed_1);
 						if (!vod_uri_.equals("")) {
 							lookVideoBtn.setEnabled(true);
 						}
@@ -222,7 +222,7 @@ public class CustomDialogActivity extends BaseActivity implements
 					progressdialog.show();
 					if (!AlarmUtil.OnlyConnect(strYstNum)) {
 						progressdialog.dismiss();
-						showTextToast("连接失败，已经连接或者超过最大连接数");
+						showTextToast(R.string.str_alarm_connect_failed_1);
 						lookVideoBtn.setEnabled(true);
 					}
 				} else {
@@ -237,7 +237,7 @@ public class CustomDialogActivity extends BaseActivity implements
 					// }
 					if (!AlarmUtil.OnlyConnect(strYstNum)) {
 						progressdialog.dismiss();
-						showTextToast("连接失败，已经连接或者超过最大连接数");
+						showTextToast(R.string.str_alarm_connect_failed_1);
 						lookVideoBtn.setEnabled(true);
 					}
 					// Intent intent = new Intent();
@@ -335,7 +335,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				String strFilePath = "";
 				if (bDownLoadFileType == 0) {
 					strFilePath = strImgUrl;
-					MyLog.e("New Alarm", "DownFile Path:" + strFilePath);
+					MyLog.e("Alarm", "DownFile Path:" + strFilePath);
 					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
 							new byte[0], 0);
@@ -454,13 +454,13 @@ public class CustomDialogActivity extends BaseActivity implements
 				}
 				break;
 			case JVNetConst.JVN_CMD_DOWNLOADSTOP:// 停止文件下载
-				showTextToast("停止文件下载");
+				showTextToast(R.string.str_alarm_download_alarmimg_stopped);
 				break;
 			case JVNetConst.JVN_RSP_DOWNLOADE:// 文件下载失败
-				showTextToast("获取图片失败");
+				showTextToast(R.string.str_alarm_download_alarmimg_failed);
 				break;
 			case JVNetConst.JVN_RSP_DLTIMEOUT:// 文件下载超时
-				showTextToast("获取图片超时");
+				showTextToast(R.string.str_alarm_download_alarmimg_timeout);
 				break;
 			default:
 				break;

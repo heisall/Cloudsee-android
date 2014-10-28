@@ -381,7 +381,7 @@ public class AlarmUtil {
 	}
 
 	/**
-	 * 6.删除报警信息 0失败，1成功
+	 * 6.删除报警信息 0成功，1失败
 	 */
 	public static int deleteAlarmInfo(String userName, String alarmGuid) {
 		int deleteRes = -1;
@@ -436,6 +436,51 @@ public class AlarmUtil {
 
 		MyLog.v("deleteAlarmInfo---res", deleteRes + "");
 		return deleteRes;
+	}
+
+	/**
+	 * 7.清空报警信息 0成功，1失败
+	 */
+	public static int clearAlarmInfo() {
+		int clearRes = -1;
+
+		JSONObject jObj = new JSONObject();
+		/**
+		 * 新协议传输参数
+		 */
+		try {
+			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_LPT, 11);
+			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_MT, 6004);
+			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_PV, "1.0");
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		MyLog.d("Alarm", "clearAlarmInfo:" + jObj.toString());
+		// 接收返回数据
+		byte[] resultStr = new byte[1024 * 2];
+
+		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+		if (ret == 0) {// 操作成功
+			String result = new String(resultStr);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						clearRes = temObj.optInt(JVAlarmConst.JK_ALARM_NEW_RT);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		} else {
+			clearRes = ret;
+		}
+
+		MyLog.v("Alarm", "clearAlarmInfo---res: " + clearRes + ", ret:" + ret);
+		return clearRes;
 	}
 
 	public static boolean OnlyConnect(String strYstNum) {

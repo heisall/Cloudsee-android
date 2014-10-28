@@ -117,6 +117,7 @@ public class ManageFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		mActivity = (BaseActivity) getActivity();
 		isDevice = deviceList.get(deviceIndex).getIsDevice();
 	}
 
@@ -166,16 +167,27 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 4: {// 立即观看
-				MyLog.v(TAG, "prepareConnect1--" + deviceList.toString());
-				PlayUtil.prepareConnect(deviceList, deviceIndex, true);
-				MyLog.v(TAG, "prepareConnect2--" + deviceList.toString());
-				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				intentPlay.putExtra("DeviceIndex", deviceIndex);
-				intentPlay.putExtra("ChannelofChannel", device.getChannelList()
-						.toList().get(0).getChannel());
-				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+				if (0 == deviceList.get(deviceIndex).getOnlineState()) {
+					mActivity.showTextToast(R.string.offline_not_play);
+				} else {
+					ArrayList<Device> playList = PlayUtil.prepareConnect(
+							deviceList, deviceIndex, localFlag);
 
-				mActivity.startActivity(intentPlay);
+					Intent intentPlay = new Intent(mActivity,
+							JVPlayActivity.class);
+					intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
+							playList.toString());
+					intentPlay.putExtra(
+							"DeviceIndex",
+							PlayUtil.getPlayIndex(playList,
+									deviceList.get(deviceIndex).getFullNo()));
+					intentPlay.putExtra("ChannelofChannel", device
+							.getChannelList().toList().get(0).getChannel());
+					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+
+					mActivity.startActivity(intentPlay);
+				}
+
 				break;
 			}
 			case 5: {// 添加设备
@@ -350,7 +362,12 @@ public class ManageFragment extends BaseFragment {
 		}
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
-			new AlarmDialog(mActivity).Show(obj);
+			if (null != mActivity) {
+				new AlarmDialog(mActivity).Show(obj);
+			} else {
+				MyLog.e("Alarm",
+						"onHandler mActivity is null ,so dont show the alarm dialog");
+			}
 			break;
 		default:
 			break;

@@ -66,8 +66,7 @@
             android:id="@+id/more_relative"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:alpha="0.1"
-            android:background="@color/black"
+            android:background="@color/moretransparent"
             android:visibility="gone" >
         </RelativeLayout>
     </FrameLayout>

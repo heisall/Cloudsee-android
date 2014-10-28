@@ -274,6 +274,12 @@ public class Consts {
 	/** 帮助图案首次显示标志 */
 	public static String MORE_FREGMENT_FEEDBACK = "IS_FIRST";
 
+	/** 提示不支持04版解码器 */
+	public static String DIALOG_NOT_SUPPORT04 = "NOT_SUPPORT04";
+
+	/** 提示不支持2.3系统 */
+	public static String DIALOG_NOT_SUPPORT23 = "NOT_SUPPORT23";
+
 	// /** 功能设置页面场景图片标志位 */
 	// public static String SETTING_SCENE = "SCENE";
 	//

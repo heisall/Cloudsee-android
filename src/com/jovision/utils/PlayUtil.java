@@ -773,16 +773,36 @@ public class PlayUtil {
 		// }
 	}
 
-	public static void prepareConnect(ArrayList<Device> deviceList,
-			int deviceIndex, boolean save) {
+	// 根据在线状态排序
+	public static ArrayList<Device> getOnLineList(ArrayList<Device> devList,
+			boolean local) {
+		ArrayList<Device> onlineDevice = new ArrayList<Device>();
+		if (!local) {
+			for (Device dev : devList) {
+				if (1 == dev.getOnlineState()) {
+					onlineDevice.add(dev);
+				}
+			}
+		} else {
+			return devList;
+		}
+
+		return onlineDevice;
+	}
+
+	public static String prepareConnect(ArrayList<Device> deviceList,
+			int deviceIndex, boolean local) {
+		// 获取真正播放的列表
+		ArrayList<Device> playList = getOnLineList(deviceList, local);
+
 		ArrayList<Channel> clist = new ArrayList<Channel>();
 
 		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
-			for (Device device : deviceList) {
+			for (Device device : playList) {
 				clist.addAll(device.getChannelList().toList());
 			}
 		} else {
-			clist.addAll(deviceList.get(deviceIndex).getChannelList().toList());
+			clist.addAll(playList.get(deviceIndex).getChannelList().toList());
 		}
 
 		int size = clist.size();
@@ -790,9 +810,11 @@ public class PlayUtil {
 			// [Neo] 循环利用播放数组，我 tm 就是个天才
 			clist.get(i).setIndex(i);// % Consts.MAX_CHANNEL_CONNECTION);
 		}
-		if (save) {
-			CacheUtil.saveDevList(deviceList);
-		}
+		// if (save) {
+		// CacheUtil.saveDevList(deviceList);
+		// }
+
+		return playList.toString();
 
 	}
 

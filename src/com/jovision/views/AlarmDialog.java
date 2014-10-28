@@ -119,7 +119,8 @@ public class AlarmDialog extends Dialog {
 							return;
 						}
 
-						PlayUtil.prepareConnect(deviceList, dev_index, true);// 该函数里已经调用SaveList了
+						String jsonStr = PlayUtil.prepareConnect(deviceList,
+								dev_index, false);// 该函数里已经调用SaveList了
 						// MyLog.v("Alarm",
 						// "prepareConnect2--" + deviceList.toString());
 						// CacheUtil.saveDevList(deviceList);
@@ -127,7 +128,7 @@ public class AlarmDialog extends Dialog {
 						Intent intentPlay = new Intent(context,
 								JVPlayActivity.class);
 						intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-
+						intentPlay.putExtra(Consts.KEY_PLAY_NORMAL, jsonStr);
 						intentPlay.putExtra("DeviceIndex", dev_index);
 						if (deviceList.get(dev_index).getChannelList().size() == 0) {
 							Toast.makeText(

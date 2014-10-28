@@ -445,7 +445,7 @@
     <string name="pressback_exit">再按一次退出程序</string>
 
     <!-- 2.3系统视频播放提示 -->
-    <string name="system_lower">您的手机系统是Android$,视频播放时有可能出现花屏，为达到最佳播放效果，建议下载2.8.5版本，是否立即下载?</string>
+    <string name="system_lower">您的手机系统是Android$,视频播放时有可能出现花屏，为达到最佳播放效果，建议下载2.8.5版本，安装前请先卸载当前版本，是否立即下载?</string>
     <string name="no_more_tips">不再提示</string>
     <string name="download">立即下载</string>
     <string name="not_support_old">该版本不再支持04版解码，如果仍想观看，建议下载2.8.5版本，是否立即下载?</string>
@@ -475,7 +475,7 @@
     <string name="wifi_device">无线设备</string>
     <string name="line_device">有线设备</string>
     <string name="selectone_to_connect">请选择至少一个通道进行连接</string>
-    <string name="add_broad_dev">广播到?个设备，是否立即添加?</string>
+    <string name="add_broad_dev">广播到!个设备，是否立即添加?</string>
     <string name="broad_zero">未广播到设备.</string>
 
     <!-- JVInfoFragement -->
@@ -494,7 +494,8 @@
     <string name="connfailed_auth_tips">身份验证不成功，是否修改用户名密码?</string>
     <string name="connect_failed">连接失败</string>
     <string name="connecting">连接中…</string>
-    <string name="connecting_buffer">正在缓冲…</string>
+    <string name="connecting_buffer1">正在缓冲</string>
+    <string name="connecting_buffer2">正在缓冲…</string>
     <string name="is_omx">硬解</string>
     <string name="not_omx">软解</string>
     <string name="not_support_oxm">您的手机可能不支持硬解.</string>
@@ -612,7 +613,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.32(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.33(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->

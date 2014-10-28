@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
@@ -27,9 +28,13 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -45,7 +50,6 @@ import com.jovision.commons.MyGestureDispatcher;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.PlayWindowManager;
-import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
@@ -53,8 +57,9 @@ import com.jovision.utils.PlayUtil;
 public class JVPlayActivity extends PlayActivity implements
 		PlayWindowManager.OnUiListener {
 
-	private static final int CONNECTING = 0x70;
-	private static final int BUFFERING = 0x71;
+	// private static final int CONNECTING = 0x70;
+	// private static final int BUFFERING = 0x71;
+	private static final int DISMISS_DIALOG = 0x70;
 
 	private PlayWindowManager manager;
 
@@ -196,6 +201,10 @@ public class JVPlayActivity extends PlayActivity implements
 		MyLog.i("onHandler", "what=" + what + ",arg1=" + arg1 + ",arg2=" + arg2
 				+ ",obj=" + obj);
 		switch (what) {
+		case DISMISS_DIALOG: {
+			dismissDialog();
+			break;
+		}
 		// 开始连接
 		case JVConst.WHAT_STARTING_CONNECT: {
 			loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTING);
@@ -210,7 +219,7 @@ public class JVPlayActivity extends PlayActivity implements
 			switch (arg2) {
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
-				loadingState(arg1, R.string.connecting_buffer,
+				loadingState(arg1, R.string.connecting_buffer2,
 						JVConst.PLAY_CONNECTING_BUFFER);
 				break;
 			}
@@ -291,6 +300,9 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null == channel) {
 				return;
 			}
+			// loadingState(arg1, R.string.connecting_buffer2,
+			// JVConst.PLAY_CONNECTING_BUFFER);
+
 			MyLog.v("NORMALDATA", obj.toString());
 			// {"autdio_bit":16,"autdio_channel":1,"autdio_sample_rate":8000,"autdio_type":2,"auto_stop_recorder":false,"device_type":4,"fps":15.0,"height":288,"is05":true,"reserved":0,"start_code":290674250,"width":352}
 
@@ -318,8 +330,13 @@ public class JVPlayActivity extends PlayActivity implements
 
 					if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
 						// TODO
-						errorDialog(getResources().getString(
-								R.string.not_support_old));
+						if (!MySharedPreference
+								.getBoolean(Consts.DIALOG_NOT_SUPPORT04)) {
+							errorDialog(
+									Consts.DIALOG_NOT_SUPPORT04,
+									getResources().getString(
+											R.string.not_support_old));
+						}
 					}
 
 				}
@@ -403,7 +420,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		case Consts.CALL_PLAY_DOOMED: {
 			if (Consts.HDEC_BUFFERING == arg2) {
-				loadingState(arg1, R.string.connecting_buffer,
+				loadingState(arg1, R.string.connecting_buffer2,
 						JVConst.PLAY_CONNECTING_BUFFER);
 			}
 
@@ -883,15 +900,21 @@ public class JVPlayActivity extends PlayActivity implements
 		currentScreen = intent.getIntExtra("Screen", 1);
 
 		if (Consts.PLAY_NORMAL == playFlag) {
-			deviceList = CacheUtil.getDevList();
+			String devJsonString = intent
+					.getStringExtra(Consts.KEY_PLAY_NORMAL);
+			// MySharedPreference
+			// .getString(Consts.KEY_PLAY_NORMAL);
+			deviceList = Device.fromJsonArray(devJsonString);
 			MyLog.v("播放-E", deviceList.toString());
 		} else if (Consts.PLAY_DEMO == playFlag) {
-			String devJsonString = MySharedPreference
-					.getString(Consts.KEY_PLAY_DEMO);
+			String devJsonString = intent.getStringExtra(Consts.KEY_PLAY_DEMO);
+			// MySharedPreference
+			// .getString(Consts.KEY_PLAY_DEMO);
 			deviceList = Device.fromJsonArray(devJsonString);
 		} else if (Consts.PLAY_AP == playFlag) {
-			String devJsonString = MySharedPreference
-					.getString(Consts.KEY_PLAY_AP);
+			String devJsonString = intent.getStringExtra(Consts.KEY_PLAY_AP);
+			// MySharedPreference
+			// .getString(Consts.KEY_PLAY_AP);
 			deviceList = Device.fromJsonArray(devJsonString);
 		}
 
@@ -1118,9 +1141,17 @@ public class JVPlayActivity extends PlayActivity implements
 		Jni.setStat(true);
 		// 2.几的系统有可能花屏
 		if (MobileUtil.mobileSysVersion(JVPlayActivity.this).startsWith("2")) {
-			errorDialog(getResources().getString(R.string.system_lower)
-					.replace("$",
-							MobileUtil.mobileSysVersion(JVPlayActivity.this)));
+			if (!MySharedPreference.getBoolean(Consts.DIALOG_NOT_SUPPORT23)) {
+				errorDialog(
+						Consts.DIALOG_NOT_SUPPORT23,
+						getResources()
+								.getString(R.string.system_lower)
+								.replace(
+										"$",
+										MobileUtil
+												.mobileSysVersion(JVPlayActivity.this)));
+			}
+
 		} else if (Build.VERSION_CODES.JELLY_BEAN > Build.VERSION.SDK_INT) {// 小于4.1的系统，不允许硬解
 			lowerSystem = true;
 		}
@@ -1819,6 +1850,25 @@ public class JVPlayActivity extends PlayActivity implements
 
 	};
 
+	// 正在执行返回操作
+	public boolean isBacking = false;
+	private Timer backTimer = null;
+
+	/**
+	 * 返回任务
+	 * 
+	 * @author Administrator
+	 * 
+	 */
+	class BackTask extends TimerTask {
+
+		@Override
+		public void run() {
+			handler.sendMessage(handler.obtainMessage(DISMISS_DIALOG));
+		}
+
+	}
+
 	/**
 	 * 返回事件
 	 */
@@ -1831,37 +1881,19 @@ public class JVPlayActivity extends PlayActivity implements
 				playFunctionList.setVisibility(View.GONE);
 			}
 		} else {
-			stopAllFunc();
 
+			stopAllFunc();
 			createDialog("");
+			proDialog.setCancelable(false);
+
+			// 返回超时，重新点击返回
+			backTimer = new Timer();
+			backTimer.schedule(new BackTask(), 30 * 1000);
+
 			DisconnetTask task = new DisconnetTask();
 			String[] params = new String[3];
 			params[0] = String.valueOf(apBack);
 			task.execute(params);
-			// if (Consts.PLAY_AP == playFlag) {
-			// Jni.disconnect(0);
-			// } else {
-			// PlayUtil.disConnectAll(manager.getChannelList());
-			// }
-			//
-			// try {
-			// Thread.sleep(500);
-			// } catch (InterruptedException e) {
-			// e.printStackTrace();
-			// }
-			//
-			// if (Consts.PLAY_AP == playFlag) {
-			// Intent aintent = new Intent();
-			// if (apBack) {
-			// aintent.putExtra("AP_Back", true);
-			// } else {// next
-			// aintent.putExtra("AP_Back", false);
-			// }
-			// setResult(JVConst.AP_CONNECT_FINISHED, aintent);
-			// JVPlayActivity.this.finish();
-			// } else {
-			// JVPlayActivity.this.finish();
-			// }
 		}
 
 	}
@@ -1889,7 +1921,7 @@ public class JVPlayActivity extends PlayActivity implements
 				// }
 
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -2150,12 +2182,26 @@ public class JVPlayActivity extends PlayActivity implements
 	 * 
 	 * @param tag
 	 */
-	private void errorDialog(String errorMsg) {
+	private void errorDialog(final String key, String errorMsg) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(
 				JVPlayActivity.this);
 		builder.setCancelable(false);
-		builder.setMessage(errorMsg);
+		builder.setTitle(getResources().getString(R.string.tips));
+		LayoutInflater li = JVPlayActivity.this.getLayoutInflater();
+		LinearLayout layout = (LinearLayout) li.inflate(R.layout.system_error,
+				null);
+		TextView alertMsg = (TextView) layout.findViewById(R.id.alerttext);
+		ToggleButton noAlert = (ToggleButton) layout.findViewById(R.id.noalert);
+		alertMsg.setText(errorMsg);
+		noAlert.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
+			@Override
+			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+				MySharedPreference.putBoolean(key, arg1);
+			}
+
+		});
+		builder.setView(layout);
 		builder.setNegativeButton(R.string.download,
 				new DialogInterface.OnClickListener() {
 					@Override
@@ -2538,11 +2584,6 @@ public class JVPlayActivity extends PlayActivity implements
 		stopAll(lastClickIndex, channelList.get(lastClickIndex));
 		manager.pauseAll();
 		PlayUtil.pauseAll(manager.getValidChannelList(lastItemIndex));
-
-		if (Consts.PLAY_NORMAL == playFlag) {
-			MyLog.v("播放-X", deviceList.toString());
-			CacheUtil.saveDevList(deviceList);
-		}
 	}
 
 	@Override

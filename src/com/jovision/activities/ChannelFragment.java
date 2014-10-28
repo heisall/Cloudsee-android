@@ -120,9 +120,10 @@ public class ChannelFragment extends BaseFragment {
 				channelAdapter.notifyDataSetChanged();
 			} else {
 
-				PlayUtil.prepareConnect(deviceList, deviceIndex, true);
+				String jsonStr = PlayUtil.prepareConnect(deviceList,
+						deviceIndex, true);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-
+				intentPlay.putExtra(Consts.KEY_PLAY_NORMAL, jsonStr);
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 				intentPlay.putExtra("DeviceIndex", deviceIndex);
 				// [Neo] 实际上是 int channel

@@ -122,9 +122,9 @@
     <string name="str_voice">Megaphone</string>
     <string name="str_video">Video</string>
     <string name="str_more">More</string>
-    <string name="str_capture_error1">初始化失败</string>
-    <string name="str_capture_error2">图片转换失败</string>
-    <string name="str_capture_error3">文件打开失败</string>
+    <string name="str_capture_error1">Initialization failed</string>
+    <string name="str_capture_error2">Picture conversion failed</string>
+    <string name="str_capture_error3">Files open failed</string>
     <string name="str_switch_video">Switching to video now…</string>
     <string name="str_has_call">Another client is using Cloud Talk function, please use this function later.</string>
     <string name="str_call_close">Disabled the Two-way talk function.</string>
@@ -471,7 +471,7 @@
     <string name="start_now">Enjoy it now</string>
 
     <!-- 2.3系统视频播放提示 -->
-    <string name="system_lower">Your mobile phone O/S is Android$,The video maybe dazzling during playing, please download O/S 2.8.5, do you want to download now?</string>
+    <string name="system_lower">Your mobile phone O/S is Android$,The video maybe dazzling during playing, please download V2.8.5,安装前请先卸载当前版本 do you want to download now?</string>
     <string name="no_more_tips">No reminding</string>
     <string name="download">Download now</string>
     <string name="not_support_old">This version does not support 04 version decoding,if you want to view, please download version2.8.5, do you want to download now?</string>
@@ -489,13 +489,13 @@
     <string name="keeponline_failed">Failed to keep online!</string>
 
     <!-- tab页 下拉刷新 -->
-    <string name="pull_to_refresh">下拉可以刷新</string>
-    <string name="release_to_refresh">释放立即刷新</string>
-    <string name="refreshing">正在刷新…</string>
-    <string name="not_updated_yet">暂未更新过</string>
-    <string name="updated_at">上次更新于%1$s前</string>
-    <string name="updated_just_now">刚刚更新</string>
-    <string name="time_error">时间有问题</string>
+    <string name="pull_to_refresh">Pull to refresh</string>
+    <string name="release_to_refresh">Release to refresh</string>
+    <string name="refreshing">Refreshing Data…</string>
+    <string name="not_updated_yet">Temporarily not updated</string>
+    <string name="updated_at">The latest update within %1$s</string>
+    <string name="updated_just_now">Just update</string>
+    <string name="time_error">something wrong with the time</string>
 
     <!-- JVMyDeviceFragment -->
     <string name="notwifi_forbid_func">This function is not available under 3G/4G network.</string>
@@ -508,7 +508,7 @@
     <string name="wifi_device">Wireless Device</string>
     <string name="line_device">Wired Device</string>
     <string name="selectone_to_connect">Please choose at least one channel to connect.</string>
-    <string name="add_broad_dev">Broadcasting to ? devices,do you want to add?</string>
+    <string name="add_broad_dev">Broadcasting to ! devices,do you want to add?</string>
     <string name="broad_zero">Unable to broadcast device.</string>
 
     <!-- JVDeviceManageFragment -->
@@ -539,7 +539,8 @@
     <string name="connfailed_auth_tips">Failed to verify indentification, do you need to modify username and password?</string>
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting…</string>
-    <string name="connecting_buffer">Buffering now…</string>
+    <string name="connecting_buffer1">Buffering now</string>
+    <string name="connecting_buffer2">Buffering now…</string>
     <string name="is_omx">Hardware Decoding</string>
     <string name="not_omx">Software Decoding</string>
     <string name="not_support_oxm">Your mobile phone does not support hardware decoding.</string>
@@ -631,7 +632,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.32(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.33(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

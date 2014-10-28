@@ -459,13 +459,14 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (0 == result) {
 				ArrayList<Device> devList = new ArrayList<Device>();
 				devList.add(ipcDevice);
-				String jsonStr = PlayUtil.prepareConnect(devList, 0, true);
+				ArrayList<Device> playList = PlayUtil.prepareConnect(devList,
+						0, true);
 				Intent apIntent = new Intent(JVQuickSettingActivity.this,
 						JVPlayActivity.class);
 				apIntent.putExtra("PlayFlag", Consts.PLAY_AP);
 				apIntent.putExtra("DeviceIndex", 0);
 				apIntent.putExtra("ChannelofChannel", 1);
-				apIntent.putExtra(Consts.KEY_PLAY_AP, jsonStr);
+				apIntent.putExtra(Consts.KEY_PLAY_AP, playList.toString());
 				startActivityForResult(apIntent, JVConst.AP_CONNECT_REQUEST);
 			} else if (1 == result) {
 				showTextToast(R.string.str_quick_setting_ap_net_timeout);

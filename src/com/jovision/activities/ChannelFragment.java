@@ -120,12 +120,20 @@ public class ChannelFragment extends BaseFragment {
 				channelAdapter.notifyDataSetChanged();
 			} else {
 
-				String jsonStr = PlayUtil.prepareConnect(deviceList,
-						deviceIndex, true);
+				ArrayList<Device> playList = PlayUtil
+						.prepareConnect(
+								deviceList,
+								deviceIndex,
+								Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+										.get(Consts.LOCAL_LOGIN)));
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				intentPlay.putExtra(Consts.KEY_PLAY_NORMAL, jsonStr);
+				intentPlay
+						.putExtra(Consts.KEY_PLAY_NORMAL, playList.toString());
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-				intentPlay.putExtra("DeviceIndex", deviceIndex);
+				intentPlay.putExtra(
+						"DeviceIndex",
+						PlayUtil.getPlayIndex(playList,
+								deviceList.get(deviceIndex).getFullNo()));
 				// [Neo] 实际上是 int channel
 				intentPlay.putExtra("ChannelofChannel", arg1);
 
@@ -225,11 +233,20 @@ public class ChannelFragment extends BaseFragment {
 				break;
 			}
 			case R.id.connect_all:
-				PlayUtil.prepareConnect(deviceList, deviceIndex, true);
+				ArrayList<Device> playList = PlayUtil
+						.prepareConnect(
+								deviceList,
+								deviceIndex,
+								Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+										.get(Consts.LOCAL_LOGIN)));
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-
+				intentPlay
+						.putExtra(Consts.KEY_PLAY_NORMAL, playList.toString());
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-				intentPlay.putExtra("DeviceIndex", deviceIndex);
+				intentPlay.putExtra(
+						"DeviceIndex",
+						PlayUtil.getPlayIndex(playList,
+								deviceList.get(deviceIndex).getFullNo()));
 
 				int screen = 0;
 				int size = deviceList.get(deviceIndex).getChannelList().size();

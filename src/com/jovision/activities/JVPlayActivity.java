@@ -714,24 +714,24 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (isReady) {
 				if (1 != currentScreen) {
-					@SuppressWarnings("unchecked")
-					final ArrayList<Channel> temList = (ArrayList<Channel>) currentPageChannelList
-							.clone();
-					new Thread() {
-						@Override
-						public void run() {
-							for (int i = 0; i < size; i++) {
-								resumeChannel(temList.get(i));
-								try {
-									sleep(200);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-
-							}
-						}
-
-					};
+					// final ArrayList<Channel> temList = (ArrayList<Channel>)
+					// currentPageChannelList
+					// .clone();
+					// new Thread() {
+					// @Override
+					// public void run() {
+					// for (int i = 0; i < size; i++) {
+					// resumeChannel(temList.get(i));
+					// try {
+					// sleep(200);
+					// } catch (InterruptedException e) {
+					// e.printStackTrace();
+					// }
+					//
+					// }
+					// }
+					//
+					// };
 
 					for (int i = 0; i < size; i++) {
 						resumeChannel(currentPageChannelList.get(i));
@@ -2069,7 +2069,7 @@ public class JVPlayActivity extends PlayActivity implements
 	public void sendCmd(int cmd) {
 		PlayUtil.sendCtrlCMDLongPush(lastClickIndex, cmd, true);
 		try {
-			Thread.sleep(400);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

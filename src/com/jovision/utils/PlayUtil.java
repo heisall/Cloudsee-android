@@ -790,8 +790,8 @@ public class PlayUtil {
 		return onlineDevice;
 	}
 
-	public static String prepareConnect(ArrayList<Device> deviceList,
-			int deviceIndex, boolean local) {
+	public static ArrayList<Device> prepareConnect(
+			ArrayList<Device> deviceList, int deviceIndex, boolean local) {
 		// 获取真正播放的列表
 		ArrayList<Device> playList = getOnLineList(deviceList, local);
 
@@ -814,8 +814,21 @@ public class PlayUtil {
 		// CacheUtil.saveDevList(deviceList);
 		// }
 
-		return playList.toString();
+		return playList;
+	}
 
+	// 获取播放列表中的index
+	public static int getPlayIndex(ArrayList<Device> playList, String devNum) {
+		int index = 0;
+		int size = playList.size();
+		for (int i = 0; i < size; i++) {
+			Device dev = playList.get(i);
+			if (devNum.equalsIgnoreCase(dev.getFullNo())) {
+				index = i;
+				break;
+			}
+		}
+		return index;
 	}
 
 	// /**

@@ -101,13 +101,15 @@ public class JVDemoActivity extends BaseActivity {
 				long arg3) {
 
 			Device dev = demoList.get(arg2);
-			String jsonStr = PlayUtil.prepareConnect(demoList, arg2, true);
+			ArrayList<Device> playList = PlayUtil.prepareConnect(demoList,
+					arg2, true);
 
 			// String devJsonString = Device.listToString(demoList);
 			Intent intentPlay = new Intent(JVDemoActivity.this,
 					JVPlayActivity.class);
-			intentPlay.putExtra(Consts.KEY_PLAY_DEMO, jsonStr);
-			intentPlay.putExtra("DeviceIndex", arg2);
+			intentPlay.putExtra(Consts.KEY_PLAY_DEMO, playList.toString());
+			intentPlay.putExtra("DeviceIndex", PlayUtil.getPlayIndex(playList,
+					demoList.get(arg2).getFullNo()));
 			intentPlay.putExtra("ChannelofChannel", dev.getChannelList()
 					.toList().get(0).getChannel());
 			// intentPlay.putExtra("DevJsonString", devJsonString);

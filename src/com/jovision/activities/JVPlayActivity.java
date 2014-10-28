@@ -703,36 +703,20 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case WHAT_CHECK_SURFACE: {
-			boolean isReady = true;
-			final int size = currentPageChannelList.size();
+			boolean hasNull = false;
+			boolean hasChannel = false;
+
+			int size = currentPageChannelList.size();
 			for (int i = 0; i < size; i++) {
+				hasChannel = true;
 				if (null == currentPageChannelList.get(i).getSurface()) {
-					isReady = false;
+					hasNull = true;
 					break;
 				}
 			}
 
-			if (isReady) {
+			if (hasChannel && false == hasNull) {
 				if (1 != currentScreen) {
-					// final ArrayList<Channel> temList = (ArrayList<Channel>)
-					// currentPageChannelList
-					// .clone();
-					// new Thread() {
-					// @Override
-					// public void run() {
-					// for (int i = 0; i < size; i++) {
-					// resumeChannel(temList.get(i));
-					// try {
-					// sleep(200);
-					// } catch (InterruptedException e) {
-					// e.printStackTrace();
-					// }
-					//
-					// }
-					// }
-					//
-					// };
-
 					for (int i = 0; i < size; i++) {
 						resumeChannel(currentPageChannelList.get(i));
 					}

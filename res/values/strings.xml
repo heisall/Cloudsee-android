@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
-    <string name="tab_home">"首页"</string>
-    <string name="tab_search">"搜索"</string>
-    <string name="tab_settings">"设置"</string>
-    <string name="title_home">"首页"</string>
-    <string name="title_search">"搜索"</string>
-    <string name="title_settings">"设置"</string>
-    <string name="back">"返回"</string>
-    <string name="help">"帮助"</string>
-    <string name="fragment_home_text">"这是首页"</string>
-    <string name="fragment_search_text">"这是搜索"</string>
-    <string name="fragment_settings_text">"这是设置"</string>
     <string name="action_settings">Setting</string>
     <string name="hello_world">Hello world!</string>
     <!-- getResources().getString(R.string.login_str_loging) -->
     <!-- LoginUtil -->
-    <string name="login_str_loging">Login now...</string>
-    <string name="remote_filepath">C://我的文件</string>
+    <string name="login_str_loging">Login now…</string>
     <string name="login_str_username_notnull">Please input username.</string>
     <string name="login_str_loginpass1_notnull">Please input password.</string>
     <string name="login_str_loginpass2_notnull">Please input password confirmation.</string>
@@ -28,8 +16,8 @@
     <string name="login_str_username_tips">Format for the username is not correct, and it can only be email address.</string>
     <string name="login_str_username_tips2">Username can\'t be all numbers.</string>
     <string name="login_str_username_tips3">User name should be composed of letter, number and -_</string>
-    <string name="login_str_username_tips4">Username should be 4-28 characters.</string>
-    <string name="login_str_password_tips1">Password should be 6-20 characters.</string>
+    <string name="login_str_username_tips4">Username should be 4–28 characters.</string>
+    <string name="login_str_password_tips1">Password should be 6–20 characters.</string>
     <string name="login_str_password_tips2">Password can not be same</string>
     <string name="login_str_password_tips3">Password can not be consecutive number or character</string>
     <string name="login_str_password_tips4">Password can not be consecutive number or character</string>
@@ -44,12 +32,12 @@
     <string name="login_str_add_device">Add Device</string>
     <string name="login_str_add_group">increase the grouping</string>
     <string name="login_str_device_devicename_notnull">Please input nickname for the device</string>
-    <string name="login_str_nike_name_order">Ilegal character,the NikeName should be English letter,number,or special characters like .-_+()</string>
+    <string name="login_str_nike_name_order">Ilegal character,the NikeName should be English letter,number,or special characters like .–_+()</string>
     <string name="login_str_device_account_notnull">Please input username.</string>
     <string name="login_str_device_pass_notnull">Please input password.</string>
     <string name="login_str_device_connnum_notnull">number of channels can not be empty</string>
-    <string name="login_str_device_account_error">Username format incorrect, it can only be formed by 1-15 letters,numbers or _-.</string>
-    <string name="login_str_device_pass_error">Password format incorrect, it can only be formed by 0-15 letters,numbers or _-.</string>
+    <string name="login_str_device_account_error">Username format incorrect, it can only be formed by 1–15 letters,numbers or _–.</string>
+    <string name="login_str_device_pass_error">Password format incorrect, it can only be formed by 0–15 letters,numbers or _–.</string>
     <string name="login_str_device_add_success">Device added successfully</string>
     <string name="login_str_device_add_failed">Failed to add device</string>
     <string name="login_str_group_name_notnull">group name can not be empty</string>
@@ -60,7 +48,7 @@
     <string name="login_str_point_delete_failed">Channel deleted failed</string>
     <string name="login_str_point_add_success">Channel added successfully</string>
     <string name="login_str_point_add_failed">Channel added failed</string>
-    <string name="login_str_point_add_full">Fail to add due to upto limition of Device channel quantity.</string>
+    <string name="login_str_point_add_full">Fail to add due to up to limition of Device channel quantity.</string>
     <string name="login_str_point_edit_success">Channel modified successfully</string>
     <string name="login_str_point_edit_failed">Channel modified failed</string>
     <string name="login_str_device_delete_success">Device deleted successfully</string>
@@ -111,7 +99,7 @@
     <string name="nikename">NickName</string>
     <string name="nikename2">NickName</string>
     <string name="str_nikename_notnull">Please input the nickname</string>
-    <string name="str_deleting">Operating...</string>
+    <string name="str_deleting">Operating…</string>
     <string name="str_point_nikename_exist">This nickname existed already, please choose another.</string>
     <!-- 视频播放 -->
     <string name="str_screen"> channels</string>
@@ -134,10 +122,10 @@
     <string name="str_voice">Megaphone</string>
     <string name="str_video">Video</string>
     <string name="str_more">More</string>
-    <string name="str_capture_error1">初始化失败</string>
-    <string name="str_capture_error2">图片转换失败</string>
-    <string name="str_capture_error3">文件打开失败</string>
-    <string name="str_switch_video">Switching to video now...</string>
+    <string name="str_capture_error1">Initialization failed</string>
+    <string name="str_capture_error2">Picture conversion failed</string>
+    <string name="str_capture_error3">Files open failed</string>
+    <string name="str_switch_video">Switching to video now…</string>
     <string name="str_has_call">Another client is using Cloud Talk function, please use this function later.</string>
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="str_play_failed"> play the video failed</string>
@@ -151,7 +139,7 @@
     <string name="str_sina_share_success">Released Successfully</string>
     <string name="str_sina_share_failed">Released Failed </string>
     <string name="str_publish">Release</string>
-    <string name="str_publishing">Releasing...</string>
+    <string name="str_publishing">Releasing…</string>
     <string name="str_sina_success">Authenticated successfully</string>
     <string name="str_alarm">Alarm</string>
     <string name="str_alarm_info">Alarm information</string>
@@ -160,7 +148,7 @@
     <string name="str_scenepic">Scene picture</string>
     <string name="str_account">Account</string>
     <string name="str_help">Help</string>
-    <string name="str_logining_out">Log Out...</string>
+    <string name="str_logining_out">Log Out…</string>
     <string name="str_video_mode">Browse model</string>
     <string name="str_video_single_mode">Single</string>
     <string name="str_video_more_mode">Multi</string>
@@ -170,7 +158,7 @@
     <string name="str_shake_device_tips">Shake function is for Home Security products only.It\'s normal that WLAN has been switched during configuring. Shake function steps as below：\n1.Shake the mobile phone and the device signal IPC-H-*** can be found then, click to enter the configuration interface.\n2.Choose the WiFi and input the password, click Done until the configuration has been finished.</string>
     <string name="str_open_shake_device">Open</string>
     <string name="str_shake_device_learn_more">Learn more</string>
-    <string name="str_checkupdating">Checking for updates...</string>
+    <string name="str_checkupdating">Checking for updates…</string>
     <string name="str_check_update_failed">Check updates failed</string>
     <string name="str_checkupdate">Software Update</string>
     <string name="str_already_newest">Already newest</string>
@@ -230,7 +218,7 @@
     <string name="str_delete_tip">Tips</string>
     <!-- 登录 -->
     <string name="login_str_fast_view">Fast Monitor</string>
-    <string name="login_str_searching_device">The device is being searched\nWait a moment...</string>
+    <string name="login_str_searching_device">The device is being searched\nWait a moment…</string>
     <string name="login_str_search_nodevice">The device is not searched,please check Wi-Fi</string>
     <string name="str_local_login">Visitor Login</string>
     <string name="str_offline_keeponline_success">Keep online successfully.</string>
@@ -283,32 +271,32 @@
     <string name="str_ensurenewpass_notnull">Please confirm the password.</string>
     <!-- 演示点 -->
     <string name="str_pointdlg_showpoing">Demo</string>
-    <string name="str_loading_showpoint">Loading the Demonstration Point, please wait...</string>
+    <string name="str_loading_showpoint">Loading the Demonstration Point, please wait…</string>
     <string name="str_failed_load_showpoint">Demonstration point load failed</string>
     <string name="str_no_device">No Device</string>
     <!-- 中间界面 -->
     <string name="str_wifistr">WiFi</string>
-    <string name="str_loading_data">Asking for device data,please wait...</string>
+    <string name="str_loading_data">Asking for device data,please wait…</string>
     <string name="str_loading_adddevice">Loading device now, please wait.</string>
     <string name="str_device_exsit">This device has been added already,and it can\'t be added again.</string>
     <string name="str_click_offline">When shut off online detection at Setting interface, the off-line device can be checked.</string>
     <string name="str_setting_offline">If shut off online detection,the device will be online status</string>
     <string name="str_newpro_load_failed">Failed to load image of new product</string>
     <string name="str_refresh_data">Refresh Data</string>
-    <string name="str_refreshing_data">Refreshing Data...</string>
-    <string name="pull_to_refresh_pull_label">Pull to refresh...</string>
-    <string name="pull_from_time">更新于：</string>
-    <string name="pull_to_refresh_release_label">Release to refresh...</string>
-    <string name="pull_to_refresh_refreshing_label">Loading...</string>
+    <string name="str_refreshing_data">Refreshing Data…</string>
+    <string name="pull_to_refresh_pull_label">Pull to refresh…</string>
+    <string name="pull_from_time">Update at:</string>
+    <string name="pull_to_refresh_release_label">Release to refresh…</string>
+    <string name="pull_to_refresh_refreshing_label">Loading…</string>
     <string name="pull_to_refresh_repeat_label">Refresh frequently, please try again later</string>
-    <string name="pull_to_refresh_tap_label">Tap to refresh...</string>
+    <string name="pull_to_refresh_tap_label">Tap to refresh…</string>
     <string name="str_data_load_success">Device loaded successfully</string>
     <string name="str_data_load_nodevice">No device</string>
     <string name="str_data_load_failed">Failed to load device</string>
     <string name="str_update_at">Update at:</string>
     <string name="str_newpro_show">New Device</string>
     <string name="str_watch_newpro">Check the demo</string>
-    <string name="str_scanning_device">The device is being searched\nWait a moment...</string>
+    <string name="str_scanning_device">The device is being searched\nWait a moment…</string>
     <string name="str_continue_qr_device">Continue</string>
     <string name="str_return_qr_device">Return</string>
     <string name="str_net_push_error">Network is unnormal, push srvice has stoped.</string>
@@ -322,7 +310,7 @@
     <string name="str_updating">Downloading update software</string>
     <string name="str_change_zoom">Zoom</string>
     <string name="str_change_focus">Focus</string>
-    <string name="str_exiting_now">Disconnecting now Please wait...</string>
+    <string name="str_exiting_now">Disconnecting now Please wait…</string>
     <string name="str_no_response_data">Network connection exception,please login again.</string>
     <string name="str_change_video_type">Switch video standard,Records re-packed.</string>
     <!-- 设备管理 -->
@@ -364,7 +352,7 @@
     <string name="str_connect_mode">Link Mode</string>
     <string name="str_ip_connect">IP</string>
     <string name="str_data_not_compare">Local data is inconsistent with data on server, do you want to synchronize?</string>
-    <string name="str_uploading">Uploading...</string>
+    <string name="str_uploading">Uploading…</string>
     <string name="str_ethernet">Ethernet</string>
     <string name="str_wifi">Wi-Fi</string>
     <string name="str_stream_setting">Stream</string>
@@ -372,7 +360,7 @@
     <string name="str_wifi_pass">Password</string>
     <string name="str_wifi_detail_info">Wi-Fi detailed information</string>
     <string name="str_wifi_info">Wi-Fi Info</string>
-    <string name="str_selectwifi">Please select Wi-Fi...</string>
+    <string name="str_selectwifi">Please select Wi-Fi…</string>
     <string name="str_wifiname_not_null">Please input the WiFi name.</string>
     <string name="str_obtain_automatically">DHCP</string>
     <string name="str_input_manually">Input Manually</string>
@@ -385,14 +373,14 @@
     <string name="str_image_quality">Image Quality</string>
     <string name="str_clear">FPS</string>
     <string name="str_fluent">Video Quality</string>
-    <string name="str_host_connect">It is connecting with host-end\nplease wait...</string>
+    <string name="str_host_connect">It is connecting with host-end\nplease wait…</string>
     <string name="str_host_connect_timeout">Connection timeout</string>
     <string name="str_only_administator_use_this_function">Only administrator can use this function.</string>
     <string name="str_no_permission">You have no permission of this operation!</string>
-    <string name="str_host_connect_failed">Connecting with host-end unsuccessfully\nplease try again...</string>
+    <string name="str_host_connect_failed">Connecting with host-end unsuccessfully\nplease try again…</string>
     <string name="str_not_support_this_device">Doesn\'t support this device.Supports IPC only.</string>
     <string name="str_help1_1">Add device</string>
-    <string name="str_help1_0">远程设置</string>
+    <string name="str_help1_0">Remote Setting</string>
     <string name="str_help1_2">Device Manager</string>
     <string name="str_help2_1">It can add channel numbers of this device.</string>
     <string name="str_help2_2">Slide to see the device list.</string>
@@ -412,12 +400,12 @@
     <string name="str_save_fail">Modify failed</string>
     <string name="str_connect_succ">Wi-Fi has been set finished.</string>
     <string name="str_connect_fail">Failed to set Wi-Fi, please try again.</string>
-    <string name="str_editing_wifi">The Wi-Fi is being set\nWait a moment...</string>
+    <string name="str_editing_wifi">The Wi-Fi is being set\nWait a moment…</string>
     <string name="str_push_message_tip">Would Like to Send You Push Notifications,notifications may include alerts,sounds and icon badges. These can be configured in \"More function\".</string>
     <string name="str_crash_tips">Sending bug report to us?</string>
     <string name="str_crash_send">Send</string>
     <string name="str_crash_cancel">Cancel</string>
-    <string name="str_crash_sending">Sending...</string>
+    <string name="str_crash_sending">Sending…</string>
     <string name="str_send_success">Sent successfully,thanks for your feedback!</string>
     <string name="str_wifi_pwd">12345678</string>
     <string name="login_str_ipadress_format_err">IP is invalid, please modify</string>
@@ -428,8 +416,8 @@
     <string name="str_shake_scene_pic_tips">Scene picture function can\'t be used for there is no SD card in your mobile phone</string>
 
     <!-- JVWelcomeActivity -->
-    <string name="cloud1">云视通</string>
-    <string name="cloud2">通天下</string>
+    <string name="cloud1">CloudSEE</string>
+    <string name="cloud2">Vision to world</string>
     <!-- JVLoginActivity -->
     <string name="login_demo">Demo</string>
     <!-- JVMoreFrament -->
@@ -464,7 +452,7 @@
     <string name="sure_exit">Press again to quit the App.</string>
     <string name="network_error">Network connection exception,please check the network.</string>
     <string name="tips_3g">You are using the 3G/4G network now.It shall cause a lot mobile data fee if you continute to view the video.You are suggested to use Wi-Fi network.</string>
-    <string name="waiting">Waiting...</string>
+    <string name="waiting">Waiting…</string>
     <string name="pressback_exit">Press again to quit the App.</string>
 
     <!-- 页面顶部名称 -->
@@ -483,7 +471,7 @@
     <string name="start_now">Enjoy it now</string>
 
     <!-- 2.3系统视频播放提示 -->
-    <string name="system_lower">Your mobile phone O/S is Android$,The video maybe dazzling during playing, please download O/S 2.8.5, do you want to download now?</string>
+    <string name="system_lower">Your mobile phone O/S is Android$,The video maybe dazzling during playing, please download V2.8.5,安装前请先卸载当前版本 do you want to download now?</string>
     <string name="no_more_tips">No reminding</string>
     <string name="download">Download now</string>
     <string name="not_support_old">This version does not support 04 version decoding,if you want to view, please download version2.8.5, do you want to download now?</string>
@@ -501,13 +489,13 @@
     <string name="keeponline_failed">Failed to keep online!</string>
 
     <!-- tab页 下拉刷新 -->
-    <string name="pull_to_refresh">下拉可以刷新</string>
-    <string name="release_to_refresh">释放立即刷新</string>
-    <string name="refreshing">正在刷新…</string>
-    <string name="not_updated_yet">暂未更新过</string>
-    <string name="updated_at">上次更新于%1$s前</string>
-    <string name="updated_just_now">刚刚更新</string>
-    <string name="time_error">时间有问题</string>
+    <string name="pull_to_refresh">Pull to refresh</string>
+    <string name="release_to_refresh">Release to refresh</string>
+    <string name="refreshing">Refreshing Data…</string>
+    <string name="not_updated_yet">Temporarily not updated</string>
+    <string name="updated_at">The latest update within %1$s</string>
+    <string name="updated_just_now">Just update</string>
+    <string name="time_error">something wrong with the time</string>
 
     <!-- JVMyDeviceFragment -->
     <string name="notwifi_forbid_func">This function is not available under 3G/4G network.</string>
@@ -520,7 +508,7 @@
     <string name="wifi_device">Wireless Device</string>
     <string name="line_device">Wired Device</string>
     <string name="selectone_to_connect">Please choose at least one channel to connect.</string>
-    <string name="add_broad_dev">Broadcasting to ? devices,do you want to add?</string>
+    <string name="add_broad_dev">Broadcasting to ! devices,do you want to add?</string>
     <string name="broad_zero">Unable to broadcast device.</string>
 
     <!-- JVDeviceManageFragment -->
@@ -544,7 +532,6 @@
     <string name="clear_alarm_succ">Clear alarm successfully.</string>
     <string name="clear_alarm_failed">Failed to clear alarm.</string>    
     <!-- JVIpconnectActivity -->
-    <string name="str_ipconnect">连接模式</string>
     <!-- JVPlayActivity -->
     <string name="connfailed_auth">Failed to very ID.</string>
     <string name="connfailed_channel_notopen">Invalid Channel.</string>
@@ -553,8 +540,9 @@
     <string name="connfailed_timeout">Connect timeout!</string>
     <string name="connfailed_auth_tips">Failed to verify indentification, do you need to modify username and password?</string>
     <string name="connect_failed">Connect failed</string>
-    <string name="connecting">Connecting...</string>
-    <string name="connecting_buffer">Buffering now...</string>
+    <string name="connecting">Connecting…</string>
+    <string name="connecting_buffer1">Buffering now</string>
+    <string name="connecting_buffer2">Buffering now…</string>
     <string name="is_omx">Hardware Decoding</string>
     <string name="not_omx">Software Decoding</string>
     <string name="not_support_oxm">Your mobile phone does not support hardware decoding.</string>
@@ -646,7 +634,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.31(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.33(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 
@@ -654,11 +642,11 @@
     <string name="str_alarm_check">Check Now</string>
     <string name="str_pass_extra_err">Pass Data Extra Error</string>
     <string name="str_alarm_time">Alarm Time :</string>
-    <string name="str_alarm_check_video">Check the alarm video</string>
-    <string name="str_alarm_no_video">No alarm video</string>
-    <string name="str_buffering">Buffering...</string>
+    <string name="str_alarm_check_video">Check Alarm Video</string>
+    <string name="str_alarm_no_video">No Alarm Video</string>
+    <string name="str_buffering">Buffering…</string>
     <string name="str_safe_protected">Alert</string>
-    <string name="str_downloading_vod">Getting the video file...</string>
+    <string name="str_downloading_vod">Getting the video file…</string>
     <string name="str_alarm_dev">Device :</string>
     <string name="str_alarm_type">Type :</string>
     <string name="str_alarm_preview">Check</string>

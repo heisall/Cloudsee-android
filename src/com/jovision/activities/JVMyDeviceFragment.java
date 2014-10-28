@@ -71,6 +71,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public static final int BROAD_ADD_DEVICE = 0x06;// 添加设备的广播--
 	public static final int BROAD_THREE_MINITE = 0x07;// 三分钟广播--
 
+	public static final int AUTO_UPDATE = 0x08;// 2分钟自动刷新时间到--
+
 	// private RefreshableView refreshableView;
 	private PullToRefreshListView mPullRefreshListView;
 
@@ -109,6 +111,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private ListView myDeviceListView;
 	private ArrayList<Device> myDeviceList = new ArrayList<Device>();
 	MyDeviceListAdapter myDLAdapter;
+	/** 自动刷新 */
+	private Timer updateTimer = null;
 
 	/** 3分钟广播 */
 	private Timer broadTimer;
@@ -234,29 +238,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 				R.drawable.dot_normal);
 
 		myDLAdapter = new MyDeviceListAdapter(mActivity, this);
-
-		// myDeviceListView = (ListView) mParent
-		// .findViewById(R.id.device_listview);
 		myDeviceListView = mPullRefreshListView.getRefreshableView();
-		// .setDividerDrawable(getResources().getDrawable(R.drawable.red_rank));
-
 		myDeviceListView.addHeaderView(adView);
 		rightBtn.setOnClickListener(myOnClickListener);
-
-		// refreshableView.setOnRefreshListener(new PullToRefreshListener() {
-		// @Override
-		// public void onRefresh() {
-		// GetDevTask task = new GetDevTask();
-		// String[] strParams = new String[3];
-		// task.execute(strParams);
-		// }
-		//
-		// @Override
-		// public void onLayoutTrue() {
-		// refreshableView.finishRefreshing();
-		// }
-		//
-		// }, 0);
 
 		// 非3G加广播设备
 		if (!mActivity.is3G(false)) {
@@ -269,7 +253,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 					// try {
 					// Thread.sleep(1000);
 					// } catch (InterruptedException e) {
-					// // TODO Auto-generated catch block
 					// e.printStackTrace();
 					// }
 					// }
@@ -291,6 +274,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 			String[] strParams = new String[3];
 			task.execute(strParams);
 		}
+
+		if (!localFlag) {
+			// 两分钟自动刷新设备列表
+			updateTimer = new Timer();
+			updateTimer.schedule(new AutoUpdateTask(), 2 * 60 * 1000,
+					2 * 60 * 1000);
+		}
+
 	}
 
 	@Override
@@ -408,7 +399,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 						// try {
 						// Thread.sleep(1000);
 						// } catch (InterruptedException e) {
-						// // TODO Auto-generated catch block
 						// e.printStackTrace();
 						// }
 						// }
@@ -473,6 +463,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onPause() {
 		super.onPause();
+		sortList();
 		CacheUtil.saveDevList(myDeviceList);
 		// imageScroll.stopTimer();
 	}
@@ -514,11 +505,18 @@ public class JVMyDeviceFragment extends BaseFragment {
 		MyLog.v("JVMyDeviceFragment", "onTabAction:what=" + what + ";arg1="
 				+ arg1 + ";arg2=" + arg1);
 		switch (what) {
+		case AUTO_UPDATE: {
+			GetDevTask task = new GetDevTask();
+			String[] strParams = new String[3];
+			task.execute(strParams);
+			break;
+		}
 		case WHAT_SHOW_PRO: {
 			((BaseActivity) mActivity).createDialog("");
 			break;
 		}
 		case JVTabActivity.TAB_BACK: {// tab 返回事件，保存数据
+			sortList();
 			CacheUtil.saveDevList(myDeviceList);
 			break;
 		}
@@ -546,6 +544,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 					} else if (1 == broadObj.optInt("timeout")) {
 						broadTag = 0;
+						sortList();
 					}
 					MyLog.v(TAG, "onTabAction1:what=" + what + ";arg1=" + arg1
 							+ ";arg2=" + arg1 + ";obj=" + obj.toString());
@@ -610,10 +609,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 			if (0 == dev.getChannelList().size()) {// 0个通道直接播放
 				mActivity.showTextToast(R.string.selectone_to_connect);
 			} else if (1 == dev.getChannelList().size()) {// 1个通道直接播放
-				PlayUtil.prepareConnect(myDeviceList, arg1, true);
+				// sortList(myDeviceList);
+				ArrayList<Device> playList = PlayUtil.prepareConnect(
+						myDeviceList, arg1, localFlag);
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
+				intentPlay
+						.putExtra(Consts.KEY_PLAY_NORMAL, playList.toString());
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-				intentPlay.putExtra("DeviceIndex", arg1);
+				intentPlay.putExtra("DeviceIndex", PlayUtil.getPlayIndex(
+						playList, myDeviceList.get(arg1).getFullNo()));
 				intentPlay.putExtra("ChannelofChannel", dev.getChannelList()
 						.toList().get(0).getChannel());
 				mActivity.startActivity(intentPlay);
@@ -767,31 +771,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 		});
 	}
 
-	// private class GetDataTask extends AsyncTask<Void, Void, String[]> {
-	//
-	// @Override
-	// protected String[] doInBackground(Void... params) {
-	// try {
-	// // [Neo] TODO
-	// Thread.sleep(1000);
-	// } catch (InterruptedException e) {
-	// }
-	//
-	// return null;
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(String[] result) {
-	// // [Neo] TODO add data here
-	// // myDLAdapter.notifyDataSetChanged();
-	//
-	// // [Neo] notify refreshed
-	// mPullRefreshListView.onRefreshComplete();
-	//
-	// super.onPostExecute(result);
-	// }
-	// }
-
 	// 保存更改设备信息线程
 	class ModifyDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -892,6 +871,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
+			sortList();
 			CacheUtil.saveDevList(myDeviceList);
 			if (0 == result) {
 				((BaseActivity) mActivity)
@@ -926,9 +906,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				if (!localFlag) {// 非本地登录，无论是否刷新都执行
 					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 
-					MyLog.v("Alarm",
-							"prepareConnect -3- 3-2 --"
-									+ myDeviceList.toString());
 					// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次
 					if (null == myDeviceList || 0 == myDeviceList.size()) {
 						myDeviceList = DeviceUtil
@@ -960,11 +937,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 							}
 						}
 					}
-					MyLog.v("Alarm",
-							"prepareConnect -2- 2-2 --"
-									+ myDeviceList.toString());
 
 					if (null != myDeviceList && 0 != myDeviceList.size()) {
+						sortList();
 						CacheUtil.saveDevList(myDeviceList);
 					}
 
@@ -1006,7 +981,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				// try {
 				// Thread.sleep(1000);
 				// } catch (InterruptedException e) {
-				// // TODO Auto-generated catch block
 				// e.printStackTrace();
 				// }
 				// }
@@ -1022,7 +996,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				// try {
 				// Thread.sleep(1000);
 				// } catch (InterruptedException e) {
-				// // TODO Auto-generated catch block
 				// e.printStackTrace();
 				// }
 				// }
@@ -1108,6 +1081,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			sortList();
 			CacheUtil.saveDevList(myDeviceList);
 			((BaseActivity) mActivity).dismissDialog();
 			if (0 == result) {
@@ -1141,7 +1115,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		builder.setTitle(R.string.tips)
 				.setMessage(
 						getResources().getString(R.string.add_broad_dev)
-								.replace("?", String.valueOf(broadList.size())))
+								.replaceFirst("!",
+										String.valueOf(broadList.size())))
 				.setPositiveButton(R.string.sure,
 						new DialogInterface.OnClickListener() {
 
@@ -1166,4 +1141,36 @@ public class JVMyDeviceFragment extends BaseFragment {
 						}).create().show();
 	}
 
+	// 根据在线状态排序
+	private void sortList() {
+		if (!localFlag) {
+			ArrayList<Device> onlineDevice = new ArrayList<Device>();
+			ArrayList<Device> offlineDevice = new ArrayList<Device>();
+			for (Device dev : myDeviceList) {
+				if (0 == dev.getOnlineState()) {
+					offlineDevice.add(dev);
+				} else {
+					onlineDevice.add(dev);
+				}
+			}
+			myDeviceList.clear();
+			myDeviceList.addAll(onlineDevice);
+			myDeviceList.addAll(offlineDevice);
+		}
+	}
+
+	/**
+	 * 自动刷新
+	 * 
+	 * @author Administrator
+	 * 
+	 */
+	class AutoUpdateTask extends TimerTask {
+
+		@Override
+		public void run() {
+			fragHandler.sendMessage(fragHandler.obtainMessage(AUTO_UPDATE));
+		}
+
+	}
 }

@@ -16,7 +16,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.DemoListAdapter;
 import com.jovision.bean.Device;
-import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.RefreshableView;
@@ -110,18 +109,18 @@ public class JVDemoFragment extends BaseFragment {
 				long arg3) {
 
 			Device dev = demoList.get(arg2);
-			// mActivity.showTextToast("arg2="
-			// + dev.getChannelList().toList().get(0).getChannel()
-			// + ";dev=" + dev.getFullNo());
-			PlayUtil.prepareConnect(demoList, arg2, false);
-			String devJsonString = Device.listToString(demoList);
+			ArrayList<Device> playList = PlayUtil.prepareConnect(demoList,
+					arg2, true);
+			// String devJsonString = Device.listToString(demoList);
 			Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-			intentPlay.putExtra("DeviceIndex", arg2);
+			intentPlay.putExtra(Consts.KEY_PLAY_DEMO, playList.toString());
+			intentPlay.putExtra("DeviceIndex", PlayUtil.getPlayIndex(playList,
+					demoList.get(arg2).getFullNo()));
 			intentPlay.putExtra("ChannelofChannel", dev.getChannelList()
 					.toList().get(0).getChannel());
 			// intentPlay.putExtra("DevJsonString", devJsonString);
 			intentPlay.putExtra("PlayFlag", Consts.PLAY_DEMO);
-			MySharedPreference.putString(Consts.KEY_PLAY_DEMO, devJsonString);
+			// MySharedPreference.putString(Consts.KEY_PLAY_DEMO, jsonStr);
 
 			mActivity.startActivity(intentPlay);
 

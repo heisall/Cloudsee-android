@@ -167,11 +167,16 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 4: {// 立即观看
-				MyLog.v(TAG, "prepareConnect1--" + deviceList.toString());
-				PlayUtil.prepareConnect(deviceList, deviceIndex, true);
-				MyLog.v(TAG, "prepareConnect2--" + deviceList.toString());
+				ArrayList<Device> playList = PlayUtil.prepareConnect(
+						deviceList, deviceIndex, localFlag);
+
 				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				intentPlay.putExtra("DeviceIndex", deviceIndex);
+				intentPlay
+						.putExtra(Consts.KEY_PLAY_NORMAL, playList.toString());
+				intentPlay.putExtra(
+						"DeviceIndex",
+						PlayUtil.getPlayIndex(playList,
+								deviceList.get(deviceIndex).getFullNo()));
 				intentPlay.putExtra("ChannelofChannel", device.getChannelList()
 						.toList().get(0).getChannel());
 				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);

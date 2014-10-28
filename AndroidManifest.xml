@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="38"
-    android:versionName="V4.1.31" >
+    android:versionName="V4.1.33" >
 
     <supports-screens
         android:anyDensity="true"
@@ -351,10 +351,10 @@
         </activity>
 
         <service
-            android:name="com.jovision.MainService"
+            android:name="com.jovision.CoreService"
             android:enabled="true" >
             <intent-filter>
-                <action android:name="mainService" />
+                <action android:name="com.jovision.CORESERVICE" />
             </intent-filter>
         </service>
     </application>

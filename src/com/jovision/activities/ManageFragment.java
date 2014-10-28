@@ -167,21 +167,27 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 4: {// 立即观看
-				ArrayList<Device> playList = PlayUtil.prepareConnect(
-						deviceList, deviceIndex, localFlag);
+				if (0 == deviceList.get(deviceIndex).getOnlineState()) {
+					mActivity.showTextToast(R.string.offline_not_play);
+				} else {
+					ArrayList<Device> playList = PlayUtil.prepareConnect(
+							deviceList, deviceIndex, localFlag);
 
-				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				intentPlay
-						.putExtra(Consts.KEY_PLAY_NORMAL, playList.toString());
-				intentPlay.putExtra(
-						"DeviceIndex",
-						PlayUtil.getPlayIndex(playList,
-								deviceList.get(deviceIndex).getFullNo()));
-				intentPlay.putExtra("ChannelofChannel", device.getChannelList()
-						.toList().get(0).getChannel());
-				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+					Intent intentPlay = new Intent(mActivity,
+							JVPlayActivity.class);
+					intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
+							playList.toString());
+					intentPlay.putExtra(
+							"DeviceIndex",
+							PlayUtil.getPlayIndex(playList,
+									deviceList.get(deviceIndex).getFullNo()));
+					intentPlay.putExtra("ChannelofChannel", device
+							.getChannelList().toList().get(0).getChannel());
+					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 
-				mActivity.startActivity(intentPlay);
+					mActivity.startActivity(intentPlay);
+				}
+
 				break;
 			}
 			case 5: {// 添加设备

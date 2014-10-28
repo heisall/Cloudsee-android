@@ -158,7 +158,10 @@ public class JVAddDeviceActivity extends BaseActivity {
 	 * @param userPwd
 	 */
 	public void saveMethod(String devNum, String userName, String userPwd) {
-
+		if (null == deviceList) {
+			deviceList = new ArrayList<Device>();
+		}
+		int size = deviceList.size();
 		if ("".equalsIgnoreCase(devNum)) {// 云视通号不可为空
 			showTextToast(R.string.login_str_device_ytnum_notnull);
 			return;
@@ -174,17 +177,22 @@ public class JVAddDeviceActivity extends BaseActivity {
 		} else if (!ConfigUtil.checkDevicePwd(userPwd)) {
 			showTextToast(R.string.login_str_device_pass_error);
 			return;
+		} else if (size >= 100
+				&& !Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地多于100个设备不让再添加
+			showTextToast(R.string.str_device_most_count);
+			return;
 		} else {
 			// 判断一下是否已存在列表中
 			boolean find = false;
 			if (null != deviceList && 0 != deviceList.size()) {
-				for (int i = 0; i < deviceList.size(); i++) {
-					if (devNum.equalsIgnoreCase(deviceList.get(i).getFullNo())) {
+				for (Device dev : deviceList) {
+					if (devNum.equalsIgnoreCase(dev.getFullNo())) {
 						find = true;
 						break;
 					}
 				}
 			}
+
 			if (find) {
 				devNumET.setText("");
 				showTextToast(R.string.str_device_exsit);

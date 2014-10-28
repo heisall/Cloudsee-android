@@ -531,6 +531,7 @@
     <string name="del_alarm_failed">Failed to delete alarm.</string>
     <!-- JVIpconnectActivity -->
     <!-- JVPlayActivity -->
+    <string name="offline_not_play">Unable to operate due to device has been offline.</string>
     <string name="connfailed_auth">Failed to very ID.</string>
     <string name="connfailed_channel_notopen">Invalid Channel.</string>
     <string name="connfailed_type_invalid">Invalid Connection Mode.</string>
@@ -632,7 +633,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.33(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.34(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

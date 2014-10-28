@@ -464,6 +464,16 @@
     <!-- JVInfoFragment -->
     <string name="nomessage">暂时没有报警数据</string>
     <string name="alerm">报警级别</string>
+
+    <!-- tab页 下拉刷新 -->
+    <string name="pull_to_refresh">下拉刷新</string>
+    <string name="release_to_refresh">释放立即刷新</string>
+    <string name="refreshing">正在刷新…</string>
+    <string name="not_updated_yet">暂无更新</string>
+    <string name="updated_at">上次更新于%1$s前</string>
+    <string name="updated_just_now">刚刚更新</string>
+    <string name="time_error">时间有问题</string>
+
     <!-- JVMyDeviceFragment -->
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
     <string name="del_device_succ">设备删除成功</string>
@@ -486,6 +496,7 @@
     <string name="del_alarm_failed">报警删除失败</string>
     <string name="get_alarm_list_failed">获取报警信息失败</string>
     <!-- JVPlayActivity -->
+    <string name="offline_not_play">设备已处于离线状态,不能进行操作.</string>
     <string name="connfailed_auth">身份验证失败</string>
     <string name="connfailed_channel_notopen">无该通道服务</string>
     <string name="connfailed_type_invalid">连接类型无效</string>
@@ -613,7 +624,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.33(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.34(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->

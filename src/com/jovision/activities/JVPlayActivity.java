@@ -300,6 +300,10 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null == channel) {
 				return;
 			}
+
+			if (null != channel.getSurfaceView()) {
+				resumeChannel(channel);
+			}
 			// loadingState(arg1, R.string.connecting_buffer2,
 			// JVConst.PLAY_CONNECTING_BUFFER);
 

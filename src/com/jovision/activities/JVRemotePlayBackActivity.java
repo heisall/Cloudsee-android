@@ -156,13 +156,14 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		currentProgress = 0;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void initUi() {
 		super.initUi();
 
 		currentMenu.setText(R.string.str_remote_playback);
 		selectScreenNum.setVisibility(View.GONE);
+		rightFuncButton.setVisibility(View.GONE);
+
 		/** 中 */
 		viewPager.setVisibility(View.GONE);
 		playSurface.setVisibility(View.VISIBLE);

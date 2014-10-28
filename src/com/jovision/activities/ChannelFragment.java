@@ -119,25 +119,30 @@ public class ChannelFragment extends BaseFragment {
 			if (changeRes) {
 				channelAdapter.notifyDataSetChanged();
 			} else {
+				if (0 == deviceList.get(deviceIndex).getOnlineState()) {
+					mActivity.showTextToast(R.string.offline_not_play);
+				} else {
+					ArrayList<Device> playList = PlayUtil
+							.prepareConnect(
+									deviceList,
+									deviceIndex,
+									Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+											.get(Consts.LOCAL_LOGIN)));
+					Intent intentPlay = new Intent(mActivity,
+							JVPlayActivity.class);
+					intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
+							playList.toString());
+					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+					intentPlay.putExtra(
+							"DeviceIndex",
+							PlayUtil.getPlayIndex(playList,
+									deviceList.get(deviceIndex).getFullNo()));
+					// [Neo] 实际上是 int channel
+					intentPlay.putExtra("ChannelofChannel", arg1);
 
-				ArrayList<Device> playList = PlayUtil
-						.prepareConnect(
-								deviceList,
-								deviceIndex,
-								Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
-										.get(Consts.LOCAL_LOGIN)));
-				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				intentPlay
-						.putExtra(Consts.KEY_PLAY_NORMAL, playList.toString());
-				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-				intentPlay.putExtra(
-						"DeviceIndex",
-						PlayUtil.getPlayIndex(playList,
-								deviceList.get(deviceIndex).getFullNo()));
-				// [Neo] 实际上是 int channel
-				intentPlay.putExtra("ChannelofChannel", arg1);
+					mActivity.startActivity(intentPlay);
+				}
 
-				mActivity.startActivity(intentPlay);
 			}
 			break;
 		}
@@ -233,41 +238,47 @@ public class ChannelFragment extends BaseFragment {
 				break;
 			}
 			case R.id.connect_all:
-				ArrayList<Device> playList = PlayUtil
-						.prepareConnect(
-								deviceList,
-								deviceIndex,
-								Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
-										.get(Consts.LOCAL_LOGIN)));
-				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				intentPlay
-						.putExtra(Consts.KEY_PLAY_NORMAL, playList.toString());
-				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-				intentPlay.putExtra(
-						"DeviceIndex",
-						PlayUtil.getPlayIndex(playList,
-								deviceList.get(deviceIndex).getFullNo()));
+				if (0 == deviceList.get(deviceIndex).getOnlineState()) {
+					mActivity.showTextToast(R.string.offline_not_play);
+				} else {
+					ArrayList<Device> playList = PlayUtil
+							.prepareConnect(
+									deviceList,
+									deviceIndex,
+									Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+											.get(Consts.LOCAL_LOGIN)));
+					Intent intentPlay = new Intent(mActivity,
+							JVPlayActivity.class);
+					intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
+							playList.toString());
+					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+					intentPlay.putExtra(
+							"DeviceIndex",
+							PlayUtil.getPlayIndex(playList,
+									deviceList.get(deviceIndex).getFullNo()));
 
-				int screen = 0;
-				int size = deviceList.get(deviceIndex).getChannelList().size();
-				if (size > 0 && size <= 1) {
-					screen = 1;
-				} else if (size > 1 && size <= 4) {
-					screen = 4;
-				} else if (size > 4 && size <= 9) {
-					screen = 9;
-				} else if (size > 9) {
-					screen = 16;
+					int screen = 0;
+					int size = deviceList.get(deviceIndex).getChannelList()
+							.size();
+					if (size > 0 && size <= 1) {
+						screen = 1;
+					} else if (size > 1 && size <= 4) {
+						screen = 4;
+					} else if (size > 4 && size <= 9) {
+						screen = 9;
+					} else if (size > 9) {
+						screen = 16;
+					}
+
+					intentPlay.putExtra("Screen", screen);
+
+					// [Neo] 实际上是 int channel
+
+					intentPlay.putExtra("ChannelofChannel",
+							deviceList.get(deviceIndex).getChannelList()
+									.toList().get(0).getChannel());
+					mActivity.startActivity(intentPlay);
 				}
-
-				intentPlay.putExtra("Screen", screen);
-
-				// [Neo] 实际上是 int channel
-
-				intentPlay.putExtra("ChannelofChannel",
-						deviceList.get(deviceIndex).getChannelList().toList()
-								.get(0).getChannel());
-				mActivity.startActivity(intentPlay);
 				break;
 			default:
 				break;

@@ -609,18 +609,27 @@ public class JVMyDeviceFragment extends BaseFragment {
 			if (0 == dev.getChannelList().size()) {// 0个通道直接播放
 				mActivity.showTextToast(R.string.selectone_to_connect);
 			} else if (1 == dev.getChannelList().size()) {// 1个通道直接播放
-				// sortList(myDeviceList);
-				ArrayList<Device> playList = PlayUtil.prepareConnect(
-						myDeviceList, arg1, localFlag);
-				Intent intentPlay = new Intent(mActivity, JVPlayActivity.class);
-				intentPlay
-						.putExtra(Consts.KEY_PLAY_NORMAL, playList.toString());
-				intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-				intentPlay.putExtra("DeviceIndex", PlayUtil.getPlayIndex(
-						playList, myDeviceList.get(arg1).getFullNo()));
-				intentPlay.putExtra("ChannelofChannel", dev.getChannelList()
-						.toList().get(0).getChannel());
-				mActivity.startActivity(intentPlay);
+
+				if (0 == myDeviceList.get(arg1).getOnlineState()) {
+					mActivity.showTextToast(R.string.offline_not_play);
+				} else {
+					// sortList(myDeviceList);
+					ArrayList<Device> playList = PlayUtil.prepareConnect(
+							myDeviceList, arg1, localFlag);
+					Intent intentPlay = new Intent(mActivity,
+							JVPlayActivity.class);
+					intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
+							playList.toString());
+					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+					intentPlay.putExtra(
+							"DeviceIndex",
+							PlayUtil.getPlayIndex(playList,
+									myDeviceList.get(arg1).getFullNo()));
+					intentPlay.putExtra("ChannelofChannel", dev
+							.getChannelList().toList().get(0).getChannel());
+					mActivity.startActivity(intentPlay);
+				}
+
 			} else {// 多个通道查看通道列表
 				Intent intentPlay = new Intent(mActivity,
 						JVChannelsActivity.class);

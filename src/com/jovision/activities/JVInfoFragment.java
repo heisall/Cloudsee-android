@@ -497,4 +497,47 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		}
 
 	}
+
+	// 设置三种类型参数分别为String,Integer,String
+	class ClearAlarmTask extends AsyncTask<Integer, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(Integer... params) {
+			int ret = -1;
+			ret = AlarmUtil.clearAlarmInfo();
+			return ret;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			if (result == 0) {
+				pushList.clear();
+				Consts.pushHisCount = 0;
+				pushAdapter.setRefCount(0);
+				pushAdapter.notifyDataSetChanged();
+				mActivity.showTextToast(R.string.clear_alarm_succ);
+			} else {
+				mActivity.showTextToast(R.string.clear_alarm_failed);
+			}
+
+			((BaseActivity) mActivity).dismissDialog();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			((BaseActivity) mActivity).createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
 }

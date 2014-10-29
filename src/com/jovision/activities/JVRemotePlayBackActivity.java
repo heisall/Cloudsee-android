@@ -9,6 +9,8 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -97,12 +99,19 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			}
 			break;
 		}
-
+		case Consts.CALL_FRAME_I_REPORT: {// I帧回调
+			linkState.setVisibility(View.GONE);
+			loading.setVisibility(View.GONE);// 加载进度
+			startTimer();
+			break;
+		}
 		case Consts.CALL_PLAY_DATA: {// 远程回放数据
-			if (arg2 == JVNetConst.JVN_DATA_O) {
-				linkState.setVisibility(View.GONE);
-				loading.setVisibility(View.GONE);// 加载进度
-				startTimer();
+			switch (arg2) {
+			case JVNetConst.JVN_DATA_O: {
+				linkState.setVisibility(View.VISIBLE);
+				linkState.setText(R.string.connecting_buffer2);
+				loading.setVisibility(View.VISIBLE);// 加载进度
+
 				if (0 == totalProgress) {
 					try {
 						JSONObject jobj;
@@ -116,13 +125,24 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 						e.printStackTrace();
 					}
 				}
-			} else if (arg2 == JVNetConst.JVN_DATA_I
-					|| arg2 == JVNetConst.JVN_DATA_B
-					|| arg2 == JVNetConst.JVN_DATA_P) {
+				break;
+			}
+			case JVNetConst.JVN_DATA_I:
+			case JVNetConst.JVN_DATA_B:
+			case JVNetConst.JVN_DATA_P: {
 				currentProgress++;
 				progressBar.setProgress(currentProgress);
 				MyLog.v(TAG, "currentProgress = " + currentProgress);
+				break;
 			}
+			case Consts.ARG2_REMOTE_PLAY_ERROR:
+			case Consts.ARG2_REMOTE_PLAY_OVER:
+			case Consts.ARG2_REMOTE_PLAY_TIMEOUT: {
+				this.finish();
+				break;
+			}
+			}
+
 			break;
 		}
 		case Consts.CALL_PLAY_DOOMED: {// 远程回放结束
@@ -177,6 +197,9 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 		linkState.setText(R.string.connecting);// 连接文字
 		linkState.setVisibility(View.GONE);
+		linkState.setTextColor(Color.GREEN);
+		linkState.setTextSize(18);
+		linkState.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
 		loading.setVisibility(View.VISIBLE);// 加载进度
 
 		back.setOnClickListener(myOnClickListener);
@@ -208,6 +231,8 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				// + " created: " + result);
 				boolean enable = Jni.enablePlayback(indexOfChannel, true);
 				if (enable) {
+					linkState.setVisibility(View.VISIBLE);
+					linkState.setText(R.string.connecting);
 					Jni.sendBytes(indexOfChannel,
 							(byte) JVNetConst.JVN_REQ_PLAY,
 							(byte[]) acBuffStr.getBytes(),
@@ -446,6 +471,10 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+
+		verPlayBarLayout.setVisibility(View.GONE);
+		horPlayBarLayout.setVisibility(View.GONE);
+
 		// [Neo] surface.step 1
 		playSurface.getHolder().setFixedSize(1, 1);
 

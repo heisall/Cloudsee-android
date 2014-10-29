@@ -487,7 +487,7 @@
     <string name="selectone_to_connect">请选择至少一个通道进行连接</string>
     <string name="add_broad_dev">广播到!个设备，是否立即添加?</string>
     <string name="broad_zero">未广播到设备.</string>
-
+    <string name="get_device_failed">设备加载失败</string>
     <!-- JVInfoFragement -->
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加载更多</string>
@@ -626,7 +626,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.37(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.38(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->

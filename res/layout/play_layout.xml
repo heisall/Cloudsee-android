@@ -64,15 +64,16 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:paddingTop="43dp"
+                android:text="@string/connecting"
                 android:textColor="@color/green"
-                android:textSize="12sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:visibility="gone" />
 
             <ProgressBar
                 android:id="@+id/videoloading"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_centerInParent="true"
                 android:visibility="gone" />
 

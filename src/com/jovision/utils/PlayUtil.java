@@ -802,7 +802,21 @@ public class PlayUtil {
 				clist.addAll(device.getChannelList().toList());
 			}
 		} else {
-			clist.addAll(playList.get(deviceIndex).getChannelList().toList());
+			try {
+				if (null == playList.get(deviceIndex).getChannelList()
+						|| 0 == playList.get(deviceIndex).getChannelList()
+								.size()) {
+
+				} else {
+					clist.addAll(playList.get(deviceIndex).getChannelList()
+							.toList());
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+
 		}
 
 		int size = clist.size();

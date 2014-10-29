@@ -119,13 +119,14 @@ public class DeviceUtil {
 					e.printStackTrace();
 				}
 			}
+		} else {
+			return null;
 		}
 
 		if (null != deviceList && 0 != deviceList.size()) {
 			refreshDeviceState(userName, deviceList);
 		}
 
-		MyLog.v("刷新出来的数据：getUserDeviceList", deviceList.toString());
 		return deviceList;
 	}
 

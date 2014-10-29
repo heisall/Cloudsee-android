@@ -460,11 +460,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
 				.get(Consts.HAG_GOT_DEVICE));
-
-		myDLAdapter.setData(myDeviceList);
-		myDeviceListView.setAdapter(myDLAdapter);
-		myDLAdapter.notifyDataSetChanged();
-
 		if (hasGot) {
 			if (null == myDeviceList || 0 == myDeviceList.size()) {
 				deviceLayout.setVisibility(View.GONE);
@@ -474,6 +469,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 				quickSetSV.setVisibility(View.GONE);
 			}
 		}
+		if (null != myDeviceList && 0 != myDeviceList.size()) {
+			deviceLayout.setVisibility(View.VISIBLE);
+			quickSetSV.setVisibility(View.GONE);
+			myDLAdapter.setData(myDeviceList);
+			myDeviceListView.setAdapter(myDLAdapter);
+			myDLAdapter.notifyDataSetChanged();
+		}
+
 	}
 
 	@Override
@@ -645,18 +648,23 @@ public class JVMyDeviceFragment extends BaseFragment {
 									arg1,
 									Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 											.get(Consts.LOCAL_LOGIN)));
-					Intent intentPlay = new Intent(mActivity,
-							JVPlayActivity.class);
-					intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
-							playList.toString());
-					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-					intentPlay.putExtra(
-							"DeviceIndex",
-							PlayUtil.getPlayIndex(playList,
-									myDeviceList.get(arg1).getFullNo()));
-					intentPlay.putExtra("ChannelofChannel", dev
-							.getChannelList().toList().get(0).getChannel());
-					mActivity.startActivity(intentPlay);
+
+					if (null == playList || 0 == playList.size()) {
+						mActivity.showTextToast(R.string.selectone_to_connect);
+					} else {
+						Intent intentPlay = new Intent(mActivity,
+								JVPlayActivity.class);
+						intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
+								playList.toString());
+						intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+						intentPlay.putExtra("DeviceIndex", PlayUtil
+								.getPlayIndex(playList, myDeviceList.get(arg1)
+										.getFullNo()));
+						intentPlay.putExtra("ChannelofChannel", dev
+								.getChannelList().toList().get(0).getChannel());
+						mActivity.startActivity(intentPlay);
+					}
+
 				}
 
 			} else {// 多个通道查看通道列表
@@ -986,11 +994,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 					myDeviceList = CacheUtil.getDevList();
 				}
 
-				MyLog.v("刷新出来的数据："
-						+ Boolean
-								.valueOf(((BaseActivity) mActivity).statusHashMap
-										.get(Consts.LOCAL_LOGIN)), myDeviceList
-						.toString());
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
 					getRes = DEVICE_GETDATA_SUCCESS;
@@ -1051,6 +1054,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			}
 			// 从服务器端获取设备失败
 			case DEVICE_GETDATA_FAILED: {
+				mActivity.showTextToast(R.string.get_device_failed);
 				refreshList();
 				break;
 			}

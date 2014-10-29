@@ -94,6 +94,7 @@
     <string name="alerm">Alerm Level</string>
     <string name="more_findpassword">Retrieve Password</string>
     <string name="more_cancel">Cancel the account</string>
+    <string name="dialog_modifypwd">身份验证不成功，是否修改用户名密码？</string>
     <!-- leftMenu -->
     <string name="devicecount">Total of 0 Device</string>
     <string name="nikename">NickName</string>

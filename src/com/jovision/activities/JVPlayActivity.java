@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -30,6 +31,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -50,7 +53,9 @@ import com.jovision.commons.MyGestureDispatcher;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.PlayWindowManager;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 
@@ -99,6 +104,16 @@ public class JVPlayActivity extends PlayActivity implements
 
 	private ArrayList<Channel> channelList;
 	private ArrayList<Channel> currentPageChannelList;
+
+	private Dialog initDialog;
+	private TextView dialogCancel;
+	private TextView dialogCompleted;
+	private TextView devicepwd_name;
+	private EditText devicepwd_nameet;
+	private ImageView devicepwd_nameet_cancle;
+	private EditText devicepwd_passwordet;
+	private ImageView devicepwd_password_cancleI;
+	private ImageView dialogpwd_cancle_img;
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
@@ -240,6 +255,7 @@ public class JVPlayActivity extends PlayActivity implements
 							|| "pass word is wrong!".equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
 						loadingState(arg1, R.string.connfailed_auth,
 								JVConst.PLAY_DIS_CONNECTTED);
+						Alertdialog();
 					} else if ("channel is not open!"
 							.equalsIgnoreCase(errorMsg)) {// 无该通道服务
 						loadingState(arg1, R.string.connfailed_channel_notopen,
@@ -850,6 +866,152 @@ public class JVPlayActivity extends PlayActivity implements
 		default:
 			MyLog.e(Consts.TAG_PLAY, "NO switch:" + what);
 			break;
+		}
+	}
+
+	private void Alertdialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(
+				JVPlayActivity.this.getResources().getString(
+						R.string.dialog_modifypwd))
+				.setCancelable(false)
+				.setPositiveButton(
+						JVPlayActivity.this.getResources().getString(
+								R.string.ok),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.dismiss();
+								initSummaryDialog(deviceList.get(deviceIndex));
+							}
+						})
+				.setNegativeButton(
+						JVPlayActivity.this.getResources().getString(
+								R.string.cancle),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.dismiss();
+							}
+						});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+
+	private void initSummaryDialog(final Device device) {
+		initDialog = new Dialog(JVPlayActivity.this, R.style.mydialog);
+		View view = LayoutInflater.from(JVPlayActivity.this).inflate(
+				R.layout.dialog_password, null);
+		initDialog.setContentView(view);
+		dialogpwd_cancle_img = (ImageView) view
+				.findViewById(R.id.dialogpwd_cancle_img);
+		dialogCancel = (TextView) view.findViewById(R.id.dialogpwd_cancel);
+		dialogCompleted = (TextView) view
+				.findViewById(R.id.dialogpwd_completed);
+		devicepwd_name = (TextView) view.findViewById(R.id.devicepwd_namew);
+		devicepwd_nameet = (EditText) view.findViewById(R.id.devicepwd_nameet);
+		devicepwd_nameet_cancle = (ImageView) view
+				.findViewById(R.id.devicepwd_nameet_cancle);
+		devicepwd_passwordet = (EditText) view
+				.findViewById(R.id.devicepwd_passwrodet);
+		devicepwd_password_cancleI = (ImageView) view
+				.findViewById(R.id.devicepwd_passwrodet_cancle);
+		dialogpwd_cancle_img.setOnClickListener(myOnClickListener);
+		devicepwd_nameet_cancle.setOnClickListener(myOnClickListener);
+		devicepwd_password_cancleI.setOnClickListener(myOnClickListener);
+
+		devicepwd_name.setText(device.getFullNo());
+		devicepwd_nameet.setText(device.getUser());
+		devicepwd_passwordet.setText(device.getPwd());
+		initDialog.show();
+		devicepwd_name.setFocusable(true);
+		devicepwd_name.setFocusableInTouchMode(true);
+		dialogCancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				initDialog.dismiss();
+			}
+		});
+		dialogCompleted.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// 设备用户名不为空
+				if ("".equalsIgnoreCase(devicepwd_nameet.getText().toString())) {
+					JVPlayActivity.this
+							.showTextToast(R.string.login_str_device_account_notnull);
+				}
+				// 设备用户名验证
+				else if (!ConfigUtil.checkDeviceUsername(devicepwd_nameet
+						.getText().toString())) {
+					JVPlayActivity.this.showTextToast(JVPlayActivity.this
+							.getResources().getString(
+									R.string.login_str_device_account_error));
+				} else {
+					ModifyDevTask task = new ModifyDevTask();
+					String[] strParams = new String[5];
+					strParams[1] = device.getFullNo();
+					strParams[2] = devicepwd_nameet.getText().toString();
+					strParams[3] = devicepwd_passwordet.getText().toString();
+					strParams[4] = device.getNickName();
+					task.execute(strParams);
+				}
+			}
+		});
+	}
+
+	// 保存更改设备信息线程
+	class ModifyDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int delRes = -1;
+			try {
+				if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 本地保存修改信息
+					delRes = 0;
+				} else {
+					String name = statusHashMap.get(Consts.KEY_USERNAME);
+					delRes = DeviceUtil.modifyDevice(name, params[1],
+							params[4], params[2], params[3]);
+				}
+				if (0 == delRes) {
+					deviceList.get(deviceIndex).setUser(params[2]);
+					deviceList.get(deviceIndex).setPwd(params[3]);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return delRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
+			if (0 == result) {
+				CacheUtil.saveDevList(deviceList);
+				JVPlayActivity.this
+						.showTextToast(R.string.login_str_device_edit_success);
+			} else {
+				JVPlayActivity.this
+						.showTextToast(R.string.login_str_device_edit_failed);
+			}
+			initDialog.dismiss();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
 
@@ -1548,6 +1710,21 @@ public class JVPlayActivity extends PlayActivity implements
 			// case R.id.yt_cancle:
 			//
 			// break;
+			case R.id.devicepwd_nameet_cancle:
+
+				devicepwd_nameet.setText("");
+
+				break;
+			case R.id.devicepwd_passwrodet_cancle:
+
+				devicepwd_passwordet.setText("");
+
+				break;
+			case R.id.dialogpwd_cancle_img:
+
+				initDialog.dismiss();
+
+				break;
 			case R.id.nextstep: {// AP下一步
 				backMethod(false);
 				break;

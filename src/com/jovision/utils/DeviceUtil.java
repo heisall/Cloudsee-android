@@ -126,7 +126,6 @@ public class DeviceUtil {
 		if (null != deviceList && 0 != deviceList.size()) {
 			refreshDeviceState(userName, deviceList);
 		}
-
 		return deviceList;
 	}
 

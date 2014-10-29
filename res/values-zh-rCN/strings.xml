@@ -488,6 +488,8 @@
     <string name="add_broad_dev">广播到!个设备，是否立即添加?</string>
     <string name="broad_zero">未广播到设备.</string>
     <string name="get_device_failed">设备加载失败</string>
+    <string name="press_screen_refresh">点击屏幕刷新</string>
+
     <!-- JVInfoFragement -->
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加载更多</string>

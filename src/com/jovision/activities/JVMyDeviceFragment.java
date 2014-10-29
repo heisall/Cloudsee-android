@@ -113,12 +113,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 	MyDeviceListAdapter myDLAdapter;
 	/** 自动刷新 */
 	private Timer updateTimer = null;
+	private AutoUpdateTask updateTask;
 
 	/** 3分钟广播 */
 	private Timer broadTimer;
 	private TimerTask broadTimerTask;
 
-	public boolean localFlag = false;// 本地登陆标志位
+	// public boolean localFlag = false;// 本地登陆标志位
 	public String devicename;
 
 	public int broadTag = 0;
@@ -157,9 +158,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
-		localFlag = Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
-				.get(Consts.LOCAL_LOGIN));
-		if (!localFlag) {
+		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+				.get(Consts.LOCAL_LOGIN))) {
 			popFunArray = mActivity.getResources().getStringArray(
 					R.array.array_popno);
 		} else {
@@ -170,8 +170,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				R.string.my_device));
 		currentMenu.setText(R.string.my_device);
 
-		localFlag = Boolean.valueOf(mActivity.statusHashMap
-				.get(Consts.LOCAL_LOGIN));
 		devicename = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
 		inflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -276,13 +274,35 @@ public class JVMyDeviceFragment extends BaseFragment {
 			task.execute(strParams);
 		}
 
-		if (!localFlag) {
-			// 两分钟自动刷新设备列表
-			updateTimer = new Timer();
-			updateTimer.schedule(new AutoUpdateTask(), 2 * 60 * 1000,
-					2 * 60 * 1000);
+		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+				.get(Consts.LOCAL_LOGIN))) {
+			startAutoRefreshTimer();
 		}
 
+	}
+
+	public void startAutoRefreshTimer() {
+		// 两分钟自动刷新设备列表
+		updateTask = new AutoUpdateTask();
+		if (null != updateTimer) {
+			updateTimer.cancel();
+		}
+
+		updateTimer = new Timer();
+		if (null != updateTimer) {
+			updateTimer.schedule(updateTask, 2 * 60 * 1000, 2 * 60 * 1000);
+		}
+	}
+
+	public void stopRefreshWifiTimer() {
+		if (null != updateTimer) {
+			updateTimer.cancel();
+			updateTimer = null;
+		}
+		if (null != updateTask) {
+			updateTask.cancel();
+			updateTask = null;
+		}
 	}
 
 	@Override
@@ -340,7 +360,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		View v = LayoutInflater.from(mActivity).inflate(R.layout.popview, null); // 将布局转化为view
 		popListView = (ListView) v.findViewById(R.id.popwindowlist);
 		popWindowAdapter = new PopWindowAdapter(JVMyDeviceFragment.this);
-		if (!localFlag) {
+		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+				.get(Consts.LOCAL_LOGIN))) {
 			popWindowAdapter.setData(popFunArray, popDrawarray);
 		} else {
 			popWindowAdapter.setData(popFunArray, popDrawarrayno);
@@ -457,8 +478,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	@Override
 	public void onDestroy() {
+		stopRefreshWifiTimer();
 		super.onDestroy();
-		// imageScroll.stopTimer();
 	}
 
 	@Override
@@ -611,12 +632,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 				mActivity.showTextToast(R.string.selectone_to_connect);
 			} else if (1 == dev.getChannelList().size()) {// 1个通道直接播放
 
-				if (0 == myDeviceList.get(arg1).getOnlineState() && !localFlag) {
+				if (0 == myDeviceList.get(arg1).getOnlineState()
+						&& !Boolean
+								.valueOf(((BaseActivity) mActivity).statusHashMap
+										.get(Consts.LOCAL_LOGIN))) {
 					mActivity.showTextToast(R.string.offline_not_play);
 				} else {
 					// sortList(myDeviceList);
-					ArrayList<Device> playList = PlayUtil.prepareConnect(
-							myDeviceList, arg1, localFlag);
+					ArrayList<Device> playList = PlayUtil
+							.prepareConnect(
+									myDeviceList,
+									arg1,
+									Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+											.get(Consts.LOCAL_LOGIN)));
 					Intent intentPlay = new Intent(mActivity,
 							JVPlayActivity.class);
 					intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
@@ -789,7 +817,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 			int delRes = -1;
 			try {
 				int delIndex = Integer.parseInt(params[0]);
-				if (localFlag) {// 本地保存修改信息
+				if (Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {// 本地保存修改信息
 					delRes = 0;
 				} else {
 					String name = mActivity.statusHashMap
@@ -913,7 +942,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		protected Integer doInBackground(String... params) {
 			int getRes = 0;
 			try {
-				if (!localFlag) {// 非本地登录，无论是否刷新都执行
+				if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {// 非本地登录，无论是否刷新都执行
 					// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次
 					if (null == myDeviceList || 0 == myDeviceList.size()) {
 						myDeviceList = DeviceUtil
@@ -948,12 +978,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 					if (null != myDeviceList && 0 != myDeviceList.size()) {
 						sortList();
-						CacheUtil.saveDevList(myDeviceList);
 					}
-
-				} else if (localFlag) {// 本地登录
+					CacheUtil.saveDevList(myDeviceList);
+				} else if (Boolean
+						.valueOf(((BaseActivity) mActivity).statusHashMap
+								.get(Consts.LOCAL_LOGIN))) {// 本地登录
 					myDeviceList = CacheUtil.getDevList();
 				}
+
+				MyLog.v("刷新出来的数据："
+						+ Boolean
+								.valueOf(((BaseActivity) mActivity).statusHashMap
+										.get(Consts.LOCAL_LOGIN)), myDeviceList
+						.toString());
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
 					getRes = DEVICE_GETDATA_SUCCESS;
@@ -1043,12 +1080,17 @@ public class JVMyDeviceFragment extends BaseFragment {
 			try {
 				for (Device addDev : list) {
 
-					if (myDeviceList.size() >= 100 && !localFlag) {// 非本地多于100个设备不让再添加
+					if (myDeviceList.size() >= 100
+							&& !Boolean
+									.valueOf(((BaseActivity) mActivity).statusHashMap
+											.get(Consts.LOCAL_LOGIN))) {// 非本地多于100个设备不让再添加
 						addRes = 100;
 						break;
 					}
 					if (null != addDev) {
-						if (localFlag) {// 本地添加
+						if (Boolean
+								.valueOf(((BaseActivity) mActivity).statusHashMap
+										.get(Consts.LOCAL_LOGIN))) {// 本地添加
 							addRes = 0;
 						} else {
 							addRes = DeviceUtil
@@ -1158,7 +1200,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	// 根据在线状态排序
 	private void sortList() {
-		if (!localFlag) {
+		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+				.get(Consts.LOCAL_LOGIN))) {
 			ArrayList<Device> onlineDevice = new ArrayList<Device>();
 			ArrayList<Device> offlineDevice = new ArrayList<Device>();
 			for (Device dev : myDeviceList) {

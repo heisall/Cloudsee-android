@@ -1009,7 +1009,7 @@ public class JVPlayActivity extends PlayActivity implements
 		// lastItemIndex, lastItemIndex));
 
 		viewPager.setLongClickable(true);
-		viewPager.setDisableSliding(false);
+		// viewPager.setDisableSliding(false);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 			@Override
@@ -1018,7 +1018,7 @@ public class JVPlayActivity extends PlayActivity implements
 				MyLog.i(Consts.TAG_UI, ">>> pageSelected: " + arg0 + ", to "
 						+ ((arg0 > lastItemIndex) ? "right" : "left"));
 
-				viewPager.setDisableSliding(true);
+				// viewPager.setDisableSliding(true);
 
 				currentPageChannelList = manager.getValidChannelList(arg0);
 
@@ -1243,12 +1243,13 @@ public class JVPlayActivity extends PlayActivity implements
 							Consts.CALL_CONNECT_CHANGE, channel.getIndex(),
 							JVNetConst.CONNECT_OK));
 
-					// [Neo] TODO
-					if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
-						viewPager.setDisableSliding(false);
-					} else {
-						viewPager.setDisableSliding(true);
-					}
+					// // [Neo] TODO
+					// if (Configuration.ORIENTATION_PORTRAIT ==
+					// configuration.orientation) {// 竖屏
+					// viewPager.setDisableSliding(false);
+					// } else {
+					// viewPager.setDisableSliding(true);
+					// }
 				}
 			}
 		}
@@ -1284,7 +1285,7 @@ public class JVPlayActivity extends PlayActivity implements
 		viewPager.setAdapter(pagerAdapter);
 		lastItemIndex = ((lastClickIndex >= 0) ? (lastClickIndex / count) : 0);
 		viewPager.setCurrentItem(lastItemIndex, false);
-		viewPager.setDisableSliding(true);
+		// viewPager.setDisableSliding(true);
 		currentPageChannelList = manager.getValidChannelList(lastItemIndex);
 		changeBorder((lastClickIndex >= 0) ? lastClickIndex : 0);
 
@@ -2593,9 +2594,10 @@ public class JVPlayActivity extends PlayActivity implements
 				changeWindow(ONE_SCREEN);
 			}
 
-		} else {
-			viewPager.setDisableSliding(false);
 		}
+		// else {
+		// viewPager.setDisableSliding(false);
+		// }
 
 		showFunc(channelList.get(lastClickIndex), currentScreen);
 	}

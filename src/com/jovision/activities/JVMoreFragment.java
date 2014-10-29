@@ -101,7 +101,6 @@ public class JVMoreFragment extends BaseFragment {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 		MyLog.v("JVMyMoreFragment", "onTabAction:what=" + what + ";arg1="
 				+ arg1 + ";arg2=" + arg1);
 		switch (what) {
@@ -175,7 +174,6 @@ public class JVMoreFragment extends BaseFragment {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.more_cancle:// 注销
 				LogOutTask task = new LogOutTask();
@@ -211,7 +209,6 @@ public class JVMoreFragment extends BaseFragment {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
-						// TODO Auto-generated method stub
 						Log.i("TAG", "点击的位置是  :" + position);
 						switch (position) {
 						case 0:
@@ -279,7 +276,6 @@ public class JVMoreFragment extends BaseFragment {
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 		fragHandler.sendMessage(fragHandler
 				.obtainMessage(what, arg1, arg2, obj));
 	}

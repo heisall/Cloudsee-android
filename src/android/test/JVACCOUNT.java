@@ -106,7 +106,7 @@ public class JVACCOUNT {
 	public static native int ModifyUserPassword(String oldPwd, String newPwd);
 
 	/**
-	 * 6-注销用户
+	 * 6-注销用户 0是成功 -3是缓存失败。 非超时的话就这俩返回值
 	 * 
 	 * @return
 	 */

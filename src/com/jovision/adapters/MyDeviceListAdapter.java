@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -65,12 +66,15 @@ public class MyDeviceListAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		int count = 0;
+
 		try {
-			int last = deviceList.size() % 2;
-			if (0 == last) {
-				count = deviceList.size() / 2;
-			} else {
-				count = deviceList.size() / 2 + 1;
+			if (null != deviceList && 0 != deviceList.size()) {
+				int last = deviceList.size() % 2;
+				if (0 == last) {
+					count = deviceList.size() / 2;
+				} else {
+					count = deviceList.size() / 2 + 1;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -172,6 +176,12 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						.setImageResource(R.drawable.wifioffline);
 				deviceHolder.wifiStateL.setTextColor(mfragment.getActivity()
 						.getResources().getColor(R.color.mydevice_online));
+
+				if (Build.VERSION_CODES.HONEYCOMB < Build.VERSION.SDK_INT) {
+					deviceHolder.wifiStateL.setAlpha((float) 0.8);
+				} else {
+					// deviceHolder.wifiStateL.getBackground().setAlpha(80);
+				}
 			}
 
 			if (deviceList.get(position * 2).getOnlineState() == 1) {
@@ -184,6 +194,12 @@ public class MyDeviceListAdapter extends BaseAdapter {
 				deviceHolder.onLineStateL.setText(R.string.str_device_offline);
 				deviceHolder.onLineStateL.setTextColor(mfragment.getActivity()
 						.getResources().getColor(R.color.mydevice_online));
+				if (Build.VERSION_CODES.HONEYCOMB < Build.VERSION.SDK_INT) {
+					deviceHolder.onLineStateL.setAlpha((float) 0.8);
+				} else {
+					// deviceHolder.onLineStateL.getBackground().setAlpha(80);
+				}
+
 				deviceHolder.devOnlineImgL
 						.setImageResource(R.drawable.deviceoffline);
 			}
@@ -257,6 +273,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					deviceHolder.wifiStateR.setTextColor(mfragment
 							.getActivity().getResources()
 							.getColor(R.color.mydevice_online));
+					if (Build.VERSION_CODES.HONEYCOMB < Build.VERSION.SDK_INT) {
+						deviceHolder.wifiStateR.setAlpha((float) 0.8);
+					} else {
+						// deviceHolder.wifiStateR.getBackground().setAlpha(80);
+					}
 				}
 				if (deviceList.get(position * 2 + 1).getOnlineState() == 1) {
 					deviceHolder.onLineStateR
@@ -272,6 +293,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					deviceHolder.onLineStateR.setTextColor(mfragment
 							.getActivity().getResources()
 							.getColor(R.color.mydevice_online));
+					if (Build.VERSION_CODES.HONEYCOMB < Build.VERSION.SDK_INT) {
+						deviceHolder.onLineStateR.setAlpha((float) 0.8);
+					} else {
+						// deviceHolder.onLineStateR.getBackground().setAlpha(80);
+					}
 					deviceHolder.devOnlineImgR
 							.setImageResource(R.drawable.deviceoffline);
 				}

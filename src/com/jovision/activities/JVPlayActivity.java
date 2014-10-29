@@ -1127,8 +1127,8 @@ public class JVPlayActivity extends PlayActivity implements
 		nextStep.setOnClickListener(myOnClickListener);
 
 		Jni.setStat(true);
-		// 2.几的系统有可能花屏
-		if (MobileUtil.mobileSysVersion(JVPlayActivity.this).startsWith("2")) {
+		// 小于3.0的系统有可能花屏
+		if (Build.VERSION_CODES.HONEYCOMB > Build.VERSION.SDK_INT) {
 			if (!MySharedPreference.getBoolean(Consts.DIALOG_NOT_SUPPORT23)) {
 				errorDialog(
 						Consts.DIALOG_NOT_SUPPORT23,
@@ -1140,7 +1140,8 @@ public class JVPlayActivity extends PlayActivity implements
 												.mobileSysVersion(JVPlayActivity.this)));
 			}
 
-		} else if (Build.VERSION_CODES.JELLY_BEAN > Build.VERSION.SDK_INT) {// 小于4.1的系统，不允许硬解
+		}
+		if (Build.VERSION_CODES.JELLY_BEAN > Build.VERSION.SDK_INT) {// 小于4.1的系统，不允许硬解
 			lowerSystem = true;
 		}
 
@@ -1685,7 +1686,6 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but8:
 			case R.id.audio_monitor:// 音频监听
-				initAudio(channelList.get(lastClickIndex).getAudioByte());
 				if (allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).isVoiceCall()) {
 						showTextToast(R.string.audio_monitor_forbidden);
@@ -1741,7 +1741,6 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but5:
 			case R.id.funclayout:// AP功能列表对讲功能
 			case R.id.voicecall:// 语音对讲
-				initAudio(channelList.get(lastClickIndex).getAudioByte());
 				if (allowThisFuc(true)) {
 					// 停止音频监听
 					if (PlayUtil.isPlayAudio(lastClickIndex)) {
@@ -1773,6 +1772,8 @@ public class JVPlayActivity extends PlayActivity implements
 							functionListAdapter.selectIndex = -1;
 						}
 					} else {
+						initAudio(channelList.get(lastClickIndex)
+								.getAudioByte());
 						JVPlayActivity.AUDIO_SINGLE = channelList.get(
 								lastClickIndex).isSingleVoice();
 						PlayUtil.startVoiceCall(lastClickIndex);

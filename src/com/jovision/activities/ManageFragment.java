@@ -167,25 +167,33 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 4: {// 立即观看
-				if (0 == deviceList.get(deviceIndex).getOnlineState()) {
+				if (0 == deviceList.get(deviceIndex).getOnlineState()
+						&& !Boolean
+								.valueOf(((BaseActivity) mActivity).statusHashMap
+										.get(Consts.LOCAL_LOGIN))) {
 					mActivity.showTextToast(R.string.offline_not_play);
 				} else {
-					ArrayList<Device> playList = PlayUtil.prepareConnect(
-							deviceList, deviceIndex, localFlag);
+					if (0 == deviceList.get(deviceIndex).getChannelList()
+							.size()) {// 0个通道直接播放
+						mActivity.showTextToast(R.string.selectone_to_connect);
+					} else {
+						ArrayList<Device> playList = PlayUtil.prepareConnect(
+								deviceList, deviceIndex, localFlag);
 
-					Intent intentPlay = new Intent(mActivity,
-							JVPlayActivity.class);
-					intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
-							playList.toString());
-					intentPlay.putExtra(
-							"DeviceIndex",
-							PlayUtil.getPlayIndex(playList,
-									deviceList.get(deviceIndex).getFullNo()));
-					intentPlay.putExtra("ChannelofChannel", device
-							.getChannelList().toList().get(0).getChannel());
-					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+						Intent intentPlay = new Intent(mActivity,
+								JVPlayActivity.class);
+						intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
+								playList.toString());
+						intentPlay
+								.putExtra("DeviceIndex", PlayUtil.getPlayIndex(
+										playList, deviceList.get(deviceIndex)
+												.getFullNo()));
+						intentPlay.putExtra("ChannelofChannel", device
+								.getChannelList().toList().get(0).getChannel());
+						intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 
-					mActivity.startActivity(intentPlay);
+						mActivity.startActivity(intentPlay);
+					}
 				}
 
 				break;

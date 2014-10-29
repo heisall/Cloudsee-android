@@ -196,8 +196,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 						refreshView.getLoadingLayoutProxy()
 								.setLastUpdatedLabel(label);
 
-						// Do work to refresh the list here.
-						// new GetDataTask().execute();
+						fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+
 						GetDevTask task = new GetDevTask();
 						String[] strParams = new String[3];
 						task.execute(strParams);
@@ -270,6 +270,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			myDeviceList = CacheUtil.getDevList();
 			refreshList();
 		} else {
+			fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 			GetDevTask task = new GetDevTask();
 			String[] strParams = new String[3];
 			task.execute(strParams);
@@ -610,7 +611,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				mActivity.showTextToast(R.string.selectone_to_connect);
 			} else if (1 == dev.getChannelList().size()) {// 1个通道直接播放
 
-				if (0 == myDeviceList.get(arg1).getOnlineState()) {
+				if (0 == myDeviceList.get(arg1).getOnlineState() && !localFlag) {
 					mActivity.showTextToast(R.string.offline_not_play);
 				} else {
 					// sortList(myDeviceList);
@@ -913,8 +914,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			int getRes = 0;
 			try {
 				if (!localFlag) {// 非本地登录，无论是否刷新都执行
-					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
-
 					// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次
 					if (null == myDeviceList || 0 == myDeviceList.size()) {
 						myDeviceList = DeviceUtil
@@ -1043,6 +1042,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 			list = Device.fromJsonArray(params[0]);
 			try {
 				for (Device addDev : list) {
+
+					if (myDeviceList.size() >= 100 && !localFlag) {// 非本地多于100个设备不让再添加
+						addRes = 100;
+						break;
+					}
 					if (null != addDev) {
 						if (localFlag) {// 本地添加
 							addRes = 0;
@@ -1096,6 +1100,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 			if (0 == result) {
 				refreshList();
 				mActivity.showTextToast(R.string.add_device_succ);
+			} else if (100 == result) {
+				mActivity.showTextToast(R.string.str_device_most_count);
 			} else {
 				refreshList();
 				myDLAdapter.setData(myDeviceList);
@@ -1178,6 +1184,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		@Override
 		public void run() {
+			CacheUtil.saveDevList(myDeviceList);
+			myDeviceList = CacheUtil.getDevList();
+			MyLog.v("autorefresh", "自动刷新");
 			fragHandler.sendMessage(fragHandler.obtainMessage(AUTO_UPDATE));
 		}
 

@@ -20,6 +20,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.mails.MailSenderInfo;
@@ -56,6 +57,8 @@ public class JVOffLineDialogActivity extends BaseActivity {
 	private String errorMsg = "";// 崩溃日志
 	private SimpleMailSender sms;
 	MailSenderInfo mailInfo;
+
+	public static boolean localFlag = false;// 本地登陆标志位
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -105,6 +108,8 @@ public class JVOffLineDialogActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.dialog_offline);
+
+		localFlag = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 		/** 账号踢退 */
 		otherLoginLayout = (LinearLayout) findViewById(R.id.other_login_layout);
 		lastCount = (TextView) findViewById(R.id.lastcount);
@@ -297,6 +302,9 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		MyActivityManager.getActivityManager().popAllActivityExceptOne(
 				JVLoginActivity.class);
 		Intent intent = new Intent();
+		if (!localFlag) {
+			MySharedPreference.putString(Consts.DEVICE_LIST, "");
+		}
 		intent.setClass(JVOffLineDialogActivity.this, JVLoginActivity.class);
 		JVOffLineDialogActivity.this.startActivity(intent);
 		JVOffLineDialogActivity.this.finish();

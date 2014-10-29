@@ -133,6 +133,10 @@ public class Consts {
 	public static final int BAD_SCREENSHOT_CONV = 0x02;//
 	public static final int BAD_SCREENSHOT_OPEN = 0x03;//
 
+	public static final int ARG2_REMOTE_PLAY_OVER = 0x32;
+	public static final int ARG2_REMOTE_PLAY_ERROR = 0x39;
+	public static final int ARG2_REMOTE_PLAY_TIMEOUT = 0x77;
+
 	public static final int WHAT_DUMMY = 0x04;
 
 	public static final String IPC_FLAG = "IPC-";

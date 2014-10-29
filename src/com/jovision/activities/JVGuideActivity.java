@@ -92,7 +92,7 @@ public class JVGuideActivity extends BaseActivity {
 				}
 			});
 			imageView.setImageResource(imageArray[i]);
-			imageView.setScaleType(ScaleType.CENTER_CROP);
+			imageView.setScaleType(ScaleType.FIT_XY);
 			listViews.add(imageView);
 		}
 	}

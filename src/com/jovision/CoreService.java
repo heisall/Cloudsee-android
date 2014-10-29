@@ -1,36 +1,13 @@
 package com.jovision;
 
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.test.JVACCOUNT;
-import android.util.Log;
 
-import com.jovetech.CloudSee.temp.R;
-import com.jovision.activities.JVOffLineDialogActivity;
-import com.jovision.activities.JVTabActivity;
-import com.jovision.bean.PushInfo;
-import com.jovision.commons.JVAccountConst;
-import com.jovision.commons.JVAlarmConst;
-import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
-import com.jovision.commons.MySharedPreference;
-import com.jovision.utils.AlarmUtil;
-import com.jovision.utils.DefaultExceptionHandler;
 
 public class CoreService extends Service implements IHandlerLikeNotify {
 

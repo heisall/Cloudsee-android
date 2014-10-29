@@ -351,10 +351,10 @@
         </activity>
 
         <service
-            android:name="com.jovision.MainService"
+            android:name="com.jovision.CoreService"
             android:enabled="true" >
             <intent-filter>
-                <action android:name="mainService" />
+                <action android:name="com.jovision.CORESERVICE" />
             </intent-filter>
         </service>
     </application>

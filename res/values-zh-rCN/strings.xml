@@ -183,7 +183,7 @@
     <!-- 注册 -->
     <string name="str_enter_username">邮箱/手机号/用户名</string>
     <string name="str_enter_username1">请输入新用户名</string>
-    <string name="str_enter_pass1">密码                </string>
+    <string name="str_enter_pass1">密码</string>
     <string name="str_enter_pass2">确认密码</string>
     <string name="str_enter_email">邮箱</string>
     <string name="login_str_bind">绑定</string>
@@ -495,6 +495,8 @@
     <string name="del_alarm_succ">报警删除成功</string>
     <string name="del_alarm_failed">报警删除失败</string>
     <string name="get_alarm_list_failed">获取报警信息失败</string>
+    <string name="clear_alarm_succ">清空报警信息成功</string>
+    <string name="clear_alarm_failed">清空报警信息失败</string>
     <!-- JVPlayActivity -->
     <string name="offline_not_play">设备已处于离线状态,不能进行操作.</string>
     <string name="connfailed_auth">身份验证失败</string>
@@ -659,16 +661,16 @@
     <string name="str_alarm_connect_failed_1">连接失败，已经连接或者超过最大连接数</string>
     <string name="str_alarm_binddev_timeout">主控绑定设备超时</string>
     <string name="str_alarm_binddev_success">绑定设备成功</string>
-    <string name="str_alarm_binddev_max">超过最大数</string>
+    <string name="str_alarm_binddev_max">超过连接最大数</string>
     <string name="str_alarm_binddev_setnickname_failed">设置昵称失败</string>
-    <string name="str_alarm_textdata_req_over">文本请求聊天终止</string>
+    <string name="str_alarm_textdata_req_over">文本请求终止</string>
     <string name="str_alarm_binddev_repeat_error">该设备已被绑定，不能重复绑定</string>
     <string name="str_alarm_binddev_delete">删除设备</string>
     <string name="str_alarm_thirddev_delete">删除</string>
     <string name="str_alarm_thirddev_cancel">取消</string>
     <string name="str_alarm_wait_textresp_timeout">等待文本请求结果超时</string>
     <string name="str_alarm_query_thirddev_timeout">查询主控绑定设备超时</string>
-    <string name="str_alarm_query_thirddev_zero">该设备暂无绑定第三方设备</string>
+    <string name="str_alarm_query_thirddev_zero">该设备暂无绑定第三方报警设备</string>
     <string name="str_alarm_setdevalarm_switch_error">设置设备防护开关失败</string>
     <string name="str_alarm_delete_device_failed">删除设备失败</string>
     <string name="str_alarm_pushinfo_obj_null">传递报警推送数据为空</string>

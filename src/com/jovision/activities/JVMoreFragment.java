@@ -86,7 +86,6 @@ public class JVMoreFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
-		listViewClick();
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 		currentMenu.setText(R.string.more_featrue);
@@ -151,6 +150,7 @@ public class JVMoreFragment extends BaseFragment {
 		adapter = new FragmentAdapter(JVMoreFragment.this, dataList);
 		more_listView.setAdapter(adapter);
 		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
+		listViewClick();
 
 		more_modifypwd.setOnClickListener(myOnClickListener);
 		more_cancle.setBackgroundResource(R.drawable.blue_bg);
@@ -212,8 +212,9 @@ public class JVMoreFragment extends BaseFragment {
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
 						// TODO Auto-generated method stub
+						Log.i("TAG", "点击的位置是  :" + position);
 						switch (position) {
-						case 0: {
+						case 0:
 							if (MySharedPreference.getBoolean("HELP")) {
 								MySharedPreference.putBoolean("HELP", false);
 							} else {
@@ -222,17 +223,7 @@ public class JVMoreFragment extends BaseFragment {
 								MySharedPreference.putBoolean("page2", false);
 							}
 							break;
-						}
-						case 1: {
-							// if (MySharedPreference.getBoolean("AlarmSwitch"))
-							// {
-							// MySharedPreference.putBoolean("AlarmSwitch",
-							// false);
-							// } else {
-							// MySharedPreference.putBoolean("AlarmSwitch",
-							// true);
-							// }
-
+						case 1:
 							AlarmTask task = new AlarmTask();
 							Integer[] params = new Integer[3];
 							if (!MySharedPreference.getBoolean("AlarmSwitch")) {// 1是关
@@ -244,8 +235,7 @@ public class JVMoreFragment extends BaseFragment {
 							task.execute(params);
 
 							break;
-						}
-						case 2: {
+						case 2:
 							if (MySharedPreference.getBoolean("PlayDeviceMode")) {
 								MySharedPreference.putBoolean("PlayDeviceMode",
 										false);
@@ -263,37 +253,21 @@ public class JVMoreFragment extends BaseFragment {
 																R.string.str_video_more_modetwo));
 							}
 							break;
-						}
-						case 3: {
-							// if (("firsted").equals(MySharedPreference
-							// .getString(Consts.MORE_FREGMENT_FEEDBACK))) {
+						case 3:
 							Intent intent = new Intent(mActivity,
 									JVFeedbackActivity.class);
 							startActivity(intent);
-							// } else {
-							// Intent intent = new Intent(mActivity,
-							// JVIntroduceAty.class);
-							// MySharedPreference.putString(
-							// Consts.MORE_FREGMENT_FEEDBACK,
-							// "firsted");
-							// intent.putExtra("viewnum", 3);
-							// intent.putExtra("pagenum", 0);
-							// startActivity(intent);
-							// }
 							break;
-						}
-						case 4: {
-							CheckUpdateTask task = new CheckUpdateTask(
+						case 4:
+							CheckUpdateTask taskf = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];
 							strParams[0] = "1";// 1,手动检查更新
-							task.execute(strParams);
+							taskf.execute(strParams);
 							break;
-						}
-						case 5: {
+						case 5:
 
 							break;
-						}
 
 						default:
 							break;

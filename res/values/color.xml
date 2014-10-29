@@ -46,10 +46,12 @@
     <color name="tab_bg_color">#F5F5F5</color>
     <color name="play_tab_text">#606772</color>
     <color name="ivory">#FFFFF0</color>
-    <color name="mydevice_online">#595757</color>
+    <color name="mydevice_online">#99595757</color>
     <!-- Dialog颜色值 -->
     <color name="dialogchannal">#404040</color>
     <color name="dialogchannaltext">#55A0FF</color>
+    <color name="dialognamecolor">#6D6E6D</color>
+    <color name="dialog_view">#D2E7ED</color>
     <color name="poplistBg">#565656</color>
     <color name="slectorDialogBg">#333333</color>
     <color name="popwindow_item_color">#565656</color>
@@ -89,6 +91,7 @@
     <color name="dialog_divider"> #CECECE</color>
 
     <!-- 设备管理 -->
+    <color name="cloud_color">#cccccc</color>
     <color name="video_channelcolor">#EFEFEF</color>
     <!-- 我的设备字体颜色 -->
     <color name="mydevice_modify">#519DE8</color>

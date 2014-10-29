@@ -529,6 +529,8 @@
     <string name="xlistview_no_more">No alert now</string>
     <string name="del_alarm_succ">Delete alarm successfully.</string>
     <string name="del_alarm_failed">Failed to delete alarm.</string>
+    <string name="clear_alarm_succ">Clear alarm successfully.</string>
+    <string name="clear_alarm_failed">Failed to clear alarm.</string>
     <!-- JVIpconnectActivity -->
     <!-- JVPlayActivity -->
     <string name="offline_not_play">Unable to operate due to device has been offline.</string>
@@ -648,22 +650,42 @@
     <string name="str_downloading_vod">Getting the video file…</string>
     <string name="str_alarm_dev">Device :</string>
     <string name="str_alarm_type">Type :</string>
-    <string name="str_alarm_preview">View</string>
+    <string name="str_alarm_preview">Check</string>
     <string name="str_alarm_ignore">Ignore</string>
     <string name="str_alarm_manage">Add Alarm Device</string>
-    <string name="str_alarm_third_nickname">Enter the NickName :</string>
+    <string name="str_alarm_third_nickname">please input nickname of binding devices:</string>
     <string name="str_third_device_name">Device Name</string>
-    <string name="str_door_device">Door Device</string>
-    <string name="str_bracelet_device">Bracelet Device</string>
-    <string name="str_telecontrol_device">Telecontrol Device</string>
-    <string name="str_click_add_device">Click here to add new equipment</string>
-    <string name="str_alarm_connect_except">Abnormal connection disconnected</string>
-    <string name="str_alarm_thirddev_default_name">Alarm Device</string>
-    <string name="str_alarm_thirddev_learning">do in learning…</string>
+    <string name="str_door_device">door magnetic devices</string>
+    <string name="str_bracelet_device">hand ring devices</string>
+    <string name="str_click_add_device">click here to add new devices</string>
+    <string name="str_alarm_connect_except">abnormal disconnection</string>
+    <string name="str_alarm_thirddev_default_name">alarm devices</string>
+    <string name="str_alarm_thirddev_learning">do in learning...</string>
     <string name="str_alarm_thirddev_bind_hint">Device NickName</string>
     <string name="str_bind_finish">OK</string>
     <string name="str_alarm_type_move">Motion Detection Alarm</string>
-    <string name="str_alarm_type_third">Door magnetic or bracelets alarm</string>
-    <string name="str_alarm_type_unknown">Unknown Alarm</string>
+    <string name="str_alarm_type_third">door magnetic or hand ring alarm</string>
+    <string name="str_alarm_type_unknown">unknown alarm type</string>
+    <string name="str_telecontrol_device">remote control devices</string>
+    <string name="str_alarm_connect_success">connection success</string>
+    <string name="str_alarm_connect_failed_1">connection failed, has been connected, or exceed the maximum number of connections</string>
+    <string name="str_alarm_binddev_timeout">host-end binding equipment timeout</string>
+    <string name="str_alarm_binddev_success">binding device successfully</string>
+    <string name="str_alarm_binddev_max">more than maximum connection number</string>
+    <string name="str_alarm_binddev_setnickname_failed">set up a nickname failed</string>
+    <string name="str_alarm_textdata_req_over">text requests to be terminated</string>
+    <string name="str_alarm_binddev_repeat_error">the device has been bound, cannot repeat binding</string>
+    <string name="str_alarm_binddev_delete">delete devices</string>
+    <string name="str_alarm_thirddev_delete">Delete</string>
+    <string name="str_alarm_thirddev_cancel">Cancel</string>
+    <string name="str_alarm_wait_textresp_timeout">waiting for results of text requests timeout</string>
+    <string name="str_alarm_query_thirddev_timeout">query host-end binding devices timeout</string>
+    <string name="str_alarm_query_thirddev_zero">the device not bound with third-party alarm devices</string>
+    <string name="str_alarm_setdevalarm_switch_error">set up alarm switch of devices failed</string>
+    <string name="str_alarm_delete_device_failed">delete devices failed</string>
+    <string name="str_alarm_pushinfo_obj_null">The transfer push alarm data is empty</string>
+    <string name="str_alarm_download_alarmimg_timeout">get alarm images timeout</string>
+    <string name="str_alarm_download_alarmimg_failed">get alarm images failed</string>
+    <string name="str_alarm_download_alarmimg_stopped">download alarm images has been stopped</string>
 
 </resources>

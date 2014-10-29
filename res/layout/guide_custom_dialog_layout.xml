@@ -37,7 +37,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/progressBarLoading"
             android:text="@string/str_alarm_thirddev_learning"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="16.0dip" />
     </RelativeLayout>
 

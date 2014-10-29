@@ -119,7 +119,10 @@ public class ChannelFragment extends BaseFragment {
 			if (changeRes) {
 				channelAdapter.notifyDataSetChanged();
 			} else {
-				if (0 == deviceList.get(deviceIndex).getOnlineState()) {
+				if (0 == deviceList.get(deviceIndex).getOnlineState()
+						&& !Boolean
+								.valueOf(((BaseActivity) mActivity).statusHashMap
+										.get(Consts.LOCAL_LOGIN))) {
 					mActivity.showTextToast(R.string.offline_not_play);
 				} else {
 					ArrayList<Device> playList = PlayUtil
@@ -238,7 +241,10 @@ public class ChannelFragment extends BaseFragment {
 				break;
 			}
 			case R.id.connect_all:
-				if (0 == deviceList.get(deviceIndex).getOnlineState()) {
+				if (0 == deviceList.get(deviceIndex).getOnlineState()
+						&& !Boolean
+								.valueOf(((BaseActivity) mActivity).statusHashMap
+										.get(Consts.LOCAL_LOGIN))) {
 					mActivity.showTextToast(R.string.offline_not_play);
 				} else {
 					ArrayList<Device> playList = PlayUtil

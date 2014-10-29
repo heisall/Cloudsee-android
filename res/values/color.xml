@@ -10,7 +10,7 @@
     <color name="halftransparent">#90000000</color>
     <color name="helptransparent">#99000000</color>
     <color name="moretransparent">#19000000</color>
-    
+
     <!-- 设备的背景色 -->
     <color name="device_color_1">#378FE6</color>
     <color name="device_color_2">#13C6CD</color>

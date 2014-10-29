@@ -23,6 +23,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 
@@ -100,6 +101,8 @@ public class JVRegisterActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
+		// 进注册清缓存
+		MySharedPreference.putString(Consts.CACHE_DEVICE_LIST, "");
 	}
 
 	@Override

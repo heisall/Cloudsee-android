@@ -118,7 +118,7 @@ public class JVLoginActivity extends BaseActivity {
 		setContentView(R.layout.login_layout);
 
 		userList = UserUtil.getUserList();
-
+		MyLog.v("Userlist-get", userList.toString());
 		/** userlogin Fuction */
 		userNameET = (EditText) findViewById(R.id.username_et);
 		passwordET = (EditText) findViewById(R.id.password_et);
@@ -408,6 +408,7 @@ public class JVLoginActivity extends BaseActivity {
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				user.setLastLogin(1);
 				UserUtil.addUser(user);
+
 				intent.setClass(JVLoginActivity.this, JVTabActivity.class);
 				JVLoginActivity.this.startActivity(intent);
 				finish();

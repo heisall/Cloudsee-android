@@ -91,6 +91,7 @@
     <string name="more_modifypwd">修改密码</string>
     <string name="more_findpassword">找回密码</string>
     <string name="more_cancel">注销账号</string>
+    <string name="dialog_modifypwd">身份验证不成功，是否修改用户名密码？</string>
 
     <!-- JVWelcomeActivity -->
     <string name="cloud1">云视通</string>

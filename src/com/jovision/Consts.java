@@ -133,6 +133,10 @@ public class Consts {
 	public static final int BAD_SCREENSHOT_CONV = 0x02;//
 	public static final int BAD_SCREENSHOT_OPEN = 0x03;//
 
+	public static final int BAD_HAS_CONNECTED = -1;
+	public static final int BAD_CONN_OVERFLOW = -2;
+	public static final int BAD_CONN_UNKOWN = -3;
+
 	public static final int ARG2_REMOTE_PLAY_OVER = 0x32;
 	public static final int ARG2_REMOTE_PLAY_ERROR = 0x39;
 	public static final int ARG2_REMOTE_PLAY_TIMEOUT = 0x77;

@@ -1409,7 +1409,7 @@ public class JVPlayActivity extends PlayActivity implements
 					@Override
 					public void run() {
 						if (connect(channel.getParent(), channel, true, false,
-								false)) {
+								false) >= 0) {
 							channel.setPaused(false);
 						}
 					}
@@ -1497,9 +1497,9 @@ public class JVPlayActivity extends PlayActivity implements
 
 	}
 
-	private boolean connect(Device device, Channel channel,
-			boolean isPlayDirectly, boolean isTryOmx, boolean isEnableAudio) {
-		boolean result = false;
+	private int connect(Device device, Channel channel, boolean isPlayDirectly,
+			boolean isTryOmx, boolean isEnableAudio) {
+		int result = Consts.BAD_CONN_UNKOWN;
 
 		if (null != device && null != channel) {
 			// 如果是域名添加的设备需要先去解析IP
@@ -1552,11 +1552,10 @@ public class JVPlayActivity extends PlayActivity implements
 			// Jni.enablePlayAudio(channel.getIndex(), isEnableAudio);
 		}
 
-		if (result) {
-			MyLog.v("调用连接成功", channel.getIndex() + "----" + result);
-		} else {
-			MyLog.e("调用连接失败", channel.getIndex() + "----" + result);
+		if (result < 0) {
+			MyLog.e("调用连接失败", channel.getIndex() + ": " + result);
 		}
+
 		return result;
 	}
 

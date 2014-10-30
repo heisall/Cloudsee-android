@@ -481,7 +481,8 @@
     <string name="del_device_failed">设备删除失败</string>
     <string name="str_modify">修改</string>
     <string name="end_list">已到最后</string>
-    <string name="start_list">已到顶端</string>
+    <string name="start_left">已到最左端</string>
+    <string name="start_right">已到最右端</string>
     <string name="str_update">当前设备已全部更新</string>
     <string name="wifi_device">无线设备</string>
     <string name="line_device">有线设备</string>

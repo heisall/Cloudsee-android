@@ -58,6 +58,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private ManageListAdapter adapter;
 	/** 两个列表界面 */
 	private LinearLayout dataLayout;// 数据界面
+	private RelativeLayout refreshlayout;// 加载失败页面
 	private RelativeLayout relalist;
 	private RelativeLayout relative;
 	/** 帮助引导 */
@@ -101,6 +102,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 		managePager = (ViewPager) mParent.findViewById(R.id.manage_pagerer);
 
 		/** 管理功能 */
+		refreshlayout = (RelativeLayout) mParent
+				.findViewById(R.id.refreshlayout);
 		device_num = (TextView) mParent.findViewById(R.id.device_num);
 		dataLayout = (LinearLayout) mParent.findViewById(R.id.datalayout);
 		relalist = (RelativeLayout) mParent.findViewById(R.id.relalist);
@@ -348,16 +351,24 @@ public class JVDeviceManageFragment extends BaseFragment {
 			}
 		}
 
-		if (null == manageDeviceList || 0 == manageDeviceList.size()) {
+		if (null == manageDeviceList) {
 			dataLayout.setVisibility(View.GONE);
-			quickSetSV.setVisibility(View.VISIBLE);
-		} else {
-			dataLayout.setVisibility(View.VISIBLE);
 			quickSetSV.setVisibility(View.GONE);
-			// 初始化导航
-			initNav();
-			// 初始化viewPager
-			initViewPager();
+			refreshlayout.setVisibility(View.VISIBLE);
+		} else {
+			if (0 == manageDeviceList.size()) {
+				dataLayout.setVisibility(View.GONE);
+				refreshlayout.setVisibility(View.GONE);
+				quickSetSV.setVisibility(View.VISIBLE);
+			} else {
+				dataLayout.setVisibility(View.VISIBLE);
+				refreshlayout.setVisibility(View.GONE);
+				quickSetSV.setVisibility(View.GONE);
+				// 初始化导航
+				initNav();
+				// 初始化viewPager
+				initViewPager();
+			}
 		}
 		try {
 			ManageFragment fragement = ((ManageFragment) fragments

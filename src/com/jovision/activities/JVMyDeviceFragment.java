@@ -46,7 +46,9 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.adapters.PopWindowAdapter;
+import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
@@ -76,8 +78,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 	// private RefreshableView refreshableView;
 	private PullToRefreshListView mPullRefreshListView;
 
-	/** 叠加两个 布局 */
+	/** 叠加三个 布局 */
 	private LinearLayout deviceLayout; // 设备列表界面
+	private RelativeLayout refreshLayout; // 快速配置界面
 	private LinearLayout quickSetSV; // 快速配置界面
 	private Button quickSet;
 	private Button addDevice;
@@ -109,7 +112,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private ImageView dialog_cancle_img;
 	/** 设备列表 */
 	private ListView myDeviceListView;
-	private ArrayList<Device> myDeviceList = new ArrayList<Device>();
+	private ArrayList<Device> myDeviceList = null;
 	MyDeviceListAdapter myDLAdapter;
 	/** 自动刷新 */
 	private Timer updateTimer = null;
@@ -156,6 +159,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
+		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
+				.get(Consts.HAG_GOT_DEVICE));
+		if (!hasGot) {
+			fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+		}
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
@@ -214,10 +223,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 		adView = inflater.inflate(R.layout.ad_layout, null);
 
 		deviceLayout = (LinearLayout) mParent.findViewById(R.id.devicelayout);
+		refreshLayout = (RelativeLayout) mParent
+				.findViewById(R.id.refreshlayout);
 		quickSetSV = (LinearLayout) mParent
 				.findViewById(R.id.quickinstalllayout);
 		quickSet = (Button) mParent.findViewById(R.id.quickinstall);
 		addDevice = (Button) mParent.findViewById(R.id.adddevice);
+		refreshLayout.setOnClickListener(myOnClickListener);
 		quickSet.setOnClickListener(myOnClickListener);
 		addDevice.setOnClickListener(myOnClickListener);
 
@@ -260,9 +272,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			};
 			broadTimer.schedule(broadTimerTask, 5 * 60 * 1000, 5 * 60 * 1000);
 		}
-
-		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
-				.get(Consts.HAG_GOT_DEVICE));
 
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
@@ -347,6 +356,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 				addIntent.putExtra("QR", false);
 				mActivity.startActivity(addIntent);
 				break;
+			case R.id.refreshlayout: {
+				fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+
+				GetDevTask task = new GetDevTask();
+				String[] strParams = new String[3];
+				task.execute(strParams);
+				break;
+			}
 			default:
 				break;
 			}
@@ -449,8 +466,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		myDeviceList = CacheUtil.getDevList();
-		refreshList();
+		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
+				.get(Consts.HAG_GOT_DEVICE));
+		if (hasGot) {
+			myDeviceList = CacheUtil.getDevList();
+			refreshList();
+		}
 	}
 
 	/**
@@ -458,17 +479,26 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 */
 	public void refreshList() {
 
-		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
-				.get(Consts.HAG_GOT_DEVICE));
-		if (hasGot) {
-			if (null == myDeviceList || 0 == myDeviceList.size()) {
+		// boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
+		// .get(Consts.HAG_GOT_DEVICE));
+		// if (hasGot) {
+		if (null == myDeviceList) {
+			refreshLayout.setVisibility(View.VISIBLE);
+			deviceLayout.setVisibility(View.GONE);
+			quickSetSV.setVisibility(View.GONE);
+		} else {
+			if (0 == myDeviceList.size()) {
+				refreshLayout.setVisibility(View.GONE);
 				deviceLayout.setVisibility(View.GONE);
 				quickSetSV.setVisibility(View.VISIBLE);
 			} else {
+				refreshLayout.setVisibility(View.GONE);
 				deviceLayout.setVisibility(View.VISIBLE);
 				quickSetSV.setVisibility(View.GONE);
 			}
 		}
+
+		// }
 		if (null != myDeviceList && 0 != myDeviceList.size()) {
 			deviceLayout.setVisibility(View.VISIBLE);
 			quickSetSV.setVisibility(View.GONE);
@@ -967,21 +997,46 @@ public class JVMyDeviceFragment extends BaseFragment {
 										.get(Consts.KEY_USERNAME));
 					}
 					if (null != myDeviceList && 0 != myDeviceList.size()) {
-						int size = myDeviceList.size();
-						if (0 != size) {
-							for (int i = 0; i < myDeviceList.size(); i++) {
-								if (null == myDeviceList.get(i)
-										.getChannelList()
-										|| 0 == myDeviceList.get(i)
-												.getChannelList().size()) {
-									myDeviceList.get(i).setChannelList(
-											DeviceUtil.getDevicePointList(
-													myDeviceList.get(i),
-													myDeviceList.get(i)
-															.getFullNo()));
+						ArrayList<Channel> channelList = DeviceUtil
+								.getUserPointList();
+
+						if (null == channelList || 0 == channelList.size()) {
+							channelList = DeviceUtil.getUserPointList();
+						}
+
+						if (null != channelList && 0 != channelList.size()) {
+							for (Device dev : myDeviceList) {
+								MyList<Channel> chanList = new MyList<Channel>(
+										1);
+								for (Channel channel : channelList) {
+									if (channel.isHasFind()) {
+										continue;
+									}
+									if (channel.getDguid().equalsIgnoreCase(
+											dev.getFullNo())) {
+										chanList.add(channel);
+										channel.setHasFind(true);
+									}
 								}
+								dev.setChannelList(chanList);
 							}
 						}
+
+						// int size = myDeviceList.size();
+						// if (0 != size) {
+						// for (int i = 0; i < myDeviceList.size(); i++) {
+						// if (null == myDeviceList.get(i)
+						// .getChannelList()
+						// || 0 == myDeviceList.get(i)
+						// .getChannelList().size()) {
+						// myDeviceList.get(i).setChannelList(
+						// DeviceUtil.getDevicePointList(
+						// myDeviceList.get(i),
+						// myDeviceList.get(i)
+						// .getFullNo()));
+						// }
+						// }
+						// }
 					}
 
 					if (null != myDeviceList && 0 != myDeviceList.size()) {
@@ -1119,7 +1174,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						}
 					}
 					if (0 == addRes) {
-						myDeviceList.add(addDev);
+						myDeviceList.add(0, addDev);
 					}
 				}
 				DeviceUtil.refreshDeviceState(
@@ -1204,6 +1259,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	// 根据在线状态排序
 	private void sortList() {
+		if (null == myDeviceList || 0 == myDeviceList.size()) {
+			return;
+		}
 		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			ArrayList<Device> onlineDevice = new ArrayList<Device>();
@@ -1233,7 +1291,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 		public void run() {
 			CacheUtil.saveDevList(myDeviceList);
 			myDeviceList = CacheUtil.getDevList();
-			MyLog.v("autorefresh", "自动刷新");
 			fragHandler.sendMessage(fragHandler.obtainMessage(AUTO_UPDATE));
 		}
 

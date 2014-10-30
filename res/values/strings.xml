@@ -513,6 +513,7 @@
     <string name="add_broad_dev">Broadcasting to ! devices,do you want to add?</string>
     <string name="broad_zero">Unable to broadcast device.</string>
     <string name="get_device_failed">Device loaded failed</string>
+    <string name="press_screen_refresh">点击屏幕刷新</string>
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">Total</string>
     <string name="str_aft">devices.</string>
@@ -580,6 +581,8 @@
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">Manual recording</string>
     <string name="video_alarm">Alarm recording</string>
+    <string name="recoding">正在生成录像文件，请稍后查看。</string>
+
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>
     <string name="str_help_one">Remote set network and stream for IP cameras.</string>
@@ -637,7 +640,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.38(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.39(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

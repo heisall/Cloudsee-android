@@ -1423,7 +1423,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (addSucc) {
 			ipcDevice.setIp(temIp);
 			ipcDevice.setPort(temPort);
-			deviceList.add(ipcDevice);
+			deviceList.add(0, ipcDevice);
 			CacheUtil.saveDevList(deviceList);
 		}
 

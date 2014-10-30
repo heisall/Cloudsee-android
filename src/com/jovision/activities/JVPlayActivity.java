@@ -66,6 +66,8 @@ public class JVPlayActivity extends PlayActivity implements
 	// private static final int BUFFERING = 0x71;
 	private static final int DISMISS_DIALOG = 0x70;
 
+	private boolean showingDialog = false;
+
 	private PlayWindowManager manager;
 
 	private int selectedScreen = 4;// 默认分四屏
@@ -258,7 +260,7 @@ public class JVPlayActivity extends PlayActivity implements
 						loadingState(arg1, R.string.connfailed_auth,
 								JVConst.PLAY_DIS_CONNECTTED);
 						if (ONE_SCREEN == currentScreen) {
-							Alertdialog();
+							passErrorDialog();
 						}
 
 					} else if ("channel is not open!"
@@ -352,7 +354,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 					newWidth = jobj.getInt("width");
 					newHeight = jobj.getInt("height");
-
 					if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
 						Jni.disconnect(arg1);
 						if (ONE_SCREEN == currentScreen) {
@@ -374,25 +375,25 @@ public class JVPlayActivity extends PlayActivity implements
 			MyLog.v("ChannelTag--2", "HomeProduct="
 					+ channel.getParent().isHomeProduct());
 			MyLog.v("ChannelTag--3", "SingleVoice=" + channel.isSingleVoice());
-
-			// if (arg1 == lastClickIndex) {//当前屏幕
-			// TODO 不应该只对比宽高
-			if (newWidth != channel.getWidth()
-					|| newHeight != channel.getHeight()) {// 宽高变了才发文本聊天
-
-				channel.setHeight(newHeight);
-				channel.setWidth(newWidth);
-				// 是IPC，发文本聊天请求
-				if (channel.getParent().isHomeProduct()) {
-					// 请求文本聊天
-					Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
-				}
-			}
-
-			if (recoding) {
-				showTextToast(R.string.video_repaked);
-				PlayUtil.videoRecord(lastClickIndex);
-			}
+//
+//			// if (arg1 == lastClickIndex) {//当前屏幕
+//			// TODO 不应该只对比宽高
+//			if (newWidth != channel.getWidth()
+//					|| newHeight != channel.getHeight()) {// 宽高变了才发文本聊天
+//
+//				channel.setHeight(newHeight);
+//				channel.setWidth(newWidth);
+//				// 是IPC，发文本聊天请求
+//				if (channel.getParent().isHomeProduct()) {
+//					// 请求文本聊天
+//					Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+//				}
+//			}
+//
+//			if (recoding) {
+//				showTextToast(R.string.video_repaked);
+//				PlayUtil.videoRecord(lastClickIndex);
+//			}
 
 			// }
 
@@ -877,31 +878,39 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
-	private void Alertdialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(
-				JVPlayActivity.this.getResources().getString(
-						R.string.dialog_modifypwd))
-				.setCancelable(false)
-				.setPositiveButton(
-						JVPlayActivity.this.getResources().getString(
-								R.string.ok),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.dismiss();
-								initSummaryDialog(deviceList.get(deviceIndex));
-							}
-						})
-				.setNegativeButton(
-						JVPlayActivity.this.getResources().getString(
-								R.string.cancle),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.dismiss();
-							}
-						});
-		AlertDialog alert = builder.create();
-		alert.show();
+	private void passErrorDialog() {
+		if (!showingDialog) {
+			showingDialog = true;
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage(
+					JVPlayActivity.this.getResources().getString(
+							R.string.dialog_modifypwd))
+					.setCancelable(false)
+					.setPositiveButton(
+							JVPlayActivity.this.getResources().getString(
+									R.string.ok),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.dismiss();
+									showingDialog = false;
+									initSummaryDialog(deviceList
+											.get(deviceIndex));
+								}
+							})
+					.setNegativeButton(
+							JVPlayActivity.this.getResources().getString(
+									R.string.cancle),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.dismiss();
+									showingDialog = false;
+								}
+							});
+			AlertDialog alert = builder.create();
+			alert.show();
+		}
 	}
 
 	private void initSummaryDialog(final Device device) {
@@ -2112,7 +2121,7 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 				MyLog.v("disconnect-ALL-E", "E");
-				PlayUtil.disConnectAll(manager.getChannelList());
+				PlayUtil.disConnectAll(channelList);
 				MyLog.v("disconnect-ALL-X", "X");
 				try {
 					Thread.sleep(500);
@@ -2368,52 +2377,58 @@ public class JVPlayActivity extends PlayActivity implements
 	 * @param tag
 	 */
 	private void errorDialog(final String key, String errorMsg) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(
-				JVPlayActivity.this);
-		builder.setCancelable(false);
-		builder.setTitle(getResources().getString(R.string.tips));
-		LayoutInflater li = JVPlayActivity.this.getLayoutInflater();
-		LinearLayout layout = (LinearLayout) li.inflate(R.layout.system_error,
-				null);
-		TextView alertMsg = (TextView) layout.findViewById(R.id.alerttext);
-		ToggleButton noAlert = (ToggleButton) layout.findViewById(R.id.noalert);
-		alertMsg.setText(errorMsg);
-		noAlert.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		if (!showingDialog) {
+			showingDialog = true;
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					JVPlayActivity.this);
+			builder.setCancelable(false);
+			builder.setTitle(getResources().getString(R.string.tips));
+			LayoutInflater li = JVPlayActivity.this.getLayoutInflater();
+			LinearLayout layout = (LinearLayout) li.inflate(
+					R.layout.system_error, null);
+			TextView alertMsg = (TextView) layout.findViewById(R.id.alerttext);
+			ToggleButton noAlert = (ToggleButton) layout
+					.findViewById(R.id.noalert);
+			alertMsg.setText(errorMsg);
+			noAlert.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			@Override
-			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				MySharedPreference.putBoolean(key, arg1);
-			}
+				@Override
+				public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+					MySharedPreference.putBoolean(key, arg1);
+				}
 
-		});
-		builder.setView(layout);
-		builder.setNegativeButton(R.string.download,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						Uri uri = Uri
-								.parse("http://down.jovision.com:81/cn/data/CloudSEE2.8.5.apk");
-						Intent it = new Intent(Intent.ACTION_VIEW, uri);
-						startActivity(it);
-					}
+			});
+			builder.setView(layout);
+			builder.setNegativeButton(R.string.download,
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+							showingDialog = false;
+							Uri uri = Uri
+									.parse("http://down.jovision.com:81/cn/data/CloudSEE2.8.5.apk");
+							Intent it = new Intent(Intent.ACTION_VIEW, uri);
+							startActivity(it);
+						}
 
-				});
+					});
 
-		builder.setPositiveButton(R.string.cancel,
-				new DialogInterface.OnClickListener() {
+			builder.setPositiveButton(R.string.cancel,
+					new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int arg1) {
-						dialog.dismiss();
-						handler.sendMessageDelayed(handler
-								.obtainMessage(JVConst.WHAT_START_CONNECT),
-								1000);
-					}
+						@Override
+						public void onClick(DialogInterface dialog, int arg1) {
+							dialog.dismiss();
+							showingDialog = false;
+							handler.sendMessageDelayed(handler
+									.obtainMessage(JVConst.WHAT_START_CONNECT),
+									1000);
+						}
 
-				});
+					});
 
-		builder.show();
+			builder.show();
+		}
 	}
 
 	/**

@@ -637,22 +637,25 @@ public class PlayUtil {
 	 * @param channleList
 	 */
 	public static void disConnectAll(ArrayList<Channel> channleList) {
-		MyLog.v("disconnect-A", channleList.toString() + "");
-		try {
-			int size = channleList.size();
-			for (int i = 0; i < size; i++) {
-				if (channleList.get(i).isConnected()
-						|| channleList.get(i).isConnecting()
-						|| channleList.get(i).isPause()) {
+		MyLog.e("disconnect-All", channleList.size() + "");
+		if (null != channleList && 0 != channleList.size()) {
+			try {
+				int size = channleList.size();
+				for (int i = 0; i < size; i++) {
+					if (channleList.get(i).isConnected()
+							|| channleList.get(i).isConnecting()
+							|| channleList.get(i).isPause()) {
 
-					// ((View) mLastPlayView.getParent())
-					// .setBackgroundColor(Color.BLACK);
-					MyLog.v("disconnect", channleList.get(i).toString() + "");
-					Jni.disconnect(channleList.get(i).getIndex());
+						// ((View) mLastPlayView.getParent())
+						// .setBackgroundColor(Color.BLACK);
+						MyLog.v("disconnect", channleList.get(i).toString()
+								+ "");
+						Jni.disconnect(channleList.get(i).getIndex());
+					}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 

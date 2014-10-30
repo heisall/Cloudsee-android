@@ -44,25 +44,30 @@
         android:id="@+id/refreshlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/top_bar"
-        android:visibility="gone" >
+        android:layout_below="@+id/top_bar" >
 
-        <ImageView
-            android:id="@+id/refreshimg"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/tese_img" />
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/refreshitext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/refreshimg"
-            android:layout_centerInParent="true"
-            android:text="@string/press_screen_refresh"
-            android:textColor="@color/tab_text_color"
-            android:textSize="20sp" />
+            <ImageView
+                android:id="@+id/refreshimg"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/mydevice_error" />
+
+            <TextView
+                android:id="@+id/refreshitext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/refreshimg"
+                android:layout_marginTop="15dp"
+                android:text="@string/press_screen_refresh"
+                android:textColor="@color/tab_text_color"
+                android:textSize="20sp" />
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

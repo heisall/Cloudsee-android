@@ -458,6 +458,7 @@
 
     <!-- 页面顶部名称 -->
     <string name="my_device">My Device</string>
+    <string name="device_error">Error</string>
     <string name="video_edit">Video Edit</string>
     <string name="more_featrue">More</string>
     <string name="more_modifypwd">Change the password</string>

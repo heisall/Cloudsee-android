@@ -305,7 +305,9 @@ public class JVDeviceConst {
 	public static final int DELETE_DEVICE_CHANNEL = 2041;
 	/** 删除通道Response */
 	public static final int DELETE_DEVICE_CHANNEL_RESPONSE = 2042;
-	/** 获取通道列表Request */
+	/** 获取用户通道列表 */
+	public static final int GET_USER_CHANNELS = 2049;
+	/** 获取设备通道列表Request */
 	public static final int GET_DEVICE_CHANNEL = 2043;
 	/** 获取通道列表Response */
 	public static final int GET_DEVICE_CHANNEL_RESPONSE = 2044;

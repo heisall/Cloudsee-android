@@ -159,7 +159,7 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 						ipString, -1, userString, pwdString, false, 4, 0);
 				dev.setIsDevice(2);
 				dev.setDoMain(ipString);
-				deviceList.add(dev);
+				deviceList.add(0, dev);
 				addRes = 0;
 			} catch (Exception e) {
 				e.printStackTrace();

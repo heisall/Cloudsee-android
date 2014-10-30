@@ -231,10 +231,12 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null == channel) {
 				return;
 			}
+
+			MyLog.v("CALL_CONNECT_CHANGE", "index=" + arg1 + "--res=" + arg2);
 			switch (arg2) {
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
-				loadingState(arg1, R.string.connecting_buffer2,
+				loadingState(arg1, R.string.connecting_buffer1,
 						JVConst.PLAY_CONNECTING_BUFFER);
 				break;
 			}
@@ -255,7 +257,10 @@ public class JVPlayActivity extends PlayActivity implements
 							|| "pass word is wrong!".equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
 						loadingState(arg1, R.string.connfailed_auth,
 								JVConst.PLAY_DIS_CONNECTTED);
-						Alertdialog();
+						if (ONE_SCREEN == currentScreen) {
+							Alertdialog();
+						}
+
 					} else if ("channel is not open!"
 							.equalsIgnoreCase(errorMsg)) {// 无该通道服务
 						loadingState(arg1, R.string.connfailed_channel_notopen,
@@ -320,8 +325,8 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null != channel.getSurfaceView()) {
 				resumeChannel(channel);
 			}
-			// loadingState(arg1, R.string.connecting_buffer2,
-			// JVConst.PLAY_CONNECTING_BUFFER);
+			loadingState(arg1, R.string.connecting_buffer2,
+					JVConst.PLAY_CONNECTING_BUFFER);
 
 			MyLog.v("NORMALDATA", obj.toString());
 			// {"autdio_bit":16,"autdio_channel":1,"autdio_sample_rate":8000,"autdio_type":2,"auto_stop_recorder":false,"device_type":4,"fps":15.0,"height":288,"is05":true,"reserved":0,"start_code":290674250,"width":352}
@@ -349,13 +354,16 @@ public class JVPlayActivity extends PlayActivity implements
 					newHeight = jobj.getInt("height");
 
 					if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
-						// TODO
-						if (!MySharedPreference
-								.getBoolean(Consts.DIALOG_NOT_SUPPORT04)) {
-							errorDialog(
-									Consts.DIALOG_NOT_SUPPORT04,
-									getResources().getString(
-											R.string.not_support_old));
+						Jni.disconnect(arg1);
+						if (ONE_SCREEN == currentScreen) {
+							// TODO
+							if (!MySharedPreference
+									.getBoolean(Consts.DIALOG_NOT_SUPPORT04)) {
+								errorDialog(
+										Consts.DIALOG_NOT_SUPPORT04,
+										getResources().getString(
+												R.string.not_support_old));
+							}
 						}
 					}
 
@@ -1123,6 +1131,12 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	protected void initUi() {
 		super.initUi();
+		// //进播放如果是横屏，先转成竖屏
+		// if (this.getResources().getConfiguration().orientation ==
+		// Configuration.ORIENTATION_LANDSCAPE) {
+		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		// }
+
 		wifiAdmin = new WifiAdmin(JVPlayActivity.this);
 
 		// wifi打开的前提下,获取oldwifiSSID
@@ -1489,15 +1503,15 @@ public class JVPlayActivity extends PlayActivity implements
 
 			handler.sendMessage(handler.obtainMessage(
 					JVConst.WHAT_STARTING_CONNECT, channel.getIndex(), 0));
-
 			if (null != ssid
 					&& channel.getParent().getFullNo().equalsIgnoreCase(ssid)) {
 				// IP直连
 				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
-				Jni.connect(channel.getIndex(), channel.getChannel(), ip, port,
-						device.getUser(), device.getPwd(), -1, device.getGid(),
-						true, 1, true, (device.isHomeProduct() ? 6 : 6),
-						channel.getSurfaceView().getHolder().getSurface(),
+				result = Jni.connect(channel.getIndex(), channel.getChannel(),
+						ip, port, device.getUser(), device.getPwd(), -1, device
+								.getGid(), true, 1, true, (device
+								.isHomeProduct() ? 6 : 6), channel
+								.getSurfaceView().getHolder().getSurface(),
 						isOmx);
 			} else {
 				int number = device.getNo();
@@ -1529,6 +1543,11 @@ public class JVPlayActivity extends PlayActivity implements
 			// Jni.enablePlayAudio(channel.getIndex(), isEnableAudio);
 		}
 
+		if (result) {
+			MyLog.v("调用连接成功", channel.getIndex() + "----" + result);
+		} else {
+			MyLog.e("调用连接失败", channel.getIndex() + "----" + result);
+		}
 		return result;
 	}
 

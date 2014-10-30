@@ -567,7 +567,7 @@
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">手动录像</string>
     <string name="video_alarm">报警录像</string>
-
+    <string name="recoding">正在生成录像文件，请稍后查看。</string>
     <!-- MyDeviceListAdapter -->
     <string name="str_device_online">在线</string>
     <string name="str_device_offline">离线</string>
@@ -629,7 +629,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.38(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.39(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->

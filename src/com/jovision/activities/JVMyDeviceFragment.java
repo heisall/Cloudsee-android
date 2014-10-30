@@ -46,7 +46,9 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.adapters.PopWindowAdapter;
+import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
@@ -157,7 +159,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		// fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+
+		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
+				.get(Consts.HAG_GOT_DEVICE));
+		if (!hasGot) {
+			fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+		}
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
@@ -265,9 +272,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			};
 			broadTimer.schedule(broadTimerTask, 5 * 60 * 1000, 5 * 60 * 1000);
 		}
-
-		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
-				.get(Consts.HAG_GOT_DEVICE));
 
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
@@ -993,21 +997,46 @@ public class JVMyDeviceFragment extends BaseFragment {
 										.get(Consts.KEY_USERNAME));
 					}
 					if (null != myDeviceList && 0 != myDeviceList.size()) {
-						int size = myDeviceList.size();
-						if (0 != size) {
-							for (int i = 0; i < myDeviceList.size(); i++) {
-								if (null == myDeviceList.get(i)
-										.getChannelList()
-										|| 0 == myDeviceList.get(i)
-												.getChannelList().size()) {
-									myDeviceList.get(i).setChannelList(
-											DeviceUtil.getDevicePointList(
-													myDeviceList.get(i),
-													myDeviceList.get(i)
-															.getFullNo()));
+						ArrayList<Channel> channelList = DeviceUtil
+								.getUserPointList();
+
+						if (null == channelList || 0 == channelList.size()) {
+							channelList = DeviceUtil.getUserPointList();
+						}
+
+						if (null != channelList && 0 != channelList.size()) {
+							for (Device dev : myDeviceList) {
+								MyList<Channel> chanList = new MyList<Channel>(
+										1);
+								for (Channel channel : channelList) {
+									if (channel.isHasFind()) {
+										continue;
+									}
+									if (channel.getDguid().equalsIgnoreCase(
+											dev.getFullNo())) {
+										chanList.add(channel);
+										channel.setHasFind(true);
+									}
 								}
+								dev.setChannelList(chanList);
 							}
 						}
+
+						// int size = myDeviceList.size();
+						// if (0 != size) {
+						// for (int i = 0; i < myDeviceList.size(); i++) {
+						// if (null == myDeviceList.get(i)
+						// .getChannelList()
+						// || 0 == myDeviceList.get(i)
+						// .getChannelList().size()) {
+						// myDeviceList.get(i).setChannelList(
+						// DeviceUtil.getDevicePointList(
+						// myDeviceList.get(i),
+						// myDeviceList.get(i)
+						// .getFullNo()));
+						// }
+						// }
+						// }
 					}
 
 					if (null != myDeviceList && 0 != myDeviceList.size()) {
@@ -1145,7 +1174,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						}
 					}
 					if (0 == addRes) {
-						myDeviceList.add(addDev);
+						myDeviceList.add(0, addDev);
 					}
 				}
 				DeviceUtil.refreshDeviceState(

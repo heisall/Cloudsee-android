@@ -79,7 +79,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		// DefaultExceptionHandler(
 		// this));
 		MyLog.init(Consts.LOG_PATH);
-		MyLog.enableFile(false);
+		MyLog.enableFile(true);
 		statusHashMap = new HashMap<String, String>();
 		openedActivityList = new ArrayList<BaseActivity>();
 

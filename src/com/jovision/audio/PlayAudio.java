@@ -54,34 +54,40 @@ public class PlayAudio extends Thread {
 		// } catch (FileNotFoundException e) {
 		// e.printStackTrace();
 		// }
+		try {
+			AudioTrack track = new AudioTrack(STREAM_TYPE, SAMPLERATE, CHANNEL,
+					ENCODING, 1024, TRACK_MODE);
+			track.play();
 
-		AudioTrack track = new AudioTrack(STREAM_TYPE, SAMPLERATE, CHANNEL,
-				ENCODING, 1024, TRACK_MODE);
-		track.play();
-
-		MyLog.v("ENCODING", ENCODING + "");
-		byte[] data = null;
-		byte[] enc = null;
-		while (false == isInterrupted()) {
-			if (null != track && null != audioQueue) {
-				try {
-					data = audioQueue.take();
-					// data = recorder.start();
-					if (null != data) {
-						track.write(data, 0, data.length);
-						// enc = Jni.encodeAudio(data);
-						// if (null != enc && enc.length > 0) {
-						// MyLog.v("PlayAudio", ""+enc.length);
-						// // outputStream.write(enc);
-						// // Jni.sendBytes(0,
-						// // JVNetConst.JVN_RSP_CHATDATA, enc,
-						// // enc.length);
-						// }
+			MyLog.v("ENCODING", ENCODING + "");
+			byte[] data = null;
+			byte[] enc = null;
+			while (false == isInterrupted()) {
+				if (null != track && null != audioQueue) {
+					try {
+						data = audioQueue.take();
+						// data = recorder.start();
+						if (null != data) {
+							track.write(data, 0, data.length);
+							// enc = Jni.encodeAudio(data);
+							// if (null != enc && enc.length > 0) {
+							// MyLog.v("PlayAudio", ""+enc.length);
+							// // outputStream.write(enc);
+							// // Jni.sendBytes(0,
+							// // JVNetConst.JVN_RSP_CHATDATA, enc,
+							// // enc.length);
+							// }
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
+			track.stop();
+			track.release();
+			track = null;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		// if (null != outputStream) {
@@ -92,8 +98,5 @@ public class PlayAudio extends Thread {
 		// }
 		// }
 
-		track.stop();
-		track.release();
-		track = null;
 	}
 }

@@ -36,6 +36,9 @@ public class Channel {
 	private boolean isConfigChannel;
 	private SurfaceView surfaceView;
 	private Device parent;
+	private String dguid;// 设备服务器返回值
+	private boolean hasFind;// 通道分组用
+
 	private boolean isAuto = false;// 是否开启自动巡航
 	private boolean isPause = false;// 是否暂停视频
 	private boolean isVoiceCall = false;// 是否正在对讲
@@ -392,6 +395,22 @@ public class Channel {
 
 	public void setEffect_flag(int effect_flag) {
 		this.effect_flag = effect_flag;
+	}
+
+	public String getDguid() {
+		return dguid;
+	}
+
+	public void setDguid(String dguid) {
+		this.dguid = dguid;
+	}
+
+	public boolean isHasFind() {
+		return hasFind;
+	}
+
+	public void setHasFind(boolean hasFind) {
+		this.hasFind = hasFind;
 	}
 
 }

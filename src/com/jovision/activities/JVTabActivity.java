@@ -35,7 +35,7 @@ public class JVTabActivity extends ShakeActivity implements
 	private static final String TAG = "JVTabActivity";
 
 	public static final int TAB_BACK = 0x20;
-
+	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
 
 	protected NotificationManager mNotifyer;
@@ -83,6 +83,7 @@ public class JVTabActivity extends ShakeActivity implements
 	}
 
 	private void getPic() {
+		flag = 0;
 		pics = new ArrayList<View>();
 		View view1 = LayoutInflater.from(JVTabActivity.this).inflate(
 				R.layout.help_item1, null);
@@ -94,20 +95,14 @@ public class JVTabActivity extends ShakeActivity implements
 				R.layout.help_item4, null);
 		View view5 = LayoutInflater.from(JVTabActivity.this).inflate(
 				R.layout.help_item5, null);
+		View view6 = LayoutInflater.from(JVTabActivity.this).inflate(
+				R.layout.help_item6, null);
 		if (localFlag) {
 			pics.add(view1);
 			pics.add(view2);
 			pics.add(view3);
 			pics.add(view4);
-			view4.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					viewpager.setVisibility(View.GONE);
-					ll_dot.setVisibility(View.GONE);
-				}
-			});
+			pics.add(view6);
 			img_five.setVisibility(View.GONE);
 			initDot(4);
 		} else {
@@ -116,33 +111,20 @@ public class JVTabActivity extends ShakeActivity implements
 			pics.add(view3);
 			pics.add(view4);
 			pics.add(view5);
-			view5.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					viewpager.setVisibility(View.GONE);
-					ll_dot.setVisibility(View.GONE);
-				}
-			});
+			pics.add(view6);
 			initDot(5);
 		}
 	}
 
 	private void getPicone() {
+		flag = 1;
 		pics = new ArrayList<View>();
 		View view = LayoutInflater.from(JVTabActivity.this).inflate(
 				R.layout.help_item, null);
+		View view6 = LayoutInflater.from(JVTabActivity.this).inflate(
+				R.layout.help_item6, null);
 		pics.add(view);
-		view.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				viewpager.setVisibility(View.GONE);
-				ll_dot.setVisibility(View.GONE);
-			}
-		});
+		pics.add(view6);
 	}
 
 	private void initDot(int dotnum) {
@@ -276,6 +258,7 @@ public class JVTabActivity extends ShakeActivity implements
 		if (!MySharedPreference.getBoolean("page2")) {
 			ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 			ll_dot.setVisibility(View.GONE);
+			viewpager.setCurrentItem(0);
 			viewpager.setVisibility(View.VISIBLE);
 			getPicone();
 			adp = new MyPagerAdp(pics);
@@ -295,6 +278,7 @@ public class JVTabActivity extends ShakeActivity implements
 						if (!page2 && !MySharedPreference.getBoolean("page2")) {
 							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 							ll_dot.setVisibility(View.GONE);
+							viewpager.setCurrentItem(0);
 							viewpager.setVisibility(View.VISIBLE);
 							getPicone();
 							adp = new MyPagerAdp(pics);
@@ -305,6 +289,7 @@ public class JVTabActivity extends ShakeActivity implements
 									&& !MySharedPreference.getBoolean("page2")) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.GONE);
+								viewpager.setCurrentItem(0);
 								viewpager.setVisibility(View.VISIBLE);
 								getPicone();
 								adp = new MyPagerAdp(pics);
@@ -321,6 +306,7 @@ public class JVTabActivity extends ShakeActivity implements
 									&& !MySharedPreference.getBoolean("page1")) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.VISIBLE);
+								viewpager.setCurrentItem(0);
 								viewpager.setVisibility(View.VISIBLE);
 								getPic();
 								adp = new MyPagerAdp(pics);
@@ -332,6 +318,7 @@ public class JVTabActivity extends ShakeActivity implements
 												.getBoolean("page1")) {
 									ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 									ll_dot.setVisibility(View.VISIBLE);
+									viewpager.setCurrentItem(0);
 									viewpager.setVisibility(View.VISIBLE);
 									getPic();
 									adp = new MyPagerAdp(pics);
@@ -403,12 +390,37 @@ public class JVTabActivity extends ShakeActivity implements
 	public void onPageSelected(int arg0) {
 		// TODO Auto-generated method stub
 		currentImage = arg0; // 获取当前页面索引
-		dots.get(oldImage).setEnabled(false); // 前一个点设置为白色
-		dots.get(currentImage).setEnabled(true); // 当前点设置为黑色
-		oldImage = currentImage; // 改变前一个索引
-
-		currentImage = (currentImage) % 5; // 有几张就对几求余
-		onNotify(0, currentImage, 0, null);
+		if (flag == 0) {
+			if (!localFlag) {
+				if (arg0 != 5) {
+					dots.get(oldImage).setEnabled(false); // 前一个点设置为白色
+					dots.get(currentImage).setEnabled(true); // 当前点设置为黑色
+					oldImage = currentImage; // 改变前一个索引
+					currentImage = (currentImage) % 5; // 有几张就对几求余
+					onNotify(0, currentImage, 0, null);
+				}
+				if (arg0 == 5) {
+					viewpager.setVisibility(View.GONE);
+					ll_dot.setVisibility(View.GONE);
+				}
+			} else {
+				if (arg0 != 4) {
+					dots.get(oldImage).setEnabled(false); // 前一个点设置为白色
+					dots.get(currentImage).setEnabled(true); // 当前点设置为黑色
+					oldImage = currentImage; // 改变前一个索引
+					currentImage = (currentImage) % 4; // 有几张就对几求余
+					onNotify(0, currentImage, 0, null);
+				}
+				if (arg0 == 4) {
+					viewpager.setVisibility(View.GONE);
+					ll_dot.setVisibility(View.GONE);
+				}
+			}
+		} else if (flag == 1) {
+			if (arg0 == 1) {
+				viewpager.setVisibility(View.GONE);
+				ll_dot.setVisibility(View.GONE);
+			}
+		}
 	}
-
 }

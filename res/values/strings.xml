@@ -502,7 +502,8 @@
     <string name="notwifi_forbid_func">This function is not available under 3G/4G network.</string>
     <string name="str_modify">Modify</string>
     <string name="end_list">The last one.</string>
-    <string name="start_list">The first one.</string>
+    <string name="start_left">The first one.</string>
+    <string name="start_right">The right one</string>
     <string name="str_update">Have updated for all devices.</string>
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>

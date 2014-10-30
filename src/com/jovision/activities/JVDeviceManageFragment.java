@@ -253,18 +253,11 @@ public class JVDeviceManageFragment extends BaseFragment {
 		@SuppressLint("ResourceAsColor")
 		@Override
 		public void onPageSelected(final int position) {
-			if (position == 0) {
-				mActivity.showTextToast(R.string.start_list);
-			}
-			if (position == manageDeviceList.size() - 1) {
-				mActivity.showTextToast(R.string.end_list);
-			}
 			// MyLog.v(TAG, "onPageSelected---position="+position);
 			Animation animation = new TranslateAnimation(endPosition, position
 					* item_width, 0, 0);
 
 			beginPosition = position * item_width;
-
 			currentFragmentIndex = position;
 			if (animation != null) {
 				animation.setFillAfter(true);

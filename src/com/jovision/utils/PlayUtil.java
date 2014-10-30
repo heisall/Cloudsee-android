@@ -56,7 +56,8 @@ public class PlayUtil {
 		boolean canBroad = false;
 		if (!((BaseActivity) con).is3G(false)) {// 非3G加广播设备
 			canBroad = true;
-			Jni.searchLanDevice("", 0, 0, 0, "", 2000, 1);
+			int res = Jni.searchLanDevice("", 0, 0, 0, "", 2000, 1);
+			Log.v("广播-----res=", res + "");
 		}
 		Log.v(TAG, "广播--broadCast=" + canBroad);
 		return canBroad;
@@ -643,8 +644,7 @@ public class PlayUtil {
 				int size = channleList.size();
 				for (int i = 0; i < size; i++) {
 					if (channleList.get(i).isConnected()
-							|| channleList.get(i).isConnecting()
-							|| channleList.get(i).isPause()) {
+							|| channleList.get(i).isConnecting()) {
 
 						// ((View) mLastPlayView.getParent())
 						// .setBackgroundColor(Color.BLACK);
@@ -681,100 +681,100 @@ public class PlayUtil {
 		}
 	}
 
-	/**
-	 * 暂停所有
-	 * 
-	 * @param channelList
-	 */
-	public static void pauseAll(ArrayList<Channel> channelList) {
-		try {
-			// ArrayList<Channel> channelList = manager
-			// .getValidChannelList(currentPage);
-			int size = channelList.size();
-			for (int i = 0; i < size; i++) {
-				Channel channel = channelList.get(i);
-				if (channel.isConnected()) {// 已连接上的发暂停
-					channel.setPause(true);
-					// 暂停视频
-					Jni.sendBytes(channelList.get(i).getIndex(),
-							(byte) JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0],
-							8);
-					// loadingState(channelList.get(i).getIndex(),
-					// R.string.paused, JVConst.PLAY_DIS_CONNECTTED);
-				} else if (channel.isConnecting()) {// 正在连接调断开
-					channel.setPause(false);
-					Jni.disconnect(channel.getIndex());
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * resume所有
-	 * 
-	 * @param channelList
-	 */
-	public static void resumeAll(final ArrayList<Channel> channelList,
-			final boolean isOmx, final String ssid) {
-		try {
-			Thread connectThread = new Thread() {
-				@Override
-				public void run() {
-					if (null != channelList && 0 != channelList.size()) {
-						int size = channelList.size();
-						for (int i = 0; i < size; i++) {
-							Channel channel = channelList.get(i);
-							if (channel.isPause()) {
-								channel.setPause(false);
-								// 继续播放视频
-								Jni.sendBytes(channelList.get(i).getIndex(),
-										(byte) JVNetConst.JVN_CMD_VIDEO,
-										new byte[0], 8);
-							} else if (!channel.isConnected()) {
-								// // 调用视频连接
-								// try {
-								// Thread.sleep(500);
-								// } catch (InterruptedException e) {
-								// e.printStackTrace();
-								// }
-								// channel.setPause(false);
-								// connect(channel, isOmx, ssid);
-							}
-						}
-					}
-					super.run();
-				}
-
-			};
-			connectThread.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		// try {
-		// int size = channelList.size();
-		// for (int i = 0; i < size; i++) {
-		// Channel channel = channelList.get(i);
-		// if (channel.isPause()) {
-		// channel.setPause(false);
-		// // 继续播放视频
-		// Jni.sendBytes(channelList.get(i).getIndex(),
-		// (byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
-		// // loadingState(channelList.get(i).getIndex(),
-		// // R.string.connecting_buffer,
-		// // JVConst.PLAY_CONNECTING_BUFFER);
-		// } else if (!channel.isConnected()) {
-		// // 调用视频连接
-		// channel.setPause(false);
-		// connect(channel.getParent(), channel.getChannel());
-		// }
-		// }
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-	}
+	// /**
+	// * 暂停所有
+	// *
+	// * @param channelList
+	// */
+	// public static void pauseAll(ArrayList<Channel> channelList) {
+	// try {
+	// // ArrayList<Channel> channelList = manager
+	// // .getValidChannelList(currentPage);
+	// int size = channelList.size();
+	// for (int i = 0; i < size; i++) {
+	// Channel channel = channelList.get(i);
+	// if (channel.isConnected()) {// 已连接上的发暂停
+	// channel.setPause(true);
+	// // 暂停视频
+	// Jni.sendBytes(channelList.get(i).getIndex(),
+	// (byte) JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0],
+	// 8);
+	// // loadingState(channelList.get(i).getIndex(),
+	// // R.string.paused, JVConst.PLAY_DIS_CONNECTTED);
+	// } else if (channel.isConnecting()) {// 正在连接调断开
+	// channel.setPause(false);
+	// Jni.disconnect(channel.getIndex());
+	// }
+	// }
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	//
+	// /**
+	// * resume所有
+	// *
+	// * @param channelList
+	// */
+	// public static void resumeAll(final ArrayList<Channel> channelList,
+	// final boolean isOmx, final String ssid) {
+	// try {
+	// Thread connectThread = new Thread() {
+	// @Override
+	// public void run() {
+	// if (null != channelList && 0 != channelList.size()) {
+	// int size = channelList.size();
+	// for (int i = 0; i < size; i++) {
+	// Channel channel = channelList.get(i);
+	// if (channel.isPause()) {
+	// channel.setPause(false);
+	// // 继续播放视频
+	// Jni.sendBytes(channelList.get(i).getIndex(),
+	// (byte) JVNetConst.JVN_CMD_VIDEO,
+	// new byte[0], 8);
+	// } else if (!channel.isConnected()) {
+	// // // 调用视频连接
+	// // try {
+	// // Thread.sleep(500);
+	// // } catch (InterruptedException e) {
+	// // e.printStackTrace();
+	// // }
+	// // channel.setPause(false);
+	// // connect(channel, isOmx, ssid);
+	// }
+	// }
+	// }
+	// super.run();
+	// }
+	//
+	// };
+	// connectThread.start();
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	//
+	// // try {
+	// // int size = channelList.size();
+	// // for (int i = 0; i < size; i++) {
+	// // Channel channel = channelList.get(i);
+	// // if (channel.isPause()) {
+	// // channel.setPause(false);
+	// // // 继续播放视频
+	// // Jni.sendBytes(channelList.get(i).getIndex(),
+	// // (byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
+	// // // loadingState(channelList.get(i).getIndex(),
+	// // // R.string.connecting_buffer,
+	// // // JVConst.PLAY_CONNECTING_BUFFER);
+	// // } else if (!channel.isConnected()) {
+	// // // 调用视频连接
+	// // channel.setPause(false);
+	// // connect(channel.getParent(), channel.getChannel());
+	// // }
+	// // }
+	// // } catch (Exception e) {
+	// // e.printStackTrace();
+	// // }
+	// }
 
 	// 根据在线状态排序
 	public static ArrayList<Device> getOnLineList(ArrayList<Device> devList,

@@ -375,25 +375,25 @@ public class JVPlayActivity extends PlayActivity implements
 			MyLog.v("ChannelTag--2", "HomeProduct="
 					+ channel.getParent().isHomeProduct());
 			MyLog.v("ChannelTag--3", "SingleVoice=" + channel.isSingleVoice());
-//
-//			// if (arg1 == lastClickIndex) {//当前屏幕
-//			// TODO 不应该只对比宽高
-//			if (newWidth != channel.getWidth()
-//					|| newHeight != channel.getHeight()) {// 宽高变了才发文本聊天
-//
-//				channel.setHeight(newHeight);
-//				channel.setWidth(newWidth);
-//				// 是IPC，发文本聊天请求
-//				if (channel.getParent().isHomeProduct()) {
-//					// 请求文本聊天
-//					Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
-//				}
-//			}
-//
-//			if (recoding) {
-//				showTextToast(R.string.video_repaked);
-//				PlayUtil.videoRecord(lastClickIndex);
-//			}
+
+			// if (arg1 == lastClickIndex) {//当前屏幕
+			// TODO 不应该只对比宽高
+			if (newWidth != channel.getWidth()
+					|| newHeight != channel.getHeight()) {// 宽高变了才发文本聊天
+
+				channel.setHeight(newHeight);
+				channel.setWidth(newWidth);
+				// 是IPC，发文本聊天请求
+				if (channel.getParent().isHomeProduct()) {
+					// 请求文本聊天
+					Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+				}
+			}
+
+			if (recoding) {
+				showTextToast(R.string.video_repaked);
+				PlayUtil.videoRecord(lastClickIndex);
+			}
 
 			// }
 
@@ -1410,7 +1410,7 @@ public class JVPlayActivity extends PlayActivity implements
 					public void run() {
 						if (connect(channel.getParent(), channel, true, false,
 								false) >= 0) {
-							channel.setPaused(false);
+							channel.setPaused(null == channel.getSurface());
 						}
 					}
 
@@ -1499,7 +1499,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 	private int connect(Device device, Channel channel, boolean isPlayDirectly,
 			boolean isTryOmx, boolean isEnableAudio) {
-		int result = Consts.BAD_CONN_UNKOWN;
+		int result = 0;
 
 		if (null != device && null != channel) {
 			// 如果是域名添加的设备需要先去解析IP
@@ -1552,10 +1552,11 @@ public class JVPlayActivity extends PlayActivity implements
 			// Jni.enablePlayAudio(channel.getIndex(), isEnableAudio);
 		}
 
-		if (result < 0) {
-			MyLog.e("调用连接失败", channel.getIndex() + ": " + result);
+		if (result >= 0) {
+			MyLog.v("调用连接成功", channel.getIndex() + "----" + result);
+		} else {
+			MyLog.e("调用连接失败", channel.getIndex() + "----" + result);
 		}
-
 		return result;
 	}
 
@@ -2783,7 +2784,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 		stopAll(lastClickIndex, channelList.get(lastClickIndex));
 		manager.pauseAll();
-		PlayUtil.pauseAll(manager.getValidChannelList(lastItemIndex));
+		// PlayUtil.pauseAll(manager.getValidChannelList(lastItemIndex));
 	}
 
 	@Override

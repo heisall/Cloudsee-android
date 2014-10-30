@@ -62,13 +62,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
-		rightBtn.setVisibility(View.GONE);
+		// rightBtn.setVisibility(View.GONE);
 		currentMenu.setText(mActivity.getResources().getString(
 				R.string.str_alarm_info));
 
 		pushListView = (XListView) mParent.findViewById(R.id.pushlistview);
 		mActivity.getResources().getDrawable(R.drawable.refresh_broadcast);
-		rightBtn.setVisibility(View.GONE);
+		rightBtn.setBackgroundResource(R.drawable.clear);
+		rightBtn.setVisibility(View.VISIBLE);
 		rightBtn.setOnClickListener(onClickListener);
 
 		// pushAdapter.setData(pushList);
@@ -125,10 +126,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn_right:
-				((BaseActivity) mActivity).createDialog("");
-				RefreshAlarmTask task = new RefreshAlarmTask();
-				String[] params = new String[3];
-				task.execute(params);
+				if (pushList.size() == 0) {
+
+				} else {
+					((BaseActivity) mActivity).createDialog("");
+					ClearAlarmTask task = new ClearAlarmTask();
+					String[] params = new String[3];
+					task.execute(params);
+				}
 				break;
 			}
 		}
@@ -499,10 +504,10 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	}
 
 	// 设置三种类型参数分别为String,Integer,String
-	class ClearAlarmTask extends AsyncTask<Integer, Integer, Integer> {// A,361,2000
+	class ClearAlarmTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
-		protected Integer doInBackground(Integer... params) {
+		protected Integer doInBackground(String... params) {
 			int ret = -1;
 			ret = AlarmUtil.clearAlarmInfo();
 			return ret;

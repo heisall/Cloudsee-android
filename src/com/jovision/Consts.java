@@ -261,6 +261,9 @@ public class Consts {
 	/** 屏幕高度key */
 	public static final String SCREEN_HEIGHT = "SCREEN_HEIGHT";
 
+	/** 数据加载key */
+	public static final String DATA_LOADED_STATE = "DATA_LOADED_STATE";// -1加载失败，0没有数据，1，加载成功
+
 	/** 推送消息JsonArray key */
 	public static final String PUSH_JSONARRAY = "PUSH_JSONARRAY";
 

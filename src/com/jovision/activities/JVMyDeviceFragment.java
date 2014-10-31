@@ -80,7 +80,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	/** 叠加三个 布局 */
 	private LinearLayout deviceLayout; // 设备列表界面
-	private RelativeLayout refreshLayout; // 快速配置界面
+	private RelativeLayout refreshLayout; // 设备加载失败界面
 	private LinearLayout quickSetSV; // 快速配置界面
 	private Button quickSet;
 	private Button addDevice;
@@ -434,13 +434,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				case 3: {// 局域网设备
 					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 					if (!mActivity.is3G(false)) {// 3G网提示不支持
-						// while (0 != broadTag) {
-						// try {
-						// Thread.sleep(1000);
-						// } catch (InterruptedException e) {
-						// e.printStackTrace();
-						// }
-						// }
 						broadTag = BROAD_ADD_DEVICE;
 						broadList.clear();
 						PlayUtil.broadCast(mActivity);
@@ -478,34 +471,53 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 * 刷新列表
 	 */
 	public void refreshList() {
-
-		// boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
-		// .get(Consts.HAG_GOT_DEVICE));
-		// if (hasGot) {
-		if (null == myDeviceList) {
+		String stateStr = ((BaseActivity) mActivity).statusHashMap
+				.get(Consts.DATA_LOADED_STATE);
+		if (null != stateStr) {
 			refreshLayout.setVisibility(View.VISIBLE);
 			deviceLayout.setVisibility(View.GONE);
 			quickSetSV.setVisibility(View.GONE);
 		} else {
-			if (0 == myDeviceList.size()) {
+			if (null == myDeviceList) {
+				refreshLayout.setVisibility(View.VISIBLE);
+				deviceLayout.setVisibility(View.GONE);
+				quickSetSV.setVisibility(View.GONE);
+			} else if (0 == myDeviceList.size()) {
 				refreshLayout.setVisibility(View.GONE);
 				deviceLayout.setVisibility(View.GONE);
 				quickSetSV.setVisibility(View.VISIBLE);
-			} else {
+			} else if (myDeviceList.size() > 0) {
 				refreshLayout.setVisibility(View.GONE);
 				deviceLayout.setVisibility(View.VISIBLE);
 				quickSetSV.setVisibility(View.GONE);
+				myDLAdapter.setData(myDeviceList);
+				myDeviceListView.setAdapter(myDLAdapter);
+				myDLAdapter.notifyDataSetChanged();
 			}
 		}
 
+		// String stateStr = ((BaseActivity) mActivity).statusHashMap
+		// .get(Consts.DATA_LOADED_STATE);
+		// if(null != stateStr){
+		// int state = Integer.parseInt(stateStr);
+		// if (-1 == state) {
+		// refreshLayout.setVisibility(View.VISIBLE);
+		// deviceLayout.setVisibility(View.GONE);
+		// quickSetSV.setVisibility(View.GONE);
+		// } else if (0 == state) {
+		// refreshLayout.setVisibility(View.GONE);
+		// deviceLayout.setVisibility(View.GONE);
+		// quickSetSV.setVisibility(View.VISIBLE);
+		// } else if (1 == state) {
+		// refreshLayout.setVisibility(View.GONE);
+		// deviceLayout.setVisibility(View.VISIBLE);
+		// quickSetSV.setVisibility(View.GONE);
+		// myDLAdapter.setData(myDeviceList);
+		// myDeviceListView.setAdapter(myDLAdapter);
+		// myDLAdapter.notifyDataSetChanged();
 		// }
-		if (null != myDeviceList && 0 != myDeviceList.size()) {
-			deviceLayout.setVisibility(View.VISIBLE);
-			quickSetSV.setVisibility(View.GONE);
-			myDLAdapter.setData(myDeviceList);
-			myDeviceListView.setAdapter(myDLAdapter);
-			myDLAdapter.notifyDataSetChanged();
-		}
+		//
+		// }
 
 	}
 
@@ -593,6 +605,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 						String gid = broadObj.optString("gid");
 						int no = broadObj.optInt("no");
+
+						if (0 == no) {
+							return;
+						}
 						String ip = broadObj.optString("ip");
 						int port = broadObj.optInt("port");
 						String broadDevNum = gid + no;
@@ -620,6 +636,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 						MyLog.v("广播回调-0-add", broadObj.optInt("timeout") + "");
 						String gid = broadObj.optString("gid");
 						int no = broadObj.optInt("no");
+						if (0 == no) {
+							return;
+						}
+
 						String ip = broadObj.optString("ip");
 						int port = broadObj.optInt("port");
 						int count = broadObj.optInt("count");
@@ -1024,23 +1044,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 							}
 						}
 
-						// int size = myDeviceList.size();
-						// if (0 != size) {
-						// for (int i = 0; i < myDeviceList.size(); i++) {
-						// if (null == myDeviceList.get(i)
-						// .getChannelList()
-						// || 0 == myDeviceList.get(i)
-						// .getChannelList().size()) {
-						// myDeviceList.get(i).setChannelList(
-						// DeviceUtil.getDevicePointList(
-						// myDeviceList.get(i),
-						// myDeviceList.get(i)
-						// .getFullNo()));
-						// }
-						// }
-						// }
 					}
-
 					if (null != myDeviceList && 0 != myDeviceList.size()) {
 						sortList();
 					}
@@ -1049,6 +1053,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 						.valueOf(((BaseActivity) mActivity).statusHashMap
 								.get(Consts.LOCAL_LOGIN))) {// 本地登录
 					myDeviceList = CacheUtil.getDevList();
+				}
+
+				if (null == myDeviceList) {
+					((BaseActivity) mActivity).statusHashMap.put(
+							Consts.DATA_LOADED_STATE, "-1");
+				} else {
+					((BaseActivity) mActivity).statusHashMap.put(
+							Consts.DATA_LOADED_STATE, null);
 				}
 
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
@@ -1104,8 +1116,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 				// e.printStackTrace();
 				// }
 				// }
-				broadTag = BROAD_DEVICE_LIST;
-				PlayUtil.broadCast(mActivity);
+				// broadTag = BROAD_DEVICE_LIST;
+				// PlayUtil.broadCast(mActivity);
 				refreshList();
 				break;
 			}

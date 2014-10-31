@@ -127,7 +127,7 @@ public class DeviceUtil {
 			refreshDeviceState(userName, deviceList);
 		}
 
-//		deviceList = null;
+		// deviceList = null;
 		return deviceList;
 	}
 

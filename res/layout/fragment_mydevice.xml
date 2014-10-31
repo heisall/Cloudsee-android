@@ -41,6 +41,7 @@
     </include>
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/refreshlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

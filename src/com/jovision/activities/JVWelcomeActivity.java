@@ -282,9 +282,7 @@ public class JVWelcomeActivity extends BaseActivity {
 				}
 			}
 
-			// [Neo] you fool!
 			ConfigUtil.initCloudSDK(getApplication());// 初始化CloudSDK
-			// HelperUtil.setHelpToSavedDevice();// 给设备设置小助手
 
 			if (ConfigUtil.getNetWorkConnection(JVWelcomeActivity.this)) {
 				boolean initASdkState = ConfigUtil
@@ -301,9 +299,6 @@ public class JVWelcomeActivity extends BaseActivity {
 				}
 
 			}
-
-			// 开启广播，顺序！顺序！
-			ConfigUtil.startBroadCast();
 
 			MyLog.w(TAG, "initThread X");
 		}

@@ -140,6 +140,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.quicksetting_layout);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		Intent intent = getIntent();
 		if (null != intent) {
 			oldWifiSSID = intent.getStringExtra("OLD_WIFI");

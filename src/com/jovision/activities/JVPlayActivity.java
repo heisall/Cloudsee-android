@@ -27,6 +27,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
@@ -1034,106 +1035,112 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	protected void initSettings() {
+
 		TAG = "PlayA";
+		try {
+			wifiAdmin = new WifiAdmin(JVPlayActivity.this);
 
-		wifiAdmin = new WifiAdmin(JVPlayActivity.this);
+			// wifi打开的前提下,获取oldwifiSSID
+			if (wifiAdmin.getWifiState()) {
+				if (null != wifiAdmin.getSSID()) {
+					if (wifiAdmin.getSSID().contains(Consts.IPC_TAG)) {
+						ssid = wifiAdmin.getSSID().replace("\"", "")
+								.replace(Consts.IPC_TAG, "");
+					} else {
+						ssid = null;
+					}
 
-		// wifi打开的前提下,获取oldwifiSSID
-		if (wifiAdmin.getWifiState()) {
-			if (null != wifiAdmin.getSSID()) {
-				if (wifiAdmin.getSSID().contains(Consts.IPC_TAG)) {
-					ssid = wifiAdmin.getSSID().replace("\"", "")
-							.replace(Consts.IPC_TAG, "");
-				} else {
-					ssid = null;
 				}
-
 			}
-		}
 
-		PlayUtil.setContext(JVPlayActivity.this);
-		manager = PlayWindowManager.getIntance(this);
-		manager.setArrowId(R.drawable.left, R.drawable.up, R.drawable.right,
-				R.drawable.down);
+			PlayUtil.setContext(JVPlayActivity.this);
+			manager = PlayWindowManager.getIntance(this);
+			manager.setArrowId(R.drawable.left, R.drawable.up,
+					R.drawable.right, R.drawable.down);
 
-		// [Neo] TODO make omx enable as default
-		isOmx = true;
+			// [Neo] TODO make omx enable as default
+			isOmx = true;
 
-		Intent intent = getIntent();
-		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
-		channelOfChannel = intent.getIntExtra("ChannelofChannel", 0);
-		playFlag = intent.getIntExtra("PlayFlag", 0);
+			Intent intent = getIntent();
+			deviceIndex = intent.getIntExtra("DeviceIndex", 0);
+			channelOfChannel = intent.getIntExtra("ChannelofChannel", 0);
+			playFlag = intent.getIntExtra("PlayFlag", 0);
 
-		currentScreen = intent.getIntExtra("Screen", 1);
+			currentScreen = intent.getIntExtra("Screen", 1);
 
-		if (Consts.PLAY_NORMAL == playFlag) {
-			String devJsonString = intent
-					.getStringExtra(Consts.KEY_PLAY_NORMAL);
-			// MySharedPreference
-			// .getString(Consts.KEY_PLAY_NORMAL);
-			deviceList = Device.fromJsonArray(devJsonString);
-			MyLog.v("播放-E", deviceList.toString());
-		} else if (Consts.PLAY_DEMO == playFlag) {
-			String devJsonString = intent.getStringExtra(Consts.KEY_PLAY_DEMO);
-			// MySharedPreference
-			// .getString(Consts.KEY_PLAY_DEMO);
-			deviceList = Device.fromJsonArray(devJsonString);
-		} else if (Consts.PLAY_AP == playFlag) {
-			String devJsonString = intent.getStringExtra(Consts.KEY_PLAY_AP);
-			// MySharedPreference
-			// .getString(Consts.KEY_PLAY_AP);
-			deviceList = Device.fromJsonArray(devJsonString);
-		}
+			if (Consts.PLAY_NORMAL == playFlag) {
+				String devJsonString = intent
+						.getStringExtra(Consts.KEY_PLAY_NORMAL);
+				// MySharedPreference
+				// .getString(Consts.KEY_PLAY_NORMAL);
+				deviceList = Device.fromJsonArray(devJsonString);
+				MyLog.v("播放-E", deviceList.toString());
+			} else if (Consts.PLAY_DEMO == playFlag) {
+				String devJsonString = intent
+						.getStringExtra(Consts.KEY_PLAY_DEMO);
+				// MySharedPreference
+				// .getString(Consts.KEY_PLAY_DEMO);
+				deviceList = Device.fromJsonArray(devJsonString);
+			} else if (Consts.PLAY_AP == playFlag) {
+				String devJsonString = intent
+						.getStringExtra(Consts.KEY_PLAY_AP);
+				// MySharedPreference
+				// .getString(Consts.KEY_PLAY_AP);
+				deviceList = Device.fromJsonArray(devJsonString);
+			}
 
-		MyLog.v(TAG, "Connect--" + deviceList.toString());
-		startWindowIndex = 0;
-		channelList = new ArrayList<Channel>();
+			MyLog.v(TAG, "Connect--" + deviceList.toString());
+			startWindowIndex = 0;
+			channelList = new ArrayList<Channel>();
 
-		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
-			int size = deviceList.size();
-			for (int i = 0; i < size; i++) {
-				ArrayList<Channel> cList = deviceList.get(i).getChannelList()
-						.toList();
-				int csize = cList.size();
+			if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+				int size = deviceList.size();
+				for (int i = 0; i < size; i++) {
+					ArrayList<Channel> cList = deviceList.get(i)
+							.getChannelList().toList();
+					int csize = cList.size();
 
-				if (i < deviceIndex) {
-					startWindowIndex += csize;
-				} else if (i == deviceIndex) {
-					for (int j = 0; j < csize; j++) {
-						if (cList.get(j).getChannel() < channelOfChannel) {
-							startWindowIndex++;
+					if (i < deviceIndex) {
+						startWindowIndex += csize;
+					} else if (i == deviceIndex) {
+						for (int j = 0; j < csize; j++) {
+							if (cList.get(j).getChannel() < channelOfChannel) {
+								startWindowIndex++;
+							}
 						}
+					}
+
+					channelList.addAll(cList);
+				}
+			} else {
+				ArrayList<Channel> cList = deviceList.get(deviceIndex)
+						.getChannelList().toList();
+				int csize = cList.size();
+				for (int j = 0; j < csize; j++) {
+					if (cList.get(j).getChannel() < channelOfChannel) {
+						startWindowIndex++;
 					}
 				}
 
 				channelList.addAll(cList);
 			}
-		} else {
-			ArrayList<Channel> cList = deviceList.get(deviceIndex)
-					.getChannelList().toList();
-			int csize = cList.size();
-			for (int j = 0; j < csize; j++) {
-				if (cList.get(j).getChannel() < channelOfChannel) {
-					startWindowIndex++;
-				}
+
+			int size = channelList.size();
+			for (int i = 0; i < size; i++) {
+				manager.addChannel(channelList.get(i));
 			}
 
-			channelList.addAll(cList);
+			isDoubleClickCheck = false;
+			lastClickIndex = channelList.get(startWindowIndex).getIndex();
+			lastItemIndex = lastClickIndex;
+			MyLog.i(Consts.TAG_XX, "JVPlay.init: startWindowIndex="
+					+ startWindowIndex + "," + channelList.size()
+					+ ", channel/index = "
+					+ channelList.get(startWindowIndex).getChannel() + "/"
+					+ channelList.get(startWindowIndex).getIndex());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		int size = channelList.size();
-		for (int i = 0; i < size; i++) {
-			manager.addChannel(channelList.get(i));
-		}
-
-		isDoubleClickCheck = false;
-		lastClickIndex = channelList.get(startWindowIndex).getIndex();
-		lastItemIndex = lastClickIndex;
-		MyLog.i(Consts.TAG_XX, "JVPlay.init: startWindowIndex="
-				+ startWindowIndex + "," + channelList.size()
-				+ ", channel/index = "
-				+ channelList.get(startWindowIndex).getChannel() + "/"
-				+ channelList.get(startWindowIndex).getIndex());
 
 	}
 
@@ -1145,7 +1152,7 @@ public class JVPlayActivity extends PlayActivity implements
 		// Configuration.ORIENTATION_LANDSCAPE) {
 		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		// }
-
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		wifiAdmin = new WifiAdmin(JVPlayActivity.this);
 
 		// wifi打开的前提下,获取oldwifiSSID

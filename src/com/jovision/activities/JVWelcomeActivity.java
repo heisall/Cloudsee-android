@@ -24,6 +24,7 @@ import com.jovision.commons.MyUtils;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ImportOldData;
 import com.jovision.utils.UserUtil;
+import com.umeng.analytics.MobclickAgent;
 
 public class JVWelcomeActivity extends BaseActivity {
 
@@ -326,5 +327,13 @@ public class JVWelcomeActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 }

@@ -375,25 +375,25 @@ public class JVPlayActivity extends PlayActivity implements
 			MyLog.v("ChannelTag--2", "HomeProduct="
 					+ channel.getParent().isHomeProduct());
 			MyLog.v("ChannelTag--3", "SingleVoice=" + channel.isSingleVoice());
-//
-//			// if (arg1 == lastClickIndex) {//当前屏幕
-//			// TODO 不应该只对比宽高
-//			if (newWidth != channel.getWidth()
-//					|| newHeight != channel.getHeight()) {// 宽高变了才发文本聊天
-//
-//				channel.setHeight(newHeight);
-//				channel.setWidth(newWidth);
-//				// 是IPC，发文本聊天请求
-//				if (channel.getParent().isHomeProduct()) {
-//					// 请求文本聊天
-//					Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
-//				}
-//			}
-//
-//			if (recoding) {
-//				showTextToast(R.string.video_repaked);
-//				PlayUtil.videoRecord(lastClickIndex);
-//			}
+			//
+			// // if (arg1 == lastClickIndex) {//当前屏幕
+			// // TODO 不应该只对比宽高
+			// if (newWidth != channel.getWidth()
+			// || newHeight != channel.getHeight()) {// 宽高变了才发文本聊天
+			//
+			// channel.setHeight(newHeight);
+			// channel.setWidth(newWidth);
+			// // 是IPC，发文本聊天请求
+			// if (channel.getParent().isHomeProduct()) {
+			// // 请求文本聊天
+			// Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+			// }
+			// }
+			//
+			// if (recoding) {
+			// showTextToast(R.string.video_repaked);
+			// PlayUtil.videoRecord(lastClickIndex);
+			// }
 
 			// }
 

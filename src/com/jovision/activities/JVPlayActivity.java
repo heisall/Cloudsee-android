@@ -356,7 +356,13 @@ public class JVPlayActivity extends PlayActivity implements
 					newWidth = jobj.getInt("width");
 					newHeight = jobj.getInt("height");
 					if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
-						Jni.disconnect(arg1);
+						if (!Jni.disconnect(arg1)) {
+							channel.setConnected(false);
+							channel.setConnecting(false);
+							channel.setPaused(true);
+							loadingState(arg1, R.string.closed,
+									JVConst.PLAY_DIS_CONNECTTED);
+						}
 						if (ONE_SCREEN == currentScreen) {
 							// TODO
 							if (!MySharedPreference
@@ -1059,7 +1065,7 @@ public class JVPlayActivity extends PlayActivity implements
 					R.drawable.right, R.drawable.down);
 
 			// [Neo] TODO make omx enable as default
-			isOmx = true;
+			// isOmx = true;
 
 			Intent intent = getIntent();
 			deviceIndex = intent.getIntExtra("DeviceIndex", 0);
@@ -1243,7 +1249,14 @@ public class JVPlayActivity extends PlayActivity implements
 							for (int i = 0; i < size; i++) {
 								channel = lastList.get(i);
 								if (channel.isConnected()) {
-									Jni.disconnect(channel.getIndex());
+									if (!Jni.disconnect(channel.getIndex())) {
+										channel.setConnected(false);
+										channel.setConnecting(false);
+										channel.setPaused(true);
+										loadingState(channel.getIndex(),
+												R.string.closed,
+												JVConst.PLAY_DIS_CONNECTTED);
+									}
 								}
 							}
 						}
@@ -1377,7 +1390,7 @@ public class JVPlayActivity extends PlayActivity implements
 				container.removeView(list.get(position));
 
 				if (1 == currentScreen) {
-					Channel channel = manager.getChannel(position);
+					final Channel channel = manager.getChannel(position);
 					if (channel.isConnected()
 							&& lastClickIndex != channel.getIndex()) {
 						final int index = channel.getIndex();
@@ -1385,7 +1398,13 @@ public class JVPlayActivity extends PlayActivity implements
 
 							@Override
 							public void run() {
-								Jni.disconnect(index);
+								if (!Jni.disconnect(index)) {
+									channel.setConnected(false);
+									channel.setConnecting(false);
+									channel.setPaused(true);
+									loadingState(index, R.string.closed,
+											JVConst.PLAY_DIS_CONNECTTED);
+								}
 							}
 
 						}.start();
@@ -1601,7 +1620,14 @@ public class JVPlayActivity extends PlayActivity implements
 								channel = channelList.get(i);
 								if (channel.isConnected()
 										&& lastClickIndex != channel.getIndex()) {
-									Jni.disconnect(channel.getIndex());
+									if (!Jni.disconnect(channel.getIndex())) {
+										channel.setConnected(false);
+										channel.setConnecting(false);
+										channel.setPaused(true);
+										loadingState(channel.getIndex(),
+												R.string.closed,
+												JVConst.PLAY_DIS_CONNECTTED);
+									}
 								}
 							}
 						}

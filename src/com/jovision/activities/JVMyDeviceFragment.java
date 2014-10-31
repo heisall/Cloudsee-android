@@ -495,30 +495,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				myDLAdapter.notifyDataSetChanged();
 			}
 		}
-
-		// String stateStr = ((BaseActivity) mActivity).statusHashMap
-		// .get(Consts.DATA_LOADED_STATE);
-		// if(null != stateStr){
-		// int state = Integer.parseInt(stateStr);
-		// if (-1 == state) {
-		// refreshLayout.setVisibility(View.VISIBLE);
-		// deviceLayout.setVisibility(View.GONE);
-		// quickSetSV.setVisibility(View.GONE);
-		// } else if (0 == state) {
-		// refreshLayout.setVisibility(View.GONE);
-		// deviceLayout.setVisibility(View.GONE);
-		// quickSetSV.setVisibility(View.VISIBLE);
-		// } else if (1 == state) {
-		// refreshLayout.setVisibility(View.GONE);
-		// deviceLayout.setVisibility(View.VISIBLE);
-		// quickSetSV.setVisibility(View.GONE);
-		// myDLAdapter.setData(myDeviceList);
-		// myDeviceListView.setAdapter(myDLAdapter);
-		// myDLAdapter.notifyDataSetChanged();
-		// }
-		//
-		// }
-
 	}
 
 	@Override
@@ -1148,6 +1124,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {
 			int addRes = -1;
+			int addCount = 0;
 			ArrayList<Device> list = new ArrayList<Device>();// 广播到的设备列表
 			list = Device.fromJsonArray(params[0]);
 			try {
@@ -1165,18 +1142,42 @@ public class JVMyDeviceFragment extends BaseFragment {
 								.valueOf(((BaseActivity) mActivity).statusHashMap
 										.get(Consts.LOCAL_LOGIN))) {// 本地添加
 							addRes = 0;
+							addCount++;
 						} else {
 							addRes = DeviceUtil
 									.addDevice(mActivity.statusHashMap
 											.get("KEY_USERNAME"), addDev);
-							if (0 <= addDev.getChannelList().size()) {
-								if (0 == DeviceUtil.addPoint(
-										addDev.getFullNo(), addDev
-												.getChannelList().size())) {
-									addDev.setChannelList(DeviceUtil
-											.getDevicePointList(addDev,
-													addDev.getFullNo()));
-									addRes = 0;
+							// 添加设备失败了，再添加一次
+							if (addRes < 0) {
+								addRes = DeviceUtil.addDevice(
+										mActivity.statusHashMap
+												.get("KEY_USERNAME"), addDev);
+							}
+
+							if (addRes == 0) {
+								if (0 <= addDev.getChannelList().size()) {
+									int addPointRes = DeviceUtil.addPoint(
+											addDev.getFullNo(), addDev
+													.getChannelList().size());
+
+									if (0 != addPointRes) {
+										addPointRes = DeviceUtil.addPoint(
+												addDev.getFullNo(), addDev
+														.getChannelList()
+														.size());
+									}
+
+									if (0 != addPointRes) {
+										DeviceUtil
+												.unbindDevice(
+														mActivity.statusHashMap
+																.get(Consts.KEY_USERNAME),
+														addDev.getFullNo());
+										addRes = -1;
+									} else {
+										addRes = 0;
+										addCount++;
+									}
 								} else {
 									DeviceUtil.unbindDevice(
 											mActivity.statusHashMap
@@ -1189,16 +1190,26 @@ public class JVMyDeviceFragment extends BaseFragment {
 					}
 					if (0 == addRes) {
 						myDeviceList.add(0, addDev);
+						MyLog.v("广播添加设备", myDeviceList.toString());
 					}
 				}
 				DeviceUtil.refreshDeviceState(
 						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
 						myDeviceList);
 
+				for (Device dev1 : list) {
+					for (Device dev2 : myDeviceList) {
+						if (dev1.getFullNo().equalsIgnoreCase(dev2.getFullNo())) {
+							dev2.setOnlineState(1);
+							break;
+						}
+					}
+				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return addRes;
+			return addCount;
 		}
 
 		@Override
@@ -1212,10 +1223,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			sortList();
 			CacheUtil.saveDevList(myDeviceList);
 			((BaseActivity) mActivity).dismissDialog();
-			if (0 == result) {
+			if (result > 0) {
 				refreshList();
 				mActivity.showTextToast(R.string.add_device_succ);
-			} else if (100 == result) {
+			} else if (result == 100) {
 				mActivity.showTextToast(R.string.str_device_most_count);
 			} else {
 				refreshList();
@@ -1254,6 +1265,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								mActivity.createDialog("");
+								mActivity.proDialog.setCancelable(false);
 								AddDevTask task = new AddDevTask();
 								String[] strParams = new String[3];
 								strParams[0] = broadList.toString();

@@ -121,10 +121,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_edit_l);
 			deviceHolder.editDevIVL = (LinearLayout) convertView
 					.findViewById(R.id.mydevice_edit_l);
+			deviceHolder.devnicknameL = (TextView) convertView
+					.findViewById(R.id.dev_nickname_l);
 
 			deviceHolder.mydeviceParentR = (FrameLayout) convertView
 					.findViewById(R.id.mydevice_parent_r);
-
 			deviceHolder.devLayoutR = (RelativeLayout) convertView
 					.findViewById(R.id.dev_layout_r);
 			deviceHolder.devNameR = (TextView) convertView
@@ -145,6 +146,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_edit_r);
 			deviceHolder.editDevIVR = (LinearLayout) convertView
 					.findViewById(R.id.mydevice_edit_r);
+			deviceHolder.devnicknameR = (TextView) convertView
+					.findViewById(R.id.dev_nickname_r);
 
 			convertView.setTag(deviceHolder);
 		} else {
@@ -153,9 +156,13 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		if (2 == deviceList.get(position * 2).getIsDevice()) {
 			deviceHolder.devNameL.setText(deviceList.get(position * 2)
 					.getDoMain());
+			deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
+					.getNickName());
 		} else {
 			deviceHolder.devNameL.setText(deviceList.get(position * 2)
 					.getFullNo());
+			deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
+					.getNickName());
 		}
 
 		if (Boolean
@@ -248,9 +255,13 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			if (2 == deviceList.get(position * 2 + 1).getIsDevice()) {
 				deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
 						.getDoMain());
+				deviceHolder.devnicknameR.setText(deviceList.get(
+						position * 2 + 1).getNickName());
 			} else {
 				deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
 						.getFullNo());
+				deviceHolder.devnicknameR.setText(deviceList.get(
+						position * 2 + 1).getNickName());
 			}
 
 			if (Boolean
@@ -387,6 +398,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		LinearLayout editDevIVL;
 		ImageView devOnlineImgL;
 		ImageView devWifiImgL;
+		TextView devnicknameL;
 
 		FrameLayout mydeviceParentR;
 		RelativeLayout devLayoutR;
@@ -399,6 +411,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		LinearLayout editDevIVR;
 		ImageView devOnlineImgR;
 		ImageView devWifiImgR;
+		TextView devnicknameR;
 	}
 
 	protected void dialog(final int position) {

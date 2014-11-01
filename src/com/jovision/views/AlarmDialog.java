@@ -120,7 +120,7 @@ public class AlarmDialog extends Dialog {
 						}
 
 						ArrayList<Device> playList = PlayUtil.prepareConnect(
-								deviceList, dev_index, false);// 该函数里已经调用SaveList了
+								deviceList, dev_index);// 该函数里已经调用SaveList了
 						// MyLog.v("Alarm",
 						// "prepareConnect2--" + deviceList.toString());
 						// CacheUtil.saveDevList(deviceList);
@@ -130,10 +130,7 @@ public class AlarmDialog extends Dialog {
 						intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
 						intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
 								playList.toString());
-						intentPlay.putExtra(
-								"DeviceIndex",
-								PlayUtil.getPlayIndex(playList,
-										deviceList.get(dev_index).getFullNo()));
+						intentPlay.putExtra("DeviceIndex", dev_index);
 						if (deviceList.get(dev_index).getChannelList().size() == 0) {
 							Toast.makeText(
 									context,

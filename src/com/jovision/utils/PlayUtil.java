@@ -794,24 +794,24 @@ public class PlayUtil {
 	}
 
 	public static ArrayList<Device> prepareConnect(
-			ArrayList<Device> deviceList, int deviceIndex, boolean local) {
+			ArrayList<Device> deviceList, int deviceIndex) {
 		// 获取真正播放的列表
-		ArrayList<Device> playList = getOnLineList(deviceList, local);
+		// ArrayList<Device> playList = getOnLineList(deviceList, local);
 
 		ArrayList<Channel> clist = new ArrayList<Channel>();
 
 		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
-			for (Device device : playList) {
+			for (Device device : deviceList) {
 				clist.addAll(device.getChannelList().toList());
 			}
 		} else {
 			try {
-				if (null == playList.get(deviceIndex).getChannelList()
-						|| 0 == playList.get(deviceIndex).getChannelList()
+				if (null == deviceList.get(deviceIndex).getChannelList()
+						|| 0 == deviceList.get(deviceIndex).getChannelList()
 								.size()) {
 
 				} else {
-					clist.addAll(playList.get(deviceIndex).getChannelList()
+					clist.addAll(deviceList.get(deviceIndex).getChannelList()
 							.toList());
 				}
 
@@ -831,7 +831,7 @@ public class PlayUtil {
 		// CacheUtil.saveDevList(deviceList);
 		// }
 
-		return playList;
+		return deviceList;
 	}
 
 	// 获取播放列表中的index

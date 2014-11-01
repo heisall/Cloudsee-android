@@ -253,26 +253,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		rightBtn.setOnClickListener(myOnClickListener);
 
 		// 非3G加广播设备
-		if (!mActivity.is3G(false)) {
-			broadTimer = new Timer();
-			broadTimerTask = new TimerTask() {
-				@Override
-				public void run() {
-					Log.v(TAG, "三分钟时间到--发广播");
-					// while (0 != broadTag) {
-					// try {
-					// Thread.sleep(1000);
-					// } catch (InterruptedException e) {
-					// e.printStackTrace();
-					// }
-					// }
-					broadTag = BROAD_THREE_MINITE;
-					PlayUtil.broadCast(mActivity);
-				}
-			};
-			broadTimer.schedule(broadTimerTask, 5 * 60 * 1000, 5 * 60 * 1000);
-		}
-
+		startBroadTimer();
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
 			refreshList();
@@ -290,6 +271,43 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	}
 
+	/**
+	 * 5分钟广播
+	 */
+	public void startBroadTimer() {
+		// 非3G加广播设备
+		if (!mActivity.is3G(false)) {
+			if (null != broadTimer) {
+				broadTimer.cancel();
+			}
+			broadTimer = new Timer();
+
+			broadTimerTask = new TimerTask() {
+				@Override
+				public void run() {
+					Log.v(TAG, "三分钟时间到--发广播");
+					broadTag = BROAD_THREE_MINITE;
+					PlayUtil.broadCast(mActivity);
+				}
+			};
+			broadTimer.schedule(broadTimerTask, 5 * 60 * 1000, 5 * 60 * 1000);
+		}
+	}
+
+	public void stopBroadTimer() {
+		if (null != broadTimer) {
+			broadTimer.cancel();
+			broadTimer = null;
+		}
+		if (null != broadTimerTask) {
+			broadTimerTask.cancel();
+			broadTimerTask = null;
+		}
+	}
+
+	/**
+	 * 2分钟自动刷新
+	 */
 	public void startAutoRefreshTimer() {
 		// 两分钟自动刷新设备列表
 		updateTask = new AutoUpdateTask();
@@ -500,6 +518,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onDestroy() {
 		stopRefreshWifiTimer();
+		stopBroadTimer();
 		super.onDestroy();
 	}
 
@@ -663,37 +682,31 @@ public class JVMyDeviceFragment extends BaseFragment {
 				mActivity.showTextToast(R.string.selectone_to_connect);
 			} else if (1 == dev.getChannelList().size()) {// 1个通道直接播放
 
-				if (0 == myDeviceList.get(arg1).getOnlineState()
-						&& !Boolean
-								.valueOf(((BaseActivity) mActivity).statusHashMap
-										.get(Consts.LOCAL_LOGIN))) {
-					mActivity.showTextToast(R.string.offline_not_play);
+				// if (0 == myDeviceList.get(arg1).getOnlineState()
+				// && !Boolean
+				// .valueOf(((BaseActivity) mActivity).statusHashMap
+				// .get(Consts.LOCAL_LOGIN))) {
+				// mActivity.showTextToast(R.string.offline_not_play);
+				// } else {
+				// sortList(myDeviceList);
+				ArrayList<Device> playList = PlayUtil.prepareConnect(
+						myDeviceList, arg1);
+
+				if (null == playList || 0 == playList.size()) {
+					mActivity.showTextToast(R.string.selectone_to_connect);
 				} else {
-					// sortList(myDeviceList);
-					ArrayList<Device> playList = PlayUtil
-							.prepareConnect(
-									myDeviceList,
-									arg1,
-									Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
-											.get(Consts.LOCAL_LOGIN)));
-
-					if (null == playList || 0 == playList.size()) {
-						mActivity.showTextToast(R.string.selectone_to_connect);
-					} else {
-						Intent intentPlay = new Intent(mActivity,
-								JVPlayActivity.class);
-						intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
-								playList.toString());
-						intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-						intentPlay.putExtra("DeviceIndex", PlayUtil
-								.getPlayIndex(playList, myDeviceList.get(arg1)
-										.getFullNo()));
-						intentPlay.putExtra("ChannelofChannel", dev
-								.getChannelList().toList().get(0).getChannel());
-						mActivity.startActivity(intentPlay);
-					}
-
+					Intent intentPlay = new Intent(mActivity,
+							JVPlayActivity.class);
+					intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
+							playList.toString());
+					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+					intentPlay.putExtra("DeviceIndex", arg1);
+					intentPlay.putExtra("ChannelofChannel", dev
+							.getChannelList().toList().get(0).getChannel());
+					mActivity.startActivity(intentPlay);
 				}
+
+				// }
 
 			} else {// 多个通道查看通道列表
 				Intent intentPlay = new Intent(mActivity,

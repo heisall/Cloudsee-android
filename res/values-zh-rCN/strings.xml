@@ -503,7 +503,7 @@
     <string name="clear_alarm_succ">清空报警信息成功</string>
     <string name="clear_alarm_failed">清空报警信息失败</string>
     <!-- JVPlayActivity -->
-    <string name="offline_not_play">设备已处于离线状态,不能进行操作.</string>
+    <string name="offline_not_play1">设备已处于离线状态,不能进行操作.</string>
     <string name="connfailed_auth">身份验证失败</string>
     <string name="connfailed_channel_notopen">无该通道服务</string>
     <string name="connfailed_type_invalid">连接类型无效</string>

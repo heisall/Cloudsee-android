@@ -330,7 +330,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			if (null != channel.getSurfaceView()) {
-				resumeChannel(channel);
+				resumeChannel(channel, true);
 			}
 			loadingState(arg1, R.string.connecting_buffer2,
 					JVConst.PLAY_CONNECTING_BUFFER);
@@ -760,10 +760,10 @@ public class JVPlayActivity extends PlayActivity implements
 			if (hasChannel && false == hasNull) {
 				if (1 != currentScreen) {
 					for (int i = 0; i < size; i++) {
-						resumeChannel(currentPageChannelList.get(i));
+						resumeChannel(currentPageChannelList.get(i), true);
 					}
 				} else {
-					resumeChannel(channelList.get(arg2));
+					resumeChannel(channelList.get(arg2), true);
 				}
 			} else {
 				handler.sendMessageDelayed(
@@ -1431,7 +1431,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 	}
 
-	public boolean resumeChannel(final Channel channel) {
+	public boolean resumeChannel(final Channel channel,
+			final boolean isPlayDirectly) {
 		boolean result = false;
 
 		if (null != channel) {
@@ -1440,10 +1441,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 					@Override
 					public void run() {
-						if (connect(channel.getParent(), channel, true, false,
-								false) >= 0) {
-							channel.setPaused(null == channel.getSurface());
-						}
+						connect(channel.getParent(), channel, isPlayDirectly,
+								false, false);
 					}
 
 				}.start();
@@ -1451,11 +1450,13 @@ public class JVPlayActivity extends PlayActivity implements
 			} else if (channel.isPaused() && null != channel.getSurface()) {
 				// loadingState(channel.getIndex(), R.string.connecting_buffer,
 				// JVConst.PLAY_CONNECTING_BUFFER);
-				result = Jni.resume(channel.getIndex(), channel.getSurface());
+				result = Jni.sendBytes(channel.getIndex(),
+						JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
+
 				if (result) {
-					Jni.sendBytes(channel.getIndex(), JVNetConst.JVN_CMD_VIDEO,
-							new byte[0], 8);
+					Jni.resume(channel.getIndex(), channel.getSurface());
 					channel.setPaused(false);
+
 					handler.sendMessage(handler.obtainMessage(
 							Consts.CALL_CONNECT_CHANGE, channel.getIndex(),
 							JVNetConst.CONNECT_OK));
@@ -1481,12 +1482,12 @@ public class JVPlayActivity extends PlayActivity implements
 		if (null != channel) {
 			if (channel.isConnected()) {
 				if (false == channel.isPaused()) {
-					channel.setPaused(true);
-					result = Jni.pause(channel.getIndex());
+					result = Jni.sendBytes(channel.getIndex(),
+							JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
 
 					if (result) {
-						Jni.sendBytes(channel.getIndex(),
-								JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
+						Jni.pause(channel.getIndex());
+						channel.setPaused(true);
 					}
 				}
 			}
@@ -1567,6 +1568,7 @@ public class JVPlayActivity extends PlayActivity implements
 							device.getPwd(), number, device.getGid(), true, 1,
 							true, 6,// (device.isHomeProduct() ? 6 : 5),
 							channel.getSurface(), isTryOmx);
+					channel.setPaused(null == channel.getSurface());
 				} else {
 					result = Jni.connect(channel.getIndex(),
 							channel.getChannel(), device.getIp(),
@@ -1624,15 +1626,22 @@ public class JVPlayActivity extends PlayActivity implements
 							Channel channel = null;
 							for (int i = 0; i < size; i++) {
 								channel = channelList.get(i);
-								if (channel.isConnected()
-										&& lastClickIndex != channel.getIndex()) {
-									if (!Jni.disconnect(channel.getIndex())) {
-										channel.setConnected(false);
-										channel.setConnecting(false);
-										channel.setPaused(true);
-										loadingState(channel.getIndex(),
-												R.string.closed,
-												JVConst.PLAY_DIS_CONNECTTED);
+								if (channel.isConnected()) {
+									int index = channel.getIndex();
+									if (lastClickIndex - 1 > index
+											&& lastClickIndex + 1 < index) {
+										if (!Jni.disconnect(channel.getIndex())) {
+											channel.setConnected(false);
+											channel.setConnecting(false);
+											channel.setPaused(true);
+											loadingState(channel.getIndex(),
+													R.string.closed,
+													JVConst.PLAY_DIS_CONNECTTED);
+										}
+									} else if (lastClickIndex == index) {
+										// [Neo] Empty
+									} else {
+										pauseChannel(channel);
 									}
 								}
 							}
@@ -1700,13 +1709,13 @@ public class JVPlayActivity extends PlayActivity implements
 					+ isFromCurrent);
 			channel.setSurface(surface);
 
-			if (1 == currentScreen && false == isFromCurrent) {
+			if (1 == currentScreen && false == isFromCurrent
+					&& false == channel.isConnected()) {
 				new Thread() {
 
 					@Override
 					public void run() {
-						connect(channel.getParent(), channel, false, false,
-								false);
+						resumeChannel(channel, false);
 					}
 
 				}.start();

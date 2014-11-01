@@ -28,7 +28,6 @@ import com.jovision.audio.MICRecorder;
 import com.jovision.audio.PlayAudio;
 import com.jovision.bean.Channel;
 import com.jovision.commons.JVConst;
-import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.MyViewPager;
@@ -403,7 +402,6 @@ public abstract class PlayActivity extends BaseActivity {
 
 			reParamsV = new RelativeLayout.LayoutParams(useWidth,
 					(int) (0.75 * useWidth));
-			MyLog.e(TAG, "v-w=" + useWidth + ";v-h=" + (int) (0.75 * useWidth));
 			viewPager.setLayoutParams(reParamsV);
 			playSurface.setLayoutParams(reParamsV);
 			decodeBtn.setVisibility(View.VISIBLE);
@@ -455,8 +453,6 @@ public abstract class PlayActivity extends BaseActivity {
 			reParamsH = new RelativeLayout.LayoutParams(
 					ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.MATCH_PARENT);
-			MyLog.e(TAG, "h-w=" + disMetrics.heightPixels + ";h-h="
-					+ disMetrics.widthPixels);
 			viewPager.setLayoutParams(reParamsH);
 			playSurface.setLayoutParams(reParamsH);
 			// [Neo] surface.step 0

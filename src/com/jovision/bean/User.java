@@ -6,8 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.jovision.commons.MyLog;
-
 //登录用户
 public class User {
 	private final static String TAG = "UserBean";
@@ -70,7 +68,6 @@ public class User {
 			e.printStackTrace();
 		}
 
-		MyLog.d(TAG, "json: " + object.toString());
 		return object;
 	}
 
@@ -91,7 +88,6 @@ public class User {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		MyLog.d(TAG, "json: " + userArray.toString());
 		return userArray;
 	}
 

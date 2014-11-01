@@ -79,10 +79,9 @@ public class ManageFragment extends BaseFragment {
 				manageAdapter.notifyDataSetChanged();
 			}
 		} catch (Exception e) {
-			MyLog.v(TAG, "setDevIndex=device" + device + "--" + localFlag);
+			MyLog.e(TAG, "setDevIndex=device" + device + "--" + localFlag);
 			e.printStackTrace();
 		}
-		MyLog.v(TAG, "setDevIndex=" + index);
 	}
 
 	@Override
@@ -123,7 +122,7 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		MyLog.v("ManageFragment", "onTabAction:what=" + what + ";arg1=" + arg1
+		MyLog.i("ManageFragment", "onTabAction:what=" + what + ";arg1=" + arg1
 				+ ";arg2=" + arg1);
 		switch (what) {
 		case Consts.MANAGE_ITEM_CLICK: {// adapter item 单击事件
@@ -228,7 +227,6 @@ public class ManageFragment extends BaseFragment {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			MyLog.v(TAG, obj.toString());
 			if (Consts.DEVICE_TYPE_IPC == devType) {// 是IPC
 				// // 暂停视频
 				// Jni.sendBytes(Consts.CHANNEL_JY,
@@ -255,11 +253,10 @@ public class ManageFragment extends BaseFragment {
 				builder1.create().show();
 			}
 
-			MyLog.v("NORMALDATA", obj.toString());
 			break;
 		}
 		case Consts.CALL_CONNECT_CHANGE: { // 连接回调
-			MyLog.e(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
+			MyLog.i(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
 			if (JVNetConst.CONNECT_OK != arg2
 					&& JVNetConst.DISCONNECT_OK != arg2) {// IPC连接失败才提示(非连接成功和断开连接)
@@ -294,7 +291,7 @@ public class ManageFragment extends BaseFragment {
 			break;
 		}
 		case Consts.CALL_TEXT_DATA: {// 文本回调
-			MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
+			MyLog.i(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本聊天

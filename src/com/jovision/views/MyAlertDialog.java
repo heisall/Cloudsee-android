@@ -1,13 +1,12 @@
 package com.jovision.views;
 
-import com.jovetech.CloudSee.temp.R;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.view.View.OnClickListener;
+
+import com.jovetech.CloudSee.temp.R;
 
 public class MyAlertDialog extends Dialog {
 

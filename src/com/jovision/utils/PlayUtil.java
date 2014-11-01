@@ -793,11 +793,49 @@ public class PlayUtil {
 		return onlineDevice;
 	}
 
+	// public static ArrayList<Device> prepareConnect(
+	// ArrayList<Device> deviceList, int deviceIndex) {
+	// // 获取真正播放的列表
+	// // ArrayList<Device> playList = getOnLineList(deviceList, local);
+	//
+	// ArrayList<Channel> clist = new ArrayList<Channel>();
+	//
+	// if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+	// for (Device device : deviceList) {
+	// clist.addAll(device.getChannelList().toList());
+	// }
+	// } else {
+	// try {
+	// if (null == deviceList.get(deviceIndex).getChannelList()
+	// || 0 == deviceList.get(deviceIndex).getChannelList()
+	// .size()) {
+	//
+	// } else {
+	// clist.addAll(deviceList.get(deviceIndex).getChannelList()
+	// .toList());
+	// }
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// return null;
+	// }
+	//
+	// }
+	//
+	// int size = clist.size();
+	// for (int i = 0; i < size; i++) {
+	// // [Neo] 循环利用播放数组，我 tm 就是个天才
+	// clist.get(i).setIndex(i);// % Consts.MAX_CHANNEL_CONNECTION);
+	// }
+	// // if (save) {
+	// // CacheUtil.saveDevList(deviceList);
+	// // }
+	//
+	// return deviceList;
+	// }
+
 	public static ArrayList<Device> prepareConnect(
 			ArrayList<Device> deviceList, int deviceIndex) {
-		// 获取真正播放的列表
-		// ArrayList<Device> playList = getOnLineList(deviceList, local);
-
 		ArrayList<Channel> clist = new ArrayList<Channel>();
 
 		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
@@ -805,21 +843,7 @@ public class PlayUtil {
 				clist.addAll(device.getChannelList().toList());
 			}
 		} else {
-			try {
-				if (null == deviceList.get(deviceIndex).getChannelList()
-						|| 0 == deviceList.get(deviceIndex).getChannelList()
-								.size()) {
-
-				} else {
-					clist.addAll(deviceList.get(deviceIndex).getChannelList()
-							.toList());
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-
+			clist.addAll(deviceList.get(deviceIndex).getChannelList().toList());
 		}
 
 		int size = clist.size();
@@ -827,10 +851,6 @@ public class PlayUtil {
 			// [Neo] 循环利用播放数组，我 tm 就是个天才
 			clist.get(i).setIndex(i);// % Consts.MAX_CHANNEL_CONNECTION);
 		}
-		// if (save) {
-		// CacheUtil.saveDevList(deviceList);
-		// }
-
 		return deviceList;
 	}
 
@@ -966,7 +986,7 @@ public class PlayUtil {
 	 * @param ipcWifi
 	 */
 	public static void connectDevice(Device dev) {
-
+		Jni.enablePlayAudio(1, false);
 		if (!"".equalsIgnoreCase(dev.getIp())) {// IP直连云视通号置为-1
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(),
 					dev.getPwd(), -1, ConfigUtil.getGroup(dev.getFullNo()),

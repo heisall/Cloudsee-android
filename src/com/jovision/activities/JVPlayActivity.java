@@ -234,7 +234,11 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_CONNECT_CHANGE: {
-			Channel channel = channelList.get(arg1);
+			Channel channel = null;
+			if (arg1 < channelList.size()) {
+				channel = channelList.get(arg1);
+			}
+
 			if (null == channel) {
 				return;
 			}
@@ -324,7 +328,11 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_NORMAL_DATA: {
-			Channel channel = channelList.get(arg1);
+			Channel channel = null;
+			if (arg1 < channelList.size()) {
+				channel = channelList.get(arg1);
+			}
+
 			if (null == channel) {
 				return;
 			}
@@ -470,6 +478,14 @@ public class JVPlayActivity extends PlayActivity implements
 		case Consts.CALL_TEXT_DATA: {
 			MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
+			Channel channel = null;
+			if (arg1 < channelList.size()) {
+				channel = channelList.get(arg1);
+			}
+
+			if (null == channel) {
+				return;
+			}
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本聊天
 				try {
@@ -486,16 +502,10 @@ public class JVPlayActivity extends PlayActivity implements
 						+ ", " + obj);
 				Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
-				channelList.get(arg1).setAgreeTextData(true);
-				MyLog.v("ChannelTag--4",
-						"AgreeTextData="
-								+ channelList.get(arg1).isSingleVoice());
+				channel.setAgreeTextData(true);
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
-				MyLog.v("ChannelTag--4",
-						"AgreeTextData="
-								+ channelList.get(arg1).isSingleVoice());
-				channelList.get(arg1).setAgreeTextData(false);
+				channel.setAgreeTextData(false);
 				break;
 
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
@@ -530,16 +540,13 @@ public class JVPlayActivity extends PlayActivity implements
 										streamMap.get("effect_flag"));
 								int effect_flag = Integer.parseInt(streamMap
 										.get("effect_flag"));
-								channelList.get(arg1).setEffect_flag(
-										Integer.parseInt(streamMap
-												.get("effect_flag")));
+								channel.setEffect_flag(Integer
+										.parseInt(streamMap.get("effect_flag")));
 
 								if (0 == (0x04 & effect_flag)) {
-									channelList.get(arg1).setScreenTag(
-											Consts.SCREEN_NORMAL);
+									channel.setScreenTag(Consts.SCREEN_NORMAL);
 								} else {
-									channelList.get(arg1).setScreenTag(
-											Consts.SCREEN_OVERTURN);
+									channel.setScreenTag(Consts.SCREEN_OVERTURN);
 								}
 
 							}
@@ -547,9 +554,8 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("MainStreamQos")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("MainStreamQos"))) {
-								channelList.get(arg1).setStreamTag(
-										Integer.parseInt(streamMap
-												.get("MainStreamQos")));
+								channel.setStreamTag(Integer.parseInt(streamMap
+										.get("MainStreamQos")));
 
 								// // String width = streamCH1.get("width");
 								// // String height = streamCH1.get("height");
@@ -560,7 +566,7 @@ public class JVPlayActivity extends PlayActivity implements
 								// // Integer.parseInt(streamCH1.get("nMBPH"));
 								// //
 								// if (1 ==
-								// channelList.get(arg1).getStreamTag()) {
+								// channel.getStreamTag()) {
 								// // Jni.setBpsAndFps(lastClickIndex,
 								// // JVNetConst.JVN_RSP_TEXTDATA, 1,
 								// // 1280, 720, 1024, 15);
@@ -583,27 +589,26 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("storageMode")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("storageMode"))) {
-								channelList.get(arg1).setStorageMode(
-										Integer.parseInt(streamMap
-												.get("storageMode")));
+								channel.setStorageMode(Integer
+										.parseInt(streamMap.get("storageMode")));
 							}
 
 							if (null != streamMap.get("MobileCH")
 									&& "2".equalsIgnoreCase(streamMap
 											.get("MobileCH"))) {
-								channelList.get(arg1).setSingleVoice(true);
+								channel.setSingleVoice(true);
 							}
 
-							MyLog.v("ChannelTag--5", "ScreenTag="
-									+ channelList.get(arg1).getScreenTag());
-							MyLog.v("ChannelTag--6", "StreamTag="
-									+ channelList.get(arg1).getStreamTag());
-							MyLog.v("ChannelTag--7", "StorageMode="
-									+ channelList.get(arg1).getStorageMode());
+							MyLog.v("ChannelTag--5",
+									"ScreenTag=" + channel.getScreenTag());
+							MyLog.v("ChannelTag--6",
+									"StreamTag=" + channel.getStreamTag());
+							MyLog.v("ChannelTag--7",
+									"StorageMode=" + channel.getStorageMode());
 						}
 
 						MyLog.v("refreshIPCFun--Stream=", arg1 + "");
-						showFunc(channelList.get(arg1), currentScreen);
+						showFunc(channel, currentScreen);
 
 						break;
 					case JVNetConst.EX_WIFI_AP_CONFIG:// 11 ---新wifi配置流程
@@ -618,17 +623,15 @@ public class JVPlayActivity extends PlayActivity implements
 					case JVNetConst.JVN_RECORD_RESULT:// -- 100 录像模式切换回调
 						dismissDialog();
 						// 录像模式
-						if (Consts.STORAGEMODE_NORMAL == channelList.get(arg1)
+						if (Consts.STORAGEMODE_NORMAL == channel
 								.getStorageMode()) {
-							channelList.get(arg1).setStorageMode(
-									Consts.STORAGEMODE_ALARM);
+							channel.setStorageMode(Consts.STORAGEMODE_ALARM);
 						} else if (Consts.STORAGEMODE_ALARM == channelList.get(
 								arg1).getStorageMode()) {
-							channelList.get(arg1).setStorageMode(
-									Consts.STORAGEMODE_NORMAL);
+							channel.setStorageMode(Consts.STORAGEMODE_NORMAL);
 						}
 						MyLog.v("refreshIPCFun--record=", arg1 + "");
-						showFunc(channelList.get(arg1), currentScreen);
+						showFunc(channel, currentScreen);
 						break;
 					default:
 						break;
@@ -693,7 +696,14 @@ public class JVPlayActivity extends PlayActivity implements
 
 		case Consts.CALL_NEW_PICTURE: {
 
-			Channel channel = channelList.get(arg1);
+			Channel channel = null;
+			if (arg1 < channelList.size()) {
+				channel = channelList.get(arg1);
+			}
+
+			if (null == channel) {
+				return;
+			}
 			channel.setConnected(true);
 			channel.setPaused(false);
 			channel.setConnected(true);
@@ -702,13 +712,11 @@ public class JVPlayActivity extends PlayActivity implements
 			MyLog.e(TAG + "-IFrame", "new Frame I: index = " + arg1
 					+ ", arg2 = " + arg2);// arg2 --- 0软 1硬
 			// 多于四屏只发关键帧
-			if (currentScreen > FOUR_SCREEN
-					&& !channelList.get(arg1).isSendCMD()) {
+			if (currentScreen > FOUR_SCREEN && !channel.isSendCMD()) {
 				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_ONLYI, new byte[0],
 						0);
 				channel.setSendCMD(true);
-			} else if (currentScreen <= FOUR_SCREEN
-					&& channelList.get(arg1).isSendCMD()) {
+			} else if (currentScreen <= FOUR_SCREEN && channel.isSendCMD()) {
 				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_FULL, new byte[0],
 						0);
 				channel.setSendCMD(true);
@@ -718,7 +726,7 @@ public class JVPlayActivity extends PlayActivity implements
 			channel.setConnected(true);
 
 			MyLog.v("ChannelTag--IFrame=arg2", "arg2=" + arg2 + ",isomx="
-					+ channelList.get(arg1).isOMX());
+					+ channel.isOMX());
 
 			if (!channel.isOMX() && arg2 == Consts.DECODE_SOFT) {
 				// TODO
@@ -738,7 +746,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			MyLog.v("refreshIPCFun--IFrame=", arg1 + "");
 
-			showFunc(channelList.get(arg1), currentScreen);
+			showFunc(channel, currentScreen);
 			MyLog.i(Consts.TAG_PLAY, "new Frame I: window = " + arg1
 					+ ", omx = " + arg2);
 			break;

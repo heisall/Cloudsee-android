@@ -460,8 +460,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (0 == result) {
 				ArrayList<Device> devList = new ArrayList<Device>();
 				devList.add(ipcDevice);
-				ArrayList<Device> playList = PlayUtil.prepareConnect(devList,
-						0, true);
+				ArrayList<Device> playList = PlayUtil
+						.prepareConnect(devList, 0);
 				Intent apIntent = new Intent(JVQuickSettingActivity.this,
 						JVPlayActivity.class);
 				apIntent.putExtra("PlayFlag", Consts.PLAY_AP);

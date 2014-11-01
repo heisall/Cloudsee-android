@@ -537,7 +537,7 @@
     <string name="clear_alarm_failed">Failed to clear alarm.</string>
     <!-- JVIpconnectActivity -->
     <!-- JVPlayActivity -->
-    <string name="offline_not_play">Unable to operate due to device has been offline.</string>
+    <string name="offline_not_play1">Unable to operate due to device has been offline.</string>
     <string name="connfailed_auth">Failed to very ID.</string>
     <string name="connfailed_channel_notopen">Invalid Channel.</string>
     <string name="connfailed_type_invalid">Invalid Connection Mode.</string>

@@ -13,20 +13,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <TextView
-                android:id="@+id/channel_name"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text=""
-                android:textColor="@color/white" />
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/channel_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/channel_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white" />
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/channel_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/mydevice_delectedit_bg" >
+            android:background="@drawable/mydevice_delectedit_bg"
+            android:visibility="gone" >
 
             <ImageView
                 android:id="@+id/channel_cancleedit"

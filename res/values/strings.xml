@@ -94,7 +94,7 @@
     <string name="alerm">Alerm Level</string>
     <string name="more_findpassword">Retrieve Password</string>
     <string name="more_cancel">Cancel the account</string>
-    <string name="dialog_modifypwd">身份验证不成功，是否修改用户名密码？</string>
+    <string name="dialog_modifypwd">Failed to verify indentification, do you need to modify username and password?</string>
     <!-- leftMenu -->
     <string name="devicecount">Total of 0 Device</string>
     <string name="nikename">NickName</string>
@@ -514,7 +514,7 @@
     <string name="add_broad_dev">Broadcasting to ! devices,do you want to add?</string>
     <string name="broad_zero">Unable to broadcast device.</string>
     <string name="get_device_failed">Device loaded failed</string>
-    <string name="press_screen_refresh">点击屏幕刷新</string>
+    <string name="press_screen_refresh">Click the screen refresh</string>
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">Total</string>
     <string name="str_aft">devices.</string>
@@ -582,7 +582,7 @@
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">Manual recording</string>
     <string name="video_alarm">Alarm recording</string>
-    <string name="recoding">正在生成录像文件，请稍后查看。</string>
+    <string name="recoding">Generating a video file, please later view.</string>
 
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>

@@ -27,8 +27,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.view.SurfaceHolder;
 
-import com.jovision.commons.MyLog;
-
 /**
  * This object wraps the Camera service object and expects to be the only one
  * talking to it. The implementation encapsulates the steps needed to take
@@ -261,7 +259,6 @@ public final class CameraManager {
 			int topOffset = (screenResolution.y - width) / 2;
 			framingRect = new Rect(leftOffset, topOffset, screenResolution.x
 					- leftOffset, screenResolution.y - topOffset);
-			MyLog.v(TAG, "Calculated framing rect: " + framingRect);
 		}
 		return framingRect;
 	}

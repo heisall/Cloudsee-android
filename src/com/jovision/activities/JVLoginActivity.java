@@ -121,7 +121,6 @@ public class JVLoginActivity extends BaseActivity {
 		setContentView(R.layout.login_layout);
 
 		userList = UserUtil.getUserList();
-		MyLog.v("Userlist-get", userList.toString());
 		/** userlogin Fuction */
 		userNameET = (EditText) findViewById(R.id.username_et);
 		passwordET = (EditText) findViewById(R.id.password_et);

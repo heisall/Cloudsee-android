@@ -255,8 +255,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-		MyLog.e(TAG, "onHandler--what=" + what + ";arg1=" + arg1 + ";arg2="
-				+ arg2 + "; obj = " + (obj == null ? "" : obj.toString()));
+		// MyLog.e(TAG, "onHandler--what=" + what + ";arg1=" + arg1 + ";arg2="
+		// + arg2 + "; obj = " + (obj == null ? "" : obj.toString()));
 		switch (what) {
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE:
@@ -264,7 +264,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 
 			case JVNetConst.NO_RECONNECT:// 1 -- 连接成功//3 不必重新连接
 			case JVNetConst.CONNECT_OK: {// 1 -- 连接成功
-				MyLog.e("New alarm", "连接成功");
+			// MyLog.e("New alarm", "连接成功");
 				bConnectedFlag = true;
 				showTextToast(R.string.str_alarm_connect_success);
 				// 首先需要发送文本聊天请求
@@ -361,7 +361,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 						// showTextToast("TextData回调obj参数转Json异常");
-						MyLog.e("Third Dev", "TextData回调obj参数转Json异常");
+						// MyLog.e("Third Dev", "TextData回调obj参数转Json异常");
 						return;
 					}
 				} else {

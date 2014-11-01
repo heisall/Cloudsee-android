@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.JVConst;
-import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.GetPhoneNumber;
 import com.jovision.utils.mails.MailSenderInfo;
@@ -241,7 +240,7 @@ public class JVFeedbackActivity extends BaseActivity {
 							.obtainMessage(JVConst.FEEDBACK_FAILED)); // 反馈失败
 				}
 			} catch (Exception e) {
-				MyLog.v("SendMail", e.getMessage());
+				e.printStackTrace();
 			}
 		}
 	};

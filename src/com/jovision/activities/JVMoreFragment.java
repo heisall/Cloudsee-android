@@ -101,8 +101,6 @@ public class JVMoreFragment extends BaseFragment {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		MyLog.v("JVMyMoreFragment", "onTabAction:what=" + what + ";arg1="
-				+ arg1 + ";arg2=" + arg1);
 		switch (what) {
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框

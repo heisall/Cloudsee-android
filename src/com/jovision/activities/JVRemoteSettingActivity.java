@@ -130,7 +130,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.CALL_TEXT_DATA: {// 文本回调
-			MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
+			MyLog.i(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
@@ -139,7 +139,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 					JSONObject dataObj = new JSONObject(allStr);
 					switch (dataObj.getInt("flag")) {
 					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
-						MyLog.v(TAG, "AP,WIFI热点请求--" + obj.toString());
+						MyLog.i(TAG, "AP,WIFI热点请求--" + obj.toString());
 						if (null != allStr && !allStr.equalsIgnoreCase("")) {
 							String wifiStrArray = dataObj.optString("wifi");
 							wifiList = ConfigUtil.genWifiList(wifiStrArray);
@@ -156,7 +156,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 								.setOnItemClickListener(mOnItemClickListener);
 						break;
 					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
-						MyLog.v(TAG, "码流配置请求--" + obj.toString());
+						MyLog.i(TAG, "码流配置请求--" + obj.toString());
 						setStreamData(allStr);
 
 						// 值为2双码流是家庭安防产品

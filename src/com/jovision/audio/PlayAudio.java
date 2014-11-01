@@ -6,8 +6,6 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-import com.jovision.commons.MyLog;
-
 public class PlayAudio extends Thread {
 
 	private static final int SAMPLERATE = 8000;
@@ -27,10 +25,8 @@ public class PlayAudio extends Thread {
 		recorder = MICRecorder.getInstance();
 
 		if (8 == audioByte) {
-			MyLog.v("ENCODING", "8---" + ENCODING);
 			ENCODING = AudioFormat.ENCODING_PCM_8BIT;
 		} else {
-			MyLog.v("ENCODING", "16---" + ENCODING);
 			ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 		}
 
@@ -59,7 +55,6 @@ public class PlayAudio extends Thread {
 					ENCODING, 1024, TRACK_MODE);
 			track.play();
 
-			MyLog.v("ENCODING", ENCODING + "");
 			byte[] data = null;
 			byte[] enc = null;
 			while (false == isInterrupted()) {

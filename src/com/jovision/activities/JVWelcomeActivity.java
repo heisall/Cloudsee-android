@@ -185,7 +185,6 @@ public class JVWelcomeActivity extends BaseActivity {
 
 	@Override
 	protected void initUi() {
-		MyLog.v(TAG, "initUi");
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.welcome_layout);
@@ -272,7 +271,6 @@ public class JVWelcomeActivity extends BaseActivity {
 	Thread initThread = new Thread() {
 		@Override
 		public void run() {
-			MyLog.w(TAG, "initThread E");
 
 			// [Neo] TODO set timer for timeout
 			while (false == HAS_LOADED) {
@@ -299,8 +297,6 @@ public class JVWelcomeActivity extends BaseActivity {
 				}
 
 			}
-
-			MyLog.w(TAG, "initThread X");
 		}
 	};
 

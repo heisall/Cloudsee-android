@@ -66,7 +66,7 @@ public class MICRecorder {
 
 					@Override
 					public void run() {
-						MyLog.w(TAG, "recording E");
+						MyLog.v(TAG, "recording E");
 
 						try {
 							int ret = 0;
@@ -116,12 +116,12 @@ public class MICRecorder {
 							e.printStackTrace();
 						}
 
-						MyLog.w(TAG, "recording X");
+						MyLog.i(TAG, "recording X");
 					}
 
 				}.start();
 			} else {
-				MyLog.w(TAG, "record init not ok");
+				MyLog.e(TAG, "record init not ok");
 			}
 		}
 

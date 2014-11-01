@@ -165,11 +165,11 @@ public class AlarmDialog extends Dialog {
 		boolean bfind = false;
 		for (int j = 0; j < CacheUtil.getDevList().size(); j++) {
 			devs = CacheUtil.getDevList().get(j);
-			MyLog.e("AlarmConnect",
+			MyLog.v("AlarmConnect",
 					"dst:" + strYstNum + "---yst-num = " + devs.getFullNo());
 			if (strYstNum.equalsIgnoreCase(devs.getFullNo())) {
 				bfind = true;
-				MyLog.e("New Alarm Dialog", "find dev num " + strYstNum
+				MyLog.v("New Alarm Dialog", "find dev num " + strYstNum
 						+ ", index:" + j);
 				return j;
 			}

@@ -53,7 +53,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				if (size > 0) {
 					object = array.getJSONObject(0);
 					left = object.getInt("left");
-					MyLog.e(TAG,
+					MyLog.v(TAG,
 							"stat-" + ": fps: "
 									+ object.getDouble("decoder_fps") + "+"
 									+ object.getDouble("jump_fps") + "/"
@@ -70,7 +70,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		}
 
 		case Consts.CALL_GOT_SCREENSHOT: {// 抓拍回调
-			MyLog.v(TAG, "capture--what=" + what + ";arg1=" + arg1 + ";arg2="
+			MyLog.i(TAG, "capture--what=" + what + ";arg1=" + arg1 + ";arg2="
 					+ arg2);
 			switch (arg2) {
 			case Consts.BAD_SCREENSHOT_NOOP:
@@ -116,7 +116,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 					try {
 						JSONObject jobj;
 						jobj = new JSONObject(obj.toString());
-						MyLog.v(TAG, "OFrame = " + obj.toString());
+						MyLog.i(TAG, "OFrame = " + obj.toString());
 						if (null != jobj) {
 							totalProgress = jobj.optInt("total");
 							progressBar.setMax(totalProgress);
@@ -132,7 +132,6 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			case JVNetConst.JVN_DATA_P: {
 				currentProgress++;
 				progressBar.setProgress(currentProgress);
-				MyLog.v(TAG, "currentProgress = " + currentProgress);
 				break;
 			}
 			case Consts.ARG2_REMOTE_PLAY_ERROR: {
@@ -296,7 +295,6 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 		@Override
 		public void run() {
-			MyLog.v("Timer=", "" + seconds);
 			seconds++;
 			if (6 == seconds) {
 				handler.sendMessage(handler
@@ -315,7 +313,6 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		@Override
 		public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
 			seekProgress = arg1;
-			MyLog.v(TAG, "onProgressChanged = " + seekProgress);
 		}
 
 		@Override
@@ -328,7 +325,6 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			currentProgress = seekProgress;
 			Jni.sendInteger(indexOfChannel, JVNetConst.JVN_CMD_PLAYSEEK,
 					seekProgress);
-			MyLog.v(TAG, "手动调节 = " + currentProgress);
 		}
 	};
 	/**

@@ -103,7 +103,7 @@ public class ThirdDevAdapter extends BaseAdapter {
 						String strSwitch = "enable=0;";
 						String reqData = strType + strGuid + strNickName
 								+ strSwitch;
-						MyLog.e("Third Dev", "set switch [off] req:" + reqData);
+						MyLog.i("Third Dev", "set switch [off] req:" + reqData);
 						// JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT,
 						// (byte)JVNetConst.JVN_RSP_TEXTDATA,
 						// (byte)JVConst.RC_GPIN_SET, reqData.trim());
@@ -130,7 +130,7 @@ public class ThirdDevAdapter extends BaseAdapter {
 						String strSwitch1 = "enable=1;";
 						String reqData1 = strType1 + strGuid1 + strNickName1
 								+ strSwitch1;
-						MyLog.e("Third Dev", "set switch [on] req:" + reqData1);
+						MyLog.i("Third Dev", "set switch [on] req:" + reqData1);
 						// JVSUDT.JVC_GPINAlarm(JVConst.ONLY_CONNECT,
 						// (byte)JVNetConst.JVN_RSP_TEXTDATA,
 						// (byte)JVConst.RC_GPIN_SET, reqData1.trim());

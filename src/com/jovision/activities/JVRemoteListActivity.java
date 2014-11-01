@@ -229,9 +229,6 @@ public class JVRemoteListActivity extends BaseActivity {
 		date = String.format("%04d%02d%02d000000%04d%02d%02d000000", year,
 				month, day, year, month, day);
 
-		MyLog.e("tas", "searchCheck  windowIndex: " + (indexOfChannel)
-				+ "date: " + date.toString());
-
 		Thread searchThread = new Thread() {
 
 			@Override
@@ -266,7 +263,6 @@ public class JVRemoteListActivity extends BaseActivity {
 								date = String.format(
 										"%04d%02d%02d000000%04d%02d%02d000000",
 										year, month, day, year, month, day);
-								MyLog.e("选中日期", date);
 								searchRemoteData(100);
 							}
 						}, rightNow.get(Calendar.YEAR),

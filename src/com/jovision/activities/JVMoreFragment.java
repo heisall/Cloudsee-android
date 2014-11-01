@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.test.JVACCOUNT;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -207,7 +206,6 @@ public class JVMoreFragment extends BaseFragment {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
-						Log.i("TAG", "点击的位置是  :" + position);
 						switch (position) {
 						case 0:
 							if (MySharedPreference.getBoolean("HELP")) {
@@ -288,14 +286,14 @@ public class JVMoreFragment extends BaseFragment {
 				switchRes = JVACCOUNT.SetCurrentAlarmFlag(
 						JVAlarmConst.ALARM_ON, ConfigUtil.getIMEI(mActivity));
 				if (0 == switchRes) {
-					Log.e("JVAlarmConst.ALARM--ON-", switchRes + "");
+					MyLog.e("JVAlarmConst.ALARM--ON-", switchRes + "");
 					MySharedPreference.putBoolean("AlarmSwitch", true);
 				}
 			} else {// 关报警
 				switchRes = JVACCOUNT.SetCurrentAlarmFlag(
 						JVAlarmConst.ALARM_OFF, ConfigUtil.getIMEI(mActivity));
 				if (0 == switchRes) {
-					Log.e("JVAlarmConst.ALARM--CLOSE-", switchRes + "");
+					MyLog.e("JVAlarmConst.ALARM--CLOSE-", switchRes + "");
 					MySharedPreference.putBoolean("AlarmSwitch", false);
 				}
 			}
@@ -360,7 +358,6 @@ public class JVMoreFragment extends BaseFragment {
 					JVLoginActivity.class);
 			Intent intent = new Intent();
 			String userName = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
-			Log.i("TAG", userName + "aaaaaaaaaa");
 			intent.putExtra("UserName", userName);
 			intent.setClass(mActivity, JVLoginActivity.class);
 			mActivity.startActivity(intent);

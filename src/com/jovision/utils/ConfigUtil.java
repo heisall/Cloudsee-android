@@ -79,7 +79,7 @@ public class ConfigUtil {
 	public static void getJNIVersion() {
 		String remoteVer = Jni.getVersion();
 		if (JNI_VERSION.equalsIgnoreCase(remoteVer)) {
-			MyLog.e(TAG, "Same:localVer=" + JNI_VERSION + ";\nremoteVer="
+			MyLog.v(TAG, "Same:localVer=" + JNI_VERSION + ";\nremoteVer="
 					+ remoteVer);
 		} else {
 			MyLog.e(TAG, "Not-Same:localVer=" + JNI_VERSION
@@ -372,7 +372,7 @@ public class ConfigUtil {
 			statusHashMap
 					.put(Consts.KEY_INIT_CLOUD_SDK, String.valueOf(result));
 
-			MyLog.e(Consts.TAG_APP, "init sdk = " + String.valueOf(result));
+			MyLog.v(Consts.TAG_APP, "init sdk = " + String.valueOf(result));
 		} else {
 			MyLog.e(Consts.TAG_APP, "no need to init sdk");
 		}

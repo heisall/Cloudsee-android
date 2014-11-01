@@ -269,7 +269,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 	}
 
 	private boolean RemoveItemWithGuid(int guid, int dev_type) {
-		MyLog.e("Alarm", "delete guid:" + guid + ", type:" + dev_type);
+		MyLog.i("Alarm", "delete guid:" + guid + ", type:" + dev_type);
 		ArrayList<ThirdAlarmDev> tmpthirdList = device.getThirdDevList();
 		for (int i = 0; i < tmpthirdList.size(); i++) {
 			if (guid == tmpthirdList.get(i).dev_uid
@@ -283,7 +283,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 	}
 
 	private ThirdAlarmDev getItemWithGuid(int guid, int dev_type) {
-		MyLog.e("Alarm", "guid:" + guid + ", type:" + dev_type);
+		MyLog.i("Alarm", "guid:" + guid + ", type:" + dev_type);
 		ArrayList<ThirdAlarmDev> tmpthirdList = device.getThirdDevList();
 		for (int i = 0; i < tmpthirdList.size(); i++) {
 			if (guid == tmpthirdList.get(i).dev_uid
@@ -319,7 +319,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-		MyLog.e("Alarm", "onHandler--what=" + what + ";arg1=" + arg1 + ";arg2="
+		MyLog.i("Alarm", "onHandler--what=" + what + ";arg1=" + arg1 + ";arg2="
 				+ arg2 + "; obj = " + (obj == null ? "" : obj.toString()));
 		switch (what) {
 		// 连接结果
@@ -328,7 +328,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 
 			case JVNetConst.NO_RECONNECT:// 1 -- 连接成功//3 不必重新连接
 			case JVNetConst.CONNECT_OK: {// 1 -- 连接成功
-				MyLog.e("Alarm", "连接成功");
+				MyLog.i("Alarm", "连接成功");
 				bConnectFlag = true;
 				showTextToast(R.string.str_alarm_connect_success);
 				// 首先需要发送文本聊天请求
@@ -599,7 +599,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 			process_flag = Consts.RC_GPIN_SET_SWITCH;
 			saved_index = arg2;
 			saved_third_safe_flag = arg1;
-			MyLog.e("Alarm", "arg1 : " + arg1 + ", arg2:" + arg2);
+			MyLog.i("Alarm", "arg1 : " + arg1 + ", arg2:" + arg2);
 			dialog.show();
 			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -663,7 +663,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 		case Consts.RC_GPIN_SET_SWITCH:// 发送设置开关指令
 			saved_index = arg2;
 			saved_third_safe_flag = arg1;
-			MyLog.e("Alarm", "arg1 : " + arg1 + ", arg2:" + arg2);
+			MyLog.i("Alarm", "arg1 : " + arg1 + ", arg2:" + arg2);
 			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 					(byte) Consts.RC_GPIN_SET, obj.toString().trim());

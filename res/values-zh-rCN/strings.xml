@@ -680,5 +680,6 @@
     <string name="str_alarm_download_alarmimg_timeout">获取报警图片超时</string>
     <string name="str_alarm_download_alarmimg_failed">获取报警图片失败</string>
     <string name="str_alarm_download_alarmimg_stopped">下载报警图片停止</string>
-
+	<string name="str_alarm_no_alarm_info">暂无报警消息</string>
+	<string name="str_alarm_clear_ainfo_sure">确定清空报警消息吗?</string>
 </resources>

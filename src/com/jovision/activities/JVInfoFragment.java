@@ -27,6 +27,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.views.AlarmDialog;
+import com.jovision.views.MyAlertDialog;
 import com.jovision.views.XListView;
 import com.jovision.views.XListView.IXListViewListener;
 
@@ -42,19 +43,51 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	private int pushIndex = 0;// 推送消息index
 	private XListView pushListView;// 列表
 	private PushAdapter pushAdapter;
-
+	private View rootView;// 缓存Fragment view
 	private ArrayList<PushInfo> pushList = new ArrayList<PushInfo>();
 
 	private ArrayList<PushInfo> temList = new ArrayList<PushInfo>();
 	private boolean pullUp = false;
+	private boolean bfirstrun = true;
+	private MyAlertDialog alertDialog;
 
 	// private boolean firstIntoPush = false;// 是否第一次进入pushmessage界面
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_info, container, false);
-		return view;
+		if (rootView == null) {
+			rootView = inflater.inflate(R.layout.fragment_info, container,
+					false);
+			bfirstrun = true;
+		} else {
+			bfirstrun = false;
+		}
+		ViewGroup parent = (ViewGroup) rootView.getParent();
+		if (parent != null) {
+			parent.removeView(rootView);
+		}
+		alertDialog = new MyAlertDialog(getActivity());
+		alertDialog.setTitle(getResources().getString(R.string.str_delete_tip));
+		alertDialog.setContent(R.string.str_alarm_clear_ainfo_sure);
+		alertDialog.setConfirmClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (pushList.size() == 0) {
+					// mActivity.showTextToast(R.string.str_alarm_no_alarm_info);
+				} else {
+					((BaseActivity) mActivity).createDialog("");
+					ClearAlarmTask task = new ClearAlarmTask();
+					String[] params = new String[3];
+					task.execute(params);
+				}
+				alertDialog.dismiss();
+			}
+
+		});
+		return rootView;
 	}
 
 	@Override
@@ -99,8 +132,10 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			}
 		});
 
-		// 先获取报警信息
-		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
+		// // 先获取报警信息,只需要执行一次，后续可以下拉刷新获取
+		if (bfirstrun
+				&& !Boolean.valueOf(mActivity.statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 			Consts.pushHisCount = 0;
 			pushList.clear();
 			((BaseActivity) mActivity).createDialog("");
@@ -126,14 +161,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn_right:
-				if (pushList.size() == 0) {
-
-				} else {
-					((BaseActivity) mActivity).createDialog("");
-					ClearAlarmTask task = new ClearAlarmTask();
-					String[] params = new String[3];
-					task.execute(params);
-				}
+				alertDialog.show();
 				break;
 			}
 		}
@@ -205,6 +233,19 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					return;
 				}
 				int addLen = temList.size();
+				// 默认刷新下来的报警信息都是新的
+				for (int j = 0; j < temList.size(); j++) {
+					temList.get(j).newTag = true;
+				}
+				// 保存状态，例如新消息。否则刷新后新消息的标志就木有了。
+				for (int i = 0; i > pushList.size(); i++) {
+					for (int j = 0; j < temList.size(); j++) {
+						if (pushList.get(i).strGUID.equalsIgnoreCase(temList
+								.get(j).strGUID)) {
+							temList.get(j).newTag = pushList.get(i).newTag;
+						}
+					}
+				}
 				pushList.clear();
 				pushList.addAll(temList);
 				Consts.pushHisCount = addLen;

@@ -47,7 +47,7 @@ public class Consts {
 	public static final int CALL_DOWNLOAD = 0xA6;
 	public static final int CALL_PLAY_DATA = 0xA7;
 	public static final int CALL_LAN_SEARCH = 0xA8;
-	public static final int CALL_FRAME_I_REPORT = 0xA9;
+	public static final int CALL_NEW_PICTURE = 0xA9;
 	public static final int CALL_STAT_REPORT = 0xAA;
 	public static final int CALL_GOT_SCREENSHOT = 0xAB;
 	public static final int CALL_PLAY_DOOMED = 0xAC;

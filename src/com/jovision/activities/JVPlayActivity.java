@@ -685,7 +685,7 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 
-		case Consts.CALL_FRAME_I_REPORT: {
+		case Consts.CALL_NEW_PICTURE: {
 
 			Channel channel = channelList.get(arg1);
 			channel.setConnected(true);

@@ -99,7 +99,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			}
 			break;
 		}
-		case Consts.CALL_FRAME_I_REPORT: {// I帧回调
+		case Consts.CALL_NEW_PICTURE: {// I帧回调
 			linkState.setVisibility(View.GONE);
 			loading.setVisibility(View.GONE);// 加载进度
 			startTimer();

@@ -47,7 +47,7 @@ public class Consts {
 	public static final int CALL_DOWNLOAD = 0xA6;
 	public static final int CALL_PLAY_DATA = 0xA7;
 	public static final int CALL_LAN_SEARCH = 0xA8;
-	public static final int CALL_FRAME_I_REPORT = 0xA9;
+	public static final int CALL_NEW_PICTURE = 0xA9;
 	public static final int CALL_STAT_REPORT = 0xAA;
 	public static final int CALL_GOT_SCREENSHOT = 0xAB;
 	public static final int CALL_PLAY_DOOMED = 0xAC;
@@ -132,6 +132,10 @@ public class Consts {
 	public static final int BAD_SCREENSHOT_INIT = 0x01;//
 	public static final int BAD_SCREENSHOT_CONV = 0x02;//
 	public static final int BAD_SCREENSHOT_OPEN = 0x03;//
+
+	public static final int BAD_HAS_CONNECTED = -1;
+	public static final int BAD_CONN_OVERFLOW = -2;
+	public static final int BAD_CONN_UNKOWN = -3;
 
 	public static final int ARG2_REMOTE_PLAY_OVER = 0x32;
 	public static final int ARG2_REMOTE_PLAY_ERROR = 0x39;
@@ -256,6 +260,9 @@ public class Consts {
 	public static final String SCREEN_WIDTH = "SCREEN_WIDTH";
 	/** 屏幕高度key */
 	public static final String SCREEN_HEIGHT = "SCREEN_HEIGHT";
+
+	/** 数据加载key */
+	public static final String DATA_LOADED_STATE = "DATA_LOADED_STATE";// -1加载失败，0没有数据，1，加载成功
 
 	/** 推送消息JsonArray key */
 	public static final String PUSH_JSONARRAY = "PUSH_JSONARRAY";

@@ -6,6 +6,7 @@
     <!-- getResources().getString(R.string.login_str_loging) -->
     <!-- LoginUtil -->
     <string name="login_str_loging">正在登录…</string>
+    <string name="device_error">出错了</string>
     <string name="remote_filepath">C://我的文件</string>
     <string name="login_str_username_notnull">请输入用户名</string>
     <string name="login_str_loginpass1_notnull">请输入密码</string>
@@ -481,7 +482,8 @@
     <string name="del_device_failed">设备删除失败</string>
     <string name="str_modify">修改</string>
     <string name="end_list">已到最后</string>
-    <string name="start_list">已到顶端</string>
+    <string name="start_left">已到最左端</string>
+    <string name="start_right">已到最右端</string>
     <string name="str_update">当前设备已全部更新</string>
     <string name="wifi_device">无线设备</string>
     <string name="line_device">有线设备</string>
@@ -501,7 +503,7 @@
     <string name="clear_alarm_succ">清空报警信息成功</string>
     <string name="clear_alarm_failed">清空报警信息失败</string>
     <!-- JVPlayActivity -->
-    <string name="offline_not_play">设备已处于离线状态,不能进行操作.</string>
+    <string name="offline_not_play1">设备已处于离线状态,不能进行操作.</string>
     <string name="connfailed_auth">身份验证失败</string>
     <string name="connfailed_channel_notopen">无该通道服务</string>
     <string name="connfailed_type_invalid">连接类型无效</string>
@@ -567,7 +569,7 @@
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">手动录像</string>
     <string name="video_alarm">报警录像</string>
-
+    <string name="recoding">正在生成录像文件，请稍后查看。</string>
     <!-- MyDeviceListAdapter -->
     <string name="str_device_online">在线</string>
     <string name="str_device_offline">离线</string>
@@ -629,7 +631,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.38(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.42(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->

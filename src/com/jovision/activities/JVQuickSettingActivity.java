@@ -140,6 +140,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.quicksetting_layout);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		Intent intent = getIntent();
 		if (null != intent) {
 			oldWifiSSID = intent.getStringExtra("OLD_WIFI");
@@ -459,8 +460,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (0 == result) {
 				ArrayList<Device> devList = new ArrayList<Device>();
 				devList.add(ipcDevice);
-				ArrayList<Device> playList = PlayUtil.prepareConnect(devList,
-						0, true);
+				ArrayList<Device> playList = PlayUtil
+						.prepareConnect(devList, 0);
 				Intent apIntent = new Intent(JVQuickSettingActivity.this,
 						JVPlayActivity.class);
 				apIntent.putExtra("PlayFlag", Consts.PLAY_AP);
@@ -1242,6 +1243,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 									statusHashMap.get(Consts.KEY_USERNAME),
 									statusHashMap.get(Consts.KEY_PASSWORD),
 									JVQuickSettingActivity.this);
+
+							if (JVAccountConst.SUCCESS == reLoginRes) {
+								hasLogout = false;
+							}
 							MyLog.v("网络恢复完成---重新登录---"
 									+ statusHashMap.get(Consts.KEY_USERNAME),
 									reLoginRes + "");
@@ -1423,7 +1428,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (addSucc) {
 			ipcDevice.setIp(temIp);
 			ipcDevice.setPort(temPort);
-			deviceList.add(ipcDevice);
+			deviceList.add(0, ipcDevice);
 			CacheUtil.saveDevList(deviceList);
 		}
 

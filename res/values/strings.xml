@@ -94,7 +94,7 @@
     <string name="alerm">Alerm Level</string>
     <string name="more_findpassword">Retrieve Password</string>
     <string name="more_cancel">Cancel the account</string>
-    <string name="dialog_modifypwd">身份验证不成功，是否修改用户名密码？</string>
+    <string name="dialog_modifypwd">Failed to verify indentification, do you need to modify username and password?</string>
     <!-- leftMenu -->
     <string name="devicecount">Total of 0 Device</string>
     <string name="nikename">NickName</string>
@@ -458,6 +458,7 @@
 
     <!-- 页面顶部名称 -->
     <string name="my_device">My Device</string>
+    <string name="device_error">Error</string>
     <string name="video_edit">Video Edit</string>
     <string name="more_featrue">More</string>
     <string name="more_modifypwd">Change the password</string>
@@ -502,7 +503,8 @@
     <string name="notwifi_forbid_func">This function is not available under 3G/4G network.</string>
     <string name="str_modify">Modify</string>
     <string name="end_list">The last one.</string>
-    <string name="start_list">The first one.</string>
+    <string name="start_left">The first one.</string>
+    <string name="start_right">The right one</string>
     <string name="str_update">Have updated for all devices.</string>
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>
@@ -512,7 +514,7 @@
     <string name="add_broad_dev">Broadcasting to ! devices,do you want to add?</string>
     <string name="broad_zero">Unable to broadcast device.</string>
     <string name="get_device_failed">Device loaded failed</string>
-    <string name="press_screen_refresh">点击屏幕刷新</string>
+    <string name="press_screen_refresh">Click the screen refresh</string>
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">Total</string>
     <string name="str_aft">devices.</string>
@@ -535,7 +537,7 @@
     <string name="clear_alarm_failed">Failed to clear alarm.</string>
     <!-- JVIpconnectActivity -->
     <!-- JVPlayActivity -->
-    <string name="offline_not_play">Unable to operate due to device has been offline.</string>
+    <string name="offline_not_play1">Unable to operate due to device has been offline.</string>
     <string name="connfailed_auth">Failed to very ID.</string>
     <string name="connfailed_channel_notopen">Invalid Channel.</string>
     <string name="connfailed_type_invalid">Invalid Connection Mode.</string>
@@ -580,6 +582,8 @@
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">Manual recording</string>
     <string name="video_alarm">Alarm recording</string>
+    <string name="recoding">Generating a video file, please later view.</string>
+
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>
     <string name="str_help_one">Remote set network and stream for IP cameras.</string>
@@ -636,7 +640,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.38(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.42(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

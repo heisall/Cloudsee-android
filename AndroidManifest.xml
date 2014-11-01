@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="38"
-    android:versionName="V4.1.38" >
+    android:versionName="V4.1.42" >
 
     <supports-screens
         android:anyDensity="true"
@@ -56,7 +56,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="wangyi_123" />
+            android:value="ceshi_123" />
 
         <activity
             android:name="com.jovision.activities.JVWelcomeActivity"

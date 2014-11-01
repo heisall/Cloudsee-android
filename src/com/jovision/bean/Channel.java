@@ -36,8 +36,11 @@ public class Channel {
 	private boolean isConfigChannel;
 	private SurfaceView surfaceView;
 	private Device parent;
+	private String dguid;// 设备服务器返回值
+	private boolean hasFind;// 通道分组用
+
 	private boolean isAuto = false;// 是否开启自动巡航
-	private boolean isPause = false;// 是否暂停视频
+	// private boolean isPause = false;// 是否暂停视频
 	private boolean isVoiceCall = false;// 是否正在对讲
 	private boolean surfaceCreated = false;// surface是否已经创建
 	private boolean isSendCMD = false;// 是否只发关键帧
@@ -57,7 +60,7 @@ public class Channel {
 	private int width = 0;// 音频类型
 	private int height = 0;// 音频比特率
 
-	private boolean isPaused;
+	private boolean isPaused;// Neo
 	private Surface surface;
 
 	public boolean isAgreeTextData() {
@@ -262,13 +265,13 @@ public class Channel {
 		this.isAuto = isAuto;
 	}
 
-	public boolean isPause() {
-		return isPause;
-	}
-
-	public void setPause(boolean isPause) {
-		this.isPause = isPause;
-	}
+	// public boolean isPause() {
+	// return isPause;
+	// }
+	//
+	// public void setPause(boolean isPause) {
+	// this.isPause = isPause;
+	// }
 
 	public boolean isConnecting() {
 		return isConnecting;
@@ -392,6 +395,22 @@ public class Channel {
 
 	public void setEffect_flag(int effect_flag) {
 		this.effect_flag = effect_flag;
+	}
+
+	public String getDguid() {
+		return dguid;
+	}
+
+	public void setDguid(String dguid) {
+		this.dguid = dguid;
+	}
+
+	public boolean isHasFind() {
+		return hasFind;
+	}
+
+	public void setHasFind(boolean hasFind) {
+		this.hasFind = hasFind;
 	}
 
 }

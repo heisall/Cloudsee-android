@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -302,6 +303,9 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		MyActivityManager.getActivityManager().popAllActivityExceptOne(
 				JVLoginActivity.class);
 		Intent intent = new Intent();
+		String userName = statusHashMap.get(Consts.KEY_USERNAME);
+		Log.i("TAG", userName + "aaaaaaaaaa");
+		intent.putExtra("UserName", userName);
 		if (!localFlag) {
 			MySharedPreference.putString(Consts.DEVICE_LIST, "");
 		}

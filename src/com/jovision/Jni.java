@@ -1,6 +1,7 @@
 package com.jovision;
 
 import com.jovision.commons.JVNetConst;
+import com.jovision.commons.MyUtils;
 
 /**
  * 所有与 NDK 交互的接口都在这儿
@@ -166,9 +167,9 @@ public class Jni {
 	 * @param connectType
 	 * @param surface
 	 * @param isTryOmx
-	 * @return 播放线程是否成功启动
+	 * @return 连接结果，成功时返回窗口索引，失败时返回原因值
 	 */
-	public static native boolean connect(int index, int channel, String ip,
+	public static native int connect(int index, int channel, String ip,
 			int port, String username, String password, int cloudSeeId,
 			String groupId, boolean isLocalDetect, int turnType,
 			boolean isPhone, int connectType, Object surface, boolean isTryOmx);
@@ -393,10 +394,10 @@ public class Jni {
 		int flag = 0;
 
 		int dhcp = 0;
-		int ip = 0;
-		int mask = 0;
-		int gateway = 0;
-		int dns = 0;
+		int ip = MyUtils.ip2int("");
+		int mask = MyUtils.ip2int("");
+		int gateway = MyUtils.ip2int("");
+		int dns = MyUtils.ip2int("");
 
 		int ch = 0;
 		int width = 0;
@@ -426,6 +427,24 @@ public class Jni {
 		Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM,
 				String.format(Consts.FORMATTER_TALK_SWITCH, switcher));
 
+		// [Neo] 门瓷与手环
+		Jni.sendString(index, uchType, false, type, 0, custom);
+
+		/*** 忧郁的分割线 ***/
+
+		// [Neo] 设置码流，已替换
+		Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM, String
+				.format(Consts.FORMATTER_SET_BPS_FPS, ch, width, height, mbph,
+						fps, rc));
+
+		/*** 忧郁的分割线 TODO ***/
+
+		// [Neo] 设置 DHCP
+		Jni.sendString(index, uchType, true, Consts.COUNT_EX_NETWORK,
+				Consts.TYPE_EX_SET_DHCP, String.format(
+						Consts.FORMATTER_SET_DHCP, flag, dhcp, ip, mask,
+						gateway, dns));
+
 		// [Neo] 设置 wifi
 		Jni.sendString(index, uchType, true, Consts.COUNT_EX_NETWORK, type,
 				String.format(Consts.FORMATTER_SET_WIFI, flag, ssid, pwd));
@@ -434,17 +453,6 @@ public class Jni {
 		Jni.sendString(index, uchType, true, Consts.COUNT_EX_NETWORK, type,
 				String.format(Consts.FORMATTER_SAVE_WIFI, flag, ssid, pwd,
 						auth, enc));
-
-		// [Neo] 设置 DHCP
-		Jni.sendString(index, uchType, true, Consts.COUNT_EX_NETWORK,
-				Consts.TYPE_EX_SET_DHCP, String.format(
-						Consts.FORMATTER_SET_DHCP, ch, dhcp, ip, mask, gateway,
-						dns));
-
-		// [Neo] 设置码流
-		Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM, String
-				.format(Consts.FORMATTER_SET_BPS_FPS, flag, width, height,
-						mbph, fps, rc));
 
 		// [Neo] 切换码流、设置设备名称、设置存储
 		Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM, custom);
@@ -456,9 +464,6 @@ public class Jni {
 		// [Neo] 更新设备
 		Jni.sendString(index, uchType, true, Consts.TYPE_EX_UPDATE,
 				Consts.COUNT_EX_UPDATE, null);
-
-		// [Neo] 门瓷与手环
-		Jni.sendString(index, uchType, false, type, 0, custom);
 	}
 
 	/**
@@ -553,24 +558,6 @@ public class Jni {
 	 */
 	public static native boolean setDhcp(int index, byte uchType, int dhcp,
 			String ip, String mask, String gateway, String dns);
-
-	/**
-	 * 设置码流和帧率，参考
-	 * {@link JVSUDT#JVC_SetStreams(int, byte, int, int, int, int, int)}
-	 * 
-	 * // [Neo] TODO 未验证
-	 * 
-	 * @param index
-	 *            窗口索引
-	 * @param uchType
-	 * @param channel
-	 * @param width
-	 * @param height
-	 * @param mbps
-	 * @param fps
-	 */
-	// public static native boolean setBpsAndFps(int index, byte uchType,
-	// int channel, int width, int height, int mbps, int fps);
 
 	/**
 	 * 修改码流，参考 {@link JVSUDT#JVC_ChangeStreams(int, byte, byte[])}

@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.Jni;
 import com.jovision.adapters.UserSpinnerAdapter;
 import com.jovision.bean.Device;
 import com.jovision.bean.User;
@@ -38,6 +39,7 @@ import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.UserUtil;
+import com.umeng.analytics.MobclickAgent;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class JVLoginActivity extends BaseActivity {
@@ -109,6 +111,7 @@ public class JVLoginActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
+		Jni.enableLog(true);
 		// throw(new NullPointerException());
 	}
 
@@ -528,5 +531,13 @@ public class JVLoginActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 }

@@ -293,7 +293,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 					while (!hasBroadIP) {
 						Thread.sleep(1000);
 					}
-					deviceList.add(addDevice);
+					deviceList.add(0, addDevice);
 
 					DeviceUtil.refreshDeviceState(
 							statusHashMap.get(Consts.KEY_USERNAME), deviceList);

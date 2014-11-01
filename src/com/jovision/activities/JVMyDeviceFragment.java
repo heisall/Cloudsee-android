@@ -46,7 +46,9 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.adapters.PopWindowAdapter;
+import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
@@ -78,7 +80,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	/** 叠加三个 布局 */
 	private LinearLayout deviceLayout; // 设备列表界面
-	private RelativeLayout refreshLayout; // 快速配置界面
+	private RelativeLayout refreshLayout; // 设备加载失败界面
 	private LinearLayout quickSetSV; // 快速配置界面
 	private Button quickSet;
 	private Button addDevice;
@@ -157,7 +159,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		// fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+
+		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
+				.get(Consts.HAG_GOT_DEVICE));
+		if (!hasGot) {
+			fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+		}
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
@@ -246,29 +253,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		rightBtn.setOnClickListener(myOnClickListener);
 
 		// 非3G加广播设备
-		if (!mActivity.is3G(false)) {
-			broadTimer = new Timer();
-			broadTimerTask = new TimerTask() {
-				@Override
-				public void run() {
-					Log.v(TAG, "三分钟时间到--发广播");
-					// while (0 != broadTag) {
-					// try {
-					// Thread.sleep(1000);
-					// } catch (InterruptedException e) {
-					// e.printStackTrace();
-					// }
-					// }
-					broadTag = BROAD_THREE_MINITE;
-					PlayUtil.broadCast(mActivity);
-				}
-			};
-			broadTimer.schedule(broadTimerTask, 5 * 60 * 1000, 5 * 60 * 1000);
-		}
-
-		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
-				.get(Consts.HAG_GOT_DEVICE));
-
+		startBroadTimer();
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
 			refreshList();
@@ -286,6 +271,43 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	}
 
+	/**
+	 * 5分钟广播
+	 */
+	public void startBroadTimer() {
+		// 非3G加广播设备
+		if (!mActivity.is3G(false)) {
+			if (null != broadTimer) {
+				broadTimer.cancel();
+			}
+			broadTimer = new Timer();
+
+			broadTimerTask = new TimerTask() {
+				@Override
+				public void run() {
+					Log.v(TAG, "三分钟时间到--发广播");
+					broadTag = BROAD_THREE_MINITE;
+					PlayUtil.broadCast(mActivity);
+				}
+			};
+			broadTimer.schedule(broadTimerTask, 5 * 60 * 1000, 5 * 60 * 1000);
+		}
+	}
+
+	public void stopBroadTimer() {
+		if (null != broadTimer) {
+			broadTimer.cancel();
+			broadTimer = null;
+		}
+		if (null != broadTimerTask) {
+			broadTimerTask.cancel();
+			broadTimerTask = null;
+		}
+	}
+
+	/**
+	 * 2分钟自动刷新
+	 */
 	public void startAutoRefreshTimer() {
 		// 两分钟自动刷新设备列表
 		updateTask = new AutoUpdateTask();
@@ -430,13 +452,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				case 3: {// 局域网设备
 					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 					if (!mActivity.is3G(false)) {// 3G网提示不支持
-						// while (0 != broadTag) {
-						// try {
-						// Thread.sleep(1000);
-						// } catch (InterruptedException e) {
-						// e.printStackTrace();
-						// }
-						// }
 						broadTag = BROAD_ADD_DEVICE;
 						broadList.clear();
 						PlayUtil.broadCast(mActivity);
@@ -474,40 +489,36 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 * 刷新列表
 	 */
 	public void refreshList() {
-
-		// boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
-		// .get(Consts.HAG_GOT_DEVICE));
-		// if (hasGot) {
-		if (null == myDeviceList) {
+		String stateStr = ((BaseActivity) mActivity).statusHashMap
+				.get(Consts.DATA_LOADED_STATE);
+		if (null != stateStr) {
 			refreshLayout.setVisibility(View.VISIBLE);
 			deviceLayout.setVisibility(View.GONE);
 			quickSetSV.setVisibility(View.GONE);
 		} else {
-			if (0 == myDeviceList.size()) {
+			if (null == myDeviceList) {
+				refreshLayout.setVisibility(View.VISIBLE);
+				deviceLayout.setVisibility(View.GONE);
+				quickSetSV.setVisibility(View.GONE);
+			} else if (0 == myDeviceList.size()) {
 				refreshLayout.setVisibility(View.GONE);
 				deviceLayout.setVisibility(View.GONE);
 				quickSetSV.setVisibility(View.VISIBLE);
-			} else {
+			} else if (myDeviceList.size() > 0) {
 				refreshLayout.setVisibility(View.GONE);
 				deviceLayout.setVisibility(View.VISIBLE);
 				quickSetSV.setVisibility(View.GONE);
+				myDLAdapter.setData(myDeviceList);
+				myDeviceListView.setAdapter(myDLAdapter);
+				myDLAdapter.notifyDataSetChanged();
 			}
 		}
-
-		// }
-		if (null != myDeviceList && 0 != myDeviceList.size()) {
-			deviceLayout.setVisibility(View.VISIBLE);
-			quickSetSV.setVisibility(View.GONE);
-			myDLAdapter.setData(myDeviceList);
-			myDeviceListView.setAdapter(myDLAdapter);
-			myDLAdapter.notifyDataSetChanged();
-		}
-
 	}
 
 	@Override
 	public void onDestroy() {
 		stopRefreshWifiTimer();
+		stopBroadTimer();
 		super.onDestroy();
 	}
 
@@ -574,8 +585,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		// 广播回调
 		case Consts.CALL_LAN_SEARCH: {
-			MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1
-					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
+			Log.v("广播-----回调", "what=" + what + ";arg1=" + arg1 + ";arg2="
+					+ arg1 + ";obj=" + obj.toString());
+			// MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1
+			// + ";arg2=" + arg1 + ";obj=" + obj.toString());
 			// onTabAction:what=168;arg1=0;arg2=0;obj={"count":1,"curmod":0,"gid":"A","ip":"192.168.21.238","netmod":0,"no":283827713,"port":9101,"timeout":0,"type":59162,"variety":3}
 			if (broadTag == BROAD_DEVICE_LIST || broadTag == BROAD_THREE_MINITE) {// 三分钟广播
 																					// 或
@@ -587,6 +600,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 						String gid = broadObj.optString("gid");
 						int no = broadObj.optInt("no");
+
+						if (0 == no) {
+							return;
+						}
 						String ip = broadObj.optString("ip");
 						int port = broadObj.optInt("port");
 						String broadDevNum = gid + no;
@@ -614,6 +631,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 						MyLog.v("广播回调-0-add", broadObj.optInt("timeout") + "");
 						String gid = broadObj.optString("gid");
 						int no = broadObj.optInt("no");
+						if (0 == no) {
+							return;
+						}
+
 						String ip = broadObj.optString("ip");
 						int port = broadObj.optInt("port");
 						int count = broadObj.optInt("count");
@@ -661,37 +682,31 @@ public class JVMyDeviceFragment extends BaseFragment {
 				mActivity.showTextToast(R.string.selectone_to_connect);
 			} else if (1 == dev.getChannelList().size()) {// 1个通道直接播放
 
-				if (0 == myDeviceList.get(arg1).getOnlineState()
-						&& !Boolean
-								.valueOf(((BaseActivity) mActivity).statusHashMap
-										.get(Consts.LOCAL_LOGIN))) {
-					mActivity.showTextToast(R.string.offline_not_play);
+				// if (0 == myDeviceList.get(arg1).getOnlineState()
+				// && !Boolean
+				// .valueOf(((BaseActivity) mActivity).statusHashMap
+				// .get(Consts.LOCAL_LOGIN))) {
+				// mActivity.showTextToast(R.string.offline_not_play);
+				// } else {
+				// sortList(myDeviceList);
+				ArrayList<Device> playList = PlayUtil.prepareConnect(
+						myDeviceList, arg1);
+
+				if (null == playList || 0 == playList.size()) {
+					mActivity.showTextToast(R.string.selectone_to_connect);
 				} else {
-					// sortList(myDeviceList);
-					ArrayList<Device> playList = PlayUtil
-							.prepareConnect(
-									myDeviceList,
-									arg1,
-									Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
-											.get(Consts.LOCAL_LOGIN)));
-
-					if (null == playList || 0 == playList.size()) {
-						mActivity.showTextToast(R.string.selectone_to_connect);
-					} else {
-						Intent intentPlay = new Intent(mActivity,
-								JVPlayActivity.class);
-						intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
-								playList.toString());
-						intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
-						intentPlay.putExtra("DeviceIndex", PlayUtil
-								.getPlayIndex(playList, myDeviceList.get(arg1)
-										.getFullNo()));
-						intentPlay.putExtra("ChannelofChannel", dev
-								.getChannelList().toList().get(0).getChannel());
-						mActivity.startActivity(intentPlay);
-					}
-
+					Intent intentPlay = new Intent(mActivity,
+							JVPlayActivity.class);
+					intentPlay.putExtra(Consts.KEY_PLAY_NORMAL,
+							playList.toString());
+					intentPlay.putExtra("PlayFlag", Consts.PLAY_NORMAL);
+					intentPlay.putExtra("DeviceIndex", arg1);
+					intentPlay.putExtra("ChannelofChannel", dev
+							.getChannelList().toList().get(0).getChannel());
+					mActivity.startActivity(intentPlay);
 				}
+
+				// }
 
 			} else {// 多个通道查看通道列表
 				Intent intentPlay = new Intent(mActivity,
@@ -993,23 +1008,32 @@ public class JVMyDeviceFragment extends BaseFragment {
 										.get(Consts.KEY_USERNAME));
 					}
 					if (null != myDeviceList && 0 != myDeviceList.size()) {
-						int size = myDeviceList.size();
-						if (0 != size) {
-							for (int i = 0; i < myDeviceList.size(); i++) {
-								if (null == myDeviceList.get(i)
-										.getChannelList()
-										|| 0 == myDeviceList.get(i)
-												.getChannelList().size()) {
-									myDeviceList.get(i).setChannelList(
-											DeviceUtil.getDevicePointList(
-													myDeviceList.get(i),
-													myDeviceList.get(i)
-															.getFullNo()));
+						ArrayList<Channel> channelList = DeviceUtil
+								.getUserPointList();
+
+						if (null == channelList || 0 == channelList.size()) {
+							channelList = DeviceUtil.getUserPointList();
+						}
+
+						if (null != channelList && 0 != channelList.size()) {
+							for (Device dev : myDeviceList) {
+								MyList<Channel> chanList = new MyList<Channel>(
+										1);
+								for (Channel channel : channelList) {
+									if (channel.isHasFind()) {
+										continue;
+									}
+									if (channel.getDguid().equalsIgnoreCase(
+											dev.getFullNo())) {
+										chanList.add(channel);
+										channel.setHasFind(true);
+									}
 								}
+								dev.setChannelList(chanList);
 							}
 						}
-					}
 
+					}
 					if (null != myDeviceList && 0 != myDeviceList.size()) {
 						sortList();
 					}
@@ -1018,6 +1042,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 						.valueOf(((BaseActivity) mActivity).statusHashMap
 								.get(Consts.LOCAL_LOGIN))) {// 本地登录
 					myDeviceList = CacheUtil.getDevList();
+				}
+
+				if (null == myDeviceList) {
+					((BaseActivity) mActivity).statusHashMap.put(
+							Consts.DATA_LOADED_STATE, "-1");
+				} else {
+					((BaseActivity) mActivity).statusHashMap.put(
+							Consts.DATA_LOADED_STATE, null);
 				}
 
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
@@ -1073,8 +1105,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 				// e.printStackTrace();
 				// }
 				// }
-				broadTag = BROAD_DEVICE_LIST;
-				PlayUtil.broadCast(mActivity);
+				// broadTag = BROAD_DEVICE_LIST;
+				// PlayUtil.broadCast(mActivity);
 				refreshList();
 				break;
 			}
@@ -1105,6 +1137,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {
 			int addRes = -1;
+			int addCount = 0;
 			ArrayList<Device> list = new ArrayList<Device>();// 广播到的设备列表
 			list = Device.fromJsonArray(params[0]);
 			try {
@@ -1122,18 +1155,42 @@ public class JVMyDeviceFragment extends BaseFragment {
 								.valueOf(((BaseActivity) mActivity).statusHashMap
 										.get(Consts.LOCAL_LOGIN))) {// 本地添加
 							addRes = 0;
+							addCount++;
 						} else {
 							addRes = DeviceUtil
 									.addDevice(mActivity.statusHashMap
 											.get("KEY_USERNAME"), addDev);
-							if (0 <= addDev.getChannelList().size()) {
-								if (0 == DeviceUtil.addPoint(
-										addDev.getFullNo(), addDev
-												.getChannelList().size())) {
-									addDev.setChannelList(DeviceUtil
-											.getDevicePointList(addDev,
-													addDev.getFullNo()));
-									addRes = 0;
+							// 添加设备失败了，再添加一次
+							if (addRes < 0) {
+								addRes = DeviceUtil.addDevice(
+										mActivity.statusHashMap
+												.get("KEY_USERNAME"), addDev);
+							}
+
+							if (addRes == 0) {
+								if (0 <= addDev.getChannelList().size()) {
+									int addPointRes = DeviceUtil.addPoint(
+											addDev.getFullNo(), addDev
+													.getChannelList().size());
+
+									if (0 != addPointRes) {
+										addPointRes = DeviceUtil.addPoint(
+												addDev.getFullNo(), addDev
+														.getChannelList()
+														.size());
+									}
+
+									if (0 != addPointRes) {
+										DeviceUtil
+												.unbindDevice(
+														mActivity.statusHashMap
+																.get(Consts.KEY_USERNAME),
+														addDev.getFullNo());
+										addRes = -1;
+									} else {
+										addRes = 0;
+										addCount++;
+									}
 								} else {
 									DeviceUtil.unbindDevice(
 											mActivity.statusHashMap
@@ -1145,17 +1202,27 @@ public class JVMyDeviceFragment extends BaseFragment {
 						}
 					}
 					if (0 == addRes) {
-						myDeviceList.add(addDev);
+						myDeviceList.add(0, addDev);
+						MyLog.v("广播添加设备", myDeviceList.toString());
 					}
 				}
 				DeviceUtil.refreshDeviceState(
 						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
 						myDeviceList);
 
+				for (Device dev1 : list) {
+					for (Device dev2 : myDeviceList) {
+						if (dev1.getFullNo().equalsIgnoreCase(dev2.getFullNo())) {
+							dev2.setOnlineState(1);
+							break;
+						}
+					}
+				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return addRes;
+			return addCount;
 		}
 
 		@Override
@@ -1169,10 +1236,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			sortList();
 			CacheUtil.saveDevList(myDeviceList);
 			((BaseActivity) mActivity).dismissDialog();
-			if (0 == result) {
+			if (result > 0) {
 				refreshList();
 				mActivity.showTextToast(R.string.add_device_succ);
-			} else if (100 == result) {
+			} else if (result == 100) {
 				mActivity.showTextToast(R.string.str_device_most_count);
 			} else {
 				refreshList();
@@ -1211,6 +1278,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								mActivity.createDialog("");
+								mActivity.proDialog.setCancelable(false);
 								AddDevTask task = new AddDevTask();
 								String[] strParams = new String[3];
 								strParams[0] = broadList.toString();

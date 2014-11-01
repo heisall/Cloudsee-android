@@ -9,7 +9,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
@@ -29,6 +31,25 @@ import android.net.NetworkInfo.State;
  * @author neo
  */
 public class MyUtils {
+
+	public static int ip2int(String ip) {
+		int result = 0;
+
+		try {
+			byte[] bytes = InetAddress.getByName(ip).getAddress();
+
+			int size = bytes.length;
+			result = bytes[0] & 0xFF;
+			for (int i = 1; i < size; i++) {
+				result <<= 8;
+				result += bytes[i] & 0xFF;
+			}
+		} catch (UnknownHostException e) {
+			// [Neo] Empty
+		}
+
+		return result;
+	}
 
 	public static boolean zip(String target, File[] files) {
 		boolean result = false;

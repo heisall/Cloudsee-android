@@ -99,7 +99,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			}
 			break;
 		}
-		case Consts.CALL_FRAME_I_REPORT: {// I帧回调
+		case Consts.CALL_NEW_PICTURE: {// I帧回调
 			linkState.setVisibility(View.GONE);
 			loading.setVisibility(View.GONE);// 加载进度
 			startTimer();
@@ -135,9 +135,15 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				MyLog.v(TAG, "currentProgress = " + currentProgress);
 				break;
 			}
-			case Consts.ARG2_REMOTE_PLAY_ERROR:
-			case Consts.ARG2_REMOTE_PLAY_OVER:
+			case Consts.ARG2_REMOTE_PLAY_ERROR: {
+				showTextToast(R.string.recoding);
+				break;
+			}
+			case Consts.ARG2_REMOTE_PLAY_OVER: {
+				break;
+			}
 			case Consts.ARG2_REMOTE_PLAY_TIMEOUT: {
+				showTextToast(R.string.connect_failed);
 				this.finish();
 				break;
 			}

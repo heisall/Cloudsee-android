@@ -392,10 +392,18 @@ public abstract class PlayActivity extends BaseActivity {
 
 			verPlayBarLayout.setVisibility(View.VISIBLE);
 			horPlayBarLayout.setVisibility(View.GONE);
-			reParamsV = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
-					(int) (0.75 * disMetrics.widthPixels));
-			MyLog.e(TAG, "v-w=" + disMetrics.widthPixels + ";v-h="
-					+ (int) (0.75 * disMetrics.widthPixels));
+			int height = disMetrics.heightPixels;
+			int width = disMetrics.widthPixels;
+			int useWidth = 0;
+			if (height < width) {
+				useWidth = height;
+			} else {
+				useWidth = width;
+			}
+
+			reParamsV = new RelativeLayout.LayoutParams(useWidth,
+					(int) (0.75 * useWidth));
+			MyLog.e(TAG, "v-w=" + useWidth + ";v-h=" + (int) (0.75 * useWidth));
 			viewPager.setLayoutParams(reParamsV);
 			playSurface.setLayoutParams(reParamsV);
 			decodeBtn.setVisibility(View.VISIBLE);

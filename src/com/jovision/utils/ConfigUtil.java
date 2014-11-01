@@ -39,6 +39,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.test.JVACCOUNT;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -341,8 +342,8 @@ public class ConfigUtil {
 	/**
 	 * 开启广播
 	 */
-	public static void startBroadCast() {
-		Jni.searchLanServer(9400, 6666);
+	public static int openBroadCast() {
+		return Jni.searchLanServer(9400, 6666);
 	}
 
 	/**
@@ -366,7 +367,8 @@ public class ConfigUtil {
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
 			result = Jni.init(context, 9200, Consts.LOG_PATH);
 			Jni.enableLinkHelper(true, 3, 10);// 开小助手
-			Jni.searchLanServer(9400, 6666);// 开广播
+			int res = openBroadCast();// 开广播
+			Log.v("广播-----打开res=", res + "");
 			statusHashMap
 					.put(Consts.KEY_INIT_CLOUD_SDK, String.valueOf(result));
 

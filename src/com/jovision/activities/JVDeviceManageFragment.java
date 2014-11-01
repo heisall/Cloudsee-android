@@ -26,6 +26,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
@@ -56,8 +57,9 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private TextView device_num;
 	private ListView devicemanage_listView;
 	private ManageListAdapter adapter;
-	/** 两个列表界面 */
+	/** 两个列表界面 和加载失败界面 */
 	private LinearLayout dataLayout;// 数据界面
+	private RelativeLayout refreshlayout;// 加载失败页面
 	private RelativeLayout relalist;
 	private RelativeLayout relative;
 	/** 帮助引导 */
@@ -100,7 +102,9 @@ public class JVDeviceManageFragment extends BaseFragment {
 		mImageView.getLayoutParams().width = item_width;
 		managePager = (ViewPager) mParent.findViewById(R.id.manage_pagerer);
 
-		/** 管理功能 */
+		/** 设备加载失败 */
+		refreshlayout = (RelativeLayout) mParent
+				.findViewById(R.id.refreshlayout);
 		device_num = (TextView) mParent.findViewById(R.id.device_num);
 		dataLayout = (LinearLayout) mParent.findViewById(R.id.datalayout);
 		relalist = (RelativeLayout) mParent.findViewById(R.id.relalist);
@@ -253,18 +257,11 @@ public class JVDeviceManageFragment extends BaseFragment {
 		@SuppressLint("ResourceAsColor")
 		@Override
 		public void onPageSelected(final int position) {
-			if (position == 0) {
-				mActivity.showTextToast(R.string.start_list);
-			}
-			if (position == manageDeviceList.size() - 1) {
-				mActivity.showTextToast(R.string.end_list);
-			}
 			// MyLog.v(TAG, "onPageSelected---position="+position);
 			Animation animation = new TranslateAnimation(endPosition, position
 					* item_width, 0, 0);
 
 			beginPosition = position * item_width;
-
 			currentFragmentIndex = position;
 			if (animation != null) {
 				animation.setFillAfter(true);
@@ -355,31 +352,42 @@ public class JVDeviceManageFragment extends BaseFragment {
 			}
 		}
 
-		if (null == manageDeviceList || 0 == manageDeviceList.size()) {
+		String stateStr = ((BaseActivity) mActivity).statusHashMap
+				.get(Consts.DATA_LOADED_STATE);
+		if (null != stateStr) {
 			dataLayout.setVisibility(View.GONE);
-			quickSetSV.setVisibility(View.VISIBLE);
-		} else {
-			dataLayout.setVisibility(View.VISIBLE);
 			quickSetSV.setVisibility(View.GONE);
-			// 初始化导航
-			initNav();
-			// 初始化viewPager
-			initViewPager();
-		}
-		try {
-			ManageFragment fragement = ((ManageFragment) fragments
-					.get(deviceIndex));
-			if (null != fragement) {
-				fragement.setDevIndex(deviceIndex);
-			}
-			managePager.setCurrentItem(deviceIndex);
-			mHorizontalScrollView.smoothScrollTo(
-					(deviceIndex - 1) * item_width, 0);
-			mHorizontalScrollView.invalidate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			refreshlayout.setVisibility(View.VISIBLE);
+		} else {
+			if (0 == manageDeviceList.size()) {
+				dataLayout.setVisibility(View.GONE);
+				refreshlayout.setVisibility(View.GONE);
+				quickSetSV.setVisibility(View.VISIBLE);
+			} else if (manageDeviceList.size() > 0) {
+				dataLayout.setVisibility(View.VISIBLE);
+				refreshlayout.setVisibility(View.GONE);
+				quickSetSV.setVisibility(View.GONE);
+				// 初始化导航
+				initNav();
+				// 初始化viewPager
+				initViewPager();
 
+				try {
+					ManageFragment fragement = ((ManageFragment) fragments
+							.get(deviceIndex));
+					if (null != fragement) {
+						fragement.setDevIndex(deviceIndex);
+					}
+					managePager.setCurrentItem(deviceIndex);
+					mHorizontalScrollView.smoothScrollTo((deviceIndex - 1)
+							* item_width, 0);
+					mHorizontalScrollView.invalidate();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
 		super.onResume();
 	}
 

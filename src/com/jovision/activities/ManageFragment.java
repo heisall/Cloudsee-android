@@ -167,12 +167,12 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 4: {// 立即观看
-			// if (0 == deviceList.get(deviceIndex).getOnlineState()
-			// && !Boolean
-			// .valueOf(((BaseActivity) mActivity).statusHashMap
-			// .get(Consts.LOCAL_LOGIN))) {
-			// mActivity.showTextToast(R.string.offline_not_play);
-			// } else {
+				// if (0 == deviceList.get(deviceIndex).getOnlineState()
+				// && !Boolean
+				// .valueOf(((BaseActivity) mActivity).statusHashMap
+				// .get(Consts.LOCAL_LOGIN))) {
+				// mActivity.showTextToast(R.string.offline_not_play);
+				// } else {
 				if (0 == deviceList.get(deviceIndex).getChannelList().size()) {// 0个通道直接播放
 					mActivity.showTextToast(R.string.selectone_to_connect);
 				} else {

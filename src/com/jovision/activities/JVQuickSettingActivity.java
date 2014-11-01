@@ -1243,6 +1243,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 									statusHashMap.get(Consts.KEY_USERNAME),
 									statusHashMap.get(Consts.KEY_PASSWORD),
 									JVQuickSettingActivity.this);
+
+							if (JVAccountConst.SUCCESS == reLoginRes) {
+								hasLogout = false;
+							}
 							MyLog.v("网络恢复完成---重新登录---"
 									+ statusHashMap.get(Consts.KEY_USERNAME),
 									reLoginRes + "");

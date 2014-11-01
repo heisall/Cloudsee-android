@@ -672,7 +672,7 @@ public class PlayUtil {
 					// || channleList.get(i).isConnecting()
 					// || channleList.get(i).isPause()) {
 					((MainApplication) mContext.getApplicationContext())
-							.onNotify(Consts.CALL_FRAME_I_REPORT, channleList
+							.onNotify(Consts.CALL_NEW_PICTURE, channleList
 									.get(i).getIndex(), 0, null);
 				}
 			}

@@ -547,30 +547,32 @@ public class JVPlayActivity extends PlayActivity implements
 										Integer.parseInt(streamMap
 												.get("MainStreamQos")));
 
-								// String width = streamCH1.get("width");
-								// String height = streamCH1.get("height");
-								// int framerate =
+								// // String width = streamCH1.get("width");
+								// // String height = streamCH1.get("height");
+								// // int framerate =
+								// //
 								// Integer.parseInt(streamCH1.get("framerate"));
-								// int nMBPH =
-								// Integer.parseInt(streamCH1.get("nMBPH"));
+								// // int nMBPH =
+								// // Integer.parseInt(streamCH1.get("nMBPH"));
+								// //
+								// if (1 ==
+								// channelList.get(arg1).getStreamTag()) {
+								// // Jni.setBpsAndFps(lastClickIndex,
+								// // JVNetConst.JVN_RSP_TEXTDATA, 1,
+								// // 1280, 720, 1024, 15);
+								// Jni.sendString(
+								// lastClickIndex,
+								// JVNetConst.JVN_RSP_TEXTDATA,
+								// false,
+								// 0,
+								// Consts.TYPE_SET_PARAM,
+								// String.format(
+								// Consts.FORMATTER_SET_BPS_FPS,
+								// 1, 1280, 720, 1024, 15, 1));
+								// MyLog.v("JVSUDT-切到高清码流--0-", arg1
+								// + "---改为--1, 1280, 720, 1024, 15");
 								//
-								if (1 == channelList.get(arg1).getStreamTag()) {
-									// Jni.setBpsAndFps(lastClickIndex,
-									// JVNetConst.JVN_RSP_TEXTDATA, 1,
-									// 1280, 720, 1024, 15);
-									Jni.sendString(
-											lastClickIndex,
-											JVNetConst.JVN_RSP_TEXTDATA,
-											false,
-											0,
-											Consts.TYPE_SET_PARAM,
-											String.format(
-													Consts.FORMATTER_SET_BPS_FPS,
-													1, 1280, 720, 1024, 15, 1));
-									MyLog.v("JVSUDT-切到高清码流--0-", arg1
-											+ "---改为--1, 1280, 720, 1024, 15");
-
-								}
+								// }
 
 							}
 
@@ -685,7 +687,7 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 
-		case Consts.CALL_FRAME_I_REPORT: {
+		case Consts.CALL_NEW_PICTURE: {
 
 			Channel channel = channelList.get(arg1);
 			channel.setConnected(true);

@@ -692,6 +692,7 @@
     <string name="str_alarm_download_alarmimg_timeout">get alarm images timeout</string>
     <string name="str_alarm_download_alarmimg_failed">get alarm images failed</string>
     <string name="str_alarm_download_alarmimg_stopped">download alarm images has been stopped</string>
-	<string name="str_alarm_no_alarm_info">no alarm message</string>
-	<string name="str_alarm_clear_ainfo_sure">sure to clear the alarm message?</string>
+    <string name="str_alarm_no_alarm_info">no alarm message</string>
+    <string name="str_alarm_clear_ainfo_sure">sure to clear the alarm message?</string>
+
 </resources>

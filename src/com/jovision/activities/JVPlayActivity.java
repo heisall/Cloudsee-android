@@ -125,7 +125,11 @@ public class JVPlayActivity extends PlayActivity implements
 		case Consts.CALL_CONNECT_CHANGE: {
 			MyLog.i("onNotify", "what=" + what + ",arg1=" + arg1 + ",arg2="
 					+ arg2 + ",obj=" + obj);
-			Channel channel = channelList.get(arg1);
+			Channel channel = null;
+			if (arg1 < channelList.size()) {
+				channel = channelList.get(arg1);
+			}
+
 			if (null == channel) {
 				return;
 			}

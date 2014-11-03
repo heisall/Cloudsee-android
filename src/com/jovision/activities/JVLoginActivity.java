@@ -27,7 +27,6 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.Jni;
 import com.jovision.adapters.UserSpinnerAdapter;
 import com.jovision.bean.Device;
 import com.jovision.bean.User;
@@ -111,7 +110,7 @@ public class JVLoginActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		Jni.enableLog(true);
+		// Jni.enableLog(true);
 		// throw(new NullPointerException());
 	}
 

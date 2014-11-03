@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1575,7 +1574,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			// 播放
 			searchView.myPlayer.start();
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

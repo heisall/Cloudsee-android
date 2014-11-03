@@ -473,10 +473,10 @@
     <string name="start_now">Enjoy it now</string>
 
     <!-- 2.3系统视频播放提示 -->
-    <string name="system_lower">Your mobile phone O/S is Android$,The video maybe dazzling during playing, please download V2.8.5,安装前请先卸载当前版本 do you want to download now?</string>
+    <string name="system_lower">Your mobile phone O/S is Android$,The video maybe dazzling during playing, please download V2.8.5,安装前请先卸载当前版本， do you want to download now?</string>
     <string name="no_more_tips">No reminding</string>
     <string name="download">Download now</string>
-    <string name="not_support_old">This version does not support 04 version decoding,if you want to view, please download version2.8.5, do you want to download now?</string>
+    <string name="not_support_old">This version does not support 04 version decoding,if you want to view, please download version2.8.5,安装前请先卸载当前版本，system_lower do you want to download now?</string>
 
     <!-- JVOffline -->
     <string name="offline_other_login">Account login elsewhere or account exception.</string>
@@ -582,6 +582,7 @@
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">Manual recording</string>
     <string name="video_alarm">Alarm recording</string>
+    <string name="video_motion">移动检测</string>
     <string name="recoding">Generating a video file, please later view.</string>
 
     <!-- Help -->
@@ -640,7 +641,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.42(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.43(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

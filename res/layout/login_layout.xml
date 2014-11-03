@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="30dp"
                     android:layout_toRightOf="@+id/user_icon"
                     android:background="@color/transparent"
@@ -63,6 +63,7 @@
                     android:layout_alignRight="@+id/userdivider_iv"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
+                    android:padding="8dp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/login_pull_icon" />
 
@@ -96,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="30dp"
                     android:layout_toRightOf="@+id/pass_icon"
                     android:background="@color/transparent"

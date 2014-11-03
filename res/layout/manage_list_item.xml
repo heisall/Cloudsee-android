@@ -15,7 +15,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="10dp" />
 
         <TextView
             android:id="@+id/listitem_name"
@@ -30,11 +30,11 @@
 
         <ImageView
             android:id="@+id/manage_item_img"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="12dp"
             android:background="@drawable/devicemanage_sure_icon"
             android:visibility="gone" />
     </RelativeLayout>

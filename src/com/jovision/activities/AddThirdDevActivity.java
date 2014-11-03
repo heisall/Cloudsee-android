@@ -264,7 +264,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 
 			case JVNetConst.NO_RECONNECT:// 1 -- 连接成功//3 不必重新连接
 			case JVNetConst.CONNECT_OK: {// 1 -- 连接成功
-			// MyLog.e("New alarm", "连接成功");
+				// MyLog.e("New alarm", "连接成功");
 				bConnectedFlag = true;
 				showTextToast(R.string.str_alarm_connect_success);
 				// 首先需要发送文本聊天请求

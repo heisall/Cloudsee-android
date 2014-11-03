@@ -525,8 +525,6 @@
     <string name="protect_close_succ">Disable Security Protection Successfully.</string>
     <string name="protect_close_fail">Failed to disable Security Protection.</string>
     <string name="device_offline">This operation is unavailable since the device is offline now.</string>
-    <string name="protect_opened">Security Protection</string>
-    <string name="protect_closed">Security Protection</string>
 
     <!-- JVInfoFragement -->
     <string name="xlistview_footer_hint_normal">More</string>
@@ -610,36 +608,21 @@
     <string name="login_str_yst_num">CloudSEE ID</string>
     <string name="str_qr_device">Found CloudSEE ID </string>
     <string name="str_not_qr_device">Not CloudSEE ID</string>
-    <!-- 不同软件反馈邮箱不一样 -->
-    <string name="str_feedback_error">This mobile phone does not support Email function or Email function has not been set on this mobile phone, please write Email to: mfg@jovision.com for further support.</string>
     <!-- 反馈邮箱 -->
     <string name="str_feedback_email">mfq@jovision.com</string>
     <string name="str_feedback_email2">juyang@jovision.com</string>
-    <string name="str_feedback_email3">suifupeng@jovision.com</string>
     <!-- 中维版本值为1，oem版为2，nvsip版本为3 -->
     <string name="str_update_app_version">1</string>
-    <!-- QQ_APP_ID -->
-    <string name="str_qq_app_id">100474933</string>
-    <!-- sina_key -->
-    <string name="str_sina_key">2388704677</string>
     <!-- 下载的新apk名字 -->
     <string name="str_save_apk_name">JVCloudSeeClient.apk</string>
     <!-- 默认用户名 -->
     <string name="str_default_user">abc</string>
     <!-- 默认密码 -->
     <string name="str_default_pass">123</string>
-    <!-- 离线广播类名 -->
-    <string name="str_offline_class_name">com.jovetech.util.OffLineService</string>
-    <!-- 离线广播接收者类名 -->
-    <string name="str_offline_receiver_class_name">com.jovetech.util.OffLineBroadcastReceiver</string>
     <!-- 录像保存路径 -->
     <string name="str_video_path">video/</string>
     <!-- 抓拍保存路径 -->
     <string name="str_capture_path">capture/</string>
-    <!-- 包名 -->
-    <string name="str_package_name">com.jovetech.CloudSee.temp</string>
-    <!-- 广播Action名 -->
-    <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
     <string name="str_current_version">BetaV4.1.43(Beta) - DJ</string>
     <!-- 版权 -->

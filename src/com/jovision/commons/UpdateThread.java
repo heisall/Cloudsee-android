@@ -48,9 +48,7 @@ public class UpdateThread extends Thread {
 					+ context.getResources().getString(
 							R.string.str_update_app_version));
 			int curVersion = context.getPackageManager()
-					.getPackageInfo(
-							context.getResources().getString(
-									R.string.str_package_name), 0).versionCode;
+					.getPackageInfo(context.getPackageName(), 0).versionCode;
 			String versionCode = "";
 			String fileSize = "";
 			String versionStr = "";

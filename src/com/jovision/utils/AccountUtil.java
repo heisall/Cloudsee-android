@@ -30,7 +30,7 @@ public class AccountUtil {
 	public static int isUserExsit(String userName) {
 		int res = -1;
 		res = JVACCOUNT.IsUserExists(userName);
-		MyLog.e("isUserExsit--", userName + "-----|||||" + res + "");
+		MyLog.v("isUserExsit--", userName + "-----|||||" + res + "");
 		return res;
 	}
 
@@ -44,7 +44,7 @@ public class AccountUtil {
 	public static int userRegister(User user) {
 		int res = -1;
 		res = JVACCOUNT.UserRegister(user.getUserName(), user.getUserPwd());
-		MyLog.e("userRegister--", "-----|||||" + res + "");
+		MyLog.v("userRegister--", "-----|||||" + res + "");
 
 		return res;
 	}
@@ -129,7 +129,7 @@ public class AccountUtil {
 	public static int userLogin(String userName, String pwd, Context con) {
 		int res = -1;
 		res = JVACCOUNT.UserLogin(userName, pwd);
-		MyLog.e("userLogin--", "-----||||||" + res + "");
+		MyLog.v("userLogin--", "-----||||||" + res + "");
 		// 汇报设备类型
 		if (0 == res) {
 			res = reportClientPlatformInfo(con);
@@ -170,7 +170,7 @@ public class AccountUtil {
 		cb.setDeviceUUID(ConfigUtil.getIMEI(con));
 
 		res = JVACCOUNT.ReportClientPlatformInfo(cb);
-		MyLog.e("ReportClientPlatformInfo--", "-----|||||" + res + "");
+		MyLog.v("ReportClientPlatformInfo--", "-----|||||" + res + "");
 
 		return res;
 	}
@@ -183,7 +183,7 @@ public class AccountUtil {
 	public static int userOnline() {
 		int res = -1;
 		res = JVACCOUNT.Online();
-		MyLog.e("Online--", "-----||||||" + res + "");
+		MyLog.v("Online--", "-----||||||" + res + "");
 		return res;
 	}
 
@@ -197,7 +197,7 @@ public class AccountUtil {
 	public static int modifyUserPassword(String oldPwd, String newPwd) {
 		int res = -1;
 		res = JVACCOUNT.ModifyUserPassword(oldPwd, newPwd);
-		MyLog.e("modifyUserPassword--", "-----||||||" + res + "");
+		MyLog.v("modifyUserPassword--", "-----||||||" + res + "");
 		return res;
 	}
 
@@ -249,7 +249,7 @@ public class AccountUtil {
 	public static int userLogout() {
 		int res = -1;
 		res = JVACCOUNT.UserLogout();
-		MyLog.e("userLogout--", "-----||||||" + res + "");
+		MyLog.v("userLogout--", "-----||||||" + res + "");
 		return res;
 	}
 
@@ -314,7 +314,7 @@ public class AccountUtil {
 				res = 2;
 			}
 		}
-		MyLog.e("验证用户名--res：", res + "");
+		MyLog.v("验证用户名--res：", res + "");
 		return res;
 	}
 
@@ -491,7 +491,7 @@ public class AccountUtil {
 	public static int bindMailOrPhone(String email) {
 		int res = -1;
 		res = JVACCOUNT.BindMailOrPhone(email);
-		MyLog.e("bindMailOrPhone--", "-----|||||" + res + "");
+		MyLog.v("bindMailOrPhone--", "-----|||||" + res + "");
 		return res;
 	}
 }

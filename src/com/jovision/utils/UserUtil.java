@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.jovision.Consts;
 import com.jovision.bean.User;
-import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 
 public class UserUtil {
@@ -42,7 +41,6 @@ public class UserUtil {
 		}
 		MySharedPreference.putString(Consts.LOCAL_USER_LIST,
 				userList.toString());
-		MyLog.v("Userlist-save", userList.toString());
 		return userList;
 	}
 

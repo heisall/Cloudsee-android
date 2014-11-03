@@ -638,7 +638,6 @@ public class PlayUtil {
 	 * @param channleList
 	 */
 	public static void disConnectAll(ArrayList<Channel> channleList) {
-		MyLog.e("disconnect-All", channleList.size() + "");
 		if (null != channleList && 0 != channleList.size()) {
 			try {
 				int size = channleList.size();
@@ -793,11 +792,49 @@ public class PlayUtil {
 		return onlineDevice;
 	}
 
+	// public static ArrayList<Device> prepareConnect(
+	// ArrayList<Device> deviceList, int deviceIndex) {
+	// // 获取真正播放的列表
+	// // ArrayList<Device> playList = getOnLineList(deviceList, local);
+	//
+	// ArrayList<Channel> clist = new ArrayList<Channel>();
+	//
+	// if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+	// for (Device device : deviceList) {
+	// clist.addAll(device.getChannelList().toList());
+	// }
+	// } else {
+	// try {
+	// if (null == deviceList.get(deviceIndex).getChannelList()
+	// || 0 == deviceList.get(deviceIndex).getChannelList()
+	// .size()) {
+	//
+	// } else {
+	// clist.addAll(deviceList.get(deviceIndex).getChannelList()
+	// .toList());
+	// }
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// return null;
+	// }
+	//
+	// }
+	//
+	// int size = clist.size();
+	// for (int i = 0; i < size; i++) {
+	// // [Neo] 循环利用播放数组，我 tm 就是个天才
+	// clist.get(i).setIndex(i);// % Consts.MAX_CHANNEL_CONNECTION);
+	// }
+	// // if (save) {
+	// // CacheUtil.saveDevList(deviceList);
+	// // }
+	//
+	// return deviceList;
+	// }
+
 	public static ArrayList<Device> prepareConnect(
 			ArrayList<Device> deviceList, int deviceIndex) {
-		// 获取真正播放的列表
-		// ArrayList<Device> playList = getOnLineList(deviceList, local);
-
 		ArrayList<Channel> clist = new ArrayList<Channel>();
 
 		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
@@ -805,21 +842,7 @@ public class PlayUtil {
 				clist.addAll(device.getChannelList().toList());
 			}
 		} else {
-			try {
-				if (null == deviceList.get(deviceIndex).getChannelList()
-						|| 0 == deviceList.get(deviceIndex).getChannelList()
-								.size()) {
-
-				} else {
-					clist.addAll(deviceList.get(deviceIndex).getChannelList()
-							.toList());
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-
+			clist.addAll(deviceList.get(deviceIndex).getChannelList().toList());
 		}
 
 		int size = clist.size();
@@ -827,10 +850,6 @@ public class PlayUtil {
 			// [Neo] 循环利用播放数组，我 tm 就是个天才
 			clist.get(i).setIndex(i);// % Consts.MAX_CHANNEL_CONNECTION);
 		}
-		// if (save) {
-		// CacheUtil.saveDevList(deviceList);
-		// }
-
 		return deviceList;
 	}
 
@@ -966,7 +985,7 @@ public class PlayUtil {
 	 * @param ipcWifi
 	 */
 	public static void connectDevice(Device dev) {
-
+		Jni.enablePlayAudio(1, false);
 		if (!"".equalsIgnoreCase(dev.getIp())) {// IP直连云视通号置为-1
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(),
 					dev.getPwd(), -1, ConfigUtil.getGroup(dev.getFullNo()),
@@ -1011,7 +1030,7 @@ public class PlayUtil {
 
 		try {
 			String textString1 = new String(pBuffer);
-			MyLog.e("远程回放pBuffer", textString1);
+			MyLog.v("远程回放pBuffer", textString1);
 
 			int nSize = pBuffer.length;
 			// 无数据
@@ -1157,7 +1176,7 @@ public class PlayUtil {
 
 			}
 
-			MyLog.e("url: ", acBuffStr);
+			MyLog.v("url: ", acBuffStr);
 		} else if (deviceType == -1) {
 			String channelStr = String.format("%s", videoBean.remoteChannel);
 			System.arraycopy(channelStr.getBytes(), 0, acChn, 0,
@@ -1182,10 +1201,10 @@ public class PlayUtil {
 			String channelStr = String.format("%s", videoBean.remoteChannel);
 			System.arraycopy(channelStr.getBytes(), 0, acChn, 0,
 					channelStr.length());
-			MyLog.e("channelStr:", channelStr);
+			MyLog.v("channelStr:", channelStr);
 			// sprintf(acTime, "%s",videoBean.remoteDate);
 			String acTimeStr = String.format("%s", videoBean.remoteDate);
-			MyLog.e("acTimeStr:", acTimeStr);
+			MyLog.v("acTimeStr:", acTimeStr);
 			System.arraycopy(acTimeStr.getBytes(), 0, acTime, 0,
 					acTimeStr.length());
 			acBuffStr = String.format(
@@ -1194,7 +1213,7 @@ public class PlayUtil {
 					acFLBuffer[listIndex * 2 + 1], acChn[0], acChn[1],
 					acTime[0], acTime[1], acTime[3], acTime[4], acTime[6],
 					acTime[7]);
-			MyLog.e("acBuffStr:", acBuffStr);
+			MyLog.v("acBuffStr:", acBuffStr);
 		} else if (deviceType == 2 || deviceType == 3) {
 			String channelStr = String.format("%s", videoBean.remoteChannel);
 			System.arraycopy(channelStr.getBytes(), 0, acChn, 0,
@@ -1213,10 +1232,10 @@ public class PlayUtil {
 					"%c:\\JdvrFile\\%04d%02d%02d\\%c%c%c%c%c%c%c%c.sv6",
 					acDisk[0], year, month, day, acChn[0], acChn[1], acTime[0],
 					acTime[1], acTime[3], acTime[4], acTime[6], acTime[7]);
-			MyLog.e("url: ", acBuffStr);
+			MyLog.v("url: ", acBuffStr);
 
 		}
-		MyLog.e("tags", "bytesize: " + acBuffStr.getBytes().length + ", url:"
+		MyLog.v("tags", "bytesize: " + acBuffStr.getBytes().length + ", url:"
 				+ acBuffStr);
 		acChn = null;
 		acTime = null;

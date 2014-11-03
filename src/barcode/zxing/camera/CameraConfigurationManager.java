@@ -55,15 +55,11 @@ final class CameraConfigurationManager {
 		Camera.Parameters parameters = camera.getParameters();
 		previewFormat = parameters.getPreviewFormat();
 		previewFormatString = parameters.get("preview-format");
-		MyLog.v(TAG, "Default preview format: " + previewFormat + '/'
-				+ previewFormatString);
 		WindowManager manager = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
 		Display display = manager.getDefaultDisplay();
 		screenResolution = new Point(display.getWidth(), display.getHeight());
-		MyLog.v(TAG, "Screen resolution: " + screenResolution);
 		cameraResolution = getCameraResolution(parameters, screenResolution);
-		MyLog.v(TAG, "Camera resolution: " + screenResolution);
 	}
 
 	/**
@@ -75,7 +71,6 @@ final class CameraConfigurationManager {
 	 */
 	void setDesiredCameraParameters(Camera camera) {
 		Camera.Parameters parameters = camera.getParameters();
-		MyLog.v(TAG, "Setting preview size: " + cameraResolution);
 		parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
 		setFlash(parameters);
 		setZoom(parameters);
@@ -116,8 +111,6 @@ final class CameraConfigurationManager {
 		Point cameraResolution = null;
 
 		if (previewSizeValueString != null) {
-			MyLog.v(TAG, "preview-size-values parameter: "
-					+ previewSizeValueString);
 			cameraResolution = findBestPreviewSizeValue(previewSizeValueString,
 					screenResolution);
 		}
@@ -142,7 +135,7 @@ final class CameraConfigurationManager {
 			previewSize = previewSize.trim();
 			int dimPosition = previewSize.indexOf('x');
 			if (dimPosition < 0) {
-				MyLog.v(TAG, "Bad preview-size: " + previewSize);
+				MyLog.e(TAG, "Bad preview-size: " + previewSize);
 				continue;
 			}
 
@@ -152,7 +145,7 @@ final class CameraConfigurationManager {
 				newX = Integer.parseInt(previewSize.substring(0, dimPosition));
 				newY = Integer.parseInt(previewSize.substring(dimPosition + 1));
 			} catch (NumberFormatException nfe) {
-				MyLog.v(TAG, "Bad preview-size: " + previewSize);
+				MyLog.e(TAG, "Bad preview-size: " + previewSize);
 				continue;
 			}
 
@@ -234,7 +227,7 @@ final class CameraConfigurationManager {
 					tenDesiredZoom = tenMaxZoom;
 				}
 			} catch (NumberFormatException nfe) {
-				MyLog.v(TAG, "Bad max-zoom: " + maxZoomString);
+				MyLog.e(TAG, "Bad max-zoom: " + maxZoomString);
 			}
 		}
 
@@ -247,7 +240,7 @@ final class CameraConfigurationManager {
 					tenDesiredZoom = tenMaxZoom;
 				}
 			} catch (NumberFormatException nfe) {
-				MyLog.v(TAG, "Bad taking-picture-zoom-max: "
+				MyLog.e(TAG, "Bad taking-picture-zoom-max: "
 						+ takingPictureZoomMaxString);
 			}
 		}

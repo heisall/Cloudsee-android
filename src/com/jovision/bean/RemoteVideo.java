@@ -5,5 +5,5 @@ public class RemoteVideo {
 	public String remoteChannel = "";
 	public String remoteDate = "";
 	public String remoteDisk = "";
-	public String remoteKind = "";
+	public String remoteKind = "";// A：alarm报警录像；M：motion移动侦测；N：normal手动录像
 }

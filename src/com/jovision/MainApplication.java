@@ -153,12 +153,11 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	 * @param res
 	 */
 	public void JVOnLineCallBack(int res) {
-		MyLog.v("保持在线的回调函数", "----:" + res);
+		MyLog.v("JVOnLineCallBack", "res=" + res);
 		try {
 			if (res == 0) {// 保持在线成功
 				errorCount = 0;
 			} else {// 保持在线失败
-				MyLog.v("保持在线失败", "----:" + res);
 				errorCount++;
 				if (4 == errorCount) {// 失败4次
 					JVACCOUNT.StopHeartBeat();// 先停止心跳
@@ -186,8 +185,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	@SuppressWarnings("deprecation")
 	public void JVPushCallBack(int res, String userName, String time, String msg) {
 		try {
-			MyLog.v("推送的回调函数", "res----:" + res + ";;time----:" + time
-					+ ";;msg----:" + msg);
+			MyLog.v("JVPushCallBack", "res=" + res + ";time=" + time + ";msg="
+					+ msg);
 			if (JVAccountConst.MESSAGE_PUSH_TAG == res) {
 				if (MySharedPreference.getBoolean("AlarmSwitch", false)) {
 					if (null != currentNotifyer) {
@@ -267,7 +266,6 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				 * ,"avd":"./rec/00/20141011/A01135705.mp4"}
 				 * 
 				 */
-				MyLog.e("tags", "new msg: " + msg);
 				String strYstNumString = "";
 				// Toast.makeText(getApplicationContext(),
 				// "new msg push call back", Toast.LENGTH_SHORT).show();
@@ -329,17 +327,17 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 							// BaseApp.pushHisCount++;
 
 							if (isAppOnForeground()) {
-								MyLog.d("PushCallBack",
+								MyLog.v("PushCallBack",
 										"the app is OnForeground.........");
 								onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
 										pi);
 								Activity currentActivity = MyActivityManager
 										.getActivityManager().currentActivity();
-								MyLog.e("PushCallBack", "currentActivity:"
+								MyLog.v("PushCallBack", "currentActivity:"
 										+ currentActivity.toString());
 							} else {
 
-								MyLog.d("PushCallBack",
+								MyLog.v("PushCallBack",
 										"the app is not OnForeground.........");
 								onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
 										pi);
@@ -360,7 +358,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 									// pi.alarmType,
 									// 0, pi);
 								} else {
-									MyLog.e("PushCallBack",
+									MyLog.v("PushCallBack",
 											"this "
 													+ currentActivity
 															.toString()

@@ -27,7 +27,6 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.Jni;
 import com.jovision.adapters.UserSpinnerAdapter;
 import com.jovision.bean.Device;
 import com.jovision.bean.User;
@@ -111,7 +110,7 @@ public class JVLoginActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		Jni.enableLog(true);
+		// Jni.enableLog(true);
 		// throw(new NullPointerException());
 	}
 
@@ -121,7 +120,6 @@ public class JVLoginActivity extends BaseActivity {
 		setContentView(R.layout.login_layout);
 
 		userList = UserUtil.getUserList();
-		MyLog.v("Userlist-get", userList.toString());
 		/** userlogin Fuction */
 		userNameET = (EditText) findViewById(R.id.username_et);
 		passwordET = (EditText) findViewById(R.id.password_et);

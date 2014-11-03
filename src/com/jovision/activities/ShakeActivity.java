@@ -23,7 +23,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.bean.WifiAdmin;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyActivityManager;
-import com.jovision.commons.MyLog;
 
 /**
  * 摇一摇的活动基类，所有活动都应该继承这个类，并实现其抽象方法和接口
@@ -217,7 +216,6 @@ public abstract class ShakeActivity extends BaseActivity implements
 							e1.printStackTrace();
 						}
 						state = activity.wifiAdmin.getWifiState();
-						MyLog.v("while判断网络状态：", state + "");
 					}
 
 					try {

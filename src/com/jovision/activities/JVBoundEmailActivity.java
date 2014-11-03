@@ -3,7 +3,6 @@ package com.jovision.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -14,6 +13,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.UserUtil;
@@ -163,7 +163,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 				e.printStackTrace();
 			}
 
-			Log.i("TAG", bindRes + "sdadasd"
+			MyLog.v("TAG", "bindRes=" + bindRes + ";email="
 					+ userEmailEditText.getText().toString());
 			return bindRes;
 		}

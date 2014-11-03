@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -456,18 +455,33 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
-
+			//
+			// if (0 == result) {
+			// ArrayList<Device> devList = new ArrayList<Device>();
+			// devList.add(ipcDevice);
+			// ArrayList<Device> playList = PlayUtil
+			// .prepareConnect(devList, 0);
+			// Intent apIntent = new Intent(JVQuickSettingActivity.this,
+			// JVPlayActivity.class);
+			// apIntent.putExtra("PlayFlag", Consts.PLAY_AP);
+			// apIntent.putExtra("DeviceIndex", 0);
+			// apIntent.putExtra("ChannelofChannel", 1);
+			// apIntent.putExtra(Consts.KEY_PLAY_AP, playList.toString());
+			// startActivityForResult(apIntent, JVConst.AP_CONNECT_REQUEST);
+			// } else if (1 == result) {
+			// showTextToast(R.string.str_quick_setting_ap_net_timeout);
+			// }
 			if (0 == result) {
 				ArrayList<Device> devList = new ArrayList<Device>();
 				devList.add(ipcDevice);
-				ArrayList<Device> playList = PlayUtil
-						.prepareConnect(devList, 0);
+				PlayUtil.prepareConnect(devList, 0);
+				String devJsonString = Device.listToString(devList);
 				Intent apIntent = new Intent(JVQuickSettingActivity.this,
 						JVPlayActivity.class);
 				apIntent.putExtra("PlayFlag", Consts.PLAY_AP);
 				apIntent.putExtra("DeviceIndex", 0);
 				apIntent.putExtra("ChannelofChannel", 1);
-				apIntent.putExtra(Consts.KEY_PLAY_AP, playList.toString());
+				apIntent.putExtra(Consts.KEY_PLAY_AP, devJsonString);
 				startActivityForResult(apIntent, JVConst.AP_CONNECT_REQUEST);
 			} else if (1 == result) {
 				showTextToast(R.string.str_quick_setting_ap_net_timeout);
@@ -1264,7 +1278,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						Log.v("未广播到IP---", "休眠2秒");
+						Log.v("未广播到IP---" + hasBroadIP, "休眠2秒");
 					}
 
 					// 重新登陆成功 ,或者本地登陆
@@ -1560,7 +1574,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			// 播放
 			searchView.myPlayer.start();
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -1692,7 +1706,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		quickSetDeviceImg.setVisibility(View.GONE);
 		// 断开连接
 		manuDiscon = true;
-		PlayUtil.disconnectDevice();
+		if (1000 != errorCode && 1001 != errorCode) {
+			PlayUtil.disconnectDevice();
+		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(
 				JVQuickSettingActivity.this);

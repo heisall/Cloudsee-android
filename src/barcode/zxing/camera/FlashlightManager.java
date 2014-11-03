@@ -50,7 +50,7 @@ final class FlashlightManager {
 		if (iHardwareService == null) {
 			MyLog.v(TAG, "This device does supports control of a flashlight");
 		} else {
-			MyLog.v(TAG, "This device does not support control of a flashlight");
+			MyLog.e(TAG, "This device does not support control of a flashlight");
 		}
 	}
 
@@ -115,7 +115,7 @@ final class FlashlightManager {
 			// OK
 			return null;
 		} catch (RuntimeException re) {
-			MyLog.v(TAG, "Unexpected error while finding class " + name);
+			MyLog.e(TAG, "Unexpected error while finding class " + name);
 			return null;
 		}
 	}
@@ -128,7 +128,7 @@ final class FlashlightManager {
 			// OK
 			return null;
 		} catch (RuntimeException re) {
-			MyLog.v(TAG, "Unexpected error while finding method " + name);
+			MyLog.e(TAG, "Unexpected error while finding method " + name);
 			return null;
 		}
 	}
@@ -137,13 +137,13 @@ final class FlashlightManager {
 		try {
 			return method.invoke(instance, args);
 		} catch (IllegalAccessException e) {
-			MyLog.v(TAG, "Unexpected error while invoking " + method);
+			MyLog.e(TAG, "Unexpected error while invoking " + method);
 			return null;
 		} catch (InvocationTargetException e) {
-			MyLog.v(TAG, "Unexpected error while invoking " + method);
+			MyLog.e(TAG, "Unexpected error while invoking " + method);
 			return null;
 		} catch (RuntimeException re) {
-			MyLog.v(TAG, "Unexpected error while invoking " + method);
+			MyLog.e(TAG, "Unexpected error while invoking " + method);
 			return null;
 		}
 	}

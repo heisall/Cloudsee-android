@@ -122,22 +122,22 @@ public class FuntionAdapter extends BaseAdapter {
 			if (0 == position) {
 				viewHolder.funtionArrow.setVisibility(View.GONE);
 				viewHolder.funtionImageView
-						.setImageResource(R.drawable.voice_monitor_1);
+						.setImageResource(R.drawable.voice_monitor_small_1);
 				viewHolder.funtionTitle2
 						.setText(R.string.str_audio_monitor_tips);
 			} else if (1 == position) {
 				viewHolder.funtionImageView
-						.setImageResource(R.drawable.yt_controller_1);
+						.setImageResource(R.drawable.yt_controller_small_1);
 				viewHolder.funtionTitle2.setText(R.string.str_yt_operate_tips);
 			} else if (2 == position) {
 				viewHolder.funtionImageView
-						.setImageResource(R.drawable.remote_playback_1);
+						.setImageResource(R.drawable.remote_playback_small_1);
 				viewHolder.funtionTitle2
 						.setText(R.string.str_remote_playback_tips);
 			}
 			if (selectIndex == position && selectIndex == 0) {
 				viewHolder.funtionImageView
-						.setImageResource(R.drawable.voice_monitor_2);
+						.setImageResource(R.drawable.voice_monitor_small_2);
 			}
 		}
 

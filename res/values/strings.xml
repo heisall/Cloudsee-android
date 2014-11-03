@@ -473,10 +473,10 @@
     <string name="start_now">Enjoy it now</string>
 
     <!-- 2.3系统视频播放提示 -->
-    <string name="system_lower">Your mobile phone O/S is Android$,The video maybe dazzling during playing, please download V2.8.5,安装前请先卸载当前版本 do you want to download now?</string>
+    <string name="system_lower">Your mobile phone O/S is Android$,The video maybe dazzling during playing, please download V2.8.5,安装前请先卸载当前版本， do you want to download now?</string>
     <string name="no_more_tips">No reminding</string>
     <string name="download">Download now</string>
-    <string name="not_support_old">This version does not support 04 version decoding,if you want to view, please download version2.8.5, do you want to download now?</string>
+    <string name="not_support_old">This version does not support 04 version decoding,if you want to view, please download version2.8.5,安装前请先卸载当前版本，system_lower do you want to download now?</string>
 
     <!-- JVOffline -->
     <string name="offline_other_login">Account login elsewhere or account exception.</string>
@@ -514,7 +514,7 @@
     <string name="add_broad_dev">Broadcasting to ! devices,do you want to add?</string>
     <string name="broad_zero">Unable to broadcast device.</string>
     <string name="get_device_failed">Device loaded failed</string>
-    <string name="press_screen_refresh">Click the screen refresh</string>
+    <string name="press_screen_refresh">点屏幕刷新</string>
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">Total</string>
     <string name="str_aft">devices.</string>
@@ -582,7 +582,7 @@
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">Manual recording</string>
     <string name="video_alarm">Alarm recording</string>
-    <string name="recoding">Generating a video file, please later view.</string>
+    <string name="recoding">录像文件正在生成，请稍后查看。</string>
 
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>
@@ -640,7 +640,7 @@
     <!-- 广播Action名 -->
     <string name="str_action_flag">CLOUDSEEOFFLINE</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.42(Beta) - DJ</string>
+    <string name="str_current_version">BetaV4.1.43(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 
@@ -692,6 +692,7 @@
     <string name="str_alarm_download_alarmimg_timeout">get alarm images timeout</string>
     <string name="str_alarm_download_alarmimg_failed">get alarm images failed</string>
     <string name="str_alarm_download_alarmimg_stopped">download alarm images has been stopped</string>
-	<string name="str_alarm_no_alarm_info">no alarm message</string>
-	<string name="str_alarm_clear_ainfo_sure">sure to clear the alarm message?</string>
+    <string name="str_alarm_no_alarm_info">no alarm message</string>
+    <string name="str_alarm_clear_ainfo_sure">sure to clear the alarm message?</string>
+
 </resources>

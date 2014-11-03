@@ -157,7 +157,6 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 
 		}
-		MyLog.v(TAG, "TAB_onResume" + currentIndex);
 	}
 
 	@Override
@@ -218,7 +217,6 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 			break;
 		}
-		MyLog.v(TAG, "onNotify");
 	}
 
 	@Override

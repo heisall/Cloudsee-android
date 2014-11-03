@@ -336,12 +336,6 @@ public class AlarmUtil {
 										// String timeS = obj
 										// .optString(JVAlarmConst.JK_ALARM_NEW_ALARM_ATS);
 
-										MyLog.e("报警ID---strGUID---", pi.strGUID
-												+ "");
-										MyLog.e("报警时间---alarmTime---",
-												pi.alarmTime
-
-												+ "");
 										pi.deviceName = obj
 												.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 										pi.pic = obj
@@ -456,7 +450,7 @@ public class AlarmUtil {
 			e1.printStackTrace();
 		}
 
-		MyLog.d("Alarm", "clearAlarmInfo:" + jObj.toString());
+		MyLog.v("Alarm", "clearAlarmInfo:" + jObj.toString());
 		// 接收返回数据
 		byte[] resultStr = new byte[1024 * 2];
 
@@ -488,7 +482,7 @@ public class AlarmUtil {
 		boolean bfind = false;
 		for (int j = 0; j < CacheUtil.getDevList().size(); j++) {
 			device = CacheUtil.getDevList().get(j);
-			MyLog.e("AlarmConnect", "dst:" + strYstNum + "---yst-num = "
+			MyLog.v("AlarmConnect", "dst:" + strYstNum + "---yst-num = "
 					+ device.getFullNo());
 			if (strYstNum.equalsIgnoreCase(device.getFullNo())) {
 				bfind = true;

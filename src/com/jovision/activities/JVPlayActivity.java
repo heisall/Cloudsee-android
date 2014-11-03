@@ -123,9 +123,13 @@ public class JVPlayActivity extends PlayActivity implements
 
 		switch (what) {
 		case Consts.CALL_CONNECT_CHANGE: {
-			MyLog.i("onNotify", "what=" + what + ",arg1=" + arg1 + ",arg2="
-					+ arg2 + ",obj=" + obj);
-			Channel channel = channelList.get(arg1);
+			MyLog.i(TAG, "CALL_CONNECT_CHANGE:what=" + what + ",arg1=" + arg1
+					+ ",arg2=" + arg2 + ",obj=" + obj);
+			Channel channel = null;
+			if (arg1 < channelList.size()) {
+				channel = channelList.get(arg1);
+			}
+
 			if (null == channel) {
 				return;
 			}
@@ -216,8 +220,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		MyLog.i("onHandler", "what=" + what + ",arg1=" + arg1 + ",arg2=" + arg2
-				+ ",obj=" + obj);
 		switch (what) {
 		case DISMISS_DIALOG: {
 			dismissDialog();
@@ -230,12 +232,14 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_CONNECT_CHANGE: {
-			Channel channel = channelList.get(arg1);
+			Channel channel = null;
+			if (arg1 < channelList.size()) {
+				channel = channelList.get(arg1);
+			}
+
 			if (null == channel) {
 				return;
 			}
-
-			MyLog.v("CALL_CONNECT_CHANGE", "index=" + arg1 + "--res=" + arg2);
 			switch (arg2) {
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
@@ -261,7 +265,7 @@ public class JVPlayActivity extends PlayActivity implements
 						loadingState(arg1, R.string.connfailed_auth,
 								JVConst.PLAY_DIS_CONNECTTED);
 						if (ONE_SCREEN == currentScreen) {
-							passErrorDialog();
+							passErrorDialog(arg1);
 						}
 
 					} else if ("channel is not open!"
@@ -320,20 +324,22 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_NORMAL_DATA: {
-			Channel channel = channelList.get(arg1);
+			Channel channel = null;
+			if (arg1 < channelList.size()) {
+				channel = channelList.get(arg1);
+			}
+
 			if (null == channel) {
 				return;
 			}
 
 			if (null != channel.getSurfaceView()) {
-				resumeChannel(channel);
+				resumeChannel(channel, true);
 			}
 			loadingState(arg1, R.string.connecting_buffer2,
 					JVConst.PLAY_CONNECTING_BUFFER);
 
-			MyLog.v("NORMALDATA", obj.toString());
-			// {"autdio_bit":16,"autdio_channel":1,"autdio_sample_rate":8000,"autdio_type":2,"auto_stop_recorder":false,"device_type":4,"fps":15.0,"height":288,"is05":true,"reserved":0,"start_code":290674250,"width":352}
-
+			MyLog.i("NORMALDATA", obj.toString());
 			int newWidth = 0;
 			int newHeight = 0;
 
@@ -363,7 +369,8 @@ public class JVPlayActivity extends PlayActivity implements
 							loadingState(arg1, R.string.closed,
 									JVConst.PLAY_DIS_CONNECTTED);
 						}
-						if (ONE_SCREEN == currentScreen) {
+						if (ONE_SCREEN == currentScreen
+								&& arg1 == lastClickIndex) {
 							// TODO
 							if (!MySharedPreference
 									.getBoolean(Consts.DIALOG_NOT_SUPPORT04)) {
@@ -379,9 +386,6 @@ public class JVPlayActivity extends PlayActivity implements
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			MyLog.v("ChannelTag--2", "HomeProduct="
-					+ channel.getParent().isHomeProduct());
-			MyLog.v("ChannelTag--3", "SingleVoice=" + channel.isSingleVoice());
 
 			// if (arg1 == lastClickIndex) {//当前屏幕
 			// TODO 不应该只对比宽高
@@ -414,8 +418,8 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_GOT_SCREENSHOT: {
-			MyLog.v(TAG, "capture--what=" + what + ";arg1=" + arg1 + ";arg2="
-					+ arg2);
+			MyLog.i(TAG, "CALL_GOT_SCREENSHOT:what=" + what + ";arg1=" + arg1
+					+ ";arg2=" + arg2);
 			switch (arg2) {
 			case Consts.BAD_SCREENSHOT_NOOP:
 				PlayUtil.prepareAndPlay();
@@ -464,8 +468,16 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_TEXT_DATA: {
-			MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
+			MyLog.i(TAG, "CALL_TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
+			Channel channel = null;
+			if (arg1 < channelList.size()) {
+				channel = channelList.get(arg1);
+			}
+
+			if (null == channel) {
+				return;
+			}
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTACCEPT:// 同意文本聊天
 				try {
@@ -478,20 +490,12 @@ public class JVPlayActivity extends PlayActivity implements
 				// JVNetConst.JVN_RSP_TEXTDATA, 8,
 				// JVNetConst.JVN_REMOTE_SETTING);
 				// 获取主控码流信息请求
-				MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
-						+ ", " + obj);
 				Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
-				channelList.get(arg1).setAgreeTextData(true);
-				MyLog.v("ChannelTag--4",
-						"AgreeTextData="
-								+ channelList.get(arg1).isSingleVoice());
+				channel.setAgreeTextData(true);
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
-				MyLog.v("ChannelTag--4",
-						"AgreeTextData="
-								+ channelList.get(arg1).isSingleVoice());
-				channelList.get(arg1).setAgreeTextData(false);
+				channel.setAgreeTextData(false);
 				break;
 
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
@@ -509,8 +513,8 @@ public class JVPlayActivity extends PlayActivity implements
 					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
 						break;
 					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
-						MyLog.e(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", "
-								+ arg2 + ", " + obj);
+						MyLog.i(TAG, "JVN_STREAM_INFO:TEXT_DATA: " + what
+								+ ", " + arg1 + ", " + arg2 + ", " + obj);
 						String streamJSON = dataObj.getString("msg");
 						// HashMap<String, String> streamCH1 =
 						// ConfigUtil.getCH1("CH1",streamJSON);
@@ -522,20 +526,16 @@ public class JVPlayActivity extends PlayActivity implements
 									&& !"".equalsIgnoreCase(streamMap
 											.get("effect_flag"))) {
 
-								MyLog.v("effect_flag",
-										streamMap.get("effect_flag"));
 								int effect_flag = Integer.parseInt(streamMap
 										.get("effect_flag"));
-								channelList.get(arg1).setEffect_flag(
-										Integer.parseInt(streamMap
-												.get("effect_flag")));
+								MyLog.v(TAG, "effect_flag=" + effect_flag);
+								channel.setEffect_flag(Integer
+										.parseInt(streamMap.get("effect_flag")));
 
 								if (0 == (0x04 & effect_flag)) {
-									channelList.get(arg1).setScreenTag(
-											Consts.SCREEN_NORMAL);
+									channel.setScreenTag(Consts.SCREEN_NORMAL);
 								} else {
-									channelList.get(arg1).setScreenTag(
-											Consts.SCREEN_OVERTURN);
+									channel.setScreenTag(Consts.SCREEN_OVERTURN);
 								}
 
 							}
@@ -543,63 +543,34 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("MainStreamQos")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("MainStreamQos"))) {
-								channelList.get(arg1).setStreamTag(
-										Integer.parseInt(streamMap
-												.get("MainStreamQos")));
-
-								// // String width = streamCH1.get("width");
-								// // String height = streamCH1.get("height");
-								// // int framerate =
-								// //
-								// Integer.parseInt(streamCH1.get("framerate"));
-								// // int nMBPH =
-								// // Integer.parseInt(streamCH1.get("nMBPH"));
-								// //
-								// if (1 ==
-								// channelList.get(arg1).getStreamTag()) {
-								// // Jni.setBpsAndFps(lastClickIndex,
-								// // JVNetConst.JVN_RSP_TEXTDATA, 1,
-								// // 1280, 720, 1024, 15);
-								// Jni.sendString(
-								// lastClickIndex,
-								// JVNetConst.JVN_RSP_TEXTDATA,
-								// false,
-								// 0,
-								// Consts.TYPE_SET_PARAM,
-								// String.format(
-								// Consts.FORMATTER_SET_BPS_FPS,
-								// 1, 1280, 720, 1024, 15, 1));
-								// MyLog.v("JVSUDT-切到高清码流--0-", arg1
-								// + "---改为--1, 1280, 720, 1024, 15");
-								//
-								// }
-
+								MyLog.v(TAG,
+										"MainStreamQos="
+												+ streamMap
+														.get("MainStreamQos"));
+								channel.setStreamTag(Integer.parseInt(streamMap
+										.get("MainStreamQos")));
 							}
 
 							if (null != streamMap.get("storageMode")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("storageMode"))) {
-								channelList.get(arg1).setStorageMode(
-										Integer.parseInt(streamMap
-												.get("storageMode")));
+								MyLog.v(TAG,
+										"storageMode="
+												+ streamMap.get("storageMode"));
+								channel.setStorageMode(Integer
+										.parseInt(streamMap.get("storageMode")));
 							}
 
 							if (null != streamMap.get("MobileCH")
 									&& "2".equalsIgnoreCase(streamMap
 											.get("MobileCH"))) {
-								channelList.get(arg1).setSingleVoice(true);
+								MyLog.v(TAG,
+										"MobileCH=" + streamMap.get("MobileCH"));
+								channel.setSingleVoice(true);
 							}
-
-							MyLog.v("ChannelTag--5", "ScreenTag="
-									+ channelList.get(arg1).getScreenTag());
-							MyLog.v("ChannelTag--6", "StreamTag="
-									+ channelList.get(arg1).getStreamTag());
-							MyLog.v("ChannelTag--7", "StorageMode="
-									+ channelList.get(arg1).getStorageMode());
 						}
 
-						MyLog.v("refreshIPCFun--Stream=", arg1 + "");
-						showFunc(channelList.get(arg1), currentScreen);
+						showFunc(channel, currentScreen);
 
 						break;
 					case JVNetConst.EX_WIFI_AP_CONFIG:// 11 ---新wifi配置流程
@@ -614,17 +585,14 @@ public class JVPlayActivity extends PlayActivity implements
 					case JVNetConst.JVN_RECORD_RESULT:// -- 100 录像模式切换回调
 						dismissDialog();
 						// 录像模式
-						if (Consts.STORAGEMODE_NORMAL == channelList.get(arg1)
+						if (Consts.STORAGEMODE_NORMAL == channel
 								.getStorageMode()) {
-							channelList.get(arg1).setStorageMode(
-									Consts.STORAGEMODE_ALARM);
+							channel.setStorageMode(Consts.STORAGEMODE_ALARM);
 						} else if (Consts.STORAGEMODE_ALARM == channelList.get(
 								arg1).getStorageMode()) {
-							channelList.get(arg1).setStorageMode(
-									Consts.STORAGEMODE_NORMAL);
+							channel.setStorageMode(Consts.STORAGEMODE_NORMAL);
 						}
-						MyLog.v("refreshIPCFun--record=", arg1 + "");
-						showFunc(channelList.get(arg1), currentScreen);
+						showFunc(channel, currentScreen);
 						break;
 					default:
 						break;
@@ -640,12 +608,11 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_CHAT_DATA: {
-			MyLog.v(TAG + "Chat", "CALL_CHAT_DATA:arg1=" + arg1 + ",arg2="
-					+ arg2);
+			MyLog.i(TAG, "CALL_CHAT_DATA:arg1=" + arg1 + ",arg2=" + arg2);
 			switch (arg2) {
 			// 语音数据
 			case JVNetConst.JVN_RSP_CHATDATA: {
-				MyLog.v(TAG, "chatdata");
+				MyLog.i(TAG, "JVN_RSP_CHATDATA");
 				break;
 			}
 
@@ -678,7 +645,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_QUERY_DEVICE: {
-			MyLog.d(Consts.TAG_PLAY, "query-" + obj);
+			MyLog.i(Consts.TAG_PLAY, "query-" + obj);
 			break;
 		}
 
@@ -689,22 +656,25 @@ public class JVPlayActivity extends PlayActivity implements
 
 		case Consts.CALL_NEW_PICTURE: {
 
-			Channel channel = channelList.get(arg1);
+			Channel channel = null;
+			if (arg1 < channelList.size()) {
+				channel = channelList.get(arg1);
+			}
+
+			if (null == channel) {
+				return;
+			}
 			channel.setConnected(true);
 			channel.setPaused(false);
 			channel.setConnected(true);
 
 			loadingState(arg1, 0, JVConst.PLAY_CONNECTTED);
-			MyLog.e(TAG + "-IFrame", "new Frame I: index = " + arg1
-					+ ", arg2 = " + arg2);// arg2 --- 0软 1硬
 			// 多于四屏只发关键帧
-			if (currentScreen > FOUR_SCREEN
-					&& !channelList.get(arg1).isSendCMD()) {
+			if (currentScreen > FOUR_SCREEN && !channel.isSendCMD()) {
 				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_ONLYI, new byte[0],
 						0);
 				channel.setSendCMD(true);
-			} else if (currentScreen <= FOUR_SCREEN
-					&& channelList.get(arg1).isSendCMD()) {
+			} else if (currentScreen <= FOUR_SCREEN && channel.isSendCMD()) {
 				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_FULL, new byte[0],
 						0);
 				channel.setSendCMD(true);
@@ -712,9 +682,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 			channel.setConnecting(false);
 			channel.setConnected(true);
-
-			MyLog.v("ChannelTag--IFrame=arg2", "arg2=" + arg2 + ",isomx="
-					+ channelList.get(arg1).isOMX());
 
 			if (!channel.isOMX() && arg2 == Consts.DECODE_SOFT) {
 				// TODO
@@ -732,9 +699,7 @@ public class JVPlayActivity extends PlayActivity implements
 				channel.setOMX(false);
 			}
 
-			MyLog.v("refreshIPCFun--IFrame=", arg1 + "");
-
-			showFunc(channelList.get(arg1), currentScreen);
+			showFunc(channel, currentScreen);
 			MyLog.i(Consts.TAG_PLAY, "new Frame I: window = " + arg1
 					+ ", omx = " + arg2);
 			break;
@@ -756,10 +721,10 @@ public class JVPlayActivity extends PlayActivity implements
 			if (hasChannel && false == hasNull) {
 				if (1 != currentScreen) {
 					for (int i = 0; i < size; i++) {
-						resumeChannel(currentPageChannelList.get(i));
+						resumeChannel(currentPageChannelList.get(i), true);
 					}
 				} else {
-					resumeChannel(channelList.get(arg2));
+					resumeChannel(channelList.get(arg2), true);
 				}
 			} else {
 				handler.sendMessageDelayed(
@@ -815,7 +780,6 @@ public class JVPlayActivity extends PlayActivity implements
 							object.getDouble("kbps"))
 							+ "kBps";
 					currentKbps.setText(kbps);
-					MyLog.v(TAG, sBuilder.toString());
 					//
 					// if (isOmx) {
 					// decodeBtn.setText(R.string.is_omx);
@@ -846,36 +810,21 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换
-			// String streamParam = "MainStreamQos=" + (arg1 + 1);
-			// Jni.changeStream(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-			// streamParam);
 			if (0 == arg1) {
 				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
 						false, 0, Consts.TYPE_SET_PARAM, String.format(
 								Consts.FORMATTER_SET_BPS_FPS, 1, 1280, 720,
 								1024, 15, 1));
-				// Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-				// 1, 1280, 720, 1024, 15);
-				MyLog.v("JVSUDT-切到高清码流--0-", arg1
-						+ "---改为--1, 1280, 720, 1024, 15");
 			} else if (1 == arg1) {
 				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
 						false, 0, Consts.TYPE_SET_PARAM, String.format(
 								Consts.FORMATTER_SET_BPS_FPS, 1, 720, 480, 768,
 								25, 1));
-				// Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-				// 1, 720, 480, 768, 25);
-				MyLog.v("JVSUDT-切到标清码流--1-", arg1
-						+ "---改为--1, 720, 480, 768, 25");
 			} else if (2 == arg1) {
 				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
 						false, 0, Consts.TYPE_SET_PARAM, String.format(
 								Consts.FORMATTER_SET_BPS_FPS, 1, 352, 288, 512,
 								25, 1));
-				// Jni.setBpsAndFps(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-				// 1, 352, 288, 512, 25);
-				MyLog.v("JVSUDT-切到流畅码流--2-", arg1
-						+ "---改为--1, 352, 288, 512, 25");
 			}
 			streamListView.setVisibility(View.GONE);
 			break;
@@ -887,8 +836,8 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
-	private void passErrorDialog() {
-		if (!showingDialog) {
+	private void passErrorDialog(int index) {
+		if (!showingDialog && index == lastClickIndex) {
 			showingDialog = true;
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage(
@@ -1082,7 +1031,6 @@ public class JVPlayActivity extends PlayActivity implements
 				// MySharedPreference
 				// .getString(Consts.KEY_PLAY_NORMAL);
 				deviceList = Device.fromJsonArray(devJsonString);
-				MyLog.v("播放-E", deviceList.toString());
 			} else if (Consts.PLAY_DEMO == playFlag) {
 				String devJsonString = intent
 						.getStringExtra(Consts.KEY_PLAY_DEMO);
@@ -1097,7 +1045,6 @@ public class JVPlayActivity extends PlayActivity implements
 				deviceList = Device.fromJsonArray(devJsonString);
 			}
 
-			MyLog.v(TAG, "Connect--" + deviceList.toString());
 			startWindowIndex = 0;
 			channelList = new ArrayList<Channel>();
 
@@ -1427,7 +1374,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 	}
 
-	public boolean resumeChannel(final Channel channel) {
+	public boolean resumeChannel(final Channel channel,
+			final boolean isPlayDirectly) {
 		boolean result = false;
 
 		if (null != channel) {
@@ -1436,10 +1384,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 					@Override
 					public void run() {
-						if (connect(channel.getParent(), channel, true, false,
-								false) >= 0) {
-							channel.setPaused(null == channel.getSurface());
-						}
+						connect(channel.getParent(), channel, isPlayDirectly,
+								false, false);
 					}
 
 				}.start();
@@ -1447,11 +1393,13 @@ public class JVPlayActivity extends PlayActivity implements
 			} else if (channel.isPaused() && null != channel.getSurface()) {
 				// loadingState(channel.getIndex(), R.string.connecting_buffer,
 				// JVConst.PLAY_CONNECTING_BUFFER);
-				result = Jni.resume(channel.getIndex(), channel.getSurface());
+				result = Jni.sendBytes(channel.getIndex(),
+						JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
+
 				if (result) {
-					Jni.sendBytes(channel.getIndex(), JVNetConst.JVN_CMD_VIDEO,
-							new byte[0], 8);
+					Jni.resume(channel.getIndex(), channel.getSurface());
 					channel.setPaused(false);
+
 					handler.sendMessage(handler.obtainMessage(
 							Consts.CALL_CONNECT_CHANGE, channel.getIndex(),
 							JVNetConst.CONNECT_OK));
@@ -1477,12 +1425,12 @@ public class JVPlayActivity extends PlayActivity implements
 		if (null != channel) {
 			if (channel.isConnected()) {
 				if (false == channel.isPaused()) {
-					channel.setPaused(true);
-					result = Jni.pause(channel.getIndex());
+					result = Jni.sendBytes(channel.getIndex(),
+							JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
 
 					if (result) {
-						Jni.sendBytes(channel.getIndex(),
-								JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
+						Jni.pause(channel.getIndex());
+						channel.setPaused(true);
 					}
 				}
 			}
@@ -1563,6 +1511,7 @@ public class JVPlayActivity extends PlayActivity implements
 							device.getPwd(), number, device.getGid(), true, 1,
 							true, 6,// (device.isHomeProduct() ? 6 : 5),
 							channel.getSurface(), isTryOmx);
+					channel.setPaused(null == channel.getSurface());
 				} else {
 					result = Jni.connect(channel.getIndex(),
 							channel.getChannel(), device.getIp(),
@@ -1581,9 +1530,11 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		if (result >= 0) {
-			MyLog.v("调用连接成功", channel.getIndex() + "----" + result);
+			MyLog.v(TAG, "connect_success" + channel.getIndex() + "----"
+					+ result);
 		} else {
-			MyLog.e("调用连接失败", channel.getIndex() + "----" + result);
+			MyLog.e(TAG, "connect_failed" + channel.getIndex() + "----"
+					+ result);
 		}
 		return result;
 	}
@@ -1620,15 +1571,22 @@ public class JVPlayActivity extends PlayActivity implements
 							Channel channel = null;
 							for (int i = 0; i < size; i++) {
 								channel = channelList.get(i);
-								if (channel.isConnected()
-										&& lastClickIndex != channel.getIndex()) {
-									if (!Jni.disconnect(channel.getIndex())) {
-										channel.setConnected(false);
-										channel.setConnecting(false);
-										channel.setPaused(true);
-										loadingState(channel.getIndex(),
-												R.string.closed,
-												JVConst.PLAY_DIS_CONNECTTED);
+								if (channel.isConnected()) {
+									int index = channel.getIndex();
+									if (lastClickIndex - 1 > index
+											&& lastClickIndex + 1 < index) {
+										if (!Jni.disconnect(channel.getIndex())) {
+											channel.setConnected(false);
+											channel.setConnecting(false);
+											channel.setPaused(true);
+											loadingState(channel.getIndex(),
+													R.string.closed,
+													JVConst.PLAY_DIS_CONNECTTED);
+										}
+									} else if (lastClickIndex == index) {
+										// [Neo] Empty
+									} else {
+										pauseChannel(channel);
 									}
 								}
 							}
@@ -1696,13 +1654,13 @@ public class JVPlayActivity extends PlayActivity implements
 					+ isFromCurrent);
 			channel.setSurface(surface);
 
-			if (1 == currentScreen && false == isFromCurrent) {
+			if (1 == currentScreen && false == isFromCurrent
+					&& false == channel.isConnected()) {
 				new Thread() {
 
 					@Override
 					public void run() {
-						connect(channel.getParent(), channel, false, false,
-								false);
+						resumeChannel(channel, false);
 					}
 
 				}.start();
@@ -1830,7 +1788,7 @@ public class JVPlayActivity extends PlayActivity implements
 						send = (~0x04) & effect;// + Consts.SCREEN_NORMAL;
 					}
 					turnParam = "effect_flag=" + send;
-					MyLog.v(TAG, turnParam);
+					MyLog.i(TAG, "turnParam=" + turnParam);
 					Jni.rotateVideo(lastClickIndex,
 							JVNetConst.JVN_RSP_TEXTDATA, turnParam);
 
@@ -1976,7 +1934,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.capture:// 抓拍
 				if (hasSDCard() && allowThisFuc(false)) {
 					boolean capture = PlayUtil.capture(lastClickIndex);
-					MyLog.v(TAG, "capture=" + capture);
+					MyLog.i(TAG, "capture=" + capture);
 				}
 				break;
 			case R.id.bottom_but5:
@@ -2156,9 +2114,7 @@ public class JVPlayActivity extends PlayActivity implements
 					e.printStackTrace();
 				}
 
-				MyLog.v("disconnect-ALL-E", "E");
 				PlayUtil.disConnectAll(channelList);
-				MyLog.v("disconnect-ALL-X", "X");
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
@@ -2313,7 +2269,6 @@ public class JVPlayActivity extends PlayActivity implements
 	 */
 	public boolean allowThisFuc(boolean changToOneScreen) {
 		boolean allow = false;
-		MyLog.v(TAG, "lastClickIndex = " + lastClickIndex);
 		if (currentScreen != ONE_SCREEN && changToOneScreen) {
 			changeWindow(ONE_SCREEN);
 		}

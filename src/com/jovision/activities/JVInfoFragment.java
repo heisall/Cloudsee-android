@@ -373,7 +373,6 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		String arrayStr = mActivity.statusHashMap.get(Consts.PUSH_JSONARRAY);
 		mActivity.statusHashMap.put(Consts.PUSH_JSONARRAY, "");
 		JSONArray pushArray = null;
-		MyLog.e("JVInfoFragment", "arrayStr = " + arrayStr);
 		try {
 			if (null == arrayStr || "".equalsIgnoreCase(arrayStr)) {
 				pushArray = new JSONArray();
@@ -449,8 +448,6 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		MyLog.v("JVInfoFragment", "onTabAction:what=" + what + ";arg1=" + arg1
-				+ ";arg2=" + arg1);
 		switch (what) {
 		case PushAdapter.DELETE_ALARM_MESS: {// 删除报警
 			pushIndex = arg1;

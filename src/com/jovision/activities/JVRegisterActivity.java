@@ -398,6 +398,7 @@ public class JVRegisterActivity extends BaseActivity {
 			switch (result) {
 			case JVAccountConst.SUCCESS:// 注册成功
 				if (verifyCode > 0 && 0 == loginRes) {
+					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 					Intent emailIntent = new Intent(JVRegisterActivity.this,
 							JVBoundEmailActivity.class);
 					String userName = userNameEditText.getText().toString();

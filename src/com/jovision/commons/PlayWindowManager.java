@@ -314,10 +314,6 @@ public class PlayWindowManager implements View.OnClickListener,
 	 */
 	public void addChannel(Channel channel) {
 		if (null != channel && false == channel.isConfigChannel()) {
-			// [Neo] TODO 在这里是否合适
-			// channel.setIndex(mWindowList.size() %
-			// Consts.MAX_CHANNEL_CONNECTION);
-			MyLog.v(TAG, channel.toString());
 			PlayWindow window = new PlayWindow(channel);
 			mWindowList.add(window);
 		}

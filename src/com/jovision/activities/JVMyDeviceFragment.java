@@ -745,6 +745,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public boolean hasDev(ArrayList<Device> devList, String devNum, String ip,
 			int port) {
 		boolean has = false;
+		if (null == devList) {
+			return has;
+		}
 		// for (int i = 0; i < size; i++) {
 		// Device device = myDeviceList.get(i);
 		for (Device dev : devList) {

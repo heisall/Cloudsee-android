@@ -138,8 +138,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		});
 
 		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
-		// Consts.pushHisCount = 0;
-		// pushList.clear();
+			// Consts.pushHisCount = 0;
+			// pushList.clear();
 			((BaseActivity) mActivity).createDialog("");
 			PullRefreshAlarmTask task = new PullRefreshAlarmTask();
 			String[] params = new String[3];

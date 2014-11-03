@@ -59,21 +59,21 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
-import com.jovision.views.MyViewPager;
 
 public class JVPlayActivity extends PlayActivity implements
 		PlayWindowManager.OnUiListener {
 
 	private static final int WHAT_CHECK_SURFACE = 0x20;
 	private static final int WHAT_RESTORE_UI = 0x21;
+	private static final int WHAT_PLAY_STATUS = 0x22;
+	private static final int WHAT_SHOW_PROGRESS = 0x23;
+	private static final int WHAT_DISMISS_PROGRESS = 0x24;
 
 	private static final int DELAY_CHECK_SURFACE = 500;
 	private static final int DELAY_DOUBLE_CHECKER = 500;
 	private static final int CONNECTION_MIN_PEROID = 200;
 	private static final int DISCONNECTION_MIN_PEROID = 50;
 	private static final int RESUME_VIDEO_MIN_PEROID = 50;
-
-	private static final int DISMISS_DIALOG = 0x70;
 
 	private boolean isQuit;
 	private boolean isBlockUi;
@@ -93,7 +93,7 @@ public class JVPlayActivity extends PlayActivity implements
 	private ArrayList<Channel> connectChannelList;
 	private ArrayList<Channel> disconnectChannelList;
 
-	private MyViewPager viewPager;
+	// private MyViewPager viewPager;
 	private MyPagerAdapter adapter;
 
 	private boolean showingDialog = false;
@@ -134,6 +134,9 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		switch (what) {
+		case Consts.CALL_LAN_SEARCH: {
+			break;
+		}
 		case Consts.CALL_CONNECT_CHANGE: {
 			MyLog.i(TAG, "CALL_CONNECT_CHANGE:what=" + what + ",arg1=" + arg1
 					+ ",arg2=" + arg2 + ",obj=" + obj);
@@ -249,7 +252,12 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 
-		case DISMISS_DIALOG: {
+		case WHAT_SHOW_PROGRESS: {
+			createDialog("");
+			break;
+		}
+
+		case WHAT_DISMISS_PROGRESS: {
 			dismissDialog();
 			break;
 		}
@@ -375,6 +383,17 @@ public class JVPlayActivity extends PlayActivity implements
 			loadingState(arg1, R.string.connecting_buffer2,
 					JVConst.PLAY_CONNECTING_BUFFER);
 
+			// 多于四屏只发关键帧 TODO move to Connecter
+			if (currentScreen > FOUR_SCREEN && !channel.isSendCMD()) {
+				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_ONLYI, new byte[0],
+						0);
+				channel.setSendCMD(true);
+			} else if (currentScreen <= FOUR_SCREEN && channel.isSendCMD()) {
+				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_FULL, new byte[0],
+						0);
+				channel.setSendCMD(true);
+			}
+
 			MyLog.i("NORMALDATA", obj.toString());
 			int newWidth = 0;
 			int newHeight = 0;
@@ -404,7 +423,6 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 						if (ONE_SCREEN == currentScreen
 								&& arg1 == lastClickIndex) {
-							// TODO
 							if (!MySharedPreference
 									.getBoolean(Consts.DIALOG_NOT_SUPPORT04)) {
 								errorDialog(
@@ -420,7 +438,6 @@ public class JVPlayActivity extends PlayActivity implements
 				e.printStackTrace();
 			}
 
-			// if (arg1 == lastClickIndex) {//当前屏幕
 			// TODO 不应该只对比宽高
 			if (newWidth != channel.getWidth()
 					|| newHeight != channel.getHeight()) {// 宽高变了才发文本聊天
@@ -497,6 +514,23 @@ public class JVPlayActivity extends PlayActivity implements
 						JVConst.PLAY_CONNECTING_BUFFER);
 			}
 
+			break;
+		}
+
+		case WHAT_PLAY_STATUS: {
+			switch (arg1) {
+			case 0:// connecting
+				loadingState(arg2, R.string.connecting, JVConst.PLAY_CONNECTTED);
+				break;
+			case 1:// buffer1
+				loadingState(arg2, R.string.connecting_buffer1,
+						JVConst.PLAY_CONNECTING_BUFFER);
+				break;
+			case 2:// buffering2
+				loadingState(arg2, R.string.connecting_buffer2,
+						JVConst.PLAY_CONNECTING_BUFFER);
+				break;
+			}
 			break;
 		}
 
@@ -657,7 +691,6 @@ public class JVPlayActivity extends PlayActivity implements
 				channelList.get(lastClickIndex).setVoiceCall(true);
 				VOICECALLING = true;
 				voiceCallSelected(true);
-				// [Neo] TODO 根据连接的设备 NORMAL_DATA 取出 audio_type，填进来
 				recorder.start(channelList.get(lastClickIndex).getAudioType(),
 						channelList.get(lastClickIndex).getAudioByte());
 				break;
@@ -698,19 +731,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			loadingState(arg1, 0, JVConst.PLAY_CONNECTTED);
-			// 多于四屏只发关键帧 TODO move to Connecter
-			if (currentScreen > FOUR_SCREEN && !channel.isSendCMD()) {
-				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_ONLYI, new byte[0],
-						0);
-				channel.setSendCMD(true);
-			} else if (currentScreen <= FOUR_SCREEN && channel.isSendCMD()) {
-				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_FULL, new byte[0],
-						0);
-				channel.setSendCMD(true);
-			}
-
 			if (!channel.isOMX() && arg2 == Consts.DECODE_SOFT) {
-				// TODO
 				if (needToast) {
 					showTextToast(R.string.not_support_oxm);
 					needToast = false;
@@ -776,16 +797,7 @@ public class JVPlayActivity extends PlayActivity implements
 							object.getDouble("kbps"))
 							+ "kBps";
 					currentKbps.setText(kbps);
-					//
-					// if (isOmx) {
-					// decodeBtn.setText(R.string.is_omx);
-					// } else {
-					// decodeBtn.setText(R.string.not_omx);
-					// }
 
-					// [Neo] TODO
-					// int index = object.getInt("window");
-					// loadingState(index, 0, JVConst.PLAY_CONNECTTED);
 				}
 				linkMode.setText(sBuilder.toString());
 
@@ -1169,6 +1181,7 @@ public class JVPlayActivity extends PlayActivity implements
 		playSurface.setVisibility(View.GONE);
 
 		adapter = new MyPagerAdapter();
+		MyLog.v(TAG, "PLAY_NORMAL=" + deviceList.toString());
 		changeWindow(currentScreen);
 
 		viewPager.setLongClickable(true);
@@ -1362,10 +1375,8 @@ public class JVPlayActivity extends PlayActivity implements
 			if (result) {
 				Jni.resume(channel.getIndex(), channel.getSurface());
 				channel.setPaused(false);
-
-				// [Neo] TODO show resume
-				// handler.sendMessage(handler.obtainMessage(WHAT_CHANGE_INFO,
-				// channel.getIndex(), ARG2_INFO_RESUMING));
+				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS, 2,
+						channel.getIndex()));
 			}
 		}
 
@@ -1507,6 +1518,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		if (isBlockUi) {
 			// [Neo] TODO toast: donnot touch
+			showTextToast(R.string.waiting);
 		}
 
 		if (false == isBlockUi && isFromImageView) {// 播放按钮事件
@@ -1540,9 +1552,9 @@ public class JVPlayActivity extends PlayActivity implements
 						pauseChannel(currentPageChannelList.get(i));
 					}
 				}
-				changeWindow(selectedScreen);
-			} else {
 				changeWindow(ONE_SCREEN);
+			} else {
+				changeWindow(selectedScreen);
 			}
 
 		} else {// 单击
@@ -1968,11 +1980,11 @@ public class JVPlayActivity extends PlayActivity implements
 	 * @author Administrator
 	 * 
 	 */
-	class BackTask extends TimerTask {
+	private class BackTask extends TimerTask {
 
 		@Override
 		public void run() {
-			handler.sendMessage(handler.obtainMessage(DISMISS_DIALOG));
+			handler.sendMessage(handler.obtainMessage(WHAT_DISMISS_PROGRESS));
 		}
 
 	}
@@ -2725,6 +2737,7 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		public void run() {
 			try {
+				handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
 				// [Neo] TODO report: start disconnect
 				int size = disconnectChannelList.size();
 				MyLog.w(Consts.TAG_PLAY, "disconnect count: " + size);
@@ -2762,7 +2775,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 				}
 				disconnectChannelList.clear();
-				// [Neo] TODO report: disconnect done
+
+				handler.sendEmptyMessage(WHAT_DISMISS_PROGRESS);
 
 				size = currentPageChannelList.size()
 						+ connectChannelList.size();
@@ -2771,7 +2785,7 @@ public class JVPlayActivity extends PlayActivity implements
 					Channel channel = null;
 					boolean isPlayDirectly = false;
 
-					if (ONE_SCREEN < currentScreen) {
+					if (i < currentScreen) {
 						isPlayDirectly = true;
 						channel = currentPageChannelList.get(i);
 						MyLog.v(Consts.TAG_PLAY, "current: " + channel);
@@ -2807,6 +2821,7 @@ public class JVPlayActivity extends PlayActivity implements
 				connectChannelList.clear();
 
 			} catch (Exception e) {
+				e.printStackTrace();
 				// [Neo] Empty
 				MyLog.e(Consts.TAG_PLAY, e);
 			}

@@ -116,6 +116,7 @@ public class ManageFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		deviceList = CacheUtil.getDevList();
 		mActivity = (BaseActivity) getActivity();
 		isDevice = deviceList.get(deviceIndex).getIsDevice();
 	}

@@ -25,7 +25,7 @@
                 android:layout_height="200dp" />
 
             <com.jovision.views.MyViewPager
-                android:id="@+id/viewpager"
+                android:id="@+id/play_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_centerHorizontal="true" />
@@ -81,7 +81,7 @@
                 android:id="@+id/play_ver_func"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/viewpager"
+                android:layout_alignBottom="@+id/play_viewpager"
                 android:layout_marginBottom="5dp"
                 android:visibility="gone" >
 

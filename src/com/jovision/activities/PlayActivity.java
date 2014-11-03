@@ -212,7 +212,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 		/** 中 */
 		viewPager = new MyViewPager(PlayActivity.this);
-		viewPager = (MyViewPager) findViewById(R.id.viewpager);
+		viewPager = (MyViewPager) findViewById(R.id.play_viewpager);
 		playSurface = (SurfaceView) findViewById(R.id.remotesurfaceview);
 		linkMode = (TextView) findViewById(R.id.linkstate);
 		progressBar = (SeekBar) findViewById(R.id.playback_seekback);

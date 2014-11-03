@@ -82,9 +82,8 @@ public class FuntionAdapter extends BaseAdapter {
 				funtionImageView.setImageResource(R.drawable.yt_controller);
 				funtionTitle2.setText(R.string.str_yt_operate_tips);
 			} else if (2 == position) {
-
 				if (Consts.PLAY_AP == playFlag) {
-					funtionImageView.setImageResource(R.drawable.apv_call);
+					funtionImageView.setImageResource(R.drawable.apv_call_2);
 					funtionTitle1.setText(R.string.voice_call_ap);
 					funtionTitle2.setText(R.string.voice_call_ap_tips);
 				} else {

@@ -334,7 +334,10 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			if (null != channel.getSurfaceView()) {
-				resumeChannel(channel, true);
+				boolean resumeRes = resumeChannel(channel, true);
+				if (!resumeRes) {
+					MyLog.e(TAG, "resume---index=" + arg1 + "---" + resumeRes);
+				}
 			}
 			loadingState(arg1, R.string.connecting_buffer2,
 					JVConst.PLAY_CONNECTING_BUFFER);
@@ -807,6 +810,17 @@ public class JVPlayActivity extends PlayActivity implements
 			screenAdapter.notifyDataSetChanged();
 			popScreen.dismiss();
 			changeWindow(selectedScreen);
+
+			Channel channel = null;
+			if (arg1 < channelList.size()) {
+				channel = channelList.get(arg1);
+			}
+
+			if (null == channel) {
+				return;
+			}
+
+			showFunc(channel, selectedScreen);
 			break;
 		}
 		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换

@@ -43,16 +43,13 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 			int curVersion = mContext.getPackageManager().getPackageInfo(
 					mContext.getPackageName(), 0).versionCode;
 
-			
-			
-//			String pkName = mContext.getPackageName();
-// 			String versionName = this.getPackageManager().getPackageInfo(
-// 					pkName, 0).versionName;
-// 			int versionCode = this.getPackageManager()
-// 					.getPackageInfo(pkName, 0).versionCode;
-// 			return pkName + "   " + versionName + "  " + versionCode;
+			// String pkName = mContext.getPackageName();
+			// String versionName = this.getPackageManager().getPackageInfo(
+			// pkName, 0).versionName;
+			// int versionCode = this.getPackageManager()
+			// .getPackageInfo(pkName, 0).versionCode;
+			// return pkName + "   " + versionName + "  " + versionCode;
 
-			
 			if (null != array && 0 != array.length()) {
 				for (int i = 0; i < array.length(); i++) {
 					JSONObject temp = (JSONObject) array.get(i);

@@ -546,6 +546,8 @@ public abstract class PlayActivity extends BaseActivity {
 
 	public void showFunc(Channel channel, int screen) {
 		if (screen > 1 || !channel.isConnected()) {
+			rightFuncButton.setVisibility(View.GONE);
+			right_btn_h.setVisibility(View.GONE);
 			verPlayBarLayout.setVisibility(View.GONE);
 			horPlayBarLayout.setVisibility(View.GONE);
 		} else {

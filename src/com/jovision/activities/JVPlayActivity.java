@@ -2705,7 +2705,7 @@ public class JVPlayActivity extends PlayActivity implements
 			popScreen.dismiss();
 		}
 		stopAll(lastClickIndex, channelList.get(lastClickIndex));
-//		manager.pauseAll();
+		// manager.pauseAll();
 		// PlayUtil.pauseAll(manager.getValidChannelList(lastItemIndex));
 	}
 

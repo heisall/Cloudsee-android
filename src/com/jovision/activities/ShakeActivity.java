@@ -31,7 +31,7 @@ import com.jovision.commons.MyActivityManager;
  * 
  */
 public abstract class ShakeActivity extends BaseActivity implements
-SensorEventListener {
+		SensorEventListener {
 	private final String TAG = "ShakeActivity";
 	/** Sensor管理器 */
 	protected SensorManager mSensorManager = null;
@@ -257,36 +257,36 @@ SensorEventListener {
 
 		String str = getResources().getString(
 				R.string.str_quick_setting_alert_wifiinfo).replace("1",
-						scanIpcWifiList.size() + "");
+				scanIpcWifiList.size() + "");
 		builder.setMessage(str);
 
 		builder.setPositiveButton(R.string.sure,
 				new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				threadRunning = false;
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						threadRunning = false;
 
-				Intent intent = new Intent(ShakeActivity.this,
-						JVQuickSettingActivity.class);
-				intent.putExtra("OLD_WIFI", oldWifiSSID);
-				intent.putExtra("IPC_LIST", scanIpcWifiList);
-				intent.putExtra("MOBILE_LIST", scanMobileWifiList);
-				ShakeActivity.this.startActivity(intent);
+						Intent intent = new Intent(ShakeActivity.this,
+								JVQuickSettingActivity.class);
+						intent.putExtra("OLD_WIFI", oldWifiSSID);
+						intent.putExtra("IPC_LIST", scanIpcWifiList);
+						intent.putExtra("MOBILE_LIST", scanMobileWifiList);
+						ShakeActivity.this.startActivity(intent);
 
-			}
-		});
+					}
+				});
 		builder.setNegativeButton(R.string.cancel,
 				new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				if (oldWifiState) {// 原wifi开着的，什么也不做
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (oldWifiState) {// 原wifi开着的，什么也不做
 
-				} else {// 原wifi关闭状态，关闭wifi
-					wifiAdmin.closeWifi();
-				}
-				threadRunning = false;
-			}
-		});
+						} else {// 原wifi关闭状态，关闭wifi
+							wifiAdmin.closeWifi();
+						}
+						threadRunning = false;
+					}
+				});
 
 		Dialog dia = builder.create();
 		dia.setCancelable(false);

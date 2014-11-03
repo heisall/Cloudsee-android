@@ -514,7 +514,7 @@
     <string name="add_broad_dev">Broadcasting to ! devices,do you want to add?</string>
     <string name="broad_zero">Unable to broadcast device.</string>
     <string name="get_device_failed">Device loaded failed</string>
-    <string name="press_screen_refresh">Click the screen refresh</string>
+    <string name="press_screen_refresh">点屏幕刷新</string>
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">Total</string>
     <string name="str_aft">devices.</string>
@@ -582,7 +582,7 @@
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">Manual recording</string>
     <string name="video_alarm">Alarm recording</string>
-    <string name="recoding">Generating a video file, please later view.</string>
+    <string name="recoding">录像文件正在生成，请稍后查看。</string>
 
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>

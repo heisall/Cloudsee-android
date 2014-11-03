@@ -5,6 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <!-- getResources().getString(R.string.login_str_loging) -->
     <!-- LoginUtil -->
+    <string name="remote_filepath">1</string>
     <string name="login_str_loging">Login now…</string>
     <string name="login_str_username_notnull">Please input username.</string>
     <string name="login_str_loginpass1_notnull">Please input password.</string>

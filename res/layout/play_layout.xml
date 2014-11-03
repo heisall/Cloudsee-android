@@ -161,52 +161,6 @@
                     android:background="@color/transparent"
                     android:divider="@null"
                     android:visibility="gone" />
-
-                <LinearLayout
-                    android:id="@+id/play_function_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/transparent"
-                    android:orientation="horizontal"
-                    android:visibility="gone" >
-
-                    <Button
-                        android:id="@+id/audio_monitor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/transparent"
-                        android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/voice_monitor"
-                        android:text="@string/str_audio_monitor"
-                        android:textColor="@color/userinfocolor"
-                        android:textSize="16sp" />
-
-                    <Button
-                        android:id="@+id/yt_operate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/transparent"
-                        android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/yt_controller"
-                        android:text="@string/str_yt_operate"
-                        android:textColor="@color/userinfocolor"
-                        android:textSize="16sp" />
-
-                    <Button
-                        android:id="@+id/remote_playback"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/transparent"
-                        android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/remote_playback"
-                        android:text="@string/str_remote_playback"
-                        android:textColor="@color/userinfocolor"
-                        android:textSize="16sp" />
-                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
 

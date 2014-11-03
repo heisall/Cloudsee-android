@@ -79,7 +79,7 @@ public abstract class PlayActivity extends BaseActivity {
 	// protected Button ytOperate;// 云台
 	// protected Button remotePlayback;// 远程回放
 	protected LinearLayout ytLayout;// 云台布局
-	protected LinearLayout playFuctionLayout;// 小分辨率时功能界面
+	// protected LinearLayout playFuctionLayout;// 小分辨率时功能界面
 	protected ListView playFunctionList;// 大分辨率时功能列表
 	protected FuntionAdapter functionListAdapter;
 	protected ArrayList<String> functionList = new ArrayList<String>();
@@ -277,7 +277,8 @@ public abstract class PlayActivity extends BaseActivity {
 		bigScreen = true;
 
 		/** 小分辨率功能 */
-		playFuctionLayout = (LinearLayout) findViewById(R.id.play_function_layout);
+		// playFuctionLayout = (LinearLayout)
+		// findViewById(R.id.play_function_layout);
 		// audioMonitor = (Button) findViewById(R.id.audio_monitor);// 音频监听
 		// ytOperate = (Button) findViewById(R.id.yt_operate);// 云台
 		// remotePlayback = (RelativeLayout)
@@ -296,10 +297,10 @@ public abstract class PlayActivity extends BaseActivity {
 
 		if (bigScreen) {
 			playFunctionList.setVisibility(View.VISIBLE);
-			playFuctionLayout.setVisibility(View.GONE);
+			// playFuctionLayout.setVisibility(View.GONE);
 		} else {
 			playFunctionList.setVisibility(View.GONE);
-			playFuctionLayout.setVisibility(View.VISIBLE);
+			// playFuctionLayout.setVisibility(View.VISIBLE);
 		}
 
 		/** 云台 布局 */
@@ -897,7 +898,7 @@ public abstract class PlayActivity extends BaseActivity {
 		if (View.GONE == ytLayout.getVisibility()) {
 			ytLayout.setVisibility(View.VISIBLE);
 			playFunctionList.setVisibility(View.GONE);
-			playFuctionLayout.setVisibility(View.GONE);
+			// playFuctionLayout.setVisibility(View.GONE);
 		}
 	}
 

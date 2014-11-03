@@ -96,8 +96,6 @@ public class ChannelAdapter extends BaseAdapter {
 					.findViewById(R.id.channel_rl);
 			channelHolder.channelName = (TextView) convertView
 					.findViewById(R.id.channel_name);
-			channelHolder.channelNickName = (TextView) convertView
-					.findViewById(R.id.channel_nickname);
 			channelHolder.channelDel = (ImageView) convertView
 					.findViewById(R.id.channeldelect);
 			channelHolder.channelEdit = (RelativeLayout) convertView
@@ -132,8 +130,6 @@ public class ChannelAdapter extends BaseAdapter {
 					.getString(R.string.channel_name);
 			channelHolder.channelName.setText(name.replace("?",
 					String.valueOf(channel)));
-			channelHolder.channelNickName.setText(channelList.get(position)
-					.getChannelName());
 			channelHolder.channelBG
 					.setBackgroundResource(channelResArray[(channel - 1) / 4]);
 
@@ -180,7 +176,6 @@ public class ChannelAdapter extends BaseAdapter {
 		} else {
 			// 最后一个通道用于添加通道
 			channelHolder.channelName.setText("+");
-			channelHolder.channelNickName.setVisibility(View.GONE);
 			channelHolder.channelDel.setVisibility(View.GONE);
 			channelHolder.channelEdit.setVisibility(View.GONE);
 
@@ -201,7 +196,6 @@ public class ChannelAdapter extends BaseAdapter {
 	class ChannelHolder {
 		FrameLayout channelBG;
 		TextView channelName;
-		TextView channelNickName;
 		ImageView channelDel;
 
 		RelativeLayout channelEdit;

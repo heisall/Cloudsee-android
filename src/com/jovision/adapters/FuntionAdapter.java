@@ -21,6 +21,12 @@ public class FuntionAdapter extends BaseAdapter {
 	public int selectIndex = -1;
 	private boolean bigScreen = false;
 	private int playFlag;
+	private RelativeLayout funcLayout;
+
+	private ImageView funtionImageView;
+	private TextView funtionTitle1;
+	private TextView funtionTitle2;
+	private ImageView funtionArrow;
 
 	public FuntionAdapter(Context con, boolean flag, int playFlag) {
 		mContext = con;
@@ -51,106 +57,80 @@ public class FuntionAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder viewHolder;
-		if (null == convertView) {
-			convertView = inflater.inflate(R.layout.function_item, null);
-			viewHolder = new ViewHolder();
-			viewHolder.funcLayout = (RelativeLayout) convertView
-					.findViewById(R.id.funclayout);
-			viewHolder.funtionImageView = (ImageView) convertView
-					.findViewById(R.id.funtion_image);
-			viewHolder.funtionTitle1 = (TextView) convertView
-					.findViewById(R.id.funtion_titile1);
-			viewHolder.funtionTitle2 = (TextView) convertView
-					.findViewById(R.id.funtion_titile2);
-			viewHolder.funtionArrow = (ImageView) convertView
-					.findViewById(R.id.function_arrow);
-			convertView.setTag(viewHolder);
-		} else {
-			viewHolder = (ViewHolder) convertView.getTag();
-		}
+		convertView = inflater.inflate(R.layout.function_item, null);
+		funcLayout = (RelativeLayout) convertView.findViewById(R.id.funclayout);
+		funtionImageView = (ImageView) convertView
+				.findViewById(R.id.funtion_image);
+		funtionTitle1 = (TextView) convertView
+				.findViewById(R.id.funtion_titile1);
+		funtionTitle2 = (TextView) convertView
+				.findViewById(R.id.funtion_titile2);
+		funtionArrow = (ImageView) convertView
+				.findViewById(R.id.function_arrow);
 		if (null != functionList && 0 != functionList.size()
 				&& position < functionList.size()) {
-			viewHolder.funtionTitle1.setText(functionList.get(position));
+			funtionTitle1.setText(functionList.get(position));
 		}
 
 		if (bigScreen) {// 大屏小dpi
 			if (0 == position) {
-				viewHolder.funtionArrow.setVisibility(View.GONE);
-				viewHolder.funtionImageView
+				funtionArrow.setVisibility(View.GONE);
+				funtionImageView
 						.setImageResource(R.drawable.voice_monitor_small_1);
-				viewHolder.funtionTitle2
-						.setText(R.string.str_audio_monitor_tips);
+				funtionTitle2.setText(R.string.str_audio_monitor_tips);
 			} else if (1 == position) {
-				viewHolder.funtionImageView
-						.setImageResource(R.drawable.yt_controller_small_1);
-				viewHolder.funtionTitle2.setText(R.string.str_yt_operate_tips);
+				funtionImageView.setImageResource(R.drawable.yt_controller);
+				funtionTitle2.setText(R.string.str_yt_operate_tips);
 			} else if (2 == position) {
 
 				if (Consts.PLAY_AP == playFlag) {
-					viewHolder.funtionImageView
-							.setImageResource(R.drawable.apv_call);
-					viewHolder.funtionTitle1.setText(R.string.voice_call_ap);
-					viewHolder.funtionTitle2
-							.setText(R.string.voice_call_ap_tips);
+					funtionImageView.setImageResource(R.drawable.apv_call);
+					funtionTitle1.setText(R.string.voice_call_ap);
+					funtionTitle2.setText(R.string.voice_call_ap_tips);
 				} else {
-					viewHolder.funtionImageView
-							.setImageResource(R.drawable.remote_playback_small_1);
-					viewHolder.funtionTitle2
-							.setText(R.string.str_remote_playback_tips);
+					funtionImageView
+							.setImageResource(R.drawable.remote_playback);
+					funtionTitle2.setText(R.string.str_remote_playback_tips);
 				}
 
 			}
 			if (selectIndex == position && selectIndex == 0) {
-				viewHolder.funtionImageView
+				funtionImageView
 						.setImageResource(R.drawable.voice_monitor_small_2);
 			}
 			if (selectIndex == position && selectIndex == 2) {
 				if (Consts.PLAY_AP == playFlag) {
-					viewHolder.funtionImageView
-							.setImageResource(R.drawable.apv_call_2);
+					funtionImageView.setImageResource(R.drawable.apv_call_2);
 				}
 			}
 			if (2 == position && selectIndex != position) {
 				if (Consts.PLAY_AP == playFlag) {
-					viewHolder.funtionImageView
-							.setImageResource(R.drawable.apv_call_1);
+					funtionImageView.setImageResource(R.drawable.apv_call_1);
 				}
 			}
 
 		} else {
 			if (0 == position) {
-				viewHolder.funtionArrow.setVisibility(View.GONE);
-				viewHolder.funtionImageView
+				funtionArrow.setVisibility(View.GONE);
+				funtionImageView
 						.setImageResource(R.drawable.voice_monitor_small_1);
-				viewHolder.funtionTitle2
-						.setText(R.string.str_audio_monitor_tips);
+				funtionTitle2.setText(R.string.str_audio_monitor_tips);
 			} else if (1 == position) {
-				viewHolder.funtionImageView
+				funtionImageView
 						.setImageResource(R.drawable.yt_controller_small_1);
-				viewHolder.funtionTitle2.setText(R.string.str_yt_operate_tips);
+				funtionTitle2.setText(R.string.str_yt_operate_tips);
 			} else if (2 == position) {
-				viewHolder.funtionImageView
+				funtionImageView
 						.setImageResource(R.drawable.remote_playback_small_1);
-				viewHolder.funtionTitle2
-						.setText(R.string.str_remote_playback_tips);
+				funtionTitle2.setText(R.string.str_remote_playback_tips);
 			}
 			if (selectIndex == position && selectIndex == 0) {
-				viewHolder.funtionImageView
+				funtionImageView
 						.setImageResource(R.drawable.voice_monitor_small_2);
 			}
 		}
 
 		return convertView;
-	}
-
-	class ViewHolder {
-		RelativeLayout funcLayout;
-
-		ImageView funtionImageView;
-		TextView funtionTitle1;
-		TextView funtionTitle2;
-		ImageView funtionArrow;
 	}
 
 }

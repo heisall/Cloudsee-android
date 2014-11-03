@@ -104,6 +104,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 				intent.setClass(JVBoundEmailActivity.this, JVTabActivity.class);
 				JVBoundEmailActivity.this.startActivity(intent);
 				finish();
+
 				// Intent intent = new Intent();
 				// intent.setClass(JVBoundEmailActivity.this,
 				// JVLoginActivity.class);

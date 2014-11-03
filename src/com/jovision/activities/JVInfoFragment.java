@@ -111,8 +111,13 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		// pushListView.setOnItemClickListener(mOnItemClickListener);
 		// pushListView.setOnItemLongClickListener(mOnLongClickListener);
 		pushAdapter = new PushAdapter(this);
-		pushListView.setPullLoadEnable(false);
-		pushListView.setXListViewListener(this);
+		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
+			pushListView.setPullLoadEnable(false);
+			pushListView.setXListViewListener(this);
+		} else {
+			pushListView.setPullLoadEnable(false);
+			pushListView.setPullRefreshEnable(false);
+		}
 		noMess = (ImageView) mParent.findViewById(R.id.nomess);
 		noMessTv = (TextView) mParent.findViewById(R.id.nomess_tv);
 		noMess.setOnTouchListener(new OnTouchListener() {
@@ -132,12 +137,9 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			}
 		});
 
-		// // 先获取报警信息,只需要执行一次，后续可以下拉刷新获取
-		if (bfirstrun
-				&& !Boolean.valueOf(mActivity.statusHashMap
-						.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
-			Consts.pushHisCount = 0;
-			pushList.clear();
+		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
+		// Consts.pushHisCount = 0;
+		// pushList.clear();
 			((BaseActivity) mActivity).createDialog("");
 			PullRefreshAlarmTask task = new PullRefreshAlarmTask();
 			String[] params = new String[3];
@@ -229,6 +231,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					temList = new ArrayList<PushInfo>();
 				}
 				if (temList.size() == 0) {
+					noMess.setVisibility(View.VISIBLE);
+					noMessTv.setVisibility(View.VISIBLE);
 					mActivity.showTextToast(R.string.nomessage);
 					return;
 				}
@@ -238,7 +242,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					temList.get(j).newTag = true;
 				}
 				// 保存状态，例如新消息。否则刷新后新消息的标志就木有了。
-				for (int i = 0; i > pushList.size(); i++) {
+				for (int i = 0; i < pushList.size(); i++) {
 					for (int j = 0; j < temList.size(); j++) {
 						if (pushList.get(i).strGUID.equalsIgnoreCase(temList
 								.get(j).strGUID)) {
@@ -265,6 +269,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					pushAdapter.notifyDataSetChanged();
 				}
 			} else {
+				onLoadPush();
 				mActivity.showTextToast(R.string.get_alarm_list_failed);
 			}
 		}
@@ -510,6 +515,13 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					pushAdapter.setRefCount(pushList.size());
 					pushAdapter.notifyDataSetChanged();
 					mActivity.showTextToast(R.string.del_alarm_succ);
+
+					if (Consts.pushHisCount == 0) {
+						((BaseActivity) mActivity).createDialog("");
+						PullRefreshAlarmTask task = new PullRefreshAlarmTask();
+						String[] params = new String[3];
+						task.execute(params);
+					}
 				}
 			} else {
 				mActivity.showTextToast(R.string.del_alarm_failed);
@@ -565,6 +577,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				pushAdapter.setRefCount(0);
 				pushAdapter.notifyDataSetChanged();
 				mActivity.showTextToast(R.string.clear_alarm_succ);
+				noMess.setVisibility(View.VISIBLE);
+				noMessTv.setVisibility(View.VISIBLE);
 			} else {
 				mActivity.showTextToast(R.string.clear_alarm_failed);
 			}

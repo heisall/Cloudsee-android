@@ -335,7 +335,6 @@ public class JVRegisterActivity extends BaseActivity {
 					String[] strParams = new String[3];
 					task.execute(strParams);
 				}
-
 				break;
 			case R.id.agreement:
 				mWebView.setVisibility(View.VISIBLE);

@@ -957,16 +957,16 @@ public class JVPlayActivity extends PlayActivity implements
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
-			int delRes = -1;
+			int editRes = -1;
 			try {
 				if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 本地保存修改信息
-					delRes = 0;
+					editRes = 0;
 				} else {
 					String name = statusHashMap.get(Consts.KEY_USERNAME);
-					delRes = DeviceUtil.modifyDevice(name, params[1],
+					editRes = DeviceUtil.modifyDevice(name, params[1],
 							params[4], params[2], params[3]);
 				}
-				if (0 == delRes) {
+				if (0 == editRes) {
 					deviceList.get(deviceIndex).setUser(params[2]);
 					deviceList.get(deviceIndex).setPwd(params[3]);
 				}
@@ -974,7 +974,7 @@ public class JVPlayActivity extends PlayActivity implements
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return delRes;
+			return editRes;
 		}
 
 		@Override
@@ -2705,7 +2705,7 @@ public class JVPlayActivity extends PlayActivity implements
 			popScreen.dismiss();
 		}
 		stopAll(lastClickIndex, channelList.get(lastClickIndex));
-//		manager.pauseAll();
+		// manager.pauseAll();
 		// PlayUtil.pauseAll(manager.getValidChannelList(lastItemIndex));
 	}
 

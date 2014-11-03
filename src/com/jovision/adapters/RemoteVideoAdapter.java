@@ -70,7 +70,7 @@ public class RemoteVideoAdapter extends BaseAdapter {
 		if (null != videoList && 0 != videoList.size()
 				&& position < videoList.size()) {
 
-			// A：alarm报警录像；M：motion移动侦测；N：normal手动录像
+			// A：alarm报警录像；M：motion移动侦测；T:定时录像 N：normal手动录像
 			if ("A".equalsIgnoreCase(videoList.get(position).remoteKind)) {
 				viewHolder.videoDate.setText(videoList.get(position).remoteDate
 						+ "-"
@@ -81,6 +81,11 @@ public class RemoteVideoAdapter extends BaseAdapter {
 						+ "-"
 						+ mContext.getResources().getString(
 								R.string.video_motion));
+			} else if ("T".equalsIgnoreCase(videoList.get(position).remoteKind)) {
+				viewHolder.videoDate.setText(videoList.get(position).remoteDate
+						+ "-"
+						+ mContext.getResources()
+								.getString(R.string.video_time));
 			} else {
 				viewHolder.videoDate.setText(videoList.get(position).remoteDate
 						+ "-"

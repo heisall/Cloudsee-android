@@ -581,6 +581,8 @@
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">Manual recording</string>
     <string name="video_alarm">Alarm recording</string>
+    <string name="video_motion">Motion detection</string>
+    <string name="video_time">Regular recording</string>
     <string name="recoding">Generating recording file now. Please wait.</string>
 
     <!-- Help -->

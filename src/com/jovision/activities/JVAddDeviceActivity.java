@@ -250,10 +250,11 @@ public class JVAddDeviceActivity extends BaseActivity {
 			boolean localFlag = Boolean.valueOf(statusHashMap
 					.get(Consts.LOCAL_LOGIN));
 			try {
+				MyLog.e(TAG, "getChannelCount E = ");
 				channelCount = Jni.getChannelCount(params[0],
 						Integer.parseInt(params[1]),
 						Integer.parseInt(params[2]));
-
+				MyLog.e(TAG, "getChannelCount X = " + channelCount);
 				if (channelCount <= 0) {
 					channelCount = 4;
 				}

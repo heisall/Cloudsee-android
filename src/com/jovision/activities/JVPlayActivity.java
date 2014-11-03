@@ -528,6 +528,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 								int effect_flag = Integer.parseInt(streamMap
 										.get("effect_flag"));
+								MyLog.v(TAG, "effect_flag=" + effect_flag);
 								channel.setEffect_flag(Integer
 										.parseInt(streamMap.get("effect_flag")));
 
@@ -542,6 +543,10 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("MainStreamQos")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("MainStreamQos"))) {
+								MyLog.v(TAG,
+										"MainStreamQos="
+												+ streamMap
+														.get("MainStreamQos"));
 								channel.setStreamTag(Integer.parseInt(streamMap
 										.get("MainStreamQos")));
 							}
@@ -549,6 +554,9 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("storageMode")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("storageMode"))) {
+								MyLog.v(TAG,
+										"storageMode="
+												+ streamMap.get("storageMode"));
 								channel.setStorageMode(Integer
 										.parseInt(streamMap.get("storageMode")));
 							}
@@ -556,6 +564,8 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("MobileCH")
 									&& "2".equalsIgnoreCase(streamMap
 											.get("MobileCH"))) {
+								MyLog.v(TAG,
+										"MobileCH=" + streamMap.get("MobileCH"));
 								channel.setSingleVoice(true);
 							}
 						}

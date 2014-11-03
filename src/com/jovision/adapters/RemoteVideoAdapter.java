@@ -30,7 +30,6 @@ public class RemoteVideoAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		int size = 0;
 		if (null != videoList && 0 != videoList.size()) {
 			size = videoList.size();
@@ -40,7 +39,6 @@ public class RemoteVideoAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		RemoteVideo rv = new RemoteVideo();
 		if (null != videoList && 0 != videoList.size()
 				&& position < videoList.size()) {
@@ -51,13 +49,11 @@ public class RemoteVideoAdapter extends BaseAdapter {
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.remotevideo_item, null);
@@ -73,11 +69,18 @@ public class RemoteVideoAdapter extends BaseAdapter {
 
 		if (null != videoList && 0 != videoList.size()
 				&& position < videoList.size()) {
+
+			// A：alarm报警录像；M：motion移动侦测；N：normal手动录像
 			if ("A".equalsIgnoreCase(videoList.get(position).remoteKind)) {
 				viewHolder.videoDate.setText(videoList.get(position).remoteDate
 						+ "-"
 						+ mContext.getResources().getString(
 								R.string.video_alarm));
+			} else if ("M".equalsIgnoreCase(videoList.get(position).remoteKind)) {
+				viewHolder.videoDate.setText(videoList.get(position).remoteDate
+						+ "-"
+						+ mContext.getResources().getString(
+								R.string.video_motion));
 			} else {
 				viewHolder.videoDate.setText(videoList.get(position).remoteDate
 						+ "-"

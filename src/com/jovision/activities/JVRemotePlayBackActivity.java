@@ -399,6 +399,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				}
 				break;
 			case R.id.more_features:// 更多
+				showTextToast(R.string.str_forbidden_operation);
 				// Intent moreIntent = new Intent();
 				// moreIntent.setClass(JVRemotePlayBackActivity.this,
 				// JVMoreFeatureActivity.class);

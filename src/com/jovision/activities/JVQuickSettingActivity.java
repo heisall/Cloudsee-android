@@ -125,6 +125,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	private boolean isSearching = false;// 正在循环配置设备
 	private WifiManager wifiManager = null;
 
+	private boolean stopTask = false;// 是否停止线程
+
 	@Override
 	protected void initSettings() {
 		local = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
@@ -442,6 +444,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					connRes = 1;
 				}
 			}
+			if (stopTask) {// 停止线程
+				return -1;
+			}
 
 			return connRes;
 		}
@@ -678,6 +683,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	 * @param id
 	 */
 	public void backMethod() {
+		stopTask = true;
 		searchView.stopPlayer();
 		try {
 			if (isSearching) {// 正在搜索设备是，提示是否退出
@@ -777,6 +783,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (null != quickSetPop) {
 			quickSetPop.dismiss();
 		}
+		stopTask = true;
 		// searchView.stopPlayer();
 		searchView.myPlayer.release();
 		stopRefreshWifiTimer();
@@ -871,15 +878,18 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			// finish();
 			break;
 		case Consts.QUICK_SETTING_DEV_ONLINE: {// 网络恢复成功
+			try {
+				playSound(Consts.SOUNDSIX);// 播放“叮”的一声
+				showSearch(false);
+				// 设置全屏
+				JVQuickSettingActivity.this.getWindow().setFlags(
+						WindowManager.LayoutParams.FLAG_FULLSCREEN,
+						WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				quickSetDeviceImg.setVisibility(View.VISIBLE);
 
-			playSound(Consts.SOUNDSIX);// 播放“叮”的一声
-			showSearch(false);
-			// 设置全屏
-			JVQuickSettingActivity.this.getWindow().setFlags(
-					WindowManager.LayoutParams.FLAG_FULLSCREEN,
-					WindowManager.LayoutParams.FLAG_FULLSCREEN);
-			quickSetDeviceImg.setVisibility(View.VISIBLE);
-
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			break;
 		}
 		case Consts.QUICK_SETTING_ERROR:// 配置出错

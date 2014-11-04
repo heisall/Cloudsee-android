@@ -74,6 +74,8 @@ public class Device {
 	private int alarmSwitch = 0;// 告警开关，0-关闭，1-打开
 	private ArrayList<ThirdAlarmDev> thirdDevList = null; // 第三方报警设备
 
+	private boolean isCard = false;// 是否是板卡
+
 	public Device() {
 		channelList = new MyList<Channel>(1);
 		thirdDevList = new ArrayList<ThirdAlarmDev>();
@@ -467,6 +469,14 @@ public class Device {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public boolean isCard() {
+		return isCard;
+	}
+
+	public void setCard(boolean isCard) {
+		this.isCard = isCard;
 	}
 
 }

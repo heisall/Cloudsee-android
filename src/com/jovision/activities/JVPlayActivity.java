@@ -400,9 +400,18 @@ public class JVPlayActivity extends PlayActivity implements
 			try {
 				JSONObject jobj;
 				jobj = new JSONObject(obj.toString());
+				int type = jobj.optInt("device_type");
 				if (null != jobj) {
-					channel.getParent().setType(jobj.optInt("device_type"));
-					if (Consts.DEVICE_TYPE_IPC == jobj.optInt("device_type")) {
+					channel.getParent().setType(type);
+					if (Consts.DEVICE_TYPE_IPC == type
+							|| Consts.DEVICE_TYPE_DVR == type
+							|| Consts.DEVICE_TYPE_NVR == type) {
+						channel.getParent().setCard(false);
+					} else {
+						channel.getParent().setCard(true);
+					}
+
+					if (Consts.DEVICE_TYPE_IPC == type) {
 						channel.getParent().setHomeProduct(true);
 						// channel.setSingleVoice(true);
 					} else {
@@ -1479,29 +1488,36 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 			} else {
-
 				int number = device.getNo();
+				String conIp = device.getIp();
+				int conPort = device.getPort();
+				// 有ip通过ip连接
 				if (false == ("".equalsIgnoreCase(device.getIp()) || 0 == device
 						.getPort())) {
-					number = -1;
+					if (is3G(false) && 0 == device.getIsDevice()) {// 普通设备3G情况不用ip连接
+						conIp = "";
+						conPort = 0;
+					} else {// 有ip非3G
+						number = -1;
+					}
 				}
 
 				if (isPlayDirectly) {
 					result = Jni.connect(channel.getIndex(),
-							channel.getChannel(), device.getIp(),
-							device.getPort(), device.getUser(),
-							device.getPwd(), number, device.getGid(), true, 1,
-							true, 6,// (device.isHomeProduct() ? 6 : 5),
+							channel.getChannel(), conIp, conPort,
+							device.getUser(), device.getPwd(), number,
+							device.getGid(), true, 1, true, 6,// (device.isHomeProduct()
+																// ? 6 : 5),
 							channel.getSurface(), isOmx);
 					if (result == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
 				} else {
 					result = Jni.connect(channel.getIndex(),
-							channel.getChannel(), device.getIp(),
-							device.getPort(), device.getUser(),
-							device.getPwd(), number, device.getGid(), true, 1,
-							true, 6,// (device.isHomeProduct() ? 6 : 5),
+							channel.getChannel(), conIp, conPort,
+							device.getUser(), device.getPwd(), number,
+							device.getGid(), true, 1, true, 6,// (device.isHomeProduct()
+																// ? 6 : 5),
 							null, isOmx);
 					if (result == channel.getIndex()) {
 						channel.setPaused(true);
@@ -1905,31 +1921,36 @@ public class JVPlayActivity extends PlayActivity implements
 
 					}
 
-					if (channelList.get(lastClickIndex).isVoiceCall()) {
-						if (null != recorder) {
-							recorder.stop();
-						}
-						if (null != audioQueue) {// 清队列，防止停止后仍然播放
-							audioQueue.clear();
-						}
-						PlayUtil.stopVoiceCall(lastClickIndex);
-						channelList.get(lastClickIndex).setVoiceCall(false);
-						realStop = true;
-						voiceCallSelected(false);
-						VOICECALLING = false;
-						if (Consts.PLAY_AP == playFlag) {
-							functionListAdapter.selectIndex = -1;
-						}
+					if (channelList.get(lastClickIndex).getParent().isCard()) {
+						showTextToast(R.string.not_support_voicecall);
 					} else {
-						initAudio(channelList.get(lastClickIndex)
-								.getAudioByte());
-						JVPlayActivity.AUDIO_SINGLE = channelList.get(
-								lastClickIndex).isSingleVoice();
-						PlayUtil.startVoiceCall(lastClickIndex);
-						if (Consts.PLAY_AP == playFlag) {
-							functionListAdapter.selectIndex = 2;
+						if (channelList.get(lastClickIndex).isVoiceCall()) {
+							if (null != recorder) {
+								recorder.stop();
+							}
+							if (null != audioQueue) {// 清队列，防止停止后仍然播放
+								audioQueue.clear();
+							}
+							PlayUtil.stopVoiceCall(lastClickIndex);
+							channelList.get(lastClickIndex).setVoiceCall(false);
+							realStop = true;
+							voiceCallSelected(false);
+							VOICECALLING = false;
+							if (Consts.PLAY_AP == playFlag) {
+								functionListAdapter.selectIndex = -1;
+							}
+						} else {
+							initAudio(channelList.get(lastClickIndex)
+									.getAudioByte());
+							JVPlayActivity.AUDIO_SINGLE = channelList.get(
+									lastClickIndex).isSingleVoice();
+							PlayUtil.startVoiceCall(lastClickIndex);
+							if (Consts.PLAY_AP == playFlag) {
+								functionListAdapter.selectIndex = 2;
+							}
 						}
 					}
+
 				}
 				functionListAdapter.notifyDataSetChanged();
 				break;
@@ -2053,12 +2074,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 			backFunc = Boolean.valueOf(params[0]);
 			try {
-				// if (Consts.PLAY_AP == playFlag) {
-				// Jni.disconnect(0);
-				// } else {
-				// PlayUtil.disConnectAll(manager.getChannelList());
-				// }
-
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {

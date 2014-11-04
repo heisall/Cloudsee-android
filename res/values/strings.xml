@@ -547,8 +547,8 @@
     <string name="connecting">Connecting…</string>
     <string name="connecting_buffer1">Buffering now</string>
     <string name="connecting_buffer2">Buffering now…</string>
-    <string name="is_omx">Hardware Decoding</string>
-    <string name="not_omx">Software Decoding</string>
+    <string name="is_omx">Hardware</string>
+    <string name="not_omx">Software</string>
     <string name="not_support_oxm">Your mobile phone does not support hardware decoding.</string>
     <string name="stream_not_support">This device doesn\'t support video quality switch.</string>
     <string name="audio_monitor_forbidden">This function is not available during two-way talk.</string>

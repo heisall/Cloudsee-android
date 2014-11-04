@@ -2059,7 +2059,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	public void onBackPressed() {
-		isQuit = true;
 		backMethod(true);
 	}
 
@@ -2123,6 +2122,7 @@ public class JVPlayActivity extends PlayActivity implements
 				} else {
 					JVPlayActivity.this.finish();
 				}
+				isQuit = true;
 			}
 
 			dismissDialog();

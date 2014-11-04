@@ -1922,7 +1922,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 					}
 
-					if (channelList.get(lastClickIndex).getParent().isCard()) {
+					if (channelList.get(lastClickIndex).getParent().isCard()
+							|| 8 == channel.getAudioByte()) {
 						showTextToast(R.string.not_support_voicecall);
 					} else {
 						if (channelList.get(lastClickIndex).isVoiceCall()) {

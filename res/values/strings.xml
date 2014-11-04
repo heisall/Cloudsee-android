@@ -94,7 +94,7 @@
     <string name="nomessage">No alarm now.</string>
     <string name="alerm">Alerm Level</string>
     <string name="more_findpassword">Retrieve Password</string>
-    <string name="more_cancel">Cancel the account</string>
+    <string name="more_cancel">Log Out</string>
     <string name="dialog_modifypwd">Failed to verify indentification, do you need to modify username and password?</string>
     <!-- leftMenu -->
     <string name="devicecount">Total of 0 Device</string>

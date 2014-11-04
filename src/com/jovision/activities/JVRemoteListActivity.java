@@ -49,7 +49,7 @@ public class JVRemoteListActivity extends BaseActivity {
 	private ArrayList<RemoteVideo> videoList;
 	private int deviceType;// 设备类型
 	private int indexOfChannel;// 通道index
-	private boolean is05;// 是否05版解码器
+	private boolean isJFH;// 是否05版解码器
 	private int audioByte;// 音频监听比特率
 
 	@Override
@@ -164,7 +164,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		if (null != intent) {
 			deviceType = intent.getIntExtra("DeviceType", 0);
 			indexOfChannel = intent.getIntExtra("IndexOfChannel", 0);
-			is05 = intent.getBooleanExtra("is05", false);
+			isJFH = intent.getBooleanExtra("isJFH", false);
 			audioByte = intent.getIntExtra("AudioByte", 0);
 		}
 		searchRemoteData(2 * 1000);
@@ -180,7 +180,7 @@ public class JVRemoteListActivity extends BaseActivity {
 				long arg3) {
 			createDialog(R.string.connecting);
 			RemoteVideo videoBean = videoList.get(arg2);
-			String acBuffStr = PlayUtil.getPlayFileString(videoBean, is05,
+			String acBuffStr = PlayUtil.getPlayFileString(videoBean, isJFH,
 					deviceType, year, month, day, arg2);
 			MyLog.v(TAG, "acBuffStr:" + acBuffStr);
 			if (null != acBuffStr && !"".equalsIgnoreCase(acBuffStr)) {

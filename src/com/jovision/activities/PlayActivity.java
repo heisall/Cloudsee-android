@@ -185,7 +185,7 @@ public abstract class PlayActivity extends BaseActivity {
 		setContentView(R.layout.play_layout);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);// 屏幕常亮
 
-		recorder = MICRecorder.getInstance();
+		recorder = MICRecorder.getInstance(-1);
 
 		/** 上 */
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
@@ -650,60 +650,63 @@ public abstract class PlayActivity extends BaseActivity {
 	 */
 	@SuppressWarnings("deprecation")
 	public void resetFunc(Channel channel) {
-		verPlayBarLayout.setVisibility(View.GONE);
-		if (relative6.getVisibility() == 0) {
-			linear.removeView(relative6);
-			linear.addView(relative6, linear.getChildCount());
-			bottombut6.setVisibility(View.GONE);
-		}
-		right_btn_h.setVisibility(View.GONE);// 录像模式
-		moreFeature.setText(R.string.default_stream);// 码流
-		bottomStream.setText(R.string.default_stream);
-		// 停止音频监听
-		if (PlayUtil.isPlayAudio(channel.getIndex())) {
-			PlayUtil.audioPlay(channel.getIndex());
+		try {
+			verPlayBarLayout.setVisibility(View.GONE);
+			if (relative6.getVisibility() == 0) {
+				linear.removeView(relative6);
+				linear.addView(relative6, linear.getChildCount());
+				bottombut6.setVisibility(View.GONE);
+			}
+			right_btn_h.setVisibility(View.GONE);// 录像模式
+			moreFeature.setText(R.string.default_stream);// 码流
+			bottomStream.setText(R.string.default_stream);
+			// 停止音频监听
+			if (PlayUtil.isPlayAudio(channel.getIndex())) {
+				PlayUtil.audioPlay(channel.getIndex());
+				functionListAdapter.selectIndex = -1;
+				bottombut8.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.video_monitor_icon));
+				functionListAdapter.notifyDataSetChanged();
+				if (null != playAudio) {
+					playAudio.interrupt();
+					playAudio = null;
+				}
+			}
+
+			// 正在录像停止录像
+			if (PlayUtil.checkRecord(channel.getIndex())) {
+				if (!PlayUtil.videoRecord(channel.getIndex())) {// 打开
+					showTextToast(Consts.VIDEO_PATH);
+					tapeSelected(false);
+				}
+			}
+
+			// 停止对讲
+			if (channel.isVoiceCall()) {
+				if (null != recorder) {
+					recorder.stop();
+				}
+				if (null != audioQueue) {
+					audioQueue.clear();
+				}
+				channel.setVoiceCall(false);
+				realStop = true;
+				voiceCallSelected(false);
+				PlayUtil.stopVoiceCall(channel.getIndex());
+			}
+
+			tapeSelected(false);
+			recorder.stop();
 			functionListAdapter.selectIndex = -1;
-			bottombut8.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.video_monitor_icon));
 			functionListAdapter.notifyDataSetChanged();
-			if (null != playAudio) {
-				playAudio.interrupt();
-				playAudio = null;
-			}
-		}
-
-		// 正在录像停止录像
-		if (PlayUtil.checkRecord(channel.getIndex())) {
-			if (!PlayUtil.videoRecord(channel.getIndex())) {// 打开
-				showTextToast(Consts.VIDEO_PATH);
-				tapeSelected(false);
-			}
-		}
-
-		// 停止对讲
-		if (channel.isVoiceCall()) {
-			if (null != recorder) {
-				recorder.stop();
-			}
-			if (null != audioQueue) {
-				audioQueue.clear();
-			}
-			channel.setVoiceCall(false);
-			realStop = true;
 			voiceCallSelected(false);
-			PlayUtil.stopVoiceCall(channel.getIndex());
+
+			AUDIO_SINGLE = false;// 单向对讲标志
+			VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
+			VOICECALLING = false;// 对讲功能已经开启
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		tapeSelected(false);
-		recorder.stop();
-		functionListAdapter.selectIndex = -1;
-		functionListAdapter.notifyDataSetChanged();
-		voiceCallSelected(false);
-
-		AUDIO_SINGLE = false;// 单向对讲标志
-		VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
-		VOICECALLING = false;// 对讲功能已经开启
-
 	}
 
 	// /**

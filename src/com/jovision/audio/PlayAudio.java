@@ -22,7 +22,7 @@ public class PlayAudio extends Thread {
 
 	public PlayAudio(LinkedBlockingQueue<byte[]> queue, int audioByte) {
 		audioQueue = queue;
-		recorder = MICRecorder.getInstance();
+		recorder = MICRecorder.getInstance(audioByte);
 
 		if (8 == audioByte) {
 			ENCODING = AudioFormat.ENCODING_PCM_8BIT;

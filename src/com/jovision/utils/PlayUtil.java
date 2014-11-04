@@ -1125,8 +1125,9 @@ public class PlayUtil {
 	 * @param listIndex
 	 * @return
 	 */
-	public static String getPlayFileString(RemoteVideo videoBean, boolean is05,
-			int deviceType, int year, int month, int day, int listIndex) {
+	public static String getPlayFileString(RemoteVideo videoBean,
+			boolean isJFH, int deviceType, int year, int month, int day,
+			int listIndex) {
 		byte acChn[] = new byte[3];
 		byte acTime[] = new byte[10];
 		byte acDisk[] = new byte[2];
@@ -1134,7 +1135,7 @@ public class PlayUtil {
 		if (null == videoBean) {
 			return acBuffStr;
 		}
-		if (is05) {
+		if (isJFH) {
 			if (deviceType == -1) {
 				// sprintf(acChn, "%s",videoBean.remoteChannel);
 				String channelStr = String

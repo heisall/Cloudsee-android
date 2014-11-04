@@ -417,6 +417,7 @@ public class JVPlayActivity extends PlayActivity implements
 						channel.getParent().setHomeProduct(false);
 						// channel.setSingleVoice(false);
 					}
+					channel.getParent().setJFH(jobj.optBoolean("is_jfh"));
 					channel.getParent().setO5(jobj.optBoolean("is05"));
 					channel.setAudioType(jobj.getInt("audio_type"));
 					channel.setAudioByte(jobj.getInt("audio_bit"));
@@ -2297,8 +2298,8 @@ public class JVPlayActivity extends PlayActivity implements
 				.getIndex());
 		remoteIntent.putExtra("DeviceType", channelList.get(lastClickIndex)
 				.getParent().getType());
-		remoteIntent.putExtra("is05", channelList.get(lastClickIndex)
-				.getParent().is05());
+		remoteIntent.putExtra("isJFH", channelList.get(lastClickIndex)
+				.getParent().isJFH());
 		remoteIntent.putExtra("AudioByte", channelList.get(lastClickIndex)
 				.getAudioByte());
 		JVPlayActivity.this.startActivity(remoteIntent);

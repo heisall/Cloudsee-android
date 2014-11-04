@@ -1100,9 +1100,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							String dvStr = settingMap.get("DEV_VERSION");
 							int dvInt = Integer.parseInt(dvStr);
 							if (dvInt == 1) {// 当前最新版本
-								dismissDialog();
-								updateDialog1();
-								break;
+								saveWifi();
 							} else {// 旧版
 								dismissDialog();
 								updateDialog1();
@@ -1113,7 +1111,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							updateDialog1();
 							break;
 						}
-						// break;
+						break;
 					}
 					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
 						// 获取主控码流信息请求

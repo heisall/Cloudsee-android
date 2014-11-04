@@ -158,7 +158,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			}
 		}
 		case JVConst.REMOTE_PLAY_DISMISS_PROGRESS: {// 5秒时间到关闭进度条
-		// stopTimer();
+			// stopTimer();
 			seconds = 0;
 			progressBar.setVisibility(View.GONE);
 			break;

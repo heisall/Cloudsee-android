@@ -288,7 +288,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.DISCONNECT_OK: {
 				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
-				showFunc(channel, currentScreen);
+				showFunc(channel, currentScreen, lastClickIndex);
 				break;
 			}
 			// 4 -- 连接失败
@@ -330,7 +330,7 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 				// resetFunc(channel);
-				showFunc(channel, currentScreen);
+				showFunc(channel, currentScreen, lastClickIndex);
 				break;
 			}
 
@@ -338,7 +338,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.ABNORMAL_DISCONNECT: {
 				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
-				showFunc(channel, currentScreen);
+				showFunc(channel, currentScreen, lastClickIndex);
 				break;
 			}
 
@@ -346,7 +346,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.SERVICE_STOP: {
 				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
-				showFunc(channel, currentScreen);
+				showFunc(channel, currentScreen, lastClickIndex);
 				break;
 			}
 
@@ -354,7 +354,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.OHTER_ERROR: {
 				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
-				showFunc(channel, currentScreen);
+				showFunc(channel, currentScreen, lastClickIndex);
 				break;
 			}
 
@@ -450,23 +450,33 @@ public class JVPlayActivity extends PlayActivity implements
 				e.printStackTrace();
 			}
 
-			if (ONE_SCREEN == currentScreen && arg1 == lastClickIndex) {
-				// TODO 不应该只对比宽高
-				if (newWidth != channel.getWidth()
-						|| newHeight != channel.getHeight()) {// 宽高变了才发文本聊天
-
-					channel.setHeight(newHeight);
-					channel.setWidth(newWidth);
-					// 是IPC，发文本聊天请求
-					if (channel.getParent().isHomeProduct()) {
-						// 请求文本聊天
-						Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT,
-								new byte[0], 8);
-					}
-				} else {
-					showFunc(channel, currentScreen);
+			// if (ONE_SCREEN == currentScreen && arg1 == lastClickIndex) {
+			// // TODO 不应该只对比宽高
+			// if (newWidth != channel.getWidth()
+			// || newHeight != channel.getHeight()) {// 宽高变了才发文本聊天
+			//
+			// channel.setHeight(newHeight);
+			// channel.setWidth(newWidth);
+			// // 是IPC，发文本聊天请求
+			// if (channel.getParent().isHomeProduct()) {
+			// // 请求文本聊天
+			// Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT,
+			// new byte[0], 8);
+			// }
+			// } else {
+			// showFunc(channel, currentScreen);
+			// }
+			if (channel.isHasGotParams()) {
+				showFunc(channel, currentScreen, lastClickIndex);
+			} else {
+				// 是IPC，发文本聊天请求
+				if (channel.getParent().isHomeProduct()) {
+					// 请求文本聊天
+					Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 				}
 			}
+
+			// }
 
 			if (recoding) {
 				showTextToast(R.string.video_repaked);
@@ -537,7 +547,7 @@ public class JVPlayActivity extends PlayActivity implements
 		case WHAT_PLAY_STATUS: {
 			switch (arg2) {
 			case ARG2_STATUS_CONNECTING:
-				loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTTED);
+				loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTING);
 				break;
 
 			case ARG2_STATUS_CONNECTED:
@@ -612,66 +622,57 @@ public class JVPlayActivity extends PlayActivity implements
 						// HashMap<String, String> streamCH1 =
 						// ConfigUtil.getCH1("CH1",streamJSON);
 
-						if (ONE_SCREEN == currentScreen
-								&& arg1 == lastClickIndex) {
-							HashMap<String, String> streamMap = ConfigUtil
-									.genMsgMap(streamJSON);
-							if (null != streamMap) {
-								if (null != streamMap.get("effect_flag")
-										&& !"".equalsIgnoreCase(streamMap
-												.get("effect_flag"))) {
+						HashMap<String, String> streamMap = ConfigUtil
+								.genMsgMap(streamJSON);
+						if (null != streamMap) {
+							if (null != streamMap.get("effect_flag")
+									&& !"".equalsIgnoreCase(streamMap
+											.get("effect_flag"))) {
 
-									int effect_flag = Integer
-											.parseInt(streamMap
-													.get("effect_flag"));
-									MyLog.v(TAG, "effect_flag=" + effect_flag);
-									channel.setEffect_flag(Integer
-											.parseInt(streamMap
-													.get("effect_flag")));
+								int effect_flag = Integer.parseInt(streamMap
+										.get("effect_flag"));
+								MyLog.v(TAG, "effect_flag=" + effect_flag);
+								channel.setEffect_flag(Integer
+										.parseInt(streamMap.get("effect_flag")));
 
-									if (0 == (0x04 & effect_flag)) {
-										channel.setScreenTag(Consts.SCREEN_NORMAL);
-									} else {
-										channel.setScreenTag(Consts.SCREEN_OVERTURN);
-									}
-
+								if (0 == (0x04 & effect_flag)) {
+									channel.setScreenTag(Consts.SCREEN_NORMAL);
+								} else {
+									channel.setScreenTag(Consts.SCREEN_OVERTURN);
 								}
 
-								if (null != streamMap.get("MainStreamQos")
-										&& !"".equalsIgnoreCase(streamMap
-												.get("MainStreamQos"))) {
-									MyLog.v(TAG,
-											"MainStreamQos="
-													+ streamMap
-															.get("MainStreamQos"));
-									channel.setStreamTag(Integer
-											.parseInt(streamMap
-													.get("MainStreamQos")));
-								}
-
-								if (null != streamMap.get("storageMode")
-										&& !"".equalsIgnoreCase(streamMap
-												.get("storageMode"))) {
-									MyLog.v(TAG,
-											"storageMode="
-													+ streamMap
-															.get("storageMode"));
-									channel.setStorageMode(Integer
-											.parseInt(streamMap
-													.get("storageMode")));
-								}
-
-								if (null != streamMap.get("MobileCH")
-										&& "2".equalsIgnoreCase(streamMap
-												.get("MobileCH"))) {
-									MyLog.v(TAG,
-											"MobileCH="
-													+ streamMap.get("MobileCH"));
-									channel.setSingleVoice(true);
-								}
 							}
 
-							showFunc(channel, currentScreen);
+							if (null != streamMap.get("MainStreamQos")
+									&& !"".equalsIgnoreCase(streamMap
+											.get("MainStreamQos"))) {
+								MyLog.v(TAG,
+										"MainStreamQos="
+												+ streamMap
+														.get("MainStreamQos"));
+								channel.setStreamTag(Integer.parseInt(streamMap
+										.get("MainStreamQos")));
+							}
+
+							if (null != streamMap.get("storageMode")
+									&& !"".equalsIgnoreCase(streamMap
+											.get("storageMode"))) {
+								MyLog.v(TAG,
+										"storageMode="
+												+ streamMap.get("storageMode"));
+								channel.setStorageMode(Integer
+										.parseInt(streamMap.get("storageMode")));
+							}
+
+							if (null != streamMap.get("MobileCH")
+									&& "2".equalsIgnoreCase(streamMap
+											.get("MobileCH"))) {
+								MyLog.v(TAG,
+										"MobileCH=" + streamMap.get("MobileCH"));
+								channel.setSingleVoice(true);
+							}
+							channel.setHasGotParams(true);
+							showFunc(channel, currentScreen, lastClickIndex);
 						}
 
 						break;
@@ -694,7 +695,7 @@ public class JVPlayActivity extends PlayActivity implements
 								arg1).getStorageMode()) {
 							channel.setStorageMode(Consts.STORAGEMODE_NORMAL);
 						}
-						showFunc(channel, currentScreen);
+						showFunc(channel, currentScreen, lastClickIndex);
 						break;
 					default:
 						break;
@@ -764,7 +765,6 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null == channel) {
 				return;
 			}
-
 			loadingState(arg1, 0, JVConst.PLAY_CONNECTTED);
 			if (!channel.isOMX() && arg2 == Consts.DECODE_SOFT
 					&& ONE_SCREEN == currentScreen) {
@@ -782,7 +782,7 @@ public class JVPlayActivity extends PlayActivity implements
 				channel.setOMX(false);
 			}
 
-			showFunc(channel, currentScreen);
+			showFunc(channel, currentScreen, lastClickIndex);
 			MyLog.i(Consts.TAG_PLAY, "new Frame I: window = " + arg1
 					+ ", omx = " + arg2);
 			break;
@@ -866,7 +866,7 @@ public class JVPlayActivity extends PlayActivity implements
 				return;
 			}
 
-			showFunc(channel, selectedScreen);
+			showFunc(channel, selectedScreen, lastClickIndex);
 			break;
 		}
 		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换
@@ -2832,7 +2832,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 		}
 
-		showFunc(channelList.get(lastClickIndex), currentScreen);
+		showFunc(channelList.get(lastClickIndex), currentScreen, lastClickIndex);
 	}
 
 	private class Connecter extends Thread {

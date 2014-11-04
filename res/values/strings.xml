@@ -557,7 +557,7 @@
     <string name="voice_tips2">Audio talk is enabled successfully. You can speak to the other through long-click.</string>
     <string name="default_stream">Default</string>
     <string name="has_calling">The Two-way Talk has not been enabled or is being used by other user, so please try again later.</string>
-    <string name="not_support_voicecall">此设备暂不支持语音对讲功能</string>
+    <string name="not_support_voicecall">This device doesn\'t support voice intercom function.</string>
 
     <!-- JVAddDeviceActivity -->
     <string name="add_device_succ">Device added successfully</string>

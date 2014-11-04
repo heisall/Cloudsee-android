@@ -131,9 +131,9 @@ public class ManageFragment extends BaseFragment {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		MyLog.i("ManageFragment", "onTabAction:what=" + what + ";arg1=" + arg1
 				+ ";arg2=" + arg1);
-		deviceIndex = arg2;
 		switch (what) {
 		case Consts.MANAGE_ITEM_CLICK: {// adapter item 单击事件
+			deviceIndex = arg2;
 			switch (arg1) {
 			case 0: {// 远程设置
 				if (2 == isDevice) {

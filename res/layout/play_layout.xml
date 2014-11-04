@@ -109,7 +109,7 @@
 
                     <Button
                         android:id="@+id/overturn"
-                        android:layout_width="60dp"
+                        android:layout_width="50dp"
                         android:layout_height="30dp"
                         android:background="@drawable/turn_right_selector"
                         android:visibility="gone" />

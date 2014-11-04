@@ -138,15 +138,15 @@ public class ManageFragment extends BaseFragment {
 		switch (what) {
 		case Consts.MANAGE_ITEM_CLICK: {// adapter item 单击事件
 			deviceIndex = arg2;
+
+			device = (Device) obj;
 			switch (arg1) {
 			case 0: {// 远程设置
 				if (2 == isDevice) {
 					mActivity.showTextToast(R.string.ip_add_notallow);
 				} else {
 					mActivity.createDialog("");
-					mActivity
-							.showTextToast(deviceone.getFullNo() + "aaaaaaaaa");
-					PlayUtil.connectDevice(deviceList.get(deviceIndex));
+					PlayUtil.connectDevice(device);
 				}
 				break;
 			}
@@ -341,9 +341,10 @@ public class ManageFragment extends BaseFragment {
 						Intent intent = new Intent(mActivity,
 								JVRemoteSettingActivity.class);
 						intent.putExtra("SettingJSON", settingJSON);
-						Log.i("TAG", deviceIndex + "回调回来的Index");
-						MyLog.v("远程设置--", "index=" + deviceIndex + ";device="
-								+ device.toString());
+						device = deviceList
+								.get(JVDeviceManageFragment.deviceIndex);
+						MyLog.v("远程设置--", "remoteIndex=" + deviceIndex
+								+ ";device=" + device.toString());
 						intent.putExtra("Device", deviceone.toString());
 						mActivity.startActivity(intent);
 						break;

@@ -116,7 +116,7 @@ public class ManageAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				mfragment.onNotify(Consts.MANAGE_ITEM_CLICK, position,
-						devIndex, null);
+						devIndex, device);
 			}
 		});
 
@@ -125,7 +125,7 @@ public class ManageAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				mfragment.onNotify(Consts.MANAGE_ITEM_CLICK, position,
-						devIndex, null);
+						devIndex, device);
 			}
 		});
 

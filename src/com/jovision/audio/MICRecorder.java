@@ -17,8 +17,10 @@ public class MICRecorder {
 	private static final int SOURCE = MediaRecorder.AudioSource.MIC;
 	private static final int SAMPLERATE = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
-	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-	private static final int ENCODE_SIZE = 640;
+	// TODO
+	private int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+	// TODO
+	private int ENCODE_SIZE = 640;// -1 320
 
 	private int bufferSize;
 	private boolean isWorking;
@@ -39,16 +41,25 @@ public class MICRecorder {
 		MyLog.i(TAG, "construction, size = " + bufferSize);
 	}
 
-	public static MICRecorder getInstance() {
+	public static MICRecorder getInstance(int audioByte) {
 		if (null == RECORDER) {
 			RECORDER = new MICRecorder();
 		}
-
+		if (8 == audioByte) {
+			RECORDER.ENCODING = AudioFormat.ENCODING_PCM_8BIT;
+		} else {
+			RECORDER.ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+		}
 		return RECORDER;
 	}
 
 	public boolean start(final int type, final int audioByte) {
 		boolean result = false;
+		ENCODE_SIZE = 320;
+		if (Consts.JAE_ENCODER_SAMR == type || Consts.JAE_ENCODER_ALAW == type
+				|| Consts.JAE_ENCODER_ULAW == type) {
+			ENCODE_SIZE = 640;
+		}
 
 		if (false == isWorking && bufferSize > 128) {
 			record = new AudioRecord(SOURCE, SAMPLERATE, CHANNEL, ENCODING,
@@ -72,8 +83,12 @@ public class MICRecorder {
 							int ret = 0;
 							byte[] buffer = new byte[ENCODE_SIZE];
 
-							Jni.initAudioEncoder(type, SAMPLERATE, 1,
-									audioByte, ENCODE_SIZE);
+							if (Consts.JAE_ENCODER_SAMR == type
+									|| Consts.JAE_ENCODER_ALAW == type
+									|| Consts.JAE_ENCODER_ULAW == type) {
+								Jni.initAudioEncoder(type, SAMPLERATE, 1,
+										audioByte, ENCODE_SIZE);
+							}
 
 							while (isWorking) {
 								ret = record.read(buffer, 0, ENCODE_SIZE);
@@ -110,7 +125,11 @@ public class MICRecorder {
 								}
 							}
 
-							Jni.deinitAudioEncoder();
+							if (Consts.JAE_ENCODER_SAMR == type
+									|| Consts.JAE_ENCODER_ALAW == type
+									|| Consts.JAE_ENCODER_ULAW == type) {
+								Jni.deinitAudioEncoder();
+							}
 
 						} catch (Exception e) {
 							e.printStackTrace();

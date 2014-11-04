@@ -49,8 +49,12 @@ public class Device {
 
 	/** 设备类型 */
 	private int deviceType;// 服务端定义 2：家用设备 其他值 非家用
-
+	/** 0几版解码器 */
 	private boolean is05;
+
+	/** 是否带帧头 */
+	private boolean isJFH;
+
 	/** 设备昵称 */
 	private String nickName;
 
@@ -477,6 +481,14 @@ public class Device {
 
 	public void setCard(boolean isCard) {
 		this.isCard = isCard;
+	}
+
+	public boolean isJFH() {
+		return isJFH;
+	}
+
+	public void setJFH(boolean isJFH) {
+		this.isJFH = isJFH;
 	}
 
 }

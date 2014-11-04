@@ -267,7 +267,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 				animation.setFillAfter(true);
 				animation.setDuration(0);
 				mImageView.startAnimation(animation);
-				mHorizontalScrollView.smoothScrollTo((currentFragmentIndex - 1)
+				mHorizontalScrollView.smoothScrollTo((currentFragmentIndex)
 						* item_width, 0);
 			}
 			for (int i = 0; i < manageDeviceList.size(); i++) {

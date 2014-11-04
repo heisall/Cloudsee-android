@@ -352,7 +352,7 @@
     <string name="str_user_setting">User Setting</string>
     <string name="str_remote_setting">Remote Setting</string>
     <string name="str_connect_mode">Link Mode</string>
-    <string name="str_ip_connect">IP</string>
+    <string name="str_ip_connect">DomainName/IP</string>
     <string name="str_data_not_compare">Local data is inconsistent with data on server, do you want to synchronize?</string>
     <string name="str_uploading">Uploading…</string>
     <string name="str_ethernet">Ethernet</string>
@@ -567,6 +567,7 @@
     <string name="channel_name">Channel ?</string>
     <string name="del_channel_succ">Channel deleted successfully</string>
     <string name="del_channel_failed">Channel deleted failed</string>
+    <string name="device_connect">Connect All</string>
     <string name="add_channel_succ">Channel added successfully</string>
     <string name="add_channel_failed">Channel added failed</string>
     <string name="channel_full">Fail to add due to upto limition of Device channel quantity.</string>

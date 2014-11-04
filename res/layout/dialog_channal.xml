@@ -93,7 +93,7 @@
                 android:layout_marginLeft="30dp"
                 android:background="@drawable/blue_bg"
                 android:gravity="center"
-                android:text="@string/cancle"
+                android:text="@string/cancel"
                 android:textColor="@color/more_fragment_color3"
                 android:textSize="13sp" />
         </LinearLayout>

@@ -683,7 +683,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	 * @param id
 	 */
 	public void backMethod() {
-		stopTask = true;
 		searchView.stopPlayer();
 		try {
 			if (isSearching) {// 正在搜索设备是，提示是否退出
@@ -697,6 +696,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					saveSet.setVisibility(View.VISIBLE);
 					currentMenu.setText(R.string.str_quick_setting);
 				} else if (ipcLayout.getVisibility() == View.VISIBLE) {// 显示IPC网络信息列表（一级级wifi列表）
+					stopTask = true;
 					createDialog(R.string.quick_setting_exiting);
 					isBack = true;
 					ResetWifiTask task = new ResetWifiTask();
@@ -1100,7 +1100,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							String dvStr = settingMap.get("DEV_VERSION");
 							int dvInt = Integer.parseInt(dvStr);
 							if (dvInt == 1) {// 当前最新版本
-								saveWifi();
+								dismissDialog();
+								updateDialog1();
+								break;
 							} else {// 旧版
 								dismissDialog();
 								updateDialog1();
@@ -1111,7 +1113,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							updateDialog1();
 							break;
 						}
-						break;
+						// break;
 					}
 					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
 						// 获取主控码流信息请求

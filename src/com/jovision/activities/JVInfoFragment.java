@@ -102,7 +102,6 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		pushListView = (XListView) mParent.findViewById(R.id.pushlistview);
 		mActivity.getResources().getDrawable(R.drawable.refresh_broadcast);
 		rightBtn.setBackgroundResource(R.drawable.clear);
-		rightBtn.setVisibility(View.VISIBLE);
 		rightBtn.setOnClickListener(onClickListener);
 
 		// pushAdapter.setData(pushList);
@@ -114,9 +113,11 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 			pushListView.setPullLoadEnable(false);
 			pushListView.setXListViewListener(this);
+			rightBtn.setVisibility(View.VISIBLE);
 		} else {
 			pushListView.setPullLoadEnable(false);
 			pushListView.setPullRefreshEnable(false);
+			rightBtn.setVisibility(View.GONE);
 		}
 		noMess = (ImageView) mParent.findViewById(R.id.nomess);
 		noMessTv = (TextView) mParent.findViewById(R.id.nomess_tv);

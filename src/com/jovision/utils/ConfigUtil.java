@@ -62,7 +62,9 @@ import com.jovision.utils.mails.MyAuthenticator;
 
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
-	private final static String JNI_VERSION = "{\"jni\":\"0.5[5377484][2014-08-19]\",\"net\":\"v2.0.76.3.3[private:v2.0.75.13 20140709.1]\"}";
+
+	private final static String PLAY_VERSION = "0.8[9246b6f][2014-11-03]";
+	private final static String NETWORK_VERSION = "v2.0.76.3.7[private:v2.0.75.13 201401030.2.d]";
 
 	// /**
 	// * 获取本地数据库管理对象的引用
@@ -78,13 +80,30 @@ public class ConfigUtil {
 
 	public static void getJNIVersion() {
 		String remoteVer = Jni.getVersion();
-		if (JNI_VERSION.equalsIgnoreCase(remoteVer)) {
-			MyLog.v(TAG, "Same:localVer=" + JNI_VERSION + ";\nremoteVer="
-					+ remoteVer);
-		} else {
-			MyLog.e(TAG, "Not-Same:localVer=" + JNI_VERSION
-					+ ";\nremoteVerStr=" + remoteVer);
+		// remoteVerStr={"jni":"0.8[9246b6f][2014-11-03]","net":"v2.0.76.3.7[private:v2.0.75.13 201401030.2.d]"}
+		try {
+			JSONObject obj = new JSONObject(remoteVer);
+			String playVersion = obj.optString("jni");
+			String netVersion = obj.optString("net");
+			if (PLAY_VERSION.equalsIgnoreCase(playVersion)
+					&& NETWORK_VERSION.equalsIgnoreCase(netVersion)) {
+				MyLog.v(TAG, "Same:localVer=" + PLAY_VERSION + "--"
+						+ NETWORK_VERSION + ";\nremoteVer=" + remoteVer);
+			} else {
+				MyLog.e(TAG, "Not-Same:localVer=" + PLAY_VERSION + "--"
+						+ NETWORK_VERSION + ";\nremoteVerStr=" + remoteVer);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
+
+		// if (JNI_VERSION.equalsIgnoreCase(remoteVer)) {
+		// MyLog.v(TAG, "Same:localVer=" + JNI_VERSION + ";\nremoteVer="
+		// + remoteVer);
+		// } else {
+		// MyLog.e(TAG, "Not-Same:localVer=" + JNI_VERSION
+		// + ";\nremoteVerStr=" + remoteVer);
+		// }
 	}
 
 	/**

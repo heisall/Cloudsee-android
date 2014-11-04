@@ -235,7 +235,6 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			if (hasChannel && false == hasNull) {
-				handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
 				new Connecter().start();
 			} else {
 				handler.sendMessageDelayed(
@@ -1236,6 +1235,7 @@ public class JVPlayActivity extends PlayActivity implements
 					handler.sendMessageDelayed(handler.obtainMessage(
 							WHAT_CHECK_SURFACE, arg0, lastClickIndex),
 							DELAY_CHECK_SURFACE);
+					handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
 				}
 
 				lastItemIndex = arg0;
@@ -1393,8 +1393,12 @@ public class JVPlayActivity extends PlayActivity implements
 
 		if (null != channel && channel.isConnected()
 				&& false == channel.isPaused()) {
-			result = Jni.sendBytes(channel.getIndex(),
-					JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
+			if (lastClickIndex == channel.getIndex()) {
+				result = true;
+			} else {
+				result = Jni.sendBytes(channel.getIndex(),
+						JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
+			}
 
 			if (result) {
 				Jni.pause(channel.getIndex());
@@ -1422,6 +1426,7 @@ public class JVPlayActivity extends PlayActivity implements
 		handler.removeMessages(WHAT_CHECK_SURFACE);
 		handler.sendMessageDelayed(handler.obtainMessage(WHAT_CHECK_SURFACE,
 				lastItemIndex, lastClickIndex), DELAY_CHECK_SURFACE);
+		handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
 	}
 
 	private void changeBorder(int currentIndex) {
@@ -1775,49 +1780,57 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			case R.id.currentmenu:
 			case R.id.selectscreen:// 下拉选择多屏
-				if (popScreen == null) {
-					if (null != screenList && 0 != screenList.size()) {
+				if (isBlockUi) {
+					createDialog("");
+				} else {
+					if (popScreen == null) {
+						if (null != screenList && 0 != screenList.size()) {
 
-						screenAdapter = new ScreenAdapter(JVPlayActivity.this,
-								screenList);
-						screenListView = new ListView(JVPlayActivity.this);
-						screenListView.setDivider(null);
-						if (disMetrics.widthPixels < 1080) {
-							popScreen = new PopupWindow(screenListView, 240,
+							screenAdapter = new ScreenAdapter(
+									JVPlayActivity.this, screenList);
+							screenListView = new ListView(JVPlayActivity.this);
+							screenListView.setDivider(null);
+							if (disMetrics.widthPixels < 1080) {
+								popScreen = new PopupWindow(screenListView,
+										240,
+										LinearLayout.LayoutParams.WRAP_CONTENT);
+							} else {
+								popScreen = new PopupWindow(screenListView,
+										400,
+										LinearLayout.LayoutParams.WRAP_CONTENT);
+							}
+
+							screenListView.setAdapter(screenAdapter);
+
+							if (FOUR_SCREEN == currentScreen) {
+								screenAdapter.selectIndex = 0;
+							} else if (NINE_SCREEN == currentScreen) {
+								screenAdapter.selectIndex = 1;
+							} else if (SIXTEEN_SCREEN == currentScreen) {
+								screenAdapter.selectIndex = 2;
+							}
+							screenAdapter.notifyDataSetChanged();
+
+							screenListView.setVerticalScrollBarEnabled(false);
+							screenListView.setHorizontalScrollBarEnabled(false);
+							LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+									LinearLayout.LayoutParams.MATCH_PARENT,
 									LinearLayout.LayoutParams.WRAP_CONTENT);
-						} else {
-							popScreen = new PopupWindow(screenListView, 400,
-									LinearLayout.LayoutParams.WRAP_CONTENT);
+							screenListView.setLayoutParams(params);
+							screenListView.setFadingEdgeLength(0);
+							screenListView
+									.setCacheColorHint(JVPlayActivity.this
+											.getResources().getColor(
+													R.color.transparent));
+							popScreen.showAsDropDown(currentMenu);
 						}
-
-						screenListView.setAdapter(screenAdapter);
-
-						if (FOUR_SCREEN == currentScreen) {
-							screenAdapter.selectIndex = 0;
-						} else if (NINE_SCREEN == currentScreen) {
-							screenAdapter.selectIndex = 1;
-						} else if (SIXTEEN_SCREEN == currentScreen) {
-							screenAdapter.selectIndex = 2;
-						}
+					} else if (popScreen.isShowing()) {
 						screenAdapter.notifyDataSetChanged();
-
-						screenListView.setVerticalScrollBarEnabled(false);
-						screenListView.setHorizontalScrollBarEnabled(false);
-						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-								LinearLayout.LayoutParams.MATCH_PARENT,
-								LinearLayout.LayoutParams.WRAP_CONTENT);
-						screenListView.setLayoutParams(params);
-						screenListView.setFadingEdgeLength(0);
-						screenListView.setCacheColorHint(JVPlayActivity.this
-								.getResources().getColor(R.color.transparent));
+						popScreen.dismiss();
+					} else if (!popScreen.isShowing()) {
+						screenAdapter.notifyDataSetChanged();
 						popScreen.showAsDropDown(currentMenu);
 					}
-				} else if (popScreen.isShowing()) {
-					screenAdapter.notifyDataSetChanged();
-					popScreen.dismiss();
-				} else if (!popScreen.isShowing()) {
-					screenAdapter.notifyDataSetChanged();
-					popScreen.showAsDropDown(currentMenu);
 				}
 				break;
 			case R.id.bottom_but8:
@@ -2700,6 +2713,7 @@ public class JVPlayActivity extends PlayActivity implements
 		handler.removeMessages(WHAT_CHECK_SURFACE);
 		handler.sendMessageDelayed(handler.obtainMessage(WHAT_CHECK_SURFACE,
 				lastItemIndex, lastClickIndex), DELAY_CHECK_SURFACE);
+		handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
 	}
 
 	@Override

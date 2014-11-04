@@ -102,7 +102,9 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		case Consts.CALL_NEW_PICTURE: {// I帧回调
 			linkState.setVisibility(View.GONE);
 			loading.setVisibility(View.GONE);// 加载进度
-			startTimer();
+			if (null == playTimer) {
+				startTimer();
+			}
 			break;
 		}
 		case Consts.CALL_PLAY_DATA: {// 远程回放数据
@@ -156,7 +158,9 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			}
 		}
 		case JVConst.REMOTE_PLAY_DISMISS_PROGRESS: {// 5秒时间到关闭进度条
-			stopTimer();
+		// stopTimer();
+			seconds = 0;
+			progressBar.setVisibility(View.GONE);
 			break;
 		}
 		// [Neo] surface.step 3
@@ -362,10 +366,11 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				backMethod();
 				break;
 			case R.id.remotesurfaceview:// 单击视频打开隐藏进度条
+				seconds = 0;
 				if (progressBar.getVisibility() == View.GONE) {
-					startTimer();
+					progressBar.setVisibility(View.VISIBLE);
 				} else {
-					stopTimer();
+					progressBar.setVisibility(View.GONE);
 				}
 				break;
 			case R.id.audio_monitor:// 音频监听

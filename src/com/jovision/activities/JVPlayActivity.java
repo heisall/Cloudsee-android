@@ -890,7 +890,7 @@ public class JVPlayActivity extends PlayActivity implements
 							})
 					.setNegativeButton(
 							JVPlayActivity.this.getResources().getString(
-									R.string.cancle),
+									R.string.cancel),
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {

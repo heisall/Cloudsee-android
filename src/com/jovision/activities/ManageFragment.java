@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,6 +42,7 @@ public class ManageFragment extends BaseFragment {
 	private int deviceIndex;
 	private ArrayList<Device> deviceList;
 	private Device device;
+	private Device deviceone;
 
 	private GridView manageGridView;
 	private ManageAdapter manageAdapter;
@@ -59,6 +61,8 @@ public class ManageFragment extends BaseFragment {
 		bundle = getArguments();
 		deviceIndex = bundle.getInt("DeviceIndex");
 		device = deviceList.get(deviceIndex);
+		deviceone = deviceList.get(deviceIndex);
+		Log.i("TAG", deviceIndex + "onCreat的Index");
 		super.onCreate(savedInstanceState);
 	}
 
@@ -140,6 +144,8 @@ public class ManageFragment extends BaseFragment {
 					mActivity.showTextToast(R.string.ip_add_notallow);
 				} else {
 					mActivity.createDialog("");
+					mActivity
+							.showTextToast(deviceone.getFullNo() + "aaaaaaaaa");
 					PlayUtil.connectDevice(deviceList.get(deviceIndex));
 				}
 				break;
@@ -335,10 +341,10 @@ public class ManageFragment extends BaseFragment {
 						Intent intent = new Intent(mActivity,
 								JVRemoteSettingActivity.class);
 						intent.putExtra("SettingJSON", settingJSON);
-						device = deviceList.get(deviceIndex);
+						Log.i("TAG", deviceIndex + "回调回来的Index");
 						MyLog.v("远程设置--", "index=" + deviceIndex + ";device="
 								+ device.toString());
-						intent.putExtra("Device", device.toString());
+						intent.putExtra("Device", deviceone.toString());
 						mActivity.startActivity(intent);
 						break;
 					}

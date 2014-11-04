@@ -69,6 +69,11 @@ public class JVPlayActivity extends PlayActivity implements
 	private static final int WHAT_SHOW_PROGRESS = 0x23;
 	private static final int WHAT_DISMISS_PROGRESS = 0x24;
 
+	private static final int ARG2_STATUS_CONNECTING = 0x01;
+	private static final int ARG2_STATUS_CONNECTED = 0x02;
+	private static final int ARG2_STATUS_BUFFERING = 0x03;
+	private static final int ARG2_STATUS_DISCONNECTED = 0x04;
+
 	private static final int DELAY_CHECK_SURFACE = 500;
 	private static final int DELAY_DOUBLE_CHECKER = 500;
 	private static final int CONNECTION_MIN_PEROID = 200;
@@ -136,6 +141,7 @@ public class JVPlayActivity extends PlayActivity implements
 		case Consts.CALL_LAN_SEARCH: {
 			break;
 		}
+
 		case Consts.CALL_CONNECT_CHANGE: {
 			MyLog.i(TAG, "CALL_CONNECT_CHANGE:what=" + what + ",arg1=" + arg1
 					+ ",arg2=" + arg2 + ",obj=" + obj);
@@ -261,12 +267,6 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 
-		// 开始连接
-		case JVConst.WHAT_STARTING_CONNECT: {
-			loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTING);
-			break;
-		}
-
 		case Consts.CALL_CONNECT_CHANGE: {
 			Channel channel = null;
 			if (arg1 < channelList.size()) {
@@ -325,6 +325,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 				} catch (JSONException e) {
 					e.printStackTrace();
+					loadingState(arg1, R.string.closed,
+							JVConst.PLAY_DIS_CONNECTTED);
 				}
 
 				// resetFunc(channel);
@@ -350,12 +352,14 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 9 -- 其他错误
 			case JVNetConst.OHTER_ERROR: {
+				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
 				showFunc(channel, currentScreen);
 				break;
 			}
 
 			default:
+				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				break;
 			}
 			break;
@@ -526,17 +530,26 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case WHAT_PLAY_STATUS: {
-			switch (arg1) {
-			case 0:// connecting
-				loadingState(arg2, R.string.connecting, JVConst.PLAY_CONNECTTED);
+			switch (arg2) {
+			case ARG2_STATUS_CONNECTING:
+				loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTTED);
 				break;
-			case 1:// buffer1
-				loadingState(arg2, R.string.connecting_buffer1,
+
+			case ARG2_STATUS_CONNECTED:
+				loadingState(arg1, R.string.connecting_buffer1,
 						JVConst.PLAY_CONNECTING_BUFFER);
 				break;
-			case 2:// buffering2
-				loadingState(arg2, R.string.connecting_buffer2,
+
+			case ARG2_STATUS_BUFFERING:
+				loadingState(arg1, R.string.connecting_buffer2,
 						JVConst.PLAY_CONNECTING_BUFFER);
+				break;
+
+			case ARG2_STATUS_DISCONNECTED:
+				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
+				break;
+
+			default:
 				break;
 			}
 			break;
@@ -1390,8 +1403,11 @@ public class JVPlayActivity extends PlayActivity implements
 			if (result) {
 				Jni.resume(channel.getIndex(), channel.getSurface());
 				channel.setPaused(false);
-				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS, 2,
-						channel.getIndex()));
+				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+						channel.getIndex(), ARG2_STATUS_BUFFERING));
+			} else {
+				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+						channel.getIndex(), ARG2_STATUS_DISCONNECTED));
 			}
 		}
 
@@ -1460,8 +1476,8 @@ public class JVPlayActivity extends PlayActivity implements
 	private int connect(Channel channel, boolean isPlayDirectly) {
 		int result = 0;
 
-		handler.sendMessage(handler.obtainMessage(
-				JVConst.WHAT_STARTING_CONNECT, channel.getIndex(), 0));
+		handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+				channel.getIndex(), ARG2_STATUS_CONNECTING));
 
 		if (null != channel && false == channel.isConnected()
 				&& false == channel.isConnecting()) {
@@ -1549,13 +1565,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		if (false == isBlockUi && isFromImageView) {// 播放按钮事件
-			try {
-				loadingState(channel.getIndex(), R.string.connecting,
-						JVConst.PLAY_CONNECTTED);
-				connect(channel, true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			connect(channel, true);
 		}
 
 		if (false == isBlockUi && isDoubleClickCheck

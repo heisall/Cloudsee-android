@@ -212,6 +212,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 		/** 中 */
 		viewPager = new MyViewPager(PlayActivity.this);
+		viewPager.setContext(this);
 		viewPager = (MyViewPager) findViewById(R.id.play_viewpager);
 		playSurface = (SurfaceView) findViewById(R.id.remotesurfaceview);
 		linkMode = (TextView) findViewById(R.id.linkstate);

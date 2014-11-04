@@ -2723,7 +2723,6 @@ public class JVPlayActivity extends PlayActivity implements
 					voiceTip.setVisibility(View.GONE);
 				}
 			}
-
 			if (ONE_SCREEN != currentScreen) {
 				changeWindow(ONE_SCREEN);
 			}

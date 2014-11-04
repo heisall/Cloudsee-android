@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,7 +41,6 @@ public class ManageFragment extends BaseFragment {
 	private int deviceIndex;
 	private ArrayList<Device> deviceList;
 	private Device device;
-	private Device deviceone;
 
 	private GridView manageGridView;
 	private ManageAdapter manageAdapter;
@@ -61,8 +59,6 @@ public class ManageFragment extends BaseFragment {
 		bundle = getArguments();
 		deviceIndex = bundle.getInt("DeviceIndex");
 		device = deviceList.get(deviceIndex);
-		deviceone = deviceList.get(deviceIndex);
-		Log.i("TAG", deviceIndex + "onCreat的Index");
 		super.onCreate(savedInstanceState);
 	}
 
@@ -345,7 +341,7 @@ public class ManageFragment extends BaseFragment {
 								.get(JVDeviceManageFragment.deviceIndex);
 						MyLog.v("远程设置--", "remoteIndex=" + deviceIndex
 								+ ";device=" + device.toString());
-						intent.putExtra("Device", deviceone.toString());
+						intent.putExtra("Device", device.toString());
 						mActivity.startActivity(intent);
 						break;
 					}

@@ -90,10 +90,8 @@
         android:id="@+id/welcome_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="100dp"
+        android:background="@drawable/welcome_img_icon" />
 
 </RelativeLayout>

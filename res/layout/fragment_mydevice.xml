@@ -57,13 +57,13 @@
                 android:id="@+id/refreshimg"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
                 android:src="@drawable/mydevice_error" />
 
             <TextView
                 android:id="@+id/refreshitext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/refreshimg"
                 android:layout_marginTop="15dp"
                 android:text="@string/press_screen_refresh"
                 android:textColor="@color/tab_text_color"

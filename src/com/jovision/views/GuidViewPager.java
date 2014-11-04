@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.jovision.Consts;
@@ -175,14 +176,6 @@ public class GuidViewPager extends ViewPager {
 			return mListViews.size();
 		}
 
-		public Object instantiateItem(View v, int i) {
-			if (((ViewPager) v).getChildCount() == mListViews.size()) {
-				((ViewPager) v).removeView(mListViews.get(i));
-			}
-			((ViewPager) v).addView(mListViews.get(i), 0);
-			return mListViews.get(i);
-		}
-
 		public boolean isViewFromObject(View arg0, Object arg1) {
 			return arg0 == (arg1);
 		}
@@ -197,7 +190,21 @@ public class GuidViewPager extends ViewPager {
 		public void startUpdate(View arg0) {
 		}
 
-		public void destroyItem(View arg0, int arg1, Object arg2) {
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+			Object result = null;
+			if (null != mListViews && mListViews.size() > position) {
+				container.addView(mListViews.get(position));
+				result = mListViews.get(position);
+			}
+			return result;
+		}
+
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			if (null != mListViews && mListViews.size() > position) {
+				container.removeView(mListViews.get(position));
+			}
 		}
 	}
 }

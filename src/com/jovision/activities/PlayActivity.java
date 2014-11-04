@@ -339,10 +339,10 @@ public abstract class PlayActivity extends BaseActivity {
 			videoTape.setTextSize(12);// 录像
 			moreFeature.setTextSize(12);
 		} else {
-			capture.setTextSize(8);// 抓拍
-			voiceCall.setTextSize(8);// 喊话
-			videoTape.setTextSize(8);// 录像
-			moreFeature.setTextSize(8);
+			capture.setTextSize(10);// 抓拍
+			voiceCall.setTextSize(10);// 喊话
+			videoTape.setTextSize(10);// 录像
+			moreFeature.setTextSize(10);
 		}
 
 		footerBar = (LinearLayout) findViewById(R.id.footbar);// 底部工具栏

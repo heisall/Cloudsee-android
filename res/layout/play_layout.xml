@@ -96,7 +96,7 @@
                     android:onClick="onFlip"
                     android:text=""
                     android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:visibility="gone" />
 
                 <LinearLayout
@@ -109,21 +109,21 @@
 
                     <Button
                         android:id="@+id/overturn"
-                        android:layout_width="50dp"
+                        android:layout_width="60dp"
                         android:layout_height="30dp"
                         android:background="@drawable/turn_right_selector"
                         android:visibility="gone" />
 
                     <Button
                         android:id="@+id/decodeway"
-                        android:layout_width="50dp"
+                        android:layout_width="60dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="5dp"
                         android:background="@drawable/decode_selector"
                         android:onClick="onFlip"
                         android:text=""
                         android:textColor="@color/white"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:visibility="gone" />
                 </LinearLayout>
             </RelativeLayout>

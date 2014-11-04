@@ -93,7 +93,6 @@ public class JVPlayActivity extends PlayActivity implements
 	private ArrayList<Channel> connectChannelList;
 	private ArrayList<Channel> disconnectChannelList;
 
-	// private MyViewPager viewPager;
 	private MyPagerAdapter adapter;
 
 	private boolean showingDialog = false;
@@ -739,7 +738,8 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			loadingState(arg1, 0, JVConst.PLAY_CONNECTTED);
-			if (!channel.isOMX() && arg2 == Consts.DECODE_SOFT) {
+			if (!channel.isOMX() && arg2 == Consts.DECODE_SOFT
+					&& ONE_SCREEN == currentScreen) {
 				if (needToast) {
 					showTextToast(R.string.not_support_oxm);
 					needToast = false;
@@ -801,8 +801,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 					// [Neo] you fool
 					if (ONE_SCREEN == currentScreen) {
-						currentPageChannelList.get(0).setOMX(
-								object.getBoolean("is_omx"));
+						// currentPageChannelList.get(0).setOMX(
+						// object.getBoolean("is_omx"));
 
 						int window = object.getInt("window");
 						if (window == lastClickIndex) {
@@ -2059,7 +2059,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	public void onBackPressed() {
-		isQuit = true;
 		backMethod(true);
 	}
 
@@ -2123,6 +2122,7 @@ public class JVPlayActivity extends PlayActivity implements
 				} else {
 					JVPlayActivity.this.finish();
 				}
+				isQuit = true;
 			}
 
 			dismissDialog();

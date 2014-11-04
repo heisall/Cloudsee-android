@@ -215,7 +215,6 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		String jsonStr = intent.getStringExtra("SettingJSON");
 		settingMap = ConfigUtil.genMsgMap(jsonStr);
 		device = Device.fromJson(intent.getStringExtra("Device"));
-
 	}
 
 	@SuppressWarnings("deprecation")

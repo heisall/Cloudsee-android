@@ -235,6 +235,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			if (hasChannel && false == hasNull) {
+				handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
 				new Connecter().start();
 			} else {
 				handler.sendMessageDelayed(
@@ -383,7 +384,6 @@ public class JVPlayActivity extends PlayActivity implements
 			loadingState(arg1, R.string.connecting_buffer2,
 					JVConst.PLAY_CONNECTING_BUFFER);
 
-			// 多于四屏只发关键帧 TODO move to Connecter
 			if (currentScreen > FOUR_SCREEN && !channel.isSendCMD()) {
 				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_ONLYI, new byte[0],
 						0);
@@ -790,13 +790,18 @@ public class JVPlayActivity extends PlayActivity implements
 							// object.getDouble("audio_play_delay")
 							);
 					sBuilder.append(msg).append("\n");
-					isOmx = object.getBoolean("is_omx");
-					// channelList.get(arg2).setOMX(isOmx);
 
-					String kbps = String.format("%.0f",
-							object.getDouble("kbps"))
-							+ "kBps";
-					currentKbps.setText(kbps);
+					// [Neo] you fool
+					if (ONE_SCREEN == currentScreen) {
+						currentPageChannelList.get(0).setOMX(
+								object.getBoolean("is_omx"));
+
+						int window = object.getInt("window");
+						if (window == lastClickIndex) {
+							currentKbps.setText(String.format("%.0fkBps",
+									object.getDouble("kbps")));
+						}
+					}
 
 				}
 				linkMode.setText(sBuilder.toString());
@@ -2736,8 +2741,6 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		public void run() {
 			try {
-				handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
-				// [Neo] TODO report: start disconnect
 				int size = disconnectChannelList.size();
 				MyLog.w(Consts.TAG_PLAY, "disconnect count: " + size);
 				for (int i = 0; i < size; i++) {

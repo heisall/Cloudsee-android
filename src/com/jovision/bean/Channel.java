@@ -47,7 +47,7 @@ public class Channel {
 	private boolean ispull;// 是否展开channal
 
 	private int audioType = 0;// 音频类型
-	private int audioByte = 0;// 音频比特率
+	private int audioByte = 0;// 音频比特率8 16
 
 	private boolean agreeTextData = false;// 是否同意文本聊天
 	private boolean isOMX = false;// 是否硬解

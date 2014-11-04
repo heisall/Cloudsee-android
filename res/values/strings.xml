@@ -294,7 +294,7 @@
     <string name="pull_to_refresh_tap_label">Tap to refresh…</string>
     <string name="str_data_load_success">Device loaded successfully</string>
     <string name="str_data_load_nodevice">No device</string>
-    <string name="str_data_load_failed">Failed to load device</string>
+    <string name="str_data_load_failed1">Failed to load device</string>
     <string name="str_update_at">Update at:</string>
     <string name="str_newpro_show">New Device</string>
     <string name="str_watch_newpro">Check the demo</string>
@@ -557,6 +557,8 @@
     <string name="voice_tips2">Audio talk is enabled successfully. You can speak to the other through long-click.</string>
     <string name="default_stream">Default</string>
     <string name="has_calling">The Two-way Talk has not been enabled or is being used by other user, so please try again later.</string>
+    <string name="not_support_voicecall">此设备暂不支持语音对讲功能</string>
+
     <!-- JVAddDeviceActivity -->
     <string name="add_device_succ">Device added successfully</string>
     <string name="add_device_failed">Failed to add device</string>
@@ -626,7 +628,7 @@
     <!-- 抓拍保存路径 -->
     <string name="str_capture_path">capture/</string>
     <!-- 版本号 -->
-    <string name="str_current_version">BetaV4.1.44(Beta) - DJ</string>
+    <string name="str_current_version">V4.1.45(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

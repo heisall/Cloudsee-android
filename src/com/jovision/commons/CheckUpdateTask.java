@@ -87,7 +87,10 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 	@Override
 	protected void onPostExecute(Integer result) {
 		// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-		((BaseActivity) mContext).dismissDialog();
+		if (1 == autoUpdate) {
+			((BaseActivity) mContext).dismissDialog();
+		}
+
 		if (1 == result) {
 			JVUpdate jvUpdate = new JVUpdate(mContext);
 			jvUpdate.checkUpdateInfo(updateLog);
@@ -109,7 +112,10 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 	@Override
 	protected void onPreExecute() {
 		// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-		((BaseActivity) mContext).createDialog("");
+		if (1 == autoUpdate) {
+			((BaseActivity) mContext).createDialog("");
+		}
+
 	}
 
 	@Override

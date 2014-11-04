@@ -78,6 +78,7 @@ public class ManageFragment extends BaseFragment {
 				manageGridView.setAdapter(manageAdapter);
 				manageAdapter.notifyDataSetChanged();
 			}
+
 		} catch (Exception e) {
 			MyLog.e(TAG, "setDevIndex=device" + device + "--" + localFlag);
 			e.printStackTrace();
@@ -118,7 +119,10 @@ public class ManageFragment extends BaseFragment {
 		super.onResume();
 		deviceList = CacheUtil.getDevList();
 		mActivity = (BaseActivity) getActivity();
-		isDevice = deviceList.get(deviceIndex).getIsDevice();
+		// isDevice = deviceList.get(deviceIndex).getIsDevice();
+		// device = deviceList.get(deviceIndex);
+		// MyLog.e("远程设置--setIndex",
+		// "index="+deviceIndex+";device="+device.toString());
 	}
 
 	@Override
@@ -328,6 +332,9 @@ public class ManageFragment extends BaseFragment {
 						Intent intent = new Intent(mActivity,
 								JVRemoteSettingActivity.class);
 						intent.putExtra("SettingJSON", settingJSON);
+						device = deviceList.get(deviceIndex);
+						MyLog.v("远程设置--", "index=" + deviceIndex + ";device="
+								+ device.toString());
 						intent.putExtra("Device", device.toString());
 						mActivity.startActivity(intent);
 						break;

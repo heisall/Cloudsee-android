@@ -235,7 +235,6 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			if (hasChannel && false == hasNull) {
-				handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
 				new Connecter().start();
 			} else {
 				handler.sendMessageDelayed(
@@ -401,9 +400,18 @@ public class JVPlayActivity extends PlayActivity implements
 			try {
 				JSONObject jobj;
 				jobj = new JSONObject(obj.toString());
+				int type = jobj.optInt("device_type");
 				if (null != jobj) {
-					channel.getParent().setType(jobj.optInt("device_type"));
-					if (Consts.DEVICE_TYPE_IPC == jobj.optInt("device_type")) {
+					channel.getParent().setType(type);
+					if (Consts.DEVICE_TYPE_IPC == type
+							|| Consts.DEVICE_TYPE_DVR == type
+							|| Consts.DEVICE_TYPE_NVR == type) {
+						channel.getParent().setCard(false);
+					} else {
+						channel.getParent().setCard(true);
+					}
+
+					if (Consts.DEVICE_TYPE_IPC == type) {
 						channel.getParent().setHomeProduct(true);
 						// channel.setSingleVoice(true);
 					} else {
@@ -1236,6 +1244,7 @@ public class JVPlayActivity extends PlayActivity implements
 					handler.sendMessageDelayed(handler.obtainMessage(
 							WHAT_CHECK_SURFACE, arg0, lastClickIndex),
 							DELAY_CHECK_SURFACE);
+					handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
 				}
 
 				lastItemIndex = arg0;
@@ -1393,8 +1402,12 @@ public class JVPlayActivity extends PlayActivity implements
 
 		if (null != channel && channel.isConnected()
 				&& false == channel.isPaused()) {
-			result = Jni.sendBytes(channel.getIndex(),
-					JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
+			if (lastClickIndex == channel.getIndex()) {
+				result = true;
+			} else {
+				result = Jni.sendBytes(channel.getIndex(),
+						JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
+			}
 
 			if (result) {
 				Jni.pause(channel.getIndex());
@@ -1422,6 +1435,7 @@ public class JVPlayActivity extends PlayActivity implements
 		handler.removeMessages(WHAT_CHECK_SURFACE);
 		handler.sendMessageDelayed(handler.obtainMessage(WHAT_CHECK_SURFACE,
 				lastItemIndex, lastClickIndex), DELAY_CHECK_SURFACE);
+		handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
 	}
 
 	private void changeBorder(int currentIndex) {
@@ -1474,29 +1488,36 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 			} else {
-
 				int number = device.getNo();
+				String conIp = device.getIp();
+				int conPort = device.getPort();
+				// 有ip通过ip连接
 				if (false == ("".equalsIgnoreCase(device.getIp()) || 0 == device
 						.getPort())) {
-					number = -1;
+					if (is3G(false) && 0 == device.getIsDevice()) {// 普通设备3G情况不用ip连接
+						conIp = "";
+						conPort = 0;
+					} else {// 有ip非3G
+						number = -1;
+					}
 				}
 
 				if (isPlayDirectly) {
 					result = Jni.connect(channel.getIndex(),
-							channel.getChannel(), device.getIp(),
-							device.getPort(), device.getUser(),
-							device.getPwd(), number, device.getGid(), true, 1,
-							true, 6,// (device.isHomeProduct() ? 6 : 5),
+							channel.getChannel(), conIp, conPort,
+							device.getUser(), device.getPwd(), number,
+							device.getGid(), true, 1, true, 6,// (device.isHomeProduct()
+																// ? 6 : 5),
 							channel.getSurface(), isOmx);
 					if (result == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
 				} else {
 					result = Jni.connect(channel.getIndex(),
-							channel.getChannel(), device.getIp(),
-							device.getPort(), device.getUser(),
-							device.getPwd(), number, device.getGid(), true, 1,
-							true, 6,// (device.isHomeProduct() ? 6 : 5),
+							channel.getChannel(), conIp, conPort,
+							device.getUser(), device.getPwd(), number,
+							device.getGid(), true, 1, true, 6,// (device.isHomeProduct()
+																// ? 6 : 5),
 							null, isOmx);
 					if (result == channel.getIndex()) {
 						channel.setPaused(true);
@@ -1775,49 +1796,57 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			case R.id.currentmenu:
 			case R.id.selectscreen:// 下拉选择多屏
-				if (popScreen == null) {
-					if (null != screenList && 0 != screenList.size()) {
+				if (isBlockUi) {
+					createDialog("");
+				} else {
+					if (popScreen == null) {
+						if (null != screenList && 0 != screenList.size()) {
 
-						screenAdapter = new ScreenAdapter(JVPlayActivity.this,
-								screenList);
-						screenListView = new ListView(JVPlayActivity.this);
-						screenListView.setDivider(null);
-						if (disMetrics.widthPixels < 1080) {
-							popScreen = new PopupWindow(screenListView, 240,
+							screenAdapter = new ScreenAdapter(
+									JVPlayActivity.this, screenList);
+							screenListView = new ListView(JVPlayActivity.this);
+							screenListView.setDivider(null);
+							if (disMetrics.widthPixels < 1080) {
+								popScreen = new PopupWindow(screenListView,
+										240,
+										LinearLayout.LayoutParams.WRAP_CONTENT);
+							} else {
+								popScreen = new PopupWindow(screenListView,
+										400,
+										LinearLayout.LayoutParams.WRAP_CONTENT);
+							}
+
+							screenListView.setAdapter(screenAdapter);
+
+							if (FOUR_SCREEN == currentScreen) {
+								screenAdapter.selectIndex = 0;
+							} else if (NINE_SCREEN == currentScreen) {
+								screenAdapter.selectIndex = 1;
+							} else if (SIXTEEN_SCREEN == currentScreen) {
+								screenAdapter.selectIndex = 2;
+							}
+							screenAdapter.notifyDataSetChanged();
+
+							screenListView.setVerticalScrollBarEnabled(false);
+							screenListView.setHorizontalScrollBarEnabled(false);
+							LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+									LinearLayout.LayoutParams.MATCH_PARENT,
 									LinearLayout.LayoutParams.WRAP_CONTENT);
-						} else {
-							popScreen = new PopupWindow(screenListView, 400,
-									LinearLayout.LayoutParams.WRAP_CONTENT);
+							screenListView.setLayoutParams(params);
+							screenListView.setFadingEdgeLength(0);
+							screenListView
+									.setCacheColorHint(JVPlayActivity.this
+											.getResources().getColor(
+													R.color.transparent));
+							popScreen.showAsDropDown(currentMenu);
 						}
-
-						screenListView.setAdapter(screenAdapter);
-
-						if (FOUR_SCREEN == currentScreen) {
-							screenAdapter.selectIndex = 0;
-						} else if (NINE_SCREEN == currentScreen) {
-							screenAdapter.selectIndex = 1;
-						} else if (SIXTEEN_SCREEN == currentScreen) {
-							screenAdapter.selectIndex = 2;
-						}
+					} else if (popScreen.isShowing()) {
 						screenAdapter.notifyDataSetChanged();
-
-						screenListView.setVerticalScrollBarEnabled(false);
-						screenListView.setHorizontalScrollBarEnabled(false);
-						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-								LinearLayout.LayoutParams.MATCH_PARENT,
-								LinearLayout.LayoutParams.WRAP_CONTENT);
-						screenListView.setLayoutParams(params);
-						screenListView.setFadingEdgeLength(0);
-						screenListView.setCacheColorHint(JVPlayActivity.this
-								.getResources().getColor(R.color.transparent));
+						popScreen.dismiss();
+					} else if (!popScreen.isShowing()) {
+						screenAdapter.notifyDataSetChanged();
 						popScreen.showAsDropDown(currentMenu);
 					}
-				} else if (popScreen.isShowing()) {
-					screenAdapter.notifyDataSetChanged();
-					popScreen.dismiss();
-				} else if (!popScreen.isShowing()) {
-					screenAdapter.notifyDataSetChanged();
-					popScreen.showAsDropDown(currentMenu);
 				}
 				break;
 			case R.id.bottom_but8:
@@ -1892,31 +1921,36 @@ public class JVPlayActivity extends PlayActivity implements
 
 					}
 
-					if (channelList.get(lastClickIndex).isVoiceCall()) {
-						if (null != recorder) {
-							recorder.stop();
-						}
-						if (null != audioQueue) {// 清队列，防止停止后仍然播放
-							audioQueue.clear();
-						}
-						PlayUtil.stopVoiceCall(lastClickIndex);
-						channelList.get(lastClickIndex).setVoiceCall(false);
-						realStop = true;
-						voiceCallSelected(false);
-						VOICECALLING = false;
-						if (Consts.PLAY_AP == playFlag) {
-							functionListAdapter.selectIndex = -1;
-						}
+					if (channelList.get(lastClickIndex).getParent().isCard()) {
+						showTextToast(R.string.not_support_voicecall);
 					} else {
-						initAudio(channelList.get(lastClickIndex)
-								.getAudioByte());
-						JVPlayActivity.AUDIO_SINGLE = channelList.get(
-								lastClickIndex).isSingleVoice();
-						PlayUtil.startVoiceCall(lastClickIndex);
-						if (Consts.PLAY_AP == playFlag) {
-							functionListAdapter.selectIndex = 2;
+						if (channelList.get(lastClickIndex).isVoiceCall()) {
+							if (null != recorder) {
+								recorder.stop();
+							}
+							if (null != audioQueue) {// 清队列，防止停止后仍然播放
+								audioQueue.clear();
+							}
+							PlayUtil.stopVoiceCall(lastClickIndex);
+							channelList.get(lastClickIndex).setVoiceCall(false);
+							realStop = true;
+							voiceCallSelected(false);
+							VOICECALLING = false;
+							if (Consts.PLAY_AP == playFlag) {
+								functionListAdapter.selectIndex = -1;
+							}
+						} else {
+							initAudio(channelList.get(lastClickIndex)
+									.getAudioByte());
+							JVPlayActivity.AUDIO_SINGLE = channelList.get(
+									lastClickIndex).isSingleVoice();
+							PlayUtil.startVoiceCall(lastClickIndex);
+							if (Consts.PLAY_AP == playFlag) {
+								functionListAdapter.selectIndex = 2;
+							}
 						}
 					}
+
 				}
 				functionListAdapter.notifyDataSetChanged();
 				break;
@@ -2040,12 +2074,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 			backFunc = Boolean.valueOf(params[0]);
 			try {
-				// if (Consts.PLAY_AP == playFlag) {
-				// Jni.disconnect(0);
-				// } else {
-				// PlayUtil.disConnectAll(manager.getChannelList());
-				// }
-
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -2700,6 +2728,7 @@ public class JVPlayActivity extends PlayActivity implements
 		handler.removeMessages(WHAT_CHECK_SURFACE);
 		handler.sendMessageDelayed(handler.obtainMessage(WHAT_CHECK_SURFACE,
 				lastItemIndex, lastClickIndex), DELAY_CHECK_SURFACE);
+		handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
 	}
 
 	@Override

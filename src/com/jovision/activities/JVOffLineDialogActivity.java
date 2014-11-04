@@ -44,6 +44,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 	private Button exit;
 	private Button keepOnline;
 	Timer offlineTimer;
+	TimerTask offlineTask;
 
 	/** 账号离线 */
 	private LinearLayout offlineLayout;
@@ -136,23 +137,22 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			offlineLayout.setVisibility(View.GONE);
 			exceptionLayout.setVisibility(View.GONE);
 			lastSeconds = COUNTS;
-			offlineTimer = new Timer();
-			TimerTask offlineTask = new TimerTask() {
-
-				@Override
-				public void run() {
-					lastSeconds--;
-					if (0 == lastSeconds) {
-						handler.sendMessage(handler.obtainMessage(COUNT_END, 0,
-								0, null));
-					} else {
-						handler.sendMessage(handler.obtainMessage(COUNTING,
-								lastSeconds, 0, null));
-					}
-				}
-
-			};
-			offlineTimer.schedule(offlineTask, 1 * 1000, 1 * 1000);
+			startTimer();
+			// offlineTimer = new Timer();
+			// TimerTask offlineTask = new TimerTask() {
+			// public void run() {
+			// lastSeconds--;
+			// if (0 == lastSeconds) {
+			// handler.sendMessage(handler.obtainMessage(COUNT_END, 0,
+			// 0, null));
+			// } else {
+			// handler.sendMessage(handler.obtainMessage(COUNTING,
+			// lastSeconds, 0, null));
+			// }
+			// }
+			//
+			// };
+			// offlineTimer.schedule(offlineTask, 1 * 1000, 1 * 1000);
 		} else if (errorCode == Consts.APP_CRASH) {// 程序崩溃
 			otherLoginLayout.setVisibility(View.GONE);
 			offlineLayout.setVisibility(View.GONE);
@@ -163,6 +163,42 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			exceptionLayout.setVisibility(View.GONE);
 		}
 
+	}
+
+	/**
+	 */
+	public void startTimer() {
+		if (null != offlineTimer) {
+			offlineTimer.cancel();
+			offlineTimer = null;
+		}
+		offlineTimer = new Timer();
+		offlineTask = new TimerTask() {
+			public void run() {
+				lastSeconds--;
+				if (0 == lastSeconds) {
+					handler.sendMessage(handler.obtainMessage(COUNT_END, 0, 0,
+							null));
+				} else {
+					handler.sendMessage(handler.obtainMessage(COUNTING,
+							lastSeconds, 0, null));
+				}
+			}
+
+		};
+
+		offlineTimer.schedule(offlineTask, 1 * 1000, 1 * 1000);
+	}
+
+	public void stopTimer() {
+		if (null != offlineTimer) {
+			offlineTimer.cancel();
+			offlineTimer = null;
+		}
+		if (null != offlineTask) {
+			offlineTask.cancel();
+			offlineTask = null;
+		}
 	}
 
 	OnClickListener mOnClickListener = new OnClickListener() {
@@ -300,6 +336,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 	 * 重新进登陆
 	 */
 	public void reLogin() {
+		stopTimer();
 		MyActivityManager.getActivityManager().popAllActivityExceptOne(
 				JVLoginActivity.class);
 		Intent intent = new Intent();

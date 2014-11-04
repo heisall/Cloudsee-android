@@ -251,8 +251,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 		myDeviceListView.addHeaderView(adView);
 		rightBtn.setOnClickListener(myOnClickListener);
 
-		// 非3G加广播设备
-		startBroadTimer();
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
 			refreshList();
@@ -263,72 +261,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 			task.execute(strParams);
 		}
 
+		// 非3G加广播设备
+		startBroadTimer();
 		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			startAutoRefreshTimer();
 		}
 
-	}
-
-	/**
-	 * 5分钟广播
-	 */
-	public void startBroadTimer() {
-		// 非3G加广播设备
-		if (!mActivity.is3G(false)) {
-			if (null != broadTimer) {
-				broadTimer.cancel();
-			}
-			broadTimer = new Timer();
-
-			broadTimerTask = new TimerTask() {
-				@Override
-				public void run() {
-					MyLog.v(TAG, "三分钟时间到--发广播");
-					broadTag = BROAD_THREE_MINITE;
-					PlayUtil.broadCast(mActivity);
-				}
-			};
-			broadTimer.schedule(broadTimerTask, 5 * 60 * 1000, 5 * 60 * 1000);
-		}
-	}
-
-	public void stopBroadTimer() {
-		if (null != broadTimer) {
-			broadTimer.cancel();
-			broadTimer = null;
-		}
-		if (null != broadTimerTask) {
-			broadTimerTask.cancel();
-			broadTimerTask = null;
-		}
-	}
-
-	/**
-	 * 2分钟自动刷新
-	 */
-	public void startAutoRefreshTimer() {
-		// 两分钟自动刷新设备列表
-		updateTask = new AutoUpdateTask();
-		if (null != updateTimer) {
-			updateTimer.cancel();
-		}
-
-		updateTimer = new Timer();
-		if (null != updateTimer) {
-			updateTimer.schedule(updateTask, 2 * 60 * 1000, 2 * 60 * 1000);
-		}
-	}
-
-	public void stopRefreshWifiTimer() {
-		if (null != updateTimer) {
-			updateTimer.cancel();
-			updateTimer = null;
-		}
-		if (null != updateTask) {
-			updateTask.cancel();
-			updateTask = null;
-		}
 	}
 
 	@Override
@@ -449,8 +388,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 					break;
 				}
 				case 3: {// 局域网设备
-					fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 					if (!mActivity.is3G(false)) {// 3G网提示不支持
+						fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 						broadTag = BROAD_ADD_DEVICE;
 						broadList.clear();
 						PlayUtil.broadCast(mActivity);
@@ -476,6 +415,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		startBroadTimer();
+		startAutoRefreshTimer();
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
 				.get(Consts.HAG_GOT_DEVICE));
 		if (hasGot) {
@@ -524,6 +465,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onPause() {
 		super.onPause();
+		stopRefreshWifiTimer();
+		stopBroadTimer();
 		sortList();
 		CacheUtil.saveDevList(myDeviceList);
 		// imageScroll.stopTimer();
@@ -1045,6 +988,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
 					getRes = DEVICE_GETDATA_SUCCESS;
+					mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
+					// 给设备列表设置小助手
+					PlayUtil.setHelperToList(myDeviceList);
 				} else if (null != myDeviceList && 0 == myDeviceList.size()) {// 无数据
 					getRes = DEVICE_NO_DEVICE;
 				} else {// 获取设备失败
@@ -1065,44 +1011,22 @@ public class JVMyDeviceFragment extends BaseFragment {
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
-			// refreshableView.finishRefreshing();
+			refreshList();
 			mPullRefreshListView.onRefreshComplete();
 			switch (result) {
 			// 从服务器端获取设备成功
 			case DEVICE_GETDATA_SUCCESS: {
-				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
-				// 给设备列表设置小助手
-				PlayUtil.setHelperToList(myDeviceList);
-				// while (0 != broadTag) {
-				// try {
-				// Thread.sleep(1000);
-				// } catch (InterruptedException e) {
-				// e.printStackTrace();
-				// }
-				// }
 				broadTag = BROAD_DEVICE_LIST;
 				PlayUtil.broadCast(mActivity);
-				refreshList();
 				break;
 			}
 			// 从服务器端获取设备成功，但是没有设备
 			case DEVICE_NO_DEVICE: {
-				// while (0 != broadTag) {
-				// try {
-				// Thread.sleep(1000);
-				// } catch (InterruptedException e) {
-				// e.printStackTrace();
-				// }
-				// }
-				// broadTag = BROAD_DEVICE_LIST;
-				// PlayUtil.broadCast(mActivity);
-				refreshList();
 				break;
 			}
 			// 从服务器端获取设备失败
 			case DEVICE_GETDATA_FAILED: {
 				mActivity.showTextToast(R.string.get_device_failed);
-				refreshList();
 				break;
 			}
 			}
@@ -1321,5 +1245,66 @@ public class JVMyDeviceFragment extends BaseFragment {
 			fragHandler.sendMessage(fragHandler.obtainMessage(AUTO_UPDATE));
 		}
 
+	}
+
+	/**
+	 * 5分钟广播
+	 */
+	public void startBroadTimer() {
+		// 非3G加广播设备
+		if (!mActivity.is3G(false)) {
+			if (null != broadTimer) {
+				broadTimer.cancel();
+			}
+			broadTimer = new Timer();
+
+			broadTimerTask = new TimerTask() {
+				@Override
+				public void run() {
+					MyLog.v(TAG, "三分钟时间到--发广播");
+					broadTag = BROAD_THREE_MINITE;
+					PlayUtil.broadCast(mActivity);
+				}
+			};
+			broadTimer.schedule(broadTimerTask, 5 * 60 * 1000, 5 * 60 * 1000);
+		}
+	}
+
+	public void stopBroadTimer() {
+		if (null != broadTimer) {
+			broadTimer.cancel();
+			broadTimer = null;
+		}
+		if (null != broadTimerTask) {
+			broadTimerTask.cancel();
+			broadTimerTask = null;
+		}
+	}
+
+	/**
+	 * 2分钟自动刷新
+	 */
+	public void startAutoRefreshTimer() {
+		// 两分钟自动刷新设备列表
+		updateTask = new AutoUpdateTask();
+		if (null != updateTimer) {
+			updateTimer.cancel();
+		}
+
+		updateTimer = new Timer();
+		if (null != updateTimer) {
+			updateTimer.schedule(updateTask, 2 * 60 * 1000, 2 * 60 * 1000);
+		}
+	}
+
+	public void stopRefreshWifiTimer() {
+		if (null != updateTimer) {
+			updateTimer.cancel();
+			updateTimer = null;
+		}
+		if (null != updateTask) {
+			updateTask.cancel();
+			updateTask = null;
+		}
 	}
 }

@@ -73,6 +73,7 @@ public class JVPlayActivity extends PlayActivity implements
 	private static final int ARG2_STATUS_CONNECTED = 0x02;
 	private static final int ARG2_STATUS_BUFFERING = 0x03;
 	private static final int ARG2_STATUS_DISCONNECTED = 0x04;
+	private static final int ARG2_STATUS_UNKNOWN = 0x05;
 
 	private static final int DELAY_CHECK_SURFACE = 500;
 	private static final int DELAY_DOUBLE_CHECKER = 500;
@@ -563,7 +564,9 @@ public class JVPlayActivity extends PlayActivity implements
 			case ARG2_STATUS_DISCONNECTED:
 				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				break;
-
+			case ARG2_STATUS_UNKNOWN:
+				loadingState(arg1, R.string.closed, JVConst.PLAY_STATUS_UNKNOWN);
+				break;
 			default:
 				break;
 			}
@@ -1579,7 +1582,11 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		if (false == isBlockUi && isFromImageView) {// 播放按钮事件
-			connect(channel, true);
+			if (channel.isConnected() || channel.isConnecting()) {
+				resumeChannel(channel);
+			} else {
+				connect(channel, true);
+			}
 		}
 
 		if (false == isBlockUi && isDoubleClickCheck
@@ -1670,8 +1677,9 @@ public class JVPlayActivity extends PlayActivity implements
 					&& false == channel.isConnected()) {
 				connectChannelList.add(channel);
 			}
-
 			channel.setSurface(surface);
+			handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+					channel.getIndex(), ARG2_STATUS_UNKNOWN));
 			break;
 
 		case PlayWindowManager.STATUS_CHANGED:
@@ -2498,7 +2506,7 @@ public class JVPlayActivity extends PlayActivity implements
 			ViewGroup container = (ViewGroup) manager.getView(index)
 					.getParent();
 			switch (tag) {
-			case JVConst.PLAY_CONNECTING:// 连接中
+			case JVConst.PLAY_CONNECTING: {// 连接中
 				verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
@@ -2510,7 +2518,8 @@ public class JVPlayActivity extends PlayActivity implements
 				manager.setInfo(container,
 						getResources().getString(loadingState), textSize);// 连接文字
 				break;
-			case JVConst.PLAY_CONNECTTED:// 已连接
+			}
+			case JVConst.PLAY_CONNECTTED: {// 已连接
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth, View.GONE);// loading
 				manager.setViewVisibility(container,
@@ -2518,7 +2527,8 @@ public class JVPlayActivity extends PlayActivity implements
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_CONTROL_CENTER, View.GONE);// 播放按钮
 				break;
-			case JVConst.PLAY_DIS_CONNECTTED:// 断开
+			}
+			case JVConst.PLAY_DIS_CONNECTTED: {// 断开
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth, View.GONE);// loading
 				manager.setViewVisibility(container,
@@ -2540,7 +2550,8 @@ public class JVPlayActivity extends PlayActivity implements
 				manager.setInfo(container,
 						getResources().getString(loadingState), textSize);// 连接文字
 				break;
-			case JVConst.PLAY_CONNECTING_BUFFER:// 缓冲中
+			}
+			case JVConst.PLAY_CONNECTING_BUFFER: {// 缓冲中
 				verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
@@ -2552,6 +2563,28 @@ public class JVPlayActivity extends PlayActivity implements
 				manager.setInfo(container,
 						getResources().getString(loadingState), textSize);// 连接文字
 				break;
+			}
+			case JVConst.PLAY_STATUS_UNKNOWN: {// 未知状态，只显示播放按钮
+				manager.setViewVisibility(container,
+						PlayWindowManager.ID_INFO_PROGRESS, proWidth, View.GONE);// loading
+				manager.setViewVisibility(container,
+						PlayWindowManager.ID_CONTROL_CENTER, View.VISIBLE);// 播放状态按钮
+
+				int centerResId = R.drawable.play_l;
+				if (currentScreen == ONE_SCREEN) {// 单屏
+					centerResId = R.drawable.play_l;
+				} else if (currentScreen > ONE_SCREEN
+						&& currentScreen <= NINE_SCREEN) {// 4-9屏
+					centerResId = R.drawable.play_m;
+				} else {// 其他
+					centerResId = R.drawable.play_s;
+				}
+
+				manager.setCenterResId(container, centerResId);
+				manager.setViewVisibility(container,
+						PlayWindowManager.ID_INFO_TEXT, View.GONE);// 连接文字
+				break;
+			}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

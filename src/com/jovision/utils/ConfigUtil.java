@@ -483,7 +483,9 @@ public class ConfigUtil {
 			String yst = ystEdit.substring(kkk);
 			for (int mm = 0; mm < group.length(); mm++) {
 				char c = ystEdit.charAt(mm);
-				if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
+				if (mm == 0
+						&& ((c == 'A' || c == 'a' || c == 'B' || c == 'b'
+								|| c == 'S' || c == 's'))) {
 
 				} else {
 					flag = false;

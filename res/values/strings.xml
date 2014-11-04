@@ -37,7 +37,7 @@
     <string name="login_str_device_account_notnull">Please input username.</string>
     <string name="login_str_device_pass_notnull">Please input password.</string>
     <string name="login_str_device_connnum_notnull">number of channels can not be empty</string>
-    <string name="login_str_device_account_error">Username format incorrect, it can only be formed by 1–15 letters,numbers or _–.</string>
+    <string name="login_str_device_account_error">Username format incorrect, it can only be formed by 1–15 letters,numbers or. _–.</string>
     <string name="login_str_device_pass_error">Password format incorrect, it can only be formed by 0–15 letters,numbers or _–.</string>
     <string name="login_str_device_add_success">Device added successfully</string>
     <string name="login_str_device_add_failed">Failed to add device</string>

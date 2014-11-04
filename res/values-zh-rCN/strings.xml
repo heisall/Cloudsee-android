@@ -37,7 +37,7 @@
     <string name="login_str_device_account_notnull">请输入用户名</string>
     <string name="login_str_device_pass_notnull">请输入密码</string>
     <string name="login_str_device_connnum_notnull">通道数量不能为空</string>
-    <string name="login_str_device_account_error">用户名格式不正确，用户名只能由1–16位的英文、数字及_–组成.</string>
+    <string name="login_str_device_account_error">用户名格式不正确，用户名只能由1–16位的英文、数字及._–组成.</string>
     <string name="login_str_device_pass_error">密码格式不正确，密码只能由0–16位字符组成.</string>
     <string name="login_str_device_add_success">添加设备成功</string>
     <string name="login_str_device_add_failed">添加设备失败</string>

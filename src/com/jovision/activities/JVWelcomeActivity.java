@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.test.AutoLoad;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -34,6 +35,7 @@ public class JVWelcomeActivity extends BaseActivity {
 	private TextView cloud2;
 	private TextView clouden1;
 	private TextView clouden2;
+	private ImageView welcome_img;
 
 	private static boolean HAS_LOADED = false;
 
@@ -193,7 +195,9 @@ public class JVWelcomeActivity extends BaseActivity {
 		cloud2 = (TextView) findViewById(R.id.cloud2);
 		clouden1 = (TextView) findViewById(R.id.clouden1);
 		clouden2 = (TextView) findViewById(R.id.clouden2);
+		welcome_img = (ImageView) findViewById(R.id.welcome_img);
 		if (!ConfigUtil.isLanZH()) {
+			welcome_img.setBackgroundResource(R.drawable.welcome_imgen_icon);
 			cloud1.setVisibility(View.GONE);
 			cloud2.setVisibility(View.GONE);
 			clouden1.setTextSize((float) 16.0);
@@ -202,6 +206,8 @@ public class JVWelcomeActivity extends BaseActivity {
 			clouden2.setTextSize((float) 16.0);
 			clouden2.setTextColor(JVWelcomeActivity.this.getResources()
 					.getColor(R.color.more_fragment_color3));
+		} else {
+			welcome_img.setBackgroundResource(R.drawable.welcome_img_icon);
 		}
 		if (!ConfigUtil.isConnected(JVWelcomeActivity.this)) {
 			alertNetDialog();

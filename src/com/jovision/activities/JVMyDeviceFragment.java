@@ -90,6 +90,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private ImageViewPager imageScroll; // 图片容器
 	private LinearLayout ovalLayout; // 圆点容器
 	private List<View> listViews; // 图片组
+	private int[] imageResId = new int[] { R.drawable.a, R.drawable.b };
+	private int[] imageEnResId = new int[] { R.drawable.aen, R.drawable.ben };
+	private int[] image = new int[] {};
 	/** 弹出框 */
 	private Dialog initDialog;// 显示弹出框
 	private TextView dialogCancel;// 取消按钮
@@ -483,8 +486,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 */
 	private void InitViewPager() {
 		listViews = new ArrayList<View>();
-		int[] imageResId = new int[] { R.drawable.a, R.drawable.b };
-		for (int i = 0; i < imageResId.length; i++) {
+		if (!ConfigUtil.isLanZH()) {
+			image = imageEnResId;
+		} else {
+			image = imageResId;
+		}
+
+		for (int i = 0; i < image.length; i++) {
 			ImageView imageView = new ImageView(mActivity);
 			imageView.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {// 设置图片点击事件
@@ -492,7 +500,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 					// + imageScroll.getCurIndex());
 				}
 			});
-			imageView.setImageResource(imageResId[i]);
+			imageView.setImageResource(image[i]);
 			imageView.setScaleType(ScaleType.FIT_CENTER);
 			listViews.add(imageView);
 		}

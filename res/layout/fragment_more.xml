@@ -122,7 +122,7 @@
                 android:id="@+id/more_cancle"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_margin="15dp" >
+                android:layout_margin="23dp" >
 
                 <TextView
                     android:layout_width="wrap_content"

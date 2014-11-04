@@ -597,6 +597,7 @@
     <string name="str_help_five">Add Alarm Device</string>
     <!-- Dialog -->
     <string name="save">Save</string>
+    <string name="cancle">Cancel</string>
     <string name="delect">Delect</string>
     <string name="str_devicename">Device Number</string>
     <string name="str_username"> Username</string>

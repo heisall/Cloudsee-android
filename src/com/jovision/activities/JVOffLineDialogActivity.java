@@ -207,6 +207,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.keeponline: {
+				stopTimer();
 				createDialog(R.string.login_str_loging);
 				LoginTask task = new LoginTask();
 				String[] strParams = new String[3];
@@ -268,7 +269,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
-
+		stopTimer();
 	}
 
 	@Override
@@ -336,7 +337,6 @@ public class JVOffLineDialogActivity extends BaseActivity {
 	 * 重新进登陆
 	 */
 	public void reLogin() {
-		stopTimer();
 		MyActivityManager.getActivityManager().popAllActivityExceptOne(
 				JVLoginActivity.class);
 		Intent intent = new Intent();

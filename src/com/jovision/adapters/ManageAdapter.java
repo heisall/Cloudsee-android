@@ -36,6 +36,7 @@ public class ManageAdapter extends BaseAdapter {
 	private boolean showDelete = false;
 	private int screenWidth = 0;
 
+	private int devIndex;
 	private Device device;
 	private boolean loacal;// 本地登陆
 
@@ -47,8 +48,9 @@ public class ManageAdapter extends BaseAdapter {
 				.getStringArray(R.array.manage_function);
 	}
 
-	public void setData(int width, Device dev, boolean local) {
+	public void setData(int width, int index, Device dev, boolean local) {
 		screenWidth = width;
+		devIndex = index;
 		device = dev;
 		this.loacal = local;
 	}
@@ -113,7 +115,8 @@ public class ManageAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View arg0) {
-				mfragment.onNotify(Consts.MANAGE_ITEM_CLICK, position, 0, null);
+				mfragment.onNotify(Consts.MANAGE_ITEM_CLICK, position,
+						devIndex, null);
 			}
 		});
 
@@ -121,7 +124,8 @@ public class ManageAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View arg0) {
-				mfragment.onNotify(Consts.MANAGE_ITEM_CLICK, position, 0, null);
+				mfragment.onNotify(Consts.MANAGE_ITEM_CLICK, position,
+						devIndex, null);
 			}
 		});
 

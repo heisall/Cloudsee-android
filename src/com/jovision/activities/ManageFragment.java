@@ -73,8 +73,8 @@ public class ManageFragment extends BaseFragment {
 			deviceIndex = index;
 			device = deviceList.get(deviceIndex);
 			if (null != device && null != manageAdapter) {
-				manageAdapter
-						.setData(disMetrics.widthPixels, device, localFlag);
+				manageAdapter.setData(disMetrics.widthPixels, deviceIndex,
+						device, localFlag);
 				manageGridView.setAdapter(manageAdapter);
 				manageAdapter.notifyDataSetChanged();
 			}
@@ -98,8 +98,8 @@ public class ManageFragment extends BaseFragment {
 		manageAdapter = new ManageAdapter(this);
 		try {
 			if (null != device) {
-				manageAdapter
-						.setData(disMetrics.widthPixels, device, localFlag);
+				manageAdapter.setData(disMetrics.widthPixels, deviceIndex,
+						device, localFlag);
 				manageGridView.setAdapter(manageAdapter);
 				manageAdapter.notifyDataSetChanged();
 			}
@@ -129,6 +129,7 @@ public class ManageFragment extends BaseFragment {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		MyLog.i("ManageFragment", "onTabAction:what=" + what + ";arg1=" + arg1
 				+ ";arg2=" + arg1);
+		deviceIndex = arg2;
 		switch (what) {
 		case Consts.MANAGE_ITEM_CLICK: {// adapter item 单击事件
 			switch (arg1) {

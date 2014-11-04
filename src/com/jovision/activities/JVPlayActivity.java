@@ -2086,6 +2086,15 @@ public class JVPlayActivity extends PlayActivity implements
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+
+				while (!allDis(channelList)) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2129,6 +2138,34 @@ public class JVPlayActivity extends PlayActivity implements
 		protected void onProgressUpdate(Integer... values) {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
+	}
+
+	/**
+	 * 判断是否已经全部断开
+	 * 
+	 * @param channleList
+	 * @return
+	 */
+	public boolean allDis(ArrayList<Channel> channleList) {
+		boolean allDis = true;
+		if (null != channleList && 0 != channleList.size()) {
+			try {
+				int size = channleList.size();
+				for (int i = 0; i < size; i++) {
+					if (channleList.get(i).isConnected()
+							|| channleList.get(i).isConnecting()) {
+						allDis = false;
+						MyLog.e(TAG, "Not-DisConnected-index="
+								+ channleList.get(i).getIndex());
+						break;
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return allDis;
 	}
 
 	/**
@@ -2408,21 +2445,26 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			int textSize = 14;
+			int proWidth = 30;
 			switch (currentScreen) {
 			case ONE_SCREEN: {
 				textSize = 18;
+				proWidth = 90;
 				break;
 			}
 			case FOUR_SCREEN: {
 				textSize = 16;
+				proWidth = 70;
 				break;
 			}
 			case NINE_SCREEN: {
 				textSize = 12;
+				proWidth = 50;
 				break;
 			}
 			case SIXTEEN_SCREEN: {
 				textSize = 10;
+				proWidth = 30;
 				break;
 			}
 			}
@@ -2433,7 +2475,8 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVConst.PLAY_CONNECTING:// 连接中
 				verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
-						PlayWindowManager.ID_INFO_PROGRESS, View.VISIBLE);// loading
+						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
+						View.VISIBLE);// loading
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_TEXT, View.VISIBLE);// 连接文字
 				manager.setViewVisibility(container,
@@ -2443,7 +2486,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case JVConst.PLAY_CONNECTTED:// 已连接
 				manager.setViewVisibility(container,
-						PlayWindowManager.ID_INFO_PROGRESS, View.GONE);// loading
+						PlayWindowManager.ID_INFO_PROGRESS, proWidth, View.GONE);// loading
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_TEXT, View.GONE);// 连接文字
 				manager.setViewVisibility(container,
@@ -2451,7 +2494,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case JVConst.PLAY_DIS_CONNECTTED:// 断开
 				manager.setViewVisibility(container,
-						PlayWindowManager.ID_INFO_PROGRESS, View.GONE);// loading
+						PlayWindowManager.ID_INFO_PROGRESS, proWidth, View.GONE);// loading
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_CONTROL_CENTER, View.VISIBLE);// 播放状态按钮
 
@@ -2474,7 +2517,8 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVConst.PLAY_CONNECTING_BUFFER:// 缓冲中
 				verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
-						PlayWindowManager.ID_INFO_PROGRESS, View.VISIBLE);// loading
+						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
+						View.VISIBLE);// loading
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_TEXT, View.VISIBLE);// 连接文字
 				manager.setViewVisibility(container,

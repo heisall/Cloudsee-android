@@ -306,6 +306,21 @@ public class PlayWindowManager implements View.OnClickListener,
 		}
 	}
 
+	public void setViewVisibility(View container, int viewId, int width,
+			int visibility) {
+		if (null != container) {
+			View view = container.findViewById(viewId);
+			if (null != view) {
+				if (PlayWindowManager.ID_INFO_PROGRESS == viewId) {
+					LinearLayout.LayoutParams progressParams = new LinearLayout.LayoutParams(
+							width, width);
+					view.setLayoutParams(progressParams);
+				}
+				view.setVisibility(visibility);
+			}
+		}
+	}
+
 	/**
 	 * 添加新的通道
 	 * 

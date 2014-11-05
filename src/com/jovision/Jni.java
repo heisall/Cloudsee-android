@@ -1,6 +1,7 @@
 package com.jovision;
 
 import com.jovision.commons.JVNetConst;
+import com.jovision.commons.MyUtils;
 
 /**
  * 所有与 NDK 交互的接口都在这儿
@@ -150,7 +151,7 @@ public class Jni {
 	 * 连接，参考
 	 * {@link JVSUDT#JVC_Connect(int, int, String, int, String, String, int, String, boolean, int, boolean, int, Object)}
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引，从 0 开始
 	 * @param channel
 	 *            设备通道，从 1 开始
@@ -168,7 +169,7 @@ public class Jni {
 	 * @param isTryOmx
 	 * @return 连接结果，成功时返回窗口索引，失败时返回原因值
 	 */
-	public static native int connect(int index, int channel, String ip,
+	public static native int connect(int window, int channel, String ip,
 			int port, String username, String password, int cloudSeeId,
 			String groupId, boolean isLocalDetect, int turnType,
 			boolean isPhone, int connectType, Object surface, boolean isTryOmx);
@@ -176,18 +177,18 @@ public class Jni {
 	/**
 	 * 设置当前解码方式
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param isOmx
 	 *            是否硬解
 	 * @return 设置是否生效
 	 */
-	public static native boolean setOmx(int index, boolean isOmx);
+	public static native boolean setOmx(int window, boolean isOmx);
 
 	/**
 	 * 设置窗口颜色
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param red
 	 *            红，0~1
@@ -199,7 +200,7 @@ public class Jni {
 	 *            透明，0~1
 	 * @return
 	 */
-	public static native boolean setColor(int index, float red, float green,
+	public static native boolean setColor(int window, float red, float green,
 			float blue, float alpha);
 
 	/**
@@ -219,52 +220,52 @@ public class Jni {
 	/**
 	 * 暂停底层显示
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @return
 	 */
-	public static native boolean pause(int index);
+	public static native boolean pause(int window);
 
 	/**
 	 * 恢复底层显示
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param surface
 	 * @return
 	 */
-	public static native boolean resume(int index, Object surface);
+	public static native boolean resume(int window, Object surface);
 
 	/**
 	 * 将指定通道的视频快进到最新内容
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 */
-	public static native boolean fastForward(int index);
+	public static native boolean fastForward(int window);
 
 	/**
 	 * 开始录制，参考
 	 * {@link JVSUDT#StartRecordMP4(String, int, int, int, int, int, double, int)}
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param path
 	 * @param video
 	 * @param audio
 	 * @return
 	 */
-	public static native boolean startRecord(int index, String path,
+	public static native boolean startRecord(int window, String path,
 			boolean enableVideo, boolean enableAudio);
 
 	/**
 	 * 检查对应窗口是否处于录像状态，TODO: 现在只有单路可用
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @return
 	 */
-	public static native boolean checkRecord(int index);
+	public static native boolean checkRecord(int window);
 
 	/**
 	 * 停止录制，参考 {@link JVSUDT#StopRecordMP4(int)}
@@ -276,7 +277,7 @@ public class Jni {
 	/**
 	 * 截图，参考 {@link JVSUDT#SaveCapture(int)}
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param name
 	 *            待保存的文件名
@@ -284,23 +285,23 @@ public class Jni {
 	 *            画面质量
 	 * @return
 	 */
-	public static native boolean screenshot(int index, String name, int quality);
+	public static native boolean screenshot(int window, String name, int quality);
 
 	/**
 	 * 断开，参考 {@link JVSUDT#JVC_DisConnect(int)}
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 */
-	public static native boolean disconnect(int index);
+	public static native boolean disconnect(int window);
 
 	/**
 	 * 清理本地缓存，参考 {@link JVSUDT#JVC_ClearBuffer(int)}
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 */
-	public static native boolean clearBuffer(int index);
+	public static native boolean clearBuffer(int window);
 
 	/**
 	 * 查询某个设备是否被搜索出来
@@ -319,13 +320,13 @@ public class Jni {
 	/**
 	 * 发送字节数据，参考 {@link JVSUDT#JVC_SendData(int, byte, byte[], int)}
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param data
 	 * @param size
 	 */
-	public static native boolean sendBytes(int index, byte uchType,
+	public static native boolean sendBytes(int window, byte uchType,
 			byte[] data, int size);
 
 	/**
@@ -333,13 +334,13 @@ public class Jni {
 	 * 
 	 * // [Neo] TODO 未验证
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param data
 	 * @param size
 	 */
-	public static native boolean sendAudioData(int index, byte uchType,
+	public static native boolean sendAudioData(int window, byte uchType,
 			byte[] data, int size);
 
 	/**
@@ -347,26 +348,17 @@ public class Jni {
 	 * 
 	 * 实际调用 {@link #sendCmd(int, byte, byte[], int)}
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param data
 	 */
-	public static native boolean sendInteger(int index, byte uchType, int data);
+	public static native boolean sendInteger(int window, byte uchType, int data);
 
 	/**
 	 * 发送字符串数据
 	 * 
-	 * @param index
-	 *            窗口索引
-	 * @param uchType
-	 * @param data
-	 */
-
-	/**
-	 * 发送字符串数据
-	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 *            发送类型
@@ -379,102 +371,102 @@ public class Jni {
 	 * @param data
 	 *            数据
 	 */
-	public static native boolean sendString(int index, byte uchType,
+	public static native boolean sendString(int window, byte uchType,
 			boolean isExtend, int count, int type, String data);
 
-	// {
-	// int index = 0;
-	// byte uchType = 0;
-	//
-	// int mode = 0;
-	// int switcher = 0;
-	//
-	// int type = 0;
-	// int flag = 0;
-	//
-	// int dhcp = 0;
-	// int ip = MyUtils.ip2int("");
-	// int mask = MyUtils.ip2int("");
-	// int gateway = MyUtils.ip2int("");
-	// int dns = MyUtils.ip2int("");
-	//
-	// int ch = 0;
-	// int width = 0;
-	// int height = 0;
-	// int mbph = 0;
-	// int fps = 0;
-	// int rc = 0;
-	//
-	// String ssid = "";
-	// String pwd = "";
-	// String auth = "";
-	// String enc = "";
-	//
-	// String custom = "";
-	//
-	// // [Neo] 设置存储模式
-	// Jni.sendString(index, uchType, true, Consts.COUNT_EX_STORAGE,
-	// Consts.TYPE_EX_STORAGE_SWITCH,
-	// String.format(Consts.FORMATTER_STORAGE_MODE, mode));
-	//
-	// // [Neo] 获取存储模式
-	// Jni.sendString(index, uchType, false, 0, Consts.TYPE_GET_PARAM, null);
-	//
-	// // [Neo] 结果检查，通过判断 TextData 的 flag 是否等于 100
-	//
-	// // [Neo] 切换对讲
-	// Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM,
-	// String.format(Consts.FORMATTER_TALK_SWITCH, switcher));
-	//
-	// // [Neo] 门瓷与手环
-	// Jni.sendString(index, uchType, false, type, 0, custom);
-	//
-	// /*** 忧郁的分割线 ***/
-	//
-	// // [Neo] 设置码流，已替换
-	// Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM, String
-	// .format(Consts.FORMATTER_SET_BPS_FPS, ch, width, height, mbph,
-	// fps, rc));
-	//
-	// /*** 忧郁的分割线 TODO ***/
-	//
-	// // [Neo] 设置 DHCP
-	// Jni.sendString(index, uchType, true, Consts.COUNT_EX_NETWORK,
-	// Consts.TYPE_EX_SET_DHCP, String.format(
-	// Consts.FORMATTER_SET_DHCP, flag, dhcp, ip, mask,
-	// gateway, dns));
-	//
-	// // [Neo] 设置 wifi
-	// Jni.sendString(index, uchType, true, Consts.COUNT_EX_NETWORK, type,
-	// String.format(Consts.FORMATTER_SET_WIFI, flag, ssid, pwd));
-	//
-	// // [Neo] 保存 wifi
-	// Jni.sendString(index, uchType, true, Consts.COUNT_EX_NETWORK, type,
-	// String.format(Consts.FORMATTER_SAVE_WIFI, flag, ssid, pwd,
-	// auth, enc));
-	//
-	// // [Neo] 切换码流、设置设备名称、设置存储
-	// Jni.sendString(index, uchType, false, 0, Consts.TYPE_SET_PARAM, custom);
-	//
-	// // [Neo] 翻转视频
-	// Jni.sendString(index, uchType, true, Consts.COUNT_EX_SENSOR,
-	// Consts.TYPE_EX_SENSOR, custom);
-	//
-	// // [Neo] 更新设备
-	// Jni.sendString(index, uchType, true, Consts.TYPE_EX_UPDATE,
-	// Consts.COUNT_EX_UPDATE, null);
-	// }
+	{
+		int window = 0;
+		byte uchType = 0;
+
+		int mode = 0;
+		int switcher = 0;
+
+		int type = 0;
+		int flag = 0;
+
+		int dhcp = 0;
+		int ip = MyUtils.ip2int("");
+		int mask = MyUtils.ip2int("");
+		int gateway = MyUtils.ip2int("");
+		int dns = MyUtils.ip2int("");
+
+		int ch = 0;
+		int width = 0;
+		int height = 0;
+		int mbph = 0;
+		int fps = 0;
+		int rc = 0;
+
+		String ssid = "";
+		String pwd = "";
+		String auth = "";
+		String enc = "";
+
+		String custom = "";
+
+		// [Neo] 设置存储模式
+		Jni.sendString(window, uchType, true, Consts.COUNT_EX_STORAGE,
+				Consts.TYPE_EX_STORAGE_SWITCH,
+				String.format(Consts.FORMATTER_STORAGE_MODE, mode));
+
+		// [Neo] 获取存储模式
+		Jni.sendString(window, uchType, false, 0, Consts.TYPE_GET_PARAM, null);
+
+		// [Neo] 结果检查，通过判断 TextData 的 flag 是否等于 100
+
+		// [Neo] 切换对讲
+		Jni.sendString(window, uchType, false, 0, Consts.TYPE_SET_PARAM,
+				String.format(Consts.FORMATTER_TALK_SWITCH, switcher));
+
+		// [Neo] 门瓷与手环
+		Jni.sendString(window, uchType, false, type, 0, custom);
+
+		/*** 忧郁的分割线 ***/
+
+		// [Neo] 设置码流，已替换
+		Jni.sendString(window, uchType, false, 0, Consts.TYPE_SET_PARAM, String
+				.format(Consts.FORMATTER_SET_BPS_FPS, ch, width, height, mbph,
+						fps, rc));
+
+		/*** 忧郁的分割线 TODO ***/
+
+		// [Neo] 设置 DHCP
+		Jni.sendString(window, uchType, true, Consts.COUNT_EX_NETWORK,
+				Consts.TYPE_EX_SET_DHCP, String.format(
+						Consts.FORMATTER_SET_DHCP, flag, dhcp, ip, mask,
+						gateway, dns));
+
+		// [Neo] 设置 wifi
+		Jni.sendString(window, uchType, true, Consts.COUNT_EX_NETWORK, type,
+				String.format(Consts.FORMATTER_SET_WIFI, flag, ssid, pwd));
+
+		// [Neo] 保存 wifi
+		Jni.sendString(window, uchType, true, Consts.COUNT_EX_NETWORK, type,
+				String.format(Consts.FORMATTER_SAVE_WIFI, flag, ssid, pwd,
+						auth, enc));
+
+		// [Neo] 切换码流、设置设备名称、设置存储
+		Jni.sendString(window, uchType, false, 0, Consts.TYPE_SET_PARAM, custom);
+
+		// [Neo] 翻转视频
+		Jni.sendString(window, uchType, true, Consts.COUNT_EX_SENSOR,
+				Consts.TYPE_EX_SENSOR, custom);
+
+		// [Neo] 更新设备
+		Jni.sendString(window, uchType, true, Consts.TYPE_EX_UPDATE,
+				Consts.COUNT_EX_UPDATE, null);
+	}
 
 	/**
 	 * 发送聊天命令，参考 {@link JVSUDT#JVC_SendTextData(int, byte, int, int)}
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param size
 	 * @param flag
 	 */
-	public static native boolean sendTextData(int index, byte uchType,
+	public static native boolean sendTextData(int window, byte uchType,
 			int size, int flag);
 
 	/**
@@ -482,14 +474,14 @@ public class Jni {
 	 * 
 	 * // [Neo] TODO 未验证
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param data
 	 * @param size
 	 * @return
 	 */
-	public static native int sendCmd(int index, byte uchType, byte[] data,
+	public static native int sendCmd(int window, byte uchType, byte[] data,
 			int size);
 
 	/**
@@ -498,7 +490,7 @@ public class Jni {
 	 * 
 	 * // [Neo] TODO 未验证
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param ssid
@@ -506,7 +498,7 @@ public class Jni {
 	 * @param flag
 	 * @param tag
 	 */
-	public static native boolean setWifi(int index, byte uchType, String ssid,
+	public static native boolean setWifi(int window, byte uchType, String ssid,
 			String password, int flag, int tag);
 
 	/**
@@ -515,7 +507,7 @@ public class Jni {
 	 * 
 	 * // [Neo] TODO 未验证
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param ssid
@@ -525,18 +517,19 @@ public class Jni {
 	 * @param auth
 	 * @param enc
 	 */
-	public static native boolean saveWifi(int index, byte uchType, String ssid,
-			String password, int flag, int type, String auth, String enc);
+	public static native boolean saveWifi(int window, byte uchType,
+			String ssid, String password, int flag, int type, String auth,
+			String enc);
 
 	/**
 	 * 设置 AP，参考 {@link JVSUDT#JVC_ManageAP(int, byte, String)}
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param json
 	 */
-	public static native boolean setAccessPoint(int index, byte uchType,
+	public static native boolean setAccessPoint(int window, byte uchType,
 			String json);
 
 	/**
@@ -545,7 +538,7 @@ public class Jni {
 	 * 
 	 * // [Neo] TODO 未验证
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param dhcp
@@ -555,7 +548,7 @@ public class Jni {
 	 * @param dns
 	 * @return
 	 */
-	public static native boolean setDhcp(int index, byte uchType, int dhcp,
+	public static native boolean setDhcp(int window, byte uchType, int dhcp,
 			String ip, String mask, String gateway, String dns);
 
 	/**
@@ -563,12 +556,12 @@ public class Jni {
 	 * 
 	 * // [Neo] TODO 未验证
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param cmd
 	 */
-	public static native boolean changeStream(int index, byte uchType,
+	public static native boolean changeStream(int window, byte uchType,
 			String cmd);
 
 	/**
@@ -576,12 +569,12 @@ public class Jni {
 	 * 
 	 * // [Neo] TODO 未验证
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param json
 	 */
-	public static native boolean setDeviceName(int index, byte uchType,
+	public static native boolean setDeviceName(int window, byte uchType,
 			String cmd);
 
 	/**
@@ -589,35 +582,36 @@ public class Jni {
 	 * 
 	 * // [Neo] TODO 未验证
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param cmd
 	 */
-	public static native boolean setStorage(int index, byte uchType, String cmd);
+	public static native boolean setStorage(int window, byte uchType, String cmd);
 
 	/**
 	 * 翻转视频，参考 {@link JVSUDT#JVC_TurnVideo(int, byte, byte[])}
 	 * 
 	 * // [Neo] TODO 未验证
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 * @param cmd
 	 */
-	public static native boolean rotateVideo(int index, byte uchType, String cmd);
+	public static native boolean rotateVideo(int window, byte uchType,
+			String cmd);
 
 	/**
 	 * 设备升级，参考 {@link JVSUDT#JVC_DeviceUpdate(int, byte)}
 	 * 
 	 * // [Neo] TODO 未验证
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param uchType
 	 */
-	public static native boolean updateDevice(int index, byte uchType);
+	public static native boolean updateDevice(int window, byte uchType);
 
 	/**
 	 * 启用底层日志打印，参考 {@link JVSUDT#JVC_EnableLog(boolean)}
@@ -653,47 +647,47 @@ public class Jni {
 	/**
 	 * 修改指定窗口播放标识位，参考 {@link JVSUDT#ChangePlayFalg(int, int)}
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param enable
 	 * @return
 	 */
-	public static native boolean enablePlayback(int index, boolean enable);
+	public static native boolean enablePlayback(int window, boolean enable);
 
 	/**
 	 * 获取指定窗口是否处于远程回放状态
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @return
 	 */
-	public static native boolean isPlayback(int index);
+	public static native boolean isPlayback(int window);
 
 	/**
 	 * 修改指定窗口音频标识位
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param enable
 	 *            是否播放 Normaldata 的音频数据
 	 * @return
 	 */
-	public static native boolean enablePlayAudio(int index, boolean enable);
+	public static native boolean enablePlayAudio(int window, boolean enable);
 
 	/**
 	 * 获取指定窗口是否正在播放音频
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param enable
 	 * @return
 	 */
-	public static native boolean isPlayAudio(int index);
+	public static native boolean isPlayAudio(int window);
 
 	/**
 	 * 设置显示图像的顶点坐标(坐标系原点在 Surface 左下顶点)和长宽
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param left
 	 *            图像左坐标
@@ -705,7 +699,7 @@ public class Jni {
 	 *            图像高
 	 * @return
 	 */
-	public static native boolean setViewPort(int index, int left, int bottom,
+	public static native boolean setViewPort(int window, int left, int bottom,
 			int width, int height);
 
 	/**
@@ -746,7 +740,7 @@ public class Jni {
 	 * 
 	 * // [Neo] TODO 未实现
 	 * 
-	 * @param index
+	 * @param window
 	 *            窗口索引
 	 * @param channel
 	 *            通道号，从 0 开始
@@ -761,7 +755,7 @@ public class Jni {
 	 * @param turnType
 	 * 
 	 */
-	public static native boolean tcpConnect(int index, int channel, String ip,
+	public static native boolean tcpConnect(int window, int channel, String ip,
 			int port, String username, String password, int cloudSeeId,
 			String groupId, boolean isLocalDetect, int connectType, int turnType);
 

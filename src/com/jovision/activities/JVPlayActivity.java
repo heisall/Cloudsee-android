@@ -77,9 +77,9 @@ public class JVPlayActivity extends PlayActivity implements
 
 	private static final int DELAY_CHECK_SURFACE = 500;
 	private static final int DELAY_DOUBLE_CHECKER = 500;
-	private static final int CONNECTION_MIN_PEROID = 200;
-	private static final int DISCONNECTION_MIN_PEROID = 50;
-	private static final int RESUME_VIDEO_MIN_PEROID = 50;
+	private static final int CONNECTION_MIN_PEROID = 300;
+	private static final int DISCONNECTION_MIN_PEROID = 100;
+	private static final int RESUME_VIDEO_MIN_PEROID = 100;
 
 	private boolean isQuit;
 	private boolean isBlockUi;
@@ -2934,7 +2934,8 @@ public class JVPlayActivity extends PlayActivity implements
 						MyLog.v(Consts.TAG_PLAY, "addtional: " + channel);
 					}
 
-					if (false == channel.isConnected()) {
+					if (false == channel.isConnected()
+							&& false == channel.isConnecting()) {
 						boolean result = connect(channel, isPlayDirectly) == channel
 								.getIndex();
 						if (false == result) {

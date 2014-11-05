@@ -785,7 +785,7 @@ public class JVPlayActivity extends PlayActivity implements
 			} else if (Consts.DECODE_SOFT == arg2) {
 				channel.setOMX(false);
 			}
-
+			needToast = false;
 			showFunc(channel, currentScreen, lastClickIndex);
 			MyLog.i(Consts.TAG_PLAY, "new Frame I: window = " + arg1
 					+ ", omx = " + arg2);
@@ -1750,9 +1750,9 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.decodeway: {// 软硬解切换
 				if (allowThisFuc(false)) {
 					createDialog("");
-					if (channel.isOMX()) {
+					if (channel.isOMX()) {// 硬解切成软解
 						Jni.setOmx(lastClickIndex, false);
-					} else {
+					} else {// 软解切成硬解
 						needToast = true;
 						Jni.setOmx(lastClickIndex, true);
 					}

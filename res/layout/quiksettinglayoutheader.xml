@@ -12,14 +12,15 @@
 
     <TextView
         android:id="@+id/quiksetting_tips_txt"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/quicksetting_tips_img"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:text="@string/str_quiksetting_tips_txt"
         android:textColor="@color/more_fragment_color2"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="normal" />
 
 </RelativeLayout>

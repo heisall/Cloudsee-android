@@ -157,7 +157,7 @@ public class JVFeedbackActivity extends BaseActivity {
 				String contentStr = content.getText().toString();// 反馈内容
 				phone = new GetPhoneNumber(connectStr);
 				if (phone.matchNum() == 4 || phone.matchNum() == 5) {
-					showTextToast(R.string.str_warm_connection);
+					showTextToast(R.string.str_notice_connection);
 				} else {
 					if (0 == content.getText().toString().length()
 							|| ("").equals(connectStr)) {

@@ -24,7 +24,7 @@
                 android:id="@+id/more_usertop"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
-                android:background="@color/more_fragment_color4" >
+                android:background="@drawable/more_bg" >
 
                 <ImageView
                     android:id="@+id/more_head_img"

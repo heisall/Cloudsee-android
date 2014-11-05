@@ -90,7 +90,7 @@
     <string name="last_time">Previous login time:</string>
     <string name="more_nologin">Operate after login.</string>
     <string name="more_modify">Modify</string>
-    <string name="more_modifypwd">Change password</string>
+    <string name="more_modifypwd">Change Password</string>
     <string name="more_findpassword">Retrieve Password</string>
     <string name="more_cancel">Log Out</string>
     <string name="dialog_modifypwd">Failed to verify indentification, do you need to modify username and password?</string>
@@ -145,7 +145,7 @@
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="str_play_failed"> play the video failed</string>
     <!-- 连接方式 -->
-    <string name="cloud_number">CloudNum</string>
+    <string name="cloud_number">CloudSEE ID</string>
     <!-- 更多功能 -->
     <string name="str_more_features">More function</string>
     <string name="str_share">Share</string>
@@ -254,8 +254,8 @@
     <string name="str_skip">skip</string>
     <string name="str_reset">reseting</string>
     <!-- 修改密码 -->
-    <string name="login_str_ipaddress">IP/Domain Name</string>
-    <string name="login_str_ipaddressdevice">IP/Domain Name</string>
+    <string name="login_str_ipaddress">IP/DNS</string>
+    <string name="login_str_ipaddressdevice">IP/DNS</string>
     <string name="login_str_port">Port</string>
     <string name="login_str_user_name">Username</string>
     <string name="str_pass">Password</string>
@@ -298,7 +298,7 @@
     <string name="str_watch_newpro">Check the demo</string>
     <string name="str_scanning_device">The device is being searched\nWait a moment…</string>
     <string name="str_continue_qr_device">Continue</string>
-    <string name="str_return_qr_device">Return</string>
+    <string name="str_return_qr_device">Back</string>
     <string name="str_net_push_error">Network is unnormal, push srvice has stoped.</string>
     <string name="str_net_push_ok">Network is connected, push service is started.</string>
     <string name="str_net_open_push_error">Network is unnormal，push service is not started.</string>
@@ -362,7 +362,7 @@
     <string name="str_user_setting">User Setting</string>
     <string name="str_remote_setting">Remote Setting</string>
     <string name="str_connect_mode">Link Mode</string>
-    <string name="str_ip_connect">DomainName/IP</string>
+    <string name="str_ip_connect">IP/DNS</string>
     <string name="str_data_not_compare">Local data is inconsistent with data on server, do you want to synchronize?</string>
     <string name="str_uploading">Uploading…</string>
     <string name="str_ethernet">Ethernet</string>
@@ -444,7 +444,7 @@
     <!-- JVOffline -->
     <string name="offline_other_login">Account login elsewhere or account exception.</string>
     <string name="offline_net_error">Network connection exception,please login again.</string>
-    <string name="exit">Quit</string>
+    <string name="exit">Back</string>
     <string name="keeponline">Maintain</string>
     <string name="tips">Tips</string>
     <string name="setting">Setting</string>
@@ -562,7 +562,7 @@
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">Total</string>
     <string name="str_aft">devices.</string>
-    <string name="ip_add_notallow">Do not support devices added  by domain name/IP address.</string>
+    <string name="ip_add_notallow">Do not support devices added  by DNS/IP address.</string>
     <string name="protect_open_succ">Enable Security Protection Successfully.</string>
     <string name="protect_open_fail">Failed to enable Security Protection.</string>
     <string name="protect_close_succ">Disable Security Protection Successfully.</string>

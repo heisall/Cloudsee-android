@@ -349,9 +349,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 			 * public PopupWindow (View contentView, int width, int height)
 			 * contentView:布局view width：布局的宽 height：布局的高
 			 */
-			popupWindow = new PopupWindow(v,
-					mActivity.disMetrics.widthPixels / 2,
-					LayoutParams.WRAP_CONTENT);
+			if (!ConfigUtil.isLanZH()) {
+				popupWindow = new PopupWindow(v,
+						mActivity.disMetrics.widthPixels / 2+60,
+						LayoutParams.WRAP_CONTENT);
+			}else {
+				popupWindow = new PopupWindow(v,
+						mActivity.disMetrics.widthPixels / 2,
+						LayoutParams.WRAP_CONTENT);
+			}
 		}
 		popupWindow.setFocusable(true); // 获得焦点
 		popupWindow.setOutsideTouchable(true);// 是否可点击

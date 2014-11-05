@@ -37,15 +37,6 @@
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/cloud1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="@string/cloud1"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:typeface="monospace" />
 
                 <TextView
                     android:id="@+id/clouden1"
@@ -54,8 +45,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:text="CloudSEE to You "
-                    android:textColor="@color/welcome1"
-                    android:textSize="10sp" />
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -64,14 +55,6 @@
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/cloud2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="@string/cloud2"
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/clouden2"
@@ -80,8 +63,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:text="Vision to World "
-                    android:textColor="@color/welcome1"
-                    android:textSize="10sp" />
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

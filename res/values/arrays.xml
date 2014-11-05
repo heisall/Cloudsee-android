@@ -15,16 +15,16 @@
         <item> Alarm</item>
         <item> Viewing Mode(Single-device)</item>
         <item> Feedback</item>
-        <item> Update</item>
-        <item> About</item>
+        <item>Software Update</item>
+        <item>	Version</item>
     </string-array>
     <string-array name="array_moreduo">
         <item> Help</item>
         <item> Alarm</item>
         <item> Viewing Mode(Multi-device)</item>
         <item> Feedback</item>
-        <item> Update</item>
-        <item> About</item>
+        <item> Software Update</item>
+        <item> Version</item>
     </string-array>
     <!-- setting -->
     <string-array name="array_setting">
@@ -40,7 +40,7 @@
         <item>Scan QR Code</item>
         <item>Add Wi_Fi Device</item>
         <item>Scan devices in LAN</item>
-        <item>IP/Domain Name</item>
+        <item>IP/DNS</item>
     </string-array>
     <string-array name="array_popno">
         <item>Add by CloudSEE ID</item>

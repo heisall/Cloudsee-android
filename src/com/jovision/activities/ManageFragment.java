@@ -146,7 +146,7 @@ public class ManageFragment extends BaseFragment {
 					if (isConnected) {
 						PlayUtil.disconnectDevice();
 					}
-					mActivity.showTextToast(device.getFullNo());
+					// mActivity.showTextToast(device.getFullNo());
 					PlayUtil.connectDevice(device);
 					isConnected = true;
 				}
@@ -233,7 +233,7 @@ public class ManageFragment extends BaseFragment {
 			break;
 		}
 		case Consts.CALL_STAT_REPORT: {// 统计
-		// connect[1], has connected!!
+			// connect[1], has connected!!
 			MyLog.i(TAG, "CALL_STAT_REPORT: " + what + ", " + arg1 + ", "
 					+ arg2 + ", " + obj);
 			break;

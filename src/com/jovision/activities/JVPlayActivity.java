@@ -68,6 +68,7 @@ public class JVPlayActivity extends PlayActivity implements
 	private static final int WHAT_PLAY_STATUS = 0x22;
 	private static final int WHAT_SHOW_PROGRESS = 0x23;
 	private static final int WHAT_DISMISS_PROGRESS = 0x24;
+	private static final int WHAT_FINISH = 0x25;
 
 	private static final int ARG2_STATUS_CONNECTING = 0x01;
 	private static final int ARG2_STATUS_CONNECTED = 0x02;
@@ -264,8 +265,14 @@ public class JVPlayActivity extends PlayActivity implements
 			createDialog("");
 			break;
 		}
-
+		case WHAT_FINISH: {
+			// isQuit = true;
+			// finish();
+			dismissDialog();
+			break;
+		}
 		case WHAT_DISMISS_PROGRESS: {
+
 			dismissDialog();
 			break;
 		}
@@ -1379,6 +1386,7 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null != list) {
 				this.list = list;
 			}
+			adapter.notifyDataSetChanged();
 		}
 
 		@Override
@@ -2081,24 +2089,24 @@ public class JVPlayActivity extends PlayActivity implements
 
 	};
 
-	// 正在执行返回操作
-	public boolean isBacking = false;
-	private Timer backTimer = null;
-
-	/**
-	 * 返回任务
-	 * 
-	 * @author Administrator
-	 * 
-	 */
-	private class BackTask extends TimerTask {
-
-		@Override
-		public void run() {
-			handler.sendMessage(handler.obtainMessage(WHAT_DISMISS_PROGRESS));
-		}
-
-	}
+	// // 正在执行返回操作
+	// public boolean isBacking = false;
+	// private Timer backTimer = null;
+	//
+	// /**
+	// * 返回任务
+	// *
+	// * @author Administrator
+	// *
+	// */
+	// private class BackTask extends TimerTask {
+	//
+	// @Override
+	// public void run() {
+	// handler.sendMessage(handler.obtainMessage(WHAT_DISMISS_PROGRESS));
+	// }
+	//
+	// }
 
 	/**
 	 * 返回事件
@@ -2116,10 +2124,10 @@ public class JVPlayActivity extends PlayActivity implements
 			stopAllFunc();
 			createDialog("");
 			proDialog.setCancelable(false);
-
 			// 返回超时，重新点击返回
-			backTimer = new Timer();
-			backTimer.schedule(new BackTask(), 30 * 1000);
+			// backTimer = new Timer();
+			// backTimer.schedule(new BackTask(), 15 * 1000);
+			handler.sendEmptyMessageDelayed(WHAT_FINISH, 15 * 1000);
 
 			DisconnetTask task = new DisconnetTask();
 			String[] params = new String[3];
@@ -2194,6 +2202,7 @@ public class JVPlayActivity extends PlayActivity implements
 				} else {
 					JVPlayActivity.this.finish();
 				}
+				handler.removeMessages(WHAT_FINISH);
 				isQuit = true;
 			}
 
@@ -2278,10 +2287,17 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	@Override
+	protected void saveSettings() {
+		super.saveSettings();
+	}
+
+	@Override
 	protected void freeMe() {
 		stopAllFunc();
+		isQuit = true;
+		adapter.update(new ArrayList<View>());
 		manager.destroy();
-		adapter.notifyDataSetChanged();
+		// adapter.notifyDataSetChanged();
 		PlayUtil.disConnectAll(manager.getChannelList());
 		super.freeMe();
 	}

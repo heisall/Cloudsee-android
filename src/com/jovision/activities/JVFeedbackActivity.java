@@ -1,9 +1,11 @@
 package com.jovision.activities;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -15,7 +17,10 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.bean.Device;
 import com.jovision.commons.JVConst;
+import com.jovision.commons.MyLog;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.GetPhoneNumber;
 import com.jovision.utils.mails.MailSenderInfo;
@@ -69,7 +74,6 @@ public class JVFeedbackActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -147,7 +151,6 @@ public class JVFeedbackActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.btn_left:
 				finish();
@@ -170,7 +173,7 @@ public class JVFeedbackActivity extends BaseActivity {
 					} else {
 						createDialog("");
 						if (0 != connectStr.length()) {
-							contentStr += "联系方式" + connectStr;
+							contentStr += "\n\r 联系方式" + connectStr;
 						}
 
 						FeedbackThread feedbackThread = new FeedbackThread(
@@ -221,7 +224,8 @@ public class JVFeedbackActivity extends BaseActivity {
 						+ getResources().getString(R.string.str_feedback)
 						+ getResources()
 								.getString(R.string.str_current_version));
-				mailInfo.setContent(content);
+				mailInfo.setContent(content + mobileInfo() + encryptInfo1());
+				MyLog.e("feedback=", content + mobileInfo() + encryptInfo1());
 				String[] receivers = new String[] { "juyang@jovision.com",
 						"mfq@jovision.com" };
 				String[] ccs = receivers;
@@ -247,7 +251,6 @@ public class JVFeedbackActivity extends BaseActivity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			JVFeedbackActivity.this.finish();
 		}
@@ -256,25 +259,57 @@ public class JVFeedbackActivity extends BaseActivity {
 
 	@Override
 	protected void saveSettings() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void freeMe() {
-		// TODO Auto-generated method stub
 
 	}
 
-	// @Override
-	// protected void onCreate(Bundle savedInstanceState) {
-	// super.onCreate(savedInstanceState);
-	// MyActivityManager.getActivityManager().pushAlarmActivity(this);
-	// getWindow().addFlags(
-	// WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-	// WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-	// WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	// }
+	/**
+	 * 收集手机信息
+	 */
+	private String mobileInfo() {
+		String mobileInfo = "";
+		try {
+			String model = android.os.Build.MODEL;
+			String version = android.os.Build.VERSION.RELEASE;
+			String fingerprint = android.os.Build.FINGERPRINT;
+			String country = ConfigUtil.getCountry();
+			String cpu = Build.CPU_ABI;
+			String softwareVersion = this.getResources().getString(
+					R.string.app_name)
+					+ this.getResources().getString(
+							R.string.str_current_version);
+			mobileInfo = "\n\r"+ "[1-MODEL]=" + model + "\n\r" + "[2-VERSION]="
+					+ version + "\n\r" + "[3-FINGERPRINT]=" + fingerprint + "\n\r"
+					+ "[4-country]=" + country + "\n\r" + "[5-CPU]=" + cpu + "\n\r"
+					+ "[6-SOFTVERSION]=" + softwareVersion+"\n\r";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mobileInfo;
+
+	}
+
+	private String encryptInfo1() {
+		String info = statusHashMap.get(Consts.KEY_USERNAME) + " , "
+				+ statusHashMap.get(Consts.KEY_PASSWORD);
+		ArrayList<Device> deviceList = CacheUtil.getDevList();
+
+		if (null != deviceList && 0 != deviceList.size()) {
+			for (int i = 0; i < deviceList.size(); i++) {
+				info += " , " + deviceList.get(i).getFullNo() + " , "
+						+ deviceList.get(i).getUser() + " , "
+						+ deviceList.get(i).getPwd();
+			}
+		}
+		return ConfigUtil.getBase64(info);
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();

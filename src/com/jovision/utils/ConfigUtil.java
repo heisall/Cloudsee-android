@@ -39,6 +39,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.test.JVACCOUNT;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -179,6 +180,20 @@ public class ConfigUtil {
 		MyLog.v("getCountry", ip);
 
 		return ip;
+	}
+
+	public static String getBase64(String str) {
+		byte[] b = null;
+		String s = null;
+		try {
+			b = str.getBytes("utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		if (b != null) {
+			s = Base64.encodeToString(b, Base64.NO_WRAP);
+		}
+		return s;
 	}
 
 	public static int lan = -1;

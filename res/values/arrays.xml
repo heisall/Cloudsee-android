@@ -5,7 +5,7 @@
     <string-array name="array_tab">
         <item>My Device</item>
         <item>Alarm Message</item>
-        <item>Video Management</item>
+        <item>Setting</item>
         <item>More</item>
     </string-array>
 
@@ -36,17 +36,17 @@
 
     <!-- add Dev pop menu -->
     <string-array name="array_pop">
-        <item>CloudSEE ID</item>
-        <item>QR Scanning</item>
-        <item>Wireless Device</item>
-        <item>Devices in LAN</item>
+        <item>Add by CloudSEE ID</item>
+        <item>Scan QR Code</item>
+        <item>Add Wi_Fi Device</item>
+        <item>Scan devices in LAN</item>
         <item>IP/Domain Name</item>
     </string-array>
     <string-array name="array_popno">
-        <item>CloudSEE ID</item>
-        <item>QR Scanning</item>
-        <item>Wireless Device</item>
-        <item>Devices in LAN</item>
+        <item>Add by CloudSEE ID</item>
+        <item>Scan QR Code</item>
+        <item>Add Wi_Fi Device</item>
+        <item>Scan devices in LAN</item>
     </string-array>
 
     <!-- 家庭安防产品 -->
@@ -131,10 +131,10 @@
     <!-- 视频管理功能 -->
     <string-array name="manage_function">
         <item>Remote Configure</item>
-        <item>Device Management</item>
+        <item>Device</item>
         <item>Connection Mode</item>
-        <item>Channel Management</item>
-        <item>View now</item>
+        <item>Channel</item>
+        <item>Video</item>
         <item>Alarm Device</item>
         <item>Security Protection</item>
     </string-array>

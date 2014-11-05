@@ -206,7 +206,7 @@ public class JVWelcomeActivity extends BaseActivity {
 			clouden2.setTextColor(JVWelcomeActivity.this.getResources()
 					.getColor(R.color.more_fragment_color3));
 		} else {
-			welcome_img.setBackgroundResource(R.drawable.welcome_img_icon);
+			welcome_img.setBackgroundResource(R.drawable.welcome_imgen_icon);
 		}
 		if (!ConfigUtil.isConnected(JVWelcomeActivity.this)) {
 			alertNetDialog();

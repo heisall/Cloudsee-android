@@ -33,7 +33,6 @@ import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -110,13 +109,9 @@ public class ConfigUtil {
 		try {
 			String pkName = context.getPackageName();
 			softName = context.getPackageManager().getPackageInfo(pkName, 0).versionName;
-		} catch (NameNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		try {
 			JSONObject obj = new JSONObject(version);
 			version = obj.optString("jni");
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

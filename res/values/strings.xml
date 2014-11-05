@@ -90,7 +90,7 @@
     <string name="last_time">Previous login time:</string>
     <string name="more_nologin">Operate after login.</string>
     <string name="more_modify">Modify</string>
-    <string name="more_modifypwd">Change the password</string>
+    <string name="more_modifypwd">Change password</string>
     <string name="more_findpassword">Retrieve Password</string>
     <string name="more_cancel">Log Out</string>
     <string name="dialog_modifypwd">Failed to verify indentification, do you need to modify username and password?</string>
@@ -121,11 +121,11 @@
     <string name="message">System Message</string>
     <!-- 视频播放 -->
     <string name="str_screen"> channels</string>
-    <string name="str_video_play">Video Display</string>
+    <string name="str_video_play">Video</string>
     <string name="str_audio_monitor">Audio</string>
     <string name="str_audio_monitor_forbidden">This function is unavailable during Two-way Talk.</string>
-    <string name="str_yt_operate">PTZ Control</string>
-    <string name="str_remote_playback">Play back</string>
+    <string name="str_yt_operate">PTZ</string>
+    <string name="str_remote_playback">Playback</string>
     <string name="str_audio_monitor_tips">Learn audio info at any time</string>
     <string name="str_yt_operate_tips">Adjust PTZ at any time</string>
     <string name="str_remote_playback_tips">Check Playback info at any time</string>
@@ -137,8 +137,8 @@
     <string name="str_not_support_remoteplay">This device is temporarily unable to operate during remote playback.</string>
     <string name="str_picture_savepath">Capture is kept in </string>
     <string name="str_capture">Capture</string>
-    <string name="str_voice">Megaphone</string>
-    <string name="str_video">Video</string>
+    <string name="str_voice">Talk</string>
+    <string name="str_video">Record</string>
     <string name="str_more">More</string>
     <string name="str_switch_video">Switching to video now…</string>
     <string name="str_has_call">Another client is using Cloud Talk function, please use this function later.</string>
@@ -200,7 +200,7 @@
     <string name="closed">Closed</string>
     <string name="str_out_memery">Your mobile phone is not insert SDCard, temporarily unable to use this feature</string>
     <string name="str_sdcard_notenough">Your mobile phone card memory space is insufficient</string>
-    <string name="str_finish">Finish</string>
+    <string name="str_finish">Save</string>
     <!-- 数据源 -->
     <string name="str_data_source">Channel List</string>
     <!-- 远程回放 -->
@@ -353,10 +353,10 @@
     <string name="str_quick_setting_ap_net_disconnect">disconnection with network</string>
     <string name="str_quick_setting_success">Quick configuration finished</string>
     <string name="str_quick_setting_goon">Continue</string>
-    <string name="str_quick_setting_finish">Finish</string>
+    <string name="str_quick_setting_finish">Save</string>
     <string name="str_quick_setting_reset">Configure again</string>
     <string name="str_wifi_reset_succ">Network recovered successfuly</string>
-    <string name="str_device_manage">Device Manager</string>
+    <string name="str_device_manage">Setting</string>
     <string name="str_wifi_reset_fail">Failed to restore network.</string>
     <string name="str_user_setting">User Setting</string>
     <string name="str_remote_setting">Remote Setting</string>
@@ -392,7 +392,7 @@
     <string name="str_not_support_this_device">Doesn\'t support this device.Supports IPC only.</string>
     <string name="str_help1_1">Add device</string>
     <string name="str_help1_0">Remote Setting</string>
-    <string name="str_help1_2">Device Manager</string>
+    <string name="str_help1_2">Setting</string>
     <string name="str_help2_1">It can add channel numbers of this device.</string>
     <string name="str_help2_2">Slide to see the device list.</string>
     <string name="str_help3_1">Slide to change channels.</string>
@@ -534,7 +534,7 @@
     <string name="add_device_succ">Device added successfully</string>
     <string name="add_device_failed">Failed to add device</string>
     <!-- ChannelFragment -->
-    <string name="channel_name">Channel ?</string>
+    <string name="channel_name">CH?</string>
     <string name="del_channel_succ">Channel deleted successfully</string>
     <string name="del_channel_failed">Channel deleted failed</string>
     <string name="add_channel_succ">Channel added successfully</string>

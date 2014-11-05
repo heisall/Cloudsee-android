@@ -351,9 +351,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 			 */
 			if (!ConfigUtil.isLanZH()) {
 				popupWindow = new PopupWindow(v,
-						mActivity.disMetrics.widthPixels / 2+60,
+						mActivity.disMetrics.widthPixels / 2 + 60,
 						LayoutParams.WRAP_CONTENT);
-			}else {
+			} else {
 				popupWindow = new PopupWindow(v,
 						mActivity.disMetrics.widthPixels / 2,
 						LayoutParams.WRAP_CONTENT);

@@ -344,6 +344,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
+		manageDeviceList = CacheUtil.getDevList();
 		if (manageDeviceList != null) {
 			for (int i = 0; i < manageDeviceList.size(); i++) {
 				if (i == deviceIndex) {

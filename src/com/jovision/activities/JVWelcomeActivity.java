@@ -1,11 +1,6 @@
 package com.jovision.activities;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.test.AutoLoad;
 import android.view.WindowManager;
@@ -14,12 +9,8 @@ import android.widget.ImageView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
-import com.jovision.commons.BaiOSS;
-import com.jovision.commons.BaseOSS;
 import com.jovision.commons.JVConst;
-import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
-import com.jovision.commons.MyUtils;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ImportOldData;
 import com.jovision.utils.UserUtil;

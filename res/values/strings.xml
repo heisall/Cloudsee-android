@@ -199,7 +199,8 @@
     <string name="connFailed">Failed</string>
     <string name="timedOut">Timed out</string>
     <string name="closed">Closed</string>
-    <string name="paused">Paused</string>
+    <string name="has_connected">has connected</string>
+    <string name="overflow">connect overflow</string>
     <string name="str_out_memery">Your mobile phone is not insert SDCard, temporarily unable to use this feature</string>
     <string name="str_sdcard_notenough">Your mobile phone card memory space is insufficient</string>
     <!-- 数据源 -->
@@ -630,7 +631,7 @@
     <!-- 抓拍保存路径 -->
     <string name="str_capture_path">capture/</string>
     <!-- 版本号 -->
-    <string name="str_current_version">V4.1.49(Beta) - DJ</string>
+    <string name="str_current_version">V4.1.50(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
 

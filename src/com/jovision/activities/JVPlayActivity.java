@@ -560,12 +560,12 @@ public class JVPlayActivity extends PlayActivity implements
 
 			case ARG2_STATUS_HAS_CONNECTED:
 				// [Neo] TODO has connected
-				// loadingState(arg1, R.string., JVConst.);
+				 loadingState(arg1, R.string.has_connected, JVConst.PLAY_DIS_CONNECTTED);
 				break;
 
 			case ARG2_STATUS_CONN_OVERFLOW:
 				// [Neo] TODO connection overflow
-				// loadingState(arg1, R.string., JVConst.);
+				 loadingState(arg1, R.string.overflow, JVConst.PLAY_DIS_CONNECTTED);
 				break;
 
 			case ARG2_STATUS_UNKNOWN:
@@ -2881,6 +2881,13 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		if(null != popScreen){
+			popScreen.dismiss();
+		}
+		if(null != streamListView){
+			streamListView.setVisibility(View.GONE);
+		}
+		
 		// [Neo] add black screen time
 		Jni.setColor(lastClickIndex, 0, 0, 0, 0);
 

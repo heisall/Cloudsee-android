@@ -92,6 +92,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 		currentMenu.setText(R.string.str_help1_2);
 		rightBtn.setVisibility(View.GONE);
 		rightBtn.setOnClickListener(mOnClickListener);
+		manageDeviceList = CacheUtil.getDevList();
 
 		mScreenWidth = mActivity.disMetrics.widthPixels;
 		mHorizontalScrollView = (HorizontalScrollView) mActivity
@@ -343,15 +344,15 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 	@Override
 	public void onResume() {
-		manageDeviceList = CacheUtil.getDevList();
-		for (int i = 0; i < manageDeviceList.size(); i++) {
-			if (i == deviceIndex) {
-				manageDeviceList.get(i).setIsselect(true);
-			} else {
-				manageDeviceList.get(i).setIsselect(false);
+		if (manageDeviceList != null) {
+			for (int i = 0; i < manageDeviceList.size(); i++) {
+				if (i == deviceIndex) {
+					manageDeviceList.get(i).setIsselect(true);
+				} else {
+					manageDeviceList.get(i).setIsselect(false);
+				}
 			}
 		}
-
 		String stateStr = ((BaseActivity) mActivity).statusHashMap
 				.get(Consts.DATA_LOADED_STATE);
 		if (null != stateStr) {

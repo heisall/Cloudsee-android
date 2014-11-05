@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ public class FragmentAdapter extends BaseAdapter {
 	private ImageView item_next;
 	private TextView item_version;
 	private RelativeLayout more_relative;
+	private FrameLayout more_item;
+	private ImageView divider_img;
 
 	public FragmentAdapter(BaseFragment mfragment,
 			ArrayList<MoreFragmentBean> dataList) {
@@ -55,6 +58,8 @@ public class FragmentAdapter extends BaseAdapter {
 				R.layout.fragment_more_item, null);
 		more_relative = (RelativeLayout) convertView
 				.findViewById(R.id.more_relative);
+		more_item = (FrameLayout) convertView.findViewById(R.id.item);
+		divider_img = (ImageView) convertView.findViewById(R.id.divider_img);
 		item_img = (ImageView) convertView.findViewById(R.id.item_img);
 		item_next = (ImageView) convertView.findViewById(R.id.item_next);
 		name = (TextView) convertView.findViewById(R.id.item_name);
@@ -71,6 +76,14 @@ public class FragmentAdapter extends BaseAdapter {
 				public void onClick(View v) {
 				}
 			});
+		}
+		if (position == 3
+				&& "true".equalsIgnoreCase(((BaseActivity) mfragment
+						.getActivity()).statusHashMap
+						.get(Consts.NEUTRAL_VERSION))) {
+			// 中性版本的隐藏注册协议
+			more_item.setVisibility(View.GONE);
+			divider_img.setVisibility(View.GONE);
 		}
 		if (position == 5) {
 			item_next.setVisibility(View.GONE);

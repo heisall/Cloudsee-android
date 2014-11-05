@@ -613,30 +613,30 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		dialog.show();
 	}
 
-	/**
-	 * 网络连接失败Dialog
-	 * 
-	 * @param tag
-	 */
-	private void netErrorDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(
-				JVQuickSettingActivity.this);
-		builder.setCancelable(true);
-
-		builder.setTitle(getResources().getString(
-				R.string.str_quick_setting_alert2));
-		builder.setMessage(R.string.net_errors);
-
-		builder.setPositiveButton(R.string.sure,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-
-				});
-		builder.create().show();
-	}
+	// /**
+	// * 网络连接失败Dialog
+	// *
+	// * @param tag
+	// */
+	// private void netErrorDialog1() {
+	// AlertDialog.Builder builder = new AlertDialog.Builder(
+	// JVQuickSettingActivity.this);
+	// builder.setCancelable(true);
+	//
+	// builder.setTitle(getResources().getString(
+	// R.string.str_quick_setting_alert2));
+	// builder.setMessage(R.string.net_errors);
+	//
+	// builder.setPositiveButton(R.string.sure,
+	// new DialogInterface.OnClickListener() {
+	// @Override
+	// public void onClick(DialogInterface dialog, int which) {
+	// dialog.dismiss();
+	// }
+	//
+	// });
+	// builder.create().show();
+	// }
 
 	/**
 	 * onclick事件

@@ -28,7 +28,6 @@
     <string name="login_str_registing">Registing</string>
     <string name="str_have_registed">This user name has been registered</string>
     <string name="login_str_device">Device List</string>
-    <string name="str_device_name">A361</string>
     <string name="login_str_group">Group</string>
     <string name="login_str_add_device">Add Device</string>
     <string name="login_str_add_group">increase the grouping</string>
@@ -77,7 +76,6 @@
     <string name="login_str_edit">Edit</string>
     <string name="login_str_delete">Delete</string>
     <string name="user_name">Account Name</string>
-    <string name="last_time">Previous login time:</string>
     <string name="login_str_user_name_2">Username</string>
     <string name="login_str_user_pass">Password</string>
     <string name="login_str_user_email">Email</string>
@@ -89,20 +87,38 @@
     <string name="login_str_add">Add</string>
     <string name="login_str_qq_autho_faild">QQ Authorization failed</string>
     <string name="login_str_qq_autho_success">QQ authorized success</string>
-    <!-- JVInfoFragment -->
-    <string name="get_alarm_list_failed">Get Alarm info list failed</string>
-    <string name="nomessage">No alarm now.</string>
-    <string name="alerm">Alerm Level</string>
+    <string name="last_time">Previous login time:</string>
+    <string name="more_nologin">Operate after login.</string>
+    <string name="more_modify">Modify</string>
+    <string name="more_modifypwd">Change the password</string>
     <string name="more_findpassword">Retrieve Password</string>
     <string name="more_cancel">Log Out</string>
     <string name="dialog_modifypwd">Failed to verify indentification, do you need to modify username and password?</string>
+    <!-- JVWelcomeActivity -->
+    <string name="cloud1">CloudSEE</string>
+    <string name="cloud2">Vision to world</string>
+    <!-- JVLoginActivity -->
+    <string name="login_demo">Demo</string>
+    <!-- JVMoreFrament -->
+    <string name="location_login">Visitor</string>
     <!-- leftMenu -->
     <string name="devicecount">Total of 0 Device</string>
     <string name="nikename">NickName</string>
     <string name="nikename2">NickName</string>
-    <string name="str_nikename_notnull">Please input the nickname</string>
     <string name="str_deleting">Operating…</string>
     <string name="str_point_nikename_exist">This nickname existed already, please choose another.</string>
+    <string name="str_nikename_notnull">Please input the nickname</string>
+    <!-- 页面顶部名称 -->
+    <string name="my_device">My Device</string>
+    <string name="video_edit">Video Edit</string>
+    <string name="more_featrue">More</string>
+    <string name="channal_list">Channel List</string>
+    <string name="channalmanager">Channel Management</string>
+    <string name="demo_list">Demo List</string>
+    <string name="demo">Demo</string>
+    <string name="video_list">Video List</string>
+    <string name="video_manager">Video Management</string>
+    <string name="message">System Message</string>
     <!-- 视频播放 -->
     <string name="str_screen"> channels</string>
     <string name="str_video_play">Video Display</string>
@@ -124,13 +140,12 @@
     <string name="str_voice">Megaphone</string>
     <string name="str_video">Video</string>
     <string name="str_more">More</string>
-    <string name="str_capture_error1">Initialization failed</string>
-    <string name="str_capture_error2">Picture conversion failed</string>
-    <string name="str_capture_error3">Files open failed</string>
     <string name="str_switch_video">Switching to video now…</string>
     <string name="str_has_call">Another client is using Cloud Talk function, please use this function later.</string>
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="str_play_failed"> play the video failed</string>
+    <!-- 连接方式 -->
+    <string name="cloud_number">CloudNum</string>
     <!-- 更多功能 -->
     <string name="str_more_features">More function</string>
     <string name="str_share">Share</string>
@@ -148,39 +163,25 @@
     <string name="str_watchtype">Online detection</string>
     <string name="str_position">Location</string>
     <string name="str_scenepic">Scene picture</string>
-    <string name="str_account">Account</string>
-    <string name="str_help">Help</string>
-    <string name="str_logining_out">Log Out…</string>
     <string name="str_video_mode">Browse model</string>
-    <string name="str_video_single_mode">Single</string>
-    <string name="str_video_more_mode">Multi</string>
     <string name="str_video_modetwo">Viewing Mode(Single-device)</string>
     <string name="str_video_more_modetwo">Viewing Mode(Multi-device)</string>
+    <string name="str_video_single_mode">Single</string>
+    <string name="str_video_more_mode">Multi</string>
     <string name="str_shake_device">Shake</string>
     <string name="str_shake_device_tips">Shake function is for Home Security products only.It\'s normal that WLAN has been switched during configuring. Shake function steps as below：\n1.Shake the mobile phone and the device signal IPC-H-*** can be found then, click to enter the configuration interface.\n2.Choose the WiFi and input the password, click Done until the configuration has been finished.</string>
     <string name="str_open_shake_device">Open</string>
     <string name="str_shake_device_learn_more">Learn more</string>
-    <string name="str_checkupdating">Checking for updates…</string>
-    <string name="str_check_update_failed">Check updates failed</string>
     <string name="str_checkupdate">Software Update</string>
+    <string name="str_check_update_failed">Check updates failed</string>
+    <string name="str_account">Account</string>
+    <string name="str_help">Help</string>
+    <string name="str_checkupdating">Checking for updates…</string>
+    <string name="str_logining_out">Log Out…</string>
     <string name="str_already_newest">Already newest</string>
     <string name="str_about">About</string>
     <string name="str_feedback">Suggestion and FeedBack</string>
     <string name="str_login_out">Log Out</string>
-    <string name="str_device_ap_pro">WiFi configuration process</string>
-    <string name="str_device_ap_start">Start</string>
-    <string name="str_quick_setting_exsit">Quiting</string>
-    <string name="str_device_ap_process">1.Choose the device that you want to configure Wifi.\n2.Choose the network\n3.Configure the device and the configuration is completed successfully when the power light turn to green and flashes once every second.</string>
-    <string name="str_quick_setting_no_tips">Not prompt</string>
-    <string name="str_quick_setting_new_user">New user</string>
-    <string name="str_quick_setting_old_user">Old user</string>
-    <string name="str_quick_setting_alert1">Configuring now…</string>
-    <string name="str_quick_setting_alert2">Connection timeout, please check.</string>
-    <string name="net_errors"> Reasons maybe:\n1.wrong password for router;\n2.unable to get IP address from router, please check router;\n3.Wi-Fi function of mobile phone abnormal.</string>
-    <string name="str_quick_setting_new_dev">New version found</string>
-    <string name="str_quick_setting_new_dev_tips">You are unable to use the latest functions due to version is not the latest.Suggest you update the camera software over to version V1.1.0.31.</string>
-    <string name="str_quick_setting_devupdate_order">Demo for updating device.</string>
-    <string name="str_quick_setting_update">Update</string>
     <!-- 注册 -->
     <string name="str_enter_username">Email/Username</string>
     <string name="str_enter_username1">Email/Username</string>
@@ -194,14 +195,12 @@
     <string name="login_str_bind_success">Combine with the account successfully</string>
     <string name="login_str_bind_failed">Failed to combine the account</string>
     <string name="login_str_binding">Combining</string>
-    <string name="str_finish">Finish</string>
     <string name="tipsRelativeSrc">Long click to relative source</string>
-    <string name="connFailed">Failed</string>
     <string name="timedOut">Timed out</string>
     <string name="closed">Closed</string>
-    <string name="paused">Paused</string>
     <string name="str_out_memery">Your mobile phone is not insert SDCard, temporarily unable to use this feature</string>
     <string name="str_sdcard_notenough">Your mobile phone card memory space is insufficient</string>
+    <string name="str_finish">Finish</string>
     <!-- 数据源 -->
     <string name="str_data_source">Channel List</string>
     <!-- 远程回放 -->
@@ -258,8 +257,6 @@
     <string name="login_str_ipaddressdevice">IP/Domain Name</string>
     <string name="login_str_port">Port</string>
     <string name="login_str_user_name">Username</string>
-    <string name="more_nologin">Operate after login.</string>
-    <string name="cloud_number">CloudNum</string>
     <string name="str_pass">Password</string>
     <string name="str_old_pass">Old Password</string>
     <string name="str_new_pass">New Password</string>
@@ -315,9 +312,21 @@
     <string name="str_exiting_now">Disconnecting now Please wait…</string>
     <string name="str_no_response_data">Network connection exception,please login again.</string>
     <string name="str_change_video_type">Switch video standard,Records re-packed.</string>
+    <string name="str_device">CloudSEE ID:</string>
+    <string name="str_device_name">A361</string>
     <!-- 设备管理 -->
     <string name="str_quick_setting_nextstep">Next</string>
     <string name="str_quick_setting_neterror">Connect timeout, please check network.</string>
+    <string name="net_errors"> Reasons maybe:\n1.wrong password for router;\n2.unable to get IP address from router, please check router;\n3.Wi-Fi function of mobile phone abnormal.</string>
+    <string name="str_quick_setting_new_dev">New version found</string>
+    <string name="str_quick_setting_new_dev_tips">You are unable to use the latest functions due to version is not the latest.Suggest you update the camera software over to version V1.1.0.31.</string>
+    <string name="str_quick_setting_devupdate_order">Demo for updating device.</string>
+    <string name="str_quick_setting_update">Update</string>
+    <string name="str_device_ap_pro">WiFi configuration process</string>
+    <string name="str_quick_setting_exsit">Quiting</string>
+    <string name="str_device_ap_start">Start</string>
+    <string name="str_device_ap_process">1.Choose the device that you want to configure Wifi.\n2.Choose the network\n3.Configure the device and the configuration is completed successfully when the power light turn to green and flashes once every second.</string>
+    <string name="str_quick_setting_no_tips">Not prompt</string>
     <string name="str_quick_setting">Quickset</string>
     <string name="str_quick_setting_alert_nowifi">Failed to find the device</string>
     <string name="str_quick_setting_alert_wifiinfo">1 device found, go to configure it?</string>
@@ -337,12 +346,12 @@
     <string name="str_quick_setting_alert_4">Asking for Wi-Fi list of host-end</string>
     <string name="str_quick_setting_alert_5">Acquiring Wi-Fi configuration of host-end</string>
     <string name="str_quick_setting_alert_7">Timeout during getting Wi-Fi list of host-end</string>
+    <string name="str_quick_setting_failed">Failed to finish Quick configuration</string>
     <string name="str_quick_setting_ipc_net_failed">Failed to connect with AP network</string>
     <string name="str_quick_setting_ap_net_failed">Failed to connect with AP network</string>
     <string name="str_quick_setting_ap_net_timeout">Timeout to connect with AP network</string>
     <string name="str_quick_setting_ap_net_disconnect">disconnection with network</string>
     <string name="str_quick_setting_success">Quick configuration finished</string>
-    <string name="str_quick_setting_failed">Failed to finish Quick configuration</string>
     <string name="str_quick_setting_goon">Continue</string>
     <string name="str_quick_setting_finish">Finish</string>
     <string name="str_quick_setting_reset">Configure again</string>
@@ -396,8 +405,6 @@
     <string name="str_help8">Can add, modify or delete channels and devices.</string>
     <string name="str_help10">Device online, shown as orange ; Device offline , shown as gray.</string>
     <string name="str_help11">when device has Wi-Fi function, the icon is orange, while when device doesn\'t have Wi-Fi function, the icon is gray.</string>
-    <string name="str_device_online">Online</string>
-    <string name="str_device_offline">Offline</string>
     <string name="str_save_succ">Modify successfully</string>
     <string name="str_save_fail">Modify failed</string>
     <string name="str_connect_succ">Wi-Fi has been set finished.</string>
@@ -415,70 +422,24 @@
     <string name="login_str_port_notnull">Please input the port</string>
     <string name="login_str_port_format_err">Wrong Port number</string>
     <string name="login_str_ip_adress_notnull">Please input IP.</string>
+    <string name="str_qr_device">Found CloudSEE ID </string>
     <string name="str_shake_scene_pic_tips">Scene picture function can\'t be used for there is no SD card in your mobile phone</string>
-
-    <!-- JVWelcomeActivity -->
-    <string name="cloud1">CloudSEE</string>
-    <string name="cloud2">Vision to world</string>
-    <!-- JVLoginActivity -->
-    <string name="login_demo">Demo</string>
-    <!-- JVMoreFrament -->
-    <string name="location_login">Visitor</string>
-    <!-- JVQuickSet -->
-    <!-- ap配置流程模块 -->
-    <string name="quick_setting_searching">Searching nearby devices now</string>
-    <string name="str_quiksetting_tips_txt">Please choose the device you want to configure.</string>
-    <string name="str_quick_setting_alert_1">Connecting with device now, please wait.</string>
-    <string name="str_quick_setting_connect">Configure</string>
-    <string name="str_quick_setting_waiting">Waiting</string>
-    <string name="next_step">Next Step</string>
-    <string name="set_error">Failed to configure, error code</string>
-    <string name="try_again">Retry</string>
-    <string name="quick_setting_connecting">Connecting now…</string>
-    <string name="quick_setting_exiting">Exiting configuration now</string>
-    <string name="wifi_reset_failed">Failed to recover network</string>
-    <string name="str_quick_install">Quick Install Wireless device</string>
-    <string name="str_quick_install_tips2">Step:\n1.Connect mobile phone to the same network with the device..\n2.Choose the device that you want to configure Wifi.\n3.Choose the network\n4.Configure the device and the configuration is completed successfully when you hear "Configured".</string>
-    <string name="video_check">Video Detection</string>
-    <string name="voice_call_ap">Two-way Talk</string>
-    <string name="voice_call_ap_tips">Realtime Two-way Talk</string>
-
     <!-- JVEditPassActivity -->
     <string name="edit_failed">Failed to change.</string>
     <string name="edit_succ">Password changed successfully, please login again.</string>
-
     <!-- JVDemoActivity -->
     <string name="demo_get_failed">Unable to connect with demo.</string>
-
     <!-- JVTab -->
     <string name="sure_exit">Press again to quit the App.</string>
     <string name="network_error">Network connection exception,please check the network.</string>
     <string name="tips_3g">You are using the 3G/4G network now.It shall cause a lot mobile data fee if you continute to view the video.You are suggested to use Wi-Fi network.</string>
     <string name="waiting">Waiting…</string>
     <string name="pressback_exit">Press again to quit the App.</string>
-
-    <!-- 页面顶部名称 -->
-    <string name="my_device">My Device</string>
-    <string name="device_error">Error</string>
-    <string name="video_edit">Video Edit</string>
-    <string name="more_featrue">More</string>
-    <string name="more_modifypwd">Change the password</string>
-    <string name="more_modify">Modify</string>
-    <string name="channal_list">Channel List</string>
-    <string name="channalmanager">Channel Management</string>
-    <string name="demo_list">Demo List</string>
-    <string name="demo">Demo</string>
-    <string name="video_list">Video List</string>
-    <string name="video_manager">Video Management</string>
-    <string name="message">System Message</string>
-    <string name="start_now">Enjoy it now</string>
-
     <!-- 2.3系统视频播放提示 -->
     <string name="system_lower">Your mobile phone O/S is Android$,The video maybe dazzling during playing, please download V2.8.5,Please uninstall the current version before installation,do you want to download now?</string>
     <string name="no_more_tips">No reminding</string>
     <string name="download">Download now</string>
     <string name="not_support_old">This version does not support 04 version decoding,if you want to view, please download version2.8.5,Please uninstall the current version before installation,system_lower do you want to download now?</string>
-
     <!-- JVOffline -->
     <string name="offline_other_login">Account login elsewhere or account exception.</string>
     <string name="offline_net_error">Network connection exception,please login again.</string>
@@ -490,7 +451,6 @@
     <string name="cancel">Cancel</string>
     <string name="keeponline_success">Keep successful online!</string>
     <string name="keeponline_failed">Failed to keep online!</string>
-
     <!-- tab页 下拉刷新 -->
     <string name="pull_to_refresh">Pull to refresh</string>
     <string name="release_to_refresh">Release to refresh</string>
@@ -499,16 +459,15 @@
     <string name="updated_at">The latest update within %1$s</string>
     <string name="updated_just_now">Just update</string>
     <string name="time_error">something wrong with the time</string>
-
     <!-- JVMyDeviceFragment -->
     <string name="notwifi_forbid_func">This function is not available under 3G/4G network.</string>
+    <string name="del_device_succ">Device deleted successfully</string>
+    <string name="del_device_failed">Device deleted failed</string>
     <string name="str_modify">Modify</string>
     <string name="end_list">The last one.</string>
     <string name="start_left">The first one.</string>
     <string name="start_right">The right one</string>
     <string name="str_update">Have updated for all devices.</string>
-    <string name="del_device_succ">Device deleted successfully</string>
-    <string name="del_device_failed">Device deleted failed</string>
     <string name="wifi_device">Wireless Device</string>
     <string name="line_device">Wired Device</string>
     <string name="selectone_to_connect">Please choose at least one channel to connect.</string>
@@ -516,25 +475,17 @@
     <string name="broad_zero">Unable to broadcast device.</string>
     <string name="get_device_failed">Device loaded failed</string>
     <string name="press_screen_refresh">Click screen to refresh</string>
-    <!-- JVDeviceManageFragment -->
-    <string name="str_fre">Total</string>
-    <string name="str_aft">devices.</string>
-    <string name="ip_add_notallow">Do not support devices added  by domain name/IP address.</string>
-    <string name="protect_open_succ">Enable Security Protection Successfully.</string>
-    <string name="protect_open_fail">Failed to enable Security Protection.</string>
-    <string name="protect_close_succ">Disable Security Protection Successfully.</string>
-    <string name="protect_close_fail">Failed to disable Security Protection.</string>
-    <string name="device_offline">This operation is unavailable since the device is offline now.</string>
-
-    <!-- JVInfoFragement -->
+    <!-- JVInfoFragment -->
+    <string name="nomessage">No alarm now.</string>
+    <string name="alerm">Alerm Level</string>
     <string name="xlistview_footer_hint_normal">More</string>
     <string name="xlistview_footer_hint_ready">Pull up to load more.</string>
     <string name="xlistview_no_more">No alert now</string>
     <string name="del_alarm_succ">Delete alarm successfully.</string>
     <string name="del_alarm_failed">Failed to delete alarm.</string>
+    <string name="get_alarm_list_failed">Get Alarm info list failed</string>
     <string name="clear_alarm_succ">Clear alarm successfully.</string>
     <string name="clear_alarm_failed">Failed to clear alarm.</string>
-    <!-- JVIpconnectActivity -->
     <!-- JVPlayActivity -->
     <string name="offline_not_play1">Unable to operate due to device has been offline.</string>
     <string name="connfailed_auth">Failed to very ID.</string>
@@ -558,20 +509,38 @@
     <string name="default_stream">Default</string>
     <string name="has_calling">The Two-way Talk has not been enabled or is being used by other user, so please try again later.</string>
     <string name="not_support_voicecall">This device doesn\'t support voice intercom function.</string>
-
+    <string name="str_capture_error1">Initialization failed</string>
+    <string name="str_capture_error2">Picture conversion failed</string>
+    <string name="str_capture_error3">Files open failed</string>
+    <!-- JVQuickSet -->
+    <!-- ap配置流程模块 -->
+    <string name="quick_setting_searching">Searching nearby devices now</string>
+    <string name="str_quiksetting_tips_txt">Please choose the device you want to configure.</string>
+    <string name="str_quick_setting_alert_1">Connecting with device now, please wait.</string>
+    <string name="str_quick_setting_connect">Configure</string>
+    <string name="str_quick_setting_waiting">Waiting</string>
+    <string name="next_step">Next Step</string>
+    <string name="set_error">Failed to configure, error code</string>
+    <string name="try_again">Retry</string>
+    <string name="quick_setting_connecting">Connecting now…</string>
+    <string name="quick_setting_exiting">Exiting configuration now</string>
+    <string name="wifi_reset_failed">Failed to recover network</string>
+    <string name="str_quick_install">Quick Install Wireless device</string>
+    <string name="str_quick_install_tips2">Step:\n1.Connect mobile phone to the same network with the device..\n2.Choose the device that you want to configure Wifi.\n3.Choose the network\n4.Configure the device and the configuration is completed successfully when you hear "Configured".</string>
+    <string name="video_check">Video Detection</string>
+    <string name="voice_call_ap">Two-way Talk</string>
+    <string name="voice_call_ap_tips">Realtime Two-way Talk</string>
     <!-- JVAddDeviceActivity -->
     <string name="add_device_succ">Device added successfully</string>
     <string name="add_device_failed">Failed to add device</string>
-
     <!-- ChannelFragment -->
     <string name="channel_name">Channel ?</string>
     <string name="del_channel_succ">Channel deleted successfully</string>
     <string name="del_channel_failed">Channel deleted failed</string>
-    <string name="device_connect">Connect All</string>
     <string name="add_channel_succ">Channel added successfully</string>
     <string name="add_channel_failed">Channel added failed</string>
+    <string name="device_connect">Connect All</string>
     <string name="channel_full">Fail to add due to upto limition of Device channel quantity.</string>
-
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">Please input your problems or suggestion.</string>
     <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>
@@ -580,14 +549,24 @@
     <string name="str_commit_success">Thanks for your feedback, we shall work more to provide better service.</string>
     <string name="ok">OK</string>
     <string name="str_check_now">View now</string>
-
     <!-- JVRemotePlayBackActivity -->
     <string name="video_normal">Manual recording</string>
     <string name="video_alarm">Alarm recording</string>
     <string name="video_motion">Motion detection</string>
     <string name="video_time">Regular recording</string>
     <string name="recoding">Generating recording file now. Please wait.</string>
-
+    <!-- MyDeviceListAdapter -->
+    <string name="str_device_online">Online</string>
+    <string name="str_device_offline">Offline</string>
+    <!-- JVDeviceManageFragment -->
+    <string name="str_fre">Total</string>
+    <string name="str_aft">devices.</string>
+    <string name="ip_add_notallow">Do not support devices added  by domain name/IP address.</string>
+    <string name="protect_open_succ">Enable Security Protection Successfully.</string>
+    <string name="protect_open_fail">Failed to enable Security Protection.</string>
+    <string name="protect_close_succ">Disable Security Protection Successfully.</string>
+    <string name="protect_close_fail">Failed to disable Security Protection.</string>
+    <string name="device_offline">This operation is unavailable since the device is offline now.</string>
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>
     <string name="str_help_one">Remote set network and stream for IP cameras.</string>
@@ -595,24 +574,22 @@
     <string name="str_help_three">Switch between IP connection and CloudSEE connection.</string>
     <string name="str_help_four">Add,Change,Delete channel</string>
     <string name="str_help_five">Add Alarm Device</string>
+    <string name="start_now">Enjoy it now</string>
     <!-- Dialog -->
     <string name="save">Save</string>
     <string name="cancle">Cancel</string>
-    <string name="delect">Delect</string>
     <string name="str_devicename">Device Number</string>
     <string name="str_username"> Username</string>
     <string name="str_password">Password </string>
     <string name="str_nicknametwo">Nickname </string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
+    <string name="str_cloudsee_id">CloudSEE ID</string>
     <string name="str_yst_connect">CloudSEE</string>
     <string name="app_name">CloudSEE</string>
-    <string name="str_cloudsee_id">CloudSEE ID</string>
-    <string name="str_device">CloudSEE ID:</string>
     <string name="login_str_device_ytnum_notnull">Please input CloudSEE ID.</string>
     <string name="increct_yst_tips">CloudSEE ID Incorrect</string>
     <string name="login_str_yst_num">CloudSEE ID</string>
-    <string name="str_qr_device">Found CloudSEE ID </string>
     <string name="str_not_qr_device">Not CloudSEE ID</string>
     <!-- 反馈邮箱 -->
     <string name="str_feedback_email">mfq@jovision.com</string>
@@ -633,7 +610,6 @@
     <string name="str_current_version">V4.1.49(Beta) - DJ</string>
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
-
     <!-- 报警 -->
     <string name="str_alarm_check">Check Now</string>
     <string name="str_pass_extra_err">Pass Data Extra Error</string>
@@ -647,12 +623,12 @@
     <string name="str_alarm_type">Type :</string>
     <string name="str_alarm_preview">Check</string>
     <string name="str_alarm_ignore">Ignore</string>
-    <string name="str_alarm_manage">Add Alarm Device</string>
-    <string name="str_alarm_third_nickname">please input nickname of binding devices:</string>
     <string name="str_third_device_name">Device Name</string>
     <string name="str_door_device">door magnetic devices</string>
     <string name="str_bracelet_device">hand ring devices</string>
     <string name="str_click_add_device">click here to add new devices</string>
+    <string name="str_alarm_third_nickname">please input nickname of binding devices:</string>
+    <string name="str_alarm_manage">Add Alarm Device</string>
     <string name="str_alarm_connect_except">abnormal disconnection</string>
     <string name="str_alarm_thirddev_default_name">alarm devices</string>
     <string name="str_alarm_thirddev_learning">do in learning...</string>

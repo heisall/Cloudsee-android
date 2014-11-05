@@ -79,10 +79,10 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			break;
 		}
 		case SEND_MAIL_SUCC: {
+			dismissDialog();
 			this.finish();
 			android.os.Process.killProcess(android.os.Process.myPid());
 			System.exit(0);
-
 			break;
 		}
 		case SEND_MAIL_FAIL: {
@@ -157,6 +157,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			otherLoginLayout.setVisibility(View.GONE);
 			offlineLayout.setVisibility(View.GONE);
 			exceptionLayout.setVisibility(View.VISIBLE);
+
 		} else {
 			otherLoginLayout.setVisibility(View.GONE);
 			offlineLayout.setVisibility(View.VISIBLE);
@@ -252,6 +253,9 @@ public class JVOffLineDialogActivity extends BaseActivity {
 				break;
 			}
 			case R.id.cancel: {
+				otherLoginLayout.setVisibility(View.GONE);
+				offlineLayout.setVisibility(View.GONE);
+				exceptionLayout.setVisibility(View.GONE);
 				System.exit(0);
 
 				break;
@@ -402,7 +406,9 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-
+			otherLoginLayout.setVisibility(View.GONE);
+			offlineLayout.setVisibility(View.GONE);
+			exceptionLayout.setVisibility(View.GONE);
 			dismissDialog();
 			if (0 == result) {
 				showTextToast(R.string.str_send_success);

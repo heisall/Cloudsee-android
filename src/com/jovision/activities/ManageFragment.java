@@ -49,6 +49,7 @@ public class ManageFragment extends BaseFragment {
 	private Bundle bundle;
 
 	int devType = 0;
+	private boolean isConnected;
 
 	public ManageFragment(ArrayList<Device> deviceList) {
 		this.deviceList = deviceList;
@@ -133,16 +134,21 @@ public class ManageFragment extends BaseFragment {
 				+ ";arg2=" + arg1);
 		switch (what) {
 		case Consts.MANAGE_ITEM_CLICK: {// adapter item 单击事件
-			deviceIndex = arg2;
-
-			device = (Device) obj;
+			JVDeviceManageFragment.deviceIndex = arg2;
+			device = deviceList.get(JVDeviceManageFragment.deviceIndex);
 			switch (arg1) {
 			case 0: {// 远程设置
 				if (2 == isDevice) {
 					mActivity.showTextToast(R.string.ip_add_notallow);
 				} else {
 					mActivity.createDialog("");
+
+					if (isConnected) {
+						PlayUtil.disconnectDevice();
+					}
+					mActivity.showTextToast(device.getFullNo());
 					PlayUtil.connectDevice(device);
+					isConnected = true;
 				}
 				break;
 			}
@@ -226,7 +232,12 @@ public class ManageFragment extends BaseFragment {
 			}
 			break;
 		}
-
+		case Consts.CALL_STAT_REPORT: {// 统计
+		// connect[1], has connected!!
+			MyLog.i(TAG, "CALL_STAT_REPORT: " + what + ", " + arg1 + ", "
+					+ arg2 + ", " + obj);
+			break;
+		}
 		case Consts.CALL_NORMAL_DATA: {
 			try {
 				JSONObject jobj;
@@ -246,6 +257,7 @@ public class ManageFragment extends BaseFragment {
 				Jni.sendBytes(1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 			} else { // 不是IPC
 				PlayUtil.disconnectDevice();
+				isConnected = false;
 				mActivity.dismissDialog();
 				AlertDialog.Builder builder1 = new AlertDialog.Builder(
 						mActivity);
@@ -274,7 +286,7 @@ public class ManageFragment extends BaseFragment {
 				try {
 					JSONObject connectObj = new JSONObject(obj.toString());
 					String errorMsg = connectObj.getString("msg");
-					if ("pass word is wrong!".equalsIgnoreCase(errorMsg)
+					if ("password is wrong!".equalsIgnoreCase(errorMsg)
 							|| "pass word is wrong!".equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
 						mActivity.showTextToast(R.string.connfailed_auth);
 					} else if ("channel is not open!"
@@ -317,6 +329,7 @@ public class ManageFragment extends BaseFragment {
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
 				PlayUtil.disconnectDevice();
+				isConnected = false;
 				mActivity.dismissDialog();
 				mActivity
 						.showTextToast(R.string.str_only_administator_use_this_function);

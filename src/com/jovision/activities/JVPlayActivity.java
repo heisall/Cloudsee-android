@@ -451,33 +451,32 @@ public class JVPlayActivity extends PlayActivity implements
 				e.printStackTrace();
 			}
 
-			// if (ONE_SCREEN == currentScreen && arg1 == lastClickIndex) {
-			// // TODO 不应该只对比宽高
-			// if (newWidth != channel.getWidth()
-			// || newHeight != channel.getHeight()) {// 宽高变了才发文本聊天
-			//
-			// channel.setHeight(newHeight);
-			// channel.setWidth(newWidth);
-			// // 是IPC，发文本聊天请求
-			// if (channel.getParent().isHomeProduct()) {
-			// // 请求文本聊天
-			// Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT,
-			// new byte[0], 8);
-			// }
-			// } else {
-			// showFunc(channel, currentScreen);
-			// }
-			if (channel.isHasGotParams()) {
-				showFunc(channel, currentScreen, lastClickIndex);
-			} else {
-				// 是IPC，发文本聊天请求
-				if (channel.getParent().isHomeProduct()) {
-					// 请求文本聊天
-					Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+			// TODO 不应该只对比宽高
+			if (newWidth != channel.getWidth()
+					|| newHeight != channel.getHeight()) {// 宽高变了才发文本聊天
+				if (ONE_SCREEN == currentScreen && arg1 == lastClickIndex) {
+					channel.setHeight(newHeight);
+					channel.setWidth(newWidth);
+					// 是IPC，发文本聊天请求
+					if (channel.getParent().isHomeProduct()) {
+						// 请求文本聊天
+						Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT,
+								new byte[0], 8);
+					}
 				}
-			}
+			} else {
+				if (channel.isHasGotParams()) {
+					showFunc(channel, currentScreen, lastClickIndex);
+				} else {
+					// 是IPC，发文本聊天请求
+					if (channel.getParent().isHomeProduct()) {
+						// 请求文本聊天
+						Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT,
+								new byte[0], 8);
+					}
+				}
 
-			// }
+			}
 
 			if (recoding) {
 				showTextToast(R.string.video_repaked);
@@ -606,9 +605,11 @@ public class JVPlayActivity extends PlayActivity implements
 
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
 				String allStr = obj.toString();
+
+				MyLog.v(TAG, "文本数据--" + allStr);
 				try {
 					JSONObject dataObj = new JSONObject(allStr);
-					// MyLog.v(TAG, "文本数据--"+obj.toString());
+
 					switch (dataObj.getInt("flag")) {
 					// 远程配置请求，获取到配置文本数据
 					case JVNetConst.JVN_REMOTE_SETTING: {
@@ -1782,6 +1783,11 @@ public class JVPlayActivity extends PlayActivity implements
 					MyLog.i(TAG, "turnParam=" + turnParam);
 					Jni.rotateVideo(lastClickIndex,
 							JVNetConst.JVN_RSP_TEXTDATA, turnParam);
+
+					// Jni.sendString(lastClickIndex,
+					// JVNetConst.JVN_RSP_TEXTDATA, true,
+					// Consts.COUNT_EX_SENSOR, Consts.TYPE_EX_SENSOR,
+					// turnParam);
 
 					Jni.sendTextData(lastClickIndex,
 							JVNetConst.JVN_RSP_TEXTDATA, 8,

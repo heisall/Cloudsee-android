@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -24,7 +25,6 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
-import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.mails.MailSenderInfo;
 import com.jovision.utils.mails.SimpleMailSender;
 
@@ -222,6 +222,14 @@ public class JVOffLineDialogActivity extends BaseActivity {
 				break;
 			}
 			case R.id.send: {
+				String pkName = JVOffLineDialogActivity.this.getPackageName();
+				String softName = "";
+				try {
+					softName = JVOffLineDialogActivity.this.getPackageManager()
+							.getPackageInfo(pkName, 0).versionName;
+				} catch (NameNotFoundException e) {
+					e.printStackTrace();
+				}
 
 				Calendar rightNow = Calendar.getInstance();
 				String str = rightNow.get(Calendar.YEAR)
@@ -239,8 +247,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 				// mailInfo.setToAddress("jy0329@163.com");
 				mailInfo.setSubject("[BUG]["
 						+ JVOffLineDialogActivity.this.getResources()
-								.getString(R.string.app_name) + "]"
-						+ ConfigUtil.getVersion(JVOffLineDialogActivity.this));
+								.getString(R.string.app_name) + "]" + softName);
 				mailInfo.setContent("[" + str + "]" + errorMsg);
 
 				// 这个类主要来发送邮件

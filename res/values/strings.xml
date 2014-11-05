@@ -198,6 +198,7 @@
     <string name="tipsRelativeSrc">Long click to relative source</string>
     <string name="timedOut">Timed out</string>
     <string name="closed">Closed</string>
+    <string name="has_connected">Connect timeout.</string>
     <string name="str_out_memery">Your mobile phone is not insert SDCard, temporarily unable to use this feature</string>
     <string name="str_sdcard_notenough">Your mobile phone card memory space is insufficient</string>
     <string name="str_finish">Save</string>
@@ -492,7 +493,7 @@
     <string name="connfailed_channel_notopen">Invalid Channel.</string>
     <string name="connfailed_type_invalid">Invalid Connection Mode.</string>
     <string name="connfailed_maxcount">Connections have exceeded limitations!</string>
-    <string name="connfailed_timeout">Connect timeout!</string>
+    <string name="connfailed_timeout">Connect timeout</string>
     <string name="connfailed_auth_tips">Failed to verify indentification, do you need to modify username and password?</string>
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting…</string>
@@ -506,7 +507,7 @@
     <string name="video_repaked">Switch video standard,Records re-packed.</string>
     <string name="voice_tips1">You can speak to the other now.</string>
     <string name="voice_tips2">Audio talk is enabled successfully. You can speak to the other through long-click.</string>
-    <string name="default_stream">Default</string>
+    <string name="default_stream">Stream</string>
     <string name="has_calling">The Two-way Talk has not been enabled or is being used by other user, so please try again later.</string>
     <string name="not_support_voicecall">This device doesn\'t support voice intercom function.</string>
     <string name="str_capture_error1">Initialization failed</string>

@@ -470,6 +470,8 @@ public class ManageFragment extends BaseFragment {
 					device.setAlarmSwitch(JVDeviceConst.DEVICE_SWITCH_OPEN);
 					mActivity.showTextToast(R.string.protect_open_succ);
 				}
+				manageAdapter.setData(disMetrics.widthPixels, deviceIndex,
+						device, localFlag);
 				manageAdapter.notifyDataSetChanged();
 				// [{"fullNo":"S52942216","port":0,"hasWifi":1,"isDevice":0,"no":52942216,"is05":false,"onlineState":-1182329167,"channelList":[{"channel":1,"channelName":"S52942216_1","index":0}],"isHomeProduct":false,"ip":"","pwd":"123","nickName":"S52942216","deviceType":2,"alarmSwitch":1,"gid":"S","user":"abc","serverState":1,"doMain":""}]
 				CacheUtil.saveDevList(deviceList);

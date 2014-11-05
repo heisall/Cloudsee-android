@@ -77,6 +77,8 @@ public class ConfigUtil {
 	// return dbManager;
 	// }
 
+	public static String version = "";
+
 	public static void getJNIVersion() {
 		String remoteVer = Jni.getVersion();
 		// remoteVerStr={"jni":"0.8[9246b6f][2014-11-03]","net":"v2.0.76.3.7[private:v2.0.75.13 201401030.2.d]"}
@@ -103,19 +105,24 @@ public class ConfigUtil {
 	 * @return
 	 */
 	public static String getVersion(Context context) {
-		String softName = "";
-		String version = Jni.getVersion();
 
-		try {
-			String pkName = context.getPackageName();
-			softName = context.getPackageManager().getPackageInfo(pkName, 0).versionName;
-			JSONObject obj = new JSONObject(version);
-			version = obj.optString("jni");
-		} catch (Exception e) {
-			e.printStackTrace();
+		if ("".equalsIgnoreCase(version)) {
+			String softName = "";
+			version = Jni.getVersion();
+
+			try {
+				String pkName = context.getPackageName();
+				softName = context.getPackageManager()
+						.getPackageInfo(pkName, 0).versionName;
+				JSONObject obj = new JSONObject(version);
+				version = obj.optString("jni");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			version = softName + version + " - DJ";
 		}
 
-		version = softName + version + " - DJ";
 		return version;
 	}
 

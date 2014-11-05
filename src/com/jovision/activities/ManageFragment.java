@@ -339,7 +339,8 @@ public class ManageFragment extends BaseFragment {
 						intent.putExtra("SettingJSON", settingJSON);
 						device = deviceList
 								.get(JVDeviceManageFragment.deviceIndex);
-						MyLog.v("远程设置--", "remoteIndex=" + deviceIndex
+						MyLog.v("远程设置--", "remoteIndex="
+								+ JVDeviceManageFragment.deviceIndex
 								+ ";device=" + device.toString());
 						intent.putExtra("Device", device.toString());
 						mActivity.startActivity(intent);

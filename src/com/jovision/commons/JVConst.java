@@ -361,6 +361,7 @@ public final class JVConst {
 	public static final int PLAY_CONNECTTED = 2;// 已连接
 	public static final int PLAY_DIS_CONNECTTED = 3;// 断开
 	public static final int PLAY_CONNECTING_BUFFER = 4;// 连接成功，正在缓冲数据。。。
+	public static final int PLAY_STATUS_UNKNOWN = 5;// 未知状态
 
 	public static final int PLAY_CONNECT_OK = 200;// 视频连接成功
 	public static final int PLAY_CONNECT_IFRAME_OK = 201;// I帧等待成功

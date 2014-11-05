@@ -49,6 +49,7 @@ public class Channel {
 	private int audioType = 0;// 音频类型
 	private int audioByte = 0;// 音频比特率8 16
 
+	private boolean hasGotParams = false;
 	private boolean agreeTextData = false;// 是否同意文本聊天
 	private boolean isOMX = false;// 是否硬解
 	private boolean singleVoice = false;// 单向对讲标识位，默认是双向的
@@ -411,6 +412,14 @@ public class Channel {
 
 	public void setHasFind(boolean hasFind) {
 		this.hasFind = hasFind;
+	}
+
+	public boolean isHasGotParams() {
+		return hasGotParams;
+	}
+
+	public void setHasGotParams(boolean hasGotParams) {
+		this.hasGotParams = hasGotParams;
 	}
 
 }

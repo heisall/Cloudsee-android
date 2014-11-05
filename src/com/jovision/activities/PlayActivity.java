@@ -546,7 +546,12 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 	}
 
-	public void showFunc(Channel channel, int screen) {
+	public void showFunc(Channel channel, int screen, int index) {
+
+		if (index != channel.getIndex()) {
+			return;
+		}
+
 		if (screen > 1 || !channel.isConnected()) {
 			rightFuncButton.setVisibility(View.GONE);
 			right_btn_h.setVisibility(View.GONE);

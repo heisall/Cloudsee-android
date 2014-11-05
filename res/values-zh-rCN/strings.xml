@@ -198,6 +198,8 @@
     <string name="tipsRelativeSrc">长按关联视频源</string>
     <string name="timedOut">超时</string>
     <string name="closed">已断开</string>
+    <string name="has_connected">has connected</string>
+    <string name="overflow">connect overflow</string>
     <string name="str_out_memery">您的手机未插入SDCard,暂时无法使用此功能.</string>
     <string name="str_sdcard_notenough">您的手机内存卡内存不足.</string>
     <string name="str_finish">完成</string>
@@ -606,8 +608,7 @@
     <string name="str_video_path">video/</string>
     <!-- 抓拍保存路径 -->
     <string name="str_capture_path">capture/</string>
-    <!-- 版本号 -->
-    <string name="str_current_version">V4.1.49(Beta) - DJ</string>
+
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->

@@ -21,6 +21,7 @@ import com.jovision.activities.JVOffLineDialogActivity;
 public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 
 	private Context context = null;
+	public static Boolean tipDialog = false;
 
 	public DefaultExceptionHandler(Context act) {
 		this.context = act;
@@ -47,13 +48,16 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 		// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		// context.startActivity(intent);
 
-		Intent intent = new Intent(context, JVOffLineDialogActivity.class);
-		intent.putExtra("ErrorCode", Consts.APP_CRASH);
-		intent.putExtra("ErrorMsg", error);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(intent);
+		if (!tipDialog) {
+			tipDialog = true;
+			Intent intent = new Intent(context, JVOffLineDialogActivity.class);
+			intent.putExtra("ErrorCode", Consts.APP_CRASH);
+			intent.putExtra("ErrorMsg", error);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(intent);
 
-		android.os.Process.killProcess(android.os.Process.myPid());
+			android.os.Process.killProcess(android.os.Process.myPid());
+		}
 
 	}
 
@@ -92,16 +96,16 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 		return stacktrace;
 	}
 
-	private void handleException(String error) {
-		// ((MainService) act).onNotify(Consts.APP_CRASH, 0, 0, error);
-		Intent intent = new Intent(context, JVOffLineDialogActivity.class);
-		intent.putExtra("ErrorCode", Consts.APP_CRASH);
-		intent.putExtra("ErrorMsg", error);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(intent);
-
-		android.os.Process.killProcess(android.os.Process.myPid());
-	}
+	// private void handleException(String error) {
+	// // ((MainService) act).onNotify(Consts.APP_CRASH, 0, 0, error);
+	// Intent intent = new Intent(context, JVOffLineDialogActivity.class);
+	// intent.putExtra("ErrorCode", Consts.APP_CRASH);
+	// intent.putExtra("ErrorMsg", error);
+	// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	// context.startActivity(intent);
+	//
+	// android.os.Process.killProcess(android.os.Process.myPid());
+	// }
 
 	// 写入Log信息的方法，写入到SD卡里面
 	private void writeLog(String log, String name) {

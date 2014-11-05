@@ -110,7 +110,6 @@ public class JVLoginActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		// Jni.enableLog(true);
 		// throw(new NullPointerException());
 	}
 

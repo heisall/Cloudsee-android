@@ -73,7 +73,9 @@ public class JVPlayActivity extends PlayActivity implements
 	private static final int ARG2_STATUS_CONNECTED = 0x02;
 	private static final int ARG2_STATUS_BUFFERING = 0x03;
 	private static final int ARG2_STATUS_DISCONNECTED = 0x04;
-	private static final int ARG2_STATUS_UNKNOWN = 0x05;
+	private static final int ARG2_STATUS_HAS_CONNECTED = 0x05;
+	private static final int ARG2_STATUS_CONN_OVERFLOW = 0x06;
+	private static final int ARG2_STATUS_UNKNOWN = 0x07;
 
 	private static final int DELAY_CHECK_SURFACE = 500;
 	private static final int DELAY_DOUBLE_CHECKER = 500;
@@ -146,7 +148,6 @@ public class JVPlayActivity extends PlayActivity implements
 		case Consts.CALL_CONNECT_CHANGE: {
 			MyLog.i(TAG, "CALL_CONNECT_CHANGE:what=" + what + ",arg1=" + arg1
 					+ ",arg2=" + arg2 + ",obj=" + obj);
-			// [Neo] TODO
 			Channel channel = null;
 			if (arg1 < channelList.size()) {
 				channel = channelList.get(arg1);
@@ -205,12 +206,13 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			default:
+				// [Neo] default, has disconnected
+				channel.setConnected(false);
+				channel.setPaused(true);
 				break;
 			}
 
-			channel.setConnecting(false);
 			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
-			// viewPager.setDisableSliding(false);
 			break;
 		}
 
@@ -375,14 +377,6 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null == channel) {
 				return;
 			}
-
-			// [Neo] TODO
-			// if (null != channel.getSurfaceView()) {
-			// boolean resumeRes = resumeChannel(channel);
-			// if (!resumeRes) {
-			// MyLog.e(TAG, "resume---index=" + arg1 + "---" + resumeRes);
-			// }
-			// }
 
 			loadingState(arg1, R.string.connecting_buffer2,
 					JVConst.PLAY_CONNECTING_BUFFER);
@@ -563,9 +557,23 @@ public class JVPlayActivity extends PlayActivity implements
 			case ARG2_STATUS_DISCONNECTED:
 				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
 				break;
+
+			case ARG2_STATUS_HAS_CONNECTED:
+				// [Neo] TODO has connected
+				loadingState(arg1, R.string.has_connected,
+						JVConst.PLAY_DIS_CONNECTTED);
+				break;
+
+			case ARG2_STATUS_CONN_OVERFLOW:
+				// [Neo] TODO connection overflow
+				loadingState(arg1, R.string.overflow,
+						JVConst.PLAY_DIS_CONNECTTED);
+				break;
+
 			case ARG2_STATUS_UNKNOWN:
 				loadingState(arg1, R.string.closed, JVConst.PLAY_STATUS_UNKNOWN);
 				break;
+
 			default:
 				break;
 			}
@@ -1491,19 +1499,18 @@ public class JVPlayActivity extends PlayActivity implements
 
 	}
 
-	private int connect(Channel channel, boolean isPlayDirectly) {
-		int result = 0;
-
-		handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-				channel.getIndex(), ARG2_STATUS_CONNECTING));
+	private boolean connect(Channel channel, boolean isPlayDirectly) {
+		boolean result = false;
 
 		if (null != channel && false == channel.isConnected()
 				&& false == channel.isConnecting()) {
 
-			Device device = channel.getParent();
 			// 如果是域名添加的设备需要先去解析IP
 			String ip = "";
 			int port = 0;
+			int connect = 0;
+
+			Device device = channel.getParent();
 			if (2 == device.getIsDevice()) {
 				ip = ConfigUtil.getInetAddress(device.getDoMain());
 				port = 9101;
@@ -1513,12 +1520,12 @@ public class JVPlayActivity extends PlayActivity implements
 					&& channel.getParent().getFullNo().equalsIgnoreCase(ssid)) {
 				// IP直连
 				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
-				result = Jni.connect(channel.getIndex(), channel.getChannel(),
+				connect = Jni.connect(channel.getIndex(), channel.getChannel(),
 						ip, port, device.getUser(), device.getPwd(), -1, device
 								.getGid(), true, 1, true, (device
 								.isHomeProduct() ? 6 : 6),
 						channel.getSurface(), isOmx);
-				if (result == channel.getIndex()) {
+				if (connect == channel.getIndex()) {
 					channel.setPaused(null == channel.getSurface());
 				}
 
@@ -1538,36 +1545,46 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 				if (isPlayDirectly) {
-					result = Jni.connect(channel.getIndex(),
+					connect = Jni.connect(channel.getIndex(),
 							channel.getChannel(), conIp, conPort,
 							device.getUser(), device.getPwd(), number,
 							device.getGid(), true, 1, true, 6,// (device.isHomeProduct()
 																// ? 6 : 5),
 							channel.getSurface(), isOmx);
-					if (result == channel.getIndex()) {
+					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
 				} else {
-					result = Jni.connect(channel.getIndex(),
+					connect = Jni.connect(channel.getIndex(),
 							channel.getChannel(), conIp, conPort,
 							device.getUser(), device.getPwd(), number,
 							device.getGid(), true, 1, true, 6,// (device.isHomeProduct()
 																// ? 6 : 5),
 							null, isOmx);
-					if (result == channel.getIndex()) {
+					if (connect == channel.getIndex()) {
 						channel.setPaused(true);
 					}
 				}
 
 			}
-		}
 
-		if (result >= 0) {
-			MyLog.v(TAG, "connect_success" + channel.getIndex() + "----"
-					+ result);
-		} else {
-			MyLog.e(TAG, "connect_failed" + channel.getIndex() + "----"
-					+ result);
+			if (Consts.BAD_HAS_CONNECTED == connect) {
+				channel.setConnected(true);
+				channel.setPaused(true);
+				channel.setConnecting(false);
+				Jni.disconnect(channel.getIndex());
+				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+						channel.getIndex(), ARG2_STATUS_HAS_CONNECTED));
+			} else if (Consts.BAD_CONN_OVERFLOW == connect) {
+				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+						channel.getIndex(), ARG2_STATUS_CONN_OVERFLOW));
+			} else {
+				channel.setConnecting(true);
+				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+						channel.getIndex(), ARG2_STATUS_CONNECTING));
+				result = true;
+			}
+
 		}
 
 		return result;
@@ -1575,18 +1592,33 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	public void onClick(Channel channel, boolean isFromImageView, int viewId) {
-		MyLog.i(Consts.TAG_PLAY, ">>> click: " + channel.getIndex());
+		MyLog.i(Consts.TAG_PLAY, ">>> click: " + channel.getIndex()
+				+ ", isBlocked: " + isBlockUi);
 
 		if (isBlockUi) {
-			// [Neo] TODO toast: donnot touch
 			showTextToast(R.string.waiting);
 		}
 
 		if (false == isBlockUi && isFromImageView) {// 播放按钮事件
-			if (channel.isConnected() || channel.isConnecting()) {
-				resumeChannel(channel);
+			if (false == channel.isConnected()
+					&& false == channel.isConnecting()) {
+
+				if (false == connect(channel, true)) {
+					MyLog.e(Consts.TAG_PLAY, "connect failed: " + channel);
+				}
+
+			} else if (channel.isConnecting()) {
+				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+						channel.getIndex(), ARG2_STATUS_CONNECTING));
+			} else if (false == channel.isPaused()) {
+				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+						channel.getIndex(), ARG2_STATUS_CONNECTED));
 			} else {
-				connect(channel, true);
+
+				if (false == resumeChannel(channel)) {
+					MyLog.e(Consts.TAG_PLAY, "resume failed: " + channel);
+				}
+
 			}
 		}
 
@@ -2855,6 +2887,13 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		if (null != popScreen) {
+			popScreen.dismiss();
+		}
+		if (null != streamListView) {
+			streamListView.setVisibility(View.GONE);
+		}
+
 		// [Neo] add black screen time
 		Jni.setColor(lastClickIndex, 0, 0, 0, 0);
 
@@ -2904,8 +2943,6 @@ public class JVPlayActivity extends PlayActivity implements
 							MyLog.e(Consts.TAG_PLAY, "disconnect failed: "
 									+ channel);
 						} else {
-							MyLog.d(Consts.TAG_PLAY, "disconnect success: "
-									+ channel);
 							sleep(DISCONNECTION_MIN_PEROID);
 						}
 					} else {
@@ -2936,26 +2973,33 @@ public class JVPlayActivity extends PlayActivity implements
 
 					if (false == channel.isConnected()
 							&& false == channel.isConnecting()) {
-						boolean result = connect(channel, isPlayDirectly) == channel
-								.getIndex();
+
+						boolean result = connect(channel, isPlayDirectly);
 						if (false == result) {
 							MyLog.e(Consts.TAG_PLAY, "connect failed: "
 									+ channel);
 						} else {
-							MyLog.d(Consts.TAG_PLAY, "connect success: "
-									+ channel);
 							sleep(CONNECTION_MIN_PEROID);
 						}
+
+					} else if (channel.isConnecting()) {
+						handler.sendMessage(handler.obtainMessage(
+								WHAT_PLAY_STATUS, channel.getIndex(),
+								ARG2_STATUS_CONNECTING));
+					} else if (false == channel.isPaused()) {
+						handler.sendMessage(handler.obtainMessage(
+								WHAT_PLAY_STATUS, channel.getIndex(),
+								ARG2_STATUS_CONNECTED));
 					} else {
+
 						boolean result = resumeChannel(channel);
 						if (false == result) {
 							MyLog.e(Consts.TAG_PLAY, "resume failed: "
 									+ channel);
 						} else {
-							MyLog.d(Consts.TAG_PLAY, "resume success: "
-									+ channel);
 							sleep(RESUME_VIDEO_MIN_PEROID);
 						}
+
 					}
 
 				}
@@ -2963,8 +3007,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				// [Neo] Empty
-				MyLog.e(Consts.TAG_PLAY, e);
 			}
 
 			handler.sendEmptyMessage(WHAT_RESTORE_UI);

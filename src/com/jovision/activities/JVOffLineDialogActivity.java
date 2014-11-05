@@ -24,6 +24,7 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.mails.MailSenderInfo;
 import com.jovision.utils.mails.SimpleMailSender;
 
@@ -79,10 +80,10 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			break;
 		}
 		case SEND_MAIL_SUCC: {
+			dismissDialog();
 			this.finish();
 			android.os.Process.killProcess(android.os.Process.myPid());
 			System.exit(0);
-
 			break;
 		}
 		case SEND_MAIL_FAIL: {
@@ -157,6 +158,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			otherLoginLayout.setVisibility(View.GONE);
 			offlineLayout.setVisibility(View.GONE);
 			exceptionLayout.setVisibility(View.VISIBLE);
+
 		} else {
 			otherLoginLayout.setVisibility(View.GONE);
 			offlineLayout.setVisibility(View.VISIBLE);
@@ -237,10 +239,8 @@ public class JVOffLineDialogActivity extends BaseActivity {
 				// mailInfo.setToAddress("jy0329@163.com");
 				mailInfo.setSubject("[BUG]["
 						+ JVOffLineDialogActivity.this.getResources()
-								.getString(R.string.app_name)
-						+ "]"
-						+ JVOffLineDialogActivity.this.getResources()
-								.getString(R.string.str_current_version));
+								.getString(R.string.app_name) + "]"
+						+ ConfigUtil.getVersion(JVOffLineDialogActivity.this));
 				mailInfo.setContent("[" + str + "]" + errorMsg);
 
 				// 这个类主要来发送邮件
@@ -252,6 +252,9 @@ public class JVOffLineDialogActivity extends BaseActivity {
 				break;
 			}
 			case R.id.cancel: {
+				otherLoginLayout.setVisibility(View.GONE);
+				offlineLayout.setVisibility(View.GONE);
+				exceptionLayout.setVisibility(View.GONE);
 				System.exit(0);
 
 				break;
@@ -402,7 +405,9 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-
+			otherLoginLayout.setVisibility(View.GONE);
+			offlineLayout.setVisibility(View.GONE);
+			exceptionLayout.setVisibility(View.GONE);
 			dismissDialog();
 			if (0 == result) {
 				showTextToast(R.string.str_send_success);

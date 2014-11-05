@@ -18,6 +18,7 @@ import com.jovision.activities.BaseActivity;
 import com.jovision.activities.BaseFragment;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.ConfigUtil;
 
 public class FragmentAdapter extends BaseAdapter {
 	private BaseFragment mfragment;
@@ -88,8 +89,11 @@ public class FragmentAdapter extends BaseAdapter {
 		if (position == 5) {
 			item_next.setVisibility(View.GONE);
 			item_version.setVisibility(View.VISIBLE);
-			item_version.setText(mfragment.getActivity().getResources()
-					.getString(R.string.str_current_version));
+			item_version
+					.setText(ConfigUtil.getVersion(mfragment.getActivity()));
+
+			// mfragment.getActivity().getResources()
+			// .getString(R.string.str_current_version));
 		}
 		if (position > -1 && position < 3) {
 			item_next

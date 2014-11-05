@@ -1569,6 +1569,10 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			if (Consts.BAD_HAS_CONNECTED == connect) {
+				channel.setConnected(true);
+				channel.setPaused(true);
+				channel.setConnecting(false);
+				Jni.disconnect(channel.getIndex());
 				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
 						channel.getIndex(), ARG2_STATUS_HAS_CONNECTED));
 			} else if (Consts.BAD_CONN_OVERFLOW == connect) {

@@ -616,8 +616,7 @@
     <string name="str_video_path">video/</string>
     <!-- 抓拍保存路径 -->
     <string name="str_capture_path">capture/</string>
-    <!-- 版本号 -->
-    <string name="str_current_version">V4.1.50(Beta) - DJ</string>
+
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->

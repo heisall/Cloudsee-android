@@ -173,7 +173,7 @@ public class JVFeedbackActivity extends BaseActivity {
 					} else {
 						createDialog("");
 						if (0 != connectStr.length()) {
-							contentStr += "\n\r 联系方式" + connectStr;
+							contentStr += "<br /> 联系方式" + connectStr;
 						}
 
 						FeedbackThread feedbackThread = new FeedbackThread(
@@ -219,11 +219,9 @@ public class JVFeedbackActivity extends BaseActivity {
 				mailInfo.setToAddress("suifupeng@jovision.com");// jovetech1203**
 				// mailInfo.setToAddress("jy0329@163.com");
 				mailInfo.setSubject("["
-						+ getResources().getString(R.string.app_name)
-						+ "]"
+						+ getResources().getString(R.string.app_name) + "]"
 						+ getResources().getString(R.string.str_feedback)
-						+ getResources()
-								.getString(R.string.str_current_version));
+						+ ConfigUtil.getVersion(JVFeedbackActivity.this));
 				mailInfo.setContent(content + mobileInfo() + encryptInfo1());
 				MyLog.e("feedback=", content + mobileInfo() + encryptInfo1());
 				String[] receivers = new String[] { "juyang@jovision.com",
@@ -280,12 +278,13 @@ public class JVFeedbackActivity extends BaseActivity {
 			String cpu = Build.CPU_ABI;
 			String softwareVersion = this.getResources().getString(
 					R.string.app_name)
-					+ this.getResources().getString(
-							R.string.str_current_version);
-			mobileInfo = "\n\r"+ "[1-MODEL]=" + model + "\n\r" + "[2-VERSION]="
-					+ version + "\n\r" + "[3-FINGERPRINT]=" + fingerprint + "\n\r"
-					+ "[4-country]=" + country + "\n\r" + "[5-CPU]=" + cpu + "\n\r"
-					+ "[6-SOFTVERSION]=" + softwareVersion+"\n\r";
+					+ ConfigUtil.getVersion(this);
+			mobileInfo = "<br />" + "[1-MODEL]=" + model + "<br />"
+					+ "[2-VERSION]=" + version + "<br />" + "[3-FINGERPRINT]="
+					+ fingerprint + "<br />" + "[4-country]=" + country
+					+ "<br />" + "[5-CPU]=" + cpu + "<br />"
+					+ "[6-SOFTVERSION]=" + ConfigUtil.getVersion(this)
+					+ "<br />";
 
 		} catch (Exception e) {
 			e.printStackTrace();

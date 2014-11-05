@@ -24,6 +24,7 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.mails.MailSenderInfo;
 import com.jovision.utils.mails.SimpleMailSender;
 
@@ -238,10 +239,8 @@ public class JVOffLineDialogActivity extends BaseActivity {
 				// mailInfo.setToAddress("jy0329@163.com");
 				mailInfo.setSubject("[BUG]["
 						+ JVOffLineDialogActivity.this.getResources()
-								.getString(R.string.app_name)
-						+ "]"
-						+ JVOffLineDialogActivity.this.getResources()
-								.getString(R.string.str_current_version));
+								.getString(R.string.app_name) + "]"
+						+ ConfigUtil.getVersion(JVOffLineDialogActivity.this));
 				mailInfo.setContent("[" + str + "]" + errorMsg);
 
 				// 这个类主要来发送邮件

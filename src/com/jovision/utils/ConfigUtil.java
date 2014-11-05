@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -40,7 +41,6 @@ import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.test.JVACCOUNT;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -63,9 +63,8 @@ import com.jovision.utils.mails.MyAuthenticator;
 
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
-
-	private final static String PLAY_VERSION = "0.8[9246b6f][2014-11-03]";
-	private final static String NETWORK_VERSION = "v2.0.76.3.7[private:v2.0.75.13 201401030.2.d]";
+	private final static String PLAY_VERSION = "[281e8fa]";
+	private final static String NETWORK_VERSION = "v2.0.76.3.8[private:v2.0.75.13 201401104]";
 
 	// /**
 	// * 获取本地数据库管理对象的引用
@@ -97,14 +96,32 @@ public class ConfigUtil {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+	}
 
-		// if (JNI_VERSION.equalsIgnoreCase(remoteVer)) {
-		// MyLog.v(TAG, "Same:localVer=" + JNI_VERSION + ";\nremoteVer="
-		// + remoteVer);
-		// } else {
-		// MyLog.e(TAG, "Not-Same:localVer=" + JNI_VERSION
-		// + ";\nremoteVerStr=" + remoteVer);
-		// }
+	/**
+	 * playversion
+	 * 
+	 * @return
+	 */
+	public static String getVersion(Context context) {
+		String softName = "";
+		String version = Jni.getVersion();
+
+		try {
+			String pkName = context.getPackageName();
+			softName = context.getPackageManager().getPackageInfo(pkName, 0).versionName;
+		} catch (NameNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			JSONObject obj = new JSONObject(version);
+			version = obj.optString("jni");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		version = softName + version + " - DJ";
+		return version;
 	}
 
 	/**
@@ -402,7 +419,6 @@ public class ConfigUtil {
 			result = Jni.init(context, 9200, Consts.LOG_PATH);
 			Jni.enableLinkHelper(true, 3, 10);// 开小助手
 			int res = openBroadCast();// 开广播
-			Log.v("广播-----打开res=", res + "");
 			statusHashMap
 					.put(Consts.KEY_INIT_CLOUD_SDK, String.valueOf(result));
 

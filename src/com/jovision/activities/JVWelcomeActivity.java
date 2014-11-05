@@ -52,7 +52,6 @@ public class JVWelcomeActivity extends BaseActivity {
 	protected void initSettings() {
 		MySharedPreference.init(getApplication());
 		ConfigUtil.getJNIVersion();
-
 		ImportOldData importOld = new ImportOldData(JVWelcomeActivity.this);
 		if (!MySharedPreference.getBoolean("HasImport")) {
 			Consts.DEVICE_LIST = Consts.LOCAL_DEVICE_LIST;

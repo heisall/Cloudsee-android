@@ -5,14 +5,14 @@
     android:orientation="vertical" >
 
     <FrameLayout
+        android:id="@+id/item"
         android:layout_width="match_parent"
-        android:layout_height="50dp" >
+        android:layout_height="50dp"
+        android:background="#ffffff" >
 
         <RelativeLayout
-            android:id="@+id/item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/more_center" >
+            android:layout_height="50dp" >
 
             <LinearLayout
                 android:id="@+id/item_linear"
@@ -70,5 +70,11 @@
             android:visibility="gone" >
         </RelativeLayout>
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/divider_img"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:src="@color/morefragment" />
 
 </LinearLayout>

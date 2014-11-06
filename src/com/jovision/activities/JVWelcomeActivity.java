@@ -22,10 +22,10 @@ public class JVWelcomeActivity extends BaseActivity {
 	private Handler initHandler;
 	private ImageView welcome_img;
 
-	private static boolean HAS_LOADED = false;
+	// private static boolean HAS_LOADED = false;
 
 	static {
-		HAS_LOADED = AutoLoad.foo();
+		AutoLoad.foo();
 	}
 
 	@Override
@@ -160,13 +160,14 @@ public class JVWelcomeActivity extends BaseActivity {
 		@Override
 		public void run() {
 
-			// [Neo] TODO set timer for timeout
-			while (false == HAS_LOADED) {
-				try {
-					sleep(100);
-				} catch (InterruptedException e) {
-				}
-			}
+			// // [Neo] TODO set timer for timeout
+			// while (false == HAS_LOADED) {
+			//
+			// try {
+			// sleep(100);
+			// } catch (InterruptedException e) {
+			// }
+			// }
 
 			ConfigUtil.initCloudSDK(getApplication());// 初始化CloudSDK
 

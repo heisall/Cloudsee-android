@@ -61,6 +61,12 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 		passwordEdt = (EditText) findViewById(R.id.addipconnect_pwd);
 		saveButton = (Button) findViewById(R.id.addeditsave);
 
+		portEdt.setText(JVAddIpDeviceActivity.this.getResources().getString(
+				R.string.str_default_port));
+		userNameEdt.setText(JVAddIpDeviceActivity.this.getResources()
+				.getString(R.string.str_default_user));
+		passwordEdt.setText(JVAddIpDeviceActivity.this.getResources()
+				.getString(R.string.str_default_pass));
 		saveButton.setOnClickListener(myOnClickListener);
 		btn_left.setOnClickListener(myOnClickListener);
 		btn_right.setOnClickListener(myOnClickListener);

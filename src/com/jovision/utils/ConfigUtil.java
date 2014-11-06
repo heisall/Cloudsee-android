@@ -105,7 +105,8 @@ public class ConfigUtil {
 	 * @return
 	 */
 	public static String getVersion(Context context) {
-
+		HashMap<String, String> statusHashMap = ((MainApplication) context
+				.getApplicationContext()).getStatusHashMap();
 		if ("".equalsIgnoreCase(version)) {
 			String softName = "";
 			version = Jni.getVersion();
@@ -119,8 +120,12 @@ public class ConfigUtil {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-			version = softName + version + " - DJ";
+			if ("true".equalsIgnoreCase(statusHashMap
+					.get(Consts.NEUTRAL_VERSION))) {
+				version = softName;
+			} else {
+				version = softName + version + " - DJ";
+			}
 		}
 
 		return version;

@@ -112,6 +112,11 @@ public class JVAddDeviceActivity extends BaseActivity {
 		userET = (EditText) findViewById(R.id.user_et);
 		pwdET = (EditText) findViewById(R.id.pwd_et);
 		saveBtn = (Button) findViewById(R.id.save_btn);
+
+		userET.setText(JVAddDeviceActivity.this.getResources().getString(
+				R.string.str_default_user));
+		pwdET.setText(JVAddDeviceActivity.this.getResources().getString(
+				R.string.str_default_pass));
 		saveBtn.setBackgroundResource(R.drawable.blue_bg);
 		saveBtn.setOnClickListener(mOnClickListener);
 	}

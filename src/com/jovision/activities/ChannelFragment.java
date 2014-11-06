@@ -90,6 +90,9 @@ public class ChannelFragment extends BaseFragment {
 
 	}
 
+	public ChannelFragment() {
+	}
+
 	public ChannelFragment(int devIndex, ArrayList<Device> devList,
 			int widthPixels) {
 		deviceIndex = devIndex;

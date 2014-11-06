@@ -71,7 +71,7 @@
                 android:inputType="textVisiblePassword"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
-                android:text="abc"
+                android:text=""
                 android:textColor="@color/leftdevicecolor"
                 android:textSize="18sp" />
         </TableRow>
@@ -99,7 +99,7 @@
                 android:paddingLeft="10dp"
                 android:password="true"
                 android:singleLine="true"
-                android:text="123"
+                android:text=""
                 android:textColor="@color/leftdevicecolor"
                 android:textSize="18sp" />
         </TableRow>

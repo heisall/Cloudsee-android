@@ -108,7 +108,7 @@
             android:lines="1"
             android:paddingLeft="10dp"
             android:singleLine="true"
-            android:text="9101"
+            android:text=""
             android:textColor="@color/leftdevicecolor" />
     </LinearLayout>
 
@@ -142,7 +142,7 @@
             android:lines="1"
             android:paddingLeft="10dp"
             android:singleLine="true"
-            android:text="abc"
+            android:text=""
             android:textColor="@color/leftdevicecolor" />
     </LinearLayout>
 
@@ -178,7 +178,7 @@
             android:paddingLeft="10dp"
             android:password="true"
             android:singleLine="true"
-            android:text="123"
+            android:text=""
             android:textColor="@color/leftdevicecolor" />
     </LinearLayout>
 

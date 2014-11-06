@@ -602,6 +602,8 @@
     <string name="str_save_apk_name">JVCloudSeeClient.apk</string>
     <!-- 默认用户名 -->
     <string name="str_default_user">abc</string>
+    <!-- 默认端口号 -->
+    <string name="str_default_port">9101</string>
     <!-- 默认密码 -->
     <string name="str_default_pass">123</string>
     <!-- 录像保存路径 -->

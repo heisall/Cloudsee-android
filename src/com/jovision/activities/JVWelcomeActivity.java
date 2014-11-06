@@ -1,11 +1,6 @@
 package com.jovision.activities;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.test.AutoLoad;
 import android.view.WindowManager;
@@ -14,12 +9,8 @@ import android.widget.ImageView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
-import com.jovision.commons.BaiOSS;
-import com.jovision.commons.BaseOSS;
 import com.jovision.commons.JVConst;
-import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
-import com.jovision.commons.MyUtils;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ImportOldData;
 import com.jovision.utils.UserUtil;
@@ -79,95 +70,6 @@ public class JVWelcomeActivity extends BaseActivity {
 
 		initHandler = new Handler();
 		initHandler.postDelayed(jumpThread, 4000);
-
-		new Thread() {
-
-			@Override
-			public void run() {
-				Date last = new Date(MySharedPreference.getLong(
-						Consts.KEY_LAST_PUT_STAMP, 1l));
-
-				boolean useLocal = false;
-				Date current = null; // MyUtils.getChinaTime();
-
-				if (null == current) {
-					useLocal = true;
-					current = new Date();
-				}
-
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				if (format.format(last).equals(format.format(current))) {
-					return;
-				}
-
-				String folder = MyLog.getFolder(MyLog.UB);
-				if (null == folder) {
-					return;
-				}
-
-				boolean result = false;
-				if (last.getTime() > 1l) {
-
-					File file = new File(MyLog.getPath(MyLog.UB));
-					if (file.length() < 55 * 1024) {
-						return;
-					}
-
-					String target = folder + File.separator + current.getTime()
-							+ ".zip";
-
-					MyLog.enableUB(false);
-					result = MyUtils.zip(target, new File[] { file });
-
-					if (false == result) {
-						MyLog.e(Consts.TAG_LOGICAL, "zip failed!");
-						return;
-					}
-
-					try {
-						BaseOSS oss = BaiOSS
-								.getInstance(
-										Consts.BO_ID,
-										Consts.BO_SECRET,
-										BaiOSS.BUCKET_PREFIX
-												+ new SimpleDateFormat(
-														BaseOSS.BUCKET_SUBFIX_FORMATTER)
-														.format(current));
-						result = oss.put(target);
-						oss.deinit();
-					} catch (Exception e) {
-						result = false;
-					}
-
-					new File(target).delete();
-
-					if (result) {
-						MyLog.clean(MyLog.UB);
-					}
-					MyLog.enableUB(true);
-
-				} else {
-					result = true;
-				}
-
-				if (result) {
-					MyLog.ubPhone(statusHashMap.get(Consts.IMEI),
-							Build.MANUFACTURER, Build.MODEL, Build.FINGERPRINT);
-
-					if (useLocal) {
-						MyLog.ubTopic("local",
-								String.valueOf(current.getTime()));
-					} else {
-						MyLog.ubTopic("remote",
-								String.valueOf(current.getTime()));
-					}
-
-					MySharedPreference.putLong(Consts.KEY_LAST_PUT_STAMP,
-							current.getTime());
-				}
-			}
-
-		}.start();
 
 		// SIMCardUtil siminfo = new SIMCardUtil(this);
 		// System.out.println(siminfo.getProvidersName());

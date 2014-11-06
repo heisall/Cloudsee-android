@@ -51,6 +51,10 @@ public class ManageFragment extends BaseFragment {
 	int devType = 0;
 	private boolean isConnected;
 
+	public ManageFragment() {
+		deviceList = new ArrayList<Device>();
+	}
+
 	public ManageFragment(ArrayList<Device> deviceList) {
 		this.deviceList = deviceList;
 	}

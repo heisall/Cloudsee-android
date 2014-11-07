@@ -28,6 +28,7 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.ConfigUtil;
 
 public class JVTabActivity extends ShakeActivity implements
 		OnPageChangeListener {
@@ -221,6 +222,8 @@ public class JVTabActivity extends ShakeActivity implements
 
 	@Override
 	protected void initSettings() {
+		MySharedPreference.init(getApplication());
+		ConfigUtil.getJNIVersion();
 		Intent intent = getIntent();
 		currentIndex = intent.getIntExtra("tabIndex", 0);
 		localFlag = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));

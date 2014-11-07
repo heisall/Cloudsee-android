@@ -17,6 +17,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -51,6 +52,7 @@ import com.jovision.bean.WifiAdmin;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyGestureDispatcher;
+import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.PlayWindowManager;
@@ -135,6 +137,9 @@ public class JVPlayActivity extends PlayActivity implements
 	private ImageView devicepwd_password_cancleI;
 	private ImageView dialogpwd_cancle_img;
 
+	/** 基于断开视频不走回调加此list */
+	private MyList<Message> msgList = new MyList<Message>(0);
+
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		if (isQuit) {
@@ -165,6 +170,8 @@ public class JVPlayActivity extends PlayActivity implements
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
 				channel.setConnected(true);
+				handler.sendMessage(handler
+						.obtainMessage(what, arg1, arg2, obj));
 				break;
 			}
 
@@ -177,41 +184,52 @@ public class JVPlayActivity extends PlayActivity implements
 				// 7 -- 服务停止连接，连接断开
 			case JVNetConst.SERVICE_STOP:
 				channel.setPaused(true);
+				msgList.add(arg1, handler.obtainMessage(what, arg1, arg2, obj));
 				break;
 
 			case Consts.BAD_NOT_CONNECT: {
 				channel.setConnected(false);
+				if (null != msgList && null != msgList.get(arg1)) {
+					handler.sendMessage(msgList.get(arg1));
+				}
+
 				break;
 			}
 
 			// 3 -- 不必要重复连接
 			case JVNetConst.NO_RECONNECT: {
+				handler.sendMessage(handler
+						.obtainMessage(what, arg1, arg2, obj));
 				break;
 			}
 
 			// 5 -- 没有连接
 			case JVNetConst.NO_CONNECT: {
 				channel.setPaused(true);
+				handler.sendMessage(handler
+						.obtainMessage(what, arg1, arg2, obj));
 				break;
 			}
 
 			// 8 -- 断开连接失败
 			case JVNetConst.DISCONNECT_FAILED: {
 				channel.setPaused(true);
+				handler.sendMessage(handler
+						.obtainMessage(what, arg1, arg2, obj));
 				break;
 			}
 
 			// 9 -- 其他错误
 			case JVNetConst.OHTER_ERROR: {
 				channel.setPaused(true);
+				handler.sendMessage(handler
+						.obtainMessage(what, arg1, arg2, obj));
 				break;
 			}
 
 			default:
 				break;
 			}
-
-			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 			break;
 		}
 

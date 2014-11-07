@@ -133,7 +133,7 @@ public class JVDeviceManageActivity extends BaseActivity {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.btn_left:
-				finish();
+				JVDeviceManageActivity.this.finish();
 				break;
 			case R.id.btn_right:
 

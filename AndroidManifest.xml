@@ -71,6 +71,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.jovision.activities.TestActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
             android:name="com.jovision.activities.JVLoginActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"

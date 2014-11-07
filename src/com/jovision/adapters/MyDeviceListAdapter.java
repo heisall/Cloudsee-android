@@ -160,7 +160,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getNickName());
 		} else {
 			deviceHolder.devNameL.setText(deviceList.get(position * 2)
-					.getFullNo());
+					.getNickName());
 			deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
 					.getNickName());
 		}
@@ -259,7 +259,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						position * 2 + 1).getNickName());
 			} else {
 				deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
-						.getFullNo());
+						.getNickName());
 				deviceHolder.devnicknameR.setText(deviceList.get(
 						position * 2 + 1).getNickName());
 			}

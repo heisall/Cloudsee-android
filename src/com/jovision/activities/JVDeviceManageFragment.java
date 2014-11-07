@@ -176,7 +176,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 			// [Neo] nav
 			RelativeLayout layout = new RelativeLayout(mActivity);
 			TextView view = new TextView(mActivity);
-			view.setText(manageDeviceList.get(i).getFullNo());
+			view.setText(manageDeviceList.get(i).getNickName());
 			view.setSingleLine(true);
 			view.setTextSize(16);
 			view.setId(i);

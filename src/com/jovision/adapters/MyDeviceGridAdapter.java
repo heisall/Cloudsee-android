@@ -64,7 +64,8 @@ public class MyDeviceGridAdapter extends BaseAdapter {
 		if (2 == deviceList.get(position).getIsDevice()) {
 			deviceHolder.devName.setText(deviceList.get(position).getDoMain());
 		} else {
-			deviceHolder.devName.setText(deviceList.get(position).getNickName());
+			deviceHolder.devName
+					.setText(deviceList.get(position).getNickName());
 		}
 
 		deviceHolder.onLineState.setText("在线");

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 
-public class TestAdapter extends BaseAdapter{
+public class TestAdapter extends BaseAdapter {
 	private Activity activity;
 	private LayoutInflater inflater;
 
@@ -42,18 +42,18 @@ public class TestAdapter extends BaseAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		TestHolser testHolser;
-		if (convertView == null ) {
-		 convertView = inflater.inflate(R.layout.textitem,
-					null);
+		if (convertView == null) {
+			convertView = inflater.inflate(R.layout.textitem, null);
 			testHolser = new TestHolser();
-			testHolser.item = (TextView)convertView.findViewById(R.id.item);
+			testHolser.item = (TextView) convertView.findViewById(R.id.item);
 			convertView.setTag(testHolser);
 		} else {
 			testHolser = (TestHolser) convertView.getTag();
 		}
-		testHolser.item.setText(position+"");
+		testHolser.item.setText(position + "");
 		return convertView;
 	}
+
 	class TestHolser {
 		TextView item;
 	}

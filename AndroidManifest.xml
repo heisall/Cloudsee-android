@@ -70,7 +70,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-          <activity
+        <activity
             android:name="com.jovision.activities.TestActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"

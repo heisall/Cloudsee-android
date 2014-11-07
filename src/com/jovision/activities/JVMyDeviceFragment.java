@@ -848,7 +848,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.login_str_device_edit_success);
 				myDLAdapter.setShowDelete(false);
-				myDLAdapter.notifyDataSetChanged();
+				refreshList();
 			} else {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.login_str_device_edit_failed);

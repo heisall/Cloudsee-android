@@ -500,6 +500,7 @@ public class ManageFragment extends BaseFragment {
 		@Override
 		protected void onProgressUpdate(Integer... values) {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+			
 		}
 	}
 

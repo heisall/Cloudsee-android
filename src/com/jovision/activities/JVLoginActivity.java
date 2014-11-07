@@ -110,7 +110,8 @@ public class JVLoginActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		// throw(new NullPointerException());
+		MySharedPreference.init(getApplication());
+		ConfigUtil.getJNIVersion();
 	}
 
 	@SuppressWarnings("deprecation")

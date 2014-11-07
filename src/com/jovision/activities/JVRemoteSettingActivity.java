@@ -126,9 +126,20 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 	private int wifiIndex = -1;
 
+	// private boolean disConnected = false;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+
+		case Consts.CALL_CONNECT_CHANGE:
+			switch (arg2) {
+			case Consts.BAD_NOT_CONNECT: {
+				dismissDialog();
+				JVRemoteSettingActivity.this.finish();
+				break;
+			}
+			}
 		case Consts.CALL_TEXT_DATA: {// 文本回调
 			MyLog.i(TAG, "TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
@@ -205,10 +216,35 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
+		switch (what) {
+		case Consts.CALL_CONNECT_CHANGE: {
+			switch (arg2) {
+			// 2 -- 断开连接成功
+			case JVNetConst.DISCONNECT_OK:
+				// 4 -- 连接失败
+			case JVNetConst.CONNECT_FAILED:
+				// 6 -- 连接异常断开
+			case JVNetConst.ABNORMAL_DISCONNECT:
+				// 7 -- 服务停止连接，连接断开
+			case JVNetConst.SERVICE_STOP:
+				break;
+			case Consts.BAD_NOT_CONNECT: {
+				// disConnected = true;
+				MyLog.e(TAG, "线程断开成功");
+				handler.sendMessage(handler
+						.obtainMessage(what, arg1, arg2, obj));
+				break;
+			}
+			}
+
+		}
+		case Consts.CALL_TEXT_DATA:
+			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
+			break;
+		}
+
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void initSettings() {
 		Intent intent = getIntent();
@@ -527,8 +563,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						PlayUtil.disconnectDevice();
-						JVRemoteSettingActivity.this.finish();
+						back();
 					}
 				} else if (1 == currIndex) { // 无线
 					// 非家庭安防且有ClientPower字段
@@ -542,15 +577,12 @@ public class JVRemoteSettingActivity extends BaseActivity {
 						if (null != settingMap
 								&& settingMap.get("ACTIVED").equalsIgnoreCase(
 										"2")) {// 无线
-							// 断开视频连接
-							PlayUtil.disconnectDevice();
 							try {
 								Thread.sleep(200);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
-							PlayUtil.disconnectDevice();
-							JVRemoteSettingActivity.this.finish();
+							back();
 						} else {
 
 							// 值为2双码流是家庭安防产品
@@ -589,9 +621,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
-							PlayUtil.disconnectDevice();
-							JVRemoteSettingActivity.this.finish();
-
+							back();
 						}
 					}
 
@@ -656,8 +686,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					PlayUtil.disconnectDevice();
-					JVRemoteSettingActivity.this.finish();
+					back();
 				}
 				break;
 			case R.id.obtainauto:// 自动获取
@@ -803,20 +832,17 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				secondLayout.setVisibility(View.GONE);
 				firstLayout.setVisibility(View.VISIBLE);
 			} else {
-				PlayUtil.disconnectDevice();
-				JVRemoteSettingActivity.this.finish();
+				back();
 			}
 		} else if (currIndex == 1) {// 无线连接
 			if (wifiSecondLayout.getVisibility() == View.VISIBLE) {
 				wifiSecondLayout.setVisibility(View.GONE);
 				wifiFirstLayout.setVisibility(View.VISIBLE);
 			} else {
-				PlayUtil.disconnectDevice();
-				JVRemoteSettingActivity.this.finish();
+				back();
 			}
 		} else {// 码流设置
-			PlayUtil.disconnectDevice();
-			JVRemoteSettingActivity.this.finish();
+			back();
 		}
 	}
 
@@ -1168,6 +1194,21 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		wifiList.clear();
 		device = null;
 
+	}
+
+	public void back() {
+		createDialog("");
+		proDialog.setCancelable(false);
+		PlayUtil.disconnectDevice();
+		// while(!disConnected){
+		// try {
+		// Thread.sleep(500);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// dismissDialog();
+		// JVRemoteSettingActivity.this.finish();
 	}
 
 }

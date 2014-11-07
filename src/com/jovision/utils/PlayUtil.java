@@ -453,7 +453,13 @@ public class PlayUtil {
 		if (!"".equalsIgnoreCase(array.toString())) {
 			Jni.setLinkHelper(array.toString());
 		}
-
+		int count = 0;
+		for (Device device : deviceList) {
+			if (hasEnableHelper(device.getFullNo())) {
+				count++;
+			}
+		}
+		MyLog.e("设置的小助手总数=", count + "");
 	}
 
 	/**

@@ -169,7 +169,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 			// [Neo] viewpager
 			Bundle data = new Bundle();
 			data.putInt("DeviceIndex", i);
-			ManageFragment fragment = new ManageFragment(manageDeviceList);
+			ManageFragment fragment = new ManageFragment();
 			fragment.setArguments(data);
 			fragments.add(fragment);
 

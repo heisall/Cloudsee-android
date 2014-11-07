@@ -54,7 +54,6 @@ public class JVDeviceManageActivity extends BaseActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 		switch (what) {
 		case Consts.PUSH_MESSAGE:
 			// 弹出对话框
@@ -67,28 +66,16 @@ public class JVDeviceManageActivity extends BaseActivity {
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 	}
 
 	@Override
 	protected void initSettings() {
-		// TODO Auto-generated method stub
 
 	}
 
-	// @Override
-	// protected void onCreate(Bundle savedInstanceState) {
-	// super.onCreate(savedInstanceState);
-	// MyActivityManager.getActivityManager().pushAlarmActivity(this);//保存需要弹出报警的Activity
-	// getWindow().addFlags(
-	// WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-	// WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-	// WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	// }
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		manageDeviceList = CacheUtil.getDevList();
 		manageNick.setText(manageDeviceList.get(deviceIndex).getNickName());
@@ -98,7 +85,6 @@ public class JVDeviceManageActivity extends BaseActivity {
 
 	@Override
 	protected void initUi() {
-		// TODO Auto-generated method stub
 		setContentView(R.layout.devicemanage_layout);
 
 		localFlag = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
@@ -131,10 +117,9 @@ public class JVDeviceManageActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.btn_left:
-				finish();
+				JVDeviceManageActivity.this.finish();
 				break;
 			case R.id.btn_right:
 
@@ -202,13 +187,11 @@ public class JVDeviceManageActivity extends BaseActivity {
 
 	@Override
 	protected void saveSettings() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void freeMe() {
-		// TODO Auto-generated method stub
 
 	}
 

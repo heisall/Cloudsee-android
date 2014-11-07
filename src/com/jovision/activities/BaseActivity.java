@@ -44,7 +44,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	protected Toast toast;
 	public Configuration configuration;
 
-	protected DisplayMetrics disMetrics;
+	public DisplayMetrics disMetrics;
 
 	// private long duration;
 	// private static final String RUNTIME = ".runtime";

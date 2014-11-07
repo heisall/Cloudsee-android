@@ -53,7 +53,8 @@ public class Consts {
 	public static final int CALL_PLAY_DOOMED = 0xAC;
 	public static final int CALL_PLAY_AUDIO = 0xAD;
 	public static final int CALL_QUERY_DEVICE = 0xAE;
-	public static final int CALL_HDEC_TYPE = 0xAF;//
+	public static final int CALL_HDEC_TYPE = 0xAF;
+	public static final int CALL_LIB_UNLOAD = 0xB0;
 
 	public static final int MAX_DEVICE_CHANNEL_COUNT = 64;
 	public static final int DEFAULT_ADD_CHANNEL_COUNT = 4;
@@ -135,7 +136,9 @@ public class Consts {
 
 	public static final int BAD_HAS_CONNECTED = -1;
 	public static final int BAD_CONN_OVERFLOW = -2;
-	public static final int BAD_CONN_UNKOWN = -3;
+	public static final int BAD_NOT_CONNECT = -3;
+	public static final int BAD_ARRAY_OVERFLOW = -4;
+	public static final int BAD_CONN_UNKOWN = -5;
 
 	public static final int ARG2_REMOTE_PLAY_OVER = 0x32;
 	public static final int ARG2_REMOTE_PLAY_ERROR = 0x39;

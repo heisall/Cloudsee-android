@@ -18,6 +18,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.test.AutoLoad;
 import android.test.JVACCOUNT;
 
 import com.jovetech.CloudSee.temp.R;
@@ -125,7 +126,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	 */
 	public synchronized void onJniNotify(int what, int uchType, int channel,
 			Object obj) {
-		if (null != currentNotifyer) {
+		if (Consts.CALL_LIB_UNLOAD == what) {
+			AutoLoad.foo();
+		} else if (null != currentNotifyer) {
 			currentNotifyer.onNotify(what, uchType, channel, obj);
 		}
 	}

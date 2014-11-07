@@ -176,9 +176,13 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.ABNORMAL_DISCONNECT:
 				// 7 -- 服务停止连接，连接断开
 			case JVNetConst.SERVICE_STOP:
-				channel.setConnected(false);
 				channel.setPaused(true);
 				break;
+
+			case Consts.BAD_NOT_CONNECT: {
+				channel.setConnected(false);
+				break;
+			}
 
 			// 3 -- 不必要重复连接
 			case JVNetConst.NO_RECONNECT: {
@@ -187,29 +191,23 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 5 -- 没有连接
 			case JVNetConst.NO_CONNECT: {
-				channel.setConnected(false);
 				channel.setPaused(true);
 				break;
 			}
 
 			// 8 -- 断开连接失败
 			case JVNetConst.DISCONNECT_FAILED: {
-				channel.setConnected(true);
 				channel.setPaused(true);
 				break;
 			}
 
 			// 9 -- 其他错误
 			case JVNetConst.OHTER_ERROR: {
-				channel.setConnected(false);
 				channel.setPaused(true);
 				break;
 			}
 
 			default:
-				// [Neo] default, has disconnected
-				channel.setConnected(false);
-				channel.setPaused(true);
 				break;
 			}
 
@@ -1580,9 +1578,9 @@ public class JVPlayActivity extends PlayActivity implements
 				channel.setConnected(true);
 				channel.setPaused(true);
 				channel.setConnecting(false);
-				Jni.disconnect(channel.getIndex());
 				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
 						channel.getIndex(), ARG2_STATUS_HAS_CONNECTED));
+				Jni.disconnect(channel.getIndex());
 			} else if (Consts.BAD_CONN_OVERFLOW == connect) {
 				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
 						channel.getIndex(), ARG2_STATUS_CONN_OVERFLOW));
@@ -2934,10 +2932,12 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		public void run() {
 			try {
+				Channel channel = null;
 				int size = disconnectChannelList.size();
+
 				MyLog.w(Consts.TAG_PLAY, "disconnect count: " + size);
 				for (int i = 0; i < size; i++) {
-					Channel channel = disconnectChannelList.get(i);
+					channel = disconnectChannelList.get(i);
 
 					int index = channel.getIndex();
 					boolean needConnect = false;
@@ -2959,7 +2959,18 @@ public class JVPlayActivity extends PlayActivity implements
 							MyLog.e(Consts.TAG_PLAY, "disconnect failed: "
 									+ channel);
 						} else {
-							sleep(DISCONNECTION_MIN_PEROID);
+							boolean needSleep = true;
+							while (needSleep) {
+								needSleep = false;
+								if (channel.isConnected()
+										|| channel.isConnecting()) {
+									needSleep = true;
+									MyLog.w(Consts.TAG_PLAY,
+											"wait for change: " + channel);
+									sleep(DISCONNECTION_MIN_PEROID);
+									break;
+								}
+							}
 						}
 					} else {
 						MyLog.w(Consts.TAG_PLAY, "disconnect has done: "
@@ -2975,7 +2986,6 @@ public class JVPlayActivity extends PlayActivity implements
 						+ connectChannelList.size();
 				MyLog.w(Consts.TAG_PLAY, "connect count: " + size);
 				for (int i = 0; i < size; i++) {
-					Channel channel = null;
 					boolean isPlayDirectly = false;
 
 					if (i < currentScreen) {

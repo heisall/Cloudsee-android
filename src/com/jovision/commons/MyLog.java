@@ -250,9 +250,9 @@ public class MyLog {
 	}
 
 	public static void w(String tag, String msg) {
-		if (ENABLE_LOGCAT) {
-			Log.w(tag, msg);
-		}
+		// if (ENABLE_LOGCAT) {
+		Log.w(tag, msg);
+		// }
 
 		if (ENABLE_FILE) {
 			append(checkTag(tag), prepare(W, msg));
@@ -260,9 +260,9 @@ public class MyLog {
 	}
 
 	public static void e(String tag, String msg) {
-		if (ENABLE_LOGCAT) {
-			Log.e(tag, msg);
-		}
+		// if (ENABLE_LOGCAT) {
+		Log.e(tag, msg);
+		// }
 
 		if (ENABLE_FILE) {
 			append(checkTag(tag), prepare(E, msg));

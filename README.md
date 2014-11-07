@@ -78,13 +78,13 @@
 
 播放库版本
 
-    #define MY_VERSION    "0.7"
-    #define REVISION      "[5711925]"
-    #define RELEASE_DATE  "[2014-10-27]"
+    #define MY_VERSION    "0.8"
+    #define REVISION      "[88635b0]"
+    #define RELEASE_DATE  "[2014-11-07]"
 
 网络库版本
 
-    v2.0.76.3.7[private:v2.0.75.13 201401014.1]
+    v2.0.76.3.8[private:v2.0.75.13 201401104]
 
 ## 播放库主要功能
 

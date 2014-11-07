@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -57,7 +58,7 @@ public class JVChannelsActivity extends BaseActivity {
 	// private int channelIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 
-	private int widthPixels;
+	// private int widthPixels;
 
 	private RelativeLayout relative;
 	private TextView device_num;
@@ -119,7 +120,7 @@ public class JVChannelsActivity extends BaseActivity {
 		item_width = (int) ((mScreenWidth / 3.0 + 0.5f));
 		mImageView.getLayoutParams().width = item_width;
 		channelPager = (ViewPager) findViewById(R.id.channels_pager);
-		widthPixels = disMetrics.widthPixels;
+		// widthPixels = disMetrics.widthPixels;
 
 		// 初始化导航
 		initNav();
@@ -150,12 +151,11 @@ public class JVChannelsActivity extends BaseActivity {
 		int size = deviceList.size();
 
 		for (int i = 0; i < size; i++) {
-			// Bundle data = new Bundle();
-			// data.putString("DeviceList", deviceList.toString());
-			// data.putInt("DeviceIndex", deviceIndex);
-			ChannelFragment fragment = new ChannelFragment(i, deviceList,
-					widthPixels);
-			// fragment.setArguments(data);
+			Bundle data = new Bundle();
+			data.putString("DeviceList", deviceList.toString());
+			data.putInt("DeviceIndex", deviceIndex);
+			ChannelFragment fragment = new ChannelFragment();
+			fragment.setArguments(data);
 			fragments.add(fragment);
 		}
 		TabPagerAdapter fragmentPagerAdapter = new TabPagerAdapter(

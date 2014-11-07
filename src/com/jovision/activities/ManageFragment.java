@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,19 +51,21 @@ public class ManageFragment extends BaseFragment {
 
 	int devType = 0;
 	private boolean isConnected;
+	private Message connectMsg;
 
 	public ManageFragment() {
 		deviceList = new ArrayList<Device>();
 	}
 
-	public ManageFragment(ArrayList<Device> deviceList) {
-		this.deviceList = deviceList;
-	}
+	// public ManageFragment(ArrayList<Device> deviceList) {
+	// this.deviceList = deviceList;
+	// }
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		bundle = getArguments();
 		deviceIndex = bundle.getInt("DeviceIndex");
+		deviceList = CacheUtil.getDevList();
 		device = deviceList.get(deviceIndex);
 		super.onCreate(savedInstanceState);
 	}
@@ -117,8 +120,44 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		fragHandler.sendMessage(fragHandler
-				.obtainMessage(what, arg1, arg2, obj));
+		switch (what) {
+		case Consts.CALL_CONNECT_CHANGE: {
+			switch (arg2) {
+			case JVNetConst.CONNECT_OK: {
+				isConnected = true;
+				fragHandler.sendMessage(fragHandler.obtainMessage(what, arg1,
+						arg2, obj));
+				break;
+			}
+			// 2 -- 断开连接成功
+			case JVNetConst.DISCONNECT_OK:
+				// 4 -- 连接失败
+			case JVNetConst.CONNECT_FAILED:
+				// 6 -- 连接异常断开
+			case JVNetConst.ABNORMAL_DISCONNECT:
+				// 7 -- 服务停止连接，连接断开
+			case JVNetConst.SERVICE_STOP:
+				connectMsg = fragHandler.obtainMessage(what, arg1, arg2, obj);
+				break;
+			case Consts.BAD_NOT_CONNECT: {
+				isConnected = false;
+				if (null != connectMsg) {
+					fragHandler.sendMessage(connectMsg);
+				}
+				break;
+			}
+			default:
+				fragHandler.sendMessage(fragHandler.obtainMessage(what, arg1,
+						arg2, obj));
+				break;
+			}
+
+		}
+		default:
+			fragHandler.sendMessage(fragHandler.obtainMessage(what, arg1, arg2,
+					obj));
+			break;
+		}
 	}
 
 	@Override
@@ -146,13 +185,8 @@ public class ManageFragment extends BaseFragment {
 					mActivity.showTextToast(R.string.ip_add_notallow);
 				} else {
 					mActivity.createDialog("");
-
-					if (isConnected) {
-						PlayUtil.disconnectDevice();
-					}
-					// mActivity.showTextToast(device.getFullNo());
+					mActivity.proDialog.setCancelable(false);
 					PlayUtil.connectDevice(device);
-					isConnected = true;
 				}
 				break;
 			}
@@ -261,7 +295,13 @@ public class ManageFragment extends BaseFragment {
 				Jni.sendBytes(1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 			} else { // 不是IPC
 				PlayUtil.disconnectDevice();
-				isConnected = false;
+				while (isConnected) {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				mActivity.dismissDialog();
 				AlertDialog.Builder builder1 = new AlertDialog.Builder(
 						mActivity);
@@ -284,7 +324,10 @@ public class ManageFragment extends BaseFragment {
 		case Consts.CALL_CONNECT_CHANGE: { // 连接回调
 			MyLog.i(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			if (JVNetConst.CONNECT_OK != arg2
+
+			if (Consts.BAD_NOT_CONNECT == arg2) {
+				mActivity.dismissDialog();
+			} else if (JVNetConst.CONNECT_OK != arg2
 					&& JVNetConst.DISCONNECT_OK != arg2) {// IPC连接失败才提示(非连接成功和断开连接)
 				mActivity.dismissDialog();
 				try {
@@ -333,7 +376,12 @@ public class ManageFragment extends BaseFragment {
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
 				PlayUtil.disconnectDevice();
-				isConnected = false;
+				while (isConnected)
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				mActivity.dismissDialog();
 				mActivity
 						.showTextToast(R.string.str_only_administator_use_this_function);

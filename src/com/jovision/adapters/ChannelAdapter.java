@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.activities.BaseActivity;
 import com.jovision.activities.BaseFragment;
 import com.jovision.bean.Channel;
 
@@ -54,7 +55,13 @@ public class ChannelAdapter extends BaseAdapter {
 
 	public void setData(ArrayList<Channel> dataList, int width) {
 		channelList = dataList;
-		screenWidth = width;
+
+		if (width <= 0) {
+			screenWidth = ((BaseActivity) mfragment.getActivity()).disMetrics.widthPixels;
+		} else {
+			screenWidth = width;
+		}
+
 		notifyDataSetChanged();
 	}
 

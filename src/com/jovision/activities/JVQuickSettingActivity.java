@@ -126,6 +126,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	private WifiManager wifiManager = null;
 
 	private boolean stopTask = false;// 是否停止线程
+	private boolean disConnected = false;// 视频是否断开
 
 	@Override
 	protected void initSettings() {
@@ -690,7 +691,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				backDialog();
 			} else {
 				manuDiscon = true;
-				PlayUtil.disconnectDevice();
+				// PlayUtil.disconnectDevice();
+				disConnectVideo();
 				if (View.VISIBLE == helpLayout.getVisibility()) {// 更新设备帮助文档
 					helpLayout.setVisibility(View.GONE);
 					saveSet.setVisibility(View.VISIBLE);
@@ -767,11 +769,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		}
 
 	};
-
-	@Override
-	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
-	}
 
 	@Override
 	protected void saveSettings() {
@@ -858,6 +855,34 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	}
 
 	@Override
+	public void onNotify(int what, int arg1, int arg2, Object obj) {
+		switch (what) {
+		case Consts.CALL_CONNECT_CHANGE: {
+			switch (arg2) {
+			// 2 -- 断开连接成功
+			case JVNetConst.DISCONNECT_OK:
+				// 4 -- 连接失败
+			case JVNetConst.CONNECT_FAILED:
+				// 6 -- 连接异常断开
+			case JVNetConst.ABNORMAL_DISCONNECT:
+				// 7 -- 服务停止连接，连接断开
+			case JVNetConst.SERVICE_STOP:
+				break;
+			case Consts.BAD_NOT_CONNECT: {
+				disConnected = true;
+				MyLog.e(TAG, "线程断开成功");
+				break;
+			}
+			}
+		}
+		default:
+			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
+			break;
+		}
+
+	}
+
+	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		MyLog.e(TAG, "onHandler: " + what + ", " + arg1 + ", " + arg2 + ", "
 				+ obj);
@@ -917,7 +942,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			dismissDialog();
 			// 断开连接
 			manuDiscon = true;
-			PlayUtil.disconnectDevice();
+			// PlayUtil.disconnectDevice();
+			disConnectVideo();
 			ResetWifiTask task = new ResetWifiTask();
 			String[] params = new String[3];
 			params[0] = "true";
@@ -928,7 +954,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			dismissDialog();
 			// 断开连接
 			manuDiscon = true;
-			PlayUtil.disconnectDevice();
+			// PlayUtil.disconnectDevice();
+			disConnectVideo();
 			AlertDialog.Builder builder5 = new AlertDialog.Builder(
 					JVQuickSettingActivity.this);
 
@@ -1045,7 +1072,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.CALL_CONNECT_CHANGE: // 连接回调
 			MyLog.e(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			if (JVNetConst.CONNECT_OK == arg2) {
+
+			if (Consts.BAD_NOT_CONNECT == arg2) {
+				break;
+			} else if (JVNetConst.CONNECT_OK == arg2) {
 				// // 暂停视频
 				// Jni.sendBytes(Consts.CHANNEL_JY,
 				// JVNetConst.JVN_CMD_VIDEOPAUSE,
@@ -1717,7 +1747,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		// 断开连接
 		manuDiscon = true;
 		if (1000 != errorCode && 1001 != errorCode) {
-			PlayUtil.disconnectDevice();
+			// PlayUtil.disconnectDevice();
+			disConnectVideo();
 		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(
@@ -1803,7 +1834,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	 */
 	private void updateDialog1() {
 		manuDiscon = true;
-		PlayUtil.disconnectDevice();
+		// PlayUtil.disconnectDevice();
+		disConnectVideo();
 		AlertDialog.Builder builder = new AlertDialog.Builder(
 				JVQuickSettingActivity.this);
 		builder.setCancelable(false);
@@ -1858,4 +1890,16 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		super.onPause();
 	}
 
+	public void disConnectVideo() {
+		createDialog("");
+		PlayUtil.disconnectDevice();
+		while (!disConnected) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		dismissDialog();
+	}
 }

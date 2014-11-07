@@ -186,7 +186,6 @@ public class JVPlayActivity extends PlayActivity implements
 				channel.setPaused(true);
 				msgList.add(arg1, handler.obtainMessage(what, arg1, arg2, obj));
 				break;
-
 			case Consts.BAD_NOT_CONNECT: {
 				channel.setConnected(false);
 				if (null != msgList && null != msgList.get(arg1)) {

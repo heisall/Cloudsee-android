@@ -31,7 +31,7 @@ import com.jovision.utils.PlayUtil;
 @SuppressLint("ValidFragment")
 public class ChannelFragment extends BaseFragment {
 
-	private String TAG = "ChannelFragment";
+	// private String TAG = "ChannelFragment";
 
 	/** 构造参数 */
 	public int deviceIndex;
@@ -55,12 +55,20 @@ public class ChannelFragment extends BaseFragment {
 
 	private Button connectAll;
 
+	public ChannelFragment() {
+		deviceList = new ArrayList<Device>();
+	}
+
+	// public ChannelFragment(ArrayList<Device> deviceList) {
+	// this.deviceList = deviceList;
+	// }
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// Bundle bundle = getArguments();
-		// deviceIndex = bundle.getInt("DeviceIndex");
-		// deviceList =
-		// BeanUtil.stringToDevList(bundle.getString("DeviceList"));
+		Bundle bundle = getArguments();
+		deviceIndex = bundle.getInt("DeviceIndex");
+		deviceList = CacheUtil.getDevList();
+		device = deviceList.get(deviceIndex);
 		super.onCreate(savedInstanceState);
 
 	}
@@ -81,6 +89,7 @@ public class ChannelFragment extends BaseFragment {
 		mActivity = (BaseActivity) getActivity();
 		mParent = getView();
 
+		widthPixels = mActivity.disMetrics.widthPixels;
 		channelGridView = (GridView) mParent
 				.findViewById(R.id.channel_gridview);
 
@@ -90,17 +99,14 @@ public class ChannelFragment extends BaseFragment {
 
 	}
 
-	public ChannelFragment() {
-	}
-
-	public ChannelFragment(int devIndex, ArrayList<Device> devList,
-			int widthPixels) {
-		deviceIndex = devIndex;
-		deviceList = devList;
-		this.widthPixels = widthPixels;
-
-		device = deviceList.get(devIndex);
-	}
+	// public ChannelFragment(int devIndex, ArrayList<Device> devList,
+	// int widthPixels) {
+	// deviceIndex = devIndex;
+	// deviceList = devList;
+	// this.widthPixels = widthPixels;
+	//
+	// device = deviceList.get(devIndex);
+	// }
 
 	@Override
 	public void onPause() {
@@ -427,7 +433,7 @@ public class ChannelFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {
 			int addRes = -1;
-			int addIndex = Integer.parseInt(params[0]);
+			Integer.parseInt(params[0]);
 
 			int target = -1;
 			int left2Add = -1;

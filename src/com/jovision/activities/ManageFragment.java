@@ -191,11 +191,14 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 1: {// 设备管理
-				devType = 0;
-				Intent deviceIntent = new Intent(mActivity,
-						JVDeviceManageActivity.class);
-				deviceIntent.putExtra("deviceIndex", deviceIndex);
-				startActivity(deviceIntent);
+				UpdateDevTask task = new UpdateDevTask();
+				String[] params = new String[3];
+				task.execute(params);
+				// devType = 0;
+				// Intent deviceIntent = new Intent(mActivity,
+				// JVDeviceManageActivity.class);
+				// deviceIntent.putExtra("deviceIndex", deviceIndex);
+				// startActivity(deviceIntent);
 				break;
 			}
 			case 2: {// 连接模式
@@ -536,6 +539,108 @@ public class ManageFragment extends BaseFragment {
 						.getAlarmSwitch()) {
 					mActivity.showTextToast(R.string.protect_open_fail);
 				}
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			mActivity.createDialog("");
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+
+		}
+	}
+
+	// 设置三种类型参数分别为String,Integer,String
+	class UpdateDevTask extends AsyncTask<String, Integer, Integer> {
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int updateRes = -1;// 0成功， 14失败，其他出错
+			try {
+				updateRes = DeviceUtil.checkUpdate(
+						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
+						device.getDeviceType(), device.getDeviceVerNum(),
+						device.getDeviceVerName());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return updateRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			mActivity.dismissDialog();
+			if (0 == result) {
+				// AlertDialog ad = new AlertDialog.Builder(mActivity)
+				// .setTitle(R.string.str_key_update_title)
+				// .setMessage(BaseApp.oku.ufdes)
+				// .setCancelable(false)
+				// .setPositiveButton(
+				// getResources().getString(
+				// R.string.str_update),
+				// new DialogInterface.OnClickListener() {
+				// @Override
+				// public void onClick(
+				// DialogInterface dialog,
+				// int which) {
+				// new Thread() {
+				// public void run() {
+				// Message msg = BaseApp.advanceDeviceHandler
+				// .obtainMessage();
+				// msg.what = JVAccountConst.CREATE_DIALOG;
+				// BaseApp.advanceDeviceHandler
+				// .sendMessage(msg);
+				// DeviceUtil.cancelUpdate(
+				// LoginUtil.userName,
+				// device.deviceNum);
+				// int res = DeviceUtil
+				// .pushUpdateCommand(
+				// LoginUtil.userName,
+				// device.deviceNum,
+				// BaseApp.oku);
+				// Message msgs = BaseApp.advanceDeviceHandler
+				// .obtainMessage();
+				// if (0 == res) {
+				// msgs.what = JVAccountConst.PUSH_KEY_UPDATE_SUCCESS;
+				// } else {
+				// msgs.what = JVAccountConst.CHECK_KEY_UPDATE_ERROR;
+				// }
+				// BaseApp.advanceDeviceHandler
+				// .sendMessage(msgs);
+				// };
+				// }.start();
+				// dialog.dismiss();
+				// }
+				// })
+				// .setNegativeButton(
+				// getResources().getString(
+				// R.string.cancel),
+				// new DialogInterface.OnClickListener() {
+				// @Override
+				// public void onClick(
+				// DialogInterface dialog,
+				// int which) {
+				// dialog.dismiss();
+				// }
+				// }).create();
+				// ad.show();
+				mActivity.showTextToast("检查更新成功");
+			} else if (14 == result) {
+				mActivity.showTextToast(R.string.str_check_key_update_failed);
+			} else {
+				mActivity.showTextToast(R.string.str_check_key_update_error);
 			}
 		}
 

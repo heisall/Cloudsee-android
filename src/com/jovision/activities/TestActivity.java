@@ -133,6 +133,11 @@ public class TestActivity extends Activity {
 							JVQuickSettingActivity.class);
 					startActivity(intent19);
 					break;
+				case 20:
+					// Intent intent20 = new Intent(TestActivity.this,
+					// JVQuickSettingActivity1.class);
+					// startActivity(intent20);
+					break;
 				case 21:
 					Intent intent21 = new Intent(TestActivity.this,
 							JVRegisterActivity.class);

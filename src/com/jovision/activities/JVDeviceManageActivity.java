@@ -77,9 +77,11 @@ public class JVDeviceManageActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 		manageDeviceList = CacheUtil.getDevList();
-		manageNick.setText(manageDeviceList.get(deviceIndex).getNickName());
-		manageUser.setText(manageDeviceList.get(deviceIndex).getUser());
-		managePassword.setText(manageDeviceList.get(deviceIndex).getPwd());
+		if (null != manageDeviceList && 0 != manageDeviceList.size()) {
+			manageNick.setText(manageDeviceList.get(deviceIndex).getNickName());
+			manageUser.setText(manageDeviceList.get(deviceIndex).getUser());
+			managePassword.setText(manageDeviceList.get(deviceIndex).getPwd());
+		}
 	}
 
 	@Override

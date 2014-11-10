@@ -58,6 +58,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 
 		setContentView(R.layout.add_third_device_main);
 		Bundle extras = getIntent().getExtras();
+		if (null == extras) {
+			finish();
+			return;
+		}
 		strYstNum = extras.getString("dev_num");
 		bConnectedFlag = extras.getBoolean("conn_flag");
 		bNeedSendTextReq = extras.getBoolean("text_req_flag");

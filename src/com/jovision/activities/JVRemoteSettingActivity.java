@@ -250,6 +250,10 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		Intent intent = getIntent();
 		String jsonStr = intent.getStringExtra("SettingJSON");
 		settingMap = ConfigUtil.genMsgMap(jsonStr);
+		if (null == intent.getStringExtra("Device")) {
+			this.finish();
+			return;
+		}
 		device = Device.fromJson(intent.getStringExtra("Device"));
 	}
 
@@ -257,6 +261,11 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.remotesetting_layout);
+		if (null == settingMap) {
+			this.finish();
+			return;
+		}
+
 		/** top bar */
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
@@ -1186,8 +1195,13 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
-		settingMap.clear();
-		allStreamMap.clear();
+		if (null != settingMap) {
+			settingMap.clear();
+		}
+		if (null != allStreamMap) {
+			allStreamMap.clear();
+		}
+
 		array = null;
 		array1 = null;
 		array2 = null;

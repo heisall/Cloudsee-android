@@ -568,6 +568,16 @@
     <string name="protect_close_succ">Disable Security Protection Successfully.</string>
     <string name="protect_close_fail">Failed to disable Security Protection.</string>
     <string name="device_offline">This operation is unavailable since the device is offline now.</string>
+    <string name="str_one_key_update">One-key to update</string>
+    <string name="str_check_key_update_failed">Latest version now, no need to update.</string>
+    <string name="str_check_key_update_error">Failed to update, please update again.</string>
+    <string name="update">Update</string>
+    <string name="str_key_update_title">Update content</string>
+    <string name="str_downloading_update">Loading firmware now, please wait…</string>
+    <string name="str_writing_update">Installing firmware now, please keep the power on and wait…</string>
+    <string name="str_key_update_reset">Update successfully, do you want to reboot?</string>
+    <string name="str_update_reset_success">Reboot successfully</string>
+    <string name="str_update_reset_failed">Failed to update, please update manually.</string>
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>
     <string name="str_help_one">Remote set network and stream for IP cameras.</string>

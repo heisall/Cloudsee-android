@@ -245,9 +245,56 @@ public class JVMyDeviceFragment extends BaseFragment {
 		ovalLayout = (LinearLayout) adView.findViewById(R.id.dot_layout);
 		InitViewPager();// 初始化图片
 		// 开始滚动
-		imageScroll.start(mActivity, listViews, 4000, ovalLayout,
+		imageScroll.start(mActivity, listViews, 400000, ovalLayout,
 				R.layout.dot_item, R.id.ad_item_v, R.drawable.dot_focused,
 				R.drawable.dot_normal);
+
+		// deviceList.add(new Device("", 9101, "S", 224356472, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "S", 84889237, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "S", 224350962, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "S", 247964911, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "S", 107425112, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "S", 52942216, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "S", 34532967, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "S", 64984946, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "A", 526287882, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "A", 506466463, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "S", 23044910, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "B", 39217444, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "A", 412122756, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "A", 549284675, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "A", 526293556, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "A", 506968066, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "B", 32302930, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "S", 84887150, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "S", 84882256, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "A", 296467179, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "S", 53530352, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "A", 526555248, "abc", "123",
+		// false, 1));
+		// deviceList.add(new Device("", 9101, "A", 526561411, "abc", "123",
+		// false, 1));
 
 		myDLAdapter = new MyDeviceListAdapter(mActivity, this);
 		myDeviceListView = mPullRefreshListView.getRefreshableView();
@@ -1031,7 +1078,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 从服务器端获取设备成功
 			case DEVICE_GETDATA_SUCCESS: {
 				broadTag = BROAD_DEVICE_LIST;
-				PlayUtil.broadCast(mActivity);
+				// PlayUtil.broadCast(mActivity);
 				break;
 			}
 			// 从服务器端获取设备成功，但是没有设备

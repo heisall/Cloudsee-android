@@ -3,6 +3,7 @@ package com.jovision.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,7 +14,6 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
-import android.util.Log;
 
 import com.jovision.Consts;
 import com.jovision.Jni;
@@ -57,9 +57,7 @@ public class PlayUtil {
 		if (!((BaseActivity) con).is3G(false)) {// 非3G加广播设备
 			canBroad = true;
 			int res = Jni.searchLanDevice("", 0, 0, 0, "", 2000, 1);
-			Log.v("广播-----res=", res + "");
 		}
-		Log.v(TAG, "广播--broadCast=" + canBroad);
 		return canBroad;
 	}
 
@@ -431,11 +429,12 @@ public class PlayUtil {
 	 * @param deviceList
 	 */
 	public static void setHelperToList(ArrayList<Device> deviceList) {
-
+		HashMap<String, Boolean> helperMap = getEnableHelperArray();
 		JSONArray array = new JSONArray();
 		JSONObject object = null;
-		for (Device device : deviceList) {
-			if (!hasEnableHelper(device.getFullNo())) {
+
+		if (null == helperMap || 0 == helperMap.size()) {
+			for (Device device : deviceList) {
 				try {
 					object = new JSONObject();
 					object.put("gid", device.getGid());
@@ -448,18 +447,34 @@ public class PlayUtil {
 					e.printStackTrace();
 				}
 			}
+		} else {
+			for (Device device : deviceList) {
+				if (helperMap.containsKey(device.getFullNo())
+						&& helperMap.get(device.getFullNo())) {
+					// 已设置小助手
+					MyLog.v("已设置小助手", device.getFullNo());
+				} else {
+					MyLog.e("还没设置小助手", device.getFullNo());
+					try {
+						object = new JSONObject();
+						object.put("gid", device.getGid());
+						object.put("no", device.getNo());
+						object.put("channel", 1);
+						object.put("name", device.getUser());
+						object.put("pwd", device.getPwd());
+						array.put(object);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			}
 		}
 
 		if (!"".equalsIgnoreCase(array.toString())) {
+			MyLog.e("需要设置小助手", array.toString());
 			Jni.setLinkHelper(array.toString());
 		}
-		int count = 0;
-		for (Device device : deviceList) {
-			if (hasEnableHelper(device.getFullNo())) {
-				count++;
-			}
-		}
-		MyLog.e("设置的小助手总数=", count + "");
+
 	}
 
 	/**
@@ -492,6 +507,40 @@ public class PlayUtil {
 		MyLog.v(TAG, deviceNum + "--小助手状态--" + isEnable);
 
 		return isEnable;
+	}
+
+	/**
+	 * 获取小助手是否已设置状态
+	 * 
+	 * @param deviceNum
+	 * @return
+	 */
+	public static HashMap<String, Boolean> getEnableHelperArray() {
+		HashMap<String, Boolean> helperMap = new HashMap<String, Boolean>();
+
+		String allStr = Jni.getAllDeviceStatus();
+		MyLog.v("设置的小助手总数=", allStr);
+		if (null != allStr && !"".equalsIgnoreCase(allStr)) {
+			try {
+				JSONArray devArray = new JSONArray(allStr);
+				if (null != devArray) {
+					int length = devArray.length();
+					for (int i = 0; i < length; i++) {
+						JSONObject obj = devArray.getJSONObject(i);
+						if (obj.getBoolean("enable")) {
+							MyLog.e("小助手生效=", obj.toString() + "");
+							helperMap.put(obj.getString("cno"),
+									obj.getBoolean("enable"));
+						}
+
+					}
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return helperMap;
 	}
 
 	// /**

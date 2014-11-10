@@ -88,14 +88,17 @@ public class JVChannelListActivity extends BaseActivity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
-		device = deviceList.get(deviceIndex);
-		channelList = device.getChannelList().toList();
-		for (int i = 1; i < channelList.size(); i++) {
-			channelList.get(i).setIspull(false);
+		if (null != deviceList && 0 != deviceList.size()) {
+			deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
+			device = deviceList.get(deviceIndex);
+			channelList = device.getChannelList().toList();
+			for (int i = 1; i < channelList.size(); i++) {
+				channelList.get(i).setIspull(false);
+			}
+			adapter.setData(device.getChannelList().toList());
+			channel_listView.setAdapter(adapter);
 		}
-		adapter.setData(device.getChannelList().toList());
-		channel_listView.setAdapter(adapter);
+
 	}
 
 	@Override

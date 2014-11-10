@@ -569,6 +569,16 @@
     <string name="protect_close_succ">安全防护关闭成功</string>
     <string name="protect_close_fail">安全防护关闭失败</string>
     <string name="device_offline">设备离线不能执行此操作</string>
+    <string name="str_one_key_update">一键升级</string>
+    <string name="str_check_key_update_failed">设备已经是最新版本，无需更新。</string>
+    <string name="str_check_key_update_error">更新出错，请重新更新。</string>
+    <string name="update">升级</string>
+    <string name="str_key_update_title">升级内容</string>
+    <string name="str_downloading_update">正在下载。。。</string>
+    <string name="str_writing_update">正在烧写。。。</string>
+    <string name="str_key_update_reset">设备版本更新成功，是否重启设备？</string>
+    <string name="str_update_reset_success">重启设备</string>
+    <string name="str_update_reset_failed">设备升级失败，请手动重启.</string>
     <!-- Help -->
     <string name="str_help_zero">展开多种方式添加设备</string>
     <string name="str_help_one">远程配置IPC设备的网络和码流</string>

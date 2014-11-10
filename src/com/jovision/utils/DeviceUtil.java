@@ -98,6 +98,13 @@ public class DeviceUtil {
 												.optString(JVDeviceConst.JK_DEVICE_VIDEO_IP));
 										dev.setPort(obj
 												.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT));
+										/** 一键升级使用 */
+										dev.setDeviceModel(obj
+												.optString(JVDeviceConst.JK_DEVICE_SUB_TYPE));// dstype
+										dev.setDeviceVerName(obj
+												.optString(JVDeviceConst.JK_DEVICE_SOFT_VERSION));// dsv
+										dev.setDeviceVerNum(obj
+												.optInt(JVDeviceConst.JK_DEVICE_SUB_TYPE_INT));// dstypeint
 										if (dev.getIp() == null
 												|| "".equals(dev.getIp())
 												|| "null".equalsIgnoreCase(dev
@@ -1592,8 +1599,8 @@ public class DeviceUtil {
 	/**
 	 * 2014-03-17 1.客户端获取是否有更新信息 lpt :1是短连接， 7是长连接 2013-3-18 cv改成dsv
 	 */
-	public static int checkUpdate(String loginUserName, int dType, int dsType,
-			String dsv) {
+	public static OneKeyUpdate checkUpdate(String loginUserName, int dType,
+			int dsType, String dsv) {
 		// 参数例子：
 		// 传设备类型(dtype),设备型号(dstype),设备当前版本(dsv)。
 		// {"mid":32,"pv":"1.0","lpt":1,"mt":2033,"dtype":2,"dstype":1,"cv":"v10.1.2"}
@@ -1631,7 +1638,7 @@ public class DeviceUtil {
 
 		// 接收返回数据
 		byte[] resultStr = new byte[1024];
-		OneKeyUpdate oku = null;
+		OneKeyUpdate oku = new OneKeyUpdate();
 		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
 		if (0 == error) {
@@ -1648,23 +1655,23 @@ public class DeviceUtil {
 																		// 其他值为其他错误码
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
 																	// 32
+						oku.setResultCode(res);
 						if (0 == res) {// 有更新
 							if (null != temObj
 									.optString(JVDeviceConst.JK_UPDATE_FILE_INFO)) {
 								JSONObject updtateFile = new JSONObject(
 										temObj.optString(JVDeviceConst.JK_UPDATE_FILE_INFO));
 								if (null != updtateFile) {
-									oku = new OneKeyUpdate();
-									oku.ufver = updtateFile
-											.optString(JVDeviceConst.JK_UPGRADE_FILE_VERSION);
-									oku.ufurl = updtateFile
-											.optString(JVDeviceConst.JK_UPGRADE_FILE_URL);
-									oku.ufsize = updtateFile
-											.optString(JVDeviceConst.JK_UPGRADE_FILE_SIZE);
-									oku.ufc = updtateFile
-											.optString(JVDeviceConst.JK_UPGRADE_FILE_CHECKSUM);
-									oku.ufdes = updtateFile
-											.optString(JVDeviceConst.JK_UPGRADE_FILE_DESCRIPTION);
+									oku.setUfver(updtateFile
+											.optString(JVDeviceConst.JK_UPGRADE_FILE_VERSION));
+									oku.setUfurl(updtateFile
+											.optString(JVDeviceConst.JK_UPGRADE_FILE_URL));
+									oku.setUfsize(updtateFile
+											.optString(JVDeviceConst.JK_UPGRADE_FILE_SIZE));
+									oku.setUfc(updtateFile
+											.optString(JVDeviceConst.JK_UPGRADE_FILE_CHECKSUM));
+									oku.setUfdes(updtateFile
+											.optString(JVDeviceConst.JK_UPGRADE_FILE_DESCRIPTION));
 								}
 							}
 
@@ -1676,7 +1683,7 @@ public class DeviceUtil {
 			}
 		}
 
-		return res;
+		return oku;
 	}
 
 	// 2.客户端向设备推升级命令
@@ -1718,9 +1725,9 @@ public class DeviceUtil {
 					JVDeviceConst.IM_SERVER_RELAY);// lpt 7
 			jObj.put(JVDeviceConst.JK_USERNAME, loginUserName);// username
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);// dguid
-			jObj.put(JVDeviceConst.JK_UPGRADE_FILE_URL, oku.ufurl);// ufurl
-			jObj.put(JVDeviceConst.JK_UPGRADE_FILE_SIZE, oku.ufsize);// ufsize
-			jObj.put(JVDeviceConst.JK_UPGRADE_FILE_VERSION, oku.ufver);// ufver
+			jObj.put(JVDeviceConst.JK_UPGRADE_FILE_URL, oku.getUfurl());// ufurl
+			jObj.put(JVDeviceConst.JK_UPGRADE_FILE_SIZE, oku.getUfsize());// ufsize
+			jObj.put(JVDeviceConst.JK_UPGRADE_FILE_VERSION, oku.getUfver());// ufver
 
 		} catch (JSONException e1) {
 			e1.printStackTrace();

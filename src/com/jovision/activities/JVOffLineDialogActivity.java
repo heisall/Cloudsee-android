@@ -210,7 +210,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			switch (view.getId()) {
 			case R.id.keeponline: {
 				stopTimer();
-				createDialog(R.string.login_str_loging);
+				createDialog(R.string.logining);
 				LoginTask task = new LoginTask();
 				String[] strParams = new String[3];
 				task.execute(strParams);

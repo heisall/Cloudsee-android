@@ -231,6 +231,9 @@ public class Device {
 			object.put("deviceType", deviceType);
 			object.put("is05", is05);
 			object.put("nickName", nickName);
+			object.put("deviceModel", deviceModel);// 设备型号
+			object.put("deviceVerName", deviceVerName);// 设备软件版本
+			object.put("deviceVerNum", deviceVerNum);// 设备软件版本号
 			object.put("isDevice", isDevice);
 			object.put("onlineState", onlineState);
 			object.put("hasWifi", hasWifi);
@@ -310,6 +313,9 @@ public class Device {
 				dev.setNickName("");
 				e.printStackTrace();
 			}
+			dev.setDeviceModel(object.getString("deviceModel"));
+			dev.setDeviceVerName(object.getString("deviceVerName"));
+			dev.setDeviceVerNum(object.getInt("deviceVerNum"));
 			dev.setIsDevice(object.getInt("isDevice"));
 			dev.setOnlineState(object.getInt("onlineState"));
 			dev.setHasWifi(object.getInt("hasWifi"));

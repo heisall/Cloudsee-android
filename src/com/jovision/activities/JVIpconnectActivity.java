@@ -105,15 +105,21 @@ public class JVIpconnectActivity extends BaseActivity {
 	protected void initSettings() {
 		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
 		deviceList = CacheUtil.getDevList();
-		editDevice = deviceList.get(deviceIndex);
-		isDevice = editDevice.getIsDevice();
-
+		if (null != deviceList && 0 != deviceList.size()
+				&& deviceIndex < deviceList.size()) {
+			editDevice = deviceList.get(deviceIndex);
+			isDevice = editDevice.getIsDevice();
+		}
 	}
 
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.ipconnect_layout);
 
+		if (null == editDevice) {
+			finish();
+			return;
+		}
 		change = (RadioGroup) findViewById(R.id.change);
 		mContainer = (LinearLayout) findViewById(R.id.mContainer);
 		cloud_number = (TextView) findViewById(R.id.cloudnumber_text);

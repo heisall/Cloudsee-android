@@ -1,15 +1,14 @@
 package com.jovision.activities;
 
-import com.jovetech.CloudSee.temp.R;
-import com.jovision.adapters.TestAdapter;
-
 import android.app.Activity;
-import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.jovetech.CloudSee.temp.R;
+import com.jovision.adapters.TestAdapter;
 
 public class TestActivity extends Activity {
 
@@ -135,9 +134,9 @@ public class TestActivity extends Activity {
 					startActivity(intent19);
 					break;
 				case 20:
-//					Intent intent20 = new Intent(TestActivity.this,
-//							JVQuickSettingActivity1.class);
-//					startActivity(intent20);
+					// Intent intent20 = new Intent(TestActivity.this,
+					// JVQuickSettingActivity1.class);
+					// startActivity(intent20);
 					break;
 				case 21:
 					Intent intent21 = new Intent(TestActivity.this,

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
-import android.provider.ContactsContract.CommonDataKinds.Nickname;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

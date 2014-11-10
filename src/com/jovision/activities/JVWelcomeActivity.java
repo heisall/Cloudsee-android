@@ -35,7 +35,6 @@ public class JVWelcomeActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		MySharedPreference.init(getApplication());
 		ConfigUtil.getJNIVersion();
 		ImportOldData importOld = new ImportOldData(JVWelcomeActivity.this);
 		if (!MySharedPreference.getBoolean("HasImport")) {

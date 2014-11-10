@@ -15,4 +15,5 @@
         android:dividerHeight="1px"
         android:fadingEdge="none" >
     </ListView>
+
 </LinearLayout>

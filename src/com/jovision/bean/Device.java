@@ -78,6 +78,11 @@ public class Device {
 	private int alarmSwitch = 0;// 告警开关，0-关闭，1-打开
 	private ArrayList<ThirdAlarmDev> thirdDevList = null; // 第三方报警设备
 
+	/** 一键升级用的字段 */
+	private String deviceModel; // 设备型号
+	private String deviceVerName; // 设备软件版本
+	private int deviceVerNum = 0; // 设备软件版本号
+
 	private boolean isCard = false;// 是否是板卡
 
 	public Device() {
@@ -489,6 +494,30 @@ public class Device {
 
 	public void setJFH(boolean isJFH) {
 		this.isJFH = isJFH;
+	}
+
+	public String getDeviceModel() {
+		return deviceModel;
+	}
+
+	public void setDeviceModel(String deviceModel) {
+		this.deviceModel = deviceModel;
+	}
+
+	public String getDeviceVerName() {
+		return deviceVerName;
+	}
+
+	public void setDeviceVerName(String deviceVerName) {
+		this.deviceVerName = deviceVerName;
+	}
+
+	public int getDeviceVerNum() {
+		return deviceVerNum;
+	}
+
+	public void setDeviceVerNum(int deviceVerNum) {
+		this.deviceVerNum = deviceVerNum;
 	}
 
 }

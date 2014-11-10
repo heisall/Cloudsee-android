@@ -7,7 +7,6 @@ import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.MediaController;
@@ -37,7 +36,11 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 			isLocal = intent.getBooleanExtra("IS_LOCAL", true);
 		}
 
-		Log.e("video-url:", url);
+		if (null == url) {
+			this.finish();
+			return;
+		}
+
 		mVideoView.setOnErrorListener(this);
 		mVideoView.setOnCompletionListener(this);
 		mVideoView.setOnPreparedListener(this);

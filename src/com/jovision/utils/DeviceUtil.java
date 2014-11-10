@@ -3,6 +3,7 @@ package com.jovision.utils;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.test.JVACCOUNT;
@@ -10,6 +11,7 @@ import android.util.Log;
 
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
+import com.jovision.bean.OneKeyUpdate;
 import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
@@ -1079,7 +1081,7 @@ public class DeviceUtil {
 		}
 
 		if (res == 0) {
-			int saveRes = saveToDB(loginUserName, dGuid, saveKey, saveValue);
+			saveToDB(loginUserName, dGuid, saveKey, saveValue);
 		}
 		return res;
 	}
@@ -1585,6 +1587,582 @@ public class DeviceUtil {
 			}
 		}
 		return channelList;
+	}
+
+	/**
+	 * 2014-03-17 1.客户端获取是否有更新信息 lpt :1是短连接， 7是长连接 2013-3-18 cv改成dsv
+	 */
+	public static int checkUpdate(String loginUserName, int dType, int dsType,
+			String dsv) {
+		// 参数例子：
+		// 传设备类型(dtype),设备型号(dstype),设备当前版本(dsv)。
+		// {"mid":32,"pv":"1.0","lpt":1,"mt":2033,"dtype":2,"dstype":1,"cv":"v10.1.2"}
+		// {"dtype":2,"dstype":1,"username":"juyang","lpt":1,"pv":"1.0","cv":"v10.1.2","mt":2033}
+		int res = -1;
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// pv 1.0
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.DEV_INFO_PRO);// lpt 1
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.GET_DEVICE_UPDATE_INFO);// mt 2033
+			jObj.put(JVDeviceConst.JK_USERNAME, loginUserName);// username
+			jObj.put(JVDeviceConst.JK_DEVICE_TYPE, dType);// dtype
+			jObj.put(JVDeviceConst.JK_DEVICE_SUB_TYPE, dsType);// dstype
+			jObj.put(JVDeviceConst.JK_DEVICE_SOFT_VERSION, dsv);// dsv
+
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		Log.v("checkUpdate---request", jObj.toString());
+
+		// 返回值范例：
+		/**
+		 * 返回设备升级文件版本(ufver),升级文件URL(ufurl),文件大小(ufsize),文件checksum(ufc),升级描述(
+		 * ufdes)。 {"mt":2034, "rt":0, "mid":32, "ufi":{"ufver":"v10.2.1",
+		 * "ufurl"
+		 * :"http:\/\/60.216.75.26:9999\/jenkins\/job\/IPC\/ws\/H200a_up.bin",
+		 * "ufsize":2161088, "ufc":"", "ufdes":"10.2.1"}} 返回值说明：有更新rt=0,无更新rt=14
+		 * (DEVICE_HAS_NO_UPDATE). 其他值为其他错误码
+		 */
+		// {"mt":2034,"rt":0,"mid":8,"ufi":{"ufver":"v10.2.1","ufurl":"http:\/\/60.216.75.26:9999\/jenkins\/job\/IPC\/ws\/H200a_up.bin","ufsize":2161088,"ufc":"","ufdes":"10.2.1"}}
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024];
+		OneKeyUpdate oku = null;
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			Log.v("checkUpdate---result", result);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
+																		// 返回值说明：有更新rt=0,无更新rt=14
+																		// (DEVICE_HAS_NO_UPDATE).
+																		// 其他值为其他错误码
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
+																	// 32
+						if (0 == res) {// 有更新
+							if (null != temObj
+									.optString(JVDeviceConst.JK_UPDATE_FILE_INFO)) {
+								JSONObject updtateFile = new JSONObject(
+										temObj.optString(JVDeviceConst.JK_UPDATE_FILE_INFO));
+								if (null != updtateFile) {
+									oku = new OneKeyUpdate();
+									oku.ufver = updtateFile
+											.optString(JVDeviceConst.JK_UPGRADE_FILE_VERSION);
+									oku.ufurl = updtateFile
+											.optString(JVDeviceConst.JK_UPGRADE_FILE_URL);
+									oku.ufsize = updtateFile
+											.optString(JVDeviceConst.JK_UPGRADE_FILE_SIZE);
+									oku.ufc = updtateFile
+											.optString(JVDeviceConst.JK_UPGRADE_FILE_CHECKSUM);
+									oku.ufdes = updtateFile
+											.optString(JVDeviceConst.JK_UPGRADE_FILE_DESCRIPTION);
+								}
+							}
+
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return res;
+	}
+
+	// 2.客户端向设备推升级命令
+	// PUSH_DEVICE_UPDATE_CMD = 3012,
+	// PUSH_DEVICE_UPDATE_CMD_RESPONSE = 3013,
+	//
+	// 传用户名(username),设备云视通号(guid),更新文件URL(ufurl),文件大小(ufsize),升级文件版本(ufver).
+	// {"mid":417,"mt":3012,"pv":"1.0","lpt":7,"sid":"cfa5cbdd358b8be3d18b429cbff76067","username":"zhangtest","dguid":"A228142816","ufurl":"http://60.216.75.26:9999/jenkins/job/IPC/ws/H200a_up.bin","ufsize":2158448,"ufver":"v10.2.1"}
+	// 返回rt
+	// {"mt":3013,"rt":0,"mid":417}
+	// 返回值说明：成功0，其他为错误码
+
+	/**
+	 * 2014-03-17 2.客户端向设备推升级命令
+	 */
+	public static int pushUpdateCommand(String loginUserName, String dGuid,
+			OneKeyUpdate oku) {
+		int res = -1;
+		if (null == oku) {
+			return res;
+		}
+		// 参数例子：
+		// 传用户名(username),设备云视通号(guid),更新文件URL(ufurl),文件大小(ufsize),升级文件版本(ufver).
+		/**
+		 * {"mid":417, "mt":3012, "pv":"1.0", "lpt":7,
+		 * "sid":"cfa5cbdd358b8be3d18b429cbff76067", "username":"zhangtest",
+		 * "dguid":"A228142816",
+		 * "ufurl":"http://60.216.75.26:9999/jenkins/job/IPC/ws/H200a_up.bin",
+		 * "ufsize":2158448, "ufver":"v10.2.1"}
+		 */
+
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.PUSH_DEVICE_UPDATE_CMD);// mt 3102
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// pv 1.0
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.IM_SERVER_RELAY);// lpt 7
+			jObj.put(JVDeviceConst.JK_USERNAME, loginUserName);// username
+			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);// dguid
+			jObj.put(JVDeviceConst.JK_UPGRADE_FILE_URL, oku.ufurl);// ufurl
+			jObj.put(JVDeviceConst.JK_UPGRADE_FILE_SIZE, oku.ufsize);// ufsize
+			jObj.put(JVDeviceConst.JK_UPGRADE_FILE_VERSION, oku.ufver);// ufver
+
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		Log.v("pushUpdateCommand---request", jObj.toString());
+
+		// 返回值范例：
+		/**
+		 * 返回rt {"mt":3013,"rt":0,"mid":417} 返回值说明：成功0，其他为错误码
+		 */
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024];
+		int error = JVACCOUNT
+				.GetResponseByRequestDevicePersistConnectionServer(
+						jObj.toString(), resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			Log.v("pushUpdateCommand---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
+																		// 返回值说明：成功0，其他为错误码
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
+																	// 3013
+
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return res;
+	}
+
+	//
+	// 3.客户端向设备推取消升级命令（下载过程中可推送）
+	// PUSH_DEVICE_CANCEL_CMD = 3014,
+	// PUSH_DEVICE_CANCEL_CMD_RESPONSE = 3015,
+	//
+	// 传用户名(username),设备云视通号(guid)。
+	// {"mid":421,"mt":3014,"pv":"1.0","lpt":7,"sid":"cfa5cbdd358b8be3d18b429cbff76067","username":"zhangtest","dguid":"A228142816"}
+	// 返回rt
+	// {"mt":3015,"rt":0,"mid":421}
+	// 返回值说明：成功0，其他为错误码
+
+	/**
+	 * 2014-03-17 3.客户端向设备推取消升级命令（下载过程中可推送）
+	 */
+	public static int cancelUpdate(String loginUserName, String dGuid) {
+		// 参数例子：
+		// {"mid":421,"mt":3014,"pv":"1.0","lpt":7,"sid":"cfa5cbdd358b8be3d18b429cbff76067","username":"zhangtest","dguid":"A228142816"}
+		/**
+		 * {"mid":421, "mt":3014, "pv":"1.0", "lpt":7,
+		 * "sid":"cfa5cbdd358b8be3d18b429cbff76067", "username":"zhangtest",
+		 * "dguid":"A228142816"}
+		 */
+
+		int res = -1;
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.PUSH_DEVICE_CANCEL_CMD);// mt 3014
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// pv 1.0
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.IM_SERVER_RELAY);// lpt 7
+			jObj.put(JVDeviceConst.JK_USERNAME, loginUserName);// username
+			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);// dguid
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		Log.v("cancelUpdate---request", jObj.toString());
+
+		// 返回值范例：
+		/**
+		 * 返回rt {"mt":3015,"rt":0,"mid":421} 返回值说明：成功0，其他为错误码
+		 */
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024];
+		int error = JVACCOUNT
+				.GetResponseByRequestDevicePersistConnectionServer(
+						jObj.toString(), resultStr);
+
+		if (0 == error) {
+			String result = new String(resultStr);
+			Log.v("cancelUpdate---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
+																		// 返回值说明：成功0，其他为错误码
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
+																	// 3013
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return res;
+	}
+
+	// 4.向设备获取下载进度
+	// GET_UPDATE_DOWNLOAD_STEP = 3016,
+	// GET_UPDATE_DOWNLOAD_STEP_RESPONSE = 3017,
+	//
+	// 传用户名(username),设备云视通号(guid)。
+	// {"mid":418,"mt":3016,"pv":"1.0","lpt":7,"sid":"cfa5cbdd358b8be3d18b429cbff76067","username":"zhangtest","dguid":"A228142816"}
+	// 返回rt
+	// {"mt":3017,"rt":0,"mid":418}
+	// 返回值说明：成功0，其他为错误码
+	//
+
+	// ---------3.18
+	// 获取下载进度和烧写进度协议的响应 我昨天发的没加进度值。
+	//
+	// 4.向设备获取下载进度
+	// GET_UPDATE_DOWNLOAD_STEP = 3016,
+	// GET_UPDATE_DOWNLOAD_STEP_RESPONSE = 3017,
+	//
+	// 传用户名(username),设备云视通号(guid)。
+	// @#1$6{"mid":418,"mt":3016,"pv":"1.0","lpt":7,"sid":"c13229eaeb1a6957f2ae6faf9b55568d","username":"zhangshuai","dguid":"A228142816"}
+	// 返回rt 下载进度(udstep)
+	// {"mt":3017,"rt":0,"mid":418,"udstep":"60"}
+	// 返回值说明：成功0，其他为错误码
+
+	/**
+	 * 2014-03-18 4.向设备获取下载进度
+	 */
+	public static int getDownloadProgress(String loginUserName, String dGuid) {
+		// 参数例子：
+		// {"mid":421,"mt":3014,"pv":"1.0","lpt":7,"sid":"cfa5cbdd358b8be3d18b429cbff76067","username":"zhangtest","dguid":"A228142816"}
+		/**
+		 * 传用户名(username),设备云视通号(guid)。
+		 * 
+		 * @#1$6{"mid":418, "mt":3016, "pv":"1.0", "lpt":7,
+		 *                  "sid":"c13229eaeb1a6957f2ae6faf9b55568d",
+		 *                  "username":"zhangshuai", "dguid":"A228142816"}
+		 */
+
+		int progress = -1;
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.GET_UPDATE_DOWNLOAD_STEP);// mt 3016
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// pv 1.0
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.IM_SERVER_RELAY);// lpt 7
+			jObj.put(JVDeviceConst.JK_USERNAME, loginUserName);// username
+			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);// dguid
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		Log.v("getDownloadProgress---request", jObj.toString());
+
+		// 返回值范例：
+		/**
+		 * 返回rt 下载进度(udstep) {"mt":3017,"rt":0,"mid":418,"udstep":"60"}
+		 * 返回值说明：成功0，其他为错误码
+		 */
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024];
+		int error = JVACCOUNT
+				.GetResponseByRequestDevicePersistConnectionServer(
+						jObj.toString(), resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			Log.v("getDownloadProgress---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
+						int res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
+																			// 返回值说明：成功0，其他为错误码
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
+																	// 3013
+						if (0 == res) {
+							progress = temObj
+									.optInt(JVDeviceConst.JK_UPGRADE_DOWNLOAD_STEP);// udstep
+																					// 下载进度(udstep)
+						}
+
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return progress;
+	}
+
+	// 5.向设备获取烧写进度
+	// GET_UPDATE_WRITE_STEP = 3018,
+	// GET_UPDATE_WRITE_STEP_RESPONSE = 3019,
+	//
+	// 传用户名(username),设备云视通号(guid)。
+	// {"mid":419,"mt":3018,"pv":"1.0","lpt":7,"sid":"cfa5cbdd358b8be3d18b429cbff76067","username":"zhangtest","dguid":"A228142816"}
+	// 返回rt 烧写进度(uwstep)
+	// {"mt":3019,"rt":0,"mid":419,"uwstep":"20"}
+	// 返回值说明：成功0，其他为错误码
+	// 加上这个 我昨天写文档忘了加了
+
+	/**
+	 * 2014-03-18 5.向设备获取烧写进度
+	 */
+	public static int getUpdateProgress(String loginUserName, String dGuid) {
+		// 参数例子：
+		// 传用户名(username),设备云视通号(guid)。
+		// {"mid":419,"mt":3018,"pv":"1.0","lpt":7,"sid":"cfa5cbdd358b8be3d18b429cbff76067","username":"zhangtest","dguid":"A228142816"}
+		/**
+		 * 传用户名(username),设备云视通号(guid)。 {"mid":419, "mt":3018, "pv":"1.0",
+		 * "lpt":7, "sid":"cfa5cbdd358b8be3d18b429cbff76067",
+		 * "username":"zhangtest", "dguid":"A228142816"}
+		 */
+
+		int progress = -1;
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.GET_UPDATE_WRITE_STEP);// mt 3018
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// pv 1.0
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.IM_SERVER_RELAY);// lpt 7
+			jObj.put(JVDeviceConst.JK_USERNAME, loginUserName);// username
+			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);// dguid
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		Log.v("getUpdateProgress---request", jObj.toString());
+
+		// 返回值范例：
+		/**
+		 * 返回rt 烧写进度(uwstep) {"mt":3019,"rt":0,"mid":419,"uwstep":"20"}
+		 * 返回值说明：成功0，其他为错误码
+		 */
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024];
+		int error = JVACCOUNT
+				.GetResponseByRequestDevicePersistConnectionServer(
+						jObj.toString(), resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			Log.v("getUpdateProgress---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
+						int res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
+																			// 返回值说明：成功0，其他为错误码
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
+																	// 3019
+						if (0 == res) {
+							progress = temObj
+									.optInt(JVDeviceConst.JK_UPGRADE_WRITE_STEP);// 返回rt
+																					// 烧写进度(uwstep)
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return progress;
+	}
+
+	// -----2014.3.17
+	// 5.向设备获取烧写进度
+	// GET_UPDATE_WRITE_STEP = 3018,
+	// GET_UPDATE_WRITE_STEP_RESPONSE = 3019,
+	//
+	// 传用户名(username),设备云视通号(guid)。
+	// {"mid":419,"mt":3018,"pv":"1.0","lpt":7,"sid":"cfa5cbdd358b8be3d18b429cbff76067","username":"zhangtest","dguid":"A228142816"}
+	// 返回rt
+	// {"mt":3019,"rt":0,"mid":419}
+	// 返回值说明：成功0，其他为错误码
+	//
+	//
+	// 6.烧写完成后向设备推送重启命令(提示客户点击)
+	// PUSH_DEVICE_REBOOT_CMD = 3020,
+	// PUSH_DEVICE_REBOOT_CMD_RESPONSE = 3021,
+	//
+	// 传用户名(username),设备云视通号(guid)。
+	// {"mid":420,"mt":3020,"pv":"1.0","lpt":7,"sid":"cfa5cbdd358b8be3d18b429cbff76067","username":"zhangtest","dguid":"A228142816"}
+	//
+	// 返回rt
+	// {"mt":3021,"rt":0,"mid":420}
+	// 返回值说明：成功0，其他为错误码
+
+	/**
+	 * 2014-03-17 6.烧写完成后向设备推送重启命令(提示客户点击)
+	 */
+	public static int pushRestart(String loginUserName, String dGuid) {
+		// 参数例子：
+		// 传用户名(username),设备云视通号(guid)。
+		// {"mid":420,"mt":3020,"pv":"1.0","lpt":7,"sid":"cfa5cbdd358b8be3d18b429cbff76067","username":"zhangtest","dguid":"A228142816"}
+		/**
+		 * 传用户名(username),设备云视通号(guid)。 {"mid":420, "mt":3020, "pv":"1.0",
+		 * "lpt":7, "sid":"cfa5cbdd358b8be3d18b429cbff76067",
+		 * "username":"zhangtest", "dguid":"A228142816"}
+		 */
+
+		int res = -1;
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.PUSH_DEVICE_REBOOT_CMD);// mt 3020
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// pv 1.0
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.IM_SERVER_RELAY);// lpt 7
+			jObj.put(JVDeviceConst.JK_USERNAME, loginUserName);// username
+			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);// dguid
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		Log.v("pushRestart---request", jObj.toString());
+
+		// 返回值范例：
+		/**
+		 * 返回rt {"mt":3021,"rt":0,"mid":420} 返回值说明：成功0，其他为错误码
+		 */
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024];
+		int error = JVACCOUNT
+				.GetResponseByRequestDevicePersistConnectionServer(
+						jObj.toString(), resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			Log.v("pushRestart---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
+																		// 返回值说明：成功0，其他为错误码
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
+																	// 3013
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return res;
+	}
+
+	// 7.获取烧写100后发送升级过程终止命令。或在下载过程中发送终止命令进行终止（烧写过程不可发）。发送完终止命令后再发重启。
+	// PUSH_DEVICE_CANCEL_CMD = 3014,
+	//
+	// PUSH_DEVICE_CANCEL_CMD_RESPONSE = 3015,
+	//
+	// {"mid":420,"mt":3014,"pv":"1.0","lpt":7,"sid":"cfa5cbdd358b8be3d18b429cbff76067","username":"zhangtest","dguid":"A228142816"}
+	// {"mt":3015,"rt":0,"mid":420}
+
+	/**
+	 * 2014-03-19 7.获取烧写100后发送升级过程终止命令。或在下载过程中发送终止命令进行终止（烧写过程不可发）。发送完终止命令后再发重启。
+	 */
+	public static int pushStop(String loginUserName, String dGuid) {
+		// 参数例子：
+		// 传用户名(username),设备云视通号(guid)。
+		/**
+		 * {"mid":420, "mt":3014, "pv":"1.0", "lpt":7,
+		 * "sid":"cfa5cbdd358b8be3d18b429cbff76067", "username":"zhangtest",
+		 * "dguid":"A228142816"}
+		 */
+
+		int res = -1;
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.PUSH_DEVICE_CANCEL_CMD);// mt 3014
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// pv 1.0
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.IM_SERVER_RELAY);// lpt 7
+			jObj.put(JVDeviceConst.JK_USERNAME, loginUserName);// username
+			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);// dguid
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+
+		Log.v("pushStop---request", jObj.toString());
+
+		// 返回值范例：
+		/**
+		 * 返回rt {"mt":3015,"rt":0,"mid":420} 返回值说明：成功0，其他为错误码
+		 */
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024];
+		int error = JVACCOUNT
+				.GetResponseByRequestDevicePersistConnectionServer(
+						jObj.toString(), resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			Log.v("pushStop---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
+																		// 3015
+						res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
+																		// 返回值说明：成功0，其他为错误码
+						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
+																	// 420
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return res;
 	}
 
 }

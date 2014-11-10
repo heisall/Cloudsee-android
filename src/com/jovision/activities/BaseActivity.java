@@ -29,6 +29,7 @@ import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
 
@@ -91,6 +92,8 @@ public abstract class BaseActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		MyActivityManager.getActivityManager().pushActivity(this);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		MySharedPreference.init(getApplication());
+
 		statusHashMap = ((MainApplication) getApplicationContext())
 				.getStatusHashMap();
 		configuration = getResources().getConfiguration();

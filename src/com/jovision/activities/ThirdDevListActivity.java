@@ -92,6 +92,10 @@ public class ThirdDevListActivity extends BaseActivity implements
 	private void InitData() {
 
 		Bundle extras = getIntent().getExtras();
+		if (null == extras) {
+			this.finish();
+			return;
+		}
 		selected_dev_index = extras.getInt("dev_index");
 		if (selected_dev_index < 0) {
 			selected_dev_index = 0;

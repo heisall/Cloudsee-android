@@ -1256,7 +1256,6 @@ public class JVPlayActivity extends PlayActivity implements
 		playSurface.setVisibility(View.GONE);
 
 		adapter = new MyPagerAdapter();
-		MyLog.v(TAG, "PLAY_NORMAL=" + deviceList.toString());
 		changeWindow(currentScreen);
 
 		viewPager.setLongClickable(true);

@@ -171,7 +171,7 @@ public class JVChannelsActivity extends BaseActivity {
 		for (int i = 0; i < size; i++) {
 			RelativeLayout layout = new RelativeLayout(this);
 			TextView view = new TextView(this);
-			view.setText(deviceList.get(i).getFullNo());
+			view.setText(deviceList.get(i).getNickName());
 			view.setTextSize(16);
 			view.setSingleLine(true);
 			view.setId(i);
@@ -183,7 +183,6 @@ public class JVChannelsActivity extends BaseActivity {
 			layout.addView(view, params);
 			mLinearLayout.addView(layout, (int) (mScreenWidth / 3 + 0.5f), 60);
 			layout.setOnClickListener(new OnClickListener() {
-
 				@Override
 				public void onClick(View view) {
 					int index = (Integer) view.getTag();

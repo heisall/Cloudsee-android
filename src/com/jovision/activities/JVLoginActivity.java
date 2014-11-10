@@ -233,7 +233,7 @@ public class JVLoginActivity extends BaseActivity {
 			userNameET.setText(userName);
 			passwordET.setText(userPass);
 
-			createDialog(R.string.login_str_loging);
+			createDialog(R.string.logining);
 			LoginTask task = new LoginTask();
 			String[] strParams = new String[3];
 			task.execute(strParams);
@@ -278,7 +278,7 @@ public class JVLoginActivity extends BaseActivity {
 				} else if ("".equalsIgnoreCase(passwordET.getText().toString())) {
 					showTextToast(R.string.login_str_loginpass1_notnull);
 				} else {
-					createDialog(R.string.login_str_loging);
+					createDialog(R.string.logining);
 					userName = userNameET.getText().toString();
 					passWord = passwordET.getText().toString();
 					statusHashMap.put(Consts.KEY_USERNAME, userName);

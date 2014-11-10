@@ -46,7 +46,6 @@
                         android:id="@+id/more_uesrname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/user_name"
                         android:textColor="@color/more_devicename"
                         android:textSize="18sp" />
 

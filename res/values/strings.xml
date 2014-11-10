@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
-    <string name="action_settings">Setting</string>
-    <string name="hello_world">Hello world!</string>
-    <!-- getResources().getString(R.string.login_str_loging) -->
-    <!-- LoginUtil -->
-    <string name="remote_filepath">1</string>
-    <string name="login_str_loging">Login now…</string>
+    <string name="logining">Login now…</string>
     <string name="login_str_username_notnull">Please input username.</string>
     <string name="login_str_loginpass1_notnull">Please input password.</string>
     <string name="login_str_loginpass2_notnull">Please input password confirmation.</string>
@@ -19,18 +14,13 @@
     <string name="login_str_username_tips3">User name should be composed of letter, number and -_</string>
     <string name="login_str_username_tips4">Username should be 4–28 characters.</string>
     <string name="login_str_password_tips1">Password should be 6–20 characters.</string>
-    <string name="login_str_password_tips2">Password can not be same</string>
-    <string name="login_str_password_tips3">Password can not be consecutive number or character</string>
-    <string name="login_str_password_tips4">Password can not be consecutive number or character</string>
     <string name="login_str_login_failed">Login failed</string>
     <string name="login_str_regist_success">Registed successfully</string>
     <string name="login_str_regist_failed">Registed failed</string>
     <string name="login_str_registing">Registing</string>
     <string name="str_have_registed">This user name has been registered</string>
     <string name="login_str_device">Device List</string>
-    <string name="login_str_group">Group</string>
     <string name="login_str_add_device">Add Device</string>
-    <string name="login_str_add_group">increase the grouping</string>
     <string name="login_str_device_devicename_notnull">Please input nickname for the device</string>
     <string name="login_str_nike_name_order">Ilegal character,the NikeName should be English letter,number,or special characters like .–_+()</string>
     <string name="login_str_device_account_notnull">Please input username.</string>
@@ -40,10 +30,6 @@
     <string name="login_str_device_pass_error">Password format incorrect, it can only be formed by 0–15 letters,numbers or _–.</string>
     <string name="login_str_device_add_success">Device added successfully</string>
     <string name="login_str_device_add_failed">Failed to add device</string>
-    <string name="login_str_group_name_notnull">group name can not be empty</string>
-    <string name="login_str_group_pid_notnull">parent group numbers can not be empty</string>
-    <string name="login_str_group_add_success">grouping added successfully</string>
-    <string name="login_str_group_add_failed">grouping Add Failed</string>
     <string name="login_str_point_delete_success">Channel deleted successfully</string>
     <string name="login_str_point_delete_failed">Channel deleted failed</string>
     <string name="login_str_point_add_success">Channel added successfully</string>
@@ -55,40 +41,26 @@
     <string name="login_str_device_delete_failed">Device deleted failed</string>
     <string name="login_str_device_edit_success">Device modified successfully</string>
     <string name="login_str_device_edit_failed">Device modified failed</string>
-    <string name="login_str_group_delete_success">grouping deleted successfully</string>
-    <string name="login_str_group_delete_failed">grouping deleted failed</string>
-    <string name="login_str_group_edit">edit group</string>
-    <string name="login_str_group_edit_success">grouping modified successfully</string>
-    <string name="login_str_group_edit_failed">packet modified failed</string>
     <string name="login_str_point_id">channel ID</string>
     <string name="login_str_point_name">channel name</string>
-    <string name="login_str_point_device_id">an device ID</string>
-    <string name="login_str_point_id1">channel number</string>
     <string name="login_str_save">Save</string>
     <string name="login_str_advance">Setting</string>
     <string name="login_str_close">Close</string>
     <string name="login_str_device_num">Device number</string>
     <string name="login_str_account">Username</string>
     <string name="login_str_pass">Password</string>
-    <string name="login_str_point_num">Number of Channels</string>
-    <string name="login_str_group_name">group name</string>
-    <string name="login_str_group_pid">parent group number</string>
     <string name="login_str_edit">Edit</string>
     <string name="login_str_delete">Delete</string>
-    <string name="user_name">Account Name</string>
     <string name="login_str_user_name_2">Username</string>
     <string name="login_str_user_pass">Password</string>
     <string name="login_str_user_email">Email</string>
     <string name="login_str_user_login">Login</string>
-    <string name="qqloginstr">QQ Account Login</string>
     <string name="login_str_user_regist">Register</string>
     <string name="login_str_showpoint">Demo</string>
     <string name="login_str_back">Back</string>
     <string name="login_str_add">Add</string>
-    <string name="login_str_qq_autho_faild">QQ Authorization failed</string>
-    <string name="login_str_qq_autho_success">QQ authorized success</string>
-    <string name="last_time">Previous login time:</string>
     <string name="more_nologin">Operate after login.</string>
+    <string name="last_time">Previous login time:</string>
     <string name="more_modify">Modify</string>
     <string name="more_modifypwd">Change Password</string>
     <string name="more_findpassword">Retrieve Password</string>
@@ -140,7 +112,6 @@
     <string name="str_voice">Talk</string>
     <string name="str_video">Record</string>
     <string name="str_more">More</string>
-    <string name="str_switch_video">Switching to video now…</string>
     <string name="str_has_call">Another client is using Cloud Talk function, please use this function later.</string>
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="str_play_failed"> play the video failed</string>
@@ -148,20 +119,9 @@
     <string name="cloud_number">CloudSEE ID</string>
     <!-- 更多功能 -->
     <string name="str_more_features">More function</string>
-    <string name="str_share">Share</string>
-    <string name="str_sina_share">Share to Twitter</string>
-    <string name="str_sina_share_default">Jovision</string>
-    <string name="str_sina_share_tips">You can input 0 characters more.</string>
-    <string name="str_sina_share_tips_error">This Microblog is limited to 140 characters.</string>
-    <string name="str_sina_share_success">Released Successfully</string>
-    <string name="str_sina_share_failed">Released Failed </string>
-    <string name="str_publish">Release</string>
-    <string name="str_publishing">Releasing…</string>
-    <string name="str_sina_success">Authenticated successfully</string>
     <string name="str_alarm">Alarm</string>
     <string name="str_alarm_info">Alarm information</string>
     <string name="str_watchtype">Online detection</string>
-    <string name="str_position">Location</string>
     <string name="str_scenepic">Scene picture</string>
     <string name="str_video_mode">Browse model</string>
     <string name="str_video_modetwo">Viewing Mode(Single-device)</string>
@@ -192,18 +152,13 @@
     <string name="str_read_agree">Read and agree  </string>
     <string name="str_agreement"> User agreement</string>
     <string name="login_str_agreement_tips">Before registering, please read carefully and agree the clauses and privacy policy.</string>
-    <string name="login_str_bind_success">Combine with the account successfully</string>
-    <string name="login_str_bind_failed">Failed to combine the account</string>
-    <string name="login_str_binding">Combining</string>
-    <string name="tipsRelativeSrc">Long click to relative source</string>
     <string name="timedOut">Timed out</string>
     <string name="closed">Closed</string>
     <string name="has_connected">Connect timeout.</string>
+    <string name="overflow">max count</string>
     <string name="str_out_memery">Your mobile phone is not insert SDCard, temporarily unable to use this feature</string>
     <string name="str_sdcard_notenough">Your mobile phone card memory space is insufficient</string>
     <string name="str_finish">Save</string>
-    <!-- 数据源 -->
-    <string name="str_data_source">Channel List</string>
     <!-- 远程回放 -->
     <string name="str_search">Search</string>
     <string name="str_start_time">Start Time</string>
@@ -213,15 +168,11 @@
     <string name="str_video_load_failed">Failed to load data</string>
     <string name="str_video_load_success">Loading data successfully</string>
     <string name="str_video_nodata_failed">No remote video files</string>
-    <string name="str_video_play_not_support">This APP doesn\'t support to play videos with resolution more than 720P.</string>
     <string name="str_video_disconnected">Unable to remote playback due to video has been disconnected.</string>
     <!-- leftFragment -->
     <string name="str_delete_sure">Are you sure to delete?</string>
     <string name="str_delete_tip">Tips</string>
     <!-- 登录 -->
-    <string name="login_str_fast_view">Fast Monitor</string>
-    <string name="login_str_searching_device">The device is being searched\nWait a moment…</string>
-    <string name="login_str_search_nodevice">The device is not searched,please check Wi-Fi</string>
     <string name="str_local_login">Visitor Login</string>
     <string name="str_offline_keeponline_success">Keep online successfully.</string>
     <string name="str_offline_keeponline_failed">Failed to be online.</string>
@@ -269,40 +220,23 @@
     <string name="str_oldpass_notnull">Please input Old password.</string>
     <string name="str_newpass_notnull">Please input new password.</string>
     <string name="str_ensurenewpass_notnull">Please confirm the password.</string>
-    <!-- 演示点 -->
-    <string name="str_pointdlg_showpoing">Demo</string>
-    <string name="str_loading_showpoint">Loading the Demonstration Point, please wait…</string>
-    <string name="str_failed_load_showpoint">Demonstration point load failed</string>
-    <string name="str_no_device">No Device</string>
     <!-- 中间界面 -->
     <string name="str_wifistr">WiFi</string>
     <string name="str_loading_data">Asking for device data,please wait…</string>
     <string name="str_loading_adddevice">Loading device now, please wait.</string>
     <string name="str_device_exsit">This device has been added already,and it can\'t be added again.</string>
-    <string name="str_click_offline">When shut off online detection at Setting interface, the off-line device can be checked.</string>
-    <string name="str_setting_offline">If shut off online detection,the device will be online status</string>
-    <string name="str_newpro_load_failed">Failed to load image of new product</string>
     <string name="str_refresh_data">Refresh Data</string>
     <string name="str_refreshing_data">Refreshing Data…</string>
-    <string name="pull_to_refresh_pull_label">Pull to refresh…</string>
     <string name="pull_from_time">Update at:</string>
+    <string name="pull_to_refresh_pull_label">Pull to refresh…</string>
     <string name="pull_to_refresh_release_label">Release to refresh…</string>
     <string name="pull_to_refresh_refreshing_label">Loading…</string>
-    <string name="pull_to_refresh_repeat_label">Refresh frequently, please try again later</string>
-    <string name="pull_to_refresh_tap_label">Tap to refresh…</string>
     <string name="str_data_load_success">Device loaded successfully</string>
-    <string name="str_data_load_nodevice">No device</string>
     <string name="str_data_load_failed1">Failed to load device</string>
     <string name="str_update_at">Update at:</string>
-    <string name="str_newpro_show">New Device</string>
-    <string name="str_watch_newpro">Check the demo</string>
     <string name="str_scanning_device">The device is being searched\nWait a moment…</string>
     <string name="str_continue_qr_device">Continue</string>
     <string name="str_return_qr_device">Back</string>
-    <string name="str_net_push_error">Network is unnormal, push srvice has stoped.</string>
-    <string name="str_net_push_ok">Network is connected, push service is started.</string>
-    <string name="str_net_open_push_error">Network is unnormal，push service is not started.</string>
-    <string name="str_net_close_push_error">Network is unnormal，push service is not started.</string>
     <!-- 更新dialog -->
     <string name="str_hasupate">Application has a new version of the update</string>
     <string name="str_upatenow">Update Now</string>
@@ -313,8 +247,6 @@
     <string name="str_exiting_now">Disconnecting now Please wait…</string>
     <string name="str_no_response_data">Network connection exception,please login again.</string>
     <string name="str_change_video_type">Switch video standard,Records re-packed.</string>
-    <string name="str_device">CloudSEE ID:</string>
-    <string name="str_device_name">A361</string>
     <!-- 设备管理 -->
     <string name="str_quick_setting_nextstep">Next</string>
     <string name="str_quick_setting_neterror">Connect timeout, please check network.</string>
@@ -341,7 +273,6 @@
     <string name="str_online_succ">Device online successfully.</string>
     <string name="str_online_fail">Device failed to be online.</string>
     <string name="str_try_again">Retry</string>
-    <string name="str_no_voice_way">Have not acquired Sing- or Two-way talk signal now.</string>
     <string name="str_quick_setting_alert_2">Connecting with device now</string>
     <string name="str_quick_setting_alert_3">Connected successfully, asking for text info now</string>
     <string name="str_quick_setting_alert_4">Asking for Wi-Fi list of host-end</string>
@@ -394,18 +325,6 @@
     <string name="str_help1_1">Add device</string>
     <string name="str_help1_0">Remote Setting</string>
     <string name="str_help1_2">Setting</string>
-    <string name="str_help2_1">It can add channel numbers of this device.</string>
-    <string name="str_help2_2">Slide to see the device list.</string>
-    <string name="str_help3_1">Slide to change channels.</string>
-    <string name="str_help3_2">It will be better by earphone when you use audio.</string>
-    <string name="str_help4_1">Long press to choose other channels.</string>
-    <string name="str_help4_2">Captured photos and recorded videos are kept in SD Card.</string>
-    <string name="str_help5_1">Multi-channel can be viewed simultaneously.</string>
-    <string name="str_help6_1">Scan the QR code to add the device.</string>
-    <string name="str_help7">Remote configure IPC network and stream parameters.</string>
-    <string name="str_help8">Can add, modify or delete channels and devices.</string>
-    <string name="str_help10">Device online, shown as orange ; Device offline , shown as gray.</string>
-    <string name="str_help11">when device has Wi-Fi function, the icon is orange, while when device doesn\'t have Wi-Fi function, the icon is gray.</string>
     <string name="str_save_succ">Modify successfully</string>
     <string name="str_save_fail">Modify failed</string>
     <string name="str_connect_succ">Wi-Fi has been set finished.</string>
@@ -568,16 +487,16 @@
     <string name="protect_close_succ">Disable Security Protection Successfully.</string>
     <string name="protect_close_fail">Failed to disable Security Protection.</string>
     <string name="device_offline">This operation is unavailable since the device is offline now.</string>
-    <string name="str_one_key_update">One-key to update</string>
-    <string name="str_check_key_update_failed">Latest version now, no need to update.</string>
-    <string name="str_check_key_update_error">Failed to update, please update again.</string>
+    <string name="one_key_update">One-key to update</string>
+    <string name="check_key_update_failed">Latest version now, no need to update.</string>
+    <string name="check_key_update_error">Failed to update, please update again.</string>
     <string name="update">Update</string>
-    <string name="str_key_update_title">Update content</string>
-    <string name="str_downloading_update">Loading firmware now, please wait…</string>
-    <string name="str_writing_update">Installing firmware now, please keep the power on and wait…</string>
-    <string name="str_key_update_reset">Update successfully, do you want to reboot?</string>
-    <string name="str_update_reset_success">Reboot successfully</string>
-    <string name="str_update_reset_failed">Failed to update, please update manually.</string>
+    <string name="key_update_title">Update content</string>
+    <string name="downloading_update">Loading firmware now, please wait…</string>
+    <string name="writing_update">Installing firmware now, please keep the power on and wait…</string>
+    <string name="key_update_reset">Update successfully, do you want to reboot?</string>
+    <string name="update_reset_success">Reboot successfully</string>
+    <string name="update_reset_failed">Failed to update, please update manually.</string>
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>
     <string name="str_help_one">Remote set network and stream for IP cameras.</string>
@@ -613,11 +532,12 @@
     <string name="str_default_user">abc</string>
     <!-- 默认密码 -->
     <string name="str_default_pass">123</string>
+    <!-- 默认端口号 -->
+    <string name="str_default_port">9101</string>
     <!-- 录像保存路径 -->
     <string name="str_video_path">video/</string>
     <!-- 抓拍保存路径 -->
     <string name="str_capture_path">capture/</string>
-
     <!-- 版权 -->
     <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->

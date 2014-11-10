@@ -135,7 +135,7 @@ public class JVWelcomeActivity extends BaseActivity {
 						&& !"".equalsIgnoreCase(user.getUserPwd())) {
 					statusHashMap.put(Consts.KEY_USERNAME, user.getUserName());
 					statusHashMap.put(Consts.KEY_PASSWORD, user.getUserPwd());
-					createDialog(R.string.login_str_loging);
+					createDialog(R.string.logining);
 
 					intent.setClass(JVWelcomeActivity.this,
 							JVLoginActivity.class);

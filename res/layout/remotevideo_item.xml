@@ -27,7 +27,6 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:gravity="center_horizontal"
-            android:text="@string/remote_filepath"
             android:textColor="@color/listtextcolor"
             android:textSize="16sp" />
     </RelativeLayout>

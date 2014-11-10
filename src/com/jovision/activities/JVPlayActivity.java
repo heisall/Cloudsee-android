@@ -238,6 +238,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		if (isQuit) {
@@ -771,6 +772,8 @@ public class JVPlayActivity extends PlayActivity implements
 				if (realStop) {
 					realStop = false;
 				} else {
+					bottombut5.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.video_talk));
 					showTextToast(R.string.has_calling);
 				}
 
@@ -1084,6 +1087,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void initSettings() {
 		TAG = "PlayA";
@@ -1120,33 +1124,23 @@ public class JVPlayActivity extends PlayActivity implements
 			manager.setArrowId(R.drawable.left, R.drawable.up,
 					R.drawable.right, R.drawable.down);
 
-			// [Neo] TODO make omx enable as default
-			// isOmx = true;
-
 			Intent intent = getIntent();
 			deviceIndex = intent.getIntExtra("DeviceIndex", 0);
 			channelOfChannel = intent.getIntExtra("ChannelofChannel", 0);
 			playFlag = intent.getIntExtra("PlayFlag", 0);
 
 			currentScreen = intent.getIntExtra("Screen", 1);
-
 			if (Consts.PLAY_NORMAL == playFlag) {
 				String devJsonString = intent
 						.getStringExtra(Consts.KEY_PLAY_NORMAL);
-				// MySharedPreference
-				// .getString(Consts.KEY_PLAY_NORMAL);
 				deviceList = Device.fromJsonArray(devJsonString);
 			} else if (Consts.PLAY_DEMO == playFlag) {
 				String devJsonString = intent
 						.getStringExtra(Consts.KEY_PLAY_DEMO);
-				// MySharedPreference
-				// .getString(Consts.KEY_PLAY_DEMO);
 				deviceList = Device.fromJsonArray(devJsonString);
 			} else if (Consts.PLAY_AP == playFlag) {
 				String devJsonString = intent
 						.getStringExtra(Consts.KEY_PLAY_AP);
-				// MySharedPreference
-				// .getString(Consts.KEY_PLAY_AP);
 				deviceList = Device.fromJsonArray(devJsonString);
 			}
 
@@ -1169,7 +1163,6 @@ public class JVPlayActivity extends PlayActivity implements
 							}
 						}
 					}
-
 					channelList.addAll(cList);
 				}
 			} else {
@@ -1181,15 +1174,12 @@ public class JVPlayActivity extends PlayActivity implements
 						startWindowIndex++;
 					}
 				}
-
 				channelList.addAll(cList);
 			}
-
 			int size = channelList.size();
 			for (int i = 0; i < size; i++) {
 				manager.addChannel(channelList.get(i));
 			}
-
 			isDoubleClickCheck = false;
 			lastClickIndex = channelList.get(startWindowIndex).getIndex();
 			lastItemIndex = lastClickIndex;
@@ -1201,9 +1191,9 @@ public class JVPlayActivity extends PlayActivity implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void initUi() {
 		super.initUi();
@@ -1226,8 +1216,8 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 			}
+			play_nickname.setText(deviceList.get(deviceIndex).getNickName());
 		}
-
 		/** 上 */
 		back.setOnClickListener(myOnClickListener);
 		left_btn_h.setOnClickListener(myOnClickListener);
@@ -1235,11 +1225,11 @@ public class JVPlayActivity extends PlayActivity implements
 		selectScreenNum.setOnClickListener(myOnClickListener);
 		currentMenu.setOnClickListener(myOnClickListener);
 		if (playFlag == Consts.PLAY_AP) {
-			currentMenu_h.setText(R.string.video_check);
+			currentMenu_h.setText(deviceList.get(deviceIndex).getNickName());
 			currentMenu.setText(R.string.video_check);
 			selectScreenNum.setVisibility(View.GONE);
 		} else {
-			currentMenu_h.setText(R.string.str_video_play);
+			currentMenu_h.setText(deviceList.get(deviceIndex).getNickName());
 			currentMenu.setText(R.string.str_video_play);
 			selectScreenNum.setVisibility(View.VISIBLE);
 		}
@@ -1352,14 +1342,28 @@ public class JVPlayActivity extends PlayActivity implements
 		capture.setOnClickListener(myOnClickListener);
 		videoTape.setOnClickListener(myOnClickListener);
 		moreFeature.setOnClickListener(myOnClickListener);
-		bottombut1.setOnClickListener(myOnClickListener);
-		bottombut2.setOnClickListener(myOnClickListener);
-		bottombut3.setOnClickListener(myOnClickListener);
-		bottombut4.setOnClickListener(myOnClickListener);
-		bottombut5.setOnClickListener(myOnClickListener);
-		bottombut6.setOnClickListener(myOnClickListener);
-		bottombut7.setOnClickListener(myOnClickListener);
-		bottombut8.setOnClickListener(myOnClickListener);
+
+		if (Consts.PLAY_AP == playFlag) {
+			bottombut1.setOnClickListener(myOnClickListener);
+			bottombut2.setOnClickListener(myOnClickListener);
+			bottombut4.setOnClickListener(myOnClickListener);
+			bottombut5.setOnClickListener(myOnClickListener);
+			bottombut8.setOnClickListener(myOnClickListener);
+			bottombut3.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.video_notuse));
+			bottombut7.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.video_videonotuse));
+		} else {
+			bottombut1.setOnClickListener(myOnClickListener);
+			bottombut2.setOnClickListener(myOnClickListener);
+			bottombut3.setOnClickListener(myOnClickListener);
+			bottombut4.setOnClickListener(myOnClickListener);
+			bottombut5.setOnClickListener(myOnClickListener);
+			bottombut6.setOnClickListener(myOnClickListener);
+			bottombut7.setOnClickListener(myOnClickListener);
+			bottombut8.setOnClickListener(myOnClickListener);
+		}
+
 		bottomStream.setOnClickListener(myOnClickListener);
 
 		nextStep.setOnClickListener(myOnClickListener);
@@ -1572,7 +1576,7 @@ public class JVPlayActivity extends PlayActivity implements
 							channel.getChannel(), conIp, conPort,
 							device.getUser(), device.getPwd(), number,
 							device.getGid(), true, 1, true, 6,// (device.isHomeProduct()
-																// ? 6 : 5),
+							// ? 6 : 5),
 							channel.getSurface(), isOmx);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
@@ -1582,7 +1586,7 @@ public class JVPlayActivity extends PlayActivity implements
 							channel.getChannel(), conIp, conPort,
 							device.getUser(), device.getPwd(), number,
 							device.getGid(), true, 1, true, 6,// (device.isHomeProduct()
-																// ? 6 : 5),
+							// ? 6 : 5),
 							null, isOmx);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(true);
@@ -1637,7 +1641,6 @@ public class JVPlayActivity extends PlayActivity implements
 				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
 						channel.getIndex(), ARG2_STATUS_CONNECTED));
 			} else {
-
 				if (false == resumeChannel(channel)) {
 					MyLog.e(Consts.TAG_PLAY, "resume failed: " + channel);
 				}
@@ -1650,6 +1653,11 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation
 					|| Consts.PLAY_AP == playFlag) {// 横屏
+				if (channelList.get(lastClickIndex).getParent().isCard()
+						|| 8 == channelList.get(lastClickIndex).getAudioByte()) {
+					bottombut5.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.video_talk));
+				}
 				return;
 			}
 
@@ -1766,6 +1774,7 @@ public class JVPlayActivity extends PlayActivity implements
 	/**
 	 * 所有按钮事件
 	 */
+
 	OnClickListener myOnClickListener = new OnClickListener() {
 
 		@SuppressWarnings("deprecation")
@@ -1801,6 +1810,19 @@ public class JVPlayActivity extends PlayActivity implements
 				backMethod(true);
 				break;
 			}
+
+			// case R.id.bottom_but1:
+			// if (!bottomboolean1) {
+			// bottombut1.setBackgroundDrawable(getResources().getDrawable(
+			// R.drawable.video_play_icon));
+			//
+			// bottomboolean1 = true;
+			// }else {
+			// bottombut1.setBackgroundDrawable(getResources().getDrawable(
+			// R.drawable.video_stop_icon));
+			// bottomboolean1 = false;
+			// }
+			// break;
 			case R.id.bottom_but2:
 			case R.id.decodeway: {// 软硬解切换
 				if (allowThisFuc(false)) {
@@ -2014,7 +2036,6 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 
 					}
-
 					if (channelList.get(lastClickIndex).getParent().isCard()
 							|| 8 == channel.getAudioByte()) {
 						showTextToast(R.string.not_support_voicecall);
@@ -2078,22 +2099,17 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 				break;
 
-			// case R.id.bottom_but1:// 暂停继续播
-			// if (channelList.get(lastClickIndex).isPause()) {
-			// Jni.sendBytes(lastClickIndex,
-			// (byte) JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
-			// channelList.get(lastClickIndex).setPause(false);
-			// bottombut1
-			// .setBackgroundResource(R.drawable.video_stop_icon);
-			// } else {
-			// Jni.sendBytes(lastClickIndex,
-			// (byte) JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0],
-			// 8);
-			// channelList.get(lastClickIndex).setPause(true);
-			// bottombut1
-			// .setBackgroundResource(R.drawable.video_play_icon);
-			// }
-			// break;
+			case R.id.bottom_but1:// 暂停继续播
+				if (channelList.get(lastClickIndex).isPaused()) {
+					resumeChannel(channelList.get(lastClickIndex));
+					bottombut1
+							.setBackgroundResource(R.drawable.video_stop_icon);
+				} else {
+					pauseChannel(channelList.get(lastClickIndex));
+					bottombut1
+							.setBackgroundResource(R.drawable.video_play_icon);
+				}
+				break;
 
 			case R.id.bottom:
 
@@ -2929,6 +2945,11 @@ public class JVPlayActivity extends PlayActivity implements
 		Jni.setColor(lastClickIndex, 0, 0, 0, 0);
 
 		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+			if (channelList.get(lastClickIndex).getParent().isCard()
+					|| 8 == channelList.get(lastClickIndex).getAudioByte()) {
+				bottombut5.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.video_talk));
+			}
 			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
 				if (VOICECALL_LONG_CLICK) {
 					new TalkThread(lastClickIndex, 0).start();

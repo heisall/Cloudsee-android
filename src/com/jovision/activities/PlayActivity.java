@@ -127,13 +127,6 @@ public abstract class PlayActivity extends BaseActivity {
 	protected Button bottombut8;// 音频监听
 	protected TextView bottomStream;
 	protected boolean bottomboolean1;
-	protected boolean bottomboolean2;
-	protected boolean bottomboolean3;
-	protected boolean bottomboolean4;
-	protected boolean bottomboolean5;
-	protected boolean bottomboolean6;
-	protected boolean bottomboolean7;
-	protected boolean bottomboolean8;
 	private LinearLayout linear;
 	private RelativeLayout relative1;
 	private RelativeLayout relative2;
@@ -148,6 +141,7 @@ public abstract class PlayActivity extends BaseActivity {
 	protected Button decodeBtn;// 软硬解
 	protected Button videTurnBtn;// 视频翻转
 	protected Button currentKbps;// 当前统计
+	protected TextView play_nickname;
 
 	// 录像模式----rightFuncButton
 	// 码流切换----moreFeature
@@ -228,9 +222,11 @@ public abstract class PlayActivity extends BaseActivity {
 		decodeBtn = (Button) findViewById(R.id.decodeway);
 		videTurnBtn = (Button) findViewById(R.id.overturn);
 		currentKbps = (Button) findViewById(R.id.kbps);
+		play_nickname = (TextView) findViewById(R.id.play_nickname);
 
 		decodeBtn.setVisibility(View.GONE);
-		videTurnBtn.setVisibility(View.GONE);
+		videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.turnleft_down));
 		currentKbps.setVisibility(View.GONE);
 		voiceTip = (RelativeLayout) findViewById(R.id.voicetip);
 
@@ -264,12 +260,6 @@ public abstract class PlayActivity extends BaseActivity {
 		relative7 = (RelativeLayout) findViewById(R.id.relative7);
 		relative8 = (RelativeLayout) findViewById(R.id.relative8);
 		linear = (LinearLayout) findViewById(R.id.linear);
-		//
-		// if (relative1.getVisibility()==View.VISIBLE) {
-		// linear.removeView(relative1);
-		// linear.addView(relative1, linear.getChildCount());
-		// bottombut1.setVisibility(View.GONE);
-		// }
 		if ((disMetrics.heightPixels > 800 && disMetrics.widthPixels > 480)
 				|| (disMetrics.heightPixels > 480 && disMetrics.widthPixels > 800)) {// 大屏
 			bigScreen = true;
@@ -426,30 +416,15 @@ public abstract class PlayActivity extends BaseActivity {
 			horPlayBarLayout.setVisibility(View.VISIBLE);
 			// init();
 			if (Consts.PLAY_AP == playFlag) {
-				if (relative2.getVisibility() == View.VISIBLE) {
-					linear.removeView(relative2);
-					linear.addView(relative2, linear.getChildCount());
-					bottombut2.setVisibility(View.GONE);
-				}
-				if (relative3.getVisibility() == View.VISIBLE) {
-					linear.removeView(relative3);
-					linear.addView(relative3, linear.getChildCount());
-					bottombut3.setVisibility(View.GONE);
-				}
-				if (relative6.getVisibility() == View.VISIBLE) {
-					linear.removeView(relative6);
-					linear.addView(relative6, linear.getChildCount());
-					bottombut6.setVisibility(View.GONE);
-				}
-				if (relative7.getVisibility() == View.VISIBLE) {
-					linear.removeView(relative7);
-					linear.addView(relative7, linear.getChildCount());
-					bottombut7.setVisibility(View.GONE);
-				}
+				bottombut6.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.turnleft_down));
+				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.turnleft_down));
 				bottomStream.setVisibility(View.GONE);
 			}
 			decodeBtn.setVisibility(View.GONE);
-			videTurnBtn.setVisibility(View.GONE);
+			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turnleft_down));
 			currentKbps.setVisibility(View.GONE);
 
 			reParamsH = new RelativeLayout.LayoutParams(
@@ -520,7 +495,8 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 
 		if (Consts.PLAY_AP == playFlag) {
-			videTurnBtn.setVisibility(View.GONE);
+			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turnleft_down));
 		} else {
 			// 屏幕方向
 			if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
@@ -532,7 +508,8 @@ public abstract class PlayActivity extends BaseActivity {
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turn_right_selector));
 			} else {
-				videTurnBtn.setVisibility(View.GONE);
+				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.turnleft_down));
 			}
 		}
 
@@ -613,12 +590,10 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 
 		if (Consts.PLAY_AP == playFlag) {
-			if (relative6.getVisibility() == View.VISIBLE) {
-				linear.removeView(relative6);
-				linear.addView(relative6, linear.getChildCount());
-				bottombut6.setVisibility(View.GONE);
-				videTurnBtn.setVisibility(View.GONE);
-			}
+			bottombut6.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turnleft_down));
+			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turnleft_down));
 		} else {
 			// 屏幕方向
 			if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
@@ -632,12 +607,10 @@ public abstract class PlayActivity extends BaseActivity {
 				bottombut6.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turn_right_selector));
 			} else {
-				if (relative6.getVisibility() == View.VISIBLE) {
-					linear.removeView(relative6);
-					linear.addView(relative6, linear.getChildCount());
-					bottombut6.setVisibility(View.GONE);
-					videTurnBtn.setVisibility(View.GONE);
-				}
+				bottombut6.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.turnleft_down));
+				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.turnleft_down));
 			}
 		}
 
@@ -657,11 +630,10 @@ public abstract class PlayActivity extends BaseActivity {
 	public void resetFunc(Channel channel) {
 		try {
 			verPlayBarLayout.setVisibility(View.GONE);
-			if (relative6.getVisibility() == 0) {
-				linear.removeView(relative6);
-				linear.addView(relative6, linear.getChildCount());
-				bottombut6.setVisibility(View.GONE);
-			}
+			bottombut6.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turnleft_down));
+			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.turnleft_down));
 			right_btn_h.setVisibility(View.GONE);// 录像模式
 			moreFeature.setText(R.string.default_stream);// 码流
 			bottomStream.setText(R.string.default_stream);
@@ -860,7 +832,7 @@ public abstract class PlayActivity extends BaseActivity {
 			videoTape.setCompoundDrawablesWithIntrinsicBounds(null,
 					videoTapeTop2, null, null);
 			bottombut7.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.video_record_2));
+					R.drawable.video_record1));
 		} else {
 			// videoTape.setTextColor(getResources().getColor(
 			// R.color.functionbtncolor1));

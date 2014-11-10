@@ -77,56 +77,13 @@
                 android:layout_centerInParent="true"
                 android:visibility="gone" />
 
-            <RelativeLayout
+            <include
                 android:id="@+id/play_ver_func"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/play_viewpager"
-                android:background="@color/halftransparent"
-                android:visibility="gone" >
-
-                <Button
-                    android:id="@+id/kbps"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/decode_selector"
-                    android:onClick="onFlip"
-                    android:text=""
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginRight="5dp"
-                    android:orientation="horizontal" >
-
-                    <Button
-                        android:id="@+id/overturn"
-                        android:layout_width="50dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/turn_right_selector"
-                        android:visibility="gone" />
-
-                    <Button
-                        android:id="@+id/decodeway"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="5dp"
-                        android:background="@drawable/decode_selector"
-                        android:onClick="onFlip"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        android:visibility="gone" />
-                </LinearLayout>
-            </RelativeLayout>
+                layout="@layout/play_verfunc_layout"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -197,6 +154,7 @@
                         android:id="@+id/capture"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginRight="1dp"
                         android:layout_weight="1"
                         android:background="@color/tab_bg_color"
@@ -210,6 +168,7 @@
                         android:id="@+id/voicecall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginRight="1dp"
                         android:layout_weight="1"
                         android:background="@color/tab_bg_color"
@@ -223,6 +182,7 @@
                         android:id="@+id/videotape"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginRight="1dp"
                         android:layout_weight="1"
                         android:background="@color/tab_bg_color"

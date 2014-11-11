@@ -7,7 +7,7 @@
     <color name="white">#FFFFFF</color>
     <!-- 白色 -->
     <color name="transparent">#00000000</color>
-    <color name="halftransparent">#70000000</color>
+    <color name="halftransparent">#40000000</color>
     <color name="helptransparent">#99000000</color>
     <color name="moretransparent">#19000000</color>
 

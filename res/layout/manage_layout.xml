@@ -9,12 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_margin="50px"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="25dp"
         android:cacheColorHint="@color/transparent"
-        android:horizontalSpacing="50px"
+        android:horizontalSpacing="30px"
         android:listSelector="@color/transparent"
         android:numColumns="3"
-        android:verticalSpacing="50px" >
+        android:verticalSpacing="30px" >
     </GridView>
 
 </RelativeLayout>

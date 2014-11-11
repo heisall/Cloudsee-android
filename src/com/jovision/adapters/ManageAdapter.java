@@ -102,40 +102,22 @@ public class ManageAdapter extends BaseAdapter {
 
 		int w = screenWidth / 3;
 		int h = w - 70;
-		if (position != 6) {
+		if (position != 7) {
 			RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
 					w, h);
 			channelHolder.manageBG.setLayoutParams(rllp);
 			channelHolder.function.setText(fuctionArray[position]);
 			channelHolder.img.setBackgroundResource(manageBgArray[position]);
-			int resID = manageResArray[position % 7];
+			int resID = manageResArray[position % 6];
 			channelHolder.manageBG.setBackgroundResource(resID);
 		}
-		channelHolder.manageBG.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				mfragment.onNotify(Consts.MANAGE_ITEM_CLICK, position,
-						devIndex, device);
-			}
-		});
-
-		channelHolder.function.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				mfragment.onNotify(Consts.MANAGE_ITEM_CLICK, position,
-						devIndex, device);
-			}
-		});
-
 		// 本地登陆
 		if (loacal) {
-			if (6 == position || 5 == position) {
+			if (5 == position || 6 == position || 7 == position) {
 				convertView.setVisibility(View.GONE);
 			}
 		} else {
-			if (6 == position) {
+			if (7 == position) {
 				if (2 == device.getDeviceType()) {
 					convertView.setVisibility(View.VISIBLE);
 					if (JVDeviceConst.DEVICE_SWITCH_OPEN == device
@@ -154,6 +136,23 @@ public class ManageAdapter extends BaseAdapter {
 			}
 		}
 
+		channelHolder.manageBG.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				mfragment.onNotify(Consts.MANAGE_ITEM_CLICK, position,
+						devIndex, device);
+			}
+		});
+
+		channelHolder.function.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				mfragment.onNotify(Consts.MANAGE_ITEM_CLICK, position,
+						devIndex, device);
+			}
+		});
 		return convertView;
 	}
 

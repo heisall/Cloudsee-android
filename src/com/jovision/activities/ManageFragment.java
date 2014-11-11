@@ -201,15 +201,11 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 1: {// 设备管理
-				mActivity.createDialog("");
-				CheckUpdateTask task = new CheckUpdateTask();
-				String[] params = new String[3];
-				task.execute(params);
-				// devType = 0;
-				// Intent deviceIntent = new Intent(mActivity,
-				// JVDeviceManageActivity.class);
-				// deviceIntent.putExtra("deviceIndex", deviceIndex);
-				// startActivity(deviceIntent);
+				devType = 0;
+				Intent deviceIntent = new Intent(mActivity,
+						JVDeviceManageActivity.class);
+				deviceIntent.putExtra("deviceIndex", deviceIndex);
+				startActivity(deviceIntent);
 				break;
 			}
 			case 2: {// 连接模式
@@ -275,11 +271,20 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 
-			case 6: {// 安全防护开关
+			case 6: {// 一键升级
+				mActivity.createDialog("");
+				CheckUpdateTask task = new CheckUpdateTask();
+				String[] params = new String[3];
+				task.execute(params);
+				break;
+			}
+
+			case 7: {// 安全防护开关
 				mActivity.createDialog("");
 				AlarmSwitchTask task = new AlarmSwitchTask();
 				String[] params = new String[3];
 				task.execute(params);
+				break;
 			}
 			}
 			break;

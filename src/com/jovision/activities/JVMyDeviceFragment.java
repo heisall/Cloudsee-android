@@ -479,6 +479,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 			myDeviceList = CacheUtil.getDevList();
 			refreshList();
 		}
+
+		MyLog.v("DEV---4", CacheUtil.getDevList().toString());
 	}
 
 	/**

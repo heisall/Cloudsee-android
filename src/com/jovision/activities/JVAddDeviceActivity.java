@@ -300,9 +300,13 @@ public class JVAddDeviceActivity extends BaseActivity {
 						Thread.sleep(1000);
 					}
 					deviceList.add(0, addDevice);
+					if (!localFlag) {
+						DeviceUtil.refreshDeviceState(
+								statusHashMap.get(Consts.KEY_USERNAME),
+								deviceList);
+					}
+					CacheUtil.saveDevList(deviceList);
 
-					DeviceUtil.refreshDeviceState(
-							statusHashMap.get(Consts.KEY_USERNAME), deviceList);
 				}
 
 			} catch (Exception e) {
@@ -324,7 +328,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 				showTextToast(R.string.add_device_succ);
 				// Intent intent = new Intent();
 				// setResult(ADD_DEV_SUCCESS, intent);
-				CacheUtil.saveDevList(deviceList);
+
 				JVAddDeviceActivity.this.finish();
 
 			} else {

@@ -79,8 +79,8 @@ public class Device {
 	private ArrayList<ThirdAlarmDev> thirdDevList = null; // 第三方报警设备
 
 	/** 一键升级用的字段 */
-	private String deviceModel; // 设备型号
-	private String deviceVerName; // 设备软件版本
+	private String deviceModel = ""; // 设备型号
+	private String deviceVerName = ""; // 设备软件版本
 	private int deviceVerNum = 0; // 设备软件版本号
 
 	private boolean isCard = false;// 是否是板卡

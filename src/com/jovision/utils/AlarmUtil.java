@@ -330,12 +330,23 @@ public class AlarmUtil {
 										// pi.alarmLevel = obj
 										// .optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);//
 										// 2014.03.08报警级别：1级最高
-										pi.timestamp = obj
-												.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
-										pi.alarmTime = getStrTime(pi.timestamp);
+//										pi.timestamp = obj
+//												.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
+//										pi.alarmTime = getStrTime(pi.timestamp);
 										// String timeS = obj
 										// .optString(JVAlarmConst.JK_ALARM_NEW_ALARM_ATS);
-
+										String strTempTime = "";
+										strTempTime = obj.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME_STR);
+										if(!strTempTime.equals("")){
+											//有限取这个字段的时间，格式：yyyyMMddhhmmss
+											pi.timestamp = "";
+											pi.alarmTime = AlarmUtil.formatStrTime(strTempTime);	
+										}
+										else{
+											pi.timestamp = obj
+													.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
+											pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);								
+										}
 										pi.deviceName = obj
 												.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 										pi.pic = obj
@@ -527,4 +538,24 @@ public class AlarmUtil {
 		return re_StrTime;
 
 	}
+	
+	// 将字符串格式为yyyyMMddhhmmss转换为yyyy-MM-dd HH:mm:ss
+	public static String formatStrTime(String dstTimeStr) {
+		String re_StrTime = null;
+
+		String strYear = dstTimeStr.substring(0, 3);
+		String strMonth = dstTimeStr.substring(4, 5);
+		String strDay = dstTimeStr.substring(6, 7);
+		String strHour = dstTimeStr.substring(8, 9);
+		String strMin = dstTimeStr.substring(10, 11);
+		String strSecond = dstTimeStr.substring(12, 13);
+		
+		StringBuffer sbResBuffer = new  StringBuffer(strYear);
+		sbResBuffer.append("-").append(strMonth).append("-").append(strDay).append(" ").append(strHour)
+		.append(":").append(strMin).append(":").append(strSecond);
+		
+		re_StrTime = sbResBuffer.toString();
+		return re_StrTime;
+
+	}	
 }

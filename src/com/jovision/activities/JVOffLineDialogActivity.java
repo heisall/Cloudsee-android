@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -351,8 +350,9 @@ public class JVOffLineDialogActivity extends BaseActivity {
 				JVLoginActivity.class);
 		Intent intent = new Intent();
 		String userName = statusHashMap.get(Consts.KEY_USERNAME);
-		Log.i("TAG", userName + "aaaaaaaaaa");
+		String passWord = statusHashMap.get(Consts.KEY_PASSWORD);
 		intent.putExtra("UserName", userName);
+		intent.putExtra("PassWord", passWord);
 		if (!localFlag) {
 			MySharedPreference.putString(Consts.DEVICE_LIST, "");
 		}

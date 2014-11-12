@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -380,6 +381,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 						learningDialog.dismiss();
 					}
 					if (obj != null) {
+						Log.e("Alarm", "绑定设备结果:"+obj.toString());
 						String addStr = respObject.optString("msg");
 						String addStrArray[] = addStr.split(";");
 						ThirdAlarmDev addAlarm = new ThirdAlarmDev();

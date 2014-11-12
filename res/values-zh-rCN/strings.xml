@@ -233,9 +233,10 @@
     <string name="str_data_load_failed1">设备加载失败</string>
     <string name="str_update_at">更新于:</string>
     <string name="str_scanning_device">正在扫描设备\n请耐心等待…</string>
-    <string name="str_continue_qr_device">继续</string>
+    <string name="str_continue_qr_device">重新扫描</string>
     <string name="str_return_qr_device">返回</string>
     <!-- 更新dialog -->
+    <string name="str_ignore">不再提示此版本更新</string>
     <string name="str_hasupate">应用程序有新版本更新</string>
     <string name="str_upatenow">立即更新</string>
     <string name="str_updatelater">以后再说</string>

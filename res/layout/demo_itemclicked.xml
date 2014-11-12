@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="15dp"
             android:text=""
             android:textColor="@color/more_fragment_color"
             android:textSize="16sp" />
@@ -25,35 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:text=""
-            android:textColor="@color/more_fragment_color"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:id="@+id/item_pictrue_clicked"
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/pictrue_one" />
-
-        <TextView
-            android:id="@+id/item_address_clicked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:text=""
-            android:textColor="@color/more_fragment_color"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/item_time_clicked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="15dp"
             android:text=""
             android:textColor="@color/more_fragment_color"
             android:textSize="14sp" />
@@ -62,35 +34,10 @@
     <ImageView
         android:id="@+id/item_pictrue_clicked"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/pictrue_one" />
-
-    <TextView
-        android:id="@+id/item_address_clicked"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
-        android:text=""
-        android:textColor="@color/more_fragment_color"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/item_time_clicked"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="5dp"
-        android:text=""
-        android:textColor="@color/more_fragment_color"
-        android:textSize="14sp" />
-
-    <ImageView
-        android:id="@+id/item_pictrue_clicked"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:background="@drawable/pictrue_one" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/demopictrue1" />
 
 </LinearLayout>

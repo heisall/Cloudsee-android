@@ -56,39 +56,26 @@ public class DemoListAdapter extends BaseAdapter {
 						.findViewById(R.id.item_address);
 				deviceHolder.demopictrue = (ImageView) convertView
 						.findViewById(R.id.item_pictrue);
-				deviceHolder.democlass = (TextView) convertView
-						.findViewById(R.id.item_class);
 				deviceHolder.demodevicename = (TextView) convertView
 						.findViewById(R.id.item_devicename);
-				deviceHolder.demotime = (TextView) convertView
-						.findViewById(R.id.item_time);
 				convertView.setTag(deviceHolder);
 			} else {
 				convertView = inflater.inflate(R.layout.demo_itemclicked, null);
 				deviceHolder = new DeviceHolder();
 				deviceHolder.demoaddress = (TextView) convertView
-						.findViewById(R.id.item_address_clicked);
+						.findViewById(R.id.item_time_clicked);
 				deviceHolder.demopictrue = (ImageView) convertView
 						.findViewById(R.id.item_pictrue_clicked);
-				deviceHolder.demotime = (TextView) convertView
-						.findViewById(R.id.item_time_clicked);
+				deviceHolder.demodevicename = (TextView) convertView
+						.findViewById(R.id.item_address_clicked);
 				convertView.setTag(deviceHolder);
 			}
 		} else {
 			deviceHolder = (DeviceHolder) convertView.getTag();
 		}
-		// if (isclicked) {
-		// deviceHolder.demoaddress.setText(deviceList.get(position)
-		// .getNickName());
-		// deviceHolder.demodevicename.setText(deviceList.get(position)
-		// .getFullNo());
-		// deviceHolder.democlass.setText(deviceList.get(position).getUser());
-		// deviceHolder.demotime.setText(deviceList.get(position).getPwd());
-		// } else {
-		// deviceHolder.demoaddress.setText(deviceList.get(position)
-		// .getNickName());
-		// deviceHolder.demotime.setText(deviceList.get(position).getFullNo());
-		// }
+
+		deviceHolder.demoaddress
+				.setText(deviceList.get(position).getNickName());
 		deviceHolder.demodevicename.setText(mContext.getResources().getString(
 				R.string.demo)
 				+ (position + 1));
@@ -96,16 +83,31 @@ public class DemoListAdapter extends BaseAdapter {
 
 		switch (position) {
 		case 0:
-			deviceHolder.demopictrue
-					.setBackgroundResource(R.drawable.pictrue_one);
+			if (isclicked) {
+				deviceHolder.demopictrue
+						.setBackgroundResource(R.drawable.pictrue_one);
+			} else {
+				deviceHolder.demopictrue
+						.setBackgroundResource(R.drawable.demopictrue1);
+			}
 			break;
 		case 1:
-			deviceHolder.demopictrue
-					.setBackgroundResource(R.drawable.pictrue_two);
+			if (isclicked) {
+				deviceHolder.demopictrue
+						.setBackgroundResource(R.drawable.pictrue_two);
+			} else {
+				deviceHolder.demopictrue
+						.setBackgroundResource(R.drawable.demopictrue2);
+			}
 			break;
 		case 2:
-			deviceHolder.demopictrue
-					.setBackgroundResource(R.drawable.pictrue_three);
+			if (isclicked) {
+				deviceHolder.demopictrue
+						.setBackgroundResource(R.drawable.pictrue_three);
+			} else {
+				deviceHolder.demopictrue
+						.setBackgroundResource(R.drawable.demopictrue3);
+			}
 			break;
 		default:
 			break;
@@ -117,7 +119,5 @@ public class DemoListAdapter extends BaseAdapter {
 		private ImageView demopictrue;
 		private TextView demodevicename;
 		private TextView demoaddress;
-		private TextView democlass;
-		private TextView demotime;
 	}
 }

@@ -136,6 +136,7 @@ public class JVLoginActivity extends BaseActivity {
 
 		if (null != getIntent().getStringExtra("UserName")) {
 			userNameET.setText(getIntent().getStringExtra("UserName"));
+			passwordET.setText(getIntent().getStringExtra("PassWord"));
 		} else {
 			if (null != userList && 0 != userList.size()) {
 				userNameET.setText(userList.get(0).getUserName());

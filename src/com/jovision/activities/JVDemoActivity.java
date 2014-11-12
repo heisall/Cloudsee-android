@@ -35,6 +35,7 @@ public class JVDemoActivity extends BaseActivity {
 	private ListView demoListView;
 	private ArrayList<Device> demoList = new ArrayList<Device>();
 	DemoListAdapter demoAdapter;
+	private boolean isbig;
 
 	@Override
 	protected void initSettings() {
@@ -49,7 +50,7 @@ public class JVDemoActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setText(R.string.demo);
-		rightBtn.setVisibility(View.GONE);
+		rightBtn.setOnClickListener(myOnClickListener);
 		leftBtn.setOnClickListener(myOnClickListener);
 
 		refreshableView = (RefreshableView) findViewById(R.id.demo_refreshable_view);
@@ -87,6 +88,18 @@ public class JVDemoActivity extends BaseActivity {
 			switch (v.getId()) {
 			case R.id.btn_left:
 				JVDemoActivity.this.finish();
+				break;
+			case R.id.btn_right:
+				if (!isbig) {
+					demoAdapter.setData(demoList, false);
+					demoAdapter.notifyDataSetChanged();
+					isbig = true;
+				} else {
+					demoAdapter.setData(demoList, true);
+					demoAdapter.notifyDataSetChanged();
+					isbig = false;
+				}
+				demoListView.setAdapter(demoAdapter);
 				break;
 			default:
 				break;
@@ -173,7 +186,13 @@ public class JVDemoActivity extends BaseActivity {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
 			if (0 == result) {
-				demoAdapter.setData(demoList, true);
+				if (isbig) {
+					demoAdapter.setData(demoList, false);
+					demoAdapter.notifyDataSetChanged();
+				} else {
+					demoAdapter.setData(demoList, true);
+					demoAdapter.notifyDataSetChanged();
+				}
 				demoListView.setAdapter(demoAdapter);
 			} else {
 				showTextToast(R.string.demo_get_failed);

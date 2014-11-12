@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseFragment;
+import com.jovision.activities.ManageFragment;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVDeviceConst;
 
@@ -20,6 +21,7 @@ public class ManageAdapter extends BaseAdapter {
 
 	private BaseFragment mfragment;
 	private LayoutInflater inflater;
+	private int h;
 
 	private int[] manageResArray = { R.drawable.manage_bgone,
 			R.drawable.manage_bgtwo, R.drawable.manage_bgthree,
@@ -101,7 +103,19 @@ public class ManageAdapter extends BaseAdapter {
 		}
 
 		int w = screenWidth / 3;
-		int h = w - 70;
+		h = w - 80;
+		if (ManageFragment.mScreenWidth == 480
+				|| ManageFragment.mScreenWidth == 540) {
+			h = w - 50;
+			if (position == 7) {
+				RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
+						w - 20, h - 5);
+				channelHolder.manageBG.setLayoutParams(rllp);
+			}
+		}
+		if (ManageFragment.mScreenWidth == 1080) {
+			h = w - 105;
+		}
 		if (position != 7) {
 			RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
 					w, h);

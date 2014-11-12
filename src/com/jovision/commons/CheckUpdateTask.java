@@ -65,12 +65,15 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 
 			updateLog = updateLog.replaceAll("&", "\n");
 			if (null != versionCode && !"".equals(versionCode)) {
-				if (curVersion < Integer.parseInt(versionCode)) {
-					checkRes = 1;// 有更新
-				} else {
+				if (MySharedPreference.getBoolean("IsUpdate")) {
 					checkRes = 0;// 没更新
+				} else {
+					if (curVersion < Integer.parseInt(versionCode)) {
+						checkRes = 1;// 有更新
+					} else {
+						checkRes = 0;// 没更新
+					}
 				}
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,7 +102,6 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 				((BaseActivity) mContext)
 						.showTextToast(R.string.str_already_newest);
 			}
-
 		} else {
 			if (1 == autoUpdate) {// 手动更新才提示没有更新，自动更新没有更新时不提示
 				((BaseActivity) mContext)

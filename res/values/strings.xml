@@ -238,6 +238,7 @@
     <string name="str_continue_qr_device">Continue</string>
     <string name="str_return_qr_device">Back</string>
     <!-- 更新dialog -->
+    <string name="str_ignore">不再提示此版本更新</string>
     <string name="str_hasupate">Application has a new version of the update</string>
     <string name="str_upatenow">Update Now</string>
     <string name="str_updatelater">Later</string>

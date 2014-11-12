@@ -52,6 +52,7 @@ public class ManageFragment extends BaseFragment {
 	private int deviceIndex;
 	private ArrayList<Device> deviceList;
 	private Device device;
+	public static int mScreenWidth;
 
 	private GridView manageGridView;
 	private ManageAdapter manageAdapter;
@@ -113,6 +114,18 @@ public class ManageFragment extends BaseFragment {
 		disMetrics = new DisplayMetrics();
 		mActivity.getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
 		manageGridView = (GridView) mParent.findViewById(R.id.manage_gridview);
+		mScreenWidth = mActivity.disMetrics.widthPixels;
+		manageGridView.setHorizontalSpacing(50);
+		manageGridView.setVerticalSpacing(50);
+		if (mScreenWidth == 480 || mScreenWidth == 540) {
+			manageGridView.setHorizontalSpacing(20);
+			manageGridView.setVerticalSpacing(20);
+		}
+		if (mScreenWidth == 1080) {
+			manageGridView.setHorizontalSpacing(60);
+			manageGridView.setVerticalSpacing(65);
+		}
+
 		localFlag = Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 		manageAdapter = new ManageAdapter(this);

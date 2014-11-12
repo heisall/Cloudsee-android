@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -95,12 +96,14 @@ public class JVDeviceManageFragment extends BaseFragment {
 		manageDeviceList = CacheUtil.getDevList();
 
 		mScreenWidth = mActivity.disMetrics.widthPixels;
+		Log.i("TAG", "屏幕宽度" + mScreenWidth);
 		mHorizontalScrollView = (HorizontalScrollView) mActivity
 				.findViewById(R.id.hsv_view);
 		mLinearLayout = (LinearLayout) mActivity.findViewById(R.id.hsv_content);
 		mImageView = (ImageView) mActivity.findViewById(R.id.img);
 		item_width = (int) ((mScreenWidth / 3.0 + 0.5f));
 		mImageView.getLayoutParams().width = item_width;
+
 		managePager = (ViewPager) mParent.findViewById(R.id.manage_pagerer);
 
 		/** 设备加载失败 */
@@ -148,7 +151,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 				((ManageFragment) fragments.get(position))
 						.setDevIndex(deviceIndex);
 				managePager.setCurrentItem(position);
-
 				relalist.setVisibility(View.GONE);
 				devicemanage_listView.setVisibility(View.GONE);
 				managePager.setVisibility(View.VISIBLE);

@@ -33,4 +33,5 @@
             android:contentDescription="@null"
             android:src="@drawable/picker_media_video" />
     </LinearLayout>
-</LinearLayout>
+
+</LinearLayout>

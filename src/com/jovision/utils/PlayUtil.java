@@ -1059,8 +1059,8 @@ public class PlayUtil {
 	/**
 	 * 断开视频
 	 */
-	public static void disconnectDevice() {
-		Jni.disconnect(1);
+	public static boolean disconnectDevice() {
+		return Jni.disconnect(1);
 	}
 
 	/***************** 以下为远程回放所有功能 ***************************/

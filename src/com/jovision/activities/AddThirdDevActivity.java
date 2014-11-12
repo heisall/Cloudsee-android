@@ -381,7 +381,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 						learningDialog.dismiss();
 					}
 					if (obj != null) {
-						Log.e("Alarm", "绑定设备结果:"+obj.toString());
+						Log.e("Alarm", "绑定设备结果:" + obj.toString());
 						String addStr = respObject.optString("msg");
 						String addStrArray[] = addStr.split(";");
 						ThirdAlarmDev addAlarm = new ThirdAlarmDev();

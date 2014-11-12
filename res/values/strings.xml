@@ -104,7 +104,6 @@
     <string name="str_start_record">Start recording</string>
     <string name="str_stop_record">Stop recording,video file kept in </string>
     <string name="str_wait_connect">This operation is only available when video connected</string>
-    <string name="str_wait_stop_connect">This operation is only available when video disconnected</string>
     <string name="str_forbidden_operation">Unable to use this function during remote playback.</string>
     <string name="str_not_support_remoteplay">This device is temporarily unable to operate during remote playback.</string>
     <string name="str_picture_savepath">Capture is kept in </string>
@@ -178,7 +177,6 @@
     <string name="str_offline_keeponline_failed">Failed to be online.</string>
     <string name="str_offline_keeponline">Maintain</string>
     <string name="str_userpass_error">Wrong username or password, please input again.</string>
-    <string name="str_net_error">Connection failed, please verify again.</string>
     <string name="str_initsdk_failed">Iinit error, due to network problem.</string>
     <string name="str_edit_pass">Modify</string>
     <string name="str_find_pass">Retrieve</string>
@@ -498,6 +496,8 @@
     <string name="key_update_reset">Update successfully, do you want to reboot?</string>
     <string name="update_reset_success">Reboot successfully</string>
     <string name="update_reset_failed">Failed to update, please update manually.</string>
+    <!-- Media -->
+    <string name="nofile">暂无文件</string>
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>
     <string name="str_help_one">Remote set network and stream for IP cameras.</string>

@@ -747,7 +747,7 @@ public class ConfigUtil {
 	// 获取当前系统时间
 	public static String getCurrentTime() {
 		Date now = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");// 可以方便地修改日期格式
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");// 可以方便地修改日期格式
 		String time = dateFormat.format(now);
 		return time;
 	}

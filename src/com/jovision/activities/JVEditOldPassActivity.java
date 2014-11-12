@@ -72,14 +72,14 @@ public class JVEditOldPassActivity extends BaseActivity {
 			startActivity(intent);
 			finish();
 			break;
-		case JVAccountConst.REGIST_SUCCESS_LOGIN_NET_ERROR:
-			dismissDialog();
-			showTextToast(R.string.str_net_error);
-			intent.setClass(JVEditOldPassActivity.this, JVLoginActivity.class);
-
-			startActivity(intent);
-			finish();
-			break;
+		// case JVAccountConst.REGIST_SUCCESS_LOGIN_NET_ERROR:
+		// dismissDialog();
+		// showTextToast(R.string.str_net_error);
+		// intent.setClass(JVEditOldPassActivity.this, JVLoginActivity.class);
+		//
+		// startActivity(intent);
+		// finish();
+		// break;
 		case JVAccountConst.SESSION_NOT_EXSIT:
 			dismissDialog();
 			showTextToast(R.string.str_session_not_exist);

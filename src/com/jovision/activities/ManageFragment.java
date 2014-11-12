@@ -64,6 +64,10 @@ public class ManageFragment extends BaseFragment {
 	private boolean isConnected;
 	private Message connectMsg;
 
+	/** 一键升级功能 */
+	private OneKeyUpdate updateObj;
+	private ProgressDialog updateDialog;
+
 	public ManageFragment() {
 		deviceList = new ArrayList<Device>();
 	}
@@ -508,6 +512,7 @@ public class ManageFragment extends BaseFragment {
 									mActivity.statusHashMap
 											.get(Consts.KEY_USERNAME), device
 											.getFullNo());
+							MyLog.v("DownPro", pro + "");
 							if (100 <= pro) {
 								flag = false;
 								fragHandler
@@ -519,7 +524,7 @@ public class ManageFragment extends BaseFragment {
 								time = 0;
 								fragHandler.sendMessage(fragHandler
 										.obtainMessage(DOWNLOADING_KEY_UPDATE,
-												pro));
+												pro, 0));
 								Thread.sleep(1000);
 							}
 							if (time >= 5) {
@@ -539,6 +544,7 @@ public class ManageFragment extends BaseFragment {
 			break;
 		case DOWNLOADING_KEY_UPDATE:
 			if (null != updateDialog && updateDialog.isShowing()) {
+				MyLog.e("sss", arg1 + " arg1");
 				updateDialog.setProgress(arg1);
 			}
 			break;
@@ -719,8 +725,6 @@ public class ManageFragment extends BaseFragment {
 		}
 	}
 
-	OneKeyUpdate updateObj;
-
 	// 设置三种类型参数分别为String,Integer,String
 	class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -755,7 +759,7 @@ public class ManageFragment extends BaseFragment {
 						.setMessage(updateObj.getUfdes())
 						.setCancelable(false)
 						.setPositiveButton(
-								getResources().getString(R.string.str_update),
+								getResources().getString(R.string.update),
 								new DialogInterface.OnClickListener() {
 									@Override
 									public void onClick(DialogInterface dialog,
@@ -797,8 +801,6 @@ public class ManageFragment extends BaseFragment {
 		}
 	}
 
-	private ProgressDialog updateDialog;
-
 	// 设置三种类型参数分别为String,Integer,String
 	class PushUpdateTask extends AsyncTask<String, Integer, Integer> {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -823,6 +825,7 @@ public class ManageFragment extends BaseFragment {
 			super.onCancelled();
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
@@ -889,11 +892,10 @@ public class ManageFragment extends BaseFragment {
 													.obtainMessage(DOWNLOAD_KEY_UPDATE_CANCEL));
 								} else {
 									time = 0;
-									fragHandler
-											.sendMessage(fragHandler
-													.obtainMessage(
-															DOWNLOADING_KEY_UPDATE,
-															pro));
+									fragHandler.sendMessage(fragHandler
+											.obtainMessage(
+													DOWNLOADING_KEY_UPDATE,
+													pro, 0));
 									Thread.sleep(1000);
 								}
 								if (time >= 5) {

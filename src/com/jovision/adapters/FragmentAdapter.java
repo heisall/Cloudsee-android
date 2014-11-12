@@ -78,7 +78,7 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 			});
 		}
-		if (position == 3
+		if (position == 4
 				&& "true".equalsIgnoreCase(((BaseActivity) mfragment
 						.getActivity()).statusHashMap
 						.get(Consts.NEUTRAL_VERSION))) {
@@ -86,7 +86,7 @@ public class FragmentAdapter extends BaseAdapter {
 			more_item.setVisibility(View.GONE);
 			divider_img.setVisibility(View.GONE);
 		}
-		if (position == 5) {
+		if (position == 6) {
 			item_next.setVisibility(View.GONE);
 			item_version.setVisibility(View.VISIBLE);
 			item_version

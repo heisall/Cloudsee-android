@@ -24,6 +24,8 @@ public class Consts {
 			+ File.separator + "software" + File.separator;
 	public static final String BUG_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "bugs" + File.separator;
+	public static final String HEAD_PATH = Consts.SD_CARD_PATH + APP_NAME
+			+ File.separator + "head" + File.separator;
 
 	public static final String DB_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "db" + File.separator;

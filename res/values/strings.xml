@@ -235,7 +235,7 @@
     <string name="str_data_load_failed1">Failed to load device</string>
     <string name="str_update_at">Update at:</string>
     <string name="str_scanning_device">The device is being searched\nWait a moment…</string>
-    <string name="str_continue_qr_device">Continue</string>
+    <string name="str_continue_qr_device">Re scan </string>
     <string name="str_return_qr_device">Back</string>
     <!-- 更新dialog -->
     <string name="str_ignore">不再提示此版本更新</string>

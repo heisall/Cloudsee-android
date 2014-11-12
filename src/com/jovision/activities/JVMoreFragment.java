@@ -210,6 +210,8 @@ public class JVMoreFragment extends BaseFragment {
 						case 0:
 							if (MySharedPreference.getBoolean("HELP")) {
 								MySharedPreference.putBoolean("HELP", false);
+								MySharedPreference.putBoolean("page1", true);
+								MySharedPreference.putBoolean("page2", true);
 							} else {
 								MySharedPreference.putBoolean("HELP", true);
 								MySharedPreference.putBoolean("page1", false);

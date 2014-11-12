@@ -47,7 +47,7 @@
                 android:text="@string/str_audio_monitor_tips"
                 android:textColor="@color/userinfocolor"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </LinearLayout>
 
         <ImageView

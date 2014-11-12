@@ -93,7 +93,7 @@
     <string name="message">系统消息</string>
     <!-- 视频播放 -->
     <string name="str_screen">分屏</string>
-    <string name="str_video_play">视频播放</string>
+    <string name="str_video_play">实时视频</string>
     <string name="str_audio_monitor">音频监听</string>
     <string name="str_audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
     <string name="str_yt_operate">云台控制</string>
@@ -105,7 +105,6 @@
     <string name="str_stop_record">停止录像,录像文件保存在</string>
     <string name="str_wait_connect">请等待视频连接成功后再执行此操作</string>
     <string name="str_forbidden_operation">该功能在远程回放时暂停使用</string>
-    <string name="str_wait_stop_connect">请等待视频断开成功后再执行此操作</string>
     <string name="str_not_support_remoteplay">该设备在远程回放时暂停使用</string>
     <string name="str_picture_savepath">抓拍截图保存在</string>
     <string name="str_capture">抓拍</string>
@@ -178,7 +177,6 @@
     <string name="str_offline_keeponline_failed">保持在线失败!</string>
     <string name="str_offline_keeponline">保持在线</string>
     <string name="str_userpass_error">用户名或密码错误,请重新输入</string>
-    <string name="str_net_error">网络连接错误，请重新验证</string>
     <string name="str_initsdk_failed">网络异常，初始化失败</string>
     <string name="str_edit_pass">修改密码</string>
     <string name="str_find_pass">忘记密码</string>
@@ -497,6 +495,8 @@
     <string name="key_update_reset">设备版本更新成功，是否重启设备？</string>
     <string name="update_reset_success">重启设备</string>
     <string name="update_reset_failed">设备升级失败，请手动重启.</string>
+    <!-- Media -->
+    <string name="nofile">暂无文件</string>
     <!-- Help -->
     <string name="str_help_zero">展开多种方式添加设备</string>
     <string name="str_help_one">远程配置IPC设备的网络和码流</string>

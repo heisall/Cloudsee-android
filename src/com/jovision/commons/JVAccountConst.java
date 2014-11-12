@@ -64,7 +64,7 @@ public class JVAccountConst {
 	/** 注册成功登陆失败 */
 	public static final int REGIST_SUCCESS_LOGIN_FAILED = 211;
 	/** 注册成功网络错误 */
-	public static final int REGIST_SUCCESS_LOGIN_NET_ERROR = 212;
+	// public static final int REGIST_SUCCESS_LOGIN_NET_ERROR = 212;
 	/** 更新数据库中的用户名 */
 	public static final int LOGIN_USER_REFRESH = 213;
 	/** （回调）提退 */

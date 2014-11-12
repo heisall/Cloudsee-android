@@ -29,6 +29,7 @@ public class JVAlarmConst {
 	public static final String JK_ALARM_NEW_CLOUDCHN = "dcn";
 	public static final String JK_ALARM_NEW_ALARMTYPE = "atype";
 	public static final String JK_ALARM_NEW_ALARMTIME = "ats";
+	public static final String JK_ALARM_NEW_ALARMTIME_STR = "atss";
 	public static final String JK_ALARM_NEW_PICURL = "apic";
 	public static final String JK_ALARM_NEW_VIDEOURL = "avd";
 	public static final String JK_ALARM_NEW_MID = "mid";

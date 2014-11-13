@@ -126,7 +126,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 	private int wifiIndex = -1;
 
-	// private boolean disConnected = false;
+	private boolean disConnected = false;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -229,7 +229,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			case JVNetConst.SERVICE_STOP:
 				break;
 			case Consts.BAD_NOT_CONNECT: {
-				// disConnected = true;
+				disConnected = true;
 				MyLog.e(TAG, "线程断开成功");
 				handler.sendMessage(handler
 						.obtainMessage(what, arg1, arg2, obj));
@@ -1211,18 +1211,21 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	}
 
 	public void back() {
-		createDialog("");
-		proDialog.setCancelable(false);
-		PlayUtil.disconnectDevice();
-		// while(!disConnected){
-		// try {
-		// Thread.sleep(500);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// dismissDialog();
-		// JVRemoteSettingActivity.this.finish();
+		if (PlayUtil.disconnectDevice()) {
+			createDialog("");
+			if (null != proDialog) {
+				proDialog.setCancelable(false);
+			}
+			while (!disConnected) {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			dismissDialog();
+		}
+		JVRemoteSettingActivity.this.finish();
 	}
 
 }

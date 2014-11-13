@@ -1891,15 +1891,18 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	}
 
 	public void disConnectVideo() {
-		createDialog("");
-		PlayUtil.disconnectDevice();
-		while (!disConnected) {
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+
+		if (PlayUtil.disconnectDevice()) {
+			createDialog("");
+			while (!disConnected) {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
+			dismissDialog();
 		}
-		dismissDialog();
+
 	}
 }

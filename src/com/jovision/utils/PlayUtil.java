@@ -65,12 +65,12 @@ public class PlayUtil {
 	 * 抓拍
 	 */
 	public static boolean capture(int index) {
+		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentTime()
+				+ File.separator;
 		String fileName = String.valueOf(System.currentTimeMillis()) + ".png";
-		// SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		// + dateFormat.format(time) + File.separator;
-		MobileUtil.createDirectory(new File(Consts.CAPTURE_PATH));
-		MyLog.v(TAG, "capture=" + Consts.CAPTURE_PATH + fileName);
-		return Jni.screenshot(index, Consts.CAPTURE_PATH + fileName, 100);
+		MobileUtil.createDirectory(new File(capturePath));
+		MyLog.v(TAG, "capture=" + capturePath + fileName);
+		return Jni.screenshot(index, capturePath + fileName, 100);
 	}
 
 	// /**
@@ -315,11 +315,13 @@ public class PlayUtil {
 	 * @return
 	 */
 	public static boolean startVideoTape(int index) {
+		String videoPath = Consts.VIDEO_PATH + ConfigUtil.getCurrentTime()
+				+ File.separator;
 		String fileName = String.valueOf(System.currentTimeMillis()) + ".mp4";
-		MobileUtil.createDirectory(new File(Consts.VIDEO_PATH));
+		MobileUtil.createDirectory(new File(videoPath));
 
-		boolean startSuccess = Jni.startRecord(index, Consts.VIDEO_PATH
-				+ fileName, true, true);
+		boolean startSuccess = Jni.startRecord(index, videoPath + fileName,
+				true, true);
 		return startSuccess;
 	}
 
@@ -1057,8 +1059,8 @@ public class PlayUtil {
 	/**
 	 * 断开视频
 	 */
-	public static void disconnectDevice() {
-		Jni.disconnect(1);
+	public static boolean disconnectDevice() {
+		return Jni.disconnect(1);
 	}
 
 	/***************** 以下为远程回放所有功能 ***************************/

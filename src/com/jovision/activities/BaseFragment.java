@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.lang.reflect.Field;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -64,6 +65,12 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override

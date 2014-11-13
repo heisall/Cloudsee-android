@@ -127,4 +127,9 @@
         <!-- 模糊 -->
     </style>
 
+    <style name="popupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/in</item>
+        <item name="android:windowExitAnimation">@anim/out</item>
+    </style>
+
 </resources>

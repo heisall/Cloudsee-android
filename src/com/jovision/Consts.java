@@ -24,6 +24,8 @@ public class Consts {
 			+ File.separator + "software" + File.separator;
 	public static final String BUG_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "bugs" + File.separator;
+	public static final String HEAD_PATH = Consts.SD_CARD_PATH + APP_NAME
+			+ File.separator + "head" + File.separator;
 
 	public static final String DB_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "db" + File.separator;
@@ -323,4 +325,23 @@ public class Consts {
 	public static final int RC_GPIN_DEL = 0x13; // 外设报警查询
 	public static final int RC_GPIN_SET_SWITCH = 0x14; // 外设报警设置开关(只内部使用)
 	public static final int ONLY_CONNECT_INDEX = 0; // 仅供报警相关连接云视通的window index
+
+	public static final String EXT_THUMBNAIL_STORE_DIR = ".JVSThumbs";
+
+	/**
+	 * 缩略图保存位置
+	 */
+	public static final String EXT_THUMBNAIL_STORE_PATH = Environment
+			.getExternalStorageDirectory().getAbsolutePath()
+			+ File.separator
+			+ APP_NAME
+			+ File.separator
+			+ EXT_THUMBNAIL_STORE_DIR
+			+ File.separator;
+
+	/**
+	 * 图片缩略图大小（4:3长方形）
+	 */
+	public static final int THUMBNAIL_WIDTH = 160;
+	public static final int THUMBNAIL_HEIGHT = 120;
 }

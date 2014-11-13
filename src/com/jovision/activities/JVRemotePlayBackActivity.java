@@ -78,13 +78,13 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				showTextToast(Consts.CAPTURE_PATH);
 				break;
 			case Consts.BAD_SCREENSHOT_INIT:
-				showTextToast(R.string.str_capture_error1);
+				showTextToast(R.string.str_capture_error);
 				break;
 			case Consts.BAD_SCREENSHOT_CONV:
-				showTextToast(R.string.str_capture_error2);
+				showTextToast(R.string.str_capture_error);
 				break;
 			case Consts.BAD_SCREENSHOT_OPEN:
-				showTextToast(R.string.str_capture_error3);
+				showTextToast(R.string.str_capture_error);
 				break;
 			default:
 				break;

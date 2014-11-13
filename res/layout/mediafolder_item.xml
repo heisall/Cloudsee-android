@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/foldername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/halftransparent"
+        android:padding="5dp"
+        android:text="2014-11-12"
+        android:textSize="18sp" />
+
+    <com.jovision.views.MyGridView
+        android:id="@+id/filegridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:horizontalSpacing="5dp"
+        android:listSelector="@color/transparent"
+        android:numColumns="3"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:verticalSpacing="-20dp" />
+
+</LinearLayout>

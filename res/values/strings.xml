@@ -56,7 +56,6 @@
     <string name="login_str_user_email">Email</string>
     <string name="login_str_user_login">Login</string>
     <string name="login_str_user_regist">Register</string>
-    <string name="login_str_showpoint">Demo</string>
     <string name="login_str_back">Back</string>
     <string name="login_str_add">Add</string>
     <string name="more_nologin">Operate after login.</string>
@@ -65,12 +64,10 @@
     <string name="more_modifypwd">Change Password</string>
     <string name="more_findpassword">Retrieve Password</string>
     <string name="more_cancel">Log Out</string>
-    <string name="dialog_modifypwd">Failed to verify indentification, do you need to modify username and password?</string>
     <!-- JVWelcomeActivity -->
     <string name="cloud1">CloudSEE</string>
     <string name="cloud2">Vision to world</string>
     <!-- JVLoginActivity -->
-    <string name="login_demo">Demo</string>
     <!-- JVMoreFrament -->
     <string name="location_login">Visitor</string>
     <!-- leftMenu -->
@@ -86,8 +83,6 @@
     <string name="more_featrue">More</string>
     <string name="channal_list">Channel List</string>
     <string name="channalmanager">Channel Management</string>
-    <string name="demo_list">Demo List</string>
-    <string name="demo">Demo</string>
     <string name="video_list">Video List</string>
     <string name="video_manager">Video Management</string>
     <string name="message">System Message</string>
@@ -104,7 +99,6 @@
     <string name="str_start_record">Start recording</string>
     <string name="str_stop_record">Stop recording,video file kept in </string>
     <string name="str_wait_connect">This operation is only available when video connected</string>
-    <string name="str_wait_stop_connect">This operation is only available when video disconnected</string>
     <string name="str_forbidden_operation">Unable to use this function during remote playback.</string>
     <string name="str_not_support_remoteplay">This device is temporarily unable to operate during remote playback.</string>
     <string name="str_picture_savepath">Capture is kept in </string>
@@ -152,10 +146,6 @@
     <string name="str_read_agree">Read and agree  </string>
     <string name="str_agreement"> User agreement</string>
     <string name="login_str_agreement_tips">Before registering, please read carefully and agree the clauses and privacy policy.</string>
-    <string name="timedOut">Timed out</string>
-    <string name="closed">Closed</string>
-    <string name="has_connected">Connect timeout.</string>
-    <string name="overflow">max count</string>
     <string name="str_out_memery">Your mobile phone is not insert SDCard, temporarily unable to use this feature</string>
     <string name="str_sdcard_notenough">Your mobile phone card memory space is insufficient</string>
     <string name="str_finish">Save</string>
@@ -178,7 +168,6 @@
     <string name="str_offline_keeponline_failed">Failed to be online.</string>
     <string name="str_offline_keeponline">Maintain</string>
     <string name="str_userpass_error">Wrong username or password, please input again.</string>
-    <string name="str_net_error">Connection failed, please verify again.</string>
     <string name="str_initsdk_failed">Iinit error, due to network problem.</string>
     <string name="str_edit_pass">Modify</string>
     <string name="str_find_pass">Retrieve</string>
@@ -247,7 +236,6 @@
     <string name="str_change_focus">Focus</string>
     <string name="str_exiting_now">Disconnecting now Please wait…</string>
     <string name="str_no_response_data">Network connection exception,please login again.</string>
-    <string name="str_change_video_type">Switch video standard,Records re-packed.</string>
     <!-- 设备管理 -->
     <string name="str_quick_setting_nextstep">Next</string>
     <string name="str_quick_setting_neterror">Connect timeout, please check network.</string>
@@ -349,6 +337,7 @@
     <string name="edit_failed">Failed to change.</string>
     <string name="edit_succ">Password changed successfully, please login again.</string>
     <!-- JVDemoActivity -->
+    <string name="demo">Demo</string>
     <string name="demo_get_failed">Unable to connect with demo.</string>
     <!-- JVTab -->
     <string name="sure_exit">Press again to quit the App.</string>
@@ -417,6 +406,8 @@
     <string name="connfailed_auth_tips">Failed to verify indentification, do you need to modify username and password?</string>
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting…</string>
+    <string name="closed">Closed</string>
+    <string name="overflow">max count</string>
     <string name="connecting_buffer1">Buffering now</string>
     <string name="connecting_buffer2">Buffering now…</string>
     <string name="is_omx">Hardware</string>
@@ -430,9 +421,7 @@
     <string name="default_stream">Stream</string>
     <string name="has_calling">The Two-way Talk has not been enabled or is being used by other user, so please try again later.</string>
     <string name="not_support_voicecall">This device doesn\'t support voice intercom function.</string>
-    <string name="str_capture_error1">Initialization failed</string>
-    <string name="str_capture_error2">Picture conversion failed</string>
-    <string name="str_capture_error3">Files open failed</string>
+    <string name="str_capture_error">Initialization failed</string>
     <!-- JVQuickSet -->
     <!-- ap配置流程模块 -->
     <string name="quick_setting_searching">Searching nearby devices now</string>
@@ -488,6 +477,9 @@
     <string name="protect_close_succ">Disable Security Protection Successfully.</string>
     <string name="protect_close_fail">Failed to disable Security Protection.</string>
     <string name="device_offline">This operation is unavailable since the device is offline now.</string>
+    <string name="device_model">Model</string>
+    <string name="device_version">Version</string>
+    <string name="device_version_info">版本信息</string>
     <string name="one_key_update">One-key to update</string>
     <string name="check_key_update_failed">Latest version now, no need to update.</string>
     <string name="check_key_update_error">Failed to update, please update again.</string>
@@ -498,6 +490,11 @@
     <string name="key_update_reset">Update successfully, do you want to reboot?</string>
     <string name="update_reset_success">Reboot successfully</string>
     <string name="update_reset_failed">Failed to update, please update manually.</string>
+    <!-- Media -->
+    <string name="nofile">暂无文件</string>
+    <string name="media">媒体</string>
+    <string name="media_image">图像</string>
+    <string name="media_video">录像</string>
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>
     <string name="str_help_one">Remote set network and stream for IP cameras.</string>

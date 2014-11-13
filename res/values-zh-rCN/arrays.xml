@@ -11,9 +11,10 @@
 
     <!-- more feature func -->
     <string-array name="array_more">
-        <item> 帮助界面</item>
+        <item> 帮助</item>
         <item> 报警</item>
         <item> 观看模式(单设备)</item>
+        <item>媒体</item>
         <item> 意见反馈</item>
         <item> 检查更新</item>
         <item> 关于</item>
@@ -22,6 +23,7 @@
         <item> 帮助界面</item>
         <item> 报警信息</item>
         <item> 观看模式(多设备)</item>
+        <item>媒体</item>
         <item> 意见反馈</item>
         <item> 检查更新</item>
         <item> 关于</item>
@@ -121,7 +123,7 @@
         <item>通道管理</item>
         <item>立即观看</item>
         <item>报警管理</item>
-        <item>一键升级</item>
+        <item>版本信息</item>
         <item>安全防护</item>
     </string-array>
 

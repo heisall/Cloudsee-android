@@ -1,18 +1,30 @@
 package com.jovision.activities;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.test.JVACCOUNT;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,8 +41,10 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ListViewUtil;
+import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
 import com.jovision.views.AlarmDialog;
+import com.jovision.views.popw;
 
 /**
  * 更多
@@ -64,6 +78,7 @@ public class JVMoreFragment extends BaseFragment {
 	private int[] Image = { R.drawable.morefragment_help_icon,
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon,
+			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -71,6 +86,19 @@ public class JVMoreFragment extends BaseFragment {
 	private String[] fragment_name;
 
 	public static boolean localFlag = false;// 本地登陆标志位
+
+	private popw popupWindow; // 声明PopupWindow对象；
+	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
+	private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
+	private static final int PHOTO_REQUEST_CUT = 3;// 结果
+	// 存放头像的文件夹
+	File file;
+	// 旧头像文件
+	File tempFile;
+	// 新头像文件
+	File newFile;
+	// popupWindow滑出布局
+	private LinearLayout linear;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -132,6 +160,10 @@ public class JVMoreFragment extends BaseFragment {
 					.get(Consts.KEY_USERNAME);
 		}
 		initDatalist();
+		file = new File(Consts.HEAD_PATH);
+		MobileUtil.createDirectory(file);
+		tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
+		newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
 		more_modifypwd = (TextView) view.findViewById(R.id.more_modifypwd);
 		more_cancle = (RelativeLayout) view.findViewById(R.id.more_cancle);
 		more_modify = (TextView) view.findViewById(R.id.more_modify);
@@ -139,7 +171,7 @@ public class JVMoreFragment extends BaseFragment {
 				.findViewById(R.id.more_findpassword);
 		more_username = (TextView) view.findViewById(R.id.more_uesrname);
 		more_lasttime = (TextView) view.findViewById(R.id.more_lasttime);
-
+		linear = (LinearLayout) view.findViewById(R.id.lin);
 		more_head = (ImageView) view.findViewById(R.id.more_head_img);
 
 		more_listView = (ListView) view.findViewById(R.id.more_listView);
@@ -151,10 +183,21 @@ public class JVMoreFragment extends BaseFragment {
 		more_modifypwd.setOnClickListener(myOnClickListener);
 		more_cancle.setBackgroundResource(R.drawable.blue_bg);
 		more_username.setText(more_name);
+		more_head.setOnClickListener(myOnClickListener);
 		more_cancle.setOnClickListener(myOnClickListener);
 		more_modify.setOnClickListener(myOnClickListener);
 		more_findpassword.setOnClickListener(myOnClickListener);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if (tempFile.exists()) {
+			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
+					+ more_name + ".jpg");
+			more_head.setImageBitmap(bitmap);
+		}
 	}
 
 	private void initDatalist() {
@@ -172,6 +215,35 @@ public class JVMoreFragment extends BaseFragment {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
+			case R.id.more_head_img:
+				popupWindow = new popw(mActivity, myOnClickListener);
+				popupWindow.setBackgroundDrawable(null);
+				if (popupWindow.isShowing()) {
+					popupWindow.dismiss();
+				} else {
+					popupWindow.showAtLocation(linear, Gravity.BOTTOM
+							| Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+				}
+				break;
+			case R.id.btn_pick_photo: {
+				popupWindow.dismiss();
+				Intent intent = new Intent(Intent.ACTION_PICK, null);
+				intent.setDataAndType(
+						MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+				startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+				break;
+			}
+			case R.id.btn_take_photo:
+				// 调用系统的拍照功能
+				popupWindow.dismiss();
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				// 指定调用相机拍照后照片的储存路径
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+				startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
+				break;
+			case R.id.btn_cancel:
+				popupWindow.dismiss();
+				break;
 			case R.id.more_cancle:// 注销
 				LogOutTask task = new LogOutTask();
 				String[] strParams = new String[3];
@@ -199,6 +271,74 @@ public class JVMoreFragment extends BaseFragment {
 		}
 	};
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case PHOTO_REQUEST_TAKEPHOTO:
+			startPhotoZoom(Uri.fromFile(newFile), 300);
+			break;
+
+		case PHOTO_REQUEST_GALLERY:
+			if (data != null)
+				startPhotoZoom(data.getData(), 300);
+			break;
+
+		case PHOTO_REQUEST_CUT:
+			if (data != null)
+				setPicToView(data);
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	private void startPhotoZoom(Uri uri, int size) {
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		// crop为true是设置在开启的intent中设置显示的view可以剪裁
+		intent.putExtra("crop", "true");
+
+		// aspectX aspectY 是宽高的比例
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+
+		// outputX,outputY 是剪裁图片的宽高
+		intent.putExtra("outputX", size);
+		intent.putExtra("outputY", size);
+		intent.putExtra("return-data", true);
+		startActivityForResult(intent, PHOTO_REQUEST_CUT);
+	}
+
+	// 将进行剪裁后的图片显示到UI界面上
+	private void setPicToView(Intent picdata) {
+		Bundle bundle = picdata.getExtras();
+		if (bundle != null) {
+			Bitmap photo = bundle.getParcelable("data");
+			saveBitmap(photo);
+			Drawable drawable = new BitmapDrawable(photo);
+			more_head.setBackground(drawable);
+		}
+	}
+
+	public void saveBitmap(Bitmap bm) {
+		File f = new File(Consts.HEAD_PATH + more_name + ".jpg");
+		if (f.exists()) {
+			f.delete();
+		}
+		try {
+			FileOutputStream out = new FileOutputStream(f);
+			bm.compress(Bitmap.CompressFormat.PNG, 90, out);
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	private void listViewClick() {
 		more_listView
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -222,7 +362,7 @@ public class JVMoreFragment extends BaseFragment {
 							AlarmTask task = new AlarmTask();
 							Integer[] params = new Integer[3];
 							if (!MySharedPreference.getBoolean("AlarmSwitch")) {// 1是关
-																				// 0是开
+								// 0是开
 								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
 							} else {
 								params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
@@ -248,19 +388,24 @@ public class JVMoreFragment extends BaseFragment {
 																R.string.str_video_more_modetwo));
 							}
 							break;
-						case 3:
+						case 3:// 媒体
+							Intent intentMedia = new Intent(mActivity,
+									JVMediaActivity.class);
+							mActivity.startActivity(intentMedia);
+							break;
+						case 4:
 							Intent intent = new Intent(mActivity,
 									NewFeedbackActivity.class);
 							startActivity(intent);
 							break;
-						case 4:
+						case 5:
 							CheckUpdateTask taskf = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];
 							strParams[0] = "1";// 1,手动检查更新
 							taskf.execute(strParams);
 							break;
-						case 5:
+						case 6:
 
 							break;
 

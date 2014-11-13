@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="38"
-    android:versionName="V4.0.0" >
+    android:versionName="V4.1.0" >
 
     <supports-screens
         android:anyDensity="true"
@@ -72,6 +72,27 @@
         </activity>
         <activity
             android:name="com.jovision.activities.TestActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.jovision.activities.JVDeviceUpdateActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.jovision.activities.JVMediaActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.jovision.activities.JVMediaListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"
             android:screenOrientation="portrait"

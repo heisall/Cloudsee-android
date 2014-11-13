@@ -535,7 +535,6 @@ public class JVLoginActivity extends BaseActivity {
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}

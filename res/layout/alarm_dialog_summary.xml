@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:gravity="center"
-                android:text="A3615"
+                android:text="设备昵称最多八个"
                 android:textColor="@color/dialognamecolor"
                 android:textSize="18sp" />
         </LinearLayout>

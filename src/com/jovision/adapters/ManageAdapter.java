@@ -31,7 +31,8 @@ public class ManageAdapter extends BaseAdapter {
 			R.drawable.videoedit_devicemanager_icon,
 			R.drawable.videoedit_connectmode_icon,
 			R.drawable.videoedit_channal_icon, R.drawable.videoedit_see_icon,
-			R.drawable.videoedit_add_icon, R.drawable.protect_close };
+			R.drawable.videoedit_add_icon, R.drawable.dev_update,
+			R.drawable.protect_close };
 
 	private String[] fuctionArray;
 
@@ -116,38 +117,37 @@ public class ManageAdapter extends BaseAdapter {
 		if (ManageFragment.mScreenWidth == 1080) {
 			h = w - 105;
 		}
-		if (position != 7) {
-			RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
-					w, h);
-			channelHolder.manageBG.setLayoutParams(rllp);
-			channelHolder.function.setText(fuctionArray[position]);
-			channelHolder.img.setBackgroundResource(manageBgArray[position]);
-			int resID = manageResArray[position % 6];
-			channelHolder.manageBG.setBackgroundResource(resID);
-		}
+		RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(w, h);
+		channelHolder.manageBG.setLayoutParams(rllp);
+		channelHolder.function.setText(fuctionArray[position]);
+		channelHolder.img.setBackgroundResource(manageBgArray[position]);
+		int resID = manageResArray[position % 6];
+		channelHolder.manageBG.setBackgroundResource(resID);
 		// 本地登陆
 		if (loacal) {
 			if (5 == position || 6 == position || 7 == position) {
 				convertView.setVisibility(View.GONE);
 			}
 		} else {
-			if (7 == position) {
+			if (6 == position || 7 == position) {
 				if (2 == device.getDeviceType()) {
 					convertView.setVisibility(View.VISIBLE);
-					if (JVDeviceConst.DEVICE_SWITCH_OPEN == device
-							.getAlarmSwitch()) {
-						channelHolder.img
-								.setBackgroundResource(R.drawable.protect_open);
-					} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
-							.getAlarmSwitch()) {
-						channelHolder.img
-								.setBackgroundResource(R.drawable.protect_close);
+					if (7 == position) {
+						if (JVDeviceConst.DEVICE_SWITCH_OPEN == device
+								.getAlarmSwitch()) {
+							channelHolder.img
+									.setBackgroundResource(R.drawable.protect_open);
+						} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
+								.getAlarmSwitch()) {
+							channelHolder.img
+									.setBackgroundResource(R.drawable.protect_close);
+						}
 					}
 				} else {
 					convertView.setVisibility(View.GONE);
 				}
-
 			}
+
 		}
 
 		channelHolder.manageBG.setOnClickListener(new OnClickListener() {

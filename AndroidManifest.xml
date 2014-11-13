@@ -384,7 +384,13 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" >
         </activity>
-
+        <activity
+            android:name="com.jovision.activities.NewFeedbackActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
         <service
             android:name="com.jovision.CoreService"
             android:enabled="true" >

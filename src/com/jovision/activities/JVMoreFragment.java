@@ -395,7 +395,7 @@ public class JVMoreFragment extends BaseFragment {
 							break;
 						case 4:
 							Intent intent = new Intent(mActivity,
-									JVFeedbackActivity.class);
+									NewFeedbackActivity.class);
 							startActivity(intent);
 							break;
 						case 5:

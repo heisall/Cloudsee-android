@@ -38,7 +38,7 @@ import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.UserUtil;
-import com.umeng.analytics.MobclickAgent;
+import com.tencent.stat.StatService;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class JVLoginActivity extends BaseActivity {
@@ -118,7 +118,6 @@ public class JVLoginActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.login_layout);
-
 		userList = UserUtil.getUserList();
 		/** userlogin Fuction */
 		userNameET = (EditText) findViewById(R.id.username_et);
@@ -534,13 +533,12 @@ public class JVLoginActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		MobclickAgent.onResume(this);
+		StatService.trackBeginPage(this, "Login");
 	}
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
-		MobclickAgent.onPause(this);
+		StatService.trackEndPage(this, "Login");
 	}
 }

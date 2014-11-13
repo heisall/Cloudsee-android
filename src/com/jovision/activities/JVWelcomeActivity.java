@@ -14,7 +14,10 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ImportOldData;
 import com.jovision.utils.UserUtil;
-import com.umeng.analytics.MobclickAgent;
+import com.tencent.stat.MtaSDkException;
+import com.tencent.stat.StatConfig;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatConstants;
 
 public class JVWelcomeActivity extends BaseActivity {
 
@@ -84,6 +87,21 @@ public class JVWelcomeActivity extends BaseActivity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.welcome_layout);
+
+		StatConfig.setDebugEnable(true);
+
+		String appkey = "A8IA5GMIL13M";
+		try {
+			StatService.startStatService(JVWelcomeActivity.this, appkey,
+					StatConstants.VERSION);
+		} catch (MtaSDkException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		StatService.trackCustomEvent(JVWelcomeActivity.this, "onCreate",
+				"login");
+
 		welcome_img = (ImageView) findViewById(R.id.welcome_img);
 		if (!ConfigUtil.isLanZH()) {
 			welcome_img.setBackgroundResource(R.drawable.welcome_imgen_icon);
@@ -206,13 +224,13 @@ public class JVWelcomeActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		MobclickAgent.onResume(this);
+		StatService.onResume(this);
 	}
 
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		MobclickAgent.onPause(this);
+		StatService.onPause(this);
 	}
 }

@@ -1,11 +1,15 @@
 package com.jovision.activities;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -37,6 +41,7 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ListViewUtil;
+import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
 import com.jovision.views.AlarmDialog;
 import com.jovision.views.popw;
@@ -86,8 +91,13 @@ public class JVMoreFragment extends BaseFragment {
 	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
 	private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
 	private static final int PHOTO_REQUEST_CUT = 3;// 结果
-	// 创建一个以当前时间为名称的文件
+	// 存放头像的文件夹
+	File file;
+	// 旧头像文件
 	File tempFile;
+	// 新头像文件
+	File newFile;
+	// popupWindow滑出布局
 	private LinearLayout linear;
 
 	@Override
@@ -150,8 +160,10 @@ public class JVMoreFragment extends BaseFragment {
 					.get(Consts.KEY_USERNAME);
 		}
 		initDatalist();
-		tempFile = new File(Consts.HEAD_PATH, more_name + ".jpg");
-
+		file = new File(Consts.HEAD_PATH);
+		MobileUtil.createDirectory(file);
+		tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
+		newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
 		more_modifypwd = (TextView) view.findViewById(R.id.more_modifypwd);
 		more_cancle = (RelativeLayout) view.findViewById(R.id.more_cancle);
 		more_modify = (TextView) view.findViewById(R.id.more_modify);
@@ -175,7 +187,17 @@ public class JVMoreFragment extends BaseFragment {
 		more_cancle.setOnClickListener(myOnClickListener);
 		more_modify.setOnClickListener(myOnClickListener);
 		more_findpassword.setOnClickListener(myOnClickListener);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if (tempFile.exists()) {
+			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
+					+ more_name + ".jpg");
+			more_head.setImageBitmap(bitmap);
+		}
 	}
 
 	private void initDatalist() {
@@ -216,7 +238,7 @@ public class JVMoreFragment extends BaseFragment {
 				popupWindow.dismiss();
 				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 				// 指定调用相机拍照后照片的储存路径
-				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
 				startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
 				break;
 			case R.id.btn_cancel:
@@ -253,7 +275,7 @@ public class JVMoreFragment extends BaseFragment {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case PHOTO_REQUEST_TAKEPHOTO:
-			startPhotoZoom(Uri.fromFile(tempFile), 300);
+			startPhotoZoom(Uri.fromFile(newFile), 300);
 			break;
 
 		case PHOTO_REQUEST_GALLERY:
@@ -267,7 +289,6 @@ public class JVMoreFragment extends BaseFragment {
 			break;
 		}
 		super.onActivityResult(requestCode, resultCode, data);
-
 	}
 
 	private void startPhotoZoom(Uri uri, int size) {
@@ -284,7 +305,6 @@ public class JVMoreFragment extends BaseFragment {
 		intent.putExtra("outputX", size);
 		intent.putExtra("outputY", size);
 		intent.putExtra("return-data", true);
-
 		startActivityForResult(intent, PHOTO_REQUEST_CUT);
 	}
 
@@ -293,9 +313,30 @@ public class JVMoreFragment extends BaseFragment {
 		Bundle bundle = picdata.getExtras();
 		if (bundle != null) {
 			Bitmap photo = bundle.getParcelable("data");
+			saveBitmap(photo);
 			Drawable drawable = new BitmapDrawable(photo);
 			more_head.setBackground(drawable);
 		}
+	}
+
+	public void saveBitmap(Bitmap bm) {
+		File f = new File(Consts.HEAD_PATH + more_name + ".jpg");
+		if (f.exists()) {
+			f.delete();
+		}
+		try {
+			FileOutputStream out = new FileOutputStream(f);
+			bm.compress(Bitmap.CompressFormat.PNG, 90, out);
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	private void listViewClick() {

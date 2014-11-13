@@ -7,7 +7,6 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -25,7 +24,6 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.ManageAdapter;
 import com.jovision.bean.Device;
-import com.jovision.bean.OneKeyUpdate;
 import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
@@ -38,13 +36,6 @@ import com.jovision.views.AlarmDialog;
 public class ManageFragment extends BaseFragment {
 
 	private String TAG = "ManageFragment";
-	private static final int DOWNLOAD_KEY_UPDATE_SUCCESS = 0x80;
-	private static final int DOWNLOAD_KEY_UPDATE_CANCEL = 0x81;
-	private static final int DOWNLOADING_KEY_UPDATE = 0x82;
-	private static final int DOWNLOAD_KEY_UPDATE_ERROR = 0x83;
-	private static final int RESTART_DEVICE_SUCCESS = 0x84;
-	private static final int RESTART_DEVICE_FAILED = 0x85;
-	private static final int WRITE_KEY_UPDATE_SUCCESS = 0x86;
 
 	DisplayMetrics disMetrics;
 
@@ -63,10 +54,6 @@ public class ManageFragment extends BaseFragment {
 	int devType = 0;
 	private boolean isConnected;
 	private Message connectMsg;
-
-	/** 一键升级功能 */
-	private OneKeyUpdate updateObj;
-	private ProgressDialog updateDialog;
 
 	public ManageFragment() {
 		deviceList = new ArrayList<Device>();
@@ -289,10 +276,11 @@ public class ManageFragment extends BaseFragment {
 			}
 
 			case 6: {// 一键升级
-				mActivity.createDialog("");
-				CheckUpdateTask task = new CheckUpdateTask();
-				String[] params = new String[3];
-				task.execute(params);
+				Intent deviceIntent = new Intent(mActivity,
+						JVDeviceUpdateActivity.class);
+				deviceIntent.putExtra("deviceIndex", deviceIndex);
+				startActivity(deviceIntent);
+
 				break;
 			}
 
@@ -486,143 +474,7 @@ public class ManageFragment extends BaseFragment {
 						"onHandler mActivity is null ,so dont show the alarm dialog");
 			}
 			break;
-		case DOWNLOAD_KEY_UPDATE_SUCCESS:
-			if (null != updateDialog && updateDialog.isShowing()) {
-				updateDialog.dismiss();
-				updateDialog = null;
-			}
-			updateDialog = null;
-			if (updateDialog == null) {
-				updateDialog = new ProgressDialog(mActivity);
-				updateDialog.setCancelable(false);
-				updateDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-				updateDialog.setTitle(getResources().getString(
-						R.string.writing_update));
-				updateDialog.setIndeterminate(false);
-				updateDialog.setMax(100);
-			}
-			updateDialog.show();
-			new Thread() {
-				public void run() {
-					try {
-						boolean flag = true;
-						int time = 0;
-						while (flag) {
-							int pro = DeviceUtil.getUpdateProgress(
-									mActivity.statusHashMap
-											.get(Consts.KEY_USERNAME), device
-											.getFullNo());
-							MyLog.v("DownPro", pro + "");
-							if (100 <= pro) {
-								flag = false;
-								fragHandler
-										.sendMessage(fragHandler
-												.obtainMessage(WRITE_KEY_UPDATE_SUCCESS));
-							} else if (-1 == pro) {
-								time++;
-							} else {
-								time = 0;
-								fragHandler.sendMessage(fragHandler
-										.obtainMessage(DOWNLOADING_KEY_UPDATE,
-												pro, 0));
-								Thread.sleep(1000);
-							}
-							if (time >= 5) {
-								flag = false;
-								fragHandler
-										.sendMessage(fragHandler
-												.obtainMessage(DOWNLOAD_KEY_UPDATE_ERROR));
-							}
-						}
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-						fragHandler.sendMessage(fragHandler
-								.obtainMessage(DOWNLOAD_KEY_UPDATE_ERROR));
-					}
-				}
-			}.start();
-			break;
-		case DOWNLOADING_KEY_UPDATE:
-			if (null != updateDialog && updateDialog.isShowing()) {
-				MyLog.e("sss", arg1 + " arg1");
-				updateDialog.setProgress(arg1);
-			}
-			break;
-		case DOWNLOAD_KEY_UPDATE_ERROR:
-			if (null != updateDialog && updateDialog.isShowing()) {
-				updateDialog.dismiss();
-			}
-			mActivity.showTextToast(R.string.check_key_update_error);
-			break;
 
-		case RESTART_DEVICE_SUCCESS:
-			device.setDeviceVerName(updateObj.getUfver());
-			// version.setText(device.deviceVersion);
-			mActivity.showTextToast(R.string.update_reset_success);
-			break;
-		case DOWNLOAD_KEY_UPDATE_CANCEL:
-			if (null != updateDialog && updateDialog.isShowing()) {
-				updateDialog.dismiss();
-			}
-			break;
-		case RESTART_DEVICE_FAILED:
-			mActivity.showTextToast(R.string.update_reset_failed);
-			break;
-		case WRITE_KEY_UPDATE_SUCCESS:
-			if (null != updateDialog && updateDialog.isShowing()) {
-				updateDialog.dismiss();
-				updateDialog = null;
-			}
-			AlertDialog ads = new AlertDialog.Builder(mActivity)
-					.setTitle(R.string.key_update_reset)
-					.setCancelable(false)
-					.setPositiveButton(getResources().getString(R.string.sure),
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									new Thread() {
-										public void run() {
-											DeviceUtil.cancelUpdate(
-													mActivity.statusHashMap
-															.get(Consts.KEY_USERNAME),
-													device.getFullNo());
-											if (0 == DeviceUtil.pushRestart(
-													mActivity.statusHashMap
-															.get(Consts.KEY_USERNAME),
-													device.getFullNo())) {
-												fragHandler
-														.sendMessage(fragHandler
-																.obtainMessage(RESTART_DEVICE_SUCCESS));
-											} else {
-												fragHandler
-														.sendMessage(fragHandler
-																.obtainMessage(RESTART_DEVICE_FAILED));
-											}
-										};
-									}.start();
-									dialog.dismiss();
-								}
-							})
-					.setNegativeButton(
-							getResources().getString(R.string.str_crash_cancel),
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									new Thread() {
-										public void run() {
-											DeviceUtil.cancelUpdate(
-													mActivity.statusHashMap
-															.get(Consts.KEY_USERNAME),
-													device.getFullNo());
-										};
-									}.start();
-									dialog.dismiss();
-								}
-							}).create();
-			ads.show();
-			break;
 		default:
 			break;
 		}
@@ -722,211 +574,6 @@ public class ManageFragment extends BaseFragment {
 		protected void onProgressUpdate(Integer... values) {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 
-		}
-	}
-
-	// 设置三种类型参数分别为String,Integer,String
-	class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
-		// 可变长的输入参数，与AsyncTask.exucute()对应
-		@Override
-		protected Integer doInBackground(String... params) {
-			int updateRes = -1;// 0成功， 14失败，其他出错
-			try {
-				updateObj = DeviceUtil.checkUpdate(
-						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
-						device.getDeviceType(), device.getDeviceVerNum(),
-						device.getDeviceVerName());
-				updateRes = updateObj.getResultCode();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			return updateRes;
-		}
-
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			mActivity.dismissDialog();
-			if (0 == result) {
-				AlertDialog ad = new AlertDialog.Builder(mActivity)
-						.setTitle(R.string.key_update_title)
-						.setMessage(updateObj.getUfdes())
-						.setCancelable(false)
-						.setPositiveButton(
-								getResources().getString(R.string.update),
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										PushUpdateTask task = new PushUpdateTask();
-										String[] params = new String[3];
-										task.execute(params);
-										mActivity.createDialog("");
-										dialog.dismiss();
-									}
-								})
-						.setNegativeButton(
-								getResources().getString(R.string.cancel),
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										dialog.dismiss();
-									}
-								}).create();
-				ad.show();
-			} else if (14 == result) {
-				mActivity.showTextToast(R.string.check_key_update_failed);
-			} else {
-				mActivity.showTextToast(R.string.check_key_update_error);
-			}
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			mActivity.createDialog("");
-		}
-
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
-
-		}
-	}
-
-	// 设置三种类型参数分别为String,Integer,String
-	class PushUpdateTask extends AsyncTask<String, Integer, Integer> {
-		// 可变长的输入参数，与AsyncTask.exucute()对应
-		@Override
-		protected Integer doInBackground(String... params) {
-			int pushRes = -1;// 0成功 1失败
-			try {
-				DeviceUtil.cancelUpdate(
-						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
-						device.getFullNo());
-				pushRes = DeviceUtil.pushUpdateCommand(
-						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
-						device.getFullNo(), updateObj);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return pushRes;
-		}
-
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-		}
-
-		@SuppressWarnings("deprecation")
-		@Override
-		protected void onPostExecute(Integer result) {
-			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			mActivity.dismissDialog();
-			if (0 == result) {
-				updateDialog = null;
-				if (updateDialog == null) {
-					updateDialog = new ProgressDialog(mActivity);
-					updateDialog.setCancelable(false);
-					updateDialog
-							.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-					updateDialog.setTitle(getResources().getString(
-							R.string.downloading_update));
-					updateDialog.setIndeterminate(false);
-					updateDialog.setMax(100);
-					updateDialog
-							.setButton(
-									getResources().getString(
-											R.string.str_crash_cancel),
-									new DialogInterface.OnClickListener() {
-										@Override
-										public void onClick(
-												DialogInterface dialog,
-												int which) {
-											new Thread() {
-												@Override
-												public void run() {
-													DeviceUtil
-															.cancelUpdate(
-																	mActivity.statusHashMap
-																			.get(Consts.KEY_USERNAME),
-																	device.getFullNo());
-												}
-											}.start();
-											dialog.dismiss();
-										}
-									});
-				}
-				updateDialog.show();
-				new Thread() {
-					public void run() {
-						try {
-							boolean flag = true;
-							int time = 0;
-							int pro2 = 0;
-							while (flag) {
-								int pro = DeviceUtil.getDownloadProgress(
-										mActivity.statusHashMap
-												.get(Consts.KEY_USERNAME),
-										device.getFullNo());
-								MyLog.v("sss", pro + " pro");
-								if (100 <= pro) {
-									flag = false;
-									fragHandler
-											.sendMessage(fragHandler
-													.obtainMessage(DOWNLOAD_KEY_UPDATE_SUCCESS));
-								} else if (-1 == pro && 0 == pro && pro2 == pro) {
-									time++;
-									Thread.sleep(1000);
-								} else if (pro2 > pro) {
-									flag = false;
-									fragHandler
-											.sendMessage(fragHandler
-													.obtainMessage(DOWNLOAD_KEY_UPDATE_CANCEL));
-								} else {
-									time = 0;
-									fragHandler.sendMessage(fragHandler
-											.obtainMessage(
-													DOWNLOADING_KEY_UPDATE,
-													pro, 0));
-									Thread.sleep(1000);
-								}
-								if (time >= 5) {
-									flag = false;
-									fragHandler
-											.sendMessage(fragHandler
-													.obtainMessage(DOWNLOAD_KEY_UPDATE_ERROR));
-								}
-								pro2 = pro;
-							}
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-							fragHandler.sendMessage(fragHandler
-									.obtainMessage(DOWNLOAD_KEY_UPDATE_ERROR));
-						}
-					}
-				}.start();
-			} else {
-				mActivity.showTextToast(R.string.check_key_update_error);
-			}
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			mActivity.createDialog("");
-		}
-
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
 

@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <ImageView
         android:id="@+id/fileimage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:src="@drawable/device_default_img_bg" />
+
+    <ImageView
+        android:id="@+id/playimg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/play_l" />
 
     <TextView
         android:id="@+id/filename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/fileimage"
+        android:layout_centerHorizontal="true"
         android:text="20141111"
+        android:textColor="@color/white"
         android:textSize="10sp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </RelativeLayout>

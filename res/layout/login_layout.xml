@@ -184,7 +184,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/login_demo_bg"
             android:paddingTop="10dp"
-            android:text="@string/login_demo"
+            android:text="@string/demo"
             android:textColor="@color/white"
             android:textSize="18sp" />
     </RelativeLayout>

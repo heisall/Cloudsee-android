@@ -496,7 +496,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			if (recoding) {
-				showTextToast(R.string.video_repaked);
+				// showTextToast(R.string.video_repaked);
 				PlayUtil.videoRecord(lastClickIndex);
 			}
 
@@ -520,13 +520,13 @@ public class JVPlayActivity extends PlayActivity implements
 				showTextToast(Consts.CAPTURE_PATH);
 				break;
 			case Consts.BAD_SCREENSHOT_INIT:
-				showTextToast(R.string.str_capture_error1);
+				showTextToast(R.string.str_capture_error);
 				break;
 			case Consts.BAD_SCREENSHOT_CONV:
-				showTextToast(R.string.str_capture_error2);
+				showTextToast(R.string.str_capture_error);
 				break;
 			case Consts.BAD_SCREENSHOT_OPEN:
-				showTextToast(R.string.str_capture_error3);
+				showTextToast(R.string.str_capture_error);
 				break;
 			default:
 				break;
@@ -583,7 +583,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			case ARG2_STATUS_HAS_CONNECTED:
 				// [Neo] TODO has connected
-				loadingState(arg1, R.string.has_connected,
+				loadingState(arg1, R.string.connfailed_timeout,
 						JVConst.PLAY_DIS_CONNECTTED);
 				break;
 
@@ -939,7 +939,7 @@ public class JVPlayActivity extends PlayActivity implements
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage(
 					JVPlayActivity.this.getResources().getString(
-							R.string.dialog_modifypwd))
+							R.string.connfailed_auth_tips))
 					.setCancelable(false)
 					.setPositiveButton(
 							JVPlayActivity.this.getResources().getString(

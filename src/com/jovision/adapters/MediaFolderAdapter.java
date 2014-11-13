@@ -19,6 +19,7 @@ public class MediaFolderAdapter extends BaseAdapter {
 	public Context mContext = null;
 	public LayoutInflater inflater;
 	private String media;// 区分图片还是视频
+	private boolean loadImg = true;
 
 	public MediaFolderAdapter(Context con) {
 		mContext = con;
@@ -26,9 +27,13 @@ public class MediaFolderAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public void setData(String tag, ArrayList<File> list) {
-		folderList = list;
-		media = tag;
+	public void setData(String media, ArrayList<File> folderList) {
+		this.folderList = folderList;
+		this.media = media;
+	}
+
+	public void setLoadImage(boolean load) {
+		loadImg = load;
 	}
 
 	@Override
@@ -62,7 +67,8 @@ public class MediaFolderAdapter extends BaseAdapter {
 		}
 		folderHolder.folderName.setText(folderList.get(position).getName());
 		MediaAdapter mediaAdaper = new MediaAdapter(mContext);
-		mediaAdaper.setData(media, folderList.get(position).listFiles());
+		mediaAdaper.setData(media, folderList.get(position).listFiles(),
+				loadImg);
 		folderHolder.fileGridView.setAdapter(mediaAdaper);
 		return convertView;
 	}

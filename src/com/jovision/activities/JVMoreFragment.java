@@ -78,7 +78,7 @@ public class JVMoreFragment extends BaseFragment {
 	private int[] Image = { R.drawable.morefragment_help_icon,
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon,
-			R.drawable.morefragment_update_icon,
+			R.drawable.morefragment_media_icon,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -273,7 +273,6 @@ public class JVMoreFragment extends BaseFragment {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		switch (requestCode) {
 		case PHOTO_REQUEST_TAKEPHOTO:
 			startPhotoZoom(Uri.fromFile(newFile), 300);
@@ -389,12 +388,14 @@ public class JVMoreFragment extends BaseFragment {
 																R.string.str_video_more_modetwo));
 							}
 							break;
-						case 3:
-
+						case 3:// 媒体
+							Intent intentMedia = new Intent(mActivity,
+									JVMediaActivity.class);
+							mActivity.startActivity(intentMedia);
 							break;
 						case 4:
 							Intent intent = new Intent(mActivity,
-									JVFeedbackActivity.class);
+									NewFeedbackActivity.class);
 							startActivity(intent);
 							break;
 						case 5:

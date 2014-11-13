@@ -41,7 +41,7 @@ public class JVMediaActivity extends BaseActivity {
 		/** topBar **/
 		back = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText(R.string.str_find_pass);
+		currentMenu.setText(R.string.media);
 		back.setOnClickListener(myOnClickListener);
 		rigButton = (Button) findViewById(R.id.btn_right);
 		rigButton.setVisibility(View.GONE);

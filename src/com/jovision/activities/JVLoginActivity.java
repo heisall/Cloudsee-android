@@ -260,10 +260,6 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case R.id.findpass_tv: {
-				// Intent intentMedia = new Intent(JVLoginActivity.this,
-				// JVMediaActivity.class);
-				// JVLoginActivity.this.startActivity(intentMedia);
-
 				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
 					alertNetDialog();
 				} else {

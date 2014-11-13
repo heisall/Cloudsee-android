@@ -24,7 +24,7 @@
         android:fastScrollEnabled="false"
         android:horizontalSpacing="5dp"
         android:listSelector="@color/transparent"
-        android:numColumns="4"
+        android:numColumns="3"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:verticalSpacing="-20dp" />

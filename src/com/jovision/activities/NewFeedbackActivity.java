@@ -7,7 +7,10 @@ import com.jovision.commons.MyLog;
 import android.test.JVACCOUNT;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.webkit.WebSettings.RenderPriority;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -52,6 +55,18 @@ public class NewFeedbackActivity extends BaseActivity {
 
 		localFlag = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 
+		myWebView.getSettings().setJavaScriptEnabled(true);
+		myWebView.setWebChromeClient(new WebChromeClient());
+		myWebView.requestFocus(View.FOCUS_DOWN);
+		// 加快加载速度
+		myWebView.getSettings().setRenderPriority(RenderPriority.HIGH);
+		myWebView.setWebViewClient(new WebViewClient() {
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				view.loadUrl(url);
+				return false;
+			}
+		});
 		if (localFlag) {
 			myWebView
 					.loadUrl("http://192.168.4.234/member.php?mod=mobile&session=0&username=jv_guest");
@@ -104,4 +119,8 @@ public class NewFeedbackActivity extends BaseActivity {
 
 	}
 
+	@Override
+	public void onBackPressed() {
+		this.finish();
+	}
 }

@@ -40,23 +40,37 @@
                 android:textSize="12sp"
                 android:visibility="gone" />
 
-            <SeekBar
-                android:id="@+id/playback_seekback"
-                android:layout_width="fill_parent"
+            <LinearLayout
+                android:id="@+id/playbackbar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/remotesurfaceview"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:paddingBottom="0dip"
-                android:paddingLeft="3dip"
-                android:paddingRight="3dip"
-                android:paddingTop="0dip"
-                android:progressDrawable="@drawable/seekbar_bg_selector"
-                android:thumb="@drawable/seekbar_thumb"
-                android:thumbOffset="0dp"
-                android:visibility="gone" />
+                android:background="@color/halftransparent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <Button
+                    android:id="@+id/playbackpause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/video_stop_icon" />
+
+                <SeekBar
+                    android:id="@+id/playback_seekback"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:paddingBottom="0dip"
+                    android:paddingLeft="3dip"
+                    android:paddingRight="3dip"
+                    android:paddingTop="0dip"
+                    android:progressDrawable="@drawable/seekbar_bg_selector"
+                    android:thumb="@drawable/seekbar_thumb"
+                    android:thumbOffset="0dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/playstate"

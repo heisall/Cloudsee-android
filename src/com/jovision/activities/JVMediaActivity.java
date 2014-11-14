@@ -1,13 +1,18 @@
 package com.jovision.activities;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.adapters.MediaSelectorAdapter;
 
 public class JVMediaActivity extends BaseActivity {
 
@@ -16,8 +21,9 @@ public class JVMediaActivity extends BaseActivity {
 	private TextView currentMenu;// 当前页面名称
 	private Button rigButton;
 
-	ImageButton imageBtn;
-	ImageButton videoBtn;
+	private ListView mediaListView;
+	private MediaSelectorAdapter msAdapter;
+	private ArrayList<String> mediaList = new ArrayList<String>();
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -31,12 +37,17 @@ public class JVMediaActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-
+		if (null == mediaList) {
+			mediaList = new ArrayList<String>();
+		}
+		mediaList.clear();
+		mediaList.add(getResources().getString(R.string.media_image));
+		mediaList.add(getResources().getString(R.string.media_video));
 	}
 
 	@Override
 	protected void initUi() {
-		setContentView(R.layout.media_layout);
+		setContentView(R.layout.mediaselector_layout);
 
 		/** topBar **/
 		back = (Button) findViewById(R.id.btn_left);
@@ -46,11 +57,11 @@ public class JVMediaActivity extends BaseActivity {
 		rigButton = (Button) findViewById(R.id.btn_right);
 		rigButton.setVisibility(View.GONE);
 
-		imageBtn = (ImageButton) findViewById(R.id.images);
-		videoBtn = (ImageButton) findViewById(R.id.videos);
-
-		imageBtn.setOnClickListener(myOnClickListener);
-		videoBtn.setOnClickListener(myOnClickListener);
+		mediaListView = (ListView) findViewById(R.id.medialistview);
+		msAdapter = new MediaSelectorAdapter(JVMediaActivity.this);
+		msAdapter.setData(mediaList);
+		mediaListView.setAdapter(msAdapter);
+		mediaListView.setOnItemClickListener(mOnItemClickListener);
 	}
 
 	OnClickListener myOnClickListener = new OnClickListener() {
@@ -63,24 +74,30 @@ public class JVMediaActivity extends BaseActivity {
 				JVMediaActivity.this.finish();
 				break;
 			}
-			case R.id.images: {
-				Intent mediaListIntent = new Intent();
-				mediaListIntent.setClass(JVMediaActivity.this,
-						JVMediaListActivity.class);
-				mediaListIntent.putExtra("Media", "image");
-				JVMediaActivity.this.startActivity(mediaListIntent);
-				break;
 			}
-			case R.id.videos: {
-				Intent mediaListIntent = new Intent();
-				mediaListIntent.setClass(JVMediaActivity.this,
-						JVMediaListActivity.class);
-				mediaListIntent.putExtra("Media", "video");
-				JVMediaActivity.this.startActivity(mediaListIntent);
-				break;
-			}
-			}
+		}
 
+	};
+
+	OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			Intent mediaListIntent = new Intent();
+			mediaListIntent.setClass(JVMediaActivity.this,
+					JVMediaListActivity.class);
+			switch (arg2) {
+			case 0: {
+				mediaListIntent.putExtra("Media", "image");
+				break;
+			}
+			case 1: {
+				mediaListIntent.putExtra("Media", "video");
+				break;
+			}
+			}
+			JVMediaActivity.this.startActivity(mediaListIntent);
 		}
 
 	};

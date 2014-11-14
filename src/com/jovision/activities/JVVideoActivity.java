@@ -6,7 +6,6 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.MediaController;
@@ -21,15 +20,7 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 	private boolean isLocal;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-		setContentView(R.layout.video_layout);
-		initViews();
+	protected void initSettings() {
 		Intent intent = getIntent();
 		if (null != intent) {
 			url = intent.getStringExtra("URL");
@@ -40,7 +31,15 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 			this.finish();
 			return;
 		}
+	}
 
+	@Override
+	protected void initUi() {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.video_layout);
+		mVideoView = (VideoView) this.findViewById(R.id.videoView);
 		mVideoView.setOnErrorListener(this);
 		mVideoView.setOnCompletionListener(this);
 		mVideoView.setOnPreparedListener(this);
@@ -56,10 +55,6 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 
 		mVideoView.requestFocus();
 		mVideoView.start();
-	}
-
-	private void initViews() {
-		mVideoView = (VideoView) this.findViewById(R.id.videoView);
 	}
 
 	@Override
@@ -118,43 +113,26 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 
 	@Override
 	public void onPrepared(MediaPlayer mp) {
-		// TODO Auto-generated method stub
 		dismissDialog();
 	}
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void initSettings() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void initUi() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void saveSettings() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void freeMe() {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -6,15 +6,12 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -64,7 +61,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	private ViewPager mPager;// 页卡内容
 	private List<View> listViews; // Tab页面列表
 	// private ImageView cursor;// 动画图片
-	private TextView t1, t2, t3;// 页卡头标
+	private TextView t1, t2;// 页卡头标, t3;
 	private int offset = 0;// 动画图片偏移量
 	private int currIndex = 0;// 当前页卡编号
 	private int bmpW;// 动画图片宽度
@@ -112,17 +109,17 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	private EditText wifiName;// 无线网名
 	private EditText wifiPwd;// 无线网密码
 
-	// 码流设置
-	private LinearLayout imageQualitySetting;// 图片质量
-	private LinearLayout clearSetting;// 帧率
-	private LinearLayout fluentSetting;// 码流质量
-	private TextView imageQuality;
-	private TextView imageClear;
-	private TextView imageFluent;
-
-	private int arrayIndex0;
-	private int arrayIndex1;
-	private int arrayIndex2;
+	// // 码流设置
+	// private LinearLayout imageQualitySetting;// 图片质量
+	// private LinearLayout clearSetting;// 帧率
+	// private LinearLayout fluentSetting;// 码流质量
+	// private TextView imageQuality;
+	// private TextView imageClear;
+	// private TextView imageFluent;
+	//
+	// private int arrayIndex0;
+	// private int arrayIndex1;
+	// private int arrayIndex2;
 
 	private int wifiIndex = -1;
 
@@ -168,7 +165,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 						break;
 					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
 						MyLog.i(TAG, "码流配置请求--" + obj.toString());
-						setStreamData(allStr);
+						// setStreamData(allStr);
 
 						// 值为2双码流是家庭安防产品
 						if (null != settingMap.get("MobileCH")
@@ -282,21 +279,21 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 		t1 = (TextView) findViewById(R.id.text1);
 		t2 = (TextView) findViewById(R.id.text2);
-		t3 = (TextView) findViewById(R.id.text3);
+		// t3 = (TextView) findViewById(R.id.text3);
 
 		mPager = (ViewPager) findViewById(R.id.vPager);
 		listViews = new ArrayList<View>();
 		LayoutInflater mInflater = getLayoutInflater();
 		listViews.add(mInflater.inflate(R.layout.remote_lay_1, null));
 		listViews.add(mInflater.inflate(R.layout.remote_lay_2, null));
-		listViews.add(mInflater.inflate(R.layout.remote_lay_3, null));
+		// listViews.add(mInflater.inflate(R.layout.remote_lay_3, null));
 		mPager.setAdapter(new MyPagerAdapter(listViews));
 		mPager.setOnPageChangeListener(new MyOnPageChangeListener());
 
 		tabMenuList = new ArrayList<TextView>();
 		tabMenuList.add(t1);
 		tabMenuList.add(t2);
-		tabMenuList.add(t3);
+		// tabMenuList.add(t3);
 
 		for (int i = 0; i < tabMenuList.size(); i++) {
 			tabMenuList.get(i).setOnClickListener(new MyOnClickListener(i));
@@ -438,19 +435,20 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			}
 		}
 
-		// 码流质量
-		imageQualitySetting = (LinearLayout) listViews.get(2).findViewById(
-				R.id.imagequsetting);// 图片质量
-		clearSetting = (LinearLayout) listViews.get(2).findViewById(
-				R.id.clearsetting);// 帧率
-		fluentSetting = (LinearLayout) listViews.get(2).findViewById(
-				R.id.fluentsetting);// 码流质量
-
-		imageQuality = (TextView) listViews.get(2).findViewById(
-				R.id.image_quality);
-		imageClear = (TextView) listViews.get(2).findViewById(R.id.image_clear);
-		imageFluent = (TextView) listViews.get(2).findViewById(
-				R.id.image_fluent);
+		// // 码流质量
+		// imageQualitySetting = (LinearLayout) listViews.get(2).findViewById(
+		// R.id.imagequsetting);// 图片质量
+		// clearSetting = (LinearLayout) listViews.get(2).findViewById(
+		// R.id.clearsetting);// 帧率
+		// fluentSetting = (LinearLayout) listViews.get(2).findViewById(
+		// R.id.fluentsetting);// 码流质量
+		//
+		// imageQuality = (TextView) listViews.get(2).findViewById(
+		// R.id.image_quality);
+		// imageClear = (TextView)
+		// listViews.get(2).findViewById(R.id.image_clear);
+		// imageFluent = (TextView) listViews.get(2).findViewById(
+		// R.id.image_fluent);
 
 		wifiListView.setOnRefreshListener(new OnRefreshListener() {
 			@Override
@@ -498,10 +496,9 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				getResources().getDrawable(R.drawable.tab_menu_hover));
 		tabMenuList.get(currIndex).setTextColor(Color.WHITE);
 		mPager.setCurrentItem(currIndex);
-		Log.e("tags", "-------------------------------------------------");
-		// 获取主控码流信息请求
-		Jni.sendTextData(1, JVNetConst.JVN_RSP_TEXTDATA, 8,
-				JVNetConst.JVN_STREAM_INFO);
+		// // 获取主控码流信息请求
+		// Jni.sendTextData(1, JVNetConst.JVN_RSP_TEXTDATA, 8,
+		// JVNetConst.JVN_STREAM_INFO);
 	}
 
 	// wifi列表点击事件
@@ -633,70 +630,70 @@ public class JVRemoteSettingActivity extends BaseActivity {
 							back();
 						}
 					}
-
-				} else if (2 == currIndex) { // 码流
-
-					int mobilech = 0;
-					int width = 0;
-					int height = 0;
-					String proTag = settingMap.get("MobileCH");
-
-					if ("2".equalsIgnoreCase(proTag)) {
-						mobilech = 2;
-						if (0 == arrayIndex0) {
-							width = 352;
-							height = 288;
-						} else {
-							width = 720;
-							height = 480;
-						}
-					} else {
-						if (null != settingMap.get("*CH*")) {
-							mobilech = Integer.parseInt(settingMap.get("*CH*"));
-						}
-
-						width = 352;
-						height = 288;
-					}
-					try {
-						// 还没获取到数据
-						if (imageFluent
-								.getText()
-								.toString()
-								.equalsIgnoreCase(
-										getResources().getString(
-												R.string.str_fluent))
-								|| imageClear
-										.getText()
-										.toString()
-										.equalsIgnoreCase(
-												getResources().getString(
-														R.string.str_clear))) {
-
-						} else {
-							int arg1 = Integer.parseInt(imageFluent.getText()
-									.toString());// nMBPH
-							int arg2 = Integer.parseInt(imageClear.getText()
-									.toString());// framerate
-							// Jni.setBpsAndFps(1,
-							// (byte) JVNetConst.JVN_RSP_TEXTDATA,
-							// mobilech, width, height, arg1, arg2);
-							Jni.sendString(1, JVNetConst.JVN_RSP_TEXTDATA,
-									false, 0, Consts.TYPE_SET_PARAM,
-									String.format(Consts.FORMATTER_SET_BPS_FPS,
-											mobilech, width, height, arg1,
-											arg2, 1));
-						}
-						try {
-							Thread.sleep(200);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					back();
 				}
+				// } else if (2 == currIndex) { // 码流
+				//
+				// int mobilech = 0;
+				// int width = 0;
+				// int height = 0;
+				// String proTag = settingMap.get("MobileCH");
+				//
+				// if ("2".equalsIgnoreCase(proTag)) {
+				// mobilech = 2;
+				// if (0 == arrayIndex0) {
+				// width = 352;
+				// height = 288;
+				// } else {
+				// width = 720;
+				// height = 480;
+				// }
+				// } else {
+				// if (null != settingMap.get("*CH*")) {
+				// mobilech = Integer.parseInt(settingMap.get("*CH*"));
+				// }
+				//
+				// width = 352;
+				// height = 288;
+				// }
+				// try {
+				// // 还没获取到数据
+				// if (imageFluent
+				// .getText()
+				// .toString()
+				// .equalsIgnoreCase(
+				// getResources().getString(
+				// R.string.str_fluent))
+				// || imageClear
+				// .getText()
+				// .toString()
+				// .equalsIgnoreCase(
+				// getResources().getString(
+				// R.string.str_clear))) {
+				//
+				// } else {
+				// int arg1 = Integer.parseInt(imageFluent.getText()
+				// .toString());// nMBPH
+				// int arg2 = Integer.parseInt(imageClear.getText()
+				// .toString());// framerate
+				// // Jni.setBpsAndFps(1,
+				// // (byte) JVNetConst.JVN_RSP_TEXTDATA,
+				// // mobilech, width, height, arg1, arg2);
+				// Jni.sendString(1, JVNetConst.JVN_RSP_TEXTDATA,
+				// false, 0, Consts.TYPE_SET_PARAM,
+				// String.format(Consts.FORMATTER_SET_BPS_FPS,
+				// mobilech, width, height, arg1,
+				// arg2, 1));
+				// }
+				// try {
+				// Thread.sleep(200);
+				// } catch (InterruptedException e) {
+				// e.printStackTrace();
+				// }
+				// } catch (Exception e) {
+				// e.printStackTrace();
+				// }
+				// back();
+				// }
 				break;
 			case R.id.obtainauto:// 自动获取
 				bdhcpTag = 1;// 1为自动获取
@@ -777,57 +774,57 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				wifiSecondLayout.setVisibility(View.VISIBLE);
 				wifiFirstLayout.setVisibility(View.GONE);
 				break;
-			case R.id.imagequsetting:
-				new AlertDialog.Builder(JVRemoteSettingActivity.this)
-						.setTitle(
-								getResources().getString(
-										R.string.str_image_quality))
-						.setSingleChoiceItems(array, arrayIndex0,
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int which) {
-										imageQuality.setText(array[which]);
-										arrayIndex0 = which;
-										dialog.dismiss();
-									}
-								})
-						.setNegativeButton(
-								getResources().getString(R.string.cancel), null)
-						.show();
-				break;
-			case R.id.clearsetting:
-
-				new AlertDialog.Builder(JVRemoteSettingActivity.this)
-						.setTitle(getResources().getString(R.string.str_clear))
-						.setSingleChoiceItems(array1, arrayIndex1,
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int which) {
-										imageClear.setText(array1[which]);
-										arrayIndex1 = which;
-										dialog.dismiss();
-									}
-								})
-						.setNegativeButton(
-								getResources().getString(R.string.cancel), null)
-						.show();
-				break;
-			case R.id.fluentsetting:
-				new AlertDialog.Builder(JVRemoteSettingActivity.this)
-						.setTitle(getResources().getString(R.string.str_fluent))
-						.setSingleChoiceItems(array2, arrayIndex2,
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int which) {
-										imageFluent.setText(array2[which]);
-										arrayIndex2 = which;
-										dialog.dismiss();
-									}
-								})
-						.setNegativeButton(
-								getResources().getString(R.string.cancel), null)
-						.show();
-				break;
+			// case R.id.imagequsetting:
+			// new AlertDialog.Builder(JVRemoteSettingActivity.this)
+			// .setTitle(
+			// getResources().getString(
+			// R.string.str_image_quality))
+			// .setSingleChoiceItems(array, arrayIndex0,
+			// new DialogInterface.OnClickListener() {
+			// public void onClick(DialogInterface dialog,
+			// int which) {
+			// imageQuality.setText(array[which]);
+			// arrayIndex0 = which;
+			// dialog.dismiss();
+			// }
+			// })
+			// .setNegativeButton(
+			// getResources().getString(R.string.cancel), null)
+			// .show();
+			// break;
+			// case R.id.clearsetting:
+			//
+			// new AlertDialog.Builder(JVRemoteSettingActivity.this)
+			// .setTitle(getResources().getString(R.string.str_clear))
+			// .setSingleChoiceItems(array1, arrayIndex1,
+			// new DialogInterface.OnClickListener() {
+			// public void onClick(DialogInterface dialog,
+			// int which) {
+			// imageClear.setText(array1[which]);
+			// arrayIndex1 = which;
+			// dialog.dismiss();
+			// }
+			// })
+			// .setNegativeButton(
+			// getResources().getString(R.string.cancel), null)
+			// .show();
+			// break;
+			// case R.id.fluentsetting:
+			// new AlertDialog.Builder(JVRemoteSettingActivity.this)
+			// .setTitle(getResources().getString(R.string.str_fluent))
+			// .setSingleChoiceItems(array2, arrayIndex2,
+			// new DialogInterface.OnClickListener() {
+			// public void onClick(DialogInterface dialog,
+			// int which) {
+			// imageFluent.setText(array2[which]);
+			// arrayIndex2 = which;
+			// dialog.dismiss();
+			// }
+			// })
+			// .setNegativeButton(
+			// getResources().getString(R.string.cancel), null)
+			// .show();
+			// break;
 			}
 		}
 
@@ -1039,154 +1036,154 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		goToBack();
 	}
 
-	/**
-	 * 设置码流数据
-	 * 
-	 * @param allStr
-	 */
-	public void setStreamData(String allStr) {
-		allStreamMap = ConfigUtil.genMsgMap(allStr);
-
-		if (!allStr.equalsIgnoreCase("")) {
-			String textString4 = "";
-
-			if (null != allStreamMap.get("MobileCH")
-					&& "2".equalsIgnoreCase(allStreamMap.get("MobileCH"))) {// 家用取第二码流
-				if (allStr.contains("[CH2];")) {
-					textString4 = allStr.substring(
-							allStr.lastIndexOf("[CH2];") + 6, allStr.length());
-					settingMap.put("*CH*", "2");
-				}
-			} else {// 非家用取第三码流
-				if (allStr.contains("[CH3];")) {
-					textString4 = allStr.substring(
-							allStr.lastIndexOf("[CH3];") + 6, allStr.length());
-					settingMap.put("*CH*", "3");
-				} else {
-					if (allStr.contains("[CH2];")) {
-						textString4 = allStr.substring(
-								allStr.lastIndexOf("[CH2];") + 6,
-								allStr.length());
-						settingMap.put("*CH*", "2");
-					} else {
-						textString4 = allStr.substring(
-								allStr.lastIndexOf("[CH1];") + 6,
-								allStr.length());
-						settingMap.put("*CH*", "1");
-					}
-				}
-			}
-			String[] arrayStr = textString4.split(";");
-			if (null != arrayStr) {
-				for (int i = 0; i < arrayStr.length; i++) {
-					if (arrayStr[i].contains("=")) {
-						String[] arrayStr1 = arrayStr[i].split("=");
-						if (null == settingMap) {
-							settingMap = new HashMap<String, String>();
-						}
-						if (arrayStr1.length == 1) {
-							if (!settingMap.containsKey(arrayStr1[0])) {
-								settingMap.put(arrayStr1[0], "");
-							}
-
-						} else {
-							if (!settingMap.containsKey(arrayStr1[0])) {
-								settingMap.put(arrayStr1[0], arrayStr1[1]);
-							}
-						}
-
-					}
-				}
-			}
-		}
-
-		if (null != settingMap) {
-			// 值为2双码流是家庭安防产品
-			if (null != settingMap.get("MobileCH")
-					&& "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {
-				array = getResources().getStringArray(
-						R.array.array_image_quality);
-				array1 = getResources().getStringArray(R.array.array_clear);
-				array2 = getResources().getStringArray(R.array.array_fluent);
-			} else {
-				array = getResources().getStringArray(
-						R.array.array_image_quality_not);
-				array1 = getResources().getStringArray(R.array.array_clear_not);
-				array2 = getResources()
-						.getStringArray(R.array.array_fluent_not);
-			}
-
-			// 图像质量
-			if (null != settingMap.get("MobileCH")
-					&& "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {
-				if (Integer.parseInt(settingMap.get("width")) == 720) {
-					arrayIndex0 = 1;
-					imageQuality.setText(array[arrayIndex0]);
-				} else if (Integer.parseInt(settingMap.get("width")) == 352) {
-					arrayIndex0 = 0;
-					imageQuality.setText(array[arrayIndex0]);
-				}
-			} else {
-				arrayIndex0 = 0;
-				imageQuality.setText(array[arrayIndex0]);
-			}
-
-			// 码率
-			for (int i = 0; i < array1.length; i++) {
-				if (array1[i].equalsIgnoreCase(settingMap.get("framerate"))) {
-					arrayIndex1 = i;
-					imageClear.setText(array1[arrayIndex1]);
-				}
-			}
-			if (Integer.parseInt(settingMap.get("framerate")) < Integer
-					.parseInt(array1[0])) {
-				arrayIndex1 = 0;
-				imageClear.setText(array1[arrayIndex1]);
-			} else if (Integer.parseInt(settingMap.get("framerate")) > Integer
-					.parseInt(array1[array1.length - 1])) {
-				arrayIndex1 = array1.length - 1;
-				imageClear.setText(array1[arrayIndex1]);
-			}
-			int temMBPH = Integer.parseInt(settingMap.get("nMBPH"));
-			// 码流质量
-			for (int i = 1; i < array2.length; i++) {
-				// if(array2[i].equalsIgnoreCase(settingMap.get("nMBPH"))){
-				// arrayIndex2 = i;
-				// imageFluent.setText(array2[arrayIndex2]);
-				// }
-
-				if (temMBPH >= Integer.parseInt(array2[i - 1])
-						&& temMBPH < Integer.parseInt(array2[i])) {
-					arrayIndex2 = i - 1;
-					imageFluent.setText(array2[arrayIndex2]);
-				}
-
-				// 最后一个
-				if (i == array2.length - 1
-						&& temMBPH >= Integer.parseInt(array2[i])) {
-					arrayIndex2 = array2.length - 1;
-					imageFluent.setText(array2[arrayIndex2]);
-				}
-
-			}
-
-			if (Integer.parseInt(settingMap.get("nMBPH")) < Integer
-					.parseInt(array2[0])) {
-				arrayIndex2 = 0;
-				imageFluent.setText(array2[arrayIndex2]);
-			} else if (Integer.parseInt(settingMap.get("nMBPH")) > Integer
-					.parseInt(array2[array2.length - 1])) {
-				arrayIndex2 = array2.length - 1;
-				imageFluent.setText(array2[arrayIndex2]);
-			}
-
-		}
-
-		imageQualitySetting.setOnClickListener(mOnClickListener);
-		clearSetting.setOnClickListener(mOnClickListener);
-		fluentSetting.setOnClickListener(mOnClickListener);
-
-	}
+	// /**
+	// * 设置码流数据
+	// *
+	// * @param allStr
+	// */
+	// public void setStreamData(String allStr) {
+	// allStreamMap = ConfigUtil.genMsgMap(allStr);
+	//
+	// if (!allStr.equalsIgnoreCase("")) {
+	// String textString4 = "";
+	//
+	// if (null != allStreamMap.get("MobileCH")
+	// && "2".equalsIgnoreCase(allStreamMap.get("MobileCH"))) {// 家用取第二码流
+	// if (allStr.contains("[CH2];")) {
+	// textString4 = allStr.substring(
+	// allStr.lastIndexOf("[CH2];") + 6, allStr.length());
+	// settingMap.put("*CH*", "2");
+	// }
+	// } else {// 非家用取第三码流
+	// if (allStr.contains("[CH3];")) {
+	// textString4 = allStr.substring(
+	// allStr.lastIndexOf("[CH3];") + 6, allStr.length());
+	// settingMap.put("*CH*", "3");
+	// } else {
+	// if (allStr.contains("[CH2];")) {
+	// textString4 = allStr.substring(
+	// allStr.lastIndexOf("[CH2];") + 6,
+	// allStr.length());
+	// settingMap.put("*CH*", "2");
+	// } else {
+	// textString4 = allStr.substring(
+	// allStr.lastIndexOf("[CH1];") + 6,
+	// allStr.length());
+	// settingMap.put("*CH*", "1");
+	// }
+	// }
+	// }
+	// String[] arrayStr = textString4.split(";");
+	// if (null != arrayStr) {
+	// for (int i = 0; i < arrayStr.length; i++) {
+	// if (arrayStr[i].contains("=")) {
+	// String[] arrayStr1 = arrayStr[i].split("=");
+	// if (null == settingMap) {
+	// settingMap = new HashMap<String, String>();
+	// }
+	// if (arrayStr1.length == 1) {
+	// if (!settingMap.containsKey(arrayStr1[0])) {
+	// settingMap.put(arrayStr1[0], "");
+	// }
+	//
+	// } else {
+	// if (!settingMap.containsKey(arrayStr1[0])) {
+	// settingMap.put(arrayStr1[0], arrayStr1[1]);
+	// }
+	// }
+	//
+	// }
+	// }
+	// }
+	// }
+	//
+	// if (null != settingMap) {
+	// // 值为2双码流是家庭安防产品
+	// if (null != settingMap.get("MobileCH")
+	// && "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {
+	// array = getResources().getStringArray(
+	// R.array.array_image_quality);
+	// array1 = getResources().getStringArray(R.array.array_clear);
+	// array2 = getResources().getStringArray(R.array.array_fluent);
+	// } else {
+	// array = getResources().getStringArray(
+	// R.array.array_image_quality_not);
+	// array1 = getResources().getStringArray(R.array.array_clear_not);
+	// array2 = getResources()
+	// .getStringArray(R.array.array_fluent_not);
+	// }
+	//
+	// // 图像质量
+	// if (null != settingMap.get("MobileCH")
+	// && "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {
+	// if (Integer.parseInt(settingMap.get("width")) == 720) {
+	// arrayIndex0 = 1;
+	// imageQuality.setText(array[arrayIndex0]);
+	// } else if (Integer.parseInt(settingMap.get("width")) == 352) {
+	// arrayIndex0 = 0;
+	// imageQuality.setText(array[arrayIndex0]);
+	// }
+	// } else {
+	// arrayIndex0 = 0;
+	// imageQuality.setText(array[arrayIndex0]);
+	// }
+	//
+	// // 码率
+	// for (int i = 0; i < array1.length; i++) {
+	// if (array1[i].equalsIgnoreCase(settingMap.get("framerate"))) {
+	// arrayIndex1 = i;
+	// imageClear.setText(array1[arrayIndex1]);
+	// }
+	// }
+	// if (Integer.parseInt(settingMap.get("framerate")) < Integer
+	// .parseInt(array1[0])) {
+	// arrayIndex1 = 0;
+	// imageClear.setText(array1[arrayIndex1]);
+	// } else if (Integer.parseInt(settingMap.get("framerate")) > Integer
+	// .parseInt(array1[array1.length - 1])) {
+	// arrayIndex1 = array1.length - 1;
+	// imageClear.setText(array1[arrayIndex1]);
+	// }
+	// int temMBPH = Integer.parseInt(settingMap.get("nMBPH"));
+	// // 码流质量
+	// for (int i = 1; i < array2.length; i++) {
+	// // if(array2[i].equalsIgnoreCase(settingMap.get("nMBPH"))){
+	// // arrayIndex2 = i;
+	// // imageFluent.setText(array2[arrayIndex2]);
+	// // }
+	//
+	// if (temMBPH >= Integer.parseInt(array2[i - 1])
+	// && temMBPH < Integer.parseInt(array2[i])) {
+	// arrayIndex2 = i - 1;
+	// imageFluent.setText(array2[arrayIndex2]);
+	// }
+	//
+	// // 最后一个
+	// if (i == array2.length - 1
+	// && temMBPH >= Integer.parseInt(array2[i])) {
+	// arrayIndex2 = array2.length - 1;
+	// imageFluent.setText(array2[arrayIndex2]);
+	// }
+	//
+	// }
+	//
+	// if (Integer.parseInt(settingMap.get("nMBPH")) < Integer
+	// .parseInt(array2[0])) {
+	// arrayIndex2 = 0;
+	// imageFluent.setText(array2[arrayIndex2]);
+	// } else if (Integer.parseInt(settingMap.get("nMBPH")) > Integer
+	// .parseInt(array2[array2.length - 1])) {
+	// arrayIndex2 = array2.length - 1;
+	// imageFluent.setText(array2[arrayIndex2]);
+	// }
+	//
+	// }
+	//
+	// imageQualitySetting.setOnClickListener(mOnClickListener);
+	// clearSetting.setOnClickListener(mOnClickListener);
+	// fluentSetting.setOnClickListener(mOnClickListener);
+	//
+	// }
 
 	@Override
 	protected void saveSettings() {

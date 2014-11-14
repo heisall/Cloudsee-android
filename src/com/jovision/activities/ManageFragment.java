@@ -83,6 +83,9 @@ public class ManageFragment extends BaseFragment {
 	public void setDevIndex(int index) {
 		try {
 			deviceIndex = index;
+			if (null == deviceList || 0 == deviceList.size()) {
+				deviceList = CacheUtil.getDevList();
+			}
 			device = deviceList.get(deviceIndex);
 			if (null != device && null != manageAdapter) {
 				manageAdapter.setData(disMetrics.widthPixels, deviceIndex,
@@ -276,11 +279,15 @@ public class ManageFragment extends BaseFragment {
 			}
 
 			case 6: {// 一键升级
-				Intent deviceIntent = new Intent(mActivity,
-						JVDeviceUpdateActivity.class);
-				deviceIntent.putExtra("deviceIndex", deviceIndex);
-				startActivity(deviceIntent);
-
+				if (JVDeviceConst.DEVICE_SERVER_ONLINE == device
+						.getServerState()) {
+					Intent deviceIntent = new Intent(mActivity,
+							JVDeviceUpdateActivity.class);
+					deviceIntent.putExtra("deviceIndex", deviceIndex);
+					startActivity(deviceIntent);
+				} else {
+					mActivity.showTextToast(R.string.device_offline);
+				}
 				break;
 			}
 
@@ -502,7 +509,6 @@ public class ManageFragment extends BaseFragment {
 				if (null == device) {
 					device = deviceList.get(deviceIndex);
 				}
-
 				if (JVDeviceConst.DEVICE_SERVER_ONLINE == device
 						.getServerState()) {
 					int sendTag = 0;

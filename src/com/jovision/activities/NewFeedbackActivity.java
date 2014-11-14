@@ -1,18 +1,18 @@
 package com.jovision.activities;
 
-import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
-import com.jovision.commons.MyLog;
-
 import android.test.JVACCOUNT;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.WebSettings.RenderPriority;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.commons.MyLog;
 
 public class NewFeedbackActivity extends BaseActivity {
 

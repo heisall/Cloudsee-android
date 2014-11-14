@@ -166,6 +166,57 @@ public class JVChannelsActivity extends BaseActivity {
 
 	}
 
+	// // 设置三种类型参数分别为String,Integer,String
+	// class InitTask extends AsyncTask<String, Integer, Integer> {
+	// // 可变长的输入参数，与AsyncTask.exucute()对应
+	// @Override
+	// protected Integer doInBackground(String... params) {
+	// Looper.prepare();
+	// int initRes = 0;// 0成功 1失败
+	// fragments = new ArrayList<Fragment>();
+	// int size = deviceList.size();
+	// for (int i = 0; i < size; i++) {
+	// Bundle data = new Bundle();
+	// data.putString("DeviceList", deviceList.toString());
+	// data.putInt("DeviceIndex", deviceIndex);
+	// ChannelFragment fragment = new ChannelFragment();
+	// fragment.setArguments(data);
+	// fragments.add(fragment);
+	// }
+	//
+	// return initRes;
+	// }
+	//
+	// @Override
+	// protected void onCancelled() {
+	// super.onCancelled();
+	// }
+	//
+	// @Override
+	// protected void onPostExecute(Integer result) {
+	// // 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+	// dismissDialog();
+	// if (0 == result) {
+	// TabPagerAdapter fragmentPagerAdapter = new TabPagerAdapter(
+	// getSupportFragmentManager(), fragments);
+	// channelPager.setAdapter(fragmentPagerAdapter);
+	// fragmentPagerAdapter.setFragments(fragments);
+	// channelPager.setOnPageChangeListener(new ChannelsPageChangeListener());
+	// }
+	// }
+	//
+	// @Override
+	// protected void onPreExecute() {
+	// // 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+	// createDialog("");
+	// }
+	//
+	// @Override
+	// protected void onProgressUpdate(Integer... values) {
+	// // 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+	// }
+	// }
+
 	private void initNav() {
 		int size = deviceList.size();
 		for (int i = 0; i < size; i++) {

@@ -132,9 +132,9 @@ public class DeviceUtil {
 			return null;
 		}
 
-		if (null != deviceList && 0 != deviceList.size()) {
-			refreshDeviceState(userName, deviceList);
-		}
+		// if (null != deviceList && 0 != deviceList.size()) {
+		// refreshDeviceState(userName, deviceList);
+		// }
 
 		return deviceList;
 	}
@@ -400,88 +400,88 @@ public class DeviceUtil {
 	 * 
 	 * @param deviceGuid
 	 */
-	// public static Device getUserDeviceDetail(String deviceGuid,String
-	// userName){
-	// //参数例子：{"mt":2005,"pv":"1.0","lpt":1,"dguid":"ABCD0002","mid":1}
-	// //{"mid":3,"mt":2019,"pv":"1.0","lpt":1,"username":"zhangs","dguid":"ABCD0008"}
-	// Device dev = null;
-	// JSONObject jObj = new JSONObject();
-	// try {
-	// jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
-	// JVDeviceConst.GET_USER_DEVICE_INFO);
-	// jObj.put(JVDeviceConst.JK_PROTO_VERSION, JVDeviceConst.PROTO_VERSION);
-	// jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
-	// JVDeviceConst.DEV_INFO_PRO);
-	// jObj.put(JVDeviceConst.JK_USERNAME, userName);
-	// jObj.put(JVDeviceConst.JK_DEVICE_GUID, deviceGuid);
-	// } catch (Exception e1) {
-	// e1.printStackTrace();
-	// }
-	//
-	// MyLog.v("getDeviceDetail", jObj.toString());
-	//
-	//
-	// //返回值范例：{"mt":2006,"rt":0,"mid":1,"dinfo":{"dtype":2,"dname":"qiqidevice"}}
-	//
-	// //接收返回数据
-	// byte []resultStr = new byte[1024*2];
-	// JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(jObj.toString(),resultStr);
-	// String result = new String(resultStr);
-	//
-	// // String result =
-	// "{\"mt\":2006,\"rt\":0,\"mid\":1,\"dinfo\":{\"dtype\":2,\"dname\":\"qiqidevice\"}}";
-	// if(null != result && !"".equalsIgnoreCase(result)){
-	// try {
-	// JSONObject temObj = new JSONObject(result);
-	// if(null != temObj){
-	// int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
-	// int rt = temObj.optInt(JVDeviceConst.JK_RESULT);//0正确,其他为错误码
-	// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
-	// String temStr = temObj.optString(JVDeviceConst.JK_DEVICE_INFO);
-	// if(null != temStr && !"".equalsIgnoreCase(temStr)){
-	// JSONObject obj = new JSONObject(temStr);
-	// if(null != obj){
-	// dev = new Device();
-	// dev.deviceNum = deviceGuid;
-	// dev.deviceType = obj.optInt(JVDeviceConst.JK_DEVICE_TYPE);
-	// dev.deviceName = obj.optString(JVDeviceConst.JK_DEVICE_NAME);
-	// dev.useWifi = obj.optInt(JVDeviceConst.JK_DEVICE_NET_STATE);
-	// dev.netStorageSwitch = obj.optInt(JVDeviceConst.JK_NET_STORAGE_SWITCH);
-	// dev.tfStorageSwitch = obj.optInt(JVDeviceConst.JK_TF_STORAGE_SWITCH);
-	// dev.alarmSwitch = obj.optInt(JVDeviceConst.JK_ALARM_SWITCH);
-	// dev.alarmVideoFtpUrl = obj.optString(JVDeviceConst.JK_ALARM_VIDEO_FTP);
-	// dev.alarmSnapFtpUrl = obj.optString(JVDeviceConst.JK_ALARM_SNAP_FTP);
-	// dev.alarmFtpAcc = obj.optString(JVDeviceConst.JK_ALARM_FTP_ACC);
-	// dev.alarmFtpPwd = obj.optString(JVDeviceConst.JK_ALARM_FTP_PWD);
-	// dev.alarmTime = obj.optString(JVDeviceConst.JK_ALARM_TIME);
-	// dev.jpegFtpUrlBig = obj.optString(JVDeviceConst.JK_PIC_FTP_BIG);
-	// dev.jpegFtpUrlSmall = obj.optString(JVDeviceConst.JK_PIC_FTP_SMALL);
-	// dev.jpegFtpAcc = obj.optString(JVDeviceConst.JK_PIC_FTP_ACC);
-	// dev.jpegFtpPwd = obj.optString(JVDeviceConst.JK_PIC_FTP_PWD);
-	// dev.jpegUploadTiming = obj.optInt(JVDeviceConst.JK_PIC_UPLOAD_TIMEING);
-	// dev.videoFluency = obj.optInt(JVDeviceConst.JK_VIDEO_FLUENCY);
-	// dev.deviceLoginUser =
-	// obj.optString(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME);
-	// dev.deviceLoginPwd =
-	// obj.optString(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD);
-	// dev.deviceLocalIp = obj.optString(JVDeviceConst.JK_DEVICE_VIDEO_IP);
-	// dev.deviceLocalPort = obj.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT);
-	// dev.babyMode = obj.optInt(JVDeviceConst.JK_DEVICE_BABY_MODE);
-	// dev.fullAlarmMode = obj.optInt(JVDeviceConst.JK_DEVICE_FULL_ALARM_MODE);
-	// dev.deviceModel = obj.optString(JVDeviceConst.JK_DEVICE_SUB_TYPE);
-	// dev.deviceVersion = obj.optString(JVDeviceConst.JK_DEVICE_SOFT_VERSION);
-	// dev.deviceVersionNum = obj.optInt(JVDeviceConst.JK_DEVICE_SUB_TYPE_INT);
-	// }
-	// }
-	// }
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	//
-	// }
-	// return dev;
-	//
-	// }
+	public static Device getUserDeviceDetail(Device dev, String userName) {
+		// 参数例子：{"mt":2005,"pv":"1.0","lpt":1,"dguid":"ABCD0002","mid":1}
+		// {"mid":3,"mt":2019,"pv":"1.0","lpt":1,"username":"zhangs","dguid":"ABCD0008"}
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.GET_USER_DEVICE_INFO);
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.DEV_INFO_PRO);
+			jObj.put(JVDeviceConst.JK_USERNAME, userName);
+			jObj.put(JVDeviceConst.JK_DEVICE_GUID, dev.getFullNo());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		MyLog.v("getDeviceDetail---request", jObj.toString());
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024 * 2];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("getDeviceDetail---result", result);
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// 0正确,其他为错误码
+						int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+						String temStr = temObj
+								.optString(JVDeviceConst.JK_DEVICE_INFO);
+						if (null != temStr && !"".equalsIgnoreCase(temStr)) {
+							JSONObject obj = new JSONObject(temStr);
+							if (null != obj) {
+								dev.setNickName(obj
+										.optString(JVDeviceConst.JK_DEVICE_NAME));
+								dev.setDeviceType(obj
+										.optInt(JVDeviceConst.JK_DEVICE_TYPE));
+								dev.setUser(obj
+										.optString(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME));
+								dev.setPwd(obj
+										.optString(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD));
+								dev.setIp(obj
+										.optString(JVDeviceConst.JK_DEVICE_VIDEO_IP));
+								dev.setPort(obj
+										.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT));
+								/** 一键升级使用 */
+								dev.setDeviceModel(obj
+										.optString(JVDeviceConst.JK_DEVICE_SUB_TYPE));// dstype
+								dev.setDeviceVerName(obj
+										.optString(JVDeviceConst.JK_DEVICE_SOFT_VERSION));// dsv
+								dev.setDeviceVerNum(obj
+										.optInt(JVDeviceConst.JK_DEVICE_SUB_TYPE_INT));// dstypeint
+								if (dev.getIp() == null
+										|| "".equals(dev.getIp())
+										|| "null".equalsIgnoreCase(dev.getIp())) {
+									dev.setIsDevice(0);
+								} else {
+									dev.setIsDevice(1);
+								}
+
+								if (2 == dev.getDeviceType()) {// 家用设备
+									dev.setAlarmSwitch(obj
+											.optInt(JVDeviceConst.JK_ALARM_SWITCH));
+								}
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
+
+		return dev;
+	}
 
 	/**
 	 * 2014-2-20 修改视频连接模式信息业务：
@@ -554,7 +554,7 @@ public class DeviceUtil {
 	/**
 	 * 用户绑定设备业务
 	 */
-	public static int addDevice(String loginUserName, Device device) {
+	public static Device addDevice(String loginUserName, Device device) {
 		int res = -1;
 
 		// 请求参数示例
@@ -612,8 +612,11 @@ public class DeviceUtil {
 				}
 			}
 		}
-
-		return res;
+		Device dev = null;
+		if (0 == res) {
+			dev = getUserDeviceDetail(device, loginUserName);
+		}
+		return dev;
 	}
 
 	/**
@@ -1341,31 +1344,31 @@ public class DeviceUtil {
 		return res;
 	}
 
-	/**
-	 * 添加设备
-	 * 
-	 * @param device1
-	 *            要添加的设备
-	 * @return 返回null表示添加失败
-	 */
-	public static Device addDeviceMethod(boolean local, Device device1,
-			String userName) {
-		// 用户列表中没有，添加到数据库中，或者提交到服务器
-		if (local) {// 本地将数据添加到数据库中
-			if ("".equalsIgnoreCase(device1.getNickName())) {
-				device1.setNickName(device1.getFullNo());
-			}
-		} else {// 发请求添加设备
-			if ("".equalsIgnoreCase(device1.getNickName())) {
-				device1.setNickName(device1.getFullNo());
-			}
-			int res = DeviceUtil.addDevice(userName, device1);
-			if (0 != res) {
-				device1 = null;
-			}
-		}
-		return device1;
-	}
+	// /**
+	// * 添加设备
+	// *
+	// * @param device1
+	// * 要添加的设备
+	// * @return 返回null表示添加失败
+	// */
+	// public static Device addDeviceMethod(boolean local, Device device1,
+	// String userName) {
+	// // 用户列表中没有，添加到数据库中，或者提交到服务器
+	// if (local) {// 本地将数据添加到数据库中
+	// if ("".equalsIgnoreCase(device1.getNickName())) {
+	// device1.setNickName(device1.getFullNo());
+	// }
+	// } else {// 发请求添加设备
+	// if ("".equalsIgnoreCase(device1.getNickName())) {
+	// device1.setNickName(device1.getFullNo());
+	// }
+	// int res = DeviceUtil.addDevice(userName, device1);
+	// if (0 != res) {
+	// device1 = null;
+	// }
+	// }
+	// return device1;
+	// }
 
 	/**
 	 * 2014-9-5 接口说明：根据设备云视通号，获取此设备的在线状态。

@@ -273,8 +273,11 @@ public class JVAddDeviceActivity extends BaseActivity {
 					if (localFlag) {// 本地添加
 						addRes = 0;
 					} else {
-						addRes = DeviceUtil.addDevice(
+						addDevice = DeviceUtil.addDevice(
 								statusHashMap.get("KEY_USERNAME"), addDevice);
+						if (null != addDevice) {
+							addRes = 0;
+						}
 						if (0 <= addDevice.getChannelList().size()) {
 							if (0 == DeviceUtil.addPoint(addDevice.getFullNo(),
 									addDevice.getChannelList().size())) {

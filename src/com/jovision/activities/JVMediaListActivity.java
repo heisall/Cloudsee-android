@@ -54,6 +54,7 @@ public class JVMediaListActivity extends BaseActivity {
 			break;
 		}
 		case FILE_LOAD_SUCCESS: {
+			dismissDialog();
 			if (noFile) {
 				noFileLayout.setVisibility(View.VISIBLE);
 				fileLayout.setVisibility(View.GONE);
@@ -123,9 +124,7 @@ public class JVMediaListActivity extends BaseActivity {
 				break;
 			}
 			}
-
 		}
-
 	};
 
 	@Override
@@ -148,31 +147,41 @@ public class JVMediaListActivity extends BaseActivity {
 				if (null != fileArray && 0 != fileArray.length) {
 					int length = fileArray.length;
 					for (int i = 0; i < length; i++) {
-						fileList.add(fileArray[i]);
-					}
-					noFile = false;
-				}
-			}
-
-			Collections.sort(fileList, comparator);
-
-			handler.sendMessage(handler.obtainMessage(FILE_LOAD_SUCCESS));
-			if (null != fileList && 0 != fileList.size()) {
-				int size = fileList.size();
-				for (int i = 0; i < size; i++) {
-					handler.sendMessage(handler
-							.obtainMessage(LOAD_IMAGE_SUCCESS));
-					File[] fileArray = fileList.get(i).listFiles();
-					if (null != fileArray && 0 != fileArray.length) {
-						int length = fileArray.length;
-						for (int j = 0; j < length; j++) {
-							BitmapCache.getInstance().getBitmap(
-									fileArray[j].getAbsolutePath(), media);
+						if (fileArray[i].isDirectory()) {
+							fileList.add(fileArray[i]);
 						}
 					}
+					if (0 != fileList.size()) {
+						noFile = false;
+					}
 				}
-				handler.sendMessage(handler.obtainMessage(LOAD_IMAGE_FINISHED));
 			}
+
+			if (noFile) {
+				handler.sendMessage(handler.obtainMessage(FILE_LOAD_SUCCESS));
+			} else {
+				Collections.sort(fileList, comparator);
+
+				handler.sendMessage(handler.obtainMessage(FILE_LOAD_SUCCESS));
+				if (null != fileList && 0 != fileList.size()) {
+					int size = fileList.size();
+					for (int i = 0; i < size; i++) {
+						handler.sendMessage(handler
+								.obtainMessage(LOAD_IMAGE_SUCCESS));
+						File[] fileArray = fileList.get(i).listFiles();
+						if (null != fileArray && 0 != fileArray.length) {
+							int length = fileArray.length;
+							for (int j = 0; j < length; j++) {
+								BitmapCache.getInstance().getBitmap(
+										fileArray[j].getAbsolutePath(), media);
+							}
+						}
+					}
+					handler.sendMessage(handler
+							.obtainMessage(LOAD_IMAGE_FINISHED));
+				}
+			}
+
 			super.run();
 		}
 

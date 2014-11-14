@@ -39,6 +39,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	private PlayTimerTask playTask;
 	private int seconds;
 	private int audioByte;// 音频监听比特率
+	private boolean isRemotePause = false;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -160,7 +161,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		case JVConst.REMOTE_PLAY_DISMISS_PROGRESS: {// 5秒时间到关闭进度条
 			// stopTimer();
 			seconds = 0;
-			progressBar.setVisibility(View.GONE);
+			playBackBar.setVisibility(View.GONE);
 			break;
 		}
 		// [Neo] surface.step 3
@@ -212,6 +213,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		loading.setVisibility(View.VISIBLE);// 加载进度
 
 		back.setOnClickListener(myOnClickListener);
+		playBackPause.setOnClickListener(myOnClickListener);
 		playFunctionList.setOnItemClickListener(onItemClickListener);
 		/** 下 */
 		capture.setOnClickListener(myOnClickListener);
@@ -276,7 +278,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		playTimer = new Timer();
 		playTask = new PlayTimerTask();
 		playTimer.schedule(playTask, 0, 1000);
-		progressBar.setVisibility(View.VISIBLE);
+		playBackBar.setVisibility(View.VISIBLE);
 	}
 
 	/**
@@ -292,7 +294,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			playTask = null;
 		}
 
-		progressBar.setVisibility(View.GONE);
+		playBackBar.setVisibility(View.GONE);
 	}
 
 	private class PlayTimerTask extends TimerTask {
@@ -365,12 +367,30 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			case R.id.btn_left:// 返回
 				backMethod();
 				break;
+			case R.id.playbackpause: {
+				if (isRemotePause) {
+					playBackPause
+							.setBackgroundResource(R.drawable.video_stop_icon);
+					// 继续播放视频
+					Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYGOON,
+							new byte[0], 0);
+					isRemotePause = false;
+				} else {
+					// 暂停视频
+					Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYPAUSE,
+							new byte[0], 0);
+					playBackPause
+							.setBackgroundResource(R.drawable.video_play_icon);
+					isRemotePause = true;
+				}
+				break;
+			}
 			case R.id.remotesurfaceview:// 单击视频打开隐藏进度条
 				seconds = 0;
-				if (progressBar.getVisibility() == View.GONE) {
-					progressBar.setVisibility(View.VISIBLE);
+				if (playBackBar.getVisibility() == View.GONE) {
+					playBackBar.setVisibility(View.VISIBLE);
 				} else {
-					progressBar.setVisibility(View.GONE);
+					playBackBar.setVisibility(View.GONE);
 				}
 				break;
 			case R.id.audio_monitor:// 音频监听

@@ -91,18 +91,19 @@ public class JVWelcomeActivity extends BaseActivity {
 
 		StatConfig.setDebugEnable(true);
 
-		String appkey = "A8IA5GMIL13M";
-		try {
-			StatService.startStatService(JVWelcomeActivity.this, appkey,
-					StatConstants.VERSION);
-		} catch (MtaSDkException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (statusHashMap.get(Consts.NEUTRAL_VERSION).equals("false")) {
+			String appkey = "A8IA5GMIL13M";
+			try {
+				StatService.startStatService(JVWelcomeActivity.this, appkey,
+						StatConstants.VERSION);
+			} catch (MtaSDkException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			StatService.trackCustomEvent(JVWelcomeActivity.this, "onCreat",
+					"welcome");
 		}
-
-		StatService.trackCustomEvent(JVWelcomeActivity.this, "onCreat",
-				"welcome");
-
 		welcome_img = (ImageView) findViewById(R.id.welcome_img);
 		if (!ConfigUtil.isLanZH()) {
 			welcome_img.setBackgroundResource(R.drawable.welcome_imgen_icon);

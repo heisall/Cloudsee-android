@@ -31,6 +31,7 @@ import com.jovision.utils.CacheUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.AlarmDialog;
+import com.tencent.stat.StatService;
 
 @SuppressLint("ValidFragment")
 public class ManageFragment extends BaseFragment {
@@ -198,6 +199,7 @@ public class ManageFragment extends BaseFragment {
 			device = deviceList.get(JVDeviceManageFragment.deviceIndex);
 			switch (arg1) {
 			case 0: {// 远程设置
+				StatService.trackCustomEvent(mActivity, "onCreat", "welcome");
 				if (2 == isDevice) {
 					mActivity.showTextToast(R.string.ip_add_notallow);
 				} else {
@@ -208,6 +210,7 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 1: {// 设备管理
+				StatService.trackCustomEvent(mActivity, "DeviceManage", "设备管理");
 				devType = 0;
 				Intent deviceIntent = new Intent(mActivity,
 						JVDeviceManageActivity.class);
@@ -216,7 +219,7 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 2: {// 连接模式
-
+				StatService.trackCustomEvent(mActivity, "Ipconnect", "连接模式");
 				if (2 == isDevice) {
 					mActivity.showTextToast(R.string.ip_add_notallow);
 				} else {
@@ -229,6 +232,7 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 3: {// 通道管理
+				StatService.trackCustomEvent(mActivity, "ChannelList", "通道管理");
 				deviceIndex = bundle.getInt("DeviceIndex");
 				Intent channerIntent = new Intent(mActivity,
 						JVChannelListActivity.class);
@@ -243,6 +247,7 @@ public class ManageFragment extends BaseFragment {
 				// .get(Consts.LOCAL_LOGIN))) {
 				// mActivity.showTextToast(R.string.offline_not_play);
 				// } else {
+				StatService.trackCustomEvent(mActivity, "Play", "立即观看");
 				if (0 == deviceList.get(deviceIndex).getChannelList().size()) {// 0个通道直接播放
 					mActivity.showTextToast(R.string.selectone_to_connect);
 				} else {
@@ -265,6 +270,7 @@ public class ManageFragment extends BaseFragment {
 				break;
 			}
 			case 5: {// 添加设备
+				StatService.trackCustomEvent(mActivity, "ThirdDevList", "添加设备");
 				// Intent addIntent = new Intent();
 				// addIntent.setClass(mActivity, JVAddDeviceActivity.class);
 				// addIntent.putExtra("QR", false);
@@ -281,6 +287,8 @@ public class ManageFragment extends BaseFragment {
 			case 6: {// 一键升级
 				if (JVDeviceConst.DEVICE_SERVER_ONLINE == device
 						.getServerState()) {
+					StatService.trackCustomEvent(mActivity, "DeviceUpdate",
+							"一键升级");
 					Intent deviceIntent = new Intent(mActivity,
 							JVDeviceUpdateActivity.class);
 					deviceIntent.putExtra("deviceIndex", deviceIndex);
@@ -544,7 +552,7 @@ public class ManageFragment extends BaseFragment {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mActivity.dismissDialog();
 			if (0 == result) {
-
+				StatService.trackCustomEvent(mActivity, "Alerm", "安全防护");
 				if (JVDeviceConst.DEVICE_SWITCH_OPEN == device.getAlarmSwitch()) {
 					device.setAlarmSwitch(JVDeviceConst.DEVICE_SWITCH_CLOSE);
 					mActivity.showTextToast(R.string.protect_close_succ);

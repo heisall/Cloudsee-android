@@ -1,6 +1,7 @@
 package com.jovision.utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -33,8 +34,10 @@ import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
@@ -844,5 +847,29 @@ public class ConfigUtil {
 		}
 		MyLog.v(TAG, "解析域名=" + host + ";IP=" + IPAddress);
 		return IPAddress;
+	}
+
+	// 调用第三方分享功能
+	public static void shareTo(Context context, String imagePath) {
+		if (null == imagePath || "".equalsIgnoreCase(imagePath)) {
+			return;
+		}
+		Intent intent = new Intent(Intent.ACTION_SEND); // 启动分享发送到属性
+		// 纯文本
+		// intent.setType("text/plain");
+		// 图片分享
+		intent.setType("image/jpg");
+		File f = new File(imagePath);
+		// 文件不存在return
+		if (!f.exists()) {
+			return;
+		}
+		Uri uri = Uri.fromFile(f);
+		// Intent.createChooser(intentItem, "分享")
+		intent.putExtra(Intent.EXTRA_STREAM, uri);
+		intent.putExtra(Intent.EXTRA_SUBJECT, "分享的主题"); // 分享的主题
+		intent.putExtra(Intent.EXTRA_TEXT, "分享的内容 "); // 分享的内容
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // 允许intent启动新的activity
+		context.startActivity(Intent.createChooser(intent, "分享")); // //目标应用选择对话框的标题
 	}
 }

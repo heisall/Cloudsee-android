@@ -967,29 +967,42 @@ public class JVMyDeviceFragment extends BaseFragment {
 								.getUserDeviceList(mActivity.statusHashMap
 										.get(Consts.KEY_USERNAME));
 					}
-					if (null != myDeviceList && 0 != myDeviceList.size()) {
-						ArrayList<Channel> channelList = DeviceUtil
-								.getUserPointList();
 
-						if (null == channelList || 0 == channelList.size()) {
-							channelList = DeviceUtil.getUserPointList();
+					if (null != myDeviceList && 0 != myDeviceList.size()) {
+						boolean hasChannel = true;
+						for (Device dev : myDeviceList) {
+							if (null == dev.getChannelList()
+									|| 0 == dev.getChannelList().size()) {
+								hasChannel = false;
+								break;
+							}
 						}
 
-						if (null != channelList && 0 != channelList.size()) {
-							for (Device dev : myDeviceList) {
-								MyList<Channel> chanList = new MyList<Channel>(
-										1);
-								for (Channel channel : channelList) {
-									if (channel.isHasFind()) {
-										continue;
+						if (!hasChannel) {
+							ArrayList<Channel> channelList = DeviceUtil
+									.getUserPointList();
+
+							if (null == channelList || 0 == channelList.size()) {
+								channelList = DeviceUtil.getUserPointList();
+							}
+
+							if (null != channelList && 0 != channelList.size()) {
+								for (Device dev : myDeviceList) {
+									MyList<Channel> chanList = new MyList<Channel>(
+											1);
+									for (Channel channel : channelList) {
+										if (channel.isHasFind()) {
+											continue;
+										}
+										if (channel.getDguid()
+												.equalsIgnoreCase(
+														dev.getFullNo())) {
+											chanList.add(channel);
+											channel.setHasFind(true);
+										}
 									}
-									if (channel.getDguid().equalsIgnoreCase(
-											dev.getFullNo())) {
-										chanList.add(channel);
-										channel.setHasFind(true);
-									}
+									dev.setChannelList(chanList);
 								}
-								dev.setChannelList(chanList);
 							}
 						}
 
@@ -1088,6 +1101,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 									.valueOf(((BaseActivity) mActivity).statusHashMap
 											.get(Consts.LOCAL_LOGIN))) {// 非本地多于100个设备不让再添加
 						addRes = 100;
+						addCount = -100;
 						break;
 					}
 					if (null != addDev) {
@@ -1097,14 +1111,21 @@ public class JVMyDeviceFragment extends BaseFragment {
 							addRes = 0;
 							addCount++;
 						} else {
-							addRes = DeviceUtil
+							addDev = DeviceUtil
 									.addDevice(mActivity.statusHashMap
 											.get("KEY_USERNAME"), addDev);
+							if (null != addDev) {
+								addRes = 0;
+							}
+
 							// 添加设备失败了，再添加一次
 							if (addRes < 0) {
-								addRes = DeviceUtil.addDevice(
+								addDev = DeviceUtil.addDevice(
 										mActivity.statusHashMap
 												.get("KEY_USERNAME"), addDev);
+								if (null != addDev) {
+									addRes = 0;
+								}
 							}
 
 							if (addRes == 0) {
@@ -1178,7 +1199,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			if (result > 0) {
 				refreshList();
 				mActivity.showTextToast(R.string.add_device_succ);
-			} else if (result == 100) {
+			} else if (result == -100) {
 				mActivity.showTextToast(R.string.str_device_most_count);
 			} else {
 				refreshList();

@@ -78,8 +78,7 @@ public class JVMoreFragment extends BaseFragment {
 	// 图片数组
 	private int[] Image = { R.drawable.morefragment_help_icon,
 			R.drawable.morefragment_warmmessage_icon,
-			R.drawable.morefragment_setting_icon,
-			R.drawable.morefragment_media_icon,
+			R.drawable.morefragment_setting_icon, R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };

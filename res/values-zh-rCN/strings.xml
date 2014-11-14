@@ -224,7 +224,7 @@
     <string name="str_data_load_failed1">设备加载失败</string>
     <string name="str_update_at">更新于:</string>
     <string name="str_scanning_device">正在扫描设备\n请耐心等待…</string>
-    <string name="str_continue_qr_device">重新扫描</string>
+    <string name="str_continue_qr_device">继续</string>
     <string name="str_return_qr_device">返回</string>
     <!-- 更新dialog -->
     <string name="str_ignore">不再提示此版本更新</string>
@@ -494,7 +494,8 @@
     <string name="nofile">暂无文件</string>
     <string name="media">媒体</string>
     <string name="media_image">图像</string>
-    <string name="media_video">录像</string>
+    <string name="media_video">视频</string>
+    <string name="media_other">其他</string>
     <!-- Help -->
     <string name="str_help_zero">展开多种方式添加设备</string>
     <string name="str_help_one">远程配置IPC设备的网络和码流</string>

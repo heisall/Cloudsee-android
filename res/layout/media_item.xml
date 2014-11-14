@@ -8,7 +8,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/device_default_img_bg" />
+        android:background="@color/welcome_blue"
+        android:padding="2dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/device_alarm_img" />
 
     <ImageView
         android:id="@+id/playimg"
@@ -26,6 +29,6 @@
         android:text="20141111"
         android:textColor="@color/white"
         android:textSize="10sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </RelativeLayout>

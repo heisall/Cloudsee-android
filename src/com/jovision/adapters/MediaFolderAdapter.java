@@ -4,13 +4,18 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.activities.JVImageViewActivity;
+import com.jovision.activities.JVVideoActivity;
 import com.jovision.views.MyGridView;
 
 public class MediaFolderAdapter extends BaseAdapter {
@@ -38,7 +43,11 @@ public class MediaFolderAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return folderList.size();
+		int count = 0;
+		if (null != folderList) {
+			count = folderList.size();
+		}
+		return count;
 	}
 
 	@Override
@@ -66,10 +75,38 @@ public class MediaFolderAdapter extends BaseAdapter {
 			folderHolder = (FolderHolder) convertView.getTag();
 		}
 		folderHolder.folderName.setText(folderList.get(position).getName());
-		MediaAdapter mediaAdaper = new MediaAdapter(mContext);
-		mediaAdaper.setData(media, folderList.get(position).listFiles(),
-				loadImg);
+		final MediaAdapter mediaAdaper = new MediaAdapter(mContext);
+		final File[] fileArray = folderList.get(position).listFiles();
+		final String folderPath = folderList.get(position).getAbsolutePath();
+		mediaAdaper.setData(media, fileArray, loadImg);
 		folderHolder.fileGridView.setAdapter(mediaAdaper);
+
+		folderHolder.fileGridView
+				.setOnItemClickListener(new OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3) {
+						mediaAdaper.setSelect(arg2);
+						mediaAdaper.notifyDataSetChanged();
+						if ("image".equalsIgnoreCase(media)) {
+							Intent imageIntent = new Intent();
+							imageIntent.setClass(mContext,
+									JVImageViewActivity.class);
+							imageIntent.putExtra("FolderPath", folderPath);
+							imageIntent.putExtra("FileIndex", arg2);
+							mContext.startActivity(imageIntent);
+						} else if ("video".equalsIgnoreCase(media)) {
+							Intent videoIntent = new Intent();
+							videoIntent.setClass(mContext,
+									JVVideoActivity.class);
+							videoIntent.putExtra("URL",
+									fileArray[arg2].getAbsolutePath());
+							videoIntent.putExtra("IS_LOCAL", true);
+							mContext.startActivity(videoIntent);
+						}
+					}
+
+				});
 		return convertView;
 	}
 

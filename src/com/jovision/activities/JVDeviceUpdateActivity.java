@@ -117,6 +117,7 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 
 		case RESTART_DEVICE_SUCCESS:
 			deviceList.get(devIndex).setDeviceVerName(updateObj.getUfver());
+			devVersion.setText(updateObj.getUfver());
 			// version.setText(deviceList.get(devIndex).deviceVersion);
 			JVDeviceUpdateActivity.this
 					.showTextToast(R.string.update_reset_success);
@@ -472,6 +473,12 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 	@Override
 	protected void freeMe() {
 
+	}
+
+	@Override
+	protected void onPause() {
+		CacheUtil.saveDevList(deviceList);
+		super.onPause();
 	}
 
 }

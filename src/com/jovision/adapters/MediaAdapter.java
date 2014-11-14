@@ -23,6 +23,7 @@ public class MediaAdapter extends BaseAdapter {
 	public LayoutInflater inflater;
 	private String media;// 区分图片还是视频
 	private boolean loadImg = true;
+	private int selectIndex = -1;;
 
 	public MediaAdapter(Context con) {
 		mContext = con;
@@ -36,9 +37,17 @@ public class MediaAdapter extends BaseAdapter {
 		this.loadImg = loadImg;
 	}
 
+	public void setSelect(int index) {
+		selectIndex = index;
+	}
+
 	@Override
 	public int getCount() {
-		return fileArray.length;
+		int count = 0;
+		if (null != fileArray) {
+			count = fileArray.length;
+		}
+		return count;
 	}
 
 	@Override
@@ -76,7 +85,7 @@ public class MediaAdapter extends BaseAdapter {
 
 		int width = ((BaseActivity) mContext).disMetrics.widthPixels / 3;
 		RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
-				width, width);
+				width, width - 40);
 		fileHolder.fileImageView.setLayoutParams(rllp);
 		Bitmap bmp = null;
 		if (loadImg) {
@@ -85,6 +94,13 @@ public class MediaAdapter extends BaseAdapter {
 		} else {
 			bmp = BitmapCache.getInstance().getCacheBitmap(
 					fileArray[position].getAbsolutePath());
+		}
+		if (position == selectIndex) {
+			fileHolder.fileImageView.setBackgroundColor(mContext.getResources()
+					.getColor(R.color.welcome_blue));
+		} else {
+			fileHolder.fileImageView.setBackgroundColor(mContext.getResources()
+					.getColor(R.color.white));
 		}
 
 		if (null != bmp) {

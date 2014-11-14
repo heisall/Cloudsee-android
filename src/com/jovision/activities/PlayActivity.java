@@ -63,7 +63,9 @@ public abstract class PlayActivity extends BaseActivity {
 	protected SurfaceView playSurface;
 	protected TextView linkMode;// 测试显示连接方式
 
+	protected LinearLayout playBackBar;// 远程回放工具条
 	protected SeekBar progressBar;// 远程回放进度
+	protected Button playBackPause;// 远程回放暂停继续播
 
 	/** 　竖屏播放工具bar　 */
 	protected RelativeLayout verPlayBarLayout;
@@ -210,7 +212,10 @@ public abstract class PlayActivity extends BaseActivity {
 		viewPager = (MyViewPager) findViewById(R.id.play_viewpager);
 		playSurface = (SurfaceView) findViewById(R.id.remotesurfaceview);
 		linkMode = (TextView) findViewById(R.id.linkstate);
+		playBackBar = (LinearLayout) findViewById(R.id.playbackbar);
 		progressBar = (SeekBar) findViewById(R.id.playback_seekback);
+		playBackPause = (Button) findViewById(R.id.playbackpause);
+
 		linkMode.setVisibility(View.VISIBLE);
 
 		linkState = (TextView) findViewById(R.id.playstate);// 连接文字

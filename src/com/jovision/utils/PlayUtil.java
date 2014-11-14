@@ -1101,7 +1101,7 @@ public class PlayUtil {
 				// return;
 			}
 
-			if (deviceType == -1) {
+			if (deviceType == 0) {
 				for (int i = 0; i <= nSize - 7; i += 7) {
 					RemoteVideo rv = new RemoteVideo();
 					rv.remoteChannel = String.format("%02d", channelIndex);
@@ -1193,7 +1193,7 @@ public class PlayUtil {
 			return acBuffStr;
 		}
 		if (isJFH) {
-			if (deviceType == -1) {
+			if (deviceType == 0) {
 				// sprintf(acChn, "%s",videoBean.remoteChannel);
 				String channelStr = String
 						.format("%s", videoBean.remoteChannel);
@@ -1235,7 +1235,7 @@ public class PlayUtil {
 			}
 
 			MyLog.v("url: ", acBuffStr);
-		} else if (deviceType == -1) {
+		} else if (deviceType == 0) {
 			String channelStr = String.format("%s", videoBean.remoteChannel);
 			System.arraycopy(channelStr.getBytes(), 0, acChn, 0,
 					channelStr.length());

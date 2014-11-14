@@ -49,7 +49,8 @@
             android:singleLine="true"
             android:text="@string/str_stream_setting"
             android:textColor="@color/setting_text_color"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageView

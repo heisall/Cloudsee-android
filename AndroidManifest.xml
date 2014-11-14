@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="40"
-    android:versionName="V4.3.2" >
+    android:versionName="V4.3.3" >
 
     <supports-screens
         android:anyDensity="true"
@@ -15,16 +15,32 @@
     <uses-sdk android:minSdkVersion="10" />
 
 
+
+
 　　
+    
+    
     <uses-permission android:name="android.permission.INTERNET" />
 
+
+
 　　
+    
+    
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-　　
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
 
 　　
+    
+    
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+
+
+　　
+    
+    
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -64,20 +80,44 @@
 
         <!-- 请将MTA_APPKEY改为MTA分配的appkey < -->
 
+
+
+
+
 　　
+        
+        
         <meta-data
             android:name="TA_APPKEY"
             android:value="A8IA5GMIL13M" />
 
-　　
-        <!-- 请将CHANNAL改为app的发布渠道 < -->
+
 
 　　
+        
+
+        
+
+        <!-- 请将CHANNAL改为app的发布渠道 < -->
+
+
+
+
+
+　　
+        
+        
         <meta-data
             android:name="InstallChannel"
             android:value="CloudSEE" />
 
+
+
 　　
+        
+
+        
+
         <!-- mta系统的权限< -->
         <meta-data
             android:name="UMENG_APPKEY"

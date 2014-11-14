@@ -186,7 +186,7 @@
             android:paddingTop="10dp"
             android:text="@string/demo"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </RelativeLayout>

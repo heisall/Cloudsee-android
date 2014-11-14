@@ -476,9 +476,17 @@ public class JVPlayActivity extends PlayActivity implements
 					channel.setWidth(newWidth);
 					// 是IPC，发文本聊天请求
 					if (channel.getParent().isHomeProduct()) {
-						// 请求文本聊天
-						Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT,
-								new byte[0], 8);
+
+						if (channel.isAgreeTextData()) {
+							// 获取主控码流信息请求
+							Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA,
+									8, JVNetConst.JVN_STREAM_INFO);
+						} else {
+							// 请求文本聊天
+							Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT,
+									new byte[0], 8);
+						}
+
 					}
 				}
 			} else {
@@ -486,7 +494,11 @@ public class JVPlayActivity extends PlayActivity implements
 					showFunc(channel, currentScreen, lastClickIndex);
 				} else {
 					// 是IPC，发文本聊天请求
-					if (channel.getParent().isHomeProduct()) {
+					if (channel.isAgreeTextData()) {
+						// 获取主控码流信息请求
+						Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA, 8,
+								JVNetConst.JVN_STREAM_INFO);
+					} else {
 						// 请求文本聊天
 						Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT,
 								new byte[0], 8);
@@ -1093,7 +1105,7 @@ public class JVPlayActivity extends PlayActivity implements
 		TAG = "PlayA";
 
 		isQuit = false;
-		isOmx = false;
+		isOmx = true;
 		isBlockUi = false;
 
 		lastItemIndex = 0;

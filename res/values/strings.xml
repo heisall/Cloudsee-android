@@ -108,7 +108,7 @@
     <string name="str_more">More</string>
     <string name="str_has_call">Another client is using Cloud Talk function, please use this function later.</string>
     <string name="str_call_close">Disabled the Two-way talk function.</string>
-    <string name="str_play_failed"> play the video failed</string>
+    <string name="play_failed"> play the video failed</string>
     <!-- 连接方式 -->
     <string name="cloud_number">CloudSEE ID</string>
     <!-- 更多功能 -->

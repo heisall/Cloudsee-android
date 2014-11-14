@@ -12,6 +12,7 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.commons.MyLog;
 
 public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 		OnCompletionListener, OnPreparedListener {
@@ -87,12 +88,15 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 
 	@Override
 	public boolean onError(MediaPlayer mp, int what, int extra) {
-		if (what == MediaPlayer.MEDIA_ERROR_UNKNOWN) {
 
-		} else if (what == MediaPlayer.MEDIA_ERROR_SERVER_DIED) {
-
+		if (what == MediaPlayer.MEDIA_ERROR_SERVER_DIED) {
+			MyLog.v(TAG, "MEDIA_ERROR_SERVER_DIED");
+			mp.reset();// 可调用此方法重置
+		} else if (what == MediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK) {
+			MyLog.v(TAG, "MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK");
+		} else if (what == MediaPlayer.MEDIA_ERROR_UNKNOWN) {
+			MyLog.v(TAG, "MEDIA_ERROR_UNKNOWN");
 		}
-		showTextToast(R.string.str_play_failed);
 
 		if (null != mVideoView) {
 			mVideoView.seekTo(0);

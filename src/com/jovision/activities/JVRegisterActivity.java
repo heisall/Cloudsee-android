@@ -26,6 +26,7 @@ import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
+import com.tencent.stat.StatService;
 
 public class JVRegisterActivity extends BaseActivity {
 	private boolean agreeProtocol = true;
@@ -397,6 +398,8 @@ public class JVRegisterActivity extends BaseActivity {
 			dismissDialog();
 			switch (result) {
 			case JVAccountConst.SUCCESS:// 注册成功
+				StatService.trackCustomEvent(JVRegisterActivity.this,
+						"Register", "注册");
 				if (verifyCode > 0 && 0 == loginRes) {
 					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 					Intent emailIntent = new Intent(JVRegisterActivity.this,

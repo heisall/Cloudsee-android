@@ -45,6 +45,7 @@ import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
 import com.jovision.views.AlarmDialog;
 import com.jovision.views.popw;
+import com.tencent.stat.StatService;
 
 /**
  * 更多
@@ -389,6 +390,8 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 3:// 媒体
+							StatService.trackCustomEvent(mActivity, "Media",
+									"媒体");
 							Intent intentMedia = new Intent(mActivity,
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);

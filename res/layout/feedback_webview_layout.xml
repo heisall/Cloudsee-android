@@ -4,15 +4,16 @@
     android:layout_height="match_parent"
     android:background="@color/transparent"
     android:orientation="vertical" >
+
     <include
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
-    
-	<WebView
-	    android:id="@+id/feedback_webview"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	/>    
+
+    <WebView
+        android:id="@+id/feedback_webview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
 </LinearLayout>

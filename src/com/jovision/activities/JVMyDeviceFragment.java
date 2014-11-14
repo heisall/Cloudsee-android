@@ -55,6 +55,7 @@ import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.AlarmDialog;
 import com.jovision.views.ImageViewPager;
+import com.tencent.stat.StatService;
 
 /**
  * 我的设备
@@ -379,6 +380,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 				switch (position) {
 				case 0: {// 云视通号
+					StatService.trackCustomEvent(mActivity,
+							"Add by CloudSEE ID", "云视通号添加");
 					Intent addIntent = new Intent();
 					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
 					addIntent.putExtra("QR", false);
@@ -386,6 +389,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 					break;
 				}
 				case 1: {// 二维码扫描
+					StatService.trackCustomEvent(mActivity, "Scan QR Code",
+							"二维码扫描");
 					Intent addIntent = new Intent();
 					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
 					addIntent.putExtra("QR", true);
@@ -393,10 +398,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 					break;
 				}
 				case 2: {// 无线设备
+					StatService.trackCustomEvent(mActivity, "Add Wi_Fi Device",
+							"无线设备");
 					((ShakeActivity) mActivity).startSearch(false);
 					break;
 				}
 				case 3: {// 局域网设备
+					StatService.trackCustomEvent(mActivity,
+							"Scan devices in LAN", "局域网设备");
 					if (!mActivity.is3G(false)) {// 3G网提示不支持
 						fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 						broadTag = BROAD_ADD_DEVICE;
@@ -409,6 +418,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 					break;
 				}
 				case 4: {// IP/域名设备
+					StatService
+							.trackCustomEvent(mActivity, "IP/DNS", "IP/域名设备");
 					Intent intent = new Intent();
 					intent.setClass(mActivity, JVAddIpDeviceActivity.class);
 					mActivity.startActivity(intent);

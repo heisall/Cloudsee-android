@@ -99,8 +99,8 @@ public class JVWelcomeActivity extends BaseActivity {
 			e.printStackTrace();
 		}
 
-		StatService.trackCustomEvent(JVWelcomeActivity.this, "onCreate",
-				"login");
+		StatService.trackCustomEvent(JVWelcomeActivity.this, "onCreat",
+				"welcome");
 
 		welcome_img = (ImageView) findViewById(R.id.welcome_img);
 		if (!ConfigUtil.isLanZH()) {
@@ -224,13 +224,13 @@ public class JVWelcomeActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		StatService.onResume(this);
+
 	}
 
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		StatService.onPause(this);
+
 	}
 }

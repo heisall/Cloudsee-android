@@ -18,6 +18,7 @@ import com.tencent.stat.MtaSDkException;
 import com.tencent.stat.StatConfig;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatConstants;
+import com.umeng.analytics.MobclickAgent;
 
 public class JVWelcomeActivity extends BaseActivity {
 
@@ -224,13 +225,13 @@ public class JVWelcomeActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		MobclickAgent.onResume(this);
 	}
 
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-
+		MobclickAgent.onPause(this);
 	}
 }

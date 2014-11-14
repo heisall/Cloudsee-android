@@ -39,6 +39,7 @@ import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.UserUtil;
 import com.tencent.stat.StatService;
+import com.umeng.analytics.MobclickAgent;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class JVLoginActivity extends BaseActivity {
@@ -532,10 +533,12 @@ public class JVLoginActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		MobclickAgent.onResume(this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 }

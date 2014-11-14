@@ -60,6 +60,13 @@
 　　<!-- 请将CHANNAL改为app的发布渠道 < -->
 　　<meta-data  android:name="InstallChannel" android:value="CloudSEE" />
 　　<!-- mta系统的权限< -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="523046c156240b7a540795cf" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="jovision" />
         
         <activity
             android:name="com.jovision.activities.JVWelcomeActivity"

@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import android.graphics.Bitmap;
 import android.test.JVACCOUNT;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -63,8 +64,23 @@ public class NewFeedbackActivity extends BaseActivity {
 		myWebView.setWebViewClient(new WebViewClient() {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				view.loadUrl(url);
+				if (url.contains("forum.php?mod=viewthread")) {
+					showTextToast(R.string.str_feedback_ok);
+					NewFeedbackActivity.this.finish();
+				} else {
+					view.loadUrl(url);
+				}
 				return false;
+			}
+
+			@Override
+			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+				// TODO Auto-generated method stub
+				if (url.contains("forum.php?mod=viewthread")) {
+					showTextToast(R.string.str_feedback_ok);
+					NewFeedbackActivity.this.finish();
+				}
+				super.onPageStarted(view, url, favicon);
 			}
 		});
 		if (localFlag) {

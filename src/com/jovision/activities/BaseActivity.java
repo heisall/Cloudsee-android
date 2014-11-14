@@ -32,6 +32,7 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
+import com.tencent.stat.StatService;
 
 /**
  * 抽象的活动基类，所有活动都应该继承这个类，并实现其抽象方法和接口
@@ -107,7 +108,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	protected void onResume() {
 		((MainApplication) getApplication()).setCurrentNotifyer(this);
 		super.onResume();
-
+		StatService.onResume(this);
 		// duration = System.currentTimeMillis();
 	}
 
@@ -115,7 +116,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	protected void onPause() {
 		// duration = System.currentTimeMillis() - duration;
 		// MyLog.ubStat(TAG + RUNTIME, (int) (duration / 1000));
-
+		StatService.onPause(this);
 		dismissDialog();
 		saveSettings();
 		super.onPause();

@@ -56,10 +56,10 @@
 
                 <Button
                     android:id="@+id/overturn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/turn_right_selector" />
+                    android:background="@drawable/ver_right_selector" />
             </RelativeLayout>
 
             <Button

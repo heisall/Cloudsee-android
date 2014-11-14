@@ -589,5 +589,6 @@
     <string name="str_alarm_download_alarmimg_stopped">下载报警图片停止</string>
     <string name="str_alarm_no_alarm_info">暂无报警消息</string>
     <string name="str_alarm_clear_ainfo_sure">确定清空报警消息吗?</string>
+    <string name="str_feedback_ok">发表成功，您的建议与反馈我们会及时处理</string>
 
 </resources>

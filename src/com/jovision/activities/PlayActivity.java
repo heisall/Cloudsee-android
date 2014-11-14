@@ -507,11 +507,11 @@ public abstract class PlayActivity extends BaseActivity {
 			if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
 				videTurnBtn.setVisibility(View.VISIBLE);
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.turn_left_selector));
+						R.drawable.ver_left_selector));
 			} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
 				videTurnBtn.setVisibility(View.VISIBLE);
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.turn_right_selector));
+						R.drawable.ver_right_selector));
 			} else {
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turnleft_down));

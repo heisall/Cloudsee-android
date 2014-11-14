@@ -38,6 +38,7 @@ import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.UserUtil;
+import com.tencent.stat.StatService;
 import com.umeng.analytics.MobclickAgent;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -118,7 +119,6 @@ public class JVLoginActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.login_layout);
-
 		userList = UserUtil.getUserList();
 		/** userlogin Fuction */
 		userNameET = (EditText) findViewById(R.id.username_et);
@@ -271,7 +271,6 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case R.id.onlinelogin_btn:// 在线登陆
-
 				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				// userNameET = null;
 				if ("".equalsIgnoreCase(userNameET.getText().toString())) {
@@ -312,6 +311,8 @@ public class JVLoginActivity extends BaseActivity {
 				}
 				break;
 			case R.id.locallogin_btn:// 本地登录
+				StatService.trackCustomEvent(JVLoginActivity.this,
+						"locallogin", "本地登录");
 				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				Intent intentMain = new Intent(JVLoginActivity.this,
 						JVTabActivity.class);
@@ -399,6 +400,8 @@ public class JVLoginActivity extends BaseActivity {
 			Intent intent = new Intent();
 			switch (result) {
 			case JVAccountConst.LOGIN_SUCCESS: {
+				StatService.trackCustomEvent(JVLoginActivity.this,
+						"onlinelogin", "在线登陆");
 				MySharedPreference.putString("UserName",
 						statusHashMap.get(Consts.KEY_USERNAME));
 				MySharedPreference.putString("PassWord",

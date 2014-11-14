@@ -1105,7 +1105,7 @@ public class JVPlayActivity extends PlayActivity implements
 		TAG = "PlayA";
 
 		isQuit = false;
-		isOmx = true;
+		isOmx = false;
 		isBlockUi = false;
 
 		lastItemIndex = 0;

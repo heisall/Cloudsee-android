@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.view.Surface;
 import android.view.SurfaceView;
 
+import com.jovision.Consts;
 import com.jovision.commons.MyList;
 
 /**
@@ -48,6 +49,11 @@ public class Channel {
 
 	private int audioType = 0;// 音频类型
 	private int audioByte = 0;// 音频比特率8 16
+
+	// [Neo] 语音对讲时编码类型
+	private int audioEncType = 0;
+	// [Neo] 语音对讲时编码帧大小
+	private int audioBlock = 0;
 
 	private boolean hasGotParams = false;
 	private boolean agreeTextData = false;// 是否同意文本聊天
@@ -420,6 +426,37 @@ public class Channel {
 
 	public void setHasGotParams(boolean hasGotParams) {
 		this.hasGotParams = hasGotParams;
+	}
+
+	public int getAudioEncType() {
+		return audioEncType;
+	}
+
+	public int getAudioBlock() {
+		return audioBlock;
+	}
+
+	public void setAudioEncType(int audioEncType) {
+		this.audioEncType = audioEncType;
+
+		switch (audioEncType) {
+		case Consts.JAE_ENCODER_ALAW:
+		case Consts.JAE_ENCODER_ULAW:
+			audioBlock = Consts.ENC_G711_SIZE;
+			break;
+
+		case Consts.JAE_ENCODER_SAMR:
+			audioBlock = Consts.ENC_AMR_SIZE;
+			break;
+
+		case Consts.JAE_ENCODER_G729:
+			audioBlock = Consts.ENC_G729_SIZE;
+			break;
+
+		default:
+			audioBlock = Consts.ENC_PCM_SIZE;
+			break;
+		}
 	}
 
 }

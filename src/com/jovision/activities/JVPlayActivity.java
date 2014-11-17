@@ -170,6 +170,13 @@ public class JVPlayActivity extends PlayActivity implements
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
 				channel.setConnected(true);
+
+				if (currentPageChannelList.contains(channel)) {
+					if (channel.isPaused()) {
+						resumeChannel(channel);
+					}
+				}
+
 				handler.sendMessage(handler
 						.obtainMessage(what, arg1, arg2, obj));
 				break;
@@ -189,7 +196,12 @@ public class JVPlayActivity extends PlayActivity implements
 			case Consts.BAD_NOT_CONNECT: {
 				channel.setConnected(false);
 				if (null != msgList && null != msgList.get(arg1)) {
-					handler.sendMessage(msgList.get(arg1));
+					Message msg = new Message();
+					msg.arg1 = msgList.get(arg1).arg1;
+					msg.arg2 = msgList.get(arg1).arg2;
+					msg.what = msgList.get(arg1).what;
+					msg.obj = msgList.get(arg1).obj;
+					handler.sendMessage(msg);
 				}
 
 				break;
@@ -443,6 +455,39 @@ public class JVPlayActivity extends PlayActivity implements
 					channel.getParent().setO5(jobj.optBoolean("is05"));
 					channel.setAudioType(jobj.getInt("audio_type"));
 					channel.setAudioByte(jobj.getInt("audio_bit"));
+					channel.setAudioEncType(jobj.getInt("audio_enc_type"));
+
+					if (8 == channel.getAudioByte()
+							&& Consts.DEVICE_TYPE_DVR == type) {
+						// [Neo] TODO 不支持此设备的语音对讲，可监听
+
+						// private static final int AUDIO_WHAT = 0x51;
+						// MyAudio audio = MyAudio.getIntance(AUDIO_WHAT, this);
+						//
+						// // [Neo] 开启音频监听
+						// Jni.enablePlayAudio(index, true);
+						// audio.startPlay(channelList.get(index).getAudioBitCount(),
+						// true);
+						//
+						// // [Neo] 关闭音频监听
+						// Jni.enablePlayAudio(index, false);
+						// audio.stopPlay();
+						//
+						// // [Neo] 开启语音对讲
+						// Channel channel = channelList.get(index);
+						// audio.startPlay(bit, true);
+						// audio.startRec(channel.getAudioEncType(),
+						// channel.getAudioByte(), channel.getAudioBlock(),
+						// true);
+						//
+						// // [Neo] 关闭语音对讲
+						// audio.stopPlay();
+						// audio.stopRec();
+						//
+						// // [Neo] 将音频填入缓存队列
+						// audio.put(data);
+
+					}
 
 					newWidth = jobj.getInt("width");
 					newHeight = jobj.getInt("height");
@@ -564,14 +609,14 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 
-		case Consts.CALL_PLAY_DOOMED: {
-			if (Consts.HDEC_BUFFERING == arg2) {
-				loadingState(arg1, R.string.connecting_buffer2,
-						JVConst.PLAY_CONNECTING_BUFFER);
-			}
-
-			break;
-		}
+		// [Neo] removed
+		// case Consts.CALL_PLAY_DOOMED: {
+		// if (Consts.HDEC_BUFFERING == arg2) {
+		// loadingState(arg1, R.string.connecting_buffer2,
+		// JVConst.PLAY_CONNECTING_BUFFER);
+		// }
+		// break;
+		// }
 
 		case WHAT_PLAY_STATUS: {
 			switch (arg2) {
@@ -594,13 +639,11 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 
 			case ARG2_STATUS_HAS_CONNECTED:
-				// [Neo] TODO has connected
 				loadingState(arg1, R.string.connfailed_timeout,
 						JVConst.PLAY_DIS_CONNECTTED);
 				break;
 
 			case ARG2_STATUS_CONN_OVERFLOW:
-				// [Neo] TODO connection overflow
 				loadingState(arg1, R.string.overflow,
 						JVConst.PLAY_DIS_CONNECTTED);
 				break;
@@ -1105,7 +1148,7 @@ public class JVPlayActivity extends PlayActivity implements
 		TAG = "PlayA";
 
 		isQuit = false;
-		isOmx = true;
+		isOmx = false;
 		isBlockUi = false;
 
 		lastItemIndex = 0;
@@ -3065,6 +3108,17 @@ public class JVPlayActivity extends PlayActivity implements
 						handler.sendMessage(handler.obtainMessage(
 								WHAT_PLAY_STATUS, channel.getIndex(),
 								ARG2_STATUS_CONNECTED));
+
+						channel.setPaused(true);
+						boolean result = resumeChannel(channel);
+						if (false == result) {
+							MyLog.e(Consts.TAG_PLAY, "force resume failed: "
+									+ channel);
+						} else {
+							sleep(RESUME_VIDEO_MIN_PEROID);
+							MyLog.e(Consts.TAG_PLAY, "force resume: " + channel);
+						}
+
 					} else {
 
 						boolean result = resumeChannel(channel);

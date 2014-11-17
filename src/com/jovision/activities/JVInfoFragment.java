@@ -408,10 +408,21 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 						}
 
-						pi.timestamp = obj
-								.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
-						pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);
-
+						// pi.timestamp = obj
+						// .optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
+						// pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);
+						String strTempTime = "";
+						strTempTime = obj
+								.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME_STR);
+						if (!strTempTime.equals("")) {
+							// 有限取这个字段的时间，格式：yyyyMMddhhmmss
+							pi.timestamp = "";
+							pi.alarmTime = AlarmUtil.formatStrTime(strTempTime);
+						} else {
+							pi.timestamp = obj
+									.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
+							pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);
+						}
 						pi.deviceName = obj
 								.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 						pi.newTag = true;

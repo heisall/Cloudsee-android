@@ -94,6 +94,12 @@ public class Consts {
 	public static final int JAE_ENCODER_SAMR = 0x00;
 	public static final int JAE_ENCODER_ALAW = 0x01;
 	public static final int JAE_ENCODER_ULAW = 0x02;
+	public static final int JAE_ENCODER_G729 = 0x03;
+
+	public static final int ENC_PCM_SIZE = 320;
+	public static final int ENC_AMR_SIZE = 640;
+	public static final int ENC_G711_SIZE = 640;
+	public static final int ENC_G729_SIZE = 960;
 
 	public static final int TEXT_REMOTE_CONFIG = 0x01;
 	public static final int TEXT_AP = 0x02;
@@ -123,13 +129,13 @@ public class Consts {
 	public static final int DOWNLOAD_TIMEOUT = 0x76;
 
 	public static final int BAD_STATUS_NOOP = 0x00;
-	public static final int BAD_STATUS_OMX = 0x01;
-	public static final int BAD_STATUS_FFMPEG = 0x02;
-	public static final int BAD_STATUS_OPENGL = 0x03;
-	public static final int BAD_STATUS_AUDIO = 0x04;
-	public static final int BAD_STATUS_DECODE = 0x05;
-	public static final int PLAYBACK_DONE = 0x06;
-	public static final int HDEC_BUFFERING = 0x07;
+	public static final int BAD_STATUS_DECODE = 0x01;
+	public static final int BAD_STATUS_OPENGL = 0x02;
+	public static final int BAD_STATUS_AUDIO = 0x03;
+	public static final int BAD_STATUS_OMX = 0x04;
+	public static final int BAD_STATUS_FFMPEG = 0x05;
+	public static final int BAD_STATUS_LEGACY = 0x06;
+	public static final int PLAYBACK_DONE = 0x10;
 
 	public static final int BAD_SCREENSHOT_NOOP = 0x00;//
 	public static final int BAD_SCREENSHOT_INIT = 0x01;//

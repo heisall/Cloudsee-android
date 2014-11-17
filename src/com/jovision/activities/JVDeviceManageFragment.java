@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -96,7 +95,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 		manageDeviceList = CacheUtil.getDevList();
 
 		mScreenWidth = mActivity.disMetrics.widthPixels;
-		Log.i("TAG", "屏幕宽度" + mScreenWidth);
 		mHorizontalScrollView = (HorizontalScrollView) mActivity
 				.findViewById(R.id.hsv_view);
 		mLinearLayout = (LinearLayout) mActivity.findViewById(R.id.hsv_content);

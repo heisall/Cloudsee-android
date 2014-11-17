@@ -424,12 +424,12 @@ public abstract class PlayActivity extends BaseActivity {
 				bottombut6.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turnleft_down));
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.turnleft_down));
+						R.drawable.turnleft_noturn));
 				bottomStream.setVisibility(View.GONE);
 			}
 			decodeBtn.setVisibility(View.GONE);
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turnleft_down));
+					R.drawable.turnleft_noturn));
 			currentKbps.setVisibility(View.GONE);
 
 			reParamsH = new RelativeLayout.LayoutParams(
@@ -514,7 +514,7 @@ public abstract class PlayActivity extends BaseActivity {
 						R.drawable.ver_right_selector));
 			} else {
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.turnleft_down));
+						R.drawable.turnleft_noturn));
 			}
 		}
 
@@ -617,7 +617,7 @@ public abstract class PlayActivity extends BaseActivity {
 				bottombut6.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turnleft_down));
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.turnleft_down));
+						R.drawable.turnleft_noturn));
 			}
 		}
 
@@ -642,7 +642,7 @@ public abstract class PlayActivity extends BaseActivity {
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turnleft_down));
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turnleft_down));
+					R.drawable.turnleft_noturn));
 			right_btn_h.setVisibility(View.GONE);// 录像模式
 			moreFeature.setText(R.string.default_stream);// 码流
 			bottomStream.setText(R.string.default_stream);

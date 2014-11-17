@@ -215,15 +215,15 @@ public class JVMoreFragment extends BaseFragment {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
+			case R.id.pop_outside:
+				popupWindow.dismiss();
+				break;
 			case R.id.more_head_img:
 				popupWindow = new popw(mActivity, myOnClickListener);
 				popupWindow.setBackgroundDrawable(null);
-				if (popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				} else {
-					popupWindow.showAtLocation(linear, Gravity.BOTTOM
-							| Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
-				}
+				popupWindow.setOutsideTouchable(true);
+				popupWindow.showAtLocation(linear, Gravity.BOTTOM
+						| Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
 				break;
 			case R.id.btn_pick_photo: {
 				popupWindow.dismiss();
@@ -275,7 +275,9 @@ public class JVMoreFragment extends BaseFragment {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case PHOTO_REQUEST_TAKEPHOTO:
-			startPhotoZoom(Uri.fromFile(newFile), 300);
+			if (resultCode == -1) {
+				startPhotoZoom(Uri.fromFile(newFile), 300);
+			}
 			break;
 
 		case PHOTO_REQUEST_GALLERY:
@@ -389,8 +391,11 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 3:// 媒体
-							StatService.trackCustomEvent(mActivity, "Media",
-									"媒体");
+							StatService.trackCustomEvent(
+									mActivity,
+									"Media",
+									mActivity.getResources().getString(
+											R.string.str_media));
 							Intent intentMedia = new Intent(mActivity,
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);

@@ -43,6 +43,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.adapters.LanAdapter;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.adapters.PopWindowAdapter;
 import com.jovision.bean.Channel;
@@ -98,6 +99,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private Dialog initDialog;// 显示弹出框
 	private TextView dialogCancel;// 取消按钮
 	private TextView dialogCompleted;// 确定按钮
+	/** 广播弹出框 */
+	private Dialog LanDialog;// 显示弹出框
+	private ListView lanlistview;// 广播到的设备列表
+	private TextView lan_completed;// 确定按钮
+	private TextView lan_cancel;// 取消按钮
+	private LanAdapter lanAdapter;
+	private LinearLayout lanselect;
+	private ImageView lanall;
+	private boolean isselectall;
+	private ArrayList<Device> AddLanList = new ArrayList<Device>();// 广播到的设备列表
 	// 设备名称
 	private TextView device_name;
 	// 设备昵称
@@ -284,6 +295,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
+			case R.id.lan_cancel:
+				LanDialog.dismiss();
+				break;
 			case R.id.dialog_cancle_img:
 				initDialog.dismiss();
 				break;
@@ -381,7 +395,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 				switch (position) {
 				case 0: {// 云视通号
 					StatService.trackCustomEvent(mActivity,
-							"Add by CloudSEE ID", "云视通号添加");
+							"Add by CloudSEE ID", mActivity.getResources()
+									.getString(R.string.str_addcloudseeid));
 					Intent addIntent = new Intent();
 					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
 					addIntent.putExtra("QR", false);
@@ -389,8 +404,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 					break;
 				}
 				case 1: {// 二维码扫描
-					StatService.trackCustomEvent(mActivity, "Scan QR Code",
-							"二维码扫描");
+					StatService.trackCustomEvent(
+							mActivity,
+							"Scan QR Code",
+							mActivity.getResources().getString(
+									R.string.str_scanqrcod));
 					Intent addIntent = new Intent();
 					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
 					addIntent.putExtra("QR", true);
@@ -398,14 +416,18 @@ public class JVMyDeviceFragment extends BaseFragment {
 					break;
 				}
 				case 2: {// 无线设备
-					StatService.trackCustomEvent(mActivity, "Add Wi_Fi Device",
-							"无线设备");
+					StatService.trackCustomEvent(
+							mActivity,
+							"Add Wi_Fi Device",
+							mActivity.getResources().getString(
+									R.string.str_addwifidev));
 					((ShakeActivity) mActivity).startSearch(false);
 					break;
 				}
 				case 3: {// 局域网设备
 					StatService.trackCustomEvent(mActivity,
-							"Scan devices in LAN", "局域网设备");
+							"Scan devices in LAN", mActivity.getResources()
+									.getString(R.string.str_scanlandevice));
 					if (!mActivity.is3G(false)) {// 3G网提示不支持
 						fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 						broadTag = BROAD_ADD_DEVICE;
@@ -418,8 +440,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 					break;
 				}
 				case 4: {// IP/域名设备
-					StatService
-							.trackCustomEvent(mActivity, "IP/DNS", "IP/域名设备");
+					StatService.trackCustomEvent(mActivity, "IP/DNS", mActivity
+							.getResources().getString(R.string.str_ipdns));
 					Intent intent = new Intent();
 					intent.setClass(mActivity, JVAddIpDeviceActivity.class);
 					mActivity.startActivity(intent);
@@ -619,7 +641,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						mActivity.dismissDialog();
 
 						if (null != broadList && 0 != broadList.size()) {
-							alertAddDialog();
+							initLanDialog();
 						} else {
 							mActivity.showTextToast(R.string.broad_zero);
 						}
@@ -816,6 +838,76 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 			}
 		});
+	}
+
+	/** 局域网扫描弹出框初始化 */
+	private void initLanDialog() {
+		AddLanList.clear();
+		LanDialog = new Dialog(mActivity, R.style.mydialog);
+		View view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_lan,
+				null);
+		LanDialog.setContentView(view);
+		lan_completed = (TextView) view.findViewById(R.id.lan_completed);
+		lan_cancel = (TextView) view.findViewById(R.id.lan_cancel);
+		lanlistview = (ListView) view.findViewById(R.id.lanlistview);
+		lanselect = (LinearLayout) view.findViewById(R.id.select);
+		lanall = (ImageView) view.findViewById(R.id.Lanall);
+		lanAdapter = new LanAdapter(mActivity);
+		lanAdapter.setData(broadList);
+		lanlistview.setAdapter(lanAdapter);
+		lanlistview
+				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						// TODO Auto-generated method stub
+						if (broadList.get(position).isIslanselect()) {
+							broadList.get(position).setIslanselect(false);
+						} else {
+							broadList.get(position).setIslanselect(true);
+						}
+						lanAdapter.notifyDataSetChanged();
+					}
+				});
+		lan_completed.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				for (int i = 0; i < broadList.size(); i++) {
+					if (broadList.get(i).isIslanselect()) {
+						AddLanList.add(broadList.get(i));
+					}
+				}
+				// TODO Auto-generated method stub
+				AddDevTask task = new AddDevTask();
+				String[] strParams = new String[3];
+				task.execute(strParams);
+			}
+		});
+		lanselect.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (isselectall) {
+					for (int i = 0; i < broadList.size(); i++) {
+						broadList.get(i).setIslanselect(true);
+					}
+					lanall.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					isselectall = false;
+				} else {
+					for (int i = 0; i < broadList.size(); i++) {
+						broadList.get(i).setIslanselect(false);
+					}
+					lanall.setBackgroundResource(R.drawable.morefragment_normal_icon);
+					isselectall = true;
+				}
+				lanAdapter.notifyDataSetChanged();
+			}
+		});
+		lan_cancel.setOnClickListener(myOnClickListener);
+		LanDialog.show();
 	}
 
 	// 保存更改设备信息线程
@@ -1091,11 +1183,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 		protected Integer doInBackground(String... params) {
 			int addRes = -1;
 			int addCount = 0;
-			ArrayList<Device> list = new ArrayList<Device>();// 广播到的设备列表
-			list = Device.fromJsonArray(params[0]);
+			// ArrayList<Device> list = new ArrayList<Device>();// 广播到的设备列表
+			// list = AddLanList;
+			// list = Device.fromJsonArray(params[0]);
+			// for (int i = 0; i < broadList.size(); i++) {
+			// Log.i("TAG",
+			// "设备是否被选中"+i+"     "+broadList.get(i).isIslanselect());
+			// }
 			try {
-				for (Device addDev : list) {
-
+				for (Device addDev : AddLanList) {
 					if (myDeviceList.size() >= 100
 							&& !Boolean
 									.valueOf(((BaseActivity) mActivity).statusHashMap
@@ -1111,21 +1207,25 @@ public class JVMyDeviceFragment extends BaseFragment {
 							addRes = 0;
 							addCount++;
 						} else {
+
 							addDev = DeviceUtil
 									.addDevice(mActivity.statusHashMap
 											.get("KEY_USERNAME"), addDev);
+
 							if (null != addDev) {
 								addRes = 0;
 							}
 
 							// 添加设备失败了，再添加一次
 							if (addRes < 0) {
+
 								addDev = DeviceUtil.addDevice(
 										mActivity.statusHashMap
 												.get("KEY_USERNAME"), addDev);
-								if (null != addDev) {
-									addRes = 0;
-								}
+							}
+							if (null != addDev) {
+								addRes = 0;
+
 							}
 
 							if (addRes == 0) {
@@ -1170,7 +1270,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
 						myDeviceList);
 
-				for (Device dev1 : list) {
+				for (Device dev1 : AddLanList) {
 					for (Device dev2 : myDeviceList) {
 						if (dev1.getFullNo().equalsIgnoreCase(dev2.getFullNo())) {
 							dev2.setOnlineState(1);
@@ -1198,6 +1298,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			((BaseActivity) mActivity).dismissDialog();
 			if (result > 0) {
 				refreshList();
+				LanDialog.dismiss();
 				mActivity.showTextToast(R.string.add_device_succ);
 			} else if (result == -100) {
 				mActivity.showTextToast(R.string.str_device_most_count);
@@ -1239,10 +1340,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 									int which) {
 								mActivity.createDialog("");
 								mActivity.proDialog.setCancelable(false);
-								AddDevTask task = new AddDevTask();
-								String[] strParams = new String[3];
-								strParams[0] = broadList.toString();
-								task.execute(strParams);
 							}
 						})
 				.setNegativeButton(R.string.cancel,

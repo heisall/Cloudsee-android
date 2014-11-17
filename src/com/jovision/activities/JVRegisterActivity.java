@@ -399,7 +399,8 @@ public class JVRegisterActivity extends BaseActivity {
 			switch (result) {
 			case JVAccountConst.SUCCESS:// 注册成功
 				StatService.trackCustomEvent(JVRegisterActivity.this,
-						"Register", "注册");
+						"Register", JVRegisterActivity.this.getResources()
+								.getString(R.string.str_register));
 				if (verifyCode > 0 && 0 == loginRes) {
 					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 					Intent emailIntent = new Intent(JVRegisterActivity.this,

@@ -396,6 +396,9 @@
     <string name="get_alarm_list_failed">Get Alarm info list failed</string>
     <string name="clear_alarm_succ">Clear alarm successfully.</string>
     <string name="clear_alarm_failed">Failed to clear alarm.</string>
+    <!-- popupWindow -->
+    <string name="pop_take">拍照</string>
+    <string name="pop_pictrue">从相册选择</string>
     <!-- JVPlayActivity -->
     <string name="offline_not_play1">Unable to operate due to device has been offline.</string>
     <string name="connfailed_auth">Failed to very ID.</string>
@@ -505,6 +508,7 @@
     <string name="str_help_five">Add Alarm Device</string>
     <string name="start_now">Enjoy it now</string>
     <!-- Dialog -->
+    <string name="select_all">select all</string>
     <string name="save">Save</string>
     <string name="cancle">Cancel</string>
     <string name="str_devicename">Device Number</string>
@@ -590,5 +594,24 @@
     <string name="str_alarm_no_alarm_info">no alarm message</string>
     <string name="str_alarm_clear_ainfo_sure">sure to clear the alarm message?</string>
     <string name="str_feedback_ok">Submit success, your suggestions and feedback we will handle in time</string>
+    <!-- 腾讯云分析统计名称 -->
+    <string name="str_login">本地登录</string>
+    <string name="str_onlinelogin">在线登陆</string>
+    <string name="str_remoteset">远程设置</string>
+    <string name="str_ipconect">连接模式</string>
+    <string name="str_devicemanage">设备管理</string>
+    <string name="str_channalmanage">通道管理</string>
+    <string name="str_play">立即观看</string>
+    <string name="str_adddevice">添加设备</string>
+    <string name="str_onekeyupdate">一键升级</string>
+    <string name="str_alarm2">安全防护</string>
+    <string name="str_addcloudseeid">云视通号添加</string>
+    <string name="str_scanqrcod">二维码扫描</string>
+    <string name="str_addwifidev">无线设备</string>
+    <string name="str_scanlandevice">局域网设备</string>
+    <string name="str_ipdns">IP/域名设备</string>
+    <string name="str_demo">视频广场</string>
+    <string name="str_register">注册</string>
+    <string name="str_media">媒体</string>
 
 </resources>

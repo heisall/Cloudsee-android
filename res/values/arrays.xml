@@ -13,8 +13,8 @@
     <string-array name="array_more">
         <item> Help</item>
         <item> Alarm</item>
-        <item>Media</item>
         <item> Viewing Mode(Single-device)</item>
+        <item>Media</item>
         <item> Feedback</item>
         <item>Software Update</item>
         <item>	Version</item>

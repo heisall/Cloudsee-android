@@ -49,6 +49,7 @@ public class JVRemoteListActivity extends BaseActivity {
 	private ArrayList<RemoteVideo> videoList;
 	private int deviceType;// 设备类型
 	private int indexOfChannel;// 通道index
+	private int channelOfChannel;// 通道index
 	private boolean isJFH;// 是否05版解码器
 	private int audioByte;// 音频监听比特率
 
@@ -58,8 +59,9 @@ public class JVRemoteListActivity extends BaseActivity {
 		switch (what) {
 		case Consts.CALL_CHECK_RESULT: {// 查询远程回放数据
 			byte[] pBuffer = (byte[]) obj;
+			// TODO
 			videoList = PlayUtil.getRemoteList(pBuffer, deviceType,
-					indexOfChannel);
+					channelOfChannel);
 			if (null != videoList && 0 != videoList.size()) {
 				handler.sendMessage(handler
 						.obtainMessage(JVConst.REMOTE_DATA_SUCCESS));
@@ -164,6 +166,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		if (null != intent) {
 			deviceType = intent.getIntExtra("DeviceType", 0);
 			indexOfChannel = intent.getIntExtra("IndexOfChannel", 0);
+			channelOfChannel = intent.getIntExtra("ChannelOfChannel", 0);
 			isJFH = intent.getBooleanExtra("isJFH", false);
 			audioByte = intent.getIntExtra("AudioByte", 0);
 		}
@@ -188,6 +191,8 @@ public class JVRemoteListActivity extends BaseActivity {
 				intent.setClass(JVRemoteListActivity.this,
 						JVRemotePlayBackActivity.class);
 				intent.putExtra("IndexOfChannel", indexOfChannel);
+				intent.putExtra("ChannelOfChannel", channelOfChannel);
+
 				intent.putExtra("acBuffStr", acBuffStr);
 				intent.putExtra("AudioByte", audioByte);
 				JVRemoteListActivity.this.startActivity(intent);

@@ -2471,7 +2471,9 @@ public class JVPlayActivity extends PlayActivity implements
 		Intent remoteIntent = new Intent();
 		remoteIntent.setClass(JVPlayActivity.this, JVRemoteListActivity.class);
 		remoteIntent.putExtra("IndexOfChannel", channelList.get(lastClickIndex)
-				.getChannel());
+				.getIndex());
+		remoteIntent.putExtra("ChannelOfChannel",
+				channelList.get(lastClickIndex).getChannel());
 		remoteIntent.putExtra("DeviceType", channelList.get(lastClickIndex)
 				.getParent().getType());
 		remoteIntent.putExtra("isJFH", channelList.get(lastClickIndex)

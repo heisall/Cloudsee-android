@@ -177,7 +177,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		audio = MyAudio.getIntance();// AUDIO_WHAT, PlayActivity.this);
+		audio = MyAudio.getIntance(AUDIO_WHAT, PlayActivity.this);
 	}
 
 	@Override

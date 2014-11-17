@@ -224,7 +224,12 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 		updateBtn = (Button) findViewById(R.id.update);
 		updateBtn.setOnClickListener(myOnClickListener);
 
-		devModel.setText(deviceList.get(devIndex).getDeviceModel());
+		if ("unknown".equalsIgnoreCase(deviceList.get(devIndex)
+				.getDeviceModel())) {
+			devModel.setText(R.string.unknown);
+		} else {
+			devModel.setText(deviceList.get(devIndex).getDeviceModel());
+		}
 		devVersion.setText(deviceList.get(devIndex).getDeviceVerName());
 	}
 

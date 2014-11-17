@@ -189,7 +189,12 @@ public class JVPlayActivity extends PlayActivity implements
 			case Consts.BAD_NOT_CONNECT: {
 				channel.setConnected(false);
 				if (null != msgList && null != msgList.get(arg1)) {
-					handler.sendMessage(msgList.get(arg1));
+					Message msg = new Message();
+					msg.arg1 = msgList.get(arg1).arg1;
+					msg.arg2 = msgList.get(arg1).arg2;
+					msg.what = msgList.get(arg1).what;
+					msg.obj = msgList.get(arg1).obj;
+					handler.sendMessage(msg);
 				}
 
 				break;

@@ -14,6 +14,7 @@ import android.media.AudioTrack;
 import android.media.MediaRecorder;
 
 import com.jovision.Consts;
+import com.jovision.IHandlerLikeNotify;
 import com.jovision.Jni;
 
 public class MyAudio {
@@ -30,10 +31,19 @@ public class MyAudio {
 	private static final String TARGET_FILE = Consts.LOG_PATH + File.separator
 			+ "audio.out";
 
+	private static final int ARG1_PLAY = 0x01;
+	private static final int ARG1_RECORD = 0x02;
+
+	private static final int ARG2_START = 0x01;
+	private static final int ARG2_FINISH = 0x02;
+
 	private Play play;
 	private Record record;
 
 	private LinkedBlockingQueue<byte[]> queue;
+
+	private int what;
+	private IHandlerLikeNotify notify;
 
 	private int minSize;
 	private boolean isRec;
@@ -47,7 +57,9 @@ public class MyAudio {
 		private static MyAudio HOLDER = new MyAudio();
 	}
 
-	public static MyAudio getIntance() {
+	public static MyAudio getIntance(int what, IHandlerLikeNotify notify) {
+		Container.HOLDER.what = what;
+		Container.HOLDER.notify = notify;
 		return Container.HOLDER;
 	}
 
@@ -101,6 +113,10 @@ public class MyAudio {
 		public void run() {
 			MyLog.w(TAG, "Play E: bit = " + bit + ", fromQueue = "
 					+ isFromQueue);
+
+			if (null != notify) {
+				notify.onNotify(what, ARG1_PLAY, ARG2_START, null);
+			}
 
 			int offset = 0;
 			int length = 0;
@@ -182,6 +198,10 @@ public class MyAudio {
 				}
 			}
 
+			if (null != notify) {
+				notify.onNotify(what, ARG1_PLAY, ARG2_FINISH, null);
+			}
+
 			MyLog.w(TAG, "Play X");
 		}
 	}
@@ -202,6 +222,10 @@ public class MyAudio {
 
 		@Override
 		public void run() {
+			if (null != notify) {
+				notify.onNotify(what, ARG1_RECORD, ARG2_START, null);
+			}
+
 			minSize = AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
 					AudioFormat.ENCODING_PCM_16BIT);
 
@@ -261,7 +285,15 @@ public class MyAudio {
 							if (type >= 0) {
 								encoded = Jni.encodeAudio(data);
 							} else {
-								encoded = data;
+								if (8 == bit) {
+									for (int i = 0; i < out.length; i++) {
+										short origin = (short) (data[i * 2 + 1] << 8 | data[i * 2]);
+										out[i] = (byte) (origin >> 8 | 0x80);
+									}
+									encoded = out;
+								} else {
+									encoded = data;
+								}
 							}
 
 							if (isSend) {
@@ -314,6 +346,10 @@ public class MyAudio {
 
 				rec = null;
 
+			}
+
+			if (null != notify) {
+				notify.onNotify(what, ARG1_RECORD, ARG2_FINISH, null);
 			}
 
 			MyLog.w(TAG, "Record X");

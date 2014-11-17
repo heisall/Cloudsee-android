@@ -239,10 +239,21 @@ public class PlayUtil {
 			open = !stopRes;
 		} else {
 			boolean startRes = startAudioMonitor(index);
+			// // [Neo] 开启音频监听
+			// Jni.enablePlayAudio(index, true);
+			// audio.startPlay(channelList.get(index).getAudioBitCount(),true);
 			open = startRes;
 		}
 		return open;
 	}
+
+	// // [Neo] 开启音频监听
+	// Jni.enablePlayAudio(index, true);
+	// audio.startPlay(channelList.get(index).getAudioBitCount(),
+	// true);
+	//
+	// // [Neo] 关闭音频监听
+	// Jni.enablePlayAudio(index, false);
 
 	/**
 	 * 查询音频监听状态
@@ -1087,7 +1098,8 @@ public class PlayUtil {
 
 		try {
 			String textString1 = new String(pBuffer);
-			MyLog.v("远程回放pBuffer", textString1);
+			MyLog.v("远程回放pBuffer", "deviceType=" + deviceType + ";pBuffer="
+					+ textString1);
 
 			int nSize = pBuffer.length;
 			// 无数据
@@ -1192,11 +1204,35 @@ public class PlayUtil {
 		if (null == videoBean) {
 			return acBuffStr;
 		}
+
+		MyLog.v("远程回放单个文件", "deviceType=" + deviceType + ";isJFH=" + isJFH);
 		if (isJFH) {
 			if (deviceType == 0) {
+				// // sprintf(acChn, "%s",videoBean.remoteChannel);
+				// String channelStr = String
+				// .format("%s", videoBean.remoteChannel);
+				// System.arraycopy(channelStr.getBytes(), 0, acChn, 0,
+				// channelStr.length());
+				//
+				// // sprintf(acTime, "%s",videoBean.remoteDate);
+				// String acTimeStr = String.format("%s", videoBean.remoteDate);
+				// System.arraycopy(acTimeStr.getBytes(), 0, acTime, 0,
+				// acTimeStr.length());
+				//
+				// // sprintf(acDisk, "%s",videoBean.remoteDisk);
+				// String acDiskStr = String.format("%s", videoBean.remoteDisk);
+				// System.arraycopy(acDiskStr.getBytes(), 0, acDisk, 0,
+				// acDiskStr.length());
+				// acBuffStr = String.format(
+				// "%c:\\JdvrFile\\%04d%02d%02d\\%c%c%c%c%c%c%c%c.mp4",
+				// acDisk[0], year, month, day, acChn[0], acChn[1],
+				// acTime[0], acTime[1], acTime[3], acTime[4], acTime[6],
+				// acTime[7]);
+
 				// sprintf(acChn, "%s",videoBean.remoteChannel);
 				String channelStr = String
 						.format("%s", videoBean.remoteChannel);
+				MyLog.e("channelStr", channelStr);
 				System.arraycopy(channelStr.getBytes(), 0, acChn, 0,
 						channelStr.length());
 
@@ -1214,6 +1250,7 @@ public class PlayUtil {
 						acDisk[0], year, month, day, acChn[0], acChn[1],
 						acTime[0], acTime[1], acTime[3], acTime[4], acTime[6],
 						acTime[7]);
+
 			} else if (deviceType == 1 || deviceType == 4 || deviceType == 5) {
 				String channelStr = String
 						.format("%s", videoBean.remoteChannel);

@@ -592,17 +592,21 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_PLAY_AUDIO: {
-			if (null != obj && null != audioQueue) {
+			if (null != obj && null != audio) {
 				if (AUDIO_SINGLE) {// 单向对讲长按才发送语音数据
 					if (VOICECALL_LONG_CLICK) {
 						// 长按时只发送语音，不接收语音
 					} else {
 						byte[] data = (byte[]) obj;
-						audioQueue.offer(data);
+						// audioQueue.offer(data);
+						// [Neo] 将音频填入缓存队列
+						audio.put(data);
 					}
 				} else {// 双向对讲直接播放设备传过来的语音
 					byte[] data = (byte[]) obj;
-					audioQueue.offer(data);
+					// audioQueue.offer(data);
+					// [Neo] 将音频填入缓存队列
+					audio.put(data);
 				}
 			}
 
@@ -2467,7 +2471,7 @@ public class JVPlayActivity extends PlayActivity implements
 		Intent remoteIntent = new Intent();
 		remoteIntent.setClass(JVPlayActivity.this, JVRemoteListActivity.class);
 		remoteIntent.putExtra("IndexOfChannel", channelList.get(lastClickIndex)
-				.getIndex());
+				.getChannel());
 		remoteIntent.putExtra("DeviceType", channelList.get(lastClickIndex)
 				.getParent().getType());
 		remoteIntent.putExtra("isJFH", channelList.get(lastClickIndex)

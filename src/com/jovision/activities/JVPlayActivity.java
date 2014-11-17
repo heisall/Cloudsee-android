@@ -196,7 +196,12 @@ public class JVPlayActivity extends PlayActivity implements
 			case Consts.BAD_NOT_CONNECT: {
 				channel.setConnected(false);
 				if (null != msgList && null != msgList.get(arg1)) {
-					handler.sendMessage(msgList.get(arg1));
+					Message msg = new Message();
+					msg.arg1 = msgList.get(arg1).arg1;
+					msg.arg2 = msgList.get(arg1).arg2;
+					msg.what = msgList.get(arg1).what;
+					msg.obj = msgList.get(arg1).obj;
+					handler.sendMessage(msg);
 				}
 
 				break;
@@ -516,9 +521,17 @@ public class JVPlayActivity extends PlayActivity implements
 					channel.setWidth(newWidth);
 					// 是IPC，发文本聊天请求
 					if (channel.getParent().isHomeProduct()) {
-						// 请求文本聊天
-						Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT,
-								new byte[0], 8);
+
+						if (channel.isAgreeTextData()) {
+							// 获取主控码流信息请求
+							Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA,
+									8, JVNetConst.JVN_STREAM_INFO);
+						} else {
+							// 请求文本聊天
+							Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT,
+									new byte[0], 8);
+						}
+
 					}
 				}
 			} else {
@@ -526,7 +539,11 @@ public class JVPlayActivity extends PlayActivity implements
 					showFunc(channel, currentScreen, lastClickIndex);
 				} else {
 					// 是IPC，发文本聊天请求
-					if (channel.getParent().isHomeProduct()) {
+					if (channel.isAgreeTextData()) {
+						// 获取主控码流信息请求
+						Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA, 8,
+								JVNetConst.JVN_STREAM_INFO);
+					} else {
 						// 请求文本聊天
 						Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT,
 								new byte[0], 8);

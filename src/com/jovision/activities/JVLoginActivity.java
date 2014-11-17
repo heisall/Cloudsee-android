@@ -304,6 +304,8 @@ public class JVLoginActivity extends BaseActivity {
 				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
 					alertNetDialog();
 				} else {
+					StatService.trackCustomEvent(JVLoginActivity.this, "Demo",
+							"演示点");
 					Intent demoIntent = new Intent();
 					demoIntent.setClass(JVLoginActivity.this,
 							JVDemoActivity.class);

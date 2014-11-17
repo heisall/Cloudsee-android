@@ -85,7 +85,7 @@ public class NewFeedbackActivity extends BaseActivity {
 		});
 		if (localFlag) {
 			myWebView
-					.loadUrl("http://192.168.4.234/member.php?mod=mobile&session=0&username=jv_guest");
+					.loadUrl("http://182.92.242.230/member.php?mod=mobile&session=0&username=jv_guest");
 		} else {
 			byte[] session = new byte[32];
 			JVACCOUNT.GetSession(session);
@@ -98,7 +98,7 @@ public class NewFeedbackActivity extends BaseActivity {
 				String strSession = new String(session);
 				String userName = statusHashMap.get(Consts.KEY_USERNAME);
 				StringBuffer sbParamBuffer = new StringBuffer(
-						"http://192.168.4.234/member.php?mod=mobile&session=");
+						"http://182.92.242.230/member.php?mod=mobile&session=");
 				sbParamBuffer.append(strSession).append("&username=")
 						.append(userName);
 				String strParam = sbParamBuffer.toString();

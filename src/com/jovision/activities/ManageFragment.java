@@ -552,7 +552,7 @@ public class ManageFragment extends BaseFragment {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mActivity.dismissDialog();
 			if (0 == result) {
-				StatService.trackCustomEvent(mActivity, "Alerm", "安全防护");
+				StatService.trackCustomEvent(mActivity, "Alarm", "安全防护");
 				if (JVDeviceConst.DEVICE_SWITCH_OPEN == device.getAlarmSwitch()) {
 					device.setAlarmSwitch(JVDeviceConst.DEVICE_SWITCH_CLOSE);
 					mActivity.showTextToast(R.string.protect_close_succ);

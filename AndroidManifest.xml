@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="40"
-    android:versionName="V4.3.1" >
+    android:versionName="V4.3.3" >
 
     <supports-screens
         android:anyDensity="true"
@@ -14,10 +14,34 @@
 
     <uses-sdk android:minSdkVersion="10" />
 
-　　<uses-permission android:name="android.permission.INTERNET" />
-　　<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-　　<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-　　<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+
+
+　　
+    
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
+
+　　
+    
+    
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
+
+　　
+    
+    
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+
+
+　　
+    
+    
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
@@ -30,7 +54,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
-    
     <!-- Permission for Unit Test -->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <!-- 系统提示框 -->
@@ -54,12 +77,48 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light" >
         <uses-library android:name="android.test.runner" />
+
+        <!-- 请将MTA_APPKEY改为MTA分配的appkey < -->
+
+
+
+
+
+　　
         
-       <!-- 请将MTA_APPKEY改为MTA分配的appkey < -->
-　　<meta-data android:name="TA_APPKEY" android:value="A8IA5GMIL13M" />
-　　<!-- 请将CHANNAL改为app的发布渠道 < -->
-　　<meta-data  android:name="InstallChannel" android:value="CloudSEE" />
-　　<!-- mta系统的权限< -->
+        
+        <meta-data
+            android:name="TA_APPKEY"
+            android:value="A8IA5GMIL13M" />
+
+
+
+　　
+        
+
+        
+
+        <!-- 请将CHANNAL改为app的发布渠道 < -->
+
+
+
+
+
+　　
+        
+        
+        <meta-data
+            android:name="InstallChannel"
+            android:value="CloudSEE" />
+
+
+
+　　
+        
+
+        
+
+        <!-- mta系统的权限< -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="523046c156240b7a540795cf" >
@@ -67,7 +126,7 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="jovision" />
-        
+
         <activity
             android:name="com.jovision.activities.JVWelcomeActivity"
             android:label="@string/app_name"
@@ -76,6 +135,7 @@
             android:windowSoftInputMode="adjustNothing" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -416,4 +476,5 @@
             </intent-filter>
         </service>
     </application>
+
 </manifest>

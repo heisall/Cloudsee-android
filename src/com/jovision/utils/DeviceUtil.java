@@ -132,9 +132,9 @@ public class DeviceUtil {
 			return null;
 		}
 
-		// if (null != deviceList && 0 != deviceList.size()) {
-		// refreshDeviceState(userName, deviceList);
-		// }
+		if (null != deviceList && 0 != deviceList.size()) {
+			refreshDeviceState(userName, deviceList);
+		}
 
 		return deviceList;
 	}

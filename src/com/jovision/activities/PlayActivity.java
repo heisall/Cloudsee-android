@@ -36,7 +36,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 	protected boolean bigScreen = false;// 大小屏标识
 
-	protected boolean isOmx = false;
+	protected boolean isOmx = true;
 	protected Boolean lowerSystem = false;// 低于4.1的系统
 	protected boolean realStop = false;
 

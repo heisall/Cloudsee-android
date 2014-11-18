@@ -28,11 +28,15 @@ import com.jovision.audio.MICRecorder;
 import com.jovision.audio.PlayAudio;
 import com.jovision.bean.Channel;
 import com.jovision.commons.JVConst;
+import com.jovision.commons.MyAudio;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.MyViewPager;
 
 public abstract class PlayActivity extends BaseActivity {
+
+	private static final int AUDIO_WHAT = 0x26;
+	MyAudio audio;
 
 	protected boolean bigScreen = false;// 大小屏标识
 
@@ -173,7 +177,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-
+		audio = MyAudio.getIntance(AUDIO_WHAT, PlayActivity.this);
 	}
 
 	@Override

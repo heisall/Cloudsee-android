@@ -239,10 +239,21 @@ public class PlayUtil {
 			open = !stopRes;
 		} else {
 			boolean startRes = startAudioMonitor(index);
+			// // [Neo] 开启音频监听
+			// Jni.enablePlayAudio(index, true);
+			// audio.startPlay(channelList.get(index).getAudioBitCount(),true);
 			open = startRes;
 		}
 		return open;
 	}
+
+	// // [Neo] 开启音频监听
+	// Jni.enablePlayAudio(index, true);
+	// audio.startPlay(channelList.get(index).getAudioBitCount(),
+	// true);
+	//
+	// // [Neo] 关闭音频监听
+	// Jni.enablePlayAudio(index, false);
 
 	/**
 	 * 查询音频监听状态
@@ -1072,6 +1083,10 @@ public class PlayUtil {
 				28);
 	}
 
+	// JVSUDT.JVC_SendData(windowIndex + 1,
+	// (byte) JVNetConst.JVN_REQ_CHECK, date.getBytes(),
+	// 28);
+
 	/**
 	 * 远程检索回调获取到码流数据list
 	 * 
@@ -1081,13 +1096,14 @@ public class PlayUtil {
 	 * @return
 	 */
 	public static ArrayList<RemoteVideo> getRemoteList(byte[] pBuffer,
-			int deviceType, int channelIndex) {
+			int deviceType, int channelOfChannel) {
 
 		ArrayList<RemoteVideo> datalist = new ArrayList<RemoteVideo>();
 
 		try {
 			String textString1 = new String(pBuffer);
-			MyLog.v("远程回放pBuffer", textString1);
+			MyLog.v("远程回放pBuffer", "deviceType=" + deviceType + ";pBuffer="
+					+ textString1);
 
 			int nSize = pBuffer.length;
 			// 无数据
@@ -1104,7 +1120,7 @@ public class PlayUtil {
 			if (deviceType == 0) {
 				for (int i = 0; i <= nSize - 7; i += 7) {
 					RemoteVideo rv = new RemoteVideo();
-					rv.remoteChannel = String.format("%02d", channelIndex);
+					rv.remoteChannel = String.format("%02d", channelOfChannel);
 					rv.remoteDate = String.format("%c%c:%c%c:%c%c",
 							pBuffer[i + 1], pBuffer[i + 2], pBuffer[i + 3],
 							pBuffer[i + 4], pBuffer[i + 5], pBuffer[i + 6]);
@@ -1144,7 +1160,7 @@ public class PlayUtil {
 			} else if (deviceType == 2 || deviceType == 3) {
 				for (int i = 0; i <= nSize - 7; i += 7) {
 					RemoteVideo rv = new RemoteVideo();
-					rv.remoteChannel = String.format("%02d", channelIndex);
+					rv.remoteChannel = String.format("%02d", channelOfChannel);
 					rv.remoteDate = String.format("%c%c:%c%c:%c%c",
 							pBuffer[i + 1], pBuffer[i + 2], pBuffer[i + 3],
 							pBuffer[i + 4], pBuffer[i + 5], pBuffer[i + 6]);
@@ -1166,6 +1182,14 @@ public class PlayUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		// for(int i = 0 ; i < datalist.size();i++){
+		// RemoteVideo rv = datalist.get(i);
+		// MyLog.v("远程回放--"+i, "channel="+rv.remoteChannel
+		// +"Date="+rv.remoteDate
+		// +"disk="+rv.remoteDisk
+		// +"kind="+rv.remoteKind);
+		// }
 
 		return datalist;
 	}
@@ -1192,11 +1216,15 @@ public class PlayUtil {
 		if (null == videoBean) {
 			return acBuffStr;
 		}
+
+		MyLog.v("远程回放单个文件", "deviceType=" + deviceType + ";isJFH=" + isJFH);
 		if (isJFH) {
 			if (deviceType == 0) {
+
 				// sprintf(acChn, "%s",videoBean.remoteChannel);
 				String channelStr = String
 						.format("%s", videoBean.remoteChannel);
+				MyLog.e("channelStr", channelStr);
 				System.arraycopy(channelStr.getBytes(), 0, acChn, 0,
 						channelStr.length());
 
@@ -1214,6 +1242,7 @@ public class PlayUtil {
 						acDisk[0], year, month, day, acChn[0], acChn[1],
 						acTime[0], acTime[1], acTime[3], acTime[4], acTime[6],
 						acTime[7]);
+
 			} else if (deviceType == 1 || deviceType == 4 || deviceType == 5) {
 				String channelStr = String
 						.format("%s", videoBean.remoteChannel);

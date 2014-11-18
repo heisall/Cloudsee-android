@@ -31,11 +31,11 @@ public class MyAudio {
 	private static final String TARGET_FILE = Consts.LOG_PATH + File.separator
 			+ "audio.out";
 
-	private static final int ARG1_PLAY = 0x01;
-	private static final int ARG1_RECORD = 0x02;
+	public static final int ARG1_PLAY = 0x01;
+	public static final int ARG1_RECORD = 0x02;
 
-	private static final int ARG2_START = 0x01;
-	private static final int ARG2_FINISH = 0x02;
+	public static final int ARG2_START = 0x01;
+	public static final int ARG2_FINISH = 0x02;
 
 	private Play play;
 	private Record record;

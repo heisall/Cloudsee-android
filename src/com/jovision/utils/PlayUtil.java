@@ -226,26 +226,26 @@ public class PlayUtil {
 		}
 	}
 
-//	/**
-//	 * 应用层调用音频监听功能
-//	 * 
-//	 * @param index
-//	 * @return
-//	 */
-//	public static boolean audioPlay(int index) {
-//		boolean open = false;
-//		if (isPlayAudio(index)) {
-//			boolean stopRes = stopAudioMonitor(index);
-//			open = !stopRes;
-//		} else {
-//			boolean startRes = startAudioMonitor(index);
-//			// // [Neo] 开启音频监听
-//			// Jni.enablePlayAudio(index, true);
-//			// audio.startPlay(channelList.get(index).getAudioBitCount(),true);
-//			open = startRes;
-//		}
-//		return open;
-//	}
+	// /**
+	// * 应用层调用音频监听功能
+	// *
+	// * @param index
+	// * @return
+	// */
+	// public static boolean audioPlay(int index) {
+	// boolean open = false;
+	// if (isPlayAudio(index)) {
+	// boolean stopRes = stopAudioMonitor(index);
+	// open = !stopRes;
+	// } else {
+	// boolean startRes = startAudioMonitor(index);
+	// // // [Neo] 开启音频监听
+	// // Jni.enablePlayAudio(index, true);
+	// // audio.startPlay(channelList.get(index).getAudioBitCount(),true);
+	// open = startRes;
+	// }
+	// return open;
+	// }
 
 	// // [Neo] 开启音频监听
 	// Jni.enablePlayAudio(index, true);
@@ -276,19 +276,19 @@ public class PlayUtil {
 		return Jni.enablePlayAudio(index, false);
 	}
 
-	/**
-	 * 开始语音对讲
-	 */
-	public static void startVoiceCall(int index) {
-		Jni.sendBytes(index, JVNetConst.JVN_REQ_CHAT, new byte[0], 8);
-	}
-
-	/**
-	 * 停止语音对讲
-	 */
-	public static void stopVoiceCall(int index) {
-		Jni.sendBytes(index, JVNetConst.JVN_CMD_CHATSTOP, new byte[0], 8);
-	}
+	// /**
+	// * 开始语音对讲
+	// */
+	// public static void startVoiceCall(int index) {
+	// Jni.sendBytes(index, JVNetConst.JVN_REQ_CHAT, new byte[0], 8);
+	// }
+	//
+	// /**
+	// * 停止语音对讲
+	// */
+	// public static void stopVoiceCall(int index) {
+	// Jni.sendBytes(index, JVNetConst.JVN_CMD_CHATSTOP, new byte[0], 8);
+	// }
 
 	/**
 	 * 应用层调用录像功能

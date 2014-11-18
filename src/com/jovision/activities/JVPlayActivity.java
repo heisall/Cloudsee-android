@@ -147,7 +147,13 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		switch (what) {
-		case PLAY_AUDIO_WHAT:{
+		case PLAY_AUDIO_WHAT: {
+			// public static final int ARG1_PLAY = 0x01;
+			// public static final int ARG1_RECORD = 0x02;
+			//
+			// public static final int ARG2_START = 0x01;
+			// public static final int ARG2_FINISH = 0x02;
+			// PLAY_AUDIO_WHAT:what=38,arg1=1,arg2=2,obj=null
 			MyLog.v(TAG, "PLAY_AUDIO_WHAT:what=" + what + ",arg1=" + arg1
 					+ ",arg2=" + arg2 + ",obj=" + obj);
 			break;
@@ -469,10 +475,10 @@ public class JVPlayActivity extends PlayActivity implements
 						// private static final int AUDIO_WHAT = 0x51;
 						// MyAudio audio = MyAudio.getIntance(AUDIO_WHAT, this);
 						//
-//						 // [Neo] 开启音频监听
-//						 Jni.enablePlayAudio(index, true);
-//						 audio.startPlay(channelList.get(index).getAudioBitCount(),
-//						 true);
+						// // [Neo] 开启音频监听
+						// Jni.enablePlayAudio(index, true);
+						// audio.startPlay(channelList.get(index).getAudioBitCount(),
+						// true);
 						//
 						// // [Neo] 关闭音频监听
 						// Jni.enablePlayAudio(index, false);
@@ -2042,31 +2048,33 @@ public class JVPlayActivity extends PlayActivity implements
 									.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.video_monitor_icon));
-						}else{
-							startAudio(lastClickIndex,channelList.get(lastClickIndex).getAudioByte());
+						} else {
+							startAudio(lastClickIndex,
+									channelList.get(lastClickIndex)
+											.getAudioByte());
 							functionListAdapter.selectIndex = 0;
 							bottombut8
 									.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.video_monitorselect_icon));
 						}
-//						if (!PlayUtil.audioPlay(lastClickIndex)) {
-//							functionListAdapter.selectIndex = -1;
-//							bottombut8
-//									.setBackgroundDrawable(getResources()
-//											.getDrawable(
-//													R.drawable.video_monitor_icon));
-//							if (null != playAudio) {
-//								playAudio.interrupt();
-//								playAudio = null;
-//							}
-//						} else {
-//							functionListAdapter.selectIndex = 0;
-//							bottombut8
-//									.setBackgroundDrawable(getResources()
-//											.getDrawable(
-//													R.drawable.video_monitorselect_icon));
-//						}
+						// if (!PlayUtil.audioPlay(lastClickIndex)) {
+						// functionListAdapter.selectIndex = -1;
+						// bottombut8
+						// .setBackgroundDrawable(getResources()
+						// .getDrawable(
+						// R.drawable.video_monitor_icon));
+						// if (null != playAudio) {
+						// playAudio.interrupt();
+						// playAudio = null;
+						// }
+						// } else {
+						// functionListAdapter.selectIndex = 0;
+						// bottombut8
+						// .setBackgroundDrawable(getResources()
+						// .getDrawable(
+						// R.drawable.video_monitorselect_icon));
+						// }
 					}
 
 				} else {
@@ -2115,7 +2123,7 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != recorder) {
 								recorder.stop();
 							}
-							PlayUtil.stopVoiceCall(lastClickIndex);
+							stopVoiceCall(lastClickIndex);
 							channelList.get(lastClickIndex).setVoiceCall(false);
 							realStop = true;
 							voiceCallSelected(false);
@@ -2126,7 +2134,8 @@ public class JVPlayActivity extends PlayActivity implements
 						} else {
 							JVPlayActivity.AUDIO_SINGLE = channelList.get(
 									lastClickIndex).isSingleVoice();
-							PlayUtil.startVoiceCall(lastClickIndex);
+							startVoiceCall(lastClickIndex,
+									channelList.get(lastClickIndex));
 							if (Consts.PLAY_AP == playFlag) {
 								functionListAdapter.selectIndex = 2;
 							}
@@ -2376,7 +2385,7 @@ public class JVPlayActivity extends PlayActivity implements
 			channelList.get(lastClickIndex).setVoiceCall(false);
 			realStop = true;
 			voiceCallSelected(false);
-			PlayUtil.stopVoiceCall(lastClickIndex);
+			stopVoiceCall(lastClickIndex);
 		}
 	}
 
@@ -2765,32 +2774,34 @@ public class JVPlayActivity extends PlayActivity implements
 									.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.video_monitor_icon));
-						}else{
-							startAudio(lastClickIndex,channelList.get(lastClickIndex).getAudioByte());
+						} else {
+							startAudio(lastClickIndex,
+									channelList.get(lastClickIndex)
+											.getAudioByte());
 							functionListAdapter.selectIndex = arg2;
 							bottombut8
 									.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.video_monitorselect_icon));
 						}
-						
-//						if (!PlayUtil.audioPlay(lastClickIndex)) {
-//							functionListAdapter.selectIndex = -1;
-//							bottombut8
-//									.setBackgroundDrawable(getResources()
-//											.getDrawable(
-//													R.drawable.video_monitor_icon));
-//							if (null != playAudio) {
-//								playAudio.interrupt();
-//								playAudio = null;
-//							}
-//						} else {
-//							functionListAdapter.selectIndex = arg2;
-//							bottombut8
-//									.setBackgroundDrawable(getResources()
-//											.getDrawable(
-//													R.drawable.video_monitorselect_icon));
-//						}
+
+						// if (!PlayUtil.audioPlay(lastClickIndex)) {
+						// functionListAdapter.selectIndex = -1;
+						// bottombut8
+						// .setBackgroundDrawable(getResources()
+						// .getDrawable(
+						// R.drawable.video_monitor_icon));
+						// if (null != playAudio) {
+						// playAudio.interrupt();
+						// playAudio = null;
+						// }
+						// } else {
+						// functionListAdapter.selectIndex = arg2;
+						// bottombut8
+						// .setBackgroundDrawable(getResources()
+						// .getDrawable(
+						// R.drawable.video_monitorselect_icon));
+						// }
 					}
 
 				} else {

@@ -111,8 +111,8 @@ public abstract class PlayActivity extends BaseActivity {
 	protected Drawable voiceCallTop1 = null;
 	protected Drawable voiceCallTop2 = null;
 
-//	protected PlayAudio playAudio;// 音频监听
-//	protected LinkedBlockingQueue<byte[]> audioQueue;
+	// protected PlayAudio playAudio;// 音频监听
+	// protected LinkedBlockingQueue<byte[]> audioQueue;
 
 	protected MICRecorder recorder;// 音频采集
 
@@ -673,7 +673,7 @@ public abstract class PlayActivity extends BaseActivity {
 				channel.setVoiceCall(false);
 				realStop = true;
 				voiceCallSelected(false);
-				PlayUtil.stopVoiceCall(channel.getIndex());
+				stopVoiceCall(channel.getIndex());
 			}
 
 			tapeSelected(false);
@@ -889,7 +889,6 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 	}
 
-
 	/**
 	 * 停止对讲，音频监听和录像功能
 	 * 
@@ -912,7 +911,7 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 
 		if (null != channel && channel.isVoiceCall()) {
-			PlayUtil.stopVoiceCall(index);
+			stopVoiceCall(index);
 			channel.setVoiceCall(false);
 			realStop = true;
 			voiceCallSelected(false);
@@ -940,26 +939,25 @@ public abstract class PlayActivity extends BaseActivity {
 	public void onFlip(View view) {
 
 	}
-	
+
 	/**
 	 * 应用层开启音频监听功能
 	 * 
 	 * @param index
 	 * @return
 	 */
-	public static boolean startAudio(int index,int audioByte) {
+	public static boolean startAudio(int index, int audioByte) {
 		boolean open = false;
-		if (PlayUtil.isPlayAudio(index)) {//正在监听,确保不会重复开启
+		if (PlayUtil.isPlayAudio(index)) {// 正在监听,确保不会重复开启
 			open = true;
 		} else {
-			PlayUtil.startAudioMonitor(index);//enable audio
-			playAudio.startPlay(audioByte,true);
+			PlayUtil.startAudioMonitor(index);// enable audio
+			playAudio.startPlay(audioByte, true);
 			open = true;
 		}
 		return open;
 	}
-	
-	
+
 	/**
 	 * 应用层关闭音频监听功能
 	 * 
@@ -968,17 +966,34 @@ public abstract class PlayActivity extends BaseActivity {
 	 */
 	public static boolean stopAudio(int index) {
 		boolean close = false;
-		if (PlayUtil.isPlayAudio(index)) {//正在监听，停止监听
-			 PlayUtil.stopAudioMonitor(index);//stop audio
-			 playAudio.stopPlay();
-			 close = true;
-		} else {//确保不会重复关闭
+		if (PlayUtil.isPlayAudio(index)) {// 正在监听，停止监听
+			PlayUtil.stopAudioMonitor(index);// stop audio
+			playAudio.stopPlay();
+			close = true;
+		} else {// 确保不会重复关闭
 			close = true;
 		}
 		return close;
 	}
-	
-	
+
+	/**
+	 * 开始语音对讲
+	 */
+	public static void startVoiceCall(int index, Channel channel) {
+		// 开启语音对讲
+		playAudio.startPlay(channel.getAudioByte(), true);
+		playAudio.startRec(channel.getAudioEncType(), channel.getAudioByte(),
+				channel.getAudioBlock(), true);
+	}
+
+	/**
+	 * 停止语音对讲
+	 */
+	public static void stopVoiceCall(int index) {
+		// 关闭语音对讲
+		playAudio.stopPlay();
+		playAudio.stopRec();
+	}
 
 	// protected void init() {
 	// new CountDownTimer(6 * 1000, 2 * 1000) {

@@ -96,7 +96,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		case Consts.CALL_PLAY_AUDIO: {// 音频数据回调
 			if (null != obj && null != playAudio) {
 				byte[] data = (byte[]) obj;
-//				audioQueue.offer(data);
+				// audioQueue.offer(data);
 				playAudio.put(data);
 			}
 			break;
@@ -346,8 +346,8 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				if (PlayUtil.isPlayAudio(indexOfChannel)) {
 					stopAudio(indexOfChannel);
 					functionListAdapter.selectIndex = -1;
-				}else{
-					startAudio(indexOfChannel,audioByte);
+				} else {
+					startAudio(indexOfChannel, audioByte);
 					functionListAdapter.selectIndex = arg2;
 				}
 			} else if (1 == arg2) {// 云台
@@ -397,14 +397,14 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				}
 				break;
 			case R.id.audio_monitor:// 音频监听
-//				// 停止音频监听
-//				if (PlayUtil.isPlayAudio(indexOfChannel)) {
-//					stopAudio(indexOfChannel);
-//					functionListAdapter.selectIndex = -1;
-//				}else{
-//					startAudio(indexOfChannel,audioByte);
-//					functionListAdapter.selectIndex = arg2;
-//				}
+				// // 停止音频监听
+				// if (PlayUtil.isPlayAudio(indexOfChannel)) {
+				// stopAudio(indexOfChannel);
+				// functionListAdapter.selectIndex = -1;
+				// }else{
+				// startAudio(indexOfChannel,audioByte);
+				// functionListAdapter.selectIndex = arg2;
+				// }
 				break;
 			case R.id.yt_operate:// 云台
 				showTextToast(R.string.str_forbidden_operation);

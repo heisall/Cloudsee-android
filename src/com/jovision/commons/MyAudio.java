@@ -51,6 +51,9 @@ public class MyAudio {
 	private MyAudio() {
 		isRec = false;
 		queue = new LinkedBlockingQueue<byte[]>();
+
+		minSize = AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
+				AudioFormat.ENCODING_PCM_16BIT);
 	}
 
 	private static class Container {
@@ -222,16 +225,13 @@ public class MyAudio {
 
 		@Override
 		public void run() {
-			if (null != notify) {
-				notify.onNotify(what, ARG1_RECORD, ARG2_START, null);
-			}
-
-			minSize = AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
-					AudioFormat.ENCODING_PCM_16BIT);
-
 			MyLog.w(TAG, "Record E: type = " + type + ", bit = " + bit
 					+ ", block = " + block + ", send = " + isSend
 					+ ", minSize = " + minSize);
+
+			if (null != notify) {
+				notify.onNotify(what, ARG1_RECORD, ARG2_START, null);
+			}
 
 			if (minSize > 128) {
 				AudioRecord rec = new AudioRecord(SOURCE, SAMPLERATE, CHANNEL,

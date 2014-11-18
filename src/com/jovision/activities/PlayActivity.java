@@ -1,7 +1,6 @@
 package com.jovision.activities;
 
 import java.util.ArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -25,7 +24,6 @@ import com.jovision.adapters.FuntionAdapter;
 import com.jovision.adapters.ScreenAdapter;
 import com.jovision.adapters.StreamAdapter;
 import com.jovision.audio.MICRecorder;
-import com.jovision.audio.PlayAudio;
 import com.jovision.bean.Channel;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyAudio;
@@ -35,8 +33,8 @@ import com.jovision.views.MyViewPager;
 
 public abstract class PlayActivity extends BaseActivity {
 
-	private static final int AUDIO_WHAT = 0x26;
-	MyAudio audio;
+	protected static final int PLAY_AUDIO_WHAT = 0x26;
+	public static MyAudio playAudio;
 
 	protected boolean bigScreen = false;// 大小屏标识
 
@@ -113,8 +111,8 @@ public abstract class PlayActivity extends BaseActivity {
 	protected Drawable voiceCallTop1 = null;
 	protected Drawable voiceCallTop2 = null;
 
-	protected PlayAudio playAudio;// 音频监听
-	protected LinkedBlockingQueue<byte[]> audioQueue;
+//	protected PlayAudio playAudio;// 音频监听
+//	protected LinkedBlockingQueue<byte[]> audioQueue;
 
 	protected MICRecorder recorder;// 音频采集
 
@@ -177,11 +175,11 @@ public abstract class PlayActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		audio = MyAudio.getIntance(AUDIO_WHAT, PlayActivity.this);
 	}
 
 	@Override
 	protected void initUi() {
+		playAudio = MyAudio.getIntance(PLAY_AUDIO_WHAT, PlayActivity.this);
 		setContentView(R.layout.play_layout);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);// 屏幕常亮
 
@@ -652,15 +650,11 @@ public abstract class PlayActivity extends BaseActivity {
 			bottomStream.setText(R.string.default_stream);
 			// 停止音频监听
 			if (PlayUtil.isPlayAudio(channel.getIndex())) {
-				PlayUtil.audioPlay(channel.getIndex());
+				stopAudio(channel.getIndex());
 				functionListAdapter.selectIndex = -1;
 				bottombut8.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.video_monitor_icon));
 				functionListAdapter.notifyDataSetChanged();
-				if (null != playAudio) {
-					playAudio.interrupt();
-					playAudio = null;
-				}
 			}
 
 			// 正在录像停止录像
@@ -675,9 +669,6 @@ public abstract class PlayActivity extends BaseActivity {
 			if (channel.isVoiceCall()) {
 				if (null != recorder) {
 					recorder.stop();
-				}
-				if (null != audioQueue) {
-					audioQueue.clear();
 				}
 				channel.setVoiceCall(false);
 				realStop = true;
@@ -898,23 +889,6 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 	}
 
-	/**
-	 * 音频监听时初始化audio和队列
-	 */
-	protected void initAudio(int audioByte) {
-		if (null == audioQueue) {
-			audioQueue = new LinkedBlockingQueue<byte[]>();
-		}
-
-		if (null != playAudio) {
-			playAudio.interrupt();
-			playAudio = null;
-		}
-
-		playAudio = new PlayAudio(audioQueue, audioByte);
-		playAudio.start();
-
-	}
 
 	/**
 	 * 停止对讲，音频监听和录像功能
@@ -961,19 +935,50 @@ public abstract class PlayActivity extends BaseActivity {
 		if (null != recorder) {
 			recorder.stop();
 		}
-		if (null != audioQueue) {
-			audioQueue.clear();
-		}
-		if (null != playAudio) {
-			playAudio.interrupt();
-			playAudio = null;
-		}
-
 	}
 
 	public void onFlip(View view) {
 
 	}
+	
+	/**
+	 * 应用层开启音频监听功能
+	 * 
+	 * @param index
+	 * @return
+	 */
+	public static boolean startAudio(int index,int audioByte) {
+		boolean open = false;
+		if (PlayUtil.isPlayAudio(index)) {//正在监听,确保不会重复开启
+			open = true;
+		} else {
+			PlayUtil.startAudioMonitor(index);//enable audio
+			playAudio.startPlay(audioByte,true);
+			open = true;
+		}
+		return open;
+	}
+	
+	
+	/**
+	 * 应用层关闭音频监听功能
+	 * 
+	 * @param index
+	 * @return
+	 */
+	public static boolean stopAudio(int index) {
+		boolean close = false;
+		if (PlayUtil.isPlayAudio(index)) {//正在监听，停止监听
+			 PlayUtil.stopAudioMonitor(index);//stop audio
+			 playAudio.stopPlay();
+			 close = true;
+		} else {//确保不会重复关闭
+			close = true;
+		}
+		return close;
+	}
+	
+	
 
 	// protected void init() {
 	// new CountDownTimer(6 * 1000, 2 * 1000) {

@@ -226,26 +226,26 @@ public class PlayUtil {
 		}
 	}
 
-	/**
-	 * 应用层调用音频监听功能
-	 * 
-	 * @param index
-	 * @return
-	 */
-	public static boolean audioPlay(int index) {
-		boolean open = false;
-		if (isPlayAudio(index)) {
-			boolean stopRes = stopAudioMonitor(index);
-			open = !stopRes;
-		} else {
-			boolean startRes = startAudioMonitor(index);
-			// // [Neo] 开启音频监听
-			// Jni.enablePlayAudio(index, true);
-			// audio.startPlay(channelList.get(index).getAudioBitCount(),true);
-			open = startRes;
-		}
-		return open;
-	}
+//	/**
+//	 * 应用层调用音频监听功能
+//	 * 
+//	 * @param index
+//	 * @return
+//	 */
+//	public static boolean audioPlay(int index) {
+//		boolean open = false;
+//		if (isPlayAudio(index)) {
+//			boolean stopRes = stopAudioMonitor(index);
+//			open = !stopRes;
+//		} else {
+//			boolean startRes = startAudioMonitor(index);
+//			// // [Neo] 开启音频监听
+//			// Jni.enablePlayAudio(index, true);
+//			// audio.startPlay(channelList.get(index).getAudioBitCount(),true);
+//			open = startRes;
+//		}
+//		return open;
+//	}
 
 	// // [Neo] 开启音频监听
 	// Jni.enablePlayAudio(index, true);

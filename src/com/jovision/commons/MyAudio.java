@@ -137,7 +137,7 @@ public class MyAudio {
 
 			AudioTrack track = new AudioTrack(STREAM_TYPE, SAMPLERATE, CHANNEL,
 					((16 == bit) ? AudioFormat.ENCODING_PCM_16BIT
-							: AudioFormat.ENCODING_PCM_8BIT), minSize,
+							: AudioFormat.ENCODING_PCM_8BIT), minSize * 2,
 					TRACK_MODE);
 
 			if (null != track

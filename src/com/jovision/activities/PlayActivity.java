@@ -20,12 +20,13 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.Jni;
 import com.jovision.adapters.FuntionAdapter;
 import com.jovision.adapters.ScreenAdapter;
 import com.jovision.adapters.StreamAdapter;
-import com.jovision.audio.MICRecorder;
 import com.jovision.bean.Channel;
 import com.jovision.commons.JVConst;
+import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyAudio;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
@@ -114,7 +115,7 @@ public abstract class PlayActivity extends BaseActivity {
 	// protected PlayAudio playAudio;// 音频监听
 	// protected LinkedBlockingQueue<byte[]> audioQueue;
 
-	protected MICRecorder recorder;// 音频采集
+	// protected MICRecorder recorder;// 音频采集
 
 	protected Button left_btn_h;// 横屏返回键
 	protected TextView currentMenu_h;// 横屏手动录像，报警录像键
@@ -182,8 +183,6 @@ public abstract class PlayActivity extends BaseActivity {
 		playAudio = MyAudio.getIntance(PLAY_AUDIO_WHAT, PlayActivity.this);
 		setContentView(R.layout.play_layout);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);// 屏幕常亮
-
-		recorder = MICRecorder.getInstance(-1);
 
 		/** 上 */
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
@@ -667,9 +666,6 @@ public abstract class PlayActivity extends BaseActivity {
 
 			// 停止对讲
 			if (channel.isVoiceCall()) {
-				if (null != recorder) {
-					recorder.stop();
-				}
 				channel.setVoiceCall(false);
 				realStop = true;
 				voiceCallSelected(false);
@@ -677,7 +673,6 @@ public abstract class PlayActivity extends BaseActivity {
 			}
 
 			tapeSelected(false);
-			recorder.stop();
 			functionListAdapter.selectIndex = -1;
 			functionListAdapter.notifyDataSetChanged();
 			voiceCallSelected(false);
@@ -905,7 +900,6 @@ public abstract class PlayActivity extends BaseActivity {
 
 		if (PlayUtil.isPlayAudio(index)) {// 正在音频监听，停止监听
 			PlayUtil.stopAudioMonitor(index);
-			recorder.stop();
 			functionListAdapter.selectIndex = -1;
 			functionListAdapter.notifyDataSetChanged();
 		}
@@ -931,9 +925,6 @@ public abstract class PlayActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
-		if (null != recorder) {
-			recorder.stop();
-		}
 	}
 
 	public void onFlip(View view) {
@@ -980,19 +971,18 @@ public abstract class PlayActivity extends BaseActivity {
 	 * 开始语音对讲
 	 */
 	public static void startVoiceCall(int index, Channel channel) {
-		// 开启语音对讲
-		playAudio.startPlay(channel.getAudioByte(), true);
-		playAudio.startRec(channel.getAudioEncType(), channel.getAudioByte(),
-				channel.getAudioBlock(), true);
+		Jni.sendBytes(index, JVNetConst.JVN_REQ_CHAT, new byte[0], 8);
 	}
 
 	/**
 	 * 停止语音对讲
 	 */
 	public static void stopVoiceCall(int index) {
+		Jni.sendBytes(index, JVNetConst.JVN_CMD_CHATSTOP, new byte[0], 8);
 		// 关闭语音对讲
 		playAudio.stopPlay();
 		playAudio.stopRec();
+
 	}
 
 	// protected void init() {

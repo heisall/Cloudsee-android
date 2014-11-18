@@ -16,6 +16,7 @@ import android.media.MediaRecorder;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.Jni;
+import com.jovision.activities.JVPlayActivity;
 
 public class MyAudio {
 
@@ -47,6 +48,7 @@ public class MyAudio {
 
 	private int minSize;
 	private boolean isRec;
+	private int indexOfChannel;
 
 	private MyAudio() {
 		isRec = false;
@@ -87,7 +89,8 @@ public class MyAudio {
 		}
 	}
 
-	public void startRec(int type, int bit, int block, boolean isSend) {
+	public void startRec(int index, int type, int bit, int block, boolean isSend) {
+		indexOfChannel = index;
 		stopRec();
 		isRec = true;
 		record = new Record(type, bit, block, isSend);
@@ -303,13 +306,32 @@ public class MyAudio {
 									buffer.position(16);
 									buffer.put(encoded, 0, 60);
 
-									Jni.sendBytes(0,
+									Jni.sendBytes(indexOfChannel,
 											JVNetConst.JVN_RSP_CHATDATA, out,
 											76);
 								} else {
-									Jni.sendBytes(0,
-											JVNetConst.JVN_RSP_CHATDATA,
-											encoded, encoded.length);
+
+									if (null != encoded) {
+										if (JVPlayActivity.AUDIO_SINGLE) {// 单向对讲长按才发送语音数据
+											if (JVPlayActivity.VOICECALL_LONG_CLICK) {
+												Jni.sendBytes(
+														indexOfChannel,
+														JVNetConst.JVN_RSP_CHATDATA,
+														encoded, encoded.length);
+											}
+										} else {// 双向对讲长按才发送语音数据
+											Jni.sendBytes(
+													indexOfChannel,
+													JVNetConst.JVN_RSP_CHATDATA,
+													encoded, encoded.length);
+										}
+									} else {
+										MyLog.e(Consts.TAG_APP,
+												"record decode null");
+									}
+									// Jni.sendBytes(0,
+									// JVNetConst.JVN_RSP_CHATDATA,
+									// encoded, encoded.length);
 								}
 							} else {
 								if (null != outputStream) {

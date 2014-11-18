@@ -470,6 +470,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 					if (8 == channel.getAudioByte()
 							&& Consts.DEVICE_TYPE_DVR == type) {
+						channel.setSupportVoice(false);
 						// [Neo] TODO 不支持此设备的语音对讲，可监听
 
 						// private static final int AUDIO_WHAT = 0x51;
@@ -826,14 +827,20 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 同意语音请求
 			case JVNetConst.JVN_RSP_CHATACCEPT: {
-				if (channelList.get(lastClickIndex).isSingleVoice()) {
+				Channel channel = channelList.get(lastClickIndex);
+				if (channel.isSingleVoice()) {
 					showTextToast(R.string.voice_tips2);
 				}
-				channelList.get(lastClickIndex).setVoiceCall(true);
+				channel.setVoiceCall(true);
 				VOICECALLING = true;
 				voiceCallSelected(true);
-				recorder.start(channelList.get(lastClickIndex).getAudioType(),
-						channelList.get(lastClickIndex).getAudioByte());
+				// recorder.start(channelList.get(lastClickIndex).getAudioType(),
+				// channelList.get(lastClickIndex).getAudioByte());
+				// 开启语音对讲
+				playAudio.startPlay(channel.getAudioByte(), true);
+				playAudio.startRec(channel.getIndex(),
+						channel.getAudioEncType(), channel.getAudioByte(),
+						channel.getAudioBlock(), true);
 				break;
 			}
 
@@ -2115,14 +2122,10 @@ public class JVPlayActivity extends PlayActivity implements
 						bottombut8.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.video_monitor_icon));
 					}
-					if (channelList.get(lastClickIndex).getParent().isCard()
-							|| 8 == channel.getAudioByte()) {
+					if (!channelList.get(lastClickIndex).isSupportVoice()) {
 						showTextToast(R.string.not_support_voicecall);
 					} else {
 						if (channelList.get(lastClickIndex).isVoiceCall()) {
-							if (null != recorder) {
-								recorder.stop();
-							}
 							stopVoiceCall(lastClickIndex);
 							channelList.get(lastClickIndex).setVoiceCall(false);
 							realStop = true;
@@ -2379,9 +2382,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 停止对讲
 		if (channelList.get(lastClickIndex).isVoiceCall()) {
-			if (null != recorder) {
-				recorder.stop();
-			}
 			channelList.get(lastClickIndex).setVoiceCall(false);
 			realStop = true;
 			voiceCallSelected(false);

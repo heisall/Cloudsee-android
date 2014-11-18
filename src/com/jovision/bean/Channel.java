@@ -66,6 +66,7 @@ public class Channel {
 
 	private int width = 0;// 音频类型
 	private int height = 0;// 音频比特率
+	private boolean supportVoice = true;
 
 	private boolean isPaused;// Neo
 	private Surface surface;
@@ -457,6 +458,14 @@ public class Channel {
 			audioBlock = Consts.ENC_PCM_SIZE;
 			break;
 		}
+	}
+
+	public boolean isSupportVoice() {
+		return supportVoice;
+	}
+
+	public void setSupportVoice(boolean supportVoice) {
+		this.supportVoice = supportVoice;
 	}
 
 }

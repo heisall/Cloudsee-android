@@ -457,16 +457,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		startBroadTimer();
-		startAutoRefreshTimer();
+		// startBroadTimer();
+		// startAutoRefreshTimer();
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
 				.get(Consts.HAG_GOT_DEVICE));
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
 			refreshList();
 		}
-
-		MyLog.v("DEV---4", CacheUtil.getDevList().toString());
 	}
 
 	/**
@@ -501,16 +499,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	@Override
 	public void onDestroy() {
-		stopRefreshWifiTimer();
-		stopBroadTimer();
+		// stopRefreshWifiTimer();
+		// stopBroadTimer();
 		super.onDestroy();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		stopRefreshWifiTimer();
-		stopBroadTimer();
+		// stopRefreshWifiTimer();
+		// stopBroadTimer();
 		sortList();
 		CacheUtil.saveDevList(myDeviceList);
 		// imageScroll.stopTimer();
@@ -1415,16 +1413,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 	}
 
-	public void stopBroadTimer() {
-		if (null != broadTimer) {
-			broadTimer.cancel();
-			broadTimer = null;
-		}
-		if (null != broadTimerTask) {
-			broadTimerTask.cancel();
-			broadTimerTask = null;
-		}
-	}
+	// public void stopBroadTimer() {
+	// if (null != broadTimer) {
+	// broadTimer.cancel();
+	// broadTimer = null;
+	// }
+	// if (null != broadTimerTask) {
+	// broadTimerTask.cancel();
+	// broadTimerTask = null;
+	// }
+	// }
 
 	/**
 	 * 2分钟自动刷新
@@ -1442,14 +1440,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 	}
 
-	public void stopRefreshWifiTimer() {
-		if (null != updateTimer) {
-			updateTimer.cancel();
-			updateTimer = null;
-		}
-		if (null != updateTask) {
-			updateTask.cancel();
-			updateTask = null;
-		}
-	}
+	// public void stopRefreshWifiTimer() {
+	// if (null != updateTimer) {
+	// updateTimer.cancel();
+	// updateTimer = null;
+	// }
+	// if (null != updateTask) {
+	// updateTask.cancel();
+	// updateTask = null;
+	// }
+	// }
 }

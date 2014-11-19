@@ -244,7 +244,7 @@ public class MyAudio {
 						&& AudioRecord.STATE_INITIALIZED == rec.getState()) {
 
 					int count = 0;
-					int result = 0;
+					int length = 0;
 					byte[] data = new byte[block];
 					byte[] out = new byte[block / 2];
 
@@ -277,11 +277,17 @@ public class MyAudio {
 						}
 					}
 
+					int offset = 0;
+					int left = block;
+
 					rec.startRecording();
 
 					while (isRec) {
-						result = rec.read(data, 0, block);
-						if (result == block) {
+						length = rec.read(data, offset, left);
+
+						if (0 == left) {
+							offset = 0;
+							left = block;
 
 							byte[] encoded = null;
 
@@ -345,7 +351,8 @@ public class MyAudio {
 							}
 
 						} else {
-							MyLog.e(TAG, "record: bad read size = " + result);
+							left -= length;
+							offset += length;
 						}
 					}
 

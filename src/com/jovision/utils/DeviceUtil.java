@@ -95,7 +95,9 @@ public class DeviceUtil {
 										dev.setPwd(obj
 												.optString(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD));
 										dev.setIp(obj
-												.optString(JVDeviceConst.JK_DEVICE_VIDEO_IP));
+												.optString(
+														JVDeviceConst.JK_DEVICE_VIDEO_IP)
+												.trim());
 										dev.setPort(obj
 												.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT));
 										/** 一键升级使用 */
@@ -447,8 +449,9 @@ public class DeviceUtil {
 										.optString(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME));
 								dev.setPwd(obj
 										.optString(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD));
-								dev.setIp(obj
-										.optString(JVDeviceConst.JK_DEVICE_VIDEO_IP));
+								dev.setIp(obj.optString(
+										JVDeviceConst.JK_DEVICE_VIDEO_IP)
+										.trim());
 								dev.setPort(obj
 										.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT));
 								/** 一键升级使用 */
@@ -509,8 +512,14 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_VIDEO_LINK_TYPE, device.getIsDevice());// dvlt
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME, device.getUser());// dvusername
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD, device.getPwd());// dvpassword
-			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_IP, device.getIp());// dvip
-			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PORT, device.getPort());// dvport
+
+			if (1 == device.getIsDevice()) {// IP
+				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_IP, device.getIp());// dvip
+				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PORT, device.getPort());// dvport
+			} else if (0 == device.getIsDevice()) {// 云视通
+				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_IP, "");// dvip
+				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PORT, 0);// dvport
+			}
 			jObj.put(JVDeviceConst.JK_USERNAME, userName);
 
 		} catch (Exception e1) {

@@ -14,7 +14,9 @@ import android.media.AudioTrack;
 import android.media.MediaRecorder;
 
 import com.jovision.Consts;
+import com.jovision.IHandlerLikeNotify;
 import com.jovision.Jni;
+import com.jovision.activities.JVPlayActivity;
 
 public class MyAudio {
 
@@ -30,24 +32,39 @@ public class MyAudio {
 	private static final String TARGET_FILE = Consts.LOG_PATH + File.separator
 			+ "audio.out";
 
+	public static final int ARG1_PLAY = 0x01;
+	public static final int ARG1_RECORD = 0x02;
+
+	public static final int ARG2_START = 0x01;
+	public static final int ARG2_FINISH = 0x02;
+
 	private Play play;
 	private Record record;
 
 	private LinkedBlockingQueue<byte[]> queue;
 
+	private int what;
+	private IHandlerLikeNotify notify;
+
 	private int minSize;
 	private boolean isRec;
+	private int indexOfChannel;
 
 	private MyAudio() {
 		isRec = false;
 		queue = new LinkedBlockingQueue<byte[]>();
+
+		minSize = AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
+				AudioFormat.ENCODING_PCM_16BIT);
 	}
 
 	private static class Container {
 		private static MyAudio HOLDER = new MyAudio();
 	}
 
-	public static MyAudio getIntance() {
+	public static MyAudio getIntance(int what, IHandlerLikeNotify notify) {
+		Container.HOLDER.what = what;
+		Container.HOLDER.notify = notify;
 		return Container.HOLDER;
 	}
 
@@ -72,7 +89,8 @@ public class MyAudio {
 		}
 	}
 
-	public void startRec(int type, int bit, int block, boolean isSend) {
+	public void startRec(int index, int type, int bit, int block, boolean isSend) {
+		indexOfChannel = index;
 		stopRec();
 		isRec = true;
 		record = new Record(type, bit, block, isSend);
@@ -102,6 +120,10 @@ public class MyAudio {
 			MyLog.w(TAG, "Play E: bit = " + bit + ", fromQueue = "
 					+ isFromQueue);
 
+			if (null != notify) {
+				notify.onNotify(what, ARG1_PLAY, ARG2_START, null);
+			}
+
 			int offset = 0;
 			int length = 0;
 			int left = 0;
@@ -121,7 +143,7 @@ public class MyAudio {
 
 			AudioTrack track = new AudioTrack(STREAM_TYPE, SAMPLERATE, CHANNEL,
 					((16 == bit) ? AudioFormat.ENCODING_PCM_16BIT
-							: AudioFormat.ENCODING_PCM_8BIT), minSize,
+							: AudioFormat.ENCODING_PCM_8BIT), minSize * 2,
 					TRACK_MODE);
 
 			if (null != track
@@ -182,6 +204,10 @@ public class MyAudio {
 				}
 			}
 
+			if (null != notify) {
+				notify.onNotify(what, ARG1_PLAY, ARG2_FINISH, null);
+			}
+
 			MyLog.w(TAG, "Play X");
 		}
 	}
@@ -202,12 +228,13 @@ public class MyAudio {
 
 		@Override
 		public void run() {
-			minSize = AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
-					AudioFormat.ENCODING_PCM_16BIT);
-
 			MyLog.w(TAG, "Record E: type = " + type + ", bit = " + bit
 					+ ", block = " + block + ", send = " + isSend
 					+ ", minSize = " + minSize);
+
+			if (null != notify) {
+				notify.onNotify(what, ARG1_RECORD, ARG2_START, null);
+			}
 
 			if (minSize > 128) {
 				AudioRecord rec = new AudioRecord(SOURCE, SAMPLERATE, CHANNEL,
@@ -261,7 +288,15 @@ public class MyAudio {
 							if (type >= 0) {
 								encoded = Jni.encodeAudio(data);
 							} else {
-								encoded = data;
+								if (8 == bit) {
+									for (int i = 0; i < out.length; i++) {
+										short origin = (short) (data[i * 2 + 1] << 8 | data[i * 2]);
+										out[i] = (byte) (origin >> 8 | 0x80);
+									}
+									encoded = out;
+								} else {
+									encoded = data;
+								}
 							}
 
 							if (isSend) {
@@ -271,13 +306,32 @@ public class MyAudio {
 									buffer.position(16);
 									buffer.put(encoded, 0, 60);
 
-									Jni.sendBytes(0,
+									Jni.sendBytes(indexOfChannel,
 											JVNetConst.JVN_RSP_CHATDATA, out,
 											76);
 								} else {
-									Jni.sendBytes(0,
-											JVNetConst.JVN_RSP_CHATDATA,
-											encoded, encoded.length);
+
+									if (null != encoded) {
+										if (JVPlayActivity.AUDIO_SINGLE) {// 单向对讲长按才发送语音数据
+											if (JVPlayActivity.VOICECALL_LONG_CLICK) {
+												Jni.sendBytes(
+														indexOfChannel,
+														JVNetConst.JVN_RSP_CHATDATA,
+														encoded, encoded.length);
+											}
+										} else {// 双向对讲长按才发送语音数据
+											Jni.sendBytes(
+													indexOfChannel,
+													JVNetConst.JVN_RSP_CHATDATA,
+													encoded, encoded.length);
+										}
+									} else {
+										MyLog.e(Consts.TAG_APP,
+												"record decode null");
+									}
+									// Jni.sendBytes(0,
+									// JVNetConst.JVN_RSP_CHATDATA,
+									// encoded, encoded.length);
 								}
 							} else {
 								if (null != outputStream) {
@@ -314,6 +368,10 @@ public class MyAudio {
 
 				rec = null;
 
+			}
+
+			if (null != notify) {
+				notify.onNotify(what, ARG1_RECORD, ARG2_FINISH, null);
 			}
 
 			MyLog.w(TAG, "Record X");

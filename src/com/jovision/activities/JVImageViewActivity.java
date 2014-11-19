@@ -59,7 +59,7 @@ public class JVImageViewActivity extends BaseActivity {
 		back.setOnClickListener(mOnClickListener);
 		share.setOnClickListener(mOnClickListener);
 
-		currentMenu.setText(fileIndex + "/" + fileArray.length);
+		currentMenu.setText((fileIndex + 1) + "/" + fileArray.length);
 
 		imagePager.setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -72,7 +72,7 @@ public class JVImageViewActivity extends BaseActivity {
 				// currentimage.setScaleType(ScaleType.CENTER_INSIDE);
 				// }
 				fileIndex = arg0;
-				currentMenu.setText(fileIndex + "/" + fileArray.length);
+				currentMenu.setText((fileIndex + 1) + "/" + fileArray.length);
 			}
 
 			@Override

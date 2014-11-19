@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="40"
-    android:versionName="V4.3.3" >
+    android:versionName="V4.3.6" >
 
     <supports-screens
         android:anyDensity="true"
@@ -13,9 +13,66 @@
     </supports-screens>
 
     <uses-sdk android:minSdkVersion="10" />
+
+
+
+
+
+
+
+
+　　
+    
+    
+    
+    
+    
+    
     <uses-permission android:name="android.permission.INTERNET" />
+
+
+
+
+
+
+
+　　
+    
+    
+    
+    
+    
+    
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
+
+
+
+
+
+　　
+    
+    
+    
+    
+    
+    
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+
+
+
+
+
+
+　　
+    
+    
+    
+    
+    
+    
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -59,7 +116,19 @@
 
 
 
+
+
+
+
+
+
+
+
 　　
+        
+        
+        
+        
         
         
         <meta-data
@@ -68,7 +137,19 @@
 
 
 
+
+
+
+
 　　
+        
+
+        
+
+        
+
+        
+
         
 
         
@@ -79,7 +160,19 @@
 
 
 
+
+
+
+
+
+
+
+
 　　
+        
+        
+        
+        
         
         
         <meta-data
@@ -88,7 +181,19 @@
 
 
 
+
+
+
+
 　　
+        
+
+        
+
+        
+
+        
+
         
 
         
@@ -178,7 +283,7 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name="com.jovision.activities.JVFindPassActivity"
+            android:name="com.jovision.activities.JVWebViewActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"
             android:screenOrientation="portrait"

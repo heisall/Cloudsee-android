@@ -147,6 +147,17 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		switch (what) {
+		case PLAY_AUDIO_WHAT: {
+			// public static final int ARG1_PLAY = 0x01;
+			// public static final int ARG1_RECORD = 0x02;
+			//
+			// public static final int ARG2_START = 0x01;
+			// public static final int ARG2_FINISH = 0x02;
+			// PLAY_AUDIO_WHAT:what=38,arg1=1,arg2=2,obj=null
+			MyLog.v(TAG, "PLAY_AUDIO_WHAT:what=" + what + ",arg1=" + arg1
+					+ ",arg2=" + arg2 + ",obj=" + obj);
+			break;
+		}
 		case Consts.CALL_LAN_SEARCH: {
 			break;
 		}
@@ -459,6 +470,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 					if (8 == channel.getAudioByte()
 							&& Consts.DEVICE_TYPE_DVR == type) {
+						channel.setSupportVoice(false);
 						// [Neo] TODO 不支持此设备的语音对讲，可监听
 
 						// private static final int AUDIO_WHAT = 0x51;
@@ -491,22 +503,22 @@ public class JVPlayActivity extends PlayActivity implements
 
 					newWidth = jobj.getInt("width");
 					newHeight = jobj.getInt("height");
-					if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
-						if (!Jni.disconnect(arg1)) {
-							loadingState(arg1, R.string.closed,
-									JVConst.PLAY_DIS_CONNECTTED);
-						}
-						if (ONE_SCREEN == currentScreen
-								&& arg1 == lastClickIndex) {
-							if (!MySharedPreference
-									.getBoolean(Consts.DIALOG_NOT_SUPPORT04)) {
-								errorDialog(
-										Consts.DIALOG_NOT_SUPPORT04,
-										getResources().getString(
-												R.string.not_support_old));
-							}
-						}
-					}
+					// if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
+					// if (!Jni.disconnect(arg1)) {
+					// loadingState(arg1, R.string.closed,
+					// JVConst.PLAY_DIS_CONNECTTED);
+					// }
+					// if (ONE_SCREEN == currentScreen
+					// && arg1 == lastClickIndex) {
+					// if (!MySharedPreference
+					// .getBoolean(Consts.DIALOG_NOT_SUPPORT04)) {
+					// errorDialog(
+					// Consts.DIALOG_NOT_SUPPORT04,
+					// getResources().getString(
+					// R.string.not_support_old));
+					// }
+					// }
+					// }
 
 				}
 			} catch (JSONException e) {
@@ -592,17 +604,21 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_PLAY_AUDIO: {
-			if (null != obj && null != audioQueue) {
+			if (null != obj && null != playAudio) {
 				if (AUDIO_SINGLE) {// 单向对讲长按才发送语音数据
 					if (VOICECALL_LONG_CLICK) {
 						// 长按时只发送语音，不接收语音
 					} else {
 						byte[] data = (byte[]) obj;
-						audioQueue.offer(data);
+						// audioQueue.offer(data);
+						// [Neo] 将音频填入缓存队列
+						playAudio.put(data);
 					}
 				} else {// 双向对讲直接播放设备传过来的语音
 					byte[] data = (byte[]) obj;
-					audioQueue.offer(data);
+					// audioQueue.offer(data);
+					// [Neo] 将音频填入缓存队列
+					playAudio.put(data);
 				}
 			}
 
@@ -811,14 +827,30 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 同意语音请求
 			case JVNetConst.JVN_RSP_CHATACCEPT: {
-				if (channelList.get(lastClickIndex).isSingleVoice()) {
+				Channel channel = channelList.get(lastClickIndex);
+				if (channel.isSingleVoice()) {
 					showTextToast(R.string.voice_tips2);
 				}
-				channelList.get(lastClickIndex).setVoiceCall(true);
+				channel.setVoiceCall(true);
 				VOICECALLING = true;
 				voiceCallSelected(true);
-				recorder.start(channelList.get(lastClickIndex).getAudioType(),
-						channelList.get(lastClickIndex).getAudioByte());
+				// recorder.start(channelList.get(lastClickIndex).getAudioType(),
+				// channelList.get(lastClickIndex).getAudioByte());
+
+				if (Consts.JAE_ENCODER_G729 == channel.getAudioEncType()) {
+					// 开启语音对讲
+					playAudio.startPlay(16, true);
+					playAudio.startRec(channel.getIndex(),
+							channel.getAudioEncType(), 16,
+							channel.getAudioBlock(), true);
+				} else {
+					// 开启语音对讲
+					playAudio.startPlay(channel.getAudioByte(), true);
+					playAudio.startRec(channel.getIndex(),
+							channel.getAudioEncType(), channel.getAudioByte(),
+							channel.getAudioBlock(), true);
+
+				}
 				break;
 			}
 
@@ -996,9 +1028,7 @@ public class JVPlayActivity extends PlayActivity implements
 					JVPlayActivity.this.getResources().getString(
 							R.string.connfailed_auth_tips))
 					.setCancelable(false)
-					.setPositiveButton(
-							JVPlayActivity.this.getResources().getString(
-									R.string.ok),
+					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
@@ -1008,9 +1038,7 @@ public class JVPlayActivity extends PlayActivity implements
 											.get(deviceIndex));
 								}
 							})
-					.setNegativeButton(
-							JVPlayActivity.this.getResources().getString(
-									R.string.cancel),
+					.setNegativeButton(R.string.cancel,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
@@ -1880,14 +1908,18 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but2:
 			case R.id.decodeway: {// 软硬解切换
 				if (allowThisFuc(false)) {
-					createDialog("");
-					if (channel.isOMX()) {// 硬解切成软解
-						Jni.setOmx(lastClickIndex, false);
-					} else {// 软解切成硬解
-						needToast = true;
-						Jni.setOmx(lastClickIndex, true);
+					if (channel.getParent().is05()) {
+						createDialog("");
+						if (channel.isOMX()) {// 硬解切成软解
+							Jni.setOmx(lastClickIndex, false);
+						} else {// 软解切成硬解
+							needToast = true;
+							Jni.setOmx(lastClickIndex, true);
+						}
+						// I帧通知成功失败
+					} else {
+						showTextToast(R.string.not_support_this_func);
 					}
-					// I帧通知成功失败
 				}
 				break;
 			}
@@ -2025,25 +2057,41 @@ public class JVPlayActivity extends PlayActivity implements
 					if (channelList.get(lastClickIndex).isVoiceCall()) {
 						showTextToast(R.string.audio_monitor_forbidden);
 					} else {
-						initAudio(channelList.get(lastClickIndex)
-								.getAudioByte());
-						if (!PlayUtil.audioPlay(lastClickIndex)) {
+						// 停止音频监听
+						if (PlayUtil.isPlayAudio(lastClickIndex)) {
+							stopAudio(lastClickIndex);
 							functionListAdapter.selectIndex = -1;
 							bottombut8
 									.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.video_monitor_icon));
-							if (null != playAudio) {
-								playAudio.interrupt();
-								playAudio = null;
-							}
 						} else {
+							startAudio(lastClickIndex,
+									channelList.get(lastClickIndex)
+											.getAudioByte());
 							functionListAdapter.selectIndex = 0;
 							bottombut8
 									.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.video_monitorselect_icon));
 						}
+						// if (!PlayUtil.audioPlay(lastClickIndex)) {
+						// functionListAdapter.selectIndex = -1;
+						// bottombut8
+						// .setBackgroundDrawable(getResources()
+						// .getDrawable(
+						// R.drawable.video_monitor_icon));
+						// if (null != playAudio) {
+						// playAudio.interrupt();
+						// playAudio = null;
+						// }
+						// } else {
+						// functionListAdapter.selectIndex = 0;
+						// bottombut8
+						// .setBackgroundDrawable(getResources()
+						// .getDrawable(
+						// R.drawable.video_monitorselect_icon));
+						// }
 					}
 
 				} else {
@@ -2079,29 +2127,23 @@ public class JVPlayActivity extends PlayActivity implements
 				if (allowThisFuc(true)) {
 					// 停止音频监听
 					if (PlayUtil.isPlayAudio(lastClickIndex)) {
-						PlayUtil.audioPlay(lastClickIndex);
+						stopAudio(lastClickIndex);
 						functionListAdapter.selectIndex = -1;
 						bottombut8.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.video_monitor_icon));
-						playAudio.setIndex(lastClickIndex);
-						if (null != playAudio) {
-							playAudio.interrupt();
-							playAudio = null;
-						}
-
 					}
-					if (channelList.get(lastClickIndex).getParent().isCard()
-							|| 8 == channel.getAudioByte()) {
-						showTextToast(R.string.not_support_voicecall);
+
+					if (Consts.JAE_ENCODER_G729 != channel.getAudioEncType()
+							&& 8 == channel.getAudioByte()) {
+						showTextToast(R.string.not_support_this_func);
+						break;
+					}
+
+					if (!channelList.get(lastClickIndex).isSupportVoice()) {
+						showTextToast(R.string.not_support_this_func);
 					} else {
 						if (channelList.get(lastClickIndex).isVoiceCall()) {
-							if (null != recorder) {
-								recorder.stop();
-							}
-							if (null != audioQueue) {// 清队列，防止停止后仍然播放
-								audioQueue.clear();
-							}
-							PlayUtil.stopVoiceCall(lastClickIndex);
+							stopVoiceCall(lastClickIndex);
 							channelList.get(lastClickIndex).setVoiceCall(false);
 							realStop = true;
 							voiceCallSelected(false);
@@ -2110,11 +2152,10 @@ public class JVPlayActivity extends PlayActivity implements
 								functionListAdapter.selectIndex = -1;
 							}
 						} else {
-							initAudio(channelList.get(lastClickIndex)
-									.getAudioByte());
 							JVPlayActivity.AUDIO_SINGLE = channelList.get(
 									lastClickIndex).isSingleVoice();
-							PlayUtil.startVoiceCall(lastClickIndex);
+							startVoiceCall(lastClickIndex,
+									channelList.get(lastClickIndex));
 							if (Consts.PLAY_AP == playFlag) {
 								functionListAdapter.selectIndex = 2;
 							}
@@ -2127,12 +2168,16 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but7:
 			case R.id.videotape:// 录像
 				if (hasSDCard() && allowThisFuc(true)) {
-					if (PlayUtil.videoRecord(lastClickIndex)) {// 打开
-						tapeSelected(true);
-						showTextToast(R.string.str_start_record);
-					} else {// 关闭
-						showTextToast(Consts.VIDEO_PATH);
-						tapeSelected(false);
+					if (channelList.get(lastClickIndex).getParent().is05()) {
+						if (PlayUtil.videoRecord(lastClickIndex)) {// 打开
+							tapeSelected(true);
+							showTextToast(R.string.str_start_record);
+						} else {// 关闭
+							showTextToast(Consts.VIDEO_PATH);
+							tapeSelected(false);
+						}
+					} else {
+						showTextToast(R.string.not_support_this_func);
 					}
 				}
 
@@ -2253,7 +2298,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 				while (!allDis(channelList)) {
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(200);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -2341,7 +2386,7 @@ public class JVPlayActivity extends PlayActivity implements
 	public void stopAllFunc() {
 		// 停止音频监听
 		if (PlayUtil.isPlayAudio(lastClickIndex)) {
-			PlayUtil.audioPlay(lastClickIndex);
+			stopAudio(lastClickIndex);
 			functionListAdapter.selectIndex = -1;
 			bottombut8.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.video_monitor_icon));
@@ -2358,16 +2403,10 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 停止对讲
 		if (channelList.get(lastClickIndex).isVoiceCall()) {
-			if (null != recorder) {
-				recorder.stop();
-			}
-			if (null != audioQueue) {
-				audioQueue.clear();
-			}
 			channelList.get(lastClickIndex).setVoiceCall(false);
 			realStop = true;
 			voiceCallSelected(false);
-			PlayUtil.stopVoiceCall(lastClickIndex);
+			stopVoiceCall(lastClickIndex);
 		}
 	}
 
@@ -2468,6 +2507,10 @@ public class JVPlayActivity extends PlayActivity implements
 		remoteIntent.setClass(JVPlayActivity.this, JVRemoteListActivity.class);
 		remoteIntent.putExtra("IndexOfChannel", channelList.get(lastClickIndex)
 				.getIndex());
+		remoteIntent.putExtra("ChannelOfChannel",
+				channelList.get(lastClickIndex).getChannel());
+		remoteIntent.putExtra("is05", channelList.get(lastClickIndex)
+				.getParent().is05());
 		remoteIntent.putExtra("DeviceType", channelList.get(lastClickIndex)
 				.getParent().getType());
 		remoteIntent.putExtra("isJFH", channelList.get(lastClickIndex)
@@ -2746,25 +2789,42 @@ public class JVPlayActivity extends PlayActivity implements
 					if (channelList.get(lastClickIndex).isVoiceCall()) {
 						showTextToast(R.string.audio_monitor_forbidden);
 					} else {
-						initAudio(channelList.get(lastClickIndex)
-								.getAudioByte());
-						if (!PlayUtil.audioPlay(lastClickIndex)) {
+						// 停止音频监听
+						if (PlayUtil.isPlayAudio(lastClickIndex)) {
+							stopAudio(lastClickIndex);
 							functionListAdapter.selectIndex = -1;
 							bottombut8
 									.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.video_monitor_icon));
-							if (null != playAudio) {
-								playAudio.interrupt();
-								playAudio = null;
-							}
 						} else {
+							startAudio(lastClickIndex,
+									channelList.get(lastClickIndex)
+											.getAudioByte());
 							functionListAdapter.selectIndex = arg2;
 							bottombut8
 									.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.video_monitorselect_icon));
 						}
+
+						// if (!PlayUtil.audioPlay(lastClickIndex)) {
+						// functionListAdapter.selectIndex = -1;
+						// bottombut8
+						// .setBackgroundDrawable(getResources()
+						// .getDrawable(
+						// R.drawable.video_monitor_icon));
+						// if (null != playAudio) {
+						// playAudio.interrupt();
+						// playAudio = null;
+						// }
+						// } else {
+						// functionListAdapter.selectIndex = arg2;
+						// bottombut8
+						// .setBackgroundDrawable(getResources()
+						// .getDrawable(
+						// R.drawable.video_monitorselect_icon));
+						// }
 					}
 
 				} else {

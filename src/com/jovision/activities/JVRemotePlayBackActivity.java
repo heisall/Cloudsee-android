@@ -39,6 +39,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	private PlayTimerTask playTask;
 	private int seconds;
 	private int audioByte;// 音频监听比特率
+	private boolean is05;
 	private boolean isRemotePause = false;
 
 	@Override
@@ -94,9 +95,10 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		}
 
 		case Consts.CALL_PLAY_AUDIO: {// 音频数据回调
-			if (null != obj && null != audioQueue) {
+			if (null != obj && null != playAudio) {
 				byte[] data = (byte[]) obj;
-				audioQueue.offer(data);
+				// audioQueue.offer(data);
+				playAudio.put(data);
 			}
 			break;
 		}
@@ -202,6 +204,10 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		progressBar.setOnSeekBarChangeListener(mOnSeekBarChangeListener);
 		progressBar.setProgress(0);
 
+		if (!is05) {
+			progressBar.setVisibility(View.GONE);
+		}
+
 		decodeBtn.setVisibility(View.GONE);
 		videTurnBtn.setVisibility(View.GONE);
 
@@ -266,6 +272,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			indexOfChannel = intent.getIntExtra("IndexOfChannel", 0);
 			acBuffStr = intent.getStringExtra("acBuffStr");
 			audioByte = intent.getIntExtra("AudioByte", 0);
+			is05 = intent.getBooleanExtra("is05", false);
 		}
 
 	}
@@ -341,10 +348,12 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			if (0 == arg2) {// 音频监听
-				initAudio(audioByte);
-				if (!PlayUtil.audioPlay(indexOfChannel)) {
+				// 停止音频监听
+				if (PlayUtil.isPlayAudio(indexOfChannel)) {
+					stopAudio(indexOfChannel);
 					functionListAdapter.selectIndex = -1;
 				} else {
+					startAudio(indexOfChannel, audioByte);
 					functionListAdapter.selectIndex = arg2;
 				}
 			} else if (1 == arg2) {// 云台
@@ -394,8 +403,14 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				}
 				break;
 			case R.id.audio_monitor:// 音频监听
-				initAudio(audioByte);
-				PlayUtil.audioPlay(indexOfChannel);
+				// // 停止音频监听
+				// if (PlayUtil.isPlayAudio(indexOfChannel)) {
+				// stopAudio(indexOfChannel);
+				// functionListAdapter.selectIndex = -1;
+				// }else{
+				// startAudio(indexOfChannel,audioByte);
+				// functionListAdapter.selectIndex = arg2;
+				// }
 				break;
 			case R.id.yt_operate:// 云台
 				showTextToast(R.string.str_forbidden_operation);
@@ -477,7 +492,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	private void stopAllFunc() {
 		// 停止音频监听
 		if (PlayUtil.isPlayAudio(indexOfChannel)) {
-			PlayUtil.audioPlay(indexOfChannel);
+			stopAudio(indexOfChannel);
 		}
 
 		// 正在录像停止录像

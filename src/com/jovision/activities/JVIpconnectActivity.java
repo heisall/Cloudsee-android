@@ -385,7 +385,6 @@ public class JVIpconnectActivity extends BaseActivity {
 					editDevice.setIsDevice(0);// 云视通
 				}
 				if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
-
 					editRes = DeviceUtil.editDeviceConnType(editDevice,
 							statusHashMap.get(Consts.KEY_USERNAME));
 				} else {

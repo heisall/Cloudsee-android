@@ -39,6 +39,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	private PlayTimerTask playTask;
 	private int seconds;
 	private int audioByte;// 音频监听比特率
+	private boolean is05;
 	private boolean isRemotePause = false;
 
 	@Override
@@ -203,6 +204,10 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		progressBar.setOnSeekBarChangeListener(mOnSeekBarChangeListener);
 		progressBar.setProgress(0);
 
+		if (!is05) {
+			progressBar.setVisibility(View.GONE);
+		}
+
 		decodeBtn.setVisibility(View.GONE);
 		videTurnBtn.setVisibility(View.GONE);
 
@@ -267,6 +272,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			indexOfChannel = intent.getIntExtra("IndexOfChannel", 0);
 			acBuffStr = intent.getStringExtra("acBuffStr");
 			audioByte = intent.getIntExtra("AudioByte", 0);
+			is05 = intent.getBooleanExtra("is05", false);
 		}
 
 	}

@@ -364,7 +364,7 @@ public class ManageFragment extends BaseFragment {
 						mActivity);
 
 				builder1.setTitle(R.string.tips);
-				builder1.setMessage(R.string.str_not_support_this_device);
+				builder1.setMessage(R.string.not_support_this_func);
 				builder1.setNegativeButton(R.string.cancel,
 						new DialogInterface.OnClickListener() {
 							@Override

@@ -310,7 +310,6 @@
     <string name="str_only_administator_use_this_function">Only administrator can use this function.</string>
     <string name="str_no_permission">You have no permission of this operation!</string>
     <string name="str_host_connect_failed">Connecting with host-end unsuccessfully\nplease try again…</string>
-    <string name="str_not_support_this_device">Doesn\'t support this device.Supports IPC only.</string>
     <string name="str_help1_1">Add device</string>
     <string name="str_help1_0">Remote Setting</string>
     <string name="str_help1_2">Setting</string>
@@ -416,6 +415,7 @@
     <string name="is_omx">Hardware</string>
     <string name="not_omx">Software</string>
     <string name="not_support_oxm">Your mobile phone does not support hardware decoding.</string>
+    <string name="not_support_this_func">该设备暂不支持此功能.</string>
     <string name="stream_not_support">This device doesn\'t support video quality switch.</string>
     <string name="audio_monitor_forbidden">This function is not available during two-way talk.</string>
     <string name="video_repaked">Switch video standard,Records re-packed.</string>
@@ -423,7 +423,6 @@
     <string name="voice_tips2">Audio talk is enabled successfully. You can speak to the other through long-click.</string>
     <string name="default_stream">Stream</string>
     <string name="has_calling">The Two-way Talk has not been enabled or is being used by other user, so please try again later.</string>
-    <string name="not_support_voicecall">This device doesn\'t support voice intercom function.</string>
     <string name="str_capture_error">Initialization failed</string>
     <!-- JVQuickSet -->
     <!-- ap配置流程模块 -->
@@ -511,7 +510,6 @@
     <!-- Dialog -->
     <string name="select_all">select all</string>
     <string name="save">Save</string>
-    <string name="cancle">Cancel</string>
     <string name="str_devicename">Device Number</string>
     <string name="str_username"> Username</string>
     <string name="str_password">Password </string>

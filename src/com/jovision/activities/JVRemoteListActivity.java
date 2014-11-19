@@ -52,6 +52,7 @@ public class JVRemoteListActivity extends BaseActivity {
 	private int channelOfChannel;// 通道index
 	private boolean isJFH;// 是否05版解码器
 	private int audioByte;// 音频监听比特率
+	private boolean is05;// 是否05版解码器
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -169,6 +170,7 @@ public class JVRemoteListActivity extends BaseActivity {
 			channelOfChannel = intent.getIntExtra("ChannelOfChannel", 0);
 			isJFH = intent.getBooleanExtra("isJFH", false);
 			audioByte = intent.getIntExtra("AudioByte", 0);
+			is05 = intent.getBooleanExtra("is05", false);
 		}
 		searchRemoteData(2 * 1000);
 	}
@@ -192,7 +194,7 @@ public class JVRemoteListActivity extends BaseActivity {
 						JVRemotePlayBackActivity.class);
 				intent.putExtra("IndexOfChannel", indexOfChannel);
 				intent.putExtra("ChannelOfChannel", channelOfChannel);
-
+				intent.putExtra("is05", is05);
 				intent.putExtra("acBuffStr", acBuffStr);
 				intent.putExtra("AudioByte", audioByte);
 				JVRemoteListActivity.this.startActivity(intent);

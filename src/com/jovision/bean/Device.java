@@ -76,7 +76,7 @@ public class Device {
 	/** 设备列表中是否被选中 */
 	private Boolean isselect;
 	/** 局域网是否添加设备 */
-	private boolean islanselect;
+	private boolean islanselect = true;
 	private int alarmSwitch = 0;// 告警开关，0-关闭，1-打开
 	private ArrayList<ThirdAlarmDev> thirdDevList = null; // 第三方报警设备
 

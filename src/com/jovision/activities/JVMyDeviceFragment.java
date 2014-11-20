@@ -47,6 +47,7 @@ import com.jovision.Consts;
 import com.jovision.adapters.LanAdapter;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.adapters.PopWindowAdapter;
+import com.jovision.bean.AD;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
@@ -89,7 +90,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private Button addDevice;
 
 	/** 广告位 */
-	private ArrayList<String> adUrlList = new ArrayList<String>();
+	private ArrayList<AD> adList = new ArrayList<AD>();
 	private LayoutInflater inflater;
 	private View adView;
 	private ImageViewPager imageScroll; // 图片容器
@@ -269,14 +270,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 		myDeviceListView.addHeaderView(adView);
 		rightBtn.setOnClickListener(myOnClickListener);
 
-		if (0 == adUrlList.size()) {
-			adUrlList
-					.add("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
-			adUrlList
-					.add("http://img4.imgtn.bdimg.com/it/u=1147331110,3253839708&fm=201&gp=0.jpg");
-			adUrlList
-					.add("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
-		}
+		// if (0 == adUrlList.size()) {
+		// adUrlList
+		// .add("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
+		// adUrlList
+		// .add("http://img4.imgtn.bdimg.com/it/u=1147331110,3253839708&fm=201&gp=0.jpg");
+		// adUrlList
+		// .add("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
+		// }
 
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
@@ -537,8 +538,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 */
 	private void initADViewPager() {
 
-		if (null == adUrlList || 0 == adUrlList.size()
-				|| adUrlList.size() == listViews.size()) {
+		if (null == adList || 0 == adList.size()
+				|| adList.size() == listViews.size()) {
 			return;
 		}
 		// if (!ConfigUtil.isLanZH()) {
@@ -547,13 +548,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 		// image = imageResId;
 		// }
 
-		for (int i = 0; i < adUrlList.size(); i++) {
+		for (int i = 0; i < adList.size(); i++) {
 			ImageView imageView = new ImageView(mActivity);
 			imageView.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {// 设置图片点击事件
 					Intent intentAD = new Intent(mActivity,
 							JVWebViewActivity.class);
-					String adUrl = "http://www.jovetech.com/";
+					String adUrl = adList.get(0).getAdLink();
 					intentAD.putExtra("URL", adUrl);
 					intentAD.putExtra("title", R.string.app_name);
 					mActivity.startActivity(intentAD);
@@ -561,11 +562,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 			});
 
 			Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
-					adUrlList.get(i));
+					adList.get(i).getAdImgUrl());
 			if (null != bmp) {
 				imageView.setImageBitmap(bmp);
 			} else {
-				imageView.setImageResource(R.drawable.a);
+				imageView.setImageResource(R.drawable.ad_default);
 			}
 
 			imageView.setScaleType(ScaleType.FIT_CENTER);
@@ -1093,9 +1094,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {
 			int getRes = 0;
+			// try {
+			// BitmapCache.saveToLocal("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// }
+
+			adList = DeviceUtil.getADList();
 			// 从网上获取广告图片
-			for (String url : adUrlList) {
-				BitmapCache.getInstance().getBitmap(url, "net");
+			for (AD ad : adList) {
+				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net");
 			}
 
 			try {
@@ -1446,8 +1454,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {
 			int sendRes = -1;// 0成功 1失败
-			for (String url : adUrlList) {
-				BitmapCache.getInstance().getBitmap(url, "net");
+			for (AD ad : adList) {
+				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net");
 			}
 			return sendRes;
 		}

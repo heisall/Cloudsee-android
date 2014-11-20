@@ -503,22 +503,22 @@ public class JVPlayActivity extends PlayActivity implements
 
 					newWidth = jobj.getInt("width");
 					newHeight = jobj.getInt("height");
-					if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
-						if (!Jni.disconnect(arg1)) {
-							loadingState(arg1, R.string.closed,
-									JVConst.PLAY_DIS_CONNECTTED);
-						}
-						if (ONE_SCREEN == currentScreen
-								&& arg1 == lastClickIndex) {
-							if (!MySharedPreference
-									.getBoolean(Consts.DIALOG_NOT_SUPPORT04)) {
-								errorDialog(
-										Consts.DIALOG_NOT_SUPPORT04,
-										getResources().getString(
-												R.string.not_support_old));
-							}
-						}
-					}
+					// if (!jobj.optBoolean("is05")) {// 提示不支持04版本解码器
+					// if (!Jni.disconnect(arg1)) {
+					// loadingState(arg1, R.string.closed,
+					// JVConst.PLAY_DIS_CONNECTTED);
+					// }
+					// if (ONE_SCREEN == currentScreen
+					// && arg1 == lastClickIndex) {
+					// if (!MySharedPreference
+					// .getBoolean(Consts.DIALOG_NOT_SUPPORT04)) {
+					// errorDialog(
+					// Consts.DIALOG_NOT_SUPPORT04,
+					// getResources().getString(
+					// R.string.not_support_old));
+					// }
+					// }
+					// }
 
 				}
 			} catch (JSONException e) {
@@ -836,11 +836,21 @@ public class JVPlayActivity extends PlayActivity implements
 				voiceCallSelected(true);
 				// recorder.start(channelList.get(lastClickIndex).getAudioType(),
 				// channelList.get(lastClickIndex).getAudioByte());
-				// 开启语音对讲
-				playAudio.startPlay(channel.getAudioByte(), true);
-				playAudio.startRec(channel.getIndex(),
-						channel.getAudioEncType(), channel.getAudioByte(),
-						channel.getAudioBlock(), true);
+
+				if (Consts.JAE_ENCODER_G729 == channel.getAudioEncType()) {
+					// 开启语音对讲
+					playAudio.startPlay(16, true);
+					playAudio.startRec(channel.getIndex(),
+							channel.getAudioEncType(), 16,
+							channel.getAudioBlock(), true);
+				} else {
+					// 开启语音对讲
+					playAudio.startPlay(channel.getAudioByte(), true);
+					playAudio.startRec(channel.getIndex(),
+							channel.getAudioEncType(), channel.getAudioByte(),
+							channel.getAudioBlock(), true);
+
+				}
 				break;
 			}
 
@@ -1018,9 +1028,7 @@ public class JVPlayActivity extends PlayActivity implements
 					JVPlayActivity.this.getResources().getString(
 							R.string.connfailed_auth_tips))
 					.setCancelable(false)
-					.setPositiveButton(
-							JVPlayActivity.this.getResources().getString(
-									R.string.ok),
+					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
@@ -1030,9 +1038,7 @@ public class JVPlayActivity extends PlayActivity implements
 											.get(deviceIndex));
 								}
 							})
-					.setNegativeButton(
-							JVPlayActivity.this.getResources().getString(
-									R.string.cancel),
+					.setNegativeButton(R.string.cancel,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
@@ -1902,14 +1908,18 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but2:
 			case R.id.decodeway: {// 软硬解切换
 				if (allowThisFuc(false)) {
-					createDialog("");
-					if (channel.isOMX()) {// 硬解切成软解
-						Jni.setOmx(lastClickIndex, false);
-					} else {// 软解切成硬解
-						needToast = true;
-						Jni.setOmx(lastClickIndex, true);
+					if (channel.getParent().is05()) {
+						createDialog("");
+						if (channel.isOMX()) {// 硬解切成软解
+							Jni.setOmx(lastClickIndex, false);
+						} else {// 软解切成硬解
+							needToast = true;
+							Jni.setOmx(lastClickIndex, true);
+						}
+						// I帧通知成功失败
+					} else {
+						showTextToast(R.string.not_support_this_func);
 					}
-					// I帧通知成功失败
 				}
 				break;
 			}
@@ -2122,8 +2132,15 @@ public class JVPlayActivity extends PlayActivity implements
 						bottombut8.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.video_monitor_icon));
 					}
+
+					if (Consts.JAE_ENCODER_G729 != channel.getAudioEncType()
+							&& 8 == channel.getAudioByte()) {
+						showTextToast(R.string.not_support_this_func);
+						break;
+					}
+
 					if (!channelList.get(lastClickIndex).isSupportVoice()) {
-						showTextToast(R.string.not_support_voicecall);
+						showTextToast(R.string.not_support_this_func);
 					} else {
 						if (channelList.get(lastClickIndex).isVoiceCall()) {
 							stopVoiceCall(lastClickIndex);
@@ -2151,12 +2168,16 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but7:
 			case R.id.videotape:// 录像
 				if (hasSDCard() && allowThisFuc(true)) {
-					if (PlayUtil.videoRecord(lastClickIndex)) {// 打开
-						tapeSelected(true);
-						showTextToast(R.string.str_start_record);
-					} else {// 关闭
-						showTextToast(Consts.VIDEO_PATH);
-						tapeSelected(false);
+					if (channelList.get(lastClickIndex).getParent().is05()) {
+						if (PlayUtil.videoRecord(lastClickIndex)) {// 打开
+							tapeSelected(true);
+							showTextToast(R.string.str_start_record);
+						} else {// 关闭
+							showTextToast(Consts.VIDEO_PATH);
+							tapeSelected(false);
+						}
+					} else {
+						showTextToast(R.string.not_support_this_func);
 					}
 				}
 
@@ -2277,7 +2298,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 				while (!allDis(channelList)) {
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(200);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -2488,6 +2509,8 @@ public class JVPlayActivity extends PlayActivity implements
 				.getIndex());
 		remoteIntent.putExtra("ChannelOfChannel",
 				channelList.get(lastClickIndex).getChannel());
+		remoteIntent.putExtra("is05", channelList.get(lastClickIndex)
+				.getParent().is05());
 		remoteIntent.putExtra("DeviceType", channelList.get(lastClickIndex)
 				.getParent().getType());
 		remoteIntent.putExtra("isJFH", channelList.get(lastClickIndex)

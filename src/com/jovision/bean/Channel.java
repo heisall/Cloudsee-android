@@ -60,7 +60,7 @@ public class Channel {
 	private boolean isOMX = false;// 是否硬解
 	private boolean singleVoice = false;// 单向对讲标识位，默认是双向的
 	private int storageMode = -1;// 录像模式// 1: 手动录像 2. 报警录像 storageMode
-	private int streamTag = -1;// 码流参数值 MainStreamQos 123
+	private int streamTag = -1;// 码流参数值 MainStreamQos 1,2,3
 	private int screenTag = -1;// 屏幕方向值 effect_flag 老设备 0(正),4(反) 新设备不一定
 	private int effect_flag = -1;// 屏幕方向值 effect_flag 新设备
 

@@ -11,17 +11,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.commons.Url;
-import com.jovision.utils.ConfigUtil;
 
-public class JVFindPassActivity extends BaseActivity {
+public class JVWebViewActivity extends BaseActivity {
 
 	/** topBar **/
 	private Button back;// 左侧返回按钮
 	private TextView currentMenu;// 当前页面名称
 	private Button rigButton;
 
-	private WebView findPassWebView;
+	private WebView webView;
+	private String url = "";
+	private int titleID = 0;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -35,7 +35,8 @@ public class JVFindPassActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-
+		url = getIntent().getStringExtra("URL");
+		titleID = getIntent().getIntExtra("title", 0);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -46,19 +47,19 @@ public class JVFindPassActivity extends BaseActivity {
 		/** topBar **/
 		back = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText(R.string.str_find_pass);
+		currentMenu.setText(titleID);
 		back.setOnClickListener(myOnClickListener);
 		rigButton = (Button) findViewById(R.id.btn_right);
 		rigButton.setVisibility(View.GONE);
 
-		findPassWebView = (WebView) findViewById(R.id.findpasswebview);
+		webView = (WebView) findViewById(R.id.findpasswebview);
 
-		findPassWebView.getSettings().setJavaScriptEnabled(true);
-		findPassWebView.setWebChromeClient(new WebChromeClient());
-		findPassWebView.requestFocus(View.FOCUS_DOWN);
+		webView.getSettings().setJavaScriptEnabled(true);
+		webView.setWebChromeClient(new WebChromeClient());
+		webView.requestFocus(View.FOCUS_DOWN);
 		// 加快加载速度
-		findPassWebView.getSettings().setRenderPriority(RenderPriority.HIGH);
-		findPassWebView.setWebViewClient(new WebViewClient() {
+		webView.getSettings().setRenderPriority(RenderPriority.HIGH);
+		webView.setWebViewClient(new WebViewClient() {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				view.loadUrl(url);
@@ -66,12 +67,7 @@ public class JVFindPassActivity extends BaseActivity {
 			}
 		});
 
-		if (ConfigUtil.isLanZH()) {// 中文
-			findPassWebView.loadUrl(Url.RESET_PWD_URL);
-		} else {// 英文
-			findPassWebView.loadUrl(Url.RESET_PWD_URL_EN);
-		}
-
+		webView.loadUrl(url);
 	}
 
 	OnClickListener myOnClickListener = new OnClickListener() {
@@ -79,7 +75,7 @@ public class JVFindPassActivity extends BaseActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn_left:
-				JVFindPassActivity.this.finish();
+				JVWebViewActivity.this.finish();
 				break;
 			}
 		}
@@ -87,7 +83,7 @@ public class JVFindPassActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		JVFindPassActivity.this.finish();
+		JVWebViewActivity.this.finish();
 	}
 
 	@Override

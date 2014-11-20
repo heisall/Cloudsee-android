@@ -1,7 +1,10 @@
 package com.jovision.utils;
 
+import java.io.InputStream;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Hashtable;
 
 import android.graphics.Bitmap;
@@ -76,6 +79,8 @@ public class BitmapCache {
 												// resId);
 			} else if ("video".equalsIgnoreCase(kind)) {
 				bmp = loadVideoBitmap(path);
+			} else if ("net".equalsIgnoreCase(kind)) {
+				bmp = loadNetBitmap(path);
 			}
 			this.addCacheBitmap(bmp, path);
 		}
@@ -122,6 +127,24 @@ public class BitmapCache {
 		Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(filePath,
 				Video.Thumbnails.MINI_KIND);
 		return bitmap;
+	}
+
+	public static Bitmap loadNetBitmap(String path) {
+		try {
+			URL url = new URL(path);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setConnectTimeout(5 * 1000);
+			conn.setRequestMethod("GET");
+			if (conn.getResponseCode() == 200) {
+				InputStream inputStream = conn.getInputStream();
+				Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+				return bitmap;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	public void cleanCache() {

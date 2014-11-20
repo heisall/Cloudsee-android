@@ -47,7 +47,6 @@
                 android:layout_alignBottom="@+id/remotesurfaceview"
                 android:layout_centerHorizontal="true"
                 android:background="@color/halftransparent"
-                android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="gone" >
 

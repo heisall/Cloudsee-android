@@ -265,7 +265,15 @@ public class JVLoginActivity extends BaseActivity {
 					alertNetDialog();
 				} else {
 					Intent intentFP = new Intent(JVLoginActivity.this,
-							JVFindPassActivity.class);
+							JVWebViewActivity.class);
+					String findUrl = "";
+					if (ConfigUtil.isLanZH()) {// 中文
+						findUrl = Url.RESET_PWD_URL;
+					} else {// 英文
+						findUrl = Url.RESET_PWD_URL_EN;
+					}
+					intentFP.putExtra("URL", findUrl);
+					intentFP.putExtra("title", R.string.str_find_pass);
 					JVLoginActivity.this.startActivity(intentFP);
 				}
 				break;

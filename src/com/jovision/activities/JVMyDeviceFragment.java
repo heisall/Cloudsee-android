@@ -19,6 +19,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -50,6 +51,7 @@ import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
@@ -87,14 +89,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private Button addDevice;
 
 	/** 广告位 */
+	private ArrayList<String> adUrlList = new ArrayList<String>();
 	private LayoutInflater inflater;
 	private View adView;
 	private ImageViewPager imageScroll; // 图片容器
 	private LinearLayout ovalLayout; // 圆点容器
-	private List<View> listViews; // 图片组
-	private int[] imageResId = new int[] { R.drawable.a, R.drawable.b };
-	private int[] imageEnResId = new int[] { R.drawable.aen, R.drawable.ben };
-	private int[] image = new int[] {};
+	private List<View> listViews = new ArrayList<View>(); // 图片组
+	// private int[] imageResId = new int[] { R.drawable.a, R.drawable.b};
+	// private int[] imageEnResId = new int[] { R.drawable.aen, R.drawable.ben};
+	// private int[] image = new int[] {};
 	/** 弹出框 */
 	private Dialog initDialog;// 显示弹出框
 	private TextView dialogCancel;// 取消按钮
@@ -108,6 +111,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private LinearLayout lanselect;
 	private ImageView lanall;
 	private boolean isselectall;
+	private TextView selectnum;
+	private TextView number;
+	private String Selectnumberl;
+	private String numString;
+	int Sum;
 	private ArrayList<Device> AddLanList = new ArrayList<Device>();// 广播到的设备列表
 	// 设备名称
 	private TextView device_name;
@@ -173,7 +181,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
 				.get(Consts.HAG_GOT_DEVICE));
 		if (!hasGot) {
@@ -255,16 +262,21 @@ public class JVMyDeviceFragment extends BaseFragment {
 				(int) (0.45 * mActivity.disMetrics.widthPixels));
 		imageScroll.setLayoutParams(reParams);
 		ovalLayout = (LinearLayout) adView.findViewById(R.id.dot_layout);
-		InitViewPager();// 初始化图片
-		// 开始滚动
-		imageScroll.start(mActivity, listViews, 400000, ovalLayout,
-				R.layout.dot_item, R.id.ad_item_v, R.drawable.dot_focused,
-				R.drawable.dot_normal);
-
+		// TODO
+		initADViewPager();
 		myDLAdapter = new MyDeviceListAdapter(mActivity, this);
 		myDeviceListView = mPullRefreshListView.getRefreshableView();
 		myDeviceListView.addHeaderView(adView);
 		rightBtn.setOnClickListener(myOnClickListener);
+
+		if (0 == adUrlList.size()) {
+			adUrlList
+					.add("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
+			adUrlList
+					.add("http://img4.imgtn.bdimg.com/it/u=1147331110,3253839708&fm=201&gp=0.jpg");
+			adUrlList
+					.add("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
+		}
 
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
@@ -499,8 +511,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	@Override
 	public void onDestroy() {
-		// stopRefreshWifiTimer();
-		// stopBroadTimer();
+		stopRefreshWifiTimer();
+		stopBroadTimer();
 		super.onDestroy();
 	}
 
@@ -511,38 +523,59 @@ public class JVMyDeviceFragment extends BaseFragment {
 		// stopBroadTimer();
 		sortList();
 		CacheUtil.saveDevList(myDeviceList);
-		// imageScroll.stopTimer();
+		imageScroll.stopTimer();
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		// imageScroll.stopTimer();
+		imageScroll.stopTimer();
 	}
 
 	/**
 	 * 初始化图片
 	 */
-	private void InitViewPager() {
-		listViews = new ArrayList<View>();
-		if (!ConfigUtil.isLanZH()) {
-			image = imageEnResId;
-		} else {
-			image = imageResId;
-		}
+	private void initADViewPager() {
 
-		for (int i = 0; i < image.length; i++) {
+		if (null == adUrlList || 0 == adUrlList.size()
+				|| adUrlList.size() == listViews.size()) {
+			return;
+		}
+		// if (!ConfigUtil.isLanZH()) {
+		// image = imageEnResId;
+		// } else {
+		// image = imageResId;
+		// }
+
+		for (int i = 0; i < adUrlList.size(); i++) {
 			ImageView imageView = new ImageView(mActivity);
 			imageView.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {// 设置图片点击事件
-					// ((BaseActivity) mActivity).showTextToast("点击了:"
-					// + imageScroll.getCurIndex());
+					Intent intentAD = new Intent(mActivity,
+							JVWebViewActivity.class);
+					String adUrl = "http://www.jovetech.com/";
+					intentAD.putExtra("URL", adUrl);
+					intentAD.putExtra("title", R.string.app_name);
+					mActivity.startActivity(intentAD);
 				}
 			});
-			imageView.setImageResource(image[i]);
+
+			Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
+					adUrlList.get(i));
+			if (null != bmp) {
+				imageView.setImageBitmap(bmp);
+			} else {
+				imageView.setImageResource(R.drawable.a);
+			}
+
 			imageView.setScaleType(ScaleType.FIT_CENTER);
 			listViews.add(imageView);
 		}
+
+		// 开始滚动
+		imageScroll.start(mActivity, listViews, 4 * 1000, ovalLayout,
+				R.layout.dot_item, R.id.ad_item_v, R.drawable.dot_focused,
+				R.drawable.dot_normal);
 	}
 
 	@Override
@@ -639,6 +672,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						mActivity.dismissDialog();
 
 						if (null != broadList && 0 != broadList.size()) {
+							Sum = broadList.size();
 							initLanDialog();
 						} else {
 							mActivity.showTextToast(R.string.broad_zero);
@@ -845,6 +879,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 		View view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_lan,
 				null);
 		LanDialog.setContentView(view);
+		Selectnumberl = mActivity.getResources().getString(R.string.selectnum);
+		numString = mActivity.getResources().getString(R.string.number);
+		selectnum = (TextView) view.findViewById(R.id.selectnum);
+		number = (TextView) view.findViewById(R.id.number);
 		lan_completed = (TextView) view.findViewById(R.id.lan_completed);
 		lan_cancel = (TextView) view.findViewById(R.id.lan_cancel);
 		lanlistview = (ListView) view.findViewById(R.id.lanlistview);
@@ -853,6 +891,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 		lanAdapter = new LanAdapter(mActivity);
 		lanAdapter.setData(broadList);
 		lanlistview.setAdapter(lanAdapter);
+		selectnum.setText(Selectnumberl.replace("?",
+				String.valueOf(broadList.size())));
+		number.setText(numString.replace("?", String.valueOf(broadList.size())));
 		lanlistview
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -862,7 +903,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 						// TODO Auto-generated method stub
 						if (broadList.get(position).isIslanselect()) {
 							broadList.get(position).setIslanselect(false);
+							Sum = Sum - 1;
+							selectnum.setText(Selectnumberl.replace("?",
+									String.valueOf(Sum)));
 						} else {
+							Sum = Sum + 1;
+							selectnum.setText(Selectnumberl.replace("?",
+									String.valueOf(Sum)));
 							broadList.get(position).setIslanselect(true);
 						}
 						lanAdapter.notifyDataSetChanged();
@@ -892,12 +939,18 @@ public class JVMyDeviceFragment extends BaseFragment {
 					for (int i = 0; i < broadList.size(); i++) {
 						broadList.get(i).setIslanselect(true);
 					}
+					Sum = broadList.size();
+					selectnum.setText(Selectnumberl.replace("?",
+							String.valueOf(Sum)));
 					lanall.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					isselectall = false;
 				} else {
 					for (int i = 0; i < broadList.size(); i++) {
 						broadList.get(i).setIslanselect(false);
 					}
+					Sum = 0;
+					selectnum.setText(Selectnumberl.replace("?",
+							String.valueOf(Sum)));
 					lanall.setBackgroundResource(R.drawable.morefragment_normal_icon);
 					isselectall = true;
 				}
@@ -1040,6 +1093,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {
 			int getRes = 0;
+			// 从网上获取广告图片
+			for (String url : adUrlList) {
+				BitmapCache.getInstance().getBitmap(url, "net");
+			}
+
 			try {
 				if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {// 非本地登录，无论是否刷新都执行
@@ -1143,11 +1201,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 			((BaseActivity) mActivity).dismissDialog();
 			refreshList();
 			mPullRefreshListView.onRefreshComplete();
+			initADViewPager();
+			// GetADTask task = new GetADTask();
+			// String[] strParams = new String[3];
+			// task.execute(strParams);
+
 			switch (result) {
 			// 从服务器端获取设备成功
 			case DEVICE_GETDATA_SUCCESS: {
 				broadTag = BROAD_DEVICE_LIST;
-				// PlayUtil.broadCast(mActivity);
+				PlayUtil.broadCast(mActivity);
 				break;
 			}
 			// 从服务器端获取设备成功，但是没有设备
@@ -1190,6 +1253,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// }
 			try {
 				for (Device addDev : AddLanList) {
+					String ip = addDev.getIp();
+					int port = addDev.getPort();
 					if (myDeviceList.size() >= 100
 							&& !Boolean
 									.valueOf(((BaseActivity) mActivity).statusHashMap
@@ -1216,14 +1281,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 							// 添加设备失败了，再添加一次
 							if (addRes < 0) {
-
 								addDev = DeviceUtil.addDevice(
 										mActivity.statusHashMap
 												.get("KEY_USERNAME"), addDev);
 							}
 							if (null != addDev) {
 								addRes = 0;
-
 							}
 
 							if (addRes == 0) {
@@ -1261,12 +1324,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 						}
 					}
 					if (0 == addRes) {
+						addDev.setIp(ip);
+						addDev.setPort(port);
 						myDeviceList.add(0, addDev);
 					}
 				}
-				DeviceUtil.refreshDeviceState(
-						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
-						myDeviceList);
+				// DeviceUtil.refreshDeviceState(
+				// mActivity.statusHashMap.get(Consts.KEY_USERNAME),
+				// myDeviceList);
 
 				for (Device dev1 : AddLanList) {
 					for (Device dev2 : myDeviceList) {
@@ -1351,7 +1416,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 						}).create().show();
 	}
 
-	// 根据在线状态排序
+	/**
+	 * 根据在线状态排序
+	 */
 	private void sortList() {
 		if (null == myDeviceList || 0 == myDeviceList.size()) {
 			return;
@@ -1373,6 +1440,40 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 	}
 
+	// 设置三种类型参数分别为String,Integer,String
+	class GetADTask extends AsyncTask<String, Integer, Integer> {
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int sendRes = -1;// 0成功 1失败
+			for (String url : adUrlList) {
+				BitmapCache.getInstance().getBitmap(url, "net");
+			}
+			return sendRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			initADViewPager();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
+
 	/**
 	 * 自动刷新
 	 * 
@@ -1383,7 +1484,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		@Override
 		public void run() {
-			CacheUtil.saveDevList(myDeviceList);
+			// CacheUtil.saveDevList(myDeviceList);
 			myDeviceList = CacheUtil.getDevList();
 			fragHandler.sendMessage(fragHandler.obtainMessage(AUTO_UPDATE));
 		}
@@ -1413,16 +1514,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 	}
 
-	// public void stopBroadTimer() {
-	// if (null != broadTimer) {
-	// broadTimer.cancel();
-	// broadTimer = null;
-	// }
-	// if (null != broadTimerTask) {
-	// broadTimerTask.cancel();
-	// broadTimerTask = null;
-	// }
-	// }
+	public void stopBroadTimer() {
+		if (null != broadTimer) {
+			broadTimer.cancel();
+			broadTimer = null;
+		}
+		if (null != broadTimerTask) {
+			broadTimerTask.cancel();
+			broadTimerTask = null;
+		}
+	}
 
 	/**
 	 * 2分钟自动刷新
@@ -1440,14 +1541,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 	}
 
-	// public void stopRefreshWifiTimer() {
-	// if (null != updateTimer) {
-	// updateTimer.cancel();
-	// updateTimer = null;
-	// }
-	// if (null != updateTask) {
-	// updateTask.cancel();
-	// updateTask = null;
-	// }
-	// }
+	public void stopRefreshWifiTimer() {
+		if (null != updateTimer) {
+			updateTimer.cancel();
+			updateTimer = null;
+		}
+		if (null != updateTask) {
+			updateTask.cancel();
+			updateTask = null;
+		}
+	}
 }

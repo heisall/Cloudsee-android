@@ -100,7 +100,7 @@ public class TestActivity extends Activity {
 					break;
 				case 13:
 					Intent intent13 = new Intent(TestActivity.this,
-							JVFindPassActivity.class);
+							JVWebViewActivity.class);
 					startActivity(intent13);
 					break;
 				case 14:

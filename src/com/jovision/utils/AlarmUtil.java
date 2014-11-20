@@ -545,7 +545,9 @@ public class AlarmUtil {
 	// 将字符串格式为yyyyMMddhhmmss转换为yyyy-MM-dd HH:mm:ss
 	public static String formatStrTime(String dstTimeStr) {
 		String re_StrTime = null;
-
+		if (dstTimeStr.length() != 14) {
+			return "";
+		}
 		String strYear = dstTimeStr.substring(0, 3);
 		String strMonth = dstTimeStr.substring(4, 5);
 		String strDay = dstTimeStr.substring(6, 7);

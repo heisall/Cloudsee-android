@@ -111,6 +111,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private LinearLayout lanselect;
 	private ImageView lanall;
 	private boolean isselectall;
+	private TextView selectnum;
+	private TextView number;
+	private String Selectnumberl;
+	private String numString;
+	int Sum;
 	private ArrayList<Device> AddLanList = new ArrayList<Device>();// 广播到的设备列表
 	// 设备名称
 	private TextView device_name;
@@ -667,6 +672,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						mActivity.dismissDialog();
 
 						if (null != broadList && 0 != broadList.size()) {
+							Sum = broadList.size();
 							initLanDialog();
 						} else {
 							mActivity.showTextToast(R.string.broad_zero);
@@ -873,6 +879,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 		View view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_lan,
 				null);
 		LanDialog.setContentView(view);
+		Selectnumberl = mActivity.getResources().getString(R.string.selectnum);
+		numString = mActivity.getResources().getString(R.string.number);
+		selectnum = (TextView) view.findViewById(R.id.selectnum);
+		number = (TextView) view.findViewById(R.id.number);
 		lan_completed = (TextView) view.findViewById(R.id.lan_completed);
 		lan_cancel = (TextView) view.findViewById(R.id.lan_cancel);
 		lanlistview = (ListView) view.findViewById(R.id.lanlistview);
@@ -881,6 +891,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 		lanAdapter = new LanAdapter(mActivity);
 		lanAdapter.setData(broadList);
 		lanlistview.setAdapter(lanAdapter);
+		selectnum.setText(Selectnumberl.replace("?",
+				String.valueOf(broadList.size())));
+		number.setText(numString.replace("?", String.valueOf(broadList.size())));
 		lanlistview
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -890,7 +903,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 						// TODO Auto-generated method stub
 						if (broadList.get(position).isIslanselect()) {
 							broadList.get(position).setIslanselect(false);
+							Sum = Sum - 1;
+							selectnum.setText(Selectnumberl.replace("?",
+									String.valueOf(Sum)));
 						} else {
+							Sum = Sum + 1;
+							selectnum.setText(Selectnumberl.replace("?",
+									String.valueOf(Sum)));
 							broadList.get(position).setIslanselect(true);
 						}
 						lanAdapter.notifyDataSetChanged();
@@ -920,12 +939,18 @@ public class JVMyDeviceFragment extends BaseFragment {
 					for (int i = 0; i < broadList.size(); i++) {
 						broadList.get(i).setIslanselect(true);
 					}
+					Sum = broadList.size();
+					selectnum.setText(Selectnumberl.replace("?",
+							String.valueOf(Sum)));
 					lanall.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					isselectall = false;
 				} else {
 					for (int i = 0; i < broadList.size(); i++) {
 						broadList.get(i).setIslanselect(false);
 					}
+					Sum = 0;
+					selectnum.setText(Selectnumberl.replace("?",
+							String.valueOf(Sum)));
 					lanall.setBackgroundResource(R.drawable.morefragment_normal_icon);
 					isselectall = true;
 				}

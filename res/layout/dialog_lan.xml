@@ -14,19 +14,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="@color/more_fragment_color4"
             android:text="@string/str_scanlandevice"
             android:textColor="@color/dialogchannaltext"
             android:textSize="20sp" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tip"
+            android:layout_marginTop="10dp"
+            android:background="@color/dialognum" />
+
         <ListView
             android:id="@+id/lanlistview"
             android:layout_width="match_parent"
-            android:layout_height="270dp"
+            android:layout_height="250dp"
             android:layout_below="@+id/tip"
+            android:layout_marginTop="10dp"
             android:fadingEdge="none" >
         </ListView>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/lanlistview"
+            android:background="@color/dialognum" />
 
         <LinearLayout
             android:id="@+id/select"
@@ -35,8 +49,23 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/lanlistview"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/selectnum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="当前设备3个，" />
+
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp"
+                android:text="共15个设备" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,7 +78,7 @@
                 android:id="@+id/Lanall"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:background="@drawable/morefragment_normal_icon" />
+                android:background="@drawable/morefragment_selector_icon" />
         </LinearLayout>
 
         <LinearLayout

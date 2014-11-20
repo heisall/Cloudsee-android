@@ -2,12 +2,23 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +31,9 @@ import com.jovision.Consts;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
+import com.jovision.net.AsyncHttpClient;
+import com.jovision.net.AsyncHttpResponseHandler;
+import com.jovision.net.RequestParams;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.mails.MailSenderInfo;
@@ -144,7 +158,6 @@ public class JVFeedbackActivity extends BaseActivity {
 		});
 
 	}
-
 	OnClickListener myOnClickListener = new OnClickListener() {
 
 		@Override
@@ -168,6 +181,7 @@ public class JVFeedbackActivity extends BaseActivity {
 						}
 
 					} else {
+//						FeedbackPost(contentStr,connectStr);
 						createDialog("");
 						if (0 != connectStr.length()) {
 							contentStr += "<br /> 联系方式" + connectStr;
@@ -187,7 +201,55 @@ public class JVFeedbackActivity extends BaseActivity {
 		}
 
 	};
+	private void FeedbackPost(String content,String contect) {
+		String model = android.os.Build.MODEL;
+		String version = android.os.Build.VERSION.RELEASE;
+		String fingerprint = android.os.Build.FINGERPRINT;
+		String country = ConfigUtil.getCountry();
+		String cpu = Build.CPU_ABI;
+		String softwareVersion = this.getResources().getString(
+				R.string.app_name)
+				+ ConfigUtil.getVersion(this);
+		AsyncHttpClient client = new AsyncHttpClient();
+		RequestParams params = new RequestParams();
+			params.put("mod","mobile"); 
+	        params.put("platform","1"); 
+	        params.put("model",model); 
+	        params.put("version",version); 
+	        params.put("fingerprint",fingerprint); 
+	        params.put("country",country); 
+	        params.put("cpu",cpu); 
+	        params.put("softversion",softwareVersion); 
+	        params.put("content",content); 
+	        params.put("contact",contect); 
+	        params.put("device", encryptInfo1());
+	        client.post("http://182.92.242.230/api.php",params,new landHandler());
+	}
 
+	class landHandler extends AsyncHttpResponseHandler {
+
+		@Override
+		public void onStart() {
+			super.onStart();
+		}
+
+		@Override
+		public void onFinish() {
+			super.onFinish();
+		}
+
+		@Override
+		public void onSuccess(String content) {
+			super.onSuccess(content);
+			Log.i("TAG", content+"成功");
+		}
+
+		@Override
+		public void onFailure(Throwable error, String content) {
+			super.onFailure(error, content);
+		}
+	}	
+	
 	class FeedbackThread extends Thread {
 
 		String content;
@@ -286,9 +348,7 @@ public class JVFeedbackActivity extends BaseActivity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return mobileInfo;
-
 	}
 
 	private String encryptInfo1() {

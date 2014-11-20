@@ -80,6 +80,8 @@ public class Consts {
 	public static final String FORMATTER_SAVE_WIFI = "ACTIVED=%d;WIFI_ID=%s;WIFI_PW=%s;WIFI_AUTH=%s;WIFI_ENC=%s;";
 	public static final String FORMATTER_SET_DHCP = "ACTIVED=%d;bDHCP=%d;nlIP=%d;nlNM=%d;nlGW=%d;nlDNS=%d;";
 	public static final String FORMATTER_SET_BPS_FPS = "[CH%d];width=%d;height=%d;nMBPH=%d;framerate=%d;rcMode=%d;";
+	public static final String FORMATTER_SET_MDENABLE = "bMDEnable=%d;";
+	public static final String FORMATTER_SET_ALARM = "bAlarmEnable=%d;alarmTime0=%s";
 
 	public static int pushHisCount = 0;
 	public static final int PUSH_PAGESIZE = 5;

@@ -369,8 +369,8 @@
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
     <!-- JVMyDeviceFragment -->
-    <string name="selectnum">当前设备?个，</string>
-    <string name="number">共?个设备</string>
+    <string name="selectnum">已选中?个，</string>
+    <string name="number">共?个</string>
     <string name="notwifi_forbid_func">3G状态下不允许使用此功能</string>
     <string name="del_device_succ">设备删除成功</string>
     <string name="del_device_failed">设备删除失败</string>

@@ -369,6 +369,8 @@
     <string name="updated_just_now">Just update</string>
     <string name="time_error">something wrong with the time</string>
     <!-- JVMyDeviceFragment -->
+    <string name="selectnum">已选中?个，</string>
+    <string name="number">共?个</string>
     <string name="notwifi_forbid_func">This function is not available under 3G/4G network.</string>
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>

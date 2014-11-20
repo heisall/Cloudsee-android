@@ -3,8 +3,10 @@ package com.jovision.adapters;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,27 +16,33 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVImageViewActivity;
+import com.jovision.activities.JVMediaListActivity;
 import com.jovision.activities.JVVideoActivity;
 import com.jovision.views.MyGridView;
 
 public class MediaFolderAdapter extends BaseAdapter {
 
 	public ArrayList<File> folderList = new ArrayList<File>();
-	public Context mContext = null;
+	public static BaseActivity mContext;
 	public LayoutInflater inflater;
 	private String media;// 区分图片还是视频
 	private boolean loadImg = true;
-
-	public MediaFolderAdapter(Context con) {
+	private boolean isdelect;
+	private boolean isselectall;
+	
+	public MediaFolderAdapter(BaseActivity con) {
 		mContext = con;
 		inflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public void setData(String media, ArrayList<File> folderList) {
+	public void setData(String media, ArrayList<File> folderList,boolean isdelect,boolean isselectall) {
 		this.folderList = folderList;
 		this.media = media;
+		this.isdelect = isdelect;
+		this.isselectall = isselectall;
 	}
 
 	public void setLoadImage(boolean load) {
@@ -49,7 +57,9 @@ public class MediaFolderAdapter extends BaseAdapter {
 		}
 		return count;
 	}
-
+	public static void setNum(int number) {
+		mContext.onNotify(1222, JVMediaListActivity.fileSelectSum,number, null);
+	}
 	@Override
 	public Object getItem(int arg0) {
 		return folderList.get(arg0);
@@ -78,9 +88,8 @@ public class MediaFolderAdapter extends BaseAdapter {
 		final MediaAdapter mediaAdaper = new MediaAdapter(mContext);
 		final File[] fileArray = folderList.get(position).listFiles();
 		final String folderPath = folderList.get(position).getAbsolutePath();
-		mediaAdaper.setData(media, fileArray, loadImg);
+		mediaAdaper.setData(media, fileArray, loadImg,isdelect,isselectall);
 		folderHolder.fileGridView.setAdapter(mediaAdaper);
-
 		folderHolder.fileGridView
 				.setOnItemClickListener(new OnItemClickListener() {
 					@Override
@@ -89,20 +98,24 @@ public class MediaFolderAdapter extends BaseAdapter {
 						mediaAdaper.setSelect(arg2);
 						mediaAdaper.notifyDataSetChanged();
 						if ("image".equalsIgnoreCase(media)) {
+							if (isdelect) {
 							Intent imageIntent = new Intent();
 							imageIntent.setClass(mContext,
 									JVImageViewActivity.class);
 							imageIntent.putExtra("FolderPath", folderPath);
 							imageIntent.putExtra("FileIndex", arg2);
 							mContext.startActivity(imageIntent);
+							}
 						} else if ("video".equalsIgnoreCase(media)) {
-							Intent videoIntent = new Intent();
-							videoIntent.setClass(mContext,
-									JVVideoActivity.class);
-							videoIntent.putExtra("URL",
-									fileArray[arg2].getAbsolutePath());
-							videoIntent.putExtra("IS_LOCAL", true);
-							mContext.startActivity(videoIntent);
+							if (isdelect) {
+								Intent videoIntent = new Intent();
+								videoIntent.setClass(mContext,
+										JVVideoActivity.class);
+								videoIntent.putExtra("URL",
+										fileArray[arg2].getAbsolutePath());
+								videoIntent.putExtra("IS_LOCAL", true);
+								mContext.startActivity(videoIntent);
+							}
 						}
 					}
 

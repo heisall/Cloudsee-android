@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.test.JVACCOUNT;
 import android.util.Log;
 
+import com.jovision.Consts;
 import com.jovision.bean.AD;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
@@ -16,6 +17,7 @@ import com.jovision.bean.OneKeyUpdate;
 import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 
 public class DeviceUtil {
 
@@ -1529,7 +1531,7 @@ public class DeviceUtil {
 	 * @param
 	 * @return ArrayList<Device> 设备列表
 	 */
-	public static ArrayList<AD> getADList() {
+	public static ArrayList<AD> getADList(int adVersion) {
 		ArrayList<AD> adList = new ArrayList<AD>();
 		AD ad = new AD();
 		ad.setIndex(0);
@@ -1548,7 +1550,9 @@ public class DeviceUtil {
 		ad2.setAdImgUrl("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
 		ad2.setAdLink("http://www.baidu.com/");
 		adList.add(ad2);
-
+		MyLog.v("adList.toString()", adList.toString());
+		MySharedPreference.putString(Consts.AD_LIST, adList.toString());
+		MySharedPreference.putInt(Consts.AD_VERSION, adVersion);
 		return adList;
 
 		// JSONObject jObj = new JSONObject();
@@ -1560,7 +1564,7 @@ public class DeviceUtil {
 		// jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 		// JVDeviceConst.PROTO_VERSION);// 1.0
 		// jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, 0);// 0：CloudSEE 1：NVSIP
-		// jObj.put(JVDeviceConst.JK_AD_VERSION, 0);// (当前广告版本号)
+		// jObj.put(JVDeviceConst.JK_AD_VERSION, adVersion);// (当前广告版本号)
 		// jObj.put(JVDeviceConst.JK_TERMINAL_TYPE, 1);// (终端类型 0-未知 1-Android
 		// // 2-iPhone 3-iPad)
 		// } catch (Exception e1) {

@@ -294,6 +294,12 @@ public class Consts {
 	/** 缓存设备列表key */
 	public static final String CACHE_DEVICE_LIST = "CACHE_DEVICE_LIST";
 
+	/** 本地存储AD列表key */
+	public static final String AD_LIST = "AD_LIST";
+
+	/** 本地存储AD版本 key */
+	public static final String AD_VERSION = "AD_VERSION";
+
 	/** 存储取没取过设备列表key */
 	public static String HAG_GOT_DEVICE = "HAG_GOT_DEVICE";
 

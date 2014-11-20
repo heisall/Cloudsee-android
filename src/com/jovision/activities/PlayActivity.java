@@ -426,6 +426,7 @@ public abstract class PlayActivity extends BaseActivity {
 						R.drawable.turnleft_down));
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turnleft_noturn));
+				videTurnBtn.setClickable(false);
 				bottomStream.setVisibility(View.GONE);
 			}
 			decodeBtn.setVisibility(View.GONE);
@@ -503,6 +504,7 @@ public abstract class PlayActivity extends BaseActivity {
 		if (Consts.PLAY_AP == playFlag) {
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turnleft_down));
+			videTurnBtn.setClickable(false);
 		} else {
 			// 屏幕方向
 			if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
@@ -602,6 +604,7 @@ public abstract class PlayActivity extends BaseActivity {
 					R.drawable.turnleft_down));
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turnleft_down));
+			videTurnBtn.setClickable(false);
 		} else {
 			// 屏幕方向
 			if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {

@@ -213,7 +213,7 @@ public class JVFeedbackActivity extends BaseActivity {
 				mailInfo.setUserName("741376209@qq.com"); // 你的邮箱地址
 				mailInfo.setPassword("mfq_zsw");// 您的邮箱密码
 				mailInfo.setFromAddress("741376209@qq.com");
-				mailInfo.setToAddress("juyang@jovision.com");// jovetech1203**
+				mailInfo.setToAddress("suifupeng@jovision.com");// jovetech1203**
 				// mailInfo.setToAddress("jy0329@163.com");
 				mailInfo.setSubject("["
 						+ getResources().getString(R.string.app_name) + "]"
@@ -221,7 +221,8 @@ public class JVFeedbackActivity extends BaseActivity {
 						+ ConfigUtil.getVersion(JVFeedbackActivity.this));
 				mailInfo.setContent(content + mobileInfo() + encryptInfo1());
 				MyLog.e("feedback=", content + mobileInfo() + encryptInfo1());
-				String[] receivers = new String[] { "mfq@jovision.com" };
+				String[] receivers = new String[] { "juyang@jovision.com",
+						"mfq@jovision.com" };
 				String[] ccs = receivers;
 				mailInfo.setReceivers(receivers);
 				mailInfo.setCcs(ccs);

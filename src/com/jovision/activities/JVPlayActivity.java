@@ -604,6 +604,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_PLAY_AUDIO: {
+
 			if (null != obj && null != playAudio) {
 				if (AUDIO_SINGLE) {// 单向对讲长按才发送语音数据
 					if (VOICECALL_LONG_CLICK) {
@@ -860,7 +861,7 @@ public class JVPlayActivity extends PlayActivity implements
 					realStop = false;
 				} else {
 					bottombut5.setBackgroundDrawable(getResources()
-							.getDrawable(R.drawable.video_talk));
+							.getDrawable(R.drawable.video_talkback_icon));
 					showTextToast(R.string.has_calling);
 				}
 
@@ -1733,15 +1734,16 @@ public class JVPlayActivity extends PlayActivity implements
 		if (false == isBlockUi && isDoubleClickCheck
 				&& lastClickIndex == channel.getIndex()) {// 双击
 
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation
-					|| Consts.PLAY_AP == playFlag) {// 横屏
-				if (channelList.get(lastClickIndex).getParent().isCard()
-						|| 8 == channelList.get(lastClickIndex).getAudioByte()) {
-					bottombut5.setBackgroundDrawable(getResources()
-							.getDrawable(R.drawable.video_talk));
-				}
-				return;
-			}
+			// if (Configuration.ORIENTATION_LANDSCAPE ==
+			// configuration.orientation
+			// || Consts.PLAY_AP == playFlag) {// 横屏
+			// if (channelList.get(lastClickIndex).getParent().isCard()
+			// || 8 == channelList.get(lastClickIndex).getAudioByte()) {
+			// bottombut5.setBackgroundDrawable(getResources()
+			// .getDrawable(R.drawable.video_talk));
+			// }
+			// return;
+			// }
 
 			if (ONE_SCREEN != currentScreen) {
 				int size = currentPageChannelList.size();
@@ -2521,7 +2523,7 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	/**
-	 * 单项对讲用功能
+	 * 单向对讲用功能
 	 */
 	OnTouchListener callOnTouchListener = new OnTouchListener() {
 
@@ -2541,7 +2543,7 @@ public class JVPlayActivity extends PlayActivity implements
 	};
 
 	/**
-	 * 单项对讲用功能
+	 * 单向对讲用功能
 	 */
 	OnLongClickListener callOnLongClickListener = new OnLongClickListener() {
 
@@ -3059,11 +3061,11 @@ public class JVPlayActivity extends PlayActivity implements
 		Jni.setColor(lastClickIndex, 0, 0, 0, 0);
 
 		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-			if (channelList.get(lastClickIndex).getParent().isCard()
-					|| 8 == channelList.get(lastClickIndex).getAudioByte()) {
-				bottombut5.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.video_talk));
-			}
+		// if (channelList.get(lastClickIndex).getParent().isCard()
+		// || 8 == channelList.get(lastClickIndex).getAudioByte()) {
+		// bottombut5.setBackgroundDrawable(getResources().getDrawable(
+		// R.drawable.video_talk));
+		// }
 			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
 				if (VOICECALL_LONG_CLICK) {
 					new TalkThread(lastClickIndex, 0).start();

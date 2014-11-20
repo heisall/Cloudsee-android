@@ -381,7 +381,7 @@
     <string name="line_device">有线设备</string>
     <string name="selectone_to_connect">请选择至少一个通道进行连接</string>
     <string name="add_broad_dev">搜索到!个设备，是否立即添加?</string>
-    <string name="broad_zero">未广播到设备.</string>
+    <string name="broad_zero">未搜索到设备.</string>
     <string name="get_device_failed">设备加载失败</string>
     <string name="press_screen_refresh">点击屏幕刷新</string>
     <!-- JVInfoFragment -->

@@ -1068,10 +1068,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {
 			int getRes = 0;
-			// 从网上获取广告图片
-			for (String url : adUrlList) {
-				BitmapCache.getInstance().getBitmap(url, "net");
-			}
+			// // 从网上获取广告图片
+			// for (String url : adUrlList) {
+			// BitmapCache.getInstance().getBitmap(url, "net");
+			// }
 
 			try {
 				if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap

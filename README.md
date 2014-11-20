@@ -151,6 +151,8 @@ TextData
 
     id, window, type, json
     json: {"result":0, "msg":"", "flag":0, "type":0,
+        "packet_type":0, "packet_count":0, "packet_id":0, "packet_length":0,
+        "extend_type":0, "extend_arg1":0, "extend_arg2":0, "extend_arg3":0,
         "wifi":[{"name":"", "pwd":"", "quality":0, "keystat":0, "auth":0, "env":0},{}]
         }
 

@@ -387,8 +387,8 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			String country = ConfigUtil.getCountry();
 			String cpu = Build.CPU_ABI;
 			String softwareVersion = JVOffLineDialogActivity.this
-					.getResources().getString(R.string.app_name);
-			// + ConfigUtil.getVersion(JVOffLineDialogActivity.this);
+					.getResources().getString(R.string.app_name)
+					+ ConfigUtil.getVersion(JVOffLineDialogActivity.this);
 			HashMap<String, String> paramsMap = new HashMap<String, String>();
 			paramsMap.put("mod", "crash");
 			paramsMap.put("subject", softwareVersion);

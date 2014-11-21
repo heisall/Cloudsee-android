@@ -547,20 +547,19 @@ public class JVPlayActivity extends PlayActivity implements
 					}
 				}
 			} else {
-				if (channel.isHasGotParams()) {
-					showFunc(channel, currentScreen, lastClickIndex);
+				// if (channel.isHasGotParams()) {
+				// showFunc(channel, currentScreen, lastClickIndex);
+				// } else {
+				// 是IPC，发文本聊天请求
+				if (channel.isAgreeTextData()) {
+					// 获取主控码流信息请求
+					Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA, 8,
+							JVNetConst.JVN_STREAM_INFO);
 				} else {
-					// 是IPC，发文本聊天请求
-					if (channel.isAgreeTextData()) {
-						// 获取主控码流信息请求
-						Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA, 8,
-								JVNetConst.JVN_STREAM_INFO);
-					} else {
-						// 请求文本聊天
-						Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT,
-								new byte[0], 8);
-					}
+					// 请求文本聊天
+					Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 				}
+				// }
 
 			}
 
@@ -778,7 +777,7 @@ public class JVPlayActivity extends PlayActivity implements
 										"MobileCH=" + streamMap.get("MobileCH"));
 								channel.setSingleVoice(true);
 							}
-							channel.setHasGotParams(true);
+							// channel.setHasGotParams(true);
 							showFunc(channel, currentScreen, lastClickIndex);
 						}
 
@@ -995,22 +994,28 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换
-			if (0 == arg1) {
-				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						false, 0, Consts.TYPE_SET_PARAM, String.format(
-								Consts.FORMATTER_SET_BPS_FPS, 1, 1280, 720,
-								1024, 15, 1));
-			} else if (1 == arg1) {
-				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						false, 0, Consts.TYPE_SET_PARAM, String.format(
-								Consts.FORMATTER_SET_BPS_FPS, 1, 720, 480, 768,
-								25, 1));
-			} else if (2 == arg1) {
-				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						false, 0, Consts.TYPE_SET_PARAM, String.format(
-								Consts.FORMATTER_SET_BPS_FPS, 1, 352, 288, 512,
-								25, 1));
-			}
+
+			String params = "MainStreamQos=" + (arg1 + 1);
+
+			MyLog.v(TAG, "changeStream--" + params);
+			Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA, false,
+					0, Consts.TYPE_SET_PARAM, params);
+			// if (0 == arg1) {
+			// Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+			// false, 0, Consts.TYPE_SET_PARAM, String.format(
+			// Consts.FORMATTER_SET_BPS_FPS, 1, 1280, 720,
+			// 1024, 15, 1));
+			// } else if (1 == arg1) {
+			// Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+			// false, 0, Consts.TYPE_SET_PARAM, String.format(
+			// Consts.FORMATTER_SET_BPS_FPS, 1, 720, 480, 768,
+			// 25, 1));
+			// } else if (2 == arg1) {
+			// Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+			// false, 0, Consts.TYPE_SET_PARAM, String.format(
+			// Consts.FORMATTER_SET_BPS_FPS, 1, 352, 288, 512,
+			// 25, 1));
+			// }
 			streamListView.setVisibility(View.GONE);
 			break;
 		}
@@ -1640,10 +1645,9 @@ public class JVPlayActivity extends PlayActivity implements
 				// IP直连
 				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),
-						ip, port, device.getUser(), device.getPwd(), -1, device
-								.getGid(), true, 1, true, (device
-								.isHomeProduct() ? 5 : 5),
-						channel.getSurface(), isOmx);
+						ip, port, device.getUser(), device.getPwd(), -1,
+						device.getGid(), true, 1, true,
+						JVNetConst.TYPE_3GMO_UDP, channel.getSurface(), isOmx);
 				if (connect == channel.getIndex()) {
 					channel.setPaused(null == channel.getSurface());
 				}
@@ -1667,7 +1671,8 @@ public class JVPlayActivity extends PlayActivity implements
 					connect = Jni.connect(channel.getIndex(),
 							channel.getChannel(), conIp, conPort,
 							device.getUser(), device.getPwd(), number,
-							device.getGid(), true, 1, true, 6,// (device.isHomeProduct()
+							device.getGid(), true, 1, true,
+							JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
 							// ? 6 : 5),
 							channel.getSurface(), isOmx);
 					if (connect == channel.getIndex()) {
@@ -1677,7 +1682,8 @@ public class JVPlayActivity extends PlayActivity implements
 					connect = Jni.connect(channel.getIndex(),
 							channel.getChannel(), conIp, conPort,
 							device.getUser(), device.getPwd(), number,
-							device.getGid(), true, 1, true, 6,// (device.isHomeProduct()
+							device.getGid(), true, 1, true,
+							JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
 							// ? 6 : 5),
 							null, isOmx);
 					if (connect == channel.getIndex()) {

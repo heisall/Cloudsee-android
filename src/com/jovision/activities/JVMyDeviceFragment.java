@@ -614,7 +614,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 		case JVTabActivity.TAB_BACK: {// tab 返回事件，保存数据
 			sortList();
-			CacheUtil.saveDevList(myDeviceList);
+			// CacheUtil.saveDevList(myDeviceList);
 			break;
 		}
 

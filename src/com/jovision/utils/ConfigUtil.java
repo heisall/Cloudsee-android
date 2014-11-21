@@ -196,17 +196,25 @@ public class ConfigUtil {
 	 * @return
 	 */
 	public static String getCountry() {
-		String ip = "China";
+		String country = "China";
+		String requestRes = "China";
 		BufferedReader in = null;
 		try {
-			URL whatismyip = new URL(
-					"http://int.dpool.sina.com.cn/iplookup/iplookup.php");
+			// http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js
+			URL whatismyip = new URL(Url.COUNTRY_URL);
 			in = new BufferedReader(new InputStreamReader(
 					whatismyip.openStream(), "GBK"));
-
-			ip = in.readLine();
-
+			// var remote_ip_info =
+			// {"ret":1,"start":-1,"end":-1,"country":"\u4e2d\u56fd","province":"\u5c71\u4e1c","city":"\u6d4e\u5357","district":"","isp":"","type":"","desc":""};
+			requestRes = in.readLine();
+			MyLog.v("getCountry--requestRes", requestRes);
+			String jsonStr = requestRes.substring(requestRes.indexOf("{"),
+					requestRes.indexOf("}") + 1);
+			MyLog.v("getCountry--jsonStr", jsonStr);
+			JSONObject obj = new JSONObject(jsonStr);
+			country = obj.getString("country");
 		} catch (Exception e) {
+			country = "China";
 			e.printStackTrace();
 		} finally {
 			if (in != null) {
@@ -217,9 +225,9 @@ public class ConfigUtil {
 				}
 			}
 		}
-		MyLog.v("getCountry", ip);
+		MyLog.v("getCountry", country);
 
-		return ip;
+		return country;
 	}
 
 	public static String getBase64(String str) {
@@ -234,6 +242,19 @@ public class ConfigUtil {
 			s = Base64.encodeToString(b, Base64.NO_WRAP);
 		}
 		return s;
+	}
+
+	public static String encodeStr(String str) {
+		// 将Unicode字符串转换为汉字输出
+		String s[] = str.split("\\\\u");
+		String t = "";
+		for (int j = 1; j < s.length; j++) {
+			int ab = Integer.valueOf(s[j], 16);// 先将16进制转换为整数
+			char ac = (char) ab;// 再将整数转换为字符
+			System.out.println(ac);
+			t = t + ac;
+		}
+		return t;
 	}
 
 	public static int lan = -1;
@@ -440,7 +461,14 @@ public class ConfigUtil {
 				.getApplicationContext()).getStatusHashMap();
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
 			result = Jni.init(context, 9200, Consts.LOG_PATH);
-			Jni.enableLinkHelper(true, 3, 10);// 开小助手
+
+			if (MySharedPreference.getBoolean("LITTLEHELP", true)) {
+				Jni.enableLinkHelper(true, 3, 10);// 开小助手
+				MyLog.v(Consts.TAG_APP, "enable  helper = " + true);
+			} else {
+				MyLog.v(Consts.TAG_APP, "unEnable  helper = " + false);
+			}
+
 			int res = openBroadCast();// 开广播
 			statusHashMap
 					.put(Consts.KEY_INIT_CLOUD_SDK, String.valueOf(result));

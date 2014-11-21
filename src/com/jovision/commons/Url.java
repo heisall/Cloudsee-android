@@ -3,7 +3,12 @@ package com.jovision.commons;
 import com.jovision.utils.ConfigUtil;
 
 public class Url {
+	// 意见反馈地址
 	public static String FEED_BACK_URL = "http://182.92.242.230/api.php";
+
+	// 获取地理位置url
+	public static String COUNTRY_URL = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js";
+	// http://int.dpool.sina.com.cn/iplookup/iplookup.php
 
 	// 找回密码
 	public static String RESET_PWD_URL = "http://webapp.afdvr.com/findpwd/index.html";// 重置密码地址

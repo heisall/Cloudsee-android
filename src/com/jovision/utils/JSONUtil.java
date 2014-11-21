@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +16,10 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -232,7 +235,7 @@ public class JSONUtil {
 	// http Post请求获取数据，超时时间是10秒
 	public static String httpPost(String url, Map<String, String> map) {
 
-		String string = null;
+		String result = "";
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		String key, value;
 		if (null != map && 0 != map.size()) {
@@ -257,17 +260,69 @@ public class JSONUtil {
 					10000);
 			HttpResponse response = client.execute(httpRequest);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				string = EntityUtils.toString(response.getEntity());
+				result = EntityUtils.toString(response.getEntity());
 			} else {
-				string = String.valueOf(response.getStatusLine()
+				result = String.valueOf(response.getStatusLine()
 						.getStatusCode());
 			}
 		} catch (Exception e) {
-			string = "";
+			result = "";
+			e.printStackTrace();
+		}
+		MyLog.e("feedback-Post请求-result", result);
+		return result;
+	}
+
+	public static String httpGet(String url, Map params) {
+
+		/* 建立HTTPGet对象 */
+
+		String paramStr = "";
+
+		Iterator iter = params.entrySet().iterator();
+		while (iter.hasNext()) {
+			Map.Entry entry = (Map.Entry) iter.next();
+			Object key = entry.getKey();
+			Object val = entry.getValue();
+			paramStr += paramStr = "&" + key + "=" + val;
+		}
+
+		if (!paramStr.equals("")) {
+			paramStr = paramStr.replaceFirst("&", "?");
+			url += paramStr;
+		}
+		HttpGet httpRequest = new HttpGet(url);
+
+		MyLog.e("feedback-Get请求-requeset", url);
+
+		String strResult = "doGetError";
+
+		try {
+			HttpClient httpClient = new DefaultHttpClient();
+			/* 发送请求并等待响应 */
+			HttpResponse httpResponse = httpClient.execute(httpRequest);
+			/* 若状态码为200 ok */
+			if (httpResponse.getStatusLine().getStatusCode() == 200) {
+				/* 读返回数据 */
+				strResult = EntityUtils.toString(httpResponse.getEntity());
+
+			} else {
+				strResult = "Error Response: "
+						+ httpResponse.getStatusLine().toString();
+			}
+		} catch (ClientProtocolException e) {
+			strResult = e.getMessage().toString();
+			e.printStackTrace();
+		} catch (IOException e) {
+			strResult = e.getMessage().toString();
+			e.printStackTrace();
+		} catch (Exception e) {
+			strResult = e.getMessage().toString();
 			e.printStackTrace();
 		}
 
-		return string;
+		MyLog.e("feedback-Get请求-result", strResult);
+		return strResult;
 	}
 
 }

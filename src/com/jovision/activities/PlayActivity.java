@@ -118,7 +118,7 @@ public abstract class PlayActivity extends BaseActivity {
 	// protected MICRecorder recorder;// 音频采集
 
 	protected Button left_btn_h;// 横屏返回键
-	protected TextView currentMenu_h;// 横屏手动录像，报警录像键
+	protected TextView currentMenu_h;//
 	protected Button right_btn_h;// 横屏手动录像，报警录像键
 	protected RelativeLayout topBarH;// 横屏topbar
 
@@ -146,7 +146,9 @@ public abstract class PlayActivity extends BaseActivity {
 	protected Button decodeBtn;// 软硬解
 	protected Button videTurnBtn;// 视频翻转
 	protected Button currentKbps;// 当前统计
-	protected TextView play_nickname;
+
+	/**  */
+	protected TextView currentMenu_v;
 
 	// 录像模式----rightFuncButton
 	// 码流切换----moreFeature
@@ -228,7 +230,7 @@ public abstract class PlayActivity extends BaseActivity {
 		decodeBtn = (Button) findViewById(R.id.decodeway);
 		videTurnBtn = (Button) findViewById(R.id.overturn);
 		currentKbps = (Button) findViewById(R.id.kbps);
-		play_nickname = (TextView) findViewById(R.id.play_nickname);
+		currentMenu_v = (TextView) findViewById(R.id.play_nickname);
 
 		decodeBtn.setVisibility(View.GONE);
 		videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
@@ -387,7 +389,7 @@ public abstract class PlayActivity extends BaseActivity {
 				apFuncLayout.setVisibility(View.GONE);
 			}
 
-			verPlayBarLayout.setVisibility(View.VISIBLE);
+			verPlayBarLayout.setVisibility(View.GONE);
 			horPlayBarLayout.setVisibility(View.GONE);
 			int height = disMetrics.heightPixels;
 			int width = disMetrics.widthPixels;
@@ -419,13 +421,14 @@ public abstract class PlayActivity extends BaseActivity {
 			apFuncLayout.setVisibility(View.GONE);
 			verPlayBarLayout.setVisibility(View.GONE);
 
-			horPlayBarLayout.setVisibility(View.VISIBLE);
+			horPlayBarLayout.setVisibility(View.GONE);
 			// init();
 			if (Consts.PLAY_AP == playFlag) {
 				bottombut6.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turnleft_down));
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turnleft_noturn));
+				videTurnBtn.setClickable(false);
 				bottomStream.setVisibility(View.GONE);
 			}
 			decodeBtn.setVisibility(View.GONE);
@@ -454,7 +457,7 @@ public abstract class PlayActivity extends BaseActivity {
 	 */
 	@SuppressWarnings("deprecation")
 	public void showVerFuc(Channel channel) {
-		verPlayBarLayout.setVisibility(View.VISIBLE);
+		verPlayBarLayout.setVisibility(View.GONE);
 		horPlayBarLayout.setVisibility(View.GONE);
 
 		// if (Consts.PLAY_AP == playFlag) {
@@ -503,6 +506,7 @@ public abstract class PlayActivity extends BaseActivity {
 		if (Consts.PLAY_AP == playFlag) {
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turnleft_down));
+			videTurnBtn.setClickable(false);
 		} else {
 			// 屏幕方向
 			if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {
@@ -559,7 +563,7 @@ public abstract class PlayActivity extends BaseActivity {
 	@SuppressWarnings("deprecation")
 	public void showHorFuc(Channel channel) {
 		verPlayBarLayout.setVisibility(View.GONE);
-		horPlayBarLayout.setVisibility(View.VISIBLE);
+		horPlayBarLayout.setVisibility(View.GONE);
 
 		// 获取软硬解状态
 		if (channel.isOMX()) {
@@ -602,6 +606,7 @@ public abstract class PlayActivity extends BaseActivity {
 					R.drawable.turnleft_down));
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turnleft_down));
+			videTurnBtn.setClickable(false);
 		} else {
 			// 屏幕方向
 			if (Consts.SCREEN_NORMAL == channel.getScreenTag()) {

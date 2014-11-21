@@ -70,7 +70,7 @@ public class JVRemotePlay extends BaseActivity {
 
 			Jni.connect(1, 1, device.getIp(), device.getPort(), device
 					.getUser(), device.getPwd(), device.getNo(), device
-					.getGid(), true, 1, true, (device.isHomeProduct() ? 6 : 6),
+					.getGid(), true, 1, true, (device.isHomeProduct() ? 5 : 5),
 					channel.getSurfaceView().getHolder().getSurface(), true);
 		}
 

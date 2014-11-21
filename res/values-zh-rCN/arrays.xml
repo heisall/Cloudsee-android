@@ -123,8 +123,8 @@
         <item>通道管理</item>
         <item>立即观看</item>
         <item>报警管理</item>
-        <item>版本信息</item>
         <item>安全防护</item>
+        <item>版本信息</item>
     </string-array>
 
     <!-- 码流切换 -->

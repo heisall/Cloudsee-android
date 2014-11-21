@@ -31,8 +31,8 @@ public class ManageAdapter extends BaseAdapter {
 			R.drawable.videoedit_devicemanager_icon,
 			R.drawable.videoedit_connectmode_icon,
 			R.drawable.videoedit_channal_icon, R.drawable.videoedit_see_icon,
-			R.drawable.videoedit_add_icon, R.drawable.dev_update,
-			R.drawable.protect_close };
+			R.drawable.videoedit_add_icon, R.drawable.protect_close,
+			R.drawable.dev_update };
 
 	private String[] fuctionArray;
 
@@ -132,7 +132,7 @@ public class ManageAdapter extends BaseAdapter {
 			if (6 == position || 7 == position) {
 				if (2 == device.getDeviceType()) {
 					convertView.setVisibility(View.VISIBLE);
-					if (7 == position) {
+					if (6 == position) {
 						if (JVDeviceConst.DEVICE_SWITCH_OPEN == device
 								.getAlarmSwitch()) {
 							channelHolder.img

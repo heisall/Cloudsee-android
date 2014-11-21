@@ -1,5 +1,8 @@
 package com.jovision.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
@@ -11,6 +14,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore.Video;
+
+import com.jovision.Consts;
+import com.jovision.commons.MyLog;
 
 //http://www.360doc.com/content/14/1112/14/20361811_424545444.shtml
 /**
@@ -76,11 +82,17 @@ public class BitmapCache {
 		if (bmp == null) {
 			if ("image".equalsIgnoreCase(kind)) {
 				bmp = loadImageBitmap(path, 5);// BitmapFactory.decodeResource(context.getResources(),
-												// resId);
 			} else if ("video".equalsIgnoreCase(kind)) {
 				bmp = loadVideoBitmap(path);
 			} else if ("net".equalsIgnoreCase(kind)) {
-				bmp = loadNetBitmap(path);
+				File file = new File(Consts.AD_PATH
+						+ ConfigUtil.getBase64(path) + ".jpg");
+				if (file.exists()) {
+					bmp = loadImageBitmap(path, 5);
+				} else {
+					bmp = loadNetBitmap(path);
+					saveToLocal(path);
+				}
 			}
 			this.addCacheBitmap(bmp, path);
 		}
@@ -114,6 +126,7 @@ public class BitmapCache {
 		options.inJustDecodeBounds = false;
 		options.inSampleSize = scalSize;
 		Bitmap bmp = BitmapFactory.decodeFile(path, options);
+		MyLog.e("loadImageBitmap--from-local", path);
 		return bmp;
 	}
 
@@ -140,6 +153,7 @@ public class BitmapCache {
 				Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 				return bitmap;
 			}
+			MyLog.e("loadImageBitmap--from-net", path);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -160,6 +174,49 @@ public class BitmapCache {
 		bitmapRefs.clear();
 		System.gc();
 		System.runFinalization();
+	}
+
+	// "http://imgsrc.baidu.com/forum/pic/item/b2738bd49f8fd32da18bb7a4.jpg"
+	// 声明称为静态变量有助于调用
+	public static void saveToLocal(String path) {
+		try {
+			File adFolder = new File(Consts.AD_PATH);
+			MobileUtil.createDirectory(adFolder);
+			File adFile = new File(Consts.AD_PATH + ConfigUtil.getBase64(path)
+					+ ".jpg");
+			FileOutputStream outStream = new FileOutputStream(adFile);
+			URL url = new URL(path);
+
+			// 记住使用的是HttpURLConnection类
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+
+			// 如果运行超过5秒会自动失效这是android规定
+			conn.setConnectTimeout(5 * 1000);
+			InputStream inStream = conn.getInputStream();
+			byte[] data = readStream(inStream);// 调用readStream方法
+			outStream.write(data);
+
+			// 关闭流的这个地方需要完善一下
+			outStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return;
+	}
+
+	public static byte[] readStream(InputStream inStream) throws Exception {
+
+		// 把数据读取存放到内存中去
+		ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int len = -1;
+		while ((len = inStream.read(buffer)) != -1) {
+			outSteam.write(buffer, 0, len);
+		}
+		outSteam.close();
+		inStream.close();
+		return outSteam.toByteArray();
 	}
 
 }

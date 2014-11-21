@@ -148,6 +148,10 @@ public class ImageViewPager extends ViewPager {
 			final int ovalLayoutItemId, final int focusedId, final int normalId) {
 		if (ovalLayout != null) {
 			LayoutInflater inflater = LayoutInflater.from(mActivity);
+
+			if (ovalLayout.getChildCount() == mListViews.size()) {
+				return;
+			}
 			for (int i = 0; i < mListViews.size(); i++) {
 				ovalLayout.addView(inflater.inflate(ovalLayoutId, null));
 

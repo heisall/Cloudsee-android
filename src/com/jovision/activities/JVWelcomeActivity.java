@@ -12,6 +12,7 @@ import com.jovision.bean.User;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.DefaultExceptionHandler;
 import com.jovision.utils.ImportOldData;
 import com.jovision.utils.UserUtil;
 import com.tencent.stat.MtaSDkException;
@@ -39,6 +40,8 @@ public class JVWelcomeActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
+		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(
+				this));
 		ConfigUtil.getJNIVersion();
 		ImportOldData importOld = new ImportOldData(JVWelcomeActivity.this);
 		if (!MySharedPreference.getBoolean("HasImport")) {

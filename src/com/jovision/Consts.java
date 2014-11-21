@@ -26,6 +26,8 @@ public class Consts {
 			+ File.separator + "bugs" + File.separator;
 	public static final String HEAD_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "head" + File.separator;
+	public static final String AD_PATH = Consts.SD_CARD_PATH + APP_NAME
+			+ File.separator + "ad" + File.separator;
 
 	public static final String DB_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "db" + File.separator;
@@ -291,6 +293,12 @@ public class Consts {
 
 	/** 缓存设备列表key */
 	public static final String CACHE_DEVICE_LIST = "CACHE_DEVICE_LIST";
+
+	/** 本地存储AD列表key */
+	public static final String AD_LIST = "AD_LIST";
+
+	/** 本地存储AD版本 key */
+	public static final String AD_VERSION = "AD_VERSION";
 
 	/** 存储取没取过设备列表key */
 	public static String HAG_GOT_DEVICE = "HAG_GOT_DEVICE";

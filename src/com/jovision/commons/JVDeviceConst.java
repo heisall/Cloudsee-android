@@ -432,4 +432,17 @@ public class JVDeviceConst {
 	public static final int ACTIVE_DEVICE_FLAG = 1;// 激活设备
 	public static final int DEVICE_VERIFY_NOT_TRUE = 100;// 输入的用户名或密码与设备的不一致
 	public static final int DEVICE_NOT_EXISTS = 101;// 输入的用户名或密码与设备的不一致
+
+	/** 2014-11-20广告新增 */
+	public static final String JK_TERMINAL_TYPE = "tt";
+	public static final String JK_PRODUCT_TYPE = "prot";
+	public static final String JK_AD_VERSION = "adver";
+	public static final String JK_AD_INFO = "adinfo";
+	public static final String JK_AD_NO = "adno";
+	public static final String JK_AD_URL = "adurl";
+	public static final String JK_AD_LINK = "adl";
+
+	public static final int AD_PUBLISH_PROCESS = 12;
+	public static final int GET_AD_INFO = 5500;
+	public static final int GET_AD_INFO_RESPONSE = 5501;
 }

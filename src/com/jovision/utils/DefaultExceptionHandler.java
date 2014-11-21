@@ -55,8 +55,7 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 			intent.putExtra("ErrorMsg", error);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(intent);
-
-			// android.os.Process.killProcess(android.os.Process.myPid());
+			android.os.Process.killProcess(android.os.Process.myPid());
 		}
 
 	}

@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -47,14 +48,17 @@ import com.jovision.Consts;
 import com.jovision.adapters.LanAdapter;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.adapters.PopWindowAdapter;
+import com.jovision.bean.AD;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
+import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.AlarmDialog;
 import com.jovision.views.ImageViewPager;
@@ -78,6 +82,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	public static final int AUTO_UPDATE = 0x08;// 2分钟自动刷新时间到--
 
+	public static final int AD_UPDATE = 0x09;// 广告刷新
+
 	// private RefreshableView refreshableView;
 	private PullToRefreshListView mPullRefreshListView;
 
@@ -89,7 +95,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private Button addDevice;
 
 	/** 广告位 */
-	private ArrayList<String> adUrlList = new ArrayList<String>();
+	private ArrayList<AD> adList = new ArrayList<AD>();
 	private LayoutInflater inflater;
 	private View adView;
 	private ImageViewPager imageScroll; // 图片容器
@@ -262,21 +268,20 @@ public class JVMyDeviceFragment extends BaseFragment {
 				(int) (0.45 * mActivity.disMetrics.widthPixels));
 		imageScroll.setLayoutParams(reParams);
 		ovalLayout = (LinearLayout) adView.findViewById(R.id.dot_layout);
-		// TODO
 		initADViewPager();
 		myDLAdapter = new MyDeviceListAdapter(mActivity, this);
 		myDeviceListView = mPullRefreshListView.getRefreshableView();
 		myDeviceListView.addHeaderView(adView);
 		rightBtn.setOnClickListener(myOnClickListener);
 
-		if (0 == adUrlList.size()) {
-			adUrlList
-					.add("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
-			adUrlList
-					.add("http://img4.imgtn.bdimg.com/it/u=1147331110,3253839708&fm=201&gp=0.jpg");
-			adUrlList
-					.add("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
-		}
+		// if (0 == adUrlList.size()) {
+		// adUrlList
+		// .add("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
+		// adUrlList
+		// .add("http://img4.imgtn.bdimg.com/it/u=1147331110,3253839708&fm=201&gp=0.jpg");
+		// adUrlList
+		// .add("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
+		// }
 
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
@@ -536,46 +541,56 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 * 初始化图片
 	 */
 	private void initADViewPager() {
+		adList = AD.fromJsonArray(MySharedPreference.getString(Consts.AD_LIST));
+		if (null == listViews || 0 == listViews.size()) {// 还没加载过广告，先添加上广告
+			for (int i = 0; i < adList.size(); i++) {
+				final ImageView imageView = new ImageView(mActivity);
+				imageView.setTag(i);
+				imageView.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {// 设置图片点击事件
+						Intent intentAD = new Intent(mActivity,
+								JVWebViewActivity.class);
+						int index = (Integer) imageView.getTag();
+						String adUrl = adList.get(index).getAdLink();
+						intentAD.putExtra("URL", adUrl);
+						intentAD.putExtra("title", R.string.app_name);
+						mActivity.startActivity(intentAD);
+					}
+				});
 
-		if (null == adUrlList || 0 == adUrlList.size()
-				|| adUrlList.size() == listViews.size()) {
-			return;
-		}
-		// if (!ConfigUtil.isLanZH()) {
-		// image = imageEnResId;
-		// } else {
-		// image = imageResId;
-		// }
-
-		for (int i = 0; i < adUrlList.size(); i++) {
-			ImageView imageView = new ImageView(mActivity);
-			imageView.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {// 设置图片点击事件
-					Intent intentAD = new Intent(mActivity,
-							JVWebViewActivity.class);
-					String adUrl = "http://www.jovetech.com/";
-					intentAD.putExtra("URL", adUrl);
-					intentAD.putExtra("title", R.string.app_name);
-					mActivity.startActivity(intentAD);
+				Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
+						adList.get(i).getAdImgUrl());
+				if (null != bmp) {
+					imageView.setImageBitmap(bmp);
+				} else {
+					imageView.setImageResource(R.drawable.ad_default);
 				}
-			});
 
-			Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
-					adUrlList.get(i));
-			if (null != bmp) {
-				imageView.setImageBitmap(bmp);
-			} else {
-				imageView.setImageResource(R.drawable.a);
+				imageView.setScaleType(ScaleType.FIT_CENTER);
+				listViews.add(imageView);
 			}
-
-			imageView.setScaleType(ScaleType.FIT_CENTER);
-			listViews.add(imageView);
+		} else {
+			for (int i = 0; i < listViews.size(); i++) {
+				ImageView imageView = (ImageView) listViews.get(i);
+				Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
+						adList.get(i).getAdImgUrl());
+				if (null != bmp) {
+					imageView.setImageBitmap(bmp);
+				} else {
+					imageView.setImageResource(R.drawable.ad_default);
+				}
+				imageView.setScaleType(ScaleType.FIT_CENTER);
+			}
 		}
 
-		// 开始滚动
-		imageScroll.start(mActivity, listViews, 4 * 1000, ovalLayout,
-				R.layout.dot_item, R.id.ad_item_v, R.drawable.dot_focused,
-				R.drawable.dot_normal);
+		if (null != listViews && 0 != listViews.size()) {
+			imageScroll.stopTimer();
+			// 开始滚动
+			imageScroll.start(mActivity, listViews, 4 * 1000, ovalLayout,
+					R.layout.dot_item, R.id.ad_item_v, R.drawable.dot_focused,
+					R.drawable.dot_normal);
+		}
+
 	}
 
 	@Override
@@ -1093,12 +1108,32 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {
 			int getRes = 0;
-			// // 从网上获取广告图片
-			// for (String url : adUrlList) {
-			// BitmapCache.getInstance().getBitmap(url, "net");
-			// }
-
 			try {
+
+				adList = DeviceUtil.getADList(MySharedPreference
+						.getInt(Consts.AD_VERSION));
+				if (null == adList) {// 获取广告出错
+					adList = AD.fromJsonArray(MySharedPreference
+							.getString(Consts.AD_LIST));
+				} else if (0 == adList.size()) {// 未检查到更新
+					adList = AD.fromJsonArray(MySharedPreference
+							.getString(Consts.AD_LIST));
+				} else if (adList.size() > 0) {// 有新广告
+					// 删除老广告
+					File adFolder = new File(Consts.AD_PATH);
+					MobileUtil.deleteFile(adFolder);
+				}
+
+				if (null != adList && 0 != adList.size()) {
+					// 从网上获取广告图片
+					for (AD ad : adList) {
+						BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(),
+								"net");
+					}
+					fragHandler.sendMessage(fragHandler
+							.obtainMessage(AD_UPDATE));
+				}
+
 				if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {// 非本地登录，无论是否刷新都执行
 					// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次
@@ -1202,10 +1237,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			refreshList();
 			mPullRefreshListView.onRefreshComplete();
 			initADViewPager();
-			// GetADTask task = new GetADTask();
-			// String[] strParams = new String[3];
-			// task.execute(strParams);
-
 			switch (result) {
 			// 从服务器端获取设备成功
 			case DEVICE_GETDATA_SUCCESS: {
@@ -1440,38 +1471,36 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 	}
 
-	// 设置三种类型参数分别为String,Integer,String
-	class GetADTask extends AsyncTask<String, Integer, Integer> {
-		// 可变长的输入参数，与AsyncTask.exucute()对应
+	class GetADThread extends Thread {
+
 		@Override
-		protected Integer doInBackground(String... params) {
-			int sendRes = -1;// 0成功 1失败
-			for (String url : adUrlList) {
-				BitmapCache.getInstance().getBitmap(url, "net");
+		public void run() {
+			super.run();
+			adList = DeviceUtil.getADList(MySharedPreference
+					.getInt(Consts.AD_VERSION));
+			if (null == adList) {// 获取广告出错
+				adList = AD.fromJsonArray(MySharedPreference
+						.getString(Consts.AD_LIST));
+			} else if (0 == adList.size()) {// 未检查到更新
+				adList = AD.fromJsonArray(MySharedPreference
+						.getString(Consts.AD_LIST));
+			} else if (adList.size() > 0) {// 有新广告
+				// 删除老广告
+				File adFolder = new File(Consts.AD_PATH);
+				MobileUtil.deleteFile(adFolder);
 			}
-			return sendRes;
+
+			if (null != adList && 0 != adList.size()) {
+				// 从网上获取广告图片
+				for (AD ad : adList) {
+					BitmapCache.getInstance()
+							.getBitmap(ad.getAdImgUrl(), "net");
+				}
+				fragHandler.sendMessage(fragHandler.obtainMessage(AD_UPDATE));
+			}
+
 		}
 
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			initADViewPager();
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-		}
-
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
-		}
 	}
 
 	/**

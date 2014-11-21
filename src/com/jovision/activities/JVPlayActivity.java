@@ -1300,7 +1300,7 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 			}
-			play_nickname.setText(deviceList.get(deviceIndex).getNickName());
+			currentMenu_v.setText(deviceList.get(deviceIndex).getNickName());
 		}
 		/** 上 */
 		back.setOnClickListener(myOnClickListener);
@@ -1383,6 +1383,15 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 				lastItemIndex = arg0;
+				try {
+					currentMenu_v.setText(channelList.get(lastItemIndex)
+							.getParent().getNickName());
+					currentMenu_h.setText(channelList.get(lastItemIndex)
+							.getParent().getNickName());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 
 			@Override
@@ -1633,7 +1642,7 @@ public class JVPlayActivity extends PlayActivity implements
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),
 						ip, port, device.getUser(), device.getPwd(), -1, device
 								.getGid(), true, 1, true, (device
-								.isHomeProduct() ? 6 : 6),
+								.isHomeProduct() ? 5 : 5),
 						channel.getSurface(), isOmx);
 				if (connect == channel.getIndex()) {
 					channel.setPaused(null == channel.getSurface());
@@ -1734,16 +1743,10 @@ public class JVPlayActivity extends PlayActivity implements
 		if (false == isBlockUi && isDoubleClickCheck
 				&& lastClickIndex == channel.getIndex()) {// 双击
 
-			// if (Configuration.ORIENTATION_LANDSCAPE ==
-			// configuration.orientation
-			// || Consts.PLAY_AP == playFlag) {// 横屏
-			// if (channelList.get(lastClickIndex).getParent().isCard()
-			// || 8 == channelList.get(lastClickIndex).getAudioByte()) {
-			// bottombut5.setBackgroundDrawable(getResources()
-			// .getDrawable(R.drawable.video_talk));
-			// }
-			// return;
-			// }
+			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation
+					|| Consts.PLAY_AP == playFlag) {// 横屏
+				return;
+			}
 
 			if (ONE_SCREEN != currentScreen) {
 				int size = currentPageChannelList.size();

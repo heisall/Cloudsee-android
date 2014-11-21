@@ -298,8 +298,14 @@ public class ManageFragment extends BaseFragment {
 				mActivity.startActivity(playIntent);
 				break;
 			}
-
-			case 6: {// 一键升级
+			case 6: {// 安全防护开关
+				mActivity.createDialog("");
+				AlarmSwitchTask task = new AlarmSwitchTask();
+				String[] params = new String[3];
+				task.execute(params);
+				break;
+			}
+			case 7: {// 一键升级
 				if (JVDeviceConst.DEVICE_SERVER_ONLINE == device
 						.getServerState()) {
 					StatService.trackCustomEvent(
@@ -314,14 +320,6 @@ public class ManageFragment extends BaseFragment {
 				} else {
 					mActivity.showTextToast(R.string.device_offline);
 				}
-				break;
-			}
-
-			case 7: {// 安全防护开关
-				mActivity.createDialog("");
-				AlarmSwitchTask task = new AlarmSwitchTask();
-				String[] params = new String[3];
-				task.execute(params);
 				break;
 			}
 			}

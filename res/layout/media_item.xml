@@ -3,32 +3,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ImageView
-        android:id="@+id/fileimage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@color/welcome_blue"
-        android:padding="2dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/device_alarm_img" />
+    <RelativeLayout
+        android:layout_width="165dp"
+        android:layout_height="125dp"
+        android:layout_centerInParent="true" >
 
-    <ImageView
-        android:id="@+id/playimg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/play_l" />
+        <ImageView
+            android:id="@+id/fileimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@color/welcome_blue"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/device_alarm_img" />
 
-    <TextView
-        android:id="@+id/filename"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/fileimage"
-        android:layout_centerHorizontal="true"
-        android:text="20141111"
-        android:textColor="@color/white"
-        android:textSize="10sp"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/playimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/play_l" />
+
+        <TextView
+            android:id="@+id/filename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/fileimage"
+            android:layout_centerHorizontal="true"
+            android:text="20141111"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/fileselect"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/morefragment_selector_icon"
+            android:visibility="gone" />
+    </RelativeLayout>
 
 </RelativeLayout>

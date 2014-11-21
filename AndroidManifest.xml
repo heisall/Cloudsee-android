@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="40"
-    android:versionName="V4.3.7" >
+    android:versionName="V4.3.9" >
 
     <supports-screens
         android:anyDensity="true"
@@ -21,7 +21,15 @@
 
 
 
+
+
+
+
 　　
+    
+    
+    
+    
     
     
     
@@ -36,7 +44,15 @@
 
 
 
+
+
+
+
 　　
+    
+    
+    
+    
     
     
     
@@ -51,7 +67,15 @@
 
 
 
+
+
+
+
 　　
+    
+    
+    
+    
     
     
     
@@ -66,7 +90,15 @@
 
 
 
+
+
+
+
 　　
+    
+    
+    
+    
     
     
     
@@ -124,7 +156,19 @@
 
 
 
+
+
+
+
+
+
+
+
 　　
+        
+        
+        
+        
         
         
         
@@ -141,7 +185,19 @@
 
 
 
+
+
+
+
 　　
+        
+
+        
+
+        
+
+        
+
         
 
         
@@ -168,7 +224,19 @@
 
 
 
+
+
+
+
+
+
+
+
 　　
+        
+        
+        
+        
         
         
         
@@ -185,7 +253,19 @@
 
 
 
+
+
+
+
 　　
+        
+
+        
+
+        
+
+        
+
         
 
         

@@ -433,6 +433,8 @@ public class JVMoreFragment extends BaseFragment {
 														+ " ");
 									}
 								} else if (littlenum == 10) {
+									MySharedPreference.putBoolean("LITTLEHELP",
+											true);
 									MySharedPreference.putBoolean("LITTLE",
 											true);
 									ListViewUtil

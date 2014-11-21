@@ -79,7 +79,7 @@ public class JVMoreFragment extends BaseFragment {
 	private int[] Image = { R.drawable.morefragment_help_icon,
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon, R.drawable.media_image,
-			R.drawable.morefragment_feedback_icon,
+			R.drawable.media_image, R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
 	// 功能名称数组
@@ -99,6 +99,8 @@ public class JVMoreFragment extends BaseFragment {
 	File newFile;
 	// popupWindow滑出布局
 	private LinearLayout linear;
+
+	private int littlenum = 0;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -390,7 +392,16 @@ public class JVMoreFragment extends BaseFragment {
 																R.string.str_video_more_modetwo));
 							}
 							break;
-						case 3:// 媒体
+						case 3:// 小助手
+							if (MySharedPreference.getBoolean("LITTLEHELP")) {
+								MySharedPreference.putBoolean("LITTLEHELP",
+										false);
+							} else {
+								MySharedPreference.putBoolean("LITTLEHELP",
+										true);
+							}
+							break;
+						case 4:// 媒体
 							StatService.trackCustomEvent(
 									mActivity,
 									"Media",
@@ -400,22 +411,37 @@ public class JVMoreFragment extends BaseFragment {
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);
 							break;
-						case 4:
+						case 5:
 							Intent intent = new Intent(mActivity,
 									JVFeedbackActivity.class);
 							startActivity(intent);
 							break;
-						case 5:
+						case 6:
 							CheckUpdateTask taskf = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];
 							strParams[0] = "1";// 1,手动检查更新
 							taskf.execute(strParams);
 							break;
-						case 6:
-
+						case 7:
+							if (!MySharedPreference.getBoolean("LITTLE")) {
+								littlenum++;
+								if (littlenum < 10) {
+									if (littlenum >= 7) {
+										mActivity
+												.showTextToast((10 - littlenum)
+														+ " ");
+									}
+								} else if (littlenum == 10) {
+									MySharedPreference.putBoolean("LITTLEHELP",
+											true);
+									MySharedPreference.putBoolean("LITTLE",
+											true);
+									ListViewUtil
+											.setListViewHeightBasedOnChildren(more_listView);
+								}
+							}
 							break;
-
 						default:
 							break;
 						}
@@ -528,5 +554,14 @@ public class JVMoreFragment extends BaseFragment {
 		protected void onProgressUpdate(Integer... values) {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
+	}
+
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		if (littlenum < 10) {
+			littlenum = 0;
+		}
+		super.onPause();
 	}
 }

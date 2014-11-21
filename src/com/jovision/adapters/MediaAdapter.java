@@ -28,7 +28,6 @@ public class MediaAdapter extends BaseAdapter {
 	private boolean loadImg = true;
 	public static int selectIndex = -1;
 	private boolean isdelect;
-	private boolean isselectall;
 
 	public MediaAdapter(Context con) {
 		mContext = con;
@@ -37,14 +36,12 @@ public class MediaAdapter extends BaseAdapter {
 	}
 
 	public void setData(ArrayList<Filebean> dataList, String media,
-			File[] fileArray, boolean loadImg, boolean isdelect,
-			boolean isselectall) {
+			File[] fileArray, boolean loadImg, boolean isdelect) {
 		this.dataList = dataList;
 		this.fileArray = fileArray;
 		this.media = media;
 		this.loadImg = loadImg;
 		this.isdelect = isdelect;
-		this.isselectall = isselectall;
 	}
 
 	public void setSelect(int index) {

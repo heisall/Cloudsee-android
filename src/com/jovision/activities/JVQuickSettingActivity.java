@@ -196,11 +196,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		mobileLayout = (LinearLayout) findViewById(R.id.mobilewifilayout);
 		desWifiName = (EditText) findViewById(R.id.deswifiname);
 		desWifiPass = (EditText) findViewById(R.id.deswifipwd);
-
-		if (null != oldWifiSSID && !"".equalsIgnoreCase(oldWifiSSID)) {
-			desWifiName.setText(oldWifiSSID);
-		}
-
 		desWifiPass
 				.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);// 显示密码
 		destWifiEye = (ToggleButton) findViewById(R.id.deswifieye);
@@ -293,7 +288,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			ipcLayout.setVisibility(View.VISIBLE);
 			mobileLayout.setVisibility(View.GONE);
 			saveSet.setVisibility(View.GONE);
-			desWifiName.setText("");
+			if (null != oldWifiSSID && !"".equalsIgnoreCase(oldWifiSSID)) {
+				desWifiName.setText(oldWifiSSID);
+			}
 			desWifiPass.setText("");
 			startRefreshWifiTimer();
 		} else {

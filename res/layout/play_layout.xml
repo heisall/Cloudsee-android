@@ -47,6 +47,7 @@
                 android:layout_alignBottom="@+id/remotesurfaceview"
                 android:layout_centerHorizontal="true"
                 android:background="@color/halftransparent"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:visibility="gone" >
 
@@ -60,8 +61,8 @@
                     android:id="@+id/playback_seekback"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginRight="3dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="6dp"
                     android:paddingBottom="0dip"
                     android:paddingLeft="3dip"
                     android:paddingRight="3dip"

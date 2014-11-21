@@ -3,8 +3,10 @@ package com.jovision.adapters;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +20,20 @@ import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVImageViewActivity;
 import com.jovision.activities.JVMediaListActivity;
 import com.jovision.activities.JVVideoActivity;
+import com.jovision.bean.Filebean;
 import com.jovision.views.MyGridView;
 
 public class MediaFolderAdapter extends BaseAdapter {
 
 	public ArrayList<File> folderList = new ArrayList<File>();
+	public ArrayList<Filebean> daArrayList = new ArrayList<Filebean>();
 	public static BaseActivity mContext;
 	public LayoutInflater inflater;
 	private String media;// 区分图片还是视频
 	private boolean loadImg = true;
 	private boolean isdelect;
 	private boolean isselectall;
+	
 
 	public MediaFolderAdapter(BaseActivity con) {
 		mContext = con;
@@ -36,6 +41,7 @@ public class MediaFolderAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
+	public void setData(String media, ArrayList<File> folderList,boolean isdelect,boolean isselectall) {
 	public void setData(String media, ArrayList<File> folderList,
 			boolean isdelect, boolean isselectall) {
 		this.folderList = folderList;
@@ -56,10 +62,12 @@ public class MediaFolderAdapter extends BaseAdapter {
 		}
 		return count;
 	}
-
 	public static void setNum(int number) {
-		mContext.onNotify(1222, JVMediaListActivity.fileSelectSum, number, null);
+		mContext.onNotify(1222, JVMediaListActivity.fileSelectSum,number, null);
 	}
+
+
+
 
 	@Override
 	public Object getItem(int arg0) {
@@ -89,7 +97,10 @@ public class MediaFolderAdapter extends BaseAdapter {
 		final MediaAdapter mediaAdaper = new MediaAdapter(mContext);
 		final File[] fileArray = folderList.get(position).listFiles();
 		final String folderPath = folderList.get(position).getAbsolutePath();
-		mediaAdaper.setData(media, fileArray, loadImg, isdelect, isselectall);
+		mediaAdaper.setData(media, fileArray, loadImg,isdelect,isselectall);
+		daArrayList = JVMediaListActivity.fileMap.get(folderPath);
+		mediaAdaper.setData(daArrayList, media, fileArray, loadImg, isdelect,
+				isselectall);
 		folderHolder.fileGridView.setAdapter(mediaAdaper);
 		folderHolder.fileGridView
 				.setOnItemClickListener(new OnItemClickListener() {
@@ -97,14 +108,46 @@ public class MediaFolderAdapter extends BaseAdapter {
 					public void onItemClick(AdapterView<?> arg0, View arg1,
 							int arg2, long arg3) {
 						mediaAdaper.setSelect(arg2);
+							int position, long arg3) {
+						if (!isdelect) {
+							daArrayList = JVMediaListActivity.fileMap
+									.get(folderPath);
+							mediaAdaper.setData(daArrayList, media, fileArray,
+									loadImg, isdelect, isselectall);
+							for (int i = 0; i < daArrayList.size(); i++) {
+								if (position == i) {
+									if (daArrayList.get(i).isSelect()) {
+										daArrayList.get(i).setSelect(false);
+										JVMediaListActivity.fileSelectSum--;
+									} else {
+										daArrayList.get(i).setSelect(true);
+										JVMediaListActivity.fileSelectSum++;
+									}
+								}
+							}
+						}
+						mediaAdaper.setSelect(position);
 						mediaAdaper.notifyDataSetChanged();
+						if (JVMediaListActivity.fileSelectSum == JVMediaListActivity.fileSum) {
+							mContext.onNotify(JVMediaListActivity.FILE_SUM,
+									JVMediaListActivity.fileSelectSum, 1, null);
+						} else {
+							mContext.onNotify(JVMediaListActivity.FILE_SUM,
+									JVMediaListActivity.fileSelectSum, 0, null);
+						}
 						if ("image".equalsIgnoreCase(media)) {
 							if (isdelect) {
+							Intent imageIntent = new Intent();
+							imageIntent.setClass(mContext,
+									JVImageViewActivity.class);
+							imageIntent.putExtra("FolderPath", folderPath);
+							imageIntent.putExtra("FileIndex", arg2);
+							mContext.startActivity(imageIntent);
 								Intent imageIntent = new Intent();
 								imageIntent.setClass(mContext,
 										JVImageViewActivity.class);
 								imageIntent.putExtra("FolderPath", folderPath);
-								imageIntent.putExtra("FileIndex", arg2);
+								imageIntent.putExtra("FileIndex", position);
 								mContext.startActivity(imageIntent);
 							}
 						} else if ("video".equalsIgnoreCase(media)) {
@@ -114,6 +157,7 @@ public class MediaFolderAdapter extends BaseAdapter {
 										JVVideoActivity.class);
 								videoIntent.putExtra("URL",
 										fileArray[arg2].getAbsolutePath());
+										fileArray[position].getAbsolutePath());
 								videoIntent.putExtra("IS_LOCAL", true);
 								mContext.startActivity(videoIntent);
 							}

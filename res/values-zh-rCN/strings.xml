@@ -501,6 +501,7 @@
     <string name="media_image">图像</string>
     <string name="media_video">视频</string>
     <string name="media_other">其他</string>
+    <string name="media_noticedelect">请选择要删除的文件</string>
     <!-- Help -->
     <string name="str_help_zero">展开多种方式添加设备</string>
     <string name="str_help_one">远程配置IPC设备的网络和码流</string>

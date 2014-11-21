@@ -34,7 +34,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="10dp"
             android:orientation="vertical"
-            android:visibility="gone" >
+            android:visibility="gone"
+             >
 
             <LinearLayout
                 android:id="@+id/file_select"
@@ -59,12 +60,18 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="20dp"
                     android:text="@string/number" />
-
+			<LinearLayout 
+			    android:id="@+id/selectalllinear"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/select_all"
+                    android:layout_marginRight="5dp"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -72,6 +79,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:background="@drawable/morefragment_normal_icon" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

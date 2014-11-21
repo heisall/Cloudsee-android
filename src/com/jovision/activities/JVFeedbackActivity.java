@@ -1,7 +1,7 @@
 package com.jovision.activities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

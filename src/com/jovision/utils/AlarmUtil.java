@@ -16,6 +16,7 @@ import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
+import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 
 public class AlarmUtil {
@@ -512,7 +513,7 @@ public class AlarmUtil {
 				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1,
 						device.getIp(), device.getPort(), device.getUser(),
 						device.getPwd(), device.getNo(), device.getGid(), true,
-						1, true, (device.isHomeProduct() ? 5 : 5), null, false) >= 0;
+						1, true, JVNetConst.TYPE_3GMO_UDP, null, false) >= 0;
 			} else {
 				// IP直连
 				MyLog.v("New Alarm",
@@ -520,7 +521,7 @@ public class AlarmUtil {
 				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1,
 						device.getIp(), device.getPort(), device.getUser(),
 						device.getPwd(), -1, device.getGid(), true, 1, true,
-						(device.isHomeProduct() ? 5 : 5), null, false) >= 0;
+						JVNetConst.TYPE_3GMO_UDP, null, false) >= 0;
 
 			}
 			return con_res;

@@ -404,6 +404,7 @@ public class ChannelFragment extends BaseFragment {
 				channelAdapter.setShowDelete(false);
 				channelAdapter.setData(device.getChannelList().toList(),
 						widthPixels);
+				CacheUtil.saveDevList(deviceList);
 			} else if (1 == result) {
 				// [Neo] 删除最后一个应该退出通过管理界面
 				((BaseActivity) mActivity)
@@ -439,7 +440,7 @@ public class ChannelFragment extends BaseFragment {
 			int left2Add = -1;
 
 			Channel channel = null;
-			MyList<Channel> list = device.getChannelList();
+			MyList<Channel> list = deviceList.get(deviceIndex).getChannelList();
 
 			left2Add = Consts.MAX_DEVICE_CHANNEL_COUNT - list.size();
 
@@ -454,8 +455,8 @@ public class ChannelFragment extends BaseFragment {
 									.get(Consts.LOCAL_LOGIN))) {// 本地添加
 						addRes = 0;
 					} else {
-						addRes = DeviceUtil.addPoint(device.getFullNo(),
-								left2Add);
+						addRes = DeviceUtil.addPoint(deviceList
+								.get(deviceIndex).getFullNo(), left2Add);
 					}
 
 					if (0 == addRes) {
@@ -463,8 +464,8 @@ public class ChannelFragment extends BaseFragment {
 							channel = new Channel();
 							target = list.precheck();
 							channel.setChannel(target);
-							channel.setChannelName(device.getFullNo() + "_"
-									+ target);
+							channel.setChannelName(deviceList.get(deviceIndex)
+									.getFullNo() + "_" + target);
 							list.add(channel);
 						}
 						// TODO 通道添加成功后是否要去服务器端获取
@@ -485,7 +486,7 @@ public class ChannelFragment extends BaseFragment {
 						// // ((BaseActivity) mActivity).statusHashMap
 						// // .get("KEY_USERNAME")));
 						// }
-						device.setChannelList(list);
+						deviceList.get(deviceIndex).setChannelList(list);
 					}
 
 				} catch (Exception e) {
@@ -512,8 +513,9 @@ public class ChannelFragment extends BaseFragment {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.add_channel_succ);
 				channelAdapter.setShowDelete(false);
-				channelAdapter.setData(device.getChannelList().toList(),
-						widthPixels);
+				channelAdapter.setData(deviceList.get(deviceIndex)
+						.getChannelList().toList(), widthPixels);
+				CacheUtil.saveDevList(deviceList);
 			} else if (9999 == result) {
 				((BaseActivity) mActivity).showTextToast(R.string.channel_full);
 			} else {

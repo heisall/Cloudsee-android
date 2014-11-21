@@ -203,11 +203,6 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		SurfaceHolder holder = playSurface.getHolder();
 		progressBar.setOnSeekBarChangeListener(mOnSeekBarChangeListener);
 		progressBar.setProgress(0);
-
-		if (!is05) {
-			progressBar.setVisibility(View.GONE);
-		}
-
 		decodeBtn.setVisibility(View.GONE);
 		videTurnBtn.setVisibility(View.GONE);
 
@@ -273,6 +268,12 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			acBuffStr = intent.getStringExtra("acBuffStr");
 			audioByte = intent.getIntExtra("AudioByte", 0);
 			is05 = intent.getBooleanExtra("is05", false);
+		}
+
+		if (!is05) {
+			progressBar.setVisibility(View.GONE);
+		} else {
+			progressBar.setVisibility(View.VISIBLE);
 		}
 
 	}

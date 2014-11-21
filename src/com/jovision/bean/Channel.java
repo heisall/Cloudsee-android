@@ -55,7 +55,7 @@ public class Channel {
 	// [Neo] 语音对讲时编码帧大小
 	private int audioBlock = 0;
 
-	private boolean hasGotParams = false;
+	// private boolean hasGotParams = false;
 	private boolean agreeTextData = false;// 是否同意文本聊天
 	private boolean isOMX = false;// 是否硬解
 	private boolean singleVoice = false;// 单向对讲标识位，默认是双向的
@@ -421,13 +421,13 @@ public class Channel {
 		this.hasFind = hasFind;
 	}
 
-	public boolean isHasGotParams() {
-		return hasGotParams;
-	}
-
-	public void setHasGotParams(boolean hasGotParams) {
-		this.hasGotParams = hasGotParams;
-	}
+	// public boolean isHasGotParams() {
+	// return hasGotParams;
+	// }
+	//
+	// public void setHasGotParams(boolean hasGotParams) {
+	// this.hasGotParams = hasGotParams;
+	// }
 
 	public int getAudioEncType() {
 		return audioEncType;

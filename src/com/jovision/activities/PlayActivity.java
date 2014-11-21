@@ -523,14 +523,14 @@ public abstract class PlayActivity extends BaseActivity {
 			}
 		}
 
+		int streamIndex = channel.getStreamTag() - 1;
 		// 码流设置
-		if (-1 != channel.getStreamTag()) {
-			streamAdapter.selectStream = channel.getStreamTag() - 1;
+		if (streamIndex >= 0 && streamIndex <= 2) {
+			streamAdapter.selectStream = streamIndex;
 			if (streamAdapter.selectStream < streamArray.length) {
 				streamAdapter.notifyDataSetChanged();
-				moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
-
-				bottomStream.setText(streamArray[channel.getStreamTag() - 1]);
+				moreFeature.setText(streamArray[streamIndex]);
+				bottomStream.setText(streamArray[streamIndex]);
 			}
 		}
 	}
@@ -627,13 +627,14 @@ public abstract class PlayActivity extends BaseActivity {
 			}
 		}
 
+		int streamIndex = channel.getStreamTag() - 1;
 		// 码流设置
-		if (-1 != channel.getStreamTag()) {
-			streamAdapter.selectStream = channel.getStreamTag() - 1;
+		if (streamIndex >= 0 && streamIndex <= 2) {
+			streamAdapter.selectStream = streamIndex;
 			if (streamAdapter.selectStream < streamArray.length) {
 				streamAdapter.notifyDataSetChanged();
-				moreFeature.setText(streamArray[channel.getStreamTag() - 1]);
-				bottomStream.setText(streamArray[channel.getStreamTag() - 1]);
+				moreFeature.setText(streamArray[streamIndex]);
+				bottomStream.setText(streamArray[streamIndex]);
 			}
 		}
 	}

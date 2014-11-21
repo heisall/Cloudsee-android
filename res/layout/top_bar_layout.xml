@@ -48,4 +48,5 @@
             android:layout_marginRight="16dp"
             android:background="@drawable/tab_2" />
     </RelativeLayout>
-</LinearLayout>
+
+</LinearLayout>

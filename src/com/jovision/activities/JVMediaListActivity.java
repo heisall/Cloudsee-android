@@ -1,9 +1,6 @@
 package com.jovision.activities;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,7 +22,6 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.adapters.MediaAdapter;
 import com.jovision.adapters.MediaFolderAdapter;
 import com.jovision.bean.Filebean;
 import com.jovision.utils.BitmapCache;
@@ -48,7 +44,6 @@ public class JVMediaListActivity extends BaseActivity {
 	/** topBar **/
 	private Button back;// 左侧返回按钮
 	private TextView currentMenu;// 当前页面名称
-	private Button rigButton;//选择删除按钮
 	private Button rigButton;// 选择删除按钮
 	private boolean isdelect = true;
 	private boolean isselectall;
@@ -92,7 +87,6 @@ public class JVMediaListActivity extends BaseActivity {
 				noFileLayout.setVisibility(View.GONE);
 				fileLayout.setVisibility(View.VISIBLE);
 				mfAdapter.setLoadImage(false);
-				mfAdapter.setData(media, fileList,isdelect,isselectall);
 				mfAdapter.setData(media, fileList, isdelect, isselectall);
 				fileListView.setAdapter(mfAdapter);
 			}
@@ -102,12 +96,6 @@ public class JVMediaListActivity extends BaseActivity {
 			fileSelectNum.setText(selectNum.replace("?", String.valueOf(0)));
 			fileNumber.setText(totalNum.replace("?", String.valueOf(arg1)));
 			break;
-		case 1222:
-			fileSelectNum.setText(selectNum.replace("?", String.valueOf(arg1)));
-			if (arg2==1) {
-				fileSlectAll.setBackgroundResource(R.drawable.morefragment_selector_icon);
-			}else if(arg2==0) {
-				fileSlectAll.setBackgroundResource(R.drawable.morefragment_normal_icon);
 		case FILE_SUM:
 			if (arg2 == 1) {
 				fileSlectAll
@@ -115,19 +103,15 @@ public class JVMediaListActivity extends BaseActivity {
 			} else if (arg2 == 0) {
 				fileSlectAll
 						.setBackgroundResource(R.drawable.morefragment_normal_icon);
-
 			}
 			fileSelectNum.setText(selectNum.replace("?",
 					String.valueOf(fileSelectSum)));
 			break;
 		}
-
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		handler.sendMessage(handler
-				.obtainMessage(what, arg1, arg2, obj));
 		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 	}
 
@@ -148,19 +132,11 @@ public class JVMediaListActivity extends BaseActivity {
 
 		/** topBar **/
 		back = (Button) findViewById(R.id.btn_left);
-		selectNum = JVMediaListActivity.this.getResources().getString(R.string.selectnum);
-		totalNum = JVMediaListActivity.this.getResources().getString(R.string.number);
 		selectNum = JVMediaListActivity.this.getResources().getString(
 				R.string.selectnum);
 		totalNum = JVMediaListActivity.this.getResources().getString(
 				R.string.number);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		fileBottom = (RelativeLayout)findViewById(R.id.file_bottom);
-		fileCompleted = (TextView)findViewById(R.id.file_completed);
-		fileCancel = (TextView)findViewById(R.id.file_cancel);
-		fileSelectNum = (TextView)findViewById(R.id.file_selectnum);
-		fileNumber = (TextView)findViewById(R.id.file_number);
-		fileSlectAll  = (ImageView)findViewById(R.id.file_selectall);
 		fileBottom = (RelativeLayout) findViewById(R.id.file_bottom);
 		fileCompleted = (TextView) findViewById(R.id.file_completed);
 		fileCancel = (TextView) findViewById(R.id.file_cancel);
@@ -175,13 +151,11 @@ public class JVMediaListActivity extends BaseActivity {
 			currentMenu.setText(R.string.media_video);
 		}
 		rigButton = (Button) findViewById(R.id.btn_right);
-		rigButton.setBackgroundResource(R.drawable.mydevice_cancleedit_icon);
 		rigButton.setBackgroundResource(R.drawable.media_edit_icon);
 		back.setOnClickListener(myOnClickListener);
 		rigButton.setOnClickListener(myOnClickListener);
 		fileCompleted.setOnClickListener(myOnClickListener);
 		fileCancel.setOnClickListener(myOnClickListener);
-		fileSlectAll.setOnClickListener(myOnClickListener);
 		selectalllinear.setOnClickListener(myOnClickListener);
 
 		fileLayout = (RelativeLayout) findViewById(R.id.filelayout);
@@ -199,34 +173,24 @@ public class JVMediaListActivity extends BaseActivity {
 		public void onClick(View view) {
 
 			switch (view.getId()) {
-			case R.id.btn_right:{
 			case R.id.btn_right: {
 				if (isdelect) {
 					fileBottom.setVisibility(View.VISIBLE);
 					isdelect = !isdelect;
-					mfAdapter.setData(media, fileList,isdelect,isselectall);
 					mfAdapter.setData(media, fileList, isdelect, isselectall);
 					mfAdapter.notifyDataSetChanged();
-					rigButton.setBackgroundResource(R.drawable.close_btn);
-				}else {
 				} else {
-
 					fileBottom.setVisibility(View.GONE);
 					fileSlectAll
 							.setBackgroundResource(R.drawable.morefragment_normal_icon);
 					fileSelectNum.setText(selectNum.replace("?",
 							String.valueOf(0)));
 					isdelect = !isdelect;
-					mfAdapter.setData(media, fileList,isdelect,false);
 					HashMethod();
 					mfAdapter.setData(media, fileList, isdelect, false);
 					mfAdapter.notifyDataSetChanged();
-					rigButton.setBackgroundResource(R.drawable.mydevice_cancleedit_icon);
-
-
 				}
 			}
-			break;
 				break;
 			case R.id.btn_left: {
 				JVMediaListActivity.this.finish();
@@ -234,11 +198,8 @@ public class JVMediaListActivity extends BaseActivity {
 				fileSelectSum = 0;
 				break;
 			}
-			case R.id.file_selectall:
 			case R.id.selectalllinear:
 				if (!isselectall) {
-					fileSlectAll.setBackgroundResource(R.drawable.morefragment_selector_icon);
-
 					fileSlectAll
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					Iterator iter = fileMap.entrySet().iterator();
@@ -254,9 +215,6 @@ public class JVMediaListActivity extends BaseActivity {
 					fileSelectNum.setText(selectNum.replace("?",
 							String.valueOf(fileSum)));
 					isselectall = true;
-				}else {
-					fileSlectAll.setBackgroundResource(R.drawable.morefragment_normal_icon);
-
 				} else {
 					fileSlectAll
 							.setBackgroundResource(R.drawable.morefragment_normal_icon);
@@ -265,15 +223,12 @@ public class JVMediaListActivity extends BaseActivity {
 					fileSelectNum.setText(selectNum.replace("?",
 							String.valueOf(0)));
 				}
-				mfAdapter.setData(media, fileList,isdelect,isselectall);
 				mfAdapter.setData(media, fileList, isdelect, isselectall);
 				mfAdapter.notifyDataSetChanged();
 				break;
 			case R.id.file_cancel:
 				fileBottom.setVisibility(View.GONE);
 				isdelect = !isdelect;
-				rigButton.setBackgroundResource(R.drawable.mydevice_cancleedit_icon);
-				mfAdapter.setData(media, fileList,isdelect,false);
 				HashMethod();
 				fileSelectNum
 						.setText(selectNum.replace("?", String.valueOf(0)));
@@ -283,7 +238,6 @@ public class JVMediaListActivity extends BaseActivity {
 				mfAdapter.notifyDataSetChanged();
 				break;
 			case R.id.file_completed:
-				if (JVMediaListActivity.delectlist.size()!=0) {
 				Iterator iter = fileMap.entrySet().iterator();
 				while (iter.hasNext()) {
 					Map.Entry entry = (Map.Entry) iter.next();
@@ -298,7 +252,6 @@ public class JVMediaListActivity extends BaseActivity {
 				}
 				if (JVMediaListActivity.delectlist.size() != 0) {
 					for (int i = 0; i < JVMediaListActivity.delectlist.size(); i++) {
-						File file = new File(JVMediaListActivity.delectlist.get(i));
 						File file = new File(
 								JVMediaListActivity.delectlist.get(i));
 						file.delete();
@@ -308,41 +261,28 @@ public class JVMediaListActivity extends BaseActivity {
 						File[] fileArray = file.listFiles();
 						for (int j = 0; j < fileArray.length; j++) {
 							Log.i("TAG", fileArray[j].getAbsolutePath());
-							if (fileArray[j].list().length==0) {
 							if (fileArray[j].list().length == 0) {
 								delete(fileArray[j]);
 							}
 						}
 					}
-					fileBottom.setVisibility(View.GONE);
-					fileSlectAll.setBackgroundResource(R.drawable.morefragment_normal_icon);
-					rigButton.setBackgroundResource(R.drawable.mydevice_cancleedit_icon);
 					isdelect = true;
 					fileSum = 0;
 					fileSelectSum = 0;
-
-
 					fileList.clear();
 					delectlist.clear();
-					fileSum = 0;
 					fileBottom.setVisibility(View.GONE);
 					fileSlectAll
 							.setBackgroundResource(R.drawable.morefragment_normal_icon);
 					LoadImageThread loadThread = new LoadImageThread();
 					loadThread.start();
-					isdelect = true;
-					if (file.list().length==0) {
 					if (file.list().length == 0) {
-
 						noFile = true;
 						noFileLayout.setVisibility(View.VISIBLE);
 						fileLayout.setVisibility(View.GONE);
 					}
-					mfAdapter.setData(media, fileList,true,false);
 					mfAdapter.setData(media, fileList, true, false);
 					mfAdapter.notifyDataSetChanged();
-				}else {
-					JVMediaListActivity.this.showTextToast("请选择要删除的文件");
 				} else {
 					JVMediaListActivity.this
 							.showTextToast(JVMediaListActivity.this
@@ -353,7 +293,6 @@ public class JVMediaListActivity extends BaseActivity {
 			}
 		}
 	};
-
 
 	public void HashMethod() {
 		fileSelectSum = 0;
@@ -403,20 +342,14 @@ public class JVMediaListActivity extends BaseActivity {
 			File file = new File(mediaPath);
 			if (file.exists()) {
 				File[] fileArray = file.listFiles();
-				if (null != fileArray && 0 != fileArray.length) {			
 				if (null != fileArray && 0 != fileArray.length) {
 					int length = fileArray.length;
 					for (int i = 0; i < length; i++) {
-						Log.i("TAG", fileArray[i].getAbsolutePath());
 						ArrayList<Filebean> list = new ArrayList<Filebean>();
 						File[] summary = fileArray[i].listFiles();
 						if (fileArray[i].isDirectory()) {
 							fileList.add(fileArray[i]);
-							fileSum =fileSum+fileArray[i].list().length;
-							Log.i("TAG", fileSum+"文件数量"+fileArray[i].list().length);
 							fileSum = fileSum + fileArray[i].list().length;
-
-
 						}
 						for (int j = 0; j < summary.length; j++) {
 							Filebean bean = new Filebean();
@@ -436,7 +369,6 @@ public class JVMediaListActivity extends BaseActivity {
 				handler.sendMessage(handler.obtainMessage(FILE_LOAD_SUCCESS));
 			} else {
 				Collections.sort(fileList, comparator);
-				Message msg  = new Message();
 				Message msg = new Message();
 				msg.arg1 = fileSum;
 				msg.what = FILE_NUM;

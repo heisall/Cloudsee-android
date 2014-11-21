@@ -3,10 +3,8 @@ package com.jovision.adapters;
 import java.io.File;
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +31,6 @@ public class MediaFolderAdapter extends BaseAdapter {
 	private boolean loadImg = true;
 	private boolean isdelect;
 	private boolean isselectall;
-	
 
 	public MediaFolderAdapter(BaseActivity con) {
 		mContext = con;
@@ -41,7 +38,6 @@ public class MediaFolderAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public void setData(String media, ArrayList<File> folderList,boolean isdelect,boolean isselectall) {
 	public void setData(String media, ArrayList<File> folderList,
 			boolean isdelect, boolean isselectall) {
 		this.folderList = folderList;
@@ -62,12 +58,6 @@ public class MediaFolderAdapter extends BaseAdapter {
 		}
 		return count;
 	}
-	public static void setNum(int number) {
-		mContext.onNotify(1222, JVMediaListActivity.fileSelectSum,number, null);
-	}
-
-
-
 
 	@Override
 	public Object getItem(int arg0) {
@@ -97,7 +87,6 @@ public class MediaFolderAdapter extends BaseAdapter {
 		final MediaAdapter mediaAdaper = new MediaAdapter(mContext);
 		final File[] fileArray = folderList.get(position).listFiles();
 		final String folderPath = folderList.get(position).getAbsolutePath();
-		mediaAdaper.setData(media, fileArray, loadImg,isdelect,isselectall);
 		daArrayList = JVMediaListActivity.fileMap.get(folderPath);
 		mediaAdaper.setData(daArrayList, media, fileArray, loadImg, isdelect,
 				isselectall);
@@ -106,8 +95,6 @@ public class MediaFolderAdapter extends BaseAdapter {
 				.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View arg1,
-							int arg2, long arg3) {
-						mediaAdaper.setSelect(arg2);
 							int position, long arg3) {
 						if (!isdelect) {
 							daArrayList = JVMediaListActivity.fileMap
@@ -137,12 +124,6 @@ public class MediaFolderAdapter extends BaseAdapter {
 						}
 						if ("image".equalsIgnoreCase(media)) {
 							if (isdelect) {
-							Intent imageIntent = new Intent();
-							imageIntent.setClass(mContext,
-									JVImageViewActivity.class);
-							imageIntent.putExtra("FolderPath", folderPath);
-							imageIntent.putExtra("FileIndex", arg2);
-							mContext.startActivity(imageIntent);
 								Intent imageIntent = new Intent();
 								imageIntent.setClass(mContext,
 										JVImageViewActivity.class);
@@ -156,7 +137,6 @@ public class MediaFolderAdapter extends BaseAdapter {
 								videoIntent.setClass(mContext,
 										JVVideoActivity.class);
 								videoIntent.putExtra("URL",
-										fileArray[arg2].getAbsolutePath());
 										fileArray[position].getAbsolutePath());
 								videoIntent.putExtra("IS_LOCAL", true);
 								mContext.startActivity(videoIntent);

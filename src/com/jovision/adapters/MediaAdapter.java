@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
-import com.jovision.activities.JVMediaListActivity;
 import com.jovision.bean.Filebean;
 import com.jovision.utils.BitmapCache;
 
@@ -37,8 +35,6 @@ public class MediaAdapter extends BaseAdapter {
 		inflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-
-	public void setData(String media, File[] fileArray, boolean loadImg,boolean isdelect,boolean isselectall) {
 
 	public void setData(ArrayList<Filebean> dataList, String media,
 			File[] fileArray, boolean loadImg, boolean isdelect,
@@ -74,13 +70,11 @@ public class MediaAdapter extends BaseAdapter {
 		return arg0;
 	}
 
-	public View getView( int position, View convertView, ViewGroup parent) {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		FileHolder fileHolder = null;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.media_item, null);
 			fileHolder = new FileHolder();
-			fileHolder.fileselect = (ImageView)convertView
 			fileHolder.fileselect = (ImageView) convertView
 					.findViewById(R.id.fileselect);
 			fileHolder.fileImageView = (ImageView) convertView
@@ -98,68 +92,13 @@ public class MediaAdapter extends BaseAdapter {
 		} else if ("video".equalsIgnoreCase(media)) {
 			fileHolder.playImg.setVisibility(View.VISIBLE);
 		}
-		  if (selectIndex==-1) {
-			if (isselectall) {
 		if (!isdelect) {
 			if (dataList.get(position).isSelect()) {
 				fileHolder.fileselect.setVisibility(View.VISIBLE);
-				JVMediaListActivity.delectlist.add(fileArray[position].getAbsolutePath());
-				JVMediaListActivity.fileSelectSum = JVMediaListActivity.fileSum;
-				MediaFolderAdapter.setNum(1);
-			}else {
 			} else {
-
-
-
-
 				fileHolder.fileselect.setVisibility(View.GONE);
-				JVMediaListActivity.delectlist.clear();
-				JVMediaListActivity.fileSelectSum = 0;
-				MediaFolderAdapter.setNum(0);
 			}
 		}
-		if (!isdelect) {
-			Log.i("TAG", selectIndex+"显示数据"+position);
-			if (position==selectIndex) {
-				if (fileHolder.fileselect.getVisibility()==View.GONE) {
-					fileHolder.fileselect.setVisibility(View.VISIBLE);
-					JVMediaListActivity.delectlist.add(fileArray[position].getAbsolutePath());
-					JVMediaListActivity.fileSelectSum = JVMediaListActivity.fileSelectSum+1;
-					 if (JVMediaListActivity.fileSelectSum==JVMediaListActivity.fileSum) {
-						MediaFolderAdapter.setNum(1);
-					}else {
-						MediaFolderAdapter.setNum(0);
-					}
-				}else if (fileHolder.fileselect.getVisibility()==View.VISIBLE) {
-					fileHolder.fileselect.setVisibility(View.GONE);
-					JVMediaListActivity.delectlist.remove(fileArray[position].getAbsolutePath());
-					JVMediaListActivity.fileSelectSum = JVMediaListActivity.fileSelectSum-1;
-					MediaFolderAdapter.setNum(0);
-				}
-			}
-		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		int width = ((BaseActivity) mContext).disMetrics.widthPixels / 3;
 		RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
 				width, width - 40);

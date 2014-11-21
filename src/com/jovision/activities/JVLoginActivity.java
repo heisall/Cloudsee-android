@@ -361,7 +361,7 @@ public class JVLoginActivity extends BaseActivity {
 			country = ConfigUtil.getCountry();
 
 			handler.sendEmptyMessage(WHAT_SHOW_PRO);
-			String strRes = AccountUtil.onLoginProcess(JVLoginActivity.this,
+			String strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
 					statusHashMap.get(Consts.KEY_USERNAME),
 					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,
 					Url.LONGSERVERIP);

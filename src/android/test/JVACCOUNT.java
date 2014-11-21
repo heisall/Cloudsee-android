@@ -237,5 +237,7 @@ public class JVACCOUNT {
 
 	public static native String onLoginProcess(int reserve, String reqJson);
 
+	public static native String onLoginProcessV2(int reserve, String reqJson);
+
 	public static native int GetSession(byte[] session);
 }

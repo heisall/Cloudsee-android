@@ -88,8 +88,7 @@ public class MediaFolderAdapter extends BaseAdapter {
 		final File[] fileArray = folderList.get(position).listFiles();
 		final String folderPath = folderList.get(position).getAbsolutePath();
 		daArrayList = JVMediaListActivity.fileMap.get(folderPath);
-		mediaAdaper.setData(daArrayList, media, fileArray, loadImg, isdelect,
-				isselectall);
+		mediaAdaper.setData(daArrayList, media, fileArray, loadImg, isdelect);
 		folderHolder.fileGridView.setAdapter(mediaAdaper);
 		folderHolder.fileGridView
 				.setOnItemClickListener(new OnItemClickListener() {
@@ -100,7 +99,7 @@ public class MediaFolderAdapter extends BaseAdapter {
 							daArrayList = JVMediaListActivity.fileMap
 									.get(folderPath);
 							mediaAdaper.setData(daArrayList, media, fileArray,
-									loadImg, isdelect, isselectall);
+									loadImg, isdelect);
 							for (int i = 0; i < daArrayList.size(); i++) {
 								if (position == i) {
 									if (daArrayList.get(i).isSelect()) {

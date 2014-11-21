@@ -78,7 +78,16 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 			});
 		}
-		if (position == 4
+		if (position == 3) {
+			if (!MySharedPreference.getBoolean("LITTLEHELP")) {
+				more_item.setVisibility(View.GONE);
+				divider_img.setVisibility(View.GONE);
+			} else {
+				more_item.setVisibility(View.VISIBLE);
+				divider_img.setVisibility(View.VISIBLE);
+			}
+		}
+		if (position == 5
 				&& "true".equalsIgnoreCase(((BaseActivity) mfragment
 						.getActivity()).statusHashMap
 						.get(Consts.NEUTRAL_VERSION))) {
@@ -86,7 +95,7 @@ public class FragmentAdapter extends BaseAdapter {
 			more_item.setVisibility(View.GONE);
 			divider_img.setVisibility(View.GONE);
 		}
-		if (position == 6) {
+		if (position == 7) {
 			item_next.setVisibility(View.GONE);
 			item_version.setVisibility(View.VISIBLE);
 			item_version
@@ -95,7 +104,7 @@ public class FragmentAdapter extends BaseAdapter {
 			// mfragment.getActivity().getResources()
 			// .getString(R.string.str_current_version));
 		}
-		if (position > -1 && position < 3) {
+		if (position > -1 && position < 4) {
 			item_next
 					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			switch (position) {
@@ -121,6 +130,12 @@ public class FragmentAdapter extends BaseAdapter {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 
+				}
+				break;
+			case 3:
+				if (MySharedPreference.getBoolean("LITTLE")) {
+					item_next
+							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}
 				break;
 			default:

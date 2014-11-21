@@ -56,9 +56,9 @@ public class ChannelFragment extends BaseFragment {
 
 	private Button connectAll;
 
-	public ChannelFragment() {
-		deviceList = new ArrayList<Device>();
-	}
+	// public ChannelFragment() {
+	// deviceList = new ArrayList<Device>();
+	// }
 
 	// public ChannelFragment(ArrayList<Device> deviceList) {
 	// this.deviceList = deviceList;
@@ -66,10 +66,10 @@ public class ChannelFragment extends BaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Bundle bundle = getArguments();
-		deviceIndex = bundle.getInt("DeviceIndex");
-		deviceList = CacheUtil.getDevList();
-		device = deviceList.get(deviceIndex);
+		// Bundle bundle = getArguments();
+		// deviceIndex = bundle.getInt("DeviceIndex");
+		// deviceList = CacheUtil.getDevList();
+		// device = deviceList.get(deviceIndex);
 		super.onCreate(savedInstanceState);
 
 	}
@@ -100,14 +100,14 @@ public class ChannelFragment extends BaseFragment {
 
 	}
 
-	// public ChannelFragment(int devIndex, ArrayList<Device> devList,
-	// int widthPixels) {
-	// deviceIndex = devIndex;
-	// deviceList = devList;
-	// this.widthPixels = widthPixels;
-	//
-	// device = deviceList.get(devIndex);
-	// }
+	public ChannelFragment(int devIndex, ArrayList<Device> devList,
+			int widthPixels) {
+		deviceIndex = devIndex;
+		deviceList = devList;
+		this.widthPixels = widthPixels;
+
+		device = deviceList.get(devIndex);
+	}
 
 	@Override
 	public void onPause() {
@@ -488,7 +488,9 @@ public class ChannelFragment extends BaseFragment {
 						// // .get("KEY_USERNAME")));
 						// }
 						deviceList.get(deviceIndex).setChannelList(list);
-						Log.i("TAG", deviceList.get(deviceIndex).getChannelList().size()+"添加后的数量");
+						Log.i("TAG", deviceList.get(deviceIndex)
+								.getChannelList().size()
+								+ "添加后的数量");
 					}
 
 				} catch (Exception e) {

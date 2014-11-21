@@ -98,7 +98,7 @@ public class JVMoreFragment extends BaseFragment {
 	// 新头像文件
 	File newFile;
 	// popupWindow滑出布局
-	private LinearLayout  linear;
+	private LinearLayout linear;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

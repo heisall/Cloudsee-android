@@ -2,16 +2,6 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -158,6 +148,7 @@ public class JVFeedbackActivity extends BaseActivity {
 		});
 
 	}
+
 	OnClickListener myOnClickListener = new OnClickListener() {
 
 		@Override
@@ -181,7 +172,7 @@ public class JVFeedbackActivity extends BaseActivity {
 						}
 
 					} else {
-//						FeedbackPost(contentStr,connectStr);
+						// FeedbackPost(contentStr,connectStr);
 						createDialog("");
 						if (0 != connectStr.length()) {
 							contentStr += "<br /> 联系方式" + connectStr;
@@ -201,7 +192,8 @@ public class JVFeedbackActivity extends BaseActivity {
 		}
 
 	};
-	private void FeedbackPost(String content,String contect) {
+
+	private void FeedbackPost(String content, String contect) {
 		String model = android.os.Build.MODEL;
 		String version = android.os.Build.VERSION.RELEASE;
 		String fingerprint = android.os.Build.FINGERPRINT;
@@ -212,18 +204,18 @@ public class JVFeedbackActivity extends BaseActivity {
 				+ ConfigUtil.getVersion(this);
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
-			params.put("mod","mobile"); 
-	        params.put("platform","1"); 
-	        params.put("model",model); 
-	        params.put("version",version); 
-	        params.put("fingerprint",fingerprint); 
-	        params.put("country",country); 
-	        params.put("cpu",cpu); 
-	        params.put("softversion",softwareVersion); 
-	        params.put("content",content); 
-	        params.put("contact",contect); 
-	        params.put("device", encryptInfo1());
-	        client.post("http://182.92.242.230/api.php",params,new landHandler());
+		params.put("mod", "mobile");
+		params.put("platform", "1");
+		params.put("model", model);
+		params.put("version", version);
+		params.put("fingerprint", fingerprint);
+		params.put("country", country);
+		params.put("cpu", cpu);
+		params.put("softversion", softwareVersion);
+		params.put("content", content);
+		params.put("contact", contect);
+		params.put("device", encryptInfo1());
+		client.post("http://182.92.242.230/api.php", params, new landHandler());
 	}
 
 	class landHandler extends AsyncHttpResponseHandler {
@@ -241,15 +233,15 @@ public class JVFeedbackActivity extends BaseActivity {
 		@Override
 		public void onSuccess(String content) {
 			super.onSuccess(content);
-			Log.i("TAG", content+"成功");
+			Log.i("TAG", content + "成功");
 		}
 
 		@Override
 		public void onFailure(Throwable error, String content) {
 			super.onFailure(error, content);
 		}
-	}	
-	
+	}
+
 	class FeedbackThread extends Thread {
 
 		String content;

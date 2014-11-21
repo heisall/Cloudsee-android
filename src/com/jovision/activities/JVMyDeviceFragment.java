@@ -541,45 +541,56 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 * 初始化图片
 	 */
 	private void initADViewPager() {
-		// if (null == adList || 0 == adList.size()
-		// || adList.size() == listViews.size()) {
-		// return;
-		// }
-		if (listViews.size() > 0) {
-			listViews.removeAll(listViews);
-		}
-
 		adList = AD.fromJsonArray(MySharedPreference.getString(Consts.AD_LIST));
+		if (null == listViews || 0 == listViews.size()) {// 还没加载过广告，先添加上广告
+			for (int i = 0; i < adList.size(); i++) {
+				final ImageView imageView = new ImageView(mActivity);
+				imageView.setTag(i);
+				imageView.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {// 设置图片点击事件
+						Intent intentAD = new Intent(mActivity,
+								JVWebViewActivity.class);
+						int index = (Integer) imageView.getTag();
+						String adUrl = adList.get(index).getAdLink();
+						intentAD.putExtra("URL", adUrl);
+						intentAD.putExtra("title", R.string.app_name);
+						mActivity.startActivity(intentAD);
+					}
+				});
 
-		for (int i = 0; i < adList.size(); i++) {
-			ImageView imageView = new ImageView(mActivity);
-			imageView.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {// 设置图片点击事件
-					Intent intentAD = new Intent(mActivity,
-							JVWebViewActivity.class);
-					String adUrl = adList.get(0).getAdLink();
-					intentAD.putExtra("URL", adUrl);
-					intentAD.putExtra("title", R.string.app_name);
-					mActivity.startActivity(intentAD);
+				Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
+						adList.get(i).getAdImgUrl());
+				if (null != bmp) {
+					imageView.setImageBitmap(bmp);
+				} else {
+					imageView.setImageResource(R.drawable.ad_default);
 				}
-			});
 
-			Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
-					adList.get(i).getAdImgUrl());
-			if (null != bmp) {
-				imageView.setImageBitmap(bmp);
-			} else {
-				imageView.setImageResource(R.drawable.ad_default);
+				imageView.setScaleType(ScaleType.FIT_CENTER);
+				listViews.add(imageView);
 			}
-
-			imageView.setScaleType(ScaleType.FIT_CENTER);
-			listViews.add(imageView);
+		} else {
+			for (int i = 0; i < listViews.size(); i++) {
+				ImageView imageView = (ImageView) listViews.get(i);
+				Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
+						adList.get(i).getAdImgUrl());
+				if (null != bmp) {
+					imageView.setImageBitmap(bmp);
+				} else {
+					imageView.setImageResource(R.drawable.ad_default);
+				}
+				imageView.setScaleType(ScaleType.FIT_CENTER);
+			}
 		}
 
-		// 开始滚动
-		imageScroll.start(mActivity, listViews, 4 * 1000, ovalLayout,
-				R.layout.dot_item, R.id.ad_item_v, R.drawable.dot_focused,
-				R.drawable.dot_normal);
+		if (null != listViews && 0 != listViews.size()) {
+			imageScroll.stopTimer();
+			// 开始滚动
+			imageScroll.start(mActivity, listViews, 4 * 1000, ovalLayout,
+					R.layout.dot_item, R.id.ad_item_v, R.drawable.dot_focused,
+					R.drawable.dot_normal);
+		}
+
 	}
 
 	@Override

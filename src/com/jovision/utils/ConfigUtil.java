@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,6 +29,14 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,9 +92,9 @@ public class ConfigUtil {
 	public static String version = "";
 
 	public static void getJNIVersion() {
-		String remoteVer = Jni.getVersion();
 		// remoteVerStr={"jni":"0.8[9246b6f][2014-11-03]","net":"v2.0.76.3.7[private:v2.0.75.13 201401030.2.d]"}
 		try {
+			String remoteVer = Jni.getVersion();
 			JSONObject obj = new JSONObject(remoteVer);
 			String playVersion = obj.optString("jni");
 			String netVersion = obj.optString("net");
@@ -97,7 +106,7 @@ public class ConfigUtil {
 				MyLog.e(TAG, "Not-Same:localVer=" + PLAY_VERSION + "--"
 						+ NETWORK_VERSION + ";\nremoteVerStr=" + remoteVer);
 			}
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -108,27 +117,31 @@ public class ConfigUtil {
 	 * @return
 	 */
 	public static String getVersion(Context context) {
-		HashMap<String, String> statusHashMap = ((MainApplication) context
-				.getApplicationContext()).getStatusHashMap();
-		if ("".equalsIgnoreCase(version)) {
-			String softName = "";
-			version = Jni.getVersion();
+		try {
+			HashMap<String, String> statusHashMap = ((MainApplication) context
+					.getApplicationContext()).getStatusHashMap();
+			if ("".equalsIgnoreCase(version)) {
+				String softName = "";
+				version = Jni.getVersion();
 
-			try {
-				String pkName = context.getPackageName();
-				softName = context.getPackageManager()
-						.getPackageInfo(pkName, 0).versionName;
-				JSONObject obj = new JSONObject(version);
-				version = obj.optString("jni");
-			} catch (Exception e) {
-				e.printStackTrace();
+				try {
+					String pkName = context.getPackageName();
+					softName = context.getPackageManager().getPackageInfo(
+							pkName, 0).versionName;
+					JSONObject obj = new JSONObject(version);
+					version = obj.optString("jni");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if ("true".equalsIgnoreCase(statusHashMap
+						.get(Consts.NEUTRAL_VERSION))) {
+					version = softName;
+				} else {
+					version = softName + version + " - DJ";
+				}
 			}
-			if ("true".equalsIgnoreCase(statusHashMap
-					.get(Consts.NEUTRAL_VERSION))) {
-				version = softName;
-			} else {
-				version = softName + version + " - DJ";
-			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return version;
@@ -871,5 +884,34 @@ public class ConfigUtil {
 		intent.putExtra(Intent.EXTRA_TEXT, "分享的内容 "); // 分享的内容
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // 允许intent启动新的activity
 		context.startActivity(Intent.createChooser(intent, "分享")); // //目标应用选择对话框的标题
+	}
+
+	public static String sendPostRequest(String url, List<NameValuePair> params) {
+		String result = "";
+		/* 建立HTTP Post连线 */
+		HttpPost httpRequest = new HttpPost(url);
+		// Post运作传送变数必须用NameValuePair[]阵列储存
+		// 传参数 服务端获取的方法为request.getParameter("name")
+		try {
+			// 发出HTTP request
+			httpRequest.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+			// 取得HTTP response
+			HttpResponse httpResponse = new DefaultHttpClient()
+					.execute(httpRequest);
+
+			// 若状态码为200 ok
+			if (httpResponse.getStatusLine().getStatusCode() == 200) {
+				// 取出回应字串
+				result = EntityUtils.toString(httpResponse.getEntity());
+			} else {
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

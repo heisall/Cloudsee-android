@@ -1057,11 +1057,11 @@ public class PlayUtil {
 		if (!"".equalsIgnoreCase(dev.getIp())) {// IP直连云视通号置为-1
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(),
 					dev.getPwd(), -1, ConfigUtil.getGroup(dev.getFullNo()),
-					true, 1, true, 6, null, false);
+					true, 1, true, 5, null, false);
 		} else {
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(),
 					dev.getPwd(), ConfigUtil.getYST(dev.getFullNo()),
-					ConfigUtil.getGroup(dev.getFullNo()), true, 1, true, 6,
+					ConfigUtil.getGroup(dev.getFullNo()), true, 1, true, 5,
 					null, false);
 		}
 

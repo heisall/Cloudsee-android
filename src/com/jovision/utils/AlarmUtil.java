@@ -511,7 +511,7 @@ public class AlarmUtil {
 				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1,
 						device.getIp(), device.getPort(), device.getUser(),
 						device.getPwd(), device.getNo(), device.getGid(), true,
-						1, true, (device.isHomeProduct() ? 6 : 6), null, false) >= 0;
+						1, true, (device.isHomeProduct() ? 5 : 5), null, false) >= 0;
 			} else {
 				// IP直连
 				MyLog.v("New Alarm",
@@ -519,7 +519,7 @@ public class AlarmUtil {
 				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1,
 						device.getIp(), device.getPort(), device.getUser(),
 						device.getPwd(), -1, device.getGid(), true, 1, true,
-						(device.isHomeProduct() ? 6 : 6), null, false) >= 0;
+						(device.isHomeProduct() ? 5 : 5), null, false) >= 0;
 
 			}
 			return con_res;

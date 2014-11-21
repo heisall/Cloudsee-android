@@ -32,7 +32,6 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AlarmUtil;
-import com.jovision.utils.DefaultExceptionHandler;
 
 /**
  * 整个应用的入口，管理状态、活动集合，消息队列以及漏洞汇报
@@ -77,8 +76,6 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		// Intent intent = new Intent();
 		// intent.setClass(this, MainService.class);
 		// startService(intent);
-		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(
-				this));
 		MyLog.init(Consts.LOG_PATH);
 		MyLog.enableFile(true);
 		MyLog.enableLogcat(true);

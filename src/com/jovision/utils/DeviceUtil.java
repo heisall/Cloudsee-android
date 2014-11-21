@@ -1536,7 +1536,7 @@ public class DeviceUtil {
 		AD ad = new AD();
 		ad.setIndex(0);
 		ad.setAdImgUrl("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
-		ad.setAdLink("http://www.2345.com/");
+		ad.setAdLink("http://www.jovetech.com/");
 		adList.add(ad);
 
 		AD ad1 = new AD();

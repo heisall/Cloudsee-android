@@ -1,6 +1,6 @@
 package com.jovision.activities;
 
-import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,8 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +24,8 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
+import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.JSONUtil;
 import com.jovision.utils.mails.MailSenderInfo;
 import com.jovision.utils.mails.SimpleMailSender;
 
@@ -80,9 +82,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		}
 		case SEND_MAIL_SUCC: {
 			dismissDialog();
-			this.finish();
 			android.os.Process.killProcess(android.os.Process.myPid());
-			System.exit(0);
 			break;
 		}
 		case SEND_MAIL_FAIL: {
@@ -221,36 +221,38 @@ public class JVOffLineDialogActivity extends BaseActivity {
 				break;
 			}
 			case R.id.send: {
-				String pkName = JVOffLineDialogActivity.this.getPackageName();
-				String softName = "";
-				try {
-					softName = JVOffLineDialogActivity.this.getPackageManager()
-							.getPackageInfo(pkName, 0).versionName;
-				} catch (NameNotFoundException e) {
-					e.printStackTrace();
-				}
-
-				Calendar rightNow = Calendar.getInstance();
-				String str = rightNow.get(Calendar.YEAR)
-						+ "_"
-						+ (rightNow.get(Calendar.MONTH) + 1 + "_" + rightNow
-								.get(Calendar.DATE));
-				mailInfo = new MailSenderInfo();
-				mailInfo.setMailServerHost("smtp.qq.com");
-				mailInfo.setMailServerPort("25");
-				mailInfo.setValidate(true);
-				mailInfo.setUserName("741376209@qq.com"); // 你的邮箱地址
-				mailInfo.setPassword("mfq_zsw");// 您的邮箱密码
-				mailInfo.setFromAddress("741376209@qq.com");
-				mailInfo.setToAddress("jovision1203@163.com");// jovetech1203**
-				// mailInfo.setToAddress("jy0329@163.com");
-				mailInfo.setSubject("[BUG]["
-						+ JVOffLineDialogActivity.this.getResources()
-								.getString(R.string.app_name) + "]" + softName);
-				mailInfo.setContent("[" + str + "]" + errorMsg);
-
-				// 这个类主要来发送邮件
-				sms = new SimpleMailSender();
+				// String pkName =
+				// JVOffLineDialogActivity.this.getPackageName();
+				// String softName = "";
+				// try {
+				// softName = JVOffLineDialogActivity.this.getPackageManager()
+				// .getPackageInfo(pkName, 0).versionName;
+				// } catch (NameNotFoundException e) {
+				// e.printStackTrace();
+				// }
+				//
+				// Calendar rightNow = Calendar.getInstance();
+				// String str = rightNow.get(Calendar.YEAR)
+				// + "_"
+				// + (rightNow.get(Calendar.MONTH) + 1 + "_" + rightNow
+				// .get(Calendar.DATE));
+				// mailInfo = new MailSenderInfo();
+				// mailInfo.setMailServerHost("smtp.qq.com");
+				// mailInfo.setMailServerPort("25");
+				// mailInfo.setValidate(true);
+				// mailInfo.setUserName("741376209@qq.com"); // 你的邮箱地址
+				// mailInfo.setPassword("mfq_zsw");// 您的邮箱密码
+				// mailInfo.setFromAddress("741376209@qq.com");
+				// mailInfo.setToAddress("jovision1203@163.com");//
+				// jovetech1203**
+				// // mailInfo.setToAddress("jy0329@163.com");
+				// mailInfo.setSubject("[BUG]["
+				// + JVOffLineDialogActivity.this.getResources()
+				// .getString(R.string.app_name) + "]" + softName);
+				// mailInfo.setContent("[" + str + "]" + errorMsg);
+				//
+				// // 这个类主要来发送邮件
+				// sms = new SimpleMailSender();
 
 				createDialog("");
 				SendMailThread thread = new SendMailThread();
@@ -366,14 +368,38 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		@Override
 		public void run() {
 			super.run();
-			boolean flag = sms.sendTextMail(mailInfo);// 发送文体格式
-			if (flag) {
-				handler.sendEmptyMessage(SEND_MAIL_SHOWMSG);
-				try {
-					Thread.sleep(1500);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+			// boolean flag = sms.sendTextMail(mailInfo);// 发送文体格式
+			// if (flag) {
+			// handler.sendEmptyMessage(SEND_MAIL_SHOWMSG);
+			// try {
+			// Thread.sleep(1500);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
+			// handler.sendEmptyMessage(SEND_MAIL_SUCC);
+			// } else {
+			// handler.sendEmptyMessage(SEND_MAIL_FAIL);
+			// }
+
+			String model = android.os.Build.MODEL;
+			String version = android.os.Build.VERSION.RELEASE;
+			String fingerprint = android.os.Build.FINGERPRINT;
+			String country = ConfigUtil.getCountry();
+			String cpu = Build.CPU_ABI;
+			String softwareVersion = JVOffLineDialogActivity.this
+					.getResources().getString(R.string.app_name);
+			// + ConfigUtil.getVersion(JVOffLineDialogActivity.this);
+			HashMap<String, String> paramsMap = new HashMap<String, String>();
+			paramsMap.put("mod", "crash");
+			paramsMap.put("subject", softwareVersion);
+			paramsMap.put("model", model);
+			paramsMap.put("version", version);
+			paramsMap.put("fingerprint", fingerprint);
+			paramsMap.put("detail", errorMsg + country + cpu);
+
+			String result = JSONUtil.httpPost(Url.FEED_BACK_URL, paramsMap);
+
+			if (null != result && "1".equalsIgnoreCase(result)) {
 				handler.sendEmptyMessage(SEND_MAIL_SUCC);
 			} else {
 				handler.sendEmptyMessage(SEND_MAIL_FAIL);

@@ -1,4 +1,5 @@
 package com.jovision.net;
+
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.SocketException;
@@ -16,75 +17,81 @@ import org.apache.http.protocol.HttpContext;
 import android.os.SystemClock;
 
 class RetryHandler implements HttpRequestRetryHandler {
-    private static final int RETRY_SLEEP_TIME_MILLIS = 1500;
-    private static HashSet<Class<?>> exceptionWhitelist = new HashSet<Class<?>>();
-    private static HashSet<Class<?>> exceptionBlacklist = new HashSet<Class<?>>();
+	private static final int RETRY_SLEEP_TIME_MILLIS = 1500;
+	private static HashSet<Class<?>> exceptionWhitelist = new HashSet<Class<?>>();
+	private static HashSet<Class<?>> exceptionBlacklist = new HashSet<Class<?>>();
 
-    static {
-    	// 可以重试的
-        // Retry if the server dropped connection on us
-        exceptionWhitelist.add(NoHttpResponseException.class);
-        // retry-this, since it may happens as part of a Wi-Fi to 3G failover
-        exceptionWhitelist.add(UnknownHostException.class);
-        // retry-this, since it may happens as part of a Wi-Fi to 3G failover
-        exceptionWhitelist.add(SocketException.class);
-        
-        // 不可以重试的
-        // never retry timeouts
-        exceptionBlacklist.add(InterruptedIOException.class);
-        // never retry SSL handshake failures
-        exceptionBlacklist.add(SSLHandshakeException.class);
-    }
+	static {
+		// 可以重试的
+		// Retry if the server dropped connection on us
+		exceptionWhitelist.add(NoHttpResponseException.class);
+		// retry-this, since it may happens as part of a Wi-Fi to 3G failover
+		exceptionWhitelist.add(UnknownHostException.class);
+		// retry-this, since it may happens as part of a Wi-Fi to 3G failover
+		exceptionWhitelist.add(SocketException.class);
 
-    private final int maxRetries; // 重试最大次数
+		// 不可以重试的
+		// never retry timeouts
+		exceptionBlacklist.add(InterruptedIOException.class);
+		// never retry SSL handshake failures
+		exceptionBlacklist.add(SSLHandshakeException.class);
+	}
 
-    /**
-     * 重试处理类构造函数
-     * @param maxRetries 最大重试次数
-     */
-    public RetryHandler(int maxRetries) {
-        this.maxRetries = maxRetries;
-    }
+	private final int maxRetries; // 重试最大次数
 
-    /**
-     * 重试请求
-     */
-    public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
-        boolean retry;
+	/**
+	 * 重试处理类构造函数
+	 * 
+	 * @param maxRetries
+	 *            最大重试次数
+	 */
+	public RetryHandler(int maxRetries) {
+		this.maxRetries = maxRetries;
+	}
 
-        Boolean b = (Boolean) context.getAttribute(ExecutionContext.HTTP_REQ_SENT);
-        boolean sent = (b != null && b.booleanValue());
+	/**
+	 * 重试请求
+	 */
+	public boolean retryRequest(IOException exception, int executionCount,
+			HttpContext context) {
+		boolean retry;
 
-        if(executionCount > maxRetries) {
-            // Do not retry if over max retry count
-            retry = false;
-        } else if (exceptionBlacklist.contains(exception.getClass())) {
-            // immediately cancel retry if the error is blacklisted
-            retry = false;
-        } else if (exceptionWhitelist.contains(exception.getClass())) {
-            // immediately retry if error is whitelisted
-            retry = true;
-        } else if (!sent) {
-            // for most other errors, retry only if request hasn't been fully sent yet
-            retry = true;
-        } else {
-            // resend all idempotent requests
-            HttpUriRequest currentReq = (HttpUriRequest) context.getAttribute(ExecutionContext.HTTP_REQUEST);
-            String requestType = currentReq.getMethod();
-            if(!requestType.equals("POST")) {
-                retry = true;
-            } else {
-                // otherwise do not retry
-                retry = false;
-            }
-        }
+		Boolean b = (Boolean) context
+				.getAttribute(ExecutionContext.HTTP_REQ_SENT);
+		boolean sent = (b != null && b.booleanValue());
 
-        if(retry) {
-            SystemClock.sleep(RETRY_SLEEP_TIME_MILLIS);
-        } else {
-            exception.printStackTrace();
-        }
+		if (executionCount > maxRetries) {
+			// Do not retry if over max retry count
+			retry = false;
+		} else if (exceptionBlacklist.contains(exception.getClass())) {
+			// immediately cancel retry if the error is blacklisted
+			retry = false;
+		} else if (exceptionWhitelist.contains(exception.getClass())) {
+			// immediately retry if error is whitelisted
+			retry = true;
+		} else if (!sent) {
+			// for most other errors, retry only if request hasn't been fully
+			// sent yet
+			retry = true;
+		} else {
+			// resend all idempotent requests
+			HttpUriRequest currentReq = (HttpUriRequest) context
+					.getAttribute(ExecutionContext.HTTP_REQUEST);
+			String requestType = currentReq.getMethod();
+			if (!requestType.equals("POST")) {
+				retry = true;
+			} else {
+				// otherwise do not retry
+				retry = false;
+			}
+		}
 
-        return retry;
-    }
+		if (retry) {
+			SystemClock.sleep(RETRY_SLEEP_TIME_MILLIS);
+		} else {
+			exception.printStackTrace();
+		}
+
+		return retry;
+	}
 }

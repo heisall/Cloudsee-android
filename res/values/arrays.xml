@@ -138,8 +138,8 @@
         <item>Channel</item>
         <item>Video</item>
         <item>Alarm Device</item>
-        <item>版本信息</item>
         <item>Security Protection</item>
+        <item>版本信息</item>
     </string-array>
 
     <!-- 码流切换 -->

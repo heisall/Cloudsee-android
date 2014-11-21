@@ -1,17 +1,7 @@
 package com.jovision.activities;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
+import java.util.HashMap;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -30,13 +20,13 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVConst;
-import com.jovision.commons.MyLog;
+import com.jovision.commons.Url;
 import com.jovision.net.AsyncHttpClient;
 import com.jovision.net.AsyncHttpResponseHandler;
 import com.jovision.net.RequestParams;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
-import com.jovision.utils.mails.MailSenderInfo;
+import com.jovision.utils.JSONUtil;
 import com.jovision.views.AlarmDialog;
 
 public class JVFeedbackActivity extends BaseActivity {
@@ -47,6 +37,9 @@ public class JVFeedbackActivity extends BaseActivity {
 	private EditText content; // 意见反馈内容
 	private TextView wordsNum; // 文字数量统计
 
+	String connectStr = "";// 联系方式
+	String contentStr = "";// 反馈内容
+
 	private EditText connection; // 意见反馈联系方式
 	private int number = 256;
 
@@ -54,6 +47,7 @@ public class JVFeedbackActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case JVConst.FEEDBACK_SUCCESS:// 反馈成功
+			dismissDialog();
 			AlertDialog.Builder builder = new AlertDialog.Builder(
 					JVFeedbackActivity.this);
 			builder.setMessage(R.string.str_commit_success);
@@ -158,6 +152,7 @@ public class JVFeedbackActivity extends BaseActivity {
 		});
 
 	}
+
 	OnClickListener myOnClickListener = new OnClickListener() {
 
 		@Override
@@ -167,8 +162,8 @@ public class JVFeedbackActivity extends BaseActivity {
 				finish();
 				break;
 			case R.id.btn_right:
-				String connectStr = connection.getText().toString();// 联系方式
-				String contentStr = content.getText().toString();// 反馈内容
+				connectStr = connection.getText().toString();// 联系方式
+				contentStr = content.getText().toString();// 反馈内容
 				if ("".equals(connectStr)) {
 					showTextToast(R.string.str_notice_connection);
 				} else {
@@ -181,14 +176,8 @@ public class JVFeedbackActivity extends BaseActivity {
 						}
 
 					} else {
-//						FeedbackPost(contentStr,connectStr);
 						createDialog("");
-						if (0 != connectStr.length()) {
-							contentStr += "<br /> 联系方式" + connectStr;
-						}
-
-						FeedbackThread feedbackThread = new FeedbackThread(
-								contentStr);
+						FeedbackThread feedbackThread = new FeedbackThread();
 						feedbackThread.start();
 					}
 				}
@@ -201,7 +190,8 @@ public class JVFeedbackActivity extends BaseActivity {
 		}
 
 	};
-	private void FeedbackPost(String content,String contect) {
+
+	private void feedbackPost(String content, String contect) {
 		String model = android.os.Build.MODEL;
 		String version = android.os.Build.VERSION.RELEASE;
 		String fingerprint = android.os.Build.FINGERPRINT;
@@ -212,18 +202,18 @@ public class JVFeedbackActivity extends BaseActivity {
 				+ ConfigUtil.getVersion(this);
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
-			params.put("mod","mobile"); 
-	        params.put("platform","1"); 
-	        params.put("model",model); 
-	        params.put("version",version); 
-	        params.put("fingerprint",fingerprint); 
-	        params.put("country",country); 
-	        params.put("cpu",cpu); 
-	        params.put("softversion",softwareVersion); 
-	        params.put("content",content); 
-	        params.put("contact",contect); 
-	        params.put("device", encryptInfo1());
-	        client.post("http://182.92.242.230/api.php",params,new landHandler());
+		params.put("mod", "mobile");
+		params.put("platform", "1");
+		params.put("model", model);
+		params.put("version", version);
+		params.put("fingerprint", fingerprint);
+		params.put("country", country);
+		params.put("cpu", cpu);
+		params.put("softversion", softwareVersion);
+		params.put("content", content);
+		params.put("contact", contect);
+		params.put("device", encryptInfo1());
+		client.post("http://182.92.242.230/api.php", params, new landHandler());
 	}
 
 	class landHandler extends AsyncHttpResponseHandler {
@@ -241,59 +231,79 @@ public class JVFeedbackActivity extends BaseActivity {
 		@Override
 		public void onSuccess(String content) {
 			super.onSuccess(content);
-			Log.i("TAG", content+"成功");
+			Log.i("TAG", content + "成功");
 		}
 
 		@Override
 		public void onFailure(Throwable error, String content) {
 			super.onFailure(error, content);
 		}
-	}	
-	
+	}
+
 	class FeedbackThread extends Thread {
-
-		String content;
-
-		public FeedbackThread(String contents) {
-			content = contents;
-		}
-
 		@Override
 		public void run() {
 			super.run();
 
 			try {
-				Calendar rightNow = Calendar.getInstance();
-				String str = rightNow.get(Calendar.YEAR)
-						+ "_"
-						+ (rightNow.get(Calendar.MONTH) + 1 + "_" + rightNow
-								.get(Calendar.DATE));
-				MailSenderInfo mailInfo = new MailSenderInfo();
-				mailInfo.setMailServerHost("smtp.qq.com");
-				mailInfo.setMailServerPort("25");
-				mailInfo.setValidate(true);
-				mailInfo.setUserName("741376209@qq.com"); // 你的邮箱地址
-				mailInfo.setPassword("mfq_zsw");// 您的邮箱密码
-				mailInfo.setFromAddress("741376209@qq.com");
-				mailInfo.setToAddress("suifupeng@jovision.com");// jovetech1203**
-				// mailInfo.setToAddress("jy0329@163.com");
-				mailInfo.setSubject("["
-						+ getResources().getString(R.string.app_name) + "]"
-						+ getResources().getString(R.string.str_feedback)
-						+ ConfigUtil.getVersion(JVFeedbackActivity.this));
-				mailInfo.setContent(content + mobileInfo() + encryptInfo1());
-				MyLog.e("feedback=", content + mobileInfo() + encryptInfo1());
-				String[] receivers = new String[] { "juyang@jovision.com",
-						"mfq@jovision.com" };
-				String[] ccs = receivers;
-				mailInfo.setReceivers(receivers);
-				mailInfo.setCcs(ccs);
-				// 这个类主要来发送邮件
-				// BaseApp.sendMailtoMultiReceiver(mailInfo);
-				// SimpleMailSender sms = new SimpleMailSender();
-				boolean flag = ConfigUtil.sendMailtoMultiReceiver(mailInfo);// 发送文体格式
-				// sms.sendHtmlMail(mailInfo);//发送html格式
-				if (flag) {
+				// Calendar rightNow = Calendar.getInstance();
+				// String str = rightNow.get(Calendar.YEAR)
+				// + "_"
+				// + (rightNow.get(Calendar.MONTH) + 1 + "_" + rightNow
+				// .get(Calendar.DATE));
+				// MailSenderInfo mailInfo = new MailSenderInfo();
+				// mailInfo.setMailServerHost("smtp.qq.com");
+				// mailInfo.setMailServerPort("25");
+				// mailInfo.setValidate(true);
+				// mailInfo.setUserName("741376209@qq.com"); // 你的邮箱地址
+				// mailInfo.setPassword("mfq_zsw");// 您的邮箱密码
+				// mailInfo.setFromAddress("741376209@qq.com");
+				// mailInfo.setToAddress("suifupeng@jovision.com");//
+				// jovetech1203**
+				// // mailInfo.setToAddress("jy0329@163.com");
+				// mailInfo.setSubject("["
+				// + getResources().getString(R.string.app_name) + "]"
+				// + getResources().getString(R.string.str_feedback)
+				// + ConfigUtil.getVersion(JVFeedbackActivity.this));
+				// mailInfo.setContent(content + mobileInfo() + encryptInfo1());
+				// MyLog.e("feedback=", content + mobileInfo() +
+				// encryptInfo1());
+				// String[] receivers = new String[] { "juyang@jovision.com",
+				// "mfq@jovision.com" };
+				// String[] ccs = receivers;
+				// mailInfo.setReceivers(receivers);
+				// mailInfo.setCcs(ccs);
+				// // 这个类主要来发送邮件
+				// // BaseApp.sendMailtoMultiReceiver(mailInfo);
+				// // SimpleMailSender sms = new SimpleMailSender();
+				// boolean flag =
+				// ConfigUtil.sendMailtoMultiReceiver(mailInfo);// 发送文体格式
+				// // sms.sendHtmlMail(mailInfo);//发送html格式
+
+				String model = android.os.Build.MODEL;
+				String version = android.os.Build.VERSION.RELEASE;
+				String fingerprint = android.os.Build.FINGERPRINT;
+				String country = ConfigUtil.getCountry();
+				String cpu = Build.CPU_ABI;
+				String softwareVersion = JVFeedbackActivity.this.getResources()
+						.getString(R.string.app_name)
+						+ ConfigUtil.getVersion(JVFeedbackActivity.this);
+				HashMap<String, String> paramsMap = new HashMap<String, String>();
+				paramsMap.put("mod", "mobile");
+				paramsMap.put("platform", "1");
+				paramsMap.put("model", model);
+				paramsMap.put("version", version);
+				paramsMap.put("fingerprint", fingerprint);
+				paramsMap.put("country", country);
+				paramsMap.put("cpu", cpu);
+				paramsMap.put("softversion", softwareVersion);
+				paramsMap.put("content", contentStr);
+				paramsMap.put("contact", connectStr);
+				paramsMap.put("device", encryptInfo1());
+
+				String result = JSONUtil.httpPost(Url.FEED_BACK_URL, paramsMap);
+
+				if (null != result && "1".equalsIgnoreCase(result)) {
 					handler.sendMessage(handler
 							.obtainMessage(JVConst.FEEDBACK_SUCCESS));// 反馈成功
 				} else {
@@ -370,4 +380,5 @@ public class JVFeedbackActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 	}
+
 }

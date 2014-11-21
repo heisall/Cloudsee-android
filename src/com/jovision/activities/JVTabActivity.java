@@ -43,7 +43,7 @@ public class JVTabActivity extends ShakeActivity implements
 	protected int timer = 16;
 	protected RelativeLayout helpbg_relative;
 	protected Timer offlineTimer = new Timer();
-	private BaseFragment mFragments[] = new BaseFragment[5];
+	private BaseFragment mFragments[] = new BaseFragment[4];
 
 	private ViewPager viewpager;
 
@@ -71,6 +71,15 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// // 如果savedInstanceState!=null，说明在应用在后台被干掉，或者应用崩掉需要重新create
+		// if (savedInstanceState != null) {
+		// Intent newApp = new Intent(JVTabActivity.this,
+		// JVWelcomeActivity.class);
+		// startActivity(newApp);
+		// finish();
+		// }
+
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD

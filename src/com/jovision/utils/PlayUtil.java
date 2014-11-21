@@ -442,32 +442,14 @@ public class PlayUtil {
 	 * @param deviceList
 	 */
 	public static void setHelperToList(ArrayList<Device> deviceList) {
-		HashMap<String, Boolean> helperMap = getEnableHelperArray();
-		JSONArray array = new JSONArray();
-		JSONObject object = null;
 
-		if (null == helperMap || 0 == helperMap.size()) {
-			for (Device device : deviceList) {
-				try {
-					object = new JSONObject();
-					object.put("gid", device.getGid());
-					object.put("no", device.getNo());
-					object.put("channel", 1);
-					object.put("name", device.getUser());
-					object.put("pwd", device.getPwd());
-					array.put(object);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-		} else {
-			for (Device device : deviceList) {
-				if (helperMap.containsKey(device.getFullNo())
-						&& helperMap.get(device.getFullNo())) {
-					// 已设置小助手
-					MyLog.v("已设置小助手", device.getFullNo());
-				} else {
-					MyLog.e("还没设置小助手", device.getFullNo());
+		if (MySharedPreference.getBoolean("LITTLEHELP", true)) {
+			HashMap<String, Boolean> helperMap = getEnableHelperArray();
+			JSONArray array = new JSONArray();
+			JSONObject object = null;
+
+			if (null == helperMap || 0 == helperMap.size()) {
+				for (Device device : deviceList) {
 					try {
 						object = new JSONObject();
 						object.put("gid", device.getGid());
@@ -480,12 +462,35 @@ public class PlayUtil {
 						e.printStackTrace();
 					}
 				}
+			} else {
+				for (Device device : deviceList) {
+					if (helperMap.containsKey(device.getFullNo())
+							&& helperMap.get(device.getFullNo())) {
+						// 已设置小助手
+						MyLog.v("已设置小助手", device.getFullNo());
+					} else {
+						MyLog.e("还没设置小助手", device.getFullNo());
+						try {
+							object = new JSONObject();
+							object.put("gid", device.getGid());
+							object.put("no", device.getNo());
+							object.put("channel", 1);
+							object.put("name", device.getUser());
+							object.put("pwd", device.getPwd());
+							array.put(object);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+				}
 			}
-		}
 
-		if (!"".equalsIgnoreCase(array.toString())) {
-			MyLog.e("需要设置小助手", array.toString());
-			Jni.setLinkHelper(array.toString());
+			if (!"".equalsIgnoreCase(array.toString())) {
+				MyLog.e("需要设置小助手", array.toString());
+				Jni.setLinkHelper(array.toString());
+			}
+		} else {
+			return;
 		}
 
 	}

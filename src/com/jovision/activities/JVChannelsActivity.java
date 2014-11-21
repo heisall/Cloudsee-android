@@ -158,7 +158,8 @@ public class JVChannelsActivity extends BaseActivity {
 			Bundle data = new Bundle();
 			data.putString("DeviceList", deviceList.toString());
 			data.putInt("DeviceIndex", deviceIndex);
-			ChannelFragment fragment = new ChannelFragment();
+			ChannelFragment fragment = new ChannelFragment(deviceIndex,
+					deviceList, mScreenWidth);
 			fragment.setArguments(data);
 			fragments.add(fragment);
 		}

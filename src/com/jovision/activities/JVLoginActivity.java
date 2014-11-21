@@ -427,6 +427,7 @@ public class JVLoginActivity extends BaseActivity {
 				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				user.setLastLogin(1);
+				user.setJudgeFlag(1);
 				UserUtil.addUser(user);
 
 				intent.setClass(JVLoginActivity.this, JVTabActivity.class);

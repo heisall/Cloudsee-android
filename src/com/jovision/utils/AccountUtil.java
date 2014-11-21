@@ -114,7 +114,7 @@ public class AccountUtil {
 				// 新用户，没有缓存
 				reqObj.put("cacheuser", 0);
 			} else {
-				reqObj.put("cacheuser", 1);
+				reqObj.put("cacheuser", dstUser.getJudgeFlag());
 			}
 			reqObj.put("longservurl", urlLgServ);
 			reqObj.put("shortservurl", urlStServ);

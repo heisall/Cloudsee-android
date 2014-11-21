@@ -393,10 +393,12 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 3:// 小助手
-							if (MySharedPreference.getBoolean("LITTLE")) {
-								MySharedPreference.putBoolean("LITTLE", false);
+							if (MySharedPreference.getBoolean("LITTLEHELP")) {
+								MySharedPreference.putBoolean("LITTLEHELP",
+										false);
 							} else {
-								MySharedPreference.putBoolean("LITTLE", true);
+								MySharedPreference.putBoolean("LITTLEHELP",
+										true);
 							}
 							break;
 						case 4:// 媒体
@@ -422,17 +424,20 @@ public class JVMoreFragment extends BaseFragment {
 							taskf.execute(strParams);
 							break;
 						case 7:
-							littlenum++;
-							if (littlenum < 10) {
-								if (littlenum >= 7) {
-									mActivity.showTextToast((10 - littlenum)
-											+ " ");
+							if (!MySharedPreference.getBoolean("LITTLE")) {
+								littlenum++;
+								if (littlenum < 10) {
+									if (littlenum >= 7) {
+										mActivity
+												.showTextToast((10 - littlenum)
+														+ " ");
+									}
+								} else if (littlenum == 10) {
+									MySharedPreference.putBoolean("LITTLE",
+											true);
+									ListViewUtil
+											.setListViewHeightBasedOnChildren(more_listView);
 								}
-							} else if (littlenum == 10) {
-								MySharedPreference.putBoolean("LITTLEHELP",
-										true);
-								ListViewUtil
-										.setListViewHeightBasedOnChildren(more_listView);
 							}
 							break;
 						default:

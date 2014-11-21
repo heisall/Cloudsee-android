@@ -79,7 +79,7 @@ public class FragmentAdapter extends BaseAdapter {
 			});
 		}
 		if (position == 3) {
-			if (!MySharedPreference.getBoolean("LITTLEHELP")) {
+			if (!MySharedPreference.getBoolean("LITTLE")) {
 				more_item.setVisibility(View.GONE);
 				divider_img.setVisibility(View.GONE);
 			} else {
@@ -133,7 +133,7 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 				break;
 			case 3:
-				if (MySharedPreference.getBoolean("LITTLE")) {
+				if (MySharedPreference.getBoolean("LITTLEHELP")) {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}

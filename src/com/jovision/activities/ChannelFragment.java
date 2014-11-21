@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,9 +56,9 @@ public class ChannelFragment extends BaseFragment {
 
 	private Button connectAll;
 
-	public ChannelFragment() {
-		deviceList = new ArrayList<Device>();
-	}
+	// public ChannelFragment() {
+	// deviceList = new ArrayList<Device>();
+	// }
 
 	// public ChannelFragment(ArrayList<Device> deviceList) {
 	// this.deviceList = deviceList;
@@ -65,10 +66,10 @@ public class ChannelFragment extends BaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Bundle bundle = getArguments();
-		deviceIndex = bundle.getInt("DeviceIndex");
-		deviceList = CacheUtil.getDevList();
-		device = deviceList.get(deviceIndex);
+		// Bundle bundle = getArguments();
+		// deviceIndex = bundle.getInt("DeviceIndex");
+		// deviceList = CacheUtil.getDevList();
+		// device = deviceList.get(deviceIndex);
 		super.onCreate(savedInstanceState);
 
 	}
@@ -99,14 +100,14 @@ public class ChannelFragment extends BaseFragment {
 
 	}
 
-	// public ChannelFragment(int devIndex, ArrayList<Device> devList,
-	// int widthPixels) {
-	// deviceIndex = devIndex;
-	// deviceList = devList;
-	// this.widthPixels = widthPixels;
-	//
-	// device = deviceList.get(devIndex);
-	// }
+	public ChannelFragment(int devIndex, ArrayList<Device> devList,
+			int widthPixels) {
+		deviceIndex = devIndex;
+		deviceList = devList;
+		this.widthPixels = widthPixels;
+
+		device = deviceList.get(devIndex);
+	}
 
 	@Override
 	public void onPause() {
@@ -487,6 +488,9 @@ public class ChannelFragment extends BaseFragment {
 						// // .get("KEY_USERNAME")));
 						// }
 						deviceList.get(deviceIndex).setChannelList(list);
+						Log.i("TAG", deviceList.get(deviceIndex)
+								.getChannelList().size()
+								+ "添加后的数量");
 					}
 
 				} catch (Exception e) {
@@ -494,7 +498,6 @@ public class ChannelFragment extends BaseFragment {
 				}
 			} else {
 				addRes = 9999;
-
 			}
 
 			return addRes;

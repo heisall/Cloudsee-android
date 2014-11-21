@@ -6,12 +6,10 @@ import java.util.regex.Pattern;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
 import android.content.Context;
 import android.test.JVACCOUNT;
 import android.util.Log;
 
-import com.jovision.Consts;
 import com.jovision.bean.ClientBean;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;

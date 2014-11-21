@@ -70,7 +70,7 @@ public class BitmapCache {
 	/**
 	 * 依据所指定的drawable下的图片资源ID号（可以根据自己的需要从网络或本地path下获取），重新获取相应Bitmap对象的实例
 	 */
-	public Bitmap getBitmap(String path, String kind) {
+	public Bitmap getBitmap(String path, String kind, String fileName) {
 		Bitmap bmp = null;
 		// 缓存中是否有该Bitmap实例的软引用，如果有，从软引用中取得。
 		if (bitmapRefs.containsKey(path)) {
@@ -85,13 +85,12 @@ public class BitmapCache {
 			} else if ("video".equalsIgnoreCase(kind)) {
 				bmp = loadVideoBitmap(path);
 			} else if ("net".equalsIgnoreCase(kind)) {
-				File file = new File(Consts.AD_PATH
-						+ ConfigUtil.getBase64(path) + ".jpg");
-				if (file.exists()) {
+				File file = new File(Consts.AD_PATH + fileName + ".jpg");
+				if (file.isFile() && file.exists()) {
 					bmp = loadImageBitmap(path, 5);
 				} else {
 					bmp = loadNetBitmap(path);
-					saveToLocal(path);
+					saveToLocal(path, fileName);
 				}
 			}
 			this.addCacheBitmap(bmp, path);
@@ -178,12 +177,11 @@ public class BitmapCache {
 
 	// "http://imgsrc.baidu.com/forum/pic/item/b2738bd49f8fd32da18bb7a4.jpg"
 	// 声明称为静态变量有助于调用
-	public static void saveToLocal(String path) {
+	public static void saveToLocal(String path, String fileName) {
 		try {
 			File adFolder = new File(Consts.AD_PATH);
 			MobileUtil.createDirectory(adFolder);
-			File adFile = new File(Consts.AD_PATH + ConfigUtil.getBase64(path)
-					+ ".jpg");
+			File adFile = new File(Consts.AD_PATH + fileName + ".jpg");
 			FileOutputStream outStream = new FileOutputStream(adFile);
 			URL url = new URL(path);
 

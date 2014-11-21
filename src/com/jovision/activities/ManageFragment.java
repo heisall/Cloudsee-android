@@ -280,7 +280,15 @@ public class ManageFragment extends BaseFragment {
 
 				break;
 			}
-			case 5: {// 添加设备
+
+			case 5: {// 安全防护开关
+				mActivity.createDialog("");
+				AlarmSwitchTask task = new AlarmSwitchTask();
+				String[] params = new String[3];
+				task.execute(params);
+				break;
+			}
+			case 6: {// 添加设备
 				StatService.trackCustomEvent(
 						mActivity,
 						"ThirdDevList",
@@ -296,13 +304,6 @@ public class ManageFragment extends BaseFragment {
 				playIntent.setClass(mActivity, ThirdDevListActivity.class);
 				playIntent.putExtra("dev_index", deviceIndex);
 				mActivity.startActivity(playIntent);
-				break;
-			}
-			case 6: {// 安全防护开关
-				mActivity.createDialog("");
-				AlarmSwitchTask task = new AlarmSwitchTask();
-				String[] params = new String[3];
-				task.execute(params);
 				break;
 			}
 			case 7: {// 一键升级

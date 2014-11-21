@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import android.test.JVACCOUNT;
 import android.util.Log;
 
-import com.jovision.Consts;
 import com.jovision.bean.AD;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
@@ -17,7 +16,6 @@ import com.jovision.bean.OneKeyUpdate;
 import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
-import com.jovision.commons.MySharedPreference;
 
 public class DeviceUtil {
 
@@ -1533,102 +1531,103 @@ public class DeviceUtil {
 	 */
 	public static ArrayList<AD> getADList(int adVersion) {
 		ArrayList<AD> adList = new ArrayList<AD>();
-		AD ad = new AD();
-		ad.setIndex(0);
-		ad.setAdImgUrl("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
-		ad.setAdLink("http://www.jovetech.com/");
-		adList.add(ad);
-
-		AD ad1 = new AD();
-		ad1.setIndex(1);
-		ad1.setAdImgUrl("http://img4.imgtn.bdimg.com/it/u=1147331110,3253839708&fm=201&gp=0.jpg");
-		ad1.setAdLink("http://www.2345.com/");
-		adList.add(ad1);
-
-		AD ad2 = new AD();
-		ad2.setIndex(2);
-		ad2.setAdImgUrl("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
-		ad2.setAdLink("http://www.baidu.com/");
-		adList.add(ad2);
-		MyLog.v("adList.toString()", adList.toString());
-		MySharedPreference.putString(Consts.AD_LIST, adList.toString());
-		MySharedPreference.putInt(Consts.AD_VERSION, adVersion);
-		return adList;
-
-		// JSONObject jObj = new JSONObject();
-		// try {
-		// jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
-		// JVDeviceConst.AD_PUBLISH_PROCESS);// 12
-		// jObj.put(JVDeviceConst.JK_MESSAGE_TYPE, JVDeviceConst.GET_AD_INFO);//
-		// 5500
-		// jObj.put(JVDeviceConst.JK_PROTO_VERSION,
-		// JVDeviceConst.PROTO_VERSION);// 1.0
-		// jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, 0);// 0：CloudSEE 1：NVSIP
-		// jObj.put(JVDeviceConst.JK_AD_VERSION, adVersion);// (当前广告版本号)
-		// jObj.put(JVDeviceConst.JK_TERMINAL_TYPE, 1);// (终端类型 0-未知 1-Android
-		// // 2-iPhone 3-iPad)
-		// } catch (Exception e1) {
-		// e1.printStackTrace();
-		// }
-		//
-		// MyLog.v("getAD---request", jObj.toString());
-		//
-		// // 接收返回数据
-		// byte[] resultStr = new byte[1024 * 3];
-		// int error =
-		// JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-		// jObj.toString(), resultStr);
-		//
-		// if (0 == error) {
-		// String result = new String(resultStr);
-		// MyLog.v("getAD---result", result);
-		//
-		// if (null != result && !"".equalsIgnoreCase(result)) {
-		// try {
-		// JSONObject temObj = new JSONObject(result);
-		// if (null != temObj) {
-		// int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
-		// // (0正确,其他为错误码 19没有广告更新; -10请求格式错误; -4数据库操作错误; -1其他错误)
-		//
-		// // JK_AD_INFO:
-		// // [
-		// // {
-		// // JK_AD_NO : <string> , (广告图片序号)
-		// // JK_AD_URL : <int> , (广告图片URL)
-		// // JK_AD_LINK : <string> , (图片超链接)
-		// // }
-		// // ,
-		// // ...
-		// // ]
-		// if (19 == rt) {//无更新
-		//
-		// } else if (0 == rt) {//有更新
-		// JSONArray dlist = new JSONArray(
-		// temObj.optString(JVDeviceConst.JK_AD_INFO));
-		// if (null != dlist && 0 != dlist.length()) {
-		// for (int i = 0; i < dlist.length(); i++) {
-		// JSONObject obj = dlist.getJSONObject(i);
-		// if (null != obj) {
 		// AD ad = new AD();
-		// ad.setIndex(obj.getInt(JVDeviceConst.JK_AD_NO));
-		// ad.setAdImgUrl(obj.getString(JVDeviceConst.JK_AD_URL));
-		// ad.setAdLink(obj.getString(JVDeviceConst.JK_AD_LINK));
+		// ad.setIndex(0);
+		// ad.setAdImgUrl("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
+		// ad.setAdLink("http://www.jovetech.com/");
 		// adList.add(ad);
-		// }
-		// }
-		// }
-		// } else {//错误
-		// adList = null;
-		// }
-		// }
-		// } catch (Exception e) {
-		// adList = null;
-		// e.printStackTrace();
-		// }
-		// }
-		// }
-		// MyLog.v("getAD---result", adList.size()+"");
+		//
+		// AD ad1 = new AD();
+		// ad1.setIndex(1);
+		// ad1.setAdImgUrl("http://img4.imgtn.bdimg.com/it/u=1147331110,3253839708&fm=201&gp=0.jpg");
+		// ad1.setAdLink("http://www.2345.com/");
+		// adList.add(ad1);
+		//
+		// AD ad2 = new AD();
+		// ad2.setIndex(2);
+		// ad2.setAdImgUrl("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
+		// ad2.setAdLink("http://www.baidu.com/");
+		// adList.add(ad2);
+		// MyLog.v("adList.toString()", adList.toString());
+		// MySharedPreference.putString(Consts.AD_LIST, adList.toString());
+		// MySharedPreference.putInt(Consts.AD_VERSION, adVersion);
 		// return adList;
+
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.AD_PUBLISH_PROCESS);// 12
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE, JVDeviceConst.GET_AD_INFO);//
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// 1.0
+			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, 0);// 0：CloudSEE 1：NVSIP
+			jObj.put(JVDeviceConst.JK_AD_VERSION, adVersion);// (当前广告版本号)
+			jObj.put(JVDeviceConst.JK_TERMINAL_TYPE, 1);// (终端类型 0-未知 1-Android
+			// 2-iPhone 3-iPad)
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		MyLog.v("getAD---request", jObj.toString());
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024 * 3];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("getAD---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+						// (0正确,其他为错误码 19没有广告更新; -10请求格式错误; -4数据库操作错误; -1其他错误)
+
+						// JK_AD_INFO:
+						// [
+						// {
+						// JK_AD_NO : <string> , (广告图片序号)
+						// JK_AD_URL : <int> , (广告图片URL)
+						// JK_AD_LINK : <string> , (图片超链接)
+						// }
+						// ,
+						// ...
+						// ]
+						if (19 == rt) {// 无更新
+
+						} else if (0 == rt) {// 有更新
+							JSONArray dlist = new JSONArray(
+									temObj.optString(JVDeviceConst.JK_AD_INFO));
+							if (null != dlist && 0 != dlist.length()) {
+								for (int i = 0; i < dlist.length(); i++) {
+									JSONObject obj = dlist.getJSONObject(i);
+									if (null != obj) {
+										AD ad = new AD();
+										ad.setIndex(obj
+												.getInt(JVDeviceConst.JK_AD_NO));
+										ad.setAdImgUrl(obj
+												.getString(JVDeviceConst.JK_AD_URL));
+										ad.setAdLink(obj
+												.getString(JVDeviceConst.JK_AD_LINK));
+										adList.add(ad);
+									}
+								}
+							}
+						} else {// 错误
+							adList = null;
+						}
+					}
+				} catch (Exception e) {
+					adList = null;
+					e.printStackTrace();
+				}
+			}
+		}
+		MyLog.v("getAD---result", adList.size() + "");
+		return adList;
 	}
 
 	/**

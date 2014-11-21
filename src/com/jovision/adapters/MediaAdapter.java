@@ -103,7 +103,7 @@ public class MediaAdapter extends BaseAdapter {
 		Bitmap bmp = null;
 		if (loadImg) {
 			bmp = BitmapCache.getInstance().getBitmap(
-					fileArray[position].getAbsolutePath(), media);
+					fileArray[position].getAbsolutePath(), media, "");
 		} else {
 			bmp = BitmapCache.getInstance().getCacheBitmap(
 					fileArray[position].getAbsolutePath());

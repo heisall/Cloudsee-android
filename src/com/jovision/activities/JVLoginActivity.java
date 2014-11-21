@@ -361,7 +361,7 @@ public class JVLoginActivity extends BaseActivity {
 			country = ConfigUtil.getCountry();
 
 			handler.sendEmptyMessage(WHAT_SHOW_PRO);
-			String strRes = AccountUtil.onLoginProcess(JVLoginActivity.this,
+			String strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
 					statusHashMap.get(Consts.KEY_USERNAME),
 					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,
 					Url.LONGSERVERIP);
@@ -427,6 +427,7 @@ public class JVLoginActivity extends BaseActivity {
 				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				user.setLastLogin(1);
+				user.setJudgeFlag(1);
 				UserUtil.addUser(user);
 
 				intent.setClass(JVLoginActivity.this, JVTabActivity.class);

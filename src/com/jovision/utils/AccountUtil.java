@@ -6,10 +6,12 @@ import java.util.regex.Pattern;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.integer;
 import android.content.Context;
 import android.test.JVACCOUNT;
 import android.util.Log;
 
+import com.jovision.Consts;
 import com.jovision.bean.ClientBean;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
@@ -92,6 +94,60 @@ public class AccountUtil {
 		}
 		Log.e("liukp", "resp_result:" + strRes);
 		res = respObj.optInt("result", 100);
+		return strRes;
+	}
+
+	public static String onLoginProcessV2(Context mContext, String userName,
+			String pwd, String urlLgServ, String urlStServ) {
+		JSONObject mainObj = new JSONObject();
+		JSONObject reqObj = new JSONObject();
+		try {
+			mainObj.put("id", 1);
+			reqObj.put("user", userName);
+			reqObj.put("passwd", pwd);
+			reqObj.put("plattype", 1);
+			reqObj.put("locales", ConfigUtil.getLanguage());
+			reqObj.put("devuuid", ConfigUtil.getIMEI(mContext));
+			boolean alarmSwitch = MySharedPreference.getBoolean("AlarmSwitch",
+					false);
+			reqObj.put("alarmflag", alarmSwitch ? 0 : 1);
+			User dstUser = UserUtil.getUserByName(userName);
+			if (dstUser == null) {
+				// 新用户，没有缓存
+				reqObj.put("cacheuser", 0);
+			} else {
+				reqObj.put("cacheuser", dstUser.getJudgeFlag());
+			}
+			reqObj.put("longservurl", urlLgServ);
+			reqObj.put("shortservurl", urlStServ);
+
+			mainObj.put("data", reqObj);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		String strRes = JVACCOUNT.onLoginProcessV2(0, mainObj.toString());
+
+		// JSONObject respObj = null;
+		// try {
+		// respObj = new JSONObject(strRes);
+
+		// // 登陆成功，汇报报警状态
+		// int loginRes1 = respObj.optInt("arg1", 1);
+		// if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
+		//
+		// if (MySharedPreference.getBoolean("AlarmSwitch")) {
+		// JVACCOUNT.SetCurrentAlarmFlag(JVAlarmConst.ALARM_ON,
+		// ConfigUtil.getIMEI(mContext));
+		// } else {
+		// JVACCOUNT.SetCurrentAlarmFlag(JVAlarmConst.ALARM_OFF,
+		// ConfigUtil.getIMEI(mContext));
+		// }
+		// }
+		// } catch (JSONException e) {
+		// e.printStackTrace();
+		// }
+		Log.e("onLoginProcessV2", "resp_result:" + strRes);
+		// res = respObj.optInt("result", 100);
 		return strRes;
 	}
 

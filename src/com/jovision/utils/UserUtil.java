@@ -101,4 +101,23 @@ public class UserUtil {
 		return;
 	}
 
+	public static User getUserByName(String userName) {
+		User dstUser = null;
+		ArrayList<User> userList = User.fromJsonArray(MySharedPreference
+				.getString(Consts.LOCAL_USER_LIST));
+
+		if (null == userList) {
+			return null;
+		} else {
+			int size = userList.size();
+			for (int i = 0; i < size; i++) {
+				if (userName.equalsIgnoreCase(userList.get(i).getUserName())) {
+					dstUser = userList.get(i);
+					break;
+				}
+			}
+		}
+
+		return dstUser;
+	}
 }

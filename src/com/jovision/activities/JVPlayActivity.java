@@ -1551,10 +1551,12 @@ public class JVPlayActivity extends PlayActivity implements
 					JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
 
 			if (result) {
-				Jni.resume(channel.getIndex(), channel.getSurface());
+				if (Jni.resume(channel.getIndex(), channel.getSurface())) {
+					handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+							channel.getIndex(), ARG2_STATUS_BUFFERING));
+				}
+
 				channel.setPaused(false);
-				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-						channel.getIndex(), ARG2_STATUS_BUFFERING));
 			} else {
 				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
 						channel.getIndex(), ARG2_STATUS_DISCONNECTED));

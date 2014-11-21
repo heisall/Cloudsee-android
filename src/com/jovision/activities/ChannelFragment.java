@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -487,6 +488,7 @@ public class ChannelFragment extends BaseFragment {
 						// // .get("KEY_USERNAME")));
 						// }
 						deviceList.get(deviceIndex).setChannelList(list);
+						Log.i("TAG", deviceList.get(deviceIndex).getChannelList().size()+"添加后的数量");
 					}
 
 				} catch (Exception e) {
@@ -494,7 +496,6 @@ public class ChannelFragment extends BaseFragment {
 				}
 			} else {
 				addRes = 9999;
-
 			}
 
 			return addRes;

@@ -3061,11 +3061,11 @@ public class JVPlayActivity extends PlayActivity implements
 		Jni.setColor(lastClickIndex, 0, 0, 0, 0);
 
 		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-		// if (channelList.get(lastClickIndex).getParent().isCard()
-		// || 8 == channelList.get(lastClickIndex).getAudioByte()) {
-		// bottombut5.setBackgroundDrawable(getResources().getDrawable(
-		// R.drawable.video_talk));
-		// }
+			// if (channelList.get(lastClickIndex).getParent().isCard()
+			// || 8 == channelList.get(lastClickIndex).getAudioByte()) {
+			// bottombut5.setBackgroundDrawable(getResources().getDrawable(
+			// R.drawable.video_talk));
+			// }
 			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
 				if (VOICECALL_LONG_CLICK) {
 					new TalkThread(lastClickIndex, 0).start();

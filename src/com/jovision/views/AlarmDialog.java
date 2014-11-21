@@ -196,6 +196,9 @@ public class AlarmDialog extends Dialog {
 			} else if (pi.alarmType == 11) {
 				strAlarmTypeName = context.getResources().getString(
 						R.string.str_alarm_type_third);
+			} else if (pi.alarmType == 4) {
+				strAlarmTypeName = context.getResources().getString(
+						R.string.str_alarm_type_external);
 			} else {
 				strAlarmTypeName = context.getResources().getString(
 						R.string.str_alarm_type_unknown);

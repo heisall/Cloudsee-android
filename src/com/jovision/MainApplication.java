@@ -304,7 +304,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 							// BaseApp.getNikeName(pi.ystNum);
 							pi.alarmType = obj
 									.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
-							if (pi.alarmType == 7) {
+							if (pi.alarmType == 7 || pi.alarmType == 4) {
 								pi.deviceNickName = obj
 										.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 							} else if (pi.alarmType == 11)// 第三方

@@ -310,7 +310,8 @@ public class AlarmUtil {
 										// "apic":".\/rec\/00\/20141014\/A01092715.jpg","avd":"1413278835","ats":1413278835},}
 										pi.alarmType = obj
 												.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
-										if (pi.alarmType == 7) {
+										if (pi.alarmType == 7
+												|| pi.alarmType == 4) {
 											pi.deviceNickName = obj
 													.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
 										} else if (pi.alarmType == 11)// 第三方
@@ -548,12 +549,12 @@ public class AlarmUtil {
 		if (dstTimeStr.length() != 14) {
 			return "";
 		}
-		String strYear = dstTimeStr.substring(0, 3);
-		String strMonth = dstTimeStr.substring(4, 5);
-		String strDay = dstTimeStr.substring(6, 7);
-		String strHour = dstTimeStr.substring(8, 9);
-		String strMin = dstTimeStr.substring(10, 11);
-		String strSecond = dstTimeStr.substring(12, 13);
+		String strYear = dstTimeStr.substring(0, 3 + 1);
+		String strMonth = dstTimeStr.substring(4, 5 + 1);
+		String strDay = dstTimeStr.substring(6, 7 + 1);
+		String strHour = dstTimeStr.substring(8, 9 + 1);
+		String strMin = dstTimeStr.substring(10, 11 + 1);
+		String strSecond = dstTimeStr.substring(12, 13 + 1);
 
 		StringBuffer sbResBuffer = new StringBuffer(strYear);
 		sbResBuffer.append("-").append(strMonth).append("-").append(strDay)

@@ -11,6 +11,7 @@ public class AD {
 	private String adImgUrl;// (广告图片URL)
 	private String adLink;// (图片超链接)
 	private int version;// (广告版本)
+
 	// private String savePath;
 	// private String fileName;
 

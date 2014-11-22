@@ -83,6 +83,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public static final int AUTO_UPDATE = 0x08;// 2分钟自动刷新时间到--
 
 	public static final int AD_UPDATE = 0x09;// 广告刷新
+	public static final int DEV_GETFINISHED = 0x0A;// 获取完设备列表
 
 	// private RefreshableView refreshableView;
 	private PullToRefreshListView mPullRefreshListView;
@@ -234,6 +235,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 						GetDevTask task = new GetDevTask();
 						String[] strParams = new String[3];
+						strParams[0] = "1";
 						task.execute(strParams);
 					}
 				});
@@ -289,6 +291,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 			GetDevTask task = new GetDevTask();
 			String[] strParams = new String[3];
+			strParams[0] = "0";
 			task.execute(strParams);
 		}
 
@@ -351,6 +354,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 				GetDevTask task = new GetDevTask();
 				String[] strParams = new String[3];
+				strParams[0] = "1";
 				task.execute(strParams);
 				break;
 			}
@@ -601,9 +605,40 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case AD_UPDATE: {
+			initADViewPager();
+			break;
+		}
+		case DEV_GETFINISHED: {
+			// TODO
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			((BaseActivity) mActivity).dismissDialog();
+			refreshList();
+			mPullRefreshListView.onRefreshComplete();
+			initADViewPager();
+			switch (arg1) {
+			// 从服务器端获取设备成功
+			case DEVICE_GETDATA_SUCCESS: {
+				broadTag = BROAD_DEVICE_LIST;
+				PlayUtil.broadCast(mActivity);
+				break;
+			}
+			// 从服务器端获取设备成功，但是没有设备
+			case DEVICE_NO_DEVICE: {
+				break;
+			}
+			// 从服务器端获取设备失败
+			case DEVICE_GETDATA_FAILED: {
+				mActivity.showTextToast(R.string.get_device_failed);
+				break;
+			}
+			}
+			break;
+		}
 		case AUTO_UPDATE: {
 			GetDevTask task = new GetDevTask();
 			String[] strParams = new String[3];
+			strParams[0] = "1";
 			task.execute(strParams);
 			break;
 		}
@@ -1124,6 +1159,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		} else if (0 == adList.size()) {// 未检查到更新
 			adList = AD.fromJsonArray(MySharedPreference
 					.getString(Consts.AD_LIST));
+
 			// 从网上获取广告图片
 			for (AD ad : adList) {
 				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net",
@@ -1133,25 +1169,23 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 删除老广告
 			File adFolder = new File(Consts.AD_PATH);
 			MobileUtil.deleteFile(adFolder);
+			MySharedPreference.putString(Consts.AD_LIST, adList.toString());
+
 			// 从网上获取广告图片
 			for (AD ad : adList) {
 				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net",
 						String.valueOf(ad.getIndex()));
 			}
 		}
-
 	}
 
 	// 获取设备列表线程
 	class GetDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
-		protected Integer doInBackground(String... params) {
+		protected Integer doInBackground(String... params) {// 0：获取，1：刷新
 			int getRes = 0;
 			try {
-				// TODO 获取广告
-				getADList();
-
 				if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {// 非本地登录，无论是否刷新都执行
 					// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次
@@ -1237,6 +1271,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 				} else {// 获取设备失败
 					getRes = DEVICE_GETDATA_FAILED;
 				}
+
+				fragHandler.sendMessage(fragHandler.obtainMessage(
+						DEV_GETFINISHED, getRes, 0));
+				if ("0".equalsIgnoreCase(params[0])) {
+					// TODO 获取广告
+					getADList();
+				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

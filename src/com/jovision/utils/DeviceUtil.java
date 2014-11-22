@@ -1616,12 +1616,11 @@ public class DeviceUtil {
 					e.printStackTrace();
 				}
 			}
-		}else{
+		} else {
 			adList = null;
 		}
 		return adList;
 	}
-
 
 	/**
 	 * 获取用户通道列表

@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -58,7 +57,6 @@ import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
-import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.AlarmDialog;
 import com.jovision.views.ImageViewPager;
@@ -1111,23 +1109,23 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 				adList = DeviceUtil.getADList(MySharedPreference
 						.getInt(Consts.AD_VERSION));
-				if (null == adList) {// 获取广告出错
-					adList = AD.fromJsonArray(MySharedPreference
-							.getString(Consts.AD_LIST));
-				} else if (0 == adList.size()) {// 未检查到更新
-					adList = AD.fromJsonArray(MySharedPreference
-							.getString(Consts.AD_LIST));
-				} else if (adList.size() > 0) {// 有新广告
-					// 删除老广告
-					File adFolder = new File(Consts.AD_PATH);
-					MobileUtil.deleteFile(adFolder);
-				}
+				// if (null == adList) {// 获取广告出错
+				// adList = AD.fromJsonArray(MySharedPreference
+				// .getString(Consts.AD_LIST));
+				// } else if (0 == adList.size()) {// 未检查到更新
+				// adList = AD.fromJsonArray(MySharedPreference
+				// .getString(Consts.AD_LIST));
+				// } else if (adList.size() > 0) {// 有新广告
+				// // 删除老广告
+				// File adFolder = new File(Consts.AD_PATH);
+				// MobileUtil.deleteFile(adFolder);
+				// }
 
 				if (null != adList && 0 != adList.size()) {
 					// 从网上获取广告图片
 					for (AD ad : adList) {
 						BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(),
-								"net");
+								"net", String.valueOf(ad.getIndex()));
 					}
 					fragHandler.sendMessage(fragHandler
 							.obtainMessage(AD_UPDATE));
@@ -1485,15 +1483,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 						.getString(Consts.AD_LIST));
 			} else if (adList.size() > 0) {// 有新广告
 				// 删除老广告
-				File adFolder = new File(Consts.AD_PATH);
-				MobileUtil.deleteFile(adFolder);
+				// File adFolder = new File(Consts.AD_PATH);
+				// MobileUtil.deleteFile(adFolder);
 			}
 
 			if (null != adList && 0 != adList.size()) {
 				// 从网上获取广告图片
 				for (AD ad : adList) {
-					BitmapCache.getInstance()
-							.getBitmap(ad.getAdImgUrl(), "net");
+					BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(),
+							"net", String.valueOf(ad.getIndex()));
 				}
 				fragHandler.sendMessage(fragHandler.obtainMessage(AD_UPDATE));
 			}

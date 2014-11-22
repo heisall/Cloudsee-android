@@ -6,8 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
-
 //登录用户
 public class User {
 	private final static String TAG = "UserBean";
@@ -16,7 +14,8 @@ public class User {
 	private String userPwd = "";
 	private String userEmail = "";
 	private int lastLogin = 0;// 最后一次登录，0：不是 1：是
-	private int cacheJudgeFlag = 0;//默认没有缓存
+	private int cacheJudgeFlag = 0;// 默认没有缓存
+
 	public String getUserName() {
 		return userName;
 	}
@@ -60,11 +59,11 @@ public class User {
 	public void setJudgeFlag(int flag) {
 		this.cacheJudgeFlag = flag;
 	}
-	
-	public int getJudgeFlag(){
+
+	public int getJudgeFlag() {
 		return cacheJudgeFlag;
 	}
-	
+
 	public JSONObject toJson() {
 		JSONObject object = new JSONObject();
 

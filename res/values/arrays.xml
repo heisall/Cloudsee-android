@@ -137,10 +137,10 @@
         <item>Remote Configure</item>
         <item>Device</item>
         <item>Connection Mode</item>
-        <item>Channel</item>
+        <item>视频源管理</item>
         <item>Video</item>
-        <item>Alarm Device</item>
         <item>Security Protection</item>
+        <item>Alarm Device</item>
         <item>版本信息</item>
     </string-array>
 

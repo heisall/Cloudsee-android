@@ -4,7 +4,7 @@ public class ClientBean {
 	private String deviceUUID;
 	private int platformType;// 1:android
 	private int languageType;// 语言 中文 0 英文 1
-	private int alarmFlag;//0:开 1：关，注意哦 亲
+	private int alarmFlag;// 0:开 1：关，注意哦 亲
 
 	public int getPlatformType() {
 		return platformType;

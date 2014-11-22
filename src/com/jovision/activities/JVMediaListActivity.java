@@ -401,7 +401,8 @@ public class JVMediaListActivity extends BaseActivity {
 							int length = fileArray.length;
 							for (int j = 0; j < length; j++) {
 								BitmapCache.getInstance().getBitmap(
-										fileArray[j].getAbsolutePath(), media);
+										fileArray[j].getAbsolutePath(), media,
+										"");
 							}
 						}
 					}

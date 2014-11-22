@@ -115,17 +115,12 @@
     <string name="str_more_features">更多功能</string>
     <string name="str_alarm">报警</string>
     <string name="str_alarm_info">报警信息</string>
-    <string name="str_watchtype">设备在线检测</string>
     <string name="str_scenepic">场景图片</string>
     <string name="str_video_mode">观看模式</string>
     <string name="str_video_modetwo">观看模式(单设备)</string>
     <string name="str_video_more_modetwo">观看模式(多设备)</string>
     <string name="str_video_single_mode">单设备</string>
     <string name="str_video_more_mode">多设备</string>
-    <string name="str_shake_device">摇一摇加设备</string>
-    <string name="str_shake_device_tips">摇一摇加设备仅适用于家用安防产品，配置过程中出现手机WLAN切换现象属于正常情况，具体操作如下：\n1.在设备列表晃动手机，收到设备信号IPC-H-***，点击进入体验视频、音频、对讲以及云台功能；\n2.选中预配置的路由器，输入密码，点击【配置】，直到配置流程结束，网络状态还原.</string>
-    <string name="str_open_shake_device">打开</string>
-    <string name="str_shake_device_learn_more">了解更多</string>
     <string name="str_checkupdate">检查更新</string>
     <string name="str_check_update_failed">检查更新失败</string>
     <string name="str_account">账户</string>
@@ -194,8 +189,8 @@
     <string name="str_skip">跳过</string>
     <string name="str_reset">正在重置</string>
     <!-- 修改密码 -->
-    <string name="login_str_ipaddress">IP/域名</string>
-    <string name="login_str_ipaddressdevice">IP/域名</string>
+    <string name="login_str_ipaddress">域名/IP</string>
+    <string name="login_str_ipaddressdevice">域名/IP</string>
     <string name="login_str_port">端      口</string>
     <string name="login_str_user_name">用 户 名</string>
     <string name="str_pass">密      码</string>
@@ -348,7 +343,6 @@
     <string name="system_lower">您的手机系统是Android$,视频播放时有可能出现花屏，为达到最佳播放效果，建议下载2.8.5版本，安装前请先卸载当前版本，是否立即下载?</string>
     <string name="no_more_tips">不再提示</string>
     <string name="download">立即下载</string>
-    <string name="not_support_old">该版本不再支持04版解码，如果仍想观看，建议下载2.8.5版本，安装前请先卸载当前版本，是否立即下载?</string>
     <!-- JVOffline -->
     <string name="offline_other_login">账号在其他地方登入或者账号异常.</string>
     <string name="offline_net_error">网络连接异常，请重新登录.</string>
@@ -418,7 +412,6 @@
     <string name="not_omx">软解</string>
     <string name="not_support_oxm">您的手机暂不支持此功能.</string>
     <string name="not_support_this_func">该设备暂不支持此功能.</string>
-    <string name="stream_not_support">该设备暂时不支持码流切换</string>
     <string name="audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
     <string name="video_repaked">切换视频制式，录像文件已重新打包</string>
     <string name="voice_tips1">亲，你现在可以和对方说话了</string>
@@ -506,7 +499,7 @@
     <string name="str_help_zero">展开多种方式添加设备</string>
     <string name="str_help_one">远程配置IPC设备的网络和码流</string>
     <string name="str_help_two">修改、删除设备</string>
-    <string name="str_help_three">切换IP直连和云视通连接模式</string>
+    <string name="str_help_three">切换域名/IP直连和云视通连接模式</string>
     <string name="str_help_four">添加、修改、删除通道</string>
     <string name="str_help_five">添加报警设备</string>
     <string name="start_now">立即体验</string>
@@ -518,7 +511,7 @@
     <string name="str_password">密       码 </string>
     <string name="str_nicknametwo">昵       称 </string>
     <!-- 包含云视通敏感词汇 -->
-    <string name="str_help9">切换IP直连和云视通连接模式</string>
+    <string name="str_help9">切换域名/IP直连和云视通连接模式</string>
     <string name="str_cloudsee_id">云视通号</string>
     <string name="str_yst_connect">云视通连接</string>
     <string name="app_name">CloudSEE</string>
@@ -596,8 +589,8 @@
     <string name="str_alarm_download_alarmimg_stopped">下载报警图片停止</string>
     <string name="str_alarm_no_alarm_info">暂无报警消息</string>
     <string name="str_alarm_clear_ainfo_sure">确定清空报警消息吗?</string>
-    <string name="str_feedback_ok">发表成功，您的建议与反馈我们会及时处理</string>
-    <!-- 腾讯云分析统计名称 -->
+    <string name="str_feedback_ok">发表成功，您的建议与反馈我们会及时处理。</string>
+    <!-- 腾讯云分析统计名称 不用翻译-->
     <string name="str_login">本地登录</string>
     <string name="str_onlinelogin">在线登陆</string>
     <string name="str_remoteset">远程设置</string>
@@ -612,7 +605,7 @@
     <string name="str_scanqrcod">二维码扫描</string>
     <string name="str_addwifidev">无线设备</string>
     <string name="str_scanlandevice">局域网设备</string>
-    <string name="str_ipdns">IP/域名设备</string>
+    <string name="str_ipdns">域名/IP设备</string>
     <string name="str_demo">视频广场</string>
     <string name="str_register">注册</string>
     <string name="str_media">媒体</string>

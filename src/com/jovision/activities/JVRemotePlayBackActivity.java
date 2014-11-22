@@ -39,7 +39,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	private PlayTimerTask playTask;
 	private int seconds;
 	private int audioByte;// 音频监听比特率
-	private boolean is05;
+	private boolean is05 = true;
 	private boolean isRemotePause = false;
 
 	@Override

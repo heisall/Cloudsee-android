@@ -2203,7 +2203,7 @@ public class JVPlayActivity extends PlayActivity implements
 					if (allowThisFuc(true)) {
 						if (-1 == channelList.get(lastClickIndex)
 								.getStreamTag()) {
-							showTextToast(R.string.stream_not_support);
+							showTextToast(R.string.not_support_this_func);
 						} else {
 							streamListView.setVisibility(View.VISIBLE);
 						}

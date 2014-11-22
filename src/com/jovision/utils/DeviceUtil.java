@@ -1529,28 +1529,22 @@ public class DeviceUtil {
 	 * @param
 	 * @return ArrayList<Device> 设备列表
 	 */
-	public static ArrayList<AD> getADList(int adVersion, ArrayList<AD> adList) {
-		// if(1 == adVersion){
-		// adList.clear();
-		// return adList;
-		// }
+	public static ArrayList<AD> getADList(int adVersion) {
+		ArrayList<AD> adList = new ArrayList<AD>();
 		// AD ad = new AD();
 		// ad.setIndex(0);
-		// ad.setVersion(1);
 		// ad.setAdImgUrl("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
-		// ad.setAdLink("http://www.jovetech.com/");
+		// ad.setAdLink("http://www.2345.com/");
 		// adList.add(ad);
 		//
 		// AD ad1 = new AD();
 		// ad1.setIndex(1);
-		// ad1.setVersion(1);
 		// ad1.setAdImgUrl("http://img4.imgtn.bdimg.com/it/u=1147331110,3253839708&fm=201&gp=0.jpg");
 		// ad1.setAdLink("http://www.2345.com/");
 		// adList.add(ad1);
 		//
 		// AD ad2 = new AD();
 		// ad2.setIndex(2);
-		// ad2.setVersion(1);
 		// ad2.setAdImgUrl("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
 		// ad2.setAdLink("http://www.baidu.com/");
 		// adList.add(ad2);
@@ -1590,18 +1584,8 @@ public class DeviceUtil {
 					JSONObject temObj = new JSONObject(result);
 					if (null != temObj) {
 						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+						int adver = temObj.optInt(JVDeviceConst.JK_AD_VERSION);
 						// (0正确,其他为错误码 19没有广告更新; -10请求格式错误; -4数据库操作错误; -1其他错误)
-
-						// JK_AD_INFO:
-						// [
-						// {
-						// JK_AD_NO : <string> , (广告图片序号)
-						// JK_AD_URL : <int> , (广告图片URL)
-						// JK_AD_LINK : <string> , (图片超链接)
-						// }
-						// ,
-						// ...
-						// ]
 						if (19 == rt) {// 无更新
 
 						} else if (0 == rt) {// 有更新
@@ -1618,6 +1602,7 @@ public class DeviceUtil {
 												.getString(JVDeviceConst.JK_AD_URL));
 										ad.setAdLink(obj
 												.getString(JVDeviceConst.JK_AD_LINK));
+										ad.setVersion(adver);
 										adList.add(ad);
 									}
 								}
@@ -1631,11 +1616,12 @@ public class DeviceUtil {
 					e.printStackTrace();
 				}
 			}
-		} else {
+		}else{
 			adList = null;
 		}
 		return adList;
 	}
+
 
 	/**
 	 * 获取用户通道列表

@@ -1111,7 +1111,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		} else {
 			adVersion = adList.get(0).getVersion();
 		}
-		adList = DeviceUtil.getADList(adVersion, adList);
+		adList = DeviceUtil.getADList(adVersion);
 
 		if (null == adList) {// 获取广告出错
 			adList = AD.fromJsonArray(MySharedPreference

@@ -30,7 +30,6 @@ public class MediaFolderAdapter extends BaseAdapter {
 	private String media;// 区分图片还是视频
 	private boolean loadImg = true;
 	private boolean isdelect;
-	private boolean isselectall;
 
 	public MediaFolderAdapter(BaseActivity con) {
 		mContext = con;
@@ -39,11 +38,10 @@ public class MediaFolderAdapter extends BaseAdapter {
 	}
 
 	public void setData(String media, ArrayList<File> folderList,
-			boolean isdelect, boolean isselectall) {
+			boolean isdelect) {
 		this.folderList = folderList;
 		this.media = media;
 		this.isdelect = isdelect;
-		this.isselectall = isselectall;
 	}
 
 	public void setLoadImage(boolean load) {

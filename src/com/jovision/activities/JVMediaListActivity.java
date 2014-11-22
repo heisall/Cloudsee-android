@@ -11,6 +11,7 @@ import java.util.Map;
 import android.content.Intent;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -87,7 +88,7 @@ public class JVMediaListActivity extends BaseActivity {
 				noFileLayout.setVisibility(View.GONE);
 				fileLayout.setVisibility(View.VISIBLE);
 				mfAdapter.setLoadImage(false);
-				mfAdapter.setData(media, fileList, isdelect, isselectall);
+				mfAdapter.setData(media, fileList, isdelect);
 				fileListView.setAdapter(mfAdapter);
 			}
 			break;
@@ -100,9 +101,11 @@ public class JVMediaListActivity extends BaseActivity {
 			if (arg2 == 1) {
 				fileSlectAll
 						.setBackgroundResource(R.drawable.morefragment_selector_icon);
+				isselectall = true;
 			} else if (arg2 == 0) {
 				fileSlectAll
 						.setBackgroundResource(R.drawable.morefragment_normal_icon);
+				isselectall = false;
 			}
 			fileSelectNum.setText(selectNum.replace("?",
 					String.valueOf(fileSelectSum)));
@@ -177,17 +180,18 @@ public class JVMediaListActivity extends BaseActivity {
 				if (isdelect) {
 					fileBottom.setVisibility(View.VISIBLE);
 					isdelect = !isdelect;
-					mfAdapter.setData(media, fileList, isdelect, isselectall);
+					mfAdapter.setData(media, fileList, isdelect);
 					mfAdapter.notifyDataSetChanged();
 				} else {
 					fileBottom.setVisibility(View.GONE);
+					isselectall = false;
 					fileSlectAll
 							.setBackgroundResource(R.drawable.morefragment_normal_icon);
 					fileSelectNum.setText(selectNum.replace("?",
 							String.valueOf(0)));
 					isdelect = !isdelect;
 					HashMethod();
-					mfAdapter.setData(media, fileList, isdelect, false);
+					mfAdapter.setData(media, fileList, isdelect);
 					mfAdapter.notifyDataSetChanged();
 				}
 			}
@@ -223,7 +227,7 @@ public class JVMediaListActivity extends BaseActivity {
 					fileSelectNum.setText(selectNum.replace("?",
 							String.valueOf(0)));
 				}
-				mfAdapter.setData(media, fileList, isdelect, isselectall);
+				mfAdapter.setData(media, fileList, isdelect);
 				mfAdapter.notifyDataSetChanged();
 				break;
 			case R.id.file_cancel:
@@ -234,7 +238,8 @@ public class JVMediaListActivity extends BaseActivity {
 						.setText(selectNum.replace("?", String.valueOf(0)));
 				fileSlectAll
 						.setBackgroundResource(R.drawable.morefragment_normal_icon);
-				mfAdapter.setData(media, fileList, isdelect, false);
+				isselectall = false;
+				mfAdapter.setData(media, fileList, isdelect);
 				mfAdapter.notifyDataSetChanged();
 				break;
 			case R.id.file_completed:
@@ -281,7 +286,7 @@ public class JVMediaListActivity extends BaseActivity {
 						noFileLayout.setVisibility(View.VISIBLE);
 						fileLayout.setVisibility(View.GONE);
 					}
-					mfAdapter.setData(media, fileList, true, false);
+					mfAdapter.setData(media, fileList, true);
 					mfAdapter.notifyDataSetChanged();
 				} else {
 					JVMediaListActivity.this
@@ -305,6 +310,18 @@ public class JVMediaListActivity extends BaseActivity {
 				fileMap.get(key).get(i).setSelect(false);
 			}
 		}
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+			fileSum = 0;
+			HashMethod();
+			finish();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	public static void delete(File file) {
@@ -398,12 +415,6 @@ public class JVMediaListActivity extends BaseActivity {
 
 	}
 
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		fileSum = 0;
-	}
 
 	// 文件按时间倒序排序
 	static Comparator<File> comparator = new Comparator<File>() {

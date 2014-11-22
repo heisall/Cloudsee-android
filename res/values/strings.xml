@@ -115,17 +115,12 @@
     <string name="str_more_features">More function</string>
     <string name="str_alarm">Alarm</string>
     <string name="str_alarm_info">Alarm information</string>
-    <string name="str_watchtype">Online detection</string>
     <string name="str_scenepic">Scene picture</string>
     <string name="str_video_mode">Browse model</string>
     <string name="str_video_modetwo">Viewing Mode(Single-device)</string>
     <string name="str_video_more_modetwo">Viewing Mode(Multi-device)</string>
     <string name="str_video_single_mode">Single</string>
     <string name="str_video_more_mode">Multi</string>
-    <string name="str_shake_device">Shake</string>
-    <string name="str_shake_device_tips">Shake function is for Home Security products only.It\'s normal that WLAN has been switched during configuring. Shake function steps as below：\n1.Shake the mobile phone and the device signal IPC-H-*** can be found then, click to enter the configuration interface.\n2.Choose the WiFi and input the password, click Done until the configuration has been finished.</string>
-    <string name="str_open_shake_device">Open</string>
-    <string name="str_shake_device_learn_more">Learn more</string>
     <string name="str_checkupdate">Software Update</string>
     <string name="str_check_update_failed">Check updates failed</string>
     <string name="str_account">Account</string>
@@ -348,7 +343,6 @@
     <string name="system_lower">Your mobile phone O/S is Android$,The video maybe dazzling during playing, please download V2.8.5,Please uninstall the current version before installation,do you want to download now?</string>
     <string name="no_more_tips">No reminding</string>
     <string name="download">Download now</string>
-    <string name="not_support_old">This version does not support 04 version decoding,if you want to view, please download version2.8.5,Please uninstall the current version before installation,system_lower do you want to download now?</string>
     <!-- JVOffline -->
     <string name="offline_other_login">Account login elsewhere or account exception.</string>
     <string name="offline_net_error">Network connection exception,please login again.</string>
@@ -370,7 +364,7 @@
     <string name="time_error">something wrong with the time</string>
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">已选中?个，</string>
-    <string name="number">共?个</string>
+    <string name="number">Total ？</string>
     <string name="notwifi_forbid_func">This function is not available under 3G/4G network.</string>
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>
@@ -418,7 +412,6 @@
     <string name="not_omx">Software</string>
     <string name="not_support_oxm">Your mobile phone does not support hardware decoding.</string>
     <string name="not_support_this_func">该设备暂不支持此功能.</string>
-    <string name="stream_not_support">This device doesn\'t support video quality switch.</string>
     <string name="audio_monitor_forbidden">This function is not available during two-way talk.</string>
     <string name="video_repaked">Switch video standard,Records re-packed.</string>
     <string name="voice_tips1">You can speak to the other now.</string>
@@ -497,10 +490,10 @@
     <string name="update_reset_failed">Failed to update, please update manually.</string>
     <!-- Media -->
     <string name="nofile">暂无文件</string>
-    <string name="media">媒体</string>
-    <string name="media_image">图像</string>
-    <string name="media_video">视频</string>
-    <string name="media_other">其他</string>
+    <string name="media">Media</string>
+    <string name="media_image">Image</string>
+    <string name="media_video">Video</string>
+    <string name="media_other">Other</string>
     <string name="media_noticedelect">请选择要删除的文件</string>
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>
@@ -597,7 +590,7 @@
     <string name="str_alarm_no_alarm_info">no alarm message</string>
     <string name="str_alarm_clear_ainfo_sure">sure to clear the alarm message?</string>
     <string name="str_feedback_ok">Submit success, your suggestions and feedback we will handle in time</string>
-    <!-- 腾讯云分析统计名称 -->
+    <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="str_login">本地登录</string>
     <string name="str_onlinelogin">在线登陆</string>
     <string name="str_remoteset">远程设置</string>

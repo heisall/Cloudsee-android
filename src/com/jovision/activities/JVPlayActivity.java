@@ -749,15 +749,27 @@ public class JVPlayActivity extends PlayActivity implements
 
 							}
 
-							if (null != streamMap.get("MainStreamQos")
+							if (null != streamMap.get("MobileQuality")
 									&& !"".equalsIgnoreCase(streamMap
-											.get("MainStreamQos"))) {
+											.get("MobileQuality"))) {
 								MyLog.v(TAG,
-										"MainStreamQos="
+										"MobileQuality="
 												+ streamMap
-														.get("MainStreamQos"));
+														.get("MobileQuality"));
 								channel.setStreamTag(Integer.parseInt(streamMap
-										.get("MainStreamQos")));
+										.get("MobileQuality")));
+							} else {
+								if (null != streamMap.get("MainStreamQos")
+										&& !"".equalsIgnoreCase(streamMap
+												.get("MainStreamQos"))) {
+									MyLog.v(TAG,
+											"MainStreamQos="
+													+ streamMap
+															.get("MainStreamQos"));
+									channel.setStreamTag(Integer
+											.parseInt(streamMap
+													.get("MainStreamQos")));
+								}
 							}
 
 							if (null != streamMap.get("storageMode")
@@ -994,8 +1006,9 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换
-
-			String params = "MainStreamQos=" + (arg1 + 1);
+			int index = arg1 + 1;
+			String params = "MainStreamQos=" + index + ";MobileQuality="
+					+ index + ";";
 
 			MyLog.v(TAG, "changeStream--" + params);
 			Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA, false,

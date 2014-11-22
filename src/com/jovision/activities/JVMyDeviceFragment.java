@@ -555,14 +555,23 @@ public class JVMyDeviceFragment extends BaseFragment {
 								JVWebViewActivity.class);
 						int index = (Integer) imageView.getTag();
 						String adUrl = adList.get(index).getAdLink();
-						intentAD.putExtra("URL", adUrl);
-						intentAD.putExtra("title", R.string.app_name);
-						mActivity.startActivity(intentAD);
+						if (null != adUrl && !"".equalsIgnoreCase(adUrl.trim())) {
+							intentAD.putExtra("URL", adUrl);
+							intentAD.putExtra("title", R.string.app_name);
+							mActivity.startActivity(intentAD);
+						}
 					}
 				});
 
 				Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
 						adList.get(i).getAdImgUrl());
+				if (null == bmp) {
+					bmp = BitmapCache.getInstance().getBitmap(
+							adList.get(i).getAdImgUrl(), "net",
+							String.valueOf(adList.get(i).getIndex()));
+				}
+				// Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
+				// adList.get(i).getAdImgUrl());
 				if (null != bmp) {
 					imageView.setImageBitmap(bmp);
 				} else {
@@ -1301,7 +1310,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 从服务器端获取设备成功
 			case DEVICE_GETDATA_SUCCESS: {
 				broadTag = BROAD_DEVICE_LIST;
-				PlayUtil.broadCast(mActivity);
 				break;
 			}
 			// 从服务器端获取设备成功，但是没有设备
@@ -1310,7 +1318,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			}
 			// 从服务器端获取设备失败
 			case DEVICE_GETDATA_FAILED: {
-				mActivity.showTextToast(R.string.get_device_failed);
 				break;
 			}
 			}

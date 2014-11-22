@@ -3,6 +3,7 @@ package com.jovision.utils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
@@ -87,10 +88,10 @@ public class BitmapCache {
 			} else if ("net".equalsIgnoreCase(kind)) {
 				File file = new File(Consts.AD_PATH + fileName + ".jpg");
 				if (file.isFile() && file.exists()) {
-					bmp = loadImageBitmap(path, 5);
+					bmp = loadImageBitmap(file.getAbsolutePath(), 5);
 				} else {
-					bmp = loadNetBitmap(path);
-					saveToLocal(path, fileName);
+					bmp = loadNetBitmap(path, fileName);
+					// saveToLocal(path, fileName);
 				}
 			}
 			this.addCacheBitmap(bmp, path);
@@ -141,23 +142,48 @@ public class BitmapCache {
 		return bitmap;
 	}
 
-	public static Bitmap loadNetBitmap(String path) {
+	public static Bitmap loadNetBitmap(String path, String fileName) {
+		FileOutputStream outStream = null;
+		InputStream inputStream = null;
+		Bitmap bitmap = null;
 		try {
+			File adFolder = new File(Consts.AD_PATH);
+			MobileUtil.createDirectory(adFolder);
+			File adFile = new File(Consts.AD_PATH + fileName + ".jpg");
+			outStream = new FileOutputStream(adFile);
+
 			URL url = new URL(path);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setConnectTimeout(5 * 1000);
 			conn.setRequestMethod("GET");
 			if (conn.getResponseCode() == 200) {
-				InputStream inputStream = conn.getInputStream();
-				Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-				return bitmap;
+				inputStream = conn.getInputStream();
+				byte[] data = readStream(inputStream);// 调用readStream方法
+				outStream.write(data);
+				bitmap = BitmapFactory.decodeStream(inputStream);
 			}
 			MyLog.e("loadImageBitmap--from-net", path);
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (null != inputStream) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				inputStream = null;
+			}
+			if (null != outStream) {
+				try {
+					outStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				outStream = null;
+			}
 		}
-
-		return null;
+		return bitmap;
 	}
 
 	public void cleanCache() {

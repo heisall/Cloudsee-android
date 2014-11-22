@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -57,6 +58,7 @@ import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
+import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.AlarmDialog;
 import com.jovision.views.ImageViewPager;
@@ -912,7 +914,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
-						// TODO Auto-generated method stub
 						if (broadList.get(position).isIslanselect()) {
 							broadList.get(position).setIslanselect(false);
 							Sum = Sum - 1;
@@ -936,7 +937,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 						AddLanList.add(broadList.get(i));
 					}
 				}
-				// TODO Auto-generated method stub
 				AddDevTask task = new AddDevTask();
 				String[] strParams = new String[3];
 				task.execute(strParams);
@@ -946,7 +946,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				if (isselectall) {
 					for (int i = 0; i < broadList.size(); i++) {
 						broadList.get(i).setIslanselect(true);
@@ -1099,6 +1098,50 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 	}
 
+	/**
+	 * 获取广告列表
+	 */
+	public void getADList() {
+		int adVersion = 0;
+		// 本地获取广告数据
+		adList = AD.fromJsonArray(MySharedPreference.getString(Consts.AD_LIST));
+		if (null == adList || 0 == adList.size()) {// 本地没有广告去网上获取
+			adVersion = MySharedPreference.getInt(Consts.AD_VERSION);
+
+		} else {
+			adVersion = adList.get(0).getVersion();
+		}
+		adList = DeviceUtil.getADList(adVersion, adList);
+
+		if (null == adList) {// 获取广告出错
+			adList = AD.fromJsonArray(MySharedPreference
+					.getString(Consts.AD_LIST));
+			// 从网上获取广告图片
+			for (AD ad : adList) {
+				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net",
+						String.valueOf(ad.getIndex()));
+			}
+		} else if (0 == adList.size()) {// 未检查到更新
+			adList = AD.fromJsonArray(MySharedPreference
+					.getString(Consts.AD_LIST));
+			// 从网上获取广告图片
+			for (AD ad : adList) {
+				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net",
+						String.valueOf(ad.getIndex()));
+			}
+		} else if (adList.size() > 0) {// 有新广告
+			// 删除老广告
+			File adFolder = new File(Consts.AD_PATH);
+			MobileUtil.deleteFile(adFolder);
+			// 从网上获取广告图片
+			for (AD ad : adList) {
+				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net",
+						String.valueOf(ad.getIndex()));
+			}
+		}
+
+	}
+
 	// 获取设备列表线程
 	class GetDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -1106,30 +1149,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		protected Integer doInBackground(String... params) {
 			int getRes = 0;
 			try {
-
-				adList = DeviceUtil.getADList(MySharedPreference
-						.getInt(Consts.AD_VERSION));
-				// if (null == adList) {// 获取广告出错
-				// adList = AD.fromJsonArray(MySharedPreference
-				// .getString(Consts.AD_LIST));
-				// } else if (0 == adList.size()) {// 未检查到更新
-				// adList = AD.fromJsonArray(MySharedPreference
-				// .getString(Consts.AD_LIST));
-				// } else if (adList.size() > 0) {// 有新广告
-				// // 删除老广告
-				// File adFolder = new File(Consts.AD_PATH);
-				// MobileUtil.deleteFile(adFolder);
-				// }
-
-				if (null != adList && 0 != adList.size()) {
-					// 从网上获取广告图片
-					for (AD ad : adList) {
-						BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(),
-								"net", String.valueOf(ad.getIndex()));
-					}
-					fragHandler.sendMessage(fragHandler
-							.obtainMessage(AD_UPDATE));
-				}
+				// TODO 获取广告
+				getADList();
 
 				if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {// 非本地登录，无论是否刷新都执行
@@ -1466,38 +1487,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			myDeviceList.addAll(onlineDevice);
 			myDeviceList.addAll(offlineDevice);
 		}
-	}
-
-	class GetADThread extends Thread {
-
-		@Override
-		public void run() {
-			super.run();
-			adList = DeviceUtil.getADList(MySharedPreference
-					.getInt(Consts.AD_VERSION));
-			if (null == adList) {// 获取广告出错
-				adList = AD.fromJsonArray(MySharedPreference
-						.getString(Consts.AD_LIST));
-			} else if (0 == adList.size()) {// 未检查到更新
-				adList = AD.fromJsonArray(MySharedPreference
-						.getString(Consts.AD_LIST));
-			} else if (adList.size() > 0) {// 有新广告
-				// 删除老广告
-				// File adFolder = new File(Consts.AD_PATH);
-				// MobileUtil.deleteFile(adFolder);
-			}
-
-			if (null != adList && 0 != adList.size()) {
-				// 从网上获取广告图片
-				for (AD ad : adList) {
-					BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(),
-							"net", String.valueOf(ad.getIndex()));
-				}
-				fragHandler.sendMessage(fragHandler.obtainMessage(AD_UPDATE));
-			}
-
-		}
-
 	}
 
 	/**

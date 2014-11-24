@@ -133,8 +133,8 @@ public class JVImageViewActivity extends BaseActivity {
 			switch (view.getId()) {
 			case R.id.btn_left:
 				finish();
-				Log.i("TAG", JVMediaListActivity.fileSum+"总体数量");
-				Log.i("TAG", JVMediaListActivity.fileSelectSum+"总体数量");
+				Log.i("TAG", JVMediaListActivity.fileSum + "总体数量");
+				Log.i("TAG", JVMediaListActivity.fileSelectSum + "总体数量");
 				break;
 			case R.id.btn_right:
 				ConfigUtil.shareTo(JVImageViewActivity.this,

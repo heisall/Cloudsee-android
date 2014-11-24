@@ -372,6 +372,7 @@ public class JVMediaListActivity extends BaseActivity {
 							Filebean bean = new Filebean();
 							bean.setFilename(summary[j].getAbsolutePath());
 							bean.setSelect(false);
+							bean.setBluecolor(false);
 							list.add(bean);
 						}
 						fileMap.put(fileArray[i].getAbsolutePath(), list);
@@ -415,7 +416,6 @@ public class JVMediaListActivity extends BaseActivity {
 		}
 
 	}
-
 
 	// 文件按时间倒序排序
 	static Comparator<File> comparator = new Comparator<File>() {

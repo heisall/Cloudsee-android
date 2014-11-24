@@ -623,6 +623,12 @@ public class Jni {
 	public static native void enableLog(boolean enable);
 
 	/**
+	 * 删除底层保存的错误日志
+	 * 
+	 */
+	public static native void deleteLog();
+
+	/**
 	 * 设置日志和提示信息区域语言，参考 {@link JVSUDT#JVC_SetLanguage(int)}
 	 * 
 	 * // [Neo] TODO 未验证

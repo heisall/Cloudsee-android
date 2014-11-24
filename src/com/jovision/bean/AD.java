@@ -10,6 +10,10 @@ public class AD {
 	private int index;// (广告图片序号)
 	private String adImgUrl;// (广告图片URL)
 	private String adLink;// (图片超链接)
+	private int version;// (广告版本)
+
+	// private String savePath;
+	// private String fileName;
 
 	public int getIndex() {
 		return index;
@@ -42,6 +46,9 @@ public class AD {
 			object.put("index", index);
 			object.put("adImgUrl", adImgUrl);
 			object.put("adLink", adLink);
+			object.put("version", version);
+			// object.put("savePath", savePath);
+			// object.put("fileName", fileName);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -86,6 +93,9 @@ public class AD {
 			ad.setIndex(object.getInt("index"));
 			ad.setAdImgUrl(object.getString("adImgUrl"));
 			ad.setAdLink(object.getString("adLink"));
+			ad.setVersion(object.getInt("version"));
+			// ad.setSavePath(object.getString("savePath"));
+			// ad.setFileName(object.getString("fileName"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -115,5 +125,29 @@ public class AD {
 		}
 		return adList;
 	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	// public String getFileName() {
+	// return fileName;
+	// }
+	//
+	// public void setFileName(String fileName) {
+	// this.fileName = fileName;
+	// }
+	//
+	// public String getSavePath() {
+	// return savePath;
+	// }
+	//
+	// public void setSavePath(String savePath) {
+	// this.savePath = savePath;
+	// }
 
 }

@@ -87,9 +87,9 @@ public class BitmapCache {
 			} else if ("net".equalsIgnoreCase(kind)) {
 				File file = new File(Consts.AD_PATH + fileName + ".jpg");
 				if (file.isFile() && file.exists()) {
-					bmp = loadImageBitmap(path, 5);
+					bmp = loadImageBitmap(file.getAbsolutePath(), -1);
 				} else {
-					bmp = loadNetBitmap(path);
+					bmp = loadNetBitmap(path, fileName);
 					saveToLocal(path, fileName);
 				}
 			}
@@ -121,11 +121,14 @@ public class BitmapCache {
 	 * @return
 	 */
 	public static Bitmap loadImageBitmap(String path, int scalSize) {
+		MyLog.e("loadImageBitmap--from-local", path);
+		if (-1 == scalSize) {
+			return BitmapFactory.decodeFile(path);
+		}
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = false;
 		options.inSampleSize = scalSize;
 		Bitmap bmp = BitmapFactory.decodeFile(path, options);
-		MyLog.e("loadImageBitmap--from-local", path);
 		return bmp;
 	}
 
@@ -141,7 +144,7 @@ public class BitmapCache {
 		return bitmap;
 	}
 
-	public static Bitmap loadNetBitmap(String path) {
+	public static Bitmap loadNetBitmap(String path, String fileName) {
 		try {
 			URL url = new URL(path);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();

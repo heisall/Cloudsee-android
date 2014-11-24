@@ -17,4 +17,5 @@
         android:topLeftRadius="2dip"
         android:topRightRadius="2dip" />
     <!-- 圆角的半径  也可以统一设置半径 android:radius="9dip" -->
-</shape>
+
+</shape>

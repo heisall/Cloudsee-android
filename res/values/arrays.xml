@@ -14,7 +14,7 @@
         <item> Help</item>
         <item> Alarm</item>
         <item> Viewing Mode(Single-device)</item>
-        <item>小助手</item>
+        <item>Helper</item>
         <item>Media</item>
         <item> Feedback</item>
         <item>Software Update</item>
@@ -24,7 +24,7 @@
         <item> Help</item>
         <item> Alarm</item>
         <item> Viewing Mode(Multi-device)</item>
-        <item>小助手</item>
+        <item>Helper</item>
         <item>Media</item>
         <item> Feedback</item>
         <item> Software Update</item>
@@ -137,11 +137,11 @@
         <item>Remote Configure</item>
         <item>Device</item>
         <item>Connection Mode</item>
-        <item>视频源管理</item>
+        <item>Video Management</item>
         <item>Video</item>
         <item>Security Protection</item>
         <item>Alarm Device</item>
-        <item>版本信息</item>
+        <item>Version info</item>
     </string-array>
 
     <!-- 码流切换 -->

@@ -47,7 +47,12 @@ public class JVWebViewActivity extends BaseActivity {
 		/** topBar **/
 		back = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText(titleID);
+		if (-1 == titleID) {
+			currentMenu.setText("");
+		} else {
+			currentMenu.setText(titleID);
+		}
+
 		back.setOnClickListener(myOnClickListener);
 		rigButton = (Button) findViewById(R.id.btn_right);
 		rigButton.setVisibility(View.GONE);

@@ -9,6 +9,7 @@ package com.jovision.bean;
 public class Filebean {
 	private String filename;
 	private boolean select;
+	private boolean bluecolor;
 
 	public String getFilename() {
 		return filename;
@@ -24,5 +25,13 @@ public class Filebean {
 
 	public void setSelect(boolean select) {
 		this.select = select;
+	}
+
+	public boolean isBluecolor() {
+		return bluecolor;
+	}
+
+	public void setBluecolor(boolean bluecolor) {
+		this.bluecolor = bluecolor;
 	}
 }

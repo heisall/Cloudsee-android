@@ -829,6 +829,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_CHAT_DATA: {
+			dismissDialog();
 			MyLog.i(TAG, "CALL_CHAT_DATA:arg1=" + arg1 + ",arg2=" + arg2);
 			switch (arg2) {
 			// 语音数据
@@ -2180,6 +2181,7 @@ public class JVPlayActivity extends PlayActivity implements
 						} else {
 							JVPlayActivity.AUDIO_SINGLE = channelList.get(
 									lastClickIndex).isSingleVoice();
+							createDialog("");
 							startVoiceCall(lastClickIndex,
 									channelList.get(lastClickIndex));
 							if (Consts.PLAY_AP == playFlag) {

@@ -222,7 +222,7 @@
     <string name="str_continue_qr_device">Continue</string>
     <string name="str_return_qr_device">Back</string>
     <!-- 更新dialog -->
-    <string name="str_ignore">不再提示此版本更新</string>
+    <string name="str_ignore">Not reminding new version any more.</string>
     <string name="str_hasupate">Application has a new version of the update</string>
     <string name="str_upatenow">Update Now</string>
     <string name="str_updatelater">Later</string>
@@ -297,7 +297,7 @@
     <string name="str_dns">DNS</string>
     <string name="str_mac">MAC</string>
     <string name="str_status">Status</string>
-    <string name="str_image_quality">Image Quality</string>
+    <string name="str_image_quality">Video quality</string>
     <string name="str_clear">FPS</string>
     <string name="str_fluent">Video Quality</string>
     <string name="str_host_connect">It is connecting with host-end\nplease wait…</string>
@@ -332,7 +332,7 @@
     <string name="edit_succ">Password changed successfully, please login again.</string>
     <!-- JVDemoActivity -->
     <string name="demo">Demo</string>
-    <string name="demo_get_failed">Unable to connect with demo.</string>
+    <string name="demo_get_failed">Failed to load demo video.</string>
     <!-- JVTab -->
     <string name="sure_exit">Press again to quit the App.</string>
     <string name="network_error">Network connection exception,please check the network.</string>
@@ -363,8 +363,8 @@
     <string name="updated_just_now">Just update</string>
     <string name="time_error">something wrong with the time</string>
     <!-- JVMyDeviceFragment -->
-    <string name="selectnum">已选中?个，</string>
-    <string name="number">Total ？</string>
+    <string name="selectnum">Has chosen ?，</string>
+    <string name="number">Total ?</string>
     <string name="notwifi_forbid_func">This function is not available under 3G/4G network.</string>
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>
@@ -392,16 +392,16 @@
     <string name="clear_alarm_succ">Clear alarm successfully.</string>
     <string name="clear_alarm_failed">Failed to clear alarm.</string>
     <!-- popupWindow -->
-    <string name="pop_take">拍照</string>
-    <string name="pop_pictrue">从相册选择</string>
+    <string name="pop_take">Capture</string>
+    <string name="pop_pictrue">Choose from phone Album.</string>
     <!-- JVPlayActivity -->
     <string name="offline_not_play1">Unable to operate due to device has been offline.</string>
-    <string name="connfailed_auth">Failed to very ID.</string>
-    <string name="connfailed_channel_notopen">Invalid Channel.</string>
+    <string name="connfailed_auth">Username or password wrong</string>
+    <string name="connfailed_channel_notopen">This channel doesn't exist or is not open.</string>
     <string name="connfailed_type_invalid">Invalid Connection Mode.</string>
-    <string name="connfailed_maxcount">Connections have exceeded limitations!</string>
+    <string name="connfailed_maxcount">Exceed connection limitation.</string>
     <string name="connfailed_timeout">Connect timeout</string>
-    <string name="connfailed_auth_tips">Failed to verify indentification, do you need to modify username and password?</string>
+    <string name="connfailed_auth_tips">Username or password wrong, change now?</string>
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting…</string>
     <string name="closed">Closed</string>
@@ -411,14 +411,14 @@
     <string name="is_omx">Hardware</string>
     <string name="not_omx">Software</string>
     <string name="not_support_oxm">Your mobile phone does not support hardware decoding.</string>
-    <string name="not_support_this_func">该设备暂不支持此功能.</string>
+    <string name="not_support_this_func">Your device does't support this function now.</string>
     <string name="audio_monitor_forbidden">This function is not available during two-way talk.</string>
     <string name="video_repaked">Switch video standard,Records re-packed.</string>
     <string name="voice_tips1">You can speak to the other now.</string>
     <string name="voice_tips2">Audio talk is enabled successfully. You can speak to the other through long-click.</string>
     <string name="default_stream">Stream</string>
     <string name="has_calling">The Two-way Talk has not been enabled or is being used by other user, so please try again later.</string>
-    <string name="str_capture_error">Initialization failed</string>
+    <string name="str_capture_error">Failed to capture</string>
     <!-- JVQuickSet -->
     <!-- ap配置流程模块 -->
     <string name="quick_setting_searching">Searching nearby devices now</string>
@@ -477,7 +477,7 @@
     <string name="device_model">Model</string>
     <string name="device_version">Version</string>
     <string name="unknown">unknown</string>
-    <string name="device_version_info">版本信息</string>
+    <string name="device_version_info">Version info</string>
     <string name="one_key_update">One-key to update</string>
     <string name="check_key_update_failed">Latest version now, no need to update.</string>
     <string name="check_key_update_error">Failed to update, please update again.</string>
@@ -489,12 +489,12 @@
     <string name="update_reset_success">Reboot successfully</string>
     <string name="update_reset_failed">Failed to update, please update manually.</string>
     <!-- Media -->
-    <string name="nofile">暂无文件</string>
+    <string name="nofile">No file</string>
     <string name="media">Media</string>
     <string name="media_image">Image</string>
     <string name="media_video">Video</string>
     <string name="media_other">Other</string>
-    <string name="media_noticedelect">请选择要删除的文件</string>
+    <string name="media_noticedelect">Please choose the file to be deleted.</string>
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>
     <string name="str_help_one">Remote set network and stream for IP cameras.</string>
@@ -559,7 +559,7 @@
     <string name="str_alarm_manage">Add Alarm Device</string>
     <string name="str_alarm_connect_except">abnormal disconnection</string>
     <string name="str_alarm_thirddev_default_name">alarm devices</string>
-    <string name="str_alarm_thirddev_learning">do in learning...</string>
+    <string name="str_alarm_thirddev_learning">Setting...</string>
     <string name="str_alarm_thirddev_bind_hint">Device NickName</string>
     <string name="str_bind_finish">OK</string>
     <string name="str_alarm_type_move">Motion Detection Alarm</string>
@@ -573,14 +573,14 @@
     <string name="str_alarm_binddev_success">binding device successfully</string>
     <string name="str_alarm_binddev_max">more than maximum connection number</string>
     <string name="str_alarm_binddev_setnickname_failed">set up a nickname failed</string>
-    <string name="str_alarm_textdata_req_over">text requests to be terminated</string>
+    <string name="str_alarm_textdata_req_over">Stop sending signals.</string>
     <string name="str_alarm_binddev_repeat_error">the device has been bound, cannot repeat binding</string>
     <string name="str_alarm_binddev_delete">delete devices</string>
     <string name="str_alarm_thirddev_delete">Delete</string>
     <string name="str_alarm_thirddev_cancel">Cancel</string>
-    <string name="str_alarm_wait_textresp_timeout">waiting for results of text requests timeout</string>
-    <string name="str_alarm_query_thirddev_timeout">query host-end binding devices timeout</string>
-    <string name="str_alarm_query_thirddev_zero">the device not bound with third-party alarm devices</string>
+    <string name="str_alarm_wait_textresp_timeout">timeout</string>
+    <string name="str_alarm_query_thirddev_timeout">Inquiry timeout</string>
+    <string name="str_alarm_query_thirddev_zero">Hasn't bound with other alarm devices.</string>
     <string name="str_alarm_setdevalarm_switch_error">set up alarm switch of devices failed</string>
     <string name="str_alarm_delete_device_failed">delete devices failed</string>
     <string name="str_alarm_pushinfo_obj_null">The transfer push alarm data is empty</string>

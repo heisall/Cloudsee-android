@@ -153,7 +153,7 @@ public class JVMediaListActivity extends BaseActivity {
 			currentMenu.setText(R.string.media_video);
 		}
 		rigButton = (Button) findViewById(R.id.btn_right);
-		rigButton.setBackgroundResource(R.drawable.media_edit_icon);
+		rigButton.setBackgroundResource(R.drawable.mydevice_cancale_icon);
 		back.setOnClickListener(myOnClickListener);
 		rigButton.setOnClickListener(myOnClickListener);
 		fileCompleted.setOnClickListener(myOnClickListener);

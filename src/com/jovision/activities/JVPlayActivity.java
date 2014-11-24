@@ -80,6 +80,8 @@ public class JVPlayActivity extends PlayActivity implements
 	private static final int ARG2_STATUS_HAS_CONNECTED = 0x05;
 	private static final int ARG2_STATUS_CONN_OVERFLOW = 0x06;
 	private static final int ARG2_STATUS_UNKNOWN = 0x07;
+	private static final int STOP_AUDIO_GATHER = 0x08;
+	private static final int START_AUDIO_GATHER = 0x09;
 
 	private static final int DELAY_CHECK_SURFACE = 500;
 	private static final int DELAY_DOUBLE_CHECKER = 500;
@@ -270,6 +272,14 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		switch (what) {
+		case STOP_AUDIO_GATHER: {// 停止采集音频数据
+			GATHER_AUDIO_DATA = false;
+			break;
+		}
+		case START_AUDIO_GATHER: {// 开始采集音频数据
+			GATHER_AUDIO_DATA = true;
+			break;
+		}
 		case WHAT_CHECK_SURFACE: {
 			boolean hasNull = false;
 			boolean hasChannel = false;
@@ -604,6 +614,9 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_PLAY_AUDIO: {
+			if (!GATHER_AUDIO_DATA) {
+				break;
+			}
 
 			if (null != obj && null != playAudio) {
 				if (AUDIO_SINGLE) {// 单向对讲长按才发送语音数据
@@ -760,16 +773,16 @@ public class JVPlayActivity extends PlayActivity implements
 								channel.setStreamTag(Integer.parseInt(streamMap
 										.get("MobileQuality")));
 							} else {
-								if (null != streamMap.get("MainStreamQos")
+								if (null != streamMap.get("MobileStreamQos")
 										&& !"".equalsIgnoreCase(streamMap
-												.get("MainStreamQos"))) {
+												.get("MobileStreamQos"))) {
 									MyLog.v(TAG,
-											"MainStreamQos="
+											"MobileStreamQos="
 													+ streamMap
-															.get("MainStreamQos"));
+															.get("MobileStreamQos"));
 									channel.setStreamTag(Integer
 											.parseInt(streamMap
-													.get("MainStreamQos")));
+													.get("MobileStreamQos")));
 								}
 							}
 
@@ -1009,7 +1022,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换
 			int index = arg1 + 1;
-			String params = "MainStreamQos=" + index + ";MobileQuality="
+			String params = "MobileStreamQos=" + index + ";MobileQuality="
 					+ index + ";";
 
 			MyLog.v(TAG, "changeStream--" + params);
@@ -2559,9 +2572,13 @@ public class JVPlayActivity extends PlayActivity implements
 			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
 				if (arg1.getAction() == MotionEvent.ACTION_UP
 						|| arg1.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
+					handler.sendMessage(handler
+							.obtainMessage(STOP_AUDIO_GATHER));
 					new TalkThread(lastClickIndex, 0).start();
 					VOICECALL_LONG_CLICK = false;
 					voiceTip.setVisibility(View.GONE);
+					handler.sendMessageDelayed(
+							handler.obtainMessage(START_AUDIO_GATHER), 2 * 1000);
 				}
 			}
 			return false;

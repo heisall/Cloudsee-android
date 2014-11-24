@@ -160,6 +160,7 @@ public abstract class PlayActivity extends BaseActivity {
 	public static boolean AUDIO_SINGLE = false;// 单向对讲标志
 	public static boolean VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
 	public static boolean VOICECALLING = false;// 对讲功能已经开启
+	public static boolean GATHER_AUDIO_DATA = true;// 是否采集音频数据
 
 	// 按钮图
 	protected Drawable alarmRecordDrawableTop = null;

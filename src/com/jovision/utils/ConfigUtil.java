@@ -461,7 +461,7 @@ public class ConfigUtil {
 				.getApplicationContext()).getStatusHashMap();
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
 			result = Jni.init(context, 9200, Consts.LOG_PATH);
-
+			Jni.enableLog(true);
 			if (MySharedPreference.getBoolean("LITTLEHELP", true)) {
 				Jni.enableLinkHelper(true, 3, 10);// 开小助手
 				MyLog.v(Consts.TAG_APP, "enable  helper = " + true);

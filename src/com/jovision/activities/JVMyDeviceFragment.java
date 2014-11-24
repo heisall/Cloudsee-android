@@ -557,7 +557,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						String adUrl = adList.get(index).getAdLink();
 						if (null != adUrl && !"".equalsIgnoreCase(adUrl.trim())) {
 							intentAD.putExtra("URL", adUrl);
-							intentAD.putExtra("title", R.string.app_name);
+							intentAD.putExtra("title", -1);
 							mActivity.startActivity(intentAD);
 						}
 					}
@@ -1580,10 +1580,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	public void stopBroadTimer() {
 		if (null != broadTimer) {
+			MyLog.e("注销停止broadTimer", "stop--broadTimer");
 			broadTimer.cancel();
 			broadTimer = null;
 		}
 		if (null != broadTimerTask) {
+			MyLog.e("注销停止broadTimerTask", "stop--broadTimerTask");
 			broadTimerTask.cancel();
 			broadTimerTask = null;
 		}
@@ -1607,10 +1609,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	public void stopRefreshWifiTimer() {
 		if (null != updateTimer) {
+			MyLog.e("注销停止updateTimer", "stop--updateTimer");
 			updateTimer.cancel();
 			updateTimer = null;
 		}
 		if (null != updateTask) {
+			MyLog.e("注销停止updateTask", "stop--updateTask");
 			updateTask.cancel();
 			updateTask = null;
 		}

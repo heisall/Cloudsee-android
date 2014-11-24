@@ -31,6 +31,10 @@ public class MobileWifiAdapter extends BaseAdapter {
 		oldWifi = wifi;
 	}
 
+	public int getOldWifiIndex() {
+		return wifiIndex;
+	}
+
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -76,6 +80,7 @@ public class MobileWifiAdapter extends BaseAdapter {
 
 		// 与当前网络一致
 		if (oldWifi.equalsIgnoreCase(scanWifiList.get(position).SSID)) {
+			wifiIndex = position;
 			wifiHolder.wifiName.setTextColor(mContext.getResources().getColor(
 					R.color.string_content));
 		} else {
@@ -84,13 +89,13 @@ public class MobileWifiAdapter extends BaseAdapter {
 		}
 
 		wifiHolder.wifiName.setText(scanWifiList.get(position).SSID);
-		if (wifiIndex == position) {
-			wifiHolder.wifiImg.setBackgroundDrawable(mContext.getResources()
-					.getDrawable(R.drawable.wifi_flag_open_bg));
-		} else {
-			wifiHolder.wifiImg.setBackgroundDrawable(mContext.getResources()
-					.getDrawable(R.drawable.wifi_flag_close_bg));
-		}
+		// if (wifiIndex == position) {
+		// wifiHolder.wifiImg.setBackgroundDrawable(mContext.getResources()
+		// .getDrawable(R.drawable.wifi_flag_open_bg));
+		// } else {
+		// wifiHolder.wifiImg.setBackgroundDrawable(mContext.getResources()
+		// .getDrawable(R.drawable.wifi_flag_close_bg));
+		// }
 
 		return convertView;
 	}

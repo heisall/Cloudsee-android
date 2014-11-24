@@ -506,7 +506,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 		if (Consts.PLAY_AP == playFlag) {
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turnleft_down));
+					R.drawable.turnleft_noturn));
 			videTurnBtn.setClickable(false);
 		} else {
 			// 屏幕方向
@@ -606,7 +606,7 @@ public abstract class PlayActivity extends BaseActivity {
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turnleft_down));
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turnleft_down));
+					R.drawable.turnleft_noturn));
 			videTurnBtn.setClickable(false);
 		} else {
 			// 屏幕方向

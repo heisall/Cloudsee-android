@@ -84,15 +84,6 @@
                     android:clickable="true"
                     android:padding="5.0dip"
                     android:src="@drawable/dot" />
-
-                <ImageView
-                    android:id="@+id/img_five"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="true"
-                    android:padding="5.0dip"
-                    android:src="@drawable/dot" />
             </LinearLayout>
         </RelativeLayout>
     </FrameLayout>

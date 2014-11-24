@@ -69,8 +69,7 @@ public class JVMediaListActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case LOAD_IMAGE_SUCCESS: {
-			// mfAdapter.setData(media, fileList,true);
-			// mfAdapter.notifyDataSetChanged();
+
 			break;
 		}
 		case LOAD_IMAGE_FINISHED: {

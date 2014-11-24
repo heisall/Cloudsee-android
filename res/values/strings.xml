@@ -397,7 +397,7 @@
     <!-- JVPlayActivity -->
     <string name="offline_not_play1">Unable to operate due to device has been offline.</string>
     <string name="connfailed_auth">Username or password wrong</string>
-    <string name="connfailed_channel_notopen">This channel doesn't exist or is not open.</string>
+    <string name="connfailed_channel_notopen">This channel does not exist or is not open.</string>
     <string name="connfailed_type_invalid">Invalid Connection Mode.</string>
     <string name="connfailed_maxcount">Exceed connection limitation.</string>
     <string name="connfailed_timeout">Connect timeout</string>
@@ -411,7 +411,7 @@
     <string name="is_omx">Hardware</string>
     <string name="not_omx">Software</string>
     <string name="not_support_oxm">Your mobile phone does not support hardware decoding.</string>
-    <string name="not_support_this_func">Your device does't support this function now.</string>
+    <string name="not_support_this_func">Your device does not support this function now.</string>
     <string name="audio_monitor_forbidden">This function is not available during two-way talk.</string>
     <string name="video_repaked">Switch video standard,Records re-packed.</string>
     <string name="voice_tips1">You can speak to the other now.</string>
@@ -580,7 +580,7 @@
     <string name="str_alarm_thirddev_cancel">Cancel</string>
     <string name="str_alarm_wait_textresp_timeout">timeout</string>
     <string name="str_alarm_query_thirddev_timeout">Inquiry timeout</string>
-    <string name="str_alarm_query_thirddev_zero">Hasn't bound with other alarm devices.</string>
+    <string name="str_alarm_query_thirddev_zero">Has not bound with other alarm devices.</string>
     <string name="str_alarm_setdevalarm_switch_error">set up alarm switch of devices failed</string>
     <string name="str_alarm_delete_device_failed">delete devices failed</string>
     <string name="str_alarm_pushinfo_obj_null">The transfer push alarm data is empty</string>

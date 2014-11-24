@@ -289,7 +289,15 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			mobileLayout.setVisibility(View.GONE);
 			saveSet.setVisibility(View.GONE);
 			if (null != oldWifiSSID && !"".equalsIgnoreCase(oldWifiSSID)) {
-				desWifiName.setText(oldWifiSSID);
+				if (mobileAdapter.getOldWifiIndex() >= 0
+						&& mobileAdapter.getOldWifiIndex() <= scanMobileWifiList
+								.size()) {
+					desWifiName.setText(scanMobileWifiList.get(mobileAdapter
+							.getOldWifiIndex()).SSID);
+				} else {
+					desWifiName.setText("");
+				}
+
 			}
 			desWifiPass.setText("");
 			startRefreshWifiTimer();
@@ -825,9 +833,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					if (null == scanIpcWifiList || 0 == scanIpcWifiList.size()) {
 						scanIpcWifiList = wifiAdmin.startScanIPC();
 					}
-
 					handler.sendMessage(handler.obtainMessage(
-							JVConst.QUICK_SETTING_IPC_WIFI_SUCCESS, -1, 0));
+							JVConst.QUICK_SETTING_IPC_WIFI_SUCCESS, -1, 1));
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -891,7 +898,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		switch (what) {
 		case JVConst.QUICK_SETTING_IPC_WIFI_SUCCESS:// 获取IPC 列表成功
 
-			ipcWifiListView.completeRefreshing();
+			if (1 != arg2) {
+				ipcWifiListView.completeRefreshing();
+			}
 			dismissDialog();
 
 			if (null != scanIpcWifiList && 0 != scanIpcWifiList.size()) {

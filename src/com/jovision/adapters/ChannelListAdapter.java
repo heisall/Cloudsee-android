@@ -52,100 +52,110 @@ public class ChannelListAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final DeviceHolder Holder;
-		if (null == convertView) {
-			convertView = inflater.inflate(R.layout.channellist_item_layout,
-					null);
-			Holder = new DeviceHolder();
+		try {
+			if (null == convertView) {
+				convertView = inflater.inflate(
+						R.layout.channellist_item_layout, null);
+				Holder = new DeviceHolder();
 
-			Holder.channel_list_text = (TextView) convertView
-					.findViewById(R.id.channel_item_text);
+				Holder.channel_list_text = (TextView) convertView
+						.findViewById(R.id.channel_item_text);
 
-			Holder.channel_list_img = (ImageView) convertView
-					.findViewById(R.id.channel_item_img);
+				Holder.channel_list_img = (ImageView) convertView
+						.findViewById(R.id.channel_item_img);
 
-			Holder.channel_list_edit = (EditText) convertView
-					.findViewById(R.id.channel_item_edit);
+				Holder.channel_list_edit = (EditText) convertView
+						.findViewById(R.id.channel_item_edit);
 
-			Holder.channellist_pull = (LinearLayout) convertView
-					.findViewById(R.id.channellist_pull);
-			Holder.item_img = (ImageView) convertView
-					.findViewById(R.id.item_img);
-			Holder.parent_relative = (RelativeLayout) convertView
-					.findViewById(R.id.parent_relative);
-			convertView.setTag(Holder);
-		} else {
-			Holder = (DeviceHolder) convertView.getTag();
-		}
-
-		Holder.parent_relative.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				for (int i = 0; i < dataList.size(); i++) {
-					if (position == i) {
-						if (dataList.get(i).isIspull()) {
-							if ("".equalsIgnoreCase(Holder.channel_list_edit
-									.getText().toString())) {
-								activity.showTextToast(R.string.str_nikename_notnull);
-							} else if (!ConfigUtil
-									.checkNickName(Holder.channel_list_edit
-											.getText().toString())) {
-								activity.showTextToast(R.string.login_str_nike_name_order);
-							} else {
-								activity.onNotify(1, i, 0,
-										Holder.channel_list_edit.getText()
-												.toString());
-								dataList.get(position).setChannelName(
-										Holder.channel_list_edit.getText()
-												.toString());
-								dataList.get(i).setIspull(false);
-							}
-						} else {
-							dataList.get(i).setIspull(true);
-						}
-						notifyDataSetChanged();
-					} else {
-						dataList.get(i).setIspull(false);
-					}
-				}
+				Holder.channellist_pull = (LinearLayout) convertView
+						.findViewById(R.id.channellist_pull);
+				Holder.item_img = (ImageView) convertView
+						.findViewById(R.id.item_img);
+				Holder.parent_relative = (RelativeLayout) convertView
+						.findViewById(R.id.parent_relative);
+				convertView.setTag(Holder);
+			} else {
+				Holder = (DeviceHolder) convertView.getTag();
 			}
-		});
-		Holder.parent_relative
-				.setOnLongClickListener(new View.OnLongClickListener() {
 
-					@Override
-					public boolean onLongClick(View v) {
-						// TODO Auto-generated method stub
-						activity.onNotify(1222, position, 0,
-								Holder.channel_list_edit.getText().toString());
-						return false;
-					}
-				});
-		if (!dataList.get(position).isIspull()) {
-			Holder.channellist_pull.setVisibility(View.GONE);
-			Holder.channel_list_img
-					.setImageResource(R.drawable.devicemanage_edit_icon);
-			Holder.item_img
-					.setImageResource(R.drawable.devicemanage_normal_icon);
-			Holder.channel_list_text.setTextColor(activity.getResources()
-					.getColor(R.color.more_fragment_color2));
-		} else {
-			Holder.channellist_pull.setVisibility(View.VISIBLE);
-			Holder.channel_list_edit.setFocusable(true);
-			Holder.channel_list_edit.setFocusableInTouchMode(true);
-			Holder.channel_list_edit.requestFocus();
-			Holder.channel_list_img
-					.setImageResource(R.drawable.devicemanage_sure_icon);
-			Holder.channel_list_text.setTextColor(activity.getResources()
-					.getColor(R.color.dialogchannaltext));
-			Holder.item_img
-					.setImageResource(R.drawable.devicemanage_selected_icon);
+			Holder.parent_relative
+					.setOnClickListener(new View.OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							for (int i = 0; i < dataList.size(); i++) {
+								if (position == i) {
+									if (dataList.get(i).isIspull()) {
+										if ("".equalsIgnoreCase(Holder.channel_list_edit
+												.getText().toString())) {
+											activity.showTextToast(R.string.str_nikename_notnull);
+										} else if (!ConfigUtil
+												.checkNickName(Holder.channel_list_edit
+														.getText().toString())) {
+											activity.showTextToast(R.string.login_str_nike_name_order);
+										} else {
+											activity.onNotify(1, i, 0,
+													Holder.channel_list_edit
+															.getText()
+															.toString());
+											dataList.get(position)
+													.setChannelName(
+															Holder.channel_list_edit
+																	.getText()
+																	.toString());
+											dataList.get(i).setIspull(false);
+										}
+									} else {
+										dataList.get(i).setIspull(true);
+									}
+									notifyDataSetChanged();
+								} else {
+									dataList.get(i).setIspull(false);
+								}
+							}
+						}
+					});
+			Holder.parent_relative
+					.setOnLongClickListener(new View.OnLongClickListener() {
+
+						@Override
+						public boolean onLongClick(View v) {
+							// TODO Auto-generated method stub
+							activity.onNotify(1222, position, 0,
+									Holder.channel_list_edit.getText()
+											.toString());
+							return false;
+						}
+					});
+			if (!dataList.get(position).isIspull()) {
+				Holder.channellist_pull.setVisibility(View.GONE);
+				Holder.channel_list_img
+						.setImageResource(R.drawable.devicemanage_edit_icon);
+				Holder.item_img
+						.setImageResource(R.drawable.devicemanage_normal_icon);
+				Holder.channel_list_text.setTextColor(activity.getResources()
+						.getColor(R.color.more_fragment_color2));
+			} else {
+				Holder.channellist_pull.setVisibility(View.VISIBLE);
+				Holder.channel_list_edit.setFocusable(true);
+				Holder.channel_list_edit.setFocusableInTouchMode(true);
+				Holder.channel_list_edit.requestFocus();
+				Holder.channel_list_img
+						.setImageResource(R.drawable.devicemanage_sure_icon);
+				Holder.channel_list_text.setTextColor(activity.getResources()
+						.getColor(R.color.dialogchannaltext));
+				Holder.item_img
+						.setImageResource(R.drawable.devicemanage_selected_icon);
+			}
+			Holder.channel_list_text.setText(dataList.get(position)
+					.getChannelName());
+			Holder.channel_list_edit.setText(dataList.get(position)
+					.getChannelName());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		Holder.channel_list_text.setText(dataList.get(position)
-				.getChannelName());
-		Holder.channel_list_edit.setText(dataList.get(position)
-				.getChannelName());
+
 		return convertView;
 	}
 

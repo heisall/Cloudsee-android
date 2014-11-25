@@ -106,12 +106,10 @@ public class WifiAdapter extends BaseAdapter {
 			// .getDrawable(R.drawable.wifi_detail_icon));
 			if (wifiIndex == position) {
 				wifiHolder.wifiImg.setBackgroundDrawable(mContext
-						.getResources().getDrawable(
-								R.drawable.wifi_flag_open_bg));
+						.getResources().getDrawable(R.drawable.wifi_select));
 			} else {
 				wifiHolder.wifiImg.setBackgroundDrawable(mContext
-						.getResources().getDrawable(
-								R.drawable.wifi_flag_close_bg));
+						.getResources().getDrawable(R.drawable.wifi_normal));
 			}
 
 			// // 显示详细信息按钮

@@ -10,8 +10,10 @@
     <RelativeLayout
         android:id="@+id/funclayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="7dp" >
+        android:layout_height="50dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="7dp" >
 
         <ImageView
             android:id="@+id/funtion_image"
@@ -19,7 +21,7 @@
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:padding="4dp"
             android:src="@drawable/apv_call_2" />
 
@@ -27,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/funtion_image"
             android:orientation="vertical" >
 
@@ -59,13 +61,5 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/morefragment_next_icon" />
     </RelativeLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@color/play_divider" />
 
 </LinearLayout>

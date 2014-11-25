@@ -77,6 +77,8 @@ public class FuntionAdapter extends BaseAdapter {
 		if (bigScreen) {// 大屏小dpi
 			if (0 == position) {
 				viewHolder.funtionArrow.setVisibility(View.GONE);
+				viewHolder.funcLayout
+						.setBackgroundResource(R.drawable.voice_normal_bg);
 				viewHolder.funtionImageView
 						.setImageResource(R.drawable.voice_monitor_small_1);
 				viewHolder.funtionTitle2
@@ -84,16 +86,22 @@ public class FuntionAdapter extends BaseAdapter {
 			} else if (1 == position) {
 				viewHolder.funtionImageView
 						.setImageResource(R.drawable.yt_controller);
+				viewHolder.funcLayout
+						.setBackgroundResource(R.drawable.yt_normal_bg);
 				viewHolder.funtionTitle2.setText(R.string.str_yt_operate_tips);
 			} else if (2 == position) {
 				viewHolder.funtionArrow.setVisibility(View.VISIBLE);
 				if (Consts.PLAY_AP == playFlag) {
 					viewHolder.funtionImageView
 							.setImageResource(R.drawable.apv_call);
+					viewHolder.funcLayout
+							.setBackgroundResource(R.drawable.talk_normal_bg);
 					viewHolder.funtionTitle1.setText(R.string.voice_call_ap);
 					viewHolder.funtionTitle2
 							.setText(R.string.voice_call_ap_tips);
 				} else {
+					viewHolder.funcLayout
+							.setBackgroundResource(R.drawable.remote_normal_bg);
 					viewHolder.funtionImageView
 							.setImageResource(R.drawable.remote_playback);
 					viewHolder.funtionTitle2
@@ -104,17 +112,23 @@ public class FuntionAdapter extends BaseAdapter {
 			if (selectIndex == position && selectIndex == 0) {
 				viewHolder.funtionImageView
 						.setImageResource(R.drawable.voice_monitor_small_2);
+				viewHolder.funcLayout
+						.setBackgroundResource(R.drawable.voice_hover_bg);
 			}
 			if (selectIndex == position && selectIndex == 2) {
 				if (Consts.PLAY_AP == playFlag) {
 					viewHolder.funtionImageView
 							.setImageResource(R.drawable.apv_call_2);
+					viewHolder.funcLayout
+							.setBackgroundResource(R.drawable.talk_hover_bg);
 				}
 			}
 			if (2 == position && selectIndex != position) {
 				if (Consts.PLAY_AP == playFlag) {
 					viewHolder.funtionImageView
 							.setImageResource(R.drawable.apv_call_1);
+					viewHolder.funcLayout
+							.setBackgroundResource(R.drawable.talk_normal_bg);
 				}
 			}
 
@@ -123,6 +137,8 @@ public class FuntionAdapter extends BaseAdapter {
 				viewHolder.funtionArrow.setVisibility(View.GONE);
 				viewHolder.funtionImageView
 						.setImageResource(R.drawable.voice_monitor_small_1);
+				viewHolder.funcLayout
+						.setBackgroundResource(R.drawable.voice_normal_bg);
 				viewHolder.funtionTitle2
 						.setText(R.string.str_audio_monitor_tips);
 			} else if (1 == position) {
@@ -138,6 +154,8 @@ public class FuntionAdapter extends BaseAdapter {
 			if (selectIndex == position && selectIndex == 0) {
 				viewHolder.funtionImageView
 						.setImageResource(R.drawable.voice_monitor_small_2);
+				viewHolder.funcLayout
+						.setBackgroundResource(R.drawable.voice_hover_bg);
 			}
 		}
 

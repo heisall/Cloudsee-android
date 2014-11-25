@@ -296,11 +296,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			task.execute(strParams);
 		}
 
-		
 		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			startAutoRefreshTimer();
-		}else{
+		} else {
 			// 非3G加广播设备
 			startBroadTimer();
 		}
@@ -594,19 +593,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 								adList.get(i).getAdImgUrlEn());
 					}
 
-//					if (null == bmp) {
-//
-//						if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
-//							bmp = BitmapCache.getInstance().getBitmap(
-//									adList.get(i).getAdImgUrlCh(), "net",
-//									String.valueOf(adList.get(i).getIndex()));
-//						} else {
-//							bmp = BitmapCache.getInstance().getBitmap(
-//									adList.get(i).getAdImgUrlEn(), "net",
-//									String.valueOf(adList.get(i).getIndex()));
-//						}
-//
-//					}
+					// if (null == bmp) {
+					//
+					// if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+					// bmp = BitmapCache.getInstance().getBitmap(
+					// adList.get(i).getAdImgUrlCh(), "net",
+					// String.valueOf(adList.get(i).getIndex()));
+					// } else {
+					// bmp = BitmapCache.getInstance().getBitmap(
+					// adList.get(i).getAdImgUrlEn(), "net",
+					// String.valueOf(adList.get(i).getIndex()));
+					// }
+					//
+					// }
 					// Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
 					// adList.get(i).getAdImgUrl());
 					if (null != bmp) {
@@ -1226,16 +1225,20 @@ public class JVMyDeviceFragment extends BaseFragment {
 					.getString(Consts.AD_LIST));
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				BitmapCache.getInstance().getBitmap(
-						ad.getAdImgUrlCh(),
-						"net",
-						String.valueOf(ad.getIndex())
-								+ ConfigUtil.getLanguage());
-				BitmapCache.getInstance().getBitmap(
-						ad.getAdImgUrlEn(),
-						"net",
-						String.valueOf(ad.getIndex())
-								+ ConfigUtil.getLanguage());
+				if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlCh(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage());
+				} else {
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlEn(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage());
+				}
+
 			}
 		} else if (0 == adList.size()) {// 未检查到更新
 			adList = AD.fromJsonArray(MySharedPreference
@@ -1243,16 +1246,20 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				BitmapCache.getInstance().getBitmap(
-						ad.getAdImgUrlCh(),
-						"net",
-						String.valueOf(ad.getIndex())
-								+ ConfigUtil.getLanguage());
-				BitmapCache.getInstance().getBitmap(
-						ad.getAdImgUrlEn(),
-						"net",
-						String.valueOf(ad.getIndex())
-								+ ConfigUtil.getLanguage());
+				if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlCh(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage());
+				} else {
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlEn(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage());
+				}
+
 			}
 		} else if (adList.size() > 0) {// 有新广告
 			// 删除老广告
@@ -1262,16 +1269,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				BitmapCache.getInstance().getBitmap(
-						ad.getAdImgUrlCh(),
-						"net",
-						String.valueOf(ad.getIndex())
-								+ ConfigUtil.getLanguage());
-				BitmapCache.getInstance().getBitmap(
-						ad.getAdImgUrlEn(),
-						"net",
-						String.valueOf(ad.getIndex())
-								+ ConfigUtil.getLanguage());
+				if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlCh(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage());
+				} else {
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlEn(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage());
+				}
 			}
 		}
 	}

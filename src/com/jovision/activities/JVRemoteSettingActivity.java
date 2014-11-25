@@ -35,6 +35,7 @@ import com.jovision.bean.Device;
 import com.jovision.bean.Wifi;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.RefreshableListView;
@@ -50,6 +51,8 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	private String[] array1 = null;
 	private String[] array2 = null;
 	private ArrayList<Wifi> wifiList = new ArrayList<Wifi>();// wifi数据列表
+	private int deviceIndex = 0;
+	private ArrayList<Device> deviceList;
 	private Device device;
 
 	/** topBar */
@@ -252,7 +255,10 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			this.finish();
 			return;
 		}
-		device = Device.fromJson(intent.getStringExtra("Device"));
+		deviceIndex = intent.getIntExtra("DeviceIndex",0);
+		deviceList = CacheUtil.getDevList();
+		device = deviceList.get(deviceIndex);
+		
 	}
 
 	@SuppressWarnings("deprecation")
@@ -571,6 +577,11 @@ public class JVRemoteSettingActivity extends BaseActivity {
 							Thread.sleep(200);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
+						}
+						if(0 == deviceList.get(deviceIndex).getIsDevice()){
+							deviceList.get(deviceIndex).setIp("");
+							deviceList.get(deviceIndex).setPort(0);
+							CacheUtil.saveDevList(deviceList);
 						}
 						back();
 					}

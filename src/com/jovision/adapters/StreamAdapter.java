@@ -101,9 +101,9 @@ public class StreamAdapter extends BaseAdapter {
 		});
 
 		if (0 == position && !newIpc) {// 老的IPC连接手机码流不让切换成高清
-			convertView.setVisibility(View.GONE);
+			holder.screenNum.setVisibility(View.GONE);
 		} else {
-			convertView.setVisibility(View.VISIBLE);
+			holder.screenNum.setVisibility(View.VISIBLE);
 		}
 		return convertView;
 	}

@@ -82,7 +82,8 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	private EditText dnsET;// 域名服务器
 	private EditText macET;// 网卡地址
 	private EditText cloudseeidET;// 设备号
-	private EditText stateET;// 设备状态
+	private ImageView stateET;// 设备状态
+	private TextView saveChange;// 保存
 
 	private String ipStr = "";// IP地址
 	private String netmaskStr = "";// 子网掩码
@@ -267,10 +268,9 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
-		rightBtn.setBackgroundResource(R.drawable.qr_icon);
 		currentMenu.setText(R.string.str_help1_0);
 		leftBtn.setOnClickListener(mOnClickListener);
-		rightBtn.setOnClickListener(mOnClickListener);
+		rightBtn.setVisibility(View.GONE);
 
 		rightBtn.setTextColor(Color.WHITE);
 		rightBtn.setBackgroundDrawable(getResources().getDrawable(
@@ -314,15 +314,19 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 		if (null != settingMap && settingMap.get("bDHCP").equalsIgnoreCase("0")) {// 手动
 			autoImage.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.obtain_unselected_icon));
+					R.drawable.morefragment_normal_icon));
 			manuImage.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.obtain_selected_icon));
+					R.drawable.morefragment_selector_icon));
+			obtainAuto.setBackgroundResource(R.drawable.obtain_bg);
+			obtainManu.setBackgroundResource(R.drawable.obtain_select_bg);
 			bdhcpTag = Integer.parseInt(settingMap.get("bDHCP"));
 		} else {// 自动
 			autoImage.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.obtain_selected_icon));
+					R.drawable.morefragment_selector_icon));
 			manuImage.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.obtain_unselected_icon));
+					R.drawable.morefragment_normal_icon));
+			obtainAuto.setBackgroundResource(R.drawable.obtain_select_bg);
+			obtainManu.setBackgroundResource(R.drawable.obtain_bg);
 			bdhcpTag = Integer.parseInt(settingMap.get("bDHCP"));
 		}
 
@@ -333,7 +337,9 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		macET = (EditText) listViews.get(0).findViewById(R.id.macet);// 网卡地址
 		cloudseeidET = (EditText) listViews.get(0).findViewById(
 				R.id.cloudseeidet);// 设备号
-		stateET = (EditText) listViews.get(0).findViewById(R.id.statuset);// 设备状态
+		stateET = (ImageView) listViews.get(0).findViewById(R.id.statuset);// 设备状态
+		saveChange = (TextView) listViews.get(0).findViewById(R.id.saveChange);
+		saveChange.setOnClickListener(mOnClickListener);
 
 		// 网卡地址，云视通号，状态三个不能改
 		macET.setEnabled(false);
@@ -341,8 +347,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		cloudseeidET.setEnabled(false);
 		cloudseeidET.setTextColor(getResources()
 				.getColor(R.color.userinfocolor));
-		stateET.setEnabled(false);
-		stateET.setTextColor(getResources().getColor(R.color.userinfocolor));
+		stateET.setBackgroundResource(R.drawable.state_offline);
 
 		if (null != settingMap && settingMap.get("bDHCP").equalsIgnoreCase("1")) {// 自动
 			ipET.setEnabled(false);
@@ -382,11 +387,9 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 		if (null != settingMap
 				&& settingMap.get("YSTSTATUS").equalsIgnoreCase("1")) {// 在线
-			stateET.setText(getResources()
-					.getString(R.string.str_device_online));// 设备状态
+			stateET.setBackgroundResource(R.drawable.state_online);// 设备状态
 		} else {// 不在线
-			stateET.setText(getResources().getString(
-					R.string.str_device_offline));// 设备状态
+			stateET.setBackgroundResource(R.drawable.state_offline);// 设备状态
 		}
 
 		obtainAuto.setOnClickListener(mOnClickListener);
@@ -525,7 +528,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				goToBack();
 				break;
 			}
-			case R.id.btn_right:
+			case R.id.saveChange:
 				if (0 == currIndex) {// 有线
 
 					if (null != settingMap
@@ -734,10 +737,11 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				}
 
 				autoImage.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.obtain_selected_icon));
+						R.drawable.morefragment_selector_icon));
 				manuImage.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.obtain_unselected_icon));
-
+						R.drawable.morefragment_normal_icon));
+				obtainAuto.setBackgroundResource(R.drawable.obtain_select_bg);
+				obtainManu.setBackgroundResource(R.drawable.obtain_bg);
 				currentMenu.setText(R.string.str_obtain_automatically);
 				secondLayout.setVisibility(View.VISIBLE);
 				firstLayout.setVisibility(View.GONE);
@@ -760,10 +764,11 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				dnsET.setTextColor(getResources().getColor(R.color.black));
 
 				autoImage.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.obtain_unselected_icon));
+						R.drawable.morefragment_normal_icon));
 				manuImage.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.obtain_selected_icon));
-
+						R.drawable.morefragment_selector_icon));
+				obtainAuto.setBackgroundResource(R.drawable.obtain_bg);
+				obtainManu.setBackgroundResource(R.drawable.obtain_select_bg);
 				currentMenu.setText(R.string.str_input_manually);
 				secondLayout.setVisibility(View.VISIBLE);
 				firstLayout.setVisibility(View.GONE);

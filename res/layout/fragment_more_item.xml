@@ -70,7 +70,8 @@
             android:visibility="gone" >
         </RelativeLayout>
     </FrameLayout>
-    <ImageView
+
+    <ImageView
         android:id="@+id/divider_img"
         android:layout_width="match_parent"
         android:layout_height="1dp"

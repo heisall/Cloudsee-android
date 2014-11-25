@@ -20,7 +20,6 @@ import android.os.Build;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -2600,7 +2599,6 @@ public class JVPlayActivity extends PlayActivity implements
 		public boolean onLongClick(View arg0) {
 			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
 				if (VOICECALLING) {// 正在喊话
-					Log.i("TAG", "正在喊话...");
 					VOICECALL_LONG_CLICK = true;
 					voiceTip.setVisibility(View.VISIBLE);
 					new TalkThread(lastClickIndex, 1).start();

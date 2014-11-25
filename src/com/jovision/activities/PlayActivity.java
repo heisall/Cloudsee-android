@@ -867,11 +867,19 @@ public abstract class PlayActivity extends BaseActivity {
 					voiceCallTop2, null, null);
 			bottombut5.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.video_talkselect_icon));
+			// if (this.getResources().getConfiguration().orientation ==
+			// Configuration.ORIENTATION_LANDSCAPE){
+			// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			// }
+			// else if(this.getResources().getConfiguration().orientation
+			// ==Configuration.ORIENTATION_PORTRAIT) {
+			// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			// }
 
 		} else {
 			// voiceCall.setTextColor(getResources().getColor(
 			// R.color.functionbtncolor1));
-
+			// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 			voiceCall.setCompoundDrawablesWithIntrinsicBounds(null,
 					voiceCallTop1, null, null);
 			bottombut5.setBackgroundDrawable(getResources().getDrawable(

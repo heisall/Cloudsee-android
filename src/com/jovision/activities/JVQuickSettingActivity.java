@@ -289,16 +289,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			ipcLayout.setVisibility(View.VISIBLE);
 			mobileLayout.setVisibility(View.GONE);
 			saveSet.setVisibility(View.GONE);
-			if (null != oldWifiSSID && !"".equalsIgnoreCase(oldWifiSSID)) {
-				if (mobileAdapter.getOldWifiIndex() >= 0
-						&& mobileAdapter.getOldWifiIndex() <= scanMobileWifiList
-								.size()) {
-					desWifiName.setText(scanMobileWifiList.get(mobileAdapter
-							.getOldWifiIndex()).SSID);
-				} else {
-					desWifiName.setText("");
-				}
-
+			if (null != oldWifiSSID && !"".equalsIgnoreCase(oldWifiSSID)
+					&& !"0x".equalsIgnoreCase(oldWifiSSID)) {
+				desWifiName.setText(oldWifiSSID);
+			}else{
+				desWifiName.setText("");
 			}
 			desWifiPass.setText("");
 			startRefreshWifiTimer();

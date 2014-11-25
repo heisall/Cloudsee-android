@@ -772,18 +772,44 @@ public class JVPlayActivity extends PlayActivity implements
 														.get("MobileQuality"));
 								channel.setStreamTag(Integer.parseInt(streamMap
 										.get("MobileQuality")));
+								channel.setNewIpcFlag(true);
 							} else {
-								if (null != streamMap.get("MobileStreamQos")
-										&& !"".equalsIgnoreCase(streamMap
-												.get("MobileStreamQos"))) {
+
+								if (null != streamMap.get("MobileCH")
+										&& "2".equalsIgnoreCase(streamMap
+												.get("MobileCH"))) {
 									MyLog.v(TAG,
-											"MobileStreamQos="
-													+ streamMap
-															.get("MobileStreamQos"));
-									channel.setStreamTag(Integer
-											.parseInt(streamMap
-													.get("MobileStreamQos")));
+											"MobileCH="
+													+ streamMap.get("MobileCH"));
+
+									String strParam = streamJSON
+											.substring(streamJSON
+													.lastIndexOf("[CH2];") + 6,
+													streamJSON.length());
+									HashMap<String, String> ch2Map = ConfigUtil
+											.genMsgMap1(strParam);
+									int width = Integer.valueOf(ch2Map
+											.get("width"));
+									int height = Integer.valueOf(ch2Map
+											.get("height"));
+									if (720 == width && 480 == height) {
+										channel.setStreamTag(2);
+									} else if (352 == width && 288 == height) {
+										channel.setStreamTag(3);
+									}
+									channel.setNewIpcFlag(false);
 								}
+								// if (null != streamMap.get("MobileStreamQos")
+								// && !"".equalsIgnoreCase(streamMap
+								// .get("MobileStreamQos"))) {
+								// MyLog.v(TAG,
+								// "MobileStreamQos="
+								// + streamMap
+								// .get("MobileStreamQos"));
+								// channel.setStreamTag(Integer
+								// .parseInt(streamMap
+								// .get("MobileStreamQos")));
+								// }
 							}
 
 							if (null != streamMap.get("storageMode")
@@ -1591,6 +1617,22 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 		}
 
+		if (ONE_SCREEN == currentScreen) {
+			// 是IPC，发文本聊天请求
+			if (channel.getParent().isHomeProduct()) {
+				if (channel.isAgreeTextData()) {
+					// 获取主控码流信息请求
+					Jni.sendTextData(lastClickIndex,
+							JVNetConst.JVN_RSP_TEXTDATA, 8,
+							JVNetConst.JVN_STREAM_INFO);
+				} else {
+					// 请求文本聊天
+					Jni.sendBytes(lastClickIndex, JVNetConst.JVN_REQ_TEXT,
+							new byte[0], 8);
+				}
+
+			}
+		}
 		return result;
 	}
 
@@ -2226,6 +2268,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.video_bq:
 			case R.id.more_features:// 码流
+				showTextToast(lastClickIndex + "");
 				if (View.VISIBLE == streamListView.getVisibility()) {
 					streamListView.setVisibility(View.GONE);
 				} else {
@@ -2234,6 +2277,9 @@ public class JVPlayActivity extends PlayActivity implements
 								.getStreamTag()) {
 							showTextToast(R.string.not_support_this_func);
 						} else {
+							streamAdapter.setNewIpc(channelList.get(
+									lastClickIndex).isNewIpcFlag());
+							streamAdapter.notifyDataSetChanged();
 							streamListView.setVisibility(View.VISIBLE);
 						}
 					}

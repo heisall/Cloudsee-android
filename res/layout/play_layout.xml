@@ -245,7 +245,6 @@
         </RelativeLayout>
 
         <ListView
-            android:layout_centerInParent="true"
             android:id="@+id/streamlistview"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -261,7 +260,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            android:visibility="visible" >
+            android:visibility="gone" >
         </ListView>
 
         <include

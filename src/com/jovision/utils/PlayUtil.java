@@ -54,6 +54,10 @@ public class PlayUtil {
 	 */
 	public static boolean broadCast(Context con) {
 		boolean canBroad = false;
+		if (!MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+			MyLog.v(Consts.TAG_APP, "not broad = " + canBroad);
+			return canBroad;
+		}
 		if (!((BaseActivity) con).is3G(false)) {// 非3G加广播设备
 			canBroad = true;
 			int res = Jni.searchLanDevice("", 0, 0, 0, "", 2000, 1);

@@ -438,14 +438,23 @@ public class ConfigUtil {
 	 * 开启广播
 	 */
 	public static int openBroadCast() {
-		return Jni.searchLanServer(9400, 6666);
+		int res = -1;
+		if (MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+			MyLog.v(Consts.TAG_APP, "enable  broad = " + true);
+			res = Jni.searchLanServer(9400, 6666);
+		} else {
+			MyLog.v(Consts.TAG_APP, "unEnable  broad = " + false);
+		}
+		return res;
 	}
 
 	/**
 	 * 停止广播
 	 */
 	public static void stopBroadCast() {
-		Jni.stopSearchLanServer();
+		if (MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+			Jni.stopSearchLanServer();
+		}
 	}
 
 	/**
@@ -470,6 +479,7 @@ public class ConfigUtil {
 			}
 
 			int res = openBroadCast();// 开广播
+
 			statusHashMap
 					.put(Consts.KEY_INIT_CLOUD_SDK, String.valueOf(result));
 
@@ -813,6 +823,33 @@ public class ConfigUtil {
 		Matcher matcher = Pattern.compile("([^=;]+)=([^=;]+)").matcher(msg);
 		while (matcher.find()) {
 			map.put(matcher.group(1), matcher.group(2));
+		}
+		return map;
+	}
+
+	/**
+	 * 特定 json 转 HashMap 不会覆盖
+	 * 
+	 * @param json
+	 * @param keyOfMsg
+	 *            消息的键名
+	 * @return
+	 */
+	public static HashMap<String, String> genMsgMap1(String msg) {
+		HashMap<String, String> map = new HashMap<String, String>();
+
+		if (null == msg || "".equalsIgnoreCase(msg)) {
+			return null;
+		}
+		Matcher matcher = Pattern.compile("([^=;]+)=([^=;]+)").matcher(msg);
+		while (matcher.find()) {
+			if (null != map.get(matcher.group(1))
+					&& !"".equalsIgnoreCase(matcher.group(1))) {
+
+			} else {
+				map.put(matcher.group(1), matcher.group(2));
+			}
+
 		}
 		return map;
 	}

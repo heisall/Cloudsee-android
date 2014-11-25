@@ -56,11 +56,15 @@ public class Channel {
 	private int audioBlock = 0;
 
 	// private boolean hasGotParams = false;
+	private boolean newIpcFlag = true;// 为码流新增参数，是否新的IPC，新的融合代码后的IPC3个码流可以切换，融合前的只能两个码流相互切换
+
 	private boolean agreeTextData = false;// 是否同意文本聊天
 	private boolean isOMX = false;// 是否硬解
 	private boolean singleVoice = false;// 单向对讲标识位，默认是双向的
 	private int storageMode = -1;// 录像模式// 1: 手动录像 2. 报警录像 storageMode
-	private int streamTag = -1;// 码流参数值 MainStreamQos 1,2,3
+	private int streamTag = -1;// 码流参数值 第一码流(6)MainStreamQos 1,2,3
+								// 手机码流(5)MobileStreamQos 1,2,3 融合代码后手机码流改为
+								// MobileQuality 1,2,3
 	private int screenTag = -1;// 屏幕方向值 effect_flag 老设备 0(正),4(反) 新设备不一定
 	private int effect_flag = -1;// 屏幕方向值 effect_flag 新设备
 
@@ -466,6 +470,14 @@ public class Channel {
 
 	public void setSupportVoice(boolean supportVoice) {
 		this.supportVoice = supportVoice;
+	}
+
+	public boolean isNewIpcFlag() {
+		return newIpcFlag;
+	}
+
+	public void setNewIpcFlag(boolean newIpcFlag) {
+		this.newIpcFlag = newIpcFlag;
 	}
 
 }

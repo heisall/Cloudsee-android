@@ -274,6 +274,8 @@ public class PlayWindowManager implements View.OnClickListener,
 		if (null != container) {
 			TextView view = ((TextView) container.findViewById(ID_INFO_TEXT));
 			if (null != view) {
+				view.setSingleLine(false);
+				view.setGravity(Gravity.CENTER);
 				view.setText(text);
 				view.setTextSize(size);
 			}

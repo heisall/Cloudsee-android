@@ -8,8 +8,10 @@ import org.json.JSONObject;
 
 public class AD {
 	private int index;// (广告图片序号)
-	private String adImgUrl;// (广告图片URL)
-	private String adLink;// (图片超链接)
+	private String adImgUrlCh;// (广告图片URL)
+	private String adLinkCh;// (图片超链接)
+	private String adImgUrlEn;// (广告图片URL)
+	private String adLinkEn;// (图片超链接)
 	private int version;// (广告版本)
 
 	// private String savePath;
@@ -23,29 +25,15 @@ public class AD {
 		this.index = index;
 	}
 
-	public String getAdImgUrl() {
-		return adImgUrl;
-	}
-
-	public void setAdImgUrl(String adImgUrl) {
-		this.adImgUrl = adImgUrl;
-	}
-
-	public String getAdLink() {
-		return adLink;
-	}
-
-	public void setAdLink(String adLink) {
-		this.adLink = adLink;
-	}
-
 	public JSONObject toJson() {
 		JSONObject object = new JSONObject();
 
 		try {
 			object.put("index", index);
-			object.put("adImgUrl", adImgUrl);
-			object.put("adLink", adLink);
+			object.put("adImgUrlCh", adImgUrlCh);
+			object.put("adLinkCh", adLinkCh);
+			object.put("adImgUrlEn", adImgUrlEn);
+			object.put("adLinkEn", adLinkEn);
 			object.put("version", version);
 			// object.put("savePath", savePath);
 			// object.put("fileName", fileName);
@@ -91,8 +79,10 @@ public class AD {
 		try {
 			JSONObject object = new JSONObject(string);
 			ad.setIndex(object.getInt("index"));
-			ad.setAdImgUrl(object.getString("adImgUrl"));
-			ad.setAdLink(object.getString("adLink"));
+			ad.setAdImgUrlCh(object.getString("adImgUrlCh"));
+			ad.setAdLinkCh(object.getString("adLinkCh"));
+			ad.setAdImgUrlEn(object.getString("adImgUrlEn"));
+			ad.setAdLinkEn(object.getString("adLinkEn"));
 			ad.setVersion(object.getInt("version"));
 			// ad.setSavePath(object.getString("savePath"));
 			// ad.setFileName(object.getString("fileName"));
@@ -132,6 +122,38 @@ public class AD {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public String getAdImgUrlCh() {
+		return adImgUrlCh;
+	}
+
+	public void setAdImgUrlCh(String adImgUrlCh) {
+		this.adImgUrlCh = adImgUrlCh;
+	}
+
+	public String getAdLinkCh() {
+		return adLinkCh;
+	}
+
+	public void setAdLinkCh(String adLinkCh) {
+		this.adLinkCh = adLinkCh;
+	}
+
+	public String getAdImgUrlEn() {
+		return adImgUrlEn;
+	}
+
+	public void setAdImgUrlEn(String adImgUrlEn) {
+		this.adImgUrlEn = adImgUrlEn;
+	}
+
+	public String getAdLinkEn() {
+		return adLinkEn;
+	}
+
+	public void setAdLinkEn(String adLinkEn) {
+		this.adLinkEn = adLinkEn;
 	}
 
 	// public String getFileName() {

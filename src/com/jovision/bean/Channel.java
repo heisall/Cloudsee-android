@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 
 import com.jovision.Consts;
 import com.jovision.commons.MyList;
+import com.jovision.utils.ConfigUtil;
 
 /**
  * 简单的通道集合类
@@ -221,17 +222,17 @@ public class Channel {
 		Channel channel = new Channel();
 		try {
 			JSONObject object = new JSONObject(string);
-			channel.setIndex(object.getInt("index"));
-			channel.setChannel(object.getInt("channel"));
-			channel.setChannelName(object.getString("channelName"));
-			// channel.setConnecting(object.getBoolean("isConnecting"));
-			// channel.setConnecting(object.getBoolean("isConnected"));
-			// channel.setRemotePlay(object.getBoolean("isRemotePlay"));
-			// channel.setConfigChannel(object.getBoolean("isConfigChannel"));
-			// channel.setAuto(object.getBoolean("isAuto"));
-			// channel.setVoiceCall(object.getBoolean("isVoiceCall"));
-			// channel.setSurfaceCreated(object.getBoolean("surfaceCreated"));
-			// channel.setSendCMD(object.getBoolean("isSendCMD"));
+			channel.setIndex(ConfigUtil.getInt(object, "index"));
+			channel.setChannel(ConfigUtil.getInt(object, "channel"));
+			channel.setChannelName(ConfigUtil.getString(object, "channelName"));
+			// channel.setConnecting(ConfigUtil.getBoolean(object,"isConnecting"));
+			// channel.setConnecting(ConfigUtil.getBoolean(object,"isConnected"));
+			// channel.setRemotePlay(ConfigUtil.getBoolean(object,"isRemotePlay"));
+			// channel.setConfigChannel(ConfigUtil.getBoolean(object,"isConfigChannel"));
+			// channel.setAuto(ConfigUtil.getBoolean(object,"isAuto"));
+			// channel.setVoiceCall(ConfigUtil.getBoolean(object,"isVoiceCall"));
+			// channel.setSurfaceCreated(ConfigUtil.getBoolean(object,"surfaceCreated"));
+			// channel.setSendCMD(ConfigUtil.getBoolean(object,"isSendCMD"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

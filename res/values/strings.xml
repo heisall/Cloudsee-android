@@ -382,7 +382,7 @@
     <string name="press_screen_refresh">Click screen to refresh</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">No alarm now.</string>
-    <string name="alerm">Alerm Level</string>
+    <string name="alarm_level">Alarm Level</string>
     <string name="xlistview_footer_hint_normal">More</string>
     <string name="xlistview_footer_hint_ready">Pull up to load more.</string>
     <string name="xlistview_no_more">No alert now</string>

@@ -5,6 +5,12 @@ import java.io.File;
 import android.os.Environment;
 
 public class Consts {
+
+	// (终端类型 0-未知 1-Android 2-iPhone 3-iPad)
+	public static final int TERMINAL_TYPE = 1;
+	// 0：CloudSEE 1：NVSIP
+	public static final int PRODUCT_TYPE = 0;
+
 	/** 老数据库数据 **/
 	public static final String JVCONFIG_DATABASE = "JVConfigTemp.db";
 	public static final int JVCONFIG_DB_VER = 2;

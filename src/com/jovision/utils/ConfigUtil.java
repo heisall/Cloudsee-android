@@ -212,7 +212,8 @@ public class ConfigUtil {
 					requestRes.indexOf("}") + 1);
 			MyLog.v("getCountry--jsonStr", jsonStr);
 			JSONObject obj = new JSONObject(jsonStr);
-			country = obj.getString("country");
+			country = obj.getString("country") + "-"
+					+ obj.getString("province") + "-" + obj.getString("city");
 		} catch (Exception e) {
 			country = "China";
 			e.printStackTrace();

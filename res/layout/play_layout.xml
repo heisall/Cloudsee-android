@@ -251,6 +251,7 @@
             android:layout_above="@+id/bottomfunction"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
             android:layout_marginBottom="50dp"
             android:layout_marginRight="3dp"
             android:background="@drawable/stream_selector_bg2"

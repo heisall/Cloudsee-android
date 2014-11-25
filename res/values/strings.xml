@@ -401,6 +401,7 @@
     <string name="connfailed_type_invalid">Invalid Connection Mode.</string>
     <string name="connfailed_maxcount">Exceed connection limitation.</string>
     <string name="connfailed_timeout">Connect timeout</string>
+    <string name="connfailed_checkpass_timout">Connect timeout.</string>
     <string name="connfailed_auth_tips">Username or password wrong, change now?</string>
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting…</string>

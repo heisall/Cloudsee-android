@@ -777,16 +777,53 @@ public class JVPlayActivity extends PlayActivity implements
 								channel.setStreamTag(Integer.parseInt(streamMap
 										.get("MobileQuality")));
 							} else {
-								if (null != streamMap.get("MobileStreamQos")
+								if (null != streamMap.get("MobileQuality")
 										&& !"".equalsIgnoreCase(streamMap
-												.get("MobileStreamQos"))) {
+												.get("MobileQuality"))) {
 									MyLog.v(TAG,
-											"MobileStreamQos="
+											"MobileQuality="
 													+ streamMap
-															.get("MobileStreamQos"));
-									channel.setStreamTag(Integer
-											.parseInt(streamMap
-													.get("MobileStreamQos")));
+															.get("MobileQuality"));
+									channel.setStreamTag(Integer.parseInt(streamMap
+											.get("MobileQuality")));
+									channel.setNewIpcFlag(true);
+								} else {
+
+									if (null != streamMap.get("MobileCH")
+											&& "2".equalsIgnoreCase(streamMap
+													.get("MobileCH"))) {
+										MyLog.v(TAG,
+												"MobileCH="
+														+ streamMap.get("MobileCH"));
+
+										String strParam = streamJSON
+												.substring(streamJSON
+														.lastIndexOf("[CH2];") + 6,
+														streamJSON.length());
+										HashMap<String, String> ch2Map = ConfigUtil
+												.genMsgMap1(strParam);
+										int width = Integer.valueOf(ch2Map
+												.get("width"));
+										int height = Integer.valueOf(ch2Map
+												.get("height"));
+										if (720 == width && 480 == height) {
+											channel.setStreamTag(2);
+										} else if (352 == width && 288 == height) {
+											channel.setStreamTag(3);
+										}
+										channel.setNewIpcFlag(false);
+									}
+									// if (null != streamMap.get("MobileStreamQos")
+									// && !"".equalsIgnoreCase(streamMap
+									// .get("MobileStreamQos"))) {
+									// MyLog.v(TAG,
+									// "MobileStreamQos="
+									// + streamMap
+									// .get("MobileStreamQos"));
+									// channel.setStreamTag(Integer
+									// .parseInt(streamMap
+									// .get("MobileStreamQos")));
+									// }
 								}
 							}
 

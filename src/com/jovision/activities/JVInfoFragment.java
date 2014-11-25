@@ -474,6 +474,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			// 弹出对话框
 			if (null != mActivity) {
 				new AlarmDialog(mActivity).Show(obj);
+				onResume();
 			} else {
 				MyLog.e("Alarm",
 						"onHandler mActivity is null ,so dont show the alarm dialog");

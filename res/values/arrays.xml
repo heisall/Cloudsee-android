@@ -136,10 +136,10 @@
     </string-array>
     <!-- 视频管理功能 -->
     <string-array name="manage_function">
-        <item>Remote Configure</item>
+        <item>Net Setting</item>
         <item>Device</item>
         <item>Connection Mode</item>
-        <item>Video Management</item>
+        <item>Channel</item>
         <item>Video</item>
         <item>Security Protection</item>
         <item>Alarm Device</item>

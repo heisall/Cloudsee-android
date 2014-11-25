@@ -209,6 +209,16 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case Consts.BAD_NOT_CONNECT: {
 				channel.setConnected(false);
+				// TODO
+				channel.setAgreeTextData(false);
+				channel.setNewIpcFlag(false);
+				channel.setOMX(false);
+				channel.setSingleVoice(false);
+				channel.setScreenTag(-1);
+				channel.setStreamTag(-1);
+				channel.setStorageMode(-1);
+				channel.setSupportVoice(false);
+
 				if (null != msgList && null != msgList.get(arg1)) {
 					Message msg = new Message();
 					msg.arg1 = msgList.get(arg1).arg1;
@@ -1396,57 +1406,59 @@ public class JVPlayActivity extends PlayActivity implements
 
 			@Override
 			public void onPageSelected(int arg0) {
-				stopAllFunc();
-				MyLog.i(Consts.TAG_UI, ">>> pageSelected: " + arg0 + ", to "
-						+ ((arg0 > lastItemIndex) ? "right" : "left"));
-
-				currentPageChannelList = manager.getValidChannelList(arg0);
-				int size = currentPageChannelList.size();
-
-				int target = currentPageChannelList.get(0).getIndex();
-				for (int i = 0; i < size; i++) {
-					if (lastClickIndex == currentPageChannelList.get(i)
-							.getIndex()) {
-						target = lastClickIndex;
-						break;
-					}
-				}
-				changeBorder(target);
-
-				if (false == isBlockUi) {
-					if (ONE_SCREEN == currentScreen) {
-						try {
-							pauseChannel(channelList.get(arg0 - 1));
-						} catch (Exception e) {
-							// [Neo] empty
-						}
-
-						try {
-							pauseChannel(channelList.get(arg0 + 1));
-						} catch (Exception e) {
-							// [Neo] empty
-						}
-					} else {
-						disconnectChannelList.addAll(manager
-								.getValidChannelList(lastItemIndex));
-					}
-
-					isBlockUi = true;
-					viewPager.setDisableSliding(isBlockUi);
-
-					handler.removeMessages(WHAT_CHECK_SURFACE);
-					handler.sendMessageDelayed(handler.obtainMessage(
-							WHAT_CHECK_SURFACE, arg0, lastClickIndex),
-							DELAY_CHECK_SURFACE);
-					handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
-				}
-
-				lastItemIndex = arg0;
 				try {
+					stopAllFunc();
+					MyLog.i(Consts.TAG_UI, ">>> pageSelected: " + arg0
+							+ ", to "
+							+ ((arg0 > lastItemIndex) ? "right" : "left"));
+
+					currentPageChannelList = manager.getValidChannelList(arg0);
+					int size = currentPageChannelList.size();
+
+					int target = currentPageChannelList.get(0).getIndex();
+					for (int i = 0; i < size; i++) {
+						if (lastClickIndex == currentPageChannelList.get(i)
+								.getIndex()) {
+							target = lastClickIndex;
+							break;
+						}
+					}
+					changeBorder(target);
+
+					if (false == isBlockUi) {
+						if (ONE_SCREEN == currentScreen) {
+							try {
+								pauseChannel(channelList.get(arg0 - 1));
+							} catch (Exception e) {
+								// [Neo] empty
+							}
+
+							try {
+								pauseChannel(channelList.get(arg0 + 1));
+							} catch (Exception e) {
+								// [Neo] empty
+							}
+						} else {
+							disconnectChannelList.addAll(manager
+									.getValidChannelList(lastItemIndex));
+						}
+
+						isBlockUi = true;
+						viewPager.setDisableSliding(isBlockUi);
+
+						handler.removeMessages(WHAT_CHECK_SURFACE);
+						handler.sendMessageDelayed(handler.obtainMessage(
+								WHAT_CHECK_SURFACE, arg0, lastClickIndex),
+								DELAY_CHECK_SURFACE);
+						handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
+					}
+
+					lastItemIndex = arg0;
 					currentMenu_v.setText(channelList.get(lastItemIndex)
 							.getParent().getNickName());
 					currentMenu_h.setText(channelList.get(lastItemIndex)
 							.getParent().getNickName());
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -1603,11 +1615,14 @@ public class JVPlayActivity extends PlayActivity implements
 				&& null != channel.getSurface()) {
 			result = Jni.sendBytes(channel.getIndex(),
 					JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
-
 			if (result) {
-				if (Jni.resume(channel.getIndex(), channel.getSurface())) {
+				result = Jni.resume(channel.getIndex(), channel.getSurface());
+				if (result) {
 					handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
 							channel.getIndex(), ARG2_STATUS_BUFFERING));
+				} else {
+					handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+							channel.getIndex(), ARG2_STATUS_HAS_CONNECTED));
 				}
 
 				channel.setPaused(false);
@@ -2268,7 +2283,15 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.video_bq:
 			case R.id.more_features:// 码流
-				showTextToast(lastClickIndex + "");
+
+				if (channelList.get(lastClickIndex).isNewIpcFlag()) {
+					streamListView.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.stream_selector_bg3));
+				} else {
+					streamListView.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.stream_selector_bg2));
+				}
+
 				if (View.VISIBLE == streamListView.getVisibility()) {
 					streamListView.setVisibility(View.GONE);
 				} else {

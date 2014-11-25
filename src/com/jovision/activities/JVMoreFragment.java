@@ -449,8 +449,6 @@ public class JVMoreFragment extends BaseFragment {
 											"BROADCASTSHOW", true);
 									MySharedPreference.putBoolean("LITTLE",
 											true);
-									MySharedPreference.putBoolean("BROADCAST",
-											true);
 									ListViewUtil
 											.setListViewHeightBasedOnChildren(more_listView);
 								}

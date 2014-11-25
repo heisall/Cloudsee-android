@@ -78,17 +78,8 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 			});
 		}
-		if (position == 3) {
+		if (position == 3 || position == 4) {
 			if (!MySharedPreference.getBoolean("LITTLE")) {
-				more_item.setVisibility(View.GONE);
-				divider_img.setVisibility(View.GONE);
-			} else {
-				more_item.setVisibility(View.VISIBLE);
-				divider_img.setVisibility(View.VISIBLE);
-			}
-		}
-		if (position == 4) {
-			if (!MySharedPreference.getBoolean("BROADCAST")) {
 				more_item.setVisibility(View.GONE);
 				divider_img.setVisibility(View.GONE);
 			} else {

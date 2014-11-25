@@ -280,7 +280,7 @@ public class ConfigUtil {
 	/**
 	 * 获取系统语言
 	 * 
-	 * @return 0:中文 1:英文
+	 * @return 1:中文 2:英文
 	 */
 	public static int getLanguage() {
 		int lan = JVConst.LANGUAGE_ZH;

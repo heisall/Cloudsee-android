@@ -255,10 +255,10 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			this.finish();
 			return;
 		}
-		deviceIndex = intent.getIntExtra("DeviceIndex",0);
+		deviceIndex = intent.getIntExtra("DeviceIndex", 0);
 		deviceList = CacheUtil.getDevList();
 		device = deviceList.get(deviceIndex);
-		
+
 	}
 
 	@SuppressWarnings("deprecation")
@@ -578,7 +578,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						if(0 == deviceList.get(deviceIndex).getIsDevice()){
+						if (0 == deviceList.get(deviceIndex).getIsDevice()) {
 							deviceList.get(deviceIndex).setIp("");
 							deviceList.get(deviceIndex).setPort(0);
 							CacheUtil.saveDevList(deviceList);

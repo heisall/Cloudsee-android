@@ -401,6 +401,7 @@
     <string name="connfailed_type_invalid">连接类型无效</string>
     <string name="connfailed_maxcount">超过设备最大连接数</string>
     <string name="connfailed_timeout">连接超时</string>
+    <string name="connfailed_checkpass_timout">连接超时.</string>
     <string name="connfailed_auth_tips">用户名或密码错误，立即修改?</string>
     <string name="connect_failed">连接失败</string>
     <string name="connecting">连接中…</string>

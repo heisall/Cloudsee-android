@@ -55,6 +55,7 @@ import com.jovision.commons.CommonInterface;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
+import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
@@ -1400,7 +1401,21 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (isBack) {
 				if (1004 == result) {
 					showTextToast(R.string.wifi_reset_failed);
-					JVQuickSettingActivity.this.finish();
+					if (!local) {
+						dismissDialog();
+						MyActivityManager.getActivityManager()
+								.popAllActivityExceptOne(JVLoginActivity.class);
+						Intent intent = new Intent();
+						String userName = statusHashMap
+								.get(Consts.KEY_USERNAME);
+						intent.putExtra("UserName", userName);
+						intent.setClass(JVQuickSettingActivity.this,
+								JVLoginActivity.class);
+						startActivity(intent);
+						finish();
+					} else {
+						JVQuickSettingActivity.this.finish();
+					}
 				} else {
 					JVQuickSettingActivity.this.finish();
 				}
@@ -1488,8 +1503,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						addSucc = false;
 					}
 				}
-				DeviceUtil.refreshDeviceState(
-						statusHashMap.get(Consts.KEY_USERNAME), deviceList);
 			} else {
 				addSucc = false;
 			}
@@ -1499,6 +1512,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			ipcDevice.setIp(temIp);
 			ipcDevice.setPort(temPort);
 			deviceList.add(0, ipcDevice);
+			if (!local) {
+				DeviceUtil.refreshDeviceState(
+						statusHashMap.get(Consts.KEY_USERNAME), deviceList);
+			}
 			CacheUtil.saveDevList(deviceList);
 		}
 

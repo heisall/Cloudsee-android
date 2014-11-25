@@ -51,6 +51,7 @@ import com.jovision.adapters.PopWindowAdapter;
 import com.jovision.bean.AD;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
+import com.jovision.commons.JVConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -563,7 +564,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 							Intent intentAD = new Intent(mActivity,
 									JVWebViewActivity.class);
 							int index = (Integer) imageView.getTag();
-							String adUrl = adList.get(index).getAdLink();
+
+							String adUrl = "";
+
+							if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+								adUrl = adList.get(index).getAdLinkCh();
+							} else {
+								adUrl = adList.get(index).getAdLinkEn();
+							}
+
 							if (null != adUrl
 									&& !"".equalsIgnoreCase(adUrl.trim())) {
 								intentAD.putExtra("URL", adUrl);
@@ -573,12 +582,28 @@ public class JVMyDeviceFragment extends BaseFragment {
 						}
 					});
 
-					Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
-							adList.get(i).getAdImgUrl());
+					Bitmap bmp = null;
+
+					if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+						bmp = BitmapCache.getInstance().getCacheBitmap(
+								adList.get(i).getAdImgUrlCh());
+					} else {
+						bmp = BitmapCache.getInstance().getCacheBitmap(
+								adList.get(i).getAdImgUrlEn());
+					}
+
 					if (null == bmp) {
-						bmp = BitmapCache.getInstance().getBitmap(
-								adList.get(i).getAdImgUrl(), "net",
-								String.valueOf(adList.get(i).getIndex()));
+
+						if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+							bmp = BitmapCache.getInstance().getBitmap(
+									adList.get(i).getAdImgUrlCh(), "net",
+									String.valueOf(adList.get(i).getIndex()));
+						} else {
+							bmp = BitmapCache.getInstance().getBitmap(
+									adList.get(i).getAdImgUrlEn(), "net",
+									String.valueOf(adList.get(i).getIndex()));
+						}
+
 					}
 					// Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
 					// adList.get(i).getAdImgUrl());
@@ -594,8 +619,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 			} else {
 				for (int i = 0; i < listViews.size(); i++) {
 					ImageView imageView = (ImageView) listViews.get(i);
-					Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
-							adList.get(i).getAdImgUrl());
+					Bitmap bmp = null;
+
+					if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+						bmp = BitmapCache.getInstance().getCacheBitmap(
+								adList.get(i).getAdImgUrlCh());
+					} else {
+						bmp = BitmapCache.getInstance().getCacheBitmap(
+								adList.get(i).getAdImgUrlEn());
+					}
+
 					if (null != bmp) {
 						imageView.setImageBitmap(bmp);
 					} else {
@@ -1191,8 +1224,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 					.getString(Consts.AD_LIST));
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net",
-						String.valueOf(ad.getIndex()));
+				BitmapCache.getInstance().getBitmap(
+						ad.getAdImgUrlCh(),
+						"net",
+						String.valueOf(ad.getIndex())
+								+ ConfigUtil.getLanguage());
+				BitmapCache.getInstance().getBitmap(
+						ad.getAdImgUrlEn(),
+						"net",
+						String.valueOf(ad.getIndex())
+								+ ConfigUtil.getLanguage());
 			}
 		} else if (0 == adList.size()) {// 未检查到更新
 			adList = AD.fromJsonArray(MySharedPreference
@@ -1200,8 +1241,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net",
-						String.valueOf(ad.getIndex()));
+				BitmapCache.getInstance().getBitmap(
+						ad.getAdImgUrlCh(),
+						"net",
+						String.valueOf(ad.getIndex())
+								+ ConfigUtil.getLanguage());
+				BitmapCache.getInstance().getBitmap(
+						ad.getAdImgUrlEn(),
+						"net",
+						String.valueOf(ad.getIndex())
+								+ ConfigUtil.getLanguage());
 			}
 		} else if (adList.size() > 0) {// 有新广告
 			// 删除老广告
@@ -1211,8 +1260,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net",
-						String.valueOf(ad.getIndex()));
+				BitmapCache.getInstance().getBitmap(
+						ad.getAdImgUrlCh(),
+						"net",
+						String.valueOf(ad.getIndex())
+								+ ConfigUtil.getLanguage());
+				BitmapCache.getInstance().getBitmap(
+						ad.getAdImgUrlEn(),
+						"net",
+						String.valueOf(ad.getIndex())
+								+ ConfigUtil.getLanguage());
 			}
 		}
 	}
@@ -1456,9 +1513,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 						myDeviceList.add(0, addDev);
 					}
 				}
-				// DeviceUtil.refreshDeviceState(
-				// mActivity.statusHashMap.get(Consts.KEY_USERNAME),
-				// myDeviceList);
+				DeviceUtil.refreshDeviceState(
+						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
+						myDeviceList);
 
 				for (Device dev1 : AddLanList) {
 					for (Device dev2 : myDeviceList) {

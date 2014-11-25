@@ -121,7 +121,7 @@
                         android:orientation="horizontal" >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="@string/str_ip_address"
@@ -152,7 +152,7 @@
                         android:orientation="horizontal" >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="@string/str_netmask"
@@ -183,7 +183,7 @@
                         android:orientation="horizontal" >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="@string/str_gateway"
@@ -214,7 +214,7 @@
                         android:orientation="horizontal" >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="@string/str_dns"
@@ -245,7 +245,7 @@
                         android:orientation="horizontal" >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="@string/str_mac"
@@ -277,7 +277,7 @@
                         android:visibility="visible" >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="@string/str_cloudsee_id"
@@ -308,7 +308,7 @@
                         android:orientation="horizontal" >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:gravity="center_horizontal"

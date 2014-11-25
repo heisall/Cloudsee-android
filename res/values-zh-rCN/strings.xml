@@ -382,7 +382,7 @@
     <string name="press_screen_refresh">点击屏幕刷新</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">暂时没有报警数据</string>
-    <string name="alerm">报警级别</string>
+    <string name="alarm_level">报警级别</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加载更多</string>
     <string name="xlistview_no_more">没有报警信息了</string>

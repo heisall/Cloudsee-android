@@ -84,15 +84,17 @@
                 android:visibility="gone" />
 
             <TextView
+                android:gravity="center"
+                android:singleLine="false"
                 android:id="@+id/playstate"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:paddingTop="43dp"
                 android:textColor="@color/green"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </RelativeLayout>
     </RelativeLayout>
 

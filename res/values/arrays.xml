@@ -36,7 +36,7 @@
     <string-array name="array_setting">
         <item>Scene Picture</item>
         <item> Help</item>
-        <item> Alerm</item>
+        <item> Alarm</item>
         <item> Viewing Mode(Single-device)</item>
     </string-array>
 

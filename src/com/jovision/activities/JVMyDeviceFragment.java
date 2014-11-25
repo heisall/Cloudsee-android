@@ -296,11 +296,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 			task.execute(strParams);
 		}
 
-		// 非3G加广播设备
-		startBroadTimer();
+		
 		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			startAutoRefreshTimer();
+		}else{
+			// 非3G加广播设备
+			startBroadTimer();
 		}
 
 	}
@@ -592,19 +594,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 								adList.get(i).getAdImgUrlEn());
 					}
 
-					if (null == bmp) {
-
-						if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
-							bmp = BitmapCache.getInstance().getBitmap(
-									adList.get(i).getAdImgUrlCh(), "net",
-									String.valueOf(adList.get(i).getIndex()));
-						} else {
-							bmp = BitmapCache.getInstance().getBitmap(
-									adList.get(i).getAdImgUrlEn(), "net",
-									String.valueOf(adList.get(i).getIndex()));
-						}
-
-					}
+//					if (null == bmp) {
+//
+//						if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+//							bmp = BitmapCache.getInstance().getBitmap(
+//									adList.get(i).getAdImgUrlCh(), "net",
+//									String.valueOf(adList.get(i).getIndex()));
+//						} else {
+//							bmp = BitmapCache.getInstance().getBitmap(
+//									adList.get(i).getAdImgUrlEn(), "net",
+//									String.valueOf(adList.get(i).getIndex()));
+//						}
+//
+//					}
 					// Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
 					// adList.get(i).getAdImgUrl());
 					if (null != bmp) {
@@ -1661,7 +1663,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 					PlayUtil.broadCast(mActivity);
 				}
 			};
-			broadTimer.schedule(broadTimerTask, 5 * 60 * 1000, 5 * 60 * 1000);
+			broadTimer.schedule(broadTimerTask, 3 * 60 * 1000, 3 * 60 * 1000);
 		}
 	}
 
@@ -1690,7 +1692,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		updateTimer = new Timer();
 		if (null != updateTimer) {
-			updateTimer.schedule(updateTask, 2 * 60 * 1000, 2 * 60 * 1000);
+			updateTimer.schedule(updateTask, 3 * 60 * 1000, 3 * 60 * 1000);
 		}
 	}
 

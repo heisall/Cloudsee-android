@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.jovision.utils.ConfigUtil;
+
 //登录用户
 public class User {
 	private final static String TAG = "UserBean";
@@ -116,10 +118,10 @@ public class User {
 		try {
 			JSONObject object = new JSONObject(string);
 			user.setPrimaryID(object.getLong("primaryID"));
-			user.setUserName(object.getString("userName"));
-			user.setUserPwd(object.getString("userPwd"));
-			user.setUserEmail(object.getString("userEmail"));
-			user.setLastLogin(object.getInt("lastLogin"));
+			user.setUserName(ConfigUtil.getString(object, "userName"));
+			user.setUserPwd(ConfigUtil.getString(object, "userPwd"));
+			user.setUserEmail(ConfigUtil.getString(object, "userEmail"));
+			user.setLastLogin(ConfigUtil.getInt(object, "lastLogin"));
 			user.setJudgeFlag(object.optInt("cacheJudgeFlag", 0));
 		} catch (JSONException e) {
 			e.printStackTrace();

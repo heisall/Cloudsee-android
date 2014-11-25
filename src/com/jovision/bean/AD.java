@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.jovision.utils.ConfigUtil;
+
 public class AD {
 	private int index;// (广告图片序号)
 	private String adImgUrlCh;// (广告图片URL)
@@ -78,14 +80,14 @@ public class AD {
 		AD ad = new AD();
 		try {
 			JSONObject object = new JSONObject(string);
-			ad.setIndex(object.getInt("index"));
-			ad.setAdImgUrlCh(object.getString("adImgUrlCh"));
-			ad.setAdLinkCh(object.getString("adLinkCh"));
-			ad.setAdImgUrlEn(object.getString("adImgUrlEn"));
-			ad.setAdLinkEn(object.getString("adLinkEn"));
-			ad.setVersion(object.getInt("version"));
-			// ad.setSavePath(object.getString("savePath"));
-			// ad.setFileName(object.getString("fileName"));
+			ad.setIndex(ConfigUtil.getInt(object, "index"));
+			ad.setAdImgUrlCh(ConfigUtil.getString(object, "adImgUrlCh"));
+			ad.setAdLinkCh(ConfigUtil.getString(object, "adLinkCh"));
+			ad.setAdImgUrlEn(ConfigUtil.getString(object, "adImgUrlEn"));
+			ad.setAdLinkEn(ConfigUtil.getString(object, "adLinkEn"));
+			ad.setVersion(ConfigUtil.getInt(object, "version"));
+			// ad.setSavePath(ConfigUtil.getString(object,"savePath"));
+			// ad.setFileName(ConfigUtil.getString(object,"fileName"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

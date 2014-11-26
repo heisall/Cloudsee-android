@@ -29,6 +29,9 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
 
 public class JVTabActivity extends ShakeActivity implements
 		OnPageChangeListener {
@@ -83,6 +86,26 @@ public class JVTabActivity extends ShakeActivity implements
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
 						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
 						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+		// 开启logcat输出，方便debug，发布时请关闭
+		XGPushConfig.enableDebug(this, false);
+		// 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
+		// XGIOperateCallback)带callback版本
+		// 如果需要绑定账号，请使用registerPush(getApplicationContext(),"account")版本
+		// 具体可参考详细的开发指南
+		// 传递的参数为ApplicationContext
+		XGPushManager.registerPush(getApplicationContext(),
+				new XGIOperateCallback() {
+					@Override
+					public void onSuccess(Object data, int flag) {
+						MyLog.d("TPush", "注册成功，设备token为：" + data);
+					}
+
+					@Override
+					public void onFail(Object data, int errCode, String msg) {
+						MyLog.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+					}
+				});
 	}
 
 	@Override

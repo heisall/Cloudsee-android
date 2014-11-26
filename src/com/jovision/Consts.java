@@ -11,6 +11,8 @@ public class Consts {
 	// 0：CloudSEE 1：NVSIP
 	public static final int PRODUCT_TYPE = 0;
 
+	public static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
+
 	/** 老数据库数据 **/
 	public static final String JVCONFIG_DATABASE = "JVConfigTemp.db";
 	public static final int JVCONFIG_DB_VER = 2;

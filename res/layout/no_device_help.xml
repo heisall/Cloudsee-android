@@ -33,7 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dip"
-                android:src="@drawable/wire_device_img" />
+                android:src="@drawable/wire_device_img" 
+                android:id="@+id/quickinstall_img_bg"/>
 
             <Button
                 android:id="@+id/quickinstall"
@@ -59,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dip"
-                android:src="@drawable/unwire_device_img" />
+                android:src="@drawable/unwire_device_img" 
+                android:id="@+id/unwire_device_img_bg"/>
 
             <Button
                 android:id="@+id/adddevice"

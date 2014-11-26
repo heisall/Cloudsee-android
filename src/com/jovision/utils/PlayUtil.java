@@ -336,7 +336,7 @@ public class PlayUtil {
 		MobileUtil.createDirectory(new File(videoPath));
 
 		boolean startSuccess = Jni.startRecord(index, videoPath + fileName,
-				true, true);
+				true, false);
 		return startSuccess;
 	}
 

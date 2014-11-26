@@ -280,7 +280,7 @@ public class ConfigUtil {
 	/**
 	 * 获取系统语言
 	 * 
-	 * @return 0:中文 1:英文
+	 * @return 1:中文 2:英文
 	 */
 	public static int getLanguage() {
 		int lan = JVConst.LANGUAGE_ZH;
@@ -979,5 +979,41 @@ public class ConfigUtil {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public static int getInt(JSONObject object, String key) {
+		int value = 0;
+		if (!object.isNull(key)) {
+			try {
+				value = object.getInt(key);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return value;
+	}
+
+	public static String getString(JSONObject object, String key) {
+		String value = "";
+		if (!object.isNull(key)) {
+			try {
+				value = object.getString(key);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return value;
+	}
+
+	public static boolean getBoolean(JSONObject object, String key) {
+		boolean value = false;
+		if (!object.isNull(key)) {
+			try {
+				value = object.getBoolean(key);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return value;
 	}
 }

@@ -20,13 +20,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -104,37 +98,38 @@ public class JVUpdate {
 		// builder.setView(updateTextView);
 
 		builder.setMessage(updateContent);
-		LinearLayout layout = new LinearLayout(mContext);
-		layout.setOrientation(LinearLayout.HORIZONTAL);
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(20, 0, 0, 0);
-		layout.setLayoutParams(layoutParams);
-		CheckBox box = new CheckBox(mContext);
-		box.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				// TODO Auto-generated method stub
-				if (isChecked) {
-					MySharedPreference.putBoolean("IsUpdate", true);
-				} else {
-					MySharedPreference.putBoolean("IsUpdate", false);
-				}
-			}
-		});
-		box.setLayoutParams(layoutParams);
-		layout.addView(box);
-		TextView view = new TextView(mContext);
-		view.setTextSize(16);
-		view.setLayoutParams(layoutParams);
-		view.setTextColor(mContext.getResources().getColor(
-				R.color.more_fragment_color3));
-		view.setText(mContext.getResources().getString(R.string.str_ignore));
-		layout.addView(view);
-		builder.setView(layout);
+		// LinearLayout layout = new LinearLayout(mContext);
+		// layout.setOrientation(LinearLayout.HORIZONTAL);
+		// LinearLayout.LayoutParams layoutParams = new
+		// LinearLayout.LayoutParams(
+		// RelativeLayout.LayoutParams.WRAP_CONTENT,
+		// RelativeLayout.LayoutParams.WRAP_CONTENT);
+		// layoutParams.setMargins(20, 0, 0, 0);
+		// layout.setLayoutParams(layoutParams);
+		// CheckBox box = new CheckBox(mContext);
+		// box.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		//
+		// @Override
+		// public void onCheckedChanged(CompoundButton buttonView,
+		// boolean isChecked) {
+		// // TODO Auto-generated method stub
+		// if (isChecked) {
+		// MySharedPreference.putBoolean("IsUpdate", true);
+		// } else {
+		// MySharedPreference.putBoolean("IsUpdate", false);
+		// }
+		// }
+		// });
+		// box.setLayoutParams(layoutParams);
+		// layout.addView(box);
+		// TextView view = new TextView(mContext);
+		// view.setTextSize(16);
+		// view.setLayoutParams(layoutParams);
+		// view.setTextColor(mContext.getResources().getColor(
+		// R.color.more_fragment_color3));
+		// view.setText(mContext.getResources().getString(R.string.str_ignore));
+		// layout.addView(view);
+		// builder.setView(layout);
 		builder.setPositiveButton(mContext.getString(R.string.str_upatenow),
 				new OnClickListener() {
 					@Override

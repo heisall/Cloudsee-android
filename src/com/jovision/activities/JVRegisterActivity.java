@@ -1,5 +1,8 @@
 package com.jovision.activities;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,7 +26,10 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.JVConst;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 import com.tencent.stat.StatService;
@@ -348,6 +354,8 @@ public class JVRegisterActivity extends BaseActivity {
 	private int errorCode = 0;
 	private int verifyCode = 0;
 	private int loginRes = 0;
+	private int loginRes1 = 0;
+	private int loginRes2 = 0;
 
 	// 用户注册线程
 	private class RegisterTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
@@ -370,10 +378,56 @@ public class JVRegisterActivity extends BaseActivity {
 				if (JVAccountConst.SUCCESS == registerRes) {
 					verifyCode = AccountUtil.VerifyUserName(user.getUserName());
 					if (verifyCode > 0) {
-						loginRes = AccountUtil.userLogin(
+						// loginRes = AccountUtil.userLogin(
+						// statusHashMap.get(Consts.KEY_USERNAME),
+						// statusHashMap.get(Consts.KEY_PASSWORD),
+						// JVRegisterActivity.this);
+						String strRes = AccountUtil.onLoginProcessV2(
+								JVRegisterActivity.this,
 								statusHashMap.get(Consts.KEY_USERNAME),
 								statusHashMap.get(Consts.KEY_PASSWORD),
-								JVRegisterActivity.this);
+								Url.SHORTSERVERIP, Url.LONGSERVERIP);
+						JSONObject respObj = null;
+						try {
+							respObj = new JSONObject(strRes);
+							loginRes1 = respObj.optInt("arg1", 1);
+							loginRes2 = respObj.optInt("arg2", 0);
+							// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
+
+							String data = respObj.optString("data");
+							if (null != data && !"".equalsIgnoreCase(data)) {
+								JSONObject dataObj = new JSONObject(data);
+								String channelIp = dataObj
+										.optString("channel_ip");
+								String onlineIp = dataObj
+										.optString("online_ip");
+								if (JVConst.LANGUAGE_ZH == ConfigUtil
+										.getServerLanguage()) {
+									MySharedPreference.putString("ChannelIP",
+											channelIp);
+									MySharedPreference.putString("OnlineIP",
+											onlineIp);
+									MySharedPreference.putString(
+											"ChannelIP_en", "");
+									MySharedPreference.putString("OnlineIP_en",
+											"");
+								} else {
+									MySharedPreference.putString(
+											"ChannelIP_en", channelIp);
+									MySharedPreference.putString("OnlineIP_en",
+											onlineIp);
+									MySharedPreference.putString("ChannelIP",
+											"");
+									MySharedPreference
+											.putString("OnlineIP", "");
+								}
+							}
+
+						} catch (JSONException e) {
+							loginRes1 = JVAccountConst.LOGIN_FAILED_2;
+							loginRes2 = 0;
+							e.printStackTrace();
+						}
 					}
 					return registerRes;
 				} else {
@@ -401,7 +455,7 @@ public class JVRegisterActivity extends BaseActivity {
 				StatService.trackCustomEvent(JVRegisterActivity.this,
 						"Register", JVRegisterActivity.this.getResources()
 								.getString(R.string.str_register));
-				if (verifyCode > 0 && 0 == loginRes) {
+				if (verifyCode > 0 && JVAccountConst.LOGIN_SUCCESS == loginRes1) {
 					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 					Intent emailIntent = new Intent(JVRegisterActivity.this,
 							JVBoundEmailActivity.class);

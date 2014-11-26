@@ -157,20 +157,20 @@ public class AccountUtil {
 	 * @param deviceType客户端相关信息
 	 * @return 0:成功 其他失败
 	 */
-	public static int judgeUser(String userName, String pwd, Context con) {
-		int res = -1;
-		res = JVACCOUNT.JudgeUserPasswordStrength(userName);
-		if (3 == res) {
-			return res;
-		} else if (118 == res) {
-			res = JVACCOUNT.OldUserLogin(userName, pwd);
-			return res;
-		} else if (119 == res) {
-			return userLogin(userName, pwd, con);
-		} else {
-			return res;
-		}
-	}
+	// public static int judgeUser(String userName, String pwd, Context con) {
+	// int res = -1;
+	// res = JVACCOUNT.JudgeUserPasswordStrength(userName);
+	// if (3 == res) {
+	// return res;
+	// } else if (118 == res) {
+	// res = JVACCOUNT.OldUserLogin(userName, pwd);
+	// return res;
+	// } else if (119 == res) {
+	// return userLogin(userName, pwd, con);
+	// } else {
+	// return res;
+	// }
+	// }
 
 	/**
 	 * 用户登录
@@ -180,32 +180,32 @@ public class AccountUtil {
 	 * @param deviceType客户端相关信息
 	 * @return 0:成功 其他失败
 	 */
-	public static int userLogin(String userName, String pwd, Context con) {
-		int res = -1;
-		res = JVACCOUNT.UserLogin(userName, pwd);
-		MyLog.v("userLogin--", "-----||||||" + res + "");
-		// 汇报设备类型
-		if (0 == res) {
-			res = reportClientPlatformInfo(con);
-		}
-
-		boolean alarmSwitch = MySharedPreference.getBoolean("AlarmSwitch",
-				false);
-
-		if (0 == res) {
-			JVACCOUNT.SetCurrentAlarmFlag(alarmSwitch ? 0 : 1,
-					ConfigUtil.getIMEI(con));
-		}
-
-		if (0 == res) {
-			JVACCOUNT.RegisterServerPushFunc();
-		}
-
-		if (res == 0) {// 登陆成功必须调online
-			userOnline();
-		}
-		return res;
-	}
+	// public static int userLogin(String userName, String pwd, Context con) {
+	// int res = -1;
+	// res = JVACCOUNT.UserLogin(userName, pwd);
+	// MyLog.v("userLogin--", "-----||||||" + res + "");
+	// // 汇报设备类型
+	// if (0 == res) {
+	// res = reportClientPlatformInfo(con);
+	// }
+	//
+	// boolean alarmSwitch = MySharedPreference.getBoolean("AlarmSwitch",
+	// false);
+	//
+	// if (0 == res) {
+	// JVACCOUNT.SetCurrentAlarmFlag(alarmSwitch ? 0 : 1,
+	// ConfigUtil.getIMEI(con));
+	// }
+	//
+	// if (0 == res) {
+	// JVACCOUNT.RegisterServerPushFunc();
+	// }
+	//
+	// if (res == 0) {// 登陆成功必须调online
+	// userOnline();
+	// }
+	// return res;
+	// }
 
 	/**
 	 * 用户登录 汇报设备类型

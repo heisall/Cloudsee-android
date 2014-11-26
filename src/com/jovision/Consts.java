@@ -82,6 +82,11 @@ public class Consts {
 	public static final int COUNT_EX_STORAGE = 0x03;
 	public static final int COUNT_EX_SENSOR = 0x08;
 
+	public static final String FORMATTER_FLASH_SWITCH = "FlashMode=%d;";
+	public static final String FORMATTER_MOTION_DETECTION_SWITCH = "bMDEnable=%d;";
+	public static final String FORMATTER_PN_SWITCH = "PNMode=%d";
+	public static final String FORMATTER_AP_SWITCH = "apModeOn=%d";
+
 	public static final String FORMATTER_STORAGE_MODE = "storageMode=%d";
 	public static final String FORMATTER_TALK_SWITCH = "talkSwitch=%d";
 	public static final String FORMATTER_SET_WIFI = "ACTIVED=%d;WIFI_ID=%s;WIFI_PW=%s;";

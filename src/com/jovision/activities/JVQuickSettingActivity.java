@@ -1042,37 +1042,68 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			JVQuickSettingActivity.this.startActivity(intent);
 			JVQuickSettingActivity.this.finish();
 			break;
-		case Consts.CALL_QUERY_DEVICE: {// 广播到设备IP
+		// case Consts.CALL_QUERY_DEVICE: {// 广播到设备IP
+		// hasBroadIP = true;
+		// JSONObject broadObj;
+		// try {
+		// broadObj = new JSONObject(obj.toString());
+		// if (1 == broadObj.optInt("type")) {// 广播到了
+		// ipcDevice.setOnlineState(1);
+		// ipcDevice.setIp(broadObj.optString("ip"));
+		// ipcDevice.setPort(broadObj.optInt("port"));
+		//
+		// for (Device dev : deviceList) {
+		// if (dev.getFullNo().equalsIgnoreCase(
+		// ipcDevice.getFullNo())) {
+		// dev.setOnlineState(1);
+		// dev.setIp(broadObj.optString("ip"));
+		// dev.setPort(broadObj.optInt("port"));
+		// }
+		// }
+		//
+		// } else {
+		// ipcDevice.setOnlineState(0);
+		// ipcDevice.setIp("");
+		// ipcDevice.setPort(0);
+		// }
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// // hasBroadIP: 174, 0, 0,
+		// // {"gid":"S","ip":"172.26.97.3","no":52942216,"port":9101,"type":1}
+		// MyLog.e(TAG, "hasBroadIP9999999999999999999999999999: " + what
+		// + ", " + arg1 + ", " + arg2 + ", " + obj);
+		//
+		// break;
+		// }
+		// 广播回调
+		case Consts.CALL_LAN_SEARCH: {
+			MyLog.v(TAG, "CALL_LAN_SEARCH = what=" + what + ";arg1=" + arg1
+					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
+			// MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1
+			// + ";arg2=" + arg1 + ";obj=" + obj.toString());
+			// onTabAction:what=168;arg1=0;arg2=0;obj={"count":1,"curmod":0,"gid":"A","ip":"192.168.21.238","netmod":0,"no":283827713,"port":9101,"timeout":0,"type":59162,"variety":3}
 			hasBroadIP = true;
 			JSONObject broadObj;
 			try {
 				broadObj = new JSONObject(obj.toString());
-				if (1 == broadObj.optInt("type")) {// 广播到了
+
+				String broadDevNum = broadObj.optString("gid")
+						+ broadObj.optInt("no");
+				if (broadDevNum.equalsIgnoreCase(ipcDevice.getFullNo())) {// 同一个设备
 					ipcDevice.setOnlineState(1);
 					ipcDevice.setIp(broadObj.optString("ip"));
 					ipcDevice.setPort(broadObj.optInt("port"));
-
-					for (Device dev : deviceList) {
-						if (dev.getFullNo().equalsIgnoreCase(
-								ipcDevice.getFullNo())) {
-							dev.setOnlineState(1);
-							dev.setIp(broadObj.optString("ip"));
-							dev.setPort(broadObj.optInt("port"));
-						}
-					}
-
 				} else {
-					ipcDevice.setOnlineState(0);
 					ipcDevice.setIp("");
 					ipcDevice.setPort(0);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			// hasBroadIP: 174, 0, 0,
-			// {"gid":"S","ip":"172.26.97.3","no":52942216,"port":9101,"type":1}
-			MyLog.e(TAG, "hasBroadIP9999999999999999999999999999: " + what
-					+ ", " + arg1 + ", " + arg2 + ", " + obj);
+			MyLog.e(TAG,
+					"jvadddeviceactivity hasBroadIP 888888888888888888888: "
+							+ what + ", " + arg1 + ", " + arg2 + ", " + obj);
 
 			break;
 		}

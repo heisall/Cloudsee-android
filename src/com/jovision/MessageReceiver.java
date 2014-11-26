@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.activities.JVTabActivity;
 import com.jovision.activities.JVWelcomeActivity;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAlarmConst;

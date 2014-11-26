@@ -67,8 +67,9 @@ public class JVAddDeviceActivity extends BaseActivity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			MyLog.v(TAG, "hasBroadIP: " + what + ", " + arg1 + ", " + arg2
-					+ ", " + obj);
+			MyLog.e(TAG,
+					"jvadddeviceactivity hasBroadIP 888888888888888888888: "
+							+ what + ", " + arg1 + ", " + arg2 + ", " + obj);
 
 			break;
 		}
@@ -261,7 +262,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 						Integer.parseInt(params[2]));
 				MyLog.e(TAG, "getChannelCount X = " + channelCount);
 				if (channelCount <= 0) {
-					channelCount = 4;
+					channelCount = 1;
 				}
 
 				addDevice = new Device("", 0, params[0],
@@ -296,11 +297,12 @@ public class JVAddDeviceActivity extends BaseActivity {
 				}
 
 				if (0 == addRes) {
+
 					Jni.queryDevice(ConfigUtil.getGroup(addDevice.getFullNo()),
 							ConfigUtil.getYST(addDevice.getFullNo()), 2 * 1000);
 
 					while (!hasBroadIP) {
-						Thread.sleep(1000);
+						Thread.sleep(100);
 					}
 					deviceList.add(0, addDevice);
 					if (!localFlag) {

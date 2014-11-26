@@ -18,6 +18,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.test.AutoLoad;
 import android.test.JVACCOUNT;
 
@@ -32,6 +33,7 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AlarmUtil;
+import com.jovision.utils.MyRecevier;
 
 /**
  * 整个应用的入口，管理状态、活动集合，消息队列以及漏洞汇报
@@ -68,6 +70,15 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		return statusHashMap;
 	}
 
+	private void registerDateTransReceiver() {
+		// MyLog.i(TAG, "register receiver " +
+		// Consts.CONNECTIVITY_CHANGE_ACTION);
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(Consts.CONNECTIVITY_CHANGE_ACTION);
+		filter.setPriority(1000);
+		registerReceiver(new MyRecevier(), filter);
+	}
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -79,6 +90,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		MyLog.init(Consts.LOG_PATH);
 		MyLog.enableFile(true);
 		MyLog.enableLogcat(true);
+		registerDateTransReceiver();
 		statusHashMap = new HashMap<String, String>();
 		openedActivityList = new ArrayList<BaseActivity>();
 

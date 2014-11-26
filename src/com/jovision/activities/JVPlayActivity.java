@@ -803,11 +803,17 @@ public class JVPlayActivity extends PlayActivity implements
 											.genMsgMap1(strParam);
 									int width = Integer.valueOf(ch2Map
 											.get("width"));
-									int height = Integer.valueOf(ch2Map
-											.get("height"));
-									if (720 == width && 480 == height) {
+									// int height = Integer.valueOf(ch2Map
+									// .get("height"));
+									// if (720 == width && 480 == height) {
+									// channel.setStreamTag(2);
+									// } else if (352 == width && 288 == height)
+									// {
+									// channel.setStreamTag(3);
+									// }
+									if (624 <= width) {
 										channel.setStreamTag(2);
-									} else if (352 == width && 288 == height) {
+									} else {
 										channel.setStreamTag(3);
 									}
 									channel.setNewIpcFlag(false);
@@ -937,7 +943,9 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_QUERY_DEVICE: {
-			MyLog.i(Consts.TAG_PLAY, "query-" + obj);
+			MyLog.e(Consts.TAG_PLAY,
+					"jvplayactivity  query 7777777777777777777777---------------------------"
+							+ obj);
 			break;
 		}
 
@@ -1060,29 +1068,45 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换
-			int index = arg1 + 1;
-			String params = "MobileStreamQos=" + index + ";MobileQuality="
-					+ index + ";";
 
-			MyLog.v(TAG, "changeStream--" + params);
-			Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA, false,
-					0, Consts.TYPE_SET_PARAM, params);
-			// if (0 == arg1) {
-			// Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-			// false, 0, Consts.TYPE_SET_PARAM, String.format(
-			// Consts.FORMATTER_SET_BPS_FPS, 1, 1280, 720,
-			// 1024, 15, 1));
-			// } else if (1 == arg1) {
-			// Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-			// false, 0, Consts.TYPE_SET_PARAM, String.format(
-			// Consts.FORMATTER_SET_BPS_FPS, 1, 720, 480, 768,
-			// 25, 1));
-			// } else if (2 == arg1) {
-			// Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-			// false, 0, Consts.TYPE_SET_PARAM, String.format(
-			// Consts.FORMATTER_SET_BPS_FPS, 1, 352, 288, 512,
-			// 25, 1));
-			// }
+			Channel channel = null;
+			if (lastClickIndex < channelList.size()) {
+				channel = channelList.get(lastClickIndex);
+			}
+
+			if (null == channel) {
+				return;
+			}
+
+			if (channel.isNewIpcFlag()) {
+				int index = arg1 + 1;
+				String params = "MobileQuality=" + index + ";";// "MobileStreamQos="
+																// + index +
+																// 2014-11-26
+																// 去掉MobileStreamQos字段
+
+				MyLog.v(TAG, "changeStream--" + params);
+				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						false, 0, Consts.TYPE_SET_PARAM, params);
+			} else {
+				if (0 == arg1) {
+					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+							false, 0, Consts.TYPE_SET_PARAM, String.format(
+									Consts.FORMATTER_SET_BPS_FPS, 2, 1280, 720,
+									1024, 15, 1));
+				} else if (1 == arg1) {
+					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+							false, 0, Consts.TYPE_SET_PARAM, String.format(
+									Consts.FORMATTER_SET_BPS_FPS, 2, 720, 480,
+									512, 20, 1));
+				} else if (2 == arg1) {
+					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+							false, 0, Consts.TYPE_SET_PARAM, String.format(
+									Consts.FORMATTER_SET_BPS_FPS, 2, 352, 288,
+									512, 25, 1));
+				}
+			}
+
 			streamListView.setVisibility(View.GONE);
 			break;
 		}

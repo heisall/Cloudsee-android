@@ -11,6 +11,8 @@ public class Consts {
 	// 0：CloudSEE 1：NVSIP
 	public static final int PRODUCT_TYPE = 0;
 
+	public static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
+
 	/** 老数据库数据 **/
 	public static final String JVCONFIG_DATABASE = "JVConfigTemp.db";
 	public static final int JVCONFIG_DB_VER = 2;
@@ -81,6 +83,11 @@ public class Consts {
 	public static final int COUNT_EX_NETWORK = 0x02;
 	public static final int COUNT_EX_STORAGE = 0x03;
 	public static final int COUNT_EX_SENSOR = 0x08;
+
+	public static final String FORMATTER_FLASH_SWITCH = "FlashMode=%d;";
+	public static final String FORMATTER_MOTION_DETECTION_SWITCH = "bMDEnable=%d;";
+	public static final String FORMATTER_PN_SWITCH = "PNMode=%d";
+	public static final String FORMATTER_AP_SWITCH = "apModeOn=%d";
 
 	public static final String FORMATTER_STORAGE_MODE = "storageMode=%d";
 	public static final String FORMATTER_TALK_SWITCH = "talkSwitch=%d";

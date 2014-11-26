@@ -1071,8 +1071,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			}
 			// hasBroadIP: 174, 0, 0,
 			// {"gid":"S","ip":"172.26.97.3","no":52942216,"port":9101,"type":1}
-			MyLog.e(TAG, "hasBroadIP: " + what + ", " + arg1 + ", " + arg2
-					+ ", " + obj);
+			MyLog.e(TAG, "hasBroadIP9999999999999999999999999999: " + what
+					+ ", " + arg1 + ", " + arg2 + ", " + obj);
 
 			break;
 		}
@@ -1317,11 +1317,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 					hasBroadIP = false;
 					Jni.queryDevice(ConfigUtil.getGroup(ipcDevice.getFullNo()),
-							ConfigUtil.getYST(ipcDevice.getFullNo()), 40 * 1000);
+							ConfigUtil.getYST(ipcDevice.getFullNo()), 20 * 1000);
 
 					while (!hasBroadIP) {// 未广播到IP
 						try {
-							Thread.sleep(2 * 1000);
+							Thread.sleep(100);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}

@@ -419,7 +419,29 @@ public class Jni {
 				String.format(Consts.FORMATTER_TALK_SWITCH, switcher));
 
 		// [Neo] 门瓷与手环
-		Jni.sendString(window, uchType, false, type, 0, custom);
+		Jni.sendString(window, uchType, false, 0, type, custom);
+
+		/*** 忧郁的分割线 慧通 ***/
+
+		// [Neo] 设置闪光灯 TODO 未验证 0: 自动 1: 开启 2: 关闭
+		Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+				JVNetConst.RC_SETPARAM,
+				String.format(Consts.FORMATTER_FLASH_SWITCH, switcher));
+
+		// [Neo] 移动侦测 TODO 未验证 1: 开 0: 关
+		Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true,
+				JVNetConst.RC_EX_MD, JVNetConst.EX_MD_SUBMIT, String.format(
+						Consts.FORMATTER_MOTION_DETECTION_SWITCH, switcher));
+
+		// [Neo] 视频制式 TODO 未验证 0: P 1: N
+		Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+				JVNetConst.RC_SETPARAM,
+				String.format(Consts.FORMATTER_PN_SWITCH, switcher));
+
+		// [Neo] 切换 AP 模式 TODO 未验证 1: AP
+		Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+				JVNetConst.RC_SETPARAM,
+				String.format(Consts.FORMATTER_AP_SWITCH, switcher));
 
 		/*** 忧郁的分割线 ***/
 
@@ -453,8 +475,8 @@ public class Jni {
 				Consts.TYPE_EX_SENSOR, custom);
 
 		// [Neo] 更新设备
-		Jni.sendString(window, uchType, true, Consts.TYPE_EX_UPDATE,
-				Consts.COUNT_EX_UPDATE, null);
+		Jni.sendString(window, uchType, true, Consts.COUNT_EX_UPDATE,
+				Consts.TYPE_EX_UPDATE, null);
 	}
 
 	/**

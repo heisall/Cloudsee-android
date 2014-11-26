@@ -1770,6 +1770,14 @@ public class JVPlayActivity extends PlayActivity implements
 				int number = device.getNo();
 				String conIp = device.getIp();
 				int conPort = device.getPort();
+				if (Consts.PLAY_AP == playFlag) {
+					conIp = Consts.IPC_DEFAULT_IP;
+					conPort = Consts.IPC_DEFAULT_PORT;
+				} else {
+					conIp = device.getIp();
+					conPort = device.getPort();
+				}
+
 				// 有ip通过ip连接
 				if (false == ("".equalsIgnoreCase(device.getIp()) || 0 == device
 						.getPort())) {

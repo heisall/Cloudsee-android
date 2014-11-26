@@ -78,6 +78,7 @@ public class JVLoginActivity extends BaseActivity {
 		switch (what) {
 		case WHAT_SHOW_PRO: {
 			createDialog("");
+			proDialog.setCancelable(false);
 			break;
 		}
 		case DELECT_USER:
@@ -476,6 +477,7 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.PASSWORD_ERROR: {
+				UserUtil.resetAllUser();
 				showTextToast(R.string.str_userpass_error);
 				break;
 			}
@@ -488,10 +490,12 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.USER_NOT_EXIST: {
+				UserUtil.resetAllUser();
 				showTextToast(R.string.str_user_not_exist);
 				break;
 			}
 			case JVAccountConst.LOGIN_FAILED_1: {
+				UserUtil.resetAllUser();
 				if (-5 == loginRes2) {
 					showTextToast(R.string.str_error_code_5);
 				} else if (-6 == loginRes2) {
@@ -504,6 +508,7 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.LOGIN_FAILED_2: {
+				UserUtil.resetAllUser();
 				showTextToast(R.string.str_other_error);
 				break;
 			}
@@ -516,6 +521,7 @@ public class JVLoginActivity extends BaseActivity {
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
 			createDialog("");
+			proDialog.setCancelable(false);
 		}
 
 		@Override

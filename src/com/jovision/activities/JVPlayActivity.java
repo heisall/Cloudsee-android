@@ -803,11 +803,17 @@ public class JVPlayActivity extends PlayActivity implements
 											.genMsgMap1(strParam);
 									int width = Integer.valueOf(ch2Map
 											.get("width"));
-									int height = Integer.valueOf(ch2Map
-											.get("height"));
-									if (720 == width && 480 == height) {
+									// int height = Integer.valueOf(ch2Map
+									// .get("height"));
+									// if (720 == width && 480 == height) {
+									// channel.setStreamTag(2);
+									// } else if (352 == width && 288 == height)
+									// {
+									// channel.setStreamTag(3);
+									// }
+									if (624 <= width) {
 										channel.setStreamTag(2);
-									} else if (352 == width && 288 == height) {
+									} else {
 										channel.setStreamTag(3);
 									}
 									channel.setNewIpcFlag(false);

@@ -31,6 +31,7 @@ public class UserUtil {
 					userList.get(i).setUserEmail(user.getUserEmail());
 					userList.get(i).setLastLogin(user.getLastLogin());
 					userList.get(i).setPrimaryID(user.getPrimaryID());
+					userList.get(i).setJudgeFlag(user.getJudgeFlag());
 					find = true;
 					break;
 				}
@@ -67,6 +68,7 @@ public class UserUtil {
 				userList.get(i).setUserEmail(user.getUserEmail());
 				userList.get(i).setLastLogin(user.getLastLogin());
 				userList.get(i).setPrimaryID(user.getPrimaryID());
+				userList.get(i).setJudgeFlag(user.getJudgeFlag());
 			}
 		}
 		MySharedPreference.putString(Consts.LOCAL_USER_LIST,

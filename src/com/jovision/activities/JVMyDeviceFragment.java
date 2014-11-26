@@ -93,8 +93,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private LinearLayout deviceLayout; // 设备列表界面
 	private RelativeLayout refreshLayout; // 设备加载失败界面
 	private LinearLayout quickSetSV; // 快速配置界面
-	private Button quickSet;
-	private Button addDevice;
+	private Button quickSet;//快速无限安装
+	private ImageView quickinstall_img_bg;
+	private Button addDevice;//有线设备添加
+	private ImageView unwire_device_img_bg;
 
 	/** 广告位 */
 	private ArrayList<AD> adList = new ArrayList<AD>();
@@ -258,10 +260,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 		quickSetSV = (LinearLayout) mParent
 				.findViewById(R.id.quickinstalllayout);
 		quickSet = (Button) mParent.findViewById(R.id.quickinstall);
+		quickinstall_img_bg = (ImageView) mParent.findViewById(R.id.quickinstall_img_bg);
 		addDevice = (Button) mParent.findViewById(R.id.adddevice);
+		unwire_device_img_bg = (ImageView) mParent.findViewById(R.id.unwire_device_img_bg);
 		refreshLayout.setOnClickListener(myOnClickListener);
 		quickSet.setOnClickListener(myOnClickListener);
+		quickinstall_img_bg.setOnClickListener(myOnClickListener);
 		addDevice.setOnClickListener(myOnClickListener);
+		unwire_device_img_bg.setOnClickListener(myOnClickListener);
 
 		/** 广告条 */
 		imageScroll = (ImageViewPager) adView.findViewById(R.id.imagescroll);
@@ -345,11 +351,20 @@ public class JVMyDeviceFragment extends BaseFragment {
 			case R.id.quickinstall:
 				((ShakeActivity) mActivity).startSearch(false);
 				break;
+			case R.id.quickinstall_img_bg://快速安装无线设备
+				((ShakeActivity) mActivity).startSearch(false);
+				break;
 			case R.id.adddevice:
 				Intent addIntent = new Intent();
 				addIntent.setClass(mActivity, JVAddDeviceActivity.class);
 				addIntent.putExtra("QR", false);
 				mActivity.startActivity(addIntent);
+				break;
+			case R.id.unwire_device_img_bg:
+				Intent addIntents = new Intent();
+				addIntents.setClass(mActivity, JVAddDeviceActivity.class);
+				addIntents.putExtra("QR", false);
+				mActivity.startActivity(addIntents);
 				break;
 			case R.id.refreshlayout: {
 				fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);

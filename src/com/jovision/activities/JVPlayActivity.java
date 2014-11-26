@@ -943,7 +943,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_QUERY_DEVICE: {
-			MyLog.i(Consts.TAG_PLAY, "query-" + obj);
+			MyLog.e(Consts.TAG_PLAY, "jvplayactivity  query 7777777777777777777777---------------------------" + obj);
 			break;
 		}
 

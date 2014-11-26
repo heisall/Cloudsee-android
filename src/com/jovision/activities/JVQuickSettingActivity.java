@@ -50,6 +50,7 @@ import com.jovision.Jni;
 import com.jovision.adapters.IpcWifiAdapter;
 import com.jovision.adapters.MobileWifiAdapter;
 import com.jovision.bean.Device;
+import com.jovision.bean.User;
 import com.jovision.bean.WifiAdmin;
 import com.jovision.commons.CommonInterface;
 import com.jovision.commons.JVAccountConst;
@@ -58,11 +59,13 @@ import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
+import com.jovision.utils.UserUtil;
 import com.jovision.views.RefreshableListView;
 import com.jovision.views.RefreshableListView.OnRefreshListener;
 import com.jovision.views.SearchDevicesView;
@@ -1314,7 +1317,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 			MyLog.v("网络恢复完成", changeRes + "");
 
-			int reLoginRes = -1;
+			// int reLoginRes = -1;
+			int loginRes1 = -1;
+			int loginRes2 = -1;
 			int time = 0;
 
 			// 网络恢复成功
@@ -1323,7 +1328,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					// 在线
 					if (!local) {
 						// 重新登陆
-						while (JVAccountConst.SUCCESS != reLoginRes
+						while (JVAccountConst.LOGIN_SUCCESS != loginRes1
 								&& time <= 5) {
 							time++;
 							try {
@@ -1331,17 +1336,35 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
-							reLoginRes = AccountUtil.userLogin(
+							// reLoginRes = AccountUtil.userLogin(
+							// statusHashMap.get(Consts.KEY_USERNAME),
+							// statusHashMap.get(Consts.KEY_PASSWORD),
+							// JVQuickSettingActivity.this);
+							String strRes = AccountUtil.onLoginProcessV2(
+									JVQuickSettingActivity.this,
 									statusHashMap.get(Consts.KEY_USERNAME),
 									statusHashMap.get(Consts.KEY_PASSWORD),
-									JVQuickSettingActivity.this);
+									Url.SHORTSERVERIP, Url.LONGSERVERIP);
+							JSONObject respObj = null;
 
-							if (JVAccountConst.SUCCESS == reLoginRes) {
-								hasLogout = false;
+							try {
+								respObj = new JSONObject(strRes);
+								loginRes1 = respObj.optInt("arg1", 1);
+								loginRes2 = respObj.optInt("arg2", 0);
+								if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
+									hasLogout = false;
+								}
+							} catch (JSONException e) {
+								loginRes1 = JVAccountConst.LOGIN_FAILED_2;
+								loginRes2 = 0;
+								e.printStackTrace();
 							}
+							// if (JVAccountConst.SUCCESS == reLoginRes) {
+							// hasLogout = false;
+							// }
 							MyLog.v("网络恢复完成---重新登录---"
 									+ statusHashMap.get(Consts.KEY_USERNAME),
-									reLoginRes + "");
+									loginRes1 + "");
 						}
 
 					}
@@ -1360,7 +1383,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					}
 
 					// 重新登陆成功 ,或者本地登陆
-					if (JVAccountConst.SUCCESS == reLoginRes || local) {
+					if (JVAccountConst.LOGIN_SUCCESS == loginRes1 || local) {
 						boolean addRes = addDevice(local);
 						if (!addRes) {
 							// handler.sendMessage(handler.obtainMessage(

@@ -100,6 +100,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				user.setLastLogin(1);
+				user.setJudgeFlag(1);
 				UserUtil.addUser(user);
 				intent.setClass(JVBoundEmailActivity.this, JVTabActivity.class);
 				JVBoundEmailActivity.this.startActivity(intent);
@@ -188,6 +189,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				user.setLastLogin(1);
+				user.setJudgeFlag(1);
 				UserUtil.addUser(user);
 				intent.setClass(JVBoundEmailActivity.this, JVTabActivity.class);
 				JVBoundEmailActivity.this.startActivity(intent);

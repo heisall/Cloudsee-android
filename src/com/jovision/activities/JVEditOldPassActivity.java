@@ -2,6 +2,9 @@ package com.jovision.activities;
 
 import java.lang.ref.WeakReference;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.test.JVACCOUNT;
@@ -17,6 +20,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.UserUtil;
 
@@ -263,24 +267,43 @@ public class JVEditOldPassActivity extends BaseActivity {
 			// TODO Auto-generated method stub
 			JVEditOldPassActivity activity = mActivity.get();
 			if (null != activity && !activity.isFinishing()) {
-				int result = AccountUtil.userLogin(
-						activity.statusHashMap.get("KEY_USERNAME"),
-						activity.statusHashMap.get("KEY_PASSWORD"), activity);
-				if (JVAccountConst.SUCCESS == result) {
-					User user = new User();
-					user.setPrimaryID(System.currentTimeMillis());
-					user.setUserName(activity.statusHashMap.get("KEY_USERNAME"));
-					user.setUserPwd(activity.statusHashMap.get("KEY_PASSWORD"));
-					// SqlLiteUtil.addUser(user);
-					UserUtil.addUser(user);
-					activity.statusHashMap.put(Consts.LOCAL_LOGIN, "false");
-					activity.handler
-							.sendMessage(activity.handler
-									.obtainMessage(JVAccountConst.REGIST_SUCCESS_LOGIN_SUCCESS));// 注册成功登陆成功
-				} else {
-					activity.handler.sendMessage(activity.handler
-							.obtainMessage(JVAccountConst.REGIST_FAILED));// 注册成功网络错误
+				// int result = AccountUtil.userLogin(
+				// activity.statusHashMap.get("KEY_USERNAME"),
+				// activity.statusHashMap.get("KEY_PASSWORD"), activity);
+				String strRes = AccountUtil.onLoginProcessV2(activity,
+						activity.statusHashMap.get(Consts.KEY_USERNAME),
+						activity.statusHashMap.get(Consts.KEY_PASSWORD),
+						Url.SHORTSERVERIP, Url.LONGSERVERIP);
+				JSONObject respObj = null;
+				int loginRes1 = -1;
+				int loginRes2 = -1;
+				try {
+					respObj = new JSONObject(strRes);
+					loginRes1 = respObj.optInt("arg1", 1);
+					loginRes2 = respObj.optInt("arg2", 0);
+					if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
+						User user = new User();
+						user.setPrimaryID(System.currentTimeMillis());
+						user.setUserName(activity.statusHashMap
+								.get("KEY_USERNAME"));
+						user.setUserPwd(activity.statusHashMap
+								.get("KEY_PASSWORD"));
+						user.setJudgeFlag(1);
+						// SqlLiteUtil.addUser(user);
+						UserUtil.addUser(user);
+						activity.statusHashMap.put(Consts.LOCAL_LOGIN, "false");
+						activity.handler
+								.sendMessage(activity.handler
+										.obtainMessage(JVAccountConst.REGIST_SUCCESS_LOGIN_SUCCESS));// 注册成功登陆成功
+					} else {
+						activity.handler.sendMessage(activity.handler
+								.obtainMessage(JVAccountConst.REGIST_FAILED));// 注册成功网络错误
 
+					}
+				} catch (JSONException e) {
+					loginRes1 = JVAccountConst.LOGIN_FAILED_2;
+					loginRes2 = 0;
+					e.printStackTrace();
 				}
 				super.run();
 			}

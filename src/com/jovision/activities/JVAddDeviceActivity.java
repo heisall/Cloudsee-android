@@ -67,8 +67,9 @@ public class JVAddDeviceActivity extends BaseActivity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			MyLog.e(TAG, "jvadddeviceactivity hasBroadIP 888888888888888888888: " + what + ", " + arg1 + ", " + arg2
-					+ ", " + obj);
+			MyLog.e(TAG,
+					"jvadddeviceactivity hasBroadIP 888888888888888888888: "
+							+ what + ", " + arg1 + ", " + arg2 + ", " + obj);
 
 			break;
 		}

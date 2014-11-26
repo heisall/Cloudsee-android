@@ -93,9 +93,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private LinearLayout deviceLayout; // 设备列表界面
 	private RelativeLayout refreshLayout; // 设备加载失败界面
 	private LinearLayout quickSetSV; // 快速配置界面
-	private Button quickSet;//快速无限安装
+	private Button quickSet;// 快速无限安装
 	private ImageView quickinstall_img_bg;
-	private Button addDevice;//有线设备添加
+	private Button addDevice;// 有线设备添加
 	private ImageView unwire_device_img_bg;
 
 	/** 广告位 */
@@ -260,9 +260,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 		quickSetSV = (LinearLayout) mParent
 				.findViewById(R.id.quickinstalllayout);
 		quickSet = (Button) mParent.findViewById(R.id.quickinstall);
-		quickinstall_img_bg = (ImageView) mParent.findViewById(R.id.quickinstall_img_bg);
+		quickinstall_img_bg = (ImageView) mParent
+				.findViewById(R.id.quickinstall_img_bg);
 		addDevice = (Button) mParent.findViewById(R.id.adddevice);
-		unwire_device_img_bg = (ImageView) mParent.findViewById(R.id.unwire_device_img_bg);
+		unwire_device_img_bg = (ImageView) mParent
+				.findViewById(R.id.unwire_device_img_bg);
 		refreshLayout.setOnClickListener(myOnClickListener);
 		quickSet.setOnClickListener(myOnClickListener);
 		quickinstall_img_bg.setOnClickListener(myOnClickListener);
@@ -351,7 +353,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			case R.id.quickinstall:
 				((ShakeActivity) mActivity).startSearch(false);
 				break;
-			case R.id.quickinstall_img_bg://快速安装无线设备
+			case R.id.quickinstall_img_bg:// 快速安装无线设备
 				((ShakeActivity) mActivity).startSearch(false);
 				break;
 			case R.id.adddevice:

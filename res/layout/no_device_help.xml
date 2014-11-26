@@ -29,12 +29,12 @@
                 android:textSize="20sp" />
 
             <ImageView
+                android:id="@+id/quickinstall_img_bg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dip"
-                android:src="@drawable/wire_device_img" 
-                android:id="@+id/quickinstall_img_bg"/>
+                android:src="@drawable/wire_device_img" />
 
             <Button
                 android:id="@+id/quickinstall"
@@ -56,12 +56,12 @@
                 android:textSize="20sp" />
 
             <ImageView
+                android:id="@+id/unwire_device_img_bg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dip"
-                android:src="@drawable/unwire_device_img" 
-                android:id="@+id/unwire_device_img_bg"/>
+                android:src="@drawable/unwire_device_img" />
 
             <Button
                 android:id="@+id/adddevice"

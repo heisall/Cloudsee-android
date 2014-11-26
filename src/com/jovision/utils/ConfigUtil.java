@@ -137,8 +137,8 @@ public class ConfigUtil {
 						.get(Consts.NEUTRAL_VERSION))) {
 					version = softName;
 				} else {
-//					version = softName + version + " - DJ";
-					version = softName  + " - DJ";
+					// version = softName + version + " - DJ";
+					version = softName + " - DJ";
 				}
 			}
 		} catch (Exception e) {

@@ -6,10 +6,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.jovision.utils.ConfigUtil;
+
 public class AD {
 	private int index;// (广告图片序号)
-	private String adImgUrl;// (广告图片URL)
-	private String adLink;// (图片超链接)
+	private String adImgUrlCh;// (广告图片URL)
+	private String adLinkCh;// (图片超链接)
+	private String adImgUrlEn;// (广告图片URL)
+	private String adLinkEn;// (图片超链接)
 	private int version;// (广告版本)
 
 	// private String savePath;
@@ -23,29 +27,15 @@ public class AD {
 		this.index = index;
 	}
 
-	public String getAdImgUrl() {
-		return adImgUrl;
-	}
-
-	public void setAdImgUrl(String adImgUrl) {
-		this.adImgUrl = adImgUrl;
-	}
-
-	public String getAdLink() {
-		return adLink;
-	}
-
-	public void setAdLink(String adLink) {
-		this.adLink = adLink;
-	}
-
 	public JSONObject toJson() {
 		JSONObject object = new JSONObject();
 
 		try {
 			object.put("index", index);
-			object.put("adImgUrl", adImgUrl);
-			object.put("adLink", adLink);
+			object.put("adImgUrlCh", adImgUrlCh);
+			object.put("adLinkCh", adLinkCh);
+			object.put("adImgUrlEn", adImgUrlEn);
+			object.put("adLinkEn", adLinkEn);
 			object.put("version", version);
 			// object.put("savePath", savePath);
 			// object.put("fileName", fileName);
@@ -90,12 +80,14 @@ public class AD {
 		AD ad = new AD();
 		try {
 			JSONObject object = new JSONObject(string);
-			ad.setIndex(object.getInt("index"));
-			ad.setAdImgUrl(object.getString("adImgUrl"));
-			ad.setAdLink(object.getString("adLink"));
-			ad.setVersion(object.getInt("version"));
-			// ad.setSavePath(object.getString("savePath"));
-			// ad.setFileName(object.getString("fileName"));
+			ad.setIndex(ConfigUtil.getInt(object, "index"));
+			ad.setAdImgUrlCh(ConfigUtil.getString(object, "adImgUrlCh"));
+			ad.setAdLinkCh(ConfigUtil.getString(object, "adLinkCh"));
+			ad.setAdImgUrlEn(ConfigUtil.getString(object, "adImgUrlEn"));
+			ad.setAdLinkEn(ConfigUtil.getString(object, "adLinkEn"));
+			ad.setVersion(ConfigUtil.getInt(object, "version"));
+			// ad.setSavePath(ConfigUtil.getString(object,"savePath"));
+			// ad.setFileName(ConfigUtil.getString(object,"fileName"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -132,6 +124,38 @@ public class AD {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public String getAdImgUrlCh() {
+		return adImgUrlCh;
+	}
+
+	public void setAdImgUrlCh(String adImgUrlCh) {
+		this.adImgUrlCh = adImgUrlCh;
+	}
+
+	public String getAdLinkCh() {
+		return adLinkCh;
+	}
+
+	public void setAdLinkCh(String adLinkCh) {
+		this.adLinkCh = adLinkCh;
+	}
+
+	public String getAdImgUrlEn() {
+		return adImgUrlEn;
+	}
+
+	public void setAdImgUrlEn(String adImgUrlEn) {
+		this.adImgUrlEn = adImgUrlEn;
+	}
+
+	public String getAdLinkEn() {
+		return adLinkEn;
+	}
+
+	public void setAdLinkEn(String adLinkEn) {
+		this.adLinkEn = adLinkEn;
 	}
 
 	// public String getFileName() {

@@ -41,7 +41,7 @@ public class JVFeedbackActivity extends BaseActivity {
 	String contentStr = "";// 反馈内容
 
 	private EditText connection; // 意见反馈联系方式
-	private int number = 256;
+	private int number = 500;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {

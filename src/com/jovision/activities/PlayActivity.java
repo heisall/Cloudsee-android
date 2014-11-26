@@ -160,6 +160,7 @@ public abstract class PlayActivity extends BaseActivity {
 	public static boolean AUDIO_SINGLE = false;// 单向对讲标志
 	public static boolean VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
 	public static boolean VOICECALLING = false;// 对讲功能已经开启
+	public static boolean GATHER_AUDIO_DATA = true;// 是否采集音频数据
 
 	// 按钮图
 	protected Drawable alarmRecordDrawableTop = null;
@@ -505,7 +506,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 		if (Consts.PLAY_AP == playFlag) {
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turnleft_down));
+					R.drawable.turnleft_noturn));
 			videTurnBtn.setClickable(false);
 		} else {
 			// 屏幕方向
@@ -605,7 +606,7 @@ public abstract class PlayActivity extends BaseActivity {
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turnleft_down));
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turnleft_down));
+					R.drawable.turnleft_noturn));
 			videTurnBtn.setClickable(false);
 		} else {
 			// 屏幕方向
@@ -866,11 +867,19 @@ public abstract class PlayActivity extends BaseActivity {
 					voiceCallTop2, null, null);
 			bottombut5.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.video_talkselect_icon));
+			// if (this.getResources().getConfiguration().orientation ==
+			// Configuration.ORIENTATION_LANDSCAPE){
+			// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			// }
+			// else if(this.getResources().getConfiguration().orientation
+			// ==Configuration.ORIENTATION_PORTRAIT) {
+			// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			// }
 
 		} else {
 			// voiceCall.setTextColor(getResources().getColor(
 			// R.color.functionbtncolor1));
-
+			// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 			voiceCall.setCompoundDrawablesWithIntrinsicBounds(null,
 					voiceCallTop1, null, null);
 			bottombut5.setBackgroundDrawable(getResources().getDrawable(

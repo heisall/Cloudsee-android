@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 
 import com.jovision.Consts;
 import com.jovision.commons.MyList;
+import com.jovision.utils.ConfigUtil;
 
 /**
  * 简单的通道集合类
@@ -56,11 +57,15 @@ public class Channel {
 	private int audioBlock = 0;
 
 	// private boolean hasGotParams = false;
+	private boolean newIpcFlag = true;// 为码流新增参数，是否新的IPC，新的融合代码后的IPC3个码流可以切换，融合前的只能两个码流相互切换
+
 	private boolean agreeTextData = false;// 是否同意文本聊天
 	private boolean isOMX = false;// 是否硬解
 	private boolean singleVoice = false;// 单向对讲标识位，默认是双向的
 	private int storageMode = -1;// 录像模式// 1: 手动录像 2. 报警录像 storageMode
-	private int streamTag = -1;// 码流参数值 MainStreamQos 1,2,3
+	private int streamTag = -1;// 码流参数值 第一码流(6)MainStreamQos 1,2,3
+								// 手机码流(5)MobileStreamQos 1,2,3 融合代码后手机码流改为
+								// MobileQuality 1,2,3
 	private int screenTag = -1;// 屏幕方向值 effect_flag 老设备 0(正),4(反) 新设备不一定
 	private int effect_flag = -1;// 屏幕方向值 effect_flag 新设备
 
@@ -217,17 +222,17 @@ public class Channel {
 		Channel channel = new Channel();
 		try {
 			JSONObject object = new JSONObject(string);
-			channel.setIndex(object.getInt("index"));
-			channel.setChannel(object.getInt("channel"));
-			channel.setChannelName(object.getString("channelName"));
-			// channel.setConnecting(object.getBoolean("isConnecting"));
-			// channel.setConnecting(object.getBoolean("isConnected"));
-			// channel.setRemotePlay(object.getBoolean("isRemotePlay"));
-			// channel.setConfigChannel(object.getBoolean("isConfigChannel"));
-			// channel.setAuto(object.getBoolean("isAuto"));
-			// channel.setVoiceCall(object.getBoolean("isVoiceCall"));
-			// channel.setSurfaceCreated(object.getBoolean("surfaceCreated"));
-			// channel.setSendCMD(object.getBoolean("isSendCMD"));
+			channel.setIndex(ConfigUtil.getInt(object, "index"));
+			channel.setChannel(ConfigUtil.getInt(object, "channel"));
+			channel.setChannelName(ConfigUtil.getString(object, "channelName"));
+			// channel.setConnecting(ConfigUtil.getBoolean(object,"isConnecting"));
+			// channel.setConnecting(ConfigUtil.getBoolean(object,"isConnected"));
+			// channel.setRemotePlay(ConfigUtil.getBoolean(object,"isRemotePlay"));
+			// channel.setConfigChannel(ConfigUtil.getBoolean(object,"isConfigChannel"));
+			// channel.setAuto(ConfigUtil.getBoolean(object,"isAuto"));
+			// channel.setVoiceCall(ConfigUtil.getBoolean(object,"isVoiceCall"));
+			// channel.setSurfaceCreated(ConfigUtil.getBoolean(object,"surfaceCreated"));
+			// channel.setSendCMD(ConfigUtil.getBoolean(object,"isSendCMD"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -466,6 +471,14 @@ public class Channel {
 
 	public void setSupportVoice(boolean supportVoice) {
 		this.supportVoice = supportVoice;
+	}
+
+	public boolean isNewIpcFlag() {
+		return newIpcFlag;
+	}
+
+	public void setNewIpcFlag(boolean newIpcFlag) {
+		this.newIpcFlag = newIpcFlag;
 	}
 
 }

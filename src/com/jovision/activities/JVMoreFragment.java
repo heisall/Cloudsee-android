@@ -79,7 +79,8 @@ public class JVMoreFragment extends BaseFragment {
 	private int[] Image = { R.drawable.morefragment_help_icon,
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon, R.drawable.media_image,
-			R.drawable.media_image, R.drawable.morefragment_feedback_icon,
+			R.drawable.morefragment_update_icon, R.drawable.media_image,
+			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
 	// 功能名称数组
@@ -401,7 +402,16 @@ public class JVMoreFragment extends BaseFragment {
 										true);
 							}
 							break;
-						case 4:// 媒体
+						case 4:
+							if (MySharedPreference.getBoolean("BROADCASTSHOW")) {
+								MySharedPreference.putBoolean("BROADCASTSHOW",
+										false);
+							} else {
+								MySharedPreference.putBoolean("BROADCASTSHOW",
+										true);
+							}
+							break;
+						case 5:// 媒体
 							StatService.trackCustomEvent(
 									mActivity,
 									"Media",
@@ -411,19 +421,19 @@ public class JVMoreFragment extends BaseFragment {
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);
 							break;
-						case 5:
+						case 6:
 							Intent intent = new Intent(mActivity,
 									JVFeedbackActivity.class);
 							startActivity(intent);
 							break;
-						case 6:
+						case 7:
 							CheckUpdateTask taskf = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];
 							strParams[0] = "1";// 1,手动检查更新
 							taskf.execute(strParams);
 							break;
-						case 7:
+						case 8:
 							if (!MySharedPreference.getBoolean("LITTLE")) {
 								littlenum++;
 								if (littlenum < 10) {
@@ -435,6 +445,8 @@ public class JVMoreFragment extends BaseFragment {
 								} else if (littlenum == 10) {
 									MySharedPreference.putBoolean("LITTLEHELP",
 											true);
+									MySharedPreference.putBoolean(
+											"BROADCASTSHOW", true);
 									MySharedPreference.putBoolean("LITTLE",
 											true);
 									ListViewUtil

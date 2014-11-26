@@ -213,7 +213,8 @@ public class ConfigUtil {
 					requestRes.indexOf("}") + 1);
 			MyLog.v("getCountry--jsonStr", jsonStr);
 			JSONObject obj = new JSONObject(jsonStr);
-			country = obj.getString("country");
+			country = obj.getString("country") + "-"
+					+ obj.getString("province") + "-" + obj.getString("city");
 		} catch (Exception e) {
 			country = "China";
 			e.printStackTrace();
@@ -280,7 +281,7 @@ public class ConfigUtil {
 	/**
 	 * 获取系统语言
 	 * 
-	 * @return 0:中文 1:英文
+	 * @return 1:中文 2:英文
 	 */
 	public static int getLanguage() {
 		int lan = JVConst.LANGUAGE_ZH;
@@ -439,14 +440,23 @@ public class ConfigUtil {
 	 * 开启广播
 	 */
 	public static int openBroadCast() {
-		return Jni.searchLanServer(9400, 6666);
+		int res = -1;
+		if (MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+			MyLog.v(Consts.TAG_APP, "enable  broad = " + true);
+			res = Jni.searchLanServer(9400, 6666);
+		} else {
+			MyLog.v(Consts.TAG_APP, "unEnable  broad = " + false);
+		}
+		return res;
 	}
 
 	/**
 	 * 停止广播
 	 */
 	public static void stopBroadCast() {
-		Jni.stopSearchLanServer();
+		if (MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+			Jni.stopSearchLanServer();
+		}
 	}
 
 	/**
@@ -462,7 +472,7 @@ public class ConfigUtil {
 				.getApplicationContext()).getStatusHashMap();
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
 			result = Jni.init(context, 9200, Consts.LOG_PATH);
-
+			Jni.enableLog(true);
 			if (MySharedPreference.getBoolean("LITTLEHELP", true)) {
 				Jni.enableLinkHelper(true, 3, 10);// 开小助手
 				MyLog.v(Consts.TAG_APP, "enable  helper = " + true);
@@ -471,6 +481,7 @@ public class ConfigUtil {
 			}
 
 			int res = openBroadCast();// 开广播
+
 			statusHashMap
 					.put(Consts.KEY_INIT_CLOUD_SDK, String.valueOf(result));
 
@@ -818,6 +829,33 @@ public class ConfigUtil {
 		return map;
 	}
 
+	/**
+	 * 特定 json 转 HashMap 不会覆盖
+	 * 
+	 * @param json
+	 * @param keyOfMsg
+	 *            消息的键名
+	 * @return
+	 */
+	public static HashMap<String, String> genMsgMap1(String msg) {
+		HashMap<String, String> map = new HashMap<String, String>();
+
+		if (null == msg || "".equalsIgnoreCase(msg)) {
+			return null;
+		}
+		Matcher matcher = Pattern.compile("([^=;]+)=([^=;]+)").matcher(msg);
+		while (matcher.find()) {
+			if (null != map.get(matcher.group(1))
+					&& !"".equalsIgnoreCase(matcher.group(1))) {
+
+			} else {
+				map.put(matcher.group(1), matcher.group(2));
+			}
+
+		}
+		return map;
+	}
+
 	// public static HashMap<String, String> getCH1(String key,String msg){
 	// HashMap<String, String> map = new HashMap<String, String>();
 	// String ch1Str = "";
@@ -942,5 +980,41 @@ public class ConfigUtil {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public static int getInt(JSONObject object, String key) {
+		int value = 0;
+		if (!object.isNull(key)) {
+			try {
+				value = object.getInt(key);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return value;
+	}
+
+	public static String getString(JSONObject object, String key) {
+		String value = "";
+		if (!object.isNull(key)) {
+			try {
+				value = object.getString(key);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return value;
+	}
+
+	public static boolean getBoolean(JSONObject object, String key) {
+		boolean value = false;
+		if (!object.isNull(key)) {
+			try {
+				value = object.getBoolean(key);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return value;
 	}
 }

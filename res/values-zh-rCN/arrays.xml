@@ -15,6 +15,7 @@
         <item> 报警</item>
         <item> 观看模式(单设备)</item>
         <item>小助手</item>
+        <item>广播</item>
         <item>媒体</item>
         <item> 意见反馈</item>
         <item> 检查更新</item>
@@ -25,6 +26,7 @@
         <item> 报警</item>
         <item> 观看模式(多设备)</item>
         <item>小助手</item>
+        <item>广播</item>
         <item>媒体</item>
         <item> 意见反馈</item>
         <item> 检查更新</item>
@@ -119,7 +121,7 @@
 
     <!-- 视频管理功能 -->
     <string-array name="manage_function">
-        <item>远程设置</item>
+        <item>网络设置</item>
         <item>设备管理</item>
         <item>连接模式</item>
         <item>视频源管理</item>

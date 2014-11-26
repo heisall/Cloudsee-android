@@ -69,8 +69,7 @@ public class JVMediaListActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case LOAD_IMAGE_SUCCESS: {
-			// mfAdapter.setData(media, fileList,true);
-			// mfAdapter.notifyDataSetChanged();
+
 			break;
 		}
 		case LOAD_IMAGE_FINISHED: {
@@ -154,7 +153,7 @@ public class JVMediaListActivity extends BaseActivity {
 			currentMenu.setText(R.string.media_video);
 		}
 		rigButton = (Button) findViewById(R.id.btn_right);
-		rigButton.setBackgroundResource(R.drawable.media_edit_icon);
+		rigButton.setBackgroundResource(R.drawable.mydevice_cancale_icon);
 		back.setOnClickListener(myOnClickListener);
 		rigButton.setOnClickListener(myOnClickListener);
 		fileCompleted.setOnClickListener(myOnClickListener);

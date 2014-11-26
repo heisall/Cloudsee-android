@@ -74,7 +74,7 @@
                     android:id="@+id/connectway"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/my_wane_shape"
+                    android:background="@drawable/feedbackedit_bg"
                     android:gravity="top"
                     android:hint="@string/str_notice_connection"
                     android:padding="10dp" />
@@ -90,7 +90,7 @@
                     android:id="@+id/content"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:background="@drawable/my_wane_shape"
+                    android:background="@drawable/feedbackedit_bg"
                     android:gravity="top"
                     android:hint="@string/str_notice_content"
                     android:padding="10dp" />
@@ -106,7 +106,7 @@
                     android:background="@drawable/delete_text"
                     android:paddingLeft="1dp"
                     android:paddingRight="3dp"
-                    android:text="256" />
+                    android:text="500" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

@@ -29,6 +29,9 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
 
 public class JVTabActivity extends ShakeActivity implements
 		OnPageChangeListener {
@@ -66,8 +69,6 @@ public class JVTabActivity extends ShakeActivity implements
 	private List<ImageView> dots;
 	private LinearLayout ll_dot;
 
-	private ImageView img_five;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,6 +86,26 @@ public class JVTabActivity extends ShakeActivity implements
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
 						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
 						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+		// 开启logcat输出，方便debug，发布时请关闭
+		XGPushConfig.enableDebug(this, false);
+		// 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
+		// XGIOperateCallback)带callback版本
+		// 如果需要绑定账号，请使用registerPush(getApplicationContext(),"account")版本
+		// 具体可参考详细的开发指南
+		// 传递的参数为ApplicationContext
+		XGPushManager.registerPush(getApplicationContext(),
+				new XGIOperateCallback() {
+					@Override
+					public void onSuccess(Object data, int flag) {
+						MyLog.d("TPush", "注册成功，设备token为：" + data);
+					}
+
+					@Override
+					public void onFail(Object data, int errCode, String msg) {
+						MyLog.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+					}
+				});
 	}
 
 	@Override
@@ -103,8 +124,6 @@ public class JVTabActivity extends ShakeActivity implements
 				R.layout.help_item3, null);
 		View view4 = LayoutInflater.from(JVTabActivity.this).inflate(
 				R.layout.help_item4, null);
-		View view5 = LayoutInflater.from(JVTabActivity.this).inflate(
-				R.layout.help_item5, null);
 		View view6 = LayoutInflater.from(JVTabActivity.this).inflate(
 				R.layout.help_item6, null);
 		if (localFlag) {
@@ -113,16 +132,14 @@ public class JVTabActivity extends ShakeActivity implements
 			pics.add(view3);
 			pics.add(view4);
 			pics.add(view6);
-			img_five.setVisibility(View.GONE);
 			initDot(4);
 		} else {
 			pics.add(view1);
 			pics.add(view2);
 			pics.add(view3);
 			pics.add(view4);
-			pics.add(view5);
 			pics.add(view6);
-			initDot(5);
+			initDot(4);
 		}
 	}
 
@@ -245,7 +262,6 @@ public class JVTabActivity extends ShakeActivity implements
 
 		viewpager = (ViewPager) findViewById(R.id.tab_viewpager);
 		viewpager.setOnPageChangeListener(JVTabActivity.this);
-		img_five = (ImageView) findViewById(R.id.img_five);
 		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
 		JVFragmentIndicator.setIndicator(currentIndex);
 
@@ -402,18 +418,6 @@ public class JVTabActivity extends ShakeActivity implements
 		currentImage = arg0; // 获取当前页面索引
 		if (flag == 0) {
 			if (!localFlag) {
-				if (arg0 != 5) {
-					dots.get(oldImage).setEnabled(false); // 前一个点设置为白色
-					dots.get(currentImage).setEnabled(true); // 当前点设置为黑色
-					oldImage = currentImage; // 改变前一个索引
-					currentImage = (currentImage) % 5; // 有几张就对几求余
-					onNotify(0, currentImage, 0, null);
-				}
-				if (arg0 == 5) {
-					viewpager.setVisibility(View.GONE);
-					ll_dot.setVisibility(View.GONE);
-				}
-			} else {
 				if (arg0 != 4) {
 					dots.get(oldImage).setEnabled(false); // 前一个点设置为白色
 					dots.get(currentImage).setEnabled(true); // 当前点设置为黑色
@@ -422,6 +426,18 @@ public class JVTabActivity extends ShakeActivity implements
 					onNotify(0, currentImage, 0, null);
 				}
 				if (arg0 == 4) {
+					viewpager.setVisibility(View.GONE);
+					ll_dot.setVisibility(View.GONE);
+				}
+			} else {
+				if (arg0 != 3) {
+					dots.get(oldImage).setEnabled(false); // 前一个点设置为白色
+					dots.get(currentImage).setEnabled(true); // 当前点设置为黑色
+					oldImage = currentImage; // 改变前一个索引
+					currentImage = (currentImage) % 3; // 有几张就对几求余
+					onNotify(0, currentImage, 0, null);
+				}
+				if (arg0 == 3) {
 					viewpager.setVisibility(View.GONE);
 					ll_dot.setVisibility(View.GONE);
 				}

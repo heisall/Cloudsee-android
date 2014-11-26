@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.jovision.Consts;
 import com.jovision.commons.MyList;
+import com.jovision.utils.ConfigUtil;
 
 /**
  * 简单的设备集合类
@@ -296,35 +297,36 @@ public class Device {
 		Device dev = new Device();
 		try {
 			JSONObject object = new JSONObject(string);
-			dev.setIp(object.getString("ip"));
-			dev.setPort(object.getInt("port"));
-			dev.setDoMain(object.getString("doMain"));
-			dev.setGid(object.getString("gid"));
-			dev.setNo(object.getInt("no"));
-			dev.setFullNo(object.getString("fullNo"));
-			dev.setUser(object.getString("user"));
-			dev.setPwd(object.getString("pwd"));
-			dev.setHomeProduct(object.getBoolean("isHomeProduct"));
-			// dev.setHelperEnabled(object.getBoolean("isHelperEnabled"));
-			dev.setDeviceType(object.getInt("deviceType"));
-			dev.setO5(object.getBoolean("is05"));
+
+			dev.setIp(ConfigUtil.getString(object, "ip"));
+			dev.setPort(ConfigUtil.getInt(object, "port"));
+			dev.setDoMain(ConfigUtil.getString(object, "doMain"));
+			dev.setGid(ConfigUtil.getString(object, "gid"));
+			dev.setNo(ConfigUtil.getInt(object, "no"));
+			dev.setFullNo(ConfigUtil.getString(object, "fullNo"));
+			dev.setUser(ConfigUtil.getString(object, "user"));
+			dev.setPwd(ConfigUtil.getString(object, "pwd"));
+			dev.setHomeProduct(ConfigUtil.getBoolean(object, "isHomeProduct"));
+			// dev.setHelperEnabled(ConfigUtil.getBoolean(object,"isHelperEnabled"));
+			dev.setDeviceType(ConfigUtil.getInt(object, "deviceType"));
+			dev.setO5(ConfigUtil.getBoolean(object, "is05"));
 			try {
 				// [Neo] may not contains this value
-				dev.setNickName(object.getString("nickName"));
+				dev.setNickName(ConfigUtil.getString(object, "nickName"));
 			} catch (Exception e) {
 				dev.setNickName("");
 				e.printStackTrace();
 			}
-			dev.setDeviceModel(object.getString("deviceModel"));
-			dev.setDeviceVerName(object.getString("deviceVerName"));
-			dev.setDeviceVerNum(object.getInt("deviceVerNum"));
-			dev.setIsDevice(object.getInt("isDevice"));
-			dev.setOnlineState(object.getInt("onlineState"));
-			dev.setHasWifi(object.getInt("hasWifi"));
-			dev.setServerState(object.getInt("serverState"));
-			dev.setAlarmSwitch(object.getInt("alarmSwitch"));
+			dev.setDeviceModel(ConfigUtil.getString(object, "deviceModel"));
+			dev.setDeviceVerName(ConfigUtil.getString(object, "deviceVerName"));
+			dev.setDeviceVerNum(ConfigUtil.getInt(object, "deviceVerNum"));
+			dev.setIsDevice(ConfigUtil.getInt(object, "isDevice"));
+			dev.setOnlineState(ConfigUtil.getInt(object, "onlineState"));
+			dev.setHasWifi(ConfigUtil.getInt(object, "hasWifi"));
+			dev.setServerState(ConfigUtil.getInt(object, "serverState"));
+			dev.setAlarmSwitch(ConfigUtil.getInt(object, "alarmSwitch"));
 			dev.setChannelList(Channel.fromJsonArray(
-					object.getString("channelList"), dev));
+					ConfigUtil.getString(object, "channelList"), dev));
 
 		} catch (JSONException e) {
 			e.printStackTrace();

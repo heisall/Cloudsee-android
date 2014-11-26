@@ -464,6 +464,8 @@ public class ManageFragment extends BaseFragment {
 								+ JVDeviceManageFragment.deviceIndex
 								+ ";device=" + device.toString());
 						intent.putExtra("Device", device.toString());
+						intent.putExtra("DeviceIndex",
+								JVDeviceManageFragment.deviceIndex);
 						mActivity.startActivity(intent);
 						break;
 					}

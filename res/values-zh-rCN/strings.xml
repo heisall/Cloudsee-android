@@ -382,7 +382,7 @@
     <string name="press_screen_refresh">点击屏幕刷新</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">暂时没有报警数据</string>
-    <string name="alerm">报警级别</string>
+    <string name="alarm_level">报警级别</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加载更多</string>
     <string name="xlistview_no_more">没有报警信息了</string>
@@ -401,6 +401,7 @@
     <string name="connfailed_type_invalid">连接类型无效</string>
     <string name="connfailed_maxcount">超过设备最大连接数</string>
     <string name="connfailed_timeout">连接超时</string>
+    <string name="connfailed_checkpass_timout">连接超时.</string>
     <string name="connfailed_auth_tips">用户名或密码错误，立即修改?</string>
     <string name="connect_failed">连接失败</string>
     <string name="connecting">连接中…</string>

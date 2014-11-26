@@ -51,6 +51,7 @@ import com.jovision.adapters.PopWindowAdapter;
 import com.jovision.bean.AD;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
+import com.jovision.commons.JVConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -301,11 +302,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 			task.execute(strParams);
 		}
 
-		// 非3G加广播设备
-		startBroadTimer();
 		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			startAutoRefreshTimer();
+		} else {
+			// 非3G加广播设备
+			startBroadTimer();
 		}
 
 	}
@@ -463,10 +465,17 @@ public class JVMyDeviceFragment extends BaseFragment {
 					StatService.trackCustomEvent(mActivity,
 							"Scan devices in LAN", mActivity.getResources()
 									.getString(R.string.str_scanlandevice));
+
+					if (!MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+						MyLog.v(Consts.TAG_APP, "not broad = " + false);
+						break;
+					}
+
 					if (!mActivity.is3G(false)) {// 3G网提示不支持
 						fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 						broadTag = BROAD_ADD_DEVICE;
 						broadList.clear();
+						deleteDevIp();
 						PlayUtil.broadCast(mActivity);
 					} else {
 						((BaseActivity) mActivity)
@@ -559,63 +568,101 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 * 初始化图片
 	 */
 	private void initADViewPager() {
-		adList = AD.fromJsonArray(MySharedPreference.getString(Consts.AD_LIST));
-		if (null == listViews || 0 == listViews.size()) {// 还没加载过广告，先添加上广告
-			for (int i = 0; i < adList.size(); i++) {
-				final ImageView imageView = new ImageView(mActivity);
-				imageView.setTag(i);
-				imageView.setOnClickListener(new OnClickListener() {
-					public void onClick(View v) {// 设置图片点击事件
-						Intent intentAD = new Intent(mActivity,
-								JVWebViewActivity.class);
-						int index = (Integer) imageView.getTag();
-						String adUrl = adList.get(index).getAdLink();
-						if (null != adUrl && !"".equalsIgnoreCase(adUrl.trim())) {
-							intentAD.putExtra("URL", adUrl);
-							intentAD.putExtra("title", R.string.app_name);
-							mActivity.startActivity(intentAD);
+		try {
+			adList = AD.fromJsonArray(MySharedPreference
+					.getString(Consts.AD_LIST));
+			if (null == listViews || 0 == listViews.size()) {// 还没加载过广告，先添加上广告
+				for (int i = 0; i < adList.size(); i++) {
+					final ImageView imageView = new ImageView(mActivity);
+					imageView.setTag(i);
+					imageView.setOnClickListener(new OnClickListener() {
+						public void onClick(View v) {// 设置图片点击事件
+							Intent intentAD = new Intent(mActivity,
+									JVWebViewActivity.class);
+							int index = (Integer) imageView.getTag();
+
+							String adUrl = "";
+
+							if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+								adUrl = adList.get(index).getAdLinkCh();
+							} else {
+								adUrl = adList.get(index).getAdLinkEn();
+							}
+
+							if (null != adUrl
+									&& !"".equalsIgnoreCase(adUrl.trim())) {
+								intentAD.putExtra("URL", adUrl);
+								intentAD.putExtra("title", -1);
+								mActivity.startActivity(intentAD);
+							}
 						}
+					});
+
+					Bitmap bmp = null;
+
+					if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+						bmp = BitmapCache.getInstance().getCacheBitmap(
+								adList.get(i).getAdImgUrlCh());
+					} else {
+						bmp = BitmapCache.getInstance().getCacheBitmap(
+								adList.get(i).getAdImgUrlEn());
 					}
-				});
 
-				Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
-						adList.get(i).getAdImgUrl());
-				if (null == bmp) {
-					bmp = BitmapCache.getInstance().getBitmap(
-							adList.get(i).getAdImgUrl(), "net",
-							String.valueOf(adList.get(i).getIndex()));
-				}
-				// Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
-				// adList.get(i).getAdImgUrl());
-				if (null != bmp) {
-					imageView.setImageBitmap(bmp);
-				} else {
-					imageView.setImageResource(R.drawable.ad_default);
-				}
+					// if (null == bmp) {
+					//
+					// if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+					// bmp = BitmapCache.getInstance().getBitmap(
+					// adList.get(i).getAdImgUrlCh(), "net",
+					// String.valueOf(adList.get(i).getIndex()));
+					// } else {
+					// bmp = BitmapCache.getInstance().getBitmap(
+					// adList.get(i).getAdImgUrlEn(), "net",
+					// String.valueOf(adList.get(i).getIndex()));
+					// }
+					//
+					// }
+					// Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
+					// adList.get(i).getAdImgUrl());
+					if (null != bmp) {
+						imageView.setImageBitmap(bmp);
+					} else {
+						imageView.setImageResource(R.drawable.ad_default);
+					}
 
-				imageView.setScaleType(ScaleType.FIT_CENTER);
-				listViews.add(imageView);
+					imageView.setScaleType(ScaleType.FIT_CENTER);
+					listViews.add(imageView);
+				}
+			} else {
+				for (int i = 0; i < listViews.size(); i++) {
+					ImageView imageView = (ImageView) listViews.get(i);
+					Bitmap bmp = null;
+
+					if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+						bmp = BitmapCache.getInstance().getCacheBitmap(
+								adList.get(i).getAdImgUrlCh());
+					} else {
+						bmp = BitmapCache.getInstance().getCacheBitmap(
+								adList.get(i).getAdImgUrlEn());
+					}
+
+					if (null != bmp) {
+						imageView.setImageBitmap(bmp);
+					} else {
+						imageView.setImageResource(R.drawable.ad_default);
+					}
+					imageView.setScaleType(ScaleType.FIT_CENTER);
+				}
 			}
-		} else {
-			for (int i = 0; i < listViews.size(); i++) {
-				ImageView imageView = (ImageView) listViews.get(i);
-				Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
-						adList.get(i).getAdImgUrl());
-				if (null != bmp) {
-					imageView.setImageBitmap(bmp);
-				} else {
-					imageView.setImageResource(R.drawable.ad_default);
-				}
-				imageView.setScaleType(ScaleType.FIT_CENTER);
-			}
-		}
 
-		if (null != listViews && 0 != listViews.size()) {
-			imageScroll.stopTimer();
-			// 开始滚动
-			imageScroll.start(mActivity, listViews, 4 * 1000, ovalLayout,
-					R.layout.dot_item, R.id.ad_item_v, R.drawable.dot_focused,
-					R.drawable.dot_normal);
+			if (null != listViews && 0 != listViews.size()) {
+				imageScroll.stopTimer();
+				// 开始滚动
+				imageScroll.start(mActivity, listViews, 4 * 1000, ovalLayout,
+						R.layout.dot_item, R.id.ad_item_v,
+						R.drawable.dot_focused, R.drawable.dot_normal);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -644,6 +691,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 从服务器端获取设备成功
 			case DEVICE_GETDATA_SUCCESS: {
 				broadTag = BROAD_DEVICE_LIST;
+				deleteDevIp();
 				PlayUtil.broadCast(mActivity);
 				break;
 			}
@@ -857,6 +905,21 @@ public class JVMyDeviceFragment extends BaseFragment {
 			}
 		}
 		return has;
+	}
+
+	/**
+	 * 判断设备是否在设备列表里
+	 * 
+	 * @param devNum
+	 * @return
+	 */
+	public void deleteDevIp() {
+		for (Device dev : myDeviceList) {
+			if (0 == dev.getIsDevice()) {// 云视通设备
+				dev.setIp("");
+				dev.setPort(0);
+			}
+		}
 	}
 
 	/** 弹出框初始化 */
@@ -1177,8 +1240,20 @@ public class JVMyDeviceFragment extends BaseFragment {
 					.getString(Consts.AD_LIST));
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net",
-						String.valueOf(ad.getIndex()));
+				if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlCh(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage());
+				} else {
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlEn(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage());
+				}
+
 			}
 		} else if (0 == adList.size()) {// 未检查到更新
 			adList = AD.fromJsonArray(MySharedPreference
@@ -1186,8 +1261,20 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net",
-						String.valueOf(ad.getIndex()));
+				if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlCh(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage());
+				} else {
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlEn(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage());
+				}
+
 			}
 		} else if (adList.size() > 0) {// 有新广告
 			// 删除老广告
@@ -1197,8 +1284,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				BitmapCache.getInstance().getBitmap(ad.getAdImgUrl(), "net",
-						String.valueOf(ad.getIndex()));
+				if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlCh(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage());
+				} else {
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlEn(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage());
+				}
 			}
 		}
 	}
@@ -1442,9 +1540,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 						myDeviceList.add(0, addDev);
 					}
 				}
-				// DeviceUtil.refreshDeviceState(
-				// mActivity.statusHashMap.get(Consts.KEY_USERNAME),
-				// myDeviceList);
+				DeviceUtil.refreshDeviceState(
+						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
+						myDeviceList);
 
 				for (Device dev1 : AddLanList) {
 					for (Device dev2 : myDeviceList) {
@@ -1564,8 +1662,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		public void run() {
 			// CacheUtil.saveDevList(myDeviceList);
+			MyLog.e(TAG, "AutoUpdateTask--E");
 			myDeviceList = CacheUtil.getDevList();
 			fragHandler.sendMessage(fragHandler.obtainMessage(AUTO_UPDATE));
+			MyLog.e(TAG, "AutoUpdateTask--X");
 		}
 
 	}
@@ -1584,28 +1684,32 @@ public class JVMyDeviceFragment extends BaseFragment {
 			broadTimerTask = new TimerTask() {
 				@Override
 				public void run() {
-					MyLog.v(TAG, "三分钟时间到--发广播");
+					MyLog.e(TAG, "startBroadTimer--E");
 					broadTag = BROAD_THREE_MINITE;
+					deleteDevIp();
 					PlayUtil.broadCast(mActivity);
+					MyLog.e(TAG, "startBroadTimer--X");
 				}
 			};
-			broadTimer.schedule(broadTimerTask, 5 * 60 * 1000, 5 * 60 * 1000);
+			broadTimer.schedule(broadTimerTask, 3 * 60 * 1000, 3 * 60 * 1000);
 		}
 	}
 
 	public void stopBroadTimer() {
 		if (null != broadTimer) {
+			MyLog.e("注销停止broadTimer", "stop--broadTimer");
 			broadTimer.cancel();
 			broadTimer = null;
 		}
 		if (null != broadTimerTask) {
+			MyLog.e("注销停止broadTimerTask", "stop--broadTimerTask");
 			broadTimerTask.cancel();
 			broadTimerTask = null;
 		}
 	}
 
 	/**
-	 * 2分钟自动刷新
+	 * 3分钟自动刷新
 	 */
 	public void startAutoRefreshTimer() {
 		// 两分钟自动刷新设备列表
@@ -1616,16 +1720,18 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		updateTimer = new Timer();
 		if (null != updateTimer) {
-			updateTimer.schedule(updateTask, 2 * 60 * 1000, 2 * 60 * 1000);
+			updateTimer.schedule(updateTask, 3 * 60 * 1000, 3 * 60 * 1000);
 		}
 	}
 
 	public void stopRefreshWifiTimer() {
 		if (null != updateTimer) {
+			MyLog.e("注销停止updateTimer", "stop--updateTimer");
 			updateTimer.cancel();
 			updateTimer = null;
 		}
 		if (null != updateTask) {
+			MyLog.e("注销停止updateTask", "stop--updateTask");
 			updateTask.cancel();
 			updateTask = null;
 		}

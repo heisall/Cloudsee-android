@@ -78,7 +78,7 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 			});
 		}
-		if (position == 3) {
+		if (position == 3 || position == 4) {
 			if (!MySharedPreference.getBoolean("LITTLE")) {
 				more_item.setVisibility(View.GONE);
 				divider_img.setVisibility(View.GONE);
@@ -87,7 +87,7 @@ public class FragmentAdapter extends BaseAdapter {
 				divider_img.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 5
+		if (position == 6
 				&& "true".equalsIgnoreCase(((BaseActivity) mfragment
 						.getActivity()).statusHashMap
 						.get(Consts.NEUTRAL_VERSION))) {
@@ -95,7 +95,7 @@ public class FragmentAdapter extends BaseAdapter {
 			more_item.setVisibility(View.GONE);
 			divider_img.setVisibility(View.GONE);
 		}
-		if (position == 7) {
+		if (position == 8) {
 			item_next.setVisibility(View.GONE);
 			item_version.setVisibility(View.VISIBLE);
 			item_version
@@ -104,7 +104,7 @@ public class FragmentAdapter extends BaseAdapter {
 			// mfragment.getActivity().getResources()
 			// .getString(R.string.str_current_version));
 		}
-		if (position > -1 && position < 4) {
+		if (position > -1 && position < 5) {
 			item_next
 					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			switch (position) {
@@ -134,6 +134,12 @@ public class FragmentAdapter extends BaseAdapter {
 				break;
 			case 3:
 				if (MySharedPreference.getBoolean("LITTLEHELP")) {
+					item_next
+							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+				}
+				break;
+			case 4:
+				if (MySharedPreference.getBoolean("BROADCASTSHOW")) {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}

@@ -110,7 +110,6 @@ public class MediaFolderAdapter extends BaseAdapter {
 								}
 							}
 						}
-						mediaAdaper.setSelect(position);
 						mediaAdaper.notifyDataSetChanged();
 						if (JVMediaListActivity.fileSelectSum == JVMediaListActivity.fileSum) {
 							mContext.onNotify(JVMediaListActivity.FILE_SUM,

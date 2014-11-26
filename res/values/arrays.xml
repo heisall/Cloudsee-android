@@ -14,7 +14,8 @@
         <item> Help</item>
         <item> Alarm</item>
         <item> Viewing Mode(Single-device)</item>
-        <item>小助手</item>
+        <item>Helper</item>
+        <item>广播</item>
         <item>Media</item>
         <item> Feedback</item>
         <item>Software Update</item>
@@ -24,7 +25,8 @@
         <item> Help</item>
         <item> Alarm</item>
         <item> Viewing Mode(Multi-device)</item>
-        <item>小助手</item>
+        <item>Helper</item>
+        <item>广播</item>
         <item>Media</item>
         <item> Feedback</item>
         <item> Software Update</item>
@@ -34,7 +36,7 @@
     <string-array name="array_setting">
         <item>Scene Picture</item>
         <item> Help</item>
-        <item> Alerm</item>
+        <item> Alarm</item>
         <item> Viewing Mode(Single-device)</item>
     </string-array>
 
@@ -134,14 +136,14 @@
     </string-array>
     <!-- 视频管理功能 -->
     <string-array name="manage_function">
-        <item>Remote Configure</item>
+        <item>Net Setting</item>
         <item>Device</item>
         <item>Connection Mode</item>
-        <item>视频源管理</item>
+        <item>Channel</item>
         <item>Video</item>
         <item>Security Protection</item>
         <item>Alarm Device</item>
-        <item>版本信息</item>
+        <item>Version info</item>
     </string-array>
 
     <!-- 码流切换 -->

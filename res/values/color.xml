@@ -465,6 +465,7 @@
     <color name="setting_divider_color">#D0D9E0</color>
     <color name="setting_text_color">#4a576c</color>
     <color name="logintextcolor1">#525252</color>
+    <color name="feedback">#777777</color>
 
     <drawable name="morefunctiontextcolor">#363940</drawable>
     <drawable name="versiontextcolor">#385487</drawable>

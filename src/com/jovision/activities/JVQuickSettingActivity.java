@@ -292,7 +292,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (null != oldWifiSSID && !"".equalsIgnoreCase(oldWifiSSID)
 					&& !"0x".equalsIgnoreCase(oldWifiSSID)) {
 				desWifiName.setText(oldWifiSSID);
-			}else{
+			} else {
 				desWifiName.setText("");
 			}
 			desWifiPass.setText("");

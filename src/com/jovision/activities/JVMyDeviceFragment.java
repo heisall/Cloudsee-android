@@ -1647,8 +1647,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		public void run() {
 			// CacheUtil.saveDevList(myDeviceList);
+			MyLog.e(TAG, "AutoUpdateTask--E");
 			myDeviceList = CacheUtil.getDevList();
 			fragHandler.sendMessage(fragHandler.obtainMessage(AUTO_UPDATE));
+			MyLog.e(TAG, "AutoUpdateTask--X");
 		}
 
 	}
@@ -1667,10 +1669,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 			broadTimerTask = new TimerTask() {
 				@Override
 				public void run() {
-					MyLog.v(TAG, "三分钟时间到--发广播");
+					MyLog.e(TAG, "startBroadTimer--E");
 					broadTag = BROAD_THREE_MINITE;
 					deleteDevIp();
 					PlayUtil.broadCast(mActivity);
+					MyLog.e(TAG, "startBroadTimer--X");
 				}
 			};
 			broadTimer.schedule(broadTimerTask, 3 * 60 * 1000, 3 * 60 * 1000);
@@ -1691,7 +1694,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	}
 
 	/**
-	 * 2分钟自动刷新
+	 * 3分钟自动刷新
 	 */
 	public void startAutoRefreshTimer() {
 		// 两分钟自动刷新设备列表

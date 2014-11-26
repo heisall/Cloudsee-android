@@ -355,62 +355,69 @@ public class JVMediaListActivity extends BaseActivity {
 
 		@Override
 		public void run() {
-			File file = new File(mediaPath);
-			if (file.exists()) {
-				File[] fileArray = file.listFiles();
-				if (null != fileArray && 0 != fileArray.length) {
-					int length = fileArray.length;
-					for (int i = 0; i < length; i++) {
-						ArrayList<Filebean> list = new ArrayList<Filebean>();
-						File[] summary = fileArray[i].listFiles();
-						if (fileArray[i].isDirectory()) {
-							fileList.add(fileArray[i]);
-							fileSum = fileSum + fileArray[i].list().length;
+			try {
+				File file = new File(mediaPath);
+				if (file.exists()) {
+					File[] fileArray = file.listFiles();
+					if (null != fileArray && 0 != fileArray.length) {
+						int length = fileArray.length;
+						for (int i = 0; i < length; i++) {
+							ArrayList<Filebean> list = new ArrayList<Filebean>();
+							File[] summary = fileArray[i].listFiles();
+							if (fileArray[i].isDirectory()) {
+								fileList.add(fileArray[i]);
+								fileSum = fileSum + fileArray[i].list().length;
+							}
+							for (int j = 0; j < summary.length; j++) {
+								Filebean bean = new Filebean();
+								bean.setFilename(summary[j].getAbsolutePath());
+								bean.setSelect(false);
+								list.add(bean);
+							}
+							fileMap.put(fileArray[i].getAbsolutePath(), list);
 						}
-						for (int j = 0; j < summary.length; j++) {
-							Filebean bean = new Filebean();
-							bean.setFilename(summary[j].getAbsolutePath());
-							bean.setSelect(false);
-							list.add(bean);
+						if (0 != fileList.size()) {
+							noFile = false;
 						}
-						fileMap.put(fileArray[i].getAbsolutePath(), list);
-					}
-					if (0 != fileList.size()) {
-						noFile = false;
 					}
 				}
-			}
 
-			if (noFile) {
-				handler.sendMessage(handler.obtainMessage(FILE_LOAD_SUCCESS));
-			} else {
-				Collections.sort(fileList, comparator);
-				Message msg = new Message();
-				msg.arg1 = fileSum;
-				msg.what = FILE_NUM;
-				handler.sendMessage(msg);
-				handler.sendMessage(handler.obtainMessage(FILE_LOAD_SUCCESS));
-				if (null != fileList && 0 != fileList.size()) {
-					int size = fileList.size();
-					for (int i = 0; i < size; i++) {
-						handler.sendMessage(handler
-								.obtainMessage(LOAD_IMAGE_SUCCESS));
-						File[] fileArray = fileList.get(i).listFiles();
-						if (null != fileArray && 0 != fileArray.length) {
-							int length = fileArray.length;
-							for (int j = 0; j < length; j++) {
-								BitmapCache.getInstance().getBitmap(
-										fileArray[j].getAbsolutePath(), media,
-										"");
+				if (noFile) {
+					handler.sendMessage(handler
+							.obtainMessage(FILE_LOAD_SUCCESS));
+				} else {
+					Collections.sort(fileList, comparator);
+					Message msg = new Message();
+					msg.arg1 = fileSum;
+					msg.what = FILE_NUM;
+					handler.sendMessage(msg);
+					handler.sendMessage(handler
+							.obtainMessage(FILE_LOAD_SUCCESS));
+					if (null != fileList && 0 != fileList.size()) {
+						int size = fileList.size();
+						for (int i = 0; i < size; i++) {
+							handler.sendMessage(handler
+									.obtainMessage(LOAD_IMAGE_SUCCESS));
+							File[] fileArray = fileList.get(i).listFiles();
+							if (null != fileArray && 0 != fileArray.length) {
+								int length = fileArray.length;
+								for (int j = 0; j < length; j++) {
+									BitmapCache.getInstance().getBitmap(
+											fileArray[j].getAbsolutePath(),
+											media, "");
+								}
 							}
 						}
+						handler.sendMessage(handler
+								.obtainMessage(LOAD_IMAGE_FINISHED));
 					}
-					handler.sendMessage(handler
-							.obtainMessage(LOAD_IMAGE_FINISHED));
 				}
+
+				super.run();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
-			super.run();
 		}
 
 	}

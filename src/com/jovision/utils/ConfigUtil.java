@@ -3,10 +3,8 @@ package com.jovision.utils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -191,44 +189,52 @@ public class ConfigUtil {
 		return yst;
 	}
 
+	private static String country = "";
+
 	/**
 	 * 获取手机IP
 	 * 
 	 * @return
 	 */
 	public static String getCountry() {
-		String country = "China";
-		String requestRes = "China";
-		BufferedReader in = null;
-		try {
-			// http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js
-			URL whatismyip = new URL(Url.COUNTRY_URL);
-			in = new BufferedReader(new InputStreamReader(
-					whatismyip.openStream(), "GBK"));
-			// var remote_ip_info =
-			// {"ret":1,"start":-1,"end":-1,"country":"\u4e2d\u56fd","province":"\u5c71\u4e1c","city":"\u6d4e\u5357","district":"","isp":"","type":"","desc":""};
-			requestRes = in.readLine();
-			MyLog.v("getCountry--requestRes", requestRes);
-			String jsonStr = requestRes.substring(requestRes.indexOf("{"),
-					requestRes.indexOf("}") + 1);
-			MyLog.v("getCountry--jsonStr", jsonStr);
-			JSONObject obj = new JSONObject(jsonStr);
-			country = obj.getString("country") + "-"
-					+ obj.getString("province") + "-" + obj.getString("city");
-		} catch (Exception e) {
-			country = "China";
-			e.printStackTrace();
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+		MyLog.v(TAG, "getCountry---E");
+		if ("".equalsIgnoreCase(country)) {
+			String requestRes = "China";
+			BufferedReader in = null;
+			try {
+				requestRes = JSONUtil.getRequest3(Url.COUNTRY_URL);
+				// //
+				// http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js
+				// URL whatismyip = new URL(Url.COUNTRY_URL);
+				// in = new BufferedReader(new InputStreamReader(
+				// whatismyip.openStream(), "GBK"));
+				// // var remote_ip_info =
+				// //
+				// {"ret":1,"start":-1,"end":-1,"country":"\u4e2d\u56fd","province":"\u5c71\u4e1c","city":"\u6d4e\u5357","district":"","isp":"","type":"","desc":""};
+				// requestRes = in.readLine();
+				MyLog.v("getCountry--requestRes", requestRes);
+				String jsonStr = requestRes.substring(requestRes.indexOf("{"),
+						requestRes.indexOf("}") + 1);
+				MyLog.v("getCountry--jsonStr", jsonStr);
+				JSONObject obj = new JSONObject(jsonStr);
+				country = obj.getString("country") + "-"
+						+ obj.getString("province") + "-"
+						+ obj.getString("city");
+			} catch (Exception e) {
+				country = "China";
+				e.printStackTrace();
+			} finally {
+				if (in != null) {
+					try {
+						in.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
 		MyLog.v("getCountry", country);
-
+		MyLog.v(TAG, "getCountry---X");
 		return country;
 	}
 

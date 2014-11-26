@@ -125,6 +125,52 @@ public class JSONUtil {
 		return sBuffer.toString();
 	}
 
+	public static String getRequest3(String url) {
+		// MyLog.e("请求地址：", url);
+		StringBuffer sBuffer = new StringBuffer();
+		URL u = null;
+		InputStream in = null;
+		HttpURLConnection conn = null;
+		try {
+			u = new URL(url);
+			conn = (HttpURLConnection) u.openConnection();
+			conn.setDoInput(true);
+			conn.setConnectTimeout(3000);
+			conn.setReadTimeout(3000);
+
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Content-Type",
+					"application/json; charset=utf-8");
+			if (conn.getResponseCode() == 400) {
+				MyLog.e("服务器响应：", "400");
+			} else if (conn.getResponseCode() == 200) {
+				byte[] buf = new byte[1024];
+				in = conn.getInputStream();
+				for (int n; (n = in.read(buf)) != -1;) {
+					sBuffer.append(new String(buf, 0, n, "UTF-8"));
+				}
+			}
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != in) {
+					in.close();
+				}
+				if (null != conn) {
+					conn.disconnect();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		// MyLog.e("返回结果：", sBuffer.toString());
+		return sBuffer.toString();
+	}
+
 	// 保持在线
 	public static String getRequest1(String url) {
 		// MyLog.e("保持在线请求地址：", url);

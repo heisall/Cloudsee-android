@@ -21,6 +21,7 @@ import android.os.Build;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -763,6 +764,22 @@ public class JVPlayActivity extends PlayActivity implements
 										.setBackgroundResource(R.drawable.ht_motiondetec_open);
 							}
 						}
+						break;
+					case Consts.FLAG_CAPTURE_FLASH:// 慧通抓拍请求
+						String captureJSON = dataObj.getString("result");
+						Log.i("TAG", captureJSON);
+						// if (null!=captureMap.get("result")) {
+						int result = Integer.valueOf(captureJSON);
+						if (result == Consts.RESULT_SUCCESS) {
+							Log.i("TAG", "抓拍成功");
+						}
+						if (result == Consts.RESULT_NO_FILENAME) {
+							Log.i("TAG", "抓拍路径错误");
+						}
+						if (result == Consts.RESULT_OPEN_FAILED) {
+							Log.i("TAG", "抓拍失败");
+						}
+						// }
 						break;
 					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
 						MyLog.i(TAG, "JVN_STREAM_INFO:TEXT_DATA: " + what
@@ -2363,7 +2380,13 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
 				if (Consts.ISHITVIS == 1) {
-					// todo
+					// TODO
+					// if (hasSDCard() && allowThisFuc(false)) {
+					PlayUtil.hitviscapture(lastClickIndex);
+					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+							true, JVNetConst.RC_EX_FlashJpeg,
+							JVNetConst.RC_EXTEND, null);
+					// }
 				} else {
 					if (hasSDCard() && allowThisFuc(false)) {
 						boolean capture = PlayUtil.capture(lastClickIndex);

@@ -170,6 +170,18 @@ public class PlayUtil {
 		return Jni.screenshot(index, capturePath + fileName, 100);
 	}
 
+	/**
+	 * 慧通抓拍
+	 * */
+	public static boolean hitviscapture(int index) {
+		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentTime()
+				+ File.separator;
+		String fileName = String.valueOf(System.currentTimeMillis()) + ".png";
+		MobileUtil.createDirectory(new File(capturePath));
+		MyLog.v(TAG, "capture=" + capturePath + fileName);
+		return Jni.screenshot(index, capturePath + fileName, -1);
+	}
+
 	// /**
 	// * 抓拍回调
 	// *

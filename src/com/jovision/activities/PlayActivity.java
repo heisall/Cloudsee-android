@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.view.SurfaceView;
@@ -377,8 +378,17 @@ public abstract class PlayActivity extends BaseActivity {
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		setPlayViewSize();
-		super.onConfigurationChanged(newConfig);
+		if (VOICECALL_LONG_CLICK) {
+			if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			} else {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			}
+		} else {
+			setPlayViewSize();
+			super.onConfigurationChanged(newConfig);
+		}
+
 	}
 
 	/**

@@ -47,9 +47,13 @@ public class MyRecevier extends BroadcastReceiver {
 				ArrayList<Device> myDeviceList = CacheUtil.getDevList();
 				PlayUtil.deleteDevIp(myDeviceList);
 				CacheUtil.saveDevList(myDeviceList);
-				PlayUtil.broadCast(context);
+				if (!"0x".equalsIgnoreCase(wifi)) {
+					PlayUtil.broadCast(context);
+					MyLog.i("MyRecevier", "网络变化了,需要重新发广播,当前网络：" + wifi);
+				} else {
+					MyLog.i("MyRecevier", "网络变化了,不需要重新发广播,当前网络：" + wifi);
+				}
 
-				MyLog.i("MyRecevier", "网络变化了,重新发广播,当前网络：" + wifi);
 				return;
 			}
 		} catch (Exception e) {

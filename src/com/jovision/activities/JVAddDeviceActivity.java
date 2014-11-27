@@ -58,6 +58,8 @@ public class JVAddDeviceActivity extends BaseActivity {
 		switch (what) {
 		// 广播回调
 		case Consts.CALL_LAN_SEARCH: {
+			// PlayUtil.broadIp(obj,JVAddDeviceActivity.this);
+			// deviceList = CacheUtil.getDevList();
 			MyLog.v(TAG, "CALL_LAN_SEARCH = what=" + what + ";arg1=" + arg1
 					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
 			// MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1
@@ -71,9 +73,9 @@ public class JVAddDeviceActivity extends BaseActivity {
 							+ broadObj.optInt("no");
 					if (broadDevNum.equalsIgnoreCase(devNumET.getText()
 							.toString())) {// 同一个设备
-					// addDevice.setOnlineState(1);
-					// addDevice.setIp(broadObj.optString("ip"));
-					// addDevice.setPort(broadObj.optInt("port"));
+						// addDevice.setOnlineState(1);
+						// addDevice.setIp(broadObj.optString("ip"));
+						// addDevice.setPort(broadObj.optInt("port"));
 						onLine = 1;
 						ip = broadObj.optString("ip");
 						port = broadObj.optInt("port");

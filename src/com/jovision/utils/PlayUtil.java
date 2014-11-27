@@ -131,6 +131,33 @@ public class PlayUtil {
 		}
 	}
 
+	public static void broadIp(Object obj, Context context) {
+		ArrayList<Device> myDeviceList = CacheUtil.getDevList();
+		JSONObject broadObj;
+		try {
+			broadObj = new JSONObject(obj.toString());
+			if (0 == broadObj.optInt("timeout")) {
+				String gid = broadObj.optString("gid");
+				int no = broadObj.optInt("no");
+
+				if (0 == no) {
+					return;
+				}
+				String ip = broadObj.optString("ip");
+				int port = broadObj.optInt("port");
+				String broadDevNum = gid + no;
+
+				PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port);
+
+			} else if (1 == broadObj.optInt("timeout")) {
+				PlayUtil.sortList(myDeviceList, context);
+				CacheUtil.saveDevList(myDeviceList);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * 抓拍
 	 */

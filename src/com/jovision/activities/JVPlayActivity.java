@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -161,6 +162,8 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 		case Consts.CALL_LAN_SEARCH: {
+			PlayUtil.broadIp(obj, JVPlayActivity.this);
+			deviceList = CacheUtil.getDevList();
 			break;
 		}
 
@@ -720,9 +723,6 @@ public class JVPlayActivity extends PlayActivity implements
 					e1.printStackTrace();
 				}
 				// 获取主控码流信息请求
-				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						true, JVNetConst.RC_EX_MD, JVNetConst.EX_MD_UPDATE,
-						null);
 				Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
 				channel.setAgreeTextData(true);
@@ -791,18 +791,18 @@ public class JVPlayActivity extends PlayActivity implements
 								}
 								// TODO
 							}
-							if (null != streamMap.get("FlashMode")) {
-								int FlashMode = Integer.valueOf(streamMap
-										.get("FlashMode"));
-								if (FlashMode == 0) {
-									ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
-								} else if (FlashMode == 1) {
-									ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
-								} else if (FlashMode == 2) {
-									ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
-								}
-								Consts.FLIGHT_FLAG = FlashMode;
-							}
+							// if (null != streamMap.get("FlashMode")) {
+							// int FlashMode = Integer.valueOf(streamMap
+							// .get("FlashMode"));
+							// if (FlashMode == 0) {
+							// ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
+							// } else if (FlashMode == 1) {
+							// ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
+							// } else if (FlashMode == 2) {
+							// ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
+							// }
+							// Consts.FLIGHT_FLAG = FlashMode;
+							// }
 							if (null != streamMap.get("MobileQuality")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("MobileQuality"))) {
@@ -3312,36 +3312,45 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		if (null != popScreen) {
-			popScreen.dismiss();
-		}
-		if (null != streamListView) {
-			streamListView.setVisibility(View.GONE);
-		}
+		if (VOICECALL_LONG_CLICK) {
+			if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			} else {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			}
+		} else {
+			super.onConfigurationChanged(newConfig);
+			if (null != popScreen) {
+				popScreen.dismiss();
+			}
+			if (null != streamListView) {
+				streamListView.setVisibility(View.GONE);
+			}
 
-		// [Neo] add black screen time
-		Jni.setColor(lastClickIndex, 0, 0, 0, 0);
+			// [Neo] add black screen time
+			Jni.setColor(lastClickIndex, 0, 0, 0, 0);
 
-		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-			// if (channelList.get(lastClickIndex).getParent().isCard()
-			// || 8 == channelList.get(lastClickIndex).getAudioByte()) {
-			// bottombut5.setBackgroundDrawable(getResources().getDrawable(
-			// R.drawable.video_talk));
-			// }
-			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
-				if (VOICECALL_LONG_CLICK) {
-					new TalkThread(lastClickIndex, 0).start();
-					VOICECALL_LONG_CLICK = false;
-					voiceTip.setVisibility(View.GONE);
+			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+				// if (channelList.get(lastClickIndex).getParent().isCard()
+				// || 8 == channelList.get(lastClickIndex).getAudioByte()) {
+				// bottombut5.setBackgroundDrawable(getResources().getDrawable(
+				// R.drawable.video_talk));
+				// }
+				if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
+					if (VOICECALL_LONG_CLICK) {
+						new TalkThread(lastClickIndex, 0).start();
+						VOICECALL_LONG_CLICK = false;
+						voiceTip.setVisibility(View.GONE);
+					}
+				}
+				if (ONE_SCREEN != currentScreen) {
+					changeWindow(ONE_SCREEN);
 				}
 			}
-			if (ONE_SCREEN != currentScreen) {
-				changeWindow(ONE_SCREEN);
-			}
-		}
 
-		showFunc(channelList.get(lastClickIndex), currentScreen, lastClickIndex);
+			showFunc(channelList.get(lastClickIndex), currentScreen,
+					lastClickIndex);
+		}
 	}
 
 	private class Connecter extends Thread {

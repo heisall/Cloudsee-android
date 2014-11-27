@@ -139,6 +139,10 @@ public class ManageFragment extends BaseFragment {
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case Consts.CALL_LAN_SEARCH: {
+			PlayUtil.broadIp(obj, mActivity);
+			break;
+		}
 		case Consts.CALL_CONNECT_CHANGE: {
 			switch (arg2) {
 			case JVNetConst.CONNECT_OK: {

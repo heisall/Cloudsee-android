@@ -343,7 +343,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (errorCount > 30) {
 				break;
 			}
-			if (errorCount == 0 || errorCount == 10 || errorCount == 20 || errorCount == 4 || errorCount == 14 || errorCount == 18 || errorCount == 24|| errorCount ==28) {
+			if (errorCount == 0 || errorCount == 10 || errorCount == 20
+					|| errorCount == 4 || errorCount == 14 || errorCount == 18
+					|| errorCount == 24 || errorCount == 28) {
 				WifiConfiguration desWifi = wifiAdmin.isExsits(wifi);
 
 				if (null != desWifi) {// 目标Ap已存在wifi列表里，需要移除重新连接，防止连接已存在的一直连接不上
@@ -369,7 +371,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				wifiAdmin.ConnectWifiByConfig(desWifi);
 			}
 
-			
 			errorCount += 2;
 
 			flag = wifiAdmin.getWifiState(wifi);

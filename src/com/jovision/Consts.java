@@ -200,7 +200,7 @@ public class Consts {
 	public static final String KEY_PLAY_AP = "PLAY_AP";
 
 	/** 是否为慧通设备 */
-	public static int ISHITVIS = 1; // 0.非慧通，1.慧通
+	public static int ISHITVIS = 0; // 0.非慧通，1.慧通
 	public static int FLIGHT_FLAG = 2;// 闪光灯状态 0.自动 1.开启 2.关闭
 	public static boolean MOTION_DETECTION_FLAG = false;// 移动侦测状态 1.开 0.关
 	/** 登录方法 */

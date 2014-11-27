@@ -106,7 +106,8 @@ public class AccountUtil {
 			reqObj.put("passwd", pwd);
 			reqObj.put("plattype", 1);
 			reqObj.put("locales", ConfigUtil.getLanguage());
-			reqObj.put("devuuid", MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
+			reqObj.put("devuuid",
+					MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
 			boolean alarmSwitch = MySharedPreference.getBoolean("AlarmSwitch",
 					false);
 			reqObj.put("alarmflag", alarmSwitch ? 0 : 1);
@@ -224,10 +225,10 @@ public class AccountUtil {
 		cb.setLanguageType(ConfigUtil.getLanguage());
 		cb.setDeviceUUID(MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
 		boolean alarmSwitch = MySharedPreference.getBoolean("AlarmSwitch",
-				false);		
+				false);
 		cb.setAlarmFlag(alarmSwitch ? 0 : 1);
 		res = JVACCOUNT.ReportClientPlatformInfo(cb);
-	
+
 		return res;
 	}
 

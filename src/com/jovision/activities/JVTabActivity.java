@@ -100,15 +100,18 @@ public class JVTabActivity extends ShakeActivity implements
 					@Override
 					public void onSuccess(Object data, int flag) {
 						MyLog.d("TPush", "注册成功，设备token为：" + data);
-						if(MySharedPreference.getString(Consts.KEY_DEV_TOKEN).equals("")){
-							//没有缓存
-							MySharedPreference.putString(Consts.KEY_DEV_TOKEN, data.toString());
-							AccountUtil.reportClientPlatformInfo(JVTabActivity.this);
+						if (MySharedPreference.getString(Consts.KEY_DEV_TOKEN)
+								.equals("")) {
+							// 没有缓存
+							MySharedPreference.putString(Consts.KEY_DEV_TOKEN,
+									data.toString());
+							AccountUtil
+									.reportClientPlatformInfo(JVTabActivity.this);
+						} else {
+							MySharedPreference.putString(Consts.KEY_DEV_TOKEN,
+									data.toString());
 						}
-						else{
-							MySharedPreference.putString(Consts.KEY_DEV_TOKEN, data.toString());
-						}
-						
+
 					}
 
 					@Override

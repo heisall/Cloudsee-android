@@ -46,7 +46,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 	public void onStart() {
 		img_guide = (ImageView) findViewById(R.id.guide_img);
 		loadingTv = (TextView) findViewById(R.id.loadingText);
-		tipsTv = (TextView)findViewById(R.id.guide_text_tips);
+		tipsTv = (TextView) findViewById(R.id.guide_text_tips);
 		img_guide.setImageResource(img_res_id);
 		loadingTv.setText(third_guide_desc[dev_mark_id]);
 		tipsTv.setText(third_guide_desc[dev_mark_id]);

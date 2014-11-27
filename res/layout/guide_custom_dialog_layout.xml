@@ -4,13 +4,12 @@
     android:layout_height="match_parent"
     android:background="@color/white" >
 
-    <LinearLayout 
+    <RelativeLayout 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="120dp"
-        android:layout_marginLeft="35dp"
-        android:orientation="horizontal"
+        android:layout_marginTop="130dp"
+        android:layout_marginLeft="40dp"
         >
         <TextView 
             android:id="@+id/guide_text_tips"
@@ -20,13 +19,15 @@
             android:textColor="@color/gray"
             android:textSize="22sp"
             />
-    <ImageView
-        android:id="@+id/guide_img_arrow_r"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/guide_tips_r"
-        android:scaleType="fitXY" />
-    </LinearLayout>
+	    <ImageView
+	        android:id="@+id/guide_img_arrow_r"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/guide_tips_r"
+	        android:layout_alignTop="@id/guide_text_tips"
+	        android:layout_toRightOf="@id/guide_text_tips"
+	        android:scaleType="fitXY" />
+    </RelativeLayout>
     <ImageView
         android:id="@+id/guide_img"
         android:layout_width="match_parent"

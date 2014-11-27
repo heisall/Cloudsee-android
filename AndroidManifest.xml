@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="40"
-    android:versionName="V4.3.16" >
+    android:versionName="V4.3.17" >
 
     <supports-screens
         android:anyDensity="true"
@@ -53,11 +53,11 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light" >
         <uses-library android:name="android.test.runner" />
-        <!-- 请将MTA_APPKEY改为MTA分配的appkey < -->       
+        <!-- 请将MTA_APPKEY改为MTA分配的appkey < -->
         <meta-data
             android:name="TA_APPKEY"
             android:value="A8IA5GMIL13M" />
-        <!-- 请将CHANNAL改为app的发布渠道 < --> 
+        <!-- 请将CHANNAL改为app的发布渠道 < -->
         <meta-data
             android:name="InstallChannel"
             android:value="CloudSEE" />
@@ -425,8 +425,8 @@
                 <action android:name="com.jovision.CORESERVICE" />
             </intent-filter>
         </service>
-        
-       <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
+
+        <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
             android:theme="@android:style/Theme.Translucent" >
@@ -471,15 +471,15 @@
             android:persistent="true"
             android:process=":xg_service_v2" />
 
-  
- 		<!-- 【必须】 通知service，此选项有助于提高抵达率 -->
+        <!-- 【必须】 通知service，此选项有助于提高抵达率 -->
         <service
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.jovetech.CloudSee.temp.PUSH_ACTION" />
             </intent-filter>
-        </service>      <!-- 【建议】 信鸽service守护进程，可以增加复活机会，提升消息抵达率 -->
+        </service>
+ <!-- 【建议】 信鸽service守护进程，可以增加复活机会，提升消息抵达率 -->
         <service
             android:name="com.tencent.android.tpush.service.XGDaemonService"
             android:process=":qq_push_daemon" />
@@ -488,7 +488,7 @@
               <service
             android:name="com.tencent.android.tpush.XGDownloadService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false" />
         -->
         <!-- 【可选】APP实现的Receiver，用于接收消息透传和操作结果的回调，请根据需要添加 -->
         <!-- YOUR_PACKAGE_PATH.CustomPushReceiver需要改为自己的Receiver： -->
@@ -509,7 +509,7 @@
         <!-- 【必须】 请修改为APP的AccessKey，“A”开头的12位字符串，中间没空格 -->
         <meta-data
             android:name="XG_V2_ACCESS_KEY"
-            android:value="A8YINF3598NE" />        
+            android:value="A8YINF3598NE" />
     </application>
     <!-- 【必须】 信鸽SDK所需权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -530,4 +530,5 @@
     <!-- 【可选】 信鸽SDK所需权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BATTERY_STATS" />
+
 </manifest>

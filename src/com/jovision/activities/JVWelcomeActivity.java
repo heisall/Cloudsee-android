@@ -116,7 +116,7 @@ public class JVWelcomeActivity extends BaseActivity {
 		if (!ConfigUtil.isConnected(JVWelcomeActivity.this)) {
 			alertNetDialog();
 		} else {
-			is3G(true);
+			ConfigUtil.is3G(JVWelcomeActivity.this, true);
 		}
 	}
 

@@ -475,7 +475,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						break;
 					}
 
-					if (!mActivity.is3G(false)) {// 3G网提示不支持
+					if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
 						fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 						broadTag = BROAD_ADD_DEVICE;
 						broadList.clear();

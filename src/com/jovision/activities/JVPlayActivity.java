@@ -1760,7 +1760,8 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null != ssid
 					&& channel.getParent().getFullNo().equalsIgnoreCase(ssid)) {
 				// IP直连
-				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
+				MyLog.v(TAG, device.getNo() + "--AP--直连接："
+						+ Consts.IPC_DEFAULT_IP + Consts.IPC_DEFAULT_PORT);
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),
 						Consts.IPC_DEFAULT_IP, Consts.IPC_DEFAULT_PORT,
 						device.getUser(), device.getPwd(), -1, device.getGid(),

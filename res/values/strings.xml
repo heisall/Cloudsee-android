@@ -512,12 +512,15 @@
     <string name="str_password">Password </string>
     <string name="str_nicknametwo">Nickname </string>
     <!-- 声波配置 -->
-    <string name="prepare_step">准备步骤</string>
-    <string name="prepare_step1">用顶针轻插配置孔 /n直到听到嘀的一声</string>
-    <string name="prepare_step2">请输入摄像头要连接的无线网络密码</string>
-    <string name="prepare_step3">观看操作演示</string>
-    <string name="prepare_step4">点击发送声波</string>
-    <string name="prepare_step5">请将手机靠近设备，点击声波发送按钮，配置设备</string>
+    <string name="wave_set">Sound-wave Configuration</string>
+    <string name="prepare_step">Preparating</string>
+    <string name="check_step">View operation demo</string>
+    <string name="prepare_set">Preparing configuration</string>
+    <string name="prepare_step1">Please use a needle into the Reset hole at the backside/bottom of the device until you hear the beeping.</string>
+    <string name="prepare_step2">Please input password of the network.</string>
+    <string name="prepare_step3">View operation demo</string>
+    <string name="prepare_step4">Click to send sound-wave</string>
+    <string name="prepare_step5">Please put the phone near device,click sound-wave sending button,configure the device.</string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
     <string name="str_cloudsee_id">CloudSEE ID</string>
@@ -613,6 +616,7 @@
     <string name="str_scanqrcod">二维码扫描</string>
     <string name="str_addwifidev">无线设备</string>
     <string name="str_scanlandevice">局域网设备</string>
+    <string name="str_soundwave">声波配置</string>
     <string name="str_ipdns">IP/域名设备</string>
     <string name="str_demo">视频广场</string>
     <string name="str_register">注册</string>

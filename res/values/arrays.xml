@@ -15,7 +15,7 @@
         <item> Alarm</item>
         <item> Viewing Mode(Single-device)</item>
         <item>Helper</item>
-        <item>广播</item>
+        <item>BroadCast</item>
         <item>Media</item>
         <item> Feedback</item>
         <item>Software Update</item>
@@ -26,7 +26,7 @@
         <item> Alarm</item>
         <item> Viewing Mode(Multi-device)</item>
         <item>Helper</item>
-        <item>广播</item>
+        <item>BroadCast</item>
         <item>Media</item>
         <item> Feedback</item>
         <item> Software Update</item>
@@ -46,6 +46,7 @@
         <item>Scan QR Code</item>
         <item>Add Wi_Fi Device</item>
         <item>Scan devices in LAN</item>
+        <item>Add by sound wave</item>
         <item>IP/DNS</item>
     </string-array>
     <string-array name="array_popno">
@@ -53,6 +54,7 @@
         <item>Scan QR Code</item>
         <item>Add Wi_Fi Device</item>
         <item>Scan devices in LAN</item>
+        <item>Add by sound wave</item>
     </string-array>
 
     <!-- 家庭安防产品 -->

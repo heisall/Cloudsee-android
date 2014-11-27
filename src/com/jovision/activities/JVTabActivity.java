@@ -27,6 +27,7 @@ import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.AccountUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.tencent.android.tpush.XGIOperateCallback;
@@ -88,7 +89,7 @@ public class JVTabActivity extends ShakeActivity implements
 						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// 开启logcat输出，方便debug，发布时请关闭
-		XGPushConfig.enableDebug(this, false);
+		XGPushConfig.enableDebug(this, true);
 		// 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
 		// XGIOperateCallback)带callback版本
 		// 如果需要绑定账号，请使用registerPush(getApplicationContext(),"account")版本
@@ -99,6 +100,15 @@ public class JVTabActivity extends ShakeActivity implements
 					@Override
 					public void onSuccess(Object data, int flag) {
 						MyLog.d("TPush", "注册成功，设备token为：" + data);
+						if(MySharedPreference.getString(Consts.KEY_DEV_TOKEN).equals("")){
+							//没有缓存
+							MySharedPreference.putString(Consts.KEY_DEV_TOKEN, data.toString());
+							AccountUtil.reportClientPlatformInfo(JVTabActivity.this);
+						}
+						else{
+							MySharedPreference.putString(Consts.KEY_DEV_TOKEN, data.toString());
+						}
+						
 					}
 
 					@Override

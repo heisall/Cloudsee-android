@@ -10,6 +10,7 @@ import android.content.Context;
 import android.test.JVACCOUNT;
 import android.util.Log;
 
+import com.jovision.Consts;
 import com.jovision.bean.ClientBean;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
@@ -105,7 +106,7 @@ public class AccountUtil {
 			reqObj.put("passwd", pwd);
 			reqObj.put("plattype", 1);
 			reqObj.put("locales", ConfigUtil.getLanguage());
-			reqObj.put("devuuid", ConfigUtil.getIMEI(mContext));
+			reqObj.put("devuuid", MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
 			boolean alarmSwitch = MySharedPreference.getBoolean("AlarmSwitch",
 					false);
 			reqObj.put("alarmflag", alarmSwitch ? 0 : 1);
@@ -221,11 +222,12 @@ public class AccountUtil {
 		ClientBean cb = new ClientBean();
 		cb.setPlatformType(1);
 		cb.setLanguageType(ConfigUtil.getLanguage());
-		cb.setDeviceUUID(ConfigUtil.getIMEI(con));
-
+		cb.setDeviceUUID(MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
+		boolean alarmSwitch = MySharedPreference.getBoolean("AlarmSwitch",
+				false);		
+		cb.setAlarmFlag(alarmSwitch ? 0 : 1);
 		res = JVACCOUNT.ReportClientPlatformInfo(cb);
-		MyLog.v("ReportClientPlatformInfo--", "-----|||||" + res + "");
-
+	
 		return res;
 	}
 

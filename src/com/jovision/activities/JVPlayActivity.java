@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -1401,6 +1402,8 @@ public class JVPlayActivity extends PlayActivity implements
 		/** 上 */
 		back.setOnClickListener(myOnClickListener);
 		left_btn_h.setOnClickListener(myOnClickListener);
+		ht_fight.setOnClickListener(myOnClickListener);
+		ht_motion.setOnClickListener(myOnClickListener);
 
 		selectScreenNum.setOnClickListener(myOnClickListener);
 		currentMenu.setOnClickListener(myOnClickListener);
@@ -1427,10 +1430,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 		adapter = new MyPagerAdapter();
 		changeWindow(currentScreen);
-
 		viewPager.setLongClickable(true);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
 			@Override
 			public void onPageSelected(int arg0) {
 				try {
@@ -1451,7 +1452,9 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 					}
 					changeBorder(target);
-
+					flightstate(arg0);
+					Log.i("TAG", lastClickIndex + "通道index" + arg0
+							+ channelList.get(arg0).getHtflight());
 					if (false == isBlockUi) {
 						if (ONE_SCREEN == currentScreen) {
 							try {
@@ -1838,6 +1841,30 @@ public class JVPlayActivity extends PlayActivity implements
 		return result;
 	}
 
+	private void flightstate(int channelindex) {
+		StringBuffer buffer1 = new StringBuffer();
+		StringBuffer buffer2 = new StringBuffer();
+		if (channelList.get(channelindex).getHtflight() == 0) {
+			buffer1.append("FlashMode=").append(0).append(";");// .append(";nMDSensitivity=").append(20).append(";");
+			ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
+		} else if (channelList.get(channelindex).getHtflight() == 1) {
+			buffer1.append("FlashMode=").append(1).append(";");// .append(";nMDSensitivity=").append(20).append(";");
+			ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
+		} else if (channelList.get(channelindex).getHtflight() == 2) {
+			buffer1.append("FlashMode=").append(2).append(";");// .append(";nMDSensitivity=").append(20).append(";");
+			ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
+		}
+
+		if (channelList.get(channelindex).isHtmotion()) {
+			ht_motion.setBackgroundResource(R.drawable.ht_motiondetec_open);
+			buffer2.append("bMDEnable=").append(1).append(";");
+		} else {
+			ht_motion.setBackgroundResource(R.drawable.ht_motiondetec_close);
+			buffer2.append("bMDEnable=").append(0).append(";");
+		}
+
+	}
+
 	@Override
 	public void onClick(Channel channel, boolean isFromImageView, int viewId) {
 		MyLog.i(Consts.TAG_PLAY, ">>> click: " + channel.getIndex()
@@ -2003,6 +2030,55 @@ public class JVPlayActivity extends PlayActivity implements
 			// case R.id.yt_cancle:
 			//
 			// break;
+			case R.id.ht_flight:
+				StringBuffer buffer1 = new StringBuffer();
+				if (Consts.FLIGHT_FLAG == 0) {// 当前状态 0- 自动，改为开启
+					MyLog.e("闪光灯--1", "当前状态  0- 自动，改为1-开启");
+					buffer1.append("FlashMode=").append(1).append(";");// .append(";nMDSensitivity=").append(20).append(";");
+					Consts.FLIGHT_FLAG = 1;
+					ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
+				} else if (Consts.FLIGHT_FLAG == 1) {// 1-开启，改为关闭
+					MyLog.e("闪光灯--2", "1-开启，改为2-关闭");
+					buffer1.append("FlashMode=").append(2).append(";");// .append(";nMDSensitivity=").append(20).append(";");
+					Consts.FLIGHT_FLAG = 2;
+					ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
+				} else if (Consts.FLIGHT_FLAG == 2) {// 2-关闭，改为自动
+					MyLog.e("闪光灯--3", "2-关闭，改为0-自动");
+					buffer1.append("FlashMode=").append(0).append(";");// .append(";nMDSensitivity=").append(20).append(";");
+					Consts.FLIGHT_FLAG = 0;
+					ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
+				}
+				channelList.get(lastClickIndex).setHtflight(Consts.FLIGHT_FLAG);
+
+				// JVSUDT.JVC_SetFlash(getChannelMapKey() + 1,
+				// (byte) JVNetConst.JVN_RSP_TEXTDATA,
+				// (byte) JVNetConst.RC_SETPARAM,
+				// buffer1.toString());
+				break;
+			case R.id.ht_motion:
+				StringBuffer buffer = new StringBuffer();
+				if (Consts.MOTION_DETECTION_FLAG) {// 当前状态：开着侦测
+					// bMDEnable字符串的值，即是否开启移动告警 1是开，0是关
+					ht_motion
+							.setBackgroundResource(R.drawable.ht_motiondetec_close);
+					buffer.append("bMDEnable=").append(0).append(";");// .append(";nMDSensitivity=").append(20).append(";");
+					Consts.MOTION_DETECTION_FLAG = false;
+				} else {
+					Consts.MOTION_DETECTION_FLAG = true;
+					ht_motion
+							.setBackgroundResource(R.drawable.ht_motiondetec_open);
+					buffer.append("bMDEnable=").append(1).append(";");// .append(";nMDSensitivity=").append(20).append(";");
+				}
+				channelList.get(lastClickIndex).setHtmotion(
+						Consts.MOTION_DETECTION_FLAG);
+				MyLog.e("移动侦测", "buffer = " + buffer.toString());
+
+				// JVSUDT.JVC_SetAlarm(getChannelMapKey() + 1,
+				// (byte) JVNetConst.JVN_RSP_TEXTDATA,
+				// (byte) JVNetConst.RC_EXTEND,
+				// (byte) JVNetConst.RC_EX_MD,
+				// (byte) JVNetConst.EX_MD_SUBMIT, buffer.toString());
+				break;
 			case R.id.devicepwd_nameet_cancle:
 
 				devicepwd_nameet.setText("");
@@ -2250,9 +2326,13 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
-				if (hasSDCard() && allowThisFuc(false)) {
-					boolean capture = PlayUtil.capture(lastClickIndex);
-					MyLog.i(TAG, "capture=" + capture);
+				if (Consts.ISHITVIS == 1) {
+					// todo
+				} else {
+					if (hasSDCard() && allowThisFuc(false)) {
+						boolean capture = PlayUtil.capture(lastClickIndex);
+						MyLog.i(TAG, "capture=" + capture);
+					}
 				}
 				break;
 			case R.id.bottom_but5:
@@ -3184,6 +3264,7 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
+		CacheUtil.saveDevList(deviceList);
 		if (null != popScreen && popScreen.isShowing()) {
 			screenAdapter.notifyDataSetChanged();
 			popScreen.dismiss();

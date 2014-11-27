@@ -73,6 +73,10 @@ public class Channel {
 	private int height = 0;// 音频比特率
 	private boolean supportVoice = true;
 
+	// 慧通移动侦测和闪光灯状态 2014_11_27 闫帅
+	private int htflight; // 惠通闪光灯状态 闪光灯状态 0.自动 1.开启 2.关闭
+	private boolean htmotion;// 惠通移动侦测状态 //移动侦测状态 true.开 false.关
+
 	private boolean isPaused;// Neo
 	private Surface surface;
 
@@ -479,6 +483,22 @@ public class Channel {
 
 	public void setNewIpcFlag(boolean newIpcFlag) {
 		this.newIpcFlag = newIpcFlag;
+	}
+
+	public int getHtflight() {
+		return htflight;
+	}
+
+	public void setHtflight(int htflight) {
+		this.htflight = htflight;
+	}
+
+	public boolean isHtmotion() {
+		return htmotion;
+	}
+
+	public void setHtmotion(boolean htmotion) {
+		this.htmotion = htmotion;
 	}
 
 }

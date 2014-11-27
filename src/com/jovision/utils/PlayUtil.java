@@ -66,6 +66,71 @@ public class PlayUtil {
 	}
 
 	/**
+	 * 清空设备列表的ip
+	 * 
+	 * @param devNum
+	 * @return
+	 */
+	public static void deleteDevIp(ArrayList<Device> deviceList) {
+		for (Device dev : deviceList) {
+			if (0 == dev.getIsDevice()) {// 云视通设备
+				dev.setIp("");
+				dev.setPort(0);
+			}
+		}
+	}
+
+	/**
+	 * 判断设备是否在设备列表里
+	 * 
+	 * @param devNum
+	 * @return
+	 */
+	public static boolean hasDev(ArrayList<Device> devList, String devNum,
+			String ip, int port) {
+		boolean has = false;
+		if (null == devList) {
+			return has;
+		}
+		// for (int i = 0; i < size; i++) {
+		// Device device = myDeviceList.get(i);
+		for (Device dev : devList) {
+			if (devNum.equalsIgnoreCase(dev.getFullNo())) {
+				dev.setIp(ip);
+				dev.setPort(port);
+				dev.setOnlineState(1);// 广播都在线
+				has = true;
+				break;
+			}
+		}
+		return has;
+	}
+
+	/**
+	 * 根据在线状态排序
+	 */
+	public static void sortList(ArrayList<Device> devList, Context context) {
+		if (null == devList || 0 == devList.size()) {
+			return;
+		}
+		if (!Boolean.valueOf(((BaseActivity) context).statusHashMap
+				.get(Consts.LOCAL_LOGIN))) {
+			ArrayList<Device> onlineDevice = new ArrayList<Device>();
+			ArrayList<Device> offlineDevice = new ArrayList<Device>();
+			for (Device dev : devList) {
+				if (0 == dev.getOnlineState()) {
+					offlineDevice.add(dev);
+				} else {
+					onlineDevice.add(dev);
+				}
+			}
+			devList.clear();
+			devList.addAll(onlineDevice);
+			devList.addAll(offlineDevice);
+		}
+	}
+
+	/**
 	 * 抓拍
 	 */
 	public static boolean capture(int index) {

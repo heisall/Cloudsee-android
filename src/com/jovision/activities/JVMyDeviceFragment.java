@@ -150,9 +150,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private Timer updateTimer = null;
 	private AutoUpdateTask updateTask;
 
-	/** 3分钟广播 */
-	private Timer broadTimer;
-	private TimerTask broadTimerTask;
+	// /** 3分钟广播 */
+	// private Timer broadTimer;
+	// private TimerTask broadTimerTask;
 
 	// public boolean localFlag = false;// 本地登陆标志位
 	public String devicename;
@@ -310,8 +310,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 				.get(Consts.LOCAL_LOGIN))) {
 			startAutoRefreshTimer();
 		} else {
-			// 非3G加广播设备
-			startBroadTimer();
+			// // 非3G加广播设备
+			// startBroadTimer();
 		}
 
 	}
@@ -479,7 +479,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 						broadTag = BROAD_ADD_DEVICE;
 						broadList.clear();
-						deleteDevIp();
+						PlayUtil.deleteDevIp(myDeviceList);
 						PlayUtil.broadCast(mActivity);
 					} else {
 						((BaseActivity) mActivity)
@@ -559,7 +559,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onDestroy() {
 		stopRefreshWifiTimer();
-		stopBroadTimer();
+		// stopBroadTimer();
 		super.onDestroy();
 	}
 
@@ -568,7 +568,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		super.onPause();
 		// stopRefreshWifiTimer();
 		// stopBroadTimer();
-		sortList();
+		PlayUtil.sortList(myDeviceList, mActivity);
 		CacheUtil.saveDevList(myDeviceList);
 		imageScroll.stopTimer();
 	}
@@ -706,7 +706,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 从服务器端获取设备成功
 			case DEVICE_GETDATA_SUCCESS: {
 				broadTag = BROAD_DEVICE_LIST;
-				deleteDevIp();
+				PlayUtil.deleteDevIp(myDeviceList);
 				PlayUtil.broadCast(mActivity);
 				break;
 			}
@@ -734,7 +734,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 		}
 		case JVTabActivity.TAB_BACK: {// tab 返回事件，保存数据
-			sortList();
+			PlayUtil.sortList(myDeviceList, mActivity);
 			// CacheUtil.saveDevList(myDeviceList);
 			break;
 		}
@@ -764,11 +764,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 						int port = broadObj.optInt("port");
 						String broadDevNum = gid + no;
 
-						hasDev(myDeviceList, broadDevNum, ip, port);
+						PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port);
 
 					} else if (1 == broadObj.optInt("timeout")) {
 						broadTag = 0;
-						sortList();
+						PlayUtil.sortList(myDeviceList, mActivity);
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -791,8 +791,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 						String broadDevNum = gid + no;
 
 						// 广播列表和设备列表里面都没有这个设备
-						if (!hasDev(broadList, broadDevNum, ip, port)
-								&& !hasDev(myDeviceList, broadDevNum, ip, port)) {
+						if (!PlayUtil.hasDev(broadList, broadDevNum, ip, port)
+								&& !PlayUtil.hasDev(myDeviceList, broadDevNum,
+										ip, port)) {
 							Device broadDev = new Device(ip, port, gid, no,
 									mActivity.getResources().getString(
 											R.string.str_default_user),
@@ -893,47 +894,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 						"onHandler mActivity is null ,so dont show the alarm dialog");
 			}
 			break;
-		}
-	}
-
-	/**
-	 * 判断设备是否在设备列表里
-	 * 
-	 * @param devNum
-	 * @return
-	 */
-	public boolean hasDev(ArrayList<Device> devList, String devNum, String ip,
-			int port) {
-		boolean has = false;
-		if (null == devList) {
-			return has;
-		}
-		// for (int i = 0; i < size; i++) {
-		// Device device = myDeviceList.get(i);
-		for (Device dev : devList) {
-			if (devNum.equalsIgnoreCase(dev.getFullNo())) {
-				dev.setIp(ip);
-				dev.setPort(port);
-				dev.setOnlineState(1);// 广播都在线
-				has = true;
-				break;
-			}
-		}
-		return has;
-	}
-
-	/**
-	 * 判断设备是否在设备列表里
-	 * 
-	 * @param devNum
-	 * @return
-	 */
-	public void deleteDevIp() {
-		for (Device dev : myDeviceList) {
-			if (0 == dev.getIsDevice()) {// 云视通设备
-				dev.setIp("");
-				dev.setPort(0);
-			}
 		}
 	}
 
@@ -1210,7 +1170,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
-			sortList();
+			PlayUtil.sortList(myDeviceList, mActivity);
 			CacheUtil.saveDevList(myDeviceList);
 			if (0 == result) {
 				((BaseActivity) mActivity)
@@ -1380,7 +1340,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 					}
 					if (null != myDeviceList && 0 != myDeviceList.size()) {
-						sortList();
+						PlayUtil.sortList(myDeviceList, mActivity);
 					}
 					CacheUtil.saveDevList(myDeviceList);
 				} else if (Boolean
@@ -1582,7 +1542,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			sortList();
+			PlayUtil.sortList(myDeviceList, mActivity);
 			CacheUtil.saveDevList(myDeviceList);
 			((BaseActivity) mActivity).dismissDialog();
 			if (result > 0) {
@@ -1643,30 +1603,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 	}
 
 	/**
-	 * 根据在线状态排序
-	 */
-	private void sortList() {
-		if (null == myDeviceList || 0 == myDeviceList.size()) {
-			return;
-		}
-		if (!Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
-				.get(Consts.LOCAL_LOGIN))) {
-			ArrayList<Device> onlineDevice = new ArrayList<Device>();
-			ArrayList<Device> offlineDevice = new ArrayList<Device>();
-			for (Device dev : myDeviceList) {
-				if (0 == dev.getOnlineState()) {
-					offlineDevice.add(dev);
-				} else {
-					onlineDevice.add(dev);
-				}
-			}
-			myDeviceList.clear();
-			myDeviceList.addAll(onlineDevice);
-			myDeviceList.addAll(offlineDevice);
-		}
-	}
-
-	/**
 	 * 自动刷新
 	 * 
 	 * @author Administrator
@@ -1685,43 +1621,43 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	}
 
-	/**
-	 * 5分钟广播
-	 */
-	public void startBroadTimer() {
-		// 非3G加广播设备
-		if (!mActivity.is3G(false)) {
-			if (null != broadTimer) {
-				broadTimer.cancel();
-			}
-			broadTimer = new Timer();
-
-			broadTimerTask = new TimerTask() {
-				@Override
-				public void run() {
-					MyLog.e(TAG, "startBroadTimer--E");
-					broadTag = BROAD_THREE_MINITE;
-					deleteDevIp();
-					PlayUtil.broadCast(mActivity);
-					MyLog.e(TAG, "startBroadTimer--X");
-				}
-			};
-			broadTimer.schedule(broadTimerTask, 3 * 60 * 1000, 3 * 60 * 1000);
-		}
-	}
-
-	public void stopBroadTimer() {
-		if (null != broadTimer) {
-			MyLog.e("注销停止broadTimer", "stop--broadTimer");
-			broadTimer.cancel();
-			broadTimer = null;
-		}
-		if (null != broadTimerTask) {
-			MyLog.e("注销停止broadTimerTask", "stop--broadTimerTask");
-			broadTimerTask.cancel();
-			broadTimerTask = null;
-		}
-	}
+	// /**
+	// * 3分钟广播
+	// */
+	// public void startBroadTimer() {
+	// // 非3G加广播设备
+	// if (!mActivity.is3G(false)) {
+	// if (null != broadTimer) {
+	// broadTimer.cancel();
+	// }
+	// broadTimer = new Timer();
+	//
+	// broadTimerTask = new TimerTask() {
+	// @Override
+	// public void run() {
+	// MyLog.e(TAG, "startBroadTimer--E");
+	// broadTag = BROAD_THREE_MINITE;
+	// PlayUtil.deleteDevIp(myDeviceList);
+	// PlayUtil.broadCast(mActivity);
+	// MyLog.e(TAG, "startBroadTimer--X");
+	// }
+	// };
+	// broadTimer.schedule(broadTimerTask, 3 * 60 * 1000, 3 * 60 * 1000);
+	// }
+	// }
+	//
+	// public void stopBroadTimer() {
+	// if (null != broadTimer) {
+	// MyLog.e("注销停止broadTimer", "stop--broadTimer");
+	// broadTimer.cancel();
+	// broadTimer = null;
+	// }
+	// if (null != broadTimerTask) {
+	// MyLog.e("注销停止broadTimerTask", "stop--broadTimerTask");
+	// broadTimerTask.cancel();
+	// broadTimerTask = null;
+	// }
+	// }
 
 	/**
 	 * 3分钟自动刷新

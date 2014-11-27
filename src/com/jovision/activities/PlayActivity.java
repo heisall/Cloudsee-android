@@ -186,7 +186,10 @@ public abstract class PlayActivity extends BaseActivity {
 
 	@Override
 	protected void initUi() {
-		playAudio = MyAudio.getIntance(PLAY_AUDIO_WHAT, PlayActivity.this);
+		// [Neo] TODO
+		playAudio = MyAudio
+				.getIntance(PLAY_AUDIO_WHAT, PlayActivity.this, 8000);
+
 		setContentView(R.layout.play_layout);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);// 屏幕常亮
 

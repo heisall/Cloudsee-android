@@ -3,6 +3,10 @@ package com.jovision.activities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -27,8 +31,10 @@ import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.AccountUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.PlayUtil;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
@@ -69,6 +75,10 @@ public class JVTabActivity extends ShakeActivity implements
 	private List<ImageView> dots;
 	private LinearLayout ll_dot;
 
+	/** 3分钟广播 */
+	private Timer broadTimer;
+	private TimerTask broadTimerTask;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,7 +98,7 @@ public class JVTabActivity extends ShakeActivity implements
 						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// 开启logcat输出，方便debug，发布时请关闭
-		XGPushConfig.enableDebug(this, false);
+		XGPushConfig.enableDebug(this, true);
 		// 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
 		// XGIOperateCallback)带callback版本
 		// 如果需要绑定账号，请使用registerPush(getApplicationContext(),"account")版本
@@ -99,6 +109,18 @@ public class JVTabActivity extends ShakeActivity implements
 					@Override
 					public void onSuccess(Object data, int flag) {
 						MyLog.d("TPush", "注册成功，设备token为：" + data);
+						if (MySharedPreference.getString(Consts.KEY_DEV_TOKEN)
+								.equals("")) {
+							// 没有缓存
+							MySharedPreference.putString(Consts.KEY_DEV_TOKEN,
+									data.toString());
+							AccountUtil
+									.reportClientPlatformInfo(JVTabActivity.this);
+						} else {
+							MySharedPreference.putString(Consts.KEY_DEV_TOKEN,
+									data.toString());
+						}
+
 					}
 
 					@Override
@@ -228,14 +250,40 @@ public class JVTabActivity extends ShakeActivity implements
 		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 		// TODO 增加过滤
 		switch (what) {
-		// case Consts.CALL_LAN_SEARCH:{
-		// BaseFragment currentFrag = mFragments[currentIndex];
-		// if (null != currentFrag) {
-		// ((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
-		// obj);
-		// }
-		// break;
-		// }
+		case Consts.CALL_LAN_SEARCH: {
+
+			JSONObject broadObj;
+			try {
+				broadObj = new JSONObject(obj.toString());
+				if (0 == broadObj.optInt("timeout")) {
+
+					String gid = broadObj.optString("gid");
+					int no = broadObj.optInt("no");
+
+					if (0 == no) {
+						return;
+					}
+					String ip = broadObj.optString("ip");
+					int port = broadObj.optInt("port");
+					String broadDevNum = gid + no;
+
+					PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port);
+
+				} else if (1 == broadObj.optInt("timeout")) {
+					PlayUtil.sortList(myDeviceList, JVTabActivity.this);
+					CacheUtil.saveDevList(myDeviceList);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+			BaseFragment currentFrag = mFragments[currentIndex];
+			if (null != currentFrag) {
+				((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
+						obj);
+			}
+			break;
+		}
 		default:
 			BaseFragment currentFrag = mFragments[currentIndex];
 			if (null != currentFrag) {
@@ -259,7 +307,7 @@ public class JVTabActivity extends ShakeActivity implements
 	protected void initUi() {
 		super.initUi();
 		setContentView(R.layout.tab_layout);
-
+		startBroadTimer();
 		viewpager = (ViewPager) findViewById(R.id.tab_viewpager);
 		viewpager.setOnPageChangeListener(JVTabActivity.this);
 		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
@@ -449,4 +497,42 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 		}
 	}
+
+	/**
+	 * 3分钟广播
+	 */
+	public void startBroadTimer() {
+		// 本地 非3G加广播设备
+		if (!is3G(false) && localFlag) {
+			if (null != broadTimer) {
+				broadTimer.cancel();
+			}
+			broadTimer = new Timer();
+			broadTimerTask = new TimerTask() {
+				@Override
+				public void run() {
+					MyLog.e(TAG, "startBroadTimer--E");
+					myDeviceList = CacheUtil.getDevList();
+					PlayUtil.deleteDevIp(myDeviceList);
+					PlayUtil.broadCast(JVTabActivity.this);
+					MyLog.e(TAG, "startBroadTimer--X");
+				}
+			};
+			broadTimer.schedule(broadTimerTask, 3 * 60 * 1000, 3 * 60 * 1000);
+		}
+	}
+
+	public void stopBroadTimer() {
+		if (null != broadTimer) {
+			MyLog.e("注销停止broadTimer", "stop--broadTimer");
+			broadTimer.cancel();
+			broadTimer = null;
+		}
+		if (null != broadTimerTask) {
+			MyLog.e("注销停止broadTimerTask", "stop--broadTimerTask");
+			broadTimerTask.cancel();
+			broadTimerTask = null;
+		}
+	}
+
 }

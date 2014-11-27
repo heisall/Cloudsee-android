@@ -25,6 +25,7 @@ import com.tencent.android.tpush.XGPushTextMessage;
 
 public class MessageReceiver extends XGPushBaseReceiver {
 	protected NotificationManager mNotifyer;
+	protected boolean pushable = false;
 
 	@Override
 	public void onDeleteTagResult(Context arg0, int arg1, String arg2) {
@@ -68,6 +69,15 @@ public class MessageReceiver extends XGPushBaseReceiver {
 			Log.e("TPush", "onTextMessage the context is null");
 		} else {
 			Log.e("TPush", "onTextMessage the context is not null");
+		}
+		String content_tmp = arg1.getContent();
+		if (content_tmp == null || content_tmp.length() == 0) {
+			Log.e("TPush", "the content_tmp is null");
+		}
+		Log.e("TPush", "content:" + content_tmp);
+		if (!pushable) {
+			Log.e("TPush", "the function is not open now...");
+			return;
 		}
 		String ns = Context.NOTIFICATION_SERVICE;
 		mNotifyer = (NotificationManager) context.getSystemService(ns);
@@ -130,7 +140,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
 							pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);
 						}
 						contentText = pi.alarmTime
-								+ "-"
+								+ " "
 								+ alarmArray[pi.alarmType].replace("%%",
 										pi.deviceNickName);
 
@@ -145,6 +155,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
 				String content = arg1.getContent();
 				if (content == null || content.length() == 0) {
 					Log.e("TPush", "the content is null");
+					return;
 				}
 				try {
 					// JSONObject object = new JSONObject(content);
@@ -190,6 +201,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					return;
 				}
 			}
 			Intent notificationIntent = new Intent(Intent.ACTION_MAIN);

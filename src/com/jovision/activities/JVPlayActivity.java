@@ -20,7 +20,6 @@ import android.os.Build;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -720,11 +719,10 @@ public class JVPlayActivity extends PlayActivity implements
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
-				// // 获取基本文本信息
-				// Jni.sendTextData(arg1,
-				// JVNetConst.JVN_RSP_TEXTDATA, 8,
-				// JVNetConst.JVN_REMOTE_SETTING);
 				// 获取主控码流信息请求
+				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						true, JVNetConst.RC_EX_MD, JVNetConst.EX_MD_UPDATE,
+						null);
 				Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
 				channel.setAgreeTextData(true);
@@ -743,11 +741,28 @@ public class JVPlayActivity extends PlayActivity implements
 					switch (dataObj.getInt("flag")) {
 					// 远程配置请求，获取到配置文本数据
 					case JVNetConst.JVN_REMOTE_SETTING: {
-						// String settingJSON =
-						dataObj.getString("msg");
+
 						break;
 					}
 					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
+						break;
+					case Consts.FLAG_GET_MD_STATE:// 慧通获取移动侦测
+						String motionJSON = dataObj.getString("msg");
+						HashMap<String, String> motionMap = ConfigUtil
+								.genMsgMap(motionJSON);
+						if (null != motionMap.get("bMDEnable")) {
+							int bMDEnable = Integer.valueOf(motionMap
+									.get("bMDEnable"));
+							if (bMDEnable == 0) {
+								ht_motion
+										.setBackgroundResource(R.drawable.ht_motiondetec_close);
+								Consts.MOTION_DETECTION_FLAG = false;
+							} else if (bMDEnable == 1) {
+								Consts.MOTION_DETECTION_FLAG = true;
+								ht_motion
+										.setBackgroundResource(R.drawable.ht_motiondetec_open);
+							}
+						}
 						break;
 					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
 						MyLog.i(TAG, "JVN_STREAM_INFO:TEXT_DATA: " + what
@@ -774,9 +789,20 @@ public class JVPlayActivity extends PlayActivity implements
 								} else {
 									channel.setScreenTag(Consts.SCREEN_OVERTURN);
 								}
-
+								// TODO
 							}
-
+							if (null != streamMap.get("FlashMode")) {
+								int FlashMode = Integer.valueOf(streamMap
+										.get("FlashMode"));
+								if (FlashMode == 0) {
+									ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
+								} else if (FlashMode == 1) {
+									ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
+								} else if (FlashMode == 2) {
+									ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
+								}
+								Consts.FLIGHT_FLAG = FlashMode;
+							}
 							if (null != streamMap.get("MobileQuality")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("MobileQuality"))) {
@@ -1082,9 +1108,9 @@ public class JVPlayActivity extends PlayActivity implements
 			if (channel.isNewIpcFlag()) {
 				int index = arg1 + 1;
 				String params = "MobileQuality=" + index + ";";// "MobileStreamQos="
-																// + index +
-																// 2014-11-26
-																// 去掉MobileStreamQos字段
+				// + index +
+				// 2014-11-26
+				// 去掉MobileStreamQos字段
 
 				MyLog.v(TAG, "changeStream--" + params);
 				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
@@ -1452,9 +1478,9 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 					}
 					changeBorder(target);
-					flightstate(arg0);
-					Log.i("TAG", lastClickIndex + "通道index" + arg0
-							+ channelList.get(arg0).getHtflight());
+					Jni.sendTextData(lastClickIndex,
+							JVNetConst.JVN_RSP_TEXTDATA, 8,
+							JVNetConst.JVN_STREAM_INFO);
 					if (false == isBlockUi) {
 						if (ONE_SCREEN == currentScreen) {
 							try {
@@ -1760,8 +1786,7 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null != ssid
 					&& channel.getParent().getFullNo().equalsIgnoreCase(ssid)) {
 				// IP直连
-				MyLog.v(TAG, device.getNo() + "--AP--直连接："
-						+ Consts.IPC_DEFAULT_IP + Consts.IPC_DEFAULT_PORT);
+				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),
 						Consts.IPC_DEFAULT_IP, Consts.IPC_DEFAULT_PORT,
 						device.getUser(), device.getPwd(), -1, device.getGid(),
@@ -1843,29 +1868,32 @@ public class JVPlayActivity extends PlayActivity implements
 		return result;
 	}
 
-	private void flightstate(int channelindex) {
-		StringBuffer buffer1 = new StringBuffer();
-		StringBuffer buffer2 = new StringBuffer();
-		if (channelList.get(channelindex).getHtflight() == 0) {
-			buffer1.append("FlashMode=").append(0).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-			ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
-		} else if (channelList.get(channelindex).getHtflight() == 1) {
-			buffer1.append("FlashMode=").append(1).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-			ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
-		} else if (channelList.get(channelindex).getHtflight() == 2) {
-			buffer1.append("FlashMode=").append(2).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-			ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
-		}
-
-		if (channelList.get(channelindex).isHtmotion()) {
-			ht_motion.setBackgroundResource(R.drawable.ht_motiondetec_open);
-			buffer2.append("bMDEnable=").append(1).append(";");
-		} else {
-			ht_motion.setBackgroundResource(R.drawable.ht_motiondetec_close);
-			buffer2.append("bMDEnable=").append(0).append(";");
-		}
-
-	}
+	// private void flightstate(int channelindex) {
+	// StringBuffer buffer1 = new StringBuffer();
+	// StringBuffer buffer2 = new StringBuffer();
+	// if (channelList.get(channelindex).getHtflight() == 0) {
+	// buffer1.append("FlashMode=").append(0).append(";");//
+	// .append(";nMDSensitivity=").append(20).append(";");
+	// ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
+	// } else if (channelList.get(channelindex).getHtflight() == 1) {
+	// buffer1.append("FlashMode=").append(1).append(";");//
+	// .append(";nMDSensitivity=").append(20).append(";");
+	// ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
+	// } else if (channelList.get(channelindex).getHtflight() == 2) {
+	// buffer1.append("FlashMode=").append(2).append(";");//
+	// .append(";nMDSensitivity=").append(20).append(";");
+	// ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
+	// }
+	//
+	// if (channelList.get(channelindex).isHtmotion()) {
+	// ht_motion.setBackgroundResource(R.drawable.ht_motiondetec_open);
+	// buffer2.append("bMDEnable=").append(1).append(";");
+	// } else {
+	// ht_motion.setBackgroundResource(R.drawable.ht_motiondetec_close);
+	// buffer2.append("bMDEnable=").append(0).append(";");
+	// }
+	//
+	// }
 
 	@Override
 	public void onClick(Channel channel, boolean isFromImageView, int viewId) {
@@ -2052,10 +2080,10 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 				channelList.get(lastClickIndex).setHtflight(Consts.FLIGHT_FLAG);
 
-				// JVSUDT.JVC_SetFlash(getChannelMapKey() + 1,
-				// (byte) JVNetConst.JVN_RSP_TEXTDATA,
-				// (byte) JVNetConst.RC_SETPARAM,
-				// buffer1.toString());
+				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						false, 0, JVNetConst.RC_SETPARAM, buffer1.toString());
+				Jni.sendTextData(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						8, JVNetConst.JVN_STREAM_INFO);
 				break;
 			case R.id.ht_motion:
 				StringBuffer buffer = new StringBuffer();
@@ -2073,7 +2101,13 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 				channelList.get(lastClickIndex).setHtmotion(
 						Consts.MOTION_DETECTION_FLAG);
-				MyLog.e("移动侦测", "buffer = " + buffer.toString());
+
+				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						true, JVNetConst.RC_EX_MD, JVNetConst.EX_MD_SUBMIT,
+						buffer.toString());
+				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						true, JVNetConst.RC_EX_MD, JVNetConst.EX_MD_UPDATE,
+						null);
 
 				// JVSUDT.JVC_SetAlarm(getChannelMapKey() + 1,
 				// (byte) JVNetConst.JVN_RSP_TEXTDATA,

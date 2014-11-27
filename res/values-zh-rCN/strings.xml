@@ -511,6 +511,16 @@
     <string name="str_username">用  户  名</string>
     <string name="str_password">密       码 </string>
     <string name="str_nicknametwo">昵       称 </string>
+    <!-- 声波配置 -->
+    <string name="wave_set">声波配置</string>
+    <string name="prepare_step">准备步骤</string>
+    <string name="check_step">查看演示说明</string>
+    <string name="prepare_set">准备配置</string>
+    <string name="prepare_step1">用顶针轻插配置孔\n直到听到嘀的一声</string>
+    <string name="prepare_step2">请输入摄像头要连接的无线网络密码</string>
+    <string name="prepare_step3">观看操作演示</string>
+    <string name="prepare_step4">点击发送声波</string>
+    <string name="prepare_step5">请将手机靠近设备，点击声波发送按钮，\n配置设备</string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">切换域名/IP直连和云视通连接模式</string>
     <string name="str_cloudsee_id">云视通号</string>
@@ -606,6 +616,7 @@
     <string name="str_scanqrcod">二维码扫描</string>
     <string name="str_addwifidev">无线设备</string>
     <string name="str_scanlandevice">局域网设备</string>
+    <string name="str_soundwave">声波配置</string>
     <string name="str_ipdns">域名/IP设备</string>
     <string name="str_demo">视频广场</string>
     <string name="str_register">注册</string>

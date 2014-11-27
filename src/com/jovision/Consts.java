@@ -134,7 +134,18 @@ public class Consts {
 	public static final int FLAG_GPIN_SELECT = 0x12;
 	public static final int FLAG_GPIN_DEL = 0x13;
 
+	public static final int FLAG_CAPTURE_FLASH = 0x10;
+	public static final int FLAG_GET_MD_STATE = 0x11;
+	public static final int FLAG_SET_MD_STATE = 0x12;
+
+	public static final int FLAG_GET_PARAM = 0x50;
+	public static final int FLAG_SET_PARAM_OK = 0x55;
+
 	public static final int EX_WIFI_CONFIG = 0x0A;
+
+	public static final int RESULT_SUCCESS = 0x01;
+	public static final int RESULT_NO_FILENAME = 0x10;
+	public static final int RESULT_OPEN_FAILED = 0x11;
 
 	public static final int ARG1_PLAY_BAD = 0x01;
 
@@ -172,7 +183,7 @@ public class Consts {
 	public static final int WHAT_DUMMY = 0x04;
 
 	public static final String IPC_FLAG = "IPC-";
-	public static final String IPC_TAG = "IPC-";
+	public static final String IPC_TAG = "IPC-H-";
 	public static final String IPC_DEFAULT_USER = "jwifiApuser";
 	public static final String IPC_DEFAULT_PWD = "^!^@#&1a**U";
 	public static final String IPC_DEFAULT_IP = "10.10.0.1";

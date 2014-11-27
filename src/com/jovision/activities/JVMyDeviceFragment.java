@@ -172,12 +172,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 			R.drawable.mydevice_popwindowonse_icon,
 			R.drawable.mydevice_popwindowtwo_icon,
 			R.drawable.mydevice_popwindowthree_icon,
-			R.drawable.mydevice_popwindowfour_icon, };
+			R.drawable.mydevice_popwindowfour_icon,
+			R.drawable.mydevice_popwindowfour_icon };
 	private int[] popDrawarrayno = new int[] {
 			R.drawable.mydevice_popwindowonse_icon,
 			R.drawable.mydevice_popwindowtwo_icon,
 			R.drawable.mydevice_popwindowthree_icon,
 			R.drawable.mydevice_popwindowfour_icon,
+			R.drawable.mydevice_popwindowfive_icon,
 			R.drawable.mydevice_popwindowfive_icon };
 
 	@Override
@@ -485,7 +487,18 @@ public class JVMyDeviceFragment extends BaseFragment {
 					}
 					break;
 				}
-				case 4: {// IP/域名设备
+				case 4: {// 声波配置
+					StatService.trackCustomEvent(
+							mActivity,
+							"SoundWave",
+							mActivity.getResources().getString(
+									R.string.str_soundwave));
+					Intent intent = new Intent();
+					intent.setClass(mActivity, JVWaveSetActivity.class);
+					mActivity.startActivity(intent);
+					break;
+				}
+				case 5: {// IP/域名设备
 					StatService.trackCustomEvent(mActivity, "IP/DNS", mActivity
 							.getResources().getString(R.string.str_ipdns));
 					Intent intent = new Intent();

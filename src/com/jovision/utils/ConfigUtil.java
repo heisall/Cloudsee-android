@@ -196,6 +196,15 @@ public class ConfigUtil {
 	 * 
 	 * @return
 	 */
+	// //
+	// http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js
+	// URL whatismyip = new URL(Url.COUNTRY_URL);
+	// in = new BufferedReader(new InputStreamReader(
+	// whatismyip.openStream(), "GBK"));
+	// // var remote_ip_info =
+	// //
+	// {"ret":1,"start":-1,"end":-1,"country":"\u4e2d\u56fd","province":"\u5c71\u4e1c","city":"\u6d4e\u5357","district":"","isp":"","type":"","desc":""};
+	// requestRes = in.readLine();
 	public static String getCountry() {
 		MyLog.v(TAG, "getCountry---E");
 		if ("".equalsIgnoreCase(country)) {
@@ -203,15 +212,6 @@ public class ConfigUtil {
 			BufferedReader in = null;
 			try {
 				requestRes = JSONUtil.getRequest3(Url.COUNTRY_URL);
-				// //
-				// http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js
-				// URL whatismyip = new URL(Url.COUNTRY_URL);
-				// in = new BufferedReader(new InputStreamReader(
-				// whatismyip.openStream(), "GBK"));
-				// // var remote_ip_info =
-				// //
-				// {"ret":1,"start":-1,"end":-1,"country":"\u4e2d\u56fd","province":"\u5c71\u4e1c","city":"\u6d4e\u5357","district":"","isp":"","type":"","desc":""};
-				// requestRes = in.readLine();
 				MyLog.v("getCountry--requestRes", requestRes);
 				String jsonStr = requestRes.substring(requestRes.indexOf("{"),
 						requestRes.indexOf("}") + 1);
@@ -267,12 +267,16 @@ public class ConfigUtil {
 
 	public static int lan = -1;
 
-	// 中文 0 英文 1
+	// 中文 1 英文2
 	public static int getServerLanguage() {
 
 		if (-1 == lan) {
 			String country = getCountry();
-
+			MyLog.v("country",
+					"country=" + country + ";contain：中国="
+							+ country.contains("中国") + ";contain：China="
+							+ country.contains("China") + ";contain：china="
+							+ country.contains("china"));
 			if (country.contains("中国") || country.contains("China")
 					|| country.contains("china")) {
 				lan = JVConst.LANGUAGE_ZH;
@@ -280,7 +284,7 @@ public class ConfigUtil {
 				lan = JVConst.LANGUAGE_EN;
 			}
 		}
-
+		MyLog.v("country", "lan=" + lan + ";中文 1 英文2");
 		return lan;
 	}
 

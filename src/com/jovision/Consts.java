@@ -67,6 +67,7 @@ public class Consts {
 	public static final int CALL_QUERY_DEVICE = 0xAE;
 	public static final int CALL_HDEC_TYPE = 0xAF;
 	public static final int CALL_LIB_UNLOAD = 0xB0;
+	public static final int CALL_GEN_VOICE = 0xB1;
 
 	public static final int MAX_DEVICE_CHANNEL_COUNT = 64;
 	public static final int DEFAULT_ADD_CHANNEL_COUNT = 4;
@@ -199,6 +200,10 @@ public class Consts {
 	public static final String KEY_PLAY_DEMO = "PLAY_DEMO";
 	public static final String KEY_PLAY_AP = "PLAY_AP";
 
+	/** 是否为慧通设备 */
+	public static int ISHITVIS = 1; // 0.非慧通，1.慧通
+	public static int FLIGHT_FLAG = 2;// 闪光灯状态 0.自动 1.开启 2.关闭
+	public static boolean MOTION_DETECTION_FLAG = false;// 移动侦测状态 1.开 0.关
 	/** 登录方法 */
 	public static final int LOGIN_FUNCTION = 0xB1;
 	/** 注册方法 */
@@ -365,7 +370,7 @@ public class Consts {
 	public static final int RC_GPIN_DEL = 0x13; // 外设报警查询
 	public static final int RC_GPIN_SET_SWITCH = 0x14; // 外设报警设置开关(只内部使用)
 	public static final int ONLY_CONNECT_INDEX = 0; // 仅供报警相关连接云视通的window index
-
+	public static String KEY_DEV_TOKEN = "DEV_TOKEN";
 	public static final String EXT_THUMBNAIL_STORE_DIR = ".JVSThumbs";
 
 	/**

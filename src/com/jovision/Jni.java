@@ -783,9 +783,9 @@ public class Jni {
 	/**
 	 * 生成声波配置数据
 	 * 
-	 * @param url
+	 * @param data
 	 */
-	public static native void genVoice(String url);
+	public static native void genVoice(String data);
 
 	/**
 	 * TCP 连接，参考

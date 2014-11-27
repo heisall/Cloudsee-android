@@ -47,6 +47,34 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
             android:background="@drawable/tab_2" />
+
+        <RelativeLayout
+            android:id="@+id/ishitvis"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ht_play_function_bg"
+            android:visibility="gone" >
+
+            <ImageView
+                android:id="@+id/ht_motion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ht_motiondetec_close" />
+
+            <ImageView
+                android:id="@+id/ht_flight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ht_flight_close" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </LinearLayout>

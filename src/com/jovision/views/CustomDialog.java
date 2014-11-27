@@ -20,6 +20,7 @@ import com.jovision.utils.ConfigUtil;
 public class CustomDialog extends Dialog implements CommonInterface {
 	private ImageView img_guide;
 	private TextView loadingTv;
+	private TextView tipsTv;
 	private int img_res_id;
 	private int dev_mark_id;
 	private String[] third_guide_desc = null;
@@ -45,8 +46,10 @@ public class CustomDialog extends Dialog implements CommonInterface {
 	public void onStart() {
 		img_guide = (ImageView) findViewById(R.id.guide_img);
 		loadingTv = (TextView) findViewById(R.id.loadingText);
+		tipsTv = (TextView) findViewById(R.id.guide_text_tips);
 		img_guide.setImageResource(img_res_id);
 		loadingTv.setText(third_guide_desc[dev_mark_id]);
+		tipsTv.setText(third_guide_desc[dev_mark_id]);
 		myPlayer = new MediaPlayer();
 	}
 

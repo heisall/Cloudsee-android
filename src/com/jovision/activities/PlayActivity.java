@@ -54,6 +54,9 @@ public abstract class PlayActivity extends BaseActivity {
 	protected LinearLayout topBar;// 顶部标题栏
 	protected Button back;// 返回
 	protected Button rightFuncButton;// 右边按钮事件
+	protected RelativeLayout ishitvis;// 惠通闪光灯
+	protected ImageView ht_motion;// 移动侦测
+	protected ImageView ht_fight;// 闪光灯
 	protected TextView currentMenu;// 当前标题
 	protected ImageView selectScreenNum;// 下拉选择当前分屏数按钮
 	protected PopupWindow popScreen;// 选择框
@@ -183,7 +186,10 @@ public abstract class PlayActivity extends BaseActivity {
 
 	@Override
 	protected void initUi() {
-		playAudio = MyAudio.getIntance(PLAY_AUDIO_WHAT, PlayActivity.this);
+		// [Neo] TODO
+		playAudio = MyAudio
+				.getIntance(PLAY_AUDIO_WHAT, PlayActivity.this, 8000);
+
 		setContentView(R.layout.play_layout);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);// 屏幕常亮
 
@@ -191,7 +197,13 @@ public abstract class PlayActivity extends BaseActivity {
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
 		back = (Button) findViewById(R.id.btn_left);
 		rightFuncButton = (Button) findViewById(R.id.btn_right);
+		ishitvis = (RelativeLayout) findViewById(R.id.ishitvis);
+		ht_motion = (ImageView) findViewById(R.id.ht_motion);
+		ht_fight = (ImageView) findViewById(R.id.ht_flight);
 		rightFuncButton.setVisibility(View.GONE);
+		if (Consts.ISHITVIS == 1) {
+			ishitvis.setVisibility(View.VISIBLE);
+		}
 
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 

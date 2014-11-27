@@ -22,7 +22,8 @@ public class MyAudio {
 
 	private static final String TAG = "Audio";
 
-	private static final int SAMPLERATE = 8000;
+	private int SAMPLERATE = 8000;
+
 	private static final int SOURCE = MediaRecorder.AudioSource.MIC;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private static final int STREAM_TYPE = AudioManager.STREAM_MUSIC;
@@ -46,25 +47,23 @@ public class MyAudio {
 	private int what;
 	private IHandlerLikeNotify notify;
 
-	private int minSize;
 	private boolean isRec;
 	private int indexOfChannel;
 
 	private MyAudio() {
 		isRec = false;
 		queue = new LinkedBlockingQueue<byte[]>();
-
-		minSize = AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
-				AudioFormat.ENCODING_PCM_16BIT);
 	}
 
 	private static class Container {
 		private static MyAudio HOLDER = new MyAudio();
 	}
 
-	public static MyAudio getIntance(int what, IHandlerLikeNotify notify) {
+	public static MyAudio getIntance(int what, IHandlerLikeNotify notify,
+			int sampleRate) {
 		Container.HOLDER.what = what;
 		Container.HOLDER.notify = notify;
+		Container.HOLDER.SAMPLERATE = sampleRate;
 		return Container.HOLDER;
 	}
 
@@ -117,6 +116,10 @@ public class MyAudio {
 
 		@Override
 		public void run() {
+			int minSize = 2 * AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
+					((16 == bit) ? AudioFormat.ENCODING_PCM_16BIT
+							: AudioFormat.ENCODING_PCM_8BIT));
+
 			MyLog.w(TAG, "Play E: bit = " + bit + ", fromQueue = "
 					+ isFromQueue);
 
@@ -228,6 +231,9 @@ public class MyAudio {
 
 		@Override
 		public void run() {
+			int minSize = 2 * AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
+					AudioFormat.ENCODING_PCM_16BIT);
+
 			MyLog.w(TAG, "Record E: type = " + type + ", bit = " + bit
 					+ ", block = " + block + ", send = " + isSend
 					+ ", minSize = " + minSize);

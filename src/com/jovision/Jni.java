@@ -403,6 +403,7 @@ public class Jni {
 		String enc = "";
 
 		String custom = "";
+		String filename = "";
 
 		// [Neo] 设置存储模式
 		Jni.sendString(window, uchType, true, Consts.COUNT_EX_STORAGE,
@@ -421,19 +422,36 @@ public class Jni {
 		// [Neo] 门瓷与手环
 		Jni.sendString(window, uchType, false, 0, type, custom);
 
+		// [Neo] 获取设备参数 -> flag = FLAG_GET_PARAM, 分析 msg
+		Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+				JVNetConst.RC_GETPARAM, null);
+
+		// [Neo] 获取码流参数
+		Jni.sendTextData(0, JVNetConst.JVN_RSP_TEXTDATA, 8,
+				JVNetConst.JVN_STREAM_INFO);
+
 		/*** 忧郁的分割线 慧通 ***/
 
-		// [Neo] 设置闪光灯 TODO 未验证 0: 自动 1: 开启 2: 关闭
+		// [Neo] 设置闪光灯 0: 自动 1: 开启 2: 关闭 -> flag = FLAG_SET_PARAM_OK
 		Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 				JVNetConst.RC_SETPARAM,
 				String.format(Consts.FORMATTER_FLASH_SWITCH, switcher));
 
-		// [Neo] 移动侦测 TODO 未验证 1: 开 0: 关
+		// [Neo] 抓拍 -> flag = FLAG_CAPTURE_FLASH, result =
+		// RESULT_SUCCESS/RESULT_NO_FILENAME/RESULT_OPEN_FAILED
+		Jni.screenshot(window, filename, -1);
+		Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true,
+				JVNetConst.RC_EX_FlashJpeg, JVNetConst.RC_EXTEND, null);
+
+		// [Neo] 获取移动侦测状态 1: 开 0: 关 -> flag = FLAG_GET_MD_STATE, 分析 msg
+		Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true,
+				JVNetConst.RC_EX_MD, JVNetConst.EX_MD_UPDATE, null);
+		// [Neo] 设置移动侦测 -> flag = FLAG_SET_MD_STATE
 		Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true,
 				JVNetConst.RC_EX_MD, JVNetConst.EX_MD_SUBMIT, String.format(
 						Consts.FORMATTER_MOTION_DETECTION_SWITCH, switcher));
 
-		// [Neo] 视频制式 TODO 未验证 0: P 1: N
+		// [Neo] 设置视频制式 0: P 1: N -> flag = FLAG_SET_PARAM_OK, 通过获取码流确认
 		Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 				JVNetConst.RC_SETPARAM,
 				String.format(Consts.FORMATTER_PN_SWITCH, switcher));
@@ -761,6 +779,13 @@ public class Jni {
 	 * @return
 	 */
 	public static native boolean deinitAudioEncoder();
+
+	/**
+	 * 生成声波配置数据
+	 * 
+	 * @param url
+	 */
+	public static native void genVoice(String url);
 
 	/**
 	 * TCP 连接，参考

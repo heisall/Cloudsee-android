@@ -1759,9 +1759,10 @@ public class JVPlayActivity extends PlayActivity implements
 				// IP直连
 				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),
-						ip, port, device.getUser(), device.getPwd(), -1,
-						device.getGid(), true, 1, true,
-						JVNetConst.TYPE_3GMO_UDP, channel.getSurface(), isOmx);
+						Consts.IPC_DEFAULT_IP, Consts.IPC_DEFAULT_PORT,
+						device.getUser(), device.getPwd(), -1, device.getGid(),
+						true, 1, true, JVNetConst.TYPE_3GMO_UDP,
+						channel.getSurface(), isOmx);
 				if (connect == channel.getIndex()) {
 					channel.setPaused(null == channel.getSurface());
 				}

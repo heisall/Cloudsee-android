@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="40"
-    android:versionName="V4.3.18" >
+    android:versionName="V4.3.16" >
 
     <supports-screens
         android:anyDensity="true"
@@ -12,9 +12,7 @@
         android:xlargeScreens="true" >
     </supports-screens>
 
-    <uses-sdk
-        android:minSdkVersion="10"
-        android:targetSdkVersion="21" />
+    <uses-sdk android:minSdkVersion="10" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -130,25 +128,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 　　
-        
-        
-        
-        
-        
-        
         
         
         
@@ -225,25 +205,7 @@
 
 
 
-
-
-
-
-
-
 　　
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
         
 
         
@@ -390,25 +352,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 　　
-        
-        
-        
-        
-        
-        
         
         
         
@@ -485,25 +429,7 @@
 
 
 
-
-
-
-
-
-
 　　
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
         
 
         
@@ -933,12 +859,6 @@
                 <action android:name="com.jovision.CORESERVICE" />
             </intent-filter>
         </service>
-
-        <receiver android:name="com.jovision.utils.MyRecevier" >
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

@@ -140,7 +140,7 @@ public class JSONUtil {
 
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-Type",
-					"application/json; charset=utf-8");
+					"application/json; charset=UTF-8");
 			if (conn.getResponseCode() == 400) {
 				MyLog.e("服务器响应：", "400");
 			} else if (conn.getResponseCode() == 200) {

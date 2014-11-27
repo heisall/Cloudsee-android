@@ -7,13 +7,10 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Rect;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -306,33 +303,6 @@ public abstract class BaseActivity extends FragmentActivity implements
 								dialog.dismiss();
 							}
 						}).create().show();
-	}
-
-	/**
-	 * 是否是3G网络环境
-	 * 
-	 * @param context
-	 *            上下文
-	 * @param alert
-	 *            是否弹出提示
-	 * @return 是否是3G网络
-	 */
-	public boolean is3G(boolean alert) {
-		ConnectivityManager cManager = (ConnectivityManager) this
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo info = cManager.getActiveNetworkInfo();
-		if (info != null && info.isAvailable()) {
-			int type = info.getType();
-			if (type == ConnectivityManager.TYPE_WIFI) {
-				return false;
-			} else {
-				if (alert) {
-					this.showTextToast(R.string.tips_3g);
-				}
-				return true;
-			}
-		} else
-			return false;
 	}
 
 	/**

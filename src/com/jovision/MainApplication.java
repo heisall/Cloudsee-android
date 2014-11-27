@@ -88,6 +88,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		MyLog.init(Consts.LOG_PATH);
 		MyLog.enableFile(true);
 		MyLog.enableLogcat(true);
+
+		// 注册网络切换广播
 		registerDateTransReceiver();
 		statusHashMap = new HashMap<String, String>();
 		openedActivityList = new ArrayList<BaseActivity>();

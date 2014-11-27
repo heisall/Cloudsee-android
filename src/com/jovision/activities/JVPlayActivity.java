@@ -1828,7 +1828,8 @@ public class JVPlayActivity extends PlayActivity implements
 				// 有ip通过ip连接
 				if (false == ("".equalsIgnoreCase(device.getIp()) || 0 == device
 						.getPort())) {
-					if (is3G(false) && 0 == device.getIsDevice()) {// 普通设备3G情况不用ip连接
+					if (ConfigUtil.is3G(JVPlayActivity.this, false)
+							&& 0 == device.getIsDevice()) {// 普通设备3G情况不用ip连接
 						conIp = "";
 						conPort = 0;
 					} else {// 有ip非3G

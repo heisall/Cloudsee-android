@@ -511,6 +511,13 @@
     <string name="str_username"> Username</string>
     <string name="str_password">Password </string>
     <string name="str_nicknametwo">Nickname </string>
+    <!-- 声波配置 -->
+    <string name="prepare_step">准备步骤</string>
+    <string name="prepare_step1">用顶针轻插配置孔 /n直到听到嘀的一声</string>
+    <string name="prepare_step2">请输入摄像头要连接的无线网络密码</string>
+    <string name="prepare_step3">观看操作演示</string>
+    <string name="prepare_step4">点击发送声波</string>
+    <string name="prepare_step5">请将手机靠近设备，点击声波发送按钮，配置设备</string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
     <string name="str_cloudsee_id">CloudSEE ID</string>

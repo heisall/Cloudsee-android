@@ -71,8 +71,6 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	}
 
 	private void registerDateTransReceiver() {
-		// MyLog.i(TAG, "register receiver " +
-		// Consts.CONNECTIVITY_CHANGE_ACTION);
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(Consts.CONNECTIVITY_CHANGE_ACTION);
 		filter.setPriority(1000);

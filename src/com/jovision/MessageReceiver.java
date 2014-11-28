@@ -25,7 +25,7 @@ import com.tencent.android.tpush.XGPushTextMessage;
 
 public class MessageReceiver extends XGPushBaseReceiver {
 	protected NotificationManager mNotifyer;
-	protected boolean pushable = false;
+	protected boolean pushable = true;
 
 	@Override
 	public void onDeleteTagResult(Context arg0, int arg1, String arg2) {
@@ -89,6 +89,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
 
 		Activity currentActivity = MyActivityManager.getActivityManager()
 				.currentActivity();
+		
 		if (currentActivity == null) {
 			Log.e("TPush", "当前程序没有在运行，在通知栏显示....");
 			Notification notification = new Notification(icon, tickerText, when);
@@ -216,7 +217,8 @@ public class MessageReceiver extends XGPushBaseReceiver {
 			// 用mNotificationManager的notify方法通知用户生成标题栏消息通知
 			mNotifyer.notify(0, notification);
 		} else {
-			Log.e("TPush", "当前程序正在运行，不在通知栏显示....");
+			Log.e("TPush", "当前程序正在运行，不在通知栏显示....-->"+currentActivity.getClass().getName());
+			
 			return;
 			// notificationIntent.setClass(context, currentActivity.getClass());
 		}

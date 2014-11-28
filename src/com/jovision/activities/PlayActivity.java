@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.view.SurfaceView;
@@ -379,6 +380,7 @@ public abstract class PlayActivity extends BaseActivity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		setPlayViewSize();
 		super.onConfigurationChanged(newConfig);
+
 	}
 
 	/**
@@ -698,6 +700,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 			AUDIO_SINGLE = false;// 单向对讲标志
 			VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 			VOICECALLING = false;// 对讲功能已经开启
 		} catch (Exception e) {
 			e.printStackTrace();

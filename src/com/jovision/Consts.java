@@ -201,7 +201,7 @@ public class Consts {
 	public static final String KEY_PLAY_AP = "PLAY_AP";
 
 	/** 是否为慧通设备 */
-	public static int ISHITVIS = 1; // 0.非慧通，1.慧通
+	public static int ISHITVIS = 0; // 0.非慧通，1.慧通
 	public static int FLIGHT_FLAG = 2;// 闪光灯状态 0.自动 1.开启 2.关闭
 	public static boolean MOTION_DETECTION_FLAG = false;// 移动侦测状态 1.开 0.关
 	/** 登录方法 */
@@ -341,6 +341,11 @@ public class Consts {
 	/** 提示不支持2.3系统 */
 	public static String DIALOG_NOT_SUPPORT23 = "NOT_SUPPORT23";
 
+	/** 网络切换需要广播 key */
+	public static final String NEED_BROAD = "NEED_BROAD";
+
+	/** 网络切换需要广播 key */
+	public static final String NEED_BROAD1 = "NEED_BROAD1";
 	// /** 功能设置页面场景图片标志位 */
 	// public static String SETTING_SCENE = "SCENE";
 	//

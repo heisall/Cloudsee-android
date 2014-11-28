@@ -484,6 +484,7 @@ public class ConfigUtil {
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
 			result = Jni.init(context, 9200, Consts.LOG_PATH);
 			Jni.enableLog(true);
+			Jni.setStat(true);
 			if (MySharedPreference.getBoolean("LITTLEHELP", true)) {
 				Jni.enableLinkHelper(true, 3, 10);// 开小助手
 				MyLog.v(Consts.TAG_APP, "enable  helper = " + true);
@@ -1056,4 +1057,33 @@ public class ConfigUtil {
 		}
 		return value;
 	}
+
+	// /**
+	// * 获取当前ip地址
+	// *
+	// * @param context
+	// * @return
+	// */
+	// public static String getLocalIpAddress(Context context) {
+	// String ip = "";
+	// try {
+	// for (Enumeration<NetworkInterface> en = NetworkInterface
+	// .getNetworkInterfaces(); en.hasMoreElements();) {
+	// NetworkInterface intf = en.nextElement();
+	// for (Enumeration<InetAddress> enumIpAddr = intf
+	// .getInetAddresses(); enumIpAddr.hasMoreElements();) {
+	// InetAddress inetAddress = enumIpAddr.nextElement();
+	// if (!inetAddress.isLoopbackAddress()) {
+	// ip = inetAddress.getHostAddress().toString();
+	// }
+	// }
+	// }
+	// } catch (Exception ex) {
+	// ip = "";
+	// ex.printStackTrace();
+	// }
+	// MyLog.v("LocalIpAddress", ip+"");
+	// return ip;
+	// }
+
 }

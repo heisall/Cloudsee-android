@@ -1406,7 +1406,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 					hasBroadIP = false;
 					Jni.queryDevice(ConfigUtil.getGroup(ipcDevice.getFullNo()),
-							ConfigUtil.getYST(ipcDevice.getFullNo()), 30 * 1000);
+							ConfigUtil.getYST(ipcDevice.getFullNo()), 40 * 1000);
 
 					while (!hasBroadIP) {// 未广播到IP
 						try {

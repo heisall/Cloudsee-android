@@ -117,8 +117,6 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

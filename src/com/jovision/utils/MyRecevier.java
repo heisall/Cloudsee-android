@@ -38,6 +38,7 @@ import android.text.TextUtils;
 import com.jovision.Consts;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 
 public class MyRecevier extends BroadcastReceiver {
 
@@ -64,10 +65,17 @@ public class MyRecevier extends BroadcastReceiver {
 					ArrayList<Device> myDeviceList = CacheUtil.getDevList();
 					PlayUtil.deleteDevIp(myDeviceList);
 					CacheUtil.saveDevList(myDeviceList);
-					PlayUtil.broadCast(context);
-
-					MyLog.e("MyRecevier", "网络变化了,重新发广播,当前网络：" + wifi);
+					MyLog.i("MyRecevier", "清空IP并保存");
+					if (!"0x".equalsIgnoreCase(wifi)
+							&& !"<unknown ssid>".equalsIgnoreCase(wifi)) {
+						MySharedPreference.putBoolean(Consts.NEED_BROAD, true);
+						PlayUtil.broadCast(context);
+						MyLog.i("MyRecevier", "网络变化了,需要重新发广播,当前网络：" + wifi);
+					} else {
+						MyLog.i("MyRecevier", "网络变化了,不需要重新发广播,当前网络：" + wifi);
+					}
 				}
+
 
 				return;
 			}

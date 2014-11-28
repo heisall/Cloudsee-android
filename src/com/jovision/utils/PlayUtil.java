@@ -101,6 +101,8 @@ public class PlayUtil {
 				dev.setPort(port);
 				dev.setOnlineState(1);// 广播都在线
 				has = true;
+				MyLog.v(TAG, "广播到dev=" + dev.getFullNo() + ";ip=" + ip
+						+ ";port=" + port);
 				break;
 			}
 		}
@@ -128,6 +130,36 @@ public class PlayUtil {
 			devList.clear();
 			devList.addAll(onlineDevice);
 			devList.addAll(offlineDevice);
+		}
+	}
+
+	public static void broadIp(Object obj, ArrayList<Device> myDeviceList) {
+		JSONObject broadObj;
+		try {
+			broadObj = new JSONObject(obj.toString());
+			if (0 == broadObj.optInt("timeout")) {
+				String gid = broadObj.optString("gid");
+				int no = broadObj.optInt("no");
+
+				if (0 == no) {
+					return;
+				}
+				String ip = broadObj.optString("ip");
+				int port = broadObj.optInt("port");
+				String broadDevNum = gid + no;
+
+				PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port);
+
+			} else if (1 == broadObj.optInt("timeout")) {
+				if (MySharedPreference.getBoolean(Consts.NEED_BROAD)) {
+					MySharedPreference.putBoolean(Consts.NEED_BROAD1, true);
+					CacheUtil.saveDevList(myDeviceList);
+					MyLog.e("NEED_BROAD-savebroadIp", myDeviceList.toString());
+				}
+
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 	}
 

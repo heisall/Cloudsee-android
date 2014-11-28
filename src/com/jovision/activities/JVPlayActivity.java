@@ -3328,7 +3328,6 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		CacheUtil.saveDevList(deviceList);
 		if (null != popScreen && popScreen.isShowing()) {
 			screenAdapter.notifyDataSetChanged();
 			popScreen.dismiss();

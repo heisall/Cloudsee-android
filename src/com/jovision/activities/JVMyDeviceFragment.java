@@ -1429,6 +1429,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
+			LanDialog.dismiss();
+			fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 			int addRes = -1;
 			int addCount = 0;
 			// ArrayList<Device> list = new ArrayList<Device>();// 广播到的设备列表
@@ -1548,7 +1550,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			((BaseActivity) mActivity).dismissDialog();
 			if (result > 0) {
 				refreshList();
-				LanDialog.dismiss();
+				((BaseActivity) mActivity).dismissDialog();
 				mActivity.showTextToast(R.string.add_device_succ);
 			} else if (result == -100) {
 				mActivity.showTextToast(R.string.str_device_most_count);

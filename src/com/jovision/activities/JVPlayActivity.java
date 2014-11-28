@@ -3091,47 +3091,47 @@ public class JVPlayActivity extends PlayActivity implements
 				long arg3) {
 
 			if (2 == arg2) {// 音频监听
-			// if (allowThisFuc(true)) {
-			// if (channelList.get(lastClickIndex).isVoiceCall()) {
-			// showTextToast(R.string.audio_monitor_forbidden);
-			// } else {
-			// // 停止音频监听
-			// if (PlayUtil.isPlayAudio(lastClickIndex)) {
-			// stopAudio(lastClickIndex);
-			// functionListAdapter.selectIndex = -1;
-			// bottombut8
-			// .setBackgroundDrawable(getResources()
-			// .getDrawable(
-			// R.drawable.video_monitor_icon));
-			// } else {
-			// startAudio(lastClickIndex,
-			// channelList.get(lastClickIndex)
-			// .getAudioByte());
-			// functionListAdapter.selectIndex = arg2;
-			// bottombut8
-			// .setBackgroundDrawable(getResources()
-			// .getDrawable(
-			// R.drawable.video_monitorselect_icon));
-			// }
-			//
-			// // if (!PlayUtil.audioPlay(lastClickIndex)) {
-			// // functionListAdapter.selectIndex = -1;
-			// // bottombut8
-			// // .setBackgroundDrawable(getResources()
-			// // .getDrawable(
-			// // R.drawable.video_monitor_icon));
-			// // if (null != playAudio) {
-			// // playAudio.interrupt();
-			// // playAudio = null;
-			// // }
-			// // } else {
-			// // functionListAdapter.selectIndex = arg2;
-			// // bottombut8
-			// // .setBackgroundDrawable(getResources()
-			// // .getDrawable(
-			// // R.drawable.video_monitorselect_icon));
-			// // }
-			// }
+				// if (allowThisFuc(true)) {
+				// if (channelList.get(lastClickIndex).isVoiceCall()) {
+				// showTextToast(R.string.audio_monitor_forbidden);
+				// } else {
+				// // 停止音频监听
+				// if (PlayUtil.isPlayAudio(lastClickIndex)) {
+				// stopAudio(lastClickIndex);
+				// functionListAdapter.selectIndex = -1;
+				// bottombut8
+				// .setBackgroundDrawable(getResources()
+				// .getDrawable(
+				// R.drawable.video_monitor_icon));
+				// } else {
+				// startAudio(lastClickIndex,
+				// channelList.get(lastClickIndex)
+				// .getAudioByte());
+				// functionListAdapter.selectIndex = arg2;
+				// bottombut8
+				// .setBackgroundDrawable(getResources()
+				// .getDrawable(
+				// R.drawable.video_monitorselect_icon));
+				// }
+				//
+				// // if (!PlayUtil.audioPlay(lastClickIndex)) {
+				// // functionListAdapter.selectIndex = -1;
+				// // bottombut8
+				// // .setBackgroundDrawable(getResources()
+				// // .getDrawable(
+				// // R.drawable.video_monitor_icon));
+				// // if (null != playAudio) {
+				// // playAudio.interrupt();
+				// // playAudio = null;
+				// // }
+				// // } else {
+				// // functionListAdapter.selectIndex = arg2;
+				// // bottombut8
+				// // .setBackgroundDrawable(getResources()
+				// // .getDrawable(
+				// // R.drawable.video_monitorselect_icon));
+				// // }
+				// }
 
 				// } else {
 				// functionListAdapter.selectIndex = -1;

@@ -133,6 +133,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 	@Override
 	protected void initSettings() {
+
+		MySharedPreference.putBoolean(Consts.AP_SETTING, true);
 		local = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 		// 首次提示设置步骤
 		if (!MySharedPreference.getBoolean("AP_TIPS")) {
@@ -477,28 +479,28 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				e.printStackTrace();
 			}
 
-			int count = 1;
-			while (true) {
-				String ip = null;
-				if (null != (ip = getlocalip())) {
-					count += 1;
-					MyLog.e(TAG, "ip= " + ip);
-					break;
-				} else {
-					MyLog.e(TAG, "pppppppppppppppppppp  Thread.sleep(500);");
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					count += 1;
-				}
-
-				if (count == 10)
-					break;
-
-			}
+			// int count = 1;
+			// while (true) {
+			// String ip = null;
+			// if (null != (ip = getlocalip())) {
+			// count += 1;
+			// MyLog.e(TAG, "ip= " + ip);
+			// break;
+			// } else {
+			// MyLog.e(TAG, "pppppppppppppppppppp  Thread.sleep(500);");
+			// try {
+			// Thread.sleep(500);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// count += 1;
+			// }
+			//
+			// if (count == 10)
+			// break;
+			//
+			// }
 
 			return connRes;
 		}
@@ -835,6 +837,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		// searchView.stopPlayer();
 		searchView.myPlayer.release();
 		stopRefreshWifiTimer();
+		MySharedPreference.putBoolean(Consts.AP_SETTING, false);
 	}
 
 	@Override
@@ -1884,20 +1887,20 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		builder.setMessage(getResources().getString(R.string.set_error)
 				+ errorCode);
 
-		builder.setPositiveButton(R.string.try_again,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// 暂停扫瞄器
-						showSearch(false);
-						if (null != searchView.myPlayer) {
-							searchView.myPlayer.stop();
-						}
-						dismisQuickPopWindow();
-						showIpcLayout(false);
-					}
-
-				});
+		// builder.setPositiveButton(R.string.try_again,
+		// new DialogInterface.OnClickListener() {
+		// @Override
+		// public void onClick(DialogInterface dialog, int which) {
+		// // 暂停扫瞄器
+		// showSearch(false);
+		// if (null != searchView.myPlayer) {
+		// searchView.myPlayer.stop();
+		// }
+		// dismisQuickPopWindow();
+		// showIpcLayout(false);
+		// }
+		//
+		// });
 		builder.setNegativeButton(R.string.exit,
 				new DialogInterface.OnClickListener() {
 					@Override

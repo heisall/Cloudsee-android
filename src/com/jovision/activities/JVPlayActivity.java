@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -721,9 +722,6 @@ public class JVPlayActivity extends PlayActivity implements
 					e1.printStackTrace();
 				}
 				// 获取主控码流信息请求
-				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						true, JVNetConst.RC_EX_MD, JVNetConst.EX_MD_UPDATE,
-						null);
 				Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
 				channel.setAgreeTextData(true);
@@ -808,20 +806,18 @@ public class JVPlayActivity extends PlayActivity implements
 								}
 								// TODO
 							}
-							if (Consts.ISHITVIS == 1) {
-								if (null != streamMap.get("FlashMode")) {
-									int FlashMode = Integer.valueOf(streamMap
-											.get("FlashMode"));
-									if (FlashMode == 0) {
-										ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
-									} else if (FlashMode == 1) {
-										ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
-									} else if (FlashMode == 2) {
-										ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
-									}
-									Consts.FLIGHT_FLAG = FlashMode;
-								}
-							}
+							// if (null != streamMap.get("FlashMode")) {
+							// int FlashMode = Integer.valueOf(streamMap
+							// .get("FlashMode"));
+							// if (FlashMode == 0) {
+							// ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
+							// } else if (FlashMode == 1) {
+							// ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
+							// } else if (FlashMode == 2) {
+							// ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
+							// }
+							// Consts.FLIGHT_FLAG = FlashMode;
+							// }
 							if (null != streamMap.get("MobileQuality")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("MobileQuality"))) {
@@ -2821,6 +2817,7 @@ public class JVPlayActivity extends PlayActivity implements
 							.obtainMessage(STOP_AUDIO_GATHER));
 					new TalkThread(lastClickIndex, 0).start();
 					VOICECALL_LONG_CLICK = false;
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 					voiceTip.setVisibility(View.GONE);
 					handler.sendMessageDelayed(
 							handler.obtainMessage(START_AUDIO_GATHER), 2 * 1000);
@@ -2841,6 +2838,13 @@ public class JVPlayActivity extends PlayActivity implements
 			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
 				if (VOICECALLING) {// 正在喊话
 					VOICECALL_LONG_CLICK = true;
+
+					if (JVPlayActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+						setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+					} else {
+						setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+					}
+
 					voiceTip.setVisibility(View.VISIBLE);
 					new TalkThread(lastClickIndex, 1).start();
 				}
@@ -3354,13 +3358,13 @@ public class JVPlayActivity extends PlayActivity implements
 			// bottombut5.setBackgroundDrawable(getResources().getDrawable(
 			// R.drawable.video_talk));
 			// }
-			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
-				if (VOICECALL_LONG_CLICK) {
-					new TalkThread(lastClickIndex, 0).start();
-					VOICECALL_LONG_CLICK = false;
-					voiceTip.setVisibility(View.GONE);
-				}
-			}
+			// if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
+			// if (VOICECALL_LONG_CLICK) {
+			// new TalkThread(lastClickIndex, 0).start();
+			// VOICECALL_LONG_CLICK = false;
+			// voiceTip.setVisibility(View.GONE);
+			// }
+			// }
 			if (ONE_SCREEN != currentScreen) {
 				changeWindow(ONE_SCREEN);
 			}

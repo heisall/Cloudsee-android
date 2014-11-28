@@ -25,7 +25,7 @@ import com.tencent.android.tpush.XGPushTextMessage;
 
 public class MessageReceiver extends XGPushBaseReceiver {
 	protected NotificationManager mNotifyer;
-	protected boolean pushable = false;
+	protected boolean pushable = true;
 
 	@Override
 	public void onDeleteTagResult(Context arg0, int arg1, String arg2) {
@@ -64,6 +64,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
 	@Override
 	public void onTextMessage(Context context, XGPushTextMessage arg1) {
 		// TODO Auto-generated method stub
+		Log.e("TPush", "onTextMessage:" + arg1.toString());
 		Log.e("TPush", "onTextMessage:" + arg1.getContent());
 		if (context == null || arg1 == null) {
 			Log.e("TPush", "onTextMessage the context is null");
@@ -89,7 +90,10 @@ public class MessageReceiver extends XGPushBaseReceiver {
 
 		Activity currentActivity = MyActivityManager.getActivityManager()
 				.currentActivity();
-		if (currentActivity == null) {
+
+		if (currentActivity == null
+				|| currentActivity.getClass().getName()
+						.equals("com.jovision.activities.JVLoginActivity")) {
 			Log.e("TPush", "当前程序没有在运行，在通知栏显示....");
 			Notification notification = new Notification(icon, tickerText, when);
 			notification.flags |= Notification.FLAG_AUTO_CANCEL;
@@ -216,7 +220,9 @@ public class MessageReceiver extends XGPushBaseReceiver {
 			// 用mNotificationManager的notify方法通知用户生成标题栏消息通知
 			mNotifyer.notify(0, notification);
 		} else {
-			Log.e("TPush", "当前程序正在运行，不在通知栏显示....");
+			Log.e("TPush", "当前程序正在运行，不在通知栏显示....-->"
+					+ currentActivity.getClass().getName());
+
 			return;
 			// notificationIntent.setClass(context, currentActivity.getClass());
 		}

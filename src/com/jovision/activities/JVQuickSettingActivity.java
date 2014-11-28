@@ -457,12 +457,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (stopTask) {// 停止线程
 				return -1;
 			}
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
 			return connRes;
 		}

@@ -1056,4 +1056,33 @@ public class ConfigUtil {
 		}
 		return value;
 	}
+
+	// /**
+	// * 获取当前ip地址
+	// *
+	// * @param context
+	// * @return
+	// */
+	// public static String getLocalIpAddress(Context context) {
+	// String ip = "";
+	// try {
+	// for (Enumeration<NetworkInterface> en = NetworkInterface
+	// .getNetworkInterfaces(); en.hasMoreElements();) {
+	// NetworkInterface intf = en.nextElement();
+	// for (Enumeration<InetAddress> enumIpAddr = intf
+	// .getInetAddresses(); enumIpAddr.hasMoreElements();) {
+	// InetAddress inetAddress = enumIpAddr.nextElement();
+	// if (!inetAddress.isLoopbackAddress()) {
+	// ip = inetAddress.getHostAddress().toString();
+	// }
+	// }
+	// }
+	// } catch (Exception ex) {
+	// ip = "";
+	// ex.printStackTrace();
+	// }
+	// MyLog.v("LocalIpAddress", ip+"");
+	// return ip;
+	// }
+
 }

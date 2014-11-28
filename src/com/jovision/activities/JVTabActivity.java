@@ -238,12 +238,12 @@ public class JVTabActivity extends ShakeActivity implements
 		// TODO 增加过滤
 		switch (what) {
 		case Consts.CALL_LAN_SEARCH: {
-
+			// PlayUtil.broadIp(obj,JVTabActivity.this);
+			// myDeviceList = CacheUtil.getDevList();
 			JSONObject broadObj;
 			try {
 				broadObj = new JSONObject(obj.toString());
 				if (0 == broadObj.optInt("timeout")) {
-
 					String gid = broadObj.optString("gid");
 					int no = broadObj.optInt("no");
 

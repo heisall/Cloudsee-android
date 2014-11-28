@@ -152,8 +152,8 @@ public class PlayUtil {
 
 			} else if (1 == broadObj.optInt("timeout")) {
 				if (MySharedPreference.getBoolean(Consts.NEED_BROAD)) {
-					MySharedPreference.putBoolean(Consts.NEED_BROAD1, true);
 					CacheUtil.saveDevList(myDeviceList);
+					MySharedPreference.putBoolean(Consts.NEED_BROAD, false);
 					MyLog.e("NEED_BROAD-savebroadIp", myDeviceList.toString());
 				}
 

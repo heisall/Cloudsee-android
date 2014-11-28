@@ -70,6 +70,8 @@ public abstract class PlayActivity extends BaseActivity {
 	protected SurfaceView playSurface;
 	protected TextView linkMode;// 测试显示连接方式
 
+	protected RelativeLayout varvoice_bg;
+	protected ImageView varvoice;
 	protected LinearLayout playBackBar;// 远程回放工具条
 	protected SeekBar progressBar;// 远程回放进度
 	protected Button playBackPause;// 远程回放暂停继续播
@@ -232,6 +234,8 @@ public abstract class PlayActivity extends BaseActivity {
 		playBackBar = (LinearLayout) findViewById(R.id.playbackbar);
 		progressBar = (SeekBar) findViewById(R.id.playback_seekback);
 		playBackPause = (Button) findViewById(R.id.playbackpause);
+		varvoice_bg = (RelativeLayout) findViewById(R.id.varvoice_bg);
+		varvoice = (ImageView) findViewById(R.id.varvoice);
 
 		linkMode.setVisibility(View.VISIBLE);
 
@@ -299,10 +303,10 @@ public abstract class PlayActivity extends BaseActivity {
 
 		/** 大分辨率功能 */
 		playFunctionList = (ListView) findViewById(R.id.play_function_list_layout);
-		functionList.add(getResources().getString(R.string.str_audio_monitor));
 		functionList.add(getResources().getString(R.string.str_yt_operate));
 		functionList
 				.add(getResources().getString(R.string.str_remote_playback));
+		functionList.add(getResources().getString(R.string.str_audio_monitor));
 		functionListAdapter = new FuntionAdapter(PlayActivity.this, bigScreen,
 				playFlag);
 		functionListAdapter.setData(functionList);

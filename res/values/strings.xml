@@ -89,7 +89,7 @@
     <!-- 视频播放 -->
     <string name="str_screen"> channels</string>
     <string name="str_video_play">Video</string>
-    <string name="str_audio_monitor">Audio</string>
+    <string name="str_audio_monitor">Device Manage</string>
     <string name="str_audio_monitor_forbidden">This function is unavailable during Two-way Talk.</string>
     <string name="str_yt_operate">PTZ</string>
     <string name="str_remote_playback">Playback</string>
@@ -428,7 +428,14 @@
     <string name="str_quick_setting_connect">Configure</string>
     <string name="str_quick_setting_waiting">Waiting</string>
     <string name="next_step">Next Step</string>
-    <string name="set_error">Failed to configure, error code</string>
+    <string name="set_error_1000">配置出错，错误码</string>
+    <string name="set_error_1001">AP网络连接超时</string>
+    <string name="set_error_1002">不同意文本聊天</string>
+    <string name="set_error_1003">保存配置信息失败</string>
+    <string name="set_error_1004">网络恢复失败</string>
+    <string name="set_error_1005">账号重新登陆失败</string>
+    <string name="set_error_1006">在线设备添加失败</string>
+    <string name="set_error_1007">设备上线失败</string>
     <string name="try_again">Retry</string>
     <string name="quick_setting_connecting">Connecting now…</string>
     <string name="quick_setting_exiting">Exiting configuration now</string>

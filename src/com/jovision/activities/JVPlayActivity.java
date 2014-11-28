@@ -1438,9 +1438,11 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 			}
-			currentMenu_v.setText(deviceList.get(deviceIndex).getNickName());
+			currentMenu_v.setText(deviceList.get(deviceIndex).getNickName()
+					+ "-" + channelList.get(lastClickIndex).getChannel());
 		}
 		/** 上 */
+		varvoice_bg.setOnClickListener(myOnClickListener);
 		back.setOnClickListener(myOnClickListener);
 		left_btn_h.setOnClickListener(myOnClickListener);
 		ht_fight.setOnClickListener(myOnClickListener);
@@ -1527,7 +1529,9 @@ public class JVPlayActivity extends PlayActivity implements
 					lastItemIndex = arg0;
 
 					currentMenu_v.setText(channelList.get(lastItemIndex)
-							.getParent().getNickName());
+							.getParent().getNickName()
+							+ "-"
+							+ channelList.get(lastClickIndex).getChannel());
 					currentMenu_h.setText(channelList.get(lastItemIndex)
 							.getParent().getNickName());
 				} catch (Exception e) {
@@ -2312,6 +2316,7 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 				break;
 			case R.id.bottom_but8:
+			case R.id.varvoice_bg:
 			case R.id.audio_monitor:// 音频监听
 				if (allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).isVoiceCall()) {
@@ -2325,15 +2330,20 @@ public class JVPlayActivity extends PlayActivity implements
 									.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.video_monitor_icon));
+							varvoice.setBackgroundDrawable(getResources()
+									.getDrawable(R.drawable.video_monitor_icon));
 						} else {
 							startAudio(lastClickIndex,
 									channelList.get(lastClickIndex)
 											.getAudioByte());
-							functionListAdapter.selectIndex = 0;
+							functionListAdapter.selectIndex = 2;
 							bottombut8
 									.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.video_monitorselect_icon));
+							varvoice.setBackgroundDrawable(getResources()
+									.getDrawable(
+											R.drawable.video_monitorselect_icon));
 						}
 						// if (!PlayUtil.audioPlay(lastClickIndex)) {
 						// functionListAdapter.selectIndex = -1;
@@ -2358,6 +2368,8 @@ public class JVPlayActivity extends PlayActivity implements
 					functionListAdapter.selectIndex = -1;
 					bottombut8.setBackgroundDrawable(getResources()
 							.getDrawable(R.drawable.video_monitor_icon));
+					varvoice.setBackgroundDrawable(getResources().getDrawable(
+							R.drawable.video_monitor_icon));
 				}
 
 				functionListAdapter.notifyDataSetChanged();
@@ -2428,7 +2440,7 @@ public class JVPlayActivity extends PlayActivity implements
 							startVoiceCall(lastClickIndex,
 									channelList.get(lastClickIndex));
 							if (Consts.PLAY_AP == playFlag) {
-								functionListAdapter.selectIndex = 2;
+								functionListAdapter.selectIndex = 1;
 							}
 						}
 					}
@@ -3078,63 +3090,63 @@ public class JVPlayActivity extends PlayActivity implements
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 
-			if (0 == arg2) {// 音频监听
-				if (allowThisFuc(true)) {
-					if (channelList.get(lastClickIndex).isVoiceCall()) {
-						showTextToast(R.string.audio_monitor_forbidden);
-					} else {
-						// 停止音频监听
-						if (PlayUtil.isPlayAudio(lastClickIndex)) {
-							stopAudio(lastClickIndex);
-							functionListAdapter.selectIndex = -1;
-							bottombut8
-									.setBackgroundDrawable(getResources()
-											.getDrawable(
-													R.drawable.video_monitor_icon));
-						} else {
-							startAudio(lastClickIndex,
-									channelList.get(lastClickIndex)
-											.getAudioByte());
-							functionListAdapter.selectIndex = arg2;
-							bottombut8
-									.setBackgroundDrawable(getResources()
-											.getDrawable(
-													R.drawable.video_monitorselect_icon));
-						}
+			if (2 == arg2) {// 音频监听
+			// if (allowThisFuc(true)) {
+			// if (channelList.get(lastClickIndex).isVoiceCall()) {
+			// showTextToast(R.string.audio_monitor_forbidden);
+			// } else {
+			// // 停止音频监听
+			// if (PlayUtil.isPlayAudio(lastClickIndex)) {
+			// stopAudio(lastClickIndex);
+			// functionListAdapter.selectIndex = -1;
+			// bottombut8
+			// .setBackgroundDrawable(getResources()
+			// .getDrawable(
+			// R.drawable.video_monitor_icon));
+			// } else {
+			// startAudio(lastClickIndex,
+			// channelList.get(lastClickIndex)
+			// .getAudioByte());
+			// functionListAdapter.selectIndex = arg2;
+			// bottombut8
+			// .setBackgroundDrawable(getResources()
+			// .getDrawable(
+			// R.drawable.video_monitorselect_icon));
+			// }
+			//
+			// // if (!PlayUtil.audioPlay(lastClickIndex)) {
+			// // functionListAdapter.selectIndex = -1;
+			// // bottombut8
+			// // .setBackgroundDrawable(getResources()
+			// // .getDrawable(
+			// // R.drawable.video_monitor_icon));
+			// // if (null != playAudio) {
+			// // playAudio.interrupt();
+			// // playAudio = null;
+			// // }
+			// // } else {
+			// // functionListAdapter.selectIndex = arg2;
+			// // bottombut8
+			// // .setBackgroundDrawable(getResources()
+			// // .getDrawable(
+			// // R.drawable.video_monitorselect_icon));
+			// // }
+			// }
 
-						// if (!PlayUtil.audioPlay(lastClickIndex)) {
-						// functionListAdapter.selectIndex = -1;
-						// bottombut8
-						// .setBackgroundDrawable(getResources()
-						// .getDrawable(
-						// R.drawable.video_monitor_icon));
-						// if (null != playAudio) {
-						// playAudio.interrupt();
-						// playAudio = null;
-						// }
-						// } else {
-						// functionListAdapter.selectIndex = arg2;
-						// bottombut8
-						// .setBackgroundDrawable(getResources()
-						// .getDrawable(
-						// R.drawable.video_monitorselect_icon));
-						// }
-					}
+				// } else {
+				// functionListAdapter.selectIndex = -1;
+				// bottombut8.setBackgroundDrawable(getResources()
+				// .getDrawable(R.drawable.video_monitor_icon));
+				// }
 
-				} else {
-					functionListAdapter.selectIndex = -1;
-					bottombut8.setBackgroundDrawable(getResources()
-							.getDrawable(R.drawable.video_monitor_icon));
-				}
-
-			} else if (1 == arg2) {// 云台
+			} else if (0 == arg2) {// 云台
 				if (allowThisFuc(false)) {
 					showPTZ();
 				} else {
 					functionListAdapter.selectIndex = -1;
 				}
 
-			} else if (2 == arg2) {// 远程回放 或 对讲
+			} else if (1 == arg2) {// 远程回放 或 对讲
 
 				if (playFlag == Consts.PLAY_AP) {
 					View view = arg0.getChildAt(arg2).findViewById(

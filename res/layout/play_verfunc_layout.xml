@@ -39,7 +39,24 @@
             android:text=""
             android:textColor="@color/white"
             android:textSize="12sp" />
-
+		<RelativeLayout
+		    android:id="@+id/varvoice_bg"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/kbps"
+            android:background="@drawable/decode_selector"
+            >
+            <ImageView 
+                 android:id="@+id/varvoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/video_monitor_icon"
+                />
+            </RelativeLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

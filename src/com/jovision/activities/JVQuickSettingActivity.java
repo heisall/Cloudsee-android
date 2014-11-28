@@ -135,6 +135,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 	@Override
 	protected void initSettings() {
+
+		MySharedPreference.putBoolean(Consts.AP_SETTING, true);
 		local = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 		// 首次提示设置步骤
 		if (!MySharedPreference.getBoolean("AP_TIPS")) {
@@ -419,6 +421,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						Consts.QUICK_SETTING_ERROR, 1000, 0));
 			} else {
 				MyLog.v(TAG, "开始连接AP视频--" + ipcDevice.getFullNo());
+				ipcDevice.setIp(Consts.IPC_DEFAULT_IP);
+				ipcDevice.setPort(Consts.IPC_DEFAULT_PORT);
 				PlayUtil.connectDevice(ipcDevice);
 			}
 			super.run();
@@ -511,6 +515,35 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					break;
 
 			}
+//			try {
+//				Thread.sleep(2000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+
+
+			// int count = 1;
+			// while (true) {
+			// String ip = null;
+			// if (null != (ip = getlocalip())) {
+			// count += 1;
+			// MyLog.e(TAG, "ip= " + ip);
+			// break;
+			// } else {
+			// MyLog.e(TAG, "pppppppppppppppppppp  Thread.sleep(500);");
+			// try {
+			// Thread.sleep(500);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// count += 1;
+			// }
+			//
+			// if (count == 10)
+			// break;
+			//
+			// }
 
 			return connRes;
 		}
@@ -847,6 +880,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		// searchView.stopPlayer();
 		searchView.myPlayer.release();
 		stopRefreshWifiTimer();
+		MySharedPreference.putBoolean(Consts.AP_SETTING, false);
 	}
 
 	@Override
@@ -1058,6 +1092,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				ipcDevice.setIp(Consts.IPC_DEFAULT_IP);
+				ipcDevice.setPort(Consts.IPC_DEFAULT_PORT);
 				PlayUtil.connectDevice(ipcDevice);
 			} else {
 				connectFailedCounts = 0;// 连接失败次数复位
@@ -1158,9 +1194,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			MyLog.e(TAG,
-					"jvadddeviceactivity hasBroadIP 888888888888888888888: "
-							+ what + ", " + arg1 + ", " + arg2 + ", " + obj);
+			MyLog.e(TAG, "hasBroadIP" + what + ", " + arg1 + ", " + arg2 + ", "
+					+ obj);
 
 			break;
 		}
@@ -1892,23 +1927,60 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		builder.setCancelable(false);
 
 		builder.setTitle(getResources().getString(R.string.tips));
-		builder.setMessage(getResources().getString(R.string.set_error)
-				+ errorCode);
+		String errorMsg = "";
+		switch (errorCode) {
+		case 1000: {
+			errorMsg = getResources().getString(R.string.set_error_1000);
+			break;
+		}
+		case 1001: {
+			errorMsg = getResources().getString(R.string.set_error_1001);
+			break;
+		}
+		case 1002: {
+			errorMsg = getResources().getString(R.string.set_error_1002);
+			break;
+		}
+		case 1003: {
+			errorMsg = getResources().getString(R.string.set_error_1003);
+			break;
+		}
+		case 1004: {
+			errorMsg = getResources().getString(R.string.set_error_1004);
+			break;
+		}
+		case 1005: {
+			errorMsg = getResources().getString(R.string.set_error_1005);
+			break;
+		}
+		case 1006: {
+			errorMsg = getResources().getString(R.string.set_error_1006);
+			break;
+		}
+		case 1007: {
+			errorMsg = getResources().getString(R.string.set_error_1007);
+			break;
+		}
 
-		builder.setPositiveButton(R.string.try_again,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// 暂停扫瞄器
-						showSearch(false);
-						if (null != searchView.myPlayer) {
-							searchView.myPlayer.stop();
-						}
-						dismisQuickPopWindow();
-						showIpcLayout(false);
-					}
+		}
+		builder.setMessage(errorMsg);
+		// builder.setMessage(getResources().getString(R.string.set_error)
+		// + errorCode);
 
-				});
+		// builder.setPositiveButton(R.string.try_again,
+		// new DialogInterface.OnClickListener() {
+		// @Override
+		// public void onClick(DialogInterface dialog, int which) {
+		// // 暂停扫瞄器
+		// showSearch(false);
+		// if (null != searchView.myPlayer) {
+		// searchView.myPlayer.stop();
+		// }
+		// dismisQuickPopWindow();
+		// showIpcLayout(false);
+		// }
+		//
+		// });
 		builder.setNegativeButton(R.string.exit,
 				new DialogInterface.OnClickListener() {
 					@Override

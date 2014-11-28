@@ -29,7 +29,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -44,6 +43,11 @@ public class MyRecevier extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		MySharedPreference.init(context);
+		if (MySharedPreference.getBoolean(Consts.AP_SETTING)) {
+			MyLog.e("MyRecevier", "AP配置网络变化了");
+			return;
+		}
 		try {
 			String action = intent.getAction();
 
@@ -75,7 +79,6 @@ public class MyRecevier extends BroadcastReceiver {
 						MyLog.i("MyRecevier", "网络变化了,不需要重新发广播,当前网络：" + wifi);
 					}
 				}
-
 
 				return;
 			}

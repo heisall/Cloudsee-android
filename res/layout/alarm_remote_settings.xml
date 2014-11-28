@@ -61,9 +61,11 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/morefragment_normal_icon" />
     </RelativeLayout>
+
     <ImageView
         android:id="@+id/divider_img"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:src="@color/morefragment" />
+
 </LinearLayout>

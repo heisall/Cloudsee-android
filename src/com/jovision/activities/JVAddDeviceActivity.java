@@ -23,6 +23,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
+import com.jovision.utils.PlayUtil;
 
 public class JVAddDeviceActivity extends BaseActivity {
 
@@ -46,33 +47,45 @@ public class JVAddDeviceActivity extends BaseActivity {
 	private Device addDevice;
 	private Boolean qrAdd = false;// 是否二维码扫描添加设备
 
-	boolean hasBroadIP = false;// 是否广播完IP
+	private boolean hasBroadIP = false;// 是否广播完IP
+	private int onLine = 0;
+	private String ip = "";
+	private int port = 0;
+	int channelCount = -1;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		// 广播回调
 		case Consts.CALL_LAN_SEARCH: {
+			// PlayUtil.broadIp(obj,JVAddDeviceActivity.this);
+			// deviceList = CacheUtil.getDevList();
 			MyLog.v(TAG, "CALL_LAN_SEARCH = what=" + what + ";arg1=" + arg1
 					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
 			// MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1
 			// + ";arg2=" + arg1 + ";obj=" + obj.toString());
 			// onTabAction:what=168;arg1=0;arg2=0;obj={"count":1,"curmod":0,"gid":"A","ip":"192.168.21.238","netmod":0,"no":283827713,"port":9101,"timeout":0,"type":59162,"variety":3}
-			hasBroadIP = true;
 			JSONObject broadObj;
 			try {
 				broadObj = new JSONObject(obj.toString());
+				if (0 == broadObj.optInt("timeout")) {
+					String broadDevNum = broadObj.optString("gid")
+							+ broadObj.optInt("no");
+					if (broadDevNum.equalsIgnoreCase(devNumET.getText()
+							.toString())) {// 同一个设备
+						// addDevice.setOnlineState(1);
+						// addDevice.setIp(broadObj.optString("ip"));
+						// addDevice.setPort(broadObj.optInt("port"));
+						onLine = 1;
+						ip = broadObj.optString("ip");
+						port = broadObj.optInt("port");
+						channelCount = broadObj.optInt("count");
+					}
 
-				String broadDevNum = broadObj.optString("gid")
-						+ broadObj.optInt("no");
-				if (broadDevNum.equalsIgnoreCase(addDevice.getFullNo())) {// 同一个设备
-					addDevice.setOnlineState(1);
-					addDevice.setIp(broadObj.optString("ip"));
-					addDevice.setPort(broadObj.optInt("port"));
-				} else {
-					addDevice.setIp("");
-					addDevice.setPort(0);
+				} else if (1 == broadObj.optInt("timeout")) {
+					hasBroadIP = true;
 				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -260,15 +273,27 @@ public class JVAddDeviceActivity extends BaseActivity {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
-			int channelCount = -1;
+
 			int addRes = -1;
 			boolean localFlag = Boolean.valueOf(statusHashMap
 					.get(Consts.LOCAL_LOGIN));
 			try {
 				MyLog.e(TAG, "getChannelCount E = ");
-				channelCount = Jni.getChannelCount(params[0],
-						Integer.parseInt(params[1]),
-						Integer.parseInt(params[2]));
+
+				// 非3G广播获取通道数量
+				if (PlayUtil.broadCast(JVAddDeviceActivity.this)) {
+					while (!hasBroadIP) {
+						Thread.sleep(100);
+					}
+				}
+
+				MyLog.e(TAG, "getChannelCount C = " + channelCount);
+				if (channelCount <= 0) {
+					channelCount = Jni.getChannelCount(params[0],
+							Integer.parseInt(params[1]),
+							Integer.parseInt(params[2]));
+				}
+
 				MyLog.e(TAG, "getChannelCount X = " + channelCount);
 				if (channelCount <= 0) {
 					channelCount = 1;
@@ -278,6 +303,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 						Integer.parseInt(params[1]), userET.getText()
 								.toString(), pwdET.getText().toString(), false,
 						channelCount, 0);
+
 				// MyLog.v(TAG, "dev = " + addDev.toString());
 				if (null != addDevice) {
 					if (localFlag) {// 本地添加
@@ -306,11 +332,9 @@ public class JVAddDeviceActivity extends BaseActivity {
 				}
 
 				if (0 == addRes) {
-					Jni.queryDevice(ConfigUtil.getGroup(addDevice.getFullNo()),
-							ConfigUtil.getYST(addDevice.getFullNo()), 2 * 1000);
-					while (!hasBroadIP) {
-						Thread.sleep(100);
-					}
+					addDevice.setOnlineState(onLine);
+					addDevice.setIp(ip);
+					addDevice.setPort(port);
 					deviceList.add(0, addDevice);
 					if (!localFlag) {
 						DeviceUtil.refreshDeviceState(

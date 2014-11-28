@@ -475,7 +475,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						break;
 					}
 
-					if (!mActivity.is3G(false)) {// 3G网提示不支持
+					if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
 						fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 						broadTag = BROAD_ADD_DEVICE;
 						broadList.clear();
@@ -741,6 +741,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		// 广播回调
 		case Consts.CALL_LAN_SEARCH: {
+
 			MyLog.v(TAG, "CALL_LAN_SEARCH = what=" + what + ";arg1=" + arg1
 					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
 			// MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1

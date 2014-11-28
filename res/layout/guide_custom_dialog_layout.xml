@@ -4,36 +4,37 @@
     android:layout_height="match_parent"
     android:background="@color/white" >
 
-    <RelativeLayout 
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="130dp"
         android:layout_marginLeft="40dp"
-        >
-        <TextView 
+        android:layout_marginTop="130dp" >
+
+        <TextView
             android:id="@+id/guide_text_tips"
-            android:text="请将设备打开，等待配置完成"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
+            android:text="请将设备打开，等待配置完成"
             android:textColor="@color/gray"
-            android:textSize="22sp"
-            />
-	    <ImageView
-	        android:id="@+id/guide_img_arrow_r"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/guide_tips_r"
-	        android:layout_alignTop="@id/guide_text_tips"
-	        android:layout_toRightOf="@id/guide_text_tips"
-	        android:scaleType="fitXY" />
+            android:textSize="22sp" />
+
+        <ImageView
+            android:id="@+id/guide_img_arrow_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/guide_text_tips"
+            android:layout_toRightOf="@id/guide_text_tips"
+            android:scaleType="fitXY"
+            android:src="@drawable/guide_tips_r" />
     </RelativeLayout>
+
     <ImageView
         android:id="@+id/guide_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/third_guide_door"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:src="@drawable/third_guide_door" />
 
     <RelativeLayout
         android:layout_width="wrap_content"

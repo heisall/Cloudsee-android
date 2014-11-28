@@ -58,7 +58,8 @@ public class PlayUtil {
 			MyLog.v(Consts.TAG_APP, "not broad = " + canBroad);
 			return canBroad;
 		}
-		if (!((BaseActivity) con).is3G(false)) {// 非3G加广播设备
+
+		if (!ConfigUtil.is3G(con, false)) {// 非3G加广播设备
 			canBroad = true;
 			int res = Jni.searchLanDevice("", 0, 0, 0, "", 2000, 1);
 		}
@@ -130,6 +131,33 @@ public class PlayUtil {
 		}
 	}
 
+	public static void broadIp(Object obj, Context context) {
+		ArrayList<Device> myDeviceList = CacheUtil.getDevList();
+		JSONObject broadObj;
+		try {
+			broadObj = new JSONObject(obj.toString());
+			if (0 == broadObj.optInt("timeout")) {
+				String gid = broadObj.optString("gid");
+				int no = broadObj.optInt("no");
+
+				if (0 == no) {
+					return;
+				}
+				String ip = broadObj.optString("ip");
+				int port = broadObj.optInt("port");
+				String broadDevNum = gid + no;
+
+				PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port);
+
+			} else if (1 == broadObj.optInt("timeout")) {
+				PlayUtil.sortList(myDeviceList, context);
+				CacheUtil.saveDevList(myDeviceList);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * 抓拍
 	 */
@@ -140,6 +168,18 @@ public class PlayUtil {
 		MobileUtil.createDirectory(new File(capturePath));
 		MyLog.v(TAG, "capture=" + capturePath + fileName);
 		return Jni.screenshot(index, capturePath + fileName, 100);
+	}
+
+	/**
+	 * 慧通抓拍
+	 * */
+	public static boolean hitviscapture(int index) {
+		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentTime()
+				+ File.separator;
+		String fileName = String.valueOf(System.currentTimeMillis()) + ".png";
+		MobileUtil.createDirectory(new File(capturePath));
+		MyLog.v(TAG, "capture=" + capturePath + fileName);
+		return Jni.screenshot(index, capturePath + fileName, -1);
 	}
 
 	// /**

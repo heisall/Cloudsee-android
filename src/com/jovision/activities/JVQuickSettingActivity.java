@@ -424,16 +424,17 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 	};
 
-	private String getlocalip(){  
-        WifiManager wifiManager = (WifiManager)getSystemService(Context.WIFI_SERVICE);    
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();    
-        int ipAddress = wifiInfo.getIpAddress();   
-        MyLog.d(TAG, "int ip "+ipAddress);  
-        if(ipAddress==0)return null;  
-        return ((ipAddress & 0xff)+"."+(ipAddress>>8 & 0xff)+"."  
-                +(ipAddress>>16 & 0xff)+"."+(ipAddress>>24 & 0xff));  
-    }  
-	
+	private String getlocalip() {
+		WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+		int ipAddress = wifiInfo.getIpAddress();
+		MyLog.d(TAG, "int ip " + ipAddress);
+		if (ipAddress == 0)
+			return null;
+		return ((ipAddress & 0xff) + "." + (ipAddress >> 8 & 0xff) + "."
+				+ (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 24 & 0xff));
+	}
+
 	// 设置三种类型参数分别为String,Integer,String
 	class ConnectAPTask extends AsyncTask<String, Integer, Integer> {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -468,15 +469,15 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (stopTask) {// 停止线程
 				return -1;
 			}
-		
+
 			int count = 1;
-			while(true){
-				String ip =null;
-				if(null != (ip =getlocalip())){
+			while (true) {
+				String ip = null;
+				if (null != (ip = getlocalip())) {
 					count += 1;
-					MyLog.e(TAG, "ip= "+ip);
+					MyLog.e(TAG, "ip= " + ip);
 					break;
-				}else{
+				} else {
 					MyLog.e(TAG, "pppppppppppppppppppp  Thread.sleep(500);");
 					try {
 						Thread.sleep(500);
@@ -486,9 +487,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					}
 					count += 1;
 				}
-				
-				if(count == 10) break;
-				
+
+				if (count == 10)
+					break;
+
 			}
 
 			return connRes;

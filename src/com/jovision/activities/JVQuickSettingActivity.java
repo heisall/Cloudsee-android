@@ -18,6 +18,8 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -435,6 +437,23 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				+ (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 24 & 0xff));
 	}
 
+	private boolean wifiIsConnect(){
+		ConnectivityManager connectivityManager = (ConnectivityManager) this
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+//		NetworkInfo mobNetInfo = connectivityManager
+//				.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		NetworkInfo wifiNetInfo = connectivityManager
+				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		if (!wifiNetInfo.isConnected()) {
+			MyLog.e("MyRecevier", "网络不可以用");
+			return false;
+			// 改变背景或者 处理网络的全局变量
+		} else {
+			// 改变背景或者 处理网络的全局变量
+			return true;
+		}
+	}
 	// 设置三种类型参数分别为String,Integer,String
 	class ConnectAPTask extends AsyncTask<String, Integer, Integer> {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -473,7 +492,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			int count = 1;
 			while (true) {
 				String ip = null;
-				if (null != (ip = getlocalip())) {
+				if (null != (ip = getlocalip()) && wifiIsConnect()) {
 					count += 1;
 					MyLog.e(TAG, "ip= " + ip);
 					break;

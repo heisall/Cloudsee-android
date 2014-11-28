@@ -89,7 +89,7 @@
     <!-- 视频播放 -->
     <string name="str_screen">分屏</string>
     <string name="str_video_play">实时视频</string>
-    <string name="str_audio_monitor">音频监听</string>
+    <string name="str_audio_monitor">设备设置</string>
     <string name="str_audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
     <string name="str_yt_operate">云台控制</string>
     <string name="str_remote_playback">远程回放</string>

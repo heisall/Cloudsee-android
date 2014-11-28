@@ -29,7 +29,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -75,7 +74,6 @@ public class MyRecevier extends BroadcastReceiver {
 						MyLog.i("MyRecevier", "网络变化了,不需要重新发广播,当前网络：" + wifi);
 					}
 				}
-
 
 				return;
 			}

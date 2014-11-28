@@ -808,17 +808,19 @@ public class JVPlayActivity extends PlayActivity implements
 								}
 								// TODO
 							}
-							if (null != streamMap.get("FlashMode")) {
-								int FlashMode = Integer.valueOf(streamMap
-										.get("FlashMode"));
-								if (FlashMode == 0) {
-									ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
-								} else if (FlashMode == 1) {
-									ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
-								} else if (FlashMode == 2) {
-									ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
+							if (Consts.ISHITVIS == 1) {
+								if (null != streamMap.get("FlashMode")) {
+									int FlashMode = Integer.valueOf(streamMap
+											.get("FlashMode"));
+									if (FlashMode == 0) {
+										ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
+									} else if (FlashMode == 1) {
+										ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
+									} else if (FlashMode == 2) {
+										ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
+									}
+									Consts.FLIGHT_FLAG = FlashMode;
 								}
-								Consts.FLIGHT_FLAG = FlashMode;
 							}
 							if (null != streamMap.get("MobileQuality")
 									&& !"".equalsIgnoreCase(streamMap

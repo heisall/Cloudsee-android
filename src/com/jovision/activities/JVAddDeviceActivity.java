@@ -71,9 +71,9 @@ public class JVAddDeviceActivity extends BaseActivity {
 							+ broadObj.optInt("no");
 					if (broadDevNum.equalsIgnoreCase(devNumET.getText()
 							.toString())) {// 同一个设备
-					// addDevice.setOnlineState(1);
-					// addDevice.setIp(broadObj.optString("ip"));
-					// addDevice.setPort(broadObj.optInt("port"));
+						// addDevice.setOnlineState(1);
+						// addDevice.setIp(broadObj.optString("ip"));
+						// addDevice.setPort(broadObj.optInt("port"));
 						onLine = 1;
 						ip = broadObj.optString("ip");
 						port = broadObj.optInt("port");

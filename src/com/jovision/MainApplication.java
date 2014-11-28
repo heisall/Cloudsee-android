@@ -26,6 +26,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVOffLineDialogActivity;
 import com.jovision.activities.JVTabActivity;
+import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
@@ -33,7 +34,9 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AlarmUtil;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.MyRecevier;
+import com.jovision.utils.PlayUtil;
 
 /**
  * 整个应用的入口，管理状态、活动集合，消息队列以及漏洞汇报
@@ -135,12 +138,25 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	 */
 	public synchronized void onJniNotify(int what, int uchType, int channel,
 			Object obj) {
+		switch (what) {
+		// 广播回调
+		case Consts.CALL_LAN_SEARCH: {
+			if (null == myDeviceList || 0 == myDeviceList.size()) {
+				myDeviceList = CacheUtil.getDevList();
+			}
+			PlayUtil.broadIp(obj, myDeviceList);
+			break;
+		}
+		}
+
 		if (Consts.CALL_LIB_UNLOAD == what) {
 			AutoLoad.foo();
 		} else if (null != currentNotifyer) {
 			currentNotifyer.onNotify(what, uchType, channel, obj);
 		}
 	}
+
+	ArrayList<Device> myDeviceList = null;
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {

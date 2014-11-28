@@ -163,8 +163,6 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 		case Consts.CALL_LAN_SEARCH: {
-			PlayUtil.broadIp(obj, JVPlayActivity.this);
-			deviceList = CacheUtil.getDevList();
 			break;
 		}
 
@@ -2819,6 +2817,7 @@ public class JVPlayActivity extends PlayActivity implements
 							.obtainMessage(STOP_AUDIO_GATHER));
 					new TalkThread(lastClickIndex, 0).start();
 					VOICECALL_LONG_CLICK = false;
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 					voiceTip.setVisibility(View.GONE);
 					handler.sendMessageDelayed(
 							handler.obtainMessage(START_AUDIO_GATHER), 2 * 1000);
@@ -2839,6 +2838,13 @@ public class JVPlayActivity extends PlayActivity implements
 			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
 				if (VOICECALLING) {// 正在喊话
 					VOICECALL_LONG_CLICK = true;
+
+					if (JVPlayActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+						setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+					} else {
+						setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+					}
+
 					voiceTip.setVisibility(View.VISIBLE);
 					new TalkThread(lastClickIndex, 1).start();
 				}
@@ -3335,45 +3341,36 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		if (VOICECALL_LONG_CLICK) {
-			if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-			} else {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-			}
-		} else {
-			super.onConfigurationChanged(newConfig);
-			if (null != popScreen) {
-				popScreen.dismiss();
-			}
-			if (null != streamListView) {
-				streamListView.setVisibility(View.GONE);
-			}
-
-			// [Neo] add black screen time
-			Jni.setColor(lastClickIndex, 0, 0, 0, 0);
-
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-				// if (channelList.get(lastClickIndex).getParent().isCard()
-				// || 8 == channelList.get(lastClickIndex).getAudioByte()) {
-				// bottombut5.setBackgroundDrawable(getResources().getDrawable(
-				// R.drawable.video_talk));
-				// }
-				if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
-					if (VOICECALL_LONG_CLICK) {
-						new TalkThread(lastClickIndex, 0).start();
-						VOICECALL_LONG_CLICK = false;
-						voiceTip.setVisibility(View.GONE);
-					}
-				}
-				if (ONE_SCREEN != currentScreen) {
-					changeWindow(ONE_SCREEN);
-				}
-			}
-
-			showFunc(channelList.get(lastClickIndex), currentScreen,
-					lastClickIndex);
+		super.onConfigurationChanged(newConfig);
+		if (null != popScreen) {
+			popScreen.dismiss();
 		}
+		if (null != streamListView) {
+			streamListView.setVisibility(View.GONE);
+		}
+
+		// [Neo] add black screen time
+		Jni.setColor(lastClickIndex, 0, 0, 0, 0);
+
+		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+			// if (channelList.get(lastClickIndex).getParent().isCard()
+			// || 8 == channelList.get(lastClickIndex).getAudioByte()) {
+			// bottombut5.setBackgroundDrawable(getResources().getDrawable(
+			// R.drawable.video_talk));
+			// }
+			// if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
+			// if (VOICECALL_LONG_CLICK) {
+			// new TalkThread(lastClickIndex, 0).start();
+			// VOICECALL_LONG_CLICK = false;
+			// voiceTip.setVisibility(View.GONE);
+			// }
+			// }
+			if (ONE_SCREEN != currentScreen) {
+				changeWindow(ONE_SCREEN);
+			}
+		}
+
+		showFunc(channelList.get(lastClickIndex), currentScreen, lastClickIndex);
 	}
 
 	private class Connecter extends Thread {

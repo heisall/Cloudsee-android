@@ -1604,7 +1604,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 		nextStep.setOnClickListener(myOnClickListener);
 
-		Jni.setStat(true);
 		// 小于3.0的系统有可能花屏
 		if (Build.VERSION_CODES.HONEYCOMB > Build.VERSION.SDK_INT) {
 			if (!MySharedPreference.getBoolean(Consts.DIALOG_NOT_SUPPORT23)) {

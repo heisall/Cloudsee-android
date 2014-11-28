@@ -441,11 +441,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				+ (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 24 & 0xff));
 	}
 
-	private boolean wifiIsConnect(){
+	private boolean wifiIsConnect() {
 		ConnectivityManager connectivityManager = (ConnectivityManager) this
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-//		NetworkInfo mobNetInfo = connectivityManager
-//				.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		// NetworkInfo mobNetInfo = connectivityManager
+		// .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 		NetworkInfo wifiNetInfo = connectivityManager
 				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
@@ -458,6 +458,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			return true;
 		}
 	}
+
 	// 设置三种类型参数分别为String,Integer,String
 	class ConnectAPTask extends AsyncTask<String, Integer, Integer> {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -515,12 +516,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					break;
 
 			}
-//			try {
-//				Thread.sleep(2000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-
+			// try {
+			// Thread.sleep(2000);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
 
 			// int count = 1;
 			// while (true) {

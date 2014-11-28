@@ -1690,13 +1690,15 @@ public class JVPlayActivity extends PlayActivity implements
 			result = Jni.sendBytes(channel.getIndex(),
 					JVNetConst.JVN_CMD_VIDEO, new byte[0], 8);
 			if (result) {
+				MyLog.v(TAG, "result1=" + result + "");
 				result = Jni.resume(channel.getIndex(), channel.getSurface());
+				MyLog.v(TAG, "result2=" + result + "");
 				if (result) {
 					handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
 							channel.getIndex(), ARG2_STATUS_BUFFERING));
 				} else {
-					handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-							channel.getIndex(), ARG2_STATUS_HAS_CONNECTED));
+					// handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+					// channel.getIndex(), ARG2_STATUS_HAS_CONNECTED));
 				}
 
 				channel.setPaused(false);
@@ -3091,47 +3093,47 @@ public class JVPlayActivity extends PlayActivity implements
 				long arg3) {
 
 			if (2 == arg2) {// 音频监听
-			// if (allowThisFuc(true)) {
-			// if (channelList.get(lastClickIndex).isVoiceCall()) {
-			// showTextToast(R.string.audio_monitor_forbidden);
-			// } else {
-			// // 停止音频监听
-			// if (PlayUtil.isPlayAudio(lastClickIndex)) {
-			// stopAudio(lastClickIndex);
-			// functionListAdapter.selectIndex = -1;
-			// bottombut8
-			// .setBackgroundDrawable(getResources()
-			// .getDrawable(
-			// R.drawable.video_monitor_icon));
-			// } else {
-			// startAudio(lastClickIndex,
-			// channelList.get(lastClickIndex)
-			// .getAudioByte());
-			// functionListAdapter.selectIndex = arg2;
-			// bottombut8
-			// .setBackgroundDrawable(getResources()
-			// .getDrawable(
-			// R.drawable.video_monitorselect_icon));
-			// }
-			//
-			// // if (!PlayUtil.audioPlay(lastClickIndex)) {
-			// // functionListAdapter.selectIndex = -1;
-			// // bottombut8
-			// // .setBackgroundDrawable(getResources()
-			// // .getDrawable(
-			// // R.drawable.video_monitor_icon));
-			// // if (null != playAudio) {
-			// // playAudio.interrupt();
-			// // playAudio = null;
-			// // }
-			// // } else {
-			// // functionListAdapter.selectIndex = arg2;
-			// // bottombut8
-			// // .setBackgroundDrawable(getResources()
-			// // .getDrawable(
-			// // R.drawable.video_monitorselect_icon));
-			// // }
-			// }
+				// if (allowThisFuc(true)) {
+				// if (channelList.get(lastClickIndex).isVoiceCall()) {
+				// showTextToast(R.string.audio_monitor_forbidden);
+				// } else {
+				// // 停止音频监听
+				// if (PlayUtil.isPlayAudio(lastClickIndex)) {
+				// stopAudio(lastClickIndex);
+				// functionListAdapter.selectIndex = -1;
+				// bottombut8
+				// .setBackgroundDrawable(getResources()
+				// .getDrawable(
+				// R.drawable.video_monitor_icon));
+				// } else {
+				// startAudio(lastClickIndex,
+				// channelList.get(lastClickIndex)
+				// .getAudioByte());
+				// functionListAdapter.selectIndex = arg2;
+				// bottombut8
+				// .setBackgroundDrawable(getResources()
+				// .getDrawable(
+				// R.drawable.video_monitorselect_icon));
+				// }
+				//
+				// // if (!PlayUtil.audioPlay(lastClickIndex)) {
+				// // functionListAdapter.selectIndex = -1;
+				// // bottombut8
+				// // .setBackgroundDrawable(getResources()
+				// // .getDrawable(
+				// // R.drawable.video_monitor_icon));
+				// // if (null != playAudio) {
+				// // playAudio.interrupt();
+				// // playAudio = null;
+				// // }
+				// // } else {
+				// // functionListAdapter.selectIndex = arg2;
+				// // bottombut8
+				// // .setBackgroundDrawable(getResources()
+				// // .getDrawable(
+				// // R.drawable.video_monitorselect_icon));
+				// // }
+				// }
 
 				// } else {
 				// functionListAdapter.selectIndex = -1;
@@ -3346,7 +3348,14 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 		stopAll(lastClickIndex, channelList.get(lastClickIndex));
 		// manager.pauseAll();
-		// PlayUtil.pauseAll(manager.getValidChannelList(lastItemIndex));
+		pauseAll(manager.getValidChannelList(lastItemIndex));
+	}
+
+	public void pauseAll(ArrayList<Channel> channelList) {
+		int size = channelList.size();
+		for (int i = 0; i < size; i++) {
+			pauseChannel(channelList.get(i));
+		}
 	}
 
 	@Override

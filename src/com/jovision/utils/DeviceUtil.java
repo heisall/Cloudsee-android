@@ -1501,14 +1501,16 @@ public class DeviceUtil {
 												.getGroup(fullNum);
 										int no = ConfigUtil.getYST(fullNum);
 										String user = obj
-												.optString(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME);
+												.optString(JVDeviceConst.JK_DEVICE_DEMO_USERNAME);
 										String pwd = obj
-												.optString(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD);
+												.optString(JVDeviceConst.JK_DEVICE_DEMO_PASSWORD);
 										int counts = obj
 												.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_SUM);
 
 										Device dev = new Device("", 9101, gid,
 												no, user, pwd, true, counts, 1);
+										dev.setUser(user);
+										dev.setPwd(pwd);
 										demoList.add(dev);
 									}
 								}
@@ -1520,7 +1522,7 @@ public class DeviceUtil {
 				}
 			}
 		}
-
+		MyLog.v("demoList", demoList.toString());
 		return demoList;
 	}
 

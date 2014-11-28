@@ -15,10 +15,15 @@ public class MySharedPreference {
 	 * @param con
 	 */
 	public static void init(Context con) {
-		mContext = con;
-		sharedPreferences = mContext.getSharedPreferences("JVCONFIG",
-				Context.MODE_PRIVATE);
-		editor = sharedPreferences.edit();
+		try {
+			mContext = con;
+			sharedPreferences = mContext.getSharedPreferences("JVCONFIG",
+					Context.MODE_PRIVATE);
+			editor = sharedPreferences.edit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**

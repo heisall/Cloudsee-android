@@ -104,7 +104,7 @@ public class JVFeedbackActivity extends BaseActivity {
 		// R.drawable.setting_save));
 
 		// commit.setTextColor(getResources().getColor(R.color.white));
-		back.setText(getResources().getString(R.string.cancel));
+		// back.setText(getResources().getString(R.string.cancel));
 		commit.setText(getResources().getString(R.string.commit));
 
 		connection = (EditText) findViewById(R.id.connectway);

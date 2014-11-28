@@ -18,6 +18,8 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -439,6 +441,24 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				+ (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 24 & 0xff));
 	}
 
+	private boolean wifiIsConnect() {
+		ConnectivityManager connectivityManager = (ConnectivityManager) this
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		// NetworkInfo mobNetInfo = connectivityManager
+		// .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		NetworkInfo wifiNetInfo = connectivityManager
+				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		if (!wifiNetInfo.isConnected()) {
+			MyLog.e("MyRecevier", "网络不可以用");
+			return false;
+			// 改变背景或者 处理网络的全局变量
+		} else {
+			// 改变背景或者 处理网络的全局变量
+			return true;
+		}
+	}
+
 	// 设置三种类型参数分别为String,Integer,String
 	class ConnectAPTask extends AsyncTask<String, Integer, Integer> {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -473,11 +493,34 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (stopTask) {// 停止线程
 				return -1;
 			}
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+
+			int count = 1;
+			while (true) {
+				String ip = null;
+				if (null != (ip = getlocalip()) && wifiIsConnect()) {
+					count += 1;
+					MyLog.e(TAG, "ip= " + ip);
+					break;
+				} else {
+					MyLog.e(TAG, "pppppppppppppppppppp  Thread.sleep(500);");
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					count += 1;
+				}
+
+				if (count == 10)
+					break;
+
 			}
+			// try {
+			// Thread.sleep(2000);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
 
 			// int count = 1;
 			// while (true) {
@@ -1884,8 +1927,45 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		builder.setCancelable(false);
 
 		builder.setTitle(getResources().getString(R.string.tips));
-		builder.setMessage(getResources().getString(R.string.set_error)
-				+ errorCode);
+		String errorMsg = "";
+		switch (errorCode) {
+		case 1000: {
+			errorMsg = getResources().getString(R.string.set_error_1000);
+			break;
+		}
+		case 1001: {
+			errorMsg = getResources().getString(R.string.set_error_1001);
+			break;
+		}
+		case 1002: {
+			errorMsg = getResources().getString(R.string.set_error_1002);
+			break;
+		}
+		case 1003: {
+			errorMsg = getResources().getString(R.string.set_error_1003);
+			break;
+		}
+		case 1004: {
+			errorMsg = getResources().getString(R.string.set_error_1004);
+			break;
+		}
+		case 1005: {
+			errorMsg = getResources().getString(R.string.set_error_1005);
+			break;
+		}
+		case 1006: {
+			errorMsg = getResources().getString(R.string.set_error_1006);
+			break;
+		}
+		case 1007: {
+			errorMsg = getResources().getString(R.string.set_error_1007);
+			break;
+		}
+
+		}
+		builder.setMessage(errorMsg);
+		// builder.setMessage(getResources().getString(R.string.set_error)
+		// + errorCode);
 
 		// builder.setPositiveButton(R.string.try_again,
 		// new DialogInterface.OnClickListener() {

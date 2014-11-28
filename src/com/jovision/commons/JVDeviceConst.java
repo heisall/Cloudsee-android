@@ -108,6 +108,10 @@ public class JVDeviceConst {
 	public static final String JK_VIDEO_LINK_TYPE = "dvlt";
 	public static final String JK_DEVICE_VIDEO_USERNAME = "dvusername";
 	public static final String JK_DEVICE_VIDEO_PASSWORD = "dvpassword";
+
+	public static final String JK_DEVICE_DEMO_USERNAME = "dusername";
+	public static final String JK_DEVICE_DEMO_PASSWORD = "dpassword";
+
 	public static final String JK_DEVICE_VIDEO_IP = "dvip";
 	public static final String JK_DEVICE_VIDEO_PORT = "dvport";
 	public static final String JK_DEVICE_WIFI_FLAG = "dwifi";

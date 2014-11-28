@@ -173,13 +173,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 			R.drawable.mydevice_popwindowtwo_icon,
 			R.drawable.mydevice_popwindowthree_icon,
 			R.drawable.mydevice_popwindowfour_icon,
-			R.drawable.mydevice_popwindowfour_icon };
+			R.drawable.mydevice_popwindowsix_icon };
 	private int[] popDrawarrayno = new int[] {
 			R.drawable.mydevice_popwindowonse_icon,
 			R.drawable.mydevice_popwindowtwo_icon,
 			R.drawable.mydevice_popwindowthree_icon,
 			R.drawable.mydevice_popwindowfour_icon,
-			R.drawable.mydevice_popwindowfive_icon,
+			R.drawable.mydevice_popwindowsix_icon,
 			R.drawable.mydevice_popwindowfive_icon };
 
 	@Override

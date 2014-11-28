@@ -416,6 +416,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						Consts.QUICK_SETTING_ERROR, 1000, 0));
 			} else {
 				MyLog.v(TAG, "开始连接AP视频--" + ipcDevice.getFullNo());
+				ipcDevice.setIp(Consts.IPC_DEFAULT_IP);
+				ipcDevice.setPort(Consts.IPC_DEFAULT_PORT);
 				PlayUtil.connectDevice(ipcDevice);
 			}
 			super.run();
@@ -456,6 +458,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			}
 			if (stopTask) {// 停止线程
 				return -1;
+			}
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 
 			return connRes;
@@ -1004,6 +1011,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				ipcDevice.setIp(Consts.IPC_DEFAULT_IP);
+				ipcDevice.setPort(Consts.IPC_DEFAULT_PORT);
 				PlayUtil.connectDevice(ipcDevice);
 			} else {
 				connectFailedCounts = 0;// 连接失败次数复位
@@ -1104,9 +1113,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			MyLog.e(TAG,
-					"jvadddeviceactivity hasBroadIP 888888888888888888888: "
-							+ what + ", " + arg1 + ", " + arg2 + ", " + obj);
+			MyLog.e(TAG, "hasBroadIP" + what + ", " + arg1 + ", " + arg2 + ", "
+					+ obj);
 
 			break;
 		}

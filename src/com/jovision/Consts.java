@@ -344,8 +344,6 @@ public class Consts {
 	/** 网络切换需要广播 key */
 	public static final String NEED_BROAD = "NEED_BROAD";
 
-	/** 网络切换需要广播 key */
-	public static final String NEED_BROAD1 = "NEED_BROAD1";
 	// /** 功能设置页面场景图片标志位 */
 	// public static String SETTING_SCENE = "SCENE";
 	//

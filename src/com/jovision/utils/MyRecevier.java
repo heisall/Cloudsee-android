@@ -43,6 +43,11 @@ public class MyRecevier extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+
+		if (MySharedPreference.getBoolean(Consts.AP_SETTING)) {
+			MyLog.e("MyRecevier", "AP配置网络变化了");
+			return;
+		}
 		try {
 			String action = intent.getAction();
 

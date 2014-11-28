@@ -75,23 +75,28 @@ public class FuntionAdapter extends BaseAdapter {
 		}
 
 		if (bigScreen) {// 大屏小dpi
-			if (0 == position) {
-				viewHolder.funtionArrow.setVisibility(View.GONE);
+			if (2 == position) {
+				if (Consts.PLAY_AP == playFlag) {
+					viewHolder.funcLayout.setVisibility(View.GONE);
+				}
 				viewHolder.funcLayout
 						.setBackgroundResource(R.drawable.voice_normal_bg);
 				viewHolder.funtionImageView
 						.setImageResource(R.drawable.voice_monitor_small_1);
 				viewHolder.funtionTitle2
 						.setText(R.string.str_audio_monitor_tips);
-			} else if (1 == position) {
+			} else if (0 == position) {
+				viewHolder.funtionArrow.setVisibility(View.VISIBLE);
+				viewHolder.funcLayout.setVisibility(View.VISIBLE);
 				viewHolder.funtionImageView
 						.setImageResource(R.drawable.yt_controller);
 				viewHolder.funcLayout
 						.setBackgroundResource(R.drawable.yt_normal_bg);
 				viewHolder.funtionTitle2.setText(R.string.str_yt_operate_tips);
-			} else if (2 == position) {
-				viewHolder.funtionArrow.setVisibility(View.VISIBLE);
+			} else if (1 == position) {
+				viewHolder.funcLayout.setVisibility(View.VISIBLE);
 				if (Consts.PLAY_AP == playFlag) {
+					viewHolder.funtionArrow.setVisibility(View.GONE);
 					viewHolder.funtionImageView
 							.setImageResource(R.drawable.apv_call);
 					viewHolder.funcLayout
@@ -109,13 +114,13 @@ public class FuntionAdapter extends BaseAdapter {
 				}
 
 			}
-			if (selectIndex == position && selectIndex == 0) {
-				viewHolder.funtionImageView
-						.setImageResource(R.drawable.voice_monitor_small_2);
-				viewHolder.funcLayout
-						.setBackgroundResource(R.drawable.voice_hover_bg);
-			}
 			if (selectIndex == position && selectIndex == 2) {
+				// viewHolder.funtionImageView
+				// .setImageResource(R.drawable.voice_monitor_small_2);
+				// viewHolder.funcLayout
+				// .setBackgroundResource(R.drawable.voice_hover_bg);
+			}
+			if (selectIndex == position && selectIndex == 1) {
 				if (Consts.PLAY_AP == playFlag) {
 					viewHolder.funtionImageView
 							.setImageResource(R.drawable.apv_call_2);
@@ -123,7 +128,7 @@ public class FuntionAdapter extends BaseAdapter {
 							.setBackgroundResource(R.drawable.talk_hover_bg);
 				}
 			}
-			if (2 == position && selectIndex != position) {
+			if (1 == position && selectIndex != position) {
 				if (Consts.PLAY_AP == playFlag) {
 					viewHolder.funtionImageView
 							.setImageResource(R.drawable.apv_call_1);
@@ -133,29 +138,33 @@ public class FuntionAdapter extends BaseAdapter {
 			}
 
 		} else {
-			if (0 == position) {
-				viewHolder.funtionArrow.setVisibility(View.GONE);
+			if (2 == position) {
+				if (Consts.PLAY_AP == playFlag) {
+					viewHolder.funcLayout.setVisibility(View.GONE);
+				}
 				viewHolder.funtionImageView
 						.setImageResource(R.drawable.voice_monitor_small_1);
 				viewHolder.funcLayout
 						.setBackgroundResource(R.drawable.voice_normal_bg);
 				viewHolder.funtionTitle2
 						.setText(R.string.str_audio_monitor_tips);
-			} else if (1 == position) {
+			} else if (0 == position) {
+				viewHolder.funcLayout.setVisibility(View.VISIBLE);
 				viewHolder.funtionImageView
 						.setImageResource(R.drawable.yt_controller);
 				viewHolder.funtionTitle2.setText(R.string.str_yt_operate_tips);
-			} else if (2 == position) {
+			} else if (1 == position) {
+				viewHolder.funcLayout.setVisibility(View.VISIBLE);
 				viewHolder.funtionImageView
 						.setImageResource(R.drawable.remote_playback);
 				viewHolder.funtionTitle2
 						.setText(R.string.str_remote_playback_tips);
 			}
-			if (selectIndex == position && selectIndex == 0) {
-				viewHolder.funtionImageView
-						.setImageResource(R.drawable.voice_monitor_small_2);
-				viewHolder.funcLayout
-						.setBackgroundResource(R.drawable.voice_hover_bg);
+			if (selectIndex == position && selectIndex == 2) {
+				// viewHolder.funtionImageView
+				// .setImageResource(R.drawable.voice_monitor_small_2);
+				// viewHolder.funcLayout
+				// .setBackgroundResource(R.drawable.voice_hover_bg);
 			}
 		}
 

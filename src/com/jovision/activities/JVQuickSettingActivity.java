@@ -1884,8 +1884,45 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		builder.setCancelable(false);
 
 		builder.setTitle(getResources().getString(R.string.tips));
-		builder.setMessage(getResources().getString(R.string.set_error)
-				+ errorCode);
+		String errorMsg = "";
+		switch (errorCode) {
+		case 1000: {
+			errorMsg = getResources().getString(R.string.set_error_1000);
+			break;
+		}
+		case 1001: {
+			errorMsg = getResources().getString(R.string.set_error_1001);
+			break;
+		}
+		case 1002: {
+			errorMsg = getResources().getString(R.string.set_error_1002);
+			break;
+		}
+		case 1003: {
+			errorMsg = getResources().getString(R.string.set_error_1003);
+			break;
+		}
+		case 1004: {
+			errorMsg = getResources().getString(R.string.set_error_1004);
+			break;
+		}
+		case 1005: {
+			errorMsg = getResources().getString(R.string.set_error_1005);
+			break;
+		}
+		case 1006: {
+			errorMsg = getResources().getString(R.string.set_error_1006);
+			break;
+		}
+		case 1007: {
+			errorMsg = getResources().getString(R.string.set_error_1007);
+			break;
+		}
+
+		}
+		builder.setMessage(errorMsg);
+		// builder.setMessage(getResources().getString(R.string.set_error)
+		// + errorCode);
 
 		// builder.setPositiveButton(R.string.try_again,
 		// new DialogInterface.OnClickListener() {

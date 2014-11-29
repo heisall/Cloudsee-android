@@ -1,16 +1,15 @@
 package com.jovision.activities;
 
-import com.jovetech.CloudSee.temp.R;
-
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.jovetech.CloudSee.temp.R;
 
 public class DeviceSettingsMainFragment extends Fragment implements
 		OnClickListener {

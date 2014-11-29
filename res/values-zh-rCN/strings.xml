@@ -612,7 +612,7 @@
     <string name="str_alarm_setting_tips3">您可以选择一个合适的时间段来接收报警，让报警尽在掌握。</string>
     <string name="str_alarm_setting_tips2">开关打开时，设备如检测到移动物体，会提示报警。</string>
     <string name="str_all_day">全天</string>
-    <string name="str_protected_time">防护时间段</string>    
+    <string name="str_protected_time">防护时间段</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="str_login">本地登录</string>
     <string name="str_onlinelogin">在线登陆</string>

@@ -5,10 +5,10 @@
     android:layout_gravity="center_horizontal"
     android:background="@color/white"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:paddingLeft="7dp"
     android:paddingRight="7dp"
-    android:paddingTop="10dp"
-    android:orientation="vertical" >
+    android:paddingTop="10dp" >
 
     <RelativeLayout
         android:id="@+id/funclayout"
@@ -61,26 +61,29 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/morefragment_normal_icon" />
     </RelativeLayout>
+
     <ImageView
         android:id="@+id/divider_img"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:src="@color/morefragment" />
-    <RelativeLayout 
-        android:layout_width="match_parent"
-       	android:layout_height="wrap_content"     
+
+    <RelativeLayout
         android:id="@+id/rl_tips_01"
-        android:paddingLeft="10dp"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp" >
+
         <TextView
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="8dp"
-             android:text="@string/str_alarm_setting_tips1"
-             android:textColor="@color/gray"
-             android:textSize="16sp" />
-	</RelativeLayout>  
-	<!-- 移动侦测 -->
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/str_alarm_setting_tips1"
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
+    </RelativeLayout>
+    <!-- 移动侦测 -->
+
     <RelativeLayout
         android:id="@+id/funclayout2"
         android:layout_width="match_parent"
@@ -132,26 +135,29 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/morefragment_normal_icon" />
     </RelativeLayout>
+
     <ImageView
         android:id="@+id/divider_img"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:src="@color/morefragment" />
-    <RelativeLayout 
-        android:layout_width="match_parent"
-       	android:layout_height="wrap_content"     
+
+    <RelativeLayout
         android:id="@+id/rl_tips_02"
-        android:paddingLeft="10dp"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp" >
+
         <TextView
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="8dp"
-             android:text="@string/str_alarm_setting_tips2"
-             android:textColor="@color/gray"
-             android:textSize="16sp" />
-	</RelativeLayout>    
-	<!-- 防护时间段 -->
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/str_alarm_setting_tips2"
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
+    </RelativeLayout>
+    <!-- 防护时间段 -->
+
     <RelativeLayout
         android:id="@+id/funclayout3"
         android:layout_width="match_parent"
@@ -182,6 +188,7 @@
                 android:text="@string/str_protected_time"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/funtion_titile_32"
                 android:layout_width="wrap_content"
@@ -190,7 +197,7 @@
                 android:text="08:00-10:00"
                 android:textColor="@color/userinfocolor"
                 android:textSize="14sp"
-                android:visibility="visible" />            
+                android:visibility="visible" />
         </LinearLayout>
 
         <ImageView
@@ -202,23 +209,26 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/morefragment_next_icon" />
     </RelativeLayout>
+
     <ImageView
         android:id="@+id/divider_img"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:src="@color/morefragment" />
-    <RelativeLayout 
-        android:layout_width="match_parent"
-       	android:layout_height="wrap_content"     
+
+    <RelativeLayout
         android:id="@+id/rl_tips_02"
-        android:paddingLeft="10dp"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp" >
+
         <TextView
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="8dp"
-             android:text="@string/str_alarm_setting_tips3"
-             android:textColor="@color/gray"
-             android:textSize="16sp" />
-	</RelativeLayout>  	
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/str_alarm_setting_tips3"
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
 </LinearLayout>

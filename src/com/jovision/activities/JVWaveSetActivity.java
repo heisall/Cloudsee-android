@@ -9,11 +9,14 @@ import android.media.MediaPlayer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.bean.WifiAdmin;
 import com.jovision.commons.JVConst;
 import com.jovision.utils.ConfigUtil;
 
@@ -22,6 +25,9 @@ public class JVWaveSetActivity extends BaseActivity {
 	String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3" };
 	String[] stepSoundEN = { "voi_info_en.mp3", "voi_next_en.mp3",
 			"voi_send_en.mp3" };
+
+	protected WifiAdmin wifiAdmin;
+	protected String oldWifiSSID = "";
 
 	/** topBar */
 	protected LinearLayout topBar;
@@ -33,6 +39,11 @@ public class JVWaveSetActivity extends BaseActivity {
 	protected RelativeLayout stepLayout2;
 	protected RelativeLayout stepLayout3;
 	protected RelativeLayout stepLayout4;
+
+	protected ImageView stepImage1;
+	protected EditText desWifiName;
+	protected EditText desWifiPwd;
+
 	ArrayList<RelativeLayout> layoutList = new ArrayList<RelativeLayout>();
 
 	protected Button nextBtn1;
@@ -58,6 +69,13 @@ public class JVWaveSetActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
+		wifiAdmin = new WifiAdmin(JVWaveSetActivity.this);
+		// wifi打开的前提下,获取oldwifiSSID
+		if (wifiAdmin.getWifiState()) {
+			if (null != wifiAdmin.getSSID()) {
+				oldWifiSSID = wifiAdmin.getSSID().replace("\"", "");
+			}
+		}
 		assetMgr = this.getAssets();
 	}
 
@@ -75,10 +93,22 @@ public class JVWaveSetActivity extends BaseActivity {
 		stepLayout2 = (RelativeLayout) findViewById(R.id.step_layout2);
 		stepLayout3 = (RelativeLayout) findViewById(R.id.step_layout3);
 		stepLayout4 = (RelativeLayout) findViewById(R.id.step_layout4);
+		stepImage1 = (ImageView) findViewById(R.id.step_img1);
+
+		if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+			stepImage1.setImageResource(R.drawable.reset_bg_zh);
+		} else {
+			stepImage1.setImageResource(R.drawable.reset_bg_en);
+		}
 		layoutList.add(0, stepLayout1);
 		layoutList.add(1, stepLayout2);
 		layoutList.add(2, stepLayout3);
 		layoutList.add(3, stepLayout4);
+
+		desWifiName = (EditText) findViewById(R.id.deswifiname);
+		desWifiPwd = (EditText) findViewById(R.id.deswifipwd);
+
+		desWifiName.setText(oldWifiSSID);
 
 		nextBtn1 = (Button) findViewById(R.id.step_btn1);
 		nextBtn2 = (Button) findViewById(R.id.step_btn2);
@@ -92,11 +122,31 @@ public class JVWaveSetActivity extends BaseActivity {
 		showDemoBtn.setOnClickListener(myOnClickListener);
 		nextBtn3.setOnClickListener(myOnClickListener);
 
-		showLayoutAtIndex(0);
+		showLayoutAtIndex(currentStep);
 
 	}
 
 	private void showLayoutAtIndex(int showIndex) {
+		if (showIndex < 0) {
+			JVWaveSetActivity.this.finish();
+		} else {
+			int length = layoutList.size();
+
+			for (int i = 0; i < length; i++) {
+				RelativeLayout layout = layoutList.get(i);
+				if (null != layout) {
+					if (i == showIndex) {
+						layout.setVisibility(View.VISIBLE);
+					} else {
+						layout.setVisibility(View.GONE);
+					}
+				}
+
+			}
+			if (showIndex >= 0 && showIndex < stepSoundEN.length) {
+				playSoundStep(showIndex);
+			}
+		}
 		int length = layoutList.size();
 
 		for (int i = 0; i < length; i++) {
@@ -115,27 +165,40 @@ public class JVWaveSetActivity extends BaseActivity {
 		}
 	}
 
+	private void backMethod() {
+		showLayoutAtIndex(--currentStep);
+	}
+
+	@Override
+	public void onBackPressed() {
+		backMethod();
+	}
+
 	OnClickListener myOnClickListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn_left:
-				JVWaveSetActivity.this.finish();
+				backMethod();
 				break;
 			case R.id.btn_right:
 				break;
 			case R.id.step_btn1:
-				showLayoutAtIndex(1);
+				currentStep = 1;
+				showLayoutAtIndex(currentStep);
 				break;
 			case R.id.step_btn2:
-				showLayoutAtIndex(2);
+				currentStep = 2;
+				showLayoutAtIndex(currentStep);
 				break;
 			case R.id.step_btn3:
-				showLayoutAtIndex(1);
+				currentStep = 0;
+				showLayoutAtIndex(currentStep);
 				break;
 			case R.id.showdemo:
-				showLayoutAtIndex(3);
+				currentStep = 3;
+				showLayoutAtIndex(currentStep);
 				break;
 			default:
 				break;
@@ -155,14 +218,6 @@ public class JVWaveSetActivity extends BaseActivity {
 
 	private void playSoundStep(int index) {
 		try {
-			// // 打开指定音乐文件
-			// String file = "";
-			// if (1 == state) {
-			// file = "shake_1.mp3";
-			// } else {
-			// file = "shake_match_2.mp3";
-			// }
-
 			String file = "";
 			if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
 				file = stepSoundCH[index];

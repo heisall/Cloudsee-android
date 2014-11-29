@@ -296,7 +296,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 
 				MyLog.e(TAG, "getChannelCount X = " + channelCount);
 				if (channelCount <= 0) {
-					channelCount = 1;
+					channelCount = 4;
 				}
 
 				addDevice = new Device("", 0, params[0],

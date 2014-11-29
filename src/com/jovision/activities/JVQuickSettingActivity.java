@@ -80,6 +80,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	private String desWifiPWD;//
 	private Button back;
 	private Button saveSet;
+	private Boolean haveSet = false;// 是否点过快速配置
 	private TextView currentMenu;
 
 	private boolean local = true;
@@ -746,6 +747,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				backMethod();
 				break;
 			case R.id.btn_right:// 保存按钮
+				haveSet = true;
 				// 播放提示声音
 				playSound(Consts.SOUNDFIVE);
 				isSearching = true;
@@ -1397,7 +1399,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			boolean changeRes = false;
 			// desWifiName;
 			// private EditText desWifiPass;
-			if ("".equalsIgnoreCase(desWifiName.getText().toString())) {
+			// if ("".equalsIgnoreCase(desWifiName.getText().toString())) {
+			if (!haveSet) {
 				changeRes = wifiAdmin.changeWifi(setIpcName, oldWifiSSID,
 						oldWifiState);
 			} else {

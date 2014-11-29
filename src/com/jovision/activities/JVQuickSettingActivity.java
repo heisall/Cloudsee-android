@@ -1762,15 +1762,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				}
 			}
 
-			int maxVolume = 100; // 最大音量值
 			int curVolume = 20; // 当前音量值
 
 			AudioManager audioMgr = null; // Audio管理器，用了控制音量
 			audioMgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-			// 获取最大音乐音量
-			maxVolume = audioMgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 			// 初始化音量大概为最大音量的1/2
-			// curVolume = maxVolume / 2;
+			curVolume = audioMgr.getStreamVolume(AudioManager.STREAM_MUSIC);
 			// 每次调整的音量大概为最大音量的1/6
 			audioMgr.setStreamVolume(AudioManager.STREAM_MUSIC, curVolume,
 					AudioManager.FLAG_PLAY_SOUND);

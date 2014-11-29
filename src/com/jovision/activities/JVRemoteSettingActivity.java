@@ -151,7 +151,8 @@ public class JVRemoteSettingActivity extends BaseActivity {
 					JSONObject dataObj = new JSONObject(allStr);
 					switch (dataObj.getInt("flag")) {
 					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
-						MyLog.i(TAG, "AP,WIFI热点请求--" + obj.toString());
+						MyLog.i("AP,WIFI热点请求--",
+								"AP,WIFI热点请求--" + obj.toString());
 						if (null != allStr && !allStr.equalsIgnoreCase("")) {
 							String wifiStrArray = dataObj.optString("wifi");
 							wifiList = ConfigUtil.genWifiList(wifiStrArray);
@@ -508,6 +509,10 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		// // 获取主控码流信息请求
 		// Jni.sendTextData(1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 		// JVNetConst.JVN_STREAM_INFO);
+
+		// 获取主控AP信息请求
+		Jni.sendTextData(1, (byte) JVNetConst.JVN_RSP_TEXTDATA, 8,
+				JVNetConst.JVN_WIFI_INFO);
 	}
 
 	// wifi列表点击事件

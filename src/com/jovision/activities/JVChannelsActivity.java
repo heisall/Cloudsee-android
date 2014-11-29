@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -66,6 +67,8 @@ public class JVChannelsActivity extends BaseActivity {
 	private LinearLayout linear;
 	private RelativeLayout devmore;
 	private ManageListAdapter adapter;
+
+	private Handler mhandler;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -130,9 +133,18 @@ public class JVChannelsActivity extends BaseActivity {
 		adapter.setData(deviceList);
 		devicemanage_listView.setAdapter(adapter);
 		ListViewClick();
-		mHorizontalScrollView.smoothScrollTo(deviceIndex * item_width, 0);
+		mhandler = new Handler();
+		mhandler.postDelayed(runnable, 200);
 		// TODO
 	}
+
+	private Runnable runnable = new Runnable() {
+
+		@Override
+		public void run() {
+			mHorizontalScrollView.scrollTo(deviceIndex * item_width, 0);// 改变滚动条的位置
+		}
+	};
 
 	@Override
 	protected void onResume() {
@@ -144,7 +156,6 @@ public class JVChannelsActivity extends BaseActivity {
 				deviceList.get(i).setIsselect(false);
 			}
 		}
-		mHorizontalScrollView.smoothScrollTo(deviceIndex * item_width, 0);
 	}
 
 	private void initViewPager() {

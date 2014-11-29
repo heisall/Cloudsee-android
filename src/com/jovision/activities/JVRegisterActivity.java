@@ -343,6 +343,7 @@ public class JVRegisterActivity extends BaseActivity {
 				}
 				break;
 			case R.id.agreement:
+				currentMenu.setText(R.string.str_agreement);
 				mWebView.setVisibility(View.VISIBLE);
 				break;
 			}
@@ -535,6 +536,7 @@ public class JVRegisterActivity extends BaseActivity {
 
 	private void backMethod() {
 		if (mWebView.getVisibility() == View.VISIBLE) {
+			currentMenu.setText(R.string.login_str_user_regist);
 			mWebView.setVisibility(View.GONE);
 		} else {
 			JVRegisterActivity.this.finish();

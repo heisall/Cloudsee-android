@@ -18,8 +18,11 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Looper;
@@ -77,6 +80,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	private String desWifiPWD;//
 	private Button back;
 	private Button saveSet;
+	private Boolean haveSet = false;// 是否点过快速配置
 	private TextView currentMenu;
 
 	private boolean local = true;
@@ -132,6 +136,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 	@Override
 	protected void initSettings() {
+
+		MySharedPreference.putBoolean(Consts.AP_SETTING, true);
 		local = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 		// 首次提示设置步骤
 		if (!MySharedPreference.getBoolean("AP_TIPS")) {
@@ -416,12 +422,43 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						Consts.QUICK_SETTING_ERROR, 1000, 0));
 			} else {
 				MyLog.v(TAG, "开始连接AP视频--" + ipcDevice.getFullNo());
+				ipcDevice.setIp(Consts.IPC_DEFAULT_IP);
+				ipcDevice.setPort(Consts.IPC_DEFAULT_PORT);
 				PlayUtil.connectDevice(ipcDevice);
 			}
 			super.run();
 		}
 
 	};
+
+	private String getlocalip() {
+		WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+		int ipAddress = wifiInfo.getIpAddress();
+		MyLog.d(TAG, "int ip " + ipAddress);
+		if (ipAddress == 0)
+			return null;
+		return ((ipAddress & 0xff) + "." + (ipAddress >> 8 & 0xff) + "."
+				+ (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 24 & 0xff));
+	}
+
+	private boolean wifiIsConnect() {
+		ConnectivityManager connectivityManager = (ConnectivityManager) this
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		// NetworkInfo mobNetInfo = connectivityManager
+		// .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		NetworkInfo wifiNetInfo = connectivityManager
+				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		if (!wifiNetInfo.isConnected()) {
+			MyLog.e("MyRecevier", "网络不可以用");
+			return false;
+			// 改变背景或者 处理网络的全局变量
+		} else {
+			// 改变背景或者 处理网络的全局变量
+			return true;
+		}
+	}
 
 	// 设置三种类型参数分别为String,Integer,String
 	class ConnectAPTask extends AsyncTask<String, Integer, Integer> {
@@ -457,12 +494,57 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (stopTask) {// 停止线程
 				return -1;
 			}
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+			int count = 1;
+			while (true) {
+				String ip = null;
+				if (null != (ip = getlocalip()) && wifiIsConnect()) {
+					count += 1;
+					MyLog.e(TAG, "ip= " + ip);
+					break;
+				} else {
+					MyLog.e(TAG, "pppppppppppppppppppp  Thread.sleep(500);");
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					count += 1;
+				}
+
+				if (count == 10)
+					break;
+
 			}
+			// try {
+			// Thread.sleep(2000);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
+
+			// int count = 1;
+			// while (true) {
+			// String ip = null;
+			// if (null != (ip = getlocalip())) {
+			// count += 1;
+			// MyLog.e(TAG, "ip= " + ip);
+			// break;
+			// } else {
+			// MyLog.e(TAG, "pppppppppppppppppppp  Thread.sleep(500);");
+			// try {
+			// Thread.sleep(500);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// count += 1;
+			// }
+			//
+			// if (count == 10)
+			// break;
+			//
+			// }
 
 			return connRes;
 		}
@@ -665,6 +747,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				backMethod();
 				break;
 			case R.id.btn_right:// 保存按钮
+				haveSet = true;
 				// 播放提示声音
 				playSound(Consts.SOUNDFIVE);
 				isSearching = true;
@@ -799,6 +882,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		// searchView.stopPlayer();
 		searchView.myPlayer.release();
 		stopRefreshWifiTimer();
+		MySharedPreference.putBoolean(Consts.AP_SETTING, false);
 	}
 
 	@Override
@@ -1010,6 +1094,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				ipcDevice.setIp(Consts.IPC_DEFAULT_IP);
+				ipcDevice.setPort(Consts.IPC_DEFAULT_PORT);
 				PlayUtil.connectDevice(ipcDevice);
 			} else {
 				connectFailedCounts = 0;// 连接失败次数复位
@@ -1110,9 +1196,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			MyLog.e(TAG,
-					"jvadddeviceactivity hasBroadIP 888888888888888888888: "
-							+ what + ", " + arg1 + ", " + arg2 + ", " + obj);
+			MyLog.e(TAG, "hasBroadIP" + what + ", " + arg1 + ", " + arg2 + ", "
+					+ obj);
 
 			break;
 		}
@@ -1314,7 +1399,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			boolean changeRes = false;
 			// desWifiName;
 			// private EditText desWifiPass;
-			if ("".equalsIgnoreCase(desWifiName.getText().toString())) {
+			// if ("".equalsIgnoreCase(desWifiName.getText().toString())) {
+			if (!haveSet) {
 				changeRes = wifiAdmin.changeWifi(setIpcName, oldWifiSSID,
 						oldWifiState);
 			} else {
@@ -1377,7 +1463,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 					hasBroadIP = false;
 					Jni.queryDevice(ConfigUtil.getGroup(ipcDevice.getFullNo()),
-							ConfigUtil.getYST(ipcDevice.getFullNo()), 30 * 1000);
+							ConfigUtil.getYST(ipcDevice.getFullNo()), 40 * 1000);
 
 					while (!hasBroadIP) {// 未广播到IP
 						try {
@@ -1844,23 +1930,60 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		builder.setCancelable(false);
 
 		builder.setTitle(getResources().getString(R.string.tips));
-		builder.setMessage(getResources().getString(R.string.set_error)
-				+ errorCode);
+		String errorMsg = "";
+		switch (errorCode) {
+		case 1000: {
+			errorMsg = getResources().getString(R.string.set_error_1000);
+			break;
+		}
+		case 1001: {
+			errorMsg = getResources().getString(R.string.set_error_1001);
+			break;
+		}
+		case 1002: {
+			errorMsg = getResources().getString(R.string.set_error_1002);
+			break;
+		}
+		case 1003: {
+			errorMsg = getResources().getString(R.string.set_error_1003);
+			break;
+		}
+		case 1004: {
+			errorMsg = getResources().getString(R.string.set_error_1004);
+			break;
+		}
+		case 1005: {
+			errorMsg = getResources().getString(R.string.set_error_1005);
+			break;
+		}
+		case 1006: {
+			errorMsg = getResources().getString(R.string.set_error_1006);
+			break;
+		}
+		case 1007: {
+			errorMsg = getResources().getString(R.string.set_error_1007);
+			break;
+		}
 
-		builder.setPositiveButton(R.string.try_again,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// 暂停扫瞄器
-						showSearch(false);
-						if (null != searchView.myPlayer) {
-							searchView.myPlayer.stop();
-						}
-						dismisQuickPopWindow();
-						showIpcLayout(false);
-					}
+		}
+		builder.setMessage(errorMsg);
+		// builder.setMessage(getResources().getString(R.string.set_error)
+		// + errorCode);
 
-				});
+		// builder.setPositiveButton(R.string.try_again,
+		// new DialogInterface.OnClickListener() {
+		// @Override
+		// public void onClick(DialogInterface dialog, int which) {
+		// // 暂停扫瞄器
+		// showSearch(false);
+		// if (null != searchView.myPlayer) {
+		// searchView.myPlayer.stop();
+		// }
+		// dismisQuickPopWindow();
+		// showIpcLayout(false);
+		// }
+		//
+		// });
 		builder.setNegativeButton(R.string.exit,
 				new DialogInterface.OnClickListener() {
 					@Override

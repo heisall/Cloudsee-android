@@ -131,6 +131,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:divider="@null"
+                    android:fadingEdge="none"
                     android:visibility="gone" />
             </LinearLayout>
         </RelativeLayout>

@@ -89,7 +89,7 @@
     <!-- 视频播放 -->
     <string name="str_screen">分屏</string>
     <string name="str_video_play">实时视频</string>
-    <string name="str_audio_monitor">音频监听</string>
+    <string name="str_audio_monitor">设备设置</string>
     <string name="str_audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
     <string name="str_yt_operate">云台控制</string>
     <string name="str_remote_playback">远程回放</string>
@@ -428,7 +428,14 @@
     <string name="str_quick_setting_connect">无线配置</string>
     <string name="str_quick_setting_waiting">继续等待</string>
     <string name="next_step">下一步</string>
-    <string name="set_error">配置出错，错误码</string>
+    <string name="set_error_1000">配置出错，错误码</string>
+    <string name="set_error_1001">AP网络连接超时</string>
+    <string name="set_error_1002">不同意文本聊天</string>
+    <string name="set_error_1003">保存配置信息失败</string>
+    <string name="set_error_1004">网络恢复失败</string>
+    <string name="set_error_1005">账号重新登陆失败</string>
+    <string name="set_error_1006">在线设备添加失败</string>
+    <string name="set_error_1007">设备上线失败</string>
     <string name="try_again">重试</string>
     <string name="quick_setting_connecting">正在连接设备</string>
     <string name="quick_setting_exiting">正在退出配置</string>
@@ -451,7 +458,7 @@
     <string name="channel_full">该设备的通道数量达到上限，不能继续添加.</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">请在此输入您的问题或建议</string>
-    <string name="str_notice_connection">您的联系方式(方便我们后续跟踪您提的问题和建议)</string>
+    <string name="str_notice_connection">为方便后续跟踪您提的问题和建议，请留下您的联系方式</string>
     <string name="str_idea_and_feedback">意见反馈</string>
     <string name="commit">提交</string>
     <string name="str_commit_success">感谢您的反馈，我们将不断努力，为您提供更优质的服务</string>

@@ -5,8 +5,6 @@ import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
 
 import com.jovetech.CloudSee.temp.R;

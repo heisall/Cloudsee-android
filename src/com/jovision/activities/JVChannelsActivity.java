@@ -131,7 +131,7 @@ public class JVChannelsActivity extends BaseActivity {
 		devicemanage_listView.setAdapter(adapter);
 		ListViewClick();
 		mHorizontalScrollView.smoothScrollTo(deviceIndex * item_width, 0);
-		//TODO
+		// TODO
 	}
 
 	@Override

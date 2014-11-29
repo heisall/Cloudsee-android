@@ -2856,10 +2856,10 @@ public class JVPlayActivity extends PlayActivity implements
 				if (VOICECALLING) {// 正在喊话
 					VOICECALL_LONG_CLICK = true;
 					if (JVPlayActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-						setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-					} else if (JVPlayActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) 
-					{
-						setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+						setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+					} else if (JVPlayActivity.this.getResources()
+							.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+						setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 					}
 					voiceTip.setVisibility(View.VISIBLE);
 					new TalkThread(lastClickIndex, 1).start();

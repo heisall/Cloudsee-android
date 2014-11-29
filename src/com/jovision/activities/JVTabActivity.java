@@ -31,6 +31,7 @@ import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.AccountUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
@@ -108,6 +109,16 @@ public class JVTabActivity extends ShakeActivity implements
 					@Override
 					public void onSuccess(Object data, int flag) {
 						MyLog.d("TPush", "注册成功，设备token为：" + data);
+						if (MySharedPreference.getString(Consts.KEY_DEV_TOKEN)
+								.equals("")) {
+							MySharedPreference.putString(Consts.KEY_DEV_TOKEN,
+									data.toString());
+							AccountUtil
+									.reportClientPlatformInfo(JVTabActivity.this);
+						} else {
+							MySharedPreference.putString(Consts.KEY_DEV_TOKEN,
+									data.toString());
+						}
 					}
 
 					@Override

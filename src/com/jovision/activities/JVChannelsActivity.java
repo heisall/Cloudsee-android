@@ -125,12 +125,12 @@ public class JVChannelsActivity extends BaseActivity {
 		initNav();
 		// 初始化viewPager
 		initViewPager();
-
 		channelPager.setCurrentItem(deviceIndex);
 		adapter = new ManageListAdapter(JVChannelsActivity.this);
 		adapter.setData(deviceList);
 		devicemanage_listView.setAdapter(adapter);
 		ListViewClick();
+		mHorizontalScrollView.smoothScrollTo(deviceIndex * item_width, 0);
 	}
 
 	@Override
@@ -143,6 +143,7 @@ public class JVChannelsActivity extends BaseActivity {
 				deviceList.get(i).setIsselect(false);
 			}
 		}
+		mHorizontalScrollView.smoothScrollTo(deviceIndex * item_width, 0);
 	}
 
 	private void initViewPager() {

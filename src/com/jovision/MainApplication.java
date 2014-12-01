@@ -218,71 +218,71 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 					+ msg);
 			if (JVAccountConst.MESSAGE_PUSH_TAG == res) {
 				if (MySharedPreference.getBoolean("AlarmSwitch", false)) {
-					if (null != currentNotifyer) {
-						if (null != msg && !"".equalsIgnoreCase(msg)) {
-							JSONObject obj = new JSONObject(msg);
-							String arrayStr = statusHashMap
-									.get(Consts.PUSH_JSONARRAY);
-							JSONArray pushArray = null;
-							if (null == arrayStr
-									|| "".equalsIgnoreCase(arrayStr)) {
-								pushArray = new JSONArray();
-							} else {
-								pushArray = new JSONArray(arrayStr);
-							}
-							pushArray.put(obj);
-							statusHashMap.put(Consts.PUSH_JSONARRAY,
-									pushArray.toString());
-
-							String[] alarmArray = getResources()
-									.getStringArray(R.array.alarm_type);
-
-							String ns = Context.NOTIFICATION_SERVICE;
-							mNotifyer = (NotificationManager) getSystemService(ns);
-							// 定义通知栏展现的内容信息
-							int icon = R.drawable.notification_icon;
-							CharSequence tickerText = getResources().getString(
-									R.string.str_alarm);
-							long when = System.currentTimeMillis();
-							Notification notification = new Notification(icon,
-									tickerText, when);
-
-							notification.defaults |= Notification.DEFAULT_SOUND;// 声音
-							// notification.defaults |=
-							// Notification.DEFAULT_LIGHTS;//灯
-							// notification.defaults |=
-							// Notification.DEFAULT_VIBRATE;//震动
-
-							// 定义下拉通知栏时要展现的内容信息
-							Context context = this;
-
-							CharSequence contentText = obj
-									.optString(JVAlarmConst.JK_ALARM_ALARMTIME
-											+ "-"
-											+ alarmArray[obj
-													.optInt(JVAlarmConst.JK_ALARM_ALARMTYPE)].replace(
-													"%%",
-													obj.optString(JVAlarmConst.JK_ALARM_CLOUDNAME)));
-
-							CharSequence contentTitle = getResources()
-									.getString(R.string.str_alarm_info);
-							// CharSequence contentText = pushMessage;
-
-							Intent notificationIntent = new Intent(this,
-									JVTabActivity.class);
-							notificationIntent.putExtra("tabIndex", 1);
-
-							PendingIntent contentIntent = PendingIntent
-									.getActivity(this, 0, notificationIntent,
-											PendingIntent.FLAG_UPDATE_CURRENT);
-							notification.setLatestEventInfo(context,
-									contentTitle, contentText, contentIntent);
-
-							// 用mNotificationManager的notify方法通知用户生成标题栏消息通知
-							mNotifyer.notify(0, notification);
-						}
-
-					}
+					// if (null != currentNotifyer) {
+					// if (null != msg && !"".equalsIgnoreCase(msg)) {
+					// JSONObject obj = new JSONObject(msg);
+					// String arrayStr = statusHashMap
+					// .get(Consts.PUSH_JSONARRAY);
+					// JSONArray pushArray = null;
+					// if (null == arrayStr
+					// || "".equalsIgnoreCase(arrayStr)) {
+					// pushArray = new JSONArray();
+					// } else {
+					// pushArray = new JSONArray(arrayStr);
+					// }
+					// pushArray.put(obj);
+					// statusHashMap.put(Consts.PUSH_JSONARRAY,
+					// pushArray.toString());
+					//
+					// String[] alarmArray = getResources()
+					// .getStringArray(R.array.alarm_type);
+					//
+					// String ns = Context.NOTIFICATION_SERVICE;
+					// mNotifyer = (NotificationManager) getSystemService(ns);
+					// // 定义通知栏展现的内容信息
+					// int icon = R.drawable.notification_icon;
+					// CharSequence tickerText = getResources().getString(
+					// R.string.str_alarm);
+					// long when = System.currentTimeMillis();
+					// Notification notification = new Notification(icon,
+					// tickerText, when);
+					//
+					// notification.defaults |= Notification.DEFAULT_SOUND;// 声音
+					// // notification.defaults |=
+					// // Notification.DEFAULT_LIGHTS;//灯
+					// // notification.defaults |=
+					// // Notification.DEFAULT_VIBRATE;//震动
+					//
+					// // 定义下拉通知栏时要展现的内容信息
+					// Context context = this;
+					//
+					// CharSequence contentText = obj
+					// .optString(JVAlarmConst.JK_ALARM_ALARMTIME
+					// + "-"
+					// + alarmArray[obj
+					// .optInt(JVAlarmConst.JK_ALARM_ALARMTYPE)].replace(
+					// "%%",
+					// obj.optString(JVAlarmConst.JK_ALARM_CLOUDNAME)));
+					//
+					// CharSequence contentTitle = getResources()
+					// .getString(R.string.str_alarm_info);
+					// // CharSequence contentText = pushMessage;
+					//
+					// Intent notificationIntent = new Intent(this,
+					// JVTabActivity.class);
+					// notificationIntent.putExtra("tabIndex", 1);
+					//
+					// PendingIntent contentIntent = PendingIntent
+					// .getActivity(this, 0, notificationIntent,
+					// PendingIntent.FLAG_UPDATE_CURRENT);
+					// notification.setLatestEventInfo(context,
+					// contentTitle, contentText, contentIntent);
+					//
+					// // 用mNotificationManager的notify方法通知用户生成标题栏消息通知
+					// mNotifyer.notify(0, notification);
+					// }
+					//
+					// }
 				}
 			} else if (JVAccountConst.MESSAGE_NEW_PUSH_TAG == res) {// 新报警协议推送信息
 				/**

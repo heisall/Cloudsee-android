@@ -447,7 +447,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			case R.id.step_btn3:// 发局域网广播搜索局域网设备
 				createDialog("");
 				broadList.clear();
-				Jni.queryDevice("A", 361, 40 * 1000);
+				Jni.queryDevice("A", 361, 20 * 1000);
 				currentStep = 4;
 				showLayoutAtIndex(currentStep);
 

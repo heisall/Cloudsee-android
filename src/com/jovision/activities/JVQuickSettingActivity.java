@@ -1768,7 +1768,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			audioMgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 			// 初始化音量大概为最大音量的1/2
 			curVolume = audioMgr.getStreamVolume(AudioManager.STREAM_MUSIC);
-			// 每次调整的音量大概为最大音量的1/6
 			audioMgr.setStreamVolume(AudioManager.STREAM_MUSIC, curVolume,
 					AudioManager.FLAG_PLAY_SOUND);
 			AssetManager assetMgr = this.getAssets();

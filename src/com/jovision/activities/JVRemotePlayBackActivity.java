@@ -348,18 +348,11 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-			if (0 == arg2) {// 音频监听
-				// 停止音频监听
-				if (PlayUtil.isPlayAudio(indexOfChannel)) {
-					stopAudio(indexOfChannel);
-					functionListAdapter.selectIndex = -1;
-				} else {
-					startAudio(indexOfChannel, audioByte);
-					functionListAdapter.selectIndex = arg2;
-				}
-			} else if (1 == arg2) {// 云台
+			if (2 == arg2) {// 音频监听
 				showTextToast(R.string.str_forbidden_operation);
-			} else if (2 == arg2) {// 远程回放
+			} else if (0 == arg2) {// 云台
+				showTextToast(R.string.str_forbidden_operation);
+			} else if (1 == arg2) {// 远程回放
 				backMethod();
 			}
 			functionListAdapter.notifyDataSetChanged();

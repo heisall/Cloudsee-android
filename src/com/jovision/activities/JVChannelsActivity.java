@@ -106,7 +106,7 @@ public class JVChannelsActivity extends BaseActivity {
 		devmore_hide = (RelativeLayout) findViewById(R.id.devmore_hide);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText(R.string.channal_list);
+		currentMenu.setText(R.string.channalmanager);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setBackgroundResource(R.drawable.qr_icon);
 		leftBtn.setOnClickListener(mOnClickListener);

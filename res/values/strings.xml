@@ -272,7 +272,7 @@
     <string name="str_quick_setting_finish">Save</string>
     <string name="str_quick_setting_reset">Configure again</string>
     <string name="str_wifi_reset_succ">Network recovered successfuly</string>
-    <string name="str_device_manage">Setting</string>
+    <string name="str_device_manage">Device Manage</string>
     <string name="str_wifi_reset_fail">Failed to restore network.</string>
     <string name="str_user_setting">User Setting</string>
     <string name="str_remote_setting">Remote Setting</string>
@@ -306,7 +306,7 @@
     <string name="str_no_permission">You have no permission of this operation!</string>
     <string name="str_host_connect_failed">Connecting with host-end unsuccessfully\nplease try again…</string>
     <string name="str_help1_1">Add device</string>
-    <string name="str_help1_0">Remote Setting</string>
+    <string name="str_help1_0">Net Setting</string>
     <string name="str_help1_2">Setting</string>
     <string name="str_save_succ">Modify successfully</string>
     <string name="str_save_fail">Modify failed</string>

@@ -304,7 +304,7 @@ public class Jni {
 	public static native boolean clearBuffer(int window);
 
 	/**
-	 * 查询某个设备是否被搜索出来
+	 * 查询某个设备是否被搜索出来//2014-12-1 不能传空，传空不走回调
 	 * 
 	 * @param groudId
 	 *            组标识

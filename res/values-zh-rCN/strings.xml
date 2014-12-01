@@ -197,7 +197,7 @@
     <string name="str_old_pass">旧密码</string>
     <string name="str_new_pass">新密码</string>
     <string name="str_ensure_newpass">确认密码</string>
-    <string name="str_edit_accoutorpass_error">帐号或密码有误，请重新输入.</string>
+    <string name="str_edit_accoutorpass_error">您输入的旧密码有误，请重新输入</string>
     <string name="str_edit_oldpass_error">输入的密码与旧密码不一致.</string>
     <string name="str_edit_success">修改密码成功</string>
     <string name="str_edit_failed">修改密码失败</string>

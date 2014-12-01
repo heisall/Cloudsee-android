@@ -110,6 +110,26 @@ public class PlayUtil {
 	}
 
 	/**
+	 * 判断设备是否在设备列表里并添加到设备列表里面
+	 * 
+	 * @param devNum
+	 * @return
+	 */
+	public static boolean addDev(ArrayList<Device> devList, Device addDevice) {
+		boolean has = false;
+		if (null == devList) {
+			return has;
+		}
+		for (Device dev : devList) {
+			if (addDevice.getFullNo().equalsIgnoreCase(dev.getFullNo())) {
+				has = true;
+				break;
+			}
+		}
+		return has;
+	}
+
+	/**
 	 * 根据在线状态排序
 	 */
 	public static void sortList(ArrayList<Device> devList, Context context) {

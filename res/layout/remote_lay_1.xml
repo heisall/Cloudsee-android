@@ -6,11 +6,11 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:visibility="visible"
         android:id="@+id/firstlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="visible" >
 
         <RelativeLayout
             android:id="@+id/obtainauto"
@@ -333,7 +333,6 @@
                 </LinearLayout>
 
                 <TextView
-                    android:textColor="@color/white"
                     android:id="@+id/saveChange"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -341,6 +340,7 @@
                     android:background="@drawable/blue_bg"
                     android:gravity="center"
                     android:text="@string/save"
+                    android:textColor="@color/white"
                     android:textSize="18dp" />
             </LinearLayout>
         </ScrollView>

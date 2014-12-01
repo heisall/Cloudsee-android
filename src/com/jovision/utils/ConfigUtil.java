@@ -121,17 +121,16 @@ public class ConfigUtil {
 					.getApplicationContext()).getStatusHashMap();
 			if ("".equalsIgnoreCase(version)) {
 				String softName = "";
-				version = Jni.getVersion();
-
-				try {
-					String pkName = context.getPackageName();
-					softName = context.getPackageManager().getPackageInfo(
-							pkName, 0).versionName;
-					JSONObject obj = new JSONObject(version);
-					version = obj.optString("jni");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				// version = Jni.getVersion();
+				String pkName = context.getPackageName();
+				softName = context.getPackageManager()
+						.getPackageInfo(pkName, 0).versionName;
+				// try {
+				// JSONObject obj = new JSONObject(version);
+				// version = obj.optString("jni");
+				// } catch (Exception e) {
+				// e.printStackTrace();
+				// }
 				if ("true".equalsIgnoreCase(statusHashMap
 						.get(Consts.NEUTRAL_VERSION))) {
 					version = softName;

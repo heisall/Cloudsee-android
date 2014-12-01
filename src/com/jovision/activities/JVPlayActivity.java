@@ -2328,12 +2328,10 @@ public class JVPlayActivity extends PlayActivity implements
 						if (PlayUtil.isPlayAudio(lastClickIndex)) {
 							stopAudio(lastClickIndex);
 							functionListAdapter.selectIndex = -1;
-							bottombut8
-									.setBackgroundDrawable(getResources()
-											.getDrawable(
-													R.drawable.video_monitor_icon));
+							bottombut8.setBackgroundDrawable(getResources()
+									.getDrawable(R.drawable.video_monitor_ico));
 							varvoice.setBackgroundDrawable(getResources()
-									.getDrawable(R.drawable.video_monitor_icon));
+									.getDrawable(R.drawable.video_monitor_ico));
 						} else {
 							startAudio(lastClickIndex,
 									channelList.get(lastClickIndex)
@@ -2352,7 +2350,7 @@ public class JVPlayActivity extends PlayActivity implements
 						// bottombut8
 						// .setBackgroundDrawable(getResources()
 						// .getDrawable(
-						// R.drawable.video_monitor_icon));
+						// R.drawable.video_monitor_ico));
 						// if (null != playAudio) {
 						// playAudio.interrupt();
 						// playAudio = null;
@@ -2369,9 +2367,9 @@ public class JVPlayActivity extends PlayActivity implements
 				} else {
 					functionListAdapter.selectIndex = -1;
 					bottombut8.setBackgroundDrawable(getResources()
-							.getDrawable(R.drawable.video_monitor_icon));
+							.getDrawable(R.drawable.video_monitor_ico));
 					varvoice.setBackgroundDrawable(getResources().getDrawable(
-							R.drawable.video_monitor_icon));
+							R.drawable.video_monitor_ico));
 				}
 
 				functionListAdapter.notifyDataSetChanged();
@@ -2414,7 +2412,7 @@ public class JVPlayActivity extends PlayActivity implements
 						stopAudio(lastClickIndex);
 						functionListAdapter.selectIndex = -1;
 						bottombut8.setBackgroundDrawable(getResources()
-								.getDrawable(R.drawable.video_monitor_icon));
+								.getDrawable(R.drawable.video_monitor_ico));
 					}
 
 					if (Consts.JAE_ENCODER_G729 != channel.getAudioEncType()
@@ -2685,7 +2683,7 @@ public class JVPlayActivity extends PlayActivity implements
 			stopAudio(lastClickIndex);
 			functionListAdapter.selectIndex = -1;
 			bottombut8.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.video_monitor_icon));
+					R.drawable.video_monitor_ico));
 			functionListAdapter.notifyDataSetChanged();
 		}
 
@@ -3110,7 +3108,7 @@ public class JVPlayActivity extends PlayActivity implements
 				// bottombut8
 				// .setBackgroundDrawable(getResources()
 				// .getDrawable(
-				// R.drawable.video_monitor_icon));
+				// R.drawable.video_monitor_ico));
 				// } else {
 				// startAudio(lastClickIndex,
 				// channelList.get(lastClickIndex)
@@ -3127,7 +3125,7 @@ public class JVPlayActivity extends PlayActivity implements
 				// // bottombut8
 				// // .setBackgroundDrawable(getResources()
 				// // .getDrawable(
-				// // R.drawable.video_monitor_icon));
+				// // R.drawable.video_monitor_ico));
 				// // if (null != playAudio) {
 				// // playAudio.interrupt();
 				// // playAudio = null;
@@ -3144,7 +3142,7 @@ public class JVPlayActivity extends PlayActivity implements
 				// } else {
 				// functionListAdapter.selectIndex = -1;
 				// bottombut8.setBackgroundDrawable(getResources()
-				// .getDrawable(R.drawable.video_monitor_icon));
+				// .getDrawable(R.drawable.video_monitor_ico));
 				// }
 
 			} else if (0 == arg2) {// 云台

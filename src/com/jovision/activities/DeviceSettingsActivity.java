@@ -1,5 +1,7 @@
 package com.jovision.activities;
 
+import java.util.HashMap;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,12 +14,15 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.ConfigUtil;
 
 public class DeviceSettingsActivity extends BaseActivity {
 	protected boolean bConnectedFlag = true;
 	private ProgressDialog waitingDialog;
 	private DeviceSettingsMainFragment deviceSettingsMainFragment;
 	private int fragment_tag = 0;// 0，设置主界面； 1设置时间
+	private boolean protect_flag = false;
+	private boolean motion_flag = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +36,7 @@ public class DeviceSettingsActivity extends BaseActivity {
 		}
 		if (null == waitingDialog) {
 			waitingDialog = new ProgressDialog(this);
-			waitingDialog.setCancelable(false);
+			// waitingDialog.setCancelable(false);
 			waitingDialog
 					.setMessage(getResources().getString(R.string.waiting));
 			waitingDialog.show();
@@ -137,8 +142,15 @@ public class DeviceSettingsActivity extends BaseActivity {
 				try {
 					JSONObject dataObj = new JSONObject(allStr);
 
-					switch (dataObj.getInt("flag")) {
+					switch (dataObj.getInt("packet_type")) {
+					case JVNetConst.RC_GETPARAM:
+						HashMap<String, String> map = ConfigUtil
+								.genMsgMap(dataObj.getString("msg"));
+						String md_enable = map.get("bMDEnable");
+						if (Integer.valueOf(md_enable) == 0) {
 
+						}
+						break;
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

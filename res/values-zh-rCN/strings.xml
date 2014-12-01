@@ -528,6 +528,7 @@
     <string name="prepare_step3">观看操作演示</string>
     <string name="prepare_step4">点击发送声波</string>
     <string name="prepare_step5">请将手机靠近设备，点击声波发送按钮，\n配置设备</string>
+    <string name="wave_add_dev">确定添加设备</string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">切换域名/IP直连和云视通连接模式</string>
     <string name="str_cloudsee_id">云视通号</string>

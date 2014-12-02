@@ -7,6 +7,8 @@ import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
 
 import com.jovetech.CloudSee.temp.R;
@@ -21,8 +23,8 @@ public class DeviceSettingsActivity extends BaseActivity {
 	private ProgressDialog waitingDialog;
 	private DeviceSettingsMainFragment deviceSettingsMainFragment;
 	private int fragment_tag = 0;// 0，设置主界面； 1设置时间
-	private boolean protect_flag = false;
-	private boolean motion_flag = false;
+	private int alarmEnable = -1;
+	private int mdEnable = -1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -147,9 +149,57 @@ public class DeviceSettingsActivity extends BaseActivity {
 						HashMap<String, String> map = ConfigUtil
 								.genMsgMap(dataObj.getString("msg"));
 						String md_enable = map.get("bMDEnable");
-						if (Integer.valueOf(md_enable) == 0) {
-
+						if (md_enable == null) {
+							showTextToast(R.string.not_support_this_func);
+							mdEnable = -1;
+						} else {
+							mdEnable = Integer.valueOf(md_enable);
 						}
+						String alarm_enable = map.get("bAlarmEnable");
+						if (alarm_enable == null) {
+							showTextToast(R.string.not_support_this_func);
+							alarmEnable = -1;
+						} else {
+							alarmEnable = Integer.valueOf(alarm_enable);
+						}
+						String alarmTime0 = map.get("alarmTime0");
+						if (alarm_enable == null) {
+							showTextToast(R.string.not_support_this_func);
+							alarmTime0 = "";
+						}
+						JSONObject mainObject = new JSONObject();
+						mainObject.put("bAlarmEnable", alarmEnable);
+						mainObject.put("bMDEnable", mdEnable);
+						mainObject.put("alarmTime0", alarmTime0);
+
+						// Check that the activity is using the layout version
+						// with
+						// the fragment_container FrameLayout
+						if (findViewById(R.id.fragment_container) != null) {
+
+							// However, if we're being restored from a previous
+							// state,
+							// then we don't need to do anything and should
+							// return or else
+							// we could end up with overlapping fragments.
+							// if (savedInstanceState != null) {
+							// return;
+							// }
+							deviceSettingsMainFragment = new DeviceSettingsMainFragment();
+							Bundle bundle1 = new Bundle();
+							bundle1.putString("KEY_PARAM",
+									mainObject.toString());
+							deviceSettingsMainFragment.setArguments(bundle1);
+							FragmentManager fm = getSupportFragmentManager();
+							FragmentTransaction ft = getSupportFragmentManager()
+									.beginTransaction();
+							ft.add(R.id.fragment_container,
+									deviceSettingsMainFragment)
+									.commitAllowingStateLoss();
+							fragment_tag = 0;
+						}
+						break;
+					default:
 						break;
 					}
 				} catch (Exception e) {

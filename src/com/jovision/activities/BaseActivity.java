@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
+import android.test.JVACCOUNT;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.widget.Toast;
@@ -365,6 +366,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 			exitTime = System.currentTimeMillis();
 		} else {
 			ConfigUtil.stopBroadCast();
+			JVACCOUNT.SetUserOnlineStatus(0);
 			statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 			statusHashMap.put(Consts.KEY_LAST_LOGIN_TIME,
 					ConfigUtil.getCurrentTime());

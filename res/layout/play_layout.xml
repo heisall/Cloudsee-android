@@ -61,12 +61,12 @@
                     android:id="@+id/playback_seekback"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:maxHeight="3dip"
-                    android:minHeight="3dip"
+                    android:maxHeight="5dip"
+                    android:minHeight="5dip"
                     android:paddingLeft="15dip"
                     android:paddingRight="15dip"
                     android:progressDrawable="@drawable/seek_drawable"
-                    android:thumb="@drawable/bg3" />
+                    android:thumb="@drawable/seekbar_move" />
             </LinearLayout>
 
             <TextView

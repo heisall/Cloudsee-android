@@ -122,7 +122,6 @@
                         android:layout_marginLeft="1dp"
                         android:layout_marginRight="1dp"
                         android:layout_marginTop="1dp"
-                        android:layout_marginTop="2dp"
                         android:background="@color/more_fragment_color3"
                         android:orientation="horizontal" >
 

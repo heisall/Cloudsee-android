@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
+import com.jovision.activities.JVWaveSetActivity;
 import com.jovision.bean.Device;
 
 public class WaveDevlListAdapter extends BaseAdapter {
@@ -23,8 +25,8 @@ public class WaveDevlListAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private ArrayList<Device> devList;
 
-	public WaveDevlListAdapter(BaseActivity activitys) {
-		activity = activitys;
+	public WaveDevlListAdapter(BaseActivity activity) {
+		this.activity = activity;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -76,12 +78,42 @@ public class WaveDevlListAdapter extends BaseAdapter {
 			devHolder = (DeviceHolder) convertView.getTag();
 		}
 
-		devHolder.channel_list_text.setText(devList.get(position).getFullNo());
-		devHolder.channellist_pull.setVisibility(View.GONE);
-		devHolder.item_img.setImageDrawable(activity.getResources()
-				.getDrawable(R.drawable.has_added_icon));
-		devHolder.channel_list_img.setImageDrawable(activity.getResources()
-				.getDrawable(R.drawable.has_added));
+		try {
+			devHolder.channel_list_text.setText(devList.get(position)
+					.getFullNo());
+			devHolder.channellist_pull.setVisibility(View.GONE);
+
+			if (devList.get(position).isHasAdded()) {
+				devHolder.channel_list_text.setTextColor(activity
+						.getResources().getColor(R.color.dialogchannaltext));
+				devHolder.item_img.setImageDrawable(activity.getResources()
+						.getDrawable(R.drawable.has_added_icon));
+				devHolder.channel_list_img.setImageDrawable(activity
+						.getResources().getDrawable(R.drawable.has_added));
+			} else {
+				devHolder.channel_list_text.setTextColor(activity
+						.getResources().getColor(R.color.more_fragment_color2));
+				devHolder.item_img.setImageDrawable(activity.getResources()
+						.getDrawable(R.drawable.hasnot_added_icon));
+				devHolder.channel_list_img.setImageDrawable(activity
+						.getResources().getDrawable(R.drawable.hasnot_added));
+			}
+
+			devHolder.channel_list_img
+					.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View arg0) {
+							if (!devList.get(position).isHasAdded()) {
+								activity.onNotify(JVWaveSetActivity.ADD_DEVICE,
+										position, 0, null);
+							}
+						}
+
+					});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return convertView;
 	}

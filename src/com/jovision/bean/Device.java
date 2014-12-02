@@ -88,6 +88,9 @@ public class Device {
 
 	private boolean isCard = false;// 是否是板卡
 
+	/** 设备是否已在设备列表里 ，声波配置使用 */
+	private boolean hasAdded = false;// 声波配置使用
+
 	public Device() {
 		channelList = new MyList<Channel>(1);
 		thirdDevList = new ArrayList<ThirdAlarmDev>();
@@ -536,6 +539,14 @@ public class Device {
 
 	public void setIslanselect(boolean islanselect) {
 		this.islanselect = islanselect;
+	}
+
+	public boolean isHasAdded() {
+		return hasAdded;
+	}
+
+	public void setHasAdded(boolean hasAdded) {
+		this.hasAdded = hasAdded;
 	}
 
 }

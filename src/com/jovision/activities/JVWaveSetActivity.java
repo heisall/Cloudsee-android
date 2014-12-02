@@ -6,15 +6,21 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -37,6 +43,7 @@ import com.jovision.commons.MyAudio;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVWaveSetActivity extends BaseActivity {
@@ -47,10 +54,13 @@ public class JVWaveSetActivity extends BaseActivity {
 	protected static final int SEND_WAVE_FINISHED = 0xA2;// 声波发送完毕
 	protected static final int BROAD_DEVICE = 0xA3;// 广播到一个设备
 	protected static final int BROAD_FINISHED = 0xA4;// 广播回调完毕
+	public static final int ADD_DEVICE = 0xA5;// 添加设备
 
 	String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3" };
 	String[] stepSoundEN = { "voi_info_en.mp3", "voi_next_en.mp3",
 			"voi_send_en.mp3" };
+	int[] titleID = { R.string.prepare_step, R.string.prepare_set,
+			R.string.wave_set, R.string.show_demo, R.string.search_list };
 
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private ArrayList<Device> broadList = new ArrayList<Device>();
@@ -105,16 +115,17 @@ public class JVWaveSetActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case SEND_WAVE_FINISHED: {// 声波发送完毕
-			waveScaleAnim.cancel();
+
 			nextBtn3.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.blue_bg));
 			nextBtn3.setClickable(true);
+			waveScaleAnim.cancel();
 			break;
 		}
 		case BROAD_FINISHED: {// 广播超时
 			dismissDialog();
 			if (null == broadList || 0 == broadList.size()) {
-
+				showTextToast(R.string.broad_zero);
 			} else {
 				wdListAdapter = new WaveDevlListAdapter(JVWaveSetActivity.this);
 				wdListAdapter.setData(broadList);
@@ -123,7 +134,7 @@ public class JVWaveSetActivity extends BaseActivity {
 
 			break;
 		}
-		case BROAD_DEVICE: {
+		case BROAD_DEVICE: {// 广播到一个设备
 			if (null == broadList || 0 == broadList.size()) {
 
 			} else {
@@ -131,9 +142,47 @@ public class JVWaveSetActivity extends BaseActivity {
 				wdListAdapter.setData(broadList);
 				devListView.setAdapter(wdListAdapter);
 			}
+			break;
+		}
+		case ADD_DEVICE: {// 添加设备
+			alertAddDialog(arg1);
+			break;
 		}
 
 		}
+	}
+
+	/**
+	 * 弹搜出来几个设备界面
+	 * */
+	public void alertAddDialog(final int index) {
+		// 提示对话框
+		AlertDialog.Builder builder = new Builder(this);
+		builder.setTitle(R.string.tips)
+				.setMessage(
+						getResources().getString(R.string.wave_add_dev)
+								+ broadList.get(index).getFullNo())
+				.setPositiveButton(R.string.sure,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								AddDevTask task = new AddDevTask();
+								String[] params = new String[3];
+								params[0] = String.valueOf(index);
+								task.execute(params);
+							}
+						})
+				.setNegativeButton(R.string.cancel,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.dismiss();
+							}
+						}).create().show();
 	}
 
 	@Override
@@ -175,9 +224,11 @@ public class JVWaveSetActivity extends BaseActivity {
 					int no = broadObj.optInt("no");
 					String ip = broadObj.optString("ip");
 					int port = broadObj.optInt("port");
-					int channelCount = broadObj.optInt("port");
+					int channelCount = broadObj.optInt("count");
 					int count = channelCount > 0 ? channelCount : 1;
 					String broadDevNum = gid + no;
+					Boolean hasAdded = PlayUtil.hasDev(deviceList, broadDevNum,
+							ip, port);
 					if (1 == broadObj.optInt("netmod")) {// 带wifi设备
 						Device addDev = new Device(ip, port, gid, no,
 								getResources().getString(
@@ -185,11 +236,11 @@ public class JVWaveSetActivity extends BaseActivity {
 								getResources().getString(
 										R.string.str_default_pass), false,
 								count, 0);
+						addDev.setHasAdded(hasAdded);
 						if (!PlayUtil.addDev(broadList, addDev)) {
 							broadList.add(addDev);
 						}
 					}
-					PlayUtil.hasDev(deviceList, broadDevNum, ip, port);
 					handler.sendMessage(handler.obtainMessage(BROAD_DEVICE));
 				} else if (1 == broadObj.optInt("timeout")) {
 					CacheUtil.saveDevList(deviceList);
@@ -287,7 +338,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		// animation.setStartOffset(long startOffset);//执行前的等待时间
 		waveAlphaAnim = new AlphaAnimation(0.1f, 1.0f);
 		waveAlphaAnim.setDuration(1000);// 设置动画持续时间
-		waveAlphaAnim.setRepeatCount(99999);// 设置重复次数
+		waveAlphaAnim.setRepeatCount(3);// 设置重复次数
 		waveAlphaAnim.setStartOffset(200);// 执行前的等待时间
 		waveImage.setAnimation(waveScaleAnim);
 		showLayoutAtIndex(currentStep);
@@ -328,6 +379,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		if (showIndex < 0) {
 			JVWaveSetActivity.this.finish();
 		} else {
+			currentMenu.setText(titleID[showIndex]);
 			int length = layoutList.size();
 
 			for (int i = 0; i < length; i++) {
@@ -361,6 +413,13 @@ public class JVWaveSetActivity extends BaseActivity {
 		if (showIndex >= 0 && showIndex < stepSoundEN.length) {
 			playSoundStep(showIndex);
 		}
+
+		if (2 == showIndex) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.showSoftInput(desWifiPwd, InputMethodManager.SHOW_FORCED);
+			imm.hideSoftInputFromWindow(desWifiPwd.getWindowToken(), 0); // 强制隐藏键盘
+		}
+
 	}
 
 	private void backMethod() {
@@ -401,7 +460,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			case R.id.step_btn3:// 发局域网广播搜索局域网设备
 				createDialog("");
 				broadList.clear();
-				Jni.queryDevice("A", 361, 20 * 1000);
+				Jni.queryDevice("A", 361, 40 * 1000);
 				currentStep = 4;
 				showLayoutAtIndex(currentStep);
 
@@ -437,6 +496,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		CacheUtil.saveDevList(deviceList);
 		if (null != mediaPlayer) {
 			mediaPlayer.stop();
 		}
@@ -494,6 +554,96 @@ public class JVWaveSetActivity extends BaseActivity {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	// 设置三种类型参数分别为String,Integer,String
+	class AddDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int index = Integer.parseInt(params[0]);
+			Device addDevice = broadList.get(index);
+			String ip = addDevice.getIp();
+			int port = addDevice.getPort();
+			int addRes = -1;
+			boolean localFlag = Boolean.valueOf(statusHashMap
+					.get(Consts.LOCAL_LOGIN));
+			try {
+				if (null != addDevice) {
+					if (localFlag) {// 本地添加
+						addRes = 0;
+					} else {
+						addDevice = DeviceUtil.addDevice(
+								statusHashMap.get("KEY_USERNAME"), addDevice);
+						if (null != addDevice) {
+							addRes = 0;
+						}
+						if (0 <= addDevice.getChannelList().size()) {
+							if (0 == DeviceUtil.addPoint(addDevice.getFullNo(),
+									addDevice.getChannelList().size())) {
+								addDevice.setChannelList(DeviceUtil
+										.getDevicePointList(addDevice,
+												addDevice.getFullNo()));
+								addRes = 0;
+							} else {
+								DeviceUtil.unbindDevice(
+										statusHashMap.get(Consts.KEY_USERNAME),
+										addDevice.getFullNo());
+								addRes = -1;
+							}
+						}
+					}
+				}
+
+				if (0 == addRes) {
+					addDevice.setOnlineState(1);
+					addDevice.setIp(ip);
+					addDevice.setPort(port);
+					addDevice.setHasAdded(true);
+					deviceList.add(0, addDevice);
+					if (!localFlag) {
+						DeviceUtil.refreshDeviceState(
+								statusHashMap.get(Consts.KEY_USERNAME),
+								deviceList);
+					}
+					CacheUtil.saveDevList(deviceList);
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return addRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
+			wdListAdapter.notifyDataSetChanged();
+			if (0 == result) {
+				showTextToast(R.string.add_device_succ);
+			} else {
+				showTextToast(R.string.add_device_failed);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("");
+			proDialog.setCancelable(false);
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
 

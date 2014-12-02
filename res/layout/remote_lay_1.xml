@@ -119,9 +119,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="2dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginTop="1dp"
                         android:background="@color/more_fragment_color3"
                         android:orientation="horizontal" >
 
@@ -135,7 +135,7 @@
 
                         <EditText
                             android:id="@+id/ipet"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:paddingLeft="10dp"
@@ -152,8 +152,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="2dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
                         android:background="@color/more_fragment_color3"
                         android:orientation="horizontal" >
 
@@ -167,7 +167,7 @@
 
                         <EditText
                             android:id="@+id/netmasket"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:paddingLeft="10dp"
@@ -184,8 +184,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="2dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
                         android:background="@color/more_fragment_color3"
                         android:orientation="horizontal" >
 
@@ -199,7 +199,7 @@
 
                         <EditText
                             android:id="@+id/gatewayet"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:paddingLeft="10dp"
@@ -216,8 +216,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="2dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
                         android:background="@color/more_fragment_color3"
                         android:orientation="horizontal" >
 
@@ -231,7 +231,7 @@
 
                         <EditText
                             android:id="@+id/dnset"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:paddingLeft="10dp"
@@ -248,8 +248,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="2dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
                         android:background="@color/more_fragment_color3"
                         android:orientation="horizontal" >
 
@@ -281,8 +281,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="2dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
                         android:background="@color/more_fragment_color3"
                         android:orientation="horizontal"
                         android:visibility="visible" >
@@ -315,8 +315,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="2dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
                         android:background="@color/more_fragment_color3"
                         android:orientation="horizontal" >
 

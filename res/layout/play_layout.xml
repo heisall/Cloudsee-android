@@ -61,15 +61,12 @@
                     android:id="@+id/playback_seekback"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="6dp"
-                    android:paddingBottom="0dip"
-                    android:paddingLeft="3dip"
-                    android:paddingRight="3dip"
-                    android:paddingTop="0dip"
-                    android:progressDrawable="@drawable/seekbar_bg_selector"
-                    android:thumb="@drawable/seekbar_thumb"
-                    android:thumbOffset="0dp" />
+                    android:maxHeight="5dip"
+                    android:minHeight="5dip"
+                    android:paddingLeft="15dip"
+                    android:paddingRight="15dip"
+                    android:progressDrawable="@drawable/seek_drawable"
+                    android:thumb="@drawable/seekbar_move" />
             </LinearLayout>
 
             <TextView

@@ -120,8 +120,9 @@ public class MyAudio {
 					((16 == bit) ? AudioFormat.ENCODING_PCM_16BIT
 							: AudioFormat.ENCODING_PCM_8BIT));
 
-			MyLog.w(TAG, "Play E: bit = " + bit + ", fromQueue = "
-					+ isFromQueue);
+			MyLog.w(TAG, "Play E: bit = " + bit + ", sampleRate = "
+					+ SAMPLERATE + ", fromQueue = " + isFromQueue
+					+ ", minSize = " + minSize);
 
 			if (null != notify) {
 				notify.onNotify(what, ARG1_PLAY, ARG2_START, null);

@@ -1460,56 +1460,62 @@ public class JVMyDeviceFragment extends BaseFragment {
 							addCount++;
 						} else {
 
-							addDev = DeviceUtil
-									.addDevice(mActivity.statusHashMap
-											.get("KEY_USERNAME"), addDev);
-
+							addDev = DeviceUtil.addDevice2(addDev);
 							if (null != addDev) {
+								addCount++;
 								addRes = 0;
 							}
 
-							// 添加设备失败了，再添加一次
-							if (addRes < 0) {
-								addDev = DeviceUtil.addDevice(
-										mActivity.statusHashMap
-												.get("KEY_USERNAME"), addDev);
-							}
-							if (null != addDev) {
-								addRes = 0;
-							}
-
-							if (addRes == 0) {
-								if (0 <= addDev.getChannelList().size()) {
-									int addPointRes = DeviceUtil.addPoint(
-											addDev.getFullNo(), addDev
-													.getChannelList().size());
-
-									if (0 != addPointRes) {
-										addPointRes = DeviceUtil.addPoint(
-												addDev.getFullNo(), addDev
-														.getChannelList()
-														.size());
-									}
-
-									if (0 != addPointRes) {
-										DeviceUtil
-												.unbindDevice(
-														mActivity.statusHashMap
-																.get(Consts.KEY_USERNAME),
-														addDev.getFullNo());
-										addRes = -1;
-									} else {
-										addRes = 0;
-										addCount++;
-									}
-								} else {
-									DeviceUtil.unbindDevice(
-											mActivity.statusHashMap
-													.get(Consts.KEY_USERNAME),
-											addDev.getFullNo());
-									addRes = -1;
-								}
-							}
+							// addDev = DeviceUtil
+							// .addDevice(mActivity.statusHashMap
+							// .get("KEY_USERNAME"), addDev);
+							//
+							// if (null != addDev) {
+							// addRes = 0;
+							// }
+							//
+							// // 添加设备失败了，再添加一次
+							// if (addRes < 0) {
+							// addDev = DeviceUtil.addDevice(
+							// mActivity.statusHashMap
+							// .get("KEY_USERNAME"), addDev);
+							// }
+							// if (null != addDev) {
+							// addRes = 0;
+							// }
+							//
+							// if (addRes == 0) {
+							// if (0 <= addDev.getChannelList().size()) {
+							// int addPointRes = DeviceUtil.addPoint(
+							// addDev.getFullNo(), addDev
+							// .getChannelList().size());
+							//
+							// if (0 != addPointRes) {
+							// addPointRes = DeviceUtil.addPoint(
+							// addDev.getFullNo(), addDev
+							// .getChannelList()
+							// .size());
+							// }
+							//
+							// if (0 != addPointRes) {
+							// DeviceUtil
+							// .unbindDevice(
+							// mActivity.statusHashMap
+							// .get(Consts.KEY_USERNAME),
+							// addDev.getFullNo());
+							// addRes = -1;
+							// } else {
+							// addRes = 0;
+							// addCount++;
+							// }
+							// } else {
+							// DeviceUtil.unbindDevice(
+							// mActivity.statusHashMap
+							// .get(Consts.KEY_USERNAME),
+							// addDev.getFullNo());
+							// addRes = -1;
+							// }
+							// }
 						}
 					}
 					if (0 == addRes) {
@@ -1518,9 +1524,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 						myDeviceList.add(0, addDev);
 					}
 				}
-				DeviceUtil.refreshDeviceState(
-						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
-						myDeviceList);
+				// DeviceUtil.refreshDeviceState(
+				// mActivity.statusHashMap.get(Consts.KEY_USERNAME),
+				// myDeviceList);
 
 				for (Device dev1 : AddLanList) {
 					for (Device dev2 : myDeviceList) {

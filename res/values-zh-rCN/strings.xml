@@ -147,6 +147,7 @@
     <!-- 远程回放 -->
     <string name="str_search">检索</string>
     <string name="str_start_time">开始时间</string>
+    <string name="str_end_time">结束时间</string>
     <string name="str_save_path">盘符</string>
     <string name="str_disk">硬盘</string>
     <string name="str_video_load_failed">数据加载失败</string>

@@ -147,6 +147,7 @@
     <!-- 远程回放 -->
     <string name="str_search">Search</string>
     <string name="str_start_time">Start Time</string>
+    <string name="str_end_time">End Time</string>
     <string name="str_save_path">Disk</string>
     <string name="str_disk">Disk</string>
     <string name="str_video_play_failed">Failed to playback, please try again.</string>

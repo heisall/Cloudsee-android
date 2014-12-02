@@ -139,6 +139,7 @@
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:paddingLeft="10dp"
+                            android:phoneNumber="true"
                             android:singleLine="true"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
@@ -171,6 +172,7 @@
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:paddingLeft="10dp"
+                            android:phoneNumber="true"
                             android:singleLine="true"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
@@ -203,6 +205,7 @@
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:paddingLeft="10dp"
+                            android:phoneNumber="true"
                             android:singleLine="true"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
@@ -235,6 +238,7 @@
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:paddingLeft="10dp"
+                            android:phoneNumber="true"
                             android:singleLine="true"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
@@ -268,6 +272,7 @@
                             android:background="@null"
                             android:editable="false"
                             android:paddingLeft="10dp"
+                            android:phoneNumber="true"
                             android:singleLine="true"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
@@ -302,6 +307,7 @@
                             android:background="@null"
                             android:editable="false"
                             android:paddingLeft="10dp"
+                            android:phoneNumber="true"
                             android:singleLine="true"
                             android:textColor="@color/black"
                             android:textSize="18sp" />

@@ -6,18 +6,20 @@
     android:background="@color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingLeft="7dp"
-    android:paddingRight="7dp"
-    android:paddingTop="10dp" >
+    android:paddingTop="12dp" >
 
     <RelativeLayout
-        android:id="@+id/funclayout"
+        android:id="@+id/funclayout1"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="7dp" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/dev_settting_function_background"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp" >
 
         <ImageView
-            android:id="@+id/funtion_image"
+            android:id="@+id/funtion_image1"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
@@ -30,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/funtion_image"
+            android:layout_toRightOf="@+id/funtion_image1"
             android:orientation="vertical" >
 
             <TextView
@@ -52,26 +54,22 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <ImageView
+        <Button
             android:id="@+id/function_switch_11"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/morefragment_normal_icon" />
+            android:layout_marginRight="16dp"
+            android:background="@drawable/morefragment_normal_icon"
+            android:clickable="true" />
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/divider_img"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/morefragment" />
 
     <RelativeLayout
         android:id="@+id/rl_tips_01"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
         android:paddingLeft="10dp" >
 
         <TextView
@@ -87,8 +85,12 @@
     <RelativeLayout
         android:id="@+id/funclayout2"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="7dp" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:background="@color/morefragment"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp" >
 
         <ImageView
             android:id="@+id/funtion_image2"
@@ -126,26 +128,22 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <ImageView
+        <Button
             android:id="@+id/function_switch_21"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/morefragment_normal_icon" />
+            android:layout_marginRight="16dp"
+            android:background="@drawable/morefragment_normal_icon"
+            android:clickable="true" />
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/divider_img"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/morefragment" />
 
     <RelativeLayout
         android:id="@+id/rl_tips_02"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
         android:paddingLeft="10dp" >
 
         <TextView
@@ -161,8 +159,12 @@
     <RelativeLayout
         android:id="@+id/funclayout3"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="7dp" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:background="@color/morefragment"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp" >
 
         <ImageView
             android:id="@+id/funtion_image3"
@@ -193,31 +195,25 @@
                 android:id="@+id/funtion_titile_32"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="16dp"
                 android:text="08:00-10:00"
                 android:textColor="@color/userinfocolor"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:visibility="visible" />
         </LinearLayout>
 
-        <ImageView
+        <Button
             android:id="@+id/function_arrow"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/morefragment_next_icon" />
+            android:layout_marginRight="16dp"
+            android:background="@drawable/morefragment_next_icon" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/divider_img"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/morefragment" />
-
     <RelativeLayout
-        android:id="@+id/rl_tips_02"
+        android:id="@+id/rl_tips_03"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp" >

@@ -182,9 +182,11 @@ public final class JVNetConst {
 	public final static byte RC_EX_FlashJpeg = (byte) 0x0a;
 	public final static byte EX_MD_REFRESH = (byte) 0x01;
 	public final static byte EX_MD_SUBMIT = (byte) 0x02;
+	public final static byte EX_ALARM_SUBMIT = (byte) 0x02;
 	public final static byte EX_MD_UPDATE = (byte) 0x03;
 	public final static byte RC_EX_STORAGE = (byte) 0x03;
 	public final static byte RC_EX_MD = (byte) 0x06;
+	public final static byte RC_EX_ALARM = (byte) 0x07;
 	public final static byte RC_EXTEND = (byte) 0x06;
 	public final static byte EX_STORAGE_REFRESH = (byte) 0x01;
 	public final static byte EX_STORAGE_REC_ON = (byte) 0x02;

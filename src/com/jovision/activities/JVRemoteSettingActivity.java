@@ -147,6 +147,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
 				String allStr = obj.toString();
+				MyLog.i("AP,WIFI热点请求--", "AP,WIFI热点请求--" + allStr);
 				try {
 					JSONObject dataObj = new JSONObject(allStr);
 					switch (dataObj.getInt("flag")) {
@@ -277,7 +278,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setText(R.string.str_help1_0);
 		leftBtn.setOnClickListener(mOnClickListener);
-		rightBtn.setVisibility(View.GONE);
+		rightBtn.setVisibility(View.VISIBLE);
 
 		rightBtn.setTextColor(Color.WHITE);
 		rightBtn.setBackgroundDrawable(getResources().getDrawable(

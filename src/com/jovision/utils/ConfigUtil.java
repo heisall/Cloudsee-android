@@ -76,6 +76,7 @@ public class ConfigUtil {
 	private final static String PLAY_VERSION = "[f65b9ac]";
 	private final static String NETWORK_VERSION = "v2.0.76.3.8[private:v2.0.75.13 201401104]";
 
+	private final static String CHINA_JSON = "{\"country\":\"\u4e2d\u56fd\"}";
 	// /**
 	// * 获取本地数据库管理对象的引用
 	// *
@@ -269,15 +270,21 @@ public class ConfigUtil {
 
 	// 中文 1 英文2
 	public static int getServerLanguage() {
-
+		String china = "";
+		try {
+			JSONObject chinaObj = new JSONObject(CHINA_JSON);
+			china = chinaObj.getString("country");
+			MyLog.v("local-country", china);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		if (-1 == lan) {
 			String country = getCountry();
 			MyLog.v("country",
-					"country=" + country + ";contain：中国="
-							+ country.contains("中国") + ";contain：China="
-							+ country.contains("China") + ";contain：china="
+					"flag1-" + country.contains(china) + "-flag2-"
+							+ country.contains("China") + "-flag3-"
 							+ country.contains("china"));
-			if (country.contains("中国") || country.contains("China")
+			if (country.contains(china) || country.contains("China")
 					|| country.contains("china")) {
 				lan = JVConst.LANGUAGE_ZH;
 			} else {

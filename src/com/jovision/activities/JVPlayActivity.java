@@ -3091,10 +3091,13 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (2 == arg2) {
 				// 设备设置
-				// Intent intent = new Intent(JVPlayActivity.this,
-				// DeviceSettingsActivity.class);
-				// intent.putExtra("window", lastClickIndex);
-				// startActivity(intent);
+				if (allowThisFuc(false)) {
+//					 Intent intent = new Intent(JVPlayActivity.this,
+//					 DeviceSettingsActivity.class);
+//					 intent.putExtra("window", lastClickIndex);
+//					 startActivity(intent);					
+				}
+
 
 				// 音频监听
 				// if (allowThisFuc(true)) {

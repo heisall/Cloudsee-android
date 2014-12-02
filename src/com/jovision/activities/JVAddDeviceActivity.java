@@ -71,6 +71,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 				if (0 == broadObj.optInt("timeout")) {
 					String broadDevNum = broadObj.optString("gid")
 							+ broadObj.optInt("no");
+					int netmod = broadObj.optInt("netmod");
 					if (broadDevNum.equalsIgnoreCase(devNumET.getText()
 							.toString())) {// 同一个设备
 						// addDevice.setOnlineState(1);

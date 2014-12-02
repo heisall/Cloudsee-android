@@ -225,8 +225,9 @@ public class JVWaveSetActivity extends BaseActivity {
 					int channelCount = broadObj.optInt("count");
 					int count = channelCount > 0 ? channelCount : 1;
 					String broadDevNum = gid + no;
+					int netmod = broadObj.optInt("netmod");
 					Boolean hasAdded = PlayUtil.hasDev(deviceList, broadDevNum,
-							ip, port);
+							ip, port, netmod);
 					if (1 == broadObj.optInt("netmod")) {// 带wifi设备
 						Device addDev = new Device(ip, port, gid, no,
 								getResources().getString(

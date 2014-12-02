@@ -1182,13 +1182,14 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			JSONObject broadObj;
 			try {
 				broadObj = new JSONObject(obj.toString());
-
+				int netmod = broadObj.optInt("netmod");
 				String broadDevNum = broadObj.optString("gid")
 						+ broadObj.optInt("no");
 				if (broadDevNum.equalsIgnoreCase(ipcDevice.getFullNo())) {// 同一个设备
 					ipcDevice.setOnlineState(1);
 					ipcDevice.setIp(broadObj.optString("ip"));
 					ipcDevice.setPort(broadObj.optInt("port"));
+					ipcDevice.setHasWifi(broadObj.optInt("netmod"));
 				} else {
 					ipcDevice.setIp("");
 					ipcDevice.setPort(0);

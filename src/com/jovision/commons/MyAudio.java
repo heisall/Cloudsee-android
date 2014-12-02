@@ -117,8 +117,7 @@ public class MyAudio {
 		@Override
 		public void run() {
 			int minSize = 2 * AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
-					((16 == bit) ? AudioFormat.ENCODING_PCM_16BIT
-							: AudioFormat.ENCODING_PCM_8BIT));
+					AudioFormat.ENCODING_PCM_16BIT);
 
 			MyLog.w(TAG, "Play E: bit = " + bit + ", fromQueue = "
 					+ isFromQueue);
@@ -127,84 +126,89 @@ public class MyAudio {
 				notify.onNotify(what, ARG1_PLAY, ARG2_START, null);
 			}
 
-			int offset = 0;
-			int length = 0;
-			int left = 0;
+			if (minSize > 128) {
 
-			byte[] data = null;
+				int offset = 0;
+				int length = 0;
+				int left = 0;
 
-			FileInputStream inputStream = null;
+				byte[] data = null;
 
-			if (false == isFromQueue) {
-				try {
-					inputStream = new FileInputStream(new File(TARGET_FILE));
-					data = new byte[TRACK_STEP];
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+				FileInputStream inputStream = null;
 
-			AudioTrack track = new AudioTrack(STREAM_TYPE, SAMPLERATE, CHANNEL,
-					((16 == bit) ? AudioFormat.ENCODING_PCM_16BIT
-							: AudioFormat.ENCODING_PCM_8BIT), minSize * 2,
-					TRACK_MODE);
-
-			if (null != track
-					&& AudioTrack.STATE_INITIALIZED == track.getState()) {
-				track.play();
-
-				while (false == isInterrupted()) {
+				if (false == isFromQueue) {
 					try {
-						if (false == isFromQueue) {
-							if (-1 != (length = inputStream.read(data, offset,
-									left))) {
-								if (offset + length < TRACK_STEP) {
-									offset += length;
-									left = TRACK_STEP - offset;
-									continue;
-								}
-							} else {
-								break;
-							}
-						} else {
-							data = queue.take();
-						}
+						inputStream = new FileInputStream(new File(TARGET_FILE));
+						data = new byte[TRACK_STEP];
 					} catch (Exception e) {
 						e.printStackTrace();
-						break;
 					}
+				}
 
-					if (null != data) {
-						offset = 0;
-						left = data.length;
+				AudioTrack track = new AudioTrack(STREAM_TYPE, SAMPLERATE,
+						CHANNEL, ((16 == bit) ? AudioFormat.ENCODING_PCM_16BIT
+								: AudioFormat.ENCODING_PCM_8BIT), minSize * 2,
+						TRACK_MODE);
 
-						while (left > 0) {
-							length = (left < TRACK_STEP) ? left : TRACK_STEP;
-							track.write(data, offset, length);
+				if (null != track
+						&& AudioTrack.STATE_INITIALIZED == track.getState()) {
+					track.play();
 
-							left -= TRACK_STEP;
-							offset += TRACK_STEP;
+					while (false == isInterrupted()) {
+						try {
+							if (false == isFromQueue) {
+								if (-1 != (length = inputStream.read(data,
+										offset, left))) {
+									if (offset + length < TRACK_STEP) {
+										offset += length;
+										left = TRACK_STEP - offset;
+										continue;
+									}
+								} else {
+									break;
+								}
+							} else {
+								data = queue.take();
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+							break;
 						}
+
+						if (null != data) {
+							offset = 0;
+							left = data.length;
+
+							while (left > 0) {
+								length = (left < TRACK_STEP) ? left
+										: TRACK_STEP;
+								track.write(data, offset, length);
+
+								left -= TRACK_STEP;
+								offset += TRACK_STEP;
+							}
+						}
+
+						length = 0;
+						offset = 0;
+						left = 0;
 					}
 
-					length = 0;
-					offset = 0;
-					left = 0;
+					track.stop();
+					track.release();
+
 				}
 
-				track.stop();
-				track.release();
+				track = null;
 
-			}
-
-			track = null;
-
-			if (null != inputStream) {
-				try {
-					inputStream.close();
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (null != inputStream) {
+					try {
+						inputStream.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
+
 			}
 
 			if (null != notify) {

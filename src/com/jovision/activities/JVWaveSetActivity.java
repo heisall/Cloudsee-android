@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -19,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -411,6 +413,13 @@ public class JVWaveSetActivity extends BaseActivity {
 		if (showIndex >= 0 && showIndex < stepSoundEN.length) {
 			playSoundStep(showIndex);
 		}
+		
+		if(2 == showIndex){
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.showSoftInput(desWifiPwd,InputMethodManager.SHOW_FORCED);
+			imm.hideSoftInputFromWindow(desWifiPwd.getWindowToken(), 0); //强制隐藏键盘
+		}
+		
 	}
 
 	private void backMethod() {

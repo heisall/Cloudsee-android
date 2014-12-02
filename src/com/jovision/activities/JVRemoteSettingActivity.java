@@ -278,7 +278,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setText(R.string.str_help1_0);
 		leftBtn.setOnClickListener(mOnClickListener);
-		rightBtn.setVisibility(View.GONE);
+		rightBtn.setVisibility(View.VISIBLE);
 
 		rightBtn.setTextColor(Color.WHITE);
 		rightBtn.setBackgroundDrawable(getResources().getDrawable(

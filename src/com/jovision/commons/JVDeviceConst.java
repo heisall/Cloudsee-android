@@ -27,6 +27,8 @@ public class JVDeviceConst {
 	/* JK(JSON KEY) */
 	/** pv = 1.0 */
 	public static final String PROTO_VERSION = "1.0";
+	/** pv = 2.0 */
+	public static final String PROTO_VERSION_2 = "2.0";
 	/** mid */
 	public static final String JK_MESSAGE_ID = "mid";
 	/** mt */

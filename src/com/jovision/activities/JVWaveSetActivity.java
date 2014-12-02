@@ -55,6 +55,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	protected static final int BROAD_DEVICE = 0xA3;// 广播到一个设备
 	protected static final int BROAD_FINISHED = 0xA4;// 广播回调完毕
 	public static final int ADD_DEVICE = 0xA5;// 添加设备
+	public static final int SEND_WAVE = 0xA6;// 发送声波吗命令
 
 	String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3" };
 	String[] stepSoundEN = { "voi_info_en.mp3", "voi_next_en.mp3",
@@ -103,6 +104,9 @@ public class JVWaveSetActivity extends BaseActivity {
 	protected MediaPlayer mediaPlayer = new MediaPlayer();
 
 	// 声波
+	protected int animTime = 1000;
+	protected int sendCounts = 0;
+	protected String params = "";
 	protected MyAudio playAudio;
 	protected static int audioSampleRate = 48000;
 	protected static int playBytes = 16;
@@ -115,7 +119,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case SEND_WAVE_FINISHED: {// 声波发送完毕
-
+			sendCounts = 0;
 			nextBtn3.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.blue_bg));
 			nextBtn3.setClickable(true);
@@ -148,60 +152,54 @@ public class JVWaveSetActivity extends BaseActivity {
 			alertAddDialog(arg1);
 			break;
 		}
+		case SEND_WAVE: {// 发送声波命令
+			waveScaleAnim.start();
+			Jni.genVoice(params);
+			break;
+		}
 
 		}
-	}
-
-	/**
-	 * 弹搜出来几个设备界面
-	 * */
-	public void alertAddDialog(final int index) {
-		// 提示对话框
-		AlertDialog.Builder builder = new Builder(this);
-		builder.setTitle(R.string.tips)
-				.setMessage(
-						getResources().getString(R.string.wave_add_dev)
-								+ broadList.get(index).getFullNo())
-				.setPositiveButton(R.string.sure,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								AddDevTask task = new AddDevTask();
-								String[] params = new String[3];
-								params[0] = String.valueOf(index);
-								task.execute(params);
-							}
-						})
-				.setNegativeButton(R.string.cancel,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								dialog.dismiss();
-							}
-						}).create().show();
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case PLAY_AUDIO_WHAT: {
-			MyLog.v(TAG, "PLAY_AUDIO_WHAT:what=" + what + ",arg1=" + arg1
-					+ ",arg2=" + arg2 + ",obj=" + obj);
+			switch (arg2) {
+			case MyAudio.ARG2_START: {
+				MyLog.v(TAG, "ARG2_START");
+				break;
+			}
+			case MyAudio.ARG2_FINISH: {
+				MyLog.v(TAG, "ARG2_FINISH");
+				break;
+			}
+			case MyAudio.ARG2_WAVE_FINISH: {// 声波播放完毕
+				MyLog.v(TAG, "ARG2_WAVE_FINISH");
+				sendCounts++;
+				if (sendCounts < 3) {
+					handler.sendMessageDelayed(
+							handler.obtainMessage(SEND_WAVE), 200);
+				} else {
+					handler.sendMessageDelayed(
+							handler.obtainMessage(SEND_WAVE_FINISHED), 200);
+				}
+				break;
+			}
+			}
 			break;
 		}
 		// 获取到声波音频
 		case Consts.CALL_GEN_VOICE: {
-			MyLog.i(TAG, "CALL_GEN_VOICE:what=" + what + ";arg1=" + arg1
-					+ ";arg2=" + arg2 + ";obj=" + obj);
-			if (null != obj && null != playAudio) {
-				byte[] data = (byte[]) obj;
+			if (1 == arg2) {// 数据
+				if (null != obj && null != playAudio) {
+					byte[] data = (byte[]) obj;
+					playAudio.put(data);
+				}
+			} else if (0 == arg2) {// 结束
+				byte[] data = { 'F', 'i', 'n' };
 				playAudio.put(data);
 			}
-
 			break;
 		}
 		// 广播回调
@@ -337,7 +335,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		// animation.setFillAfter(boolean);//动画执行完后是否停留在执行完的状态
 		// animation.setStartOffset(long startOffset);//执行前的等待时间
 		waveAlphaAnim = new AlphaAnimation(0.1f, 1.0f);
-		waveAlphaAnim.setDuration(1000);// 设置动画持续时间
+		waveAlphaAnim.setDuration(animTime);// 设置动画持续时间
 		waveAlphaAnim.setRepeatCount(3);// 设置重复次数
 		waveAlphaAnim.setStartOffset(200);// 执行前的等待时间
 		waveImage.setAnimation(waveScaleAnim);
@@ -466,17 +464,16 @@ public class JVWaveSetActivity extends BaseActivity {
 
 				break;
 			case R.id.press_sendwave:
-				playAudio.startPlay(playBytes, true);
 				if (null != mediaPlayer) {
 					mediaPlayer.stop();
 				}
-				/** 开始动画 */
-				waveScaleAnim.startNow();
-				final String params = desWifiName.getText() + ";"
-						+ desWifiPwd.getText();
+				playAudio.startPlay(playBytes, true);
+				waveScaleAnim.start();
+				params = desWifiName.getText() + ";" + desWifiPwd.getText();
 				MyLog.v(TAG, "params:" + params);
+				Jni.genVoice(params);
 
-				new SendWaveThread(params).start();
+				// new SendWaveThread(params).start();
 				break;
 			case R.id.showdemo:
 				currentStep = 3;
@@ -502,30 +499,30 @@ public class JVWaveSetActivity extends BaseActivity {
 		}
 	}
 
-	// 发送声波线程
-	private class SendWaveThread extends Thread {
-		String params = "";
-
-		SendWaveThread(String param) {
-			params = param;
-		}
-
-		@Override
-		public void run() {
-			super.run();
-			try {
-				Jni.genVoice(params);
-				Thread.sleep(1000);
-				Jni.genVoice(params);
-				Thread.sleep(1000);
-				Jni.genVoice(params);
-				handler.sendMessage(handler.obtainMessage(SEND_WAVE_FINISHED));
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-
-	};
+	// // 发送声波线程
+	// private class SendWaveThread1 extends Thread {
+	// String params = "";
+	//
+	// SendWaveThread(String param) {
+	// params = param;
+	// }
+	//
+	// @Override
+	// public void run() {
+	// super.run();
+	// try {
+	// Jni.genVoice(params);
+	// Thread.sleep(1000);
+	// Jni.genVoice(params);
+	// Thread.sleep(1000);
+	// Jni.genVoice(params);
+	// handler.sendMessage(handler.obtainMessage(SEND_WAVE_FINISHED));
+	// } catch (InterruptedException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	//
+	// };
 
 	@Override
 	protected void freeMe() {
@@ -645,6 +642,39 @@ public class JVWaveSetActivity extends BaseActivity {
 		protected void onProgressUpdate(Integer... values) {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
+	}
+
+	/**
+	 * 弹出添加设备界面
+	 * */
+	public void alertAddDialog(final int index) {
+		// 提示对话框
+		AlertDialog.Builder builder = new Builder(this);
+		builder.setTitle(R.string.tips)
+				.setMessage(
+						getResources().getString(R.string.wave_add_dev)
+								+ broadList.get(index).getFullNo())
+				.setPositiveButton(R.string.sure,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								AddDevTask task = new AddDevTask();
+								String[] params = new String[3];
+								params[0] = String.valueOf(index);
+								task.execute(params);
+							}
+						})
+				.setNegativeButton(R.string.cancel,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.dismiss();
+							}
+						}).create().show();
 	}
 
 }

@@ -38,6 +38,7 @@ public class MyAudio {
 
 	public static final int ARG2_START = 0x01;
 	public static final int ARG2_FINISH = 0x02;
+	public static final int ARG2_WAVE_FINISH = 0x03;
 
 	private Play play;
 	private Record record;
@@ -177,6 +178,18 @@ public class MyAudio {
 						}
 
 						if (null != data) {
+
+							if (3 == data.length) {
+								if ('F' == data[0] && 'i' == data[1]
+										&& 'n' == data[2]) {
+									if (null != notify) {
+										notify.onNotify(what, ARG1_PLAY,
+												ARG2_WAVE_FINISH, null);
+									}
+									continue;
+								}
+							}
+
 							offset = 0;
 							left = data.length;
 

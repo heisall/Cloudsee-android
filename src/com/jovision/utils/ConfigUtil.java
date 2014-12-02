@@ -274,8 +274,8 @@ public class ConfigUtil {
 		try {
 			JSONObject chinaObj = new JSONObject(CHINA_JSON);
 			china = chinaObj.getString("country");
+			MyLog.v("local-country",china);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (-1 == lan) {

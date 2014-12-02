@@ -526,6 +526,8 @@
     <string name="prepare_step1">用顶针轻插配置孔\n直到听到嘀的一声</string>
     <string name="prepare_step2">请输入摄像头要连接的无线网络密码</string>
     <string name="prepare_step3">观看操作演示</string>
+    <string name="show_demo">操作演示</string>
+    <string name="search_list">搜索列表</string>
     <string name="prepare_step4">点击发送声波</string>
     <string name="prepare_step5">请将手机靠近设备，点击声波发送按钮，\n配置设备</string>
     <string name="wave_add_dev">确定添加设备</string>

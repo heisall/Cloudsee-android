@@ -274,7 +274,7 @@ public class ConfigUtil {
 		try {
 			JSONObject chinaObj = new JSONObject(CHINA_JSON);
 			china = chinaObj.getString("country");
-			MyLog.v("local-country",china);
+			MyLog.v("local-country", china);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

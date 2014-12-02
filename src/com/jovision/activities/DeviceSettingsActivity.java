@@ -6,10 +6,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
+import android.app.SearchManager.OnCancelListener;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -18,58 +25,53 @@ import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
 
-public class DeviceSettingsActivity extends BaseActivity {
+public class DeviceSettingsActivity extends BaseActivity implements
+		DeviceSettingsMainFragment.OnFuncEnabledListener, OnClickListener {
 	protected boolean bConnectedFlag = true;
 	private ProgressDialog waitingDialog;
 	private DeviceSettingsMainFragment deviceSettingsMainFragment;
 	private int fragment_tag = 0;// 0，设置主界面； 1设置时间
 	private int alarmEnable = -1;
 	private int mdEnable = -1;
+	private int window = 0;
+	private OnMainListener mainListener;
+	private Button backBtn;
+	private Button rightBtn;
+	public TextView titleTv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.dev_settings_main_fragment);
+		setContentView(R.layout.dev_settings_main);
 		Bundle extras = getIntent().getExtras();
 		if (null == extras) {
 			finish();
 			return;
 		}
+		InitViews();
 		if (null == waitingDialog) {
 			waitingDialog = new ProgressDialog(this);
-			// waitingDialog.setCancelable(false);
+			waitingDialog.setCancelable(false);
 			waitingDialog
 					.setMessage(getResources().getString(R.string.waiting));
 			waitingDialog.show();
 			// 获取当前设置
 			// 获取设备参数 -> flag = FLAG_GET_PARAM, 分析 msg?
-			int window = extras.getInt("window");
+			window = extras.getInt("window");
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 					Consts.TYPE_GET_PARAM, null);
 		}
 
-		// Check that the activity is using the layout version with
-		// the fragment_container FrameLayout
-		// if (findViewById(R.id.fragment_container) != null) {
-		//
-		// // However, if we're being restored from a previous state,
-		// // then we don't need to do anything and should return or else
-		// // we could end up with overlapping fragments.
-		// if (savedInstanceState != null) {
-		// return;
-		// }
-		// deviceSettingsMainFragment = new DeviceSettingsMainFragment();
-		// Bundle bundle1 = new Bundle();
-		// bundle1.putString("ALARM_TIME", "08:00-10:00");
-		// deviceSettingsMainFragment.setArguments(bundle1);
-		// FragmentManager fm = getSupportFragmentManager();
-		// FragmentTransaction ft = getSupportFragmentManager()
-		// .beginTransaction();
-		// ft.add(R.id.fragment_container, deviceSettingsMainFragment)
-		// .commitAllowingStateLoss();
-		// fragment_tag = 0;
-		// }
+	}
+
+	private void InitViews() {
+		backBtn = (Button) findViewById(R.id.btn_left);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		rightBtn.setVisibility(View.GONE);
+		titleTv = (TextView) findViewById(R.id.currentmenu);
+		backBtn.setOnClickListener(this);
+		titleTv.setText(R.string.str_audio_monitor);
 	}
 
 	@Override
@@ -143,8 +145,8 @@ public class DeviceSettingsActivity extends BaseActivity {
 				MyLog.v(TAG, "文本数据--" + allStr);
 				try {
 					JSONObject dataObj = new JSONObject(allStr);
-
-					switch (dataObj.getInt("packet_type")) {
+					int packet_type = dataObj.getInt("packet_type");
+					switch (packet_type) {
 					case JVNetConst.RC_GETPARAM:
 						HashMap<String, String> map = ConfigUtil
 								.genMsgMap(dataObj.getString("msg"));
@@ -198,6 +200,21 @@ public class DeviceSettingsActivity extends BaseActivity {
 									.commitAllowingStateLoss();
 							fragment_tag = 0;
 						}
+						break;// end of JVNetConst.RC_GETPARAM
+					case JVNetConst.RC_EXTEND:
+						int packet_subtype = dataObj.getInt("packet_count");
+						int ex_type = dataObj.optInt("extend_type");
+						if (packet_subtype == JVNetConst.RC_EX_MD
+								&& ex_type == JVNetConst.EX_MD_SUBMIT) {
+							// 移动侦测 ok
+							mainListener.onMainAction(packet_type,
+									packet_subtype, ex_type);
+						} else if (packet_subtype == JVNetConst.RC_EX_ALARM
+								&& ex_type == JVNetConst.EX_ALARM_SUBMIT) {
+							// 安全防护ok
+							mainListener.onMainAction(packet_type,
+									packet_subtype, ex_type);
+						}
 						break;
 					default:
 						break;
@@ -245,4 +262,54 @@ public class DeviceSettingsActivity extends BaseActivity {
 
 	}
 
+	@Override
+	public void OnFuncEnabled(int func_index, int enabled) {
+		// TODO Auto-generated method stub
+		waitingDialog.show();
+		switch (func_index) {
+		case 1:// 安全防护
+			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
+					0x02,
+					String.format(Consts.FORMATTER_SET_ALARM_ONLY, enabled));
+			break;
+		case 2:// 移动侦测
+			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x06,
+					0x02, String.format(Consts.FORMATTER_SET_MDENABLE, enabled));
+			break;
+		case 3:// 报警时间段
+			break;
+		default:
+			break;
+		}
+	}
+
+	// 绑定接口
+	@Override
+	public void onAttachFragment(Fragment fragment) {
+		try {
+			mainListener = (OnMainListener) fragment;
+		} catch (Exception e) {
+			throw new ClassCastException(this.toString()
+					+ " must implement OnMainListener");
+		}
+		super.onAttachFragment(fragment);
+	}
+
+	public interface OnMainListener {
+		public void onMainAction(int packet_type, int packet_subtype,
+				int ex_type);
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.btn_left:
+			finish();
+			break;
+
+		default:
+			break;
+		}
+	}
 }

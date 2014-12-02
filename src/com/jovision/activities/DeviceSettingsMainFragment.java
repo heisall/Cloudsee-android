@@ -12,12 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
+import com.jovision.commons.JVNetConst;
 
 public class DeviceSettingsMainFragment extends Fragment implements
-		OnClickListener {
+		OnClickListener, OnMainListener {
 
 	private View rootView;// 缓存Fragment view
 
@@ -26,8 +31,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	}
 
 	private OnFuncEnabledListener mListener;
-	private ImageView img_func_swalert;
-	private ImageView img_func_swmotion;
+	private Button func_swalert;
+	private Button func_swmotion;
 	private int func_alert_enabled = -1;
 	private int func_motion_enabled = -1;
 	private String strParam = "";
@@ -35,6 +40,9 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private String startTime = "", endTime = "";
 	private String startHour = "", startMin = "";
 	private String endHour = "", endMin = "";
+	private RelativeLayout functionlayout1, functionlayout2, functionlayout3;
+	private RelativeLayout functiontips1, functiontips2, functiontips3;
+	private TextView alarmTime0TextView;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -55,6 +63,31 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			rootView = inflater.inflate(R.layout.dev_settings_main_fragment,
 					container, false);
 		}
+
+		ViewGroup parent = (ViewGroup) rootView.getParent();
+		if (parent != null) {
+			parent.removeView(rootView);
+		}
+		func_swalert = (Button) rootView.findViewById(R.id.function_switch_11);
+		func_swmotion = (Button) rootView.findViewById(R.id.function_switch_21);
+		functionlayout1 = (RelativeLayout) rootView
+				.findViewById(R.id.funclayout1);
+		functionlayout2 = (RelativeLayout) rootView
+				.findViewById(R.id.funclayout2);
+		functionlayout3 = (RelativeLayout) rootView
+				.findViewById(R.id.funclayout3);
+
+		functiontips1 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_01);
+		functiontips2 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_02);
+		functiontips3 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_03);
+
+		alarmTime0TextView = (TextView) rootView
+				.findViewById(R.id.funtion_titile_32);
+
+		func_swalert.setOnClickListener(this);
+		func_swmotion.setOnClickListener(this);
+		functionlayout3.setOnClickListener(this);
+
 		Bundle data = getArguments();// 获得从activity中传递过来的值
 		strParam = data.getString("KEY_PARAM");
 
@@ -86,37 +119,58 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				}
 				endHour = strs_e[0];
 				endMin = strs_e[1];
+
+				startTime = String.format("%s:%s", startHour, startMin);
+				endTime = String.format("%s:%s", endHour, endMin);
+
+				alarmTime0TextView.setText(startTime + " - " + endTime);
 			} else {
 				startTime = "";
 			}
 
 			switch (func_alert_enabled) {
 			case 0:
-
+				func_swalert
+						.setBackgroundResource(R.drawable.morefragment_normal_icon);
 				break;
 			case 1:
+				func_swalert
+						.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				break;
 			case -1:
+				functionlayout1.setVisibility(View.GONE);
+				functiontips1.setVisibility(View.GONE);
 				break;
 			default:
 				break;
 			}
+
+			switch (func_motion_enabled) {
+			case 0:
+				func_swmotion
+						.setBackgroundResource(R.drawable.morefragment_normal_icon);
+				break;
+			case 1:
+				func_swmotion
+						.setBackgroundResource(R.drawable.morefragment_selector_icon);
+				break;
+			case -1:
+				functionlayout2.setVisibility(View.GONE);
+				functiontips2.setVisibility(View.GONE);
+				break;
+			default:
+				break;
+			}
+
+			if (alarmTime0.equals("") || startTime.equals("")) {
+				functionlayout3.setVisibility(View.GONE);
+				functiontips3.setVisibility(View.GONE);
+			}
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ViewGroup parent = (ViewGroup) rootView.getParent();
-		if (parent != null) {
-			parent.removeView(rootView);
-		}
-		img_func_swalert = (ImageView) rootView
-				.findViewById(R.id.function_switch_11);
-		img_func_swmotion = (ImageView) rootView
-				.findViewById(R.id.function_switch_21);
-
-		img_func_swalert.setOnClickListener(this);
-		img_func_swmotion.setOnClickListener(this);
-
 		return rootView;
 	}
 
@@ -146,6 +200,57 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				// 隐藏
 			}
 			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onMainAction(int packet_type, int packet_subtype, int ex_type) {
+		// TODO Auto-generated method stub
+		switch (packet_type) {
+		case JVNetConst.RC_EXTEND: {
+			switch (packet_subtype) {
+			case JVNetConst.RC_EX_MD:
+				if (ex_type == JVNetConst.EX_MD_SUBMIT) {
+					if (func_motion_enabled == 1) {
+						// 打开--->关闭
+						func_motion_enabled = 0;
+						func_swmotion
+								.setBackgroundResource(R.drawable.morefragment_normal_icon);
+					} else if (func_motion_enabled == 0) {
+						// 关闭--->打开
+						func_motion_enabled = 1;
+						func_swmotion
+								.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					} else {
+						// 隐藏
+					}
+				}
+				break;
+			case JVNetConst.RC_EX_ALARM:
+				if (ex_type == JVNetConst.EX_ALARM_SUBMIT) {
+					if (func_alert_enabled == 1) {
+						// 打开--->关闭
+						func_alert_enabled = 0;
+						func_swalert
+								.setBackgroundResource(R.drawable.morefragment_normal_icon);
+					} else if (func_alert_enabled == 0) {
+						// 关闭--->打开
+						func_alert_enabled = 1;
+						func_swalert
+								.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					} else {
+						// 隐藏
+					}
+				}
+				break;
+			default:
+				break;
+			}
+		}
+			break;
+
 		default:
 			break;
 		}

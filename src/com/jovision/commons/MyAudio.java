@@ -117,7 +117,7 @@ public class MyAudio {
 
 		@Override
 		public void run() {
-			int minSize = 2 * AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
+			int minSize = AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
 					AudioFormat.ENCODING_PCM_16BIT);
 
 			MyLog.w(TAG, "Play E: bit = " + bit + ", sampleRate = "
@@ -149,7 +149,7 @@ public class MyAudio {
 
 				AudioTrack track = new AudioTrack(STREAM_TYPE, SAMPLERATE,
 						CHANNEL, ((16 == bit) ? AudioFormat.ENCODING_PCM_16BIT
-								: AudioFormat.ENCODING_PCM_8BIT), minSize * 2,
+								: AudioFormat.ENCODING_PCM_8BIT), minSize,
 						TRACK_MODE);
 
 				if (null != track
@@ -192,15 +192,8 @@ public class MyAudio {
 
 							offset = 0;
 							left = data.length;
-
-							while (left > 0) {
-								length = (left < TRACK_STEP) ? left
-										: TRACK_STEP;
-								track.write(data, offset, length);
-
-								left -= TRACK_STEP;
-								offset += TRACK_STEP;
-							}
+							
+							track.write(data, offset, left);
 						}
 
 						length = 0;
@@ -249,7 +242,7 @@ public class MyAudio {
 
 		@Override
 		public void run() {
-			int minSize = 2 * AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
+			int minSize = AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
 					AudioFormat.ENCODING_PCM_16BIT);
 
 			MyLog.w(TAG, "Record E: type = " + type + ", bit = " + bit

@@ -147,6 +147,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
 				String allStr = obj.toString();
+				MyLog.i("AP,WIFI热点请求--", "AP,WIFI热点请求--" + allStr);
 				try {
 					JSONObject dataObj = new JSONObject(allStr);
 					switch (dataObj.getInt("flag")) {

@@ -413,13 +413,13 @@ public class JVWaveSetActivity extends BaseActivity {
 		if (showIndex >= 0 && showIndex < stepSoundEN.length) {
 			playSoundStep(showIndex);
 		}
-		
-		if(2 == showIndex){
+
+		if (2 == showIndex) {
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.showSoftInput(desWifiPwd,InputMethodManager.SHOW_FORCED);
-			imm.hideSoftInputFromWindow(desWifiPwd.getWindowToken(), 0); //强制隐藏键盘
+			imm.showSoftInput(desWifiPwd, InputMethodManager.SHOW_FORCED);
+			imm.hideSoftInputFromWindow(desWifiPwd.getWindowToken(), 0); // 强制隐藏键盘
 		}
-		
+
 	}
 
 	private void backMethod() {

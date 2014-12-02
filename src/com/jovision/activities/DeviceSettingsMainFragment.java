@@ -96,7 +96,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			func_motion_enabled = paramObject.optInt("bMDEnable", -1);
 			alarmTime0 = paramObject.optString("alarmTime0", "");
 			Pattern pattern = Pattern.compile("-");
-			String[] strs = pattern.split("alarmTime0");
+			String[] strs = pattern.split(alarmTime0);
 			for (int i = 0; i < strs.length; i++) {
 				System.out.println(strs[i]);
 			}
@@ -104,7 +104,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				startTime = strs[0];
 				endTime = strs[1];
 				Pattern pattern_s = Pattern.compile(":");
-				String[] strs_s = pattern.split("startTime");
+				String[] strs_s = pattern_s.split(startTime);
 				for (int i = 0; i < strs_s.length; i++) {
 					System.out.println(strs_s[i]);
 				}
@@ -112,7 +112,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				startMin = strs_s[1];
 
 				Pattern pattern_e = Pattern.compile(":");
-				String[] strs_e = pattern.split("endTime");
+				String[] strs_e = pattern_e.split(endTime);
 				for (int i = 0; i < strs_e.length; i++) {
 					System.out.println(strs_e[i]);
 				}

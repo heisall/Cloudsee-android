@@ -18,6 +18,8 @@ import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 
+//JK_MESSAGE_ID和JK_SESSION_ID  库自己添加，应用层不用传。
+
 public class DeviceUtil {
 
 	/**
@@ -583,6 +585,80 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);// lpt
 			jObj.put(JVDeviceConst.JK_USERNAME, loginUserName);
+			jObj.put(JVDeviceConst.JK_DEVICE_GUID, device.getFullNo());
+			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME, device.getUser());
+			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD, device.getPwd());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		MyLog.v("addDevice---request", jObj.toString());
+
+		// 返回参数示例
+		// {"mt":2016,"rt":0,"mid":1}
+		// 接收返回数据
+		byte[] resultStr = new byte[512];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("addDevice---result", result);
+			// String result = "{\"mt\":2016,\"rt\":0,\"mid\":1}";
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);//
+						// (USER_BIND_DEVICE_RESPONSE
+						// 2016)
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// (0-正确,其他为错误码MY_SQL_ERROR,FAILD,PASSWORD_ERROR)
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+						// int drf =
+						// temObj.optInt(JVDeviceConst.JK_DEVICE_RESET_FLAG);
+						res = rt;
+						// res[1] = drf;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		Device dev = null;
+		if (0 == res) {
+			dev = getUserDeviceDetail(device, loginUserName);
+		}
+		return dev;
+	}
+
+	/**
+	 * 用户绑定设备业务
+	 */
+	public static Device addDevice2(String loginUserName, Device device) {
+		int res = -1;
+
+		// 请求参数示例
+		/**
+		 * {"dvpassword":"","dvusername":"admin","lpt":1,"pv":"2.0",
+		 * "mt":2015,"dguid":"S230829711","mid":12,"sid":"sidtest","dcs":2}
+		 */
+		// JK_MESSAGE_TYPE : <int> , (USER_BIND_DEVICE 2015)
+		// JK_PROTO_VERSION : <string> , (2.0)
+		// JK_LOGIC_PROCESS_TYPE : <int> , (DEV_INFO_PRO 1)
+		// JK_DEVICE_GUID : <string> ,
+		// JK_DEVICE_VIDEO_USERNAME: <string> ,
+		// JK_DEVICE_VIDEO_PASSWORD: <string> , (base64加密)
+		// JK_DEVICE_CHANNEL_SUM : <int> , (通道数)
+
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.USER_BIND_DEVICE);// mt
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION_2);// pv 2.0
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.DEV_INFO_PRO);// lpt
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, device.getFullNo());
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME, device.getUser());
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD, device.getPwd());

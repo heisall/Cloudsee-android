@@ -21,7 +21,6 @@ import android.os.Build;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -744,40 +743,6 @@ public class JVPlayActivity extends PlayActivity implements
 						break;
 					}
 					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
-						break;
-					case Consts.FLAG_GET_MD_STATE:// 慧通获取移动侦测
-						String motionJSON = dataObj.getString("msg");
-						HashMap<String, String> motionMap = ConfigUtil
-								.genMsgMap(motionJSON);
-						if (null != motionMap.get("bMDEnable")) {
-							int bMDEnable = Integer.valueOf(motionMap
-									.get("bMDEnable"));
-							if (bMDEnable == 0) {
-								ht_motion
-										.setBackgroundResource(R.drawable.ht_motiondetec_close);
-								Consts.MOTION_DETECTION_FLAG = false;
-							} else if (bMDEnable == 1) {
-								Consts.MOTION_DETECTION_FLAG = true;
-								ht_motion
-										.setBackgroundResource(R.drawable.ht_motiondetec_open);
-							}
-						}
-						break;
-					case Consts.FLAG_CAPTURE_FLASH:// 慧通抓拍请求
-						String captureJSON = dataObj.getString("result");
-						Log.i("TAG", captureJSON);
-						// if (null!=captureMap.get("result")) {
-						int result = Integer.valueOf(captureJSON);
-						if (result == Consts.RESULT_SUCCESS) {
-							Log.i("TAG", "抓拍成功");
-						}
-						if (result == Consts.RESULT_NO_FILENAME) {
-							Log.i("TAG", "抓拍路径错误");
-						}
-						if (result == Consts.RESULT_OPEN_FAILED) {
-							Log.i("TAG", "抓拍失败");
-						}
-						// }
 						break;
 					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
 						MyLog.i(TAG, "JVN_STREAM_INFO:TEXT_DATA: " + what

@@ -51,7 +51,7 @@ public class JVDemoActivity extends BaseActivity {
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setText(R.string.demo);
 		rightBtn.setOnClickListener(myOnClickListener);
-		rightBtn.setBackgroundResource(R.drawable.demo_switch_icon);
+		// rightBtn.setBackgroundResource(R.drawable.demo_switch_icon);
 		leftBtn.setOnClickListener(myOnClickListener);
 
 		refreshableView = (RefreshableView) findViewById(R.id.demo_refreshable_view);

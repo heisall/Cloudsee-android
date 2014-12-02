@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -19,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -57,6 +59,8 @@ public class JVWaveSetActivity extends BaseActivity {
 	String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3" };
 	String[] stepSoundEN = { "voi_info_en.mp3", "voi_next_en.mp3",
 			"voi_send_en.mp3" };
+	int[] titleID = { R.string.prepare_step, R.string.prepare_set,
+			R.string.wave_set, R.string.show_demo, R.string.search_list };
 
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private ArrayList<Device> broadList = new ArrayList<Device>();
@@ -111,10 +115,11 @@ public class JVWaveSetActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case SEND_WAVE_FINISHED: {// 声波发送完毕
-			waveScaleAnim.cancel();
+
 			nextBtn3.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.blue_bg));
 			nextBtn3.setClickable(true);
+			waveScaleAnim.cancel();
 			break;
 		}
 		case BROAD_FINISHED: {// 广播超时
@@ -219,7 +224,7 @@ public class JVWaveSetActivity extends BaseActivity {
 					int no = broadObj.optInt("no");
 					String ip = broadObj.optString("ip");
 					int port = broadObj.optInt("port");
-					int channelCount = broadObj.optInt("port");
+					int channelCount = broadObj.optInt("count");
 					int count = channelCount > 0 ? channelCount : 1;
 					String broadDevNum = gid + no;
 					Boolean hasAdded = PlayUtil.hasDev(deviceList, broadDevNum,
@@ -333,7 +338,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		// animation.setStartOffset(long startOffset);//执行前的等待时间
 		waveAlphaAnim = new AlphaAnimation(0.1f, 1.0f);
 		waveAlphaAnim.setDuration(1000);// 设置动画持续时间
-		waveAlphaAnim.setRepeatCount(99999);// 设置重复次数
+		waveAlphaAnim.setRepeatCount(3);// 设置重复次数
 		waveAlphaAnim.setStartOffset(200);// 执行前的等待时间
 		waveImage.setAnimation(waveScaleAnim);
 		showLayoutAtIndex(currentStep);
@@ -374,6 +379,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		if (showIndex < 0) {
 			JVWaveSetActivity.this.finish();
 		} else {
+			currentMenu.setText(titleID[showIndex]);
 			int length = layoutList.size();
 
 			for (int i = 0; i < length; i++) {
@@ -407,6 +413,13 @@ public class JVWaveSetActivity extends BaseActivity {
 		if (showIndex >= 0 && showIndex < stepSoundEN.length) {
 			playSoundStep(showIndex);
 		}
+		
+		if(2 == showIndex){
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.showSoftInput(desWifiPwd,InputMethodManager.SHOW_FORCED);
+			imm.hideSoftInputFromWindow(desWifiPwd.getWindowToken(), 0); //强制隐藏键盘
+		}
+		
 	}
 
 	private void backMethod() {

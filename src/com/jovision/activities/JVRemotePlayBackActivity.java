@@ -41,6 +41,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	private int audioByte;// 音频监听比特率
 	private boolean is05 = true;
 	private boolean isRemotePause = false;
+	private boolean bFromAlarm = false;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -269,6 +270,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			acBuffStr = intent.getStringExtra("acBuffStr");
 			audioByte = intent.getIntExtra("AudioByte", 0);
 			is05 = intent.getBooleanExtra("is05", false);
+			bFromAlarm = intent.getBooleanExtra("bFromAlarm", false);
 		}
 
 		if (!is05) {
@@ -354,7 +356,12 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			} else if (0 == arg2) {// 云台
 				showTextToast(R.string.str_forbidden_operation);
 			} else if (1 == arg2) {// 远程回放
-				backMethod();
+				if (bFromAlarm) {
+					showTextToast(R.string.str_forbidden_operation);
+				} else {
+					backMethod();
+				}
+
 			}
 			functionListAdapter.notifyDataSetChanged();
 		}

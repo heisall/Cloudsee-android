@@ -179,10 +179,10 @@ public class JVWaveSetActivity extends BaseActivity {
 				sendCounts++;
 				if (sendCounts < 3) {
 					handler.sendMessageDelayed(
-							handler.obtainMessage(SEND_WAVE), 300);
+							handler.obtainMessage(SEND_WAVE), 500);
 				} else {
 					handler.sendMessageDelayed(
-							handler.obtainMessage(SEND_WAVE_FINISHED), 300);
+							handler.obtainMessage(SEND_WAVE_FINISHED), 500);
 				}
 				break;
 			}

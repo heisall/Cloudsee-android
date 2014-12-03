@@ -72,7 +72,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 	protected RelativeLayout varvoice_bg;
 	protected ImageView varvoice;
-	protected LinearLayout playBackBar;// 远程回放工具条
+	protected RelativeLayout playBackBar;// 远程回放工具条
 	protected SeekBar progressBar;// 远程回放进度
 	protected Button playBackPause;// 远程回放暂停继续播
 	protected Button voiceListener;// 音频监听
@@ -232,7 +232,7 @@ public abstract class PlayActivity extends BaseActivity {
 		viewPager = (MyViewPager) findViewById(R.id.play_viewpager);
 		playSurface = (SurfaceView) findViewById(R.id.remotesurfaceview);
 		linkMode = (TextView) findViewById(R.id.linkstate);
-		playBackBar = (LinearLayout) findViewById(R.id.playbackbar);
+		playBackBar = (RelativeLayout) findViewById(R.id.playbackbar);
 		progressBar = (SeekBar) findViewById(R.id.playback_seekback);
 		playBackPause = (Button) findViewById(R.id.playbackpause);
 		voiceListener = (Button) findViewById(R.id.voice);

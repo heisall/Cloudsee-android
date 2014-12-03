@@ -396,4 +396,10 @@ public class Consts {
 	 */
 	public static final int THUMBNAIL_WIDTH = 160;
 	public static final int THUMBNAIL_HEIGHT = 120;
+
+	// 报警设置功能索引
+
+	public static final int DEV_SETTINGS_ALARM = 0x01; // 安全防护开关
+	public static final int DEV_SETTINGS_MD = 0x02; // 移动侦测开关
+	public static final int DEV_SETTINGS_ALARMTIME = 0x03; // 防护时间段
 }

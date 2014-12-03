@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
 import com.jovision.commons.JVNetConst;
 
@@ -26,11 +28,13 @@ public class DeviceSettingsMainFragment extends Fragment implements
 
 	private View rootView;// 缓存Fragment view
 
-	public interface OnFuncEnabledListener {
+	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
+
+		public void OnFuncSelected(int func_index);
 	}
 
-	private OnFuncEnabledListener mListener;
+	private OnFuncActionListener mListener;
 	private Button func_swalert;
 	private Button func_swmotion;
 	private int func_alert_enabled = -1;
@@ -48,7 +52,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			mListener = (OnFuncEnabledListener) activity;
+			mListener = (OnFuncActionListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ "must implement OnFuncEnabledListener");
@@ -163,8 +167,11 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			}
 
 			if (alarmTime0.equals("") || startTime.equals("")) {
-				functionlayout3.setVisibility(View.GONE);
-				functiontips3.setVisibility(View.GONE);
+				// functionlayout3.setVisibility(View.GONE);
+				// functiontips3.setVisibility(View.GONE);
+				// 如果没字段显示全天
+				alarmTime0TextView.setText(getActivity().getResources()
+						.getString(R.string.str_all_day));
 			}
 
 		} catch (JSONException e) {
@@ -181,10 +188,10 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		case R.id.function_switch_11:
 			if (func_alert_enabled == 1) {
 				// 打开--->关闭
-				mListener.OnFuncEnabled(1, 0);
+				mListener.OnFuncEnabled(Consts.DEV_SETTINGS_ALARM, 0);
 			} else if (func_alert_enabled == 0) {
 				// 关闭--->打开
-				mListener.OnFuncEnabled(1, 1);
+				mListener.OnFuncEnabled(Consts.DEV_SETTINGS_ALARM, 1);
 			} else {
 				// 隐藏
 			}
@@ -192,13 +199,16 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		case R.id.function_switch_21:
 			if (func_motion_enabled == 1) {
 				// 打开--->关闭
-				mListener.OnFuncEnabled(2, 0);
+				mListener.OnFuncEnabled(Consts.DEV_SETTINGS_MD, 0);
 			} else if (func_motion_enabled == 0) {
 				// 关闭--->打开
-				mListener.OnFuncEnabled(2, 1);
+				mListener.OnFuncEnabled(Consts.DEV_SETTINGS_MD, 1);
 			} else {
 				// 隐藏
 			}
+			break;
+		case R.id.funclayout3:
+			mListener.OnFuncSelected(Consts.DEV_SETTINGS_ALARMTIME);
 			break;
 		default:
 			break;

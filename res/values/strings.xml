@@ -617,6 +617,7 @@
     <string name="str_alarm_setting_tips2">Enable this function, the equipment such as moving object is detected, will be prompted to alarm.</string>
     <string name="str_all_day">All day</string>
     <string name="str_protected_time">Safeguard time scale</string>
+    <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="str_login">本地登录</string>
     <string name="str_onlinelogin">在线登陆</string>

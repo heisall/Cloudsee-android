@@ -4,23 +4,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/morefragment" >
-    
+    <!--  
     <ImageView
         android:layout_marginTop="16dp"
         android:id="@+id/divider_img_top"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:src="@color/morefragment" />	
-        
+        android:src="@color/morefragment"
+        android:visibility="visible" />	
+    -->    
     <RelativeLayout 
         android:id="@+id/rl_start_time"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:background="@color/white"
         android:padding="10dp"
+        android:layout_marginTop="16dp"
         >
         <TextView 
-            android:id="@+id/tv_start_time"
+            android:id="@+id/tv_start_time_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
@@ -30,7 +32,7 @@
             android:layout_centerVertical="true"
             />
         <TextView 
-            android:id="@+id/tv_end_time"
+            android:id="@+id/tv_start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"            
             android:textColor="@color/userinfocolor"
@@ -40,4 +42,35 @@
             android:layout_centerVertical="true"          
             />
     </RelativeLayout>
+    <!-- 结束时间 -->
+
+    <RelativeLayout 
+        android:id="@+id/rl_start_time"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:layout_marginTop="16dp"
+        >
+        <TextView 
+            android:id="@+id/tv_end_time_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/str_end_time"
+            android:textSize="18sp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            />
+        <TextView 
+            android:id="@+id/tv_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"            
+            android:textColor="@color/userinfocolor"
+            android:text="23:00"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"  
+            android:layout_centerVertical="true"          
+            />
+    </RelativeLayout>    
 </LinearLayout>

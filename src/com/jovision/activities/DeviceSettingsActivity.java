@@ -9,6 +9,8 @@ import android.app.ProgressDialog;
 import android.app.SearchManager.OnCancelListener;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,12 +23,14 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
+import com.jovision.activities.DeviceSettingsMainFragment.OnFuncActionListener;
+import com.jovision.activities.ThirdDevListActivity.TimeOutProcess;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
 
 public class DeviceSettingsActivity extends BaseActivity implements
-		DeviceSettingsMainFragment.OnFuncEnabledListener, OnClickListener {
+		OnFuncActionListener, OnClickListener {
 	protected boolean bConnectedFlag = true;
 	private ProgressDialog waitingDialog;
 	private DeviceSettingsMainFragment deviceSettingsMainFragment;
@@ -38,6 +42,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private Button backBtn;
 	private Button rightBtn;
 	public TextView titleTv;
+	private JSONObject initDevParamObject;
+	private MyHandler myHandler;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			finish();
 			return;
 		}
+		myHandler = new MyHandler();
 		InitViews();
 		if (null == waitingDialog) {
 			waitingDialog = new ProgressDialog(this);
@@ -61,6 +68,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			window = extras.getInt("window");
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 					Consts.TYPE_GET_PARAM, null);
+			new Thread(new TimeOutProcess(Consts.TYPE_GET_PARAM)).start();
 		}
 
 	}
@@ -140,6 +148,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				if (waitingDialog != null && waitingDialog.isShowing()) {
 					waitingDialog.dismiss();
 				}
+				myHandler.removeMessages(Consts.TYPE_GET_PARAM);
 				String allStr = obj.toString();
 
 				MyLog.v(TAG, "文本数据--" + allStr);
@@ -169,10 +178,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
 							showTextToast(R.string.not_support_this_func);
 							alarmTime0 = "";
 						}
-						JSONObject mainObject = new JSONObject();
-						mainObject.put("bAlarmEnable", alarmEnable);
-						mainObject.put("bMDEnable", mdEnable);
-						mainObject.put("alarmTime0", alarmTime0);
+						initDevParamObject = new JSONObject();
+						initDevParamObject.put("bAlarmEnable", alarmEnable);
+						initDevParamObject.put("bMDEnable", mdEnable);
+						initDevParamObject.put("alarmTime0", alarmTime0);
 
 						// Check that the activity is using the layout version
 						// with
@@ -190,7 +199,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 							deviceSettingsMainFragment = new DeviceSettingsMainFragment();
 							Bundle bundle1 = new Bundle();
 							bundle1.putString("KEY_PARAM",
-									mainObject.toString());
+									initDevParamObject.toString());
 							deviceSettingsMainFragment.setArguments(bundle1);
 							FragmentManager fm = getSupportFragmentManager();
 							FragmentTransaction ft = getSupportFragmentManager()
@@ -267,16 +276,42 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		waitingDialog.show();
 		switch (func_index) {
-		case 1:// 安全防护
+		case Consts.DEV_SETTINGS_ALARM:// 安全防护
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
 					0x02,
 					String.format(Consts.FORMATTER_SET_ALARM_ONLY, enabled));
 			break;
-		case 2:// 移动侦测
+		case Consts.DEV_SETTINGS_MD:// 移动侦测
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x06,
 					0x02, String.format(Consts.FORMATTER_SET_MDENABLE, enabled));
 			break;
-		case 3:// 报警时间段
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void OnFuncSelected(int func_index) {
+		// TODO Auto-generated method stub
+		switch (func_index) {
+		case Consts.DEV_SETTINGS_ALARMTIME:// 防护时间段
+			titleTv.setText(R.string.str_protected_time);
+			DevSettingsAlarmTimeFragment alarmTimeFragment = new DevSettingsAlarmTimeFragment();
+			FragmentTransaction transaction = getSupportFragmentManager()
+					.beginTransaction();
+			// Replace whatever is in the fragment_container
+			// view
+			// with this
+			// fragment,
+			// and add the transaction to the back stack so the
+			// user
+			// can
+			// navigate back
+			transaction.replace(R.id.fragment_container, alarmTimeFragment);
+			transaction.addToBackStack(null);
+			fragment_tag = 1;
+			// Commit the transaction
+			transaction.commit();
 			break;
 		default:
 			break;
@@ -305,11 +340,54 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btn_left:
-			finish();
+			switch (fragment_tag) {
+			case 0:
+				finish();
+				break;
+			case 1:
+				titleTv.setText(R.string.str_audio_monitor);
+				onBackPressed();
+				break;
+			default:
+				break;
+			}
+
 			break;
 
 		default:
 			break;
+		}
+	}
+
+	class MyHandler extends Handler {
+		@Override
+		public void dispatchMessage(Message msg) {
+			String strDescString = "";
+			switch (msg.what) {
+			case Consts.TYPE_GET_PARAM:
+				if (waitingDialog != null && waitingDialog.isShowing())
+					waitingDialog.dismiss();
+				strDescString = getResources().getString(
+						R.string.str_getdev_params_timeout);
+				showTextToast(strDescString);
+				finish();
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	class TimeOutProcess implements Runnable {
+		private int tag;
+
+		public TimeOutProcess(int arg1) {
+			tag = arg1;
+		}
+
+		@Override
+		public void run() {
+			myHandler.sendEmptyMessageDelayed(tag, 12000);
 		}
 	}
 }

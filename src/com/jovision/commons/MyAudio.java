@@ -192,7 +192,7 @@ public class MyAudio {
 
 							offset = 0;
 							left = data.length;
-							
+
 							track.write(data, offset, left);
 						}
 

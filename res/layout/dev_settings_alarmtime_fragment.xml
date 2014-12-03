@@ -5,24 +5,17 @@
     android:background="@color/morefragment"
     android:orientation="vertical" >
 
-    <!--
-    <ImageView
-        android:id="@+id/divider_img_top"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/morefragment"
-        android:visibility="visible" />	
-    -->
-
     <RelativeLayout
         android:id="@+id/rl_start_time"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
+        android:background="@drawable/alarm_time_layout_selector"
+        android:padding="10dp"
         android:layout_marginTop="16dp"
-        android:background="@color/white"
-        android:padding="10dp" >
-
-        <TextView
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        >
+        <TextView 
             android:id="@+id/tv_start_time_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,21 +31,21 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="08:00"
             android:textColor="@color/userinfocolor"
             android:textSize="16sp" />
     </RelativeLayout>
     <!-- 结束时间 -->
-
-    <RelativeLayout
-        android:id="@+id/rl_start_time"
+    <RelativeLayout 
+        android:id="@+id/rl_end_time"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
+        android:background="@drawable/alarm_time_layout_selector"
+        android:padding="10dp"
         android:layout_marginTop="16dp"
-        android:background="@color/white"
-        android:padding="10dp" >
-
-        <TextView
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"       
+        >
+        <TextView 
             android:id="@+id/tv_end_time_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,12 +58,41 @@
         <TextView
             android:id="@+id/tv_end_time"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="23:00"
+            android:layout_height="wrap_content"            
             android:textColor="@color/userinfocolor"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"  
+            android:layout_centerVertical="true"          
+            />
+    </RelativeLayout>    
+    
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"    
+        android:layout_marginTop="16dp"  
+        >
+        <Button 
+            android:id="@+id/btn_all_day"
+            android:text="@string/str_all_day"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/blue_bg"
+            />
+         <Button 
+            android:id="@+id/btn_save"
+            android:textSize="18sp"
+            android:text="@string/login_str_save"
+            android:textColor="@color/white"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/blue_bg"
+            />       
+        
     </RelativeLayout>
-
 </LinearLayout>

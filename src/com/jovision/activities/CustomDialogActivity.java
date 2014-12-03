@@ -355,6 +355,8 @@ public class CustomDialogActivity extends BaseActivity implements
 					intent.putExtra("IndexOfChannel", 0);
 					intent.putExtra("acBuffStr", vod_uri_);
 					intent.putExtra("AudioByte", 0);
+					intent.putExtra("bFromAlarm", true);
+					intent.putExtra("is05", true);
 					this.startActivity(intent);
 				} else {
 

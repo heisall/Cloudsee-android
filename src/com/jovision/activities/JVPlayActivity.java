@@ -2045,61 +2045,7 @@ public class JVPlayActivity extends PlayActivity implements
 			// case R.id.yt_cancle:
 			//
 			// break;
-			case R.id.ht_flight:
-				StringBuffer buffer1 = new StringBuffer();
-				if (Consts.FLIGHT_FLAG == 0) {// 当前状态 0- 自动，改为开启
-					MyLog.e("闪光灯--1", "当前状态  0- 自动，改为1-开启");
-					buffer1.append("FlashMode=").append(1).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-					Consts.FLIGHT_FLAG = 1;
-					ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
-				} else if (Consts.FLIGHT_FLAG == 1) {// 1-开启，改为关闭
-					MyLog.e("闪光灯--2", "1-开启，改为2-关闭");
-					buffer1.append("FlashMode=").append(2).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-					Consts.FLIGHT_FLAG = 2;
-					ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
-				} else if (Consts.FLIGHT_FLAG == 2) {// 2-关闭，改为自动
-					MyLog.e("闪光灯--3", "2-关闭，改为0-自动");
-					buffer1.append("FlashMode=").append(0).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-					Consts.FLIGHT_FLAG = 0;
-					ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
-				}
-				channelList.get(lastClickIndex).setHtflight(Consts.FLIGHT_FLAG);
 
-				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						false, 0, JVNetConst.RC_SETPARAM, buffer1.toString());
-				Jni.sendTextData(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						8, JVNetConst.JVN_STREAM_INFO);
-				break;
-			case R.id.ht_motion:
-				StringBuffer buffer = new StringBuffer();
-				if (Consts.MOTION_DETECTION_FLAG) {// 当前状态：开着侦测
-					// bMDEnable字符串的值，即是否开启移动告警 1是开，0是关
-					ht_motion
-							.setBackgroundResource(R.drawable.ht_motiondetec_close);
-					buffer.append("bMDEnable=").append(0).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-					Consts.MOTION_DETECTION_FLAG = false;
-				} else {
-					Consts.MOTION_DETECTION_FLAG = true;
-					ht_motion
-							.setBackgroundResource(R.drawable.ht_motiondetec_open);
-					buffer.append("bMDEnable=").append(1).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-				}
-				channelList.get(lastClickIndex).setHtmotion(
-						Consts.MOTION_DETECTION_FLAG);
-
-				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						true, JVNetConst.RC_EX_MD, JVNetConst.EX_MD_SUBMIT,
-						buffer.toString());
-				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						true, JVNetConst.RC_EX_MD, JVNetConst.EX_MD_UPDATE,
-						null);
-
-				// JVSUDT.JVC_SetAlarm(getChannelMapKey() + 1,
-				// (byte) JVNetConst.JVN_RSP_TEXTDATA,
-				// (byte) JVNetConst.RC_EXTEND,
-				// (byte) JVNetConst.RC_EX_MD,
-				// (byte) JVNetConst.EX_MD_SUBMIT, buffer.toString());
-				break;
 			case R.id.devicepwd_nameet_cancle:
 
 				devicepwd_nameet.setText("");

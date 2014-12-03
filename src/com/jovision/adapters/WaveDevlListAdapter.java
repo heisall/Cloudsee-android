@@ -18,6 +18,8 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVWaveSetActivity;
 import com.jovision.bean.Device;
+import com.jovision.commons.JVConst;
+import com.jovision.utils.ConfigUtil;
 
 public class WaveDevlListAdapter extends BaseAdapter {
 
@@ -57,7 +59,8 @@ public class WaveDevlListAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.channellist_item_layout,
 					null);
 			devHolder = new DeviceHolder();
-
+			devHolder.newImg = (ImageView) convertView
+					.findViewById(R.id.newimg);
 			devHolder.channel_list_text = (TextView) convertView
 					.findViewById(R.id.channel_item_text);
 
@@ -82,6 +85,14 @@ public class WaveDevlListAdapter extends BaseAdapter {
 			devHolder.channel_list_text.setText(devList.get(position)
 					.getFullNo());
 			devHolder.channellist_pull.setVisibility(View.GONE);
+			devHolder.newImg.setVisibility(View.VISIBLE);
+			if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+				devHolder.newImg.setImageDrawable(activity.getResources()
+						.getDrawable(R.drawable.new_dev_iconch));
+			} else {
+				devHolder.newImg.setImageDrawable(activity.getResources()
+						.getDrawable(R.drawable.new_dev_iconen));
+			}
 
 			if (devList.get(position).isHasAdded()) {
 				devHolder.channel_list_text.setTextColor(activity
@@ -90,13 +101,15 @@ public class WaveDevlListAdapter extends BaseAdapter {
 						.getDrawable(R.drawable.has_added_icon));
 				devHolder.channel_list_img.setImageDrawable(activity
 						.getResources().getDrawable(R.drawable.has_added));
+				convertView.setVisibility(View.GONE);
 			} else {
 				devHolder.channel_list_text.setTextColor(activity
 						.getResources().getColor(R.color.more_fragment_color2));
 				devHolder.item_img.setImageDrawable(activity.getResources()
 						.getDrawable(R.drawable.hasnot_added_icon));
 				devHolder.channel_list_img.setImageDrawable(activity
-						.getResources().getDrawable(R.drawable.hasnot_added));
+						.getResources().getDrawable(R.drawable.has_added));
+				convertView.setVisibility(View.VISIBLE);
 			}
 
 			devHolder.channel_list_img
@@ -119,6 +132,7 @@ public class WaveDevlListAdapter extends BaseAdapter {
 	}
 
 	class DeviceHolder {
+		private ImageView newImg;
 		private RelativeLayout parent_relative;
 		private TextView channel_list_text;
 		private ImageView channel_list_img;

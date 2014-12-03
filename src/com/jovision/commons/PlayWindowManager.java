@@ -1047,22 +1047,28 @@ public class PlayWindowManager implements View.OnClickListener,
 				holder.addCallback(new SurfaceHolder.Callback() {
 					@Override
 					public void surfaceDestroyed(SurfaceHolder holder) {
-						((OnUiListener) mContext).onLifecycle(index,
-								STATUS_DESTROYED, null, -1, -1);
+						if (null != mContext) {
+							((OnUiListener) mContext).onLifecycle(index,
+									STATUS_DESTROYED, null, -1, -1);
+						}
 					}
 
 					@Override
 					public void surfaceCreated(SurfaceHolder holder) {
-						((OnUiListener) mContext).onLifecycle(index,
-								STATUS_CREATED, holder.getSurface(), -1, -1);
+						if (null != mContext) {
+							((OnUiListener) mContext).onLifecycle(index,
+									STATUS_CREATED, holder.getSurface(), -1, -1);
+						}
 					}
 
 					@Override
 					public void surfaceChanged(SurfaceHolder holder,
 							int format, int width, int height) {
-						((OnUiListener) mContext).onLifecycle(index,
-								STATUS_CHANGED, holder.getSurface(), width,
-								height);
+						if (null != mContext) {
+							((OnUiListener) mContext).onLifecycle(index,
+									STATUS_CHANGED, holder.getSurface(), width,
+									height);
+						}
 					}
 				});
 			}

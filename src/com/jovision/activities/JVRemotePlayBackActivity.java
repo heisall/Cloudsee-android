@@ -215,6 +215,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 		back.setOnClickListener(myOnClickListener);
 		playBackPause.setOnClickListener(myOnClickListener);
+		voiceListener.setOnClickListener(myOnClickListener);
 		playFunctionList.setOnItemClickListener(onItemClickListener);
 		/** 下 */
 		capture.setOnClickListener(myOnClickListener);
@@ -385,6 +386,19 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 					playBackPause
 							.setBackgroundResource(R.drawable.video_play_icon);
 					isRemotePause = true;
+				}
+				break;
+			}
+			case R.id.voice: {// 音频监听
+				// 停止音频监听
+				if (PlayUtil.isPlayAudio(indexOfChannel)) {
+					stopAudio(indexOfChannel);
+					voiceListener.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.video_monitor_ico));
+				} else {
+					startAudio(indexOfChannel, audioByte);
+					voiceListener.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.video_monitorselect_icon));
 				}
 				break;
 			}

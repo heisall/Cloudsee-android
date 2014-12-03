@@ -536,7 +536,7 @@
     <string name="str_help9">切换域名/IP直连和云视通连接模式</string>
     <string name="str_cloudsee_id">云视通号</string>
     <string name="str_yst_connect">云视通连接</string>
-    <string name="app_name">CloudSEE</string>
+    <string name="app_name">云视通</string>
     <string name="login_str_device_ytnum_notnull">请输入云视通号</string>
     <string name="increct_yst_tips">云视通号不正确</string>
     <string name="login_str_yst_num">云视通号</string>

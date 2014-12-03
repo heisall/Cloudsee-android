@@ -1805,17 +1805,17 @@ public class JVPlayActivity extends PlayActivity implements
 							&& 0 == device.getIsDevice()) {// 普通设备3G情况不用ip连接
 						conIp = "";
 						conPort = 0;
-						currentMenu_v.setText(deviceList.get(deviceIndex)
-								.getNickName()
-								+ "-"
-								+ channelList.get(lastClickIndex).getChannel()
-								+ "-" + number);
+						// currentMenu_v.setText(deviceList.get(deviceIndex)
+						// .getNickName()
+						// + "-"
+						// + channelList.get(lastClickIndex).getChannel()
+						// + "-" + number);
 					} else {// 有ip非3G
-						currentMenu_v.setText(deviceList.get(deviceIndex)
-								.getNickName()
-								+ "-"
-								+ channelList.get(lastClickIndex).getChannel()
-								+ "-" + conIp);
+					// currentMenu_v.setText(deviceList.get(deviceIndex)
+					// .getNickName()
+					// + "-"
+					// + channelList.get(lastClickIndex).getChannel()
+					// + "-" + conIp);
 						number = -1;
 
 					}

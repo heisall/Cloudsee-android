@@ -215,6 +215,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 		back.setOnClickListener(myOnClickListener);
 		playBackPause.setOnClickListener(myOnClickListener);
+		voiceListener.setVisibility(View.VISIBLE);
 		voiceListener.setOnClickListener(myOnClickListener);
 		playFunctionList.setOnItemClickListener(onItemClickListener);
 		/** 下 */
@@ -268,7 +269,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			indexOfChannel = intent.getIntExtra("IndexOfChannel", 0);
 			acBuffStr = intent.getStringExtra("acBuffStr");
 			audioByte = intent.getIntExtra("AudioByte", 0);
-			is05 = intent.getBooleanExtra("is05", false);
+			is05 = intent.getBooleanExtra("is05", true);
 		}
 
 		if (!is05) {

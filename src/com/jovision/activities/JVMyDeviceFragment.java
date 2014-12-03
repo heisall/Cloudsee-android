@@ -763,9 +763,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 						}
 						String ip = broadObj.optString("ip");
 						int port = broadObj.optInt("port");
+						int netmod = broadObj.optInt("netmod");
 						String broadDevNum = gid + no;
 
-						PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port);
+						PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port,
+								netmod);
 
 					} else if (1 == broadObj.optInt("timeout")) {
 						broadTag = 0;
@@ -789,18 +791,21 @@ public class JVMyDeviceFragment extends BaseFragment {
 						String ip = broadObj.optString("ip");
 						int port = broadObj.optInt("port");
 						int count = broadObj.optInt("count");
+						int netmod = broadObj.optInt("netmod");
 						String broadDevNum = gid + no;
 
 						// 广播列表和设备列表里面都没有这个设备
-						if (!PlayUtil.hasDev(broadList, broadDevNum, ip, port)
+						if (!PlayUtil.hasDev(broadList, broadDevNum, ip, port,
+								netmod)
 								&& !PlayUtil.hasDev(myDeviceList, broadDevNum,
-										ip, port)) {
+										ip, port, netmod)) {
 							Device broadDev = new Device(ip, port, gid, no,
 									mActivity.getResources().getString(
 											R.string.str_default_user),
 									mActivity.getResources().getString(
 											R.string.str_default_pass), false,
 									count, 0);
+							broadDev.setHasWifi(netmod);
 							broadDev.setOnlineState(1);// 广播都在线
 							broadList.add(broadDev);
 						}

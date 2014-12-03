@@ -73,10 +73,12 @@ public class PlayUtil {
 	 * @return
 	 */
 	public static void deleteDevIp(ArrayList<Device> deviceList) {
-		for (Device dev : deviceList) {
-			if (0 == dev.getIsDevice()) {// 云视通设备
-				dev.setIp("");
-				dev.setPort(0);
+		if (null != deviceList && 0 != deviceList.size()) {
+			for (Device dev : deviceList) {
+				if (0 == dev.getIsDevice()) {// 云视通设备
+					dev.setIp("");
+					dev.setPort(0);
+				}
 			}
 		}
 	}

@@ -2,37 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/morefragment" >
-    <!--  
+    android:background="@color/morefragment"
+    android:orientation="vertical" >
 
+    <!--
     <ImageView
         android:id="@+id/divider_img_top"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:src="@color/morefragment"
-        android:visibility="visible" />	
-    -->    
+        android:visibility="visible" />	
+    -->
 
-   <RelativeLayout
+    <RelativeLayout
         android:id="@+id/rl_start_time"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="@color/white"
-        android:padding="10dp"
         android:layout_marginTop="16dp"
-        >
-        <TextView 
+        android:background="@color/white"
+        android:padding="10dp" >
+
+        <TextView
             android:id="@+id/tv_start_time_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/black"
             android:text="@string/str_start_time"
-            android:textSize="18sp" 
-            />
-
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_start_time"
@@ -46,33 +44,33 @@
     </RelativeLayout>
     <!-- 结束时间 -->
 
-    <RelativeLayout 
+    <RelativeLayout
         android:id="@+id/rl_start_time"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:background="@color/white"
-        android:padding="10dp"
         android:layout_marginTop="16dp"
-        >
-        <TextView 
+        android:background="@color/white"
+        android:padding="10dp" >
+
+        <TextView
             android:id="@+id/tv_end_time_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="@string/str_end_time"
-            android:textSize="18sp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            />
-        <TextView 
+            android:text="@string/str_end_time"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
             android:id="@+id/tv_end_time"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"            
-            android:textColor="@color/userinfocolor"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:text="23:00"
-            android:textSize="16sp"
-            android:layout_alignParentRight="true"  
-            android:layout_centerVertical="true"          
-            />
-    </RelativeLayout>    
+            android:textColor="@color/userinfocolor"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
 </LinearLayout>

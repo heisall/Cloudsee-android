@@ -117,7 +117,7 @@ public class MyAudio {
 
 		@Override
 		public void run() {
-			int minSize = AudioRecord.getMinBufferSize(SAMPLERATE, CHANNEL,
+			int minSize = AudioTrack.getMinBufferSize(SAMPLERATE, CHANNEL,
 					AudioFormat.ENCODING_PCM_16BIT);
 
 			MyLog.w(TAG, "Play E: bit = " + bit + ", sampleRate = "

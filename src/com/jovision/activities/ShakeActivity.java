@@ -228,7 +228,11 @@ public abstract class ShakeActivity extends BaseActivity implements
 				if (openFlag) {
 					scanIpcWifiList = activity.wifiAdmin.startScanIPC();
 				}
-
+				// 多次检索，防止有设备检索不到
+				if (null == scanIpcWifiList || 0 == scanIpcWifiList.size()) {
+					scanIpcWifiList = activity.wifiAdmin.startScanIPC();
+				}
+				// 多次检索，防止有设备检索不到
 				if (null == scanIpcWifiList || 0 == scanIpcWifiList.size()) {
 					scanIpcWifiList = activity.wifiAdmin.startScanIPC();
 				}

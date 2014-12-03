@@ -1,10 +1,10 @@
 package com.jovision.activities;
 
-import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
-
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
 
 public class DevSettingsAlarmTimeFragment extends Fragment implements
 		OnClickListener, OnMainListener {

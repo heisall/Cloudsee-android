@@ -88,7 +88,7 @@ public class PlayUtil {
 	 * @return
 	 */
 	public static boolean hasDev(ArrayList<Device> devList, String devNum,
-			String ip, int port) {
+			String ip, int port, int netMethod) {
 		boolean has = false;
 		if (null == devList) {
 			return has;
@@ -100,6 +100,7 @@ public class PlayUtil {
 				dev.setIp(ip);
 				dev.setPort(port);
 				dev.setOnlineState(1);// 广播都在线
+				dev.setHasWifi(netMethod);
 				has = true;
 				MyLog.v(TAG, "广播到dev=" + dev.getFullNo() + ";ip=" + ip
 						+ ";port=" + port);
@@ -160,7 +161,7 @@ public class PlayUtil {
 			if (0 == broadObj.optInt("timeout")) {
 				String gid = broadObj.optString("gid");
 				int no = broadObj.optInt("no");
-
+				int netmod = broadObj.optInt("netmod");
 				if (0 == no) {
 					return;
 				}
@@ -168,7 +169,7 @@ public class PlayUtil {
 				int port = broadObj.optInt("port");
 				String broadDevNum = gid + no;
 
-				PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port);
+				PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port, netmod);
 
 			} else if (1 == broadObj.optInt("timeout")) {
 				if (MySharedPreference.getBoolean(Consts.NEED_BROAD)) {

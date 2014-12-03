@@ -21,7 +21,6 @@ import android.os.Build;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -744,40 +743,6 @@ public class JVPlayActivity extends PlayActivity implements
 						break;
 					}
 					case JVNetConst.JVN_WIFI_INFO:// 2-- AP,WIFI热点请求
-						break;
-					case Consts.FLAG_GET_MD_STATE:// 慧通获取移动侦测
-						String motionJSON = dataObj.getString("msg");
-						HashMap<String, String> motionMap = ConfigUtil
-								.genMsgMap(motionJSON);
-						if (null != motionMap.get("bMDEnable")) {
-							int bMDEnable = Integer.valueOf(motionMap
-									.get("bMDEnable"));
-							if (bMDEnable == 0) {
-								ht_motion
-										.setBackgroundResource(R.drawable.ht_motiondetec_close);
-								Consts.MOTION_DETECTION_FLAG = false;
-							} else if (bMDEnable == 1) {
-								Consts.MOTION_DETECTION_FLAG = true;
-								ht_motion
-										.setBackgroundResource(R.drawable.ht_motiondetec_open);
-							}
-						}
-						break;
-					case Consts.FLAG_CAPTURE_FLASH:// 慧通抓拍请求
-						String captureJSON = dataObj.getString("result");
-						Log.i("TAG", captureJSON);
-						// if (null!=captureMap.get("result")) {
-						int result = Integer.valueOf(captureJSON);
-						if (result == Consts.RESULT_SUCCESS) {
-							Log.i("TAG", "抓拍成功");
-						}
-						if (result == Consts.RESULT_NO_FILENAME) {
-							Log.i("TAG", "抓拍路径错误");
-						}
-						if (result == Consts.RESULT_OPEN_FAILED) {
-							Log.i("TAG", "抓拍失败");
-						}
-						// }
 						break;
 					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
 						MyLog.i(TAG, "JVN_STREAM_INFO:TEXT_DATA: " + what
@@ -2080,61 +2045,7 @@ public class JVPlayActivity extends PlayActivity implements
 			// case R.id.yt_cancle:
 			//
 			// break;
-			case R.id.ht_flight:
-				StringBuffer buffer1 = new StringBuffer();
-				if (Consts.FLIGHT_FLAG == 0) {// 当前状态 0- 自动，改为开启
-					MyLog.e("闪光灯--1", "当前状态  0- 自动，改为1-开启");
-					buffer1.append("FlashMode=").append(1).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-					Consts.FLIGHT_FLAG = 1;
-					ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
-				} else if (Consts.FLIGHT_FLAG == 1) {// 1-开启，改为关闭
-					MyLog.e("闪光灯--2", "1-开启，改为2-关闭");
-					buffer1.append("FlashMode=").append(2).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-					Consts.FLIGHT_FLAG = 2;
-					ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
-				} else if (Consts.FLIGHT_FLAG == 2) {// 2-关闭，改为自动
-					MyLog.e("闪光灯--3", "2-关闭，改为0-自动");
-					buffer1.append("FlashMode=").append(0).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-					Consts.FLIGHT_FLAG = 0;
-					ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
-				}
-				channelList.get(lastClickIndex).setHtflight(Consts.FLIGHT_FLAG);
 
-				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						false, 0, JVNetConst.RC_SETPARAM, buffer1.toString());
-				Jni.sendTextData(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						8, JVNetConst.JVN_STREAM_INFO);
-				break;
-			case R.id.ht_motion:
-				StringBuffer buffer = new StringBuffer();
-				if (Consts.MOTION_DETECTION_FLAG) {// 当前状态：开着侦测
-					// bMDEnable字符串的值，即是否开启移动告警 1是开，0是关
-					ht_motion
-							.setBackgroundResource(R.drawable.ht_motiondetec_close);
-					buffer.append("bMDEnable=").append(0).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-					Consts.MOTION_DETECTION_FLAG = false;
-				} else {
-					Consts.MOTION_DETECTION_FLAG = true;
-					ht_motion
-							.setBackgroundResource(R.drawable.ht_motiondetec_open);
-					buffer.append("bMDEnable=").append(1).append(";");// .append(";nMDSensitivity=").append(20).append(";");
-				}
-				channelList.get(lastClickIndex).setHtmotion(
-						Consts.MOTION_DETECTION_FLAG);
-
-				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						true, JVNetConst.RC_EX_MD, JVNetConst.EX_MD_SUBMIT,
-						buffer.toString());
-				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						true, JVNetConst.RC_EX_MD, JVNetConst.EX_MD_UPDATE,
-						null);
-
-				// JVSUDT.JVC_SetAlarm(getChannelMapKey() + 1,
-				// (byte) JVNetConst.JVN_RSP_TEXTDATA,
-				// (byte) JVNetConst.RC_EXTEND,
-				// (byte) JVNetConst.RC_EX_MD,
-				// (byte) JVNetConst.EX_MD_SUBMIT, buffer.toString());
-				break;
 			case R.id.devicepwd_nameet_cancle:
 
 				devicepwd_nameet.setText("");

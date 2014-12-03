@@ -763,9 +763,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 						}
 						String ip = broadObj.optString("ip");
 						int port = broadObj.optInt("port");
+						int netmod = broadObj.optInt("netmod");
 						String broadDevNum = gid + no;
 
-						PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port);
+						PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port,
+								netmod);
 
 					} else if (1 == broadObj.optInt("timeout")) {
 						broadTag = 0;
@@ -789,18 +791,21 @@ public class JVMyDeviceFragment extends BaseFragment {
 						String ip = broadObj.optString("ip");
 						int port = broadObj.optInt("port");
 						int count = broadObj.optInt("count");
+						int netmod = broadObj.optInt("netmod");
 						String broadDevNum = gid + no;
 
 						// 广播列表和设备列表里面都没有这个设备
-						if (!PlayUtil.hasDev(broadList, broadDevNum, ip, port)
+						if (!PlayUtil.hasDev(broadList, broadDevNum, ip, port,
+								netmod)
 								&& !PlayUtil.hasDev(myDeviceList, broadDevNum,
-										ip, port)) {
+										ip, port, netmod)) {
 							Device broadDev = new Device(ip, port, gid, no,
 									mActivity.getResources().getString(
 											R.string.str_default_user),
 									mActivity.getResources().getString(
 											R.string.str_default_pass), false,
 									count, 0);
+							broadDev.setHasWifi(netmod);
 							broadDev.setOnlineState(1);// 广播都在线
 							broadList.add(broadDev);
 						}
@@ -1460,56 +1465,62 @@ public class JVMyDeviceFragment extends BaseFragment {
 							addCount++;
 						} else {
 
-							addDev = DeviceUtil
-									.addDevice(mActivity.statusHashMap
-											.get("KEY_USERNAME"), addDev);
-
+							addDev = DeviceUtil.addDevice2(addDev);
 							if (null != addDev) {
+								addCount++;
 								addRes = 0;
 							}
 
-							// 添加设备失败了，再添加一次
-							if (addRes < 0) {
-								addDev = DeviceUtil.addDevice(
-										mActivity.statusHashMap
-												.get("KEY_USERNAME"), addDev);
-							}
-							if (null != addDev) {
-								addRes = 0;
-							}
-
-							if (addRes == 0) {
-								if (0 <= addDev.getChannelList().size()) {
-									int addPointRes = DeviceUtil.addPoint(
-											addDev.getFullNo(), addDev
-													.getChannelList().size());
-
-									if (0 != addPointRes) {
-										addPointRes = DeviceUtil.addPoint(
-												addDev.getFullNo(), addDev
-														.getChannelList()
-														.size());
-									}
-
-									if (0 != addPointRes) {
-										DeviceUtil
-												.unbindDevice(
-														mActivity.statusHashMap
-																.get(Consts.KEY_USERNAME),
-														addDev.getFullNo());
-										addRes = -1;
-									} else {
-										addRes = 0;
-										addCount++;
-									}
-								} else {
-									DeviceUtil.unbindDevice(
-											mActivity.statusHashMap
-													.get(Consts.KEY_USERNAME),
-											addDev.getFullNo());
-									addRes = -1;
-								}
-							}
+							// addDev = DeviceUtil
+							// .addDevice(mActivity.statusHashMap
+							// .get("KEY_USERNAME"), addDev);
+							//
+							// if (null != addDev) {
+							// addRes = 0;
+							// }
+							//
+							// // 添加设备失败了，再添加一次
+							// if (addRes < 0) {
+							// addDev = DeviceUtil.addDevice(
+							// mActivity.statusHashMap
+							// .get("KEY_USERNAME"), addDev);
+							// }
+							// if (null != addDev) {
+							// addRes = 0;
+							// }
+							//
+							// if (addRes == 0) {
+							// if (0 <= addDev.getChannelList().size()) {
+							// int addPointRes = DeviceUtil.addPoint(
+							// addDev.getFullNo(), addDev
+							// .getChannelList().size());
+							//
+							// if (0 != addPointRes) {
+							// addPointRes = DeviceUtil.addPoint(
+							// addDev.getFullNo(), addDev
+							// .getChannelList()
+							// .size());
+							// }
+							//
+							// if (0 != addPointRes) {
+							// DeviceUtil
+							// .unbindDevice(
+							// mActivity.statusHashMap
+							// .get(Consts.KEY_USERNAME),
+							// addDev.getFullNo());
+							// addRes = -1;
+							// } else {
+							// addRes = 0;
+							// addCount++;
+							// }
+							// } else {
+							// DeviceUtil.unbindDevice(
+							// mActivity.statusHashMap
+							// .get(Consts.KEY_USERNAME),
+							// addDev.getFullNo());
+							// addRes = -1;
+							// }
+							// }
 						}
 					}
 					if (0 == addRes) {
@@ -1518,9 +1529,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 						myDeviceList.add(0, addDev);
 					}
 				}
-				DeviceUtil.refreshDeviceState(
-						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
-						myDeviceList);
+				// DeviceUtil.refreshDeviceState(
+				// mActivity.statusHashMap.get(Consts.KEY_USERNAME),
+				// myDeviceList);
 
 				for (Device dev1 : AddLanList) {
 					for (Device dev2 : myDeviceList) {

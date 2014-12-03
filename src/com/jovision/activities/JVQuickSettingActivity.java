@@ -1182,13 +1182,14 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			JSONObject broadObj;
 			try {
 				broadObj = new JSONObject(obj.toString());
-
+				int netmod = broadObj.optInt("netmod");
 				String broadDevNum = broadObj.optString("gid")
 						+ broadObj.optInt("no");
 				if (broadDevNum.equalsIgnoreCase(ipcDevice.getFullNo())) {// 同一个设备
 					ipcDevice.setOnlineState(1);
 					ipcDevice.setIp(broadObj.optString("ip"));
 					ipcDevice.setPort(broadObj.optInt("port"));
+					ipcDevice.setHasWifi(broadObj.optInt("netmod"));
 				} else {
 					ipcDevice.setIp("");
 					ipcDevice.setPort(0);
@@ -1622,41 +1623,49 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			ipcDevice.setIp("");
 			ipcDevice.setPort(0);
 			int addRes = -1;
-			ipcDevice = DeviceUtil.addDevice(statusHashMap.get("KEY_USERNAME"),
-					ipcDevice);
+
+			ipcDevice = DeviceUtil.addDevice2(ipcDevice);
 			if (null != ipcDevice) {
 				addRes = 0;
-			}
-
-			if (addRes == 0) {
-				if (0 <= ipcDevice.getChannelList().size()) {
-					if (0 == DeviceUtil.addPoint(ipcDevice.getFullNo(),
-							ipcDevice.getChannelList().size())) {
-						ipcDevice.setChannelList(DeviceUtil.getDevicePointList(
-								ipcDevice, ipcDevice.getFullNo()));
-						addRes = 0;
-						addSucc = true;
-					} else {
-						DeviceUtil.unbindDevice(
-								statusHashMap.get(Consts.KEY_USERNAME),
-								ipcDevice.getFullNo());
-						addRes = -1;
-						addSucc = false;
-					}
-				}
+				addSucc = true;
 			} else {
 				addSucc = false;
 			}
+
+			// ipcDevice =
+			// DeviceUtil.addDevice(statusHashMap.get("KEY_USERNAME"),
+			// ipcDevice);
+			// if (null != ipcDevice) {
+			// addRes = 0;
+			// }
+			//
+			// if (addRes == 0) {
+			// if (0 <= ipcDevice.getChannelList().size()) {
+			// if (0 == DeviceUtil.addPoint(ipcDevice.getFullNo(),
+			// ipcDevice.getChannelList().size())) {
+			// ipcDevice.setChannelList(DeviceUtil.getDevicePointList(
+			// ipcDevice, ipcDevice.getFullNo()));
+			// addRes = 0;
+			// addSucc = true;
+			// } else {
+			// DeviceUtil.unbindDevice(
+			// statusHashMap.get(Consts.KEY_USERNAME),
+			// ipcDevice.getFullNo());
+			// addRes = -1;
+			// addSucc = false;
+			// }
+			// }
+
 		}
 
 		if (addSucc) {
 			ipcDevice.setIp(temIp);
 			ipcDevice.setPort(temPort);
 			deviceList.add(0, ipcDevice);
-			if (!local) {
-				DeviceUtil.refreshDeviceState(
-						statusHashMap.get(Consts.KEY_USERNAME), deviceList);
-			}
+			// if (!local) {
+			// DeviceUtil.refreshDeviceState(
+			// statusHashMap.get(Consts.KEY_USERNAME), deviceList);
+			// }
 			CacheUtil.saveDevList(deviceList);
 		}
 

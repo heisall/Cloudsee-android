@@ -264,8 +264,8 @@ public class JVTabActivity extends ShakeActivity implements
 					String ip = broadObj.optString("ip");
 					int port = broadObj.optInt("port");
 					String broadDevNum = gid + no;
-
-					PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port);
+					int netmod = broadObj.optInt("netmod");
+					PlayUtil.hasDev(myDeviceList, broadDevNum, ip, port, netmod);
 
 				} else if (1 == broadObj.optInt("timeout")) {
 					PlayUtil.sortList(myDeviceList, JVTabActivity.this);

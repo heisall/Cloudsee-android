@@ -71,6 +71,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 				if (0 == broadObj.optInt("timeout")) {
 					String broadDevNum = broadObj.optString("gid")
 							+ broadObj.optInt("no");
+					int netmod = broadObj.optInt("netmod");
 					if (broadDevNum.equalsIgnoreCase(devNumET.getText()
 							.toString())) {// 同一个设备
 						// addDevice.setOnlineState(1);
@@ -309,25 +310,29 @@ public class JVAddDeviceActivity extends BaseActivity {
 					if (localFlag) {// 本地添加
 						addRes = 0;
 					} else {
-						addDevice = DeviceUtil.addDevice(
-								statusHashMap.get("KEY_USERNAME"), addDevice);
+						addDevice = DeviceUtil.addDevice2(addDevice);
 						if (null != addDevice) {
 							addRes = 0;
 						}
-						if (0 <= addDevice.getChannelList().size()) {
-							if (0 == DeviceUtil.addPoint(addDevice.getFullNo(),
-									addDevice.getChannelList().size())) {
-								addDevice.setChannelList(DeviceUtil
-										.getDevicePointList(addDevice,
-												addDevice.getFullNo()));
-								addRes = 0;
-							} else {
-								DeviceUtil.unbindDevice(
-										statusHashMap.get(Consts.KEY_USERNAME),
-										addDevice.getFullNo());
-								addRes = -1;
-							}
-						}
+						// addDevice = DeviceUtil.addDevice(
+						// statusHashMap.get("KEY_USERNAME"), addDevice);
+						// if (null != addDevice) {
+						// addRes = 0;
+						// }
+						// if (0 <= addDevice.getChannelList().size()) {
+						// if (0 == DeviceUtil.addPoint(addDevice.getFullNo(),
+						// addDevice.getChannelList().size())) {
+						// addDevice.setChannelList(DeviceUtil
+						// .getDevicePointList(addDevice,
+						// addDevice.getFullNo()));
+						// addRes = 0;
+						// } else {
+						// DeviceUtil.unbindDevice(
+						// statusHashMap.get(Consts.KEY_USERNAME),
+						// addDevice.getFullNo());
+						// addRes = -1;
+						// }
+						// }
 					}
 				}
 
@@ -336,11 +341,11 @@ public class JVAddDeviceActivity extends BaseActivity {
 					addDevice.setIp(ip);
 					addDevice.setPort(port);
 					deviceList.add(0, addDevice);
-					if (!localFlag) {
-						DeviceUtil.refreshDeviceState(
-								statusHashMap.get(Consts.KEY_USERNAME),
-								deviceList);
-					}
+					// if (!localFlag) {
+					// DeviceUtil.refreshDeviceState(
+					// statusHashMap.get(Consts.KEY_USERNAME),
+					// deviceList);
+					// }
 					CacheUtil.saveDevList(deviceList);
 
 				}

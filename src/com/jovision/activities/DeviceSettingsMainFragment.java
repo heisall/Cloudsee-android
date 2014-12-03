@@ -21,6 +21,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
 import com.jovision.commons.JVNetConst;
+import com.jovision.commons.MyLog;
 
 public class DeviceSettingsMainFragment extends Fragment implements
 		OnClickListener, OnMainListener {
@@ -30,7 +31,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
 
-		public void OnFuncSelected(int func_index);
+		public void OnFuncSelected(int func_index, String params);
 	}
 
 	private OnFuncActionListener mListener;
@@ -128,7 +129,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 
 				alarmTime0TextView.setText(startTime + " - " + endTime);
 			} else {
-				startTime = "";
+				startTime = "00:00";
+				endTime = "23:59";
 			}
 
 			switch (func_alert_enabled) {
@@ -165,10 +167,13 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				break;
 			}
 
-			if (alarmTime0.equals("") || startTime.equals("")) {
+			if (alarmTime0.equals("")
+					|| (startTime.equals("00:00") && endTime.equals("23:59"))) {
 				// functionlayout3.setVisibility(View.GONE);
 				// functiontips3.setVisibility(View.GONE);
 				// 如果没字段显示全天
+				MyLog.e("Alarm", "-------startTime:" + startTime
+						+ "-----endTime:" + endTime);
 				alarmTime0TextView.setText(getActivity().getResources()
 						.getString(R.string.str_all_day));
 			}
@@ -207,7 +212,17 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			}
 			break;
 		case R.id.funclayout3:
-			mListener.OnFuncSelected(Consts.DEV_SETTINGS_ALARMTIME);
+			JSONObject paraObject = new JSONObject();
+			try {
+				paraObject.put("st", startTime);
+				paraObject.put("et", endTime);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			mListener.OnFuncSelected(Consts.DEV_SETTINGS_ALARMTIME,
+					paraObject.toString());
 			break;
 		default:
 			break;

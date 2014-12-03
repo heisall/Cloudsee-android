@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
+import com.jovision.activities.DevSettingsAlarmTimeFragment.OnAlarmTimeActionListener;
 import com.jovision.activities.DeviceSettingsMainFragment.OnFuncActionListener;
 import com.jovision.activities.ThirdDevListActivity.TimeOutProcess;
 import com.jovision.commons.JVNetConst;
@@ -28,7 +29,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
 
 public class DeviceSettingsActivity extends BaseActivity implements
-		OnFuncActionListener, OnClickListener {
+		OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 	protected boolean bConnectedFlag = true;
 	private ProgressDialog waitingDialog;
 	private DeviceSettingsMainFragment deviceSettingsMainFragment;
@@ -42,6 +43,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	public TextView titleTv;
 	private JSONObject initDevParamObject;
 	private MyHandler myHandler;
+	private String startTimeSaved, endTimeSaved;
+	private String startTimeSetting, endTimeSetting;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -129,6 +132,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					waitingDialog.dismiss();
 				bConnectedFlag = false;
 				showTextToast(R.string.str_alarm_connect_except);
+				finish();
 				break;
 			default:
 				if (waitingDialog != null && waitingDialog.isShowing())
@@ -171,7 +175,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 						} else {
 							alarmEnable = Integer.valueOf(alarm_enable);
 						}
-						String alarmTime0 = map.get("alarmTime0");
+						String alarmTime0 = map.get("alarmTime0");// alarmTime0
 						if (alarm_enable == null) {
 							showTextToast(R.string.not_support_this_func);
 							alarmTime0 = "";
@@ -214,11 +218,13 @@ public class DeviceSettingsActivity extends BaseActivity implements
 						if (packet_subtype == JVNetConst.RC_EX_MD
 								&& ex_type == JVNetConst.EX_MD_SUBMIT) {
 							// 移动侦测 ok
+							initDevParamObject.put("bMDEnable", mdEnable);
 							mainListener.onMainAction(packet_type,
 									packet_subtype, ex_type);
 						} else if (packet_subtype == JVNetConst.RC_EX_ALARM
 								&& ex_type == JVNetConst.EX_ALARM_SUBMIT) {
-							// 安全防护ok
+							// 安全防护或者设置安全防护时间ok
+							initDevParamObject.put("bAlarmEnable", alarmEnable);
 							mainListener.onMainAction(packet_type,
 									packet_subtype, ex_type);
 						}
@@ -275,11 +281,13 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		waitingDialog.show();
 		switch (func_index) {
 		case Consts.DEV_SETTINGS_ALARM:// 安全防护
+			alarmEnable = enabled;
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
 					0x02,
 					String.format(Consts.FORMATTER_SET_ALARM_ONLY, enabled));
 			break;
 		case Consts.DEV_SETTINGS_MD:// 移动侦测
+			mdEnable = enabled;
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x06,
 					0x02, String.format(Consts.FORMATTER_SET_MDENABLE, enabled));
 			break;
@@ -289,7 +297,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void OnFuncSelected(int func_index) {
+	public void OnFuncSelected(int func_index, String params) {
 		// TODO Auto-generated method stub
 		switch (func_index) {
 		case Consts.DEV_SETTINGS_ALARMTIME:// 防护时间段
@@ -305,11 +313,35 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			// user
 			// can
 			// navigate back
+			JSONObject paramObject = null;
+			try {
+				paramObject = new JSONObject(params);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				if (paramObject == null) {
+					paramObject = new JSONObject();
+				}
+				try {
+					paramObject.put("st", "00:00");
+					paramObject.put("et", "23:59");
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			}
+			Bundle bundle1 = new Bundle();
+			bundle1.putString("START_TIME",
+					paramObject.optString("st", "00:00"));
+			bundle1.putString("END_TIME", paramObject.optString("et", "23:59"));
+			alarmTimeFragment.setArguments(bundle1);
 			transaction.replace(R.id.fragment_container, alarmTimeFragment);
-			transaction.addToBackStack(null);
+			// transaction.addToBackStack(null);
+			transaction.remove(deviceSettingsMainFragment);
 			fragment_tag = 1;
 			// Commit the transaction
-			transaction.commit();
+			transaction.commitAllowingStateLoss();
 			break;
 		default:
 			break;
@@ -344,7 +376,17 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				break;
 			case 1:
 				titleTv.setText(R.string.str_audio_monitor);
-				onBackPressed();
+				// onBackPressed();
+				deviceSettingsMainFragment = new DeviceSettingsMainFragment();
+				Bundle bundle1 = new Bundle();
+				bundle1.putString("KEY_PARAM", initDevParamObject.toString());
+				deviceSettingsMainFragment.setArguments(bundle1);
+				FragmentManager fm = getSupportFragmentManager();
+				FragmentTransaction ft = getSupportFragmentManager()
+						.beginTransaction();
+				ft.replace(R.id.fragment_container, deviceSettingsMainFragment)
+						.commitAllowingStateLoss();
+				fragment_tag = 0;
 				break;
 			default:
 				break;
@@ -387,5 +429,51 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		public void run() {
 			myHandler.sendEmptyMessageDelayed(tag, 12000);
 		}
+	}
+
+	@Override
+	public void OnAlarmTimeSaved(String startTime, String endTime) {
+		// TODO Auto-generated method stub
+		startTimeSetting = startTime;
+		endTimeSetting = endTime;
+		waitingDialog.show();
+		if (startTime.equals("00:00") && endTime.equals("23:59")) {
+			// 全天
+			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
+					0x02, String.format(Consts.FORMATTER_SET_ALARM_TIME,
+							"00:00:00-23:59:59"));
+			new Thread(new TimeOutProcess(Consts.TYPE_GET_PARAM)).start();
+		} else {
+			String alarmTime0 = String
+					.format("%s:00-%s:00", startTime, endTime);
+			MyLog.e("Alarm", "alarmTime0:" + alarmTime0);
+			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
+					0x02,
+					String.format(Consts.FORMATTER_SET_ALARM_TIME, alarmTime0));
+			new Thread(new TimeOutProcess(Consts.TYPE_GET_PARAM)).start();
+		}
+	}
+
+	@Override
+	public void OnAlarmTimeSavedResult(int ret) {
+		// TODO Auto-generated method stub
+		startTimeSaved = startTimeSetting;
+		endTimeSaved = endTimeSetting;
+
+		Bundle bundle1 = new Bundle();
+		try {
+			initDevParamObject.put("alarmTime0", startTimeSaved + "-"
+					+ endTimeSaved);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		bundle1.putString("KEY_PARAM", initDevParamObject.toString());
+		deviceSettingsMainFragment.setArguments(bundle1);
+		FragmentManager fm = getSupportFragmentManager();
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.fragment_container, deviceSettingsMainFragment)
+				.commitAllowingStateLoss();
+		fragment_tag = 0;
 	}
 }

@@ -615,7 +615,7 @@
     <string name="str_alarm_setting_tips1">Enable this function, your phone can receive the alert video,picture or message.</string>
     <string name="str_alarm_setting_tips3">You can choose a suitable time scale to receive alert.</string>
     <string name="str_alarm_setting_tips2">Enable this function, the equipment such as moving object is detected, will be prompted to alarm.</string>
-    <string name="str_all_day">All day</string>
+    <string name="str_all_day">All Day</string>
     <string name="str_protected_time">Safeguard time scale</string>
     <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->

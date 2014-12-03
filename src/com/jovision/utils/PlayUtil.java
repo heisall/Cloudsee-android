@@ -61,7 +61,7 @@ public class PlayUtil {
 
 		if (!ConfigUtil.is3G(con, false)) {// 非3G加广播设备
 			canBroad = true;
-			int res = Jni.searchLanDevice("", 0, 0, 0, "", 2000, 1);
+			int res = Jni.searchLanDevice("", 0, 0, 0, "", 1000, 1);
 		}
 		return canBroad;
 	}
@@ -73,10 +73,12 @@ public class PlayUtil {
 	 * @return
 	 */
 	public static void deleteDevIp(ArrayList<Device> deviceList) {
-		for (Device dev : deviceList) {
-			if (0 == dev.getIsDevice()) {// 云视通设备
-				dev.setIp("");
-				dev.setPort(0);
+		if (null != deviceList && 0 != deviceList.size()) {
+			for (Device dev : deviceList) {
+				if (0 == dev.getIsDevice()) {// 云视通设备
+					dev.setIp("");
+					dev.setPort(0);
+				}
 			}
 		}
 	}

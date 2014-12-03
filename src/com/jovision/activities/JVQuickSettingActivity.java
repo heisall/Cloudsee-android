@@ -782,7 +782,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	 * @param id
 	 */
 	public void backMethod() {
-		searchView.stopPlayer();
+		if (null != searchView) {
+			searchView.stopPlayer();
+		}
+
 		try {
 			if (isSearching) {// 正在搜索设备是，提示是否退出
 				Log.e("tags", "back isSearching");

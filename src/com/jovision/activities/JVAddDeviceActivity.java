@@ -60,8 +60,8 @@ public class JVAddDeviceActivity extends BaseActivity {
 		case Consts.CALL_LAN_SEARCH: {
 			// PlayUtil.broadIp(obj,JVAddDeviceActivity.this);
 			// deviceList = CacheUtil.getDevList();
-			MyLog.v(TAG, "CALL_LAN_SEARCH = what=" + what + ";arg1=" + arg1
-					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
+			// MyLog.v(TAG, "CALL_LAN_SEARCH = what=" + what + ";arg1=" + arg1
+			// + ";arg2=" + arg1 + ";obj=" + obj.toString());
 			// MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1
 			// + ";arg2=" + arg1 + ";obj=" + obj.toString());
 			// onTabAction:what=168;arg1=0;arg2=0;obj={"count":1,"curmod":0,"gid":"A","ip":"192.168.21.238","netmod":0,"no":283827713,"port":9101,"timeout":0,"type":59162,"variety":3}
@@ -90,9 +90,6 @@ public class JVAddDeviceActivity extends BaseActivity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			MyLog.e(TAG,
-					"jvadddeviceactivity hasBroadIP 888888888888888888888: "
-							+ what + ", " + arg1 + ", " + arg2 + ", " + obj);
 
 			break;
 		}
@@ -288,14 +285,14 @@ public class JVAddDeviceActivity extends BaseActivity {
 					}
 				}
 
-				MyLog.e(TAG, "getChannelCount C = " + channelCount);
+				MyLog.e(TAG, "getChannelCount C1 = " + channelCount);
 				if (channelCount <= 0) {
 					channelCount = Jni.getChannelCount(params[0],
 							Integer.parseInt(params[1]),
 							Integer.parseInt(params[2]));
 				}
 
-				MyLog.e(TAG, "getChannelCount X = " + channelCount);
+				MyLog.e(TAG, "getChannelCount C2 = " + channelCount);
 				if (channelCount <= 0) {
 					channelCount = 4;
 				}
@@ -335,9 +332,11 @@ public class JVAddDeviceActivity extends BaseActivity {
 						// }
 					}
 				}
-
+				MyLog.e(TAG, "addRes X = " + addRes);
 				if (0 == addRes) {
-					addDevice.setOnlineState(onLine);
+					if (1 == onLine) {
+						addDevice.setOnlineState(onLine);
+					}
 					addDevice.setIp(ip);
 					addDevice.setPort(port);
 					deviceList.add(0, addDevice);

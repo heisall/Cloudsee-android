@@ -1039,8 +1039,9 @@ public class JVPlayActivity extends PlayActivity implements
 
 						int window = object.getInt("window");
 						if (window == lastClickIndex) {
-							currentKbps.setText(String.format("%.0fkBps",
-									object.getDouble("kbps")));
+							currentKbps.setText(String.format("%.1fk/%.1fk",
+									object.getDouble("kbps"),
+									object.getDouble("audio_kbps")));
 						}
 					}
 
@@ -1770,6 +1771,10 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (null != ssid
 					&& channel.getParent().getFullNo().equalsIgnoreCase(ssid)) {
+				// currentMenu_v.setText(deviceList.get(deviceIndex).getNickName()
+				// + "-" + channelList.get(lastClickIndex).getChannel()
+				// +"AP直连");
+
 				// IP直连
 				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),
@@ -1800,8 +1805,19 @@ public class JVPlayActivity extends PlayActivity implements
 							&& 0 == device.getIsDevice()) {// 普通设备3G情况不用ip连接
 						conIp = "";
 						conPort = 0;
+						currentMenu_v.setText(deviceList.get(deviceIndex)
+								.getNickName()
+								+ "-"
+								+ channelList.get(lastClickIndex).getChannel()
+								+ "-" + number);
 					} else {// 有ip非3G
+						currentMenu_v.setText(deviceList.get(deviceIndex)
+								.getNickName()
+								+ "-"
+								+ channelList.get(lastClickIndex).getChannel()
+								+ "-" + conIp);
 						number = -1;
+
 					}
 				}
 

@@ -4,7 +4,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
 import com.jovision.activities.DeviceSettingsMainFragment.OnFuncActionListener;
 import com.jovision.utils.DateTimePickDialogUtil;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +14,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
 
 public class DevSettingsAlarmTimeFragment extends Fragment implements
 		OnClickListener, OnMainListener {

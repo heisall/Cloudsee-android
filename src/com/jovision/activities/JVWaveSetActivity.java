@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -28,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -57,9 +59,10 @@ public class JVWaveSetActivity extends BaseActivity {
 	public static final int ADD_DEVICE = 0xA5;// 添加设备
 	public static final int SEND_WAVE = 0xA6;// 发送声波吗命令
 
-	String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3" };
+	String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3",
+			"quicksetsound.mp3", "6.mp3" };
 	String[] stepSoundEN = { "voi_info_en.mp3", "voi_next_en.mp3",
-			"voi_send_en.mp3" };
+			"voi_send_en.mp3", "quicksetsound.mp3", "6.mp3" };
 	int[] titleID = { R.string.prepare_step, R.string.prepare_set,
 			R.string.wave_set, R.string.show_demo, R.string.search_list };
 
@@ -88,6 +91,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	protected EditText desWifiPwd;
 	protected ToggleButton desPwdEye;
 	protected ListView devListView;// 广播到的设备列表
+	protected ProgressBar loading;
 	protected WaveDevlListAdapter wdListAdapter;// 设备列表adaper
 
 	ArrayList<RelativeLayout> layoutList = new ArrayList<RelativeLayout>();
@@ -104,6 +108,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	protected MediaPlayer mediaPlayer = new MediaPlayer();
 
 	// 声波
+	protected boolean needResponse = true;
 	protected int animTime = 1000;
 	protected int sendCounts = 0;
 	protected String params = "";
@@ -127,7 +132,6 @@ public class JVWaveSetActivity extends BaseActivity {
 			break;
 		}
 		case BROAD_FINISHED: {// 广播超时
-			dismissDialog();
 			if (null == broadList || 0 == broadList.size()) {
 				showTextToast(R.string.broad_zero);
 			} else {
@@ -135,7 +139,8 @@ public class JVWaveSetActivity extends BaseActivity {
 				wdListAdapter.setData(broadList);
 				devListView.setAdapter(wdListAdapter);
 			}
-
+			playSoundStep(4);
+			loading.setVisibility(View.GONE);
 			break;
 		}
 		case BROAD_DEVICE: {// 广播到一个设备
@@ -204,6 +209,10 @@ public class JVWaveSetActivity extends BaseActivity {
 		}
 		// 广播回调
 		case Consts.CALL_LAN_SEARCH: {// nNetMod 设备是否带wifi nCurMod 设备是否正在使用wifi
+
+			if (!needResponse) {
+				break;
+			}
 			MyLog.v(TAG, "CALL_LAN_SEARCH = what=" + what + ";arg1=" + arg1
 					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
 
@@ -242,6 +251,7 @@ public class JVWaveSetActivity extends BaseActivity {
 					}
 					handler.sendMessage(handler.obtainMessage(BROAD_DEVICE));
 				} else if (1 == broadObj.optInt("timeout")) {
+					needResponse = false;
 					CacheUtil.saveDevList(deviceList);
 					handler.sendMessage(handler.obtainMessage(BROAD_FINISHED));
 				}
@@ -275,8 +285,8 @@ public class JVWaveSetActivity extends BaseActivity {
 
 	@Override
 	protected void initUi() {
-
 		setContentView(R.layout.soundwave_layout);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		topBar = (LinearLayout) findViewById(R.id.top_bar);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
@@ -309,6 +319,8 @@ public class JVWaveSetActivity extends BaseActivity {
 		desWifiName.setText(oldWifiSSID);
 		desPwdEye = (ToggleButton) findViewById(R.id.despwdeye);
 		devListView = (ListView) findViewById(R.id.devlistview);
+		loading = (ProgressBar) findViewById(R.id.loading);
+		loading.setVisibility(View.GONE);
 
 		desPwdEye.setChecked(true);
 		desPwdEye.setOnCheckedChangeListener(myOnCheckedChangeListener);
@@ -392,25 +404,9 @@ public class JVWaveSetActivity extends BaseActivity {
 				}
 
 			}
-			if (showIndex >= 0 && showIndex < stepSoundEN.length) {
+			if (showIndex >= 0 && showIndex < 3) {
 				playSoundStep(showIndex);
 			}
-		}
-		int length = layoutList.size();
-
-		for (int i = 0; i < length; i++) {
-			RelativeLayout layout = layoutList.get(i);
-			if (null != layout) {
-				if (i == showIndex) {
-					layout.setVisibility(View.VISIBLE);
-				} else {
-					layout.setVisibility(View.GONE);
-				}
-			}
-
-		}
-		if (showIndex >= 0 && showIndex < stepSoundEN.length) {
-			playSoundStep(showIndex);
 		}
 
 		if (2 == showIndex) {
@@ -457,9 +453,10 @@ public class JVWaveSetActivity extends BaseActivity {
 				showLayoutAtIndex(currentStep);
 				break;
 			case R.id.step_btn3:// 发局域网广播搜索局域网设备
-				createDialog("");
+				loading.setVisibility(View.VISIBLE);
+				playSoundStep(3);
 				broadList.clear();
-				Jni.queryDevice("A", 361, 40 * 1000);
+				Jni.queryDevice("A", 361, 20 * 1000);
 				currentStep = 4;
 				showLayoutAtIndex(currentStep);
 
@@ -473,8 +470,6 @@ public class JVWaveSetActivity extends BaseActivity {
 				params = desWifiName.getText() + ";" + desWifiPwd.getText();
 				MyLog.v(TAG, "params:" + params);
 				Jni.genVoice(params);
-
-				// new SendWaveThread(params).start();
 				break;
 			case R.id.showdemo:
 				currentStep = 3;
@@ -499,31 +494,6 @@ public class JVWaveSetActivity extends BaseActivity {
 			mediaPlayer.stop();
 		}
 	}
-
-	// // 发送声波线程
-	// private class SendWaveThread1 extends Thread {
-	// String params = "";
-	//
-	// SendWaveThread(String param) {
-	// params = param;
-	// }
-	//
-	// @Override
-	// public void run() {
-	// super.run();
-	// try {
-	// Jni.genVoice(params);
-	// Thread.sleep(1000);
-	// Jni.genVoice(params);
-	// Thread.sleep(1000);
-	// Jni.genVoice(params);
-	// handler.sendMessage(handler.obtainMessage(SEND_WAVE_FINISHED));
-	// } catch (InterruptedException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	//
-	// };
 
 	@Override
 	protected void freeMe() {
@@ -578,25 +548,6 @@ public class JVWaveSetActivity extends BaseActivity {
 							addRes = 0;
 						}
 
-						// addDevice = DeviceUtil.addDevice(
-						// statusHashMap.get("KEY_USERNAME"), addDevice);
-						// if (null != addDevice) {
-						// addRes = 0;
-						// }
-						// if (0 <= addDevice.getChannelList().size()) {
-						// if (0 == DeviceUtil.addPoint(addDevice.getFullNo(),
-						// addDevice.getChannelList().size())) {
-						// addDevice.setChannelList(DeviceUtil
-						// .getDevicePointList(addDevice,
-						// addDevice.getFullNo()));
-						// addRes = 0;
-						// } else {
-						// DeviceUtil.unbindDevice(
-						// statusHashMap.get(Consts.KEY_USERNAME),
-						// addDevice.getFullNo());
-						// addRes = -1;
-						// }
-						// }
 					}
 				}
 
@@ -606,11 +557,6 @@ public class JVWaveSetActivity extends BaseActivity {
 					addDevice.setPort(port);
 					addDevice.setHasAdded(true);
 					deviceList.add(0, addDevice);
-					// if (!localFlag) {
-					// DeviceUtil.refreshDeviceState(
-					// statusHashMap.get(Consts.KEY_USERNAME),
-					// deviceList);
-					// }
 					CacheUtil.saveDevList(deviceList);
 
 				}
@@ -629,7 +575,6 @@ public class JVWaveSetActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			dismissDialog();
 			wdListAdapter.notifyDataSetChanged();
 			if (0 == result) {
 				showTextToast(R.string.add_device_succ);
@@ -641,7 +586,6 @@ public class JVWaveSetActivity extends BaseActivity {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog("");
 			proDialog.setCancelable(false);
 		}
 

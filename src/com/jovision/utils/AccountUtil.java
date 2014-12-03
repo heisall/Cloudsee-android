@@ -345,7 +345,7 @@ public class AccountUtil {
 				.compile("^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$");
 		Pattern pattern1 = Pattern.compile("^[1][3578]\\d{9}$");
 		Pattern pattern2 = Pattern.compile("^([+-]?)\\d*\\.?\\d+$");// 全是数字
-		Pattern pattern3 = Pattern.compile("^[A-Za-z0-9_.\\-]+$");// 用户名只能由英文、数字及"."“_”、“-”组成；
+		Pattern pattern3 = Pattern.compile("^[A-Za-z0-9_\\-]+$");// 用户名只能由英文、数字及"."“_”、“-”组成；
 		Matcher lengthError = pattern.matcher(userName);
 		Matcher lengthError1 = pattern1.matcher(userName);
 		Matcher lengthError2 = pattern2.matcher(userName);

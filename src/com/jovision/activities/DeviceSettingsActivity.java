@@ -162,21 +162,21 @@ public class DeviceSettingsActivity extends BaseActivity implements
 								.genMsgMap(dataObj.getString("msg"));
 						String md_enable = map.get("bMDEnable");
 						if (md_enable == null) {
-							showTextToast(R.string.not_support_this_func);
+							// showTextToast(R.string.not_support_this_func);
 							mdEnable = -1;
 						} else {
 							mdEnable = Integer.valueOf(md_enable);
 						}
 						String alarm_enable = map.get("bAlarmEnable");
 						if (alarm_enable == null) {
-							showTextToast(R.string.not_support_this_func);
+							// showTextToast(R.string.not_support_this_func);
 							alarmEnable = -1;
 						} else {
 							alarmEnable = Integer.valueOf(alarm_enable);
 						}
 						String alarmTime0 = map.get("alarmTime0");// alarmTime0
 						if (alarm_enable == null) {
-							showTextToast(R.string.not_support_this_func);
+							// showTextToast(R.string.not_support_this_func);
 							alarmTime0 = "";
 						}
 						initDevParamObject = new JSONObject();

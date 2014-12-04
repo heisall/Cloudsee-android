@@ -591,7 +591,7 @@
     <string name="str_telecontrol_device">遥控设备</string>
     <string name="str_alarm_connect_success">连接成功</string>
     <string name="str_alarm_connect_failed_1">连接失败，已经连接或者超过设备最大连接数</string>
-    <string name="str_alarm_binddev_timeout">添加报警设备失败</string>
+    <string name="str_alarm_binddev_timeout">添加设备超时或者该设备不支持此功能</string>
     <string name="str_alarm_binddev_success">添加报警设备成功</string>
     <string name="str_alarm_binddev_max">超过设备最大连接数</string>
     <string name="str_alarm_binddev_setnickname_failed">设置昵称失败</string>

@@ -592,7 +592,7 @@
     <string name="str_telecontrol_device">remote control devices</string>
     <string name="str_alarm_connect_success">connection success</string>
     <string name="str_alarm_connect_failed_1">connection failed, has been connected, or exceed the maximum number of connections</string>
-    <string name="str_alarm_binddev_timeout">host-end binding equipment timeout</string>
+    <string name="str_alarm_binddev_timeout">No support for this device or timeout</string>
     <string name="str_alarm_binddev_success">binding device successfully</string>
     <string name="str_alarm_binddev_max">more than maximum connection number</string>
     <string name="str_alarm_binddev_setnickname_failed">set up a nickname failed</string>

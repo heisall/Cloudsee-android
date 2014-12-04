@@ -53,6 +53,7 @@
             android:textColor="@drawable/btn_clolr_1"
             android:textSize="18sp" />
     </RelativeLayout>
+
     <ImageView
         android:id="@+id/dialog_cancle_img"
         android:layout_width="35dp"
@@ -61,4 +62,5 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/close_icon" />
+
 </FrameLayout>

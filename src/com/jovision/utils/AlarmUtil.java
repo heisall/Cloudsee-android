@@ -510,18 +510,21 @@ public class AlarmUtil {
 			if ("".equalsIgnoreCase(device.getIp()) || 0 == device.getPort()) {
 				// 云视通连接
 				MyLog.v("New Alarm", device.getNo() + "--云视通--连接");
-				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1,
-						device.getIp(), device.getPort(), device.getUser(),
-						device.getPwd(), device.getNo(), device.getGid(), true,
-						1, true, JVNetConst.TYPE_3GMO_UDP, null, false) >= 0;
+				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1, device
+						.getIp(), device.getPort(), device.getUser(), device
+						.getPwd(), device.getNo(), device.getGid(), true, 1,
+						true,
+						device.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+								: JVNetConst.TYPE_3GMO_UDP, null, false) >= 0;
 			} else {
 				// IP直连
 				MyLog.v("New Alarm",
 						device.getNo() + "--IP--连接：" + device.getIp());
-				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1,
-						device.getIp(), device.getPort(), device.getUser(),
-						device.getPwd(), -1, device.getGid(), true, 1, true,
-						JVNetConst.TYPE_3GMO_UDP, null, false) >= 0;
+				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1, device
+						.getIp(), device.getPort(), device.getUser(), device
+						.getPwd(), -1, device.getGid(), true, 1, true, device
+						.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+						: JVNetConst.TYPE_3GMO_UDP, null, false) >= 0;
 
 			}
 			return con_res;

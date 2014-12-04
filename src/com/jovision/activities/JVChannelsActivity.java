@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -123,7 +124,6 @@ public class JVChannelsActivity extends BaseActivity {
 		mImageView.getLayoutParams().width = item_width;
 		channelPager = (ViewPager) findViewById(R.id.channels_pager);
 		widthPixels = disMetrics.widthPixels;
-
 		// 初始化导航
 		initNav();
 		// 初始化viewPager
@@ -133,22 +133,21 @@ public class JVChannelsActivity extends BaseActivity {
 		adapter.setData(deviceList);
 		devicemanage_listView.setAdapter(adapter);
 		ListViewClick();
-		// TODO
+		handler.postDelayed(runnable, 100);
 	}
 
 	private Runnable runnable = new Runnable() {
 
 		@Override
 		public void run() {
-			mHorizontalScrollView.scrollTo(deviceIndex * item_width, 0);// 改变滚动条的位置
+			Log.i("TAG", "执行了，执行了！");
+			mHorizontalScrollView.smoothScrollTo(deviceIndex * item_width, 0);// 改变滚动条的位置
 		}
 	};
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mhandler = new Handler();
-		mhandler.postDelayed(runnable, 200);
 		for (int i = 0; i < deviceList.size(); i++) {
 			if (deviceIndex == i) {
 				deviceList.get(i).setIsselect(true);

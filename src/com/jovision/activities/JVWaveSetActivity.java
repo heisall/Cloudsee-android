@@ -87,6 +87,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	protected ImageView stepImage1;
 	protected ImageView waveImage;// 声波动画按钮
 	protected ImageView pressToSendWave;// 点击发送声波按钮
+	protected ImageView instruction;//
 	protected EditText desWifiName;
 	protected EditText desWifiPwd;
 	protected ToggleButton desPwdEye;
@@ -299,11 +300,14 @@ public class JVWaveSetActivity extends BaseActivity {
 
 		stepImage1 = (ImageView) findViewById(R.id.step_img1);
 		waveImage = (ImageView) findViewById(R.id.wavebg);
+		instruction = (ImageView) findViewById(R.id.instruction);
 		pressToSendWave = (ImageView) findViewById(R.id.press_sendwave);
 		if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
 			stepImage1.setImageResource(R.drawable.reset_bg_zh);
+			instruction.setImageResource(R.drawable.instruction_ch);
 		} else {
 			stepImage1.setImageResource(R.drawable.reset_bg_en);
+			instruction.setImageResource(R.drawable.instruction_en);
 		}
 		layoutList.add(0, stepLayout1);
 		layoutList.add(1, stepLayout2);
@@ -455,7 +459,7 @@ public class JVWaveSetActivity extends BaseActivity {
 				loading.setVisibility(View.GONE);
 				playSoundStep(3);
 				broadList.clear();
-				Jni.queryDevice("A", 361, 20 * 1000);
+				Jni.queryDevice("A", 361, 40 * 1000);
 				currentStep = 4;
 				showLayoutAtIndex(currentStep);
 

@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
@@ -8,6 +9,7 @@ import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -22,6 +24,7 @@ public class JVWebViewActivity extends BaseActivity {
 	private WebView webView;
 	private String url = "";
 	private int titleID = 0;
+	private ProgressBar progressbar;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -47,6 +50,7 @@ public class JVWebViewActivity extends BaseActivity {
 		/** topBar **/
 		back = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		progressbar = (ProgressBar) findViewById(R.id.progressbar);
 		if (-1 == titleID) {
 			currentMenu.setText("");
 		} else {
@@ -70,8 +74,23 @@ public class JVWebViewActivity extends BaseActivity {
 				view.loadUrl(url);
 				return false;
 			}
-		});
 
+			@Override
+			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+				// TODO Auto-generated method stub
+				super.onPageStarted(view, url, favicon);
+				progressbar.setVisibility(View.VISIBLE);
+				webView.setVisibility(View.GONE);
+			}
+
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				// TODO Auto-generated method stub
+				super.onPageFinished(view, url);
+				webView.setVisibility(View.VISIBLE);
+				progressbar.setVisibility(View.GONE);
+			}
+		});
 		webView.loadUrl(url);
 	}
 

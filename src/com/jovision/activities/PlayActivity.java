@@ -254,7 +254,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 		decodeBtn.setVisibility(View.GONE);
 		videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.turnleft_down));
+				R.drawable.turnleft_noturn));
 		currentKbps.setVisibility(View.GONE);
 		voiceTip = (RelativeLayout) findViewById(R.id.voicetip);
 
@@ -446,7 +446,7 @@ public abstract class PlayActivity extends BaseActivity {
 			// init();
 			if (Consts.PLAY_AP == playFlag) {
 				bottombut6.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.turnleft_down));
+						R.drawable.turn_no));
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turnleft_noturn));
 				videTurnBtn.setClickable(false);
@@ -624,7 +624,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 		if (Consts.PLAY_AP == playFlag) {
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turnleft_down));
+					R.drawable.turn_no));
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turnleft_noturn));
 			videTurnBtn.setClickable(false);
@@ -634,15 +634,15 @@ public abstract class PlayActivity extends BaseActivity {
 				relative6.setVisibility(View.VISIBLE);
 				bottombut6.setVisibility(View.VISIBLE);
 				bottombut6.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.turn_left_selector));
+						R.drawable.turn_lan_left));
 			} else if (Consts.SCREEN_OVERTURN == channel.getScreenTag()) {
 				relative6.setVisibility(View.VISIBLE);
 				bottombut6.setVisibility(View.VISIBLE);
 				bottombut6.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.turn_right_selector));
+						R.drawable.turn_lan_right));
 			} else {
 				bottombut6.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.turnleft_down));
+						R.drawable.turn_no));
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turnleft_noturn));
 			}
@@ -668,7 +668,7 @@ public abstract class PlayActivity extends BaseActivity {
 		try {
 			verPlayBarLayout.setVisibility(View.GONE);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.turnleft_down));
+					R.drawable.turn_no));
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turnleft_noturn));
 			right_btn_h.setVisibility(View.GONE);// 录像模式

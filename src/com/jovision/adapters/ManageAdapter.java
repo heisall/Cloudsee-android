@@ -15,7 +15,6 @@ import com.jovision.Consts;
 import com.jovision.activities.BaseFragment;
 import com.jovision.activities.ManageFragment;
 import com.jovision.bean.Device;
-import com.jovision.commons.JVDeviceConst;
 
 public class ManageAdapter extends BaseAdapter {
 
@@ -31,8 +30,7 @@ public class ManageAdapter extends BaseAdapter {
 			R.drawable.videoedit_devicemanager_icon,
 			R.drawable.videoedit_connectmode_icon,
 			R.drawable.videoedit_channal_icon, R.drawable.videoedit_see_icon,
-			R.drawable.protect_close, R.drawable.videoedit_add_icon,
-			R.drawable.dev_update };
+			R.drawable.videoedit_add_icon, R.drawable.dev_update };
 
 	private String[] fuctionArray;
 
@@ -108,7 +106,7 @@ public class ManageAdapter extends BaseAdapter {
 		if (ManageFragment.mScreenWidth == 480
 				|| ManageFragment.mScreenWidth == 540) {
 			h = w - 50;
-			if (position == 7) {
+			if (position == 6) {
 				RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
 						w - 20, h - 5);
 				channelHolder.manageBG.setLayoutParams(rllp);
@@ -125,24 +123,24 @@ public class ManageAdapter extends BaseAdapter {
 		channelHolder.manageBG.setBackgroundResource(resID);
 		// 本地登陆
 		if (loacal) {
-			if (5 == position || 6 == position || 7 == position) {
+			if (5 == position || 6 == position) {
 				convertView.setVisibility(View.GONE);
 			}
 		} else {
-			if (5 == position || 6 == position || 7 == position) {
+			if (5 == position || 6 == position) {
 				if (2 == device.getDeviceType()) {
 					convertView.setVisibility(View.VISIBLE);
-					if (5 == position) {
-						if (JVDeviceConst.DEVICE_SWITCH_OPEN == device
-								.getAlarmSwitch()) {
-							channelHolder.img
-									.setBackgroundResource(R.drawable.protect_open);
-						} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
-								.getAlarmSwitch()) {
-							channelHolder.img
-									.setBackgroundResource(R.drawable.protect_close);
-						}
-					}
+					// if (5 == position) {
+					// if (JVDeviceConst.DEVICE_SWITCH_OPEN == device
+					// .getAlarmSwitch()) {
+					// channelHolder.img
+					// .setBackgroundResource(R.drawable.protect_open);
+					// } else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
+					// .getAlarmSwitch()) {
+					// channelHolder.img
+					// .setBackgroundResource(R.drawable.protect_close);
+					// }
+					// }
 				} else {
 					convertView.setVisibility(View.GONE);
 				}

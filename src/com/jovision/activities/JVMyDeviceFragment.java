@@ -126,7 +126,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private String Selectnumberl;
 	private String numString;
 	int Sum;
-	private ArrayList<Device> AddLanList = new ArrayList<Device>();// 广播到的设备列表
+	private ArrayList<Device> addLanList = new ArrayList<Device>();// 广播到的设备列表
 	// 设备名称
 	private TextView device_name;
 	// 设备昵称
@@ -991,7 +991,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	/** 局域网扫描弹出框初始化 */
 	private void initLanDialog() {
-		AddLanList.clear();
+		addLanList.clear();
 		LanDialog = new Dialog(mActivity, R.style.mydialog);
 		View view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_lan,
 				null);
@@ -1037,7 +1037,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			public void onClick(View v) {
 				for (int i = 0; i < broadList.size(); i++) {
 					if (broadList.get(i).isIslanselect()) {
-						AddLanList.add(broadList.get(i));
+						addLanList.add(broadList.get(i));
 					}
 				}
 				AddDevTask task = new AddDevTask();
@@ -1438,15 +1438,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 			fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
 			int addRes = -1;
 			int addCount = 0;
-			// ArrayList<Device> list = new ArrayList<Device>();// 广播到的设备列表
-			// list = AddLanList;
-			// list = Device.fromJsonArray(params[0]);
-			// for (int i = 0; i < broadList.size(); i++) {
-			// Log.i("TAG",
-			// "设备是否被选中"+i+"     "+broadList.get(i).isIslanselect());
-			// }
 			try {
-				for (Device addDev : AddLanList) {
+				for (Device addDev : addLanList) {
 					String ip = addDev.getIp();
 					int port = addDev.getPort();
 					if (myDeviceList.size() >= 100
@@ -1471,56 +1464,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 								addRes = 0;
 							}
 
-							// addDev = DeviceUtil
-							// .addDevice(mActivity.statusHashMap
-							// .get("KEY_USERNAME"), addDev);
-							//
-							// if (null != addDev) {
-							// addRes = 0;
-							// }
-							//
-							// // 添加设备失败了，再添加一次
-							// if (addRes < 0) {
-							// addDev = DeviceUtil.addDevice(
-							// mActivity.statusHashMap
-							// .get("KEY_USERNAME"), addDev);
-							// }
-							// if (null != addDev) {
-							// addRes = 0;
-							// }
-							//
-							// if (addRes == 0) {
-							// if (0 <= addDev.getChannelList().size()) {
-							// int addPointRes = DeviceUtil.addPoint(
-							// addDev.getFullNo(), addDev
-							// .getChannelList().size());
-							//
-							// if (0 != addPointRes) {
-							// addPointRes = DeviceUtil.addPoint(
-							// addDev.getFullNo(), addDev
-							// .getChannelList()
-							// .size());
-							// }
-							//
-							// if (0 != addPointRes) {
-							// DeviceUtil
-							// .unbindDevice(
-							// mActivity.statusHashMap
-							// .get(Consts.KEY_USERNAME),
-							// addDev.getFullNo());
-							// addRes = -1;
-							// } else {
-							// addRes = 0;
-							// addCount++;
-							// }
-							// } else {
-							// DeviceUtil.unbindDevice(
-							// mActivity.statusHashMap
-							// .get(Consts.KEY_USERNAME),
-							// addDev.getFullNo());
-							// addRes = -1;
-							// }
-							// }
 						}
 					}
 					if (0 == addRes) {
@@ -1529,11 +1472,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 						myDeviceList.add(0, addDev);
 					}
 				}
-				// DeviceUtil.refreshDeviceState(
-				// mActivity.statusHashMap.get(Consts.KEY_USERNAME),
-				// myDeviceList);
 
-				for (Device dev1 : AddLanList) {
+				for (Device dev1 : addLanList) {
 					for (Device dev2 : myDeviceList) {
 						if (dev1.getFullNo().equalsIgnoreCase(dev2.getFullNo())) {
 							dev2.setOnlineState(1);
@@ -1677,7 +1617,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 * 3分钟自动刷新
 	 */
 	public void startAutoRefreshTimer() {
-		// 两分钟自动刷新设备列表
+		// 3分钟自动刷新设备列表
 		updateTask = new AutoUpdateTask();
 		if (null != updateTimer) {
 			updateTimer.cancel();

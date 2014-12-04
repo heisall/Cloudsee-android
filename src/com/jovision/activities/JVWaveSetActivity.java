@@ -108,7 +108,6 @@ public class JVWaveSetActivity extends BaseActivity {
 	protected MediaPlayer mediaPlayer = new MediaPlayer();
 
 	// 声波
-	protected boolean needResponse = true;
 	protected int animTime = 1000;
 	protected int sendCounts = 0;
 	protected String params = "";
@@ -209,11 +208,9 @@ public class JVWaveSetActivity extends BaseActivity {
 			break;
 		}
 		// 广播回调
-		case Consts.CALL_LAN_SEARCH: {// nNetMod 设备是否带wifi nCurMod 设备是否正在使用wifi
+		case Consts.CALL_QUERY_DEVICE: {// nNetMod 设备是否带wifi nCurMod
+										// 设备是否正在使用wifi
 
-			if (!needResponse) {
-				break;
-			}
 			MyLog.v(TAG, "CALL_LAN_SEARCH = what=" + what + ";arg1=" + arg1
 					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
 
@@ -252,7 +249,6 @@ public class JVWaveSetActivity extends BaseActivity {
 					}
 					handler.sendMessage(handler.obtainMessage(BROAD_DEVICE));
 				} else if (1 == broadObj.optInt("timeout")) {
-					needResponse = false;
 					CacheUtil.saveDevList(deviceList);
 					handler.sendMessage(handler.obtainMessage(BROAD_FINISHED));
 				}

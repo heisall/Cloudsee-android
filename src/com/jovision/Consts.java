@@ -64,7 +64,7 @@ public class Consts {
 	public static final int CALL_GOT_SCREENSHOT = 0xAB;
 	public static final int CALL_PLAY_DOOMED = 0xAC;
 	public static final int CALL_PLAY_AUDIO = 0xAD;
-	public static final int CALL_QUERY_DEVICE = 0xAE;
+	public static final int CALL_QUERY_DEVICE = 0xAE;// 纯局域网广播回调
 	public static final int CALL_HDEC_TYPE = 0xAF;
 	public static final int CALL_LIB_UNLOAD = 0xB0;
 	public static final int CALL_GEN_VOICE = 0xB1;

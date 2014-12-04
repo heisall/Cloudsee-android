@@ -121,23 +121,14 @@ public class ConfigUtil {
 			HashMap<String, String> statusHashMap = ((MainApplication) context
 					.getApplicationContext()).getStatusHashMap();
 			if ("".equalsIgnoreCase(version)) {
-				String softName = "";
-				// version = Jni.getVersion();
+				String verName = "";
 				String pkName = context.getPackageName();
-				softName = context.getPackageManager()
-						.getPackageInfo(pkName, 0).versionName;
-				// try {
-				// JSONObject obj = new JSONObject(version);
-				// version = obj.optString("jni");
-				// } catch (Exception e) {
-				// e.printStackTrace();
-				// }
+				verName = context.getPackageManager().getPackageInfo(pkName, 0).versionName;
 				if ("true".equalsIgnoreCase(statusHashMap
 						.get(Consts.NEUTRAL_VERSION))) {
-					version = softName;
+					version = verName;
 				} else {
-					// version = softName + version + " - DJ";
-					version = softName + " - DJ";
+					version = verName + " - DJ";
 				}
 			}
 		} catch (Exception e) {

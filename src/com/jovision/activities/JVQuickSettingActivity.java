@@ -1175,7 +1175,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		// break;
 		// }
 		// 广播回调
-		case Consts.CALL_LAN_SEARCH: {
+		case Consts.CALL_QUERY_DEVICE: {
 			MyLog.v(TAG, "CALL_LAN_SEARCH = what=" + what + ";arg1=" + arg1
 					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
 			// MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1

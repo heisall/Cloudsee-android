@@ -41,7 +41,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	private int audioByte;// 音频监听比特率
 	private boolean is05 = true;
 	private boolean isRemotePause = false;
-	private boolean bFromAlarm = false;// 是否报警视频
+	public static boolean bFromAlarm = false;// 是否报警视频
 	private boolean isAudio = false;// 是否正在监听
 
 	@Override

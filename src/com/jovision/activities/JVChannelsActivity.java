@@ -133,8 +133,6 @@ public class JVChannelsActivity extends BaseActivity {
 		adapter.setData(deviceList);
 		devicemanage_listView.setAdapter(adapter);
 		ListViewClick();
-		mhandler = new Handler();
-		mhandler.postDelayed(runnable, 200);
 		// TODO
 	}
 
@@ -149,6 +147,8 @@ public class JVChannelsActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		mhandler = new Handler();
+		mhandler.postDelayed(runnable, 200);
 		for (int i = 0; i < deviceList.size(); i++) {
 			if (deviceIndex == i) {
 				deviceList.get(i).setIsselect(true);

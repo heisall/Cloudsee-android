@@ -41,7 +41,8 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	private int audioByte;// 音频监听比特率
 	private boolean is05 = true;
 	private boolean isRemotePause = false;
-	private boolean bFromAlarm = false;
+	private boolean bFromAlarm = false;// 是否报警视频
+	private boolean isAudio = false;// 是否正在监听
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -386,11 +387,13 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 					// 继续播放视频
 					Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYGOON,
 							new byte[0], 0);
+					Jni.enablePlayAudio(indexOfChannel, isAudio);
 					isRemotePause = false;
 				} else {
 					// 暂停视频
 					Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYPAUSE,
 							new byte[0], 0);
+					Jni.enablePlayAudio(indexOfChannel, false);
 					playBackPause
 							.setBackgroundResource(R.drawable.video_play_icon);
 					isRemotePause = true;
@@ -400,10 +403,12 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			case R.id.voice: {// 音频监听
 				// 停止音频监听
 				if (PlayUtil.isPlayAudio(indexOfChannel)) {
+					isAudio = false;
 					stopAudio(indexOfChannel);
 					voiceListener.setBackgroundDrawable(getResources()
 							.getDrawable(R.drawable.video_monitor_ico));
 				} else {
+					isAudio = true;
 					startAudio(indexOfChannel, audioByte);
 					voiceListener.setBackgroundDrawable(getResources()
 							.getDrawable(R.drawable.video_monitorselect_icon));
@@ -435,24 +440,34 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				backMethod();
 				break;
 			case R.id.capture:// 抓拍
-				if (hasSDCard()) {
-					boolean capture = PlayUtil.capture(indexOfChannel);
-					MyLog.v(TAG, "capture=" + capture);
+				if (isRemotePause) {
+					showTextToast(R.string.forbidden_operation_when_paused);
+				} else {
+					if (hasSDCard()) {
+						boolean capture = PlayUtil.capture(indexOfChannel);
+						MyLog.v(TAG, "capture=" + capture);
+					}
 				}
+
 				break;
 			case R.id.voicecall:// 语音对讲
 				showTextToast(R.string.str_forbidden_operation);
 				break;
 			case R.id.videotape:// 录像
-				if (hasSDCard()) {
-					if (PlayUtil.videoRecord(indexOfChannel)) {// 打开
-						tapeSelected(true);
-						showTextToast(R.string.str_start_record);
-					} else {// 关闭
-						showTextToast(Consts.VIDEO_PATH);
-						tapeSelected(false);
+				if (isRemotePause) {
+					showTextToast(R.string.forbidden_operation_when_paused);
+				} else {
+					if (hasSDCard()) {
+						if (PlayUtil.videoRecord(indexOfChannel)) {// 打开
+							tapeSelected(true);
+							showTextToast(R.string.str_start_record);
+						} else {// 关闭
+							showTextToast(Consts.VIDEO_PATH);
+							tapeSelected(false);
+						}
 					}
 				}
+
 				break;
 			case R.id.more_features:// 更多
 				showTextToast(R.string.str_forbidden_operation);

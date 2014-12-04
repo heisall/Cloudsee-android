@@ -1,21 +1,19 @@
 package com.jovision.activities;
 
-import com.jovetech.CloudSee.temp.R;
-import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
-import com.jovision.activities.DeviceSettingsMainFragment.OnFuncActionListener;
-import com.jovision.utils.DateTimePickDialogUtil;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
+import com.jovision.utils.DateTimePickDialogUtil;
 
 public class DevSettingsAlarmTimeFragment extends Fragment implements
 		OnClickListener, OnMainListener {

@@ -9,13 +9,13 @@
         android:id="@+id/rl_start_time"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/alarm_time_layout_selector"
         android:padding="10dp"
-        android:layout_marginTop="16dp"
         android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        >
-        <TextView 
+        android:paddingRight="12dp" >
+
+        <TextView
             android:id="@+id/tv_start_time_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,17 +35,18 @@
             android:textSize="16sp" />
     </RelativeLayout>
     <!-- 结束时间 -->
-    <RelativeLayout 
+
+    <RelativeLayout
         android:id="@+id/rl_end_time"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/alarm_time_layout_selector"
         android:padding="10dp"
-        android:layout_marginTop="16dp"
         android:paddingLeft="12dp"
-        android:paddingRight="12dp"       
-        >
-        <TextView 
+        android:paddingRight="12dp" >
+
+        <TextView
             android:id="@+id/tv_end_time_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,41 +59,39 @@
         <TextView
             android:id="@+id/tv_end_time"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"            
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:textColor="@color/userinfocolor"
-            android:textSize="16sp"
-            android:layout_alignParentRight="true"  
-            android:layout_centerVertical="true"          
-            />
-    </RelativeLayout>    
-    
-    <RelativeLayout 
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:paddingLeft="12dp"
-        android:paddingRight="12dp"    
-        android:layout_marginTop="16dp"  
-        >
-        <Button 
+        android:paddingRight="12dp" >
+
+        <Button
             android:id="@+id/btn_all_day"
-            android:text="@string/str_all_day"
-            android:textSize="18sp"
-            android:textColor="@color/white"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:background="@drawable/blue_bg"
-            />
-         <Button 
-            android:id="@+id/btn_save"
-            android:textSize="18sp"
-            android:text="@string/login_str_save"
+            android:text="@string/str_all_day"
             android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_save"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/blue_bg"
-            />       
-        
+            android:text="@string/login_str_save"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
     </RelativeLayout>
+
 </LinearLayout>

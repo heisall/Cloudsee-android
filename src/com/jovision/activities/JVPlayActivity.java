@@ -3105,6 +3105,7 @@ public class JVPlayActivity extends PlayActivity implements
 					Intent intent = new Intent(JVPlayActivity.this,
 							DeviceSettingsActivity.class);
 					intent.putExtra("window", lastClickIndex);
+					intent.putExtra("deviceIndex", deviceIndex);
 					startActivity(intent);
 				}
 

@@ -1,11 +1,14 @@
 package com.jovision.activities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.integer;
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,9 +26,14 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.activities.DevSettingsAlarmTimeFragment.OnAlarmTimeActionListener;
 import com.jovision.activities.DeviceSettingsMainFragment.OnFuncActionListener;
+import com.jovision.bean.Device;
+import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.DeviceUtil;
+import com.tencent.stat.StatService;
 
 public class DeviceSettingsActivity extends BaseActivity implements
 		OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
@@ -44,6 +52,11 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private MyHandler myHandler;
 	private String startTimeSaved, endTimeSaved;
 	private String startTimeSetting, endTimeSetting;
+	private int alarm_way_flag = -1; // 报警的方式，走云视通还是报警服务器 0:报警服务器 1:云视通
+	private Device device;
+	private ArrayList<Device> deviceList;
+	private int deviceIndex = 0;
+	private DeviceSettingsActivity activity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,11 +64,16 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dev_settings_main);
 		Bundle extras = getIntent().getExtras();
+		activity = this;
 		if (null == extras) {
 			finish();
 			return;
 		}
 		myHandler = new MyHandler();
+		window = extras.getInt("window");
+		deviceIndex = extras.getInt("deviceIndex");
+		deviceList = CacheUtil.getDevList();
+		device = deviceList.get(deviceIndex);
 		InitViews();
 		if (null == waitingDialog) {
 			waitingDialog = new ProgressDialog(this);
@@ -65,10 +83,11 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			waitingDialog.show();
 			// 获取当前设置
 			// 获取设备参数 -> flag = FLAG_GET_PARAM, 分析 msg?
-			window = extras.getInt("window");
-			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-					Consts.TYPE_GET_PARAM, null);
-			new Thread(new TimeOutProcess(Consts.TYPE_GET_PARAM)).start();
+			// Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+			// JVNetConst.JVN_STREAM_INFO, null);
+			Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
+					JVNetConst.JVN_STREAM_INFO);
+			new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
 		}
 
 	}
@@ -149,17 +168,49 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				if (waitingDialog != null && waitingDialog.isShowing()) {
 					waitingDialog.dismiss();
 				}
-				myHandler.removeMessages(Consts.TYPE_GET_PARAM);
+				myHandler.removeMessages(JVNetConst.JVN_STREAM_INFO);
 				String allStr = obj.toString();
 
 				MyLog.v(TAG, "文本数据--" + allStr);
 				try {
 					JSONObject dataObj = new JSONObject(allStr);
-					int packet_type = dataObj.getInt("packet_type");
-					switch (packet_type) {
-					case JVNetConst.RC_GETPARAM:
+					int flag = dataObj.getInt("flag");
+					switch (flag) {
+					case JVNetConst.JVN_STREAM_INFO:
 						HashMap<String, String> map = ConfigUtil
 								.genMsgMap(dataObj.getString("msg"));
+						// 先判断MobileQuality
+						String MobileQuality = map.get("MobileQuality");
+						String MobileCH = null;
+						if (null == MobileQuality) {// 没这个字段说明是老设备，再判断MobileCH是否为2
+							MobileCH = map.get("MobileCH");
+							if (MobileCH != null)// 这种情况，直接不让进设备设置界面
+							{
+								if (!(MobileCH.equals("2"))) {
+									showTextToast(R.string.not_support_this_func);
+									this.finish();
+									return;
+								} else {
+									// 只有安全防护，走设备服务器
+									alarm_way_flag = 0;
+								}
+							} else {
+								showTextToast(R.string.not_support_this_func);
+								this.finish();
+								return;
+							}
+						} else {
+							// 如果有，走云视通
+							alarm_way_flag = 1;
+						}
+
+						String alarm_enable = map.get("bAlarmEnable");
+						if (alarm_enable == null) {
+							alarmEnable = -1;
+						} else {
+							alarmEnable = Integer.valueOf(alarm_enable);
+						}
+
 						String md_enable = map.get("bMDEnable");
 						if (md_enable == null) {
 							// showTextToast(R.string.not_support_this_func);
@@ -167,13 +218,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 						} else {
 							mdEnable = Integer.valueOf(md_enable);
 						}
-						String alarm_enable = map.get("bAlarmEnable");
-						if (alarm_enable == null) {
-							// showTextToast(R.string.not_support_this_func);
-							alarmEnable = -1;
-						} else {
-							alarmEnable = Integer.valueOf(alarm_enable);
-						}
+
 						String alarmTime0 = map.get("alarmTime0");// alarmTime0
 						if (alarm_enable == null) {
 							// showTextToast(R.string.not_support_this_func);
@@ -183,6 +228,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 						initDevParamObject.put("bAlarmEnable", alarmEnable);
 						initDevParamObject.put("bMDEnable", mdEnable);
 						initDevParamObject.put("alarmTime0", alarmTime0);
+						initDevParamObject.put("alarmWay", alarm_way_flag);
 
 						// Check that the activity is using the layout version
 						// with
@@ -210,7 +256,16 @@ public class DeviceSettingsActivity extends BaseActivity implements
 									.commitAllowingStateLoss();
 							fragment_tag = 0;
 						}
-						break;// end of JVNetConst.RC_GETPARAM
+						break;
+
+					default:
+						break;
+					}
+					int packet_type = dataObj.getInt("packet_type");
+					switch (packet_type) {
+					// case JVNetConst.RC_GETPARAM:
+					//
+					// break;// end of JVNetConst.RC_GETPARAM
 					case JVNetConst.RC_EXTEND:
 						int packet_subtype = dataObj.getInt("packet_count");
 						int ex_type = dataObj.optInt("extend_type");
@@ -281,9 +336,15 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		switch (func_index) {
 		case Consts.DEV_SETTINGS_ALARM:// 安全防护
 			alarmEnable = enabled;
-			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
-					0x02,
-					String.format(Consts.FORMATTER_SET_ALARM_ONLY, enabled));
+			if (alarm_way_flag == 1) {
+				Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
+						0x02,
+						String.format(Consts.FORMATTER_SET_ALARM_ONLY, enabled));
+			} else {
+				AlarmSwitchTask task = new AlarmSwitchTask();
+				String[] params = new String[3];
+				task.execute(params);
+			}
 			break;
 		case Consts.DEV_SETTINGS_MD:// 移动侦测
 			mdEnable = enabled;
@@ -292,6 +353,97 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			break;
 		default:
 			break;
+		}
+	}
+
+	// 设置三种类型参数分别为String,Integer,String
+	class AlarmSwitchTask extends AsyncTask<String, Integer, Integer> {
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int switchRes = -1;// 0成功， 1失败，1000离线
+			try {
+				if (null == device) {
+					device = deviceList.get(deviceIndex);
+				}
+				if (JVDeviceConst.DEVICE_SERVER_ONLINE == device
+						.getServerState()) {
+					int sendTag = 0;
+					if (JVDeviceConst.DEVICE_SWITCH_OPEN == device
+							.getAlarmSwitch()) {
+						sendTag = JVDeviceConst.DEVICE_SWITCH_CLOSE;
+					} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
+							.getAlarmSwitch()) {
+						sendTag = JVDeviceConst.DEVICE_SWITCH_OPEN;
+					}
+					switchRes = DeviceUtil.saveSettings(
+							JVDeviceConst.DEVICE_ALARTM_SWITCH, sendTag,
+							activity.statusHashMap.get(Consts.KEY_USERNAME),
+							device.getFullNo());
+				} else {
+					switchRes = 1000;
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return switchRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			waitingDialog.dismiss();
+			if (0 == result) {
+				try {
+					activity.initDevParamObject
+							.put("bAlarmEnable", alarmEnable);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				mainListener.onMainAction(JVNetConst.RC_EXTEND,
+						JVNetConst.RC_EX_ALARM, JVNetConst.EX_ALARM_SUBMIT);
+				StatService.trackCustomEvent(activity, "Alarm", activity
+						.getResources().getString(R.string.str_alarm2));
+				if (JVDeviceConst.DEVICE_SWITCH_OPEN == device.getAlarmSwitch()) {
+					device.setAlarmSwitch(JVDeviceConst.DEVICE_SWITCH_CLOSE);
+					showTextToast(R.string.protect_close_succ);
+				} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
+						.getAlarmSwitch()) {
+					device.setAlarmSwitch(JVDeviceConst.DEVICE_SWITCH_OPEN);
+					showTextToast(R.string.protect_open_succ);
+				}
+
+				// [{"fullNo":"S52942216","port":0,"hasWifi":1,"isDevice":0,"no":52942216,"is05":false,"onlineState":-1182329167,"channelList":[{"channel":1,"channelName":"S52942216_1","index":0}],"isHomeProduct":false,"ip":"","pwd":"123","nickName":"S52942216","deviceType":2,"alarmSwitch":1,"gid":"S","user":"abc","serverState":1,"doMain":""}]
+				CacheUtil.saveDevList(deviceList);
+			} else if (1000 == result) {
+				showTextToast(R.string.device_offline);
+			} else {
+				if (JVDeviceConst.DEVICE_SWITCH_OPEN == device.getAlarmSwitch()) {
+					showTextToast(R.string.protect_close_fail);
+				} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
+						.getAlarmSwitch()) {
+					showTextToast(R.string.protect_open_fail);
+				}
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+
 		}
 	}
 
@@ -403,7 +555,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		public void dispatchMessage(Message msg) {
 			String strDescString = "";
 			switch (msg.what) {
-			case Consts.TYPE_GET_PARAM:
+			case JVNetConst.JVN_STREAM_INFO:
 				if (waitingDialog != null && waitingDialog.isShowing())
 					waitingDialog.dismiss();
 				strDescString = getResources().getString(
@@ -441,7 +593,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
 					0x02, String.format(Consts.FORMATTER_SET_ALARM_TIME,
 							"00:00:00-23:59:59"));
-			new Thread(new TimeOutProcess(Consts.TYPE_GET_PARAM)).start();
+			new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
 		} else {
 			String alarmTime0 = String
 					.format("%s:00-%s:00", startTime, endTime);
@@ -449,7 +601,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
 					0x02,
 					String.format(Consts.FORMATTER_SET_ALARM_TIME, alarmTime0));
-			new Thread(new TimeOutProcess(Consts.TYPE_GET_PARAM)).start();
+			new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
 		}
 	}
 

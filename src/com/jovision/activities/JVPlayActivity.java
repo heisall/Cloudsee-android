@@ -1811,11 +1811,11 @@ public class JVPlayActivity extends PlayActivity implements
 						// + channelList.get(lastClickIndex).getChannel()
 						// + "-" + number);
 					} else {// 有ip非3G
-					// currentMenu_v.setText(deviceList.get(deviceIndex)
-					// .getNickName()
-					// + "-"
-					// + channelList.get(lastClickIndex).getChannel()
-					// + "-" + conIp);
+						// currentMenu_v.setText(deviceList.get(deviceIndex)
+						// .getNickName()
+						// + "-"
+						// + channelList.get(lastClickIndex).getChannel()
+						// + "-" + conIp);
 						number = -1;
 
 					}

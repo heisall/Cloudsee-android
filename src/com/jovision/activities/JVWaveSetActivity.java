@@ -132,6 +132,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			break;
 		}
 		case BROAD_FINISHED: {// 广播超时
+			dismissDialog();
 			if (null == broadList || 0 == broadList.size()) {
 				showTextToast(R.string.broad_zero);
 			} else {
@@ -237,7 +238,7 @@ public class JVWaveSetActivity extends BaseActivity {
 					int netmod = broadObj.optInt("netmod");
 					Boolean hasAdded = PlayUtil.hasDev(deviceList, broadDevNum,
 							ip, port, netmod);
-					if (1 == broadObj.optInt("netmod")) {// 带wifi设备
+					if (1 == broadObj.optInt("netmod") && !hasAdded) {// 带wifi设备且不在设备列表里面
 						Device addDev = new Device(ip, port, gid, no,
 								getResources().getString(
 										R.string.str_default_user),
@@ -453,7 +454,9 @@ public class JVWaveSetActivity extends BaseActivity {
 				showLayoutAtIndex(currentStep);
 				break;
 			case R.id.step_btn3:// 发局域网广播搜索局域网设备
-				loading.setVisibility(View.VISIBLE);
+				createDialog("");
+				proDialog.setCancelable(false);
+				loading.setVisibility(View.GONE);
 				playSoundStep(3);
 				broadList.clear();
 				Jni.queryDevice("A", 361, 20 * 1000);
@@ -552,13 +555,13 @@ public class JVWaveSetActivity extends BaseActivity {
 				}
 
 				if (0 == addRes) {
+					broadList.remove(index);
 					addDevice.setOnlineState(1);
 					addDevice.setIp(ip);
 					addDevice.setPort(port);
 					addDevice.setHasAdded(true);
 					deviceList.add(0, addDevice);
 					CacheUtil.saveDevList(deviceList);
-
 				}
 
 			} catch (Exception e) {
@@ -575,6 +578,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			wdListAdapter.setData(broadList);
 			wdListAdapter.notifyDataSetChanged();
 			if (0 == result) {
 				showTextToast(R.string.add_device_succ);
@@ -586,7 +590,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			proDialog.setCancelable(false);
+			// proDialog.setCancelable(false);
 		}
 
 		@Override

@@ -1471,11 +1471,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 					while (!hasBroadIP) {// 未广播到IP
 						try {
-							Thread.sleep(100);
+							Thread.sleep(1000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						Log.v("未广播到IP---" + hasBroadIP, "休眠2秒");
+						Log.v("未广播到IP---" + hasBroadIP, "休眠1秒");
 					}
 
 					// 重新登陆成功 ,或者本地登陆

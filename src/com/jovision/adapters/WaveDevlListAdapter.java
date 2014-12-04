@@ -112,18 +112,18 @@ public class WaveDevlListAdapter extends BaseAdapter {
 				convertView.setVisibility(View.VISIBLE);
 			}
 
-			devHolder.channel_list_img
-					.setOnClickListener(new OnClickListener() {
+			convertView.setOnClickListener(new OnClickListener() {
 
-						@Override
-						public void onClick(View arg0) {
-							if (!devList.get(position).isHasAdded()) {
-								activity.onNotify(JVWaveSetActivity.ADD_DEVICE,
-										position, 0, null);
-							}
-						}
+				@Override
+				public void onClick(View arg0) {
+					if (!devList.get(position).isHasAdded()) {
+						activity.onNotify(JVWaveSetActivity.ADD_DEVICE,
+								position, 0, null);
+					}
+				}
 
-					});
+			});
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

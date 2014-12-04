@@ -163,8 +163,7 @@ public class JVDemoActivity extends BaseActivity {
 		protected Integer doInBackground(String... params) {
 			int getRes = -1;// 0成功 1失败
 			try {
-				demoList = DeviceUtil.getDemoDeviceList(getResources()
-						.getString(R.string.app_name));
+				demoList = DeviceUtil.getDemoDeviceList(Consts.APP_NAME);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

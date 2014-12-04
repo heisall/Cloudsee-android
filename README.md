@@ -169,7 +169,8 @@ SearchLanServer
 queryDevice
 
     id, 0, 0, json
-    json: {"type":0, "gid":"", "no":0, "ip":"", "port":0}
+    json: {"ip":"", "gid":"", "no":0, "type":0, "count":0,
+        "port":0, "variety":0, "timeout":0, "netmod":0, "curmod":0}
 
 stat
 

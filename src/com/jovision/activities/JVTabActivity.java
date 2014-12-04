@@ -172,6 +172,14 @@ public class JVTabActivity extends ShakeActivity implements
 				R.layout.help_item6, null);
 		pics.add(view);
 		pics.add(view6);
+		view.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				viewpager.setVisibility(View.GONE);
+				ll_dot.setVisibility(View.GONE);
+			}
+		});
 	}
 
 	private void initDot(int dotnum) {

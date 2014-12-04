@@ -68,10 +68,21 @@ public class JVRemotePlay extends BaseActivity {
 			channel.setIndex(1);
 			channel.setSurfaceView(remoteSufaceView);
 
-			Jni.connect(1, 1, device.getIp(), device.getPort(),
-					device.getUser(), device.getPwd(), device.getNo(),
-					device.getGid(), true, 1, true, JVNetConst.TYPE_3GMO_UDP,
-					channel.getSurfaceView().getHolder().getSurface(), true);
+			Jni.connect(
+					1,
+					1,
+					device.getIp(),
+					device.getPort(),
+					device.getUser(),
+					device.getPwd(),
+					device.getNo(),
+					device.getGid(),
+					true,
+					1,
+					true,
+					channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+							: JVNetConst.TYPE_3GMO_UDP, channel
+							.getSurfaceView().getHolder().getSurface(), true);
 		}
 
 	}

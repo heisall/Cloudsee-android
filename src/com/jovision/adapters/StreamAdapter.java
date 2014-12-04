@@ -18,7 +18,7 @@ public class StreamAdapter extends BaseAdapter {
 	private String[] dataArray;
 	private LayoutInflater mInflater;
 	public int selectStream = -1;// 选中码流
-	public boolean newIpc = false;// 是否新的融合代码后的IPC
+	public int kinds = 3;// 几种切换
 
 	/**
 	 * 自定义构造方法
@@ -37,8 +37,8 @@ public class StreamAdapter extends BaseAdapter {
 		this.dataArray = array;
 	}
 
-	public void setNewIpc(boolean newIpc) {
-		this.newIpc = newIpc;
+	public void setChangeCounts(int counts) {
+		this.kinds = counts;
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class StreamAdapter extends BaseAdapter {
 			}
 		});
 
-		if (0 == position && !newIpc) {// 老的IPC连接手机码流不让切换成高清
+		if (0 == position && 2 == kinds) {// 老的IPC连接手机码流不让切换成高清
 			holder.screenNum.setVisibility(View.GONE);
 		} else {
 			holder.screenNum.setVisibility(View.VISIBLE);

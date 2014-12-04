@@ -107,6 +107,8 @@
     <string name="str_voice">Talk</string>
     <string name="str_video">Record</string>
     <string name="str_more">More</string>
+    <string name="voice_send">按住说话</string>
+    <string name="voice_stop">松开结束</string>
     <string name="str_has_call">Another client is using Cloud Talk function, please use this function later.</string>
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="play_failed"> play the video failed</string>

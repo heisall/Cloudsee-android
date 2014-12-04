@@ -91,6 +91,9 @@ public class Device {
 	/** 设备是否已在设备列表里 ，声波配置使用 */
 	private boolean hasAdded = false;// 声波配置使用
 
+	/** 设备是否已在设备列表里 ，声波配置使用 */
+	private boolean oldDevice = false;// 连接视频判断新老设备连接的码流不一样，MobileQuality存在就是新设备，不存在就是老设备
+
 	public Device() {
 		channelList = new MyList<Channel>(1);
 		thirdDevList = new ArrayList<ThirdAlarmDev>();
@@ -245,6 +248,7 @@ public class Device {
 			object.put("hasWifi", hasWifi);
 			object.put("serverState", serverState);
 			object.put("alarmSwitch", alarmSwitch);
+			object.put("oldDevice", oldDevice);
 
 			try {
 				ArrayList<Channel> list = channelList.toList();
@@ -328,6 +332,8 @@ public class Device {
 			dev.setHasWifi(ConfigUtil.getInt(object, "hasWifi"));
 			dev.setServerState(ConfigUtil.getInt(object, "serverState"));
 			dev.setAlarmSwitch(ConfigUtil.getInt(object, "alarmSwitch"));
+
+			dev.setOldDevice(ConfigUtil.getBoolean(object, "oldDevice"));
 			dev.setChannelList(Channel.fromJsonArray(
 					ConfigUtil.getString(object, "channelList"), dev));
 
@@ -547,6 +553,14 @@ public class Device {
 
 	public void setHasAdded(boolean hasAdded) {
 		this.hasAdded = hasAdded;
+	}
+
+	public boolean isOldDevice() {
+		return oldDevice;
+	}
+
+	public void setOldDevice(boolean oldDevice) {
+		this.oldDevice = oldDevice;
 	}
 
 }

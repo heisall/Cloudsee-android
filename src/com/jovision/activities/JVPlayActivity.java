@@ -497,7 +497,6 @@ public class JVPlayActivity extends PlayActivity implements
 							&& Consts.DEVICE_TYPE_DVR == type) {
 						channel.setSupportVoice(false);
 						// [Neo] TODO 不支持此设备的语音对讲，可监听
-
 						// private static final int AUDIO_WHAT = 0x51;
 						// MyAudio audio = MyAudio.getIntance(AUDIO_WHAT, this);
 						//
@@ -769,23 +768,11 @@ public class JVPlayActivity extends PlayActivity implements
 								} else {
 									channel.setScreenTag(Consts.SCREEN_OVERTURN);
 								}
-								// TODO
 							}
-							// if (null != streamMap.get("FlashMode")) {
-							// int FlashMode = Integer.valueOf(streamMap
-							// .get("FlashMode"));
-							// if (FlashMode == 0) {
-							// ht_fight.setBackgroundResource(R.drawable.ht_flight_auto);
-							// } else if (FlashMode == 1) {
-							// ht_fight.setBackgroundResource(R.drawable.ht_flight_open);
-							// } else if (FlashMode == 2) {
-							// ht_fight.setBackgroundResource(R.drawable.ht_flight_close);
-							// }
-							// Consts.FLIGHT_FLAG = FlashMode;
-							// }
 							if (null != streamMap.get("MobileQuality")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("MobileQuality"))) {
+								channel.getParent().setOldDevice(false);
 								MyLog.v(TAG,
 										"MobileQuality="
 												+ streamMap
@@ -794,37 +781,70 @@ public class JVPlayActivity extends PlayActivity implements
 										.get("MobileQuality")));
 								channel.setNewIpcFlag(true);
 							} else {
+								channel.setNewIpcFlag(false);
+								// TODO 亟待测试
+								if (channel.getParent().isOldDevice()) {// 已经取到标志位是老的设备了
+									if (null != streamMap.get("MobileCH")
+											&& "2".equalsIgnoreCase(streamMap
+													.get("MobileCH"))) {
+										MyLog.v(TAG,
+												"MobileCH="
+														+ streamMap
+																.get("MobileCH"));
+										if (null != streamMap
+												.get("MainStreamQos")
+												&& !"".equalsIgnoreCase(streamMap
+														.get("MainStreamQos"))) {
+											MyLog.v(TAG,
+													"MainStreamQos="
+															+ streamMap
+																	.get("MainStreamQos"));
+											channel.setStreamTag(Integer.parseInt(streamMap
+													.get("MainStreamQos")));
 
-								if (null != streamMap.get("MobileCH")
-										&& "2".equalsIgnoreCase(streamMap
-												.get("MobileCH"))) {
-									MyLog.v(TAG,
-											"MobileCH="
-													+ streamMap.get("MobileCH"));
+										}
 
-									String strParam = streamJSON
-											.substring(streamJSON
-													.lastIndexOf("[CH2];") + 6,
-													streamJSON.length());
-									HashMap<String, String> ch2Map = ConfigUtil
-											.genMsgMap1(strParam);
-									int width = Integer.valueOf(ch2Map
-											.get("width"));
-									// int height = Integer.valueOf(ch2Map
-									// .get("height"));
-									// if (720 == width && 480 == height) {
-									// channel.setStreamTag(2);
-									// } else if (352 == width && 288 == height)
-									// {
-									// channel.setStreamTag(3);
-									// }
-									if (624 <= width) {
-										channel.setStreamTag(2);
-									} else {
-										channel.setStreamTag(3);
 									}
-									channel.setNewIpcFlag(false);
+								} else {
+									channel.getParent().setOldDevice(true);
+									if (Consts.PLAY_NORMAL == playFlag) {
+										CacheUtil.saveDevList(deviceList);
+
+									}
+									if (null != streamMap.get("MobileCH")
+											&& "2".equalsIgnoreCase(streamMap
+													.get("MobileCH"))) {
+										MyLog.v(TAG,
+												"MobileCH="
+														+ streamMap
+																.get("MobileCH"));
+
+										String strParam = streamJSON
+												.substring(
+														streamJSON
+																.lastIndexOf("[CH2];") + 6,
+														streamJSON.length());
+										HashMap<String, String> ch2Map = ConfigUtil
+												.genMsgMap1(strParam);
+										int width = Integer.valueOf(ch2Map
+												.get("width"));
+										// int height = Integer.valueOf(ch2Map
+										// .get("height"));
+										// if (720 == width && 480 == height) {
+										// channel.setStreamTag(2);
+										// } else if (352 == width && 288 ==
+										// height)
+										// {
+										// channel.setStreamTag(3);
+										// }
+										if (624 <= width) {
+											channel.setStreamTag(2);
+										} else {
+											channel.setStreamTag(3);
+										}
+									}
 								}
+
 								// if (null != streamMap.get("MobileStreamQos")
 								// && !"".equalsIgnoreCase(streamMap
 								// .get("MobileStreamQos"))) {
@@ -908,6 +928,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.JVN_RSP_CHATACCEPT: {
 				Channel channel = channelList.get(lastClickIndex);
 				if (channel.isSingleVoice()) {
+					voiceCall.setText(R.string.voice_send);
 					showTextToast(R.string.voice_tips2);
 				}
 				channel.setVoiceCall(true);
@@ -1097,22 +1118,57 @@ public class JVPlayActivity extends PlayActivity implements
 				Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
 						false, 0, Consts.TYPE_SET_PARAM, params);
 			} else {
-				if (0 == arg1) {
-					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-							false, 0, Consts.TYPE_SET_PARAM, String.format(
-									Consts.FORMATTER_SET_BPS_FPS, 2, 1280, 720,
-									1024, 15, 1));
-				} else if (1 == arg1) {
-					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-							false, 0, Consts.TYPE_SET_PARAM, String.format(
-									Consts.FORMATTER_SET_BPS_FPS, 2, 720, 480,
-									512, 20, 1));
-				} else if (2 == arg1) {
-					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-							false, 0, Consts.TYPE_SET_PARAM, String.format(
-									Consts.FORMATTER_SET_BPS_FPS, 2, 352, 288,
-									512, 25, 1));
+
+				if (channel.getParent().isOldDevice()) {
+					// int index = arg1 + 1;
+					// String params = "MainStreamQos=" + index + ";";//
+					// "MobileStreamQos="
+					// MyLog.v(TAG, "changeStream--" + params);
+					// Jni.sendString(lastClickIndex,
+					// JVNetConst.JVN_RSP_TEXTDATA,
+					// false, 0, Consts.TYPE_SET_PARAM, params);
+
+					if (0 == arg1) {
+						Jni.sendString(lastClickIndex,
+								JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+								Consts.TYPE_SET_PARAM, String.format(
+										Consts.FORMATTER_SET_BPS_FPS, 1, 1280,
+										720, 800, 15, 1));
+					} else if (1 == arg1) {
+						Jni.sendString(lastClickIndex,
+								JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+								Consts.TYPE_SET_PARAM, String.format(
+										Consts.FORMATTER_SET_BPS_FPS, 1, 720,
+										480, 512, 20, 1));
+					} else if (2 == arg1) {
+						Jni.sendString(lastClickIndex,
+								JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+								Consts.TYPE_SET_PARAM, String.format(
+										Consts.FORMATTER_SET_BPS_FPS, 1, 352,
+										288, 512, 25, 1));
+					}
+				} else {
+					if (0 == arg1) {
+						Jni.sendString(lastClickIndex,
+								JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+								Consts.TYPE_SET_PARAM, String.format(
+										Consts.FORMATTER_SET_BPS_FPS, 2, 1280,
+										720, 1024, 15, 1));
+					} else if (1 == arg1) {
+						Jni.sendString(lastClickIndex,
+								JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+								Consts.TYPE_SET_PARAM, String.format(
+										Consts.FORMATTER_SET_BPS_FPS, 2, 720,
+										480, 512, 20, 1));
+					} else if (2 == arg1) {
+						Jni.sendString(lastClickIndex,
+								JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+								Consts.TYPE_SET_PARAM, String.format(
+										Consts.FORMATTER_SET_BPS_FPS, 2, 352,
+										288, 512, 25, 1));
+					}
 				}
+
 			}
 
 			streamListView.setVisibility(View.GONE);
@@ -1778,10 +1834,12 @@ public class JVPlayActivity extends PlayActivity implements
 				// IP直连
 				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),
-						Consts.IPC_DEFAULT_IP, Consts.IPC_DEFAULT_PORT,
-						device.getUser(), device.getPwd(), -1, device.getGid(),
-						true, 1, true, JVNetConst.TYPE_3GMO_UDP,
-						channel.getSurface(), isOmx);
+						Consts.IPC_DEFAULT_IP, Consts.IPC_DEFAULT_PORT, device
+								.getUser(), device.getPwd(), -1, device
+								.getGid(), true, 1, true, channel.getParent()
+								.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+								: JVNetConst.TYPE_3GMO_UDP, channel
+								.getSurface(), isOmx);
 				if (connect == channel.getIndex()) {
 					channel.setPaused(null == channel.getSurface());
 				}
@@ -1822,24 +1880,44 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 				if (isPlayDirectly) {
-					connect = Jni.connect(channel.getIndex(),
-							channel.getChannel(), conIp, conPort,
-							device.getUser(), device.getPwd(), number,
-							device.getGid(), true, 1, true,
-							JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
-							// ? 6 : 5),
-							channel.getSurface(), isOmx);
+					connect = Jni
+							.connect(
+									channel.getIndex(),
+									channel.getChannel(),
+									conIp,
+									conPort,
+									device.getUser(),
+									device.getPwd(),
+									number,
+									device.getGid(),
+									true,
+									1,
+									true,
+									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+											: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
+									// ? 6 : 5),
+									channel.getSurface(), isOmx);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
 				} else {
-					connect = Jni.connect(channel.getIndex(),
-							channel.getChannel(), conIp, conPort,
-							device.getUser(), device.getPwd(), number,
-							device.getGid(), true, 1, true,
-							JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
-							// ? 6 : 5),
-							null, isOmx);
+					connect = Jni
+							.connect(
+									channel.getIndex(),
+									channel.getChannel(),
+									conIp,
+									conPort,
+									device.getUser(),
+									device.getPwd(),
+									number,
+									device.getGid(),
+									true,
+									1,
+									true,
+									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+											: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
+									// ? 6 : 5),
+									null, isOmx);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(true);
 					}
@@ -2352,6 +2430,7 @@ public class JVPlayActivity extends PlayActivity implements
 						showTextToast(R.string.not_support_this_func);
 					} else {
 						if (channelList.get(lastClickIndex).isVoiceCall()) {
+							voiceCall.setText(R.string.str_voice);
 							stopVoiceCall(lastClickIndex);
 							channelList.get(lastClickIndex).setVoiceCall(false);
 							realStop = true;
@@ -2394,12 +2473,16 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.video_bq:
 			case R.id.more_features:// 码流
-				if (channelList.get(lastClickIndex).isNewIpcFlag()) {
+				if (channelList.get(lastClickIndex).isNewIpcFlag()
+						|| channelList.get(lastClickIndex).getParent()
+								.isOldDevice()) {
 					streamListView.setBackgroundDrawable(getResources()
 							.getDrawable(R.drawable.stream_selector_bg3));
+					streamAdapter.setChangeCounts(3);
 				} else {
 					streamListView.setBackgroundDrawable(getResources()
 							.getDrawable(R.drawable.stream_selector_bg2));
+					streamAdapter.setChangeCounts(2);
 				}
 
 				if (View.VISIBLE == streamListView.getVisibility()) {
@@ -2410,8 +2493,6 @@ public class JVPlayActivity extends PlayActivity implements
 								.getStreamTag()) {
 							showTextToast(R.string.not_support_this_func);
 						} else {
-							streamAdapter.setNewIpc(channelList.get(
-									lastClickIndex).isNewIpcFlag());
 							streamAdapter.notifyDataSetChanged();
 							streamListView.setVisibility(View.VISIBLE);
 						}
@@ -2755,6 +2836,7 @@ public class JVPlayActivity extends PlayActivity implements
 							.obtainMessage(STOP_AUDIO_GATHER));
 					new TalkThread(lastClickIndex, 0).start();
 					VOICECALL_LONG_CLICK = false;
+					voiceCall.setText(R.string.voice_send);
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 					voiceTip.setVisibility(View.GONE);
 					handler.sendMessageDelayed(
@@ -2776,6 +2858,7 @@ public class JVPlayActivity extends PlayActivity implements
 			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
 				if (VOICECALLING) {// 正在喊话
 					VOICECALL_LONG_CLICK = true;
+					voiceCall.setText(R.string.voice_stop);
 					if (JVPlayActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 						setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
 					} else if (JVPlayActivity.this.getResources()

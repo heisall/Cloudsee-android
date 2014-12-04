@@ -22,6 +22,7 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.activities.AddThirdDeviceMenuFragment.OnDeviceClassSelectedListener;
 import com.jovision.activities.BindThirdDevNicknameFragment.OnSetNickNameListener;
+import com.jovision.activities.DeviceSettingsActivity.TimeOutProcess;
 import com.jovision.bean.ThirdAlarmDev;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
@@ -175,6 +176,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 							(byte) Consts.RC_GPIN_ADD, req_data.trim());
+					new Thread(new TimeOutProcess(Consts.RC_GPIN_ADD)).start();
 				}
 			}
 			break;
@@ -203,6 +205,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 							(byte) Consts.RC_GPIN_ADD, req_data.trim());
+					new Thread(new TimeOutProcess(Consts.RC_GPIN_ADD)).start();
 				}
 
 			}
@@ -232,6 +235,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 							(byte) Consts.RC_GPIN_ADD, req_data.trim());
+					new Thread(new TimeOutProcess(Consts.RC_GPIN_ADD)).start();
 				}
 
 			}
@@ -247,6 +251,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			switch (msg.what) {
 			case JVNetConst.JVN_REQ_TEXT:
 			case JVNetConst.JVN_RSP_TEXTDATA:
+			case Consts.RC_GPIN_ADD:
 				DismissDialog();
 				showTextToast(R.string.str_alarm_binddev_timeout);
 				break;
@@ -345,6 +350,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 							(byte) Consts.RC_GPIN_ADD, req_data.trim());
+					new Thread(new TimeOutProcess(Consts.RC_GPIN_ADD)).start();
 				} else {
 					SendBingNickName(nickName);
 				}
@@ -380,6 +386,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					if (learningDialog.isShowing()) {
 						learningDialog.dismiss();
 					}
+					myHandler.removeMessages(Consts.RC_GPIN_ADD);
 					if (obj != null) {
 						Log.e("Alarm", "绑定设备结果:" + obj.toString());
 						String addStr = respObject.optString("msg");
@@ -578,4 +585,16 @@ public class AddThirdDevActivity extends BaseActivity implements
 			waitingDialog.dismiss();
 	}
 
+	class TimeOutProcess implements Runnable {
+		private int tag;
+
+		public TimeOutProcess(int arg1) {
+			tag = arg1;
+		}
+
+		@Override
+		public void run() {
+			myHandler.sendEmptyMessageDelayed(tag, 16000);
+		}
+	}
 }

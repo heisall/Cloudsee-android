@@ -38,6 +38,8 @@ public class CustomDialogActivity extends BaseActivity implements
 	private Button lookVideoBtn;
 	/** 报警图片 **/
 	private ImageView alarmImage;
+	/** 关闭按钮 **/
+	private ImageView alarmClose;
 	/** 报警时间 **/
 	private TextView alarmTime;
 
@@ -177,6 +179,9 @@ public class CustomDialogActivity extends BaseActivity implements
 				R.string.str_downloading_vod));
 		progressdialog.setIndeterminate(false);
 		progressdialog.setCancelable(false);
+
+		alarmClose = (ImageView) findViewById(R.id.dialog_cancle_img);
+		alarmClose.setOnClickListener(this);
 	}
 
 	/**
@@ -249,6 +254,9 @@ public class CustomDialogActivity extends BaseActivity implements
 				}
 
 			}
+			break;
+		case R.id.dialog_cancle_img:
+			this.finish();
 			break;
 		default:
 			break;
@@ -413,7 +421,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				if (progressdialog.isShowing()) {
 					progressdialog.dismiss();
 				}
-				showTextToast(R.string.connect_failed);
+				// showTextToast(R.string.connect_failed);
 				if (!vod_uri_.equals("")) {
 					lookVideoBtn.setEnabled(true);
 				}

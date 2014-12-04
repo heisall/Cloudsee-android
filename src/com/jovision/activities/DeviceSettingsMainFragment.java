@@ -136,6 +136,10 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			case 0:
 				func_swalert
 						.setBackgroundResource(R.drawable.morefragment_normal_icon);
+				functionlayout2.setVisibility(View.GONE);
+				functiontips2.setVisibility(View.GONE);
+				functionlayout3.setVisibility(View.GONE);
+				functiontips3.setVisibility(View.GONE);
 				break;
 			case 1:
 				func_swalert

@@ -41,7 +41,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	private int audioByte;// 音频监听比特率
 	private boolean is05 = true;
 	private boolean isRemotePause = false;
-	public static boolean bFromAlarm = false;// 是否报警视频
+	public boolean bFromAlarm = false;// 是否报警视频
 	private boolean isAudio = false;// 是否正在监听
 
 	@Override
@@ -334,6 +334,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			is05 = intent.getBooleanExtra("is05", true);
 			bFromAlarm = intent.getBooleanExtra("bFromAlarm", false);
 		}
+		functionListAdapter.setFromAlerm(bFromAlarm);
 		if (bFromAlarm) {
 			currentMenu.setText(R.string.str_remote_alerm);
 			// capture.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -577,7 +578,6 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYSTOP, new byte[0],
 				0);
 		JVRemotePlayBackActivity.this.finish();
-		JVRemotePlayBackActivity.bFromAlarm = false;
 	}
 
 	@Override
@@ -643,11 +643,5 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		// [Neo] surface.step 2
 		handler.sendEmptyMessageDelayed(Consts.WHAT_DUMMY, 100);
 		horPlayBarLayout.setVisibility(View.GONE);
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		JVRemotePlayBackActivity.bFromAlarm = false;
 	}
 }

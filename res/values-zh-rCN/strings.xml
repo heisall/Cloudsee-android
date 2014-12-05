@@ -475,7 +475,7 @@
     <string name="video_alarm">报警录像</string>
     <string name="video_motion">移动检测</string>
     <string name="video_time">定时录像</string>
-    <string name="recoding">正在生成录像文件，请稍后查看。</string>
+    <string name="recoding">播放失败</string>
     <!-- MyDeviceListAdapter -->
     <string name="str_device_online">在线</string>
     <string name="str_device_offline">离线</string>

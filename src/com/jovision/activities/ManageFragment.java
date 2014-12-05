@@ -49,7 +49,7 @@ public class ManageFragment extends BaseFragment {
 	private GridView manageGridView;
 	private ManageAdapter manageAdapter;
 	boolean localFlag = false;
-	private int isDevice;
+	// private int isDevice;
 	private Bundle bundle;
 
 	int devType = 0;
@@ -201,7 +201,7 @@ public class ManageFragment extends BaseFragment {
 			case 0: {// 远程设置
 				StatService.trackCustomEvent(mActivity, "RemoteSet", mActivity
 						.getResources().getString(R.string.str_remoteset));
-				if (2 == isDevice) {
+				if (2 == device.getIsDevice()) {
 					mActivity.showTextToast(R.string.ip_add_notallow);
 				} else {
 					mActivity.createDialog("");
@@ -226,7 +226,7 @@ public class ManageFragment extends BaseFragment {
 			case 2: {// 连接模式
 				StatService.trackCustomEvent(mActivity, "Ipconnect", mActivity
 						.getResources().getString(R.string.str_ipconect));
-				if (2 == isDevice) {
+				if (2 == device.getIsDevice()) {
 					mActivity.showTextToast(R.string.ip_add_notallow);
 				} else {
 					Intent intent = new Intent(mActivity,

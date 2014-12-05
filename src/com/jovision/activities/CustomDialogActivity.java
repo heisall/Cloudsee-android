@@ -234,12 +234,12 @@ public class CustomDialogActivity extends BaseActivity implements
 				bDownLoadFileType = 1;
 				if (!bConnectFlag) {
 					// lookVideoBtn.setEnabled(false);
-					if (!AlarmUtil.OnlyConnect(strYstNum)) {
-						progressdialog.dismiss();
-						showTextToast(R.string.str_alarm_connect_failed_1);
-						lookVideoBtn.setEnabled(true);
-					}
-
+					// if (!AlarmUtil.OnlyConnect(strYstNum)) {
+					// progressdialog.dismiss();
+					// showTextToast(R.string.str_alarm_connect_failed_1);
+					// lookVideoBtn.setEnabled(true);
+					// }
+					new Thread(new ConnectProcess(0x9999)).start();
 				} else {
 
 					// 已经连接上走远程回放
@@ -254,12 +254,12 @@ public class CustomDialogActivity extends BaseActivity implements
 					} else {
 						// 已经断开了
 						// lookVideoBtn.setEnabled(false);
-						if (!AlarmUtil.OnlyConnect(strYstNum)) {
-							progressdialog.dismiss();
-							showTextToast(R.string.str_alarm_connect_failed_1);
-							lookVideoBtn.setEnabled(true);
-						}
-
+						// if (!AlarmUtil.OnlyConnect(strYstNum)) {
+						// progressdialog.dismiss();
+						// showTextToast(R.string.str_alarm_connect_failed_1);
+						// lookVideoBtn.setEnabled(true);
+						// }
+						new Thread(new ConnectProcess(0x9999)).start();
 					}
 
 				}
@@ -399,11 +399,12 @@ public class CustomDialogActivity extends BaseActivity implements
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					if (!AlarmUtil.OnlyConnect(strYstNum)) {
-						progressdialog.dismiss();
-						showTextToast(R.string.str_alarm_connect_failed_1);
-						lookVideoBtn.setEnabled(true);
-					}
+					// if (!AlarmUtil.OnlyConnect(strYstNum)) {
+					// progressdialog.dismiss();
+					// showTextToast(R.string.str_alarm_connect_failed_1);
+					// lookVideoBtn.setEnabled(true);
+					// }
+					new Thread(new ConnectProcess(0x9999)).start();
 				} else {
 					if (progressdialog.isShowing()) {
 						progressdialog.dismiss();
@@ -591,6 +592,11 @@ public class CustomDialogActivity extends BaseActivity implements
 				}
 				showTextToast(R.string.str_disconnect_resp_timeout);
 				break;
+			case 0x9999:
+				progressdialog.dismiss();
+				showTextToast(R.string.str_alarm_connect_failed_1);
+				lookVideoBtn.setEnabled(true);
+				break;
 			default:
 				break;
 			}
@@ -607,6 +613,21 @@ public class CustomDialogActivity extends BaseActivity implements
 		@Override
 		public void run() {
 			myHandler.sendEmptyMessageDelayed(tag, 16000);
+		}
+	}
+
+	class ConnectProcess implements Runnable {
+		private int tag;
+
+		public ConnectProcess(int arg1) {
+			tag = arg1;
+		}
+
+		@Override
+		public void run() {
+			if (!AlarmUtil.OnlyConnect(strYstNum)) {
+				myHandler.sendEmptyMessage(tag);
+			}
 		}
 	}
 }

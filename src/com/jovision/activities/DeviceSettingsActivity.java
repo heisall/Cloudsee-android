@@ -6,7 +6,6 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;

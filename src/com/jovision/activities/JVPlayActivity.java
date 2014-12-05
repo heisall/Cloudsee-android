@@ -806,11 +806,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 									}
 								} else {
-									channel.getParent().setOldDevice(true);
-									if (Consts.PLAY_NORMAL == playFlag) {
-										CacheUtil.saveDevList(deviceList);
-
-									}
+									MySharedPreference.putBoolean(channel
+											.getParent().getFullNo(), true);
 									if (null != streamMap.get("MobileCH")
 											&& "2".equalsIgnoreCase(streamMap
 													.get("MobileCH"))) {
@@ -1378,6 +1375,10 @@ public class JVPlayActivity extends PlayActivity implements
 				String devJsonString = intent
 						.getStringExtra(Consts.KEY_PLAY_NORMAL);
 				deviceList = Device.fromJsonArray(devJsonString);
+				for (Device dev : deviceList) {
+					dev.setOldDevice(MySharedPreference.getBoolean(
+							dev.getFullNo(), false));
+				}
 			} else if (Consts.PLAY_DEMO == playFlag) {
 				String devJsonString = intent
 						.getStringExtra(Consts.KEY_PLAY_DEMO);
@@ -1809,6 +1810,10 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	private boolean connect(Channel channel, boolean isPlayDirectly) {
+		channel.getParent().setOldDevice(
+				MySharedPreference.getBoolean(channel.getParent().getFullNo(),
+						false));
+
 		boolean result = false;
 
 		if (null != channel && false == channel.isConnected()
@@ -2473,16 +2478,18 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.video_bq:
 			case R.id.more_features:// 码流
+				int rows = 3;
 				if (channelList.get(lastClickIndex).isNewIpcFlag()
 						|| channelList.get(lastClickIndex).getParent()
 								.isOldDevice()) {
 					streamListView.setBackgroundDrawable(getResources()
 							.getDrawable(R.drawable.stream_selector_bg3));
-					streamAdapter.setChangeCounts(3);
+					rows = 3;
 				} else {
 					streamListView.setBackgroundDrawable(getResources()
 							.getDrawable(R.drawable.stream_selector_bg2));
-					streamAdapter.setChangeCounts(2);
+					rows = 2;
+
 				}
 
 				if (View.VISIBLE == streamListView.getVisibility()) {
@@ -2493,6 +2500,7 @@ public class JVPlayActivity extends PlayActivity implements
 								.getStreamTag()) {
 							showTextToast(R.string.not_support_this_func);
 						} else {
+							streamAdapter.setChangeCounts(rows);
 							streamAdapter.notifyDataSetChanged();
 							streamListView.setVisibility(View.VISIBLE);
 						}

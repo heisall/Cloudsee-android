@@ -421,7 +421,11 @@ public class JVMediaListActivity extends BaseActivity {
 		}
 
 	}
-
+@Override
+protected void onDestroy() {
+	super.onDestroy();
+	fileMap.clear();
+}
 	// 文件按时间倒序排序
 	static Comparator<File> comparator = new Comparator<File>() {
 		public int compare(File f1, File f2) {
@@ -448,5 +452,4 @@ public class JVMediaListActivity extends BaseActivity {
 			}
 		}
 	};
-
 }

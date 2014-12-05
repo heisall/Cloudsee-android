@@ -27,6 +27,7 @@
         android:background="@color/halftransparent" >
 
         <Button
+            android:singleLine="true"
             android:id="@+id/kbps"
             android:layout_width="60dp"
             android:layout_height="30dp"

@@ -1176,27 +1176,45 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		// }
 		// 广播回调
 		case Consts.CALL_QUERY_DEVICE: {
-			MyLog.v(TAG, "CALL_LAN_SEARCH = what=" + what + ";arg1=" + arg1
+			if (hasBroadIP) {
+				break;
+			}
+			MyLog.v(TAG, "CALL_QUERY_DEVICE = what=" + what + ";arg1=" + arg1
 					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
 			// MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1
 			// + ";arg2=" + arg1 + ";obj=" + obj.toString());
 			// onTabAction:what=168;arg1=0;arg2=0;obj={"count":1,"curmod":0,"gid":"A","ip":"192.168.21.238","netmod":0,"no":283827713,"port":9101,"timeout":0,"type":59162,"variety":3}
-			hasBroadIP = true;
 			JSONObject broadObj;
 			try {
 				broadObj = new JSONObject(obj.toString());
 				int netmod = broadObj.optInt("netmod");
-				String broadDevNum = broadObj.optString("gid")
-						+ broadObj.optInt("no");
-				if (broadDevNum.equalsIgnoreCase(ipcDevice.getFullNo())) {// 同一个设备
-					ipcDevice.setOnlineState(1);
-					ipcDevice.setIp(broadObj.optString("ip"));
-					ipcDevice.setPort(broadObj.optInt("port"));
-					ipcDevice.setHasWifi(broadObj.optInt("netmod"));
+				int timeOut = broadObj.optInt("timeout");
+				String ip = broadObj.optString("ip");
+				int port = broadObj.optInt("port");
+				if (0 == timeOut) {
+					// 防止广播到设备没ip
+					if (!"".equalsIgnoreCase(ip) && 0 != port) {
+						String broadDevNum = broadObj.optString("gid")
+								+ broadObj.optInt("no");
+						MyLog.v("广播回调", "未超时--" + hasBroadIP + "--"
+								+ broadDevNum);
+						if (broadDevNum.equalsIgnoreCase(ipcDevice.getFullNo())) {// 同一个设备
+							ipcDevice.setOnlineState(1);
+							ipcDevice.setIp(broadObj.optString("ip"));
+							ipcDevice.setPort(broadObj.optInt("port"));
+							ipcDevice.setHasWifi(broadObj.optInt("netmod"));
+							hasBroadIP = true;
+						} else {
+							ipcDevice.setIp("");
+							ipcDevice.setPort(0);
+						}
+					}
+
 				} else {
-					ipcDevice.setIp("");
-					ipcDevice.setPort(0);
+					MyLog.v("广播回调", "超时--" + hasBroadIP);
+					hasBroadIP = true;
 				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

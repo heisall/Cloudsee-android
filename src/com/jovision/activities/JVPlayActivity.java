@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
@@ -589,7 +590,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (recoding) {
 				// showTextToast(R.string.video_repaked);
-				PlayUtil.videoRecord(lastClickIndex);
+				PlayUtil.videoRecord(lastClickIndex, "");
 			}
 
 			// }
@@ -2463,11 +2464,24 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.videotape:// 录像
 				if (hasSDCard() && allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).getParent().is05()) {
-						if (PlayUtil.videoRecord(lastClickIndex)) {// 打开
+						String path = PlayUtil.createRecordFile();
+						if (PlayUtil.videoRecord(lastClickIndex, path)) {// 打开
+							recordingPath = path;
+							startRecordTime = System.currentTimeMillis();
 							tapeSelected(true);
 							showTextToast(R.string.str_start_record);
+
 						} else {// 关闭
-							showTextToast(Consts.VIDEO_PATH);
+							long recordTime = System.currentTimeMillis()
+									- startRecordTime;
+							MyLog.e(TAG, "recordTime=" + recordTime);
+							if (recordTime <= 2000) {
+								File recordFile = new File(recordingPath);
+								recordFile.delete();
+								showTextToast(R.string.record_failed);
+							} else {
+								showTextToast(Consts.VIDEO_PATH);
+							}
 							tapeSelected(false);
 						}
 					} else {
@@ -2710,7 +2724,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 正在录像停止录像
 		if (PlayUtil.checkRecord(lastClickIndex)) {
-			if (!PlayUtil.videoRecord(lastClickIndex)) {// 打开
+			if (!PlayUtil.videoRecord(lastClickIndex, "")) {// 打开
 				showTextToast(Consts.VIDEO_PATH);
 				tapeSelected(false);
 			}

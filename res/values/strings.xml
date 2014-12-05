@@ -109,6 +109,7 @@
     <string name="str_voice">Talk</string>
     <string name="str_video">Record</string>
     <string name="str_more">More</string>
+    <string name="record_failed">The video is invalid</string>
     <string name="voice_send">hold on, speak</string>
     <string name="voice_stop">lossen, end</string>
     <string name="str_has_call">Another client is using Cloud Talk function, please use this function later.</string>

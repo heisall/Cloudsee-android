@@ -359,7 +359,8 @@
                     android:gravity="center"
                     android:text="@string/save"
                     android:textColor="@color/white"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:visibility="gone" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

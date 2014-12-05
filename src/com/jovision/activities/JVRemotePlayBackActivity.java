@@ -41,7 +41,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	private int audioByte;// 音频监听比特率
 	private boolean is05 = true;
 	private boolean isRemotePause = false;
-	public static boolean bFromAlarm = false;// 是否报警视频
+	public boolean bFromAlarm = false;// 是否报警视频
 	private boolean isAudio = false;// 是否正在监听
 
 	@Override
@@ -284,29 +284,6 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		voiceCall.setOnClickListener(myOnClickListener);
 		videoTape.setOnClickListener(myOnClickListener);
 		moreFeature.setOnClickListener(myOnClickListener);
-		if (bFromAlarm) {
-			currentMenu.setText(R.string.str_remote_alerm);
-			// capture.setCompoundDrawablesWithIntrinsicBounds(null,
-			// getResources().getDrawable(R.drawable.capture_alerm
-			// ) , null, null);
-			voiceCall.setCompoundDrawablesWithIntrinsicBounds(null,
-					getResources().getDrawable(R.drawable.voice_call_alerm),
-					null, null);
-			// videoTape.setCompoundDrawablesWithIntrinsicBounds(null,
-			// getResources().getDrawable(R.drawable.video_record_alerm
-			// ) , null, null);
-			moreFeature.setCompoundDrawablesWithIntrinsicBounds(null,
-					getResources().getDrawable(R.drawable.more_feature_alerm),
-					null, null);
-			// capture.setTextColor(getResources().getColor(R.color.more_fragment_color7));
-			// videoTape.setTextColor(getResources().getColor(R.color.more_fragment_color7));
-			voiceCall.setTextColor(getResources().getColor(
-					R.color.more_fragment_color7));
-			moreFeature.setTextColor(getResources().getColor(
-					R.color.more_fragment_color7));
-		} else {
-			currentMenu.setText(R.string.str_remote_playback);
-		}
 
 		verPlayBarLayout.setVisibility(View.GONE);
 		horPlayBarLayout.setVisibility(View.GONE);
@@ -357,7 +334,30 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			is05 = intent.getBooleanExtra("is05", true);
 			bFromAlarm = intent.getBooleanExtra("bFromAlarm", false);
 		}
-
+		functionListAdapter.setFromAlerm(bFromAlarm);
+		if (bFromAlarm) {
+			currentMenu.setText(R.string.str_remote_alerm);
+			// capture.setCompoundDrawablesWithIntrinsicBounds(null,
+			// getResources().getDrawable(R.drawable.capture_alerm
+			// ) , null, null);
+			voiceCall.setCompoundDrawablesWithIntrinsicBounds(null,
+					getResources().getDrawable(R.drawable.voice_call_alerm),
+					null, null);
+			// videoTape.setCompoundDrawablesWithIntrinsicBounds(null,
+			// getResources().getDrawable(R.drawable.video_record_alerm
+			// ) , null, null);
+			moreFeature.setCompoundDrawablesWithIntrinsicBounds(null,
+					getResources().getDrawable(R.drawable.more_feature_alerm),
+					null, null);
+			// capture.setTextColor(getResources().getColor(R.color.more_fragment_color7));
+			// videoTape.setTextColor(getResources().getColor(R.color.more_fragment_color7));
+			voiceCall.setTextColor(getResources().getColor(
+					R.color.more_fragment_color7));
+			moreFeature.setTextColor(getResources().getColor(
+					R.color.more_fragment_color7));
+		} else {
+			currentMenu.setText(R.string.str_remote_playback);
+		}
 		if (!is05) {
 			progressBar.setVisibility(View.GONE);
 		} else {

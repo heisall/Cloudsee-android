@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -251,10 +252,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 			case JVNetConst.JVN_REQ_TEXT:
 			case JVNetConst.JVN_RSP_TEXTDATA:
 			case Consts.RC_GPIN_ADD:
+				// new Thread(new ToastProcess(0x9999)).start();
 				DismissDialog();
 				showTextToast(R.string.str_alarm_binddev_timeout);
 				break;
-
 			default:
 				break;
 			}
@@ -451,6 +452,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 							// 请求代码可以自己设置，这里设置成10
 							setResult(30, data);
 							finish();
+						} else {
+							showTextToast(R.string.str_alarm_binddev_timeout);
 						}
 					}
 					break;
@@ -594,6 +597,19 @@ public class AddThirdDevActivity extends BaseActivity implements
 		@Override
 		public void run() {
 			myHandler.sendEmptyMessageDelayed(tag, 16000);
+		}
+	}
+
+	class ToastProcess implements Runnable {
+		private int tag;
+
+		public ToastProcess(int arg1) {
+			tag = arg1;
+		}
+
+		@Override
+		public void run() {
+			myHandler.sendEmptyMessageDelayed(tag, 2000);
 		}
 	}
 }

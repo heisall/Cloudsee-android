@@ -58,7 +58,7 @@ public class CustomDialogActivity extends BaseActivity implements
 	private ProgressDialog progressdialog;
 	private PlayWindowManager manager;
 	private int device_type = Consts.DEVICE_TYPE_IPC;
-	private int audio_type = 1;
+	private int audio_bit = 16;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -363,7 +363,7 @@ public class CustomDialogActivity extends BaseActivity implements
 					intent.setClass(this, JVRemotePlayBackActivity.class);
 					intent.putExtra("IndexOfChannel", 0);
 					intent.putExtra("acBuffStr", vod_uri_);
-					intent.putExtra("AudioByte", audio_type);
+					intent.putExtra("AudioBit", audio_bit);
 					intent.putExtra("DeviceType", device_type);
 					intent.putExtra("bFromAlarm", true);
 					intent.putExtra("is05", true);
@@ -436,7 +436,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			if (obj == null) {
 				MyLog.i("ALARM NORMALDATA", "normal data obj is null");
 				device_type = Consts.DEVICE_TYPE_IPC;
-				audio_type = 1;
+				audio_bit = 16;
 			} else {
 				MyLog.i("ALARM NORMALDATA", obj.toString());
 				try {
@@ -445,12 +445,12 @@ public class CustomDialogActivity extends BaseActivity implements
 					device_type = jobj.optInt("device_type",
 							Consts.DEVICE_TYPE_IPC);
 					if (null != jobj) {
-						audio_type = jobj.optInt("audio_type", 1);
+						audio_bit = jobj.optInt("audio_bit", 16);
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 					device_type = Consts.DEVICE_TYPE_IPC;
-					audio_type = 1;
+					audio_bit = 16;
 				}
 			}
 

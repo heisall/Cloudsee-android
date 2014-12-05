@@ -58,7 +58,7 @@ public class CustomDialogActivity extends BaseActivity implements
 	private ProgressDialog progressdialog;
 	private PlayWindowManager manager;
 	private int device_type = Consts.DEVICE_TYPE_IPC;
-	private int audio_type = 16;
+	private int audio_type = 1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -333,8 +333,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				+ arg1);
 		switch (what) {
 		// 连接结果
-		case Consts.CALL_CONNECT_CHANGE:
-
+		case Consts.CALL_CONNECT_CHANGE: {
 			switch (arg2) {
 
 			case JVNetConst.NO_RECONNECT:// 1 -- 连接成功//3 不必重新连接
@@ -420,22 +419,24 @@ public class CustomDialogActivity extends BaseActivity implements
 				}
 			}
 				break;
-			default:
-				if (progressdialog.isShowing()) {
-					progressdialog.dismiss();
-				}
-				// showTextToast(R.string.connect_failed);
-				if (!vod_uri_.equals("")) {
-					lookVideoBtn.setEnabled(true);
-				}
-				break;
+			// default:
+			// if (progressdialog.isShowing()) {
+			// progressdialog.dismiss();
+			// }
+			// Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
+			// // showTextToast(R.string.connect_failed);
+			// if (!vod_uri_.equals("")) {
+			// lookVideoBtn.setEnabled(true);
+			// }
+			// break;
 			}
-			;
+		}
+			break;
 		case Consts.CALL_NORMAL_DATA: {
 			if (obj == null) {
 				MyLog.i("ALARM NORMALDATA", "normal data obj is null");
 				device_type = Consts.DEVICE_TYPE_IPC;
-				audio_type = 16;
+				audio_type = 1;
 			} else {
 				MyLog.i("ALARM NORMALDATA", obj.toString());
 				try {
@@ -444,12 +445,12 @@ public class CustomDialogActivity extends BaseActivity implements
 					device_type = jobj.optInt("device_type",
 							Consts.DEVICE_TYPE_IPC);
 					if (null != jobj) {
-						audio_type = jobj.optInt("audio_type", 16);
+						audio_type = jobj.optInt("audio_type", 1);
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 					device_type = Consts.DEVICE_TYPE_IPC;
-					audio_type = 16;
+					audio_type = 1;
 				}
 			}
 

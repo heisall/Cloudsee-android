@@ -351,7 +351,6 @@
                 </LinearLayout>
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/saveChange"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -360,7 +359,8 @@
                     android:gravity="center"
                     android:text="@string/save"
                     android:textColor="@color/white"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:visibility="gone" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

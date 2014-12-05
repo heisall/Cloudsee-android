@@ -186,7 +186,7 @@
     <string name="str_email_not_exist">Congratulations,email can register.</string>
     <string name="str_reset_not_success">Failed to modify.</string>
     <string name="str_modify_user_info">Complete the user info</string>
-    <string name="str_bound_email">bind Email</string>
+    <string name="str_bound_email">Bind Email</string>
     <string name="str_bound_email_failed">Failed to combine with the Email address.</string>
     <string name="str_bound_email_exist">This Email address has been registered.</string>
     <string name="str_device_most_count">Devices quantity has exceeded the limit, please delete the useless devices and add new one then.</string>

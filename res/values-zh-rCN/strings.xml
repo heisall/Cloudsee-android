@@ -626,6 +626,7 @@
     <string name="str_getdev_params_timeout">获取设备参数超时</string>
     <string name="str_setting_time">设置时间</string>
     <string name="str_disconnect_resp_timeout">断开连接超时</string>
+    <string name="str_operation_failed">操作不成功</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="str_login">本地登录</string>
     <string name="str_onlinelogin">在线登录</string>

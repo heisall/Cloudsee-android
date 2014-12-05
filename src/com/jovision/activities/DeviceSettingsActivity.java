@@ -428,13 +428,16 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				// [{"fullNo":"S52942216","port":0,"hasWifi":1,"isDevice":0,"no":52942216,"is05":false,"onlineState":-1182329167,"channelList":[{"channel":1,"channelName":"S52942216_1","index":0}],"isHomeProduct":false,"ip":"","pwd":"123","nickName":"S52942216","deviceType":2,"alarmSwitch":1,"gid":"S","user":"abc","serverState":1,"doMain":""}]
 				CacheUtil.saveDevList(deviceList);
 			} else if (1000 == result) {
-				showTextToast(R.string.device_offline);
+//				showTextToast(R.string.device_offline);
+				showTextToast(R.string.str_operation_failed);
 			} else {
 				if (JVDeviceConst.DEVICE_SWITCH_OPEN == device.getAlarmSwitch()) {
-					showTextToast(R.string.protect_close_fail);
+//					showTextToast(R.string.protect_close_fail);
+					showTextToast(R.string.str_operation_failed);
 				} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
 						.getAlarmSwitch()) {
-					showTextToast(R.string.protect_open_fail);
+//					showTextToast(R.string.protect_open_fail);
+					showTextToast(R.string.str_operation_failed);
 				}
 			}
 		}

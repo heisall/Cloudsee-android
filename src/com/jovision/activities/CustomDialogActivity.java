@@ -57,6 +57,8 @@ public class CustomDialogActivity extends BaseActivity implements
 	private String strYstNum = "";
 	private ProgressDialog progressdialog;
 	private PlayWindowManager manager;
+	private int device_type = Consts.DEVICE_TYPE_IPC;
+	private int audio_type = 1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -331,8 +333,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				+ arg1);
 		switch (what) {
 		// 连接结果
-		case Consts.CALL_CONNECT_CHANGE:
-
+		case Consts.CALL_CONNECT_CHANGE: {
 			switch (arg2) {
 
 			case JVNetConst.NO_RECONNECT:// 1 -- 连接成功//3 不必重新连接
@@ -362,7 +363,8 @@ public class CustomDialogActivity extends BaseActivity implements
 					intent.setClass(this, JVRemotePlayBackActivity.class);
 					intent.putExtra("IndexOfChannel", 0);
 					intent.putExtra("acBuffStr", vod_uri_);
-					intent.putExtra("AudioByte", 0);
+					intent.putExtra("AudioByte", audio_type);
+					intent.putExtra("DeviceType", device_type);
 					intent.putExtra("bFromAlarm", true);
 					intent.putExtra("is05", true);
 					this.startActivity(intent);
@@ -417,17 +419,43 @@ public class CustomDialogActivity extends BaseActivity implements
 				}
 			}
 				break;
-			default:
-				if (progressdialog.isShowing()) {
-					progressdialog.dismiss();
-				}
-				// showTextToast(R.string.connect_failed);
-				if (!vod_uri_.equals("")) {
-					lookVideoBtn.setEnabled(true);
-				}
-				break;
+			// default:
+			// if (progressdialog.isShowing()) {
+			// progressdialog.dismiss();
+			// }
+			// Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
+			// // showTextToast(R.string.connect_failed);
+			// if (!vod_uri_.equals("")) {
+			// lookVideoBtn.setEnabled(true);
+			// }
+			// break;
 			}
-			;
+		}
+			break;
+		case Consts.CALL_NORMAL_DATA: {
+			if (obj == null) {
+				MyLog.i("ALARM NORMALDATA", "normal data obj is null");
+				device_type = Consts.DEVICE_TYPE_IPC;
+				audio_type = 1;
+			} else {
+				MyLog.i("ALARM NORMALDATA", obj.toString());
+				try {
+					JSONObject jobj;
+					jobj = new JSONObject(obj.toString());
+					device_type = jobj.optInt("device_type",
+							Consts.DEVICE_TYPE_IPC);
+					if (null != jobj) {
+						audio_type = jobj.optInt("audio_type", 1);
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+					device_type = Consts.DEVICE_TYPE_IPC;
+					audio_type = 1;
+				}
+			}
+
+		}
+			break;
 		case Consts.CALL_DOWNLOAD: {
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_DOWNLOADOVER:// 文件下载完毕

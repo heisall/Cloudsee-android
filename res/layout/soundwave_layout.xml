@@ -221,10 +221,11 @@
                 android:textSize="14sp" />
 
             <ImageView
+                android:id="@+id/instruction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/instruction_bg"
-                android:src="@drawable/instruction" />
+                android:src="@drawable/instruction_ch" />
         </RelativeLayout>
 
         <RelativeLayout

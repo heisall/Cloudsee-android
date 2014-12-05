@@ -47,22 +47,82 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+
+		case Consts.CALL_CONNECT_CHANGE: {
+			MyLog.i(TAG, "CALL_CONNECT_CHANGE:what=" + what + ",arg1=" + arg1
+					+ ",arg2=" + arg2 + ",obj=" + obj);
+			switch (arg2) {
+			// 1 -- 连接成功
+			case JVNetConst.CONNECT_OK: {
+				break;
+			}
+			// 2 -- 断开连接成功
+			case JVNetConst.DISCONNECT_OK: {
+				showTextToast(R.string.closed);
+				this.finish();
+				break;
+			}
+			// 4 -- 连接失败
+			case JVNetConst.CONNECT_FAILED: {
+				showTextToast(R.string.closed);
+				this.finish();
+				break;
+			}
+			// 6 -- 连接异常断开
+			case JVNetConst.ABNORMAL_DISCONNECT: {
+				showTextToast(R.string.closed);
+				this.finish();
+				break;
+			}
+			// 7 -- 服务停止连接，连接断开
+			case JVNetConst.SERVICE_STOP: {
+				showTextToast(R.string.closed);
+				this.finish();
+				break;
+			}
+			case Consts.BAD_NOT_CONNECT: {
+				showTextToast(R.string.closed);
+				this.finish();
+				break;
+			}
+			// 3 -- 不必要重复连接
+			case JVNetConst.NO_RECONNECT: {
+				break;
+			}
+			// 5 -- 没有连接
+			case JVNetConst.NO_CONNECT: {
+				break;
+			}
+			// 8 -- 断开连接失败
+			case JVNetConst.DISCONNECT_FAILED: {
+				break;
+			}
+
+			// 9 -- 其他错误
+			case JVNetConst.OHTER_ERROR: {
+				break;
+			}
+			}
+		}
+
 		case Consts.CALL_STAT_REPORT: {// 每秒状态回调
 			int left = 0;
 			try {
-				JSONArray array = new JSONArray(obj.toString());
-				JSONObject object = null;
+				if (null != obj) {
+					JSONArray array = new JSONArray(obj.toString());
+					JSONObject object = null;
 
-				int size = array.length();
-				if (size > 0) {
-					object = array.getJSONObject(0);
-					left = object.getInt("left");
-					MyLog.v(TAG,
-							"stat-" + ": fps: "
-									+ object.getDouble("decoder_fps") + "+"
-									+ object.getDouble("jump_fps") + "/"
-									+ object.getDouble("network_fps")
-									+ ", left = " + left);
+					int size = array.length();
+					if (size > 0) {
+						object = array.getJSONObject(0);
+						left = object.getInt("left");
+						MyLog.v(TAG,
+								"stat-" + ": fps: "
+										+ object.getDouble("decoder_fps") + "+"
+										+ object.getDouble("jump_fps") + "/"
+										+ object.getDouble("network_fps")
+										+ ", left = " + left);
+					}
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();

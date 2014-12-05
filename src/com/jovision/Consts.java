@@ -8,7 +8,7 @@ public class Consts {
 
 	// (终端类型 0-未知 1-Android 2-iPhone 3-iPad)
 	public static final int TERMINAL_TYPE = 1;
-	// 0：CloudSEE 1：NVSIP
+	// 产品类型 0-CloudSEE 1-NVSIP 2-HITVIS 3-TONGFANG
 	public static final int PRODUCT_TYPE = 0;
 
 	public static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";

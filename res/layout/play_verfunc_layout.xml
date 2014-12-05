@@ -27,7 +27,6 @@
         android:background="@color/halftransparent" >
 
         <Button
-            android:singleLine="true"
             android:id="@+id/kbps"
             android:layout_width="60dp"
             android:layout_height="30dp"
@@ -37,6 +36,7 @@
             android:layout_marginLeft="5dp"
             android:background="@drawable/decode_selector"
             android:onClick="onFlip"
+            android:singleLine="true"
             android:text=""
             android:textColor="@color/white"
             android:textSize="12sp" />

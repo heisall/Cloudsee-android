@@ -352,8 +352,8 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		if (null != intent) {
 			indexOfChannel = intent.getIntExtra("IndexOfChannel", 0);
 			acBuffStr = intent.getStringExtra("acBuffStr");
-			audioByte = intent.getIntExtra("AudioByte", 0);
-			MyLog.v(TAG, "audioByte=" + audioByte);
+			audioByte = intent.getIntExtra("AudioBit", 16);
+			MyLog.v(TAG, "audioBit=" + audioByte);
 			is05 = intent.getBooleanExtra("is05", true);
 			bFromAlarm = intent.getBooleanExtra("bFromAlarm", false);
 		}

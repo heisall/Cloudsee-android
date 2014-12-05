@@ -1360,7 +1360,6 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 			}
 
-			PlayUtil.setContext(JVPlayActivity.this);
 			manager = PlayWindowManager.getIntance(this);
 			manager.setArrowId(R.drawable.left, R.drawable.up,
 					R.drawable.right, R.drawable.down);

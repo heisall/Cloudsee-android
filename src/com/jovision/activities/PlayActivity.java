@@ -190,6 +190,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 	@Override
 	protected void initUi() {
+		PlayUtil.setContext(PlayActivity.this);
 		// [Neo] TODO
 		playAudio = MyAudio
 				.getIntance(PLAY_AUDIO_WHAT, PlayActivity.this, 8000);

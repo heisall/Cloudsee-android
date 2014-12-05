@@ -360,7 +360,8 @@ public class CustomDialogActivity extends BaseActivity implements
 					lookVideoBtn.setEnabled(true);
 					// 走远程回放
 					Intent intent = new Intent();
-					intent.setClass(this, JVRemotePlayBackActivity.class);
+					intent.setClass(CustomDialogActivity.this,
+							JVRemotePlayBackActivity.class);
 					intent.putExtra("IndexOfChannel", 0);
 					intent.putExtra("acBuffStr", vod_uri_);
 					intent.putExtra("AudioBit", audio_bit);

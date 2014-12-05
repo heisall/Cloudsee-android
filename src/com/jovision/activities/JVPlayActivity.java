@@ -770,6 +770,21 @@ public class JVPlayActivity extends PlayActivity implements
 									channel.setScreenTag(Consts.SCREEN_OVERTURN);
 								}
 							}
+
+							if (null != streamMap.get("MobileCH")
+									&& "2".equalsIgnoreCase(streamMap
+											.get("MobileCH"))) {
+								MyLog.e(TAG,
+										"MobileCH=" + streamMap.get("MobileCH")
+												+ "--单向对讲");
+								channel.setSingleVoice(true);
+							} else {
+								MyLog.e(TAG,
+										"MobileCH=" + streamMap.get("MobileCH")
+												+ "--双向对讲");
+								channel.setSingleVoice(false);
+							}
+
 							if (null != streamMap.get("MobileQuality")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("MobileQuality"))) {
@@ -788,10 +803,6 @@ public class JVPlayActivity extends PlayActivity implements
 									if (null != streamMap.get("MobileCH")
 											&& "2".equalsIgnoreCase(streamMap
 													.get("MobileCH"))) {
-										MyLog.v(TAG,
-												"MobileCH="
-														+ streamMap
-																.get("MobileCH"));
 										if (null != streamMap
 												.get("MainStreamQos")
 												&& !"".equalsIgnoreCase(streamMap
@@ -812,11 +823,6 @@ public class JVPlayActivity extends PlayActivity implements
 									if (null != streamMap.get("MobileCH")
 											&& "2".equalsIgnoreCase(streamMap
 													.get("MobileCH"))) {
-										MyLog.v(TAG,
-												"MobileCH="
-														+ streamMap
-																.get("MobileCH"));
-
 										String strParam = streamJSON
 												.substring(
 														streamJSON
@@ -826,15 +832,6 @@ public class JVPlayActivity extends PlayActivity implements
 												.genMsgMap1(strParam);
 										int width = Integer.valueOf(ch2Map
 												.get("width"));
-										// int height = Integer.valueOf(ch2Map
-										// .get("height"));
-										// if (720 == width && 480 == height) {
-										// channel.setStreamTag(2);
-										// } else if (352 == width && 288 ==
-										// height)
-										// {
-										// channel.setStreamTag(3);
-										// }
 										if (624 <= width) {
 											channel.setStreamTag(2);
 										} else {
@@ -842,18 +839,6 @@ public class JVPlayActivity extends PlayActivity implements
 										}
 									}
 								}
-
-								// if (null != streamMap.get("MobileStreamQos")
-								// && !"".equalsIgnoreCase(streamMap
-								// .get("MobileStreamQos"))) {
-								// MyLog.v(TAG,
-								// "MobileStreamQos="
-								// + streamMap
-								// .get("MobileStreamQos"));
-								// channel.setStreamTag(Integer
-								// .parseInt(streamMap
-								// .get("MobileStreamQos")));
-								// }
 							}
 
 							if (null != streamMap.get("storageMode")
@@ -866,13 +851,6 @@ public class JVPlayActivity extends PlayActivity implements
 										.parseInt(streamMap.get("storageMode")));
 							}
 
-							if (null != streamMap.get("MobileCH")
-									&& "2".equalsIgnoreCase(streamMap
-											.get("MobileCH"))) {
-								MyLog.v(TAG,
-										"MobileCH=" + streamMap.get("MobileCH"));
-								channel.setSingleVoice(true);
-							}
 							// channel.setHasGotParams(true);
 							showFunc(channel, currentScreen, lastClickIndex);
 						}

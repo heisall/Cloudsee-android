@@ -351,6 +351,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/saveChange"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"

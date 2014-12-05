@@ -284,6 +284,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		rightBtn.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.setting_save));
 		rightBtn.setText(getResources().getString(R.string.login_str_save));
+		rightBtn.setOnClickListener(mOnClickListener);
 
 		t1 = (TextView) findViewById(R.id.text1);
 		t2 = (TextView) findViewById(R.id.text2);
@@ -540,7 +541,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				goToBack();
 				break;
 			}
-			case R.id.saveChange:
+			case R.id.btn_right:
 				if (0 == currIndex) {// 有线
 
 					if (null != settingMap
@@ -856,7 +857,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	public void goToBack() {
 		if (currIndex == 0) {// 有线连接
 			if (secondLayout.getVisibility() == View.VISIBLE) {
-				currentMenu.setText(R.string.str_remote_setting);
+				currentMenu.setText(R.string.str_help1_0);
 				secondLayout.setVisibility(View.GONE);
 				firstLayout.setVisibility(View.VISIBLE);
 			} else {
@@ -967,7 +968,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			}
 
 			mPager.setCurrentItem(index);
-			currentMenu.setText(R.string.str_remote_setting);
+			currentMenu.setText(R.string.str_help1_0);
 			// saveChange.setText(getResources().getString(R.string.str_finish));
 		}
 	};
@@ -1023,7 +1024,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				}
 			}
 
-			currentMenu.setText(R.string.str_remote_setting);
+			currentMenu.setText(R.string.str_help1_0);
 			// 有线连接
 			if (currIndex == 0) {
 				if (secondLayout.getVisibility() == View.VISIBLE) {

@@ -44,7 +44,7 @@
         <Button
             android:id="@+id/alarm_lookup_video_btn"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_below="@id/alarm_divider"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"

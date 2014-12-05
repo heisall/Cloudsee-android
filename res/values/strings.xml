@@ -101,7 +101,7 @@
     <string name="str_stop_record">Stop recording,video file kept in </string>
     <string name="str_wait_connect">This operation is only available when video connected</string>
     <string name="str_forbidden_operation">Unable to use this function during remote playback.</string>
-     <string name="str_forbidden_alerm">Unable to use this function during alerm.</string>
+    <string name="str_forbidden_alerm">Unable to use this function during alerm.</string>
     <string name="forbidden_operation_when_paused">该功能在视频暂停时暂停使用</string>
     <string name="str_not_support_remoteplay">This device is temporarily unable to operate during remote playback.</string>
     <string name="str_picture_savepath">Capture is kept in </string>
@@ -186,7 +186,7 @@
     <string name="str_email_not_exist">Congratulations,email can register.</string>
     <string name="str_reset_not_success">Failed to modify.</string>
     <string name="str_modify_user_info">Complete the user info</string>
-    <string name="str_bound_email">bind Email</string>
+    <string name="str_bound_email">Bind Email</string>
     <string name="str_bound_email_failed">Failed to combine with the Email address.</string>
     <string name="str_bound_email_exist">This Email address has been registered.</string>
     <string name="str_device_most_count">Devices quantity has exceeded the limit, please delete the useless devices and add new one then.</string>

@@ -234,21 +234,25 @@ public class JVWaveSetActivity extends BaseActivity {
 					int count = channelCount > 0 ? channelCount : 1;
 					String broadDevNum = gid + no;
 					int netmod = broadObj.optInt("netmod");
-					Boolean hasAdded = PlayUtil.hasDev(deviceList, broadDevNum,
-							ip, port, netmod);
-					if (1 == broadObj.optInt("netmod") && !hasAdded) {// 带wifi设备且不在设备列表里面
-						Device addDev = new Device(ip, port, gid, no,
-								getResources().getString(
-										R.string.str_default_user),
-								getResources().getString(
-										R.string.str_default_pass), false,
-								count, 0);
-						addDev.setHasAdded(hasAdded);
-						if (!PlayUtil.addDev(broadList, addDev)) {
-							broadList.add(addDev);
+					// 防止广播到设备没ip
+					if (!"".equalsIgnoreCase(ip) && 0 != port) {
+						Boolean hasAdded = PlayUtil.hasDev(deviceList,
+								broadDevNum, ip, port, netmod);
+						if (1 == broadObj.optInt("netmod") && !hasAdded) {// 带wifi设备且不在设备列表里面
+							Device addDev = new Device(ip, port, gid, no,
+									getResources().getString(
+											R.string.str_default_user),
+									getResources().getString(
+											R.string.str_default_pass), false,
+									count, 0);
+							addDev.setHasAdded(hasAdded);
+							if (!PlayUtil.addDev(broadList, addDev)) {
+								broadList.add(addDev);
+							}
 						}
+						handler.sendMessage(handler.obtainMessage(BROAD_DEVICE));
 					}
-					handler.sendMessage(handler.obtainMessage(BROAD_DEVICE));
+
 				} else if (1 == broadObj.optInt("timeout")) {
 					CacheUtil.saveDevList(deviceList);
 					handler.sendMessage(handler.obtainMessage(BROAD_FINISHED));
@@ -459,7 +463,7 @@ public class JVWaveSetActivity extends BaseActivity {
 				loading.setVisibility(View.GONE);
 				playSoundStep(3);
 				broadList.clear();
-				Jni.queryDevice("A", 361, 40 * 1000);
+				Jni.queryDevice("", 0, 40 * 1000);
 				currentStep = 4;
 				showLayoutAtIndex(currentStep);
 

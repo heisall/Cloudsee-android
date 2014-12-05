@@ -2004,6 +2004,7 @@ public class JVPlayActivity extends PlayActivity implements
 						channel.getIndex(), ARG2_STATUS_CONNECTED));
 			} else {
 				if (false == resumeChannel(channel)) {
+					channel.setConnected(false);
 					MyLog.e(Consts.TAG_PLAY, "resume failed: " + channel);
 				}
 
@@ -2606,7 +2607,12 @@ public class JVPlayActivity extends PlayActivity implements
 					e.printStackTrace();
 				}
 
+				int counts = 0;
 				while (!allDis(channelList)) {
+					counts++;
+					if (counts > 10) {
+						break;
+					}
 					try {
 						Thread.sleep(200);
 					} catch (InterruptedException e) {
@@ -3034,6 +3040,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			}
 			case JVConst.PLAY_DIS_CONNECTTED: {// 断开
+				channelList.get(index).setConnected(false);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth, View.GONE);// loading
 				manager.setViewVisibility(container,
@@ -3510,6 +3517,7 @@ public class JVPlayActivity extends PlayActivity implements
 						channel.setPaused(true);
 						boolean result = resumeChannel(channel);
 						if (false == result) {
+							channel.setConnected(false);
 							MyLog.e(Consts.TAG_PLAY, "force resume failed: "
 									+ channel);
 						} else {
@@ -3521,6 +3529,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 						boolean result = resumeChannel(channel);
 						if (false == result) {
+							channel.setConnected(false);
 							MyLog.e(Consts.TAG_PLAY, "resume failed: "
 									+ channel);
 						} else {

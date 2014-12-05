@@ -155,7 +155,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		}
 		if (2 == deviceList.get(position * 2).getIsDevice()) {
 			deviceHolder.devNameL.setText(deviceList.get(position * 2)
-					.getDoMain());
+					.getNickName());
 			deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
 					.getNickName());
 		} else {
@@ -254,7 +254,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			deviceHolder.mydeviceParentR.setVisibility(View.VISIBLE);
 			if (2 == deviceList.get(position * 2 + 1).getIsDevice()) {
 				deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
-						.getDoMain());
+						.getNickName());
 				deviceHolder.devnicknameR.setText(deviceList.get(
 						position * 2 + 1).getNickName());
 			} else {

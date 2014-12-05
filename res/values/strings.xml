@@ -102,15 +102,15 @@
     <string name="str_wait_connect">This operation is only available when video connected</string>
     <string name="str_forbidden_operation">Unable to use this function during remote playback.</string>
     <string name="str_forbidden_alerm">Unable to use this function during alerm.</string>
-    <string name="forbidden_operation_when_paused">该功能在视频暂停时暂停使用</string>
+    <string name="forbidden_operation_when_paused">Stop using this feature as video paused</string>
     <string name="str_not_support_remoteplay">This device is temporarily unable to operate during remote playback.</string>
     <string name="str_picture_savepath">Capture is kept in </string>
     <string name="str_capture">Capture</string>
     <string name="str_voice">Talk</string>
     <string name="str_video">Record</string>
     <string name="str_more">More</string>
-    <string name="voice_send">按住说话</string>
-    <string name="voice_stop">松开结束</string>
+    <string name="voice_send">hold on, speak</string>
+    <string name="voice_stop">lossen, end</string>
     <string name="str_has_call">Another client is using Cloud Talk function, please use this function later.</string>
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="play_failed"> play the video failed</string>
@@ -203,7 +203,7 @@
     <string name="str_old_pass">Old Password</string>
     <string name="str_new_pass">New Password</string>
     <string name="str_ensure_newpass">Confirm Password</string>
-    <string name="str_edit_accoutorpass_error">您输入的旧密码有误，请重新输入</string>
+    <string name="str_edit_accoutorpass_error">The old password you entered is incorrect, please input again</string>
     <string name="str_edit_oldpass_error">Password wrong.</string>
     <string name="str_edit_success">Password changed successfully.</string>
     <string name="str_edit_failed">Password changed failed.</string>
@@ -434,14 +434,14 @@
     <string name="str_quick_setting_connect">Configure</string>
     <string name="str_quick_setting_waiting">Waiting</string>
     <string name="next_step">Next Step</string>
-    <string name="set_error_1000">配置出错，错误码</string>
-    <string name="set_error_1001">AP网络连接超时</string>
-    <string name="set_error_1002">不同意文本聊天</string>
-    <string name="set_error_1003">保存配置信息失败</string>
-    <string name="set_error_1004">网络恢复失败</string>
-    <string name="set_error_1005">账号重新登陆失败</string>
-    <string name="set_error_1006">在线设备添加失败</string>
-    <string name="set_error_1007">设备上线失败</string>
+    <string name="set_error_1000">Configuration error, error code</string>
+    <string name="set_error_1001">AP network connection timeout</string>
+    <string name="set_error_1002">Don\'t agree with text chatting</string>
+    <string name="set_error_1003">Save the configuration information failed</string>
+    <string name="set_error_1004">The network recovery failed</string>
+    <string name="set_error_1005">Account relogin failed</string>
+    <string name="set_error_1006">Online add equipment failed</string>
+    <string name="set_error_1007">Equipment come online failed</string>
     <string name="try_again">Retry</string>
     <string name="quick_setting_connecting">Connecting now…</string>
     <string name="quick_setting_exiting">Exiting configuration now</string>
@@ -475,7 +475,7 @@
     <string name="video_alarm">Alarm recording</string>
     <string name="video_motion">Motion detection</string>
     <string name="video_time">Regular recording</string>
-    <string name="recoding">Generating recording file now. Please wait.</string>
+    <string name="recoding">Play failed</string>
     <!-- MyDeviceListAdapter -->
     <string name="str_device_online">Online</string>
     <string name="str_device_offline">Offline</string>
@@ -533,10 +533,10 @@
     <string name="prepare_step2">Please input password of the network.</string>
     <string name="prepare_step3">View operation demo</string>
     <string name="show_demo">Operation demo</string>
-    <string name="search_list">搜索列表</string>
+    <string name="search_list">Searching list</string>
     <string name="prepare_step4">Click to send sound-wave</string>
     <string name="prepare_step5">Please put the phone near device,click sound-wave sending button,configure the device.</string>
-    <string name="wave_add_dev">确定添加设备</string>
+    <string name="wave_add_dev">Make sure to add device</string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
     <string name="str_cloudsee_id">CloudSEE ID</string>

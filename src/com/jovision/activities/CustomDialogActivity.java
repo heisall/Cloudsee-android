@@ -65,6 +65,7 @@ public class CustomDialogActivity extends BaseActivity implements
 	private int audio_bit = 16;
 	private MyHandler myHandler;
 	private int dis_and_play_flag = 0;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -232,35 +233,35 @@ public class CustomDialogActivity extends BaseActivity implements
 				progressdialog.show();
 				bDownLoadFileType = 1;
 				if (!bConnectFlag) {
-//					lookVideoBtn.setEnabled(false);
+					// lookVideoBtn.setEnabled(false);
 					if (!AlarmUtil.OnlyConnect(strYstNum)) {
 						progressdialog.dismiss();
 						showTextToast(R.string.str_alarm_connect_failed_1);
 						lookVideoBtn.setEnabled(true);
 					}
-					
+
 				} else {
-					
+
 					// 已经连接上走远程回放
-					if(bConnectFlag){//再判断一次
+					if (bConnectFlag) {// 再判断一次
 						dis_and_play_flag = 1;
 						Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
-//						lookVideoBtn.setEnabled(false);
-						new Thread(new TimeOutProcess(JVNetConst.JVN_RSP_DISCONN)).start();
-						//不能接着就连接	,需要等待断开连接后在连接
-						//因此添加 dis_and_play标志，当为1时，在断开连接响应成功后，重新连接并播放
-					}
-					else{
-						//已经断开了
-//						lookVideoBtn.setEnabled(false);
+						// lookVideoBtn.setEnabled(false);
+						new Thread(new TimeOutProcess(
+								JVNetConst.JVN_RSP_DISCONN)).start();
+						// 不能接着就连接 ,需要等待断开连接后在连接
+						// 因此添加 dis_and_play标志，当为1时，在断开连接响应成功后，重新连接并播放
+					} else {
+						// 已经断开了
+						// lookVideoBtn.setEnabled(false);
 						if (!AlarmUtil.OnlyConnect(strYstNum)) {
 							progressdialog.dismiss();
 							showTextToast(R.string.str_alarm_connect_failed_1);
 							lookVideoBtn.setEnabled(true);
 						}
-						
+
 					}
-						
+
 				}
 
 			}
@@ -386,7 +387,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			case JVNetConst.DISCONNECT_OK: {
 				myHandler.removeMessages(JVNetConst.JVN_RSP_DISCONN);
 				bConnectFlag = false;
-				if(dis_and_play_flag == 1)//断开连接重新连接并播放标志
+				if (dis_and_play_flag == 1)// 断开连接重新连接并播放标志
 				{
 					if (!progressdialog.isShowing()) {
 						progressdialog.show();
@@ -402,14 +403,13 @@ public class CustomDialogActivity extends BaseActivity implements
 						showTextToast(R.string.str_alarm_connect_failed_1);
 						lookVideoBtn.setEnabled(true);
 					}
-				}
-				else{
+				} else {
 					if (progressdialog.isShowing()) {
 						progressdialog.dismiss();
 					}
 					if (!vod_uri_.equals("")) {
 						lookVideoBtn.setEnabled(true);
-					}					
+					}
 				}
 
 			}
@@ -490,9 +490,9 @@ public class CustomDialogActivity extends BaseActivity implements
 			case JVNetConst.JVN_RSP_DOWNLOADOVER:// 文件下载完毕
 				// showToast("文件下载完毕", Toast.LENGTH_SHORT);
 				// JVSUDT.JVC_DisConnect(JVConst.ONLY_CONNECT);//断开连接,如果视频走远程回放
-				
-//				Jni.disconnect(Consts.ONLY_CONNECT_INDEX);//by lkp
-				
+
+				// Jni.disconnect(Consts.ONLY_CONNECT_INDEX);//by lkp
+
 				if (bDownLoadFileType == 0) {
 					// 下载图片
 					if (!vod_uri_.equals("")) {
@@ -578,13 +578,14 @@ public class CustomDialogActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 
 	}
+
 	class MyHandler extends Handler {
 		@Override
 		public void dispatchMessage(Message msg) {
 			switch (msg.what) {
 			case JVNetConst.JVN_RSP_DISCONN:
 				// new Thread(new ToastProcess(0x9999)).start();
-				if(progressdialog.isShowing()){
+				if (progressdialog.isShowing()) {
 					progressdialog.dismiss();
 				}
 				showTextToast(R.string.str_disconnect_resp_timeout);
@@ -593,7 +594,8 @@ public class CustomDialogActivity extends BaseActivity implements
 				break;
 			}
 		}
-	}	
+	}
+
 	class TimeOutProcess implements Runnable {
 		private int tag;
 

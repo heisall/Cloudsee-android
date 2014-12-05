@@ -2607,7 +2607,12 @@ public class JVPlayActivity extends PlayActivity implements
 					e.printStackTrace();
 				}
 
+				int counts = 0;
 				while (!allDis(channelList)) {
+					counts++;
+					if (counts > 10) {
+						break;
+					}
 					try {
 						Thread.sleep(200);
 					} catch (InterruptedException e) {

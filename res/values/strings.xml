@@ -625,6 +625,7 @@
     <string name="str_protected_time">Safeguard time scale</string>
     <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>
     <string name="str_disconnect_resp_timeout">Disconnect the connection timeout</string>
+    <string name="str_operation_failed">Operation failed</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="str_login">本地登录</string>
     <string name="str_onlinelogin">在线登陆</string>

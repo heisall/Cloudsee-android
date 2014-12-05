@@ -93,6 +93,7 @@
     <string name="str_audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
     <string name="str_yt_operate">云台控制</string>
     <string name="str_remote_playback">远程回放</string>
+    <string name="str_remote_alerm">报警视频</string>
     <string name="str_audio_monitor_tips">随时了解音频信息</string>
     <string name="str_yt_operate_tips">随时调整监控画面信息</string>
     <string name="str_remote_playback_tips">随时查看录像信息</string>
@@ -100,6 +101,7 @@
     <string name="str_stop_record">停止录像,录像文件保存在</string>
     <string name="str_wait_connect">请等待视频连接成功后再执行此操作</string>
     <string name="str_forbidden_operation">该功能在远程回放时暂停使用</string>
+    <string name="str_forbidden_alerm">该功能在查看报警视频时暂停使用</string>
     <string name="forbidden_operation_when_paused">该功能在视频暂停时暂停使用</string>
     <string name="str_not_support_remoteplay">该设备在远程回放时暂停使用</string>
     <string name="str_picture_savepath">抓拍截图保存在</string>

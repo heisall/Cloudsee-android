@@ -105,6 +105,9 @@ public class AccountUtil {
 			reqObj.put("user", userName);
 			reqObj.put("passwd", pwd);
 			reqObj.put("plattype", 1);
+			reqObj.put("producttype", Consts.PRODUCT_TYPE); // 0-CloudSEE
+															// 1-NVSIP 2-HITVIS
+															// 3-TONGFANG
 			reqObj.put("locales", ConfigUtil.getLanguage());
 			reqObj.put("devuuid",
 					MySharedPreference.getString(Consts.KEY_DEV_TOKEN));

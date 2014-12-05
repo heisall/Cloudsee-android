@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.activities.JVRemotePlayBackActivity;
 
 public class FuntionAdapter extends BaseAdapter {
 	private Context mContext;
@@ -167,7 +168,12 @@ public class FuntionAdapter extends BaseAdapter {
 				// .setBackgroundResource(R.drawable.voice_hover_bg);
 			}
 		}
-
+		if (JVRemotePlayBackActivity.bFromAlarm) {
+			viewHolder.funcLayout
+					.setBackgroundResource(R.drawable.voice_normal_alermbg);
+			viewHolder.funtionTitle1.setTextColor(mContext.getResources()
+					.getColor(R.color.more_fragment_color7));
+		}
 		return convertView;
 	}
 

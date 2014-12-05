@@ -194,7 +194,6 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	protected void initUi() {
 		super.initUi();
 
-		currentMenu.setText(R.string.str_remote_playback);
 		selectScreenNum.setVisibility(View.GONE);
 		rightFuncButton.setVisibility(View.GONE);
 
@@ -225,6 +224,29 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		voiceCall.setOnClickListener(myOnClickListener);
 		videoTape.setOnClickListener(myOnClickListener);
 		moreFeature.setOnClickListener(myOnClickListener);
+		if (bFromAlarm) {
+			currentMenu.setText(R.string.str_remote_alerm);
+			// capture.setCompoundDrawablesWithIntrinsicBounds(null,
+			// getResources().getDrawable(R.drawable.capture_alerm
+			// ) , null, null);
+			voiceCall.setCompoundDrawablesWithIntrinsicBounds(null,
+					getResources().getDrawable(R.drawable.voice_call_alerm),
+					null, null);
+			// videoTape.setCompoundDrawablesWithIntrinsicBounds(null,
+			// getResources().getDrawable(R.drawable.video_record_alerm
+			// ) , null, null);
+			moreFeature.setCompoundDrawablesWithIntrinsicBounds(null,
+					getResources().getDrawable(R.drawable.more_feature_alerm),
+					null, null);
+			// capture.setTextColor(getResources().getColor(R.color.more_fragment_color7));
+			// videoTape.setTextColor(getResources().getColor(R.color.more_fragment_color7));
+			voiceCall.setTextColor(getResources().getColor(
+					R.color.more_fragment_color7));
+			moreFeature.setTextColor(getResources().getColor(
+					R.color.more_fragment_color7));
+		} else {
+			currentMenu.setText(R.string.str_remote_playback);
+		}
 
 		verPlayBarLayout.setVisibility(View.GONE);
 		horPlayBarLayout.setVisibility(View.GONE);
@@ -241,8 +263,8 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			@Override
 			public void surfaceCreated(SurfaceHolder holder) {
 				Jni.resume(indexOfChannel, holder.getSurface());// boolean
-																// result
-																// =
+				// result
+				// =
 				// MyLog.v(Consts.TAG_PLAY, "playback-" + currentIndex
 				// + " created: " + result);
 				boolean enable = Jni.enablePlayback(indexOfChannel, true);
@@ -353,17 +375,16 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-			if (2 == arg2) {// 音频监听
-				showTextToast(R.string.str_forbidden_operation);
-			} else if (0 == arg2) {// 云台
-				showTextToast(R.string.str_forbidden_operation);
-			} else if (1 == arg2) {// 远程回放
-				if (bFromAlarm) {
+			if (!bFromAlarm) {
+				if (2 == arg2) {// 音频监听
 					showTextToast(R.string.str_forbidden_operation);
-				} else {
+				} else if (0 == arg2) {// 云台
+					showTextToast(R.string.str_forbidden_operation);
+				} else if (1 == arg2) {// 远程回放
 					backMethod();
 				}
-
+			} else {
+				showTextToast(R.string.str_forbidden_alerm);
 			}
 			functionListAdapter.notifyDataSetChanged();
 		}
@@ -448,10 +469,13 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 						MyLog.v(TAG, "capture=" + capture);
 					}
 				}
-
 				break;
 			case R.id.voicecall:// 语音对讲
-				showTextToast(R.string.str_forbidden_operation);
+				if (bFromAlarm) {
+					showTextToast(R.string.str_forbidden_alerm);
+				} else {
+					showTextToast(R.string.str_forbidden_operation);
+				}
 				break;
 			case R.id.videotape:// 录像
 				if (isRemotePause) {
@@ -467,10 +491,13 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 						}
 					}
 				}
-
 				break;
 			case R.id.more_features:// 更多
-				showTextToast(R.string.str_forbidden_operation);
+				if (bFromAlarm) {
+					showTextToast(R.string.str_forbidden_alerm);
+				} else {
+					showTextToast(R.string.str_forbidden_operation);
+				}
 				// Intent moreIntent = new Intent();
 				// moreIntent.setClass(JVRemotePlayBackActivity.this,
 				// JVMoreFeatureActivity.class);

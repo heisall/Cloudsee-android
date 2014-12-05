@@ -233,7 +233,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				progressdialog.show();
 				bDownLoadFileType = 1;
 				if (!bConnectFlag) {
-					// lookVideoBtn.setEnabled(false);
+					lookVideoBtn.setEnabled(false);
 					// if (!AlarmUtil.OnlyConnect(strYstNum)) {
 					// progressdialog.dismiss();
 					// showTextToast(R.string.str_alarm_connect_failed_1);
@@ -245,15 +245,16 @@ public class CustomDialogActivity extends BaseActivity implements
 					// 已经连接上走远程回放
 					if (bConnectFlag) {// 再判断一次
 						dis_and_play_flag = 1;
+						lookVideoBtn.setEnabled(false);
 						Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
-						// lookVideoBtn.setEnabled(false);
+
 						new Thread(new TimeOutProcess(
 								JVNetConst.JVN_RSP_DISCONN)).start();
 						// 不能接着就连接 ,需要等待断开连接后在连接
 						// 因此添加 dis_and_play标志，当为1时，在断开连接响应成功后，重新连接并播放
 					} else {
 						// 已经断开了
-						// lookVideoBtn.setEnabled(false);
+						lookVideoBtn.setEnabled(false);
 						// if (!AlarmUtil.OnlyConnect(strYstNum)) {
 						// progressdialog.dismiss();
 						// showTextToast(R.string.str_alarm_connect_failed_1);
@@ -626,7 +627,7 @@ public class CustomDialogActivity extends BaseActivity implements
 		@Override
 		public void run() {
 			if (!AlarmUtil.OnlyConnect(strYstNum)) {
-				myHandler.sendEmptyMessage(tag);
+				myHandler.sendEmptyMessageDelayed(tag, 2000);
 			}
 		}
 	}

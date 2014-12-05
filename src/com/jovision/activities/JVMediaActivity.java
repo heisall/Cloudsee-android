@@ -62,6 +62,7 @@ public class JVMediaActivity extends BaseActivity {
 		msAdapter.setData(mediaList);
 		mediaListView.setAdapter(msAdapter);
 		mediaListView.setOnItemClickListener(mOnItemClickListener);
+		JVMediaListActivity.fileMap.clear();
 	}
 
 	OnClickListener myOnClickListener = new OnClickListener() {

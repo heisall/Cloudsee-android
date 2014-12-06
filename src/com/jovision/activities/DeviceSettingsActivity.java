@@ -74,7 +74,9 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		window = extras.getInt("window");
 		deviceIndex = extras.getInt("deviceIndex");
 		deviceList = CacheUtil.getDevList();
-		device = deviceList.get(deviceIndex);
+		if (0!=deviceList.size()) {
+			device = deviceList.get(deviceIndex);
+		}
 		InitViews();
 		if (null == waitingDialog) {
 			waitingDialog = new ProgressDialog(this);

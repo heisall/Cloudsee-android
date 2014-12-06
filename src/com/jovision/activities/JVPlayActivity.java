@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
@@ -589,7 +590,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (recoding) {
 				// showTextToast(R.string.video_repaked);
-				PlayUtil.videoRecord(lastClickIndex);
+				PlayUtil.videoRecord(lastClickIndex, "");
 			}
 
 			// }
@@ -769,6 +770,21 @@ public class JVPlayActivity extends PlayActivity implements
 									channel.setScreenTag(Consts.SCREEN_OVERTURN);
 								}
 							}
+
+							if (null != streamMap.get("MobileCH")
+									&& "2".equalsIgnoreCase(streamMap
+											.get("MobileCH"))) {
+								MyLog.e(TAG,
+										"MobileCH=" + streamMap.get("MobileCH")
+												+ "--单向对讲");
+								channel.setSingleVoice(true);
+							} else {
+								MyLog.e(TAG,
+										"MobileCH=" + streamMap.get("MobileCH")
+												+ "--双向对讲");
+								channel.setSingleVoice(false);
+							}
+
 							if (null != streamMap.get("MobileQuality")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("MobileQuality"))) {
@@ -787,10 +803,6 @@ public class JVPlayActivity extends PlayActivity implements
 									if (null != streamMap.get("MobileCH")
 											&& "2".equalsIgnoreCase(streamMap
 													.get("MobileCH"))) {
-										MyLog.v(TAG,
-												"MobileCH="
-														+ streamMap
-																.get("MobileCH"));
 										if (null != streamMap
 												.get("MainStreamQos")
 												&& !"".equalsIgnoreCase(streamMap
@@ -811,11 +823,6 @@ public class JVPlayActivity extends PlayActivity implements
 									if (null != streamMap.get("MobileCH")
 											&& "2".equalsIgnoreCase(streamMap
 													.get("MobileCH"))) {
-										MyLog.v(TAG,
-												"MobileCH="
-														+ streamMap
-																.get("MobileCH"));
-
 										String strParam = streamJSON
 												.substring(
 														streamJSON
@@ -825,15 +832,6 @@ public class JVPlayActivity extends PlayActivity implements
 												.genMsgMap1(strParam);
 										int width = Integer.valueOf(ch2Map
 												.get("width"));
-										// int height = Integer.valueOf(ch2Map
-										// .get("height"));
-										// if (720 == width && 480 == height) {
-										// channel.setStreamTag(2);
-										// } else if (352 == width && 288 ==
-										// height)
-										// {
-										// channel.setStreamTag(3);
-										// }
 										if (624 <= width) {
 											channel.setStreamTag(2);
 										} else {
@@ -841,18 +839,6 @@ public class JVPlayActivity extends PlayActivity implements
 										}
 									}
 								}
-
-								// if (null != streamMap.get("MobileStreamQos")
-								// && !"".equalsIgnoreCase(streamMap
-								// .get("MobileStreamQos"))) {
-								// MyLog.v(TAG,
-								// "MobileStreamQos="
-								// + streamMap
-								// .get("MobileStreamQos"));
-								// channel.setStreamTag(Integer
-								// .parseInt(streamMap
-								// .get("MobileStreamQos")));
-								// }
 							}
 
 							if (null != streamMap.get("storageMode")
@@ -865,13 +851,6 @@ public class JVPlayActivity extends PlayActivity implements
 										.parseInt(streamMap.get("storageMode")));
 							}
 
-							if (null != streamMap.get("MobileCH")
-									&& "2".equalsIgnoreCase(streamMap
-											.get("MobileCH"))) {
-								MyLog.v(TAG,
-										"MobileCH=" + streamMap.get("MobileCH"));
-								channel.setSingleVoice(true);
-							}
 							// channel.setHasGotParams(true);
 							showFunc(channel, currentScreen, lastClickIndex);
 						}
@@ -1360,7 +1339,6 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 			}
 
-			PlayUtil.setContext(JVPlayActivity.this);
 			manager = PlayWindowManager.getIntance(this);
 			manager.setArrowId(R.drawable.left, R.drawable.up,
 					R.drawable.right, R.drawable.down);
@@ -2004,6 +1982,7 @@ public class JVPlayActivity extends PlayActivity implements
 						channel.getIndex(), ARG2_STATUS_CONNECTED));
 			} else {
 				if (false == resumeChannel(channel)) {
+					channel.setConnected(false);
 					MyLog.e(Consts.TAG_PLAY, "resume failed: " + channel);
 				}
 
@@ -2463,11 +2442,24 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.videotape:// 录像
 				if (hasSDCard() && allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).getParent().is05()) {
-						if (PlayUtil.videoRecord(lastClickIndex)) {// 打开
+						String path = PlayUtil.createRecordFile();
+						if (PlayUtil.videoRecord(lastClickIndex, path)) {// 打开
+							recordingPath = path;
+							startRecordTime = System.currentTimeMillis();
 							tapeSelected(true);
 							showTextToast(R.string.str_start_record);
+
 						} else {// 关闭
-							showTextToast(Consts.VIDEO_PATH);
+							long recordTime = System.currentTimeMillis()
+									- startRecordTime;
+							MyLog.e(TAG, "recordTime=" + recordTime);
+							if (recordTime <= 2000) {
+								File recordFile = new File(recordingPath);
+								recordFile.delete();
+								showTextToast(R.string.record_failed);
+							} else {
+								showTextToast(Consts.VIDEO_PATH);
+							}
 							tapeSelected(false);
 						}
 					} else {
@@ -2606,7 +2598,12 @@ public class JVPlayActivity extends PlayActivity implements
 					e.printStackTrace();
 				}
 
+				int counts = 0;
 				while (!allDis(channelList)) {
+					counts++;
+					if (counts > 10) {
+						break;
+					}
 					try {
 						Thread.sleep(200);
 					} catch (InterruptedException e) {
@@ -2705,7 +2702,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 正在录像停止录像
 		if (PlayUtil.checkRecord(lastClickIndex)) {
-			if (!PlayUtil.videoRecord(lastClickIndex)) {// 打开
+			if (!PlayUtil.videoRecord(lastClickIndex, "")) {// 打开
 				showTextToast(Consts.VIDEO_PATH);
 				tapeSelected(false);
 			}
@@ -3034,6 +3031,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			}
 			case JVConst.PLAY_DIS_CONNECTTED: {// 断开
+				channelList.get(index).setConnected(false);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth, View.GONE);// loading
 				manager.setViewVisibility(container,
@@ -3510,6 +3508,7 @@ public class JVPlayActivity extends PlayActivity implements
 						channel.setPaused(true);
 						boolean result = resumeChannel(channel);
 						if (false == result) {
+							channel.setConnected(false);
 							MyLog.e(Consts.TAG_PLAY, "force resume failed: "
 									+ channel);
 						} else {
@@ -3521,6 +3520,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 						boolean result = resumeChannel(channel);
 						if (false == result) {
+							channel.setConnected(false);
 							MyLog.e(Consts.TAG_PLAY, "resume failed: "
 									+ channel);
 						} else {

@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -140,7 +139,6 @@ public class JVChannelsActivity extends BaseActivity {
 
 		@Override
 		public void run() {
-			Log.i("TAG", "执行了，执行了！");
 			mHorizontalScrollView.smoothScrollTo(deviceIndex * item_width, 0);// 改变滚动条的位置
 		}
 	};

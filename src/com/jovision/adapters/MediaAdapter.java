@@ -79,34 +79,39 @@ public class MediaAdapter extends BaseAdapter {
 		} else {
 			fileHolder = (FileHolder) convertView.getTag();
 		}
-		if ("image".equalsIgnoreCase(media)) {
-			fileHolder.playImg.setVisibility(View.GONE);
-		} else if ("video".equalsIgnoreCase(media)) {
-			fileHolder.playImg.setVisibility(View.VISIBLE);
-		}
-		if (!isdelect) {
-			if (dataList.get(position).isSelect()) {
-				fileHolder.fileselect.setVisibility(View.VISIBLE);
-			} else {
-				fileHolder.fileselect.setVisibility(View.GONE);
+		try {
+			if ("image".equalsIgnoreCase(media)) {
+				fileHolder.playImg.setVisibility(View.GONE);
+			} else if ("video".equalsIgnoreCase(media)) {
+				fileHolder.playImg.setVisibility(View.VISIBLE);
 			}
+			if (!isdelect) {
+				if (dataList.get(position).isSelect()) {
+					fileHolder.fileselect.setVisibility(View.VISIBLE);
+				} else {
+					fileHolder.fileselect.setVisibility(View.GONE);
+				}
+			}
+			int width = ((BaseActivity) mContext).disMetrics.widthPixels / 3;
+			RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
+					width, width - 40);
+			fileHolder.fileImageView.setLayoutParams(rllp);
+			Bitmap bmp = null;
+			if (loadImg) {
+				bmp = BitmapCache.getInstance().getBitmap(
+						fileArray[position].getAbsolutePath(), media, "");
+			} else {
+				bmp = BitmapCache.getInstance().getCacheBitmap(
+						fileArray[position].getAbsolutePath());
+			}
+			if (null != bmp) {
+				fileHolder.fileImageView.setImageBitmap(bmp);
+			}
+			fileHolder.fileName.setText(fileArray[position].getName());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		int width = ((BaseActivity) mContext).disMetrics.widthPixels / 3;
-		RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
-				width, width - 40);
-		fileHolder.fileImageView.setLayoutParams(rllp);
-		Bitmap bmp = null;
-		if (loadImg) {
-			bmp = BitmapCache.getInstance().getBitmap(
-					fileArray[position].getAbsolutePath(), media, "");
-		} else {
-			bmp = BitmapCache.getInstance().getCacheBitmap(
-					fileArray[position].getAbsolutePath());
-		}
-		if (null != bmp) {
-			fileHolder.fileImageView.setImageBitmap(bmp);
-		}
-		fileHolder.fileName.setText(fileArray[position].getName());
+
 		return convertView;
 	}
 

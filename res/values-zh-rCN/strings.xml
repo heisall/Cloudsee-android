@@ -58,7 +58,7 @@
     <string name="login_str_user_regist">注  册</string>
     <string name="login_str_back">返回</string>
     <string name="login_str_add">添加</string>
-    <string name="more_nologin">请在登陆后做此操作</string>
+    <string name="more_nologin">请在登录后做此操作</string>
     <string name="last_time">最后一次登录时间：</string>
     <string name="more_modify">修改资料</string>
     <string name="more_modifypwd">修改密码</string>
@@ -93,6 +93,7 @@
     <string name="str_audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
     <string name="str_yt_operate">云台控制</string>
     <string name="str_remote_playback">远程回放</string>
+    <string name="str_remote_alerm">报警视频</string>
     <string name="str_audio_monitor_tips">随时了解音频信息</string>
     <string name="str_yt_operate_tips">随时调整监控画面信息</string>
     <string name="str_remote_playback_tips">随时查看录像信息</string>
@@ -100,6 +101,7 @@
     <string name="str_stop_record">停止录像,录像文件保存在</string>
     <string name="str_wait_connect">请等待视频连接成功后再执行此操作</string>
     <string name="str_forbidden_operation">该功能在远程回放时暂停使用</string>
+    <string name="str_forbidden_alerm">该功能在查看报警视频时暂停使用</string>
     <string name="forbidden_operation_when_paused">该功能在视频暂停时暂停使用</string>
     <string name="str_not_support_remoteplay">该设备在远程回放时暂停使用</string>
     <string name="str_picture_savepath">抓拍截图保存在</string>
@@ -107,6 +109,7 @@
     <string name="str_voice">对讲</string>
     <string name="str_video">录像</string>
     <string name="str_more">更多</string>
+    <string name="record_failed">录像无效</string>
     <string name="voice_send">按住说话</string>
     <string name="voice_stop">松开结束</string>
     <string name="str_has_call">设备未开启对讲或已在其他客户端开启云对讲，请稍后重试.</string>
@@ -333,7 +336,7 @@
     <string name="str_shake_scene_pic_tips">您的手机未插入SD卡，暂时无法使用场景图片功能.</string>
     <!-- JVEditPassActivity -->
     <string name="edit_failed">修改失败</string>
-    <string name="edit_succ">密码修改成功，请重新登陆.</string>
+    <string name="edit_succ">密码修改成功，请重新登录.</string>
     <!-- JVDemoActivity -->
     <string name="demo">视频广场</string>
     <string name="demo_get_failed">视频广场加载失败</string>
@@ -437,7 +440,7 @@
     <string name="set_error_1002">不同意文本聊天</string>
     <string name="set_error_1003">保存配置信息失败</string>
     <string name="set_error_1004">网络恢复失败</string>
-    <string name="set_error_1005">账号重新登陆失败</string>
+    <string name="set_error_1005">账号重新登录失败</string>
     <string name="set_error_1006">在线设备添加失败</string>
     <string name="set_error_1007">设备上线失败</string>
     <string name="try_again">重试</string>
@@ -473,7 +476,7 @@
     <string name="video_alarm">报警录像</string>
     <string name="video_motion">移动检测</string>
     <string name="video_time">定时录像</string>
-    <string name="recoding">正在生成录像文件，请稍后查看。</string>
+    <string name="recoding">播放失败</string>
     <!-- MyDeviceListAdapter -->
     <string name="str_device_online">在线</string>
     <string name="str_device_offline">离线</string>
@@ -622,9 +625,11 @@
     <string name="str_protected_time">防护时间段</string>
     <string name="str_getdev_params_timeout">获取设备参数超时</string>
     <string name="str_setting_time">设置时间</string>
+    <string name="str_disconnect_resp_timeout">断开连接超时</string>
+    <string name="str_operation_failed">操作不成功</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="str_login">本地登录</string>
-    <string name="str_onlinelogin">在线登陆</string>
+    <string name="str_onlinelogin">在线登录</string>
     <string name="str_remoteset">远程设置</string>
     <string name="str_ipconect">连接模式</string>
     <string name="str_devicemanage">设备管理</string>

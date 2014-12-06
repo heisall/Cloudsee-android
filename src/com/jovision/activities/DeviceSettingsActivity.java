@@ -14,6 +14,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -51,6 +52,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private MyHandler myHandler;
 	private String startTimeSaved, endTimeSaved;
 	private String startTimeSetting, endTimeSetting;
+	private String alarmTime0;
 	private int alarm_way_flag = -1; // 报警的方式，走云视通还是报警服务器 0:报警服务器 1:云视通
 	private Device device;
 	private ArrayList<Device> deviceList;
@@ -202,26 +204,29 @@ public class DeviceSettingsActivity extends BaseActivity implements
 							// 如果有，走云视通
 							alarm_way_flag = 1;
 						}
+						if (alarm_way_flag == 1) {
+							String alarm_enable = map.get("bAlarmEnable");
+							if (alarm_enable == null) {
+								alarmEnable = -1;
+							} else {
+								alarmEnable = Integer.valueOf(alarm_enable);
+							}
 
-						String alarm_enable = map.get("bAlarmEnable");
-						if (alarm_enable == null) {
-							alarmEnable = -1;
+							String md_enable = map.get("bMDEnable");
+							if (md_enable == null) {
+								// showTextToast(R.string.not_support_this_func);
+								mdEnable = -1;
+							} else {
+								mdEnable = Integer.valueOf(md_enable);
+							}
+
+							alarmTime0 = map.get("alarmTime0");// alarmTime0
+							if (alarm_enable == null) {
+								// showTextToast(R.string.not_support_this_func);
+								alarmTime0 = "";
+							}
 						} else {
-							alarmEnable = Integer.valueOf(alarm_enable);
-						}
-
-						String md_enable = map.get("bMDEnable");
-						if (md_enable == null) {
-							// showTextToast(R.string.not_support_this_func);
-							mdEnable = -1;
-						} else {
-							mdEnable = Integer.valueOf(md_enable);
-						}
-
-						String alarmTime0 = map.get("alarmTime0");// alarmTime0
-						if (alarm_enable == null) {
-							// showTextToast(R.string.not_support_this_func);
-							alarmTime0 = "";
+							alarmEnable = device.getAlarmSwitch();
 						}
 						initDevParamObject = new JSONObject();
 						initDevParamObject.put("bAlarmEnable", alarmEnable);
@@ -423,13 +428,16 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				// [{"fullNo":"S52942216","port":0,"hasWifi":1,"isDevice":0,"no":52942216,"is05":false,"onlineState":-1182329167,"channelList":[{"channel":1,"channelName":"S52942216_1","index":0}],"isHomeProduct":false,"ip":"","pwd":"123","nickName":"S52942216","deviceType":2,"alarmSwitch":1,"gid":"S","user":"abc","serverState":1,"doMain":""}]
 				CacheUtil.saveDevList(deviceList);
 			} else if (1000 == result) {
-				showTextToast(R.string.device_offline);
+//				showTextToast(R.string.device_offline);
+				showTextToast(R.string.str_operation_failed);
 			} else {
 				if (JVDeviceConst.DEVICE_SWITCH_OPEN == device.getAlarmSwitch()) {
-					showTextToast(R.string.protect_close_fail);
+//					showTextToast(R.string.protect_close_fail);
+					showTextToast(R.string.str_operation_failed);
 				} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
 						.getAlarmSwitch()) {
-					showTextToast(R.string.protect_open_fail);
+//					showTextToast(R.string.protect_open_fail);
+					showTextToast(R.string.str_operation_failed);
 				}
 			}
 		}
@@ -547,6 +555,34 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			switch (fragment_tag) {
+			case 0:
+				finish();
+				break;
+			case 1:
+				titleTv.setText(R.string.str_audio_monitor);
+				// onBackPressed();
+				deviceSettingsMainFragment = new DeviceSettingsMainFragment();
+				Bundle bundle1 = new Bundle();
+				bundle1.putString("KEY_PARAM", initDevParamObject.toString());
+				deviceSettingsMainFragment.setArguments(bundle1);
+				FragmentManager fm = getSupportFragmentManager();
+				FragmentTransaction ft = getSupportFragmentManager()
+						.beginTransaction();
+				ft.replace(R.id.fragment_container, deviceSettingsMainFragment)
+						.commitAllowingStateLoss();
+				fragment_tag = 0;
+				break;
+			default:
+				break;
+			}
+		}
+		return true;
 	}
 
 	class MyHandler extends Handler {

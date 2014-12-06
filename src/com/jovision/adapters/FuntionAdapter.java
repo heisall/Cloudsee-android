@@ -21,6 +21,7 @@ public class FuntionAdapter extends BaseAdapter {
 	public int selectIndex = -1;
 	private boolean bigScreen = false;
 	private int playFlag;
+	private boolean bFromAlerm;
 
 	public FuntionAdapter(Context con, boolean flag, int playFlag) {
 		mContext = con;
@@ -32,6 +33,10 @@ public class FuntionAdapter extends BaseAdapter {
 
 	public void setData(ArrayList<String> list) {
 		functionList = list;
+	}
+
+	public void setFromAlerm(boolean bFromAlerm) {
+		this.bFromAlerm = bFromAlerm;
 	}
 
 	@Override
@@ -167,7 +172,12 @@ public class FuntionAdapter extends BaseAdapter {
 				// .setBackgroundResource(R.drawable.voice_hover_bg);
 			}
 		}
-
+		if (bFromAlerm) {
+			viewHolder.funcLayout
+					.setBackgroundResource(R.drawable.voice_normal_alermbg);
+			viewHolder.funtionTitle1.setTextColor(mContext.getResources()
+					.getColor(R.color.more_fragment_color7));
+		}
 		return convertView;
 	}
 

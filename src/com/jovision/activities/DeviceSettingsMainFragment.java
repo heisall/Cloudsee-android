@@ -100,10 +100,27 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			alarm_way_flag = paramObject.optInt("alarmWay", -1);
 			if (alarm_way_flag == 0) {
 				// 走设备服务器
+				func_alert_enabled = paramObject.optInt("bAlarmEnable", -1);
 				functionlayout2.setVisibility(View.GONE);
 				functiontips2.setVisibility(View.GONE);
 				functionlayout3.setVisibility(View.GONE);
 				functiontips3.setVisibility(View.GONE);
+				switch (func_alert_enabled) {
+				case 0:
+					func_swalert
+							.setBackgroundResource(R.drawable.morefragment_normal_icon);
+					break;
+				case 1:
+					func_swalert
+							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					break;
+				case -1:
+					functionlayout1.setVisibility(View.GONE);
+					functiontips1.setVisibility(View.GONE);
+					break;
+				default:
+					break;
+				}
 			} else {
 				// 走云视通
 				func_alert_enabled = paramObject.optInt("bAlarmEnable", -1);
@@ -185,8 +202,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 								.equals("23:59"))) {
 					// functionlayout3.setVisibility(View.GONE);
 					// functiontips3.setVisibility(View.GONE);
-					functionlayout3.setVisibility(View.VISIBLE);
-					functiontips3.setVisibility(View.VISIBLE);
+					// functionlayout3.setVisibility(View.VISIBLE);
+					// functiontips3.setVisibility(View.VISIBLE);
 					// 如果没字段显示全天
 					MyLog.e("Alarm", "-------startTime:" + startTime
 							+ "-----endTime:" + endTime);

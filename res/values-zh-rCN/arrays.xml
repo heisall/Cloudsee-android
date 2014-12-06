@@ -89,19 +89,19 @@
         <item>384</item>
     </string-array>
 
-    <!-- 告警类型 -->
+    <!-- 报警类型 -->
     <string-array name="alarm_type">
-        <item>%%发生存储错误告警。</item>
-        <item>%%发生存储满告警。</item>
-        <item>%%发生连接断开告警。</item>
-        <item>%%发生系统升级告警。</item>
-        <item>%%发生外接告警。</item>
-        <item>%%发生视频丢失告警。</item>
-        <item>%%发生视频遮挡告警。</item>
-        <item>%%发生移动侦测告警。</item>
-        <item>%%发生断电告警。</item>
-        <item>%%发生手动告警。</item>
-        <item>%%发生GPS告警。</item>
+        <item>%%发生存储错误报警。</item>
+        <item>%%发生存储满报警。</item>
+        <item>%%发生连接断开报警。</item>
+        <item>%%发生系统升级报警。</item>
+        <item>%%发生外接报警。</item>
+        <item>%%发生视频丢失报警。</item>
+        <item>%%发生视频遮挡报警。</item>
+        <item>%%发生移动侦测报警。</item>
+        <item>%%发生断电报警。</item>
+        <item>%%发生手动报警。</item>
+        <item>%%发生GPS报警。</item>
         <item>%%发生报警。</item>
         <item>%%很安全，请主人不必担心，我会好好看护的。</item>
         <item>%%有些异常举动，请主人赶快采取措施。</item>

@@ -50,6 +50,8 @@ public abstract class PlayActivity extends BaseActivity {
 	protected int surfaceWidth = -1;
 	protected int surfaceHeight = -1;
 	protected int playFlag = -1;
+	protected long startRecordTime = 0;// 开始录像时间
+	protected String recordingPath = "";// 正在录像文件路径
 
 	/** layout 上 */
 	protected LinearLayout topBar;// 顶部标题栏
@@ -190,6 +192,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 	@Override
 	protected void initUi() {
+		PlayUtil.setContext(PlayActivity.this);
 		// [Neo] TODO
 		playAudio = MyAudio
 				.getIntance(PLAY_AUDIO_WHAT, PlayActivity.this, 8000);
@@ -685,7 +688,7 @@ public abstract class PlayActivity extends BaseActivity {
 
 			// 正在录像停止录像
 			if (PlayUtil.checkRecord(channel.getIndex())) {
-				if (!PlayUtil.videoRecord(channel.getIndex())) {// 打开
+				if (!PlayUtil.videoRecord(channel.getIndex(), "")) {// 打开
 					showTextToast(Consts.VIDEO_PATH);
 					tapeSelected(false);
 				}

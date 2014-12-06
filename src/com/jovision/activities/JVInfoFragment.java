@@ -235,6 +235,11 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					noMess.setVisibility(View.VISIBLE);
 					noMessTv.setVisibility(View.VISIBLE);
 					mActivity.showTextToast(R.string.nomessage);
+					pushList.clear();
+					Consts.pushHisCount = 0;
+					pushAdapter.setRefCount(pushList.size());
+					pushListView.setAdapter(pushAdapter);
+					pushAdapter.notifyDataSetChanged();
 					return;
 				}
 				int addLen = temList.size();
@@ -243,11 +248,11 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					temList.get(j).newTag = true;
 				}
 				// 保存状态，例如新消息。否则刷新后新消息的标志就木有了。
-				for (int i = 0; i < pushList.size(); i++) {
-					for (int j = 0; j < temList.size(); j++) {
-						if (pushList.get(i).strGUID.equalsIgnoreCase(temList
-								.get(j).strGUID)) {
-							temList.get(j).newTag = pushList.get(i).newTag;
+				for (int i = 0; i < temList.size(); i++) {
+					for (int j = 0; j < pushList.size(); j++) {
+						if (pushList.get(j).strGUID.equalsIgnoreCase(temList
+								.get(i).strGUID)) {
+							temList.get(i).newTag = pushList.get(j).newTag;
 						}
 					}
 				}

@@ -5,6 +5,7 @@ public class ClientBean {
 	private int platformType;// 1:android
 	private int languageType;// 语言 中文 0 英文 1
 	private int alarmFlag;// 0:开 1：关，注意哦 亲
+	private int productType; // 产品类型 0-CloudSEE 1-NVSIP 2-HITVIS 3-TONGFANG
 
 	public int getPlatformType() {
 		return platformType;
@@ -12,6 +13,14 @@ public class ClientBean {
 
 	public void setPlatformType(int platformType) {
 		this.platformType = platformType;
+	}
+
+	public int getProductType() {
+		return productType;
+	}
+
+	public void setProductType(int productType) {
+		this.productType = productType;
 	}
 
 	public String getDeviceUUID() {

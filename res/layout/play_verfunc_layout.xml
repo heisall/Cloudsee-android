@@ -36,6 +36,7 @@
             android:layout_marginLeft="5dp"
             android:background="@drawable/decode_selector"
             android:onClick="onFlip"
+            android:singleLine="true"
             android:text=""
             android:textColor="@color/white"
             android:textSize="12sp" />

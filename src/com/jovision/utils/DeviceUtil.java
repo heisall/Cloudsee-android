@@ -662,8 +662,7 @@ public class DeviceUtil {
 					JVDeviceConst.DEV_INFO_PRO);// lpt 1
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, device.getFullNo());
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME, device.getUser());
-			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD,
-					ConfigUtil.getBase64(device.getPwd()));// (base64加密)
+			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD, device.getPwd());// (服务端base64加密)
 			jObj.put(JVDeviceConst.JK_DEVICE_CHANNEL_SUM, device
 					.getChannelList().size());
 		} catch (Exception e1) {

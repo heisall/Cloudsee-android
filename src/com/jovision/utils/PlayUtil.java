@@ -433,13 +433,13 @@ public class PlayUtil {
 	 * @param index
 	 * @return
 	 */
-	public static boolean videoRecord(int index) {
+	public static boolean videoRecord(int index, String savePath) {
 		boolean open = false;
 		if (checkRecord(index)) {
 			boolean stopRes = stopVideoTape();
 			open = !stopRes;
 		} else {
-			boolean startRes = startVideoTape(index);
+			boolean startRes = startVideoTape(index, savePath);
 			open = startRes;
 		}
 		return open;
@@ -455,6 +455,16 @@ public class PlayUtil {
 		return Jni.checkRecord(index);
 	}
 
+	// 创建录像文件
+	public static String createRecordFile() {
+		String videoPath = Consts.VIDEO_PATH + ConfigUtil.getCurrentTime()
+				+ File.separator;
+		String fileName = String.valueOf(System.currentTimeMillis()) + ".mp4";
+		MobileUtil.createDirectory(new File(videoPath));
+
+		return videoPath + fileName;
+	}
+
 	/**
 	 * 开始录像
 	 * 
@@ -462,14 +472,9 @@ public class PlayUtil {
 	 * @param index
 	 * @return
 	 */
-	public static boolean startVideoTape(int index) {
-		String videoPath = Consts.VIDEO_PATH + ConfigUtil.getCurrentTime()
-				+ File.separator;
-		String fileName = String.valueOf(System.currentTimeMillis()) + ".mp4";
-		MobileUtil.createDirectory(new File(videoPath));
+	public static boolean startVideoTape(int index, String savePath) {
 
-		boolean startSuccess = Jni.startRecord(index, videoPath + fileName,
-				true, false);
+		boolean startSuccess = Jni.startRecord(index, savePath, true, false);
 		return startSuccess;
 	}
 

@@ -205,7 +205,7 @@ public class JVLoginActivity extends BaseActivity {
 					userAdapter.notifyDataSetChanged();
 					pop.dismiss();
 				} else if (!pop.isShowing()) {
-					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(userNameET.getWindowToken(), 0);
 					handler.postDelayed(new Runnable() {
 						@Override
@@ -214,7 +214,7 @@ public class JVLoginActivity extends BaseActivity {
 							pop.showAsDropDown(userNameLayout);
 						}
 					}, 200);
-				
+
 				}
 			}
 		});
@@ -260,7 +260,7 @@ public class JVLoginActivity extends BaseActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.username_et:
-				if (pop!=null&&pop.isShowing()) {
+				if (pop != null && pop.isShowing()) {
 					pop.dismiss();
 				}
 				break;

@@ -1,6 +1,9 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#00ff00ff"/>
-    <stroke android:color="@color/feedback"
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <solid android:color="#00ff00ff" />
+
+    <stroke
         android:width="2px"
-        />
+        android:color="@color/feedback" />
+
 </shape>

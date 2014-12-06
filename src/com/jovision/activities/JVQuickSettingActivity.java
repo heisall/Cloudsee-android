@@ -1519,34 +1519,34 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				resetRes = 1004;
 			}
 
-			if (0 == resetRes && !local && addFlag) {
-				int timeCount = 0;
-				int onlineState = DeviceUtil.getDevOnlineState(ipcDevice
-						.getFullNo());
-
-				while (0 == onlineState) {// 0 没上线,1 上线
-
-					if (timeCount > 40) {
-						onlineState = DeviceUtil.getDevOnlineState(ipcDevice
-								.getFullNo());
-						break;
-					} else {
-						onlineState = DeviceUtil.getDevOnlineState(ipcDevice
-								.getFullNo());
-						try {
-							Thread.sleep(5 * 1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						timeCount += 5;
-					}
-
-				}
-
-				if (0 == onlineState) {
-					resetRes = 1007;
-				}
-			}
+			// if (0 == resetRes && !local && addFlag) {
+			// int timeCount = 0;
+			// int onlineState = DeviceUtil.getDevOnlineState(ipcDevice
+			// .getFullNo());
+			//
+			// while (0 == onlineState) {// 0 没上线,1 上线
+			//
+			// if (timeCount > 40) {
+			// onlineState = DeviceUtil.getDevOnlineState(ipcDevice
+			// .getFullNo());
+			// break;
+			// } else {
+			// onlineState = DeviceUtil.getDevOnlineState(ipcDevice
+			// .getFullNo());
+			// try {
+			// Thread.sleep(5 * 1000);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
+			// timeCount += 5;
+			// }
+			//
+			// }
+			//
+			// if (0 == onlineState) {
+			// resetRes = 1007;
+			// }
+			// }
 			handler.sendMessage(handler.obtainMessage(
 					Consts.QUICK_SETTING_DEV_ONLINE, 0, 0));
 

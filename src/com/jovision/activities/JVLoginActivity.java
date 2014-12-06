@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.AsyncTask;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -144,6 +146,7 @@ public class JVLoginActivity extends BaseActivity {
 				userNameET.setSelection(userList.get(0).getUserName().length());
 			}
 		}
+		userNameET.setOnClickListener(myOnClickListener);
 		userNameET.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -195,17 +198,23 @@ public class JVLoginActivity extends BaseActivity {
 										R.color.login_pop_bg));
 						userListView.setCacheColorHint(JVLoginActivity.this
 								.getResources().getColor(R.color.transparent));
-
-						userListView.setBackgroundDrawable(getResources()
-								.getDrawable(R.drawable.pop_bg));
+						userListView.setFadingEdgeLength(0);
 						pop.showAsDropDown(userNameLayout);
 					}
 				} else if (pop.isShowing()) {
 					userAdapter.notifyDataSetChanged();
 					pop.dismiss();
 				} else if (!pop.isShowing()) {
-					userAdapter.notifyDataSetChanged();
-					pop.showAsDropDown(userNameLayout);
+					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
+					imm.hideSoftInputFromWindow(userNameET.getWindowToken(), 0);
+					handler.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							userAdapter.notifyDataSetChanged();
+							pop.showAsDropDown(userNameLayout);
+						}
+					}, 200);
+				
 				}
 			}
 		});
@@ -250,6 +259,11 @@ public class JVLoginActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
+			case R.id.username_et:
+				if (pop!=null&&pop.isShowing()) {
+					pop.dismiss();
+				}
+				break;
 			case R.id.btn_left: {
 				backMethod();
 				break;

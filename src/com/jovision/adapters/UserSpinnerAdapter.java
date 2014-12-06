@@ -154,7 +154,11 @@ public class UserSpinnerAdapter extends BaseAdapter {
 		// loginHandler.sendMessage(msg);
 		// }
 		// });
-
+		holder.pop_relative.setBackgroundDrawable(activity.getResources()
+				.getDrawable(R.drawable.pop_bg));
+		if (position==list.size()-1) {
+			holder.dividerImage.setVisibility(View.GONE);
+		}
 		return convertView;
 	}
 

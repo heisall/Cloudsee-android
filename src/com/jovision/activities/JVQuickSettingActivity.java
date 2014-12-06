@@ -1650,6 +1650,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				addRes = 0;
 				addSucc = true;
 			} else {
+				deviceList = DeviceUtil.getUserDeviceList(statusHashMap
+						.get(Consts.KEY_USERNAME));
+				CacheUtil.saveDevList(deviceList);
 				addSucc = false;
 			}
 

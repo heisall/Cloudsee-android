@@ -86,48 +86,55 @@ public class JVDeviceManageFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mParent = getView();
-		mActivity = (BaseActivity) getActivity();
+		try {
+			mParent = getView();
+			mActivity = (BaseActivity) getActivity();
 
-		currentMenu.setText(R.string.str_help1_2);
-		rightBtn.setVisibility(View.GONE);
-		rightBtn.setOnClickListener(mOnClickListener);
-		manageDeviceList = CacheUtil.getDevList();
+			currentMenu.setText(R.string.str_help1_2);
+			rightBtn.setVisibility(View.GONE);
+			rightBtn.setOnClickListener(mOnClickListener);
+			manageDeviceList = CacheUtil.getDevList();
 
-		mScreenWidth = mActivity.disMetrics.widthPixels;
-		mHorizontalScrollView = (HorizontalScrollView) mActivity
-				.findViewById(R.id.hsv_view);
-		mLinearLayout = (LinearLayout) mActivity.findViewById(R.id.hsv_content);
-		mImageView = (ImageView) mActivity.findViewById(R.id.img);
-		item_width = (int) ((mScreenWidth / 3.0 + 0.5f));
-		mImageView.getLayoutParams().width = item_width;
+			mScreenWidth = mActivity.disMetrics.widthPixels;
+			mHorizontalScrollView = (HorizontalScrollView) mActivity
+					.findViewById(R.id.hsv_view);
+			mLinearLayout = (LinearLayout) mActivity
+					.findViewById(R.id.hsv_content);
+			mImageView = (ImageView) mActivity.findViewById(R.id.img);
+			item_width = (int) ((mScreenWidth / 3.0 + 0.5f));
+			mImageView.getLayoutParams().width = item_width;
 
-		managePager = (ViewPager) mParent.findViewById(R.id.manage_pagerer);
+			managePager = (ViewPager) mParent.findViewById(R.id.manage_pagerer);
 
-		/** 设备加载失败 */
-		refreshlayout = (RelativeLayout) mParent
-				.findViewById(R.id.refreshlayout);
-		device_num = (TextView) mParent.findViewById(R.id.device_num);
-		dataLayout = (LinearLayout) mParent.findViewById(R.id.datalayout);
-		relalist = (RelativeLayout) mParent.findViewById(R.id.relalist);
-		relative = (RelativeLayout) mParent.findViewById(R.id.relative);
+			/** 设备加载失败 */
+			refreshlayout = (RelativeLayout) mParent
+					.findViewById(R.id.refreshlayout);
+			device_num = (TextView) mParent.findViewById(R.id.device_num);
+			dataLayout = (LinearLayout) mParent.findViewById(R.id.datalayout);
+			relalist = (RelativeLayout) mParent.findViewById(R.id.relalist);
+			relative = (RelativeLayout) mParent.findViewById(R.id.relative);
 
-		/** 引导加设备 */
-		quickSetSV = (LinearLayout) mParent
-				.findViewById(R.id.quickinstalllayout);
-		quickSet = (Button) mParent.findViewById(R.id.quickinstall);
-		addDevice = (Button) mParent.findViewById(R.id.adddevice);
-		quickSet.setOnClickListener(mOnClickListener);
-		addDevice.setOnClickListener(mOnClickListener);
+			/** 引导加设备 */
+			quickSetSV = (LinearLayout) mParent
+					.findViewById(R.id.quickinstalllayout);
+			quickSet = (Button) mParent.findViewById(R.id.quickinstall);
+			addDevice = (Button) mParent.findViewById(R.id.adddevice);
+			quickSet.setOnClickListener(mOnClickListener);
+			addDevice.setOnClickListener(mOnClickListener);
 
-		devicemanage_listView = (ListView) mParent
-				.findViewById(R.id.device_listView);
-		devmorere = (RelativeLayout) mParent.findViewById(R.id.devmorere);
-		devmore_hie = (RelativeLayout) mParent.findViewById(R.id.devmore_hie);
+			devicemanage_listView = (ListView) mParent
+					.findViewById(R.id.device_listView);
+			devmorere = (RelativeLayout) mParent.findViewById(R.id.devmorere);
+			devmore_hie = (RelativeLayout) mParent
+					.findViewById(R.id.devmore_hie);
 
-		devmorere.setOnClickListener(mOnClickListener);
-		devmore_hie.setOnClickListener(mOnClickListener);
-		ListViewClick();
+			devmorere.setOnClickListener(mOnClickListener);
+			devmore_hie.setOnClickListener(mOnClickListener);
+			ListViewClick();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	// 设备列表的点击事件

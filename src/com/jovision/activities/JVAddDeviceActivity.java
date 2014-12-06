@@ -310,6 +310,11 @@ public class JVAddDeviceActivity extends BaseActivity {
 						addDevice = DeviceUtil.addDevice2(addDevice);
 						if (null != addDevice) {
 							addRes = 0;
+						} else {
+							deviceList = DeviceUtil
+									.getUserDeviceList(statusHashMap
+											.get(Consts.KEY_USERNAME));
+							CacheUtil.saveDevList(deviceList);
 						}
 						// addDevice = DeviceUtil.addDevice(
 						// statusHashMap.get("KEY_USERNAME"), addDevice);

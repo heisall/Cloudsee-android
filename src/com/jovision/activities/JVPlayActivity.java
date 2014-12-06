@@ -1267,6 +1267,7 @@ public class JVPlayActivity extends PlayActivity implements
 				if (0 == editRes) {
 					deviceList.get(deviceIndex).setUser(params[2]);
 					deviceList.get(deviceIndex).setPwd(params[3]);
+					CacheUtil.saveDevList(deviceList);
 				}
 
 			} catch (Exception e) {
@@ -1285,7 +1286,6 @@ public class JVPlayActivity extends PlayActivity implements
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
 			if (0 == result) {
-				CacheUtil.saveDevList(deviceList);
 				JVPlayActivity.this
 						.showTextToast(R.string.login_str_device_edit_success);
 			} else {
@@ -3371,6 +3371,10 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 		stopAll(lastClickIndex, channelList.get(lastClickIndex));
 		// manager.pauseAll();
+
+		if (Consts.PLAY_NORMAL == playFlag) {
+			CacheUtil.saveDevList(deviceList);
+		}
 		pauseAll(manager.getValidChannelList(lastItemIndex));
 	}
 

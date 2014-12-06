@@ -366,7 +366,8 @@ public class JVMoreFragment extends BaseFragment {
 						case 1:
 							AlarmTask task = new AlarmTask();
 							Integer[] params = new Integer[3];
-							if (!MySharedPreference.getBoolean("AlarmSwitch")) {// 1是关
+							if (!MySharedPreference.getBoolean("AlarmSwitch",
+									true)) {// 1是关
 								// 0是开
 								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
 							} else {

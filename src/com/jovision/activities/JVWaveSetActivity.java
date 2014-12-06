@@ -142,6 +142,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			}
 			playSoundStep(4);
 			loading.setVisibility(View.GONE);
+			rightBtn.setVisibility(View.VISIBLE);
 			break;
 		}
 		case BROAD_DEVICE: {// 广播到一个设备
@@ -248,9 +249,11 @@ public class JVWaveSetActivity extends BaseActivity {
 							addDev.setHasAdded(hasAdded);
 							if (!PlayUtil.addDev(broadList, addDev)) {
 								broadList.add(addDev);
+								handler.sendMessage(handler
+										.obtainMessage(BROAD_DEVICE));
 							}
 						}
-						handler.sendMessage(handler.obtainMessage(BROAD_DEVICE));
+
 					}
 
 				} else if (1 == broadObj.optInt("timeout")) {
@@ -294,6 +297,10 @@ public class JVWaveSetActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setText(R.string.prepare_step);
+		rightBtn.setText(getResources().getString(R.string.try_again));
+		rightBtn.setTextColor(getResources().getColor(R.color.white));
+		rightBtn.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.feedback_bg));
 		rightBtn.setVisibility(View.GONE);
 
 		stepLayout1 = (RelativeLayout) findViewById(R.id.step_layout1);
@@ -447,8 +454,6 @@ public class JVWaveSetActivity extends BaseActivity {
 			case R.id.btn_left:
 				backMethod();
 				break;
-			case R.id.btn_right:
-				break;
 			case R.id.step_btn1:
 				currentStep = 1;
 				showLayoutAtIndex(currentStep);
@@ -457,6 +462,7 @@ public class JVWaveSetActivity extends BaseActivity {
 				currentStep = 2;
 				showLayoutAtIndex(currentStep);
 				break;
+			case R.id.btn_right:// 发局域网广播搜索局域网设备
 			case R.id.step_btn3:// 发局域网广播搜索局域网设备
 				createDialog("");
 				proDialog.setCancelable(false);
@@ -466,7 +472,6 @@ public class JVWaveSetActivity extends BaseActivity {
 				Jni.queryDevice("", 0, 40 * 1000);
 				currentStep = 4;
 				showLayoutAtIndex(currentStep);
-
 				break;
 			case R.id.press_sendwave:
 				if (null != mediaPlayer) {
@@ -553,6 +558,11 @@ public class JVWaveSetActivity extends BaseActivity {
 						addDevice = DeviceUtil.addDevice2(addDevice);
 						if (null != addDevice) {
 							addRes = 0;
+						} else {
+							deviceList = DeviceUtil
+									.getUserDeviceList(statusHashMap
+											.get(Consts.KEY_USERNAME));
+							CacheUtil.saveDevList(deviceList);
 						}
 
 					}

@@ -1462,6 +1462,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 							if (null != addDev) {
 								addCount++;
 								addRes = 0;
+							} else {
+								myDeviceList = DeviceUtil
+										.getUserDeviceList(((BaseActivity) mActivity).statusHashMap
+												.get(Consts.KEY_USERNAME));
+								CacheUtil.saveDevList(myDeviceList);
 							}
 
 						}

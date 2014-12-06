@@ -581,7 +581,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 						}
 						try {
-							Thread.sleep(200);
+							Thread.sleep(20);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -605,7 +605,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 								&& settingMap.get("ACTIVED").equalsIgnoreCase(
 										"2")) {// 无线
 							try {
-								Thread.sleep(200);
+								Thread.sleep(20);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
@@ -640,15 +640,17 @@ public class JVRemoteSettingActivity extends BaseActivity {
 											(byte) JVNetConst.JVN_RSP_TEXTDATA,
 											wifiname, wifipwd, 2, 9, auth, enc);
 
+									try {
+										Thread.sleep(20);
+									} catch (InterruptedException e) {
+										e.printStackTrace();
+									}
+									back();
+
 								}
+
 							}
 
-							try {
-								Thread.sleep(200);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							back();
 						}
 					}
 				}
@@ -715,6 +717,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 				// }
 				// back();
 				// }
+
 				break;
 			case R.id.obtainauto:// 自动获取
 				bdhcpTag = 1;// 1为自动获取
@@ -1238,7 +1241,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			}
 			while (!disConnected) {
 				try {
-					Thread.sleep(500);
+					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

@@ -145,6 +145,16 @@ public class JVChannelsActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
+		deviceList = CacheUtil.getDevList();
+		try {
+			int size = fragments.size();
+			for (int i = 0; i < size; i++) {
+				((ChannelFragment) fragments.get(i)).refreshData();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		super.onResume();
 		for (int i = 0; i < deviceList.size(); i++) {
 			if (deviceIndex == i) {
@@ -174,6 +184,12 @@ public class JVChannelsActivity extends BaseActivity {
 		fragmentPagerAdapter.setFragments(fragments);
 		channelPager.setOnPageChangeListener(new ChannelsPageChangeListener());
 
+	}
+
+	@Override
+	protected void onPause() {
+		CacheUtil.saveDevList(deviceList);
+		super.onPause();
 	}
 
 	private void initNav() {

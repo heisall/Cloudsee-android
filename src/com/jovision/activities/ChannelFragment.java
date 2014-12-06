@@ -37,7 +37,7 @@ public class ChannelFragment extends BaseFragment {
 	/** 构造参数 */
 	public int deviceIndex;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
-	private Device device;
+	// private Device device;
 
 	private int widthPixels;
 
@@ -95,7 +95,8 @@ public class ChannelFragment extends BaseFragment {
 				.findViewById(R.id.channel_gridview);
 
 		channelAdapter = new ChannelAdapter(this);
-		channelAdapter.setData(device.getChannelList().toList(), widthPixels);
+		channelAdapter.setData(deviceList.get(deviceIndex).getChannelList()
+				.toList(), widthPixels);
 		channelGridView.setAdapter(channelAdapter);
 
 	}
@@ -106,7 +107,11 @@ public class ChannelFragment extends BaseFragment {
 		deviceList = devList;
 		this.widthPixels = widthPixels;
 
-		device = deviceList.get(devIndex);
+	}
+
+	// 刷新数据
+	public void refreshData() {
+		deviceList = CacheUtil.getDevList();
 	}
 
 	@Override
@@ -174,7 +179,8 @@ public class ChannelFragment extends BaseFragment {
 			break;
 		}
 		case ChannelAdapter.CHANNEL_EDIT_CLICK: {// 通道编辑
-			Channel channel = device.getChannelList().get(arg1);
+			Channel channel = deviceList.get(deviceIndex).getChannelList()
+					.get(arg1);
 			String name = channel.channelName;
 			initSummaryDialog(name, arg1);
 			break;
@@ -224,7 +230,7 @@ public class ChannelFragment extends BaseFragment {
 				} else {
 					ModifyChannelTask task = new ModifyChannelTask();
 					String[] strParams = new String[3];
-					strParams[0] = device.getFullNo();
+					strParams[0] = deviceList.get(deviceIndex).getFullNo();
 					strParams[1] = arg1 + "";// 通道index
 					strParams[2] = device_numet.getText().toString();
 					task.execute(strParams);
@@ -302,8 +308,8 @@ public class ChannelFragment extends BaseFragment {
 							modChannelIndex, newName);
 				}
 				if (0 == modRes) {
-					device.getChannelList().get(modChannelIndex)
-							.setChannelName(newName);
+					deviceList.get(deviceIndex).getChannelList()
+							.get(modChannelIndex).setChannelName(newName);
 				}
 
 			} catch (Exception e) {
@@ -356,30 +362,33 @@ public class ChannelFragment extends BaseFragment {
 			try {
 				if (Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {// 本地删除
-					if (1 == device.getChannelList().size()) {// 删设备
-						device = null;
+					if (1 == deviceList.get(deviceIndex).getChannelList()
+							.size()) {// 删设备
 						deviceList.remove(delDevIndex);
 						delRes = 1;
 					} else {// 删通道
-						device.getChannelList().remove(delChannelIndex);
+						deviceList.get(deviceIndex).getChannelList()
+								.remove(delChannelIndex);
 						delRes = 0;
 					}
 				} else {
-					if (1 == device.getChannelList().size()) {// 删设备
+					if (1 == deviceList.get(deviceIndex).getChannelList()
+							.size()) {// 删设备
 						delRes = DeviceUtil.unbindDevice(
 								((BaseActivity) mActivity).statusHashMap
-										.get("KEY_USERNAME"), device
-										.getFullNo());
+										.get("KEY_USERNAME"),
+								deviceList.get(deviceIndex).getFullNo());
 						if (0 == delRes) {
-							device = null;
 							deviceList.remove(delDevIndex);
 							delRes = 1;
 						}
 					} else {// 删通道
-						delRes = DeviceUtil.deletePoint(device.getFullNo(),
+						delRes = DeviceUtil.deletePoint(
+								deviceList.get(deviceIndex).getFullNo(),
 								delChannelIndex);
 						if (0 == delRes) {
-							device.getChannelList().remove(delChannelIndex);
+							deviceList.get(deviceIndex).getChannelList()
+									.remove(delChannelIndex);
 						}
 					}
 				}
@@ -403,8 +412,8 @@ public class ChannelFragment extends BaseFragment {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.del_channel_succ);
 				channelAdapter.setShowDelete(false);
-				channelAdapter.setData(device.getChannelList().toList(),
-						widthPixels);
+				channelAdapter.setData(deviceList.get(deviceIndex)
+						.getChannelList().toList(), widthPixels);
 				CacheUtil.saveDevList(deviceList);
 			} else if (1 == result) {
 				// [Neo] 删除最后一个应该退出通过管理界面

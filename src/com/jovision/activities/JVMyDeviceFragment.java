@@ -31,7 +31,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -1429,20 +1428,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			((BaseActivity) getActivity()).dismissDialog();
 			refreshList();
-			fragHandler.postDelayed(new Runnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					mPullRefreshListView.onRefreshComplete();
-				}
-			}, 500);
+			mPullRefreshListView.onRefreshComplete();
 			initADViewPager();
 			switch (result) {
 			// 从服务器端获取设备成功
 			case DEVICE_GETDATA_SUCCESS: {
+				((BaseActivity) getActivity()).dismissDialog();
 				broadTag = BROAD_DEVICE_LIST;
 				break;
 			}

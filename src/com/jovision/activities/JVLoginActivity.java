@@ -202,7 +202,7 @@ public class JVLoginActivity extends BaseActivity {
 								.getResources().getColor(R.color.transparent));
 						userListView.setFadingEdgeLength(0);
 						handler.postDelayed(new Runnable() {
-							
+
 							@Override
 							public void run() {
 								// TODO Auto-generated method stub

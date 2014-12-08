@@ -3427,26 +3427,26 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public void run() {
-			MyLog.w(Consts.TAG_XXX, "Connecter EEEEEEEEEEEEEEEE");
+			MyLog.w(Consts.TAG_XXX, "Connecter E");
 			try {
 				Channel channel = null;
 				int size = disconnectChannelList.size();
 
-				MyLog.i(Consts.TAG_XXX, "disconnect count: " + size);
 				for (int i = 0; i < size; i++) {
+					MyLog.v(Consts.TAG_XXX, "disconnect " + i + "/" + size);
 					channel = disconnectChannelList.get(i);
 
 					int index = channel.getIndex();
 					boolean needConnect = false;
 					for (Channel currentChannel : currentPageChannelList) {
 						if (index == currentChannel.getIndex()) {
-							MyLog.e(Consts.TAG_XXX,
-									"disconnect not for current: " + channel);
 							needConnect = true;
 							break;
 						}
 					}
 					if (needConnect) {
+						MyLog.e(Consts.TAG_XXX, "disconnect not for current: "
+								+ channel);
 						continue;
 					}
 
@@ -3456,21 +3456,15 @@ public class JVPlayActivity extends PlayActivity implements
 							MyLog.e(Consts.TAG_XXX, "disconnect failed: "
 									+ channel);
 						} else {
-							boolean needSleep = true;
-							while (needSleep) {
-								needSleep = false;
-								if (channel.isConnected()
-										|| channel.isConnecting()) {
-									needSleep = true;
-									MyLog.i(Consts.TAG_XXX, "wait for change: "
-											+ channel);
-									sleep(DISCONNECTION_MIN_PEROID);
-									break;
-								}
+							while (channel.isConnected()
+									|| channel.isConnecting()) {
+								sleep(DISCONNECTION_MIN_PEROID);
 							}
+							MyLog.i(Consts.TAG_XXX, "disconnected: " + channel);
 						}
 					} else {
-						MyLog.e(Consts.TAG_XXX, "disconnect has done: " + index);
+						MyLog.e(Consts.TAG_XXX, "disconnect already done: "
+								+ channel);
 					}
 
 				}
@@ -3480,17 +3474,15 @@ public class JVPlayActivity extends PlayActivity implements
 
 				size = currentPageChannelList.size()
 						+ connectChannelList.size();
-				MyLog.i(Consts.TAG_XXX, "connect count: " + size);
 				for (int i = 0; i < size; i++) {
+					MyLog.v(Consts.TAG_XXX, "connect " + i + "/" + size);
 					boolean isPlayDirectly = false;
 
 					if (i < currentScreen) {
 						isPlayDirectly = true;
 						channel = currentPageChannelList.get(i);
-						MyLog.i(Consts.TAG_XXX, "current: " + channel);
 					} else {
 						channel = connectChannelList.get(i - currentScreen);
-						MyLog.i(Consts.TAG_XXX, "addtional: " + channel);
 					}
 
 					if (false == channel.isConnected()
@@ -3501,14 +3493,18 @@ public class JVPlayActivity extends PlayActivity implements
 							MyLog.e(Consts.TAG_XXX, "connect failed: "
 									+ channel);
 						} else {
+							MyLog.i(Consts.TAG_XXX, "connecting: " + channel);
 							sleep(CONNECTION_MIN_PEROID);
 						}
 
 					} else if (channel.isConnecting()) {
+						MyLog.i(Consts.TAG_XXX, "connect in connecting: "
+								+ channel);
 						handler.sendMessage(handler.obtainMessage(
 								WHAT_PLAY_STATUS, channel.getIndex(),
 								ARG2_STATUS_CONNECTING));
 					} else if (false == channel.isPaused()) {
+						MyLog.i(Consts.TAG_XXX, "connect not pause: " + channel);
 						handler.sendMessage(handler.obtainMessage(
 								WHAT_PLAY_STATUS, channel.getIndex(),
 								ARG2_STATUS_CONNECTED));
@@ -3521,11 +3517,12 @@ public class JVPlayActivity extends PlayActivity implements
 									+ channel);
 						} else {
 							sleep(RESUME_VIDEO_MIN_PEROID);
-							MyLog.e(Consts.TAG_XXX, "force resume: " + channel);
+							MyLog.i(Consts.TAG_XXX, "force resume: " + channel);
 						}
 
 					} else {
 
+						MyLog.i(Consts.TAG_XXX, "connect is pause: " + channel);
 						boolean result = resumeChannel(channel);
 						if (false == result) {
 							channel.setConnected(false);
@@ -3544,7 +3541,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			handler.sendEmptyMessage(WHAT_RESTORE_UI);
-			MyLog.w(Consts.TAG_XXX, "Connecter XXXXXXXXXXXXXXXX");
+			MyLog.w(Consts.TAG_XXX, "Connecter X");
 		}
 	}
 

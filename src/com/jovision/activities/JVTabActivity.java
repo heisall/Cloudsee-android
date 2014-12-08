@@ -89,7 +89,7 @@ public class JVTabActivity extends ShakeActivity implements
 		// startActivity(newApp);
 		// finish();
 		// }
-
+		MyLog.v(TAG, "onCreate----E");
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
@@ -123,9 +123,12 @@ public class JVTabActivity extends ShakeActivity implements
 					@Override
 					public void onFail(Object data, int errCode, String msg) {
 						MyLog.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
-						showTextToast("注册失败，错误码：" + errCode + ",错误信息：" + msg);
+						JVTabActivity.this.showTextToast("注册失败，错误码：" + errCode
+								+ ",错误信息：" + msg);
 					}
 				});
+
+		MyLog.v(TAG, "onCreate----X");
 	}
 
 	@Override
@@ -196,6 +199,7 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+		MyLog.v(TAG, "onResume----E");
 		Intent intent = getIntent();
 		int index = intent.getIntExtra("tabIndex", -1);
 
@@ -212,6 +216,7 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 
 		}
+		MyLog.v(TAG, "onResume----X");
 	}
 
 	@Override
@@ -312,6 +317,7 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	protected void initUi() {
 		super.initUi();
+		MyLog.v(TAG, "initUi----E");
 		setContentView(R.layout.tab_layout);
 		startBroadTimer();
 		viewpager = (ViewPager) findViewById(R.id.tab_viewpager);
@@ -431,7 +437,7 @@ public class JVTabActivity extends ShakeActivity implements
 			MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
 			this.finish();
 		}
-
+		MyLog.v(TAG, "initUi----X");
 	}
 
 	@Override

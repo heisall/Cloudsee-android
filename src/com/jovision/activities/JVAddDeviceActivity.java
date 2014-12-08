@@ -307,15 +307,25 @@ public class JVAddDeviceActivity extends BaseActivity {
 					if (localFlag) {// 本地添加
 						addRes = 0;
 					} else {
-						addDevice = DeviceUtil.addDevice2(addDevice);
+						addDevice = DeviceUtil.addDevice2(addDevice,
+								statusHashMap.get(Consts.KEY_USERNAME));
 						if (null != addDevice) {
 							addRes = 0;
-						} else {
-							deviceList = DeviceUtil
-									.getUserDeviceList(statusHashMap
-											.get(Consts.KEY_USERNAME));
-							CacheUtil.saveDevList(deviceList);
 						}
+						// else {
+						// addDevice = new Device("", 0, params[0],
+						// Integer.parseInt(params[1]), userET.getText()
+						// .toString(), pwdET.getText().toString(), false,
+						// channelCount, 0);
+						// addDevice =
+						// DeviceUtil.getUserDeviceDetail(addDevice,statusHashMap
+						// .get(Consts.KEY_USERNAME));
+						// if (null != addDevice) {
+						// addRes = 0;
+						// }else{
+						// addRes = -1;
+						// }
+						// }
 						// addDevice = DeviceUtil.addDevice(
 						// statusHashMap.get("KEY_USERNAME"), addDevice);
 						// if (null != addDevice) {

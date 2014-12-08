@@ -624,6 +624,7 @@
     <string name="str_all_day">全天</string>
     <string name="str_protected_time">防护时间段</string>
     <string name="str_getdev_params_timeout">获取设备参数超时</string>
+    <string name="str_setdev_params_timeout">设置设备参数超时</string>
     <string name="str_setting_time">设置时间</string>
     <string name="str_disconnect_resp_timeout">断开连接超时</string>
     <string name="str_operation_failed">操作不成功</string>

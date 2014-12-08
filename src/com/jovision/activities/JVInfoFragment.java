@@ -443,6 +443,11 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 						RemoveRepetitiveAlarmInfoFromPushList(pi.strGUID);// 先删除重复的
 						pushList.add(0, pi);// 新消息置顶
 						Consts.pushHisCount++;
+						noMess.setVisibility(View.GONE);
+						noMessTv.setVisibility(View.GONE);
+						pushAdapter.setData(pushList);
+						pushAdapter.setRefCount(pushList.size());
+						pushListView.setAdapter(pushAdapter);
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}

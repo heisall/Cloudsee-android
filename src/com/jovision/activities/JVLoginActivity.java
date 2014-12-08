@@ -178,6 +178,8 @@ public class JVLoginActivity extends BaseActivity {
 		moreUserIV.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(userNameET.getWindowToken(), 0);
 				if (pop == null) {
 					if (null != userList && 0 != userList.size()) {
 						userAdapter = new UserSpinnerAdapter(
@@ -199,14 +201,19 @@ public class JVLoginActivity extends BaseActivity {
 						userListView.setCacheColorHint(JVLoginActivity.this
 								.getResources().getColor(R.color.transparent));
 						userListView.setFadingEdgeLength(0);
-						pop.showAsDropDown(userNameLayout);
+						handler.postDelayed(new Runnable() {
+
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								pop.showAsDropDown(userNameLayout);
+							}
+						}, 200);
 					}
 				} else if (pop.isShowing()) {
 					userAdapter.notifyDataSetChanged();
 					pop.dismiss();
 				} else if (!pop.isShowing()) {
-					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(userNameET.getWindowToken(), 0);
 					handler.postDelayed(new Runnable() {
 						@Override
 						public void run() {
@@ -260,6 +267,8 @@ public class JVLoginActivity extends BaseActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.username_et:
+				userNameET.setFocusable(true);
+				userNameET.setFocusableInTouchMode(true);
 				if (pop != null && pop.isShowing()) {
 					pop.dismiss();
 				}

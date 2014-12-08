@@ -37,7 +37,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 
 	static final String LOG_TAG = "PullToRefresh";
 
-	static final float FRICTION = 2.0f;
+	static final float FRICTION = 1.0f;
 
 	public static final int SMOOTH_SCROLL_DURATION_MS = 200;
 	public static final int SMOOTH_SCROLL_LONG_DURATION_MS = 325;
@@ -668,7 +668,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 	}
 
 	protected final void refreshLoadingViewsSize() {
-		final int maximumPullScroll = (int) (getMaximumPullScroll() * 1.2f);
+		final int maximumPullScroll = (int) (getMaximumPullScroll() * 1.2);
 
 		int pLeft = getPaddingLeft();
 		int pTop = getPaddingTop();

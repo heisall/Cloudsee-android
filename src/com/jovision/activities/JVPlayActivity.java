@@ -167,8 +167,8 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_CONNECT_CHANGE: {
-			MyLog.i(TAG, "CALL_CONNECT_CHANGE:what=" + what + ",arg1=" + arg1
-					+ ",arg2=" + arg2 + ",obj=" + obj);
+			MyLog.i(Consts.TAG_XXX, "onNotify: changed, arg1=" + arg1
+					+ ", arg2=" + arg2 + ", obj=" + obj);
 			Channel channel = null;
 			if (arg1 < channelList.size()) {
 				channel = channelList.get(arg1);
@@ -338,6 +338,8 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_CONNECT_CHANGE: {
+			MyLog.d(Consts.TAG_XXX, "onHandler: changed, arg1=" + arg1
+					+ ", arg2=" + arg2 + ", obj=" + obj);
 			Channel channel = null;
 			if (arg1 < channelList.size()) {
 				channel = channelList.get(arg1);
@@ -1406,11 +1408,11 @@ public class JVPlayActivity extends PlayActivity implements
 			isDoubleClickCheck = false;
 			lastClickIndex = channelList.get(startWindowIndex).getIndex();
 			lastItemIndex = lastClickIndex;
-			MyLog.i(Consts.TAG_XX, "JVPlay.init: startWindowIndex="
-					+ startWindowIndex + "," + channelList.size()
-					+ ", channel/index = "
-					+ channelList.get(startWindowIndex).getChannel() + "/"
-					+ channelList.get(startWindowIndex).getIndex());
+			// MyLog.i(Consts.TAG_XXX, "JVPlay.init: startWindowIndex="
+			// + startWindowIndex + "," + channelList.size()
+			// + ", channel/index = "
+			// + channelList.get(startWindowIndex).getChannel() + "/"
+			// + channelList.get(startWindowIndex).getIndex());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2073,6 +2075,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		switch (status) {
 		case PlayWindowManager.STATUS_CREATED:
+			MyLog.w(Consts.TAG_XXX, "surface: " + index + ", created");
 			if (ONE_SCREEN == currentScreen && false == isFromCurrent
 					&& false == channel.isConnected()) {
 				connectChannelList.add(channel);
@@ -2087,6 +2090,7 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 
 		case PlayWindowManager.STATUS_DESTROYED:
+			MyLog.w(Consts.TAG_XXX, "surface: " + index + ", destroyed");
 			pauseChannel(channel);
 			channel.setSurface(null);
 			break;

@@ -47,9 +47,8 @@ public class Consts {
 	public static final String TAG_PLAY = "CS_PLAY";
 	public static final String TAG_LOGICAL = "CS_LOGICAL";
 	public static final String TAG_JY = "CS_JY";
-
-	/** [Neo] 专用调试 tag */
-	public static final String TAG_XX = "CS_XX";
+	
+	public static final String TAG_XXX = "CS_XXX";
 
 	public static final int CALL_CONNECT_CHANGE = 0xA1;
 	public static final int CALL_NORMAL_DATA = 0xA2;

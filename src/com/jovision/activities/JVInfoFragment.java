@@ -234,7 +234,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				if (temList.size() == 0) {
 					noMess.setVisibility(View.VISIBLE);
 					noMessTv.setVisibility(View.VISIBLE);
-					mActivity.showTextToast(R.string.nomessage);
+					((BaseActivity) getActivity())
+							.showTextToast(R.string.nomessage);
 					pushList.clear();
 					Consts.pushHisCount = 0;
 					pushAdapter.setRefCount(pushList.size());
@@ -276,7 +277,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				}
 			} else {
 				onLoadPush();
-				mActivity.showTextToast(R.string.get_alarm_list_failed);
+				((BaseActivity) getActivity())
+						.showTextToast(R.string.get_alarm_list_failed);
 			}
 		}
 
@@ -335,7 +337,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					temList = new ArrayList<PushInfo>();
 				}
 				if (temList.size() == 0) {
-					mActivity.showTextToast(R.string.nomessage);
+					((BaseActivity) getActivity())
+							.showTextToast(R.string.nomessage);
 					return;
 				}
 				int addLen = temList.size();
@@ -358,7 +361,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					pushAdapter.notifyDataSetChanged();
 				}
 			} else {
-				mActivity.showTextToast(R.string.get_alarm_list_failed);
+				((BaseActivity) getActivity())
+						.showTextToast(R.string.get_alarm_list_failed);
 			}
 		}
 
@@ -439,6 +443,11 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 						RemoveRepetitiveAlarmInfoFromPushList(pi.strGUID);// 先删除重复的
 						pushList.add(0, pi);// 新消息置顶
 						Consts.pushHisCount++;
+						noMess.setVisibility(View.GONE);
+						noMessTv.setVisibility(View.GONE);
+						pushAdapter.setData(pushList);
+						pushAdapter.setRefCount(pushList.size());
+						pushListView.setAdapter(pushAdapter);
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -527,12 +536,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					}
 				}
 				if (!doDelete) {
-					mActivity.showTextToast(R.string.del_alarm_failed);
+					((BaseActivity) getActivity())
+							.showTextToast(R.string.del_alarm_failed);
 				} else {
 					Consts.pushHisCount--;
 					pushAdapter.setRefCount(pushList.size());
 					pushAdapter.notifyDataSetChanged();
-					mActivity.showTextToast(R.string.del_alarm_succ);
+					((BaseActivity) getActivity())
+							.showTextToast(R.string.del_alarm_succ);
 
 					if (Consts.pushHisCount == 0) {
 						((BaseActivity) mActivity).createDialog("");
@@ -542,7 +553,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					}
 				}
 			} else {
-				mActivity.showTextToast(R.string.del_alarm_failed);
+				((BaseActivity) getActivity())
+						.showTextToast(R.string.del_alarm_failed);
 			}
 
 			((BaseActivity) mActivity).dismissDialog();
@@ -594,11 +606,13 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				Consts.pushHisCount = 0;
 				pushAdapter.setRefCount(0);
 				pushAdapter.notifyDataSetChanged();
-				mActivity.showTextToast(R.string.clear_alarm_succ);
+				((BaseActivity) getActivity())
+						.showTextToast(R.string.clear_alarm_succ);
 				noMess.setVisibility(View.VISIBLE);
 				noMessTv.setVisibility(View.VISIBLE);
 			} else {
-				mActivity.showTextToast(R.string.clear_alarm_failed);
+				((BaseActivity) getActivity())
+						.showTextToast(R.string.clear_alarm_failed);
 			}
 
 			((BaseActivity) mActivity).dismissDialog();

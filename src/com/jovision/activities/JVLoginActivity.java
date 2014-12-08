@@ -453,7 +453,7 @@ public class JVLoginActivity extends BaseActivity {
 				user.setLastLogin(1);
 				user.setJudgeFlag(1);
 				UserUtil.addUser(user);
-
+				MyLog.v(TAG, "LoginSuccess");
 				intent.setClass(JVLoginActivity.this, JVTabActivity.class);
 				JVLoginActivity.this.startActivity(intent);
 				finish();

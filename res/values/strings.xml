@@ -624,6 +624,7 @@
     <string name="str_all_day">All Day</string>
     <string name="str_protected_time">Safeguard time scale</string>
     <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>
+    <string name="str_setdev_params_timeout">Set the equipment parameter timeout</string>
     <string name="str_disconnect_resp_timeout">Disconnect the connection timeout</string>
     <string name="str_operation_failed">Operation failed</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->

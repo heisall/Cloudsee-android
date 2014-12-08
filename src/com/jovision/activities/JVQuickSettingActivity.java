@@ -1632,7 +1632,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			}
 		}
 
-		String temIp = ipcDevice.getIp();
+		String temIp = "";
+		if (!Consts.IPC_DEFAULT_IP.equalsIgnoreCase(ipcDevice.getIp())) {
+			temIp = ipcDevice.getIp();
+		}
 		int temPort = ipcDevice.getPort();
 		ipcDevice.setDeviceType(2);
 		boolean addSucc = false;

@@ -31,6 +31,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -700,7 +701,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
 			refreshList();
-			mPullRefreshListView.onRefreshComplete();
 			initADViewPager();
 			switch (arg1) {
 			// 从服务器端获取设备成功
@@ -708,6 +708,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				broadTag = BROAD_DEVICE_LIST;
 				PlayUtil.deleteDevIp(myDeviceList);
 				PlayUtil.broadCast(mActivity);
+				mPullRefreshListView.onRefreshComplete();
 				break;
 			}
 			// 从服务器端获取设备成功，但是没有设备
@@ -1398,7 +1399,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
 			refreshList();
-			mPullRefreshListView.onRefreshComplete();
+			fragHandler.postDelayed(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					mPullRefreshListView.onRefreshComplete();
+				}
+			}, 500);
 			initADViewPager();
 			switch (result) {
 			// 从服务器端获取设备成功

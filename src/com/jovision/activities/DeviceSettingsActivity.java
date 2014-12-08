@@ -346,6 +346,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
 						0x02,
 						String.format(Consts.FORMATTER_SET_ALARM_ONLY, enabled));
+				new Thread(new TimeOutProcess(Consts.DEV_SETTINGS_ALARM))
+						.start();
 			} else {
 				AlarmSwitchTask task = new AlarmSwitchTask();
 				String[] params = new String[3];
@@ -592,17 +594,21 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		public void dispatchMessage(Message msg) {
 			String strDescString = "";
 			switch (msg.what) {
+			case Consts.DEV_SETTINGS_ALARM:
+				strDescString = getResources().getString(
+						R.string.str_setdev_params_timeout);
+				break;
 			case JVNetConst.JVN_STREAM_INFO:
-				if (waitingDialog != null && waitingDialog.isShowing())
-					waitingDialog.dismiss();
 				strDescString = getResources().getString(
 						R.string.str_getdev_params_timeout);
-				showTextToast(strDescString);
-				finish();
 				break;
 			default:
 				break;
 			}
+			if (waitingDialog != null && waitingDialog.isShowing())
+				waitingDialog.dismiss();
+			showTextToast(strDescString);
+			finish();
 		}
 	}
 

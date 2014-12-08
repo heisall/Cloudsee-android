@@ -47,7 +47,7 @@ public class Consts {
 	public static final String TAG_PLAY = "CS_PLAY";
 	public static final String TAG_LOGICAL = "CS_LOGICAL";
 	public static final String TAG_JY = "CS_JY";
-	
+
 	public static final String TAG_XXX = "CS_XXX";
 
 	public static final int CALL_CONNECT_CHANGE = 0xA1;

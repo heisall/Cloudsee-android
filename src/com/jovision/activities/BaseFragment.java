@@ -127,6 +127,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 
 	@Override
 	public void onResume() {
+		mActivity = (BaseActivity) getActivity();
 		((MainApplication) mActivity.getApplication()).setCurrentNotifyer(this);
 		StatService.onResume(mActivity);
 		super.onResume();

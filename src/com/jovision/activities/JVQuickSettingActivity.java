@@ -881,11 +881,16 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (null != quickSetPop) {
 			quickSetPop.dismiss();
 		}
-		stopTask = true;
-		// searchView.stopPlayer();
-		searchView.myPlayer.release();
-		stopRefreshWifiTimer();
-		MySharedPreference.putBoolean(Consts.AP_SETTING, false);
+		try {
+			stopTask = true;
+			// searchView.stopPlayer();
+			searchView.myPlayer.release();
+			stopRefreshWifiTimer();
+			MySharedPreference.putBoolean(Consts.AP_SETTING, false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override

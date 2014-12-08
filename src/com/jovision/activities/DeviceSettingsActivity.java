@@ -74,7 +74,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		window = extras.getInt("window");
 		deviceIndex = extras.getInt("deviceIndex");
 		deviceList = CacheUtil.getDevList();
-		if (0!=deviceList.size()) {
+		if (0 != deviceList.size()) {
 			device = deviceList.get(deviceIndex);
 		}
 		InitViews();

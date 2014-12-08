@@ -167,7 +167,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_CONNECT_CHANGE: {
-			MyLog.i(Consts.TAG_XXX, "onNotify: changed, arg1=" + arg1
+			MyLog.i(Consts.TAG_PLAY, "onNotify: changed, arg1=" + arg1
 					+ ", arg2=" + arg2 + ", obj=" + obj);
 			Channel channel = null;
 			if (arg1 < channelList.size()) {
@@ -338,7 +338,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_CONNECT_CHANGE: {
-			MyLog.d(Consts.TAG_XXX, "onHandler: changed, arg1=" + arg1
+			MyLog.d(Consts.TAG_PLAY, "onHandler: changed, arg1=" + arg1
 					+ ", arg2=" + arg2 + ", obj=" + obj);
 			Channel channel = null;
 			if (arg1 < channelList.size()) {
@@ -2075,7 +2075,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		switch (status) {
 		case PlayWindowManager.STATUS_CREATED:
-			MyLog.w(Consts.TAG_XXX, "surface: " + index + ", created");
+			MyLog.w(Consts.TAG_XXX, "> surface created: " + index);
 			if (ONE_SCREEN == currentScreen && false == isFromCurrent
 					&& false == channel.isConnected()) {
 				connectChannelList.add(channel);
@@ -2090,7 +2090,7 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 
 		case PlayWindowManager.STATUS_DESTROYED:
-			MyLog.w(Consts.TAG_XXX, "surface: " + index + ", destroyed");
+			MyLog.w(Consts.TAG_XXX, "> surface destroyed: " + index);
 			pauseChannel(channel);
 			channel.setSurface(null);
 			break;
@@ -3427,11 +3427,12 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public void run() {
+			MyLog.w(Consts.TAG_XXX, "Connecter EEEEEEEEEEEEEEEE");
 			try {
 				Channel channel = null;
 				int size = disconnectChannelList.size();
 
-				MyLog.w(Consts.TAG_PLAY, "disconnect count: " + size);
+				MyLog.i(Consts.TAG_XXX, "disconnect count: " + size);
 				for (int i = 0; i < size; i++) {
 					channel = disconnectChannelList.get(i);
 
@@ -3439,7 +3440,7 @@ public class JVPlayActivity extends PlayActivity implements
 					boolean needConnect = false;
 					for (Channel currentChannel : currentPageChannelList) {
 						if (index == currentChannel.getIndex()) {
-							MyLog.w(Consts.TAG_PLAY,
+							MyLog.e(Consts.TAG_XXX,
 									"disconnect not for current: " + channel);
 							needConnect = true;
 							break;
@@ -3452,7 +3453,7 @@ public class JVPlayActivity extends PlayActivity implements
 					if (channel.isConnected() || channel.isConnecting()) {
 						boolean result = Jni.disconnect(channel.getIndex());
 						if (false == result) {
-							MyLog.e(Consts.TAG_PLAY, "disconnect failed: "
+							MyLog.e(Consts.TAG_XXX, "disconnect failed: "
 									+ channel);
 						} else {
 							boolean needSleep = true;
@@ -3461,16 +3462,15 @@ public class JVPlayActivity extends PlayActivity implements
 								if (channel.isConnected()
 										|| channel.isConnecting()) {
 									needSleep = true;
-									MyLog.w(Consts.TAG_PLAY,
-											"wait for change: " + channel);
+									MyLog.i(Consts.TAG_XXX, "wait for change: "
+											+ channel);
 									sleep(DISCONNECTION_MIN_PEROID);
 									break;
 								}
 							}
 						}
 					} else {
-						MyLog.w(Consts.TAG_PLAY, "disconnect has done: "
-								+ index);
+						MyLog.e(Consts.TAG_XXX, "disconnect has done: " + index);
 					}
 
 				}
@@ -3480,17 +3480,17 @@ public class JVPlayActivity extends PlayActivity implements
 
 				size = currentPageChannelList.size()
 						+ connectChannelList.size();
-				MyLog.w(Consts.TAG_PLAY, "connect count: " + size);
+				MyLog.i(Consts.TAG_XXX, "connect count: " + size);
 				for (int i = 0; i < size; i++) {
 					boolean isPlayDirectly = false;
 
 					if (i < currentScreen) {
 						isPlayDirectly = true;
 						channel = currentPageChannelList.get(i);
-						MyLog.v(Consts.TAG_PLAY, "current: " + channel);
+						MyLog.i(Consts.TAG_XXX, "current: " + channel);
 					} else {
 						channel = connectChannelList.get(i - currentScreen);
-						MyLog.v(Consts.TAG_PLAY, "addtional: " + channel);
+						MyLog.i(Consts.TAG_XXX, "addtional: " + channel);
 					}
 
 					if (false == channel.isConnected()
@@ -3498,7 +3498,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 						boolean result = connect(channel, isPlayDirectly);
 						if (false == result) {
-							MyLog.e(Consts.TAG_PLAY, "connect failed: "
+							MyLog.e(Consts.TAG_XXX, "connect failed: "
 									+ channel);
 						} else {
 							sleep(CONNECTION_MIN_PEROID);
@@ -3517,11 +3517,11 @@ public class JVPlayActivity extends PlayActivity implements
 						boolean result = resumeChannel(channel);
 						if (false == result) {
 							channel.setConnected(false);
-							MyLog.e(Consts.TAG_PLAY, "force resume failed: "
+							MyLog.e(Consts.TAG_XXX, "force resume failed: "
 									+ channel);
 						} else {
 							sleep(RESUME_VIDEO_MIN_PEROID);
-							MyLog.e(Consts.TAG_PLAY, "force resume: " + channel);
+							MyLog.e(Consts.TAG_XXX, "force resume: " + channel);
 						}
 
 					} else {
@@ -3529,8 +3529,7 @@ public class JVPlayActivity extends PlayActivity implements
 						boolean result = resumeChannel(channel);
 						if (false == result) {
 							channel.setConnected(false);
-							MyLog.e(Consts.TAG_PLAY, "resume failed: "
-									+ channel);
+							MyLog.e(Consts.TAG_XXX, "resume failed: " + channel);
 						} else {
 							sleep(RESUME_VIDEO_MIN_PEROID);
 						}
@@ -3545,6 +3544,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			handler.sendEmptyMessage(WHAT_RESTORE_UI);
+			MyLog.w(Consts.TAG_XXX, "Connecter XXXXXXXXXXXXXXXX");
 		}
 	}
 

@@ -201,3 +201,31 @@ play
     id, window, is_play_back, byte[]
     byte: pcm raw data
 
+# 播放流程
+
+## 工作流
+
+1. 创建可显示的平面
+2. 调用连接接口，绑定平面
+3. 暂停和恢复
+4. 调用断开接口
+
+## 应用层
+
+1. `manager.genPageList(count)`
+2. `adapter.update()` & `pager.setAdapter()`
+3. `onLifecycle`: created | destroyed
+4. handler: `WHAT_CHECK_SURFACE`
+5. check: currentPage without null surface
+6. `new Connecter().start()`
+
+## 底层
+
+1. connect: `pthread_create(onPlayVideo`
+2. changed: `is_connected = true`
+3. normal O: `pthread_create(onPlayAudio`
+4. disconn: nothing but log
+5. changed: `is_connected = false`
+6. video wait audio, max 10 * 500ms
+7. callback quit
+

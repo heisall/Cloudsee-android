@@ -167,7 +167,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_CONNECT_CHANGE: {
-			MyLog.i(Consts.TAG_XXX, "onNotify: changed, arg1=" + arg1
+			MyLog.i(Consts.TAG_PLAY, "onNotify: changed, arg1=" + arg1
 					+ ", arg2=" + arg2 + ", obj=" + obj);
 			Channel channel = null;
 			if (arg1 < channelList.size()) {
@@ -338,7 +338,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_CONNECT_CHANGE: {
-			MyLog.d(Consts.TAG_XXX, "onHandler: changed, arg1=" + arg1
+			MyLog.d(Consts.TAG_PLAY, "onHandler: changed, arg1=" + arg1
 					+ ", arg2=" + arg2 + ", obj=" + obj);
 			Channel channel = null;
 			if (arg1 < channelList.size()) {
@@ -2075,7 +2075,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		switch (status) {
 		case PlayWindowManager.STATUS_CREATED:
-			MyLog.w(Consts.TAG_XXX, "surface: " + index + ", created");
+			MyLog.w(Consts.TAG_XXX, "> surface created: " + index);
 			if (ONE_SCREEN == currentScreen && false == isFromCurrent
 					&& false == channel.isConnected()) {
 				connectChannelList.add(channel);
@@ -2090,7 +2090,7 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 
 		case PlayWindowManager.STATUS_DESTROYED:
-			MyLog.w(Consts.TAG_XXX, "surface: " + index + ", destroyed");
+			MyLog.w(Consts.TAG_XXX, "> surface destroyed: " + index);
 			pauseChannel(channel);
 			channel.setSurface(null);
 			break;
@@ -3427,50 +3427,44 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public void run() {
+			MyLog.w(Consts.TAG_XXX, "Connecter E");
 			try {
 				Channel channel = null;
 				int size = disconnectChannelList.size();
 
-				MyLog.w(Consts.TAG_PLAY, "disconnect count: " + size);
 				for (int i = 0; i < size; i++) {
+					MyLog.v(Consts.TAG_XXX, "disconnect " + i + "/" + size);
 					channel = disconnectChannelList.get(i);
 
 					int index = channel.getIndex();
 					boolean needConnect = false;
 					for (Channel currentChannel : currentPageChannelList) {
 						if (index == currentChannel.getIndex()) {
-							MyLog.w(Consts.TAG_PLAY,
-									"disconnect not for current: " + channel);
 							needConnect = true;
 							break;
 						}
 					}
 					if (needConnect) {
+						MyLog.e(Consts.TAG_XXX, "disconnect not for current: "
+								+ channel);
 						continue;
 					}
 
 					if (channel.isConnected() || channel.isConnecting()) {
 						boolean result = Jni.disconnect(channel.getIndex());
 						if (false == result) {
-							MyLog.e(Consts.TAG_PLAY, "disconnect failed: "
+							MyLog.e(Consts.TAG_XXX, "disconnect failed: "
 									+ channel);
 						} else {
-							boolean needSleep = true;
-							while (needSleep) {
-								needSleep = false;
-								if (channel.isConnected()
-										|| channel.isConnecting()) {
-									needSleep = true;
-									MyLog.w(Consts.TAG_PLAY,
-											"wait for change: " + channel);
-									sleep(DISCONNECTION_MIN_PEROID);
-									break;
-								}
+							while (channel.isConnected()
+									|| channel.isConnecting()) {
+								sleep(DISCONNECTION_MIN_PEROID);
 							}
+							MyLog.i(Consts.TAG_XXX, "disconnected: " + channel);
 						}
 					} else {
-						MyLog.w(Consts.TAG_PLAY, "disconnect has done: "
-								+ index);
+						MyLog.e(Consts.TAG_XXX, "disconnect already done: "
+								+ channel);
 					}
 
 				}
@@ -3480,17 +3474,15 @@ public class JVPlayActivity extends PlayActivity implements
 
 				size = currentPageChannelList.size()
 						+ connectChannelList.size();
-				MyLog.w(Consts.TAG_PLAY, "connect count: " + size);
 				for (int i = 0; i < size; i++) {
+					MyLog.v(Consts.TAG_XXX, "connect " + i + "/" + size);
 					boolean isPlayDirectly = false;
 
 					if (i < currentScreen) {
 						isPlayDirectly = true;
 						channel = currentPageChannelList.get(i);
-						MyLog.v(Consts.TAG_PLAY, "current: " + channel);
 					} else {
 						channel = connectChannelList.get(i - currentScreen);
-						MyLog.v(Consts.TAG_PLAY, "addtional: " + channel);
 					}
 
 					if (false == channel.isConnected()
@@ -3498,17 +3490,21 @@ public class JVPlayActivity extends PlayActivity implements
 
 						boolean result = connect(channel, isPlayDirectly);
 						if (false == result) {
-							MyLog.e(Consts.TAG_PLAY, "connect failed: "
+							MyLog.e(Consts.TAG_XXX, "connect failed: "
 									+ channel);
 						} else {
+							MyLog.i(Consts.TAG_XXX, "connecting: " + channel);
 							sleep(CONNECTION_MIN_PEROID);
 						}
 
 					} else if (channel.isConnecting()) {
+						MyLog.i(Consts.TAG_XXX, "connect in connecting: "
+								+ channel);
 						handler.sendMessage(handler.obtainMessage(
 								WHAT_PLAY_STATUS, channel.getIndex(),
 								ARG2_STATUS_CONNECTING));
 					} else if (false == channel.isPaused()) {
+						MyLog.i(Consts.TAG_XXX, "connect not pause: " + channel);
 						handler.sendMessage(handler.obtainMessage(
 								WHAT_PLAY_STATUS, channel.getIndex(),
 								ARG2_STATUS_CONNECTED));
@@ -3517,20 +3513,20 @@ public class JVPlayActivity extends PlayActivity implements
 						boolean result = resumeChannel(channel);
 						if (false == result) {
 							channel.setConnected(false);
-							MyLog.e(Consts.TAG_PLAY, "force resume failed: "
+							MyLog.e(Consts.TAG_XXX, "force resume failed: "
 									+ channel);
 						} else {
 							sleep(RESUME_VIDEO_MIN_PEROID);
-							MyLog.e(Consts.TAG_PLAY, "force resume: " + channel);
+							MyLog.i(Consts.TAG_XXX, "force resume: " + channel);
 						}
 
 					} else {
 
+						MyLog.i(Consts.TAG_XXX, "connect is pause: " + channel);
 						boolean result = resumeChannel(channel);
 						if (false == result) {
 							channel.setConnected(false);
-							MyLog.e(Consts.TAG_PLAY, "resume failed: "
-									+ channel);
+							MyLog.e(Consts.TAG_XXX, "resume failed: " + channel);
 						} else {
 							sleep(RESUME_VIDEO_MIN_PEROID);
 						}
@@ -3545,6 +3541,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			handler.sendEmptyMessage(WHAT_RESTORE_UI);
+			MyLog.w(Consts.TAG_XXX, "Connecter X");
 		}
 	}
 

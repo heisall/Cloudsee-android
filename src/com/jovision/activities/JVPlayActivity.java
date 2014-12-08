@@ -185,13 +185,6 @@ public class JVPlayActivity extends PlayActivity implements
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
 				channel.setConnected(true);
-
-				if (currentPageChannelList.contains(channel)) {
-					if (channel.isPaused()) {
-						resumeChannel(channel);
-					}
-				}
-
 				handler.sendMessage(handler
 						.obtainMessage(what, arg1, arg2, obj));
 				break;
@@ -348,11 +341,22 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null == channel) {
 				return;
 			}
+
 			switch (arg2) {
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
 				loadingState(arg1, R.string.connecting_buffer1,
 						JVConst.PLAY_CONNECTING_BUFFER);
+
+				if (currentPageChannelList.contains(channel)) {
+					MyLog.i(Consts.TAG_XXX,
+							"recheck, need resume(" + channel.isPaused()
+									+ "): " + channel);
+					if (channel.isPaused()) {
+						resumeChannel(channel);
+					}
+				}
+
 				break;
 			}
 
@@ -1697,6 +1701,7 @@ public class JVPlayActivity extends PlayActivity implements
 				result = Jni.resume(channel.getIndex(), channel.getSurface());
 				MyLog.v(TAG, "result2=" + result + "");
 				if (result) {
+					channel.setPaused(false);
 					handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
 							channel.getIndex(), ARG2_STATUS_BUFFERING));
 				} else {
@@ -1704,7 +1709,6 @@ public class JVPlayActivity extends PlayActivity implements
 					// channel.getIndex(), ARG2_STATUS_HAS_CONNECTED));
 				}
 
-				channel.setPaused(false);
 			} else {
 				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
 						channel.getIndex(), ARG2_STATUS_DISCONNECTED));
@@ -1733,19 +1737,15 @@ public class JVPlayActivity extends PlayActivity implements
 	public boolean pauseChannel(Channel channel) {
 		boolean result = false;
 
-		if (null != channel && channel.isConnected()
-				&& false == channel.isPaused()) {
-			if (lastClickIndex == channel.getIndex()) {
-				result = true;
-			} else {
-				result = Jni.sendBytes(channel.getIndex(),
+		if (null != channel && false == channel.isPaused()) {
+			if (lastClickIndex != channel.getIndex() && channel.isConnected()) {
+				Jni.sendBytes(channel.getIndex(),
 						JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
 			}
 
-			if (result) {
-				Jni.pause(channel.getIndex());
-				channel.setPaused(true);
-			}
+			Jni.pause(channel.getIndex());
+			channel.setPaused(true);
+			result = true;
 		}
 
 		return result;
@@ -3526,7 +3526,8 @@ public class JVPlayActivity extends PlayActivity implements
 						boolean result = resumeChannel(channel);
 						if (false == result) {
 							channel.setConnected(false);
-							MyLog.e(Consts.TAG_XXX, "resume failed: " + channel);
+							MyLog.e(Consts.TAG_XXX, "connect resume failed: "
+									+ channel);
 						} else {
 							sleep(RESUME_VIDEO_MIN_PEROID);
 						}

@@ -82,7 +82,6 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		// // 如果savedInstanceState!=null，说明在应用在后台被干掉，或者应用崩掉需要重新create
 		// if (savedInstanceState != null) {
 		// Intent newApp = new Intent(JVTabActivity.this,

@@ -1648,16 +1648,24 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			ipcDevice.setPort(0);
 			int addRes = -1;
 
-			ipcDevice = DeviceUtil.addDevice2(ipcDevice);
+			ipcDevice = DeviceUtil.addDevice2(ipcDevice,
+					statusHashMap.get(Consts.KEY_USERNAME));
 			if (null != ipcDevice) {
 				addRes = 0;
 				addSucc = true;
 			} else {
-				deviceList = DeviceUtil.getUserDeviceList(statusHashMap
-						.get(Consts.KEY_USERNAME));
-				CacheUtil.saveDevList(deviceList);
 				addSucc = false;
 			}
+			// else {
+			// ipcDevice =
+			// DeviceUtil.getUserDeviceDetail(ipcDevice,statusHashMap
+			// .get(Consts.KEY_USERNAME));
+			// if (null != ipcDevice) {
+			// addSucc = true;
+			// }else{
+			// addSucc = false;
+			// }
+			// }
 
 			// ipcDevice =
 			// DeviceUtil.addDevice(statusHashMap.get("KEY_USERNAME"),

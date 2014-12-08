@@ -555,15 +555,21 @@ public class JVWaveSetActivity extends BaseActivity {
 						addRes = 0;
 					} else {
 
-						addDevice = DeviceUtil.addDevice2(addDevice);
+						addDevice = DeviceUtil.addDevice2(addDevice,
+								statusHashMap.get(Consts.KEY_USERNAME));
 						if (null != addDevice) {
 							addRes = 0;
-						} else {
-							deviceList = DeviceUtil
-									.getUserDeviceList(statusHashMap
-											.get(Consts.KEY_USERNAME));
-							CacheUtil.saveDevList(deviceList);
 						}
+						// else {
+						// addDevice =
+						// DeviceUtil.getUserDeviceDetail(addDevice,statusHashMap
+						// .get(Consts.KEY_USERNAME));
+						// if (null != addDevice) {
+						// addRes = 0;
+						// }else{
+						// addRes = -1;
+						// }
+						// }
 
 					}
 				}

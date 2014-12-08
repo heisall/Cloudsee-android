@@ -439,51 +439,67 @@ public class DeviceUtil {
 					if (null != temObj) {
 						int mt = temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
 						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);// 0正确,其他为错误码
-						int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
-						String temStr = temObj
-								.optString(JVDeviceConst.JK_DEVICE_INFO);
-						if (null != temStr && !"".equalsIgnoreCase(temStr)) {
-							JSONObject obj = new JSONObject(temStr);
-							if (null != obj) {
-								dev.setNickName(obj
-										.optString(JVDeviceConst.JK_DEVICE_NAME));
-								dev.setDeviceType(obj
-										.optInt(JVDeviceConst.JK_DEVICE_TYPE));
-								dev.setUser(obj
-										.optString(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME));
-								dev.setPwd(obj
-										.optString(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD));
-								dev.setIp(obj.optString(
-										JVDeviceConst.JK_DEVICE_VIDEO_IP)
-										.trim());
-								dev.setPort(obj
-										.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT));
-								/** 一键升级使用 */
-								dev.setDeviceModel(obj
-										.optString(JVDeviceConst.JK_DEVICE_SUB_TYPE));// dstype
-								dev.setDeviceVerName(obj
-										.optString(JVDeviceConst.JK_DEVICE_SOFT_VERSION));// dsv
-								dev.setDeviceVerNum(obj
-										.optInt(JVDeviceConst.JK_DEVICE_SUB_TYPE_INT));// dstypeint
-								if (dev.getIp() == null
-										|| "".equals(dev.getIp())
-										|| "null".equalsIgnoreCase(dev.getIp())) {
-									dev.setIsDevice(0);
-								} else {
-									dev.setIsDevice(1);
-								}
+						if (0 == rt) {
+							int mid = temObj
+									.optInt(JVDeviceConst.JK_MESSAGE_ID);
+							String temStr = temObj
+									.optString(JVDeviceConst.JK_DEVICE_INFO);
+							if (null != temStr && !"".equalsIgnoreCase(temStr)) {
+								JSONObject obj = new JSONObject(temStr);
+								if (null != obj) {
+									dev.setNickName(obj
+											.optString(JVDeviceConst.JK_DEVICE_NAME));
+									dev.setDeviceType(obj
+											.optInt(JVDeviceConst.JK_DEVICE_TYPE));
+									dev.setUser(obj
+											.optString(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME));
+									dev.setPwd(obj
+											.optString(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD));
+									dev.setIp(obj.optString(
+											JVDeviceConst.JK_DEVICE_VIDEO_IP)
+											.trim());
+									dev.setPort(obj
+											.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT));
+									/** 一键升级使用 */
+									dev.setDeviceModel(obj
+											.optString(JVDeviceConst.JK_DEVICE_SUB_TYPE));// dstype
+									dev.setDeviceVerName(obj
+											.optString(JVDeviceConst.JK_DEVICE_SOFT_VERSION));// dsv
+									dev.setDeviceVerNum(obj
+											.optInt(JVDeviceConst.JK_DEVICE_SUB_TYPE_INT));// dstypeint
+									if (dev.getIp() == null
+											|| "".equals(dev.getIp())
+											|| "null".equalsIgnoreCase(dev
+													.getIp())) {
+										dev.setIsDevice(0);
+									} else {
+										dev.setIsDevice(1);
+									}
 
-								if (2 == dev.getDeviceType()) {// 家用设备
-									dev.setAlarmSwitch(obj
-											.optInt(JVDeviceConst.JK_ALARM_SWITCH));
+									if (2 == dev.getDeviceType()) {// 家用设备
+										dev.setAlarmSwitch(obj
+												.optInt(JVDeviceConst.JK_ALARM_SWITCH));
+									}
 								}
 							}
+						} else {
+							dev = null;
 						}
+
 					}
 				} catch (Exception e) {
+					dev = null;
 					e.printStackTrace();
 				}
 
+			}
+		} else {
+			dev = null;
+		}
+		if (null != dev) {
+			MyList<Channel> channelList = getDevicePointList(dev, dev.getGid());
+			if (null != channelList && 0 != channelList.size()) {
+				dev.setChannelList(channelList);
 			}
 		}
 
@@ -635,7 +651,7 @@ public class DeviceUtil {
 	/**
 	 * 用户绑定设备业务
 	 */
-	public static Device addDevice2(Device device) {
+	public static Device addDevice2(Device device, String userName) {
 
 		int res = -1;
 
@@ -696,38 +712,6 @@ public class DeviceUtil {
 						// MY_SQL_ERROR(-4)：MySQL操作失败；
 						// DEVICE_CHANNEL_LIMIT(18)：超过最大允许通道数量；-1:其他错误)
 						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
-
-						// JK_DEVICE_INFO:
-						// {
-						// JK_DEVICE_NAME : <string>, (设备名)
-						// JK_DEVICE_TYPE : <int>, (家用IPC为DEV_TYPE_HOME_IPC = 2)
-						// JK_VIDEO_LINK_TYPE : <int>, (连接模式)
-						// JK_DEVICE_SUB_TYPE : <string>, (设备型号名)
-						// JK_DEVICE_SUB_TYPE_INT : <int>, (设备型号编号)
-						// JK_DEVICE_SOFT_VERSION : <string>, (设备软件版本)
-						// JK_DEVICE_VIDEO_USERNAME: <string>, (云视通连接用户名)
-						// JK_DEVICE_VIDEO_PASSWORD: <string>, (云视通连接密码)
-						// JK_DEVICE_VIDEO_IP : <string>,
-						// JK_DEVICE_VIDEO_PORT : <int>,
-						// JK_ALARM_SWITCH : <int>, (告警开关，0-关闭，1-打开)
-						// JK_ALARM_TIME : <string>, (安全防护时间段 格式hh,hh)
-						// JK_DEVICE_BABY_MODE : <int>, (baby模式 0-关闭,1开启)
-						// JK_DEVICE_FULL_ALARM_MODE: <int> (全监控模式 0-关闭,1开启)
-						// JK_DEVICES_ONLINE_STATUS: <int>, (云视通上下线状态 1-在线,0-离线)
-						// JK_DEVICE_IM_ONLINE_STATUS: <int>, (设备服务器上下线状态
-						// 1-在线,0-离线)
-						// }
-						//
-						// JK_CHANNEL_LIST:
-						// {
-						// JK_DEVICE_CHANNEL_NO : <int>, (通道号)
-						// JK_DEVICE_CHANNEL_NAME : <string>, (通道名)
-						// }
-
-						// {"mt":2016,"rt":0,"mid":12,"dinfo":{"dname":"S230829711","dtype":2,"dvlt":0,"dvusername":"admin","dvpassword":"",
-						// "dvip":"","dvport":0,"dstype":"H401","dstypeint":2,"dsv":"","aswitch":0,"atime":"","dbbm":0,"dfam":0,"dimols":0,"dsls":1},
-						// "clist":[{"dcn":1,"dcname":"S230829711_1"},{"dcn":2,"dcname":"S230829711_2"}]}
-
 						if (0 == rt) {
 							String devStr = temObj
 									.optString(JVDeviceConst.JK_DEVICE_INFO);
@@ -758,39 +742,18 @@ public class DeviceUtil {
 									.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));
 							device.setServerState(devObj
 									.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
-
-							// String channelStr =
-							// temObj.optString(JVDeviceConst.JK_CHANNEL_LIST);
-							//
-							// MyList<Channel> channelList =
-							// device.getChannelList();
-							//
-							// JSONArray channelArray = new
-							// JSONArray(channelStr);
-							// if(null != channelArray && 0 !=
-							// channelArray.length()){
-							// int length = channelArray.length();
-							// for(int i = 0 ; i < length ; i++){
-							// int channel =
-							// devObj.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_NO);
-							// String channelName =
-							// devObj.optString(JVDeviceConst.JK_DEVICE_CHANNEL_NAME);
-							// channelList.get(channel-1).setChannel(channel);
-							// channelList.get(channel-1).setChannelName(channelName);
-							// }
-							// }
-
 						} else {
-							device = null;
+							device = DeviceUtil.getUserDeviceDetail(device,
+									userName);
 						}
 					}
 				} catch (Exception e) {
-					device = null;
+					device = DeviceUtil.getUserDeviceDetail(device, userName);
 					e.printStackTrace();
 				}
 			}
 		} else {
-			device = null;
+			device = DeviceUtil.getUserDeviceDetail(device, userName);
 		}
 		return device;
 	}

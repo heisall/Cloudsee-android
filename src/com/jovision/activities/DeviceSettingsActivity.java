@@ -14,6 +14,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -428,9 +429,13 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					device.setAlarmSwitch(JVDeviceConst.DEVICE_SWITCH_OPEN);
 					showTextToast(R.string.protect_open_succ);
 				}
-
+				deviceList.set(deviceIndex, device);
 				// [{"fullNo":"S52942216","port":0,"hasWifi":1,"isDevice":0,"no":52942216,"is05":false,"onlineState":-1182329167,"channelList":[{"channel":1,"channelName":"S52942216_1","index":0}],"isHomeProduct":false,"ip":"","pwd":"123","nickName":"S52942216","deviceType":2,"alarmSwitch":1,"gid":"S","user":"abc","serverState":1,"doMain":""}]
 				CacheUtil.saveDevList(deviceList);
+
+				deviceList = CacheUtil.getDevList();
+				device = deviceList.get(deviceIndex);
+				Log.e("Alarm", "alarm enable : " + device.getAlarmSwitch());
 			} else if (1000 == result) {
 				// showTextToast(R.string.device_offline);
 				showTextToast(R.string.str_operation_failed);

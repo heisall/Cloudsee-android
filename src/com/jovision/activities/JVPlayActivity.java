@@ -3380,6 +3380,8 @@ public class JVPlayActivity extends PlayActivity implements
 		// manager.pauseAll();
 
 		if (Consts.PLAY_NORMAL == playFlag) {
+			// add{3384} by lkp@2014.12.09,设备设置里边需要修改设备状态，如果不加这行，返回后状态会被重置
+			deviceList = CacheUtil.getDevList();
 			CacheUtil.saveDevList(deviceList);
 		}
 		pauseAll(manager.getValidChannelList(lastItemIndex));

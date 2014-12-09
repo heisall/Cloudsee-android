@@ -1818,7 +1818,7 @@ public class JVPlayActivity extends PlayActivity implements
 				// currentMenu_v.setText(deviceList.get(deviceIndex).getNickName()
 				// + "-" + channelList.get(lastClickIndex).getChannel()
 				// +"AP直连");
-
+				channel.setSingleVoice(true);
 				// IP直连
 				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),

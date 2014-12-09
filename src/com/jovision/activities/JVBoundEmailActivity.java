@@ -67,7 +67,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.bound_email_layout);
-		userEmailEditText = (EditText) findViewById(R.id.registemail);
+		userEmailEditText = (EditText) findViewById(R.id.registmail);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		back = (Button) findViewById(R.id.btn_left);
 		back.setVisibility(View.GONE);
@@ -83,7 +83,6 @@ public class JVBoundEmailActivity extends BaseActivity {
 		finish = (Button) findViewById(R.id.finish);
 		skip.setOnClickListener(onClickListener);
 		finish.setOnClickListener(onClickListener);
-
 	}
 
 	OnClickListener onClickListener = new OnClickListener() {

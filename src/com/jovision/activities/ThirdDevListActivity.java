@@ -380,7 +380,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 				}
 				finish();
 			}
-				break;
+			break;
 			case JVNetConst.ABNORMAL_DISCONNECT:
 			case JVNetConst.SERVICE_STOP:
 				bConnectFlag = false;
@@ -393,7 +393,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 				bConnectFlag = false;
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
-				showTextToast(R.string.connect_failed);
+//				showTextToast(R.string.connect_failed);
 				finish();
 				break;
 			}

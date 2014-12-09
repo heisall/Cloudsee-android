@@ -71,7 +71,7 @@ public class UserSpinnerAdapter extends BaseAdapter {
 					.findViewById(R.id.usericon);
 			holder.textView = (TextView) convertView
 					.findViewById(R.id.otherusername);
-			holder.delImageView = (ImageView) convertView
+			holder.delImageView = (RelativeLayout) convertView
 					.findViewById(R.id.otheruser_del);
 			holder.dividerImage = (ImageView) convertView
 					.findViewById(R.id.useritemdivider);
@@ -165,7 +165,7 @@ public class UserSpinnerAdapter extends BaseAdapter {
 	class ViewHolder {
 		ImageView userIcon;
 		TextView textView;
-		ImageView delImageView;
+		RelativeLayout delImageView;
 		ImageView dividerImage;
 		RelativeLayout pop_relative;
 	}

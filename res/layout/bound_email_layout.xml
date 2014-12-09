@@ -21,11 +21,10 @@
         android:orientation="vertical" >
 
         <EditText
-            android:id="@+id/registemail"
+            android:id="@+id/registmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/str_enter_email"
-            android:inputType="textEmailAddress"
             android:paddingLeft="20dp"
             android:singleLine="true"
             android:textColor="@color/registtextcolor"

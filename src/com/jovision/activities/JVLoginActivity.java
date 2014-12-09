@@ -101,6 +101,7 @@ public class JVLoginActivity extends BaseActivity {
 		case SELECT_USER:
 			userNameET.setText(((User) obj).getUserName());
 			passwordET.setText(((User) obj).getUserPwd());
+			moreUserIV.setImageResource(R.drawable.login_pull_icon);
 			pop.dismiss();
 			break;
 		}

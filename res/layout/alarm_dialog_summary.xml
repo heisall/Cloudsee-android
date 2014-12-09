@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:paddingBottom="12dp"
-        android:background="@drawable/shape_alarm_dialog_bg" >
+        android:background="@drawable/shape_alarm_dialog_bg"
+        android:paddingBottom="12dp" >
 
         <TextView
             android:id="@+id/dialog_denglu_warming"
@@ -122,28 +122,29 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp" >
-                <TextView
-                    android:id="@+id/dialog_view"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/blue_bg"
-                    android:gravity="center"
-                    android:text="@string/str_alarm_preview"
-                    android:textColor="@color/dialog_view"
-                    android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/dialog_cancel"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/blue_bg"
-                    android:gravity="center"
-                    android:text="@string/str_alarm_ignore"
-                    android:textColor="@color/dialog_view"
-                    android:textSize="16sp" />
+            <TextView
+                android:id="@+id/dialog_view"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/blue_bg"
+                android:gravity="center"
+                android:text="@string/str_alarm_preview"
+                android:textColor="@color/dialog_view"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/dialog_cancel"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/blue_bg"
+                android:gravity="center"
+                android:text="@string/str_alarm_ignore"
+                android:textColor="@color/dialog_view"
+                android:textSize="16sp" />
         </LinearLayout>
     </RelativeLayout>
 

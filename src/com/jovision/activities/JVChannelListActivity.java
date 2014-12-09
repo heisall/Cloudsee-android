@@ -71,7 +71,6 @@ public class JVChannelListActivity extends BaseActivity {
 
 	@Override
 	public void onPause() {
-		CacheUtil.saveDevList(deviceList);
 		super.onPause();
 	}
 
@@ -167,6 +166,7 @@ public class JVChannelListActivity extends BaseActivity {
 				if (delRes == 0) {
 					deviceList.get(deviceIndex).getChannelList().toList()
 							.get(position).setChannelName(params[2]);
+					CacheUtil.saveDevList(deviceList);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -261,6 +261,7 @@ public class JVChannelListActivity extends BaseActivity {
 				channelList = device.getChannelList().toList();
 				adapter.setData(channelList);
 				adapter.notifyDataSetChanged();
+				CacheUtil.saveDevList(deviceList);
 			} else if (9999 == result) {
 				showTextToast(R.string.channel_full);
 			} else {
@@ -337,6 +338,7 @@ public class JVChannelListActivity extends BaseActivity {
 				channelList = device.getChannelList().toList();
 				adapter.setData(channelList);
 				adapter.notifyDataSetChanged();
+				CacheUtil.saveDevList(deviceList);
 			} else if (1 == result) {
 				// [Neo] 删除最后一个应该退出通过管理界面
 				showTextToast(R.string.del_channel_succ);

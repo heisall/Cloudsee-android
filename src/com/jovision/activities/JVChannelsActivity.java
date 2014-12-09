@@ -189,7 +189,8 @@ public class JVChannelsActivity extends BaseActivity {
 
 	@Override
 	protected void onPause() {
-		CacheUtil.saveDevList(deviceList);
+		// deviceList = CacheUtil.getDevList();
+		// CacheUtil.saveDevList(deviceList);
 		super.onPause();
 	}
 

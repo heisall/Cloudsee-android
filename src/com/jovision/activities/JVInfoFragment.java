@@ -78,7 +78,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				if (pushList.size() == 0) {
 					// mActivity.showTextToast(R.string.str_alarm_no_alarm_info);
 				} else {
-					((BaseActivity) mActivity).createDialog("");
+					mActivity.createDialog("");
 					ClearAlarmTask task = new ClearAlarmTask();
 					String[] params = new String[3];
 					task.execute(params);
@@ -129,7 +129,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				if (!Boolean.valueOf(mActivity.statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 
-					((BaseActivity) mActivity).createDialog("");
+					mActivity.createDialog("");
 					RefreshAlarmTask task = new RefreshAlarmTask();
 					String[] params = new String[3];
 					task.execute(params);
@@ -141,7 +141,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 			// Consts.pushHisCount = 0;
 			// pushList.clear();
-			((BaseActivity) mActivity).createDialog("");
+			mActivity.createDialog("");
 			PullRefreshAlarmTask task = new PullRefreshAlarmTask();
 			String[] params = new String[3];
 			task.execute(params);
@@ -174,7 +174,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	@Override
 	public void onRefresh() {
 		pullUp = false;
-		((BaseActivity) mActivity).createDialog("");
+		mActivity.createDialog("");
 		PullRefreshAlarmTask task = new PullRefreshAlarmTask();
 		String[] params = new String[3];
 		task.execute(params);
@@ -184,7 +184,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	@Override
 	public void onLoadMore() {
 		pullUp = true;
-		((BaseActivity) mActivity).createDialog("");
+		mActivity.createDialog("");
 		RefreshAlarmTask task = new RefreshAlarmTask();
 		String[] params = new String[3];
 		task.execute(params);
@@ -225,7 +225,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			((BaseActivity) mActivity).dismissDialog();
+			mActivity.dismissDialog();
 			if (1 == result) {
 				onLoadPush();
 				if (null == temList) {
@@ -234,8 +234,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				if (temList.size() == 0) {
 					noMess.setVisibility(View.VISIBLE);
 					noMessTv.setVisibility(View.VISIBLE);
-					((BaseActivity) getActivity())
-							.showTextToast(R.string.nomessage);
+					mActivity.showTextToast(R.string.nomessage);
 					pushList.clear();
 					Consts.pushHisCount = 0;
 					pushAdapter.setRefCount(pushList.size());
@@ -277,15 +276,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				}
 			} else {
 				onLoadPush();
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.get_alarm_list_failed);
+				mActivity.showTextToast(R.string.get_alarm_list_failed);
 			}
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			((BaseActivity) mActivity).createDialog("");
+			mActivity.createDialog("");
 		}
 
 		@Override
@@ -330,15 +328,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			((BaseActivity) mActivity).dismissDialog();
+			mActivity.dismissDialog();
 			if (1 == result) {
 				onLoadPush();
 				if (null == temList) {
 					temList = new ArrayList<PushInfo>();
 				}
 				if (temList.size() == 0) {
-					((BaseActivity) getActivity())
-							.showTextToast(R.string.nomessage);
+					mActivity.showTextToast(R.string.nomessage);
 					return;
 				}
 				int addLen = temList.size();
@@ -361,15 +358,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					pushAdapter.notifyDataSetChanged();
 				}
 			} else {
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.get_alarm_list_failed);
+				mActivity.showTextToast(R.string.get_alarm_list_failed);
 			}
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			((BaseActivity) mActivity).createDialog("");
+			mActivity.createDialog("");
 		}
 
 		@Override
@@ -536,34 +532,31 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					}
 				}
 				if (!doDelete) {
-					((BaseActivity) getActivity())
-							.showTextToast(R.string.del_alarm_failed);
+					mActivity.showTextToast(R.string.del_alarm_failed);
 				} else {
 					Consts.pushHisCount--;
 					pushAdapter.setRefCount(pushList.size());
 					pushAdapter.notifyDataSetChanged();
-					((BaseActivity) getActivity())
-							.showTextToast(R.string.del_alarm_succ);
+					mActivity.showTextToast(R.string.del_alarm_succ);
 
 					if (Consts.pushHisCount == 0) {
-						((BaseActivity) mActivity).createDialog("");
+						mActivity.createDialog("");
 						PullRefreshAlarmTask task = new PullRefreshAlarmTask();
 						String[] params = new String[3];
 						task.execute(params);
 					}
 				}
 			} else {
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.del_alarm_failed);
+				mActivity.showTextToast(R.string.del_alarm_failed);
 			}
 
-			((BaseActivity) mActivity).dismissDialog();
+			mActivity.dismissDialog();
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			((BaseActivity) mActivity).createDialog("");
+			mActivity.createDialog("");
 		}
 
 		@Override
@@ -606,22 +599,20 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				Consts.pushHisCount = 0;
 				pushAdapter.setRefCount(0);
 				pushAdapter.notifyDataSetChanged();
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.clear_alarm_succ);
+				mActivity.showTextToast(R.string.clear_alarm_succ);
 				noMess.setVisibility(View.VISIBLE);
 				noMessTv.setVisibility(View.VISIBLE);
 			} else {
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.clear_alarm_failed);
+				mActivity.showTextToast(R.string.clear_alarm_failed);
 			}
 
-			((BaseActivity) mActivity).dismissDialog();
+			mActivity.dismissDialog();
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			((BaseActivity) mActivity).createDialog("");
+			mActivity.createDialog("");
 		}
 
 		@Override

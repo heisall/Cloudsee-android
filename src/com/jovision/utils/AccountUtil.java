@@ -1,5 +1,6 @@
 package com.jovision.utils;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,8 +10,10 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.test.JVACCOUNT;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.bean.ClientBean;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
@@ -98,6 +101,13 @@ public class AccountUtil {
 
 	public static String onLoginProcessV2(Context mContext, String userName,
 			String pwd, String urlLgServ, String urlStServ) {
+		HashMap<String, String> statusHashMap = ((MainApplication) mContext
+				.getApplicationContext()).getStatusHashMap();
+		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+			Toast.makeText(mContext, "初始化账号SDK失败，请重新运行程序", Toast.LENGTH_LONG)
+					.show();
+			// return "";
+		}
 		JSONObject mainObj = new JSONObject();
 		JSONObject reqObj = new JSONObject();
 		try {

@@ -2160,6 +2160,9 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			}
 			case R.id.btn_left: {// 左边按钮
+				if (View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				}
 				backMethod(true);
 				break;
 			}
@@ -2178,6 +2181,9 @@ public class JVPlayActivity extends PlayActivity implements
 			// break;
 			case R.id.bottom_but2:
 			case R.id.decodeway: {// 软硬解切换
+				if (View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				}
 				if (allowThisFuc(false)) {
 					if (channel.getParent().is05()) {
 						createDialog("");
@@ -2196,6 +2202,9 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			case R.id.bottom_but6:
 			case R.id.overturn: {// 视频翻转
+				if (View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				}
 				if (allowThisFuc(false)) {
 					int send = 0;
 					int effect = channelList.get(lastClickIndex)
@@ -2230,6 +2239,9 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			}
 			case R.id.btn_right: {// 右边按钮----录像切换
+				if (View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				}
 				if (allowThisFuc(false)) {
 					try {
 						createDialog("");
@@ -2269,6 +2281,9 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			case R.id.currentmenu:
 			case R.id.selectscreen:// 下拉选择多屏
+				if (View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				}
 				if (isBlockUi) {
 					createDialog("");
 				} else {
@@ -2386,6 +2401,9 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but4:
 			case R.id.remote_playback:// 远程回放
+				if (View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				}
 				if (allowThisFuc(true)) {
 					startRemote();
 				}
@@ -2393,6 +2411,9 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
+				if (View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				}
 				if (Consts.ISHITVIS == 1) {
 					PlayUtil.hitviscapture(lastClickIndex);
 					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
@@ -2408,6 +2429,9 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but5:
 			case R.id.funclayout:// AP功能列表对讲功能
 			case R.id.voicecall:// 语音对讲
+				if (View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				}
 				if (allowThisFuc(true)) {
 					// 停止音频监听
 					if (PlayUtil.isPlayAudio(lastClickIndex)) {
@@ -2453,6 +2477,9 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but7:
 			case R.id.videotape:// 录像
+				if (View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				}
 				if (hasSDCard() && allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).getParent().is05()) {
 						String path = PlayUtil.createRecordFile();
@@ -3117,17 +3144,22 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-
+			if (View.VISIBLE == streamListView.getVisibility()) {
+				streamListView.setVisibility(View.GONE);
+			}
 			if (2 == arg2) {
-				// 设备设置
-				if (allowThisFuc(false)) {
-					Intent intent = new Intent(JVPlayActivity.this,
-							DeviceSettingsActivity.class);
-					intent.putExtra("window", lastClickIndex);
-					intent.putExtra("deviceIndex", deviceIndex);
-					startActivity(intent);
+				if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+					showTextToast(R.string.str_devicemanages);
+				} else {
+					// 设备设置
+					if (allowThisFuc(false)) {
+						Intent intent = new Intent(JVPlayActivity.this,
+								DeviceSettingsActivity.class);
+						intent.putExtra("window", lastClickIndex);
+						intent.putExtra("deviceIndex", deviceIndex);
+						startActivity(intent);
+					}
 				}
-
 				// 音频监听
 				// if (allowThisFuc(true)) {
 				// if (channelList.get(lastClickIndex).isVoiceCall()) {
@@ -3192,7 +3224,6 @@ public class JVPlayActivity extends PlayActivity implements
 					view.setOnClickListener(myOnClickListener);
 					view.setOnTouchListener(callOnTouchListener);
 					view.setOnLongClickListener(callOnLongClickListener);
-
 				} else {
 					if (allowThisFuc(true)) {
 						startRemote();

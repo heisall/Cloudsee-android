@@ -92,6 +92,7 @@
     <string name="str_audio_monitor">Device Manage</string>
     <string name="str_audio_monitor_forbidden">This function is unavailable during Two-way Talk.</string>
     <string name="str_yt_operate">PTZ</string>
+    <string name="str_devicemanages">You are using Visit login and you can not use this function now.If you want to use this function, please switch to Account login mode.</string>
     <string name="str_remote_playback">Playback</string>
     <string name="str_remote_alarm">Alarm video</string>
     <string name="str_audio_monitor_tips">Learn audio info at any time</string>

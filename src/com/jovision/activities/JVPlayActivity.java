@@ -1491,6 +1491,8 @@ public class JVPlayActivity extends PlayActivity implements
 			@Override
 			public void onPageSelected(int arg0) {
 				try {
+					varvoice.setBackgroundDrawable(getResources().getDrawable(
+							R.drawable.video_monitor_ico));
 					stopAllFunc();
 					MyLog.i(Consts.TAG_UI, ">>> pageSelected: " + arg0
 							+ ", to "

@@ -2385,13 +2385,10 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
 				if (Consts.ISHITVIS == 1) {
-					// TODO
-					// if (hasSDCard() && allowThisFuc(false)) {
 					PlayUtil.hitviscapture(lastClickIndex);
 					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
 							true, JVNetConst.RC_EX_FlashJpeg,
 							JVNetConst.RC_EXTEND, null);
-					// }
 				} else {
 					if (hasSDCard() && allowThisFuc(false)) {
 						boolean capture = PlayUtil.capture(lastClickIndex);

@@ -146,9 +146,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			break;
 		}
 		case BROAD_DEVICE: {// 广播到一个设备
-			if (null == broadList || 0 == broadList.size()) {
-
-			} else {
+			if (null != broadList) {
 				wdListAdapter = new WaveDevlListAdapter(JVWaveSetActivity.this);
 				wdListAdapter.setData(broadList);
 				devListView.setAdapter(wdListAdapter);
@@ -576,6 +574,7 @@ public class JVWaveSetActivity extends BaseActivity {
 
 				if (0 == addRes) {
 					broadList.remove(index);
+					handler.sendMessage(handler.obtainMessage(BROAD_DEVICE));
 					addDevice.setOnlineState(1);
 					addDevice.setIp(ip);
 					addDevice.setPort(port);
@@ -598,8 +597,6 @@ public class JVWaveSetActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			wdListAdapter.setData(broadList);
-			wdListAdapter.notifyDataSetChanged();
 			if (0 == result) {
 				showTextToast(R.string.add_device_succ);
 			} else {

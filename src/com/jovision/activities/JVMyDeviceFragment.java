@@ -249,8 +249,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 					@Override
 					public void onLastItemVisible() {
-						((BaseActivity) getActivity())
-								.showTextToast(R.string.end_list);
+						mActivity.showTextToast(R.string.end_list);
 					}
 				});
 
@@ -480,8 +479,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						PlayUtil.deleteDevIp(myDeviceList);
 						PlayUtil.broadCast(mActivity);
 					} else {
-						((BaseActivity) getActivity())
-								.showTextToast(R.string.notwifi_forbid_func);
+						mActivity.showTextToast(R.string.notwifi_forbid_func);
 					}
 					break;
 				}
@@ -520,6 +518,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				.get(Consts.HAG_GOT_DEVICE));
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
+			MyLog.v("aaaaaaa4", myDeviceList.toString());
 			refreshList();
 		}
 	}
@@ -718,8 +717,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			}
 			// 从服务器端获取设备失败
 			case DEVICE_GETDATA_FAILED: {
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.get_device_failed);
+				mActivity.showTextToast(R.string.get_device_failed);
 				break;
 			}
 			}
@@ -830,8 +828,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 							Sum = broadList.size();
 							initLanDialog();
 						} else {
-							((BaseActivity) getActivity())
-									.showTextToast(R.string.broad_zero);
+							mActivity.showTextToast(R.string.broad_zero);
 						}
 					}
 				} catch (JSONException e) {
@@ -846,8 +843,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			myDLAdapter.notifyDataSetChanged();
 			Device dev = myDeviceList.get(arg1);
 			if (0 == dev.getChannelList().size()) {// 0个通道直接播放
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.selectone_to_connect);
+				mActivity.showTextToast(R.string.selectone_to_connect);
 			} else if (1 == dev.getChannelList().size()) {// 1个通道直接播放
 
 				// if (0 == myDeviceList.get(arg1).getOnlineState()
@@ -861,8 +857,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						myDeviceList, arg1);
 
 				if (null == playList || 0 == playList.size()) {
-					((BaseActivity) getActivity())
-							.showTextToast(R.string.selectone_to_connect);
+					mActivity.showTextToast(R.string.selectone_to_connect);
 				} else {
 					Intent intentPlay = new Intent(mActivity,
 							JVPlayActivity.class);
@@ -966,34 +961,30 @@ public class JVMyDeviceFragment extends BaseFragment {
 			public void onClick(View v) {
 				// 设备昵称不为空
 				if ("".equalsIgnoreCase(device_nicket.getText().toString())) {
-					((BaseActivity) getActivity()).showTextToast(mActivity
-							.getResources().getString(
-									R.string.str_nikename_notnull));
+					mActivity.showTextToast(mActivity.getResources().getString(
+							R.string.str_nikename_notnull));
 				}
 				// 设备昵称验证
 				else if (!ConfigUtil.checkNickName(device_nicket.getText()
 						.toString())) {
-					((BaseActivity) getActivity()).showTextToast(mActivity
-							.getResources().getString(
-									R.string.login_str_nike_name_order));
+					mActivity.showTextToast(mActivity.getResources().getString(
+							R.string.login_str_nike_name_order));
 				}
 				// 设备用户名不为空
 				else if (""
 						.equalsIgnoreCase(device_nameet.getText().toString())) {
-					((BaseActivity) getActivity())
+					mActivity
 							.showTextToast(R.string.login_str_device_account_notnull);
 				}
 				// 设备用户名验证
 				else if (!ConfigUtil.checkDeviceUsername(device_nameet
 						.getText().toString())) {
-					((BaseActivity) getActivity()).showTextToast(mActivity
-							.getResources().getString(
-									R.string.login_str_device_account_error));
+					mActivity.showTextToast(mActivity.getResources().getString(
+							R.string.login_str_device_account_error));
 				} else if (!ConfigUtil.checkDevicePwd(device_passwordet
 						.getText().toString())) {
-					((BaseActivity) getActivity()).showTextToast(mActivity
-							.getResources().getString(
-									R.string.login_str_device_pass_error));
+					mActivity.showTextToast(mActivity.getResources().getString(
+							R.string.login_str_device_pass_error));
 				} else {
 					ModifyDevTask task = new ModifyDevTask();
 					String[] strParams = new String[5];
@@ -1134,13 +1125,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mActivity.dismissDialog();
 			if (0 == result) {
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.login_str_device_edit_success);
+				mActivity.showTextToast(R.string.login_str_device_edit_success);
 				myDLAdapter.setShowDelete(false);
 				refreshList();
 			} else {
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.login_str_device_edit_failed);
+				mActivity.showTextToast(R.string.login_str_device_edit_failed);
 			}
 			initDialog.dismiss();
 		}
@@ -1199,13 +1188,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 			PlayUtil.sortList(myDeviceList, mActivity);
 			CacheUtil.saveDevList(myDeviceList);
 			if (0 == result) {
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.del_device_succ);
+				mActivity.showTextToast(R.string.del_device_succ);
 				myDLAdapter.setShowDelete(false);
 				refreshList();
 			} else {
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.del_device_failed);
+				mActivity.showTextToast(R.string.del_device_failed);
 			}
 		}
 
@@ -1422,7 +1409,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			switch (result) {
 			// 从服务器端获取设备成功
 			case DEVICE_GETDATA_SUCCESS: {
-				((BaseActivity) getActivity()).dismissDialog();
+				mActivity.dismissDialog();
 				broadTag = BROAD_DEVICE_LIST;
 				break;
 			}
@@ -1537,17 +1524,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 			if (result > 0) {
 				refreshList();
 				mActivity.dismissDialog();
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.add_device_succ);
+				mActivity.showTextToast(R.string.add_device_succ);
 			} else if (result == -100) {
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.str_device_most_count);
+				mActivity.showTextToast(R.string.str_device_most_count);
 			} else {
 				refreshList();
 				myDLAdapter.setData(myDeviceList);
 				myDeviceListView.setAdapter(myDLAdapter);
-				((BaseActivity) getActivity())
-						.showTextToast(R.string.add_device_failed);
+				mActivity.showTextToast(R.string.add_device_failed);
 			}
 		}
 

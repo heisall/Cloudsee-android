@@ -24,6 +24,7 @@ import com.jovision.adapters.ChannelAdapter;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
+import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
@@ -116,7 +117,7 @@ public class ChannelFragment extends BaseFragment {
 
 	@Override
 	public void onPause() {
-		CacheUtil.saveDevList(deviceList);
+		// CacheUtil.saveDevList(deviceList);
 		super.onPause();
 	}
 
@@ -331,6 +332,7 @@ public class ChannelFragment extends BaseFragment {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.login_str_point_edit_success);
 				channelAdapter.notifyDataSetChanged();
+				CacheUtil.saveDevList(deviceList);
 			} else {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.login_str_point_edit_failed);
@@ -528,6 +530,7 @@ public class ChannelFragment extends BaseFragment {
 				channelAdapter.setData(deviceList.get(deviceIndex)
 						.getChannelList().toList(), widthPixels);
 				CacheUtil.saveDevList(deviceList);
+				MyLog.v("aaaaaaa1", deviceList.toString());
 			} else if (9999 == result) {
 				((BaseActivity) mActivity).showTextToast(R.string.channel_full);
 			} else {

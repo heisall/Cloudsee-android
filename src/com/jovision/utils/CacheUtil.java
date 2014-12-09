@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.jovision.Consts;
 import com.jovision.bean.Device;
 import com.jovision.bean.User;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 
 public class CacheUtil {
@@ -38,7 +39,7 @@ public class CacheUtil {
 	 * @return
 	 */
 	public static ArrayList<Device> getDevList() {
-
+		MyLog.e("CacheUtil---1", "getDevList");
 		ArrayList<Device> devList = new ArrayList<Device>();
 		String devJsonString = MySharedPreference.getString(Consts.DEVICE_LIST);
 		if (null != devJsonString && !"".equals(devJsonString)) {
@@ -53,6 +54,7 @@ public class CacheUtil {
 	 * @param userList
 	 */
 	public static void saveDevList(ArrayList<Device> devList) {
+		MyLog.e("CacheUtil---2", "saveDevList");
 		// if (MySharedPreference.getBoolean(Consts.NEED_BROAD1)) {
 		// devList = getDevList();
 		// MySharedPreference.putBoolean(Consts.NEED_BROAD1, false);

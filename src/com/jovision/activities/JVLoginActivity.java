@@ -206,6 +206,8 @@ public class JVLoginActivity extends BaseActivity {
 							@Override
 							public void run() {
 								// TODO Auto-generated method stub
+								moreUserIV
+										.setImageResource(R.drawable.login_pull_up_icon);
 								pop.showAsDropDown(userNameLayout);
 							}
 						}, 200);
@@ -213,12 +215,15 @@ public class JVLoginActivity extends BaseActivity {
 				} else if (pop.isShowing()) {
 					userAdapter.notifyDataSetChanged();
 					pop.dismiss();
+					moreUserIV.setImageResource(R.drawable.login_pull_icon);
 				} else if (!pop.isShowing()) {
 					handler.postDelayed(new Runnable() {
 						@Override
 						public void run() {
 							userAdapter.notifyDataSetChanged();
 							pop.showAsDropDown(userNameLayout);
+							moreUserIV
+									.setImageResource(R.drawable.login_pull_up_icon);
 						}
 					}, 200);
 
@@ -267,10 +272,9 @@ public class JVLoginActivity extends BaseActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.username_et:
-				userNameET.setFocusable(true);
-				userNameET.setFocusableInTouchMode(true);
 				if (pop != null && pop.isShowing()) {
 					pop.dismiss();
+					moreUserIV.setImageResource(R.drawable.login_pull_icon);
 				}
 				break;
 			case R.id.btn_left: {

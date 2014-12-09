@@ -2063,44 +2063,49 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onLifecycle(int index, int status, Surface surface, int width,
 			int height) {
-		boolean isFromCurrent = false;
-		Channel channel = channelList.get(index);
+		try {
+			boolean isFromCurrent = false;
+			Channel channel = channelList.get(index);
 
-		if (ONE_SCREEN == currentScreen) {
-			int size = currentPageChannelList.size();
-			for (int i = 0; i < size; i++) {
-				if (index == currentPageChannelList.get(i).getIndex()) {
-					isFromCurrent = true;
-					break;
+			if (ONE_SCREEN == currentScreen) {
+				int size = currentPageChannelList.size();
+				for (int i = 0; i < size; i++) {
+					if (index == currentPageChannelList.get(i).getIndex()) {
+						isFromCurrent = true;
+						break;
+					}
 				}
 			}
-		}
 
-		switch (status) {
-		case PlayWindowManager.STATUS_CREATED:
-			MyLog.w(Consts.TAG_XXX, "> surface created: " + index);
-			if (ONE_SCREEN == currentScreen && false == isFromCurrent
-					&& false == channel.isConnected()) {
-				connectChannelList.add(channel);
+			switch (status) {
+			case PlayWindowManager.STATUS_CREATED:
+				MyLog.w(Consts.TAG_XXX, "> surface created: " + index);
+				if (ONE_SCREEN == currentScreen && false == isFromCurrent
+						&& false == channel.isConnected()) {
+					connectChannelList.add(channel);
+				}
+				channel.setSurface(surface);
+				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+						channel.getIndex(), ARG2_STATUS_UNKNOWN));
+				break;
+
+			case PlayWindowManager.STATUS_CHANGED:
+				// [Neo] Empty
+				break;
+
+			case PlayWindowManager.STATUS_DESTROYED:
+				MyLog.w(Consts.TAG_XXX, "> surface destroyed: " + index);
+				pauseChannel(channel);
+				channel.setSurface(null);
+				break;
+
+			default:
+				break;
 			}
-			channel.setSurface(surface);
-			handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-					channel.getIndex(), ARG2_STATUS_UNKNOWN));
-			break;
-
-		case PlayWindowManager.STATUS_CHANGED:
-			// [Neo] Empty
-			break;
-
-		case PlayWindowManager.STATUS_DESTROYED:
-			MyLog.w(Consts.TAG_XXX, "> surface destroyed: " + index);
-			pauseChannel(channel);
-			channel.setSurface(null);
-			break;
-
-		default:
-			break;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 	}
 
 	private class DoubleClickChecker extends TimerTask {
@@ -2385,13 +2390,10 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
 				if (Consts.ISHITVIS == 1) {
-					// TODO
-					// if (hasSDCard() && allowThisFuc(false)) {
 					PlayUtil.hitviscapture(lastClickIndex);
 					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
 							true, JVNetConst.RC_EX_FlashJpeg,
 							JVNetConst.RC_EXTEND, null);
-					// }
 				} else {
 					if (hasSDCard() && allowThisFuc(false)) {
 						boolean capture = PlayUtil.capture(lastClickIndex);

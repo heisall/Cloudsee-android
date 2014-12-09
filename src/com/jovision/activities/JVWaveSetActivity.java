@@ -599,6 +599,10 @@ public class JVWaveSetActivity extends BaseActivity {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			if (0 == result) {
 				showTextToast(R.string.add_device_succ);
+				if (0 == broadList.size()) {
+					finish();
+				}
+
 			} else {
 				showTextToast(R.string.add_device_failed);
 			}

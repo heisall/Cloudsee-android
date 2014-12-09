@@ -139,5 +139,4 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 	protected void freeMe() {
 
 	}
-
 }

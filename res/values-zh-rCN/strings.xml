@@ -92,6 +92,7 @@
     <string name="str_audio_monitor">设备设置</string>
     <string name="str_audio_monitor_forbidden">该功能在语音对讲时暂停使用.</string>
     <string name="str_yt_operate">云台控制</string>
+    <string name="str_devicemanages">本地模式暂停使用</string>
     <string name="str_remote_playback">远程回放</string>
     <string name="str_remote_alarm">报警视频</string>
     <string name="str_audio_monitor_tips">随时了解音频信息</string>

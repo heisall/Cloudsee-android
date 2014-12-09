@@ -1041,6 +1041,9 @@ public class JVPlayActivity extends PlayActivity implements
 						// object.getBoolean("is_omx"));
 
 						int window = object.getInt("window");
+						// TODO
+						loadingState(window, 0, JVConst.PLAY_CONNECTTED);
+
 						if (window == lastClickIndex) {
 							currentKbps.setText(String.format("%.1fk/%.1fk",
 									object.getDouble("kbps"),

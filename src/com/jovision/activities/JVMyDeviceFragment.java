@@ -684,8 +684,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		fragHandler.sendMessage(fragHandler
-				.obtainMessage(what, arg1, arg2, obj));
+		if (null != fragHandler) {
+			fragHandler.sendMessage(fragHandler.obtainMessage(what, arg1, arg2,
+					obj));
+		}
 	}
 
 	@Override

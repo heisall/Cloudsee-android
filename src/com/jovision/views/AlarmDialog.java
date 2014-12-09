@@ -145,6 +145,7 @@ public class AlarmDialog extends Dialog {
 						// Toast.makeText(context, "DeviceIndex:" + dev_index,
 						// Toast.LENGTH_SHORT).show();
 						context.startActivity(intentPlay);
+						dismiss();
 					} catch (IllegalArgumentException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

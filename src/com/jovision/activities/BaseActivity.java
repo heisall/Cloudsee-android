@@ -365,8 +365,10 @@ public abstract class BaseActivity extends FragmentActivity implements
 					Toast.LENGTH_SHORT).show();
 			exitTime = System.currentTimeMillis();
 		} else {
+			if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
+				new Thread(new SetUserOnlineStatusThread(0)).start();
+			}
 			ConfigUtil.stopBroadCast();
-			JVACCOUNT.SetUserOnlineStatus(0);
 			statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 			statusHashMap.put(Consts.KEY_LAST_LOGIN_TIME,
 					ConfigUtil.getCurrentTime());
@@ -374,6 +376,19 @@ public abstract class BaseActivity extends FragmentActivity implements
 					.popAllActivityExceptOne(null);
 			android.os.Process.killProcess(android.os.Process.myPid());
 			System.exit(0);
+		}
+	}
+
+	class SetUserOnlineStatusThread implements Runnable {
+		private int tag;
+
+		public SetUserOnlineStatusThread(int arg1) {
+			tag = arg1;
+		}
+
+		@Override
+		public void run() {
+			JVACCOUNT.SetUserOnlineStatus(tag);
 		}
 	}
 }

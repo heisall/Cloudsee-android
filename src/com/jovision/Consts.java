@@ -346,6 +346,9 @@ public class Consts {
 	/** 正在AP配置 key */
 	public static final String AP_SETTING = "AP_SETTING";
 
+	/** 广告检查过更新 */
+	public static final String AD_UPDATE = "AD_UPDATE";
+
 	// /** 功能设置页面场景图片标志位 */
 	// public static String SETTING_SCENE = "SCENE";
 	//

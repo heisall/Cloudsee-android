@@ -582,101 +582,106 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 * 初始化图片
 	 */
 	private void initADViewPager() {
-		try {
-			adList = AD.fromJsonArray(MySharedPreference
-					.getString(Consts.AD_LIST));
-			if (null == listViews || 0 == listViews.size()) {// 还没加载过广告，先添加上广告
-				for (int i = 0; i < adList.size(); i++) {
-					final ImageView imageView = new ImageView(mActivity);
-					imageView.setTag(i);
-					imageView.setOnClickListener(new OnClickListener() {
-						public void onClick(View v) {// 设置图片点击事件
-							Intent intentAD = new Intent(mActivity,
-									JVWebViewActivity.class);
-							int index = (Integer) imageView.getTag();
+		if (MySharedPreference.getBoolean(Consts.AD_UPDATE)) {
+			try {
+				adList = AD.fromJsonArray(MySharedPreference
+						.getString(Consts.AD_LIST));
+				if (null == listViews || 0 == listViews.size()) {// 还没加载过广告，先添加上广告
+					for (int i = 0; i < adList.size(); i++) {
+						final ImageView imageView = new ImageView(mActivity);
+						imageView.setTag(i);
+						imageView.setOnClickListener(new OnClickListener() {
+							public void onClick(View v) {// 设置图片点击事件
+								Intent intentAD = new Intent(mActivity,
+										JVWebViewActivity.class);
+								int index = (Integer) imageView.getTag();
 
-							String adUrl = "";
+								String adUrl = "";
 
-							if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
-								adUrl = adList.get(index).getAdLinkCh();
-							} else {
-								adUrl = adList.get(index).getAdLinkEn();
+								if (JVConst.LANGUAGE_ZH == ConfigUtil
+										.getLanguage()) {
+									adUrl = adList.get(index).getAdLinkCh();
+								} else {
+									adUrl = adList.get(index).getAdLinkEn();
+								}
+
+								if (null != adUrl
+										&& !"".equalsIgnoreCase(adUrl.trim())) {
+									intentAD.putExtra("URL", adUrl);
+									intentAD.putExtra("title", -1);
+									mActivity.startActivity(intentAD);
+								}
 							}
+						});
 
-							if (null != adUrl
-									&& !"".equalsIgnoreCase(adUrl.trim())) {
-								intentAD.putExtra("URL", adUrl);
-								intentAD.putExtra("title", -1);
-								mActivity.startActivity(intentAD);
-							}
+						Bitmap bmp = null;
+
+						if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+							bmp = BitmapCache.getInstance().getCacheBitmap(
+									adList.get(i).getAdImgUrlCh());
+						} else {
+							bmp = BitmapCache.getInstance().getCacheBitmap(
+									adList.get(i).getAdImgUrlEn());
 						}
-					});
 
-					Bitmap bmp = null;
+						// if (null == bmp) {
+						//
+						// if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage())
+						// {
+						// bmp = BitmapCache.getInstance().getBitmap(
+						// adList.get(i).getAdImgUrlCh(), "net",
+						// String.valueOf(adList.get(i).getIndex()));
+						// } else {
+						// bmp = BitmapCache.getInstance().getBitmap(
+						// adList.get(i).getAdImgUrlEn(), "net",
+						// String.valueOf(adList.get(i).getIndex()));
+						// }
+						//
+						// }
+						// Bitmap bmp =
+						// BitmapCache.getInstance().getCacheBitmap(
+						// adList.get(i).getAdImgUrl());
+						if (null != bmp) {
+							imageView.setImageBitmap(bmp);
+						} else {
+							imageView.setImageResource(R.drawable.ad_default);
+						}
 
-					if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
-						bmp = BitmapCache.getInstance().getCacheBitmap(
-								adList.get(i).getAdImgUrlCh());
-					} else {
-						bmp = BitmapCache.getInstance().getCacheBitmap(
-								adList.get(i).getAdImgUrlEn());
+						imageView.setScaleType(ScaleType.FIT_CENTER);
+						listViews.add(imageView);
 					}
+				} else {
+					for (int i = 0; i < listViews.size(); i++) {
+						ImageView imageView = (ImageView) listViews.get(i);
+						Bitmap bmp = null;
 
-					// if (null == bmp) {
-					//
-					// if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
-					// bmp = BitmapCache.getInstance().getBitmap(
-					// adList.get(i).getAdImgUrlCh(), "net",
-					// String.valueOf(adList.get(i).getIndex()));
-					// } else {
-					// bmp = BitmapCache.getInstance().getBitmap(
-					// adList.get(i).getAdImgUrlEn(), "net",
-					// String.valueOf(adList.get(i).getIndex()));
-					// }
-					//
-					// }
-					// Bitmap bmp = BitmapCache.getInstance().getCacheBitmap(
-					// adList.get(i).getAdImgUrl());
-					if (null != bmp) {
-						imageView.setImageBitmap(bmp);
-					} else {
-						imageView.setImageResource(R.drawable.ad_default);
+						if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+							bmp = BitmapCache.getInstance().getCacheBitmap(
+									adList.get(i).getAdImgUrlCh());
+						} else {
+							bmp = BitmapCache.getInstance().getCacheBitmap(
+									adList.get(i).getAdImgUrlEn());
+						}
+
+						if (null != bmp) {
+							imageView.setImageBitmap(bmp);
+						} else {
+							imageView.setImageResource(R.drawable.ad_default);
+						}
+						imageView.setScaleType(ScaleType.FIT_CENTER);
 					}
-
-					imageView.setScaleType(ScaleType.FIT_CENTER);
-					listViews.add(imageView);
 				}
-			} else {
-				for (int i = 0; i < listViews.size(); i++) {
-					ImageView imageView = (ImageView) listViews.get(i);
-					Bitmap bmp = null;
 
-					if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
-						bmp = BitmapCache.getInstance().getCacheBitmap(
-								adList.get(i).getAdImgUrlCh());
-					} else {
-						bmp = BitmapCache.getInstance().getCacheBitmap(
-								adList.get(i).getAdImgUrlEn());
-					}
-
-					if (null != bmp) {
-						imageView.setImageBitmap(bmp);
-					} else {
-						imageView.setImageResource(R.drawable.ad_default);
-					}
-					imageView.setScaleType(ScaleType.FIT_CENTER);
+				if (null != listViews && 0 != listViews.size()) {
+					imageScroll.stopTimer();
+					// 开始滚动
+					imageScroll.start(mActivity, listViews, 4 * 1000,
+							ovalLayout, R.layout.dot_item, R.id.ad_item_v,
+							R.drawable.dot_focused, R.drawable.dot_normal);
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-			if (null != listViews && 0 != listViews.size()) {
-				imageScroll.stopTimer();
-				// 开始滚动
-				imageScroll.start(mActivity, listViews, 4 * 1000, ovalLayout,
-						R.layout.dot_item, R.id.ad_item_v,
-						R.drawable.dot_focused, R.drawable.dot_normal);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 	}
@@ -1287,6 +1292,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 			}
 		}
+
+		MySharedPreference.putBoolean(Consts.AD_UPDATE, true);
 	}
 
 	// 获取设备列表线程

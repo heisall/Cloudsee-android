@@ -211,7 +211,6 @@ public class JVPlayActivity extends PlayActivity implements
 				channel.setScreenTag(-1);
 				channel.setStreamTag(-1);
 				channel.setStorageMode(-1);
-				channel.setSupportVoice(false);
 				if (null != msgList && null != msgList.get(arg1)) {
 					Message msg = new Message();
 					msg.arg1 = msgList.get(arg1).arg1;
@@ -469,7 +468,7 @@ public class JVPlayActivity extends PlayActivity implements
 				channel.setSendCMD(true);
 			}
 
-			MyLog.i("NORMALDATA", obj.toString());
+			MyLog.e("NORMALDATA", obj.toString());
 			int newWidth = 0;
 			int newHeight = 0;
 
@@ -530,6 +529,8 @@ public class JVPlayActivity extends PlayActivity implements
 						// // [Neo] 将音频填入缓存队列
 						// audio.put(data);
 
+					} else {
+						channel.setSupportVoice(true);
 					}
 
 					newWidth = jobj.getInt("width");
@@ -777,6 +778,8 @@ public class JVPlayActivity extends PlayActivity implements
 								}
 							}
 
+							MyLog.v(TAG,
+									"SupportVoice=" + channel.isSupportVoice());
 							if (null != streamMap.get("MobileCH")
 									&& "2".equalsIgnoreCase(streamMap
 											.get("MobileCH"))) {
@@ -1818,7 +1821,6 @@ public class JVPlayActivity extends PlayActivity implements
 				// currentMenu_v.setText(deviceList.get(deviceIndex).getNickName()
 				// + "-" + channelList.get(lastClickIndex).getChannel()
 				// +"AP直连");
-				channel.setSingleVoice(true);
 				// IP直连
 				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),
@@ -2063,44 +2065,49 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onLifecycle(int index, int status, Surface surface, int width,
 			int height) {
-		boolean isFromCurrent = false;
-		Channel channel = channelList.get(index);
+		try {
+			boolean isFromCurrent = false;
+			Channel channel = channelList.get(index);
 
-		if (ONE_SCREEN == currentScreen) {
-			int size = currentPageChannelList.size();
-			for (int i = 0; i < size; i++) {
-				if (index == currentPageChannelList.get(i).getIndex()) {
-					isFromCurrent = true;
-					break;
+			if (ONE_SCREEN == currentScreen) {
+				int size = currentPageChannelList.size();
+				for (int i = 0; i < size; i++) {
+					if (index == currentPageChannelList.get(i).getIndex()) {
+						isFromCurrent = true;
+						break;
+					}
 				}
 			}
-		}
 
-		switch (status) {
-		case PlayWindowManager.STATUS_CREATED:
-			MyLog.w(Consts.TAG_XXX, "> surface created: " + index);
-			if (ONE_SCREEN == currentScreen && false == isFromCurrent
-					&& false == channel.isConnected()) {
-				connectChannelList.add(channel);
+			switch (status) {
+			case PlayWindowManager.STATUS_CREATED:
+				MyLog.w(Consts.TAG_XXX, "> surface created: " + index);
+				if (ONE_SCREEN == currentScreen && false == isFromCurrent
+						&& false == channel.isConnected()) {
+					connectChannelList.add(channel);
+				}
+				channel.setSurface(surface);
+				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
+						channel.getIndex(), ARG2_STATUS_UNKNOWN));
+				break;
+
+			case PlayWindowManager.STATUS_CHANGED:
+				// [Neo] Empty
+				break;
+
+			case PlayWindowManager.STATUS_DESTROYED:
+				MyLog.w(Consts.TAG_XXX, "> surface destroyed: " + index);
+				pauseChannel(channel);
+				channel.setSurface(null);
+				break;
+
+			default:
+				break;
 			}
-			channel.setSurface(surface);
-			handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-					channel.getIndex(), ARG2_STATUS_UNKNOWN));
-			break;
-
-		case PlayWindowManager.STATUS_CHANGED:
-			// [Neo] Empty
-			break;
-
-		case PlayWindowManager.STATUS_DESTROYED:
-			MyLog.w(Consts.TAG_XXX, "> surface destroyed: " + index);
-			pauseChannel(channel);
-			channel.setSurface(null);
-			break;
-
-		default:
-			break;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 	}
 
 	private class DoubleClickChecker extends TimerTask {
@@ -3377,6 +3384,8 @@ public class JVPlayActivity extends PlayActivity implements
 		// manager.pauseAll();
 
 		if (Consts.PLAY_NORMAL == playFlag) {
+			// add{3384} by lkp@2014.12.09,设备设置里边需要修改设备状态，如果不加这行，返回后状态会被重置
+			deviceList = CacheUtil.getDevList();
 			CacheUtil.saveDevList(deviceList);
 		}
 		pauseAll(manager.getValidChannelList(lastItemIndex));

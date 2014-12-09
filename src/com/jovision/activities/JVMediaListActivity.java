@@ -362,19 +362,24 @@ public class JVMediaListActivity extends BaseActivity {
 					if (null != fileArray && 0 != fileArray.length) {
 						int length = fileArray.length;
 						for (int i = 0; i < length; i++) {
-							ArrayList<Filebean> list = new ArrayList<Filebean>();
-							File[] summary = fileArray[i].listFiles();
 							if (fileArray[i].isDirectory()) {
-								fileList.add(fileArray[i]);
-								fileSum = fileSum + fileArray[i].list().length;
+								ArrayList<Filebean> list = new ArrayList<Filebean>();
+								File[] summary = fileArray[i].listFiles();
+								if (fileArray[i].isDirectory()) {
+									fileList.add(fileArray[i]);
+									fileSum = fileSum
+											+ fileArray[i].list().length;
+								}
+								for (int j = 0; j < summary.length; j++) {
+									Filebean bean = new Filebean();
+									bean.setFilename(summary[j]
+											.getAbsolutePath());
+									bean.setSelect(false);
+									list.add(bean);
+								}
+								fileMap.put(fileArray[i].getAbsolutePath(),
+										list);
 							}
-							for (int j = 0; j < summary.length; j++) {
-								Filebean bean = new Filebean();
-								bean.setFilename(summary[j].getAbsolutePath());
-								bean.setSelect(false);
-								list.add(bean);
-							}
-							fileMap.put(fileArray[i].getAbsolutePath(), list);
 						}
 						if (0 != fileList.size()) {
 							noFile = false;

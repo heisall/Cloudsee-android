@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -133,8 +132,6 @@ public class JVImageViewActivity extends BaseActivity {
 			switch (view.getId()) {
 			case R.id.btn_left:
 				finish();
-				Log.i("TAG", JVMediaListActivity.fileSum + "总体数量");
-				Log.i("TAG", JVMediaListActivity.fileSelectSum + "总体数量");
 				break;
 			case R.id.btn_right:
 				ConfigUtil.shareTo(JVImageViewActivity.this,

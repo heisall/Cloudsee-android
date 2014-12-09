@@ -7,8 +7,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp"
-        android:background="@drawable/shape_alarm_dialog_bg" >
+        android:background="@drawable/shape_alarm_dialog_bg"
+        android:paddingBottom="20dp" >
 
         <TextView
             android:id="@+id/dialog_title"
@@ -113,31 +113,30 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="30dp" >
 
+            <TextView
+                android:id="@+id/dialog_ok"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_weight="1"
+                android:background="@drawable/blue_bg"
+                android:gravity="center"
+                android:text="@string/ok"
+                android:textColor="@color/dialog_view"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/dialog_ok"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/blue_bg"
-                    android:gravity="center"
-                    android:text="@string/ok"
-                    android:textColor="@color/dialog_view"
-                    android:layout_alignParentLeft="true"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/dialog_cancel"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="50dp"
-                    android:background="@drawable/blue_bg"
-                    android:gravity="center"
-                    android:text="@string/cancel"
-                    android:layout_alignParentRight="true"
-                    android:textColor="@color/dialog_view"
-                    android:textSize="16sp" />
+            <TextView
+                android:id="@+id/dialog_cancel"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/blue_bg"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textColor="@color/dialog_view"
+                android:textSize="16sp" />
         </LinearLayout>
     </RelativeLayout>
 

@@ -70,12 +70,20 @@ public class ManageAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return fuctionArray.length;
+		int length = 0;
+		if (null != fuctionArray) {
+			length = fuctionArray.length;
+		}
+		return length;
 	}
 
 	@Override
 	public Object getItem(int arg0) {
-		return fuctionArray[arg0];
+		Object obj = null;
+		if (null != fuctionArray && arg0 < fuctionArray.length) {
+			obj = fuctionArray[arg0];
+		}
+		return obj;
 	}
 
 	@Override

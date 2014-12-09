@@ -376,12 +376,12 @@ public class JVDeviceManageFragment extends BaseFragment {
 				dataLayout.setVisibility(View.VISIBLE);
 				refreshlayout.setVisibility(View.GONE);
 				quickSetSV.setVisibility(View.GONE);
-				// 初始化导航
-				initNav();
-				// 初始化viewPager
-				initViewPager();
-
 				try {
+					// 初始化导航
+					initNav();
+					// 初始化viewPager
+					initViewPager();
+
 					ManageFragment fragement = ((ManageFragment) fragments
 							.get(deviceIndex));
 					if (null != fragement) {

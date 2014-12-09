@@ -75,7 +75,7 @@ public class Device {
 	/** 设备是否带Wi-Fi */
 	private int hasWifi = 0;
 	/** 设备列表中是否被选中 */
-	private Boolean isselect;
+	private Boolean isselect = false;
 	/** 局域网是否添加设备 */
 	private boolean islanselect = true;
 	private int alarmSwitch = 0;// 告警开关，0-关闭，1-打开

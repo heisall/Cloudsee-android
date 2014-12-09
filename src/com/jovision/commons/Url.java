@@ -11,8 +11,8 @@ public class Url {
 	// http://int.dpool.sina.com.cn/iplookup/iplookup.php
 
 	// 找回密码
-	public static String RESET_PWD_URL = "http://webapp.afdvr.com/findpwd/index.html";// 重置密码地址
-	public static String RESET_PWD_URL_EN = "http://webappen.afdvr.com/findpwd/index.html";// 重置密码地址
+	public static String RESET_PWD_URL = "http://webapp.afdvr.com:9003/findpwd/index.html";// 重置密码地址
+	public static String RESET_PWD_URL_EN = "http://webappen.afdvr.com:9003/findpwd/index.html";// 重置密码地址
 
 	// 检查软件更新地址
 	public static String CHECK_UPDATE_URL = "http://wmap.yoosee.cc/MobileWeb.aspx";// 检查软件更新地址

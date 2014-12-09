@@ -1041,6 +1041,9 @@ public class JVPlayActivity extends PlayActivity implements
 						// object.getBoolean("is_omx"));
 
 						int window = object.getInt("window");
+						// // TODO
+						// loadingState(window, 0, JVConst.PLAY_CONNECTTED);
+
 						if (window == lastClickIndex) {
 							currentKbps.setText(String.format("%.1fk/%.1fk",
 									object.getDouble("kbps"),
@@ -1627,7 +1630,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 		}
-		if (Build.VERSION_CODES.JELLY_BEAN > Build.VERSION.SDK_INT) {// 小于4.1的系统，不允许硬解
+		if (android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 > Build.VERSION.SDK_INT) {// 小于4.1的系统，不允许硬解
 			lowerSystem = true;
 		}
 
@@ -1815,7 +1818,7 @@ public class JVPlayActivity extends PlayActivity implements
 				// currentMenu_v.setText(deviceList.get(deviceIndex).getNickName()
 				// + "-" + channelList.get(lastClickIndex).getChannel()
 				// +"AP直连");
-
+				channel.setSingleVoice(true);
 				// IP直连
 				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),

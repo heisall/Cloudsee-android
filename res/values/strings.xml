@@ -93,7 +93,7 @@
     <string name="str_audio_monitor_forbidden">This function is unavailable during Two-way Talk.</string>
     <string name="str_yt_operate">PTZ</string>
     <string name="str_remote_playback">Playback</string>
-    <string name="str_remote_alerm">Alerm video</string>
+    <string name="str_remote_alarm">Alarm video</string>
     <string name="str_audio_monitor_tips">Learn audio info at any time</string>
     <string name="str_yt_operate_tips">Adjust PTZ at any time</string>
     <string name="str_remote_playback_tips">Check Playback info at any time</string>
@@ -101,7 +101,7 @@
     <string name="str_stop_record">Stop recording,video file kept in </string>
     <string name="str_wait_connect">This operation is only available when video connected</string>
     <string name="str_forbidden_operation">Unable to use this function during remote playback.</string>
-    <string name="str_forbidden_alerm">Unable to use this function during alerm.</string>
+    <string name="str_forbidden_alarm">Unable to use this function during alarm.</string>
     <string name="forbidden_operation_when_paused">Stop using this feature as video paused</string>
     <string name="str_not_support_remoteplay">This device is temporarily unable to operate during remote playback.</string>
     <string name="str_picture_savepath">Capture is kept in </string>
@@ -534,7 +534,7 @@
     <string name="prepare_step2">Please input password of the network.</string>
     <string name="prepare_step3">View operation demo</string>
     <string name="show_demo">Operation demo</string>
-    <string name="search_list">Searching list</string>
+    <string name="search_list">Search list</string>
     <string name="prepare_step4">Click to send sound-wave</string>
     <string name="prepare_step5">Please put the phone near device,click sound-wave sending button,configure the device.</string>
     <string name="wave_add_dev">Make sure to add device</string>
@@ -627,6 +627,7 @@
     <string name="str_setdev_params_timeout">Set the equipment parameter timeout</string>
     <string name="str_disconnect_resp_timeout">Disconnect the connection timeout</string>
     <string name="str_operation_failed">Operation failed</string>
+    <string name="str_setting_time">Setting Time</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="str_login">本地登录</string>
     <string name="str_onlinelogin">在线登陆</string>

@@ -105,7 +105,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.btn_left:
-				((BaseActivity) mActivity).openExitDialog();
+				mActivity.openExitDialog();
 				break;
 			default:
 				break;
@@ -127,7 +127,6 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 
 	@Override
 	public void onResume() {
-		mActivity = (BaseActivity) getActivity();
 		((MainApplication) mActivity.getApplication()).setCurrentNotifyer(this);
 		StatService.onResume(mActivity);
 		super.onResume();

@@ -306,17 +306,20 @@ public class ThirdDevListActivity extends BaseActivity implements
 			case JVNetConst.JVN_REQ_TEXT:
 				strDescString = getResources().getString(
 						R.string.str_alarm_wait_textresp_timeout);
+				break;
 			case Consts.RC_GPIN_SECLECT:
-				if (dialog != null && dialog.isShowing())
-					dialog.dismiss();
 				strDescString = getResources().getString(
-						R.string.str_alarm_query_thirddev_timeout);
-				showTextToast(strDescString);
-				finish();
+						R.string.str_alarm_binddev_timeout);
 				break;
 			default:
 				break;
 			}
+			;
+
+			if (dialog != null && dialog.isShowing())
+				dialog.dismiss();
+			showTextToast(strDescString);
+			finish();
 		}
 	}
 
@@ -391,7 +394,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 				bConnectFlag = false;
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
-				showTextToast(R.string.connect_failed);
+				// showTextToast(R.string.connect_failed);
 				finish();
 				break;
 			}

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -67,8 +66,7 @@ public class JVChannelsActivity extends BaseActivity {
 	private LinearLayout linear;
 	private RelativeLayout devmore;
 	private ManageListAdapter adapter;
-
-	private Handler mhandler;
+	private final int CHANNEL_SMOOTH = 0x01;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -78,12 +76,14 @@ public class JVChannelsActivity extends BaseActivity {
 		// channelPager.setCurrentItem(deviceIndex);
 		// break;
 		// }
+		if (what == CHANNEL_SMOOTH) {
+			mHorizontalScrollView.smoothScrollTo(deviceIndex * item_width, 0);// 改变滚动条的位置
+		}
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
-
 	}
 
 	@Override
@@ -132,14 +132,14 @@ public class JVChannelsActivity extends BaseActivity {
 		adapter.setData(deviceList);
 		devicemanage_listView.setAdapter(adapter);
 		ListViewClick();
-		handler.postDelayed(runnable, 100);
+		handler.postDelayed(runnable, 200);
 	}
 
 	private Runnable runnable = new Runnable() {
 
 		@Override
 		public void run() {
-			mHorizontalScrollView.smoothScrollTo(deviceIndex * item_width, 0);// 改变滚动条的位置
+			handler.sendEmptyMessage(CHANNEL_SMOOTH);
 		}
 	};
 
@@ -188,7 +188,8 @@ public class JVChannelsActivity extends BaseActivity {
 
 	@Override
 	protected void onPause() {
-		CacheUtil.saveDevList(deviceList);
+		// deviceList = CacheUtil.getDevList();
+		// CacheUtil.saveDevList(deviceList);
 		super.onPause();
 	}
 

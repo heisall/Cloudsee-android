@@ -211,7 +211,6 @@ public class JVPlayActivity extends PlayActivity implements
 				channel.setScreenTag(-1);
 				channel.setStreamTag(-1);
 				channel.setStorageMode(-1);
-				channel.setSupportVoice(false);
 				if (null != msgList && null != msgList.get(arg1)) {
 					Message msg = new Message();
 					msg.arg1 = msgList.get(arg1).arg1;
@@ -469,7 +468,7 @@ public class JVPlayActivity extends PlayActivity implements
 				channel.setSendCMD(true);
 			}
 
-			MyLog.i("NORMALDATA", obj.toString());
+			MyLog.e("NORMALDATA", obj.toString());
 			int newWidth = 0;
 			int newHeight = 0;
 
@@ -530,6 +529,8 @@ public class JVPlayActivity extends PlayActivity implements
 						// // [Neo] 将音频填入缓存队列
 						// audio.put(data);
 
+					} else {
+						channel.setSupportVoice(true);
 					}
 
 					newWidth = jobj.getInt("width");
@@ -777,6 +778,8 @@ public class JVPlayActivity extends PlayActivity implements
 								}
 							}
 
+							MyLog.v(TAG,
+									"SupportVoice=" + channel.isSupportVoice());
 							if (null != streamMap.get("MobileCH")
 									&& "2".equalsIgnoreCase(streamMap
 											.get("MobileCH"))) {
@@ -1818,7 +1821,6 @@ public class JVPlayActivity extends PlayActivity implements
 				// currentMenu_v.setText(deviceList.get(deviceIndex).getNickName()
 				// + "-" + channelList.get(lastClickIndex).getChannel()
 				// +"AP直连");
-				channel.setSingleVoice(true);
 				// IP直连
 				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),

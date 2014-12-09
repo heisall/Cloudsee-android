@@ -407,8 +407,32 @@ public class ConfigUtil {
 		HashMap<String, String> statusHashMap = ((MainApplication) context
 				.getApplicationContext()).getStatusHashMap();
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+			int init_try_count = 5;
+			do {
+				result = JVACCOUNT.InitSDK(context, Consts.ACCOUNT_PATH);
+				if (!result) {
+					init_try_count--;
+					if (init_try_count == 0) {
+						break;
+					}
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 
-			result = JVACCOUNT.InitSDK(context, Consts.ACCOUNT_PATH);
+			} while (!result);
+			statusHashMap.put(Consts.KEY_INIT_ACCOUNT_SDK,
+					String.valueOf(result));
+			MyLog.e(TAG, "1>>>>>初始化账号--sdk--res=" + String.valueOf(result));
+			if (!result) {
+				Toast.makeText(context, "初始化账号SDK失败，请重新运行程序", Toast.LENGTH_LONG)
+						.show();
+				return result;
+			}
+
 			String channelIp = "";
 			String onlineIp = "";
 			if (JVConst.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
@@ -436,8 +460,8 @@ public class ConfigUtil {
 				}
 			}
 
-			statusHashMap.put(Consts.KEY_INIT_ACCOUNT_SDK,
-					String.valueOf(result));
+			// statusHashMap.put(Consts.KEY_INIT_ACCOUNT_SDK,
+			// String.valueOf(result));
 
 			MyLog.v(TAG, "初始化账号--sdk--res=" + String.valueOf(result));
 		}

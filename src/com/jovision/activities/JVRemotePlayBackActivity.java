@@ -337,7 +337,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		}
 		functionListAdapter.setFromAlerm(bFromAlarm);
 		if (bFromAlarm) {
-			currentMenu.setText(R.string.str_remote_alerm);
+			currentMenu.setText(R.string.str_remote_alarm);
 			// capture.setCompoundDrawablesWithIntrinsicBounds(null,
 			// getResources().getDrawable(R.drawable.capture_alerm
 			// ) , null, null);
@@ -446,7 +446,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 					backMethod();
 				}
 			} else {
-				showTextToast(R.string.str_forbidden_alerm);
+				showTextToast(R.string.str_forbidden_alarm);
 			}
 			functionListAdapter.notifyDataSetChanged();
 		}
@@ -534,7 +534,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				break;
 			case R.id.voicecall:// 语音对讲
 				if (bFromAlarm) {
-					showTextToast(R.string.str_forbidden_alerm);
+					showTextToast(R.string.str_forbidden_alarm);
 				} else {
 					showTextToast(R.string.str_forbidden_operation);
 				}
@@ -569,7 +569,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				break;
 			case R.id.more_features:// 更多
 				if (bFromAlarm) {
-					showTextToast(R.string.str_forbidden_alerm);
+					showTextToast(R.string.str_forbidden_alarm);
 				} else {
 					showTextToast(R.string.str_forbidden_operation);
 				}

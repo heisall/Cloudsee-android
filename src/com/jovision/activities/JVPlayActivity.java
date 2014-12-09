@@ -1630,7 +1630,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 		}
-		if (Build.VERSION_CODES.JELLY_BEAN > Build.VERSION.SDK_INT) {// 小于4.1的系统，不允许硬解
+		if (android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 > Build.VERSION.SDK_INT) {// 小于4.1的系统，不允许硬解
 			lowerSystem = true;
 		}
 

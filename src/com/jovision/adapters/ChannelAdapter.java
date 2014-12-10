@@ -26,7 +26,7 @@ public class ChannelAdapter extends BaseAdapter {
 
 	public static final int CHANNEL_ITEM_CLICK = 0x30;// 通道单击事件--
 	public static final int CHANNEL_ITEM_LONG_CLICK = 0x31;// 通道长按事件--
-	public static final int CHANNEL_ITEM_DEL_CLICK = 0x32;// 通道删除按钮事件--
+	public static final int CHANNEL_ITEM_DEL_CLICK = 0x35;// 通道删除按钮事件--
 	public static final int CHANNEL_ADD_CLICK = 0x33;// 通道添加事件--
 	public static final int CHANNEL_EDIT_CLICK = 0x34;// 通道删除按钮事件--
 

@@ -172,6 +172,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				if (waitingDialog != null && waitingDialog.isShowing()) {
 					waitingDialog.dismiss();
 				}
+				myHandler.removeMessages(Consts.DEV_SETTINGS_ALARM);
 				myHandler.removeMessages(JVNetConst.JVN_STREAM_INFO);
 				String allStr = obj.toString();
 
@@ -359,6 +360,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			mdEnable = enabled;
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x06,
 					0x02, String.format(Consts.FORMATTER_SET_MDENABLE, enabled));
+			new Thread(new TimeOutProcess(Consts.DEV_SETTINGS_ALARM)).start();
 			break;
 		default:
 			break;
@@ -641,7 +643,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
 					0x02, String.format(Consts.FORMATTER_SET_ALARM_TIME,
 							"00:00:00-23:59:59"));
-			new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
+			new Thread(new TimeOutProcess(Consts.DEV_SETTINGS_ALARM)).start();
 		} else {
 			String alarmTime0 = String
 					.format("%s:00-%s:00", startTime, endTime);
@@ -649,7 +651,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
 					0x02,
 					String.format(Consts.FORMATTER_SET_ALARM_TIME, alarmTime0));
-			new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
+			new Thread(new TimeOutProcess(Consts.DEV_SETTINGS_ALARM)).start();
 		}
 	}
 

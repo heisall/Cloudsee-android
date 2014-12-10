@@ -296,11 +296,21 @@ public class JVLoginActivity extends BaseActivity {
 					Intent intentFP = new Intent(JVLoginActivity.this,
 							JVWebViewActivity.class);
 					String findUrl = "";
-					if (ConfigUtil.isLanZH()) {// 中文
-						findUrl = Url.RESET_PWD_URL;
+					if (JVConst.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {// 中文
+						if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {// 中文
+							findUrl = Url.RESET_PWD_URL + "?lgn=zh_cn";
+						} else {
+							findUrl = Url.RESET_PWD_URL + "?lgn=en_us";
+						}
+
 					} else {// 英文
-						findUrl = Url.RESET_PWD_URL_EN;
+						if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {// 中文
+							findUrl = Url.RESET_PWD_URL_EN + "?lgn=zh_cn";
+						} else {
+							findUrl = Url.RESET_PWD_URL_EN + "?lgn=en_us";
+						}
 					}
+					MyLog.e("findUrl", findUrl);
 					intentFP.putExtra("URL", findUrl);
 					intentFP.putExtra("title", R.string.str_find_pass);
 					JVLoginActivity.this.startActivity(intentFP);

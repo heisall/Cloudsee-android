@@ -68,7 +68,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="jovision" />
+            android:value="anzhi" />
 
         <activity
             android:name="com.jovision.activities.JVWelcomeActivity"

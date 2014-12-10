@@ -437,13 +437,13 @@ public class JVMoreFragment extends BaseFragment {
 						case 8:
 							if (!MySharedPreference.getBoolean("LITTLE")) {
 								littlenum++;
-								if (littlenum < 10) {
-									if (littlenum >= 7) {
+								if (littlenum < 20) {
+									if (littlenum >= 17) {
 										mActivity
-												.showTextToast((10 - littlenum)
+												.showTextToast((20 - littlenum)
 														+ " ");
 									}
-								} else if (littlenum == 10) {
+								} else if (littlenum == 20) {
 									MySharedPreference.putBoolean("LITTLEHELP",
 											true);
 									MySharedPreference.putBoolean(

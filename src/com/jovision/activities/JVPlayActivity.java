@@ -140,7 +140,9 @@ public class JVPlayActivity extends PlayActivity implements
 	private EditText devicepwd_passwordet;
 	private ImageView devicepwd_password_cancleI;
 	private ImageView dialogpwd_cancle_img;
-
+	private String mobileQuality, mobileCH;
+	private HashMap<String, String> streamMap;
+	private boolean updateStreaminfoFlag = false;
 	/** 基于断开视频不走回调加此list */
 	private MyList<Message> msgList = new MyList<Message>(0);
 
@@ -757,9 +759,9 @@ public class JVPlayActivity extends PlayActivity implements
 						String streamJSON = dataObj.getString("msg");
 						// HashMap<String, String> streamCH1 =
 						// ConfigUtil.getCH1("CH1",streamJSON);
-
-						HashMap<String, String> streamMap = ConfigUtil
-								.genMsgMap(streamJSON);
+						// HashMap<String, String>
+						streamMap = ConfigUtil.genMsgMap(streamJSON);
+						updateStreaminfoFlag = true;
 						if (null != streamMap) {
 							if (null != streamMap.get("effect_flag")
 									&& !"".equalsIgnoreCase(streamMap
@@ -780,6 +782,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 							MyLog.v(TAG,
 									"SupportVoice=" + channel.isSupportVoice());
+							mobileCH = streamMap.get("MobileCH");
 							if (null != streamMap.get("MobileCH")
 									&& "2".equalsIgnoreCase(streamMap
 											.get("MobileCH"))) {
@@ -793,7 +796,7 @@ public class JVPlayActivity extends PlayActivity implements
 												+ "--双向对讲");
 								channel.setSingleVoice(false);
 							}
-
+							mobileQuality = streamMap.get("MobileQuality");
 							if (null != streamMap.get("MobileQuality")
 									&& !"".equalsIgnoreCase(streamMap
 											.get("MobileQuality"))) {
@@ -3156,10 +3159,25 @@ public class JVPlayActivity extends PlayActivity implements
 				} else {
 					// 设备设置
 					if (allowThisFuc(false)) {
+						if (null == mobileQuality) {// 没这个字段说明是老设备，再判断MobileCH是否为2
+							if (mobileCH != null)// 这种情况，直接不让进设备设置界面
+							{
+								if (!(mobileCH.equals("2"))) {
+									showTextToast(R.string.not_support_this_func);
+									return;
+								}
+							} else {
+								showTextToast(R.string.not_support_this_func);
+								return;
+							}
+						}
+
 						Intent intent = new Intent(JVPlayActivity.this,
 								DeviceSettingsActivity.class);
 						intent.putExtra("window", lastClickIndex);
 						intent.putExtra("deviceIndex", deviceIndex);
+						intent.putExtra("updateflag", updateStreaminfoFlag);
+						intent.putExtra("streamMap", streamMap);
 						startActivity(intent);
 					}
 				}
@@ -3403,6 +3421,7 @@ public class JVPlayActivity extends PlayActivity implements
 	protected void onResume() {
 		super.onResume();
 		isBlockUi = true;
+		updateStreaminfoFlag = false;
 		handler.removeMessages(WHAT_CHECK_SURFACE);
 		handler.sendMessageDelayed(handler.obtainMessage(WHAT_CHECK_SURFACE,
 				lastItemIndex, lastClickIndex), DELAY_CHECK_SURFACE);

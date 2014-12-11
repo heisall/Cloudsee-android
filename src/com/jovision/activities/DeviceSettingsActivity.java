@@ -42,8 +42,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private ProgressDialog waitingDialog;
 	private DeviceSettingsMainFragment deviceSettingsMainFragment;
 	private int fragment_tag = 0;// 0，设置主界面； 1设置时间
-	private int alarmEnable = -1;
-	private int mdEnable = -1;
+	private int alarmEnabled = -1;
+	private int mdEnabled = -1;
+	private int alarmEnabling = -1;
+	private int mdEnabling = -1;
 	private int window = 0;
 	private OnMainListener mainListener;
 	private Button backBtn;
@@ -54,11 +56,16 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private String startTimeSaved, endTimeSaved;
 	private String startTimeSetting, endTimeSetting;
 	private String alarmTime0;
+	private String alarmTime0ing;
 	private int alarm_way_flag = -1; // 报警的方式，走云视通还是报警服务器 0:报警服务器 1:云视通
 	private Device device;
 	private ArrayList<Device> deviceList;
 	private int deviceIndex = 0;
 	private DeviceSettingsActivity activity;
+	private boolean onFuncOperationFlag = false;// 标志进入到这个界面后用户是否有过操作标志
+	private int funcIndex = -1;
+	private String[] funcParamArray;
+	private HashMap<String, String> streamMap;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +81,11 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		myHandler = new MyHandler();
 		window = extras.getInt("window");
 		deviceIndex = extras.getInt("deviceIndex");
+		streamMap = (HashMap<String, String>) extras
+				.getSerializable("streamMap");
 		deviceList = CacheUtil.getDevList();
+		boolean update_flag = extras.getBoolean("updateflag");
+		funcParamArray = new String[3];// 目前就3个功能，安全防护、移动侦测、防护时间段，当然这个只要比功能大就行
 		if (0 != deviceList.size()) {
 			device = deviceList.get(deviceIndex);
 		}
@@ -84,14 +95,22 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			waitingDialog.setCancelable(false);
 			waitingDialog
 					.setMessage(getResources().getString(R.string.waiting));
-			waitingDialog.show();
+			if (!update_flag) {
+				waitingDialog.show();
+				Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
+						JVNetConst.JVN_STREAM_INFO);
+				new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
+						.start();
+			}
+			// waitingDialog.show();
 			// 获取当前设置
 			// 获取设备参数 -> flag = FLAG_GET_PARAM, 分析 msg?
 			// Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 			// JVNetConst.JVN_STREAM_INFO, null);
-			Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-					JVNetConst.JVN_STREAM_INFO);
-			new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
+			// Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
+			// JVNetConst.JVN_STREAM_INFO);
+			// new Thread(new
+			// TimeOutProcess(JVNetConst.JVN_STREAM_INFO)).start();
 		}
 
 	}
@@ -103,6 +122,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		titleTv = (TextView) findViewById(R.id.currentmenu);
 		backBtn.setOnClickListener(this);
 		titleTv.setText(R.string.str_audio_monitor);
+
+		ResolveStreamInfo(streamMap);
 	}
 
 	@Override
@@ -160,6 +181,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				if (waitingDialog != null && waitingDialog.isShowing())
 					waitingDialog.dismiss();
 				bConnectedFlag = false;
+				showTextToast(R.string.str_alarm_connect_except);
+				finish();
 				break;
 			}
 			;
@@ -169,11 +192,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					+ ", " + obj);
 			switch (arg2) {
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
-				if (waitingDialog != null && waitingDialog.isShowing()) {
-					waitingDialog.dismiss();
-				}
-				myHandler.removeMessages(Consts.DEV_SETTINGS_ALARM);
-				myHandler.removeMessages(JVNetConst.JVN_STREAM_INFO);
+				// if (waitingDialog != null && waitingDialog.isShowing()) {
+				// waitingDialog.dismiss();
+				// }
+
 				String allStr = obj.toString();
 
 				MyLog.v(TAG, "文本数据--" + allStr);
@@ -182,120 +204,58 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					int flag = dataObj.getInt("flag");
 					switch (flag) {
 					case JVNetConst.JVN_STREAM_INFO:
+						myHandler.removeMessages(JVNetConst.JVN_STREAM_INFO);
 						HashMap<String, String> map = ConfigUtil
 								.genMsgMap(dataObj.getString("msg"));
-						// 先判断MobileQuality
-						String MobileQuality = map.get("MobileQuality");
-						String MobileCH = null;
-						if (null == MobileQuality) {// 没这个字段说明是老设备，再判断MobileCH是否为2
-							MobileCH = map.get("MobileCH");
-							if (MobileCH != null)// 这种情况，直接不让进设备设置界面
-							{
-								if (!(MobileCH.equals("2"))) {
-									showTextToast(R.string.not_support_this_func);
-									this.finish();
-									return;
-								} else {
-									// 只有安全防护，走设备服务器
-									alarm_way_flag = 0;
-								}
-							} else {
-								showTextToast(R.string.not_support_this_func);
-								this.finish();
-								return;
-							}
-						} else {
-							// 如果有，走云视通
-							alarm_way_flag = 1;
-						}
-						if (alarm_way_flag == 1) {
-							String alarm_enable = map.get("bAlarmEnable");
-							if (alarm_enable == null) {
-								alarmEnable = -1;
-							} else {
-								alarmEnable = Integer.valueOf(alarm_enable);
-							}
-
-							String md_enable = map.get("bMDEnable");
-							if (md_enable == null) {
-								// showTextToast(R.string.not_support_this_func);
-								mdEnable = -1;
-							} else {
-								mdEnable = Integer.valueOf(md_enable);
-							}
-
-							alarmTime0 = map.get("alarmTime0");// alarmTime0
-							if (alarm_enable == null) {
-								// showTextToast(R.string.not_support_this_func);
-								alarmTime0 = "";
-							}
-						} else {
-							alarmEnable = device.getAlarmSwitch();
-						}
-						initDevParamObject = new JSONObject();
-						initDevParamObject.put("bAlarmEnable", alarmEnable);
-						initDevParamObject.put("bMDEnable", mdEnable);
-						initDevParamObject.put("alarmTime0", alarmTime0);
-						initDevParamObject.put("alarmWay", alarm_way_flag);
-
-						// Check that the activity is using the layout version
-						// with
-						// the fragment_container FrameLayout
-						if (findViewById(R.id.fragment_container) != null) {
-
-							// However, if we're being restored from a previous
-							// state,
-							// then we don't need to do anything and should
-							// return or else
-							// we could end up with overlapping fragments.
-							// if (savedInstanceState != null) {
-							// return;
-							// }
-							deviceSettingsMainFragment = new DeviceSettingsMainFragment();
-							Bundle bundle1 = new Bundle();
-							bundle1.putString("KEY_PARAM",
-									initDevParamObject.toString());
-							deviceSettingsMainFragment.setArguments(bundle1);
-							FragmentManager fm = getSupportFragmentManager();
-							FragmentTransaction ft = getSupportFragmentManager()
-									.beginTransaction();
-							ft.add(R.id.fragment_container,
-									deviceSettingsMainFragment)
-									.commitAllowingStateLoss();
-							fragment_tag = 0;
-						}
+						// streamMap = map;
+						ResolveStreamInfo(map);
 						break;
-
 					default:
 						break;
 					}
+
 					int packet_type = dataObj.getInt("packet_type");
 					switch (packet_type) {
 					// case JVNetConst.RC_GETPARAM:
 					//
 					// break;// end of JVNetConst.RC_GETPARAM
 					case JVNetConst.RC_EXTEND:
+						myHandler.removeMessages(Consts.DEV_SETTINGS_ALARM);
+
 						int packet_subtype = dataObj.getInt("packet_count");
 						int ex_type = dataObj.optInt("extend_type");
 						if (packet_subtype == JVNetConst.RC_EX_MD
 								&& ex_type == JVNetConst.EX_MD_SUBMIT) {
 							// 移动侦测 ok
-							initDevParamObject.put("bMDEnable", mdEnable);
+							Log.e("Alarm", "EX_MD_SUBMIT---:" + mdEnabled
+									+ "--" + mdEnabling);
+							mdEnabled = mdEnabling;
+							initDevParamObject.put("bMDEnable", mdEnabled);
 							mainListener.onMainAction(packet_type,
-									packet_subtype, ex_type);
+									packet_subtype, ex_type, mdEnabling);
 						} else if (packet_subtype == JVNetConst.RC_EX_ALARM
 								&& ex_type == JVNetConst.EX_ALARM_SUBMIT) {
 							// 安全防护或者设置安全防护时间ok
-							initDevParamObject.put("bAlarmEnable", alarmEnable);
+							Log.e("Alarm", "EX_ALARM_SUBMIT---:" + alarmEnabled
+									+ "--" + alarmEnabling);
+							alarmEnabled = alarmEnabling;
+							initDevParamObject
+									.put("bAlarmEnable", alarmEnabled);
 							mainListener.onMainAction(packet_type,
-									packet_subtype, ex_type);
+									packet_subtype, ex_type, alarmEnabling);
+						} else {
+							Log.e("Alarm", "RC_EXTEND Case else Error");
 						}
+
 						break;
 					default:
 						break;
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
+				}
+				if (waitingDialog != null && waitingDialog.isShowing()) {
+					waitingDialog.dismiss();
 				}
 				break;
 			default:
@@ -341,9 +301,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	public void OnFuncEnabled(int func_index, int enabled) {
 		// TODO Auto-generated method stub
 		waitingDialog.show();
+		funcIndex = func_index;
 		switch (func_index) {
 		case Consts.DEV_SETTINGS_ALARM:// 安全防护
-			alarmEnable = enabled;
+			alarmEnabling = enabled;
 			if (alarm_way_flag == 1) {
 				Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
 						0x02,
@@ -357,7 +318,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			}
 			break;
 		case Consts.DEV_SETTINGS_MD:// 移动侦测
-			mdEnable = enabled;
+			mdEnabling = enabled;
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x06,
 					0x02, String.format(Consts.FORMATTER_SET_MDENABLE, enabled));
 			new Thread(new TimeOutProcess(Consts.DEV_SETTINGS_ALARM)).start();
@@ -413,22 +374,27 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			waitingDialog.dismiss();
 			if (0 == result) {
 				try {
-					activity.initDevParamObject
-							.put("bAlarmEnable", alarmEnable);
+					activity.initDevParamObject.put("bAlarmEnable",
+							alarmEnabled);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				mainListener.onMainAction(JVNetConst.RC_EXTEND,
-						JVNetConst.RC_EX_ALARM, JVNetConst.EX_ALARM_SUBMIT);
+
 				StatService.trackCustomEvent(activity, "Alarm", activity
 						.getResources().getString(R.string.str_alarm2));
 				if (JVDeviceConst.DEVICE_SWITCH_OPEN == device.getAlarmSwitch()) {
 					device.setAlarmSwitch(JVDeviceConst.DEVICE_SWITCH_CLOSE);
+					mainListener.onMainAction(JVNetConst.RC_EXTEND,
+							JVNetConst.RC_EX_ALARM, JVNetConst.EX_ALARM_SUBMIT,
+							0);
 					showTextToast(R.string.protect_close_succ);
 				} else if (JVDeviceConst.DEVICE_SWITCH_CLOSE == device
 						.getAlarmSwitch()) {
 					device.setAlarmSwitch(JVDeviceConst.DEVICE_SWITCH_OPEN);
+					mainListener.onMainAction(JVNetConst.RC_EXTEND,
+							JVNetConst.RC_EX_ALARM, JVNetConst.EX_ALARM_SUBMIT,
+							1);
 					showTextToast(R.string.protect_open_succ);
 				}
 				deviceList.set(deviceIndex, device);
@@ -468,6 +434,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	@Override
 	public void OnFuncSelected(int func_index, String params) {
 		// TODO Auto-generated method stub
+		funcIndex = func_index;
 		switch (func_index) {
 		case Consts.DEV_SETTINGS_ALARMTIME:// 防护时间段
 			titleTv.setText(R.string.str_protected_time);
@@ -531,7 +498,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 
 	public interface OnMainListener {
 		public void onMainAction(int packet_type, int packet_subtype,
-				int ex_type);
+				int ex_type, int destFlag);
 	}
 
 	@Override
@@ -604,10 +571,14 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			case Consts.DEV_SETTINGS_ALARM:
 				strDescString = getResources().getString(
 						R.string.str_setdev_params_timeout);
-				break;
+				Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
+						JVNetConst.JVN_STREAM_INFO);
+				// new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
+				// .start();
+				return;
 			case JVNetConst.JVN_STREAM_INFO:
 				strDescString = getResources().getString(
-						R.string.str_getdev_params_timeout);
+						R.string.str_setdev_params_timeout);// str_getdev_params_timeout
 				break;
 			default:
 				break;
@@ -628,7 +599,17 @@ public class DeviceSettingsActivity extends BaseActivity implements
 
 		@Override
 		public void run() {
-			myHandler.sendEmptyMessageDelayed(tag, 12000);
+			if (tag == JVNetConst.JVN_STREAM_INFO) {
+				Message msg = myHandler.obtainMessage(tag);
+				myHandler.sendMessageDelayed(msg, 8000);
+				// myHandler.sendEmptyMessageDelayed(tag, 12000);
+			} else {
+				onFuncOperationFlag = true;
+				Message msg = myHandler.obtainMessage(tag);
+				myHandler.sendMessageDelayed(msg, 8000);
+				// myHandler.sendEmptyMessageDelayed(tag, 5000);
+			}
+
 		}
 	}
 
@@ -637,20 +618,21 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		startTimeSetting = startTime;
 		endTimeSetting = endTime;
+
 		waitingDialog.show();
 		if (startTime.equals("00:00") && endTime.equals("23:59")) {
 			// 全天
+			alarmTime0ing = "00:00:00-23:59:59";
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
 					0x02, String.format(Consts.FORMATTER_SET_ALARM_TIME,
 							"00:00:00-23:59:59"));
 			new Thread(new TimeOutProcess(Consts.DEV_SETTINGS_ALARM)).start();
 		} else {
-			String alarmTime0 = String
-					.format("%s:00-%s:00", startTime, endTime);
-			MyLog.e("Alarm", "alarmTime0:" + alarmTime0);
+			alarmTime0ing = String.format("%s:00-%s:00", startTime, endTime);
+			MyLog.e("Alarm", "alarmTime0ing:" + alarmTime0ing);
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
-					0x02,
-					String.format(Consts.FORMATTER_SET_ALARM_TIME, alarmTime0));
+					0x02, String.format(Consts.FORMATTER_SET_ALARM_TIME,
+							alarmTime0ing));
 			new Thread(new TimeOutProcess(Consts.DEV_SETTINGS_ALARM)).start();
 		}
 	}
@@ -660,7 +642,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		startTimeSaved = startTimeSetting;
 		endTimeSaved = endTimeSetting;
-
+		alarmTime0 = alarmTime0ing;
 		Bundle bundle1 = new Bundle();
 		try {
 			initDevParamObject.put("alarmTime0", startTimeSaved + "-"
@@ -676,5 +658,187 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		ft.replace(R.id.fragment_container, deviceSettingsMainFragment)
 				.commitAllowingStateLoss();
 		fragment_tag = 0;
+	}
+
+	/**
+	 * 设置参数后，重新去获取设备当前参数与要设置的参数去比较，然后做出判断是否成功
+	 * 
+	 * */
+	void UpdateSettingsRes(int func_index) {
+		onFuncOperationFlag = false;
+		switch (func_index) {
+		case Consts.DEV_SETTINGS_ALARM:// 安全防护
+			// alarmEnabling已经是即将要改变的状态,详情见onFuncEnabled
+			if (alarmEnabling == Integer
+					.valueOf(funcParamArray[func_index - 1])) {
+				// 成功
+				// 安全防护或者设置安全防护时间ok
+				alarmEnabled = alarmEnabling;
+				try {
+					initDevParamObject.put("bAlarmEnable", alarmEnabled);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				mainListener.onMainAction(JVNetConst.RC_EXTEND,
+						JVNetConst.RC_EX_ALARM, JVNetConst.EX_ALARM_SUBMIT,
+						alarmEnabling);
+				// showTextToast("安全防护成功");
+			} else {
+				// 失败
+				showTextToast(getResources().getString(
+						R.string.str_operation_failed));
+				finish();
+			}
+			break;
+		case Consts.DEV_SETTINGS_MD:// 移动侦测
+			// mdEnabling已经是即将要改变的状态,详情见onFuncEnabled
+			if (mdEnabling == Integer.valueOf(funcParamArray[func_index - 1])) {
+				// 成功
+				// 移动侦测ok
+				mdEnabled = mdEnabling;
+				try {
+					initDevParamObject.put("bMDEnable", mdEnabled);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				mainListener.onMainAction(JVNetConst.RC_EXTEND,
+						JVNetConst.RC_EX_MD, JVNetConst.EX_MD_SUBMIT,
+						mdEnabling);
+				// showTextToast("移动侦测成功");
+			} else {
+				// 失败
+				showTextToast(getResources().getString(
+						R.string.str_operation_failed));
+				finish();
+			}
+			break;
+		case Consts.DEV_SETTINGS_ALARMTIME:
+			// alarmTime0ing已经是即将要改变的状态,详情见OnAlarmTimeSaved
+			if (alarmTime0ing.equals(funcParamArray[func_index - 1])) {
+				// 成功
+				mainListener.onMainAction(JVNetConst.RC_EXTEND,
+						JVNetConst.RC_EX_ALARM, JVNetConst.EX_ALARM_SUBMIT, 0);
+				// showTextToast("防护时间段成功");
+			} else {
+				// 失败
+				showTextToast(getResources().getString(
+						R.string.str_operation_failed));
+				finish();
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	private int ResolveStreamInfo(HashMap<String, String> map) {
+		if (map == null) {
+			return -1;
+		}
+		// 先判断MobileQuality
+		String MobileQuality = map.get("MobileQuality");
+		String MobileCH = null;
+		if (null == MobileQuality) {// 没这个字段说明是老设备，再判断MobileCH是否为2
+			MobileCH = map.get("MobileCH");
+			if (MobileCH != null)// 这种情况，直接不让进设备设置界面
+			{
+				if (!(MobileCH.equals("2"))) {
+					showTextToast(R.string.not_support_this_func);
+					this.finish();
+					return -1;
+				} else {
+					// 只有安全防护，走设备服务器
+					alarm_way_flag = 0;
+				}
+			} else {
+				showTextToast(R.string.not_support_this_func);
+				this.finish();
+				return -1;
+			}
+		} else {
+			// 如果有，走云视通
+			alarm_way_flag = 1;
+		}
+		if (alarm_way_flag == 1) {
+			String alarm_enable = map.get("bAlarmEnable");
+			funcParamArray[Consts.DEV_SETTINGS_ALARM - 1] = alarm_enable;
+
+			String md_enable = map.get("bMDEnable");
+			funcParamArray[Consts.DEV_SETTINGS_MD - 1] = md_enable;
+
+			alarmTime0 = map.get("alarmTime0");// alarmTime0
+			funcParamArray[Consts.DEV_SETTINGS_ALARMTIME - 1] = alarmTime0;
+
+			Log.e("Alarm", "ResolveStreamInfo >> " + alarm_enable + "--"
+					+ md_enable + "--" + alarmTime0);
+			// 兼容没有返回值的设备
+			if (onFuncOperationFlag) {
+				myHandler.removeMessages(Consts.DEV_SETTINGS_ALARM);
+				UpdateSettingsRes(funcIndex);
+				return -1;
+			}
+			if (alarm_enable == null) {
+				alarmEnabled = -1;
+			} else {
+				alarmEnabled = Integer.valueOf(alarm_enable);
+			}
+			alarmEnabling = alarmEnabled;
+
+			if (md_enable == null) {
+				// showTextToast(R.string.not_support_this_func);
+				mdEnabled = -1;
+			} else {
+				mdEnabled = Integer.valueOf(md_enable);
+			}
+			mdEnabling = mdEnabled;
+
+			if (alarm_enable == null) {
+				// showTextToast(R.string.not_support_this_func);
+				alarmTime0 = "";
+			}
+			alarmTime0ing = alarmTime0;
+		} else {
+			alarmEnabled = device.getAlarmSwitch();
+		}
+
+		initDevParamObject = new JSONObject();
+		try {
+			initDevParamObject.put("bAlarmEnable", alarmEnabled);
+			initDevParamObject.put("bMDEnable", mdEnabled);
+			initDevParamObject.put("alarmTime0", alarmTime0);
+			initDevParamObject.put("alarmWay", alarm_way_flag);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Check that the activity is using the layout version
+		// with
+		// the fragment_container FrameLayout
+		if (findViewById(R.id.fragment_container) != null) {
+
+			// However, if we're being restored from a previous
+			// state,
+			// then we don't need to do anything and should
+			// return or else
+			// we could end up with overlapping fragments.
+			// if (savedInstanceState != null) {
+			// return;
+			// }
+			deviceSettingsMainFragment = new DeviceSettingsMainFragment();
+			Bundle bundle1 = new Bundle();
+			bundle1.putString("KEY_PARAM", initDevParamObject.toString());
+			deviceSettingsMainFragment.setArguments(bundle1);
+			FragmentManager fm = getSupportFragmentManager();
+			FragmentTransaction ft = getSupportFragmentManager()
+					.beginTransaction();
+			ft.add(R.id.fragment_container, deviceSettingsMainFragment)
+					.commitAllowingStateLoss();
+			fragment_tag = 0;
+		}
+		return 0;
+
 	}
 }

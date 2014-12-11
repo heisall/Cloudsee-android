@@ -8,13 +8,16 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -34,8 +37,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	}
 
 	private OnFuncActionListener mListener;
-	private Button func_swalert;
-	private Button func_swmotion;
+	private ImageView func_swalert;
+	private ImageView func_swmotion;
 	private int func_alert_enabled = -1;
 	private int func_motion_enabled = -1;
 	private int alarm_way_flag = -1;// ///////////判断的优先级最高
@@ -72,8 +75,10 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		if (parent != null) {
 			parent.removeView(rootView);
 		}
-		func_swalert = (Button) rootView.findViewById(R.id.function_switch_11);
-		func_swmotion = (Button) rootView.findViewById(R.id.function_switch_21);
+		func_swalert = (ImageView) rootView
+				.findViewById(R.id.function_switch_11);
+		func_swmotion = (ImageView) rootView
+				.findViewById(R.id.function_switch_21);
 		functionlayout1 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout1);
 		functionlayout2 = (RelativeLayout) rootView
@@ -264,25 +269,53 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	}
 
 	@Override
-	public void onMainAction(int packet_type, int packet_subtype, int ex_type) {
+	public void onMainAction(int packet_type, int packet_subtype, int ex_type,
+			int destFlag) {
 		// TODO Auto-generated method stub
+		Log.e("Alarm", "----onMainAction---" + packet_type + "," + packet_type
+				+ "," + ex_type);
 		switch (packet_type) {
+
 		case JVNetConst.RC_EXTEND: {
 			switch (packet_subtype) {
 			case JVNetConst.RC_EX_MD:
 				if (ex_type == JVNetConst.EX_MD_SUBMIT) {
 					if (func_motion_enabled == 1) {
 						// 打开--->关闭
+						// Log.e("Alarm",
+						// "before func_motion_enabled:"+func_motion_enabled+","+destFlag);
+						if (func_motion_enabled == destFlag) {
+							Log.e("Alarm", "middle Don't need to change");
+							return;
+						}
 						func_motion_enabled = 0;
 						func_swmotion
 								.setBackgroundResource(R.drawable.morefragment_normal_icon);
+						String text = getResources().getString(
+								R.string.str_mdenabled_close_ok);
+						Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT)
+								.show();
+						// Log.e("Alarm",
+						// "after func_motion_enabled:"+func_motion_enabled);
 					} else if (func_motion_enabled == 0) {
 						// 关闭--->打开
+						if (func_motion_enabled == destFlag) {
+							Log.e("Alarm", "middle Don't need to change");
+							return;
+						}
 						func_motion_enabled = 1;
 						func_swmotion
 								.setBackgroundResource(R.drawable.morefragment_selector_icon);
+						String text = getResources().getString(
+								R.string.str_mdenabled_open_ok);
+						Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT)
+								.show();
 					} else {
 						// 隐藏
+						String text = getResources().getString(
+								R.string.str_operation_failed);
+						Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT)
+								.show();
 					}
 				}
 				break;
@@ -290,17 +323,34 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				if (ex_type == JVNetConst.EX_ALARM_SUBMIT) {
 					if (func_alert_enabled == 1) {
 						// 打开--->关闭
+						// Log.e("Alarm",
+						// "before func_alert_enabled:"+func_alert_enabled);
+						if (func_alert_enabled == destFlag) {
+							Log.e("Alarm", "middle Don't need to change");
+							return;
+						}
 						if (alarm_way_flag == 1) {
 							functionlayout2.setVisibility(View.GONE);
 							functiontips2.setVisibility(View.GONE);
 							functionlayout3.setVisibility(View.GONE);
 							functiontips3.setVisibility(View.GONE);
+
+							String text = getResources().getString(
+									R.string.protect_close_succ);
+							Toast.makeText(getActivity(), text,
+									Toast.LENGTH_SHORT).show();
 						}
 						func_alert_enabled = 0;
 						func_swalert
 								.setBackgroundResource(R.drawable.morefragment_normal_icon);
+						// Log.e("Alarm",
+						// "after func_alert_enabled:"+func_alert_enabled);
 					} else if (func_alert_enabled == 0) {
 						// 关闭--->打开
+						if (func_alert_enabled == destFlag) {
+							Log.e("Alarm", "middle Don't need to change");
+							return;
+						}
 						if (alarm_way_flag == 1) {
 							if (func_motion_enabled == -1) {
 								functionlayout2.setVisibility(View.GONE);
@@ -311,12 +361,20 @@ public class DeviceSettingsMainFragment extends Fragment implements
 								functionlayout3.setVisibility(View.VISIBLE);
 								functiontips3.setVisibility(View.VISIBLE);
 							}
+							String text = getResources().getString(
+									R.string.protect_open_succ);
+							Toast.makeText(getActivity(), text,
+									Toast.LENGTH_SHORT).show();
 						}
 						func_alert_enabled = 1;
 						func_swalert
 								.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					} else {
 						// 隐藏
+						String text = getResources().getString(
+								R.string.str_operation_failed);
+						Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT)
+								.show();
 					}
 				}
 				break;

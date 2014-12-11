@@ -63,14 +63,15 @@
                         android:visibility="gone" />
                 </LinearLayout>
 
-                <Button
+                <ImageView
                     android:id="@+id/function_switch_11"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:background="@drawable/morefragment_normal_icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/morefragment_normal_icon"
                     android:clickable="true" />
             </RelativeLayout>
 
@@ -137,14 +138,15 @@
                         android:visibility="gone" />
                 </LinearLayout>
 
-                <Button
+                <ImageView
                     android:id="@+id/function_switch_21"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
+               		android:scaleType="fitXY"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:background="@drawable/morefragment_normal_icon"
+                    android:src="@drawable/morefragment_normal_icon"
                     android:clickable="true" />
             </RelativeLayout>
 

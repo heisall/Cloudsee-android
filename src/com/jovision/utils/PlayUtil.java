@@ -862,7 +862,7 @@ public class PlayUtil {
 
 						// ((View) mLastPlayView.getParent())
 						// .setBackgroundColor(Color.BLACK);
-						MyLog.v("disconnect", channleList.get(i).toString()
+						MyLog.e("disconnect", channleList.get(i).toString()
 								+ "");
 						Jni.disconnect(channleList.get(i).getIndex());
 					}

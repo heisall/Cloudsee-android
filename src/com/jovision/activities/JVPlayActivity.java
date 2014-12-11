@@ -1323,6 +1323,7 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	protected void initSettings() {
 		TAG = "PlayA";
+		MyLog.enableLogcat(true);
 
 		isQuit = false;
 		isOmx = false;
@@ -2007,16 +2008,18 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			if (ONE_SCREEN != currentScreen) {
+				Channel ch;
 				int size = currentPageChannelList.size();
 				for (int i = 0; i < size; i++) {
-					if (lastClickIndex - 1 > i && lastClickIndex + 1 < i) {
-						disconnectChannelList
-								.add(currentPageChannelList.get(i));
-					} else if (lastClickIndex == i) {
+					ch = currentPageChannelList.get(i);
+					if (lastClickIndex - 1 > ch.getIndex()
+							|| lastClickIndex + 1 < ch.getIndex()) {
+						disconnectChannelList.add(ch);
+					} else if (lastClickIndex == ch.getIndex()) {
 						// [Neo] Empty
 					} else {
 						// [Neo] stand alone for single destroy window, too
-						pauseChannel(currentPageChannelList.get(i));
+						pauseChannel(ch);
 					}
 				}
 				changeWindow(ONE_SCREEN);

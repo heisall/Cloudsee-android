@@ -146,6 +146,7 @@ public class Consts {
 	public static final int RESULT_SUCCESS = 0x01;
 	public static final int RESULT_NO_FILENAME = 0x10;
 	public static final int RESULT_OPEN_FAILED = 0x11;
+	public static final int RESULT_NO_DATA = 0x12;
 
 	public static final int ARG1_PLAY_BAD = 0x01;
 

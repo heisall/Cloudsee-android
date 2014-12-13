@@ -98,17 +98,20 @@ public class MediaFolderAdapter extends BaseAdapter {
 									.get(folderPath);
 							mediaAdaper.setData(daArrayList, media, fileArray,
 									loadImg, isdelect);
-							for (int i = 0; i < daArrayList.size(); i++) {
-								if (position == i) {
-									if (daArrayList.get(i).isSelect()) {
-										daArrayList.get(i).setSelect(false);
-										JVMediaListActivity.fileSelectSum--;
-									} else {
-										daArrayList.get(i).setSelect(true);
-										JVMediaListActivity.fileSelectSum++;
+							if (null != daArrayList) {
+								for (int i = 0; i < daArrayList.size(); i++) {
+									if (position == i) {
+										if (daArrayList.get(i).isSelect()) {
+											daArrayList.get(i).setSelect(false);
+											JVMediaListActivity.fileSelectSum--;
+										} else {
+											daArrayList.get(i).setSelect(true);
+											JVMediaListActivity.fileSelectSum++;
+										}
 									}
 								}
 							}
+
 						}
 						mediaAdaper.notifyDataSetChanged();
 						if (JVMediaListActivity.fileSelectSum == JVMediaListActivity.fileSum) {

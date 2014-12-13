@@ -471,14 +471,20 @@ public class JVWaveSetActivity extends BaseActivity {
 				showLayoutAtIndex(currentStep);
 				break;
 			case R.id.press_sendwave:
-				if (null != mediaPlayer) {
-					mediaPlayer.stop();
+
+				try {
+					if (null != mediaPlayer) {
+						mediaPlayer.stop();
+					}
+					playAudio.startPlay(playBytes, true);
+					waveScaleAnim.start();
+					params = desWifiName.getText() + ";" + desWifiPwd.getText();
+					MyLog.v(TAG, "params:" + params);
+					Jni.genVoice(params);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				playAudio.startPlay(playBytes, true);
-				waveScaleAnim.start();
-				params = desWifiName.getText() + ";" + desWifiPwd.getText();
-				MyLog.v(TAG, "params:" + params);
-				Jni.genVoice(params);
+
 				break;
 			case R.id.showdemo:
 				currentStep = 3;

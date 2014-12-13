@@ -160,7 +160,7 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 		protected Integer doInBackground(String... params) {
 			int addRes = -1;// 0:成功，其他失败
 			try {
-				ip = ConfigUtil.getInetAddress(ipString);
+				ip = ConfigUtil.getIpAddress(ipString);
 				Device dev = new Device(ip, Integer.valueOf(portString),
 						ipString, -1, userString, pwdString, false, 4, 0);
 				dev.setIsDevice(2);

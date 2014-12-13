@@ -1,9 +1,7 @@
 package com.jovision.activities;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -325,6 +323,9 @@ public class JVMoreFragment extends BaseFragment {
 	}
 
 	public void saveBitmap(Bitmap bm) {
+		if (null == bm) {
+			return;
+		}
 		File f = new File(Consts.HEAD_PATH + more_name + ".jpg");
 		if (f.exists()) {
 			f.delete();
@@ -334,11 +335,7 @@ public class JVMoreFragment extends BaseFragment {
 			bm.compress(Bitmap.CompressFormat.PNG, 90, out);
 			out.flush();
 			out.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

@@ -83,57 +83,64 @@ public class MyGestureDispatcher {
 	 */
 	public boolean motion(MotionEvent event) {
 		boolean result = false;
-
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN: {
-			if (false == ignoreReport) {
-				lastDownX = event.getX();
-				lastDownY = event.getY();
-				isReported = false;
-				currentDirection = GESTURE_TO_NULL;
-			}
-			break;
-		}
-
-		case MotionEvent.ACTION_UP:
-			isReported = true;
-			break;
-
-		case MotionEvent.ACTION_MOVE: {
-			if (isReported || ignoreReport) {
+		try {
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN: {
+				if (false == ignoreReport) {
+					lastDownX = event.getX();
+					lastDownY = event.getY();
+					isReported = false;
+					currentDirection = GESTURE_TO_NULL;
+				}
 				break;
 			}
 
-			float upOffset = lastDownY - event.getY();
-			float rightOffset = event.getX() - lastDownX;
-
-			// [Neo] 盲区判断
-			if ((upOffset * upOffset + rightOffset * rightOffset) < blindAreaRSquare) {
-				break;
-			}
-
-			// [Neo] 点与面的关系，哇咔咔
-			if (upOffset + rightOffset > 0 && upOffset - rightOffset < 0) {
-				currentDirection = GESTURE_TO_RIGHT;
-			} else if (upOffset + rightOffset > 0 && upOffset - rightOffset > 0) {
-				currentDirection = GESTURE_TO_UP;
-			} else if (upOffset + rightOffset < 0 && upOffset - rightOffset > 0) {
-				currentDirection = GESTURE_TO_LEFT;
-			} else if (upOffset + rightOffset < 0 && upOffset - rightOffset < 0) {
-				currentDirection = GESTURE_TO_DOWN;
-			}
-
-			if (null != listener) {
-				result = true;
+			case MotionEvent.ACTION_UP:
 				isReported = true;
-				listener.onGesture(currentDirection);
+				break;
+
+			case MotionEvent.ACTION_MOVE: {
+				if (isReported || ignoreReport) {
+					break;
+				}
+
+				float upOffset = lastDownY - event.getY();
+				float rightOffset = event.getX() - lastDownX;
+
+				// [Neo] 盲区判断
+				if ((upOffset * upOffset + rightOffset * rightOffset) < blindAreaRSquare) {
+					break;
+				}
+
+				// [Neo] 点与面的关系，哇咔咔
+				if (upOffset + rightOffset > 0 && upOffset - rightOffset < 0) {
+					currentDirection = GESTURE_TO_RIGHT;
+				} else if (upOffset + rightOffset > 0
+						&& upOffset - rightOffset > 0) {
+					currentDirection = GESTURE_TO_UP;
+				} else if (upOffset + rightOffset < 0
+						&& upOffset - rightOffset > 0) {
+					currentDirection = GESTURE_TO_LEFT;
+				} else if (upOffset + rightOffset < 0
+						&& upOffset - rightOffset < 0) {
+					currentDirection = GESTURE_TO_DOWN;
+				}
+
+				if (null != listener) {
+					result = true;
+					isReported = true;
+					listener.onGesture(currentDirection);
+				}
+
+				break;
 			}
 
-			break;
-		}
+			default:
+				break;
+			}
 
-		default:
-			break;
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
 		}
 
 		return result;

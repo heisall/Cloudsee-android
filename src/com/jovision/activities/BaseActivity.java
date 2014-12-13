@@ -202,9 +202,9 @@ public abstract class BaseActivity extends FragmentActivity implements
 	 * @param id
 	 */
 	public void showTextToast(int id) {
-		String msg = BaseActivity.this.getResources().getString(id);
+		String msg = getApplication().getResources().getString(id);
 		if (toast == null) {
-			toast = Toast.makeText(BaseActivity.this, msg, Toast.LENGTH_SHORT);
+			toast = Toast.makeText(getApplication(), msg, Toast.LENGTH_SHORT);
 		} else {
 			toast.setText(msg);
 		}
@@ -219,7 +219,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	 */
 	public void showTextToast(String msg) {
 		if (toast == null) {
-			toast = Toast.makeText(BaseActivity.this, msg, Toast.LENGTH_SHORT);
+			toast = Toast.makeText(getApplication(), msg, Toast.LENGTH_SHORT);
 		} else {
 			toast.setText(msg);
 		}

@@ -977,7 +977,7 @@ public class ConfigUtil {
 		return wifiList;
 	}
 
-	public static String getInetAddress(String host) {
+	public static String getIpAddress(String host) {
 		String IPAddress = "";
 		InetAddress ReturnStr1 = null;
 		try {

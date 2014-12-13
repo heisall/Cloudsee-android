@@ -69,7 +69,10 @@ public class ManageFragment extends BaseFragment {
 		bundle = getArguments();
 		deviceIndex = bundle.getInt("DeviceIndex");
 		deviceList = CacheUtil.getDevList();
-		device = deviceList.get(deviceIndex);
+		if (null != deviceList && 0 != deviceList.size()
+				&& deviceIndex < deviceList.size()) {
+			device = deviceList.get(deviceIndex);
+		}
 		super.onCreate(savedInstanceState);
 	}
 

@@ -49,7 +49,6 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	protected NotificationManager mNotifyer;
 	private ActivityManager activityManager;
 	private String packageName;
-	private Context context;
 
 	/**
 	 * 获取活动集合
@@ -80,7 +79,6 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	public void onCreate() {
 		super.onCreate();
 		// // 开启服务
-		context = this;
 		// Intent intent = new Intent();
 		// intent.setClass(this, MainService.class);
 		// startService(intent);

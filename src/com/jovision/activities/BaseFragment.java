@@ -50,9 +50,10 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 
 		@Override
 		public void handleMessage(Message msg) {
-			fragment.fragNotify
-					.onHandler(msg.what, msg.arg1, msg.arg2, msg.obj);
-
+			if (null != msg) {
+				fragment.fragNotify.onHandler(msg.what, msg.arg1, msg.arg2,
+						msg.obj);
+			}
 			super.handleMessage(msg);
 		}
 

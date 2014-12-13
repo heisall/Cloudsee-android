@@ -57,9 +57,8 @@ public class ChannelFragment extends BaseFragment {
 
 	private Button connectAll;
 
-	// public ChannelFragment() {
-	// deviceList = new ArrayList<Device>();
-	// }
+	public ChannelFragment() {
+	}
 
 	// public ChannelFragment(ArrayList<Device> deviceList) {
 	// this.deviceList = deviceList;

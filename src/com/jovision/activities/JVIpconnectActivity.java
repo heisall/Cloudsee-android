@@ -372,7 +372,7 @@ public class JVIpconnectActivity extends BaseActivity {
 				int isDevice = Integer.parseInt(params[0]);
 
 				if (1 == isDevice) {// IP
-					editDevice.setIp(ConfigUtil.getInetAddress(ipString));
+					editDevice.setIp(ConfigUtil.getIpAddress(ipString));
 					editDevice.setPort(Integer.valueOf(portString));
 					editDevice.setUser(userString);
 					editDevice.setPwd(pwdString);
@@ -394,7 +394,7 @@ public class JVIpconnectActivity extends BaseActivity {
 				if (0 == editRes) {
 					if (1 == isDevice) {// IP
 						deviceList.get(deviceIndex).setIp(
-								ConfigUtil.getInetAddress(ipString));
+								ConfigUtil.getIpAddress(ipString));
 						deviceList.get(deviceIndex).setPort(
 								Integer.valueOf(portString));
 						deviceList.get(deviceIndex).setUser(userString);

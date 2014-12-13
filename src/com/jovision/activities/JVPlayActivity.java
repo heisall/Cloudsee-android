@@ -1818,7 +1818,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			Device device = channel.getParent();
 			if (2 == device.getIsDevice()) {
-				ip = ConfigUtil.getInetAddress(device.getDoMain());
+				ip = ConfigUtil.getIpAddress(device.getDoMain());
 				port = 9101;
 			}
 
@@ -2981,10 +2981,15 @@ public class JVPlayActivity extends PlayActivity implements
 						public void onClick(DialogInterface dialog, int which) {
 							dialog.dismiss();
 							showingDialog = false;
-							Uri uri = Uri
-									.parse("http://down.jovision.com:81/cn/data/CloudSEE2.8.5.apk");
-							Intent it = new Intent(Intent.ACTION_VIEW, uri);
-							startActivity(it);
+							try {
+								Uri uri = Uri
+										.parse("http://down.jovision.com:81/cn/data/CloudSEE2.8.5.apk");
+								Intent it = new Intent(Intent.ACTION_VIEW, uri);
+								startActivity(it);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
 						}
 
 					});

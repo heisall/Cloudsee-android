@@ -79,8 +79,7 @@ public class JVLoginActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case WHAT_SHOW_PRO: {
-			createDialog("");
-			proDialog.setCancelable(false);
+			createDialog("", false);
 			break;
 		}
 		case DELECT_USER:
@@ -257,7 +256,7 @@ public class JVLoginActivity extends BaseActivity {
 			userNameET.setText(userName);
 			passwordET.setText(userPass);
 
-			createDialog(R.string.logining);
+			createDialog(R.string.logining, true);
 			LoginTask task = new LoginTask();
 			String[] strParams = new String[3];
 			task.execute(strParams);
@@ -325,7 +324,7 @@ public class JVLoginActivity extends BaseActivity {
 				} else if ("".equalsIgnoreCase(passwordET.getText().toString())) {
 					showTextToast(R.string.login_str_loginpass1_notnull);
 				} else {
-					createDialog(R.string.logining);
+					createDialog(R.string.logining, true);
 					userName = userNameET.getText().toString();
 					passWord = passwordET.getText().toString();
 					statusHashMap.put(Consts.KEY_USERNAME, userName);
@@ -558,8 +557,7 @@ public class JVLoginActivity extends BaseActivity {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog("");
-			proDialog.setCancelable(false);
+			createDialog("", false);
 		}
 
 		@Override

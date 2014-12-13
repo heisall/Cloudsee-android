@@ -209,7 +209,7 @@ public class JVEditOldPassActivity extends BaseActivity {
 						.toString())) {
 					showTextToast(R.string.login_str_password_tips1);
 				} else {
-					createDialog("");
+					createDialog("", true);
 					statusHashMap.put("KEY_PASSWORD", pass1EditText.getText()
 							.toString());
 					FinishThread finishThread = new FinishThread(

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -151,15 +150,7 @@ public abstract class ShakeActivity extends BaseActivity implements
 				mVibrator.vibrate(100);
 				prepareAndPlay(1);
 			}
-
-			// 加载设备通道数据
-			if (null == proDialog) {
-				proDialog = new ProgressDialog(ShakeActivity.this);
-				proDialog.setCancelable(false);
-			}
-			proDialog.setMessage(getResources().getString(
-					R.string.quick_setting_searching));
-			proDialog.show();
+			createDialog(R.string.quick_setting_searching, false);
 			GetWifiThread gwt = new GetWifiThread(ShakeActivity.this);
 			gwt.start();
 		}

@@ -183,7 +183,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-			createDialog(R.string.connecting);
+			createDialog(R.string.connecting, true);
 			RemoteVideo videoBean = videoList.get(arg2);
 			String acBuffStr = PlayUtil.getPlayFileString(videoBean, isJFH,
 					deviceType, year, month, day, arg2);
@@ -226,7 +226,7 @@ public class JVRemoteListActivity extends BaseActivity {
 	 */
 	public void searchRemoteData(final int sleepCount) {
 
-		createDialog(R.string.str_loading_data);
+		createDialog(R.string.str_loading_data, true);
 
 		String temStr = selectDate.getText().toString();
 		String[] temArray = temStr.split("-");

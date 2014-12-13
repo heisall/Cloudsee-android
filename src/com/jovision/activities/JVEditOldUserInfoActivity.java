@@ -141,7 +141,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 						int res = AccountUtil.VerifyUserName(userNameEditText
 								.getText().toString());
 						if (res >= 0) {
-							createDialog("");
+							createDialog("", true);
 							new Thread() {
 								public void run() {
 									nameExists = AccountUtil
@@ -221,7 +221,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 						.getText().toString())) {
 					showTextToast(R.string.login_str_username_tips3);
 				} else {
-					createDialog("");
+					createDialog("", true);
 					statusHashMap.put(Consts.KEY_USERNAME, userNameEditText
 							.getText().toString());
 
@@ -315,7 +315,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog("");
+			createDialog("", true);
 		}
 
 		@Override

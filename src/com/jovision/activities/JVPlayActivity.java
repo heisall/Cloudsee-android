@@ -316,7 +316,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case WHAT_SHOW_PROGRESS: {
-			createDialog("");
+			createDialog("", true);
 			break;
 		}
 		case WHAT_FINISH: {
@@ -1313,7 +1313,7 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog("");
+			createDialog("", true);
 		}
 
 		@Override
@@ -2192,7 +2192,7 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 				if (allowThisFuc(false)) {
 					if (channel.getParent().is05()) {
-						createDialog("");
+						createDialog("", true);
 						if (channel.isOMX()) {// 硬解切成软解
 							Jni.setOmx(lastClickIndex, false);
 						} else {// 软解切成硬解
@@ -2250,7 +2250,7 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 				if (allowThisFuc(false)) {
 					try {
-						createDialog("");
+						createDialog("", true);
 						if (Consts.STORAGEMODE_ALARM == channel
 								.getStorageMode()) {
 							Jni.sendString(lastClickIndex,
@@ -2291,7 +2291,7 @@ public class JVPlayActivity extends PlayActivity implements
 					streamListView.setVisibility(View.GONE);
 				}
 				if (isBlockUi) {
-					createDialog("");
+					createDialog("", true);
 				} else {
 					if (popScreen == null) {
 						if (null != screenList && 0 != screenList.size()) {
@@ -2469,7 +2469,7 @@ public class JVPlayActivity extends PlayActivity implements
 						} else {
 							JVPlayActivity.AUDIO_SINGLE = channelList.get(
 									lastClickIndex).isSingleVoice();
-							createDialog("");
+							createDialog("", true);
 							startVoiceCall(lastClickIndex,
 									channelList.get(lastClickIndex));
 							if (Consts.PLAY_AP == playFlag) {
@@ -2600,8 +2600,7 @@ public class JVPlayActivity extends PlayActivity implements
 		} else {
 
 			stopAllFunc();
-			createDialog("");
-			proDialog.setCancelable(false);
+			createDialog("", false);
 			// 返回超时，重新点击返回
 			// backTimer = new Timer();
 			// backTimer.schedule(new BackTask(), 15 * 1000);
@@ -2695,7 +2694,7 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog("");
+			createDialog("", true);
 		}
 
 		@Override

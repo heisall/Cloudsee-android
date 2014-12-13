@@ -176,7 +176,7 @@ public class JVFeedbackActivity extends BaseActivity {
 						}
 
 					} else {
-						createDialog("");
+						createDialog("", true);
 						FeedbackThread feedbackThread = new FeedbackThread();
 						feedbackThread.start();
 					}

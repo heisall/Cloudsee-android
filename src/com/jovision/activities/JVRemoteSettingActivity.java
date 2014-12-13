@@ -1235,10 +1235,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 	public void back() {
 		if (PlayUtil.disconnectDevice()) {
-			createDialog("");
-			if (null != proDialog) {
-				proDialog.setCancelable(false);
-			}
+			createDialog("", false);
 			while (!disConnected) {
 				try {
 					Thread.sleep(200);

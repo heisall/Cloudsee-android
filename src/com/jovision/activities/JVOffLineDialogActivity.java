@@ -209,7 +209,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			switch (view.getId()) {
 			case R.id.keeponline: {
 				stopTimer();
-				createDialog(R.string.logining);
+				createDialog(R.string.logining, true);
 				LoginTask task = new LoginTask();
 				String[] strParams = new String[3];
 				task.execute(strParams);
@@ -254,7 +254,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 				// // 这个类主要来发送邮件
 				// sms = new SimpleMailSender();
 
-				createDialog("");
+				createDialog("", true);
 				SendMailThread thread = new SendMailThread();
 				thread.start();
 				break;
@@ -335,7 +335,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog("");
+			createDialog("", true);
 		}
 
 		@Override
@@ -453,7 +453,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog("");
+			createDialog("", true);
 		}
 
 		@Override

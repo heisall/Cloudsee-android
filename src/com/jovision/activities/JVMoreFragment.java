@@ -320,7 +320,7 @@ public class JVMoreFragment extends BaseFragment {
 			Bitmap photo = bundle.getParcelable("data");
 			saveBitmap(photo);
 			Drawable drawable = new BitmapDrawable(photo);
-			more_head.setBackground(drawable);
+			more_head.setBackgroundDrawable(drawable);
 		}
 	}
 
@@ -509,7 +509,7 @@ public class JVMoreFragment extends BaseFragment {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			mActivity.createDialog("");
+			mActivity.createDialog("", true);
 		}
 
 		@Override
@@ -560,7 +560,7 @@ public class JVMoreFragment extends BaseFragment {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			((BaseActivity) mActivity).createDialog("");
+			((BaseActivity) mActivity).createDialog("", true);
 		}
 
 		@Override

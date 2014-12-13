@@ -121,7 +121,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 						.toString())) {
 					showTextToast(R.string.login_str_loginemail_tips);
 				} else {
-					createDialog("");
+					createDialog("", true);
 					BindTask task = new BindTask();
 					String[] params = new String[3];
 					task.execute(params);
@@ -212,7 +212,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog("");
+			createDialog("", true);
 		}
 
 		@Override

@@ -50,7 +50,7 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 		if (isLocal) {
 			mVideoView.setVideoPath(url);
 		} else {
-			createDialog(R.string.connecting_buffer2);
+			createDialog(R.string.connecting_buffer2, true);
 			mVideoView.setVideoURI(Uri.parse(url));
 		}
 

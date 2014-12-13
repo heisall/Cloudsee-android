@@ -164,7 +164,7 @@ public class JVMediaListActivity extends BaseActivity {
 		noFileLayout = (LinearLayout) findViewById(R.id.nofilelayout);
 		fileListView = (ListView) findViewById(R.id.filelistview);
 		mfAdapter = new MediaFolderAdapter(JVMediaListActivity.this);
-		createDialog("");
+		createDialog("", true);
 		LoadImageThread loadThread = new LoadImageThread();
 		loadThread.start();
 	}
@@ -265,7 +265,9 @@ public class JVMediaListActivity extends BaseActivity {
 						File[] fileArray = file.listFiles();
 						for (int j = 0; j < fileArray.length; j++) {
 							Log.i("TAG", fileArray[j].getAbsolutePath());
-							if (fileArray[j].list().length == 0) {
+							if (null != fileArray[j]
+									&& null != fileArray[j].list()
+									&& fileArray[j].list().length == 0) {
 								delete(fileArray[j]);
 							}
 						}

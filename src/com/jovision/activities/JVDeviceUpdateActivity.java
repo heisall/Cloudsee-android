@@ -244,7 +244,7 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 				break;
 			}
 			case R.id.update: {// 一键升级
-				createDialog("");
+				createDialog("", true);
 				CheckUpdateTask task = new CheckUpdateTask();
 				String[] params = new String[3];
 				task.execute(params);
@@ -302,7 +302,7 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 										String[] params = new String[3];
 										task.execute(params);
 										JVDeviceUpdateActivity.this
-												.createDialog("");
+												.createDialog("", true);
 										dialog.dismiss();
 									}
 								})
@@ -328,7 +328,7 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			JVDeviceUpdateActivity.this.createDialog("");
+			JVDeviceUpdateActivity.this.createDialog("", true);
 		}
 
 		@Override
@@ -461,7 +461,7 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			JVDeviceUpdateActivity.this.createDialog("");
+			createDialog("", true);
 		}
 
 		@Override

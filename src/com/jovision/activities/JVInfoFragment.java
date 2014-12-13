@@ -78,7 +78,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				if (pushList.size() == 0) {
 					// mActivity.showTextToast(R.string.str_alarm_no_alarm_info);
 				} else {
-					mActivity.createDialog("");
+					mActivity.createDialog("", true);
 					ClearAlarmTask task = new ClearAlarmTask();
 					String[] params = new String[3];
 					task.execute(params);
@@ -129,7 +129,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				if (!Boolean.valueOf(mActivity.statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 
-					mActivity.createDialog("");
+					mActivity.createDialog("", true);
 					RefreshAlarmTask task = new RefreshAlarmTask();
 					String[] params = new String[3];
 					task.execute(params);
@@ -141,7 +141,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 			// Consts.pushHisCount = 0;
 			// pushList.clear();
-			mActivity.createDialog("");
+			mActivity.createDialog("", true);
 			PullRefreshAlarmTask task = new PullRefreshAlarmTask();
 			String[] params = new String[3];
 			task.execute(params);
@@ -174,7 +174,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	@Override
 	public void onRefresh() {
 		pullUp = false;
-		mActivity.createDialog("");
+		mActivity.createDialog("", true);
 		PullRefreshAlarmTask task = new PullRefreshAlarmTask();
 		String[] params = new String[3];
 		task.execute(params);
@@ -184,7 +184,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	@Override
 	public void onLoadMore() {
 		pullUp = true;
-		mActivity.createDialog("");
+		mActivity.createDialog("", true);
 		RefreshAlarmTask task = new RefreshAlarmTask();
 		String[] params = new String[3];
 		task.execute(params);
@@ -283,7 +283,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			mActivity.createDialog("");
+			mActivity.createDialog("", true);
 		}
 
 		@Override
@@ -365,7 +365,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			mActivity.createDialog("");
+			mActivity.createDialog("", true);
 		}
 
 		@Override
@@ -540,7 +540,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					mActivity.showTextToast(R.string.del_alarm_succ);
 
 					if (Consts.pushHisCount == 0) {
-						mActivity.createDialog("");
+						mActivity.createDialog("", true);
 						PullRefreshAlarmTask task = new PullRefreshAlarmTask();
 						String[] params = new String[3];
 						task.execute(params);
@@ -556,7 +556,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			mActivity.createDialog("");
+			mActivity.createDialog("", true);
 		}
 
 		@Override
@@ -612,7 +612,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			mActivity.createDialog("");
+			mActivity.createDialog("", true);
 		}
 
 		@Override

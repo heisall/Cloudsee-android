@@ -278,7 +278,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 		@Override
 		public void onRefresh(RefreshableListView listView) {
-			createDialog(R.string.quick_setting_searching);
+			createDialog(R.string.quick_setting_searching, true);
 			RefreshWifiThread giwt = new RefreshWifiThread(
 					JVQuickSettingActivity.this, isIpc);
 			giwt.start();
@@ -595,8 +595,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog(R.string.quick_setting_connecting);
-			proDialog.setCancelable(false);
+			createDialog(R.string.quick_setting_connecting, false);
 		}
 
 		@Override
@@ -800,7 +799,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					currentMenu.setText(R.string.str_quick_setting);
 				} else if (ipcLayout.getVisibility() == View.VISIBLE) {// 显示IPC网络信息列表（一级级wifi列表）
 					stopTask = true;
-					createDialog(R.string.quick_setting_exiting);
+					createDialog(R.string.quick_setting_exiting, true);
 					isBack = true;
 					ResetWifiTask task = new ResetWifiTask();
 					String[] params = new String[3];
@@ -1872,7 +1871,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				}
 				dismisQuickPopWindow();
 				isBack = true;
-				createDialog(R.string.quick_setting_exiting);
+				createDialog(R.string.quick_setting_exiting, true);
 				ResetWifiTask task = new ResetWifiTask();
 				String[] params = new String[3];
 				params[0] = "false";
@@ -1948,7 +1947,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						}
 						dismisQuickPopWindow();
 						isBack = true;
-						createDialog(R.string.quick_setting_exiting);
+						createDialog(R.string.quick_setting_exiting, true);
 						ResetWifiTask task = new ResetWifiTask();
 						String[] params = new String[3];
 						params[0] = "false";
@@ -2040,7 +2039,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						}
 						dismisQuickPopWindow();
 						isBack = true;
-						createDialog(R.string.quick_setting_exiting);
+						createDialog(R.string.quick_setting_exiting, true);
 						ResetWifiTask task = new ResetWifiTask();
 						String[] params = new String[3];
 						params[0] = "false";
@@ -2149,7 +2148,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	public void disConnectVideo() {
 
 		if (PlayUtil.disconnectDevice()) {
-			createDialog("");
+			createDialog("", true);
 			while (!disConnected) {
 				try {
 					Thread.sleep(500);

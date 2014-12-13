@@ -132,7 +132,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	 * 
 	 * @param id
 	 */
-	protected void createDialog(int id) {
+	protected void createDialog(int id, boolean cancel) {
 		try {
 			if (null != BaseActivity.this && !BaseActivity.this.isFinishing()) {
 				if (null == proDialog) {
@@ -143,6 +143,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 					if (null != BaseActivity.this
 							&& !BaseActivity.this.isFinishing()) {
 						proDialog.show();
+						proDialog.setCancelable(cancel);
 					}
 				}
 			}
@@ -157,7 +158,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	 * 
 	 * @param msg
 	 */
-	public void createDialog(String msg) {
+	public void createDialog(String msg, boolean cancel) {
 
 		if (null == msg || "".equalsIgnoreCase(msg)) {
 			msg = getResources().getString(R.string.waiting);
@@ -172,6 +173,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 					if (null != BaseActivity.this
 							&& !BaseActivity.this.isFinishing()) {
 						proDialog.show();
+						proDialog.setCancelable(cancel);
 					}
 				}
 			}

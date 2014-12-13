@@ -49,7 +49,7 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 		this.isSearching = isSearching;
 		offsetArgs = 0;
 		if (isSearching == true) {
-			playSound(Consts.SOUNDEIGHT);
+			playSound(Consts.TAG_SOUNDEIGHT);
 		}
 		invalidate();
 	}
@@ -154,7 +154,7 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 			// 打开指定音乐文件
 			String file = "";
 			switch (soundType) {
-			case Consts.SOUNDEIGHT:// 搜索声音
+			case Consts.TAG_SOUNDEIGHT:// 搜索声音
 				file = "quicksetsound.mp3";
 				break;
 			default:

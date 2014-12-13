@@ -130,7 +130,7 @@ public class JVMoreFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case Consts.PUSH_MESSAGE:
+		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
 				new AlarmDialog(mActivity).Show(obj);

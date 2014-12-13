@@ -145,7 +145,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			//
 			// };
 			// offlineTimer.schedule(offlineTask, 1 * 1000, 1 * 1000);
-		} else if (errorCode == Consts.APP_CRASH) {// 程序崩溃
+		} else if (errorCode == Consts.WHAT_APP_CRASH) {// 程序崩溃
 			otherLoginLayout.setVisibility(View.GONE);
 			offlineLayout.setVisibility(View.GONE);
 			exceptionLayout.setVisibility(View.VISIBLE);

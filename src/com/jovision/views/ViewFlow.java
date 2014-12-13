@@ -232,7 +232,8 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 			if (1 == activityTag) {// 帮助界面不自动滚动，guideActivity
 				((MainApplication) mContext.getApplicationContext()).onNotify(
-						Consts.GUID_PAGE_SCROLL, mCurrentAdapterIndex, 0, null);
+						Consts.WHAT_GUID_PAGE_SCROLL, mCurrentAdapterIndex, 0,
+						null);
 			}
 			break;
 
@@ -417,7 +418,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 					//
 					// }
 					((MainApplication) mContext.getApplicationContext())
-							.onNotify(Consts.GUID_PAGE_SCROLL,
+							.onNotify(Consts.WHAT_GUID_PAGE_SCROLL,
 									mCurrentAdapterIndex, 0, null);
 				}
 			}
@@ -506,12 +507,14 @@ public class ViewFlow extends AdapterView<Adapter> {
 		}
 
 		if (1 == activityTag) {// 帮助界面不自动滚动，guideActivity
-			((MainApplication) mContext.getApplicationContext()).onNotify(
-					Consts.GUID_PAGE_SCROLL, mCurrentAdapterIndex, 0, null);
+			((MainApplication) mContext.getApplicationContext())
+					.onNotify(Consts.WHAT_GUID_PAGE_SCROLL,
+							mCurrentAdapterIndex, 0, null);
 
 		} else if (0 == activityTag) {// MainActivity
-			((MainApplication) mContext.getApplicationContext()).onNotify(
-					Consts.GUID_PAGE_SCROLL, mCurrentAdapterIndex, 0, null);
+			((MainApplication) mContext.getApplicationContext())
+					.onNotify(Consts.WHAT_GUID_PAGE_SCROLL,
+							mCurrentAdapterIndex, 0, null);
 			// if (null != BaseApp.mainHandler) {
 			// Message msg = BaseApp.mainHandler.obtainMessage();
 			// Bundle data = new Bundle();

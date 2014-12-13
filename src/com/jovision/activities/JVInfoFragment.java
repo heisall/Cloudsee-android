@@ -480,7 +480,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			task.execute(params);
 		}
 			break;
-		case Consts.PUSH_MESSAGE:
+		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
 				new AlarmDialog(mActivity).Show(obj);

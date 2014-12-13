@@ -51,7 +51,7 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 		if (!tipDialog) {
 			tipDialog = true;
 			Intent intent = new Intent(context, JVOffLineDialogActivity.class);
-			intent.putExtra("ErrorCode", Consts.APP_CRASH);
+			intent.putExtra("ErrorCode", Consts.WHAT_APP_CRASH);
 			intent.putExtra("ErrorMsg", error);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(intent);

@@ -119,7 +119,7 @@ public class JVGuideActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case Consts.GUID_PAGE_SCROLL:
+		case Consts.WHAT_GUID_PAGE_SCROLL:
 			if (arg1 == (listViews.size() - 1)) {
 				startBtn.setVisibility(View.VISIBLE);
 			} else {

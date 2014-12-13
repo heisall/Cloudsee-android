@@ -50,7 +50,7 @@ public class JVChannelListActivity extends BaseActivity {
 		case 1222:
 			dialog(channelList.get(arg1).getChannel());
 			break;
-		case Consts.PUSH_MESSAGE:
+		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			new AlarmDialog(this).Show(obj);
 			break;

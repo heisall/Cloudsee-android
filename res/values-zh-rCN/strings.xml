@@ -659,5 +659,6 @@
     <string name="reset_passwd_confirm_passwd">确认密码</string>
     <string name="reset_passwd_new_passwd_hint">填写密码</string>
     <string name="reset_passwd_confirm_passwd_hint">再次填写确认</string>
-    <string name="reset_passwd_done">完成</string>       
+    <string name="reset_passwd_done">完成</string>
+
 </resources>

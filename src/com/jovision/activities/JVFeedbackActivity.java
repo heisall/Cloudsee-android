@@ -65,7 +65,7 @@ public class JVFeedbackActivity extends BaseActivity {
 		case Consts.WHAT_FEEDBACK_FAILED:// 反馈失败
 			// 提交建议失败，什么也不做
 			break;
-		case Consts.PUSH_MESSAGE:
+		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			new AlarmDialog(this).Show(obj);
 			break;

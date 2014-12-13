@@ -129,7 +129,8 @@ public class ChannelAdapter extends BaseAdapter {
 				}
 
 				final int channel = channelList.get(position).getChannel();
-				channelHolder.channelName.setText(channelList.get(position).getChannelName());
+				channelHolder.channelName.setText(channelList.get(position)
+						.getChannelName());
 				channelHolder.channelBG
 						.setBackgroundResource(channelResArray[((channel - 1) / 4) % 4]);
 

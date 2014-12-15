@@ -651,4 +651,13 @@
     <string name="str_register">注册</string>
     <string name="str_media">媒体</string>
 
+    <!-- 新增加的字符串 @2014-12-15 -->
+    <string name="reset_passwd_input_account">请输入需要重置密码的账号:</string>
+    <string name="reset_passwd_input_vercode">获取验证码</string>
+    <string name="reset_passwd_account">账 号</string>
+    <string name="reset_passwd_new_passwd">密 码</string>
+    <string name="reset_passwd_confirm_passwd">确认密码</string>
+    <string name="reset_passwd_new_passwd_hint">填写密码</string>
+    <string name="reset_passwd_confirm_passwd_hint">再次填写确认</string>
+    <string name="reset_passwd_done">完成</string>       
 </resources>

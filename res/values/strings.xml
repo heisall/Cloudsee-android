@@ -64,6 +64,7 @@
     <string name="more_modifypwd">Change Password</string>
     <string name="more_findpassword">Retrieve Password</string>
     <string name="more_cancel">Log Out</string>
+
     <!-- JVWelcomeActivity -->
     <string name="cloud1">CloudSEE</string>
     <string name="cloud2">Vision to world</string>
@@ -650,5 +651,13 @@
     <string name="str_demo">视频广场</string>
     <string name="str_register">注册</string>
     <string name="str_media">媒体</string>
-
+	<!-- 新增加的字符串 @2014-12-15 -->
+    <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
+	<string name="reset_passwd_input_vercode">Get verification code</string>
+	<string name="reset_passwd_account">Account</string>
+    <string name="reset_passwd_new_passwd">Password</string>
+    <string name="reset_passwd_confirm_passwd">Confirm Password</string>
+    <string name="reset_passwd_new_passwd_hint">Enter the password</string>
+    <string name="reset_passwd_confirm_passwd_hint">Enter again to confirm</string>   
+    <string name="reset_passwd_done">Done</string>
 </resources>

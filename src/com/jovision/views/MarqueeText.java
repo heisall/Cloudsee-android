@@ -1,4 +1,4 @@
-package com.jovision.utils;
+package com.jovision.views;
 
 import android.content.Context;
 import android.graphics.Rect;

@@ -2,94 +2,90 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
 
-    <TextView 
+    <TextView
         android:id="@+id/tv_phone_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="验证码将发送到您绑定的手机:"
-        android:textColor="@color/gray"
-        android:textSize="12sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
-        />
-    <LinearLayout 
+        android:text="验证码将发送到您绑定的手机:"
+        android:textColor="@color/gray"
+        android:textSize="12sp" />
+
+    <LinearLayout
         android:id="@+id/ll_phone_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@id/tv_phone_tips"
-        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
-        >
-      <TextView 
-        android:id="@+id/tv_phone_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+86"
-        android:textColor="@color/black"
-        android:textSize="22sp"        
-        android:textStyle="bold"
-        />
-      <TextView 
-        android:id="@+id/tv_phone_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="18668923919"
-        android:textColor="@color/black"
-        android:textSize="22sp"        
-        android:textStyle="bold"
-        android:layout_marginLeft="12dp"
-        />               
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tv_phone_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+86"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_phone_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="18668923919"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-	<LinearLayout 
+    <LinearLayout
         android:id="@+id/ll_verification_code"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@id/ll_phone_info"
-        android:layout_marginTop="12dp"
-        android:layout_centerHorizontal="true"	
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-	    >
-      <EditText 
-        android:id="@+id/edt_verification_code"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:textColor="@color/black"
-        android:textSize="18sp"        
-        android:background="@drawable/third_input"
-        android:layout_weight="1"
-        />
-      <TextView 
-        android:id="@+id/tv_get_verification_code"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:text="@string/reset_passwd_input_vercode"
-        android:textColor="@color/white"
-        android:textSize="12sp"        
-        android:layout_marginLeft="30dp"
-        android:gravity="center"
-        android:layout_gravity="center_vertical"
-        android:background="@drawable/blue_bg"
-        android:layout_weight="1"
-        /> 	    
-	    
-	</LinearLayout>
-	
-    <Button 
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/edt_verification_code"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/third_input"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_get_verification_code"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/blue_bg"
+            android:gravity="center"
+            android:text="@string/reset_passwd_input_vercode"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <Button
         android:id="@+id/btn_next"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
-        android:background="@drawable/blue_bg"
-        android:layout_marginTop="16dp"
-        android:text="@string/next_step"
-        android:textColor="@color/white"
         android:layout_below="@id/ll_verification_code"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        />	
+        android:layout_marginTop="16dp"
+        android:background="@drawable/blue_bg"
+        android:text="@string/next_step"
+        android:textColor="@color/white" />
+
 </RelativeLayout>

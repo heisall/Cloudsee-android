@@ -27,12 +27,6 @@ import com.jovision.bean.Device;
 import com.jovision.utils.BitmapCache;
 
 public class MyDeviceListAdapter extends BaseAdapter {
-
-	public static final int DEVICE_ITEM_CLICK = 0x10;// 设备单击事件--
-	public static final int DEVICE_ITEM_LONG_CLICK = 0x11;// 设备长按事件--
-	public static final int DEVICE_ITEM_DEL_CLICK = 0x12;// 设备删除按钮事件--
-	public static final int DEVICE_EDIT_CLICK = 0x13;// 设备编辑按钮事件--
-
 	private ArrayList<Device> deviceList;
 	private BaseFragment mfragment;
 	private LayoutInflater inflater;
@@ -354,8 +348,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 					@Override
 					public boolean onLongClick(View arg0) {
-						mfragment.onNotify(DEVICE_ITEM_LONG_CLICK, position, 0,
-								null);
+						mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_LONG_CLICK,
+								position, 0, null);
 						return false;
 					}
 				});
@@ -371,8 +365,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 					@Override
 					public boolean onLongClick(View arg0) {
-						mfragment.onNotify(DEVICE_ITEM_LONG_CLICK, position, 0,
-								null);
+						mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_LONG_CLICK,
+								position, 0, null);
 						return false;
 					}
 				});
@@ -403,11 +397,13 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		@Override
 		public void onClick(View arg0) {
 			if (1 == operate || 2 == operate) {
-				mfragment.onNotify(DEVICE_ITEM_CLICK, position, 0, null);
+				mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_CLICK, position, 0,
+						null);
 			} else if (3 == operate) {
 				dialog(position);
 			} else if (4 == operate) {
-				mfragment.onNotify(DEVICE_EDIT_CLICK, position, 0, null);
+				mfragment.onNotify(Consts.WHAT_DEVICE_EDIT_CLICK, position, 0,
+						null);
 			}
 		}
 
@@ -460,8 +456,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						mfragment.onNotify(DEVICE_ITEM_DEL_CLICK, position, 0,
-								null);
+						mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_DEL_CLICK,
+								position, 0, null);
 					}
 				});
 		builder.setNegativeButton(cancleString,

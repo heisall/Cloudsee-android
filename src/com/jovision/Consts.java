@@ -22,9 +22,8 @@ public class Consts {
 	public static final String SD_CARD_PATH = Environment
 			.getExternalStorageDirectory().getPath() + File.separator;
 
-	public static final String LOG_PATH = SD_CARD_PATH + "JCS";
+	public static final String LOG_PATH = SD_CARD_PATH + APP_NAME;
 	public static final String ACCOUNT_PATH = SD_CARD_PATH + "ACCOUNT";
-
 	public static final String CAPTURE_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "capture" + File.separator;
 	public static final String VIDEO_PATH = Consts.SD_CARD_PATH + APP_NAME
@@ -193,6 +192,9 @@ public class Consts {
 	public static final String IPC_DEFAULT_IP = "10.10.0.1";
 	public static final int IPC_DEFAULT_PORT = 9101;
 
+	public static final int LANGUAGE_ZH = 1;// 中文
+	public static final int LANGUAGE_EN = 2;// 英文
+
 	/** 播放tag */
 	public static final int PLAY_NORMAL = 0x01;
 	public static final int PLAY_DEMO = 0x02;
@@ -216,24 +218,136 @@ public class Consts {
 	/** 获取设备列表方法 */
 	public static final int GUID_FUNCTION = 0xB4;
 
-	/** tab页 onback */
-	// public static final int TAB_BACK = 1;
-	/** JVMyDeviceFragmentActivity */
-	// public static final int DEVICE_GETDATA_SUCCESS = 2;// 设备加载成功--
-	// public static final int DEVICE_GETDATA_FAILED = 3;// 设备加载失败--
-	// public static final int DEVICE_ITEM_CLICK = 4;// 设备单击事件--
-	// public static final int DEVICE_ITEM_LONG_CLICK = 5;// 设备长按事件--
-	// public static final int DEVICE_ITEM_DEL_CLICK = 6;// 设备删除按钮事件--
-	// public static final int DEVICE_EDIT_CLICK = 7;// 设备编辑按钮事件--
+	// JVOfflineActivity
+	public static final int OFFLINE_COUNTS = 15;// 15秒倒计时
+	public static final int TAG_BROAD_DEVICE_LIST = 0x05;// 广播设备列表--
+	public static final int TAG_BROAD_ADD_DEVICE = 0x06;// 添加设备的广播--
+	public static final int TAG_BROAD_THREE_MINITE = 0x07;// 三分钟广播--
+	// 视频播放状态
+	public static final int TAG_PLAY_CONNECTING = 1;// 连接中
+	public static final int TAG_PLAY_CONNECTTED = 2;// 已连接
+	public static final int TAG_PLAY_DIS_CONNECTTED = 3;// 断开
+	public static final int TAG_PLAY_CONNECTING_BUFFER = 4;// 连接成功，正在缓冲数据。。。
+	public static final int TAG_PLAY_STATUS_UNKNOWN = 5;// 未知状态
+	public static final int ARG2_STATUS_CONNECTING = 0x01;
+	public static final int ARG2_STATUS_CONNECTED = 0x02;
+	public static final int ARG2_STATUS_BUFFERING = 0x03;
+	public static final int ARG2_STATUS_DISCONNECTED = 0x04;
+	public static final int ARG2_STATUS_HAS_CONNECTED = 0x05;
+	public static final int ARG2_STATUS_CONN_OVERFLOW = 0x06;
+	public static final int ARG2_STATUS_UNKNOWN = 0x07;
+	public static final int STOP_AUDIO_GATHER = 0x08;
+	public static final int START_AUDIO_GATHER = 0x09;
 
-	// public static final int DEVICE_NO_DEVICE = 19;// 暂无设备--
+	// TODO 程序用到消息值，确保没有重复使用
+	// JVLoginActivity
+	public static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
+	public static final int WHAT_DELETE_USER = 0x02;// 删除用户
+	public static final int WHAT_SELECT_USER = 0x03;// 选择用户
+	public static final int WHAT_INIT_ACCOUNT_SDK_FAILED = 0x04;// 初始化账号sdk失败
+	// JVAddDeviceActivity
+	public static final int WHAT_BARCODE_RESULT = 0x05; // 条码扫瞄返回值
+	// JVQuickSetActivity
+	public static final int WHAT_QUICK_SETTING_IPC_WIFI_SUCCESS = 0x07;// 快速设置获取IPCwifi成功
+	public static final int WHAT_QUICK_SETTING_IPC_WIFI_FAILED = 0x08;// 快速设置获取IPCwifi失败
+	public static final int WHAT_SHAKE_IPC_WIFI_SUCCESS = 0x09;// 摇一摇搜索IPC网络成功
+	public static final int WHAT_SHAKE_IPC_WIFI_FAILED = 0x0A;// 摇一摇搜索IPC网络失败
+	public static final int WHAT_AP_SET_SUCCESS = 0x0B;// AP配置成功
+	public static final int WHAT_AP_SET_FAILED = 0x0C;// 刷新AP配置失败
+	public static final int WHAT_DEVICE_MOST_COUNT = 0x0D;// 设备超过最大数
+	public static final int WHAT_QUICK_SETTING_WIFI_CHANGED_FAIL = 0x0E;// 快速设置退出时wifi切换失败
+	public static final int WHAT_QUICK_SETTING_MOBILE_WIFI_SUCC = 0x10;// 快速配置手机wifi列表获取成功
+	public static final int WHAT_QUICK_SETTING_WIFI_CONTINUE_SET = 0x12;// 快速设置继续配置wifi
+	public static final int WHAT_QUICK_SETTING_WIFI_FINISH_SET = 0x13;// 快速设置完成wifi配置
 
-	/** ChannelFragment */
-	// public static final int CHANNEL_ITEM_CLICK = 20;// 通道单击事件--
-	// public static final int CHANNEL_ITEM_LONG_CLICK = 21;// 通道长按事件--
-	// public static final int CHANNEL_ITEM_DEL_CLICK = 22;// 通道删除按钮事件--
-	// public static final int CHANNEL_ADD_CLICK = 23;// 通道添加事件--
-	// public static final int CHANNEL_EDIT_CLICK = 24;// 通道删除按钮事件--
+	// JVMyDeviceFragment
+	public static final int WHAT_DEVICE_ITEM_CLICK = 0x10;// 设备单击事件--
+	public static final int WHAT_DEVICE_ITEM_LONG_CLICK = 0x11;// 设备长按事件--
+	public static final int WHAT_DEVICE_ITEM_DEL_CLICK = 0x12;// 设备删除按钮事件--
+	public static final int WHAT_DEVICE_EDIT_CLICK = 0x13;// 设备编辑按钮事件--
+	// JVTabActivity
+	public static final int WHAT_TAB_BACK = 0x14;
+
+	// ChannelAdapter
+	public static final int WHAT_CHANNEL_ITEM_CLICK = 0x30;// 通道单击事件--
+	public static final int WHAT_CHANNEL_ITEM_LONG_CLICK = 0x31;// 通道长按事件--
+	public static final int WHAT_CHANNEL_ITEM_DEL_CLICK = 0x35;// 通道删除按钮事件--
+	public static final int WHAT_CHANNEL_ADD_CLICK = 0x33;// 通道添加事件--
+	public static final int WHAT_CHANNEL_EDIT_CLICK = 0x34;// 通道删除按钮事件--
+	// PushAdapter
+	public static final int WHAT_DELETE_ALARM_MESS = 0x35;// 删除报警
+
+	// JVMediaListActivity 媒体
+	public static final int WHAT_LOAD_IMAGE_SUCCESS = 0x41;
+	public static final int WHAT_LOAD_IMAGE_FINISHED = 0x42;
+	public static final int WHAT_FILE_LOAD_SUCCESS = 0x43;
+	public static final int WHAT_FILE_NUM = 0x44;
+	public static final int WHAT_FILE_SUM = 0x45;
+
+	// JVOfflineActivity
+	public static final int WHAT_COUNT_END = 0x50;// 倒计时结束
+	public static final int WHAT_COUNTING = 0x51;// 倒计时
+
+	public static final int WHAT_SEND_MAIL_SUCC = 0x52;// 邮件发送成功
+	public static final int WHAT_SEND_MAIL_FAIL = 0x53;// 邮件发送失败
+	public static final int WHAT_SEND_MAIL_SHOWMSG = 0x54;// 弹提示
+
+	// StreamAdapter
+	public static final int WHAT_STREAM_ITEM_CLICK = 0x60;// 码流单击事件--
+	public static final int WHAT_SELECT_SCREEN = 0x61;// 下拉选择多屏
+
+	// JVRemotePlayBackActivity
+	public static final int WHAT_REMOTE_DATA_SUCCESS = 0x70;// 数据加载成功
+	public static final int WHAT_REMOTE_DATA_FAILED = 0x71;// 数据加载失败
+	public static final int WHAT_REMOTE_NO_DATA_FAILED = 0x72;// 暂无远程视频
+	public static final int WHAT_REMOTE_START_PLAY = 0x73;// 开始播放远程视频
+	public static final int WHAT_REMOTE_PLAY_FAILED = 0x74;// 播放失败
+	public static final int WHAT_REMOTE_PLAY_NOT_SUPPORT = 0x75;// 手机暂不支持播放1080p的视频
+	public static final int WHAT_REMOTE_PLAY_EXCEPTION = 0x76;// 与主控断开连接
+	public static final int WHAT_REMOTE_PLAY_DISMISS_PROGRESS = 0x77;// 隐藏远程回放进度条
+
+	// JVDeviceUpdateActivity 一键升级
+	public static final int WHAT_DOWNLOAD_KEY_UPDATE_SUCCESS = 0x80;
+	public static final int WHAT_DOWNLOAD_KEY_UPDATE_CANCEL = 0x81;
+	public static final int WHAT_DOWNLOADING_KEY_UPDATE = 0x82;
+	public static final int WHAT_DOWNLOAD_KEY_UPDATE_ERROR = 0x83;
+	public static final int WHAT_RESTART_DEVICE_SUCCESS = 0x84;
+	public static final int WHAT_RESTART_DEVICE_FAILED = 0x85;
+	public static final int WHAT_WRITE_KEY_UPDATE_SUCCESS = 0x86;
+
+	// JVFeedBackActivity
+	public static final int WHAT_FEEDBACK_SUCCESS = 0x90;// 提交意见反馈成功
+	public static final int WHAT_FEEDBACK_FAILED = 0x91;// 提交意见反馈失败
+
+	// JVWaveSetActivity
+	public static final int WHAT_PLAY_AUDIO_WHAT = 0xA1;
+	public static final int WHAT_SEND_WAVE_FINISHED = 0xA2;// 声波发送完毕
+	public static final int WHAT_BROAD_DEVICE = 0xA3;// 广播到一个设备
+	public static final int WHAT_BROAD_FINISHED = 0xA4;// 广播回调完毕
+	public static final int WHAT_ADD_DEVICE = 0xA5;// 添加设备
+	public static final int WHAT_SEND_WAVE = 0xA6;// 发送声波命令
+
+	// JVPlayActivity
+	public static final int WHAT_CHECK_SURFACE = 0x20;
+	public static final int WHAT_RESTORE_UI = 0x21;
+	public static final int WHAT_PLAY_STATUS = 0x22;
+	public static final int WHAT_SHOW_PROGRESS = 0x23;
+	public static final int WHAT_DISMISS_PROGRESS = 0x24;
+	public static final int WHAT_FINISH = 0x25;
+
+	public static final int WHAT_AP_CONNECT_FINISHED = 337;// AP视频检测完成
+	public static final int WHAT_START_CONNECT = 0x53;// 进播放开始连接
+	public static final int WHAT_AP_CONNECT_REQUEST = 354;// AP请求ActivityForResult
+
+	// JVMyDeviceFragment
+	public static final int WHAT_DEVICE_GETDATA_SUCCESS = 0x02;// 设备加载成功--
+	public static final int WHAT_DEVICE_GETDATA_FAILED = 0x03;// 设备加载失败--
+	public static final int WHAT_DEVICE_NO_DEVICE = 0x04;// 暂无设备--
+
+	public static final int WHAT_AUTO_UPDATE = 0x08;// 2分钟自动刷新时间到--
+
+	public static final int WHAT_AD_UPDATE = 0x09;// 广告刷新
+	public static final int WHAT_DEV_GETFINISHED = 0x0A;// 获取完设备列表
 
 	/** ChannelFragment onResume */
 	public static final int CHANNEL_FRAGMENT_ONRESUME = 40;// ChannelFragment

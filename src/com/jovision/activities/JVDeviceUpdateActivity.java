@@ -21,14 +21,6 @@ import com.jovision.utils.DeviceUtil;
 
 public class JVDeviceUpdateActivity extends BaseActivity {
 
-	private static final int DOWNLOAD_KEY_UPDATE_SUCCESS = 0x80;
-	private static final int DOWNLOAD_KEY_UPDATE_CANCEL = 0x81;
-	private static final int DOWNLOADING_KEY_UPDATE = 0x82;
-	private static final int DOWNLOAD_KEY_UPDATE_ERROR = 0x83;
-	private static final int RESTART_DEVICE_SUCCESS = 0x84;
-	private static final int RESTART_DEVICE_FAILED = 0x85;
-	private static final int WRITE_KEY_UPDATE_SUCCESS = 0x86;
-
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private int devIndex;
 
@@ -48,7 +40,7 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case DOWNLOAD_KEY_UPDATE_SUCCESS:
+		case Consts.WHAT_DOWNLOAD_KEY_UPDATE_SUCCESS:
 			if (null != updateDialog && updateDialog.isShowing()) {
 				updateDialog.dismiss();
 				updateDialog = null;
@@ -78,36 +70,37 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 							if (100 <= pro) {
 								flag = false;
 								handler.sendMessage(handler
-										.obtainMessage(WRITE_KEY_UPDATE_SUCCESS));
+										.obtainMessage(Consts.WHAT_WRITE_KEY_UPDATE_SUCCESS));
 							} else if (-1 == pro) {
 								time++;
 							} else {
 								time = 0;
 								handler.sendMessage(handler.obtainMessage(
-										DOWNLOADING_KEY_UPDATE, pro, 0));
+										Consts.WHAT_DOWNLOADING_KEY_UPDATE,
+										pro, 0));
 								Thread.sleep(1000);
 							}
 							if (time >= 5) {
 								flag = false;
 								handler.sendMessage(handler
-										.obtainMessage(DOWNLOAD_KEY_UPDATE_ERROR));
+										.obtainMessage(Consts.WHAT_DOWNLOAD_KEY_UPDATE_ERROR));
 							}
 						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 						handler.sendMessage(handler
-								.obtainMessage(DOWNLOAD_KEY_UPDATE_ERROR));
+								.obtainMessage(Consts.WHAT_DOWNLOAD_KEY_UPDATE_ERROR));
 					}
 				}
 			}.start();
 			break;
-		case DOWNLOADING_KEY_UPDATE:
+		case Consts.WHAT_DOWNLOADING_KEY_UPDATE:
 			if (null != updateDialog && updateDialog.isShowing()) {
 				MyLog.e("sss", arg1 + " arg1");
 				updateDialog.setProgress(arg1);
 			}
 			break;
-		case DOWNLOAD_KEY_UPDATE_ERROR:
+		case Consts.WHAT_DOWNLOAD_KEY_UPDATE_ERROR:
 			if (null != updateDialog && updateDialog.isShowing()) {
 				updateDialog.dismiss();
 			}
@@ -115,23 +108,23 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 					.showTextToast(R.string.check_key_update_error);
 			break;
 
-		case RESTART_DEVICE_SUCCESS:
+		case Consts.WHAT_RESTART_DEVICE_SUCCESS:
 			deviceList.get(devIndex).setDeviceVerName(updateObj.getUfver());
 			devVersion.setText(updateObj.getUfver());
 			// version.setText(deviceList.get(devIndex).deviceVersion);
 			JVDeviceUpdateActivity.this
 					.showTextToast(R.string.update_reset_success);
 			break;
-		case DOWNLOAD_KEY_UPDATE_CANCEL:
+		case Consts.WHAT_DOWNLOAD_KEY_UPDATE_CANCEL:
 			if (null != updateDialog && updateDialog.isShowing()) {
 				updateDialog.dismiss();
 			}
 			break;
-		case RESTART_DEVICE_FAILED:
+		case Consts.WHAT_RESTART_DEVICE_FAILED:
 			JVDeviceUpdateActivity.this
 					.showTextToast(R.string.update_reset_failed);
 			break;
-		case WRITE_KEY_UPDATE_SUCCESS:
+		case Consts.WHAT_WRITE_KEY_UPDATE_SUCCESS:
 			if (null != updateDialog && updateDialog.isShowing()) {
 				updateDialog.dismiss();
 				updateDialog = null;
@@ -162,10 +155,10 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 																	.get(devIndex)
 																	.getFullNo())) {
 												handler.sendMessage(handler
-														.obtainMessage(RESTART_DEVICE_SUCCESS));
+														.obtainMessage(Consts.WHAT_RESTART_DEVICE_SUCCESS));
 											} else {
 												handler.sendMessage(handler
-														.obtainMessage(RESTART_DEVICE_FAILED));
+														.obtainMessage(Consts.WHAT_RESTART_DEVICE_FAILED));
 											}
 										};
 									}.start();
@@ -424,31 +417,32 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 								if (100 <= pro) {
 									flag = false;
 									handler.sendMessage(handler
-											.obtainMessage(DOWNLOAD_KEY_UPDATE_SUCCESS));
+											.obtainMessage(Consts.WHAT_DOWNLOAD_KEY_UPDATE_SUCCESS));
 								} else if (-1 == pro && 0 == pro && pro2 == pro) {
 									time++;
 									Thread.sleep(1000);
 								} else if (pro2 > pro) {
 									flag = false;
 									handler.sendMessage(handler
-											.obtainMessage(DOWNLOAD_KEY_UPDATE_CANCEL));
+											.obtainMessage(Consts.WHAT_DOWNLOAD_KEY_UPDATE_CANCEL));
 								} else {
 									time = 0;
 									handler.sendMessage(handler.obtainMessage(
-											DOWNLOADING_KEY_UPDATE, pro, 0));
+											Consts.WHAT_DOWNLOADING_KEY_UPDATE,
+											pro, 0));
 									Thread.sleep(1000);
 								}
 								if (time >= 5) {
 									flag = false;
 									handler.sendMessage(handler
-											.obtainMessage(DOWNLOAD_KEY_UPDATE_ERROR));
+											.obtainMessage(Consts.WHAT_DOWNLOAD_KEY_UPDATE_ERROR));
 								}
 								pro2 = pro;
 							}
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 							handler.sendMessage(handler
-									.obtainMessage(DOWNLOAD_KEY_UPDATE_ERROR));
+									.obtainMessage(Consts.WHAT_DOWNLOAD_KEY_UPDATE_ERROR));
 						}
 					}
 				}.start();

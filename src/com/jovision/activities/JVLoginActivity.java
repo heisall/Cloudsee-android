@@ -33,7 +33,6 @@ import com.jovision.adapters.UserSpinnerAdapter;
 import com.jovision.bean.Device;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
@@ -47,9 +46,6 @@ import com.umeng.analytics.MobclickAgent;
 public class JVLoginActivity extends BaseActivity {
 
 	private final String TAG = "JVLoginActivity";
-	private static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
-	public static final int DELECT_USER = 0x02;// 删除用户
-	public static final int SELECT_USER = 0x03;// 选择用户
 	private String userName = "";
 	private String passWord = "";
 
@@ -78,11 +74,11 @@ public class JVLoginActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case WHAT_SHOW_PRO: {
+		case Consts.WHAT_SHOW_PRO: {
 			createDialog("", false);
 			break;
 		}
-		case DELECT_USER:
+		case Consts.WHAT_DELETE_USER:
 			pop.dismiss();
 			userNameET.setText("");
 			passwordET.setText("");
@@ -97,7 +93,7 @@ public class JVLoginActivity extends BaseActivity {
 				userAdapter.notifyDataSetChanged();
 			}
 			break;
-		case SELECT_USER:
+		case Consts.WHAT_SELECT_USER:
 			userNameET.setText(((User) obj).getUserName());
 			passwordET.setText(((User) obj).getUserPwd());
 			moreUserIV.setImageResource(R.drawable.login_pull_icon);
@@ -295,15 +291,15 @@ public class JVLoginActivity extends BaseActivity {
 					Intent intentFP = new Intent(JVLoginActivity.this,
 							JVWebViewActivity.class);
 					String findUrl = "";
-					if (JVConst.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {// 中文
-						if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {// 中文
+					if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {// 中文
+						if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {// 中文
 							findUrl = Url.RESET_PWD_URL + "?lgn=zh_cn";
 						} else {
 							findUrl = Url.RESET_PWD_URL + "?lgn=en_us";
 						}
 
 					} else {// 英文
-						if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {// 中文
+						if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {// 中文
 							findUrl = Url.RESET_PWD_URL_EN + "?lgn=zh_cn";
 						} else {
 							findUrl = Url.RESET_PWD_URL_EN + "?lgn=en_us";
@@ -398,7 +394,7 @@ public class JVLoginActivity extends BaseActivity {
 
 			country = ConfigUtil.getCountry();
 
-			handler.sendEmptyMessage(WHAT_SHOW_PRO);
+			handler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 			String strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
 					statusHashMap.get(Consts.KEY_USERNAME),
 					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,
@@ -416,7 +412,7 @@ public class JVLoginActivity extends BaseActivity {
 					JSONObject dataObj = new JSONObject(data);
 					String channelIp = dataObj.optString("channel_ip");
 					String onlineIp = dataObj.optString("online_ip");
-					if (JVConst.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
+					if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
 						MySharedPreference.putString("ChannelIP", channelIp);
 						MySharedPreference.putString("OnlineIP", onlineIp);
 						MySharedPreference.putString("ChannelIP_en", "");

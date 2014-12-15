@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DefaultExceptionHandler;
@@ -153,9 +152,9 @@ public class JVWelcomeActivity extends BaseActivity {
 				intent.setClass(JVWelcomeActivity.this, JVGuideActivity.class);
 
 				if (ConfigUtil.isLanZH()) {// 中文
-					intent.putExtra("ArrayFlag", JVConst.LANGUAGE_ZH);
+					intent.putExtra("ArrayFlag", Consts.LANGUAGE_ZH);
 				} else {// 英文或其他
-					intent.putExtra("ArrayFlag", JVConst.LANGUAGE_EN);
+					intent.putExtra("ArrayFlag", Consts.LANGUAGE_EN);
 				}
 			} else {
 				User user = UserUtil.getLastUser();
@@ -211,7 +210,7 @@ public class JVWelcomeActivity extends BaseActivity {
 				}
 				if (!initASdkState) {// 初始化Sdk失败
 					handler.sendMessage(handler.obtainMessage(
-							JVConst.INIT_ACCOUNT_SDK_FAILED, 0, 0));
+							Consts.WHAT_INIT_ACCOUNT_SDK_FAILED, 0, 0));
 				}
 
 			}
@@ -227,7 +226,7 @@ public class JVWelcomeActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case JVConst.INIT_ACCOUNT_SDK_FAILED:// 初始化SDK失败
+		case Consts.WHAT_INIT_ACCOUNT_SDK_FAILED:// 初始化SDK失败
 			showTextToast(R.string.str_initsdk_failed);
 			break;
 		}

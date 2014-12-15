@@ -18,17 +18,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.BaseFragment;
 import com.jovision.bean.Channel;
 
 public class ChannelAdapter extends BaseAdapter {
-
-	public static final int CHANNEL_ITEM_CLICK = 0x30;// 通道单击事件--
-	public static final int CHANNEL_ITEM_LONG_CLICK = 0x31;// 通道长按事件--
-	public static final int CHANNEL_ITEM_DEL_CLICK = 0x35;// 通道删除按钮事件--
-	public static final int CHANNEL_ADD_CLICK = 0x33;// 通道添加事件--
-	public static final int CHANNEL_EDIT_CLICK = 0x34;// 通道删除按钮事件--
 
 	private ArrayList<Channel> channelList;
 	private BaseFragment mfragment;
@@ -147,8 +142,9 @@ public class ChannelAdapter extends BaseAdapter {
 
 							@Override
 							public void onClick(View arg0) {
-								mfragment.onNotify(CHANNEL_ITEM_CLICK, channel,
-										0, null);
+								mfragment.onNotify(
+										Consts.WHAT_CHANNEL_ITEM_CLICK,
+										channel, 0, null);
 							}
 						});
 
@@ -158,7 +154,8 @@ public class ChannelAdapter extends BaseAdapter {
 
 							@Override
 							public boolean onLongClick(View arg0) {
-								mfragment.onNotify(CHANNEL_ITEM_LONG_CLICK,
+								mfragment.onNotify(
+										Consts.WHAT_CHANNEL_ITEM_LONG_CLICK,
 										channel, 0, null);
 								return true;
 							}
@@ -180,8 +177,9 @@ public class ChannelAdapter extends BaseAdapter {
 
 							@Override
 							public void onClick(View arg0) {
-								mfragment.onNotify(CHANNEL_EDIT_CLICK, channel,
-										0, null);
+								mfragment.onNotify(
+										Consts.WHAT_CHANNEL_EDIT_CLICK,
+										channel, 0, null);
 							}
 						});
 			} else {
@@ -198,7 +196,8 @@ public class ChannelAdapter extends BaseAdapter {
 
 							@Override
 							public void onClick(View arg0) {
-								mfragment.onNotify(CHANNEL_ADD_CLICK, 0, 0,
+								mfragment.onNotify(
+										Consts.WHAT_CHANNEL_ADD_CLICK, 0, 0,
 										null);
 							}
 						});
@@ -238,8 +237,8 @@ public class ChannelAdapter extends BaseAdapter {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
-						mfragment.onNotify(CHANNEL_ITEM_DEL_CLICK, channel, 0,
-								null);
+						mfragment.onNotify(Consts.WHAT_CHANNEL_ITEM_DEL_CLICK,
+								channel, 0, null);
 					}
 				});
 		builder.setNegativeButton(cancleString,

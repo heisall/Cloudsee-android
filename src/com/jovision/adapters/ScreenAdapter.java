@@ -10,8 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.MainApplication;
-import com.jovision.commons.JVConst;
 
 public class ScreenAdapter extends BaseAdapter {
 	Context mContext;
@@ -104,7 +104,7 @@ public class ScreenAdapter extends BaseAdapter {
 			public void onClick(View v) {
 
 				((MainApplication) mContext.getApplicationContext()).onNotify(
-						JVConst.WHAT_SELECT_SCREEN, position, 0, null);
+						Consts.WHAT_SELECT_SCREEN, position, 0, null);
 
 			}
 		});

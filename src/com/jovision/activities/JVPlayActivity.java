@@ -51,7 +51,6 @@ import com.jovision.adapters.StreamAdapter;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.bean.WifiAdmin;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyGestureDispatcher;
 import com.jovision.commons.MyList;
@@ -66,23 +65,6 @@ import com.jovision.utils.PlayUtil;
 
 public class JVPlayActivity extends PlayActivity implements
 		PlayWindowManager.OnUiListener {
-
-	private static final int WHAT_CHECK_SURFACE = 0x20;
-	private static final int WHAT_RESTORE_UI = 0x21;
-	private static final int WHAT_PLAY_STATUS = 0x22;
-	private static final int WHAT_SHOW_PROGRESS = 0x23;
-	private static final int WHAT_DISMISS_PROGRESS = 0x24;
-	private static final int WHAT_FINISH = 0x25;
-
-	private static final int ARG2_STATUS_CONNECTING = 0x01;
-	private static final int ARG2_STATUS_CONNECTED = 0x02;
-	private static final int ARG2_STATUS_BUFFERING = 0x03;
-	private static final int ARG2_STATUS_DISCONNECTED = 0x04;
-	private static final int ARG2_STATUS_HAS_CONNECTED = 0x05;
-	private static final int ARG2_STATUS_CONN_OVERFLOW = 0x06;
-	private static final int ARG2_STATUS_UNKNOWN = 0x07;
-	private static final int STOP_AUDIO_GATHER = 0x08;
-	private static final int START_AUDIO_GATHER = 0x09;
 
 	private static final int DELAY_CHECK_SURFACE = 500;
 	private static final int DELAY_DOUBLE_CHECKER = 500;
@@ -276,15 +258,15 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		switch (what) {
-		case STOP_AUDIO_GATHER: {// 停止采集音频数据
+		case Consts.STOP_AUDIO_GATHER: {// 停止采集音频数据
 			GATHER_AUDIO_DATA = false;
 			break;
 		}
-		case START_AUDIO_GATHER: {// 开始采集音频数据
+		case Consts.START_AUDIO_GATHER: {// 开始采集音频数据
 			GATHER_AUDIO_DATA = true;
 			break;
 		}
-		case WHAT_CHECK_SURFACE: {
+		case Consts.WHAT_CHECK_SURFACE: {
 			boolean hasNull = false;
 			boolean hasChannel = false;
 
@@ -300,14 +282,14 @@ public class JVPlayActivity extends PlayActivity implements
 			if (hasChannel && false == hasNull) {
 				new Connecter().start();
 			} else {
-				handler.sendMessageDelayed(
-						handler.obtainMessage(WHAT_CHECK_SURFACE, arg1, arg2),
+				handler.sendMessageDelayed(handler.obtainMessage(
+						Consts.WHAT_CHECK_SURFACE, arg1, arg2),
 						DELAY_CHECK_SURFACE);
 			}
 			break;
 		}
 
-		case WHAT_RESTORE_UI: {
+		case Consts.WHAT_RESTORE_UI: {
 			isBlockUi = false;
 			if (null != viewPager) {
 				viewPager.setDisableSliding(isBlockUi);
@@ -315,17 +297,17 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 
-		case WHAT_SHOW_PROGRESS: {
+		case Consts.WHAT_SHOW_PROGRESS: {
 			createDialog("", true);
 			break;
 		}
-		case WHAT_FINISH: {
+		case Consts.WHAT_FINISH: {
 			// isQuit = true;
 			// finish();
 			dismissDialog();
 			break;
 		}
-		case WHAT_DISMISS_PROGRESS: {
+		case Consts.WHAT_DISMISS_PROGRESS: {
 
 			dismissDialog();
 			break;
@@ -347,7 +329,7 @@ public class JVPlayActivity extends PlayActivity implements
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
 				loadingState(arg1, R.string.connecting_buffer1,
-						JVConst.PLAY_CONNECTING_BUFFER);
+						Consts.TAG_PLAY_CONNECTING_BUFFER);
 
 				if (currentPageChannelList.contains(channel)) {
 					MyLog.i(Consts.TAG_XXX,
@@ -363,7 +345,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 2 -- 断开连接成功
 			case JVNetConst.DISCONNECT_OK: {
-				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
+				loadingState(arg1, R.string.closed,
+						Consts.TAG_PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
 				showFunc(channel, currentScreen, lastClickIndex);
 				break;
@@ -376,7 +359,7 @@ public class JVPlayActivity extends PlayActivity implements
 					if ("password is wrong!".equalsIgnoreCase(errorMsg)
 							|| "pass word is wrong!".equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
 						loadingState(arg1, R.string.connfailed_auth,
-								JVConst.PLAY_DIS_CONNECTTED);
+								Consts.TAG_PLAY_DIS_CONNECTTED);
 						if (ONE_SCREEN == currentScreen) {
 							passErrorDialog(arg1);
 						}
@@ -384,31 +367,31 @@ public class JVPlayActivity extends PlayActivity implements
 					} else if ("channel is not open!"
 							.equalsIgnoreCase(errorMsg)) {// 无该通道服务
 						loadingState(arg1, R.string.connfailed_channel_notopen,
-								JVConst.PLAY_DIS_CONNECTTED);
+								Consts.TAG_PLAY_DIS_CONNECTTED);
 					} else if ("connect type invalid!"
 							.equalsIgnoreCase(errorMsg)) {// 连接类型无效
 						loadingState(arg1, R.string.connfailed_type_invalid,
-								JVConst.PLAY_DIS_CONNECTTED);
+								Consts.TAG_PLAY_DIS_CONNECTTED);
 					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
 						loadingState(arg1, R.string.connfailed_maxcount,
-								JVConst.PLAY_DIS_CONNECTTED);
+								Consts.TAG_PLAY_DIS_CONNECTTED);
 					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
 						loadingState(arg1, R.string.connfailed_timeout,
-								JVConst.PLAY_DIS_CONNECTTED);
+								Consts.TAG_PLAY_DIS_CONNECTTED);
 					} else if ("check password timeout!"
 							.equalsIgnoreCase(errorMsg)) {// 验证密码超时
 						loadingState(arg1,
 								R.string.connfailed_checkpass_timout,
-								JVConst.PLAY_DIS_CONNECTTED);
+								Consts.TAG_PLAY_DIS_CONNECTTED);
 					} else {// "Connect failed!"
 						loadingState(arg1, R.string.connect_failed,
-								JVConst.PLAY_DIS_CONNECTTED);
+								Consts.TAG_PLAY_DIS_CONNECTTED);
 					}
 
 				} catch (JSONException e) {
 					e.printStackTrace();
 					loadingState(arg1, R.string.closed,
-							JVConst.PLAY_DIS_CONNECTTED);
+							Consts.TAG_PLAY_DIS_CONNECTTED);
 				}
 
 				// resetFunc(channel);
@@ -418,7 +401,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 6 -- 连接异常断开
 			case JVNetConst.ABNORMAL_DISCONNECT: {
-				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
+				loadingState(arg1, R.string.closed,
+						Consts.TAG_PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
 				showFunc(channel, currentScreen, lastClickIndex);
 				break;
@@ -426,7 +410,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 7 -- 服务停止连接，连接断开
 			case JVNetConst.SERVICE_STOP: {
-				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
+				loadingState(arg1, R.string.closed,
+						Consts.TAG_PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
 				showFunc(channel, currentScreen, lastClickIndex);
 				break;
@@ -434,14 +419,16 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 9 -- 其他错误
 			case JVNetConst.OHTER_ERROR: {
-				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
+				loadingState(arg1, R.string.closed,
+						Consts.TAG_PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
 				showFunc(channel, currentScreen, lastClickIndex);
 				break;
 			}
 
 			default:
-				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
+				loadingState(arg1, R.string.closed,
+						Consts.TAG_PLAY_DIS_CONNECTTED);
 				break;
 			}
 			break;
@@ -458,7 +445,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			loadingState(arg1, R.string.connecting_buffer2,
-					JVConst.PLAY_CONNECTING_BUFFER);
+					Consts.TAG_PLAY_CONNECTING_BUFFER);
 
 			if (currentScreen > FOUR_SCREEN && !channel.isSendCMD()) {
 				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_ONLYI, new byte[0],
@@ -671,38 +658,41 @@ public class JVPlayActivity extends PlayActivity implements
 		// break;
 		// }
 
-		case WHAT_PLAY_STATUS: {
+		case Consts.WHAT_PLAY_STATUS: {
 			switch (arg2) {
-			case ARG2_STATUS_CONNECTING:
-				loadingState(arg1, R.string.connecting, JVConst.PLAY_CONNECTING);
+			case Consts.ARG2_STATUS_CONNECTING:
+				loadingState(arg1, R.string.connecting,
+						Consts.TAG_PLAY_CONNECTING);
 				break;
 
-			case ARG2_STATUS_CONNECTED:
+			case Consts.ARG2_STATUS_CONNECTED:
 				loadingState(arg1, R.string.connecting_buffer1,
-						JVConst.PLAY_CONNECTING_BUFFER);
+						Consts.TAG_PLAY_CONNECTING_BUFFER);
 				break;
 
-			case ARG2_STATUS_BUFFERING:
+			case Consts.ARG2_STATUS_BUFFERING:
 				loadingState(arg1, R.string.connecting_buffer2,
-						JVConst.PLAY_CONNECTING_BUFFER);
+						Consts.TAG_PLAY_CONNECTING_BUFFER);
 				break;
 
-			case ARG2_STATUS_DISCONNECTED:
-				loadingState(arg1, R.string.closed, JVConst.PLAY_DIS_CONNECTTED);
+			case Consts.ARG2_STATUS_DISCONNECTED:
+				loadingState(arg1, R.string.closed,
+						Consts.TAG_PLAY_DIS_CONNECTTED);
 				break;
 
-			case ARG2_STATUS_HAS_CONNECTED:
+			case Consts.ARG2_STATUS_HAS_CONNECTED:
 				loadingState(arg1, R.string.connfailed_timeout,
-						JVConst.PLAY_DIS_CONNECTTED);
+						Consts.TAG_PLAY_DIS_CONNECTTED);
 				break;
 
-			case ARG2_STATUS_CONN_OVERFLOW:
+			case Consts.ARG2_STATUS_CONN_OVERFLOW:
 				loadingState(arg1, R.string.overflow,
-						JVConst.PLAY_DIS_CONNECTTED);
+						Consts.TAG_PLAY_DIS_CONNECTTED);
 				break;
 
-			case ARG2_STATUS_UNKNOWN:
-				loadingState(arg1, R.string.closed, JVConst.PLAY_STATUS_UNKNOWN);
+			case Consts.ARG2_STATUS_UNKNOWN:
+				loadingState(arg1, R.string.closed,
+						Consts.TAG_PLAY_STATUS_UNKNOWN);
 				break;
 
 			default:
@@ -959,9 +949,6 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_QUERY_DEVICE: {
-			MyLog.e(Consts.TAG_PLAY,
-					"jvplayactivity  query 7777777777777777777777---------------------------"
-							+ obj);
 			break;
 		}
 
@@ -979,7 +966,7 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null == channel) {
 				return;
 			}
-			loadingState(arg1, 0, JVConst.PLAY_CONNECTTED);
+			loadingState(arg1, 0, Consts.TAG_PLAY_CONNECTTED);
 			if (!channel.isOMX() && arg2 == Consts.DECODE_SOFT
 					&& ONE_SCREEN == currentScreen) {
 				if (needToast) {
@@ -1053,7 +1040,10 @@ public class JVPlayActivity extends PlayActivity implements
 						if (window == lastClickIndex) {
 							currentKbps.setText(String.format("%.1fk/%.1fk",
 									object.getDouble("kbps"),
-									object.getDouble("audio_kbps")));
+									object.getDouble("audio_kbps"))
+									+ "("
+									+ (object.getBoolean("is_turn") ? "TURN"
+											: "P2P") + ")");
 						}
 					}
 
@@ -1068,7 +1058,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		// 下拉选择多屏
-		case JVConst.WHAT_SELECT_SCREEN: {
+		case Consts.WHAT_SELECT_SCREEN: {
 			selectedScreen = screenList.get(arg1);
 			screenAdapter.selectIndex = arg1;
 			screenAdapter.notifyDataSetChanged();
@@ -1087,7 +1077,7 @@ public class JVPlayActivity extends PlayActivity implements
 			showFunc(channel, selectedScreen, lastClickIndex);
 			break;
 		}
-		case StreamAdapter.STREAM_ITEM_CLICK: {// 码流切换
+		case Consts.WHAT_STREAM_ITEM_CLICK: {// 码流切换
 
 			Channel channel = null;
 			if (lastClickIndex < channelList.size()) {
@@ -1538,11 +1528,11 @@ public class JVPlayActivity extends PlayActivity implements
 						isBlockUi = true;
 						viewPager.setDisableSliding(isBlockUi);
 
-						handler.removeMessages(WHAT_CHECK_SURFACE);
-						handler.sendMessageDelayed(handler.obtainMessage(
-								WHAT_CHECK_SURFACE, arg0, lastClickIndex),
-								DELAY_CHECK_SURFACE);
-						handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
+						handler.removeMessages(Consts.WHAT_CHECK_SURFACE);
+						handler.sendMessageDelayed(handler
+								.obtainMessage(Consts.WHAT_CHECK_SURFACE, arg0,
+										lastClickIndex), DELAY_CHECK_SURFACE);
+						handler.sendEmptyMessage(Consts.WHAT_SHOW_PROGRESS);
 					}
 
 					lastItemIndex = arg0;
@@ -1714,16 +1704,18 @@ public class JVPlayActivity extends PlayActivity implements
 				MyLog.v(TAG, "result2=" + result + "");
 				if (result) {
 					channel.setPaused(false);
-					handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-							channel.getIndex(), ARG2_STATUS_BUFFERING));
+					handler.sendMessage(handler.obtainMessage(
+							Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+							Consts.ARG2_STATUS_BUFFERING));
 				} else {
 					// handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
 					// channel.getIndex(), ARG2_STATUS_HAS_CONNECTED));
 				}
 
 			} else {
-				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-						channel.getIndex(), ARG2_STATUS_DISCONNECTED));
+				handler.sendMessage(handler.obtainMessage(
+						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+						Consts.ARG2_STATUS_DISCONNECTED));
 			}
 		}
 
@@ -1777,10 +1769,11 @@ public class JVPlayActivity extends PlayActivity implements
 		viewPager.setDisableSliding(isBlockUi);
 		changeBorder(lastClickIndex);
 
-		handler.removeMessages(WHAT_CHECK_SURFACE);
-		handler.sendMessageDelayed(handler.obtainMessage(WHAT_CHECK_SURFACE,
-				lastItemIndex, lastClickIndex), DELAY_CHECK_SURFACE);
-		handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
+		handler.removeMessages(Consts.WHAT_CHECK_SURFACE);
+		handler.sendMessageDelayed(handler.obtainMessage(
+				Consts.WHAT_CHECK_SURFACE, lastItemIndex, lastClickIndex),
+				DELAY_CHECK_SURFACE);
+		handler.sendEmptyMessage(Consts.WHAT_SHOW_PROGRESS);
 	}
 
 	private void changeBorder(int currentIndex) {
@@ -1925,16 +1918,19 @@ public class JVPlayActivity extends PlayActivity implements
 				channel.setConnected(true);
 				channel.setPaused(true);
 				channel.setConnecting(false);
-				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-						channel.getIndex(), ARG2_STATUS_HAS_CONNECTED));
+				handler.sendMessage(handler.obtainMessage(
+						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+						Consts.ARG2_STATUS_HAS_CONNECTED));
 				Jni.disconnect(channel.getIndex());
 			} else if (Consts.BAD_CONN_OVERFLOW == connect) {
-				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-						channel.getIndex(), ARG2_STATUS_CONN_OVERFLOW));
+				handler.sendMessage(handler.obtainMessage(
+						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+						Consts.ARG2_STATUS_CONN_OVERFLOW));
 			} else {
 				channel.setConnecting(true);
-				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-						channel.getIndex(), ARG2_STATUS_CONNECTING));
+				handler.sendMessage(handler.obtainMessage(
+						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+						Consts.ARG2_STATUS_CONNECTING));
 				result = true;
 			}
 
@@ -1988,11 +1984,13 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 			} else if (channel.isConnecting()) {
-				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-						channel.getIndex(), ARG2_STATUS_CONNECTING));
+				handler.sendMessage(handler.obtainMessage(
+						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+						Consts.ARG2_STATUS_CONNECTING));
 			} else if (false == channel.isPaused()) {
-				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-						channel.getIndex(), ARG2_STATUS_CONNECTED));
+				handler.sendMessage(handler.obtainMessage(
+						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+						Consts.ARG2_STATUS_CONNECTED));
 			} else {
 				if (false == resumeChannel(channel)) {
 					channel.setConnected(false);
@@ -2095,8 +2093,9 @@ public class JVPlayActivity extends PlayActivity implements
 					connectChannelList.add(channel);
 				}
 				channel.setSurface(surface);
-				handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
-						channel.getIndex(), ARG2_STATUS_UNKNOWN));
+				handler.sendMessage(handler.obtainMessage(
+						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+						Consts.ARG2_STATUS_UNKNOWN));
 				break;
 
 			case PlayWindowManager.STATUS_CHANGED:
@@ -2604,7 +2603,7 @@ public class JVPlayActivity extends PlayActivity implements
 			// 返回超时，重新点击返回
 			// backTimer = new Timer();
 			// backTimer.schedule(new BackTask(), 15 * 1000);
-			handler.sendEmptyMessageDelayed(WHAT_FINISH, 15 * 1000);
+			handler.sendEmptyMessageDelayed(Consts.WHAT_FINISH, 15 * 1000);
 
 			DisconnetTask task = new DisconnetTask();
 			String[] params = new String[3];
@@ -2679,12 +2678,12 @@ public class JVPlayActivity extends PlayActivity implements
 					} else {// next
 						aintent.putExtra("AP_Back", false);
 					}
-					setResult(JVConst.AP_CONNECT_FINISHED, aintent);
+					setResult(Consts.WHAT_AP_CONNECT_FINISHED, aintent);
 					JVPlayActivity.this.finish();
 				} else {
 					JVPlayActivity.this.finish();
 				}
-				handler.removeMessages(WHAT_FINISH);
+				handler.removeMessages(Consts.WHAT_FINISH);
 				isQuit = true;
 			}
 
@@ -2883,14 +2882,15 @@ public class JVPlayActivity extends PlayActivity implements
 				if (arg1.getAction() == MotionEvent.ACTION_UP
 						|| arg1.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
 					handler.sendMessage(handler
-							.obtainMessage(STOP_AUDIO_GATHER));
+							.obtainMessage(Consts.STOP_AUDIO_GATHER));
 					new TalkThread(lastClickIndex, 0).start();
 					VOICECALL_LONG_CLICK = false;
 					voiceCall.setText(R.string.voice_send);
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 					voiceTip.setVisibility(View.GONE);
 					handler.sendMessageDelayed(
-							handler.obtainMessage(START_AUDIO_GATHER), 2 * 1000);
+							handler.obtainMessage(Consts.START_AUDIO_GATHER),
+							2 * 1000);
 				}
 			}
 			return false;
@@ -3002,7 +3002,7 @@ public class JVPlayActivity extends PlayActivity implements
 							dialog.dismiss();
 							showingDialog = false;
 							handler.sendMessageDelayed(handler
-									.obtainMessage(JVConst.WHAT_START_CONNECT),
+									.obtainMessage(Consts.WHAT_START_CONNECT),
 									1000);
 						}
 
@@ -3058,7 +3058,7 @@ public class JVPlayActivity extends PlayActivity implements
 			ViewGroup container = (ViewGroup) manager.getView(index)
 					.getParent();
 			switch (tag) {
-			case JVConst.PLAY_CONNECTING: {// 连接中
+			case Consts.TAG_PLAY_CONNECTING: {// 连接中
 				verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
@@ -3071,7 +3071,7 @@ public class JVPlayActivity extends PlayActivity implements
 						getResources().getString(loadingState), textSize);// 连接文字
 				break;
 			}
-			case JVConst.PLAY_CONNECTTED: {// 已连接
+			case Consts.TAG_PLAY_CONNECTTED: {// 已连接
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth, View.GONE);// loading
 				manager.setViewVisibility(container,
@@ -3080,7 +3080,7 @@ public class JVPlayActivity extends PlayActivity implements
 						PlayWindowManager.ID_CONTROL_CENTER, View.GONE);// 播放按钮
 				break;
 			}
-			case JVConst.PLAY_DIS_CONNECTTED: {// 断开
+			case Consts.TAG_PLAY_DIS_CONNECTTED: {// 断开
 				channelList.get(index).setConnected(false);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth, View.GONE);// loading
@@ -3104,7 +3104,7 @@ public class JVPlayActivity extends PlayActivity implements
 						getResources().getString(loadingState), textSize);// 连接文字
 				break;
 			}
-			case JVConst.PLAY_CONNECTING_BUFFER: {// 缓冲中
+			case Consts.TAG_PLAY_CONNECTING_BUFFER: {// 缓冲中
 				verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
@@ -3117,7 +3117,7 @@ public class JVPlayActivity extends PlayActivity implements
 						getResources().getString(loadingState), textSize);// 连接文字
 				break;
 			}
-			case JVConst.PLAY_STATUS_UNKNOWN: {// 未知状态，只显示播放按钮
+			case Consts.TAG_PLAY_STATUS_UNKNOWN: {// 未知状态，只显示播放按钮
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth, View.GONE);// loading
 				manager.setViewVisibility(container,
@@ -3426,10 +3426,11 @@ public class JVPlayActivity extends PlayActivity implements
 		super.onResume();
 		isBlockUi = true;
 		updateStreaminfoFlag = false;
-		handler.removeMessages(WHAT_CHECK_SURFACE);
-		handler.sendMessageDelayed(handler.obtainMessage(WHAT_CHECK_SURFACE,
-				lastItemIndex, lastClickIndex), DELAY_CHECK_SURFACE);
-		handler.sendEmptyMessage(WHAT_SHOW_PROGRESS);
+		handler.removeMessages(Consts.WHAT_CHECK_SURFACE);
+		handler.sendMessageDelayed(handler.obtainMessage(
+				Consts.WHAT_CHECK_SURFACE, lastItemIndex, lastClickIndex),
+				DELAY_CHECK_SURFACE);
+		handler.sendEmptyMessage(Consts.WHAT_SHOW_PROGRESS);
 	}
 
 	@Override
@@ -3538,7 +3539,7 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 				disconnectChannelList.clear();
 
-				handler.sendEmptyMessage(WHAT_DISMISS_PROGRESS);
+				handler.sendEmptyMessage(Consts.WHAT_DISMISS_PROGRESS);
 
 				size = currentPageChannelList.size()
 						+ connectChannelList.size();
@@ -3569,13 +3570,13 @@ public class JVPlayActivity extends PlayActivity implements
 						MyLog.i(Consts.TAG_XXX, "connect in connecting: "
 								+ channel);
 						handler.sendMessage(handler.obtainMessage(
-								WHAT_PLAY_STATUS, channel.getIndex(),
-								ARG2_STATUS_CONNECTING));
+								Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+								Consts.ARG2_STATUS_CONNECTING));
 					} else if (false == channel.isPaused()) {
 						MyLog.i(Consts.TAG_XXX, "connect not pause: " + channel);
 						handler.sendMessage(handler.obtainMessage(
-								WHAT_PLAY_STATUS, channel.getIndex(),
-								ARG2_STATUS_CONNECTED));
+								Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+								Consts.ARG2_STATUS_CONNECTED));
 
 						channel.setPaused(true);
 						boolean result = resumeChannel(channel);
@@ -3609,7 +3610,7 @@ public class JVPlayActivity extends PlayActivity implements
 				e.printStackTrace();
 			}
 
-			handler.sendEmptyMessage(WHAT_RESTORE_UI);
+			handler.sendEmptyMessage(Consts.WHAT_RESTORE_UI);
 			MyLog.w(Consts.TAG_XXX, "Connecter X");
 		}
 	}

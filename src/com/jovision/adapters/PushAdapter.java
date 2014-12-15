@@ -16,16 +16,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.activities.BaseFragment;
 import com.jovision.activities.CustomDialogActivity;
 import com.jovision.bean.PushInfo;
-import com.jovision.commons.JVConst;
 import com.jovision.utils.ConfigUtil;
 
 public class PushAdapter extends BaseAdapter {
-
-	public static final int DELETE_ALARM_MESS = 0x40;// 删除报警
-
 	private ArrayList<PushInfo> pushList = new ArrayList<PushInfo>();
 	private LayoutInflater inflater;
 	// private Bitmap bitmap;
@@ -117,7 +114,7 @@ public class PushAdapter extends BaseAdapter {
 				&& position < pushList.size()) {
 			if (pushList.get(position).newTag) {// 新的未读消息
 				viewHolder.newTag.setVisibility(View.VISIBLE);
-				if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
 					viewHolder.newTag.setImageDrawable(mfragment.getActivity()
 							.getResources().getDrawable(R.drawable.new_tag_ch));
 				} else {
@@ -238,8 +235,8 @@ public class PushAdapter extends BaseAdapter {
 				try {
 					if (null != pushList && 0 != pushList.size()
 							&& position < pushList.size()) {
-						mfragment
-								.onNotify(DELETE_ALARM_MESS, position, 0, null);
+						mfragment.onNotify(Consts.WHAT_DELETE_ALARM_MESS,
+								position, 0, null);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

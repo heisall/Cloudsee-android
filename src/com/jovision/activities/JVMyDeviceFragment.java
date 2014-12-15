@@ -51,7 +51,6 @@ import com.jovision.adapters.PopWindowAdapter;
 import com.jovision.bean.AD;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -71,20 +70,6 @@ import com.tencent.stat.StatService;
 public class JVMyDeviceFragment extends BaseFragment {
 
 	private String TAG = "MyDeviceFragment";
-
-	private static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
-	public static final int DEVICE_GETDATA_SUCCESS = 0x02;// 设备加载成功--
-	public static final int DEVICE_GETDATA_FAILED = 0x03;// 设备加载失败--
-	public static final int DEVICE_NO_DEVICE = 0x04;// 暂无设备--
-
-	public static final int BROAD_DEVICE_LIST = 0x05;// 广播设备列表--
-	public static final int BROAD_ADD_DEVICE = 0x06;// 添加设备的广播--
-	public static final int BROAD_THREE_MINITE = 0x07;// 三分钟广播--
-
-	public static final int AUTO_UPDATE = 0x08;// 2分钟自动刷新时间到--
-
-	public static final int AD_UPDATE = 0x09;// 广告刷新
-	public static final int DEV_GETFINISHED = 0x0A;// 获取完设备列表
 
 	// private RefreshableView refreshableView;
 	private PullToRefreshListView mPullRefreshListView;
@@ -196,7 +181,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
 				.get(Consts.HAG_GOT_DEVICE));
 		if (!hasGot) {
-			fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 		}
 		// getActivity() = (BaseActivity) getActivity();
 		mParent = getView();
@@ -235,7 +220,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						refreshView.getLoadingLayoutProxy()
 								.setLastUpdatedLabel(label);
 
-						fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+						fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 
 						GetDevTask task = new GetDevTask();
 						String[] strParams = new String[3];
@@ -309,7 +294,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			myDeviceList = CacheUtil.getDevList();
 			refreshList();
 		} else {
-			fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 			GetDevTask task = new GetDevTask();
 			String[] strParams = new String[3];
 			strParams[0] = "0";
@@ -380,7 +365,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				mActivity.startActivity(addIntents);
 				break;
 			case R.id.refreshlayout: {
-				fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+				fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 
 				GetDevTask task = new GetDevTask();
 				String[] strParams = new String[3];
@@ -484,8 +469,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 					}
 
 					if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
-						fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
-						broadTag = BROAD_ADD_DEVICE;
+						fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+						broadTag = Consts.TAG_BROAD_ADD_DEVICE;
 						broadList.clear();
 						PlayUtil.deleteDevIp(myDeviceList);
 						PlayUtil.broadCast(mActivity);
@@ -610,7 +595,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 									String adUrl = "";
 
-									if (JVConst.LANGUAGE_ZH == ConfigUtil
+									if (Consts.LANGUAGE_ZH == ConfigUtil
 											.getLanguage()) {
 										adUrl = adList.get(index).getAdLinkCh();
 									} else {
@@ -629,7 +614,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 							Bitmap bmp = null;
 
-							if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+							if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
 								bmp = BitmapCache.getInstance().getCacheBitmap(
 										adList.get(i).getAdImgUrlCh());
 							} else {
@@ -670,7 +655,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 							ImageView imageView = (ImageView) listViews.get(i);
 							Bitmap bmp = null;
 
-							if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+							if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
 								bmp = BitmapCache.getInstance().getCacheBitmap(
 										adList.get(i).getAdImgUrlCh());
 							} else {
@@ -713,11 +698,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case AD_UPDATE: {
+		case Consts.WHAT_AD_UPDATE: {
 			initADViewPager();
 			break;
 		}
-		case DEV_GETFINISHED: {
+		case Consts.WHAT_DEV_GETFINISHED: {
 			// TODO
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mActivity.dismissDialog();
@@ -725,37 +710,37 @@ public class JVMyDeviceFragment extends BaseFragment {
 			initADViewPager();
 			switch (arg1) {
 			// 从服务器端获取设备成功
-			case DEVICE_GETDATA_SUCCESS: {
-				broadTag = BROAD_DEVICE_LIST;
+			case Consts.WHAT_DEVICE_GETDATA_SUCCESS: {
+				broadTag = Consts.TAG_BROAD_DEVICE_LIST;
 				PlayUtil.deleteDevIp(myDeviceList);
 				PlayUtil.broadCast(mActivity);
 				mPullRefreshListView.onRefreshComplete();
 				break;
 			}
 			// 从服务器端获取设备成功，但是没有设备
-			case DEVICE_NO_DEVICE: {
+			case Consts.WHAT_DEVICE_NO_DEVICE: {
 				break;
 			}
 			// 从服务器端获取设备失败
-			case DEVICE_GETDATA_FAILED: {
+			case Consts.WHAT_DEVICE_GETDATA_FAILED: {
 				mActivity.showTextToast(R.string.get_device_failed);
 				break;
 			}
 			}
 			break;
 		}
-		case AUTO_UPDATE: {
+		case Consts.WHAT_AUTO_UPDATE: {
 			GetDevTask task = new GetDevTask();
 			String[] strParams = new String[3];
 			strParams[0] = "1";
 			task.execute(strParams);
 			break;
 		}
-		case WHAT_SHOW_PRO: {
+		case Consts.WHAT_SHOW_PRO: {
 			mActivity.createDialog("", true);
 			break;
 		}
-		case JVTabActivity.TAB_BACK: {// tab 返回事件，保存数据
+		case Consts.WHAT_TAB_BACK: {// tab 返回事件，保存数据
 			if (null == mActivity) {
 				mActivity = (BaseActivity) getActivity();
 			}
@@ -772,9 +757,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1
 			// + ";arg2=" + arg1 + ";obj=" + obj.toString());
 			// onTabAction:what=168;arg1=0;arg2=0;obj={"count":1,"curmod":0,"gid":"A","ip":"192.168.21.238","netmod":0,"no":283827713,"port":9101,"timeout":0,"type":59162,"variety":3}
-			if (broadTag == BROAD_DEVICE_LIST || broadTag == BROAD_THREE_MINITE) {// 三分钟广播
-																					// 或
-																					// 广播设备列表
+			if (broadTag == Consts.TAG_BROAD_DEVICE_LIST
+					|| broadTag == Consts.TAG_BROAD_THREE_MINITE) {// 三分钟广播
+				// 或
+				// 广播设备列表
 				JSONObject broadObj;
 				try {
 					broadObj = new JSONObject(obj.toString());
@@ -805,7 +791,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 					e.printStackTrace();
 				}
 
-			} else if (broadTag == BROAD_ADD_DEVICE) {// 广播添加设备
+			} else if (broadTag == Consts.TAG_BROAD_ADD_DEVICE) {// 广播添加设备
 				JSONObject broadObj;
 				try {
 					broadObj = new JSONObject(obj.toString());
@@ -859,7 +845,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			break;
 		}
-		case MyDeviceListAdapter.DEVICE_ITEM_CLICK: {// 设备单击事件
+		case Consts.WHAT_DEVICE_ITEM_CLICK: {// 设备单击事件
 			myDLAdapter.setShowDelete(false);
 			myDLAdapter.notifyDataSetChanged();
 			Device dev = myDeviceList.get(arg1);
@@ -902,19 +888,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			break;
 		}
-		case MyDeviceListAdapter.DEVICE_ITEM_LONG_CLICK: {// 设备长按事件
+		case Consts.WHAT_DEVICE_ITEM_LONG_CLICK: {// 设备长按事件
 			myDLAdapter.setShowDelete(true);
 			myDLAdapter.notifyDataSetChanged();
 			break;
 		}
-		case MyDeviceListAdapter.DEVICE_ITEM_DEL_CLICK: {// 设备删除事件
+		case Consts.WHAT_DEVICE_ITEM_DEL_CLICK: {// 设备删除事件
 			DelDevTask task = new DelDevTask();
 			String[] strParams = new String[3];
 			strParams[0] = String.valueOf(arg1);
 			task.execute(strParams);
 			break;
 		}
-		case MyDeviceListAdapter.DEVICE_EDIT_CLICK: {// 设备编辑事件
+		case Consts.WHAT_DEVICE_EDIT_CLICK: {// 设备编辑事件
 			myDLAdapter.setShowDelete(false);
 			initSummaryDialog(myDeviceList, arg1);
 		}
@@ -1249,7 +1235,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 					.getString(Consts.AD_LIST));
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
 					BitmapCache.getInstance().getBitmap(
 							ad.getAdImgUrlCh(),
 							"net",
@@ -1270,7 +1256,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
 					BitmapCache.getInstance().getBitmap(
 							ad.getAdImgUrlCh(),
 							"net",
@@ -1293,7 +1279,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
 					BitmapCache.getInstance().getBitmap(
 							ad.getAdImgUrlCh(),
 							"net",
@@ -1395,18 +1381,18 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
-					getRes = DEVICE_GETDATA_SUCCESS;
+					getRes = Consts.WHAT_DEVICE_GETDATA_SUCCESS;
 					mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 					// 给设备列表设置小助手
 					PlayUtil.setHelperToList(myDeviceList);
 				} else if (null != myDeviceList && 0 == myDeviceList.size()) {// 无数据
-					getRes = DEVICE_NO_DEVICE;
+					getRes = Consts.WHAT_DEVICE_NO_DEVICE;
 				} else {// 获取设备失败
-					getRes = DEVICE_GETDATA_FAILED;
+					getRes = Consts.WHAT_DEVICE_GETDATA_FAILED;
 				}
 
 				fragHandler.sendMessage(fragHandler.obtainMessage(
-						DEV_GETFINISHED, getRes, 0));
+						Consts.WHAT_DEV_GETFINISHED, getRes, 0));
 				if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(
 						"false")) {
 					if ("0".equalsIgnoreCase(params[0])) {
@@ -1434,17 +1420,17 @@ public class JVMyDeviceFragment extends BaseFragment {
 			initADViewPager();
 			switch (result) {
 			// 从服务器端获取设备成功
-			case DEVICE_GETDATA_SUCCESS: {
+			case Consts.WHAT_DEVICE_GETDATA_SUCCESS: {
 				mActivity.dismissDialog();
-				broadTag = BROAD_DEVICE_LIST;
+				broadTag = Consts.TAG_BROAD_DEVICE_LIST;
 				break;
 			}
 			// 从服务器端获取设备成功，但是没有设备
-			case DEVICE_NO_DEVICE: {
+			case Consts.WHAT_DEVICE_NO_DEVICE: {
 				break;
 			}
 			// 从服务器端获取设备失败
-			case DEVICE_GETDATA_FAILED: {
+			case Consts.WHAT_DEVICE_GETDATA_FAILED: {
 				break;
 			}
 			}
@@ -1468,7 +1454,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {
 			LanDialog.dismiss();
-			fragHandler.sendEmptyMessage(WHAT_SHOW_PRO);
+			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 			int addRes = -1;
 			int addCount = 0;
 			try {
@@ -1616,7 +1602,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// CacheUtil.saveDevList(myDeviceList);
 			MyLog.e(TAG, "AutoUpdateTask--E");
 			myDeviceList = CacheUtil.getDevList();
-			fragHandler.sendMessage(fragHandler.obtainMessage(AUTO_UPDATE));
+			fragHandler.sendMessage(fragHandler
+					.obtainMessage(Consts.WHAT_AUTO_UPDATE));
 			MyLog.e(TAG, "AutoUpdateTask--X");
 		}
 

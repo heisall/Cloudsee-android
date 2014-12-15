@@ -629,6 +629,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 									if (null != wifiList
 											&& 0 != wifiList.size()
+											&& wifiIndex >= 0
 											&& wifiIndex < wifiList.size()) {
 										auth = String.valueOf(wifiList
 												.get(wifiIndex).wifiAuth);

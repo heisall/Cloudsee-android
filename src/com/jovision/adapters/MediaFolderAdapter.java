@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVImageViewActivity;
 import com.jovision.activities.JVMediaListActivity;
@@ -115,10 +116,10 @@ public class MediaFolderAdapter extends BaseAdapter {
 						}
 						mediaAdaper.notifyDataSetChanged();
 						if (JVMediaListActivity.fileSelectSum == JVMediaListActivity.fileSum) {
-							mContext.onNotify(JVMediaListActivity.FILE_SUM,
+							mContext.onNotify(Consts.WHAT_FILE_SUM,
 									JVMediaListActivity.fileSelectSum, 1, null);
 						} else {
-							mContext.onNotify(JVMediaListActivity.FILE_SUM,
+							mContext.onNotify(Consts.WHAT_FILE_SUM,
 									JVMediaListActivity.fileSelectSum, 0, null);
 						}
 						if ("image".equalsIgnoreCase(media)) {

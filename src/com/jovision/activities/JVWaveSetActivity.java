@@ -40,7 +40,6 @@ import com.jovision.Jni;
 import com.jovision.adapters.WaveDevlListAdapter;
 import com.jovision.bean.Device;
 import com.jovision.bean.WifiAdmin;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MyAudio;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
@@ -51,13 +50,6 @@ import com.jovision.utils.PlayUtil;
 public class JVWaveSetActivity extends BaseActivity {
 
 	private static final String TAG = "JVWaveSetActivity";
-
-	protected static final int PLAY_AUDIO_WHAT = 0xA1;
-	protected static final int SEND_WAVE_FINISHED = 0xA2;// 声波发送完毕
-	protected static final int BROAD_DEVICE = 0xA3;// 广播到一个设备
-	protected static final int BROAD_FINISHED = 0xA4;// 广播回调完毕
-	public static final int ADD_DEVICE = 0xA5;// 添加设备
-	public static final int SEND_WAVE = 0xA6;// 发送声波吗命令
 
 	String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3",
 			"quicksetsound.mp3", "6.mp3" };
@@ -123,7 +115,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case SEND_WAVE_FINISHED: {// 声波发送完毕
+		case Consts.WHAT_SEND_WAVE_FINISHED: {// 声波发送完毕
 			sendCounts = 0;
 			nextBtn3.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.blue_bg));
@@ -131,7 +123,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			waveScaleAnim.cancel();
 			break;
 		}
-		case BROAD_FINISHED: {// 广播超时
+		case Consts.WHAT_BROAD_FINISHED: {// 广播超时
 			dismissDialog();
 			if (null == broadList || 0 == broadList.size()) {
 				showTextToast(R.string.broad_zero);
@@ -145,7 +137,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			rightBtn.setVisibility(View.VISIBLE);
 			break;
 		}
-		case BROAD_DEVICE: {// 广播到一个设备
+		case Consts.WHAT_BROAD_DEVICE: {// 广播到一个设备
 			if (null != broadList) {
 				wdListAdapter = new WaveDevlListAdapter(JVWaveSetActivity.this);
 				wdListAdapter.setData(broadList);
@@ -153,11 +145,11 @@ public class JVWaveSetActivity extends BaseActivity {
 			}
 			break;
 		}
-		case ADD_DEVICE: {// 添加设备
+		case Consts.WHAT_ADD_DEVICE: {// 添加设备
 			alertAddDialog(arg1);
 			break;
 		}
-		case SEND_WAVE: {// 发送声波命令
+		case Consts.WHAT_SEND_WAVE: {// 发送声波命令
 			waveScaleAnim.start();
 			Jni.genVoice(params);
 			break;
@@ -169,7 +161,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case PLAY_AUDIO_WHAT: {
+		case Consts.WHAT_PLAY_AUDIO_WHAT: {
 			switch (arg2) {
 			case MyAudio.ARG2_START: {
 				MyLog.v(TAG, "ARG2_START");
@@ -184,10 +176,10 @@ public class JVWaveSetActivity extends BaseActivity {
 				sendCounts++;
 				if (sendCounts < 3) {
 					handler.sendMessageDelayed(
-							handler.obtainMessage(SEND_WAVE), 500);
+							handler.obtainMessage(Consts.WHAT_SEND_WAVE), 500);
 				} else {
-					handler.sendMessageDelayed(
-							handler.obtainMessage(SEND_WAVE_FINISHED), 500);
+					handler.sendMessageDelayed(handler
+							.obtainMessage(Consts.WHAT_SEND_WAVE_FINISHED), 500);
 				}
 				break;
 			}
@@ -248,7 +240,7 @@ public class JVWaveSetActivity extends BaseActivity {
 							if (!PlayUtil.addDev(broadList, addDev)) {
 								broadList.add(addDev);
 								handler.sendMessage(handler
-										.obtainMessage(BROAD_DEVICE));
+										.obtainMessage(Consts.WHAT_BROAD_DEVICE));
 							}
 						}
 
@@ -256,7 +248,8 @@ public class JVWaveSetActivity extends BaseActivity {
 
 				} else if (1 == broadObj.optInt("timeout")) {
 					CacheUtil.saveDevList(deviceList);
-					handler.sendMessage(handler.obtainMessage(BROAD_FINISHED));
+					handler.sendMessage(handler
+							.obtainMessage(Consts.WHAT_BROAD_FINISHED));
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -282,8 +275,8 @@ public class JVWaveSetActivity extends BaseActivity {
 		}
 		deviceList = CacheUtil.getDevList();
 		assetMgr = this.getAssets();
-		playAudio = MyAudio.getIntance(PLAY_AUDIO_WHAT, JVWaveSetActivity.this,
-				audioSampleRate);
+		playAudio = MyAudio.getIntance(Consts.WHAT_PLAY_AUDIO_WHAT,
+				JVWaveSetActivity.this, audioSampleRate);
 	}
 
 	@Override
@@ -311,7 +304,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		waveImage = (ImageView) findViewById(R.id.wavebg);
 		instruction = (ImageView) findViewById(R.id.instruction);
 		pressToSendWave = (ImageView) findViewById(R.id.press_sendwave);
-		if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
 			stepImage1.setImageResource(R.drawable.reset_bg_zh);
 			instruction.setImageResource(R.drawable.instruction_ch);
 		} else {
@@ -518,7 +511,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	private void playSoundStep(int index) {
 		try {
 			String file = "";
-			if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
 				file = stepSoundCH[index];
 			} else {
 				file = stepSoundEN[index];
@@ -579,7 +572,8 @@ public class JVWaveSetActivity extends BaseActivity {
 
 				if (0 == addRes) {
 					broadList.remove(index);
-					handler.sendMessage(handler.obtainMessage(BROAD_DEVICE));
+					handler.sendMessage(handler
+							.obtainMessage(Consts.WHAT_BROAD_DEVICE));
 					addDevice.setOnlineState(1);
 					addDevice.setIp(ip);
 					addDevice.setPort(port);

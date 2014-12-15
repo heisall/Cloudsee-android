@@ -43,8 +43,6 @@ public class JVTabActivity extends ShakeActivity implements
 		OnPageChangeListener {
 
 	private static final String TAG = "JVTabActivity";
-
-	public static final int TAB_BACK = 0x20;
 	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
 
@@ -239,7 +237,8 @@ public class JVTabActivity extends ShakeActivity implements
 	public void onBackPressed() {
 		BaseFragment currentFrag = mFragments[currentIndex];
 		if (null != currentFrag) {
-			((IHandlerLikeNotify) currentFrag).onNotify(TAB_BACK, 0, 0, null);
+			((IHandlerLikeNotify) currentFrag).onNotify(Consts.WHAT_TAB_BACK,
+					0, 0, null);
 		}
 		openExitDialog();
 	}

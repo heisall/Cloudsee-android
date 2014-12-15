@@ -15,10 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
-import com.jovision.activities.JVWaveSetActivity;
 import com.jovision.bean.Device;
-import com.jovision.commons.JVConst;
 import com.jovision.utils.ConfigUtil;
 
 public class WaveDevlListAdapter extends BaseAdapter {
@@ -86,7 +85,7 @@ public class WaveDevlListAdapter extends BaseAdapter {
 					.getFullNo());
 			devHolder.channellist_pull.setVisibility(View.GONE);
 			devHolder.newImg.setVisibility(View.VISIBLE);
-			if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
 				devHolder.newImg.setImageDrawable(activity.getResources()
 						.getDrawable(R.drawable.new_dev_iconch));
 			} else {
@@ -117,8 +116,8 @@ public class WaveDevlListAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View arg0) {
 					if (!devList.get(position).isHasAdded()) {
-						activity.onNotify(JVWaveSetActivity.ADD_DEVICE,
-								position, 0, null);
+						activity.onNotify(Consts.WHAT_ADD_DEVICE, position, 0,
+								null);
 					}
 				}
 

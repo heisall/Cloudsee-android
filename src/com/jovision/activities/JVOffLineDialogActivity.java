@@ -31,14 +31,6 @@ import com.jovision.utils.mails.SimpleMailSender;
 
 public class JVOffLineDialogActivity extends BaseActivity {
 
-	private static final int COUNTS = 15;// 15秒倒计时
-	protected static final int COUNT_END = 0x50;// 倒计时结束
-	protected static final int COUNTING = 0x51;// 倒计时
-
-	protected static final int SEND_MAIL_SUCC = 0x52;// 邮件发送成功
-	protected static final int SEND_MAIL_FAIL = 0x53;// 邮件发送失败
-	protected static final int SEND_MAIL_SHOWMSG = 0x54;// 谈提示
-
 	/** 账号踢退 */
 	private LinearLayout otherLoginLayout;
 	private TextView lastCount;// 15秒倒计时
@@ -67,25 +59,25 @@ public class JVOffLineDialogActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case COUNTING: {
+		case Consts.WHAT_COUNTING: {
 			lastCount.setText(String.valueOf(arg1));
 			break;
 		}
-		case COUNT_END: {
+		case Consts.WHAT_COUNT_END: {
 			reLogin();
 			break;
 		}
-		case SEND_MAIL_SHOWMSG: {
+		case Consts.WHAT_SEND_MAIL_SHOWMSG: {
 			dismissDialog();
 			showTextToast(R.string.str_send_success);
 			break;
 		}
-		case SEND_MAIL_SUCC: {
+		case Consts.WHAT_SEND_MAIL_SUCC: {
 			dismissDialog();
 			android.os.Process.killProcess(android.os.Process.myPid());
 			break;
 		}
-		case SEND_MAIL_FAIL: {
+		case Consts.WHAT_SEND_MAIL_FAIL: {
 			dismissDialog();
 			this.finish();
 			android.os.Process.killProcess(android.os.Process.myPid());
@@ -136,7 +128,7 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			otherLoginLayout.setVisibility(View.VISIBLE);
 			offlineLayout.setVisibility(View.GONE);
 			exceptionLayout.setVisibility(View.GONE);
-			lastSeconds = COUNTS;
+			lastSeconds = Consts.OFFLINE_COUNTS;
 			startTimer();
 			// offlineTimer = new Timer();
 			// TimerTask offlineTask = new TimerTask() {
@@ -178,11 +170,11 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			public void run() {
 				lastSeconds--;
 				if (0 == lastSeconds) {
-					handler.sendMessage(handler.obtainMessage(COUNT_END, 0, 0,
-							null));
+					handler.sendMessage(handler.obtainMessage(
+							Consts.WHAT_COUNT_END, 0, 0, null));
 				} else {
-					handler.sendMessage(handler.obtainMessage(COUNTING,
-							lastSeconds, 0, null));
+					handler.sendMessage(handler.obtainMessage(
+							Consts.WHAT_COUNTING, lastSeconds, 0, null));
 				}
 			}
 
@@ -400,9 +392,9 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			String result = JSONUtil.httpPost(Url.FEED_BACK_URL, paramsMap);
 
 			if (null != result && "1".equalsIgnoreCase(result)) {
-				handler.sendEmptyMessage(SEND_MAIL_SUCC);
+				handler.sendEmptyMessage(Consts.WHAT_SEND_MAIL_SUCC);
 			} else {
-				handler.sendEmptyMessage(SEND_MAIL_FAIL);
+				handler.sendEmptyMessage(Consts.WHAT_SEND_MAIL_FAIL);
 			}
 		}
 

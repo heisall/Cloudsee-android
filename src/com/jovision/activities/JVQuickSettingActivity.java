@@ -56,7 +56,6 @@ import com.jovision.bean.Device;
 import com.jovision.bean.WifiAdmin;
 import com.jovision.commons.CommonInterface;
 import com.jovision.commons.JVAccountConst;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
@@ -220,7 +219,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 		helpLayout = (LinearLayout) findViewById(R.id.helplayout);
 		helpIV = (ImageView) findViewById(R.id.helpimg);
-		if (ConfigUtil.getLanguage() == JVConst.LANGUAGE_ZH) {// 中文
+		if (ConfigUtil.getLanguage() == Consts.LANGUAGE_ZH) {// 中文
 			helpIV.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.h400_update));
 		} else {
@@ -585,7 +584,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				apIntent.putExtra("DeviceIndex", 0);
 				apIntent.putExtra("ChannelofChannel", 1);
 				apIntent.putExtra(Consts.KEY_PLAY_AP, devJsonString);
-				startActivityForResult(apIntent, JVConst.AP_CONNECT_REQUEST);
+				startActivityForResult(apIntent, Consts.WHAT_AP_CONNECT_REQUEST);
 			} else if (1 == result) {
 				showTextToast(R.string.str_quick_setting_ap_net_timeout);
 			}
@@ -637,12 +636,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						if (null != scanIpcWifiList
 								&& 0 != scanIpcWifiList.size()) {
 							handler.sendMessage(handler.obtainMessage(
-									JVConst.QUICK_SETTING_IPC_WIFI_SUCCESS, -1,
-									0));
+									Consts.WHAT_QUICK_SETTING_IPC_WIFI_SUCCESS,
+									-1, 0));
 						} else {
 							handler.sendMessage(handler.obtainMessage(
-									JVConst.QUICK_SETTING_IPC_WIFI_FAILED, -1,
-									0));
+									Consts.WHAT_QUICK_SETTING_IPC_WIFI_FAILED,
+									-1, 0));
 						}
 					} else {// 刷新手机wifi
 						if (wifiAdmin.getWifiState()) {
@@ -653,7 +652,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							scanMobileWifiList = wifiAdmin.startScanWifi();
 						}
 						handler.sendMessage(handler.obtainMessage(
-								JVConst.QUICK_SETTING_MOBILE_WIFI_SUCC, -1, 0));
+								Consts.WHAT_QUICK_SETTING_MOBILE_WIFI_SUCC, -1,
+								0));
 					}
 
 				}
@@ -896,9 +896,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (JVConst.AP_CONNECT_REQUEST == requestCode) {
+		if (Consts.WHAT_AP_CONNECT_REQUEST == requestCode) {
 			switch (resultCode) {
-			case JVConst.AP_CONNECT_FINISHED:// AP检测视频完成
+			case Consts.WHAT_AP_CONNECT_FINISHED:// AP检测视频完成
 				boolean back = data.getBooleanExtra("AP_Back", false);
 				if (back) {
 					showIpcLayout(true);// ipc列表切换Wi-Fi列表
@@ -930,7 +930,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						scanIpcWifiList = wifiAdmin.startScanIPC();
 					}
 					handler.sendMessage(handler.obtainMessage(
-							JVConst.QUICK_SETTING_IPC_WIFI_SUCCESS, -1, 1));
+							Consts.WHAT_QUICK_SETTING_IPC_WIFI_SUCCESS, -1, 1));
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -992,7 +992,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		MyLog.e(TAG, "onHandler: " + what + ", " + arg1 + ", " + arg2 + ", "
 				+ obj);
 		switch (what) {
-		case JVConst.QUICK_SETTING_IPC_WIFI_SUCCESS:// 获取IPC 列表成功
+		case Consts.WHAT_QUICK_SETTING_IPC_WIFI_SUCCESS:// 获取IPC 列表成功
 
 			if (1 != arg2) {
 				ipcWifiListView.completeRefreshing();
@@ -1004,7 +1004,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				ipcWifiListView.setAdapter(ipcAdapter);
 			}
 			break;
-		case JVConst.QUICK_SETTING_IPC_WIFI_FAILED:// 获取IPC 列表失败
+		case Consts.WHAT_QUICK_SETTING_IPC_WIFI_FAILED:// 获取IPC 列表失败
 			ipcWifiListView.completeRefreshing();
 			dismissDialog();
 			// finish();
@@ -1027,7 +1027,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.QUICK_SETTING_ERROR:// 配置出错
 			errorDialog(arg1);
 			break;
-		case JVConst.QUICK_SETTING_MOBILE_WIFI_SUCC:// 快速设置获取主控WIFI信息数据
+		case Consts.WHAT_QUICK_SETTING_MOBILE_WIFI_SUCC:// 快速设置获取主控WIFI信息数据
 			mobileWifiListView.completeRefreshing();
 			dismissDialog();
 
@@ -1044,7 +1044,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		// dismissDialog();
 		// netErrorDialog();
 		// break;
-		case JVConst.AP_SET_SUCCESS:// AP配置成功
+		case Consts.WHAT_AP_SET_SUCCESS:// AP配置成功
 			oldWifiSSID = desWifiSSID;
 			dismissDialog();
 			// 断开连接
@@ -1057,7 +1057,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			task.execute(params);
 
 			break;
-		case JVConst.AP_SET_FAILED:// AP配置失败
+		case Consts.WHAT_AP_SET_FAILED:// AP配置失败
 			dismissDialog();
 			// 断开连接
 			manuDiscon = true;
@@ -1074,7 +1074,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							handler.sendMessage(handler
-									.obtainMessage(JVConst.QUICK_SETTING_WIFI_CONTINUE_SET));
+									.obtainMessage(Consts.WHAT_QUICK_SETTING_WIFI_CONTINUE_SET));
 							dialog.dismiss();
 						}
 					});
@@ -1083,7 +1083,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							handler.sendMessage(handler
-									.obtainMessage(JVConst.QUICK_SETTING_WIFI_FINISH_SET));
+									.obtainMessage(Consts.WHAT_QUICK_SETTING_WIFI_FINISH_SET));
 							dialog.dismiss();
 						}
 					});
@@ -1133,10 +1133,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 			break;
 
-		case JVConst.DEVICE_MOST_COUNT:// 设备添加超过最大数
+		case Consts.WHAT_DEVICE_MOST_COUNT:// 设备添加超过最大数
 			showTextToast(R.string.str_device_most_count);
 			break;
-		case JVConst.QUICK_SETTING_WIFI_CHANGED_FAIL:// 切换到原来的wifi失败,回到登陆界面
+		case Consts.WHAT_QUICK_SETTING_WIFI_CHANGED_FAIL:// 切换到原来的wifi失败,回到登陆界面
 			showTextToast(R.string.str_wifi_reset_fail);
 			dismissDialog();
 			Intent intent = new Intent(JVQuickSettingActivity.this,
@@ -1312,7 +1312,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					case JVNetConst.EX_WIFI_AP_CONFIG:// 11 ---新wifi配置流程
 						if (0 == dataObj.getInt("result")) {
 							handler.sendMessage(handler.obtainMessage(
-									JVConst.AP_SET_SUCCESS, 0, 0));
+									Consts.WHAT_AP_SET_SUCCESS, 0, 0));
 						} else {
 							// handler.sendMessage(handler.obtainMessage(
 							// JVConst.AP_SET_FAILED, 0, 0));
@@ -1324,12 +1324,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					case JVNetConst.JVN_WIFI_SETTING_SUCCESS:// 4--
 						// wifi配置成功
 						handler.sendMessage(handler.obtainMessage(
-								JVConst.AP_SET_SUCCESS, 0, 0));
+								Consts.WHAT_AP_SET_SUCCESS, 0, 0));
 						break;
 					case JVNetConst.JVN_WIFI_SETTING_FAILED:// 5--
 						// WIFI配置失败
 						handler.sendMessage(handler.obtainMessage(
-								JVConst.AP_SET_FAILED, 0, 0));
+								Consts.WHAT_AP_SET_FAILED, 0, 0));
 						break;
 					case JVNetConst.JVN_WIFI_IS_SETTING:// -- 6 正在配置wifi
 
@@ -1750,7 +1750,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		try {
 			// 打开指定音乐文件
 			String file = "";
-			if (ConfigUtil.getLanguage() == JVConst.LANGUAGE_ZH) {
+			if (ConfigUtil.getLanguage() == Consts.LANGUAGE_ZH) {
 				switch (soundType) {
 				case Consts.SOUNDONE:// 选择设备，并进入预览
 					file = "1.mp3";

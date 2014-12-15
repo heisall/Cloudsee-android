@@ -129,7 +129,7 @@ public class ChannelFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case ChannelAdapter.CHANNEL_ITEM_CLICK: {// 通道单击事件
+		case Consts.WHAT_CHANNEL_ITEM_CLICK: {// 通道单击事件
 			boolean changeRes = channelAdapter.setShowDelete(false);
 			if (changeRes) {
 				channelAdapter.notifyDataSetChanged();
@@ -156,12 +156,12 @@ public class ChannelFragment extends BaseFragment {
 			}
 			break;
 		}
-		case ChannelAdapter.CHANNEL_ITEM_LONG_CLICK: {// 通道长按事件
+		case Consts.WHAT_CHANNEL_ITEM_LONG_CLICK: {// 通道长按事件
 			channelAdapter.setShowDelete(true);
 			channelAdapter.notifyDataSetChanged();
 			break;
 		}
-		case ChannelAdapter.CHANNEL_ITEM_DEL_CLICK: {// 通道删除事件
+		case Consts.WHAT_CHANNEL_ITEM_DEL_CLICK: {// 通道删除事件
 
 			DelChannelTask task = new DelChannelTask();
 			String[] strParams = new String[3];
@@ -170,7 +170,7 @@ public class ChannelFragment extends BaseFragment {
 			task.execute(strParams);
 			break;
 		}
-		case ChannelAdapter.CHANNEL_ADD_CLICK: { // 通道添加
+		case Consts.WHAT_CHANNEL_ADD_CLICK: { // 通道添加
 			AddChannelTask task = new AddChannelTask();
 			String[] strParams = new String[3];
 			strParams[0] = String.valueOf(deviceIndex);// 设备index
@@ -178,7 +178,7 @@ public class ChannelFragment extends BaseFragment {
 			task.execute(strParams);
 			break;
 		}
-		case ChannelAdapter.CHANNEL_EDIT_CLICK: {// 通道编辑
+		case Consts.WHAT_CHANNEL_EDIT_CLICK: {// 通道编辑
 			Channel channel = deviceList.get(deviceIndex).getChannelList()
 					.get(arg1);
 			String name = channel.channelName;

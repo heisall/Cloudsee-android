@@ -18,7 +18,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.bean.Device;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
@@ -28,10 +27,6 @@ import com.jovision.utils.PlayUtil;
 public class JVAddDeviceActivity extends BaseActivity {
 
 	private static final String TAG = "JVAddDeviceActivity";
-
-	// public static final int ADD_DEV_SUCCESS = 0x60;// 添加设备成功--
-	// public static final int ADD_DEV_FAILED = 0x61;// 添加设备失败--
-
 	/** topBar */
 	private Button leftBtn;
 	private TextView currentMenu;
@@ -246,7 +241,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == JVConst.BARCODE_RESULT) {
+		if (resultCode == Consts.WHAT_BARCODE_RESULT) {
 			Bundle bundle = data.getExtras();
 			String scanResult = bundle.getString("result");
 			devNumET.setText(scanResult);

@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.Device;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.Url;
 import com.jovision.net.AsyncHttpClient;
 import com.jovision.net.AsyncHttpResponseHandler;
@@ -46,7 +45,7 @@ public class JVFeedbackActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case JVConst.FEEDBACK_SUCCESS:// 反馈成功
+		case Consts.WHAT_FEEDBACK_SUCCESS:// 反馈成功
 			dismissDialog();
 			AlertDialog.Builder builder = new AlertDialog.Builder(
 					JVFeedbackActivity.this);
@@ -63,7 +62,7 @@ public class JVFeedbackActivity extends BaseActivity {
 			builder.create().show();
 			break;
 
-		case JVConst.FEEDBACK_FAILED:// 反馈失败
+		case Consts.WHAT_FEEDBACK_FAILED:// 反馈失败
 			// 提交建议失败，什么也不做
 			break;
 		case Consts.PUSH_MESSAGE:
@@ -305,10 +304,10 @@ public class JVFeedbackActivity extends BaseActivity {
 
 				if (null != result && "1".equalsIgnoreCase(result)) {
 					handler.sendMessage(handler
-							.obtainMessage(JVConst.FEEDBACK_SUCCESS));// 反馈成功
+							.obtainMessage(Consts.WHAT_FEEDBACK_SUCCESS));// 反馈成功
 				} else {
 					handler.sendMessage(handler
-							.obtainMessage(JVConst.FEEDBACK_FAILED)); // 反馈失败
+							.obtainMessage(Consts.WHAT_FEEDBACK_FAILED)); // 反馈失败
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

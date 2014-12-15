@@ -8,12 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 
 public class StreamAdapter extends BaseAdapter {
-
-	public static final int STREAM_ITEM_CLICK = 0x60;// 码流单击事件--
-
 	private Context context;
 	private String[] dataArray;
 	private LayoutInflater mInflater;
@@ -95,8 +93,8 @@ public class StreamAdapter extends BaseAdapter {
 		holder.screenNum.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((BaseActivity) context).onNotify(STREAM_ITEM_CLICK, position,
-						0, null);
+				((BaseActivity) context).onNotify(
+						Consts.WHAT_STREAM_ITEM_CLICK, position, 0, null);
 			}
 		});
 

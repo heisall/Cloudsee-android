@@ -23,7 +23,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.RemoteVideoAdapter;
 import com.jovision.bean.RemoteVideo;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.PlayUtil;
 
@@ -65,49 +64,49 @@ public class JVRemoteListActivity extends BaseActivity {
 					channelOfChannel);
 			if (null != videoList && 0 != videoList.size()) {
 				handler.sendMessage(handler
-						.obtainMessage(JVConst.REMOTE_DATA_SUCCESS));
+						.obtainMessage(Consts.WHAT_REMOTE_DATA_SUCCESS));
 			} else {
 				handler.sendMessage(handler
-						.obtainMessage(JVConst.REMOTE_NO_DATA_FAILED));
+						.obtainMessage(Consts.WHAT_REMOTE_NO_DATA_FAILED));
 			}
 			break;
 		}
-		case JVConst.REMOTE_DATA_SUCCESS: {
+		case Consts.WHAT_REMOTE_DATA_SUCCESS: {
 			remoteVideoAdapter.setData(videoList);
 			remoteListView.setAdapter(remoteVideoAdapter);
 			remoteVideoAdapter.notifyDataSetChanged();
 			dismissDialog();
 			break;
 		}
-		case JVConst.REMOTE_DATA_FAILED: {
+		case Consts.WHAT_REMOTE_DATA_FAILED: {
 			remoteVideoAdapter.setData(videoList);
 			remoteVideoAdapter.notifyDataSetChanged();
 			showTextToast(R.string.str_video_load_failed);
 			dismissDialog();
 			break;
 		}
-		case JVConst.REMOTE_NO_DATA_FAILED: {
+		case Consts.WHAT_REMOTE_NO_DATA_FAILED: {
 			remoteVideoAdapter.setData(videoList);
 			remoteVideoAdapter.notifyDataSetChanged();
 			showTextToast(R.string.str_video_nodata_failed);
 			dismissDialog();
 			break;
 		}
-		case JVConst.REMOTE_START_PLAY:
+		case Consts.WHAT_REMOTE_START_PLAY:
 			// setResult(JVConst.REMTE_PLAYBACK_BEGIN);// 开始远程回放
 			finish();
 			break;
-		case JVConst.REMOTE_PLAY_FAILED:// 回放失败
+		case Consts.WHAT_REMOTE_PLAY_FAILED:// 回放失败
 			showTextToast(R.string.str_video_play_failed);
 			break;
-		case JVConst.REMOTE_PLAY_NOT_SUPPORT:
+		case Consts.WHAT_REMOTE_PLAY_NOT_SUPPORT:
 			// Message msg1 = JVPlayActivity.getInstance().playHandler
 			// .obtainMessage();
 			// msg1.what = JVConst.NOT_SUPPORT_REMOTE_PLAY;
 			// JVPlayActivity.getInstance().playHandler.sendMessage(msg1);
 			finish();
 			break;
-		case JVConst.REMOTE_PLAY_EXCEPTION:
+		case Consts.WHAT_REMOTE_PLAY_EXCEPTION:
 			// if (JVSUDT.PLAY_EXCEPTION_FLAG) {
 			// showTextToast(R.string.str_video_disconnected);
 			// JVSUDT.PLAY_EXCEPTION_FLAG = false;

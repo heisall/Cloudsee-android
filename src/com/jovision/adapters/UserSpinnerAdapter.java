@@ -12,8 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
-import com.jovision.activities.JVLoginActivity;
 import com.jovision.bean.User;
 
 public class UserSpinnerAdapter extends BaseAdapter {
@@ -96,7 +96,7 @@ public class UserSpinnerAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				activity.onNotify(JVLoginActivity.SELECT_USER, position, 0,
+				activity.onNotify(Consts.WHAT_SELECT_USER, position, 0,
 						list.get(position));
 				holder.textView.setText(list.get(position).getUserName());
 				userName = list.get(position).getUserName();
@@ -108,8 +108,7 @@ public class UserSpinnerAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				activity.onNotify(JVLoginActivity.DELECT_USER, position, 0,
-						null);
+				activity.onNotify(Consts.WHAT_DELETE_USER, position, 0, null);
 				list.remove(position);
 				notifyDataSetChanged();
 			}

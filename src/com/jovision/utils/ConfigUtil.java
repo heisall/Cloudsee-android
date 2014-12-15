@@ -64,7 +64,6 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.MainApplication;
 import com.jovision.bean.Wifi;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
@@ -277,9 +276,9 @@ public class ConfigUtil {
 							+ country.contains("china"));
 			if (country.contains(china) || country.contains("China")
 					|| country.contains("china")) {
-				lan = JVConst.LANGUAGE_ZH;
+				lan = Consts.LANGUAGE_ZH;
 			} else {
-				lan = JVConst.LANGUAGE_EN;
+				lan = Consts.LANGUAGE_EN;
 			}
 		}
 		MyLog.v("country", "lan=" + lan + ";中文 1 英文2");
@@ -292,12 +291,12 @@ public class ConfigUtil {
 	 * @return 1:中文 2:英文
 	 */
 	public static int getLanguage() {
-		int lan = JVConst.LANGUAGE_ZH;
+		int lan = Consts.LANGUAGE_ZH;
 		String language = Locale.getDefault().getLanguage();
 		if (language.equalsIgnoreCase("zh")) {// 中文
-			lan = JVConst.LANGUAGE_ZH;
+			lan = Consts.LANGUAGE_ZH;
 		} else {// 英文
-			lan = JVConst.LANGUAGE_EN;
+			lan = Consts.LANGUAGE_EN;
 		}
 		return lan;
 	}
@@ -310,13 +309,13 @@ public class ConfigUtil {
 	 */
 	public static boolean isLanZH() {
 		boolean lanFlag = false;
-		int lan = JVConst.LANGUAGE_ZH;
+		int lan = Consts.LANGUAGE_ZH;
 		String language = Locale.getDefault().getLanguage();
 		if (language.equalsIgnoreCase("zh")) {// 中文
-			lan = JVConst.LANGUAGE_ZH;
+			lan = Consts.LANGUAGE_ZH;
 			lanFlag = true;
 		} else {// 英文
-			lan = JVConst.LANGUAGE_EN;
+			lan = Consts.LANGUAGE_EN;
 			lanFlag = false;
 		}
 		return lanFlag;
@@ -435,7 +434,7 @@ public class ConfigUtil {
 
 			String channelIp = "";
 			String onlineIp = "";
-			if (JVConst.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
 				channelIp = MySharedPreference.getString("ChannelIP");
 				onlineIp = MySharedPreference.getString("OnlineIP");
 			} else {

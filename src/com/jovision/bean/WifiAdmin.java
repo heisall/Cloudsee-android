@@ -15,7 +15,6 @@ import android.net.wifi.WifiManager.WifiLock;
 import android.text.TextUtils;
 
 import com.jovision.Consts;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MyLog;
 
 public class WifiAdmin {
@@ -190,7 +189,7 @@ public class WifiAdmin {
 						size = mWifiList.size();
 					}
 
-					if (name.equalsIgnoreCase(JVConst.IPC_FLAG)) {
+					if (name.equalsIgnoreCase(Consts.IPC_FLAG)) {
 						ScanResult sr = mWifiList.get(i);
 						mWifiList.remove(i);
 						mWifiList.add(0, sr);

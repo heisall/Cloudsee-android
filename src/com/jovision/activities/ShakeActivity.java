@@ -19,8 +19,8 @@ import android.os.Message;
 import android.os.Vibrator;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.bean.WifiAdmin;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MyActivityManager;
 
 /**
@@ -232,9 +232,9 @@ public abstract class ShakeActivity extends BaseActivity implements
 
 				Message msg = shakeHandler.obtainMessage();
 				if (null != scanIpcWifiList && 0 != scanIpcWifiList.size()) {
-					msg.what = JVConst.SHAKE_IPC_WIFI_SUCCESS;
+					msg.what = Consts.WHAT_SHAKE_IPC_WIFI_SUCCESS;
 				} else {
-					msg.what = JVConst.SHAKE_IPC_WIFI_FAILED;
+					msg.what = Consts.WHAT_SHAKE_IPC_WIFI_FAILED;
 				}
 				shakeHandler.sendMessage(msg);
 			}
@@ -325,7 +325,7 @@ public abstract class ShakeActivity extends BaseActivity implements
 		public void handleMessage(Message msg) {
 
 			switch (msg.what) {
-			case JVConst.SHAKE_IPC_WIFI_SUCCESS: {
+			case Consts.WHAT_SHAKE_IPC_WIFI_SUCCESS: {
 				activity.prepareAndPlay(2);
 				// activity.openSearchDialog();
 				threadRunning = false;
@@ -338,7 +338,7 @@ public abstract class ShakeActivity extends BaseActivity implements
 				ShakeActivity.this.startActivity(intent);
 				break;
 			}
-			case JVConst.SHAKE_IPC_WIFI_FAILED: {
+			case Consts.WHAT_SHAKE_IPC_WIFI_FAILED: {
 				activity.showTextToast(R.string.str_quick_setting_alert_nowifi);
 
 				if (oldWifiState) {// 原wifi开着的，什么也不做

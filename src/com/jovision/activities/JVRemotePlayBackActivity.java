@@ -23,7 +23,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.PlayUtil;
@@ -223,7 +222,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				backMethod();
 			}
 		}
-		case JVConst.REMOTE_PLAY_DISMISS_PROGRESS: {// 5秒时间到关闭进度条
+		case Consts.WHAT_REMOTE_PLAY_DISMISS_PROGRESS: {// 5秒时间到关闭进度条
 			// stopTimer();
 			seconds = 0;
 			playBackBar.setVisibility(View.GONE);
@@ -401,7 +400,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			seconds++;
 			if (6 == seconds) {
 				handler.sendMessage(handler
-						.obtainMessage(JVConst.REMOTE_PLAY_DISMISS_PROGRESS));
+						.obtainMessage(Consts.WHAT_REMOTE_PLAY_DISMISS_PROGRESS));
 				return;
 			}
 		}

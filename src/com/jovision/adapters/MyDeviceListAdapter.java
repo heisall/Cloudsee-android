@@ -24,14 +24,9 @@ import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.BaseFragment;
 import com.jovision.bean.Device;
+import com.jovision.utils.BitmapCache;
 
 public class MyDeviceListAdapter extends BaseAdapter {
-
-	public static final int DEVICE_ITEM_CLICK = 0x10;// 设备单击事件--
-	public static final int DEVICE_ITEM_LONG_CLICK = 0x11;// 设备长按事件--
-	public static final int DEVICE_ITEM_DEL_CLICK = 0x12;// 设备删除按钮事件--
-	public static final int DEVICE_EDIT_CLICK = 0x13;// 设备编辑按钮事件--
-
 	private ArrayList<Device> deviceList;
 	private BaseFragment mfragment;
 	private LayoutInflater inflater;
@@ -40,6 +35,10 @@ public class MyDeviceListAdapter extends BaseAdapter {
 	private int[] devResArray = { R.drawable.device_bg_1,
 			R.drawable.device_bg_2, R.drawable.device_bg_3,
 			R.drawable.device_bg_4 };
+
+	private int[] devTopResArray = { R.drawable.devicetop_bg_1,
+			R.drawable.devicetop_bg_2, R.drawable.devicetop_bg_3,
+			R.drawable.devicetop_bg_4 };
 
 	public MyDeviceListAdapter(Context con, BaseFragment fragment) {
 		mfragment = fragment;
@@ -115,6 +114,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.wifi_online_img_l);
 			deviceHolder.devImgL = (ImageView) convertView
 					.findViewById(R.id.dev_image_l);
+			deviceHolder.devImgTopL = (ImageView) convertView
+					.findViewById(R.id.dev_image_top_l);
 			deviceHolder.devDeleteL = (LinearLayout) convertView
 					.findViewById(R.id.mydevice_cancle_l);
 			deviceHolder.editDevL = (RelativeLayout) convertView
@@ -140,6 +141,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.wifi_online_img_r);
 			deviceHolder.devImgR = (ImageView) convertView
 					.findViewById(R.id.dev_image_r);
+			deviceHolder.devImgTopR = (ImageView) convertView
+					.findViewById(R.id.dev_image_top_r);
 			deviceHolder.devDeleteR = (LinearLayout) convertView
 					.findViewById(R.id.mydevice_cancle_r);
 			deviceHolder.editDevR = (RelativeLayout) convertView
@@ -153,6 +156,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		} else {
 			deviceHolder = (DeviceHolder) convertView.getTag();
 		}
+
 		if (2 == deviceList.get(position * 2).getIsDevice()) {
 			deviceHolder.devNameL.setText(deviceList.get(position * 2)
 					.getNickName());
@@ -163,6 +167,12 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getNickName());
 			deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
 					.getNickName());
+			// TODO
+			deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
+					.getBitmap(
+							Consts.SCENE_PATH
+									+ deviceList.get(position * 2).getFullNo()
+									+ ".jpg", "image", ""));
 		}
 
 		if (Boolean
@@ -213,12 +223,17 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		}
 		int lastL = (position * 2) % 4;
 		int lastR = (position * 2 + 1) % 4;
+		// TODO
 		// 按规律设置背景色
 		if (0 == lastL || 2 == lastL) {
 			deviceHolder.devLayoutL.setBackgroundResource(devResArray[lastL]);
+			deviceHolder.devImgTopL
+					.setBackgroundResource(devTopResArray[lastL]);
 		}
 		if (1 == lastR || 3 == lastR) {
 			deviceHolder.devLayoutR.setBackgroundResource(devResArray[lastR]);
+			deviceHolder.devImgTopR
+					.setBackgroundResource(devTopResArray[lastR]);
 		}
 		// 控制删除按钮显示隐藏
 		if (showDelete) {
@@ -262,8 +277,14 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						.getNickName());
 				deviceHolder.devnicknameR.setText(deviceList.get(
 						position * 2 + 1).getNickName());
+				// TODO
+				deviceHolder.devImgR.setImageBitmap(BitmapCache.getInstance()
+						.getBitmap(
+								Consts.SCENE_PATH
+										+ deviceList.get(position * 2 + 1)
+												.getFullNo() + ".jpg", "image",
+								""));
 			}
-
 			if (Boolean
 					.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
 							.get(Consts.LOCAL_LOGIN))) {
@@ -327,8 +348,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 					@Override
 					public boolean onLongClick(View arg0) {
-						mfragment.onNotify(DEVICE_ITEM_LONG_CLICK, position, 0,
-								null);
+						mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_LONG_CLICK,
+								position, 0, null);
 						return false;
 					}
 				});
@@ -344,8 +365,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 					@Override
 					public boolean onLongClick(View arg0) {
-						mfragment.onNotify(DEVICE_ITEM_LONG_CLICK, position, 0,
-								null);
+						mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_LONG_CLICK,
+								position, 0, null);
 						return false;
 					}
 				});
@@ -376,11 +397,13 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		@Override
 		public void onClick(View arg0) {
 			if (1 == operate || 2 == operate) {
-				mfragment.onNotify(DEVICE_ITEM_CLICK, position, 0, null);
+				mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_CLICK, position, 0,
+						null);
 			} else if (3 == operate) {
 				dialog(position);
 			} else if (4 == operate) {
-				mfragment.onNotify(DEVICE_EDIT_CLICK, position, 0, null);
+				mfragment.onNotify(Consts.WHAT_DEVICE_EDIT_CLICK, position, 0,
+						null);
 			}
 		}
 
@@ -393,6 +416,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		TextView onLineStateL;
 		TextView wifiStateL;
 		ImageView devImgL;
+		ImageView devImgTopL;
 		LinearLayout devDeleteL;
 		RelativeLayout editDevL;
 		LinearLayout editDevIVL;
@@ -406,6 +430,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		TextView onLineStateR;
 		TextView wifiStateR;
 		ImageView devImgR;
+		ImageView devImgTopR;
 		LinearLayout devDeleteR;
 		RelativeLayout editDevR;
 		LinearLayout editDevIVR;
@@ -431,8 +456,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						mfragment.onNotify(DEVICE_ITEM_DEL_CLICK, position, 0,
-								null);
+						mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_DEL_CLICK,
+								position, 0, null);
 					}
 				});
 		builder.setNegativeButton(cancleString,

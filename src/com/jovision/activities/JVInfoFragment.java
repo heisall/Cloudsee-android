@@ -471,7 +471,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case PushAdapter.DELETE_ALARM_MESS: {// 删除报警
+		case Consts.WHAT_DELETE_ALARM_MESS: {// 删除报警
 			pushIndex = arg1;
 
 			DelAlarmTask task = new DelAlarmTask();

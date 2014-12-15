@@ -31,7 +31,7 @@ import barcode.zxing.view.ViewfinderView;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.commons.JVConst;
+import com.jovision.Consts;
 import com.jovision.utils.RegularUtil;
 
 /**
@@ -173,7 +173,7 @@ public class MipcaActivityCapture extends Activity implements Callback {
 						bundle.putString("result", resultString);
 						resultIntent.putExtras(bundle);
 						MipcaActivityCapture.this.setResult(
-								JVConst.BARCODE_RESULT, resultIntent);
+								Consts.WHAT_BARCODE_RESULT, resultIntent);
 						MipcaActivityCapture.this.finish();
 					}
 				});

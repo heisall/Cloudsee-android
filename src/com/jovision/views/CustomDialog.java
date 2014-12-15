@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.commons.CommonInterface;
-import com.jovision.commons.JVConst;
 import com.jovision.utils.ConfigUtil;
 
 public class CustomDialog extends Dialog implements CommonInterface {
@@ -74,7 +74,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 		try {
 			// 打开指定音乐文件
 			String file = "";
-			if (ConfigUtil.getLanguage() == JVConst.LANGUAGE_ZH) {
+			if (ConfigUtil.getLanguage() == Consts.LANGUAGE_ZH) {
 				switch (dev_mark_id) {
 				case 1:// 门磁
 					file = "menci.mp3";
@@ -88,7 +88,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 				default:
 					break;
 				}
-			} else if (ConfigUtil.getLanguage() == JVConst.LANGUAGE_EN) {
+			} else if (ConfigUtil.getLanguage() == Consts.LANGUAGE_EN) {
 				switch (dev_mark_id) {
 				case 1:// 门磁
 					file = "menci_en.mp3";

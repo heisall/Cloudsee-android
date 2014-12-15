@@ -64,6 +64,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 	private RelativeLayout relative;
 	/** 帮助引导 */
 	private LinearLayout quickSetSV; // 快速配置界面
+	private ImageView quickinstall_img_bg;
+	private ImageView unwire_device_img_bg;
 	private Button quickSet;
 	private Button addDevice;
 
@@ -117,10 +119,30 @@ public class JVDeviceManageFragment extends BaseFragment {
 			/** 引导加设备 */
 			quickSetSV = (LinearLayout) mParent
 					.findViewById(R.id.quickinstalllayout);
+			quickinstall_img_bg = (ImageView) mParent
+					.findViewById(R.id.quickinstall_img_bg);
+			unwire_device_img_bg = (ImageView) mParent
+					.findViewById(R.id.unwire_device_img_bg);
 			quickSet = (Button) mParent.findViewById(R.id.quickinstall);
 			addDevice = (Button) mParent.findViewById(R.id.adddevice);
+
+			quickinstall_img_bg.setOnClickListener(mOnClickListener);
+			unwire_device_img_bg.setOnClickListener(mOnClickListener);
 			quickSet.setOnClickListener(mOnClickListener);
 			addDevice.setOnClickListener(mOnClickListener);
+
+			if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(
+					"false")) {// CloudSEE
+				quickinstall_img_bg.setImageDrawable(mActivity.getResources()
+						.getDrawable(R.drawable.wire_device_img));
+				unwire_device_img_bg.setImageDrawable(mActivity.getResources()
+						.getDrawable(R.drawable.unwire_device_img));
+			} else {
+				quickinstall_img_bg.setImageDrawable(mActivity.getResources()
+						.getDrawable(R.drawable.wire_devicen_img));
+				unwire_device_img_bg.setImageDrawable(mActivity.getResources()
+						.getDrawable(R.drawable.unwire_devicen_img));
+			}
 
 			devicemanage_listView = (ListView) mParent
 					.findViewById(R.id.device_listView);
@@ -244,9 +266,11 @@ public class JVDeviceManageFragment extends BaseFragment {
 				managePager.setVisibility(View.VISIBLE);
 				relative.setVisibility(View.VISIBLE);
 				break;
+			case R.id.quickinstall_img_bg:
 			case R.id.quickinstall:
 				((ShakeActivity) mActivity).startSearch(false);
 				break;
+			case R.id.unwire_device_img_bg:
 			case R.id.adddevice:
 				Intent addIntent = new Intent();
 				addIntent.setClass(mActivity, JVAddDeviceActivity.class);

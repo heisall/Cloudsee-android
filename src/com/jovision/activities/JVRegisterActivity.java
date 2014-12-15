@@ -26,7 +26,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
@@ -401,7 +400,7 @@ public class JVRegisterActivity extends BaseActivity {
 										.optString("channel_ip");
 								String onlineIp = dataObj
 										.optString("online_ip");
-								if (JVConst.LANGUAGE_ZH == ConfigUtil
+								if (Consts.LANGUAGE_ZH == ConfigUtil
 										.getServerLanguage()) {
 									MySharedPreference.putString("ChannelIP",
 											channelIp);

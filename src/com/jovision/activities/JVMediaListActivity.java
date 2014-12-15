@@ -28,12 +28,6 @@ import com.jovision.bean.Filebean;
 import com.jovision.utils.BitmapCache;
 
 public class JVMediaListActivity extends BaseActivity {
-
-	private static final int LOAD_IMAGE_SUCCESS = 0x01;
-	private static final int LOAD_IMAGE_FINISHED = 0x02;
-	private static final int FILE_LOAD_SUCCESS = 0x03;
-	private static final int FILE_NUM = 0x04;
-	public static final int FILE_SUM = 0x05;
 	public static HashMap<String, ArrayList<Filebean>> fileMap = new HashMap<String, ArrayList<Filebean>>();
 
 	private String media = "";
@@ -68,17 +62,17 @@ public class JVMediaListActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case LOAD_IMAGE_SUCCESS: {
+		case Consts.WHAT_LOAD_IMAGE_SUCCESS: {
 
 			break;
 		}
-		case LOAD_IMAGE_FINISHED: {
+		case Consts.WHAT_LOAD_IMAGE_FINISHED: {
 			mfAdapter.setLoadImage(true);
 			mfAdapter.notifyDataSetChanged();
 			dismissDialog();
 			break;
 		}
-		case FILE_LOAD_SUCCESS: {
+		case Consts.WHAT_FILE_LOAD_SUCCESS: {
 			dismissDialog();
 			if (noFile) {
 				noFileLayout.setVisibility(View.VISIBLE);
@@ -92,11 +86,11 @@ public class JVMediaListActivity extends BaseActivity {
 			}
 			break;
 		}
-		case FILE_NUM:
+		case Consts.WHAT_FILE_NUM:
 			fileSelectNum.setText(selectNum.replace("?", String.valueOf(0)));
 			fileNumber.setText(totalNum.replace("?", String.valueOf(arg1)));
 			break;
-		case FILE_SUM:
+		case Consts.WHAT_FILE_SUM:
 			if (arg2 == 1) {
 				fileSlectAll
 						.setBackgroundResource(R.drawable.morefragment_selector_icon);
@@ -391,20 +385,20 @@ public class JVMediaListActivity extends BaseActivity {
 
 				if (noFile) {
 					handler.sendMessage(handler
-							.obtainMessage(FILE_LOAD_SUCCESS));
+							.obtainMessage(Consts.WHAT_FILE_LOAD_SUCCESS));
 				} else {
 					Collections.sort(fileList, comparator);
 					Message msg = new Message();
 					msg.arg1 = fileSum;
-					msg.what = FILE_NUM;
+					msg.what = Consts.WHAT_FILE_NUM;
 					handler.sendMessage(msg);
 					handler.sendMessage(handler
-							.obtainMessage(FILE_LOAD_SUCCESS));
+							.obtainMessage(Consts.WHAT_FILE_LOAD_SUCCESS));
 					if (null != fileList && 0 != fileList.size()) {
 						int size = fileList.size();
 						for (int i = 0; i < size; i++) {
 							handler.sendMessage(handler
-									.obtainMessage(LOAD_IMAGE_SUCCESS));
+									.obtainMessage(Consts.WHAT_LOAD_IMAGE_SUCCESS));
 							File[] fileArray = fileList.get(i).listFiles();
 							if (null != fileArray && 0 != fileArray.length) {
 								int length = fileArray.length;
@@ -416,7 +410,7 @@ public class JVMediaListActivity extends BaseActivity {
 							}
 						}
 						handler.sendMessage(handler
-								.obtainMessage(LOAD_IMAGE_FINISHED));
+								.obtainMessage(Consts.WHAT_LOAD_IMAGE_FINISHED));
 					}
 				}
 

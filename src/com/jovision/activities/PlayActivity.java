@@ -26,7 +26,6 @@ import com.jovision.adapters.FuntionAdapter;
 import com.jovision.adapters.ScreenAdapter;
 import com.jovision.adapters.StreamAdapter;
 import com.jovision.bean.Channel;
-import com.jovision.commons.JVConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyAudio;
 import com.jovision.utils.ConfigUtil;
@@ -354,7 +353,7 @@ public abstract class PlayActivity extends BaseActivity {
 		videoTape = (Button) findViewById(R.id.videotape);// 录像
 		moreFeature = (Button) findViewById(R.id.more_features);// 更多
 
-		if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
 			capture.setTextSize(12);// 抓拍
 			voiceCall.setTextSize(12);// 喊话
 			videoTape.setTextSize(12);// 录像

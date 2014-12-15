@@ -197,7 +197,7 @@ public class ManageFragment extends BaseFragment {
 		MyLog.i("ManageFragment", "onTabAction:what=" + what + ";arg1=" + arg1
 				+ ";arg2=" + arg1);
 		switch (what) {
-		case Consts.MANAGE_ITEM_CLICK: {// adapter item 单击事件
+		case Consts.WHAT_MANAGE_ITEM_CLICK: {// adapter item 单击事件
 			JVDeviceManageFragment.deviceIndex = arg2;
 			device = deviceList.get(JVDeviceManageFragment.deviceIndex);
 			switch (arg1) {
@@ -501,7 +501,7 @@ public class ManageFragment extends BaseFragment {
 			}
 			break;
 		}
-		case Consts.PUSH_MESSAGE:
+		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
 				new AlarmDialog(mActivity).Show(obj);

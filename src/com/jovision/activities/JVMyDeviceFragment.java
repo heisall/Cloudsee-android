@@ -905,7 +905,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			initSummaryDialog(myDeviceList, arg1);
 		}
 			break;
-		case Consts.PUSH_MESSAGE:
+		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			//
 			// ArrayList<Device> deviceList = CacheUtil.getDevList();

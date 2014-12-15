@@ -114,8 +114,8 @@ public class GuidViewPager extends ViewPager {
 							.setBackgroundResource(focusedId);
 					oldIndex = curIndex;
 					((MainApplication) mActivity.getApplicationContext())
-							.onNotify(Consts.GUID_PAGE_SCROLL, oldIndex, 0,
-									null);
+							.onNotify(Consts.WHAT_GUID_PAGE_SCROLL, oldIndex,
+									0, null);
 				}
 
 				public void onPageScrolled(int arg0, float arg1, int arg2) {

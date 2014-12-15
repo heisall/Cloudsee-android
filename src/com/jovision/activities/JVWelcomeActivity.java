@@ -3,8 +3,9 @@ package com.jovision.activities;
 import android.content.Intent;
 import android.os.Handler;
 import android.test.AutoLoad;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -25,7 +26,9 @@ public class JVWelcomeActivity extends BaseActivity {
 
 	private final String TAG = "JVWelcomeActivity";
 	private Handler initHandler;
-	private ImageView welcome_img;
+
+	private RelativeLayout cloudseeLayout;
+	private RelativeLayout neturalLayout;
 
 	// private static boolean HAS_LOADED = false;
 
@@ -100,19 +103,23 @@ public class JVWelcomeActivity extends BaseActivity {
 				StatService.startStatService(JVWelcomeActivity.this, appkey,
 						StatConstants.VERSION);
 			} catch (MtaSDkException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			StatService.trackCustomEvent(JVWelcomeActivity.this, "onCreat",
 					"welcome");
 		}
-		welcome_img = (ImageView) findViewById(R.id.welcome_img);
-		if (!ConfigUtil.isLanZH()) {
-			welcome_img.setBackgroundResource(R.drawable.welcome_imgen_icon);
+		cloudseeLayout = (RelativeLayout) findViewById(R.id.cloudseewelcome);
+		neturalLayout = (RelativeLayout) findViewById(R.id.neturalwelcome);
+
+		if (statusHashMap.get(Consts.NEUTRAL_VERSION).equalsIgnoreCase("false")) {// CloudSEE
+			cloudseeLayout.setVisibility(View.VISIBLE);
+			neturalLayout.setVisibility(View.GONE);
 		} else {
-			welcome_img.setBackgroundResource(R.drawable.welcome_imgen_icon);
+			cloudseeLayout.setVisibility(View.GONE);
+			neturalLayout.setVisibility(View.VISIBLE);
 		}
+
 		if (!ConfigUtil.isConnected(JVWelcomeActivity.this)) {
 			alertNetDialog();
 		} else {

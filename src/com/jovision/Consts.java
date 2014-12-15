@@ -10,6 +10,8 @@ public class Consts {
 	public static final int TERMINAL_TYPE = 1;
 	// 产品类型 0-CloudSEE 1-NVSIP 2-HITVIS 3-TONGFANG
 	public static final int PRODUCT_TYPE = 0;
+	// 软件名
+	public static final String APP_NAME = "CloudSEE";
 
 	public static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
 
@@ -23,7 +25,6 @@ public class Consts {
 	public static final String LOG_PATH = SD_CARD_PATH + "JCS";
 	public static final String ACCOUNT_PATH = SD_CARD_PATH + "ACCOUNT";
 
-	public static final String APP_NAME = "CloudSEE";
 	public static final String CAPTURE_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "capture" + File.separator;
 	public static final String VIDEO_PATH = Consts.SD_CARD_PATH + APP_NAME
@@ -36,6 +37,8 @@ public class Consts {
 			+ File.separator + "head" + File.separator;
 	public static final String AD_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "ad" + File.separator;
+	public static final String SCENE_PATH = Consts.SD_CARD_PATH + APP_NAME
+			+ File.separator + "scene" + File.separator;
 
 	public static final String DB_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "db" + File.separator;

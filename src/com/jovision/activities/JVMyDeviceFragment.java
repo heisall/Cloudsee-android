@@ -272,6 +272,17 @@ public class JVMyDeviceFragment extends BaseFragment {
 		addDevice.setOnClickListener(myOnClickListener);
 		unwire_device_img_bg.setOnClickListener(myOnClickListener);
 
+		if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals("false")) {// CloudSEE
+			quickinstall_img_bg.setImageDrawable(mActivity.getResources()
+					.getDrawable(R.drawable.wire_device_img));
+			unwire_device_img_bg.setImageDrawable(mActivity.getResources()
+					.getDrawable(R.drawable.unwire_device_img));
+		} else {
+			quickinstall_img_bg.setImageDrawable(mActivity.getResources()
+					.getDrawable(R.drawable.wire_devicen_img));
+			unwire_device_img_bg.setImageDrawable(mActivity.getResources()
+					.getDrawable(R.drawable.unwire_devicen_img));
+		}
 		/** 广告条 */
 		imageScroll = (ImageViewPager) adView.findViewById(R.id.imagescroll);
 		// 防止广告图片变形
@@ -582,108 +593,113 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 * 初始化图片
 	 */
 	private void initADViewPager() {
-		if (MySharedPreference.getBoolean(Consts.AD_UPDATE)) {
-			try {
-				adList = AD.fromJsonArray(MySharedPreference
-						.getString(Consts.AD_LIST));
-				if (null == listViews || 0 == listViews.size()) {// 还没加载过广告，先添加上广告
-					for (int i = 0; i < adList.size(); i++) {
-						final ImageView imageView = new ImageView(mActivity);
-						imageView.setTag(i);
-						imageView.setOnClickListener(new OnClickListener() {
-							public void onClick(View v) {// 设置图片点击事件
-								Intent intentAD = new Intent(mActivity,
-										JVWebViewActivity.class);
-								int index = (Integer) imageView.getTag();
+		if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals("false")) {
+			if (MySharedPreference.getBoolean(Consts.AD_UPDATE)) {
+				try {
+					adList = AD.fromJsonArray(MySharedPreference
+							.getString(Consts.AD_LIST));
+					if (null == listViews || 0 == listViews.size()) {// 还没加载过广告，先添加上广告
+						for (int i = 0; i < adList.size(); i++) {
+							final ImageView imageView = new ImageView(mActivity);
+							imageView.setTag(i);
+							imageView.setOnClickListener(new OnClickListener() {
+								public void onClick(View v) {// 设置图片点击事件
+									Intent intentAD = new Intent(mActivity,
+											JVWebViewActivity.class);
+									int index = (Integer) imageView.getTag();
 
-								String adUrl = "";
+									String adUrl = "";
 
-								if (JVConst.LANGUAGE_ZH == ConfigUtil
-										.getLanguage()) {
-									adUrl = adList.get(index).getAdLinkCh();
-								} else {
-									adUrl = adList.get(index).getAdLinkEn();
+									if (JVConst.LANGUAGE_ZH == ConfigUtil
+											.getLanguage()) {
+										adUrl = adList.get(index).getAdLinkCh();
+									} else {
+										adUrl = adList.get(index).getAdLinkEn();
+									}
+
+									if (null != adUrl
+											&& !"".equalsIgnoreCase(adUrl
+													.trim())) {
+										intentAD.putExtra("URL", adUrl);
+										intentAD.putExtra("title", -1);
+										mActivity.startActivity(intentAD);
+									}
 								}
+							});
 
-								if (null != adUrl
-										&& !"".equalsIgnoreCase(adUrl.trim())) {
-									intentAD.putExtra("URL", adUrl);
-									intentAD.putExtra("title", -1);
-									mActivity.startActivity(intentAD);
-								}
+							Bitmap bmp = null;
+
+							if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+								bmp = BitmapCache.getInstance().getCacheBitmap(
+										adList.get(i).getAdImgUrlCh());
+							} else {
+								bmp = BitmapCache.getInstance().getCacheBitmap(
+										adList.get(i).getAdImgUrlEn());
 							}
-						});
 
-						Bitmap bmp = null;
+							// if (null == bmp) {
+							//
+							// if (JVConst.LANGUAGE_ZH ==
+							// ConfigUtil.getLanguage())
+							// {
+							// bmp = BitmapCache.getInstance().getBitmap(
+							// adList.get(i).getAdImgUrlCh(), "net",
+							// String.valueOf(adList.get(i).getIndex()));
+							// } else {
+							// bmp = BitmapCache.getInstance().getBitmap(
+							// adList.get(i).getAdImgUrlEn(), "net",
+							// String.valueOf(adList.get(i).getIndex()));
+							// }
+							//
+							// }
+							// Bitmap bmp =
+							// BitmapCache.getInstance().getCacheBitmap(
+							// adList.get(i).getAdImgUrl());
+							if (null != bmp) {
+								imageView.setImageBitmap(bmp);
+							} else {
+								imageView
+										.setImageResource(R.drawable.ad_default);
+							}
 
-						if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
-							bmp = BitmapCache.getInstance().getCacheBitmap(
-									adList.get(i).getAdImgUrlCh());
-						} else {
-							bmp = BitmapCache.getInstance().getCacheBitmap(
-									adList.get(i).getAdImgUrlEn());
+							imageView.setScaleType(ScaleType.FIT_CENTER);
+							listViews.add(imageView);
 						}
+					} else {
+						for (int i = 0; i < listViews.size(); i++) {
+							ImageView imageView = (ImageView) listViews.get(i);
+							Bitmap bmp = null;
 
-						// if (null == bmp) {
-						//
-						// if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage())
-						// {
-						// bmp = BitmapCache.getInstance().getBitmap(
-						// adList.get(i).getAdImgUrlCh(), "net",
-						// String.valueOf(adList.get(i).getIndex()));
-						// } else {
-						// bmp = BitmapCache.getInstance().getBitmap(
-						// adList.get(i).getAdImgUrlEn(), "net",
-						// String.valueOf(adList.get(i).getIndex()));
-						// }
-						//
-						// }
-						// Bitmap bmp =
-						// BitmapCache.getInstance().getCacheBitmap(
-						// adList.get(i).getAdImgUrl());
-						if (null != bmp) {
-							imageView.setImageBitmap(bmp);
-						} else {
-							imageView.setImageResource(R.drawable.ad_default);
+							if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+								bmp = BitmapCache.getInstance().getCacheBitmap(
+										adList.get(i).getAdImgUrlCh());
+							} else {
+								bmp = BitmapCache.getInstance().getCacheBitmap(
+										adList.get(i).getAdImgUrlEn());
+							}
+
+							if (null != bmp) {
+								imageView.setImageBitmap(bmp);
+							} else {
+								imageView
+										.setImageResource(R.drawable.ad_default);
+							}
+							imageView.setScaleType(ScaleType.FIT_CENTER);
 						}
-
-						imageView.setScaleType(ScaleType.FIT_CENTER);
-						listViews.add(imageView);
 					}
-				} else {
-					for (int i = 0; i < listViews.size(); i++) {
-						ImageView imageView = (ImageView) listViews.get(i);
-						Bitmap bmp = null;
 
-						if (JVConst.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
-							bmp = BitmapCache.getInstance().getCacheBitmap(
-									adList.get(i).getAdImgUrlCh());
-						} else {
-							bmp = BitmapCache.getInstance().getCacheBitmap(
-									adList.get(i).getAdImgUrlEn());
-						}
-
-						if (null != bmp) {
-							imageView.setImageBitmap(bmp);
-						} else {
-							imageView.setImageResource(R.drawable.ad_default);
-						}
-						imageView.setScaleType(ScaleType.FIT_CENTER);
+					if (null != listViews && 0 != listViews.size()) {
+						imageScroll.stopTimer();
+						// 开始滚动
+						imageScroll.start(mActivity, listViews, 4 * 1000,
+								ovalLayout, R.layout.dot_item, R.id.ad_item_v,
+								R.drawable.dot_focused, R.drawable.dot_normal);
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-
-				if (null != listViews && 0 != listViews.size()) {
-					imageScroll.stopTimer();
-					// 开始滚动
-					imageScroll.start(mActivity, listViews, 4 * 1000,
-							ovalLayout, R.layout.dot_item, R.id.ad_item_v,
-							R.drawable.dot_focused, R.drawable.dot_normal);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
-
 	}
 
 	@Override
@@ -1391,9 +1407,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 				fragHandler.sendMessage(fragHandler.obtainMessage(
 						DEV_GETFINISHED, getRes, 0));
-				if ("0".equalsIgnoreCase(params[0])) {
-					// TODO 获取广告
-					getADList();
+				if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(
+						"false")) {
+					if ("0".equalsIgnoreCase(params[0])) {
+						// TODO 获取广告
+						getADList();
+					}
 				}
 
 			} catch (Exception e) {

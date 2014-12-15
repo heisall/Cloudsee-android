@@ -548,9 +548,6 @@
     <string name="increct_yst_tips">云视通号不正确</string>
     <string name="login_str_yst_num">云视通号</string>
     <string name="str_not_qr_device">不属于云视通设备</string>
-    <!-- 反馈邮箱 -->
-    <string name="str_feedback_email">mfq@jovision.com</string>
-    <string name="str_feedback_email2">juyang@jovision.com</string>
     <!-- 中维版本值为1，oem版为2，nvsip版本为3 ，ATVCloud版本为4， KEEPER版本为5，STARTVision版本为6 -->
     <string name="str_update_app_version">1</string>
     <!-- 下载的新apk名字 -->

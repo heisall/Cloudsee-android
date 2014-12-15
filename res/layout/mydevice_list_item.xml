@@ -28,13 +28,25 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp" >
 
-                <ImageView
-                    android:id="@+id/dev_image_l"
+                <FrameLayout
+                    android:id="@+id/frame_img_l"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/dev_default" />
+                    android:layout_centerVertical="true" >
+
+                    <ImageView
+                        android:id="@+id/dev_image_l"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:background="@drawable/dev_default" />
+
+                    <ImageView
+                        android:id="@+id/dev_image_top_l"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:background="@drawable/dev_default" />
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/dev_name_l"
@@ -60,7 +72,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/dev_image_l"
+                    android:layout_alignBottom="@+id/frame_img_l"
                     android:orientation="horizontal" >
 
                     <ImageView
@@ -179,13 +191,25 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp" >
 
-                <ImageView
-                    android:id="@+id/dev_image_r"
+                <FrameLayout
+                    android:id="@+id/frame_img_r"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/dev_default" />
+                    android:layout_centerVertical="true" >
+
+                    <ImageView
+                        android:id="@+id/dev_image_r"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:background="@drawable/dev_default" />
+
+                    <ImageView
+                        android:id="@+id/dev_image_top_r"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:background="@drawable/dev_default" />
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/dev_name_r"
@@ -211,7 +235,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/dev_image_r"
+                    android:layout_alignBottom="@+id/frame_img_r"
                     android:orientation="horizontal" >
 
                     <ImageView

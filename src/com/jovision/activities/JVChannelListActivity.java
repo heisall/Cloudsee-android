@@ -47,7 +47,7 @@ public class JVChannelListActivity extends BaseActivity {
 			strParams[3] = arg1 + "";
 			task.execute(strParams);
 			break;
-		case 1222:
+		case Consts.WHAT_DELETE_CHANNAL:
 			dialog(channelList.get(arg1).getChannel());
 			break;
 		case Consts.WHAT_PUSH_MESSAGE:

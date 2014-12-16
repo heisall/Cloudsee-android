@@ -259,6 +259,7 @@ public class Consts {
 	public static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
 	public static final int WHAT_DELETE_USER = 0x02;// 删除用户
 	public static final int WHAT_SELECT_USER = 0x03;// 选择用户
+	public static final int WHAT_CLICK_USER = 0x04;//点击选择用户
 	public static final int WHAT_INIT_ACCOUNT_SDK_FAILED = 0x04;// 初始化账号sdk失败
 	// JVAddDeviceActivity
 	public static final int WHAT_BARCODE_RESULT = 0x05; // 条码扫瞄返回值
@@ -372,6 +373,7 @@ public class Consts {
 	public static final int WHAT_MANAGE_ITEM_CLICK = 0x51;// 通道单击事件
 	/** 推送消息 tag */
 	public static final int WHAT_PUSH_MESSAGE = 0x52;
+	public static final int WHAT_DELETE_CHANNAL = 0x58;
 	/** 引导界面滑屏 */
 	public static final int WHAT_GUID_PAGE_SCROLL = 0x53;//
 	public static final int WHAT_QUICK_SETTING_ERROR = 0x54;// 快速设置出错

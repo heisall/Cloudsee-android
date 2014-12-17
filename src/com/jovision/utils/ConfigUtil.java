@@ -431,7 +431,7 @@ public class ConfigUtil {
 						.show();
 				return result;
 			}
-
+			MyLog.i("AccoutSDK", "Version:" + JVACCOUNT.GetVersion(0));
 			String channelIp = "";
 			String onlineIp = "";
 			if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {

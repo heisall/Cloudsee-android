@@ -660,4 +660,13 @@
     <string name="reset_passwd_new_passwd_hint">Enter the password</string>
     <string name="reset_passwd_confirm_passwd_hint">Enter again to confirm</string>   
     <string name="reset_passwd_done">Done</string>
+    <string name="reset_passwd_tips1">Please enter the account to reset your password</string>
+    <string name="reset_passwd_tips2">The account is not legal</string>
+    <string name="reset_passwd_tips3">Please Wait...</string>
+    <string name="reset_passwd_tips4">Verification code will be sent to you binding mobile phone:</string>
+    <string name="reset_passwd_tips5">The mobile phone binding is not legal</string>
+    <string name="reset_passwd_tips6">Please enter the verification code</string>
+    <string name="reset_passwd_virificaition_code_wrong">The verification code is wrong</string>
+    
+    
 </resources>

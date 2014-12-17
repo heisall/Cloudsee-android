@@ -8,7 +8,7 @@
         android:id="@+id/tv_phone_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="验证码将发送到您绑定的手机:"
+        android:text="@string/reset_passwd_tips4"
         android:textColor="@color/gray"
         android:textSize="12sp"
         android:layout_centerHorizontal="true"
@@ -31,14 +31,15 @@
         android:textColor="@color/black"
         android:textSize="22sp"        
         android:textStyle="bold"
+        android:visibility="gone"
         />
       <TextView 
-        android:id="@+id/tv_phone_num"
+        android:id="@+id/tv_formated_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="18668923919"
+        android:text="+86 18668923919"
         android:textColor="@color/black"
-        android:textSize="22sp"        
+        android:textSize="26sp"        
         android:textStyle="bold"
         android:layout_marginLeft="12dp"
         />               
@@ -63,6 +64,7 @@
         android:textSize="18sp"        
         android:background="@drawable/third_input"
         android:layout_weight="1"
+        android:maxLength="4"
         />
       <TextView 
         android:id="@+id/tv_get_verification_code"

@@ -72,9 +72,13 @@ import com.jovision.utils.mails.MyAuthenticator;
 
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
-	private final static String PLAY_VERSION = "0.9b[6c5c83a][2014-12-09]";
-	private final static String NETWORK_VERSION = "v2.0.76.3.20[private:v2.0.75.13 201401208.2]";
-
+	public final static String ACCOUNT_VERSION = "";
+	public final static String PLAY_VERSION = "0.9b[6c5c83a][2014-12-09]";
+	public final static String NETWORK_VERSION = "v2.0.76.3.20[private:v2.0.75.13 201401208.2]";
+	
+	public static String GETPLAY_VERSION = "";
+	public static String GETNETWORK_VERSION = "";
+	
 	private final static String CHINA_JSON = "{\"country\":\"\u4e2d\u56fd\"}";
 	// /**
 	// * 获取本地数据库管理对象的引用
@@ -96,7 +100,9 @@ public class ConfigUtil {
 			String remoteVer = Jni.getVersion();
 			JSONObject obj = new JSONObject(remoteVer);
 			String playVersion = obj.optString("jni");
+			GETPLAY_VERSION = playVersion;
 			String netVersion = obj.optString("net");
+			GETNETWORK_VERSION = netVersion;
 			if (PLAY_VERSION.equalsIgnoreCase(playVersion)
 					&& NETWORK_VERSION.equalsIgnoreCase(netVersion)) {
 				MyLog.v(TAG, "Same:localVer=" + PLAY_VERSION + "--"

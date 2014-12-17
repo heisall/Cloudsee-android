@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 import com.jovision.bean.Channel;
 import com.jovision.utils.ConfigUtil;
@@ -122,7 +123,7 @@ public class ChannelListAdapter extends BaseAdapter {
 						@Override
 						public boolean onLongClick(View v) {
 							// TODO Auto-generated method stub
-							activity.onNotify(1222, position, 0,
+							activity.onNotify(Consts.WHAT_DELETE_CHANNAL, position, 0,
 									Holder.channel_list_edit.getText()
 											.toString());
 							return false;

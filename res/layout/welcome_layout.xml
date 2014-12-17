@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/welcome_bottom"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp" >
 

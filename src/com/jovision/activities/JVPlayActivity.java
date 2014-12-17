@@ -22,6 +22,8 @@ import android.os.Build;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -71,6 +73,8 @@ public class JVPlayActivity extends PlayActivity implements
 	private static final int CONNECTION_MIN_PEROID = 300;
 	private static final int DISCONNECTION_MIN_PEROID = 100;
 	private static final int RESUME_VIDEO_MIN_PEROID = 100;
+
+	private GestureDetector mGestureDetector;
 
 	private boolean isQuit;
 	private boolean isBlockUi;
@@ -1312,7 +1316,6 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void initSettings() {
 		TAG = "PlayA";
@@ -1431,6 +1434,8 @@ public class JVPlayActivity extends PlayActivity implements
 		// Configuration.ORIENTATION_LANDSCAPE) {
 		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		// }
+
+		mGestureDetector = new GestureDetector(this, new MyOnGestureListener());
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		wifiAdmin = new WifiAdmin(JVPlayActivity.this);
 
@@ -1562,10 +1567,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 		viewPager.setCurrentItem(lastItemIndex);
 		playFunctionList.setOnItemClickListener(onItemClickListener);
-		// yt_cancle.setOnClickListener(myOnClickListener);
-		// audioMonitor.setOnClickListener(myOnClickListener);
-		// ytOperate.setOnClickListener(myOnClickListener);
-		// remotePlayback.setOnClickListener(myOnClickListener);
 
 		autoimage.setOnTouchListener(new LongClickListener());
 		zoomIn.setOnTouchListener(new LongClickListener());
@@ -2434,51 +2435,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but5:
 			case R.id.funclayout:// AP功能列表对讲功能
 			case R.id.voicecall:// 语音对讲
-				if (View.VISIBLE == streamListView.getVisibility()) {
-					streamListView.setVisibility(View.GONE);
-				}
-				if (allowThisFuc(true)) {
-					// 停止音频监听
-					if (PlayUtil.isPlayAudio(lastClickIndex)) {
-						stopAudio(lastClickIndex);
-						functionListAdapter.selectIndex = -1;
-						bottombut8.setBackgroundDrawable(getResources()
-								.getDrawable(R.drawable.video_monitor_ico));
-					}
-
-					if (Consts.JAE_ENCODER_G729 != channel.getAudioEncType()
-							&& 8 == channel.getAudioByte()) {
-						showTextToast(R.string.not_support_this_func);
-						break;
-					}
-
-					if (!channelList.get(lastClickIndex).isSupportVoice()) {
-						showTextToast(R.string.not_support_this_func);
-					} else {
-						if (channelList.get(lastClickIndex).isVoiceCall()) {
-							voiceCall.setText(R.string.str_voice);
-							stopVoiceCall(lastClickIndex);
-							channelList.get(lastClickIndex).setVoiceCall(false);
-							realStop = true;
-							voiceCallSelected(false);
-							VOICECALLING = false;
-							if (Consts.PLAY_AP == playFlag) {
-								functionListAdapter.selectIndex = -1;
-							}
-						} else {
-							JVPlayActivity.AUDIO_SINGLE = channelList.get(
-									lastClickIndex).isSingleVoice();
-							createDialog("", true);
-							startVoiceCall(lastClickIndex,
-									channelList.get(lastClickIndex));
-							if (Consts.PLAY_AP == playFlag) {
-								functionListAdapter.selectIndex = 1;
-							}
-						}
-					}
-
-				}
-				functionListAdapter.notifyDataSetChanged();
+				voiceCall(channel);
 				break;
 			case R.id.bottom_but7:
 			case R.id.videotape:// 录像
@@ -2566,24 +2523,56 @@ public class JVPlayActivity extends PlayActivity implements
 
 	};
 
-	// // 正在执行返回操作
-	// public boolean isBacking = false;
-	// private Timer backTimer = null;
-	//
-	// /**
-	// * 返回任务
-	// *
-	// * @author Administrator
-	// *
-	// */
-	// private class BackTask extends TimerTask {
-	//
-	// @Override
-	// public void run() {
-	// handler.sendMessage(handler.obtainMessage(WHAT_DISMISS_PROGRESS));
-	// }
-	//
-	// }
+	@SuppressWarnings("deprecation")
+	private void voiceCall(Channel channel) {
+		if (View.VISIBLE == streamListView.getVisibility()) {
+			streamListView.setVisibility(View.GONE);
+		}
+		if (allowThisFuc(true)) {
+			// 停止音频监听
+			if (PlayUtil.isPlayAudio(lastClickIndex)) {
+				stopAudio(lastClickIndex);
+				functionListAdapter.selectIndex = -1;
+				bottombut8.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.video_monitor_ico));
+				varvoice.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.video_monitor_ico));
+			}
+
+			if (Consts.JAE_ENCODER_G729 != channel.getAudioEncType()
+					&& 8 == channel.getAudioByte()) {
+				showTextToast(R.string.not_support_this_func);
+				return;
+			}
+
+			if (!channelList.get(lastClickIndex).isSupportVoice()) {
+				showTextToast(R.string.not_support_this_func);
+			} else {
+				if (channelList.get(lastClickIndex).isVoiceCall()) {
+					voiceCall.setText(R.string.str_voice);
+					stopVoiceCall(lastClickIndex);
+					channelList.get(lastClickIndex).setVoiceCall(false);
+					realStop = true;
+					voiceCallSelected(false);
+					VOICECALLING = false;
+					if (Consts.PLAY_AP == playFlag) {
+						functionListAdapter.selectIndex = -1;
+					}
+				} else {
+					JVPlayActivity.AUDIO_SINGLE = channelList.get(
+							lastClickIndex).isSingleVoice();
+					createDialog("", true);
+					startVoiceCall(lastClickIndex,
+							channelList.get(lastClickIndex));
+					if (Consts.PLAY_AP == playFlag) {
+						functionListAdapter.selectIndex = 1;
+					}
+				}
+			}
+
+		}
+		functionListAdapter.notifyDataSetChanged();
+	}
 
 	/**
 	 * 返回事件
@@ -2741,6 +2730,8 @@ public class JVPlayActivity extends PlayActivity implements
 			functionListAdapter.selectIndex = -1;
 			bottombut8.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.video_monitor_ico));
+			varvoice.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.video_monitor_ico));
 			functionListAdapter.notifyDataSetChanged();
 		}
 
@@ -2758,6 +2749,7 @@ public class JVPlayActivity extends PlayActivity implements
 			realStop = true;
 			voiceCallSelected(false);
 			stopVoiceCall(lastClickIndex);
+			voiceCall.setText(R.string.str_voice);
 		}
 	}
 
@@ -2854,6 +2846,7 @@ public class JVPlayActivity extends PlayActivity implements
 	 * 开始远程回放
 	 */
 	public void startRemote() {
+		stopAllFunc();
 		Intent remoteIntent = new Intent();
 		remoteIntent.setClass(JVPlayActivity.this, JVRemoteListActivity.class);
 		remoteIntent.putExtra("IndexOfChannel", channelList.get(lastClickIndex)
@@ -2869,82 +2862,6 @@ public class JVPlayActivity extends PlayActivity implements
 		remoteIntent.putExtra("AudioByte", channelList.get(lastClickIndex)
 				.getAudioByte());
 		JVPlayActivity.this.startActivity(remoteIntent);
-	}
-
-	/**
-	 * 单向对讲用功能
-	 */
-	OnTouchListener callOnTouchListener = new OnTouchListener() {
-
-		@Override
-		public boolean onTouch(View arg0, MotionEvent arg1) {
-			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
-				if (arg1.getAction() == MotionEvent.ACTION_UP
-						|| arg1.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
-					handler.sendMessage(handler
-							.obtainMessage(Consts.STOP_AUDIO_GATHER));
-					new TalkThread(lastClickIndex, 0).start();
-					VOICECALL_LONG_CLICK = false;
-					voiceCall.setText(R.string.voice_send);
-					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-					voiceTip.setVisibility(View.GONE);
-					handler.sendMessageDelayed(
-							handler.obtainMessage(Consts.START_AUDIO_GATHER),
-							2 * 1000);
-				}
-			}
-			return false;
-		}
-
-	};
-
-	/**
-	 * 单向对讲用功能
-	 */
-	OnLongClickListener callOnLongClickListener = new OnLongClickListener() {
-
-		@Override
-		public boolean onLongClick(View arg0) {
-			if (channelList.get(lastClickIndex).isSingleVoice()) {// 单向对讲
-				if (VOICECALLING) {// 正在喊话
-					VOICECALL_LONG_CLICK = true;
-					voiceCall.setText(R.string.voice_stop);
-					if (JVPlayActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-						setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-					} else if (JVPlayActivity.this.getResources()
-							.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-						setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-					}
-					voiceTip.setVisibility(View.VISIBLE);
-					new TalkThread(lastClickIndex, 1).start();
-				}
-			}
-			return true;
-		}
-
-	};
-
-	/** 开关对讲线程 */
-	class TalkThread extends Thread {
-		private int index = 0;
-		private int param = 0;
-
-		TalkThread(int index, int param) {
-			this.index = index;
-			this.param = param;
-		}
-
-		@Override
-		public void run() {
-			// "talkSwitch=" + tag;// 1开始 0关闭
-			for (int i = 0; i < 3; i++) {
-				Jni.sendString(index, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-						Consts.TYPE_SET_PARAM,
-						String.format(Consts.FORMATTER_TALK_SWITCH, param));
-			}
-			super.run();
-		}
-
 	}
 
 	/**
@@ -3150,7 +3067,6 @@ public class JVPlayActivity extends PlayActivity implements
 	 */
 	OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
-		@SuppressWarnings("deprecation")
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
@@ -3164,8 +3080,7 @@ public class JVPlayActivity extends PlayActivity implements
 					// 设备设置
 					if (allowThisFuc(false)) {
 						if (null == mobileQuality) {// 没这个字段说明是老设备，再判断MobileCH是否为2
-							if (mobileCH != null)// 这种情况，直接不让进设备设置界面
-							{
+							if (mobileCH != null) {// 这种情况，直接不让进设备设置界面
 								if (!(mobileCH.equals("2"))) {
 									showTextToast(R.string.not_support_this_func);
 									return;
@@ -3246,9 +3161,21 @@ public class JVPlayActivity extends PlayActivity implements
 				if (playFlag == Consts.PLAY_AP) {
 					View view = arg0.getChildAt(arg2).findViewById(
 							R.id.funclayout);
-					view.setOnClickListener(myOnClickListener);
-					view.setOnTouchListener(callOnTouchListener);
-					view.setOnLongClickListener(callOnLongClickListener);
+					view.setOnTouchListener(new OnTouchListener() {
+
+						@Override
+						public boolean onTouch(View v, MotionEvent event) {
+							String actionName = getActionName(event.getAction());
+							MyLog.i(getClass().getName(), "onTouch-----"
+									+ actionName);
+							mGestureDetector.onTouchEvent(event);
+							// 一定要返回true，不然获取不到完整的事件
+							return true;
+
+						}
+					});
+					Channel channel = channelList.get(lastClickIndex);
+					voiceCall(channel);
 				} else {
 					if (allowThisFuc(true)) {
 						startRemote();
@@ -3613,6 +3540,195 @@ public class JVPlayActivity extends PlayActivity implements
 			handler.sendEmptyMessage(Consts.WHAT_RESTORE_UI);
 			MyLog.w(Consts.TAG_XXX, "Connecter X");
 		}
+	}
+
+	/**
+	 * 单向对讲用功能
+	 */
+	OnTouchListener callOnTouchListener = new OnTouchListener() {
+
+		@Override
+		public boolean onTouch(View arg0, MotionEvent arg1) {
+
+			if (channelList.get(lastClickIndex).isSingleVoice() && VOICECALLING) {// 单向对讲
+				if (arg1.getAction() == MotionEvent.ACTION_UP
+						|| arg1.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
+					handler.sendMessage(handler
+							.obtainMessage(Consts.STOP_AUDIO_GATHER));
+					new TalkThread(lastClickIndex, 0).start();
+					VOICECALL_LONG_CLICK = false;
+					voiceCall.setText(R.string.voice_send);
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+					voiceTip.setVisibility(View.GONE);
+					handler.sendMessageDelayed(
+							handler.obtainMessage(Consts.START_AUDIO_GATHER),
+							2 * 1000);
+				}
+			}
+			return false;
+		}
+
+	};
+
+	/**
+	 * 单向对讲用功能
+	 */
+	OnLongClickListener callOnLongClickListener = new OnLongClickListener() {
+
+		@Override
+		public boolean onLongClick(View arg0) {
+			startSendVoice();
+			return true;
+		}
+
+	};
+
+	/** 开关对讲线程 */
+	class TalkThread extends Thread {
+		private int index = 0;
+		private int param = 0;
+
+		TalkThread(int index, int param) {
+			this.index = index;
+			this.param = param;
+		}
+
+		@Override
+		public void run() {
+			// "talkSwitch=" + tag;// 1开始 0关闭
+			for (int i = 0; i < 3; i++) {
+				Jni.sendString(index, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+						Consts.TYPE_SET_PARAM,
+						String.format(Consts.FORMATTER_TALK_SWITCH, param));
+			}
+			super.run();
+		}
+
+	}
+
+	/**
+	 * 长按发送语音数据
+	 */
+	private void startSendVoice() {
+		if (channelList.get(lastClickIndex).isSingleVoice() && VOICECALLING) {// 单向对讲且正在对讲
+			VOICECALL_LONG_CLICK = true;
+			voiceCall.setText(R.string.voice_stop);
+			if (JVPlayActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+			} else if (JVPlayActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+			}
+			voiceTip.setVisibility(View.VISIBLE);
+			new TalkThread(lastClickIndex, 1).start();
+		}
+	}
+
+	/**
+	 * 抬起手指停止发送语音数据
+	 */
+	private void stopSendVoice() {
+		if (channelList.get(lastClickIndex).isSingleVoice()) {
+			if (VOICECALL_LONG_CLICK) {// 正在长按对讲，关闭长按功能
+				handler.sendMessage(handler
+						.obtainMessage(Consts.STOP_AUDIO_GATHER));
+				new TalkThread(lastClickIndex, 0).start();
+				VOICECALL_LONG_CLICK = false;
+				voiceCall.setText(R.string.voice_send);
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+				voiceTip.setVisibility(View.GONE);
+				handler.sendMessageDelayed(
+						handler.obtainMessage(Consts.START_AUDIO_GATHER),
+						2 * 1000);
+			} else if (VOICECALLING) {// 正在对讲关闭对讲
+				Channel channel = channelList.get(lastClickIndex);
+				voiceCall(channel);
+			}
+		}
+
+	}
+
+	class MyOnGestureListener extends SimpleOnGestureListener {
+
+		@Override
+		public boolean onSingleTapUp(MotionEvent e) {
+			return false;
+		}
+
+		@Override
+		public void onLongPress(MotionEvent e) {//
+			startSendVoice();
+		}
+
+		@Override
+		public boolean onScroll(MotionEvent e1, MotionEvent e2,
+				float distanceX, float distanceY) {
+			float disX = e2.getX() - e1.getX();
+			float disY = e2.getY() - e1.getY();
+			if (Math.abs(disX) >= 5 || Math.abs(disY) >= 5) {
+				stopSendVoice();
+			}
+			return false;
+		}
+
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+				float velocityY) {
+			float disX = e2.getX() - e1.getX();
+			float disY = e2.getY() - e1.getY();
+
+			if (Math.abs(disX) >= 5 || Math.abs(disY) >= 5) {
+				stopSendVoice();
+			}
+
+			return false;
+		}
+
+		@Override
+		public void onShowPress(MotionEvent e) {
+		}
+
+		@Override
+		public boolean onDown(MotionEvent e) {
+			return false;
+		}
+
+		@Override
+		public boolean onDoubleTap(MotionEvent e) {
+			return false;
+		}
+
+		@Override
+		public boolean onDoubleTapEvent(MotionEvent e) {
+			return false;
+		}
+
+		@Override
+		public boolean onSingleTapConfirmed(MotionEvent e) {
+			return false;
+		}
+
+	}
+
+	private String getActionName(int action) {
+		String name = "";
+		switch (action) {
+		case MotionEvent.ACTION_DOWN: {
+			name = "ACTION_DOWN";
+			break;
+		}
+		case MotionEvent.ACTION_MOVE: {
+			name = "ACTION_MOVE";
+			break;
+		}
+		case MotionEvent.ACTION_UP: {
+			stopSendVoice();
+			break;
+		}
+		default:
+			stopSendVoice();
+			break;
+		}
+		return name;
 	}
 
 }

@@ -96,7 +96,7 @@ public class UserSpinnerAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				activity.onNotify(Consts.WHAT_SELECT_USER, position, 0,
+				activity.onNotify(Consts.WHAT_SELECT_USER, position, Consts.WHAT_CLICK_USER,
 						list.get(position));
 				holder.textView.setText(list.get(position).getUserName());
 				userName = list.get(position).getUserName();

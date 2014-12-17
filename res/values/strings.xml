@@ -552,7 +552,7 @@
     <!-- 中维版本值为1，oem版为2，nvsip版本为3 -->
     <string name="str_update_app_version">1</string>
     <!-- 下载的新apk名字 -->
-    <string name="str_save_apk_name">JVCloudSeeClient.apk</string>
+    <string name="str_save_apk_name">CC.apk</string>
     <!-- 默认用户名 -->
     <string name="str_default_user">abc</string>
     <!-- 默认密码 -->
@@ -651,14 +651,19 @@
     <string name="str_demo">视频广场</string>
     <string name="str_register">注册</string>
     <string name="str_media">媒体</string>
-	<!-- 新增加的字符串 @2014-12-15 -->
+    <string name="str_network_version">本地网络库</string>
+    <string name="str_play_version">本地播放库</string>
+    <string name="str_appnetwork_version">程序网络库</string>
+    <string name="str_appplay_version">程序播放库</string>
+    <string name="str_version">版本号</string>
+    <!-- 新增加的字符串 @2014-12-15 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
-	<string name="reset_passwd_input_vercode">Get verification code</string>
-	<string name="reset_passwd_account">Account</string>
+    <string name="reset_passwd_input_vercode">Get verification code</string>
+    <string name="reset_passwd_account">Account</string>
     <string name="reset_passwd_new_passwd">Password</string>
     <string name="reset_passwd_confirm_passwd">Confirm Password</string>
     <string name="reset_passwd_new_passwd_hint">Enter the password</string>
-    <string name="reset_passwd_confirm_passwd_hint">Enter again to confirm</string>   
+    <string name="reset_passwd_confirm_passwd_hint">Enter again to confirm</string>
     <string name="reset_passwd_done">Done</string>
     <string name="reset_passwd_tips1">Please enter the account to reset your password</string>
     <string name="reset_passwd_tips2">The account is not legal</string>
@@ -667,6 +672,4 @@
     <string name="reset_passwd_tips5">The mobile phone binding is not legal</string>
     <string name="reset_passwd_tips6">Please enter the verification code</string>
     <string name="reset_passwd_virificaition_code_wrong">The verification code is wrong</string>
-    
-    
 </resources>

@@ -83,8 +83,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		// intent.setClass(this, MainService.class);
 		// startService(intent);
 		MyLog.init(Consts.LOG_PATH);
-		MyLog.enableFile(false);
-		MyLog.enableLogcat(false);
+		MyLog.enableFile(true);
+		MyLog.enableLogcat(true);
 
 		// 注册网络切换广播
 		registerDateTransReceiver();
@@ -362,8 +362,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 							if (isAppOnForeground()) {
 								MyLog.v("PushCallBack",
 										"the app is OnForeground.........");
-								onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
-										pi);
+								onNotify(Consts.WHAT_PUSH_MESSAGE,
+										pi.alarmType, 0, pi);
 								Activity currentActivity = MyActivityManager
 										.getActivityManager().currentActivity();
 								MyLog.v("PushCallBack", "currentActivity:"
@@ -372,8 +372,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 								MyLog.v("PushCallBack",
 										"the app is not OnForeground.........");
-								onNotify(Consts.PUSH_MESSAGE, pi.alarmType, 0,
-										pi);
+								onNotify(Consts.WHAT_PUSH_MESSAGE,
+										pi.alarmType, 0, pi);
 								Activity currentActivity = MyActivityManager
 										.getActivityManager().currentActivity();
 								if (MyActivityManager.getActivityManager()

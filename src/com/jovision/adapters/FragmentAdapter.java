@@ -78,7 +78,7 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 			});
 		}
-		if (position == 3 || position == 4) {
+		if (position == 3 || position == 4||position == 5) {
 			if (!MySharedPreference.getBoolean("LITTLE")) {
 				more_item.setVisibility(View.GONE);
 				divider_img.setVisibility(View.GONE);
@@ -87,7 +87,7 @@ public class FragmentAdapter extends BaseAdapter {
 				divider_img.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 6
+		if (position == 7
 				&& "true".equalsIgnoreCase(((BaseActivity) mfragment
 						.getActivity()).statusHashMap
 						.get(Consts.NEUTRAL_VERSION))) {
@@ -95,7 +95,7 @@ public class FragmentAdapter extends BaseAdapter {
 			more_item.setVisibility(View.GONE);
 			divider_img.setVisibility(View.GONE);
 		}
-		if (position == 8) {
+		if (position == 9) {
 			item_next.setVisibility(View.GONE);
 			item_version.setVisibility(View.VISIBLE);
 			item_version

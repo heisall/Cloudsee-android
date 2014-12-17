@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp" >
+
 	<LinearLayout 
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
@@ -96,10 +97,9 @@
         android:id="@+id/btn_submit"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
-        android:background="@drawable/blue_bg"
         android:layout_marginTop="16dp"
+        android:background="@drawable/blue_bg"
         android:text="@string/reset_passwd_done"
-        android:textColor="@color/white"
-        />
-	    	        
+        android:textColor="@color/white" />
+
 </LinearLayout>

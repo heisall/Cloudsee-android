@@ -682,6 +682,8 @@ public abstract class PlayActivity extends BaseActivity {
 				functionListAdapter.selectIndex = -1;
 				bottombut8.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.video_monitor_ico));
+				varvoice.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.video_monitor_ico));
 				functionListAdapter.notifyDataSetChanged();
 			}
 

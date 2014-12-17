@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
 
-    <TextView 
+    <TextView
         android:id="@+id/tv_phone_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,16 +11,15 @@
         android:textColor="@color/gray"
         android:textSize="12sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        />
-    <LinearLayout 
+        android:layout_marginTop="12dp" />
+
+   	  <LinearLayout
         android:id="@+id/ll_phone_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@id/tv_phone_tips"
-        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
         >
       <TextView 
         android:id="@+id/tv_phone_code"
@@ -43,18 +41,18 @@
         android:textStyle="bold"
         android:layout_marginLeft="12dp"
         />               
+
     </LinearLayout>
 
-	<LinearLayout 
+    <LinearLayout
         android:id="@+id/ll_verification_code"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@id/ll_phone_info"
-        android:layout_marginTop="12dp"
-        android:layout_centerHorizontal="true"	
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="12dp"
 	    >
       <EditText 
         android:id="@+id/edt_verification_code"
@@ -86,12 +84,12 @@
         android:id="@+id/btn_next"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
-        android:background="@drawable/blue_bg"
-        android:layout_marginTop="16dp"
-        android:text="@string/next_step"
-        android:textColor="@color/white"
         android:layout_below="@id/ll_verification_code"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        />	
+        android:layout_marginTop="16dp"
+        android:background="@drawable/blue_bg"
+        android:text="@string/next_step"
+        android:textColor="@color/white" />
+
 </RelativeLayout>

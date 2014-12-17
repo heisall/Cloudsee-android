@@ -77,6 +77,7 @@ public class JVTabActivity extends ShakeActivity implements
 	private Timer broadTimer;
 	private TimerTask broadTimerTask;
 
+	private ImageView local_gone;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -150,15 +151,16 @@ public class JVTabActivity extends ShakeActivity implements
 			pics.add(view1);
 			pics.add(view2);
 			pics.add(view3);
-			pics.add(view4);
 			pics.add(view6);
-			initDot(4);
+			initDot(3);
+			local_gone.setVisibility(View.GONE);
 		} else {
 			pics.add(view1);
 			pics.add(view2);
 			pics.add(view3);
 			pics.add(view4);
 			pics.add(view6);
+			local_gone.setVisibility(View.VISIBLE);
 			initDot(4);
 		}
 	}
@@ -183,6 +185,9 @@ public class JVTabActivity extends ShakeActivity implements
 	}
 
 	private void initDot(int dotnum) {
+		if (dotnum==3) {
+			
+		}
 		dots = new ArrayList<ImageView>();
 		// 得到点的父布局
 		for (int i = 0; i < dotnum; i++) {
@@ -318,6 +323,7 @@ public class JVTabActivity extends ShakeActivity implements
 		MyLog.v(TAG, "initUi----E");
 		setContentView(R.layout.tab_layout);
 		startBroadTimer();
+		local_gone = (ImageView)findViewById(R.id.local_gone);
 		viewpager = (ViewPager) findViewById(R.id.tab_viewpager);
 		viewpager.setOnPageChangeListener(JVTabActivity.this);
 		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);

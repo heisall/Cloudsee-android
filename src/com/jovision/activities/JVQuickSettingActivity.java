@@ -254,7 +254,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			searchView.setWillNotDraw(false);
 
 			// 播放声音
-			playSound(Consts.SOUNDONE);
+			playSound(Consts.TAG_SOUNDONE);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -418,7 +418,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 			if (!ipcFlag) {
 				handler.sendMessage(handler.obtainMessage(
-						Consts.QUICK_SETTING_ERROR, 1000, 0));
+						Consts.WHAT_QUICK_SETTING_ERROR, 1000, 0));
 			} else {
 				MyLog.v(TAG, "开始连接AP视频--" + ipcDevice.getFullNo());
 				ipcDevice.setIp(Consts.IPC_DEFAULT_IP);
@@ -748,7 +748,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			case R.id.btn_right:// 保存按钮
 				haveSet = true;
 				// 播放提示声音
-				playSound(Consts.SOUNDFIVE);
+				playSound(Consts.TAG_SOUNDFIVE);
 				isSearching = true;
 				desWifiSSID = desWifiName.getText().toString();
 
@@ -849,7 +849,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 						stopRefreshWifiTimer();
 
-						playSound(Consts.SOUNDTOW);
+						playSound(Consts.TAG_SOUNDTOW);
 
 						ConnectAPTask task = new ConnectAPTask();
 						String[] params = new String[3];
@@ -905,7 +905,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				} else {
 					showIpcLayout(false);// ipc列表切换Wi-Fi列表
 					// 播放提示声音
-					playSound(Consts.SOUNDFOUR);
+					playSound(Consts.TAG_SOUNDFOUR);
 				}
 				break;
 			}
@@ -1009,9 +1009,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			dismissDialog();
 			// finish();
 			break;
-		case Consts.QUICK_SETTING_DEV_ONLINE: {// 网络恢复成功
+		case Consts.WHAT_QUICK_SETTING_DEV_ONLINE: {// 网络恢复成功
 			try {
-				playSound(Consts.SOUNDSIX);// 播放“叮”的一声
+				playSound(Consts.TAG_SOUNDSIX);// 播放“叮”的一声
 				showSearch(false);
 				// 设置全屏
 				JVQuickSettingActivity.this.getWindow().setFlags(
@@ -1024,7 +1024,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			}
 			break;
 		}
-		case Consts.QUICK_SETTING_ERROR:// 配置出错
+		case Consts.WHAT_QUICK_SETTING_ERROR:// 配置出错
 			errorDialog(arg1);
 			break;
 		case Consts.WHAT_QUICK_SETTING_MOBILE_WIFI_SUCC:// 快速设置获取主控WIFI信息数据
@@ -1092,7 +1092,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			dialog5.show();
 			break;
 
-		case Consts.QUICK_SETTING_CONNECT_FAILED:// 快速设置设备连接失败,失败一次再连接一次，直到第十次失败停止
+		case Consts.WHAT_QUICK_SETTING_CONNECT_FAILED:// 快速设置设备连接失败,失败一次再连接一次，直到第十次失败停止
 			MyLog.v("快速设置设备连接失败", "第-----" + connectFailedCounts + "-----次");
 			if (connectFailedCounts < 10) {
 				connectFailedCounts++;
@@ -1110,7 +1110,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 				if (isSearching) {
 					handler.sendMessage(handler.obtainMessage(
-							Consts.QUICK_SETTING_ERROR, 1001, 0));
+							Consts.WHAT_QUICK_SETTING_ERROR, 1001, 0));
 				} else {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							JVQuickSettingActivity.this);
@@ -1248,7 +1248,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					// R.string.connect_failed, 0));
 				} else {
 					handler.sendMessage(handler.obtainMessage(
-							Consts.QUICK_SETTING_CONNECT_FAILED,
+							Consts.WHAT_QUICK_SETTING_CONNECT_FAILED,
 							R.string.connect_failed, 0));
 				}
 
@@ -1266,7 +1266,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
 				handler.sendMessage(handler.obtainMessage(
-						Consts.QUICK_SETTING_ERROR, 1002, 0));
+						Consts.WHAT_QUICK_SETTING_ERROR, 1002, 0));
 				// dismissDialog();
 				// // 断开连接
 				// PlayUtil.disconnectDevice();
@@ -1317,7 +1317,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							// handler.sendMessage(handler.obtainMessage(
 							// JVConst.AP_SET_FAILED, 0, 0));
 							handler.sendMessage(handler.obtainMessage(
-									Consts.QUICK_SETTING_ERROR, 1003, 0));
+									Consts.WHAT_QUICK_SETTING_ERROR, 1003, 0));
 						}
 
 						break;
@@ -1552,7 +1552,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			// }
 			// }
 			handler.sendMessage(handler.obtainMessage(
-					Consts.QUICK_SETTING_DEV_ONLINE, 0, 0));
+					Consts.WHAT_QUICK_SETTING_DEV_ONLINE, 0, 0));
 
 			return resetRes;
 		}
@@ -1594,7 +1594,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 								@Override
 								public void run() {
 									super.run();
-									playSound(Consts.SOUNDSEVINE);
+									playSound(Consts.TAG_SOUNDSEVINE);
 								}
 
 							}, 200);
@@ -1609,7 +1609,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					JVQuickSettingActivity.this.finish();
 				} else {
 					handler.sendMessage(handler.obtainMessage(
-							Consts.QUICK_SETTING_ERROR, result, 0));
+							Consts.WHAT_QUICK_SETTING_ERROR, result, 0));
 				}
 			}
 
@@ -1752,28 +1752,28 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			String file = "";
 			if (ConfigUtil.getLanguage() == Consts.LANGUAGE_ZH) {
 				switch (soundType) {
-				case Consts.SOUNDONE:// 选择设备，并进入预览
+				case Consts.TAG_SOUNDONE:// 选择设备，并进入预览
 					file = "1.mp3";
 					break;
-				case Consts.SOUNDTOW:// 正在连接设备
+				case Consts.TAG_SOUNDTOW:// 正在连接设备
 					file = "2.mp3";
 					break;
-				case Consts.SOUNDTHREE:// 请点击下一步，配置无线网络
+				case Consts.TAG_SOUNDTHREE:// 请点击下一步，配置无线网络
 					file = "3.mp3";
 					break;
-				case Consts.SOUNDFOUR:// 请选择无线路由，输入密码，并点击右上角声波配置按钮
+				case Consts.TAG_SOUNDFOUR:// 请选择无线路由，输入密码，并点击右上角声波配置按钮
 					file = "4.mp3";
 					break;
-				case Consts.SOUNDFIVE:// 请将手机靠近设备
+				case Consts.TAG_SOUNDFIVE:// 请将手机靠近设备
 					file = "5.mp3";
 					break;
-				case Consts.SOUNDSIX:// 叮
+				case Consts.TAG_SOUNDSIX:// 叮
 					file = "6.mp3";
 					break;
-				case Consts.SOUNDSEVINE:// 配置完成，请点击图标查看设备
+				case Consts.TAG_SOUNDSEVINE:// 配置完成，请点击图标查看设备
 					file = "7.mp3";
 					break;
-				case Consts.SOUNDEIGHT:// 搜索声音
+				case Consts.TAG_SOUNDEIGHT:// 搜索声音
 					file = "quicksetsound.mp3";
 					break;
 				default:
@@ -1781,28 +1781,28 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				}
 			} else {
 				switch (soundType) {
-				case Consts.SOUNDONE:// 选择设备，并进入预览
+				case Consts.TAG_SOUNDONE:// 选择设备，并进入预览
 					file = "1_en.mp3";
 					break;
-				case Consts.SOUNDTOW:// 正在连接设备
+				case Consts.TAG_SOUNDTOW:// 正在连接设备
 					file = "2_en.mp3";
 					break;
-				case Consts.SOUNDTHREE:// 请点击下一步，配置无线网络
+				case Consts.TAG_SOUNDTHREE:// 请点击下一步，配置无线网络
 					file = "3_en.mp3";
 					break;
-				case Consts.SOUNDFOUR:// 请选择无线路由，输入密码，并点击右上角声波配置按钮
+				case Consts.TAG_SOUNDFOUR:// 请选择无线路由，输入密码，并点击右上角声波配置按钮
 					file = "4_en.mp3";
 					break;
-				case Consts.SOUNDFIVE:// 请将手机靠近设备
+				case Consts.TAG_SOUNDFIVE:// 请将手机靠近设备
 					file = "5_en.mp3";
 					break;
-				case Consts.SOUNDSIX:// 叮
+				case Consts.TAG_SOUNDSIX:// 叮
 					file = "6.mp3";
 					break;
-				case Consts.SOUNDSEVINE:// 配置完成，请点击图标查看设备
+				case Consts.TAG_SOUNDSEVINE:// 配置完成，请点击图标查看设备
 					file = "7_en.mp3";
 					break;
-				case Consts.SOUNDEIGHT:// 搜索声音
+				case Consts.TAG_SOUNDEIGHT:// 搜索声音
 					file = "quicksetsound.mp3";
 					break;
 				default:
@@ -1911,7 +1911,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			searchView.setWillNotDraw(false);
 
 			// 播放声音
-			playSound(Consts.SOUNDONE);
+			playSound(Consts.TAG_SOUNDONE);
 
 		} catch (Exception e) {
 			e.printStackTrace();

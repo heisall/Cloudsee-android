@@ -85,7 +85,8 @@ public class BitmapCache {
 			} else if ("video".equalsIgnoreCase(kind)) {
 				bmp = loadVideoBitmap(path);
 			} else if ("net".equalsIgnoreCase(kind)) {
-				File file = new File(Consts.AD_PATH + fileName + ".jpg");
+				File file = new File(Consts.AD_PATH + fileName
+						+ Consts.IMAGE_JPG_KIND);
 				if (file.isFile() && file.exists()) {
 					bmp = loadImageBitmap(file.getAbsolutePath(), -1);
 				} else {

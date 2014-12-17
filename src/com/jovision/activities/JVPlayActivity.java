@@ -2617,6 +2617,19 @@ public class JVPlayActivity extends PlayActivity implements
 			int sendRes = 0;// 0成功 1失败
 
 			backFunc = Boolean.valueOf(params[0]);
+			if (null != channelList && 0 != channelList.size()) {
+				try {
+					int size = channelList.size();
+					for (int i = 0; i < size; i++) {
+						if (channelList.get(i).isConnected()) {
+							saveLastScreen(channelList.get(i));
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
 			try {
 				try {
 					Thread.sleep(1000);
@@ -3419,6 +3432,29 @@ public class JVPlayActivity extends PlayActivity implements
 		showFunc(channelList.get(lastClickIndex), currentScreen, lastClickIndex);
 	}
 
+	public void saveLastScreen(Channel channel) {
+		if (Consts.PLAY_AP == playFlag) {
+			return;
+		}
+
+		if (hasSDCard() && allowThisFuc(false)) {
+			String savePath = Consts.SCENE_PATH;
+			String fileName = "";
+			MobileUtil.createDirectory(new File(savePath));
+
+			if (Consts.PLAY_NORMAL == playFlag) {
+				fileName = channel.getParent().getFullNo()
+						+ Consts.IMAGE_PNG_KIND;
+			} else if (Consts.PLAY_DEMO == playFlag) {
+				fileName = "demo_" + channel.getParent().getFullNo()
+						+ Consts.IMAGE_PNG_KIND;
+			}
+			boolean capture = PlayUtil.capture(lastClickIndex, savePath
+					+ fileName);
+			MyLog.i(TAG, "capture=" + capture);
+		}
+	}
+
 	private class Connecter extends Thread {
 
 		@Override
@@ -3447,6 +3483,8 @@ public class JVPlayActivity extends PlayActivity implements
 					}
 
 					if (channel.isConnected() || channel.isConnecting()) {
+						saveLastScreen(channel);
+
 						boolean result = Jni.disconnect(channel.getIndex());
 						if (false == result) {
 							MyLog.e(Consts.TAG_XXX, "disconnect failed: "

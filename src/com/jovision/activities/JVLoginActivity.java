@@ -95,7 +95,7 @@ public class JVLoginActivity extends BaseActivity {
 			break;
 		case Consts.WHAT_SELECT_USER:
 			userNameET.setText(((User) obj).getUserName());
-			if (arg2!=Consts.WHAT_CLICK_USER) {
+			if (arg2 != Consts.WHAT_CLICK_USER) {
 				passwordET.setText(((User) obj).getUserPwd());
 			}
 			moreUserIV.setImageResource(R.drawable.login_pull_icon);

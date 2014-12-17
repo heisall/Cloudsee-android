@@ -425,6 +425,7 @@ public class JVMoreFragment extends BaseFragment {
 							startActivity(intent);
 							break;
 						case 7:
+							mActivity.createDialog("", false);
 							CheckUpdateTask taskf = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];

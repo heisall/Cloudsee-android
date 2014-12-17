@@ -192,10 +192,19 @@ public class PlayUtil {
 	public static boolean capture(int index) {
 		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentTime()
 				+ File.separator;
-		String fileName = String.valueOf(System.currentTimeMillis()) + ".png";
+		String fileName = String.valueOf(System.currentTimeMillis())
+				+ Consts.IMAGE_PNG_KIND;
 		MobileUtil.createDirectory(new File(capturePath));
 		MyLog.v(TAG, "capture=" + capturePath + fileName);
 		return Jni.screenshot(index, capturePath + fileName, 100);
+	}
+
+	/**
+	 * 抓拍
+	 */
+	public static boolean capture(int index, String fullPath) {
+		MyLog.v(TAG, "capture=" + fullPath);
+		return Jni.screenshot(index, fullPath, 50);
 	}
 
 	/**
@@ -204,7 +213,8 @@ public class PlayUtil {
 	public static boolean hitviscapture(int index) {
 		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentTime()
 				+ File.separator;
-		String fileName = String.valueOf(System.currentTimeMillis()) + ".png";
+		String fileName = String.valueOf(System.currentTimeMillis())
+				+ Consts.IMAGE_PNG_KIND;
 		MobileUtil.createDirectory(new File(capturePath));
 		MyLog.v(TAG, "capture=" + capturePath + fileName);
 		return Jni.screenshot(index, capturePath + fileName, -1);

@@ -49,16 +49,8 @@
             android:layout_alignLeft="@id/xlistview_header_text"
             android:layout_centerVertical="true"
             android:layout_marginLeft="-35dp"
-            android:src="@drawable/ptr_pulltorefresh_arrow" />
+            android:src="@drawable/default_ptr_rotate" />
 
-        <ProgressBar
-            android:id="@+id/xlistview_header_progressbar"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignLeft="@id/xlistview_header_text"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="-40dp"
-            android:visibility="invisible" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -23,7 +23,6 @@ import com.jovetech.CloudSee.temp.R;
 public class XListViewHeader extends LinearLayout {
 	private LinearLayout mContainer;
 	private ImageView mArrowImageView;
-	private ProgressBar mProgressBar;
 	private TextView mHintTextView;
 	private int mState = STATE_NORMAL;
 
@@ -60,7 +59,6 @@ public class XListViewHeader extends LinearLayout {
 
 		mArrowImageView = (ImageView) findViewById(R.id.xlistview_header_arrow);
 		mHintTextView = (TextView) findViewById(R.id.xlistview_header_hint_textview);
-		mProgressBar = (ProgressBar) findViewById(R.id.xlistview_header_progressbar);
 
 		mRotateUpAnim = new RotateAnimation(0.0f, -180.0f,
 				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
@@ -80,11 +78,8 @@ public class XListViewHeader extends LinearLayout {
 
 		if (state == STATE_REFRESHING) {
 			mArrowImageView.clearAnimation();
-			mArrowImageView.setVisibility(View.INVISIBLE);
-			mProgressBar.setVisibility(View.VISIBLE);
 		} else {
 			mArrowImageView.setVisibility(View.VISIBLE);
-			mProgressBar.setVisibility(View.INVISIBLE);
 		}
 
 		switch (state) {

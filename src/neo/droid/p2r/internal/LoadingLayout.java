@@ -113,12 +113,12 @@ public abstract class LoadingLayout extends FrameLayout implements
 			}
 		}
 
-		if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderTextAppearance)) {
-			TypedValue styleID = new TypedValue();
-			attrs.getValue(R.styleable.PullToRefresh_ptrHeaderTextAppearance,
-					styleID);
-			setTextAppearance(styleID.data);
-		}
+//		if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderTextAppearance)) {
+//			TypedValue styleID = new TypedValue();
+//			attrs.getValue(R.styleable.PullToRefresh_ptrHeaderTextAppearance,
+//					styleID);
+//			setTextAppearance(styleID.data);
+//		}
 		if (attrs
 				.hasValue(R.styleable.PullToRefresh_ptrSubHeaderTextAppearance)) {
 			TypedValue styleID = new TypedValue();
@@ -128,13 +128,13 @@ public abstract class LoadingLayout extends FrameLayout implements
 			setSubTextAppearance(styleID.data);
 		}
 
-		if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderTextColor)) {
-			ColorStateList colors = attrs
-					.getColorStateList(R.styleable.PullToRefresh_ptrHeaderTextColor);
-			if (null != colors) {
-				setTextColor(colors);
-			}
-		}
+//		if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderTextColor)) {
+//			ColorStateList colors = attrs
+//					.getColorStateList(R.styleable.PullToRefresh_ptrHeaderTextColor);
+//			if (null != colors) {
+//				setTextColor(colors);
+//			}
+//		}
 		if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderSubTextColor)) {
 			ColorStateList colors = attrs
 					.getColorStateList(R.styleable.PullToRefresh_ptrHeaderSubTextColor);
@@ -304,7 +304,7 @@ public abstract class LoadingLayout extends FrameLayout implements
 
 	@Override
 	public void setTextTypeface(Typeface tf) {
-		mHeaderText.setTypeface(tf);
+//		mHeaderText.setTypeface(tf);
 	}
 
 	public final void showInvisibleViews() {
@@ -361,22 +361,22 @@ public abstract class LoadingLayout extends FrameLayout implements
 		}
 	}
 
-	private void setTextAppearance(int value) {
-		if (null != mHeaderText) {
-			mHeaderText.setTextAppearance(getContext(), value);
-		}
-		if (null != mSubHeaderText) {
-			mSubHeaderText.setTextAppearance(getContext(), value);
-		}
-	}
-
-	private void setTextColor(ColorStateList color) {
-		if (null != mHeaderText) {
-			mHeaderText.setTextColor(color);
-		}
-		if (null != mSubHeaderText) {
-			mSubHeaderText.setTextColor(color);
-		}
-	}
+//	private void setTextAppearance(int value) {
+//		if (null != mHeaderText) {
+//			mHeaderText.setTextAppearance(getContext(), value);
+//		}
+//		if (null != mSubHeaderText) {
+//			mSubHeaderText.setTextAppearance(getContext(), value);
+//		}
+//	}
+//
+//	private void setTextColor(ColorStateList color) {
+//		if (null != mHeaderText) {
+//			mHeaderText.setTextColor(color);
+//		}
+//		if (null != mSubHeaderText) {
+//			mSubHeaderText.setTextColor(color);
+//		}
+//	}
 
 }

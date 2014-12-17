@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.test.JVACCOUNT;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,6 +80,7 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon, R.drawable.media_image,
 			R.drawable.morefragment_update_icon, R.drawable.media_image,
+			R.drawable.morefragment_aboutus_icon, 
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -409,7 +412,18 @@ public class JVMoreFragment extends BaseFragment {
 										true);
 							}
 							break;
-						case 5:// 媒体
+						case 5://版本号
+							String itemone =mActivity.getResources().getString(R.string.str_network_version)+":"+ConfigUtil.NETWORK_VERSION;
+							String itemtwo = mActivity.getResources().getString(R.string.str_play_version)+":"+ConfigUtil.PLAY_VERSION;
+							String itemthree = mActivity.getResources().getString(R.string.str_appnetwork_version)+":"+ConfigUtil.GETNETWORK_VERSION;
+							String itemfour = mActivity.getResources().getString(R.string.str_appplay_version)+":"+ConfigUtil.GETPLAY_VERSION;
+							new AlertDialog.Builder(new ContextThemeWrapper(mActivity, R.style.AlertDialogCustom)).
+							setTitle(mActivity.getResources().getString(R.string.str_version)).
+							setItems(new String[] {itemone,itemtwo,itemthree,itemfour}, null).setNegativeButton(
+									mActivity.getResources().getString(R.string.ok), null).show();
+							//TODO
+							break;
+						case 6:// 媒体
 							StatService.trackCustomEvent(
 									mActivity,
 									"Media",
@@ -419,12 +433,12 @@ public class JVMoreFragment extends BaseFragment {
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);
 							break;
-						case 6:
+						case 7:
 							Intent intent = new Intent(mActivity,
 									JVFeedbackActivity.class);
 							startActivity(intent);
 							break;
-						case 7:
+						case 8:
 							mActivity.createDialog("", false);
 							CheckUpdateTask taskf = new CheckUpdateTask(
 									mActivity);
@@ -432,7 +446,7 @@ public class JVMoreFragment extends BaseFragment {
 							strParams[0] = "1";// 1,手动检查更新
 							taskf.execute(strParams);
 							break;
-						case 8:
+						case 9:
 							if (!MySharedPreference.getBoolean("LITTLE")) {
 								littlenum++;
 								if (littlenum < 20) {

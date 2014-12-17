@@ -242,4 +242,12 @@ public class JVACCOUNT {
 	public static native int GetSession(byte[] session);
 
 	public static native int SetUserOnlineStatus(int online_state);
+
+	public static native int GetMailPhoneNoSession(String account_name,
+			byte[] response);
+
+	public static native int ResetUserPasswordNoSession(String password,
+			String account_name);
+
+	public static native String GetVersion(int aaa);
 }

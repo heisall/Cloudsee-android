@@ -551,7 +551,7 @@
     <!-- 中维版本值为1，oem版为2，nvsip版本为3 ，ATVCloud版本为4， KEEPER版本为5，STARTVision版本为6 -->
     <string name="str_update_app_version">1</string>
     <!-- 下载的新apk名字 -->
-    <string name="str_save_apk_name">JVCloudSeeClient.apk</string>
+    <string name="str_save_apk_name">CC.apk</string>
     <!-- 默认用户名 -->
     <string name="str_default_user">abc</string>
     <!-- 默认密码 -->

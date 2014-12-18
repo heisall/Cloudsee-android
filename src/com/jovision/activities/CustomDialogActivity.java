@@ -362,11 +362,12 @@ public class CustomDialogActivity extends BaseActivity implements
 							(byte) JVNetConst.JVN_REQ_DOWNLOAD, dataByte,
 							dataByte.length);
 				} else if (bDownLoadFileType == 1) {
-					if (progressdialog.isShowing()) {
-						progressdialog.dismiss();
-					}
+					// if (progressdialog.isShowing()) {
+					// progressdialog.dismiss();
+					// }
+					// lookVideoBtn.setEnabled(true);
+					myHandler.sendEmptyMessageDelayed(0x9990, 1000);
 					strFilePath = vod_uri_;
-					lookVideoBtn.setEnabled(true);
 					// 走远程回放
 					Intent intent = new Intent();
 					intent.setClass(CustomDialogActivity.this,
@@ -378,6 +379,7 @@ public class CustomDialogActivity extends BaseActivity implements
 					intent.putExtra("bFromAlarm", true);
 					intent.putExtra("is05", true);
 					this.startActivity(intent);
+
 				} else {
 
 				}
@@ -387,31 +389,25 @@ public class CustomDialogActivity extends BaseActivity implements
 			case JVNetConst.DISCONNECT_OK: {
 				myHandler.removeMessages(JVNetConst.JVN_RSP_DISCONN);
 				bConnectFlag = false;
-				if (dis_and_play_flag == 1)// 断开连接重新连接并播放标志
-				{
-					if (!progressdialog.isShowing()) {
-						progressdialog.show();
-					}
-					try {
-						Thread.sleep(200);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					// if (!AlarmUtil.OnlyConnect(strYstNum)) {
-					// progressdialog.dismiss();
-					// showTextToast(R.string.str_alarm_connect_failed_1);
-					// lookVideoBtn.setEnabled(true);
-					// }
-					new Thread(new ConnectProcess(0x9999)).start();
-				} else {
-					if (progressdialog.isShowing()) {
-						progressdialog.dismiss();
-					}
-					if (!vod_uri_.equals("")) {
-						lookVideoBtn.setEnabled(true);
-					}
-				}
+				// if (dis_and_play_flag == 1)// 断开连接重新连接并播放标志
+				// {
+				// if (!progressdialog.isShowing()) {
+				// progressdialog.show();
+				// }
+				// // if (!AlarmUtil.OnlyConnect(strYstNum)) {
+				// // progressdialog.dismiss();
+				// // showTextToast(R.string.str_alarm_connect_failed_1);
+				// // lookVideoBtn.setEnabled(true);
+				// // }
+				// new Thread(new ConnectProcess(0x9999)).start();
+				// } else {
+				// if (progressdialog.isShowing()) {
+				// progressdialog.dismiss();
+				// }
+				// if (!vod_uri_.equals("")) {
+				// lookVideoBtn.setEnabled(true);
+				// }
+				// }
 
 			}
 				break;
@@ -448,6 +444,28 @@ public class CustomDialogActivity extends BaseActivity implements
 					e.printStackTrace();
 				}
 			}
+				break;
+			case Consts.BAD_NOT_CONNECT:
+				bConnectFlag = false;
+				if (dis_and_play_flag == 1)// 断开连接重新连接并播放标志
+				{
+					if (!progressdialog.isShowing()) {
+						progressdialog.show();
+					}
+					// if (!AlarmUtil.OnlyConnect(strYstNum)) {
+					// progressdialog.dismiss();
+					// showTextToast(R.string.str_alarm_connect_failed_1);
+					// lookVideoBtn.setEnabled(true);
+					// }
+					new Thread(new ConnectProcess(0x9999)).start();
+				} else {
+					if (progressdialog.isShowing()) {
+						progressdialog.dismiss();
+					}
+					if (!vod_uri_.equals("")) {
+						lookVideoBtn.setEnabled(true);
+					}
+				}
 				break;
 			// default:
 			// if (progressdialog.isShowing()) {
@@ -492,13 +510,13 @@ public class CustomDialogActivity extends BaseActivity implements
 				// showToast("文件下载完毕", Toast.LENGTH_SHORT);
 				// JVSUDT.JVC_DisConnect(JVConst.ONLY_CONNECT);//断开连接,如果视频走远程回放
 
-				// Jni.disconnect(Consts.ONLY_CONNECT_INDEX);//by lkp
+				Jni.disconnect(Consts.ONLY_CONNECT_INDEX);// by lkp
 
 				if (bDownLoadFileType == 0) {
 					// 下载图片
-					if (!vod_uri_.equals("")) {
-						lookVideoBtn.setEnabled(true);
-					}
+					// if (!vod_uri_.equals("")) {
+					// lookVideoBtn.setEnabled(true);
+					// }
 
 					Bitmap bmp = getLoacalBitmap(localImgPath);
 					if (null != bmp) {
@@ -594,6 +612,14 @@ public class CustomDialogActivity extends BaseActivity implements
 			case 0x9999:
 				progressdialog.dismiss();
 				showTextToast(R.string.str_alarm_connect_failed_1);
+				if (!vod_uri_.equals("")) {
+					lookVideoBtn.setEnabled(true);
+				}
+				break;
+			case 0x9990:
+				if (progressdialog.isShowing()) {
+					progressdialog.dismiss();
+				}
 				lookVideoBtn.setEnabled(true);
 				break;
 			default:
@@ -624,8 +650,22 @@ public class CustomDialogActivity extends BaseActivity implements
 
 		@Override
 		public void run() {
-			if (!AlarmUtil.OnlyConnect(strYstNum)) {
-				myHandler.sendEmptyMessageDelayed(tag, 2000);
+			int try_cnt = 2;
+			do {
+				if (!AlarmUtil.OnlyConnect(strYstNum)) {
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try_cnt--;
+				} else {
+					break;
+				}
+			} while (try_cnt > 0);
+			if (try_cnt == 0) {
+				myHandler.sendEmptyMessageDelayed(tag, 1000);
 			}
 		}
 	}

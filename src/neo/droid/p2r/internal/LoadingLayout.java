@@ -1,5 +1,8 @@
 package neo.droid.p2r.internal;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import neo.droid.p2r.ILoadingLayout;
 import neo.droid.p2r.PullToRefreshBase.Mode;
 import neo.droid.p2r.PullToRefreshBase.Orientation;
@@ -24,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.utils.ConfigUtil;
 
 @SuppressLint("ViewConstructor")
 public abstract class LoadingLayout extends FrameLayout implements
@@ -77,7 +81,7 @@ public abstract class LoadingLayout extends FrameLayout implements
 				.findViewById(R.id.pull_to_refresh_sub_text);
 		mHeaderImage = (ImageView) mInnerLayout
 				.findViewById(R.id.pull_to_refresh_image);
-
+		setSubHeaderText(ConfigUtil.getCurrentTime());
 		FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mInnerLayout
 				.getLayoutParams();
 
@@ -247,9 +251,9 @@ public abstract class LoadingLayout extends FrameLayout implements
 			refreshingImpl();
 		}
 
-		if (null != mSubHeaderText) {
-			mSubHeaderText.setVisibility(View.GONE);
-		}
+		// if (null != mSubHeaderText) {
+		// mSubHeaderText.setVisibility(View.GONE);
+		// }
 	}
 
 	public final void releaseToRefresh() {
@@ -271,18 +275,18 @@ public abstract class LoadingLayout extends FrameLayout implements
 			resetImpl();
 		}
 
-		if (null != mSubHeaderText) {
-			if (TextUtils.isEmpty(mSubHeaderText.getText())) {
-				mSubHeaderText.setVisibility(View.GONE);
-			} else {
-				mSubHeaderText.setVisibility(View.VISIBLE);
-			}
-		}
+		// if (null != mSubHeaderText) {
+		// if (TextUtils.isEmpty(mSubHeaderText.getText())) {
+		// mSubHeaderText.setVisibility(View.GONE);
+		// } else {
+		// mSubHeaderText.setVisibility(View.VISIBLE);
+		// }
+		// }
 	}
 
 	@Override
 	public void setLastUpdatedLabel(CharSequence label) {
-		setSubHeaderText(label);
+		setSubHeaderText(ConfigUtil.getCurrentTime());
 	}
 
 	public final void setLoadingDrawable(Drawable imageDrawable) {
@@ -340,7 +344,7 @@ public abstract class LoadingLayout extends FrameLayout implements
 	private void setSubHeaderText(CharSequence label) {
 		if (null != mSubHeaderText) {
 			if (TextUtils.isEmpty(label)) {
-				mSubHeaderText.setVisibility(View.GONE);
+				// mSubHeaderText.setVisibility(View.GONE);
 			} else {
 				mSubHeaderText.setText(label);
 				if (View.GONE == mSubHeaderText.getVisibility()) {

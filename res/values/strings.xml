@@ -343,7 +343,6 @@
     <string name="demo">Demo</string>
     <string name="demo_get_failed">Failed to load demo video.</string>
     <!-- JVTab -->
-    <string name="sure_exit">Press again to quit the App.</string>
     <string name="network_error">Network connection exception,please check the network.</string>
     <string name="tips_3g">You are using the 3G/4G network now.It shall cause a lot mobile data fee if you continute to view the video.You are suggested to use Wi-Fi network.</string>
     <string name="waiting">Waiting…</string>
@@ -672,5 +671,7 @@
     <string name="reset_passwd_tips5">The mobile phone binding is not legal</string>
     <string name="reset_passwd_tips6">Please enter the verification code</string>
     <string name="reset_passwd_virificaition_code_wrong">The verification code is wrong</string>
-
+    <string name="reset_passwd_title1">Enter Account</string>
+  	<string name="reset_passwd_way1">Find by binding email</string>
+  	<string name="reset_passwd_way2">Find by Message verification code </string>    
 </resources>

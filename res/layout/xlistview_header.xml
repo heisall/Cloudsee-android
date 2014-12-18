@@ -27,13 +27,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_update_at"
-                    android:textSize="12sp" />
-
                 <TextView
                     android:id="@+id/xlistview_header_time"
                     android:layout_width="wrap_content"
@@ -46,9 +39,8 @@
             android:id="@+id/xlistview_header_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/xlistview_header_text"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="-35dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/default_ptr_rotate" />
     </RelativeLayout>
 

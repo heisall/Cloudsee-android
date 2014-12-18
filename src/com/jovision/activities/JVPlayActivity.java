@@ -422,7 +422,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 6 -- 连接异常断开
 			case JVNetConst.ABNORMAL_DISCONNECT: {
-				loadingState(arg1, R.string.closed,
+				loadingState(arg1, R.string.abnormal_closed,
 						Consts.TAG_PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
 				showFunc(channel, currentScreen, lastClickIndex);
@@ -431,7 +431,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 7 -- 服务停止连接，连接断开
 			case JVNetConst.SERVICE_STOP: {
-				loadingState(arg1, R.string.closed,
+				loadingState(arg1, R.string.abnormal_closed,
 						Consts.TAG_PLAY_DIS_CONNECTTED);
 				resetFunc(channel);
 				showFunc(channel, currentScreen, lastClickIndex);
@@ -575,7 +575,8 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			if (recoding) {
-				PlayUtil.videoRecord(lastClickIndex, "");
+				String path = PlayUtil.createRecordFile();
+				PlayUtil.videoRecord(lastClickIndex, path);
 			}
 
 			break;

@@ -145,17 +145,17 @@
     <style name="MyDialogStyleBottom" parent="android:Theme.Dialog">
         <item name="android:windowAnimationStyle">@style/AnimBottom</item>
         <item name="android:windowFrame">@null</item>
- <!-- 边框 -->
+        <!-- 边框 -->
         <item name="android:windowIsFloating">true</item>
- <!-- 是否浮现在activity之上 -->
+        <!-- 是否浮现在activity之上 -->
         <item name="android:windowIsTranslucent">true</item>
- <!-- 半透明 -->
+        <!-- 半透明 -->
         <item name="android:windowNoTitle">true</item>
- <!-- 无标题 -->
+        <!-- 无标题 -->
         <item name="android:windowBackground">@android:color/transparent</item>
- <!-- 背景透明 -->
+        <!-- 背景透明 -->
         <item name="android:backgroundDimEnabled">true</item>
- <!-- 模糊 -->
+        <!-- 模糊 -->
     </style>
 
 </resources>

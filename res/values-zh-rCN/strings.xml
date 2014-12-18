@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
     <string name="logining">正在登录…</string>
     <string name="login_str_username_notnull">请输入用户名</string>
     <string name="login_str_loginpass1_notnull">请输入密码</string>
@@ -413,6 +412,7 @@
     <string name="connect_failed">连接失败</string>
     <string name="connecting">连接中…</string>
     <string name="closed">已断开</string>
+    <string name="abnormal_closed">连接异常断开</string>
     <string name="overflow">超过最大连接数</string>
     <string name="connecting_buffer1">正在缓冲</string>
     <string name="connecting_buffer2">正在缓冲…</string>

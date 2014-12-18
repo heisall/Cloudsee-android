@@ -657,9 +657,8 @@
     <string name="str_play_version">本地播放库</string>
     <string name="str_appnetwork_version">程序网络库</string>
     <string name="str_appplay_version">程序播放库</string>
-    <string name="str_version">版本号</string>
-    
-    <!-- 重置密码 -->
+    <string name="str_version">版本号</string>   
+    <!-- 找回密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
     <string name="reset_passwd_input_vercode">Get verification code</string>
     <string name="reset_passwd_account">Account</string>

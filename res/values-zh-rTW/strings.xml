@@ -34,7 +34,7 @@
     <string name="login_str_point_delete_failed">通道刪除失敗</string>
     <string name="login_str_point_add_success">通道添加成功</string>
     <string name="login_str_point_add_failed">通道添加失敗</string>
-    <string name="login_str_point_add_full">FailtoaddduetouptolimitionofDevicechannelquantity.</string>
+    <string name="login_str_point_add_full">Fail to add due to up to limition of Device channel quantity.</string>
     <string name="login_str_point_edit_success">通道修改成功</string>
     <string name="login_str_point_edit_failed">通道修改失敗</string>
     <string name="login_str_device_delete_success">設備刪除成功</string>
@@ -64,7 +64,6 @@
     <string name="more_modifypwd">修改密碼</string>
     <string name="more_findpassword">找回密碼</string>
     <string name="more_cancel">註銷帳號</string>
-    <string name="reset_passwd_input_account">請輸入需要重置密碼的帳號:</string>
     <!-- JVWelcomeActivity -->
     <string name="cloud1">NVSIP</string>
     <string name="cloud2">通天下</string>
@@ -144,7 +143,8 @@
     <string name="str_enter_username1">請輸入新用戶名</string>
     <string name="str_enter_pass1">密碼</string>
     <string name="str_enter_pass2">確認密碼</string>
-    <string name="str_enter_email">信箱</string>
+    <string name="str_enter_phone">手機</string>
+    <string name="str_enter_email">郵箱</string>
     <string name="login_str_bind">綁定</string>
     <string name="str_read_agree">閱讀並同意</string>
     <string name="str_agreement">用戶協議</string>
@@ -185,16 +185,16 @@
     <string name="str_error_code">連接伺服器錯誤，代碼：</string>
     <string name="str_error_code_5">請求超時，請稍後重試.</string>
     <string name="str_error_code_6">連接伺服器超時.</string>
-    <string name="str_email_has_exist">信箱已經被別人使用，請修改.</string>
-    <string name="str_email_not_exist">恭喜，信箱已被您收入系統.</string>
+    <string name="str_email_has_exist">郵箱已經被別人使用，請修改.</string>
+    <string name="str_email_not_exist">恭喜，郵箱已被您收入系統.</string>
     <string name="str_reset_not_success">沒有修改成功.</string>
     <string name="str_modify_user_info">完善用戶資訊</string>
-    <string name="str_bound_email">綁定信箱</string>
-    <string name="str_bound_email_failed">信箱綁定失敗</string>
-    <string name="str_bound_email_exist">信箱已被註冊</string>
+    <string name="str_bound_email">綁定郵箱</string>
+    <string name="str_bound_email_failed">郵箱綁定失敗</string>
+    <string name="str_bound_email_exist">郵箱已被註冊</string>
     <string name="str_device_most_count">您的設備數已超過最大值，請刪除不使用的設備後再添加新設備.</string>
     <string name="string_username_modify_tips">帳號系統升級，請重置帳號.</string>
-    <string name="string_email_bound_tips">為了您的帳戶安全以及體驗更多服務，建議您綁定一個信箱.</string>
+    <string name="string_email_bound_tips">為了您的帳戶安全以及體驗更多服務，建議您綁定一個郵箱.</string>
     <string name="str_skip">跳過</string>
     <string name="str_reset">正在重置</string>
     <!-- 修改密碼 -->
@@ -549,7 +549,7 @@
     <string name="increct_yst_tips">設備號碼不正確</string>
     <string name="login_str_yst_num">設備號碼</string>
     <string name="str_not_qr_device">不屬於NVSIP設備</string>
-    <!-- 回饋信箱 -->
+    <!-- 回饋郵箱 -->
     <string name="str_feedback_email">mfq@jovision.com</string>
     <string name="str_feedback_email2">juyang@jovision.com</string>
     <!-- 中維版本值為1，oem版為2，nvsip版本為3，ATVCloud版本為4，KEEPER版本為5，STARTVision版本為6 -->
@@ -567,7 +567,7 @@
     <!-- 抓拍保存路徑 -->
     <string name="str_capture_path">capture/</string>
     <!-- 版權 -->
-    <string name="copyright">Copyright©2014JovisionTechnologyCo.,Ltd.AllRightsReserved.</string>
+    <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 報警 -->
     <string name="str_alarm_check">立即查看</string>
     <string name="str_pass_extra_err">傳遞數據異常</string>
@@ -654,5 +654,38 @@
     <string name="str_demo">視頻廣場</string>
     <string name="str_register">註冊</string>
     <string name="str_media">媒體</string>
-
+    <string name="str_network_version">本地網絡庫</string>
+    <string name="str_play_version">本地播放庫</string>
+    <string name="str_appnetwork_version">程序網絡庫</string>
+    <string name="str_appplay_version">程序播放庫</string>
+    <string name="str_version">版本號</string>
+    <!-- 找回密码 -->
+    <string name="reset_passwd_input_account">請輸入需要重置密碼的帳號:</string>
+    <string name="reset_passwd_input_vercode">獲取驗證碼</string>
+    <string name="reset_passwd_account">賬 號</string>
+    <string name="reset_passwd_new_passwd">密 碼</string>
+    <string name="reset_passwd_confirm_passwd">確認密碼</string>
+    <string name="reset_passwd_new_passwd_hint">填寫密碼</string>
+    <string name="reset_passwd_confirm_passwd_hint">再次填寫確認</string>
+    <string name="reset_passwd_done">完成</string>
+    <string name="reset_passwd_tips1">請輸入要重置密碼的帳號</string>
+    <string name="reset_passwd_tips2">輸入的帳號不合法</string>   
+    <string name="reset_passwd_tips3">請稍後...</string>  
+    <string name="reset_passwd_tips4">我們已經發送了驗證碼到你的手機:</string>  
+    <string name="reset_passwd_tips5">您綁定的手機號碼不合法</string> 
+  	<string name="reset_passwd_tips6">填寫驗證碼</string>
+  	<string name="reset_passwd_tips7">發送中...</string>
+  	<string name="reset_passwd_virificaition_code_wrong">驗證碼不正確</string>
+  	<string name="reset_passwd_failed">重置密碼失敗</string>
+  	<string name="reset_passwd_title1">輸入帳號</string>
+  	<string name="reset_passwd_way1">綁定郵箱找回</string>
+  	<string name="reset_passwd_way2">短信驗證碼找回</string>
+  	<string name="str_verification_code">驗證碼</string>
+  	<string name="str_notreceive_sms">收不到驗證碼?</string>
+  	<string name="str_resend_code">重新獲取驗證碼</string>
+  	<string name="str_receive_sms_time">接收短信大約需要SS秒鐘</string>  	
+  	<string name="str_sms_sent">短信驗證碼已發送</string>
+  	<string name="str_set_new_pwd">設置新密碼</string>
+  	<string name="str_set_new_pwd_ok">新密碼設置成功，請重新登錄</string>
+  	<string name="str_query_account_failed">查詢帳號資訊失敗</string>
 </resources>

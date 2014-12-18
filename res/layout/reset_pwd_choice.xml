@@ -34,7 +34,7 @@
 		        android:id="@+id/tv_mail"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="@string/reset_passwd_way2"
+		        android:text="@string/reset_passwd_way1"
 		        android:textColor="@color/mapblue"
 		        android:textSize="18sp"
 		        android:layout_centerHorizontal="true"

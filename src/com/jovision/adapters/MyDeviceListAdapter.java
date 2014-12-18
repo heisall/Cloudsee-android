@@ -23,6 +23,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.BaseFragment;
+import com.jovision.activities.JVMyDeviceFragment;
 import com.jovision.bean.Device;
 import com.jovision.utils.BitmapCache;
 
@@ -251,6 +252,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
+				JVMyDeviceFragment.isshow = false;
 				setShowDelete(false);
 				notifyDataSetChanged();
 			}
@@ -259,6 +261,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
+				JVMyDeviceFragment.isshow = false;
 				setShowDelete(false);
 				notifyDataSetChanged();
 			}

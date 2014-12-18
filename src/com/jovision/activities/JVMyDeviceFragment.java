@@ -21,9 +21,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -110,6 +112,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private TextView number;
 	private String Selectnumberl;
 	private String numString;
+	public static boolean isshow;
 	int Sum;
 	private ArrayList<Device> addLanList = new ArrayList<Device>();// 广播到的设备列表
 	// 设备名称
@@ -130,7 +133,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	/** 设备列表 */
 	private ListView myDeviceListView;
 	private ArrayList<Device> myDeviceList = null;
-	MyDeviceListAdapter myDLAdapter;
+	public static MyDeviceListAdapter myDLAdapter;
 	/** 自动刷新 */
 	private Timer updateTimer = null;
 	private AutoUpdateTask updateTask;
@@ -195,7 +198,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		currentMenu.setText(mActivity.getResources().getString(
 				R.string.my_device));
 		currentMenu.setText(R.string.my_device);
-
+		leftBtn.setOnClickListener(myOnClickListener);
 		devicename = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
 		inflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -325,6 +328,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 				break;
 			case R.id.dialog_cancle_img:
 				initDialog.dismiss();
+				break;
+			case R.id.btn_left:
+				if (isshow) {
+					myDLAdapter.setShowDelete(false);
+					myDLAdapter.notifyDataSetChanged();
+					isshow = false;
+				}else {
+					mActivity.openExitDialog();
+				}
 				break;
 			case R.id.btn_right:
 				initPop();
@@ -547,10 +559,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			}
 		}
 	}
-
 	@Override
 	public void onDestroy() {
 		stopRefreshWifiTimer();
+		isshow = false;
 		// stopBroadTimer();
 		super.onDestroy();
 	}
@@ -889,6 +901,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 		}
 		case Consts.WHAT_DEVICE_ITEM_LONG_CLICK: {// 设备长按事件
+			isshow = true;
 			myDLAdapter.setShowDelete(true);
 			myDLAdapter.notifyDataSetChanged();
 			break;

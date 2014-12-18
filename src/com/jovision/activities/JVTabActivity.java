@@ -458,7 +458,13 @@ public class JVTabActivity extends ShakeActivity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-			exit();
+			if (JVMyDeviceFragment.isshow) {
+				JVMyDeviceFragment.isshow = false;
+				JVMyDeviceFragment.myDLAdapter.setShowDelete(false);
+				JVMyDeviceFragment.myDLAdapter.notifyDataSetChanged();
+			}else {
+				exit();
+			}
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -466,19 +472,16 @@ public class JVTabActivity extends ShakeActivity implements
 
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onPageSelected(int arg0) {
-		// TODO Auto-generated method stub
 		currentImage = arg0; // 获取当前页面索引
 		if (flag == 0) {
 			if (!localFlag) {

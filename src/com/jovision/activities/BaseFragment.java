@@ -58,11 +58,10 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 		}
 
 	}
-
+	
 	public int getShownIndex() {
 		return getArguments().getInt("index", 0);
 	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -99,14 +98,15 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 			e.printStackTrace();
 		}
 	}
-
 	OnClickListener mOnClickListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.btn_left:
-				mActivity.openExitDialog();
+				if (!JVMyDeviceFragment.isshow) {
+					mActivity.openExitDialog();
+				}
 				break;
 			default:
 				break;

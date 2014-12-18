@@ -365,6 +365,8 @@ public class ChannelFragment extends BaseFragment {
 						.get(Consts.LOCAL_LOGIN))) {// 本地删除
 					if (1 == deviceList.get(deviceIndex).getChannelList()
 							.size()) {// 删设备
+						ConfigUtil.deleteSceneFile(deviceList.get(delDevIndex)
+								.getFullNo());
 						deviceList.remove(delDevIndex);
 						delRes = 1;
 					} else {// 删通道
@@ -380,6 +382,8 @@ public class ChannelFragment extends BaseFragment {
 										.get("KEY_USERNAME"),
 								deviceList.get(deviceIndex).getFullNo());
 						if (0 == delRes) {
+							ConfigUtil.deleteSceneFile(deviceList.get(
+									delDevIndex).getFullNo());
 							deviceList.remove(delDevIndex);
 							delRes = 1;
 						}

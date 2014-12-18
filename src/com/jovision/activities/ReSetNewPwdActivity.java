@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.test.JVACCOUNT;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.textservice.TextInfo;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;

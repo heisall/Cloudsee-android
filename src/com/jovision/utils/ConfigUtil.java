@@ -75,10 +75,10 @@ public class ConfigUtil {
 	public final static String ACCOUNT_VERSION = "";
 	public final static String PLAY_VERSION = "0.9b[6c5c83a][2014-12-09]";
 	public final static String NETWORK_VERSION = "v2.0.76.3.20[private:v2.0.75.13 201401208.2]";
-	
+
 	public static String GETPLAY_VERSION = "";
 	public static String GETNETWORK_VERSION = "";
-	
+
 	private final static String CHINA_JSON = "{\"country\":\"\u4e2d\u56fd\"}";
 	// /**
 	// * 获取本地数据库管理对象的引用
@@ -1082,6 +1082,27 @@ public class ConfigUtil {
 			}
 		}
 		return value;
+	}
+
+	/**
+	 * 删除设备场景图
+	 * 
+	 * @param devName
+	 * @return
+	 */
+	public static boolean deleteSceneFile(String devName) {
+		boolean deleteRes = false;
+		String savePath = Consts.SCENE_PATH;
+		MobileUtil.createDirectory(new File(savePath));
+		String fullPath = savePath + devName + Consts.IMAGE_PNG_KIND;
+		File devImgFile = new File(fullPath);
+		BitmapCache.getInstance().bitmapRefs.remove(fullPath);
+
+		if (devImgFile.exists()) {
+			devImgFile.delete();
+			deleteRes = true;
+		}
+		return deleteRes;
 	}
 
 	// /**

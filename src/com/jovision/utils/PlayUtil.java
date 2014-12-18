@@ -299,24 +299,27 @@ public class PlayUtil {
 	/**
 	 * 抓拍声音
 	 */
-	public static void prepareAndPlay() {
-		try {
-			AssetManager assetMgr = mContext.getAssets();
-			// 打开指定音乐文件
-			AssetFileDescriptor afd = assetMgr.openFd("aaa.wav");
-			MediaPlayer mediaPlayer = new MediaPlayer();
-			mediaPlayer.reset();
+	public static void prepareAndPlay(boolean playSound) {
+		if (playSound) {
+			try {
+				AssetManager assetMgr = mContext.getAssets();
+				// 打开指定音乐文件
+				AssetFileDescriptor afd = assetMgr.openFd("aaa.wav");
+				MediaPlayer mediaPlayer = new MediaPlayer();
+				mediaPlayer.reset();
 
-			// 使用MediaPlayer加载指定的声音文件。
-			mediaPlayer.setDataSource(afd.getFileDescriptor(),
-					afd.getStartOffset(), afd.getLength());
-			// 准备声音
-			mediaPlayer.prepare();
-			// 播放
-			mediaPlayer.start();
-		} catch (IOException e) {
-			e.printStackTrace();
+				// 使用MediaPlayer加载指定的声音文件。
+				mediaPlayer.setDataSource(afd.getFileDescriptor(),
+						afd.getStartOffset(), afd.getLength());
+				// 准备声音
+				mediaPlayer.prepare();
+				// 播放
+				mediaPlayer.start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+
 	}
 
 	// /**

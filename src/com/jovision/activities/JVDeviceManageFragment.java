@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -32,6 +33,8 @@ import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.DeviceUtil;
 
 /**
  * 设备管理
@@ -93,7 +96,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 			mActivity = (BaseActivity) getActivity();
 
 			currentMenu.setText(R.string.str_help1_2);
-			rightBtn.setVisibility(View.GONE);
+			rightBtn.setVisibility(View.VISIBLE);
 			rightBtn.setOnClickListener(mOnClickListener);
 			manageDeviceList = CacheUtil.getDevList();
 
@@ -241,13 +244,92 @@ public class JVDeviceManageFragment extends BaseFragment {
 		// fragmentPagerAdapter.setFragments(fragments);
 	}
 
+	// 清空所有设备线程
+	class DelAllDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int delRes = -1;
+			boolean localFlag = Boolean.valueOf(mActivity.statusHashMap
+					.get(Consts.LOCAL_LOGIN));
+			try {
+				if (localFlag) {// 本地删除
+					delRes = 0;
+					int size = manageDeviceList.size();
+					for (int i = 0; i < size; i++) {
+						ConfigUtil.deleteSceneFile(manageDeviceList.get(i)
+								.getFullNo());
+						manageDeviceList.remove(i);
+						i--;
+						size = manageDeviceList.size();
+					}
+				} else {
+					int size = manageDeviceList.size();
+					for (int i = 0; i < size; i++) {
+						delRes = DeviceUtil.unbindDevice(
+								(mActivity.statusHashMap.get("KEY_USERNAME")),
+								manageDeviceList.get(i).getFullNo());
+						if (0 == delRes) {
+							ConfigUtil.deleteSceneFile(manageDeviceList.get(i)
+									.getFullNo());
+							manageDeviceList.remove(i);
+							i--;
+							size = manageDeviceList.size();
+						}
+
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return delRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			mActivity.dismissDialog();
+			if (0 == result) {
+				if (0 == manageDeviceList.size()) {
+					dataLayout.setVisibility(View.GONE);
+					refreshlayout.setVisibility(View.GONE);
+					quickSetSV.setVisibility(View.VISIBLE);
+				} else {
+					adapter.notifyDataSetChanged();
+				}
+				mActivity.showTextToast(R.string.del_device_succ);
+				CacheUtil.saveDevList(manageDeviceList);
+			} else {
+				mActivity.showTextToast(R.string.del_device_failed);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			mActivity.createDialog("", false);
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
+
 	OnClickListener mOnClickListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.btn_right:
-
+				DelAllDevTask task = new DelAllDevTask();
+				String[] strParams = new String[3];
+				task.execute(strParams);
 				break;
 			case R.id.devmorere:
 				device_num.setText(mActivity.getResources().getString(

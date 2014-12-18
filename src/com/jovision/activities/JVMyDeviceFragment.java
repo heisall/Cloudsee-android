@@ -1172,6 +1172,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 
 				if (0 == delRes) {
+					ConfigUtil.deleteSceneFile(myDeviceList.get(delIndex)
+							.getFullNo());
 					myDeviceList.remove(delIndex);
 				}
 			} catch (Exception e) {

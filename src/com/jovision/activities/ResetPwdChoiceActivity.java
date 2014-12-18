@@ -1,18 +1,18 @@
 package com.jovision.activities;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.RelativeLayout;
+
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.widget.RelativeLayout;
 
 public class ResetPwdChoiceActivity extends Activity implements OnClickListener {
 	private RelativeLayout rlyMailWay, rlyPhoneWay, rlyCance;

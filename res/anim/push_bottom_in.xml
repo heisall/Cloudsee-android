@@ -7,6 +7,4 @@
         android:fromYDelta="50%p"
         android:toYDelta="0" />
 
-    
-    
 </set>

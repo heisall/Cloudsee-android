@@ -3451,8 +3451,14 @@ public class JVPlayActivity extends PlayActivity implements
 			MobileUtil.createDirectory(new File(savePath));
 
 			if (Consts.PLAY_NORMAL == playFlag) {
-				fileName = channel.getParent().getFullNo()
-						+ Consts.IMAGE_PNG_KIND;
+				if (2 == channel.getParent().getIsDevice()) {
+					fileName = channel.getParent().getDoMain()
+							+ Consts.IMAGE_PNG_KIND;
+				} else {
+					fileName = channel.getParent().getFullNo()
+							+ Consts.IMAGE_PNG_KIND;
+				}
+
 			} else if (Consts.PLAY_DEMO == playFlag) {
 				fileName = "demo_" + channel.getParent().getFullNo()
 						+ Consts.IMAGE_PNG_KIND;

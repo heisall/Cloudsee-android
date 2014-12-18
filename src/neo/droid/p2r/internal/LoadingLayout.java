@@ -1,8 +1,5 @@
 package neo.droid.p2r.internal;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import neo.droid.p2r.ILoadingLayout;
 import neo.droid.p2r.PullToRefreshBase.Mode;
 import neo.droid.p2r.PullToRefreshBase.Orientation;

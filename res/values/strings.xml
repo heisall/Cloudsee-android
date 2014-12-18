@@ -672,6 +672,7 @@
     <string name="reset_passwd_tips6">Please enter the verification code</string>
     <string name="reset_passwd_virificaition_code_wrong">The verification code is wrong</string>
     <string name="reset_passwd_title1">Enter Account</string>
-  	<string name="reset_passwd_way1">Find by binding email</string>
-  	<string name="reset_passwd_way2">Find by Message verification code </string>    
+    <string name="reset_passwd_way1">Find by binding email</string>
+    <string name="reset_passwd_way2">Find by Message verification code </string>
+
 </resources>

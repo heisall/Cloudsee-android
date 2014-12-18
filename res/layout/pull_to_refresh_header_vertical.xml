@@ -43,18 +43,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:textSize="14sp"
                 android:textAppearance="?android:attr/textAppearance"
-                android:textColor="@color/more_fragment_color2" />
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/pull_to_refresh_sub_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                 android:textSize="12sp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                 />
+                android:textSize="12sp" />
         </LinearLayout>
     </FrameLayout>
 

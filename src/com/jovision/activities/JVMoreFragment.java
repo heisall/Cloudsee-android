@@ -80,7 +80,7 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon, R.drawable.media_image,
 			R.drawable.morefragment_update_icon, R.drawable.media_image,
-			R.drawable.morefragment_aboutus_icon, 
+			R.drawable.morefragment_aboutus_icon,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -412,16 +412,32 @@ public class JVMoreFragment extends BaseFragment {
 										true);
 							}
 							break;
-						case 5://版本号
-							String itemone =mActivity.getResources().getString(R.string.str_network_version)+":"+ConfigUtil.NETWORK_VERSION;
-							String itemtwo = mActivity.getResources().getString(R.string.str_play_version)+":"+ConfigUtil.PLAY_VERSION;
-							String itemthree = mActivity.getResources().getString(R.string.str_appnetwork_version)+":"+ConfigUtil.GETNETWORK_VERSION;
-							String itemfour = mActivity.getResources().getString(R.string.str_appplay_version)+":"+ConfigUtil.GETPLAY_VERSION;
-							new AlertDialog.Builder(new ContextThemeWrapper(mActivity, R.style.AlertDialogCustom)).
-							setTitle(mActivity.getResources().getString(R.string.str_version)).
-							setItems(new String[] {itemone,itemtwo,itemthree,itemfour}, null).setNegativeButton(
-									mActivity.getResources().getString(R.string.ok), null).show();
-							//TODO
+						case 5:// 版本号
+							String itemone = mActivity.getResources()
+									.getString(R.string.str_network_version)
+									+ ":" + ConfigUtil.NETWORK_VERSION;
+							String itemtwo = mActivity.getResources()
+									.getString(R.string.str_play_version)
+									+ ":"
+									+ ConfigUtil.PLAY_VERSION;
+							String itemthree = mActivity.getResources()
+									.getString(R.string.str_appnetwork_version)
+									+ ":" + ConfigUtil.GETNETWORK_VERSION;
+							String itemfour = mActivity.getResources()
+									.getString(R.string.str_appplay_version)
+									+ ":" + ConfigUtil.GETPLAY_VERSION;
+							new AlertDialog.Builder(new ContextThemeWrapper(
+									mActivity, R.style.AlertDialogCustom))
+									.setTitle(
+											mActivity.getResources().getString(
+													R.string.str_version))
+									.setItems(
+											new String[] { itemone, itemtwo,
+													itemthree, itemfour }, null)
+									.setNegativeButton(
+											mActivity.getResources().getString(
+													R.string.ok), null).show();
+							// TODO
 							break;
 						case 6:// 媒体
 							StatService.trackCustomEvent(
@@ -439,6 +455,7 @@ public class JVMoreFragment extends BaseFragment {
 							startActivity(intent);
 							break;
 						case 8:
+							mActivity.createDialog("", false);
 							CheckUpdateTask taskf = new CheckUpdateTask(
 									mActivity);
 							String[] strParams = new String[3];

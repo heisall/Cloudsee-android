@@ -173,7 +173,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getBitmap(
 							Consts.SCENE_PATH
 									+ deviceList.get(position * 2).getFullNo()
-									+ ".jpg", "image", ""));
+									+ Consts.IMAGE_PNG_KIND, "image", ""));
 		}
 
 		if (Boolean
@@ -285,8 +285,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						.getBitmap(
 								Consts.SCENE_PATH
 										+ deviceList.get(position * 2 + 1)
-												.getFullNo() + ".jpg", "image",
-								""));
+												.getFullNo()
+										+ Consts.IMAGE_PNG_KIND, "image", ""));
 			}
 			if (Boolean
 					.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap

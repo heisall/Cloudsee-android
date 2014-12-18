@@ -138,17 +138,26 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 					+ arg2);
 			switch (arg2) {
 			case Consts.BAD_SCREENSHOT_NOOP:
-				PlayUtil.prepareAndPlay();
-				showTextToast(Consts.CAPTURE_PATH);
+				PlayUtil.prepareAndPlay(CAPTURING);
+				if (CAPTURING) {
+					CAPTURING = false;
+					showTextToast(Consts.CAPTURE_PATH);
+				}
 				break;
 			case Consts.BAD_SCREENSHOT_INIT:
-				showTextToast(R.string.str_capture_error);
+				if (CAPTURING) {
+					showTextToast(R.string.str_capture_error);
+				}
 				break;
 			case Consts.BAD_SCREENSHOT_CONV:
-				showTextToast(R.string.str_capture_error);
+				if (CAPTURING) {
+					showTextToast(R.string.str_capture_error);
+				}
 				break;
 			case Consts.BAD_SCREENSHOT_OPEN:
-				showTextToast(R.string.str_capture_error);
+				if (CAPTURING) {
+					showTextToast(R.string.str_capture_error);
+				}
 				break;
 			default:
 				break;
@@ -526,8 +535,8 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 					showTextToast(R.string.forbidden_operation_when_paused);
 				} else {
 					if (hasSDCard()) {
-						boolean capture = PlayUtil.capture(indexOfChannel);
-						MyLog.v(TAG, "capture=" + capture);
+						CAPTURING = PlayUtil.capture(indexOfChannel);
+						MyLog.v(TAG, "CAPTURING=" + CAPTURING);
 					}
 				}
 				break;

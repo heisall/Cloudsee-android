@@ -78,6 +78,7 @@ public class JVTabActivity extends ShakeActivity implements
 	private TimerTask broadTimerTask;
 
 	private ImageView local_gone;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -185,8 +186,8 @@ public class JVTabActivity extends ShakeActivity implements
 	}
 
 	private void initDot(int dotnum) {
-		if (dotnum==3) {
-			
+		if (dotnum == 3) {
+
 		}
 		dots = new ArrayList<ImageView>();
 		// 得到点的父布局
@@ -323,7 +324,7 @@ public class JVTabActivity extends ShakeActivity implements
 		MyLog.v(TAG, "initUi----E");
 		setContentView(R.layout.tab_layout);
 		startBroadTimer();
-		local_gone = (ImageView)findViewById(R.id.local_gone);
+		local_gone = (ImageView) findViewById(R.id.local_gone);
 		viewpager = (ViewPager) findViewById(R.id.tab_viewpager);
 		viewpager.setOnPageChangeListener(JVTabActivity.this);
 		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);

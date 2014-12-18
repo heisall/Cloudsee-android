@@ -19,6 +19,7 @@ import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.views.AlarmDialog;
 
@@ -294,6 +295,8 @@ public class JVChannelListActivity extends BaseActivity {
 				if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 本地删除
 					if (1 == device.getChannelList().size()) {// 删设备
 						device = null;
+						ConfigUtil.deleteSceneFile(deviceList.get(delDevIndex)
+								.getFullNo());
 						deviceList.remove(delDevIndex);
 						delRes = 1;
 					} else {// 删通道
@@ -307,6 +310,8 @@ public class JVChannelListActivity extends BaseActivity {
 								device.getFullNo());
 						if (0 == delRes) {
 							device = null;
+							ConfigUtil.deleteSceneFile(deviceList.get(
+									delDevIndex).getFullNo());
 							deviceList.remove(delDevIndex);
 							delRes = 1;
 						}

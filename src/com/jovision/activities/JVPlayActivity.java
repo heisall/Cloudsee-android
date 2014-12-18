@@ -140,12 +140,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 		switch (what) {
 		case PLAY_AUDIO_WHAT: {
-			// public static final int ARG1_PLAY = 0x01;
-			// public static final int ARG1_RECORD = 0x02;
-			//
-			// public static final int ARG2_START = 0x01;
-			// public static final int ARG2_FINISH = 0x02;
-			// PLAY_AUDIO_WHAT:what=38,arg1=1,arg2=2,obj=null
 			MyLog.v(TAG, "PLAY_AUDIO_WHAT:what=" + what + ",arg1=" + arg1
 					+ ",arg2=" + arg2 + ",obj=" + obj);
 			break;
@@ -260,7 +254,6 @@ public class JVPlayActivity extends PlayActivity implements
 		if (isQuit) {
 			return;
 		}
-
 		switch (what) {
 		case Consts.STOP_AUDIO_GATHER: {// 停止采集音频数据
 			GATHER_AUDIO_DATA = false;
@@ -495,33 +488,6 @@ public class JVPlayActivity extends PlayActivity implements
 					if (8 == channel.getAudioByte()
 							&& Consts.DEVICE_TYPE_DVR == type) {
 						channel.setSupportVoice(false);
-						// [Neo] TODO 不支持此设备的语音对讲，可监听
-						// private static final int AUDIO_WHAT = 0x51;
-						// MyAudio audio = MyAudio.getIntance(AUDIO_WHAT, this);
-						//
-						// // [Neo] 开启音频监听
-						// Jni.enablePlayAudio(index, true);
-						// audio.startPlay(channelList.get(index).getAudioBitCount(),
-						// true);
-						//
-						// // [Neo] 关闭音频监听
-						// Jni.enablePlayAudio(index, false);
-						// audio.stopPlay();
-						//
-						// // [Neo] 开启语音对讲
-						// Channel channel = channelList.get(index);
-						// audio.startPlay(bit, true);
-						// audio.startRec(channel.getAudioEncType(),
-						// channel.getAudioByte(), channel.getAudioBlock(),
-						// true);
-						//
-						// // [Neo] 关闭语音对讲
-						// audio.stopPlay();
-						// audio.stopRec();
-						//
-						// // [Neo] 将音频填入缓存队列
-						// audio.put(data);
-
 					} else {
 						channel.setSupportVoice(true);
 					}
@@ -572,9 +538,6 @@ public class JVPlayActivity extends PlayActivity implements
 					}
 				}
 			} else {
-				// if (channel.isHasGotParams()) {
-				// showFunc(channel, currentScreen, lastClickIndex);
-				// } else {
 				// 是IPC，发文本聊天请求
 				if (channel.isAgreeTextData()) {
 					// 获取主控码流信息请求
@@ -584,16 +547,12 @@ public class JVPlayActivity extends PlayActivity implements
 					// 请求文本聊天
 					Jni.sendBytes(arg1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 				}
-				// }
 
 			}
 
 			if (recoding) {
-				// showTextToast(R.string.video_repaked);
 				PlayUtil.videoRecord(lastClickIndex, "");
 			}
-
-			// }
 
 			break;
 		}
@@ -609,17 +568,27 @@ public class JVPlayActivity extends PlayActivity implements
 					+ ";arg2=" + arg2);
 			switch (arg2) {
 			case Consts.BAD_SCREENSHOT_NOOP:
-				PlayUtil.prepareAndPlay();
-				showTextToast(Consts.CAPTURE_PATH);
+				PlayUtil.prepareAndPlay(CAPTURING);
+				if (CAPTURING) {
+					CAPTURING = false;
+					showTextToast(Consts.CAPTURE_PATH);
+				}
+				MyLog.e("capture", "success");
 				break;
 			case Consts.BAD_SCREENSHOT_INIT:
-				showTextToast(R.string.str_capture_error);
+				if (CAPTURING) {
+					showTextToast(R.string.str_capture_error);
+				}
 				break;
 			case Consts.BAD_SCREENSHOT_CONV:
-				showTextToast(R.string.str_capture_error);
+				if (CAPTURING) {
+					showTextToast(R.string.str_capture_error);
+				}
 				break;
 			case Consts.BAD_SCREENSHOT_OPEN:
-				showTextToast(R.string.str_capture_error);
+				if (CAPTURING) {
+					showTextToast(R.string.str_capture_error);
+				}
 				break;
 			default:
 				break;
@@ -804,7 +773,6 @@ public class JVPlayActivity extends PlayActivity implements
 								channel.setNewIpcFlag(true);
 							} else {
 								channel.setNewIpcFlag(false);
-								// TODO 亟待测试
 								if (channel.getParent().isOldDevice()) {// 已经取到标志位是老的设备了
 									if (null != streamMap.get("MobileCH")
 											&& "2".equalsIgnoreCase(streamMap
@@ -1038,9 +1006,6 @@ public class JVPlayActivity extends PlayActivity implements
 						// object.getBoolean("is_omx"));
 
 						int window = object.getInt("window");
-						// // TODO
-						// loadingState(window, 0, JVConst.PLAY_CONNECTTED);
-
 						if (window == lastClickIndex) {
 							currentKbps.setText(String.format("%.1fk/%.1fk",
 									object.getDouble("kbps"),
@@ -1562,6 +1527,7 @@ public class JVPlayActivity extends PlayActivity implements
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
 				// [Neo] Empty
+				// saveLastScreen(channelList.get(lastItemIndex));
 			}
 		});
 
@@ -1740,8 +1706,8 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	public boolean pauseChannel(Channel channel) {
+		MyLog.v("capture", "pauseChannel=" + channel.getParent().getFullNo());
 		boolean result = false;
-
 		if (null != channel && false == channel.isPaused()) {
 			if (lastClickIndex != channel.getIndex() && channel.isConnected()) {
 				Jni.sendBytes(channel.getIndex(),
@@ -2427,8 +2393,8 @@ public class JVPlayActivity extends PlayActivity implements
 							JVNetConst.RC_EXTEND, null);
 				} else {
 					if (hasSDCard() && allowThisFuc(false)) {
-						boolean capture = PlayUtil.capture(lastClickIndex);
-						MyLog.i(TAG, "capture=" + capture);
+						CAPTURING = PlayUtil.capture(lastClickIndex);
+						MyLog.i(TAG, "CAPTURING=" + CAPTURING);
 					}
 				}
 				break;
@@ -2617,6 +2583,20 @@ public class JVPlayActivity extends PlayActivity implements
 			int sendRes = 0;// 0成功 1失败
 
 			backFunc = Boolean.valueOf(params[0]);
+			if (null != channelList && 0 != channelList.size()) {
+				try {
+					int size = channelList.size();
+					for (int i = 0; i < size; i++) {
+						if (channelList.get(i).isConnected()
+								&& !channelList.get(i).isPaused()) {
+							saveLastScreen(channelList.get(i));
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
 			try {
 				try {
 					Thread.sleep(1000);
@@ -3417,6 +3397,39 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		showFunc(channelList.get(lastClickIndex), currentScreen, lastClickIndex);
+	}
+
+	/**
+	 * 保存最后一帧图像
+	 * 
+	 * @param channel
+	 */
+	public void saveLastScreen(Channel channel) {
+		if (Consts.PLAY_AP == playFlag) {
+			return;
+		}
+		if (hasSDCard()) {
+			String savePath = Consts.SCENE_PATH;
+			String fileName = "";
+			String fullPath = "";
+			MobileUtil.createDirectory(new File(savePath));
+
+			if (Consts.PLAY_NORMAL == playFlag) {
+				fileName = channel.getParent().getFullNo()
+						+ Consts.IMAGE_PNG_KIND;
+			} else if (Consts.PLAY_DEMO == playFlag) {
+				fileName = "demo_" + channel.getParent().getFullNo()
+						+ Consts.IMAGE_PNG_KIND;
+			}
+			fullPath = savePath + fileName;
+			File file = new File(fullPath);
+			if (file.exists()) {// 场景图存在先删掉老的
+				MyLog.v("capture", "delete=file" + ";fullPath=" + fullPath);
+				ConfigUtil.deleteSceneFile(channel.getParent().getFullNo());
+			}
+			boolean capture = PlayUtil.capture(lastClickIndex, fullPath);
+			MyLog.i("capture", "capture=" + capture + ";fullPath=" + fullPath);
+		}
 	}
 
 	private class Connecter extends Thread {

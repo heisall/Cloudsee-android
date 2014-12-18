@@ -192,10 +192,19 @@ public class PlayUtil {
 	public static boolean capture(int index) {
 		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentTime()
 				+ File.separator;
-		String fileName = String.valueOf(System.currentTimeMillis()) + ".png";
+		String fileName = String.valueOf(System.currentTimeMillis())
+				+ Consts.IMAGE_PNG_KIND;
 		MobileUtil.createDirectory(new File(capturePath));
 		MyLog.v(TAG, "capture=" + capturePath + fileName);
 		return Jni.screenshot(index, capturePath + fileName, 100);
+	}
+
+	/**
+	 * 抓拍
+	 */
+	public static boolean capture(int index, String fullPath) {
+		MyLog.v(TAG, "capture=" + fullPath);
+		return Jni.screenshot(index, fullPath, 50);
 	}
 
 	/**
@@ -204,7 +213,8 @@ public class PlayUtil {
 	public static boolean hitviscapture(int index) {
 		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentTime()
 				+ File.separator;
-		String fileName = String.valueOf(System.currentTimeMillis()) + ".png";
+		String fileName = String.valueOf(System.currentTimeMillis())
+				+ Consts.IMAGE_PNG_KIND;
 		MobileUtil.createDirectory(new File(capturePath));
 		MyLog.v(TAG, "capture=" + capturePath + fileName);
 		return Jni.screenshot(index, capturePath + fileName, -1);
@@ -289,24 +299,27 @@ public class PlayUtil {
 	/**
 	 * 抓拍声音
 	 */
-	public static void prepareAndPlay() {
-		try {
-			AssetManager assetMgr = mContext.getAssets();
-			// 打开指定音乐文件
-			AssetFileDescriptor afd = assetMgr.openFd("aaa.wav");
-			MediaPlayer mediaPlayer = new MediaPlayer();
-			mediaPlayer.reset();
+	public static void prepareAndPlay(boolean playSound) {
+		if (playSound) {
+			try {
+				AssetManager assetMgr = mContext.getAssets();
+				// 打开指定音乐文件
+				AssetFileDescriptor afd = assetMgr.openFd("aaa.wav");
+				MediaPlayer mediaPlayer = new MediaPlayer();
+				mediaPlayer.reset();
 
-			// 使用MediaPlayer加载指定的声音文件。
-			mediaPlayer.setDataSource(afd.getFileDescriptor(),
-					afd.getStartOffset(), afd.getLength());
-			// 准备声音
-			mediaPlayer.prepare();
-			// 播放
-			mediaPlayer.start();
-		} catch (IOException e) {
-			e.printStackTrace();
+				// 使用MediaPlayer加载指定的声音文件。
+				mediaPlayer.setDataSource(afd.getFileDescriptor(),
+						afd.getStartOffset(), afd.getLength());
+				// 准备声音
+				mediaPlayer.prepare();
+				// 播放
+				mediaPlayer.start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+
 	}
 
 	// /**

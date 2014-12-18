@@ -42,7 +42,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:src="@drawable/default_ptr_rotate" />
-
     </RelativeLayout>
 
 </LinearLayout>

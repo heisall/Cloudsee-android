@@ -105,29 +105,31 @@ public class JVTabActivity extends ShakeActivity implements
 			// 具体可参考详细的开发指南
 			// 传递的参数为ApplicationContext
 			XGPushManager.registerPush(getApplicationContext(),
-				new XGIOperateCallback() {
-					@Override
-					public void onSuccess(Object data, int flag) {
-						MyLog.d("TPush", "注册成功，设备token为：" + data);
-						if (MySharedPreference.getString(Consts.KEY_DEV_TOKEN)
-								.equals("")) {
-							MySharedPreference.putString(Consts.KEY_DEV_TOKEN,
-									data.toString());
-							AccountUtil
-									.reportClientPlatformInfo(JVTabActivity.this);
-						} else {
-							MySharedPreference.putString(Consts.KEY_DEV_TOKEN,
-									data.toString());
+					new XGIOperateCallback() {
+						@Override
+						public void onSuccess(Object data, int flag) {
+							MyLog.d("TPush", "注册成功，设备token为：" + data);
+							if (MySharedPreference.getString(
+									Consts.KEY_DEV_TOKEN).equals("")) {
+								MySharedPreference.putString(
+										Consts.KEY_DEV_TOKEN, data.toString());
+								AccountUtil
+										.reportClientPlatformInfo(JVTabActivity.this);
+							} else {
+								MySharedPreference.putString(
+										Consts.KEY_DEV_TOKEN, data.toString());
+							}
 						}
-					}
 
-					@Override
-					public void onFail(Object data, int errCode, String msg) {
-						MyLog.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
-						showTextToast("注册失败，错误码：" + errCode + ",错误信息：" + msg);
-					}
-				});
-			}
+						@Override
+						public void onFail(Object data, int errCode, String msg) {
+							MyLog.d("TPush", "注册失败，错误码：" + errCode + ",错误信息："
+									+ msg);
+							showTextToast("注册失败，错误码：" + errCode + ",错误信息："
+									+ msg);
+						}
+					});
+		}
 		MyLog.v(TAG, "onCreate----X");
 	}
 

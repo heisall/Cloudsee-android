@@ -4,9 +4,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,6 +20,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.test.JVACCOUNT;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,6 +36,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.activities.ResetPwdInputAccountActivity.CheckUserInfoTask;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
@@ -75,6 +81,8 @@ public class JVMoreFragment extends BaseFragment {
 	private TextView more_lasttime;
 	// 修改密码
 	private TextView more_modifypwd;
+	//绑定邮箱
+	private TextView more_bindmail;
 	// 图片数组
 	private int[] Image = { R.drawable.morefragment_help_icon,
 			R.drawable.morefragment_warmmessage_icon,
@@ -142,7 +150,11 @@ public class JVMoreFragment extends BaseFragment {
 						"onHandler mActivity is null ,so dont show the alarm dialog");
 			}
 			break;
+		case Consts.WHAT_BIND:
+			more_bindmail.setVisibility(View.VISIBLE);
+			break;
 		}
+
 	}
 
 	private void intiUi(View view) {
@@ -169,6 +181,7 @@ public class JVMoreFragment extends BaseFragment {
 		tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
 		newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
 		more_modifypwd = (TextView) view.findViewById(R.id.more_modifypwd);
+		more_bindmail = (TextView)view.findViewById(R.id.more_bindmail);
 		more_cancle = (RelativeLayout) view.findViewById(R.id.more_cancle);
 		more_modify = (TextView) view.findViewById(R.id.more_modify);
 		more_findpassword = (TextView) view
@@ -184,6 +197,7 @@ public class JVMoreFragment extends BaseFragment {
 		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
 		listViewClick();
 
+		more_bindmail.setOnClickListener(myOnClickListener);
 		more_modifypwd.setOnClickListener(myOnClickListener);
 		more_cancle.setBackgroundResource(R.drawable.blue_bg);
 		more_username.setText(more_name);
@@ -191,12 +205,19 @@ public class JVMoreFragment extends BaseFragment {
 		more_cancle.setOnClickListener(myOnClickListener);
 		more_modify.setOnClickListener(myOnClickListener);
 		more_findpassword.setOnClickListener(myOnClickListener);
+		
 	}
 
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		more_bindmail.setVisibility(View.GONE);
+		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
+				.get(Consts.LOCAL_LOGIN))) {
+			CheckUserInfoTask task = new CheckUserInfoTask();
+			task.execute(more_name);
+		}
 		if (tempFile.exists()) {
 			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
 					+ more_name + ".jpg");
@@ -254,7 +275,10 @@ public class JVMoreFragment extends BaseFragment {
 				task.execute(strParams);
 				break;
 			case R.id.more_modify:
-
+				
+				break;
+			case R.id.more_bindmail:
+				startActivity(new Intent(mActivity,JVReBoundEmailActivity.class));
 				break;
 			case R.id.more_modifypwd:
 				if (!localFlag) {
@@ -346,149 +370,149 @@ public class JVMoreFragment extends BaseFragment {
 
 	private void listViewClick() {
 		more_listView
-				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view,
-							int position, long id) {
-						switch (position) {
-						case 0:
-							if (MySharedPreference.getBoolean("HELP")) {
-								MySharedPreference.putBoolean("HELP", false);
-								MySharedPreference.putBoolean("page1", true);
-								MySharedPreference.putBoolean("page2", true);
-							} else {
-								MySharedPreference.putBoolean("HELP", true);
-								MySharedPreference.putBoolean("page1", false);
-								MySharedPreference.putBoolean("page2", false);
-							}
-							break;
-						case 1:
-							AlarmTask task = new AlarmTask();
-							Integer[] params = new Integer[3];
-							if (!MySharedPreference.getBoolean("AlarmSwitch",
-									true)) {// 1是关
-								// 0是开
-								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
-							} else {
-								params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
-							}
-							task.execute(params);
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				switch (position) {
+				case 0:
+					if (MySharedPreference.getBoolean("HELP")) {
+						MySharedPreference.putBoolean("HELP", false);
+						MySharedPreference.putBoolean("page1", true);
+						MySharedPreference.putBoolean("page2", true);
+					} else {
+						MySharedPreference.putBoolean("HELP", true);
+						MySharedPreference.putBoolean("page1", false);
+						MySharedPreference.putBoolean("page2", false);
+					}
+					break;
+				case 1:
+					AlarmTask task = new AlarmTask();
+					Integer[] params = new Integer[3];
+					if (!MySharedPreference.getBoolean("AlarmSwitch",
+							true)) {// 1是关
+						// 0是开
+						params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
+					} else {
+						params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
+					}
+					task.execute(params);
 
-							break;
-						case 2:
-							if (MySharedPreference.getBoolean("PlayDeviceMode")) {
-								MySharedPreference.putBoolean("PlayDeviceMode",
-										false);
-								dataList.get(2).setName(
-										mActivity.getResources().getString(
-												R.string.str_video_modetwo));
-							} else {
-								MySharedPreference.putBoolean("PlayDeviceMode",
-										true);
-								dataList.get(2)
-										.setName(
-												mActivity
-														.getResources()
-														.getString(
-																R.string.str_video_more_modetwo));
-							}
-							break;
-						case 3:// 小助手
-							if (MySharedPreference.getBoolean("LITTLEHELP")) {
-								MySharedPreference.putBoolean("LITTLEHELP",
-										false);
-							} else {
-								MySharedPreference.putBoolean("LITTLEHELP",
-										true);
-							}
-							break;
-						case 4:
-							if (MySharedPreference.getBoolean("BROADCASTSHOW")) {
-								MySharedPreference.putBoolean("BROADCASTSHOW",
-										false);
-							} else {
-								MySharedPreference.putBoolean("BROADCASTSHOW",
-										true);
-							}
-							break;
-						case 5:// 版本号
-							String itemone = mActivity.getResources()
-									.getString(R.string.str_network_version)
-									+ ":" + ConfigUtil.NETWORK_VERSION;
-							String itemtwo = mActivity.getResources()
-									.getString(R.string.str_play_version)
-									+ ":"
-									+ ConfigUtil.PLAY_VERSION;
-							String itemthree = mActivity.getResources()
-									.getString(R.string.str_appnetwork_version)
-									+ ":" + ConfigUtil.GETNETWORK_VERSION;
-							String itemfour = mActivity.getResources()
-									.getString(R.string.str_appplay_version)
-									+ ":" + ConfigUtil.GETPLAY_VERSION;
-							new AlertDialog.Builder(new ContextThemeWrapper(
-									mActivity, R.style.AlertDialogCustom))
-									.setTitle(
-											mActivity.getResources().getString(
-													R.string.str_version))
+					break;
+				case 2:
+					if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+						MySharedPreference.putBoolean("PlayDeviceMode",
+								false);
+						dataList.get(2).setName(
+								mActivity.getResources().getString(
+										R.string.str_video_modetwo));
+					} else {
+						MySharedPreference.putBoolean("PlayDeviceMode",
+								true);
+						dataList.get(2)
+						.setName(
+								mActivity
+								.getResources()
+								.getString(
+										R.string.str_video_more_modetwo));
+					}
+					break;
+				case 3:// 小助手
+					if (MySharedPreference.getBoolean("LITTLEHELP")) {
+						MySharedPreference.putBoolean("LITTLEHELP",
+								false);
+					} else {
+						MySharedPreference.putBoolean("LITTLEHELP",
+								true);
+					}
+					break;
+				case 4:
+					if (MySharedPreference.getBoolean("BROADCASTSHOW")) {
+						MySharedPreference.putBoolean("BROADCASTSHOW",
+								false);
+					} else {
+						MySharedPreference.putBoolean("BROADCASTSHOW",
+								true);
+					}
+					break;
+				case 5:// 版本号
+					String itemone = mActivity.getResources()
+					.getString(R.string.str_network_version)
+					+ ":" + ConfigUtil.NETWORK_VERSION;
+					String itemtwo = mActivity.getResources()
+							.getString(R.string.str_play_version)
+							+ ":"
+							+ ConfigUtil.PLAY_VERSION;
+					String itemthree = mActivity.getResources()
+							.getString(R.string.str_appnetwork_version)
+							+ ":" + ConfigUtil.GETNETWORK_VERSION;
+					String itemfour = mActivity.getResources()
+							.getString(R.string.str_appplay_version)
+							+ ":" + ConfigUtil.GETPLAY_VERSION;
+					new AlertDialog.Builder(new ContextThemeWrapper(
+							mActivity, R.style.AlertDialogCustom))
+					.setTitle(
+							mActivity.getResources().getString(
+									R.string.str_version))
 									.setItems(
 											new String[] { itemone, itemtwo,
 													itemthree, itemfour }, null)
-									.setNegativeButton(
-											mActivity.getResources().getString(
-													R.string.ok), null).show();
-							// TODO
-							break;
-						case 6:// 媒体
-							StatService.trackCustomEvent(
-									mActivity,
-									"Media",
-									mActivity.getResources().getString(
-											R.string.str_media));
-							Intent intentMedia = new Intent(mActivity,
-									JVMediaActivity.class);
-							mActivity.startActivity(intentMedia);
-							break;
-						case 7:
-							Intent intent = new Intent(mActivity,
-									JVFeedbackActivity.class);
-							startActivity(intent);
-							break;
-						case 8:
-							mActivity.createDialog("", false);
-							CheckUpdateTask taskf = new CheckUpdateTask(
-									mActivity);
-							String[] strParams = new String[3];
-							strParams[0] = "1";// 1,手动检查更新
-							taskf.execute(strParams);
-							break;
-						case 9:
-							if (!MySharedPreference.getBoolean("LITTLE")) {
-								littlenum++;
-								if (littlenum < 20) {
-									if (littlenum >= 17) {
-										mActivity
-												.showTextToast((20 - littlenum)
-														+ " ");
-									}
-								} else if (littlenum == 20) {
-									MySharedPreference.putBoolean("LITTLEHELP",
-											true);
-									MySharedPreference.putBoolean(
-											"BROADCASTSHOW", true);
-									MySharedPreference.putBoolean("LITTLE",
-											true);
-									ListViewUtil
-											.setListViewHeightBasedOnChildren(more_listView);
-								}
+													.setNegativeButton(
+															mActivity.getResources().getString(
+																	R.string.ok), null).show();
+					// TODO
+					break;
+				case 6:// 媒体
+					StatService.trackCustomEvent(
+							mActivity,
+							"Media",
+							mActivity.getResources().getString(
+									R.string.str_media));
+					Intent intentMedia = new Intent(mActivity,
+							JVMediaActivity.class);
+					mActivity.startActivity(intentMedia);
+					break;
+				case 7:
+					Intent intent = new Intent(mActivity,
+							JVFeedbackActivity.class);
+					startActivity(intent);
+					break;
+				case 8:
+					mActivity.createDialog("", false);
+					CheckUpdateTask taskf = new CheckUpdateTask(
+							mActivity);
+					String[] strParams = new String[3];
+					strParams[0] = "1";// 1,手动检查更新
+					taskf.execute(strParams);
+					break;
+				case 9:
+					if (!MySharedPreference.getBoolean("LITTLE")) {
+						littlenum++;
+						if (littlenum < 20) {
+							if (littlenum >= 17) {
+								mActivity
+								.showTextToast((20 - littlenum)
+										+ " ");
 							}
-							break;
-						default:
-							break;
+						} else if (littlenum == 20) {
+							MySharedPreference.putBoolean("LITTLEHELP",
+									true);
+							MySharedPreference.putBoolean(
+									"BROADCASTSHOW", true);
+							MySharedPreference.putBoolean("LITTLE",
+									true);
+							ListViewUtil
+							.setListViewHeightBasedOnChildren(more_listView);
 						}
-						adapter.notifyDataSetChanged();
 					}
-				});
+					break;
+				default:
+					break;
+				}
+				adapter.notifyDataSetChanged();
+			}
+		});
 	}
 
 	@Override
@@ -497,6 +521,53 @@ public class JVMoreFragment extends BaseFragment {
 				.obtainMessage(what, arg1, arg2, obj));
 	}
 
+	class CheckUserInfoTask extends AsyncTask<String, Integer, Integer> {
+		String account = "";
+		byte[] response = null;
+
+		@Override
+		protected Integer doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			account = params[0];
+			response = new byte[1024];
+			int ret = -1;
+			ret = JVACCOUNT.GetMailPhoneNoSession(account, response);
+			return ret;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			if (result == 0)// ok
+			{
+				String strPhone = "";
+				String strMail = "";
+				try {
+					JSONObject resObject = new JSONObject(new String(response));
+					strPhone = resObject.optString("phone");
+					strMail = resObject.optString("mail");
+					if ((strMail.equals("") || null == strMail)&&(strPhone.equals("") || null == strPhone)) {
+						onNotify(Consts.WHAT_BIND, 0, 0, null);
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				// 重置失败
+				mActivity.showTextToast(R.string.str_video_load_failed);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+		}
+	}
 	// 设置三种类型参数分别为String,Integer,String
 	private class AlarmTask extends AsyncTask<Integer, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应

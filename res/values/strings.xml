@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
     <string name="logining">Login now…</string>
     <string name="login_str_username_notnull">Please input username.</string>
     <string name="login_str_loginpass1_notnull">Please input password.</string>
     <string name="login_str_loginpass2_notnull">Please input password confirmation.</string>
+    <string name="login_str_loginephone_tips">填写手机号有误</string>
     <string name="login_str_loginemail_tips">The format of email is wrong</string>
     <string name="login_str_loginemail_notnull">Please input email address.</string>
     <string name="login_str_loginpass_notsame">Password is inconsistent.</string>
@@ -144,6 +144,7 @@
     <string name="str_enter_pass1">Password</string>
     <string name="str_enter_pass2">Confirm password</string>
     <string name="str_enter_email">Email</string>
+    <string name="str_enter_phone">Phone</string>
     <string name="login_str_bind">Combine</string>
     <string name="str_read_agree">Read and agree  </string>
     <string name="str_agreement"> User agreement</string>
@@ -190,10 +191,12 @@
     <string name="str_modify_user_info">Complete the user info</string>
     <string name="str_bound_email">Bind Email</string>
     <string name="str_bound_email_failed">Failed to combine with the Email address.</string>
+    <string name="str_bound_email_success">绑定成功</string>
+    <string name="str_bound_phone_exist">手机号已被注册</string>
     <string name="str_bound_email_exist">This Email address has been registered.</string>
     <string name="str_device_most_count">Devices quantity has exceeded the limit, please delete the useless devices and add new one then.</string>
     <string name="string_username_modify_tips">Account system has updated, please reset account.</string>
-    <string name="string_email_bound_tips">One Email address is suggested to be combined for account security and for more functions.</string>
+    <string name="string_email_bound_tips">One Email address or one Phonenumber is suggested to be combined for account security and for more functions.</string>
     <string name="str_skip">skip</string>
     <string name="str_reset">reseting</string>
     <!-- 修改密码 -->
@@ -413,6 +416,7 @@
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting…</string>
     <string name="closed">Closed</string>
+    <string name="abnormal_closed">连接异常断开</string>
     <string name="overflow">max count</string>
     <string name="connecting_buffer1">Buffering now</string>
     <string name="connecting_buffer2">Buffering now…</string>

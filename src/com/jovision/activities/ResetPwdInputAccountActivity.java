@@ -45,7 +45,7 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 		edtAccount = (EditText) findViewById(R.id.edt_account);
 		nextButton = (Button) findViewById(R.id.btn_next);
 		nextButton.setOnClickListener(this);
-		titleTv.setText(R.string.str_find_pass);
+		titleTv.setText(R.string.reset_passwd_title1);
 
 		pd = new ProgressDialog(this);
 		pd.setCancelable(true);
@@ -124,7 +124,7 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 			// TODO Auto-generated method stub
 			account = params[0];
 			response = new byte[1024];
-			int ret = 0;
+			int ret = 0x100;
 			ret = JVACCOUNT.GetMailPhoneNoSession(account, response);
 			return ret;
 		}

@@ -672,4 +672,8 @@
   	<string name="reset_passwd_tips6">请填写验证码</string>
   	<string name="reset_passwd_virificaition_code_wrong">验证码不正确</string>
   	<string name="reset_passwd_failed">重置密码失败</string>
+  	<string name="reset_passwd_title1">输入账号</string>
+  	<string name="reset_passwd_way1">绑定邮箱找回</string>
+  	<string name="reset_passwd_way2">短信验证码找回</string>
+  	
 </resources>

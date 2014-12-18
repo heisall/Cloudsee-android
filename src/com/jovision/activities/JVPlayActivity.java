@@ -1440,8 +1440,12 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 			}
-			currentMenu_v.setText(deviceList.get(deviceIndex).getNickName()
-					+ "-" + channelList.get(lastClickIndex).getChannel());
+			if (Consts.PLAY_NORMAL==playFlag) {
+				currentMenu_v.setText(channelList.get(lastClickIndex).getChannelName());
+			}else {
+				currentMenu_v.setText(deviceList.get(deviceIndex).getNickName()
+						+ "-" + channelList.get(lastClickIndex).getChannel());
+			}
 		}
 		/** 上 */
 		varvoice_bg.setOnClickListener(myOnClickListener);
@@ -1457,7 +1461,7 @@ public class JVPlayActivity extends PlayActivity implements
 			currentMenu.setText(R.string.video_check);
 			selectScreenNum.setVisibility(View.GONE);
 		} else {
-			currentMenu_h.setText(deviceList.get(deviceIndex).getNickName());
+			currentMenu_h.setText(channelList.get(lastClickIndex).getChannelName());
 			currentMenu.setText(R.string.str_video_play);
 			selectScreenNum.setVisibility(View.VISIBLE);
 		}
@@ -1532,12 +1536,18 @@ public class JVPlayActivity extends PlayActivity implements
 
 					lastItemIndex = arg0;
 
-					currentMenu_v.setText(channelList.get(lastItemIndex)
-							.getParent().getNickName()
-							+ "-"
-							+ channelList.get(lastClickIndex).getChannel());
-					currentMenu_h.setText(channelList.get(lastItemIndex)
-							.getParent().getNickName());
+					if (Consts.PLAY_NORMAL==playFlag) {
+						currentMenu_v.setText(channelList.get(lastClickIndex).getChannelName());
+						currentMenu_h.setText(channelList.get(lastClickIndex).getChannelName());
+					}else {
+						currentMenu_h.setText(channelList.get(lastItemIndex)
+								.getParent().getNickName());
+						currentMenu_v.setText(channelList.get(lastItemIndex)
+								.getParent().getNickName()
+								+ "-"
+								+ channelList.get(lastClickIndex).getChannel());
+					}
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

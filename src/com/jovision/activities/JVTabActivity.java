@@ -97,36 +97,39 @@ public class JVTabActivity extends ShakeActivity implements
 						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// 开启logcat输出，方便debug，发布时请关闭
-		XGPushConfig.enableDebug(this, false);
-		// 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
-		// XGIOperateCallback)带callback版本
-		// 如果需要绑定账号，请使用registerPush(getApplicationContext(),"account")版本
-		// 具体可参考详细的开发指南
-		// 传递的参数为ApplicationContext
-		XGPushManager.registerPush(getApplicationContext(),
-				new XGIOperateCallback() {
-					@Override
-					public void onSuccess(Object data, int flag) {
-						MyLog.d("TPush", "注册成功，设备token为：" + data);
-						if (MySharedPreference.getString(Consts.KEY_DEV_TOKEN)
-								.equals("")) {
-							MySharedPreference.putString(Consts.KEY_DEV_TOKEN,
-									data.toString());
-							AccountUtil
-									.reportClientPlatformInfo(JVTabActivity.this);
-						} else {
-							MySharedPreference.putString(Consts.KEY_DEV_TOKEN,
-									data.toString());
+		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
+			XGPushConfig.enableDebug(this, false);
+			// 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
+			// XGIOperateCallback)带callback版本
+			// 如果需要绑定账号，请使用registerPush(getApplicationContext(),"account")版本
+			// 具体可参考详细的开发指南
+			// 传递的参数为ApplicationContext
+			XGPushManager.registerPush(getApplicationContext(),
+					new XGIOperateCallback() {
+						@Override
+						public void onSuccess(Object data, int flag) {
+							MyLog.d("TPush", "注册成功，设备token为：" + data);
+							if (MySharedPreference.getString(
+									Consts.KEY_DEV_TOKEN).equals("")) {
+								MySharedPreference.putString(
+										Consts.KEY_DEV_TOKEN, data.toString());
+								AccountUtil
+										.reportClientPlatformInfo(JVTabActivity.this);
+							} else {
+								MySharedPreference.putString(
+										Consts.KEY_DEV_TOKEN, data.toString());
+							}
 						}
-					}
 
-					@Override
-					public void onFail(Object data, int errCode, String msg) {
-						MyLog.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
-						showTextToast("注册失败，错误码：" + errCode + ",错误信息：" + msg);
-					}
-				});
-
+						@Override
+						public void onFail(Object data, int errCode, String msg) {
+							MyLog.d("TPush", "注册失败，错误码：" + errCode + ",错误信息："
+									+ msg);
+							showTextToast("注册失败，错误码：" + errCode + ",错误信息："
+									+ msg);
+						}
+					});
+		}
 		MyLog.v(TAG, "onCreate----X");
 	}
 
@@ -463,7 +466,7 @@ public class JVTabActivity extends ShakeActivity implements
 				JVMyDeviceFragment.isshow = false;
 				JVMyDeviceFragment.myDLAdapter.setShowDelete(false);
 				JVMyDeviceFragment.myDLAdapter.notifyDataSetChanged();
-			}else {
+			} else {
 				exit();
 			}
 			return true;

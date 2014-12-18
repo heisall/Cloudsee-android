@@ -381,6 +381,8 @@ public class Consts {
 	public static final int WHAT_QUICK_SETTING_CONNECT_FAILED = 0x56;// 快速设置IPC连接失败
 	/** 程序崩溃 */
 	public static final int WHAT_APP_CRASH = 0x57;
+	/** 解析完IP连接视频 */
+	public static final int WHAT_RESOLVE_IP_CONNECT = 0x58;
 
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像

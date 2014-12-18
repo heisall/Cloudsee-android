@@ -21,11 +21,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -334,7 +332,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 					myDLAdapter.setShowDelete(false);
 					myDLAdapter.notifyDataSetChanged();
 					isshow = false;
-				}else {
+				} else {
 					mActivity.openExitDialog();
 				}
 				break;
@@ -559,6 +557,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			}
 		}
 	}
+
 	@Override
 	public void onDestroy() {
 		stopRefreshWifiTimer();

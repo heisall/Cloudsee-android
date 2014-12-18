@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -163,17 +164,26 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getNickName());
 			deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
 					.getNickName());
+			String key = Consts.SCENE_PATH
+					+ deviceList.get(position * 2).getDoMain()
+					+ Consts.IMAGE_PNG_KIND;
+
+			deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
+					.getBitmap(key, "image", ""));
 		} else {
 			deviceHolder.devNameL.setText(deviceList.get(position * 2)
 					.getNickName());
 			deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
 					.getNickName());
 			// TODO
+			deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
+
+			String key = Consts.SCENE_PATH
+					+ deviceList.get(position * 2).getFullNo()
+					+ Consts.IMAGE_PNG_KIND;
+
 			deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
-					.getBitmap(
-							Consts.SCENE_PATH
-									+ deviceList.get(position * 2).getFullNo()
-									+ Consts.IMAGE_PNG_KIND, "image", ""));
+					.getBitmap(key, "image", ""));
 		}
 
 		if (Boolean
@@ -275,18 +285,25 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						.getNickName());
 				deviceHolder.devnicknameR.setText(deviceList.get(
 						position * 2 + 1).getNickName());
+				String key = Consts.SCENE_PATH
+						+ deviceList.get(position * 2 + 1).getDoMain()
+						+ Consts.IMAGE_PNG_KIND;
+
+				deviceHolder.devImgR.setImageBitmap(BitmapCache.getInstance()
+						.getBitmap(key, "image", ""));
 			} else {
 				deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
 						.getNickName());
 				deviceHolder.devnicknameR.setText(deviceList.get(
 						position * 2 + 1).getNickName());
 				// TODO
+				deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
+				String key = Consts.SCENE_PATH
+						+ deviceList.get(position * 2 + 1).getFullNo()
+						+ Consts.IMAGE_PNG_KIND;
+
 				deviceHolder.devImgR.setImageBitmap(BitmapCache.getInstance()
-						.getBitmap(
-								Consts.SCENE_PATH
-										+ deviceList.get(position * 2 + 1)
-												.getFullNo()
-										+ Consts.IMAGE_PNG_KIND, "image", ""));
+						.getBitmap(key, "image", ""));
 			}
 			if (Boolean
 					.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap

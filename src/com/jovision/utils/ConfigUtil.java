@@ -8,7 +8,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +49,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.test.JVACCOUNT;
-import android.text.format.DateFormat;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -135,7 +133,7 @@ public class ConfigUtil {
 						.get(Consts.NEUTRAL_VERSION))) {
 					version = verName;
 				} else {
-					version = verName + " - DJ";
+					version = verName;
 				}
 			}
 		} catch (Exception e) {
@@ -870,9 +868,9 @@ public class ConfigUtil {
 
 	// 获取当前系统时间
 	public static String getCurrentTime() {
-		SimpleDateFormat    formatter    =   new    SimpleDateFormat    ("MM月 dd 日  ahh:mm");       
-		Date    curDate    =   new    Date(System.currentTimeMillis());//获取当前时间       
-		String    time    =    formatter.format(curDate);       
+		SimpleDateFormat formatter = new SimpleDateFormat("MM月 dd 日  ahh:mm");
+		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+		String time = formatter.format(curDate);
 		return time;
 	}
 

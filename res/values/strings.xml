@@ -64,7 +64,6 @@
     <string name="more_modifypwd">Change Password</string>
     <string name="more_findpassword">Retrieve Password</string>
     <string name="more_cancel">Log Out</string>
-
     <!-- JVWelcomeActivity -->
     <string name="cloud1">CloudSEE</string>
     <string name="cloud2">Vision to world</string>
@@ -655,7 +654,8 @@
     <string name="str_appnetwork_version">程序网络库</string>
     <string name="str_appplay_version">程序播放库</string>
     <string name="str_version">版本号</string>
-    <!-- 新增加的字符串 @2014-12-15 -->
+    
+    <!-- 重置密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
     <string name="reset_passwd_input_vercode">Get verification code</string>
     <string name="reset_passwd_account">Account</string>
@@ -667,11 +667,21 @@
     <string name="reset_passwd_tips1">Please enter the account to reset your password</string>
     <string name="reset_passwd_tips2">The account is not legal</string>
     <string name="reset_passwd_tips3">Please Wait...</string>
-    <string name="reset_passwd_tips4">Verification code will be sent to you binding mobile phone:</string>
+    <string name="reset_passwd_tips4">Your SMS verification code has been sent to your phone:</string>
     <string name="reset_passwd_tips5">The mobile phone binding is not legal</string>
-    <string name="reset_passwd_tips6">Please enter the verification code</string>
+    <string name="reset_passwd_tips6">Enter code</string>
+    <string name="reset_passwd_tips7">Sending...</string>
     <string name="reset_passwd_virificaition_code_wrong">The verification code is wrong</string>
+    <string name="reset_passwd_failed">Reset password failed</string>
     <string name="reset_passwd_title1">Enter Account</string>
   	<string name="reset_passwd_way1">Find by binding email</string>
-  	<string name="reset_passwd_way2">Find by Message verification code </string>    
+  	<string name="reset_passwd_way2">Find by Message verification code </string>   
+  	<string name="str_verification_code">Code</string> 
+  	<string name="str_notreceive_sms">No verification code received?</string>
+  	<string name="str_resend_code">Resend Verification Code</string>
+  	<string name="str_receive_sms_time">Your SMS should arrive in SS second.</string>
+  	<string name="str_sms_sent">SMS verification code sent</string>
+  	<string name="str_set_new_pwd">Set New Password</string>
+  	<string name="str_set_new_pwd_ok">Set Ok, login again</string>
+  	<string name="str_query_account_failed">Query account info failed</string>
 </resources>

@@ -68,9 +68,10 @@ public class ResetPwdChoiceActivity extends Activity implements OnClickListener 
 			break;
 		case R.id.rly_cancel:
 			finish();
-			break;
+			return;
 		default:
 			break;
 		}
+		finish();
 	}
 }

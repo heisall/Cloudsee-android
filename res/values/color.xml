@@ -473,5 +473,6 @@
     <drawable name="morefunctiontextcolor_selected">#FFFFFF</drawable>
 
     <color name="string_content">#3D73AF</color>
-
+    <color name="link_color">#ff406ca2</color>
+    <color name="link_color_pressed">#ff7a93af</color>
 </resources>

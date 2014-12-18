@@ -150,7 +150,7 @@ public class JVMoreFragment extends BaseFragment {
 						"onHandler mActivity is null ,so dont show the alarm dialog");
 			}
 			break;
-		case 1234:
+		case Consts.WHAT_BIND:
 			more_bindmail.setVisibility(View.VISIBLE);
 			break;
 		}
@@ -212,6 +212,7 @@ public class JVMoreFragment extends BaseFragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		more_bindmail.setVisibility(View.GONE);
 		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			CheckUserInfoTask task = new CheckUserInfoTask();
@@ -550,7 +551,7 @@ public class JVMoreFragment extends BaseFragment {
 					strPhone = resObject.optString("phone");
 					strMail = resObject.optString("mail");
 					if ((strMail.equals("") || null == strMail)&&(strPhone.equals("") || null == strPhone)) {
-						onNotify(1234, 0, 0, null);
+						onNotify(Consts.WHAT_BIND, 0, 0, null);
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

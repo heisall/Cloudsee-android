@@ -129,8 +129,12 @@ public class JVReBoundEmailActivity extends BaseActivity{
 			if (0 == result||bindPhone == 0) {
 				showTextToast(R.string.str_bound_email_success);
 				finish();
-			} else if (2 == result) {
-				showTextToast(R.string.str_bound_email_exist);
+			} else if (2 == result||bindPhone == 2) {
+				if (bindPhone == 2) {
+					showTextToast(R.string.str_bound_phone_exist);
+				}else {
+					showTextToast(R.string.str_bound_email_exist);
+				}
 			} else {
 				showTextToast(R.string.str_bound_email_failed);
 			}

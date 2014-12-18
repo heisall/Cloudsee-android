@@ -192,10 +192,11 @@
     <string name="str_bound_email">绑定邮箱</string>
     <string name="str_bound_email_success">绑定成功</string>
     <string name="str_bound_email_failed">邮箱绑定失败</string>
+    <string name="str_bound_phone_exist">手机号已被注册</string>
     <string name="str_bound_email_exist">邮箱已被注册</string>
     <string name="str_device_most_count">您的设备数已超过最大值，请删除不使用的设备后再添加新设备.</string>
     <string name="string_username_modify_tips">账号系统升级，请重置账号.</string>
-    <string name="string_email_bound_tips">为了您的账户安全以及体验更多服务，建议您绑定一个邮箱.</string>
+    <string name="string_email_bound_tips">为了您的账户安全以及体验更多服务，建议您绑定一个邮箱或手机.</string>
     <string name="str_skip">跳过</string>
     <string name="str_reset">正在重置</string>
     <!-- 修改密码 -->

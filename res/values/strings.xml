@@ -192,10 +192,11 @@
     <string name="str_bound_email">Bind Email</string>
     <string name="str_bound_email_failed">Failed to combine with the Email address.</string>
     <string name="str_bound_email_success">绑定成功</string>
+    <string name="str_bound_phone_exist">手机号已被注册</string>
     <string name="str_bound_email_exist">This Email address has been registered.</string>
     <string name="str_device_most_count">Devices quantity has exceeded the limit, please delete the useless devices and add new one then.</string>
     <string name="string_username_modify_tips">Account system has updated, please reset account.</string>
-    <string name="string_email_bound_tips">One Email address is suggested to be combined for account security and for more functions.</string>
+    <string name="string_email_bound_tips">One Email address or one Phonenumber is suggested to be combined for account security and for more functions.</string>
     <string name="str_skip">skip</string>
     <string name="str_reset">reseting</string>
     <!-- 修改密码 -->

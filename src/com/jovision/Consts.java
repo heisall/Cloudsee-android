@@ -259,7 +259,7 @@ public class Consts {
 	public static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
 	public static final int WHAT_DELETE_USER = 0x02;// 删除用户
 	public static final int WHAT_SELECT_USER = 0x03;// 选择用户
-	public static final int WHAT_CLICK_USER = 0x04;//点击选择用户
+	public static final int WHAT_CLICK_USER = 0x04;// 点击选择用户
 	public static final int WHAT_INIT_ACCOUNT_SDK_FAILED = 0x04;// 初始化账号sdk失败
 	// JVAddDeviceActivity
 	public static final int WHAT_BARCODE_RESULT = 0x05; // 条码扫瞄返回值
@@ -392,6 +392,9 @@ public class Consts {
 	// Jni底层规定
 	public static final int DECODE_OMX = 1;// 1硬
 	public static final int DECODE_SOFT = 0;// 0软
+
+	public static final String IMAGE_PNG_KIND = ".png";// 图片类型
+	public static final String IMAGE_JPG_KIND = ".jpg";// 图片类型
 
 	/*********************** 以下是状态变量key的声明 ********************************/
 

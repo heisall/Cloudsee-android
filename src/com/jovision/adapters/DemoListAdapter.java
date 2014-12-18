@@ -3,15 +3,19 @@ package com.jovision.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.bean.Device;
+import com.jovision.utils.BitmapCache;
 
 public class DemoListAdapter extends BaseAdapter {
 	private ArrayList<Device> deviceList;
@@ -81,37 +85,49 @@ public class DemoListAdapter extends BaseAdapter {
 				+ (position + 1));
 		deviceHolder.demoaddress.setText(deviceList.get(position).getFullNo());
 
-		switch (position) {
-		case 0:
-			if (isclicked) {
-				deviceHolder.demopictrue
-						.setBackgroundResource(R.drawable.pictrue_one);
-			} else {
-				deviceHolder.demopictrue
-						.setBackgroundResource(R.drawable.demopictrue1);
+		Bitmap bmp = BitmapCache.getInstance().getBitmap(
+				Consts.SCENE_PATH + "demo_"
+						+ deviceList.get(position).getFullNo()
+						+ Consts.IMAGE_PNG_KIND, "image", "");
+		deviceHolder.demopictrue.setScaleType(ScaleType.FIT_XY);
+		if (null != bmp) {
+			// TODO
+			deviceHolder.demopictrue.setImageBitmap(bmp);
+			deviceHolder.demopictrue.setBackground(null);
+		} else {
+			switch (position) {
+			case 0:
+				if (isclicked) {
+					deviceHolder.demopictrue
+							.setBackgroundResource(R.drawable.pictrue_one);
+				} else {
+					deviceHolder.demopictrue
+							.setBackgroundResource(R.drawable.demopictrue1);
+				}
+				break;
+			case 1:
+				if (isclicked) {
+					deviceHolder.demopictrue
+							.setBackgroundResource(R.drawable.pictrue_two);
+				} else {
+					deviceHolder.demopictrue
+							.setBackgroundResource(R.drawable.demopictrue2);
+				}
+				break;
+			case 2:
+				if (isclicked) {
+					deviceHolder.demopictrue
+							.setBackgroundResource(R.drawable.pictrue_three);
+				} else {
+					deviceHolder.demopictrue
+							.setBackgroundResource(R.drawable.demopictrue3);
+				}
+				break;
+			default:
+				break;
 			}
-			break;
-		case 1:
-			if (isclicked) {
-				deviceHolder.demopictrue
-						.setBackgroundResource(R.drawable.pictrue_two);
-			} else {
-				deviceHolder.demopictrue
-						.setBackgroundResource(R.drawable.demopictrue2);
-			}
-			break;
-		case 2:
-			if (isclicked) {
-				deviceHolder.demopictrue
-						.setBackgroundResource(R.drawable.pictrue_three);
-			} else {
-				deviceHolder.demopictrue
-						.setBackgroundResource(R.drawable.demopictrue3);
-			}
-			break;
-		default:
-			break;
 		}
+
 		return convertView;
 	}
 

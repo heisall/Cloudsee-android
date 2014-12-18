@@ -1926,7 +1926,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 		// builder.setTitle(getResources().getString(
 		// R.string));
-		builder.setMessage(getResources().getString(R.string.sure_exit));
+		builder.setMessage(getResources().getString(R.string.pressback_exit));
 
 		builder.setPositiveButton(R.string.str_quick_setting_waiting,
 				new DialogInterface.OnClickListener() {

@@ -153,9 +153,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	private void onLoadPush() {
 		pushListView.stopRefresh();
 		pushListView.stopLoadMore();
-		pushListView.setRefreshTime(mActivity.getResources().getString(
-				R.string.str_update_at)
-				+ ConfigUtil.getCurrentTime());
+		pushListView.setRefreshTime(ConfigUtil.getCurrentTime());
 	}
 
 	OnClickListener onClickListener = new OnClickListener() {

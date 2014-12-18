@@ -14,19 +14,20 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
-public class ResetPwdChoiceActivity extends Activity implements OnClickListener{
+public class ResetPwdChoiceActivity extends Activity implements OnClickListener {
 	private RelativeLayout rlyMailWay, rlyPhoneWay, rlyCance;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		setContentView(R.layout.reset_pwd_choice);
-		
-		rlyMailWay = (RelativeLayout)findViewById(R.id.rly_mail_verify);
-		rlyPhoneWay = (RelativeLayout)findViewById(R.id.rly_phone_verify);
-		rlyCance = (RelativeLayout)findViewById(R.id.rly_cancel);
-		
+
+		rlyMailWay = (RelativeLayout) findViewById(R.id.rly_mail_verify);
+		rlyPhoneWay = (RelativeLayout) findViewById(R.id.rly_phone_verify);
+		rlyCance = (RelativeLayout) findViewById(R.id.rly_cancel);
+
 		rlyMailWay.setOnClickListener(this);
 		rlyPhoneWay.setOnClickListener(this);
 		rlyCance.setOnClickListener(this);
@@ -36,7 +37,7 @@ public class ResetPwdChoiceActivity extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		case R.id.rly_mail_verify://邮箱
+		case R.id.rly_mail_verify:// 邮箱
 			Intent intentFP = new Intent(ResetPwdChoiceActivity.this,
 					JVWebViewActivity.class);
 			String findUrl = "";
@@ -57,18 +58,17 @@ public class ResetPwdChoiceActivity extends Activity implements OnClickListener{
 			MyLog.e("findUrl", findUrl);
 			intentFP.putExtra("URL", findUrl);
 			intentFP.putExtra("title", R.string.str_find_pass);
-			ResetPwdChoiceActivity.this.startActivity(intentFP);			
+			ResetPwdChoiceActivity.this.startActivity(intentFP);
 			break;
-		case R.id.rly_phone_verify://手机
+		case R.id.rly_phone_verify:// 手机
 			// 跳转到验证码界面
-			Intent intent = new Intent(
-					ResetPwdChoiceActivity.this,
+			Intent intent = new Intent(ResetPwdChoiceActivity.this,
 					ResetPwdInputAccountActivity.class);
-			startActivity(intent);			
+			startActivity(intent);
 			break;
 		case R.id.rly_cancel:
 			finish();
-			break;			
+			break;
 		default:
 			break;
 		}

@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-     >
+    android:orientation="vertical" >
 
     <include
         android:id="@+id/top_bar"
@@ -41,6 +40,8 @@
 	        android:background="@drawable/blue_bg"
 	        android:layout_marginTop="16dp"
 	        android:text="@string/next_step"
+	        android:textSize="18sp"
+	        android:textColor="@color/white"
 	        />
 	    </LinearLayout>
 </LinearLayout>

@@ -111,10 +111,12 @@
         <item name="android:minHeight">11.3dp</item>
         <item name="android:maxHeight">11.3dp</item>
     </style>
+
     <style name="AlertDialogCustom">
         <item name="android:textColor">#00FF00</item>
         <item name="android:textSize">10sp</item>
     </style>
+
     <style name="MyDialogStyle1" parent="android:Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <!-- 边框 -->

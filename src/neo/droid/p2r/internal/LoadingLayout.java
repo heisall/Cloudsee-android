@@ -1,5 +1,8 @@
 package neo.droid.p2r.internal;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import neo.droid.p2r.ILoadingLayout;
 import neo.droid.p2r.PullToRefreshBase.Mode;
 import neo.droid.p2r.PullToRefreshBase.Orientation;
@@ -24,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.utils.ConfigUtil;
 
 @SuppressLint("ViewConstructor")
 public abstract class LoadingLayout extends FrameLayout implements
@@ -77,7 +81,7 @@ public abstract class LoadingLayout extends FrameLayout implements
 				.findViewById(R.id.pull_to_refresh_sub_text);
 		mHeaderImage = (ImageView) mInnerLayout
 				.findViewById(R.id.pull_to_refresh_image);
-
+		setSubHeaderText(ConfigUtil.getCurrentTime());
 		FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mInnerLayout
 				.getLayoutParams();
 
@@ -113,12 +117,13 @@ public abstract class LoadingLayout extends FrameLayout implements
 			}
 		}
 
-//		if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderTextAppearance)) {
-//			TypedValue styleID = new TypedValue();
-//			attrs.getValue(R.styleable.PullToRefresh_ptrHeaderTextAppearance,
-//					styleID);
-//			setTextAppearance(styleID.data);
-//		}
+		// if
+		// (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderTextAppearance)) {
+		// TypedValue styleID = new TypedValue();
+		// attrs.getValue(R.styleable.PullToRefresh_ptrHeaderTextAppearance,
+		// styleID);
+		// setTextAppearance(styleID.data);
+		// }
 		if (attrs
 				.hasValue(R.styleable.PullToRefresh_ptrSubHeaderTextAppearance)) {
 			TypedValue styleID = new TypedValue();
@@ -128,13 +133,13 @@ public abstract class LoadingLayout extends FrameLayout implements
 			setSubTextAppearance(styleID.data);
 		}
 
-//		if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderTextColor)) {
-//			ColorStateList colors = attrs
-//					.getColorStateList(R.styleable.PullToRefresh_ptrHeaderTextColor);
-//			if (null != colors) {
-//				setTextColor(colors);
-//			}
-//		}
+		// if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderTextColor)) {
+		// ColorStateList colors = attrs
+		// .getColorStateList(R.styleable.PullToRefresh_ptrHeaderTextColor);
+		// if (null != colors) {
+		// setTextColor(colors);
+		// }
+		// }
 		if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderSubTextColor)) {
 			ColorStateList colors = attrs
 					.getColorStateList(R.styleable.PullToRefresh_ptrHeaderSubTextColor);
@@ -246,9 +251,9 @@ public abstract class LoadingLayout extends FrameLayout implements
 			refreshingImpl();
 		}
 
-		if (null != mSubHeaderText) {
-			mSubHeaderText.setVisibility(View.GONE);
-		}
+		// if (null != mSubHeaderText) {
+		// mSubHeaderText.setVisibility(View.GONE);
+		// }
 	}
 
 	public final void releaseToRefresh() {
@@ -270,18 +275,18 @@ public abstract class LoadingLayout extends FrameLayout implements
 			resetImpl();
 		}
 
-		if (null != mSubHeaderText) {
-			if (TextUtils.isEmpty(mSubHeaderText.getText())) {
-				mSubHeaderText.setVisibility(View.GONE);
-			} else {
-				mSubHeaderText.setVisibility(View.VISIBLE);
-			}
-		}
+		// if (null != mSubHeaderText) {
+		// if (TextUtils.isEmpty(mSubHeaderText.getText())) {
+		// mSubHeaderText.setVisibility(View.GONE);
+		// } else {
+		// mSubHeaderText.setVisibility(View.VISIBLE);
+		// }
+		// }
 	}
 
 	@Override
 	public void setLastUpdatedLabel(CharSequence label) {
-		setSubHeaderText(label);
+		setSubHeaderText(ConfigUtil.getCurrentTime());
 	}
 
 	public final void setLoadingDrawable(Drawable imageDrawable) {
@@ -304,7 +309,7 @@ public abstract class LoadingLayout extends FrameLayout implements
 
 	@Override
 	public void setTextTypeface(Typeface tf) {
-//		mHeaderText.setTypeface(tf);
+		// mHeaderText.setTypeface(tf);
 	}
 
 	public final void showInvisibleViews() {
@@ -339,7 +344,7 @@ public abstract class LoadingLayout extends FrameLayout implements
 	private void setSubHeaderText(CharSequence label) {
 		if (null != mSubHeaderText) {
 			if (TextUtils.isEmpty(label)) {
-				mSubHeaderText.setVisibility(View.GONE);
+				// mSubHeaderText.setVisibility(View.GONE);
 			} else {
 				mSubHeaderText.setText(label);
 				if (View.GONE == mSubHeaderText.getVisibility()) {
@@ -361,22 +366,22 @@ public abstract class LoadingLayout extends FrameLayout implements
 		}
 	}
 
-//	private void setTextAppearance(int value) {
-//		if (null != mHeaderText) {
-//			mHeaderText.setTextAppearance(getContext(), value);
-//		}
-//		if (null != mSubHeaderText) {
-//			mSubHeaderText.setTextAppearance(getContext(), value);
-//		}
-//	}
-//
-//	private void setTextColor(ColorStateList color) {
-//		if (null != mHeaderText) {
-//			mHeaderText.setTextColor(color);
-//		}
-//		if (null != mSubHeaderText) {
-//			mSubHeaderText.setTextColor(color);
-//		}
-//	}
+	// private void setTextAppearance(int value) {
+	// if (null != mHeaderText) {
+	// mHeaderText.setTextAppearance(getContext(), value);
+	// }
+	// if (null != mSubHeaderText) {
+	// mSubHeaderText.setTextAppearance(getContext(), value);
+	// }
+	// }
+	//
+	// private void setTextColor(ColorStateList color) {
+	// if (null != mHeaderText) {
+	// mHeaderText.setTextColor(color);
+	// }
+	// if (null != mSubHeaderText) {
+	// mSubHeaderText.setTextColor(color);
+	// }
+	// }
 
 }

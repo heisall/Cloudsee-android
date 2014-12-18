@@ -23,6 +23,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.BaseFragment;
+import com.jovision.activities.JVMyDeviceFragment;
 import com.jovision.bean.Device;
 import com.jovision.utils.BitmapCache;
 
@@ -172,7 +173,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getBitmap(
 							Consts.SCENE_PATH
 									+ deviceList.get(position * 2).getFullNo()
-									+ ".jpg", "image", ""));
+									+ Consts.IMAGE_PNG_KIND, "image", ""));
 		}
 
 		if (Boolean
@@ -251,6 +252,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
+				JVMyDeviceFragment.isshow = false;
 				setShowDelete(false);
 				notifyDataSetChanged();
 			}
@@ -259,6 +261,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
+				JVMyDeviceFragment.isshow = false;
 				setShowDelete(false);
 				notifyDataSetChanged();
 			}
@@ -282,8 +285,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						.getBitmap(
 								Consts.SCENE_PATH
 										+ deviceList.get(position * 2 + 1)
-												.getFullNo() + ".jpg", "image",
-								""));
+												.getFullNo()
+										+ Consts.IMAGE_PNG_KIND, "image", ""));
 			}
 			if (Boolean
 					.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap

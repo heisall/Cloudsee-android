@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +50,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.test.JVACCOUNT;
+import android.text.format.DateFormat;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,10 +77,10 @@ public class ConfigUtil {
 	public final static String ACCOUNT_VERSION = "";
 	public final static String PLAY_VERSION = "0.9b[6c5c83a][2014-12-09]";
 	public final static String NETWORK_VERSION = "v2.0.76.3.20[private:v2.0.75.13 201401208.2]";
-	
+
 	public static String GETPLAY_VERSION = "";
 	public static String GETNETWORK_VERSION = "";
-	
+
 	private final static String CHINA_JSON = "{\"country\":\"\u4e2d\u56fd\"}";
 	// /**
 	// * 获取本地数据库管理对象的引用
@@ -868,9 +870,9 @@ public class ConfigUtil {
 
 	// 获取当前系统时间
 	public static String getCurrentTime() {
-		Date now = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");// 可以方便地修改日期格式
-		String time = dateFormat.format(now);
+		SimpleDateFormat formatter = new SimpleDateFormat("MM月 dd 日  ahh:mm");
+		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+		String time = formatter.format(curDate);
 		return time;
 	}
 
@@ -1082,6 +1084,27 @@ public class ConfigUtil {
 			}
 		}
 		return value;
+	}
+
+	/**
+	 * 删除设备场景图
+	 * 
+	 * @param devName
+	 * @return
+	 */
+	public static boolean deleteSceneFile(String devName) {
+		boolean deleteRes = false;
+		String savePath = Consts.SCENE_PATH;
+		MobileUtil.createDirectory(new File(savePath));
+		String fullPath = savePath + devName + Consts.IMAGE_PNG_KIND;
+		File devImgFile = new File(fullPath);
+		BitmapCache.getInstance().bitmapRefs.remove(fullPath);
+
+		if (devImgFile.exists()) {
+			devImgFile.delete();
+			deleteRes = true;
+		}
+		return deleteRes;
 	}
 
 	// /**

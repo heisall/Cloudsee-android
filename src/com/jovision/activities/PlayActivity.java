@@ -165,6 +165,7 @@ public abstract class PlayActivity extends BaseActivity {
 	protected StreamAdapter streamAdapter;// 码流adapter
 	protected RelativeLayout voiceTip;// 单向对讲提示
 
+	protected static boolean CAPTURING = false;// 是否正在抓拍
 	public static boolean AUDIO_SINGLE = false;// 单向对讲标志
 	public static boolean VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
 	public static boolean VOICECALLING = false;// 对讲功能已经开启

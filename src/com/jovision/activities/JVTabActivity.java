@@ -78,6 +78,7 @@ public class JVTabActivity extends ShakeActivity implements
 	private TimerTask broadTimerTask;
 
 	private ImageView local_gone;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -96,13 +97,14 @@ public class JVTabActivity extends ShakeActivity implements
 						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// 开启logcat输出，方便debug，发布时请关闭
-		XGPushConfig.enableDebug(this, false);
-		// 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
-		// XGIOperateCallback)带callback版本
-		// 如果需要绑定账号，请使用registerPush(getApplicationContext(),"account")版本
-		// 具体可参考详细的开发指南
-		// 传递的参数为ApplicationContext
-		XGPushManager.registerPush(getApplicationContext(),
+		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
+			XGPushConfig.enableDebug(this, false);
+			// 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
+			// XGIOperateCallback)带callback版本
+			// 如果需要绑定账号，请使用registerPush(getApplicationContext(),"account")版本
+			// 具体可参考详细的开发指南
+			// 传递的参数为ApplicationContext
+			XGPushManager.registerPush(getApplicationContext(),
 				new XGIOperateCallback() {
 					@Override
 					public void onSuccess(Object data, int flag) {
@@ -125,7 +127,7 @@ public class JVTabActivity extends ShakeActivity implements
 						showTextToast("注册失败，错误码：" + errCode + ",错误信息：" + msg);
 					}
 				});
-
+			}
 		MyLog.v(TAG, "onCreate----X");
 	}
 
@@ -185,8 +187,8 @@ public class JVTabActivity extends ShakeActivity implements
 	}
 
 	private void initDot(int dotnum) {
-		if (dotnum==3) {
-			
+		if (dotnum == 3) {
+
 		}
 		dots = new ArrayList<ImageView>();
 		// 得到点的父布局
@@ -323,7 +325,7 @@ public class JVTabActivity extends ShakeActivity implements
 		MyLog.v(TAG, "initUi----E");
 		setContentView(R.layout.tab_layout);
 		startBroadTimer();
-		local_gone = (ImageView)findViewById(R.id.local_gone);
+		local_gone = (ImageView) findViewById(R.id.local_gone);
 		viewpager = (ViewPager) findViewById(R.id.tab_viewpager);
 		viewpager.setOnPageChangeListener(JVTabActivity.this);
 		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
@@ -458,7 +460,13 @@ public class JVTabActivity extends ShakeActivity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-			exit();
+			if (JVMyDeviceFragment.isshow) {
+				JVMyDeviceFragment.isshow = false;
+				JVMyDeviceFragment.myDLAdapter.setShowDelete(false);
+				JVMyDeviceFragment.myDLAdapter.notifyDataSetChanged();
+			} else {
+				exit();
+			}
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -466,19 +474,16 @@ public class JVTabActivity extends ShakeActivity implements
 
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onPageSelected(int arg0) {
-		// TODO Auto-generated method stub
 		currentImage = arg0; // 获取当前页面索引
 		if (flag == 0) {
 			if (!localFlag) {

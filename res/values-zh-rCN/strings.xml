@@ -663,13 +663,14 @@
     <string name="reset_passwd_confirm_passwd">确认密码</string>
     <string name="reset_passwd_new_passwd_hint">填写密码</string>
     <string name="reset_passwd_confirm_passwd_hint">再次填写确认</string>
-    <string name="reset_passwd_done">完成</string>  
+    <string name="reset_passwd_done">完成</string>
     <string name="reset_passwd_tips1">请输入要重置密码的账号</string>
-    <string name="reset_passwd_tips2">输入的账号不合法</string>   
-    <string name="reset_passwd_tips3">请稍后...</string>  
-    <string name="reset_passwd_tips4">验证码将发送到您绑定的手机:</string>  
-    <string name="reset_passwd_tips5">您绑定的手机号码不合法</string> 
-  	<string name="reset_passwd_tips6">请填写验证码</string>
-  	<string name="reset_passwd_virificaition_code_wrong">验证码不正确</string>
-  	<string name="reset_passwd_failed">重置密码失败</string>
+    <string name="reset_passwd_tips2">输入的账号不合法</string>
+    <string name="reset_passwd_tips3">请稍后...</string>
+    <string name="reset_passwd_tips4">验证码将发送到您绑定的手机:</string>
+    <string name="reset_passwd_tips5">您绑定的手机号码不合法</string>
+    <string name="reset_passwd_tips6">请填写验证码</string>
+    <string name="reset_passwd_virificaition_code_wrong">验证码不正确</string>
+    <string name="reset_passwd_failed">重置密码失败</string>
+
 </resources>

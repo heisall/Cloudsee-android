@@ -672,4 +672,5 @@
     <string name="reset_passwd_tips5">The mobile phone binding is not legal</string>
     <string name="reset_passwd_tips6">Please enter the verification code</string>
     <string name="reset_passwd_virificaition_code_wrong">The verification code is wrong</string>
+
 </resources>

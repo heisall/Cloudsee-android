@@ -255,6 +255,30 @@ public class JVPlayActivity extends PlayActivity implements
 			return;
 		}
 		switch (what) {
+		case Consts.WHAT_RESOLVE_IP_CONNECT: {// 解析完IP连接视频
+
+			boolean isPlayDirectly = false;
+			if (1 == arg1) {
+				isPlayDirectly = true;
+			}
+			Channel channel = (Channel) obj;
+			if (null != channel) {
+				MyLog.v(TAG, "解析出来的IP=" + channel.getParent().getIp());
+				boolean result = connect(channel, isPlayDirectly);
+				if (false == result) {
+					MyLog.e(Consts.TAG_XXX, "connect failed: " + channel);
+				} else {
+					MyLog.i(Consts.TAG_XXX, "connecting: " + channel);
+					try {
+						Thread.sleep(CONNECTION_MIN_PEROID);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+			break;
+		}
 		case Consts.STOP_AUDIO_GATHER: {// 停止采集音频数据
 			GATHER_AUDIO_DATA = false;
 			break;
@@ -1761,6 +1785,35 @@ public class JVPlayActivity extends PlayActivity implements
 
 	}
 
+	/**
+	 * 如果是域名添加的设备需要先去解析IP
+	 * 
+	 * @param device
+	 */
+	private void resolveIp(final Channel channel, final boolean isDirectly) {
+		Thread resolveThread = new Thread() {
+			@Override
+			public void run() {
+				super.run();
+				channel.getParent().setIp(
+						ConfigUtil
+								.getIpAddress(channel.getParent().getDoMain()));
+				int arg1 = isDirectly ? 1 : 0;
+				handler.sendMessage(handler.obtainMessage(
+						Consts.WHAT_RESOLVE_IP_CONNECT, arg1, 0, channel));
+			}
+
+		};
+		resolveThread.start();
+	}
+
+	/**
+	 * 视频连接
+	 * 
+	 * @param channel
+	 * @param isPlayDirectly
+	 * @return
+	 */
 	private boolean connect(Channel channel, boolean isPlayDirectly) {
 		channel.getParent().setOldDevice(
 				MySharedPreference.getBoolean(channel.getParent().getFullNo(),
@@ -1770,24 +1823,11 @@ public class JVPlayActivity extends PlayActivity implements
 
 		if (null != channel && false == channel.isConnected()
 				&& false == channel.isConnecting()) {
-
-			// 如果是域名添加的设备需要先去解析IP
-			String ip = "";
-			int port = 0;
 			int connect = 0;
-
 			Device device = channel.getParent();
-			if (2 == device.getIsDevice()) {
-				ip = ConfigUtil.getIpAddress(device.getDoMain());
-				port = 9101;
-			}
 
 			if (null != ssid
 					&& channel.getParent().getFullNo().equalsIgnoreCase(ssid)) {
-				// currentMenu_v.setText(deviceList.get(deviceIndex).getNickName()
-				// + "-" + channelList.get(lastClickIndex).getChannel()
-				// +"AP直连");
-				// IP直连
 				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),
 						Consts.IPC_DEFAULT_IP, Consts.IPC_DEFAULT_PORT, device
@@ -1819,19 +1859,8 @@ public class JVPlayActivity extends PlayActivity implements
 							&& 0 == device.getIsDevice()) {// 普通设备3G情况不用ip连接
 						conIp = "";
 						conPort = 0;
-						// currentMenu_v.setText(deviceList.get(deviceIndex)
-						// .getNickName()
-						// + "-"
-						// + channelList.get(lastClickIndex).getChannel()
-						// + "-" + number);
 					} else {// 有ip非3G
-						// currentMenu_v.setText(deviceList.get(deviceIndex)
-						// .getNickName()
-						// + "-"
-						// + channelList.get(lastClickIndex).getChannel()
-						// + "-" + conIp);
 						number = -1;
-
 					}
 				}
 
@@ -1946,8 +1975,15 @@ public class JVPlayActivity extends PlayActivity implements
 			if (false == channel.isConnected()
 					&& false == channel.isConnecting()) {
 
-				if (false == connect(channel, true)) {
-					MyLog.e(Consts.TAG_PLAY, "connect failed: " + channel);
+				if (2 == channel.getParent().getIsDevice()) {// 域名设备先解析IP
+					handler.sendMessage(handler.obtainMessage(
+							Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+							Consts.ARG2_STATUS_CONNECTING));
+					resolveIp(channel, true);
+				} else {
+					if (false == connect(channel, true)) {
+						MyLog.e(Consts.TAG_PLAY, "connect failed: " + channel);
+					}
 				}
 
 			} else if (channel.isConnecting()) {
@@ -3497,13 +3533,22 @@ public class JVPlayActivity extends PlayActivity implements
 					if (false == channel.isConnected()
 							&& false == channel.isConnecting()) {
 
-						boolean result = connect(channel, isPlayDirectly);
-						if (false == result) {
-							MyLog.e(Consts.TAG_XXX, "connect failed: "
-									+ channel);
+						if (2 == channel.getParent().getIsDevice()) {// 域名设备先解析IP
+							handler.sendMessage(handler.obtainMessage(
+									Consts.WHAT_PLAY_STATUS,
+									channel.getIndex(),
+									Consts.ARG2_STATUS_CONNECTING));
+							resolveIp(channel, isPlayDirectly);
 						} else {
-							MyLog.i(Consts.TAG_XXX, "connecting: " + channel);
-							sleep(CONNECTION_MIN_PEROID);
+							boolean result = connect(channel, isPlayDirectly);
+							if (false == result) {
+								MyLog.e(Consts.TAG_XXX, "connect failed: "
+										+ channel);
+							} else {
+								MyLog.i(Consts.TAG_XXX, "connecting: "
+										+ channel);
+								sleep(CONNECTION_MIN_PEROID);
+							}
 						}
 
 					} else if (channel.isConnecting()) {

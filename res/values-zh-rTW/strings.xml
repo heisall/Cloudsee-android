@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
     <string name="logining">正在登錄…</string>
     <string name="login_str_username_notnull">請輸入用戶名</string>
     <string name="login_str_loginpass1_notnull">請輸入密碼</string>
     <string name="login_str_loginpass2_notnull">請輸入確認密碼</string>
-    <string name="login_str_loginemail_tips">信箱格式不正確</string>
-    <string name="login_str_loginemail_notnull">請輸入信箱</string>
-    <string name="login_str_loginpass_notsame">兩次登錄的密碼不一致,請重新登錄.</string>
+    <string name="login_str_loginephone_tips">填寫手機號有誤</string>
+    <string name="login_str_loginemail_tips">郵箱格式不正確</string>
+    <string name="login_str_loginemail_notnull">請輸入郵箱</string>
+    <string name="login_str_loginpass_notsame">兩次錄入的密碼不一致,請重新錄入.</string>
     <string name="login_str_password_same">舊密碼與新密碼相同，請重新輸入.</string>
-    <string name="login_str_username_tips">用戶名格式不正確，只能為手機號或信箱.</string>
+    <string name="login_str_username_tips">用戶名格式不正確，只能為手機號或郵箱.</string>
     <string name="login_str_username_tips2">用戶名不能全為數字，請確認輸入的是手機號.</string>
     <string name="login_str_username_tips3">用戶名由英文、數字及-_組成</string>
     <string name="login_str_username_tips4">用戶名長度只能在4–28位字元之間</string>
@@ -21,8 +21,8 @@
     <string name="str_have_registed">用戶名已被註冊</string>
     <string name="login_str_device">設備列表</string>
     <string name="login_str_add_device">增加設備</string>
-    <string name="login_str_device_devicename_notnull">請輸入設備名稱</string>
-    <string name="login_str_nike_name_order">含有非法字元,名稱由1–20個字母、數字、漢字及特殊字元–_+().組成</string>
+    <string name="login_str_device_devicename_notnull">請輸入設備昵稱</string>
+    <string name="login_str_nike_name_order">含有非法字元,昵稱由1–20個字母、數字、漢字及特殊字元–_+().組成</string>
     <string name="login_str_device_account_notnull">請輸入用戶名</string>
     <string name="login_str_device_pass_notnull">請輸入密碼</string>
     <string name="login_str_device_connnum_notnull">通道數量不能為空</string>
@@ -42,20 +42,20 @@
     <string name="login_str_device_edit_success">設備修改成功</string>
     <string name="login_str_device_edit_failed">設備修改失敗</string>
     <string name="login_str_point_id">通道ID</string>
-    <string name="login_str_point_name">通道名稱</string>
+    <string name="login_str_point_name">通道昵稱</string>
     <string name="login_str_save">保存</string>
     <string name="login_str_advance">高級</string>
     <string name="login_str_close">關閉</string>
-    <string name="login_str_device_num">設備號</string>
-    <string name="login_str_account">帳號</string>
-    <string name="login_str_pass">密碼</string>
+    <string name="login_str_device_num">設 備 號</string>
+    <string name="login_str_account">賬    戶</string>
+    <string name="login_str_pass">密      碼</string>
     <string name="login_str_edit">編輯</string>
     <string name="login_str_delete">刪除</string>
-    <string name="login_str_user_name_2">用戶名</string>
-    <string name="login_str_user_pass">密碼</string>
-    <string name="login_str_user_email">信箱</string>
-    <string name="login_str_user_login">登錄</string>
-    <string name="login_str_user_regist">注冊</string>
+    <string name="login_str_user_name_2">用 戶 名</string>
+    <string name="login_str_user_pass">密      碼</string>
+    <string name="login_str_user_email">郵   箱</string>
+    <string name="login_str_user_login">登   錄</string>
+    <string name="login_str_user_regist">注  冊</string>
     <string name="login_str_back">返回</string>
     <string name="login_str_add">添加</string>
     <string name="more_nologin">請在登錄後做此操作</string>
@@ -65,18 +65,18 @@
     <string name="more_findpassword">找回密碼</string>
     <string name="more_cancel">註銷帳號</string>
     <!-- JVWelcomeActivity -->
-    <string name="cloud1">NVSIP</string>
+    <string name="cloud1">雲視通</string>
     <string name="cloud2">通天下</string>
     <!-- JVLoginActivity -->
     <!-- JVMoreFrament -->
     <string name="location_login">訪客</string>
     <!-- leftMenu -->
     <string name="devicecount">共有0個設備</string>
-    <string name="nikename">名稱</string>
-    <string name="nikename2">名稱</string>
+    <string name="nikename">昵    稱</string>
+    <string name="nikename2">昵 稱 </string>
     <string name="str_deleting">正在執行…</string>
-    <string name="str_point_nikename_exist">通道名稱已存在，請重新命名</string>
-    <string name="str_nikename_notnull">請輸入名稱</string>
+    <string name="str_point_nikename_exist">通道昵稱已存在，請重新命名</string>
+    <string name="str_nikename_notnull">請輸入昵稱</string>
     <!-- 頁面頂部名稱 -->
     <string name="my_device">我的設備</string>
     <string name="video_edit">視頻編輯</string>
@@ -114,10 +114,10 @@
     <string name="voice_send">按住說話</string>
     <string name="voice_stop">鬆開結束</string>
     <string name="str_has_call">設備未開啟對講或已在其他客戶端開啟雲對講，請稍後重試.</string>
-    <string name="str_call_close">對講功能成功關閉</string>
-    <string name="play_failed">播放失敗</string>
+    <string name="str_call_close"> 對講功能成功關閉</string>
+    <string name="play_failed"> 播放失敗</string>
     <!-- 連接方式 -->
-    <string name="cloud_number">設備號碼</string>
+    <string name="cloud_number">雲視通號</string>
     <!-- 更多功能 -->
     <string name="str_more_features">更多功能</string>
     <string name="str_alarm">報警</string>
@@ -139,7 +139,7 @@
     <string name="str_feedback">回饋</string>
     <string name="str_login_out">註銷</string>
     <!-- 註冊 -->
-    <string name="str_enter_username">信箱/手機號/用戶名</string>
+    <string name="str_enter_username">郵箱/手機號/用戶名</string>
     <string name="str_enter_username1">請輸入新用戶名</string>
     <string name="str_enter_pass1">密碼</string>
     <string name="str_enter_pass2">確認密碼</string>
@@ -175,34 +175,36 @@
     <string name="str_initsdk_failed">網路異常，初始化失敗</string>
     <string name="str_edit_pass">修改密碼</string>
     <string name="str_find_pass">忘記密碼</string>
-    <string name="str_user_has_exist">用戶名已經被別人使用，請修改.</string>
+    <string name="str_user_has_exist">親， 用戶名已經被別人佔領，請修改.</string>
     <string name="str_phone_num_error">手機號格式不正確.</string>
     <string name="str_user_not_exist">用戶不存在.</string>
-    <string name="str_user_not_exist2">恭喜，用戶名已被您收入系統.</string>
-    <string name="str_user_password_error">請輸入正確的密碼.</string>
-    <string name="str_session_not_exist">您的登錄已過期.</string>
-    <string name="str_other_error">伺服器開小差去了</string>
+    <string name="str_user_not_exist2">恭喜，用戶名已被您收入囊中.</string>
+    <string name="str_user_password_error">親，請輸入正確的密碼.</string>
+    <string name="str_session_not_exist">親，您的登錄已過期.</string>
+    <string name="str_other_error">親，伺服器開小差去了</string>
     <string name="str_error_code">連接伺服器錯誤，代碼：</string>
     <string name="str_error_code_5">請求超時，請稍後重試.</string>
     <string name="str_error_code_6">連接伺服器超時.</string>
-    <string name="str_email_has_exist">郵箱已經被別人使用，請修改.</string>
-    <string name="str_email_not_exist">恭喜，郵箱已被您收入系統.</string>
+    <string name="str_email_has_exist">親， 郵箱已經被別人佔領，請修改.</string>
+    <string name="str_email_not_exist">恭喜，郵箱已被您收入囊中.</string>
     <string name="str_reset_not_success">沒有修改成功.</string>
     <string name="str_modify_user_info">完善用戶資訊</string>
     <string name="str_bound_email">綁定郵箱</string>
+    <string name="str_bound_email_success">綁定成功</string>
     <string name="str_bound_email_failed">郵箱綁定失敗</string>
+    <string name="str_bound_phone_exist">手機號已被註冊</string>
     <string name="str_bound_email_exist">郵箱已被註冊</string>
     <string name="str_device_most_count">您的設備數已超過最大值，請刪除不使用的設備後再添加新設備.</string>
     <string name="string_username_modify_tips">帳號系統升級，請重置帳號.</string>
-    <string name="string_email_bound_tips">為了您的帳戶安全以及體驗更多服務，建議您綁定一個郵箱.</string>
+    <string name="string_email_bound_tips">為了您的帳戶安全以及體驗更多服務，建議您綁定一個郵箱或手機.</string>
     <string name="str_skip">跳過</string>
     <string name="str_reset">正在重置</string>
     <!-- 修改密碼 -->
     <string name="login_str_ipaddress">功能變數名稱/IP</string>
     <string name="login_str_ipaddressdevice">功能變數名稱/IP</string>
-    <string name="login_str_port">端口</string>
-    <string name="login_str_user_name">用戶名</string>
-    <string name="str_pass">密碼</string>
+    <string name="login_str_port">端      口</string>
+    <string name="login_str_user_name">用 戶 名</string>
+    <string name="str_pass">密      碼</string>
     <string name="str_old_pass">舊密碼</string>
     <string name="str_new_pass">新密碼</string>
     <string name="str_ensure_newpass">確認密碼</string>
@@ -245,7 +247,7 @@
     <string name="str_quick_setting_neterror">連接網路超時，請檢查.</string>
     <string name="net_errors">可能原因：\n1.路由器密碼錯誤；\n2.無法從路由器獲取IP地址，請檢查路由器；\n3.手機wifi功能異常.</string>
     <string name="str_quick_setting_new_dev">設備檢測到新版本</string>
-    <string name="str_quick_setting_new_dev_tips">發現您設備使用的軟體版本較低，無法使用最新的配置流程，建議您手動更新攝像機的軟體版本，是否立即查看設備升級教程?</string>
+    <string name="str_quick_setting_new_dev_tips">親,發現您設備使用的軟體版本較低，無法使用最新的配置流程，建議您手動更新攝像機的軟體版本，是否立即查看設備升級教程?</string>
     <string name="str_quick_setting_devupdate_order">設備升級教程</string>
     <string name="str_quick_setting_update">升級</string>
     <string name="str_device_ap_pro">無線配置流程</string>
@@ -304,7 +306,7 @@
     <string name="str_netmask">子網掩碼</string>
     <string name="str_gateway">默認網關</string>
     <string name="str_dns">功能變數名稱伺服器</string>
-    <string name="str_mac">網卡位址</string>
+    <string name="str_mac">網卡地址</string>
     <string name="str_status">線上狀態</string>
     <string name="str_image_quality">圖像品質</string>
     <string name="str_clear">幀率</string>
@@ -334,7 +336,7 @@
     <string name="login_str_port_notnull">請輸入端口號</string>
     <string name="login_str_port_format_err">端口號格式不正確</string>
     <string name="login_str_ip_adress_notnull">功能變數名稱/IP不能為空</string>
-    <string name="str_qr_device">發現設備</string>
+    <string name="str_qr_device">發現設備 </string>
     <string name="str_shake_scene_pic_tips">您的手機未插入SD卡，暫時無法使用場景圖片功能.</string>
     <!-- JVEditPassActivity -->
     <string name="edit_failed">修改失敗</string>
@@ -343,7 +345,6 @@
     <string name="demo">視頻廣場</string>
     <string name="demo_get_failed">視頻廣場加載失敗</string>
     <!-- JVTab -->
-    <string name="sure_exit">再按一次退出程式</string>
     <string name="network_error">網路連接不可用,是否進行設置?</string>
     <string name="tips_3g">目前處於2G/3G網路，觀看視頻會產生大量流量費用（由運營商收取），建議使用Wi-Fi網路.</string>
     <string name="waiting">請稍等…</string>
@@ -363,7 +364,7 @@
     <string name="cancel">取消</string>
     <string name="keeponline_success">保持線上成功!</string>
     <string name="keeponline_failed">保持線上失敗!</string>
-    <!-- tab頁下拉刷新 -->
+    <!-- tab頁 下拉刷新 -->
     <string name="pull_to_refresh">下拉刷新</string>
     <string name="release_to_refresh">釋放立即刷新</string>
     <string name="refreshing">正在刷新…</string>
@@ -405,7 +406,7 @@
     <string name="pop_pictrue">從相冊選擇</string>
     <!-- JVPlayActivity -->
     <string name="offline_not_play1">設備已處於離線狀態,不能進行操作.</string>
-    <string name="connfailed_auth">用戶名或密碼錯誤</string>
+    <string name="connfailed_auth">用戶名或密碼錯誤 </string>
     <string name="connfailed_channel_notopen">該通道不存在或未開放</string>
     <string name="connfailed_type_invalid">連接類型無效</string>
     <string name="connfailed_maxcount">超過設備最大連接數</string>
@@ -415,6 +416,7 @@
     <string name="connect_failed">連接失敗</string>
     <string name="connecting">連接中…</string>
     <string name="closed">已斷開</string>
+    <string name="abnormal_closed">連接異常斷開</string>
     <string name="overflow">超過最大連接數</string>
     <string name="connecting_buffer1">正在緩衝</string>
     <string name="connecting_buffer2">正在緩衝…</string>
@@ -424,7 +426,7 @@
     <string name="not_support_this_func">該設備暫不支持此功能.</string>
     <string name="audio_monitor_forbidden">該功能在語音對講時暫停使用.</string>
     <string name="video_repaked">切換視頻制式，錄影檔已重新打包</string>
-    <string name="voice_tips1">您現在可以和對方說話了</string>
+    <string name="voice_tips1">親，你現在可以和對方說話了</string>
     <string name="voice_tips2">對講功能成功開啟，長按向對方喊話.</string>
     <string name="default_stream">碼流</string>
     <string name="has_calling">設備未開啟對講或已在其他客戶端開啟雲對講，請稍後重試.</string>
@@ -516,17 +518,17 @@
     <string name="str_help_zero">展開多種方式添加設備</string>
     <string name="str_help_one">遠程配置IPC設備的網路和碼流</string>
     <string name="str_help_two">修改、刪除設備</string>
-    <string name="str_help_three">切換功能變數名稱/IP直連和NVSIP連接模式</string>
+    <string name="str_help_three">切換功能變數名稱/IP直連和雲視通連接模式</string>
     <string name="str_help_four">添加、修改、刪除通道</string>
     <string name="str_help_five">添加報警設備</string>
     <string name="start_now">立即體驗</string>
     <!-- Dialog -->
     <string name="select_all">全選</string>
     <string name="save">保存</string>
-    <string name="str_devicename">設備號</string>
-    <string name="str_username">用戶名</string>
-    <string name="str_password">密碼</string>
-    <string name="str_nicknametwo">名稱</string>
+    <string name="str_devicename">設  備  號</string>
+    <string name="str_username">用  戶  名</string>
+    <string name="str_password">密       碼 </string>
+    <string name="str_nicknametwo">昵       稱 </string>
     <!-- 聲波配置 -->
     <string name="wave_set">聲波配置</string>
     <string name="prepare_step">準備步驟</string>
@@ -540,22 +542,19 @@
     <string name="prepare_step4">點擊發送聲波</string>
     <string name="prepare_step5">請將手機靠近設備，點擊聲波發送按鈕，\n配置設備</string>
     <string name="wave_add_dev">確定添加設備</string>
-    <!-- 包含NVSIP敏感辭彙 -->
-    <string name="str_help9">切換功能變數名稱/IP直連和NVSIP連接模式</string>
-    <string name="str_cloudsee_id">設備號碼</string>
-    <string name="str_yst_connect">NVSIP連接</string>
-    <string name="app_name">NVSIP</string>
-    <string name="login_str_device_ytnum_notnull">請輸入設備號碼</string>
-    <string name="increct_yst_tips">設備號碼不正確</string>
-    <string name="login_str_yst_num">設備號碼</string>
-    <string name="str_not_qr_device">不屬於NVSIP設備</string>
-    <!-- 回饋郵箱 -->
-    <string name="str_feedback_email">mfq@jovision.com</string>
-    <string name="str_feedback_email2">juyang@jovision.com</string>
-    <!-- 中維版本值為1，oem版為2，nvsip版本為3，ATVCloud版本為4，KEEPER版本為5，STARTVision版本為6 -->
+    <!-- 包含雲視通敏感辭彙 -->
+    <string name="str_help9">切換功能變數名稱/IP直連和雲視通連接模式</string>
+    <string name="str_cloudsee_id">雲視通號</string>
+    <string name="str_yst_connect">雲視通連接</string>
+    <string name="app_name">雲視通</string>
+    <string name="login_str_device_ytnum_notnull">請輸入雲視通號</string>
+    <string name="increct_yst_tips">雲視通號不正確</string>
+    <string name="login_str_yst_num">雲視通號</string>
+    <string name="str_not_qr_device">不屬於雲視通設備</string>
+    <!-- 中維版本值為1，oem版為2，nvsip版本為3 ，ATVCloud版本為4， KEEPER版本為5，STARTVision版本為6 -->
     <string name="str_update_app_version">1</string>
     <!-- 下載的新apk名字 -->
-    <string name="str_save_apk_name">JVCloudSeeClient.apk</string>
+    <string name="str_save_apk_name">CC.apk</string>
     <!-- 默認用戶名 -->
     <string name="str_default_user">abc</string>
     <!-- 默認密碼 -->
@@ -571,27 +570,27 @@
     <!-- 報警 -->
     <string name="str_alarm_check">立即查看</string>
     <string name="str_pass_extra_err">傳遞數據異常</string>
-    <string name="str_alarm_time">報警時間:</string>
+    <string name="str_alarm_time">報警時間  :</string>
     <string name="str_alarm_check_video">查看報警視頻</string>
     <string name="str_alarm_no_video">暫無報警視頻</string>
     <string name="str_buffering">正在緩衝…</string>
     <string name="str_safe_protected">安全防護</string>
     <string name="str_downloading_vod">正在獲取錄影檔…</string>
-    <string name="str_alarm_dev">設備:</string>
-    <string name="str_alarm_type">類型:</string>
+    <string name="str_alarm_dev">設備  :</string>
+    <string name="str_alarm_type">類型  :</string>
     <string name="str_alarm_preview">查看</string>
     <string name="str_alarm_ignore">忽略</string>
     <string name="str_third_device_name">設備名稱</string>
     <string name="str_door_device">門磁設備</string>
     <string name="str_bracelet_device">手環設備</string>
     <string name="str_click_add_device">點擊此處添加新的設備</string>
-    <string name="str_alarm_third_nickname">請輸入綁定設備名稱：</string>
+    <string name="str_alarm_third_nickname">請輸入綁定設備昵稱 ：</string>
     <string name="str_alarm_manage">添加報警設備</string>
     <string name="str_alarm_connect_except">連接異常斷開</string>
     <string name="str_alarm_thirddev_default_name">報警設備</string>
     <string name="str_alarm_thirddev_learning">配置中…</string>
-    <string name="str_alarm_thirddev_bind_hint">設備名稱</string>
-    <string name="str_bind_finish">完成</string>
+    <string name="str_alarm_thirddev_bind_hint">設備昵稱</string>
+    <string name="str_bind_finish">完  成</string>
     <string name="str_alarm_type_move">移動偵測</string>
     <string name="str_alarm_type_third">門磁或者手環報警</string>
     <string name="str_alarm_type_external">外接報警</string>
@@ -602,7 +601,7 @@
     <string name="str_alarm_binddev_timeout">設備不支持此操作或請求超時</string>
     <string name="str_alarm_binddev_success">添加報警設備成功</string>
     <string name="str_alarm_binddev_max">超過設備最大連接數</string>
-    <string name="str_alarm_binddev_setnickname_failed">設置名稱失敗</string>
+    <string name="str_alarm_binddev_setnickname_failed">設置昵稱失敗</string>
     <string name="str_alarm_textdata_req_over">停止發送指令</string>
     <string name="str_alarm_binddev_repeat_error">該設備已被綁定，不能重複綁定</string>
     <string name="str_alarm_binddev_delete">刪除設備</string>
@@ -634,7 +633,8 @@
     <string name="str_mdenabled_open_failed">移動偵測打開失敗</string>
     <string name="str_mdenabled_close_ok">移動偵測關閉成功</string>
     <string name="str_mdenabled_close_failed">移動偵測關閉失敗</string>
-    <!-- 騰訊雲分析統計名稱不用翻譯 -->
+    <string name="str_illegal_dev_nick">輸入的昵稱不合法</string>
+    <!-- 騰訊雲分析統計名稱 不用翻譯 -->
     <string name="str_login">本地登錄</string>
     <string name="str_onlinelogin">線上登錄</string>
     <string name="str_remoteset">遠程設置</string>
@@ -645,7 +645,7 @@
     <string name="str_adddevice">添加設備</string>
     <string name="str_onekeyupdate">一鍵升級</string>
     <string name="str_alarm2">安全防護</string>
-    <string name="str_addcloudseeid">設備號碼添加</string>
+    <string name="str_addcloudseeid">雲視通號添加</string>
     <string name="str_scanqrcod">二維碼掃描</string>
     <string name="str_addwifidev">無線設備</string>
     <string name="str_scanlandevice">局域網設備</string>
@@ -654,12 +654,12 @@
     <string name="str_demo">視頻廣場</string>
     <string name="str_register">註冊</string>
     <string name="str_media">媒體</string>
-    <string name="str_network_version">本地網絡庫</string>
+    <string name="str_network_version">本地網路庫</string>
     <string name="str_play_version">本地播放庫</string>
-    <string name="str_appnetwork_version">程序網絡庫</string>
-    <string name="str_appplay_version">程序播放庫</string>
-    <string name="str_version">版本號</string>
-    <!-- 找回密码 -->
+    <string name="str_appnetwork_version">程式網路庫</string>
+    <string name="str_appplsy_version">程式播放庫</string>
+    <string name="str_version">版本號</string> 
+    <!-- 找回密碼 -->
     <string name="reset_passwd_input_account">請輸入需要重置密碼的帳號:</string>
     <string name="reset_passwd_input_vercode">獲取驗證碼</string>
     <string name="reset_passwd_account">賬 號</string>

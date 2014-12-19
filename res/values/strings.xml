@@ -633,6 +633,7 @@
     <string name="str_mdenabled_open_failed">The motion detecting open failed</string>
     <string name="str_mdenabled_close_ok">The motion detecting close success</string>
     <string name="str_mdenabled_close_failed">The motion detecting close failed</string>
+    <string name="str_illegal_dev_nick">The nick name is illegal</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="str_login">本地登录</string>
     <string name="str_onlinelogin">在线登陆</string>

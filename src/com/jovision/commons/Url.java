@@ -23,8 +23,8 @@ public class Url {
 	public static String LEARN_MORE = "http://www.jovision.com/Products/Camera.aspx?classId=166";
 	public static String LEARN_MORE_EN = "http://en.jovision.com/Products/OtherProducts.aspx?classId=22";
 
-//	 public static String SHORTSERVERIP = "58.56.19.187";
-//	 public static String LONGSERVERIP = "58.56.19.187";
+	// public static String SHORTSERVERIP = "58.56.19.187";
+	// public static String LONGSERVERIP = "58.56.19.187";
 	public static String SHORTSERVERIP = ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "appchannel.afdvr.com"
 			: "appchannelen.afdvr.com"; // "appchannel.jovecloud.com";
 	public static String LONGSERVERIP = ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "apponline.afdvr.com"

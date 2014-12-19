@@ -8,128 +8,131 @@
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/top_bar_layout" />   
-    <RelativeLayout 
-   		android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:orientation="vertical"      
-        >        
-    <TextView
-        android:id="@+id/tv_phone_tips"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        android:text="@string/reset_passwd_tips4"
-        android:textColor="@color/gray"
-        android:textSize="12sp" />
+        layout="@layout/top_bar_layout" />
 
-    <LinearLayout
-        android:id="@+id/ll_phone_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_phone_tips"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/tv_phone_code"
+            android:id="@+id/tv_phone_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+86"
-            android:textColor="@color/black"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/tv_formated_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:text="+86 18668923919"
-            android:textColor="@color/black"
-            android:textSize="26sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_verification_code"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ll_phone_info"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="16dp" >
-		<RelativeLayout 
-            android:layout_width="150dp"
-	        android:layout_height="40dp" 
-            android:layout_weight="1"	
-            android:background="@drawable/third_input"   
-
-		    >
-		    <TextView 
-            	android:id="@+id/tv_verification"
-            	android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"	
-            	android:text="@string/str_verification_code"	     
-            	android:textColor="@color/gray"
-            	android:textSize="16sp"
-            	android:layout_alignParentLeft="true"   
-            	android:layout_centerVertical="true"
-            	android:layout_marginLeft="10dp"
-		        />
-	        <EditText
-	            android:id="@+id/edt_verification_code"
-            	android:layout_width="fill_parent"
-            	android:layout_height="wrap_content"	
-	            android:layout_toRightOf="@id/tv_verification"
-	            android:layout_centerVertical="true"
-	            android:maxLength="4"
-	            android:textColor="@color/black"
-	            android:hint="@string/reset_passwd_tips6"
-	            android:background="@color/transparent"
-	            android:layout_marginLeft="20dp"
-	            android:textSize="16sp" />
-		</RelativeLayout>
-        <TextView
-            android:id="@+id/tv_get_verification_code"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="30dp"
-            android:layout_weight="1"
-            android:background="@drawable/blue_bg"
-            android:gravity="center"
-            android:text="@string/reset_passwd_input_vercode"
-            android:textColor="@color/white"
-            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:text="@string/reset_passwd_tips4"
+            android:textColor="@color/gray"
             android:textSize="12sp" />
-    </LinearLayout>
 
-     <TextView
-          android:id="@+id/tv_sms_tips"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_below="@id/ll_verification_code"
-          android:text="@string/reset_passwd_input_vercode"
-          android:textColor="@color/gray"
-          android:visibility="visible"
-          android:layout_marginTop="10dp"
-          android:layout_centerHorizontal="true"
-          android:textSize="12sp" />
-            
-    <Button
-        android:id="@+id/btn_next"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:layout_below="@id/tv_sms_tips"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/blue_bg"
-        android:text="@string/next_step"
-        android:textColor="@color/white" />
-	</RelativeLayout>
+        <LinearLayout
+            android:id="@+id/ll_phone_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_phone_tips"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp" >
+
+            <TextView
+                android:id="@+id/tv_phone_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+86"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_formated_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="+86 18668923919"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_verification_code"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_phone_info"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="16dp" >
+
+            <RelativeLayout
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/third_input" >
+
+                <TextView
+                    android:id="@+id/tv_verification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/str_verification_code"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/edt_verification_code"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_verification"
+                    android:background="@color/transparent"
+                    android:hint="@string/reset_passwd_tips6"
+                    android:maxLength="4"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_get_verification_code"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/blue_bg"
+                android:gravity="center"
+                android:text="@string/reset_passwd_input_vercode"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_sms_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_verification_code"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/reset_passwd_input_vercode"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_below="@id/tv_sms_tips"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/blue_bg"
+            android:text="@string/next_step"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
 </LinearLayout>

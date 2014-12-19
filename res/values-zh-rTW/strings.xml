@@ -659,7 +659,7 @@
     <string name="str_play_version">本地播放庫</string>
     <string name="str_appnetwork_version">程式網路庫</string>
     <string name="str_appplsy_version">程式播放庫</string>
-    <string name="str_version">版本號</string> 
+    <string name="str_version">版本號</string>
     <!-- 找回密碼 -->
     <string name="reset_passwd_input_account">請輸入需要重置密碼的帳號:</string>
     <string name="reset_passwd_input_vercode">獲取驗證碼</string>

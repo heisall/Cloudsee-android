@@ -99,7 +99,7 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 		if (isSearching) {
 			canvas.rotate(offsetArgs, getWidth() / 2, getHeight() / 2);
 			canvas.drawBitmap(bitmap2, null, rMoon, null);
-			offsetArgs = offsetArgs + 1;
+			offsetArgs = offsetArgs + 2;
 		} else {
 
 			canvas.drawBitmap(bitmap2, null, rMoon, null);

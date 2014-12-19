@@ -1997,6 +1997,10 @@ public class JVPlayActivity extends PlayActivity implements
 						Consts.ARG2_STATUS_CONNECTED));
 			} else {
 				if (false == resumeChannel(channel)) {
+					showTextToast("resume failed:isConnecting="
+							+ channel.isConnecting() + ";isConnected="
+							+ channel.isConnected() + ";isPaused="
+							+ channel.isPaused() + ";" + channel.toString());
 					channel.setConnected(false);
 					MyLog.e(Consts.TAG_PLAY, "resume failed: " + channel);
 				}

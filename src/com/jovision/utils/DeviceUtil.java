@@ -742,6 +742,8 @@ public class DeviceUtil {
 									.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));
 							device.setServerState(devObj
 									.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
+							device.setHasWifi(devObj
+									.optInt(JVDeviceConst.JK_DEVICE_WIFI_FLAG));// dsls
 						} else {
 							device = DeviceUtil.getUserDeviceDetail(device,
 									userName);

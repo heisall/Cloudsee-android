@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="logining">Login now…</string>
+    <string name="logining">Login now…</string>
     <string name="login_str_username_notnull">Please input username.</string>
     <string name="login_str_loginpass1_notnull">Please input password.</string>
     <string name="login_str_loginpass2_notnull">Please input password confirmation.</string>
@@ -633,6 +633,7 @@
     <string name="str_mdenabled_open_failed">The motion detecting open failed</string>
     <string name="str_mdenabled_close_ok">The motion detecting close success</string>
     <string name="str_mdenabled_close_failed">The motion detecting close failed</string>
+    <string name="str_illegal_dev_nick">The nick name is illegal</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="str_login">本地登录</string>
     <string name="str_onlinelogin">在线登陆</string>
@@ -657,9 +658,8 @@
     <string name="str_play_version">本地播放库</string>
     <string name="str_appnetwork_version">程序网络库</string>
     <string name="str_appplay_version">程序播放库</string>
-    <string name="str_version">版本号</string>
-    
-    <!-- 重置密码 -->
+    <string name="str_version">版本号</string>   
+    <!-- 找回密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
     <string name="reset_passwd_input_vercode">Get verification code</string>
     <string name="reset_passwd_account">Account</string>

@@ -1013,10 +1013,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			try {
 				playSound(Consts.TAG_SOUNDSIX);// 播放“叮”的一声
 				showSearch(false);
-				// 设置全屏
-				JVQuickSettingActivity.this.getWindow().setFlags(
-						WindowManager.LayoutParams.FLAG_FULLSCREEN,
-						WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				// // 设置全屏
+				// JVQuickSettingActivity.this.getWindow().setFlags(
+				// WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				quickSetDeviceImg.setVisibility(View.VISIBLE);
 
 			} catch (Exception e) {
@@ -1139,9 +1139,18 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.WHAT_QUICK_SETTING_WIFI_CHANGED_FAIL:// 切换到原来的wifi失败,回到登陆界面
 			showTextToast(R.string.str_wifi_reset_fail);
 			dismissDialog();
-			Intent intent = new Intent(JVQuickSettingActivity.this,
-					JVLoginActivity.class);
-			JVQuickSettingActivity.this.startActivity(intent);
+			if (!local) {
+				MyActivityManager.getActivityManager().popAllActivityExceptOne(
+						JVLoginActivity.class);
+				Intent intent = new Intent();
+				String userName = JVQuickSettingActivity.this.statusHashMap
+						.get(Consts.KEY_USERNAME);
+				intent.putExtra("UserName", userName);
+				intent.setClass(JVQuickSettingActivity.this,
+						JVLoginActivity.class);
+				JVQuickSettingActivity.this.startActivity(intent);
+			}
+
 			JVQuickSettingActivity.this.finish();
 			break;
 		// case Consts.CALL_QUERY_DEVICE: {// 广播到设备IP
@@ -1600,10 +1609,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							}, 200);
 
 					showSearch(false);
-					// 设置全屏
-					JVQuickSettingActivity.this.getWindow().setFlags(
-							WindowManager.LayoutParams.FLAG_FULLSCREEN,
-							WindowManager.LayoutParams.FLAG_FULLSCREEN);
+					// // 设置全屏
+					// JVQuickSettingActivity.this.getWindow().setFlags(
+					// WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 					quickSetDeviceImg.setVisibility(View.VISIBLE);
 				} else if (2 == result) {
 					JVQuickSettingActivity.this.finish();
@@ -1660,51 +1669,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			} else {
 				addSucc = false;
 			}
-			// else {
-			// ipcDevice =
-			// DeviceUtil.getUserDeviceDetail(ipcDevice,statusHashMap
-			// .get(Consts.KEY_USERNAME));
-			// if (null != ipcDevice) {
-			// addSucc = true;
-			// }else{
-			// addSucc = false;
-			// }
-			// }
-
-			// ipcDevice =
-			// DeviceUtil.addDevice(statusHashMap.get("KEY_USERNAME"),
-			// ipcDevice);
-			// if (null != ipcDevice) {
-			// addRes = 0;
-			// }
-			//
-			// if (addRes == 0) {
-			// if (0 <= ipcDevice.getChannelList().size()) {
-			// if (0 == DeviceUtil.addPoint(ipcDevice.getFullNo(),
-			// ipcDevice.getChannelList().size())) {
-			// ipcDevice.setChannelList(DeviceUtil.getDevicePointList(
-			// ipcDevice, ipcDevice.getFullNo()));
-			// addRes = 0;
-			// addSucc = true;
-			// } else {
-			// DeviceUtil.unbindDevice(
-			// statusHashMap.get(Consts.KEY_USERNAME),
-			// ipcDevice.getFullNo());
-			// addRes = -1;
-			// addSucc = false;
-			// }
-			// }
-
 		}
 
 		if (addSucc) {
 			ipcDevice.setIp(temIp);
 			ipcDevice.setPort(temPort);
 			deviceList.add(0, ipcDevice);
-			// if (!local) {
-			// DeviceUtil.refreshDeviceState(
-			// statusHashMap.get(Consts.KEY_USERNAME), deviceList);
-			// }
 			CacheUtil.saveDevList(deviceList);
 		}
 
@@ -1960,7 +1930,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	}
 
 	// 配制出错，错误dialog
-	public void errorDialog(int errorCode) {
+	public void errorDialog(final int errorCode) {
 		quickSetDeviceImg.setVisibility(View.GONE);
 		// 断开连接
 		manuDiscon = true;
@@ -2032,18 +2002,37 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// 暂停扫瞄器
-						showSearch(false);
-						if (null != searchView.myPlayer) {
-							searchView.myPlayer.stop();
+
+						if (1004 == errorCode) {
+							if (!local) {
+								MyActivityManager.getActivityManager()
+										.popAllActivityExceptOne(
+												JVLoginActivity.class);
+								Intent intent = new Intent();
+								String userName = JVQuickSettingActivity.this.statusHashMap
+										.get(Consts.KEY_USERNAME);
+								intent.putExtra("UserName", userName);
+								intent.setClass(JVQuickSettingActivity.this,
+										JVLoginActivity.class);
+								JVQuickSettingActivity.this
+										.startActivity(intent);
+							}
+							JVQuickSettingActivity.this.finish();
+						} else {
+							// 暂停扫瞄器
+							showSearch(false);
+							if (null != searchView.myPlayer) {
+								searchView.myPlayer.stop();
+							}
+							dismisQuickPopWindow();
+							isBack = true;
+							createDialog(R.string.quick_setting_exiting, true);
+							ResetWifiTask task = new ResetWifiTask();
+							String[] params = new String[3];
+							params[0] = "false";
+							task.execute(params);
 						}
-						dismisQuickPopWindow();
-						isBack = true;
-						createDialog(R.string.quick_setting_exiting, true);
-						ResetWifiTask task = new ResetWifiTask();
-						String[] params = new String[3];
-						params[0] = "false";
-						task.execute(params);
+
 					}
 
 				});
@@ -2062,18 +2051,18 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				isSearching = true;
 				// 开始声波配置，弹出配置对话框
 				searchView.setSearching(true);
-				// 设置全屏
-				JVQuickSettingActivity.this.getWindow().setFlags(
-						WindowManager.LayoutParams.FLAG_FULLSCREEN,
-						WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				// // 设置全屏
+				// JVQuickSettingActivity.this.getWindow().setFlags(
+				// WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				quickSetDeviceImg.setVisibility(View.GONE);// 弹出设备
 				quickSetBackImg.setVisibility(View.VISIBLE);
 			} else {
 				searchView.setSearching(false);
-				getWindow().setFlags(
-						disMetrics.widthPixels
-								- getStatusHeight(JVQuickSettingActivity.this),
-						WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				// getWindow().setFlags(
+				// disMetrics.widthPixels
+				// - getStatusHeight(JVQuickSettingActivity.this),
+				// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				isSearching = false;
 				searchView.stopPlayer();
 				quickSetBackImg.setVisibility(View.GONE);

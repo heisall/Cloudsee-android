@@ -748,7 +748,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 		}
 		case Consts.WHAT_SHOW_PRO: {
-			mActivity.createDialog("", true);
+			mActivity.createDialog("", false);
 			break;
 		}
 		case Consts.WHAT_TAB_BACK: {// tab 返回事件，保存数据

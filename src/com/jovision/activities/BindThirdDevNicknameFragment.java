@@ -83,11 +83,11 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 		case R.id.complete_btn:
 			nickName = nickNameEdt.getText().toString().trim();
 			if (nickName.equals("")) {
-				Toast.makeText(getActivity(), "请输入昵称", Toast.LENGTH_SHORT)
+				Toast.makeText(getActivity(), getResources().getString(R.string.str_nikename_notnull), Toast.LENGTH_SHORT)
 						.show();
 			} else {
 				if (!RegularUtil.checkNickName(nickName)) {
-					showToast("输入的昵称不合法，请重新输入", Toast.LENGTH_SHORT);
+					showToast(getResources().getString(R.string.str_illegal_dev_nick), Toast.LENGTH_SHORT);
 					return;
 				}
 				mListener.OnSetNickName(nickName);

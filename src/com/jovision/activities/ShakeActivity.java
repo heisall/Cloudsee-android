@@ -156,6 +156,8 @@ public abstract class ShakeActivity extends BaseActivity implements
 		}
 	}
 
+	int i = 0;
+
 	/**
 	 * 获取wifi列表线程
 	 * 
@@ -172,6 +174,7 @@ public abstract class ShakeActivity extends BaseActivity implements
 		@Override
 		public void run() {
 			super.run();
+			i = 0;
 			ShakeActivity activity = mActivity.get();
 			if (null != activity) {
 
@@ -218,17 +221,36 @@ public abstract class ShakeActivity extends BaseActivity implements
 
 				if (openFlag) {
 					scanIpcWifiList = activity.wifiAdmin.startScanIPC();
+					i++;
 				}
 				// 多次检索，防止有设备检索不到
 				if (null == scanIpcWifiList || 0 == scanIpcWifiList.size()) {
 					scanIpcWifiList = activity.wifiAdmin.startScanIPC();
+					i++;
 				}
 				// 多次检索，防止有设备检索不到
 				if (null == scanIpcWifiList || 0 == scanIpcWifiList.size()) {
 					scanIpcWifiList = activity.wifiAdmin.startScanIPC();
+					i++;
 				}
 
-				scanMobileWifiList = activity.wifiAdmin.startScanWifi();
+				// 多次检索，防止有设备检索不到
+				if (null == scanIpcWifiList || 0 == scanIpcWifiList.size()) {
+					scanIpcWifiList = activity.wifiAdmin.startScanIPC();
+					i++;
+				}
+
+				// 多次检索，防止有设备检索不到
+				if (null == scanIpcWifiList || 0 == scanIpcWifiList.size()) {
+					scanIpcWifiList = activity.wifiAdmin.startScanIPC();
+					i++;
+				}
+
+				// 多次检索，防止有设备检索不到
+				if (null == scanIpcWifiList || 0 == scanIpcWifiList.size()) {
+					scanIpcWifiList = activity.wifiAdmin.startScanIPC();
+					i++;
+				}
 
 				Message msg = shakeHandler.obtainMessage();
 				if (null != scanIpcWifiList && 0 != scanIpcWifiList.size()) {
@@ -326,6 +348,8 @@ public abstract class ShakeActivity extends BaseActivity implements
 
 			switch (msg.what) {
 			case Consts.WHAT_SHAKE_IPC_WIFI_SUCCESS: {
+				showTextToast("i=" + i + "-----" + scanIpcWifiList.toString());
+				scanMobileWifiList = activity.wifiAdmin.startScanWifi();
 				activity.prepareAndPlay(2);
 				// activity.openSearchDialog();
 				threadRunning = false;
@@ -339,6 +363,8 @@ public abstract class ShakeActivity extends BaseActivity implements
 				break;
 			}
 			case Consts.WHAT_SHAKE_IPC_WIFI_FAILED: {
+				showTextToast("i=" + i + "-----" + scanIpcWifiList.toString());
+				scanMobileWifiList = activity.wifiAdmin.startScanWifi();
 				activity.showTextToast(R.string.str_quick_setting_alert_nowifi);
 
 				if (oldWifiState) {// 原wifi开着的，什么也不做

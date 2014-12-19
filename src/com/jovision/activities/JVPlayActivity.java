@@ -1057,6 +1057,7 @@ public class JVPlayActivity extends PlayActivity implements
 			screenAdapter.selectIndex = arg1;
 			screenAdapter.notifyDataSetChanged();
 			popScreen.dismiss();
+			disconnectChannelList.addAll(channelList);
 			changeWindow(selectedScreen);
 
 			Channel channel = null;
@@ -1440,9 +1441,10 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 			}
-			if (Consts.PLAY_NORMAL==playFlag) {
-				currentMenu_v.setText(channelList.get(lastClickIndex).getChannelName());
-			}else {
+			if (Consts.PLAY_NORMAL == playFlag) {
+				currentMenu_v.setText(channelList.get(lastClickIndex)
+						.getChannelName());
+			} else {
 				currentMenu_v.setText(deviceList.get(deviceIndex).getNickName()
 						+ "-" + channelList.get(lastClickIndex).getChannel());
 			}
@@ -1461,7 +1463,8 @@ public class JVPlayActivity extends PlayActivity implements
 			currentMenu.setText(R.string.video_check);
 			selectScreenNum.setVisibility(View.GONE);
 		} else {
-			currentMenu_h.setText(channelList.get(lastClickIndex).getChannelName());
+			currentMenu_h.setText(channelList.get(lastClickIndex)
+					.getChannelName());
 			currentMenu.setText(R.string.str_video_play);
 			selectScreenNum.setVisibility(View.VISIBLE);
 		}
@@ -1536,10 +1539,12 @@ public class JVPlayActivity extends PlayActivity implements
 
 					lastItemIndex = arg0;
 
-					if (Consts.PLAY_NORMAL==playFlag) {
-						currentMenu_v.setText(channelList.get(lastClickIndex).getChannelName());
-						currentMenu_h.setText(channelList.get(lastClickIndex).getChannelName());
-					}else {
+					if (Consts.PLAY_NORMAL == playFlag) {
+						currentMenu_v.setText(channelList.get(lastClickIndex)
+								.getChannelName());
+						currentMenu_h.setText(channelList.get(lastClickIndex)
+								.getChannelName());
+					} else {
 						currentMenu_h.setText(channelList.get(lastItemIndex)
 								.getParent().getNickName());
 						currentMenu_v.setText(channelList.get(lastItemIndex)
@@ -1547,7 +1552,7 @@ public class JVPlayActivity extends PlayActivity implements
 								+ "-"
 								+ channelList.get(lastClickIndex).getChannel());
 					}
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -2007,6 +2012,10 @@ public class JVPlayActivity extends PlayActivity implements
 						Consts.ARG2_STATUS_CONNECTED));
 			} else {
 				if (false == resumeChannel(channel)) {
+					showTextToast("resume failed:isConnecting="
+							+ channel.isConnecting() + ";isConnected="
+							+ channel.isConnected() + ";isPaused="
+							+ channel.isPaused() + ";" + channel.toString());
 					channel.setConnected(false);
 					MyLog.e(Consts.TAG_PLAY, "resume failed: " + channel);
 				}
@@ -2039,6 +2048,7 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 				changeWindow(ONE_SCREEN);
 			} else {
+				disconnectChannelList.addAll(channelList);
 				changeWindow(selectedScreen);
 			}
 
@@ -2856,6 +2866,20 @@ public class JVPlayActivity extends PlayActivity implements
 	public boolean allowThisFuc(boolean changToOneScreen) {
 		boolean allow = false;
 		if (currentScreen != ONE_SCREEN && changToOneScreen) {
+			Channel ch;
+			int size = currentPageChannelList.size();
+			for (int i = 0; i < size; i++) {
+				ch = currentPageChannelList.get(i);
+				if (lastClickIndex - 1 > ch.getIndex()
+						|| lastClickIndex + 1 < ch.getIndex()) {
+					disconnectChannelList.add(ch);
+				} else if (lastClickIndex == ch.getIndex()) {
+					// [Neo] Empty
+				} else {
+					// [Neo] stand alone for single destroy window, too
+					pauseChannel(ch);
+				}
+			}
 			changeWindow(ONE_SCREEN);
 		}
 
@@ -3439,6 +3463,20 @@ public class JVPlayActivity extends PlayActivity implements
 			// }
 			// }
 			if (ONE_SCREEN != currentScreen) {
+				Channel ch;
+				int size = currentPageChannelList.size();
+				for (int i = 0; i < size; i++) {
+					ch = currentPageChannelList.get(i);
+					if (lastClickIndex - 1 > ch.getIndex()
+							|| lastClickIndex + 1 < ch.getIndex()) {
+						disconnectChannelList.add(ch);
+					} else if (lastClickIndex == ch.getIndex()) {
+						// [Neo] Empty
+					} else {
+						// [Neo] stand alone for single destroy window, too
+						pauseChannel(ch);
+					}
+				}
 				changeWindow(ONE_SCREEN);
 			}
 		}

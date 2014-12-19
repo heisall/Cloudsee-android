@@ -172,7 +172,7 @@ public class JVUpdate {
 		downloadApk();
 	}
 
-	private Runnable mdownApkRunnable = new Runnable() {
+	private Runnable mdownApkRunnable1 = new Runnable() {
 		@Override
 		public void run() {
 			try {
@@ -233,8 +233,18 @@ public class JVUpdate {
 	 */
 
 	private void downloadApk() {
-		downLoadThread = new Thread(mdownApkRunnable);
-		downLoadThread.start();
+		try {
+			Uri uri = Uri
+					.parse(Url.APK_DOWNLOAD_URL
+							+ mContext.getResources().getString(
+									R.string.str_save_apk_name));
+			Intent it = new Intent(Intent.ACTION_VIEW, uri);
+			mContext.startActivity(it);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+//		downLoadThread = new Thread(mdownApkRunnable);
+//		downLoadThread.start();
 	}
 
 	/**

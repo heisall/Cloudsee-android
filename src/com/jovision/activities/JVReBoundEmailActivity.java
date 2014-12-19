@@ -6,14 +6,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.GetPhoneNumber;
 
-
-public class JVReBoundEmailActivity extends BaseActivity{
+public class JVReBoundEmailActivity extends BaseActivity {
 	private Button back;
 	private Button skip;
 	private Button finish;
@@ -22,16 +20,17 @@ public class JVReBoundEmailActivity extends BaseActivity{
 	private EditText reBindPhone;
 	private int bindPhone = -1;
 	private GetPhoneNumber phone;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -45,20 +44,20 @@ public class JVReBoundEmailActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 		back = (Button) findViewById(R.id.btn_left);
 		skip = (Button) findViewById(R.id.btn_right);
-		finish = (Button)findViewById(R.id.finish);
-		currentMenu = (TextView)findViewById(R.id.currentmenu);
-		reBindMail = (EditText)findViewById(R.id.rebindmail);
-		reBindPhone = (EditText)findViewById(R.id.rebindphone);
+		finish = (Button) findViewById(R.id.finish);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		reBindMail = (EditText) findViewById(R.id.rebindmail);
+		reBindPhone = (EditText) findViewById(R.id.rebindphone);
 		currentMenu.setVisibility(View.VISIBLE);
 		skip.setVisibility(View.GONE);
 		currentMenu.setText(getResources().getString(R.string.str_bound_email));
-		
+
 		back.setOnClickListener(myOnClickListener);
 		finish.setOnClickListener(myOnClickListener);
 	}
 
 	OnClickListener myOnClickListener = new OnClickListener() {
-		
+
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
@@ -67,24 +66,29 @@ public class JVReBoundEmailActivity extends BaseActivity{
 				finish();
 				break;
 			case R.id.finish:
-				if ("".equalsIgnoreCase(reBindMail.getText().toString())&&
-						"".equalsIgnoreCase(reBindPhone.getText().toString())) {
+				if ("".equalsIgnoreCase(reBindMail.getText().toString())
+						&& "".equalsIgnoreCase(reBindPhone.getText().toString())) {
 					showTextToast(R.string.login_str_loginemail_notnull);
-				}else if (!"".equalsIgnoreCase(reBindPhone.getText().toString())) {
+				} else if (!"".equalsIgnoreCase(reBindPhone.getText()
+						.toString())) {
 					phone = new GetPhoneNumber(reBindPhone.getText().toString());
-					if(phone.matchNum()==4||phone.matchNum()==5) {
+					if (phone.matchNum() == 4 || phone.matchNum() == 5) {
 						showTextToast(R.string.login_str_loginephone_tips);
-					}else if (!"".equalsIgnoreCase(reBindMail.getText().toString())&&!AccountUtil.verifyEmail(reBindMail.getText()
-							.toString())) {
+					} else if (!"".equalsIgnoreCase(reBindMail.getText()
+							.toString())
+							&& !AccountUtil.verifyEmail(reBindMail.getText()
+									.toString())) {
 						showTextToast(R.string.login_str_loginemail_tips);
-					}else {
+					} else {
 						createDialog("", true);
 						BindTask task = new BindTask();
 						String[] params = new String[3];
 						task.execute(params);
 					}
-				}else if (!"".equalsIgnoreCase(reBindMail.getText().toString())&&!AccountUtil.verifyEmail(reBindMail.getText()
-						.toString())) {
+				} else if (!""
+						.equalsIgnoreCase(reBindMail.getText().toString())
+						&& !AccountUtil.verifyEmail(reBindMail.getText()
+								.toString())) {
 					showTextToast(R.string.login_str_loginemail_tips);
 				} else {
 					createDialog("", true);
@@ -99,7 +103,7 @@ public class JVReBoundEmailActivity extends BaseActivity{
 			}
 		}
 	};
-	
+
 	// 设置三种类型参数分别为String,Integer,String
 	class BindTask extends AsyncTask<String, Integer, Integer> {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -107,10 +111,10 @@ public class JVReBoundEmailActivity extends BaseActivity{
 		protected Integer doInBackground(String... params) {
 			int bindRes = -1;// 0成功 2邮箱已被绑定，绑定失败 其他失败
 			try {
-				bindRes = AccountUtil.bindMailOrPhone(reBindMail
-						.getText().toString());
-				bindPhone = AccountUtil.bindMailOrPhone(reBindPhone
-						.getText().toString());
+				bindRes = AccountUtil.bindMailOrPhone(reBindMail.getText()
+						.toString());
+				bindPhone = AccountUtil.bindMailOrPhone(reBindPhone.getText()
+						.toString());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -126,13 +130,13 @@ public class JVReBoundEmailActivity extends BaseActivity{
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
-			if (0 == result||bindPhone == 0) {
+			if (0 == result || bindPhone == 0) {
 				showTextToast(R.string.str_bound_email_success);
 				finish();
-			} else if (2 == result||bindPhone == 2) {
+			} else if (2 == result || bindPhone == 2) {
 				if (bindPhone == 2) {
 					showTextToast(R.string.str_bound_phone_exist);
-				}else {
+				} else {
 					showTextToast(R.string.str_bound_email_exist);
 				}
 			} else {
@@ -151,17 +155,17 @@ public class JVReBoundEmailActivity extends BaseActivity{
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
-	
+
 	@Override
 	protected void saveSettings() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void freeMe() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

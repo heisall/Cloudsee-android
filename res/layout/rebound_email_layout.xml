@@ -29,6 +29,7 @@
             android:singleLine="true"
             android:textColor="@color/registtextcolor"
             android:visibility="visible" />
+
         <EditText
             android:id="@+id/rebindphone"
             android:layout_width="match_parent"
@@ -38,6 +39,7 @@
             android:singleLine="true"
             android:textColor="@color/registtextcolor"
             android:visibility="visible" />
+
         <Button
             android:id="@+id/finish"
             android:layout_width="match_parent"

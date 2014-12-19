@@ -166,7 +166,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 				"android.provider.Telephony.SMS_RECEIVED"));
 		// InitViews
 		initViews();
-		
+
 		GetVerificationCode();
 	}
 
@@ -289,7 +289,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 			return;
 		}
 		Log.e(TAG, "code:" + code + ",phone:" + phone);
-//		pd.show();
+		// pd.show();
 		SMSSDK.getVerificationCode(code, phone.trim());
 		showTextToast(R.string.str_sms_sent);
 		countDown();
@@ -348,7 +348,8 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 					pd.dismiss();
 				}
 				if (pd != null) {
-					pd.setMessage(getResources().getString(R.string.reset_passwd_tips3));
+					pd.setMessage(getResources().getString(
+							R.string.reset_passwd_tips3));
 					pd.show();
 				}
 				SMSSDK.submitVerificationCode(currentCode, strPhone,
@@ -364,22 +365,25 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 			break;
 		}
 	}
-	private void GetVerificationCode(){
+
+	private void GetVerificationCode() {
 		if (countryRules == null || countryRules.size() <= 0) {
 			if (pd != null && pd.isShowing()) {
 				pd.dismiss();
 			}
 
 			if (pd != null) {
-				pd.setMessage(getResources().getString(R.string.reset_passwd_tips7));
+				pd.setMessage(getResources().getString(
+						R.string.reset_passwd_tips7));
 				pd.show();
 			}
 
 			SMSSDK.getSupportedCountries();
 		} else {
 			checkPhoneNum(strPhone, currentCode);
-		}		
+		}
 	}
+
 	/**
 	 * 获取验证码成功后,的执行动作
 	 * 
@@ -395,7 +399,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 
 				if (result == SMSSDK.RESULT_COMPLETE) {
 					time = RETRY_INTERVAL;
-//					countDown();
+					// countDown();
 				} else {
 					((Throwable) data).printStackTrace();
 					Throwable throwable = (Throwable) data;
@@ -449,13 +453,15 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 
 	// 倒数计时
 	private void countDown() {
-		
+
 		runOnUIThread(new Runnable() {
 			public void run() {
-				String strTips = getResources().getString(R.string.str_receive_sms_time);
+				String strTips = getResources().getString(
+						R.string.str_receive_sms_time);
 				time--;
 				if (time == 0) {
-					tvGetNum.setTextColor(getResources().getColor(R.color.link_color));
+					tvGetNum.setTextColor(getResources().getColor(
+							R.color.link_color));
 					tvGetNum.setText(getResources().getString(
 							R.string.str_resend_code));
 					tvGetNum.setEnabled(true);

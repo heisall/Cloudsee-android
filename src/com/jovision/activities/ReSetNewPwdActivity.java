@@ -155,15 +155,14 @@ public class ReSetNewPwdActivity extends BaseActivity implements
 			if (result == 0)// ok,直接登录
 			{
 				showTextToast(R.string.str_set_new_pwd_ok);
-				//为了让用户加强印象，不直接登录，跳转到登录界面
+				// 为了让用户加强印象，不直接登录，跳转到登录界面
 				Intent intent = new Intent();
-				intent.setClass(ReSetNewPwdActivity.this,
-						JVLoginActivity.class);
+				intent.setClass(ReSetNewPwdActivity.this, JVLoginActivity.class);
 				intent.putExtra("AutoLogin", false);
 				intent.putExtra("UserName", account);
-				intent.putExtra("UserPass", "");		
+				intent.putExtra("UserPass", "");
 				startActivity(intent);
-				exit();				
+				exit();
 			} else {
 				// 重置失败
 				showTextToast(R.string.reset_passwd_failed);

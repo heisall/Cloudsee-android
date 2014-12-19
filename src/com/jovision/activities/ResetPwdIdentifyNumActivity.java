@@ -75,7 +75,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 			return;
 		}
 		pd = new ProgressDialog(this);
-		pd.setCancelable(false);
+		pd.setCancelable(true);
 		pd.setMessage(getResources().getString(R.string.reset_passwd_tips3));
 		pd.show();
 
@@ -166,6 +166,8 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 				"android.provider.Telephony.SMS_RECEIVED"));
 		// InitViews
 		initViews();
+		
+		GetVerificationCode();
 	}
 
 	@Override
@@ -186,8 +188,8 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		nextButton = (Button) findViewById(R.id.btn_next);
 		nextButton.setOnClickListener(this);
 		nextButton.setEnabled(false);
-		titleTv.setText(R.string.reset_passwd_input_vercode);
-		tvGetNum = (TextView) findViewById(R.id.tv_get_verification_code);
+		titleTv.setText(R.string.reset_passwd_tips6);
+		tvGetNum = (TextView) findViewById(R.id.tv_sms_tips);
 		tvGetNum.setOnClickListener(this);
 
 		tvFormatedPhone = (TextView) findViewById(R.id.tv_formated_phone);
@@ -287,8 +289,10 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 			return;
 		}
 		Log.e(TAG, "code:" + code + ",phone:" + phone);
-		pd.show();
+//		pd.show();
 		SMSSDK.getVerificationCode(code, phone.trim());
+		showTextToast(R.string.str_sms_sent);
+		countDown();
 	}
 
 	@Override
@@ -331,21 +335,9 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		case R.id.tv_get_verification_code:
+		case R.id.tv_sms_tips:
 			// 请求发送短信验证码
-			if (countryRules == null || countryRules.size() <= 0) {
-				if (pd != null && pd.isShowing()) {
-					pd.dismiss();
-				}
-
-				if (pd != null) {
-					pd.show();
-				}
-
-				SMSSDK.getSupportedCountries();
-			} else {
-				checkPhoneNum(strPhone, currentCode);
-			}
+			GetVerificationCode();
 			break;
 		case R.id.btn_next:
 			// 验证填入的验证码
@@ -356,6 +348,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 					pd.dismiss();
 				}
 				if (pd != null) {
+					pd.setMessage(getResources().getString(R.string.reset_passwd_tips3));
 					pd.show();
 				}
 				SMSSDK.submitVerificationCode(currentCode, strPhone,
@@ -364,14 +357,29 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 				showTextToast(R.string.reset_passwd_tips6);
 			}
 			break;
-		case R.id.back:
+		case R.id.btn_left:
 			finish();
 			break;
 		default:
 			break;
 		}
 	}
+	private void GetVerificationCode(){
+		if (countryRules == null || countryRules.size() <= 0) {
+			if (pd != null && pd.isShowing()) {
+				pd.dismiss();
+			}
 
+			if (pd != null) {
+				pd.setMessage(getResources().getString(R.string.reset_passwd_tips7));
+				pd.show();
+			}
+
+			SMSSDK.getSupportedCountries();
+		} else {
+			checkPhoneNum(strPhone, currentCode);
+		}		
+	}
 	/**
 	 * 获取验证码成功后,的执行动作
 	 * 
@@ -387,7 +395,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 
 				if (result == SMSSDK.RESULT_COMPLETE) {
 					time = RETRY_INTERVAL;
-					countDown();
+//					countDown();
 				} else {
 					((Throwable) data).printStackTrace();
 					Throwable throwable = (Throwable) data;
@@ -441,16 +449,21 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 
 	// 倒数计时
 	private void countDown() {
+		
 		runOnUIThread(new Runnable() {
 			public void run() {
+				String strTips = getResources().getString(R.string.str_receive_sms_time);
 				time--;
 				if (time == 0) {
+					tvGetNum.setTextColor(getResources().getColor(R.color.link_color));
 					tvGetNum.setText(getResources().getString(
-							R.string.reset_passwd_input_vercode));
+							R.string.str_resend_code));
 					tvGetNum.setEnabled(true);
 					time = RETRY_INTERVAL;
 				} else {
-					tvGetNum.setText(String.valueOf(time) + "s");
+					tvGetNum.setTextColor(getResources().getColor(R.color.gray));
+					strTips = strTips.replace("SS", String.valueOf(time));
+					tvGetNum.setText(strTips);
 					tvGetNum.setEnabled(false);
 					runOnUIThread(this, 1000);
 				}

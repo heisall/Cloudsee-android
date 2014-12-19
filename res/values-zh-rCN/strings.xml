@@ -4,6 +4,7 @@
     <string name="login_str_username_notnull">请输入用户名</string>
     <string name="login_str_loginpass1_notnull">请输入密码</string>
     <string name="login_str_loginpass2_notnull">请输入确认密码</string>
+    <string name="login_str_loginephone_tips">填写手机号有误</string>
     <string name="login_str_loginemail_tips">邮箱格式不正确</string>
     <string name="login_str_loginemail_notnull">请输入邮箱</string>
     <string name="login_str_loginpass_notsame">两次录入的密码不一致,请重新录入.</string>
@@ -142,6 +143,7 @@
     <string name="str_enter_username1">请输入新用户名</string>
     <string name="str_enter_pass1">密码</string>
     <string name="str_enter_pass2">确认密码</string>
+    <string name="str_enter_phone">手机</string>
     <string name="str_enter_email">邮箱</string>
     <string name="login_str_bind">绑定</string>
     <string name="str_read_agree">阅读并同意</string>
@@ -188,11 +190,13 @@
     <string name="str_reset_not_success">没有修改成功.</string>
     <string name="str_modify_user_info">完善用户信息</string>
     <string name="str_bound_email">绑定邮箱</string>
+    <string name="str_bound_email_success">绑定成功</string>
     <string name="str_bound_email_failed">邮箱绑定失败</string>
+    <string name="str_bound_phone_exist">手机号已被注册</string>
     <string name="str_bound_email_exist">邮箱已被注册</string>
     <string name="str_device_most_count">您的设备数已超过最大值，请删除不使用的设备后再添加新设备.</string>
     <string name="string_username_modify_tips">账号系统升级，请重置账号.</string>
-    <string name="string_email_bound_tips">为了您的账户安全以及体验更多服务，建议您绑定一个邮箱.</string>
+    <string name="string_email_bound_tips">为了您的账户安全以及体验更多服务，建议您绑定一个邮箱或手机.</string>
     <string name="str_skip">跳过</string>
     <string name="str_reset">正在重置</string>
     <!-- 修改密码 -->
@@ -629,6 +633,7 @@
     <string name="str_mdenabled_open_failed">移动侦测打开失败</string>
     <string name="str_mdenabled_close_ok">移动侦测关闭成功</string>
     <string name="str_mdenabled_close_failed">移动侦测关闭失败</string>
+    <string name="str_illegal_dev_nick">输入的昵称不合法</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="str_login">本地登录</string>
     <string name="str_onlinelogin">在线登录</string>
@@ -653,8 +658,8 @@
     <string name="str_play_version">本地播放库</string>
     <string name="str_appnetwork_version">程序网络库</string>
     <string name="str_appplsy_version">程序播放库</string>
-    <string name="str_version">版本号</string>
-    <!-- 新增加的字符串 @2014-12-15 -->
+    <string name="str_version">版本号</string> 
+    <!-- 找回密码 -->
     <string name="reset_passwd_input_account">请输入需要重置密码的账号:</string>
     <string name="reset_passwd_input_vercode">获取验证码</string>
     <string name="reset_passwd_account">账 号</string>
@@ -664,15 +669,23 @@
     <string name="reset_passwd_confirm_passwd_hint">再次填写确认</string>
     <string name="reset_passwd_done">完成</string>
     <string name="reset_passwd_tips1">请输入要重置密码的账号</string>
-    <string name="reset_passwd_tips2">输入的账号不合法</string>
-    <string name="reset_passwd_tips3">请稍后...</string>
-    <string name="reset_passwd_tips4">验证码将发送到您绑定的手机:</string>
-    <string name="reset_passwd_tips5">您绑定的手机号码不合法</string>
-    <string name="reset_passwd_tips6">请填写验证码</string>
-    <string name="reset_passwd_virificaition_code_wrong">验证码不正确</string>
-    <string name="reset_passwd_failed">重置密码失败</string>
-    <string name="reset_passwd_title1">输入账号</string>
-    <string name="reset_passwd_way1">绑定邮箱找回</string>
-    <string name="reset_passwd_way2">短信验证码找回</string>
-
+    <string name="reset_passwd_tips2">输入的账号不合法</string>   
+    <string name="reset_passwd_tips3">请稍后...</string>  
+    <string name="reset_passwd_tips4">我们已经发送了验证码到你的手机:</string>  
+    <string name="reset_passwd_tips5">您绑定的手机号码不合法</string> 
+  	<string name="reset_passwd_tips6">填写验证码</string>
+  	<string name="reset_passwd_tips7">发送中...</string>
+  	<string name="reset_passwd_virificaition_code_wrong">验证码不正确</string>
+  	<string name="reset_passwd_failed">重置密码失败</string>
+  	<string name="reset_passwd_title1">输入账号</string>
+  	<string name="reset_passwd_way1">绑定邮箱找回</string>
+  	<string name="reset_passwd_way2">短信验证码找回</string>
+  	<string name="str_verification_code">验证码</string>
+  	<string name="str_notreceive_sms">收不到验证码?</string>
+  	<string name="str_resend_code">重新获取验证码</string>
+  	<string name="str_receive_sms_time">接收短信大约需要SS秒钟</string>  	
+  	<string name="str_sms_sent">短信验证码已发送</string>
+  	<string name="str_set_new_pwd">设置新密码</string>
+  	<string name="str_set_new_pwd_ok">新密码设置成功，请重新登录</string>
+  	<string name="str_query_account_failed">查询账号信息失败</string>
 </resources>

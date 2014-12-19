@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.test.JVACCOUNT;
@@ -55,6 +56,7 @@ public class ReSetNewPwdActivity extends BaseActivity implements
 		edtConfirmPwd = (EditText) findViewById(R.id.edt_confirm_pwd);
 		tvAccount = (TextView) findViewById(R.id.tv_account);
 		tvAccount.setText(account);
+		titleTv.setText(getResources().getString(R.string.str_set_new_pwd));
 
 		pd = new ProgressDialog(this);
 		pd.setCancelable(true);
@@ -152,7 +154,16 @@ public class ReSetNewPwdActivity extends BaseActivity implements
 			}
 			if (result == 0)// ok,直接登录
 			{
-				showTextToast(R.string.logining);
+				showTextToast(R.string.str_set_new_pwd_ok);
+				//为了让用户加强印象，不直接登录，跳转到登录界面
+				Intent intent = new Intent();
+				intent.setClass(ReSetNewPwdActivity.this,
+						JVLoginActivity.class);
+				intent.putExtra("AutoLogin", false);
+				intent.putExtra("UserName", account);
+				intent.putExtra("UserPass", "");		
+				startActivity(intent);
+				exit();				
 			} else {
 				// 重置失败
 				showTextToast(R.string.reset_passwd_failed);

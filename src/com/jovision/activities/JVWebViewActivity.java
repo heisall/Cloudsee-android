@@ -107,8 +107,23 @@ public class JVWebViewActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		JVWebViewActivity.this.finish();
+		if (webView.canGoBack()) {
+			webView.goBack(); // goBack()表示返回WebView的上一页面
+		} else {
+			JVWebViewActivity.this.finish();
+		}
 	}
+
+	// @Override
+	// // 设置回退
+	// // 覆盖Activity类的onKeyDown(int keyCoder,KeyEvent event)方法
+	// public boolean onKeyDown(int keyCode, KeyEvent event) {
+	// if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+	// webView.goBack(); // goBack()表示返回WebView的上一页面
+	// return true;
+	// }
+	// return super.onKeyDown(keyCode, event);
+	// }
 
 	@Override
 	protected void saveSettings() {

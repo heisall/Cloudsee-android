@@ -233,6 +233,16 @@ public class JVUpdate {
 	 */
 
 	private void downloadApk() {
+//		try {
+//			Uri uri = Uri
+//					.parse(Url.APK_DOWNLOAD_URL
+//							+ mContext.getResources().getString(
+//									R.string.str_save_apk_name));
+//			Intent it = new Intent(Intent.ACTION_VIEW, uri);
+//			mContext.startActivity(it);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		downLoadThread = new Thread(mdownApkRunnable);
 		downLoadThread.start();
 	}
@@ -255,6 +265,5 @@ public class JVUpdate {
 		i.setDataAndType(Uri.parse("file://" + apkfile.toString()),
 				"application/vnd.android.package-archive");
 		mContext.startActivity(i);
-
 	}
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
-    android:versionCode="42"
+    android:versionCode="38"
     android:versionName="V4.3.0" >
 
     <supports-screens
@@ -61,13 +61,11 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
                 <data android:scheme="package" />
                 <!-- 注意！！ 这句必须要加，否则接收不到BroadCast -->
             </intent-filter>

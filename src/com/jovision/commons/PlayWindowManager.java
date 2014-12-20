@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -167,13 +168,25 @@ public class PlayWindowManager implements View.OnClickListener,
 		/**
 		 * 手势方向事件
 		 * 
-		 * @param direction
-		 *            方向，参考 {@link MyGestureDispatcher#GESTURE_TO_LEFT}，
+		 * @param index
+		 *            窗口索引
+		 * @param gesture
+		 *            方向，参考<br />
+		 *            {@link MyGestureDispatcher#GESTURE_TO_LEFT}，
 		 *            {@link MyGestureDispatcher#GESTURE_TO_UP}，
 		 *            {@link MyGestureDispatcher#GESTURE_TO_RIGHT}，
-		 *            {@link MyGestureDispatcher#GESTURE_TO_DOWN}
+		 *            {@link MyGestureDispatcher#GESTURE_TO_DOWN},
+		 *            {@link MyGestureDispatcher#GESTURE_TO_BIGGER},
+		 *            {@link MyGestureDispatcher#GESTURE_TO_SMALLER}
+		 * @param distance
+		 *            距离
+		 * @param vector
+		 *            向量
+		 * @param middle
+		 *            中心点
 		 */
-		public void onGesture(int direction);
+		public void onGesture(int index, int gesture, int distance,
+				Point vector, Point middle);
 
 		/**
 		 * 生命周期变化事件
@@ -1030,8 +1043,10 @@ public class PlayWindowManager implements View.OnClickListener,
 						new MyGestureDispatcher.OnGestureListener() {
 
 							@Override
-							public void onGesture(int direction) {
-								((OnUiListener) mContext).onGesture(direction);
+							public void onGesture(int gesture, int distance,
+									Point vector, Point middle) {
+								((OnUiListener) mContext).onGesture(index,
+										gesture, distance, vector, middle);
 							}
 						});
 
@@ -1039,7 +1054,8 @@ public class PlayWindowManager implements View.OnClickListener,
 
 					@Override
 					public boolean onTouch(View v, MotionEvent event) {
-						return dispatcher.motion(event);
+						dispatcher.motion(event);
+						return true;
 					}
 				});
 

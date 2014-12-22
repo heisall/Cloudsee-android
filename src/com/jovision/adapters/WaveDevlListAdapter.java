@@ -95,20 +95,23 @@ public class WaveDevlListAdapter extends BaseAdapter {
 
 			if (devList.get(position).isHasAdded()) {
 				devHolder.channel_list_text.setTextColor(activity
-						.getResources().getColor(R.color.dialogchannaltext));
+						.getResources().getColor(R.color.more_fragment_color2));
 				devHolder.item_img.setImageDrawable(activity.getResources()
 						.getDrawable(R.drawable.has_added_icon));
-				devHolder.channel_list_img.setImageDrawable(activity
-						.getResources().getDrawable(R.drawable.has_added));
-				convertView.setVisibility(View.GONE);
+				// devHolder.channel_list_img.setImageDrawable(activity
+				// .getResources().getDrawable(R.drawable.has_added));
+				devHolder.newImg.setVisibility(View.GONE);
+				devHolder.channel_list_img.setVisibility(View.GONE);
+				// convertView.setVisibility(View.GONE);
 			} else {
 				devHolder.channel_list_text.setTextColor(activity
-						.getResources().getColor(R.color.more_fragment_color2));
+						.getResources().getColor(R.color.dialogchannaltext));
 				devHolder.item_img.setImageDrawable(activity.getResources()
 						.getDrawable(R.drawable.hasnot_added_icon));
 				devHolder.channel_list_img.setImageDrawable(activity
 						.getResources().getDrawable(R.drawable.has_added));
-				convertView.setVisibility(View.VISIBLE);
+				devHolder.newImg.setVisibility(View.VISIBLE);
+				// convertView.setVisibility(View.VISIBLE);
 			}
 
 			convertView.setOnClickListener(new OnClickListener() {

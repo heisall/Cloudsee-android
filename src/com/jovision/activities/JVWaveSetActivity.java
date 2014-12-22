@@ -229,7 +229,9 @@ public class JVWaveSetActivity extends BaseActivity {
 					if (!"".equalsIgnoreCase(ip) && 0 != port) {
 						Boolean hasAdded = PlayUtil.hasDev(deviceList,
 								broadDevNum, ip, port, netmod);
-						if (1 == broadObj.optInt("netmod") && !hasAdded) {// 带wifi设备且不在设备列表里面
+						if (1 == broadObj.optInt("netmod")) {// && !hasAdded)
+																// {//
+																// 带wifi设备且不在设备列表里面
 							Device addDev = new Device(ip, port, gid, no,
 									getResources().getString(
 											R.string.str_default_user),

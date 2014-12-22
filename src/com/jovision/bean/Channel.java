@@ -80,6 +80,43 @@ public class Channel {
 	private boolean isPaused;// Neo
 	private Surface surface;
 
+	private int lastPortLeft;
+	private int lastPortBottom;
+	private int lastPortWidth;
+	private int lastPortHeight;
+
+	public int getLastPortLeft() {
+		return lastPortLeft;
+	}
+
+	public void setLastPortLeft(int lastPortLeft) {
+		this.lastPortLeft = lastPortLeft;
+	}
+
+	public int getLastPortBottom() {
+		return lastPortBottom;
+	}
+
+	public void setLastPortBottom(int lastPortBottom) {
+		this.lastPortBottom = lastPortBottom;
+	}
+
+	public int getLastPortWidth() {
+		return lastPortWidth;
+	}
+
+	public void setLastPortWidth(int lastPortWidth) {
+		this.lastPortWidth = lastPortWidth;
+	}
+
+	public int getLastPortHeight() {
+		return lastPortHeight;
+	}
+
+	public void setLastPortHeight(int lastPortHeight) {
+		this.lastPortHeight = lastPortHeight;
+	}
+
 	public boolean isAgreeTextData() {
 		return agreeTextData;
 	}

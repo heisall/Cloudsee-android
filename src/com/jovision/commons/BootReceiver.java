@@ -31,38 +31,41 @@ public class BootReceiver extends BroadcastReceiver {
 		if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED")) {
 			String packageName = intent.getDataString().substring(8);
 			Log.i("TAG", packageName);
-//			Toast.makeText(context, "新装一个软件：" + packageName, Toast.LENGTH_LONG)
-//					.show();
-//		    ComponentName componetName = new ComponentName(  
-//	                //这个是另外一个应用程序的包名  
-//	                "com.jovetech.CloudSee.temp",  
-//	                //这个参数是要启动的Activity  
-//	                "com.jovision.activities.JVWelcomeActivity");  
-//	         
-//	            try {  
-//	                Intent intents = new Intent();  
-//	                intents.setComponent(componetName);  
-//	                context.startActivity(intent);  
-//	            } catch (Exception e) {  
-////	              Toast.makeText(getApplicationContext(), "可以在这里提示用户没有找到应用程序，或者是做其他的操作！", 0).show();  
-//	                  
-//	            }  
-//			if (packageName.equalsIgnoreCase("com.jovetech.CloudSee.temp")) {
-//			}
+			// Toast.makeText(context, "新装一个软件：" + packageName,
+			// Toast.LENGTH_LONG)
+			// .show();
+			// ComponentName componetName = new ComponentName(
+			// //这个是另外一个应用程序的包名
+			// "com.jovetech.CloudSee.temp",
+			// //这个参数是要启动的Activity
+			// "com.jovision.activities.JVWelcomeActivity");
+			//
+			// try {
+			// Intent intents = new Intent();
+			// intents.setComponent(componetName);
+			// context.startActivity(intent);
+			// } catch (Exception e) {
+			// // Toast.makeText(getApplicationContext(),
+			// "可以在这里提示用户没有找到应用程序，或者是做其他的操作！", 0).show();
+			//
+			// }
+			// if (packageName.equalsIgnoreCase("com.jovetech.CloudSee.temp")) {
+			// }
 
 		}
 		// 接收广播：设备上删除了一个应用程序包。
 		if (intent.getAction().equals("android.intent.action.PACKAGE_REMOVED")) {
 			Toast.makeText(context, "卸掉一个软件", Toast.LENGTH_LONG).show();
-//			Intent newIntent = new Intent();
-//			newIntent.setClassName("com.jovetech.CloudSee.temp", "com.jovision.activities.JVWelcomeActivity");
-//			newIntent.setAction("android.intent.action.MAIN");
-//			newIntent.addCategory("android.intent.category.LAUNCHER");
-//			newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//			context.startActivity(newIntent);
-			 Intent newintent = context.getPackageManager().getLaunchIntentForPackage(      
-					                "com.jovetech.CloudSee.temp");      
-			 context.startActivity(newintent); 
+			// Intent newIntent = new Intent();
+			// newIntent.setClassName("com.jovetech.CloudSee.temp",
+			// "com.jovision.activities.JVWelcomeActivity");
+			// newIntent.setAction("android.intent.action.MAIN");
+			// newIntent.addCategory("android.intent.category.LAUNCHER");
+			// newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			// context.startActivity(newIntent);
+			Intent newintent = context.getPackageManager()
+					.getLaunchIntentForPackage("com.jovetech.CloudSee.temp");
+			context.startActivity(newintent);
 			System.out.println("********************************");
 		}
 	}

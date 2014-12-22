@@ -203,7 +203,6 @@ public class JVLoginActivity extends BaseActivity {
 
 							@Override
 							public void run() {
-								// TODO Auto-generated method stub
 								moreUserIV
 										.setImageResource(R.drawable.login_pull_up_icon);
 								pop.showAsDropDown(userNameLayout);

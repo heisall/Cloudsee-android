@@ -382,12 +382,18 @@ public class JVOffLineDialogActivity extends BaseActivity {
 					.getResources().getString(R.string.app_name)
 					+ ConfigUtil.getVersion(JVOffLineDialogActivity.this);
 			HashMap<String, String> paramsMap = new HashMap<String, String>();
+			String error = (errorMsg + country + cpu).replace("\\+", "%2B")
+			// .replace("\\ ", "%20").replace("\\/", "%2F")
+			// .replace("\\?", "%3F").replace("\\%", "%25")
+			// .replace("\\#", "%23").replace("\\&", "%26")
+			// .replace("\\=", "%3D")
+					.replace("(", "%28").replace(")", "%29");
 			paramsMap.put("mod", "crash");
 			paramsMap.put("subject", softwareVersion);
 			paramsMap.put("model", model);
 			paramsMap.put("version", version);
 			paramsMap.put("fingerprint", fingerprint);
-			paramsMap.put("detail", errorMsg + country + cpu);
+			paramsMap.put("detail", error);
 
 			String result = JSONUtil.httpPost(Url.FEED_BACK_URL, paramsMap);
 

@@ -3,7 +3,6 @@ package com.jovision.activities;
 import android.content.Intent;
 import android.os.Handler;
 import android.test.AutoLoad;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -72,7 +71,7 @@ public class JVWelcomeActivity extends BaseActivity {
 				|| "".equalsIgnoreCase(statusHashMap
 						.get(Consts.KEY_LAST_LOGIN_TIME))) {
 			statusHashMap.put(Consts.KEY_LAST_LOGIN_TIME,
-					ConfigUtil.getCurrentTime());
+					ConfigUtil.getCurrentDate());
 		}
 
 		initThread.start();
@@ -87,6 +86,10 @@ public class JVWelcomeActivity extends BaseActivity {
 		// MyLog.v("tel",
 		// siminfo.getNativePhoneNumber() + "--"
 		// + siminfo.getProvidersName());
+//		Intent stopIntent1 = new Intent(JVWelcomeActivity.this,Protectservice.class);
+//		stopService(stopIntent1);	
+//		Intent stopIntent = new Intent(JVWelcomeActivity.this,WakeLockService.class);
+//		stopService(stopIntent);	
 	}
 
 	@Override

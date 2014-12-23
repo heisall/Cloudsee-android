@@ -86,12 +86,12 @@ public abstract class LoadingLayout extends FrameLayout implements
 		case PULL_FROM_END:
 			lp.gravity = scrollDirection == Orientation.VERTICAL ? Gravity.TOP
 					: Gravity.LEFT;
-			mPullLabel = context
-					.getString(R.string.pull_to_refresh_from_bottom_pull_label);
-			mRefreshingLabel = context
-					.getString(R.string.pull_to_refresh_from_bottom_refreshing_label);
-			mReleaseLabel = context
-					.getString(R.string.pull_to_refresh_from_bottom_release_label);
+			mPullLabel = context.getResources().getString(
+					R.string.pull_to_refresh_pull_label);
+			mRefreshingLabel = context.getResources().getString(
+					R.string.pull_to_refresh_refreshing_label);
+			mReleaseLabel = context.getResources().getString(
+					R.string.pull_to_refresh_release_label);
 			break;
 
 		case PULL_FROM_START:

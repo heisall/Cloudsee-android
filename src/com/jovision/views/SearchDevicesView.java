@@ -33,7 +33,7 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 
 	int[] argColor = new int[] { 0xF3, 0xf3, 0xfa };
 
-	private float offsetArgs = 0;
+	private float offsetArgs = 3;
 	public boolean isSearching = true;
 	// private Bitmap bitmap;
 	// private Bitmap bitmap1;
@@ -99,7 +99,7 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 		if (isSearching) {
 			canvas.rotate(offsetArgs, getWidth() / 2, getHeight() / 2);
 			canvas.drawBitmap(bitmap2, null, rMoon, null);
-			offsetArgs = offsetArgs + 5;
+			offsetArgs = offsetArgs + 3;
 		} else {
 
 			canvas.drawBitmap(bitmap2, null, rMoon, null);

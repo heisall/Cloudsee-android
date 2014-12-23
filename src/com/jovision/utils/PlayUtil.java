@@ -190,7 +190,7 @@ public class PlayUtil {
 	 * 抓拍
 	 */
 	public static boolean capture(int index) {
-		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentTime()
+		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentDate()
 				+ File.separator;
 		String fileName = String.valueOf(System.currentTimeMillis())
 				+ Consts.IMAGE_PNG_KIND;
@@ -211,7 +211,7 @@ public class PlayUtil {
 	 * 慧通抓拍
 	 * */
 	public static boolean hitviscapture(int index) {
-		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentTime()
+		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentDate()
 				+ File.separator;
 		String fileName = String.valueOf(System.currentTimeMillis())
 				+ Consts.IMAGE_PNG_KIND;
@@ -440,23 +440,25 @@ public class PlayUtil {
 	// Jni.sendBytes(index, JVNetConst.JVN_CMD_CHATSTOP, new byte[0], 8);
 	// }
 
-	/**
-	 * 应用层调用录像功能
-	 * 
-	 * @param index
-	 * @return
-	 */
-	public static boolean videoRecord(int index, String savePath) {
-		boolean open = false;
-		if (checkRecord(index)) {
-			boolean stopRes = stopVideoTape();
-			open = !stopRes;
-		} else {
-			boolean startRes = startVideoTape(index, savePath);
-			open = startRes;
-		}
-		return open;
-	}
+	// /**
+	// * 应用层调用录像功能
+	// *
+	// * @param index
+	// * @return
+	// */
+	// public static boolean videoRecord(int index, String savePath) {
+	// boolean open = false;
+	// if (checkRecord(index)) {
+	// boolean stopRes = stopVideoTape();
+	// open = !stopRes;
+	// } else {
+	// boolean startRes = startVideoTape(index, savePath);
+	// open = startRes;
+	// }
+	//
+	// MyLog.v("resetFunc--record", "index="+index+";open="+open);
+	// return open;
+	// }
 
 	/**
 	 * 查询录像状态
@@ -470,7 +472,7 @@ public class PlayUtil {
 
 	// 创建录像文件
 	public static String createRecordFile() {
-		String videoPath = Consts.VIDEO_PATH + ConfigUtil.getCurrentTime()
+		String videoPath = Consts.VIDEO_PATH + ConfigUtil.getCurrentDate()
 				+ File.separator;
 		String fileName = String.valueOf(System.currentTimeMillis()) + ".mp4";
 		MobileUtil.createDirectory(new File(videoPath));

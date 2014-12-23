@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -166,6 +167,10 @@ public class JVPlayActivity extends PlayActivity implements
 			switch (arg2) {
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
+				channel.setLastPortLeft(0);
+				channel.setLastPortBottom(0);
+				channel.setLastPortWidth(manager.getView(arg1).getWidth());
+				channel.setLastPortHeight(manager.getView(arg1).getHeight());
 				channel.setConnected(true);
 				handler.sendMessage(handler
 						.obtainMessage(what, arg1, arg2, obj));
@@ -345,6 +350,9 @@ public class JVPlayActivity extends PlayActivity implements
 			if (null == channel) {
 				return;
 			}
+
+			MyLog.v("resetFunc111",
+					"arg1=" + arg1 + ";channel=" + channel.toString());
 
 			switch (arg2) {
 			// 1 -- 连接成功
@@ -576,7 +584,9 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (recoding) {
 				String path = PlayUtil.createRecordFile();
-				PlayUtil.videoRecord(lastClickIndex, path);
+				if (!PlayUtil.checkRecord(lastClickIndex)) {
+					startRecord(lastClickIndex, path);
+				}
 			}
 
 			break;
@@ -1487,6 +1497,8 @@ public class JVPlayActivity extends PlayActivity implements
 			@Override
 			public void onPageSelected(int arg0) {
 				try {
+					// saveLastScreen(channelList.get(lastItemIndex));
+
 					varvoice.setBackgroundDrawable(getResources().getDrawable(
 							R.drawable.video_monitor_ico));
 					stopAllFunc();
@@ -1647,7 +1659,7 @@ public class JVPlayActivity extends PlayActivity implements
 		bottombut5.setOnClickListener(myOnClickListener);
 		bottombut5.setOnTouchListener(callOnTouchListener);
 		bottombut5.setOnLongClickListener(callOnLongClickListener);
-
+		verPlayBarLayout.setVisibility(View.VISIBLE);
 	}
 
 	private class MyPagerAdapter extends PagerAdapter {
@@ -2123,7 +2135,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 
 			case PlayWindowManager.STATUS_CHANGED:
-				// [Neo] Empty
+				tensileView(channel, channel.getSurfaceView());
 				break;
 
 			case PlayWindowManager.STATUS_DESTROYED:
@@ -2468,24 +2480,10 @@ public class JVPlayActivity extends PlayActivity implements
 				if (hasSDCard() && allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).getParent().is05()) {
 						String path = PlayUtil.createRecordFile();
-						if (PlayUtil.videoRecord(lastClickIndex, path)) {// 打开
-							recordingPath = path;
-							startRecordTime = System.currentTimeMillis();
-							tapeSelected(true);
-							showTextToast(R.string.str_start_record);
-
-						} else {// 关闭
-							long recordTime = System.currentTimeMillis()
-									- startRecordTime;
-							MyLog.e(TAG, "recordTime=" + recordTime);
-							if (recordTime <= 2000) {
-								File recordFile = new File(recordingPath);
-								recordFile.delete();
-								showTextToast(R.string.record_failed);
-							} else {
-								showTextToast(Consts.VIDEO_PATH);
-							}
-							tapeSelected(false);
+						if (PlayUtil.checkRecord(lastClickIndex)) {
+							stopRecord();
+						} else {
+							startRecord(lastClickIndex, path);
 						}
 					} else {
 						showTextToast(R.string.not_support_this_func);
@@ -2774,12 +2772,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 正在录像停止录像
 		if (PlayUtil.checkRecord(lastClickIndex)) {
-			if (!PlayUtil.videoRecord(lastClickIndex, "")) {// 打开
-				showTextToast(Consts.VIDEO_PATH);
-				tapeSelected(false);
-			}
+			stopRecord();
 		}
-
 		// 停止对讲
 		if (channelList.get(lastClickIndex).isVoiceCall()) {
 			channelList.get(lastClickIndex).setVoiceCall(false);
@@ -2806,15 +2800,132 @@ public class JVPlayActivity extends PlayActivity implements
 		super.freeMe();
 	}
 
+	private void gestureOnView(View v, Channel channel, int gesture,
+			int distance, Point vector, Point middle) {
+		int viewWidth = v.getWidth();
+		int viewHeight = v.getHeight();
+
+		int left = channel.getLastPortLeft();
+		int bottom = channel.getLastPortBottom();
+		int width = channel.getLastPortWidth();
+		int height = channel.getLastPortHeight();
+
+		boolean needRedraw = false;
+
+		switch (gesture) {
+		case MyGestureDispatcher.GESTURE_TO_LEFT:
+		case MyGestureDispatcher.GESTURE_TO_UP:
+		case MyGestureDispatcher.GESTURE_TO_RIGHT:
+		case MyGestureDispatcher.GESTURE_TO_DOWN:
+			left += vector.x;
+			bottom += vector.y;
+			needRedraw = true;
+			break;
+
+		case MyGestureDispatcher.GESTURE_TO_BIGGER:
+		case MyGestureDispatcher.GESTURE_TO_SMALLER:
+			if (width > viewWidth || distance > 0) {
+				float xFactor = (float) vector.x / viewWidth;
+				float yFactor = (float) vector.y / viewHeight;
+				float factor = yFactor;
+
+				if (distance > 0) {
+					if (xFactor > yFactor) {
+						factor = xFactor;
+					}
+				} else {
+					if (xFactor < yFactor) {
+						factor = xFactor;
+					}
+				}
+
+				int xMiddle = middle.x - left;
+				int yMiddle = viewHeight - middle.y - bottom;
+
+				factor += 1;
+				left = middle.x - (int) (xMiddle * factor);
+				bottom = (viewHeight - middle.y) - (int) (yMiddle * factor);
+				width = (int) (width * factor);
+				height = (int) (height * factor);
+
+				if (width <= viewWidth || height < viewHeight) {
+					left = 0;
+					bottom = 0;
+					width = viewWidth;
+					height = viewHeight;
+				} else if (width > 4000 || height > 4000) {
+					width = channel.getLastPortWidth();
+					height = channel.getLastPortHeight();
+
+					if (width > height) {
+						factor = 4000.0f / width;
+						width = 4000;
+						height = (int) (height * factor);
+					} else {
+						factor = 4000.0f / height;
+						width = (int) (width * factor);
+						height = 4000;
+					}
+
+					left = middle.x - (int) (xMiddle * factor);
+					bottom = (viewHeight - middle.y) - (int) (yMiddle * factor);
+				}
+
+				needRedraw = true;
+			}
+			break;
+
+		default:
+			break;
+		}
+
+		if (needRedraw) {
+			if (left + width < viewWidth) {
+				left = viewWidth - width;
+			} else if (left > 0) {
+				left = 0;
+			}
+
+			if (bottom + height < viewHeight) {
+				bottom = viewHeight - height;
+			} else if (bottom > 0) {
+				bottom = 0;
+			}
+
+			channel.setLastPortLeft(left);
+			channel.setLastPortBottom(bottom);
+			channel.setLastPortWidth(width);
+			channel.setLastPortHeight(height);
+			Jni.setViewPort(channel.getIndex(), left, bottom, width, height);
+		}
+	}
+
+	private void tensileView(Channel channel, View view) {
+		channel.setLastPortLeft(0);
+		channel.setLastPortBottom(0);
+		channel.setLastPortWidth(view.getWidth());
+		channel.setLastPortHeight(view.getHeight());
+		Jni.setViewPort(channel.getIndex(), 0, 0, view.getWidth(),
+				view.getHeight());
+	}
+
 	@Override
-	public void onGesture(int direction) {
+	public void onGesture(int index, int gesture, int distance, Point vector,
+			Point middle) {
 		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 			Channel channel = channelList.get(lastClickIndex);
 			if (null != channel && channel.isConnected()
 					&& !channel.isConnecting()) {
 				int c = 0;
-				// [Neo] TODO 不论时候什么，只要在 Surface 上手势，都会判断出来并汇报到这里
-				switch (direction) {
+
+				switch (gesture) {
+				case MyGestureDispatcher.GESTURE_TO_BIGGER:
+				case MyGestureDispatcher.GESTURE_TO_SMALLER:
+					gestureOnView(manager.getView(index),
+							channelList.get(index), gesture, distance, vector,
+							middle);
+					break;
+
 				case MyGestureDispatcher.GESTURE_TO_LEFT:
 					System.out.println("gesture: left");
 					c = JVNetConst.JVN_YTCTRL_L;
@@ -3479,6 +3590,10 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 				changeWindow(ONE_SCREEN);
 			}
+
+			viewPager.setDisableSliding(true);
+		} else {
+			viewPager.setDisableSliding(false);
 		}
 
 		showFunc(channelList.get(lastClickIndex), currentScreen, lastClickIndex);
@@ -3493,7 +3608,7 @@ public class JVPlayActivity extends PlayActivity implements
 		if (Consts.PLAY_AP == playFlag) {
 			return;
 		}
-		if (hasSDCard()) {
+		if (hasSDCard() && null != channel && channel.isConnected()) {
 			String savePath = Consts.SCENE_PATH;
 			String fileName = "";
 			String fullPath = "";

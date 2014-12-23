@@ -229,7 +229,9 @@ public class JVWaveSetActivity extends BaseActivity {
 					if (!"".equalsIgnoreCase(ip) && 0 != port) {
 						Boolean hasAdded = PlayUtil.hasDev(deviceList,
 								broadDevNum, ip, port, netmod);
-						if (1 == broadObj.optInt("netmod") && !hasAdded) {// 带wifi设备且不在设备列表里面
+						if (1 == broadObj.optInt("netmod")) {// && !hasAdded)
+																// {//
+																// 带wifi设备且不在设备列表里面
 							Device addDev = new Device(ip, port, gid, no,
 									getResources().getString(
 											R.string.str_default_user),
@@ -550,28 +552,16 @@ public class JVWaveSetActivity extends BaseActivity {
 					if (localFlag) {// 本地添加
 						addRes = 0;
 					} else {
-
 						addDevice = DeviceUtil.addDevice2(addDevice,
 								statusHashMap.get(Consts.KEY_USERNAME));
 						if (null != addDevice) {
 							addRes = 0;
 						}
-						// else {
-						// addDevice =
-						// DeviceUtil.getUserDeviceDetail(addDevice,statusHashMap
-						// .get(Consts.KEY_USERNAME));
-						// if (null != addDevice) {
-						// addRes = 0;
-						// }else{
-						// addRes = -1;
-						// }
-						// }
-
 					}
 				}
 
 				if (0 == addRes) {
-					broadList.remove(index);
+					// broadList.remove(index);
 					handler.sendMessage(handler
 							.obtainMessage(Consts.WHAT_BROAD_DEVICE));
 					addDevice.setOnlineState(1);

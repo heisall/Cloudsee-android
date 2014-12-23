@@ -2,6 +2,8 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,9 +12,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.PlayUtil;
 
 public class JVAddIpDeviceActivity extends BaseActivity {
 
@@ -30,17 +35,44 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 	private String portString;
 	private String userString;
 	private String pwdString;
+	private boolean hasBroadIP = false;// 是否广播完IP
+	private String resolvedIp = "";// 解析出来的IP
+	private int broadChannelCount = -1;// 广播到的通道数量
 
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
+		switch (what) {
+		// 广播回调
+		case Consts.CALL_LAN_SEARCH: {
+			MyLog.v("广播回调", "onTabAction2:what=" + what + ";arg1=" + arg1
+					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
+			JSONObject broadObj;
+			try {
+				broadObj = new JSONObject(obj.toString());
+				if (0 == broadObj.optInt("timeout")) {
+					String broadIp = broadObj.optString("ip");
+					if (resolvedIp.equalsIgnoreCase(broadIp)) {// 同一个设备
+						broadChannelCount = broadObj.optInt("count");
+					}
 
+				} else if (1 == broadObj.optInt("timeout")) {
+					hasBroadIP = true;
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			break;
+		}
+		}
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-
+		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 	}
 
 	@Override
@@ -151,8 +183,6 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 		return has;
 	}
 
-	String ip = "";
-
 	// 设置三种类型参数分别为String,Integer,String
 	class AddDevTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -160,9 +190,19 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 		protected Integer doInBackground(String... params) {
 			int addRes = -1;// 0:成功，其他失败
 			try {
-				ip = ConfigUtil.getIpAddress(ipString);
-				Device dev = new Device(ip, Integer.valueOf(portString),
-						ipString, -1, userString, pwdString, false, 4, 0);
+				hasBroadIP = false;
+				resolvedIp = ConfigUtil.getIpAddress(ipString);
+
+				// 非3G广播获取通道数量
+				if (PlayUtil.broadCast(JVAddIpDeviceActivity.this)) {
+					while (!hasBroadIP) {
+						Thread.sleep(100);
+					}
+				}
+				int count = broadChannelCount > 0 ? broadChannelCount : 4;
+				Device dev = new Device(resolvedIp,
+						Integer.valueOf(portString), ipString, -1, userString,
+						pwdString, false, count, 0);
 				dev.setIsDevice(2);
 				dev.setDoMain(ipString);
 				deviceList.add(0, dev);
@@ -186,7 +226,9 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 			dismissDialog();
 			if (0 == result) {
 				showTextToast(getResources()
-						.getString(R.string.add_device_succ) + ip);
+						.getString(R.string.add_device_succ)
+						+ resolvedIp
+						+ ";count:" + broadChannelCount);
 				JVAddIpDeviceActivity.this.finish();
 			} else {
 				showTextToast(R.string.add_device_failed);

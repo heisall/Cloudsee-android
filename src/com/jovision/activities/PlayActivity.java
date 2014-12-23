@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.content.pm.ActivityInfo;
@@ -28,6 +29,7 @@ import com.jovision.adapters.StreamAdapter;
 import com.jovision.bean.Channel;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyAudio;
+import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.MyViewPager;
@@ -668,6 +670,7 @@ public abstract class PlayActivity extends BaseActivity {
 	 */
 	@SuppressWarnings("deprecation")
 	public void resetFunc(Channel channel) {
+		MyLog.v("resetFunc", channel.toString());
 		try {
 			verPlayBarLayout.setVisibility(View.GONE);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
@@ -679,6 +682,7 @@ public abstract class PlayActivity extends BaseActivity {
 			bottomStream.setText(R.string.default_stream);
 			// 停止音频监听
 			if (PlayUtil.isPlayAudio(channel.getIndex())) {
+				MyLog.v("resetFunc", channel.getIndex() + "正在监听");
 				stopAudio(channel.getIndex());
 				functionListAdapter.selectIndex = -1;
 				bottombut8.setBackgroundDrawable(getResources().getDrawable(
@@ -690,14 +694,23 @@ public abstract class PlayActivity extends BaseActivity {
 
 			// 正在录像停止录像
 			if (PlayUtil.checkRecord(channel.getIndex())) {
-				if (!PlayUtil.videoRecord(channel.getIndex(), "")) {// 打开
+				MyLog.v("resetFunc", channel.getIndex() + "正在录像");
+				long recordTime = System.currentTimeMillis() - startRecordTime;
+				MyLog.e(TAG, "recordTime=" + recordTime);
+				PlayUtil.stopVideoTape();
+				if (recordTime <= 2000) {
+					File recordFile = new File(recordingPath);
+					recordFile.delete();
+					showTextToast(R.string.record_failed);
+				} else {
 					showTextToast(Consts.VIDEO_PATH);
-					tapeSelected(false);
 				}
+				tapeSelected(false);
 			}
 
 			// 停止对讲
 			if (channel.isVoiceCall()) {
+				MyLog.v("resetFunc", channel.getIndex() + "正在对讲");
 				channel.setVoiceCall(false);
 				realStop = true;
 				voiceCallSelected(false);
@@ -1024,6 +1037,61 @@ public abstract class PlayActivity extends BaseActivity {
 		playAudio.stopPlay();
 		playAudio.stopRec();
 
+	}
+
+	// if(PlayUtil.checkRecord(lastClickIndex)){
+	// long recordTime = System.currentTimeMillis()
+	// - startRecordTime;
+	// MyLog.e(TAG, "recordTime=" + recordTime);
+	// PlayUtil.stopVideoTape();
+	// if (recordTime <= 2000) {
+	// File recordFile = new File(recordingPath);
+	// recordFile.delete();
+	// showTextToast(R.string.record_failed);
+	// } else {
+	// showTextToast(Consts.VIDEO_PATH);
+	// }
+	// tapeSelected(false);
+	// }else{
+	//
+	// }
+
+	/**
+	 * 开始录像
+	 * 
+	 * @param lastClickIndex
+	 * @param path
+	 * @return
+	 */
+	public boolean startRecord(int lastClickIndex, String path) {
+		boolean res = PlayUtil.startVideoTape(lastClickIndex, path);
+
+		MyLog.v("resetFunc--startRecord", "lastClickIndex=" + lastClickIndex);
+		recordingPath = path;
+		startRecordTime = System.currentTimeMillis();
+		tapeSelected(true);
+		showTextToast(R.string.str_start_record);
+		return res;
+	}
+
+	/**
+	 * 停止录像
+	 * 
+	 * @return
+	 */
+	public boolean stopRecord() {
+		long recordTime = System.currentTimeMillis() - startRecordTime;
+		MyLog.e(TAG, "recordTime=" + recordTime);
+		boolean res = PlayUtil.stopVideoTape();
+		if (recordTime <= 2000) {
+			File recordFile = new File(recordingPath);
+			recordFile.delete();
+			showTextToast(R.string.record_failed);
+		} else {
+			showTextToast(Consts.VIDEO_PATH);
+		}
+		tapeSelected(false);
+		return res;
 	}
 
 	// protected void init() {

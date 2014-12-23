@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -553,24 +552,10 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				} else {
 					if (hasSDCard()) {
 						String path = PlayUtil.createRecordFile();
-						if (PlayUtil.videoRecord(indexOfChannel, path)) {// 打开
-							recordingPath = path;
-							startRecordTime = System.currentTimeMillis();
-							tapeSelected(true);
-							showTextToast(R.string.str_start_record);
-						} else {// 关闭
-							long recordTime = System.currentTimeMillis()
-									- startRecordTime;
-							MyLog.e(TAG, "recordTime=" + recordTime);
-
-							if (recordTime <= 2000) {
-								File recordFile = new File(recordingPath);
-								recordFile.delete();
-								showTextToast(R.string.record_failed);
-							} else {
-								showTextToast(Consts.VIDEO_PATH);
-							}
-							tapeSelected(false);
+						if (PlayUtil.checkRecord(indexOfChannel)) {
+							stopRecord();
+						} else {
+							startRecord(indexOfChannel, path);
 						}
 					}
 				}
@@ -638,9 +623,8 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 		// 正在录像停止录像
 		if (PlayUtil.checkRecord(indexOfChannel)) {
-			if (PlayUtil.videoRecord(indexOfChannel, "")) {// 打开
-				showTextToast(Consts.VIDEO_PATH);
-				tapeSelected(false);
+			if (PlayUtil.checkRecord(indexOfChannel)) {
+				stopRecord();
 			}
 		}
 	}

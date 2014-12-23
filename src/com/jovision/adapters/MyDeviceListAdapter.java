@@ -297,7 +297,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 				deviceHolder.devnicknameR.setText(deviceList.get(
 						position * 2 + 1).getNickName());
 				// TODO
-				deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
+				deviceHolder.devImgR.setScaleType(ScaleType.FIT_XY);
 				String key = Consts.SCENE_PATH
 						+ deviceList.get(position * 2 + 1).getFullNo()
 						+ Consts.IMAGE_PNG_KIND;

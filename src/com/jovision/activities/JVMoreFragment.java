@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -436,29 +437,29 @@ public class JVMoreFragment extends BaseFragment {
 							break;
 						case 5:// 版本号
 							String itemzero = mActivity.getResources()
-							.getString(R.string.str_accounts)
+							.getString(R.string.census_accounts)
 							+":"+ConfigUtil.ACCOUNT_VERSION;
 							String itemone = mActivity.getResources()
-									.getString(R.string.str_network_version)
+									.getString(R.string.census_network_version)
 									+ ":" + ConfigUtil.NETWORK_VERSION;
 							String itemtwo = mActivity.getResources()
-									.getString(R.string.str_play_version)
+									.getString(R.string.census_play_version)
 									+ ":"
 									+ ConfigUtil.PLAY_VERSION;
 							String itemthree = mActivity.getResources()
-									.getString(R.string.str_appnetwork_version)
+									.getString(R.string.census_appnetwork_version)
 									+ ":" + ConfigUtil.GETNETWORK_VERSION;
 							String itemfour = mActivity.getResources()
-									.getString(R.string.str_appplay_version)
+									.getString(R.string.census_appplay_version)
 									+ ":" + ConfigUtil.GETPLAY_VERSION;
 							String itemfive = mActivity.getResources()
-									.getString(R.string.str_appaccount)
+									.getString(R.string.census_appaccount)
 									+ ":" + JVACCOUNT.GetVersion(0);
 							new AlertDialog.Builder(new ContextThemeWrapper(
 									mActivity, R.style.AlertDialogCustom))
 									.setTitle(
 											mActivity.getResources().getString(
-													R.string.str_version))
+													R.string.census_version))
 									.setItems(
 											new String[] {itemzero,itemfive,itemone, itemtwo,
 													itemthree, itemfour }, null)
@@ -472,7 +473,7 @@ public class JVMoreFragment extends BaseFragment {
 									mActivity,
 									"Media",
 									mActivity.getResources().getString(
-											R.string.str_media));
+											R.string.census_media));
 							Intent intentMedia = new Intent(mActivity,
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);

@@ -3913,25 +3913,30 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public void onShowPress(MotionEvent e) {
+			MyLog.v("MyOnGestureListener", "onShowPress");
 		}
 
 		@Override
 		public boolean onDown(MotionEvent e) {
+			MyLog.v("MyOnGestureListener", "onDown");
 			return false;
 		}
 
 		@Override
 		public boolean onDoubleTap(MotionEvent e) {
+			MyLog.v("MyOnGestureListener", "onDoubleTap");
 			return false;
 		}
 
 		@Override
 		public boolean onDoubleTapEvent(MotionEvent e) {
+			MyLog.v("MyOnGestureListener", "onDoubleTapEvent");
 			return false;
 		}
 
 		@Override
 		public boolean onSingleTapConfirmed(MotionEvent e) {
+			MyLog.v("MyOnGestureListener", "onSingleTapConfirmed");
 			return false;
 		}
 

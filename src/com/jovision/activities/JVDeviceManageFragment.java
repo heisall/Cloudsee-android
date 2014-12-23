@@ -3,6 +3,9 @@ package com.jovision.activities;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -96,6 +99,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 			mActivity = (BaseActivity) getActivity();
 
 			currentMenu.setText(R.string.str_help1_2);
+			rightBtn.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.mydevice_cancale_icon));
 			rightBtn.setVisibility(View.VISIBLE);
 			rightBtn.setOnClickListener(mOnClickListener);
 			manageDeviceList = CacheUtil.getDevList();
@@ -327,9 +332,36 @@ public class JVDeviceManageFragment extends BaseFragment {
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.btn_right:
-				DelAllDevTask task = new DelAllDevTask();
-				String[] strParams = new String[3];
-				task.execute(strParams);
+				if (null == manageDeviceList || 0 == manageDeviceList.size()) {
+					break;
+				}
+				// 提示对话框
+				AlertDialog.Builder builder = new Builder(mActivity);
+				builder.setTitle(R.string.tips)
+						.setMessage(
+								getResources().getString(
+										R.string.delete_all_device))
+						.setPositiveButton(R.string.sure,
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										DelAllDevTask task = new DelAllDevTask();
+										String[] strParams = new String[3];
+										task.execute(strParams);
+									}
+								})
+						.setNegativeButton(R.string.cancel,
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										dialog.dismiss();
+									}
+								}).create().show();
+
 				break;
 			case R.id.devmorere:
 				device_num.setText(mActivity.getResources().getString(

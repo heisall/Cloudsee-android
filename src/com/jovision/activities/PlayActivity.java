@@ -712,16 +712,11 @@ public abstract class PlayActivity extends BaseActivity {
 			if (channel.isVoiceCall()) {
 				MyLog.v("resetFunc", channel.getIndex() + "正在对讲");
 				channel.setVoiceCall(false);
+				MyLog.e("MyOnGestureListener--resetFunc", "false");
 				realStop = true;
 				voiceCallSelected(false);
 				stopVoiceCall(channel.getIndex());
 			}
-
-			tapeSelected(false);
-			functionListAdapter.selectIndex = -1;
-			functionListAdapter.notifyDataSetChanged();
-			voiceCallSelected(false);
-
 			AUDIO_SINGLE = false;// 单向对讲标志
 			VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
@@ -961,6 +956,7 @@ public abstract class PlayActivity extends BaseActivity {
 		if (null != channel && channel.isVoiceCall()) {
 			stopVoiceCall(index);
 			channel.setVoiceCall(false);
+			MyLog.e("MyOnGestureListener--stopAll", "false");
 			realStop = true;
 			voiceCallSelected(false);
 		}

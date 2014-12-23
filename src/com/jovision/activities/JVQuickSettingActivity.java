@@ -1435,11 +1435,27 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			// desWifiName;
 			// private EditText desWifiPass;
 			// if ("".equalsIgnoreCase(desWifiName.getText().toString())) {
-			if (!haveSet) {
-				changeRes = wifiAdmin.changeWifi(setIpcName, oldWifiSSID,
-						oldWifiState);
-			} else {
-				changeRes = resetWifi(oldWifiSSID, desWifiPWD);
+
+			if (oldWifiState) {
+				if (!haveSet) {
+					changeRes = wifiAdmin.changeWifi(setIpcName, oldWifiSSID,
+							oldWifiState);
+				} else {
+					changeRes = resetWifi(oldWifiSSID, desWifiPWD);
+				}
+			} else {// 原wifi关着
+				if (!haveSet) {// 而且没配置过
+					wifiAdmin.closeWifi();
+					changeRes = true;
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					changeRes = resetWifi(oldWifiSSID, desWifiPWD);
+				}
 			}
 
 			MyLog.v("网络恢复完成", changeRes + "");
@@ -1496,17 +1512,20 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 					}
 
-					hasBroadIP = false;
-					Jni.queryDevice(ConfigUtil.getGroup(ipcDevice.getFullNo()),
-							ConfigUtil.getYST(ipcDevice.getFullNo()), 40 * 1000);
-
-					while (!hasBroadIP) {// 未广播到IP
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+					if (!ConfigUtil.is3G(JVQuickSettingActivity.this, false)) {
+						hasBroadIP = false;
+						Jni.queryDevice(
+								ConfigUtil.getGroup(ipcDevice.getFullNo()),
+								ConfigUtil.getYST(ipcDevice.getFullNo()),
+								40 * 1000);
+						while (!hasBroadIP) {// 未广播到IP
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							Log.v("未广播到IP---" + hasBroadIP, "休眠1秒");
 						}
-						Log.v("未广播到IP---" + hasBroadIP, "休眠1秒");
 					}
 
 					// 重新登陆成功 ,或者本地登陆

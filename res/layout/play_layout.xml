@@ -134,6 +134,7 @@
                 android:orientation="horizontal" >
 
                 <ListView
+                    android:descendantFocusability="blocksDescendants"
                     android:id="@+id/play_function_list_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

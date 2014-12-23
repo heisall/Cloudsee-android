@@ -916,9 +916,6 @@ public class JVPlayActivity extends PlayActivity implements
 					voiceCall.setText(R.string.voice_send);
 					showTextToast(R.string.voice_tips2);
 				}
-				channel.setVoiceCall(true);
-				VOICECALLING = true;
-				voiceCallSelected(true);
 				// recorder.start(channelList.get(lastClickIndex).getAudioType(),
 				// channelList.get(lastClickIndex).getAudioByte());
 
@@ -936,6 +933,10 @@ public class JVPlayActivity extends PlayActivity implements
 							channel.getAudioBlock(), true);
 
 				}
+				channel.setVoiceCall(true);
+				VOICECALLING = true;
+				voiceCallSelected(true);
+
 				break;
 			}
 
@@ -1761,7 +1762,7 @@ public class JVPlayActivity extends PlayActivity implements
 	public boolean pauseChannel(Channel channel) {
 		MyLog.v("capture", "pauseChannel=" + channel.getParent().getFullNo());
 		boolean result = false;
-		if (null != channel && false == channel.isPaused()) {
+		if (null != channel) {
 			if (lastClickIndex != channel.getIndex() && channel.isConnected()) {
 				Jni.sendBytes(channel.getIndex(),
 						JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
@@ -1776,6 +1777,7 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	private void changeWindow(int count) {
+		stopAllFunc();
 		currentScreen = count;
 
 		adapter.update(manager.genPageList(count));
@@ -3368,6 +3370,9 @@ public class JVPlayActivity extends PlayActivity implements
 						@Override
 						public boolean onTouch(View v, MotionEvent event) {
 							String actionName = getActionName(event.getAction());
+							if (actionName == "ACTION_DOWN" && !VOICECALLING) {
+								return false;
+							}
 							MyLog.i(getClass().getName(), "onTouch-----"
 									+ actionName);
 							mGestureDetector.onTouchEvent(event);
@@ -3920,12 +3925,16 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public boolean onSingleTapUp(MotionEvent e) {
+			MyLog.v("MyOnGestureListener", "onSingleTapUp");
 			return false;
 		}
 
 		@Override
 		public void onLongPress(MotionEvent e) {//
-			startSendVoice();
+			MyLog.v("MyOnGestureListener", "onLongPress");
+			if (VOICECALLING) {
+				startSendVoice();
+			}
 		}
 
 		@Override
@@ -3933,6 +3942,7 @@ public class JVPlayActivity extends PlayActivity implements
 				float distanceX, float distanceY) {
 			float disX = e2.getX() - e1.getX();
 			float disY = e2.getY() - e1.getY();
+			MyLog.v("MyOnGestureListener", "onScroll");
 			if (Math.abs(disX) >= 5 || Math.abs(disY) >= 5) {
 				stopSendVoice();
 			}
@@ -3944,7 +3954,7 @@ public class JVPlayActivity extends PlayActivity implements
 				float velocityY) {
 			float disX = e2.getX() - e1.getX();
 			float disY = e2.getY() - e1.getY();
-
+			MyLog.v("MyOnGestureListener", "onFling");
 			if (Math.abs(disX) >= 5 || Math.abs(disY) >= 5) {
 				stopSendVoice();
 			}
@@ -3977,6 +3987,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public boolean onSingleTapConfirmed(MotionEvent e) {
+			// Channel channel = channelList.get(lastClickIndex);
+			// voiceCall(channel);
 			MyLog.v("MyOnGestureListener", "onSingleTapConfirmed");
 			return false;
 		}

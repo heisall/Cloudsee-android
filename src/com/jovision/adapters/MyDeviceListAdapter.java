@@ -166,7 +166,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getNickName());
 			String key = Consts.SCENE_PATH
 					+ deviceList.get(position * 2).getDoMain()
-					+ Consts.IMAGE_PNG_KIND;
+					+ Consts.IMAGE_JPG_KIND;
 
 			deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
 					.getBitmap(key, "image", ""));
@@ -177,10 +177,14 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getNickName());
 			// TODO
 			deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
+			int random = (int) (Math.random() * deviceList.get(position * 2)
+					.getChannelList().size());
 
+			// Random random = new Random(deviceList.get(position * 2)
+			// .getChannelList().size());// 指定种子数
 			String key = Consts.SCENE_PATH
-					+ deviceList.get(position * 2).getFullNo()
-					+ Consts.IMAGE_PNG_KIND;
+					+ deviceList.get(position * 2).getFullNo() + "_" + random
+					+ Consts.IMAGE_JPG_KIND;
 
 			deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
 					.getBitmap(key, "image", ""));
@@ -287,7 +291,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						position * 2 + 1).getNickName());
 				String key = Consts.SCENE_PATH
 						+ deviceList.get(position * 2 + 1).getDoMain()
-						+ Consts.IMAGE_PNG_KIND;
+						+ Consts.IMAGE_JPG_KIND;
 
 				deviceHolder.devImgR.setImageBitmap(BitmapCache.getInstance()
 						.getBitmap(key, "image", ""));
@@ -296,11 +300,15 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						.getNickName());
 				deviceHolder.devnicknameR.setText(deviceList.get(
 						position * 2 + 1).getNickName());
+				// Random random = new Random(deviceList.get(position * 2)
+				// .getChannelList().size());// 指定种子数
+				int random = (int) (Math.random() * deviceList
+						.get(position * 2 + 1).getChannelList().size());
 				// TODO
 				deviceHolder.devImgR.setScaleType(ScaleType.FIT_XY);
 				String key = Consts.SCENE_PATH
-						+ deviceList.get(position * 2 + 1).getFullNo()
-						+ Consts.IMAGE_PNG_KIND;
+						+ deviceList.get(position * 2 + 1).getFullNo() + "_"
+						+ random + Consts.IMAGE_JPG_KIND;
 
 				deviceHolder.devImgR.setImageBitmap(BitmapCache.getInstance()
 						.getBitmap(key, "image", ""));

@@ -132,37 +132,37 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			break;
 		}
 
-		case Consts.CALL_GOT_SCREENSHOT: {// 抓拍回调
-			MyLog.i(TAG, "capture--what=" + what + ";arg1=" + arg1 + ";arg2="
-					+ arg2);
-			switch (arg2) {
-			case Consts.BAD_SCREENSHOT_NOOP:
-				PlayUtil.prepareAndPlay(CAPTURING);
-				if (CAPTURING) {
-					CAPTURING = false;
-					showTextToast(Consts.CAPTURE_PATH);
-				}
-				break;
-			case Consts.BAD_SCREENSHOT_INIT:
-				if (CAPTURING) {
-					showTextToast(R.string.str_capture_error);
-				}
-				break;
-			case Consts.BAD_SCREENSHOT_CONV:
-				if (CAPTURING) {
-					showTextToast(R.string.str_capture_error);
-				}
-				break;
-			case Consts.BAD_SCREENSHOT_OPEN:
-				if (CAPTURING) {
-					showTextToast(R.string.str_capture_error);
-				}
-				break;
-			default:
-				break;
-			}
-			break;
-		}
+		// case Consts.CALL_GOT_SCREENSHOT: {// 抓拍回调
+		// MyLog.i(TAG, "capture--what=" + what + ";arg1=" + arg1 + ";arg2="
+		// + arg2);
+		// switch (arg2) {
+		// case Consts.BAD_SCREENSHOT_NOOP:
+		// PlayUtil.prepareAndPlay(CAPTURING);
+		// if (CAPTURING) {
+		// CAPTURING = false;
+		// showTextToast(Consts.CAPTURE_PATH);
+		// }
+		// break;
+		// case Consts.BAD_SCREENSHOT_INIT:
+		// if (CAPTURING) {
+		// showTextToast(R.string.str_capture_error);
+		// }
+		// break;
+		// case Consts.BAD_SCREENSHOT_CONV:
+		// if (CAPTURING) {
+		// showTextToast(R.string.str_capture_error);
+		// }
+		// break;
+		// case Consts.BAD_SCREENSHOT_OPEN:
+		// if (CAPTURING) {
+		// showTextToast(R.string.str_capture_error);
+		// }
+		// break;
+		// default:
+		// break;
+		// }
+		// break;
+		// }
 
 		case Consts.CALL_PLAY_AUDIO: {// 音频数据回调
 			if (null != obj && null != playAudio) {
@@ -534,8 +534,15 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 					showTextToast(R.string.forbidden_operation_when_paused);
 				} else {
 					if (hasSDCard()) {
-						CAPTURING = PlayUtil.capture(indexOfChannel);
-						MyLog.v(TAG, "CAPTURING=" + CAPTURING);
+						boolean captureRes = PlayUtil.capture(indexOfChannel);
+						if (captureRes) {
+							PlayUtil.prepareAndPlay(true);
+							showTextToast(Consts.CAPTURE_PATH);
+							MyLog.e("capture", "success");
+						} else {
+							showTextToast(R.string.str_capture_error);
+						}
+
 					}
 				}
 				break;

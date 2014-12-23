@@ -149,9 +149,9 @@ public class TestActivity extends Activity {
 					startActivity(intent22);
 					break;
 				case 23:
-					Intent intent23 = new Intent(TestActivity.this,
-							JVRemotePlay.class);
-					startActivity(intent23);
+					// Intent intent23 = new Intent(TestActivity.this,
+					// JVRemotePlay.class);
+					// startActivity(intent23);
 					break;
 				case 24:
 					Intent intent24 = new Intent(TestActivity.this,

@@ -359,7 +359,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.CONNECT_OK: {
 				loadingState(arg1, R.string.connecting_buffer1,
 						Consts.TAG_PLAY_CONNECTING_BUFFER);
-
+				// MyLog.v(TAG,"CALL_CONNECT_CHANGE+buffering,index="+channel.getIndex());
 				if (currentPageChannelList.contains(channel)) {
 					MyLog.i(Consts.TAG_XXX,
 							"recheck, need resume(" + channel.isPaused()
@@ -475,7 +475,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			loadingState(arg1, R.string.connecting_buffer2,
 					Consts.TAG_PLAY_CONNECTING_BUFFER);
-
+			// MyLog.v(TAG,"CALL_NORMAL_DATA+buffering,index="+channel.getIndex());
 			if (currentScreen > FOUR_SCREEN && !channel.isSendCMD()) {
 				Jni.sendCmd(arg1, (byte) JVNetConst.JVN_CMD_ONLYI, new byte[0],
 						0);
@@ -598,38 +598,38 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 
-		case Consts.CALL_GOT_SCREENSHOT: {
-			MyLog.i(TAG, "CALL_GOT_SCREENSHOT:what=" + what + ";arg1=" + arg1
-					+ ";arg2=" + arg2);
-			switch (arg2) {
-			case Consts.BAD_SCREENSHOT_NOOP:
-				PlayUtil.prepareAndPlay(CAPTURING);
-				if (CAPTURING) {
-					CAPTURING = false;
-					showTextToast(Consts.CAPTURE_PATH);
-				}
-				MyLog.e("capture", "success");
-				break;
-			case Consts.BAD_SCREENSHOT_INIT:
-				if (CAPTURING) {
-					showTextToast(R.string.str_capture_error);
-				}
-				break;
-			case Consts.BAD_SCREENSHOT_CONV:
-				if (CAPTURING) {
-					showTextToast(R.string.str_capture_error);
-				}
-				break;
-			case Consts.BAD_SCREENSHOT_OPEN:
-				if (CAPTURING) {
-					showTextToast(R.string.str_capture_error);
-				}
-				break;
-			default:
-				break;
-			}
-			break;
-		}
+		// case Consts.CALL_GOT_SCREENSHOT: {
+		// MyLog.i(TAG, "CALL_GOT_SCREENSHOT:what=" + what + ";arg1=" + arg1
+		// + ";arg2=" + arg2);
+		// switch (arg2) {
+		// case Consts.BAD_SCREENSHOT_NOOP:
+		// PlayUtil.prepareAndPlay(CAPTURING);
+		// if (CAPTURING) {
+		// CAPTURING = false;
+		// showTextToast(Consts.CAPTURE_PATH);
+		// }
+		// MyLog.e("capture", "success");
+		// break;
+		// case Consts.BAD_SCREENSHOT_INIT:
+		// if (CAPTURING) {
+		// showTextToast(R.string.str_capture_error);
+		// }
+		// break;
+		// case Consts.BAD_SCREENSHOT_CONV:
+		// if (CAPTURING) {
+		// showTextToast(R.string.str_capture_error);
+		// }
+		// break;
+		// case Consts.BAD_SCREENSHOT_OPEN:
+		// if (CAPTURING) {
+		// showTextToast(R.string.str_capture_error);
+		// }
+		// break;
+		// default:
+		// break;
+		// }
+		// break;
+		// }
 
 		case Consts.CALL_PLAY_AUDIO: {
 			if (!GATHER_AUDIO_DATA) {
@@ -916,9 +916,6 @@ public class JVPlayActivity extends PlayActivity implements
 					voiceCall.setText(R.string.voice_send);
 					showTextToast(R.string.voice_tips2);
 				}
-				channel.setVoiceCall(true);
-				VOICECALLING = true;
-				voiceCallSelected(true);
 				// recorder.start(channelList.get(lastClickIndex).getAudioType(),
 				// channelList.get(lastClickIndex).getAudioByte());
 
@@ -936,6 +933,10 @@ public class JVPlayActivity extends PlayActivity implements
 							channel.getAudioBlock(), true);
 
 				}
+				channel.setVoiceCall(true);
+				VOICECALLING = true;
+				voiceCallSelected(true);
+
 				break;
 			}
 
@@ -1726,6 +1727,7 @@ public class JVPlayActivity extends PlayActivity implements
 					handler.sendMessage(handler.obtainMessage(
 							Consts.WHAT_PLAY_STATUS, channel.getIndex(),
 							Consts.ARG2_STATUS_BUFFERING));
+					// MyLog.v(TAG,"resumeChannel+buffering,index="+channel.getIndex());
 				} else {
 					// handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
 					// channel.getIndex(), ARG2_STATUS_HAS_CONNECTED));
@@ -1760,7 +1762,7 @@ public class JVPlayActivity extends PlayActivity implements
 	public boolean pauseChannel(Channel channel) {
 		MyLog.v("capture", "pauseChannel=" + channel.getParent().getFullNo());
 		boolean result = false;
-		if (null != channel && false == channel.isPaused()) {
+		if (null != channel) {
 			if (lastClickIndex != channel.getIndex() && channel.isConnected()) {
 				Jni.sendBytes(channel.getIndex(),
 						JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
@@ -1775,6 +1777,7 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	private void changeWindow(int count) {
+		stopAllFunc();
 		currentScreen = count;
 
 		adapter.update(manager.genPageList(count));
@@ -1843,6 +1846,37 @@ public class JVPlayActivity extends PlayActivity implements
 	 * @return
 	 */
 	private boolean connect(Channel channel, boolean isPlayDirectly) {
+		String fullPath = "";
+		if (hasSDCard() && null != channel) {
+			String savePath = Consts.SCENE_PATH;
+			String fileName = "";
+			MobileUtil.createDirectory(new File(savePath));
+
+			if (Consts.PLAY_NORMAL == playFlag) {
+				if (2 == channel.getParent().getIsDevice()) {
+					fileName = channel.getParent().getDoMain() + "_"
+							+ (channel.getChannel() - 1)
+							+ Consts.IMAGE_JPG_KIND;
+				} else {
+					fileName = channel.getParent().getFullNo() + "_"
+							+ (channel.getChannel() - 1)
+							+ Consts.IMAGE_JPG_KIND;
+				}
+
+			} else if (Consts.PLAY_DEMO == playFlag) {
+				fileName = "demo_" + channel.getParent().getFullNo() + "_"
+						+ (channel.getChannel() - 1) + Consts.IMAGE_JPG_KIND;
+			}
+			fullPath = savePath + fileName;
+			// File file = new File(fullPath);
+			// if (file.exists()) {// 场景图存在先删掉老的
+			// MyLog.v("capture", "delete=file" + ";fullPath=" + fullPath);
+			// ConfigUtil.deleteSceneFile(channel.getParent().getFullNo());
+			// }
+			// boolean capture = PlayUtil.capture(lastClickIndex, fullPath);
+			MyLog.i("capture", "fullPath=" + fullPath);
+		}
+
 		channel.getParent().setOldDevice(
 				MySharedPreference.getBoolean(channel.getParent().getFullNo(),
 						false));
@@ -1863,7 +1897,7 @@ public class JVPlayActivity extends PlayActivity implements
 								.getGid(), true, 1, true, channel.getParent()
 								.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP, channel
-								.getSurface(), isOmx);
+								.getSurface(), isOmx, fullPath);
 				if (connect == channel.getIndex()) {
 					channel.setPaused(null == channel.getSurface());
 				}
@@ -1909,7 +1943,7 @@ public class JVPlayActivity extends PlayActivity implements
 									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 											: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
 									// ? 6 : 5),
-									channel.getSurface(), isOmx);
+									channel.getSurface(), isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
@@ -1930,7 +1964,7 @@ public class JVPlayActivity extends PlayActivity implements
 									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 											: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
 									// ? 6 : 5),
-									null, isOmx);
+									null, isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(true);
 					}
@@ -2022,6 +2056,7 @@ public class JVPlayActivity extends PlayActivity implements
 				handler.sendMessage(handler.obtainMessage(
 						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
 						Consts.ARG2_STATUS_CONNECTED));
+				// MyLog.v(TAG,"connect+buffering,index="+channel.getIndex());
 			} else {
 				if (false == resumeChannel(channel)) {
 					showTextToast("resume failed:isConnecting="
@@ -2462,9 +2497,16 @@ public class JVPlayActivity extends PlayActivity implements
 							JVNetConst.RC_EXTEND, null);
 				} else {
 					if (hasSDCard() && allowThisFuc(false)) {
-						CAPTURING = PlayUtil.capture(lastClickIndex);
-						MyLog.i(TAG, "CAPTURING=" + CAPTURING);
+						boolean captureRes = PlayUtil.capture(lastClickIndex);
+						if (captureRes) {
+							PlayUtil.prepareAndPlay(true);
+							showTextToast(Consts.CAPTURE_PATH);
+							MyLog.e("capture", "success");
+						} else {
+							showTextToast(R.string.str_capture_error);
+						}
 					}
+
 				}
 				break;
 			case R.id.bottom_but5:
@@ -2638,19 +2680,19 @@ public class JVPlayActivity extends PlayActivity implements
 			int sendRes = 0;// 0成功 1失败
 
 			backFunc = Boolean.valueOf(params[0]);
-			if (null != channelList && 0 != channelList.size()) {
-				try {
-					int size = channelList.size();
-					for (int i = 0; i < size; i++) {
-						if (channelList.get(i).isConnected()
-								&& !channelList.get(i).isPaused()) {
-							saveLastScreen(channelList.get(i));
-						}
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+			// if (null != channelList && 0 != channelList.size()) {
+			// try {
+			// int size = channelList.size();
+			// for (int i = 0; i < size; i++) {
+			// if (channelList.get(i).isConnected()
+			// && !channelList.get(i).isPaused()) {
+			// saveLastScreen(channelList.get(i));
+			// }
+			// }
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// }
+			// }
 
 			try {
 				try {
@@ -3328,6 +3370,9 @@ public class JVPlayActivity extends PlayActivity implements
 						@Override
 						public boolean onTouch(View v, MotionEvent event) {
 							String actionName = getActionName(event.getAction());
+							if (actionName == "ACTION_DOWN" && !VOICECALLING) {
+								return false;
+							}
 							MyLog.i(getClass().getName(), "onTouch-----"
 									+ actionName);
 							mGestureDetector.onTouchEvent(event);
@@ -3599,44 +3644,44 @@ public class JVPlayActivity extends PlayActivity implements
 		showFunc(channelList.get(lastClickIndex), currentScreen, lastClickIndex);
 	}
 
-	/**
-	 * 保存最后一帧图像
-	 * 
-	 * @param channel
-	 */
-	public void saveLastScreen(Channel channel) {
-		if (Consts.PLAY_AP == playFlag) {
-			return;
-		}
-		if (hasSDCard() && null != channel && channel.isConnected()) {
-			String savePath = Consts.SCENE_PATH;
-			String fileName = "";
-			String fullPath = "";
-			MobileUtil.createDirectory(new File(savePath));
-
-			if (Consts.PLAY_NORMAL == playFlag) {
-				if (2 == channel.getParent().getIsDevice()) {
-					fileName = channel.getParent().getDoMain()
-							+ Consts.IMAGE_PNG_KIND;
-				} else {
-					fileName = channel.getParent().getFullNo()
-							+ Consts.IMAGE_PNG_KIND;
-				}
-
-			} else if (Consts.PLAY_DEMO == playFlag) {
-				fileName = "demo_" + channel.getParent().getFullNo()
-						+ Consts.IMAGE_PNG_KIND;
-			}
-			fullPath = savePath + fileName;
-			File file = new File(fullPath);
-			if (file.exists()) {// 场景图存在先删掉老的
-				MyLog.v("capture", "delete=file" + ";fullPath=" + fullPath);
-				ConfigUtil.deleteSceneFile(channel.getParent().getFullNo());
-			}
-			boolean capture = PlayUtil.capture(lastClickIndex, fullPath);
-			MyLog.i("capture", "capture=" + capture + ";fullPath=" + fullPath);
-		}
-	}
+	// /**
+	// * 保存最后一帧图像
+	// *
+	// * @param channel
+	// */
+	// public void saveLastScreen(Channel channel) {
+	// if (Consts.PLAY_AP == playFlag) {
+	// return;
+	// }
+	// if (hasSDCard() && null != channel && channel.isConnected()) {
+	// String savePath = Consts.SCENE_PATH;
+	// String fileName = "";
+	// String fullPath = "";
+	// MobileUtil.createDirectory(new File(savePath));
+	//
+	// if (Consts.PLAY_NORMAL == playFlag) {
+	// if (2 == channel.getParent().getIsDevice()) {
+	// fileName = channel.getParent().getDoMain()
+	// + Consts.IMAGE_PNG_KIND;
+	// } else {
+	// fileName = channel.getParent().getFullNo()
+	// + Consts.IMAGE_PNG_KIND;
+	// }
+	//
+	// } else if (Consts.PLAY_DEMO == playFlag) {
+	// fileName = "demo_" + channel.getParent().getFullNo()
+	// + Consts.IMAGE_PNG_KIND;
+	// }
+	// fullPath = savePath + fileName;
+	// File file = new File(fullPath);
+	// if (file.exists()) {// 场景图存在先删掉老的
+	// MyLog.v("capture", "delete=file" + ";fullPath=" + fullPath);
+	// ConfigUtil.deleteSceneFile(channel.getParent().getFullNo());
+	// }
+	// boolean capture = PlayUtil.capture(lastClickIndex, fullPath);
+	// MyLog.i("capture", "capture=" + capture + ";fullPath=" + fullPath);
+	// }
+	// }
 
 	private class Connecter extends Thread {
 
@@ -3729,10 +3774,7 @@ public class JVPlayActivity extends PlayActivity implements
 								Consts.ARG2_STATUS_CONNECTING));
 					} else if (false == channel.isPaused()) {
 						MyLog.i(Consts.TAG_XXX, "connect not pause: " + channel);
-						handler.sendMessage(handler.obtainMessage(
-								Consts.WHAT_PLAY_STATUS, channel.getIndex(),
-								Consts.ARG2_STATUS_CONNECTED));
-
+						// MyLog.v(TAG,"connecter+buffering,index="+channel.getIndex());
 						channel.setPaused(true);
 						boolean result = resumeChannel(channel);
 						if (false == result) {
@@ -3740,6 +3782,10 @@ public class JVPlayActivity extends PlayActivity implements
 							MyLog.e(Consts.TAG_XXX, "force resume failed: "
 									+ channel);
 						} else {
+							handler.sendMessage(handler.obtainMessage(
+									Consts.WHAT_PLAY_STATUS,
+									channel.getIndex(),
+									Consts.ARG2_STATUS_BUFFERING));
 							sleep(RESUME_VIDEO_MIN_PEROID);
 							MyLog.i(Consts.TAG_XXX, "force resume: " + channel);
 						}
@@ -3879,12 +3925,16 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public boolean onSingleTapUp(MotionEvent e) {
+			MyLog.v("MyOnGestureListener", "onSingleTapUp");
 			return false;
 		}
 
 		@Override
 		public void onLongPress(MotionEvent e) {//
-			startSendVoice();
+			MyLog.v("MyOnGestureListener", "onLongPress");
+			if (VOICECALLING) {
+				startSendVoice();
+			}
 		}
 
 		@Override
@@ -3892,6 +3942,7 @@ public class JVPlayActivity extends PlayActivity implements
 				float distanceX, float distanceY) {
 			float disX = e2.getX() - e1.getX();
 			float disY = e2.getY() - e1.getY();
+			MyLog.v("MyOnGestureListener", "onScroll");
 			if (Math.abs(disX) >= 5 || Math.abs(disY) >= 5) {
 				stopSendVoice();
 			}
@@ -3903,7 +3954,7 @@ public class JVPlayActivity extends PlayActivity implements
 				float velocityY) {
 			float disX = e2.getX() - e1.getX();
 			float disY = e2.getY() - e1.getY();
-
+			MyLog.v("MyOnGestureListener", "onFling");
 			if (Math.abs(disX) >= 5 || Math.abs(disY) >= 5) {
 				stopSendVoice();
 			}
@@ -3913,25 +3964,32 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public void onShowPress(MotionEvent e) {
+			MyLog.v("MyOnGestureListener", "onShowPress");
 		}
 
 		@Override
 		public boolean onDown(MotionEvent e) {
+			MyLog.v("MyOnGestureListener", "onDown");
 			return false;
 		}
 
 		@Override
 		public boolean onDoubleTap(MotionEvent e) {
+			MyLog.v("MyOnGestureListener", "onDoubleTap");
 			return false;
 		}
 
 		@Override
 		public boolean onDoubleTapEvent(MotionEvent e) {
+			MyLog.v("MyOnGestureListener", "onDoubleTapEvent");
 			return false;
 		}
 
 		@Override
 		public boolean onSingleTapConfirmed(MotionEvent e) {
+			// Channel channel = channelList.get(lastClickIndex);
+			// voiceCall(channel);
+			MyLog.v("MyOnGestureListener", "onSingleTapConfirmed");
 			return false;
 		}
 

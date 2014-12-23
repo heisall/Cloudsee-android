@@ -19,10 +19,6 @@ public class Url {
 	public static String CHECK_UPDATE_URL = "http://wmap.yoosee.cc/MobileWeb.aspx";// 检查软件更新地址
 	public static String APK_DOWNLOAD_URL = "http://wmap.yoosee.cc/";// 下载更新软件地址
 
-	// 摇一摇了解更多地址
-	public static String LEARN_MORE = "http://www.jovision.com/Products/Camera.aspx?classId=166";
-	public static String LEARN_MORE_EN = "http://en.jovision.com/Products/OtherProducts.aspx?classId=22";
-
 	// public static String SHORTSERVERIP = "58.56.19.187";
 	// public static String LONGSERVERIP = "58.56.19.187";
 	public static String SHORTSERVERIP = ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "appchannel.afdvr.com"

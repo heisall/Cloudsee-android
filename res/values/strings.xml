@@ -649,7 +649,7 @@
     <string name="str_addcloudseeid">云视通号添加</string>
     <string name="str_scanqrcod">二维码扫描</string>
     <string name="str_addwifidev">无线设备</string>
-    <string name="str_scanlandevice">局域网设备</string>
+    <string name="str_scanlandevice">Device in LAN</string>
     <string name="str_soundwave">声波配置</string>
     <string name="str_ipdns">IP/域名设备</string>
     <string name="str_demo">视频广场</string>

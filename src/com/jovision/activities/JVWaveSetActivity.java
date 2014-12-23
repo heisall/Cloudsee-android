@@ -552,28 +552,16 @@ public class JVWaveSetActivity extends BaseActivity {
 					if (localFlag) {// 本地添加
 						addRes = 0;
 					} else {
-
 						addDevice = DeviceUtil.addDevice2(addDevice,
 								statusHashMap.get(Consts.KEY_USERNAME));
 						if (null != addDevice) {
 							addRes = 0;
 						}
-						// else {
-						// addDevice =
-						// DeviceUtil.getUserDeviceDetail(addDevice,statusHashMap
-						// .get(Consts.KEY_USERNAME));
-						// if (null != addDevice) {
-						// addRes = 0;
-						// }else{
-						// addRes = -1;
-						// }
-						// }
-
 					}
 				}
 
 				if (0 == addRes) {
-					broadList.remove(index);
+					// broadList.remove(index);
 					handler.sendMessage(handler
 							.obtainMessage(Consts.WHAT_BROAD_DEVICE));
 					addDevice.setOnlineState(1);

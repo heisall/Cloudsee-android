@@ -71,7 +71,7 @@ public class JVWelcomeActivity extends BaseActivity {
 				|| "".equalsIgnoreCase(statusHashMap
 						.get(Consts.KEY_LAST_LOGIN_TIME))) {
 			statusHashMap.put(Consts.KEY_LAST_LOGIN_TIME,
-					ConfigUtil.getCurrentTime());
+					ConfigUtil.getCurrentDate());
 		}
 
 		initThread.start();

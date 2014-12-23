@@ -488,6 +488,7 @@
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">Total</string>
     <string name="str_aft">devices.</string>
+    <string name="delete_all_device">确定要删除所有设备吗？</string>
     <string name="ip_add_notallow">Do not support devices added  by DNS/IP address.</string>
     <string name="protect_open_succ">Enable Security Protection Successfully.</string>
     <string name="protect_open_fail">Failed to enable Security Protection.</string>

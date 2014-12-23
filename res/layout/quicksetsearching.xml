@@ -35,7 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dip"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="30dip"
         android:background="@drawable/quick_set_back"
         android:text="@string/exit"
         android:textColor="@color/white"

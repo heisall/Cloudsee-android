@@ -69,10 +69,10 @@ public class Consts {
 	public static final int CALL_LIB_UNLOAD = 0xB0;
 	public static final int CALL_GEN_VOICE = 0xB1;
 
-	public static final int RTMP_CONN_SCCUESS = 0x01;
-	public static final int RTMP_CONN_FAILED = 0x02;
-	public static final int RTMP_DISCONNECTED = 0x03;
-	public static final int RTMP_EDISCONNECT = 0x04;
+	public static final int RTMP_CONN_SCCUESS = (0x01 | 0xA0);
+	public static final int RTMP_CONN_FAILED = (0x02 | 0xA0);
+	public static final int RTMP_DISCONNECTED = (0x03 | 0xA0);
+	public static final int RTMP_EDISCONNECT = (0x04 | 0xA0);
 
 	public static final int MAX_DEVICE_CHANNEL_COUNT = 64;
 	public static final int DEFAULT_ADD_CHANNEL_COUNT = 4;

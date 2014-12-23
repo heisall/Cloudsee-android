@@ -39,6 +39,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.accounts.Account;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -72,10 +73,11 @@ import com.jovision.utils.mails.MyAuthenticator;
 
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
-	public final static String ACCOUNT_VERSION = "";
+	public final static String ACCOUNT_VERSION = "V3.2.7";
 	public final static String PLAY_VERSION = "0.9b[6c5c83a][2014-12-09]";
 	public final static String NETWORK_VERSION = "v2.0.76.3.20[private:v2.0.75.13 201401208.2]";
 
+	public static String GETACCTOUT_VERSION = "";
 	public static String GETPLAY_VERSION = "";
 	public static String GETNETWORK_VERSION = "";
 

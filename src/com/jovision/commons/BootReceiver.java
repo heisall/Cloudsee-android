@@ -1,5 +1,11 @@
 package com.jovision.commons;
 
+import java.util.List;
+
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.Service;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,26 +17,24 @@ public class BootReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// 接收广播：系统启动完成后运行程序
-		if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-			String packageName = "com.jovetech.CloudSee.temp";
-			System.out.println("---------------" + packageName);
-			Toast.makeText(context, "开机运行：" + packageName, Toast.LENGTH_LONG)
-					.show();
-			if (packageName.equalsIgnoreCase("com.jovetech.CloudSee.temp")) {
-				Intent newIntent = new Intent();
-				newIntent.setClassName(packageName, packageName
-						+ ".JVWelcomeActivity");
-				newIntent.setAction("android.intent.action.MAIN");
-				newIntent.addCategory("android.intent.category.LAUNCHER");
-				newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				context.startActivity(newIntent);
-			}
-
-		}
-		// 接收广播：设备上新安装了一个应用程序包后自动启动新安装应用程序。
-		if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED")) {
-			String packageName = intent.getDataString().substring(8);
-			Log.i("TAG", packageName);
+//		if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+//			String packageName = "com.jovetech.CloudSee.temp";
+//			System.out.println("---------------" + packageName);
+//			Toast.makeText(context, "开机运行：" + packageName, Toast.LENGTH_LONG)
+//					.show();
+//			if (packageName.equalsIgnoreCase("com.jovetech.CloudSee.temp")) {
+//				Intent newIntent = new Intent();
+//				newIntent.setClassName(packageName, packageName
+//						+ ".JVWelcomeActivity");
+//				newIntent.setAction("android.intent.action.MAIN");
+//				newIntent.addCategory("android.intent.category.LAUNCHER");
+//				newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//				context.startActivity(newIntent);
+//			}
+//
+//		}
+//		// 接收广播：设备上新安装了一个应用程序包后自动启动新安装应用程序。
+//		if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED")) {
 //			Toast.makeText(context, "新装一个软件：" + packageName, Toast.LENGTH_LONG)
 //					.show();
 //		    ComponentName componetName = new ComponentName(  
@@ -44,26 +48,29 @@ public class BootReceiver extends BroadcastReceiver {
 //	                intents.setComponent(componetName);  
 //	                context.startActivity(intent);  
 //	            } catch (Exception e) {  
-////	              Toast.makeText(getApplicationContext(), "可以在这里提示用户没有找到应用程序，或者是做其他的操作！", 0).show();  
-//	                  
-//	            }  
+//////	              Toast.makeText(getApplicationContext(), "可以在这里提示用户没有找到应用程序，或者是做其他的操作！", 0).show();  
+////	                  
+////	            }  
+////			if (packageName.equalsIgnoreCase("com.jovetech.CloudSee.temp")) {
+////			}
+//
+//		}
+//		// 覆盖安装
+//        if (intent.getAction().equals("android.intent.action.PACKAGE_REPLACED")) {
+//        	String packageName = intent.getDataString().substring(8);
 //			if (packageName.equalsIgnoreCase("com.jovetech.CloudSee.temp")) {
-//			}
-
-		}
-		// 接收广播：设备上删除了一个应用程序包。
-		if (intent.getAction().equals("android.intent.action.PACKAGE_REMOVED")) {
-			Toast.makeText(context, "卸掉一个软件", Toast.LENGTH_LONG).show();
 //			Intent newIntent = new Intent();
 //			newIntent.setClassName("com.jovetech.CloudSee.temp", "com.jovision.activities.JVWelcomeActivity");
 //			newIntent.setAction("android.intent.action.MAIN");
 //			newIntent.addCategory("android.intent.category.LAUNCHER");
 //			newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //			context.startActivity(newIntent);
-			 Intent newintent = context.getPackageManager().getLaunchIntentForPackage(      
-					                "com.jovetech.CloudSee.temp");      
-			 context.startActivity(newintent); 
-			System.out.println("********************************");
-		}
+//			}
+//        }
+//		// 接收广播：设备上删除了一个应用程序包。
+//		if (intent.getAction().equals("android.intent.action.PACKAGE_REMOVED")) {
+//			Toast.makeText(context, "卸掉一个软件", Toast.LENGTH_LONG).show();
+//			System.out.println("********************************");
+//		}
 	}
 }

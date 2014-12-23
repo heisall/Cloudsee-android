@@ -435,6 +435,9 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 5:// 版本号
+							String itemzero = mActivity.getResources()
+							.getString(R.string.str_accounts)
+							+":"+ConfigUtil.ACCOUNT_VERSION;
 							String itemone = mActivity.getResources()
 									.getString(R.string.str_network_version)
 									+ ":" + ConfigUtil.NETWORK_VERSION;
@@ -448,13 +451,16 @@ public class JVMoreFragment extends BaseFragment {
 							String itemfour = mActivity.getResources()
 									.getString(R.string.str_appplay_version)
 									+ ":" + ConfigUtil.GETPLAY_VERSION;
+							String itemfive = mActivity.getResources()
+									.getString(R.string.str_appaccount)
+									+ ":" + JVACCOUNT.GetVersion(0);
 							new AlertDialog.Builder(new ContextThemeWrapper(
 									mActivity, R.style.AlertDialogCustom))
 									.setTitle(
 											mActivity.getResources().getString(
 													R.string.str_version))
 									.setItems(
-											new String[] { itemone, itemtwo,
+											new String[] {itemzero,itemfive,itemone, itemtwo,
 													itemthree, itemfour }, null)
 									.setNegativeButton(
 											mActivity.getResources().getString(

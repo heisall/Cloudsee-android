@@ -351,6 +351,9 @@ public class JVPlayActivity extends PlayActivity implements
 				return;
 			}
 
+			MyLog.v("resetFunc111",
+					"arg1=" + arg1 + ";channel=" + channel.toString());
+
 			switch (arg2) {
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
@@ -581,7 +584,9 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (recoding) {
 				String path = PlayUtil.createRecordFile();
-				PlayUtil.videoRecord(lastClickIndex, path);
+				if (!PlayUtil.checkRecord(lastClickIndex)) {
+					startRecord(lastClickIndex, path);
+				}
 			}
 
 			break;
@@ -1492,6 +1497,8 @@ public class JVPlayActivity extends PlayActivity implements
 			@Override
 			public void onPageSelected(int arg0) {
 				try {
+					// saveLastScreen(channelList.get(lastItemIndex));
+
 					varvoice.setBackgroundDrawable(getResources().getDrawable(
 							R.drawable.video_monitor_ico));
 					stopAllFunc();
@@ -1652,7 +1659,7 @@ public class JVPlayActivity extends PlayActivity implements
 		bottombut5.setOnClickListener(myOnClickListener);
 		bottombut5.setOnTouchListener(callOnTouchListener);
 		bottombut5.setOnLongClickListener(callOnLongClickListener);
-
+		verPlayBarLayout.setVisibility(View.VISIBLE);
 	}
 
 	private class MyPagerAdapter extends PagerAdapter {
@@ -2473,24 +2480,10 @@ public class JVPlayActivity extends PlayActivity implements
 				if (hasSDCard() && allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).getParent().is05()) {
 						String path = PlayUtil.createRecordFile();
-						if (PlayUtil.videoRecord(lastClickIndex, path)) {// 打开
-							recordingPath = path;
-							startRecordTime = System.currentTimeMillis();
-							tapeSelected(true);
-							showTextToast(R.string.str_start_record);
-
-						} else {// 关闭
-							long recordTime = System.currentTimeMillis()
-									- startRecordTime;
-							MyLog.e(TAG, "recordTime=" + recordTime);
-							if (recordTime <= 2000) {
-								File recordFile = new File(recordingPath);
-								recordFile.delete();
-								showTextToast(R.string.record_failed);
-							} else {
-								showTextToast(Consts.VIDEO_PATH);
-							}
-							tapeSelected(false);
+						if (PlayUtil.checkRecord(lastClickIndex)) {
+							stopRecord();
+						} else {
+							startRecord(lastClickIndex, path);
 						}
 					} else {
 						showTextToast(R.string.not_support_this_func);
@@ -2779,12 +2772,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 正在录像停止录像
 		if (PlayUtil.checkRecord(lastClickIndex)) {
-			if (!PlayUtil.videoRecord(lastClickIndex, "")) {// 打开
-				showTextToast(Consts.VIDEO_PATH);
-				tapeSelected(false);
-			}
+			stopRecord();
 		}
-
 		// 停止对讲
 		if (channelList.get(lastClickIndex).isVoiceCall()) {
 			channelList.get(lastClickIndex).setVoiceCall(false);
@@ -3619,7 +3608,7 @@ public class JVPlayActivity extends PlayActivity implements
 		if (Consts.PLAY_AP == playFlag) {
 			return;
 		}
-		if (hasSDCard()) {
+		if (hasSDCard() && null != channel && channel.isConnected()) {
 			String savePath = Consts.SCENE_PATH;
 			String fileName = "";
 			String fullPath = "";

@@ -348,7 +348,8 @@ public abstract class ShakeActivity extends BaseActivity implements
 
 			switch (msg.what) {
 			case Consts.WHAT_SHAKE_IPC_WIFI_SUCCESS: {
-				showTextToast("i=" + i + "-----" + scanIpcWifiList.toString());
+				// showTextToast("i=" + i + "-----" +
+				// scanIpcWifiList.toString());
 				scanMobileWifiList = activity.wifiAdmin.startScanWifi();
 				activity.prepareAndPlay(2);
 				// activity.openSearchDialog();
@@ -363,7 +364,8 @@ public abstract class ShakeActivity extends BaseActivity implements
 				break;
 			}
 			case Consts.WHAT_SHAKE_IPC_WIFI_FAILED: {
-				showTextToast("i=" + i + "-----" + scanIpcWifiList.toString());
+				// showTextToast("i=" + i + "-----" +
+				// scanIpcWifiList.toString());
 				scanMobileWifiList = activity.wifiAdmin.startScanWifi();
 				activity.showTextToast(R.string.str_quick_setting_alert_nowifi);
 

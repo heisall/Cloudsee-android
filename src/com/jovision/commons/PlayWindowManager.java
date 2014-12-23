@@ -1055,7 +1055,7 @@ public class PlayWindowManager implements View.OnClickListener,
 					@Override
 					public boolean onTouch(View v, MotionEvent event) {
 						dispatcher.motion(event);
-						return true;
+						return false;
 					}
 				});
 

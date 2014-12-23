@@ -373,7 +373,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 			ConfigUtil.stopBroadCast();
 			statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 			statusHashMap.put(Consts.KEY_LAST_LOGIN_TIME,
-					ConfigUtil.getCurrentTime());
+					ConfigUtil.getCurrentDate());
 			MyActivityManager.getActivityManager()
 					.popAllActivityExceptOne(null);
 			android.os.Process.killProcess(android.os.Process.myPid());

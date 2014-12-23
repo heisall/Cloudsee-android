@@ -73,7 +73,7 @@ import com.jovision.utils.mails.MyAuthenticator;
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
 	public final static String ACCOUNT_VERSION = "";
-	public final static String PLAY_VERSION = "0.9b[6c5c83a][2014-12-09]";
+	public final static String PLAY_VERSION = "0.9[8985f6a][2014-12-22]";
 	public final static String NETWORK_VERSION = "v2.0.76.3.20[private:v2.0.75.13 201401208.2]";
 
 	public static String GETPLAY_VERSION = "";
@@ -868,7 +868,15 @@ public class ConfigUtil {
 
 	// 获取当前系统时间
 	public static String getCurrentTime() {
-		SimpleDateFormat formatter = new SimpleDateFormat("MM月 dd 日  ahh:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("MM月 dd日  ahh:mm");
+		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+		String time = formatter.format(curDate);
+		return time;
+	}
+
+	// 获取当前系统时间
+	public static String getCurrentDate() {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
 		String time = formatter.format(curDate);
 		return time;

@@ -423,7 +423,6 @@ public class ConfigUtil {
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -510,6 +509,7 @@ public class ConfigUtil {
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
 			result = Jni.init(context, 9200, Consts.LOG_PATH);
 			Jni.enableLog(true);
+			Jni.setThumb(320, 90);
 			Jni.setStat(true);
 			if (MySharedPreference.getBoolean("LITTLEHELP", true)) {
 				Jni.enableLinkHelper(true, 3, 10);// 开小助手

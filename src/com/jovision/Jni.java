@@ -167,12 +167,27 @@ public class Jni {
 	 * @param connectType
 	 * @param surface
 	 * @param isTryOmx
+	 * @param thumbName
 	 * @return 连接结果，成功时返回窗口索引，失败时返回原因值
 	 */
 	public static native int connect(int window, int channel, String ip,
 			int port, String username, String password, int cloudSeeId,
 			String groupId, boolean isLocalDetect, int turnType,
-			boolean isPhone, int connectType, Object surface, boolean isTryOmx);
+			boolean isPhone, int connectType, Object surface, boolean isTryOmx,
+			String thumbName);
+
+	/**
+	 * 连接流媒体
+	 * 
+	 * @param window
+	 * @param url
+	 * @param surface
+	 * @param isTryOmx
+	 * @param thumbName
+	 * @return
+	 */
+	public static native int connectRTMP(int window, String url,
+			Object surface, boolean isTryOmx, String thumbName);
 
 	/**
 	 * 设置当前解码方式
@@ -288,6 +303,14 @@ public class Jni {
 	public static native boolean screenshot(int window, String name, int quality);
 
 	/**
+	 * 关闭流媒体
+	 * 
+	 * @param window
+	 * @return
+	 */
+	public static native boolean shutdownRTMP(int window);
+
+	/**
 	 * 断开，参考 {@link JVSUDT#JVC_DisConnect(int)}
 	 * 
 	 * @param window
@@ -304,7 +327,7 @@ public class Jni {
 	public static native boolean clearBuffer(int window);
 
 	/**
-	 * 查询某个设备是否被搜索出来//2014-12-1 不能传空，传空不走回调
+	 * 查询某个设备是否被搜索出来
 	 * 
 	 * @param groudId
 	 *            组标识
@@ -779,6 +802,16 @@ public class Jni {
 	 * @return
 	 */
 	public static native boolean deinitAudioEncoder();
+
+	/**
+	 * 设置缩略图信息
+	 * 
+	 * @param width
+	 *            缩略图宽
+	 * @param quality
+	 *            图像质量
+	 */
+	public static native void setThumb(int width, int quality);
 
 	/**
 	 * 生成声波配置数据

@@ -657,10 +657,10 @@
     <string name="census_demo">视频广场</string>
     <string name="census_register">注册</string>
     <string name="census_media">媒体</string>
-     <string name="census_accounts">本地账号库</string>
+    <string name="census_accounts">本地账号库</string>
     <string name="census_network_version">本地网络库</string>
     <string name="census_play_version">本地播放库</string>
-     <string name="census_appaccount">程序账号库</string>
+    <string name="census_appaccount">程序账号库</string>
     <string name="census_appnetwork_version">程序网络库</string>
     <string name="census_appplay_version">程序播放库</string>
     <string name="census_version">版本号</string>

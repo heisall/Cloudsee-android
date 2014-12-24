@@ -1847,7 +1847,7 @@ public class JVPlayActivity extends PlayActivity implements
 	 */
 	private boolean connect(Channel channel, boolean isPlayDirectly) {
 		String fullPath = "";
-		if (hasSDCard() && null != channel) {
+		if (Consts.PLAY_AP != playFlag && hasSDCard() && null != channel) {
 			String savePath = "";
 			if (Consts.PLAY_NORMAL == playFlag) {
 				if (2 == channel.getParent().getIsDevice()) {
@@ -1863,9 +1863,10 @@ public class JVPlayActivity extends PlayActivity implements
 						+ channel.getParent().getFullNo() + File.separator;
 			}
 			String fileName = channel.getChannel() + Consts.IMAGE_JPG_KIND;
+			MyLog.v("capture", "savePath=" + savePath);
 			MobileUtil.createDirectory(new File(savePath));
 			fullPath = savePath + fileName;
-			MyLog.i("capture", "fullPath=" + fullPath);
+			MyLog.v("capture", "fullPath=" + fullPath);
 		}
 
 		channel.getParent().setOldDevice(
@@ -2478,6 +2479,31 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
+				// String userName = "admin";
+				// String userPwd = "456";
+				// String des = "hehe";
+				//
+				// byte[] paramByte = new byte[20 + 20 + 32];
+				//
+				// byte[] userNameByte = userName.getBytes();
+				// byte[] userPwdByte = userPwd.getBytes();
+				// byte[] desByte = des.getBytes();
+				// MyLog.e("byte-1", "userNameByte.length=" +
+				// userNameByte.length);
+				// MyLog.e("byte-2", "userPwdByte.length=" +
+				// userPwdByte.length);
+				// MyLog.e("byte-3", "desByte.length=" + desByte.length);
+				// System.arraycopy(userNameByte, 0, paramByte, 0,
+				// userNameByte.length);
+				// System.arraycopy(userPwdByte, 0, paramByte, 19,
+				// userPwdByte.length);
+				// System.arraycopy(desByte, 0, paramByte, 39, desByte.length);
+				// MyLog.e("byte-4", "paramByte.length=" + paramByte.length);
+				// MyLog.e("byte-5", "paramByte=" + paramByte.toString());
+				//
+				// Jni.sendBytes(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+				// paramByte, paramByte.length);
+
 				if (View.VISIBLE == streamListView.getVisibility()) {
 					streamListView.setVisibility(View.GONE);
 				}

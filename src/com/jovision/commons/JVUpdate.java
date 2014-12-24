@@ -75,7 +75,7 @@ public class JVUpdate {
 			}
 		};
 	};
-		
+
 	public JVUpdate(Context context) {
 		this.mContext = context;
 	}
@@ -132,19 +132,19 @@ public class JVUpdate {
 		// builder.setView(layout);
 		builder.setPositiveButton(mContext.getString(R.string.str_upatenow),
 				new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-				showDownloadDialog();
-			}
-		});
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						showDownloadDialog();
+					}
+				});
 		builder.setNegativeButton(mContext.getString(R.string.str_updatelater),
 				new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}
-		});
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
 		noticeDialog = builder.create();
 		noticeDialog.show();
 	}
@@ -160,12 +160,12 @@ public class JVUpdate {
 		builder.setView(v);
 		builder.setNegativeButton(mContext.getString(R.string.cancel),
 				new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-				interceptFlag = true;
-			}
-		});
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						interceptFlag = true;
+					}
+				});
 		downloadDialog = builder.create();
 		downloadDialog.show();
 
@@ -233,16 +233,16 @@ public class JVUpdate {
 	 */
 
 	private void downloadApk() {
-		//		try {
-		//			Uri uri = Uri
-		//					.parse(Url.APK_DOWNLOAD_URL
-		//							+ mContext.getResources().getString(
-		//									R.string.str_save_apk_name));
-		//			Intent it = new Intent(Intent.ACTION_VIEW, uri);
-		//			mContext.startActivity(it);
-		//		} catch (Exception e) {
-		//			e.printStackTrace();
-		//		}
+		// try {
+		// Uri uri = Uri
+		// .parse(Url.APK_DOWNLOAD_URL
+		// + mContext.getResources().getString(
+		// R.string.str_save_apk_name));
+		// Intent it = new Intent(Intent.ACTION_VIEW, uri);
+		// mContext.startActivity(it);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 		downLoadThread = new Thread(mdownApkRunnable);
 		downLoadThread.start();
 	}

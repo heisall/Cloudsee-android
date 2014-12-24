@@ -26,8 +26,8 @@ public class JVWelcomeActivity extends BaseActivity {
 	private final String TAG = "JVWelcomeActivity";
 	private Handler initHandler;
 
-	private RelativeLayout cloudseeLayout;
-	private RelativeLayout neturalLayout;
+//	private RelativeLayout cloudseeLayout;
+//	private RelativeLayout neturalLayout;
 
 	// private static boolean HAS_LOADED = false;
 
@@ -112,16 +112,16 @@ public class JVWelcomeActivity extends BaseActivity {
 			StatService.trackCustomEvent(JVWelcomeActivity.this, "onCreat",
 					"welcome");
 		}
-		cloudseeLayout = (RelativeLayout) findViewById(R.id.cloudseewelcome);
-		neturalLayout = (RelativeLayout) findViewById(R.id.neturalwelcome);
-
-		if (statusHashMap.get(Consts.NEUTRAL_VERSION).equalsIgnoreCase("false")) {// CloudSEE
-			cloudseeLayout.setVisibility(View.VISIBLE);
-			neturalLayout.setVisibility(View.GONE);
-		} else {
-			cloudseeLayout.setVisibility(View.GONE);
-			neturalLayout.setVisibility(View.VISIBLE);
-		}
+//		cloudseeLayout = (RelativeLayout) findViewById(R.id.cloudseewelcome);
+//		neturalLayout = (RelativeLayout) findViewById(R.id.neturalwelcome);
+//
+//		if (statusHashMap.get(Consts.NEUTRAL_VERSION).equalsIgnoreCase("false")) {// CloudSEE
+//			cloudseeLayout.setVisibility(View.VISIBLE);
+//			neturalLayout.setVisibility(View.GONE);
+//		} else {
+//			cloudseeLayout.setVisibility(View.GONE);
+//			neturalLayout.setVisibility(View.VISIBLE);
+//		}
 
 		if (!ConfigUtil.isConnected(JVWelcomeActivity.this)) {
 			alertNetDialog();

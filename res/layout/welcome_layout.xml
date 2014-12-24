@@ -8,7 +8,7 @@
         android:id="@+id/cloudseewelcome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/welcome_blue"
+        android:background="@drawable/welcome_test"
         android:orientation="vertical" >
 
         <TextView
@@ -20,7 +20,9 @@
             android:layout_marginBottom="20dp"
             android:text="@string/copyright"
             android:textColor="@color/white"
-            android:textSize="8sp" />
+            android:textSize="8sp"
+            android:visibility="gone"
+             />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,7 +31,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" >
+            android:layout_marginRight="30dp" 
+            android:visibility="gone"
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -79,16 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="100dp"
-            android:background="@drawable/welcome_img_icon" />
+            android:background="@drawable/welcome_img_icon" 
+            android:visibility="gone"
+            />
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/neturalwelcome"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/welcome_netural"
-        android:orientation="vertical"
-        android:visibility="gone" >
-    </RelativeLayout>
-
 </RelativeLayout>

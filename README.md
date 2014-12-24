@@ -121,7 +121,12 @@
 ConnectChange
 
     id, window, type, json
-    json: {"msg":"", "data":0}
+    json: {"msg":""}
+
+ConnectChangeRTMP
+
+    id, window, type, json
+    json: {"msg":""}
 
 PlayData
 

@@ -353,6 +353,25 @@ public class Jni {
 			byte[] data, int size);
 
 	/**
+	 * 发送超级字节数组哟
+	 * 
+	 * @param window
+	 * @param uchType
+	 * @param isExtend
+	 * @param count
+	 * @param type
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param data
+	 * @param size
+	 * @return
+	 */
+	public static native boolean sendSuperBytes(int window, byte uchType,
+			boolean isExtend, int count, int type, int p1, int p2, int p3,
+			byte[] data, int size);
+
+	/**
 	 * 发送音频数据 {@link JVSUDT#JVC_SendAudioData(int, byte, byte[], int)}
 	 * 
 	 * // [Neo] TODO 未验证

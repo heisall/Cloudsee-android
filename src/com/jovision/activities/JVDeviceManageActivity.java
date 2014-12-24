@@ -269,7 +269,7 @@ public class JVDeviceManageActivity extends BaseActivity {
 				}
 
 				if (0 == delRes) {
-					ConfigUtil.deleteSceneFile(manageDeviceList.get(delIndex)
+					ConfigUtil.deleteSceneFolder(manageDeviceList.get(delIndex)
 							.getFullNo());
 					manageDeviceList.remove(delIndex);
 				}

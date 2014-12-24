@@ -290,17 +290,20 @@ public class JVChannelListActivity extends BaseActivity {
 			int delRes = -1;
 			int delDevIndex = Integer.parseInt(params[0]);
 			int delChannelIndex = Integer.parseInt(params[1]);
-
+			int channel = deviceList.get(delDevIndex).getChannelList()
+					.get(delChannelIndex).getChannel();
 			try {
 				if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 本地删除
 					if (1 == device.getChannelList().size()) {// 删设备
 						device = null;
-						ConfigUtil.deleteSceneFile(deviceList.get(delDevIndex)
-								.getFullNo());
+						ConfigUtil.deleteSceneFolder(deviceList
+								.get(delDevIndex).getFullNo());
 						deviceList.remove(delDevIndex);
 						delRes = 1;
 					} else {// 删通道
 						device.getChannelList().remove(delChannelIndex);
+						ConfigUtil.deleteSceneFile(deviceList.get(delDevIndex)
+								.getFullNo(), channel);
 						delRes = 0;
 					}
 				} else {
@@ -310,7 +313,7 @@ public class JVChannelListActivity extends BaseActivity {
 								device.getFullNo());
 						if (0 == delRes) {
 							device = null;
-							ConfigUtil.deleteSceneFile(deviceList.get(
+							ConfigUtil.deleteSceneFolder(deviceList.get(
 									delDevIndex).getFullNo());
 							deviceList.remove(delDevIndex);
 							delRes = 1;
@@ -320,6 +323,9 @@ public class JVChannelListActivity extends BaseActivity {
 								delChannelIndex);
 						if (0 == delRes) {
 							device.getChannelList().remove(delChannelIndex);
+							ConfigUtil.deleteSceneFile(
+									deviceList.get(delDevIndex).getFullNo(),
+									channel);
 						}
 					}
 				}

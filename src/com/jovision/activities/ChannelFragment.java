@@ -359,19 +359,22 @@ public class ChannelFragment extends BaseFragment {
 			int delRes = -1;
 			int delDevIndex = Integer.parseInt(params[0]);
 			int delChannelIndex = Integer.parseInt(params[1]);
-
+			int channel = deviceList.get(deviceIndex).getChannelList()
+					.get(delChannelIndex).getChannel();
 			try {
 				if (Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {// 本地删除
 					if (1 == deviceList.get(deviceIndex).getChannelList()
 							.size()) {// 删设备
-						ConfigUtil.deleteSceneFile(deviceList.get(delDevIndex)
-								.getFullNo());
+						ConfigUtil.deleteSceneFolder(deviceList
+								.get(delDevIndex).getFullNo());
 						deviceList.remove(delDevIndex);
 						delRes = 1;
 					} else {// 删通道
 						deviceList.get(deviceIndex).getChannelList()
 								.remove(delChannelIndex);
+						ConfigUtil.deleteSceneFile(deviceList.get(delDevIndex)
+								.getFullNo(), channel);
 						delRes = 0;
 					}
 				} else {
@@ -382,7 +385,7 @@ public class ChannelFragment extends BaseFragment {
 										.get("KEY_USERNAME"),
 								deviceList.get(deviceIndex).getFullNo());
 						if (0 == delRes) {
-							ConfigUtil.deleteSceneFile(deviceList.get(
+							ConfigUtil.deleteSceneFolder(deviceList.get(
 									delDevIndex).getFullNo());
 							deviceList.remove(delDevIndex);
 							delRes = 1;
@@ -394,6 +397,9 @@ public class ChannelFragment extends BaseFragment {
 						if (0 == delRes) {
 							deviceList.get(deviceIndex).getChannelList()
 									.remove(delChannelIndex);
+							ConfigUtil.deleteSceneFile(
+									deviceList.get(delDevIndex).getFullNo(),
+									channel);
 						}
 					}
 				}

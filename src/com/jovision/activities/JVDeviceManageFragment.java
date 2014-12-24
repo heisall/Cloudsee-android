@@ -262,7 +262,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 					delRes = 0;
 					int size = manageDeviceList.size();
 					for (int i = 0; i < size; i++) {
-						ConfigUtil.deleteSceneFile(manageDeviceList.get(i)
+						ConfigUtil.deleteSceneFolder(manageDeviceList.get(i)
 								.getFullNo());
 						manageDeviceList.remove(i);
 						i--;
@@ -275,8 +275,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 								(mActivity.statusHashMap.get("KEY_USERNAME")),
 								manageDeviceList.get(i).getFullNo());
 						if (0 == delRes) {
-							ConfigUtil.deleteSceneFile(manageDeviceList.get(i)
-									.getFullNo());
+							ConfigUtil.deleteSceneFolder(manageDeviceList
+									.get(i).getFullNo());
 							manageDeviceList.remove(i);
 							i--;
 							size = manageDeviceList.size();

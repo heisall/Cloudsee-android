@@ -1848,32 +1848,23 @@ public class JVPlayActivity extends PlayActivity implements
 	private boolean connect(Channel channel, boolean isPlayDirectly) {
 		String fullPath = "";
 		if (hasSDCard() && null != channel) {
-			String savePath = Consts.SCENE_PATH;
-			String fileName = "";
-			MobileUtil.createDirectory(new File(savePath));
-
+			String savePath = "";
 			if (Consts.PLAY_NORMAL == playFlag) {
 				if (2 == channel.getParent().getIsDevice()) {
-					fileName = channel.getParent().getDoMain() + "_"
-							+ (channel.getChannel() - 1)
-							+ Consts.IMAGE_JPG_KIND;
+					savePath = Consts.SCENE_PATH
+							+ channel.getParent().getDoMain() + File.separator;
 				} else {
-					fileName = channel.getParent().getFullNo() + "_"
-							+ (channel.getChannel() - 1)
-							+ Consts.IMAGE_JPG_KIND;
+					savePath = Consts.SCENE_PATH
+							+ channel.getParent().getFullNo() + File.separator;
 				}
 
 			} else if (Consts.PLAY_DEMO == playFlag) {
-				fileName = "demo_" + channel.getParent().getFullNo() + "_"
-						+ (channel.getChannel() - 1) + Consts.IMAGE_JPG_KIND;
+				savePath = Consts.SCENE_PATH + "demo_"
+						+ channel.getParent().getFullNo() + File.separator;
 			}
+			String fileName = channel.getChannel() + Consts.IMAGE_JPG_KIND;
+			MobileUtil.createDirectory(new File(savePath));
 			fullPath = savePath + fileName;
-			// File file = new File(fullPath);
-			// if (file.exists()) {// 场景图存在先删掉老的
-			// MyLog.v("capture", "delete=file" + ";fullPath=" + fullPath);
-			// ConfigUtil.deleteSceneFile(channel.getParent().getFullNo());
-			// }
-			// boolean capture = PlayUtil.capture(lastClickIndex, fullPath);
 			MyLog.i("capture", "fullPath=" + fullPath);
 		}
 

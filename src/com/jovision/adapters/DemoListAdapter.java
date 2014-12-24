@@ -3,7 +3,6 @@ package com.jovision.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
 import com.jovision.bean.Device;
-import com.jovision.utils.BitmapCache;
 
 public class DemoListAdapter extends BaseAdapter {
 	private ArrayList<Device> deviceList;
@@ -83,49 +80,64 @@ public class DemoListAdapter extends BaseAdapter {
 		deviceHolder.demodevicename.setText(mContext.getResources().getString(
 				R.string.demo)
 				+ (position + 1));
-		deviceHolder.demoaddress.setText(deviceList.get(position).getFullNo());
-
-		Bitmap bmp = BitmapCache.getInstance().getBitmap(
-				Consts.SCENE_PATH + "demo_"
-						+ deviceList.get(position).getFullNo()
-						+ Consts.IMAGE_PNG_KIND, "image", "");
+		// deviceHolder.demoaddress.setText(deviceList.get(position).getFullNo());
 		deviceHolder.demopictrue.setScaleType(ScaleType.FIT_XY);
-		if (null != bmp) {
-			// TODO
-			deviceHolder.demopictrue.setImageBitmap(bmp);
-			deviceHolder.demopictrue.setBackground(null);
-		} else {
-			switch (position) {
-			case 0:
-				if (isclicked) {
-					deviceHolder.demopictrue
-							.setBackgroundResource(R.drawable.pictrue_one);
-				} else {
-					deviceHolder.demopictrue
-							.setBackgroundResource(R.drawable.demopictrue1);
-				}
-				break;
-			case 1:
-				if (isclicked) {
-					deviceHolder.demopictrue
-							.setBackgroundResource(R.drawable.pictrue_two);
-				} else {
-					deviceHolder.demopictrue
-							.setBackgroundResource(R.drawable.demopictrue2);
-				}
-				break;
-			case 2:
-				if (isclicked) {
-					deviceHolder.demopictrue
-							.setBackgroundResource(R.drawable.pictrue_three);
-				} else {
-					deviceHolder.demopictrue
-							.setBackgroundResource(R.drawable.demopictrue3);
-				}
-				break;
-			default:
-				break;
+
+		switch (position) {
+		case 0:
+			// Bitmap bmp0 = BitmapCache.getInstance().getBitmap(
+			// ConfigUtil.getImgPath(deviceList.get(position), true),
+			// "image", "");
+			// if (null != bmp0) {
+			// deviceHolder.demopictrue.setImageBitmap(bmp0);
+			// deviceHolder.demopictrue.setBackground(null);
+			// } else {
+			if (isclicked) {
+				deviceHolder.demopictrue
+						.setBackgroundResource(R.drawable.pictrue_one);
+			} else {
+				deviceHolder.demopictrue
+						.setBackgroundResource(R.drawable.demopictrue1);
 			}
+			// }
+
+			break;
+		case 1:
+			// Bitmap bmp1 = BitmapCache.getInstance().getBitmap(
+			// ConfigUtil.getImgPath(deviceList.get(position), true),
+			// "image", "");
+			// if (null != bmp1) {
+			// deviceHolder.demopictrue.setImageBitmap(bmp1);
+			// deviceHolder.demopictrue.setBackground(null);
+			// } else {
+			if (isclicked) {
+				deviceHolder.demopictrue
+						.setBackgroundResource(R.drawable.pictrue_two);
+			} else {
+				deviceHolder.demopictrue
+						.setBackgroundResource(R.drawable.demopictrue2);
+			}
+			// }
+			break;
+		case 2:
+			// Bitmap bmp2 = BitmapCache.getInstance().getBitmap(
+			// ConfigUtil.getImgPath(deviceList.get(position), true),
+			// "image", "");
+			// if (null != bmp2) {
+			// deviceHolder.demopictrue.setImageBitmap(bmp2);
+			// deviceHolder.demopictrue.setBackground(null);
+			// } else {
+			if (isclicked) {
+				deviceHolder.demopictrue
+						.setBackgroundResource(R.drawable.pictrue_three);
+			} else {
+				deviceHolder.demopictrue
+						.setBackgroundResource(R.drawable.demopictrue3);
+			}
+			// }
+			break;
+		default:
+			break;
 		}
 
 		return convertView;

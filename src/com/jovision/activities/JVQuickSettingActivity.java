@@ -1139,17 +1139,14 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.WHAT_QUICK_SETTING_WIFI_CHANGED_FAIL:// 切换到原来的wifi失败,回到登陆界面
 			showTextToast(R.string.str_wifi_reset_fail);
 			dismissDialog();
-			if (!local) {
-				MyActivityManager.getActivityManager().popAllActivityExceptOne(
-						JVLoginActivity.class);
-				Intent intent = new Intent();
-				String userName = JVQuickSettingActivity.this.statusHashMap
-						.get(Consts.KEY_USERNAME);
-				intent.putExtra("UserName", userName);
-				intent.setClass(JVQuickSettingActivity.this,
-						JVLoginActivity.class);
-				JVQuickSettingActivity.this.startActivity(intent);
-			}
+			MyActivityManager.getActivityManager().popAllActivityExceptOne(
+					JVLoginActivity.class);
+			Intent intent = new Intent();
+			String userName = JVQuickSettingActivity.this.statusHashMap
+					.get(Consts.KEY_USERNAME);
+			intent.putExtra("UserName", userName);
+			intent.setClass(JVQuickSettingActivity.this, JVLoginActivity.class);
+			JVQuickSettingActivity.this.startActivity(intent);
 
 			JVQuickSettingActivity.this.finish();
 			break;
@@ -1596,21 +1593,16 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (isBack) {
 				if (1004 == result) {
 					showTextToast(R.string.wifi_reset_failed);
-					if (!local) {
-						dismissDialog();
-						MyActivityManager.getActivityManager()
-								.popAllActivityExceptOne(JVLoginActivity.class);
-						Intent intent = new Intent();
-						String userName = statusHashMap
-								.get(Consts.KEY_USERNAME);
-						intent.putExtra("UserName", userName);
-						intent.setClass(JVQuickSettingActivity.this,
-								JVLoginActivity.class);
-						startActivity(intent);
-						finish();
-					} else {
-						JVQuickSettingActivity.this.finish();
-					}
+					dismissDialog();
+					MyActivityManager.getActivityManager()
+							.popAllActivityExceptOne(JVLoginActivity.class);
+					Intent intent = new Intent();
+					String userName = statusHashMap.get(Consts.KEY_USERNAME);
+					intent.putExtra("UserName", userName);
+					intent.setClass(JVQuickSettingActivity.this,
+							JVLoginActivity.class);
+					startActivity(intent);
+					JVQuickSettingActivity.this.finish();
 				} else {
 					JVQuickSettingActivity.this.finish();
 				}
@@ -2023,19 +2015,16 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 
 						if (1004 == errorCode) {
-							if (!local) {
-								MyActivityManager.getActivityManager()
-										.popAllActivityExceptOne(
-												JVLoginActivity.class);
-								Intent intent = new Intent();
-								String userName = JVQuickSettingActivity.this.statusHashMap
-										.get(Consts.KEY_USERNAME);
-								intent.putExtra("UserName", userName);
-								intent.setClass(JVQuickSettingActivity.this,
-										JVLoginActivity.class);
-								JVQuickSettingActivity.this
-										.startActivity(intent);
-							}
+							MyActivityManager.getActivityManager()
+									.popAllActivityExceptOne(
+											JVLoginActivity.class);
+							Intent intent = new Intent();
+							String userName = JVQuickSettingActivity.this.statusHashMap
+									.get(Consts.KEY_USERNAME);
+							intent.putExtra("UserName", userName);
+							intent.setClass(JVQuickSettingActivity.this,
+									JVLoginActivity.class);
+							JVQuickSettingActivity.this.startActivity(intent);
 							JVQuickSettingActivity.this.finish();
 						} else {
 							// 暂停扫瞄器

@@ -27,6 +27,7 @@ import com.jovision.activities.BaseFragment;
 import com.jovision.activities.JVMyDeviceFragment;
 import com.jovision.bean.Device;
 import com.jovision.utils.BitmapCache;
+import com.jovision.utils.ConfigUtil;
 
 public class MyDeviceListAdapter extends BaseAdapter {
 	private ArrayList<Device> deviceList;
@@ -164,31 +165,18 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getNickName());
 			deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
 					.getNickName());
-			String key = Consts.SCENE_PATH
-					+ deviceList.get(position * 2).getDoMain()
-					+ Consts.IMAGE_JPG_KIND;
-
-			deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
-					.getBitmap(key, "image", ""));
 		} else {
 			deviceHolder.devNameL.setText(deviceList.get(position * 2)
 					.getNickName());
 			deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
 					.getNickName());
-			// TODO
-			deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
-			int random = (int) (Math.random() * deviceList.get(position * 2)
-					.getChannelList().size());
-
-			// Random random = new Random(deviceList.get(position * 2)
-			// .getChannelList().size());// 指定种子数
-			String key = Consts.SCENE_PATH
-					+ deviceList.get(position * 2).getFullNo() + "_" + random
-					+ Consts.IMAGE_JPG_KIND;
-
-			deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
-					.getBitmap(key, "image", ""));
 		}
+		// TODO
+		deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
+		deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
+				.getBitmap(
+						ConfigUtil.getImgPath(deviceList.get(position * 2),
+								false), "image", ""));
 
 		if (Boolean
 				.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
@@ -238,7 +226,6 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		}
 		int lastL = (position * 2) % 4;
 		int lastR = (position * 2 + 1) % 4;
-		// TODO
 		// 按规律设置背景色
 		if (0 == lastL || 2 == lastL) {
 			deviceHolder.devLayoutL.setBackgroundResource(devResArray[lastL]);
@@ -289,30 +276,21 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						.getNickName());
 				deviceHolder.devnicknameR.setText(deviceList.get(
 						position * 2 + 1).getNickName());
-				String key = Consts.SCENE_PATH
-						+ deviceList.get(position * 2 + 1).getDoMain()
-						+ Consts.IMAGE_JPG_KIND;
-
-				deviceHolder.devImgR.setImageBitmap(BitmapCache.getInstance()
-						.getBitmap(key, "image", ""));
 			} else {
 				deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
 						.getNickName());
 				deviceHolder.devnicknameR.setText(deviceList.get(
 						position * 2 + 1).getNickName());
-				// Random random = new Random(deviceList.get(position * 2)
-				// .getChannelList().size());// 指定种子数
-				int random = (int) (Math.random() * deviceList
-						.get(position * 2 + 1).getChannelList().size());
-				// TODO
-				deviceHolder.devImgR.setScaleType(ScaleType.FIT_XY);
-				String key = Consts.SCENE_PATH
-						+ deviceList.get(position * 2 + 1).getFullNo() + "_"
-						+ random + Consts.IMAGE_JPG_KIND;
-
-				deviceHolder.devImgR.setImageBitmap(BitmapCache.getInstance()
-						.getBitmap(key, "image", ""));
 			}
+
+			// TODO
+			deviceHolder.devImgR.setScaleType(ScaleType.FIT_XY);
+			deviceHolder.devImgR.setImageBitmap(BitmapCache.getInstance()
+					.getBitmap(
+							ConfigUtil.getImgPath(
+									deviceList.get(position * 2 + 1), false),
+							"image", ""));
+
 			if (Boolean
 					.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
 							.get(Consts.LOCAL_LOGIN))) {

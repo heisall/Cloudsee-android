@@ -225,10 +225,10 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
 			if (0 == result) {
-				showTextToast(getResources()
-						.getString(R.string.add_device_succ)
-						+ resolvedIp
-						+ ";count:" + broadChannelCount);
+				// showTextToast(getResources()
+				// .getString(R.string.add_device_succ)
+				// + resolvedIp
+				// + ";count:" + broadChannelCount);
 				JVAddIpDeviceActivity.this.finish();
 			} else {
 				showTextToast(R.string.add_device_failed);

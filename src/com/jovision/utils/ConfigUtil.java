@@ -63,6 +63,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.MainApplication;
+import com.jovision.bean.Device;
 import com.jovision.bean.Wifi;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -1098,21 +1099,95 @@ public class ConfigUtil {
 	 * @param devName
 	 * @return
 	 */
-	public static boolean deleteSceneFile(String devName) {
+	public static boolean deleteSceneFolder(String devName) {
 		boolean deleteRes = false;
-		String savePath = Consts.SCENE_PATH;
-		MobileUtil.createDirectory(new File(savePath));
-		String fullPath = savePath + devName + Consts.IMAGE_PNG_KIND;
-		File devImgFile = new File(fullPath);
-		BitmapCache.getInstance().bitmapRefs.remove(fullPath);
+		String savePath = Consts.SCENE_PATH + devName + File.separator;
+		File sceneFolder = new File(savePath);
+		File[] files = sceneFolder.listFiles();
+		// 移除内存中的图片
+		if (null != files && 0 != files.length) {
+			for (int i = 0; i < files.length; i++) {
+				BitmapCache.getInstance().bitmapRefs.remove(files[i]
+						.getAbsolutePath());
+			}
+		}
+		// 删掉文件夹
+		deleteFile(sceneFolder);
+		return deleteRes;
+	}
 
-		if (devImgFile.exists()) {
-			devImgFile.delete();
+	/**
+	 * 删除通道场景图
+	 * 
+	 * @param devName
+	 * @return
+	 */
+	public static boolean deleteSceneFile(String devName, int channel) {
+		boolean deleteRes = false;
+		String savePath = Consts.SCENE_PATH + devName + File.separator;
+		File sceneFolder = new File(savePath);
+		if (sceneFolder.exists()) {// 有场景图文件夹
+			File imgFile = new File(savePath + channel + Consts.IMAGE_JPG_KIND);
+			if (imgFile.exists()) {
+				imgFile.delete();
+				deleteRes = true;
+			}
+		} else {
 			deleteRes = true;
 		}
 		return deleteRes;
 	}
 
+	/**
+	 * 
+	 * @param dev
+	 * @return
+	 */
+	public static String getImgPath(Device dev, boolean demo) {
+		String imgFileKey = "";
+		String filePath = "";
+		if (demo) {
+			filePath = Consts.SCENE_PATH + "demo_" + dev.getFullNo();
+		} else {
+			if (2 == dev.getIsDevice()) {
+				filePath = Consts.SCENE_PATH + dev.getDoMain();
+			} else {
+				filePath = Consts.SCENE_PATH + dev.getFullNo();
+			}
+		}
+
+		File[] files = new File(filePath).listFiles();
+		if (null != files && 0 != files.length) {
+			int random = (int) (Math.random() * files.length);
+			imgFileKey = files[random].getAbsolutePath();
+		}
+		return imgFileKey;
+	}
+
+	/**
+	 * 删除文件（文件或文件夹均可删除）
+	 * 
+	 * @param file
+	 */
+	public static void deleteFile(File file) {
+		if (file.isFile()) {
+			file.delete();
+			return;
+		}
+
+		if (file.isDirectory()) {
+			File[] childFiles = file.listFiles();
+			if (childFiles == null || childFiles.length == 0) {
+				file.delete();
+				return;
+			}
+
+			for (int i = 0; i < childFiles.length; i++) {
+				deleteFile(childFiles[i]);
+			}
+			file.delete();
+		}
+	}
 	// /**
 	// * 获取当前ip地址
 	// *

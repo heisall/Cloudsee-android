@@ -382,7 +382,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				}
 
 				StatService.trackCustomEvent(activity, "Alarm", activity
-						.getResources().getString(R.string.str_alarm2));
+						.getResources().getString(R.string.census_alarm2));
 				if (JVDeviceConst.DEVICE_SWITCH_OPEN == device.getAlarmSwitch()) {
 					device.setAlarmSwitch(JVDeviceConst.DEVICE_SWITCH_CLOSE);
 					mainListener.onMainAction(JVNetConst.RC_EXTEND,

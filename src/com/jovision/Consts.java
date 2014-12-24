@@ -6,6 +6,7 @@ import android.os.Environment;
 
 public class Consts {
 
+	public static int COUNT = -1;
 	// (终端类型 0-未知 1-Android 2-iPhone 3-iPad)
 	public static final int TERMINAL_TYPE = 1;
 	// 产品类型 0-CloudSEE 1-NVSIP 2-HITVIS 3-TONGFANG

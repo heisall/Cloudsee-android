@@ -440,7 +440,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				case 0: {// 云视通号
 					StatService.trackCustomEvent(mActivity,
 							"Add by CloudSEE ID", mActivity.getResources()
-									.getString(R.string.str_addcloudseeid));
+									.getString(R.string.census_addcloudseeid));
 					Intent addIntent = new Intent();
 					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
 					addIntent.putExtra("QR", false);
@@ -452,7 +452,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 							mActivity,
 							"Scan QR Code",
 							mActivity.getResources().getString(
-									R.string.str_scanqrcod));
+									R.string.census_scanqrcod));
 					Intent addIntent = new Intent();
 					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
 					addIntent.putExtra("QR", true);
@@ -464,7 +464,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 							mActivity,
 							"Add Wi_Fi Device",
 							mActivity.getResources().getString(
-									R.string.str_addwifidev));
+									R.string.census_addwifidev));
 					((ShakeActivity) getActivity()).startSearch(false);
 					break;
 				}
@@ -494,7 +494,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 							mActivity,
 							"SoundWave",
 							mActivity.getResources().getString(
-									R.string.str_soundwave));
+									R.string.census_soundwave));
 					Intent intent = new Intent();
 					intent.setClass(mActivity, JVWaveSetActivity.class);
 					mActivity.startActivity(intent);
@@ -502,7 +502,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 				case 5: {// IP/域名设备
 					StatService.trackCustomEvent(mActivity, "IP/DNS", mActivity
-							.getResources().getString(R.string.str_ipdns));
+							.getResources().getString(R.string.census_ipdns));
 					Intent intent = new Intent();
 					intent.setClass(mActivity, JVAddIpDeviceActivity.class);
 					mActivity.startActivity(intent);

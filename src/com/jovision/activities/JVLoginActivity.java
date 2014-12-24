@@ -333,7 +333,7 @@ public class JVLoginActivity extends BaseActivity {
 							JVLoginActivity.this,
 							"Demo",
 							JVLoginActivity.this.getResources().getString(
-									R.string.str_demo));
+									R.string.census_demo));
 					Intent demoIntent = new Intent();
 					demoIntent.setClass(JVLoginActivity.this,
 							JVDemoActivity.class);
@@ -343,7 +343,7 @@ public class JVLoginActivity extends BaseActivity {
 			case R.id.locallogin_btn:// 本地登录
 				StatService.trackCustomEvent(JVLoginActivity.this,
 						"locallogin", JVLoginActivity.this.getResources()
-								.getString(R.string.str_login));
+								.getString(R.string.census_login));
 				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				Intent intentMain = new Intent(JVLoginActivity.this,
 						JVTabActivity.class);
@@ -433,7 +433,7 @@ public class JVLoginActivity extends BaseActivity {
 			case JVAccountConst.LOGIN_SUCCESS: {
 				StatService.trackCustomEvent(JVLoginActivity.this,
 						"onlinelogin", JVLoginActivity.this.getResources()
-								.getString(R.string.str_onlinelogin));
+								.getString(R.string.census_onlinelogin));
 				MySharedPreference.putString("UserName",
 						statusHashMap.get(Consts.KEY_USERNAME));
 				MySharedPreference.putString("PassWord",

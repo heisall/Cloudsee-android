@@ -86,6 +86,10 @@ public class JVWelcomeActivity extends BaseActivity {
 		// MyLog.v("tel",
 		// siminfo.getNativePhoneNumber() + "--"
 		// + siminfo.getProvidersName());
+//		Intent stopIntent1 = new Intent(JVWelcomeActivity.this,Protectservice.class);
+//		stopService(stopIntent1);	
+//		Intent stopIntent = new Intent(JVWelcomeActivity.this,WakeLockService.class);
+//		stopService(stopIntent);	
 	}
 
 	@Override

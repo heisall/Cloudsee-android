@@ -2485,63 +2485,67 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
-				String userName = "admin";
-				String userPwd = "123";
-				String des = "haha";
-				byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
-						+ Consts.SIZE_DESCRIPT];
-				byte[] userNameByte = userName.getBytes();
-				byte[] userPwdByte = userPwd.getBytes();
-				byte[] desByte = des.getBytes();
-				MyLog.e("byte-1", "userNameByte.length=" + userNameByte.length);
-				MyLog.e("byte-2", "userPwdByte.length=" + userPwdByte.length);
-				MyLog.e("byte-3", "desByte.length=" + desByte.length);
-				System.arraycopy(userNameByte, 0, paramByte, 0,
-						userNameByte.length);
-				System.arraycopy(userPwdByte, 0, paramByte, Consts.SIZE_ID,
-						userPwdByte.length);
-				System.arraycopy(desByte, 0, paramByte, Consts.SIZE_ID
-						+ Consts.SIZE_PW, desByte.length);
-				MyLog.e("byte-4", "paramByte.length=" + paramByte.length);
-				MyLog.e("byte-5", "paramByte=" + paramByte.toString());
-				// CALL_TEXT_DATA: 165, 0, 81,
-				// {"extend_arg1":0,"extend_arg2":0,"extend_arg3":0,"extend_type":0,"flag":85,"packet_count":0,"packet_id":0,"packet_length":0,"packet_type":12,"type":81}
-
-				Jni.sendSuperBytes(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_REFRESH,
-						Consts.POWER_ADMIN, 0, 0, new byte[0], 0);
-				// Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-				// true, 0, Consts.EX_ACCOUNT_REFRESH, "");
-				// //CALL_TEXT_DATA: 165, 0, 81,
+				// String userName = "admin";
+				// String userPwd = "123";
+				// String des = "haha";
+				// byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
+				// + Consts.SIZE_DESCRIPT];
+				// byte[] userNameByte = userName.getBytes();
+				// byte[] userPwdByte = userPwd.getBytes();
+				// byte[] desByte = des.getBytes();
+				// MyLog.e("byte-1", "userNameByte.length=" +
+				// userNameByte.length);
+				// MyLog.e("byte-2", "userPwdByte.length=" +
+				// userPwdByte.length);
+				// MyLog.e("byte-3", "desByte.length=" + desByte.length);
+				// System.arraycopy(userNameByte, 0, paramByte, 0,
+				// userNameByte.length);
+				// System.arraycopy(userPwdByte, 0, paramByte, Consts.SIZE_ID,
+				// userPwdByte.length);
+				// System.arraycopy(desByte, 0, paramByte, Consts.SIZE_ID
+				// + Consts.SIZE_PW, desByte.length);
+				// MyLog.e("byte-4", "paramByte.length=" + paramByte.length);
+				// MyLog.e("byte-5", "paramByte=" + paramByte.toString());
+				//
+				// // 2014-12-25 获取设备用户名密码
+				// // CALL_TEXT_DATA: 165, 0, 81,
+				// //
+				// {"extend_arg1":64,"extend_arg2":0,"extend_arg3":0,"extend_msg":"ID=admin;POWER=4;DESCRIPT=新帐户;ID=abc;POWER=4;DESCRIPT=新帐户;","extend_type":3,"flag":20,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6}
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA,
+				// true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_REFRESH,
+				// Consts.POWER_ADMIN, 0, 0, new byte[0], 0);
+				//
+				// // 2014-12-25 修改设备用户名密码
+				// // //CALL_TEXT_DATA: 165, 0, 81,
+				// //
 				// {"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
 				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA, true, Consts.RC_EX_ACCOUNT,
-				// Consts.EX_ACCOUNT_MODIFY, Consts.POWER_ADMIN, 0, 0,paramByte,
-				// paramByte.length);
-				// Bytes(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,paramByte,
-				// paramByte.length);
+				// JVNetConst.JVN_RSP_TEXTDATA,
+				// true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY,
+				// Consts.POWER_ADMIN, 0, 0, paramByte, paramByte.length);
 
-				// if (View.VISIBLE == streamListView.getVisibility()) {
-				// streamListView.setVisibility(View.GONE);
-				// }
-				// if (Consts.ISHITVIS == 1) {
-				// PlayUtil.hitviscapture(lastClickIndex);
-				// Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-				// true, JVNetConst.RC_EX_FlashJpeg,
-				// JVNetConst.RC_EXTEND, null);
-				// } else {
-				// if (hasSDCard() && allowThisFuc(false)) {
-				// boolean captureRes = PlayUtil.capture(lastClickIndex);
-				// if (captureRes) {
-				// PlayUtil.prepareAndPlay(true);
-				// showTextToast(Consts.CAPTURE_PATH);
-				// MyLog.e("capture", "success");
-				// } else {
-				// showTextToast(R.string.str_capture_error);
-				// }
-				// }
-				//
-				// }
+				if (View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				}
+				if (Consts.ISHITVIS == 1) {
+					PlayUtil.hitviscapture(lastClickIndex);
+					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+							true, JVNetConst.RC_EX_FlashJpeg,
+							JVNetConst.RC_EXTEND, null);
+				} else {
+					if (hasSDCard() && allowThisFuc(false)) {
+						boolean captureRes = PlayUtil.capture(lastClickIndex);
+						if (captureRes) {
+							PlayUtil.prepareAndPlay(true);
+							showTextToast(Consts.CAPTURE_PATH);
+							MyLog.e("capture", "success");
+						} else {
+							showTextToast(R.string.str_capture_error);
+						}
+					}
+
+				}
 				break;
 			case R.id.bottom_but5:
 			case R.id.funclayout:// AP功能列表对讲功能

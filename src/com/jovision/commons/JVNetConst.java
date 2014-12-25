@@ -171,6 +171,7 @@ public final class JVNetConst {
 
 	public final static byte JVN_ABFRAMERET = 35; // 帧序列中每个多少帧一个回复
 
+	public final static byte JVN_EDIT_USERINFO = 0;// 修改用户名密码请求
 	public final static byte JVN_REMOTE_SETTING = 1;// 远程配置请求
 	public final static byte JVN_WIFI_INFO = 2;// AP,WIFI热点请求
 	public final static byte JVN_STREAM_INFO = 3;// 码流配置请求

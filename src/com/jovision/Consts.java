@@ -191,6 +191,78 @@ public class Consts {
 
 	public static final int WHAT_DUMMY = 0x04;
 
+	/********************************* 　以下修改设备用户名密码需要的宏定义　 ***************************************/
+	public static final int SECRET_KEY = 0x1053564A;
+	public static final int MAX_ACCOUNT = 13;
+	public static final int SIZE_ID = 20;
+	public static final int SIZE_PW = 20;
+	public static final int SIZE_DESCRIPT = 32;
+
+	public static final int RC_EX_ACCOUNT = 0x04;
+
+	// 用户组定义
+	public static final int POWER_GUEST = 0x0001;
+	public static final int POWER_USER = 0x0002;
+	public static final int POWER_ADMIN = 0x0004;
+	public static final int POWER_FIXED = 0x0010;
+
+	// 帐户管理指令,lck20120308
+	public static final int EX_ACCOUNT_OK = 0x01;
+	public static final int EX_ACCOUNT_ERR = 0x02;
+	public static final int EX_ACCOUNT_REFRESH = 0x03;
+	public static final int EX_ACCOUNT_ADD = 0x04;
+	public static final int EX_ACCOUNT_DEL = 0x05;
+	public static final int EX_ACCOUNT_MODIFY = 0x06;
+
+	// 操作状态
+	public static final int ERR_EXISTED = 0x1;
+	public static final int ERR_LIMITED = 0x2;
+	public static final int ERR_NOTEXIST = 0x3;
+	public static final int ERR_PASSWD = 0x4; // 密码错误
+	public static final int ERR_PERMISION_DENIED = 0x5;// 无权限
+
+	/********************************* 　以上修改设备用户名密码需要的宏定义　 ***************************************/
+
+	/********************************* 　以下修改设备用户名密码需要的宏定义　 ***************************************/
+	// 升级过程中用到的宏定义：
+	// 系统升级指令,lck20120207
+	public static final int EX_UPLOAD_START = 0x01;
+	public static final int EX_UPLOAD_CANCEL = 0x02;
+	public static final int EX_UPLOAD_OK = 0x03;
+	public static final int EX_UPLOAD_DATA = 0x04;
+	public static final int EX_FIRMUP_START = 0x05;
+	public static final int EX_FIRMUP_STEP = 0x06;
+	public static final int EX_FIRMUP_OK = 0x07;
+	public static final int EX_FIRMUP_RET = 0x08;
+	public static final int EX_FIRMUP_REBOOT = 0xA0;
+	public static final int EX_FIRMUP_RESTORE = 0xA1;
+	public static final int EX_FIRMUP_UPDINFO_REQ = 0x11; // 获取升级所需信息
+	public static final int EX_FIRMUP_UPDINFO_RESP = 0x21;
+
+	// //EX_FIRMUP_UPDINFO_REQ
+	// typedef struct{
+	// char product[32]; //产品类别
+	// char url[4][128]; //升级服务器地址
+	// int urlCnt;
+	// char binName[32]; //升级文件
+	// char verName[32]; //升级版本文件
+	// }FirmupInfo_t;
+
+	// 升级结果定义
+	public static final int FIRMUP_SUCCESS = 0x01;
+	public static final int FIRMUP_FAILED = 0x02;
+	public static final int FIRMUP_LATEST = 0x03;
+	public static final int FIRMUP_INVALID = 0x04;
+	public static final int FIRMUP_ERROR = 0x05;
+	public static final int FIRMUP_NOTFIT = 0x06;
+
+	// 升级方法
+	public static final int FIRMUP_HTTP = 0x00;
+	public static final int FIRMUP_FILE = 0x01;
+	public static final int FIRMUP_FTP = 0x02;// 已废弃
+
+	/********************************* 　以上修改设备用户名密码需要的宏定义　 ***************************************/
+
 	public static final String IPC_FLAG = "IPC-";
 	public static final String IPC_TAG = "IPC-H-";
 	public static final String IPC_DEFAULT_USER = "jwifiApuser";

@@ -1496,19 +1496,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 								addCount++;
 								addRes = 0;
 							}
-							// else {
-							// addDev =
-							// DeviceUtil.getUserDeviceDetail(addDev,((BaseActivity)
-							// getActivity()).statusHashMap
-							// .get(Consts.KEY_USERNAME));
-							// if (null != addDev) {
-							// addCount++;
-							// addRes = 0;
-							// }else{
-							// addRes = -1;
-							// }
-							// }
-
 						}
 					}
 					if (0 == addRes) {

@@ -23,11 +23,11 @@ import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.Jni;
 import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
-import com.jovision.utils.CacheUtil;
 
 public class DeviceSettingsMainFragment extends Fragment implements
 		OnClickListener, OnMainListener {
@@ -35,7 +35,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private View rootView;// 缓存Fragment view
 	private ArrayList<Device> deviceList;
 	private String devicename;
-	
+	private int channelIndex;// 窗口
+
 	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
 
@@ -53,11 +54,11 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private String startTime = "", endTime = "";
 	private String startHour = "", startMin = "";
 	private String endHour = "", endMin = "";
-	private RelativeLayout functionlayout1, functionlayout2, functionlayout3,functionlayout4;
+	private RelativeLayout functionlayout1, functionlayout2, functionlayout3,
+			functionlayout4;
 	private RelativeLayout functiontips1, functiontips2, functiontips3;
 	private TextView alarmTime0TextView;
-	
-	
+
 	private Dialog initDialog;// 显示弹出框
 	private TextView dialogCancel;// 取消按钮
 	private TextView dialogCompleted;// 确定按钮
@@ -72,6 +73,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	// 设备密码编辑键
 	private ImageView device_password_cancleI;
 	private ImageView dialog_cancle_img;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -106,7 +108,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				.findViewById(R.id.funclayout2);
 		functionlayout3 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout3);
-		functionlayout4 = (RelativeLayout)rootView
+		functionlayout4 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout4);
 
 		functiontips1 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_01);
@@ -274,7 +276,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			break;
 		case R.id.funclayout4:
 			initSummaryDialog();
-			//TODO
+			// TODO
 			break;
 		case R.id.funclayout3:
 			JSONObject paraObject = new JSONObject();
@@ -292,7 +294,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			break;
 		}
 	}
-	
+
 	/** 弹出框初始化 */
 	private void initSummaryDialog() {
 		initDialog = new Dialog(getActivity(), R.style.mydialog);
@@ -305,6 +307,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		dialogCompleted = (TextView) view.findViewById(R.id.dialog_completed);
 		device_name = (TextView) view.findViewById(R.id.device_namew);
 		device_nameet = (EditText) view.findViewById(R.id.device_nameet);
+		device_nameet.setEnabled(false);
 		device_nameet_cancle = (ImageView) view
 				.findViewById(R.id.device_nameet_cancle);
 		device_passwordet = (EditText) view
@@ -315,7 +318,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		device_nameet_cancle.setOnClickListener(this);
 		device_password_cancleI.setOnClickListener(this);
 		initDialog.show();
-		
+
 		device_name.setText(devicename);
 		device_name.setFocusable(true);
 		device_name.setFocusableInTouchMode(true);
@@ -329,23 +332,55 @@ public class DeviceSettingsMainFragment extends Fragment implements
 
 			@Override
 			public void onClick(View v) {
-				
+				String userName = device_nameet.getText().toString();
+				String userPwd = device_passwordet.getText().toString();
+				String des = "haha";
+				byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
+						+ Consts.SIZE_DESCRIPT];
+				byte[] userNameByte = userName.getBytes();
+				byte[] userPwdByte = userPwd.getBytes();
+				byte[] desByte = des.getBytes();
+				MyLog.e("byte-1", "userNameByte.length=" + userNameByte.length);
+				MyLog.e("byte-2", "userPwdByte.length=" + userPwdByte.length);
+				MyLog.e("byte-3", "desByte.length=" + desByte.length);
+				System.arraycopy(userNameByte, 0, paramByte, 0,
+						userNameByte.length);
+				System.arraycopy(userPwdByte, 0, paramByte, Consts.SIZE_ID,
+						userPwdByte.length);
+				System.arraycopy(desByte, 0, paramByte, Consts.SIZE_ID
+						+ Consts.SIZE_PW, desByte.length);
+				MyLog.e("byte-4", "paramByte.length=" + paramByte.length);
+				MyLog.e("byte-5", "paramByte=" + paramByte.toString());
+
+				// 2014-12-25 获取设备用户名密码
+				// CALL_TEXT_DATA: 165, 0, 81,
+				// {"extend_arg1":64,"extend_arg2":0,"extend_arg3":0,"extend_msg":"ID=admin;POWER=4;DESCRIPT=新帐户;ID=abc;POWER=4;DESCRIPT=新帐户;","extend_type":3,"flag":20,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6}
+				Jni.sendSuperBytes(channelIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_REFRESH,
+						Consts.POWER_ADMIN, 0, 0, new byte[0], 0);
+
+				// 2014-12-25 修改设备用户名密码
+				// //CALL_TEXT_DATA: 165, 0, 81,
+				// {"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
+				Jni.sendSuperBytes(channelIndex, JVNetConst.JVN_RSP_TEXTDATA,
+						true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY,
+						Consts.POWER_ADMIN, 0, 0, paramByte, paramByte.length);
 			}
 		});
 	}
 
-	
 	@Override
 	public void onMainAction(int packet_type, int packet_subtype, int ex_type,
 			int destFlag) {
 		Log.e("Alarm", "----onMainAction---" + packet_type + "," + packet_type
 				+ "," + ex_type);
 		switch (packet_type) {
-//		case 100:
-//			//TODO
-//			deviceList = CacheUtil.getDevList();
-//			devicename = deviceList.get(destFlag).getChannelList().get(ex_type).getChannelName();
-//			break;
+		// case 100:
+		// //TODO
+		// deviceList = CacheUtil.getDevList();
+		// devicename =
+		// deviceList.get(destFlag).getChannelList().get(ex_type).getChannelName();
+		// break;
 		case JVNetConst.RC_EXTEND: {
 			switch (packet_subtype) {
 			case JVNetConst.RC_EX_MD:

@@ -100,8 +100,7 @@
                 android:layout_marginTop="7dp"
                 android:background="@color/morefragment"
                 android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                >
+                android:paddingTop="12dp" >
 
                 <ImageView
                     android:id="@+id/funtion_image2"

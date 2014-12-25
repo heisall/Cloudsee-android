@@ -1,11 +1,13 @@
 package com.jovision.activities;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,14 +24,18 @@ import android.widget.Toast;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
+import com.jovision.bean.Device;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.CacheUtil;
 
 public class DeviceSettingsMainFragment extends Fragment implements
 		OnClickListener, OnMainListener {
 
 	private View rootView;// 缓存Fragment view
-
+	private ArrayList<Device> deviceList;
+	private String devicename;
+	
 	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
 
@@ -46,10 +53,25 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private String startTime = "", endTime = "";
 	private String startHour = "", startMin = "";
 	private String endHour = "", endMin = "";
-	private RelativeLayout functionlayout1, functionlayout2, functionlayout3;
+	private RelativeLayout functionlayout1, functionlayout2, functionlayout3,functionlayout4;
 	private RelativeLayout functiontips1, functiontips2, functiontips3;
 	private TextView alarmTime0TextView;
-
+	
+	
+	private Dialog initDialog;// 显示弹出框
+	private TextView dialogCancel;// 取消按钮
+	private TextView dialogCompleted;// 确定按钮
+	// 设备名称
+	private TextView device_name;
+	// 设备用户名
+	private EditText device_nameet;
+	// 设备用户名编辑键
+	private ImageView device_nameet_cancle;
+	// 设备密码
+	private EditText device_passwordet;
+	// 设备密码编辑键
+	private ImageView device_password_cancleI;
+	private ImageView dialog_cancle_img;
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -84,6 +106,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				.findViewById(R.id.funclayout2);
 		functionlayout3 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout3);
+		functionlayout4 = (RelativeLayout)rootView
+				.findViewById(R.id.funclayout4);
 
 		functiontips1 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_01);
 		functiontips2 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_02);
@@ -95,6 +119,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		func_swalert.setOnClickListener(this);
 		func_swmotion.setOnClickListener(this);
 		functionlayout3.setOnClickListener(this);
+		functionlayout4.setOnClickListener(this);
 
 		Bundle data = getArguments();// 获得从activity中传递过来的值
 		strParam = data.getString("KEY_PARAM");
@@ -217,7 +242,6 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			}
 
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return rootView;
@@ -225,7 +249,6 @@ public class DeviceSettingsMainFragment extends Fragment implements
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.function_switch_11:
 			if (func_alert_enabled == 1) {
@@ -249,13 +272,16 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				// 隐藏
 			}
 			break;
+		case R.id.funclayout4:
+			initSummaryDialog();
+			//TODO
+			break;
 		case R.id.funclayout3:
 			JSONObject paraObject = new JSONObject();
 			try {
 				paraObject.put("st", startTime);
 				paraObject.put("et", endTime);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -266,15 +292,60 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			break;
 		}
 	}
+	
+	/** 弹出框初始化 */
+	private void initSummaryDialog() {
+		initDialog = new Dialog(getActivity(), R.style.mydialog);
+		View view = LayoutInflater.from(getActivity()).inflate(
+				R.layout.dialog_modify, null);
+		initDialog.setContentView(view);
+		dialog_cancle_img = (ImageView) view
+				.findViewById(R.id.dialog_cancle_img);
+		dialogCancel = (TextView) view.findViewById(R.id.dialog_cancel);
+		dialogCompleted = (TextView) view.findViewById(R.id.dialog_completed);
+		device_name = (TextView) view.findViewById(R.id.device_namew);
+		device_nameet = (EditText) view.findViewById(R.id.device_nameet);
+		device_nameet_cancle = (ImageView) view
+				.findViewById(R.id.device_nameet_cancle);
+		device_passwordet = (EditText) view
+				.findViewById(R.id.device_passwrodet);
+		device_password_cancleI = (ImageView) view
+				.findViewById(R.id.device_passwrodet_cancle);
+		dialog_cancle_img.setOnClickListener(this);
+		device_nameet_cancle.setOnClickListener(this);
+		device_password_cancleI.setOnClickListener(this);
+		initDialog.show();
+		
+		device_name.setText(devicename);
+		device_name.setFocusable(true);
+		device_name.setFocusableInTouchMode(true);
+		dialogCancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				initDialog.dismiss();
+			}
+		});
+		dialogCompleted.setOnClickListener(new View.OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
+	}
+
+	
 	@Override
 	public void onMainAction(int packet_type, int packet_subtype, int ex_type,
 			int destFlag) {
-		// TODO Auto-generated method stub
 		Log.e("Alarm", "----onMainAction---" + packet_type + "," + packet_type
 				+ "," + ex_type);
 		switch (packet_type) {
-
+//		case 100:
+//			//TODO
+//			deviceList = CacheUtil.getDevList();
+//			devicename = deviceList.get(destFlag).getChannelList().get(ex_type).getChannelName();
+//			break;
 		case JVNetConst.RC_EXTEND: {
 			switch (packet_subtype) {
 			case JVNetConst.RC_EX_MD:

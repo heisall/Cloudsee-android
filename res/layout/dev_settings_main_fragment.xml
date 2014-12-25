@@ -100,7 +100,8 @@
                 android:layout_marginTop="7dp"
                 android:background="@color/morefragment"
                 android:paddingBottom="12dp"
-                android:paddingTop="12dp" >
+                android:paddingTop="12dp"
+                >
 
                 <ImageView
                     android:id="@+id/funtion_image2"
@@ -234,6 +235,74 @@
 
             <RelativeLayout
                 android:id="@+id/rl_tips_03"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:paddingLeft="10dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/str_alarm_setting_tips3"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <!-- 修改用户名密码 -->
+
+            <RelativeLayout
+                android:id="@+id/funclayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="7dp"
+                android:background="@color/morefragment"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp" >
+
+                <ImageView
+                    android:id="@+id/funtion_image4"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/morefragment_warmmessage_icon" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/funtion_image4" >
+
+                    <TextView
+                        android:id="@+id/funtion_titile_41"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="修改设备用户名和密码"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:id="@+id/funtion_titile_layout_411"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/morefragment_next_icon" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_tips_04"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"

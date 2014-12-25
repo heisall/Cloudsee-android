@@ -1942,7 +1942,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 	// 配制出错，错误dialog
 	public void errorDialog(final int errorCode) {
-		quickSetDeviceImg.setVisibility(View.GONE);
+		if (null != quickSetDeviceImg) {
+			quickSetDeviceImg.setVisibility(View.GONE);
+		}
 		// 断开连接
 		manuDiscon = true;
 		if (1000 != errorCode && 1001 != errorCode) {

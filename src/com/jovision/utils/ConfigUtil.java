@@ -39,7 +39,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.accounts.Account;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;

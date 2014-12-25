@@ -89,7 +89,7 @@ public class MobileUtil {
 	 *            要创建的目录路径
 	 */
 	public static void createDirectory(File file) {
-		if (file.getParentFile().exists()) {
+		if (null != file && file.getParentFile().exists()) {
 			file.mkdir();
 		} else {
 			createDirectory(file.getParentFile());

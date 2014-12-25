@@ -146,6 +146,8 @@ public class Consts {
 	public static final int FLAG_GET_MD_STATE = 0x11;
 	public static final int FLAG_SET_MD_STATE = 0x12;
 
+	public static final int FLAG_GET_PWD = 0x14;
+	
 	public static final int FLAG_GET_PARAM = 0x50;
 	public static final int FLAG_SET_PARAM_OK = 0x55;
 

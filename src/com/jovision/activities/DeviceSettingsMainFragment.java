@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.Jni;
 import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVNetConst;
@@ -126,7 +125,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		functionlayout4.setOnClickListener(this);
 
 		Bundle data = getArguments();// 获得从activity中传递过来的值
-		
+
 		strParam = data.getString("KEY_PARAM");
 
 		try {
@@ -286,8 +285,9 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		case R.id.funclayout4:
 			if (isadmin) {
 				initSummaryDialog();
-			}else {
-				Toast.makeText(getActivity(), "你丫的没权限", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getActivity(), "你丫的没权限", Toast.LENGTH_SHORT)
+						.show();
 			}
 			// TODO
 			break;
@@ -342,12 +342,15 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				if ("".equals(device_passwordet.getText().toString())) {
-					Toast.makeText(getActivity(), "密码不能为空", Toast.LENGTH_SHORT).show();
-				}else {
+					Toast.makeText(getActivity(), "密码不能为空", Toast.LENGTH_SHORT)
+							.show();
+				} else {
 					JSONObject paraObject = new JSONObject();
 					try {
-						paraObject.put("userName", device_nameet.getText().toString());
-						paraObject.put("userPwd", device_passwordet.getText().toString());
+						paraObject.put("userName", device_nameet.getText()
+								.toString());
+						paraObject.put("userPwd", device_passwordet.getText()
+								.toString());
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -355,7 +358,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 					mListener.OnFuncSelected(JVNetConst.JVN_GET_USERINFO,
 							paraObject.toString());
 				}
-				}
+			}
 		});
 	}
 

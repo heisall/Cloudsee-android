@@ -37,7 +37,7 @@ import com.jovision.utils.DeviceUtil;
 import com.tencent.stat.StatService;
 
 public class DeviceSettingsActivity extends BaseActivity implements
-OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
+		OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 	protected boolean bConnectedFlag = true;
 	private ProgressDialog waitingDialog;
 	private DeviceSettingsMainFragment deviceSettingsMainFragment;
@@ -98,13 +98,13 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 			waitingDialog = new ProgressDialog(this);
 			waitingDialog.setCancelable(false);
 			waitingDialog
-			.setMessage(getResources().getString(R.string.waiting));
+					.setMessage(getResources().getString(R.string.waiting));
 			if (!update_flag) {
 				waitingDialog.show();
 				Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
 				new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
-				.start();
+						.start();
 			}
 			// waitingDialog.show();
 			// 获取当前设置
@@ -142,7 +142,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 				bConnectedFlag = false;
 
 			}
-			break;
+				break;
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
 				bConnectedFlag = false;
@@ -172,7 +172,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 					e.printStackTrace();
 				}
 			}
-			break;
+				break;
 			case JVNetConst.ABNORMAL_DISCONNECT:
 			case JVNetConst.SERVICE_STOP:
 				if (waitingDialog != null && waitingDialog.isShowing())
@@ -207,7 +207,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 					JSONObject dataObj = new JSONObject(allStr);
 					int flag = dataObj.getInt("flag");
 					switch (flag) {
-					case JVNetConst.JVN_GET_USERINFO:{
+					case JVNetConst.JVN_GET_USERINFO: {
 						// --修改设备的用户名密码，只要走回调就修改成功了
 						showTextToast("用户名密码修改成功");
 						mainListener.onMainAction(JVNetConst.JVN_GET_USERINFO,
@@ -251,7 +251,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 									+ "--" + alarmEnabling);
 							alarmEnabled = alarmEnabling;
 							initDevParamObject
-							.put("bAlarmEnable", alarmEnabled);
+									.put("bAlarmEnable", alarmEnabled);
 							mainListener.onMainAction(packet_type,
 									packet_subtype, ex_type, alarmEnabling);
 						} else {
@@ -321,7 +321,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 						0x02,
 						String.format(Consts.FORMATTER_SET_ALARM_ONLY, enabled));
 				new Thread(new TimeOutProcess(Consts.DEV_SETTINGS_ALARM))
-				.start();
+						.start();
 			} else {
 				AlarmSwitchTask task = new AlarmSwitchTask();
 				String[] params = new String[3];
@@ -455,7 +455,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 				String userPwd = paraObject.getString("userPwd");
 				String des = "";
 				byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
-				                            + Consts.SIZE_DESCRIPT];
+						+ Consts.SIZE_DESCRIPT];
 				byte[] userNameByte = userName.getBytes();
 				byte[] userPwdByte = userPwd.getBytes();
 				byte[] desByte = des.getBytes();
@@ -470,13 +470,13 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 						+ Consts.SIZE_PW, desByte.length);
 				MyLog.e("byte-4", "paramByte.length=" + paramByte.length);
 				MyLog.e("byte-5", "paramByte=" + paramByte.toString());
-				
-			// 2014-12-25 修改设备用户名密码
-			// //CALL_TEXT_DATA: 165, 0, 81,
-			// {"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
-			Jni.sendSuperBytes(window, JVNetConst.JVN_RSP_TEXTDATA,
-					true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY,
-					Consts.POWER_ADMIN, 0, 0, paramByte, paramByte.length);
+
+				// 2014-12-25 修改设备用户名密码
+				// //CALL_TEXT_DATA: 165, 0, 81,
+				// {"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
+				Jni.sendSuperBytes(window, JVNetConst.JVN_RSP_TEXTDATA, true,
+						Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY,
+						Consts.POWER_ADMIN, 0, 0, paramByte, paramByte.length);
 			} catch (JSONException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
@@ -567,7 +567,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 				FragmentTransaction ft = getSupportFragmentManager()
 						.beginTransaction();
 				ft.replace(R.id.fragment_container, deviceSettingsMainFragment)
-				.commitAllowingStateLoss();
+						.commitAllowingStateLoss();
 				fragment_tag = 0;
 				break;
 			default:
@@ -599,7 +599,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 				FragmentTransaction ft = getSupportFragmentManager()
 						.beginTransaction();
 				ft.replace(R.id.fragment_container, deviceSettingsMainFragment)
-				.commitAllowingStateLoss();
+						.commitAllowingStateLoss();
 				fragment_tag = 0;
 				break;
 			default:
@@ -702,7 +702,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.replace(R.id.fragment_container, deviceSettingsMainFragment)
-		.commitAllowingStateLoss();
+				.commitAllowingStateLoss();
 		fragment_tag = 0;
 	}
 
@@ -716,7 +716,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 		case Consts.DEV_SETTINGS_ALARM:// 安全防护
 			// alarmEnabling已经是即将要改变的状态,详情见onFuncEnabled
 			if (alarmEnabling == Integer
-			.valueOf(funcParamArray[func_index - 1])) {
+					.valueOf(funcParamArray[func_index - 1])) {
 				// 成功
 				// 安全防护或者设置安全防护时间ok
 				alarmEnabled = alarmEnabling;
@@ -883,7 +883,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 			FragmentTransaction ft = getSupportFragmentManager()
 					.beginTransaction();
 			ft.add(R.id.fragment_container, deviceSettingsMainFragment)
-			.commitAllowingStateLoss();
+					.commitAllowingStateLoss();
 			fragment_tag = 0;
 		}
 		return 0;

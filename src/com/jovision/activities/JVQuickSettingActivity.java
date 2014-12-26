@@ -516,35 +516,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					break;
 
 			}
-			// try {
-			// Thread.sleep(2000);
-			// } catch (InterruptedException e) {
-			// e.printStackTrace();
-			// }
-
-			// int count = 1;
-			// while (true) {
-			// String ip = null;
-			// if (null != (ip = getlocalip())) {
-			// count += 1;
-			// MyLog.e(TAG, "ip= " + ip);
-			// break;
-			// } else {
-			// MyLog.e(TAG, "pppppppppppppppppppp  Thread.sleep(500);");
-			// try {
-			// Thread.sleep(500);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// count += 1;
-			// }
-			//
-			// if (count == 10)
-			// break;
-			//
-			// }
-
 			return connRes;
 		}
 
@@ -556,23 +527,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			dismissDialog();
-			//
-			// if (0 == result) {
-			// ArrayList<Device> devList = new ArrayList<Device>();
-			// devList.add(ipcDevice);
-			// ArrayList<Device> playList = PlayUtil
-			// .prepareConnect(devList, 0);
-			// Intent apIntent = new Intent(JVQuickSettingActivity.this,
-			// JVPlayActivity.class);
-			// apIntent.putExtra("PlayFlag", Consts.PLAY_AP);
-			// apIntent.putExtra("DeviceIndex", 0);
-			// apIntent.putExtra("ChannelofChannel", 1);
-			// apIntent.putExtra(Consts.KEY_PLAY_AP, playList.toString());
-			// startActivityForResult(apIntent, JVConst.AP_CONNECT_REQUEST);
-			// } else if (1 == result) {
-			// showTextToast(R.string.str_quick_setting_ap_net_timeout);
-			// }
 			if (0 == result) {
 				ArrayList<Device> devList = new ArrayList<Device>();
 				devList.add(ipcDevice);
@@ -588,7 +542,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			} else if (1 == result) {
 				showTextToast(R.string.str_quick_setting_ap_net_timeout);
 			}
-
+			dismissDialog();
 		}
 
 		@Override
@@ -997,17 +951,15 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			if (1 != arg2) {
 				ipcWifiListView.completeRefreshing();
 			}
-			dismissDialog();
-
 			if (null != scanIpcWifiList && 0 != scanIpcWifiList.size()) {
 				ipcAdapter.setData(scanIpcWifiList, oldWifiSSID);
 				ipcWifiListView.setAdapter(ipcAdapter);
 			}
+			dismissDialog();
 			break;
 		case Consts.WHAT_QUICK_SETTING_IPC_WIFI_FAILED:// 获取IPC 列表失败
 			ipcWifiListView.completeRefreshing();
 			dismissDialog();
-			// finish();
 			break;
 		case Consts.WHAT_QUICK_SETTING_DEV_ONLINE: {// 网络恢复成功
 			try {
@@ -1029,24 +981,15 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			break;
 		case Consts.WHAT_QUICK_SETTING_MOBILE_WIFI_SUCC:// 快速设置获取主控WIFI信息数据
 			mobileWifiListView.completeRefreshing();
-			dismissDialog();
-
 			if (null != scanIpcWifiList && 0 != scanMobileWifiList.size()) {
 				mobileAdapter.setData(scanMobileWifiList, oldWifiSSID);
 				mobileWifiListView.setAdapter(mobileAdapter);
 			}
-			break;
-		// case JVConst.IPC_WIFI_CON_FAILED:// ipcwifi连接失败，
-		// dismissDialog();
-		// netErrorDialog();
-		// break;
-		// case JVConst.MOBILE_WIFI_CON_FAILED:// 手机wifi连接失败，
-		// dismissDialog();
-		// netErrorDialog();
-		// break;
-		case Consts.WHAT_AP_SET_SUCCESS:// AP配置成功
-			oldWifiSSID = desWifiSSID;
 			dismissDialog();
+			break;
+		case Consts.WHAT_AP_SET_SUCCESS:// AP配置成功
+			dismissDialog();
+			oldWifiSSID = desWifiSSID;
 			// 断开连接
 			manuDiscon = true;
 			// PlayUtil.disconnectDevice();
@@ -1055,7 +998,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			String[] params = new String[3];
 			params[0] = "true";
 			task.execute(params);
-
 			break;
 		case Consts.WHAT_AP_SET_FAILED:// AP配置失败
 			dismissDialog();

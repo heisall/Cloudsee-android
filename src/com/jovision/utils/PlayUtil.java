@@ -193,7 +193,7 @@ public class PlayUtil {
 		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentDate()
 				+ File.separator;
 		String fileName = String.valueOf(System.currentTimeMillis())
-				+ Consts.IMAGE_PNG_KIND;
+				+ Consts.IMAGE_JPG_KIND;
 		MobileUtil.createDirectory(new File(capturePath));
 		MyLog.v(TAG, "capture=" + capturePath + fileName);
 		return Jni.screenshot(index, capturePath + fileName, 100);
@@ -299,13 +299,12 @@ public class PlayUtil {
 	/**
 	 * 抓拍声音
 	 */
-	public static void prepareAndPlay(boolean playSound) {
+	public static void prepareAndPlay(MediaPlayer mediaPlayer, boolean playSound) {
 		if (playSound) {
 			try {
 				AssetManager assetMgr = mContext.getAssets();
 				// 打开指定音乐文件
 				AssetFileDescriptor afd = assetMgr.openFd("aaa.wav");
-				MediaPlayer mediaPlayer = new MediaPlayer();
 				mediaPlayer.reset();
 
 				// 使用MediaPlayer加载指定的声音文件。

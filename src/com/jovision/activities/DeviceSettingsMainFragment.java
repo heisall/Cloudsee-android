@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.Jni;
 import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVNetConst;
@@ -35,7 +36,9 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private View rootView;// 缓存Fragment view
 	private ArrayList<Device> deviceList;
 	private String devicename;
-	
+	private int channelIndex;// 窗口
+	private int deviceIndex;
+
 	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
 
@@ -53,11 +56,12 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private String startTime = "", endTime = "";
 	private String startHour = "", startMin = "";
 	private String endHour = "", endMin = "";
-	private RelativeLayout functionlayout1, functionlayout2, functionlayout3,functionlayout4;
+	private RelativeLayout functionlayout1, functionlayout2, functionlayout3,
+			functionlayout4;
 	private RelativeLayout functiontips1, functiontips2, functiontips3;
 	private TextView alarmTime0TextView;
-	
-	
+	private boolean isadmin = false;
+
 	private Dialog initDialog;// 显示弹出框
 	private TextView dialogCancel;// 取消按钮
 	private TextView dialogCompleted;// 确定按钮
@@ -65,13 +69,12 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private TextView device_name;
 	// 设备用户名
 	private EditText device_nameet;
-	// 设备用户名编辑键
-	private ImageView device_nameet_cancle;
 	// 设备密码
 	private EditText device_passwordet;
 	// 设备密码编辑键
 	private ImageView device_password_cancleI;
 	private ImageView dialog_cancle_img;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -86,12 +89,13 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+		deviceIndex = getArguments().getInt("deviceindex");
+		isadmin = getArguments().getBoolean("isadmin");
 		if (rootView == null) {
 			rootView = inflater.inflate(R.layout.dev_settings_main_fragment,
 					container, false);
 		}
-
+		deviceList = CacheUtil.getDevList();
 		ViewGroup parent = (ViewGroup) rootView.getParent();
 		if (parent != null) {
 			parent.removeView(rootView);
@@ -106,7 +110,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				.findViewById(R.id.funclayout2);
 		functionlayout3 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout3);
-		functionlayout4 = (RelativeLayout)rootView
+		functionlayout4 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout4);
 
 		functiontips1 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_01);
@@ -122,6 +126,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		functionlayout4.setOnClickListener(this);
 
 		Bundle data = getArguments();// 获得从activity中传递过来的值
+		
 		strParam = data.getString("KEY_PARAM");
 
 		try {
@@ -272,9 +277,19 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				// 隐藏
 			}
 			break;
+		case R.id.device_passwrodet_cancle:
+			device_passwordet.setText("");
+			break;
+		case R.id.dialog_cancle_img:
+			initDialog.dismiss();
+			break;
 		case R.id.funclayout4:
-			initSummaryDialog();
-			//TODO
+			if (isadmin) {
+				initSummaryDialog();
+			}else {
+				Toast.makeText(getActivity(), "你丫的没权限", Toast.LENGTH_SHORT).show();
+			}
+			// TODO
 			break;
 		case R.id.funclayout3:
 			JSONObject paraObject = new JSONObject();
@@ -292,7 +307,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			break;
 		}
 	}
-	
+
 	/** 弹出框初始化 */
 	private void initSummaryDialog() {
 		initDialog = new Dialog(getActivity(), R.style.mydialog);
@@ -305,20 +320,17 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		dialogCompleted = (TextView) view.findViewById(R.id.dialog_completed);
 		device_name = (TextView) view.findViewById(R.id.device_namew);
 		device_nameet = (EditText) view.findViewById(R.id.device_nameet);
-		device_nameet_cancle = (ImageView) view
-				.findViewById(R.id.device_nameet_cancle);
+		device_nameet.setText("admin");
+		device_nameet.setEnabled(false);
 		device_passwordet = (EditText) view
 				.findViewById(R.id.device_passwrodet);
 		device_password_cancleI = (ImageView) view
 				.findViewById(R.id.device_passwrodet_cancle);
 		dialog_cancle_img.setOnClickListener(this);
-		device_nameet_cancle.setOnClickListener(this);
 		device_password_cancleI.setOnClickListener(this);
 		initDialog.show();
-		
-		device_name.setText(devicename);
-		device_name.setFocusable(true);
-		device_name.setFocusableInTouchMode(true);
+
+		device_name.setText(deviceList.get(deviceIndex).getFullNo());
 		dialogCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -329,23 +341,33 @@ public class DeviceSettingsMainFragment extends Fragment implements
 
 			@Override
 			public void onClick(View v) {
-				
-			}
+				if ("".equals(device_passwordet.getText().toString())) {
+					Toast.makeText(getActivity(), "密码不能为空", Toast.LENGTH_SHORT).show();
+				}else {
+					JSONObject paraObject = new JSONObject();
+					try {
+						paraObject.put("userName", device_nameet.getText().toString());
+						paraObject.put("userPwd", device_passwordet.getText().toString());
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+
+					mListener.OnFuncSelected(JVNetConst.JVN_GET_USERINFO,
+							paraObject.toString());
+				}
+				}
 		});
 	}
 
-	
 	@Override
 	public void onMainAction(int packet_type, int packet_subtype, int ex_type,
 			int destFlag) {
 		Log.e("Alarm", "----onMainAction---" + packet_type + "," + packet_type
 				+ "," + ex_type);
 		switch (packet_type) {
-//		case 100:
-//			//TODO
-//			deviceList = CacheUtil.getDevList();
-//			devicename = deviceList.get(destFlag).getChannelList().get(ex_type).getChannelName();
-//			break;
+		case JVNetConst.JVN_GET_USERINFO:
+			initDialog.dismiss();
+			break;
 		case JVNetConst.RC_EXTEND: {
 			switch (packet_subtype) {
 			case JVNetConst.RC_EX_MD:

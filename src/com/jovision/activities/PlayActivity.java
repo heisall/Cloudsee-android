@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,8 @@ public abstract class PlayActivity extends BaseActivity {
 
 	protected static final int PLAY_AUDIO_WHAT = 0x26;
 	public static MyAudio playAudio;
+
+	public MediaPlayer mediaPlayer = new MediaPlayer();
 
 	protected boolean bigScreen = false;// 大小屏标识
 
@@ -975,6 +978,14 @@ public abstract class PlayActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
+		try {
+			if (null != mediaPlayer) {
+				mediaPlayer.release();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void onFlip(View view) {

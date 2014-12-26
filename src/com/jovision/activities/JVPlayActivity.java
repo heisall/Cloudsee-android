@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
@@ -67,7 +68,7 @@ import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVPlayActivity extends PlayActivity implements
-		PlayWindowManager.OnUiListener {
+PlayWindowManager.OnUiListener {
 
 	private static final int DELAY_CHECK_SURFACE = 500;
 	private static final int DELAY_DOUBLE_CHECKER = 500;
@@ -117,7 +118,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 	private WifiAdmin wifiAdmin;
 	private String ssid;
-
+	private HashMap<String ,String> powermap = new HashMap<String, String>(); 
 	private Dialog initDialog;
 	private TextView dialogCancel;
 	private TextView dialogCompleted;
@@ -363,7 +364,7 @@ public class JVPlayActivity extends PlayActivity implements
 				if (currentPageChannelList.contains(channel)) {
 					MyLog.i(Consts.TAG_XXX,
 							"recheck, need resume(" + channel.isPaused()
-									+ "): " + channel);
+							+ "): " + channel);
 					if (channel.isPaused()) {
 						resumeChannel(channel);
 					}
@@ -745,9 +746,35 @@ public class JVPlayActivity extends PlayActivity implements
 					JSONObject dataObj = new JSONObject(allStr);
 
 					switch (dataObj.getInt("flag")) {
-					case JVNetConst.JVN_EDIT_USERINFO: {// 0
-														// --修改设备的用户名密码，只要走回调就修改成功了
-						showTextToast("用户名密码修改成功");
+					case JVNetConst.JVN_GET_USERINFO: {// 20
+						// CALL_TEXT_DATA: 165, 0, 81,
+						// {"extend_arg1":64,"extend_arg2":0,"extend_arg3":0,
+						//						"extend_msg":
+						//						"+ID=admin;POWER=4;DESCRIPT=新帐户;+ID=abc;POWER=4;DESCRIPT=新帐户;",
+						//						"extend_type":3,"flag":20,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6}
+						String InfoJSON = dataObj.getString("extend_msg");
+						InfoJSON = InfoJSON.replaceAll("ID","+ID");
+						String [] array = InfoJSON.split("\\+");
+						for (int i =1; i < array.length; i++) {
+							if (null!=array[i]&&!array[i].equals("")) {
+								HashMap<String ,String> idomap = new HashMap<String, String>(); 
+								idomap = ConfigUtil.genMsgMap(array[i]);
+								if (idomap.get("ID").equalsIgnoreCase("admin")&&idomap.get("POWER").equalsIgnoreCase("4")) {
+									channelList.get(arg1).getParent().setAdmin(true);
+								}
+							}
+						}
+						//						String [] array = InfoJSON.split(";");
+						//						for (int i = 0; i < array.length; i++) {
+						//							if (null!=array[i]&&array[i].toString().substring(0, 2).equals("ID")) {
+						//								idomap.put(i+"", array[i].toString().substring(3, array[i].toString().length()));
+						//								Log.i("TAG", "获取用户名密码"+array[i].toString());
+						//								Log.i("TAG", "前几位"+array[i].toString().substring(0, 2));
+						//							}
+						//							if (null!=array[i]&&array[i].toString().substring(0, 2).equals("ID")) {
+						//							}
+						//						}
+
 						break;
 					}
 					// 远程配置请求，获取到配置文本数据
@@ -790,14 +817,18 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("MobileCH")
 									&& "2".equalsIgnoreCase(streamMap
 											.get("MobileCH"))) {
+								// 2014-12-25 获取设备用户名密码
+								Jni.sendSuperBytes(arg1, JVNetConst.JVN_RSP_TEXTDATA,
+										true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_REFRESH,
+										Consts.POWER_ADMIN, 0, 0, new byte[0], 0);
 								MyLog.e(TAG,
 										"MobileCH=" + streamMap.get("MobileCH")
-												+ "--单向对讲");
+										+ "--单向对讲");
 								channel.setSingleVoice(true);
 							} else {
 								MyLog.e(TAG,
 										"MobileCH=" + streamMap.get("MobileCH")
-												+ "--双向对讲");
+										+ "--双向对讲");
 								channel.setSingleVoice(false);
 							}
 							mobileQuality = streamMap.get("MobileQuality");
@@ -808,7 +839,7 @@ public class JVPlayActivity extends PlayActivity implements
 								MyLog.v(TAG,
 										"MobileQuality="
 												+ streamMap
-														.get("MobileQuality"));
+												.get("MobileQuality"));
 								channel.setStreamTag(Integer.parseInt(streamMap
 										.get("MobileQuality")));
 								channel.setNewIpcFlag(true);
@@ -825,7 +856,7 @@ public class JVPlayActivity extends PlayActivity implements
 											MyLog.v(TAG,
 													"MainStreamQos="
 															+ streamMap
-																	.get("MainStreamQos"));
+															.get("MainStreamQos"));
 											channel.setStreamTag(Integer.parseInt(streamMap
 													.get("MainStreamQos")));
 
@@ -841,7 +872,7 @@ public class JVPlayActivity extends PlayActivity implements
 										String strParam = streamJSON
 												.substring(
 														streamJSON
-																.lastIndexOf("[CH2];") + 6,
+														.lastIndexOf("[CH2];") + 6,
 														streamJSON.length());
 										HashMap<String, String> ch2Map = ConfigUtil
 												.genMsgMap1(strParam);
@@ -1022,8 +1053,8 @@ public class JVPlayActivity extends PlayActivity implements
 									object.getInt("window"),
 									(object.getBoolean("is_turn") ? "TURN"
 											: "P2P"),
-									(object.getBoolean("is_omx") ? "HD" : "ff"),
-									object.getDouble("kbps"), object
+											(object.getBoolean("is_omx") ? "HD" : "ff"),
+											object.getDouble("kbps"), object
 											.getDouble("decoder_fps"), object
 											.getDouble("jump_fps"), object
 											.getDouble("network_fps"), object
@@ -1031,15 +1062,15 @@ public class JVPlayActivity extends PlayActivity implements
 											.getDouble("decoder_delay"), object
 											.getDouble("render_delay"), object
 											.getInt("left")
-							// ,object.getInt("width"), object
-							// .getInt("height"), object
-							// .getInt("audio_type"), object
-							// .getDouble("audio_kbps"), object
-							// .getDouble("audio_decoder_fps"),
-							// object.getDouble("audio_network_fps"),
-							// object.getDouble("audio_decoder_delay"),
-							// object.getDouble("audio_play_delay")
-							);
+											// ,object.getInt("width"), object
+											// .getInt("height"), object
+											// .getInt("audio_type"), object
+											// .getDouble("audio_kbps"), object
+											// .getDouble("audio_decoder_fps"),
+											// object.getDouble("audio_network_fps"),
+											// object.getDouble("audio_decoder_delay"),
+											// object.getDouble("audio_play_delay")
+									);
 					sBuilder.append(msg).append("\n");
 
 					// [Neo] you fool
@@ -1047,11 +1078,20 @@ public class JVPlayActivity extends PlayActivity implements
 						// currentPageChannelList.get(0).setOMX(
 						// object.getBoolean("is_omx"));
 
+						// object.getDouble("decoder_fps"),
+						// object.getDouble("jump_fps"),
+						// object.getDouble("network_fps")
 						int window = object.getInt("window");
 						if (window == lastClickIndex) {
-							currentKbps.setText(String.format("%.1fk/%.1fk",
+							currentKbps.setText(String.format(
+									"%.1fk/%.1fk/d%.1fk/j%.1fk/n%.1fk/l%dk",
 									object.getDouble("kbps"),
-									object.getDouble("audio_kbps"))
+									object.getDouble("audio_kbps"),
+									object.getDouble("decoder_fps"),
+									object.getDouble("jump_fps"),
+									object.getDouble("network_fps"),
+									object.getInt("left"))
+
 									+ "("
 									+ (object.getBoolean("is_turn") ? "TURN"
 											: "P2P") + ")");
@@ -1181,9 +1221,9 @@ public class JVPlayActivity extends PlayActivity implements
 			builder.setMessage(
 					JVPlayActivity.this.getResources().getString(
 							R.string.connfailed_auth_tips))
-					.setCancelable(false)
-					.setPositiveButton(R.string.ok,
-							new DialogInterface.OnClickListener() {
+							.setCancelable(false)
+							.setPositiveButton(R.string.ok,
+									new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
 									dialog.dismiss();
@@ -1192,8 +1232,8 @@ public class JVPlayActivity extends PlayActivity implements
 											.get(deviceIndex));
 								}
 							})
-					.setNegativeButton(R.string.cancel,
-							new DialogInterface.OnClickListener() {
+							.setNegativeButton(R.string.cancel,
+									new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
 									dialog.dismiss();
@@ -1246,7 +1286,7 @@ public class JVPlayActivity extends PlayActivity implements
 				// 设备用户名不为空
 				if ("".equalsIgnoreCase(devicepwd_nameet.getText().toString())) {
 					JVPlayActivity.this
-							.showTextToast(R.string.login_str_device_account_notnull);
+					.showTextToast(R.string.login_str_device_account_notnull);
 				}
 				// 设备用户名验证
 				else if (!ConfigUtil.checkDeviceUsername(devicepwd_nameet
@@ -1304,10 +1344,10 @@ public class JVPlayActivity extends PlayActivity implements
 			dismissDialog();
 			if (0 == result) {
 				JVPlayActivity.this
-						.showTextToast(R.string.login_str_device_edit_success);
+				.showTextToast(R.string.login_str_device_edit_success);
 			} else {
 				JVPlayActivity.this
-						.showTextToast(R.string.login_str_device_edit_failed);
+				.showTextToast(R.string.login_str_device_edit_failed);
 			}
 			initDialog.dismiss();
 		}
@@ -1647,11 +1687,11 @@ public class JVPlayActivity extends PlayActivity implements
 				errorDialog(
 						Consts.DIALOG_NOT_SUPPORT23,
 						getResources()
-								.getString(R.string.system_lower)
-								.replace(
-										"$",
-										MobileUtil
-												.mobileSysVersion(JVPlayActivity.this)));
+						.getString(R.string.system_lower)
+						.replace(
+								"$",
+								MobileUtil
+								.mobileSysVersion(JVPlayActivity.this)));
 			}
 
 		}
@@ -1808,16 +1848,16 @@ public class JVPlayActivity extends PlayActivity implements
 		if (lastClickIndex != currentIndex) {
 			if (lastClickIndex >= 0) {
 				((View) manager.getView(lastClickIndex).getParent())
-						.setBackgroundColor(getResources().getColor(
-								R.color.videounselect));
+				.setBackgroundColor(getResources().getColor(
+						R.color.videounselect));
 			}
 			lastClickIndex = currentIndex;
 		}
 
 		if (ONE_SCREEN != currentScreen) {
 			((View) manager.getView(lastClickIndex).getParent())
-					.setBackgroundColor(getResources().getColor(
-							R.color.videoselect));
+			.setBackgroundColor(getResources().getColor(
+					R.color.videoselect));
 		}
 
 	}
@@ -1834,7 +1874,7 @@ public class JVPlayActivity extends PlayActivity implements
 				super.run();
 				channel.getParent().setIp(
 						ConfigUtil
-								.getIpAddress(channel.getParent().getDoMain()));
+						.getIpAddress(channel.getParent().getDoMain()));
 				int arg1 = isDirectly ? 1 : 0;
 				handler.sendMessage(handler.obtainMessage(
 						Consts.WHAT_RESOLVE_IP_CONNECT, arg1, 0, channel));
@@ -1891,9 +1931,9 @@ public class JVPlayActivity extends PlayActivity implements
 				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
 				connect = Jni.connect(channel.getIndex(), channel.getChannel(),
 						Consts.IPC_DEFAULT_IP, Consts.IPC_DEFAULT_PORT, device
-								.getUser(), device.getPwd(), -1, device
-								.getGid(), true, 1, true, channel.getParent()
-								.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+						.getUser(), device.getPwd(), -1, device
+						.getGid(), true, 1, true, channel.getParent()
+						.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP, channel
 								.getSurface(), isOmx, fullPath);
 				if (connect == channel.getIndex()) {
@@ -1940,8 +1980,8 @@ public class JVPlayActivity extends PlayActivity implements
 									true,
 									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 											: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
-									// ? 6 : 5),
-									channel.getSurface(), isOmx, fullPath);
+											// ? 6 : 5),
+											channel.getSurface(), isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
@@ -1961,8 +2001,8 @@ public class JVPlayActivity extends PlayActivity implements
 									true,
 									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 											: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
-									// ? 6 : 5),
-									null, isOmx, fullPath);
+											// ? 6 : 5),
+											null, isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(true);
 					}
@@ -2397,9 +2437,9 @@ public class JVPlayActivity extends PlayActivity implements
 							screenListView.setLayoutParams(params);
 							screenListView.setFadingEdgeLength(0);
 							screenListView
-									.setCacheColorHint(JVPlayActivity.this
-											.getResources().getColor(
-													R.color.transparent));
+							.setCacheColorHint(JVPlayActivity.this
+									.getResources().getColor(
+											R.color.transparent));
 							popScreen.showAsDropDown(currentMenu);
 						}
 					} else if (popScreen.isShowing()) {
@@ -2429,12 +2469,12 @@ public class JVPlayActivity extends PlayActivity implements
 						} else {
 							startAudio(lastClickIndex,
 									channelList.get(lastClickIndex)
-											.getAudioByte());
+									.getAudioByte());
 							functionListAdapter.selectIndex = 2;
 							bottombut8
-									.setBackgroundDrawable(getResources()
-											.getDrawable(
-													R.drawable.video_monitorselect_icon));
+							.setBackgroundDrawable(getResources()
+									.getDrawable(
+											R.drawable.video_monitorselect_icon));
 							varvoice.setBackgroundDrawable(getResources()
 									.getDrawable(
 											R.drawable.video_monitorselect_icon));
@@ -2485,63 +2525,67 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
-				String userName = "admin";
-				String userPwd = "123";
-				String des = "haha";
-				byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
-						+ Consts.SIZE_DESCRIPT];
-				byte[] userNameByte = userName.getBytes();
-				byte[] userPwdByte = userPwd.getBytes();
-				byte[] desByte = des.getBytes();
-				MyLog.e("byte-1", "userNameByte.length=" + userNameByte.length);
-				MyLog.e("byte-2", "userPwdByte.length=" + userPwdByte.length);
-				MyLog.e("byte-3", "desByte.length=" + desByte.length);
-				System.arraycopy(userNameByte, 0, paramByte, 0,
-						userNameByte.length);
-				System.arraycopy(userPwdByte, 0, paramByte, Consts.SIZE_ID,
-						userPwdByte.length);
-				System.arraycopy(desByte, 0, paramByte, Consts.SIZE_ID
-						+ Consts.SIZE_PW, desByte.length);
-				MyLog.e("byte-4", "paramByte.length=" + paramByte.length);
-				MyLog.e("byte-5", "paramByte=" + paramByte.toString());
-				// CALL_TEXT_DATA: 165, 0, 81,
-				// {"extend_arg1":0,"extend_arg2":0,"extend_arg3":0,"extend_type":0,"flag":85,"packet_count":0,"packet_id":0,"packet_length":0,"packet_type":12,"type":81}
-
-				Jni.sendSuperBytes(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-						true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_REFRESH,
-						Consts.POWER_ADMIN, 0, 0, new byte[0], 0);
-				// Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-				// true, 0, Consts.EX_ACCOUNT_REFRESH, "");
-				// //CALL_TEXT_DATA: 165, 0, 81,
+				// String userName = "admin";
+				// String userPwd = "123";
+				// String des = "haha";
+				// byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
+				// + Consts.SIZE_DESCRIPT];
+				// byte[] userNameByte = userName.getBytes();
+				// byte[] userPwdByte = userPwd.getBytes();
+				// byte[] desByte = des.getBytes();
+				// MyLog.e("byte-1", "userNameByte.length=" +
+				// userNameByte.length);
+				// MyLog.e("byte-2", "userPwdByte.length=" +
+				// userPwdByte.length);
+				// MyLog.e("byte-3", "desByte.length=" + desByte.length);
+				// System.arraycopy(userNameByte, 0, paramByte, 0,
+				// userNameByte.length);
+				// System.arraycopy(userPwdByte, 0, paramByte, Consts.SIZE_ID,
+				// userPwdByte.length);
+				// System.arraycopy(desByte, 0, paramByte, Consts.SIZE_ID
+				// + Consts.SIZE_PW, desByte.length);
+				// MyLog.e("byte-4", "paramByte.length=" + paramByte.length);
+				// MyLog.e("byte-5", "paramByte=" + paramByte.toString());
+				//
+				// // 2014-12-25 获取设备用户名密码
+				// // CALL_TEXT_DATA: 165, 0, 81,
+				// //
+				// {"extend_arg1":64,"extend_arg2":0,"extend_arg3":0,"extend_msg":"ID=admin;POWER=4;DESCRIPT=新帐户;ID=abc;POWER=4;DESCRIPT=新帐户;","extend_type":3,"flag":20,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6}
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA,
+				// true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_REFRESH,
+				// Consts.POWER_ADMIN, 0, 0, new byte[0], 0);
+				//
+				// // 2014-12-25 修改设备用户名密码
+				// // //CALL_TEXT_DATA: 165, 0, 81,
+				// //
 				// {"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
 				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA, true, Consts.RC_EX_ACCOUNT,
-				// Consts.EX_ACCOUNT_MODIFY, Consts.POWER_ADMIN, 0, 0,paramByte,
-				// paramByte.length);
-				// Bytes(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,paramByte,
-				// paramByte.length);
+				// JVNetConst.JVN_RSP_TEXTDATA,
+				// true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY,
+				// Consts.POWER_ADMIN, 0, 0, paramByte, paramByte.length);
 
-				// if (View.VISIBLE == streamListView.getVisibility()) {
-				// streamListView.setVisibility(View.GONE);
-				// }
-				// if (Consts.ISHITVIS == 1) {
-				// PlayUtil.hitviscapture(lastClickIndex);
-				// Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
-				// true, JVNetConst.RC_EX_FlashJpeg,
-				// JVNetConst.RC_EXTEND, null);
-				// } else {
-				// if (hasSDCard() && allowThisFuc(false)) {
-				// boolean captureRes = PlayUtil.capture(lastClickIndex);
-				// if (captureRes) {
-				// PlayUtil.prepareAndPlay(true);
-				// showTextToast(Consts.CAPTURE_PATH);
-				// MyLog.e("capture", "success");
-				// } else {
-				// showTextToast(R.string.str_capture_error);
-				// }
-				// }
-				//
-				// }
+				if (View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				}
+				if (Consts.ISHITVIS == 1) {
+					PlayUtil.hitviscapture(lastClickIndex);
+					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
+							true, JVNetConst.RC_EX_FlashJpeg,
+							JVNetConst.RC_EXTEND, null);
+				} else {
+					if (hasSDCard() && allowThisFuc(false)) {
+						boolean captureRes = PlayUtil.capture(lastClickIndex);
+						if (captureRes) {
+							PlayUtil.prepareAndPlay(mediaPlayer, true);
+							showTextToast(Consts.CAPTURE_PATH);
+							MyLog.e("capture", "success");
+						} else {
+							showTextToast(R.string.str_capture_error);
+						}
+					}
+
+				}
 				break;
 			case R.id.bottom_but5:
 			case R.id.funclayout:// AP功能列表对讲功能
@@ -2572,7 +2616,7 @@ public class JVPlayActivity extends PlayActivity implements
 				int rows = 3;
 				if (channelList.get(lastClickIndex).isNewIpcFlag()
 						|| channelList.get(lastClickIndex).getParent()
-								.isOldDevice()) {
+						.isOldDevice()) {
 					streamListView.setBackgroundDrawable(getResources()
 							.getDrawable(R.drawable.stream_selector_bg3));
 					rows = 3;
@@ -2603,11 +2647,11 @@ public class JVPlayActivity extends PlayActivity implements
 				if (channelList.get(lastClickIndex).isPaused()) {
 					resumeChannel(channelList.get(lastClickIndex));
 					bottombut1
-							.setBackgroundResource(R.drawable.video_stop_icon);
+					.setBackgroundResource(R.drawable.video_stop_icon);
 				} else {
 					pauseChannel(channelList.get(lastClickIndex));
 					bottombut1
-							.setBackgroundResource(R.drawable.video_play_icon);
+					.setBackgroundResource(R.drawable.video_play_icon);
 				}
 				break;
 
@@ -3132,36 +3176,36 @@ public class JVPlayActivity extends PlayActivity implements
 			builder.setView(layout);
 			builder.setNegativeButton(R.string.download,
 					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-							showingDialog = false;
-							try {
-								Uri uri = Uri
-										.parse("http://down.jovision.com:81/cn/data/CloudSEE2.8.5.apk");
-								Intent it = new Intent(Intent.ACTION_VIEW, uri);
-								startActivity(it);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					showingDialog = false;
+					try {
+						Uri uri = Uri
+								.parse("http://down.jovision.com:81/cn/data/CloudSEE2.8.5.apk");
+						Intent it = new Intent(Intent.ACTION_VIEW, uri);
+						startActivity(it);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 
-						}
+				}
 
-					});
+			});
 
 			builder.setPositiveButton(R.string.cancel,
 					new DialogInterface.OnClickListener() {
 
-						@Override
-						public void onClick(DialogInterface dialog, int arg1) {
-							dialog.dismiss();
-							showingDialog = false;
-							handler.sendMessageDelayed(handler
-									.obtainMessage(Consts.WHAT_START_CONNECT),
-									1000);
-						}
+				@Override
+				public void onClick(DialogInterface dialog, int arg1) {
+					dialog.dismiss();
+					showingDialog = false;
+					handler.sendMessageDelayed(handler
+							.obtainMessage(Consts.WHAT_START_CONNECT),
+							1000);
+				}
 
-					});
+			});
 
 			builder.show();
 		}
@@ -3331,6 +3375,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 						Intent intent = new Intent(JVPlayActivity.this,
 								DeviceSettingsActivity.class);
+						intent.putExtra("isadmin", channelList.get(lastClickIndex).getParent().isAdmin());
 						intent.putExtra("window", lastClickIndex);
 						intent.putExtra("deviceIndex", deviceIndex);
 						intent.putExtra("updateflag", updateStreaminfoFlag);

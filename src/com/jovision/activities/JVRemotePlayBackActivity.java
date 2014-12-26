@@ -536,7 +536,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 					if (hasSDCard()) {
 						boolean captureRes = PlayUtil.capture(indexOfChannel);
 						if (captureRes) {
-							PlayUtil.prepareAndPlay(true);
+							PlayUtil.prepareAndPlay(mediaPlayer, true);
 							showTextToast(Consts.CAPTURE_PATH);
 							MyLog.e("capture", "success");
 						} else {

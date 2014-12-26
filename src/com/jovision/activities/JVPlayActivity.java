@@ -1087,11 +1087,20 @@ public class JVPlayActivity extends PlayActivity implements
 						// currentPageChannelList.get(0).setOMX(
 						// object.getBoolean("is_omx"));
 
+						// object.getDouble("decoder_fps"),
+						// object.getDouble("jump_fps"),
+						// object.getDouble("network_fps")
 						int window = object.getInt("window");
 						if (window == lastClickIndex) {
-							currentKbps.setText(String.format("%.1fk/%.1fk",
+							currentKbps.setText(String.format(
+									"%.1fk/%.1fk/d%.1fk/j%.1fk/n%.1fk/l%dk",
 									object.getDouble("kbps"),
-									object.getDouble("audio_kbps"))
+									object.getDouble("audio_kbps"),
+									object.getDouble("decoder_fps"),
+									object.getDouble("jump_fps"),
+									object.getDouble("network_fps"),
+									object.getInt("left"))
+
 									+ "("
 									+ (object.getBoolean("is_turn") ? "TURN"
 											: "P2P") + ")");
@@ -1935,7 +1944,7 @@ public class JVPlayActivity extends PlayActivity implements
 								.getGid(), true, 1, true, channel.getParent()
 								.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP, channel
-								.getSurface(), isOmx, fullPath);
+								.getSurface(), false, isOmx, fullPath);
 				if (connect == channel.getIndex()) {
 					channel.setPaused(null == channel.getSurface());
 				}
@@ -1980,8 +1989,8 @@ public class JVPlayActivity extends PlayActivity implements
 									true,
 									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 											: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
-									// ? 6 : 5),
-									channel.getSurface(), isOmx, fullPath);
+											// ? 6 : 5),
+											channel.getSurface(), false, isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
@@ -2001,8 +2010,8 @@ public class JVPlayActivity extends PlayActivity implements
 									true,
 									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 											: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
-									// ? 6 : 5),
-									null, isOmx, fullPath);
+											// ? 6 : 5),
+											null, false,isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(true);
 					}
@@ -2577,7 +2586,7 @@ public class JVPlayActivity extends PlayActivity implements
 					if (hasSDCard() && allowThisFuc(false)) {
 						boolean captureRes = PlayUtil.capture(lastClickIndex);
 						if (captureRes) {
-							PlayUtil.prepareAndPlay(true);
+							PlayUtil.prepareAndPlay(mediaPlayer, true);
 							showTextToast(Consts.CAPTURE_PATH);
 							MyLog.e("capture", "success");
 						} else {

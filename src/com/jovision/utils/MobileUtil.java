@@ -90,10 +90,16 @@ public class MobileUtil {
 	 */
 	public static void createDirectory(File file) {
 		if (null != file && file.getParentFile().exists()) {
-			file.mkdir();
+			boolean res = file.mkdir();
+			if (!res) {
+				file.delete();
+			}
 		} else {
 			createDirectory(file.getParentFile());
-			file.mkdir();
+			boolean res = file.mkdir();
+			if (!res) {
+				file.delete();
+			}
 		}
 	}
 

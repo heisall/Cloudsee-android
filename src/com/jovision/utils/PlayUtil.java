@@ -193,7 +193,7 @@ public class PlayUtil {
 		String capturePath = Consts.CAPTURE_PATH + ConfigUtil.getCurrentDate()
 				+ File.separator;
 		String fileName = String.valueOf(System.currentTimeMillis())
-				+ Consts.IMAGE_PNG_KIND;
+				+ Consts.IMAGE_JPG_KIND;
 		MobileUtil.createDirectory(new File(capturePath));
 		MyLog.v(TAG, "capture=" + capturePath + fileName);
 		return Jni.screenshot(index, capturePath + fileName, 100);
@@ -299,13 +299,12 @@ public class PlayUtil {
 	/**
 	 * 抓拍声音
 	 */
-	public static void prepareAndPlay(boolean playSound) {
+	public static void prepareAndPlay(MediaPlayer mediaPlayer, boolean playSound) {
 		if (playSound) {
 			try {
 				AssetManager assetMgr = mContext.getAssets();
 				// 打开指定音乐文件
 				AssetFileDescriptor afd = assetMgr.openFd("aaa.wav");
-				MediaPlayer mediaPlayer = new MediaPlayer();
 				mediaPlayer.reset();
 
 				// 使用MediaPlayer加载指定的声音文件。
@@ -1221,13 +1220,13 @@ public class PlayUtil {
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(), dev
 					.getPwd(), -1, ConfigUtil.getGroup(dev.getFullNo()), true,
 					1, true, dev.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-							: JVNetConst.TYPE_3GMO_UDP, null, false, null);
+							: JVNetConst.TYPE_3GMO_UDP, null, false, false, null);
 		} else {
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(), dev
 					.getPwd(), ConfigUtil.getYST(dev.getFullNo()), ConfigUtil
 					.getGroup(dev.getFullNo()), true, 1, true, dev
 					.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-					: JVNetConst.TYPE_3GMO_UDP, null, false, null);
+					: JVNetConst.TYPE_3GMO_UDP, null, false, false, null);
 		}
 
 	}

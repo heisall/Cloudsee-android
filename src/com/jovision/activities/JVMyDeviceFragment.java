@@ -1236,61 +1236,31 @@ public class JVMyDeviceFragment extends BaseFragment {
 		int adVersion = 0;
 		// 本地获取广告数据
 		adList = AD.fromJsonArray(MySharedPreference.getString(Consts.AD_LIST));
-		if (null == adList || 0 == adList.size()) {// 本地没有广告去网上获取
-			adVersion = MySharedPreference.getInt(Consts.AD_VERSION);
 
-		} else {
-			adVersion = adList.get(0).getVersion();
+		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {
+
+			if (null == adList || 0 == adList.size()) {// 本地没有广告去网上获取
+				adVersion = MySharedPreference.getInt(Consts.AD_VERSION);
+			} else {
+				adVersion = adList.get(0).getVersion();
+			}
+			adList = DeviceUtil.getADList(adVersion);
+
+			if (null == adList) {// 获取广告出错
+				adList = AD.fromJsonArray(MySharedPreference
+						.getString(Consts.AD_LIST));
+			} else if (0 == adList.size()) {// 未检查到更新
+				adList = AD.fromJsonArray(MySharedPreference
+						.getString(Consts.AD_LIST));
+			} else if (adList.size() > 0) {// 有新广告
+				// 删除老广告
+				File adFolder = new File(Consts.AD_PATH);
+				MobileUtil.deleteFile(adFolder);
+				MySharedPreference.putString(Consts.AD_LIST, adList.toString());
+			}
 		}
-		adList = DeviceUtil.getADList(adVersion);
 
-		if (null == adList) {// 获取广告出错
-			adList = AD.fromJsonArray(MySharedPreference
-					.getString(Consts.AD_LIST));
-			// 从网上获取广告图片
-			for (AD ad : adList) {
-				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
-					BitmapCache.getInstance().getBitmap(
-							ad.getAdImgUrlCh(),
-							"net",
-							String.valueOf(ad.getIndex())
-									+ ConfigUtil.getLanguage());
-				} else {
-					BitmapCache.getInstance().getBitmap(
-							ad.getAdImgUrlEn(),
-							"net",
-							String.valueOf(ad.getIndex())
-									+ ConfigUtil.getLanguage());
-				}
-
-			}
-		} else if (0 == adList.size()) {// 未检查到更新
-			adList = AD.fromJsonArray(MySharedPreference
-					.getString(Consts.AD_LIST));
-
-			// 从网上获取广告图片
-			for (AD ad : adList) {
-				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
-					BitmapCache.getInstance().getBitmap(
-							ad.getAdImgUrlCh(),
-							"net",
-							String.valueOf(ad.getIndex())
-									+ ConfigUtil.getLanguage());
-				} else {
-					BitmapCache.getInstance().getBitmap(
-							ad.getAdImgUrlEn(),
-							"net",
-							String.valueOf(ad.getIndex())
-									+ ConfigUtil.getLanguage());
-				}
-
-			}
-		} else if (adList.size() > 0) {// 有新广告
-			// 删除老广告
-			File adFolder = new File(Consts.AD_PATH);
-			MobileUtil.deleteFile(adFolder);
-			MySharedPreference.putString(Consts.AD_LIST, adList.toString());
-
+		if (null != adList && 0 != adList.size()) {
 			// 从网上获取广告图片
 			for (AD ad : adList) {
 				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {

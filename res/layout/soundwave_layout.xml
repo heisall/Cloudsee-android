@@ -238,17 +238,17 @@
 
             <com.jovision.views.ProgressWheel
                 android:id="@+id/progressBarTwo"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 ProgressWheel:barColor="#339BB9"
-                ProgressWheel:barLength="60dp"
-                ProgressWheel:barWidth="25dp"
+                ProgressWheel:barLength="30dp"
+                ProgressWheel:barWidth="5dp"
                 ProgressWheel:rimColor="#44000000"
-                ProgressWheel:rimWidth="25dp"
-                ProgressWheel:spinSpeed="3dp"
-                ProgressWheel:text="Click\none of the\nbuttons"
+                android:layout_centerInParent="true"
+                ProgressWheel:rimWidth="5dp"
                 ProgressWheel:textColor="#222222"
-                ProgressWheel:textSize="14sp" />
+                ProgressWheel:textSize="14sp"
+                 />
 
             <ListView
                 android:id="@+id/devlistview"

@@ -423,6 +423,7 @@ public class Consts {
 	public static final int WHAT_BROAD_FINISHED = 0x3D;// 广播回调完毕
 	public static final int WHAT_ADD_DEVICE = 0x3E;// 添加设备
 	public static final int WHAT_SEND_WAVE = 0x3F;// 发送声波命令
+	public static final int  WHAT_WHEEL_DISMISS = 0x61;//隐藏40秒倒计时
 
 	// JVPlayActivity
 	public static final int WHAT_CHECK_SURFACE = 0x40;

@@ -2535,6 +2535,41 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
+
+				// //1.发送升级命令
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA, true, 0, Consts.EX_UPLOAD_START,
+				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+				//
+				// //2.创建计时器每隔一段时间获取下载进度：
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA, true, 0, Consts.EX_UPLOAD_DATA,
+				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+				//
+				// //3.处理升级进度命令，进度为100时，表示下载完毕，并发送EX_UPLOAD_OK命令：
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA, true, 0, Consts.EX_UPLOAD_OK,
+				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+				//
+				// //4. 收到EX_UPLOAD_OK命令反馈，发送烧写命令：
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA, true, 0, Consts.EX_FIRMUP_START,
+				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+				//
+				// //5. 收到EX_FIRMUP_START命令反馈，发送获取烧写进度命令，创建计时器，一直发送获取烧写进度命令：
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA, true, 0, Consts.EX_FIRMUP_STEP,
+				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+				//
+				// //6.
+				// 收到EX_FIRMUP_STEP命令反馈，将烧写进度显示出来，一直等收到EX_FIRMUP_OK命令，表示烧写完毕
+				// // Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA, true, 0, Consts.EX_FIRMUP_STEP,
+				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+				//
+				//
+				// //7. 处理升级结果
+
 				// String userName = "admin";
 				// String userPwd = "123";
 				// String des = "haha";
@@ -2559,8 +2594,7 @@ public class JVPlayActivity extends PlayActivity implements
 				//
 				// // 2014-12-25 获取设备用户名密码
 				// // CALL_TEXT_DATA: 165, 0, 81,
-				// //
-				// {"extend_arg1":64,"extend_arg2":0,"extend_arg3":0,"extend_msg":"ID=admin;POWER=4;DESCRIPT=新帐户;ID=abc;POWER=4;DESCRIPT=新帐户;","extend_type":3,"flag":20,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6}
+				// //{"extend_arg1":64,"extend_arg2":0,"extend_arg3":0,"extend_msg":"ID=admin;POWER=4;DESCRIPT=新帐户;ID=abc;POWER=4;DESCRIPT=新帐户;","extend_type":3,"flag":20,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6}
 				// Jni.sendSuperBytes(lastClickIndex,
 				// JVNetConst.JVN_RSP_TEXTDATA,
 				// true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_REFRESH,
@@ -2568,8 +2602,7 @@ public class JVPlayActivity extends PlayActivity implements
 				//
 				// // 2014-12-25 修改设备用户名密码
 				// // //CALL_TEXT_DATA: 165, 0, 81,
-				// //
-				// {"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
+				// //{"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
 				// Jni.sendSuperBytes(lastClickIndex,
 				// JVNetConst.JVN_RSP_TEXTDATA,
 				// true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY,

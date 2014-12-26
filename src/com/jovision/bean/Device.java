@@ -63,7 +63,9 @@ public class Device {
 	private int isDevice = 0;
 	/** 是否在线 0.不在线 1.在线 */
 	private int onlineState = 0;
-
+	
+	/***  2014-12-25***/
+	private boolean admin;
 	/**
 	 * 设备在线服务器（报警服务器）上线状态标识 dimols为0表示此设备在设备在线服务器离线，为1表示在线
 	 * 在设备管理界面（报警防护开关界面）需判断此标识，如果此标识为离线，则不允许用户操作报警防护开关。
@@ -561,6 +563,14 @@ public class Device {
 
 	public void setOldDevice(boolean oldDevice) {
 		this.oldDevice = oldDevice;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 
 }

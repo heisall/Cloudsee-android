@@ -178,6 +178,7 @@ public final class JVNetConst {
 	public final static byte JVN_WIFI_SETTING_SUCCESS = 4;// WIFI配置成功
 	public final static byte JVN_WIFI_SETTING_FAILED = 5;// WIFI配置失败
 	public final static byte JVN_WIFI_IS_SETTING = 6;// WIFI配置正在配置
+	public final static byte JVN_GET_USERINFO = 20;// 获得用户名密码请求
 	public final static byte JVN_RECORD_RESULT = 100;// 录像模式切换回调
 
 	public final static byte RC_EX_FlashJpeg = (byte) 0x0a;

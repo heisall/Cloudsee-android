@@ -37,7 +37,7 @@ import com.jovision.utils.DeviceUtil;
 import com.tencent.stat.StatService;
 
 public class DeviceSettingsActivity extends BaseActivity implements
-		OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
+OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 	protected boolean bConnectedFlag = true;
 	private ProgressDialog waitingDialog;
 	private DeviceSettingsMainFragment deviceSettingsMainFragment;
@@ -66,6 +66,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private int funcIndex = -1;
 	private String[] funcParamArray;
 	private HashMap<String, String> streamMap;
+	private boolean isadmin;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		myHandler = new MyHandler();
 		window = extras.getInt("window");
 		deviceIndex = extras.getInt("deviceIndex");
+		isadmin = extras.getBoolean("isadmin");
 		streamMap = (HashMap<String, String>) extras
 				.getSerializable("streamMap");
 		deviceList = CacheUtil.getDevList();
@@ -96,13 +98,13 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			waitingDialog = new ProgressDialog(this);
 			waitingDialog.setCancelable(false);
 			waitingDialog
-					.setMessage(getResources().getString(R.string.waiting));
+			.setMessage(getResources().getString(R.string.waiting));
 			if (!update_flag) {
 				waitingDialog.show();
 				Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
 				new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
-						.start();
+				.start();
 			}
 			// waitingDialog.show();
 			// 获取当前设置
@@ -140,7 +142,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				bConnectedFlag = false;
 
 			}
-				break;
+			break;
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
 				bConnectedFlag = false;
@@ -170,7 +172,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					e.printStackTrace();
 				}
 			}
-				break;
+			break;
 			case JVNetConst.ABNORMAL_DISCONNECT:
 			case JVNetConst.SERVICE_STOP:
 				if (waitingDialog != null && waitingDialog.isShowing())
@@ -205,6 +207,13 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					JSONObject dataObj = new JSONObject(allStr);
 					int flag = dataObj.getInt("flag");
 					switch (flag) {
+					case JVNetConst.JVN_GET_USERINFO:{
+						// --修改设备的用户名密码，只要走回调就修改成功了
+						showTextToast("用户名密码修改成功");
+						mainListener.onMainAction(JVNetConst.JVN_GET_USERINFO,
+								0, 0, 0);
+						break;
+					}
 					case JVNetConst.JVN_STREAM_INFO:
 						myHandler.removeMessages(JVNetConst.JVN_STREAM_INFO);
 						HashMap<String, String> map = ConfigUtil
@@ -242,7 +251,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 									+ "--" + alarmEnabling);
 							alarmEnabled = alarmEnabling;
 							initDevParamObject
-									.put("bAlarmEnable", alarmEnabled);
+							.put("bAlarmEnable", alarmEnabled);
 							mainListener.onMainAction(packet_type,
 									packet_subtype, ex_type, alarmEnabling);
 						} else {
@@ -312,7 +321,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 						0x02,
 						String.format(Consts.FORMATTER_SET_ALARM_ONLY, enabled));
 				new Thread(new TimeOutProcess(Consts.DEV_SETTINGS_ALARM))
-						.start();
+				.start();
 			} else {
 				AlarmSwitchTask task = new AlarmSwitchTask();
 				String[] params = new String[3];
@@ -438,6 +447,41 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		funcIndex = func_index;
 		switch (func_index) {
+		case JVNetConst.JVN_GET_USERINFO:
+			JSONObject paraObject;
+			try {
+				paraObject = new JSONObject(params);
+				String userName = paraObject.getString("userName");
+				String userPwd = paraObject.getString("userPwd");
+				String des = "";
+				byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
+				                            + Consts.SIZE_DESCRIPT];
+				byte[] userNameByte = userName.getBytes();
+				byte[] userPwdByte = userPwd.getBytes();
+				byte[] desByte = des.getBytes();
+				MyLog.e("byte-1", "userNameByte.length=" + userNameByte.length);
+				MyLog.e("byte-2", "userPwdByte.length=" + userPwdByte.length);
+				MyLog.e("byte-3", "desByte.length=" + desByte.length);
+				System.arraycopy(userNameByte, 0, paramByte, 0,
+						userNameByte.length);
+				System.arraycopy(userPwdByte, 0, paramByte, Consts.SIZE_ID,
+						userPwdByte.length);
+				System.arraycopy(desByte, 0, paramByte, Consts.SIZE_ID
+						+ Consts.SIZE_PW, desByte.length);
+				MyLog.e("byte-4", "paramByte.length=" + paramByte.length);
+				MyLog.e("byte-5", "paramByte=" + paramByte.toString());
+				
+			// 2014-12-25 修改设备用户名密码
+			// //CALL_TEXT_DATA: 165, 0, 81,
+			// {"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
+			Jni.sendSuperBytes(window, JVNetConst.JVN_RSP_TEXTDATA,
+					true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY,
+					Consts.POWER_ADMIN, 0, 0, paramByte, paramByte.length);
+			} catch (JSONException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			break;
 		case Consts.DEV_SETTINGS_ALARMTIME:// 防护时间段
 			titleTv.setText(R.string.str_protected_time);
 			DevSettingsAlarmTimeFragment alarmTimeFragment = new DevSettingsAlarmTimeFragment();
@@ -523,7 +567,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				FragmentTransaction ft = getSupportFragmentManager()
 						.beginTransaction();
 				ft.replace(R.id.fragment_container, deviceSettingsMainFragment)
-						.commitAllowingStateLoss();
+				.commitAllowingStateLoss();
 				fragment_tag = 0;
 				break;
 			default:
@@ -555,7 +599,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				FragmentTransaction ft = getSupportFragmentManager()
 						.beginTransaction();
 				ft.replace(R.id.fragment_container, deviceSettingsMainFragment)
-						.commitAllowingStateLoss();
+				.commitAllowingStateLoss();
 				fragment_tag = 0;
 				break;
 			default:
@@ -658,7 +702,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.replace(R.id.fragment_container, deviceSettingsMainFragment)
-				.commitAllowingStateLoss();
+		.commitAllowingStateLoss();
 		fragment_tag = 0;
 	}
 
@@ -672,7 +716,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		case Consts.DEV_SETTINGS_ALARM:// 安全防护
 			// alarmEnabling已经是即将要改变的状态,详情见onFuncEnabled
 			if (alarmEnabling == Integer
-					.valueOf(funcParamArray[func_index - 1])) {
+			.valueOf(funcParamArray[func_index - 1])) {
 				// 成功
 				// 安全防护或者设置安全防护时间ok
 				alarmEnabled = alarmEnabling;
@@ -832,12 +876,14 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			deviceSettingsMainFragment = new DeviceSettingsMainFragment();
 			Bundle bundle1 = new Bundle();
 			bundle1.putString("KEY_PARAM", initDevParamObject.toString());
+			bundle1.putInt("deviceindex", deviceIndex);
+			bundle1.putBoolean("isadmin", isadmin);
 			deviceSettingsMainFragment.setArguments(bundle1);
 			FragmentManager fm = getSupportFragmentManager();
 			FragmentTransaction ft = getSupportFragmentManager()
 					.beginTransaction();
 			ft.add(R.id.fragment_container, deviceSettingsMainFragment)
-					.commitAllowingStateLoss();
+			.commitAllowingStateLoss();
 			fragment_tag = 0;
 		}
 		return 0;

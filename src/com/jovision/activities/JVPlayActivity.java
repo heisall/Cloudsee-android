@@ -1944,7 +1944,7 @@ public class JVPlayActivity extends PlayActivity implements
 								.getGid(), true, 1, true, channel.getParent()
 								.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP, channel
-								.getSurface(), isOmx, fullPath);
+								.getSurface(), false, isOmx, fullPath);
 				if (connect == channel.getIndex()) {
 					channel.setPaused(null == channel.getSurface());
 				}
@@ -1989,8 +1989,8 @@ public class JVPlayActivity extends PlayActivity implements
 									true,
 									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 											: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
-									// ? 6 : 5),
-									channel.getSurface(), isOmx, fullPath);
+											// ? 6 : 5),
+											channel.getSurface(), false, isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
@@ -2010,8 +2010,8 @@ public class JVPlayActivity extends PlayActivity implements
 									true,
 									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 											: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
-									// ? 6 : 5),
-									null, isOmx, fullPath);
+											// ? 6 : 5),
+											null, false,isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(true);
 					}

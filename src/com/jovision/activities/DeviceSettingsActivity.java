@@ -209,7 +209,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					switch (flag) {
 					case JVNetConst.JVN_GET_USERINFO: {
 						// --修改设备的用户名密码，只要走回调就修改成功了
-						showTextToast("用户名密码修改成功");
+						showTextToast(getResources().getString(
+								R.string.pwd_success));
 						mainListener.onMainAction(JVNetConst.JVN_GET_USERINFO,
 								0, 0, 0);
 						break;
@@ -478,7 +479,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
 						Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY,
 						Consts.POWER_ADMIN, 0, 0, paramByte, paramByte.length);
 			} catch (JSONException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
 			break;

@@ -286,7 +286,10 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			if (isadmin) {
 				initSummaryDialog();
 			} else {
-				Toast.makeText(getActivity(), "你丫的没权限", Toast.LENGTH_SHORT)
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.edit_pass_not), Toast.LENGTH_SHORT)
 						.show();
 			}
 			// TODO
@@ -342,8 +345,11 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				if ("".equals(device_passwordet.getText().toString())) {
-					Toast.makeText(getActivity(), "密码不能为空", Toast.LENGTH_SHORT)
-							.show();
+					Toast.makeText(
+							getActivity(),
+							getActivity().getResources().getString(
+									R.string.login_str_device_pass_notnull),
+							Toast.LENGTH_SHORT).show();
 				} else {
 					JSONObject paraObject = new JSONObject();
 					try {

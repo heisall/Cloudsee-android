@@ -1047,11 +1047,20 @@ public class JVPlayActivity extends PlayActivity implements
 						// currentPageChannelList.get(0).setOMX(
 						// object.getBoolean("is_omx"));
 
+						// object.getDouble("decoder_fps"),
+						// object.getDouble("jump_fps"),
+						// object.getDouble("network_fps")
 						int window = object.getInt("window");
 						if (window == lastClickIndex) {
-							currentKbps.setText(String.format("%.1fk/%.1fk",
+							currentKbps.setText(String.format(
+									"%.1fk/%.1fk/d%.1fk/j%.1fk/n%.1fk/l%dk",
 									object.getDouble("kbps"),
-									object.getDouble("audio_kbps"))
+									object.getDouble("audio_kbps"),
+									object.getDouble("decoder_fps"),
+									object.getDouble("jump_fps"),
+									object.getDouble("network_fps"),
+									object.getInt("left"))
+
 									+ "("
 									+ (object.getBoolean("is_turn") ? "TURN"
 											: "P2P") + ")");
@@ -2537,7 +2546,7 @@ public class JVPlayActivity extends PlayActivity implements
 					if (hasSDCard() && allowThisFuc(false)) {
 						boolean captureRes = PlayUtil.capture(lastClickIndex);
 						if (captureRes) {
-							PlayUtil.prepareAndPlay(true);
+							PlayUtil.prepareAndPlay(mediaPlayer, true);
 							showTextToast(Consts.CAPTURE_PATH);
 							MyLog.e("capture", "success");
 						} else {

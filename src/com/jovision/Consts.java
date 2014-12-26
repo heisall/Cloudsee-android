@@ -217,9 +217,10 @@ public class Consts {
 	public static final int EX_ACCOUNT_MODIFY = 0x06;
 
 	// 操作状态
-	public static final int ERR_EXISTED = 0x1;
-	public static final int ERR_LIMITED = 0x2;
-	public static final int ERR_NOTEXIST = 0x3;
+	public static final int ERR_OK = 0x0; // 修改成功 
+	public static final int ERR_EXISTED = 0x1; // 用户已存在 
+	public static final int ERR_LIMITED = 0x2; // 用户太多，超出了限制 
+	public static final int ERR_NOTEXIST = 0x3; // 指定的用户不存在
 	public static final int ERR_PASSWD = 0x4; // 密码错误
 	public static final int ERR_PERMISION_DENIED = 0x5;// 无权限
 

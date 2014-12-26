@@ -515,7 +515,8 @@ public class AlarmUtil {
 						.getPwd(), device.getNo(), device.getGid(), true, 1,
 						true,
 						device.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-								: JVNetConst.TYPE_3GMO_UDP, null, false, false, null) >= 0;
+								: JVNetConst.TYPE_3GMO_UDP, null, false, false,
+						null) >= 0;
 			} else {
 				// IP直连
 				MyLog.v("New Alarm",

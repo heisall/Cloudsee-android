@@ -63,8 +63,8 @@ public class Device {
 	private int isDevice = 0;
 	/** 是否在线 0.不在线 1.在线 */
 	private int onlineState = 0;
-	
-	/***  2014-12-25***/
+
+	/*** 2014-12-25 ***/
 	private boolean admin;
 	/**
 	 * 设备在线服务器（报警服务器）上线状态标识 dimols为0表示此设备在设备在线服务器离线，为1表示在线

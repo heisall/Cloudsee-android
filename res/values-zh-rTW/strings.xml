@@ -339,6 +339,9 @@
     <string name="login_str_ip_adress_notnull">功能變數名稱/IP不能為空</string>
     <string name="str_qr_device">發現設備 </string>
     <string name="str_shake_scene_pic_tips">您的手機未插入SD卡，暫時無法使用場景圖片功能.</string>
+    <!-- DeviceSettingsMainFragment -->
+    <string name="edit_pass_not">沒有修改權限</string>
+    <string name="pwd_success">密碼修改成功</string>
     <!-- JVEditPassActivity -->
     <string name="edit_failed">修改失敗</string>
     <string name="edit_succ">密碼修改成功，請重新登錄.</string>

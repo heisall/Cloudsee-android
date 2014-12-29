@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -159,6 +160,7 @@ public abstract class PlayActivity extends BaseActivity {
 	protected Button decodeBtn;// 软硬解
 	protected Button videTurnBtn;// 视频翻转
 	protected Button currentKbps;// 当前统计
+	protected TextView playStatistics;// 播放统计
 
 	/**  */
 	protected TextView currentMenu_v;
@@ -258,12 +260,25 @@ public abstract class PlayActivity extends BaseActivity {
 		decodeBtn = (Button) findViewById(R.id.decodeway);
 		videTurnBtn = (Button) findViewById(R.id.overturn);
 		currentKbps = (Button) findViewById(R.id.kbps);
+		playStatistics = (TextView) findViewById(R.id.play_statistics);// 播放统计
 		currentMenu_v = (TextView) findViewById(R.id.play_nickname);
 
 		decodeBtn.setVisibility(View.GONE);
 		videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.turnleft_noturn));
 		currentKbps.setVisibility(View.GONE);
+		currentKbps.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (View.VISIBLE == playStatistics.getVisibility()) {
+					playStatistics.setVisibility(View.GONE);
+				} else {
+					playStatistics.setVisibility(View.VISIBLE);
+				}
+			}
+		});
+		playStatistics.setVisibility(View.GONE);
 		voiceTip = (RelativeLayout) findViewById(R.id.voicetip);
 
 		/** 水平播放function bar */

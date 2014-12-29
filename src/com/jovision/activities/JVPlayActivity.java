@@ -710,8 +710,6 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_TEXT_DATA: {
-			MyLog.e("byte-0", "CALL_TEXT_DATA: " + what + ", " + arg1 + ", "
-					+ arg2 + ", " + obj);
 			MyLog.i(TAG, "CALL_TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
 			Channel channel = null;
@@ -823,6 +821,7 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("MobileCH")
 									&& "2".equalsIgnoreCase(streamMap
 											.get("MobileCH"))) {
+
 								// 2014-12-25 获取设备用户名密码
 								Jni.sendSuperBytes(arg1,
 										JVNetConst.JVN_RSP_TEXTDATA, true,
@@ -1092,18 +1091,26 @@ public class JVPlayActivity extends PlayActivity implements
 						// object.getDouble("network_fps")
 						int window = object.getInt("window");
 						if (window == lastClickIndex) {
-							currentKbps.setText(String.format(
-									"%.1fk/%.1fk/d%.1fk/j%.1fk/n%.1fk/l%dk",
+							currentKbps.setText(String.format("%.1fk/%.1fk",
 									object.getDouble("kbps"),
-									object.getDouble("audio_kbps"),
-									object.getDouble("decoder_fps"),
-									object.getDouble("jump_fps"),
-									object.getDouble("network_fps"),
-									object.getInt("left"))
+									object.getDouble("audio_kbps")));
+							// + "("
+							// + (object.getBoolean("is_turn") ? "TURN"
+							// : "P2P") + ")");
 
-									+ "("
-									+ (object.getBoolean("is_turn") ? "TURN"
-											: "P2P") + ")");
+							playStatistics
+									.setText(String
+											.format("%.1fk/%.1fk/D:%.1fk/J:%.1fk/N:%.1fk/L:%dk",
+													object.getDouble("kbps"),
+													object.getDouble("audio_kbps"),
+													object.getDouble("decoder_fps"),
+													object.getDouble("jump_fps"),
+													object.getDouble("network_fps"),
+													object.getInt("left"))
+
+											+ "("
+											+ (object.getBoolean("is_turn") ? "TURN"
+													: "P2P") + ")");
 						}
 					}
 
@@ -2536,35 +2543,41 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
 
-				// //1.发送升级命令
+				// // 1.发送升级命令
 				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA, true, 0, Consts.EX_UPLOAD_START,
+				// JVNetConst.JVN_RSP_TEXTDATA,
+				// true, Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_START,
+				// Consts.FIRMUP_HTTP, 0, 0, null, 0);
+				//
+				// // 2.创建计时器每隔一段时间获取下载进度：
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA,
+				// true, Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_DATA,
+				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+
+				// // 3.处理升级进度命令，进度为100时，表示下载完毕，并发送EX_UPLOAD_OK命令：
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA,
+				// true, Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_OK,
+				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+
+				// // 4. 收到EX_UPLOAD_OK命令反馈，发送烧写命令：
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA,
+				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_START,
+				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+
+				// // 5. 收到EX_FIRMUP_START命令反馈，发送获取烧写进度命令，创建计时器，一直发送获取烧写进度命令：
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA,
+				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_STEP,
 				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
 				//
-				// //2.创建计时器每隔一段时间获取下载进度：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA, true, 0, Consts.EX_UPLOAD_DATA,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-				//
-				// //3.处理升级进度命令，进度为100时，表示下载完毕，并发送EX_UPLOAD_OK命令：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA, true, 0, Consts.EX_UPLOAD_OK,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-				//
-				// //4. 收到EX_UPLOAD_OK命令反馈，发送烧写命令：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA, true, 0, Consts.EX_FIRMUP_START,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-				//
-				// //5. 收到EX_FIRMUP_START命令反馈，发送获取烧写进度命令，创建计时器，一直发送获取烧写进度命令：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA, true, 0, Consts.EX_FIRMUP_STEP,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-				//
-				// //6.
+				// // 6.
 				// 收到EX_FIRMUP_STEP命令反馈，将烧写进度显示出来，一直等收到EX_FIRMUP_OK命令，表示烧写完毕
-				// // Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA, true, 0, Consts.EX_FIRMUP_STEP,
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA,
+				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_STEP,
 				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
 				//
 				//

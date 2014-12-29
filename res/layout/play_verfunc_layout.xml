@@ -5,6 +5,7 @@
     android:orientation="vertical" >
 
     <RelativeLayout
+        android:id="@+id/top_item"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/halftransparent" >
@@ -18,6 +19,16 @@
             android:textColor="@color/more_fragment_color3"
             android:textSize="16sp" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/play_statistics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_item"
+        android:background="@color/halftransparent"
+        android:text=""
+        android:textColor="@color/more_fragment_color3"
+        android:textSize="16sp" />
 
     <RelativeLayout
         android:id="@+id/play_ver_func"

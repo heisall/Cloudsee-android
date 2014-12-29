@@ -51,6 +51,8 @@ public class JVDeviceManageActivity extends BaseActivity {
 
 	private TextView currentmenu;
 
+	private TextView cloudnumber_text;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
@@ -81,6 +83,8 @@ public class JVDeviceManageActivity extends BaseActivity {
 			manageNick.setText(manageDeviceList.get(deviceIndex).getNickName());
 			manageUser.setText(manageDeviceList.get(deviceIndex).getUser());
 			managePassword.setText(manageDeviceList.get(deviceIndex).getPwd());
+			cloudnumber_text.setText(manageDeviceList.get(deviceIndex)
+					.getFullNo());
 		}
 	}
 
@@ -94,6 +98,7 @@ public class JVDeviceManageActivity extends BaseActivity {
 		btn_right = (Button) findViewById(R.id.btn_right);
 		btn_right.setVisibility(View.GONE);
 
+		cloudnumber_text = (TextView) findViewById(R.id.cloudnumber_text);
 		currentmenu = (TextView) findViewById(R.id.currentmenu);
 		currentmenu.setText(R.string.str_device_manage);
 		manageNick = (EditText) findViewById(R.id.manage_nick);

@@ -15,6 +15,7 @@ import android.content.res.AssetManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -46,6 +47,7 @@ import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
+import com.jovision.views.ProgressWheel;
 
 public class JVWaveSetActivity extends BaseActivity {
 
@@ -75,6 +77,11 @@ public class JVWaveSetActivity extends BaseActivity {
 	protected RelativeLayout stepLayout3;
 	protected RelativeLayout stepLayout4;
 	protected RelativeLayout stepLayout5;
+	protected RelativeLayout stepLayout6;
+	
+	private ProgressWheel pw_two;
+	int progress = 0;
+	private boolean isshow = false;
 
 	protected ImageView stepImage1;
 	protected ImageView waveImage;// 声波动画按钮
@@ -115,6 +122,11 @@ public class JVWaveSetActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case Consts.WHAT_WHEEL_DISMISS:
+			pw_two.setVisibility(View.GONE);
+			stepLayout6.setVisibility(View.GONE);
+			isshow = false;
+			break;
 		case Consts.WHAT_SEND_WAVE_FINISHED: {// 声波发送完毕
 			sendCounts = 0;
 			nextBtn3.setBackgroundDrawable(getResources().getDrawable(
@@ -301,6 +313,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		stepLayout3 = (RelativeLayout) findViewById(R.id.step_layout3);
 		stepLayout4 = (RelativeLayout) findViewById(R.id.step_layout4);
 		stepLayout5 = (RelativeLayout) findViewById(R.id.step_layout5);
+		stepLayout6 = (RelativeLayout) findViewById( R.id.step_layout6);
 
 		stepImage1 = (ImageView) findViewById(R.id.step_img1);
 		waveImage = (ImageView) findViewById(R.id.wavebg);
@@ -324,6 +337,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		desWifiName.setText(oldWifiSSID);
 		desPwdEye = (ToggleButton) findViewById(R.id.despwdeye);
 		devListView = (ListView) findViewById(R.id.devlistview);
+		 pw_two = (ProgressWheel) findViewById(R.id.progressBarTwo);
 		loading = (ProgressBar) findViewById(R.id.loading);
 		loading.setVisibility(View.GONE);
 
@@ -335,6 +349,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		nextBtn3 = (Button) findViewById(R.id.step_btn3);
 		showDemoBtn = (Button) findViewById(R.id.showdemo);
 
+		stepLayout6.setOnClickListener(myOnClickListener);
 		rightBtn.setOnClickListener(myOnClickListener);
 		leftBtn.setOnClickListener(myOnClickListener);
 		nextBtn1.setOnClickListener(myOnClickListener);
@@ -361,6 +376,25 @@ public class JVWaveSetActivity extends BaseActivity {
 
 	}
 
+	/**
+	 *40秒倒计时 
+	 * **/
+	   final Runnable r = new Runnable() {
+				public void run() {
+					while(progress<361) {
+						pw_two.incrementProgress();
+						progress++;
+						if (progress == 361) {
+							handler.sendEmptyMessage(Consts.WHAT_WHEEL_DISMISS);
+						}
+						try {
+							Thread.sleep(110);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+	        };
 	/**
 	 * 密码显示隐藏
 	 */
@@ -457,13 +491,22 @@ public class JVWaveSetActivity extends BaseActivity {
 				break;
 			case R.id.btn_right:// 发局域网广播搜索局域网设备
 			case R.id.step_btn3:// 发局域网广播搜索局域网设备
-				createDialog("", false);
+//				createDialog("", false);
+				isshow = true;
+				pw_two.setVisibility(View.VISIBLE);
+				stepLayout6.setVisibility(View.VISIBLE);
+				progress = 0;
+				pw_two.resetCount();
+				Thread s = new Thread(r);
+				s.start();
 				loading.setVisibility(View.GONE);
 				playSoundStep(3);
 				broadList.clear();
 				Jni.queryDevice("", 0, 40 * 1000);
 				currentStep = 4;
 				showLayoutAtIndex(currentStep);
+				break;
+			case R.id.step_layout6:
 				break;
 			case R.id.press_sendwave:
 
@@ -640,5 +683,15 @@ public class JVWaveSetActivity extends BaseActivity {
 							}
 						}).create().show();
 	}
-
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		 
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                 && event.getRepeatCount() == 0) {
+            if (!isshow) {
+				finish();
+			}
+             return true;
+         }
+         return super.onKeyDown(keyCode, event);
+     }
 }

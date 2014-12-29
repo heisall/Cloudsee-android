@@ -209,8 +209,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					switch (flag) {
 					case JVNetConst.JVN_GET_USERINFO: {
 						// --修改设备的用户名密码，只要走回调就修改成功了
-						showTextToast(getResources().getString(
-								R.string.pwd_success));
 						mainListener.onMainAction(JVNetConst.JVN_GET_USERINFO,
 								0, 0, 0);
 						break;

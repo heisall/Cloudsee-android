@@ -200,8 +200,6 @@ public class Consts {
 	public static final int SIZE_PW = 20;
 	public static final int SIZE_DESCRIPT = 32;
 
-	public static final int RC_EX_ACCOUNT = 0x04;
-
 	// 用户组定义
 	public static final int POWER_GUEST = 0x0001;
 	public static final int POWER_USER = 0x0002;
@@ -227,6 +225,24 @@ public class Consts {
 	/********************************* 　以上修改设备用户名密码需要的宏定义　 ***************************************/
 
 	/********************************* 　以下修改设备用户名密码需要的宏定义　 ***************************************/
+
+	// 扩展类型，用于指定哪个模块去处理,lck20120206
+	public static final int RC_EX_FIRMUP = 0x01;
+	public static final int RC_EX_NETWORK = 0x02;
+	public static final int RC_EX_STORAGE = 0x03;
+	public static final int RC_EX_ACCOUNT = 0x04;
+	public static final int RC_EX_COVERRGN = 0x05;
+	public static final int RC_EX_MDRGN = 0X06;
+	public static final int RC_EX_ALARM = 0x07;
+	public static final int RC_EX_SENSOR = 0x08;
+	public static final int RC_EX_PTZ = 0x09;
+	public static final int RC_EX_AUDIO = 0x0a;
+	public static final int RC_EX_ALARMIN = 0x0b;
+	public static final int RC_EX_REGISTER = 0x0c;
+	public static final int RC_EX_ROI = 0x0d;
+	public static final int RC_EX_QRCODE = 0x0e;
+	public static final int RC_EX_IVP = 0x0f;
+
 	// 升级过程中用到的宏定义：
 	// 系统升级指令,lck20120207
 	public static final int EX_UPLOAD_START = 0x01;
@@ -423,6 +439,7 @@ public class Consts {
 	public static final int WHAT_BROAD_FINISHED = 0x3D;// 广播回调完毕
 	public static final int WHAT_ADD_DEVICE = 0x3E;// 添加设备
 	public static final int WHAT_SEND_WAVE = 0x3F;// 发送声波命令
+	public static final int WHAT_WHEEL_DISMISS = 0x61;// 隐藏40秒倒计时
 
 	// JVPlayActivity
 	public static final int WHAT_CHECK_SURFACE = 0x40;

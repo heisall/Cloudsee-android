@@ -342,6 +342,9 @@
     <!-- JVEditPassActivity -->
     <string name="edit_failed">Failed to change.</string>
     <string name="edit_succ">Password changed successfully, please login again.</string>
+    <!-- DeviceSettingsMainFragment -->
+    <string name="edit_pass_not">没有修改权限</string>
+    <string name="pwd_success">密码修改成功</string>
     <!-- JVDemoActivity -->
     <string name="demo">Demo</string>
     <string name="demo_get_failed">Failed to load demo video.</string>

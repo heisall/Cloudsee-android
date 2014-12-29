@@ -418,7 +418,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 			if (!ipcFlag) {
 				handler.sendMessage(handler.obtainMessage(
-						Consts.WHAT_QUICK_SETTING_ERROR, 1000, 0));
+						Consts.WHAT_QUICK_SETTING_ERROR, 1001, 0));
 			} else {
 				MyLog.v(TAG, "开始连接AP视频--" + ipcDevice.getFullNo());
 				ipcDevice.setIp(Consts.IPC_DEFAULT_IP);
@@ -1901,10 +1901,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		builder.setTitle(getResources().getString(R.string.tips));
 		String errorMsg = "";
 		switch (errorCode) {
-		case 1000: {
-			errorMsg = getResources().getString(R.string.set_error_1000);
-			break;
-		}
+		// case 1000: {
+		// errorMsg = getResources().getString(R.string.set_error_1000);
+		// break;
+		// }
 		case 1001: {
 			errorMsg = getResources().getString(R.string.set_error_1001);
 			break;

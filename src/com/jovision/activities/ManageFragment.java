@@ -317,7 +317,7 @@ public class ManageFragment extends BaseFragment {
 							mActivity.getResources().getString(
 									R.string.census_onekeyupdate));
 					Intent deviceIntent = new Intent(mActivity,
-							JVDeviceUpdateActivity.class);
+							JVDeviceUpdateCloudSeeActivity.class);
 					deviceIntent.putExtra("deviceIndex", deviceIndex);
 					startActivity(deviceIntent);
 				} else {

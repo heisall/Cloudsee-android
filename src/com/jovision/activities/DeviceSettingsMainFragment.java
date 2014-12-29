@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.Jni;
 import com.jovision.activities.DeviceSettingsActivity.OnMainListener;
 import com.jovision.bean.Device;
 import com.jovision.commons.JVNetConst;
@@ -38,6 +37,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private String devicename;
 	private int channelIndex;// 窗口
 	private int deviceIndex;
+	private boolean isclick = false;
 
 	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
@@ -126,7 +126,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		functionlayout4.setOnClickListener(this);
 
 		Bundle data = getArguments();// 获得从activity中传递过来的值
-		
+
 		strParam = data.getString("KEY_PARAM");
 
 		try {
@@ -286,8 +286,12 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		case R.id.funclayout4:
 			if (isadmin) {
 				initSummaryDialog();
-			}else {
-				Toast.makeText(getActivity(), "你丫的没权限", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.edit_pass_not), Toast.LENGTH_SHORT)
+						.show();
 			}
 			// TODO
 			break;
@@ -342,20 +346,26 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				if ("".equals(device_passwordet.getText().toString())) {
-					Toast.makeText(getActivity(), "密码不能为空", Toast.LENGTH_SHORT).show();
-				}else {
+					Toast.makeText(
+							getActivity(),
+							getActivity().getResources().getString(
+									R.string.login_str_device_pass_notnull),
+							Toast.LENGTH_SHORT).show();
+				} else {
 					JSONObject paraObject = new JSONObject();
 					try {
-						paraObject.put("userName", device_nameet.getText().toString());
-						paraObject.put("userPwd", device_passwordet.getText().toString());
+						paraObject.put("userName", device_nameet.getText()
+								.toString());
+						paraObject.put("userPwd", device_passwordet.getText()
+								.toString());
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
-
+					isclick = true;
 					mListener.OnFuncSelected(JVNetConst.JVN_GET_USERINFO,
 							paraObject.toString());
 				}
-				}
+			}
 		});
 	}
 
@@ -366,7 +376,14 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				+ "," + ex_type);
 		switch (packet_type) {
 		case JVNetConst.JVN_GET_USERINFO:
-			initDialog.dismiss();
+			if (isclick) {
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.pwd_success), Toast.LENGTH_SHORT)
+						.show();
+				initDialog.dismiss();
+			}
 			break;
 		case JVNetConst.RC_EXTEND: {
 			switch (packet_subtype) {

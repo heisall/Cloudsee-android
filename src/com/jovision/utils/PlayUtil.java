@@ -1220,13 +1220,14 @@ public class PlayUtil {
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(), dev
 					.getPwd(), -1, ConfigUtil.getGroup(dev.getFullNo()), true,
 					1, true, dev.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-							: JVNetConst.TYPE_3GMO_UDP, null, false, null);
+							: JVNetConst.TYPE_3GMO_UDP, null, false, false,
+					null);
 		} else {
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(), dev
 					.getPwd(), ConfigUtil.getYST(dev.getFullNo()), ConfigUtil
 					.getGroup(dev.getFullNo()), true, 1, true, dev
 					.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-					: JVNetConst.TYPE_3GMO_UDP, null, false, null);
+					: JVNetConst.TYPE_3GMO_UDP, null, false, false, null);
 		}
 
 	}

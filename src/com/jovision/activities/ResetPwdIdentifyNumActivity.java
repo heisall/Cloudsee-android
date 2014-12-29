@@ -239,9 +239,9 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		if (!TextUtils.isEmpty(mcc)) {
 			country = SMSSDK.getCountryByMCC(mcc);
 		}
-
+		// TODO
 		if (country == null) {
-			Log.w("SMSSDK", "no country found by MCC: " + mcc);
+			Log.i("SMSSDK", "no country found by MCC: " + mcc);
 			country = SMSSDK.getCountry(DEFAULT_COUNTRY_ID);
 		}
 		return country;

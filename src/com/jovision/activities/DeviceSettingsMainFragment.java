@@ -377,12 +377,12 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		switch (packet_type) {
 		case JVNetConst.JVN_GET_USERINFO:
 			if (isclick) {
-			Toast.makeText(
-					getActivity(),
-					getActivity().getResources().getString(
-							R.string.pwd_success),
-					Toast.LENGTH_SHORT).show();
-			initDialog.dismiss();
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.pwd_success), Toast.LENGTH_SHORT)
+						.show();
+				initDialog.dismiss();
 			}
 			break;
 		case JVNetConst.RC_EXTEND: {

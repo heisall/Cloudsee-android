@@ -262,20 +262,19 @@
             android:id="@+id/step_layout6"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            >
+            android:visibility="gone" >
 
             <com.jovision.views.ProgressWheel
                 android:id="@+id/progressBarTwo"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_centerInParent="true"
-                ProgressWheel:barColor="#ffffff"
+                ProgressWheel:barColor="#339BB9"
                 ProgressWheel:barLength="30dp"
                 ProgressWheel:barWidth="5dp"
                 ProgressWheel:rimColor="#44000000"
                 ProgressWheel:rimWidth="5dp"
-                ProgressWheel:textColor="#000000"
+                ProgressWheel:textColor="#222222"
                 ProgressWheel:textSize="14sp" />
         </RelativeLayout>
     </FrameLayout>

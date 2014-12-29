@@ -374,7 +374,7 @@ public abstract class PlayActivity extends BaseActivity {
 		videoTape = (Button) findViewById(R.id.videotape);// 录像
 		moreFeature = (Button) findViewById(R.id.more_features);// 更多
 
-		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(PlayActivity.this)) {
 			capture.setTextSize(12);// 抓拍
 			voiceCall.setTextSize(12);// 喊话
 			videoTape.setTextSize(12);// 录像

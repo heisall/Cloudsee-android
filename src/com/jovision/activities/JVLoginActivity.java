@@ -79,7 +79,7 @@ public class JVLoginActivity extends BaseActivity {
 			break;
 		}
 		case Consts.WHAT_DELETE_USER:
-			//TODO
+			// TODO
 			moreUserIV.setImageResource(R.drawable.login_pull_icon);
 			pop.dismiss();
 			userNameET.setText("");

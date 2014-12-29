@@ -1721,6 +1721,10 @@ public class DeviceUtil {
 												.getString(JVDeviceConst.JK_AD_URL_EN));
 										ad.setAdLinkEn(obj
 												.getString(JVDeviceConst.JK_AD_LINK_EN));
+										ad.setAdImgUrlZht(obj
+												.getString(JVDeviceConst.JK_AD_URL_ZHT));
+										ad.setAdLinkZht(obj
+												.getString(JVDeviceConst.JK_AD_LINK_ZHT));
 										ad.setVersion(adver);
 										adList.add(ad);
 									}

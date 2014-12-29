@@ -37,7 +37,6 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private String devicename;
 	private int channelIndex;// 窗口
 	private int deviceIndex;
-	private boolean isclick = false;
 
 	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
@@ -361,7 +360,6 @@ public class DeviceSettingsMainFragment extends Fragment implements
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
-					isclick = true;
 					mListener.OnFuncSelected(JVNetConst.JVN_GET_USERINFO,
 							paraObject.toString());
 				}
@@ -376,14 +374,12 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				+ "," + ex_type);
 		switch (packet_type) {
 		case JVNetConst.JVN_GET_USERINFO:
-			if (isclick) {
 			Toast.makeText(
 					getActivity(),
-					getActivity().getResources().getString(
-							R.string.pwd_success),
+					getActivity().getResources()
+							.getString(R.string.pwd_success),
 					Toast.LENGTH_SHORT).show();
 			initDialog.dismiss();
-			}
 			break;
 		case JVNetConst.RC_EXTEND: {
 			switch (packet_subtype) {

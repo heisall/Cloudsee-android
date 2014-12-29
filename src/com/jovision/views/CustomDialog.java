@@ -74,7 +74,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 		try {
 			// 打开指定音乐文件
 			String file = "";
-			if (ConfigUtil.getLanguage() == Consts.LANGUAGE_ZH) {
+			if (ConfigUtil.getLanguage2(context) == Consts.LANGUAGE_ZH) {
 				switch (dev_mark_id) {
 				case 1:// 门磁
 					file = "menci.mp3";
@@ -88,7 +88,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 				default:
 					break;
 				}
-			} else if (ConfigUtil.getLanguage() == Consts.LANGUAGE_EN) {
+			} else {
 				switch (dev_mark_id) {
 				case 1:// 门磁
 					file = "menci_en.mp3";

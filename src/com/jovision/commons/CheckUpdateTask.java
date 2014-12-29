@@ -28,7 +28,7 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 		int checkRes = -1;
 		autoUpdate = Integer.parseInt(params[0]);
 
-		String lan = String.valueOf(ConfigUtil.getLanguage());
+		String lan = String.valueOf(ConfigUtil.getLanguage2(mContext));
 		try {
 			String checkUrl = Url.CHECK_UPDATE_URL + "?Language="
 					+ String.valueOf(lan)

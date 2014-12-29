@@ -78,7 +78,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	protected RelativeLayout stepLayout4;
 	protected RelativeLayout stepLayout5;
 	protected RelativeLayout stepLayout6;
-	
+
 	private ProgressWheel pw_two;
 	int progress = 0;
 	private boolean isshow = false;
@@ -313,13 +313,14 @@ public class JVWaveSetActivity extends BaseActivity {
 		stepLayout3 = (RelativeLayout) findViewById(R.id.step_layout3);
 		stepLayout4 = (RelativeLayout) findViewById(R.id.step_layout4);
 		stepLayout5 = (RelativeLayout) findViewById(R.id.step_layout5);
-		stepLayout6 = (RelativeLayout) findViewById( R.id.step_layout6);
+		stepLayout6 = (RelativeLayout) findViewById(R.id.step_layout6);
 
 		stepImage1 = (ImageView) findViewById(R.id.step_img1);
 		waveImage = (ImageView) findViewById(R.id.wavebg);
 		instruction = (ImageView) findViewById(R.id.instruction);
 		pressToSendWave = (ImageView) findViewById(R.id.press_sendwave);
-		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+		if (Consts.LANGUAGE_ZH == ConfigUtil
+				.getLanguage2(JVWaveSetActivity.this)) {
 			stepImage1.setImageResource(R.drawable.reset_bg_zh);
 			instruction.setImageResource(R.drawable.instruction_ch);
 		} else {
@@ -337,7 +338,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		desWifiName.setText(oldWifiSSID);
 		desPwdEye = (ToggleButton) findViewById(R.id.despwdeye);
 		devListView = (ListView) findViewById(R.id.devlistview);
-		 pw_two = (ProgressWheel) findViewById(R.id.progressBarTwo);
+		pw_two = (ProgressWheel) findViewById(R.id.progressBarTwo);
 		loading = (ProgressBar) findViewById(R.id.loading);
 		loading.setVisibility(View.GONE);
 
@@ -377,24 +378,24 @@ public class JVWaveSetActivity extends BaseActivity {
 	}
 
 	/**
-	 *40秒倒计时 
+	 * 40秒倒计时
 	 * **/
-	   final Runnable r = new Runnable() {
-				public void run() {
-					while(progress<361) {
-						pw_two.incrementProgress();
-						progress++;
-						if (progress == 361) {
-							handler.sendEmptyMessage(Consts.WHAT_WHEEL_DISMISS);
-						}
-						try {
-							Thread.sleep(110);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
+	final Runnable r = new Runnable() {
+		public void run() {
+			while (progress < 361) {
+				pw_two.incrementProgress();
+				progress++;
+				if (progress == 361) {
+					handler.sendEmptyMessage(Consts.WHAT_WHEEL_DISMISS);
 				}
-	        };
+				try {
+					Thread.sleep(110);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	};
 	/**
 	 * 密码显示隐藏
 	 */
@@ -491,7 +492,7 @@ public class JVWaveSetActivity extends BaseActivity {
 				break;
 			case R.id.btn_right:// 发局域网广播搜索局域网设备
 			case R.id.step_btn3:// 发局域网广播搜索局域网设备
-//				createDialog("", false);
+				// createDialog("", false);
 				isshow = true;
 				pw_two.setVisibility(View.VISIBLE);
 				stepLayout6.setVisibility(View.VISIBLE);
@@ -556,7 +557,8 @@ public class JVWaveSetActivity extends BaseActivity {
 	private void playSoundStep(int index) {
 		try {
 			String file = "";
-			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+			if (Consts.LANGUAGE_ZH == ConfigUtil
+					.getLanguage2(JVWaveSetActivity.this)) {
 				file = stepSoundCH[index];
 			} else {
 				file = stepSoundEN[index];
@@ -683,15 +685,15 @@ public class JVWaveSetActivity extends BaseActivity {
 							}
 						}).create().show();
 	}
+
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		 
-        if (keyCode == KeyEvent.KEYCODE_BACK
-                 && event.getRepeatCount() == 0) {
-            if (!isshow) {
+
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			if (!isshow) {
 				finish();
 			}
-             return true;
-         }
-         return super.onKeyDown(keyCode, event);
-     }
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 }

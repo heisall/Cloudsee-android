@@ -43,6 +43,8 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 	private TextView devVersion;
 	private Button updateBtn;
 
+	boolean showConnectRes = true;// 显示连接结果
+
 	private boolean downloadSuccess = false;// 下载完成标志
 	private boolean writeSuccess = false;// 烧写完成标志
 
@@ -53,6 +55,9 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 			MyLog.i(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
 
+			if (writeSuccess) {
+				return;
+			}
 			if (Consts.BAD_NOT_CONNECT == arg2) {
 				dismissDialog();
 			} else if (JVNetConst.CONNECT_OK != arg2
@@ -78,10 +83,13 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 						showTextToast(R.string.connect_failed);
 					}
 
+					if (null != updateDialog && updateDialog.isShowing()) {
+						updateDialog.dismiss();
+						updateDialog = null;
+					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
 			}
 			break;
 		}
@@ -105,6 +113,7 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 				// 请求文本聊天
 				Jni.sendBytes(1, JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
 			} else { // 不是IPC
+				showConnectRes = false;
 				PlayUtil.disconnectDevice();
 				dismissDialog();
 				AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -135,16 +144,14 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
-				MyLog.v(TAG, "同意文本聊天，发送升级命令--1");
-				// // TODO 1.发送升级命令
+				MyLog.v(TAG, "同意文本聊天，发送取消升级命令--0");
+				// TODO 0.发送取消升级命令
 				Jni.sendSuperBytes(1, JVNetConst.JVN_RSP_TEXTDATA, true,
-						Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_START,
-						Consts.FIRMUP_HTTP, 0, 0, null, 0);
-				dismissDialog();
-				createDownloadProDialog();
-
+						Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_CANCEL,
+						Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
+				showConnectRes = false;
 				PlayUtil.disconnectDevice();
 				showTextToast(R.string.str_only_administator_use_this_function);
 				break;
@@ -154,25 +161,22 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 				try {
 					JSONObject dataObj = new JSONObject(allStr);
 					switch (arg1) {
-					case 0: {// 1.发送升级命令回调
-						int extend_type = dataObj.getInt("extend_type");
-						switch (extend_type) {
-						case Consts.EX_UPLOAD_DATA: {// 发送升级命令回调
-							// 1.CALL_TEXT_DATA: 165, 0, 81,
-							// {"extend_arg1":0,"extend_arg2":0,"extend_arg3":0,"extend_type":4,
-							// "flag":0,"packet_count":1,"packet_id":0,"packet_length":0,"packet_type":6}
-							// TODO 2.创建计时器每隔一段时间获取下载进度：
-							downloadSuccess = false;
-							MyLog.v(TAG, "发送升级命令成功，发送获取下载进度命令--2");
-							Jni.sendSuperBytes(1, JVNetConst.JVN_RSP_TEXTDATA,
-									true, Consts.RC_EX_FIRMUP,
-									Consts.EX_UPLOAD_DATA, Consts.FIRMUP_HTTP,
-									0, 0, new byte[0], 0);
-							break;
-						}
-						}
-						break;
-					}
+					// case 0: {// 1.发送升级命令回调
+					// int extend_type = dataObj.getInt("extend_type");
+					// switch (extend_type) {
+					// case Consts.EX_UPLOAD_DATA: {// 4-发送升级命令回调
+					// // 1.CALL_TEXT_DATA: 165, 0, 81,
+					// //
+					// {"extend_arg1":0,"extend_arg2":0,"extend_arg3":0,"extend_type":4,
+					// //
+					// "flag":0,"packet_count":1,"packet_id":0,"packet_length":0,"packet_type":6}
+					// // TODO 2.创建计时器每隔一段时间获取下载进度：
+					//
+					// break;
+					// }
+					// }
+					// break;
+					// }
 
 					case 1: {// 2.创建计时器每隔一段时间获取下载进度回调
 						// 2.TEXT_DATA: 165, 1, 81,
@@ -180,12 +184,28 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 						// "flag":0,"packet_count":1,"packet_id":0,"packet_length":0,"packet_type":6}
 						int extend_type = dataObj.getInt("extend_type");
 						switch (extend_type) {
+
+						case Consts.EX_UPLOAD_CANCEL: {// 2-取消发送升级命令
+						// TEXT_DATA: 165, 1, 81,
+						// {"extend_arg1":0,"extend_arg2":0,"extend_arg3":0,"extend_type":2,
+						// "flag":0,"packet_count":1,"packet_id":0,"packet_length":0,"packet_type":6}
+							MyLog.v(TAG, "同意文本聊天，发送升级命令--1");
+							// TODO 1.发送升级命令
+							Jni.sendSuperBytes(1, JVNetConst.JVN_RSP_TEXTDATA,
+									true, Consts.RC_EX_FIRMUP,
+									Consts.EX_UPLOAD_START, Consts.FIRMUP_HTTP,
+									0, 0, null, 0);
+							dismissDialog();
+							createDownloadProDialog();
+							break;
+						}
 						case Consts.EX_UPLOAD_DATA: {
 							int pro = dataObj.getInt("extend_arg2");
 							MyLog.v(TAG, "下载进度--" + pro + "%");
 							if (downloadSuccess) {
 								break;
 							}
+							// TODO 2.创建计时器每隔一段时间获取下载进度：
 							if (100 > pro) {
 								downloadSuccess = false;
 								Thread.sleep(1000);
@@ -413,10 +433,10 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 				updateDialog.dismiss();
 			}
 			break;
-		case Consts.WHAT_RESTART_DEVICE_FAILED:
-			JVDeviceUpdateCloudSeeActivity.this
-					.showTextToast(R.string.update_reset_failed);
-			break;
+		// case Consts.WHAT_RESTART_DEVICE_FAILED:
+		// JVDeviceUpdateCloudSeeActivity.this
+		// .showTextToast(R.string.update_reset_failed);
+		// break;
 		case Consts.WHAT_WRITE_KEY_UPDATE_SUCCESS:
 			if (null != updateDialog && updateDialog.isShowing()) {
 				updateDialog.dismiss();
@@ -431,6 +451,7 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
+									showConnectRes = false;
 									Jni.sendSuperBytes(1,
 											JVNetConst.JVN_RSP_TEXTDATA, true,
 											Consts.RC_EX_FIRMUP,
@@ -535,7 +556,7 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 
 			switch (view.getId()) {
 			case R.id.btn_left: {
-				JVDeviceUpdateCloudSeeActivity.this.finish();
+				backMethod();
 				break;
 			}
 			case R.id.update: {// 一键升级
@@ -550,6 +571,25 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 		}
 
 	};
+
+	/**
+	 * 返回事件
+	 */
+	private void backMethod() {
+		showConnectRes = false;
+		PlayUtil.disconnectDevice();
+		if (null != updateDialog && updateDialog.isShowing()) {
+			updateDialog.dismiss();
+			updateDialog = null;
+		}
+		dismissDialog();
+		JVDeviceUpdateCloudSeeActivity.this.finish();
+	}
+
+	@Override
+	public void onBackPressed() {
+		backMethod();
+	}
 
 	// 设置三种类型参数分别为String,Integer,String
 	class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
@@ -596,6 +636,7 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 											int which) {
 										dismissDialog();
 										createDialog("", false);
+										showConnectRes = true;
 										PlayUtil.connectDevice(deviceList
 												.get(devIndex));
 
@@ -660,6 +701,11 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							// TODO 取消下载
+							Jni.sendSuperBytes(1, JVNetConst.JVN_RSP_TEXTDATA,
+									true, Consts.RC_EX_FIRMUP,
+									Consts.EX_UPLOAD_CANCEL,
+									Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+							showConnectRes = false;
 							PlayUtil.disconnectDevice();
 							dialog.dismiss();
 						}

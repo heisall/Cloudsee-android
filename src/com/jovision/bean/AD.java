@@ -10,10 +10,12 @@ import com.jovision.utils.ConfigUtil;
 
 public class AD {
 	private int index;// (广告图片序号)
-	private String adImgUrlCh;// (广告图片URL)
-	private String adLinkCh;// (图片超链接)
-	private String adImgUrlEn;// (广告图片URL)
-	private String adLinkEn;// (图片超链接)
+	private String adImgUrlCh;// (广告图片URL)--中文
+	private String adLinkCh;// (图片超链接)--中文
+	private String adImgUrlEn;// (广告图片URL)--英文
+	private String adLinkEn;// (图片超链接)--英文
+	private String adImgUrlZht;// (广告图片URL)--繁体
+	private String adLinkZht;// (图片超链接)--繁体
 	private int version;// (广告版本)
 
 	// private String savePath;
@@ -32,10 +34,16 @@ public class AD {
 
 		try {
 			object.put("index", index);
+
 			object.put("adImgUrlCh", adImgUrlCh);
 			object.put("adLinkCh", adLinkCh);
+
 			object.put("adImgUrlEn", adImgUrlEn);
 			object.put("adLinkEn", adLinkEn);
+
+			object.put("adImgUrlZht", adImgUrlZht);
+			object.put("adLinkZht", adLinkZht);
+
 			object.put("version", version);
 			// object.put("savePath", savePath);
 			// object.put("fileName", fileName);
@@ -81,10 +89,16 @@ public class AD {
 		try {
 			JSONObject object = new JSONObject(string);
 			ad.setIndex(ConfigUtil.getInt(object, "index"));
+
 			ad.setAdImgUrlCh(ConfigUtil.getString(object, "adImgUrlCh"));
 			ad.setAdLinkCh(ConfigUtil.getString(object, "adLinkCh"));
+
 			ad.setAdImgUrlEn(ConfigUtil.getString(object, "adImgUrlEn"));
 			ad.setAdLinkEn(ConfigUtil.getString(object, "adLinkEn"));
+
+			ad.setAdImgUrlZht(ConfigUtil.getString(object, "adImgUrlZht"));
+			ad.setAdLinkZht(ConfigUtil.getString(object, "adLinkZht"));
+
 			ad.setVersion(ConfigUtil.getInt(object, "version"));
 			// ad.setSavePath(ConfigUtil.getString(object,"savePath"));
 			// ad.setFileName(ConfigUtil.getString(object,"fileName"));
@@ -156,6 +170,22 @@ public class AD {
 
 	public void setAdLinkEn(String adLinkEn) {
 		this.adLinkEn = adLinkEn;
+	}
+
+	public String getAdImgUrlZht() {
+		return adImgUrlZht;
+	}
+
+	public void setAdImgUrlZht(String adImgUrlZht) {
+		this.adImgUrlZht = adImgUrlZht;
+	}
+
+	public String getAdLinkZht() {
+		return adLinkZht;
+	}
+
+	public void setAdLinkZht(String adLinkZht) {
+		this.adLinkZht = adLinkZht;
 	}
 
 	// public String getFileName() {

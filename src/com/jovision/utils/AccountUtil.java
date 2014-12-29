@@ -63,7 +63,12 @@ public class AccountUtil {
 			reqObj.put("user", userName);
 			reqObj.put("passwd", pwd);
 			reqObj.put("plattype", 1);
-			reqObj.put("locales", ConfigUtil.getLanguage());
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
+				reqObj.put("locales", Consts.LANGUAGE_ZH);
+			} else {
+				reqObj.put("locales", Consts.LANGUAGE_EN);
+			}
+
 			reqObj.put("devuuid", ConfigUtil.getIMEI(mContext));
 			reqObj.put("longservurl", urlLgServ);
 			reqObj.put("shortservurl", urlStServ);
@@ -117,7 +122,11 @@ public class AccountUtil {
 			reqObj.put("producttype", Consts.PRODUCT_TYPE); // 0-CloudSEE
 															// 1-NVSIP 2-HITVIS
 															// 3-TONGFANG
-			reqObj.put("locales", ConfigUtil.getLanguage());
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
+				reqObj.put("locales", Consts.LANGUAGE_ZH);
+			} else {
+				reqObj.put("locales", Consts.LANGUAGE_EN);
+			}
 			reqObj.put("devuuid",
 					MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
 			boolean alarmSwitch = MySharedPreference.getBoolean("AlarmSwitch",
@@ -234,7 +243,11 @@ public class AccountUtil {
 
 		ClientBean cb = new ClientBean();
 		cb.setPlatformType(1);
-		cb.setLanguageType(ConfigUtil.getLanguage());
+		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(con)) {
+			cb.setLanguageType(Consts.LANGUAGE_ZH);
+		} else {
+			cb.setLanguageType(Consts.LANGUAGE_EN);
+		}
 		cb.setDeviceUUID(MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
 		boolean alarmSwitch = MySharedPreference
 				.getBoolean("AlarmSwitch", true);

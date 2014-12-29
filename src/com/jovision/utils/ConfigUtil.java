@@ -298,11 +298,33 @@ public class ConfigUtil {
 	 * 
 	 * @return 1:中文 2:英文
 	 */
-	public static int getLanguage() {
+	public static int getLanguage1(Context context) {
 		int lan = Consts.LANGUAGE_ZH;
 		String language = Locale.getDefault().getLanguage();
 		if (language.equalsIgnoreCase("zh")) {// 中文
 			lan = Consts.LANGUAGE_ZH;
+		} else {// 英文
+			lan = Consts.LANGUAGE_EN;
+		}
+		return lan;
+	}
+
+	/**
+	 * 获取系统语言
+	 * 
+	 * @return 1:中文 2:英文
+	 */
+	public static int getLanguage2(Context context) {
+
+		String language = context.getResources().getConfiguration().locale
+				.getCountry();
+		MyLog.v("language", "language=" + language);
+
+		int lan = Consts.LANGUAGE_ZH;
+		if (language.equalsIgnoreCase("zh")) {// 中文
+			lan = Consts.LANGUAGE_ZH;
+		} else if (language.equalsIgnoreCase("tw")) {// 中文
+			lan = Consts.LANGUAGE_ZHTW;
 		} else {// 英文
 			lan = Consts.LANGUAGE_EN;
 		}

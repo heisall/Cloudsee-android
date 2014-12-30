@@ -20,7 +20,6 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import cn.sharesdk.analysis.MobclickAgent;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import cn.smssdk.framework.FakeActivity;
@@ -78,13 +77,11 @@ public class ContactsPage extends FakeActivity implements OnClickListener, TextW
 	@Override
 	public void onResume(){
 	  	super.onResume();
-	   	MobclickAgent.onPageStart("ContactsPage");
 	}
 
 	@Override
 	public void onPause() {
 	   	super.onPause();
-	   	MobclickAgent.onPageEnd("ContactsPage");
 	}
 
 	public void show(Context context) {

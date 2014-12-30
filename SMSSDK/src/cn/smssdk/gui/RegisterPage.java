@@ -35,7 +35,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import cn.sharesdk.analysis.MobclickAgent;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import cn.smssdk.framework.FakeActivity;
@@ -213,12 +212,10 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 
 	public void onResume() {
 		SMSSDK.registerEventHandler(handler);
-	   	MobclickAgent.onPageStart("RegisterPage");
 	}
 
 	public void onPause() {
 		SMSSDK.unregisterEventHandler(handler);
-	   	MobclickAgent.onPageEnd("RegisterPage");
 	}
 
 	public void beforeTextChanged(CharSequence s, int start, int count,

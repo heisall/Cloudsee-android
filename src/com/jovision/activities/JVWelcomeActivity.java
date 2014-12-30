@@ -157,7 +157,8 @@ public class JVWelcomeActivity extends BaseActivity {
 
 				intent.setClass(JVWelcomeActivity.this, JVGuideActivity.class);
 
-				if (ConfigUtil.isLanZH()) {// 中文
+				if (Consts.LANGUAGE_ZH == ConfigUtil
+						.getLanguage2(JVWelcomeActivity.this)) {// 中文
 					intent.putExtra("ArrayFlag", Consts.LANGUAGE_ZH);
 				} else {// 英文或其他
 					intent.putExtra("ArrayFlag", Consts.LANGUAGE_EN);

@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -435,6 +436,16 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 5:// 版本号
+							int curVersion = 0;
+							try {
+								curVersion = mActivity.getPackageManager()
+										.getPackageInfo(
+												mActivity.getPackageName(), 0).versionCode;
+							} catch (NameNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+
 							String itemzero = mActivity.getResources()
 									.getString(R.string.census_accounts)
 									+ ":"
@@ -459,7 +470,8 @@ public class JVMoreFragment extends BaseFragment {
 									mActivity, R.style.AlertDialogCustom))
 									.setTitle(
 											mActivity.getResources().getString(
-													R.string.census_version))
+													R.string.census_version)
+													+ curVersion)
 									.setItems(
 											new String[] { itemzero, itemfive,
 													itemone, itemtwo,

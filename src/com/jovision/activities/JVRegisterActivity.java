@@ -131,7 +131,8 @@ public class JVRegisterActivity extends BaseActivity {
 		mWebView = (WebView) findViewById(R.id.mywebview);
 		agreeLayout = (LinearLayout) findViewById(R.id.registagreelayout);
 
-		if (ConfigUtil.isLanZH()) {// 中文
+		if (Consts.LANGUAGE_ZH == ConfigUtil
+				.getLanguage2(JVRegisterActivity.this)) {// 中文
 			mWebView.loadUrl("file:///android_asset/UserResign.html");
 		} else {// 英文
 			mWebView.loadUrl("file:///android_asset/UserResign_en.html");
@@ -164,8 +165,9 @@ public class JVRegisterActivity extends BaseActivity {
 						registTips.setText(getResources().getString(
 								R.string.login_str_username_notnull));
 					} else {
-						int res = AccountUtil.VerifyUserName(userNameEditText
-								.getText().toString());
+						int res = AccountUtil.VerifyUserName(
+								JVRegisterActivity.this, userNameEditText
+										.getText().toString());
 						if (res >= 0) {
 							createDialog("", true);
 							new Thread() {
@@ -308,17 +310,21 @@ public class JVRegisterActivity extends BaseActivity {
 					pass1EditText.setText("");
 					pass2EditText.setText("");
 					pass1EditText.requestFocus();
-				} else if (-1 == AccountUtil.VerifyUserName(userNameEditText
-						.getText().toString())) {
+				} else if (-1 == AccountUtil.VerifyUserName(
+						JVRegisterActivity.this, userNameEditText.getText()
+								.toString())) {
 					showTextToast(R.string.login_str_username_tips4);
-				} else if (-2 == AccountUtil.VerifyUserName(userNameEditText
-						.getText().toString())) {
+				} else if (-2 == AccountUtil.VerifyUserName(
+						JVRegisterActivity.this, userNameEditText.getText()
+								.toString())) {
 					showTextToast(R.string.login_str_loginemail_tips);
-				} else if (-3 == AccountUtil.VerifyUserName(userNameEditText
-						.getText().toString())) {
+				} else if (-3 == AccountUtil.VerifyUserName(
+						JVRegisterActivity.this, userNameEditText.getText()
+								.toString())) {
 					showTextToast(R.string.login_str_username_tips2);
-				} else if (-4 == AccountUtil.VerifyUserName(userNameEditText
-						.getText().toString())) {
+				} else if (-4 == AccountUtil.VerifyUserName(
+						JVRegisterActivity.this, userNameEditText.getText()
+								.toString())) {
 					showTextToast(R.string.login_str_username_tips3);
 				} else if (!AccountUtil.verifyPass(pass1EditText.getText()
 						.toString())) {
@@ -375,7 +381,8 @@ public class JVRegisterActivity extends BaseActivity {
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				registerRes = AccountUtil.userRegister(user);
 				if (JVAccountConst.SUCCESS == registerRes) {
-					verifyCode = AccountUtil.VerifyUserName(user.getUserName());
+					verifyCode = AccountUtil.VerifyUserName(
+							JVRegisterActivity.this, user.getUserName());
 					if (verifyCode > 0) {
 						// loginRes = AccountUtil.userLogin(
 						// statusHashMap.get(Consts.KEY_USERNAME),

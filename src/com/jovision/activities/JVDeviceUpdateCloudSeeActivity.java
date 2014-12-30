@@ -186,9 +186,9 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 						switch (extend_type) {
 
 						case Consts.EX_UPLOAD_CANCEL: {// 2-取消发送升级命令
-						// TEXT_DATA: 165, 1, 81,
-						// {"extend_arg1":0,"extend_arg2":0,"extend_arg3":0,"extend_type":2,
-						// "flag":0,"packet_count":1,"packet_id":0,"packet_length":0,"packet_type":6}
+							// TEXT_DATA: 165, 1, 81,
+							// {"extend_arg1":0,"extend_arg2":0,"extend_arg3":0,"extend_type":2,
+							// "flag":0,"packet_count":1,"packet_id":0,"packet_length":0,"packet_type":6}
 							MyLog.v(TAG, "同意文本聊天，发送升级命令--1");
 							// TODO 1.发送升级命令
 							Jni.sendSuperBytes(1, JVNetConst.JVN_RSP_TEXTDATA,

@@ -408,13 +408,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 			 * public PopupWindow (View contentView, int width, int height)
 			 * contentView:布局view width：布局的宽 height：布局的高
 			 */
-			if (!ConfigUtil.isLanZH()) {
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {
 				popupWindow = new PopupWindow(v,
-						mActivity.disMetrics.widthPixels / 2 + 60,
+						mActivity.disMetrics.widthPixels / 2,
 						LayoutParams.WRAP_CONTENT);
 			} else {
 				popupWindow = new PopupWindow(v,
-						mActivity.disMetrics.widthPixels / 2,
+						mActivity.disMetrics.widthPixels / 2 + 60,
 						LayoutParams.WRAP_CONTENT);
 			}
 		}

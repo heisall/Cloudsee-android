@@ -345,7 +345,7 @@ public class AccountUtil {
 	 * @return int 0：用户名是邮箱 1：用户名是手机号 2：用户名是用户名 -1：用户名长度不合法 -2：邮箱格式不正确 -3:用户名全数字
 	 *         -4：用户名不符合规则
 	 */
-	public static int VerifyUserName(String userName) {
+	public static int VerifyUserName(Context context, String userName) {
 		// int res = JVAccountConst.VALIDATIONUSERNAMETYPE_S;// 默认成功
 		// Pattern pattern = Pattern.compile("^.{4,18}$"); //
 		// 输入任意字符，但是必须要在（4～18）位之间
@@ -378,7 +378,7 @@ public class AccountUtil {
 		if (userName.length() < 4 || userName.length() > 28) {
 			res = -1;
 		} else if (lengthError1.matches()) {
-			if (ConfigUtil.isLanZH()) {
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(context)) {// 中文
 				res = 1;
 			}
 		} else if (userName.contains("@")) {

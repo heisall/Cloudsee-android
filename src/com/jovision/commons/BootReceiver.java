@@ -3,7 +3,6 @@ package com.jovision.commons;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 public class BootReceiver extends BroadcastReceiver {
 
@@ -44,20 +43,22 @@ public class BootReceiver extends BroadcastReceiver {
 		// }
 		// }
 
-		// 覆盖安装
-		if (intent.getAction().equals("android.intent.action.PACKAGE_REPLACED")) {
-			Toast.makeText(context, "覆盖安装", Toast.LENGTH_LONG).show();
-			String packageName = intent.getDataString().substring(8);
-			if (packageName.equalsIgnoreCase("com.jovetech.CloudSee.temp")) {
-				Intent newIntent = new Intent();
-				newIntent.setClassName("com.jovetech.CloudSee.temp",
-						"com.jovision.activities.JVWelcomeActivity");
-				newIntent.setAction("android.intent.action.MAIN");
-				newIntent.addCategory("android.intent.category.LAUNCHER");
-				newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				context.startActivity(newIntent);
-			}
-		}
+		// // 覆盖安装
+		// if
+		// (intent.getAction().equals("android.intent.action.PACKAGE_REPLACED"))
+		// {
+		// Toast.makeText(context, "覆盖安装", Toast.LENGTH_LONG).show();
+		// String packageName = intent.getDataString().substring(8);
+		// if (packageName.equalsIgnoreCase("com.jovetech.CloudSee.temp")) {
+		// Intent newIntent = new Intent();
+		// newIntent.setClassName("com.jovetech.CloudSee.temp",
+		// "com.jovision.activities.JVWelcomeActivity");
+		// newIntent.setAction("android.intent.action.MAIN");
+		// newIntent.addCategory("android.intent.category.LAUNCHER");
+		// newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		// context.startActivity(newIntent);
+		// }
+		// }
 		// // 接收广播：设备上删除了一个应用程序包。
 		// if
 		// (intent.getAction().equals("android.intent.action.PACKAGE_REMOVED"))

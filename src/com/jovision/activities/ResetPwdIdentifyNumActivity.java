@@ -81,6 +81,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 
 		strPhone = extras.getString("phone");
 		strAccount = extras.getString("account");
+		Log.i("TAG", "传递过来的"+strPhone);
 		// appliction MetaData读取
 		ApplicationInfo info;
 		try {
@@ -236,19 +237,19 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	private String[] getCurrentCountry() {
 		String mcc = getMCC();
 		String[] country = null;
-		if (!TextUtils.isEmpty(mcc)) {
+		if(!TextUtils.isEmpty(mcc)) {
 			country = SMSSDK.getCountryByMCC(mcc);
 		}
-		// TODO
-		if (country == null) {
-			Log.i("SMSSDK", "no country found by MCC: " + mcc);
+
+		if(country == null) {
+			Log.w("SMSSDK", "no country found by MCC: " + mcc);
 			country = SMSSDK.getCountry(DEFAULT_COUNTRY_ID);
 		}
 		return country;
 	}
 
 	private String getMCC() {
-		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+		TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
 		// 返回当前手机注册的网络运营商所在国家的MCC+MNC. 如果没注册到网络就为空.
 		String networkOperator = tm.getNetworkOperator();
 
@@ -256,13 +257,12 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		String simOperator = tm.getSimOperator();
 
 		String mcc = null;
-		if (!TextUtils.isEmpty(networkOperator)
-				&& networkOperator.length() >= 5) {
+		if(!TextUtils.isEmpty(networkOperator) && networkOperator.length() >= 5) {
 			mcc = networkOperator.substring(0, 3);
 		}
 
-		if (TextUtils.isEmpty(mcc)) {
-			if (!TextUtils.isEmpty(simOperator) && simOperator.length() >= 5) {
+		if(TextUtils.isEmpty(mcc)) {
+			if(!TextUtils.isEmpty(simOperator) && simOperator.length() >= 5) {
 				mcc = simOperator.substring(0, 3);
 			}
 		}

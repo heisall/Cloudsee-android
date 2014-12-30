@@ -408,13 +408,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 			 * public PopupWindow (View contentView, int width, int height)
 			 * contentView:布局view width：布局的宽 height：布局的高
 			 */
-			if (!ConfigUtil.isLanZH()) {
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {
 				popupWindow = new PopupWindow(v,
-						mActivity.disMetrics.widthPixels / 2 + 60,
+						mActivity.disMetrics.widthPixels / 2,
 						LayoutParams.WRAP_CONTENT);
 			} else {
 				popupWindow = new PopupWindow(v,
-						mActivity.disMetrics.widthPixels / 2,
+						mActivity.disMetrics.widthPixels / 2 + 60,
 						LayoutParams.WRAP_CONTENT);
 			}
 		}
@@ -607,8 +607,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 									String adUrl = "";
 
 									if (Consts.LANGUAGE_ZH == ConfigUtil
-											.getLanguage()) {
+											.getLanguage2(mActivity)) {
 										adUrl = adList.get(index).getAdLinkCh();
+									} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+											.getLanguage2(mActivity)) {
+										adUrl = adList.get(index)
+												.getAdLinkZht();
 									} else {
 										adUrl = adList.get(index).getAdLinkEn();
 									}
@@ -625,9 +629,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 							Bitmap bmp = null;
 
-							if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+							if (Consts.LANGUAGE_ZH == ConfigUtil
+									.getLanguage2(mActivity)) {
 								bmp = BitmapCache.getInstance().getCacheBitmap(
 										adList.get(i).getAdImgUrlCh());
+							} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+									.getLanguage2(mActivity)) {
+								bmp = BitmapCache.getInstance().getCacheBitmap(
+										adList.get(i).getAdImgUrlZht());
 							} else {
 								bmp = BitmapCache.getInstance().getCacheBitmap(
 										adList.get(i).getAdImgUrlEn());
@@ -666,9 +675,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 							ImageView imageView = (ImageView) listViews.get(i);
 							Bitmap bmp = null;
 
-							if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+							if (Consts.LANGUAGE_ZH == ConfigUtil
+									.getLanguage2(mActivity)) {
 								bmp = BitmapCache.getInstance().getCacheBitmap(
 										adList.get(i).getAdImgUrlCh());
+							} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+									.getLanguage2(mActivity)) {
+								bmp = BitmapCache.getInstance().getCacheBitmap(
+										adList.get(i).getAdImgUrlZht());
 							} else {
 								bmp = BitmapCache.getInstance().getCacheBitmap(
 										adList.get(i).getAdImgUrlEn());
@@ -1256,25 +1270,34 @@ public class JVMyDeviceFragment extends BaseFragment {
 				// 删除老广告
 				File adFolder = new File(Consts.AD_PATH);
 				MobileUtil.deleteFile(adFolder);
-				MySharedPreference.putString(Consts.AD_LIST, adList.toString());
 			}
 		}
-
+		MySharedPreference.putString(Consts.AD_LIST, adList.toString());
 		if (null != adList && 0 != adList.size()) {
 			// 从网上获取广告图片
 			for (AD ad : adList) {
-				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {
 					BitmapCache.getInstance().getBitmap(
 							ad.getAdImgUrlCh(),
 							"net",
 							String.valueOf(ad.getIndex())
-									+ ConfigUtil.getLanguage());
+									+ ConfigUtil.getLanguage2(mActivity));
+				} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+						.getLanguage2(mActivity)) {
+					MyLog.v("fanti--", ad.getAdImgUrlZht());
+					MyLog.v("fanti--", String.valueOf(ad.getIndex())
+							+ ConfigUtil.getLanguage2(mActivity));
+					BitmapCache.getInstance().getBitmap(
+							ad.getAdImgUrlZht(),
+							"net",
+							String.valueOf(ad.getIndex())
+									+ ConfigUtil.getLanguage2(mActivity));
 				} else {
 					BitmapCache.getInstance().getBitmap(
 							ad.getAdImgUrlEn(),
 							"net",
 							String.valueOf(ad.getIndex())
-									+ ConfigUtil.getLanguage());
+									+ ConfigUtil.getLanguage2(mActivity));
 				}
 			}
 		}

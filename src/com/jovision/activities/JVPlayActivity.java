@@ -744,41 +744,47 @@ public class JVPlayActivity extends PlayActivity implements
 
 					switch (dataObj.getInt("flag")) {
 					case JVNetConst.JVN_GET_USERINFO: {// 20
-						// CALL_TEXT_DATA: 165, 0, 81,
-						// {"extend_arg1":64,"extend_arg2":0,"extend_arg3":0,
-						// "extend_msg":
-						// "+ID=admin;POWER=4;DESCRIPT=新帐户;+ID=abc;POWER=4;DESCRIPT=新帐户;",
-						// "extend_type":3,"flag":20,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6}
-						String InfoJSON = dataObj.getString("extend_msg");
-						InfoJSON = InfoJSON.replaceAll("ID", "+ID");
-						String[] array = InfoJSON.split("\\+");
-						for (int i = 1; i < array.length; i++) {
-							if (null != array[i] && !array[i].equals("")) {
-								HashMap<String, String> idomap = new HashMap<String, String>();
-								idomap = ConfigUtil.genMsgMap(array[i]);
-								if (idomap.get("ID").equalsIgnoreCase("admin")
-										&& idomap.get("POWER")
-												.equalsIgnoreCase("4")) {
-									channelList.get(arg1).getParent()
-											.setAdmin(true);
+						int extend_type = dataObj.getInt("extend_type");
+						if (Consts.EX_ACCOUNT_REFRESH == extend_type) {
+							// CALL_TEXT_DATA: 165, 0, 81,
+							// {"extend_arg1":64,"extend_arg2":0,"extend_arg3":0,
+							// "extend_msg":
+							// "+ID=admin;POWER=4;DESCRIPT=新帐户;+ID=abc;POWER=4;DESCRIPT=新帐户;",
+							// "extend_type":3,"flag":20,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6}
+							String InfoJSON = dataObj.getString("extend_msg");
+							InfoJSON = InfoJSON.replaceAll("ID", "+ID");
+							String[] array = InfoJSON.split("\\+");
+							for (int i = 1; i < array.length; i++) {
+								if (null != array[i] && !array[i].equals("")) {
+									HashMap<String, String> idomap = new HashMap<String, String>();
+									idomap = ConfigUtil.genMsgMap(array[i]);
+									if (idomap.get("ID").equalsIgnoreCase(
+											"admin")
+											&& idomap.get("POWER")
+													.equalsIgnoreCase("4")) {
+										channelList.get(arg1).getParent()
+												.setAdmin(true);
+									}
 								}
 							}
+							// String [] array = InfoJSON.split(";");
+							// for (int i = 0; i < array.length; i++) {
+							// if
+							// (null!=array[i]&&array[i].toString().substring(0,
+							// 2).equals("ID")) {
+							// idomap.put(i+"", array[i].toString().substring(3,
+							// array[i].toString().length()));
+							// Log.i("TAG", "获取用户名密码"+array[i].toString());
+							// Log.i("TAG",
+							// "前几位"+array[i].toString().substring(0,
+							// 2));
+							// }
+							// if
+							// (null!=array[i]&&array[i].toString().substring(0,
+							// 2).equals("ID")) {
+							// }
+							// }
 						}
-						// String [] array = InfoJSON.split(";");
-						// for (int i = 0; i < array.length; i++) {
-						// if (null!=array[i]&&array[i].toString().substring(0,
-						// 2).equals("ID")) {
-						// idomap.put(i+"", array[i].toString().substring(3,
-						// array[i].toString().length()));
-						// Log.i("TAG", "获取用户名密码"+array[i].toString());
-						// Log.i("TAG", "前几位"+array[i].toString().substring(0,
-						// 2));
-						// }
-						// if (null!=array[i]&&array[i].toString().substring(0,
-						// 2).equals("ID")) {
-						// }
-						// }
-
 						break;
 					}
 					// 远程配置请求，获取到配置文本数据
@@ -2804,6 +2810,32 @@ public class JVPlayActivity extends PlayActivity implements
 		backMethod(true);
 	}
 
+	// @Override
+	// public boolean onKeyDown(int keyCode, KeyEvent event) {
+	// if(keyCode == KeyEvent.KEYCODE_MENU){
+	// if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {//
+	// 横屏
+	// if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
+	// horPlayBarLayout.setVisibility(View.GONE);
+	// } else {
+	// horPlayBarLayout.setVisibility(View.VISIBLE);
+	// }
+	// } else {
+	// if (ONE_SCREEN == currentScreen) {
+	// if (View.VISIBLE == verPlayBarLayout.getVisibility()) {
+	// verPlayBarLayout.setVisibility(View.GONE);
+	// } else {
+	// verPlayBarLayout.setVisibility(View.VISIBLE);
+	// }
+	// }
+	// }
+	// return false;
+	// }else if(keyCode == KeyEvent.KEYCODE_BACK){
+	// backMethod(true);
+	// }
+	// return super.onKeyDown(keyCode, event);
+	// }
+
 	boolean backFunc = false;
 
 	// 设置三种类型参数分别为String,Integer,String
@@ -3092,8 +3124,13 @@ public class JVPlayActivity extends PlayActivity implements
 			Channel channel = channelList.get(lastClickIndex);
 			if (null != channel && channel.isConnected()
 					&& !channel.isConnecting()) {
-				int c = 0;
+				boolean originSize = false;
+				if (channel.getLastPortWidth() == channel.getSurfaceView()
+						.getWidth()) {
+					originSize = true;
+				}
 
+				int c = 0;
 				switch (gesture) {
 				case MyGestureDispatcher.GESTURE_TO_BIGGER:
 				case MyGestureDispatcher.GESTURE_TO_SMALLER:
@@ -3104,26 +3141,50 @@ public class JVPlayActivity extends PlayActivity implements
 
 				case MyGestureDispatcher.GESTURE_TO_LEFT:
 					System.out.println("gesture: left");
-					c = JVNetConst.JVN_YTCTRL_L;
-					sendCmd(c);
+					if (originSize) {
+						c = JVNetConst.JVN_YTCTRL_L;
+						sendCmd(c);
+					} else {
+						gestureOnView(manager.getView(index),
+								channelList.get(index), gesture, distance,
+								vector, middle);
+					}
 					break;
 
 				case MyGestureDispatcher.GESTURE_TO_UP:
 					System.out.println("gesture: up");
-					c = JVNetConst.JVN_YTCTRL_U;
-					sendCmd(c);
+					if (originSize) {
+						c = JVNetConst.JVN_YTCTRL_U;
+						sendCmd(c);
+					} else {
+						gestureOnView(manager.getView(index),
+								channelList.get(index), gesture, distance,
+								vector, middle);
+					}
 					break;
 
 				case MyGestureDispatcher.GESTURE_TO_RIGHT:
 					System.out.println("gesture: right");
-					c = JVNetConst.JVN_YTCTRL_R;
-					sendCmd(c);
+					if (originSize) {
+						c = JVNetConst.JVN_YTCTRL_R;
+						sendCmd(c);
+					} else {
+						gestureOnView(manager.getView(index),
+								channelList.get(index), gesture, distance,
+								vector, middle);
+					}
 					break;
 
 				case MyGestureDispatcher.GESTURE_TO_DOWN:
 					System.out.println("gesture: down");
-					c = JVNetConst.JVN_YTCTRL_D;
-					sendCmd(c);
+					if (originSize) {
+						c = JVNetConst.JVN_YTCTRL_D;
+						sendCmd(c);
+					} else {
+						gestureOnView(manager.getView(index),
+								channelList.get(index), gesture, distance,
+								vector, middle);
+					}
 					break;
 
 				default:

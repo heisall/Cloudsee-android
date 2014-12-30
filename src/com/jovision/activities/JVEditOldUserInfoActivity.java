@@ -36,8 +36,8 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 		Intent intent = new Intent();
 		switch (what) {
 		case JVAccountConst.REGIST_SUCCESS_LOGIN_SUCCESS:
-			if (0 < AccountUtil.VerifyUserName(statusHashMap
-					.get(Consts.KEY_USERNAME))) {
+			if (0 < AccountUtil.VerifyUserName(JVEditOldUserInfoActivity.this,
+					statusHashMap.get(Consts.KEY_USERNAME))) {
 				Intent emailIntent = new Intent(JVEditOldUserInfoActivity.this,
 						JVBoundEmailActivity.class);
 				startActivity(emailIntent);
@@ -138,8 +138,9 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 						registTips.setText(getResources().getString(
 								R.string.login_str_username_notnull));
 					} else {
-						int res = AccountUtil.VerifyUserName(userNameEditText
-								.getText().toString());
+						int res = AccountUtil.VerifyUserName(
+								JVEditOldUserInfoActivity.this,
+								userNameEditText.getText().toString());
 						if (res >= 0) {
 							createDialog("", true);
 							new Thread() {
@@ -208,17 +209,21 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 				// pass2EditText = (EditText) findViewById(R.id.registpass2);
 				if ("".equalsIgnoreCase(userNameEditText.getText().toString())) {
 					showTextToast(R.string.login_str_username_notnull);
-				} else if (-1 == AccountUtil.VerifyUserName(userNameEditText
-						.getText().toString())) {
+				} else if (-1 == AccountUtil.VerifyUserName(
+						JVEditOldUserInfoActivity.this, userNameEditText
+								.getText().toString())) {
 					showTextToast(R.string.login_str_username_tips4);
-				} else if (-2 == AccountUtil.VerifyUserName(userNameEditText
-						.getText().toString())) {
+				} else if (-2 == AccountUtil.VerifyUserName(
+						JVEditOldUserInfoActivity.this, userNameEditText
+								.getText().toString())) {
 					showTextToast(R.string.login_str_loginemail_tips);
-				} else if (-3 == AccountUtil.VerifyUserName(userNameEditText
-						.getText().toString())) {
+				} else if (-3 == AccountUtil.VerifyUserName(
+						JVEditOldUserInfoActivity.this, userNameEditText
+								.getText().toString())) {
 					showTextToast(R.string.login_str_username_tips2);
-				} else if (-4 == AccountUtil.VerifyUserName(userNameEditText
-						.getText().toString())) {
+				} else if (-4 == AccountUtil.VerifyUserName(
+						JVEditOldUserInfoActivity.this, userNameEditText
+								.getText().toString())) {
 					showTextToast(R.string.login_str_username_tips3);
 				} else {
 					createDialog("", true);
@@ -259,8 +264,9 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 							statusHashMap.get(Consts.KEY_USERNAME),
 							statusHashMap.get(Consts.KEY_PASSWORD));
 
-					verifyRes = AccountUtil.VerifyUserName(statusHashMap
-							.get(Consts.KEY_USERNAME));
+					verifyRes = AccountUtil.VerifyUserName(
+							JVEditOldUserInfoActivity.this,
+							statusHashMap.get(Consts.KEY_USERNAME));
 				}
 
 			} catch (Exception e) {

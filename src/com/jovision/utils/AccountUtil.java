@@ -63,7 +63,12 @@ public class AccountUtil {
 			reqObj.put("user", userName);
 			reqObj.put("passwd", pwd);
 			reqObj.put("plattype", 1);
-			reqObj.put("locales", ConfigUtil.getLanguage());
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
+				reqObj.put("locales", Consts.LANGUAGE_ZH);
+			} else {
+				reqObj.put("locales", Consts.LANGUAGE_EN);
+			}
+
 			reqObj.put("devuuid", ConfigUtil.getIMEI(mContext));
 			reqObj.put("longservurl", urlLgServ);
 			reqObj.put("shortservurl", urlStServ);
@@ -117,7 +122,11 @@ public class AccountUtil {
 			reqObj.put("producttype", Consts.PRODUCT_TYPE); // 0-CloudSEE
 															// 1-NVSIP 2-HITVIS
 															// 3-TONGFANG
-			reqObj.put("locales", ConfigUtil.getLanguage());
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
+				reqObj.put("locales", Consts.LANGUAGE_ZH);
+			} else {
+				reqObj.put("locales", Consts.LANGUAGE_EN);
+			}
 			reqObj.put("devuuid",
 					MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
 			boolean alarmSwitch = MySharedPreference.getBoolean("AlarmSwitch",
@@ -234,7 +243,11 @@ public class AccountUtil {
 
 		ClientBean cb = new ClientBean();
 		cb.setPlatformType(1);
-		cb.setLanguageType(ConfigUtil.getLanguage());
+		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(con)) {
+			cb.setLanguageType(Consts.LANGUAGE_ZH);
+		} else {
+			cb.setLanguageType(Consts.LANGUAGE_EN);
+		}
 		cb.setDeviceUUID(MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
 		boolean alarmSwitch = MySharedPreference
 				.getBoolean("AlarmSwitch", true);
@@ -332,7 +345,7 @@ public class AccountUtil {
 	 * @return int 0：用户名是邮箱 1：用户名是手机号 2：用户名是用户名 -1：用户名长度不合法 -2：邮箱格式不正确 -3:用户名全数字
 	 *         -4：用户名不符合规则
 	 */
-	public static int VerifyUserName(String userName) {
+	public static int VerifyUserName(Context context, String userName) {
 		// int res = JVAccountConst.VALIDATIONUSERNAMETYPE_S;// 默认成功
 		// Pattern pattern = Pattern.compile("^.{4,18}$"); //
 		// 输入任意字符，但是必须要在（4～18）位之间
@@ -365,7 +378,7 @@ public class AccountUtil {
 		if (userName.length() < 4 || userName.length() > 28) {
 			res = -1;
 		} else if (lengthError1.matches()) {
-			if (ConfigUtil.isLanZH()) {
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(context)) {// 中文
 				res = 1;
 			}
 		} else if (userName.contains("@")) {

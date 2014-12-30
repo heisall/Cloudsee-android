@@ -291,6 +291,7 @@ public class Consts {
 
 	public static final int LANGUAGE_ZH = 1;// 中文
 	public static final int LANGUAGE_EN = 2;// 英文
+	public static final int LANGUAGE_ZHTW = 3;// 繁体
 
 	/** 播放tag */
 	public static final int PLAY_NORMAL = 0x01;

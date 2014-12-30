@@ -135,7 +135,20 @@ public class JVUpdate {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
-						showDownloadDialog();
+						// showDownloadDialog();
+						try {
+							// URL url = new URL(Url.APK_DOWNLOAD_URL
+							// + mContext.getResources().getString(
+							// R.string.str_save_apk_name));
+
+							Uri uri = Uri.parse(Url.APK_DOWNLOAD_URL
+									+ mContext.getResources().getString(
+											R.string.str_save_apk_name));
+							Intent it = new Intent(Intent.ACTION_VIEW, uri);
+							mContext.startActivity(it);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				});
 		builder.setNegativeButton(mContext.getString(R.string.str_updatelater),

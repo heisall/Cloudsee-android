@@ -189,7 +189,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				finish();
 				break;
 			}
-			;
 			break;
 		case Consts.CALL_TEXT_DATA:
 			MyLog.i(TAG, "CALL_TEXT_DATA: " + what + ", " + arg1 + ", " + arg2
@@ -208,9 +207,12 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					int flag = dataObj.getInt("flag");
 					switch (flag) {
 					case JVNetConst.JVN_GET_USERINFO: {
-						// --修改设备的用户名密码，只要走回调就修改成功了
-						mainListener.onMainAction(JVNetConst.JVN_GET_USERINFO,
-								0, 0, 0);
+						int extend_type = dataObj.getInt("extend_type");
+						if (Consts.EX_ACCOUNT_MODIFY == extend_type) {
+							// --修改设备的用户名密码，只要走回调就修改成功了
+							mainListener.onMainAction(
+									JVNetConst.JVN_GET_USERINFO, 0, 0, 0);
+						}
 						break;
 					}
 					case JVNetConst.JVN_STREAM_INFO:

@@ -41,19 +41,11 @@ public class ResetPwdChoiceActivity extends Activity implements OnClickListener 
 			Intent intentFP = new Intent(ResetPwdChoiceActivity.this,
 					JVWebViewActivity.class);
 			String findUrl = "";
-			if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {// 中文
-				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {// 中文
-					findUrl = Url.RESET_PWD_URL + "?lgn=zh_cn";
-				} else {
-					findUrl = Url.RESET_PWD_URL + "?lgn=en_us";
-				}
-
+			if (Consts.LANGUAGE_ZH == ConfigUtil
+					.getLanguage2(ResetPwdChoiceActivity.this)) {// 中文
+				findUrl = Url.RESET_PWD_URL + "?lgn=zh_cn";
 			} else {// 英文
-				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {// 中文
-					findUrl = Url.RESET_PWD_URL_EN + "?lgn=zh_cn";
-				} else {
-					findUrl = Url.RESET_PWD_URL_EN + "?lgn=en_us";
-				}
+				findUrl = Url.RESET_PWD_URL_EN + "?lgn=en_us";
 			}
 			MyLog.e("findUrl", findUrl);
 			intentFP.putExtra("URL", findUrl);

@@ -85,7 +85,7 @@ public class WaveDevlListAdapter extends BaseAdapter {
 					.getFullNo());
 			devHolder.channellist_pull.setVisibility(View.GONE);
 			devHolder.newImg.setVisibility(View.VISIBLE);
-			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(activity)) {
 				devHolder.newImg.setImageDrawable(activity.getResources()
 						.getDrawable(R.drawable.new_dev_iconch));
 			} else {

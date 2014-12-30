@@ -449,6 +449,8 @@ public class JVDeviceConst {
 	public static final String JK_AD_LINK = "adl";
 	public static final String JK_AD_URL_EN = "adurlen";
 	public static final String JK_AD_LINK_EN = "adlen";
+	public static final String JK_AD_URL_ZHT = "adurlzht";
+	public static final String JK_AD_LINK_ZHT = "adlzht";
 
 	public static final int AD_PUBLISH_PROCESS = 12;
 	public static final int GET_AD_INFO = 5500;

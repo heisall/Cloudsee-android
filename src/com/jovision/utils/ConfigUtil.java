@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -266,7 +265,11 @@ public class ConfigUtil {
 
 	public static int lan = -1;
 
-	// 中文 1 英文2
+	/**
+	 * 中文 1 英文2
+	 * 
+	 * @return
+	 */
 	public static int getServerLanguage() {
 		String china = "";
 		try {
@@ -298,35 +301,21 @@ public class ConfigUtil {
 	 * 
 	 * @return 1:中文 2:英文
 	 */
-	public static int getLanguage() {
+	public static int getLanguage2(Context context) {
+
+		String language = context.getResources().getConfiguration().locale
+				.getCountry();
+		MyLog.v("language", "language=" + language);
+
 		int lan = Consts.LANGUAGE_ZH;
-		String language = Locale.getDefault().getLanguage();
-		if (language.equalsIgnoreCase("zh")) {// 中文
+		if (language.equalsIgnoreCase("cn")) {// 中文
 			lan = Consts.LANGUAGE_ZH;
+		} else if (language.equalsIgnoreCase("tw")) {// 中文
+			lan = Consts.LANGUAGE_ZHTW;
 		} else {// 英文
 			lan = Consts.LANGUAGE_EN;
 		}
 		return lan;
-	}
-
-	/**
-	 * 获取系统语言
-	 * 
-	 * @return true:中文false:英文
-	 * @return
-	 */
-	public static boolean isLanZH() {
-		boolean lanFlag = false;
-		int lan = Consts.LANGUAGE_ZH;
-		String language = Locale.getDefault().getLanguage();
-		if (language.equalsIgnoreCase("zh")) {// 中文
-			lan = Consts.LANGUAGE_ZH;
-			lanFlag = true;
-		} else {// 英文
-			lan = Consts.LANGUAGE_EN;
-			lanFlag = false;
-		}
-		return lanFlag;
 	}
 
 	/**

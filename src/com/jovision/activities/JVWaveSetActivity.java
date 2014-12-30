@@ -319,7 +319,8 @@ public class JVWaveSetActivity extends BaseActivity {
 		waveImage = (ImageView) findViewById(R.id.wavebg);
 		instruction = (ImageView) findViewById(R.id.instruction);
 		pressToSendWave = (ImageView) findViewById(R.id.press_sendwave);
-		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+		if (Consts.LANGUAGE_ZH == ConfigUtil
+				.getLanguage2(JVWaveSetActivity.this)) {
 			stepImage1.setImageResource(R.drawable.reset_bg_zh);
 			instruction.setImageResource(R.drawable.instruction_ch);
 		} else {
@@ -556,7 +557,8 @@ public class JVWaveSetActivity extends BaseActivity {
 	private void playSoundStep(int index) {
 		try {
 			String file = "";
-			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage()) {
+			if (Consts.LANGUAGE_ZH == ConfigUtil
+					.getLanguage2(JVWaveSetActivity.this)) {
 				file = stepSoundCH[index];
 			} else {
 				file = stepSoundEN[index];

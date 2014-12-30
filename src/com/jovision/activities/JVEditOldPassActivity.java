@@ -57,8 +57,8 @@ public class JVEditOldPassActivity extends BaseActivity {
 			showTextToast(R.string.str_reset_not_success);
 			break;
 		case JVAccountConst.REGIST_SUCCESS_LOGIN_SUCCESS:// 注册成功登陆成功
-			if (1 == AccountUtil.VerifyUserName(statusHashMap
-					.get("KEY_USERNAME"))) {
+			if (1 == AccountUtil.VerifyUserName(JVEditOldPassActivity.this,
+					statusHashMap.get("KEY_USERNAME"))) {
 				intent.setClass(JVEditOldPassActivity.this,
 						JVBoundEmailActivity.class);
 				startActivity(intent);

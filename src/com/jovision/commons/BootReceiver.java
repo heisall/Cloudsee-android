@@ -42,10 +42,12 @@ public class BootReceiver extends BroadcastReceiver {
 		// } catch (Exception e) {
 		// }
 		// }
+
 		// // 覆盖安装
 		// if
 		// (intent.getAction().equals("android.intent.action.PACKAGE_REPLACED"))
 		// {
+		// Toast.makeText(context, "覆盖安装", Toast.LENGTH_LONG).show();
 		// String packageName = intent.getDataString().substring(8);
 		// if (packageName.equalsIgnoreCase("com.jovetech.CloudSee.temp")) {
 		// Intent newIntent = new Intent();

@@ -219,7 +219,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 		helpLayout = (LinearLayout) findViewById(R.id.helplayout);
 		helpIV = (ImageView) findViewById(R.id.helpimg);
-		if (ConfigUtil.getLanguage() == Consts.LANGUAGE_ZH) {// 中文
+		if (Consts.LANGUAGE_ZH == ConfigUtil
+				.getLanguage2(JVQuickSettingActivity.this)) {// 中文
 			helpIV.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.h400_update));
 		} else {
@@ -1673,7 +1674,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		try {
 			// 打开指定音乐文件
 			String file = "";
-			if (ConfigUtil.getLanguage() == Consts.LANGUAGE_ZH) {
+			if (Consts.LANGUAGE_ZH == ConfigUtil
+					.getLanguage2(JVQuickSettingActivity.this)) {
 				switch (soundType) {
 				case Consts.TAG_SOUNDONE:// 选择设备，并进入预览
 					file = "1.mp3";

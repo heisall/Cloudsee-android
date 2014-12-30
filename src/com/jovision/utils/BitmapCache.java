@@ -186,6 +186,7 @@ public class BitmapCache {
 			File adFolder = new File(Consts.AD_PATH);
 			MobileUtil.createDirectory(adFolder);
 			File adFile = new File(Consts.AD_PATH + fileName + ".jpg");
+			adFile.createNewFile();
 			FileOutputStream outStream = new FileOutputStream(adFile);
 			URL url = new URL(path);
 

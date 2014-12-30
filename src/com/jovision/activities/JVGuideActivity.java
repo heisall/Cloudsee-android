@@ -41,7 +41,7 @@ public class JVGuideActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		if (ConfigUtil.isLanZH()) {
+		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(JVGuideActivity.this)) {
 			imageArray = imgIdArray;
 		} else {
 			imageArray = imgIDArrayEn;

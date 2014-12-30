@@ -22,6 +22,7 @@ import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import cn.sharesdk.analysis.MobclickAgent;
 import cn.smssdk.framework.FakeActivity;
 
 /**联系人详细信息页面*/
@@ -72,11 +73,13 @@ public class ContactDetailPage extends FakeActivity implements OnClickListener{
 	@Override
 	public void onResume(){
 	  	super.onResume();
+	   	MobclickAgent.onPageStart("ContactDetailPage");
 	}
 
 	@Override
 	public void onPause() {
 	   	super.onPause();
+	   	MobclickAgent.onPageEnd("ContactDetailPage");
 	}
 
 	/**

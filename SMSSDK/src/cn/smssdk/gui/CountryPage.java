@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
+import cn.sharesdk.analysis.MobclickAgent;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import cn.smssdk.framework.FakeActivity;
@@ -115,11 +116,13 @@ public class CountryPage extends FakeActivity implements OnClickListener, TextWa
 	@Override
 	public void onResume(){
 	  	super.onResume();
+	   	MobclickAgent.onPageStart("CountryPage");
 	}
 
 	@Override
 	public void onPause() {
 	   	super.onPause();
+	   	MobclickAgent.onPageEnd("CountryPage");
 	}
 
 	private void initPage() {

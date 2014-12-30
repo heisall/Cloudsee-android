@@ -38,7 +38,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import cn.sharesdk.analysis.MobclickAgent;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import cn.smssdk.framework.FakeActivity;
@@ -144,13 +143,11 @@ public class IdentifyNumPage extends FakeActivity implements OnClickListener, Te
 	@Override
 	public void onResume(){
 	  	super.onResume();
-	   	MobclickAgent.onPageStart("IdentifyNumPage");
 	}
 
 	@Override
 	public void onPause() {
 	   	super.onPause();
-	   	MobclickAgent.onPageEnd("IdentifyNumPage");
 	}
 
 	public boolean onFinish() {

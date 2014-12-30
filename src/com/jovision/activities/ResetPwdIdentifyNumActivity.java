@@ -60,9 +60,10 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	private Button nextButton;
 	private String strAccount, strPhone, formatedPhone;
 	private String SMS_APP_ID, SMS_APP_SECRET;
-	private TextView tvGetNum, tvTopTips, tvFormatedPhone;
+	private TextView tvGetNum, tvTopTips, tvFormatedPhone,tvPhoneNum;
 	private String strIdentifyNum;
 	private BroadcastReceiver smsReceiver;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -100,13 +101,13 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		}
 
 		currentId = DEFAULT_COUNTRY_ID;
-		String[] country = getCurrentCountry();
-		if (country != null) {
-			currentCode = country[1];
-			MyLog.i(TAG, "currentCode:" + currentCode + ", countryName:"
-					+ country[0]);
-		}
-		formatedPhone = "+" + currentCode + " " + strPhone;
+//		String[] country = getCurrentCountry();
+//		if (country != null) {
+//			currentCode = country[1];
+//			Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
+//					+ country[0]);
+//		}
+		formatedPhone = strPhone;
 
 		handler = new EventHandler() {
 			@SuppressWarnings("unchecked")
@@ -191,6 +192,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		nextButton.setEnabled(false);
 		titleTv.setText(R.string.reset_passwd_tips6);
 		tvGetNum = (TextView) findViewById(R.id.tv_sms_tips);
+		tvPhoneNum = (TextView)findViewById(R.id.tv_phone_code);
 		tvGetNum.setOnClickListener(this);
 
 		tvFormatedPhone = (TextView) findViewById(R.id.tv_formated_phone);
@@ -204,17 +206,6 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	public void onResume() {
 		SMSSDK.registerEventHandler(handler);
 		super.onResume();
-	}
-
-	// 分割电话号码
-	private String splitPhoneNum(String phone) {
-		StringBuilder builder = new StringBuilder(phone);
-		builder.reverse();
-		for (int i = 4, len = builder.length(); i < len; i += 5) {
-			builder.insert(i, ' ');
-		}
-		builder.reverse();
-		return builder.toString();
 	}
 
 	private void onCountryListGot(ArrayList<HashMap<String, Object>> countries) {
@@ -234,41 +225,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		checkPhoneNum(strPhone, currentCode);
 	}
 
-	private String[] getCurrentCountry() {
-		String mcc = getMCC();
-		String[] country = null;
-		if(!TextUtils.isEmpty(mcc)) {
-			country = SMSSDK.getCountryByMCC(mcc);
-		}
-
-		if(country == null) {
-			Log.w("SMSSDK", "no country found by MCC: " + mcc);
-			country = SMSSDK.getCountry(DEFAULT_COUNTRY_ID);
-		}
-		return country;
-	}
-
-	private String getMCC() {
-		TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-		// 返回当前手机注册的网络运营商所在国家的MCC+MNC. 如果没注册到网络就为空.
-		String networkOperator = tm.getNetworkOperator();
-
-		// 返回SIM卡运营商所在国家的MCC+MNC. 5位或6位. 如果没有SIM卡返回空
-		String simOperator = tm.getSimOperator();
-
-		String mcc = null;
-		if(!TextUtils.isEmpty(networkOperator) && networkOperator.length() >= 5) {
-			mcc = networkOperator.substring(0, 3);
-		}
-
-		if(TextUtils.isEmpty(mcc)) {
-			if(!TextUtils.isEmpty(simOperator) && simOperator.length() >= 5) {
-				mcc = simOperator.substring(0, 3);
-			}
-		}
-
-		return mcc;
-	}
+	
 
 	// 检查电话号码
 	private void checkPhoneNum(String phone, String code) {

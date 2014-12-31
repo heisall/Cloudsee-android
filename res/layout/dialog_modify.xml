@@ -92,13 +92,15 @@
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/editimport"
                         android:padding="10dp"
-                        android:password="true"
+                        android:singleLine="true"
+                        android:maxLength="12"
+                        android:inputType="textPassword"
                         android:textColor="@color/more_fragment_color6" />
 
                     <ImageView
                         android:id="@+id/device_passwrodet_cancle"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="right|center_vertical"
                         android:background="@drawable/close_btn" />
                 </FrameLayout>

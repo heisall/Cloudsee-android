@@ -147,7 +147,7 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 					JSONObject resObject = new JSONObject(new String(response));
 					strPhone = resObject.optString("phone");
 					strMail = resObject.optString("mail");
-					Log.i("TAG", "获取到的手机号"+strPhone);
+					Log.i("TAG", "获取到的手机号" + strPhone);
 					if (strPhone.equals("") || null == strPhone) {
 						// 走之前的web找回密码
 					} else {

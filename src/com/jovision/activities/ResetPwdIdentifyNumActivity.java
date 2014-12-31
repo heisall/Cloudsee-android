@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
@@ -18,7 +17,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -60,10 +58,9 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	private Button nextButton;
 	private String strAccount, strPhone, formatedPhone;
 	private String SMS_APP_ID, SMS_APP_SECRET;
-	private TextView tvGetNum, tvTopTips, tvFormatedPhone,tvPhoneNum;
+	private TextView tvGetNum, tvTopTips, tvFormatedPhone, tvPhoneNum;
 	private String strIdentifyNum;
 	private BroadcastReceiver smsReceiver;
-	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +79,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 
 		strPhone = extras.getString("phone");
 		strAccount = extras.getString("account");
-		Log.i("TAG", "传递过来的"+strPhone);
+		Log.i("TAG", "传递过来的" + strPhone);
 		// appliction MetaData读取
 		ApplicationInfo info;
 		try {
@@ -101,12 +98,12 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		}
 
 		currentId = DEFAULT_COUNTRY_ID;
-//		String[] country = getCurrentCountry();
-//		if (country != null) {
-//			currentCode = country[1];
-//			Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
-//					+ country[0]);
-//		}
+		// String[] country = getCurrentCountry();
+		// if (country != null) {
+		// currentCode = country[1];
+		// Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
+		// + country[0]);
+		// }
 		formatedPhone = strPhone;
 
 		handler = new EventHandler() {
@@ -192,7 +189,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		nextButton.setEnabled(false);
 		titleTv.setText(R.string.reset_passwd_tips6);
 		tvGetNum = (TextView) findViewById(R.id.tv_sms_tips);
-		tvPhoneNum = (TextView)findViewById(R.id.tv_phone_code);
+		tvPhoneNum = (TextView) findViewById(R.id.tv_phone_code);
 		tvGetNum.setOnClickListener(this);
 
 		tvFormatedPhone = (TextView) findViewById(R.id.tv_formated_phone);
@@ -224,8 +221,6 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		}
 		checkPhoneNum(strPhone, currentCode);
 	}
-
-	
 
 	// 检查电话号码
 	private void checkPhoneNum(String phone, String code) {

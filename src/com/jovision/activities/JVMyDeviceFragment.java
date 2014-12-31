@@ -1284,9 +1284,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 									+ ConfigUtil.getLanguage2(mActivity));
 				} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
 						.getLanguage2(mActivity)) {
-					MyLog.v("fanti--", ad.getAdImgUrlZht());
-					MyLog.v("fanti--", String.valueOf(ad.getIndex())
-							+ ConfigUtil.getLanguage2(mActivity));
 					BitmapCache.getInstance().getBitmap(
 							ad.getAdImgUrlZht(),
 							"net",

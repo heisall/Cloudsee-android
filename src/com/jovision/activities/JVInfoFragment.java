@@ -505,9 +505,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		@Override
 		protected Integer doInBackground(Integer... params) {
 			int delRes = -1;
-			String deleteGuid = pushList.get(params[0]).strGUID;
-			delRes = AlarmUtil.deleteAlarmInfo(
-					mActivity.statusHashMap.get("KEY_USERNAME"), deleteGuid);
+			if (null != pushList && 0 != pushList.size()
+					&& params[0] < pushList.size()) {
+				String deleteGuid = pushList.get(params[0]).strGUID;
+				delRes = AlarmUtil
+						.deleteAlarmInfo(
+								mActivity.statusHashMap.get("KEY_USERNAME"),
+								deleteGuid);
+			}
 			return delRes;
 		}
 
@@ -520,28 +525,32 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			if (result == 0) {
-				String deleteGuid = pushList.get(pushIndex).strGUID;
-				boolean doDelete = false;
-				for (int i = 0; i < pushList.size(); i++) {
-					if (deleteGuid.equalsIgnoreCase(pushList.get(i).strGUID)) {
-						pushList.remove(i);
-						doDelete = true;
-						break;
+				if (null != pushList && 0 != pushList.size()
+						&& pushIndex < pushList.size()) {
+					String deleteGuid = pushList.get(pushIndex).strGUID;
+					boolean doDelete = false;
+					for (int i = 0; i < pushList.size(); i++) {
+						if (deleteGuid
+								.equalsIgnoreCase(pushList.get(i).strGUID)) {
+							pushList.remove(i);
+							doDelete = true;
+							break;
+						}
 					}
-				}
-				if (!doDelete) {
-					mActivity.showTextToast(R.string.del_alarm_failed);
-				} else {
-					Consts.pushHisCount--;
-					pushAdapter.setRefCount(pushList.size());
-					pushAdapter.notifyDataSetChanged();
-					mActivity.showTextToast(R.string.del_alarm_succ);
+					if (!doDelete) {
+						mActivity.showTextToast(R.string.del_alarm_failed);
+					} else {
+						Consts.pushHisCount--;
+						pushAdapter.setRefCount(pushList.size());
+						pushAdapter.notifyDataSetChanged();
+						mActivity.showTextToast(R.string.del_alarm_succ);
 
-					if (Consts.pushHisCount == 0) {
-						mActivity.createDialog("", true);
-						PullRefreshAlarmTask task = new PullRefreshAlarmTask();
-						String[] params = new String[3];
-						task.execute(params);
+						if (Consts.pushHisCount == 0) {
+							mActivity.createDialog("", true);
+							PullRefreshAlarmTask task = new PullRefreshAlarmTask();
+							String[] params = new String[3];
+							task.execute(params);
+						}
 					}
 				}
 			} else {

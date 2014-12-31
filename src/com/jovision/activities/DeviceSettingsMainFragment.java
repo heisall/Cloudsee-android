@@ -60,6 +60,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private RelativeLayout functiontips1, functiontips2, functiontips3;
 	private TextView alarmTime0TextView;
 	private boolean isadmin = false;
+	private int power = 0;
 
 	private Dialog initDialog;// 显示弹出框
 	private TextView dialogCancel;// 取消按钮
@@ -90,6 +91,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			Bundle savedInstanceState) {
 		deviceIndex = getArguments().getInt("deviceindex");
 		isadmin = getArguments().getBoolean("isadmin");
+		power = getArguments().getInt("power");
 		if (rootView == null) {
 			rootView = inflater.inflate(R.layout.dev_settings_main_fragment,
 					container, false);

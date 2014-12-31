@@ -204,8 +204,16 @@ public class MyDeviceListAdapter extends BaseAdapter {
 				}
 			}
 
-			if (deviceList.get(position * 2).getOnlineState() == 1) {
-				deviceHolder.onLineStateL.setText(R.string.str_device_online);
+			if (deviceList.get(position * 2).getOnlineStateNet() == 1) {
+				deviceHolder.onLineStateL
+						.setText(R.string.str_device_online_net);
+				deviceHolder.onLineStateL.setTextColor(mfragment.getActivity()
+						.getResources().getColor(R.color.encode_view));
+				deviceHolder.devOnlineImgL
+						.setImageResource(R.drawable.deviceonline);
+			} else if (deviceList.get(position * 2).getOnlineStateLan() == 1) {
+				deviceHolder.onLineStateL
+						.setText(R.string.str_device_online_lan);
 				deviceHolder.onLineStateL.setTextColor(mfragment.getActivity()
 						.getResources().getColor(R.color.encode_view));
 				deviceHolder.devOnlineImgL
@@ -317,9 +325,17 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						// deviceHolder.wifiStateR.getBackground().setAlpha(80);
 					}
 				}
-				if (deviceList.get(position * 2 + 1).getOnlineState() == 1) {
+				if (deviceList.get(position * 2 + 1).getOnlineStateNet() == 1) {
 					deviceHolder.onLineStateR
-							.setText(R.string.str_device_online);
+							.setText(R.string.str_device_online_net);
+					deviceHolder.onLineStateR.setTextColor(mfragment
+							.getActivity().getResources()
+							.getColor(R.color.encode_view));
+					deviceHolder.devOnlineImgR
+							.setImageResource(R.drawable.deviceonline);
+				} else if (deviceList.get(position * 2 + 1).getOnlineStateLan() == 1) {
+					deviceHolder.onLineStateR
+							.setText(R.string.str_device_online_lan);
 					deviceHolder.onLineStateR.setTextColor(mfragment
 							.getActivity().getResources()
 							.getColor(R.color.encode_view));

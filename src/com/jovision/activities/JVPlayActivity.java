@@ -758,12 +758,15 @@ public class JVPlayActivity extends PlayActivity implements
 								if (null != array[i] && !array[i].equals("")) {
 									HashMap<String, String> idomap = new HashMap<String, String>();
 									idomap = ConfigUtil.genMsgMap(array[i]);
-									if (idomap.get("ID").equalsIgnoreCase(
-											"admin")
-											&& idomap.get("POWER")
-													.equalsIgnoreCase("4")) {
+									int power = Integer.parseInt(idomap
+											.get("POWER"));
+									if (idomap.get("ID").equals("admin")
+											&& 4 == (0x04 & power)) {
+										MyLog.e("power-", "" + power);
 										channelList.get(arg1).getParent()
 												.setAdmin(true);
+										channelList.get(arg1).getParent()
+												.setPower(power);
 									}
 								}
 							}
@@ -813,7 +816,6 @@ public class JVPlayActivity extends PlayActivity implements
 								MyLog.v(TAG, "effect_flag=" + effect_flag);
 								channel.setEffect_flag(Integer
 										.parseInt(streamMap.get("effect_flag")));
-
 								if (0 == (0x04 & effect_flag)) {
 									channel.setScreenTag(Consts.SCREEN_NORMAL);
 								} else {
@@ -3495,6 +3497,8 @@ public class JVPlayActivity extends PlayActivity implements
 						intent.putExtra("isadmin",
 								channelList.get(lastClickIndex).getParent()
 										.isAdmin());
+						intent.putExtra("power", channelList
+								.get(lastClickIndex).getParent().getPower());
 						intent.putExtra("window", lastClickIndex);
 						intent.putExtra("deviceIndex", deviceIndex);
 						intent.putExtra("updateflag", updateStreaminfoFlag);

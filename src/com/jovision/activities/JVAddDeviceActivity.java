@@ -344,9 +344,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 				}
 				MyLog.e(TAG, "addRes X = " + addRes);
 				if (0 == addRes) {
-					if (1 == onLine) {
-						addDevice.setOnlineState(onLine);
-					}
+					addDevice.setOnlineStateLan(onLine);
 					addDevice.setIp(ip);
 					addDevice.setPort(port);
 					deviceList.add(0, addDevice);

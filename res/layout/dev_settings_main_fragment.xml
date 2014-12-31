@@ -280,7 +280,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="修改设备用户名和密码"
+                        android:text="@string/str_modify_pwd"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -311,7 +311,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@string/str_alarm_setting_tips3"
+                    android:text="@string/str_alarm_setting_tips4"
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
             </RelativeLayout>

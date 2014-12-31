@@ -488,6 +488,8 @@
     <string name="recoding">播放失敗</string>
     <!-- MyDeviceListAdapter -->
     <string name="str_device_online">線上</string>
+    <string name="str_device_online_net">互聯網在線</string>
+    <string name="str_device_online_lan">局域網在線</string>
     <string name="str_device_offline">離線</string>
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">一共有</string>
@@ -540,7 +542,7 @@
     <string name="prepare_step">準備步驟</string>
     <string name="check_step">查看演示說明</string>
     <string name="prepare_set">準備配置</string>
-    <string name="prepare_step1">用頂針輕插配置孔\n直到聽到嘀的一聲</string>
+    <string name="prepare_step1">請用頂針輕插設備背後的reset孔，聽到“開始聲波配置”語音提示後松開頂針。</string>
     <string name="prepare_step2">請輸入攝像頭要連接的無線網路密碼</string>
     <string name="prepare_step3">觀看操作演示</string>
     <string name="show_demo">操作演示</string>
@@ -581,6 +583,7 @@
     <string name="str_alarm_no_video">暫無報警視頻</string>
     <string name="str_buffering">正在緩衝…</string>
     <string name="str_safe_protected">安全防護</string>
+    <string name="str_modify_pwd">修改設備管理員密碼</string>
     <string name="str_downloading_vod">正在獲取錄影檔…</string>
     <string name="str_alarm_dev">設備  :</string>
     <string name="str_alarm_type">類型  :</string>
@@ -629,6 +632,7 @@
     <string name="str_alarm_setting_tips3">您可以選擇一個合適的時間段來接收報警，讓報警盡在掌握。</string>
     <string name="str_alarm_setting_tips2">開關打開時，設備如檢測到移動物體，會提示報警。</string>
     <string name="str_all_day">全天</string>
+    <string name="str_alarm_setting_tips4">為了防止泄露隱私，建議及時修改設備管理員密碼。</string>
     <string name="str_protected_time">防護時間段</string>
     <string name="str_getdev_params_timeout">獲取設備參數超時</string>
     <string name="str_setdev_params_timeout">設置設備參數超時</string>

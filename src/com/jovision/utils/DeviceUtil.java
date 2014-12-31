@@ -422,6 +422,7 @@ public class DeviceUtil {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+		MyLog.v("getDeviceDetail---before", dev.toString());
 
 		MyLog.v("getDeviceDetail---request", jObj.toString());
 
@@ -654,7 +655,7 @@ public class DeviceUtil {
 	public static Device addDevice2(Device device, String userName) {
 
 		int res = -1;
-
+		MyLog.v("addDevice2---before", device.toString());
 		// 请求参数示例
 		/**
 		 * {"dvpassword":"","dvusername":"admin","lpt":1,"pv":"2.0",
@@ -738,7 +739,7 @@ public class DeviceUtil {
 									.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT));
 							device.setAlarmSwitch(devObj
 									.optInt(JVDeviceConst.JK_ALARM_SWITCH));
-							device.setOnlineState(devObj
+							device.setOnlineStateNet(devObj
 									.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));
 							device.setServerState(devObj
 									.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
@@ -757,6 +758,7 @@ public class DeviceUtil {
 		} else {
 			device = DeviceUtil.getUserDeviceDetail(device, userName);
 		}
+
 		return device;
 	}
 
@@ -892,14 +894,14 @@ public class DeviceUtil {
 																obj.optString(JVDeviceConst.JK_DEVICE_GUID))) {
 													Device dev = deviceList
 															.get(k);
-													dev.setOnlineState(obj
+													dev.setOnlineStateNet(obj
 															.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));// dsls
 													dev.setHasWifi(obj
 															.optInt(JVDeviceConst.JK_DEVICE_WIFI_FLAG));// dsls
 													MyLog.v("刷新:"
 															+ dev.getFullNo(),
 															"在线状态："
-																	+ dev.getOnlineState());
+																	+ dev.getOnlineStateNet());
 													dev.setDeviceType(obj
 															.optInt(JVDeviceConst.JK_DEVICE_TYPE));
 

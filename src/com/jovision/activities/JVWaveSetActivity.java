@@ -609,7 +609,7 @@ public class JVWaveSetActivity extends BaseActivity {
 					// broadList.remove(index);
 					handler.sendMessage(handler
 							.obtainMessage(Consts.WHAT_BROAD_DEVICE));
-					addDevice.setOnlineState(1);
+					addDevice.setOnlineStateLan(1);
 					addDevice.setIp(ip);
 					addDevice.setPort(port);
 					addDevice.setHasAdded(true);

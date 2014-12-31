@@ -11,28 +11,28 @@
 
     <!-- more feature func -->
     <string-array name="array_more">
-        <item> Help</item>
-        <item> Alarm</item>
-        <item> Viewing Mode(Single-device)</item>
+        <item>Help</item>
+        <item>Alarm</item>
+        <item>Viewing Mode(Single-device)</item>
         <item>Helper</item>
         <item>BroadCast</item>
         <item>Version</item>
         <item>Media</item>
-        <item> Feedback</item>
+        <item>Feedback</item>
         <item>Software Update</item>
-        <item>	Version</item>
+        <item>Version</item>
     </string-array>
     <string-array name="array_moreduo">
-        <item> Help</item>
-        <item> Alarm</item>
-        <item> Viewing Mode(Multi-device)</item>
+        <item>Help</item>
+        <item>Alarm</item>
+        <item>Viewing Mode(Multi-device)</item>
         <item>Helper</item>
         <item>BroadCast</item>
         <item>Version</item>
         <item>Media</item>
-        <item> Feedback</item>
-        <item> Software Update</item>
-        <item> Version</item>
+        <item>Feedback</item>
+        <item>Software Update</item>
+        <item>Version</item>
     </string-array>
     <!-- setting -->
     <string-array name="array_setting">

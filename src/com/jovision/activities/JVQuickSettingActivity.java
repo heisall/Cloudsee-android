@@ -1152,12 +1152,13 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						MyLog.v("广播回调", "未超时--" + hasBroadIP + "--"
 								+ broadDevNum);
 						if (broadDevNum.equalsIgnoreCase(ipcDevice.getFullNo())) {// 同一个设备
-							ipcDevice.setOnlineState(1);
+							ipcDevice.setOnlineStateLan(1);
 							ipcDevice.setIp(broadObj.optString("ip"));
 							ipcDevice.setPort(broadObj.optInt("port"));
 							ipcDevice.setHasWifi(broadObj.optInt("netmod"));
 							hasBroadIP = true;
 						} else {
+							ipcDevice.setOnlineStateLan(0);
 							ipcDevice.setIp("");
 							ipcDevice.setPort(0);
 						}
@@ -1791,7 +1792,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			case R.id.quickSetBack:// 返回
 				// 暂停扫瞄器
 				showSearch(false);
-				if (null != searchView.myPlayer) {
+				if (null != searchView && null != searchView.myPlayer) {
 					searchView.myPlayer.stop();
 				}
 				dismisQuickPopWindow();
@@ -1867,7 +1868,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != searchView.myPlayer) {
+						if (null != searchView && null != searchView.myPlayer) {
 							searchView.myPlayer.stop();
 						}
 						dismisQuickPopWindow();
@@ -1975,7 +1976,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						} else {
 							// 暂停扫瞄器
 							showSearch(false);
-							if (null != searchView.myPlayer) {
+							if (null != searchView
+									&& null != searchView.myPlayer) {
 								searchView.myPlayer.stop();
 							}
 							dismisQuickPopWindow();
@@ -2053,7 +2055,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 								.setText(R.string.str_quick_setting_devupdate_order);
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != searchView.myPlayer) {
+						if (null != searchView && null != searchView.myPlayer) {
 							searchView.myPlayer.stop();
 						}
 
@@ -2068,7 +2070,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != searchView.myPlayer) {
+						if (null != searchView && null != searchView.myPlayer) {
 							searchView.myPlayer.stop();
 						}
 

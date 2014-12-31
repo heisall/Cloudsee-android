@@ -115,7 +115,7 @@ public class ImportOldData {
 				dev.setPwd(c.getString(8));// .setPasswd(c.getString(8));
 				// dev .setByUDP(c.getInt(9) == 1 ? true : false);
 				// dev .setLocalTry(c.getInt(10) == 1 ? true : false);
-				dev.setOnlineState(1);
+				dev.setOnlineStateNet(1);
 				// dev .setParent(c.getInt(11) == 1 ? true : false);
 				dev.setNickName(c.getString(12));// .setNickName(c.getString(12));
 				dev.setGid(c.getString(13));// .setGroup(c.getString(13));

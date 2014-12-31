@@ -196,6 +196,13 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 							totalProgress = jobj.optInt("total");
 							progressBar.setMax(totalProgress);
 						}
+
+						if (0 == totalProgress) {
+							progressBar.setVisibility(View.GONE);
+						} else {
+							progressBar.setVisibility(View.VISIBLE);
+						}
+
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}

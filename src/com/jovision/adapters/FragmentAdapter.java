@@ -70,6 +70,9 @@ public class FragmentAdapter extends BaseAdapter {
 						.get(Consts.LOCAL_LOGIN));
 		item_img.setBackgroundResource(dataList.get(position).getItem_img());
 		name.setText(dataList.get(position).getName());
+		if (position == 0) {
+			more_item.setVisibility(View.GONE);
+		}
 		if (position == 1 && localFlag) {
 			more_relative.setVisibility(View.VISIBLE);
 			more_relative.setOnClickListener(new View.OnClickListener() {

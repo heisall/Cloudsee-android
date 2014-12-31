@@ -67,6 +67,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private String[] funcParamArray;
 	private HashMap<String, String> streamMap;
 	private boolean isadmin;
+	private int power;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		window = extras.getInt("window");
 		deviceIndex = extras.getInt("deviceIndex");
 		isadmin = extras.getBoolean("isadmin");
+		power = extras.getInt("power");
 		streamMap = (HashMap<String, String>) extras
 				.getSerializable("streamMap");
 		deviceList = CacheUtil.getDevList();
@@ -472,12 +474,15 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				MyLog.e("byte-4", "paramByte.length=" + paramByte.length);
 				MyLog.e("byte-5", "paramByte=" + paramByte.toString());
 
+				int sendPower = 0x04 | power;
+
+				MyLog.e("power-send", "" + power);
 				// 2014-12-25 修改设备用户名密码
 				// //CALL_TEXT_DATA: 165, 0, 81,
 				// {"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
 				Jni.sendSuperBytes(window, JVNetConst.JVN_RSP_TEXTDATA, true,
-						Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY,
-						Consts.POWER_ADMIN, 0, 0, paramByte, paramByte.length);
+						Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY, power,
+						0, 0, paramByte, paramByte.length);
 			} catch (JSONException e2) {
 				e2.printStackTrace();
 			}
@@ -878,6 +883,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			bundle1.putString("KEY_PARAM", initDevParamObject.toString());
 			bundle1.putInt("deviceindex", deviceIndex);
 			bundle1.putBoolean("isadmin", isadmin);
+			bundle1.putInt("power", power);
 			deviceSettingsMainFragment.setArguments(bundle1);
 			FragmentManager fm = getSupportFragmentManager();
 			FragmentTransaction ft = getSupportFragmentManager()

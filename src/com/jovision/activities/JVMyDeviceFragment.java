@@ -823,7 +823,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 					if (0 == broadObj.optInt("timeout")) {
 						String gid = broadObj.optString("gid");
 						int no = broadObj.optInt("no");
-						if (0 == no) {
+						if (no <= 0) {
 							return;
 						}
 
@@ -848,7 +848,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 											R.string.str_default_pass), false,
 									count, 0);
 							broadDev.setHasWifi(netmod);
-							broadDev.setOnlineState(1);// 广播都在线
+							broadDev.setOnlineStateLan(1);// 广播都在线
 							broadList.add(broadDev);
 						}
 
@@ -1491,6 +1491,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 							}
 						}
 					}
+					MyLog.v("addDevice2----", addRes + "");
+
 					if (0 == addRes) {
 						addDev.setIp(ip);
 						addDev.setPort(port);
@@ -1501,7 +1503,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				for (Device dev1 : addLanList) {
 					for (Device dev2 : myDeviceList) {
 						if (dev1.getFullNo().equalsIgnoreCase(dev2.getFullNo())) {
-							dev2.setOnlineState(1);
+							dev2.setOnlineStateLan(1);
 							break;
 						}
 					}

@@ -78,6 +78,7 @@ public class PlayUtil {
 				if (0 == dev.getIsDevice()) {// 云视通设备
 					dev.setIp("");
 					dev.setPort(0);
+					dev.setOnlineStateLan(0);
 				}
 			}
 		}
@@ -101,7 +102,7 @@ public class PlayUtil {
 			if (devNum.equalsIgnoreCase(dev.getFullNo())) {
 				dev.setIp(ip);
 				dev.setPort(port);
-				dev.setOnlineState(1);// 广播都在线
+				dev.setOnlineStateLan(1);// 广播都在线
 				dev.setHasWifi(netMethod);
 				has = true;
 				MyLog.v(TAG, "广播到dev=" + dev.getFullNo() + ";ip=" + ip
@@ -144,7 +145,7 @@ public class PlayUtil {
 			ArrayList<Device> onlineDevice = new ArrayList<Device>();
 			ArrayList<Device> offlineDevice = new ArrayList<Device>();
 			for (Device dev : devList) {
-				if (0 == dev.getOnlineState()) {
+				if (0 == dev.getOnlineStateNet()) {
 					offlineDevice.add(dev);
 				} else {
 					onlineDevice.add(dev);
@@ -1011,7 +1012,7 @@ public class PlayUtil {
 		ArrayList<Device> onlineDevice = new ArrayList<Device>();
 		if (!local) {
 			for (Device dev : devList) {
-				if (1 == dev.getOnlineState()) {
+				if (1 == dev.getOnlineStateNet()) {
 					onlineDevice.add(dev);
 				}
 			}

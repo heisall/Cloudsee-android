@@ -488,6 +488,8 @@
     <string name="recoding">Play failed</string>
     <!-- MyDeviceListAdapter -->
     <string name="str_device_online">Online</string>
+    <string name="str_device_online_net">互联网在线</string>
+    <string name="str_device_online_lan">局域网在线</string>
     <string name="str_device_offline">Offline</string>
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">Total</string>
@@ -581,6 +583,7 @@
     <string name="str_alarm_no_video">No Alarm Video</string>
     <string name="str_buffering">Buffering…</string>
     <string name="str_safe_protected">Alert</string>
+    <string name="str_modify_pwd">修改设备管理员密码</string>
     <string name="str_downloading_vod">Getting the video file…</string>
     <string name="str_alarm_dev">Device :</string>
     <string name="str_alarm_type">Type :</string>
@@ -628,6 +631,7 @@
     <string name="str_alarm_setting_tips1">Enable this function, your phone can receive the alert video,picture or message.</string>
     <string name="str_alarm_setting_tips3">You can choose a suitable time scale to receive alert.</string>
     <string name="str_alarm_setting_tips2">Enable this function, the equipment such as moving object is detected, will be prompted to alarm.</string>
+    <string name="str_alarm_setting_tips4">为了防止泄露隐私，建议及时修改设备管理员密码。</string>
     <string name="str_all_day">All Day</string>
     <string name="str_protected_time">Safeguard time scale</string>
     <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>

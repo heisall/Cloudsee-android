@@ -11,28 +11,28 @@
 
     <!-- more feature func -->
     <string-array name="array_more">
-        <item> 帮助</item>
-        <item> 报警消息推送</item>
-        <item> 观看模式(单设备)</item>
+        <item>帮助</item>
+        <item>报警消息推送</item>
+        <item>观看模式(单设备)</item>
         <item>小助手</item>
         <item>广播</item>
         <item>版本号</item>
-        <item>媒体</item>
-        <item> 意见反馈</item>
-        <item> 检查更新</item>
-        <item> 关于</item>
+        <item>图像查看</item>
+        <item>意见反馈</item>
+        <item>检查更新</item>
+        <item>关于</item>
     </string-array>
     <string-array name="array_moreduo">
-        <item> 帮助</item>
-        <item> 报警消息推送</item>
-        <item> 观看模式(多设备)</item>
+        <item>帮助</item>
+        <item>报警消息推送</item>
+        <item>观看模式(多设备)</item>
         <item>小助手</item>
         <item>广播</item>
         <item>版本号</item>
-        <item>媒体</item>
-        <item> 意见反馈</item>
-        <item> 检查更新</item>
-        <item> 关于</item>
+        <item>图像查看</item>
+        <item>意见反馈</item>
+        <item>检查更新</item>
+        <item>关于</item>
     </string-array>
     <!-- add Dev pop menu -->
     <string-array name="array_pop">

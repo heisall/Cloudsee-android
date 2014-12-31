@@ -61,11 +61,14 @@ public class Device {
 
 	/** 连接方式标志位 0:云视通号连接 1:手动ip直连 2:域名设备 */
 	private int isDevice = 0;
-	/** 是否在线 0.不在线 1.在线 */
-	private int onlineState = 0;
+	/** 互联网 是否在线 0.不在线 1.在线 */
+	private int onlineStateNet = 0;
+	/** 局域网 是否在线 0.不在线 1.在线 */
+	private int onlineStateLan = 0;
 
 	/*** 2014-12-25 ***/
-	private boolean admin;
+	private boolean admin;// 是否管理员用户
+	private int power;// 权限值
 	/**
 	 * 设备在线服务器（报警服务器）上线状态标识 dimols为0表示此设备在设备在线服务器离线，为1表示在线
 	 * 在设备管理界面（报警防护开关界面）需判断此标识，如果此标识为离线，则不允许用户操作报警防护开关。
@@ -148,13 +151,11 @@ public class Device {
 		if (-1 == no) {
 			this.no = -1;
 			this.fullNo = gid;
-			this.nickName = fullNo;
 		} else {
 			this.no = no;
 			this.fullNo = gid + no;
-			this.nickName = fullNo;
 		}
-
+		this.nickName = fullNo;
 		this.user = user;
 		this.pwd = pwd;
 		this.isHomeProduct = isHomeProduct;
@@ -246,7 +247,8 @@ public class Device {
 			object.put("deviceVerName", deviceVerName);// 设备软件版本
 			object.put("deviceVerNum", deviceVerNum);// 设备软件版本号
 			object.put("isDevice", isDevice);
-			object.put("onlineState", onlineState);
+			object.put("onlineStateNet", onlineStateNet);
+			object.put("onlineStateLan", onlineStateLan);
 			object.put("hasWifi", hasWifi);
 			object.put("serverState", serverState);
 			object.put("alarmSwitch", alarmSwitch);
@@ -330,7 +332,8 @@ public class Device {
 			dev.setDeviceVerName(ConfigUtil.getString(object, "deviceVerName"));
 			dev.setDeviceVerNum(ConfigUtil.getInt(object, "deviceVerNum"));
 			dev.setIsDevice(ConfigUtil.getInt(object, "isDevice"));
-			dev.setOnlineState(ConfigUtil.getInt(object, "onlineState"));
+			dev.setOnlineStateNet(ConfigUtil.getInt(object, "onlineStateNet"));
+			dev.setOnlineStateLan(ConfigUtil.getInt(object, "onlineStateLan"));
 			dev.setHasWifi(ConfigUtil.getInt(object, "hasWifi"));
 			dev.setServerState(ConfigUtil.getInt(object, "serverState"));
 			dev.setAlarmSwitch(ConfigUtil.getInt(object, "alarmSwitch"));
@@ -435,14 +438,6 @@ public class Device {
 
 	public void setIsDevice(int isDevice) {
 		this.isDevice = isDevice;
-	}
-
-	public int getOnlineState() {
-		return onlineState;
-	}
-
-	public void setOnlineState(int onlineState) {
-		this.onlineState = onlineState;
 	}
 
 	public int getHasWifi() {
@@ -571,6 +566,30 @@ public class Device {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+
+	public int getPower() {
+		return power;
+	}
+
+	public void setPower(int power) {
+		this.power = power;
+	}
+
+	public int getOnlineStateNet() {
+		return onlineStateNet;
+	}
+
+	public void setOnlineStateNet(int onlineStateNet) {
+		this.onlineStateNet = onlineStateNet;
+	}
+
+	public int getOnlineStateLan() {
+		return onlineStateLan;
+	}
+
+	public void setOnlineStateLan(int onlineStateLan) {
+		this.onlineStateLan = onlineStateLan;
 	}
 
 }

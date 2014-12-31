@@ -94,7 +94,7 @@ public class JSONUtil {
 			conn.setConnectTimeout(45000);
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-Type",
-					"application/json; charset=utf-8");
+					"application/json; charset=UTF-8");
 			if (conn.getResponseCode() == 400) {
 				MyLog.e("服务器响应：", "400");
 			} else if (conn.getResponseCode() == 200) {
@@ -272,7 +272,6 @@ public class JSONUtil {
 		try {
 			array = new JSONArray(result);
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return array;

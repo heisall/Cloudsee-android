@@ -1,5 +1,7 @@
 package com.jovision.commons;
 
+import java.util.HashMap;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -39,7 +41,26 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 					+ mContext.getResources().getString(
 							R.string.str_update_app_version);
 			MyLog.v("CheckUrl", checkUrl);
-			JSONArray array = JSONUtil.getJSON(checkUrl);
+			// JSONArray array = JSONUtil.getJSON(checkUrl);
+
+			HashMap<String, String> paramsMap = new HashMap<String, String>();
+			paramsMap.put("Language", String.valueOf(lan));
+			paramsMap.put("RequestType", "3");
+			paramsMap.put("MobileType", "1");
+			paramsMap.put(
+					"Version",
+					mContext.getResources().getString(
+							R.string.str_update_app_version));
+
+			String result = JSONUtil.httpPost(Url.CHECK_UPDATE_URL, paramsMap);
+
+			JSONArray array = null;
+			try {
+				array = new JSONArray(result);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			int curVersion = mContext.getPackageManager().getPackageInfo(
 					mContext.getPackageName(), 0).versionCode;
 

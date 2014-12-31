@@ -110,7 +110,6 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				if (null != obj) {
 					JSONArray array = new JSONArray(obj.toString());
 					JSONObject object = null;
-
 					int size = array.length();
 					if (size > 0) {
 						object = array.getJSONObject(0);

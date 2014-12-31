@@ -37,7 +37,6 @@ import com.jovision.views.XListView.IXListViewListener;
 
 public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	private static final String TAG = "JVInfoFragment";
-
 	private ImageView noMess;
 	private TextView noMessTv;
 	private int pushIndex = 0;// 推送消息index

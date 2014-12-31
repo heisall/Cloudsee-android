@@ -37,18 +37,18 @@
                 android:id="@+id/tv_phone_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+86"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                />
 
             <TextView
                 android:id="@+id/tv_formated_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text="+86 18668923919"
+                android:text="18668923919"
                 android:textColor="@color/black"
                 android:textSize="26sp"
                 android:textStyle="bold" />

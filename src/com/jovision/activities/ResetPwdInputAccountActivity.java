@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.test.JVACCOUNT;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -146,6 +147,7 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 					JSONObject resObject = new JSONObject(new String(response));
 					strPhone = resObject.optString("phone");
 					strMail = resObject.optString("mail");
+					Log.i("TAG", "获取到的手机号"+strPhone);
 					if (strPhone.equals("") || null == strPhone) {
 						// 走之前的web找回密码
 					} else {

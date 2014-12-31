@@ -5,21 +5,14 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.array;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Paint;
 import android.os.AsyncTask;
-import android.telephony.TelephonyManager;
 import android.test.JVACCOUNT;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -33,8 +26,6 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import cn.smssdk.SMSSDK;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -379,6 +370,7 @@ public class JVLoginActivity extends BaseActivity {
 	private int loginRes2 = 0;
 	private int verifyCode = 0;
 	String country = "";
+
 	// 登陆线程
 	private class LoginTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应

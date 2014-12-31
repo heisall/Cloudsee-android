@@ -383,11 +383,11 @@ public class JVOffLineDialogActivity extends BaseActivity {
 					+ ConfigUtil.getVersion(JVOffLineDialogActivity.this);
 			HashMap<String, String> paramsMap = new HashMap<String, String>();
 			String error = (errorMsg + country + cpu).replace("\\+", "%2B")
-			// .replace("\\ ", "%20").replace("\\/", "%2F")
-			// .replace("\\?", "%3F").replace("\\%", "%25")
-			// .replace("\\#", "%23").replace("\\&", "%26")
-			// .replace("\\=", "%3D")
-					.replace("(", "%28").replace(")", "%29");
+					.replace("\\ ", "%20").replace("\\/", "%2F")
+					.replace("\\?", "%3F").replace("\\%", "%25")
+					.replace("\\#", "%23").replace("\\&", "%26")
+					.replace("\\=", "%3D").replace("(", "%28")
+					.replace(")", "%29");
 			paramsMap.put("mod", "crash");
 			paramsMap.put("subject", softwareVersion);
 			paramsMap.put("model", model);

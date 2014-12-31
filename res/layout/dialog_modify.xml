@@ -91,10 +91,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/editimport"
+                        android:inputType="textPassword"
+                        android:maxLength="12"
                         android:padding="10dp"
                         android:singleLine="true"
-                        android:maxLength="12"
-                        android:inputType="textPassword"
                         android:textColor="@color/more_fragment_color6" />
 
                     <ImageView

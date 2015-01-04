@@ -100,13 +100,13 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		}
 
 		currentId = DEFAULT_COUNTRY_ID;
-		 String[] country = getCurrentCountry();
-		 if (country != null) {
-		 currentCode = country[1];
-		 Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
-		 + country[0]);
-		 }
-		formatedPhone = strPhone;
+		String[] country = getCurrentCountry();
+		if (country != null) {
+			currentCode = country[1];
+			Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
+					+ country[0]);
+		}
+		formatedPhone = String.format("%s  %s", currentCode, strPhone);
 
 		handler = new EventHandler() {
 			@SuppressWarnings("unchecked")
@@ -177,14 +177,15 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		unregisterReceiver(smsReceiver);
 		super.onDestroy();
 	}
+
 	private String[] getCurrentCountry() {
 		String mcc = getMCC();
 		String[] country = null;
-		if(!TextUtils.isEmpty(mcc)) {
+		if (!TextUtils.isEmpty(mcc)) {
 			country = SMSSDK.getCountryByMCC(mcc);
 		}
 
-		if(country == null) {
+		if (country == null) {
 			Log.w("SMSSDK", "no country found by MCC: " + mcc);
 			country = SMSSDK.getCountry(DEFAULT_COUNTRY_ID);
 		}
@@ -192,7 +193,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	}
 
 	private String getMCC() {
-		TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		// 返回当前手机注册的网络运营商所在国家的MCC+MNC. 如果没注册到网络就为空.
 		String networkOperator = tm.getNetworkOperator();
 
@@ -200,18 +201,20 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		String simOperator = tm.getSimOperator();
 
 		String mcc = null;
-		if(!TextUtils.isEmpty(networkOperator) && networkOperator.length() >= 5) {
+		if (!TextUtils.isEmpty(networkOperator)
+				&& networkOperator.length() >= 5) {
 			mcc = networkOperator.substring(0, 3);
 		}
 
-		if(TextUtils.isEmpty(mcc)) {
-			if(!TextUtils.isEmpty(simOperator) && simOperator.length() >= 5) {
+		if (TextUtils.isEmpty(mcc)) {
+			if (!TextUtils.isEmpty(simOperator) && simOperator.length() >= 5) {
 				mcc = simOperator.substring(0, 3);
 			}
 		}
 
 		return mcc;
 	}
+
 	private void initViews() {
 		backBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);
@@ -227,6 +230,9 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		tvGetNum = (TextView) findViewById(R.id.tv_sms_tips);
 		tvPhoneNum = (TextView) findViewById(R.id.tv_phone_code);
 		tvGetNum.setOnClickListener(this);
+		tvGetNum.setTextColor(getResources().getColor(R.color.link_color));
+		tvGetNum.setText(getResources().getString(R.string.str_resend_code));
+		tvGetNum.setEnabled(true);
 
 		tvFormatedPhone = (TextView) findViewById(R.id.tv_formated_phone);
 		tvFormatedPhone.setText(formatedPhone);
@@ -340,6 +346,12 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 							R.string.reset_passwd_tips3));
 					pd.show();
 				}
+				tvGetNum.setTextColor(getResources().getColor(
+						R.color.link_color));
+				tvGetNum.setText(getResources().getString(
+						R.string.str_resend_code));
+				tvGetNum.setEnabled(true);
+				athandler.removeCallbacks(timerRunable);
 				SMSSDK.submitVerificationCode(currentCode, strPhone,
 						strIdentifyNum);
 			} else {
@@ -439,11 +451,14 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		});
 	}
 
+	private Runnable timerRunable = null;
+
 	// 倒数计时
 	private void countDown() {
 
 		runOnUIThread(new Runnable() {
 			public void run() {
+				timerRunable = this;
 				String strTips = getResources().getString(
 						R.string.str_receive_sms_time);
 				time--;
@@ -459,7 +474,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 					strTips = strTips.replace("SS", String.valueOf(time));
 					tvGetNum.setText(strTips);
 					tvGetNum.setEnabled(false);
-					runOnUIThread(this, 1000);
+					runOnUIThread(timerRunable, 1000);
 				}
 			}
 		}, 1000);

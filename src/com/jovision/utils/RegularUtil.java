@@ -103,7 +103,7 @@ public class RegularUtil {
 			Pattern pattern = Pattern
 					.compile("^[A-Za-z0-9_.()\\+\\-\\u4e00-\\u9fa5]{1,20}$");
 			Matcher matcher = pattern.matcher(str);
-			if (matcher.matches() && 16 >= str.getBytes().length) {
+			if (matcher.matches() && 24 >= str.getBytes().length) {// 3*8
 				flag = true;
 			} else {
 				flag = false;

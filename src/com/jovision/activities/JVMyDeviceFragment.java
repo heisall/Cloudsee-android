@@ -435,7 +435,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-
+				System.gc();
 				switch (position) {
 				case 0: {// 云视通号
 					StatService.trackCustomEvent(mActivity,
@@ -518,6 +518,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		System.gc();
 		// startBroadTimer();
 		// startAutoRefreshTimer();
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap

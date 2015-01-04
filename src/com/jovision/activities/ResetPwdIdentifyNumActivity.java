@@ -100,12 +100,12 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		}
 
 		currentId = DEFAULT_COUNTRY_ID;
-		 String[] country = getCurrentCountry();
-		 if (country != null) {
-		 currentCode = country[1];
-		 Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
-		 + country[0]);
-		 }
+		String[] country = getCurrentCountry();
+		if (country != null) {
+			currentCode = country[1];
+			Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
+					+ country[0]);
+		}
 		formatedPhone = strPhone;
 
 		handler = new EventHandler() {
@@ -177,14 +177,15 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		unregisterReceiver(smsReceiver);
 		super.onDestroy();
 	}
+
 	private String[] getCurrentCountry() {
 		String mcc = getMCC();
 		String[] country = null;
-		if(!TextUtils.isEmpty(mcc)) {
+		if (!TextUtils.isEmpty(mcc)) {
 			country = SMSSDK.getCountryByMCC(mcc);
 		}
 
-		if(country == null) {
+		if (country == null) {
 			Log.w("SMSSDK", "no country found by MCC: " + mcc);
 			country = SMSSDK.getCountry(DEFAULT_COUNTRY_ID);
 		}
@@ -192,7 +193,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	}
 
 	private String getMCC() {
-		TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		// 返回当前手机注册的网络运营商所在国家的MCC+MNC. 如果没注册到网络就为空.
 		String networkOperator = tm.getNetworkOperator();
 
@@ -200,18 +201,20 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		String simOperator = tm.getSimOperator();
 
 		String mcc = null;
-		if(!TextUtils.isEmpty(networkOperator) && networkOperator.length() >= 5) {
+		if (!TextUtils.isEmpty(networkOperator)
+				&& networkOperator.length() >= 5) {
 			mcc = networkOperator.substring(0, 3);
 		}
 
-		if(TextUtils.isEmpty(mcc)) {
-			if(!TextUtils.isEmpty(simOperator) && simOperator.length() >= 5) {
+		if (TextUtils.isEmpty(mcc)) {
+			if (!TextUtils.isEmpty(simOperator) && simOperator.length() >= 5) {
 				mcc = simOperator.substring(0, 3);
 			}
 		}
 
 		return mcc;
 	}
+
 	private void initViews() {
 		backBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);

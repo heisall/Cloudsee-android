@@ -153,6 +153,7 @@
     <string name="str_out_memery">您的手機未插入SDCard,暫時無法使用此功能.</string>
     <string name="str_sdcard_notenough">您的手機記憶體卡記憶體不足.</string>
     <string name="str_finish">完成</string>
+    <string name="str_register">註冊</string>
     <!-- 遠程回放 -->
     <string name="str_search">檢索</string>
     <string name="str_start_time">開始時間</string>

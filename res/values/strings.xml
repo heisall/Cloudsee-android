@@ -153,6 +153,7 @@
     <string name="str_out_memery">Your mobile phone is not insert SDCard, temporarily unable to use this feature</string>
     <string name="str_sdcard_notenough">Your mobile phone card memory space is insufficient</string>
     <string name="str_finish">Save</string>
+    <string name="str_register">Register</string>
     <!-- 远程回放 -->
     <string name="str_search">Search</string>
     <string name="str_start_time">Start Time</string>

@@ -37,7 +37,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private String devicename;
 	private int channelIndex;// 窗口
 	private String fullno = "";
-	
+
 	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
 

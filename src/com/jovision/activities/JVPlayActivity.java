@@ -3503,7 +3503,8 @@ public class JVPlayActivity extends PlayActivity implements
 								.get(lastClickIndex).getParent().getPower());
 						intent.putExtra("window", lastClickIndex);
 						intent.putExtra("deviceIndex", deviceIndex);
-						intent.putExtra("fullno",deviceList.get(deviceIndex).getFullNo());
+						intent.putExtra("fullno", deviceList.get(deviceIndex)
+								.getFullNo());
 						intent.putExtra("updateflag", updateStreaminfoFlag);
 						intent.putExtra("streamMap", streamMap);
 						startActivity(intent);

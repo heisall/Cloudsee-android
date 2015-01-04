@@ -512,6 +512,7 @@
     <string name="key_update_title">升級內容</string>
     <string name="downloading_update">正在下載。。。</string>
     <string name="writing_update">正在燒寫。。。</string>
+    <string name="writing_update_error">燒寫出錯</string>
     <string name="key_update_reset">設備版本更新成功，是否重啟設備？</string>
     <string name="update_reset_success">重啟設備</string>
     <string name="update_reset_failed">設備升級失敗，請手動重啟.</string>

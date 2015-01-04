@@ -305,31 +305,43 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 							if (writeSuccess) {
 								break;
 							}
-							if (pro < 100) {
-								Thread.sleep(1000);
-								writeSuccess = false;
-								Jni.sendSuperBytes(1,
-										JVNetConst.JVN_RSP_TEXTDATA, true,
-										Consts.RC_EX_FIRMUP,
-										Consts.EX_FIRMUP_STEP,
-										Consts.FIRMUP_HTTP, 0, 0, new byte[0],
-										0);
-								handler.sendMessage(handler.obtainMessage(
-										Consts.WHAT_DOWNLOADING_KEY_UPDATE,
-										pro, 0));
-							} else {
-								MyLog.v(TAG, "烧写完成");
-								handler.sendMessage(handler.obtainMessage(
-										Consts.WHAT_DOWNLOADING_KEY_UPDATE,
-										pro, 0));
-								writeSuccess = true;
-								handler.sendMessage(handler
-										.obtainMessage(Consts.WHAT_WRITE_KEY_UPDATE_SUCCESS));
-							}
+							writeSuccess = true;
+							// if (pro < 100) {
+							// Thread.sleep(1000);
+							// writeSuccess = false;
+							// Jni.sendSuperBytes(1,
+							// JVNetConst.JVN_RSP_TEXTDATA, true,
+							// Consts.RC_EX_FIRMUP,
+							// Consts.EX_FIRMUP_STEP,
+							// Consts.FIRMUP_HTTP, 0, 0, new byte[0],
+							// 0);
+							// handler.sendMessage(handler.obtainMessage(
+							// Consts.WHAT_DOWNLOADING_KEY_UPDATE,
+							// pro, 0));
+							// } else {
+							MyLog.v(TAG, "烧写完成");
+							handler.sendMessage(handler.obtainMessage(
+									Consts.WHAT_DOWNLOADING_KEY_UPDATE, pro, 0));
+							writeSuccess = true;
+							handler.sendMessage(handler
+									.obtainMessage(Consts.WHAT_WRITE_KEY_UPDATE_SUCCESS));
+							// }
 							break;
 						}
 						case Consts.EX_FIRMUP_RET: {
-							MyLog.v(TAG, "最终结果。。。。");
+							int pro = dataObj.getInt("extend_arg1");
+							showConnectRes = false;
+							PlayUtil.disconnectDevice();
+							if (null != updateDialog
+									&& updateDialog.isShowing()) {
+								updateDialog.dismiss();
+								updateDialog = null;
+							}
+							JVDeviceUpdateCloudSeeActivity.this
+									.showTextToast(getResources().getString(
+											R.string.writing_update_error)
+											+ pro);
+							MyLog.v(TAG, "烧写出错，错误值--" + pro);
 							break;
 						}
 
@@ -351,10 +363,10 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 		}
 
 		case Consts.WHAT_DOWNLOAD_KEY_UPDATE_SUCCESS:
-			// if (null != updateDialog && updateDialog.isShowing()) {
-			// updateDialog.dismiss();
-			// updateDialog = null;
-			// }
+			if (null != updateDialog && updateDialog.isShowing()) {
+				updateDialog.dismiss();
+				updateDialog = null;
+			}
 			// updateDialog = null;
 			// if (updateDialog == null) {
 			// updateDialog = new ProgressDialog(

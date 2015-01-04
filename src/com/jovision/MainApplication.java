@@ -133,6 +133,14 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	public synchronized void onJniNotify(int what, int uchType, int channel,
 			Object obj) {
 		switch (what) {
+		// 连接回调
+		case Consts.CALL_CONNECT_CHANGE: {
+			MyLog.i("CONNECT_CALL", "onNotify: changed,what=" + what
+					+ ", arg1=" + uchType + ", arg2=" + channel + ", obj="
+					+ obj);
+			break;
+		}
+
 		// 广播回调
 		case Consts.CALL_LAN_SEARCH: {
 			if (null == myDeviceList || 0 == myDeviceList.size()) {

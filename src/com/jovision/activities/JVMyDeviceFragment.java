@@ -533,6 +533,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 * 刷新列表
 	 */
 	public void refreshList() {
+		PlayUtil.sortList(myDeviceList, mActivity);
+		CacheUtil.saveDevList(myDeviceList);
 		String stateStr = mActivity.statusHashMap.get(Consts.DATA_LOADED_STATE);
 		if (null != stateStr) {
 			refreshLayout.setVisibility(View.VISIBLE);

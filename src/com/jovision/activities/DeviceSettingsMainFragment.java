@@ -335,7 +335,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		device_password_cancleI.setOnClickListener(this);
 		initDialog.show();
 
-		if (deviceIndex!=-1) {
+		if (deviceIndex != -1) {
 			device_name.setText(deviceList.get(deviceIndex).getFullNo());
 		}
 		dialogCancel.setOnClickListener(new View.OnClickListener() {

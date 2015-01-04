@@ -1851,6 +1851,7 @@ public class JVPlayActivity extends PlayActivity implements
 		currentScreen = count;
 
 		adapter.update(manager.genPageList(count));
+		adapter.notifyDataSetChanged();
 		lastItemIndex = lastClickIndex / currentScreen;
 		currentPageChannelList = manager.getValidChannelList(lastItemIndex);
 
@@ -1866,6 +1867,7 @@ public class JVPlayActivity extends PlayActivity implements
 				Consts.WHAT_CHECK_SURFACE, lastItemIndex, lastClickIndex),
 				DELAY_CHECK_SURFACE);
 		handler.sendEmptyMessage(Consts.WHAT_SHOW_PROGRESS);
+		adapter.notifyDataSetChanged();
 	}
 
 	private void changeBorder(int currentIndex) {
@@ -3501,6 +3503,7 @@ public class JVPlayActivity extends PlayActivity implements
 								.get(lastClickIndex).getParent().getPower());
 						intent.putExtra("window", lastClickIndex);
 						intent.putExtra("deviceIndex", deviceIndex);
+						intent.putExtra("fullno",deviceList.get(deviceIndex).getFullNo());
 						intent.putExtra("updateflag", updateStreaminfoFlag);
 						intent.putExtra("streamMap", streamMap);
 						startActivity(intent);

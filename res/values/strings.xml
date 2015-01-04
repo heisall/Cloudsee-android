@@ -512,6 +512,7 @@
     <string name="key_update_title">Update content</string>
     <string name="downloading_update">Loading firmware now, please wait…</string>
     <string name="writing_update">Installing firmware now, please keep the power on and wait…</string>
+    <string name="writing_update_error">烧写出错</string>
     <string name="key_update_reset">Update successfully, do you want to reboot?</string>
     <string name="update_reset_success">Reboot successfully</string>
     <string name="update_reset_failed">Failed to update, please update manually.</string>
@@ -700,5 +701,5 @@
     <string name="str_set_new_pwd">Set New Password</string>
     <string name="str_set_new_pwd_ok">Set Ok, login again</string>
     <string name="str_query_account_failed">Query account info failed</string>
-
+	<string name="str_not_bind_phone_tips1">您的账号没有绑定手机，请通过邮箱找回</string>
 </resources>

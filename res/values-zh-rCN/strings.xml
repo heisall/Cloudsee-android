@@ -512,6 +512,7 @@
     <string name="key_update_title">升级内容</string>
     <string name="downloading_update">正在下载。。。</string>
     <string name="writing_update">正在烧写。。。</string>
+    <string name="writing_update_error">烧写出错</string>
     <string name="key_update_reset">设备版本更新成功，是否重启设备？</string>
     <string name="update_reset_success">重启设备</string>
     <string name="update_reset_failed">设备升级失败，请手动重启.</string>
@@ -700,5 +701,5 @@
     <string name="str_set_new_pwd">设置新密码</string>
     <string name="str_set_new_pwd_ok">新密码设置成功，请重新登录</string>
     <string name="str_query_account_failed">查询账号信息失败</string>
-
+	<string name="str_not_bind_phone_tips1">您的账号没有绑定手机，请通过邮箱找回</string>
 </resources>

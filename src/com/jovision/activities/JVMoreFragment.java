@@ -647,6 +647,9 @@ public class JVMoreFragment extends BaseFragment {
 				if (!localFlag) {
 					AccountUtil.userLogout();
 					MySharedPreference.putString(Consts.DEVICE_LIST, "");
+					// 添加手动注销标志，离线报警使用，如果为手动注销账号，不接收离线报警
+					MySharedPreference.putBoolean(Consts.MANUAL_LOGOUT_TAG,
+							true);
 				}
 				ConfigUtil.logOut();
 				UserUtil.resetAllUser();

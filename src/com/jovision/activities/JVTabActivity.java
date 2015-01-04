@@ -123,9 +123,7 @@ public class JVTabActivity extends ShakeActivity implements
 
 						@Override
 						public void onFail(Object data, int errCode, String msg) {
-							MyLog.d("TPush", "注册失败，错误码：" + errCode + ",错误信息："
-									+ msg);
-							showTextToast("注册失败，错误码：" + errCode + ",错误信息："
+							MyLog.e("TPush", "注册失败，错误码：" + errCode + ",错误信息："
 									+ msg);
 						}
 					});

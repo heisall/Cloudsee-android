@@ -622,4 +622,6 @@ public class Consts {
 	public static final int DEV_SETTINGS_ALARM = 0x01; // 安全防护开关
 	public static final int DEV_SETTINGS_MD = 0x02; // 移动侦测开关
 	public static final int DEV_SETTINGS_ALARMTIME = 0x03; // 防护时间段
+	/** 手动注销标志key */
+	public static String MANUAL_LOGOUT_TAG = "MANUAL_LOGOUT_TAG";
 }

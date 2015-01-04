@@ -17,6 +17,8 @@ import com.jovision.activities.JVWelcomeActivity;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AlarmUtil;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
@@ -71,6 +73,10 @@ public class MessageReceiver extends XGPushBaseReceiver {
 			Log.e("TPush", "onTextMessage the context is null");
 		} else {
 			Log.e("TPush", "onTextMessage the context is not null");
+		}
+		if (MySharedPreference.getBoolean(Consts.MANUAL_LOGOUT_TAG)) {
+			MyLog.e("TPush", "账号手动注销，不处理离线报警");
+			return;
 		}
 		String content_tmp = arg1.getContent();
 		if (content_tmp == null || content_tmp.length() == 0) {

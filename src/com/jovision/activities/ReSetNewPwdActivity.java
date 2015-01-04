@@ -126,7 +126,8 @@ public class ReSetNewPwdActivity extends BaseActivity implements
 				setNewpwdTask.execute(param);
 			}
 			break;
-
+		case R.id.btn_left:
+			finish();
 		default:
 			break;
 		}

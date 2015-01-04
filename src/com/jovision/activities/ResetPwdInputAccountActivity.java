@@ -150,6 +150,7 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 					Log.i("TAG", "获取到的手机号" + strPhone);
 					if (strPhone.equals("") || null == strPhone) {
 						// 走之前的web找回密码
+						showTextToast(R.string.str_not_bind_phone_tips1);
 					} else {
 						// 跳转到验证码界面
 						Intent intent = new Intent(
@@ -165,7 +166,7 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 				}
 			} else {
 				// 重置失败
-				showTextToast(R.string.str_video_load_failed);
+				showTextToast(R.string.str_query_account_failed);
 			}
 		}
 

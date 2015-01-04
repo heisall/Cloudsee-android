@@ -329,7 +329,19 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 							break;
 						}
 						case Consts.EX_FIRMUP_RET: {
-							MyLog.v(TAG, "最终结果。。。。");
+							int pro = dataObj.getInt("extend_arg1");
+							showConnectRes = false;
+							PlayUtil.disconnectDevice();
+							if (null != updateDialog
+									&& updateDialog.isShowing()) {
+								updateDialog.dismiss();
+								updateDialog = null;
+							}
+							JVDeviceUpdateCloudSeeActivity.this
+									.showTextToast(getResources().getString(
+											R.string.writing_update_error)
+											+ pro);
+							MyLog.v(TAG, "烧写出错，错误值--" + pro);
 							break;
 						}
 

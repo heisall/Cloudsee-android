@@ -36,8 +36,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private ArrayList<Device> deviceList;
 	private String devicename;
 	private int channelIndex;// 窗口
-	private int deviceIndex = -1;
-
+	private String fullno = "";
+	
 	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
 
@@ -89,7 +89,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		deviceIndex = getArguments().getInt("deviceindex");
+		fullno = getArguments().getString("fullno");
 		isadmin = getArguments().getBoolean("isadmin");
 		power = getArguments().getInt("power");
 		if (rootView == null) {
@@ -335,8 +335,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		device_password_cancleI.setOnClickListener(this);
 		initDialog.show();
 
-		if (deviceIndex != -1) {
-			device_name.setText(deviceList.get(deviceIndex).getFullNo());
+		if (!"".equals(fullno)) {
+			device_name.setText(fullno);
 		}
 		dialogCancel.setOnClickListener(new View.OnClickListener() {
 			@Override

@@ -68,6 +68,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private HashMap<String, String> streamMap;
 	private boolean isadmin;
 	private int power;
+	private String fullno;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		window = extras.getInt("window");
 		deviceIndex = extras.getInt("deviceIndex");
 		isadmin = extras.getBoolean("isadmin");
+		fullno = extras.getString("fullno");
 		power = extras.getInt("power");
 		streamMap = (HashMap<String, String>) extras
 				.getSerializable("streamMap");
@@ -881,7 +883,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			deviceSettingsMainFragment = new DeviceSettingsMainFragment();
 			Bundle bundle1 = new Bundle();
 			bundle1.putString("KEY_PARAM", initDevParamObject.toString());
-			bundle1.putInt("deviceindex", deviceIndex);
+			bundle1.putString("fullno", fullno);
 			bundle1.putBoolean("isadmin", isadmin);
 			bundle1.putInt("power", power);
 			deviceSettingsMainFragment.setArguments(bundle1);

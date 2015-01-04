@@ -37,7 +37,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.MyLog;
 
 public class ResetPwdIdentifyNumActivity extends BaseActivity implements
-		OnClickListener, TextWatcher {
+OnClickListener, TextWatcher {
 
 	private static final String TAG = "RESET_PWD";
 	private static final int RETRY_INTERVAL = 60;
@@ -81,7 +81,6 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 
 		strPhone = extras.getString("phone");
 		strAccount = extras.getString("account");
-		Log.i("TAG", "传递过来的" + strPhone);
 		// appliction MetaData读取
 		ApplicationInfo info;
 		try {
@@ -107,6 +106,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 					+ country[0]);
 		}
 		formatedPhone = String.format("%s  %s", currentCode, strPhone);
+
 
 		handler = new EventHandler() {
 			@SuppressWarnings("unchecked")
@@ -229,6 +229,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		titleTv.setText(R.string.reset_passwd_tips6);
 		tvGetNum = (TextView) findViewById(R.id.tv_sms_tips);
 		tvPhoneNum = (TextView) findViewById(R.id.tv_phone_code);
+		tvPhoneNum.setText("+"+currentCode+"  ");
 		tvGetNum.setOnClickListener(this);
 		tvGetNum.setTextColor(getResources().getColor(R.color.link_color));
 		tvGetNum.setText(getResources().getString(R.string.str_resend_code));

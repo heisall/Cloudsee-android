@@ -1,18 +1,11 @@
 package com.jovision.activities;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.text.SpannableString;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -24,13 +17,10 @@ import android.widget.ToggleButton;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MySharedPreference;
-import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
-import com.tencent.stat.StatService;
 
 public class JVRegisterActivity extends BaseActivity {
 	private boolean agreeProtocol = true;
@@ -43,19 +33,17 @@ public class JVRegisterActivity extends BaseActivity {
 	private ToggleButton agreeTBtn;
 	private TextView agreeMent;
 	private EditText userNameEditText;
-	private EditText pass1EditText;
-	private EditText pass2EditText;
 	private WebView mWebView;
 	private LinearLayout agreeLayout;
+	private TextView registercode;
+	private int Count = 10;
+	private final int COUNT = 1000;
 
 	/** 注册信息提示文本 */
 	private TextView registTips;
-	private TextView registTips2;
-	private TextView registTips3;
 
 	/** 用户名是否存在 */
 	private int nameExists;
-	private int focusView;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -67,7 +55,6 @@ public class JVRegisterActivity extends BaseActivity {
 			registTips.setTextColor(Color.rgb(21, 103, 215));
 			registTips.setText(getResources().getString(
 					R.string.str_user_not_exist2));
-			inputMethod(focusView);
 			break;
 		}
 		/** 注册用户名检测成功、失败 */
@@ -77,7 +64,6 @@ public class JVRegisterActivity extends BaseActivity {
 			registTips.setTextColor(Color.rgb(217, 34, 38));
 			registTips.setText(getResources().getString(
 					R.string.str_user_has_exist));
-			inputMethod(focusView);
 			break;
 		}
 		/** 手机号不符合规则 */
@@ -87,7 +73,6 @@ public class JVRegisterActivity extends BaseActivity {
 			registTips.setTextColor(Color.rgb(217, 34, 38));
 			registTips.setText(getResources().getString(
 					R.string.str_phone_num_error));
-			inputMethod(focusView);
 			break;
 		}
 		/** 默认宏 */
@@ -95,6 +80,14 @@ public class JVRegisterActivity extends BaseActivity {
 			dismissDialog();
 			break;
 		}
+		case COUNT:
+			//TODO
+			if (Count == 0) {
+				registercode.setText("验证码");
+			}else {
+				registercode.setText(Count+"");
+			}
+			break;
 		}
 	}
 
@@ -120,12 +113,9 @@ public class JVRegisterActivity extends BaseActivity {
 		rightButton.setVisibility(View.GONE);
 
 		regist = (Button) findViewById(R.id.regist);
+		registercode = (TextView)findViewById(R.id.registercode);
 		userNameEditText = (EditText) findViewById(R.id.registusername);
-		pass1EditText = (EditText) findViewById(R.id.registpass1);
-		pass2EditText = (EditText) findViewById(R.id.registpass2);
 		registTips = (TextView) findViewById(R.id.regist_tips);
-		registTips2 = (TextView) findViewById(R.id.regist_tips2);
-		registTips3 = (TextView) findViewById(R.id.regist_tips3);
 		agreeTBtn = (ToggleButton) findViewById(R.id.agree);
 		agreeMent = (TextView) findViewById(R.id.agreement);
 		mWebView = (WebView) findViewById(R.id.mywebview);
@@ -143,6 +133,7 @@ public class JVRegisterActivity extends BaseActivity {
 				R.string.str_agreement));
 		agreeMent.setText(sp);
 
+		registercode.setOnClickListener(onClickListener);
 		back.setOnClickListener(onClickListener);
 		regist.setOnClickListener(onClickListener);
 		agreeMent.setOnClickListener(onClickListener);
@@ -167,7 +158,7 @@ public class JVRegisterActivity extends BaseActivity {
 					} else {
 						int res = AccountUtil.VerifyUserName(
 								JVRegisterActivity.this, userNameEditText
-										.getText().toString());
+								.getText().toString());
 						if (res >= 0) {
 							createDialog("", true);
 							new Thread() {
@@ -225,55 +216,7 @@ public class JVRegisterActivity extends BaseActivity {
 				}
 			}
 		});
-		pass1EditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (!hasFocus) {
-					if ("".equalsIgnoreCase(pass1EditText.getText().toString())) {
-						registTips2.setVisibility(View.VISIBLE);
-						registTips2.setTextColor(Color.rgb(217, 34, 38));
-						registTips2.setText(getResources().getString(
-								R.string.login_str_loginpass1_notnull));
-					} else if (!AccountUtil.verifyPass(pass1EditText.getText()
-							.toString())) {
-						registTips2.setVisibility(View.VISIBLE);
-						registTips2.setTextColor(Color.rgb(217, 34, 38));
-						registTips2.setText(getResources().getString(
-								R.string.login_str_password_tips1));
-					} else {
-						registTips2.setVisibility(View.INVISIBLE);
-					}
-				} else {
-					focusView = 1;
-				}
-			}
-		});
-		pass2EditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (!hasFocus) {
-					if ("".equalsIgnoreCase(pass2EditText.getText().toString())) {
-						registTips3.setVisibility(View.VISIBLE);
-						registTips3.setTextColor(Color.rgb(217, 34, 38));
-						registTips3.setText(getResources().getString(
-								R.string.login_str_loginpass2_notnull));
-					} else if (!pass1EditText.getText().toString()
-							.equals(pass2EditText.getText().toString())) {
-						registTips3.setVisibility(View.VISIBLE);
-						registTips3.setTextColor(Color.rgb(217, 34, 38));
-						registTips3.setText(getResources().getString(
-								R.string.login_str_loginpass_notsame));
-					} else {
-						registTips3.setVisibility(View.INVISIBLE);
-					}
-				} else {
-					focusView = 2;
-				}
-			}
-		});
-
 	}
-
 	@Override
 	protected void saveSettings() {
 
@@ -292,59 +235,33 @@ public class JVRegisterActivity extends BaseActivity {
 			case R.id.btn_left:
 				backMethod();
 				break;
+			case R.id.registercode:
+				//TODO
+				break;
 			case R.id.regist:
 				userNameEditText = (EditText) findViewById(R.id.registusername);
-				pass1EditText = (EditText) findViewById(R.id.registpass1);
-				pass2EditText = (EditText) findViewById(R.id.registpass2);
 				if ("".equalsIgnoreCase(userNameEditText.getText().toString())) {
 					showTextToast(R.string.login_str_username_notnull);
-				} else if ("".equalsIgnoreCase(pass1EditText.getText()
-						.toString())) {
-					showTextToast(R.string.login_str_loginpass1_notnull);
-				} else if ("".equalsIgnoreCase(pass2EditText.getText()
-						.toString())) {
-					showTextToast(R.string.login_str_loginpass2_notnull);
-				} else if (!pass1EditText.getText().toString()
-						.equals(pass2EditText.getText().toString())) {
-					showTextToast(R.string.login_str_loginpass_notsame);
-					pass1EditText.setText("");
-					pass2EditText.setText("");
-					pass1EditText.requestFocus();
 				} else if (-1 == AccountUtil.VerifyUserName(
 						JVRegisterActivity.this, userNameEditText.getText()
-								.toString())) {
+						.toString())) {
 					showTextToast(R.string.login_str_username_tips4);
 				} else if (-2 == AccountUtil.VerifyUserName(
 						JVRegisterActivity.this, userNameEditText.getText()
-								.toString())) {
+						.toString())) {
 					showTextToast(R.string.login_str_loginemail_tips);
 				} else if (-3 == AccountUtil.VerifyUserName(
 						JVRegisterActivity.this, userNameEditText.getText()
-								.toString())) {
+						.toString())) {
 					showTextToast(R.string.login_str_username_tips2);
 				} else if (-4 == AccountUtil.VerifyUserName(
 						JVRegisterActivity.this, userNameEditText.getText()
-								.toString())) {
-					showTextToast(R.string.login_str_username_tips3);
-				} else if (!AccountUtil.verifyPass(pass1EditText.getText()
 						.toString())) {
-					showTextToast(R.string.login_str_password_tips1);
+					showTextToast(R.string.login_str_username_tips3);
 				} else if (!agreeProtocol) {
 					showTextToast(R.string.login_str_agreement_tips);
 				} else {
-					createDialog("", true);
-					statusHashMap.put(Consts.KEY_USERNAME, userNameEditText
-							.getText().toString());
-					statusHashMap.put(Consts.KEY_PASSWORD, pass1EditText
-							.getText().toString());
-
-					// RegistThread registThread = new RegistThread(
-					// JVRegisterActivity.this);
-					// registThread.start();
-
-					RegisterTask task = new RegisterTask();
-					String[] strParams = new String[3];
-					task.execute(strParams);
+					//TODO
 				}
 				break;
 			case R.id.agreement:
@@ -355,183 +272,6 @@ public class JVRegisterActivity extends BaseActivity {
 		}
 
 	};
-
-	private int errorCode = 0;
-	private int verifyCode = 0;
-	private int loginRes = 0;
-	private int loginRes1 = 0;
-	private int loginRes2 = 0;
-
-	// 用户注册线程
-	private class RegisterTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
-		// 可变长的输入参数，与AsyncTask.exucute()对应
-		@Override
-		protected Integer doInBackground(String... params) {
-			int registerRes = -1;
-			try {
-				registerRes = AccountUtil.isUserExsit(statusHashMap
-						.get(Consts.KEY_USERNAME));
-				if (JVAccountConst.USER_HAS_EXIST == registerRes) {
-					return registerRes;
-				} else if (JVAccountConst.PHONE_NOT_TRUE == registerRes) {
-					return registerRes;
-				}
-				User user = new User();
-				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
-				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
-				registerRes = AccountUtil.userRegister(user);
-				if (JVAccountConst.SUCCESS == registerRes) {
-					verifyCode = AccountUtil.VerifyUserName(
-							JVRegisterActivity.this, user.getUserName());
-					if (verifyCode > 0) {
-						// loginRes = AccountUtil.userLogin(
-						// statusHashMap.get(Consts.KEY_USERNAME),
-						// statusHashMap.get(Consts.KEY_PASSWORD),
-						// JVRegisterActivity.this);
-						String strRes = AccountUtil.onLoginProcessV2(
-								JVRegisterActivity.this,
-								statusHashMap.get(Consts.KEY_USERNAME),
-								statusHashMap.get(Consts.KEY_PASSWORD),
-								Url.SHORTSERVERIP, Url.LONGSERVERIP);
-						JSONObject respObj = null;
-						try {
-							respObj = new JSONObject(strRes);
-							loginRes1 = respObj.optInt("arg1", 1);
-							loginRes2 = respObj.optInt("arg2", 0);
-							// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
-
-							String data = respObj.optString("data");
-							if (null != data && !"".equalsIgnoreCase(data)) {
-								JSONObject dataObj = new JSONObject(data);
-								String channelIp = dataObj
-										.optString("channel_ip");
-								String onlineIp = dataObj
-										.optString("online_ip");
-								if (Consts.LANGUAGE_ZH == ConfigUtil
-										.getServerLanguage()) {
-									MySharedPreference.putString("ChannelIP",
-											channelIp);
-									MySharedPreference.putString("OnlineIP",
-											onlineIp);
-									MySharedPreference.putString(
-											"ChannelIP_en", "");
-									MySharedPreference.putString("OnlineIP_en",
-											"");
-								} else {
-									MySharedPreference.putString(
-											"ChannelIP_en", channelIp);
-									MySharedPreference.putString("OnlineIP_en",
-											onlineIp);
-									MySharedPreference.putString("ChannelIP",
-											"");
-									MySharedPreference
-											.putString("OnlineIP", "");
-								}
-							}
-
-						} catch (JSONException e) {
-							loginRes1 = JVAccountConst.LOGIN_FAILED_2;
-							loginRes2 = 0;
-							e.printStackTrace();
-						}
-					}
-					return registerRes;
-				} else {
-					errorCode = registerRes;
-					return JVAccountConst.FAILED;
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return registerRes;
-		}
-
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			dismissDialog();
-			switch (result) {
-			case JVAccountConst.SUCCESS:// 注册成功
-				StatService.trackCustomEvent(JVRegisterActivity.this,
-						"Register", JVRegisterActivity.this.getResources()
-								.getString(R.string.census_register));
-				if (verifyCode > 0 && JVAccountConst.LOGIN_SUCCESS == loginRes1) {
-					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
-					Intent emailIntent = new Intent(JVRegisterActivity.this,
-							JVBoundEmailActivity.class);
-					String userName = userNameEditText.getText().toString();
-					String userPass = pass1EditText.getText().toString();
-					emailIntent.putExtra("AutoLogin", true);
-					emailIntent.putExtra("UserName", userName);
-					emailIntent.putExtra("UserPass", userPass);
-					JVRegisterActivity.this.startActivity(emailIntent);
-					JVRegisterActivity.this.finish();
-				} else {
-					Intent intent = new Intent();
-					intent.setClass(JVRegisterActivity.this,
-							JVLoginActivity.class);
-					String userName = userNameEditText.getText().toString();
-					String userPass = pass1EditText.getText().toString();
-					intent.putExtra("AutoLogin", true);
-					intent.putExtra("UserName", userName);
-					intent.putExtra("UserPass", userPass);
-					JVRegisterActivity.this.startActivity(intent);
-					JVRegisterActivity.this.finish();
-				}
-				showTextToast(R.string.login_str_regist_success);
-				break;
-			case JVAccountConst.USER_HAS_EXIST:// 账号已注册
-				showTextToast(R.string.str_user_has_exist);
-				break;
-			case JVAccountConst.PHONE_NOT_TRUE:// 邮箱已注册
-				showTextToast(R.string.str_phone_num_error);
-				break;
-			case JVAccountConst.FAILED:// 注册失败
-				if (0 < errorCode) {
-					if (JVAccountConst.PASSWORD_ERROR == errorCode) {
-						showTextToast(R.string.str_user_password_error);
-					} else if (JVAccountConst.SESSION_NOT_EXSIT == errorCode) {
-						showTextToast(R.string.str_session_not_exist);
-					} else if (JVAccountConst.USER_HAS_EXIST == errorCode) {
-						showTextToast(R.string.str_user_has_exist);
-					} else if (JVAccountConst.USER_NOT_EXIST == errorCode) {
-						showTextToast(R.string.str_user_not_exist2);
-					} else {
-						showTextToast(R.string.str_other_error);
-					}
-				} else {
-					if (-5 == errorCode) {
-						showTextToast(R.string.str_error_code_5);
-					} else if (-6 == errorCode) {
-						showTextToast(R.string.str_error_code_6);
-					} else {
-						showTextToast(getResources().getString(
-								R.string.str_error_code)
-								+ (errorCode - 1000));
-					}
-				}
-				break;
-			}
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog("", true);
-		}
-
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
-		}
-	}
-
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -561,29 +301,6 @@ public class JVRegisterActivity extends BaseActivity {
 		}
 
 	};
-
-	private void inputMethod(final int view) {
-		// Timer timer = new Timer();
-		// timer.schedule(new TimerTask() {
-		// public void run() {
-		InputMethodManager imm = (InputMethodManager) JVRegisterActivity.this
-				.getSystemService(Context.INPUT_METHOD_SERVICE);
-		if (1 == view) {
-			pass1EditText.setFocusable(true);
-			pass1EditText.setFocusableInTouchMode(true);
-			pass1EditText.requestFocus();
-			imm.showSoftInput(pass1EditText, 0);
-		} else if (2 == view) {
-			pass2EditText.setFocusable(true);
-			pass2EditText.setFocusableInTouchMode(true);
-			pass2EditText.requestFocus();
-			imm.showSoftInput(pass2EditText, 0);
-		}
-		// }
-		// }, 500);
-
-	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();

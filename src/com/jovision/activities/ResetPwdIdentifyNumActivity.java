@@ -37,7 +37,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.MyLog;
 
 public class ResetPwdIdentifyNumActivity extends BaseActivity implements
-		OnClickListener, TextWatcher {
+OnClickListener, TextWatcher {
 
 	private static final String TAG = "RESET_PWD";
 	private static final int RETRY_INTERVAL = 60;
@@ -81,7 +81,6 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 
 		strPhone = extras.getString("phone");
 		strAccount = extras.getString("account");
-		Log.i("TAG", "传递过来的" + strPhone);
 		// appliction MetaData读取
 		ApplicationInfo info;
 		try {
@@ -100,12 +99,12 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		}
 
 		currentId = DEFAULT_COUNTRY_ID;
-		 String[] country = getCurrentCountry();
-		 if (country != null) {
-		 currentCode = country[1];
-		 Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
-		 + country[0]);
-		 }
+		String[] country = getCurrentCountry();
+		if (country != null) {
+			currentCode = country[1];
+			Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
+					+ country[0]);
+		}
 		formatedPhone = strPhone;
 
 		handler = new EventHandler() {
@@ -226,6 +225,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		titleTv.setText(R.string.reset_passwd_tips6);
 		tvGetNum = (TextView) findViewById(R.id.tv_sms_tips);
 		tvPhoneNum = (TextView) findViewById(R.id.tv_phone_code);
+		tvPhoneNum.setText("+"+currentCode+"  ");
 		tvGetNum.setOnClickListener(this);
 
 		tvFormatedPhone = (TextView) findViewById(R.id.tv_formated_phone);

@@ -429,8 +429,7 @@ public class ConfigUtil {
 					String.valueOf(result));
 			MyLog.e(TAG, "1>>>>>初始化账号--sdk--res=" + String.valueOf(result));
 			if (!result) {
-				Toast.makeText(context, "初始化账号SDK失败，请重新运行程序", Toast.LENGTH_LONG)
-						.show();
+				MyLog.e("AccountSDK", "初始化账号SDK失败，请重新运行程序");
 				return result;
 			}
 			MyLog.i("AccoutSDK", "Version:" + JVACCOUNT.GetVersion(0));

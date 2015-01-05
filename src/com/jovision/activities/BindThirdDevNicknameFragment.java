@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 	private Button completeBtn;
 	private EditText nickNameEdt;
 	private String nickName;
+	protected Toast toast;
 
 	public interface OnSetNickNameListener {
 		public void OnSetNickName(String strNickName);
@@ -83,16 +85,10 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 		case R.id.complete_btn:
 			nickName = nickNameEdt.getText().toString().trim();
 			if (nickName.equals("")) {
-				Toast.makeText(
-						getActivity(),
-						getResources().getString(R.string.str_nikename_notnull),
-						Toast.LENGTH_SHORT).show();
+				showTextToast(getActivity(), R.string.str_nikename_notnull);
 			} else {
 				if (!RegularUtil.checkNickName(nickName)) {
-					showToast(
-							getResources().getString(
-									R.string.str_illegal_dev_nick),
-							Toast.LENGTH_SHORT);
+					showTextToast(getActivity(), R.string.str_illegal_dev_nick);
 					return;
 				}
 				mListener.OnSetNickName(nickName);
@@ -104,7 +100,19 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 		}
 	}
 
-	private void showToast(String text, int duration) {
-		Toast.makeText(getActivity(), text, duration).show();
+	/**
+	 * 弹系统消息
+	 * 
+	 * @param context
+	 * @param id
+	 */
+	public void showTextToast(Context context, int id) {
+		String msg = context.getResources().getString(id);
+		if (toast == null) {
+			toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+		} else {
+			toast.setText(msg);
+		}
+		toast.show();
 	}
 }

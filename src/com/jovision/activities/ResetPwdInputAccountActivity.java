@@ -153,12 +153,10 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 						// 走之前的web找回密码
 						if (strMail.equals("") || null == strMail) {
 							showTextToast(R.string.str_not_bind_phone_tips2);
-						}
-						else{
+						} else {
 							showTextToast(R.string.str_not_bind_phone_tips1);
-						}						
-					} 					
-					else{
+						}
+					} else {
 						// 跳转到验证码界面
 						Intent intent = new Intent(
 								ResetPwdInputAccountActivity.this,

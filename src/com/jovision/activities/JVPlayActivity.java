@@ -1490,9 +1490,6 @@ public class JVPlayActivity extends PlayActivity implements
 			for (int i = 0; i < size; i++) {
 				manager.addChannel(channelList.get(i));
 			}
-			if (null != adapter) {
-				adapter.notifyDataSetChanged();
-			}
 			isDoubleClickCheck = false;
 			lastClickIndex = channelList.get(startWindowIndex).getIndex();
 			lastItemIndex = lastClickIndex;
@@ -1509,15 +1506,28 @@ public class JVPlayActivity extends PlayActivity implements
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void initUi() {
+		if (null != viewPager) {
+			MyLog.e("JUYANG--1", "viewPager=" + viewPager.getChildCount());
+		}
+		if (null != adapter) {
+			MyLog.e("JUYANG--1", "adapter=" + adapter.getCount());
+		}
 		super.initUi();
+		viewPager.setAdapter(null);
+
+		if (null != viewPager) {
+			MyLog.e("JUYANG--2", "viewPager=" + viewPager.getChildCount());
+		}
+		if (null != adapter) {
+			MyLog.e("JUYANG--2", "adapter=" + adapter.getCount());
+		}
+
 		// //进播放如果是横屏，先转成竖屏
 		// if (this.getResources().getConfiguration().orientation ==
 		// Configuration.ORIENTATION_LANDSCAPE) {
 		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		// }
-		if (null != adapter) {
-			adapter.notifyDataSetChanged();
-		}
+
 		mGestureDetector = new GestureDetector(this, new MyOnGestureListener());
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		wifiAdmin = new WifiAdmin(JVPlayActivity.this);
@@ -1572,11 +1582,15 @@ public class JVPlayActivity extends PlayActivity implements
 		viewPager.setVisibility(View.VISIBLE);
 		playSurface.setVisibility(View.GONE);
 
-		adapter = new MyPagerAdapter();
-		if (null != adapter) {
-			adapter.notifyDataSetChanged();
+		if (null != viewPager) {
+			MyLog.e("JUYANG--3", "viewPager=" + viewPager.getChildCount());
 		}
+		if (null != adapter) {
+			MyLog.e("JUYANG--3", "adapter=" + adapter.getCount());
+		}
+		adapter = new MyPagerAdapter();
 		changeWindow(currentScreen);
+
 		viewPager.setLongClickable(true);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
@@ -1751,11 +1765,18 @@ public class JVPlayActivity extends PlayActivity implements
 
 		private ArrayList<View> list;
 
+		public MyPagerAdapter() {
+			this.list = new ArrayList<View>();
+		}
+
 		public void update(ArrayList<View> list) {
 			if (null != list) {
-				this.list = list;
+				MyLog.v("JUYANG--4", "this.size=" + this.list.size() + ";size="
+						+ list.size());
+				this.list.clear();
+				this.list.addAll(list);
 			}
-			adapter.notifyDataSetChanged();
+			notifyDataSetChanged();
 		}
 
 		@Override
@@ -1863,9 +1884,10 @@ public class JVPlayActivity extends PlayActivity implements
 	private void changeWindow(int count) {
 		stopAllFunc();
 		currentScreen = count;
-
+		viewPager.setAdapter(null);
 		adapter.update(manager.genPageList(count));
-		adapter.notifyDataSetChanged();
+		// adapter.notifyDataSetChanged();
+		adapter.getCount();
 		lastItemIndex = lastClickIndex / currentScreen;
 		currentPageChannelList = manager.getValidChannelList(lastItemIndex);
 
@@ -1881,7 +1903,6 @@ public class JVPlayActivity extends PlayActivity implements
 				Consts.WHAT_CHECK_SURFACE, lastItemIndex, lastClickIndex),
 				DELAY_CHECK_SURFACE);
 		handler.sendEmptyMessage(Consts.WHAT_SHOW_PROGRESS);
-		adapter.notifyDataSetChanged();
 	}
 
 	private void changeBorder(int currentIndex) {
@@ -3062,8 +3083,8 @@ public class JVPlayActivity extends PlayActivity implements
 		stopAllFunc();
 		isQuit = true;
 		adapter.update(new ArrayList<View>());
-		manager.destroy();
 		// adapter.notifyDataSetChanged();
+		manager.destroy();
 		PlayUtil.disConnectAll(manager.getChannelList());
 		super.freeMe();
 	}

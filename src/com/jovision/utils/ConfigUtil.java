@@ -94,12 +94,17 @@ public class ConfigUtil {
 	// }
 
 	public static String version = "";
+	public static String remoteJNIVersion = "";// 库里面的版本号
 
 	public static void getJNIVersion() {
 		// remoteVerStr={"jni":"0.8[9246b6f][2014-11-03]","net":"v2.0.76.3.7[private:v2.0.75.13 201401030.2.d]"}
 		try {
-			String remoteVer = Jni.getVersion();
-			JSONObject obj = new JSONObject(remoteVer);
+
+			if ("".equalsIgnoreCase(remoteJNIVersion)) {
+				remoteJNIVersion = Jni.getVersion();
+			}
+
+			JSONObject obj = new JSONObject(remoteJNIVersion);
 			String playVersion = obj.optString("jni");
 			GETPLAY_VERSION = playVersion;
 			String netVersion = obj.optString("net");
@@ -107,10 +112,11 @@ public class ConfigUtil {
 			if (PLAY_VERSION.equalsIgnoreCase(playVersion)
 					&& NETWORK_VERSION.equalsIgnoreCase(netVersion)) {
 				MyLog.v(TAG, "Same:localVer=" + PLAY_VERSION + "--"
-						+ NETWORK_VERSION + ";\nremoteVer=" + remoteVer);
+						+ NETWORK_VERSION + ";\nremoteVer=" + remoteJNIVersion);
 			} else {
 				MyLog.e(TAG, "Not-Same:localVer=" + PLAY_VERSION + "--"
-						+ NETWORK_VERSION + ";\nremoteVerStr=" + remoteVer);
+						+ NETWORK_VERSION + ";\nremoteVerStr="
+						+ remoteJNIVersion);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

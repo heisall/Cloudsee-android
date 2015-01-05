@@ -164,9 +164,9 @@ public class CustomDialogActivity extends BaseActivity implements
 	@Override
 	public void onDestroy() {
 		dis_and_play_flag = 0;
-		if (bConnectFlag) {
-			Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
-		}
+		// if (bConnectFlag) {
+		Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
+		// }
 
 		super.onDestroy();
 	}

@@ -37,7 +37,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.MyLog;
 
 public class ResetPwdIdentifyNumActivity extends BaseActivity implements
-OnClickListener, TextWatcher {
+		OnClickListener, TextWatcher {
 
 	private static final String TAG = "RESET_PWD";
 	private static final int RETRY_INTERVAL = 60;
@@ -107,7 +107,6 @@ OnClickListener, TextWatcher {
 		}
 		formatedPhone = String.format("%s  %s", currentCode, strPhone);
 
-
 		handler = new EventHandler() {
 			@SuppressWarnings("unchecked")
 			public void afterEvent(final int event, final int result,
@@ -132,6 +131,7 @@ OnClickListener, TextWatcher {
 							}
 						} else {
 							// 根据服务器返回的网络错误，给toast提示
+							showTextToast(R.string.reset_passwd_tips8);
 							try {
 								((Throwable) data).printStackTrace();
 								Throwable throwable = (Throwable) data;
@@ -140,7 +140,8 @@ OnClickListener, TextWatcher {
 										.getMessage());
 								String des = object.optString("detail");
 								if (!TextUtils.isEmpty(des)) {
-									showTextToast(des);
+									// showTextToast(des);
+									MyLog.e("ResetPwd", des);
 									return;
 								}
 							} catch (Exception e) {
@@ -229,7 +230,7 @@ OnClickListener, TextWatcher {
 		titleTv.setText(R.string.reset_passwd_tips6);
 		tvGetNum = (TextView) findViewById(R.id.tv_sms_tips);
 		tvPhoneNum = (TextView) findViewById(R.id.tv_phone_code);
-		tvPhoneNum.setText("+"+currentCode+"  ");
+		tvPhoneNum.setText("+" + currentCode + "  ");
 		tvGetNum.setOnClickListener(this);
 		tvGetNum.setTextColor(getResources().getColor(R.color.link_color));
 		tvGetNum.setText(getResources().getString(R.string.str_resend_code));
@@ -402,6 +403,7 @@ OnClickListener, TextWatcher {
 					time = RETRY_INTERVAL;
 					// countDown();
 				} else {
+					showTextToast(R.string.reset_passwd_tips8);
 					((Throwable) data).printStackTrace();
 					Throwable throwable = (Throwable) data;
 					// 根据服务器返回的网络错误，给toast提示
@@ -410,7 +412,8 @@ OnClickListener, TextWatcher {
 								throwable.getMessage());
 						String des = object.optString("detail");
 						if (!TextUtils.isEmpty(des)) {
-							showTextToast(des);
+							// showTextToast(des);
+							MyLog.e("ResetPwd", des);
 							return;
 						}
 					} catch (JSONException e) {

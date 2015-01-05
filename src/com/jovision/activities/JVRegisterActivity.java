@@ -88,6 +88,8 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 	private String strIdentifyNum;
 	private BroadcastReceiver smsReceiver;
 
+	private boolean stop;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
@@ -441,6 +443,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				}
 				break;
 			case R.id.agreement:
+				stop = true;
 				currentMenu.setText(R.string.str_agreement);
 				mWebView.setVisibility(View.VISIBLE);
 				break;
@@ -589,13 +592,12 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		runOnUIThread(new Runnable() {
 			public void run() {
 				time--;
-				if (time == 0) {
-					registercode.setTextColor(getResources().getColor(
-							R.color.link_color));
+				if (time == 0 || stop) {
 					registercode.setText(getResources().getString(
 							R.string.str_resend_code));
 					registercode.setEnabled(true);
 					time = RETRY_INTERVAL;
+					stop = false;
 				} else {
 					registercode.setTextColor(getResources().getColor(
 							R.color.gray));

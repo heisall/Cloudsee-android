@@ -1118,7 +1118,13 @@ public class JVPlayActivity extends PlayActivity implements
 
 											+ "("
 											+ (object.getBoolean("is_turn") ? "TURN"
-													: "P2P") + ")");
+													: "P2P")
+											+ ")"
+											+ PlayUtil
+													.hasEnableHelper(channelList
+															.get(lastClickIndex)
+															.getParent()
+															.getFullNo()));
 						}
 					}
 
@@ -1500,7 +1506,22 @@ public class JVPlayActivity extends PlayActivity implements
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void initUi() {
+		if (null != viewPager) {
+			MyLog.e("JUYANG--1", "viewPager=" + viewPager.getChildCount());
+		}
+		if (null != adapter) {
+			MyLog.e("JUYANG--1", "adapter=" + adapter.getCount());
+		}
 		super.initUi();
+		viewPager.setAdapter(null);
+
+		if (null != viewPager) {
+			MyLog.e("JUYANG--2", "viewPager=" + viewPager.getChildCount());
+		}
+		if (null != adapter) {
+			MyLog.e("JUYANG--2", "adapter=" + adapter.getCount());
+		}
+
 		// //进播放如果是横屏，先转成竖屏
 		// if (this.getResources().getConfiguration().orientation ==
 		// Configuration.ORIENTATION_LANDSCAPE) {
@@ -1561,8 +1582,15 @@ public class JVPlayActivity extends PlayActivity implements
 		viewPager.setVisibility(View.VISIBLE);
 		playSurface.setVisibility(View.GONE);
 
+		if (null != viewPager) {
+			MyLog.e("JUYANG--3", "viewPager=" + viewPager.getChildCount());
+		}
+		if (null != adapter) {
+			MyLog.e("JUYANG--3", "adapter=" + adapter.getCount());
+		}
 		adapter = new MyPagerAdapter();
 		changeWindow(currentScreen);
+
 		viewPager.setLongClickable(true);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
@@ -1737,11 +1765,18 @@ public class JVPlayActivity extends PlayActivity implements
 
 		private ArrayList<View> list;
 
+		public MyPagerAdapter() {
+			this.list = new ArrayList<View>();
+		}
+
 		public void update(ArrayList<View> list) {
 			if (null != list) {
-				this.list = list;
+				MyLog.v("JUYANG--4", "this.size=" + this.list.size() + ";size="
+						+ list.size());
+				this.list.clear();
+				this.list.addAll(list);
 			}
-			adapter.notifyDataSetChanged();
+			notifyDataSetChanged();
 		}
 
 		@Override
@@ -1849,9 +1884,10 @@ public class JVPlayActivity extends PlayActivity implements
 	private void changeWindow(int count) {
 		stopAllFunc();
 		currentScreen = count;
-
+		viewPager.setAdapter(null);
 		adapter.update(manager.genPageList(count));
-		adapter.notifyDataSetChanged();
+		// adapter.notifyDataSetChanged();
+		adapter.getCount();
 		lastItemIndex = lastClickIndex / currentScreen;
 		currentPageChannelList = manager.getValidChannelList(lastItemIndex);
 
@@ -1867,7 +1903,6 @@ public class JVPlayActivity extends PlayActivity implements
 				Consts.WHAT_CHECK_SURFACE, lastItemIndex, lastClickIndex),
 				DELAY_CHECK_SURFACE);
 		handler.sendEmptyMessage(Consts.WHAT_SHOW_PROGRESS);
-		adapter.notifyDataSetChanged();
 	}
 
 	private void changeBorder(int currentIndex) {
@@ -1950,111 +1985,153 @@ public class JVPlayActivity extends PlayActivity implements
 		if (null != channel && false == channel.isConnected()
 				&& false == channel.isConnecting()) {
 			int connect = 0;
-			Device device = channel.getParent();
+			if (1 == channel.getVipLevel()) {
+				connect = Jni.connectRTMP(channel.getIndex(),
+						channel.getRtmpUrl(), channel.getSurface(), false,
+						fullPath);
 
-			if (null != ssid
-					&& channel.getParent().getFullNo().equalsIgnoreCase(ssid)) {
-				MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
-				connect = Jni.connect(channel.getIndex(), channel.getChannel(),
-						Consts.IPC_DEFAULT_IP, Consts.IPC_DEFAULT_PORT, device
-								.getUser(), device.getPwd(), -1, device
-								.getGid(), true, 1, true, channel.getParent()
-								.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-								: JVNetConst.TYPE_3GMO_UDP, channel
-								.getSurface(), false, isOmx, fullPath);
-				if (connect == channel.getIndex()) {
-					channel.setPaused(null == channel.getSurface());
-				}
-
+				// .connect(
+				// channel.getIndex(),
+				// channel.getChannel(),
+				// conIp,
+				// conPort,
+				// device.getUser(),
+				// device.getPwd(),
+				// number,
+				// device.getGid(),
+				// true,
+				// 1,
+				// true,
+				// channel.getParent().isOldDevice() ?
+				// JVNetConst.TYPE_3GMOHOME_UDP
+				// : JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
+				// // ? 6 : 5),
+				// channel.getSurface(), false, isOmx,
+				// fullPath);
 			} else {
-				int number = device.getNo();
-				String conIp = device.getIp();
-				int conPort = device.getPort();
-				if (Consts.PLAY_AP == playFlag) {
-					conIp = Consts.IPC_DEFAULT_IP;
-					conPort = Consts.IPC_DEFAULT_PORT;
-				} else {
-					conIp = device.getIp();
-					conPort = device.getPort();
-				}
+				Device device = channel.getParent();
 
-				// 有ip通过ip连接
-				if (false == ("".equalsIgnoreCase(device.getIp()) || 0 == device
-						.getPort())) {
-					if (ConfigUtil.is3G(JVPlayActivity.this, false)
-							&& 0 == device.getIsDevice()) {// 普通设备3G情况不用ip连接
-						conIp = "";
-						conPort = 0;
-					} else {// 有ip非3G
-						number = -1;
-					}
-				}
-
-				if (isPlayDirectly) {
+				if (null != ssid
+						&& channel.getParent().getFullNo()
+								.equalsIgnoreCase(ssid)) {
+					MyLog.v(TAG, device.getNo() + "--AP--直连接：" + device.getIp());
 					connect = Jni
 							.connect(
 									channel.getIndex(),
 									channel.getChannel(),
-									conIp,
-									conPort,
+									Consts.IPC_DEFAULT_IP,
+									Consts.IPC_DEFAULT_PORT,
 									device.getUser(),
 									device.getPwd(),
-									number,
+									-1,
 									device.getGid(),
 									true,
 									1,
 									true,
 									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-											: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
-									// ? 6 : 5),
-									channel.getSurface(), false, isOmx,
+											: JVNetConst.TYPE_3GMO_UDP, channel
+											.getSurface(), false, isOmx,
 									fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
+
 				} else {
-					connect = Jni
-							.connect(
-									channel.getIndex(),
-									channel.getChannel(),
-									conIp,
-									conPort,
-									device.getUser(),
-									device.getPwd(),
-									number,
-									device.getGid(),
-									true,
-									1,
-									true,
-									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-											: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
-									// ? 6 : 5),
-									null, false, isOmx, fullPath);
-					if (connect == channel.getIndex()) {
-						channel.setPaused(true);
+					int number = device.getNo();
+					String conIp = device.getIp();
+					int conPort = device.getPort();
+					if (Consts.PLAY_AP == playFlag) {
+						conIp = Consts.IPC_DEFAULT_IP;
+						conPort = Consts.IPC_DEFAULT_PORT;
+					} else {
+						conIp = device.getIp();
+						conPort = device.getPort();
 					}
+
+					// 有ip通过ip连接
+					if (false == ("".equalsIgnoreCase(device.getIp()) || 0 == device
+							.getPort())) {
+						if (ConfigUtil.is3G(JVPlayActivity.this, false)
+								&& 0 == device.getIsDevice()) {// 普通设备3G情况不用ip连接
+							conIp = "";
+							conPort = 0;
+						} else {// 有ip非3G
+							number = -1;
+						}
+					}
+
+					if (isPlayDirectly) {
+						connect = Jni
+								.connect(
+										channel.getIndex(),
+										channel.getChannel(),
+										conIp,
+										conPort,
+										device.getUser(),
+										device.getPwd(),
+										number,
+										device.getGid(),
+										true,
+										1,
+										true,
+										channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+												: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
+										// ? 6 : 5),
+										channel.getSurface(), false, isOmx,
+										fullPath);
+						if (connect == channel.getIndex()) {
+							channel.setPaused(null == channel.getSurface());
+						}
+					} else {
+						connect = Jni
+								.connect(
+										channel.getIndex(),
+										channel.getChannel(),
+										conIp,
+										conPort,
+										device.getUser(),
+										device.getPwd(),
+										number,
+										device.getGid(),
+										true,
+										1,
+										true,
+										channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+												: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
+										// ? 6 : 5),
+										null, false, isOmx, fullPath);
+						if (connect == channel.getIndex()) {
+							channel.setPaused(true);
+						}
+					}
+
 				}
 
-			}
+				if (Consts.BAD_HAS_CONNECTED == connect) {
+					channel.setConnected(true);
+					channel.setPaused(true);
+					channel.setConnecting(false);
+					handler.sendMessage(handler.obtainMessage(
+							Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+							Consts.ARG2_STATUS_HAS_CONNECTED));
 
-			if (Consts.BAD_HAS_CONNECTED == connect) {
-				channel.setConnected(true);
-				channel.setPaused(true);
-				channel.setConnecting(false);
-				handler.sendMessage(handler.obtainMessage(
-						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
-						Consts.ARG2_STATUS_HAS_CONNECTED));
-				Jni.disconnect(channel.getIndex());
-			} else if (Consts.BAD_CONN_OVERFLOW == connect) {
-				handler.sendMessage(handler.obtainMessage(
-						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
-						Consts.ARG2_STATUS_CONN_OVERFLOW));
-			} else {
-				channel.setConnecting(true);
-				handler.sendMessage(handler.obtainMessage(
-						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
-						Consts.ARG2_STATUS_CONNECTING));
-				result = true;
+					if (1 == channel.getVipLevel()) {
+						Jni.shutdownRTMP(channel.getIndex());
+					} else {
+						Jni.disconnect(channel.getIndex());
+					}
+
+				} else if (Consts.BAD_CONN_OVERFLOW == connect) {
+					handler.sendMessage(handler.obtainMessage(
+							Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+							Consts.ARG2_STATUS_CONN_OVERFLOW));
+				} else {
+					channel.setConnecting(true);
+					handler.sendMessage(handler.obtainMessage(
+							Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+							Consts.ARG2_STATUS_CONNECTING));
+					result = true;
+				}
 			}
 
 		}
@@ -3006,8 +3083,8 @@ public class JVPlayActivity extends PlayActivity implements
 		stopAllFunc();
 		isQuit = true;
 		adapter.update(new ArrayList<View>());
-		manager.destroy();
 		// adapter.notifyDataSetChanged();
+		manager.destroy();
 		PlayUtil.disConnectAll(manager.getChannelList());
 		super.freeMe();
 	}
@@ -3917,7 +3994,13 @@ public class JVPlayActivity extends PlayActivity implements
 					}
 
 					if (channel.isConnected() || channel.isConnecting()) {
-						boolean result = Jni.disconnect(channel.getIndex());
+						boolean result = false;
+						if (1 == channel.getVipLevel()) {
+							result = Jni.shutdownRTMP(channel.getIndex());
+						} else {
+							result = Jni.disconnect(channel.getIndex());
+						}
+
 						if (false == result) {
 							MyLog.e(Consts.TAG_XXX, "disconnect failed: "
 									+ channel);

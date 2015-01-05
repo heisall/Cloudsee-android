@@ -98,18 +98,16 @@
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
-            
-		    <Button
-		        android:id="@+id/btn_submit"
-		        android:layout_width="fill_parent"
-		        android:layout_height="45dp"
-		        android:layout_marginTop="20dp"
-		        android:background="@drawable/blue_bg"
-		        android:text="@string/reset_passwd_done"
-		        android:textColor="@color/white" />            
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/blue_bg"
+                android:text="@string/reset_passwd_done"
+                android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
-
-
 
 </LinearLayout>

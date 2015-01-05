@@ -85,6 +85,12 @@ public class Channel {
 	private int lastPortWidth;
 	private int lastPortHeight;
 
+	/** 流媒体播放使用 2015-1-4 */
+	private int vipLevel = 0;// 0:普通 1：新设备(支持流媒体)vip 2: 老设备vip全转发
+	// "rtmp://192.168.10.22/live/B33380394_1"
+	private String rtmpUrl = "";// =
+								// "rtmp://192.168.10.22/live/B33380394_1";//"rtmp://192.168.10.22/live/test01";
+
 	public int getLastPortLeft() {
 		return lastPortLeft;
 	}
@@ -226,10 +232,11 @@ public class Channel {
 			object.put("index", index);
 			object.put("channel", channel);
 			object.put("channelName", channelName);
+			object.put("vipLevel", vipLevel);
+			object.put("rtmpUrl", rtmpUrl);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
 		return object;
 	}
 
@@ -266,6 +273,8 @@ public class Channel {
 			channel.setIndex(ConfigUtil.getInt(object, "index"));
 			channel.setChannel(ConfigUtil.getInt(object, "channel"));
 			channel.setChannelName(ConfigUtil.getString(object, "channelName"));
+			channel.setVipLevel(ConfigUtil.getInt(object, "vipLevel"));
+			channel.setRtmpUrl(ConfigUtil.getString(object, "rtmpUrl"));
 			// channel.setConnecting(ConfigUtil.getBoolean(object,"isConnecting"));
 			// channel.setConnecting(ConfigUtil.getBoolean(object,"isConnected"));
 			// channel.setRemotePlay(ConfigUtil.getBoolean(object,"isRemotePlay"));
@@ -300,7 +309,6 @@ public class Channel {
 				}
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -536,6 +544,22 @@ public class Channel {
 
 	public void setHtmotion(boolean htmotion) {
 		this.htmotion = htmotion;
+	}
+
+	public int getVipLevel() {
+		return vipLevel;
+	}
+
+	public void setVipLevel(int vipLevel) {
+		this.vipLevel = vipLevel;
+	}
+
+	public String getRtmpUrl() {
+		return rtmpUrl;
+	}
+
+	public void setRtmpUrl(String rtmpUrl) {
+		this.rtmpUrl = rtmpUrl;
 	}
 
 }

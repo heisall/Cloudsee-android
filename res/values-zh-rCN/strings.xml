@@ -153,6 +153,7 @@
     <string name="str_out_memery">您的手机未插入SDCard,暂时无法使用此功能.</string>
     <string name="str_sdcard_notenough">您的手机内存卡内存不足.</string>
     <string name="str_finish">完成</string>
+    <string name="str_register">注册</string>
     <!-- 远程回放 -->
     <string name="str_search">检索</string>
     <string name="str_start_time">开始时间</string>
@@ -522,6 +523,8 @@
     <string name="media_image">图像</string>
     <string name="media_video">视频</string>
     <string name="media_other">其他</string>
+    <string name="media_player">选择播放器</string>
+    <string name="media_play">播放</string>
     <string name="media_noticedelect">请选择要删除的文件</string>
     <!-- Help -->
     <string name="str_help_zero">展开多种方式添加设备</string>
@@ -675,6 +678,7 @@
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">请输入需要重置密码的账号:</string>
     <string name="reset_passwd_input_vercode">获取验证码</string>
+    <string name="str_vercode">验证码</string>
     <string name="reset_passwd_account">账 号</string>
     <string name="reset_passwd_new_passwd">密 码</string>
     <string name="reset_passwd_confirm_passwd">确认密码</string>

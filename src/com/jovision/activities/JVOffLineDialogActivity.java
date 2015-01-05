@@ -21,6 +21,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
@@ -382,12 +383,14 @@ public class JVOffLineDialogActivity extends BaseActivity {
 					.getResources().getString(R.string.app_name)
 					+ ConfigUtil.getVersion(JVOffLineDialogActivity.this);
 			HashMap<String, String> paramsMap = new HashMap<String, String>();
-			String error = (errorMsg + country + cpu).replace("\\+", "%2B")
-					.replace("\\ ", "%20").replace("\\/", "%2F")
-					.replace("\\?", "%3F").replace("\\%", "%25")
-					.replace("\\#", "%23").replace("\\&", "%26")
-					.replace("\\=", "%3D").replace("(", "%28")
-					.replace(")", "%29");
+			String error = (errorMsg + country + cpu).replace("(", ".")
+					.replace(")", ".");
+			// .replace("\\+", "%2B")
+			// .replace("\\ ", "%20").replace("\\/", "%2F")
+			// .replace("\\?", "%3F").replace("\\%", "%25")
+			// .replace("\\#", "%23").replace("\\&", "%26")
+			// .replace("\\=", "%3D").replace("(", "%28")
+			// .replace(")", "%29");
 			paramsMap.put("mod", "crash");
 			paramsMap.put("subject", softwareVersion);
 			paramsMap.put("model", model);
@@ -395,9 +398,17 @@ public class JVOffLineDialogActivity extends BaseActivity {
 			paramsMap.put("fingerprint", fingerprint);
 			paramsMap.put("detail", error);
 
+			MyLog.v("errorLog", error);
 			String result = JSONUtil.httpPost(Url.FEED_BACK_URL, paramsMap);
 
 			if (null != result && "1".equalsIgnoreCase(result)) {
+				handler.sendEmptyMessage(Consts.WHAT_SEND_MAIL_SHOWMSG);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				handler.sendEmptyMessage(Consts.WHAT_SEND_MAIL_SUCC);
 			} else {
 				handler.sendEmptyMessage(Consts.WHAT_SEND_MAIL_FAIL);

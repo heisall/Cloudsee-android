@@ -38,6 +38,7 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.UserUtil;
 import com.tencent.stat.StatService;
 import com.umeng.analytics.MobclickAgent;
@@ -70,6 +71,8 @@ public class JVLoginActivity extends BaseActivity {
 	private ListView userListView;
 
 	public static ArrayList<Device> deviceList = new ArrayList<Device>();
+
+	private String demoUrl = "";// 演示点网页地址
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -116,6 +119,7 @@ public class JVLoginActivity extends BaseActivity {
 	protected void initSettings() {
 		MySharedPreference.init(getApplication());
 		ConfigUtil.getJNIVersion();
+
 	}
 
 	@SuppressWarnings("deprecation")
@@ -336,10 +340,15 @@ public class JVLoginActivity extends BaseActivity {
 							"Demo",
 							JVLoginActivity.this.getResources().getString(
 									R.string.census_demo));
-					Intent demoIntent = new Intent();
-					demoIntent.setClass(JVLoginActivity.this,
-							JVDemoActivity.class);
-					JVLoginActivity.this.startActivity(demoIntent);
+
+					GetDemoTask task = new GetDemoTask();
+					String[] params = new String[3];
+					task.execute(params);
+
+					// Intent demoIntent = new Intent();
+					// demoIntent.setClass(JVLoginActivity.this,
+					// JVDemoActivity.class);
+					// JVLoginActivity.this.startActivity(demoIntent);
 				}
 				break;
 			case R.id.locallogin_btn:// 本地登录
@@ -556,6 +565,51 @@ public class JVLoginActivity extends BaseActivity {
 	@Override
 	protected void freeMe() {
 		dismissDialog();
+	}
+
+	// 获取演示点 设置三种类型参数分别为String,Integer,String
+	class GetDemoTask extends AsyncTask<String, Integer, Integer> {
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int getRes = -1;// 0成功 1失败
+			demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);
+			if (null != demoUrl && !"".equalsIgnoreCase(demoUrl)) {
+				getRes = 0;
+			}
+			return getRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
+			if (0 == result) {
+				Intent intentAD = new Intent(JVLoginActivity.this,
+						JVWebViewActivity.class);
+				intentAD.putExtra("URL", demoUrl);
+				intentAD.putExtra("title", -2);
+				JVLoginActivity.this.startActivity(intentAD);
+			} else {
+				showTextToast(R.string.demo_get_failed);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("", true);
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
 	}
 
 	/**

@@ -326,6 +326,13 @@ public class JVDeviceConst {
 	public static final int GET_DEMO_POINT = 2057;
 	/** 获取演示点 Response */
 	public static final int GET_DEMO_POINT_RESPONSE = 2058;
+
+	/** 获取演示点2 Request */
+	public static final int GET_DEMO_POINT_SERVER = 2059;
+	/** 获取演示点2 Response */
+	public static final int GET_DEMO_POINT_SERVER_RESPONSE = 2060;
+	public static final String JK_DEMO_POINT_SERVER = "dps";
+
 	/** 软件类型 */
 	public static final String JK_CUSTOM_TYPE = "custom_type";
 
@@ -455,4 +462,22 @@ public class JVDeviceConst {
 	public static final int AD_PUBLISH_PROCESS = 12;
 	public static final int GET_AD_INFO = 5500;
 	public static final int GET_AD_INFO_RESPONSE = 5501;
+
+	/** 2015-1-4 视频广场新增 */
+	// 增值服务
+	public static final String JK_STREAMING_MEDIA_SERVER = "smsrv";
+	public static final String JK_STREAMING_MEDIA_TIME = "smt";
+	public static final String JK_STREAMING_MEDIA_CHANNELS = "smcs";
+	public static final String JK_STREAMING_MEDIA_FLAG = "sm";
+	public static final String JK_STREAMING_MEDIA_SHARE = "sms";
+	public static final String JK_CLOUD_STORAGE_FLAG = "csf";
+	public static final String JK_CLOUD_STORAGE_TIME = "cst";
+	public static final String JK_CLOUD_STORAGE_HOST = "cshost";
+	public static final String JK_CLOUD_STORAGE_ID = "csid";
+	public static final String JK_CLOUD_STORAGE_KEY = "cskey";
+	public static final String JK_CLOUD_STORAGE_SPACE = "csspace";
+	public static final String JK_SHARED_SERVER = "ssrv";
+	public static final String JK_SHARE_CHANNELS = "scs";
+	public static final String JK_RTMP_PORT = "rtmp";
+	public static final String JK_HLS_PORT = "hls";
 }

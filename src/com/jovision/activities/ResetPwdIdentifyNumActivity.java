@@ -44,8 +44,6 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	private ProgressDialog pd;
 	// 默认使用中国区号
 	private static final String DEFAULT_COUNTRY_ID = "42";
-	private EventHandler callback;
-	private String currentId;
 	private String currentCode;
 	private EventHandler handler;
 	private int time = RETRY_INTERVAL;
@@ -60,7 +58,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	private Button nextButton;
 	private String strAccount, strPhone, formatedPhone;
 	private String SMS_APP_ID, SMS_APP_SECRET;
-	private TextView tvGetNum, tvTopTips, tvFormatedPhone, tvPhoneNum;
+	private TextView tvGetNum, tvFormatedPhone, tvPhoneNum;
 	private String strIdentifyNum;
 	private BroadcastReceiver smsReceiver;
 
@@ -98,7 +96,6 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 			e.printStackTrace();
 		}
 
-		currentId = DEFAULT_COUNTRY_ID;
 		String[] country = getCurrentCountry();
 		if (country != null) {
 			currentCode = country[1];
@@ -238,10 +235,6 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 
 		tvFormatedPhone = (TextView) findViewById(R.id.tv_formated_phone);
 		tvFormatedPhone.setText(formatedPhone);
-	}
-
-	public void setRegisterCallback(EventHandler callback) {
-		this.callback = callback;
 	}
 
 	public void onResume() {

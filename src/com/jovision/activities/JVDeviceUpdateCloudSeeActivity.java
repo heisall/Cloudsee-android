@@ -196,7 +196,7 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 									Consts.EX_UPLOAD_START, Consts.FIRMUP_HTTP,
 									0, 0, null, 0);
 							dismissDialog();
-							createDownloadProDialog();
+							createDownloadProDialog(updateObj.getUfsize());
 							break;
 						}
 						case Consts.EX_UPLOAD_DATA: {
@@ -696,7 +696,7 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 	 * 创建下载进度dialog
 	 */
 	@SuppressWarnings("deprecation")
-	private void createDownloadProDialog() {
+	private void createDownloadProDialog(int max) {
 		updateDialog = null;
 		if (updateDialog == null) {
 			updateDialog = new ProgressDialog(
@@ -706,7 +706,7 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 			updateDialog.setTitle(getResources().getString(
 					R.string.downloading_update));
 			updateDialog.setIndeterminate(false);
-			updateDialog.setMax(100);
+			updateDialog.setMax(max);
 			updateDialog.setButton(
 					getResources().getString(R.string.str_crash_cancel),
 					new DialogInterface.OnClickListener() {

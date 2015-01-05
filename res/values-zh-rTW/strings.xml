@@ -691,19 +691,20 @@
     <string name="reset_passwd_tips5">您綁定的手機號碼不合法</string>
     <string name="reset_passwd_tips6">填寫驗證碼</string>
     <string name="reset_passwd_tips7">發送中...</string>
+    <string name="reset_passwd_tips8">網絡錯誤,操作失敗，請重試</string>
     <string name="reset_passwd_virificaition_code_wrong">驗證碼不正確</string>
     <string name="reset_passwd_failed">重置密碼失敗</string>
     <string name="reset_passwd_title1">輸入帳號</string>
     <string name="reset_passwd_way1">綁定信箱找回</string>
-    <string name="reset_passwd_way2">短信驗證碼找回</string>
+    <string name="reset_passwd_way2">簡訊驗證碼找回</string>
     <string name="str_verification_code">驗證碼</string>
     <string name="str_notreceive_sms">收不到驗證碼?</string>
     <string name="str_resend_code">重新獲取驗證碼</string>
     <string name="str_receive_sms_time">接收短信大約需要SS秒鐘</string>
-    <string name="str_sms_sent">短信驗證碼已發送</string>
+    <string name="str_sms_sent">簡訊驗證碼已發送</string>
     <string name="str_set_new_pwd">設置新密碼</string>
     <string name="str_set_new_pwd_ok">新密碼設置成功，請重新登錄</string>
     <string name="str_query_account_failed">查詢帳號資訊失敗</string>
-    <string name="str_not_bind_phone_tips1">您的賬號沒有綁定手機，請通過郵箱找回</string>
-
+	<string name="str_not_bind_phone_tips1">您的賬號沒有綁定手機，請通過信箱找回</string>
+	<string name="str_not_bind_phone_tips2">您的賬號沒有綁定手機和信箱，請聯系客服</string>
 </resources>

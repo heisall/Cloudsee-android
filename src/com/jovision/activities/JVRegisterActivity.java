@@ -411,8 +411,8 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 						.toString());
 				if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
 						&& !"".equals(code.getText().toString())) {
-					if (userNameEditText.getText().length()!=11) {
-						
+					if (userNameEditText.getText().length() != 11) {
+
 					}
 					if (phoneNumber.matchNum() == 4
 							|| phoneNumber.matchNum() == 5) {

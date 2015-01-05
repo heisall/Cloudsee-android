@@ -119,6 +119,7 @@ public class JVLoginActivity extends BaseActivity {
 	protected void initSettings() {
 		MySharedPreference.init(getApplication());
 		ConfigUtil.getJNIVersion();
+
 	}
 
 	@SuppressWarnings("deprecation")
@@ -386,7 +387,7 @@ public class JVLoginActivity extends BaseActivity {
 		protected Integer doInBackground(String... params) {
 
 			country = ConfigUtil.getCountry();
-
+			MyLog.v(TAG, "LOGIN---E");
 			handler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 			String strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
 					statusHashMap.get(Consts.KEY_USERNAME),
@@ -423,7 +424,7 @@ public class JVLoginActivity extends BaseActivity {
 				loginRes2 = 0;
 				e.printStackTrace();
 			}
-
+			MyLog.v(TAG, "LOGIN---X");
 			verifyCode = AccountUtil.VerifyUserName(JVLoginActivity.this,
 					statusHashMap.get(Consts.KEY_USERNAME));
 

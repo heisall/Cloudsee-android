@@ -12,6 +12,7 @@
     <color name="moretransparent">#19000000</color>
 
     <!-- 设备的背景色 -->
+    <color name="vercode">#bcbcbc</color>
     <color name="device_color_1">#378FE6</color>
     <color name="device_color_2">#13C6CD</color>
     <color name="device_color_3">#84C914</color>

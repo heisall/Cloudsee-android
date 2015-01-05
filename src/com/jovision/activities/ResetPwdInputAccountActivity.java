@@ -143,6 +143,7 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 			if (result == 0)// ok
 			{
 				String strPhone, strMail;
+
 				try {
 					JSONObject resObject = new JSONObject(new String(response));
 					strPhone = resObject.optString("phone");
@@ -150,8 +151,14 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 					Log.i("TAG", "获取到的手机号" + strPhone);
 					if (strPhone.equals("") || null == strPhone) {
 						// 走之前的web找回密码
-						showTextToast(R.string.str_not_bind_phone_tips1);
-					} else {
+						if (strMail.equals("") || null == strMail) {
+							showTextToast(R.string.str_not_bind_phone_tips2);
+						}
+						else{
+							showTextToast(R.string.str_not_bind_phone_tips1);
+						}						
+					} 					
+					else{
 						// 跳转到验证码界面
 						Intent intent = new Intent(
 								ResetPwdInputAccountActivity.this,

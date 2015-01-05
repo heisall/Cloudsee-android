@@ -2,6 +2,7 @@ package com.jovision.views;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import com.jovision.Consts;
 import com.jovision.activities.JVPlayActivity;
 import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
+import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.PlayUtil;
@@ -35,19 +37,14 @@ public class AlarmDialog extends Dialog {
 	private String deviceNickName;// 昵称
 	private String alarmTypeName;// 报警类型
 	private String alarmTime;
-	private static int alarmDialogObjs = 0;// new 出来的对象数量
-
+	// private static int alarmDialogObjs = 0;// new 出来的对象数量
+	private static boolean isshowing = false;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 
 	public AlarmDialog(Context context) {
 		super(context, R.style.mydialog);
 		this.context = context;
 		// TODO Auto-generated constructor stub
-		synchronized (AlarmDialog.class) {
-			alarmDialogObjs++;
-			// MyLog.e("AlarmDialog", "AlarmDialog(Context context)" +
-			// getDialogObjs());
-		}
 	}
 
 	@Override
@@ -80,14 +77,13 @@ public class AlarmDialog extends Dialog {
 	@Override
 	protected void onStop() {
 		synchronized (AlarmDialog.class) {
-			alarmDialogObjs = 0;
-			// MyLog.e("AlarmDialog", "onStop" + getDialogObjs());
+			isshowing = false;
 		}
 	}
 
-	public synchronized static int getDialogObjs() {
-		return alarmDialogObjs;
-	}
+	// public synchronized static int getDialogObjs() {
+	// return alarmDialogObjs;
+	// }
 
 	android.view.View.OnClickListener myOnClickListener = new View.OnClickListener() {
 
@@ -101,11 +97,18 @@ public class AlarmDialog extends Dialog {
 				dismiss();
 				break;
 			case R.id.dialog_view:
-				String contextString = context.toString();
-				String strTempNameString = contextString.substring(
-						contextString.lastIndexOf(".") + 1,
-						contextString.indexOf("@"));
-				if (strTempNameString.equals("JVPlayActivity")) {
+				// String contextString = context.toString();
+				// String strTempNameString = contextString.substring(
+				// contextString.lastIndexOf(".") + 1,
+				// contextString.indexOf("@"));
+				// if (strTempNameString.equals("JVPlayActivity")) {
+				Activity currentActivity = MyActivityManager
+						.getActivityManager().currentActivity();
+				if (currentActivity == null
+						|| currentActivity
+								.getClass()
+								.getName()
+								.equals("com.jovision.activities.JVPlayActivity")) {
 				} else {
 					try {
 						deviceList = CacheUtil.getDevList();// 再取一次
@@ -180,43 +183,40 @@ public class AlarmDialog extends Dialog {
 
 	public void Show(Object obj) {
 
-		if (obj == null) {
-			return;
-		}
+		synchronized (AlarmDialog.class) {
 
-		// 已经在显示了，就不显示了
-		if (getDialogObjs() <= 1) {
-			PushInfo pi = (PushInfo) obj;
-			deviceNickName = pi.deviceNickName;
-			ystNum = pi.ystNum;
-			alarmTime = pi.alarmTime;
-			String strAlarmTypeName = "";
-			if (pi.alarmType == 7) {
-				strAlarmTypeName = context.getResources().getString(
-						R.string.str_alarm_type_move);
-			} else if (pi.alarmType == 11) {
-				strAlarmTypeName = context.getResources().getString(
-						R.string.str_alarm_type_third);
-			} else if (pi.alarmType == 4) {
-				strAlarmTypeName = context.getResources().getString(
-						R.string.str_alarm_type_external);
+			if (obj == null) {
+				return;
+			}
+			// 已经在显示了，就不显示了
+			// if (getDialogObjs() <= 1) {
+			if (!isshowing) {
+				isshowing = true;
+				PushInfo pi = (PushInfo) obj;
+				deviceNickName = pi.deviceNickName;
+				ystNum = pi.ystNum;
+				alarmTime = pi.alarmTime;
+				String strAlarmTypeName = "";
+				if (pi.alarmType == 7) {
+					strAlarmTypeName = context.getResources().getString(
+							R.string.str_alarm_type_move);
+				} else if (pi.alarmType == 11) {
+					strAlarmTypeName = context.getResources().getString(
+							R.string.str_alarm_type_third);
+				} else if (pi.alarmType == 4) {
+					strAlarmTypeName = context.getResources().getString(
+							R.string.str_alarm_type_external);
+				} else {
+					strAlarmTypeName = context.getResources().getString(
+							R.string.str_alarm_type_unknown);
+				}
+				alarmTypeName = strAlarmTypeName;
+				show();
 			} else {
-				strAlarmTypeName = context.getResources().getString(
-						R.string.str_alarm_type_unknown);
+				MyLog.e("Alarm", "收到信息，但不提示");
+				// Toast.makeText(context, "收到信息，但不提示",
+				// Toast.LENGTH_SHORT).show();
 			}
-			alarmTypeName = strAlarmTypeName;
-			show();
-			// MyLog.e("AlarmDialog", "收到信息，1但不提示:" + getDialogObjs());
-		} else {
-
-			synchronized (AlarmDialog.class) {
-				alarmDialogObjs = 1;
-				// MyLog.e("AlarmDialog", "收到信息，2但不提示:" + getDialogObjs());
-
-			}
-			// Toast.makeText(context, "收到信息，但不提示:"+getDialogObjs(),
-			// Toast.LENGTH_SHORT).show();
-			// alarmDialogObjs = 0;
 		}
 	}
 
@@ -224,7 +224,6 @@ public class AlarmDialog extends Dialog {
 	public void dismiss() {
 		// TODO Auto-generated method stub
 		super.dismiss();
-		// MyLog.e("AlarmDialog", "dismiss" + getDialogObjs());
 	}
 
 }

@@ -49,9 +49,7 @@ import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.GetPhoneNumber;
 
-public class JVRegisterActivity extends BaseActivity {
 public class JVRegisterActivity extends BaseActivity implements TextWatcher {
-	private boolean agreeProtocol = true;
 
 	private Button back;
 	private TextView currentMenu;
@@ -64,14 +62,11 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 	private WebView mWebView;
 	private LinearLayout agreeLayout;
 	private TextView registercode;
-	private int Count = 10;
-	private final int COUNT = 1000;
 	private EditText code;
 	private boolean isregister;
 
 	/** 注册信息提示文本 */
 	private TextView registTips;
-
 	/** 验证手机号 */
 	private GetPhoneNumber phoneNumber;
 	/** 用户名是否存在 */
@@ -124,29 +119,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 					R.string.str_phone_num_error));
 			break;
 		}
-		/** 默认宏 */
-		case JVAccountConst.DEFAULT: {
-			dismissDialog();
-			break;
 		}
-		case COUNT:
-			//TODO
-			if (Count == 0) {
-				registercode.setText("验证码");
-			}else {
-				registercode.setText(Count+"");
-			}
-			break;
-		}
-
-
-
-
-
-
-
-
-
 	}
 
 	@Override
@@ -171,7 +144,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		rightButton.setVisibility(View.GONE);
 
 		regist = (Button) findViewById(R.id.regist);
-		registercode = (TextView)findViewById(R.id.registercode);
 		code = (EditText) findViewById(R.id.code);
 		registercode = (TextView) findViewById(R.id.registercode);
 		userNameEditText = (EditText) findViewById(R.id.registusername);
@@ -180,7 +152,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		agreeMent = (TextView) findViewById(R.id.agreement);
 		mWebView = (WebView) findViewById(R.id.mywebview);
 		agreeLayout = (LinearLayout) findViewById(R.id.registagreelayout);
-
 		pd = new ProgressDialog(this);
 		if (Consts.LANGUAGE_ZH == ConfigUtil
 				.getLanguage2(JVRegisterActivity.this)) {// 中文
@@ -200,7 +171,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		regist.setOnClickListener(onClickListener);
 		agreeMent.setOnClickListener(onClickListener);
 		agreeTBtn.setChecked(true);
-		agreeProtocol = true;
 		agreeTBtn.setOnCheckedChangeListener(onCheckedChangeListener);
 
 		// 中性版本的隐藏注册协议
@@ -220,7 +190,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 					} else {
 						int res = AccountUtil.VerifyUserName(
 								JVRegisterActivity.this, userNameEditText
-								.getText().toString());
 										.getText().toString());
 						if (res >= 0) {
 							createDialog("", true);
@@ -237,15 +206,9 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 												.obtainMessage(
 														JVAccountConst.USERNAME_DETECTION_FAILED,
 														0, 0));
-									} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
 										isregister = true;
 									} else if (phoneNumber.matchNum() == 4
 											|| phoneNumber.matchNum() == 5) {
-										handler.sendMessage(handler
-												.obtainMessage(
-														JVAccountConst.USERNAME_DETECTION_SUCCESS,
-														0, 0));
-									} else if (JVAccountConst.PHONE_NOT_TRUE == nameExists) {
 										handler.sendMessage(handler
 												.obtainMessage(
 														JVAccountConst.PHONE_DETECTION_FAILED,
@@ -253,7 +216,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 									} else {
 										handler.sendMessage(handler
 												.obtainMessage(
-														JVAccountConst.DEFAULT,
 														JVAccountConst.USERNAME_DETECTION_SUCCESS,
 														0, 0));
 										isregister = false;
@@ -305,26 +267,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 								afterSubmit(result, data);
 							}
 						} else {
-							if (-1 == res) {
-								registTips.setVisibility(View.VISIBLE);
-								registTips.setTextColor(Color.rgb(217, 34, 38));
-								registTips.setText(getResources().getString(
-										R.string.login_str_username_tips4));
-							} else if (-2 == res) {
-								registTips.setVisibility(View.VISIBLE);
-								registTips.setTextColor(Color.rgb(217, 34, 38));
-								registTips.setText(getResources().getString(
-										R.string.login_str_loginemail_tips));
-							} else if (-3 == res) {
-								registTips.setVisibility(View.VISIBLE);
-								registTips.setTextColor(Color.rgb(217, 34, 38));
-								registTips.setText(getResources().getString(
-										R.string.login_str_username_tips2));
-							} else if (-4 == res) {
-								registTips.setVisibility(View.VISIBLE);
-								registTips.setTextColor(Color.rgb(217, 34, 38));
-								registTips.setText(getResources().getString(
-										R.string.login_str_username_tips3));
 							// 根据服务器返回的网络错误，给toast提示
 							try {
 								((Throwable) data).printStackTrace();
@@ -343,7 +285,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 							// 如果木有找到资源，默认提示
 						}
 					}
-				}
 				});
 			}
 		};
@@ -369,7 +310,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		}
 		GetVerificationCode();
 	}
-
 
 	private String[] getCurrentCountry() {
 		String mcc = getMCC();
@@ -445,7 +385,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
 	@Override
 	protected void freeMe() {
-
 		SMSSDK.unregisterEventHandler(mhandler);
 		unregisterReceiver(smsReceiver);
 	}
@@ -459,33 +398,9 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				backMethod();
 				break;
 			case R.id.registercode:
-				//TODO
 				MakeSure();
 				break;
 			case R.id.regist:
-				userNameEditText = (EditText) findViewById(R.id.registusername);
-				if ("".equalsIgnoreCase(userNameEditText.getText().toString())) {
-					showTextToast(R.string.login_str_username_notnull);
-				} else if (-1 == AccountUtil.VerifyUserName(
-						JVRegisterActivity.this, userNameEditText.getText()
-						.toString())) {
-					showTextToast(R.string.login_str_username_tips4);
-				} else if (-2 == AccountUtil.VerifyUserName(
-						JVRegisterActivity.this, userNameEditText.getText()
-						.toString())) {
-					showTextToast(R.string.login_str_loginemail_tips);
-				} else if (-3 == AccountUtil.VerifyUserName(
-						JVRegisterActivity.this, userNameEditText.getText()
-						.toString())) {
-					showTextToast(R.string.login_str_username_tips2);
-				} else if (-4 == AccountUtil.VerifyUserName(
-						JVRegisterActivity.this, userNameEditText.getText()
-						.toString())) {
-					showTextToast(R.string.login_str_username_tips3);
-				} else if (!agreeProtocol) {
-					showTextToast(R.string.login_str_agreement_tips);
-				} else {
-					//TODO
 				phoneNumber = new GetPhoneNumber(userNameEditText.getText()
 						.toString());
 				if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
@@ -534,7 +449,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
 	};
 
-
 	// 检查电话号码
 	private void checkPhoneNum(String phone, String code) {
 		if (code.startsWith("+")) {
@@ -580,12 +494,10 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
 		@Override
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-			agreeProtocol = arg1;
 			agreeTBtn.setChecked(arg1);
 		}
 
 	};
-
 
 	private void onCountryListGot(ArrayList<HashMap<String, Object>> countries) {
 		// 解析国家列表

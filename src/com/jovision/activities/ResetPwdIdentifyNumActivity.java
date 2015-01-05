@@ -104,7 +104,6 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		}
 		formatedPhone = String.format("%s  %s", currentCode, strPhone);
 
-
 		handler = new EventHandler() {
 			@SuppressWarnings("unchecked")
 			public void afterEvent(final int event, final int result,

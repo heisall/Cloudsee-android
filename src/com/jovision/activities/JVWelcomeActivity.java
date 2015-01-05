@@ -46,7 +46,6 @@ public class JVWelcomeActivity extends BaseActivity {
 		ImportOldData importOld = new ImportOldData(JVWelcomeActivity.this);
 		if (!MySharedPreference.getBoolean("HasImport")) {
 			Consts.DEVICE_LIST = Consts.LOCAL_DEVICE_LIST;
-
 			importOld.queryAllUserList();
 			importOld.getDevList();
 			deleteDatabase(Consts.JVCONFIG_DATABASE);

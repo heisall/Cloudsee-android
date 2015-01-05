@@ -985,10 +985,10 @@ public class PlayWindowManager implements View.OnClickListener,
 					if (null != player) {
 						if (channel.getIndex() >= 0) {
 							player.setId(BASE_ID + channel.getIndex());
-							player.setOnClickListener(PlayWindowManager
-									.getIntance(null));
-							player.setOnLongClickListener(PlayWindowManager
-									.getIntance(null));
+							// player.setOnClickListener(PlayWindowManager
+							// .getIntance(null));
+							// player.setOnLongClickListener(PlayWindowManager
+							// .getIntance(null));
 						}
 
 						player.setLayoutParams(playerLayoutParams);

@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.jovision.Consts;
 import com.jovision.bean.AD;
+import com.jovision.bean.APPImage;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.bean.OneKeyUpdate;
@@ -1846,6 +1847,79 @@ public class DeviceUtil {
 			adList = null;
 		}
 		return adList;
+	}
+
+	/**
+	 * 2015-1-5 获取欢迎界面图片
+	 * 
+	 * @param
+	 * @return ArrayList<Device> 设备列表
+	 */
+	public static APPImage getAPPImage(int appVersion) {
+		APPImage appImage = new APPImage();
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.AD_PUBLISH_PROCESS);// 12
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE, JVDeviceConst.GET_PORTAL);// 5502
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// 1.0
+			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, Consts.PRODUCT_TYPE);// 0：CloudSEE
+																			// 1：NVSIP
+			jObj.put(JVDeviceConst.JK_AD_VERSION, appVersion);// (当前广告版本号)
+			jObj.put(JVDeviceConst.JK_TERMINAL_TYPE, Consts.TERMINAL_TYPE);// (终端类型
+																			// 0-未知
+																			// 1-Android
+			// 2-iPhone 3-iPad)
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		MyLog.v("getAPPImage---request", jObj.toString());
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("getAPPImage---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+						appImage.setResult(rt);
+
+						// (0正确,其他为错误码 19没有更新; -10请求格式错误; -4数据库操作错误; -1其他错误)
+						if (19 == rt) {// 无更新
+
+						} else if (0 == rt) {// 有更新
+							int appVer = temObj
+									.optInt(JVDeviceConst.JK_PORTAL_VERSION);
+							String urlZh = temObj
+									.optString(JVDeviceConst.JK_PORTAL);
+							String urlEn = temObj
+									.optString(JVDeviceConst.JK_PORTAL_EN);
+							String urlZht = temObj
+									.optString(JVDeviceConst.JK_PORTAL_ZHT);
+							appImage.setVersion(appVer);
+							appImage.setAppImageUrlZh(urlZh);
+							appImage.setAppImageUrlEN(urlEn);
+							appImage.setAppImageUrlZht(urlZht);
+						}
+					}
+				} catch (Exception e) {
+					appImage = null;
+					e.printStackTrace();
+				}
+			}
+		} else {
+			appImage = null;
+		}
+		return appImage;
 	}
 
 	/**

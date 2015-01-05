@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-public class JVRegisterCodeActivity extends BaseActivity{
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,21 +34,19 @@ public class JVRegisterCodeActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-		
 
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
-		
 
 	}
 
 	@Override
 	protected void initSettings() {
 		// TODO Auto-generated method stub
-		
+
 		setContentView(R.layout.registcode_layout);
 
 	}
@@ -57,7 +54,7 @@ public class JVRegisterCodeActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		// TODO Auto-generated method stub
-		
+
 		leftButton = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		account = getIntent().getStringExtra("phone");
@@ -267,14 +264,12 @@ public class JVRegisterCodeActivity extends BaseActivity {
 	@Override
 	protected void saveSettings() {
 		// TODO Auto-generated method stub
-		
 
 	}
 
 	@Override
 	protected void freeMe() {
 		// TODO Auto-generated method stub
-		
 
 	}
 

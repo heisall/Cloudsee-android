@@ -66,8 +66,8 @@
                     android:layout_weight="3"
                     android:background="@drawable/blue_bg"
                     android:gravity="center"
-                    android:textColor="@color/white"
                     android:text="@string/str_vercode"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
             </LinearLayout>
 

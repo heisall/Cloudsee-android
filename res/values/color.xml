@@ -12,6 +12,7 @@
     <color name="moretransparent">#19000000</color>
 
     <!-- 设备的背景色 -->
+    <color name="vercode">#bcbcbc</color>
     <color name="device_color_1">#378FE6</color>
     <color name="device_color_2">#13C6CD</color>
     <color name="device_color_3">#84C914</color>
@@ -421,7 +422,7 @@
     <color name="morefunctiontextcolor">#363940</color>
     <color name="versioncolor">#385487</color>
     <color name="registtextcolor">#8d8f91</color>
-    <color name="agreementcolor">#4366a0</color>
+    <color name="agreementcolor">#2e9cff</color>
     <color name="weibotextcolor">#282828</color>
     <color name="searchtimecolor">#203352</color>
     <color name="listtitlecolor">#363940</color>

@@ -2,11 +2,15 @@ package com.jovision.activities;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +30,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.FuntionAdapter;
+import com.jovision.adapters.MyPagerAdp;
 import com.jovision.adapters.ScreenAdapter;
 import com.jovision.adapters.StreamAdapter;
 import com.jovision.bean.Channel;
@@ -36,7 +41,8 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.MyViewPager;
 
-public abstract class PlayActivity extends BaseActivity {
+public abstract class PlayActivity extends BaseActivity implements
+OnPageChangeListener {
 
 	protected static final int PLAY_AUDIO_WHAT = 0x26;
 	public static MyAudio playAudio;
@@ -105,8 +111,8 @@ public abstract class PlayActivity extends BaseActivity {
 
 	/** 云台操作 */
 	protected ImageView autoimage, zoomIn, zoomout, scaleSmallImage,
-			scaleAddImage, upArrow, downArrow, leftArrow, rightArrow,
-			yt_cancle;
+	scaleAddImage, upArrow, downArrow, leftArrow, rightArrow,
+	yt_cancle;
 
 	/** layout 下 */
 	protected Button capture;// 抓拍
@@ -162,6 +168,23 @@ public abstract class PlayActivity extends BaseActivity {
 	protected Button currentKbps;// 当前统计
 	protected TextView playStatistics;// 播放统计
 
+	/**
+	 * 帮助界面
+	 * */
+	private ViewPager viewpager;
+
+	// 当前页面索引
+	private int currentImage = 0;
+	// 前一个页面索引
+	private int oldImage = 0;
+	// 点集合
+	private List<ImageView> dots;
+	private LinearLayout ll_dot;
+	private MyPagerAdp adp;
+	private List<View> pics;
+	int flag = 0;
+	private int currentIndex = 0;// 当前页卡index
+
 	/**  */
 	protected TextView currentMenu_v;
 
@@ -207,6 +230,17 @@ public abstract class PlayActivity extends BaseActivity {
 		setContentView(R.layout.play_layout);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);// 屏幕常亮
 
+		/**帮助图*/
+		viewpager = (ViewPager)findViewById(R.id.playhelp_viewpager);
+		ll_dot = (LinearLayout)findViewById(R.id.play_ll_dot);
+		viewpager.setOnPageChangeListener(PlayActivity.this);
+		getPic() ;
+		ll_dot.setVisibility(View.VISIBLE);
+		viewpager.setCurrentItem(0);
+		viewpager.setVisibility(View.VISIBLE);
+		getPic();
+		adp = new MyPagerAdp(pics);
+		viewpager.setAdapter(adp);
 		/** 上 */
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
 		back = (Button) findViewById(R.id.btn_left);
@@ -330,7 +364,7 @@ public abstract class PlayActivity extends BaseActivity {
 		playFunctionList = (ListView) findViewById(R.id.play_function_list_layout);
 		functionList.add(getResources().getString(R.string.str_yt_operate));
 		functionList
-				.add(getResources().getString(R.string.str_remote_playback));
+		.add(getResources().getString(R.string.str_remote_playback));
 		functionList.add(getResources().getString(R.string.str_audio_monitor));
 		functionListAdapter = new FuntionAdapter(PlayActivity.this, bigScreen,
 				playFlag);
@@ -412,6 +446,62 @@ public abstract class PlayActivity extends BaseActivity {
 
 	}
 
+	private void getPic() {
+		flag = 0;
+		pics = new ArrayList<View>();
+		View view1 = LayoutInflater.from(PlayActivity.this).inflate(
+				R.layout.help_item7, null);
+		View view2 = LayoutInflater.from(PlayActivity.this).inflate(
+				R.layout.help_item8, null);
+		View view3 = LayoutInflater.from(PlayActivity.this).inflate(
+				R.layout.help_item6, null);
+		pics.add(view1);
+		pics.add(view2);
+		pics.add(view3);
+		initDot(2);
+	}
+	private void initDot(int dotnum) {
+		dots = new ArrayList<ImageView>();
+		// 得到点的父布局
+		for (int i = 0; i < dotnum; i++) {
+			ll_dot.getChildAt(i);// 得到点
+			dots.add((ImageView) ll_dot.getChildAt(i));
+			dots.get(i).setEnabled(false);// 将点设置为白色
+		}
+		dots.get(currentImage).setEnabled(true); // 因为默认显示第一张图片，将第一个点设置为黑色
+	}
+
+
+	@Override
+	public void onPageScrollStateChanged(int arg0) {
+
+	}
+
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+	}
+
+	@Override
+	public void onPageSelected(int arg0) {
+		currentImage = arg0; // 获取当前页面索引
+		if (flag == 0) {
+			if (arg0 != 2) {
+				dots.get(oldImage).setEnabled(false); // 前一个点设置为白色
+				dots.get(currentImage).setEnabled(true); // 当前点设置为黑色
+				oldImage = currentImage; // 改变前一个索引
+				currentImage = (currentImage) % 2; // 有几张就对几求余
+				onNotify(0, currentImage, 0, null);
+			}
+			if (arg0 == 2) {
+				viewpager.setVisibility(View.GONE);
+				ll_dot.setVisibility(View.GONE);
+			}
+		} 
+	}
+
+
+
 	/**
 	 * 横竖屏布局隐藏显示
 	 */
@@ -419,10 +509,10 @@ public abstract class PlayActivity extends BaseActivity {
 		if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
 			viewPager.setDisableSliding(false);
 			getWindow()
-					.setFlags(
-							disMetrics.widthPixels
-									- getStatusHeight(PlayActivity.this),
-							WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			.setFlags(
+					disMetrics.widthPixels
+					- getStatusHeight(PlayActivity.this),
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			topBar.setVisibility(View.VISIBLE);// 顶部标题栏
 
 			if (Consts.PLAY_AP == playFlag) {
@@ -528,7 +618,7 @@ public abstract class PlayActivity extends BaseActivity {
 			// 录像模式
 			rightFuncButton.setTextSize(8);
 			rightFuncButton
-					.setTextColor(getResources().getColor(R.color.white));
+			.setTextColor(getResources().getColor(R.color.white));
 			rightFuncButton.setBackgroundDrawable(null);
 			if (Consts.STORAGEMODE_NORMAL == channel.getStorageMode()) {
 				rightFuncButton.setText(R.string.video_normal);

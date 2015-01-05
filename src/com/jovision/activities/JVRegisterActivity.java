@@ -17,6 +17,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
@@ -72,7 +73,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 	/** 用户名是否存在 */
 	private int nameExists;
 	private static final String TAG = "RESET_PWD";
-	private static final int RETRY_INTERVAL = 60;
+	private static final int RETRY_INTERVAL = 10;
 	private ProgressDialog pd;
 	// 默认使用中国区号
 	private static final String DEFAULT_COUNTRY_ID = "42";
@@ -152,6 +153,8 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		registTips = (TextView) findViewById(R.id.regist_tips);
 		agreeTBtn = (ToggleButton) findViewById(R.id.agree);
 		agreeMent = (TextView) findViewById(R.id.agreement);
+		agreeMent.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
+		agreeMent.getPaint().setAntiAlias(true);
 		mWebView = (WebView) findViewById(R.id.mywebview);
 		agreeLayout = (LinearLayout) findViewById(R.id.registagreelayout);
 		pd = new ProgressDialog(this);
@@ -375,6 +378,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				checkPhoneNum(userNameEditText.getText().toString(),
 						currentCode);
 				countDown();
+				registercode.setBackgroundResource(R.drawable.vercode);
 				isregister = false;
 			}
 		}
@@ -407,6 +411,9 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 						.toString());
 				if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
 						&& !"".equals(code.getText().toString())) {
+					if (userNameEditText.getText().length()!=11) {
+						
+					}
 					if (phoneNumber.matchNum() == 4
 							|| phoneNumber.matchNum() == 5) {
 						showTextToast(R.string.login_str_loginephone_tips);
@@ -593,11 +600,14 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 			public void run() {
 				time--;
 				if (time == 0 || stop) {
+					registercode.setTextColor(getResources().getColor(
+							R.color.white));
 					registercode.setText(getResources().getString(
 							R.string.str_resend_code));
 					registercode.setEnabled(true);
 					time = RETRY_INTERVAL;
 					stop = false;
+					registercode.setBackgroundResource(R.drawable.blue_bg);
 				} else {
 					registercode.setTextColor(getResources().getColor(
 							R.color.gray));

@@ -102,7 +102,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 			Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
 					+ country[0]);
 		}
-		formatedPhone = String.format("%s  %s", currentCode, strPhone);
+		formatedPhone = String.format("%s", strPhone);
 
 		handler = new EventHandler() {
 			@SuppressWarnings("unchecked")

@@ -441,6 +441,7 @@
     <!-- ap配置流程模块 -->
     <string name="quick_setting_searching">Searching nearby devices now</string>
     <string name="str_quiksetting_tips_txt">Please choose the device you want to configure.</string>
+    <string name="str_wave_txt">请选择需添加设备</string>
     <string name="str_quick_setting_alert_1">Connecting with device now, please wait.</string>
     <string name="str_quick_setting_connect">Configure</string>
     <string name="str_quick_setting_waiting">Waiting</string>

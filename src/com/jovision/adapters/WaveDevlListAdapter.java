@@ -65,14 +65,6 @@ public class WaveDevlListAdapter extends BaseAdapter {
 
 			devHolder.channel_list_img = (ImageView) convertView
 					.findViewById(R.id.channel_item_img);
-
-			devHolder.channel_list_edit = (EditText) convertView
-					.findViewById(R.id.channel_item_edit);
-
-			devHolder.channellist_pull = (LinearLayout) convertView
-					.findViewById(R.id.channellist_pull);
-			devHolder.item_img = (ImageView) convertView
-					.findViewById(R.id.item_img);
 			devHolder.parent_relative = (RelativeLayout) convertView
 					.findViewById(R.id.parent_relative);
 			convertView.setTag(devHolder);
@@ -83,7 +75,6 @@ public class WaveDevlListAdapter extends BaseAdapter {
 		try {
 			devHolder.channel_list_text.setText(devList.get(position)
 					.getFullNo());
-			devHolder.channellist_pull.setVisibility(View.GONE);
 			devHolder.newImg.setVisibility(View.VISIBLE);
 			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(activity)) {
 				devHolder.newImg.setImageDrawable(activity.getResources()
@@ -96,8 +87,6 @@ public class WaveDevlListAdapter extends BaseAdapter {
 			if (devList.get(position).isHasAdded()) {
 				devHolder.channel_list_text.setTextColor(activity
 						.getResources().getColor(R.color.more_fragment_color2));
-				devHolder.item_img.setImageDrawable(activity.getResources()
-						.getDrawable(R.drawable.has_added_icon));
 				// devHolder.channel_list_img.setImageDrawable(activity
 				// .getResources().getDrawable(R.drawable.has_added));
 				devHolder.newImg.setVisibility(View.GONE);
@@ -106,10 +95,8 @@ public class WaveDevlListAdapter extends BaseAdapter {
 			} else {
 				devHolder.channel_list_text.setTextColor(activity
 						.getResources().getColor(R.color.dialogchannaltext));
-				devHolder.item_img.setImageDrawable(activity.getResources()
-						.getDrawable(R.drawable.hasnot_added_icon));
 				devHolder.channel_list_img.setImageDrawable(activity
-						.getResources().getDrawable(R.drawable.has_added));
+						.getResources().getDrawable(R.drawable.wave_add));
 				devHolder.newImg.setVisibility(View.VISIBLE);
 				// convertView.setVisibility(View.VISIBLE);
 			}
@@ -138,8 +125,5 @@ public class WaveDevlListAdapter extends BaseAdapter {
 		private RelativeLayout parent_relative;
 		private TextView channel_list_text;
 		private ImageView channel_list_img;
-		private EditText channel_list_edit;
-		private LinearLayout channellist_pull;
-		private ImageView item_img;
 	}
 }

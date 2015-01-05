@@ -480,4 +480,13 @@ public class JVDeviceConst {
 	public static final String JK_SHARE_CHANNELS = "scs";
 	public static final String JK_RTMP_PORT = "rtmp";
 	public static final String JK_HLS_PORT = "hls";
+
+	/** 手机欢迎界面图片 */
+	public static final int GET_PORTAL = 5502;
+	public static final int GET_PORTAL_RESPONSE = 5503;
+
+	public static final String JK_PORTAL_VERSION = "porver";
+	public static final String JK_PORTAL = "por";
+	public static final String JK_PORTAL_EN = "poren";
+	public static final String JK_PORTAL_ZHT = "porzht";
 }

@@ -55,16 +55,20 @@ public class WaveDevlListAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final DeviceHolder devHolder;
 		if (null == convertView) {
-			convertView = inflater.inflate(R.layout.channellist_item_layout,
+			convertView = inflater.inflate(R.layout.wave_item_layout,
 					null);
 			devHolder = new DeviceHolder();
-			devHolder.newImg = (ImageView) convertView
-					.findViewById(R.id.newimg);
 			devHolder.channel_list_text = (TextView) convertView
 					.findViewById(R.id.channel_item_text);
 
 			devHolder.channel_list_img = (ImageView) convertView
 					.findViewById(R.id.channel_item_img);
+
+			devHolder.channel_list_edit = (EditText) convertView
+					.findViewById(R.id.channel_item_edit);
+
+			devHolder.channellist_pull = (LinearLayout) convertView
+					.findViewById(R.id.channellist_pull);
 			devHolder.parent_relative = (RelativeLayout) convertView
 					.findViewById(R.id.parent_relative);
 			convertView.setTag(devHolder);
@@ -75,13 +79,11 @@ public class WaveDevlListAdapter extends BaseAdapter {
 		try {
 			devHolder.channel_list_text.setText(devList.get(position)
 					.getFullNo());
-			devHolder.newImg.setVisibility(View.VISIBLE);
+			devHolder.channellist_pull.setVisibility(View.GONE);
 			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(activity)) {
-				devHolder.newImg.setImageDrawable(activity.getResources()
-						.getDrawable(R.drawable.new_dev_iconch));
+				devHolder.parent_relative.setBackgroundResource(R.drawable.wave_newone);
 			} else {
-				devHolder.newImg.setImageDrawable(activity.getResources()
-						.getDrawable(R.drawable.new_dev_iconen));
+				devHolder.parent_relative.setBackgroundResource(R.drawable.wave_new);
 			}
 
 			if (devList.get(position).isHasAdded()) {
@@ -89,15 +91,14 @@ public class WaveDevlListAdapter extends BaseAdapter {
 						.getResources().getColor(R.color.more_fragment_color2));
 				// devHolder.channel_list_img.setImageDrawable(activity
 				// .getResources().getDrawable(R.drawable.has_added));
-				devHolder.newImg.setVisibility(View.GONE);
+				devHolder.parent_relative.setBackgroundResource(R.drawable.feedbackedit_bg);
 				devHolder.channel_list_img.setVisibility(View.GONE);
 				// convertView.setVisibility(View.GONE);
 			} else {
 				devHolder.channel_list_text.setTextColor(activity
-						.getResources().getColor(R.color.dialogchannaltext));
+						.getResources().getColor(R.color.more_fragment_color2));
 				devHolder.channel_list_img.setImageDrawable(activity
 						.getResources().getDrawable(R.drawable.wave_add));
-				devHolder.newImg.setVisibility(View.VISIBLE);
 				// convertView.setVisibility(View.VISIBLE);
 			}
 
@@ -121,9 +122,10 @@ public class WaveDevlListAdapter extends BaseAdapter {
 	}
 
 	class DeviceHolder {
-		private ImageView newImg;
 		private RelativeLayout parent_relative;
 		private TextView channel_list_text;
 		private ImageView channel_list_img;
+		private EditText channel_list_edit;
+		private LinearLayout channellist_pull;
 	}
 }

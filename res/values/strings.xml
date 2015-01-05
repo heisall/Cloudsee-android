@@ -523,6 +523,8 @@
     <string name="media_image">Image</string>
     <string name="media_video">Video</string>
     <string name="media_other">Other</string>
+    <string name="media_player">选择播放器</string>
+    <string name="media_play">播放</string>
     <string name="media_noticedelect">Please choose the file to be deleted.</string>
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>

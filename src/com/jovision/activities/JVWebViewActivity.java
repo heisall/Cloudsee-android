@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -20,6 +21,7 @@ public class JVWebViewActivity extends BaseActivity {
 	private Button back;// 左侧返回按钮
 	private TextView currentMenu;// 当前页面名称
 	private Button rigButton;
+	private RelativeLayout topBar;
 
 	private WebView webView;
 	private String url = "";
@@ -48,11 +50,14 @@ public class JVWebViewActivity extends BaseActivity {
 	protected void initUi() {
 		setContentView(R.layout.findpass_layout);
 		/** topBar **/
+		topBar = (RelativeLayout) findViewById(R.id.topbarh);
 		back = (Button) findViewById(R.id.btn_left);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		progressbar = (ProgressBar) findViewById(R.id.progressbar);
 		if (-1 == titleID) {
 			currentMenu.setText("");
+		} else if (-2 == titleID) {
+
 		} else {
 			currentMenu.setText(titleID);
 		}
@@ -63,8 +68,18 @@ public class JVWebViewActivity extends BaseActivity {
 
 		webView = (WebView) findViewById(R.id.findpasswebview);
 
+		WebChromeClient wvcc = new WebChromeClient() {
+			@Override
+			public void onReceivedTitle(WebView view, String title) {
+				super.onReceivedTitle(view, title);
+				if (-2 == titleID) {
+					currentMenu.setText(title);
+				}
+			}
+		};
 		webView.getSettings().setJavaScriptEnabled(true);
-		webView.setWebChromeClient(new WebChromeClient());
+		// 设置setWebChromeClient对象
+		webView.setWebChromeClient(wvcc);
 		webView.requestFocus(View.FOCUS_DOWN);
 		// 加快加载速度
 		webView.getSettings().setRenderPriority(RenderPriority.HIGH);

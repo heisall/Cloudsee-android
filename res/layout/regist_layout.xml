@@ -66,7 +66,8 @@
                     android:layout_weight="3"
                     android:background="@drawable/blue_bg"
                     android:gravity="center"
-                    android:text="验证码"
+                    android:textColor="@color/white"
+                    android:text="@string/str_vercode"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -120,7 +121,7 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/blue_bg"
-                android:text="@string/str_finish"
+                android:text="@string/str_quick_setting_nextstep"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 

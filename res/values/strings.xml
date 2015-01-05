@@ -676,6 +676,7 @@
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
     <string name="reset_passwd_input_vercode">Get verification code</string>
+     <string name="str_vercode">验证码</string>
     <string name="reset_passwd_account">Account</string>
     <string name="reset_passwd_new_passwd">Password</string>
     <string name="reset_passwd_confirm_passwd">Confirm Password</string>

@@ -50,7 +50,6 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.GetPhoneNumber;
 
 public class JVRegisterActivity extends BaseActivity implements TextWatcher {
-	private boolean agreeProtocol = true;
 
 	private Button back;
 	private TextView currentMenu;
@@ -88,6 +87,8 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 	private String SMS_APP_ID, SMS_APP_SECRET;
 	private String strIdentifyNum;
 	private BroadcastReceiver smsReceiver;
+
+	private boolean stop;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -172,7 +173,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		regist.setOnClickListener(onClickListener);
 		agreeMent.setOnClickListener(onClickListener);
 		agreeTBtn.setChecked(true);
-		agreeProtocol = true;
 		agreeTBtn.setOnCheckedChangeListener(onCheckedChangeListener);
 
 		// 中性版本的隐藏注册协议
@@ -443,6 +443,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				}
 				break;
 			case R.id.agreement:
+				stop = true;
 				currentMenu.setText(R.string.str_agreement);
 				mWebView.setVisibility(View.VISIBLE);
 				break;
@@ -496,7 +497,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
 		@Override
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-			agreeProtocol = arg1;
 			agreeTBtn.setChecked(arg1);
 		}
 
@@ -592,13 +592,12 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		runOnUIThread(new Runnable() {
 			public void run() {
 				time--;
-				if (time == 0) {
-					registercode.setTextColor(getResources().getColor(
-							R.color.link_color));
+				if (time == 0 || stop) {
 					registercode.setText(getResources().getString(
 							R.string.str_resend_code));
 					registercode.setEnabled(true);
 					time = RETRY_INTERVAL;
+					stop = false;
 				} else {
 					registercode.setTextColor(getResources().getColor(
 							R.color.gray));

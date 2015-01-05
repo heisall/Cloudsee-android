@@ -676,6 +676,7 @@
     <string name="reset_passwd_input_vercode">獲取驗證碼</string>
     <string name="reset_passwd_account">賬 號</string>
     <string name="reset_passwd_new_passwd">密 碼</string>
+     <string name="str_vercode">驗證碼</string>
     <string name="reset_passwd_confirm_passwd">確認密碼</string>
     <string name="reset_passwd_new_passwd_hint">填寫密碼</string>
     <string name="reset_passwd_confirm_passwd_hint">再次填寫確認</string>

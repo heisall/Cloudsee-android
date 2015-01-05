@@ -189,7 +189,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	 * @param dialog
 	 */
 	public void dismissDialog() {
-		if (null != proDialog) {
+		if (null != proDialog && !this.isFinishing()) {
 			proDialog.dismiss();
 			proDialog = null;
 		}

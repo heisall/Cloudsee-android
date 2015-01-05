@@ -8,7 +8,7 @@ public class OneKeyUpdate {
 	// "ufdes":"10.2.1"}}
 	private String ufver = "";
 	private String ufurl = "";
-	private String ufsize = "";
+	private int ufsize = 0;
 	private String ufc = "";
 	private String ufdes = "";
 	private int resultCode = -1;
@@ -29,13 +29,13 @@ public class OneKeyUpdate {
 		this.ufurl = ufurl;
 	}
 
-	public String getUfsize() {
-		return ufsize;
-	}
-
-	public void setUfsize(String ufsize) {
-		this.ufsize = ufsize;
-	}
+	// public String getUfsize() {
+	// return ufsize;
+	// }
+	//
+	// public void setUfsize(String ufsize) {
+	// this.ufsize = ufsize;
+	// }
 
 	public String getUfc() {
 		return ufc;
@@ -59,6 +59,14 @@ public class OneKeyUpdate {
 
 	public void setResultCode(int resultCode) {
 		this.resultCode = resultCode;
+	}
+
+	public int getUfsize() {
+		return ufsize;
+	}
+
+	public void setUfsize(int ufsize) {
+		this.ufsize = ufsize;
 	}
 
 }

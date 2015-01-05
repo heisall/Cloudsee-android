@@ -1577,6 +1577,13 @@ public class DeviceUtil {
 		return res;
 	}
 
+	private static String urls[] = { "rtmp://119.188.172.3/live/a366_1",
+			"rtmp://119.188.172.3/live/a361_1",
+			"rtmp://119.188.172.3/live/a362_1",
+			"rtmp://119.188.172.3/live/s230348788_1",
+			"rtmp://119.188.172.3/live/a367_1",
+			"rtmp://119.188.172.3/live/a368_1", };
+
 	/**
 	 * 2014-10-17 获取演示点设备
 	 * 
@@ -1638,11 +1645,49 @@ public class DeviceUtil {
 												.optString(JVDeviceConst.JK_DEVICE_DEMO_PASSWORD);
 										int counts = obj
 												.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_SUM);
-
 										Device dev = new Device("", 9101, gid,
 												no, user, pwd, true, counts, 1);
 										dev.setUser(user);
 										dev.setPwd(pwd);
+
+										for (int j = 0; j < counts; j++) {
+											Channel channel = dev
+													.getChannelList().toList()
+													.get(j);
+											int vipLevel = obj
+													.optInt(JVDeviceConst.JK_STREAMING_MEDIA_FLAG);// (是否支持流媒体
+																									// 0不支持
+																									// 1支持)
+											channel.setVipLevel(vipLevel);
+											if (vipLevel > 0) {
+												String smsrv = obj
+														.optString(JVDeviceConst.JK_STREAMING_MEDIA_SERVER);// (流媒体服务器信息
+																											// 格式
+																											// ip|rtmp端口|hls端口)
+												String suffixRtmp = dev
+														.getFullNo()
+														+ "_"
+														+ (j + 1);
+												String rtmpUrl = "";
+												if (!"".equals(smsrv)) {
+													String array[] = smsrv
+															.split("\\|");
+													rtmpUrl = "rtmp://"
+															+ array[0] + ":"
+															+ array[1]
+															+ "/live/"
+															+ suffixRtmp;
+												} else {
+													rtmpUrl = "rtmp://"
+															+ "/live/"
+															+ suffixRtmp;
+												}
+												Log.i("RTMP", "rtmp_url:"
+														+ rtmpUrl);
+												channel.setRtmpUrl(rtmpUrl);
+											}
+
+										}
 										demoList.add(dev);
 									}
 								}
@@ -1656,6 +1701,62 @@ public class DeviceUtil {
 		}
 		MyLog.v("demoList", demoList.toString());
 		return demoList;
+	}
+
+	/**
+	 * 2015-1-4 获取演示点网页地址
+	 * 
+	 * @param
+	 * @return ArrayList<Device> 设备列表
+	 */
+	public static String getDemoDeviceList2(String softName) {
+		String demoUrl = "";
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.GET_DEMO_POINT_SERVER);// 2059
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// 1.0
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.DEV_INFO_PRO);// 1
+			jObj.put(JVDeviceConst.JK_CUSTOM_TYPE, softName);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		MyLog.v("getDemoDeviceList2---request", jObj.toString());
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024 * 3];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("getDemoDeviceList2---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// 2060
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+
+						if (0 != rt) {// 获取失败
+
+						} else {// 获取成功
+							demoUrl = temObj
+									.optString(JVDeviceConst.JK_DEMO_POINT_SERVER);
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		MyLog.v("demoUrl", demoUrl);
+		return demoUrl;
 	}
 
 	/**
@@ -1903,7 +2004,7 @@ public class DeviceUtil {
 									oku.setUfurl(updtateFile
 											.optString(JVDeviceConst.JK_UPGRADE_FILE_URL));
 									oku.setUfsize(updtateFile
-											.optString(JVDeviceConst.JK_UPGRADE_FILE_SIZE));
+											.optInt(JVDeviceConst.JK_UPGRADE_FILE_SIZE));
 									oku.setUfc(updtateFile
 											.optString(JVDeviceConst.JK_UPGRADE_FILE_CHECKSUM));
 									oku.setUfdes(updtateFile

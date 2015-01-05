@@ -522,6 +522,8 @@
     <string name="media_image">圖像</string>
     <string name="media_video">視頻</string>
     <string name="media_other">其他</string>
+    <string name="media_player">選擇播放器</string>
+    <string name="media_play">播放</string>
     <string name="media_noticedelect">請選擇要刪除的檔</string>
     <!-- Help -->
     <string name="str_help_zero">展開多種方式添加設備</string>

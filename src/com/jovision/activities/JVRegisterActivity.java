@@ -81,11 +81,11 @@ public class JVRegisterActivity extends BaseActivity {
 			break;
 		}
 		case COUNT:
-			//TODO
+			// TODO
 			if (Count == 0) {
 				registercode.setText("验证码");
-			}else {
-				registercode.setText(Count+"");
+			} else {
+				registercode.setText(Count + "");
 			}
 			break;
 		}
@@ -113,7 +113,7 @@ public class JVRegisterActivity extends BaseActivity {
 		rightButton.setVisibility(View.GONE);
 
 		regist = (Button) findViewById(R.id.regist);
-		registercode = (TextView)findViewById(R.id.registercode);
+		registercode = (TextView) findViewById(R.id.registercode);
 		userNameEditText = (EditText) findViewById(R.id.registusername);
 		registTips = (TextView) findViewById(R.id.regist_tips);
 		agreeTBtn = (ToggleButton) findViewById(R.id.agree);
@@ -158,7 +158,7 @@ public class JVRegisterActivity extends BaseActivity {
 					} else {
 						int res = AccountUtil.VerifyUserName(
 								JVRegisterActivity.this, userNameEditText
-								.getText().toString());
+										.getText().toString());
 						if (res >= 0) {
 							createDialog("", true);
 							new Thread() {
@@ -217,6 +217,7 @@ public class JVRegisterActivity extends BaseActivity {
 			}
 		});
 	}
+
 	@Override
 	protected void saveSettings() {
 
@@ -236,7 +237,7 @@ public class JVRegisterActivity extends BaseActivity {
 				backMethod();
 				break;
 			case R.id.registercode:
-				//TODO
+				// TODO
 				break;
 			case R.id.regist:
 				userNameEditText = (EditText) findViewById(R.id.registusername);
@@ -244,24 +245,24 @@ public class JVRegisterActivity extends BaseActivity {
 					showTextToast(R.string.login_str_username_notnull);
 				} else if (-1 == AccountUtil.VerifyUserName(
 						JVRegisterActivity.this, userNameEditText.getText()
-						.toString())) {
+								.toString())) {
 					showTextToast(R.string.login_str_username_tips4);
 				} else if (-2 == AccountUtil.VerifyUserName(
 						JVRegisterActivity.this, userNameEditText.getText()
-						.toString())) {
+								.toString())) {
 					showTextToast(R.string.login_str_loginemail_tips);
 				} else if (-3 == AccountUtil.VerifyUserName(
 						JVRegisterActivity.this, userNameEditText.getText()
-						.toString())) {
+								.toString())) {
 					showTextToast(R.string.login_str_username_tips2);
 				} else if (-4 == AccountUtil.VerifyUserName(
 						JVRegisterActivity.this, userNameEditText.getText()
-						.toString())) {
+								.toString())) {
 					showTextToast(R.string.login_str_username_tips3);
 				} else if (!agreeProtocol) {
 					showTextToast(R.string.login_str_agreement_tips);
 				} else {
-					//TODO
+					// TODO
 				}
 				break;
 			case R.id.agreement:
@@ -272,6 +273,7 @@ public class JVRegisterActivity extends BaseActivity {
 		}
 
 	};
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -301,6 +303,7 @@ public class JVRegisterActivity extends BaseActivity {
 		}
 
 	};
+
 	@Override
 	protected void onResume() {
 		super.onResume();

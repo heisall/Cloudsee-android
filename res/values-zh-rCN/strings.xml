@@ -522,6 +522,8 @@
     <string name="media_image">图像</string>
     <string name="media_video">视频</string>
     <string name="media_other">其他</string>
+    <string name="media_player">选择播放器</string>
+    <string name="media_play">播放</string>
     <string name="media_noticedelect">请选择要删除的文件</string>
     <!-- Help -->
     <string name="str_help_zero">展开多种方式添加设备</string>

@@ -3,8 +3,11 @@ package com.jovision.adapters;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +34,7 @@ public class MediaFolderAdapter extends BaseAdapter {
 	private String media;// 区分图片还是视频
 	private boolean loadImg = true;
 	private boolean isdelect;
+	public static int selectPlayerIndex = -1;
 
 	public MediaFolderAdapter(BaseActivity con) {
 		mContext = con;
@@ -133,13 +137,15 @@ public class MediaFolderAdapter extends BaseAdapter {
 							}
 						} else if ("video".equalsIgnoreCase(media)) {
 							if (isdelect) {
-								Intent videoIntent = new Intent();
-								videoIntent.setClass(mContext,
-										JVVideoActivity.class);
-								videoIntent.putExtra("URL",
+								selectPlayerDialog(mContext,
 										fileArray[position].getAbsolutePath());
-								videoIntent.putExtra("IS_LOCAL", true);
-								mContext.startActivity(videoIntent);
+								// Intent videoIntent = new Intent();
+								// videoIntent.setClass(mContext,
+								// JVVideoActivity.class);
+								// videoIntent.putExtra("URL",
+								// fileArray[position].getAbsolutePath());
+								// videoIntent.putExtra("IS_LOCAL", true);
+								// mContext.startActivity(videoIntent);
 							}
 						}
 					}
@@ -151,6 +157,60 @@ public class MediaFolderAdapter extends BaseAdapter {
 	class FolderHolder {
 		TextView folderName;
 		MyGridView fileGridView;
+	}
+
+	public static void selectPlayerDialog(Context context, String address) {
+		final Context mContext = context;
+		final String url = address;
+		selectPlayerIndex = 0;
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setCancelable(true);
+
+		builder.setTitle(context.getResources()
+				.getString(R.string.media_player));
+		builder.setSingleChoiceItems(
+				context.getResources().getStringArray(R.array.player_selector),
+				0, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						selectPlayerIndex = which;
+					}
+
+				});
+		builder.setPositiveButton(R.string.media_play,
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// 系统播放器
+						if (0 == selectPlayerIndex) {
+
+							Intent videoIntent = new Intent();
+							videoIntent.setClass(mContext,
+									JVVideoActivity.class);
+							videoIntent.putExtra("URL", url);
+							videoIntent.putExtra("IS_LOCAL", true);
+							mContext.startActivity(videoIntent);
+
+						} else if (1 == selectPlayerIndex) {// 第三方播放器
+
+							try {
+								// 播放视频
+								Intent intent = new Intent(Intent.ACTION_VIEW);
+								Uri uri = Uri.parse(url);
+								intent.setDataAndType(uri, "video/*");
+								mContext.startActivity(intent);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+						}
+						dialog.dismiss();
+
+					}
+
+				}).show();
 	}
 
 }

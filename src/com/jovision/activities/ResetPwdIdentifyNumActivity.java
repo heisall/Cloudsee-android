@@ -37,7 +37,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.MyLog;
 
 public class ResetPwdIdentifyNumActivity extends BaseActivity implements
-OnClickListener, TextWatcher {
+		OnClickListener, TextWatcher {
 
 	private static final String TAG = "RESET_PWD";
 	private static final int RETRY_INTERVAL = 60;
@@ -228,7 +228,7 @@ OnClickListener, TextWatcher {
 		titleTv.setText(R.string.reset_passwd_tips6);
 		tvGetNum = (TextView) findViewById(R.id.tv_sms_tips);
 		tvPhoneNum = (TextView) findViewById(R.id.tv_phone_code);
-		tvPhoneNum.setText("+"+currentCode+"  ");
+		tvPhoneNum.setText("+" + currentCode + "  ");
 		tvGetNum.setOnClickListener(this);
 
 		tvFormatedPhone = (TextView) findViewById(R.id.tv_formated_phone);

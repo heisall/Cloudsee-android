@@ -153,6 +153,7 @@
     <string name="str_out_memery">您的手机未插入SDCard,暂时无法使用此功能.</string>
     <string name="str_sdcard_notenough">您的手机内存卡内存不足.</string>
     <string name="str_finish">完成</string>
+    <string name="str_register">注册</string>
     <!-- 远程回放 -->
     <string name="str_search">检索</string>
     <string name="str_start_time">开始时间</string>
@@ -703,5 +704,5 @@
     <string name="str_set_new_pwd">设置新密码</string>
     <string name="str_set_new_pwd_ok">新密码设置成功，请重新登录</string>
     <string name="str_query_account_failed">查询账号信息失败</string>
-
+	<string name="str_not_bind_phone_tips1">您的账号没有绑定手机，请通过邮箱找回</string>
 </resources>

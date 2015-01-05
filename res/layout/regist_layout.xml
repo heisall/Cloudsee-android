@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/editimport"
                 android:hint="@string/str_enter_username1"
-                android:inputType="text"
+                android:inputType="number"
                 android:paddingLeft="20dp"
                 android:textColor="@color/registtextcolor" />
 
@@ -48,11 +48,12 @@
                 android:orientation="horizontal" >
 
                 <EditText
+                    android:id="@+id/code"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:background="@drawable/editimport"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:paddingLeft="20dp"
                     android:textColor="@color/registtextcolor" />
 

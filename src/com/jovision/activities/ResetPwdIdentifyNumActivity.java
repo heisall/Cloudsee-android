@@ -44,8 +44,6 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	private ProgressDialog pd;
 	// 默认使用中国区号
 	private static final String DEFAULT_COUNTRY_ID = "42";
-	private EventHandler callback;
-	private String currentId;
 	private String currentCode;
 	private EventHandler handler;
 	private int time = RETRY_INTERVAL;
@@ -60,7 +58,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	private Button nextButton;
 	private String strAccount, strPhone, formatedPhone;
 	private String SMS_APP_ID, SMS_APP_SECRET;
-	private TextView tvGetNum, tvTopTips, tvFormatedPhone, tvPhoneNum;
+	private TextView tvGetNum, tvFormatedPhone, tvPhoneNum;
 	private String strIdentifyNum;
 	private BroadcastReceiver smsReceiver;
 
@@ -98,14 +96,14 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 			e.printStackTrace();
 		}
 
-		currentId = DEFAULT_COUNTRY_ID;
 		String[] country = getCurrentCountry();
 		if (country != null) {
 			currentCode = country[1];
 			Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
 					+ country[0]);
 		}
-		formatedPhone = strPhone;
+		formatedPhone = String.format("%s  %s", currentCode, strPhone);
+
 
 		handler = new EventHandler() {
 			@SuppressWarnings("unchecked")
@@ -230,13 +228,12 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		tvPhoneNum = (TextView) findViewById(R.id.tv_phone_code);
 		tvPhoneNum.setText("+" + currentCode + "  ");
 		tvGetNum.setOnClickListener(this);
+		tvGetNum.setTextColor(getResources().getColor(R.color.link_color));
+		tvGetNum.setText(getResources().getString(R.string.str_resend_code));
+		tvGetNum.setEnabled(true);
 
 		tvFormatedPhone = (TextView) findViewById(R.id.tv_formated_phone);
 		tvFormatedPhone.setText(formatedPhone);
-	}
-
-	public void setRegisterCallback(EventHandler callback) {
-		this.callback = callback;
 	}
 
 	public void onResume() {
@@ -343,6 +340,12 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 							R.string.reset_passwd_tips3));
 					pd.show();
 				}
+				tvGetNum.setTextColor(getResources().getColor(
+						R.color.link_color));
+				tvGetNum.setText(getResources().getString(
+						R.string.str_resend_code));
+				tvGetNum.setEnabled(true);
+				athandler.removeCallbacks(timerRunable);
 				SMSSDK.submitVerificationCode(currentCode, strPhone,
 						strIdentifyNum);
 			} else {
@@ -442,11 +445,14 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		});
 	}
 
+	private Runnable timerRunable = null;
+
 	// 倒数计时
 	private void countDown() {
 
 		runOnUIThread(new Runnable() {
 			public void run() {
+				timerRunable = this;
 				String strTips = getResources().getString(
 						R.string.str_receive_sms_time);
 				time--;
@@ -462,7 +468,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 					strTips = strTips.replace("SS", String.valueOf(time));
 					tvGetNum.setText(strTips);
 					tvGetNum.setEnabled(false);
-					runOnUIThread(this, 1000);
+					runOnUIThread(timerRunable, 1000);
 				}
 			}
 		}, 1000);

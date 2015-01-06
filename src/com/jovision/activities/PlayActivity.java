@@ -37,12 +37,13 @@ import com.jovision.bean.Channel;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyAudio;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.MyViewPager;
 
 public abstract class PlayActivity extends BaseActivity implements
-OnPageChangeListener {
+		OnPageChangeListener {
 
 	protected static final int PLAY_AUDIO_WHAT = 0x26;
 	public static MyAudio playAudio;
@@ -111,8 +112,8 @@ OnPageChangeListener {
 
 	/** 云台操作 */
 	protected ImageView autoimage, zoomIn, zoomout, scaleSmallImage,
-	scaleAddImage, upArrow, downArrow, leftArrow, rightArrow,
-	yt_cancle;
+			scaleAddImage, upArrow, downArrow, leftArrow, rightArrow,
+			yt_cancle;
 
 	/** layout 下 */
 	protected Button capture;// 抓拍
@@ -171,6 +172,7 @@ OnPageChangeListener {
 	/**
 	 * 帮助界面
 	 * */
+	private RelativeLayout playHelp;
 	private ViewPager viewpager;
 
 	// 当前页面索引
@@ -230,11 +232,16 @@ OnPageChangeListener {
 		setContentView(R.layout.play_layout);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);// 屏幕常亮
 
-		/**帮助图*/
-		viewpager = (ViewPager)findViewById(R.id.playhelp_viewpager);
-		ll_dot = (LinearLayout)findViewById(R.id.play_ll_dot);
+		/** 帮助图 */
+		playHelp = (RelativeLayout)findViewById(R.id.playhelp);
+		if (MySharedPreference.getBoolean("playhelp1")) {
+			playHelp.setVisibility(View.GONE);
+		}else {
+			playHelp.setVisibility(View.VISIBLE);
+		}
+		viewpager = (ViewPager) findViewById(R.id.playhelp_viewpager);
+		ll_dot = (LinearLayout) findViewById(R.id.play_ll_dot);
 		viewpager.setOnPageChangeListener(PlayActivity.this);
-		getPic() ;
 		ll_dot.setVisibility(View.VISIBLE);
 		viewpager.setCurrentItem(0);
 		viewpager.setVisibility(View.VISIBLE);
@@ -364,7 +371,7 @@ OnPageChangeListener {
 		playFunctionList = (ListView) findViewById(R.id.play_function_list_layout);
 		functionList.add(getResources().getString(R.string.str_yt_operate));
 		functionList
-		.add(getResources().getString(R.string.str_remote_playback));
+				.add(getResources().getString(R.string.str_remote_playback));
 		functionList.add(getResources().getString(R.string.str_audio_monitor));
 		functionListAdapter = new FuntionAdapter(PlayActivity.this, bigScreen,
 				playFlag);
@@ -459,7 +466,9 @@ OnPageChangeListener {
 		pics.add(view2);
 		pics.add(view3);
 		initDot(2);
+		MySharedPreference.putBoolean("playhelp1", true);
 	}
+
 	private void initDot(int dotnum) {
 		dots = new ArrayList<ImageView>();
 		// 得到点的父布局
@@ -470,7 +479,6 @@ OnPageChangeListener {
 		}
 		dots.get(currentImage).setEnabled(true); // 因为默认显示第一张图片，将第一个点设置为黑色
 	}
-
 
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
@@ -491,16 +499,13 @@ OnPageChangeListener {
 				dots.get(currentImage).setEnabled(true); // 当前点设置为黑色
 				oldImage = currentImage; // 改变前一个索引
 				currentImage = (currentImage) % 2; // 有几张就对几求余
-				onNotify(0, currentImage, 0, null);
 			}
 			if (arg0 == 2) {
 				viewpager.setVisibility(View.GONE);
 				ll_dot.setVisibility(View.GONE);
 			}
-		} 
+		}
 	}
-
-
 
 	/**
 	 * 横竖屏布局隐藏显示
@@ -509,10 +514,10 @@ OnPageChangeListener {
 		if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
 			viewPager.setDisableSliding(false);
 			getWindow()
-			.setFlags(
-					disMetrics.widthPixels
-					- getStatusHeight(PlayActivity.this),
-					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+					.setFlags(
+							disMetrics.widthPixels
+									- getStatusHeight(PlayActivity.this),
+							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			topBar.setVisibility(View.VISIBLE);// 顶部标题栏
 
 			if (Consts.PLAY_AP == playFlag) {
@@ -618,7 +623,7 @@ OnPageChangeListener {
 			// 录像模式
 			rightFuncButton.setTextSize(8);
 			rightFuncButton
-			.setTextColor(getResources().getColor(R.color.white));
+					.setTextColor(getResources().getColor(R.color.white));
 			rightFuncButton.setBackgroundDrawable(null);
 			if (Consts.STORAGEMODE_NORMAL == channel.getStorageMode()) {
 				rightFuncButton.setText(R.string.video_normal);

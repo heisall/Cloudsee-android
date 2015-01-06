@@ -165,7 +165,7 @@ public class ChannelAdapter extends BaseAdapter {
 
 							@Override
 							public void onClick(View arg0) {
-								dialog(channel);
+								delChanneldialog(channelList.size(), channel);
 							}
 						});
 
@@ -217,11 +217,26 @@ public class ChannelAdapter extends BaseAdapter {
 		ImageView channelEditIV;
 	}
 
-	protected void dialog(final int channel) {
+	/**
+	 * 删除通道
+	 * 
+	 * @param size
+	 * @param channel
+	 */
+	protected void delChanneldialog(int size, final int channel) {
 		String okString = mfragment.getActivity().getResources()
 				.getString(R.string.ok);
-		String delectString = mfragment.getActivity().getResources()
-				.getString(R.string.str_delete_sure);
+
+		String delectString = "";
+
+		if (size > 1) {
+			delectString = mfragment.getActivity().getResources()
+					.getString(R.string.str_delete_sure);
+		} else {
+			delectString = mfragment.getActivity().getResources()
+					.getString(R.string.delete_dev_sure);
+		}
+
 		String warmString = mfragment.getActivity().getResources()
 				.getString(R.string.str_delete_tip);
 		String cancleString = mfragment.getActivity().getResources()

@@ -750,6 +750,7 @@ public class ConfigUtil {
 			str = new String(b, "UTF-8");
 			Pattern pattern = Pattern
 					.compile("^[A-Za-z0-9_.()\\+\\-\\u4e00-\\u9fa5]{1,20}$");
+
 			Matcher matcher = pattern.matcher(str);
 			if (matcher.matches() && 20 >= str.getBytes().length) {
 				flag = true;
@@ -806,6 +807,31 @@ public class ConfigUtil {
 			flag = true;
 		}
 		return flag;
+	}
+
+	/**
+	 * 验证设备密码
+	 * 
+	 * @param str
+	 * @return 中文返回false 非中文返回true
+	 */
+	public static boolean checkDevPwd(String str) {
+		boolean flag = false;
+		try {
+			byte[] b = str.getBytes("UTF-8");
+			str = new String(b, "UTF-8");
+			Pattern pattern = Pattern.compile("[^\u4e00-\u9fa5]{0,12}$");// 非中文正则
+			Matcher matcher = pattern.matcher(str);
+			if (matcher.matches()) {
+				flag = true;
+			} else {
+				flag = false;
+			}
+		} catch (UnsupportedEncodingException e) {
+			flag = false;
+		}
+		return flag;
+
 	}
 
 	/**

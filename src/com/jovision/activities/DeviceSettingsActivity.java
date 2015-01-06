@@ -142,11 +142,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		case Consts.CALL_CONNECT_CHANGE:
 			switch (arg2) {
 			case JVNetConst.DISCONNECT_OK: {
-
 				bConnectedFlag = false;
-
-			}
 				break;
+			}
+
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
 				bConnectedFlag = false;

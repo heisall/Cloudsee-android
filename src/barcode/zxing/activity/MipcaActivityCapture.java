@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
@@ -221,7 +222,9 @@ public class MipcaActivityCapture extends Activity implements Callback {
 
 					}
 				});
-		builder.create().show();
+		Dialog dialog = builder.create();
+		dialog.setCancelable(false);
+		dialog.show();
 	}
 
 	// 错误设备

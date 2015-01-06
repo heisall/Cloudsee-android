@@ -80,7 +80,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/middles"
                 android:layout_marginRight="30dp"
-                android:text="随意添加设备"
+                android:text="@string/playhelp_pull"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/pai"
                 android:layout_marginLeft="70dp"
-                android:text="随意添加设备"
+                android:text="@string/playhelp_moreview"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -100,7 +100,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="20dp"
                 android:layout_marginRight="10dp"
-                android:text="随意添加设备"
+                android:text="@string/playhelp_maliu"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 

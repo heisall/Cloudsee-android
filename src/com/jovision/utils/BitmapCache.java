@@ -91,7 +91,16 @@ public class BitmapCache {
 					bmp = loadImageBitmap(file.getAbsolutePath(), -1);
 				} else {
 					bmp = loadNetBitmap(path, fileName);
-					saveToLocal(path, fileName);
+					saveToLocal(Consts.AD_PATH, path, fileName);
+				}
+			} else if ("welcome".equalsIgnoreCase(kind)) {
+				File file = new File(Consts.WELCOME_IMG_PATH + fileName
+						+ Consts.IMAGE_JPG_KIND);
+				if (file.isFile() && file.exists()) {
+					bmp = loadImageBitmap(file.getAbsolutePath(), -1);
+				} else {
+					bmp = loadNetBitmap(path, fileName);
+					saveToLocal(Consts.WELCOME_IMG_PATH, path, fileName);
 				}
 			}
 			this.addCacheBitmap(bmp, path);
@@ -181,14 +190,14 @@ public class BitmapCache {
 
 	// "http://imgsrc.baidu.com/forum/pic/item/b2738bd49f8fd32da18bb7a4.jpg"
 	// 声明称为静态变量有助于调用
-	public static void saveToLocal(String path, String fileName) {
+	public static void saveToLocal(String path, String imgUrl, String fileName) {
 		try {
-			File adFolder = new File(Consts.AD_PATH);
+			File adFolder = new File(path);
 			MobileUtil.createDirectory(adFolder);
-			File adFile = new File(Consts.AD_PATH + fileName + ".jpg");
+			File adFile = new File(path + fileName + Consts.IMAGE_JPG_KIND);
 			adFile.createNewFile();
 			FileOutputStream outStream = new FileOutputStream(adFile);
-			URL url = new URL(path);
+			URL url = new URL(imgUrl);
 
 			// 记住使用的是HttpURLConnection类
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();

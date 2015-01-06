@@ -1866,7 +1866,7 @@ public class DeviceUtil {
 					JVDeviceConst.PROTO_VERSION);// 1.0
 			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, Consts.PRODUCT_TYPE);// 0：CloudSEE
 																			// 1：NVSIP
-			jObj.put(JVDeviceConst.JK_AD_VERSION, appVersion);// (当前广告版本号)
+			jObj.put(JVDeviceConst.JK_PORTAL_VERSION, appVersion);// (当前广告版本号)
 			jObj.put(JVDeviceConst.JK_TERMINAL_TYPE, Consts.TERMINAL_TYPE);// (终端类型
 																			// 0-未知
 																			// 1-Android

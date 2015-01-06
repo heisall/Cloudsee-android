@@ -705,6 +705,7 @@
     <string name="str_set_new_pwd">設置新密碼</string>
     <string name="str_set_new_pwd_ok">新密碼設置成功，請重新登錄</string>
     <string name="str_query_account_failed">查詢帳號資訊失敗</string>
-	<string name="str_not_bind_phone_tips1">您的賬號沒有綁定手機，請通過信箱找回</string>
-	<string name="str_not_bind_phone_tips2">您的賬號沒有綁定手機和信箱，請聯系客服</string>
+    <string name="str_not_bind_phone_tips1">您的賬號沒有綁定手機，請通過信箱找回</string>
+    <string name="str_not_bind_phone_tips2">您的賬號沒有綁定手機和信箱，請聯系客服</string>
+
 </resources>

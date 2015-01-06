@@ -37,6 +37,8 @@ public class Consts {
 			+ File.separator + "head" + File.separator;
 	public static final String AD_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "ad" + File.separator;
+	public static final String WELCOME_IMG_PATH = Consts.SD_CARD_PATH
+			+ APP_NAME + File.separator + "welcome" + File.separator;
 	public static final String SCENE_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "scene" + File.separator;
 
@@ -547,6 +549,9 @@ public class Consts {
 
 	/** 本地存储AD版本 key */
 	public static final String AD_VERSION = "AD_VERSION";
+
+	/** 本地存储APPImage key */
+	public static final String APP_IMAGE = "APP_IMAGE";
 
 	/** 存储取没取过设备列表key */
 	public static String HAG_GOT_DEVICE = "HAG_GOT_DEVICE";

@@ -351,6 +351,7 @@ public class JVChannelListActivity extends BaseActivity {
 				adapter.notifyDataSetChanged();
 				CacheUtil.saveDevList(deviceList);
 			} else if (1 == result) {
+				CacheUtil.saveDevList(deviceList);
 				// [Neo] 删除最后一个应该退出通过管理界面
 				showTextToast(R.string.del_channel_succ);
 				finish();

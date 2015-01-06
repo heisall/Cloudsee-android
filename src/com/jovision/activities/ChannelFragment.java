@@ -357,7 +357,7 @@ public class ChannelFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {
 			int delRes = -1;
-			int delDevIndex = Integer.parseInt(params[0]);
+			// int delDevIndex = Integer.parseInt(params[0]);
 			int delChannelIndex = Integer.parseInt(params[1]);
 			int channel = deviceList.get(deviceIndex).getChannelList()
 					.get(delChannelIndex).getChannel();
@@ -367,13 +367,13 @@ public class ChannelFragment extends BaseFragment {
 					if (1 == deviceList.get(deviceIndex).getChannelList()
 							.size()) {// 删设备
 						ConfigUtil.deleteSceneFolder(deviceList
-								.get(delDevIndex).getFullNo());
-						deviceList.remove(delDevIndex);
+								.get(deviceIndex).getFullNo());
+						deviceList.remove(deviceIndex);
 						delRes = 1;
 					} else {// 删通道
 						deviceList.get(deviceIndex).getChannelList()
 								.remove(delChannelIndex);
-						ConfigUtil.deleteSceneFile(deviceList.get(delDevIndex)
+						ConfigUtil.deleteSceneFile(deviceList.get(deviceIndex)
 								.getFullNo(), channel);
 						delRes = 0;
 					}
@@ -386,8 +386,8 @@ public class ChannelFragment extends BaseFragment {
 								deviceList.get(deviceIndex).getFullNo());
 						if (0 == delRes) {
 							ConfigUtil.deleteSceneFolder(deviceList.get(
-									delDevIndex).getFullNo());
-							deviceList.remove(delDevIndex);
+									deviceIndex).getFullNo());
+							deviceList.remove(deviceIndex);
 							delRes = 1;
 						}
 					} else {// 删通道
@@ -398,7 +398,7 @@ public class ChannelFragment extends BaseFragment {
 							deviceList.get(deviceIndex).getChannelList()
 									.remove(delChannelIndex);
 							ConfigUtil.deleteSceneFile(
-									deviceList.get(delDevIndex).getFullNo(),
+									deviceList.get(deviceIndex).getFullNo(),
 									channel);
 						}
 					}
@@ -428,6 +428,7 @@ public class ChannelFragment extends BaseFragment {
 				CacheUtil.saveDevList(deviceList);
 			} else if (1 == result) {
 				// [Neo] 删除最后一个应该退出通过管理界面
+				CacheUtil.saveDevList(deviceList);
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.del_channel_succ);
 				((BaseActivity) mActivity).finish();

@@ -204,6 +204,12 @@ public class JVMoreFragment extends BaseFragment {
 		more_modify.setOnClickListener(myOnClickListener);
 		more_findpassword.setOnClickListener(myOnClickListener);
 
+		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
+				.get(Consts.LOCAL_LOGIN))) {
+			more_modifypwd.setVisibility(View.VISIBLE);
+		} else {
+			more_modifypwd.setVisibility(View.GONE);
+		}
 	}
 
 	@Override

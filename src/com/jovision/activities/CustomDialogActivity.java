@@ -284,7 +284,7 @@ public class CustomDialogActivity extends BaseActivity implements
 	}
 
 	private void showToast(String text, int duration) {
-		Toast.makeText(this, text, duration).show();
+		showTextToast(text);
 	}
 
 	/**

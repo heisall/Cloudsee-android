@@ -441,6 +441,7 @@
     <!-- ap配置流程模組 -->
     <string name="quick_setting_searching">正在搜索附近設備網路</string>
     <string name="str_quiksetting_tips_txt">請選擇要配置設備</string>
+     <string name="str_wave_txt">請選擇需添加設備</string>
     <string name="str_quick_setting_alert_1">正在連接設備,請稍候</string>
     <string name="str_quick_setting_connect">無線配置</string>
     <string name="str_quick_setting_waiting">繼續等待</string>

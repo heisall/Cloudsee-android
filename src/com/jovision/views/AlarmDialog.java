@@ -40,6 +40,7 @@ public class AlarmDialog extends Dialog {
 	// private static int alarmDialogObjs = 0;// new 出来的对象数量
 	private static boolean isshowing = false;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
+	private Toast toast;
 
 	public AlarmDialog(Context context) {
 		super(context, R.style.mydialog);
@@ -114,11 +115,8 @@ public class AlarmDialog extends Dialog {
 						deviceList = CacheUtil.getDevList();// 再取一次
 						int dev_index = getDeivceIndex(ystNum);
 						if (dev_index == -1 || dev_index >= deviceList.size()) {
-							Toast.makeText(
-									context,
-									"error index:" + dev_index + ", size:"
-											+ deviceList.size(),
-									Toast.LENGTH_SHORT).show();
+							showTextToast(context, "error index:" + dev_index
+									+ ", size:" + deviceList.size());
 							return;
 						}
 
@@ -135,11 +133,9 @@ public class AlarmDialog extends Dialog {
 								playList.toString());
 						intentPlay.putExtra("DeviceIndex", dev_index);
 						if (deviceList.get(dev_index).getChannelList().size() == 0) {
-							Toast.makeText(
-									context,
+							showTextToast(context,
 									"error channel list size 0, dev_index:"
-											+ dev_index, Toast.LENGTH_SHORT)
-									.show();
+											+ dev_index);
 							return;
 						}
 						intentPlay.putExtra("ChannelofChannel",
@@ -226,4 +222,28 @@ public class AlarmDialog extends Dialog {
 		super.dismiss();
 	}
 
+	/**
+	 * 弹系统消息
+	 * 
+	 * @param context
+	 * @param id
+	 */
+	public void showTextToast(Context context, int id) {
+		String msg = context.getResources().getString(id);
+		if (toast == null) {
+			toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+		} else {
+			toast.setText(msg);
+		}
+		toast.show();
+	}
+
+	public void showTextToast(Context context, String msg) {
+		if (toast == null) {
+			toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+		} else {
+			toast.setText(msg);
+		}
+		toast.show();
+	}
 }

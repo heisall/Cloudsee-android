@@ -243,10 +243,10 @@ public abstract class PlayActivity extends BaseActivity implements
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);// 屏幕常亮
 
 		/** 帮助图 */
-		playHelp = (RelativeLayout)findViewById(R.id.playhelp);
+		playHelp = (RelativeLayout) findViewById(R.id.playhelp);
 		if (MySharedPreference.getBoolean("playhelp1")) {
 			playHelp.setVisibility(View.GONE);
-		}else {
+		} else {
 			playHelp.setVisibility(View.VISIBLE);
 		}
 		viewpager = (ViewPager) findViewById(R.id.playhelp_viewpager);

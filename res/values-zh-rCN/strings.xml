@@ -26,6 +26,7 @@
     <string name="login_str_nike_name_order">含有非法字符,昵称由1–20个字母、数字、汉字及特殊字符–_+().组成</string>
     <string name="login_str_device_account_notnull">请输入用户名</string>
     <string name="login_str_device_pass_notnull">请输入密码</string>
+    <string name="device_pass_notzh">密码不能是中文</string>
     <string name="login_str_device_connnum_notnull">通道数量不能为空</string>
     <string name="login_str_device_account_error">用户名格式不正确，用户名只能由1–16位的英文、数字及._–组成.</string>
     <string name="login_str_device_pass_error">密码格式不正确，密码只能由0–16位字符组成.</string>
@@ -176,6 +177,7 @@
     <string name="str_video_disconnected">视频已断开，暂时无法播放远程回放视频</string>
     <!-- leftFragment -->
     <string name="str_delete_sure">确认删除吗?</string>
+    <string name="delete_dev_sure">删除通道设备也将被删除，是否确认删除?</string>
     <string name="str_delete_tip">提示</string>
     <!-- 登录 -->
     <string name="str_local_login">访客登录</string>

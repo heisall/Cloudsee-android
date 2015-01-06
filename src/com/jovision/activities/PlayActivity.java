@@ -37,6 +37,7 @@ import com.jovision.bean.Channel;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyAudio;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.MyViewPager;
@@ -171,6 +172,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	/**
 	 * 帮助界面
 	 * */
+	private RelativeLayout playHelp;
 	private ViewPager viewpager;
 
 	// 当前页面索引
@@ -231,10 +233,15 @@ public abstract class PlayActivity extends BaseActivity implements
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);// 屏幕常亮
 
 		/** 帮助图 */
+		playHelp = (RelativeLayout)findViewById(R.id.playhelp);
+		if (MySharedPreference.getBoolean("playhelp1")) {
+			playHelp.setVisibility(View.GONE);
+		}else {
+			playHelp.setVisibility(View.VISIBLE);
+		}
 		viewpager = (ViewPager) findViewById(R.id.playhelp_viewpager);
 		ll_dot = (LinearLayout) findViewById(R.id.play_ll_dot);
 		viewpager.setOnPageChangeListener(PlayActivity.this);
-		getPic();
 		ll_dot.setVisibility(View.VISIBLE);
 		viewpager.setCurrentItem(0);
 		viewpager.setVisibility(View.VISIBLE);
@@ -459,6 +466,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		pics.add(view2);
 		pics.add(view3);
 		initDot(2);
+		MySharedPreference.putBoolean("playhelp1", true);
 	}
 
 	private void initDot(int dotnum) {
@@ -491,7 +499,6 @@ public abstract class PlayActivity extends BaseActivity implements
 				dots.get(currentImage).setEnabled(true); // 当前点设置为黑色
 				oldImage = currentImage; // 改变前一个索引
 				currentImage = (currentImage) % 2; // 有几张就对几求余
-				onNotify(0, currentImage, 0, null);
 			}
 			if (arg0 == 2) {
 				viewpager.setVisibility(View.GONE);

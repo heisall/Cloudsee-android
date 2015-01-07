@@ -592,6 +592,31 @@ public class JVLoginActivity extends BaseActivity {
 			if (0 == result) {
 				Intent intentAD = new Intent(JVLoginActivity.this,
 						JVWebViewActivity.class);
+
+				// http://192.168.10.17:8080/WebPlatform/mobile/index.html?plat=A&platv=B&lang=C&sid=D
+				// A：取值范围:iphone/ipad/android/
+				// B：平台版本号
+				// C：语言，参考如下连接中的各语言简写，如简体中文为：zh_cn，http://www.douban.com/group/topic/37393602/
+				// D：登录会话号：未登录则为空
+				//
+				// 以上参数顺序没有要求，大小写没有要求
+				//
+				// 注意：aaa.html后为"?",参数之间使用"&"进行连接
+
+				String lan = "";
+				if (Consts.LANGUAGE_ZH == ConfigUtil
+						.getLanguage2(JVLoginActivity.this)) {
+					lan = "zh_cn";
+				} else if (Consts.LANGUAGE_ZH == ConfigUtil
+						.getLanguage2(JVLoginActivity.this)) {
+					lan = "zh_tw";
+				} else {
+					lan = "en_us";
+				}
+
+				demoUrl = demoUrl + "?" + "plat=Android&platv=1&lang=" + lan
+						+ "&sid=";
+				MyLog.v("demoUrl", demoUrl);
 				intentAD.putExtra("URL", demoUrl);
 				intentAD.putExtra("title", -2);
 				JVLoginActivity.this.startActivity(intentAD);

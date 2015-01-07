@@ -11,6 +11,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ import com.jovision.bean.Device;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.ConfigUtil;
 
 public class DeviceSettingsMainFragment extends Fragment implements
 		OnClickListener, OnMainListener {
@@ -332,6 +335,45 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		device_nameet.setEnabled(false);
 		device_passwordet = (EditText) view
 				.findViewById(R.id.device_passwrodet);
+
+		device_passwordet.addTextChangedListener(new TextWatcher() {
+			private int selectionStart;
+			private int selectionEnd;
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				try {
+					selectionStart = device_passwordet.getSelectionStart();
+					selectionEnd = device_passwordet.getSelectionEnd();
+					if (!ConfigUtil.checkDevPwd(device_passwordet.getText()
+							.toString())) {
+						if (selectionStart > 0) {
+							showTextToast(getActivity(),
+									R.string.device_pass_notzh);
+							s.delete(selectionStart - 1, selectionEnd);
+							int tempSelection = selectionStart;
+							device_passwordet.setText(s);
+							device_passwordet.setSelection(tempSelection);
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		});
+
 		device_password_cancleI = (ImageView) view
 				.findViewById(R.id.device_passwrodet_cancle);
 		dialog_cancle_img.setOnClickListener(this);
@@ -352,13 +394,11 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				if ("".equals(device_passwordet.getText().toString())) {
-					// Toast.makeText(
-					// getActivity(),
-					// getActivity().getResources().getString(
-					// R.string.login_str_device_pass_notnull),
-					// Toast.LENGTH_SHORT).show();
 					showTextToast(getActivity(),
 							R.string.login_str_device_pass_notnull);
+				} else if (!ConfigUtil.checkDevPwd(device_passwordet.getText()
+						.toString())) {
+					showTextToast(getActivity(), R.string.device_pass_notzh);
 				} else {
 					JSONObject paraObject = new JSONObject();
 					try {
@@ -528,6 +568,21 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	 */
 	public void showTextToast(Context context, int id) {
 		String msg = context.getResources().getString(id);
+		if (toast == null) {
+			toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+		} else {
+			toast.setText(msg);
+		}
+		toast.show();
+	}
+
+	/**
+	 * 弹系统消息
+	 * 
+	 * @param context
+	 * @param id
+	 */
+	public void showTextToast(Context context, String msg) {
 		if (toast == null) {
 			toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
 		} else {

@@ -187,6 +187,16 @@ public abstract class PlayActivity extends BaseActivity implements
 	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
 
+	private LinearLayout autoRelative;
+	protected LinearLayout.LayoutParams Params;
+
+	/**
+	 * 横屏帮助图
+	 * */
+	private RelativeLayout horPlayHelp;
+	private ViewPager horViewPager;
+	private MyPagerAdp horadp;
+	private List<View> horpics;
 	/**  */
 	protected TextView currentMenu_v;
 
@@ -297,7 +307,6 @@ public abstract class PlayActivity extends BaseActivity implements
 
 		/** 竖直播放function bar */
 		verPlayBarLayout = (RelativeLayout) findViewById(R.id.play_ver_func);
-
 		decodeBtn = (Button) findViewById(R.id.decodeway);
 		videTurnBtn = (Button) findViewById(R.id.overturn);
 		currentKbps = (Button) findViewById(R.id.kbps);
@@ -324,6 +333,10 @@ public abstract class PlayActivity extends BaseActivity implements
 
 		/** 水平播放function bar */
 		horPlayBarLayout = (RelativeLayout) findViewById(R.id.play_hor_func);
+
+		horPlayHelp = (RelativeLayout) findViewById(R.id.horplayhelp);
+		horViewPager = (ViewPager) findViewById(R.id.horplayhelp_viewpager);
+		horViewPager.setOnPageChangeListener(PlayActivity.this);
 
 		topBarH = (RelativeLayout) horPlayBarLayout.findViewById(R.id.topbarh);
 		left_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_left);// 横屏返回键
@@ -460,13 +473,35 @@ public abstract class PlayActivity extends BaseActivity implements
 				R.layout.help_item7, null);
 		View view2 = LayoutInflater.from(PlayActivity.this).inflate(
 				R.layout.help_item8, null);
+		int height = disMetrics.heightPixels;
+		int width = disMetrics.widthPixels;
+		int useWidth = 0;
+		if (height < width) {
+			useWidth = height;
+		} else {
+			useWidth = width;
+		}
+		autoRelative = (LinearLayout) view2.findViewById(R.id.autoRelative);
+		Params = new LinearLayout.LayoutParams(useWidth,
+				(int) (0.7 * useWidth) - 80);
+		autoRelative.setLayoutParams(Params);
 		View view3 = LayoutInflater.from(PlayActivity.this).inflate(
 				R.layout.help_item6, null);
 		pics.add(view1);
 		pics.add(view2);
 		pics.add(view3);
 		initDot(2);
-		MySharedPreference.putBoolean("playhelp1", true);
+	}
+
+	private void getHorpic() {
+		flag = 1;
+		horpics = new ArrayList<View>();
+		View view1 = LayoutInflater.from(PlayActivity.this).inflate(
+				R.layout.help_item9, null);
+		View view2 = LayoutInflater.from(PlayActivity.this).inflate(
+				R.layout.help_item6, null);
+		horpics.add(view1);
+		horpics.add(view2);
 	}
 
 	private void initDot(int dotnum) {
@@ -501,8 +536,15 @@ public abstract class PlayActivity extends BaseActivity implements
 				currentImage = (currentImage) % 2; // 有几张就对几求余
 			}
 			if (arg0 == 2) {
+				MySharedPreference.putBoolean("playhelp1", true);
 				viewpager.setVisibility(View.GONE);
 				ll_dot.setVisibility(View.GONE);
+			}
+		} else if (flag == 1) {
+			if (arg0 == 1) {
+				MySharedPreference.putBoolean("playhelp2", true);
+				horPlayHelp.setVisibility(View.GONE);
+				viewpager.setVisibility(View.GONE);
 			}
 		}
 	}
@@ -512,6 +554,12 @@ public abstract class PlayActivity extends BaseActivity implements
 	 */
 	protected void setPlayViewSize() {
 		if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
+			if (!MySharedPreference.getBoolean("playhelp1")) {
+				flag = 0;
+				playHelp.setVisibility(View.VISIBLE);
+				viewpager.setVisibility(View.VISIBLE);
+			}
+			horPlayHelp.setVisibility(View.GONE);
 			viewPager.setDisableSliding(false);
 			getWindow()
 					.setFlags(
@@ -550,8 +598,15 @@ public abstract class PlayActivity extends BaseActivity implements
 				surfaceWidth = disMetrics.widthPixels;
 				surfaceHeight = (int) (0.75 * disMetrics.widthPixels);
 			}
-
 		} else {// 横
+			if (!MySharedPreference.getBoolean("playhelp2")) {
+				horPlayHelp.setVisibility(View.VISIBLE);
+				horViewPager.setCurrentItem(0);
+				getHorpic();
+				horadp = new MyPagerAdp(horpics);
+				horViewPager.setAdapter(horadp);
+			}
+			playHelp.setVisibility(View.GONE);
 			viewPager.setDisableSliding(true);
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -596,7 +651,11 @@ public abstract class PlayActivity extends BaseActivity implements
 	 */
 	@SuppressWarnings("deprecation")
 	public void showVerFuc(Channel channel) {
-		verPlayBarLayout.setVisibility(View.GONE);
+		if (MySharedPreference.getBoolean("playhelp1")) {
+			verPlayBarLayout.setVisibility(View.GONE);
+		} else {
+			verPlayBarLayout.setVisibility(View.VISIBLE);
+		}
 		horPlayBarLayout.setVisibility(View.GONE);
 
 		// if (Consts.PLAY_AP == playFlag) {
@@ -683,7 +742,11 @@ public abstract class PlayActivity extends BaseActivity implements
 		if (screen > 1 || !channel.isConnected()) {
 			rightFuncButton.setVisibility(View.GONE);
 			right_btn_h.setVisibility(View.GONE);
-			verPlayBarLayout.setVisibility(View.GONE);
+			if (MySharedPreference.getBoolean("playhelp1")) {
+				verPlayBarLayout.setVisibility(View.GONE);
+			} else {
+				verPlayBarLayout.setVisibility(View.VISIBLE);
+			}
 			horPlayBarLayout.setVisibility(View.GONE);
 		} else {
 			if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏

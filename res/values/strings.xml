@@ -26,6 +26,7 @@
     <string name="login_str_nike_name_order">Ilegal character,the NikeName should be English letter,number,or special characters like .–_+()</string>
     <string name="login_str_device_account_notnull">Please input username.</string>
     <string name="login_str_device_pass_notnull">Please input password.</string>
+    <string name="device_pass_notzh">密码不能是中文</string>
     <string name="login_str_device_connnum_notnull">number of channels can not be empty</string>
     <string name="login_str_device_account_error">Username format incorrect, it can only be formed by 1–15 letters,numbers or. _–.</string>
     <string name="login_str_device_pass_error">Password format incorrect, it can only be formed by 0–15 letters,numbers or _–.</string>
@@ -117,6 +118,15 @@
     <string name="str_has_call">Another client is using Cloud Talk function, please use this function later.</string>
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="play_failed"> play the video failed</string>
+    <!-- PlayHelp -->
+    <string name="playhelp_pull">切换多屏显示</string>
+    <string name="playhelp_moreview">更多→图像查看</string>
+    <string name="playhelp_maliu">切换码流</string>
+    <string name="playhelp_voice">音频开关</string>
+    <string name="playhelp_fanzhuan">视频翻转</string>
+    <string name="playhelp_devicesetting">设置设备功能</string>
+    <string name="playhelp_cloud">手势云台</string>
+    <string name="playhelp_zoom">手势缩放</string>
     <!-- 连接方式 -->
     <string name="cloud_number">CloudSEE ID</string>
     <!-- 更多功能 -->
@@ -141,7 +151,7 @@
     <string name="str_login_out">Log Out</string>
     <!-- 注册 -->
     <string name="str_enter_username">Email/Username</string>
-    <string name="str_enter_username1">Email/Username</string>
+    <string name="str_enter_username1">Phone</string>
     <string name="str_enter_pass1">Password</string>
     <string name="str_enter_pass2">Confirm password</string>
     <string name="str_enter_email">Email</string>
@@ -167,6 +177,7 @@
     <string name="str_video_disconnected">Unable to remote playback due to video has been disconnected.</string>
     <!-- leftFragment -->
     <string name="str_delete_sure">Are you sure to delete?</string>
+    <string name="delete_dev_sure">删除通道设备也将被删除，是否确认删除?</string>
     <string name="str_delete_tip">Tips</string>
     <!-- 登录 -->
     <string name="str_local_login">Visitor Login</string>
@@ -191,14 +202,15 @@
     <string name="str_email_not_exist">Congratulations,email can register.</string>
     <string name="str_reset_not_success">Failed to modify.</string>
     <string name="str_modify_user_info">Complete the user info</string>
-    <string name="str_bound_email">Bind Email</string>
+    <string name="str_bound_email">Bind Phone(Email)</string>
     <string name="str_bound_email_failed">Failed to combine with the Email address.</string>
     <string name="str_bound_email_success">绑定成功</string>
     <string name="str_bound_phone_exist">手机号已被注册</string>
     <string name="str_bound_email_exist">This Email address has been registered.</string>
     <string name="str_device_most_count">Devices quantity has exceeded the limit, please delete the useless devices and add new one then.</string>
     <string name="string_username_modify_tips">Account system has updated, please reset account.</string>
-    <string name="string_email_bound_tips">One Email address or one Phonenumber is suggested to be combined for account security and for more functions.</string>
+    <string name="string_email_bound_tips">One Email address is suggested to be combined for account security and for more functions.</string>
+   <string name="string_email_bound_tips1">One Email address or one Phonenumber is suggested to be combined for account security and for more functions.</string>
     <string name="str_skip">skip</string>
     <string name="str_reset">reseting</string>
     <!-- 修改密码 -->
@@ -474,6 +486,8 @@
     <string name="add_channel_failed">Channel added failed</string>
     <string name="device_connect">Connect All</string>
     <string name="channel_full">Fail to add due to upto limition of Device channel quantity.</string>
+    <!-- JVSystemInfoActivity -->
+    <string name="system_info">系统消息</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">Please input your problems or suggestion.</string>
     <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>
@@ -547,7 +561,7 @@
     <string name="prepare_step">Preparating</string>
     <string name="check_step">View operation demo</string>
     <string name="prepare_set">Preparing configuration</string>
-    <string name="prepare_step1">Please use a needle into the Reset hole at the backside/bottom of the device until you hear the beeping. It needs around 5 seconds.</string>
+    <string name="prepare_step1">请用顶针轻插设备背后的reset孔，\n听到“开始声波配置”语音提示后松开顶针。</string>
     <string name="prepare_step2">Please input password of the network.</string>
     <string name="prepare_step3">View operation demo</string>
     <string name="show_demo">Operation demo</string>
@@ -678,7 +692,7 @@
     <string name="census_version">版本号</string>
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
-    <string name="reset_passwd_input_vercode">Get verification code</string>
+    <string name="reset_passwd_input_vercode"> verification code</string>
     <string name="str_vercode">验证码</string>
     <string name="reset_passwd_account">Account</string>
     <string name="reset_passwd_new_passwd">Password</string>

@@ -104,8 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/play_viewpager"
-                layout="@layout/play_verfunc_layout"
-                android:visibility="gone" />
+                layout="@layout/play_verfunc_layout" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -289,6 +288,18 @@
         android:layout_height="match_parent"
         layout="@layout/play_horfunc_layout"
         android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/horplayhelp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/horplayhelp_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/playhelp"

@@ -83,7 +83,8 @@ public class JVPlayActivity extends PlayActivity implements
 	private int lastClickIndex;
 
 	private Timer doubleClickTimer;
-	private boolean isDoubleClickCheck;
+	private boolean isDoubleClickCheck;// 双击事件
+	private boolean isScrollClickCheck;// 手势滑动事件
 
 	private ArrayList<Device> deviceList;
 	private ArrayList<Channel> channelList;
@@ -259,6 +260,110 @@ public class JVPlayActivity extends PlayActivity implements
 			return;
 		}
 		switch (what) {
+		case Consts.WHAT_SURFACEVIEW_CLICK: {// 单击事件
+
+			if (isScrollClickCheck) {
+				MyLog.e("Click--", "手势云台：time=");
+				lastClickTime = 0;
+				isScrollClickCheck = false;
+				return;
+			}
+			Channel channel = (Channel) obj;
+			int x = arg1;
+			int y = arg2;
+			if (null != channel && channel.isConnected()
+					&& !channel.isConnecting()) {
+				boolean originSize = false;
+				if (channel.getLastPortWidth() == channel.getSurfaceView()
+						.getWidth()) {
+					originSize = true;
+				}
+
+				if (isDoubleClickCheck) {
+					MyLog.e("Click--", "双击：clickTimeBetween=");
+				} else {
+					MyLog.e("Click--", "单击：time=");
+				}
+
+				if (false == isBlockUi && isDoubleClickCheck
+						&& lastClickIndex == channel.getIndex()) {// 双击
+
+					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation
+							|| Consts.PLAY_AP == playFlag) {// 横屏
+						Point vector = new Point();
+						Point middle = new Point();
+						middle.set(x, y);
+						if (originSize) {// 双击放大
+							vector.set(channel.getSurfaceView().getWidth(),
+									channel.getSurfaceView().getHeight());
+							gestureOnView(manager.getView(lastClickIndex),
+									channel,
+									MyGestureDispatcher.GESTURE_TO_BIGGER, 1,
+									vector, middle);
+						} else {// 双击还原
+							vector.set(-channel.getSurfaceView().getWidth(),
+									-channel.getSurfaceView().getHeight());
+							gestureOnView(manager.getView(lastClickIndex),
+									channel,
+									MyGestureDispatcher.GESTURE_TO_SMALLER, -1,
+									vector, middle);
+						}
+					} else {// 竖屏
+						if (ONE_SCREEN != currentScreen) {
+							Channel ch;
+							int size = currentPageChannelList.size();
+							for (int i = 0; i < size; i++) {
+								ch = currentPageChannelList.get(i);
+								if (lastClickIndex - 1 > ch.getIndex()
+										|| lastClickIndex + 1 < ch.getIndex()) {
+									disconnectChannelList.add(ch);
+								} else if (lastClickIndex == ch.getIndex()) {
+									// [Neo] Empty
+								} else {
+									// [Neo] stand alone for single destroy
+									// window, too
+									pauseChannel(ch);
+								}
+							}
+							changeWindow(ONE_SCREEN);
+						} else {
+							disconnectChannelList.addAll(channelList);
+							changeWindow(selectedScreen);
+						}
+					}
+				} else {// 单击
+
+					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+						if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
+							horPlayBarLayout.setVisibility(View.GONE);
+						} else {
+							horPlayBarLayout.setVisibility(View.VISIBLE);
+						}
+					} else {// 竖屏
+						if (ONE_SCREEN == currentScreen) {
+							if (View.VISIBLE == verPlayBarLayout
+									.getVisibility()) {
+								verPlayBarLayout.setVisibility(View.GONE);
+							} else {
+								verPlayBarLayout.setVisibility(View.VISIBLE);
+							}
+						}
+
+						changeBorder(channel.getIndex());
+
+						if (false == isBlockUi) {
+							isDoubleClickCheck = true;
+							if (null != doubleClickTimer) {
+								doubleClickTimer.cancel();
+							}
+						}
+					}
+				}
+			}
+
+			lastClickTime = 0;
+			break;
+		}
 		case Consts.WHAT_RESOLVE_IP_CONNECT: {// 解析完IP连接视频
 
 			boolean isPlayDirectly = false;
@@ -1117,13 +1222,13 @@ public class JVPlayActivity extends PlayActivity implements
 
 											+ "("
 											+ (object.getBoolean("is_turn") ? "TURN"
-													: "P2P") + ")"
-									// + PlayUtil
-									// .hasEnableHelper(channelList
-									// .get(lastClickIndex)
-									// .getParent()
-									// .getFullNo())
-									);
+													: "P2P")
+											+ ")"
+											+ PlayUtil
+													.hasEnableHelper(channelList
+															.get(lastClickIndex)
+															.getParent()
+															.getFullNo()));
 						}
 					}
 
@@ -1405,6 +1510,7 @@ public class JVPlayActivity extends PlayActivity implements
 		lastItemIndex = 0;
 		lastClickIndex = 0;
 		isDoubleClickCheck = false;
+		isScrollClickCheck = false;
 
 		connectChannelList = new ArrayList<Channel>();
 		disconnectChannelList = new ArrayList<Channel>();
@@ -1490,6 +1596,7 @@ public class JVPlayActivity extends PlayActivity implements
 				manager.addChannel(channelList.get(i));
 			}
 			isDoubleClickCheck = false;
+			isScrollClickCheck = false;
 			lastClickIndex = channelList.get(startWindowIndex).getIndex();
 			lastItemIndex = lastClickIndex;
 			// MyLog.i(Consts.TAG_XXX, "JVPlay.init: startWindowIndex="
@@ -3136,22 +3243,24 @@ public class JVPlayActivity extends PlayActivity implements
 					.getWidth()) {
 				originSize = true;
 			}
-
 			int c = 0;
 			switch (gesture) {
 			// 手势放大缩小
 			case MyGestureDispatcher.GESTURE_TO_BIGGER:
 			case MyGestureDispatcher.GESTURE_TO_SMALLER:
 				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+					isScrollClickCheck = true;
 					gestureOnView(manager.getView(index),
 							channelList.get(index), gesture, distance, vector,
 							middle);
 				}
+				lastClickTime = 0;
 				break;
 			// 手势云台
 			case MyGestureDispatcher.GESTURE_TO_LEFT:
 				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					System.out.println("gesture: left");
+					isScrollClickCheck = true;
 					if (originSize) {
 						c = JVNetConst.JVN_YTCTRL_L;
 						sendCmd(c);
@@ -3161,11 +3270,13 @@ public class JVPlayActivity extends PlayActivity implements
 								vector, middle);
 					}
 				}
+				lastClickTime = 0;
 				break;
 
 			case MyGestureDispatcher.GESTURE_TO_UP:
 				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					System.out.println("gesture: up");
+					isScrollClickCheck = true;
 					if (originSize) {
 						c = JVNetConst.JVN_YTCTRL_U;
 						sendCmd(c);
@@ -3175,11 +3286,13 @@ public class JVPlayActivity extends PlayActivity implements
 								vector, middle);
 					}
 				}
+				lastClickTime = 0;
 				break;
 
 			case MyGestureDispatcher.GESTURE_TO_RIGHT:
 				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					System.out.println("gesture: right");
+					isScrollClickCheck = true;
 					if (originSize) {
 						c = JVNetConst.JVN_YTCTRL_R;
 						sendCmd(c);
@@ -3189,11 +3302,13 @@ public class JVPlayActivity extends PlayActivity implements
 								vector, middle);
 					}
 				}
+				lastClickTime = 0;
 				break;
 
 			case MyGestureDispatcher.GESTURE_TO_DOWN:
 				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					System.out.println("gesture: down");
+					isScrollClickCheck = true;
 					if (originSize) {
 						c = JVNetConst.JVN_YTCTRL_D;
 						sendCmd(c);
@@ -3203,97 +3318,26 @@ public class JVPlayActivity extends PlayActivity implements
 								vector, middle);
 					}
 				}
+				lastClickTime = 0;
 				break;
 			// 手势单击双击
 			case MyGestureDispatcher.CLICK_EVENT:
-				boolean isDoubleClickCheck = false;
 				if (0 == lastClickTime) {
+					isDoubleClickCheck = false;
 					lastClickTime = System.currentTimeMillis();
+					handler.sendMessageDelayed(handler.obtainMessage(
+							Consts.WHAT_SURFACEVIEW_CLICK, middle.x, middle.y,
+							channel), 350);
+					MyLog.e("Click1--", "单击：lastClickTime=" + lastClickTime);
 				} else {
 					int clickTimeBetween = (int) (System.currentTimeMillis() - lastClickTime);
+					MyLog.e("Click1--", "双击：clickTimeBetween="
+							+ clickTimeBetween);
 					if (clickTimeBetween < 350) {// 认为双击
 						isDoubleClickCheck = true;
 					}
 					lastClickTime = 0;
 				}
-				if (isDoubleClickCheck) {
-					MyLog.e("Click--", "双击：clickTimeBetween=");
-				} else {
-					MyLog.e("Click--", "单击：time=" + distance);
-				}
-
-				if (false == isBlockUi && isDoubleClickCheck
-						&& lastClickIndex == channel.getIndex()) {// 双击
-
-					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation
-							|| Consts.PLAY_AP == playFlag) {// 横屏
-						if (originSize) {// 双击放大
-							vector.set(channel.getSurfaceView().getWidth(),
-									channel.getSurfaceView().getHeight());
-							gestureOnView(manager.getView(index),
-									channelList.get(index),
-									MyGestureDispatcher.GESTURE_TO_BIGGER, 1,
-									vector, middle);
-						} else {// 双击还原
-							vector.set(-channel.getSurfaceView().getWidth(),
-									-channel.getSurfaceView().getHeight());
-							gestureOnView(manager.getView(index),
-									channelList.get(index),
-									MyGestureDispatcher.GESTURE_TO_SMALLER, -1,
-									vector, middle);
-						}
-					} else {// 竖屏
-						if (ONE_SCREEN != currentScreen) {
-							Channel ch;
-							int size = currentPageChannelList.size();
-							for (int i = 0; i < size; i++) {
-								ch = currentPageChannelList.get(i);
-								if (lastClickIndex - 1 > ch.getIndex()
-										|| lastClickIndex + 1 < ch.getIndex()) {
-									disconnectChannelList.add(ch);
-								} else if (lastClickIndex == ch.getIndex()) {
-									// [Neo] Empty
-								} else {
-									// [Neo] stand alone for single destroy
-									// window, too
-									pauseChannel(ch);
-								}
-							}
-							changeWindow(ONE_SCREEN);
-						} else {
-							disconnectChannelList.addAll(channelList);
-							changeWindow(selectedScreen);
-						}
-					}
-				} else {// 单击
-
-					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-						if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
-							horPlayBarLayout.setVisibility(View.GONE);
-						} else {
-							horPlayBarLayout.setVisibility(View.VISIBLE);
-						}
-					} else {// 竖屏
-						if (ONE_SCREEN == currentScreen) {
-							if (View.VISIBLE == verPlayBarLayout
-									.getVisibility()) {
-								verPlayBarLayout.setVisibility(View.GONE);
-							} else {
-								verPlayBarLayout.setVisibility(View.VISIBLE);
-							}
-						}
-
-						changeBorder(channel.getIndex());
-
-						if (false == isBlockUi) {
-							isDoubleClickCheck = true;
-							if (null != doubleClickTimer) {
-								doubleClickTimer.cancel();
-							}
-						}
-					}
-				}
-
 				break;
 			default:
 				break;
@@ -3485,7 +3529,7 @@ public class JVPlayActivity extends PlayActivity implements
 					.getParent();
 			switch (tag) {
 			case Consts.TAG_PLAY_CONNECTING: {// 连接中
-				verPlayBarLayout.setVisibility(View.GONE);
+				// verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
 						View.VISIBLE);// loading
@@ -3531,7 +3575,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			}
 			case Consts.TAG_PLAY_CONNECTING_BUFFER: {// 缓冲中
-				verPlayBarLayout.setVisibility(View.GONE);
+				// verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
 						View.VISIBLE);// loading

@@ -338,15 +338,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 				break;
 			case R.id.btn_right:
-				initPop();
-				// 点击按钮时，pop显示状态，显示中就消失，否则显示
-				if (popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				} else {
-					// 显示在below正下方
-					popupWindow.showAsDropDown(view,
-							(mActivity.disMetrics.widthPixels / 2), 10);
-				}
+				Intent infoIntent = new Intent();
+				infoIntent.setClass(mActivity, JVSystemInfoActivity.class);
+				mActivity.startActivity(infoIntent);
+
+				// initPop();
+				// // 点击按钮时，pop显示状态，显示中就消失，否则显示
+				// if (popupWindow.isShowing()) {
+				// popupWindow.dismiss();
+				// } else {
+				// // 显示在below正下方
+				// popupWindow.showAsDropDown(view,
+				// (mActivity.disMetrics.widthPixels / 2), 10);
+				// }
 				break;
 			case R.id.device_nameet_cancle:
 				device_nameet.setText("");
@@ -1674,8 +1678,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 	}
 
+	/**
+	 * 下载欢迎界面图
+	 */
 	public void downloadAppImage() {
-		// 本地获取广告数据
+		// 欢迎界面图片数据
 		APPImage app = APPImage.fromJson(MySharedPreference
 				.getString(Consts.APP_IMAGE));
 		int appVersion = 0;
@@ -1692,12 +1699,25 @@ public class JVMyDeviceFragment extends BaseFragment {
 					newAppImage.toString());
 		}
 		app = APPImage.fromJson(MySharedPreference.getString(Consts.APP_IMAGE));
-		BitmapCache.getInstance().getBitmap(app.getAppImageUrlZh(), "welcome",
-				"welcome_zh");
-		BitmapCache.getInstance().getBitmap(app.getAppImageUrlEN(), "welcome",
-				"welcome_en");
-		BitmapCache.getInstance().getBitmap(app.getAppImageUrlZht(), "welcome",
-				"welcome_zht");
 
+		getImage(app, "welcome_zh");
+		getImage(app, "welcome_zht");
+		getImage(app, "welcome_en");
+	}
+
+	/**
+	 * 本地没有图片才去下载
+	 * 
+	 * @param app
+	 * @param fileName
+	 */
+	public void getImage(APPImage app, String fileName) {
+		String welcomePath = Consts.WELCOME_IMG_PATH + fileName
+				+ Consts.IMAGE_JPG_KIND;
+		File imgFile = new File(welcomePath);
+		if (!imgFile.exists()) {
+			BitmapCache.getInstance().getBitmap(app.getAppImageUrlZh(),
+					"welcome", fileName);
+		}
 	}
 }

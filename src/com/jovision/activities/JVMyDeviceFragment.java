@@ -338,19 +338,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 				break;
 			case R.id.btn_right:
-				Intent infoIntent = new Intent();
-				infoIntent.setClass(mActivity, JVSystemInfoActivity.class);
-				mActivity.startActivity(infoIntent);
-
-				// initPop();
-				// // 点击按钮时，pop显示状态，显示中就消失，否则显示
-				// if (popupWindow.isShowing()) {
-				// popupWindow.dismiss();
-				// } else {
-				// // 显示在below正下方
-				// popupWindow.showAsDropDown(view,
-				// (mActivity.disMetrics.widthPixels / 2), 10);
-				// }
+				initPop();
+				// 点击按钮时，pop显示状态，显示中就消失，否则显示
+				if (popupWindow.isShowing()) {
+					popupWindow.dismiss();
+				} else {
+					// 显示在below正下方
+					popupWindow.showAsDropDown(view,
+							(mActivity.disMetrics.widthPixels / 2), 10);
+				}
 				break;
 			case R.id.device_nameet_cancle:
 				device_nameet.setText("");

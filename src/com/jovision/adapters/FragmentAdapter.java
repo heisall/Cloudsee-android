@@ -60,7 +60,7 @@ public class FragmentAdapter extends BaseAdapter {
 				R.layout.fragment_more_item, null);
 		more_relative = (RelativeLayout) convertView
 				.findViewById(R.id.more_relative);
-		item_new = (ImageView)convertView.findViewById(R.id.item_new);
+		item_new = (ImageView) convertView.findViewById(R.id.item_new);
 		more_item = (FrameLayout) convertView.findViewById(R.id.item);
 		divider_img = (ImageView) convertView.findViewById(R.id.divider_img);
 		item_img = (ImageView) convertView.findViewById(R.id.item_img);
@@ -94,12 +94,12 @@ public class FragmentAdapter extends BaseAdapter {
 		}
 		if (position == 7) {
 			if (!MySharedPreference.getBoolean("SystemMessage")) {
-					item_new.setVisibility(View.VISIBLE);
+				item_new.setVisibility(View.VISIBLE);
 			}
 		}
 		if (position == 6) {
 			if (!MySharedPreference.getBoolean("VideoSquer")) {
-					item_new.setVisibility(View.VISIBLE);
+				item_new.setVisibility(View.VISIBLE);
 			}
 		}
 		if (position == 9

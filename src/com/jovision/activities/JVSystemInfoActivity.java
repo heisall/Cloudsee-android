@@ -42,7 +42,8 @@ public class JVSystemInfoActivity extends BaseActivity implements
 	@Override
 	protected void initSettings() {
 		GetInfoTask task = new GetInfoTask();
-		// task.execute(params);
+		String[] params = new String[3];
+		task.execute(params);
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class JVSystemInfoActivity extends BaseActivity implements
 		back = (Button) findViewById(R.id.btn_left);
 		rightButton = (Button) findViewById(R.id.btn_right);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText(R.string.more_modifypwd);
+		currentMenu.setText(R.string.system_info);
 		rightButton.setVisibility(View.GONE);
 		back.setOnClickListener(myOnClickListener);
 

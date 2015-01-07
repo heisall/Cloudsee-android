@@ -83,7 +83,8 @@ public class JVPlayActivity extends PlayActivity implements
 	private int lastClickIndex;
 
 	private Timer doubleClickTimer;
-	private boolean isDoubleClickCheck;
+	private boolean isDoubleClickCheck;// 双击事件
+	private boolean isScrollClickCheck;// 手势滑动事件
 
 	private ArrayList<Device> deviceList;
 	private ArrayList<Channel> channelList;
@@ -260,6 +261,13 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 		switch (what) {
 		case Consts.WHAT_SURFACEVIEW_CLICK: {// 单击事件
+
+			if (isScrollClickCheck) {
+				MyLog.e("Click--", "手势云台：time=");
+				lastClickTime = 0;
+				isScrollClickCheck = false;
+				return;
+			}
 			Channel channel = (Channel) obj;
 			int x = arg1;
 			int y = arg2;
@@ -1502,6 +1510,7 @@ public class JVPlayActivity extends PlayActivity implements
 		lastItemIndex = 0;
 		lastClickIndex = 0;
 		isDoubleClickCheck = false;
+		isScrollClickCheck = false;
 
 		connectChannelList = new ArrayList<Channel>();
 		disconnectChannelList = new ArrayList<Channel>();
@@ -1587,6 +1596,7 @@ public class JVPlayActivity extends PlayActivity implements
 				manager.addChannel(channelList.get(i));
 			}
 			isDoubleClickCheck = false;
+			isScrollClickCheck = false;
 			lastClickIndex = channelList.get(startWindowIndex).getIndex();
 			lastItemIndex = lastClickIndex;
 			// MyLog.i(Consts.TAG_XXX, "JVPlay.init: startWindowIndex="
@@ -3233,13 +3243,13 @@ public class JVPlayActivity extends PlayActivity implements
 					.getWidth()) {
 				originSize = true;
 			}
-
 			int c = 0;
 			switch (gesture) {
 			// 手势放大缩小
 			case MyGestureDispatcher.GESTURE_TO_BIGGER:
 			case MyGestureDispatcher.GESTURE_TO_SMALLER:
 				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+					isScrollClickCheck = true;
 					gestureOnView(manager.getView(index),
 							channelList.get(index), gesture, distance, vector,
 							middle);
@@ -3250,6 +3260,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case MyGestureDispatcher.GESTURE_TO_LEFT:
 				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					System.out.println("gesture: left");
+					isScrollClickCheck = true;
 					if (originSize) {
 						c = JVNetConst.JVN_YTCTRL_L;
 						sendCmd(c);
@@ -3265,6 +3276,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case MyGestureDispatcher.GESTURE_TO_UP:
 				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					System.out.println("gesture: up");
+					isScrollClickCheck = true;
 					if (originSize) {
 						c = JVNetConst.JVN_YTCTRL_U;
 						sendCmd(c);
@@ -3280,6 +3292,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case MyGestureDispatcher.GESTURE_TO_RIGHT:
 				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					System.out.println("gesture: right");
+					isScrollClickCheck = true;
 					if (originSize) {
 						c = JVNetConst.JVN_YTCTRL_R;
 						sendCmd(c);
@@ -3295,6 +3308,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case MyGestureDispatcher.GESTURE_TO_DOWN:
 				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					System.out.println("gesture: down");
+					isScrollClickCheck = true;
 					if (originSize) {
 						c = JVNetConst.JVN_YTCTRL_D;
 						sendCmd(c);
@@ -3308,7 +3322,6 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			// 手势单击双击
 			case MyGestureDispatcher.CLICK_EVENT:
-
 				if (0 == lastClickTime) {
 					isDoubleClickCheck = false;
 					lastClickTime = System.currentTimeMillis();

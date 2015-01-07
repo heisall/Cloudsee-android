@@ -119,14 +119,14 @@
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="play_failed"> play the video failed</string>
     <!-- PlayHelp -->
-    <string name = "playhelp_pull">切换多屏显示</string>
-	<string name = "playhelp_moreview">更多→图像查看</string>
-	<string name = "playhelp_maliu">切换码流</string>
-	<string name = "playhelp_voice">音频开关</string>
-	<string name = "playhelp_fanzhuan">视频翻转</string>
-	<string name = "playhelp_devicesetting">设置设备功能</string>
-	<string name = "playhelp_cloud">手势云台</string>
-	<string name = "playhelp_zoom">手势缩放</string>
+    <string name="playhelp_pull">切换多屏显示</string>
+    <string name="playhelp_moreview">更多→图像查看</string>
+    <string name="playhelp_maliu">切换码流</string>
+    <string name="playhelp_voice">音频开关</string>
+    <string name="playhelp_fanzhuan">视频翻转</string>
+    <string name="playhelp_devicesetting">设置设备功能</string>
+    <string name="playhelp_cloud">手势云台</string>
+    <string name="playhelp_zoom">手势缩放</string>
     <!-- 连接方式 -->
     <string name="cloud_number">CloudSEE ID</string>
     <!-- 更多功能 -->

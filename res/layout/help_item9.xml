@@ -17,16 +17,16 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="80dp"
             android:background="@drawable/cloudterrace" />
-        <TextView 
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:text="@string/playhelp_cloud"
-            android:layout_centerVertical="true"
-            android:textSize="20dp"
             android:textColor="@color/white"
-            />
+            android:textSize="20dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -34,24 +34,25 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/helptransparent" >
-          <ImageView
-              android:id="@+id/zoom"
+
+        <ImageView
+            android:id="@+id/zoom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="50dp"
             android:background="@drawable/zoom" />
-            <TextView 
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/zoom"
-            android:layout_marginLeft="10dp"
-            android:text="@string/playhelp_zoom"
             android:layout_centerVertical="true"
-            android:textSize="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/zoom"
+            android:text="@string/playhelp_zoom"
             android:textColor="@color/white"
-            />
+            android:textSize="20dp" />
     </RelativeLayout>
 
 </LinearLayout>

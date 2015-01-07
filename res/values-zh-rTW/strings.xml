@@ -119,14 +119,14 @@
     <string name="str_call_close"> 對講功能成功關閉</string>
     <string name="play_failed"> 播放失敗</string>
     <!-- PlayHelp -->
-    <string name = "playhelp_pull">切換多屏顯示</string>
-	<string name = "playhelp_moreview">更多→圖像查看</string>
-	<string name = "playhelp_maliu">切換碼流</string>
-	<string name = "playhelp_voice">音頻開關</string>
-	<string name = "playhelp_fanzhuan">視頻翻轉</string>
-	<string name = "playhelp_devicesetting">設置設備功能</string>
-	<string name = "playhelp_cloud">手勢雲臺</string>
-	<string name = "playhelp_zoom">手勢縮放</string>
+    <string name="playhelp_pull">切換多屏顯示</string>
+    <string name="playhelp_moreview">更多→圖像查看</string>
+    <string name="playhelp_maliu">切換碼流</string>
+    <string name="playhelp_voice">音頻開關</string>
+    <string name="playhelp_fanzhuan">視頻翻轉</string>
+    <string name="playhelp_devicesetting">設置設備功能</string>
+    <string name="playhelp_cloud">手勢雲臺</string>
+    <string name="playhelp_zoom">手勢縮放</string>
     <!-- 連接方式 -->
     <string name="cloud_number">雲視通號</string>
     <!-- 更多功能 -->

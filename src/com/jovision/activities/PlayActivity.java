@@ -189,7 +189,7 @@ public abstract class PlayActivity extends BaseActivity implements
 
 	private LinearLayout autoRelative;
 	protected LinearLayout.LayoutParams Params;
-	
+
 	/**
 	 * 横屏帮助图
 	 * */
@@ -334,10 +334,10 @@ public abstract class PlayActivity extends BaseActivity implements
 		/** 水平播放function bar */
 		horPlayBarLayout = (RelativeLayout) findViewById(R.id.play_hor_func);
 
-		horPlayHelp = (RelativeLayout)findViewById(R.id.horplayhelp);
-		horViewPager = (ViewPager)findViewById(R.id.horplayhelp_viewpager);
+		horPlayHelp = (RelativeLayout) findViewById(R.id.horplayhelp);
+		horViewPager = (ViewPager) findViewById(R.id.horplayhelp_viewpager);
 		horViewPager.setOnPageChangeListener(PlayActivity.this);
-		
+
 		topBarH = (RelativeLayout) horPlayBarLayout.findViewById(R.id.topbarh);
 		left_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_left);// 横屏返回键
 		currentMenu_h = (TextView) horPlayBarLayout
@@ -481,9 +481,9 @@ public abstract class PlayActivity extends BaseActivity implements
 		} else {
 			useWidth = width;
 		}
-		autoRelative = (LinearLayout)view2.findViewById(R.id.autoRelative);
+		autoRelative = (LinearLayout) view2.findViewById(R.id.autoRelative);
 		Params = new LinearLayout.LayoutParams(useWidth,
-				(int) (0.7* useWidth)-80);
+				(int) (0.7 * useWidth) - 80);
 		autoRelative.setLayoutParams(Params);
 		View view3 = LayoutInflater.from(PlayActivity.this).inflate(
 				R.layout.help_item6, null);
@@ -504,7 +504,6 @@ public abstract class PlayActivity extends BaseActivity implements
 		horpics.add(view2);
 	}
 
-	
 	private void initDot(int dotnum) {
 		dots = new ArrayList<ImageView>();
 		// 得到点的父布局
@@ -541,12 +540,12 @@ public abstract class PlayActivity extends BaseActivity implements
 				viewpager.setVisibility(View.GONE);
 				ll_dot.setVisibility(View.GONE);
 			}
-		}else if (flag == 1) {
-				if (arg0 == 1) {
-					MySharedPreference.putBoolean("playhelp2", true);
-					horPlayHelp.setVisibility(View.GONE);
-					viewpager.setVisibility(View.GONE);
-				}
+		} else if (flag == 1) {
+			if (arg0 == 1) {
+				MySharedPreference.putBoolean("playhelp2", true);
+				horPlayHelp.setVisibility(View.GONE);
+				viewpager.setVisibility(View.GONE);
+			}
 		}
 	}
 
@@ -556,7 +555,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	protected void setPlayViewSize() {
 		if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
 			if (!MySharedPreference.getBoolean("playhelp1")) {
-				flag =0;
+				flag = 0;
 				playHelp.setVisibility(View.VISIBLE);
 				viewpager.setVisibility(View.VISIBLE);
 			}
@@ -654,7 +653,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	public void showVerFuc(Channel channel) {
 		if (MySharedPreference.getBoolean("playhelp1")) {
 			verPlayBarLayout.setVisibility(View.GONE);
-		}else {
+		} else {
 			verPlayBarLayout.setVisibility(View.VISIBLE);
 		}
 		horPlayBarLayout.setVisibility(View.GONE);
@@ -745,7 +744,7 @@ public abstract class PlayActivity extends BaseActivity implements
 			right_btn_h.setVisibility(View.GONE);
 			if (MySharedPreference.getBoolean("playhelp1")) {
 				verPlayBarLayout.setVisibility(View.GONE);
-			}else {
+			} else {
 				verPlayBarLayout.setVisibility(View.VISIBLE);
 			}
 			horPlayBarLayout.setVisibility(View.GONE);

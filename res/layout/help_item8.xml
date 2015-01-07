@@ -134,7 +134,6 @@
             android:layout_below="@+id/ten"
             android:layout_marginLeft="50dp"
             android:background="@drawable/play_turn" />
-
     </RelativeLayout>
 
     <RelativeLayout

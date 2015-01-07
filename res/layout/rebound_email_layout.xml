@@ -19,17 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:orientation="vertical" >
-
-        <EditText
-            android:id="@+id/rebindmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/str_enter_email"
-            android:paddingLeft="20dp"
-            android:singleLine="true"
-            android:textColor="@color/registtextcolor"
-            android:visibility="visible" />
-
         <EditText
             android:id="@+id/rebindphone"
             android:layout_width="match_parent"
@@ -39,7 +28,15 @@
             android:singleLine="true"
             android:textColor="@color/registtextcolor"
             android:visibility="visible" />
-
+        <EditText
+            android:id="@+id/rebindmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/str_enter_email"
+            android:paddingLeft="20dp"
+            android:singleLine="true"
+            android:textColor="@color/registtextcolor"
+            android:visibility="visible" />
         <Button
             android:id="@+id/finish"
             android:layout_width="match_parent"
@@ -71,7 +68,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/caution"
             android:singleLine="false"
-            android:text="@string/string_email_bound_tips"
+            android:text="@string/string_email_bound_tips1"
             android:textColor="@color/logintextcolor1"
             android:textSize="16sp" />
     </RelativeLayout>

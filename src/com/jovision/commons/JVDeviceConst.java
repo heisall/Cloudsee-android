@@ -489,4 +489,14 @@ public class JVDeviceConst {
 	public static final String JK_PORTAL = "por";
 	public static final String JK_PORTAL_EN = "poren";
 	public static final String JK_PORTAL_ZHT = "porzht";
+
+	/** 软件系统消息接口 */
+	public static final int GET_PUBLISH_INFO = 5504;
+	public static final int AD_PUBLISH_PROCESS_RESPONSE = 5505;
+	public static final String JK_LANGUAGE_TYPE = "langt";
+	public static final String JK_PUB_INDEX_START = "pistart";
+	public static final String JK_PUB_COUNT = "pcount";
+	public static final String JK_PUB_TIME = "ptime";
+	public static final String JK_PUB_INFO = "pinfo";
+	public static final String JK_PUB_LIST = "plist";
 }

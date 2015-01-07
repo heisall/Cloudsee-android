@@ -485,6 +485,8 @@
     <string name="add_channel_failed">Channel added failed</string>
     <string name="device_connect">Connect All</string>
     <string name="channel_full">Fail to add due to upto limition of Device channel quantity.</string>
+    <!-- JVSystemInfoActivity -->
+    <string name="system_info">系统消息</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">Please input your problems or suggestion.</string>
     <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>

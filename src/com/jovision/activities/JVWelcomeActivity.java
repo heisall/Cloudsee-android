@@ -125,11 +125,11 @@ public class JVWelcomeActivity extends BaseActivity {
 				welcomeImage.setImageBitmap(bitmap);
 			} else {
 				welcomeImage.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.welcome_default));
+						R.drawable.welcome_1));
 			}
 		} else {
 			welcomeImage.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.welcome_default));
+					R.drawable.welcome_1));
 		}
 
 		StatConfig.setDebugEnable(true);

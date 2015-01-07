@@ -151,7 +151,7 @@
     <string name="str_login_out">Log Out</string>
     <!-- 注册 -->
     <string name="str_enter_username">Email/Username</string>
-    <string name="str_enter_username1">Email/Username</string>
+    <string name="str_enter_username1">Phone</string>
     <string name="str_enter_pass1">Password</string>
     <string name="str_enter_pass2">Confirm password</string>
     <string name="str_enter_email">Email</string>
@@ -202,14 +202,15 @@
     <string name="str_email_not_exist">Congratulations,email can register.</string>
     <string name="str_reset_not_success">Failed to modify.</string>
     <string name="str_modify_user_info">Complete the user info</string>
-    <string name="str_bound_email">Bind Email</string>
+    <string name="str_bound_email">Bind Phone(Email)</string>
     <string name="str_bound_email_failed">Failed to combine with the Email address.</string>
     <string name="str_bound_email_success">绑定成功</string>
     <string name="str_bound_phone_exist">手机号已被注册</string>
     <string name="str_bound_email_exist">This Email address has been registered.</string>
     <string name="str_device_most_count">Devices quantity has exceeded the limit, please delete the useless devices and add new one then.</string>
     <string name="string_username_modify_tips">Account system has updated, please reset account.</string>
-    <string name="string_email_bound_tips">One Email address or one Phonenumber is suggested to be combined for account security and for more functions.</string>
+    <string name="string_email_bound_tips">One Email address is suggested to be combined for account security and for more functions.</string>
+   <string name="string_email_bound_tips1">One Email address or one Phonenumber is suggested to be combined for account security and for more functions.</string>
     <string name="str_skip">skip</string>
     <string name="str_reset">reseting</string>
     <!-- 修改密码 -->
@@ -560,7 +561,7 @@
     <string name="prepare_step">Preparating</string>
     <string name="check_step">View operation demo</string>
     <string name="prepare_set">Preparing configuration</string>
-    <string name="prepare_step1">Please use a needle into the Reset hole at the backside/bottom of the device until you hear the beeping. It needs around 5 seconds.</string>
+    <string name="prepare_step1">请用顶针轻插设备背后的reset孔，\n听到“开始声波配置”语音提示后松开顶针。</string>
     <string name="prepare_step2">Please input password of the network.</string>
     <string name="prepare_step3">View operation demo</string>
     <string name="show_demo">Operation demo</string>
@@ -691,7 +692,7 @@
     <string name="census_version">版本号</string>
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
-    <string name="reset_passwd_input_vercode">Get verification code</string>
+    <string name="reset_passwd_input_vercode"> verification code</string>
     <string name="str_vercode">验证码</string>
     <string name="reset_passwd_account">Account</string>
     <string name="reset_passwd_new_passwd">Password</string>

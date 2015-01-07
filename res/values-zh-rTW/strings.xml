@@ -151,7 +151,7 @@
     <string name="str_login_out">註銷</string>
     <!-- 註冊 -->
     <string name="str_enter_username">郵信箱/手機號/用戶名</string>
-    <string name="str_enter_username1">請輸入新用戶名</string>
+    <string name="str_enter_username1">請輸入手機號</string>
     <string name="str_enter_pass1">密碼</string>
     <string name="str_enter_pass2">確認密碼</string>
     <string name="str_enter_phone">手機</string>
@@ -202,14 +202,15 @@
     <string name="str_email_not_exist">恭喜，信箱已被您收入囊中.</string>
     <string name="str_reset_not_success">沒有修改成功.</string>
     <string name="str_modify_user_info">完善用戶資訊</string>
-    <string name="str_bound_email">綁定信箱</string>
+    <string name="str_bound_email">綁定手機號(信箱)</string>
     <string name="str_bound_email_success">綁定成功</string>
     <string name="str_bound_email_failed">信箱綁定失敗</string>
     <string name="str_bound_phone_exist">手機號已被註冊</string>
     <string name="str_bound_email_exist">信箱已被註冊</string>
     <string name="str_device_most_count">您的設備數已超過最大值，請刪除不使用的設備後再添加新設備.</string>
     <string name="string_username_modify_tips">帳號系統升級，請重置帳號.</string>
-    <string name="string_email_bound_tips">為了您的帳戶安全以及體驗更多服務，建議您綁定一個信箱或手機.</string>
+    <string name="string_email_bound_tips">為了您的帳戶安全以及體驗更多服務，建議您綁定一個信箱.</string>
+    <string name="string_email_bound_tips1">為了您的帳戶安全以及體驗更多服務，建議您綁定一個信箱或手機.</string>
     <string name="str_skip">跳過</string>
     <string name="str_reset">正在重置</string>
     <!-- 修改密碼 -->

@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -99,6 +100,19 @@ public class JVDeviceManageActivity extends BaseActivity {
 		btn_right.setVisibility(View.GONE);
 
 		cloudnumber_text = (TextView) findViewById(R.id.cloudnumber_text);
+		if (Consts.LANGUAGE_ZH== ConfigUtil.getLanguage2(JVDeviceManageActivity.this)||
+				Consts.LANGUAGE_ZHTW== ConfigUtil.getLanguage2(JVDeviceManageActivity.this)) {
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams
+					(LinearLayout.LayoutParams.MATCH_PARENT,150);
+			lp.setMargins(30, 0, 0, 0);
+			cloudnumber_text.setLayoutParams(lp);
+		}else {
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams
+					(LinearLayout.LayoutParams.MATCH_PARENT,150);
+			lp.setMargins(8, 0, 0, 0);
+			cloudnumber_text.setLayoutParams(lp);
+		}
+		
 		currentmenu = (TextView) findViewById(R.id.currentmenu);
 		currentmenu.setText(R.string.str_device_manage);
 		manageNick = (EditText) findViewById(R.id.manage_nick);
@@ -149,28 +163,28 @@ public class JVDeviceManageActivity extends BaseActivity {
 				// 设备昵称不为空
 				if ("".equalsIgnoreCase(manageNick.getText().toString())) {
 					JVDeviceManageActivity.this
-							.showTextToast(R.string.str_nikename_notnull);
+					.showTextToast(R.string.str_nikename_notnull);
 				}
 				// 设备昵称验证
 				else if (!ConfigUtil.checkNickName(manageNick.getText()
 						.toString())) {
 					JVDeviceManageActivity.this
-							.showTextToast(R.string.login_str_nike_name_order);
+					.showTextToast(R.string.login_str_nike_name_order);
 				}
 				// 设备用户名不为空
 				else if ("".equalsIgnoreCase(manageUser.getText().toString())) {
 					JVDeviceManageActivity.this
-							.showTextToast(R.string.login_str_device_account_notnull);
+					.showTextToast(R.string.login_str_device_account_notnull);
 				}
 				// 设备用户名验证
 				else if (!ConfigUtil.checkDeviceUsername(manageUser.getText()
 						.toString())) {
 					JVDeviceManageActivity.this
-							.showTextToast(R.string.login_str_device_account_error);
+					.showTextToast(R.string.login_str_device_account_error);
 				} else if (!ConfigUtil.checkDevicePwd(managePassword.getText()
 						.toString())) {
 					JVDeviceManageActivity.this
-							.showTextToast(R.string.login_str_device_pass_error);
+					.showTextToast(R.string.login_str_device_pass_error);
 				} else {
 					ModifyDevTask task = new ModifyDevTask();
 					String[] strParams = new String[4];
@@ -295,12 +309,12 @@ public class JVDeviceManageActivity extends BaseActivity {
 			dismissDialog();
 			if (0 == result) {
 				JVDeviceManageActivity.this
-						.showTextToast(R.string.del_device_succ);
+				.showTextToast(R.string.del_device_succ);
 				CacheUtil.saveDevList(manageDeviceList);
 				finish();
 			} else {
 				JVDeviceManageActivity.this
-						.showTextToast(R.string.del_device_failed);
+				.showTextToast(R.string.del_device_failed);
 			}
 		}
 
@@ -331,22 +345,22 @@ public class JVDeviceManageActivity extends BaseActivity {
 		builder.setPositiveButton(okString,
 				new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						DelDevTask task = new DelDevTask();
-						String[] strParams = new String[1];
-						strParams[0] = deviceIndex + "";
-						task.execute(strParams);
-					}
-				});
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				DelDevTask task = new DelDevTask();
+				String[] strParams = new String[1];
+				strParams[0] = deviceIndex + "";
+				task.execute(strParams);
+			}
+		});
 		builder.setNegativeButton(cancleString,
 				new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
 		builder.create().show();
 	}
 }

@@ -3529,7 +3529,7 @@ public class JVPlayActivity extends PlayActivity implements
 					.getParent();
 			switch (tag) {
 			case Consts.TAG_PLAY_CONNECTING: {// 连接中
-				verPlayBarLayout.setVisibility(View.GONE);
+//				verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
 						View.VISIBLE);// loading
@@ -3575,7 +3575,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			}
 			case Consts.TAG_PLAY_CONNECTING_BUFFER: {// 缓冲中
-				verPlayBarLayout.setVisibility(View.GONE);
+//				verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
 						View.VISIBLE);// loading

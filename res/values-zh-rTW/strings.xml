@@ -154,8 +154,8 @@
     <string name="str_enter_username1">請輸入手機號</string>
     <string name="str_enter_pass1">密碼</string>
     <string name="str_enter_pass2">確認密碼</string>
-    <string name="str_enter_phone">手機</string>
-    <string name="str_enter_email">信箱</string>
+    <string name="str_enter_phone">請輸入手機號</string>
+    <string name="str_enter_email">請輸入信箱</string>
     <string name="login_str_bind">綁定</string>
     <string name="str_read_agree">閱讀並同意</string>
     <string name="str_agreement">用戶協議</string>

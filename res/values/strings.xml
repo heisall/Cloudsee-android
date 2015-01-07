@@ -154,8 +154,8 @@
     <string name="str_enter_username1">Phone</string>
     <string name="str_enter_pass1">Password</string>
     <string name="str_enter_pass2">Confirm password</string>
-    <string name="str_enter_email">Email</string>
-    <string name="str_enter_phone">Phone</string>
+    <string name="str_enter_email">Please input Email</string>
+    <string name="str_enter_phone">Please input Phone</string>
     <string name="login_str_bind">Combine</string>
     <string name="str_read_agree">Read and agree  </string>
     <string name="str_agreement"> User agreement</string>

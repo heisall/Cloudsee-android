@@ -154,8 +154,8 @@
     <string name="str_enter_username1">请输入手机号</string>
     <string name="str_enter_pass1">密码</string>
     <string name="str_enter_pass2">确认密码</string>
-    <string name="str_enter_phone">手机</string>
-    <string name="str_enter_email">邮箱</string>
+    <string name="str_enter_phone">请输入手机号</string>
+    <string name="str_enter_email">请输入邮箱</string>
     <string name="login_str_bind">绑定</string>
     <string name="str_read_agree">阅读并同意</string>
     <string name="str_agreement">用户协议</string>

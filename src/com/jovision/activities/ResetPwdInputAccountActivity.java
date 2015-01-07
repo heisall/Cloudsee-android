@@ -186,7 +186,9 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 					// showTextToast(R.string.str_not_bind_phone_tips3);
 					tipTv.setText(R.string.str_not_bind_phone_tips3);
 					tipTv.setVisibility(View.VISIBLE);
-				} else {
+				} else if(result == -6) {
+					showTextToast(R.string.str_query_account_failed1);
+				}else {
 					showTextToast(R.string.str_query_account_failed);
 					// tipTv.setText(R.string.str_query_account_failed);
 				}

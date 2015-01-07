@@ -15,6 +15,7 @@ import com.jovision.bean.APPImage;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.bean.OneKeyUpdate;
+import com.jovision.bean.SystemInfo;
 import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
@@ -1758,6 +1759,80 @@ public class DeviceUtil {
 		}
 		MyLog.v("demoUrl", demoUrl);
 		return demoUrl;
+	}
+
+	/**
+	 * 2015-1-7 获取系统消息接口
+	 * 
+	 * @param
+	 * @return ArrayList<Device> 设备列表
+	 */
+	public static ArrayList<SystemInfo> getSystemInfoList(String softName,
+			int language, int startIndex, int count) {
+		ArrayList<SystemInfo> infoList = new ArrayList<SystemInfo>();
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.AD_PUBLISH_PROCESS);// 12
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.GET_PUBLISH_INFO);// 5504
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// 1.0
+			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, softName);// 0：CloudSEE//
+																// 1：NVSIP
+			jObj.put(JVDeviceConst.JK_LANGUAGE_TYPE, language);// (语言 0简体中文 1英文
+																// 2繁体中文)
+			jObj.put(JVDeviceConst.JK_PUB_INDEX_START, startIndex);// (获取信息的起始索引，从0开始)
+			jObj.put(JVDeviceConst.JK_PUB_COUNT, count);// (获取信息的个数)
+
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		MyLog.v("getSystemInfoList---request", jObj.toString());
+
+		// 接收返回数据
+		byte[] resultStr = new byte[1024 * 3];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("getSystemInfoList---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+						if (0 != rt) {// 获取失败
+							infoList = null;
+						} else {// 获取成功
+							infoList = new ArrayList<SystemInfo>();
+
+							JSONArray infoArray = new JSONArray(
+									temObj.optString(JVDeviceConst.JK_PUB_LIST));
+							if (null != infoArray && 0 != infoArray.length()) {
+								for (int i = 0; i < infoArray.length(); i++) {
+									JSONObject obj = infoArray.getJSONObject(i);
+									if (null != obj) {
+										SystemInfo si = new SystemInfo();
+										si.setInfoContent(obj
+												.optString(JVDeviceConst.JK_PUB_INFO));
+										si.setInfoTime(obj
+												.optString(JVDeviceConst.JK_PUB_TIME));
+										infoList.add(si);
+									}
+								}
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return infoList;
 	}
 
 	/**

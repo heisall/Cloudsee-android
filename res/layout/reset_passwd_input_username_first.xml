@@ -33,6 +33,15 @@
             android:background="@drawable/third_input"
             android:paddingLeft="6dp" />
 
+        <TextView 
+            android:id="@+id/tv_check_user_name_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_not_bind_phone_tips1"
+            android:textColor="@color/red"
+            android:textSize="14sp"        
+            android:layout_marginTop="6dp"     
+            />
         <Button
             android:id="@+id/btn_next"
             android:layout_width="fill_parent"

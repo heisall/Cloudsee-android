@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1209,6 +1210,7 @@ public class ConfigUtil {
 			file.delete();
 		}
 	}
+
 	// /**
 	// * 获取当前ip地址
 	// *
@@ -1237,4 +1239,27 @@ public class ConfigUtil {
 	// return ip;
 	// }
 
+	public static String convertToString(ArrayList<String> list) {
+
+		StringBuilder sb = new StringBuilder();
+		String delim = "";
+		for (String s : list) {
+			sb.append(delim);
+			sb.append(s);
+			;
+			delim = ",";
+		}
+		return sb.toString();
+	}
+
+	public static ArrayList<String> convertToArray(String string) {
+		ArrayList<String> list = null;
+		if (string.equals("") || null == string) {
+			list = new ArrayList<String>();
+		} else {
+			list = new ArrayList<String>(Arrays.asList(string.split(",")));
+		}
+
+		return list;
+	}
 }

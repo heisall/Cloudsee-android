@@ -486,6 +486,8 @@
     <string name="add_channel_failed">通道添加失敗</string>
     <string name="device_connect">全連設備</string>
     <string name="channel_full">該設備的通道數量達到上限，不能繼續添加.</string>
+    <!-- JVSystemInfoActivity -->
+    <string name="system_info">系統消息</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">請在此輸入您的問題或建議</string>
     <string name="str_notice_connection">為方便後續跟蹤您提的問題和建議，請留下您的聯繫方式</string>
@@ -703,7 +705,7 @@
     <string name="reset_passwd_tips5">您綁定的手機號碼不合法</string>
     <string name="reset_passwd_tips6">填寫驗證碼</string>
     <string name="reset_passwd_tips7">發送中...</string>
-    <string name="reset_passwd_tips8">網絡錯誤,操作失敗，請重試</string>
+    <string name="reset_passwd_tips8">驗證未通過</string>
     <string name="reset_passwd_virificaition_code_wrong">驗證碼不正確</string>
     <string name="reset_passwd_failed">重置密碼失敗</string>
     <string name="reset_passwd_title1">輸入帳號</string>
@@ -719,5 +721,5 @@
     <string name="str_query_account_failed">查詢帳號資訊失敗</string>
     <string name="str_not_bind_phone_tips1">您的賬號沒有綁定手機，請通過信箱找回</string>
     <string name="str_not_bind_phone_tips2">您的賬號沒有綁定手機和信箱，請聯系客服</string>
-
+	<string name="str_not_bind_phone_tips3">該用戶不存在</string>
 </resources>

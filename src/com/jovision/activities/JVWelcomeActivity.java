@@ -29,6 +29,7 @@ public class JVWelcomeActivity extends BaseActivity {
 	private final String TAG = "JVWelcomeActivity";
 	private Handler initHandler;
 	private ImageView welcomeImage;
+	private String welcomePath = "";
 	// private RelativeLayout cloudseeLayout;
 	// private RelativeLayout neturalLayout;
 
@@ -115,21 +116,21 @@ public class JVWelcomeActivity extends BaseActivity {
 			fileName = "welcome_en";
 		}
 
-		String path = Consts.WELCOME_IMG_PATH + fileName
+		welcomePath = Consts.WELCOME_IMG_PATH + fileName
 				+ Consts.IMAGE_JPG_KIND;
-		File imgFile = new File(path);
+		File imgFile = new File(welcomePath);
 		if (imgFile.exists()) {
-			Bitmap bitmap = BitmapCache.getInstance().getBitmap(path,
+			Bitmap bitmap = BitmapCache.getInstance().getBitmap(welcomePath,
 					"welcome", fileName);
 			if (null != bitmap) {
 				welcomeImage.setImageBitmap(bitmap);
 			} else {
 				welcomeImage.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.welcome_1));
+						R.drawable.welcome_default));
 			}
 		} else {
 			welcomeImage.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.welcome_1));
+					R.drawable.welcome_default));
 		}
 
 		StatConfig.setDebugEnable(true);
@@ -174,6 +175,7 @@ public class JVWelcomeActivity extends BaseActivity {
 	protected void freeMe() {
 		// 关闭此定时器
 		initHandler.removeCallbacks(initThread);
+		BitmapCache.getInstance().clearCache();
 		dismissDialog();
 	}
 

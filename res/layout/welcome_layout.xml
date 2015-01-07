@@ -8,9 +8,8 @@
         android:id="@+id/cloudseewelcome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/welcome_1"
+        android:background="@drawable/welcome_default"
         android:orientation="vertical" >
-
     </ImageView>
 
 </RelativeLayout>

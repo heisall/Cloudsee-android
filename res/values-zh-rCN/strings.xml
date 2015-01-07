@@ -486,6 +486,8 @@
     <string name="add_channel_failed">通道添加失败</string>
     <string name="device_connect">全连设备</string>
     <string name="channel_full">该设备的通道数量达到上限，不能继续添加.</string>
+    <!-- JVSystemInfoActivity -->
+    <string name="system_info">系统消息</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">请在此输入您的问题或建议</string>
     <string name="str_notice_connection">为方便后续跟踪您提的问题和建议，请留下您的联系方式</string>
@@ -705,7 +707,7 @@
     <string name="reset_passwd_tips5">您绑定的手机号码不合法</string>
     <string name="reset_passwd_tips6">填写验证码</string>
     <string name="reset_passwd_tips7">发送中...</string>
-    <string name="reset_passwd_tips8">网络错误,操作失败，请重试</string>
+    <string name="reset_passwd_tips8">验证未通过</string>
     <string name="reset_passwd_virificaition_code_wrong">验证码不正确</string>
     <string name="reset_passwd_failed">重置密码失败</string>
     <string name="reset_passwd_title1">输入账号</string>
@@ -721,5 +723,5 @@
     <string name="str_query_account_failed">查询账号信息失败</string>
     <string name="str_not_bind_phone_tips1">您的账号没有绑定手机，请通过邮箱找回</string>
     <string name="str_not_bind_phone_tips2">您的账号没有绑定手机和邮箱，请联系客服</string>
-
+	<string name="str_not_bind_phone_tips3">该用户不存在</string>
 </resources>

@@ -486,6 +486,8 @@
     <string name="add_channel_failed">Channel added failed</string>
     <string name="device_connect">Connect All</string>
     <string name="channel_full">Fail to add due to upto limition of Device channel quantity.</string>
+    <!-- JVSystemInfoActivity -->
+    <string name="system_info">系统消息</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">Please input your problems or suggestion.</string>
     <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>
@@ -705,7 +707,7 @@
     <string name="reset_passwd_tips5">The mobile phone binding is not legal</string>
     <string name="reset_passwd_tips6">Enter code</string>
     <string name="reset_passwd_tips7">Sending...</string>
-    <string name="reset_passwd_tips8">网络错误,操作失败，请重试</string>
+    <string name="reset_passwd_tips8">验证未通过</string>
     <string name="reset_passwd_virificaition_code_wrong">The verification code is wrong</string>
     <string name="reset_passwd_failed">Reset password failed</string>
     <string name="reset_passwd_title1">Enter Account</string>
@@ -721,5 +723,5 @@
     <string name="str_query_account_failed">Query account info failed</string>
     <string name="str_not_bind_phone_tips1">您的账号没有绑定手机，请通过邮箱找回</string>
     <string name="str_not_bind_phone_tips2">您的账号没有绑定手机和邮箱，请联系客服</string>
-
+	<string name="str_not_bind_phone_tips3">该用户不存在</string>
 </resources>

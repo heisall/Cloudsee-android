@@ -119,14 +119,16 @@ public class CustomDialogActivity extends BaseActivity implements
 				bLocalFile = false;
 				if (!strImgUrl.equals("")) {
 					Jni.setDownloadFileName(localImgPath);
-					if (!AlarmUtil.OnlyConnect(strYstNum)) {
-						showTextToast(R.string.str_alarm_connect_failed_1);
-						if (!vod_uri_.equals("")) {
-							lookVideoBtn.setEnabled(true);
-						}
-					} else {
-						lookVideoBtn.setEnabled(false);
-					}
+					// if (!AlarmUtil.OnlyConnect(strYstNum)) {
+					// showTextToast(R.string.str_alarm_connect_failed_1);
+					// if (!vod_uri_.equals("")) {
+					// lookVideoBtn.setEnabled(true);
+					// }
+					// } else {
+					// lookVideoBtn.setEnabled(false);
+					// }
+					lookVideoBtn.setEnabled(false);
+					new Thread(new ConnectProcess(0x9999)).start();
 
 				} else if (!vod_uri_.equals("")) {
 					lookVideoBtn.setEnabled(true);
@@ -653,6 +655,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			do {
 				if (!AlarmUtil.OnlyConnect(strYstNum)) {
 					try {
+						Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block

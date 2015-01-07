@@ -17,9 +17,11 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.activities.BaseFragment;
 import com.jovision.activities.CustomDialogActivity;
 import com.jovision.bean.PushInfo;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 
 public class PushAdapter extends BaseAdapter {
@@ -32,11 +34,13 @@ public class PushAdapter extends BaseAdapter {
 	private String[] alarmArray = null;
 
 	private BaseFragment mfragment;
+	private MainApplication mApp;
 
 	public PushAdapter(BaseFragment fragment) {
 		mfragment = fragment;
 		inflater = (LayoutInflater) fragment.getActivity().getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
+		mApp = (MainApplication) mfragment.getActivity().getApplication();
 	}
 
 	public int getRefCount() {
@@ -112,6 +116,10 @@ public class PushAdapter extends BaseAdapter {
 		}
 		if (null != pushList && 0 != pushList.size()
 				&& position < pushList.size()) {
+			if (mApp.getMarkedAlarmList().contains(
+					pushList.get(position).strGUID)) {
+				pushList.get(position).newTag = false;
+			}
 			if (pushList.get(position).newTag) {// 新的未读消息
 				viewHolder.newTag.setVisibility(View.VISIBLE);
 				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment
@@ -169,7 +177,11 @@ public class PushAdapter extends BaseAdapter {
 				}
 				pushList.get(position).newTag = false;
 				holder.newTag.setVisibility(View.GONE);
-
+				if (!mApp.getMarkedAlarmList().contains(
+						pushList.get(position).strGUID)) {
+					mApp.getMarkedAlarmList().add(
+							pushList.get(position).strGUID);
+				}
 				if (pushList.get(position).messageTag == 4604) {// new alarm
 					// ------new alarm-----
 					PushInfo pushInfo = new PushInfo();
@@ -200,7 +212,11 @@ public class PushAdapter extends BaseAdapter {
 
 				deleteState = false;
 				notifyDataSetChanged();
-
+				if (!mApp.getMarkedAlarmList().contains(
+						pushList.get(position).strGUID)) {
+					mApp.getMarkedAlarmList().add(
+							pushList.get(position).strGUID);
+				}
 				if (pushList.get(position).messageTag == 4604) {// new alarm
 					// ------new alarm-----
 					PushInfo pushInfo = new PushInfo();
@@ -320,4 +336,5 @@ public class PushAdapter extends BaseAdapter {
 	// }
 	//
 	// }
+
 }

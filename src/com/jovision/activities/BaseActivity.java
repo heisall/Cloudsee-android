@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -52,6 +53,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	protected String TAG = "BaseA";
 
 	public HashMap<String, String> statusHashMap;
+	public ArrayList<String> markedAlarmList;
 
 	// DataHelper dataHelper = null;
 
@@ -91,8 +93,11 @@ public abstract class BaseActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		MyActivityManager.getActivityManager().pushActivity(this);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		MySharedPreference.init(getApplication());
-
+		// MySharedPreference.init(getApplication());//放在MainApplication里了
+		// markedAlarmList = ((MainApplication)
+		// getApplicationContext()).getMarkedAlarmList();
+		// markedAlarmList =
+		// ConfigUtil.convertToArray(MySharedPreference.getString("MARKED_ALARM"));
 		statusHashMap = ((MainApplication) getApplicationContext())
 				.getStatusHashMap();
 		configuration = getResources().getConfiguration();

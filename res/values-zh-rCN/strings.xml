@@ -154,8 +154,8 @@
     <string name="str_enter_username1">请输入手机号</string>
     <string name="str_enter_pass1">密码</string>
     <string name="str_enter_pass2">确认密码</string>
-    <string name="str_enter_phone">手机</string>
-    <string name="str_enter_email">邮箱</string>
+    <string name="str_enter_phone">请输入手机号</string>
+    <string name="str_enter_email">请输入邮箱</string>
     <string name="login_str_bind">绑定</string>
     <string name="str_read_agree">阅读并同意</string>
     <string name="str_agreement">用户协议</string>
@@ -707,7 +707,7 @@
     <string name="reset_passwd_tips5">您绑定的手机号码不合法</string>
     <string name="reset_passwd_tips6">填写验证码</string>
     <string name="reset_passwd_tips7">发送中...</string>
-    <string name="reset_passwd_tips8">网络错误,操作失败，请重试</string>
+    <string name="reset_passwd_tips8">验证未通过</string>
     <string name="reset_passwd_virificaition_code_wrong">验证码不正确</string>
     <string name="reset_passwd_failed">重置密码失败</string>
     <string name="reset_passwd_title1">输入账号</string>
@@ -722,6 +722,7 @@
     <string name="str_set_new_pwd_ok">新密码设置成功，请重新登录</string>
     <string name="str_query_account_failed">查询账号信息失败</string>
     <string name="str_not_bind_phone_tips1">您的账号没有绑定手机，请通过邮箱找回</string>
+        <string name="str_query_account_failed1">对不起，网络错误</string>
     <string name="str_not_bind_phone_tips2">您的账号没有绑定手机和邮箱，请联系客服</string>
-
+	<string name="str_not_bind_phone_tips3">该用户不存在</string>
 </resources>

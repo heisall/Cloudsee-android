@@ -88,7 +88,7 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.morefragment_update_icon, R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
-			R.drawable.morefragment_aboutus_icon,
+			R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -218,7 +218,7 @@ public class JVMoreFragment extends BaseFragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		// more_bindmail.setVisibility(View.GONE);
+		 more_bindmail.setVisibility(View.GONE);
 		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			CheckUserInfoTask task = new CheckUserInfoTask();

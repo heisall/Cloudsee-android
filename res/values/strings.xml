@@ -210,7 +210,7 @@
     <string name="str_device_most_count">Devices quantity has exceeded the limit, please delete the useless devices and add new one then.</string>
     <string name="string_username_modify_tips">Account system has updated, please reset account.</string>
     <string name="string_email_bound_tips">One Email address is suggested to be combined for account security and for more functions.</string>
-   <string name="string_email_bound_tips1">One Email address or one Phonenumber is suggested to be combined for account security and for more functions.</string>
+    <string name="string_email_bound_tips1">One Email address or one Phonenumber is suggested to be combined for account security and for more functions.</string>
     <string name="str_skip">skip</string>
     <string name="str_reset">reseting</string>
     <!-- 修改密码 -->
@@ -724,5 +724,6 @@
     <string name="str_query_account_failed1">对不起，网络错误</string>
     <string name="str_not_bind_phone_tips1">您的账号没有绑定手机，请通过邮箱找回</string>
     <string name="str_not_bind_phone_tips2">您的账号没有绑定手机和邮箱，请联系客服</string>
-	<string name="str_not_bind_phone_tips3">该用户不存在</string>
+    <string name="str_not_bind_phone_tips3">该用户不存在</string>
+
 </resources>

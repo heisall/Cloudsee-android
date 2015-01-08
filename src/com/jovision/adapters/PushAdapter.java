@@ -21,7 +21,6 @@ import com.jovision.MainApplication;
 import com.jovision.activities.BaseFragment;
 import com.jovision.activities.CustomDialogActivity;
 import com.jovision.bean.PushInfo;
-import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 
 public class PushAdapter extends BaseAdapter {

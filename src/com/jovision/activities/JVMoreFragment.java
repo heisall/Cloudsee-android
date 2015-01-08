@@ -38,6 +38,7 @@ import com.jovision.Consts;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
+import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
@@ -494,6 +495,33 @@ public class JVMoreFragment extends BaseFragment {
 								MySharedPreference.putBoolean("VideoSquer",
 										true);
 							}
+
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								StatService.trackCustomEvent(
+										mActivity,
+										"Demo",
+										mActivity.getResources().getString(
+												R.string.census_demo));
+
+								GetDemoTask demoTask = new GetDemoTask(
+										mActivity);
+								String[] demoParams = new String[3];
+								if (!Boolean
+										.valueOf(((BaseActivity) activity).statusHashMap
+												.get(Consts.LOCAL_LOGIN))) {
+									demoParams[0] = "";
+								} else {
+									demoParams[0] = "";
+								}
+								demoTask.execute(demoParams);
+
+								// Intent demoIntent = new Intent();
+								// demoIntent.setClass(JVLoginActivity.this,
+								// JVDemoActivity.class);
+								// JVLoginActivity.this.startActivity(demoIntent);
+							}
 							// TODO
 							break;
 						case 7:
@@ -501,6 +529,10 @@ public class JVMoreFragment extends BaseFragment {
 								MySharedPreference.putBoolean("SystemMessage",
 										true);
 							}
+							Intent infoIntent = new Intent();
+							infoIntent.setClass(mActivity,
+									JVSystemInfoActivity.class);
+							mActivity.startActivity(infoIntent);
 							// TODO
 							break;
 						case 8:// 媒体

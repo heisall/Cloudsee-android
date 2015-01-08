@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -254,16 +253,6 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
-	private class DoubleClickChecker extends TimerTask {
-
-		@Override
-		public void run() {
-			cancel();
-			isDoubleClickCheck = false;
-		}
-
-	}
-
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -319,6 +308,28 @@ public class JVPlayActivity extends PlayActivity implements
 									MyGestureDispatcher.GESTURE_TO_SMALLER, -1,
 									vector, middle);
 						}
+					} else {// 竖屏
+						if (ONE_SCREEN != currentScreen) {
+							Channel ch;
+							int size = currentPageChannelList.size();
+							for (int i = 0; i < size; i++) {
+								ch = currentPageChannelList.get(i);
+								if (lastClickIndex - 1 > ch.getIndex()
+										|| lastClickIndex + 1 < ch.getIndex()) {
+									disconnectChannelList.add(ch);
+								} else if (lastClickIndex == ch.getIndex()) {
+									// [Neo] Empty
+								} else {
+									// [Neo] stand alone for single destroy
+									// window, too
+									pauseChannel(ch);
+								}
+							}
+							changeWindow(ONE_SCREEN);
+						} else {
+							disconnectChannelList.addAll(channelList);
+							changeWindow(selectedScreen);
+						}
 					}
 				} else {// 单击
 
@@ -327,6 +338,24 @@ public class JVPlayActivity extends PlayActivity implements
 							horPlayBarLayout.setVisibility(View.GONE);
 						} else {
 							horPlayBarLayout.setVisibility(View.VISIBLE);
+						}
+					} else {// 竖屏
+						if (ONE_SCREEN == currentScreen) {
+							if (View.VISIBLE == verPlayBarLayout
+									.getVisibility()) {
+								verPlayBarLayout.setVisibility(View.GONE);
+							} else {
+								verPlayBarLayout.setVisibility(View.VISIBLE);
+							}
+						}
+
+						changeBorder(channel.getIndex());
+
+						if (false == isBlockUi) {
+							isDoubleClickCheck = true;
+							if (null != doubleClickTimer) {
+								doubleClickTimer.cancel();
+							}
 						}
 					}
 				}
@@ -1581,24 +1610,6 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
-	/**
-	 * 设置标题
-	 */
-	private void setTitle() {
-		if (Consts.PLAY_NORMAL == playFlag) {
-			currentMenu_v.setText(channelList.get(lastClickIndex)
-					.getChannelName());
-			currentMenu_h.setText(channelList.get(lastClickIndex)
-					.getChannelName());
-		} else {
-			currentMenu_h.setText(channelList.get(lastItemIndex).getParent()
-					.getNickName());
-			currentMenu_v.setText(channelList.get(lastItemIndex).getParent()
-					.getNickName()
-					+ "-" + channelList.get(lastClickIndex).getChannel());
-		}
-	}
-
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void initUi() {
@@ -1656,17 +1667,16 @@ public class JVPlayActivity extends PlayActivity implements
 
 		selectScreenNum.setOnClickListener(myOnClickListener);
 		currentMenu.setOnClickListener(myOnClickListener);
-		// if (playFlag == Consts.PLAY_AP) {
-		// currentMenu_h.setText(deviceList.get(deviceIndex).getNickName());
-		// currentMenu.setText(R.string.video_check);
-		// selectScreenNum.setVisibility(View.GONE);
-		// } else {
-		// currentMenu_h.setText(channelList.get(lastClickIndex)
-		// .getChannelName());
-		// currentMenu.setText(R.string.str_video_play);
-		// selectScreenNum.setVisibility(View.VISIBLE);
-		// }
-		setTitle();
+		if (playFlag == Consts.PLAY_AP) {
+			currentMenu_h.setText(deviceList.get(deviceIndex).getNickName());
+			currentMenu.setText(R.string.video_check);
+			selectScreenNum.setVisibility(View.GONE);
+		} else {
+			currentMenu_h.setText(channelList.get(lastClickIndex)
+					.getChannelName());
+			currentMenu.setText(R.string.str_video_play);
+			selectScreenNum.setVisibility(View.VISIBLE);
+		}
 
 		linkMode.setVisibility(View.GONE);
 
@@ -1747,20 +1757,19 @@ public class JVPlayActivity extends PlayActivity implements
 
 					lastItemIndex = arg0;
 
-					// if (Consts.PLAY_NORMAL == playFlag) {
-					// currentMenu_v.setText(channelList.get(lastClickIndex)
-					// .getChannelName());
-					// currentMenu_h.setText(channelList.get(lastClickIndex)
-					// .getChannelName());
-					// } else {
-					// currentMenu_h.setText(channelList.get(lastItemIndex)
-					// .getParent().getNickName());
-					// currentMenu_v.setText(channelList.get(lastItemIndex)
-					// .getParent().getNickName()
-					// + "-"
-					// + channelList.get(lastClickIndex).getChannel());
-					// }
-					setTitle();
+					if (Consts.PLAY_NORMAL == playFlag) {
+						currentMenu_v.setText(channelList.get(lastClickIndex)
+								.getChannelName());
+						currentMenu_h.setText(channelList.get(lastClickIndex)
+								.getChannelName());
+					} else {
+						currentMenu_h.setText(channelList.get(lastItemIndex)
+								.getParent().getNickName());
+						currentMenu_v.setText(channelList.get(lastItemIndex)
+								.getParent().getNickName()
+								+ "-"
+								+ channelList.get(lastClickIndex).getChannel());
+					}
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1995,8 +2004,6 @@ public class JVPlayActivity extends PlayActivity implements
 		isBlockUi = true;
 		viewPager.setDisableSliding(isBlockUi);
 		changeBorder(lastClickIndex);
-
-		setTitle();
 
 		handler.removeMessages(Consts.WHAT_CHECK_SURFACE);
 		handler.sendMessageDelayed(handler.obtainMessage(
@@ -2316,60 +2323,6 @@ public class JVPlayActivity extends PlayActivity implements
 					MyLog.e(Consts.TAG_PLAY, "resume failed: " + channel);
 				}
 
-			}
-		}
-
-		if (false == isBlockUi && isDoubleClickCheck
-				&& lastClickIndex == channel.getIndex()) {// 双击
-
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation
-					|| Consts.PLAY_AP == playFlag) {// 横屏
-			} else {// 竖屏
-				if (ONE_SCREEN != currentScreen) {
-					Channel ch;
-					int size = currentPageChannelList.size();
-					for (int i = 0; i < size; i++) {
-						ch = currentPageChannelList.get(i);
-						if (lastClickIndex - 1 > ch.getIndex()
-								|| lastClickIndex + 1 < ch.getIndex()) {
-							disconnectChannelList.add(ch);
-						} else if (lastClickIndex == ch.getIndex()) {
-							// [Neo] Empty
-						} else {
-							// [Neo] stand alone for single destroy
-							// window, too
-							pauseChannel(ch);
-						}
-					}
-					changeWindow(ONE_SCREEN);
-				} else {
-					disconnectChannelList.addAll(channelList);
-					changeWindow(selectedScreen);
-				}
-			}
-		} else {// 单击
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-			} else {// 竖屏
-				if (ONE_SCREEN == currentScreen) {
-					if (View.VISIBLE == verPlayBarLayout.getVisibility()) {
-						verPlayBarLayout.setVisibility(View.GONE);
-					} else {
-						verPlayBarLayout.setVisibility(View.VISIBLE);
-					}
-				}
-
-				changeBorder(channel.getIndex());
-
-				if (false == isBlockUi) {
-					isDoubleClickCheck = true;
-					if (null != doubleClickTimer) {
-						doubleClickTimer.cancel();
-					}
-
-					doubleClickTimer = new Timer();
-					doubleClickTimer.schedule(new DoubleClickChecker(),
-							DELAY_DOUBLE_CHECKER);
-				}
 			}
 		}
 	}
@@ -3586,7 +3539,7 @@ public class JVPlayActivity extends PlayActivity implements
 			switch (tag) {
 			case Consts.TAG_PLAY_CONNECTING: {// 连接中
 				if (MySharedPreference.getBoolean("playhelp1")) {
-					verPlayBarLayout.setVisibility(View.GONE);
+					 verPlayBarLayout.setVisibility(View.GONE);
 				}
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
@@ -4000,12 +3953,12 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	public void pauseAll(ArrayList<Channel> channelList) {
-		if (null != channelList && channelList.size() != 0) {
+		if (null!=channelList&&channelList.size()!=0) {
 			int size = channelList.size();
-			for (int i = 0; i < size; i++) {
-				pauseChannel(channelList.get(i));
-			}
+		for (int i = 0; i < size; i++) {
+			pauseChannel(channelList.get(i));
 		}
+		}	
 	}
 
 	@Override

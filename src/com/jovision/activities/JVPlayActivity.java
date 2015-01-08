@@ -1586,16 +1586,20 @@ public class JVPlayActivity extends PlayActivity implements
 	 */
 	private void setTitle() {
 		if (Consts.PLAY_NORMAL == playFlag) {
+			currentMenu.setText(R.string.video_check);
 			currentMenu_v.setText(channelList.get(lastClickIndex)
 					.getChannelName());
 			currentMenu_h.setText(channelList.get(lastClickIndex)
 					.getChannelName());
+			selectScreenNum.setVisibility(View.GONE);
 		} else {
+			currentMenu.setText(R.string.str_video_play);
 			currentMenu_h.setText(channelList.get(lastItemIndex).getParent()
 					.getNickName());
 			currentMenu_v.setText(channelList.get(lastItemIndex).getParent()
 					.getNickName()
 					+ "-" + channelList.get(lastClickIndex).getChannel());
+			selectScreenNum.setVisibility(View.VISIBLE);
 		}
 	}
 

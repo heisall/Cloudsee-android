@@ -98,6 +98,11 @@
     <color name="video_channelcolor">#EFEFEF</color>
     <!-- 我的设备字体颜色 -->
     <color name="mydevice_modify">#519DE8</color>
+    <!-- 系统消息颜色 -->
+    <color name="info_divider">#E7E7E7</color>
+    <color name="info_time">#B2B2B2</color>
+    <color name="info_content">#747474</color>
+
     <!-- 象牙色 -->
     <color name="lightyellow">#FFFFE0</color>
     <!-- 亮黄色 -->

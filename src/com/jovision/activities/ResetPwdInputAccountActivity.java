@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.utils.ConfigUtil;
 
 public class ResetPwdInputAccountActivity extends BaseActivity implements
 		OnClickListener {
@@ -186,9 +185,9 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 					// showTextToast(R.string.str_not_bind_phone_tips3);
 					tipTv.setText(R.string.str_not_bind_phone_tips3);
 					tipTv.setVisibility(View.VISIBLE);
-				} else if(result == -6) {
+				} else if (result == -6) {
 					showTextToast(R.string.str_query_account_failed1);
-				}else {
+				} else {
 					showTextToast(R.string.str_query_account_failed);
 					// tipTv.setText(R.string.str_query_account_failed);
 				}

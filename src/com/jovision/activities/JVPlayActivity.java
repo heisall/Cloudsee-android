@@ -1479,6 +1479,7 @@ public class JVPlayActivity extends PlayActivity implements
 			if (0 == result) {
 				JVPlayActivity.this
 						.showTextToast(R.string.login_str_device_edit_success);
+				playImageClickEvent(channelList.get(lastClickIndex), true);
 			} else {
 				JVPlayActivity.this
 						.showTextToast(R.string.login_str_device_edit_failed);
@@ -2274,6 +2275,13 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	public void onClick(Channel channel, boolean isFromImageView, int viewId) {
+		playImageClickEvent(channel, isFromImageView);
+	}
+
+	/**
+	 * 播放按钮事件
+	 */
+	private void playImageClickEvent(Channel channel, boolean isFromImageView) {
 		MyLog.i(Consts.TAG_PLAY, ">>> click: " + channel.getIndex()
 				+ ", isBlocked: " + isBlockUi);
 
@@ -2317,7 +2325,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 			}
 		}
-
 	}
 
 	@Override
@@ -3017,6 +3024,7 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
 			if (0 == result) {
 				if (Consts.PLAY_AP == playFlag) {
 					Intent aintent = new Intent();
@@ -3026,15 +3034,16 @@ public class JVPlayActivity extends PlayActivity implements
 						aintent.putExtra("AP_Back", false);
 					}
 					setResult(Consts.WHAT_AP_CONNECT_FINISHED, aintent);
+					dismissDialog();
 					JVPlayActivity.this.finish();
 				} else {
+					dismissDialog();
 					JVPlayActivity.this.finish();
 				}
 				handler.removeMessages(Consts.WHAT_FINISH);
 				isQuit = true;
 			}
 
-			dismissDialog();
 		}
 
 		@Override

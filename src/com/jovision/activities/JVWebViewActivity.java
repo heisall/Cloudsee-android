@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,6 +42,7 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		url = getIntent().getStringExtra("URL");
+		// url = "http://app.ys7.com/";
 		titleID = getIntent().getIntExtra("title", 0);
 	}
 
@@ -78,16 +80,31 @@ public class JVWebViewActivity extends BaseActivity {
 			}
 		};
 		webView.getSettings().setJavaScriptEnabled(true);
+
 		// 设置setWebChromeClient对象
 		webView.setWebChromeClient(wvcc);
 		webView.requestFocus(View.FOCUS_DOWN);
+
+		// setting.setPluginState(PluginState.ON);
 		// 加快加载速度
 		webView.getSettings().setRenderPriority(RenderPriority.HIGH);
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
+			public void onReceivedError(WebView view, int errorCode,
+					String description, String failingUrl) {
+				super.onReceivedError(view, errorCode, description, failingUrl);
+			}
+
+			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				view.loadUrl(url);
-				return false;
+				// view.loadUrl(url);
+
+				Intent intentAD = new Intent(JVWebViewActivity.this,
+						JVWebViewActivity.class);
+				intentAD.putExtra("URL", url);
+				intentAD.putExtra("title", -2);
+				JVWebViewActivity.this.startActivity(intentAD);
+				return true;
 			}
 
 			@Override
@@ -100,12 +117,14 @@ public class JVWebViewActivity extends BaseActivity {
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
-				// TODO Auto-generated method stub
 				super.onPageFinished(view, url);
+				webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
 				webView.setVisibility(View.VISIBLE);
 				progressbar.setVisibility(View.GONE);
+				// webView.loadUrl("javascript:videopayer.play()");
 			}
 		});
+
 		webView.loadUrl(url);
 	}
 

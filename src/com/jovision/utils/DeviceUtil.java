@@ -1767,9 +1767,9 @@ public class DeviceUtil {
 	 * @param
 	 * @return ArrayList<Device> 设备列表
 	 */
-	public static ArrayList<SystemInfo> getSystemInfoList(String softName,
-			int language, int startIndex, int count) {
-		ArrayList<SystemInfo> infoList = new ArrayList<SystemInfo>();
+	public static int getSystemInfoList(String softName, int language,
+			int startIndex, int count, ArrayList<SystemInfo> infoList) {
+		int getRes = -1;
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
@@ -1804,12 +1804,13 @@ public class DeviceUtil {
 				try {
 					JSONObject temObj = new JSONObject(result);
 					if (null != temObj) {
-						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
-						if (0 != rt) {// 获取失败
+						getRes = temObj.optInt(JVDeviceConst.JK_RESULT);// (0正确,其他为错误码
+																		// -10请求格式错误;
+																		// -4数据库操作错误;
+																		// 6查询为空)
+						if (0 != getRes) {// 获取失败
 							infoList = null;
 						} else {// 获取成功
-							infoList = new ArrayList<SystemInfo>();
-
 							JSONArray infoArray = new JSONArray(
 									temObj.optString(JVDeviceConst.JK_PUB_LIST));
 							if (null != infoArray && 0 != infoArray.length()) {
@@ -1832,7 +1833,7 @@ public class DeviceUtil {
 				}
 			}
 		}
-		return infoList;
+		return getRes;
 	}
 
 	/**

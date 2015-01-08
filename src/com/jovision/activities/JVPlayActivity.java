@@ -3539,7 +3539,7 @@ public class JVPlayActivity extends PlayActivity implements
 			switch (tag) {
 			case Consts.TAG_PLAY_CONNECTING: {// 连接中
 				if (MySharedPreference.getBoolean("playhelp1")) {
-					 verPlayBarLayout.setVisibility(View.GONE);
+					verPlayBarLayout.setVisibility(View.GONE);
 				}
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
@@ -3953,12 +3953,12 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	public void pauseAll(ArrayList<Channel> channelList) {
-		if (null!=channelList&&channelList.size()!=0) {
+		if (null != channelList && channelList.size() != 0) {
 			int size = channelList.size();
-		for (int i = 0; i < size; i++) {
-			pauseChannel(channelList.get(i));
+			for (int i = 0; i < size; i++) {
+				pauseChannel(channelList.get(i));
+			}
 		}
-		}	
 	}
 
 	@Override

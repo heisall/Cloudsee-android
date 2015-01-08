@@ -406,6 +406,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 								.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNUM);
 						pi.coonNum = obj
 								.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
+						pi.alarmSolution = obj
+								.optInt(JVAlarmConst.JK_ALARM_SOLUTION);
 						//
 						// pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
 						pi.alarmType = obj

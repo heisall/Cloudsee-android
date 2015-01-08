@@ -12,6 +12,7 @@ public class AutoLoad {
 			System.loadLibrary("gnustl_shared");
 			System.loadLibrary("stlport_shared");
 			System.loadLibrary("accountsdk");
+			System.loadLibrary("tools");
 
 			System.loadLibrary("play");
 			result = true;

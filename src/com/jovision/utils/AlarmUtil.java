@@ -16,6 +16,7 @@ import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
+import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 
@@ -329,6 +330,8 @@ public class AlarmUtil {
 												.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNUM);
 										pi.coonNum = obj
 												.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
+										pi.alarmSolution = obj
+												.optInt(JVAlarmConst.JK_ALARM_SOLUTION);
 										// pi.alarmLevel = obj
 										// .optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);//
 										// 2014.03.08报警级别：1级最高

@@ -71,14 +71,14 @@ public class CustomDialogActivity extends BaseActivity implements
 	private String cloudSignVodUri, cloudSignImgUri;
 	private int alarmSolution;
 	private String cloudBucket, cloudResource, storageJson;
-
+	private CustomDialogActivity mActivity;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.custom_alarm_dialog);
 		InitViews();
-
+		mActivity = this;
 		Intent intent = getIntent();
 		bDownLoadFileType = 0;// 默认先下载图片
 		PushInfo pushInfo = (PushInfo) intent.getSerializableExtra("PUSH_INFO");
@@ -309,11 +309,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				cloudResource = String.format("/%s/%s", cloudBucket, temp[1]);
 				cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource,
 						storageJson);
-				Intent intent = new Intent();
-				intent.setClass(this, JVVideoActivity.class);
-				intent.putExtra("URL", cloudSignVodUri);
-				intent.putExtra("IS_LOCAL", false);
-				startActivity(intent);
+				new Thread(new HttpJudgeThread(cloudSignVodUri)).start();				
 			}
 			break;
 		case R.id.dialog_cancle_img:
@@ -655,15 +651,24 @@ public class CustomDialogActivity extends BaseActivity implements
 			switch (msg.what) {
 			case 0x00:
 				if (bDownLoadFileType == 0) {
-					// 下载图片
-					if (!vod_uri_.equals("")) {
-						lookVideoBtn.setEnabled(true);
-					}
+					if(msg.arg1 == 0){//下载成功
+						// 下载图片
+						if (!vod_uri_.equals("")) {
+							lookVideoBtn.setEnabled(true);
+						}
 
-					Bitmap bmp = getLoacalBitmap(localImgPath);
-					if (null != bmp) {
-						alarmImage.setImageBitmap(bmp);
+						Bitmap bmp = getLoacalBitmap(localImgPath);
+						if (null != bmp) {
+							alarmImage.setImageBitmap(bmp);
+						}						
 					}
+					else if(msg.arg1 == 404)
+					{	//文件不存在
+						showTextToast(R.string.str_cloud_file_error_1);
+					}
+					else{					
+						showTextToast(R.string.str_query_account_failed1);
+					}					
 				}
 				break;
 			case 0x01:
@@ -700,6 +705,22 @@ public class CustomDialogActivity extends BaseActivity implements
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+				break;
+			case 0x02:
+				if(msg.arg1 == 200){//可以访问
+					Intent intent = new Intent();
+					intent.setClass(mActivity, JVVideoActivity.class);
+					intent.putExtra("URL", cloudSignVodUri);
+					intent.putExtra("IS_LOCAL", false);
+					startActivity(intent);					
+				}
+				else if(msg.arg1 == 404)
+				{	//文件不存在
+					showTextToast(R.string.str_cloud_file_error_1);
+				}
+				else{					
+					showTextToast(R.string.str_query_account_failed1);
 				}
 				break;
 			case JVNetConst.JVN_RSP_DISCONN:
@@ -784,15 +805,36 @@ public class CustomDialogActivity extends BaseActivity implements
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
+			int ret = -1;
 			Log.e("Down", "开始下载.............");
 			HttpDownloader downloader = new HttpDownloader();
-			downloader.downFile(uri_, fileDir_, fileName_);
+			ret = downloader.downFile(uri_, fileDir_, fileName_);
 			Log.e("Down", "下载结束.............");
-			myHandler.sendEmptyMessage(0x00);
+			Message msg = myHandler.obtainMessage(0x00, ret, 0x00);
+			msg.sendToTarget();
 		}
 
 	}
 
+	class HttpJudgeThread implements Runnable {
+
+		private String uri_;
+
+		public HttpJudgeThread(String uri) {
+			uri_ = uri;
+		}
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			int ret = -1;
+			HttpDownloader downloader = new HttpDownloader();
+			ret = downloader.httpJudge(uri_);
+			Message msg = myHandler.obtainMessage(0x02, ret, 0x00);
+			msg.sendToTarget();
+		}
+
+	}
 	class GetCloudInfoThread implements Runnable {
 
 		private String ystGuid_;

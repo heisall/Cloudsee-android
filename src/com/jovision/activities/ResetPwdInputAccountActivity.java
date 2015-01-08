@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.utils.ConfigUtil;
 
 public class ResetPwdInputAccountActivity extends BaseActivity implements
 		OnClickListener {

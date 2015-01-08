@@ -488,6 +488,9 @@ public class Consts {
 	/** surfaceView 单击事件 */
 	public static final int WHAT_SURFACEVIEW_CLICK = 0x59;
 
+	/** 系统消息加载-刷新成功 */
+	public static final int WHAT_SYSTEMINFO_REFRESH_SUCC = 0x60;
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像

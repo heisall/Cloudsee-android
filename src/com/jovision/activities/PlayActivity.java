@@ -172,7 +172,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	/**
 	 * 帮助界面
 	 * */
-	private RelativeLayout playHelp;
+	protected RelativeLayout playHelp;
 	private ViewPager viewpager;
 
 	// 当前页面索引
@@ -569,6 +569,7 @@ public abstract class PlayActivity extends BaseActivity implements
 			topBar.setVisibility(View.VISIBLE);// 顶部标题栏
 
 			if (Consts.PLAY_AP == playFlag) {
+				playHelp.setVisibility(View.GONE);
 				footerBar.setVisibility(View.GONE);// 底部工具栏
 				apFuncLayout.setVisibility(View.VISIBLE);
 			} else {
@@ -618,6 +619,7 @@ public abstract class PlayActivity extends BaseActivity implements
 			horPlayBarLayout.setVisibility(View.GONE);
 			// init();
 			if (Consts.PLAY_AP == playFlag) {
+				playHelp.setVisibility(View.GONE);
 				bottombut6.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turn_no));
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
@@ -677,6 +679,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		}
 
 		if (Consts.PLAY_AP == playFlag) {
+			playHelp.setVisibility(View.GONE);
 			rightFuncButton.setVisibility(View.GONE);
 		} else {
 			// 录像模式
@@ -702,6 +705,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		}
 
 		if (Consts.PLAY_AP == playFlag) {
+			playHelp.setVisibility(View.GONE);
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turnleft_noturn));
 			videTurnBtn.setClickable(false);
@@ -781,6 +785,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		}
 
 		if (Consts.PLAY_AP == playFlag) {
+			playHelp.setVisibility(View.GONE);
 			right_btn_h.setVisibility(View.GONE);
 		} else {
 			// 录像模式
@@ -804,6 +809,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		}
 
 		if (Consts.PLAY_AP == playFlag) {
+			playHelp.setVisibility(View.GONE);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_no));
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(

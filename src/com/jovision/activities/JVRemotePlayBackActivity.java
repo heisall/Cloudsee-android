@@ -270,7 +270,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 		selectScreenNum.setVisibility(View.GONE);
 		rightFuncButton.setVisibility(View.GONE);
-
+		playHelp.setVisibility(View.GONE);
 		/** 中 */
 		viewPager.setVisibility(View.GONE);
 		playSurface.setVisibility(View.VISIBLE);

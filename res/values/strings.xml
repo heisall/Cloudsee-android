@@ -488,6 +488,9 @@
     <string name="channel_full">Fail to add due to upto limition of Device channel quantity.</string>
     <!-- JVSystemInfoActivity -->
     <string name="system_info">系统消息</string>
+    <string name="system_info_load_error">消息加载失败</string>
+    <string name="system_info_nomessage">暂时没有系统消息</string>
+    <string name="system_info_nomore">没有更多了</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">Please input your problems or suggestion.</string>
     <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>
@@ -724,5 +727,6 @@
     <string name="str_query_account_failed1">对不起，网络错误</string>
     <string name="str_not_bind_phone_tips1">您的账号没有绑定手机，请通过邮箱找回</string>
     <string name="str_not_bind_phone_tips2">您的账号没有绑定手机和邮箱，请联系客服</string>
-	<string name="str_not_bind_phone_tips3">该用户不存在</string>
+    <string name="str_not_bind_phone_tips3">该用户不存在</string>
+
 </resources>

@@ -1479,6 +1479,7 @@ public class JVPlayActivity extends PlayActivity implements
 			if (0 == result) {
 				JVPlayActivity.this
 						.showTextToast(R.string.login_str_device_edit_success);
+				playImageClickEvent(channelList.get(lastClickIndex), true);
 			} else {
 				JVPlayActivity.this
 						.showTextToast(R.string.login_str_device_edit_failed);
@@ -1609,6 +1610,28 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
+	/**
+	 * 设置标题
+	 */
+	private void setTitle() {
+		if (Consts.PLAY_NORMAL == playFlag) {
+			currentMenu.setText(R.string.video_check);
+			currentMenu_v.setText(channelList.get(lastClickIndex)
+					.getChannelName());
+			currentMenu_h.setText(channelList.get(lastClickIndex)
+					.getChannelName());
+			selectScreenNum.setVisibility(View.GONE);
+		} else {
+			currentMenu.setText(R.string.str_video_play);
+			currentMenu_h.setText(channelList.get(lastItemIndex).getParent()
+					.getNickName());
+			currentMenu_v.setText(channelList.get(lastItemIndex).getParent()
+					.getNickName()
+					+ "-" + channelList.get(lastClickIndex).getChannel());
+			selectScreenNum.setVisibility(View.VISIBLE);
+		}
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void initUi() {
@@ -1666,17 +1689,17 @@ public class JVPlayActivity extends PlayActivity implements
 
 		selectScreenNum.setOnClickListener(myOnClickListener);
 		currentMenu.setOnClickListener(myOnClickListener);
-		if (playFlag == Consts.PLAY_AP) {
-			currentMenu_h.setText(deviceList.get(deviceIndex).getNickName());
-			currentMenu.setText(R.string.video_check);
-			selectScreenNum.setVisibility(View.GONE);
-		} else {
-			currentMenu_h.setText(channelList.get(lastClickIndex)
-					.getChannelName());
-			currentMenu.setText(R.string.str_video_play);
-			selectScreenNum.setVisibility(View.VISIBLE);
-		}
-
+//		if (playFlag == Consts.PLAY_AP) {
+//			currentMenu_h.setText(deviceList.get(deviceIndex).getNickName());
+//			currentMenu.setText(R.string.video_check);
+//			selectScreenNum.setVisibility(View.GONE);
+//		} else {
+//			currentMenu_h.setText(channelList.get(lastClickIndex)
+//					.getChannelName());
+//			currentMenu.setText(R.string.str_video_play);
+//			selectScreenNum.setVisibility(View.VISIBLE);
+//		}
+		setTitle();
 		linkMode.setVisibility(View.GONE);
 
 		decodeBtn.setOnClickListener(myOnClickListener);
@@ -2274,6 +2297,13 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	public void onClick(Channel channel, boolean isFromImageView, int viewId) {
+		playImageClickEvent(channel, isFromImageView);
+	}
+
+	/**
+	 * 播放按钮事件
+	 */
+	private void playImageClickEvent(Channel channel, boolean isFromImageView) {
 		MyLog.i(Consts.TAG_PLAY, ">>> click: " + channel.getIndex()
 				+ ", isBlocked: " + isBlockUi);
 
@@ -2317,7 +2347,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 			}
 		}
-
 	}
 
 	@Override
@@ -3017,6 +3046,7 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
 			if (0 == result) {
 				if (Consts.PLAY_AP == playFlag) {
 					Intent aintent = new Intent();
@@ -3026,15 +3056,16 @@ public class JVPlayActivity extends PlayActivity implements
 						aintent.putExtra("AP_Back", false);
 					}
 					setResult(Consts.WHAT_AP_CONNECT_FINISHED, aintent);
+					dismissDialog();
 					JVPlayActivity.this.finish();
 				} else {
+					dismissDialog();
 					JVPlayActivity.this.finish();
 				}
 				handler.removeMessages(Consts.WHAT_FINISH);
 				isQuit = true;
 			}
 
-			dismissDialog();
 		}
 
 		@Override
@@ -3529,7 +3560,9 @@ public class JVPlayActivity extends PlayActivity implements
 					.getParent();
 			switch (tag) {
 			case Consts.TAG_PLAY_CONNECTING: {// 连接中
-				// verPlayBarLayout.setVisibility(View.GONE);
+				if (MySharedPreference.getBoolean("playhelp1")) {
+					 verPlayBarLayout.setVisibility(View.GONE);
+				}
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
 						View.VISIBLE);// loading
@@ -3942,10 +3975,12 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	public void pauseAll(ArrayList<Channel> channelList) {
-		int size = channelList.size();
+		if (null!=channelList&&channelList.size()!=0) {
+			int size = channelList.size();
 		for (int i = 0; i < size; i++) {
 			pauseChannel(channelList.get(i));
 		}
+		}	
 	}
 
 	@Override

@@ -118,8 +118,6 @@ public class JVLoginActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		MySharedPreference.init(getApplication());
-		ConfigUtil.getJNIVersion();
-
 	}
 
 	@SuppressWarnings("deprecation")

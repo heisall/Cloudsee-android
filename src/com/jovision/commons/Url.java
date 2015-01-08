@@ -28,13 +28,14 @@ public class Url {
 	public static String CHECK_UPDATE_URL = "http://wmap.yoosee.cc/MobileWeb.aspx";// 检查软件更新地址
 	public static String APK_DOWNLOAD_URL = "http://wmap.yoosee.cc/";// 下载更新软件地址
 
-	public static String SHORTSERVERIP = "58.56.19.187";
-	public static String LONGSERVERIP = "58.56.19.187";
-	// public static String SHORTSERVERIP = ConfigUtil.getServerLanguage() ==
-	// Consts.LANGUAGE_ZH ? "appchannel.afdvr.com"
-	// : "appchannelen.afdvr.com"; // "appchannel.jovecloud.com";
-	// public static String LONGSERVERIP = ConfigUtil.getServerLanguage() ==
-	// Consts.LANGUAGE_ZH ? "apponline.afdvr.com"
-	// : "apponlineen.afdvr.com"; // "apponline.jovecloud.com";
+	// public static String SHORTSERVERIP = "98.126.77.202";
+	// public static String LONGSERVERIP = "98.126.77.202";
+
+	// public static String SHORTSERVERIP = "58.56.19.187";
+	// public static String LONGSERVERIP = "58.56.19.187";
+	public static String SHORTSERVERIP = ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "appchannel.afdvr.com"
+			: "appchannelen.afdvr.com"; // "appchannel.jovecloud.com";
+	public static String LONGSERVERIP = ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "apponline.afdvr.com"
+			: "apponlineen.afdvr.com"; // "apponline.jovecloud.com";
 
 }

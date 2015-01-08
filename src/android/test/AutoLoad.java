@@ -18,6 +18,7 @@ public class AutoLoad {
 			result = true;
 			MyLog.e(Consts.TAG_APP, "AutoLoad libs have done!");
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return result;

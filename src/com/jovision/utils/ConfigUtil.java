@@ -100,7 +100,6 @@ public class ConfigUtil {
 	public static void getJNIVersion() {
 		// remoteVerStr={"jni":"0.8[9246b6f][2014-11-03]","net":"v2.0.76.3.7[private:v2.0.75.13 201401030.2.d]"}
 		try {
-
 			if ("".equalsIgnoreCase(remoteJNIVersion)) {
 				remoteJNIVersion = Jni.getVersion();
 			}
@@ -505,6 +504,7 @@ public class ConfigUtil {
 				.getApplicationContext()).getStatusHashMap();
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
 			result = Jni.init(context, 9200, Consts.LOG_PATH);
+			ConfigUtil.getJNIVersion();
 			Jni.enableLog(true);
 			Jni.setThumb(320, 90);
 			Jni.setStat(true);

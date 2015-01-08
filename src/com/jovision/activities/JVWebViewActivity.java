@@ -1,7 +1,6 @@
 package com.jovision.activities;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -97,13 +96,13 @@ public class JVWebViewActivity extends BaseActivity {
 
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				// view.loadUrl(url);
+				view.loadUrl(url);
 
-				Intent intentAD = new Intent(JVWebViewActivity.this,
-						JVWebViewActivity.class);
-				intentAD.putExtra("URL", url);
-				intentAD.putExtra("title", -2);
-				JVWebViewActivity.this.startActivity(intentAD);
+				// Intent intentAD = new Intent(JVWebViewActivity.this,
+				// JVWebViewActivity.class);
+				// intentAD.putExtra("URL", url);
+				// intentAD.putExtra("title", -2);
+				// JVWebViewActivity.this.startActivity(intentAD);
 				return true;
 			}
 

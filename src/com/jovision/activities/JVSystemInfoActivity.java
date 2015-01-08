@@ -22,7 +22,7 @@ import com.jovision.views.XListView.IXListViewListener;
 public class JVSystemInfoActivity extends BaseActivity implements
 		IXListViewListener {
 	private static final String TAG = "JVSystemInfoActivity";
-	private static final int PAGECOUNT = 2;// 每次一页加载多少条
+	private static final int PAGECOUNT = 5;// 每次一页加载多少条
 
 	private Button back;// 左侧返回按钮
 	private Button rightButton;

@@ -9,8 +9,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import android.util.Log;
-
 /**
  * 
  * @Project: Android_Download
@@ -55,17 +53,18 @@ public class HttpDownloader {
 		int responseCode = -1;
 		try {
 			url = new URL(urlStr);
-			HttpURLConnection urlConn = (HttpURLConnection)url.openConnection();
+			HttpURLConnection urlConn = (HttpURLConnection) url
+					.openConnection();
 			responseCode = urlConn.getResponseCode();
 		} catch (Exception e) {
 			e.printStackTrace();
 			responseCode = -1;
-		} 
+		}
 		return responseCode;
 	}
-	
+
 	public int downFile(String urlStr, String path, String fileName) {
-		
+
 		InputStream inputStream = null;
 		int responseCode = -1;
 		try {
@@ -75,18 +74,17 @@ public class HttpDownloader {
 				System.out.println("exits");
 				return 1;
 			} else {
-//				inputStream = getInputStreamFromURL(urlStr);
+				// inputStream = getInputStreamFromURL(urlStr);
 				HttpURLConnection urlConn = null;
 
 				try {
 					url = new URL(urlStr);
 					urlConn = (HttpURLConnection) url.openConnection();
 					responseCode = urlConn.getResponseCode();
-					if(responseCode == 200){
+					if (responseCode == 200) {
 						int length = urlConn.getContentLength();
-						inputStream = urlConn.getInputStream();						
-					}
-					else{
+						inputStream = urlConn.getInputStream();
+					} else {
 						return responseCode;
 					}
 				} catch (MalformedURLException e) {
@@ -95,7 +93,7 @@ public class HttpDownloader {
 				} catch (IOException e) {
 					e.printStackTrace();
 					return -1;
-				}				
+				}
 				// System.out.println("inpustStream:"+inputStream);
 				File resultFile = fileUtils.write2SDFromInput(path, fileName,
 						inputStream);
@@ -118,22 +116,22 @@ public class HttpDownloader {
 		return 0;
 	}
 
-//	public InputStream getInputStreamFromURL(String urlStr) {
-//		HttpURLConnection urlConn = null;
-//		InputStream inputStream = null;
-//		try {
-//			url = new URL(urlStr);
-//			urlConn = (HttpURLConnection) url.openConnection();
-//			int length = urlConn.getContentLength();
-//			Log.e("download", "length:----------" + length);
-//			inputStream = urlConn.getInputStream();
-//
-//		} catch (MalformedURLException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		return inputStream;
-//	}
+	// public InputStream getInputStreamFromURL(String urlStr) {
+	// HttpURLConnection urlConn = null;
+	// InputStream inputStream = null;
+	// try {
+	// url = new URL(urlStr);
+	// urlConn = (HttpURLConnection) url.openConnection();
+	// int length = urlConn.getContentLength();
+	// Log.e("download", "length:----------" + length);
+	// inputStream = urlConn.getInputStream();
+	//
+	// } catch (MalformedURLException e) {
+	// e.printStackTrace();
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// return inputStream;
+	// }
 }

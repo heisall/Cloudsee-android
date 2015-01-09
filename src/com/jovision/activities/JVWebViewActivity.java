@@ -181,11 +181,18 @@ public class JVWebViewActivity extends BaseActivity {
 
 	@Override
 	protected void onPause() {
+		super.onPause();
+		webView.onPause();
 		// if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 		// webView.onPause(); // 暂停网页中正在播放的视频
 		// }
-		super.onPause();
+	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		webView.reload();
+		webView.onResume();
 	}
 
 }

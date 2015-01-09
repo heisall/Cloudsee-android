@@ -16,7 +16,6 @@ import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
-import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 

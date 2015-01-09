@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import android.R.integer;
 import android.os.Environment;
 import android.util.Log;
 

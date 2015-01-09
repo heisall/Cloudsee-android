@@ -13,8 +13,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.nfc.cardemulation.OffHostApduService;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -72,6 +70,7 @@ public class CustomDialogActivity extends BaseActivity implements
 	private int alarmSolution;
 	private String cloudBucket, cloudResource, storageJson;
 	private CustomDialogActivity mActivity;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -309,7 +308,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				cloudResource = String.format("/%s/%s", cloudBucket, temp[1]);
 				cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource,
 						storageJson);
-				new Thread(new HttpJudgeThread(cloudSignVodUri)).start();				
+				new Thread(new HttpJudgeThread(cloudSignVodUri)).start();
 			}
 			break;
 		case R.id.dialog_cancle_img:
@@ -651,7 +650,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			switch (msg.what) {
 			case 0x00:
 				if (bDownLoadFileType == 0) {
-					if(msg.arg1 == 0){//下载成功
+					if (msg.arg1 == 0) {// 下载成功
 						// 下载图片
 						if (!vod_uri_.equals("")) {
 							lookVideoBtn.setEnabled(true);
@@ -660,15 +659,12 @@ public class CustomDialogActivity extends BaseActivity implements
 						Bitmap bmp = getLoacalBitmap(localImgPath);
 						if (null != bmp) {
 							alarmImage.setImageBitmap(bmp);
-						}						
-					}
-					else if(msg.arg1 == 404)
-					{	//文件不存在
+						}
+					} else if (msg.arg1 == 404) { // 文件不存在
 						showTextToast(R.string.str_cloud_file_error_1);
-					}
-					else{					
+					} else {
 						showTextToast(R.string.str_query_account_failed1);
-					}					
+					}
 				}
 				break;
 			case 0x01:
@@ -708,18 +704,15 @@ public class CustomDialogActivity extends BaseActivity implements
 				}
 				break;
 			case 0x02:
-				if(msg.arg1 == 200){//可以访问
+				if (msg.arg1 == 200) {// 可以访问
 					Intent intent = new Intent();
 					intent.setClass(mActivity, JVVideoActivity.class);
 					intent.putExtra("URL", cloudSignVodUri);
 					intent.putExtra("IS_LOCAL", false);
-					startActivity(intent);					
-				}
-				else if(msg.arg1 == 404)
-				{	//文件不存在
+					startActivity(intent);
+				} else if (msg.arg1 == 404) { // 文件不存在
 					showTextToast(R.string.str_cloud_file_error_1);
-				}
-				else{					
+				} else {
 					showTextToast(R.string.str_query_account_failed1);
 				}
 				break;
@@ -835,6 +828,7 @@ public class CustomDialogActivity extends BaseActivity implements
 		}
 
 	}
+
 	class GetCloudInfoThread implements Runnable {
 
 		private String ystGuid_;

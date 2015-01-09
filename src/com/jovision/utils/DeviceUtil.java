@@ -16,7 +16,6 @@ import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.bean.OneKeyUpdate;
 import com.jovision.bean.SystemInfo;
-import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;

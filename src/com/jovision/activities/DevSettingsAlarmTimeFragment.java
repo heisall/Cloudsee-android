@@ -3,6 +3,7 @@ package com.jovision.activities;
 import javax.security.auth.PrivateCredentialPermission;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -27,6 +28,7 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
 	private TextView tv_stime, tv_etime;
 	private RelativeLayout rl_start, rl_end;
 	private Button btn_all_day, btn_save;
+	protected Toast toast;
 
 	public interface OnAlarmTimeActionListener {
 		public void OnAlarmTimeSaved(String startTime, String endTime);
@@ -113,14 +115,14 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
 		String end[] = endTime.split(":");
 		for (int i = 0; i < end.length; i++) {
 			if ((Integer.valueOf(start[0]))>(Integer.valueOf(end[0]))){
-				Toast.makeText(getActivity(), "结束时间不能小于开始时间", Toast.LENGTH_SHORT).show();
+				showTextToast(getActivity(), R.string.str_computre_time1);
 			}else if ((Integer.valueOf(start[0])) == (Integer.valueOf(end[0]))) {
 				if ((Integer.valueOf(start[1]))>(Integer.valueOf(end[1]))) {
-					Toast.makeText(getActivity(), "结束时间不能小于开始时间", Toast.LENGTH_SHORT).show();
+					showTextToast(getActivity(), R.string.str_computre_time1);
 				}else if((Integer.valueOf(start[1]))<(Integer.valueOf(end[1]))){
 					mListener.OnAlarmTimeSaved(startTime, endTime);
 				}else {
-					Toast.makeText(getActivity(), "开始时间不能等于结束时间", Toast.LENGTH_SHORT).show();
+					showTextToast(getActivity(), R.string.str_computre_time3);
 				}
 			}else {
 				mListener.OnAlarmTimeSaved(startTime, endTime);
@@ -133,5 +135,19 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
 		// TODO Auto-generated method stub
 		mListener.OnAlarmTimeSavedResult(0);
 	}
-
+	/**
+	 * 弹系统消息
+	 * 
+	 * @param context
+	 * @param id
+	 */
+	public void showTextToast(Context context, int id) {
+		String msg = context.getResources().getString(id);
+		if (toast == null) {
+			toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+		} else {
+			toast.setText(msg);
+		}
+		toast.show();
+	}
 }

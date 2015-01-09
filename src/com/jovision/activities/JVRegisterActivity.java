@@ -289,7 +289,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 															JVAccountConst.USERNAME_DETECTION_FAILED,
 															0, 0));
 											isregister = true;
-										} else if(JVAccountConst.USER_HAS_EXIST == nameExists){
+										} else if(JVAccountConst.USER_NOT_EXIST == nameExists){
 											handler.sendMessage(handler
 													.obtainMessage(
 															JVAccountConst.USERNAME_DETECTION_SUCCESS,
@@ -357,7 +357,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				handler.sendMessage(handler.obtainMessage(
 						JVAccountConst.USERNAME_DETECTION_FAILED, 0, 0));
 				isregister = true;
-			} else  if(JVAccountConst.USER_HAS_EXIST == nameExists){
+			} else  if(JVAccountConst.USER_NOT_EXIST == nameExists){
 				handler.sendMessage(handler.obtainMessage(
 						JVAccountConst.USERNAME_DETECTION_SUCCESS, 0, 0));
 				isclick = true;

@@ -42,13 +42,14 @@
 
             <ImageView
                 android:id="@+id/item_new"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@+id/item_next"
                 android:background="@drawable/morefragment_new"
-                android:visibility="gone" />
+                android:visibility="gone"
+                />
 
             <ImageView
                 android:id="@+id/item_next"

@@ -26,6 +26,7 @@
     <string name="login_str_nike_name_order">含有非法字符,昵称由1–20个字母、数字、汉字及特殊字符–_+().组成</string>
     <string name="login_str_device_account_notnull">请输入用户名</string>
     <string name="login_str_device_pass_notnull">请输入密码</string>
+    <string name="device_pass_notzh">密码不能是中文</string>
     <string name="login_str_device_connnum_notnull">通道数量不能为空</string>
     <string name="login_str_device_account_error">用户名格式不正确，用户名只能由1–16位的英文、数字及._–组成.</string>
     <string name="login_str_device_pass_error">密码格式不正确，密码只能由0–16位字符组成.</string>
@@ -117,6 +118,15 @@
     <string name="str_has_call">设备未开启对讲或已在其他客户端开启云对讲，请稍后重试.</string>
     <string name="str_call_close"> 对讲功能成功关闭</string>
     <string name="play_failed"> 播放失败</string>
+    <!-- PlayHelp -->
+    <string name="playhelp_pull">切换多屏显示</string>
+    <string name="playhelp_moreview">更多→图像查看</string>
+    <string name="playhelp_maliu">切换码流</string>
+    <string name="playhelp_voice">音频开关</string>
+    <string name="playhelp_fanzhuan">视频翻转</string>
+    <string name="playhelp_devicesetting">设置设备功能</string>
+    <string name="playhelp_cloud">手势云台</string>
+    <string name="playhelp_zoom">手势缩放</string>
     <!-- 连接方式 -->
     <string name="cloud_number">云视通号</string>
     <!-- 更多功能 -->
@@ -141,11 +151,11 @@
     <string name="str_login_out">注销</string>
     <!-- 注册 -->
     <string name="str_enter_username">邮箱/手机号/用户名</string>
-    <string name="str_enter_username1">请输入新用户名</string>
+    <string name="str_enter_username1">请输入手机号</string>
     <string name="str_enter_pass1">密码</string>
     <string name="str_enter_pass2">确认密码</string>
-    <string name="str_enter_phone">手机</string>
-    <string name="str_enter_email">邮箱</string>
+    <string name="str_enter_phone">请输入手机号</string>
+    <string name="str_enter_email">请输入邮箱</string>
     <string name="login_str_bind">绑定</string>
     <string name="str_read_agree">阅读并同意</string>
     <string name="str_agreement">用户协议</string>
@@ -167,6 +177,7 @@
     <string name="str_video_disconnected">视频已断开，暂时无法播放远程回放视频</string>
     <!-- leftFragment -->
     <string name="str_delete_sure">确认删除吗?</string>
+    <string name="delete_dev_sure">删除通道设备也将被删除，是否确认删除?</string>
     <string name="str_delete_tip">提示</string>
     <!-- 登录 -->
     <string name="str_local_login">访客登录</string>
@@ -191,14 +202,15 @@
     <string name="str_email_not_exist">恭喜，邮箱已被您收入囊中.</string>
     <string name="str_reset_not_success">没有修改成功.</string>
     <string name="str_modify_user_info">完善用户信息</string>
-    <string name="str_bound_email">绑定邮箱</string>
+    <string name="str_bound_email">绑定手机号(邮箱)</string>
     <string name="str_bound_email_success">绑定成功</string>
     <string name="str_bound_email_failed">邮箱绑定失败</string>
     <string name="str_bound_phone_exist">手机号已被注册</string>
     <string name="str_bound_email_exist">邮箱已被注册</string>
     <string name="str_device_most_count">您的设备数已超过最大值，请删除不使用的设备后再添加新设备.</string>
     <string name="string_username_modify_tips">账号系统升级，请重置账号.</string>
-    <string name="string_email_bound_tips">为了您的账户安全以及体验更多服务，建议您绑定一个邮箱或手机.</string>
+    <string name="string_email_bound_tips">为了您的账户安全以及体验更多服务，建议您绑定一个邮箱.</string>
+    <string name="string_email_bound_tips1">为了您的账户安全以及体验更多服务，建议您绑定一个邮箱或手机号.</string>
     <string name="str_skip">跳过</string>
     <string name="str_reset">正在重置</string>
     <!-- 修改密码 -->
@@ -441,6 +453,7 @@
     <!-- ap配置流程模块 -->
     <string name="quick_setting_searching">正在搜索附近设备网络</string>
     <string name="str_quiksetting_tips_txt">请选择要配置设备</string>
+    <string name="str_wave_txt">请选择需添加设备</string>
     <string name="str_quick_setting_alert_1">正在连接设备,请稍候</string>
     <string name="str_quick_setting_connect">无线配置</string>
     <string name="str_quick_setting_waiting">继续等待</string>
@@ -473,6 +486,11 @@
     <string name="add_channel_failed">通道添加失败</string>
     <string name="device_connect">全连设备</string>
     <string name="channel_full">该设备的通道数量达到上限，不能继续添加.</string>
+    <!-- JVSystemInfoActivity -->
+    <string name="system_info">系统消息</string>
+    <string name="system_info_load_error">消息加载失败</string>
+    <string name="system_info_nomessage">暂时没有系统消息</string>
+    <string name="system_info_nomore">没有更多了</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">请在此输入您的问题或建议</string>
     <string name="str_notice_connection">为方便后续跟踪您提的问题和建议，请留下您的联系方式</string>
@@ -648,6 +666,7 @@
     <string name="str_mdenabled_close_ok">移动侦测关闭成功</string>
     <string name="str_mdenabled_close_failed">移动侦测关闭失败</string>
     <string name="str_illegal_dev_nick">输入的昵称不合法</string>
+    <string name="str_cloud_file_error_1">文件未上传完毕或上传失败</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="census_login">本地登录</string>
     <string name="census_onlinelogin">在线登录</string>
@@ -692,6 +711,7 @@
     <string name="reset_passwd_tips5">您绑定的手机号码不合法</string>
     <string name="reset_passwd_tips6">填写验证码</string>
     <string name="reset_passwd_tips7">发送中...</string>
+    <string name="reset_passwd_tips8">验证未通过</string>
     <string name="reset_passwd_virificaition_code_wrong">验证码不正确</string>
     <string name="reset_passwd_failed">重置密码失败</string>
     <string name="reset_passwd_title1">输入账号</string>
@@ -706,5 +726,8 @@
     <string name="str_set_new_pwd_ok">新密码设置成功，请重新登录</string>
     <string name="str_query_account_failed">查询账号信息失败</string>
     <string name="str_not_bind_phone_tips1">您的账号没有绑定手机，请通过邮箱找回</string>
+    <string name="str_query_account_failed1">对不起，网络错误</string>
+    <string name="str_not_bind_phone_tips2">您的账号没有绑定手机和邮箱，请联系客服</string>
+    <string name="str_not_bind_phone_tips3">该用户不存在</string>
 
 </resources>

@@ -26,6 +26,7 @@
     <string name="login_str_nike_name_order">含有非法字元,昵稱由1–20個字母、數字、漢字及特殊字元–_+().組成</string>
     <string name="login_str_device_account_notnull">請輸入用戶名</string>
     <string name="login_str_device_pass_notnull">請輸入密碼</string>
+    <string name="device_pass_notzh">密碼不能是中文</string>
     <string name="login_str_device_connnum_notnull">通道數量不能為空</string>
     <string name="login_str_device_account_error">用戶名格式不正確，用戶名只能由1–16位的英文、數字及._–組成.</string>
     <string name="login_str_device_pass_error">密碼格式不正確，密碼只能由0–16位字元組成.</string>
@@ -117,6 +118,15 @@
     <string name="str_has_call">設備未開啟對講或已在其他客戶端開啟雲對講，請稍後重試.</string>
     <string name="str_call_close"> 對講功能成功關閉</string>
     <string name="play_failed"> 播放失敗</string>
+    <!-- PlayHelp -->
+    <string name="playhelp_pull">切換多屏顯示</string>
+    <string name="playhelp_moreview">更多→圖像查看</string>
+    <string name="playhelp_maliu">切換碼流</string>
+    <string name="playhelp_voice">音頻開關</string>
+    <string name="playhelp_fanzhuan">視頻翻轉</string>
+    <string name="playhelp_devicesetting">設置設備功能</string>
+    <string name="playhelp_cloud">手勢雲臺</string>
+    <string name="playhelp_zoom">手勢縮放</string>
     <!-- 連接方式 -->
     <string name="cloud_number">雲視通號</string>
     <!-- 更多功能 -->
@@ -141,11 +151,11 @@
     <string name="str_login_out">註銷</string>
     <!-- 註冊 -->
     <string name="str_enter_username">郵信箱/手機號/用戶名</string>
-    <string name="str_enter_username1">請輸入新用戶名</string>
+    <string name="str_enter_username1">請輸入手機號</string>
     <string name="str_enter_pass1">密碼</string>
     <string name="str_enter_pass2">確認密碼</string>
-    <string name="str_enter_phone">手機</string>
-    <string name="str_enter_email">信箱</string>
+    <string name="str_enter_phone">請輸入手機號</string>
+    <string name="str_enter_email">請輸入信箱</string>
     <string name="login_str_bind">綁定</string>
     <string name="str_read_agree">閱讀並同意</string>
     <string name="str_agreement">用戶協議</string>
@@ -167,6 +177,7 @@
     <string name="str_video_disconnected">視頻已斷開，暫時無法播放遠程回放視頻</string>
     <!-- leftFragment -->
     <string name="str_delete_sure">確認刪除嗎?</string>
+    <string name="delete_dev_sure">刪除通道設備也將被刪除，是否確認刪除?</string>
     <string name="str_delete_tip">提示</string>
     <!-- 登錄 -->
     <string name="str_local_login">訪客登錄</string>
@@ -191,14 +202,15 @@
     <string name="str_email_not_exist">恭喜，信箱已被您收入囊中.</string>
     <string name="str_reset_not_success">沒有修改成功.</string>
     <string name="str_modify_user_info">完善用戶資訊</string>
-    <string name="str_bound_email">綁定信箱</string>
+    <string name="str_bound_email">綁定手機號(信箱)</string>
     <string name="str_bound_email_success">綁定成功</string>
     <string name="str_bound_email_failed">信箱綁定失敗</string>
     <string name="str_bound_phone_exist">手機號已被註冊</string>
     <string name="str_bound_email_exist">信箱已被註冊</string>
     <string name="str_device_most_count">您的設備數已超過最大值，請刪除不使用的設備後再添加新設備.</string>
     <string name="string_username_modify_tips">帳號系統升級，請重置帳號.</string>
-    <string name="string_email_bound_tips">為了您的帳戶安全以及體驗更多服務，建議您綁定一個信箱或手機.</string>
+    <string name="string_email_bound_tips">為了您的帳戶安全以及體驗更多服務，建議您綁定一個信箱.</string>
+    <string name="string_email_bound_tips1">為了您的帳戶安全以及體驗更多服務，建議您綁定一個信箱或手機.</string>
     <string name="str_skip">跳過</string>
     <string name="str_reset">正在重置</string>
     <!-- 修改密碼 -->
@@ -441,6 +453,7 @@
     <!-- ap配置流程模組 -->
     <string name="quick_setting_searching">正在搜索附近設備網路</string>
     <string name="str_quiksetting_tips_txt">請選擇要配置設備</string>
+    <string name="str_wave_txt">請選擇需添加設備</string>
     <string name="str_quick_setting_alert_1">正在連接設備,請稍候</string>
     <string name="str_quick_setting_connect">無線配置</string>
     <string name="str_quick_setting_waiting">繼續等待</string>
@@ -473,6 +486,11 @@
     <string name="add_channel_failed">通道添加失敗</string>
     <string name="device_connect">全連設備</string>
     <string name="channel_full">該設備的通道數量達到上限，不能繼續添加.</string>
+    <!-- JVSystemInfoActivity -->
+    <string name="system_info">系統消息</string>
+    <string name="system_info_load_error">消息加載失敗</string>
+    <string name="system_info_nomessage">暫時沒有系統消息</string>
+    <string name="system_info_nomore">沒有更多了</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">請在此輸入您的問題或建議</string>
     <string name="str_notice_connection">為方便後續跟蹤您提的問題和建議，請留下您的聯繫方式</string>
@@ -648,6 +666,7 @@
     <string name="str_mdenabled_close_ok">移動偵測關閉成功</string>
     <string name="str_mdenabled_close_failed">移動偵測關閉失敗</string>
     <string name="str_illegal_dev_nick">輸入的昵稱不合法</string>
+    <string name="str_cloud_file_error_1">文件未上傳完畢或上傳失敗</string>
     <!-- 騰訊雲分析統計名稱 不用翻譯 -->
     <string name="census_login">本地登錄</string>
     <string name="census_onlinelogin">線上登錄</string>
@@ -690,19 +709,23 @@
     <string name="reset_passwd_tips5">您綁定的手機號碼不合法</string>
     <string name="reset_passwd_tips6">填寫驗證碼</string>
     <string name="reset_passwd_tips7">發送中...</string>
+    <string name="reset_passwd_tips8">驗證未通過</string>
     <string name="reset_passwd_virificaition_code_wrong">驗證碼不正確</string>
     <string name="reset_passwd_failed">重置密碼失敗</string>
     <string name="reset_passwd_title1">輸入帳號</string>
     <string name="reset_passwd_way1">綁定信箱找回</string>
-    <string name="reset_passwd_way2">短信驗證碼找回</string>
+    <string name="reset_passwd_way2">簡訊驗證碼找回</string>
     <string name="str_verification_code">驗證碼</string>
     <string name="str_notreceive_sms">收不到驗證碼?</string>
     <string name="str_resend_code">重新獲取驗證碼</string>
     <string name="str_receive_sms_time">接收短信大約需要SS秒鐘</string>
-    <string name="str_sms_sent">短信驗證碼已發送</string>
+    <string name="str_sms_sent">簡訊驗證碼已發送</string>
     <string name="str_set_new_pwd">設置新密碼</string>
     <string name="str_set_new_pwd_ok">新密碼設置成功，請重新登錄</string>
     <string name="str_query_account_failed">查詢帳號資訊失敗</string>
-    <string name="str_not_bind_phone_tips1">您的賬號沒有綁定手機，請通過郵箱找回</string>
+    <string name="str_query_account_failed1">對不起,網絡錯誤</string>
+    <string name="str_not_bind_phone_tips1">您的賬號沒有綁定手機，請通過信箱找回</string>
+    <string name="str_not_bind_phone_tips2">您的賬號沒有綁定手機和信箱，請聯系客服</string>
+    <string name="str_not_bind_phone_tips3">該用戶不存在</string>
 
 </resources>

@@ -17,6 +17,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
@@ -47,7 +48,6 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
-import com.jovision.utils.GetPhoneNumber;
 
 public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
@@ -67,8 +67,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
 	/** 注册信息提示文本 */
 	private TextView registTips;
-	/** 验证手机号 */
-	private GetPhoneNumber phoneNumber;
 	/** 用户名是否存在 */
 	private int nameExists;
 	private static final String TAG = "RESET_PWD";
@@ -89,6 +87,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 	private BroadcastReceiver smsReceiver;
 
 	private boolean stop;
+	private boolean isclick;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -100,6 +99,12 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 			registTips.setTextColor(Color.rgb(21, 103, 215));
 			registTips.setText(getResources().getString(
 					R.string.str_user_not_exist2));
+			if (isclick) {
+				SMSSDK.getVerificationCode(currentCode, userNameEditText
+						.getText().toString().trim());
+				countDown();
+				isregister = false;
+			}
 			break;
 		}
 		/** 注册用户名检测成功、失败 */
@@ -110,15 +115,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 			registTips.setText(getResources().getString(
 					R.string.str_user_has_exist));
 			isregister = true;
-			break;
-		}
-		/** 手机号不符合规则 */
-		case JVAccountConst.PHONE_DETECTION_FAILED: {
-			dismissDialog();
-			registTips.setVisibility(View.VISIBLE);
-			registTips.setTextColor(Color.rgb(217, 34, 38));
-			registTips.setText(getResources().getString(
-					R.string.str_phone_num_error));
 			break;
 		}
 		}
@@ -152,6 +148,8 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		registTips = (TextView) findViewById(R.id.regist_tips);
 		agreeTBtn = (ToggleButton) findViewById(R.id.agree);
 		agreeMent = (TextView) findViewById(R.id.agreement);
+		agreeMent.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
+		agreeMent.getPaint().setAntiAlias(true);
 		mWebView = (WebView) findViewById(R.id.mywebview);
 		agreeLayout = (LinearLayout) findViewById(R.id.registagreelayout);
 		pd = new ProgressDialog(this);
@@ -179,57 +177,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		if ("true".equalsIgnoreCase(statusHashMap.get(Consts.NEUTRAL_VERSION))) {
 			agreeLayout.setVisibility(View.GONE);
 		}
-		userNameEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (!hasFocus) {
-					if ("".equalsIgnoreCase(userNameEditText.getText()
-							.toString())) {
-						registTips.setVisibility(View.VISIBLE);
-						registTips.setTextColor(Color.rgb(217, 34, 38));
-						registTips.setText(getResources().getString(
-								R.string.login_str_username_notnull));
-					} else {
-						int res = AccountUtil.VerifyUserName(
-								JVRegisterActivity.this, userNameEditText
-										.getText().toString());
-						if (res >= 0) {
-							createDialog("", true);
-							new Thread() {
-								public void run() {
-									phoneNumber = new GetPhoneNumber(
-											userNameEditText.getText()
-													.toString());
-									nameExists = AccountUtil
-											.isUserExsit(userNameEditText
-													.getText().toString());
-									if (JVAccountConst.USER_HAS_EXIST == nameExists) {
-										handler.sendMessage(handler
-												.obtainMessage(
-														JVAccountConst.USERNAME_DETECTION_FAILED,
-														0, 0));
-										isregister = true;
-									} else if (phoneNumber.matchNum() == 4
-											|| phoneNumber.matchNum() == 5) {
-										handler.sendMessage(handler
-												.obtainMessage(
-														JVAccountConst.PHONE_DETECTION_FAILED,
-														0, 0));
-									} else {
-										handler.sendMessage(handler
-												.obtainMessage(
-														JVAccountConst.USERNAME_DETECTION_SUCCESS,
-														0, 0));
-										isregister = false;
-									}
-								};
-							}.start();
-						}
-					}
-				}
-			}
-		});
-
 		// appliction MetaData读取
 		ApplicationInfo info;
 		try {
@@ -310,6 +257,49 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 			Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
 					+ country[0]);
 		}
+		userNameEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (!hasFocus) {
+					checkPhoneNum(userNameEditText.getText().toString(),
+							currentCode);
+					if ("".equalsIgnoreCase(userNameEditText.getText()
+							.toString())) {
+						registTips.setVisibility(View.VISIBLE);
+						registTips.setTextColor(Color.rgb(217, 34, 38));
+						registTips.setText(getResources().getString(
+								R.string.login_str_username_notnull));
+					} else {
+						int res = AccountUtil.VerifyUserName(
+								JVRegisterActivity.this, userNameEditText
+										.getText().toString());
+						if (res >= 0) {
+							createDialog("", true);
+							new Thread() {
+								public void run() {
+									nameExists = AccountUtil
+											.isUserExsit(userNameEditText
+													.getText().toString());
+									if (JVAccountConst.USER_HAS_EXIST == nameExists) {
+										handler.sendMessage(handler
+												.obtainMessage(
+														JVAccountConst.USERNAME_DETECTION_FAILED,
+														0, 0));
+										isregister = true;
+									} else {
+										handler.sendMessage(handler
+												.obtainMessage(
+														JVAccountConst.USERNAME_DETECTION_SUCCESS,
+														0, 0));
+										isregister = false;
+									}
+								};
+							}.start();
+						}
+					}
+				}
+			}
+		});
 		GetVerificationCode();
 	}
 
@@ -352,30 +342,20 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
 	private void MakeSure() {
 		isregister = false;
-		phoneNumber = new GetPhoneNumber(userNameEditText.getText().toString());
 		int res = AccountUtil.VerifyUserName(JVRegisterActivity.this,
 				userNameEditText.getText().toString());
 		if (res >= 0) {
 			createDialog("", true);
-			phoneNumber = new GetPhoneNumber(userNameEditText.getText()
-					.toString());
 			nameExists = AccountUtil.isUserExsit(userNameEditText.getText()
 					.toString());
 			if (JVAccountConst.USER_HAS_EXIST == nameExists) {
 				handler.sendMessage(handler.obtainMessage(
 						JVAccountConst.USERNAME_DETECTION_FAILED, 0, 0));
 				isregister = true;
-			} else if (phoneNumber.matchNum() == 4
-					|| phoneNumber.matchNum() == 5) {
-				handler.sendMessage(handler.obtainMessage(
-						JVAccountConst.PHONE_DETECTION_FAILED, 0, 0));
 			} else {
 				handler.sendMessage(handler.obtainMessage(
 						JVAccountConst.USERNAME_DETECTION_SUCCESS, 0, 0));
-				checkPhoneNum(userNameEditText.getText().toString(),
-						currentCode);
-				countDown();
-				isregister = false;
+				isclick = true;
 			}
 		}
 	}
@@ -403,37 +383,30 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				MakeSure();
 				break;
 			case R.id.regist:
-				phoneNumber = new GetPhoneNumber(userNameEditText.getText()
-						.toString());
+				isclick = false;
 				if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
 						&& !"".equals(code.getText().toString())) {
-					if (phoneNumber.matchNum() == 4
-							|| phoneNumber.matchNum() == 5) {
-						showTextToast(R.string.login_str_loginephone_tips);
-					} else {
-						// 验证填入的验证码
-						strIdentifyNum = code.getText().toString().trim();
+					// 验证填入的验证码
+					strIdentifyNum = code.getText().toString().trim();
+					Log.i("TAG", currentCode
+							+ userNameEditText.getText().toString()
+							+ strIdentifyNum);
+					// 提交验证
+					if (!TextUtils.isEmpty(currentCode)) {
+						if (pd != null && pd.isShowing()) {
+							pd.dismiss();
+						}
+						if (pd != null) {
+							pd.setMessage(getResources().getString(
+									R.string.reset_passwd_tips3));
+							pd.show();
+						}
 						Log.i("TAG", currentCode
 								+ userNameEditText.getText().toString()
 								+ strIdentifyNum);
-						// 提交验证
-						if (!TextUtils.isEmpty(currentCode)) {
-							if (pd != null && pd.isShowing()) {
-								pd.dismiss();
-							}
-							if (pd != null) {
-								pd.setMessage(getResources().getString(
-										R.string.reset_passwd_tips3));
-								pd.show();
-							}
-							Log.i("TAG", currentCode
-									+ userNameEditText.getText().toString()
-									+ strIdentifyNum);
-							SMSSDK.submitVerificationCode(currentCode,
-									userNameEditText.getText().toString(),
-									strIdentifyNum);
-						}
-
+						SMSSDK.submitVerificationCode(currentCode,
+								userNameEditText.getText().toString(),
+								strIdentifyNum);
 					}
 				} else if (isregister) {
 					showTextToast(getResources().getString(
@@ -469,8 +442,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 			showTextToast(getResources().getString(R.string.reset_passwd_tips5));
 			return;
 		}
-		SMSSDK.getVerificationCode(code, phone.trim());
-		showTextToast(R.string.str_sms_sent);
 	}
 
 	@Override
@@ -591,19 +562,25 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
 		runOnUIThread(new Runnable() {
 			public void run() {
+				String recode = getResources().getString(
+						R.string.str_resend_code);
 				time--;
 				if (time == 0 || stop) {
-					registercode.setText(getResources().getString(
-							R.string.str_resend_code));
+					registercode.setText(recode);
+					registercode.setTextColor(getResources().getColor(
+							R.color.white));
 					registercode.setEnabled(true);
 					time = RETRY_INTERVAL;
 					stop = false;
+					registercode.setBackgroundResource(R.drawable.blue_bg);
 				} else {
-					registercode.setTextColor(getResources().getColor(
-							R.color.gray));
-					registercode.setText(time + " ");
+					registercode.setText(recode + "\n" + "(" + time + ")");
 					registercode.setEnabled(false);
 					runOnUIThread(this, 1000);
+					if (time == 59) {
+						registercode.setBackgroundResource(R.drawable.vercode);
+						showTextToast(R.string.str_sms_sent);
+					}
 				}
 			}
 		}, 1000);

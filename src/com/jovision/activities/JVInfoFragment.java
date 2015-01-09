@@ -19,11 +19,13 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.adapters.PushAdapter;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.views.AlarmDialog;
@@ -49,6 +51,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	private boolean pullUp = false;
 	private boolean bfirstrun = true;
 	private MyAlertDialog alertDialog;
+	private MainApplication mApp = null;
 
 	// private boolean firstIntoPush = false;// 是否第一次进入pushmessage界面
 
@@ -62,6 +65,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		} else {
 			bfirstrun = false;
 		}
+		mApp = (MainApplication) getActivity().getApplication();
 		ViewGroup parent = (ViewGroup) rootView.getParent();
 		if (parent != null) {
 			parent.removeView(rootView);
@@ -245,14 +249,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					temList.get(j).newTag = true;
 				}
 				// 保存状态，例如新消息。否则刷新后新消息的标志就木有了。
-				for (int i = 0; i < temList.size(); i++) {
-					for (int j = 0; j < pushList.size(); j++) {
-						if (pushList.get(j).strGUID.equalsIgnoreCase(temList
-								.get(i).strGUID)) {
-							temList.get(i).newTag = pushList.get(j).newTag;
-						}
-					}
-				}
+				// for (int i = 0; i < temList.size(); i++) {
+				// for (int j = 0; j < pushList.size(); j++) {
+				// if (pushList.get(j).strGUID.equalsIgnoreCase(temList
+				// .get(i).strGUID)) {
+				// temList.get(i).newTag = pushList.get(j).newTag;
+				// }
+				// }
+				// }
 				pushList.clear();
 				pushList.addAll(temList);
 				Consts.pushHisCount = addLen;
@@ -372,6 +376,13 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	}
 
 	@Override
+	public void onPause() {
+		MySharedPreference.putString("MARKED_ALARM",
+				ConfigUtil.convertToString(mApp.getMarkedAlarmList()));
+		super.onPause();
+	}
+
+	@Override
 	public void onResume() {
 		String arrayStr = mActivity.statusHashMap.get(Consts.PUSH_JSONARRAY);
 		mActivity.statusHashMap.put(Consts.PUSH_JSONARRAY, "");
@@ -395,6 +406,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 								.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNUM);
 						pi.coonNum = obj
 								.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
+						pi.alarmSolution = obj
+								.optInt(JVAlarmConst.JK_ALARM_SOLUTION);
 						//
 						// pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
 						pi.alarmType = obj
@@ -608,6 +621,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				mActivity.showTextToast(R.string.clear_alarm_succ);
 				noMess.setVisibility(View.VISIBLE);
 				noMessTv.setVisibility(View.VISIBLE);
+				mApp.getMarkedAlarmList().clear();
 			} else {
 				mActivity.showTextToast(R.string.clear_alarm_failed);
 			}

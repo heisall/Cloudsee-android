@@ -38,6 +38,7 @@ import com.jovision.Consts;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.commons.CheckUpdateTask;
+import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
@@ -86,7 +87,8 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon, R.drawable.media_image,
 			R.drawable.morefragment_update_icon, R.drawable.media_image,
-			R.drawable.morefragment_aboutus_icon,
+			R.drawable.morefragment_feedback_icon,
+			R.drawable.morefragment_update_icon, R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -204,6 +206,12 @@ public class JVMoreFragment extends BaseFragment {
 		more_modify.setOnClickListener(myOnClickListener);
 		more_findpassword.setOnClickListener(myOnClickListener);
 
+		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
+				.get(Consts.LOCAL_LOGIN))) {
+			more_modifypwd.setVisibility(View.VISIBLE);
+		} else {
+			more_modifypwd.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -481,7 +489,52 @@ public class JVMoreFragment extends BaseFragment {
 													R.string.ok), null).show();
 							// TODO
 							break;
-						case 6:// 媒体
+						case 6:
+							if (!MySharedPreference.getBoolean("VideoSquer")) {
+								MySharedPreference.putBoolean("VideoSquer",
+										true);
+							}
+
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								StatService.trackCustomEvent(
+										mActivity,
+										"Demo",
+										mActivity.getResources().getString(
+												R.string.census_demo));
+
+								GetDemoTask demoTask = new GetDemoTask(
+										mActivity);
+								String[] demoParams = new String[3];
+								if (!Boolean
+										.valueOf(((BaseActivity) activity).statusHashMap
+												.get(Consts.LOCAL_LOGIN))) {
+									demoParams[0] = "";
+								} else {
+									demoParams[0] = "";
+								}
+								demoTask.execute(demoParams);
+
+								// Intent demoIntent = new Intent();
+								// demoIntent.setClass(JVLoginActivity.this,
+								// JVDemoActivity.class);
+								// JVLoginActivity.this.startActivity(demoIntent);
+							}
+							// TODO
+							break;
+						case 7:
+							if (!MySharedPreference.getBoolean("SystemMessage")) {
+								MySharedPreference.putBoolean("SystemMessage",
+										true);
+							}
+							Intent infoIntent = new Intent();
+							infoIntent.setClass(mActivity,
+									JVSystemInfoActivity.class);
+							mActivity.startActivity(infoIntent);
+							// TODO
+							break;
+						case 8:// 媒体
 							StatService.trackCustomEvent(
 									mActivity,
 									"Media",
@@ -491,12 +544,12 @@ public class JVMoreFragment extends BaseFragment {
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);
 							break;
-						case 7:
+						case 9:
 							Intent intent = new Intent(mActivity,
 									JVFeedbackActivity.class);
 							startActivity(intent);
 							break;
-						case 8:
+						case 10:
 							mActivity.createDialog("", false);
 							CheckUpdateTask taskf = new CheckUpdateTask(
 									mActivity);
@@ -504,7 +557,7 @@ public class JVMoreFragment extends BaseFragment {
 							strParams[0] = "1";// 1,手动检查更新
 							taskf.execute(strParams);
 							break;
-						case 9:
+						case 11:
 							if (!MySharedPreference.getBoolean("LITTLE")) {
 								littlenum++;
 								if (littlenum < 20) {

@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.test.JVACCOUNT;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.utils.ConfigUtil;
 
 public class ResetPwdInputAccountActivity extends BaseActivity implements
 		OnClickListener {
@@ -28,6 +29,7 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 	private Button nextButton;
 	private String strAccount;
 	private ProgressDialog pd;
+	private TextView tipTv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,9 +46,12 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 		titleTv = (TextView) findViewById(R.id.currentmenu);
 		backBtn.setOnClickListener(this);
 		edtAccount = (EditText) findViewById(R.id.edt_account);
+		edtAccount.addTextChangedListener(new EditChangedListener());
 		nextButton = (Button) findViewById(R.id.btn_next);
 		nextButton.setOnClickListener(this);
 		titleTv.setText(R.string.reset_passwd_title1);
+		tipTv = (TextView) findViewById(R.id.tv_check_user_name_tips);
+		tipTv.setVisibility(View.INVISIBLE);
 
 		pd = new ProgressDialog(this);
 		pd.setCancelable(true);
@@ -75,10 +80,10 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 				showTextToast(R.string.reset_passwd_tips1);
 				break;
 			} else {
-				if (!ConfigUtil.checkDeviceUsername(strAccount)) {
-					showTextToast(R.string.reset_passwd_tips2);
-					break;
-				}
+				// if (!ConfigUtil.checkDeviceUsername(strAccount)) {
+				// showTextToast(R.string.reset_passwd_tips2);
+				// break;
+				// }
 				// 调用接口
 				CheckUserInfoTask task = new CheckUserInfoTask();
 				task.execute(strAccount);
@@ -143,6 +148,7 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 			if (result == 0)// ok
 			{
 				String strPhone, strMail;
+
 				try {
 					JSONObject resObject = new JSONObject(new String(response));
 					strPhone = resObject.optString("phone");
@@ -150,7 +156,15 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 					Log.i("TAG", "获取到的手机号" + strPhone);
 					if (strPhone.equals("") || null == strPhone) {
 						// 走之前的web找回密码
-						showTextToast(R.string.str_not_bind_phone_tips1);
+						if (strMail.equals("") || null == strMail) {
+							// showTextToast(R.string.str_not_bind_phone_tips2);
+							tipTv.setText(R.string.str_not_bind_phone_tips2);
+							tipTv.setVisibility(View.VISIBLE);
+						} else {
+							// showTextToast(R.string.str_not_bind_phone_tips1);
+							tipTv.setText(R.string.str_not_bind_phone_tips1);
+							tipTv.setVisibility(View.VISIBLE);
+						}
 					} else {
 						// 跳转到验证码界面
 						Intent intent = new Intent(
@@ -166,7 +180,17 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 				}
 			} else {
 				// 重置失败
-				showTextToast(R.string.str_query_account_failed);
+				if (result == 6) {
+					// 账号不存在
+					// showTextToast(R.string.str_not_bind_phone_tips3);
+					tipTv.setText(R.string.str_not_bind_phone_tips3);
+					tipTv.setVisibility(View.VISIBLE);
+				} else if (result == -6) {
+					showTextToast(R.string.str_query_account_failed1);
+				} else {
+					showTextToast(R.string.str_query_account_failed);
+					// tipTv.setText(R.string.str_query_account_failed);
+				}
 			}
 		}
 
@@ -179,4 +203,22 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 			pd.show();
 		}
 	}
+
+	class EditChangedListener implements TextWatcher {
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			tipTv.setVisibility(View.INVISIBLE);
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+		}
+	};
 }

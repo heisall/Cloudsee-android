@@ -84,7 +84,8 @@ public class JVPlayActivity extends PlayActivity implements
 	private int lastClickIndex;
 
 	private Timer doubleClickTimer;
-	private boolean isDoubleClickCheck;
+	private boolean isDoubleClickCheck;// 双击事件
+	private boolean isScrollClickCheck;// 手势滑动事件
 
 	private ArrayList<Device> deviceList;
 	private ArrayList<Channel> channelList;
@@ -253,6 +254,16 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
+	private class DoubleClickChecker extends TimerTask {
+
+		@Override
+		public void run() {
+			cancel();
+			isDoubleClickCheck = false;
+		}
+
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -260,6 +271,70 @@ public class JVPlayActivity extends PlayActivity implements
 			return;
 		}
 		switch (what) {
+		case Consts.WHAT_SURFACEVIEW_CLICK: {// 单击事件
+
+			if (isScrollClickCheck) {
+				MyLog.e("Click--", "手势云台：time=");
+				lastClickTime = 0;
+				isScrollClickCheck = false;
+				return;
+			}
+			Channel channel = (Channel) obj;
+			int x = arg1;
+			int y = arg2;
+			if (null != channel && channel.isConnected()
+					&& !channel.isConnecting()) {
+				boolean originSize = false;
+				if (channel.getLastPortWidth() == channel.getSurfaceView()
+						.getWidth()) {
+					originSize = true;
+				}
+
+				if (isDoubleClickCheck) {
+					MyLog.e("Click--", "双击：clickTimeBetween=");
+				} else {
+					MyLog.e("Click--", "单击：time=");
+				}
+
+				if (false == isBlockUi && isDoubleClickCheck
+						&& lastClickIndex == channel.getIndex()) {// 双击
+
+					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation
+							|| Consts.PLAY_AP == playFlag) {// 横屏
+						Point vector = new Point();
+						Point middle = new Point();
+						middle.set(x, y);
+						if (originSize) {// 双击放大
+							vector.set(channel.getSurfaceView().getWidth(),
+									channel.getSurfaceView().getHeight());
+							gestureOnView(manager.getView(lastClickIndex),
+									channel,
+									MyGestureDispatcher.GESTURE_TO_BIGGER, 1,
+									vector, middle);
+						} else {// 双击还原
+							vector.set(-channel.getSurfaceView().getWidth(),
+									-channel.getSurfaceView().getHeight());
+							gestureOnView(manager.getView(lastClickIndex),
+									channel,
+									MyGestureDispatcher.GESTURE_TO_SMALLER, -1,
+									vector, middle);
+						}
+					}
+				} else {// 单击
+
+					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+						if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
+							horPlayBarLayout.setVisibility(View.GONE);
+						} else {
+							horPlayBarLayout.setVisibility(View.VISIBLE);
+						}
+					}
+				}
+			}
+
+			lastClickTime = 0;
+			break;
+		}
 		case Consts.WHAT_RESOLVE_IP_CONNECT: {// 解析完IP连接视频
 
 			boolean isPlayDirectly = false;
@@ -1143,7 +1218,9 @@ public class JVPlayActivity extends PlayActivity implements
 			selectedScreen = screenList.get(arg1);
 			screenAdapter.selectIndex = arg1;
 			screenAdapter.notifyDataSetChanged();
-			popScreen.dismiss();
+			if (View.VISIBLE == streamListView.getVisibility()) {
+				streamListView.setVisibility(View.GONE);
+			}
 			disconnectChannelList.addAll(channelList);
 			changeWindow(selectedScreen);
 
@@ -1375,6 +1452,7 @@ public class JVPlayActivity extends PlayActivity implements
 			if (0 == result) {
 				JVPlayActivity.this
 						.showTextToast(R.string.login_str_device_edit_success);
+				playImageClickEvent(channelList.get(lastClickIndex), true);
 			} else {
 				JVPlayActivity.this
 						.showTextToast(R.string.login_str_device_edit_failed);
@@ -1396,6 +1474,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	protected void initSettings() {
+		// TODO
 		TAG = "PlayA";
 		MyLog.enableLogcat(true);
 
@@ -1406,6 +1485,7 @@ public class JVPlayActivity extends PlayActivity implements
 		lastItemIndex = 0;
 		lastClickIndex = 0;
 		isDoubleClickCheck = false;
+		isScrollClickCheck = false;
 
 		connectChannelList = new ArrayList<Channel>();
 		disconnectChannelList = new ArrayList<Channel>();
@@ -1490,10 +1570,8 @@ public class JVPlayActivity extends PlayActivity implements
 			for (int i = 0; i < size; i++) {
 				manager.addChannel(channelList.get(i));
 			}
-			if (null != adapter) {
-				adapter.notifyDataSetChanged();
-			}
 			isDoubleClickCheck = false;
+			isScrollClickCheck = false;
 			lastClickIndex = channelList.get(startWindowIndex).getIndex();
 			lastItemIndex = lastClickIndex;
 			// MyLog.i(Consts.TAG_XXX, "JVPlay.init: startWindowIndex="
@@ -1506,18 +1584,56 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
+	/**
+	 * 设置标题
+	 */
+	private void setTitle() {
+		if (Consts.PLAY_AP == playFlag) {
+			currentMenu.setText(R.string.video_check);
+			selectScreenNum.setVisibility(View.GONE);
+			currentMenu_v.setText(channelList.get(lastClickIndex)
+					.getChannelName());
+			currentMenu_h.setText(channelList.get(lastClickIndex)
+					.getChannelName());
+
+		} else {
+			currentMenu.setText(R.string.str_video_play);
+			selectScreenNum.setVisibility(View.VISIBLE);
+			currentMenu_h.setText(channelList.get(lastItemIndex).getParent()
+					.getNickName());
+			currentMenu_v.setText(channelList.get(lastItemIndex).getParent()
+					.getNickName()
+					+ "-" + channelList.get(lastClickIndex).getChannel());
+
+		}
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void initUi() {
+		// TODO
+		if (null != viewPager) {
+			MyLog.e("JUYANG--1", "viewPager=" + viewPager.getChildCount());
+		}
+		if (null != adapter) {
+			MyLog.e("JUYANG--1", "adapter=" + adapter.getCount());
+		}
 		super.initUi();
+		viewPager.setAdapter(null);
+
+		if (null != viewPager) {
+			MyLog.e("JUYANG--2", "viewPager=" + viewPager.getChildCount());
+		}
+		if (null != adapter) {
+			MyLog.e("JUYANG--2", "adapter=" + adapter.getCount());
+		}
+
 		// //进播放如果是横屏，先转成竖屏
 		// if (this.getResources().getConfiguration().orientation ==
 		// Configuration.ORIENTATION_LANDSCAPE) {
 		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		// }
-		if (null != adapter) {
-			adapter.notifyDataSetChanged();
-		}
+
 		mGestureDetector = new GestureDetector(this, new MyOnGestureListener());
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		wifiAdmin = new WifiAdmin(JVPlayActivity.this);
@@ -1550,16 +1666,17 @@ public class JVPlayActivity extends PlayActivity implements
 
 		selectScreenNum.setOnClickListener(myOnClickListener);
 		currentMenu.setOnClickListener(myOnClickListener);
-		if (playFlag == Consts.PLAY_AP) {
-			currentMenu_h.setText(deviceList.get(deviceIndex).getNickName());
-			currentMenu.setText(R.string.video_check);
-			selectScreenNum.setVisibility(View.GONE);
-		} else {
-			currentMenu_h.setText(channelList.get(lastClickIndex)
-					.getChannelName());
-			currentMenu.setText(R.string.str_video_play);
-			selectScreenNum.setVisibility(View.VISIBLE);
-		}
+		// if (playFlag == Consts.PLAY_AP) {
+		// currentMenu_h.setText(deviceList.get(deviceIndex).getNickName());
+		// currentMenu.setText(R.string.video_check);
+		// selectScreenNum.setVisibility(View.GONE);
+		// } else {
+		// currentMenu_h.setText(channelList.get(lastClickIndex)
+		// .getChannelName());
+		// currentMenu.setText(R.string.str_video_play);
+		// selectScreenNum.setVisibility(View.VISIBLE);
+		// }
+		setTitle();
 
 		linkMode.setVisibility(View.GONE);
 
@@ -1572,10 +1689,17 @@ public class JVPlayActivity extends PlayActivity implements
 		viewPager.setVisibility(View.VISIBLE);
 		playSurface.setVisibility(View.GONE);
 
-		adapter = new MyPagerAdapter();
-		if (null != adapter) {
-			adapter.notifyDataSetChanged();
+		if (null != viewPager) {
+			MyLog.e("JUYANG--3", "viewPager=" + viewPager.getChildCount());
 		}
+		if (null != adapter) {
+			MyLog.e("JUYANG--3", "adapter=" + adapter.getCount());
+		}
+		adapter = new MyPagerAdapter();
+		// if (ONE_SCREEN != currentScreen) {
+		// manager.genPageList(ONE_SCREEN);
+		// }
+
 		changeWindow(currentScreen);
 		viewPager.setLongClickable(true);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -1636,19 +1760,20 @@ public class JVPlayActivity extends PlayActivity implements
 
 					lastItemIndex = arg0;
 
-					if (Consts.PLAY_NORMAL == playFlag) {
-						currentMenu_v.setText(channelList.get(lastClickIndex)
-								.getChannelName());
-						currentMenu_h.setText(channelList.get(lastClickIndex)
-								.getChannelName());
-					} else {
-						currentMenu_h.setText(channelList.get(lastItemIndex)
-								.getParent().getNickName());
-						currentMenu_v.setText(channelList.get(lastItemIndex)
-								.getParent().getNickName()
-								+ "-"
-								+ channelList.get(lastClickIndex).getChannel());
-					}
+					// if (Consts.PLAY_NORMAL == playFlag) {
+					// currentMenu_v.setText(channelList.get(lastClickIndex)
+					// .getChannelName());
+					// currentMenu_h.setText(channelList.get(lastClickIndex)
+					// .getChannelName());
+					// } else {
+					// currentMenu_h.setText(channelList.get(lastItemIndex)
+					// .getParent().getNickName());
+					// currentMenu_v.setText(channelList.get(lastItemIndex)
+					// .getParent().getNickName()
+					// + "-"
+					// + channelList.get(lastClickIndex).getChannel());
+					// }
+					setTitle();
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1751,11 +1876,18 @@ public class JVPlayActivity extends PlayActivity implements
 
 		private ArrayList<View> list;
 
+		public MyPagerAdapter() {
+			this.list = new ArrayList<View>();
+		}
+
 		public void update(ArrayList<View> list) {
 			if (null != list) {
-				this.list = list;
+				MyLog.v("JUYANG--4", "this.size=" + this.list.size() + ";size="
+						+ list.size());
+				this.list.clear();
+				this.list.addAll(list);
 			}
-			adapter.notifyDataSetChanged();
+			notifyDataSetChanged();
 		}
 
 		@Override
@@ -1863,9 +1995,10 @@ public class JVPlayActivity extends PlayActivity implements
 	private void changeWindow(int count) {
 		stopAllFunc();
 		currentScreen = count;
-
+		viewPager.setAdapter(null);
 		adapter.update(manager.genPageList(count));
-		adapter.notifyDataSetChanged();
+		// adapter.notifyDataSetChanged();
+		adapter.getCount();
 		lastItemIndex = lastClickIndex / currentScreen;
 		currentPageChannelList = manager.getValidChannelList(lastItemIndex);
 
@@ -1876,12 +2009,13 @@ public class JVPlayActivity extends PlayActivity implements
 		viewPager.setDisableSliding(isBlockUi);
 		changeBorder(lastClickIndex);
 
+		setTitle();
+
 		handler.removeMessages(Consts.WHAT_CHECK_SURFACE);
 		handler.sendMessageDelayed(handler.obtainMessage(
 				Consts.WHAT_CHECK_SURFACE, lastItemIndex, lastClickIndex),
 				DELAY_CHECK_SURFACE);
 		handler.sendEmptyMessage(Consts.WHAT_SHOW_PROGRESS);
-		adapter.notifyDataSetChanged();
 	}
 
 	private void changeBorder(int currentIndex) {
@@ -2147,6 +2281,13 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	public void onClick(Channel channel, boolean isFromImageView, int viewId) {
+		playImageClickEvent(channel, isFromImageView);
+	}
+
+	/**
+	 * 播放按钮事件
+	 */
+	private void playImageClickEvent(Channel channel, boolean isFromImageView) {
 		MyLog.i(Consts.TAG_PLAY, ">>> click: " + channel.getIndex()
 				+ ", isBlocked: " + isBlockUi);
 
@@ -2196,39 +2337,32 @@ public class JVPlayActivity extends PlayActivity implements
 
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation
 					|| Consts.PLAY_AP == playFlag) {// 横屏
-				return;
-			}
-
-			if (ONE_SCREEN != currentScreen) {
-				Channel ch;
-				int size = currentPageChannelList.size();
-				for (int i = 0; i < size; i++) {
-					ch = currentPageChannelList.get(i);
-					if (lastClickIndex - 1 > ch.getIndex()
-							|| lastClickIndex + 1 < ch.getIndex()) {
-						disconnectChannelList.add(ch);
-					} else if (lastClickIndex == ch.getIndex()) {
-						// [Neo] Empty
-					} else {
-						// [Neo] stand alone for single destroy window, too
-						pauseChannel(ch);
+			} else {// 竖屏
+				if (ONE_SCREEN != currentScreen) {
+					Channel ch;
+					int size = currentPageChannelList.size();
+					for (int i = 0; i < size; i++) {
+						ch = currentPageChannelList.get(i);
+						if (lastClickIndex - 1 > ch.getIndex()
+								|| lastClickIndex + 1 < ch.getIndex()) {
+							disconnectChannelList.add(ch);
+						} else if (lastClickIndex == ch.getIndex()) {
+							// [Neo] Empty
+						} else {
+							// [Neo] stand alone for single destroy
+							// window, too
+							pauseChannel(ch);
+						}
 					}
-				}
-				changeWindow(ONE_SCREEN);
-			} else {
-				disconnectChannelList.addAll(channelList);
-				changeWindow(selectedScreen);
-			}
-
-		} else {// 单击
-
-			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-				if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
-					horPlayBarLayout.setVisibility(View.GONE);
+					changeWindow(ONE_SCREEN);
 				} else {
-					horPlayBarLayout.setVisibility(View.VISIBLE);
+					disconnectChannelList.addAll(channelList);
+					changeWindow(selectedScreen);
 				}
-			} else {
+			}
+		} else {// 单击
+			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+			} else {// 竖屏
 				if (ONE_SCREEN == currentScreen) {
 					if (View.VISIBLE == verPlayBarLayout.getVisibility()) {
 						verPlayBarLayout.setVisibility(View.GONE);
@@ -2250,9 +2384,7 @@ public class JVPlayActivity extends PlayActivity implements
 							DELAY_DOUBLE_CHECKER);
 				}
 			}
-
 		}
-
 	}
 
 	@Override
@@ -2305,16 +2437,6 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-
-	}
-
-	private class DoubleClickChecker extends TimerTask {
-
-		@Override
-		public void run() {
-			cancel();
-			isDoubleClickCheck = false;
 		}
 
 	}
@@ -2484,7 +2606,7 @@ public class JVPlayActivity extends PlayActivity implements
 				if (isBlockUi) {
 					createDialog("", true);
 				} else {
-					if (popScreen == null) {
+					if (streamPopWindow == null) {
 						if (null != screenList && 0 != screenList.size()) {
 
 							screenAdapter = new ScreenAdapter(
@@ -2492,12 +2614,12 @@ public class JVPlayActivity extends PlayActivity implements
 							screenListView = new ListView(JVPlayActivity.this);
 							screenListView.setDivider(null);
 							if (disMetrics.widthPixels < 1080) {
-								popScreen = new PopupWindow(screenListView,
-										240,
+								streamPopWindow = new PopupWindow(
+										screenListView, 240,
 										LinearLayout.LayoutParams.WRAP_CONTENT);
 							} else {
-								popScreen = new PopupWindow(screenListView,
-										400,
+								streamPopWindow = new PopupWindow(
+										screenListView, 400,
 										LinearLayout.LayoutParams.WRAP_CONTENT);
 							}
 
@@ -2523,14 +2645,14 @@ public class JVPlayActivity extends PlayActivity implements
 									.setCacheColorHint(JVPlayActivity.this
 											.getResources().getColor(
 													R.color.transparent));
-							popScreen.showAsDropDown(currentMenu);
+							streamPopWindow.showAsDropDown(currentMenu);
 						}
-					} else if (popScreen.isShowing()) {
+					} else if (streamPopWindow.isShowing()) {
 						screenAdapter.notifyDataSetChanged();
-						popScreen.dismiss();
-					} else if (!popScreen.isShowing()) {
+						streamPopWindow.dismiss();
+					} else if (!streamPopWindow.isShowing()) {
 						screenAdapter.notifyDataSetChanged();
-						popScreen.showAsDropDown(currentMenu);
+						streamPopWindow.showAsDropDown(currentMenu);
 					}
 				}
 				break;
@@ -2608,84 +2730,6 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
-
-				// // 1.发送升级命令
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_START,
-				// Consts.FIRMUP_HTTP, 0, 0, null, 0);
-				//
-				// // 2.创建计时器每隔一段时间获取下载进度：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_DATA,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-
-				// // 3.处理升级进度命令，进度为100时，表示下载完毕，并发送EX_UPLOAD_OK命令：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_OK,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-
-				// // 4. 收到EX_UPLOAD_OK命令反馈，发送烧写命令：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_START,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-
-				// // 5. 收到EX_FIRMUP_START命令反馈，发送获取烧写进度命令，创建计时器，一直发送获取烧写进度命令：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_STEP,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-				//
-				// // 6.
-				// 收到EX_FIRMUP_STEP命令反馈，将烧写进度显示出来，一直等收到EX_FIRMUP_OK命令，表示烧写完毕
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_STEP,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-				//
-				//
-				// //7. 处理升级结果
-
-				// String userName = "admin";
-				// String userPwd = "123";
-				// String des = "haha";
-				// byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
-				// + Consts.SIZE_DESCRIPT];
-				// byte[] userNameByte = userName.getBytes();
-				// byte[] userPwdByte = userPwd.getBytes();
-				// byte[] desByte = des.getBytes();
-				// MyLog.e("byte-1", "userNameByte.length=" +
-				// userNameByte.length);
-				// MyLog.e("byte-2", "userPwdByte.length=" +
-				// userPwdByte.length);
-				// MyLog.e("byte-3", "desByte.length=" + desByte.length);
-				// System.arraycopy(userNameByte, 0, paramByte, 0,
-				// userNameByte.length);
-				// System.arraycopy(userPwdByte, 0, paramByte, Consts.SIZE_ID,
-				// userPwdByte.length);
-				// System.arraycopy(desByte, 0, paramByte, Consts.SIZE_ID
-				// + Consts.SIZE_PW, desByte.length);
-				// MyLog.e("byte-4", "paramByte.length=" + paramByte.length);
-				// MyLog.e("byte-5", "paramByte=" + paramByte.toString());
-				//
-				// // 2014-12-25 获取设备用户名密码
-				// // CALL_TEXT_DATA: 165, 0, 81,
-				// //{"extend_arg1":64,"extend_arg2":0,"extend_arg3":0,"extend_msg":"ID=admin;POWER=4;DESCRIPT=新帐户;ID=abc;POWER=4;DESCRIPT=新帐户;","extend_type":3,"flag":20,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6}
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_REFRESH,
-				// Consts.POWER_ADMIN, 0, 0, new byte[0], 0);
-				//
-				// // 2014-12-25 修改设备用户名密码
-				// // //CALL_TEXT_DATA: 165, 0, 81,
-				// //{"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY,
-				// Consts.POWER_ADMIN, 0, 0, paramByte, paramByte.length);
 
 				if (View.VISIBLE == streamListView.getVisibility()) {
 					streamListView.setVisibility(View.GONE);
@@ -2962,6 +3006,7 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
 			if (0 == result) {
 				if (Consts.PLAY_AP == playFlag) {
 					Intent aintent = new Intent();
@@ -2971,15 +3016,16 @@ public class JVPlayActivity extends PlayActivity implements
 						aintent.putExtra("AP_Back", false);
 					}
 					setResult(Consts.WHAT_AP_CONNECT_FINISHED, aintent);
+					dismissDialog();
 					JVPlayActivity.this.finish();
 				} else {
+					dismissDialog();
 					JVPlayActivity.this.finish();
 				}
 				handler.removeMessages(Consts.WHAT_FINISH);
 				isQuit = true;
 			}
 
-			dismissDialog();
 		}
 
 		@Override
@@ -3062,8 +3108,8 @@ public class JVPlayActivity extends PlayActivity implements
 		stopAllFunc();
 		isQuit = true;
 		adapter.update(new ArrayList<View>());
-		manager.destroy();
 		// adapter.notifyDataSetChanged();
+		manager.destroy();
 		PlayUtil.disConnectAll(manager.getChannelList());
 		super.freeMe();
 	}
@@ -3180,27 +3226,32 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onGesture(int index, int gesture, int distance, Point vector,
 			Point middle) {
-		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
-			Channel channel = channelList.get(lastClickIndex);
-			if (null != channel && channel.isConnected()
-					&& !channel.isConnecting()) {
-				boolean originSize = false;
-				if (channel.getLastPortWidth() == channel.getSurfaceView()
-						.getWidth()) {
-					originSize = true;
-				}
 
-				int c = 0;
-				switch (gesture) {
-				case MyGestureDispatcher.GESTURE_TO_BIGGER:
-				case MyGestureDispatcher.GESTURE_TO_SMALLER:
+		Channel channel = channelList.get(lastClickIndex);
+		if (null != channel && channel.isConnected() && !channel.isConnecting()) {
+			boolean originSize = false;
+			if (channel.getLastPortWidth() == channel.getSurfaceView()
+					.getWidth()) {
+				originSize = true;
+			}
+			int c = 0;
+			switch (gesture) {
+			// 手势放大缩小
+			case MyGestureDispatcher.GESTURE_TO_BIGGER:
+			case MyGestureDispatcher.GESTURE_TO_SMALLER:
+				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+					isScrollClickCheck = true;
 					gestureOnView(manager.getView(index),
 							channelList.get(index), gesture, distance, vector,
 							middle);
-					break;
-
-				case MyGestureDispatcher.GESTURE_TO_LEFT:
+				}
+				lastClickTime = 0;
+				break;
+			// 手势云台
+			case MyGestureDispatcher.GESTURE_TO_LEFT:
+				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					System.out.println("gesture: left");
+					isScrollClickCheck = true;
 					if (originSize) {
 						c = JVNetConst.JVN_YTCTRL_L;
 						sendCmd(c);
@@ -3209,10 +3260,14 @@ public class JVPlayActivity extends PlayActivity implements
 								channelList.get(index), gesture, distance,
 								vector, middle);
 					}
-					break;
+				}
+				lastClickTime = 0;
+				break;
 
-				case MyGestureDispatcher.GESTURE_TO_UP:
+			case MyGestureDispatcher.GESTURE_TO_UP:
+				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					System.out.println("gesture: up");
+					isScrollClickCheck = true;
 					if (originSize) {
 						c = JVNetConst.JVN_YTCTRL_U;
 						sendCmd(c);
@@ -3221,10 +3276,14 @@ public class JVPlayActivity extends PlayActivity implements
 								channelList.get(index), gesture, distance,
 								vector, middle);
 					}
-					break;
+				}
+				lastClickTime = 0;
+				break;
 
-				case MyGestureDispatcher.GESTURE_TO_RIGHT:
+			case MyGestureDispatcher.GESTURE_TO_RIGHT:
+				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					System.out.println("gesture: right");
+					isScrollClickCheck = true;
 					if (originSize) {
 						c = JVNetConst.JVN_YTCTRL_R;
 						sendCmd(c);
@@ -3233,10 +3292,14 @@ public class JVPlayActivity extends PlayActivity implements
 								channelList.get(index), gesture, distance,
 								vector, middle);
 					}
-					break;
+				}
+				lastClickTime = 0;
+				break;
 
-				case MyGestureDispatcher.GESTURE_TO_DOWN:
+			case MyGestureDispatcher.GESTURE_TO_DOWN:
+				if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 					System.out.println("gesture: down");
+					isScrollClickCheck = true;
 					if (originSize) {
 						c = JVNetConst.JVN_YTCTRL_D;
 						sendCmd(c);
@@ -3245,16 +3308,38 @@ public class JVPlayActivity extends PlayActivity implements
 								channelList.get(index), gesture, distance,
 								vector, middle);
 					}
-					break;
-
-				default:
-					break;
-
 				}
-			}
+				lastClickTime = 0;
+				break;
+			// 手势单击双击
+			case MyGestureDispatcher.CLICK_EVENT:
+				if (0 == lastClickTime) {
+					isDoubleClickCheck = false;
+					lastClickTime = System.currentTimeMillis();
+					handler.sendMessageDelayed(handler.obtainMessage(
+							Consts.WHAT_SURFACEVIEW_CLICK, middle.x, middle.y,
+							channel), 350);
+					MyLog.e("Click1--", "单击：lastClickTime=" + lastClickTime);
+				} else {
+					int clickTimeBetween = (int) (System.currentTimeMillis() - lastClickTime);
+					MyLog.e("Click1--", "双击：clickTimeBetween="
+							+ clickTimeBetween);
+					if (clickTimeBetween < 350) {// 认为双击
+						isDoubleClickCheck = true;
+					}
+					lastClickTime = 0;
+				}
+				break;
+			default:
+				break;
 
+			}
 		}
+
 	}
+
+	// 第一次click时间
+	private long lastClickTime = 0;
 
 	public void sendCmd(int cmd) {
 		PlayUtil.sendCtrlCMDLongPush(lastClickIndex, cmd, true);
@@ -3435,7 +3520,9 @@ public class JVPlayActivity extends PlayActivity implements
 					.getParent();
 			switch (tag) {
 			case Consts.TAG_PLAY_CONNECTING: {// 连接中
-				verPlayBarLayout.setVisibility(View.GONE);
+				if (MySharedPreference.getBoolean("playhelp1")) {
+					verPlayBarLayout.setVisibility(View.GONE);
+				}
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
 						View.VISIBLE);// loading
@@ -3481,7 +3568,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			}
 			case Consts.TAG_PLAY_CONNECTING_BUFFER: {// 缓冲中
-				verPlayBarLayout.setVisibility(View.GONE);
+				// verPlayBarLayout.setVisibility(View.GONE);
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
 						View.VISIBLE);// loading
@@ -3832,9 +3919,8 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if (null != popScreen && popScreen.isShowing()) {
-			screenAdapter.notifyDataSetChanged();
-			popScreen.dismiss();
+		if (View.VISIBLE == streamListView.getVisibility()) {
+			streamListView.setVisibility(View.GONE);
 		}
 		stopAll(lastClickIndex, channelList.get(lastClickIndex));
 		// manager.pauseAll();
@@ -3848,17 +3934,19 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	public void pauseAll(ArrayList<Channel> channelList) {
-		int size = channelList.size();
-		for (int i = 0; i < size; i++) {
-			pauseChannel(channelList.get(i));
+		if (null != channelList && channelList.size() != 0) {
+			int size = channelList.size();
+			for (int i = 0; i < size; i++) {
+				pauseChannel(channelList.get(i));
+			}
 		}
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		if (null != popScreen) {
-			popScreen.dismiss();
+		if (View.VISIBLE == streamListView.getVisibility()) {
+			streamListView.setVisibility(View.GONE);
 		}
 		if (null != streamListView) {
 			streamListView.setVisibility(View.GONE);

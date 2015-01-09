@@ -142,11 +142,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		case Consts.CALL_CONNECT_CHANGE:
 			switch (arg2) {
 			case JVNetConst.DISCONNECT_OK: {
-
 				bConnectedFlag = false;
-
-			}
 				break;
+			}
+
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
 				bConnectedFlag = false;
@@ -211,6 +210,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					int flag = dataObj.getInt("flag");
 					switch (flag) {
 					case JVNetConst.JVN_GET_USERINFO: {
+						dismissDialog();
 						int extend_type = dataObj.getInt("extend_type");
 						if (Consts.EX_ACCOUNT_MODIFY == extend_type) {
 							// --修改设备的用户名密码，只要走回调就修改成功了
@@ -453,6 +453,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		funcIndex = func_index;
 		switch (func_index) {
 		case JVNetConst.JVN_GET_USERINFO:
+			createDialog("", false);
 			JSONObject paraObject;
 			try {
 				paraObject = new JSONObject(params);

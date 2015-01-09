@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -94,12 +95,16 @@ public class ConfigUtil {
 	// }
 
 	public static String version = "";
+	public static String remoteJNIVersion = "";// 库里面的版本号
 
 	public static void getJNIVersion() {
 		// remoteVerStr={"jni":"0.8[9246b6f][2014-11-03]","net":"v2.0.76.3.7[private:v2.0.75.13 201401030.2.d]"}
 		try {
-			String remoteVer = Jni.getVersion();
-			JSONObject obj = new JSONObject(remoteVer);
+			if ("".equalsIgnoreCase(remoteJNIVersion)) {
+				remoteJNIVersion = Jni.getVersion();
+			}
+
+			JSONObject obj = new JSONObject(remoteJNIVersion);
 			String playVersion = obj.optString("jni");
 			GETPLAY_VERSION = playVersion;
 			String netVersion = obj.optString("net");
@@ -107,10 +112,11 @@ public class ConfigUtil {
 			if (PLAY_VERSION.equalsIgnoreCase(playVersion)
 					&& NETWORK_VERSION.equalsIgnoreCase(netVersion)) {
 				MyLog.v(TAG, "Same:localVer=" + PLAY_VERSION + "--"
-						+ NETWORK_VERSION + ";\nremoteVer=" + remoteVer);
+						+ NETWORK_VERSION + ";\nremoteVer=" + remoteJNIVersion);
 			} else {
 				MyLog.e(TAG, "Not-Same:localVer=" + PLAY_VERSION + "--"
-						+ NETWORK_VERSION + ";\nremoteVerStr=" + remoteVer);
+						+ NETWORK_VERSION + ";\nremoteVerStr="
+						+ remoteJNIVersion);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -423,8 +429,7 @@ public class ConfigUtil {
 					String.valueOf(result));
 			MyLog.e(TAG, "1>>>>>初始化账号--sdk--res=" + String.valueOf(result));
 			if (!result) {
-				Toast.makeText(context, "初始化账号SDK失败，请重新运行程序", Toast.LENGTH_LONG)
-						.show();
+				MyLog.e("AccountSDK", "初始化账号SDK失败，请重新运行程序");
 				return result;
 			}
 			MyLog.i("AccoutSDK", "Version:" + JVACCOUNT.GetVersion(0));
@@ -499,6 +504,7 @@ public class ConfigUtil {
 				.getApplicationContext()).getStatusHashMap();
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
 			result = Jni.init(context, 9200, Consts.LOG_PATH);
+			ConfigUtil.getJNIVersion();
 			Jni.enableLog(true);
 			Jni.setThumb(320, 90);
 			Jni.setStat(true);
@@ -745,6 +751,7 @@ public class ConfigUtil {
 			str = new String(b, "UTF-8");
 			Pattern pattern = Pattern
 					.compile("^[A-Za-z0-9_.()\\+\\-\\u4e00-\\u9fa5]{1,20}$");
+
 			Matcher matcher = pattern.matcher(str);
 			if (matcher.matches() && 20 >= str.getBytes().length) {
 				flag = true;
@@ -801,6 +808,31 @@ public class ConfigUtil {
 			flag = true;
 		}
 		return flag;
+	}
+
+	/**
+	 * 验证设备密码
+	 * 
+	 * @param str
+	 * @return 中文返回false 非中文返回true
+	 */
+	public static boolean checkDevPwd(String str) {
+		boolean flag = false;
+		try {
+			byte[] b = str.getBytes("UTF-8");
+			str = new String(b, "UTF-8");
+			Pattern pattern = Pattern.compile("[^\u4e00-\u9fa5]{0,12}$");// 非中文正则
+			Matcher matcher = pattern.matcher(str);
+			if (matcher.matches()) {
+				flag = true;
+			} else {
+				flag = false;
+			}
+		} catch (UnsupportedEncodingException e) {
+			flag = false;
+		}
+		return flag;
+
 	}
 
 	/**
@@ -1178,6 +1210,7 @@ public class ConfigUtil {
 			file.delete();
 		}
 	}
+
 	// /**
 	// * 获取当前ip地址
 	// *
@@ -1206,4 +1239,27 @@ public class ConfigUtil {
 	// return ip;
 	// }
 
+	public static String convertToString(ArrayList<String> list) {
+
+		StringBuilder sb = new StringBuilder();
+		String delim = "";
+		for (String s : list) {
+			sb.append(delim);
+			sb.append(s);
+			;
+			delim = ",";
+		}
+		return sb.toString();
+	}
+
+	public static ArrayList<String> convertToArray(String string) {
+		ArrayList<String> list = null;
+		if (string.equals("") || null == string) {
+			list = new ArrayList<String>();
+		} else {
+			list = new ArrayList<String>(Arrays.asList(string.split(",")));
+		}
+
+		return list;
+	}
 }

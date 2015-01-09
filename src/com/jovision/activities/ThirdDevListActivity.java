@@ -21,7 +21,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -206,7 +205,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 	}
 
 	private void showToast(String text, int duration) {
-		Toast.makeText(this, text, duration).show();
+		showTextToast(text);
 	}
 
 	// [lkp]
@@ -311,6 +310,9 @@ public class ThirdDevListActivity extends BaseActivity implements
 				strDescString = getResources().getString(
 						R.string.str_alarm_binddev_timeout);
 				break;
+			case Consts.RC_GPIN_SET_SWITCH:
+				strDescString = getResources().getString(
+						R.string.str_setdev_params_timeout);
 			default:
 				break;
 			}
@@ -417,7 +419,8 @@ public class ThirdDevListActivity extends BaseActivity implements
 				if (dialog != null && dialog.isShowing())
 					dialog.dismiss();
 				bNeedSendTextReq = true;
-				showTextToast(R.string.str_alarm_textdata_req_over);
+				showTextToast(R.string.str_only_administator_use_this_function);
+				finish();
 				break;
 			case JVNetConst.JVN_RSP_TEXTDATA: {
 				if (dialog != null && dialog.isShowing())
@@ -502,6 +505,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 					}
 					break;
 				case Consts.RC_GPIN_SET:// 设置开关
+					myHandler.removeMessages(Consts.RC_GPIN_SET_SWITCH);
 					if (obj != null) {
 						String setStr = respObject.optString("msg");
 						String setStrArray[] = setStr.split(";");
@@ -611,6 +615,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 					(byte) Consts.RC_GPIN_SET, obj.toString().trim());
+			new Thread(new TimeOutProcess(Consts.RC_GPIN_SET_SWITCH)).start();
 			break;
 		}
 	}
@@ -645,41 +650,41 @@ public class ThirdDevListActivity extends BaseActivity implements
 
 	}
 
-	private int onSendCmdProcess(int process_flag, int arg1, int arg2,
-			Object obj) {
-
-		switch (process_flag) {
-		case Consts.RC_GPIN_SECLECT:// 发送查询指令
-			StringBuffer videoBuffer = new StringBuffer();
-			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
-					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-					(byte) Consts.RC_GPIN_SECLECT, videoBuffer.toString()
-							.trim());
-			break;
-		case Consts.RC_GPIN_DEL:// 发送删除指令
-			ThirdAlarmDev thirdDev = device.getThirdDevList().get(arg1);// arg1
-																		// 删除的索引
-			StringBuffer bb = new StringBuffer();
-			String sarg1 = "type=" + thirdDev.dev_type_mark + ";";
-			String sarg2 = "guid=" + thirdDev.dev_uid + ";";
-			bb.append(sarg1).append(sarg2);
-			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
-					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-					(byte) Consts.RC_GPIN_DEL, bb.toString().trim());
-			break;
-		case Consts.RC_GPIN_SET_SWITCH:// 发送设置开关指令
-			saved_index = arg2;
-			saved_third_safe_flag = arg1;
-			MyLog.i("Alarm", "arg1 : " + arg1 + ", arg2:" + arg2);
-			Jni.sendString(Consts.ONLY_CONNECT_INDEX,
-					(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-					(byte) Consts.RC_GPIN_SET, obj.toString().trim());
-			break;
-		default:
-			break;
-		}
-		return 0;
-	}
+	// private int onSendCmdProcess111(int process_flag, int arg1, int arg2,
+	// Object obj) {
+	//
+	// switch (process_flag) {
+	// case Consts.RC_GPIN_SECLECT:// 发送查询指令
+	// StringBuffer videoBuffer = new StringBuffer();
+	// Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+	// (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+	// (byte) Consts.RC_GPIN_SECLECT, videoBuffer.toString()
+	// .trim());
+	// break;
+	// case Consts.RC_GPIN_DEL:// 发送删除指令
+	// ThirdAlarmDev thirdDev = device.getThirdDevList().get(arg1);// arg1
+	// // 删除的索引
+	// StringBuffer bb = new StringBuffer();
+	// String sarg1 = "type=" + thirdDev.dev_type_mark + ";";
+	// String sarg2 = "guid=" + thirdDev.dev_uid + ";";
+	// bb.append(sarg1).append(sarg2);
+	// Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+	// (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+	// (byte) Consts.RC_GPIN_DEL, bb.toString().trim());
+	// break;
+	// case Consts.RC_GPIN_SET_SWITCH:// 发送设置开关指令
+	// saved_index = arg2;
+	// saved_third_safe_flag = arg1;
+	// MyLog.i("Alarm", "arg1 : " + arg1 + ", arg2:" + arg2);
+	// Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+	// (byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+	// (byte) Consts.RC_GPIN_SET, obj.toString().trim());
+	// break;
+	// default:
+	// break;
+	// }
+	// return 0;
+	// }
 
 	class TimeOutProcess implements Runnable {
 		private int tag;

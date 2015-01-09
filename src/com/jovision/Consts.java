@@ -37,6 +37,8 @@ public class Consts {
 			+ File.separator + "head" + File.separator;
 	public static final String AD_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "ad" + File.separator;
+	public static final String WELCOME_IMG_PATH = Consts.SD_CARD_PATH
+			+ APP_NAME + File.separator + "welcome" + File.separator;
 	public static final String SCENE_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "scene" + File.separator;
 
@@ -105,7 +107,7 @@ public class Consts {
 	public static final String FORMATTER_SET_MDENABLE = "bMDEnable=%d;";
 	public static final String FORMATTER_SET_ALARM_TIME = "alarmTime0=%s;";
 	public static final String FORMATTER_SET_ALARM_ONLY = "bAlarmEnable=%d;";
-
+	public static final String FORMATTER_CLOUD_DEV = "CLOUD_%s_%d";
 	public static int pushHisCount = 0;
 	public static final int PUSH_PAGESIZE = 5;
 
@@ -483,6 +485,11 @@ public class Consts {
 	public static final int WHAT_APP_CRASH = 0x57;
 	/** 解析完IP连接视频 */
 	public static final int WHAT_RESOLVE_IP_CONNECT = 0x58;
+	/** surfaceView 单击事件 */
+	public static final int WHAT_SURFACEVIEW_CLICK = 0x59;
+
+	/** 系统消息加载-刷新成功 */
+	public static final int WHAT_SYSTEMINFO_REFRESH_SUCC = 0x60;
 
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
@@ -548,6 +555,9 @@ public class Consts {
 	/** 本地存储AD版本 key */
 	public static final String AD_VERSION = "AD_VERSION";
 
+	/** 本地存储APPImage key */
+	public static final String APP_IMAGE = "APP_IMAGE";
+
 	/** 存储取没取过设备列表key */
 	public static String HAG_GOT_DEVICE = "HAG_GOT_DEVICE";
 
@@ -597,7 +607,8 @@ public class Consts {
 	public static final int RC_GPIN_SECLECT = 0x12; // 外设报警查询
 	public static final int RC_GPIN_DEL = 0x13; // 外设报警查询
 	public static final int RC_GPIN_SET_SWITCH = 0x14; // 外设报警设置开关(只内部使用)
-	public static final int ONLY_CONNECT_INDEX = 0; // 仅供报警相关连接云视通的window index
+	public static final int ONLY_CONNECT_INDEX = 0x00; // 仅供报警相关连接云视通的window
+														// index
 	public static String KEY_DEV_TOKEN = "DEV_TOKEN";
 	public static final String EXT_THUMBNAIL_STORE_DIR = ".JVSThumbs";
 

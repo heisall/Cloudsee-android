@@ -2,11 +2,15 @@ package com.jovision.activities;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,17 +30,20 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.adapters.FuntionAdapter;
+import com.jovision.adapters.MyPagerAdp;
 import com.jovision.adapters.ScreenAdapter;
 import com.jovision.adapters.StreamAdapter;
 import com.jovision.bean.Channel;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyAudio;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.MyViewPager;
 
-public abstract class PlayActivity extends BaseActivity {
+public abstract class PlayActivity extends BaseActivity implements
+		OnPageChangeListener {
 
 	protected static final int PLAY_AUDIO_WHAT = 0x26;
 	public static MyAudio playAudio;
@@ -67,7 +74,7 @@ public abstract class PlayActivity extends BaseActivity {
 	protected ImageView ht_fight;// 闪光灯
 	protected TextView currentMenu;// 当前标题
 	protected ImageView selectScreenNum;// 下拉选择当前分屏数按钮
-	protected PopupWindow popScreen;// 选择框
+	protected PopupWindow streamPopWindow;// 选择框
 	protected ScreenAdapter screenAdapter;
 	protected ListView screenListView;
 	protected ArrayList<Integer> screenList = new ArrayList<Integer>();// 分屏下拉选择列表
@@ -162,6 +169,34 @@ public abstract class PlayActivity extends BaseActivity {
 	protected Button currentKbps;// 当前统计
 	protected TextView playStatistics;// 播放统计
 
+	/**
+	 * 帮助界面
+	 * */
+	protected RelativeLayout playHelp;
+	private ViewPager helpViewPager;
+
+	// 当前页面索引
+	private int currentImage = 0;
+	// 前一个页面索引
+	private int oldImage = 0;
+	// 点集合
+	private List<ImageView> dots;
+	private LinearLayout ll_dot;
+	private MyPagerAdp adp;
+	private List<View> pics;
+	int flag = 0;
+	private int currentIndex = 0;// 当前页卡index
+
+	private LinearLayout autoRelative;
+	protected LinearLayout.LayoutParams Params;
+
+	/**
+	 * 横屏帮助图
+	 * */
+	private RelativeLayout horPlayHelp;
+	private ViewPager horViewPager;
+	private MyPagerAdp horadp;
+	private List<View> horpics;
 	/**  */
 	protected TextView currentMenu_v;
 
@@ -207,6 +242,22 @@ public abstract class PlayActivity extends BaseActivity {
 		setContentView(R.layout.play_layout);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);// 屏幕常亮
 
+		/** 帮助图 */
+		playHelp = (RelativeLayout) findViewById(R.id.playhelp);
+		if (MySharedPreference.getBoolean("playhelp1")) {
+			playHelp.setVisibility(View.GONE);
+		} else {
+			playHelp.setVisibility(View.VISIBLE);
+		}
+		helpViewPager = (ViewPager) findViewById(R.id.playhelp_viewpager);
+		ll_dot = (LinearLayout) findViewById(R.id.play_ll_dot);
+		helpViewPager.setOnPageChangeListener(PlayActivity.this);
+		ll_dot.setVisibility(View.VISIBLE);
+		helpViewPager.setCurrentItem(0);
+		helpViewPager.setVisibility(View.VISIBLE);
+		getPic();
+		adp = new MyPagerAdp(pics);
+		helpViewPager.setAdapter(adp);
 		/** 上 */
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
 		back = (Button) findViewById(R.id.btn_left);
@@ -256,7 +307,6 @@ public abstract class PlayActivity extends BaseActivity {
 
 		/** 竖直播放function bar */
 		verPlayBarLayout = (RelativeLayout) findViewById(R.id.play_ver_func);
-
 		decodeBtn = (Button) findViewById(R.id.decodeway);
 		videTurnBtn = (Button) findViewById(R.id.overturn);
 		currentKbps = (Button) findViewById(R.id.kbps);
@@ -283,6 +333,10 @@ public abstract class PlayActivity extends BaseActivity {
 
 		/** 水平播放function bar */
 		horPlayBarLayout = (RelativeLayout) findViewById(R.id.play_hor_func);
+
+		horPlayHelp = (RelativeLayout) findViewById(R.id.horplayhelp);
+		horViewPager = (ViewPager) findViewById(R.id.horplayhelp_viewpager);
+		horViewPager.setOnPageChangeListener(PlayActivity.this);
 
 		topBarH = (RelativeLayout) horPlayBarLayout.findViewById(R.id.topbarh);
 		left_btn_h = (Button) horPlayBarLayout.findViewById(R.id.btn_left);// 横屏返回键
@@ -412,11 +466,100 @@ public abstract class PlayActivity extends BaseActivity {
 
 	}
 
+	private void getPic() {
+		flag = 0;
+		pics = new ArrayList<View>();
+		View view1 = LayoutInflater.from(PlayActivity.this).inflate(
+				R.layout.help_item7, null);
+		View view2 = LayoutInflater.from(PlayActivity.this).inflate(
+				R.layout.help_item8, null);
+		int height = disMetrics.heightPixels;
+		int width = disMetrics.widthPixels;
+		int useWidth = 0;
+		if (height < width) {
+			useWidth = height;
+		} else {
+			useWidth = width;
+		}
+		autoRelative = (LinearLayout) view2.findViewById(R.id.autoRelative);
+		Params = new LinearLayout.LayoutParams(useWidth,
+				(int) (0.7 * useWidth) - 80);
+		autoRelative.setLayoutParams(Params);
+		View view3 = LayoutInflater.from(PlayActivity.this).inflate(
+				R.layout.help_item6, null);
+		pics.add(view1);
+		pics.add(view2);
+		pics.add(view3);
+		initDot(2);
+	}
+
+	private void getHorpic() {
+		flag = 1;
+		horpics = new ArrayList<View>();
+		View view1 = LayoutInflater.from(PlayActivity.this).inflate(
+				R.layout.help_item9, null);
+		View view2 = LayoutInflater.from(PlayActivity.this).inflate(
+				R.layout.help_item6, null);
+		horpics.add(view1);
+		horpics.add(view2);
+	}
+
+	private void initDot(int dotnum) {
+		dots = new ArrayList<ImageView>();
+		// 得到点的父布局
+		for (int i = 0; i < dotnum; i++) {
+			ll_dot.getChildAt(i);// 得到点
+			dots.add((ImageView) ll_dot.getChildAt(i));
+			dots.get(i).setEnabled(false);// 将点设置为白色
+		}
+		dots.get(currentImage).setEnabled(true); // 因为默认显示第一张图片，将第一个点设置为黑色
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int arg0) {
+
+	}
+
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+	}
+
+	@Override
+	public void onPageSelected(int arg0) {
+		currentImage = arg0; // 获取当前页面索引
+		if (flag == 0) {
+			if (arg0 != 2) {
+				dots.get(oldImage).setEnabled(false); // 前一个点设置为白色
+				dots.get(currentImage).setEnabled(true); // 当前点设置为黑色
+				oldImage = currentImage; // 改变前一个索引
+				currentImage = (currentImage) % 2; // 有几张就对几求余
+			}
+			if (arg0 == 2) {
+				MySharedPreference.putBoolean("playhelp1", true);
+				helpViewPager.setVisibility(View.GONE);
+				ll_dot.setVisibility(View.GONE);
+			}
+		} else if (flag == 1) {
+			if (arg0 == 1) {
+				MySharedPreference.putBoolean("playhelp2", true);
+				horPlayHelp.setVisibility(View.GONE);
+				helpViewPager.setVisibility(View.GONE);
+			}
+		}
+	}
+
 	/**
 	 * 横竖屏布局隐藏显示
 	 */
 	protected void setPlayViewSize() {
 		if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
+			if (!MySharedPreference.getBoolean("playhelp1")) {
+				flag = 0;
+				playHelp.setVisibility(View.VISIBLE);
+				helpViewPager.setVisibility(View.VISIBLE);
+			}
+			horPlayHelp.setVisibility(View.GONE);
 			viewPager.setDisableSliding(false);
 			getWindow()
 					.setFlags(
@@ -426,6 +569,7 @@ public abstract class PlayActivity extends BaseActivity {
 			topBar.setVisibility(View.VISIBLE);// 顶部标题栏
 
 			if (Consts.PLAY_AP == playFlag) {
+				playHelp.setVisibility(View.GONE);
 				footerBar.setVisibility(View.GONE);// 底部工具栏
 				apFuncLayout.setVisibility(View.VISIBLE);
 			} else {
@@ -455,8 +599,15 @@ public abstract class PlayActivity extends BaseActivity {
 				surfaceWidth = disMetrics.widthPixels;
 				surfaceHeight = (int) (0.75 * disMetrics.widthPixels);
 			}
-
 		} else {// 横
+			if (!MySharedPreference.getBoolean("playhelp2")) {
+				horPlayHelp.setVisibility(View.VISIBLE);
+				horViewPager.setCurrentItem(0);
+				getHorpic();
+				horadp = new MyPagerAdp(horpics);
+				horViewPager.setAdapter(horadp);
+			}
+			playHelp.setVisibility(View.GONE);
 			viewPager.setDisableSliding(true);
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -468,6 +619,7 @@ public abstract class PlayActivity extends BaseActivity {
 			horPlayBarLayout.setVisibility(View.GONE);
 			// init();
 			if (Consts.PLAY_AP == playFlag) {
+				playHelp.setVisibility(View.GONE);
 				bottombut6.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.turn_no));
 				videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
@@ -501,7 +653,11 @@ public abstract class PlayActivity extends BaseActivity {
 	 */
 	@SuppressWarnings("deprecation")
 	public void showVerFuc(Channel channel) {
-		verPlayBarLayout.setVisibility(View.GONE);
+		if (MySharedPreference.getBoolean("playhelp1")) {
+			verPlayBarLayout.setVisibility(View.GONE);
+		} else {
+			verPlayBarLayout.setVisibility(View.VISIBLE);
+		}
 		horPlayBarLayout.setVisibility(View.GONE);
 
 		// if (Consts.PLAY_AP == playFlag) {
@@ -523,6 +679,7 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 
 		if (Consts.PLAY_AP == playFlag) {
+			playHelp.setVisibility(View.GONE);
 			rightFuncButton.setVisibility(View.GONE);
 		} else {
 			// 录像模式
@@ -548,6 +705,7 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 
 		if (Consts.PLAY_AP == playFlag) {
+			playHelp.setVisibility(View.GONE);
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turnleft_noturn));
 			videTurnBtn.setClickable(false);
@@ -588,7 +746,11 @@ public abstract class PlayActivity extends BaseActivity {
 		if (screen > 1 || !channel.isConnected()) {
 			rightFuncButton.setVisibility(View.GONE);
 			right_btn_h.setVisibility(View.GONE);
-			verPlayBarLayout.setVisibility(View.GONE);
+			if (MySharedPreference.getBoolean("playhelp1")) {
+				verPlayBarLayout.setVisibility(View.GONE);
+			} else {
+				verPlayBarLayout.setVisibility(View.VISIBLE);
+			}
 			horPlayBarLayout.setVisibility(View.GONE);
 		} else {
 			if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
@@ -623,6 +785,7 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 
 		if (Consts.PLAY_AP == playFlag) {
+			playHelp.setVisibility(View.GONE);
 			right_btn_h.setVisibility(View.GONE);
 		} else {
 			// 录像模式
@@ -646,6 +809,7 @@ public abstract class PlayActivity extends BaseActivity {
 		}
 
 		if (Consts.PLAY_AP == playFlag) {
+			playHelp.setVisibility(View.GONE);
 			bottombut6.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.turn_no));
 			videTurnBtn.setBackgroundDrawable(getResources().getDrawable(

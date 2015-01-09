@@ -26,4 +26,5 @@ public class PushInfo implements Serializable {
 	public int messageTag; // 报警标志，区分新旧报警，兼容旧的报警主控 4602老报警流程 4604 新报警流程
 	public String timestamp; // 时间戳
 	public String thirdDevNick = "";// 第三方设备昵称
+	public int alarmSolution;// 0本地报警 1云存储报警
 }

@@ -76,6 +76,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
+                    android:singleLine="true"
                     android:text="@string/str_verification_code"
                     android:textColor="@color/gray"
                     android:textSize="16sp" />

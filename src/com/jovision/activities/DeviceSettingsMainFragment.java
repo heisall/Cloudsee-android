@@ -8,8 +8,11 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,7 @@ import com.jovision.bean.Device;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.ConfigUtil;
 
 public class DeviceSettingsMainFragment extends Fragment implements
 		OnClickListener, OnMainListener {
@@ -37,6 +41,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private String devicename;
 	private int channelIndex;// 窗口
 	private String fullno = "";
+	protected Toast toast;
 
 	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
@@ -288,11 +293,12 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			if (isadmin) {
 				initSummaryDialog();
 			} else {
-				Toast.makeText(
-						getActivity(),
-						getActivity().getResources().getString(
-								R.string.edit_pass_not), Toast.LENGTH_SHORT)
-						.show();
+				// Toast.makeText(
+				// getActivity(),
+				// getActivity().getResources().getString(
+				// R.string.edit_pass_not), Toast.LENGTH_SHORT)
+				// .show();
+				showTextToast(getActivity(), R.string.edit_pass_not);
 			}
 			// TODO
 			break;
@@ -329,6 +335,45 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		device_nameet.setEnabled(false);
 		device_passwordet = (EditText) view
 				.findViewById(R.id.device_passwrodet);
+
+		device_passwordet.addTextChangedListener(new TextWatcher() {
+			private int selectionStart;
+			private int selectionEnd;
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				try {
+					selectionStart = device_passwordet.getSelectionStart();
+					selectionEnd = device_passwordet.getSelectionEnd();
+					if (!ConfigUtil.checkDevPwd(device_passwordet.getText()
+							.toString())) {
+						if (selectionStart > 0) {
+							showTextToast(getActivity(),
+									R.string.device_pass_notzh);
+							s.delete(selectionStart - 1, selectionEnd);
+							int tempSelection = selectionStart;
+							device_passwordet.setText(s);
+							device_passwordet.setSelection(tempSelection);
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		});
+
 		device_password_cancleI = (ImageView) view
 				.findViewById(R.id.device_passwrodet_cancle);
 		dialog_cancle_img.setOnClickListener(this);
@@ -349,11 +394,11 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				if ("".equals(device_passwordet.getText().toString())) {
-					Toast.makeText(
-							getActivity(),
-							getActivity().getResources().getString(
-									R.string.login_str_device_pass_notnull),
-							Toast.LENGTH_SHORT).show();
+					showTextToast(getActivity(),
+							R.string.login_str_device_pass_notnull);
+				} else if (!ConfigUtil.checkDevPwd(device_passwordet.getText()
+						.toString())) {
+					showTextToast(getActivity(), R.string.device_pass_notzh);
 				} else {
 					JSONObject paraObject = new JSONObject();
 					try {
@@ -378,11 +423,12 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				+ "," + ex_type);
 		switch (packet_type) {
 		case JVNetConst.JVN_GET_USERINFO:
-			Toast.makeText(
-					getActivity(),
-					getActivity().getResources()
-							.getString(R.string.pwd_success),
-					Toast.LENGTH_SHORT).show();
+			// Toast.makeText(
+			// getActivity(),
+			// getActivity().getResources()
+			// .getString(R.string.pwd_success),
+			// Toast.LENGTH_SHORT).show();
+			showTextToast(getActivity(), R.string.pwd_success);
 			initDialog.dismiss();
 			break;
 		case JVNetConst.RC_EXTEND: {
@@ -400,10 +446,13 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						func_motion_enabled = 0;
 						func_swmotion
 								.setBackgroundResource(R.drawable.morefragment_normal_icon);
-						String text = getResources().getString(
+						// String text = getResources().getString(
+						// R.string.str_mdenabled_close_ok);
+						// Toast.makeText(getActivity(), text,
+						// Toast.LENGTH_SHORT)
+						// .show();
+						showTextToast(getActivity(),
 								R.string.str_mdenabled_close_ok);
-						Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT)
-								.show();
 						// Log.e("Alarm",
 						// "after func_motion_enabled:"+func_motion_enabled);
 					} else if (func_motion_enabled == 0) {
@@ -415,16 +464,22 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						func_motion_enabled = 1;
 						func_swmotion
 								.setBackgroundResource(R.drawable.morefragment_selector_icon);
-						String text = getResources().getString(
+						// String text = getResources().getString(
+						// R.string.str_mdenabled_open_ok);
+						// Toast.makeText(getActivity(), text,
+						// Toast.LENGTH_SHORT)
+						// .show();
+						showTextToast(getActivity(),
 								R.string.str_mdenabled_open_ok);
-						Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT)
-								.show();
 					} else {
 						// 隐藏
-						String text = getResources().getString(
+						// String text = getResources().getString(
+						// R.string.str_operation_failed);
+						// Toast.makeText(getActivity(), text,
+						// Toast.LENGTH_SHORT)
+						// .show();
+						showTextToast(getActivity(),
 								R.string.str_operation_failed);
-						Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT)
-								.show();
 					}
 				}
 				break;
@@ -444,10 +499,12 @@ public class DeviceSettingsMainFragment extends Fragment implements
 							functionlayout3.setVisibility(View.GONE);
 							functiontips3.setVisibility(View.GONE);
 
-							String text = getResources().getString(
+							// String text = getResources().getString(
+							// R.string.protect_close_succ);
+							// Toast.makeText(getActivity(), text,
+							// Toast.LENGTH_SHORT).show();
+							showTextToast(getActivity(),
 									R.string.protect_close_succ);
-							Toast.makeText(getActivity(), text,
-									Toast.LENGTH_SHORT).show();
 						}
 						func_alert_enabled = 0;
 						func_swalert
@@ -470,20 +527,25 @@ public class DeviceSettingsMainFragment extends Fragment implements
 								functionlayout3.setVisibility(View.VISIBLE);
 								functiontips3.setVisibility(View.VISIBLE);
 							}
-							String text = getResources().getString(
+							// String text = getResources().getString(
+							// R.string.protect_open_succ);
+							// Toast.makeText(getActivity(), text,
+							// Toast.LENGTH_SHORT).show();
+							showTextToast(getActivity(),
 									R.string.protect_open_succ);
-							Toast.makeText(getActivity(), text,
-									Toast.LENGTH_SHORT).show();
 						}
 						func_alert_enabled = 1;
 						func_swalert
 								.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					} else {
 						// 隐藏
-						String text = getResources().getString(
+						// String text = getResources().getString(
+						// R.string.str_operation_failed);
+						// Toast.makeText(getActivity(), text,
+						// Toast.LENGTH_SHORT)
+						// .show();
+						showTextToast(getActivity(),
 								R.string.str_operation_failed);
-						Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT)
-								.show();
 					}
 				}
 				break;
@@ -496,5 +558,36 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * 弹系统消息
+	 * 
+	 * @param context
+	 * @param id
+	 */
+	public void showTextToast(Context context, int id) {
+		String msg = context.getResources().getString(id);
+		if (toast == null) {
+			toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+		} else {
+			toast.setText(msg);
+		}
+		toast.show();
+	}
+
+	/**
+	 * 弹系统消息
+	 * 
+	 * @param context
+	 * @param id
+	 */
+	public void showTextToast(Context context, String msg) {
+		if (toast == null) {
+			toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+		} else {
+			toast.setText(msg);
+		}
+		toast.show();
 	}
 }

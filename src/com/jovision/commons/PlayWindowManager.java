@@ -1037,7 +1037,7 @@ public class PlayWindowManager implements View.OnClickListener,
 
 		private SurfaceView genSurfaceView() {
 			SurfaceView view = new SurfaceView(mContext);
-
+			MyLog.v("Click_EVENT11", "index=" + index);
 			if (index >= 0) {
 				final MyGestureDispatcher dispatcher = new MyGestureDispatcher(
 						new MyGestureDispatcher.OnGestureListener() {
@@ -1054,6 +1054,8 @@ public class PlayWindowManager implements View.OnClickListener,
 
 					@Override
 					public boolean onTouch(View v, MotionEvent event) {
+						MyLog.v("Click_EVENT", "index=" + index + ";event="
+								+ event);
 						dispatcher.motion(event);
 						return false;
 					}

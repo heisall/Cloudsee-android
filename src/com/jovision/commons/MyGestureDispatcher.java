@@ -28,8 +28,13 @@ public class MyGestureDispatcher {
 	/** 手势缩小 */
 	public static final int GESTURE_TO_SMALLER = 0x06;
 
+	/** click 事件 */
+	public static final int CLICK_EVENT = 0x07;
+
 	private static final int DEFAULT_BLIND_AERA_R = 8;
 	private static final int DEFAULT_BLIND_SPACE_ZOOMING = 50;
+
+	private Long lastTime = 0l;
 
 	private int gesture;
 	private int distance;
@@ -98,6 +103,14 @@ public class MyGestureDispatcher {
 		}
 	}
 
+	private void genOnePointMid(MotionEvent event) {
+		if (1 == event.getPointerCount()) {
+			float x = event.getX();
+			float y = event.getY();
+			middle.set((int) (x), (int) (y));
+		}
+	}
+
 	/**
 	 * 需要监听手势的触摸事件，某次都要调用哦
 	 * 
@@ -116,6 +129,7 @@ public class MyGestureDispatcher {
 
 		switch (action) {
 		case MotionEvent.ACTION_DOWN: {
+			lastTime = System.currentTimeMillis();
 			vector.set(0, 0);
 			lastDownX = event.getX();
 			lastDownY = event.getY();
@@ -125,6 +139,14 @@ public class MyGestureDispatcher {
 
 		case MotionEvent.ACTION_UP:
 			multiMode = false;
+			gesture = CLICK_EVENT;
+			// TODO
+			if (null != listener && GESTURE_TO_NULL != gesture) {
+				genOnePointMid(event);
+				int time = (int) (System.currentTimeMillis() - lastTime);
+				listener.onGesture(gesture, time, vector, middle);
+				result = true;
+			}
 			break;
 
 		case MotionEvent.ACTION_POINTER_DOWN: {

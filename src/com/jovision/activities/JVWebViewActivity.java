@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.commons.MyLog;
 
 public class JVWebViewActivity extends BaseActivity {
 
@@ -41,6 +43,7 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		url = getIntent().getStringExtra("URL");
+		// url = "http://app.ys7.com/";
 		titleID = getIntent().getIntExtra("title", 0);
 	}
 
@@ -78,16 +81,36 @@ public class JVWebViewActivity extends BaseActivity {
 			}
 		};
 		webView.getSettings().setJavaScriptEnabled(true);
+
 		// 设置setWebChromeClient对象
 		webView.setWebChromeClient(wvcc);
 		webView.requestFocus(View.FOCUS_DOWN);
+
+		// setting.setPluginState(PluginState.ON);
 		// 加快加载速度
 		webView.getSettings().setRenderPriority(RenderPriority.HIGH);
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
-			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				view.loadUrl(url);
-				return false;
+			public void onReceivedError(WebView view, int errorCode,
+					String description, String failingUrl) {
+				super.onReceivedError(view, errorCode, description, failingUrl);
+			}
+
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String newUrl) {
+				MyLog.v("new_url", newUrl);
+				if (newUrl.contains("viewmode")) {
+					Intent intentAD = new Intent(JVWebViewActivity.this,
+							JVWebView2Activity.class);
+					intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					intentAD.putExtra("URL", newUrl);
+					intentAD.putExtra("title", -2);
+					JVWebViewActivity.this.startActivity(intentAD);
+				} else {
+					view.loadUrl(newUrl);
+				}
+
+				return true;
 			}
 
 			@Override
@@ -95,17 +118,17 @@ public class JVWebViewActivity extends BaseActivity {
 				// TODO Auto-generated method stub
 				super.onPageStarted(view, url, favicon);
 				progressbar.setVisibility(View.VISIBLE);
-				webView.setVisibility(View.GONE);
 			}
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
-				// TODO Auto-generated method stub
 				super.onPageFinished(view, url);
-				webView.setVisibility(View.VISIBLE);
+				webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
 				progressbar.setVisibility(View.GONE);
+				// webView.loadUrl("javascript:videopayer.play()");
 			}
 		});
+
 		webView.loadUrl(url);
 	}
 
@@ -154,7 +177,22 @@ public class JVWebViewActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
+	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		webView.onPause();
+		// if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+		// webView.onPause(); // 暂停网页中正在播放的视频
+		// }
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		webView.reload();
+		webView.onResume();
 	}
 
 }

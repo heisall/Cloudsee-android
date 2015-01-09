@@ -34,6 +34,7 @@ public class JVAlarmConst {
 	public static final String JK_ALARM_NEW_VIDEOURL = "avd";
 	public static final String JK_ALARM_NEW_MID = "mid";
 	public static final String JK_ALARM_NEW_AINFO = "ainfo";
+	public static final String JK_ALARM_SOLUTION = "asln";
 	public static final String JK_ALARM_NEW_RT = "rt";// 0:ok; -10:请求格式错误;
 														// -3:缓存操作错误；-1:其它错误
 	public static final String JK_ALARM_NEW_ALARM_ATS = "ats";
@@ -43,6 +44,7 @@ public class JVAlarmConst {
 	public static final String JK_ALARM_NEW_ALARM_AISTART = "aistart";
 	public static final String JK_ALARM_NEW_ALARM_AISTOP = "aistop";
 	public static final String JK_ALARM_NEW_ALARM_THIRD_NICKNAME = "amsg";
+
 	/* 报警服务器的消息类型 */
 	public static final int MID_RESPONSE_PUSHALARM = 1000; /* 告警服务器向客户端推送报警信息 */
 	public static final int MID_REQUEST_ALARMPICURL = 1001; /* 客户端获取报警图片的url地址 */

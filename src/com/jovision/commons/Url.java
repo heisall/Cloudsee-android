@@ -12,12 +12,24 @@ public class Url {
 	// http://int.dpool.sina.com.cn/iplookup/iplookup.php
 
 	// 找回密码
-	public static String RESET_PWD_URL = "http://webapp.afdvr.com:9003/findpwd/index.html";// 重置密码地址
-	public static String RESET_PWD_URL_EN = "http://webappen.afdvr.com:9003/findpwd/index.html";// 重置密码地址
+	public static String RESET_PWD_URL_ZH = "http://webapp.afdvr.com:9006/findpwd?lang=0";// 重置密码地址
+	public static String RESET_PWD_URL_EN = "http://webappen.afdvr.com:9006/findpwd?lang=1";// 重置密码地址
+	public static String RESET_PWD_URL_ZHT = "http://webappen.afdvr.com:9006/findpwd?lang=2";// 重置密码地址
+	// public static String RESET_PWD_URL =
+	// "http://webapp.afdvr.com:9003/findpwd/index.html";// 重置密码地址
+	// public static String RESET_PWD_URL_EN =
+	// "http://webappen.afdvr.com:9003/findpwd/index.html";// 重置密码地址
+
+	// 国内url：http://webapp.afdvr.com:9006/findpwd?lang=0
+	// 国外url：http://webappen.afdvr.com:9006/findpwd?lang=1
+	// 国外url：http://webappen.afdvr.com:9006/findpwd?lang=2 繁体
 
 	// 检查软件更新地址
 	public static String CHECK_UPDATE_URL = "http://wmap.yoosee.cc/MobileWeb.aspx";// 检查软件更新地址
 	public static String APK_DOWNLOAD_URL = "http://wmap.yoosee.cc/";// 下载更新软件地址
+
+	// public static String SHORTSERVERIP = "98.126.77.202";
+	// public static String LONGSERVERIP = "98.126.77.202";
 
 	// public static String SHORTSERVERIP = "58.56.19.187";
 	// public static String LONGSERVERIP = "58.56.19.187";

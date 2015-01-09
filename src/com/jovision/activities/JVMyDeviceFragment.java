@@ -49,6 +49,7 @@ import com.jovision.adapters.LanAdapter;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.adapters.PopWindowAdapter;
 import com.jovision.bean.AD;
+import com.jovision.bean.APPImage;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyList;
@@ -1403,6 +1404,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(
 						"false")) {
 					if ("0".equalsIgnoreCase(params[0])) {
+						downloadAppImage();
 						// TODO 获取广告
 						getADList();
 					}
@@ -1669,6 +1671,49 @@ public class JVMyDeviceFragment extends BaseFragment {
 			MyLog.e("注销停止updateTask", "stop--updateTask");
 			updateTask.cancel();
 			updateTask = null;
+		}
+	}
+
+	/**
+	 * 下载欢迎界面图
+	 */
+	public void downloadAppImage() {
+		// 欢迎界面图片数据
+		APPImage app = APPImage.fromJson(MySharedPreference
+				.getString(Consts.APP_IMAGE));
+		int appVersion = 0;
+		if (null != app) {
+			appVersion = app.getVersion();
+		}
+		APPImage newAppImage = DeviceUtil.getAPPImage(appVersion);
+
+		if (null != newAppImage && 0 == newAppImage.getResult()) {// 有更新
+			// 删除老欢迎界面图
+			File appFolder = new File(Consts.WELCOME_IMG_PATH);
+			MobileUtil.deleteFile(appFolder);
+			MySharedPreference.putString(Consts.APP_IMAGE,
+					newAppImage.toString());
+		}
+		app = APPImage.fromJson(MySharedPreference.getString(Consts.APP_IMAGE));
+
+		getImage(app, "welcome_zh");
+		getImage(app, "welcome_zht");
+		getImage(app, "welcome_en");
+	}
+
+	/**
+	 * 本地没有图片才去下载
+	 * 
+	 * @param app
+	 * @param fileName
+	 */
+	public void getImage(APPImage app, String fileName) {
+		String welcomePath = Consts.WELCOME_IMG_PATH + fileName
+				+ Consts.IMAGE_JPG_KIND;
+		File imgFile = new File(welcomePath);
+		if (!imgFile.exists()) {
+			BitmapCache.getInstance().getBitmap(app.getAppImageUrlZh(),
+					"welcome", fileName);
 		}
 	}
 }

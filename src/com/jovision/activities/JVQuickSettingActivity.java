@@ -1993,7 +1993,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 				});
 
-		builder.show();
+		if (!JVQuickSettingActivity.this.isFinishing()) {
+			builder.show();
+		}
+
 	}
 
 	/**

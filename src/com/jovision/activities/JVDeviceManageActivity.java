@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -99,6 +100,21 @@ public class JVDeviceManageActivity extends BaseActivity {
 		btn_right.setVisibility(View.GONE);
 
 		cloudnumber_text = (TextView) findViewById(R.id.cloudnumber_text);
+		if (Consts.LANGUAGE_ZH == ConfigUtil
+				.getLanguage2(JVDeviceManageActivity.this)
+				|| Consts.LANGUAGE_ZHTW == ConfigUtil
+						.getLanguage2(JVDeviceManageActivity.this)) {
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.MATCH_PARENT, 150);
+			lp.setMargins(30, 0, 0, 0);
+			cloudnumber_text.setLayoutParams(lp);
+		} else {
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.MATCH_PARENT, 150);
+			lp.setMargins(8, 0, 0, 0);
+			cloudnumber_text.setLayoutParams(lp);
+		}
+
 		currentmenu = (TextView) findViewById(R.id.currentmenu);
 		currentmenu.setText(R.string.str_device_manage);
 		manageNick = (EditText) findViewById(R.id.manage_nick);

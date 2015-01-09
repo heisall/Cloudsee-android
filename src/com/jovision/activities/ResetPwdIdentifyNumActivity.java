@@ -102,7 +102,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 			Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
 					+ country[0]);
 		}
-		formatedPhone = String.format("%s  %s", currentCode, strPhone);
+		formatedPhone = String.format("%s", strPhone);
 
 		handler = new EventHandler() {
 			@SuppressWarnings("unchecked")
@@ -128,6 +128,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 							}
 						} else {
 							// 根据服务器返回的网络错误，给toast提示
+							showTextToast(R.string.reset_passwd_tips8);
 							try {
 								((Throwable) data).printStackTrace();
 								Throwable throwable = (Throwable) data;
@@ -136,7 +137,8 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 										.getMessage());
 								String des = object.optString("detail");
 								if (!TextUtils.isEmpty(des)) {
-									showTextToast(des);
+									// showTextToast(des);
+									MyLog.e("ResetPwd", des);
 									return;
 								}
 							} catch (Exception e) {
@@ -394,6 +396,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 					time = RETRY_INTERVAL;
 					// countDown();
 				} else {
+					showTextToast(R.string.reset_passwd_tips8);
 					((Throwable) data).printStackTrace();
 					Throwable throwable = (Throwable) data;
 					// 根据服务器返回的网络错误，给toast提示
@@ -402,7 +405,8 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 								throwable.getMessage());
 						String des = object.optString("detail");
 						if (!TextUtils.isEmpty(des)) {
-							showTextToast(des);
+							// showTextToast(des);
+							MyLog.e("ResetPwd", des);
 							return;
 						}
 					} catch (JSONException e) {

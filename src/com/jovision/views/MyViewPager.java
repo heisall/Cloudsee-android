@@ -13,6 +13,10 @@ public class MyViewPager extends ViewPager {
 	private boolean disableSliding;
 	private static Context mContext;
 
+	public boolean isDisableSliding() {
+		return disableSliding;
+	}
+
 	public MyViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}

@@ -49,7 +49,7 @@ public class JVChannelListActivity extends BaseActivity {
 			task.execute(strParams);
 			break;
 		case Consts.WHAT_DELETE_CHANNAL:
-			dialog(channelList.get(arg1).getChannel());
+			delChannelDialog(channelList.get(arg1).getChannel(), arg2);
 			break;
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
@@ -351,6 +351,7 @@ public class JVChannelListActivity extends BaseActivity {
 				adapter.notifyDataSetChanged();
 				CacheUtil.saveDevList(deviceList);
 			} else if (1 == result) {
+				CacheUtil.saveDevList(deviceList);
 				// [Neo] 删除最后一个应该退出通过管理界面
 				showTextToast(R.string.del_channel_succ);
 				finish();
@@ -371,11 +372,18 @@ public class JVChannelListActivity extends BaseActivity {
 		}
 	}
 
-	protected void dialog(final int index) {
+	protected void delChannelDialog(final int index, int size) {
 		String okString = JVChannelListActivity.this.getResources().getString(
 				R.string.ok);
-		String delectString = JVChannelListActivity.this.getResources()
-				.getString(R.string.str_delete_sure);
+
+		String delectString = "";
+		if (size > 1) {
+			delectString = JVChannelListActivity.this.getResources().getString(
+					R.string.str_delete_sure);
+		} else {
+			delectString = JVChannelListActivity.this.getResources().getString(
+					R.string.delete_dev_sure);
+		}
 		String warmString = JVChannelListActivity.this.getResources()
 				.getString(R.string.str_delete_tip);
 		String cancleString = JVChannelListActivity.this.getResources()

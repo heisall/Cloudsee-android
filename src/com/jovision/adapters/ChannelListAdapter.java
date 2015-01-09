@@ -124,8 +124,9 @@ public class ChannelListAdapter extends BaseAdapter {
 						public boolean onLongClick(View v) {
 							// TODO Auto-generated method stub
 							activity.onNotify(Consts.WHAT_DELETE_CHANNAL,
-									position, 0, Holder.channel_list_edit
-											.getText().toString());
+									position, dataList.size(),
+									Holder.channel_list_edit.getText()
+											.toString());
 							return false;
 						}
 					});

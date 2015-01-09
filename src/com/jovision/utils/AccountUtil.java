@@ -111,6 +111,7 @@ public class AccountUtil {
 			// Toast.makeText(mContext, "初始化账号SDK失败，请重新运行程序", Toast.LENGTH_LONG)
 			// .show();
 			// return "";
+			MyLog.e("Login", "初始化账号SDK失败");
 		}
 		JSONObject mainObj = new JSONObject();
 		JSONObject reqObj = new JSONObject();

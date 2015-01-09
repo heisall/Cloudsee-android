@@ -12,6 +12,7 @@
     <color name="moretransparent">#19000000</color>
 
     <!-- 设备的背景色 -->
+    <color name="vercode">#bcbcbc</color>
     <color name="device_color_1">#378FE6</color>
     <color name="device_color_2">#13C6CD</color>
     <color name="device_color_3">#84C914</color>
@@ -97,6 +98,11 @@
     <color name="video_channelcolor">#EFEFEF</color>
     <!-- 我的设备字体颜色 -->
     <color name="mydevice_modify">#519DE8</color>
+    <!-- 系统消息颜色 -->
+    <color name="info_divider">#E7E7E7</color>
+    <color name="info_time">#B2B2B2</color>
+    <color name="info_content">#747474</color>
+
     <!-- 象牙色 -->
     <color name="lightyellow">#FFFFE0</color>
     <!-- 亮黄色 -->
@@ -421,7 +427,7 @@
     <color name="morefunctiontextcolor">#363940</color>
     <color name="versioncolor">#385487</color>
     <color name="registtextcolor">#8d8f91</color>
-    <color name="agreementcolor">#4366a0</color>
+    <color name="agreementcolor">#2e9cff</color>
     <color name="weibotextcolor">#282828</color>
     <color name="searchtimecolor">#203352</color>
     <color name="listtitlecolor">#363940</color>

@@ -31,6 +31,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.CacheUtil;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MyRecevier;
 import com.jovision.utils.PlayUtil;
 
@@ -50,6 +51,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	private ActivityManager activityManager;
 	private String packageName;
 
+	private ArrayList<String> markedAlarmList;// 存储已经阅读的报警ID
+
 	/**
 	 * 获取活动集合
 	 * 
@@ -66,6 +69,15 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	 */
 	public HashMap<String, String> getStatusHashMap() {
 		return statusHashMap;
+	}
+
+	/**
+	 * 获取已读报警ID列表
+	 * 
+	 * @return
+	 */
+	public ArrayList<String> getMarkedAlarmList() {
+		return markedAlarmList;
 	}
 
 	private void registerDateTransReceiver() {
@@ -90,7 +102,12 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		registerDateTransReceiver();
 		statusHashMap = new HashMap<String, String>();
 		openedActivityList = new ArrayList<BaseActivity>();
-
+		markedAlarmList = new ArrayList<String>();
+		MySharedPreference.init(this);
+		markedAlarmList = ((MainApplication) getApplicationContext())
+				.getMarkedAlarmList();
+		markedAlarmList = ConfigUtil.convertToArray(MySharedPreference
+				.getString("MARKED_ALARM"));
 		currentNotifyer = null;
 
 		String strAlarmFilePath = Consts.SD_CARD_PATH + "CSAlarmIMG"
@@ -326,6 +343,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 							strYstNumString = pi.ystNum;
 							pi.coonNum = obj
 									.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
+							pi.alarmSolution = obj
+									.optInt(JVAlarmConst.JK_ALARM_SOLUTION);
 							//
 							// pi.deviceNickName =
 							// BaseApp.getNikeName(pi.ystNum);

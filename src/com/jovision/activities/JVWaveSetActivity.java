@@ -687,13 +687,13 @@ public class JVWaveSetActivity extends BaseActivity {
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {// && event.getRepeatCount() == 0
 			if (!isshow) {
-				finish();
+				backMethod();
 			}
 			return true;
+		} else {
+			return false;
 		}
-		return super.onKeyDown(keyCode, event);
 	}
 }

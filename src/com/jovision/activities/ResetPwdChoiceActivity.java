@@ -42,10 +42,13 @@ public class ResetPwdChoiceActivity extends Activity implements OnClickListener 
 					JVWebViewActivity.class);
 			String findUrl = "";
 			if (Consts.LANGUAGE_ZH == ConfigUtil
-					.getLanguage2(ResetPwdChoiceActivity.this)) {// 中文
-				findUrl = Url.RESET_PWD_URL + "?lgn=zh_cn";
+					.getLanguage2(ResetPwdChoiceActivity.this)) {// 中文简体
+				findUrl = Url.RESET_PWD_URL_ZH;
+			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+					.getLanguage2(ResetPwdChoiceActivity.this)) {// 中文繁体
+				findUrl = Url.RESET_PWD_URL_ZHT;
 			} else {// 英文
-				findUrl = Url.RESET_PWD_URL_EN + "?lgn=en_us";
+				findUrl = Url.RESET_PWD_URL_EN;
 			}
 			MyLog.e("findUrl", findUrl);
 			intentFP.putExtra("URL", findUrl);

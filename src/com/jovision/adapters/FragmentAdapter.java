@@ -31,6 +31,7 @@ public class FragmentAdapter extends BaseAdapter {
 	private RelativeLayout more_relative;
 	private FrameLayout more_item;
 	private ImageView divider_img;
+	private ImageView item_new;
 
 	public FragmentAdapter(BaseFragment mfragment,
 			ArrayList<MoreFragmentBean> dataList) {
@@ -59,6 +60,7 @@ public class FragmentAdapter extends BaseAdapter {
 				R.layout.fragment_more_item, null);
 		more_relative = (RelativeLayout) convertView
 				.findViewById(R.id.more_relative);
+		item_new = (ImageView) convertView.findViewById(R.id.item_new);
 		more_item = (FrameLayout) convertView.findViewById(R.id.item);
 		divider_img = (ImageView) convertView.findViewById(R.id.divider_img);
 		item_img = (ImageView) convertView.findViewById(R.id.item_img);
@@ -90,7 +92,17 @@ public class FragmentAdapter extends BaseAdapter {
 				divider_img.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 7
+		if (position == 7) {
+			if (!MySharedPreference.getBoolean("SystemMessage")) {
+				item_new.setVisibility(View.VISIBLE);
+			}
+		}
+		if (position == 6) {
+			if (!MySharedPreference.getBoolean("VideoSquer")) {
+				item_new.setVisibility(View.VISIBLE);
+			}
+		}
+		if (position == 9
 				&& "true".equalsIgnoreCase(((BaseActivity) mfragment
 						.getActivity()).statusHashMap
 						.get(Consts.NEUTRAL_VERSION))) {
@@ -98,7 +110,7 @@ public class FragmentAdapter extends BaseAdapter {
 			more_item.setVisibility(View.GONE);
 			divider_img.setVisibility(View.GONE);
 		}
-		if (position == 9) {
+		if (position == 11) {
 			item_next.setVisibility(View.GONE);
 			item_version.setVisibility(View.VISIBLE);
 			item_version

@@ -12,11 +12,13 @@ public class AutoLoad {
 			System.loadLibrary("gnustl_shared");
 			System.loadLibrary("stlport_shared");
 			System.loadLibrary("accountsdk");
+			System.loadLibrary("tools");
 
 			System.loadLibrary("play");
 			result = true;
 			MyLog.e(Consts.TAG_APP, "AutoLoad libs have done!");
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return result;

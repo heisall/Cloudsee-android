@@ -707,6 +707,7 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 					R.string.downloading_update));
 			updateDialog.setIndeterminate(false);
 			updateDialog.setMax(max);
+			updateDialog.setProgressNumberFormat("%1d B/%2d B");
 			updateDialog.setButton(
 					getResources().getString(R.string.str_crash_cancel),
 					new DialogInterface.OnClickListener() {

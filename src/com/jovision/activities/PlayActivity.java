@@ -74,7 +74,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	protected ImageView ht_fight;// 闪光灯
 	protected TextView currentMenu;// 当前标题
 	protected ImageView selectScreenNum;// 下拉选择当前分屏数按钮
-	protected PopupWindow popScreen;// 选择框
+	protected PopupWindow streamPopWindow;// 选择框
 	protected ScreenAdapter screenAdapter;
 	protected ListView screenListView;
 	protected ArrayList<Integer> screenList = new ArrayList<Integer>();// 分屏下拉选择列表
@@ -173,7 +173,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	 * 帮助界面
 	 * */
 	protected RelativeLayout playHelp;
-	private ViewPager viewpager;
+	private ViewPager helpViewPager;
 
 	// 当前页面索引
 	private int currentImage = 0;
@@ -249,15 +249,15 @@ public abstract class PlayActivity extends BaseActivity implements
 		} else {
 			playHelp.setVisibility(View.VISIBLE);
 		}
-		viewpager = (ViewPager) findViewById(R.id.playhelp_viewpager);
+		helpViewPager = (ViewPager) findViewById(R.id.playhelp_viewpager);
 		ll_dot = (LinearLayout) findViewById(R.id.play_ll_dot);
-		viewpager.setOnPageChangeListener(PlayActivity.this);
+		helpViewPager.setOnPageChangeListener(PlayActivity.this);
 		ll_dot.setVisibility(View.VISIBLE);
-		viewpager.setCurrentItem(0);
-		viewpager.setVisibility(View.VISIBLE);
+		helpViewPager.setCurrentItem(0);
+		helpViewPager.setVisibility(View.VISIBLE);
 		getPic();
 		adp = new MyPagerAdp(pics);
-		viewpager.setAdapter(adp);
+		helpViewPager.setAdapter(adp);
 		/** 上 */
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
 		back = (Button) findViewById(R.id.btn_left);
@@ -537,14 +537,14 @@ public abstract class PlayActivity extends BaseActivity implements
 			}
 			if (arg0 == 2) {
 				MySharedPreference.putBoolean("playhelp1", true);
-				viewpager.setVisibility(View.GONE);
+				helpViewPager.setVisibility(View.GONE);
 				ll_dot.setVisibility(View.GONE);
 			}
 		} else if (flag == 1) {
 			if (arg0 == 1) {
 				MySharedPreference.putBoolean("playhelp2", true);
 				horPlayHelp.setVisibility(View.GONE);
-				viewpager.setVisibility(View.GONE);
+				helpViewPager.setVisibility(View.GONE);
 			}
 		}
 	}
@@ -557,7 +557,7 @@ public abstract class PlayActivity extends BaseActivity implements
 			if (!MySharedPreference.getBoolean("playhelp1")) {
 				flag = 0;
 				playHelp.setVisibility(View.VISIBLE);
-				viewpager.setVisibility(View.VISIBLE);
+				helpViewPager.setVisibility(View.VISIBLE);
 			}
 			horPlayHelp.setVisibility(View.GONE);
 			viewPager.setDisableSliding(false);

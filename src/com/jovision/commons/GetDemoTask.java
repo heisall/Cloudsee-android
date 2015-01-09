@@ -66,8 +66,10 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			}
 
 			demoUrl = demoUrl + "?" + "plat=Android&platv="
-					+ Build.VERSION.SDK_INT + "&lang=" + lan + "&sid=" + sid;
+					+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
+					+ System.currentTimeMillis() + "&sid=" + sid;
 			MyLog.v("demoUrl", demoUrl);
+			intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intentAD.putExtra("URL", demoUrl);
 			intentAD.putExtra("title", -2);
 			mContext.startActivity(intentAD);

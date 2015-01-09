@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -30,8 +31,11 @@ import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.AlarmUtil;
+import com.jovision.utils.DeviceUtil;
+import com.jovision.utils.HttpDownloader;
 
 public class CustomDialogActivity extends BaseActivity implements
 		android.view.View.OnClickListener {
@@ -62,6 +66,10 @@ public class CustomDialogActivity extends BaseActivity implements
 	private int audio_bit = 16;
 	private MyHandler myHandler;
 	private int dis_and_play_flag = 0;
+	private String cloudSignVodUri, cloudSignImgUri;
+	private int alarmSolution;
+	private String cloudBucket, cloudResource, storageJson;
+	private CustomDialogActivity mActivity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +77,7 @@ public class CustomDialogActivity extends BaseActivity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.custom_alarm_dialog);
 		InitViews();
-
+		mActivity = this;
 		Intent intent = getIntent();
 		bDownLoadFileType = 0;// 默认先下载图片
 		PushInfo pushInfo = (PushInfo) intent.getSerializableExtra("PUSH_INFO");
@@ -79,74 +87,101 @@ public class CustomDialogActivity extends BaseActivity implements
 		}
 		msg_tag = pushInfo.messageTag;
 		myHandler = new MyHandler();
-		if (msg_tag == JVAccountConst.MESSAGE_NEW_PUSH_TAG) {// 新报警
 
-			strYstNum = pushInfo.ystNum;
-			String strAlarmTime = new String(pushInfo.alarmTime);
-			strImgUrl = new String(pushInfo.pic);
-			vod_uri_ = new String(pushInfo.video);
-			alarmTime.setText(strAlarmTime);
-			if (vod_uri_.equals("") || vod_uri_ == null) {
-				lookVideoBtn.setEnabled(false);
-				lookVideoBtn.setText(getResources().getString(
-						R.string.str_alarm_no_video));
-			}
-			// strImgUrl = "./rec/00/20141017/A01185730.jpg";
-			// vod_uri_ = "./rec/00/20141017/A01183434.mp4";
+		strYstNum = pushInfo.ystNum;
+		String strAlarmTime = new String(pushInfo.alarmTime);
+		strImgUrl = new String(pushInfo.pic);
+		vod_uri_ = new String(pushInfo.video);
 
-			if (!vod_uri_.equals("")) {
-				String temp[] = vod_uri_.split("/");
-				localVodName = temp[temp.length - 1];
-				localVodPath = Consts.SD_CARD_PATH + "CSAlarmVOD/"
-						+ localVodName;
+		// strImgUrl =
+		// "http://missiletcy.oss-cn-qingdao.aliyuncs.com/S224350962/2015/1/6/M01160227.jpg";;
+		// vod_uri_ =
+		// "http://missiletcy.oss-cn-qingdao.aliyuncs.com/S224350962/2015/1/6/M01160227.mp4";
+		//
+		// cloudBucket = "missiletcy";
+		// String tempp[] = strImgUrl.split("com/");
+		// cloudResource = String.format("/%s/%s", cloudBucket,tempp[1]);
 
-			}
+		alarmTime.setText(strAlarmTime);
+		if (vod_uri_.equals("") || vod_uri_ == null) {
+			lookVideoBtn.setEnabled(false);
+			lookVideoBtn.setText(getResources().getString(
+					R.string.str_alarm_no_video));
+		}
+		// strImgUrl = "./rec/00/20141017/A01185730.jpg";
+		// vod_uri_ = "./rec/00/20141017/A01183434.mp4";
 
-			if (!strImgUrl.equals("")) {
-				String temp[] = strImgUrl.split("/");
-				localImgName = temp[temp.length - 1];
-				localImgPath = Consts.SD_CARD_PATH + "CSAlarmIMG/"
-						+ localImgName;
-				// imgLoaderFilePath = "file://"+localImgPath;
-			}
+		if (!vod_uri_.equals("")) {
+			String temp[] = vod_uri_.split("/");
+			localVodName = temp[temp.length - 1];
+			localVodPath = Consts.SD_CARD_PATH + "CSAlarmVOD/" + localVodName;
 
-			MyLog.d("New Alarm", "img_url:" + strImgUrl + ", vod_url:"
-					+ vod_uri_);
-			MyLog.d("New Alarm", "localVodPath:" + localVodPath);
-			MyLog.d("New Alarm", "localImgPath:" + localImgPath);
-
-			if (!fileIsExists(localImgPath)) {
-				bLocalFile = false;
-				if (!strImgUrl.equals("")) {
-					Jni.setDownloadFileName(localImgPath);
-					// if (!AlarmUtil.OnlyConnect(strYstNum)) {
-					// showTextToast(R.string.str_alarm_connect_failed_1);
-					// if (!vod_uri_.equals("")) {
-					// lookVideoBtn.setEnabled(true);
-					// }
-					// } else {
-					// lookVideoBtn.setEnabled(false);
-					// }
-					lookVideoBtn.setEnabled(false);
-					new Thread(new ConnectProcess(0x9999)).start();
-
-				} else if (!vod_uri_.equals("")) {
-					lookVideoBtn.setEnabled(true);
-				}
-			} else {
-				if (!vod_uri_.equals("")) {
-					lookVideoBtn.setEnabled(true);
-				}
-
-				Bitmap bmp = getLoacalBitmap(localImgPath);
-				if (null != bmp) {
-					alarmImage.setImageBitmap(bmp);
-				}
-				bLocalFile = true;
-				// showToast("文件已存在", Toast.LENGTH_SHORT);
-			}
 		}
 
+		if (!strImgUrl.equals("")) {
+			String temp[] = strImgUrl.split("/");
+			localImgName = temp[temp.length - 1];
+			localImgPath = Consts.SD_CARD_PATH + "CSAlarmIMG/" + localImgName;
+			// imgLoaderFilePath = "file://"+localImgPath;
+		}
+
+		MyLog.d("New Alarm", "img_url:" + strImgUrl + ", vod_url:" + vod_uri_);
+		MyLog.d("New Alarm", "localVodPath:" + localVodPath);
+		MyLog.d("New Alarm", "localImgPath:" + localImgPath);
+
+		alarmSolution = pushInfo.alarmSolution;
+		// alarmSolution = 1;
+		if (alarmSolution == 0)// 本地报警
+		{
+			if (msg_tag == JVAccountConst.MESSAGE_NEW_PUSH_TAG) {// 新报警
+
+				if (!fileIsExists(localImgPath)) {
+					bLocalFile = false;
+					if (!strImgUrl.equals("")) {
+						Jni.setDownloadFileName(localImgPath);
+						// if (!AlarmUtil.OnlyConnect(strYstNum)) {
+						// showTextToast(R.string.str_alarm_connect_failed_1);
+						// if (!vod_uri_.equals("")) {
+						// lookVideoBtn.setEnabled(true);
+						// }
+						// } else {
+						// lookVideoBtn.setEnabled(false);
+						// }
+						lookVideoBtn.setEnabled(false);
+						new Thread(new ConnectProcess(0x9999)).start();
+
+					} else if (!vod_uri_.equals("")) {
+						lookVideoBtn.setEnabled(true);
+					}
+				} else {
+					if (!vod_uri_.equals("")) {
+						lookVideoBtn.setEnabled(true);
+					}
+
+					Bitmap bmp = getLoacalBitmap(localImgPath);
+					if (null != bmp) {
+						alarmImage.setImageBitmap(bmp);
+					}
+					bLocalFile = true;
+					// showToast("文件已存在", Toast.LENGTH_SHORT);
+				}
+			}
+		} else if (alarmSolution == 1) {// 云存储报警,图片下载，视频边下边播
+			// 先调用接口获取计算签名参数
+			String strSpKey = String.format(Consts.FORMATTER_CLOUD_DEV,
+					pushInfo.ystNum, pushInfo.coonNum);
+			storageJson = MySharedPreference.getString(strSpKey);
+
+			if (storageJson.equals("") || null == storageJson) {
+				// storageJson =
+				// DeviceUtil.getDevCloudStorageInfo(pushInfo.ystNum,
+				// pushInfo.coonNum);
+				new Thread(new GetCloudInfoThread(pushInfo.ystNum,
+						pushInfo.coonNum)).start();
+			} else {
+				myHandler.sendEmptyMessage(0x01);
+			}
+		}
 	}
 
 	@Override
@@ -228,31 +263,12 @@ public class CustomDialogActivity extends BaseActivity implements
 		switch (v.getId()) {
 		case R.id.alarm_lookup_video_btn:// 查看录像
 
-			if (null != vod_uri_ && !"".equalsIgnoreCase(vod_uri_)) {
-				progressdialog.show();
-				bDownLoadFileType = 1;
-				if (!bConnectFlag) {
-					lookVideoBtn.setEnabled(false);
-					// if (!AlarmUtil.OnlyConnect(strYstNum)) {
-					// progressdialog.dismiss();
-					// showTextToast(R.string.str_alarm_connect_failed_1);
-					// lookVideoBtn.setEnabled(true);
-					// }
-					new Thread(new ConnectProcess(0x9999)).start();
-				} else {
+			if (alarmSolution == 0) {
 
-					// 已经连接上走远程回放
-					if (bConnectFlag) {// 再判断一次
-						dis_and_play_flag = 1;
-						lookVideoBtn.setEnabled(false);
-						Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
-
-						new Thread(new TimeOutProcess(
-								JVNetConst.JVN_RSP_DISCONN)).start();
-						// 不能接着就连接 ,需要等待断开连接后在连接
-						// 因此添加 dis_and_play标志，当为1时，在断开连接响应成功后，重新连接并播放
-					} else {
-						// 已经断开了
+				if (null != vod_uri_ && !"".equalsIgnoreCase(vod_uri_)) {
+					progressdialog.show();
+					bDownLoadFileType = 1;
+					if (!bConnectFlag) {
 						lookVideoBtn.setEnabled(false);
 						// if (!AlarmUtil.OnlyConnect(strYstNum)) {
 						// progressdialog.dismiss();
@@ -260,10 +276,39 @@ public class CustomDialogActivity extends BaseActivity implements
 						// lookVideoBtn.setEnabled(true);
 						// }
 						new Thread(new ConnectProcess(0x9999)).start();
+					} else {
+
+						// 已经连接上走远程回放
+						if (bConnectFlag) {// 再判断一次
+							dis_and_play_flag = 1;
+							lookVideoBtn.setEnabled(false);
+							Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
+
+							new Thread(new TimeOutProcess(
+									JVNetConst.JVN_RSP_DISCONN)).start();
+							// 不能接着就连接 ,需要等待断开连接后在连接
+							// 因此添加 dis_and_play标志，当为1时，在断开连接响应成功后，重新连接并播放
+						} else {
+							// 已经断开了
+							lookVideoBtn.setEnabled(false);
+							// if (!AlarmUtil.OnlyConnect(strYstNum)) {
+							// progressdialog.dismiss();
+							// showTextToast(R.string.str_alarm_connect_failed_1);
+							// lookVideoBtn.setEnabled(true);
+							// }
+							new Thread(new ConnectProcess(0x9999)).start();
+						}
+
 					}
 
 				}
-
+			} else {
+				// 云存储
+				String temp[] = vod_uri_.split("com/");
+				cloudResource = String.format("/%s/%s", cloudBucket, temp[1]);
+				cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource,
+						storageJson);
+				new Thread(new HttpJudgeThread(cloudSignVodUri)).start();
 			}
 			break;
 		case R.id.dialog_cancle_img:
@@ -603,6 +648,74 @@ public class CustomDialogActivity extends BaseActivity implements
 		@Override
 		public void dispatchMessage(Message msg) {
 			switch (msg.what) {
+			case 0x00:
+				if (bDownLoadFileType == 0) {
+					if (msg.arg1 == 0) {// 下载成功
+						// 下载图片
+						if (!vod_uri_.equals("")) {
+							lookVideoBtn.setEnabled(true);
+						}
+
+						Bitmap bmp = getLoacalBitmap(localImgPath);
+						if (null != bmp) {
+							alarmImage.setImageBitmap(bmp);
+						}
+					} else if (msg.arg1 == 404) { // 文件不存在
+						showTextToast(R.string.str_cloud_file_error_1);
+					} else {
+						showTextToast(R.string.str_query_account_failed1);
+					}
+				}
+				break;
+			case 0x01:
+				try {
+					JSONObject storageObject = new JSONObject(storageJson);
+					cloudBucket = storageObject.optString("csspace");
+					String temp1[] = strImgUrl.split("com/");
+					cloudResource = String.format("/%s/%s", cloudBucket,
+							temp1[1]);
+					if (!fileIsExists(localImgPath)) {
+						bLocalFile = false;
+						if (!strImgUrl.equals("")) {
+							lookVideoBtn.setEnabled(false);
+							// 起线程下载图片
+							// 首先计算签名
+							cloudSignImgUri = Jni.GenSignedCloudUri(
+									cloudResource, storageJson);
+							new Thread(new DownThread(cloudSignImgUri,
+									"CSAlarmIMG/", localImgName)).start();
+						} else if (!vod_uri_.equals("")) {
+							lookVideoBtn.setEnabled(true);
+						}
+					} else {
+						if (!vod_uri_.equals("")) {
+							lookVideoBtn.setEnabled(true);
+						}
+						// 首先计算签名
+						Bitmap bmp = getLoacalBitmap(localImgPath);
+						if (null != bmp) {
+							alarmImage.setImageBitmap(bmp);
+						}
+						bLocalFile = true;
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case 0x02:
+				if (msg.arg1 == 200) {// 可以访问
+					Intent intent = new Intent();
+					intent.setClass(mActivity, JVVideoActivity.class);
+					intent.putExtra("URL", cloudSignVodUri);
+					intent.putExtra("IS_LOCAL", false);
+					startActivity(intent);
+				} else if (msg.arg1 == 404) { // 文件不存在
+					showTextToast(R.string.str_cloud_file_error_1);
+				} else {
+					showTextToast(R.string.str_query_account_failed1);
+				}
+				break;
 			case JVNetConst.JVN_RSP_DISCONN:
 				// new Thread(new ToastProcess(0x9999)).start();
 				if (progressdialog.isShowing()) {
@@ -670,5 +783,69 @@ public class CustomDialogActivity extends BaseActivity implements
 				myHandler.sendEmptyMessageDelayed(tag, 1000);
 			}
 		}
+	}
+
+	class DownThread implements Runnable {
+
+		private String uri_, fileDir_, fileName_;
+
+		public DownThread(String uri, String strPath, String fileName) {
+			uri_ = uri;
+			fileDir_ = strPath;
+			fileName_ = fileName;
+		}
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			int ret = -1;
+			Log.e("Down", "开始下载.............");
+			HttpDownloader downloader = new HttpDownloader();
+			ret = downloader.downFile(uri_, fileDir_, fileName_);
+			Log.e("Down", "下载结束.............");
+			Message msg = myHandler.obtainMessage(0x00, ret, 0x00);
+			msg.sendToTarget();
+		}
+
+	}
+
+	class HttpJudgeThread implements Runnable {
+
+		private String uri_;
+
+		public HttpJudgeThread(String uri) {
+			uri_ = uri;
+		}
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			int ret = -1;
+			HttpDownloader downloader = new HttpDownloader();
+			ret = downloader.httpJudge(uri_);
+			Message msg = myHandler.obtainMessage(0x02, ret, 0x00);
+			msg.sendToTarget();
+		}
+
+	}
+
+	class GetCloudInfoThread implements Runnable {
+
+		private String ystGuid_;
+		private int channelNo_;
+
+		public GetCloudInfoThread(String ystGuid, int channelNo) {
+			ystGuid_ = ystGuid;
+			channelNo_ = channelNo;
+		}
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			storageJson = DeviceUtil.getDevCloudStorageInfo(ystGuid_,
+					channelNo_);
+			myHandler.sendEmptyMessage(0x01);
+		}
+
 	}
 }

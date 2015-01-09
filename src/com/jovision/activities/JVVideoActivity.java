@@ -25,7 +25,7 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 		Intent intent = getIntent();
 		if (null != intent) {
 			url = intent.getStringExtra("URL");
-			isLocal = intent.getBooleanExtra("IS_LOCAL", true);
+			isLocal = intent.getBooleanExtra("IS_LOCAL", false);
 		}
 
 		if (null == url) {

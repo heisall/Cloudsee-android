@@ -19,6 +19,7 @@ import com.jovision.bean.SystemInfo;
 import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 
 //JK_MESSAGE_ID和JK_SESSION_ID  库自己添加，应用层不用传。
 
@@ -2659,4 +2660,62 @@ public class DeviceUtil {
 		return res;
 	}
 
+	// 获取设备通道的云存储信息
+
+	public static String getDevCloudStorageInfo(String devGuid, int channelID) {
+		ArrayList<Device> deviceList = null;
+		String strSpKey = String.format(Consts.FORMATTER_CLOUD_DEV, devGuid,
+				channelID);
+		// {"mid":58,"mt":5208,"pv":"1.0","lpt":13,"sid":"sidtest","dguid":"S224350962","dcn":1}
+		JSONObject jObj = new JSONObject();
+		String resJson = "";
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.JK_GET_CLOUD_STORAGE_INFO);
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.VAS_PROCESS);
+			jObj.put(JVDeviceConst.JK_DEVICE_GUID, devGuid);
+			jObj.put(JVDeviceConst.JK_DEVICE_CHANNEL_NO, channelID);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		MyLog.e("getDevCloudStorageInfo---request", jObj.toString());
+
+		byte[] resultStr = new byte[1024 * 10];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+		// {"mt":5209,"rt":0,"mid":58,"cshost":"oss-cn-qingdao.aliyuncs.com",
+		// "csid":"zQcheMpdeSdLt2CT","cskey":"Mg6vG2oxacE4WBhOkTobJVdZNYWWyg",
+		// "csspace":"missiletcy","cstype":1}
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("getDevCloudStorageInfo---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+
+						if (0 != rt) {// 获取失败
+							MySharedPreference.putString(strSpKey, "");
+							resJson = "";
+						} else {// 获取成功
+							MySharedPreference.putString(strSpKey,
+									temObj.toString());
+							resJson = temObj.toString();
+						}
+
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return resJson;
+	}
 }

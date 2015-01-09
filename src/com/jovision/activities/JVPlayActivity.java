@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -253,6 +254,16 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 	}
 
+	private class DoubleClickChecker extends TimerTask {
+
+		@Override
+		public void run() {
+			cancel();
+			isDoubleClickCheck = false;
+		}
+
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -308,28 +319,6 @@ public class JVPlayActivity extends PlayActivity implements
 									MyGestureDispatcher.GESTURE_TO_SMALLER, -1,
 									vector, middle);
 						}
-					} else {// 竖屏
-						if (ONE_SCREEN != currentScreen) {
-							Channel ch;
-							int size = currentPageChannelList.size();
-							for (int i = 0; i < size; i++) {
-								ch = currentPageChannelList.get(i);
-								if (lastClickIndex - 1 > ch.getIndex()
-										|| lastClickIndex + 1 < ch.getIndex()) {
-									disconnectChannelList.add(ch);
-								} else if (lastClickIndex == ch.getIndex()) {
-									// [Neo] Empty
-								} else {
-									// [Neo] stand alone for single destroy
-									// window, too
-									pauseChannel(ch);
-								}
-							}
-							changeWindow(ONE_SCREEN);
-						} else {
-							disconnectChannelList.addAll(channelList);
-							changeWindow(selectedScreen);
-						}
 					}
 				} else {// 单击
 
@@ -338,24 +327,6 @@ public class JVPlayActivity extends PlayActivity implements
 							horPlayBarLayout.setVisibility(View.GONE);
 						} else {
 							horPlayBarLayout.setVisibility(View.VISIBLE);
-						}
-					} else {// 竖屏
-						if (ONE_SCREEN == currentScreen) {
-							if (View.VISIBLE == verPlayBarLayout
-									.getVisibility()) {
-								verPlayBarLayout.setVisibility(View.GONE);
-							} else {
-								verPlayBarLayout.setVisibility(View.VISIBLE);
-							}
-						}
-
-						changeBorder(channel.getIndex());
-
-						if (false == isBlockUi) {
-							isDoubleClickCheck = true;
-							if (null != doubleClickTimer) {
-								doubleClickTimer.cancel();
-							}
 						}
 					}
 				}
@@ -1247,7 +1218,9 @@ public class JVPlayActivity extends PlayActivity implements
 			selectedScreen = screenList.get(arg1);
 			screenAdapter.selectIndex = arg1;
 			screenAdapter.notifyDataSetChanged();
-			popScreen.dismiss();
+			if (View.VISIBLE == streamListView.getVisibility()) {
+				streamListView.setVisibility(View.GONE);
+			}
 			disconnectChannelList.addAll(channelList);
 			changeWindow(selectedScreen);
 
@@ -1501,6 +1474,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	protected void initSettings() {
+		// TODO
 		TAG = "PlayA";
 		MyLog.enableLogcat(true);
 
@@ -1614,27 +1588,30 @@ public class JVPlayActivity extends PlayActivity implements
 	 * 设置标题
 	 */
 	private void setTitle() {
-		if (Consts.PLAY_NORMAL == playFlag) {
+		if (Consts.PLAY_AP == playFlag) {
 			currentMenu.setText(R.string.video_check);
+			selectScreenNum.setVisibility(View.GONE);
 			currentMenu_v.setText(channelList.get(lastClickIndex)
 					.getChannelName());
 			currentMenu_h.setText(channelList.get(lastClickIndex)
 					.getChannelName());
-			selectScreenNum.setVisibility(View.GONE);
+
 		} else {
 			currentMenu.setText(R.string.str_video_play);
+			selectScreenNum.setVisibility(View.VISIBLE);
 			currentMenu_h.setText(channelList.get(lastItemIndex).getParent()
 					.getNickName());
 			currentMenu_v.setText(channelList.get(lastItemIndex).getParent()
 					.getNickName()
 					+ "-" + channelList.get(lastClickIndex).getChannel());
-			selectScreenNum.setVisibility(View.VISIBLE);
+
 		}
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void initUi() {
+		// TODO
 		if (null != viewPager) {
 			MyLog.e("JUYANG--1", "viewPager=" + viewPager.getChildCount());
 		}
@@ -1689,17 +1666,18 @@ public class JVPlayActivity extends PlayActivity implements
 
 		selectScreenNum.setOnClickListener(myOnClickListener);
 		currentMenu.setOnClickListener(myOnClickListener);
-//		if (playFlag == Consts.PLAY_AP) {
-//			currentMenu_h.setText(deviceList.get(deviceIndex).getNickName());
-//			currentMenu.setText(R.string.video_check);
-//			selectScreenNum.setVisibility(View.GONE);
-//		} else {
-//			currentMenu_h.setText(channelList.get(lastClickIndex)
-//					.getChannelName());
-//			currentMenu.setText(R.string.str_video_play);
-//			selectScreenNum.setVisibility(View.VISIBLE);
-//		}
+		// if (playFlag == Consts.PLAY_AP) {
+		// currentMenu_h.setText(deviceList.get(deviceIndex).getNickName());
+		// currentMenu.setText(R.string.video_check);
+		// selectScreenNum.setVisibility(View.GONE);
+		// } else {
+		// currentMenu_h.setText(channelList.get(lastClickIndex)
+		// .getChannelName());
+		// currentMenu.setText(R.string.str_video_play);
+		// selectScreenNum.setVisibility(View.VISIBLE);
+		// }
 		setTitle();
+
 		linkMode.setVisibility(View.GONE);
 
 		decodeBtn.setOnClickListener(myOnClickListener);
@@ -1718,8 +1696,11 @@ public class JVPlayActivity extends PlayActivity implements
 			MyLog.e("JUYANG--3", "adapter=" + adapter.getCount());
 		}
 		adapter = new MyPagerAdapter();
-		changeWindow(currentScreen);
+		// if (ONE_SCREEN != currentScreen) {
+		// manager.genPageList(ONE_SCREEN);
+		// }
 
+		changeWindow(currentScreen);
 		viewPager.setLongClickable(true);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
@@ -1779,19 +1760,20 @@ public class JVPlayActivity extends PlayActivity implements
 
 					lastItemIndex = arg0;
 
-					if (Consts.PLAY_NORMAL == playFlag) {
-						currentMenu_v.setText(channelList.get(lastClickIndex)
-								.getChannelName());
-						currentMenu_h.setText(channelList.get(lastClickIndex)
-								.getChannelName());
-					} else {
-						currentMenu_h.setText(channelList.get(lastItemIndex)
-								.getParent().getNickName());
-						currentMenu_v.setText(channelList.get(lastItemIndex)
-								.getParent().getNickName()
-								+ "-"
-								+ channelList.get(lastClickIndex).getChannel());
-					}
+					// if (Consts.PLAY_NORMAL == playFlag) {
+					// currentMenu_v.setText(channelList.get(lastClickIndex)
+					// .getChannelName());
+					// currentMenu_h.setText(channelList.get(lastClickIndex)
+					// .getChannelName());
+					// } else {
+					// currentMenu_h.setText(channelList.get(lastItemIndex)
+					// .getParent().getNickName());
+					// currentMenu_v.setText(channelList.get(lastItemIndex)
+					// .getParent().getNickName()
+					// + "-"
+					// + channelList.get(lastClickIndex).getChannel());
+					// }
+					setTitle();
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -2026,6 +2008,8 @@ public class JVPlayActivity extends PlayActivity implements
 		isBlockUi = true;
 		viewPager.setDisableSliding(isBlockUi);
 		changeBorder(lastClickIndex);
+
+		setTitle();
 
 		handler.removeMessages(Consts.WHAT_CHECK_SURFACE);
 		handler.sendMessageDelayed(handler.obtainMessage(
@@ -2347,6 +2331,60 @@ public class JVPlayActivity extends PlayActivity implements
 
 			}
 		}
+
+		if (false == isBlockUi && isDoubleClickCheck
+				&& lastClickIndex == channel.getIndex()) {// 双击
+
+			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation
+					|| Consts.PLAY_AP == playFlag) {// 横屏
+			} else {// 竖屏
+				if (ONE_SCREEN != currentScreen) {
+					Channel ch;
+					int size = currentPageChannelList.size();
+					for (int i = 0; i < size; i++) {
+						ch = currentPageChannelList.get(i);
+						if (lastClickIndex - 1 > ch.getIndex()
+								|| lastClickIndex + 1 < ch.getIndex()) {
+							disconnectChannelList.add(ch);
+						} else if (lastClickIndex == ch.getIndex()) {
+							// [Neo] Empty
+						} else {
+							// [Neo] stand alone for single destroy
+							// window, too
+							pauseChannel(ch);
+						}
+					}
+					changeWindow(ONE_SCREEN);
+				} else {
+					disconnectChannelList.addAll(channelList);
+					changeWindow(selectedScreen);
+				}
+			}
+		} else {// 单击
+			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
+			} else {// 竖屏
+				if (ONE_SCREEN == currentScreen) {
+					if (View.VISIBLE == verPlayBarLayout.getVisibility()) {
+						verPlayBarLayout.setVisibility(View.GONE);
+					} else {
+						verPlayBarLayout.setVisibility(View.VISIBLE);
+					}
+				}
+
+				changeBorder(channel.getIndex());
+
+				if (false == isBlockUi) {
+					isDoubleClickCheck = true;
+					if (null != doubleClickTimer) {
+						doubleClickTimer.cancel();
+					}
+
+					doubleClickTimer = new Timer();
+					doubleClickTimer.schedule(new DoubleClickChecker(),
+							DELAY_DOUBLE_CHECKER);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -2568,7 +2606,7 @@ public class JVPlayActivity extends PlayActivity implements
 				if (isBlockUi) {
 					createDialog("", true);
 				} else {
-					if (popScreen == null) {
+					if (streamPopWindow == null) {
 						if (null != screenList && 0 != screenList.size()) {
 
 							screenAdapter = new ScreenAdapter(
@@ -2576,12 +2614,12 @@ public class JVPlayActivity extends PlayActivity implements
 							screenListView = new ListView(JVPlayActivity.this);
 							screenListView.setDivider(null);
 							if (disMetrics.widthPixels < 1080) {
-								popScreen = new PopupWindow(screenListView,
-										240,
+								streamPopWindow = new PopupWindow(
+										screenListView, 240,
 										LinearLayout.LayoutParams.WRAP_CONTENT);
 							} else {
-								popScreen = new PopupWindow(screenListView,
-										400,
+								streamPopWindow = new PopupWindow(
+										screenListView, 400,
 										LinearLayout.LayoutParams.WRAP_CONTENT);
 							}
 
@@ -2607,14 +2645,14 @@ public class JVPlayActivity extends PlayActivity implements
 									.setCacheColorHint(JVPlayActivity.this
 											.getResources().getColor(
 													R.color.transparent));
-							popScreen.showAsDropDown(currentMenu);
+							streamPopWindow.showAsDropDown(currentMenu);
 						}
-					} else if (popScreen.isShowing()) {
+					} else if (streamPopWindow.isShowing()) {
 						screenAdapter.notifyDataSetChanged();
-						popScreen.dismiss();
-					} else if (!popScreen.isShowing()) {
+						streamPopWindow.dismiss();
+					} else if (!streamPopWindow.isShowing()) {
 						screenAdapter.notifyDataSetChanged();
-						popScreen.showAsDropDown(currentMenu);
+						streamPopWindow.showAsDropDown(currentMenu);
 					}
 				}
 				break;
@@ -2692,84 +2730,6 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
-
-				// // 1.发送升级命令
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_START,
-				// Consts.FIRMUP_HTTP, 0, 0, null, 0);
-				//
-				// // 2.创建计时器每隔一段时间获取下载进度：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_DATA,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-
-				// // 3.处理升级进度命令，进度为100时，表示下载完毕，并发送EX_UPLOAD_OK命令：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_OK,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-
-				// // 4. 收到EX_UPLOAD_OK命令反馈，发送烧写命令：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_START,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-
-				// // 5. 收到EX_FIRMUP_START命令反馈，发送获取烧写进度命令，创建计时器，一直发送获取烧写进度命令：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_STEP,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-				//
-				// // 6.
-				// 收到EX_FIRMUP_STEP命令反馈，将烧写进度显示出来，一直等收到EX_FIRMUP_OK命令，表示烧写完毕
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_STEP,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-				//
-				//
-				// //7. 处理升级结果
-
-				// String userName = "admin";
-				// String userPwd = "123";
-				// String des = "haha";
-				// byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
-				// + Consts.SIZE_DESCRIPT];
-				// byte[] userNameByte = userName.getBytes();
-				// byte[] userPwdByte = userPwd.getBytes();
-				// byte[] desByte = des.getBytes();
-				// MyLog.e("byte-1", "userNameByte.length=" +
-				// userNameByte.length);
-				// MyLog.e("byte-2", "userPwdByte.length=" +
-				// userPwdByte.length);
-				// MyLog.e("byte-3", "desByte.length=" + desByte.length);
-				// System.arraycopy(userNameByte, 0, paramByte, 0,
-				// userNameByte.length);
-				// System.arraycopy(userPwdByte, 0, paramByte, Consts.SIZE_ID,
-				// userPwdByte.length);
-				// System.arraycopy(desByte, 0, paramByte, Consts.SIZE_ID
-				// + Consts.SIZE_PW, desByte.length);
-				// MyLog.e("byte-4", "paramByte.length=" + paramByte.length);
-				// MyLog.e("byte-5", "paramByte=" + paramByte.toString());
-				//
-				// // 2014-12-25 获取设备用户名密码
-				// // CALL_TEXT_DATA: 165, 0, 81,
-				// //{"extend_arg1":64,"extend_arg2":0,"extend_arg3":0,"extend_msg":"ID=admin;POWER=4;DESCRIPT=新帐户;ID=abc;POWER=4;DESCRIPT=新帐户;","extend_type":3,"flag":20,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6}
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_REFRESH,
-				// Consts.POWER_ADMIN, 0, 0, new byte[0], 0);
-				//
-				// // 2014-12-25 修改设备用户名密码
-				// // //CALL_TEXT_DATA: 165, 0, 81,
-				// //{"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY,
-				// Consts.POWER_ADMIN, 0, 0, paramByte, paramByte.length);
 
 				if (View.VISIBLE == streamListView.getVisibility()) {
 					streamListView.setVisibility(View.GONE);
@@ -3561,7 +3521,7 @@ public class JVPlayActivity extends PlayActivity implements
 			switch (tag) {
 			case Consts.TAG_PLAY_CONNECTING: {// 连接中
 				if (MySharedPreference.getBoolean("playhelp1")) {
-					 verPlayBarLayout.setVisibility(View.GONE);
+					verPlayBarLayout.setVisibility(View.GONE);
 				}
 				manager.setViewVisibility(container,
 						PlayWindowManager.ID_INFO_PROGRESS, proWidth,
@@ -3959,9 +3919,8 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if (null != popScreen && popScreen.isShowing()) {
-			screenAdapter.notifyDataSetChanged();
-			popScreen.dismiss();
+		if (View.VISIBLE == streamListView.getVisibility()) {
+			streamListView.setVisibility(View.GONE);
 		}
 		stopAll(lastClickIndex, channelList.get(lastClickIndex));
 		// manager.pauseAll();
@@ -3975,19 +3934,19 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	public void pauseAll(ArrayList<Channel> channelList) {
-		if (null!=channelList&&channelList.size()!=0) {
+		if (null != channelList && channelList.size() != 0) {
 			int size = channelList.size();
-		for (int i = 0; i < size; i++) {
-			pauseChannel(channelList.get(i));
+			for (int i = 0; i < size; i++) {
+				pauseChannel(channelList.get(i));
+			}
 		}
-		}	
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		if (null != popScreen) {
-			popScreen.dismiss();
+		if (View.VISIBLE == streamListView.getVisibility()) {
+			streamListView.setVisibility(View.GONE);
 		}
 		if (null != streamListView) {
 			streamListView.setVisibility(View.GONE);

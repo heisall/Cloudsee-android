@@ -184,11 +184,14 @@ public class PushAdapter extends BaseAdapter {
 				if (pushList.get(position).messageTag == 4604) {// new alarm
 					// ------new alarm-----
 					PushInfo pushInfo = new PushInfo();
+					// pushInfo = pushList.get(position);
 					pushInfo.alarmTime = pushList.get(position).alarmTime;
 					pushInfo.messageTag = pushList.get(position).messageTag;
 					pushInfo.pic = pushList.get(position).pic;
 					pushInfo.video = pushList.get(position).video;
 					pushInfo.ystNum = pushList.get(position).ystNum;
+					pushInfo.coonNum = pushList.get(position).coonNum;
+					pushInfo.alarmSolution = pushList.get(position).alarmSolution;
 
 					Intent intent = new Intent();
 					intent.setClass(mfragment.getActivity(),
@@ -219,11 +222,14 @@ public class PushAdapter extends BaseAdapter {
 				if (pushList.get(position).messageTag == 4604) {// new alarm
 					// ------new alarm-----
 					PushInfo pushInfo = new PushInfo();
+					// pushInfo = pushList.get(position);
 					pushInfo.alarmTime = pushList.get(position).alarmTime;
 					pushInfo.messageTag = pushList.get(position).messageTag;
 					pushInfo.pic = pushList.get(position).pic;
 					pushInfo.video = pushList.get(position).video;
 					pushInfo.ystNum = pushList.get(position).ystNum;
+					pushInfo.coonNum = pushList.get(position).coonNum;
+					pushInfo.alarmSolution = pushList.get(position).alarmSolution;
 
 					Intent intent = new Intent();
 					intent.setClass(mfragment.getActivity(),

@@ -666,6 +666,7 @@
     <string name="str_mdenabled_close_ok">移动侦测关闭成功</string>
     <string name="str_mdenabled_close_failed">移动侦测关闭失败</string>
     <string name="str_illegal_dev_nick">输入的昵称不合法</string>
+    <string name="str_cloud_file_error_1">文件未上传完毕或上传失败</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="census_login">本地登录</string>
     <string name="census_onlinelogin">在线登录</string>

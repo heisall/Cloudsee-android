@@ -1472,6 +1472,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	protected void initSettings() {
+		// TODO
 		TAG = "PlayA";
 		MyLog.enableLogcat(true);
 
@@ -1585,27 +1586,30 @@ public class JVPlayActivity extends PlayActivity implements
 	 * 设置标题
 	 */
 	private void setTitle() {
-		if (Consts.PLAY_NORMAL == playFlag) {
+		if (Consts.PLAY_AP == playFlag) {
 			currentMenu.setText(R.string.video_check);
+			selectScreenNum.setVisibility(View.GONE);
 			currentMenu_v.setText(channelList.get(lastClickIndex)
 					.getChannelName());
 			currentMenu_h.setText(channelList.get(lastClickIndex)
 					.getChannelName());
-			selectScreenNum.setVisibility(View.GONE);
+
 		} else {
 			currentMenu.setText(R.string.str_video_play);
+			selectScreenNum.setVisibility(View.VISIBLE);
 			currentMenu_h.setText(channelList.get(lastItemIndex).getParent()
 					.getNickName());
 			currentMenu_v.setText(channelList.get(lastItemIndex).getParent()
 					.getNickName()
 					+ "-" + channelList.get(lastClickIndex).getChannel());
-			selectScreenNum.setVisibility(View.VISIBLE);
+
 		}
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void initUi() {
+		// TODO
 		if (null != viewPager) {
 			MyLog.e("JUYANG--1", "viewPager=" + viewPager.getChildCount());
 		}
@@ -1690,8 +1694,11 @@ public class JVPlayActivity extends PlayActivity implements
 			MyLog.e("JUYANG--3", "adapter=" + adapter.getCount());
 		}
 		adapter = new MyPagerAdapter();
-		changeWindow(currentScreen);
+		// if (ONE_SCREEN != currentScreen) {
+		// manager.genPageList(ONE_SCREEN);
+		// }
 
+		changeWindow(currentScreen);
 		viewPager.setLongClickable(true);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
@@ -2721,84 +2728,6 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
-
-				// // 1.发送升级命令
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_START,
-				// Consts.FIRMUP_HTTP, 0, 0, null, 0);
-				//
-				// // 2.创建计时器每隔一段时间获取下载进度：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_DATA,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-
-				// // 3.处理升级进度命令，进度为100时，表示下载完毕，并发送EX_UPLOAD_OK命令：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_UPLOAD_OK,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-
-				// // 4. 收到EX_UPLOAD_OK命令反馈，发送烧写命令：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_START,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-
-				// // 5. 收到EX_FIRMUP_START命令反馈，发送获取烧写进度命令，创建计时器，一直发送获取烧写进度命令：
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_STEP,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-				//
-				// // 6.
-				// 收到EX_FIRMUP_STEP命令反馈，将烧写进度显示出来，一直等收到EX_FIRMUP_OK命令，表示烧写完毕
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_STEP,
-				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
-				//
-				//
-				// //7. 处理升级结果
-
-				// String userName = "admin";
-				// String userPwd = "123";
-				// String des = "haha";
-				// byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
-				// + Consts.SIZE_DESCRIPT];
-				// byte[] userNameByte = userName.getBytes();
-				// byte[] userPwdByte = userPwd.getBytes();
-				// byte[] desByte = des.getBytes();
-				// MyLog.e("byte-1", "userNameByte.length=" +
-				// userNameByte.length);
-				// MyLog.e("byte-2", "userPwdByte.length=" +
-				// userPwdByte.length);
-				// MyLog.e("byte-3", "desByte.length=" + desByte.length);
-				// System.arraycopy(userNameByte, 0, paramByte, 0,
-				// userNameByte.length);
-				// System.arraycopy(userPwdByte, 0, paramByte, Consts.SIZE_ID,
-				// userPwdByte.length);
-				// System.arraycopy(desByte, 0, paramByte, Consts.SIZE_ID
-				// + Consts.SIZE_PW, desByte.length);
-				// MyLog.e("byte-4", "paramByte.length=" + paramByte.length);
-				// MyLog.e("byte-5", "paramByte=" + paramByte.toString());
-				//
-				// // 2014-12-25 获取设备用户名密码
-				// // CALL_TEXT_DATA: 165, 0, 81,
-				// //{"extend_arg1":64,"extend_arg2":0,"extend_arg3":0,"extend_msg":"ID=admin;POWER=4;DESCRIPT=新帐户;ID=abc;POWER=4;DESCRIPT=新帐户;","extend_type":3,"flag":20,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6}
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_REFRESH,
-				// Consts.POWER_ADMIN, 0, 0, new byte[0], 0);
-				//
-				// // 2014-12-25 修改设备用户名密码
-				// // //CALL_TEXT_DATA: 165, 0, 81,
-				// //{"extend_arg1":58,"extend_arg2":0,"extend_arg3":0,"extend_type":6,"flag":0,"packet_count":4,"packet_id":0,"packet_length":0,"packet_type":6,"type":81}
-				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA,
-				// true, Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY,
-				// Consts.POWER_ADMIN, 0, 0, paramByte, paramByte.length);
 
 				if (View.VISIBLE == streamListView.getVisibility()) {
 					streamListView.setVisibility(View.GONE);

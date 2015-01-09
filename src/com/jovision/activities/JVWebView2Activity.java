@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.MyLog;
 
-public class JVWebViewActivity extends BaseActivity {
+public class JVWebView2Activity extends BaseActivity {
 
 	/** topBar **/
 	private Button back;// 左侧返回按钮
@@ -51,7 +51,7 @@ public class JVWebViewActivity extends BaseActivity {
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void initUi() {
-		setContentView(R.layout.findpass_layout);
+		setContentView(R.layout.webview2_layout);
 		/** topBar **/
 		topBar = (RelativeLayout) findViewById(R.id.topbarh);
 		back = (Button) findViewById(R.id.btn_left);
@@ -100,12 +100,11 @@ public class JVWebViewActivity extends BaseActivity {
 			public boolean shouldOverrideUrlLoading(WebView view, String newUrl) {
 				MyLog.v("new_url", newUrl);
 				if (newUrl.contains("viewmode")) {
-					Intent intentAD = new Intent(JVWebViewActivity.this,
+					Intent intentAD = new Intent(JVWebView2Activity.this,
 							JVWebView2Activity.class);
-					intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					intentAD.putExtra("URL", newUrl);
 					intentAD.putExtra("title", -2);
-					JVWebViewActivity.this.startActivity(intentAD);
+					JVWebView2Activity.this.startActivity(intentAD);
 				} else {
 					view.loadUrl(newUrl);
 				}
@@ -143,32 +142,10 @@ public class JVWebViewActivity extends BaseActivity {
 		}
 	};
 
-	/**
-	 * 返回事件
-	 */
-	private void backMethod() {
-		if (webView.canGoBack()) {
-			webView.goBack(); // goBack()表示返回WebView的上一页面
-		} else {
-			JVWebViewActivity.this.finish();
-		}
-	}
-
 	@Override
 	public void onBackPressed() {
 		backMethod();
 	}
-
-	// @Override
-	// // 设置回退
-	// // 覆盖Activity类的onKeyDown(int keyCoder,KeyEvent event)方法
-	// public boolean onKeyDown(int keyCode, KeyEvent event) {
-	// if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-	// webView.goBack(); // goBack()表示返回WebView的上一页面
-	// return true;
-	// }
-	// return super.onKeyDown(keyCode, event);
-	// }
 
 	@Override
 	protected void saveSettings() {
@@ -179,13 +156,32 @@ public class JVWebViewActivity extends BaseActivity {
 	protected void freeMe() {
 	}
 
+	/**
+	 * 返回事件
+	 */
+	private void backMethod() {
+		if (webView.canGoBack()) {
+			webView.goBack(); // goBack()表示返回WebView的上一页面
+		} else {
+			webView.onPause();
+			JVWebView2Activity.this.finish();
+		}
+	}
+
 	@Override
 	protected void onPause() {
+		super.onPause();
+		webView.onPause();
 		// if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 		// webView.onPause(); // 暂停网页中正在播放的视频
 		// }
-		super.onPause();
+	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		webView.reload();
+		webView.onResume();
 	}
 
 }

@@ -2016,6 +2016,12 @@ public class JVPlayActivity extends PlayActivity implements
 				Consts.WHAT_CHECK_SURFACE, lastItemIndex, lastClickIndex),
 				DELAY_CHECK_SURFACE);
 		handler.sendEmptyMessage(Consts.WHAT_SHOW_PROGRESS);
+
+		if (currentScreen > ONE_SCREEN) {
+			if (View.VISIBLE == streamListView.getVisibility()) {
+				streamListView.setVisibility(View.GONE);
+			}
+		}
 	}
 
 	private void changeBorder(int currentIndex) {

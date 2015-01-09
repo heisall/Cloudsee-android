@@ -191,7 +191,6 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		webView.reload();
 		webView.onResume();
 	}
 

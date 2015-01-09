@@ -107,7 +107,7 @@ public class Consts {
 	public static final String FORMATTER_SET_MDENABLE = "bMDEnable=%d;";
 	public static final String FORMATTER_SET_ALARM_TIME = "alarmTime0=%s;";
 	public static final String FORMATTER_SET_ALARM_ONLY = "bAlarmEnable=%d;";
-
+	public static final String FORMATTER_CLOUD_DEV = "CLOUD_%s_%d";
 	public static int pushHisCount = 0;
 	public static final int PUSH_PAGESIZE = 5;
 

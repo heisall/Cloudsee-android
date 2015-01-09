@@ -666,6 +666,7 @@
     <string name="str_mdenabled_close_ok">移動偵測關閉成功</string>
     <string name="str_mdenabled_close_failed">移動偵測關閉失敗</string>
     <string name="str_illegal_dev_nick">輸入的昵稱不合法</string>
+    <string name="str_cloud_file_error_1">文件未上傳完畢或上傳失敗</string>
     <!-- 騰訊雲分析統計名稱 不用翻譯 -->
     <string name="census_login">本地登錄</string>
     <string name="census_onlinelogin">線上登錄</string>

@@ -382,6 +382,7 @@ public class JVDeviceConst {
 	public static final int MODIFY_DEVICE_INFO_ADVANCED = 2031;
 	public static final int MODIFY_DEVICE_INFO_ADVANCED_RESPONSE = 2032;
 
+	public static final int JK_GET_CLOUD_STORAGE_INFO = 5208;
 	/** 绑定wifi请求 */
 	public static final int MODIFY_DEVICE_WIFI_FLAG = 2047;
 	/** 绑定wifi响应 */
@@ -403,7 +404,7 @@ public class JVDeviceConst {
 	public static final int IM_SERVER_RELAY_REQUEST = 8;
 	public static final int IM_DEV_DIRECT = 9;
 	public static final int ALARM_SERVER_RELAY = 10;
-
+	public static final int VAS_PROCESS = 13;
 	public static final int SUCCESS = 0;
 	public static final int FAILED = -1;
 

@@ -343,6 +343,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 							strYstNumString = pi.ystNum;
 							pi.coonNum = obj
 									.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
+							pi.alarmSolution = obj
+									.optInt(JVAlarmConst.JK_ALARM_SOLUTION);
 							//
 							// pi.deviceNickName =
 							// BaseApp.getNikeName(pi.ystNum);

@@ -1,59 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="@color/picturetransparent"
-    >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/transparent" >
 
-    <RelativeLayout
-        android:id="@+id/pop_outside"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        >
-
-        <LinearLayout
-           
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical" >
-
-            <TextView
-               
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
-                android:layout_marginTop="20dip"
-              
-                android:textStyle="bold" />
-
-            <TextView
-              
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
-                android:layout_marginTop="5dip"
-              
-                android:textStyle="bold" />
-
-            <TextView
-               
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dip"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
-                android:layout_marginTop="15dip"
-                android:text="@string/cancel"
-                android:textColor="@color/black"
-                 />
-        </LinearLayout>
-        
-        <LinearLayout
-         android:id="@+id/pop_layout"
+    <LinearLayout
+        android:id="@+id/choice_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -72,7 +24,7 @@
             android:orientation="vertical" >
 
             <RelativeLayout
-                android:id="@+id/btn_take_photo"
+                android:id="@+id/rly_mail_verify"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -84,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                      android:text="@string/pop_take"
+                    android:text="@string/pop_take"
                     android:textColor="@color/mapblue"
                     android:textSize="18sp" />
             </RelativeLayout>
@@ -95,7 +47,7 @@
                 android:background="@color/lightgray" />
 
             <RelativeLayout
-                  android:id="@+id/btn_pick_photo"
+                android:id="@+id/rly_phone_verify"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -114,7 +66,7 @@
         </LinearLayout>
 
         <RelativeLayout
-             android:id="@+id/btn_cancel"
+            android:id="@+id/rly_cancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -133,6 +85,5 @@
                 android:textSize="18sp" />
         </RelativeLayout>
     </LinearLayout>
-    </RelativeLayout>
 
 </RelativeLayout>

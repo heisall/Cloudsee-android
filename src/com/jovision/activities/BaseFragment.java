@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -156,5 +157,4 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 			throw new RuntimeException(e);
 		}
 	}
-
 }

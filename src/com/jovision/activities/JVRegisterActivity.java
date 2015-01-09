@@ -87,7 +87,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 	private BroadcastReceiver smsReceiver;
 
 	private boolean stop;
-	private boolean isclick;
+	private boolean isclick = false;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -261,40 +261,45 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
-					checkPhoneNum(userNameEditText.getText().toString(),
-							currentCode);
-					if ("".equalsIgnoreCase(userNameEditText.getText()
-							.toString())) {
-						registTips.setVisibility(View.VISIBLE);
-						registTips.setTextColor(Color.rgb(217, 34, 38));
-						registTips.setText(getResources().getString(
-								R.string.login_str_username_notnull));
-					} else {
-						int res = AccountUtil.VerifyUserName(
-								JVRegisterActivity.this, userNameEditText
-										.getText().toString());
-						if (res >= 0) {
-							createDialog("", true);
-							new Thread() {
-								public void run() {
-									nameExists = AccountUtil
-											.isUserExsit(userNameEditText
-													.getText().toString());
-									if (JVAccountConst.USER_HAS_EXIST == nameExists) {
-										handler.sendMessage(handler
-												.obtainMessage(
-														JVAccountConst.USERNAME_DETECTION_FAILED,
-														0, 0));
-										isregister = true;
-									} else {
-										handler.sendMessage(handler
-												.obtainMessage(
-														JVAccountConst.USERNAME_DETECTION_SUCCESS,
-														0, 0));
-										isregister = false;
-									}
-								};
-							}.start();
+					if (!ConfigUtil.isConnected(JVRegisterActivity.this)) {
+						alertNetDialog();
+					}else {
+						checkPhoneNum(userNameEditText.getText().toString(),
+								currentCode);
+						if ("".equalsIgnoreCase(userNameEditText.getText()
+								.toString())) {
+							registTips.setVisibility(View.VISIBLE);
+							registTips.setTextColor(Color.rgb(217, 34, 38));
+							registTips.setText(getResources().getString(
+									R.string.login_str_username_notnull));
+						} else {
+							int res = AccountUtil.VerifyUserName(
+									JVRegisterActivity.this, userNameEditText
+									.getText().toString());
+							if (res >= 0) {
+								createDialog("", true);
+								new Thread() {
+									public void run() {
+										nameExists = AccountUtil
+												.isUserExsit(userNameEditText
+														.getText().toString());
+										if (JVAccountConst.USER_HAS_EXIST == nameExists) {
+											handler.sendMessage(handler
+													.obtainMessage(
+															JVAccountConst.USERNAME_DETECTION_FAILED,
+															0, 0));
+											isregister = true;
+										} else if(JVAccountConst.USER_HAS_EXIST == nameExists){
+											handler.sendMessage(handler
+													.obtainMessage(
+															JVAccountConst.USERNAME_DETECTION_SUCCESS,
+															0, 0));
+											isregister = false;
+											isclick = false;
+										}
+									};
+								}.start();
+							}
 						}
 					}
 				}
@@ -352,7 +357,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				handler.sendMessage(handler.obtainMessage(
 						JVAccountConst.USERNAME_DETECTION_FAILED, 0, 0));
 				isregister = true;
-			} else {
+			} else  if(JVAccountConst.USER_HAS_EXIST == nameExists){
 				handler.sendMessage(handler.obtainMessage(
 						JVAccountConst.USERNAME_DETECTION_SUCCESS, 0, 0));
 				isclick = true;
@@ -380,7 +385,11 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				backMethod();
 				break;
 			case R.id.registercode:
-				MakeSure();
+				if (!ConfigUtil.isConnected(JVRegisterActivity.this)) {
+					alertNetDialog();
+				}else {
+					MakeSure();
+				}
 				break;
 			case R.id.regist:
 				isclick = false;
@@ -434,13 +443,14 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		if (TextUtils.isEmpty(phone)) {
 			return;
 		}
-
-		String rule = countryRules.get(code);
-		Pattern p = Pattern.compile(rule);
-		Matcher m = p.matcher(phone);
-		if (!m.matches()) {
-			showTextToast(getResources().getString(R.string.reset_passwd_tips5));
-			return;
+		if ("".equals(code)) {
+			String rule = countryRules.get(code);
+			Pattern p = Pattern.compile(rule);
+			Matcher m = p.matcher(phone);
+			if (!m.matches()) {
+				showTextToast(getResources().getString(R.string.reset_passwd_tips5));
+				return;
+			}
 		}
 	}
 

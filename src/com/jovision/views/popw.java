@@ -14,7 +14,7 @@ import com.jovetech.CloudSee.temp.R;
 
 public class popw extends PopupWindow {
 
-	private Button btn_take_photo, btn_pick_photo, btn_cancel;
+	private RelativeLayout btn_take_photo, btn_pick_photo, btn_cancel;
 	private View mMenuView;
 	private RelativeLayout pop_outside;
 
@@ -23,9 +23,9 @@ public class popw extends PopupWindow {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mMenuView = inflater.inflate(R.layout.pop, null);
-		btn_take_photo = (Button) mMenuView.findViewById(R.id.btn_take_photo);
-		btn_pick_photo = (Button) mMenuView.findViewById(R.id.btn_pick_photo);
-		btn_cancel = (Button) mMenuView.findViewById(R.id.btn_cancel);
+		btn_take_photo = (RelativeLayout) mMenuView.findViewById(R.id.btn_take_photo);
+		btn_pick_photo = (RelativeLayout) mMenuView.findViewById(R.id.btn_pick_photo);
+		btn_cancel = (RelativeLayout) mMenuView.findViewById(R.id.btn_cancel);
 		pop_outside = (RelativeLayout) mMenuView.findViewById(R.id.pop_outside);
 
 		pop_outside.setOnClickListener(itemsOnClick);

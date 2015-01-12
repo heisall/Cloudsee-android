@@ -156,7 +156,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 
 			if (!bConnectedFlag) {
 				waitingDialog.show();
-				if (!AlarmUtil.OnlyConnect(strYstNum)) {
+				if (!AlarmUtil.OnlyConnect2(strYstNum)) {
 					showTextToast(R.string.str_alarm_connect_failed_1);
 					waitingDialog.dismiss();
 				}
@@ -185,7 +185,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 
 			if (!bConnectedFlag) {
 				waitingDialog.show();
-				if (!AlarmUtil.OnlyConnect(strYstNum)) {
+				if (!AlarmUtil.OnlyConnect2(strYstNum)) {
 					showTextToast(R.string.str_alarm_connect_failed_1);
 					waitingDialog.dismiss();
 				}
@@ -215,7 +215,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 
 			if (!bConnectedFlag) {
 				waitingDialog.show();
-				if (!AlarmUtil.OnlyConnect(strYstNum)) {
+				if (!AlarmUtil.OnlyConnect2(strYstNum)) {
 					showTextToast(R.string.str_alarm_connect_failed_1);
 					waitingDialog.dismiss();
 				}
@@ -557,7 +557,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 		if (!bConnectedFlag) {
 			//
 			waitingDialog.show();
-			if (!AlarmUtil.OnlyConnect(strYstNum)) {
+			if (!AlarmUtil.OnlyConnect2(strYstNum)) {
 				showTextToast(R.string.str_alarm_connect_failed_1);
 				waitingDialog.dismiss();
 			}

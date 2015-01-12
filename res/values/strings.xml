@@ -673,6 +673,7 @@
     <string name="str_mdenabled_close_failed">The motion detecting close failed</string>
     <string name="str_illegal_dev_nick">The nick name is illegal</string>
     <string name="str_cloud_file_error_1">The file is uploading or failure</string>
+    <string name="str_cloud_file_error_2">此通道没有云存储信息</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="census_login">本地登录</string>
     <string name="census_onlinelogin">在线登录</string>

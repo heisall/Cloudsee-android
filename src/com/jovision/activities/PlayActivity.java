@@ -600,6 +600,8 @@ public abstract class PlayActivity extends BaseActivity implements
 				surfaceHeight = (int) (0.75 * disMetrics.widthPixels);
 			}
 		} else {// 横
+			streamPopWindow.dismiss();
+			streamListView.setVisibility(View.GONE);
 			if (!MySharedPreference.getBoolean("playhelp2")) {
 				horPlayHelp.setVisibility(View.VISIBLE);
 				horViewPager.setCurrentItem(0);

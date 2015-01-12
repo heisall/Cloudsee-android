@@ -41,18 +41,18 @@
                 android:textSize="16sp" />
 
             <RelativeLayout
+                android:id="@+id/item_new_layout"
                 android:layout_width="40dp"
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/item_next" >
+                android:layout_toLeftOf="@+id/item_next"
+                android:visibility="gone" >
 
                 <ImageView
-                    android:id="@+id/item_new"
                     android:layout_width="40dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/morefragment_new"
-                    android:visibility="gone" />
+                    android:src="@drawable/morefragment_new" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
                     android:layout_marginBottom="2dp"
                     android:text="@string/new_tag"
                     android:textColor="@color/white"
-                    android:textSize="13px" />
+                    android:textSize="13sp" />
             </RelativeLayout>
 
             <ImageView

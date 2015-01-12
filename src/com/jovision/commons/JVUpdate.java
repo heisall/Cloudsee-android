@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.bean.AppVersion;
 import com.jovision.utils.MobileUtil;
 
 public class JVUpdate {
@@ -81,11 +82,11 @@ public class JVUpdate {
 	}
 
 	// 外部接口让主Activity调用
-	public void checkUpdateInfo(String updateContent) {
-		showNoticeDialog(updateContent);
+	public void checkUpdateInfo(AppVersion appVer) {
+		showNoticeDialog(appVer);
 	}
 
-	private void showNoticeDialog(String updateContent) {
+	private void showNoticeDialog(final AppVersion appVer) {
 		AlertDialog.Builder builder = new Builder(mContext);
 		builder.setTitle(mContext.getString(R.string.str_hasupate));
 
@@ -97,7 +98,7 @@ public class JVUpdate {
 		// updateTextView.setGravity(Gravity.LEFT);
 		// builder.setView(updateTextView);
 
-		builder.setMessage(updateContent);
+		builder.setMessage(appVer.getVersionInfo().replace("&", "\n"));
 		// LinearLayout layout = new LinearLayout(mContext);
 		// layout.setOrientation(LinearLayout.HORIZONTAL);
 		// LinearLayout.LayoutParams layoutParams = new
@@ -141,9 +142,7 @@ public class JVUpdate {
 							// + mContext.getResources().getString(
 							// R.string.str_save_apk_name));
 
-							Uri uri = Uri.parse(Url.APK_DOWNLOAD_URL
-									+ mContext.getResources().getString(
-											R.string.str_save_apk_name));
+							Uri uri = Uri.parse(appVer.getDownloadUrl());
 							Intent it = new Intent(Intent.ACTION_VIEW, uri);
 							mContext.startActivity(it);
 						} catch (Exception e) {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
-    android:versionCode="42"
-    android:versionName="V4.3.13" >
+    android:versionCode="41"
+    android:versionName="V4.3.15" >
 
     <supports-screens
         android:anyDensity="true"
@@ -206,7 +206,7 @@
             android:hardwareAccelerated="true"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustUnspecified" >
         </activity>
         <activity
             android:name="com.jovision.activities.JVWebView2Activity"
@@ -214,7 +214,7 @@
             android:hardwareAccelerated="true"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustUnspecified" >
         </activity>
         <activity
             android:name="com.jovision.activities.JVVideoActivity"
@@ -595,7 +595,7 @@
             android:name="com.tencent.android.tpush.XGDownloadService"
             android:enabled="true"
 <<<<<<< HEAD
-            android:exported="false" />
+            android:exported="false" />
         -->
         <!-- 【可选】APP实现的Receiver，用于接收消息透传和操作结果的回调，请根据需要添加 -->
         <!-- YOUR_PACKAGE_PATH.CustomPushReceiver需要改为自己的Receiver： -->

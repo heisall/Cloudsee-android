@@ -897,7 +897,7 @@ public class JVPlayActivity extends PlayActivity implements
 									channel.setScreenTag(Consts.SCREEN_OVERTURN);
 								}
 							}
-
+							// TODO
 							MyLog.v(TAG,
 									"SupportVoice=" + channel.isSupportVoice());
 							mobileCH = streamMap.get("MobileCH");
@@ -1700,14 +1700,16 @@ public class JVPlayActivity extends PlayActivity implements
 		// manager.genPageList(ONE_SCREEN);
 		// }
 
-		changeWindow(currentScreen);
 		viewPager.setLongClickable(true);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int arg0) {
 				try {
 					// saveLastScreen(channelList.get(lastItemIndex));
-
+					if (null != streamListView
+							&& View.VISIBLE == streamListView.getVisibility()) {
+						streamListView.setVisibility(View.GONE);
+					}
 					varvoice.setBackgroundDrawable(getResources().getDrawable(
 							R.drawable.video_monitor_ico));
 					stopAllFunc();
@@ -1870,6 +1872,8 @@ public class JVPlayActivity extends PlayActivity implements
 		bottombut5.setOnTouchListener(callOnTouchListener);
 		bottombut5.setOnLongClickListener(callOnLongClickListener);
 		verPlayBarLayout.setVisibility(View.VISIBLE);
+
+		changeWindow(currentScreen);
 	}
 
 	private class MyPagerAdapter extends PagerAdapter {

@@ -365,6 +365,7 @@
     <string name="network_error">網路連接不可用,是否進行設置?</string>
     <string name="tips_3g">目前處於2G/3G網路，觀看視頻會產生大量流量費用（由運營商收取），建議使用Wi-Fi網路.</string>
     <string name="waiting">請稍等…</string>
+    <string name="new_tag">新</string>
     <string name="pressback_exit">再按一次退出程式</string>
     <!-- 2.3系統視頻播放提示 -->
     <string name="system_lower">您的手機系統是Android$,視頻播放時有可能出現花屏，為達到最佳播放效果，建議下載2.8.5版本，安裝前請先卸載當前版本，是否立即下載?</string>
@@ -564,7 +565,7 @@
     <string name="prepare_step">準備步驟</string>
     <string name="check_step">查看演示說明</string>
     <string name="prepare_set">準備配置</string>
-    <string name="prepare_step1">請用頂針輕插設備背後的reset孔，聽到“開始聲波配置”語音提示後松開頂針。</string>
+    <string name="prepare_step1">請用頂針輕插設備背後的reset孔，聽到“開始聲波配置”提示音後松開頂針。</string>
     <string name="prepare_step2">請輸入攝像頭要連接的無線網路密碼</string>
     <string name="prepare_step3">觀看操作演示</string>
     <string name="show_demo">操作演示</string>

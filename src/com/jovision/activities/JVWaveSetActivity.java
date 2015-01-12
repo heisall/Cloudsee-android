@@ -43,6 +43,7 @@ import com.jovision.bean.Device;
 import com.jovision.bean.WifiAdmin;
 import com.jovision.commons.MyAudio;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
@@ -541,8 +542,15 @@ public class JVWaveSetActivity extends BaseActivity {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		BitmapCache.getInstance().clearCache();
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
+		BitmapCache.getInstance().clearCache();
 		CacheUtil.saveDevList(deviceList);
 		if (null != mediaPlayer) {
 			mediaPlayer.stop();

@@ -1218,12 +1218,10 @@ public class JVPlayActivity extends PlayActivity implements
 			selectedScreen = screenList.get(arg1);
 			screenAdapter.selectIndex = arg1;
 			screenAdapter.notifyDataSetChanged();
-			if (View.VISIBLE == streamListView.getVisibility()) {
-				streamListView.setVisibility(View.GONE);
-			}
 			disconnectChannelList.addAll(channelList);
 			changeWindow(selectedScreen);
-
+			streamPopWindow.dismiss();
+			streamListView.setVisibility(View.GONE);
 			Channel channel = null;
 			if (arg1 < channelList.size()) {
 				channel = channelList.get(arg1);
@@ -2022,7 +2020,7 @@ public class JVPlayActivity extends PlayActivity implements
 		handler.sendEmptyMessage(Consts.WHAT_SHOW_PROGRESS);
 
 		if (currentScreen > ONE_SCREEN) {
-			if (View.VISIBLE == streamListView.getVisibility()) {
+			if (null!=streamListView&&View.VISIBLE == streamListView.getVisibility()) {
 				streamListView.setVisibility(View.GONE);
 			}
 		}
@@ -2610,7 +2608,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			case R.id.currentmenu:
 			case R.id.selectscreen:// 下拉选择多屏
-				if (View.VISIBLE == streamListView.getVisibility()) {
+				if (null!=streamListView&&View.VISIBLE == streamListView.getVisibility()) {
 					streamListView.setVisibility(View.GONE);
 				}
 				if (isBlockUi) {

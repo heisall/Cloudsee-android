@@ -5,7 +5,7 @@
     <string name="login_str_username_notnull">Please input username.</string>
     <string name="login_str_loginpass1_notnull">Please input password.</string>
     <string name="login_str_loginpass2_notnull">Please input password confirmation.</string>
-    <string name="login_str_loginephone_tips">填写手机号有误</string>
+    <string name="login_str_loginephone_tips">Error Mobile phone No.</string>
     <string name="login_str_loginemail_tips">The format of email is wrong</string>
     <string name="login_str_loginemail_notnull">Please input email address.</string>
     <string name="login_str_loginpass_notsame">Password is inconsistent.</string>
@@ -26,7 +26,7 @@
     <string name="login_str_nike_name_order">Ilegal character,the NikeName should be English letter,number,or special characters like .–_+()</string>
     <string name="login_str_device_account_notnull">Please input username.</string>
     <string name="login_str_device_pass_notnull">Please input password.</string>
-    <string name="device_pass_notzh">密码不能是中文</string>
+    <string name="device_pass_notzh">Password can not be Chinese</string>
     <string name="login_str_device_connnum_notnull">number of channels can not be empty</string>
     <string name="login_str_device_account_error">Username format incorrect, it can only be formed by 1–15 letters,numbers or. _–.</string>
     <string name="login_str_device_pass_error">Password format incorrect, it can only be formed by 0–15 letters,numbers or _–.</string>
@@ -119,14 +119,14 @@
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="play_failed"> play the video failed</string>
     <!-- PlayHelp -->
-    <string name="playhelp_pull">切换多屏显示</string>
-    <string name="playhelp_moreview">更多→图像查看</string>
-    <string name="playhelp_maliu">切换码流</string>
-    <string name="playhelp_voice">音频开关</string>
-    <string name="playhelp_fanzhuan">视频翻转</string>
-    <string name="playhelp_devicesetting">设置设备功能</string>
-    <string name="playhelp_cloud">手势云台</string>
-    <string name="playhelp_zoom">手势缩放</string>
+    <string name="playhelp_pull">change into multi-screen</string>
+    <string name="playhelp_moreview">More→image view</string>
+    <string name="playhelp_maliu">swtich stream</string>
+    <string name="playhelp_voice">audio switch</string>
+    <string name="playhelp_fanzhuan">turn video</string>
+    <string name="playhelp_devicesetting">Setup the device functions</string>
+    <string name="playhelp_cloud">gesture PTZ</string>
+    <string name="playhelp_zoom">gesture zoom</string>
     <!-- 连接方式 -->
     <string name="cloud_number">CloudSEE ID</string>
     <!-- 更多功能 -->
@@ -177,7 +177,7 @@
     <string name="str_video_disconnected">Unable to remote playback due to video has been disconnected.</string>
     <!-- leftFragment -->
     <string name="str_delete_sure">Are you sure to delete?</string>
-    <string name="delete_dev_sure">删除通道设备也将被删除，是否确认删除?</string>
+    <string name="delete_dev_sure">If delete channels, device will be deleted, too.Please confirm to delete or not?</string>
     <string name="str_delete_tip">Tips</string>
     <!-- 登录 -->
     <string name="str_local_login">Visitor Login</string>
@@ -204,8 +204,8 @@
     <string name="str_modify_user_info">Complete the user info</string>
     <string name="str_bound_email">Bind Phone(Email)</string>
     <string name="str_bound_email_failed">Failed to combine with the Email address.</string>
-    <string name="str_bound_email_success">绑定成功</string>
-    <string name="str_bound_phone_exist">手机号已被注册</string>
+    <string name="str_bound_email_success">binding successfully</string>
+    <string name="str_bound_phone_exist">Mobile phone No. has been registered</string>
     <string name="str_bound_email_exist">This Email address has been registered.</string>
     <string name="str_device_most_count">Devices quantity has exceeded the limit, please delete the useless devices and add new one then.</string>
     <string name="string_username_modify_tips">Account system has updated, please reset account.</string>
@@ -356,8 +356,8 @@
     <string name="edit_failed">Failed to change.</string>
     <string name="edit_succ">Password changed successfully, please login again.</string>
     <!-- DeviceSettingsMainFragment -->
-    <string name="edit_pass_not">没有修改权限</string>
-    <string name="pwd_success">密码修改成功</string>
+    <string name="edit_pass_not">No change permissions</string>
+    <string name="pwd_success">password changed successfully</string>
     <!-- JVDemoActivity -->
     <string name="demo">Demo</string>
     <string name="demo_get_failed">Failed to load demo video.</string>
@@ -434,8 +434,8 @@
     <string name="connect_failed">Connect failed</string>
     <string name="connecting">Connecting…</string>
     <string name="closed">Closed</string>
-    <string name="abnormal_closed">连接异常断开</string>
-    <string name="str_scanlandevice">局域网设备</string>
+    <string name="abnormal_closed">Abnormal disconnection happened.</string>
+    <string name="str_scanlandevice">Device in Lan.</string>
     <string name="overflow">max count</string>
     <string name="connecting_buffer1">Buffering now</string>
     <string name="connecting_buffer2">Buffering now…</string>
@@ -454,7 +454,7 @@
     <!-- ap配置流程模块 -->
     <string name="quick_setting_searching">Searching nearby devices now</string>
     <string name="str_quiksetting_tips_txt">Please choose the device you want to configure.</string>
-    <string name="str_wave_txt">请选择需添加设备</string>
+    <string name="str_wave_txt">Please select the device to add.</string>
     <string name="str_quick_setting_alert_1">Connecting with device now, please wait.</string>
     <string name="str_quick_setting_connect">Configure</string>
     <string name="str_quick_setting_waiting">Waiting</string>
@@ -508,13 +508,13 @@
     <string name="recoding">Play failed</string>
     <!-- MyDeviceListAdapter -->
     <string name="str_device_online">Online</string>
-    <string name="str_device_online_net">互联网在线</string>
-    <string name="str_device_online_lan">局域网在线</string>
+    <string name="str_device_online_net">Internet online.</string>
+    <string name="str_device_online_lan">Lan online.</string>
     <string name="str_device_offline">Offline</string>
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">Total</string>
     <string name="str_aft">devices.</string>
-    <string name="delete_all_device">确定要删除所有设备吗？</string>
+    <string name="delete_all_device">Delete all devices. Are you sure?</string>
     <string name="ip_add_notallow">Do not support devices added  by DNS/IP address.</string>
     <string name="protect_open_succ">Enable Security Protection Successfully.</string>
     <string name="protect_open_fail">Failed to enable Security Protection.</string>
@@ -532,7 +532,7 @@
     <string name="key_update_title">Update content</string>
     <string name="downloading_update">Loading firmware now, please wait…</string>
     <string name="writing_update">Installing firmware now, please keep the power on and wait…</string>
-    <string name="writing_update_error">烧写出错</string>
+    <string name="writing_update_error">Flash error.</string>
     <string name="key_update_reset">Update successfully, do you want to reboot?</string>
     <string name="update_reset_success">Reboot successfully</string>
     <string name="update_reset_failed">Failed to update, please update manually.</string>
@@ -542,8 +542,8 @@
     <string name="media_image">Image</string>
     <string name="media_video">Video</string>
     <string name="media_other">Other</string>
-    <string name="media_player">选择播放器</string>
-    <string name="media_play">播放</string>
+    <string name="media_player">Select player.</string>
+    <string name="media_play">Play</string>
     <string name="media_noticedelect">Please choose the file to be deleted.</string>
     <!-- Help -->
     <string name="str_help_zero">Stretch to add device</string>
@@ -566,12 +566,14 @@
     <string name="check_step">View operation demo</string>
     <string name="prepare_set">Preparing configuration</string>
     <string name="prepare_step1">请用顶针轻插设备背后的reset孔，\n听到“开始声波配置”提示音后松开顶针。</string>
+    <string name="prepare_step1">Please press the reset button , then release the button after hearing the voice guide.</string>
     <string name="prepare_step2">Please input password of the network.</string>
     <string name="prepare_step3">View operation demo</string>
     <string name="show_demo">Operation demo</string>
     <string name="search_list">Search list</string>
     <string name="prepare_step4">Click to send sound-wave</string>
     <string name="prepare_step5">Please put the phone near device,click sound-wave sending button,configure the device.</string>
+   <string name="prepare_step6">(The device does not support 5G Wi-Fi)</string>
     <string name="wave_add_dev">Make sure to add device</string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
@@ -606,7 +608,7 @@
     <string name="str_alarm_no_video">No Alarm Video</string>
     <string name="str_buffering">Buffering…</string>
     <string name="str_safe_protected">Alert</string>
-    <string name="str_modify_pwd">修改设备管理员密码</string>
+    <string name="str_modify_pwd">Modify device administrator is password.</string>
     <string name="str_downloading_vod">Getting the video file…</string>
     <string name="str_alarm_dev">Device :</string>
     <string name="str_alarm_type">Type :</string>
@@ -654,11 +656,13 @@
     <string name="str_alarm_setting_tips1">Enable this function, your phone can receive the alert video,picture or message.</string>
     <string name="str_alarm_setting_tips3">You can choose a suitable time scale to receive alert.</string>
     <string name="str_alarm_setting_tips2">Enable this function, the equipment such as moving object is detected, will be prompted to alarm.</string>
-    <string name="str_alarm_setting_tips4">为了防止泄露隐私，建议及时修改设备管理员密码。</string>
+    <string name="str_alarm_setting_tips4">We suggest modify device administrator is password to avoid leakage of privacy.</string>
     <string name="str_all_day">All Day</string>
     <string name="str_protected_time">Safeguard time scale</string>
     <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>
     <string name="str_setdev_params_timeout">Set the equipment parameter timeout</string>
+    <string name="str_computre_time1"> 结束时间不能小于开始时间</string>
+    <string name="str_computre_time3"> 开始时间不能等于结束时间</string>
     <string name="str_disconnect_resp_timeout">Disconnect the connection timeout</string>
     <string name="str_operation_failed">Operation failed</string>
     <string name="str_setting_time">Setting Time</string>
@@ -698,7 +702,7 @@
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
     <string name="reset_passwd_input_vercode"> verification code</string>
-    <string name="str_vercode">验证码</string>
+    <string name="str_vercode">Security code</string>
     <string name="reset_passwd_account">Account</string>
     <string name="reset_passwd_new_passwd">Password</string>
     <string name="reset_passwd_confirm_passwd">Confirm Password</string>
@@ -726,9 +730,9 @@
     <string name="str_set_new_pwd">Set New Password</string>
     <string name="str_set_new_pwd_ok">Set Ok, login again</string>
     <string name="str_query_account_failed">Query account info failed</string>
-    <string name="str_query_account_failed1">对不起，网络错误</string>
-    <string name="str_not_bind_phone_tips1">您的账号没有绑定手机，请通过邮箱找回</string>
-    <string name="str_not_bind_phone_tips2">您的账号没有绑定手机和邮箱，请联系客服</string>
+    <string name="str_query_account_failed1">Network error, operation failed. Please try again.</string>
+    <string name="str_not_bind_phone_tips1">Your account is not bound with your mobile number. Please retrieve via email.</string>
+    <string name="str_not_bind_phone_tips2">Your account is not bound with mobile number or email address. Please contact customer service. </string>
     <string name="str_not_bind_phone_tips3">该用户不存在</string>
 
 </resources>

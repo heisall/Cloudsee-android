@@ -2770,7 +2770,7 @@ public class DeviceUtil {
 					JSONObject temObj = new JSONObject(result);
 					if (null != temObj) {
 						rt = temObj.optInt(JVDeviceConst.JK_RESULT);
-						if (0 == rt) {// // rt==0说明需要升级 19不需要升级 其他值是吧
+						if (0 == rt) {// // rt==0说明需要升级 18不需要升级 其他值是吧
 							appVersion
 									.setVersionName(temObj
 											.optString(JVDeviceConst.JK_APP_VERSION_FULL));

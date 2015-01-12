@@ -177,6 +177,7 @@ public class Consts {
 	public static final int BAD_STATUS_FFMPEG = 0x05;
 	public static final int BAD_STATUS_LEGACY = 0x06;
 	public static final int PLAYBACK_DONE = 0x10;
+	public static final int VIDEO_SIZE_CHANGED = 0x11;
 
 	public static final int BAD_SCREENSHOT_NOOP = 0x00;//
 	public static final int BAD_SCREENSHOT_INIT = 0x01;//

@@ -40,16 +40,29 @@
                 android:textColor="@color/more_fragment_color5"
                 android:textSize="16sp" />
 
-            <ImageView
-                android:id="@+id/item_new"
-                android:layout_width="60dp"
-                android:layout_height="25dp"
+            <RelativeLayout
+                android:layout_width="40dp"
+                android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/item_next"
-                android:background="@drawable/morefragment_new"
-                android:visibility="gone"
-                />
+                android:layout_toLeftOf="@+id/item_next" >
+
+                <ImageView
+                    android:id="@+id/item_new"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/morefragment_new"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="2dp"
+                    android:text="@string/new_tag"
+                    android:textColor="@color/white"
+                    android:textSize="13px" />
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/item_next"

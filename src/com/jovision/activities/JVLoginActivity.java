@@ -124,6 +124,12 @@ public class JVLoginActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.login_layout);
+		if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
+			alertNetDialog();
+		} else {
+			ConfigUtil.is3G(JVLoginActivity.this, true);
+		}
+
 		userList = UserUtil.getUserList();
 		/** userlogin Fuction */
 		userNameET = (EditText) findViewById(R.id.username_et);

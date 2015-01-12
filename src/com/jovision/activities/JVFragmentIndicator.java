@@ -71,6 +71,17 @@ public class JVFragmentIndicator extends LinearLayout implements
 		ImageView tabIcon = (ImageView) tabLayout.findViewById(R.id.tab_icon);
 		TextView tabTitle = (TextView) tabLayout.findViewById(R.id.tab_title);
 
+		RelativeLayout tabInfo = (RelativeLayout) tabLayout
+				.findViewById(R.id.tab_info);
+		ImageView tabInfoImg = (ImageView) tabLayout
+				.findViewById(R.id.tab_info_img);
+		TextView tabInfoText = (TextView) tabLayout
+				.findViewById(R.id.tab_info_text);
+		tabInfoImg.setTag(R.id.tab_info_img);
+		tabInfo.setTag(R.id.tab_info);
+		tabInfoText.setTag(R.id.tab_info_text);
+		tabInfo.setVisibility(View.GONE);
+
 		tabIcon.setTag(iconTag);
 		tabIcon.setImageResource(iconResID);
 		tabTitle.setTag(textTag);
@@ -104,6 +115,46 @@ public class JVFragmentIndicator extends LinearLayout implements
 			mIndicators[i].setOnClickListener(this);
 			addView(mIndicators[i]);
 		}
+	}
+
+	public static void updateIndicator(int whitch, int msgCount, boolean show) {
+
+		RelativeLayout tabInfo = (RelativeLayout) mIndicators[whitch]
+				.findViewWithTag(R.id.tab_info);
+		ImageView tabInfoImg = (ImageView) mIndicators[whitch]
+				.findViewWithTag(R.id.tab_info_img);
+		TextView tabInfoText = (TextView) mIndicators[whitch]
+				.findViewWithTag(R.id.tab_info_text);
+
+		switch (whitch) {
+		case 1: {// 报警消息条数
+			tabInfoText.setText(String.valueOf(msgCount));
+
+			if (show) {
+				tabInfo.setVisibility(View.VISIBLE);
+			} else {
+				tabInfo.setVisibility(View.GONE);
+			}
+			break;
+		}
+		case 3: {// 更多功能，新
+			if (show) {
+				tabInfo.setVisibility(View.VISIBLE);
+			} else {
+				tabInfo.setVisibility(View.GONE);
+			}
+			tabInfoText.setText(R.string.new_tag);
+			break;
+		}
+		}
+
+		tabInfoImg.setTag(R.id.tab_info_img);
+		tabInfo.setTag(R.id.tab_info);
+		tabInfoText.setTag(R.id.tab_info_text);
+
+		tabInfoImg.setTag(R.id.tab_info_img);
+		tabInfo.setTag(R.id.tab_info);
+		tabInfoText.setTag(R.id.tab_info_text);
 	}
 
 	public static void setIndicator(int which) {

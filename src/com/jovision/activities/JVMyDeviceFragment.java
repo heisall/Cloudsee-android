@@ -519,7 +519,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		System.gc();
+		BitmapCache.getInstance().clearCache();
 		// startBroadTimer();
 		// startAutoRefreshTimer();
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
@@ -564,6 +564,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 	@Override
 	public void onDestroy() {
+		BitmapCache.getInstance().clearCache();
 		stopRefreshWifiTimer();
 		isshow = false;
 		// stopBroadTimer();
@@ -573,6 +574,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onPause() {
 		super.onPause();
+		BitmapCache.getInstance().clearCache();
 		// stopRefreshWifiTimer();
 		// stopBroadTimer();
 		if (null == mActivity) {

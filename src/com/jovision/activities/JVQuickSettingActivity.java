@@ -62,6 +62,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
+import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
@@ -1664,6 +1665,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+		BitmapCache.getInstance().clearCache();
 	}
 
 	/************************************************ 以下为声波配置所需 ******************************/
@@ -1961,7 +1963,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 
-						if (1004 == errorCode) {
+						if (1004 == errorCode || 1005 == errorCode) {
 							MyActivityManager.getActivityManager()
 									.popAllActivityExceptOne(
 											JVLoginActivity.class);
@@ -2091,6 +2093,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
+		BitmapCache.getInstance().clearCache();
 	}
 
 	public void disConnectVideo() {

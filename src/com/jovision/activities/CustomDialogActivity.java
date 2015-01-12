@@ -461,6 +461,10 @@ public class CustomDialogActivity extends BaseActivity implements
 			}
 				break;
 			// 4 -- 连接失败
+				// 6 -- 连接异常断开
+			case JVNetConst.ABNORMAL_DISCONNECT:
+				// 7 -- 服务停止连接，连接断开
+			case JVNetConst.SERVICE_STOP:				
 			case JVNetConst.CONNECT_FAILED: {
 				bConnectFlag = false;
 				if (progressdialog.isShowing()) {
@@ -516,16 +520,25 @@ public class CustomDialogActivity extends BaseActivity implements
 					}
 				}
 				break;
-			// default:
-			// if (progressdialog.isShowing()) {
-			// progressdialog.dismiss();
-			// }
-			// Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
-			// // showTextToast(R.string.connect_failed);
-			// if (!vod_uri_.equals("")) {
-			// lookVideoBtn.setEnabled(true);
-			// }
-			// break;
+			case JVNetConst.OHTER_ERROR: 
+				 if (progressdialog.isShowing()) {
+					 progressdialog.dismiss();
+				 }
+				 showTextToast(R.string.connect_failed);
+				 if (!vod_uri_.equals("")) {
+					 lookVideoBtn.setEnabled(true);
+				 }				
+				break;
+			default:
+			 if (progressdialog.isShowing()) {
+				 progressdialog.dismiss();
+			 }
+//			 Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
+			 showTextToast(R.string.connect_failed);
+			 if (!vod_uri_.equals("")) {
+				 lookVideoBtn.setEnabled(true);
+			 }
+			 break;
 			}
 		}
 			break;

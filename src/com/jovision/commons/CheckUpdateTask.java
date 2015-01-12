@@ -128,7 +128,7 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 			if (null != appVer) {
 				jvUpdate.checkUpdateInfo(appVer);
 			}
-		} else if (19 == result) {
+		} else if (18 == result) {
 			if (1 == autoUpdate) {// 手动更新才提示没有更新，自动更新没有更新时不提示
 				((BaseActivity) mContext)
 						.showTextToast(R.string.str_already_newest);

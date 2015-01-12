@@ -1094,6 +1094,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_NEW_PICTURE: {
+			MyLog.e("NEW_PICTURE", obj.toString());
 			Channel channel = null;
 			if (arg1 < channelList.size()) {
 				channel = channelList.get(arg1);

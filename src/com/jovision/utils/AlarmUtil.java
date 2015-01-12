@@ -530,7 +530,7 @@ public class AlarmUtil {
 						: JVNetConst.TYPE_3GMO_UDP, null, false, false, null);
 
 			}
-			
+
 			return con_res;
 		} else {
 			MyLog.e("AlarmConnect", "not find dst:" + strYstNum);
@@ -579,6 +579,7 @@ public class AlarmUtil {
 			return false;
 		}
 	}
+
 	// 将时间戳转为字符串
 	public static String getStrTime(String cc_time) {
 		String re_StrTime = null;

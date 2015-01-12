@@ -3,9 +3,12 @@ package com.jovision.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -24,6 +27,8 @@ public class JVWebView2Activity extends BaseActivity {
 	private TextView currentMenu;// 当前页面名称
 	private Button rigButton;
 	private RelativeLayout topBar;
+
+	private RelativeLayout webviewLayout;
 
 	private WebView webView;
 	private String url = "";
@@ -52,6 +57,7 @@ public class JVWebView2Activity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.webview2_layout);
+		webviewLayout = (RelativeLayout) findViewById(R.id.webviewlayout);
 		/** topBar **/
 		topBar = (RelativeLayout) findViewById(R.id.topbarh);
 		back = (Button) findViewById(R.id.btn_left);
@@ -70,20 +76,11 @@ public class JVWebView2Activity extends BaseActivity {
 		rigButton.setVisibility(View.GONE);
 
 		webView = (WebView) findViewById(R.id.findpasswebview);
-
-		WebChromeClient wvcc = new WebChromeClient() {
-			@Override
-			public void onReceivedTitle(WebView view, String title) {
-				super.onReceivedTitle(view, title);
-				if (-2 == titleID) {
-					currentMenu.setText(title);
-				}
-			}
-		};
 		webView.getSettings().setJavaScriptEnabled(true);
 
+		webView.setWebViewClient(new MyWebviewCient());
 		// 设置setWebChromeClient对象
-		webView.setWebChromeClient(wvcc);
+		webView.setWebChromeClient(new MyChromeClient());
 		webView.requestFocus(View.FOCUS_DOWN);
 
 		// setting.setPluginState(PluginState.ON);
@@ -126,6 +123,7 @@ public class JVWebView2Activity extends BaseActivity {
 				progressbar.setVisibility(View.GONE);
 				// webView.loadUrl("javascript:videopayer.play()");
 			}
+
 		});
 
 		webView.loadUrl(url);
@@ -182,6 +180,63 @@ public class JVWebView2Activity extends BaseActivity {
 		super.onResume();
 		webView.reload();
 		webView.onResume();
+	}
+
+	private View myView = null;
+	private WebChromeClient.CustomViewCallback myCallBack = null;
+
+	public class MyWebviewCient extends WebViewClient {
+		@Override
+		public WebResourceResponse shouldInterceptRequest(WebView view,
+				String url) {
+			WebResourceResponse response = null;
+			response = super.shouldInterceptRequest(view, url);
+			return response;
+		}
+	}
+
+	public class MyChromeClient extends WebChromeClient {
+
+		@Override
+		public void onReceivedTitle(WebView view, String title) {
+			super.onReceivedTitle(view, title);
+			if (-2 == titleID) {
+				currentMenu.setText(title);
+			}
+		}
+
+		@Override
+		public void onShowCustomView(View view, CustomViewCallback callback) {
+			if (myView != null) {
+				callback.onCustomViewHidden();
+				return;
+			}
+			webviewLayout.removeView(webView);
+			webviewLayout.addView(view);
+			myView = view;
+			myCallBack = callback;
+		}
+
+		@Override
+		public void onHideCustomView() {
+			if (myView == null) {
+				return;
+			}
+			webviewLayout.removeView(myView);
+			myView = null;
+			webviewLayout.addView(webView);
+			myCallBack.onCustomViewHidden();
+		}
+
+		@Override
+		public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+			// TODO Auto-generated method stub
+			Log.d("ZR",
+					consoleMessage.message() + " at "
+							+ consoleMessage.sourceId() + ":"
+							+ consoleMessage.lineNumber());
+			return super.onConsoleMessage(consoleMessage);
+		}
 	}
 
 }

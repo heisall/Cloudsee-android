@@ -757,6 +757,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+
 		case Consts.WHAT_AD_UPDATE: {
 			initADViewPager();
 			break;

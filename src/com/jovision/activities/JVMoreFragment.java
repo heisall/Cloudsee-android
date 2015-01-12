@@ -233,13 +233,18 @@ public class JVMoreFragment extends BaseFragment {
 	}
 
 	private void initDatalist() {
-		dataList = new ArrayList<MoreFragmentBean>();
-		for (int i = 0; i < Image.length; i++) {
-			MoreFragmentBean bean = new MoreFragmentBean();
-			bean.setItem_img(Image[i]);
-			bean.setName(fragment_name[i]);
-			dataList.add(bean);
+		try {
+			dataList = new ArrayList<MoreFragmentBean>();
+			for (int i = 0; i < Image.length; i++) {
+				MoreFragmentBean bean = new MoreFragmentBean();
+				bean.setItem_img(Image[i]);
+				bean.setName(fragment_name[i]);
+				dataList.add(bean);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 	}
 
 	OnClickListener myOnClickListener = new OnClickListener() {

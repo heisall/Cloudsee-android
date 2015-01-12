@@ -36,7 +36,6 @@
     <string name="login_str_point_delete_failed">Channel deleted failed</string>
     <string name="login_str_point_add_success">Channel added successfully</string>
     <string name="login_str_point_add_failed">Channel added failed</string>
-    <string name="login_str_point_add_full">Fail to add due to up to limition of Device channel quantity.</string>
     <string name="login_str_point_edit_success">Channel modified successfully</string>
     <string name="login_str_point_edit_failed">Channel modified failed</string>
     <string name="login_str_device_delete_success">Device deleted successfully</string>
@@ -509,8 +508,8 @@
     <string name="recoding">Play failed</string>
     <!-- MyDeviceListAdapter -->
     <string name="str_device_online">Online</string>
-    <string name="str_device_online_net">Internet online.</string>
-    <string name="str_device_online_lan">Lan online.</string>
+    <string name="str_device_online_net">Internet online</string>
+    <string name="str_device_online_lan">Lan online</string>
     <string name="str_device_offline">Offline</string>
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">Total</string>
@@ -566,7 +565,6 @@
     <string name="prepare_step">Preparating</string>
     <string name="check_step">View operation demo</string>
     <string name="prepare_set">Preparing configuration</string>
-    <string name="prepare_step1">请用顶针轻插设备背后的reset孔，\n听到“开始声波配置”提示音后松开顶针。</string>
     <string name="prepare_step1">Please press the reset button , then release the button after hearing the voice guide.</string>
     <string name="prepare_step2">Please input password of the network.</string>
     <string name="prepare_step3">View operation demo</string>

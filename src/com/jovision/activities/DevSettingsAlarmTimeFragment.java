@@ -112,14 +112,15 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
 		String start[] = startTime.split(":");
 		String end[] = endTime.split(":");
 		for (int i = 0; i < end.length; i++) {
-			if ((Integer.valueOf(start[0]))>(Integer.valueOf(end[0]))){
+			if ((Integer.valueOf(start[0])) > (Integer.valueOf(end[0]))) {
 				showTextToast(getActivity(), R.string.str_computre_time1);
-			}else if ((Integer.valueOf(start[0])) == (Integer.valueOf(end[0]))) {
-				if ((Integer.valueOf(start[1]))>(Integer.valueOf(end[1]))) {
+			} else if ((Integer.valueOf(start[0])) == (Integer.valueOf(end[0]))) {
+				if ((Integer.valueOf(start[1])) > (Integer.valueOf(end[1]))) {
 					showTextToast(getActivity(), R.string.str_computre_time1);
-				}else if((Integer.valueOf(start[1]))<(Integer.valueOf(end[1]))){
+				} else if ((Integer.valueOf(start[1])) < (Integer
+						.valueOf(end[1]))) {
 					mListener.OnAlarmTimeSaved(startTime, endTime);
-				}else {
+				} else {
 					showTextToast(getActivity(), R.string.str_computre_time3);
 				}
 			} else {
@@ -134,6 +135,7 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
 		// TODO Auto-generated method stub
 		mListener.OnAlarmTimeSavedResult(0);
 	}
+
 	/**
 	 * 弹系统消息
 	 * 

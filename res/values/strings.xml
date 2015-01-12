@@ -573,7 +573,7 @@
     <string name="search_list">Search list</string>
     <string name="prepare_step4">Click to send sound-wave</string>
     <string name="prepare_step5">Please put the phone near device,click sound-wave sending button,configure the device.</string>
-   <string name="prepare_step6">(The device does not support 5G Wi-Fi)</string>
+    <string name="prepare_step6">(The device does not support 5G Wi-Fi)</string>
     <string name="wave_add_dev">Make sure to add device</string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>

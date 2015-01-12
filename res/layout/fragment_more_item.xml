@@ -48,11 +48,11 @@
                 android:layout_toLeftOf="@+id/item_next" >
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/item_new"
                     android:layout_width="40dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/morefragment_new" />
+                    android:src="@drawable/morefragment_new"
+                    android:visibility="gone" />
 
                 <TextView
                     android:layout_width="wrap_content"

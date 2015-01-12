@@ -154,6 +154,9 @@ public class JVEditPassActivity extends BaseActivity {
 						JVLoginActivity.class);
 				Intent intent = new Intent(JVEditPassActivity.this,
 						JVLoginActivity.class);
+
+				String userName = statusHashMap.get(Consts.KEY_USERNAME);
+				intent.putExtra("UserName", userName);
 				startActivity(intent);
 				JVEditPassActivity.this.finish();
 			} else {

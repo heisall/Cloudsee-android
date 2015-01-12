@@ -1193,13 +1193,13 @@ public class JVPlayActivity extends PlayActivity implements
 
 											+ "("
 											+ (object.getBoolean("is_turn") ? "TURN"
-													: "P2P")
-											+ ")"
-											+ PlayUtil
-													.hasEnableHelper(channelList
-															.get(lastClickIndex)
-															.getParent()
-															.getFullNo()));
+													: "P2P") + ")"
+									// + PlayUtil
+									// .hasEnableHelper(channelList
+									// .get(lastClickIndex)
+									// .getParent()
+									// .getFullNo())
+									);
 						}
 					}
 

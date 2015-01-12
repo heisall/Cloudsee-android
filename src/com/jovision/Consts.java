@@ -491,6 +491,9 @@ public class Consts {
 	/** 系统消息加载-刷新成功 */
 	public static final int WHAT_SYSTEMINFO_REFRESH_SUCC = 0x60;
 
+	/** 设备列表通道加载失败 */
+	public static final int WHAT_MYDEVICE_POINT_FAILED = 0x61;
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像

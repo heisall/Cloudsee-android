@@ -404,6 +404,7 @@
     <string name="wifi_device">无线设备</string>
     <string name="line_device">有线设备</string>
     <string name="selectone_to_connect">请选择至少一个通道进行连接</string>
+    <string name="no_channel_error">通道加载失败，建议手动刷新</string>
     <string name="add_broad_dev">搜索到!个设备，是否立即添加?</string>
     <string name="broad_zero">未搜索到设备.</string>
     <string name="get_device_failed">设备加载失败</string>

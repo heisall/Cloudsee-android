@@ -404,6 +404,7 @@
     <string name="wifi_device">Wireless Device</string>
     <string name="line_device">Wired Device</string>
     <string name="selectone_to_connect">Please choose at least one channel to connect.</string>
+    <string name="no_channel_error">通道加载失败，建议手动刷新</string>
     <string name="add_broad_dev">Broadcasting to ! devices,do you want to add?</string>
     <string name="broad_zero">Unable to broadcast device.</string>
     <string name="get_device_failed">Device loaded failed</string>

@@ -145,8 +145,7 @@ public class JVMoreFragment extends BaseFragment {
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
-				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG,
-						0, 0, null);//通知显示报警信息条数				
+				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG, 0, 0, null);// 通知显示报警信息条数
 				new AlarmDialog(mActivity).Show(obj);
 			} else {
 				MyLog.e("Alarm",

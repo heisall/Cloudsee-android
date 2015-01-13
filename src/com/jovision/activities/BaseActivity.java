@@ -19,7 +19,11 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.test.JVACCOUNT;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;

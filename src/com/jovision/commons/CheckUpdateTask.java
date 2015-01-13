@@ -4,8 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 import com.jovision.bean.AppVersion;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 
 public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
@@ -29,7 +31,9 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 		try {
 			int curVersion = mContext.getPackageManager().getPackageInfo(
 					mContext.getPackageName(), 0).versionCode;
-
+			String appTag = mContext.getResources().getString(
+					R.string.str_update_app_version);
+			int language = ConfigUtil.getLanguage2(mContext) - 1;
 			// String lan = String.valueOf(ConfigUtil.getLanguage2(mContext));
 			// try {
 			// String checkUrl = Url.CHECK_UPDATE_URL + "?Language="
@@ -100,9 +104,10 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 			// * @param product
 			// * @param language
 			// * @param platform
+
 			appVer = new AppVersion();
-			checkRes = DeviceUtil.checkSoftWareUpdate(curVersion, 1, 1, 1,
-					appVer);
+			checkRes = DeviceUtil.checkSoftWareUpdate(curVersion, appTag,
+					language, Consts.TERMINAL_TYPE, appVer);
 
 		} catch (Exception e) {
 			e.printStackTrace();

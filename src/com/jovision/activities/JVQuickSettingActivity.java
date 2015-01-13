@@ -1707,6 +1707,36 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				default:
 					break;
 				}
+			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+					.getLanguage2(JVQuickSettingActivity.this)) {
+				switch (soundType) {
+				case Consts.TAG_SOUNDONE:// 选择设备，并进入预览
+					file = "1_zhtw.mp3";
+					break;
+				case Consts.TAG_SOUNDTOW:// 正在连接设备
+					file = "2_zhtw.mp3";
+					break;
+				case Consts.TAG_SOUNDTHREE:// 请点击下一步，配置无线网络
+					file = "3_zhtw.mp3";
+					break;
+				case Consts.TAG_SOUNDFOUR:// 请选择无线路由，输入密码，并点击右上角声波配置按钮
+					file = "4_zhtw.mp3";
+					break;
+				case Consts.TAG_SOUNDFIVE:// 请将手机靠近设备
+					file = "5_zhtw.mp3";
+					break;
+				case Consts.TAG_SOUNDSIX:// 叮
+					file = "6.mp3";
+					break;
+				case Consts.TAG_SOUNDSEVINE:// 配置完成，请点击图标查看设备
+					file = "7_zhtw.mp3";
+					break;
+				case Consts.TAG_SOUNDEIGHT:// 搜索声音
+					file = "quicksetsound.mp3";
+					break;
+				default:
+					break;
+				}
 			} else {
 				switch (soundType) {
 				case Consts.TAG_SOUNDONE:// 选择设备，并进入预览

@@ -31,8 +31,8 @@ public class Url {
 	// public static String SHORTSERVERIP = "98.126.77.202";
 	// public static String LONGSERVERIP = "98.126.77.202";
 
-//	 public static String SHORTSERVERIP = "58.56.19.187";
-//	 public static String LONGSERVERIP = "58.56.19.187";
+	// public static String SHORTSERVERIP = "58.56.19.187";
+	// public static String LONGSERVERIP = "58.56.19.187";
 	public static String SHORTSERVERIP = ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "appchannel.afdvr.com"
 			: "appchannelen.afdvr.com"; // "appchannel.jovecloud.com";
 	public static String LONGSERVERIP = ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "apponline.afdvr.com"

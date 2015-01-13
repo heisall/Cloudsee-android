@@ -509,7 +509,7 @@ public class JVDeviceConst {
 	public static final String JK_APP_VERSION_DESC = "appverdesc";
 	public static final String JK_APP_CLIENT_TYPE = "appclit";
 
-	public static final int SOFT_UPDATE_PRO = 4;
+	public static final int UPDATE_PROCESS = 4;
 	public static final int SOFT_UPDATE_REQUEST = 5000;
 	public static final int SOFT_UPDATE_RESPONSE = 5001;
 }

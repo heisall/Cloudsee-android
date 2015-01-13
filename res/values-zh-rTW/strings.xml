@@ -36,7 +36,6 @@
     <string name="login_str_point_delete_failed">通道刪除失敗</string>
     <string name="login_str_point_add_success">通道添加成功</string>
     <string name="login_str_point_add_failed">通道添加失敗</string>
-    <string name="login_str_point_add_full">Fail to add due to up to limition of Device channel quantity.</string>
     <string name="login_str_point_edit_success">通道修改成功</string>
     <string name="login_str_point_edit_failed">通道修改失敗</string>
     <string name="login_str_device_delete_success">設備刪除成功</string>

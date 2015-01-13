@@ -1794,7 +1794,7 @@ public class DeviceUtil {
 		MyLog.v("getSystemInfoList---request", jObj.toString());
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 3];
+		byte[] resultStr = new byte[1024 * 5];
 		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
 

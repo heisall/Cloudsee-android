@@ -6,6 +6,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.MediaController;
@@ -32,6 +33,12 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 			this.finish();
 			return;
 		}
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		this.finish();
+		return false;
 	}
 
 	@Override

@@ -141,10 +141,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE:
 			switch (arg2) {
-			case JVNetConst.DISCONNECT_OK: {
-				bConnectedFlag = false;
-				break;
-			}
+			// case JVNetConst.DISCONNECT_OK: {
+			// bConnectedFlag = false;
+			// break;
+			// }
 
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
@@ -176,8 +176,11 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				}
 			}
 				break;
+
 			case JVNetConst.ABNORMAL_DISCONNECT:
+			case JVNetConst.DISCONNECT_OK:
 			case JVNetConst.SERVICE_STOP:
+
 				if (waitingDialog != null && waitingDialog.isShowing())
 					waitingDialog.dismiss();
 				bConnectedFlag = false;
@@ -188,8 +191,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				if (waitingDialog != null && waitingDialog.isShowing())
 					waitingDialog.dismiss();
 				bConnectedFlag = false;
-				showTextToast(R.string.str_alarm_connect_except);
-				finish();
+				// showTextToast(R.string.str_alarm_connect_except);
+				// finish();
 				break;
 			}
 			break;

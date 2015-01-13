@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
+    <string name="str_country">中国</string>
     <string name="logining">正在登錄…</string>
     <string name="login_str_username_notnull">請輸入用戶名</string>
     <string name="login_str_loginpass1_notnull">請輸入密碼</string>
@@ -149,7 +150,8 @@
     <string name="str_feedback">回饋</string>
     <string name="str_login_out">註銷</string>
     <!-- 註冊 -->
-    <string name="str_enter_username">郵信箱/手機號/用戶名</string>
+    <string name="str_enter_username">手機號/信箱/用户名</string>
+    <string name="str_enter_emails">信箱</string>
     <string name="str_enter_username1">請輸入手機號</string>
     <string name="str_enter_pass1">密碼</string>
     <string name="str_enter_pass2">確認密碼</string>

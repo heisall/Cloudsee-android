@@ -14,11 +14,9 @@ import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
-import com.jovision.MainApplication;
 import com.jovision.activities.JVPlayActivity;
 import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
-import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;

@@ -68,7 +68,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 		userEmailEditText = (EditText) findViewById(R.id.registmail);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		leftBtn.setVisibility(View.GONE);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setVisibility(View.VISIBLE);

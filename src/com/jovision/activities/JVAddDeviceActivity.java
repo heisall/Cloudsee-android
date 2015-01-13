@@ -111,10 +111,10 @@ public class JVAddDeviceActivity extends BaseActivity {
 		setContentView(R.layout.adddevice_layout);
 		/** top bar */
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		rightBtn.setBackgroundResource(R.drawable.qr_icon);
 		currentMenu.setText(R.string.str_help1_1);
 		leftBtn.setOnClickListener(mOnClickListener);

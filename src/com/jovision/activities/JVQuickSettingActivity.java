@@ -162,7 +162,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		leftBtn.setVisibility(View.VISIBLE);
 		rightBtn.setTextColor(Color.WHITE);
 		rightBtn.setBackgroundDrawable(getResources().getDrawable(

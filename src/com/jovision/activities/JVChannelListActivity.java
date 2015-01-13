@@ -104,7 +104,7 @@ public class JVChannelListActivity extends BaseActivity {
 		setContentView(R.layout.channellist_layout);
 		localFlag = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.channalmanager);

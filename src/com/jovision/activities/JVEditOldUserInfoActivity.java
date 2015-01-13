@@ -114,7 +114,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 	protected void initUi() {
 		setContentView(R.layout.olduser_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.str_modify_user_info);
 		finish = (Button) findViewById(R.id.finish);

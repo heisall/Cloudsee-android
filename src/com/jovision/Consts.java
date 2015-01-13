@@ -2,7 +2,6 @@ package com.jovision;
 
 import java.io.File;
 
-import android.R.integer;
 import android.os.Environment;
 
 public class Consts {

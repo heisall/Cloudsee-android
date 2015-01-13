@@ -122,7 +122,9 @@ public class JVEditPassActivity extends BaseActivity {
 				editRes = DeviceUtil.modifyUserPassword(params[0], params[1]);
 				if (0 == editRes) {
 					if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
-						AccountUtil.userLogout();
+						if (0 != AccountUtil.userLogout()) {
+							AccountUtil.userLogout();
+						}
 						MySharedPreference.putString(Consts.DEVICE_LIST, "");
 					}
 					ConfigUtil.logOut();
@@ -155,8 +157,10 @@ public class JVEditPassActivity extends BaseActivity {
 						JVLoginActivity.class);
 
 				String userName = statusHashMap.get(Consts.KEY_USERNAME);
+				MySharedPreference.putString(Consts.KEY_LAST_LOGIN_USER,
+						userName);
+
 				// intent.putExtra("UserName", userName);
-				statusHashMap.put(Consts.KEY_LAST_LOGIN_USER, userName);
 				startActivity(intent);
 				JVEditPassActivity.this.finish();
 			} else {

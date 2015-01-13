@@ -149,9 +149,10 @@ public class JVLoginActivity extends BaseActivity {
 			userNameET.setText(getIntent().getStringExtra("UserName"));
 			passwordET.setText(getIntent().getStringExtra("PassWord"));
 		} else {
-			if (null != statusHashMap.get(Consts.KEY_LAST_LOGIN_USER)
-					&& !"".equalsIgnoreCase(statusHashMap
-							.get(Consts.KEY_LAST_LOGIN_USER))) {
+			if (null != MySharedPreference
+					.getString(Consts.KEY_LAST_LOGIN_USER)
+					&& !"".equalsIgnoreCase(MySharedPreference
+							.getString(Consts.KEY_LAST_LOGIN_USER))) {
 				String user = statusHashMap.get(Consts.KEY_LAST_LOGIN_USER);
 				userNameET.setText(user);
 			} else {

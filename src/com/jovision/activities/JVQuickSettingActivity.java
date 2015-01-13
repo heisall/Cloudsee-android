@@ -468,7 +468,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 			// 非本地登录,切未注销账号，调用注销
 			if (!local && !hasLogout) {
-				AccountUtil.userLogout();
+				if (0 != AccountUtil.userLogout()) {
+					AccountUtil.userLogout();
+				}
 				hasLogout = true;
 			}
 			try {

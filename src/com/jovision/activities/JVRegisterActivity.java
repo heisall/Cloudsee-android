@@ -37,11 +37,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import cn.smssdk.EventHandler;
+
 import cn.smssdk.SMSSDK;
-import cn.smssdk.gui.SMSReceiver;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.ActionReceiver.EventHandler;
 import com.jovision.Consts;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyLog;

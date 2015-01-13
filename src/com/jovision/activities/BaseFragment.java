@@ -93,7 +93,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 		leftBtn = (Button) mParent.findViewById(R.id.btn_left);
 		currentMenu = (TextView) mParent.findViewById(R.id.currentmenu);
 		rightBtn = (Button) mParent.findViewById(R.id.btn_right);
-		alarmnet = (RelativeLayout)mParent.findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) mParent.findViewById(R.id.alarmnet);
 		try {
 			if (null != leftBtn) {
 				leftBtn.setOnClickListener(mOnClickListener);

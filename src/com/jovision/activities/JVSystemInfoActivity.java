@@ -22,7 +22,7 @@ import com.jovision.views.XListView.IXListViewListener;
 public class JVSystemInfoActivity extends BaseActivity implements
 		IXListViewListener {
 	private static final String TAG = "JVSystemInfoActivity";
-	private static final int PAGECOUNT = 5;// 每次一页加载多少条
+	private static final int PAGECOUNT = 10;// 每次一页加载多少条
 
 	private Button back;// 左侧返回按钮
 	private Button rightButton;
@@ -138,9 +138,13 @@ public class JVSystemInfoActivity extends BaseActivity implements
 					infoList = new ArrayList<SystemInfo>();
 				} else {
 					if (null != tempList && 0 != tempList.size()) {
+						// for(int i = 0 ; i < tempList.size() ; i++){
+						// infoList.add(0, tempList.get(i));
+						// }
 						infoList.addAll(tempList);
-						tempList.clear();
+
 					}
+					tempList.clear();
 				}
 			} else if (6 == result) {// 没有数据
 				showTextToast(R.string.system_info_nomore);// 没有更多了

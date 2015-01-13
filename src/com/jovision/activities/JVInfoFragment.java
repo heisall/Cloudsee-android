@@ -21,13 +21,16 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
 import com.jovision.adapters.PushAdapter;
+import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AlarmUtil;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.DeviceUtil;
 import com.jovision.views.AlarmDialog;
 import com.jovision.views.MyAlertDialog;
 import com.jovision.views.XListView;
@@ -386,6 +389,15 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	public void onResume() {
 		String arrayStr = mActivity.statusHashMap.get(Consts.PUSH_JSONARRAY);
 		mActivity.statusHashMap.put(Consts.PUSH_JSONARRAY, "");
+		String checkAlarmGuid = MySharedPreference.getString(Consts.CHECK_ALARM_KEY);
+		if(null!=checkAlarmGuid && !checkAlarmGuid.equals("")){
+			if (!mApp.getMarkedAlarmList().contains(
+					checkAlarmGuid)) {
+				mApp.getMarkedAlarmList().add(
+						checkAlarmGuid);
+			}			
+		}
+		
 		JSONArray pushArray = null;
 		try {
 			if (null == arrayStr || "".equalsIgnoreCase(arrayStr)) {
@@ -422,6 +434,21 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 						} else {
 
 						}
+						
+						ArrayList<Device> deviceList = CacheUtil.getDevList();// 再取一次
+						int dev_index = DeviceUtil.getDeivceIndex(pi.ystNum);	
+						String deviceNickName = "";
+						if(dev_index == -1){
+							deviceNickName = pi.deviceNickName;
+						}
+						else{					
+							deviceNickName = deviceList.get(dev_index).getNickName();
+							if (pi.alarmType == 11)// 第三方
+							{
+								deviceNickName = deviceNickName +"-"+pi.deviceNickName;
+							} 					
+						}						
+						pi.deviceNickName = deviceNickName;
 
 						// pi.timestamp = obj
 						// .optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
@@ -493,6 +520,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
+				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG,
+						0, 0, null);//通知显示报警信息条数				
 				new AlarmDialog(mActivity).Show(obj);
 				onResume();
 			} else {

@@ -153,7 +153,8 @@ public class JVLoginActivity extends BaseActivity {
 					.getString(Consts.KEY_LAST_LOGIN_USER)
 					&& !"".equalsIgnoreCase(MySharedPreference
 							.getString(Consts.KEY_LAST_LOGIN_USER))) {
-				String user = statusHashMap.get(Consts.KEY_LAST_LOGIN_USER);
+				String user = MySharedPreference
+						.getString(Consts.KEY_LAST_LOGIN_USER);
 				userNameET.setText(user);
 			} else {
 				if (null != userList && 0 != userList.size()) {

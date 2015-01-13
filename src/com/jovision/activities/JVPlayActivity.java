@@ -897,7 +897,7 @@ public class JVPlayActivity extends PlayActivity implements
 									channel.setScreenTag(Consts.SCREEN_OVERTURN);
 								}
 							}
-
+							// TODO
 							MyLog.v(TAG,
 									"SupportVoice=" + channel.isSupportVoice());
 							mobileCH = streamMap.get("MobileCH");
@@ -1193,13 +1193,13 @@ public class JVPlayActivity extends PlayActivity implements
 
 											+ "("
 											+ (object.getBoolean("is_turn") ? "TURN"
-													: "P2P")
-											+ ")"
-											+ PlayUtil
-													.hasEnableHelper(channelList
-															.get(lastClickIndex)
-															.getParent()
-															.getFullNo()));
+													: "P2P") + ")"
+									// + PlayUtil
+									// .hasEnableHelper(channelList
+									// .get(lastClickIndex)
+									// .getParent()
+									// .getFullNo())
+									);
 						}
 					}
 
@@ -1220,7 +1220,7 @@ public class JVPlayActivity extends PlayActivity implements
 			screenAdapter.notifyDataSetChanged();
 			disconnectChannelList.addAll(channelList);
 			changeWindow(selectedScreen);
-			streamPopWindow.dismiss();
+			screenPopWindow.dismiss();
 			streamListView.setVisibility(View.GONE);
 			Channel channel = null;
 			if (arg1 < channelList.size()) {
@@ -1698,14 +1698,13 @@ public class JVPlayActivity extends PlayActivity implements
 		// manager.genPageList(ONE_SCREEN);
 		// }
 
-		changeWindow(currentScreen);
 		viewPager.setLongClickable(true);
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int arg0) {
 				try {
 					// saveLastScreen(channelList.get(lastItemIndex));
-
+					closePopWindow();
 					varvoice.setBackgroundDrawable(getResources().getDrawable(
 							R.drawable.video_monitor_ico));
 					stopAllFunc();
@@ -1868,6 +1867,8 @@ public class JVPlayActivity extends PlayActivity implements
 		bottombut5.setOnTouchListener(callOnTouchListener);
 		bottombut5.setOnLongClickListener(callOnLongClickListener);
 		verPlayBarLayout.setVisibility(View.VISIBLE);
+
+		changeWindow(currentScreen);
 	}
 
 	private class MyPagerAdapter extends PagerAdapter {
@@ -2016,9 +2017,7 @@ public class JVPlayActivity extends PlayActivity implements
 		handler.sendEmptyMessage(Consts.WHAT_SHOW_PROGRESS);
 
 		if (currentScreen > ONE_SCREEN) {
-			if (null!=streamListView&&View.VISIBLE == streamListView.getVisibility()) {
-				streamListView.setVisibility(View.GONE);
-			}
+			closePopWindow();
 		}
 	}
 
@@ -2483,9 +2482,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			}
 			case R.id.btn_left: {// 左边按钮
-				if (View.VISIBLE == streamListView.getVisibility()) {
-					streamListView.setVisibility(View.GONE);
-				}
+				closePopWindow();
 				backMethod(true);
 				break;
 			}
@@ -2504,9 +2501,7 @@ public class JVPlayActivity extends PlayActivity implements
 			// break;
 			case R.id.bottom_but2:
 			case R.id.decodeway: {// 软硬解切换
-				if (View.VISIBLE == streamListView.getVisibility()) {
-					streamListView.setVisibility(View.GONE);
-				}
+				closePopWindow();
 				if (allowThisFuc(false)) {
 					if (channel.getParent().is05()) {
 						createDialog("", true);
@@ -2525,9 +2520,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			case R.id.bottom_but6:
 			case R.id.overturn: {// 视频翻转
-				if (View.VISIBLE == streamListView.getVisibility()) {
-					streamListView.setVisibility(View.GONE);
-				}
+				closePopWindow();
 				if (allowThisFuc(false)) {
 					int send = 0;
 					int effect = channelList.get(lastClickIndex)
@@ -2562,9 +2555,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			}
 			case R.id.btn_right: {// 右边按钮----录像切换
-				if (View.VISIBLE == streamListView.getVisibility()) {
-					streamListView.setVisibility(View.GONE);
-				}
+				closePopWindow();
 				if (allowThisFuc(false)) {
 					try {
 						createDialog("", true);
@@ -2604,13 +2595,11 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			case R.id.currentmenu:
 			case R.id.selectscreen:// 下拉选择多屏
-				if (null!=streamListView&&View.VISIBLE == streamListView.getVisibility()) {
-					streamListView.setVisibility(View.GONE);
-				}
+				closePopWindow();
 				if (isBlockUi) {
 					createDialog("", true);
 				} else {
-					if (streamPopWindow == null) {
+					if (screenPopWindow == null) {
 						if (null != screenList && 0 != screenList.size()) {
 
 							screenAdapter = new ScreenAdapter(
@@ -2618,11 +2607,11 @@ public class JVPlayActivity extends PlayActivity implements
 							screenListView = new ListView(JVPlayActivity.this);
 							screenListView.setDivider(null);
 							if (disMetrics.widthPixels < 1080) {
-								streamPopWindow = new PopupWindow(
+								screenPopWindow = new PopupWindow(
 										screenListView, 240,
 										LinearLayout.LayoutParams.WRAP_CONTENT);
 							} else {
-								streamPopWindow = new PopupWindow(
+								screenPopWindow = new PopupWindow(
 										screenListView, 400,
 										LinearLayout.LayoutParams.WRAP_CONTENT);
 							}
@@ -2649,14 +2638,14 @@ public class JVPlayActivity extends PlayActivity implements
 									.setCacheColorHint(JVPlayActivity.this
 											.getResources().getColor(
 													R.color.transparent));
-							streamPopWindow.showAsDropDown(currentMenu);
+							screenPopWindow.showAsDropDown(currentMenu);
 						}
-					} else if (streamPopWindow.isShowing()) {
+					} else if (screenPopWindow.isShowing()) {
 						screenAdapter.notifyDataSetChanged();
-						streamPopWindow.dismiss();
-					} else if (!streamPopWindow.isShowing()) {
+						screenPopWindow.dismiss();
+					} else if (!screenPopWindow.isShowing()) {
 						screenAdapter.notifyDataSetChanged();
-						streamPopWindow.showAsDropDown(currentMenu);
+						screenPopWindow.showAsDropDown(currentMenu);
 					}
 				}
 				break;
@@ -2724,9 +2713,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but4:
 			case R.id.remote_playback:// 远程回放
-				if (View.VISIBLE == streamListView.getVisibility()) {
-					streamListView.setVisibility(View.GONE);
-				}
+				closePopWindow();
 				if (allowThisFuc(true)) {
 					startRemote();
 				}
@@ -2734,10 +2721,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
-
-				if (View.VISIBLE == streamListView.getVisibility()) {
-					streamListView.setVisibility(View.GONE);
-				}
+				closePopWindow();
 				if (Consts.ISHITVIS == 1) {
 					PlayUtil.hitviscapture(lastClickIndex);
 					Jni.sendString(lastClickIndex, JVNetConst.JVN_RSP_TEXTDATA,
@@ -2764,9 +2748,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but7:
 			case R.id.videotape:// 录像
-				if (View.VISIBLE == streamListView.getVisibility()) {
-					streamListView.setVisibility(View.GONE);
-				}
+				closePopWindow();
 				if (hasSDCard() && allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).getParent().is05()) {
 						String path = PlayUtil.createRecordFile();
@@ -2798,7 +2780,7 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 				if (View.VISIBLE == streamListView.getVisibility()) {
-					streamListView.setVisibility(View.GONE);
+					closePopWindow();
 				} else {
 					if (allowThisFuc(true)) {
 						if (-1 == channelList.get(lastClickIndex)
@@ -2836,9 +2818,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@SuppressWarnings("deprecation")
 	private void voiceCall(Channel channel) {
-		if (View.VISIBLE == streamListView.getVisibility()) {
-			streamListView.setVisibility(View.GONE);
-		}
+		closePopWindow();
 		if (allowThisFuc(true)) {
 			// 停止音频监听
 			if (PlayUtil.isPlayAudio(lastClickIndex)) {
@@ -3620,9 +3600,7 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-			if (View.VISIBLE == streamListView.getVisibility()) {
-				streamListView.setVisibility(View.GONE);
-			}
+			closePopWindow();
 			if (2 == arg2) {
 				if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
 					showTextToast(R.string.str_devicemanages);
@@ -3923,9 +3901,8 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if (View.VISIBLE == streamListView.getVisibility()) {
-			streamListView.setVisibility(View.GONE);
-		}
+		closePopWindow();
+
 		stopAll(lastClickIndex, channelList.get(lastClickIndex));
 		// manager.pauseAll();
 
@@ -3949,12 +3926,7 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		if (View.VISIBLE == streamListView.getVisibility()) {
-			streamListView.setVisibility(View.GONE);
-		}
-		if (null != streamListView) {
-			streamListView.setVisibility(View.GONE);
-		}
+		closePopWindow();
 
 		// [Neo] add black screen time
 		Jni.setColor(lastClickIndex, 0, 0, 0, 0);

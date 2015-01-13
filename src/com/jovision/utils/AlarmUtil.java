@@ -495,7 +495,50 @@ public class AlarmUtil {
 		return clearRes;
 	}
 
-	public static boolean OnlyConnect(String strYstNum) {
+	public static int OnlyConnect(String strYstNum) {
+		Device device = null;
+		boolean bfind = false;
+		for (int j = 0; j < CacheUtil.getDevList().size(); j++) {
+			device = CacheUtil.getDevList().get(j);
+			MyLog.v("AlarmConnect", "dst:" + strYstNum + "---yst-num = "
+					+ device.getFullNo());
+			if (strYstNum.equalsIgnoreCase(device.getFullNo())) {
+				bfind = true;
+				break;
+			}
+		}
+		int con_res = -99;
+		if (bfind) {
+			if ("".equalsIgnoreCase(device.getIp()) || 0 == device.getPort()) {
+				// 云视通连接
+				MyLog.v("New Alarm", device.getNo() + "--云视通--连接");
+				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1, device
+						.getIp(), device.getPort(), device.getUser(), device
+						.getPwd(), device.getNo(), device.getGid(), true, 1,
+						true,
+						device.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+								: JVNetConst.TYPE_3GMO_UDP, null, false, false,
+						null);
+			} else {
+				// IP直连
+				MyLog.v("New Alarm",
+						device.getNo() + "--IP--连接：" + device.getIp());
+				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1, device
+						.getIp(), device.getPort(), device.getUser(), device
+						.getPwd(), -1, device.getGid(), true, 1, true, device
+						.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+						: JVNetConst.TYPE_3GMO_UDP, null, false, false, null);
+
+			}
+			
+			return con_res;
+		} else {
+			MyLog.e("AlarmConnect", "not find dst:" + strYstNum);
+			return con_res;
+		}
+	}
+
+	public static boolean OnlyConnect2(String strYstNum) {
 		Device device = null;
 		boolean bfind = false;
 		for (int j = 0; j < CacheUtil.getDevList().size(); j++) {
@@ -536,7 +579,6 @@ public class AlarmUtil {
 			return false;
 		}
 	}
-
 	// 将时间戳转为字符串
 	public static String getStrTime(String cc_time) {
 		String re_StrTime = null;

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
@@ -23,8 +22,10 @@ public class popw extends PopupWindow {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mMenuView = inflater.inflate(R.layout.pop, null);
-		btn_take_photo = (RelativeLayout) mMenuView.findViewById(R.id.btn_take_photo);
-		btn_pick_photo = (RelativeLayout) mMenuView.findViewById(R.id.btn_pick_photo);
+		btn_take_photo = (RelativeLayout) mMenuView
+				.findViewById(R.id.btn_take_photo);
+		btn_pick_photo = (RelativeLayout) mMenuView
+				.findViewById(R.id.btn_pick_photo);
 		btn_cancel = (RelativeLayout) mMenuView.findViewById(R.id.btn_cancel);
 		pop_outside = (RelativeLayout) mMenuView.findViewById(R.id.pop_outside);
 

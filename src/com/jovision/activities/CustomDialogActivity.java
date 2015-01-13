@@ -9,6 +9,7 @@ import java.io.InputStream;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.integer;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -60,6 +61,7 @@ public class CustomDialogActivity extends BaseActivity implements
 	private boolean bConnectFlag = false;
 	private int bDownLoadFileType = 0; // 0图片 1视频
 	private String strYstNum = "";
+	private int strChannelNum = 0;
 	private ProgressDialog progressdialog;
 	private PlayWindowManager manager;
 	private int device_type = Consts.DEVICE_TYPE_IPC;
@@ -70,7 +72,7 @@ public class CustomDialogActivity extends BaseActivity implements
 	private int alarmSolution;
 	private String cloudBucket, cloudResource, storageJson;
 	private CustomDialogActivity mActivity;
-
+	private int try_get_cloud_param_cnt = 1;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,6 +91,7 @@ public class CustomDialogActivity extends BaseActivity implements
 		myHandler = new MyHandler();
 
 		strYstNum = pushInfo.ystNum;
+		strChannelNum = pushInfo.coonNum;
 		String strAlarmTime = new String(pushInfo.alarmTime);
 		strImgUrl = new String(pushInfo.pic);
 		vod_uri_ = new String(pushInfo.video);
@@ -458,6 +461,10 @@ public class CustomDialogActivity extends BaseActivity implements
 			}
 				break;
 			// 4 -- 连接失败
+				// 6 -- 连接异常断开
+			case JVNetConst.ABNORMAL_DISCONNECT:
+				// 7 -- 服务停止连接，连接断开
+			case JVNetConst.SERVICE_STOP:				
 			case JVNetConst.CONNECT_FAILED: {
 				bConnectFlag = false;
 				if (progressdialog.isShowing()) {
@@ -513,16 +520,25 @@ public class CustomDialogActivity extends BaseActivity implements
 					}
 				}
 				break;
-			// default:
-			// if (progressdialog.isShowing()) {
-			// progressdialog.dismiss();
-			// }
-			// Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
-			// // showTextToast(R.string.connect_failed);
-			// if (!vod_uri_.equals("")) {
-			// lookVideoBtn.setEnabled(true);
-			// }
-			// break;
+			case JVNetConst.OHTER_ERROR: 
+				 if (progressdialog.isShowing()) {
+					 progressdialog.dismiss();
+				 }
+				 showTextToast(R.string.connect_failed);
+				 if (!vod_uri_.equals("")) {
+					 lookVideoBtn.setEnabled(true);
+				 }				
+				break;
+			default:
+			 if (progressdialog.isShowing()) {
+				 progressdialog.dismiss();
+			 }
+//			 Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
+			 showTextToast(R.string.connect_failed);
+			 if (!vod_uri_.equals("")) {
+				 lookVideoBtn.setEnabled(true);
+			 }
+			 break;
 			}
 		}
 			break;
@@ -661,7 +677,14 @@ public class CustomDialogActivity extends BaseActivity implements
 							alarmImage.setImageBitmap(bmp);
 						}
 					} else if (msg.arg1 == 404) { // 文件不存在
-						showTextToast(R.string.str_cloud_file_error_1);
+						if(try_get_cloud_param_cnt == 1){
+							new Thread(new GetCloudInfoThread(strYstNum,
+									strChannelNum)).start();						
+						}
+						else{
+							showTextToast(R.string.str_cloud_file_error_1);
+						}
+						
 					} else {
 						showTextToast(R.string.str_query_account_failed1);
 					}
@@ -670,6 +693,21 @@ public class CustomDialogActivity extends BaseActivity implements
 			case 0x01:
 				try {
 					JSONObject storageObject = new JSONObject(storageJson);
+					int ret = storageObject.optInt("rt", -1);
+					if(ret != 0){
+						if(ret == 6){
+							showTextToast(R.string.str_cloud_file_error_2);
+							return;
+						}
+						else{
+							showTextToast(R.string.str_cloud_file_error_2);
+							return;						
+						}
+					}
+					
+					String strSpKey = String.format(Consts.FORMATTER_CLOUD_DEV,
+							strYstNum, strChannelNum);
+					MySharedPreference.putString(strSpKey, storageObject.toString());
 					cloudBucket = storageObject.optString("csspace");
 					String temp1[] = strImgUrl.split("com/");
 					cloudResource = String.format("/%s/%s", cloudBucket,
@@ -711,7 +749,13 @@ public class CustomDialogActivity extends BaseActivity implements
 					intent.putExtra("IS_LOCAL", false);
 					startActivity(intent);
 				} else if (msg.arg1 == 404) { // 文件不存在
-					showTextToast(R.string.str_cloud_file_error_1);
+					if(try_get_cloud_param_cnt == 1){
+						new Thread(new GetCloudInfoThread(strYstNum,
+								strChannelNum)).start();						
+					}
+					else{
+						showTextToast(R.string.str_cloud_file_error_1);
+					}
 				} else {
 					showTextToast(R.string.str_query_account_failed1);
 				}
@@ -722,6 +766,35 @@ public class CustomDialogActivity extends BaseActivity implements
 					progressdialog.dismiss();
 				}
 				showTextToast(R.string.str_disconnect_resp_timeout);
+				break;
+			case Consts.BAD_HAS_CONNECTED:
+				if (progressdialog.isShowing()) {
+					progressdialog.dismiss();
+				}
+				String strDescString = getResources().getString(R.string.connect_failed)+":"+Consts.BAD_HAS_CONNECTED;
+				showTextToast(strDescString);
+				if (!vod_uri_.equals("")) {
+					lookVideoBtn.setEnabled(true);
+				}				
+				break;
+			case -99:
+				if (progressdialog.isShowing()) {
+					progressdialog.dismiss();
+				}
+				String strDescString2 = getResources().getString(R.string.connect_failed)+":-99";
+				showTextToast(strDescString2);
+				if (!vod_uri_.equals("")) {
+					lookVideoBtn.setEnabled(true);
+				}				
+				break;
+			case Consts.ARG2_STATUS_CONN_OVERFLOW:
+				if (progressdialog.isShowing()) {
+					progressdialog.dismiss();
+				}
+				showTextToast(R.string.overflow);
+				if (!vod_uri_.equals("")) {
+					lookVideoBtn.setEnabled(true);
+				}			
 				break;
 			case 0x9999:
 				progressdialog.dismiss();
@@ -765,19 +838,38 @@ public class CustomDialogActivity extends BaseActivity implements
 		@Override
 		public void run() {
 			int try_cnt = 2;
+			int conn_ret = -1;
 			do {
-				if (!AlarmUtil.OnlyConnect(strYstNum)) {
+				conn_ret = AlarmUtil.OnlyConnect(strYstNum);
+				
+				if (Consts.BAD_HAS_CONNECTED == conn_ret) {
 					try {
 						Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
-						Thread.sleep(2000);
+						Thread.sleep(1500);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					try_cnt--;
-				} else {
+					tag = Consts.BAD_HAS_CONNECTED;
+					try_cnt--;					
+				} else if (Consts.BAD_CONN_OVERFLOW == conn_ret) {
+//					handler.sendMessage(handler.obtainMessage(
+//							Consts.WHAT_PLAY_STATUS, Consts.ONLY_CONNECT_INDEX,
+//							Consts.ARG2_STATUS_CONN_OVERFLOW));
+					tag = Consts.ARG2_STATUS_CONN_OVERFLOW;
+					myHandler.sendEmptyMessage(tag);
 					break;
-				}
+				}else if (-99 == conn_ret) { 
+					tag = -99;
+					myHandler.sendEmptyMessage(tag);
+				}else {
+//					handler.sendMessage(handler.obtainMessage(
+//							Consts.WHAT_PLAY_STATUS, Consts.ONLY_CONNECT_INDEX,
+//							Consts.ARG2_STATUS_CONNECTING));
+					MyLog.e("New Alarm", "调用connect返回成功");
+					break;
+				}				
+
 			} while (try_cnt > 0);
 			if (try_cnt == 0) {
 				myHandler.sendEmptyMessageDelayed(tag, 1000);
@@ -844,6 +936,18 @@ public class CustomDialogActivity extends BaseActivity implements
 			// TODO Auto-generated method stub
 			storageJson = DeviceUtil.getDevCloudStorageInfo(ystGuid_,
 					channelNo_);
+			JSONObject storageObject = null;
+			try {
+				storageObject = new JSONObject(storageJson);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			int ret = storageObject.optInt("rt", -1);
+			if(ret == 0){
+				try_get_cloud_param_cnt = 0;
+			}
+						
 			myHandler.sendEmptyMessage(0x01);
 		}
 

@@ -500,4 +500,16 @@ public class JVDeviceConst {
 	public static final String JK_PUB_TIME = "ptime";
 	public static final String JK_PUB_INFO = "pinfo";
 	public static final String JK_PUB_LIST = "plist";
+
+	/** 自动更新 */
+	public static final String JK_APP_CURRENT_VERSION = "crtver";
+	public static final String JK_APP_VERSION = "appver";
+	public static final String JK_APP_VERSION_FULL = "appfullver";
+	public static final String JK_APP_VERSION_URL = "appverurl";
+	public static final String JK_APP_VERSION_DESC = "appverdesc";
+	public static final String JK_APP_CLIENT_TYPE = "appclit";
+
+	public static final int SOFT_UPDATE_PRO = 4;
+	public static final int SOFT_UPDATE_REQUEST = 5000;
+	public static final int SOFT_UPDATE_RESPONSE = 5001;
 }

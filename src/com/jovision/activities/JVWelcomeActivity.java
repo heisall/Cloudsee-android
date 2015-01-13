@@ -159,12 +159,6 @@ public class JVWelcomeActivity extends BaseActivity {
 		// cloudseeLayout.setVisibility(View.GONE);
 		// neturalLayout.setVisibility(View.VISIBLE);
 		// }
-
-		if (!ConfigUtil.isConnected(JVWelcomeActivity.this)) {
-			alertNetDialog();
-		} else {
-			ConfigUtil.is3G(JVWelcomeActivity.this, true);
-		}
 	}
 
 	@Override

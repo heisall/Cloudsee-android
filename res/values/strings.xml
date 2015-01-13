@@ -365,6 +365,7 @@
     <string name="network_error">Network connection exception,please check the network.</string>
     <string name="tips_3g">You are using the 3G/4G network now.It shall cause a lot mobile data fee if you continute to view the video.You are suggested to use Wi-Fi network.</string>
     <string name="waiting">Waiting…</string>
+    <string name="new_tag">NEW</string>
     <string name="pressback_exit">Press again to quit the App.</string>
     <!-- 2.3系统视频播放提示 -->
     <string name="system_lower">Your mobile phone O/S is Android$,The video maybe dazzling during playing, please download V2.8.5,Please uninstall the current version before installation,do you want to download now?</string>
@@ -403,6 +404,7 @@
     <string name="wifi_device">Wireless Device</string>
     <string name="line_device">Wired Device</string>
     <string name="selectone_to_connect">Please choose at least one channel to connect.</string>
+    <string name="no_channel_error">通道加载失败，建议手动刷新</string>
     <string name="add_broad_dev">Broadcasting to ! devices,do you want to add?</string>
     <string name="broad_zero">Unable to broadcast device.</string>
     <string name="get_device_failed">Device loaded failed</string>
@@ -564,6 +566,7 @@
     <string name="prepare_step">Preparating</string>
     <string name="check_step">View operation demo</string>
     <string name="prepare_set">Preparing configuration</string>
+    <string name="prepare_step1">请用顶针轻插设备背后的reset孔，\n听到“开始声波配置”提示音后松开顶针。</string>
     <string name="prepare_step1">Please press the reset button , then release the button after hearing the voice guide.</string>
     <string name="prepare_step2">Please input password of the network.</string>
     <string name="prepare_step3">View operation demo</string>
@@ -571,7 +574,7 @@
     <string name="search_list">Search list</string>
     <string name="prepare_step4">Click to send sound-wave</string>
     <string name="prepare_step5">Please put the phone near device,click sound-wave sending button,configure the device.</string>
-   <string name="prepare_step6">(The device does not support 5G Wi-Fi)</string>
+    <string name="prepare_step6">(The device does not support 5G Wi-Fi)</string>
     <string name="wave_add_dev">Make sure to add device</string>
     <!-- 包含云视通敏感词汇 -->
     <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
@@ -670,6 +673,7 @@
     <string name="str_mdenabled_close_failed">The motion detecting close failed</string>
     <string name="str_illegal_dev_nick">The nick name is illegal</string>
     <string name="str_cloud_file_error_1">The file is uploading or failure</string>
+    <string name="str_cloud_file_error_2">此通道没有云存储信息</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="census_login">本地登录</string>
     <string name="census_onlinelogin">在线登录</string>

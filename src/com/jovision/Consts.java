@@ -178,6 +178,7 @@ public class Consts {
 	public static final int BAD_STATUS_FFMPEG = 0x05;
 	public static final int BAD_STATUS_LEGACY = 0x06;
 	public static final int PLAYBACK_DONE = 0x10;
+	public static final int VIDEO_SIZE_CHANGED = 0x11;
 
 	public static final int BAD_SCREENSHOT_NOOP = 0x00;//
 	public static final int BAD_SCREENSHOT_INIT = 0x01;//
@@ -493,6 +494,9 @@ public class Consts {
 
 	/** 系统消息加载-刷新成功 */
 	public static final int WHAT_SYSTEMINFO_REFRESH_SUCC = 0x60;
+
+	/** 设备列表通道加载失败 */
+	public static final int WHAT_MYDEVICE_POINT_FAILED = 0x61;
 
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像

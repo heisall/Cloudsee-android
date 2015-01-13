@@ -1,12 +1,9 @@
 package com.jovision.activities;
 
-import javax.security.auth.PrivateCredentialPermission;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -110,31 +107,35 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
 			break;
 		}
 	}
-	private void timeComputruer(String startTime,String endTime) {
+
+	private void timeComputruer(String startTime, String endTime) {
 		String start[] = startTime.split(":");
 		String end[] = endTime.split(":");
 		for (int i = 0; i < end.length; i++) {
-			if ((Integer.valueOf(start[0]))>(Integer.valueOf(end[0]))){
+			if ((Integer.valueOf(start[0])) > (Integer.valueOf(end[0]))) {
 				showTextToast(getActivity(), R.string.str_computre_time1);
-			}else if ((Integer.valueOf(start[0])) == (Integer.valueOf(end[0]))) {
-				if ((Integer.valueOf(start[1]))>(Integer.valueOf(end[1]))) {
+			} else if ((Integer.valueOf(start[0])) == (Integer.valueOf(end[0]))) {
+				if ((Integer.valueOf(start[1])) > (Integer.valueOf(end[1]))) {
 					showTextToast(getActivity(), R.string.str_computre_time1);
-				}else if((Integer.valueOf(start[1]))<(Integer.valueOf(end[1]))){
+				} else if ((Integer.valueOf(start[1])) < (Integer
+						.valueOf(end[1]))) {
 					mListener.OnAlarmTimeSaved(startTime, endTime);
-				}else {
+				} else {
 					showTextToast(getActivity(), R.string.str_computre_time3);
 				}
-			}else {
+			} else {
 				mListener.OnAlarmTimeSaved(startTime, endTime);
 			}
 		}
 	}
+
 	@Override
 	public void onMainAction(int packet_type, int packet_subtype, int ex_type,
 			int destFlag) {
 		// TODO Auto-generated method stub
 		mListener.OnAlarmTimeSavedResult(0);
 	}
+
 	/**
 	 * 弹系统消息
 	 * 

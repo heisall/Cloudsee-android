@@ -365,6 +365,7 @@
     <string name="network_error">網路連接不可用,是否進行設置?</string>
     <string name="tips_3g">目前處於2G/3G網路，觀看視頻會產生大量流量費用（由運營商收取），建議使用Wi-Fi網路.</string>
     <string name="waiting">請稍等…</string>
+    <string name="new_tag">新</string>
     <string name="pressback_exit">再按一次退出程式</string>
     <!-- 2.3系統視頻播放提示 -->
     <string name="system_lower">您的手機系統是Android$,視頻播放時有可能出現花屏，為達到最佳播放效果，建議下載2.8.5版本，安裝前請先卸載當前版本，是否立即下載?</string>
@@ -403,6 +404,7 @@
     <string name="wifi_device">無線設備</string>
     <string name="line_device">有線設備</string>
     <string name="selectone_to_connect">請選擇至少一個通道進行連接</string>
+    <string name="no_channel_error">通道加載失敗，建議手動刷新</string>
     <string name="add_broad_dev">搜索到!個設備，是否立即添加?</string>
     <string name="broad_zero">未搜索到設備.</string>
     <string name="get_device_failed">設備加載失敗</string>
@@ -564,14 +566,14 @@
     <string name="prepare_step">準備步驟</string>
     <string name="check_step">查看演示說明</string>
     <string name="prepare_set">準備配置</string>
-    <string name="prepare_step1">請用頂針輕插設備背後的reset孔，聽到“開始聲波配置”語音提示後松開頂針。</string>
+    <string name="prepare_step1">請用頂針輕插設備背後的reset孔，聽到“開始聲波配置”提示音後松開頂針。</string>
     <string name="prepare_step2">請輸入攝像頭要連接的無線網路密碼</string>
     <string name="prepare_step3">觀看操作演示</string>
     <string name="show_demo">操作演示</string>
     <string name="search_list">搜索列表</string>
     <string name="prepare_step4">點擊發送聲波</string>
     <string name="prepare_step5">請將手機靠近設備，點擊聲波發送按鈕，\n配置設備</string>
-     <string name="prepare_step6">(攝像機暫不支持連接5G Wi-Fi)</string>
+    <string name="prepare_step6">(攝像機暫不支持連接5G Wi-Fi)</string>
     <string name="wave_add_dev">確定添加設備</string>
     <!-- 包含雲視通敏感辭彙 -->
     <string name="str_help9">切換功能變數名稱/IP直連和雲視通連接模式</string>
@@ -659,8 +661,8 @@
     <string name="str_protected_time">防護時間段</string>
     <string name="str_getdev_params_timeout">獲取設備參數超時</string>
     <string name="str_setdev_params_timeout">設置設備參數超時</string>
-      <string name="str_computre_time1"> 結束時間不能小於開始時間</string>
-     <string name="str_computre_time3"> 開始時間不能等於結束時間</string>
+    <string name="str_computre_time1"> 結束時間不能小於開始時間</string>
+    <string name="str_computre_time3"> 開始時間不能等於結束時間</string>
     <string name="str_setting_time">設置時間</string>
     <string name="str_disconnect_resp_timeout">斷開連接超時</string>
     <string name="str_operation_failed">操作不成功</string>
@@ -670,6 +672,7 @@
     <string name="str_mdenabled_close_failed">移動偵測關閉失敗</string>
     <string name="str_illegal_dev_nick">輸入的昵稱不合法</string>
     <string name="str_cloud_file_error_1">文件未上傳完畢或上傳失敗</string>
+    <string name="str_cloud_file_error_2">此通道没有云存储信息</string>
     <!-- 騰訊雲分析統計名稱 不用翻譯 -->
     <string name="census_login">本地登錄</string>
     <string name="census_onlinelogin">線上登錄</string>

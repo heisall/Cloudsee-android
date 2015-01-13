@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.views.GuidViewPager;
 
@@ -104,6 +105,7 @@ public class JVGuideActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
+		BitmapCache.getInstance().clearCache();
 
 	}
 

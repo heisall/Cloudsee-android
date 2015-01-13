@@ -117,7 +117,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 		dialog.show();
 		myHandler = new MyHandler();
 		if (!bConnectFlag) {
-			if (!AlarmUtil.OnlyConnect(strYstNum)) {
+			if (!AlarmUtil.OnlyConnect2(strYstNum)) {
 				showTextToast(R.string.str_alarm_connect_failed_1);
 				dialog.dismiss();
 				finish();

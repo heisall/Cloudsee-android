@@ -13,6 +13,28 @@
         android:padding="4dp"
         android:src="@drawable/mydevice_devicenormal_icon" />
 
+    <RelativeLayout
+        android:id="@+id/tab_info"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_alignRight="@+id/tab_icon" >
+
+        <ImageView
+            android:id="@+id/tab_info_img"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/morefragment_new" />
+
+        <TextView
+            android:id="@+id/tab_info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="2dp"
+            android:textColor="@color/white"
+            android:textSize="9sp" />
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/tab_title"
         android:layout_width="wrap_content"
@@ -20,6 +42,6 @@
         android:layout_below="@+id/tab_icon"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="2dp"
-        android:textSize="11dp" />
+        android:textSize="11sp" />
 
 </RelativeLayout>

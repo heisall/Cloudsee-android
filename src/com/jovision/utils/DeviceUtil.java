@@ -12,6 +12,7 @@ import android.util.Log;
 import com.jovision.Consts;
 import com.jovision.bean.AD;
 import com.jovision.bean.APPImage;
+import com.jovision.bean.AppVersion;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.bean.OneKeyUpdate;
@@ -2717,5 +2718,78 @@ public class DeviceUtil {
 			}
 		}
 		return resJson;
+	}
+
+	/**
+	 * 软件检查更新
+	 * 
+	 * @param currentVersion
+	 * @param product
+	 * @param language
+	 * @param platform
+	 * @return
+	 */
+	public static int checkSoftWareUpdate(int currentVersion, int product,
+			int language, int platform, AppVersion appVersion) {
+		int rt = -1;
+		// {"mid":58,"mt":5208,"pv":"1.0","lpt":13,"sid":"sidtest","dguid":"S224350962","dcn":1}
+		JSONObject reqJson = new JSONObject();
+		String resJson = "";
+		try {
+			reqJson.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.SOFT_UPDATE_REQUEST);// 消息类型
+			reqJson.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);
+			reqJson.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.SOFT_UPDATE_PRO);// 逻辑进程编号，自动更新为4
+			reqJson.put(JVDeviceConst.JK_APP_CURRENT_VERSION, currentVersion);// 当前VersionCode
+			reqJson.put(JVDeviceConst.JK_PRODUCT_TYPE, product);// 产品类型
+			reqJson.put(JVDeviceConst.JK_LANGUAGE_TYPE, language);// 语言类型
+			reqJson.put(JVDeviceConst.JK_APP_CLIENT_TYPE, platform);// 1:android
+																	// 2:ios
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		MyLog.e("checkSoftWareUpdate---request", reqJson.toString());
+
+		byte[] resultStr = new byte[1024 * 10];
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				reqJson.toString(), resultStr);
+		// {"mt":5001,"rt":0,"mid":14,"cfd":62,"cfdid":581,"appver":88,"appfullver":"V4.5.9",
+		// "appverurl":"http://www.baidu.com","appverdesc":"升级信息"}
+
+		// 执行结果说明
+		// rt==0说明需要升级 19不需要升级 其他值是吧
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("checkSoftWareUpdate---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+						if (0 == rt) {// // rt==0说明需要升级 18不需要升级 其他值是吧
+							appVersion
+									.setVersionName(temObj
+											.optString(JVDeviceConst.JK_APP_VERSION_FULL));
+							appVersion.setVersionCode(temObj
+									.optInt(JVDeviceConst.JK_APP_VERSION));
+							appVersion
+									.setVersionInfo(temObj
+											.optString(JVDeviceConst.JK_APP_VERSION_DESC));
+							appVersion
+									.setDownloadUrl(temObj
+											.optString(JVDeviceConst.JK_APP_VERSION_URL));
+						}
+
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return rt;
 	}
 }

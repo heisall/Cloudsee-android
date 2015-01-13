@@ -31,7 +31,7 @@ public class FragmentAdapter extends BaseAdapter {
 	private RelativeLayout more_relative;
 	private FrameLayout more_item;
 	private ImageView divider_img;
-	private ImageView item_new;
+	private RelativeLayout item_new;
 
 	public FragmentAdapter(BaseFragment mfragment,
 			ArrayList<MoreFragmentBean> dataList) {
@@ -60,7 +60,8 @@ public class FragmentAdapter extends BaseAdapter {
 				R.layout.fragment_more_item, null);
 		more_relative = (RelativeLayout) convertView
 				.findViewById(R.id.more_relative);
-		item_new = (ImageView) convertView.findViewById(R.id.item_new);
+		item_new = (RelativeLayout) convertView
+				.findViewById(R.id.item_new_layout);
 		more_item = (FrameLayout) convertView.findViewById(R.id.item);
 		divider_img = (ImageView) convertView.findViewById(R.id.divider_img);
 		item_img = (ImageView) convertView.findViewById(R.id.item_img);

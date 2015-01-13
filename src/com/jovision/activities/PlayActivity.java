@@ -74,7 +74,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	protected ImageView ht_fight;// 闪光灯
 	protected TextView currentMenu;// 当前标题
 	protected ImageView selectScreenNum;// 下拉选择当前分屏数按钮
-	protected PopupWindow streamPopWindow;// 选择框
+	protected PopupWindow screenPopWindow;// 选择框
 	protected ScreenAdapter screenAdapter;
 	protected ListView screenListView;
 	protected ArrayList<Integer> screenList = new ArrayList<Integer>();// 分屏下拉选择列表
@@ -600,8 +600,7 @@ public abstract class PlayActivity extends BaseActivity implements
 				surfaceHeight = (int) (0.75 * disMetrics.widthPixels);
 			}
 		} else {// 横
-			streamPopWindow.dismiss();
-			streamListView.setVisibility(View.GONE);
+			closePopWindow();
 			if (!MySharedPreference.getBoolean("playhelp2")) {
 				horPlayHelp.setVisibility(View.VISIBLE);
 				horViewPager.setCurrentItem(0);
@@ -1280,6 +1279,19 @@ public abstract class PlayActivity extends BaseActivity implements
 		}
 		tapeSelected(false);
 		return res;
+	}
+
+	/**
+	 * 关掉提示框选择列表框
+	 */
+	protected void closePopWindow() {
+		if (null != streamListView
+				&& View.VISIBLE == streamListView.getVisibility()) {
+			streamListView.setVisibility(View.GONE);
+		}
+		if (null != screenPopWindow && screenPopWindow.isShowing()) {
+			screenPopWindow.dismiss();
+		}
 	}
 
 	// protected void init() {

@@ -79,6 +79,8 @@ public class JVTabActivity extends ShakeActivity implements
 
 	private ImageView local_gone;
 
+	JVFragmentIndicator mIndicator;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -204,6 +206,15 @@ public class JVTabActivity extends ShakeActivity implements
 	protected void onResume() {
 		super.onResume();
 		MyLog.v(TAG, "onResume----E");
+		if (null != mIndicator) {
+			boolean show = false;
+			if (!MySharedPreference.getBoolean("VideoSquer")
+					|| !MySharedPreference.getBoolean("SystemMessage")) {
+				show = true;
+			}
+			mIndicator.updateIndicator(3, 0, show);
+		}
+
 		Intent intent = getIntent();
 		int index = intent.getIntExtra("tabIndex", -1);
 
@@ -328,7 +339,7 @@ public class JVTabActivity extends ShakeActivity implements
 		local_gone = (ImageView) findViewById(R.id.local_gone);
 		viewpager = (ViewPager) findViewById(R.id.tab_viewpager);
 		viewpager.setOnPageChangeListener(JVTabActivity.this);
-		JVFragmentIndicator mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
+		mIndicator = (JVFragmentIndicator) findViewById(R.id.indicator);
 		JVFragmentIndicator.setIndicator(currentIndex);
 
 		Boolean local = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));

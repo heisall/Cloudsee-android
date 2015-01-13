@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="@color/picturetransparent"
-    >
+    android:layout_height="match_parent"
+    android:background="@color/picturetransparent" >
 
     <RelativeLayout
         android:id="@+id/pop_outside"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        >
+        android:layout_height="match_parent" >
 
         <LinearLayout
-           
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -20,27 +17,22 @@
             android:orientation="vertical" >
 
             <TextView
-               
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
                 android:layout_marginRight="20dip"
                 android:layout_marginTop="20dip"
-              
                 android:textStyle="bold" />
 
             <TextView
-              
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
                 android:layout_marginRight="20dip"
                 android:layout_marginTop="5dip"
-              
                 android:textStyle="bold" />
 
             <TextView
-               
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dip"
@@ -48,91 +40,90 @@
                 android:layout_marginRight="20dip"
                 android:layout_marginTop="15dip"
                 android:text="@string/cancel"
-                android:textColor="@color/black"
-                 />
+                android:textColor="@color/black" />
         </LinearLayout>
-        
-        <LinearLayout
-         android:id="@+id/pop_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:background="@color/transparent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/choice_layout"
+            android:id="@+id/pop_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_alarm_dialog_bg"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:background="@color/transparent"
             android:gravity="center_horizontal"
             android:orientation="vertical" >
 
-            <RelativeLayout
-                android:id="@+id/btn_take_photo"
+            <LinearLayout
+                android:id="@+id/choice_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_alarm_dialog_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/btn_take_photo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp" >
+
+                    <TextView
+                        android:id="@+id/tv_mail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/pop_take"
+                        android:textColor="@color/mapblue"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgray" />
+
+                <RelativeLayout
+                    android:id="@+id/btn_pick_photo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp" >
+
+                    <TextView
+                        android:id="@+id/tv_phone_verify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/pop_pictrue"
+                        android:textColor="@color/mapblue"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/btn_cancel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/shape_alarm_dialog_bg"
                 android:clickable="true"
                 android:paddingBottom="6dp"
                 android:paddingTop="6dp" >
 
                 <TextView
-                    android:id="@+id/tv_mail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                      android:text="@string/pop_take"
-                    android:textColor="@color/mapblue"
-                    android:textSize="18sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/lightgray" />
-
-            <RelativeLayout
-                  android:id="@+id/btn_pick_photo"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:paddingBottom="6dp"
-                android:paddingTop="6dp" >
-
-                <TextView
-                    android:id="@+id/tv_phone_verify"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/pop_pictrue"
+                    android:text="@string/cancel"
                     android:textColor="@color/mapblue"
                     android:textSize="18sp" />
             </RelativeLayout>
         </LinearLayout>
-
-        <RelativeLayout
-             android:id="@+id/btn_cancel"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/shape_alarm_dialog_bg"
-            android:clickable="true"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-               android:text="@string/cancel"
-                android:textColor="@color/mapblue"
-                android:textSize="18sp" />
-        </RelativeLayout>
-    </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

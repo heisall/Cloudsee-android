@@ -1794,7 +1794,7 @@ public class DeviceUtil {
 		MyLog.v("getSystemInfoList---request", jObj.toString());
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 3];
+		byte[] resultStr = new byte[1024 * 5];
 		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
 
@@ -2795,4 +2795,24 @@ public class DeviceUtil {
 		}
 		return rt;
 	}
+	
+	public static int getDeivceIndex(String strYstNum) {
+		if(null == strYstNum || strYstNum.equals("")){
+			return -1;
+		}
+		Device devs = null;
+		boolean bfind = false;
+		for (int j = 0; j < CacheUtil.getDevList().size(); j++) {
+			devs = CacheUtil.getDevList().get(j);
+			MyLog.v("Device",
+					"dst:" + strYstNum + "---yst-num = " + devs.getFullNo());
+			if (strYstNum.equalsIgnoreCase(devs.getFullNo())) {
+				bfind = true;
+				MyLog.v("New Alarm Dialog", "find dev num " + strYstNum
+						+ ", index:" + j);
+				return j;
+			}
+		}
+		return -1;
+	}	
 }

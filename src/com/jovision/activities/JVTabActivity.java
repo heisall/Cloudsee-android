@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
+import com.jovision.MainApplication;
 import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
 import com.jovision.adapters.MyPagerAdp;
 import com.jovision.bean.Device;
@@ -80,7 +81,7 @@ public class JVTabActivity extends ShakeActivity implements
 	private ImageView local_gone;
 
 	JVFragmentIndicator mIndicator;
-
+	private MainApplication mApp;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,6 +93,7 @@ public class JVTabActivity extends ShakeActivity implements
 		// finish();
 		// }
 		MyLog.v(TAG, "onCreate----E");
+		mApp = (MainApplication)getApplication();
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
@@ -137,7 +139,14 @@ public class JVTabActivity extends ShakeActivity implements
 	protected void onStart() {
 		super.onStart();
 	}
-
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+//		int cnt = mApp.getNewPushCnt();
+		MyLog.e(TAG, "onDestroy,invoke~~~~~ ");
+		mApp.setNewPushCnt(0);
+		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, 0);
+	}
 	private void getPic() {
 		flag = 0;
 		pics = new ArrayList<View>();
@@ -231,6 +240,23 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 
 		}
+		if(currentIndex == 1){
+			int cnt = mApp.getNewPushCnt();
+			if(cnt > 0){
+				mApp.setNewPushCnt(0);
+				mIndicator.updateIndicator(1, 0, false);
+			}			
+		}
+		else{
+			int cnt = mApp.getNewPushCnt();
+			if(cnt > 0){
+				mIndicator.updateIndicator(1, cnt, true);
+			}
+			else{
+				mIndicator.updateIndicator(1, 0, false);
+			}
+		}
+
 		MyLog.v(TAG, "onResume----X");
 	}
 
@@ -311,6 +337,27 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 			break;
 		}
+		case Consts.NEW_PUSH_MSG_TAG:{
+				if(currentIndex == 1)//在信息列表界面
+				{
+					mApp.setNewPushCnt(0);	
+					mIndicator.updateIndicator(1, 0, false);
+				}
+				else{
+					boolean show = false;
+					int cnt = mApp.getNewPushCnt();
+					if(cnt > 0){
+						show = true;
+					}
+					mIndicator.updateIndicator(1, cnt, show);
+				}
+				BaseFragment currentFrag = mFragments[currentIndex];
+				if (null != currentFrag) {
+					((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
+							obj);
+				}					
+			}
+			break;
 		default:
 			BaseFragment currentFrag = mFragments[currentIndex];
 			if (null != currentFrag) {
@@ -400,6 +447,13 @@ public class JVTabActivity extends ShakeActivity implements
 								MySharedPreference.putBoolean("page2", false);
 								page2 = true;
 							}
+						}
+						break;
+					case 1:
+						int cnt = mApp.getNewPushCnt();
+						if(cnt > 0){
+							mApp.setNewPushCnt(0);
+							mIndicator.updateIndicator(1, 0, false);
 						}
 						break;
 					case 2:

@@ -669,7 +669,7 @@
     <string name="str_mdenabled_open_failed">移动侦测打开失败</string>
     <string name="str_mdenabled_close_ok">移动侦测关闭成功</string>
     <string name="str_mdenabled_close_failed">移动侦测关闭失败</string>
-    <string name="str_illegal_dev_nick">输入的昵称不合法</string>
+    <string name="str_illegal_dev_nick">输入的昵称不合法,限于字母、数字、汉字及特殊字符-_+()</string>
     <string name="str_cloud_file_error_1">文件未上传完毕或上传失败</string>
     <string name="str_cloud_file_error_2">此通道没有云存储信息</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->

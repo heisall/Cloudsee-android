@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -48,9 +49,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private int mdEnabling = -1;
 	private int window = 0;
 	private OnMainListener mainListener;
-	private Button backBtn;
-	private Button rightBtn;
-	public TextView titleTv;
 	private JSONObject initDevParamObject;
 	private MyHandler myHandler;
 	private String startTimeSaved, endTimeSaved;
@@ -124,12 +122,14 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	}
 
 	private void InitViews() {
-		backBtn = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
-		titleTv = (TextView) findViewById(R.id.currentmenu);
-		backBtn.setOnClickListener(this);
-		titleTv.setText(R.string.str_audio_monitor);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		leftBtn.setOnClickListener(this);
+		currentMenu.setText(R.string.str_audio_monitor);
 
 		ResolveStreamInfo(streamMap);
 	}
@@ -491,7 +491,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			}
 			break;
 		case Consts.DEV_SETTINGS_ALARMTIME:// 防护时间段
-			titleTv.setText(R.string.str_protected_time);
+			currentMenu.setText(R.string.str_protected_time);
 			DevSettingsAlarmTimeFragment alarmTimeFragment = new DevSettingsAlarmTimeFragment();
 			FragmentTransaction transaction = getSupportFragmentManager()
 					.beginTransaction();
@@ -565,7 +565,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				finish();
 				break;
 			case 1:
-				titleTv.setText(R.string.str_audio_monitor);
+				currentMenu.setText(R.string.str_audio_monitor);
 				// onBackPressed();
 				deviceSettingsMainFragment = new DeviceSettingsMainFragment();
 				Bundle bundle1 = new Bundle();
@@ -597,7 +597,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				finish();
 				break;
 			case 1:
-				titleTv.setText(R.string.str_audio_monitor);
+				currentMenu.setText(R.string.str_audio_monitor);
 				// onBackPressed();
 				deviceSettingsMainFragment = new DeviceSettingsMainFragment();
 				Bundle bundle1 = new Bundle();

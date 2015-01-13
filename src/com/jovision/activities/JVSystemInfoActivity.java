@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -23,10 +24,6 @@ public class JVSystemInfoActivity extends BaseActivity implements
 		IXListViewListener {
 	private static final String TAG = "JVSystemInfoActivity";
 	private static final int PAGECOUNT = 5;// 每次一页加载多少条
-
-	private Button back;// 左侧返回按钮
-	private Button rightButton;
-	private TextView currentMenu;// 当前页面名称
 
 	private SystemInfoAdapter infoAdapter;
 	private XListView infoListView;
@@ -58,12 +55,13 @@ public class JVSystemInfoActivity extends BaseActivity implements
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.systeminfo_layout);
-		back = (Button) findViewById(R.id.btn_left);
-		rightButton = (Button) findViewById(R.id.btn_right);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.system_info);
-		rightButton.setVisibility(View.GONE);
-		back.setOnClickListener(myOnClickListener);
+		rightBtn.setVisibility(View.GONE);
+		leftBtn.setOnClickListener(myOnClickListener);
 
 		infoListView = (XListView) findViewById(R.id.infolistview);
 		noMessLayout = (LinearLayout) findViewById(R.id.noinfolayout);

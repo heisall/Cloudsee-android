@@ -16,15 +16,13 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 
 public class ResetPwdInputAccountActivity extends BaseActivity implements
 		OnClickListener {
-	private Button backBtn;
-	private Button rightBtn;
-	public TextView titleTv;
 	private EditText edtAccount;
 	private Button nextButton;
 	private String strAccount;
@@ -40,16 +38,17 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 	}
 
 	private void initViews() {
-		backBtn = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
-		titleTv = (TextView) findViewById(R.id.currentmenu);
-		backBtn.setOnClickListener(this);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		leftBtn.setOnClickListener(this);
 		edtAccount = (EditText) findViewById(R.id.edt_account);
 		edtAccount.addTextChangedListener(new EditChangedListener());
 		nextButton = (Button) findViewById(R.id.btn_next);
 		nextButton.setOnClickListener(this);
-		titleTv.setText(R.string.reset_passwd_title1);
+		currentMenu.setText(R.string.reset_passwd_title1);
 		tipTv = (TextView) findViewById(R.id.tv_check_user_name_tips);
 		tipTv.setVisibility(View.INVISIBLE);
 

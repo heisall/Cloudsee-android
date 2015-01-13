@@ -269,7 +269,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		super.initUi();
 
 		selectScreenNum.setVisibility(View.GONE);
-		rightFuncButton.setVisibility(View.GONE);
+		rightBtn.setVisibility(View.GONE);
 		playHelp.setVisibility(View.GONE);
 		/** 中 */
 		viewPager.setVisibility(View.GONE);
@@ -288,7 +288,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		linkState.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
 		loading.setVisibility(View.VISIBLE);// 加载进度
 
-		back.setOnClickListener(myOnClickListener);
+		leftBtn.setOnClickListener(myOnClickListener);
 		playBackPause.setOnClickListener(myOnClickListener);
 		voiceListener.setVisibility(View.VISIBLE);
 		voiceListener.setOnClickListener(myOnClickListener);

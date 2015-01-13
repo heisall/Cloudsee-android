@@ -205,6 +205,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		try {
 			if (res == 0) {// 保持在线成功
 				errorCount = 0;
+//				if (null != currentNotifyer) {
+//					currentNotifyer.onNotify(Consts.ALARM_NET_WEEK, 0,0, null);
+//				}
 			} else {// 保持在线失败
 				errorCount++;
 				if (4 == errorCount) {// 失败4次
@@ -443,6 +446,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				startActivity(intent);
 			} else if (JVAccountConst.PTCP_ERROR == res) {// TCP错误
 				JVACCOUNT.StopHeartBeat();// 先停止心跳
+//				if (null != currentNotifyer) {
+//					currentNotifyer.onNotify(Consts.ALARM_NET, 0,0, null);
+//				}
 				Intent intent = new Intent(getApplicationContext(),
 						JVOffLineDialogActivity.class);
 				intent.putExtra("ErrorCode", JVAccountConst.PTCP_ERROR);
@@ -450,6 +456,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				startActivity(intent);
 			} else if (JVAccountConst.PTCP_CLOSED == res) {// TCP关闭
 				JVACCOUNT.StopHeartBeat();// 先停止心跳
+//				if (null != currentNotifyer) {
+//					currentNotifyer.onNotify(Consts.ALARM_NET, 0,0, null);
+//				}
 				Intent intent = new Intent(getApplicationContext(),
 						JVOffLineDialogActivity.class);
 				intent.putExtra("ErrorCode", JVAccountConst.PTCP_CLOSED);

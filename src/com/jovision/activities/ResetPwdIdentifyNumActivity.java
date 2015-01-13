@@ -28,6 +28,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
@@ -51,9 +52,6 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	// 国家号码规则
 	private HashMap<String, String> countryRules;
 
-	private Button backBtn;
-	private Button rightBtn;
-	public TextView titleTv;
 	private EditText edtIdentifyNum;
 	private Button nextButton;
 	private String strAccount, strPhone, formatedPhone;
@@ -214,17 +212,18 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 	}
 
 	private void initViews() {
-		backBtn = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		rightBtn.setVisibility(View.GONE);
-		titleTv = (TextView) findViewById(R.id.currentmenu);
-		backBtn.setOnClickListener(this);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		leftBtn.setOnClickListener(this);
 		edtIdentifyNum = (EditText) findViewById(R.id.edt_verification_code);
 		edtIdentifyNum.addTextChangedListener(this);
 		nextButton = (Button) findViewById(R.id.btn_next);
 		nextButton.setOnClickListener(this);
 		nextButton.setEnabled(false);
-		titleTv.setText(R.string.reset_passwd_tips6);
+		currentMenu.setText(R.string.reset_passwd_tips6);
 		tvGetNum = (TextView) findViewById(R.id.tv_sms_tips);
 		tvPhoneNum = (TextView) findViewById(R.id.tv_phone_code);
 		tvPhoneNum.setText("+" + currentCode + "  ");

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -30,9 +31,6 @@ import com.jovision.views.AlarmDialog;
 
 public class JVFeedbackActivity extends BaseActivity {
 
-	private Button back; // 后退
-	private TextView title; // 标题
-	private Button commit; // 提交按钮
 	private EditText content; // 意见反馈内容
 	private TextView wordsNum; // 文字数量统计
 
@@ -86,13 +84,14 @@ public class JVFeedbackActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.feedback_layout);
-		back = (Button) findViewById(R.id.btn_left);
-		title = (TextView) findViewById(R.id.currentmenu);
-		commit = (Button) findViewById(R.id.btn_right);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		rightBtn = (Button) findViewById(R.id.btn_right);
 		content = (EditText) findViewById(R.id.content);
 		wordsNum = (TextView) findViewById(R.id.wordsnum);
-		back.setVisibility(View.VISIBLE);
-		commit.setVisibility(View.VISIBLE);
+		leftBtn.setVisibility(View.VISIBLE);
+		rightBtn.setVisibility(View.VISIBLE);
 
 		// back.setTextColor(Color.WHITE);
 		// back.setBackgroundDrawable(getResources().getDrawable(
@@ -104,7 +103,7 @@ public class JVFeedbackActivity extends BaseActivity {
 
 		// commit.setTextColor(getResources().getColor(R.color.white));
 		// back.setText(getResources().getString(R.string.cancel));
-		commit.setText(getResources().getString(R.string.commit));
+		rightBtn.setText(getResources().getString(R.string.commit));
 
 		connection = (EditText) findViewById(R.id.connectway);
 
@@ -112,9 +111,9 @@ public class JVFeedbackActivity extends BaseActivity {
 		// R.drawable.send_btn_selector_1));
 		// commit.setBackgroundDrawable(getResources().getDrawable(
 		// R.drawable.send_btn_selector_2));
-		title.setText(getResources().getString(R.string.str_idea_and_feedback));
-		back.setOnClickListener(myOnClickListener);
-		commit.setOnClickListener(myOnClickListener);
+		currentMenu.setText(getResources().getString(R.string.str_idea_and_feedback));
+		leftBtn.setOnClickListener(myOnClickListener);
+		rightBtn.setOnClickListener(myOnClickListener);
 		wordsNum.setOnClickListener(myOnClickListener);
 		content.addTextChangedListener(new TextWatcher() {
 			private CharSequence temp;

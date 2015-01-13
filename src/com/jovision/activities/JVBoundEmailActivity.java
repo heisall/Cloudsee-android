@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -20,12 +21,9 @@ import com.jovision.utils.UserUtil;
 
 public class JVBoundEmailActivity extends BaseActivity {
 	/** topBar */
-	private Button back;
-	private Button skip;
 	private Button finish;
 
 	private EditText userEmailEditText;
-	private TextView currentMenu;
 
 	String userName;
 	String userPass;
@@ -69,19 +67,20 @@ public class JVBoundEmailActivity extends BaseActivity {
 		setContentView(R.layout.bound_email_layout);
 		userEmailEditText = (EditText) findViewById(R.id.registmail);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		back = (Button) findViewById(R.id.btn_left);
-		back.setVisibility(View.GONE);
-		skip = (Button) findViewById(R.id.btn_right);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		leftBtn.setVisibility(View.GONE);
+		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setVisibility(View.VISIBLE);
-		skip.setVisibility(View.VISIBLE);
-		skip.setBackgroundDrawable(getResources().getDrawable(
+		rightBtn.setVisibility(View.VISIBLE);
+		rightBtn.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.setting_save));
-		skip.setText(getResources().getString(R.string.str_skip));
-		skip.setTextColor(Color.WHITE);
+		rightBtn.setText(getResources().getString(R.string.str_skip));
+		rightBtn.setTextColor(Color.WHITE);
 		currentMenu.setText(getResources().getString(R.string.str_bound_email));
 
 		finish = (Button) findViewById(R.id.finish);
-		skip.setOnClickListener(onClickListener);
+		rightBtn.setOnClickListener(onClickListener);
 		finish.setOnClickListener(onClickListener);
 	}
 

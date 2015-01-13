@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
@@ -50,9 +51,6 @@ public class JVIpconnectActivity extends BaseActivity {
 	// 更改形式的标志位
 	private boolean isTurn = false;
 	// 返回按钮
-	private Button back;
-	// 添加按钮
-	private Button plus_btu;
 
 	private TextView cloud_number;
 
@@ -61,8 +59,6 @@ public class JVIpconnectActivity extends BaseActivity {
 	private int deviceIndex;
 
 	private int isDevice;
-
-	private TextView currentmenu;
 
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 
@@ -133,11 +129,12 @@ public class JVIpconnectActivity extends BaseActivity {
 		ipconnect_user = (EditText) findViewById(R.id.ipconnect_username);
 		ipconnect_pwd = (EditText) findViewById(R.id.ipconnect_pwd);
 		editsave = (Button) findViewById(R.id.editsave);
-		currentmenu = (TextView) findViewById(R.id.currentmenu);
-		currentmenu.setText(R.string.str_connect_mode);
-		back = (Button) findViewById(R.id.btn_left);
-		plus_btu = (Button) findViewById(R.id.btn_right);
-		plus_btu.setVisibility(View.GONE);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		currentMenu.setText(R.string.str_connect_mode);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		rightBtn.setVisibility(View.GONE);
 
 		if (isDevice == 0) {
 			change.check(R.id.ipconnect_cloud);
@@ -167,8 +164,8 @@ public class JVIpconnectActivity extends BaseActivity {
 		ipconnect_address.setFocusable(true);
 		ipconnect_address.setFocusableInTouchMode(true);
 		change.setOnCheckedChangeListener(mylistener);
-		back.setOnClickListener(myOnClickListener);
-		plus_btu.setOnClickListener(myOnClickListener);
+		leftBtn.setOnClickListener(myOnClickListener);
+		rightBtn.setOnClickListener(myOnClickListener);
 		ipconnnect_ip.setOnClickListener(myOnClickListener);
 		ipconnnect_cloud.setOnClickListener(myOnClickListener);
 		editsave.setOnClickListener(myOnClickListener);

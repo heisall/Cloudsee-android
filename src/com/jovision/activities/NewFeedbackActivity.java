@@ -9,6 +9,7 @@ import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -17,9 +18,6 @@ import com.jovision.commons.MyLog;
 
 public class NewFeedbackActivity extends BaseActivity {
 
-	private Button back; // 后退
-	private TextView title; // 标题
-	private Button commit; // 提交按钮
 	WebView myWebView;
 	public static boolean localFlag = false;// 本地登陆标志位
 
@@ -45,14 +43,15 @@ public class NewFeedbackActivity extends BaseActivity {
 	protected void initUi() {
 		// TODO Auto-generated method stub
 		setContentView(R.layout.feedback_webview_layout);
-		back = (Button) findViewById(R.id.btn_left);
-		title = (TextView) findViewById(R.id.currentmenu);
-		commit = (Button) findViewById(R.id.btn_right);
-		commit.setVisibility(View.INVISIBLE);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		rightBtn= (Button) findViewById(R.id.btn_right);
+		rightBtn.setVisibility(View.INVISIBLE);
 		myWebView = (WebView) findViewById(R.id.feedback_webview);
 
-		title.setText(getResources().getString(R.string.str_idea_and_feedback));
-		back.setOnClickListener(myOnClickListener);
+		currentMenu.setText(getResources().getString(R.string.str_idea_and_feedback));
+		leftBtn.setOnClickListener(myOnClickListener);
 
 		localFlag = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 

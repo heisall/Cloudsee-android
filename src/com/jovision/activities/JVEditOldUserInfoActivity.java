@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -19,9 +20,7 @@ import com.jovision.utils.AccountUtil;
 public class JVEditOldUserInfoActivity extends BaseActivity {
 
 	/** topBar */
-	private Button back;
 	private Button finish;
-	private TextView currentMenu;
 
 	/** 注册信息提示文本 */
 	private EditText userNameEditText;
@@ -114,7 +113,8 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.olduser_layout);
-		back = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.str_modify_user_info);
 		finish = (Button) findViewById(R.id.finish);
@@ -125,7 +125,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 		registTips2 = (TextView) findViewById(R.id.regist_tips2);
 		registTips3 = (TextView) findViewById(R.id.regist_tips3);
 
-		back.setOnClickListener(onClickListener);
+		leftBtn.setOnClickListener(onClickListener);
 		finish.setOnClickListener(onClickListener);
 		userNameEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -12,10 +13,7 @@ import com.jovision.utils.AccountUtil;
 import com.jovision.utils.GetPhoneNumber;
 
 public class JVReBoundEmailActivity extends BaseActivity {
-	private Button back;
-	private Button skip;
 	private Button finish;
-	private TextView currentMenu;
 	private EditText reBindMail;
 	private EditText reBindPhone;
 	private int bindPhone = -1;
@@ -42,17 +40,18 @@ public class JVReBoundEmailActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		// TODO Auto-generated method stub
-		back = (Button) findViewById(R.id.btn_left);
-		skip = (Button) findViewById(R.id.btn_right);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		finish = (Button) findViewById(R.id.finish);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		reBindMail = (EditText) findViewById(R.id.rebindmail);
 		reBindPhone = (EditText) findViewById(R.id.rebindphone);
 		currentMenu.setVisibility(View.VISIBLE);
-		skip.setVisibility(View.GONE);
+		rightBtn.setVisibility(View.GONE);
 		currentMenu.setText(getResources().getString(R.string.str_bound_email));
 
-		back.setOnClickListener(myOnClickListener);
+		leftBtn.setOnClickListener(myOnClickListener);
 		finish.setOnClickListener(myOnClickListener);
 	}
 

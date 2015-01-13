@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -32,9 +33,6 @@ import com.jovision.views.CustomDialog;
 public class AddThirdDevActivity extends BaseActivity implements
 		OnClickListener, OnDeviceClassSelectedListener, OnSetNickNameListener {
 	private AddThirdDeviceMenuFragment third_dev_menu_fragment;
-	private Button backBtn;
-	private Button rightBtn;
-	public TextView titleTv;
 	private String strYstNum;
 	private boolean bConnectedFlag;
 	private int dev_type_mark;
@@ -110,12 +108,13 @@ public class AddThirdDevActivity extends BaseActivity implements
 	}
 
 	private void InitViews() {
-		backBtn = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
-		titleTv = (TextView) findViewById(R.id.currentmenu);
-		backBtn.setOnClickListener(this);
-		titleTv.setText(R.string.str_help1_1);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		leftBtn.setOnClickListener(this);
+		currentMenu.setText(R.string.str_help1_1);
 	}
 
 	@Override
@@ -151,7 +150,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 		process_flag = 0;
 		switch (index) {
 		case 1:
-			titleTv.setText(R.string.str_door_device);
+			currentMenu.setText(R.string.str_door_device);
 			dev_type_mark = 1;// 门禁
 
 			if (!bConnectedFlag) {
@@ -180,7 +179,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 			break;
 		case 2:
-			titleTv.setText(R.string.str_bracelet_device);
+			currentMenu.setText(R.string.str_bracelet_device);
 			dev_type_mark = 2;// 手环
 
 			if (!bConnectedFlag) {
@@ -210,7 +209,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 			break;
 		case 3:
-			titleTv.setText(R.string.str_telecontrol_device);
+			currentMenu.setText(R.string.str_telecontrol_device);
 			dev_type_mark = 3;// 遥控
 
 			if (!bConnectedFlag) {

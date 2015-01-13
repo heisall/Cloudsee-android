@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -23,9 +24,6 @@ import com.tencent.stat.StatService;
 
 public class JVRegisterCodeActivity extends BaseActivity {
 
-	private Button leftButton;
-	private TextView currentMenu;
-	private Button rightButton;
 	private EditText registerpwd;
 	private EditText registerpwdsure;
 	private Button register;
@@ -55,18 +53,19 @@ public class JVRegisterCodeActivity extends BaseActivity {
 	protected void initUi() {
 		// TODO Auto-generated method stub
 
-		leftButton = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		account = getIntent().getStringExtra("phone");
 		currentMenu.setText(account);
-		rightButton = (Button) findViewById(R.id.btn_right);
-		rightButton.setVisibility(View.GONE);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		rightBtn.setVisibility(View.GONE);
 		registerpwd = (EditText) findViewById(R.id.registpwd);
 		registerpwdsure = (EditText) findViewById(R.id.registpwdsure);
 		register = (Button) findViewById(R.id.regist);
 
 		register.setOnClickListener(myonClickListener);
-		leftButton.setOnClickListener(myonClickListener);
+		leftBtn.setOnClickListener(myonClickListener);
 	}
 
 	OnClickListener myonClickListener = new OnClickListener() {

@@ -2,6 +2,7 @@ package com.jovision;
 
 import java.io.File;
 
+import android.R.integer;
 import android.os.Environment;
 
 public class Consts {
@@ -318,6 +319,8 @@ public class Consts {
 	/** 获取设备列表方法 */
 	public static final int GUID_FUNCTION = 0xB4;
 
+	//MainApplication 发消息给BaseActivity
+	public static final int ALARM_NET = 0xF0;
 	// JVOfflineActivity
 	public static final int OFFLINE_COUNTS = 15;// 15秒倒计时
 	public static final int TAG_BROAD_DEVICE_LIST = 0x05;// 广播设备列表

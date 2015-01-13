@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -19,7 +20,12 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.test.JVACCOUNT;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
@@ -27,6 +33,7 @@ import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
+import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
@@ -43,7 +50,6 @@ public abstract class BaseActivity extends FragmentActivity implements
 	protected ProgressDialog proDialog;
 	protected Toast toast;
 	public Configuration configuration;
-
 	public DisplayMetrics disMetrics;
 
 	// private long duration;

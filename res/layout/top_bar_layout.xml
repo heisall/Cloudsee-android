@@ -3,7 +3,7 @@
     android:id="@+id/lin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/black"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -84,6 +84,45 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/ht_flight_close" />
         </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/alarmnet"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="3dp"
+        android:background="#FFF3BB" 
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:id="@+id/tanhao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/tanhao" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/next"
+            android:layout_toRightOf="@+id/tanhao"
+            android:singleLine="true"
+            android:text="世界上最遥远的距离就是没有网,检查设置。"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/next"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/morefragment_next_icon" />
     </RelativeLayout>
 
 </LinearLayout>

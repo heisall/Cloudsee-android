@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -30,9 +31,6 @@ public class JVChannelListActivity extends BaseActivity {
 	private ArrayList<Channel> channelList = new ArrayList<Channel>(1);
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private int deviceIndex;
-	private Button btn_left;
-	private Button btn_right;
-	private TextView currentmenu;
 	private boolean localFlag;
 	private Device device;
 
@@ -105,15 +103,16 @@ public class JVChannelListActivity extends BaseActivity {
 	protected void initUi() {
 		setContentView(R.layout.channellist_layout);
 		localFlag = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
-		btn_left = (Button) findViewById(R.id.btn_left);
-		btn_right = (Button) findViewById(R.id.btn_right);
-		currentmenu = (TextView) findViewById(R.id.currentmenu);
-		currentmenu.setText(R.string.channalmanager);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		currentMenu.setText(R.string.channalmanager);
 		channel_listView = (ListView) findViewById(R.id.channel_listView);
 		adapter = new ChannelListAdapter(JVChannelListActivity.this);
 
-		btn_left.setOnClickListener(myOnClickListener);
-		btn_right.setOnClickListener(myOnClickListener);
+		leftBtn.setOnClickListener(myOnClickListener);
+		rightBtn.setOnClickListener(myOnClickListener);
 
 	}
 

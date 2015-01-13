@@ -78,10 +78,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	private String deviceNum;// 待设置的IPC云视通号
 	private String desWifiSSID;//
 	private String desWifiPWD;//
-	private Button back;
-	private Button saveSet;
 	private Boolean haveSet = false;// 是否点过快速配置
-	private TextView currentMenu;
 
 	private boolean local = true;
 	private boolean isBack = false;// 是否要退出
@@ -163,19 +160,20 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		wifiManager.setWifiEnabled(true);
 
-		back = (Button) findViewById(R.id.btn_left);
-		saveSet = (Button) findViewById(R.id.btn_right);
-		back.setVisibility(View.VISIBLE);
-		saveSet.setTextColor(Color.WHITE);
-		saveSet.setBackgroundDrawable(getResources().getDrawable(
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		leftBtn.setVisibility(View.VISIBLE);
+		rightBtn.setTextColor(Color.WHITE);
+		rightBtn.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.setting_save));
-		saveSet.setText(getResources().getString(
+		rightBtn.setText(getResources().getString(
 				R.string.str_quick_setting_connect));
-		saveSet.setVisibility(View.VISIBLE);
+		rightBtn.setVisibility(View.VISIBLE);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.str_quick_setting);
-		back.setOnClickListener(onClickListener);
-		saveSet.setOnClickListener(onClickListener);
+		leftBtn.setOnClickListener(onClickListener);
+		rightBtn.setOnClickListener(onClickListener);
 
 		/** IPCwifi列表 */
 		ipcLayout = (LinearLayout) findViewById(R.id.ipcwifilayout);
@@ -296,7 +294,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (show) {
 			ipcLayout.setVisibility(View.VISIBLE);
 			mobileLayout.setVisibility(View.GONE);
-			saveSet.setVisibility(View.GONE);
+			rightBtn.setVisibility(View.GONE);
 			if (null != oldWifiSSID && !"".equalsIgnoreCase(oldWifiSSID)
 					&& !"0x".equalsIgnoreCase(oldWifiSSID)) {
 				desWifiName.setText(oldWifiSSID);
@@ -308,7 +306,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		} else {
 			ipcLayout.setVisibility(View.GONE);
 			mobileLayout.setVisibility(View.VISIBLE);
-			saveSet.setVisibility(View.VISIBLE);
+			rightBtn.setVisibility(View.VISIBLE);
 			stopRefreshWifiTimer();
 		}
 	}
@@ -470,7 +468,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 			// 非本地登录,切未注销账号，调用注销
 			if (!local && !hasLogout) {
-				AccountUtil.userLogout();
+				if (0 != AccountUtil.userLogout()) {
+					AccountUtil.userLogout();
+				}
 				hasLogout = true;
 			}
 			try {
@@ -751,7 +751,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				disConnectVideo();
 				if (View.VISIBLE == helpLayout.getVisibility()) {// 更新设备帮助文档
 					helpLayout.setVisibility(View.GONE);
-					saveSet.setVisibility(View.VISIBLE);
+					rightBtn.setVisibility(View.VISIBLE);
 					currentMenu.setText(R.string.str_quick_setting);
 				} else if (ipcLayout.getVisibility() == View.VISIBLE) {// 显示IPC网络信息列表（一级级wifi列表）
 					stopTask = true;
@@ -2085,7 +2085,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						helpLayout.setVisibility(View.VISIBLE);
-						saveSet.setVisibility(View.GONE);
+						rightBtn.setVisibility(View.GONE);
 						currentMenu
 								.setText(R.string.str_quick_setting_devupdate_order);
 						// 暂停扫瞄器

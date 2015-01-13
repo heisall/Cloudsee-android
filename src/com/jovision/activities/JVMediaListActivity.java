@@ -37,9 +37,6 @@ public class JVMediaListActivity extends BaseActivity {
 	private MediaFolderAdapter mfAdapter;
 
 	/** topBar **/
-	private Button back;// 左侧返回按钮
-	private TextView currentMenu;// 当前页面名称
-	private Button rigButton;// 选择删除按钮
 	private boolean isdelect = true;
 	private boolean isselectall;
 	private RelativeLayout fileBottom;
@@ -127,7 +124,8 @@ public class JVMediaListActivity extends BaseActivity {
 		setContentView(R.layout.medialist_layout);
 
 		/** topBar **/
-		back = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		selectNum = JVMediaListActivity.this.getResources().getString(
 				R.string.selectnum);
 		totalNum = JVMediaListActivity.this.getResources().getString(
@@ -146,10 +144,10 @@ public class JVMediaListActivity extends BaseActivity {
 		} else if ("video".equalsIgnoreCase(media)) {
 			currentMenu.setText(R.string.media_video);
 		}
-		rigButton = (Button) findViewById(R.id.btn_right);
-		rigButton.setBackgroundResource(R.drawable.mydevice_cancale_icon);
-		back.setOnClickListener(myOnClickListener);
-		rigButton.setOnClickListener(myOnClickListener);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		rightBtn.setBackgroundResource(R.drawable.mydevice_cancale_icon);
+		leftBtn.setOnClickListener(myOnClickListener);
+		rightBtn.setOnClickListener(myOnClickListener);
 		fileCompleted.setOnClickListener(myOnClickListener);
 		fileCancel.setOnClickListener(myOnClickListener);
 		selectalllinear.setOnClickListener(myOnClickListener);

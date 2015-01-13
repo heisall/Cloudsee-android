@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -22,10 +23,6 @@ import com.jovision.utils.PlayUtil;
 public class JVAddIpDeviceActivity extends BaseActivity {
 
 	/** topBar */
-	private Button btn_left;
-	private TextView currentMenu;
-	private Button btn_right;
-
 	private EditText ipAddressEdt;
 	private EditText portEdt;
 	private EditText userNameEdt;
@@ -84,9 +81,10 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 	protected void initUi() {
 		setContentView(R.layout.addipcdevice_layout);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		btn_left = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		currentMenu.setText(R.string.str_help1_1);
-		btn_right = (Button) findViewById(R.id.btn_right);
+		rightBtn = (Button) findViewById(R.id.btn_right);
 		ipAddressEdt = (EditText) findViewById(R.id.addipconnnect_address);
 		portEdt = (EditText) findViewById(R.id.addipconnect_port);
 		userNameEdt = (EditText) findViewById(R.id.addipconnect_username);
@@ -100,9 +98,9 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 		passwordEdt.setText(JVAddIpDeviceActivity.this.getResources()
 				.getString(R.string.str_default_pass));
 		saveButton.setOnClickListener(myOnClickListener);
-		btn_left.setOnClickListener(myOnClickListener);
-		btn_right.setOnClickListener(myOnClickListener);
-		btn_right.setVisibility(View.GONE);
+		leftBtn.setOnClickListener(myOnClickListener);
+		rightBtn.setOnClickListener(myOnClickListener);
+		rightBtn.setVisibility(View.GONE);
 	}
 
 	@Override

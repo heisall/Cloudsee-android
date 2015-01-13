@@ -67,12 +67,9 @@ public abstract class PlayActivity extends BaseActivity implements
 
 	/** layout 上 */
 	protected LinearLayout topBar;// 顶部标题栏
-	protected Button back;// 返回
-	protected Button rightFuncButton;// 右边按钮事件
 	protected RelativeLayout ishitvis;// 惠通闪光灯
 	protected ImageView ht_motion;// 移动侦测
 	protected ImageView ht_fight;// 闪光灯
-	protected TextView currentMenu;// 当前标题
 	protected ImageView selectScreenNum;// 下拉选择当前分屏数按钮
 	protected PopupWindow screenPopWindow;// 选择框
 	protected ScreenAdapter screenAdapter;
@@ -260,12 +257,13 @@ public abstract class PlayActivity extends BaseActivity implements
 		helpViewPager.setAdapter(adp);
 		/** 上 */
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
-		back = (Button) findViewById(R.id.btn_left);
-		rightFuncButton = (Button) findViewById(R.id.btn_right);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		rightBtn = (Button) findViewById(R.id.btn_right);
 		ishitvis = (RelativeLayout) findViewById(R.id.ishitvis);
 		ht_motion = (ImageView) findViewById(R.id.ht_motion);
 		ht_fight = (ImageView) findViewById(R.id.ht_flight);
-		rightFuncButton.setVisibility(View.GONE);
+		rightBtn.setVisibility(View.GONE);
 		if (Consts.ISHITVIS == 1) {
 			ishitvis.setVisibility(View.VISIBLE);
 		}
@@ -682,27 +680,27 @@ public abstract class PlayActivity extends BaseActivity implements
 
 		if (Consts.PLAY_AP == playFlag) {
 			playHelp.setVisibility(View.GONE);
-			rightFuncButton.setVisibility(View.GONE);
+			rightBtn.setVisibility(View.GONE);
 		} else {
 			// 录像模式
-			rightFuncButton.setTextSize(8);
-			rightFuncButton
+			rightBtn.setTextSize(8);
+			rightBtn
 					.setTextColor(getResources().getColor(R.color.white));
-			rightFuncButton.setBackgroundDrawable(null);
+			rightBtn.setBackgroundDrawable(null);
 			if (Consts.STORAGEMODE_NORMAL == channel.getStorageMode()) {
-				rightFuncButton.setText(R.string.video_normal);
-				rightFuncButton.setCompoundDrawablesWithIntrinsicBounds(null,
+				rightBtn.setText(R.string.video_normal);
+				rightBtn.setCompoundDrawablesWithIntrinsicBounds(null,
 						normalRecordDrawableTop, null, null);
 
-				rightFuncButton.setVisibility(View.VISIBLE);
+				rightBtn.setVisibility(View.VISIBLE);
 
 			} else if (Consts.STORAGEMODE_ALARM == channel.getStorageMode()) {
-				rightFuncButton.setText(R.string.video_alarm);
-				rightFuncButton.setCompoundDrawablesWithIntrinsicBounds(null,
+				rightBtn.setText(R.string.video_alarm);
+				rightBtn.setCompoundDrawablesWithIntrinsicBounds(null,
 						alarmRecordDrawableTop, null, null);
-				rightFuncButton.setVisibility(View.VISIBLE);
+				rightBtn.setVisibility(View.VISIBLE);
 			} else {
-				rightFuncButton.setVisibility(View.GONE);
+				rightBtn.setVisibility(View.GONE);
 			}
 		}
 
@@ -746,7 +744,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		}
 
 		if (screen > 1 || !channel.isConnected()) {
-			rightFuncButton.setVisibility(View.GONE);
+			rightBtn.setVisibility(View.GONE);
 			right_btn_h.setVisibility(View.GONE);
 			if (MySharedPreference.getBoolean("playhelp1")) {
 				verPlayBarLayout.setVisibility(View.GONE);

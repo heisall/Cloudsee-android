@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -18,9 +19,6 @@ import com.jovision.utils.AccountUtil;
 public class ReSetNewPwdActivity extends BaseActivity implements
 		OnClickListener {
 
-	private Button backBtn;
-	private Button rightBtn;
-	public TextView titleTv;
 	private EditText edtIdentifyNum;
 	private Button btnSubmit;
 
@@ -44,11 +42,12 @@ public class ReSetNewPwdActivity extends BaseActivity implements
 	}
 
 	private void initViews() {
-		backBtn = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
-		titleTv = (TextView) findViewById(R.id.currentmenu);
-		backBtn.setOnClickListener(this);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		leftBtn.setOnClickListener(this);
 
 		btnSubmit = (Button) findViewById(R.id.btn_submit);
 		btnSubmit.setOnClickListener(this);
@@ -56,7 +55,7 @@ public class ReSetNewPwdActivity extends BaseActivity implements
 		edtConfirmPwd = (EditText) findViewById(R.id.edt_confirm_pwd);
 		tvAccount = (TextView) findViewById(R.id.tv_account);
 		tvAccount.setText(account);
-		titleTv.setText(getResources().getString(R.string.str_set_new_pwd));
+		currentMenu.setText(getResources().getString(R.string.str_set_new_pwd));
 
 		pd = new ProgressDialog(this);
 		pd.setCancelable(true);

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -41,12 +42,6 @@ public class JVDeviceManageActivity extends BaseActivity {
 	private TextView manage_save;
 
 	private TextView manage_delect;
-	
-	private TextView currentMenu;
-	
-	private Button leftBtn;
-	
-	private Button rightBtn;
 
 	private Boolean localFlag;
 
@@ -116,6 +111,7 @@ public class JVDeviceManageActivity extends BaseActivity {
 			cloudnumber_text.setLayoutParams(lp);
 		}
 		leftBtn = (Button)findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		rightBtn = (Button)findViewById(R.id.btn_right);
 		currentMenu = (TextView)findViewById(R.id.currentmenu);
 

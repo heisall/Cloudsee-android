@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
@@ -40,7 +42,8 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 	protected Button leftBtn;
 	protected TextView currentMenu;
 	protected Button rightBtn;
-	protected RelativeLayout alarmnet;
+	protected static RelativeLayout alarmnet;
+	protected static boolean isshow;
 
 	protected static class FragHandler extends Handler {
 
@@ -55,6 +58,25 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 			if (null != msg) {
 				fragment.fragNotify.onHandler(msg.what, msg.arg1, msg.arg2,
 						msg.obj);
+			}
+			switch (msg.what) {
+			case Consts.ALARM_NET:
+				if (null!=alarmnet) {
+					alarmnet.setVisibility(View.GONE);
+					isshow = true;
+				BaseActivity.isshowActivity = true;
+				}
+				break;
+			case Consts.ALARM_NET_WEEK:
+				if (null!=alarmnet) {
+					alarmnet.setVisibility(View.GONE);
+					isshow = false;
+					BaseActivity.isshowActivity = false;
+				}
+				break;
+
+			default:
+				break;
 			}
 			super.handleMessage(msg);
 		}
@@ -93,13 +115,22 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 		leftBtn = (Button) mParent.findViewById(R.id.btn_left);
 		currentMenu = (TextView) mParent.findViewById(R.id.currentmenu);
 		rightBtn = (Button) mParent.findViewById(R.id.btn_right);
-		alarmnet = (RelativeLayout)mParent.findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) mParent.findViewById(R.id.alarmnet);
 		try {
 			if (null != leftBtn) {
 				leftBtn.setOnClickListener(mOnClickListener);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		if(isshow) {
+			if (null!=alarmnet) {
+				alarmnet.setVisibility(View.GONE);
+			}
+		}else {
+			if (null!=alarmnet) {
+			alarmnet.setVisibility(View.GONE);
+			}
 		}
 	}
 

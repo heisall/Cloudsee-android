@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -19,9 +20,6 @@ import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.UserUtil;
 
 public class JVEditPassActivity extends BaseActivity {
-	private Button back;// 左侧返回按钮
-	private Button rightButton;
-	private TextView currentMenu;// 当前页面名称
 	// private EditText userName = null;
 	private EditText userOldPass = null;
 	private EditText userNewPass = null;
@@ -49,14 +47,15 @@ public class JVEditPassActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.editpass_layout);
-		back = (Button) findViewById(R.id.btn_left);
-		rightButton = (Button) findViewById(R.id.btn_right);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		// if (!TextUtils.isEmpty(statusHashMap.get(Consts.KEY_USERNAME))) {
 		currentMenu.setText(R.string.more_modifypwd);
 		// }
-		rightButton.setVisibility(View.GONE);
-		back.setOnClickListener(onClickListener);
+		rightBtn.setVisibility(View.GONE);
+		leftBtn.setOnClickListener(onClickListener);
 		userOldPass = (EditText) findViewById(R.id.editoldpass);
 		userNewPass = (EditText) findViewById(R.id.editnewpass);
 		userEnsurePass = (EditText) findViewById(R.id.editcommitpass);
@@ -123,7 +122,9 @@ public class JVEditPassActivity extends BaseActivity {
 				editRes = DeviceUtil.modifyUserPassword(params[0], params[1]);
 				if (0 == editRes) {
 					if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
-						AccountUtil.userLogout();
+						if (0 != AccountUtil.userLogout()) {
+							AccountUtil.userLogout();
+						}
 						MySharedPreference.putString(Consts.DEVICE_LIST, "");
 					}
 					ConfigUtil.logOut();
@@ -156,8 +157,10 @@ public class JVEditPassActivity extends BaseActivity {
 						JVLoginActivity.class);
 
 				String userName = statusHashMap.get(Consts.KEY_USERNAME);
+				MySharedPreference.putString(Consts.KEY_LAST_LOGIN_USER,
+						userName);
+
 				// intent.putExtra("UserName", userName);
-				statusHashMap.put(Consts.KEY_LAST_LOGIN_USER, userName);
 				startActivity(intent);
 				JVEditPassActivity.this.finish();
 			} else {

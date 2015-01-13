@@ -1675,7 +1675,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 		/** 上 */
 		varvoice_bg.setOnClickListener(myOnClickListener);
-		back.setOnClickListener(myOnClickListener);
+		leftBtn.setOnClickListener(myOnClickListener);
 		left_btn_h.setOnClickListener(myOnClickListener);
 		ht_fight.setOnClickListener(myOnClickListener);
 		ht_motion.setOnClickListener(myOnClickListener);
@@ -1698,7 +1698,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		decodeBtn.setOnClickListener(myOnClickListener);
 		videTurnBtn.setOnClickListener(myOnClickListener);
-		rightFuncButton.setOnClickListener(myOnClickListener);
+		rightBtn.setOnClickListener(myOnClickListener);
 		right_btn_h.setOnClickListener(myOnClickListener);
 
 		/** 中 */

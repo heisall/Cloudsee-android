@@ -403,7 +403,7 @@
     <string name="wifi_device">Wireless Device</string>
     <string name="line_device">Wired Device</string>
     <string name="selectone_to_connect">Please choose at least one channel to connect.</string>
-    <string name="no_channel_error">通道加载失败，建议手动刷新</string>
+    <string name="no_channel_error">Failed to load the channel. Suggest refresh manually.</string>
     <string name="add_broad_dev">Broadcasting to ! devices,do you want to add?</string>
     <string name="broad_zero">Unable to broadcast device.</string>
     <string name="get_device_failed">Device loaded failed</string>
@@ -488,10 +488,10 @@
     <string name="device_connect">Connect All</string>
     <string name="channel_full">Fail to add due to upto limition of Device channel quantity.</string>
     <!-- JVSystemInfoActivity -->
-    <string name="system_info">系统消息</string>
-    <string name="system_info_load_error">消息加载失败</string>
-    <string name="system_info_nomessage">暂时没有系统消息</string>
-    <string name="system_info_nomore">没有更多了</string>
+    <string name="system_info">System information</string>
+    <string name="system_info_load_error">Failed to load the information</string>
+    <string name="system_info_nomessage">There is no system information temporarily</string>
+    <string name="system_info_nomore">There is no more.</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">Please input your problems or suggestion.</string>
     <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>
@@ -660,8 +660,8 @@
     <string name="str_protected_time">Safeguard time scale</string>
     <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>
     <string name="str_setdev_params_timeout">Set the equipment parameter timeout</string>
-    <string name="str_computre_time1"> 结束时间不能小于开始时间</string>
-    <string name="str_computre_time3"> 开始时间不能等于结束时间</string>
+    <string name="str_computre_time1">The end time can\'t be earlier than the start time.</string>
+    <string name="str_computre_time3">The end time can\'t the same as the start time.</string>
     <string name="str_disconnect_resp_timeout">Disconnect the connection timeout</string>
     <string name="str_operation_failed">Operation failed</string>
     <string name="str_setting_time">Setting Time</string>
@@ -671,7 +671,7 @@
     <string name="str_mdenabled_close_failed">The motion detecting close failed</string>
     <string name="str_illegal_dev_nick">The nick name is illegal,should be English letter,number,or special characters like .–_+()</string>
     <string name="str_cloud_file_error_1">The file is uploading or failure</string>
-    <string name="str_cloud_file_error_2">此通道没有云存储信息</string>
+    <string name="str_cloud_file_error_2">There is no cloud strorage information at the channel.</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="census_login">本地登录</string>
     <string name="census_onlinelogin">在线登录</string>
@@ -716,7 +716,7 @@
     <string name="reset_passwd_tips5">The mobile phone binding is not legal</string>
     <string name="reset_passwd_tips6">Enter code</string>
     <string name="reset_passwd_tips7">Sending...</string>
-    <string name="reset_passwd_tips8">验证未通过</string>
+    <string name="reset_passwd_tips8">The verification is unsuccessful.</string>
     <string name="reset_passwd_virificaition_code_wrong">The verification code is wrong</string>
     <string name="reset_passwd_failed">Reset password failed</string>
     <string name="reset_passwd_title1">Enter Account</string>
@@ -733,6 +733,6 @@
     <string name="str_query_account_failed1">Network error, operation failed. Please try again.</string>
     <string name="str_not_bind_phone_tips1">Your account is not bound with your mobile number. Please retrieve via email.</string>
     <string name="str_not_bind_phone_tips2">Your account is not bound with mobile number or email address. Please contact customer service. </string>
-    <string name="str_not_bind_phone_tips3">该用户不存在</string>
+    <string name="str_not_bind_phone_tips3">The user doesn\'t exist.</string>
 
 </resources>

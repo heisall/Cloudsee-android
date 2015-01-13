@@ -55,11 +55,6 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	private ArrayList<Device> deviceList;
 	private Device device;
 
-	/** topBar */
-	private Button leftBtn;
-	private TextView currentMenu;
-	private Button rightBtn;
-
 	/** bottom */
 	private ViewPager mPager;// 页卡内容
 	private List<View> listViews; // Tab页面列表
@@ -274,6 +269,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 		/** top bar */
 		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setText(R.string.str_help1_0);

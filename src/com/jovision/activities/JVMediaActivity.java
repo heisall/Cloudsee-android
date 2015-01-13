@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -17,10 +18,6 @@ import com.jovision.adapters.MediaSelectorAdapter;
 public class JVMediaActivity extends BaseActivity {
 
 	/** topBar **/
-	private Button back;// 左侧返回按钮
-	private TextView currentMenu;// 当前页面名称
-	private Button rigButton;
-
 	private ListView mediaListView;
 	private MediaSelectorAdapter msAdapter;
 	private ArrayList<String> mediaList = new ArrayList<String>();
@@ -50,12 +47,13 @@ public class JVMediaActivity extends BaseActivity {
 		setContentView(R.layout.mediaselector_layout);
 
 		/** topBar **/
-		back = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.media);
-		back.setOnClickListener(myOnClickListener);
-		rigButton = (Button) findViewById(R.id.btn_right);
-		rigButton.setVisibility(View.GONE);
+		leftBtn.setOnClickListener(myOnClickListener);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		rightBtn.setVisibility(View.GONE);
 
 		mediaListView = (ListView) findViewById(R.id.medialistview);
 		msAdapter = new MediaSelectorAdapter(JVMediaActivity.this);

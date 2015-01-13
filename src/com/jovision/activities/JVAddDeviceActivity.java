@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import barcode.zxing.activity.MipcaActivityCapture;
 
@@ -27,11 +28,6 @@ import com.jovision.utils.PlayUtil;
 public class JVAddDeviceActivity extends BaseActivity {
 
 	private static final String TAG = "JVAddDeviceActivity";
-	/** topBar */
-	private Button leftBtn;
-	private TextView currentMenu;
-	private Button rightBtn;
-
 	/** add device layout */
 	private EditText devNumET;
 	private EditText userET;
@@ -115,8 +111,10 @@ public class JVAddDeviceActivity extends BaseActivity {
 		setContentView(R.layout.adddevice_layout);
 		/** top bar */
 		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		rightBtn.setBackgroundResource(R.drawable.qr_icon);
 		currentMenu.setText(R.string.str_help1_1);
 		leftBtn.setOnClickListener(mOnClickListener);

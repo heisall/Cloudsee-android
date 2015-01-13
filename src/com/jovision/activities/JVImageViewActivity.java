@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -23,9 +24,6 @@ public class JVImageViewActivity extends BaseActivity {
 	private File[] fileArray;
 	private int fileIndex;
 	/** TopBar */
-	private Button back;
-	private TextView currentMenu;
-	private Button share;
 
 	private ViewPager imagePager;
 
@@ -44,11 +42,12 @@ public class JVImageViewActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.imageview_layout);
-		back = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		share = (Button) findViewById(R.id.btn_right);
-		back.setVisibility(View.VISIBLE);
-		share.setVisibility(View.GONE);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		leftBtn.setVisibility(View.VISIBLE);
+		rightBtn.setVisibility(View.GONE);
 		// share.setBackgroundDrawable(getResources().getDrawable(
 		// R.drawable.share));
 		imagePager = (ViewPager) findViewById(R.id.imagepager);
@@ -56,8 +55,8 @@ public class JVImageViewActivity extends BaseActivity {
 		imagePager.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
 		imagePager.setCurrentItem(fileIndex);
-		back.setOnClickListener(mOnClickListener);
-		share.setOnClickListener(mOnClickListener);
+		leftBtn.setOnClickListener(mOnClickListener);
+		rightBtn.setOnClickListener(mOnClickListener);
 
 		currentMenu.setText((fileIndex + 1) + "/" + fileArray.length);
 

@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -26,9 +27,7 @@ import com.jovision.utils.UserUtil;
 
 public class JVEditOldPassActivity extends BaseActivity {
 
-	private Button back;
 	private Button finish;
-	private TextView currentMenu;
 	private EditText userNameEditText;
 	private EditText pass1EditText;
 	private EditText pass2EditText;
@@ -122,7 +121,8 @@ public class JVEditOldPassActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.oldpass_layout);
-		back = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.str_modify_user_info);
 		finish = (Button) findViewById(R.id.finish);
@@ -135,7 +135,7 @@ public class JVEditOldPassActivity extends BaseActivity {
 		registTips2 = (TextView) findViewById(R.id.regist_tips2);
 		registTips3 = (TextView) findViewById(R.id.regist_tips3);
 
-		back.setOnClickListener(onClickListener);
+		leftBtn.setOnClickListener(onClickListener);
 		finish.setOnClickListener(onClickListener);
 
 		pass1EditText.setOnFocusChangeListener(new OnFocusChangeListener() {

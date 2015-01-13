@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -20,7 +19,6 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.test.JVACCOUNT;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -33,7 +31,6 @@ import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
-import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
@@ -46,11 +43,16 @@ import com.tencent.stat.StatService;
  * 
  */
 public abstract class BaseActivity extends FragmentActivity implements
-		IHandlerNotify, IHandlerLikeNotify {
+IHandlerNotify, IHandlerLikeNotify {
 	protected ProgressDialog proDialog;
 	protected Toast toast;
 	public Configuration configuration;
 	public DisplayMetrics disMetrics;
+	public Button leftBtn;
+	public Button rightBtn;
+	public TextView currentMenu;
+	public static RelativeLayout alarmnet;
+	public static boolean isshowActivity;
 
 	// private long duration;
 	// private static final String RUNTIME = ".runtime";
@@ -88,6 +90,24 @@ public abstract class BaseActivity extends FragmentActivity implements
 		@Override
 		public void handleMessage(Message msg) {
 			activity.notify.onHandler(msg.what, msg.arg1, msg.arg2, msg.obj);
+			switch (msg.what) {
+			case Consts.ALARM_NET:
+				if (null!=alarmnet) {
+					alarmnet.setVisibility(View.GONE);
+					BaseFragment.isshow = true;
+					isshowActivity = true;
+				}
+				break;
+			case Consts.ALARM_NET_WEEK:
+				if (null!=alarmnet) {
+					alarmnet.setVisibility(View.GONE);
+					BaseFragment.isshow = false;
+					isshowActivity = false;
+				}
+				break;
+			default:
+				break;
+			}
 			super.handleMessage(msg);
 		}
 
@@ -110,6 +130,15 @@ public abstract class BaseActivity extends FragmentActivity implements
 		getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
 		initSettings();
 		initUi();
+		if (isshowActivity) {
+			if (null!=alarmnet) {
+				alarmnet.setVisibility(View.GONE);
+			}
+		}else {
+			if (null!=alarmnet) {
+				alarmnet.setVisibility(View.GONE);
+			}
+		}
 	}
 
 	@Override
@@ -246,7 +275,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 		int statusHeight = 0;
 		Rect localRect = new Rect();
 		activity.getWindow().getDecorView()
-				.getWindowVisibleDisplayFrame(localRect);
+		.getWindowVisibleDisplayFrame(localRect);
 		statusHeight = localRect.top;
 		if (0 == statusHeight) {
 			Class<?> localClass;
@@ -284,38 +313,38 @@ public abstract class BaseActivity extends FragmentActivity implements
 		// 提示对话框
 		AlertDialog.Builder builder = new Builder(this);
 		builder.setTitle(R.string.tips)
-				.setMessage(R.string.network_error)
-				.setPositiveButton(R.string.setting,
-						new DialogInterface.OnClickListener() {
+		.setMessage(R.string.network_error)
+		.setPositiveButton(R.string.setting,
+				new DialogInterface.OnClickListener() {
 
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								Intent intent = null;
-								// 判断手机系统的版本 即API大于10 就是3.0或以上版本
-								if (android.os.Build.VERSION.SDK_INT > 10) {
-									intent = new Intent(
-											android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-								} else {
-									intent = new Intent();
-									ComponentName component = new ComponentName(
-											"com.android.settings",
-											"com.android.settings.WirelessSettings");
-									intent.setComponent(component);
-									intent.setAction("android.intent.action.VIEW");
-								}
-								BaseActivity.this.startActivity(intent);
-							}
-						})
-				.setNegativeButton(R.string.cancel,
-						new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog,
+					int which) {
+				Intent intent = null;
+				// 判断手机系统的版本 即API大于10 就是3.0或以上版本
+				if (android.os.Build.VERSION.SDK_INT > 10) {
+					intent = new Intent(
+							android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+				} else {
+					intent = new Intent();
+					ComponentName component = new ComponentName(
+							"com.android.settings",
+							"com.android.settings.WirelessSettings");
+					intent.setComponent(component);
+					intent.setAction("android.intent.action.VIEW");
+				}
+				BaseActivity.this.startActivity(intent);
+			}
+		})
+		.setNegativeButton(R.string.cancel,
+				new DialogInterface.OnClickListener() {
 
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								dialog.dismiss();
-							}
-						}).create().show();
+			@Override
+			public void onClick(DialogInterface dialog,
+					int which) {
+				dialog.dismiss();
+			}
+		}).create().show();
 	}
 
 	/**
@@ -385,7 +414,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 			statusHashMap.put(Consts.KEY_LAST_LOGIN_TIME,
 					ConfigUtil.getCurrentDate());
 			MyActivityManager.getActivityManager()
-					.popAllActivityExceptOne(null);
+			.popAllActivityExceptOne(null);
 			android.os.Process.killProcess(android.os.Process.myPid());
 			System.exit(0);
 		}

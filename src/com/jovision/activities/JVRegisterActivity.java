@@ -35,6 +35,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import cn.smssdk.EventHandler;
@@ -50,10 +51,6 @@ import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 
 public class JVRegisterActivity extends BaseActivity implements TextWatcher {
-
-	private Button back;
-	private TextView currentMenu;
-	private Button rightButton;
 
 	private Button regist;
 	private ToggleButton agreeTBtn;
@@ -135,11 +132,12 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.regist_layout);
-		back = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.login_str_user_regist);
-		rightButton = (Button) findViewById(R.id.btn_right);
-		rightButton.setVisibility(View.GONE);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		rightBtn.setVisibility(View.GONE);
 
 		regist = (Button) findViewById(R.id.regist);
 		code = (EditText) findViewById(R.id.code);
@@ -167,7 +165,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
 		code.addTextChangedListener(this);
 		registercode.setOnClickListener(onClickListener);
-		back.setOnClickListener(onClickListener);
+		leftBtn.setOnClickListener(onClickListener);
 		regist.setOnClickListener(onClickListener);
 		agreeMent.setOnClickListener(onClickListener);
 		agreeTBtn.setChecked(true);

@@ -452,6 +452,14 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 5:// 版本号
+							// Intent intentAD = new Intent(mActivity,
+							// JVWebViewActivity.class);
+							// intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+							// intentAD.putExtra("URL",
+							// "http://look.appjx.cn/mobile_api.php?mod=news&id=12604");
+							// intentAD.putExtra("title", -2);
+							// mActivity.startActivity(intentAD);
+
 							int curVersion = 0;
 							try {
 								curVersion = mActivity.getPackageManager()
@@ -711,8 +719,10 @@ public class JVMoreFragment extends BaseFragment {
 			int logRes = -1;
 			try {
 				if (!localFlag) {
-					AccountUtil.userLogout();
-					mActivity.statusHashMap.put(Consts.KEY_LAST_LOGIN_USER,
+					if (0 != AccountUtil.userLogout()) {
+						AccountUtil.userLogout();
+					}
+					MySharedPreference.putString(Consts.KEY_LAST_LOGIN_USER,
 							more_name);
 					MySharedPreference.putString(Consts.DEVICE_LIST, "");
 					// 添加手动注销标志，离线报警使用，如果为手动注销账号，不接收离线报警

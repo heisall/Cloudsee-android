@@ -37,10 +37,7 @@ import com.jovision.views.XListView;
 
 public class ThirdDevListActivity extends BaseActivity implements
 		OnClickListener {
-	private Button backBtn;
-	private Button bindBtn;
 	private Button topClickAddBtn;
-	private TextView titleTv;
 	private XListView thirdDevListView = null;// 设备列表view
 	private ThirdDevAdapter thirdDevAdapter;
 	private int selected_dev_index = -1;// 保存当前修改防护开关的设备索引
@@ -73,19 +70,20 @@ public class ThirdDevListActivity extends BaseActivity implements
 
 	private void InitViews() {
 		topAddLayout = (RelativeLayout) findViewById(R.id.top_add_layout);
-		backBtn = (Button) findViewById(R.id.btn_left);
-		bindBtn = (Button) findViewById(R.id.btn_right);
-		titleTv = (TextView) findViewById(R.id.currentmenu);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		thirdDevListView = (XListView) findViewById(R.id.third_dev_listview);
 		thirdDevListView.setOnItemLongClickListener(mOnLongClickListener);
 		thirdDevListView.setPullLoadEnable(false);
 		thirdDevListView.setPullRefreshEnable(false);
 		topClickAddBtn = (Button) findViewById(R.id.add_third_dev_top);
 		topClickAddBtn.setOnClickListener(this);
-		backBtn.setOnClickListener(this);
-		bindBtn.setVisibility(View.VISIBLE);
-		bindBtn.setOnClickListener(this);
-		titleTv.setText(R.string.str_alarm_manage);
+		leftBtn.setOnClickListener(this);
+		rightBtn.setVisibility(View.VISIBLE);
+		rightBtn.setOnClickListener(this);
+		currentMenu.setText(R.string.str_alarm_manage);
 	}
 
 	private void InitData() {

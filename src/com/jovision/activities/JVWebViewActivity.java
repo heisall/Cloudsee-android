@@ -20,9 +20,6 @@ import com.jovision.commons.MyLog;
 public class JVWebViewActivity extends BaseActivity {
 
 	/** topBar **/
-	private Button back;// 左侧返回按钮
-	private TextView currentMenu;// 当前页面名称
-	private Button rigButton;
 	private RelativeLayout topBar;
 
 	private WebView webView;
@@ -54,7 +51,8 @@ public class JVWebViewActivity extends BaseActivity {
 		setContentView(R.layout.findpass_layout);
 		/** topBar **/
 		topBar = (RelativeLayout) findViewById(R.id.topbarh);
-		back = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		progressbar = (ProgressBar) findViewById(R.id.progressbar);
 		if (-1 == titleID) {
@@ -65,9 +63,9 @@ public class JVWebViewActivity extends BaseActivity {
 			currentMenu.setText(titleID);
 		}
 
-		back.setOnClickListener(myOnClickListener);
-		rigButton = (Button) findViewById(R.id.btn_right);
-		rigButton.setVisibility(View.GONE);
+		leftBtn.setOnClickListener(myOnClickListener);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		rightBtn.setVisibility(View.GONE);
 
 		webView = (WebView) findViewById(R.id.findpasswebview);
 

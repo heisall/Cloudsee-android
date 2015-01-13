@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -22,11 +23,7 @@ import com.jovision.views.XListView.IXListViewListener;
 public class JVSystemInfoActivity extends BaseActivity implements
 		IXListViewListener {
 	private static final String TAG = "JVSystemInfoActivity";
-	private static final int PAGECOUNT = 5;// 每次一页加载多少条
-
-	private Button back;// 左侧返回按钮
-	private Button rightButton;
-	private TextView currentMenu;// 当前页面名称
+	private static final int PAGECOUNT = 10;// 每次一页加载多少条
 
 	private SystemInfoAdapter infoAdapter;
 	private XListView infoListView;
@@ -58,12 +55,13 @@ public class JVSystemInfoActivity extends BaseActivity implements
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.systeminfo_layout);
-		back = (Button) findViewById(R.id.btn_left);
-		rightButton = (Button) findViewById(R.id.btn_right);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.system_info);
-		rightButton.setVisibility(View.GONE);
-		back.setOnClickListener(myOnClickListener);
+		rightBtn.setVisibility(View.GONE);
+		leftBtn.setOnClickListener(myOnClickListener);
 
 		infoListView = (XListView) findViewById(R.id.infolistview);
 		noMessLayout = (LinearLayout) findViewById(R.id.noinfolayout);
@@ -138,9 +136,13 @@ public class JVSystemInfoActivity extends BaseActivity implements
 					infoList = new ArrayList<SystemInfo>();
 				} else {
 					if (null != tempList && 0 != tempList.size()) {
+						// for(int i = 0 ; i < tempList.size() ; i++){
+						// infoList.add(0, tempList.get(i));
+						// }
 						infoList.addAll(tempList);
-						tempList.clear();
+
 					}
+					tempList.clear();
 				}
 			} else if (6 == result) {// 没有数据
 				showTextToast(R.string.system_info_nomore);// 没有更多了

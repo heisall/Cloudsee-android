@@ -17,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -29,9 +30,6 @@ import com.jovision.utils.PlayUtil;
 public class JVRemoteListActivity extends BaseActivity {
 
 	private final String TAG = "JV_RemoteList";
-	private Button back;
-	private TextView currentMenu;
-	private Button rightFunc;
 
 	private EditText selectDate;// 选择的日期
 	private ImageView moreData;// 下三角
@@ -136,10 +134,11 @@ public class JVRemoteListActivity extends BaseActivity {
 	protected void initUi() {
 		setContentView(R.layout.remoteplayback_layout);
 
-		back = (Button) findViewById(R.id.btn_left);
-		rightFunc = (Button) findViewById(R.id.btn_right);
-		back.setVisibility(View.VISIBLE);
-		rightFunc.setVisibility(View.GONE);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		leftBtn.setVisibility(View.VISIBLE);
+		rightBtn.setVisibility(View.GONE);
 
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.str_remote_playback);
@@ -149,7 +148,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		remoteVideoAdapter = new RemoteVideoAdapter(JVRemoteListActivity.this);
 		remoteListView = (ListView) findViewById(R.id.videolist);
 		remoteListView.setOnItemClickListener(onItemClickListener);
-		back.setOnClickListener(onClickListener);
+		leftBtn.setOnClickListener(onClickListener);
 		selectDate.setInputType(InputType.TYPE_NULL);
 		selectDate.setOnTouchListener(onTouchListener);
 		moreData.setOnTouchListener(onTouchListener);

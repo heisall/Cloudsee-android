@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -29,10 +30,6 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 	private ProgressDialog updateDialog;
 
 	/** topBar **/
-	private Button back;// 左侧返回按钮
-	private TextView currentMenu;// 当前页面名称
-	private Button rigButton;
-
 	private TextView devModel;
 	private TextView devVersion;
 	private Button updateBtn;
@@ -205,12 +202,13 @@ public class JVDeviceUpdateActivity extends BaseActivity {
 	protected void initUi() {
 		setContentView(R.layout.deviceupdate_layout);
 		/** topBar **/
-		back = (Button) findViewById(R.id.btn_left);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.device_version_info);
-		back.setOnClickListener(myOnClickListener);
-		rigButton = (Button) findViewById(R.id.btn_right);
-		rigButton.setVisibility(View.GONE);
+		leftBtn.setOnClickListener(myOnClickListener);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		rightBtn.setVisibility(View.GONE);
 
 		devModel = (TextView) findViewById(R.id.devmodel);
 		devVersion = (TextView) findViewById(R.id.devversion);

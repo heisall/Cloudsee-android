@@ -11,6 +11,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -26,9 +27,6 @@ public class JVDemoActivity extends BaseActivity {
 
 	/** topBar */
 	protected LinearLayout topBar;
-	protected Button leftBtn;
-	protected TextView currentMenu;
-	protected Button rightBtn;
 
 	private RefreshableView refreshableView;
 	/** 演示点设备列表 */
@@ -47,6 +45,7 @@ public class JVDemoActivity extends BaseActivity {
 		setContentView(R.layout.demo_layout);
 		topBar = (LinearLayout) findViewById(R.id.top_bar);
 		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setText(R.string.demo);

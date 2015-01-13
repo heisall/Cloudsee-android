@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -39,6 +40,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 	protected Button leftBtn;
 	protected TextView currentMenu;
 	protected Button rightBtn;
+	protected RelativeLayout alarmnet;
 
 	protected static class FragHandler extends Handler {
 
@@ -91,6 +93,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 		leftBtn = (Button) mParent.findViewById(R.id.btn_left);
 		currentMenu = (TextView) mParent.findViewById(R.id.currentmenu);
 		rightBtn = (Button) mParent.findViewById(R.id.btn_right);
+		alarmnet = (RelativeLayout)mParent.findViewById(R.id.alarmnet);
 		try {
 			if (null != leftBtn) {
 				leftBtn.setOnClickListener(mOnClickListener);

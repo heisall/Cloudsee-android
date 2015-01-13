@@ -41,16 +41,16 @@ public class JVDeviceManageActivity extends BaseActivity {
 	private TextView manage_save;
 
 	private TextView manage_delect;
+	
+	private TextView currentMenu;
+	
+	private Button leftBtn;
+	
+	private Button rightBtn;
 
 	private Boolean localFlag;
 
 	private int deviceIndex;
-
-	private Button btn_left;
-
-	private Button btn_right;
-
-	private TextView currentmenu;
 
 	private TextView cloudnumber_text;
 
@@ -95,9 +95,6 @@ public class JVDeviceManageActivity extends BaseActivity {
 
 		localFlag = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
-		btn_left = (Button) findViewById(R.id.btn_left);
-		btn_right = (Button) findViewById(R.id.btn_right);
-		btn_right.setVisibility(View.GONE);
 
 		cloudnumber_text = (TextView) findViewById(R.id.cloudnumber_text);
 		if (Consts.LANGUAGE_ZH == ConfigUtil
@@ -118,9 +115,11 @@ public class JVDeviceManageActivity extends BaseActivity {
 			cloudnumber_text.setPadding(10, 10, 0, 10);
 			cloudnumber_text.setLayoutParams(lp);
 		}
+		leftBtn = (Button)findViewById(R.id.btn_left);
+		rightBtn = (Button)findViewById(R.id.btn_right);
+		currentMenu = (TextView)findViewById(R.id.currentmenu);
 
-		currentmenu = (TextView) findViewById(R.id.currentmenu);
-		currentmenu.setText(R.string.str_device_manage);
+		currentMenu.setText(R.string.str_device_manage);
 		manageNick = (EditText) findViewById(R.id.manage_nick);
 		manageUser = (EditText) findViewById(R.id.manage_user);
 		managePassword = (EditText) findViewById(R.id.manage_password);
@@ -130,8 +129,8 @@ public class JVDeviceManageActivity extends BaseActivity {
 		manage_save = (TextView) findViewById(R.id.manage_save);
 		manage_delect = (TextView) findViewById(R.id.manage_delect);
 
-		btn_left.setOnClickListener(myOnClickListener);
-		btn_right.setOnClickListener(myOnClickListener);
+		leftBtn.setOnClickListener(myOnClickListener);
+		rightBtn.setOnClickListener(myOnClickListener);
 		manageNick_Cancle.setOnClickListener(myOnClickListener);
 		manage_save.setOnClickListener(myOnClickListener);
 		manage_delect.setOnClickListener(myOnClickListener);

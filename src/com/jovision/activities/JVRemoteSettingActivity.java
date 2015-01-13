@@ -269,7 +269,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 		/** top bar */
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setText(R.string.str_help1_0);

@@ -56,7 +56,7 @@ public class JVSystemInfoActivity extends BaseActivity implements
 	protected void initUi() {
 		setContentView(R.layout.systeminfo_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.system_info);

@@ -54,7 +54,7 @@ public class JVRegisterCodeActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		account = getIntent().getStringExtra("phone");
 		currentMenu.setText(account);

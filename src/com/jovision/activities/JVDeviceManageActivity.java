@@ -110,10 +110,10 @@ public class JVDeviceManageActivity extends BaseActivity {
 			cloudnumber_text.setPadding(10, 10, 0, 10);
 			cloudnumber_text.setLayoutParams(lp);
 		}
-		leftBtn = (Button)findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
-		rightBtn = (Button)findViewById(R.id.btn_right);
-		currentMenu = (TextView)findViewById(R.id.currentmenu);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
 
 		currentMenu.setText(R.string.str_device_manage);
 		manageNick = (EditText) findViewById(R.id.manage_nick);

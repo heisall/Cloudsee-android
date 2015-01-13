@@ -48,7 +48,7 @@ public class JVEditPassActivity extends BaseActivity {
 	protected void initUi() {
 		setContentView(R.layout.editpass_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		// if (!TextUtils.isEmpty(statusHashMap.get(Consts.KEY_USERNAME))) {

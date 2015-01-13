@@ -85,7 +85,7 @@ public class JVFeedbackActivity extends BaseActivity {
 	protected void initUi() {
 		setContentView(R.layout.feedback_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		content = (EditText) findViewById(R.id.content);
@@ -111,7 +111,8 @@ public class JVFeedbackActivity extends BaseActivity {
 		// R.drawable.send_btn_selector_1));
 		// commit.setBackgroundDrawable(getResources().getDrawable(
 		// R.drawable.send_btn_selector_2));
-		currentMenu.setText(getResources().getString(R.string.str_idea_and_feedback));
+		currentMenu.setText(getResources().getString(
+				R.string.str_idea_and_feedback));
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn.setOnClickListener(myOnClickListener);
 		wordsNum.setOnClickListener(myOnClickListener);

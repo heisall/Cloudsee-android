@@ -14,11 +14,14 @@ import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.activities.JVPlayActivity;
 import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
+import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.PlayUtil;
 
@@ -41,7 +44,7 @@ public class AlarmDialog extends Dialog {
 	private static boolean isshowing = false;
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private Toast toast;
-
+	private String strAlarmGUID;
 	public AlarmDialog(Context context) {
 		super(context, R.style.mydialog);
 		this.context = context;
@@ -103,6 +106,12 @@ public class AlarmDialog extends Dialog {
 				// contextString.lastIndexOf(".") + 1,
 				// contextString.indexOf("@"));
 				// if (strTempNameString.equals("JVPlayActivity")) {
+//				if (!mApp.getMarkedAlarmList().contains(
+//						strAlarmGUID)) {
+//					mApp.getMarkedAlarmList().add(
+//							strAlarmGUID);
+//				}				
+				MySharedPreference.putString(Consts.CHECK_ALARM_KEY, strAlarmGUID);
 				Activity currentActivity = MyActivityManager
 						.getActivityManager().currentActivity();
 				if (currentActivity == null
@@ -189,8 +198,22 @@ public class AlarmDialog extends Dialog {
 			if (!isshowing) {
 				isshowing = true;
 				PushInfo pi = (PushInfo) obj;
-				deviceNickName = pi.deviceNickName;
 				ystNum = pi.ystNum;
+				deviceList = CacheUtil.getDevList();// 再取一次
+				int dev_index = getDeivceIndex(ystNum);	
+				if(dev_index == -1){
+					deviceNickName = pi.deviceNickName;
+				}
+				else{					
+					deviceNickName = deviceList.get(dev_index).getNickName();
+					if (pi.alarmType == 11)// 第三方
+					{
+						deviceNickName = deviceNickName +"-"+pi.deviceNickName;
+					} 					
+				}
+			
+//				deviceNickName = pi.deviceNickName;
+			
 				alarmTime = pi.alarmTime;
 				String strAlarmTypeName = "";
 				if (pi.alarmType == 7) {
@@ -207,6 +230,7 @@ public class AlarmDialog extends Dialog {
 							R.string.str_alarm_type_unknown);
 				}
 				alarmTypeName = strAlarmTypeName;
+				strAlarmGUID = pi.strGUID;
 				show();
 			} else {
 				MyLog.e("Alarm", "收到信息，但不提示");

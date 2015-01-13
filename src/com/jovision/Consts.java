@@ -644,4 +644,9 @@ public class Consts {
 	public static final int DEV_SETTINGS_ALARMTIME = 0x03; // 防护时间段
 	/** 手动注销标志key */
 	public static String MANUAL_LOGOUT_TAG = "MANUAL_LOGOUT_TAG";
+	/**实时弹出报警查看后标志guid**/
+	public static String CHECK_ALARM_KEY = "CHECK_ALARM_KEY";
+	/**实时报警条数**/
+	public static final String NEW_PUSH_CNT_KEY = "NEW_PUSH_CNT_KEY";	
+	public static final int NEW_PUSH_MSG_TAG = 0x9990;
 }

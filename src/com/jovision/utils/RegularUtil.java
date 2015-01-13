@@ -101,7 +101,7 @@ public class RegularUtil {
 			byte[] b = str.getBytes("UTF-8");
 			str = new String(b, "UTF-8");
 			Pattern pattern = Pattern
-					.compile("^[A-Za-z0-9_.()\\+\\-\\u4e00-\\u9fa5]{1,20}$");
+					.compile("^[A-Za-z0-9_.()\\+\\-\\u4e00-\\u9fa5]{1,24}$");
 			Matcher matcher = pattern.matcher(str);
 			if (matcher.matches() && 24 >= str.getBytes().length) {// 3*8
 				flag = true;

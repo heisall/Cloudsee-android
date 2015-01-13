@@ -52,7 +52,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	private String packageName;
 
 	private ArrayList<String> markedAlarmList;// 存储已经阅读的报警ID
-
+	private int new_push_msg_cnt = 0;//即时推送过来的消息总量
 	/**
 	 * 获取活动集合
 	 * 
@@ -104,6 +104,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		openedActivityList = new ArrayList<BaseActivity>();
 		markedAlarmList = new ArrayList<String>();
 		MySharedPreference.init(this);
+		MySharedPreference.putString(Consts.CHECK_ALARM_KEY, "");
+//		new_push_msg_cnt = MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
+		new_push_msg_cnt = 0;
 		markedAlarmList = ((MainApplication) getApplicationContext())
 				.getMarkedAlarmList();
 		markedAlarmList = ConfigUtil.convertToArray(MySharedPreference
@@ -120,7 +123,18 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				.getSystemService(Context.ACTIVITY_SERVICE);
 		packageName = this.getPackageName();
 	}
-
+	
+	public int getNewPushCnt(){
+		return new_push_msg_cnt;
+	}
+	
+	public synchronized void setNewPushCnt(int cnt){
+		new_push_msg_cnt = cnt;
+	}
+	
+	public synchronized void add1NewPushCnt(){
+		new_push_msg_cnt++;
+	}	
 	/**
 	 * 底层所有的回调接口，将代替以下回调
 	 * <p>
@@ -385,12 +399,12 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 									.optString(JVAlarmConst.JK_ALARM_NEW_VIDEOURL);
 							// BaseApp.pushList.add(0, pi);// 新消息置顶
 							// BaseApp.pushHisCount++;
-
+							add1NewPushCnt();
 							if (isAppOnForeground()) {
 								MyLog.v("PushCallBack",
 										"the app is OnForeground.........");
 								onNotify(Consts.WHAT_PUSH_MESSAGE,
-										pi.alarmType, 0, pi);
+										pi.alarmType, 0, pi);								
 								Activity currentActivity = MyActivityManager
 										.getActivityManager().currentActivity();
 								MyLog.v("PushCallBack", "currentActivity:"
@@ -400,7 +414,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 								MyLog.v("PushCallBack",
 										"the app is not OnForeground.........");
 								onNotify(Consts.WHAT_PUSH_MESSAGE,
-										pi.alarmType, 0, pi);
+										pi.alarmType, 0, pi);							
 								Activity currentActivity = MyActivityManager
 										.getActivityManager().currentActivity();
 								if (MyActivityManager.getActivityManager()

@@ -669,7 +669,7 @@
     <string name="str_mdenabled_open_failed">The motion detecting open failed</string>
     <string name="str_mdenabled_close_ok">The motion detecting close success</string>
     <string name="str_mdenabled_close_failed">The motion detecting close failed</string>
-    <string name="str_illegal_dev_nick">The nick name is illegal</string>
+    <string name="str_illegal_dev_nick">The nick name is illegal,should be English letter,number,or special characters like .–_+()</string>
     <string name="str_cloud_file_error_1">The file is uploading or failure</string>
     <string name="str_cloud_file_error_2">此通道没有云存储信息</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->

@@ -72,7 +72,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 		topAddLayout = (RelativeLayout) findViewById(R.id.top_add_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		thirdDevListView = (XListView) findViewById(R.id.third_dev_listview);
 		thirdDevListView.setOnItemLongClickListener(mOnLongClickListener);

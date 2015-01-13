@@ -2795,9 +2795,9 @@ public class DeviceUtil {
 		}
 		return rt;
 	}
-	
+
 	public static int getDeivceIndex(String strYstNum) {
-		if(null == strYstNum || strYstNum.equals("")){
+		if (null == strYstNum || strYstNum.equals("")) {
 			return -1;
 		}
 		Device devs = null;
@@ -2814,5 +2814,5 @@ public class DeviceUtil {
 			}
 		}
 		return -1;
-	}	
+	}
 }

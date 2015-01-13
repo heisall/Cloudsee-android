@@ -331,19 +331,23 @@ public class AlarmUtil {
 												.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
 										pi.alarmSolution = obj
 												.optInt(JVAlarmConst.JK_ALARM_SOLUTION);
-										ArrayList<Device> deviceList = CacheUtil.getDevList();// 再取一次
-										int dev_index = DeviceUtil.getDeivceIndex(pi.ystNum);	
+										ArrayList<Device> deviceList = CacheUtil
+												.getDevList();// 再取一次
+										int dev_index = DeviceUtil
+												.getDeivceIndex(pi.ystNum);
 										String deviceNickName = "";
-										if(dev_index == -1){
+										if (dev_index == -1) {
 											deviceNickName = pi.deviceNickName;
-										}
-										else{					
-											deviceNickName = deviceList.get(dev_index).getNickName();
+										} else {
+											deviceNickName = deviceList.get(
+													dev_index).getNickName();
 											if (pi.alarmType == 11)// 第三方
 											{
-												deviceNickName = deviceNickName +"-"+pi.deviceNickName;
-											} 					
-										}		
+												deviceNickName = deviceNickName
+														+ "-"
+														+ pi.deviceNickName;
+											}
+										}
 										pi.deviceNickName = deviceNickName;
 										// pi.alarmLevel = obj
 										// .optInt(JVAlarmConst.JK_ALARM_ALARMLEVEL);//

@@ -44,13 +44,14 @@ public class NewFeedbackActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		setContentView(R.layout.feedback_webview_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		rightBtn= (Button) findViewById(R.id.btn_right);
+		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.INVISIBLE);
 		myWebView = (WebView) findViewById(R.id.feedback_webview);
 
-		currentMenu.setText(getResources().getString(R.string.str_idea_and_feedback));
+		currentMenu.setText(getResources().getString(
+				R.string.str_idea_and_feedback));
 		leftBtn.setOnClickListener(myOnClickListener);
 
 		localFlag = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));

@@ -45,6 +45,7 @@ public class AlarmDialog extends Dialog {
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private Toast toast;
 	private String strAlarmGUID;
+
 	public AlarmDialog(Context context) {
 		super(context, R.style.mydialog);
 		this.context = context;
@@ -106,12 +107,13 @@ public class AlarmDialog extends Dialog {
 				// contextString.lastIndexOf(".") + 1,
 				// contextString.indexOf("@"));
 				// if (strTempNameString.equals("JVPlayActivity")) {
-//				if (!mApp.getMarkedAlarmList().contains(
-//						strAlarmGUID)) {
-//					mApp.getMarkedAlarmList().add(
-//							strAlarmGUID);
-//				}				
-				MySharedPreference.putString(Consts.CHECK_ALARM_KEY, strAlarmGUID);
+				// if (!mApp.getMarkedAlarmList().contains(
+				// strAlarmGUID)) {
+				// mApp.getMarkedAlarmList().add(
+				// strAlarmGUID);
+				// }
+				MySharedPreference.putString(Consts.CHECK_ALARM_KEY,
+						strAlarmGUID);
 				Activity currentActivity = MyActivityManager
 						.getActivityManager().currentActivity();
 				if (currentActivity == null
@@ -200,20 +202,20 @@ public class AlarmDialog extends Dialog {
 				PushInfo pi = (PushInfo) obj;
 				ystNum = pi.ystNum;
 				deviceList = CacheUtil.getDevList();// 再取一次
-				int dev_index = getDeivceIndex(ystNum);	
-				if(dev_index == -1){
+				int dev_index = getDeivceIndex(ystNum);
+				if (dev_index == -1) {
 					deviceNickName = pi.deviceNickName;
-				}
-				else{					
+				} else {
 					deviceNickName = deviceList.get(dev_index).getNickName();
 					if (pi.alarmType == 11)// 第三方
 					{
-						deviceNickName = deviceNickName +"-"+pi.deviceNickName;
-					} 					
+						deviceNickName = deviceNickName + "-"
+								+ pi.deviceNickName;
+					}
 				}
-			
-//				deviceNickName = pi.deviceNickName;
-			
+
+				// deviceNickName = pi.deviceNickName;
+
 				alarmTime = pi.alarmTime;
 				String strAlarmTypeName = "";
 				if (pi.alarmType == 7) {

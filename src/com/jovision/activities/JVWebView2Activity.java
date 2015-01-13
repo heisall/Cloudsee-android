@@ -58,7 +58,7 @@ public class JVWebView2Activity extends BaseActivity {
 		/** topBar **/
 		topBar = (RelativeLayout) findViewById(R.id.topbarh);
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		progressbar = (ProgressBar) findViewById(R.id.progressbar);
 		if (-1 == titleID) {

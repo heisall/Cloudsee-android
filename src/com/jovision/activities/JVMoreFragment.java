@@ -145,8 +145,7 @@ public class JVMoreFragment extends BaseFragment {
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
-				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG,
-						0, 0, null);//通知显示报警信息条数				
+				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG, 0, 0, null);// 通知显示报警信息条数
 				new AlarmDialog(mActivity).Show(obj);
 			} else {
 				MyLog.e("Alarm",
@@ -452,13 +451,13 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 5:// 版本号
-							// Intent intentAD = new Intent(mActivity,
-							// JVWebViewActivity.class);
-							// intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-							// intentAD.putExtra("URL",
-							// "http://look.appjx.cn/mobile_api.php?mod=news&id=12604");
-							// intentAD.putExtra("title", -2);
-							// mActivity.startActivity(intentAD);
+								// Intent intentAD = new Intent(mActivity,
+								// JVWebViewActivity.class);
+								// intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+								// intentAD.putExtra("URL",
+								// "http://look.appjx.cn/mobile_api.php?mod=news&id=12604");
+								// intentAD.putExtra("title", -2);
+								// mActivity.startActivity(intentAD);
 
 							int curVersion = 0;
 							try {

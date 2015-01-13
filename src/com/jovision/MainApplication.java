@@ -52,7 +52,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	private String packageName;
 
 	private ArrayList<String> markedAlarmList;// 存储已经阅读的报警ID
-	private int new_push_msg_cnt = 0;//即时推送过来的消息总量
+	private int new_push_msg_cnt = 0;// 即时推送过来的消息总量
+
 	/**
 	 * 获取活动集合
 	 * 
@@ -105,7 +106,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		markedAlarmList = new ArrayList<String>();
 		MySharedPreference.init(this);
 		MySharedPreference.putString(Consts.CHECK_ALARM_KEY, "");
-//		new_push_msg_cnt = MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
+		// new_push_msg_cnt =
+		// MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
 		new_push_msg_cnt = 0;
 		markedAlarmList = ((MainApplication) getApplicationContext())
 				.getMarkedAlarmList();
@@ -123,18 +125,19 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				.getSystemService(Context.ACTIVITY_SERVICE);
 		packageName = this.getPackageName();
 	}
-	
-	public int getNewPushCnt(){
+
+	public int getNewPushCnt() {
 		return new_push_msg_cnt;
 	}
-	
-	public synchronized void setNewPushCnt(int cnt){
+
+	public synchronized void setNewPushCnt(int cnt) {
 		new_push_msg_cnt = cnt;
 	}
-	
-	public synchronized void add1NewPushCnt(){
+
+	public synchronized void add1NewPushCnt() {
 		new_push_msg_cnt++;
-	}	
+	}
+
 	/**
 	 * 底层所有的回调接口，将代替以下回调
 	 * <p>
@@ -219,9 +222,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		try {
 			if (res == 0) {// 保持在线成功
 				errorCount = 0;
-//				if (null != currentNotifyer) {
-//					currentNotifyer.onNotify(Consts.ALARM_NET_WEEK, 0,0, null);
-//				}
+				// if (null != currentNotifyer) {
+				// currentNotifyer.onNotify(Consts.ALARM_NET_WEEK, 0,0, null);
+				// }
 			} else {// 保持在线失败
 				errorCount++;
 				if (4 == errorCount) {// 失败4次
@@ -407,7 +410,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 								MyLog.v("PushCallBack",
 										"the app is OnForeground.........");
 								onNotify(Consts.WHAT_PUSH_MESSAGE,
-										pi.alarmType, 0, pi);								
+										pi.alarmType, 0, pi);
 								Activity currentActivity = MyActivityManager
 										.getActivityManager().currentActivity();
 								MyLog.v("PushCallBack", "currentActivity:"
@@ -417,7 +420,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 								MyLog.v("PushCallBack",
 										"the app is not OnForeground.........");
 								onNotify(Consts.WHAT_PUSH_MESSAGE,
-										pi.alarmType, 0, pi);							
+										pi.alarmType, 0, pi);
 								Activity currentActivity = MyActivityManager
 										.getActivityManager().currentActivity();
 								if (MyActivityManager.getActivityManager()
@@ -460,9 +463,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				startActivity(intent);
 			} else if (JVAccountConst.PTCP_ERROR == res) {// TCP错误
 				JVACCOUNT.StopHeartBeat();// 先停止心跳
-//				if (null != currentNotifyer) {
-//					currentNotifyer.onNotify(Consts.ALARM_NET, 0,0, null);
-//				}
+				// if (null != currentNotifyer) {
+				// currentNotifyer.onNotify(Consts.ALARM_NET, 0,0, null);
+				// }
 				Intent intent = new Intent(getApplicationContext(),
 						JVOffLineDialogActivity.class);
 				intent.putExtra("ErrorCode", JVAccountConst.PTCP_ERROR);
@@ -470,9 +473,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				startActivity(intent);
 			} else if (JVAccountConst.PTCP_CLOSED == res) {// TCP关闭
 				JVACCOUNT.StopHeartBeat();// 先停止心跳
-//				if (null != currentNotifyer) {
-//					currentNotifyer.onNotify(Consts.ALARM_NET, 0,0, null);
-//				}
+				// if (null != currentNotifyer) {
+				// currentNotifyer.onNotify(Consts.ALARM_NET, 0,0, null);
+				// }
 				Intent intent = new Intent(getApplicationContext(),
 						JVOffLineDialogActivity.class);
 				intent.putExtra("ErrorCode", JVAccountConst.PTCP_CLOSED);

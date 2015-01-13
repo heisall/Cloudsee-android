@@ -32,6 +32,7 @@ import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.commons.TPushTips;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
@@ -82,6 +83,7 @@ public class JVTabActivity extends ShakeActivity implements
 
 	JVFragmentIndicator mIndicator;
 	private MainApplication mApp;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -93,7 +95,7 @@ public class JVTabActivity extends ShakeActivity implements
 		// finish();
 		// }
 		MyLog.v(TAG, "onCreate----E");
-		mApp = (MainApplication)getApplication();
+		mApp = (MainApplication) getApplication();
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
@@ -139,14 +141,16 @@ public class JVTabActivity extends ShakeActivity implements
 	protected void onStart() {
 		super.onStart();
 	}
+
 	@Override
-	protected void onDestroy(){
+	protected void onDestroy() {
 		super.onDestroy();
-//		int cnt = mApp.getNewPushCnt();
+		// int cnt = mApp.getNewPushCnt();
 		MyLog.e(TAG, "onDestroy,invoke~~~~~ ");
 		mApp.setNewPushCnt(0);
 		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, 0);
 	}
+
 	private void getPic() {
 		flag = 0;
 		pics = new ArrayList<View>();
@@ -240,19 +244,17 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 
 		}
-		if(currentIndex == 1){
+		if (currentIndex == 1) {
 			int cnt = mApp.getNewPushCnt();
-			if(cnt > 0){
+			if (cnt > 0) {
 				mApp.setNewPushCnt(0);
 				mIndicator.updateIndicator(1, 0, false);
-			}			
-		}
-		else{
-			int cnt = mApp.getNewPushCnt();
-			if(cnt > 0){
-				mIndicator.updateIndicator(1, cnt, true);
 			}
-			else{
+		} else {
+			int cnt = mApp.getNewPushCnt();
+			if (cnt > 0) {
+				mIndicator.updateIndicator(1, cnt, true);
+			} else {
 				mIndicator.updateIndicator(1, 0, false);
 			}
 		}
@@ -337,26 +339,25 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 			break;
 		}
-		case Consts.NEW_PUSH_MSG_TAG:{
-				if(currentIndex == 1)//在信息列表界面
-				{
-					mApp.setNewPushCnt(0);	
-					mIndicator.updateIndicator(1, 0, false);
+		case Consts.NEW_PUSH_MSG_TAG: {
+			if (currentIndex == 1)// 在信息列表界面
+			{
+				mApp.setNewPushCnt(0);
+				mIndicator.updateIndicator(1, 0, false);
+			} else {
+				boolean show = false;
+				int cnt = mApp.getNewPushCnt();
+				if (cnt > 0) {
+					show = true;
 				}
-				else{
-					boolean show = false;
-					int cnt = mApp.getNewPushCnt();
-					if(cnt > 0){
-						show = true;
-					}
-					mIndicator.updateIndicator(1, cnt, show);
-				}
-				BaseFragment currentFrag = mFragments[currentIndex];
-				if (null != currentFrag) {
-					((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
-							obj);
-				}					
+				mIndicator.updateIndicator(1, cnt, show);
 			}
+			BaseFragment currentFrag = mFragments[currentIndex];
+			if (null != currentFrag) {
+				((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
+						obj);
+			}
+		}
 			break;
 		default:
 			BaseFragment currentFrag = mFragments[currentIndex];
@@ -399,6 +400,25 @@ public class JVTabActivity extends ShakeActivity implements
 			String[] strParams = new String[3];
 			strParams[0] = "0";// 0,自动检查更新
 			task.execute(strParams);
+		}
+		// String strModel = android.os.Build.MODEL;
+		// if(strModel.toUpperCase().substring(0, 1+1).equals("MI")){
+		// new TPushTips(this).showNoticeDialog();
+		// }
+		String strRom = ConfigUtil.getSystemProperty("ro.miui.ui.version.name");
+		if (strRom == null || strRom.equals("")) {
+			// showTextToast("不是MIUI");
+		} else {
+			if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", true)) {
+				if (strRom.equals("V6")) {
+					new TPushTips(this)
+							.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
+				} else {
+					new TPushTips(this)
+							.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+				}
+			}
+
 		}
 
 		mFragments[0] = new JVMyDeviceFragment();
@@ -451,7 +471,7 @@ public class JVTabActivity extends ShakeActivity implements
 						break;
 					case 1:
 						int cnt = mApp.getNewPushCnt();
-						if(cnt > 0){
+						if (cnt > 0) {
 							mApp.setNewPushCnt(0);
 							mIndicator.updateIndicator(1, 0, false);
 						}

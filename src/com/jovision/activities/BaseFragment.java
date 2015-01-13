@@ -61,14 +61,14 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 			}
 			switch (msg.what) {
 			case Consts.ALARM_NET:
-				if (null!=alarmnet) {
+				if (null != alarmnet) {
 					alarmnet.setVisibility(View.GONE);
 					isshow = true;
-				BaseActivity.isshowActivity = true;
+					BaseActivity.isshowActivity = true;
 				}
 				break;
 			case Consts.ALARM_NET_WEEK:
-				if (null!=alarmnet) {
+				if (null != alarmnet) {
 					alarmnet.setVisibility(View.GONE);
 					isshow = false;
 					BaseActivity.isshowActivity = false;
@@ -123,13 +123,13 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(isshow) {
-			if (null!=alarmnet) {
+		if (isshow) {
+			if (null != alarmnet) {
 				alarmnet.setVisibility(View.GONE);
 			}
-		}else {
-			if (null!=alarmnet) {
-			alarmnet.setVisibility(View.GONE);
+		} else {
+			if (null != alarmnet) {
+				alarmnet.setVisibility(View.GONE);
 			}
 		}
 	}

@@ -672,6 +672,8 @@
     <string name="str_illegal_dev_nick">輸入的昵稱不合法,限於字母、數字、漢字及特殊字元–_+()</string>
     <string name="str_cloud_file_error_1">文件未上傳完畢或上傳失敗</string>
     <string name="str_cloud_file_error_2">此通道没有云存储信息</string>
+    <string name="str_tpush_autostart_tips_v5">为保证离线报警功能正常使用，请您做如下设置：\n在\"安全中心\"->\"授权管理\"->\"自启动应用管理\"界面，将本软件手动添加到自启动应用中</string>
+	<string name="str_tpush_autostart_tips_v6">为保证离线报警功能正常使用，请您做如下设置：\n在\"安全中心"->\"授权管理\"->\"自启动管理\"界面，将本软件设置为允许自动启动</string>        
     <!-- 騰訊雲分析統計名稱 不用翻譯 -->
     <string name="census_login">本地登錄</string>
     <string name="census_onlinelogin">線上登錄</string>

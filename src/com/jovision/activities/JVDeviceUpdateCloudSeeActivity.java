@@ -539,7 +539,7 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 		TAG = "JVDeviceUpdateCloudSeeActivity";
 		/** topBar **/
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.device_version_info);
 		leftBtn.setOnClickListener(myOnClickListener);

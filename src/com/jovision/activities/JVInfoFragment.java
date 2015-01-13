@@ -389,15 +389,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	public void onResume() {
 		String arrayStr = mActivity.statusHashMap.get(Consts.PUSH_JSONARRAY);
 		mActivity.statusHashMap.put(Consts.PUSH_JSONARRAY, "");
-		String checkAlarmGuid = MySharedPreference.getString(Consts.CHECK_ALARM_KEY);
-		if(null!=checkAlarmGuid && !checkAlarmGuid.equals("")){
-			if (!mApp.getMarkedAlarmList().contains(
-					checkAlarmGuid)) {
-				mApp.getMarkedAlarmList().add(
-						checkAlarmGuid);
-			}			
+		String checkAlarmGuid = MySharedPreference
+				.getString(Consts.CHECK_ALARM_KEY);
+		if (null != checkAlarmGuid && !checkAlarmGuid.equals("")) {
+			if (!mApp.getMarkedAlarmList().contains(checkAlarmGuid)) {
+				mApp.getMarkedAlarmList().add(checkAlarmGuid);
+			}
 		}
-		
+
 		JSONArray pushArray = null;
 		try {
 			if (null == arrayStr || "".equalsIgnoreCase(arrayStr)) {
@@ -434,20 +433,21 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 						} else {
 
 						}
-						
+
 						ArrayList<Device> deviceList = CacheUtil.getDevList();// 再取一次
-						int dev_index = DeviceUtil.getDeivceIndex(pi.ystNum);	
+						int dev_index = DeviceUtil.getDeivceIndex(pi.ystNum);
 						String deviceNickName = "";
-						if(dev_index == -1){
+						if (dev_index == -1) {
 							deviceNickName = pi.deviceNickName;
-						}
-						else{					
-							deviceNickName = deviceList.get(dev_index).getNickName();
+						} else {
+							deviceNickName = deviceList.get(dev_index)
+									.getNickName();
 							if (pi.alarmType == 11)// 第三方
 							{
-								deviceNickName = deviceNickName +"-"+pi.deviceNickName;
-							} 					
-						}						
+								deviceNickName = deviceNickName + "-"
+										+ pi.deviceNickName;
+							}
+						}
 						pi.deviceNickName = deviceNickName;
 
 						// pi.timestamp = obj
@@ -520,8 +520,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
-				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG,
-						0, 0, null);//通知显示报警信息条数				
+				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG, 0, 0, null);// 通知显示报警信息条数
 				new AlarmDialog(mActivity).Show(obj);
 				onResume();
 			} else {

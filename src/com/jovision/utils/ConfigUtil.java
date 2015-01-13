@@ -3,6 +3,7 @@ package com.jovision.utils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -50,6 +51,7 @@ import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.test.JVACCOUNT;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -1261,5 +1263,29 @@ public class ConfigUtil {
 		}
 
 		return list;
+	}
+
+	public static String getSystemProperty(String propName) {
+		String line;
+		BufferedReader input = null;
+		try {
+			Process p = Runtime.getRuntime().exec("getprop " + propName);
+			input = new BufferedReader(
+					new InputStreamReader(p.getInputStream()), 1024);
+			line = input.readLine();
+			input.close();
+		} catch (IOException ex) {
+			MyLog.e(TAG, "Unable to read sysprop " + propName);
+			return null;
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					Log.e(TAG, "Exception while closing InputStream", e);
+				}
+			}
+		}
+		return line;
 	}
 }

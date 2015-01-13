@@ -258,7 +258,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		/** 上 */
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
 		leftBtn = (Button) findViewById(R.id.btn_left);
-		alarmnet = (RelativeLayout)findViewById(R.id.alarmnet);
+		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		ishitvis = (RelativeLayout) findViewById(R.id.ishitvis);
 		ht_motion = (ImageView) findViewById(R.id.ht_motion);
@@ -684,8 +684,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		} else {
 			// 录像模式
 			rightBtn.setTextSize(8);
-			rightBtn
-					.setTextColor(getResources().getColor(R.color.white));
+			rightBtn.setTextColor(getResources().getColor(R.color.white));
 			rightBtn.setBackgroundDrawable(null);
 			if (Consts.STORAGEMODE_NORMAL == channel.getStorageMode()) {
 				rightBtn.setText(R.string.video_normal);

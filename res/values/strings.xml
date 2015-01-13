@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
+    <string name="str_country">中国</string>
     <string name="logining">Login now…</string>
     <string name="login_str_username_notnull">Please input username.</string>
     <string name="login_str_loginpass1_notnull">Please input password.</string>
@@ -149,7 +150,8 @@
     <string name="str_feedback">Suggestion and FeedBack</string>
     <string name="str_login_out">Log Out</string>
     <!-- 注册 -->
-    <string name="str_enter_username">Email/Username</string>
+    <string name="str_enter_username">Phone/Email/Username</string>
+    <string name="str_enter_emails">Email</string>
     <string name="str_enter_username1">Phone</string>
     <string name="str_enter_pass1">Password</string>
     <string name="str_enter_pass2">Confirm password</string>

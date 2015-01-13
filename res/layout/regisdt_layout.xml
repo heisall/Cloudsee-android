@@ -1,0 +1,155 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_bar_layout" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/registusername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/editimport"
+                android:hint="@string/str_enter_emails"
+                android:inputType="text"
+                android:paddingLeft="20dp"
+                android:textColor="@color/registtextcolor" />
+
+            <TextView
+                android:id="@+id/regist_tips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="14sp"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/registpass1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/editimport"
+                android:hint="@string/str_enter_pass1"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:paddingLeft="20dp"
+                android:password="true"
+                android:textColor="@color/registtextcolor" />
+
+            <TextView
+                android:id="@+id/regist_tips2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="14sp"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/registpass2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/editimport"
+                android:hint="@string/str_enter_pass2"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:paddingLeft="20dp"
+                android:password="true"
+                android:textColor="@color/registtextcolor" />
+
+            <TextView
+                android:id="@+id/regist_tips3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="14sp"
+                android:visibility="invisible" />
+
+            <LinearLayout
+                android:id="@+id/registagreelayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:orientation="horizontal" >
+
+                <ToggleButton
+                    android:id="@+id/agree"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/registe_checkbox"
+                    android:textOff=""
+                    android:textOn="" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/str_read_agree"
+                    android:textColor="@color/registtextcolor"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/agreement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:autoLink="web"
+                    android:text="@string/str_agreement"
+                    android:textColor="@color/agreementcolor"
+                    android:textColorLink="@color/blue"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_str_user_login"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/regist"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/blue_bg"
+                android:text="@string/str_finish"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_str_close"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <WebView
+            android:id="@+id/mywebview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>

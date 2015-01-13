@@ -185,14 +185,14 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 					tipTv.setText(R.string.str_not_bind_phone_tips3);
 					tipTv.setVisibility(View.VISIBLE);
 				} else if (result == -6) {
-					showTextToast(R.string.str_query_account_failed1);
+					tipTv.setText(R.string.str_query_account_failed1);
+					tipTv.setVisibility(View.VISIBLE);
 				} else {
 					showTextToast(R.string.str_query_account_failed);
 					// tipTv.setText(R.string.str_query_account_failed);
 				}
 			}
 		}
-
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。

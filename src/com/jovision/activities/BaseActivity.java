@@ -28,7 +28,6 @@ import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
 import com.jovision.commons.MyActivityManager;
-import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
 import com.tencent.stat.StatService;
@@ -82,7 +81,6 @@ public abstract class BaseActivity extends FragmentActivity implements
 
 		@Override
 		public void handleMessage(Message msg) {
-			MyLog.v("9898", "9898laile");
 			activity.notify.onHandler(msg.what, msg.arg1, msg.arg2, msg.obj);
 			super.handleMessage(msg);
 		}

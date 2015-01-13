@@ -70,6 +70,18 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					+ System.currentTimeMillis() + "&sid=" + sid;
 			MyLog.v("sid", sid);
 			MyLog.v("demoUrl", demoUrl);
+
+			// try {
+			// // URL url = new URL(Url.APK_DOWNLOAD_URL
+			// // + mContext.getResources().getString(
+			// // R.string.str_save_apk_name));
+			//
+			// Uri uri = Uri.parse(demoUrl);
+			// Intent it = new Intent(Intent.ACTION_VIEW, uri);
+			// mContext.startActivity(it);
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// }
 			intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intentAD.putExtra("URL", demoUrl);
 			intentAD.putExtra("title", -2);

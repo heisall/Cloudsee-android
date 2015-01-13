@@ -2729,7 +2729,7 @@ public class DeviceUtil {
 	 * @param platform
 	 * @return
 	 */
-	public static int checkSoftWareUpdate(int currentVersion, int product,
+	public static int checkSoftWareUpdate(int currentVersion, String product,
 			int language, int platform, AppVersion appVersion) {
 		int rt = -1;
 		// {"mid":58,"mt":5208,"pv":"1.0","lpt":13,"sid":"sidtest","dguid":"S224350962","dcn":1}
@@ -2741,10 +2741,13 @@ public class DeviceUtil {
 			reqJson.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);
 			reqJson.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
-					JVDeviceConst.SOFT_UPDATE_PRO);// 逻辑进程编号，自动更新为4
+					JVDeviceConst.UPDATE_PROCESS);// 逻辑进程编号，自动更新为4
 			reqJson.put(JVDeviceConst.JK_APP_CURRENT_VERSION, currentVersion);// 当前VersionCode
 			reqJson.put(JVDeviceConst.JK_PRODUCT_TYPE, product);// 产品类型
-			reqJson.put(JVDeviceConst.JK_LANGUAGE_TYPE, language);// 语言类型
+			reqJson.put(JVDeviceConst.JK_LANGUAGE_TYPE, language);// 语言类型(语言
+																	// 0简体中文
+																	// 1英文//
+																	// 2繁体中文)
 			reqJson.put(JVDeviceConst.JK_APP_CLIENT_TYPE, platform);// 1:android
 																	// 2:ios
 		} catch (Exception e1) {

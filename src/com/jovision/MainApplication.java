@@ -449,12 +449,12 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
 			} else if (JVAccountConst.PTCP_CLOSED == res) {// TCP关闭
-				 JVACCOUNT.StopHeartBeat();// 先停止心跳
-				 Intent intent = new Intent(getApplicationContext(),
-				 JVOffLineDialogActivity.class);
-				 intent.putExtra("ErrorCode", JVAccountConst.PTCP_CLOSED);
-				 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				 startActivity(intent);
+				JVACCOUNT.StopHeartBeat();// 先停止心跳
+				Intent intent = new Intent(getApplicationContext(),
+						JVOffLineDialogActivity.class);
+				intent.putExtra("ErrorCode", JVAccountConst.PTCP_CLOSED);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

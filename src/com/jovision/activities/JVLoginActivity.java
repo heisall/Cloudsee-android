@@ -149,10 +149,19 @@ public class JVLoginActivity extends BaseActivity {
 			userNameET.setText(getIntent().getStringExtra("UserName"));
 			passwordET.setText(getIntent().getStringExtra("PassWord"));
 		} else {
-			if (null != userList && 0 != userList.size()) {
-				userNameET.setText(userList.get(0).getUserName());
-				userNameET.setSelection(userList.get(0).getUserName().length());
+			if (null != statusHashMap.get(Consts.KEY_LAST_LOGIN_USER)
+					&& !"".equalsIgnoreCase(statusHashMap
+							.get(Consts.KEY_LAST_LOGIN_USER))) {
+				String user = statusHashMap.get(Consts.KEY_LAST_LOGIN_USER);
+				userNameET.setText(user);
+			} else {
+				if (null != userList && 0 != userList.size()) {
+					userNameET.setText(userList.get(0).getUserName());
+					userNameET.setSelection(userList.get(0).getUserName()
+							.length());
+				}
 			}
+
 		}
 		userNameET.setOnClickListener(myOnClickListener);
 		userNameET.addTextChangedListener(new TextWatcher() {

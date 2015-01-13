@@ -522,6 +522,8 @@ public class Consts {
 	public static final String KEY_USERNAME = "USER_NAME";
 	/** 密码key */
 	public static final String KEY_PASSWORD = "PASSWORD";
+	/** 上次登陆用户 */
+	public static final String KEY_LAST_LOGIN_USER = "LAST_USER";
 	/** 上次登陆时间key */
 	public static final String KEY_LAST_LOGIN_TIME = "LAST_TIME";
 	/** IMEIkey */

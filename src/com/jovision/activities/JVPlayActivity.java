@@ -733,13 +733,27 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		// [Neo] removed
-		// case Consts.CALL_PLAY_DOOMED: {
-		// if (Consts.HDEC_BUFFERING == arg2) {
-		// loadingState(arg1, R.string.connecting_buffer2,
-		// JVConst.PLAY_CONNECTING_BUFFER);
-		// }
-		// break;
-		// }
+		case Consts.CALL_PLAY_DOOMED: {
+			// if (Consts.HDEC_BUFFERING == arg2) {
+			// loadingState(arg1, R.string.connecting_buffer2,
+			// JVConst.PLAY_CONNECTING_BUFFER);
+			// }
+			switch (arg2) {
+			case Consts.VIDEO_SIZE_CHANGED: {
+				try {
+					JSONObject object = new JSONObject(String.valueOf(obj));
+					MyLog.e("PLAY_DOOMED", obj.toString());
+					// showTextToast(getResources().getString(R.string.play_failed)+":"+object.getInt("width")+"x"+object.getInt("height"));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+				break;
+			}
+			}
+
+			break;
+		}
 
 		case Consts.WHAT_PLAY_STATUS: {
 			switch (arg2) {
@@ -1094,7 +1108,10 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		case Consts.CALL_NEW_PICTURE: {
-			MyLog.e("NEW_PICTURE", obj.toString());
+			if (null != obj) {
+				MyLog.e("NEW_PICTURE", obj.toString());
+			}
+
 			Channel channel = null;
 			if (arg1 < channelList.size()) {
 				channel = channelList.get(arg1);
@@ -2596,7 +2613,11 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			case R.id.currentmenu:
 			case R.id.selectscreen:// 下拉选择多屏
-				closePopWindow();
+				if (null != streamListView
+						&& View.VISIBLE == streamListView.getVisibility()) {
+					streamListView.setVisibility(View.GONE);
+				}
+
 				if (isBlockUi) {
 					createDialog("", true);
 				} else {
@@ -2653,6 +2674,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but8:
 			case R.id.varvoice_bg:
 			case R.id.audio_monitor:// 音频监听
+				closePopWindow();
 				if (allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).isVoiceCall()) {
 						showTextToast(R.string.audio_monitor_forbidden);
@@ -2766,6 +2788,9 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.video_bq:
 			case R.id.more_features:// 码流
+				if (null != screenPopWindow && screenPopWindow.isShowing()) {
+					screenPopWindow.dismiss();
+				}
 				int rows = 3;
 				if (channelList.get(lastClickIndex).isNewIpcFlag()
 						|| channelList.get(lastClickIndex).getParent()
@@ -3607,7 +3632,7 @@ public class JVPlayActivity extends PlayActivity implements
 					showTextToast(R.string.str_devicemanages);
 				} else {
 					// 设备设置
-					if (allowThisFuc(false)) {
+					if (allowThisFuc(true)) {
 						if (null == mobileQuality) {// 没这个字段说明是老设备，再判断MobileCH是否为2
 							if (mobileCH != null) {// 这种情况，直接不让进设备设置界面
 								if (!(mobileCH.equals("2"))) {
@@ -3620,6 +3645,7 @@ public class JVPlayActivity extends PlayActivity implements
 							}
 						}
 
+						resetFunc(channelList.get(lastClickIndex));
 						Intent intent = new Intent(JVPlayActivity.this,
 								DeviceSettingsActivity.class);
 						intent.putExtra("isadmin",

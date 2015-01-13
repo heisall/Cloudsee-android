@@ -710,6 +710,8 @@ public class JVMoreFragment extends BaseFragment {
 			try {
 				if (!localFlag) {
 					AccountUtil.userLogout();
+					mActivity.statusHashMap.put(Consts.KEY_LAST_LOGIN_USER,
+							more_name);
 					MySharedPreference.putString(Consts.DEVICE_LIST, "");
 					// 添加手动注销标志，离线报警使用，如果为手动注销账号，不接收离线报警
 					MySharedPreference.putBoolean(Consts.MANUAL_LOGOUT_TAG,
@@ -739,6 +741,7 @@ public class JVMoreFragment extends BaseFragment {
 			Intent intent = new Intent();
 			String userName = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
 			intent.putExtra("UserName", userName);
+
 			intent.setClass(mActivity, JVLoginActivity.class);
 			mActivity.startActivity(intent);
 			mActivity.finish();

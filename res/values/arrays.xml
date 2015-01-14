@@ -18,7 +18,7 @@
         <item>BroadCast</item>
         <item>Version</item>
         <item>Demo</item>
-        <item>System information</item>
+        <item>System Information</item>
         <item>Media</item>
         <item>Feedback</item>
         <item>Software Update</item>
@@ -32,7 +32,7 @@
         <item>BroadCast</item>
         <item>Version</item>
         <item>Demo</item>
-        <item>System information</item>
+        <item>System Information</item>
         <item>Media</item>
         <item>Feedback</item>
         <item>Software Update</item>
@@ -116,7 +116,7 @@
         <item>Disk Full Alarm, Device:%%.</item>
         <item>Disconnection Alarm, Device:%%.</item>
         <item>System Update Alarm, Device:%%.</item>
-        <item>Input Alarm, Device:%%, Time:$$.</item>
+        <item>Input Alarm, Device:%%.</item>
         <item>Video Lost Alarm, Device:%%.</item>
         <item>Video Covered Alarm, Device:%%.</item>
         <item>Motion Detection Alarm, Device:%%.</item>

@@ -132,7 +132,7 @@
     <!-- 更多功能 -->
     <string name="str_more_features">More function</string>
     <string name="str_alarm">Alarm</string>
-    <string name="str_alarm_info">Alarm information</string>
+    <string name="str_alarm_info">Alarm Information</string>
     <string name="str_scenepic">Scene picture</string>
     <string name="str_video_mode">Browse model</string>
     <string name="str_video_modetwo">Viewing Mode(Single-device)</string>
@@ -490,7 +490,7 @@
     <string name="device_connect">Connect All</string>
     <string name="channel_full">Fail to add due to upto limition of Device channel quantity.</string>
     <!-- JVSystemInfoActivity -->
-    <string name="system_info">System information</string>
+    <string name="system_info">System Information</string>
     <string name="system_info_load_error">Failed to load the information</string>
     <string name="system_info_nomessage">There is no system information temporarily</string>
     <string name="system_info_nomore">There is no more.</string>

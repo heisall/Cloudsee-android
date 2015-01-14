@@ -76,9 +76,9 @@ import com.jovision.utils.mails.MyAuthenticator;
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
 	public final static String ACCOUNT_VERSION = "V3.2.7";
-	public final static String PLAY_VERSION = "0.9[0f81ac7][2015-01-12]";
-	public final static String NETWORK_VERSION = "v2.0.76.3.26[private:v2.0.75.13 20150109.1]";
-
+	public final static String PLAY_VERSION = "0.9[e837bbd][2015-01-14]";
+	public final static String NETWORK_VERSION = "v2.0.76.3.27[private:v2.0.75.13 20150113.1]";
+	
 	public static String GETACCTOUT_VERSION = "";
 	public static String GETPLAY_VERSION = "";
 	public static String GETNETWORK_VERSION = "";

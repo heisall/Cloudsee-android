@@ -176,9 +176,6 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getNickName());
 		}
 		// TODO
-		if ((!"".equals(ConfigUtil.getImgPath(deviceList.get(position * 2),
-				false)) && (deviceList.get(position * 2).getOnlineStateLan() != 0 || deviceList
-				.get(position * 2).getOnlineStateNet() != 0))) {
 			deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
 			deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
 					.getBitmap(
@@ -333,7 +330,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					} else {
 						// deviceHolder.wifiStateR.getBackground().setAlpha(80);
 					}
-				}
+				} 
 				if (deviceList.get(position * 2 + 1).getOnlineStateNet() == 1) {
 					deviceHolder.devoffline_image_R.setVisibility(View.GONE);
 					deviceHolder.onLineStateR

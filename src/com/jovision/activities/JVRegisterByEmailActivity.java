@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,8 +26,7 @@ import com.jovision.commons.JVAccountConst;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 
-
-public class JVRegisterByEmailActivity extends BaseActivity{
+public class JVRegisterByEmailActivity extends BaseActivity {
 
 	private boolean agreeProtocol = true;
 
@@ -126,11 +124,11 @@ public class JVRegisterByEmailActivity extends BaseActivity{
 		mWebView = (WebView) findViewById(R.id.mywebview);
 		agreeLayout = (LinearLayout) findViewById(R.id.registagreelayout);
 
-		if (Consts.LANGUAGE_ZH ==  ConfigUtil
+		if (Consts.LANGUAGE_ZH == ConfigUtil
 				.getLanguage2(JVRegisterByEmailActivity.this)) {// 中文
 			mWebView.loadUrl("file:///android_asset/UserResign.html");
-		} else if(Consts.LANGUAGE_EN ==  ConfigUtil
-				.getLanguage2(JVRegisterByEmailActivity.this)){// 英文
+		} else if (Consts.LANGUAGE_EN == ConfigUtil
+				.getLanguage2(JVRegisterByEmailActivity.this)) {// 英文
 			mWebView.loadUrl("file:///android_asset/UserResign_en.html");
 		}
 
@@ -161,8 +159,9 @@ public class JVRegisterByEmailActivity extends BaseActivity{
 						registTips.setText(getResources().getString(
 								R.string.login_str_username_notnull));
 					} else {
-						int res = AccountUtil.VerifyUserName(JVRegisterByEmailActivity.this, userNameEditText
-								.getText().toString());
+						int res = AccountUtil.VerifyUserName(
+								JVRegisterByEmailActivity.this,
+								userNameEditText.getText().toString());
 						if (res >= 0) {
 							createDialog("", hasFocus);
 							new Thread() {
@@ -311,19 +310,23 @@ public class JVRegisterByEmailActivity extends BaseActivity{
 					pass1EditText.setText("");
 					pass2EditText.setText("");
 					pass1EditText.requestFocus();
-				} else if (-1 == AccountUtil.VerifyUserName(JVRegisterByEmailActivity.this,userNameEditText
-						.getText().toString())) {
+				} else if (-1 == AccountUtil.VerifyUserName(
+						JVRegisterByEmailActivity.this, userNameEditText
+								.getText().toString())) {
 					showTextToast(R.string.login_str_username_tips4);
-				} else if (-2 == AccountUtil.VerifyUserName(JVRegisterByEmailActivity.this,userNameEditText
-						.getText().toString())) {
+				} else if (-2 == AccountUtil.VerifyUserName(
+						JVRegisterByEmailActivity.this, userNameEditText
+								.getText().toString())) {
 					showTextToast(R.string.login_str_loginemail_tips);
-				} else if (-3 == AccountUtil.VerifyUserName(JVRegisterByEmailActivity.this,userNameEditText
-						.getText().toString())) {
+				} else if (-3 == AccountUtil.VerifyUserName(
+						JVRegisterByEmailActivity.this, userNameEditText
+								.getText().toString())) {
 					handler.sendMessage(handler
 							.obtainMessage(JVAccountConst.MAIL_DETECTION_FAILED,
 									0, 0));
-				} else if (-4 == AccountUtil.VerifyUserName(JVRegisterByEmailActivity.this,userNameEditText
-						.getText().toString())) {
+				} else if (-4 == AccountUtil.VerifyUserName(
+						JVRegisterByEmailActivity.this, userNameEditText
+								.getText().toString())) {
 					showTextToast(R.string.login_str_username_tips3);
 				} else if (!AccountUtil.verifyPass(pass1EditText.getText()
 						.toString())) {
@@ -331,7 +334,7 @@ public class JVRegisterByEmailActivity extends BaseActivity{
 				} else if (!agreeProtocol) {
 					showTextToast(R.string.login_str_agreement_tips);
 				} else {
-					createDialog("",false);
+					createDialog("", false);
 					statusHashMap.put(Consts.KEY_USERNAME, userNameEditText
 							.getText().toString());
 					statusHashMap.put(Consts.KEY_PASSWORD, pass1EditText
@@ -377,7 +380,8 @@ public class JVRegisterByEmailActivity extends BaseActivity{
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				registerRes = AccountUtil.userRegister(user);
 				if (JVAccountConst.SUCCESS == registerRes) {
-					verifyCode = AccountUtil.VerifyUserName(JVRegisterByEmailActivity.this,user.getUserName());
+					verifyCode = AccountUtil.VerifyUserName(
+							JVRegisterByEmailActivity.this, user.getUserName());
 					return registerRes;
 				} else {
 					errorCode = registerRes;
@@ -450,7 +454,7 @@ public class JVRegisterByEmailActivity extends BaseActivity{
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog("",false);
+			createDialog("", false);
 		}
 
 		@Override
@@ -513,4 +517,5 @@ public class JVRegisterByEmailActivity extends BaseActivity{
 	@Override
 	protected void onResume() {
 		super.onResume();
-	}}
+	}
+}

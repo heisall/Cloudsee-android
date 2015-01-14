@@ -87,17 +87,22 @@ public class ChannelFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mActivity = (BaseActivity) getActivity();
-		mParent = getView();
+		try {
+			mActivity = (BaseActivity) getActivity();
+			mParent = getView();
 
-		widthPixels = mActivity.disMetrics.widthPixels;
-		channelGridView = (GridView) mParent
-				.findViewById(R.id.channel_gridview);
+			widthPixels = mActivity.disMetrics.widthPixels;
+			channelGridView = (GridView) mParent
+					.findViewById(R.id.channel_gridview);
 
-		channelAdapter = new ChannelAdapter(this);
-		channelAdapter.setData(deviceList.get(deviceIndex).getChannelList()
-				.toList(), widthPixels);
-		channelGridView.setAdapter(channelAdapter);
+			channelAdapter = new ChannelAdapter(this);
+			channelAdapter.setData(deviceList.get(deviceIndex).getChannelList()
+					.toList(), widthPixels);
+			channelGridView.setAdapter(channelAdapter);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 

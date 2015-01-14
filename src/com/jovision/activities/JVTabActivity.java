@@ -32,6 +32,7 @@ import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.commons.TPushTips;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
@@ -399,6 +400,25 @@ public class JVTabActivity extends ShakeActivity implements
 			String[] strParams = new String[3];
 			strParams[0] = "0";// 0,自动检查更新
 			task.execute(strParams);
+		}
+		// String strModel = android.os.Build.MODEL;
+		// if(strModel.toUpperCase().substring(0, 1+1).equals("MI")){
+		// new TPushTips(this).showNoticeDialog();
+		// }
+		String strRom = ConfigUtil.getSystemProperty("ro.miui.ui.version.name");
+		if (strRom == null || strRom.equals("")) {
+			// showTextToast("不是MIUI");
+		} else {
+			if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", true)) {
+				if (strRom.equals("V6")) {
+					new TPushTips(this)
+							.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
+				} else {
+					new TPushTips(this)
+							.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+				}
+			}
+
 		}
 
 		mFragments[0] = new JVMyDeviceFragment();

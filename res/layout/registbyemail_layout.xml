@@ -22,39 +22,39 @@
             android:id="@+id/edit_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/editimport"
             android:hint="邮箱"
-            android:paddingLeft="10dp"
-            android:background="@drawable/editimport" />
+            android:paddingLeft="10dp" />
 
         <EditText
-             android:id="@+id/edit_pwd"
+            android:id="@+id/edit_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@drawable/editimport"
             android:hint="密码"
-             android:paddingLeft="10dp"
-            android:background="@drawable/editimport" />
+            android:paddingLeft="10dp" />
 
         <EditText
             android:id="@+id/edit_commitpwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@drawable/editimport"
             android:hint="确认密码"
-             android:paddingLeft="10dp"
-            android:background="@drawable/editimport" />
+            android:paddingLeft="10dp" />
     </LinearLayout>
 
-    <Button 
+    <Button
         android:id="@+id/regist"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:text="注册"
-        android:textSize="20dp"
-        android:textColor="@color/more_fragment_color2"
         android:background="@drawable/blue_bg"
-        />
+        android:text="注册"
+        android:textColor="@color/more_fragment_color2"
+        android:textSize="20dp" />
+
 </LinearLayout>

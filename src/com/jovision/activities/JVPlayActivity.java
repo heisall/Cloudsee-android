@@ -68,7 +68,7 @@ import com.jovision.utils.PlayUtil;
 
 public class JVPlayActivity extends PlayActivity implements
 		PlayWindowManager.OnUiListener {
-
+	private static final String TAG = "JVPlayActivity";
 	private static final int DELAY_CHECK_SURFACE = 500;
 	private static final int DELAY_DOUBLE_CHECKER = 500;
 	private static final int CONNECTION_MIN_PEROID = 300;
@@ -1491,7 +1491,6 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	protected void initSettings() {
 		// TODO
-		TAG = "PlayA";
 		MyLog.enableLogcat(true);
 
 		isQuit = false;

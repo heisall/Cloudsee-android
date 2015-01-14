@@ -341,13 +341,14 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			case R.id.regist_btn:// 注册
 				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
-				if (JVLoginActivity.this.getResources().getString(R.string.str_country).
-						equals(ConfigUtil.getCountry().substring(0,2))) {
+				if (JVLoginActivity.this.getResources()
+						.getString(R.string.str_country)
+						.equals(ConfigUtil.getCountry().substring(0, 2))) {
 					Intent registIntent = new Intent();
 					registIntent.setClass(JVLoginActivity.this,
 							JVRegisterActivity.class);
 					JVLoginActivity.this.startActivity(registIntent);
-				}else {
+				} else {
 					Intent registIntent = new Intent();
 					registIntent.setClass(JVLoginActivity.this,
 							JVRegisterByEmailActivity.class);

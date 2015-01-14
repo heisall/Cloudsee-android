@@ -10,6 +10,8 @@ import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,13 +21,19 @@ import com.jovision.commons.MyLog;
 
 public class JVWebViewActivity extends BaseActivity {
 
+	private static final String TAG = "JVWebViewActivity";
+
 	/** topBar **/
 	private RelativeLayout topBar;
 
 	private WebView webView;
 	private String url = "";
 	private int titleID = 0;
-	private ProgressBar progressbar;
+	private ProgressBar loadingBar;
+
+	private LinearLayout loadFailedLayout;
+	private ImageView reloadImgView;
+	private boolean loadFailed = false;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -54,7 +62,14 @@ public class JVWebViewActivity extends BaseActivity {
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		progressbar = (ProgressBar) findViewById(R.id.progressbar);
+		currentMenu.setText(R.string.demo);
+		loadingBar = (ProgressBar) findViewById(R.id.loadingbar);
+
+		loadFailedLayout = (LinearLayout) findViewById(R.id.loadfailedlayout);
+		loadFailedLayout.setVisibility(View.GONE);
+		reloadImgView = (ImageView) findViewById(R.id.refreshimg);
+		reloadImgView.setOnClickListener(myOnClickListener);
+
 		if (-1 == titleID) {
 			currentMenu.setText("");
 		} else if (-2 == titleID) {
@@ -91,6 +106,8 @@ public class JVWebViewActivity extends BaseActivity {
 			@Override
 			public void onReceivedError(WebView view, int errorCode,
 					String description, String failingUrl) {
+				MyLog.v(TAG, "webView load failed");
+				loadFailed = true;
 				super.onReceivedError(view, errorCode, description, failingUrl);
 			}
 
@@ -107,7 +124,6 @@ public class JVWebViewActivity extends BaseActivity {
 				} else {
 					view.loadUrl(newUrl);
 				}
-
 				return true;
 			}
 
@@ -115,18 +131,30 @@ public class JVWebViewActivity extends BaseActivity {
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				// TODO Auto-generated method stub
 				super.onPageStarted(view, url, favicon);
-				progressbar.setVisibility(View.VISIBLE);
+				loadingBar.setVisibility(View.VISIBLE);
+				MyLog.v(TAG, "webView start load");
 			}
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-				webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
-				progressbar.setVisibility(View.GONE);
 				// webView.loadUrl("javascript:videopayer.play()");
+
+				if (loadFailed) {
+					loadFailedLayout.setVisibility(View.VISIBLE);
+					webView.setVisibility(View.GONE);
+					loadingBar.setVisibility(View.GONE);
+				} else {
+					webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
+					loadingBar.setVisibility(View.GONE);
+					webView.setVisibility(View.VISIBLE);
+					loadFailedLayout.setVisibility(View.GONE);
+				}
+				MyLog.v(TAG, "webView finish load");
 			}
 		});
 
+		loadFailed = false;
 		webView.loadUrl(url);
 	}
 
@@ -134,10 +162,19 @@ public class JVWebViewActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.btn_left:
+			case R.id.btn_left: {
 				backMethod();
 				break;
 			}
+			case R.id.refreshimg: {
+				loadFailedLayout.setVisibility(View.GONE);
+				loadingBar.setVisibility(View.VISIBLE);
+				loadFailed = false;
+				webView.loadUrl(url);
+				break;
+			}
+			}
+
 		}
 	};
 

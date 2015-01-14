@@ -44,7 +44,7 @@ import com.jovision.views.MyViewPager;
 
 public abstract class PlayActivity extends BaseActivity implements
 		OnPageChangeListener {
-
+	private static final String TAG = "PlayActivity";
 	protected static final int PLAY_AUDIO_WHAT = 0x26;
 	public static MyAudio playAudio;
 

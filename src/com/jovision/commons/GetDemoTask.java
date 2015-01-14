@@ -82,7 +82,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			// } catch (Exception e) {
 			// e.printStackTrace();
 			// }
-			demoUrl = "http://192.168.9.83:8080/mobile/index.html";
+//			demoUrl = "http://192.168.9.83:8080/m2obile/index.html";
 			intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intentAD.putExtra("URL", demoUrl);
 			intentAD.putExtra("title", -2);

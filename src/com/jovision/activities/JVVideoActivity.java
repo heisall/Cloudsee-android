@@ -17,6 +17,7 @@ import com.jovision.commons.MyLog;
 
 public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 		OnCompletionListener, OnPreparedListener {
+	private static final String TAG = "JVVideoActivity";
 	private VideoView mVideoView;
 	private String url;
 	private boolean isLocal;

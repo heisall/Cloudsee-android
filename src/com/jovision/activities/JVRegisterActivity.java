@@ -37,6 +37,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
@@ -49,6 +50,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.GetPhoneNumber;
 
 public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
@@ -61,6 +63,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 	private TextView registercode;
 	private EditText code;
 	private boolean isregister;
+	private GetPhoneNumber phoneNumber;
 
 	/** 注册信息提示文本 */
 	private TextView registTips;
@@ -262,42 +265,43 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 					if (!ConfigUtil.isConnected(JVRegisterActivity.this)) {
 						alertNetDialog();
 					} else {
-						checkPhoneNum(userNameEditText.getText().toString(),
-								currentCode);
+						//						checkPhoneNum(userNameEditText.getText().toString(),
+						//								currentCode);
+						phoneNumber = new GetPhoneNumber(userNameEditText.getText().toString());
 						if ("".equalsIgnoreCase(userNameEditText.getText()
 								.toString())) {
 							registTips.setVisibility(View.VISIBLE);
 							registTips.setTextColor(Color.rgb(217, 34, 38));
 							registTips.setText(getResources().getString(
 									R.string.login_str_username_notnull));
-						} else {
-							int res = AccountUtil.VerifyUserName(
-									JVRegisterActivity.this, userNameEditText
-											.getText().toString());
-							if (res >= 0) {
-								createDialog("", true);
-								new Thread() {
-									public void run() {
-										nameExists = AccountUtil
-												.isUserExsit(userNameEditText
-														.getText().toString());
-										if (JVAccountConst.USER_HAS_EXIST == nameExists) {
-											handler.sendMessage(handler
-													.obtainMessage(
-															JVAccountConst.USERNAME_DETECTION_FAILED,
-															0, 0));
-											isregister = true;
-										} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
-											handler.sendMessage(handler
-													.obtainMessage(
-															JVAccountConst.USERNAME_DETECTION_SUCCESS,
-															0, 0));
-											isregister = false;
-											isclick = false;
-										}
-									};
-								}.start();
-							}
+						} else if(phoneNumber.matchNum()==4||phoneNumber.matchNum()==5) {
+							registTips.setVisibility(View.VISIBLE);
+							registTips.setTextColor(Color.rgb(217, 34, 38));
+							registTips.setText(getResources().getString(
+									R.string.str_phone_num_error));
+						}else {
+							createDialog("", true);
+							new Thread() {
+								public void run() {
+									nameExists = AccountUtil
+											.isUserExsit(userNameEditText
+													.getText().toString());
+									if (JVAccountConst.USER_HAS_EXIST == nameExists) {
+										handler.sendMessage(handler
+												.obtainMessage(
+														JVAccountConst.USERNAME_DETECTION_FAILED,
+														0, 0));
+										isregister = true;
+									} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
+										handler.sendMessage(handler
+												.obtainMessage(
+														JVAccountConst.USERNAME_DETECTION_SUCCESS,
+														0, 0));
+										isregister = false;
+										isclick = false;
+									}
+								};
+							}.start();
 						}
 					}
 				}
@@ -345,21 +349,17 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
 	private void MakeSure() {
 		isregister = false;
-		int res = AccountUtil.VerifyUserName(JVRegisterActivity.this,
-				userNameEditText.getText().toString());
-		if (res >= 0) {
-			createDialog("", true);
-			nameExists = AccountUtil.isUserExsit(userNameEditText.getText()
-					.toString());
-			if (JVAccountConst.USER_HAS_EXIST == nameExists) {
-				handler.sendMessage(handler.obtainMessage(
-						JVAccountConst.USERNAME_DETECTION_FAILED, 0, 0));
-				isregister = true;
-			} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
-				handler.sendMessage(handler.obtainMessage(
-						JVAccountConst.USERNAME_DETECTION_SUCCESS, 0, 0));
-				isclick = true;
-			}
+		createDialog("", true);
+		nameExists = AccountUtil.isUserExsit(userNameEditText.getText()
+				.toString());
+		if (JVAccountConst.USER_HAS_EXIST == nameExists) {
+			handler.sendMessage(handler.obtainMessage(
+					JVAccountConst.USERNAME_DETECTION_FAILED, 0, 0));
+			isregister = true;
+		} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
+			handler.sendMessage(handler.obtainMessage(
+					JVAccountConst.USERNAME_DETECTION_SUCCESS, 0, 0));
+			isclick = true;
 		}
 	}
 
@@ -383,9 +383,15 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				backMethod();
 				break;
 			case R.id.registercode:
+				phoneNumber = new GetPhoneNumber(userNameEditText.getText().toString());
 				if (!ConfigUtil.isConnected(JVRegisterActivity.this)) {
 					alertNetDialog();
-				} else {
+				} else if(phoneNumber.matchNum()==4||phoneNumber.matchNum()==5) {
+					registTips.setVisibility(View.VISIBLE);
+					registTips.setTextColor(Color.rgb(217, 34, 38));
+					registTips.setText(getResources().getString(
+							R.string.str_phone_num_error));
+				}else {
 					MakeSure();
 				}
 				break;
@@ -432,26 +438,26 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
 	};
 
-	// 检查电话号码
-	private void checkPhoneNum(String phone, String code) {
-		if (code.startsWith("+")) {
-			code = code.substring(1);
-		}
-
-		if (TextUtils.isEmpty(phone)) {
-			return;
-		}
-		if ("".equals(code)) {
-			String rule = countryRules.get(code);
-			Pattern p = Pattern.compile(rule);
-			Matcher m = p.matcher(phone);
-			if (!m.matches()) {
-				showTextToast(getResources().getString(
-						R.string.reset_passwd_tips5));
-				return;
-			}
-		}
-	}
+	//	// 检查电话号码
+	//	private void checkPhoneNum(String phone, String code) {
+	//		if (code.startsWith("+")) {
+	//			code = code.substring(1);
+	//		}
+	//
+	//		if (TextUtils.isEmpty(phone)) {
+	//			return;
+	//		}
+	//		if ("".equals(code)) {
+	//			String rule = countryRules.get(code);
+	//			Pattern p = Pattern.compile(rule);
+	//			Matcher m = p.matcher(phone);
+	//			if (!m.matches()) {
+	//				showTextToast(getResources().getString(
+	//						R.string.reset_passwd_tips5));
+	//				return;
+	//			}
+	//		}
+	//	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

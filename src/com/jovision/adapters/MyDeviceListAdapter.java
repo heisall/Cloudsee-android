@@ -115,6 +115,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_online_img_l);
 			deviceHolder.devWifiImgL = (ImageView) convertView
 					.findViewById(R.id.wifi_online_img_l);
+			deviceHolder.devoffline_image_L = (ImageView)convertView
+					.findViewById(R.id.devoffline_image_l);
 			deviceHolder.devImgL = (ImageView) convertView
 					.findViewById(R.id.dev_image_l);
 			deviceHolder.devImgTopL = (ImageView) convertView
@@ -142,6 +144,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_online_img_r);
 			deviceHolder.devWifiImgR = (ImageView) convertView
 					.findViewById(R.id.wifi_online_img_r);
+			deviceHolder.devoffline_image_R = (ImageView)convertView
+					.findViewById(R.id.devoffline_image_r);
 			deviceHolder.devImgR = (ImageView) convertView
 					.findViewById(R.id.dev_image_r);
 			deviceHolder.devImgTopR = (ImageView) convertView
@@ -180,7 +184,6 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getBitmap(
 							ConfigUtil.getImgPath(deviceList.get(position * 2),
 									false), "image", ""));
-		}
 		if (Boolean
 				.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {
@@ -208,6 +211,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			}
 
 			if (deviceList.get(position * 2).getOnlineStateNet() == 1) {
+				deviceHolder.devoffline_image_L.setVisibility(View.GONE);
 				deviceHolder.onLineStateL
 						.setText(R.string.str_device_online_net);
 				deviceHolder.onLineStateL.setTextColor(mfragment.getActivity()
@@ -215,6 +219,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 				deviceHolder.devOnlineImgL
 						.setImageResource(R.drawable.deviceonline);
 			} else if (deviceList.get(position * 2).getOnlineStateLan() == 1) {
+				deviceHolder.devoffline_image_L.setVisibility(View.GONE);
 				deviceHolder.onLineStateL
 						.setText(R.string.str_device_online_lan);
 				deviceHolder.onLineStateL.setTextColor(mfragment.getActivity()
@@ -222,6 +227,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 				deviceHolder.devOnlineImgL
 						.setImageResource(R.drawable.deviceonline);
 			} else {
+				deviceHolder.devoffline_image_L.setVisibility(View.VISIBLE);
 				deviceHolder.onLineStateL.setText(R.string.str_device_offline);
 				deviceHolder.onLineStateL.setTextColor(mfragment.getActivity()
 						.getResources().getColor(R.color.mydevice_online));
@@ -329,6 +335,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					}
 				}
 				if (deviceList.get(position * 2 + 1).getOnlineStateNet() == 1) {
+					deviceHolder.devoffline_image_R.setVisibility(View.GONE);
 					deviceHolder.onLineStateR
 							.setText(R.string.str_device_online_net);
 					deviceHolder.onLineStateR.setTextColor(mfragment
@@ -337,6 +344,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					deviceHolder.devOnlineImgR
 							.setImageResource(R.drawable.deviceonline);
 				} else if (deviceList.get(position * 2 + 1).getOnlineStateLan() == 1) {
+					deviceHolder.devoffline_image_R.setVisibility(View.GONE);
 					deviceHolder.onLineStateR
 							.setText(R.string.str_device_online_lan);
 					deviceHolder.onLineStateR.setTextColor(mfragment
@@ -345,6 +353,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					deviceHolder.devOnlineImgR
 							.setImageResource(R.drawable.deviceonline);
 				} else {
+					deviceHolder.devoffline_image_R.setVisibility(View.VISIBLE);
 					deviceHolder.onLineStateR
 							.setText(R.string.str_device_offline);
 					deviceHolder.onLineStateR.setTextColor(mfragment
@@ -440,6 +449,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		TextView devNameL;
 		TextView onLineStateL;
 		TextView wifiStateL;
+		ImageView devoffline_image_L;
 		ImageView devImgL;
 		ImageView devImgTopL;
 		LinearLayout devDeleteL;
@@ -454,6 +464,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		TextView devNameR;
 		TextView onLineStateR;
 		TextView wifiStateR;
+		ImageView devoffline_image_R;
 		ImageView devImgR;
 		ImageView devImgTopR;
 		LinearLayout devDeleteR;

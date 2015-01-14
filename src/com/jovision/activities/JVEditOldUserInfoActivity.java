@@ -87,13 +87,6 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 			registTips.setText(getResources().getString(
 					R.string.str_user_has_exist));
 			break;
-		case JVAccountConst.PHONE_DETECTION_FAILED:
-			registTips.setVisibility(View.VISIBLE);
-			registTips.setTextColor(Color.rgb(217, 34, 38));
-			registTips.setText(getResources().getString(
-					R.string.str_phone_num_error));
-			break;
-
 		}
 
 	}
@@ -154,10 +147,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 									} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
 										handler.sendMessage(handler
 												.obtainMessage(JVAccountConst.USERNAME_DETECTION_SUCCESS));
-									} else if (JVAccountConst.PHONE_NOT_TRUE == nameExists) {
-										handler.sendMessage(handler
-												.obtainMessage(JVAccountConst.PHONE_DETECTION_FAILED));
-									}
+									} 
 								};
 							}.start();
 						} else {

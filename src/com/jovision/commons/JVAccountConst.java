@@ -44,8 +44,8 @@ public class JVAccountConst {
 	/** 注册用户名检测成功、失败 */
 	public static final int USERNAME_DETECTION_SUCCESS = 44;// --
 	public static final int USERNAME_DETECTION_FAILED = 45;
-	/** 手机号不符合规则 */
-	public static final int PHONE_DETECTION_FAILED = 46;
+	/** 邮箱不符合规则 */
+	public static final int MAIL_DETECTION_FAILED = 46;
 
 	/** 注册邮箱检测成功、失败 */
 	public static final int EMAIL_DETECTION_SUCCESS = 47;

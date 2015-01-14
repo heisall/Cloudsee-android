@@ -75,13 +75,13 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 			inputMethod(focusView);
 			break;
 		}
-		/** 手机号不符合规则 */
-		case JVAccountConst.PHONE_DETECTION_FAILED: {
+		/** 邮箱不符合规则 */
+		case JVAccountConst.MAIL_DETECTION_FAILED: {
 			dismissDialog();
 			registTips.setVisibility(View.VISIBLE);
 			registTips.setTextColor(Color.rgb(217, 34, 38));
 			registTips.setText(getResources().getString(
-					R.string.str_phone_num_error));
+					R.string.login_str_loginemail_tips));
 			inputMethod(focusView);
 			break;
 		}
@@ -175,10 +175,17 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 														JVAccountConst.USERNAME_DETECTION_FAILED,
 														0, 0));
 									} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
-										handler.sendMessage(handler
-												.obtainMessage(
-														JVAccountConst.USERNAME_DETECTION_SUCCESS,
-														0, 0));
+										if (!AccountUtil.verifyEmail(userNameEditText
+												.getText().toString())) {
+											handler.sendMessage(handler
+													.obtainMessage(JVAccountConst.MAIL_DETECTION_FAILED,
+															0, 0));
+										}else {
+											handler.sendMessage(handler
+													.obtainMessage(
+															JVAccountConst.USERNAME_DETECTION_SUCCESS,
+															0, 0));
+										}
 									} else {
 										handler.sendMessage(handler
 												.obtainMessage(
@@ -199,10 +206,9 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 								registTips.setText(getResources().getString(
 										R.string.login_str_loginemail_tips));
 							} else if (-3 == res) {
-								registTips.setVisibility(View.VISIBLE);
-								registTips.setTextColor(Color.rgb(217, 34, 38));
-								registTips.setText(getResources().getString(
-										R.string.login_str_username_tips2));
+								handler.sendMessage(handler
+										.obtainMessage(JVAccountConst.MAIL_DETECTION_FAILED,
+												0, 0));
 							} else if (-4 == res) {
 								registTips.setVisibility(View.VISIBLE);
 								registTips.setTextColor(Color.rgb(217, 34, 38));
@@ -287,7 +293,12 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 				pass2EditText = (EditText) findViewById(R.id.registpass2);
 				if ("".equalsIgnoreCase(userNameEditText.getText().toString())) {
 					showTextToast(R.string.login_str_username_notnull);
-				} else if ("".equalsIgnoreCase(pass1EditText.getText()
+				}else if(!AccountUtil.verifyEmail(userNameEditText
+						.getText().toString())) {
+					handler.sendMessage(handler
+							.obtainMessage(JVAccountConst.MAIL_DETECTION_FAILED,
+									0, 0));
+				}else if ("".equalsIgnoreCase(pass1EditText.getText()
 						.toString())) {
 					showTextToast(R.string.login_str_loginpass1_notnull);
 				} else if ("".equalsIgnoreCase(pass2EditText.getText()
@@ -310,7 +321,9 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 				} else if (-3 == AccountUtil.VerifyUserName(
 						JVRegisterByEmailActivity.this, userNameEditText
 								.getText().toString())) {
-					showTextToast(R.string.login_str_username_tips2);
+					handler.sendMessage(handler
+							.obtainMessage(JVAccountConst.MAIL_DETECTION_FAILED,
+									0, 0));
 				} else if (-4 == AccountUtil.VerifyUserName(
 						JVRegisterByEmailActivity.this, userNameEditText
 								.getText().toString())) {

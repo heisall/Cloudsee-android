@@ -322,8 +322,8 @@ public class JVWaveSetActivity extends BaseActivity {
 		instruction = (ImageView) findViewById(R.id.instruction);
 		pressToSendWave = (ImageView) findViewById(R.id.press_sendwave);
 		stepImage1.setImageResource(R.drawable.reset_bg);
-		if (Consts.LANGUAGE_ZH == ConfigUtil
-				.getLanguage2(JVWaveSetActivity.this)) {
+		if (Consts.LANGUAGE_EN == ConfigUtil
+				.getLanguage2(JVWaveSetActivity.this) ) {
 			instruction.setImageResource(R.drawable.instruction_ch);
 		} else {
 			instruction.setImageResource(R.drawable.instruction_en);

@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -57,7 +58,7 @@ public class JVRegisterCodeActivity extends BaseActivity {
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		account = getIntent().getStringExtra("phone");
-		currentMenu.setText(account);
+		currentMenu.setText(R.string.login_str_user_regist);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
 		registerpwd = (EditText) findViewById(R.id.registpwd);
@@ -113,10 +114,7 @@ public class JVRegisterCodeActivity extends BaseActivity {
 		}
 	};
 	private int errorCode = 0;
-	private int verifyCode = 0;
-	private int loginRes = 0;
 	private int loginRes1 = 0;
-	private int loginRes2 = 0;
 
 	// 用户注册线程
 	private class RegisterTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
@@ -130,9 +128,6 @@ public class JVRegisterCodeActivity extends BaseActivity {
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				registerRes = AccountUtil.userRegister(user);
 				if (JVAccountConst.SUCCESS == registerRes) {
-					verifyCode = AccountUtil.VerifyUserName(
-							JVRegisterCodeActivity.this, user.getUserName());
-					if (verifyCode > 0) {
 						String strRes = AccountUtil.onLoginProcessV2(
 								JVRegisterCodeActivity.this,
 								statusHashMap.get(Consts.KEY_USERNAME),
@@ -142,7 +137,6 @@ public class JVRegisterCodeActivity extends BaseActivity {
 						try {
 							respObj = new JSONObject(strRes);
 							loginRes1 = respObj.optInt("arg1", 1);
-							loginRes2 = respObj.optInt("arg2", 0);
 							// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
 
 							String data = respObj.optString("data");
@@ -176,10 +170,8 @@ public class JVRegisterCodeActivity extends BaseActivity {
 
 						} catch (JSONException e) {
 							loginRes1 = JVAccountConst.LOGIN_FAILED_2;
-							loginRes2 = 0;
 							e.printStackTrace();
 						}
-					}
 					return registerRes;
 				} else {
 					errorCode = registerRes;
@@ -206,7 +198,8 @@ public class JVRegisterCodeActivity extends BaseActivity {
 				StatService.trackCustomEvent(JVRegisterCodeActivity.this,
 						"Register", JVRegisterCodeActivity.this.getResources()
 								.getString(R.string.census_register));
-				if (verifyCode > 0 && JVAccountConst.LOGIN_SUCCESS == loginRes1) {
+				Log.i("TAG", loginRes1+"DDDDDDDDDDD");
+				if ( JVAccountConst.LOGIN_SUCCESS == loginRes1) {
 					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 					Intent emailIntent = new Intent(
 							JVRegisterCodeActivity.this,

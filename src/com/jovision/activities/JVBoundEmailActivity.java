@@ -77,7 +77,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 				R.drawable.setting_save));
 		rightBtn.setText(getResources().getString(R.string.str_skip));
 		rightBtn.setTextColor(Color.WHITE);
-		currentMenu.setText(getResources().getString(R.string.str_bound_email));
+		currentMenu.setText(getResources().getString(R.string.str_bind_mail));
 
 		finish = (Button) findViewById(R.id.finish);
 		rightBtn.setOnClickListener(onClickListener);

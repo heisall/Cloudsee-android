@@ -24,26 +24,57 @@
             android:layout_margin="20dp"
             android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/registpwd"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/editimport"
-                android:hint="@string/str_enter_pass1"
-                android:inputType="textPassword"
-                android:paddingLeft="20dp"
-                android:textColor="@color/registtextcolor" />
+                android:orientation="horizontal" >
 
-            <EditText
-                android:id="@+id/registpwdsure"
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/str_enter_pass1"
+                    android:textColor="@color/more_fragment_color2"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/registpwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/editimport"
+                    android:hint="@string/str_enter_pass1"
+                    android:inputType="textPassword"
+                    android:paddingLeft="15dp"
+                    android:textColor="@color/registtextcolor" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/editimport"
-                android:hint="@string/str_enter_pass2"
-                android:inputType="textPassword"
-                android:paddingLeft="20dp"
-                android:textColor="@color/registtextcolor" />
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:text="@string/str_enter_pass2"
+                    android:textColor="@color/more_fragment_color2"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/registpwdsure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/editimport"
+                    android:hint="@string/str_enter_pass2"
+                    android:inputType="textPassword"
+                    android:paddingLeft="15dp"
+                    android:textColor="@color/registtextcolor" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/regist"

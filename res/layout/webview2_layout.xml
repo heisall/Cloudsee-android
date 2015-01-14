@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         layout="@layout/load_failed_layout"
-        android:visibility="visible" >
+        android:visibility="gone" >
     </include>
 
 </RelativeLayout>

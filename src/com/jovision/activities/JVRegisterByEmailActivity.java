@@ -175,12 +175,14 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 														JVAccountConst.USERNAME_DETECTION_FAILED,
 														0, 0));
 									} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
-										if (!AccountUtil.verifyEmail(userNameEditText
-												.getText().toString())) {
+										if (!AccountUtil
+												.verifyEmail(userNameEditText
+														.getText().toString())) {
 											handler.sendMessage(handler
-													.obtainMessage(JVAccountConst.MAIL_DETECTION_FAILED,
+													.obtainMessage(
+															JVAccountConst.MAIL_DETECTION_FAILED,
 															0, 0));
-										}else {
+										} else {
 											handler.sendMessage(handler
 													.obtainMessage(
 															JVAccountConst.USERNAME_DETECTION_SUCCESS,
@@ -206,9 +208,9 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 								registTips.setText(getResources().getString(
 										R.string.login_str_loginemail_tips));
 							} else if (-3 == res) {
-								handler.sendMessage(handler
-										.obtainMessage(JVAccountConst.MAIL_DETECTION_FAILED,
-												0, 0));
+								handler.sendMessage(handler.obtainMessage(
+										JVAccountConst.MAIL_DETECTION_FAILED,
+										0, 0));
 							} else if (-4 == res) {
 								registTips.setVisibility(View.VISIBLE);
 								registTips.setTextColor(Color.rgb(217, 34, 38));
@@ -293,12 +295,11 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 				pass2EditText = (EditText) findViewById(R.id.registpass2);
 				if ("".equalsIgnoreCase(userNameEditText.getText().toString())) {
 					showTextToast(R.string.login_str_username_notnull);
-				}else if(!AccountUtil.verifyEmail(userNameEditText
-						.getText().toString())) {
-					handler.sendMessage(handler
-							.obtainMessage(JVAccountConst.MAIL_DETECTION_FAILED,
-									0, 0));
-				}else if ("".equalsIgnoreCase(pass1EditText.getText()
+				} else if (!AccountUtil.verifyEmail(userNameEditText.getText()
+						.toString())) {
+					handler.sendMessage(handler.obtainMessage(
+							JVAccountConst.MAIL_DETECTION_FAILED, 0, 0));
+				} else if ("".equalsIgnoreCase(pass1EditText.getText()
 						.toString())) {
 					showTextToast(R.string.login_str_loginpass1_notnull);
 				} else if ("".equalsIgnoreCase(pass2EditText.getText()
@@ -321,9 +322,8 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 				} else if (-3 == AccountUtil.VerifyUserName(
 						JVRegisterByEmailActivity.this, userNameEditText
 								.getText().toString())) {
-					handler.sendMessage(handler
-							.obtainMessage(JVAccountConst.MAIL_DETECTION_FAILED,
-									0, 0));
+					handler.sendMessage(handler.obtainMessage(
+							JVAccountConst.MAIL_DETECTION_FAILED, 0, 0));
 				} else if (-4 == AccountUtil.VerifyUserName(
 						JVRegisterByEmailActivity.this, userNameEditText
 								.getText().toString())) {

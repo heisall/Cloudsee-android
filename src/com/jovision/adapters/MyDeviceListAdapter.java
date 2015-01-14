@@ -7,7 +7,6 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -173,7 +172,9 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getNickName());
 		}
 		// TODO
-		if ((!"".equals(ConfigUtil.getImgPath(deviceList.get(position * 2),false))&&(deviceList.get(position * 2).getOnlineStateLan() != 0||deviceList.get(position * 2).getOnlineStateNet() != 0))) {
+		if ((!"".equals(ConfigUtil.getImgPath(deviceList.get(position * 2),
+				false)) && (deviceList.get(position * 2).getOnlineStateLan() != 0 || deviceList
+				.get(position * 2).getOnlineStateNet() != 0))) {
 			deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
 			deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
 					.getBitmap(

@@ -147,7 +147,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 									} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
 										handler.sendMessage(handler
 												.obtainMessage(JVAccountConst.USERNAME_DETECTION_SUCCESS));
-									} 
+									}
 								};
 							}.start();
 						} else {

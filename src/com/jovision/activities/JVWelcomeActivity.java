@@ -106,33 +106,38 @@ public class JVWelcomeActivity extends BaseActivity {
 
 		welcomeImage = (ImageView) findViewById(R.id.cloudseewelcome);
 
-		String fileName = "";
-		if (Consts.LANGUAGE_ZH == ConfigUtil
-				.getLanguage2(JVWelcomeActivity.this)) {
-			fileName = "welcome_zh";
-		} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
-				.getLanguage2(JVWelcomeActivity.this)) {
-			fileName = "welcome_zht";
-		} else {
-			fileName = "welcome_en";
-		}
+		if ("false".equalsIgnoreCase(statusHashMap.get(Consts.NEUTRAL_VERSION))) {// 非中性软件
+			String fileName = "";
+			if (Consts.LANGUAGE_ZH == ConfigUtil
+					.getLanguage2(JVWelcomeActivity.this)) {
+				fileName = "welcome_zh";
+			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+					.getLanguage2(JVWelcomeActivity.this)) {
+				fileName = "welcome_zht";
+			} else {
+				fileName = "welcome_en";
+			}
 
-		welcomePath = Consts.WELCOME_IMG_PATH + fileName
-				+ Consts.IMAGE_JPG_KIND;
-		File imgFile = new File(welcomePath);
-		welcomeImage.setScaleType(ScaleType.FIT_XY);
-		if (imgFile.exists()) {
-			Bitmap bitmap = BitmapCache.getInstance().getBitmap(welcomePath,
-					"welcome", fileName);
-			if (null != bitmap) {
-				welcomeImage.setImageBitmap(bitmap);
+			welcomePath = Consts.WELCOME_IMG_PATH + fileName
+					+ Consts.IMAGE_JPG_KIND;
+			File imgFile = new File(welcomePath);
+			welcomeImage.setScaleType(ScaleType.FIT_XY);
+			if (imgFile.exists()) {
+				Bitmap bitmap = BitmapCache.getInstance().getBitmap(
+						welcomePath, "welcome", fileName);
+				if (null != bitmap) {
+					welcomeImage.setImageBitmap(bitmap);
+				} else {
+					welcomeImage.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.welcome_default));
+				}
 			} else {
 				welcomeImage.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.welcome_default));
 			}
-		} else {
+		} else {// 中性软件
 			welcomeImage.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.welcome_default));
+					R.drawable.welcome_netural));
 		}
 
 		StatConfig.setDebugEnable(true);

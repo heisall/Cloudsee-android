@@ -57,8 +57,6 @@ public abstract class BaseActivity extends FragmentActivity implements
 	// private long duration;
 	// private static final String RUNTIME = ".runtime";
 
-	protected String TAG = "BaseA";
-
 	public HashMap<String, String> statusHashMap;
 	public ArrayList<String> markedAlarmList;
 

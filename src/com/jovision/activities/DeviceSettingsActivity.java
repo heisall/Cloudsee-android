@@ -39,6 +39,9 @@ import com.tencent.stat.StatService;
 
 public class DeviceSettingsActivity extends BaseActivity implements
 		OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
+
+	private static final String TAG = "DeviceSettingsActivity";
+
 	protected boolean bConnectedFlag = true;
 	private ProgressDialog waitingDialog;
 	private DeviceSettingsMainFragment deviceSettingsMainFragment;

@@ -28,6 +28,8 @@ import com.jovision.utils.PlayUtil;
 
 public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 
+	private static final String TAG = "JVDeviceUpdateCloudSeeActivity";
+
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private int devIndex;
 
@@ -536,7 +538,6 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.deviceupdate_layout);
-		TAG = "JVDeviceUpdateCloudSeeActivity";
 		/** topBar **/
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);

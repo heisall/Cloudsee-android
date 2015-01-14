@@ -27,7 +27,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.utils.PlayUtil;
 
 public class JVRemotePlayBackActivity extends PlayActivity {
-
+	private static final String TAG = "JVRemotePlayBackActivity";
 	private int indexOfChannel;
 	private String acBuffStr;
 	private int currentProgress;// 当前进度
@@ -260,7 +260,6 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 	@Override
 	protected void initSettings() {
-		TAG = "RemotePlayA";
 		currentProgress = 0;
 	}
 

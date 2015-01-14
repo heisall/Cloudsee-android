@@ -39,6 +39,7 @@ import com.jovision.utils.HttpDownloader;
 
 public class CustomDialogActivity extends BaseActivity implements
 		android.view.View.OnClickListener {
+	private static final String TAG = "CustomDialogActivity";
 	/** 查看按钮 **/
 	private Button lookVideoBtn;
 	/** 报警图片 **/

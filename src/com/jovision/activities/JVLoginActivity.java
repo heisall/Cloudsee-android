@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.test.JVACCOUNT;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -341,6 +342,7 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			case R.id.regist_btn:// 注册
 				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
+				Log.i("TAG", ConfigUtil.getCountry().substring(0, 2));
 				if (JVLoginActivity.this.getResources()
 						.getString(R.string.str_country)
 						.equals(ConfigUtil.getCountry().substring(0, 2))) {

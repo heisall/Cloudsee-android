@@ -204,6 +204,7 @@
     <string name="str_reset_not_success">沒有修改成功.</string>
     <string name="str_modify_user_info">完善用戶資訊</string>
     <string name="str_bound_email">綁定手機號(信箱)</string>
+     <string name="str_bind_mail">綁定信箱</string>
     <string name="str_bound_email_success">綁定成功</string>
     <string name="str_bound_email_failed">信箱綁定失敗</string>
     <string name="str_bound_phone_exist">手機號已被註冊</string>
@@ -320,7 +321,7 @@
     <string name="str_ip_address">IP地址</string>
     <string name="str_netmask">子網掩碼</string>
     <string name="str_gateway">默認網關</string>
-    <string name="str_dns">功能變數名稱伺服器</string>
+    <string name="str_dns">域名服務器</string>
     <string name="str_mac">網卡地址</string>
     <string name="str_status">線上狀態</string>
     <string name="str_image_quality">圖像品質</string>
@@ -540,7 +541,7 @@
     <string name="update_reset_failed">設備升級失敗，請手動重啟.</string>
     <!-- Media -->
     <string name="nofile">暫無檔</string>
-    <string name="media">媒體</string>
+    <string name="media">圖像查看</string>
     <string name="media_image">圖像</string>
     <string name="media_video">視頻</string>
     <string name="media_other">其他</string>

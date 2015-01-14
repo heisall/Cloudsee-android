@@ -115,8 +115,6 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_online_img_l);
 			deviceHolder.devWifiImgL = (ImageView) convertView
 					.findViewById(R.id.wifi_online_img_l);
-			deviceHolder.devoffline_image_L = (ImageView)convertView
-					.findViewById(R.id.devoffline_image_l);
 			deviceHolder.devImgL = (ImageView) convertView
 					.findViewById(R.id.dev_image_l);
 			deviceHolder.devImgTopL = (ImageView) convertView
@@ -125,6 +123,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.mydevice_cancle_l);
 			deviceHolder.editDevL = (RelativeLayout) convertView
 					.findViewById(R.id.dev_edit_l);
+			deviceHolder.offline_edit_l = (RelativeLayout)convertView
+					.findViewById(R.id.offline_edit_l);
 			deviceHolder.editDevIVL = (LinearLayout) convertView
 					.findViewById(R.id.mydevice_edit_l);
 			deviceHolder.devnicknameL = (TextView) convertView
@@ -144,8 +144,6 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_online_img_r);
 			deviceHolder.devWifiImgR = (ImageView) convertView
 					.findViewById(R.id.wifi_online_img_r);
-			deviceHolder.devoffline_image_R = (ImageView)convertView
-					.findViewById(R.id.devoffline_image_r);
 			deviceHolder.devImgR = (ImageView) convertView
 					.findViewById(R.id.dev_image_r);
 			deviceHolder.devImgTopR = (ImageView) convertView
@@ -154,6 +152,8 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.mydevice_cancle_r);
 			deviceHolder.editDevR = (RelativeLayout) convertView
 					.findViewById(R.id.dev_edit_r);
+			deviceHolder.offline_edit_r = (RelativeLayout)convertView
+					.findViewById(R.id.offline_edit_r);
 			deviceHolder.editDevIVR = (LinearLayout) convertView
 					.findViewById(R.id.mydevice_edit_r);
 			deviceHolder.devnicknameR = (TextView) convertView
@@ -176,11 +176,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getNickName());
 		}
 		// TODO
-			deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
-			deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
-					.getBitmap(
-							ConfigUtil.getImgPath(deviceList.get(position * 2),
-									false), "image", ""));
+		deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
+		deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
+				.getBitmap(
+						ConfigUtil.getImgPath(deviceList.get(position * 2),
+								false), "image", ""));
 		if (Boolean
 				.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {
@@ -191,12 +191,12 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		} else {
 			if (deviceList.get(position * 2).getHasWifi() == 1) {
 				deviceHolder.devWifiImgL
-						.setImageResource(R.drawable.wifionline);
+				.setImageResource(R.drawable.wifionline);
 				deviceHolder.wifiStateL.setTextColor(mfragment.getActivity()
 						.getResources().getColor(R.color.encode_view));
 			} else {
 				deviceHolder.devWifiImgL
-						.setImageResource(R.drawable.wifioffline);
+				.setImageResource(R.drawable.wifioffline);
 				deviceHolder.wifiStateL.setTextColor(mfragment.getActivity()
 						.getResources().getColor(R.color.mydevice_online));
 
@@ -208,23 +208,20 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			}
 
 			if (deviceList.get(position * 2).getOnlineStateNet() == 1) {
-				deviceHolder.devoffline_image_L.setVisibility(View.GONE);
 				deviceHolder.onLineStateL
-						.setText(R.string.str_device_online_net);
+				.setText(R.string.str_device_online_net);
 				deviceHolder.onLineStateL.setTextColor(mfragment.getActivity()
 						.getResources().getColor(R.color.encode_view));
 				deviceHolder.devOnlineImgL
-						.setImageResource(R.drawable.deviceonline);
+				.setImageResource(R.drawable.deviceonline);
 			} else if (deviceList.get(position * 2).getOnlineStateLan() == 1) {
-				deviceHolder.devoffline_image_L.setVisibility(View.GONE);
 				deviceHolder.onLineStateL
-						.setText(R.string.str_device_online_lan);
+				.setText(R.string.str_device_online_lan);
 				deviceHolder.onLineStateL.setTextColor(mfragment.getActivity()
 						.getResources().getColor(R.color.encode_view));
 				deviceHolder.devOnlineImgL
-						.setImageResource(R.drawable.deviceonline);
+				.setImageResource(R.drawable.deviceonline);
 			} else {
-				deviceHolder.devoffline_image_L.setVisibility(View.VISIBLE);
 				deviceHolder.onLineStateL.setText(R.string.str_device_offline);
 				deviceHolder.onLineStateL.setTextColor(mfragment.getActivity()
 						.getResources().getColor(R.color.mydevice_online));
@@ -235,7 +232,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 				}
 
 				deviceHolder.devOnlineImgL
-						.setImageResource(R.drawable.deviceoffline);
+				.setImageResource(R.drawable.deviceoffline);
 			}
 		}
 		int lastL = (position * 2) % 4;
@@ -244,12 +241,12 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		if (0 == lastL || 2 == lastL) {
 			deviceHolder.devLayoutL.setBackgroundResource(devResArray[lastL]);
 			deviceHolder.devImgTopL
-					.setBackgroundResource(devTopResArray[lastL]);
+			.setBackgroundResource(devTopResArray[lastL]);
 		}
 		if (1 == lastR || 3 == lastR) {
 			deviceHolder.devLayoutR.setBackgroundResource(devResArray[lastR]);
 			deviceHolder.devImgTopR
-					.setBackgroundResource(devTopResArray[lastR]);
+			.setBackgroundResource(devTopResArray[lastR]);
 		}
 		// 控制删除按钮显示隐藏
 		if (showDelete) {
@@ -257,11 +254,31 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			deviceHolder.devDeleteR.setVisibility(View.VISIBLE);
 			deviceHolder.editDevL.setVisibility(View.VISIBLE);
 			deviceHolder.editDevR.setVisibility(View.VISIBLE);
+			deviceHolder.offline_edit_r.setVisibility(View.GONE);
+			deviceHolder.offline_edit_l.setVisibility(View.GONE);
 		} else {
 			deviceHolder.devDeleteL.setVisibility(View.GONE);
 			deviceHolder.devDeleteR.setVisibility(View.GONE);
 			deviceHolder.editDevL.setVisibility(View.GONE);
 			deviceHolder.editDevR.setVisibility(View.GONE);
+			if ((deviceList.get(deviceList.size()-1).getOnlineStateNet() == 0 && deviceList.get(deviceList.size()-1).getOnlineStateLan() == 0)) {
+				deviceHolder.offline_edit_l.setVisibility(View.VISIBLE);
+			}else {
+				deviceHolder.offline_edit_l.setVisibility(View.GONE);
+			}
+			if (position * 2 + 1 < deviceList.size()) {
+				if ((deviceList.get(position * 2).getOnlineStateNet() == 0 && deviceList.get(position * 2).getOnlineStateLan() == 0))
+				{
+					deviceHolder.offline_edit_l.setVisibility(View.VISIBLE);
+				}else {
+					deviceHolder.offline_edit_l.setVisibility(View.GONE);
+				}
+				if ((deviceList.get(position * 2 + 1).getOnlineStateNet() == 0 && deviceList.get(position * 2 + 1).getOnlineStateLan() == 0)) {
+					deviceHolder.offline_edit_r.setVisibility(View.VISIBLE);
+				}else{
+					deviceHolder.offline_edit_r.setVisibility(View.GONE);
+				}
+			}
 		}
 		deviceHolder.editDevL.setOnClickListener(new View.OnClickListener() {
 
@@ -303,7 +320,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getBitmap(
 							ConfigUtil.getImgPath(
 									deviceList.get(position * 2 + 1), false),
-							"image", ""));
+									"image", ""));
 
 			if (Boolean
 					.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
@@ -315,13 +332,13 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			} else {
 				if (deviceList.get(position * 2 + 1).getHasWifi() == 1) {
 					deviceHolder.devWifiImgR
-							.setImageResource(R.drawable.wifionline);
+					.setImageResource(R.drawable.wifionline);
 					deviceHolder.wifiStateR.setTextColor(mfragment
 							.getActivity().getResources()
 							.getColor(R.color.encode_view));
 				} else {
 					deviceHolder.devWifiImgR
-							.setImageResource(R.drawable.wifioffline);
+					.setImageResource(R.drawable.wifioffline);
 					deviceHolder.wifiStateR.setTextColor(mfragment
 							.getActivity().getResources()
 							.getColor(R.color.mydevice_online));
@@ -332,27 +349,24 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					}
 				} 
 				if (deviceList.get(position * 2 + 1).getOnlineStateNet() == 1) {
-					deviceHolder.devoffline_image_R.setVisibility(View.GONE);
 					deviceHolder.onLineStateR
-							.setText(R.string.str_device_online_net);
+					.setText(R.string.str_device_online_net);
 					deviceHolder.onLineStateR.setTextColor(mfragment
 							.getActivity().getResources()
 							.getColor(R.color.encode_view));
 					deviceHolder.devOnlineImgR
-							.setImageResource(R.drawable.deviceonline);
+					.setImageResource(R.drawable.deviceonline);
 				} else if (deviceList.get(position * 2 + 1).getOnlineStateLan() == 1) {
-					deviceHolder.devoffline_image_R.setVisibility(View.GONE);
 					deviceHolder.onLineStateR
-							.setText(R.string.str_device_online_lan);
+					.setText(R.string.str_device_online_lan);
 					deviceHolder.onLineStateR.setTextColor(mfragment
 							.getActivity().getResources()
 							.getColor(R.color.encode_view));
 					deviceHolder.devOnlineImgR
-							.setImageResource(R.drawable.deviceonline);
+					.setImageResource(R.drawable.deviceonline);
 				} else {
-					deviceHolder.devoffline_image_R.setVisibility(View.VISIBLE);
 					deviceHolder.onLineStateR
-							.setText(R.string.str_device_offline);
+					.setText(R.string.str_device_offline);
 					deviceHolder.onLineStateR.setTextColor(mfragment
 							.getActivity().getResources()
 							.getColor(R.color.mydevice_online));
@@ -362,7 +376,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						// deviceHolder.onLineStateR.getBackground().setAlpha(80);
 					}
 					deviceHolder.devOnlineImgR
-							.setImageResource(R.drawable.deviceoffline);
+					.setImageResource(R.drawable.deviceoffline);
 				}
 			}
 		} else {
@@ -375,15 +389,15 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		deviceHolder.devDeleteL.setOnClickListener(new DevOnClickListener(1, 3,
 				position));
 		deviceHolder.devLayoutL
-				.setOnLongClickListener(new OnLongClickListener() {
+		.setOnLongClickListener(new OnLongClickListener() {
 
-					@Override
-					public boolean onLongClick(View arg0) {
-						mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_LONG_CLICK,
-								position, 0, null);
-						return false;
-					}
-				});
+			@Override
+			public boolean onLongClick(View arg0) {
+				mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_LONG_CLICK,
+						position, 0, null);
+				return false;
+			}
+		});
 		deviceHolder.editDevIVL.setOnClickListener(new DevOnClickListener(1, 4,
 				position));
 		// 右侧按钮事件
@@ -392,15 +406,15 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		deviceHolder.devDeleteR.setOnClickListener(new DevOnClickListener(2, 3,
 				position));
 		deviceHolder.devLayoutR
-				.setOnLongClickListener(new OnLongClickListener() {
+		.setOnLongClickListener(new OnLongClickListener() {
 
-					@Override
-					public boolean onLongClick(View arg0) {
-						mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_LONG_CLICK,
-								position, 0, null);
-						return false;
-					}
-				});
+			@Override
+			public boolean onLongClick(View arg0) {
+				mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_LONG_CLICK,
+						position, 0, null);
+				return false;
+			}
+		});
 		deviceHolder.editDevIVR.setOnClickListener(new DevOnClickListener(2, 4,
 				position));
 		return convertView;
@@ -442,11 +456,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 
 	class DeviceHolder {
 		FrameLayout mydeviceParentL;
+		RelativeLayout offline_edit_l;
 		RelativeLayout devLayoutL;
 		TextView devNameL;
 		TextView onLineStateL;
 		TextView wifiStateL;
-		ImageView devoffline_image_L;
 		ImageView devImgL;
 		ImageView devImgTopL;
 		LinearLayout devDeleteL;
@@ -457,11 +471,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		TextView devnicknameL;
 
 		FrameLayout mydeviceParentR;
+		RelativeLayout offline_edit_r;
 		RelativeLayout devLayoutR;
 		TextView devNameR;
 		TextView onLineStateR;
 		TextView wifiStateR;
-		ImageView devoffline_image_R;
 		ImageView devImgR;
 		ImageView devImgTopR;
 		LinearLayout devDeleteR;
@@ -487,20 +501,20 @@ public class MyDeviceListAdapter extends BaseAdapter {
 		builder.setPositiveButton(okString,
 				new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_DEL_CLICK,
-								position, 0, null);
-					}
-				});
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				mfragment.onNotify(Consts.WHAT_DEVICE_ITEM_DEL_CLICK,
+						position, 0, null);
+			}
+		});
 		builder.setNegativeButton(cancleString,
 				new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
 		builder.create().show();
 	}
 }

@@ -204,6 +204,7 @@
     <string name="str_reset_not_success">Failed to modify.</string>
     <string name="str_modify_user_info">Complete the user info</string>
     <string name="str_bound_email">Bind Phone(Email)</string>
+    <string name="str_bind_mail">Bind Email</string>
     <string name="str_bound_email_failed">Failed to combine with the Email address.</string>
     <string name="str_bound_email_success">binding successfully</string>
     <string name="str_bound_phone_exist">Mobile phone No. has been registered</string>
@@ -540,7 +541,7 @@
     <string name="update_reset_failed">Failed to update, please update manually.</string>
     <!-- Media -->
     <string name="nofile">No file</string>
-    <string name="media">Media</string>
+    <string name="media">Image view</string>
     <string name="media_image">Image</string>
     <string name="media_video">Video</string>
     <string name="media_other">Other</string>

@@ -190,7 +190,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	/**
 	 * 横屏帮助图
 	 * */
-	private RelativeLayout horPlayHelp;
+	protected RelativeLayout horPlayHelp;
 	private ViewPager horViewPager;
 	private MyPagerAdp horadp;
 	private List<View> horpics;
@@ -600,7 +600,7 @@ public abstract class PlayActivity extends BaseActivity implements
 			}
 		} else {// 横
 			closePopWindow();
-			if (!MySharedPreference.getBoolean("playhelp2")) {
+			if (!MySharedPreference.getBoolean("playhelp2")&&Consts.PLAY_NORMAL == playFlag) {
 				horPlayHelp.setVisibility(View.VISIBLE);
 				horViewPager.setCurrentItem(0);
 				getHorpic();

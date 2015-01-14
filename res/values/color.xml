@@ -7,7 +7,8 @@
     <color name="white">#FFFFFF</color>
     <!-- 白色 -->
     <color name="transparent">#00000000</color>
-    <color name="halftransparent">#40000000</color>
+    <color name="halftransparent">#65000000</color>
+    <color name="halfstransparent">#65000000</color>
     <color name="helptransparent">#99000000</color>
     <color name="devicetransparent">#55000000</color>
     <color name="picturetransparent">#66000000</color>

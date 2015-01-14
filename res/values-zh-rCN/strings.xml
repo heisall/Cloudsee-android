@@ -204,6 +204,7 @@
     <string name="str_reset_not_success">没有修改成功.</string>
     <string name="str_modify_user_info">完善用户信息</string>
     <string name="str_bound_email">绑定手机号(邮箱)</string>
+     <string name="str_bind_mail">绑定邮箱</string>
     <string name="str_bound_email_success">绑定成功</string>
     <string name="str_bound_email_failed">邮箱绑定失败</string>
     <string name="str_bound_phone_exist">手机号已被注册</string>
@@ -540,7 +541,7 @@
     <string name="update_reset_failed">设备升级失败，请手动重启.</string>
     <!-- Media -->
     <string name="nofile">暂无文件</string>
-    <string name="media">媒体</string>
+    <string name="media">图像查看</string>
     <string name="media_image">图像</string>
     <string name="media_video">视频</string>
     <string name="media_other">其他</string>

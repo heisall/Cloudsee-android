@@ -60,6 +60,7 @@ import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.PlayWindowManager;
+import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
@@ -2444,6 +2445,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			case PlayWindowManager.STATUS_CHANGED:
 				tensileView(channel, channel.getSurfaceView());
+				Jni.resume(index, surface);
 				break;
 
 			case PlayWindowManager.STATUS_DESTROYED:
@@ -3120,6 +3122,7 @@ public class JVPlayActivity extends PlayActivity implements
 		// adapter.notifyDataSetChanged();
 		manager.destroy();
 		PlayUtil.disConnectAll(manager.getChannelList());
+		BitmapCache.getInstance().clearCache();
 		super.freeMe();
 	}
 

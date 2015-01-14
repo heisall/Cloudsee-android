@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.MediaSelectorAdapter;
+import com.jovision.utils.BitmapCache;
 
 public class JVMediaActivity extends BaseActivity {
 
@@ -108,7 +109,7 @@ public class JVMediaActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
-
+		BitmapCache.getInstance().clearCache();
 	}
 
 }

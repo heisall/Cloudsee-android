@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.views.TouchImageView;
 
@@ -160,7 +161,7 @@ public class JVImageViewActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
-		System.gc();
+		BitmapCache.getInstance().clearCache();
 	}
 
 }

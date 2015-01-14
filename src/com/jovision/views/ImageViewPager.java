@@ -263,7 +263,21 @@ public class ImageViewPager extends ViewPager {
 		public void startUpdate(View arg0) {
 		}
 
-		public void destroyItem(View arg0, int arg1, Object arg2) {
+		@Override
+		public void destroyItem(View view, int arg1, Object arg2) {
+			// ((ViewPager) view).removeView(mListViews.get(arg1 %
+			// mListViews.size()));
+			// ((ViewPager) view).removeAllViews();
 		}
+
+		// @Override
+		// public void destroyItem(ViewGroup container, int position, Object
+		// object) {
+		// int pos = position % mListViews.size();
+		// if (null != mListViews && mListViews.size() > pos) {
+		// container.removeView(mListViews.get(pos));
+		// }
+		// }
+
 	}
 }

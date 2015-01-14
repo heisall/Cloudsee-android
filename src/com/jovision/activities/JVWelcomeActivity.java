@@ -178,7 +178,7 @@ public class JVWelcomeActivity extends BaseActivity {
 		// 关闭此定时器
 		initHandler.removeCallbacks(initThread);
 		BitmapCache.getInstance().clearCache();
-		
+
 	}
 
 	/**
@@ -209,7 +209,7 @@ public class JVWelcomeActivity extends BaseActivity {
 						&& !"".equalsIgnoreCase(user.getUserPwd())) {
 					statusHashMap.put(Consts.KEY_USERNAME, user.getUserName());
 					statusHashMap.put(Consts.KEY_PASSWORD, user.getUserPwd());
-//					createDialog(R.string.logining, true);
+					// createDialog(R.string.logining, true);
 
 					intent.setClass(JVWelcomeActivity.this,
 							JVLoginActivity.class);
@@ -226,11 +226,7 @@ public class JVWelcomeActivity extends BaseActivity {
 			JVWelcomeActivity.this.finish();
 		}
 	};
-	
-	
-	
-	
-	
+
 	/**
 	 * 欢迎界面的一些初始化，设置设备小助手
 	 */

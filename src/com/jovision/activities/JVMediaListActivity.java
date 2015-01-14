@@ -342,7 +342,7 @@ public class JVMediaListActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
-
+		BitmapCache.getInstance().clearCache();
 	}
 
 	private class LoadImageThread extends Thread {
@@ -453,4 +453,5 @@ public class JVMediaListActivity extends BaseActivity {
 			}
 		}
 	};
+
 }

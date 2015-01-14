@@ -115,7 +115,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_online_img_l);
 			deviceHolder.devWifiImgL = (ImageView) convertView
 					.findViewById(R.id.wifi_online_img_l);
-			deviceHolder.devoffline_image_L = (ImageView)convertView
+			deviceHolder.devoffline_image_L = (ImageView) convertView
 					.findViewById(R.id.devoffline_image_l);
 			deviceHolder.devImgL = (ImageView) convertView
 					.findViewById(R.id.dev_image_l);
@@ -144,7 +144,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.findViewById(R.id.dev_online_img_r);
 			deviceHolder.devWifiImgR = (ImageView) convertView
 					.findViewById(R.id.wifi_online_img_r);
-			deviceHolder.devoffline_image_R = (ImageView)convertView
+			deviceHolder.devoffline_image_R = (ImageView) convertView
 					.findViewById(R.id.devoffline_image_r);
 			deviceHolder.devImgR = (ImageView) convertView
 					.findViewById(R.id.dev_image_r);
@@ -176,11 +176,11 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getNickName());
 		}
 		// TODO
-			deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
-			deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
-					.getBitmap(
-							ConfigUtil.getImgPath(deviceList.get(position * 2),
-									false), "image", ""));
+		deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
+		deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
+				.getBitmap(
+						ConfigUtil.getImgPath(deviceList.get(position * 2),
+								false), "image", ""));
 		if (Boolean
 				.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {
@@ -330,7 +330,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					} else {
 						// deviceHolder.wifiStateR.getBackground().setAlpha(80);
 					}
-				} 
+				}
 				if (deviceList.get(position * 2 + 1).getOnlineStateNet() == 1) {
 					deviceHolder.devoffline_image_R.setVisibility(View.GONE);
 					deviceHolder.onLineStateR

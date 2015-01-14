@@ -61,7 +61,7 @@ public class PlayUtil {
 
 		if (!ConfigUtil.is3G(con, false)) {// 非3G加广播设备
 			canBroad = true;
-			int res = Jni.searchLanDevice("", 0, 0, 0, "", 1000, 1);
+			int res = Jni.searchLanDevice("", 0, 0, 0, "", 1000, 2);
 		}
 		return canBroad;
 	}

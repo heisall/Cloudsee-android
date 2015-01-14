@@ -176,6 +176,9 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getNickName());
 		}
 		// TODO
+		if ((!"".equals(ConfigUtil.getImgPath(deviceList.get(position * 2),
+				false)) && (deviceList.get(position * 2).getOnlineStateLan() != 0 || deviceList
+				.get(position * 2).getOnlineStateNet() != 0))) {
 			deviceHolder.devImgL.setScaleType(ScaleType.FIT_XY);
 			deviceHolder.devImgL.setImageBitmap(BitmapCache.getInstance()
 					.getBitmap(

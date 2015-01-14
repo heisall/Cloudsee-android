@@ -321,12 +321,11 @@ public class JVWaveSetActivity extends BaseActivity {
 		waveImage = (ImageView) findViewById(R.id.wavebg);
 		instruction = (ImageView) findViewById(R.id.instruction);
 		pressToSendWave = (ImageView) findViewById(R.id.press_sendwave);
+		stepImage1.setImageResource(R.drawable.reset_bg);
 		if (Consts.LANGUAGE_ZH == ConfigUtil
 				.getLanguage2(JVWaveSetActivity.this)) {
-			stepImage1.setImageResource(R.drawable.reset_bg_zh);
 			instruction.setImageResource(R.drawable.instruction_ch);
 		} else {
-			stepImage1.setImageResource(R.drawable.reset_bg_en);
 			instruction.setImageResource(R.drawable.instruction_en);
 		}
 		layoutList.add(0, stepLayout1);

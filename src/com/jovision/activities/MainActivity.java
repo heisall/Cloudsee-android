@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		initwidget();
 		initListener();
+		url = getIntent().getStringExtra("URL");
 		videowebview.loadUrl(url);
 	}
 

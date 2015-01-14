@@ -116,7 +116,7 @@
         <item>Disk Full Alarm, Device:%%.</item>
         <item>Disconnection Alarm, Device:%%.</item>
         <item>System Update Alarm, Device:%%.</item>
-        <item>Input Alarm, Device:%%, Time:$$.</item>
+        <item>Input Alarm, Device:%%.</item>
         <item>Video Lost Alarm, Device:%%.</item>
         <item>Video Covered Alarm, Device:%%.</item>
         <item>Motion Detection Alarm, Device:%%.</item>

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.test.AutoLoad;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -119,6 +120,7 @@ public class JVWelcomeActivity extends BaseActivity {
 		welcomePath = Consts.WELCOME_IMG_PATH + fileName
 				+ Consts.IMAGE_JPG_KIND;
 		File imgFile = new File(welcomePath);
+		welcomeImage.setScaleType(ScaleType.FIT_XY);
 		if (imgFile.exists()) {
 			Bitmap bitmap = BitmapCache.getInstance().getBitmap(welcomePath,
 					"welcome", fileName);

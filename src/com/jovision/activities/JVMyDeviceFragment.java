@@ -1180,6 +1180,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 					myDeviceList.get(delIndex).setUser(params[2]);
 					myDeviceList.get(delIndex).setPwd(params[3]);
 					myDeviceList.get(delIndex).setNickName(params[4]);
+
+					// 同步map bylkp
+					CacheUtil.setNickNameWithYstfn(params[1], params[4]);
 				}
 
 			} catch (Exception e) {
@@ -1241,6 +1244,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 					ConfigUtil.deleteSceneFolder(myDeviceList.get(delIndex)
 							.getFullNo());
 					myDeviceList.remove(delIndex);
+					// 删除对应缓存的nicknamemap中的值 by lkp
+					CacheUtil.removeDevFromNcikMap(myDeviceList.get(delIndex)
+							.getFullNo());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

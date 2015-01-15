@@ -331,16 +331,19 @@ public class AlarmUtil {
 												.optInt(JVAlarmConst.JK_ALARM_NEW_CLOUDCHN);
 										pi.alarmSolution = obj
 												.optInt(JVAlarmConst.JK_ALARM_SOLUTION);
-										ArrayList<Device> deviceList = CacheUtil
-												.getDevList();// 再取一次
-										int dev_index = DeviceUtil
-												.getDeivceIndex(pi.ystNum);
-										String deviceNickName = "";
-										if (dev_index == -1) {
+										// ArrayList<Device> deviceList =
+										// CacheUtil
+										// .getDevList();// 再取一次
+										// int dev_index = DeviceUtil
+										// .getDeivceIndex(pi.ystNum);
+										String deviceNickName = CacheUtil
+												.getNickNameByYstfn(pi.ystNum);
+										if (deviceNickName == null
+												|| deviceNickName.equals("")) {
 											deviceNickName = pi.deviceNickName;
 										} else {
-											deviceNickName = deviceList.get(
-													dev_index).getNickName();
+											// deviceNickName = deviceList.get(
+											// dev_index).getNickName();
 											if (pi.alarmType == 11)// 第三方
 											{
 												deviceNickName = deviceNickName

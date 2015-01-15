@@ -765,7 +765,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			case Consts.ARG2_STATUS_CONNECTED:
 				loadingState(arg1, R.string.connecting_buffer1,
-						Consts.TAG_PLAY_CONNECTING_BUFFER);
+						Consts.TAG_PLAY_CONNECTTED);
 				break;
 
 			case Consts.ARG2_STATUS_BUFFERING:
@@ -1192,6 +1192,9 @@ public class JVPlayActivity extends PlayActivity implements
 						// object.getDouble("jump_fps"),
 						// object.getDouble("network_fps")
 						int window = object.getInt("window");
+						loadingState(arg1, R.string.connecting_buffer1,
+								Consts.TAG_PLAY_CONNECTTED);
+
 						if (window == lastClickIndex) {
 							currentKbps.setText(String.format("%.1fk/%.1fk",
 									object.getDouble("kbps"),
@@ -1959,7 +1962,7 @@ public class JVPlayActivity extends PlayActivity implements
 					channel.setPaused(false);
 					handler.sendMessage(handler.obtainMessage(
 							Consts.WHAT_PLAY_STATUS, channel.getIndex(),
-							Consts.ARG2_STATUS_BUFFERING));
+							Consts.ARG2_STATUS_CONNECTED));
 					// MyLog.v(TAG,"resumeChannel+buffering,index="+channel.getIndex());
 				} else {
 					// handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
@@ -4164,7 +4167,7 @@ public class JVPlayActivity extends PlayActivity implements
 							handler.sendMessage(handler.obtainMessage(
 									Consts.WHAT_PLAY_STATUS,
 									channel.getIndex(),
-									Consts.ARG2_STATUS_BUFFERING));
+									Consts.ARG2_STATUS_CONNECTED));
 							sleep(RESUME_VIDEO_MIN_PEROID);
 							MyLog.i(Consts.TAG_XXX,
 									"connect not pause force resume: "

@@ -74,6 +74,8 @@ import com.jovision.views.SearchDevicesView;
 
 public class JVQuickSettingActivity extends ShakeActivity implements
 		CommonInterface {
+
+	Dialog errorDialog = null;
 	private final String TAG = "Qick_Set";
 	private String setIpcName;// 待设置的IPC
 	private String deviceNum;// 待设置的IPC云视通号
@@ -986,6 +988,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			break;
 		}
 		case Consts.WHAT_QUICK_SETTING_ERROR:// 配置出错
+			if (null != errorDialog && errorDialog.isShowing()) {
+				errorDialog.dismiss();
+				errorDialog = null;
+			}
+
 			errorDialog(arg1);
 			break;
 		case Consts.WHAT_QUICK_SETTING_MOBILE_WIFI_SUCC:// 快速设置获取主控WIFI信息数据
@@ -1943,104 +1950,111 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			disConnectVideo();
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(
-				JVQuickSettingActivity.this);
-		builder.setCancelable(false);
+		if (null != errorDialog && errorDialog.isShowing()) {
 
-		builder.setTitle(getResources().getString(R.string.tips));
-		String errorMsg = "";
-		switch (errorCode) {
-		// case 1000: {
-		// errorMsg = getResources().getString(R.string.set_error_1000);
-		// break;
-		// }
-		case 1001: {
-			errorMsg = getResources().getString(R.string.set_error_1001);
-			break;
-		}
-		case 1002: {
-			errorMsg = getResources().getString(R.string.set_error_1002);
-			break;
-		}
-		case 1003: {
-			errorMsg = getResources().getString(R.string.set_error_1003);
-			break;
-		}
-		case 1004: {
-			errorMsg = getResources().getString(R.string.set_error_1004);
-			break;
-		}
-		case 1005: {
-			errorMsg = getResources().getString(R.string.set_error_1005);
-			break;
-		}
-		case 1006: {
-			errorMsg = getResources().getString(R.string.set_error_1006);
-			break;
-		}
-		case 1007: {
-			errorMsg = getResources().getString(R.string.set_error_1007);
-			break;
-		}
+		} else {
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					JVQuickSettingActivity.this);
+			builder.setCancelable(false);
 
-		}
-		builder.setMessage(errorMsg);
-		// builder.setMessage(getResources().getString(R.string.set_error)
-		// + errorCode);
+			builder.setTitle(getResources().getString(R.string.tips));
+			String errorMsg = "";
+			switch (errorCode) {
+			// case 1000: {
+			// errorMsg = getResources().getString(R.string.set_error_1000);
+			// break;
+			// }
+			case 1001: {
+				errorMsg = getResources().getString(R.string.set_error_1001);
+				break;
+			}
+			case 1002: {
+				errorMsg = getResources().getString(R.string.set_error_1002);
+				break;
+			}
+			case 1003: {
+				errorMsg = getResources().getString(R.string.set_error_1003);
+				break;
+			}
+			case 1004: {
+				errorMsg = getResources().getString(R.string.set_error_1004);
+				break;
+			}
+			case 1005: {
+				errorMsg = getResources().getString(R.string.set_error_1005);
+				break;
+			}
+			case 1006: {
+				errorMsg = getResources().getString(R.string.set_error_1006);
+				break;
+			}
+			case 1007: {
+				errorMsg = getResources().getString(R.string.set_error_1007);
+				break;
+			}
 
-		// builder.setPositiveButton(R.string.try_again,
-		// new DialogInterface.OnClickListener() {
-		// @Override
-		// public void onClick(DialogInterface dialog, int which) {
-		// // 暂停扫瞄器
-		// showSearch(false);
-		// if (null != searchView.myPlayer) {
-		// searchView.myPlayer.stop();
-		// }
-		// dismisQuickPopWindow();
-		// showIpcLayout(false);
-		// }
-		//
-		// });
-		builder.setNegativeButton(R.string.exit,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
+			}
+			builder.setMessage(errorMsg);
+			// builder.setMessage(getResources().getString(R.string.set_error)
+			// + errorCode);
 
-						if (1004 == errorCode || 1005 == errorCode) {
-							MyActivityManager.getActivityManager()
-									.popAllActivityExceptOne(
-											JVLoginActivity.class);
-							Intent intent = new Intent();
-							String userName = JVQuickSettingActivity.this.statusHashMap
-									.get(Consts.KEY_USERNAME);
-							intent.putExtra("UserName", userName);
-							intent.setClass(JVQuickSettingActivity.this,
-									JVLoginActivity.class);
-							JVQuickSettingActivity.this.startActivity(intent);
-							JVQuickSettingActivity.this.finish();
-						} else {
-							// 暂停扫瞄器
-							showSearch(false);
-							if (null != searchView
-									&& null != searchView.myPlayer) {
-								searchView.myPlayer.stop();
+			// builder.setPositiveButton(R.string.try_again,
+			// new DialogInterface.OnClickListener() {
+			// @Override
+			// public void onClick(DialogInterface dialog, int which) {
+			// // 暂停扫瞄器
+			// showSearch(false);
+			// if (null != searchView.myPlayer) {
+			// searchView.myPlayer.stop();
+			// }
+			// dismisQuickPopWindow();
+			// showIpcLayout(false);
+			// }
+			//
+			// });
+			builder.setNegativeButton(R.string.exit,
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+
+							if (1004 == errorCode || 1005 == errorCode) {
+								MyActivityManager.getActivityManager()
+										.popAllActivityExceptOne(
+												JVLoginActivity.class);
+								Intent intent = new Intent();
+								String userName = JVQuickSettingActivity.this.statusHashMap
+										.get(Consts.KEY_USERNAME);
+								intent.putExtra("UserName", userName);
+								intent.setClass(JVQuickSettingActivity.this,
+										JVLoginActivity.class);
+								JVQuickSettingActivity.this
+										.startActivity(intent);
+								JVQuickSettingActivity.this.finish();
+							} else {
+								// 暂停扫瞄器
+								showSearch(false);
+								if (null != searchView
+										&& null != searchView.myPlayer) {
+									searchView.myPlayer.stop();
+								}
+								dismisQuickPopWindow();
+								isBack = true;
+								createDialog(R.string.quick_setting_exiting,
+										true);
+								ResetWifiTask task = new ResetWifiTask();
+								String[] params = new String[3];
+								params[0] = "false";
+								task.execute(params);
 							}
-							dismisQuickPopWindow();
-							isBack = true;
-							createDialog(R.string.quick_setting_exiting, true);
-							ResetWifiTask task = new ResetWifiTask();
-							String[] params = new String[3];
-							params[0] = "false";
-							task.execute(params);
+
 						}
 
-					}
+					});
 
-				});
-
-		if (!JVQuickSettingActivity.this.isFinishing()) {
-			builder.show();
+			if (!JVQuickSettingActivity.this.isFinishing()) {
+				errorDialog = builder.create();
+				errorDialog.show();
+			}
 		}
 
 	}

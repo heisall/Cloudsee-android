@@ -111,6 +111,8 @@
     <color name="info_time">#B2B2B2</color>
     <color name="info_content">#747474</color>
 
+    <color name="func_divider">#D1D1D1</color>
+    
     <!-- 象牙色 -->
     <color name="lightyellow">#FFFFE0</color>
     <!-- 亮黄色 -->

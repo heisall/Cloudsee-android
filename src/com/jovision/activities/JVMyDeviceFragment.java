@@ -681,55 +681,56 @@ public class JVMyDeviceFragment extends BaseFragment {
 							listViews.add(imageView);
 						}
 					} else {
-						for (int i = 0; i < listViews.size(); i++) {
-							ImageView imageView = (ImageView) listViews.get(i);
-							Bitmap bmp = null;
-
-							if (Consts.LANGUAGE_ZH == ConfigUtil
-									.getLanguage2(mActivity)) {
-								bmp = BitmapCache
-										.getInstance()
-										.getBitmap(
-												adList.get(i).getAdImgUrlCh(),
-												"net",
-												String.valueOf(adList.get(i)
-														.getIndex())
-														+ ConfigUtil
-																.getLanguage2(mActivity));
-								// adList.get(i).getAdImgUrlCh());
-							} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
-									.getLanguage2(mActivity)) {
-								bmp = BitmapCache
-										.getInstance()
-										.getBitmap(
-												adList.get(i).getAdImgUrlZht(),
-												"net",
-												String.valueOf(adList.get(i)
-														.getIndex())
-														+ ConfigUtil
-																.getLanguage2(mActivity));
-								// adList.get(i).getAdImgUrlZht());
-							} else {
-								bmp = BitmapCache
-										.getInstance()
-										.getBitmap(
-												adList.get(i).getAdImgUrlEn(),
-												"net",
-												String.valueOf(adList.get(i)
-														.getIndex())
-														+ ConfigUtil
-																.getLanguage2(mActivity));
-								// adList.get(i).getAdImgUrlEn());
-							}
-
-							if (null != bmp) {
-								imageView.setImageBitmap(bmp);
-							} else {
-								imageView
-										.setImageResource(R.drawable.ad_default);
-							}
-							imageView.setScaleType(ScaleType.FIT_CENTER);
-						}
+						refreshAD();
+						// for (int i = 0; i < listViews.size(); i++) {
+						// ImageView imageView = (ImageView) listViews.get(i);
+						// Bitmap bmp = null;
+						//
+						// if (Consts.LANGUAGE_ZH == ConfigUtil
+						// .getLanguage2(mActivity)) {
+						// bmp = BitmapCache
+						// .getInstance()
+						// .getBitmap(
+						// adList.get(i).getAdImgUrlCh(),
+						// "net",
+						// String.valueOf(adList.get(i)
+						// .getIndex())
+						// + ConfigUtil
+						// .getLanguage2(mActivity));
+						// // adList.get(i).getAdImgUrlCh());
+						// } else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+						// .getLanguage2(mActivity)) {
+						// bmp = BitmapCache
+						// .getInstance()
+						// .getBitmap(
+						// adList.get(i).getAdImgUrlZht(),
+						// "net",
+						// String.valueOf(adList.get(i)
+						// .getIndex())
+						// + ConfigUtil
+						// .getLanguage2(mActivity));
+						// // adList.get(i).getAdImgUrlZht());
+						// } else {
+						// bmp = BitmapCache
+						// .getInstance()
+						// .getBitmap(
+						// adList.get(i).getAdImgUrlEn(),
+						// "net",
+						// String.valueOf(adList.get(i)
+						// .getIndex())
+						// + ConfigUtil
+						// .getLanguage2(mActivity));
+						// // adList.get(i).getAdImgUrlEn());
+						// }
+						//
+						// if (null != bmp) {
+						// imageView.setImageBitmap(bmp);
+						// } else {
+						// imageView
+						// .setImageResource(R.drawable.ad_default);
+						// }
+						// imageView.setScaleType(ScaleType.FIT_CENTER);
+						// }
 					}
 
 					if (null != listViews && 0 != listViews.size()) {
@@ -744,6 +745,50 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 刷新广告
+	 */
+	private void refreshAD() {
+		if (null != listViews && 0 != listViews.size()) {
+			for (int i = 0; i < listViews.size(); i++) {
+				ImageView imageView = (ImageView) listViews.get(i);
+				Bitmap bmp = null;
+
+				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {
+					bmp = BitmapCache.getInstance().getBitmap(
+							adList.get(i).getAdImgUrlCh(),
+							"net",
+							String.valueOf(adList.get(i).getIndex())
+									+ ConfigUtil.getLanguage2(mActivity));
+					// adList.get(i).getAdImgUrlCh());
+				} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+						.getLanguage2(mActivity)) {
+					bmp = BitmapCache.getInstance().getBitmap(
+							adList.get(i).getAdImgUrlZht(),
+							"net",
+							String.valueOf(adList.get(i).getIndex())
+									+ ConfigUtil.getLanguage2(mActivity));
+					// adList.get(i).getAdImgUrlZht());
+				} else {
+					bmp = BitmapCache.getInstance().getBitmap(
+							adList.get(i).getAdImgUrlEn(),
+							"net",
+							String.valueOf(adList.get(i).getIndex())
+									+ ConfigUtil.getLanguage2(mActivity));
+					// adList.get(i).getAdImgUrlEn());
+				}
+
+				if (null != bmp) {
+					imageView.setImageBitmap(bmp);
+				} else {
+					imageView.setImageResource(R.drawable.ad_default);
+				}
+				imageView.setScaleType(ScaleType.FIT_CENTER);
+			}
+		}
+
 	}
 
 	@Override
@@ -1455,6 +1500,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						// TODO 获取广告
 						getADList();
 					}
+					refreshAD();
 				}
 
 			} catch (Exception e) {

@@ -504,10 +504,10 @@
     <string name="ok">OK</string>
     <string name="str_check_now">View now</string>
     <!-- JVRemotePlayBackActivity -->
-    <string name="video_normal">Manual recording</string>
-    <string name="video_alarm">Alarm recording</string>
+    <string name="video_normal">Manual Recording</string>
+    <string name="video_alarm">Alarm Recording</string>
     <string name="video_motion">Motion detection</string>
-    <string name="video_time">Regular recording</string>
+    <string name="video_time">Regular Recording</string>
     <string name="recoding">Play failed</string>
     <!-- MyDeviceListAdapter -->
     <string name="str_device_online">Online</string>
@@ -524,6 +524,7 @@
     <string name="protect_close_succ">Disable Security Protection Successfully.</string>
     <string name="protect_close_fail">Failed to disable Security Protection.</string>
     <string name="device_offline">This operation is unavailable since the device is offline now.</string>
+    <string name="device_offlines">Device offline</string>
     <string name="device_model">Model</string>
     <string name="device_version">Version</string>
     <string name="unknown">unknown</string>
@@ -541,7 +542,7 @@
     <string name="update_reset_failed">Failed to update, please update manually.</string>
     <!-- Media -->
     <string name="nofile">No file</string>
-    <string name="media">Image view</string>
+    <string name="media">Image View</string>
     <string name="media_image">Image</string>
     <string name="media_video">Video</string>
     <string name="media_other">Other</string>

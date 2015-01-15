@@ -405,22 +405,23 @@ public class JVTabActivity extends ShakeActivity implements
 		// if(strModel.toUpperCase().substring(0, 1+1).equals("MI")){
 		// new TPushTips(this).showNoticeDialog();
 		// }
-		String strRom = ConfigUtil.getSystemProperty("ro.miui.ui.version.name");
-		if (strRom == null || strRom.equals("")) {
-			// showTextToast("不是MIUI");
-		} else {
-			if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
-				if (strRom.equals("V6")) {
-					new TPushTips(this)
-							.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
-				} else {
-					new TPushTips(this)
-							.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+			String strRom = ConfigUtil.getSystemProperty("ro.miui.ui.version.name");
+			if (strRom == null || strRom.equals("")) {
+				// showTextToast("不是MIUI");
+			} else {
+				if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
+					if (strRom.equals("V6")) {
+						new TPushTips(this)
+								.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
+					} else {
+						new TPushTips(this)
+								.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+					}
 				}
+	
 			}
-
 		}
-
 		mFragments[0] = new JVMyDeviceFragment();
 		mFragments[1] = new JVInfoFragment();
 		mFragments[2] = new JVDeviceManageFragment();

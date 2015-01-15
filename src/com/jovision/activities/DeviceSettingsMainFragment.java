@@ -40,7 +40,6 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private ArrayList<Device> deviceList;
 	private String devicename;
 	private int channelIndex;// 窗口
-	private String fullno = "";
 	protected Toast toast;
 
 	public interface OnFuncActionListener {
@@ -64,7 +63,6 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			functionlayout4;
 	private RelativeLayout functiontips1, functiontips2, functiontips3;
 	private TextView alarmTime0TextView;
-	private boolean isadmin = false;
 	private int power = 0;
 
 	private Dialog initDialog;// 显示弹出框
@@ -94,8 +92,6 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		fullno = getArguments().getString("fullno");
-		isadmin = getArguments().getBoolean("isadmin");
 		power = getArguments().getInt("power");
 		if (rootView == null) {
 			rootView = inflater.inflate(R.layout.dev_settings_main_fragment,
@@ -290,14 +286,9 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			initDialog.dismiss();
 			break;
 		case R.id.funclayout4:
-			if (isadmin) {
+			if (DeviceSettingsActivity.isadmin) {
 				initSummaryDialog();
 			} else {
-				// Toast.makeText(
-				// getActivity(),
-				// getActivity().getResources().getString(
-				// R.string.edit_pass_not), Toast.LENGTH_SHORT)
-				// .show();
 				showTextToast(getActivity(), R.string.edit_pass_not);
 			}
 			// TODO
@@ -380,8 +371,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		device_password_cancleI.setOnClickListener(this);
 		initDialog.show();
 
-		if (!"".equals(fullno)) {
-			device_name.setText(fullno);
+		if (!"".equals(DeviceSettingsActivity.fullno)) {
+			device_name.setText(DeviceSettingsActivity.fullno);
 		}
 		dialogCancel.setOnClickListener(new View.OnClickListener() {
 			@Override

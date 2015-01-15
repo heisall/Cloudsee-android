@@ -47,7 +47,6 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		if (rootView == null) {
 			rootView = inflater.inflate(
 					R.layout.dev_settings_alarmtime_fragment, container, false);

@@ -1269,7 +1269,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		long recordTime = System.currentTimeMillis() - startRecordTime;
 		MyLog.e(TAG, "recordTime=" + recordTime);
 		boolean res = PlayUtil.stopVideoTape();
-		if (recordTime <= 2000) {
+		if (recordTime <= 3000) {
 			File recordFile = new File(recordingPath);
 			recordFile.delete();
 			showTextToast(R.string.record_failed);

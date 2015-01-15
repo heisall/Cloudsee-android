@@ -33,7 +33,11 @@ public class WaveDevlListAdapter extends BaseAdapter {
 	}
 
 	public void setData(ArrayList<Device> dataList) {
-		this.devList = dataList;
+		if (null == this.devList) {
+			this.devList = new ArrayList<Device>();
+		}
+		this.devList.addAll(dataList);
+
 	}
 
 	@Override

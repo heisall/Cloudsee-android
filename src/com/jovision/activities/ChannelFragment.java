@@ -91,6 +91,9 @@ public class ChannelFragment extends BaseFragment {
 			mActivity = (BaseActivity) getActivity();
 			mParent = getView();
 
+			if (null == deviceList) {
+				deviceList = CacheUtil.getDevList();
+			}
 			widthPixels = mActivity.disMetrics.widthPixels;
 			channelGridView = (GridView) mParent
 					.findViewById(R.id.channel_gridview);

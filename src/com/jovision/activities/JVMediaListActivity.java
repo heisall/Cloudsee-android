@@ -70,8 +70,8 @@ public class JVMediaListActivity extends BaseActivity {
 			break;
 		}
 		case Consts.WHAT_FILE_LOAD_SUCCESS: {
-			dismissDialog();
 			if (noFile) {
+				dismissDialog();
 				noFileLayout.setVisibility(View.VISIBLE);
 				fileLayout.setVisibility(View.GONE);
 			} else {

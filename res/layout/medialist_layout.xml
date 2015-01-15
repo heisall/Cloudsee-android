@@ -123,8 +123,8 @@
         android:visibility="gone" >
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/no_file" />
 
         <TextView

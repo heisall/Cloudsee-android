@@ -128,50 +128,45 @@ public class JVRegisterCodeActivity extends BaseActivity {
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				registerRes = AccountUtil.userRegister(user);
 				if (JVAccountConst.SUCCESS == registerRes) {
-						String strRes = AccountUtil.onLoginProcessV2(
-								JVRegisterCodeActivity.this,
-								statusHashMap.get(Consts.KEY_USERNAME),
-								statusHashMap.get(Consts.KEY_PASSWORD),
-								Url.SHORTSERVERIP, Url.LONGSERVERIP);
-						JSONObject respObj = null;
-						try {
-							respObj = new JSONObject(strRes);
-							loginRes1 = respObj.optInt("arg1", 1);
-							// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
+					String strRes = AccountUtil.onLoginProcessV2(
+							JVRegisterCodeActivity.this,
+							statusHashMap.get(Consts.KEY_USERNAME),
+							statusHashMap.get(Consts.KEY_PASSWORD),
+							Url.SHORTSERVERIP, Url.LONGSERVERIP);
+					JSONObject respObj = null;
+					try {
+						respObj = new JSONObject(strRes);
+						loginRes1 = respObj.optInt("arg1", 1);
+						// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
 
-							String data = respObj.optString("data");
-							if (null != data && !"".equalsIgnoreCase(data)) {
-								JSONObject dataObj = new JSONObject(data);
-								String channelIp = dataObj
-										.optString("channel_ip");
-								String onlineIp = dataObj
-										.optString("online_ip");
-								if (Consts.LANGUAGE_ZH == ConfigUtil
-										.getServerLanguage()) {
-									MySharedPreference.putString("ChannelIP",
-											channelIp);
-									MySharedPreference.putString("OnlineIP",
-											onlineIp);
-									MySharedPreference.putString(
-											"ChannelIP_en", "");
-									MySharedPreference.putString("OnlineIP_en",
-											"");
-								} else {
-									MySharedPreference.putString(
-											"ChannelIP_en", channelIp);
-									MySharedPreference.putString("OnlineIP_en",
-											onlineIp);
-									MySharedPreference.putString("ChannelIP",
-											"");
-									MySharedPreference
-											.putString("OnlineIP", "");
-								}
+						String data = respObj.optString("data");
+						if (null != data && !"".equalsIgnoreCase(data)) {
+							JSONObject dataObj = new JSONObject(data);
+							String channelIp = dataObj.optString("channel_ip");
+							String onlineIp = dataObj.optString("online_ip");
+							if (Consts.LANGUAGE_ZH == ConfigUtil
+									.getServerLanguage()) {
+								MySharedPreference.putString("ChannelIP",
+										channelIp);
+								MySharedPreference.putString("OnlineIP",
+										onlineIp);
+								MySharedPreference
+										.putString("ChannelIP_en", "");
+								MySharedPreference.putString("OnlineIP_en", "");
+							} else {
+								MySharedPreference.putString("ChannelIP_en",
+										channelIp);
+								MySharedPreference.putString("OnlineIP_en",
+										onlineIp);
+								MySharedPreference.putString("ChannelIP", "");
+								MySharedPreference.putString("OnlineIP", "");
 							}
-
-						} catch (JSONException e) {
-							loginRes1 = JVAccountConst.LOGIN_FAILED_2;
-							e.printStackTrace();
 						}
+
+					} catch (JSONException e) {
+						loginRes1 = JVAccountConst.LOGIN_FAILED_2;
+						e.printStackTrace();
+					}
 					return registerRes;
 				} else {
 					errorCode = registerRes;
@@ -198,8 +193,8 @@ public class JVRegisterCodeActivity extends BaseActivity {
 				StatService.trackCustomEvent(JVRegisterCodeActivity.this,
 						"Register", JVRegisterCodeActivity.this.getResources()
 								.getString(R.string.census_register));
-				Log.i("TAG", loginRes1+"DDDDDDDDDDD");
-				if ( JVAccountConst.LOGIN_SUCCESS == loginRes1) {
+				Log.i("TAG", loginRes1 + "DDDDDDDDDDD");
+				if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
 					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 					Intent emailIntent = new Intent(
 							JVRegisterCodeActivity.this,

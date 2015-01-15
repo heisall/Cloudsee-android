@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
-import com.jovision.activities.JVWaveSetActivity;
 import com.jovision.bean.Device;
 import com.jovision.utils.ConfigUtil;
 
@@ -34,7 +33,11 @@ public class WaveDevlListAdapter extends BaseAdapter {
 	}
 
 	public void setData(ArrayList<Device> dataList) {
-		this.devList = dataList;
+		if (null == this.devList) {
+			this.devList = new ArrayList<Device>();
+		}
+		this.devList.addAll(dataList);
+
 	}
 
 	@Override
@@ -80,8 +83,9 @@ public class WaveDevlListAdapter extends BaseAdapter {
 			devHolder.channel_list_text.setText(devList.get(position)
 					.getFullNo());
 			devHolder.channellist_pull.setVisibility(View.GONE);
-			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(activity)|| Consts.LANGUAGE_ZHTW == ConfigUtil
-					.getLanguage2(activity)) {
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(activity)
+					|| Consts.LANGUAGE_ZHTW == ConfigUtil
+							.getLanguage2(activity)) {
 				devHolder.parent_relative
 						.setBackgroundResource(R.drawable.wave_newone);
 			} else {

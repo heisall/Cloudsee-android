@@ -260,7 +260,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				// }
 				// }
 				// }
-				if(pushListView.getVisibility() == View.INVISIBLE){
+				if (pushListView.getVisibility() == View.INVISIBLE) {
 					pushListView.setVisibility(View.VISIBLE);
 				}
 				pushList.clear();
@@ -410,7 +410,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 			int length = pushArray.length();
 			if (0 != length) {
-				if(pushListView.getVisibility() == View.INVISIBLE){
+				if (pushListView.getVisibility() == View.INVISIBLE) {
 					pushListView.setVisibility(View.VISIBLE);
 				}
 				for (int i = 0; i < length; i++) {

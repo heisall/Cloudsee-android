@@ -31,13 +31,21 @@ public class WifiAdapter extends BaseAdapter {
 	}
 
 	public void setData1(ArrayList<Wifi> list, int arg0, boolean flag) {
-		wifiList = list;
+		if (null != wifiList) {
+			wifiList = new ArrayList<Wifi>();
+		}
+		wifiList.addAll(list);
 		tag = arg0;
 		showDetailIcon = flag;
 	}
 
 	public void setData2(ArrayList<ScanResult> list, int arg0) {
-		wifiConfigList = list;
+
+		if (null != wifiConfigList) {
+			wifiConfigList = new ArrayList<ScanResult>();
+		}
+		wifiConfigList.addAll(list);
+
 		tag = arg0;
 	}
 

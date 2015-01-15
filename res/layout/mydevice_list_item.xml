@@ -181,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="设备离线"
+                android:text="@string/device_offlines"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </RelativeLayout>

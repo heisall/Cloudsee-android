@@ -409,7 +409,7 @@ public class JVTabActivity extends ShakeActivity implements
 		if (strRom == null || strRom.equals("")) {
 			// showTextToast("不是MIUI");
 		} else {
-			if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", true)) {
+			if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
 				if (strRom.equals("V6")) {
 					new TPushTips(this)
 							.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);

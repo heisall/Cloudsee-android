@@ -24,6 +24,8 @@ public class JVGuideActivity extends BaseActivity {
 
 	private int[] imgIdArray = { R.drawable.guide1, R.drawable.guide2,
 			R.drawable.guide3, R.drawable.guide4 };
+	private int[] imgIdArrayTW = { R.drawable.guide1tw, R.drawable.guide2tw,
+			R.drawable.guide3tw, R.drawable.guide4tw };
 	private int[] imgIDArrayEn = { R.drawable.guide1e, R.drawable.guide2e,
 			R.drawable.guide3e, R.drawable.guide4e };
 
@@ -44,6 +46,9 @@ public class JVGuideActivity extends BaseActivity {
 	protected void initSettings() {
 		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(JVGuideActivity.this)) {
 			imageArray = imgIdArray;
+		} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+				.getLanguage2(JVGuideActivity.this)) {
+			imageArray = imgIdArrayTW;
 		} else {
 			imageArray = imgIDArrayEn;
 		}

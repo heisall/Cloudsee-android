@@ -18,6 +18,7 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
@@ -412,6 +413,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			// JVConst.MOBILE_WIFI_CON_FAILED, -1, 0));
 			// return;
 			// }
+
+			// 和待配置的网络一样关闭网络并移除
+			WifiConfiguration oldWifi = wifiAdmin.isExsits(desWifiSSID);
+			if (null != oldWifi) {
+				wifiAdmin.disconnectWifi(oldWifi, true);// 关掉，移除,不移除会记住原来的密码
+			}
 
 			boolean ipcFlag = connectWifi(setIpcName,
 					getResources().getString(R.string.str_wifi_pwd));
@@ -1780,15 +1787,22 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			// 资源管理器
 			AssetFileDescriptor afd = assetMgr.openFd(file);
 
-			searchView.myPlayer.reset();
+			if (null != searchView) {
+				if (null == searchView.myPlayer) {
+					searchView.myPlayer = new MediaPlayer();
+				}
+				searchView.myPlayer.reset();
 
-			// 使用searchView.myPlayer加载指定的声音文件。
-			searchView.myPlayer.setDataSource(afd.getFileDescriptor(),
-					afd.getStartOffset(), afd.getLength());
-			// 准备声音
-			searchView.myPlayer.prepare();
-			// 播放
-			searchView.myPlayer.start();
+				// 使用searchView.myPlayer加载指定的声音文件。
+				searchView.myPlayer.setDataSource(afd.getFileDescriptor(),
+						afd.getStartOffset(), afd.getLength());
+				// 准备声音
+				searchView.myPlayer.prepare();
+				// 播放
+				searchView.myPlayer.start();
+			} else {
+				MyLog.v("searchView", "searchView is null");
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

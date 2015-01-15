@@ -26,6 +26,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
+import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 
 @SuppressLint("ResourceAsColor")
@@ -372,7 +373,7 @@ public class JVChannelsActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
-
+		BitmapCache.getInstance().clearCache();
 	}
 }
 

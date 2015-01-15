@@ -17,7 +17,7 @@
         android:layout_below="@+id/top" />
 
     <ProgressBar
-        android:id="@+id/loadingbar"
+        android:id="@+id/loadingbars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

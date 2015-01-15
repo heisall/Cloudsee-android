@@ -325,7 +325,6 @@ public class JVLoginActivity extends BaseActivity {
 				} else if ("".equalsIgnoreCase(passwordET.getText().toString())) {
 					showTextToast(R.string.login_str_loginpass1_notnull);
 				} else {
-					createDialog(R.string.logining, true);
 					userName = userNameET.getText().toString();
 					passWord = passwordET.getText().toString();
 					statusHashMap.put(Consts.KEY_USERNAME, userName);

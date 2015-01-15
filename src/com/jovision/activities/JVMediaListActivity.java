@@ -60,18 +60,22 @@ public class JVMediaListActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.WHAT_LOAD_IMAGE_SUCCESS: {
-
+			// mfAdapter.setLoadImageIndex(arg1,true);
+			// mfAdapter.notifyDataSetChanged();
+			break;
+		}
+		case Consts.WHAT_DIALOG_CLOSE: {
+			dismissDialog();
 			break;
 		}
 		case Consts.WHAT_LOAD_IMAGE_FINISHED: {
 			mfAdapter.setLoadImage(true);
 			mfAdapter.notifyDataSetChanged();
-			dismissDialog();
 			break;
 		}
 		case Consts.WHAT_FILE_LOAD_SUCCESS: {
-			dismissDialog();
 			if (noFile) {
+				dismissDialog();
 				noFileLayout.setVisibility(View.VISIBLE);
 				fileLayout.setVisibility(View.GONE);
 			} else {
@@ -395,8 +399,8 @@ public class JVMediaListActivity extends BaseActivity {
 					if (null != fileList && 0 != fileList.size()) {
 						int size = fileList.size();
 						for (int i = 0; i < size; i++) {
-							handler.sendMessage(handler
-									.obtainMessage(Consts.WHAT_LOAD_IMAGE_SUCCESS));
+							handler.sendMessage(handler.obtainMessage(
+									Consts.WHAT_LOAD_IMAGE_SUCCESS, i, 0, null));
 							File[] fileArray = fileList.get(i).listFiles();
 							if (null != fileArray && 0 != fileArray.length) {
 								int length = fileArray.length;
@@ -411,6 +415,9 @@ public class JVMediaListActivity extends BaseActivity {
 								.obtainMessage(Consts.WHAT_LOAD_IMAGE_FINISHED));
 					}
 				}
+
+				handler.sendMessageDelayed(
+						handler.obtainMessage(Consts.WHAT_DIALOG_CLOSE), 2000);
 
 				super.run();
 			} catch (Exception e) {

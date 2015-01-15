@@ -49,10 +49,12 @@ public class ResetPwdChoiceActivity extends Activity implements OnClickListener 
 				findUrl = Url.RESET_PWD_URL_ZHT;
 			} else {// 英文
 				String strCountry = ConfigUtil.getCountry();
-				if(strCountry.equals("")||strCountry.equals("China")||strCountry.substring(0, 2).equals(getString(R.string.str_country))){
+				if (strCountry.equals("")
+						|| strCountry.equals("China")
+						|| strCountry.substring(0, 2).equals(
+								getString(R.string.str_country))) {
 					findUrl = Url.RESET_PWD_URL_CHINA_EN;
-				}
-				else{
+				} else {
 					findUrl = Url.RESET_PWD_URL_FOREIGN_EN;
 				}
 			}

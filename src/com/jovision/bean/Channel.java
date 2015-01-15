@@ -234,6 +234,11 @@ public class Channel {
 			object.put("channelName", channelName);
 			object.put("vipLevel", vipLevel);
 			object.put("rtmpUrl", rtmpUrl);
+
+			object.put("isPaused", isPaused);
+			object.put("isConnected", isConnected);
+			object.put("isConnecting", isConnecting);
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -275,6 +280,7 @@ public class Channel {
 			channel.setChannelName(ConfigUtil.getString(object, "channelName"));
 			channel.setVipLevel(ConfigUtil.getInt(object, "vipLevel"));
 			channel.setRtmpUrl(ConfigUtil.getString(object, "rtmpUrl"));
+
 			// channel.setConnecting(ConfigUtil.getBoolean(object,"isConnecting"));
 			// channel.setConnecting(ConfigUtil.getBoolean(object,"isConnected"));
 			// channel.setRemotePlay(ConfigUtil.getBoolean(object,"isRemotePlay"));

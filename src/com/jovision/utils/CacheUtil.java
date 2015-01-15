@@ -1,6 +1,10 @@
 package com.jovision.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.R.integer;
+import cn.smssdk.app.NewAppReceiver;
 
 import com.jovision.Consts;
 import com.jovision.bean.Device;
@@ -9,6 +13,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 
 public class CacheUtil {
+	private static HashMap<String, String> nickNameMap = new HashMap<String, String>(5);
 	/**
 	 * 重新获取用户列表
 	 * 
@@ -39,7 +44,7 @@ public class CacheUtil {
 	 * @return
 	 */
 	public static ArrayList<Device> getDevList() {
-		MyLog.e("CacheUtil---1", "getDevList");
+//		MyLog.e("CacheUtil---1", "getDevList");
 		ArrayList<Device> devList = new ArrayList<Device>();
 		String devJsonString = MySharedPreference.getString(Consts.DEVICE_LIST);
 		if (null != devJsonString && !"".equals(devJsonString)) {
@@ -54,7 +59,7 @@ public class CacheUtil {
 	 * @param userList
 	 */
 	public static void saveDevList(ArrayList<Device> devList) {
-		MyLog.e("CacheUtil---2", "saveDevList");
+//		MyLog.e("CacheUtil---2", "saveDevList");
 		// if (MySharedPreference.getBoolean(Consts.NEED_BROAD1)) {
 		// devList = getDevList();
 		// MySharedPreference.putBoolean(Consts.NEED_BROAD1, false);
@@ -67,5 +72,27 @@ public class CacheUtil {
 					.putString(Consts.DEVICE_LIST, devList.toString());
 		}
 
+		//同步map,先不这样搞了。by lkp
+//		Device device = null;
+//		for(int i=0; i<devList.size(); i++){
+//			device = devList.get(i);
+//			nickNameMap.put(device.getFullNo(), device.getNickName());
+//		}
+	}
+	
+	public static String getNickNameByYstfn(String ystFullNo){
+		return nickNameMap.get(ystFullNo);
+	}
+	
+	public static String setNickNameWithYstfn(String ystFullNo, String nickName){
+		return nickNameMap.put(ystFullNo, nickName);
+	}
+	
+	public static String removeDevFromNcikMap(String ystFullNo){
+		return nickNameMap.remove(ystFullNo);
+	}
+	
+	public static void clearNickNameMap(){
+		nickNameMap.clear();
 	}
 }

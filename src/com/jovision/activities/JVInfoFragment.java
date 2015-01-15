@@ -260,7 +260,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				// }
 				// }
 				// }
-				if(pushListView.getVisibility() == View.INVISIBLE){
+				if (pushListView.getVisibility() == View.INVISIBLE) {
 					pushListView.setVisibility(View.VISIBLE);
 				}
 				pushList.clear();
@@ -410,7 +410,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 			int length = pushArray.length();
 			if (0 != length) {
-				if(pushListView.getVisibility() == View.INVISIBLE){
+				if (pushListView.getVisibility() == View.INVISIBLE) {
 					pushListView.setVisibility(View.VISIBLE);
 				}
 				for (int i = 0; i < length; i++) {
@@ -440,14 +440,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 						}
 
-						ArrayList<Device> deviceList = CacheUtil.getDevList();// 再取一次
-						int dev_index = DeviceUtil.getDeivceIndex(pi.ystNum);
-						String deviceNickName = "";
-						if (dev_index == -1) {
+//						ArrayList<Device> deviceList = CacheUtil.getDevList();// 再取一次
+//						int dev_index = DeviceUtil.getDeivceIndex(pi.ystNum);
+						String deviceNickName = CacheUtil.getNickNameByYstfn(pi.ystNum);
+						if (deviceNickName == null || deviceNickName.equals("")) {
 							deviceNickName = pi.deviceNickName;
 						} else {
-							deviceNickName = deviceList.get(dev_index)
-									.getNickName();
+//							deviceNickName = deviceList.get(dev_index)
+//									.getNickName();
 							if (pi.alarmType == 11)// 第三方
 							{
 								deviceNickName = deviceNickName + "-"

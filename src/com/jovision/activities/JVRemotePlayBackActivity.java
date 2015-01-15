@@ -305,6 +305,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 			@Override
 			public void surfaceDestroyed(SurfaceHolder holder) {
+				MyLog.v("JNI_PLAY", "Remote-pause");
 				Jni.pause(indexOfChannel);// boolean result =
 				// MyLog.i(Consts.TAG_PLAY, "playback-" + currentIndex
 				// + " destroy: " + result);
@@ -312,6 +313,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 			@Override
 			public void surfaceCreated(SurfaceHolder holder) {
+				MyLog.v("JNI_PLAY", "Remote-resume");
 				Jni.resume(indexOfChannel, holder.getSurface());// boolean
 				// result
 				// =
@@ -611,6 +613,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		// 继续播放视频
 		Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYGOON, new byte[0],
 				0);
+
 	}
 
 	@Override

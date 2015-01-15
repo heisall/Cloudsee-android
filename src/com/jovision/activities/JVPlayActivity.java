@@ -765,7 +765,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 			case Consts.ARG2_STATUS_CONNECTED:
 				loadingState(arg1, R.string.connecting_buffer1,
-						Consts.TAG_PLAY_CONNECTING_BUFFER);
+						Consts.TAG_PLAY_CONNECTTED);
 				break;
 
 			case Consts.ARG2_STATUS_BUFFERING:
@@ -788,10 +788,10 @@ public class JVPlayActivity extends PlayActivity implements
 						Consts.TAG_PLAY_DIS_CONNECTTED);
 				break;
 
-			case Consts.ARG2_STATUS_UNKNOWN:
-				loadingState(arg1, R.string.closed,
-						Consts.TAG_PLAY_STATUS_UNKNOWN);
-				break;
+			// case Consts.ARG2_STATUS_UNKNOWN:
+			// loadingState(arg1, R.string.closed,
+			// Consts.TAG_PLAY_STATUS_UNKNOWN);
+			// break;
 
 			default:
 				break;
@@ -1192,6 +1192,9 @@ public class JVPlayActivity extends PlayActivity implements
 						// object.getDouble("jump_fps"),
 						// object.getDouble("network_fps")
 						int window = object.getInt("window");
+						loadingState(arg1, R.string.connecting_buffer1,
+								Consts.TAG_PLAY_CONNECTTED);
+
 						if (window == lastClickIndex) {
 							currentKbps.setText(String.format("%.1fk/%.1fk",
 									object.getDouble("kbps"),
@@ -1959,7 +1962,7 @@ public class JVPlayActivity extends PlayActivity implements
 					channel.setPaused(false);
 					handler.sendMessage(handler.obtainMessage(
 							Consts.WHAT_PLAY_STATUS, channel.getIndex(),
-							Consts.ARG2_STATUS_BUFFERING));
+							Consts.ARG2_STATUS_CONNECTED));
 					// MyLog.v(TAG,"resumeChannel+buffering,index="+channel.getIndex());
 				} else {
 					// handler.sendMessage(handler.obtainMessage(WHAT_PLAY_STATUS,
@@ -1993,7 +1996,7 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	public boolean pauseChannel(Channel channel) {
-		MyLog.v("capture", "pauseChannel=" + channel.getParent().getFullNo());
+
 		boolean result = false;
 		if (null != channel) {
 			if (lastClickIndex != channel.getIndex() && channel.isConnected()) {
@@ -2001,11 +2004,11 @@ public class JVPlayActivity extends PlayActivity implements
 						JVNetConst.JVN_CMD_VIDEOPAUSE, new byte[0], 8);
 			}
 
-			Jni.pause(channel.getIndex());
-			channel.setPaused(true);
-			result = true;
+			result = Jni.pause(channel.getIndex());
+			channel.setPaused(result);
 		}
-
+		MyLog.e("JNI_PLAY", "pauseIndex=" + channel.getIndex() + ";result="
+				+ result);
 		return result;
 	}
 
@@ -2242,6 +2245,7 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 				if (Consts.BAD_HAS_CONNECTED == connect) {
+					MyLog.e(Consts.TAG_XXX, "BAD_HAS_CONNECTED");
 					channel.setConnected(true);
 					channel.setPaused(true);
 					channel.setConnecting(false);
@@ -2438,9 +2442,9 @@ public class JVPlayActivity extends PlayActivity implements
 					connectChannelList.add(channel);
 				}
 				channel.setSurface(surface);
-				handler.sendMessage(handler.obtainMessage(
-						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
-						Consts.ARG2_STATUS_UNKNOWN));
+				// handler.sendMessage(handler.obtainMessage(
+				// Consts.WHAT_PLAY_STATUS, channel.getIndex(),
+				// Consts.ARG2_STATUS_UNKNOWN));
 				break;
 
 			case PlayWindowManager.STATUS_CHANGED:
@@ -2989,12 +2993,12 @@ public class JVPlayActivity extends PlayActivity implements
 					e.printStackTrace();
 				}
 
-				int counts = 0;
+				// int counts = 0;
 				while (!allDis(channelList)) {
-					counts++;
-					if (counts > 10) {
-						break;
-					}
+					// counts++;
+					// if (counts > 10) {
+					// break;
+					// }
 					try {
 						Thread.sleep(200);
 					} catch (InterruptedException e) {
@@ -3403,6 +3407,7 @@ public class JVPlayActivity extends PlayActivity implements
 	 */
 	public void startRemote() {
 		stopAllFunc();
+
 		Intent remoteIntent = new Intent();
 		remoteIntent.setClass(JVPlayActivity.this, JVRemoteListActivity.class);
 		remoteIntent.putExtra("IndexOfChannel", channelList.get(lastClickIndex)
@@ -3916,6 +3921,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 	@Override
 	protected void onResume() {
+		MyLog.v("onResume--ChannelList", channelList.toString());
 		super.onResume();
 		isBlockUi = true;
 		updateStreaminfoFlag = false;
@@ -3930,7 +3936,6 @@ public class JVPlayActivity extends PlayActivity implements
 	protected void onPause() {
 		super.onPause();
 		closePopWindow();
-
 		stopAll(lastClickIndex, channelList.get(lastClickIndex));
 		// manager.pauseAll();
 
@@ -3939,7 +3944,22 @@ public class JVPlayActivity extends PlayActivity implements
 			deviceList = CacheUtil.getDevList();
 			CacheUtil.saveDevList(deviceList);
 		}
-		pauseAll(manager.getValidChannelList(lastItemIndex));
+
+		if (null != channelList && 0 != channelList.size()) {
+			try {
+				int size = channelList.size();
+				for (int i = 0; i < size; i++) {
+					if (channelList.get(i).isConnected()) {
+						pauseChannel(channelList.get(i));
+					} else if (channelList.get(i).isConnecting()) {
+						Jni.disconnect(channelList.get(i).getIndex());
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		// pauseAll(channelList);
 	}
 
 	public void pauseAll(ArrayList<Channel> channelList) {
@@ -4041,7 +4061,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 		@Override
 		public void run() {
-			MyLog.w(Consts.TAG_XXX, "Connecter E");
+			MyLog.w(Consts.TAG_XXX, "Connecter E" + channelList.toString());
+
 			try {
 				Channel channel = null;
 				int size = disconnectChannelList.size();
@@ -4138,16 +4159,19 @@ public class JVPlayActivity extends PlayActivity implements
 						channel.setPaused(true);
 						boolean result = resumeChannel(channel);
 						if (false == result) {
-							channel.setConnected(false);
-							MyLog.e(Consts.TAG_XXX, "force resume failed: "
-									+ channel);
+							// channel.setConnected(false);
+							MyLog.e(Consts.TAG_XXX,
+									"connect not pause force resume failed: "
+											+ channel);
 						} else {
 							handler.sendMessage(handler.obtainMessage(
 									Consts.WHAT_PLAY_STATUS,
 									channel.getIndex(),
-									Consts.ARG2_STATUS_BUFFERING));
+									Consts.ARG2_STATUS_CONNECTED));
 							sleep(RESUME_VIDEO_MIN_PEROID);
-							MyLog.i(Consts.TAG_XXX, "force resume: " + channel);
+							MyLog.i(Consts.TAG_XXX,
+									"connect not pause force resume: "
+											+ channel);
 						}
 
 					} else {
@@ -4155,7 +4179,7 @@ public class JVPlayActivity extends PlayActivity implements
 						MyLog.i(Consts.TAG_XXX, "connect is pause: " + channel);
 						boolean result = resumeChannel(channel);
 						if (false == result) {
-							channel.setConnected(false);
+							// channel.setConnected(false);
 							MyLog.e(Consts.TAG_XXX, "connect resume failed: "
 									+ channel);
 						} else {
@@ -4172,7 +4196,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			handler.sendEmptyMessage(Consts.WHAT_RESTORE_UI);
-			MyLog.w(Consts.TAG_XXX, "Connecter X");
+			MyLog.w(Consts.TAG_XXX, "Connecter X" + channelList.toString());
 		}
 	}
 

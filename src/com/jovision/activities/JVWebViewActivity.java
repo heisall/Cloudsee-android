@@ -34,6 +34,7 @@ public class JVWebViewActivity extends BaseActivity {
 	private LinearLayout loadFailedLayout;
 	private ImageView reloadImgView;
 	private boolean loadFailed = false;
+	private boolean isfirst = false;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -63,7 +64,7 @@ public class JVWebViewActivity extends BaseActivity {
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.demo);
-		loadingBar = (ProgressBar) findViewById(R.id.loadingbar);
+		loadingBar = (ProgressBar) findViewById(R.id.loadingbars);
 
 		loadFailedLayout = (LinearLayout) findViewById(R.id.loadfailedlayout);
 		loadFailedLayout.setVisibility(View.GONE);
@@ -131,7 +132,10 @@ public class JVWebViewActivity extends BaseActivity {
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				// TODO Auto-generated method stub
 				super.onPageStarted(view, url, favicon);
-				loadingBar.setVisibility(View.VISIBLE);
+				if (!isfirst) {
+					loadingBar.setVisibility(View.VISIBLE);
+					isfirst = true;
+				}
 				MyLog.v(TAG, "webView start load");
 			}
 

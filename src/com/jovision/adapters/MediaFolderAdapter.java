@@ -33,6 +33,8 @@ public class MediaFolderAdapter extends BaseAdapter {
 	public LayoutInflater inflater;
 	private String media;// 区分图片还是视频
 	private boolean loadImg = true;
+	private int loadIndex = -1;
+	private boolean loadIndexImg = true;
 	private boolean isdelect;
 	public static int selectPlayerIndex = -1;
 
@@ -51,6 +53,11 @@ public class MediaFolderAdapter extends BaseAdapter {
 
 	public void setLoadImage(boolean load) {
 		loadImg = load;
+	}
+
+	public void setLoadImageIndex(int index, boolean load) {
+		loadIndexImg = load;
+		loadIndex = index;
 	}
 
 	@Override
@@ -91,13 +98,21 @@ public class MediaFolderAdapter extends BaseAdapter {
 		final File[] fileArray = folderList.get(position).listFiles();
 		final String folderPath = folderList.get(position).getAbsolutePath();
 		daArrayList = JVMediaListActivity.fileMap.get(folderPath);
+
 		mediaAdaper.setData(daArrayList, media, fileArray, loadImg, isdelect);
+
+		if (!loadImg && loadIndex == position && loadIndexImg) {
+			mediaAdaper.setData(daArrayList, media, fileArray, loadIndexImg,
+					isdelect);
+		}
+
 		folderHolder.fileGridView.setAdapter(mediaAdaper);
 		folderHolder.fileGridView
 				.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View arg1,
 							int position, long arg3) {
+
 						if (!isdelect) {
 							daArrayList = JVMediaListActivity.fileMap
 									.get(folderPath);

@@ -14,7 +14,7 @@ public class Url {
 	// 找回密码
 	public static String RESET_PWD_URL_ZH = "http://webapp.afdvr.com:9006/findpwd?lang=0";// 重置密码地址
 	public static String RESET_PWD_URL_CHINA_EN = "http://webapp.afdvr.com:9006/findpwd?lang=1";// 重置密码地址国内服务器不带en，国外服务器带en
-	public static String RESET_PWD_URL_FOREIGN_EN = "http://webappen.afdvr.com:9006/findpwd?lang=1";// 重置密码地址国内服务器不带en，国外服务器带en	
+	public static String RESET_PWD_URL_FOREIGN_EN = "http://webappen.afdvr.com:9006/findpwd?lang=1";// 重置密码地址国内服务器不带en，国外服务器带en
 	public static String RESET_PWD_URL_ZHT = "http://webappen.afdvr.com:9006/findpwd?lang=2";// 重置密码地址
 	// public static String RESET_PWD_URL =
 	// "http://webapp.afdvr.com:9003/findpwd/index.html";// 重置密码地址

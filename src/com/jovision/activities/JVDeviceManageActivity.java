@@ -232,6 +232,10 @@ public class JVDeviceManageActivity extends BaseActivity {
 					String name = statusHashMap.get(Consts.KEY_USERNAME);
 					delRes = DeviceUtil.modifyDevice(name, params[0],
 							params[1], params[2], params[3]);
+					if(delRes == 0){
+						//同步map bylkp
+						CacheUtil.setNickNameWithYstfn(params[0], params[1]);				
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -292,6 +296,8 @@ public class JVDeviceManageActivity extends BaseActivity {
 					ConfigUtil.deleteSceneFolder(manageDeviceList.get(delIndex)
 							.getFullNo());
 					manageDeviceList.remove(delIndex);
+					//删除对应缓存的nicknamemap中的值 by lkp
+					CacheUtil.removeDevFromNcikMap(manageDeviceList.get(delIndex).getFullNo());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

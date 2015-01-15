@@ -98,9 +98,8 @@
     <color name="device_setting">#FDE7D5</color>
     <color name="device_yt">#D8F0F9</color>
     <color name="device_remoteplay">#E0FED8</color>
-     <color name="device_talk">#FEDCDD</color>
-      <color name="device_talk_press">#FEBABC</color>
-    
+    <color name="device_talk">#FEDCDD</color>
+    <color name="device_talk_press">#FEBABC</color>
 
     <!-- 设备管理 -->
     <color name="cloud_color">#cccccc</color>

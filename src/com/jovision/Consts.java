@@ -498,6 +498,9 @@ public class Consts {
 	/** 设备列表通道加载失败 */
 	public static final int WHAT_MYDEVICE_POINT_FAILED = 0x61;
 
+	/** dialog 隐藏 */
+	public static final int WHAT_DIALOG_CLOSE = 0x62;
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像

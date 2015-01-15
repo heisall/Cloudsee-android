@@ -260,6 +260,9 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				// }
 				// }
 				// }
+				if(pushListView.getVisibility() == View.INVISIBLE){
+					pushListView.setVisibility(View.VISIBLE);
+				}
 				pushList.clear();
 				pushList.addAll(temList);
 				Consts.pushHisCount = addLen;
@@ -407,6 +410,9 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 			int length = pushArray.length();
 			if (0 != length) {
+				if(pushListView.getVisibility() == View.INVISIBLE){
+					pushListView.setVisibility(View.VISIBLE);
+				}
 				for (int i = 0; i < length; i++) {
 					try {
 						JSONObject obj = pushArray.getJSONObject(i);
@@ -645,7 +651,9 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				pushList.clear();
 				Consts.pushHisCount = 0;
 				pushAdapter.setRefCount(0);
+				pushAdapter.setData(pushList);
 				pushAdapter.notifyDataSetChanged();
+				pushListView.setVisibility(View.INVISIBLE);
 				mActivity.showTextToast(R.string.clear_alarm_succ);
 				noMess.setVisibility(View.VISIBLE);
 				noMessTv.setVisibility(View.VISIBLE);

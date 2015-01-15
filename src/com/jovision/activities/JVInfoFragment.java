@@ -21,7 +21,6 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
 import com.jovision.adapters.PushAdapter;
-import com.jovision.bean.Device;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
@@ -30,7 +29,6 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
-import com.jovision.utils.DeviceUtil;
 import com.jovision.views.AlarmDialog;
 import com.jovision.views.MyAlertDialog;
 import com.jovision.views.XListView;
@@ -440,14 +438,16 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 						}
 
-//						ArrayList<Device> deviceList = CacheUtil.getDevList();// 再取一次
-//						int dev_index = DeviceUtil.getDeivceIndex(pi.ystNum);
-						String deviceNickName = CacheUtil.getNickNameByYstfn(pi.ystNum);
+						// ArrayList<Device> deviceList =
+						// CacheUtil.getDevList();// 再取一次
+						// int dev_index = DeviceUtil.getDeivceIndex(pi.ystNum);
+						String deviceNickName = CacheUtil
+								.getNickNameByYstfn(pi.ystNum);
 						if (deviceNickName == null || deviceNickName.equals("")) {
 							deviceNickName = pi.deviceNickName;
 						} else {
-//							deviceNickName = deviceList.get(dev_index)
-//									.getNickName();
+							// deviceNickName = deviceList.get(dev_index)
+							// .getNickName();
 							if (pi.alarmType == 11)// 第三方
 							{
 								deviceNickName = deviceNickName + "-"

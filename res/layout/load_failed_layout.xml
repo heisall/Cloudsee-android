@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/refreshimg"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/mydevice_error" />
 
@@ -25,7 +25,7 @@
             android:layout_marginTop="15dp"
             android:text="@string/press_screen_refresh"
             android:textColor="@color/tab_text_color"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
 </RelativeLayout>

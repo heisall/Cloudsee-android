@@ -172,7 +172,7 @@ public class JVWebView2Activity extends BaseActivity {
 		if (webView.canGoBack()) {
 			webView.goBack(); // goBack()表示返回WebView的上一页面
 		} else {
-			JVWebView2Activity.this.finish();
+			finish();
 		}
 	}
 

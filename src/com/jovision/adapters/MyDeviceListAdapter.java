@@ -261,24 +261,28 @@ public class MyDeviceListAdapter extends BaseAdapter {
 			deviceHolder.devDeleteR.setVisibility(View.GONE);
 			deviceHolder.editDevL.setVisibility(View.GONE);
 			deviceHolder.editDevR.setVisibility(View.GONE);
-			if ((deviceList.get(deviceList.size() - 1).getOnlineStateNet() == 0 && deviceList
-					.get(deviceList.size() - 1).getOnlineStateLan() == 0)) {
-				deviceHolder.offline_edit_l.setVisibility(View.VISIBLE);
-			} else {
-				deviceHolder.offline_edit_l.setVisibility(View.GONE);
-			}
-			if (position * 2 + 1 < deviceList.size()) {
-				if ((deviceList.get(position * 2).getOnlineStateNet() == 0 && deviceList
-						.get(position * 2).getOnlineStateLan() == 0)) {
+			if (!Boolean
+					.valueOf(((BaseActivity) mfragment.getActivity()).statusHashMap
+							.get(Consts.LOCAL_LOGIN))) {
+				if ((deviceList.get(deviceList.size() - 1).getOnlineStateNet() == 0 && deviceList
+						.get(deviceList.size() - 1).getOnlineStateLan() == 0)) {
 					deviceHolder.offline_edit_l.setVisibility(View.VISIBLE);
 				} else {
 					deviceHolder.offline_edit_l.setVisibility(View.GONE);
 				}
-				if ((deviceList.get(position * 2 + 1).getOnlineStateNet() == 0 && deviceList
-						.get(position * 2 + 1).getOnlineStateLan() == 0)) {
-					deviceHolder.offline_edit_r.setVisibility(View.VISIBLE);
-				} else {
-					deviceHolder.offline_edit_r.setVisibility(View.GONE);
+				if (position * 2 + 1 < deviceList.size()) {
+					if ((deviceList.get(position * 2).getOnlineStateNet() == 0 && deviceList
+							.get(position * 2).getOnlineStateLan() == 0)) {
+						deviceHolder.offline_edit_l.setVisibility(View.VISIBLE);
+					} else {
+						deviceHolder.offline_edit_l.setVisibility(View.GONE);
+					}
+					if ((deviceList.get(position * 2 + 1).getOnlineStateNet() == 0 && deviceList
+							.get(position * 2 + 1).getOnlineStateLan() == 0)) {
+						deviceHolder.offline_edit_r.setVisibility(View.VISIBLE);
+					} else {
+						deviceHolder.offline_edit_r.setVisibility(View.GONE);
+					}
 				}
 			}
 		}

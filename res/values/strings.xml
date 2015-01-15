@@ -729,7 +729,7 @@
     <string name="reset_passwd_way2">Find by Message verification code </string>
     <string name="str_verification_code">Code</string>
     <string name="str_notreceive_sms">No verification code received?</string>
-    <string name="str_resend_code">Resend Verification Code</string>
+    <string name="str_resend_code">Resend</string>
     <string name="str_receive_sms_time">Your SMS should arrive in SS second.</string>
     <string name="str_sms_sent">SMS verification code sent</string>
     <string name="str_set_new_pwd">Set New Password</string>

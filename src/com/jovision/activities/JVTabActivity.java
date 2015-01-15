@@ -406,7 +406,8 @@ public class JVTabActivity extends ShakeActivity implements
 		// new TPushTips(this).showNoticeDialog();
 		// }
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
-			String strRom = ConfigUtil.getSystemProperty("ro.miui.ui.version.name");
+			String strRom = ConfigUtil
+					.getSystemProperty("ro.miui.ui.version.name");
 			if (strRom == null || strRom.equals("")) {
 				// showTextToast("不是MIUI");
 			} else {
@@ -419,7 +420,7 @@ public class JVTabActivity extends ShakeActivity implements
 								.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
 					}
 				}
-	
+
 			}
 		}
 		mFragments[0] = new JVMyDeviceFragment();

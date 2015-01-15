@@ -204,7 +204,7 @@
     <string name="str_reset_not_success">沒有修改成功.</string>
     <string name="str_modify_user_info">完善用戶資訊</string>
     <string name="str_bound_email">綁定手機號(信箱)</string>
-     <string name="str_bind_mail">綁定信箱</string>
+    <string name="str_bind_mail">綁定信箱</string>
     <string name="str_bound_email_success">綁定成功</string>
     <string name="str_bound_email_failed">信箱綁定失敗</string>
     <string name="str_bound_phone_exist">手機號已被註冊</string>

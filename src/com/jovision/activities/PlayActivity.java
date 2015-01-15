@@ -600,7 +600,8 @@ public abstract class PlayActivity extends BaseActivity implements
 			}
 		} else {// 横
 			closePopWindow();
-			if (!MySharedPreference.getBoolean("playhelp2")&&Consts.PLAY_NORMAL == playFlag) {
+			if (!MySharedPreference.getBoolean("playhelp2")
+					&& Consts.PLAY_NORMAL == playFlag) {
 				horPlayHelp.setVisibility(View.VISIBLE);
 				horViewPager.setCurrentItem(0);
 				getHorpic();

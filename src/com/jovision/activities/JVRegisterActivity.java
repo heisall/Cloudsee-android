@@ -2,8 +2,6 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +35,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
@@ -265,21 +262,23 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 					if (!ConfigUtil.isConnected(JVRegisterActivity.this)) {
 						alertNetDialog();
 					} else {
-						//						checkPhoneNum(userNameEditText.getText().toString(),
-						//								currentCode);
-						phoneNumber = new GetPhoneNumber(userNameEditText.getText().toString());
+						// checkPhoneNum(userNameEditText.getText().toString(),
+						// currentCode);
+						phoneNumber = new GetPhoneNumber(userNameEditText
+								.getText().toString());
 						if ("".equalsIgnoreCase(userNameEditText.getText()
 								.toString())) {
 							registTips.setVisibility(View.VISIBLE);
 							registTips.setTextColor(Color.rgb(217, 34, 38));
 							registTips.setText(getResources().getString(
 									R.string.login_str_username_notnull));
-						} else if(phoneNumber.matchNum()==4||phoneNumber.matchNum()==5) {
+						} else if (phoneNumber.matchNum() == 4
+								|| phoneNumber.matchNum() == 5) {
 							registTips.setVisibility(View.VISIBLE);
 							registTips.setTextColor(Color.rgb(217, 34, 38));
 							registTips.setText(getResources().getString(
 									R.string.str_phone_num_error));
-						}else {
+						} else {
 							createDialog("", true);
 							new Thread() {
 								public void run() {
@@ -383,15 +382,17 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				backMethod();
 				break;
 			case R.id.registercode:
-				phoneNumber = new GetPhoneNumber(userNameEditText.getText().toString());
+				phoneNumber = new GetPhoneNumber(userNameEditText.getText()
+						.toString());
 				if (!ConfigUtil.isConnected(JVRegisterActivity.this)) {
 					alertNetDialog();
-				} else if(phoneNumber.matchNum()==4||phoneNumber.matchNum()==5) {
+				} else if (phoneNumber.matchNum() == 4
+						|| phoneNumber.matchNum() == 5) {
 					registTips.setVisibility(View.VISIBLE);
 					registTips.setTextColor(Color.rgb(217, 34, 38));
 					registTips.setText(getResources().getString(
 							R.string.str_phone_num_error));
-				}else {
+				} else {
 					MakeSure();
 				}
 				break;
@@ -438,26 +439,26 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 
 	};
 
-	//	// 检查电话号码
-	//	private void checkPhoneNum(String phone, String code) {
-	//		if (code.startsWith("+")) {
-	//			code = code.substring(1);
-	//		}
+	// // 检查电话号码
+	// private void checkPhoneNum(String phone, String code) {
+	// if (code.startsWith("+")) {
+	// code = code.substring(1);
+	// }
 	//
-	//		if (TextUtils.isEmpty(phone)) {
-	//			return;
-	//		}
-	//		if ("".equals(code)) {
-	//			String rule = countryRules.get(code);
-	//			Pattern p = Pattern.compile(rule);
-	//			Matcher m = p.matcher(phone);
-	//			if (!m.matches()) {
-	//				showTextToast(getResources().getString(
-	//						R.string.reset_passwd_tips5));
-	//				return;
-	//			}
-	//		}
-	//	}
+	// if (TextUtils.isEmpty(phone)) {
+	// return;
+	// }
+	// if ("".equals(code)) {
+	// String rule = countryRules.get(code);
+	// Pattern p = Pattern.compile(rule);
+	// Matcher m = p.matcher(phone);
+	// if (!m.matches()) {
+	// showTextToast(getResources().getString(
+	// R.string.reset_passwd_tips5));
+	// return;
+	// }
+	// }
+	// }
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

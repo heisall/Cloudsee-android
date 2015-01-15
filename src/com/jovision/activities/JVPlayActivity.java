@@ -3747,7 +3747,6 @@ public class JVPlayActivity extends PlayActivity implements
 						functionListAdapter.selectIndex = -1;
 					}
 				}
-
 			}
 			functionListAdapter.notifyDataSetChanged();
 		}

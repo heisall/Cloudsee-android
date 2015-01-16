@@ -422,7 +422,7 @@ public class CustomDialogActivity extends BaseActivity implements
 					Intent intent = new Intent();
 					intent.setClass(CustomDialogActivity.this,
 							JVRemotePlayBackActivity.class);
-					intent.putExtra("IndexOfChannel", 0);
+					intent.putExtra("IndexOfChannel", Consts.ONLY_CONNECT_INDEX);
 					intent.putExtra("acBuffStr", vod_uri_);
 					intent.putExtra("AudioBit", audio_bit);
 					intent.putExtra("DeviceType", device_type);
@@ -875,7 +875,7 @@ public class CustomDialogActivity extends BaseActivity implements
 
 			} while (try_cnt > 0);
 			if (try_cnt == 0) {
-				myHandler.sendEmptyMessageDelayed(tag, 1000);
+				myHandler.sendEmptyMessageDelayed(tag, 0);
 			}
 		}
 	}

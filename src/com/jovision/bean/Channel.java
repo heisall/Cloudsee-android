@@ -235,9 +235,9 @@ public class Channel {
 			object.put("vipLevel", vipLevel);
 			object.put("rtmpUrl", rtmpUrl);
 
-			object.put("isPaused", isPaused);
-			object.put("isConnected", isConnected);
-			object.put("isConnecting", isConnecting);
+			// object.put("isPaused", isPaused);
+			// object.put("isConnected", isConnected);
+			// object.put("isConnecting", isConnecting);
 
 		} catch (JSONException e) {
 			e.printStackTrace();

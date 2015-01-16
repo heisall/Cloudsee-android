@@ -2111,9 +2111,10 @@ public class JVPlayActivity extends PlayActivity implements
 				savePath = Consts.SCENE_PATH + "demo_"
 						+ channel.getParent().getFullNo() + File.separator;
 			}
-			String fileName = channel.getChannel() + Consts.IMAGE_JPG_KIND;
+
 			MyLog.v("capture", "savePath=" + savePath);
 			MobileUtil.createDirectory(new File(savePath));
+			String fileName = channel.getChannel() + Consts.IMAGE_JPG_KIND;
 			fullPath = savePath + fileName;
 			MyLog.v("capture", "fullPath=" + fullPath);
 		}
@@ -4175,7 +4176,7 @@ public class JVPlayActivity extends PlayActivity implements
 							handler.sendMessage(handler.obtainMessage(
 									Consts.WHAT_PLAY_STATUS,
 									channel.getIndex(),
-									Consts.ARG2_STATUS_BUFFERING));
+									Consts.ARG2_STATUS_CONNECTED));
 							sleep(RESUME_VIDEO_MIN_PEROID);
 							MyLog.i(Consts.TAG_XXX,
 									"connect not pause force resume: "

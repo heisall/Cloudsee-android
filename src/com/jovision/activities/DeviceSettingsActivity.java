@@ -67,9 +67,9 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private int funcIndex = -1;
 	private String[] funcParamArray;
 	private HashMap<String, String> streamMap;
-	private boolean isadmin;
+	public static boolean isadmin;
 	private int power;
-	private String fullno;
+	public static String fullno;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -321,7 +321,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	@Override
 	protected void freeMe() {
 		// TODO Auto-generated method stub
-
+		isadmin = false;
 	}
 
 	@Override

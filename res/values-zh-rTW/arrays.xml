@@ -45,7 +45,7 @@
         <item>無線設備</item>
         <item>局域網設備</item>
         <item>聲波配置</item>
-        <item>IP/功能變數名稱設備</item>
+        <item>IP/域名設備</item>
     </string-array>
     <string-array name="array_popno">
         <item>雲視通號</item>

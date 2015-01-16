@@ -272,6 +272,10 @@ public class JVPlayActivity extends PlayActivity implements
 			return;
 		}
 		switch (what) {
+		case Consts.WHAT_DIALOG_CLOSE: {// 关闭dialog
+			dismissDialog();
+			break;
+		}
 		case Consts.WHAT_SURFACEVIEW_CLICK: {// 单击事件
 
 			if (isScrollClickCheck) {
@@ -1192,8 +1196,8 @@ public class JVPlayActivity extends PlayActivity implements
 						// object.getDouble("jump_fps"),
 						// object.getDouble("network_fps")
 						int window = object.getInt("window");
-						loadingState(arg1, R.string.connecting_buffer1,
-								Consts.TAG_PLAY_CONNECTTED);
+						// loadingState(arg1, R.string.connecting_buffer1,
+						// Consts.TAG_PLAY_CONNECTTED);
 
 						if (window == lastClickIndex) {
 							currentKbps.setText(String.format("%.1fk/%.1fk",
@@ -2040,6 +2044,7 @@ public class JVPlayActivity extends PlayActivity implements
 		if (currentScreen > ONE_SCREEN) {
 			closePopWindow();
 		}
+		// dismissDialog();
 	}
 
 	private void changeBorder(int currentIndex) {
@@ -2342,7 +2347,7 @@ public class JVPlayActivity extends PlayActivity implements
 			} else if (false == channel.isPaused()) {
 				handler.sendMessage(handler.obtainMessage(
 						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
-						Consts.ARG2_STATUS_CONNECTED));
+						Consts.ARG2_STATUS_BUFFERING));
 				// MyLog.v(TAG,"connect+buffering,index="+channel.getIndex());
 			} else {
 				if (false == resumeChannel(channel)) {
@@ -2675,6 +2680,9 @@ public class JVPlayActivity extends PlayActivity implements
 						screenPopWindow.showAsDropDown(currentMenu);
 					}
 				}
+				handler.sendMessageDelayed(
+						handler.obtainMessage(Consts.WHAT_DIALOG_CLOSE),
+						3 * 1000);
 				break;
 			case R.id.bottom_but8:
 			case R.id.varvoice_bg:
@@ -4167,7 +4175,7 @@ public class JVPlayActivity extends PlayActivity implements
 							handler.sendMessage(handler.obtainMessage(
 									Consts.WHAT_PLAY_STATUS,
 									channel.getIndex(),
-									Consts.ARG2_STATUS_CONNECTED));
+									Consts.ARG2_STATUS_BUFFERING));
 							sleep(RESUME_VIDEO_MIN_PEROID);
 							MyLog.i(Consts.TAG_XXX,
 									"connect not pause force resume: "

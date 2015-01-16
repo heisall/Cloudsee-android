@@ -524,11 +524,13 @@
     <string name="protect_close_succ">安全防护关闭成功</string>
     <string name="protect_close_fail">安全防护关闭失败</string>
     <string name="device_offline">设备离线不能执行此操作</string>
+    <string name="device_offlines">设备离线</string>
     <string name="device_model">型号</string>
     <string name="unknown">未知</string>
     <string name="device_version">软件版本</string>
     <string name="device_version_info">版本信息</string>
     <string name="one_key_update">一键升级</string>
+    <string name="device_new_version">新版本  :</string>
     <string name="check_key_update_failed">设备已经是最新版本，无需更新。</string>
     <string name="check_key_update_error">更新出错，请重新更新。</string>
     <string name="update">升级</string>

@@ -89,6 +89,11 @@ public class BitmapCache {
 			} else if ("net".equalsIgnoreCase(kind)) {
 				File file = new File(Consts.AD_PATH + fileName
 						+ Consts.IMAGE_JPG_KIND);
+
+				if (file.length() <= 1) {
+					file.delete();
+				}
+
 				if (file.isFile() && file.exists()) {
 					bmp = loadImageBitmap(file.getAbsolutePath(), -1);
 				} else {
@@ -99,6 +104,11 @@ public class BitmapCache {
 			} else if ("welcome".equalsIgnoreCase(kind)) {
 				File file = new File(Consts.WELCOME_IMG_PATH + fileName
 						+ Consts.IMAGE_JPG_KIND);
+
+				if (file.length() <= 1) {
+					file.delete();
+				}
+
 				if (file.isFile() && file.exists()) {
 					bmp = loadImageBitmap(file.getAbsolutePath(), -1);
 					this.addCacheBitmap(bmp, path);

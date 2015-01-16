@@ -328,12 +328,12 @@ public class ManageFragment extends BaseFragment {
 			}
 			break;
 		}
-		case Consts.CALL_STAT_REPORT: {// 统计
-			// connect[1], has connected!!
-			MyLog.i(TAG, "CALL_STAT_REPORT: " + what + ", " + arg1 + ", "
-					+ arg2 + ", " + obj);
-			break;
-		}
+		// case Consts.CALL_STAT_REPORT: {// 统计
+		// // connect[1], has connected!!
+		// MyLog.i(TAG, "CALL_STAT_REPORT: " + what + ", " + arg1 + ", "
+		// + arg2 + ", " + obj);
+		// break;
+		// }
 		case Consts.CALL_NORMAL_DATA: {
 			try {
 				JSONObject jobj;

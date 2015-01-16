@@ -1500,7 +1500,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 						// TODO 获取广告
 						getADList();
 					}
-					refreshAD();
+					// refreshAD();
 				}
 
 			} catch (Exception e) {

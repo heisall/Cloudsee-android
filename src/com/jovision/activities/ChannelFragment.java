@@ -90,14 +90,14 @@ public class ChannelFragment extends BaseFragment {
 		try {
 			mActivity = (BaseActivity) getActivity();
 			mParent = getView();
-
-			if (null == deviceList) {
+			MyLog.e("ChannelFragment--E", "deviceList=" + deviceList.toString());
+			if (null == deviceList || 0 == deviceList.size()) {
 				deviceList = CacheUtil.getDevList();
 			}
 			widthPixels = mActivity.disMetrics.widthPixels;
 			channelGridView = (GridView) mParent
 					.findViewById(R.id.channel_gridview);
-
+			MyLog.e("ChannelFragment--X", "deviceList=" + deviceList.toString());
 			channelAdapter = new ChannelAdapter(this);
 			channelAdapter.setData(deviceList.get(deviceIndex).getChannelList()
 					.toList(), widthPixels);

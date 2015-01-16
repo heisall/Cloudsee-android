@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 /**
@@ -249,6 +250,14 @@ public class ImageViewPager extends ViewPager {
 			return mListViews.get(i % mListViews.size());
 		}
 
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			int pos = position % mListViews.size();
+			if (null != mListViews && mListViews.size() > pos) {
+				container.removeView(mListViews.get(pos));
+			}
+		}
+
 		public boolean isViewFromObject(View arg0, Object arg1) {
 			return arg0 == (arg1);
 		}
@@ -263,20 +272,11 @@ public class ImageViewPager extends ViewPager {
 		public void startUpdate(View arg0) {
 		}
 
-		@Override
-		public void destroyItem(View view, int arg1, Object arg2) {
-			// ((ViewPager) view).removeView(mListViews.get(arg1 %
-			// mListViews.size()));
-			// ((ViewPager) view).removeAllViews();
-		}
-
 		// @Override
-		// public void destroyItem(ViewGroup container, int position, Object
-		// object) {
-		// int pos = position % mListViews.size();
-		// if (null != mListViews && mListViews.size() > pos) {
-		// container.removeView(mListViews.get(pos));
-		// }
+		// public void destroyItem(View view, int arg1, Object arg2) {
+		// // ((ViewPager) view).removeView(mListViews.get(arg1 %
+		// // mListViews.size()));
+		// // ((ViewPager) view).removeAllViews();
 		// }
 
 	}

@@ -638,7 +638,10 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 				AlertDialog ad = new AlertDialog.Builder(
 						JVDeviceUpdateCloudSeeActivity.this)
 						.setTitle(R.string.key_update_title)
-						.setMessage(getResources().getString(R.string.device_new_version)+updateObj.getUfver())
+						.setMessage(
+								getResources().getString(
+										R.string.device_new_version)
+										+ updateObj.getUfver())
 						.setCancelable(false)
 						.setPositiveButton(
 								getResources().getString(R.string.update),

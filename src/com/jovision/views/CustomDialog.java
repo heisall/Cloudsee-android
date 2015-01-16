@@ -88,7 +88,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 				default:
 					break;
 				}
-			}else if (ConfigUtil.getLanguage2(context) == Consts.LANGUAGE_ZHTW) {
+			} else if (ConfigUtil.getLanguage2(context) == Consts.LANGUAGE_ZHTW) {
 				switch (dev_mark_id) {
 				case 1:// 门磁
 					file = "menci_tw.mp3";

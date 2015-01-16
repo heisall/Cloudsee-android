@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/infotime"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
         android:textColor="@color/info_time"
         android:textSize="16sp" />
@@ -15,16 +15,10 @@
     <TextView
         android:id="@+id/infocontent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/infotime"
         android:layout_marginBottom="7dp"
         android:textColor="@color/info_content"
         android:textSize="16sp" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_below="@+id/infocontent"
-        android:background="@color/info_divider" />
 
 </RelativeLayout>

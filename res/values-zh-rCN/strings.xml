@@ -530,6 +530,7 @@
     <string name="device_version">软件版本</string>
     <string name="device_version_info">版本信息</string>
     <string name="one_key_update">一键升级</string>
+    <string name="device_new_version">新版本  :</string>
     <string name="check_key_update_failed">设备已经是最新版本，无需更新。</string>
     <string name="check_key_update_error">更新出错，请重新更新。</string>
     <string name="update">升级</string>

@@ -530,6 +530,7 @@
     <string name="unknown">unknown</string>
     <string name="device_version_info">Version info</string>
     <string name="one_key_update">One-key to update</string>
+    <string name="device_new_version">New version  :</string>
     <string name="check_key_update_failed">Latest version now, no need to update.</string>
     <string name="check_key_update_error">Failed to update, please update again.</string>
     <string name="update">Update</string>

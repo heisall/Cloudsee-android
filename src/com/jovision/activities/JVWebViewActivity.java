@@ -128,6 +128,7 @@ public class JVWebViewActivity extends BaseActivity {
 				String channel = resMap.get("channel");
 				
 				String rtmp = String.format("rtmp://%s:%s/live/%s_%s", rtmp_url,rtmp_port,cloud_num,channel);
+				rtmp = rtmp.toLowerCase();//转小写
 				MyLog.e("RTMP", ">>>>>> "+rtmp);
 //				showTextToast(rtmp);//////////////等着去掉 
 				if (newUrl.contains("viewmode")) {

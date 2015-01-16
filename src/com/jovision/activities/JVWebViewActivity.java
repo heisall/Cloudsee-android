@@ -115,12 +115,14 @@ public class JVWebViewActivity extends BaseActivity {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String newUrl) {
 				MyLog.v("new_url", newUrl);
+
 				if (newUrl.contains("viewmode")) {
 					Intent intentAD = new Intent(JVWebViewActivity.this,
 							JVWebView2Activity.class);
 					intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					intentAD.putExtra("URL", newUrl);
 					intentAD.putExtra("title", -2);
+
 					JVWebViewActivity.this.startActivity(intentAD);
 				} else {
 					view.loadUrl(newUrl);
@@ -130,7 +132,6 @@ public class JVWebViewActivity extends BaseActivity {
 
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
-				// TODO Auto-generated method stub
 				super.onPageStarted(view, url, favicon);
 				if (!isfirst) {
 					loadingBar.setVisibility(View.VISIBLE);

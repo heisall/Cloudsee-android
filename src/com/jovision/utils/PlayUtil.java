@@ -9,13 +9,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
-import android.util.Log;
 
 import com.jovision.Consts;
 import com.jovision.Jni;

@@ -144,10 +144,11 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		switch (what) {
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE:
-			if(window != arg1){
-				MyLog.e("DeviceSetting", "---------不是不是不是不是本window的回调---------->"+arg1);
+			if (window != arg1) {
+				MyLog.e("DeviceSetting",
+						"---------不是不是不是不是本window的回调---------->" + arg1);
 				return;
-			}			
+			}
 			switch (arg2) {
 			// case JVNetConst.DISCONNECT_OK: {
 			// bConnectedFlag = false;
@@ -174,7 +175,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
 						showTextToast(R.string.connfailed_maxcount);
 					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
-//						showTextToast(R.string.connfailed_timeout);
+					// showTextToast(R.string.connfailed_timeout);
 					} else {// "Connect failed!"
 						showTextToast(R.string.connect_failed);
 					}

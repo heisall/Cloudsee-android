@@ -1158,34 +1158,35 @@ public class JVPlayActivity extends PlayActivity implements
 				StringBuilder sBuilder = new StringBuilder(1024 * size);
 				for (int i = 0; i < size; i++) {
 					object = array.getJSONObject(i);
-					String msg = String
-							.format("%d(%s|%s), kbps=%.0fK, fps=%.0f+%.0f/%.0f/%d, %.0fms+%.0fms, left=%2d,\n",// \t\t%dx%d;
-									// audio(%d):
-									// kbps=%.2fK,
-									// fps=%.0f/%.0f,
-									// %.2fms+%.2fms
-									object.getInt("window"),
-									(object.getBoolean("is_turn") ? "TURN"
-											: "P2P"),
-									(object.getBoolean("is_omx") ? "HD" : "ff"),
-									object.getDouble("kbps"), object
-											.getDouble("decoder_fps"), object
-											.getDouble("jump_fps"), object
-											.getDouble("network_fps"), object
-											.getInt("space"), object
-											.getDouble("decoder_delay"), object
-											.getDouble("render_delay"), object
-											.getInt("left")
-							// ,object.getInt("width"), object
-							// .getInt("height"), object
-							// .getInt("audio_type"), object
-							// .getDouble("audio_kbps"), object
-							// .getDouble("audio_decoder_fps"),
-							// object.getDouble("audio_network_fps"),
-							// object.getDouble("audio_decoder_delay"),
-							// object.getDouble("audio_play_delay")
-							);
-					sBuilder.append(msg).append("\n");
+					// String msg = String
+					// .format("%d(%s|%s), kbps=%.0fK, fps=%.0f+%.0f/%.0f/%d, %.0fms+%.0fms, left=%2d,\n",//
+					// \t\t%dx%d;
+					// // audio(%d):
+					// // kbps=%.2fK,
+					// // fps=%.0f/%.0f,
+					// // %.2fms+%.2fms
+					// object.getInt("window"),
+					// (object.getBoolean("is_turn") ? "TURN"
+					// : "P2P"),
+					// (object.getBoolean("is_omx") ? "HD" : "ff"),
+					// object.getDouble("kbps"), object
+					// .getDouble("decoder_fps"), object
+					// .getDouble("jump_fps"), object
+					// .getDouble("network_fps"), object
+					// .getInt("space"), object
+					// .getDouble("decoder_delay"), object
+					// .getDouble("render_delay"), object
+					// .getInt("left")
+					// // ,object.getInt("width"), object
+					// // .getInt("height"), object
+					// // .getInt("audio_type"), object
+					// // .getDouble("audio_kbps"), object
+					// // .getDouble("audio_decoder_fps"),
+					// // object.getDouble("audio_network_fps"),
+					// // object.getDouble("audio_decoder_delay"),
+					// // object.getDouble("audio_play_delay")
+					// );
+					// sBuilder.append(msg).append("\n");
 
 					// [Neo] you fool
 					if (ONE_SCREEN == currentScreen) {
@@ -1199,34 +1200,44 @@ public class JVPlayActivity extends PlayActivity implements
 						// loadingState(arg1, R.string.connecting_buffer1,
 						// Consts.TAG_PLAY_CONNECTTED);
 
-						if (window == lastClickIndex) {
-							currentKbps.setText(String.format("%.1fk/%.1fk",
-									object.getDouble("kbps"),
-									object.getDouble("audio_kbps")));
-							// + "("
-							// + (object.getBoolean("is_turn") ? "TURN"
-							// : "P2P") + ")");
+						double delay = object.getDouble("delay");
+						if (delay > 0) {
+							if (window == lastClickIndex) {
+								currentKbps.setText(String.format(
+										"%.1fk/%.1fk",
+										object.getDouble("kbytes") / delay,
+										object.getDouble("audio_kbytes")
+												/ delay));
+								// + "("
+								// + (object.getBoolean("is_turn") ? "TURN"
+								// : "P2P") + ")");
 
-							playStatistics
-									.setText(String
-											.format("%.1fk/%.1fk/D:%.1fk/J:%.1fk/N:%.1fk/L:%dk",
-													object.getDouble("kbps"),
-													object.getDouble("audio_kbps"),
-													object.getDouble("decoder_fps"),
-													object.getDouble("jump_fps"),
-													object.getDouble("network_fps"),
-													object.getInt("left"))
+								playStatistics
+										.setText(String
+												.format("%.1fk/%.1fk/D:%.1fk/J:%.1fk/N:%.1fk/L:%dk",
+														object.getDouble("kbytes")
+																/ delay,
+														object.getDouble("audio_kbytes")
+																/ delay,
+														object.getDouble("decoder_fps"),
+														object.getDouble("jump_fps"),
+														object.getDouble("network_fps"),
+														object.getInt("left"))
 
-											+ "("
-											+ (object.getBoolean("is_turn") ? "TURN"
-													: "P2P") + ")"
-									// + PlayUtil
-									// .hasEnableHelper(channelList
-									// .get(lastClickIndex)
-									// .getParent()
-									// .getFullNo())
-									);
+												+ "("
+												+ (object.getBoolean("is_turn") ? "TURN"
+														: "P2P") + ")"
+										// + PlayUtil
+										// .hasEnableHelper(channelList
+										// .get(lastClickIndex)
+										// .getParent()
+										// .getFullNo())
+										);
+							}
+						} else {
+							MyLog.e(TAG, "delay is 0");
 						}
+
 					}
 
 				}

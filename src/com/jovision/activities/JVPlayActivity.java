@@ -2342,7 +2342,7 @@ public class JVPlayActivity extends PlayActivity implements
 			} else if (false == channel.isPaused()) {
 				handler.sendMessage(handler.obtainMessage(
 						Consts.WHAT_PLAY_STATUS, channel.getIndex(),
-						Consts.ARG2_STATUS_CONNECTED));
+						Consts.ARG2_STATUS_BUFFERING));
 				// MyLog.v(TAG,"connect+buffering,index="+channel.getIndex());
 			} else {
 				if (false == resumeChannel(channel)) {
@@ -4167,7 +4167,7 @@ public class JVPlayActivity extends PlayActivity implements
 							handler.sendMessage(handler.obtainMessage(
 									Consts.WHAT_PLAY_STATUS,
 									channel.getIndex(),
-									Consts.ARG2_STATUS_CONNECTED));
+									Consts.ARG2_STATUS_BUFFERING));
 							sleep(RESUME_VIDEO_MIN_PEROID);
 							MyLog.i(Consts.TAG_XXX,
 									"connect not pause force resume: "

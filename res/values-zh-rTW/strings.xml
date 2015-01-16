@@ -524,6 +524,7 @@
     <string name="protect_close_succ">安全防護關閉成功</string>
     <string name="protect_close_fail">安全防護關閉失敗</string>
     <string name="device_offline">設備離線不能執行此操作</string>
+    <string name="device_offlines">設備離線</string>
     <string name="device_model">型號</string>
     <string name="unknown">未知</string>
     <string name="device_version">軟體版本</string>

@@ -129,9 +129,11 @@ public class DeviceUtil {
 										dev.setServerState(obj
 												.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
 										deviceList.add(dev);
-										
-										//同步map,也算是初始化
-										CacheUtil.setNickNameWithYstfn(dev.getFullNo(), dev.getNickName());
+
+										// 同步map,也算是初始化
+										CacheUtil.setNickNameWithYstfn(
+												dev.getFullNo(),
+												dev.getNickName());
 									}
 								}
 							}
@@ -652,8 +654,9 @@ public class DeviceUtil {
 		Device dev = null;
 		if (0 == res) {
 			dev = getUserDeviceDetail(device, loginUserName);
-			//tong bu map by lkp
-			CacheUtil.setNickNameWithYstfn(device.getFullNo(), dev.getNickName());
+			// tong bu map by lkp
+			CacheUtil.setNickNameWithYstfn(device.getFullNo(),
+					dev.getNickName());
 		}
 		return dev;
 	}
@@ -757,7 +760,7 @@ public class DeviceUtil {
 						} else {
 							device = DeviceUtil.getUserDeviceDetail(device,
 									userName);
-							
+
 						}
 					}
 				} catch (Exception e) {
@@ -768,8 +771,9 @@ public class DeviceUtil {
 		} else {
 			device = DeviceUtil.getUserDeviceDetail(device, userName);
 		}
-		//tong bu map by lkp
-		CacheUtil.setNickNameWithYstfn(device.getFullNo(), device.getNickName());
+		// tong bu map by lkp
+		CacheUtil
+				.setNickNameWithYstfn(device.getFullNo(), device.getNickName());
 		return device;
 	}
 

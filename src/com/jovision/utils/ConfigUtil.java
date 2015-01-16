@@ -1288,4 +1288,17 @@ public class ConfigUtil {
 		}
 		return line;
 	}
+	
+	public static HashMap<String, String> genMsgMapFromhpget(String msg) {
+		HashMap<String, String> map = new HashMap<String, String>();
+
+		if (null == msg || "".equalsIgnoreCase(msg)) {
+			return null;
+		}
+		Matcher matcher = Pattern.compile("([^=&]+)=([^=&]+)").matcher(msg);
+		while (matcher.find()) {
+			map.put(matcher.group(1), matcher.group(2));
+		}
+		return map;
+	}	
 }

@@ -51,6 +51,7 @@ public class JVWebView2Activity extends BaseActivity {
 	private boolean pausedFlag = false;
 
 	private String url = "";
+	private String rtmp = "";
 	private int titleID = 0;
 	private ProgressBar loadingBar;
 
@@ -151,7 +152,8 @@ public class JVWebView2Activity extends BaseActivity {
 		// url = "http://app.ys7.com/";
 		// url = "http://192.168.9.83:8080/m2obile/index.html";
 		titleID = getIntent().getIntExtra("title", 0);
-
+		rtmp = getIntent().getStringExtra("rtmp");
+		
 		int height = disMetrics.heightPixels;
 		int width = disMetrics.widthPixels;
 		int useWidth = 0;
@@ -229,7 +231,7 @@ public class JVWebView2Activity extends BaseActivity {
 					resumeVideo();
 				} else {
 					loadingState(Consts.TAG_PLAY_CONNECTING);
-					startConnect("rtmp://119.188.172.3/live/a362_1",
+					startConnect(rtmp,
 							surfaceHolder.getSurface());
 					Jni.enablePlayAudio(1, true);
 				}

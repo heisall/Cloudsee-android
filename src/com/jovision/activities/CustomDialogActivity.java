@@ -840,7 +840,7 @@ public class CustomDialogActivity extends BaseActivity implements
 
 		@Override
 		public void run() {
-			int try_cnt = 2;
+			int try_cnt = 1;
 			int conn_ret = -1;
 			do {
 				conn_ret = AlarmUtil.OnlyConnect(strYstNum);
@@ -848,7 +848,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				if (Consts.BAD_HAS_CONNECTED == conn_ret) {
 					try {
 						Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
-						Thread.sleep(1500);
+						Thread.sleep(500);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

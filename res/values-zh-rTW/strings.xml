@@ -677,8 +677,8 @@
     <string name="str_illegal_dev_nick">輸入的昵稱不合法,限於字母、數字、漢字及特殊字元–_+()</string>
     <string name="str_cloud_file_error_1">文件未上傳完畢或上傳失敗</string>
     <string name="str_cloud_file_error_2">此通道沒有雲存儲信息</string>
-    <string name="str_tpush_autostart_tips_v5">為保證離線報警功能正常使用，請您做如下設置：\n在\"安全中心\"->\"授權管理\"->\"自啟動應用管理\"界面，將本軟件手動添加到自啟動應用中</string>
-    <string name="str_tpush_autostart_tips_v6">爲保證離線報警功能正常使用，請您做如下設置：\n在\"安全中心"->\"授權管理\"->\"自啟動管理\"界面，將本軟件設置爲允許自動啟動</string>
+    <string name="str_tpush_autostart_tips_v5">為保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心\"->\"授權管理\"->\"自啟動應用管理\"界面，將本軟件手動添加到自啟動應用中</string>
+    <string name="str_tpush_autostart_tips_v6">爲保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心"->\"授權管理\"->\"自啟動管理\"界面，將本軟件設置爲允許自動啟動</string>
     <!-- 騰訊雲分析統計名稱 不用翻譯 -->
     <string name="census_login">本地登錄</string>
     <string name="census_onlinelogin">線上登錄</string>

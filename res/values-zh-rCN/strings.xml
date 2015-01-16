@@ -677,8 +677,8 @@
     <string name="str_illegal_dev_nick">输入的昵称不合法,限于字母、数字、汉字及特殊字符-_+()</string>
     <string name="str_cloud_file_error_1">文件未上传完毕或上传失败</string>
     <string name="str_cloud_file_error_2">此通道没有云存储信息</string>
-    <string name="str_tpush_autostart_tips_v5">为保证离线报警功能正常使用，请您做如下设置：\n在\"安全中心\"->\"授权管理\"->\"自启动应用管理\"界面，将本软件手动添加到自启动应用中</string>
-    <string name="str_tpush_autostart_tips_v6">为保证离线报警功能正常使用，请您做如下设置：\n在\"安全中心"->\"授权管理\"->\"自启动管理\"界面，将本软件设置为允许自动启动</string>
+    <string name="str_tpush_autostart_tips_v5">为保证离线报警功能正常使用，请您对手机做如下设置：\n在手机的\"安全中心\"->\"授权管理\"->\"自启动应用管理\"界面，将本软件手动添加到自启动应用中</string>
+    <string name="str_tpush_autostart_tips_v6">为保证离线报警功能正常使用，请您对手机做如下设置：\n在手机的\"安全中心"->\"授权管理\"->\"自启动管理\"界面，将本软件设置为允许自动启动</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="census_login">本地登录</string>
     <string name="census_onlinelogin">在线登录</string>

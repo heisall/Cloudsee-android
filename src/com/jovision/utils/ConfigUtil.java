@@ -1288,7 +1288,7 @@ public class ConfigUtil {
 		}
 		return line;
 	}
-	
+
 	public static HashMap<String, String> genMsgMapFromhpget(String msg) {
 		HashMap<String, String> map = new HashMap<String, String>();
 
@@ -1300,5 +1300,5 @@ public class ConfigUtil {
 			map.put(matcher.group(1), matcher.group(2));
 		}
 		return map;
-	}	
+	}
 }

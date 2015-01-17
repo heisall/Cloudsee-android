@@ -501,6 +501,9 @@ public class Consts {
 	/** dialog 隐藏 */
 	public static final int WHAT_DIALOG_CLOSE = 0x62;
 
+	/** 音频播放 */
+	public static final int PLAY_AUDIO_WHAT = 0x26;
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像

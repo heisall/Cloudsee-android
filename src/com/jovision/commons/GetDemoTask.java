@@ -28,7 +28,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		int getRes = -1;// 0成功 1失败
 		sid = params[0];
 		demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);
-//		demoUrl = "http://www.cloudsee.net/phone.action";
+		// demoUrl = "http://www.cloudsee.net/phone.action";
 		if (null != demoUrl && !"".equalsIgnoreCase(demoUrl)) {
 			getRes = 0;
 		}
@@ -65,7 +65,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			} else {
 				lan = "en_us";
 			}
-			//plat=android 要小写
+			// plat=android 要小写
 			demoUrl = demoUrl + "?" + "plat=android&platv="
 					+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
 					+ System.currentTimeMillis() + "&sid=" + sid;

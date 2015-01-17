@@ -175,7 +175,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
 						showTextToast(R.string.connfailed_maxcount);
 					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
-					// showTextToast(R.string.connfailed_timeout);
+						// showTextToast(R.string.connfailed_timeout);
 					} else {// "Connect failed!"
 						showTextToast(R.string.connect_failed);
 					}

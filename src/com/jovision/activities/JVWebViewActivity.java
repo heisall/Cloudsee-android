@@ -118,31 +118,41 @@ public class JVWebViewActivity extends BaseActivity {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String newUrl) {
 				MyLog.v("new_url", newUrl);
-				String param_array[] = newUrl.split("\\?"); 
-				HashMap<String, String> resMap;
-				resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
-				
-				String rtmp_url = resMap.get("streamsvr");
-				String rtmp_port = resMap.get("rtmport");
-				String cloud_num = resMap.get("cloudnum");
-				String channel = resMap.get("channel");
-				
-				String rtmp = String.format("rtmp://%s:%s/live/%s_%s", rtmp_url,rtmp_port,cloud_num,channel);
-				rtmp = rtmp.toLowerCase();//转小写
-				MyLog.e("RTMP", ">>>>>> "+rtmp);
-//				showTextToast(rtmp);//////////////等着去掉 
-				if (newUrl.contains("viewmode")) {
-					Intent intentAD = new Intent(JVWebViewActivity.this,
-							JVWebView2Activity.class);
-					intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-					intentAD.putExtra("URL", newUrl);
-					intentAD.putExtra("title", -2);
-					intentAD.putExtra("rtmp", rtmp);
-					
-					JVWebViewActivity.this.startActivity(intentAD);
-				} else {
-					view.loadUrl(newUrl);
+				// showTextToast(rtmp);//////////////等着去掉
+				try {
+					if (newUrl.contains("viewmode")) {
+
+						String param_array[] = newUrl.split("\\?");
+						HashMap<String, String> resMap;
+						resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
+
+						String rtmp_url = resMap.get("streamsvr");
+						String rtmp_port = resMap.get("rtmport");
+						String cloud_num = resMap.get("cloudnum");
+						String channel = resMap.get("channel");
+
+						String rtmp = String.format("rtmp://%s:%s/live/%s_%s",
+								rtmp_url, rtmp_port, cloud_num, channel);
+						rtmp = rtmp.toLowerCase();// 转小写
+						MyLog.e("RTMP", ">>>>>> " + rtmp);
+
+						Intent intentAD = new Intent(JVWebViewActivity.this,
+								JVWebView2Activity.class);
+						intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+						intentAD.putExtra("URL", newUrl);
+						intentAD.putExtra("title", -2);
+						intentAD.putExtra("rtmp", rtmp);
+						intentAD.putExtra("cloudnum", cloud_num);
+						intentAD.putExtra("channel", channel);
+
+						JVWebViewActivity.this.startActivity(intentAD);
+					} else {
+						view.loadUrl(newUrl);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+
 				return true;
 			}
 

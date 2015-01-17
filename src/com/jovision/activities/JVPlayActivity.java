@@ -142,7 +142,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		switch (what) {
-		case PLAY_AUDIO_WHAT: {
+		case Consts.PLAY_AUDIO_WHAT: {
 			MyLog.v(TAG, "PLAY_AUDIO_WHAT:what=" + what + ",arg1=" + arg1
 					+ ",arg2=" + arg2 + ",obj=" + obj);
 			break;

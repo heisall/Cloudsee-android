@@ -81,8 +81,18 @@ public class JVWebView2Activity extends BaseActivity implements
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case Consts.WHAT_DEMO_BUFFING: {// 缓存中
+			loadingState(Consts.RTMP_CONN_SCCUESS);
+			break;
+		}
+		case Consts.WHAT_DEMO_RESUME: {// resume Channel
+			resumeVideo();
+			loadingState(Consts.CALL_NEW_PICTURE);
+			break;
+		}
 		case Consts.CALL_CONNECT_CHANGE: {
 			loadingState(arg2);
+			break;
 		}
 		case Consts.CALL_NEW_PICTURE: {
 			loadingState(Consts.CALL_NEW_PICTURE);
@@ -354,7 +364,8 @@ public class JVWebView2Activity extends BaseActivity implements
 
 		pause.setOnClickListener(myOnClickListener);
 		fullScreen.setOnClickListener(myOnClickListener);
-		// playSurfaceView.setOnClickListener(myOnClickListener);
+		playImgView.setOnClickListener(myOnClickListener);
+
 		setSurfaceSize(false);
 		fullScreenFlag = false;
 
@@ -476,8 +487,8 @@ public class JVWebView2Activity extends BaseActivity implements
 			public void surfaceChanged(SurfaceHolder holder, int format,
 					int width, int height) {
 				tensileView(playChannel, playChannel.getSurfaceView());
-				resumeVideo();
 
+				resumeVideo();
 			}
 		});
 
@@ -580,6 +591,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	 */
 	private boolean pauseVideo() {
 		playChannel.setPaused(true);
+		stopAudio(playChannel.getIndex());
 		return Jni.pause(playChannel.getIndex());
 	}
 
@@ -593,6 +605,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			resumeRes = Jni.resume(playChannel.getIndex(),
 					surfaceHolder.getSurface());
 		}
+		startAudio(playChannel.getIndex(), audioByte);
 		return resumeRes;
 	}
 
@@ -627,18 +640,19 @@ public class JVWebView2Activity extends BaseActivity implements
 			case R.id.fullscreen: {// 全屏
 				if (fullScreenFlag) {
 					fullScreenFlag = false;
+					fullScreen.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.full_screen_icon));
 				} else {
 					fullScreenFlag = true;
+					fullScreen.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.notfull_screen_icon));
 				}
 				setSurfaceSize(fullScreenFlag);
 				break;
 			}
-			case R.id.playsurface: {
-				if (View.VISIBLE == playBar.getVisibility()) {
-					playBar.setVisibility(View.GONE);
-				} else {
-					playBar.setVisibility(View.VISIBLE);
-				}
+			case R.id.playview: {
+				loadingState(Consts.TAG_PLAY_CONNECTING);
+				startConnect(rtmp, surfaceHolder.getSurface());
 				break;
 			}
 			}
@@ -672,16 +686,49 @@ public class JVWebView2Activity extends BaseActivity implements
 	}
 
 	@Override
+	protected void onDestroy() {
+		MyLog.v("QQwebview2", "onDestroy--");
+		super.onDestroy();
+	}
+
+	@Override
+	protected void onRestart() {
+		MyLog.v("QQwebview2", "onRestart--");
+		super.onRestart();
+	}
+
+	@Override
+	protected void onStart() {
+		MyLog.v("QQwebview2", "onStart--");
+		super.onStart();
+	}
+
+	@Override
 	protected void onPause() {
+		MyLog.v("QQwebview2", "onPause--");
 		super.onPause();
+		handler.sendMessage(handler.obtainMessage(Consts.WHAT_DEMO_BUFFING));
 		pauseVideo();
-		webView.onPause();
+		// webView.onPause();
 	}
 
 	@Override
 	protected void onResume() {
+		MyLog.v("QQwebview2", "onResume--");
 		super.onResume();
-		webView.onResume();
+		// webView.onResume();
+		handler.sendMessage(handler.obtainMessage(Consts.WHAT_DEMO_BUFFING));
+		loadingState(Consts.TAG_PLAY_CONNECTING);
+		handler.sendMessageDelayed(
+				handler.obtainMessage(Consts.WHAT_DEMO_RESUME), 500);
+	}
+
+	@Override
+	protected void onStop() {
+		MyLog.v("QQwebview2", "onStop--");
+		pauseVideo();
+		// webView.onPause();
+		super.onStop();
 	}
 
 	@Override

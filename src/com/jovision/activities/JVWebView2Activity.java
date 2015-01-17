@@ -58,7 +58,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private ImageView playImgView;
 	private RelativeLayout playBar;
 	private Button pause;
-	private Button fullScreen;
+	private ImageView fullScreen;
 	private WebView webView;
 
 	private boolean fullScreenFlag = false;
@@ -359,7 +359,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		playImgView = (ImageView) findViewById(R.id.playview);
 		playBar = (RelativeLayout) findViewById(R.id.playbar);
 		pause = (Button) findViewById(R.id.pause);
-		fullScreen = (Button) findViewById(R.id.fullscreen);
+		fullScreen = (ImageView) findViewById(R.id.fullscreen);
 		webView = (WebView) findViewById(R.id.webview);
 
 		pause.setOnClickListener(myOnClickListener);
@@ -640,12 +640,12 @@ public class JVWebView2Activity extends BaseActivity implements
 			case R.id.fullscreen: {// 全屏
 				if (fullScreenFlag) {
 					fullScreenFlag = false;
-					fullScreen.setBackgroundDrawable(getResources()
-							.getDrawable(R.drawable.full_screen_icon));
+					fullScreen.setImageDrawable(getResources().getDrawable(
+							R.drawable.full_screen_icon));
 				} else {
 					fullScreenFlag = true;
-					fullScreen.setBackgroundDrawable(getResources()
-							.getDrawable(R.drawable.notfull_screen_icon));
+					fullScreen.setImageDrawable(getResources().getDrawable(
+							R.drawable.notfull_screen_icon));
 				}
 				setSurfaceSize(fullScreenFlag);
 				break;

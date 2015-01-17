@@ -67,8 +67,8 @@
 
                 <Button
                     android:id="@+id/pause"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/video_stop_icon" />
 
@@ -87,15 +87,15 @@
                     android:thumb="@drawable/seekbar_move"
                     android:visibility="gone" />
 
-                <Button
+                <ImageView
                     android:id="@+id/fullscreen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/full_screen_icon"
-                    android:padding="4dp" />
+                    android:src="@drawable/full_screen_icon"
+                    android:padding="7dp" />
             </RelativeLayout>
         </RelativeLayout>
 

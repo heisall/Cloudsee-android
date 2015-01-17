@@ -1,11 +1,14 @@
 package com.jovision.activities;
 
+import java.util.Timer;
+
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -63,6 +66,8 @@ public class JVWebView2Activity extends BaseActivity implements
 	private MyAudio playAudio;
 	private int audioByte = 0;
 	private Channel playChannel;
+	private Timer doubleClickTimer;
+	private boolean isDoubleClickCheck;// 双击事件
 
 	private String url = "";
 	private String rtmp = "";
@@ -106,6 +111,55 @@ public class JVWebView2Activity extends BaseActivity implements
 				playAudio.put(data);
 			}
 
+			break;
+		}
+		case Consts.WHAT_SURFACEVIEW_CLICK: {// 单击事件
+			Channel channel = (Channel) obj;
+			int x = arg1;
+			int y = arg2;
+			if (null != channel && channel.isConnected()
+					&& !channel.isConnecting()) {
+				boolean originSize = false;
+				if (channel.getLastPortWidth() == channel.getSurfaceView()
+						.getWidth()) {
+					originSize = true;
+				}
+
+				if (isDoubleClickCheck) {
+					MyLog.e("Click--", "双击：clickTimeBetween=");
+				} else {
+					MyLog.e("Click--", "单击：time=");
+				}
+
+				if (isDoubleClickCheck) {// 双击
+
+					Point vector = new Point();
+					Point middle = new Point();
+					middle.set(x, y);
+					if (originSize) {// 双击放大
+						vector.set(channel.getSurfaceView().getWidth(), channel
+								.getSurfaceView().getHeight());
+						gestureOnView(channel.getSurfaceView(), channel,
+								MyGestureDispatcher.GESTURE_TO_BIGGER, 1,
+								vector, middle);
+					} else {// 双击还原
+						vector.set(-channel.getSurfaceView().getWidth(),
+								-channel.getSurfaceView().getHeight());
+						gestureOnView(channel.getSurfaceView(), channel,
+								MyGestureDispatcher.GESTURE_TO_SMALLER, -1,
+								vector, middle);
+					}
+				} else {// 单击
+
+					if (View.VISIBLE == playBar.getVisibility()) {
+						playBar.setVisibility(View.GONE);
+					} else {
+						playBar.setVisibility(View.VISIBLE);
+					}
+				}
+			}
+
+			lastClickTime = 0;
 			break;
 		}
 
@@ -305,6 +359,98 @@ public class JVWebView2Activity extends BaseActivity implements
 		fullScreenFlag = false;
 
 		playChannel.setSurfaceView(playSurfaceView);
+
+		final MyGestureDispatcher dispatcher = new MyGestureDispatcher(
+				new MyGestureDispatcher.OnGestureListener() {
+
+					@Override
+					public void onGesture(int gesture, int distance,
+							Point vector, Point middle) {
+						if (null != playChannel && playChannel.isConnected()
+								&& !playChannel.isConnecting()) {
+							boolean originSize = false;
+							if (playChannel.getLastPortWidth() == playChannel
+									.getSurfaceView().getWidth()) {
+								originSize = true;
+							}
+							switch (gesture) {
+							// 手势放大缩小
+							case MyGestureDispatcher.GESTURE_TO_BIGGER:
+							case MyGestureDispatcher.GESTURE_TO_SMALLER:
+								gestureOnView(playChannel.getSurfaceView(),
+										playChannel, gesture, distance, vector,
+										middle);
+								lastClickTime = 0;
+								break;
+							// 手势云台
+							case MyGestureDispatcher.GESTURE_TO_LEFT:
+								gestureOnView(playChannel.getSurfaceView(),
+										playChannel, gesture, distance, vector,
+										middle);
+								lastClickTime = 0;
+								break;
+
+							case MyGestureDispatcher.GESTURE_TO_UP:
+								gestureOnView(playChannel.getSurfaceView(),
+										playChannel, gesture, distance, vector,
+										middle);
+								lastClickTime = 0;
+								break;
+
+							case MyGestureDispatcher.GESTURE_TO_RIGHT:
+								gestureOnView(playChannel.getSurfaceView(),
+										playChannel, gesture, distance, vector,
+										middle);
+								lastClickTime = 0;
+								break;
+
+							case MyGestureDispatcher.GESTURE_TO_DOWN:
+								gestureOnView(playChannel.getSurfaceView(),
+										playChannel, gesture, distance, vector,
+										middle);
+								lastClickTime = 0;
+								break;
+							// 手势单击双击
+							case MyGestureDispatcher.CLICK_EVENT:
+								if (0 == lastClickTime) {
+									isDoubleClickCheck = false;
+									lastClickTime = System.currentTimeMillis();
+									handler.sendMessageDelayed(
+											handler.obtainMessage(
+													Consts.WHAT_SURFACEVIEW_CLICK,
+													middle.x, middle.y,
+													playChannel), 350);
+									MyLog.e("Click1--", "单击：lastClickTime="
+											+ lastClickTime);
+								} else {
+									int clickTimeBetween = (int) (System
+											.currentTimeMillis() - lastClickTime);
+									MyLog.e("Click1--", "双击：clickTimeBetween="
+											+ clickTimeBetween);
+									if (clickTimeBetween < 350) {// 认为双击
+										isDoubleClickCheck = true;
+									}
+									lastClickTime = 0;
+								}
+								break;
+							default:
+								break;
+							}
+						}
+					}
+				});
+
+		playSurfaceView.setOnTouchListener(new View.OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				MyLog.v("Click_EVENT", "index=" + playChannel.getIndex()
+						+ ";event=" + event);
+				dispatcher.motion(event);
+				return true;
+			}
+		});
+
 		surfaceHolder = playSurfaceView.getHolder();
 		surfaceHolder.addCallback(new SurfaceHolder.Callback() {
 			@Override

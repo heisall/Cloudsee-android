@@ -547,7 +547,6 @@ public class JVWebView2Activity extends BaseActivity implements
 	 * 设置播放显示的大小
 	 */
 	private void setSurfaceSize(boolean full) {
-		pauseVideo();
 		if (full) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
 			playSurfaceView.setLayoutParams(reParamsH);

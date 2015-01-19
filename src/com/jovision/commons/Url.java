@@ -25,6 +25,8 @@ public class Url {
 	// 国外url：http://webappen.afdvr.com:9006/findpwd?lang=1
 	// 国外url：http://webappen.afdvr.com:9006/findpwd?lang=2 繁体
 
+	public static String JOVISION_PUBLIC_API = "http://webapp.yoosee.cc/api/genstreamurl?";
+
 	// 检查软件更新地址
 	public static String CHECK_UPDATE_URL = "http://wmap.yoosee.cc/MobileWeb.aspx";// 检查软件更新地址
 	public static String APK_DOWNLOAD_URL = "http://wmap.yoosee.cc/";// 下载更新软件地址

@@ -32,6 +32,7 @@ import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
 import com.tencent.stat.StatService;
@@ -407,6 +408,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 			if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 				new Thread(new SetUserOnlineStatusThread(0)).start();
 			}
+			BitmapCache.getInstance().clearAllCache();
 			ConfigUtil.stopBroadCast();
 			statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 			statusHashMap.put(Consts.KEY_LAST_LOGIN_TIME,

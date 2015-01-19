@@ -11,11 +11,107 @@
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
 
-    <WebView
-        android:id="@+id/findpasswebview"
+    <RelativeLayout
+        android:id="@+id/demolayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/top" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/playlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <SurfaceView
+                android:id="@+id/playsurface"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <ImageView
+                android:id="@+id/playview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/stream_play_icon"
+                android:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/videoloading"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/playstate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:paddingTop="43dp"
+                android:singleLine="false"
+                android:textColor="@color/green"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+            <RelativeLayout
+                android:id="@+id/playbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/playsurface"
+                android:layout_centerHorizontal="true"
+                android:background="@color/halftransparent"
+                android:visibility="visible" >
+
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/pause"
+                    android:padding="9dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/video_stop_icon" />
+
+                <SeekBar
+                    android:id="@+id/playback_seekback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/fullscreen"
+                    android:layout_toRightOf="@+id/pause"
+                    android:maxHeight="5dip"
+                    android:minHeight="5dip"
+                    android:paddingLeft="15dip"
+                    android:paddingRight="15dip"
+                    android:progressDrawable="@drawable/seek_drawable"
+                    android:thumb="@drawable/seekbar_move"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/fullscreen"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:padding="9dp"
+                    android:src="@drawable/full_screen_icon" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/playlayout" >
+
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/loadingbar"

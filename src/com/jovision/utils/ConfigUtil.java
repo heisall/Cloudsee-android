@@ -76,7 +76,7 @@ import com.jovision.utils.mails.MyAuthenticator;
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
 	public final static String ACCOUNT_VERSION = "V3.2.7";
-	public final static String PLAY_VERSION = "0.9a[96d9cb3][2015-01-16]";
+	public final static String PLAY_VERSION = "0.9a[3d6649d][2015-01-16]";
 	public final static String NETWORK_VERSION = "v2.0.76.3.29[private:v2.0.75.13 20150115.1]";
 
 	public static String GETACCTOUT_VERSION = "";
@@ -1287,5 +1287,18 @@ public class ConfigUtil {
 			}
 		}
 		return line;
+	}
+
+	public static HashMap<String, String> genMsgMapFromhpget(String msg) {
+		HashMap<String, String> map = new HashMap<String, String>();
+
+		if (null == msg || "".equalsIgnoreCase(msg)) {
+			return null;
+		}
+		Matcher matcher = Pattern.compile("([^=&]+)=([^=&]+)").matcher(msg);
+		while (matcher.find()) {
+			map.put(matcher.group(1), matcher.group(2));
+		}
+		return map;
 	}
 }

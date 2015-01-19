@@ -45,7 +45,6 @@ import com.jovision.views.MyViewPager;
 public abstract class PlayActivity extends BaseActivity implements
 		OnPageChangeListener {
 	private static final String TAG = "PlayActivity";
-	protected static final int PLAY_AUDIO_WHAT = 0x26;
 	public static MyAudio playAudio;
 
 	public MediaPlayer mediaPlayer = new MediaPlayer();
@@ -233,8 +232,8 @@ public abstract class PlayActivity extends BaseActivity implements
 	protected void initUi() {
 		PlayUtil.setContext(PlayActivity.this);
 		// [Neo] TODO
-		playAudio = MyAudio
-				.getIntance(PLAY_AUDIO_WHAT, PlayActivity.this, 8000);
+		playAudio = MyAudio.getIntance(Consts.PLAY_AUDIO_WHAT,
+				PlayActivity.this, 8000);
 
 		setContentView(R.layout.play_layout);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);// 屏幕常亮

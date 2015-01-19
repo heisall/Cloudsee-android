@@ -791,7 +791,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				imageView.setScaleType(ScaleType.FIT_CENTER);
 			}
 		}
-
 	}
 
 	@Override
@@ -1497,7 +1496,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 				} else {// 获取设备失败
 					getRes = Consts.WHAT_DEVICE_GETDATA_FAILED;
 				}
-
 				fragHandler.sendMessage(fragHandler.obtainMessage(
 						Consts.WHAT_DEV_GETFINISHED, getRes, 0));
 				if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(

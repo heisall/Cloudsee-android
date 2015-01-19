@@ -56,7 +56,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private TextView loadingState;
 	private ImageView playImgView;
 	private RelativeLayout playBar;
-	private Button pause;
+	private ImageView pause;
 	private ImageView fullScreen;
 	private WebView webView;
 
@@ -80,65 +80,24 @@ public class JVWebView2Activity extends BaseActivity implements
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
-		MyLog.i("webview2onHandler", "onNotify: changed,what=" + what
-				+ ", arg1=" + arg1 + ", arg2=" + arg2 + ", obj=" + obj);
 		switch (what) {
 		case Consts.WHAT_DEMO_BUFFING: {// 缓存中
 			loadingState(Consts.RTMP_CONN_SCCUESS);
 			break;
 		}
 		case Consts.WHAT_DEMO_RESUME: {// resume Channel
-			MyLog.v("XXYY", "1");
-			resumeVideo();
 			loadingState(Consts.CALL_NEW_PICTURE);
 			break;
 		}
 		case Consts.CALL_CONNECT_CHANGE: {
-			playChannel.setConnecting(false);
-			switch (arg2) {
-			case Consts.BAD_NOT_CONNECT: {
-				isDisConnected = true;
-				MyLog.e("BAD_NOT_CONNECT", "-3");
-				break;
-			}
-			default: {
-				loadingState(arg2);
-				break;
-			}
-			}
-
+			loadingState(arg2);
 			break;
 		}
 		case Consts.CALL_NEW_PICTURE: {
-			startAudio(playChannel.getIndex(), audioByte);
 			loadingState(Consts.CALL_NEW_PICTURE);
 			break;
 		}
-		case Consts.CALL_NORMAL_DATA: {
-			try {
-				JSONObject jobj;
-				jobj = new JSONObject(obj.toString());
-				if (null != jobj) {
-					audioByte = jobj.optInt("audio_bit");
-					startAudio(playChannel.getIndex(), audioByte);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 
-			break;
-		}
-		case Consts.CALL_PLAY_AUDIO: {// 音频数据
-
-			if (null != obj && null != playAudio) {
-				byte[] data = (byte[]) obj;
-				// audioQueue.offer(data);
-				// [Neo] 将音频填入缓存队列
-				playAudio.put(data);
-			}
-
-			break;
-		}
 		case Consts.WHAT_SURFACEVIEW_CLICK: {// 单击事件
 			Channel channel = (Channel) obj;
 			int x = arg1;
@@ -259,7 +218,65 @@ public class JVWebView2Activity extends BaseActivity implements
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
+
+		switch (what) {
+		case Consts.WHAT_DEMO_BUFFING: {// 缓存中
+			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
+			break;
+		}
+		case Consts.WHAT_DEMO_RESUME: {// resume Channel
+			resumeVideo();
+			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
+			break;
+		}
+		case Consts.CALL_CONNECT_CHANGE: {
+			playChannel.setConnecting(false);
+			switch (arg2) {
+			case Consts.BAD_NOT_CONNECT: {
+				isDisConnected = true;
+				MyLog.e("BAD_NOT_CONNECT", "-3");
+				break;
+			}
+			default: {
+				handler.sendMessage(handler
+						.obtainMessage(what, arg1, arg2, obj));
+				break;
+			}
+			}
+
+			break;
+		}
+		case Consts.CALL_NEW_PICTURE: {
+			startAudio(playChannel.getIndex(), audioByte);
+			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
+			break;
+		}
+		case Consts.CALL_NORMAL_DATA: {
+			try {
+				JSONObject jobj;
+				jobj = new JSONObject(obj.toString());
+				if (null != jobj) {
+					audioByte = jobj.optInt("audio_bit");
+					startAudio(playChannel.getIndex(), audioByte);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			break;
+		}
+		case Consts.CALL_PLAY_AUDIO: {// 音频数据
+
+			if (null != obj && null != playAudio) {
+				byte[] data = (byte[]) obj;
+				// audioQueue.offer(data);
+				// [Neo] 将音频填入缓存队列
+				playAudio.put(data);
+			}
+
+			break;
+		}
+		}
 	}
 
 	@Override
@@ -369,7 +386,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		loadingState = (TextView) findViewById(R.id.playstate);
 		playImgView = (ImageView) findViewById(R.id.playview);
 		playBar = (RelativeLayout) findViewById(R.id.playbar);
-		pause = (Button) findViewById(R.id.pause);
+		pause = (ImageView) findViewById(R.id.pause);
 		fullScreen = (ImageView) findViewById(R.id.fullscreen);
 		webView = (WebView) findViewById(R.id.webview);
 		webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -653,12 +670,14 @@ public class JVWebView2Activity extends BaseActivity implements
 			case R.id.pause: {// 暂停
 				// TODO
 				if (playChannel.isPaused()) {// 已暂停
-					pause.setBackgroundResource(R.drawable.video_stop_icon);
+					pause.setImageDrawable(getResources().getDrawable(
+							R.drawable.video_stop_icon));
 					// 继续播放视频
 					MyLog.v("XXYY", "5");
 					boolean res = resumeVideo();
 				} else {
-					pause.setBackgroundResource(R.drawable.video_play_icon);
+					pause.setImageDrawable(getResources().getDrawable(
+							R.drawable.video_play_icon));
 					// 暂停视频
 					boolean res = pauseVideo();
 				}

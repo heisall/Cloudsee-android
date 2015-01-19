@@ -772,8 +772,15 @@ public class DeviceUtil {
 			device = DeviceUtil.getUserDeviceDetail(device, userName);
 		}
 		// tong bu map by lkp
-		CacheUtil
-				.setNickNameWithYstfn(device.getFullNo(), device.getNickName());
+		try {
+			if (null != device) {
+				CacheUtil.setNickNameWithYstfn(device.getFullNo(),
+						device.getNickName());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return device;
 	}
 

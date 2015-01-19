@@ -2,6 +2,8 @@ package com.jovision.activities;
 
 import java.util.HashMap;
 
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,8 +21,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.JSONUtil;
 
 public class JVWebViewActivity extends BaseActivity {
 
@@ -41,12 +46,33 @@ public class JVWebViewActivity extends BaseActivity {
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
+		switch (what) {
+		case Consts.WHAT_DEMO_URL_SUCCESS: {
 
+			HashMap<String, String> paramMap = (HashMap<String, String>) obj;
+			Intent intentAD = new Intent(JVWebViewActivity.this,
+					JVWebView2Activity.class);
+			intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			intentAD.putExtra("URL", paramMap.get("new_url"));
+			intentAD.putExtra("title", -2);
+			intentAD.putExtra("rtmp", paramMap.get("rtmpurl"));
+			intentAD.putExtra("cloudnum", paramMap.get("cloud_num"));
+			intentAD.putExtra("channel", paramMap.get("channel"));
+
+			JVWebViewActivity.this.startActivity(intentAD);
+			break;
+		}
+		case Consts.WHAT_DEMO_URL_FAILED: {
+			// TODO
+			showTextToast(R.string.str_video_load_failed);
+			break;
+		}
+		}
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-
+		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 	}
 
 	@Override
@@ -128,24 +154,26 @@ public class JVWebViewActivity extends BaseActivity {
 
 						String rtmp_url = resMap.get("streamsvr");
 						String rtmp_port = resMap.get("rtmport");
+						String hls_port = resMap.get("hlsport");
 						String cloud_num = resMap.get("cloudnum");
 						String channel = resMap.get("channel");
 
-						String rtmp = String.format("rtmp://%s:%s/live/%s_%s",
-								rtmp_url, rtmp_port, cloud_num, channel);
-						rtmp = rtmp.toLowerCase();// 转小写
-						MyLog.e("RTMP", ">>>>>> " + rtmp);
+						HashMap<String, String> paramMap = new HashMap<String, String>();
+						paramMap.put("new_url", newUrl);
+						paramMap.put("rtmp_url", rtmp_url);
+						paramMap.put("rtmp_port", rtmp_port);
+						paramMap.put("hls_port", hls_port);
+						paramMap.put("cloud_num", cloud_num);
+						paramMap.put("channel", channel);
 
-						Intent intentAD = new Intent(JVWebViewActivity.this,
-								JVWebView2Activity.class);
-						intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-						intentAD.putExtra("URL", newUrl);
-						intentAD.putExtra("title", -2);
-						intentAD.putExtra("rtmp", rtmp);
-						intentAD.putExtra("cloudnum", cloud_num);
-						intentAD.putExtra("channel", channel);
+						String getPlayUtlRequest = Url.JOVISION_PUBLIC_API
+								+ "server=" + rtmp_url + "&dguid=" + cloud_num
+								+ "&channel=" + channel + "&hlsport="
+								+ hls_port + "&rtmpport=" + rtmp_port;
 
-						JVWebViewActivity.this.startActivity(intentAD);
+						createDialog("", false);
+						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
+								.start();
 					} else {
 						view.loadUrl(newUrl);
 					}
@@ -187,6 +215,50 @@ public class JVWebViewActivity extends BaseActivity {
 
 		loadFailed = false;
 		webView.loadUrl(url);
+	}
+
+	class GetPlayUrlThread extends Thread {
+		String requestUrl;
+		HashMap<String, String> paramMap;
+
+		public GetPlayUrlThread(HashMap<String, String> map, String url) {
+			requestUrl = url;
+			paramMap = map;
+		}
+
+		@Override
+		public void run() {
+			super.run();
+			MyLog.v("post_request", requestUrl);
+			int rt = 0;
+			String rtmpUrl = "";
+			// {"rt": 0, "rtmpurl":
+			// "rtmp://119.188.172.3:1935/live/a579223323_1", "hlsurl":
+			// "http://119.188.172.3:8080/live/a579223323_1.m3u8", "mid": 33512}
+			String result = JSONUtil.getRequest(requestUrl);
+			try {
+				if (null != result && !"".equalsIgnoreCase(result)) {
+					JSONObject obj = new JSONObject(result);
+					if (null != obj) {
+						rt = obj.getInt("rt");
+						rtmpUrl = obj.getString("rtmpurl");
+					}
+				}
+
+				if (0 == rt) {
+					paramMap.put("rtmpurl", rtmpUrl);
+					handler.sendMessage(handler.obtainMessage(
+							Consts.WHAT_DEMO_URL_SUCCESS, 0, 0, paramMap));
+				} else {
+					handler.sendMessage(handler.obtainMessage(
+							Consts.WHAT_DEMO_URL_FAILED, 0, 0, null));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			MyLog.v("post_result", result);
+		}
 	}
 
 	OnClickListener myOnClickListener = new OnClickListener() {

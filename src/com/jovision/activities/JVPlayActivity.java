@@ -1201,38 +1201,33 @@ public class JVPlayActivity extends PlayActivity implements
 						// Consts.TAG_PLAY_CONNECTTED);
 
 						double delay = object.getDouble("delay");
-						if (delay > 0) {
-							if (window == lastClickIndex) {
-								currentKbps.setText(String.format(
-										"%.1fk/%.1fk",
-										object.getDouble("kbps"),
-										object.getDouble("audio_kbps")));
-								// + "("
-								// + (object.getBoolean("is_turn") ? "TURN"
-								// : "P2P") + ")");
+						if (window == lastClickIndex) {
+							currentKbps.setText(String.format("%.1fk/%.1fk",
+									object.getDouble("kbps"),
+									object.getDouble("audio_kbps")));
+							// + "("
+							// + (object.getBoolean("is_turn") ? "TURN"
+							// : "P2P") + ")");
 
-								playStatistics
-										.setText(String
-												.format("%.1fk/%.1fk/D:%.1fk/J:%.1fk/N:%.1fk/L:%dk",
-														object.getDouble("kbps"),
-														object.getDouble("audio_kbps"),
-														object.getDouble("decoder_fps"),
-														object.getDouble("jump_fps"),
-														object.getDouble("network_fps"),
-														object.getInt("left"))
+							playStatistics
+									.setText(String
+											.format("%.1fk/%.1fk/D:%.1fk/J:%.1fk/N:%.1fk/L:%dk",
+													object.getDouble("kbps"),
+													object.getDouble("audio_kbps"),
+													object.getDouble("decoder_fps"),
+													object.getDouble("jump_fps"),
+													object.getDouble("network_fps"),
+													object.getInt("left"))
 
-												+ "("
-												+ (object.getBoolean("is_turn") ? "TURN"
-														: "P2P") + ")"
-										// + PlayUtil
-										// .hasEnableHelper(channelList
-										// .get(lastClickIndex)
-										// .getParent()
-										// .getFullNo())
-										);
-							}
-						} else {
-							MyLog.e(TAG, "delay is 0");
+											+ "("
+											+ (object.getBoolean("is_turn") ? "TURN"
+													: "P2P") + ")"
+									// + PlayUtil
+									// .hasEnableHelper(channelList
+									// .get(lastClickIndex)
+									// .getParent()
+									// .getFullNo())
+									);
 						}
 
 					}

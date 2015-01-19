@@ -8,7 +8,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -318,19 +317,11 @@ public class JSONUtil {
 		return result;
 	}
 
-	public static String httpGet(String url, Map params) {
+	public static String httpGet(String url) {
 
 		/* 建立HTTPGet对象 */
 
 		String paramStr = "";
-
-		Iterator iter = params.entrySet().iterator();
-		while (iter.hasNext()) {
-			Map.Entry entry = (Map.Entry) iter.next();
-			Object key = entry.getKey();
-			Object val = entry.getValue();
-			paramStr += paramStr = "&" + key + "=" + val;
-		}
 
 		if (!paramStr.equals("")) {
 			paramStr = paramStr.replaceFirst("&", "?");
@@ -338,7 +329,7 @@ public class JSONUtil {
 		}
 		HttpGet httpRequest = new HttpGet(url);
 
-		MyLog.e("feedback-Get请求-requeset", url);
+		MyLog.e("Get请求-requeset", url);
 
 		String strResult = "doGetError";
 
@@ -366,7 +357,7 @@ public class JSONUtil {
 			e.printStackTrace();
 		}
 
-		MyLog.e("feedback-Get请求-result", strResult);
+		MyLog.e("Get请求-result", strResult);
 		return strResult;
 	}
 

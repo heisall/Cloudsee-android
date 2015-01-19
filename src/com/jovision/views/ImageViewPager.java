@@ -139,7 +139,8 @@ public class ImageViewPager extends ViewPager {
 			});
 		}
 		if (mListViews.size() > 1) {
-			this.setCurrentItem((Integer.MAX_VALUE / 2)-(Integer.MAX_VALUE / 2) % mListViews.size());// 设置选中为中间/图片为和第0张一样
+			this.setCurrentItem((Integer.MAX_VALUE / 2)
+					- (Integer.MAX_VALUE / 2) % mListViews.size());// 设置选中为中间/图片为和第0张一样
 		}
 	}
 

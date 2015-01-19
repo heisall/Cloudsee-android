@@ -227,7 +227,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified" >
+            android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
             android:name="com.jovision.activities.JVVideoActivity"

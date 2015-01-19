@@ -1205,9 +1205,8 @@ public class JVPlayActivity extends PlayActivity implements
 							if (window == lastClickIndex) {
 								currentKbps.setText(String.format(
 										"%.1fk/%.1fk",
-										object.getDouble("kbytes") / delay,
-										object.getDouble("audio_kbytes")
-												/ delay));
+										object.getDouble("kbps"),
+										object.getDouble("audio_kbps")));
 								// + "("
 								// + (object.getBoolean("is_turn") ? "TURN"
 								// : "P2P") + ")");
@@ -1215,10 +1214,8 @@ public class JVPlayActivity extends PlayActivity implements
 								playStatistics
 										.setText(String
 												.format("%.1fk/%.1fk/D:%.1fk/J:%.1fk/N:%.1fk/L:%dk",
-														object.getDouble("kbytes")
-																/ delay,
-														object.getDouble("audio_kbytes")
-																/ delay,
+														object.getDouble("kbps"),
+														object.getDouble("audio_kbps"),
 														object.getDouble("decoder_fps"),
 														object.getDouble("jump_fps"),
 														object.getDouble("network_fps"),
@@ -2056,6 +2053,12 @@ public class JVPlayActivity extends PlayActivity implements
 			closePopWindow();
 		}
 		// dismissDialog();
+
+		// if (count > ONE_SCREEN) {
+		// Jni.setStat(false);
+		// } else {
+		// Jni.setStat(true);
+		// }
 	}
 
 	private void changeBorder(int currentIndex) {

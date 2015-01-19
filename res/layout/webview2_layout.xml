@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/play_l"
+                android:src="@drawable/stream_play_icon"
                 android:visibility="visible" />
 
             <ProgressBar
@@ -94,16 +94,21 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/full_screen_icon"
-                    android:padding="7dp" />
+                    android:padding="7dp"
+                    android:src="@drawable/full_screen_icon" />
             </RelativeLayout>
         </RelativeLayout>
 
-        <WebView
-            android:id="@+id/webview"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/playlayout" />
+            android:layout_below="@+id/playlayout" >
+
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <ProgressBar

@@ -48,7 +48,6 @@ public class JVWebView2Activity extends BaseActivity implements
 	protected RelativeLayout.LayoutParams reParamsV;
 	protected RelativeLayout.LayoutParams reParamsH;
 
-	private SurfaceHolder surfaceHolder;
 	private RelativeLayout demoLayout;
 	private RelativeLayout playLayout;
 	private SurfaceView playSurfaceView;
@@ -73,6 +72,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private String rtmp = "";
 	private int titleID = 0;
 	private ProgressBar loadingBar;
+	private boolean isDisConnected = false;// 断开成功标志
 
 	private LinearLayout loadFailedLayout;
 	private ImageView reloadImgView;
@@ -80,21 +80,37 @@ public class JVWebView2Activity extends BaseActivity implements
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
+		MyLog.i("webview2onHandler", "onNotify: changed,what=" + what
+				+ ", arg1=" + arg1 + ", arg2=" + arg2 + ", obj=" + obj);
 		switch (what) {
 		case Consts.WHAT_DEMO_BUFFING: {// 缓存中
 			loadingState(Consts.RTMP_CONN_SCCUESS);
 			break;
 		}
 		case Consts.WHAT_DEMO_RESUME: {// resume Channel
+			MyLog.v("XXYY", "1");
 			resumeVideo();
 			loadingState(Consts.CALL_NEW_PICTURE);
 			break;
 		}
 		case Consts.CALL_CONNECT_CHANGE: {
-			loadingState(arg2);
+			playChannel.setConnecting(false);
+			switch (arg2) {
+			case Consts.BAD_NOT_CONNECT: {
+				isDisConnected = true;
+				MyLog.e("BAD_NOT_CONNECT", "-3");
+				break;
+			}
+			default: {
+				loadingState(arg2);
+				break;
+			}
+			}
+
 			break;
 		}
 		case Consts.CALL_NEW_PICTURE: {
+			startAudio(playChannel.getIndex(), audioByte);
 			loadingState(Consts.CALL_NEW_PICTURE);
 			break;
 		}
@@ -188,9 +204,8 @@ public class JVWebView2Activity extends BaseActivity implements
 			loadingState.setVisibility(View.VISIBLE);
 			playImgView.setVisibility(View.GONE);
 			loadingState.setText(R.string.connecting);
-			playChannel.setConnecting(true);
 			playChannel.setConnected(false);
-			playChannel.setPaused(false);
+
 			break;
 		}
 		case Consts.RTMP_CONN_SCCUESS: {
@@ -198,9 +213,13 @@ public class JVWebView2Activity extends BaseActivity implements
 			loadingState.setVisibility(View.VISIBLE);
 			playImgView.setVisibility(View.GONE);
 			loadingState.setText(R.string.connecting_buffer2);
-			playChannel.setConnecting(false);
 			playChannel.setConnected(true);
-			playChannel.setPaused(false);
+			Jni.enablePlayAudio(playChannel.getIndex(), true);
+
+			if (playChannel.isPaused()) {
+				Jni.resume(playChannel.getIndex(), playChannel.getSurface());
+			}
+
 			break;
 		}
 		case Consts.RTMP_CONN_FAILED: {
@@ -208,9 +227,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			loadingState.setVisibility(View.GONE);
 			playImgView.setVisibility(View.VISIBLE);
 			loadingState.setText(R.string.connect_failed);
-			playChannel.setConnecting(false);
 			playChannel.setConnected(false);
-			playChannel.setPaused(false);
 			break;
 		}
 		case Consts.RTMP_DISCONNECTED: {
@@ -218,9 +235,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			loadingState.setVisibility(View.GONE);
 			playImgView.setVisibility(View.VISIBLE);
 			loadingState.setText(R.string.closed);
-			playChannel.setConnecting(false);
 			playChannel.setConnected(false);
-			playChannel.setPaused(false);
 			break;
 		}
 		case Consts.RTMP_EDISCONNECT: {
@@ -228,17 +243,13 @@ public class JVWebView2Activity extends BaseActivity implements
 			loadingState.setVisibility(View.GONE);
 			playImgView.setVisibility(View.VISIBLE);
 			// loadingState.setText("断开失败");
-			playChannel.setConnecting(false);
 			playChannel.setConnected(true);
-			playChannel.setPaused(false);
 			break;
 		}
 		case Consts.CALL_NEW_PICTURE: {
 			loadingVideoBar.setVisibility(View.GONE);
 			loadingState.setVisibility(View.GONE);
 			playImgView.setVisibility(View.GONE);
-			playChannel.setConnecting(false);
-			playChannel.setConnected(true);
 			playChannel.setPaused(false);
 			break;
 		}
@@ -361,6 +372,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		pause = (Button) findViewById(R.id.pause);
 		fullScreen = (ImageView) findViewById(R.id.fullscreen);
 		webView = (WebView) findViewById(R.id.webview);
+		webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 		pause.setOnClickListener(myOnClickListener);
 		fullScreen.setOnClickListener(myOnClickListener);
@@ -462,8 +474,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			}
 		});
 
-		surfaceHolder = playSurfaceView.getHolder();
-		surfaceHolder.addCallback(new SurfaceHolder.Callback() {
+		playSurfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
 			@Override
 			public void surfaceDestroyed(SurfaceHolder holder) {
 				pauseVideo();
@@ -473,12 +484,12 @@ public class JVWebView2Activity extends BaseActivity implements
 			@Override
 			public void surfaceCreated(SurfaceHolder holder) {
 				if (playChannel.isPaused()) {
-					resumeVideo();
+					// MyLog.v("XXYY", "2");
+					// resumeVideo();
 				} else {
 					loadingState(Consts.TAG_PLAY_CONNECTING);
-					startConnect(rtmp, surfaceHolder.getSurface());
-					Jni.enablePlayAudio(playChannel.getIndex(), true);
-					playChannel.setSurface(surfaceHolder.getSurface());
+					startConnect(rtmp, holder.getSurface());
+					playChannel.setSurface(holder.getSurface());
 				}
 				tensileView(playChannel, playChannel.getSurfaceView());
 			}
@@ -487,8 +498,11 @@ public class JVWebView2Activity extends BaseActivity implements
 			public void surfaceChanged(SurfaceHolder holder, int format,
 					int width, int height) {
 				tensileView(playChannel, playChannel.getSurfaceView());
-
+				MyLog.v("XXYY", "3");
 				resumeVideo();
+				playChannel.setSurface(holder.getSurface());
+				// handler.sendMessageDelayed(
+				// handler.obtainMessage(Consts.WHAT_DEMO_RESUME), 100);
 			}
 		});
 
@@ -569,14 +583,17 @@ public class JVWebView2Activity extends BaseActivity implements
 			playLayout.setLayoutParams(reParamsV);
 			topBar.setVisibility(View.VISIBLE);
 		}
-		resumeVideo();
+		// MyLog.v("XXYY", "4");
+		// resumeVideo();
 	}
 
 	/**
 	 * 开始连接
 	 */
 	private void startConnect(String playUrl, Object surface) {
-		Jni.connectRTMP(playChannel.getIndex(), playUrl, surface, false, "");
+		playChannel.setConnecting(true);
+		playChannel.setPaused(false);
+		Jni.connectRTMP(playChannel.getIndex(), playUrl, surface, false, null);
 	};
 
 	/**
@@ -587,25 +604,34 @@ public class JVWebView2Activity extends BaseActivity implements
 	};
 
 	/**
-	 * 断开连接
+	 * 暂停连接
 	 */
 	private boolean pauseVideo() {
+		// Jni.setColor(playChannel.getIndex(), 0, 0, 0, 0);
 		playChannel.setPaused(true);
 		stopAudio(playChannel.getIndex());
 		return Jni.pause(playChannel.getIndex());
 	}
 
 	/**
-	 * 断开连接
+	 * resume连接
 	 */
 	private boolean resumeVideo() {
-		playChannel.setPaused(false);
+		loadingState(Consts.RTMP_CONN_SCCUESS);
+
 		boolean resumeRes = false;
-		if (null != surfaceHolder && null != surfaceHolder.getSurface()) {
+		if (null != playChannel.getSurface()) {
 			resumeRes = Jni.resume(playChannel.getIndex(),
-					surfaceHolder.getSurface());
+					playChannel.getSurface());
+			Jni.setViewPort(playChannel.getIndex(),
+					playChannel.getLastPortLeft(),
+					playChannel.getLastPortBottom(),
+					playChannel.getLastPortWidth(),
+					playChannel.getLastPortHeight());
 		}
-		startAudio(playChannel.getIndex(), audioByte);
+		if (resumeRes) {
+			playChannel.setPaused(false);
+		}
 		return resumeRes;
 	}
 
@@ -629,6 +655,7 @@ public class JVWebView2Activity extends BaseActivity implements
 				if (playChannel.isPaused()) {// 已暂停
 					pause.setBackgroundResource(R.drawable.video_stop_icon);
 					// 继续播放视频
+					MyLog.v("XXYY", "5");
 					boolean res = resumeVideo();
 				} else {
 					pause.setBackgroundResource(R.drawable.video_play_icon);
@@ -652,7 +679,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			}
 			case R.id.playview: {
 				loadingState(Consts.TAG_PLAY_CONNECTING);
-				startConnect(rtmp, surfaceHolder.getSurface());
+				startConnect(rtmp, playChannel.getSurface());
 				break;
 			}
 			}
@@ -666,6 +693,17 @@ public class JVWebView2Activity extends BaseActivity implements
 		if (webView.canGoBack()) {
 			webView.goBack(); // goBack()表示返回WebView的上一页面
 		} else {
+			createDialog("", false);
+			stopConnect();
+			while (!isDisConnected) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			dismissDialog();
 			finish();
 		}
 	}
@@ -682,7 +720,6 @@ public class JVWebView2Activity extends BaseActivity implements
 
 	@Override
 	protected void freeMe() {
-		stopConnect();
 	}
 
 	@Override
@@ -719,8 +756,8 @@ public class JVWebView2Activity extends BaseActivity implements
 		// webView.onResume();
 		handler.sendMessage(handler.obtainMessage(Consts.WHAT_DEMO_BUFFING));
 		loadingState(Consts.TAG_PLAY_CONNECTING);
-		handler.sendMessageDelayed(
-				handler.obtainMessage(Consts.WHAT_DEMO_RESUME), 500);
+		// handler.sendMessageDelayed(
+		// handler.obtainMessage(Consts.WHAT_DEMO_RESUME), 500);
 	}
 
 	@Override

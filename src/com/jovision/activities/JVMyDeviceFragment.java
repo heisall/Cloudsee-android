@@ -24,6 +24,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -83,6 +84,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private ImageView quickinstall_img_bg;
 	private Button addDevice;// 有线设备添加
 	private ImageView unwire_device_img_bg;
+	public static boolean ismydevicefirst;
 
 	/** 广告位 */
 	private ArrayList<AD> adList = new ArrayList<AD>();
@@ -90,7 +92,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	private View adView;
 	private ImageViewPager imageScroll; // 图片容器
 	private LinearLayout ovalLayout; // 圆点容器
-	private List<View> listViews = new ArrayList<View>(); // 图片组
+	private List<View> listViews; // 图片组
 	// private int[] imageResId = new int[] { R.drawable.a, R.drawable.b};
 	// private int[] imageEnResId = new int[] { R.drawable.aen, R.drawable.ben};
 	// private int[] image = new int[] {};
@@ -208,37 +210,37 @@ public class JVMyDeviceFragment extends BaseFragment {
 				.findViewById(R.id.device_refreshable_view);
 
 		mPullRefreshListView
-				.setOnRefreshListener(new OnRefreshListener<ListView>() {
-					@Override
-					public void onRefresh(
-							PullToRefreshBase<ListView> refreshView) {
-						String label = DateUtils.formatDateTime(mActivity,
-								System.currentTimeMillis(),
-								DateUtils.FORMAT_SHOW_TIME
-										| DateUtils.FORMAT_SHOW_DATE
-										| DateUtils.FORMAT_ABBREV_ALL);
+		.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			@Override
+			public void onRefresh(
+					PullToRefreshBase<ListView> refreshView) {
+				String label = DateUtils.formatDateTime(mActivity,
+						System.currentTimeMillis(),
+						DateUtils.FORMAT_SHOW_TIME
+						| DateUtils.FORMAT_SHOW_DATE
+						| DateUtils.FORMAT_ABBREV_ALL);
 
-						// Update the LastUpdatedLabel
-						refreshView.getLoadingLayoutProxy()
-								.setLastUpdatedLabel(label);
+				// Update the LastUpdatedLabel
+				refreshView.getLoadingLayoutProxy()
+				.setLastUpdatedLabel(label);
 
-						fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+				fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 
-						GetDevTask task = new GetDevTask();
-						String[] strParams = new String[3];
-						strParams[0] = "1";
-						task.execute(strParams);
-					}
-				});
+				GetDevTask task = new GetDevTask();
+				String[] strParams = new String[3];
+				strParams[0] = "1";
+				task.execute(strParams);
+			}
+		});
 
 		mPullRefreshListView
-				.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+		.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
 
-					@Override
-					public void onLastItemVisible() {
-						mActivity.showTextToast(R.string.end_list);
-					}
-				});
+			@Override
+			public void onLastItemVisible() {
+				mActivity.showTextToast(R.string.end_list);
+			}
+		});
 
 		adView = inflater.inflate(R.layout.ad_layout, null);
 
@@ -311,7 +313,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 		}
 
 	}
-
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
@@ -441,7 +442,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				case 0: {// 云视通号
 					StatService.trackCustomEvent(mActivity,
 							"Add by CloudSEE ID", mActivity.getResources()
-									.getString(R.string.census_addcloudseeid));
+							.getString(R.string.census_addcloudseeid));
 					Intent addIntent = new Intent();
 					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
 					addIntent.putExtra("QR", false);
@@ -472,7 +473,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				case 3: {// 局域网设备
 					StatService.trackCustomEvent(mActivity,
 							"Scan devices in LAN", mActivity.getResources()
-									.getString(R.string.str_scanlandevice));
+							.getString(R.string.str_scanlandevice));
 
 					if (!MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
 						MyLog.v(Consts.TAG_APP, "not broad = " + false);
@@ -595,6 +596,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	 * 初始化图片
 	 */
 	private void initADViewPager() {
+		 listViews = new ArrayList<View>(); 
 		if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals("false")) {
 			if (MySharedPreference.getBoolean(Consts.AD_UPDATE)) {
 				try {
@@ -645,7 +647,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 												String.valueOf(adList.get(i)
 														.getIndex())
 														+ ConfigUtil
-																.getLanguage2(mActivity));
+														.getLanguage2(mActivity));
 							} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
 									.getLanguage2(mActivity)) {
 								bmp = BitmapCache
@@ -656,7 +658,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 												String.valueOf(adList.get(i)
 														.getIndex())
 														+ ConfigUtil
-																.getLanguage2(mActivity));
+														.getLanguage2(mActivity));
 								// adList.get(i).getAdImgUrlZht());
 							} else {
 								bmp = BitmapCache
@@ -667,14 +669,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 												String.valueOf(adList.get(i)
 														.getIndex())
 														+ ConfigUtil
-																.getLanguage2(mActivity));
+														.getLanguage2(mActivity));
 								// adList.get(i).getAdImgUrlEn());
 							}
 							if (null != bmp) {
 								imageView.setImageBitmap(bmp);
-							} else {
+								Log.i("TAG", "bitmap是空的！！！");
+							}else {
 								imageView
-										.setImageResource(R.drawable.ad_default);
+								.setImageResource(R.drawable.ad_default);
 							}
 
 							imageView.setScaleType(ScaleType.FIT_CENTER);
@@ -761,7 +764,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 							adList.get(i).getAdImgUrlCh(),
 							"net",
 							String.valueOf(adList.get(i).getIndex())
-									+ ConfigUtil.getLanguage2(mActivity));
+							+ ConfigUtil.getLanguage2(mActivity));
 					// adList.get(i).getAdImgUrlCh());
 				} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
 						.getLanguage2(mActivity)) {
@@ -769,14 +772,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 							adList.get(i).getAdImgUrlZht(),
 							"net",
 							String.valueOf(adList.get(i).getIndex())
-									+ ConfigUtil.getLanguage2(mActivity));
+							+ ConfigUtil.getLanguage2(mActivity));
 					// adList.get(i).getAdImgUrlZht());
 				} else {
 					bmp = BitmapCache.getInstance().getBitmap(
 							adList.get(i).getAdImgUrlEn(),
 							"net",
 							String.valueOf(adList.get(i).getIndex())
-									+ ConfigUtil.getLanguage2(mActivity));
+							+ ConfigUtil.getLanguage2(mActivity));
 					// adList.get(i).getAdImgUrlEn());
 				}
 
@@ -927,9 +930,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 							Device broadDev = new Device(ip, port, gid, no,
 									mActivity.getResources().getString(
 											R.string.str_default_user),
-									mActivity.getResources().getString(
-											R.string.str_default_pass), false,
-									count, 0);
+											mActivity.getResources().getString(
+													R.string.str_default_pass), false,
+													count, 0);
 							broadDev.setHasWifi(netmod);
 							broadDev.setOnlineStateLan(1);// 广播都在线
 							broadList.add(broadDev);
@@ -1013,7 +1016,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			myDLAdapter.setShowDelete(false);
 			initSummaryDialog(myDeviceList, arg1);
 		}
-			break;
+		break;
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			//
@@ -1091,7 +1094,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				else if (""
 						.equalsIgnoreCase(device_nameet.getText().toString())) {
 					mActivity
-							.showTextToast(R.string.login_str_device_account_notnull);
+					.showTextToast(R.string.login_str_device_account_notnull);
 				}
 				// 设备用户名验证
 				else if (!ConfigUtil.checkDeviceUsername(device_nameet
@@ -1139,25 +1142,25 @@ public class JVMyDeviceFragment extends BaseFragment {
 				String.valueOf(broadList.size())));
 		number.setText(numString.replace("?", String.valueOf(broadList.size())));
 		lanlistview
-				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view,
-							int position, long id) {
-						if (broadList.get(position).isIslanselect()) {
-							broadList.get(position).setIslanselect(false);
-							Sum = Sum - 1;
-							selectnum.setText(Selectnumberl.replace("?",
-									String.valueOf(Sum)));
-						} else {
-							Sum = Sum + 1;
-							selectnum.setText(Selectnumberl.replace("?",
-									String.valueOf(Sum)));
-							broadList.get(position).setIslanselect(true);
-						}
-						lanAdapter.notifyDataSetChanged();
-					}
-				});
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				if (broadList.get(position).isIslanselect()) {
+					broadList.get(position).setIslanselect(false);
+					Sum = Sum - 1;
+					selectnum.setText(Selectnumberl.replace("?",
+							String.valueOf(Sum)));
+				} else {
+					Sum = Sum + 1;
+					selectnum.setText(Selectnumberl.replace("?",
+							String.valueOf(Sum)));
+					broadList.get(position).setIslanselect(true);
+				}
+				lanAdapter.notifyDataSetChanged();
+			}
+		});
 		lan_completed.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -1371,25 +1374,29 @@ public class JVMyDeviceFragment extends BaseFragment {
 							ad.getAdImgUrlCh(),
 							"net",
 							String.valueOf(ad.getIndex())
-									+ ConfigUtil.getLanguage2(mActivity));
+							+ ConfigUtil.getLanguage2(mActivity));
 				} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
 						.getLanguage2(mActivity)) {
 					BitmapCache.getInstance().getBitmap(
 							ad.getAdImgUrlZht(),
 							"net",
 							String.valueOf(ad.getIndex())
-									+ ConfigUtil.getLanguage2(mActivity));
+							+ ConfigUtil.getLanguage2(mActivity));
 				} else {
 					BitmapCache.getInstance().getBitmap(
 							ad.getAdImgUrlEn(),
 							"net",
 							String.valueOf(ad.getIndex())
-									+ ConfigUtil.getLanguage2(mActivity));
+							+ ConfigUtil.getLanguage2(mActivity));
 				}
 			}
 		}
 
 		MySharedPreference.putBoolean(Consts.AD_UPDATE, true);
+		
+		for (int i = 0; i < adList.size(); i++) {
+			Log.i("TAG", adList.get(i).getAdImgUrlCh());
+		}
 	}
 
 	// 获取设备列表线程
@@ -1453,8 +1460,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 								}
 							} else {
 								fragHandler
-										.sendMessage(fragHandler
-												.obtainMessage(Consts.WHAT_MYDEVICE_POINT_FAILED));
+								.sendMessage(fragHandler
+										.obtainMessage(Consts.WHAT_MYDEVICE_POINT_FAILED));
 							}
 
 						}
@@ -1577,7 +1584,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 							addDev = DeviceUtil.addDevice2(addDev,
 									mActivity.statusHashMap
-											.get(Consts.KEY_USERNAME));
+									.get(Consts.KEY_USERNAME));
 							if (null != addDev) {
 								addCount++;
 								addRes = 0;
@@ -1654,12 +1661,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 		// 提示对话框
 		AlertDialog.Builder builder = new Builder(mActivity);
 		builder.setTitle(R.string.tips)
-				.setMessage(
-						getResources().getString(R.string.add_broad_dev)
-								.replaceFirst("!",
-										String.valueOf(broadList.size())))
-				.setPositiveButton(R.string.sure,
-						new DialogInterface.OnClickListener() {
+		.setMessage(
+				getResources().getString(R.string.add_broad_dev)
+				.replaceFirst("!",
+						String.valueOf(broadList.size())))
+						.setPositiveButton(R.string.sure,
+								new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
@@ -1667,8 +1674,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 								mActivity.createDialog("", false);
 							}
 						})
-				.setNegativeButton(R.string.cancel,
-						new DialogInterface.OnClickListener() {
+						.setNegativeButton(R.string.cancel,
+								new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,

@@ -75,6 +75,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private int titleID = 0;
 	// private ProgressBar loadingBar;
 	private boolean isDisConnected = false;// 断开成功标志
+	private boolean manuPause = false;// 人为暂停
 
 	private LinearLayout loadFailedLayout;
 	private ImageView reloadImgView;
@@ -176,12 +177,14 @@ public class JVWebView2Activity extends BaseActivity implements
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
-
+		// MyLog.i(TAG, "onNotify: " + what + ", " + arg1 + ", " + arg2
+		// + ", " + obj);
 		switch (what) {
-		case Consts.WHAT_DEMO_BUFFING: {// 缓存中
+		case Consts.CALL_STAT_REPORT: {
 			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 			break;
 		}
+
 		case Consts.CALL_CONNECT_CHANGE: {
 			playChannel.setConnecting(false);
 			switch (arg2) {
@@ -219,24 +222,7 @@ public class JVWebView2Activity extends BaseActivity implements
 						.obtainMessage(what, arg1, arg2, obj));
 				break;
 			}
-			case Consts.CALL_NEW_PICTURE: {
-				playChannel.setPaused(false);
-				handler.sendMessage(handler
-						.obtainMessage(what, arg1, arg2, obj));
-				break;
 			}
-			case Consts.CALL_STAT_REPORT: {
-				handler.sendMessage(handler
-						.obtainMessage(what, arg1, arg2, obj));
-				break;
-			}
-			default: {
-				handler.sendMessage(handler
-						.obtainMessage(what, arg1, arg2, obj));
-				break;
-			}
-			}
-
 			break;
 		}
 		case Consts.CALL_NEW_PICTURE: {
@@ -267,6 +253,10 @@ public class JVWebView2Activity extends BaseActivity implements
 				playAudio.put(data);
 			}
 
+			break;
+		}
+		default: {
+			handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 			break;
 		}
 		}
@@ -622,22 +612,29 @@ public class JVWebView2Activity extends BaseActivity implements
 	 * resume连接
 	 */
 	private boolean resumeVideo() {
-		if (playChannel.isPaused()) {
-			loadingState(Consts.RTMP_CONN_SCCUESS);
-		}
 		boolean resumeRes = false;
-		if (null != playChannel.getSurface()) {
-			resumeRes = Jni.resume(playChannel.getIndex(),
-					playChannel.getSurface());
-			Jni.setViewPort(playChannel.getIndex(),
-					playChannel.getLastPortLeft(),
-					playChannel.getLastPortBottom(),
-					playChannel.getLastPortWidth(),
-					playChannel.getLastPortHeight());
+		if (manuPause) {
+			resumeRes = true;
+			return true;
+		} else {
+			if (playChannel.isPaused()) {
+				loadingState(Consts.RTMP_CONN_SCCUESS);
+			}
+
+			if (null != playChannel.getSurface()) {
+				resumeRes = Jni.resume(playChannel.getIndex(),
+						playChannel.getSurface());
+				Jni.setViewPort(playChannel.getIndex(),
+						playChannel.getLastPortLeft(),
+						playChannel.getLastPortBottom(),
+						playChannel.getLastPortWidth(),
+						playChannel.getLastPortHeight());
+			}
+			if (resumeRes) {
+				playChannel.setPaused(false);
+			}
 		}
-		if (resumeRes) {
-			playChannel.setPaused(false);
-		}
+
 		return resumeRes;
 	}
 
@@ -660,9 +657,13 @@ public class JVWebView2Activity extends BaseActivity implements
 				if (playChannel.isPaused()) {// 已暂停
 					pause.setImageDrawable(getResources().getDrawable(
 							R.drawable.video_stop_icon));
+					manuPause = false;
+					linkSpeed.setVisibility(View.VISIBLE);
 					// 继续播放视频
 					boolean res = resumeVideo();
 				} else {
+					manuPause = true;
+					linkSpeed.setVisibility(View.GONE);
 					pause.setImageDrawable(getResources().getDrawable(
 							R.drawable.video_play_icon));
 					// 暂停视频
@@ -671,6 +672,9 @@ public class JVWebView2Activity extends BaseActivity implements
 				break;
 			}
 			case R.id.fullscreen: {// 全屏
+				if (manuPause) {
+					break;
+				}
 				if (fullScreenFlag) {
 					fullScreenFlag = false;
 					fullScreen.setImageDrawable(getResources().getDrawable(

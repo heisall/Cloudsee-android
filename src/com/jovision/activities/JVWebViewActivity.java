@@ -48,7 +48,7 @@ public class JVWebViewActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.WHAT_DEMO_URL_SUCCESS: {
-
+			dismissDialog();
 			HashMap<String, String> paramMap = (HashMap<String, String>) obj;
 			Intent intentAD = new Intent(JVWebViewActivity.this,
 					JVWebView2Activity.class);
@@ -64,6 +64,7 @@ public class JVWebViewActivity extends BaseActivity {
 		}
 		case Consts.WHAT_DEMO_URL_FAILED: {
 			// TODO
+			dismissDialog();
 			showTextToast(R.string.str_video_load_failed);
 			break;
 		}

@@ -773,7 +773,7 @@ public class ConfigUtil {
 			byte[] b = str.getBytes("UTF-8");
 			str = new String(b, "UTF-8");
 			Pattern pattern = Pattern
-					.compile("^[A-Za-z0-9_.@ \\+\\-\\u4e00-\\u9fa5]{1,200}$");
+					.compile("^[A-Za-z0-9_.)(@ \\+\\-\\u4e00-\\u9fa5]{1,200}$");
 
 			Matcher matcher = pattern.matcher(str);
 			if (matcher.matches() && 200 >= str.getBytes().length) {

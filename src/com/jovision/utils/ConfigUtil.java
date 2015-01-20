@@ -787,8 +787,6 @@ public class ConfigUtil {
 		return flag;
 	}
 
-	
-	
 	// 验证设备用户名
 	public static boolean checkDeviceUsername(String str) {
 		boolean flag = false;

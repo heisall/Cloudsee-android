@@ -75,6 +75,7 @@ public class CustomDialogActivity extends BaseActivity implements
 	private CustomDialogActivity mActivity;
 	private int try_get_cloud_param_cnt = 1;
 	private MainApplication mainApp;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,7 +83,7 @@ public class CustomDialogActivity extends BaseActivity implements
 		setContentView(R.layout.custom_alarm_dialog);
 		InitViews();
 		mActivity = this;
-		mainApp = (MainApplication)getApplication();
+		mainApp = (MainApplication) getApplication();
 		Intent intent = getIntent();
 		bDownLoadFileType = 0;// 默认先下载图片
 		PushInfo pushInfo = (PushInfo) intent.getSerializableExtra("PUSH_INFO");
@@ -287,13 +288,15 @@ public class CustomDialogActivity extends BaseActivity implements
 						bConnectFlag = mainApp.getAlarmConnectedFlag();
 						// 已经连接上走远程回放
 						if (bConnectFlag) {// 再判断一次
-//							dis_and_play_flag = 1;
-//							lookVideoBtn.setEnabled(false);
-//							Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
-//
-//							new Thread(new TimeOutProcess(
-//									JVNetConst.JVN_RSP_DISCONN)).start();
-							handler.sendMessage(handler.obtainMessage(Consts.CALL_CONNECT_CHANGE, 0, JVNetConst.NO_RECONNECT, null));
+							// dis_and_play_flag = 1;
+							// lookVideoBtn.setEnabled(false);
+							// Jni.disconnect(Consts.ONLY_CONNECT_INDEX);
+							//
+							// new Thread(new TimeOutProcess(
+							// JVNetConst.JVN_RSP_DISCONN)).start();
+							handler.sendMessage(handler.obtainMessage(
+									Consts.CALL_CONNECT_CHANGE, 0,
+									JVNetConst.NO_RECONNECT, null));
 							// 不能接着就连接 ,需要等待断开连接后在连接
 							// 因此添加 dis_and_play标志，当为1时，在断开连接响应成功后，重新连接并播放
 						} else {
@@ -472,7 +475,7 @@ public class CustomDialogActivity extends BaseActivity implements
 			case JVNetConst.ABNORMAL_DISCONNECT:
 				// 7 -- 服务停止连接，连接断开
 			case JVNetConst.SERVICE_STOP:
-			case JVNetConst.CONNECT_FAILED: 
+			case JVNetConst.CONNECT_FAILED:
 				bConnectFlag = false;
 				dis_and_play_flag = 0;
 				mainApp.setAlarmConnectedFlag(bConnectFlag);
@@ -505,7 +508,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-			
+
 				break;
 			case Consts.BAD_NOT_CONNECT:
 				bConnectFlag = false;
@@ -582,7 +585,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				// showToast("文件下载完毕", Toast.LENGTH_SHORT);
 				// JVSUDT.JVC_DisConnect(JVConst.ONLY_CONNECT);//断开连接,如果视频走远程回放
 
-//				Jni.disconnect(Consts.ONLY_CONNECT_INDEX);// by lkp
+				// Jni.disconnect(Consts.ONLY_CONNECT_INDEX);// by lkp
 
 				if (bDownLoadFileType == 0) {
 					// 下载图片

@@ -595,17 +595,20 @@ public class JVWebView2Activity extends BaseActivity implements
 			webView.getViewTreeObserver().addOnGlobalLayoutListener(
 					new OnGlobalLayoutListener() {
 
-				@Override
-				public void onGlobalLayout() {
-					// TODO Auto-generated method stub
-//					Log.i("TAG",disMetrics.heightPixels-disMetrics.widthPixels*0.75-100+"高度"+webView.getHeight());
-					
-					if ((disMetrics.heightPixels-disMetrics.widthPixels*0.75-100)-webView.getHeight()>200) {
-						zhezhaoLayout.setLayoutParams(reParamstop2);
-					}else {
-						zhezhaoLayout.setLayoutParams(reParamstop1);
-					}
-				}});
+						@Override
+						public void onGlobalLayout() {
+							// TODO Auto-generated method stub
+							// Log.i("TAG",disMetrics.heightPixels-disMetrics.widthPixels*0.75-100+"高度"+webView.getHeight());
+
+							if ((disMetrics.heightPixels
+									- disMetrics.widthPixels * 0.75 - 100)
+									- webView.getHeight() > 200) {
+								zhezhaoLayout.setLayoutParams(reParamstop2);
+							} else {
+								zhezhaoLayout.setLayoutParams(reParamstop1);
+							}
+						}
+					});
 		}
 
 	}

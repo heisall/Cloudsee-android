@@ -169,13 +169,18 @@ public class JVPlayActivity extends PlayActivity implements
 			switch (arg2) {
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
-				channel.setLastPortLeft(0);
-				channel.setLastPortBottom(0);
-				channel.setLastPortWidth(manager.getView(arg1).getWidth());
-				channel.setLastPortHeight(manager.getView(arg1).getHeight());
-				channel.setConnected(true);
-				handler.sendMessage(handler
-						.obtainMessage(what, arg1, arg2, obj));
+				try {
+					channel.setLastPortLeft(0);
+					channel.setLastPortBottom(0);
+					channel.setLastPortWidth(manager.getView(arg1).getWidth());
+					channel.setLastPortHeight(manager.getView(arg1).getHeight());
+					channel.setConnected(true);
+					handler.sendMessage(handler.obtainMessage(what, arg1, arg2,
+							obj));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 				break;
 			}
 
@@ -2057,19 +2062,23 @@ public class JVPlayActivity extends PlayActivity implements
 	}
 
 	private void changeBorder(int currentIndex) {
-		if (lastClickIndex != currentIndex) {
-			if (lastClickIndex >= 0) {
+		try {
+			if (lastClickIndex != currentIndex) {
+				if (lastClickIndex >= 0) {
+					((View) manager.getView(lastClickIndex).getParent())
+							.setBackgroundColor(getResources().getColor(
+									R.color.videounselect));
+				}
+				lastClickIndex = currentIndex;
+			}
+
+			if (ONE_SCREEN != currentScreen) {
 				((View) manager.getView(lastClickIndex).getParent())
 						.setBackgroundColor(getResources().getColor(
-								R.color.videounselect));
+								R.color.videoselect));
 			}
-			lastClickIndex = currentIndex;
-		}
-
-		if (ONE_SCREEN != currentScreen) {
-			((View) manager.getView(lastClickIndex).getParent())
-					.setBackgroundColor(getResources().getColor(
-							R.color.videoselect));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}

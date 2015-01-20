@@ -156,8 +156,8 @@
     <!-- 码流切换 -->
     <string-array name="array_stream">
         <item>&#160;&#160;&#160;HD&#160;&#160;&#160;</item>
-        <item>&#160;&#160;&#160;SD&#160;&#160;&#160;</item>
-        <item>Fluent</item>
+        <item>&#160;&#160;&#160;MD&#160;&#160;&#160;</item>
+        <item>&#160;&#160;&#160;LD&#160;&#160;&#160;</item>
     </string-array>
     <string-array name="array_third_guide">
         <item>Seperate the two parts of the magnetic alarm and wait until the setting finished.</item>

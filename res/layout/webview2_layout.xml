@@ -74,6 +74,16 @@
                     android:padding="9dp"
                     android:src="@drawable/video_stop_icon" />
 
+                <TextView
+                    android:id="@+id/linkspeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/pause"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
                 <SeekBar
                     android:id="@+id/playback_seekback"
                     android:layout_width="wrap_content"

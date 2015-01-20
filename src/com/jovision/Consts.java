@@ -509,6 +509,12 @@ public class Consts {
 	/** 演示点resume */
 	public static final int WHAT_DEMO_RESUME = 0x64;
 
+	/** 演示点url获取成功 */
+	public static final int WHAT_DEMO_URL_SUCCESS = 0x65;
+
+	/** 演示点url获取失败 */
+	public static final int WHAT_DEMO_URL_FAILED = 0x66;
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像

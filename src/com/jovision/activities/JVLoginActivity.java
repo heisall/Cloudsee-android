@@ -413,8 +413,10 @@ public class JVLoginActivity extends BaseActivity {
 		protected Integer doInBackground(String... params) {
 
 			country = ConfigUtil.getCountry();
+
 			MyLog.v(TAG, "LOGIN---E");
-			handler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+			handler.sendMessage(handler.obtainMessage(Consts.WHAT_SHOW_PRO, 0,
+					0, country));
 			String strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
 					statusHashMap.get(Consts.KEY_USERNAME),
 					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,

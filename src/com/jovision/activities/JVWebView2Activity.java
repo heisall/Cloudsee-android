@@ -97,6 +97,9 @@ public class JVWebView2Activity extends BaseActivity implements
 			break;
 		}
 		case Consts.CALL_NEW_PICTURE: {
+			pause.setImageDrawable(getResources().getDrawable(
+					R.drawable.video_stop_icon));
+			linkSpeed.setVisibility(View.VISIBLE);
 			loadingState(Consts.CALL_NEW_PICTURE);
 			break;
 		}
@@ -476,7 +479,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		playSurfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
 			@Override
 			public void surfaceDestroyed(SurfaceHolder holder) {
-				pauseVideo();
+				stopConnect();
 				playChannel.setSurface(null);
 			}
 
@@ -595,18 +598,18 @@ public class JVWebView2Activity extends BaseActivity implements
 	/**
 	 * 断开连接
 	 */
-	private void stopConnect() {
-		Jni.shutdownRTMP(playChannel.getIndex());
+	private boolean stopConnect() {
+		return Jni.shutdownRTMP(playChannel.getIndex());
 	};
 
-	/**
-	 * 暂停连接
-	 */
-	private boolean pauseVideo() {
-		playChannel.setPaused(true);
-		stopAudio(playChannel.getIndex());
-		return Jni.pause(playChannel.getIndex());
-	}
+	// /**
+	// * 暂停连接
+	// */
+	// private boolean pauseVideo() {
+	// playChannel.setPaused(true);
+	// stopAudio(playChannel.getIndex());
+	// return Jni.pause(playChannel.getIndex());
+	// }
 
 	/**
 	 * resume连接
@@ -617,21 +620,29 @@ public class JVWebView2Activity extends BaseActivity implements
 			resumeRes = true;
 			return true;
 		} else {
-			if (playChannel.isPaused()) {
-				loadingState(Consts.RTMP_CONN_SCCUESS);
-			}
+			if (false == playChannel.isConnected()
+					&& false == playChannel.isConnecting()
+					&& null != playChannel.getSurface()) {
+				loadingState(Consts.TAG_PLAY_CONNECTING);
+				startConnect(rtmp, playChannel.getSurface());
+				resumeRes = true;
+			} else {
+				if (playChannel.isPaused()) {
+					loadingState(Consts.RTMP_CONN_SCCUESS);
+				}
 
-			if (null != playChannel.getSurface()) {
-				resumeRes = Jni.resume(playChannel.getIndex(),
-						playChannel.getSurface());
-				Jni.setViewPort(playChannel.getIndex(),
-						playChannel.getLastPortLeft(),
-						playChannel.getLastPortBottom(),
-						playChannel.getLastPortWidth(),
-						playChannel.getLastPortHeight());
-			}
-			if (resumeRes) {
-				playChannel.setPaused(false);
+				if (null != playChannel.getSurface()) {
+					resumeRes = Jni.resume(playChannel.getIndex(),
+							playChannel.getSurface());
+					Jni.setViewPort(playChannel.getIndex(),
+							playChannel.getLastPortLeft(),
+							playChannel.getLastPortBottom(),
+							playChannel.getLastPortWidth(),
+							playChannel.getLastPortHeight());
+				}
+				if (resumeRes) {
+					playChannel.setPaused(false);
+				}
 			}
 		}
 
@@ -654,37 +665,33 @@ public class JVWebView2Activity extends BaseActivity implements
 				break;
 			}
 			case R.id.pause: {// 暂停
-				if (playChannel.isPaused()) {// 已暂停
-					pause.setImageDrawable(getResources().getDrawable(
-							R.drawable.video_stop_icon));
-					manuPause = false;
-					linkSpeed.setVisibility(View.VISIBLE);
-					// 继续播放视频
-					boolean res = resumeVideo();
-				} else {
+				if (playChannel.isConnected()) {// 已连接
 					manuPause = true;
 					linkSpeed.setVisibility(View.GONE);
 					pause.setImageDrawable(getResources().getDrawable(
 							R.drawable.video_play_icon));
 					// 暂停视频
-					boolean res = pauseVideo();
+					boolean res = stopConnect();
+				} else {
+					manuPause = false;
+					// 继续播放视频
+					boolean res = resumeVideo();
 				}
 				break;
 			}
 			case R.id.fullscreen: {// 全屏
-				if (manuPause) {
-					break;
+				if (playChannel.isConnected()) {
+					if (fullScreenFlag) {
+						fullScreenFlag = false;
+						fullScreen.setImageDrawable(getResources().getDrawable(
+								R.drawable.full_screen_icon));
+					} else {
+						fullScreenFlag = true;
+						fullScreen.setImageDrawable(getResources().getDrawable(
+								R.drawable.notfull_screen_icon));
+					}
+					setSurfaceSize(fullScreenFlag);
 				}
-				if (fullScreenFlag) {
-					fullScreenFlag = false;
-					fullScreen.setImageDrawable(getResources().getDrawable(
-							R.drawable.full_screen_icon));
-				} else {
-					fullScreenFlag = true;
-					fullScreen.setImageDrawable(getResources().getDrawable(
-							R.drawable.notfull_screen_icon));
-				}
-				setSurfaceSize(fullScreenFlag);
 				break;
 			}
 			case R.id.playview: {
@@ -750,7 +757,8 @@ public class JVWebView2Activity extends BaseActivity implements
 	protected void onPause() {
 		super.onPause();
 		// handler.sendMessage(handler.obtainMessage(Consts.WHAT_DEMO_BUFFING));
-		pauseVideo();
+		manuPause = false;
+		stopConnect();
 		// webView.onPause();
 	}
 
@@ -765,7 +773,7 @@ public class JVWebView2Activity extends BaseActivity implements
 
 	@Override
 	protected void onStop() {
-		pauseVideo();
+		stopConnect();
 		// webView.onPause();
 		super.onStop();
 	}

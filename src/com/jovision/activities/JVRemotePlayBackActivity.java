@@ -271,7 +271,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		rightBtn.setVisibility(View.GONE);
 		playHelp.setVisibility(View.GONE);
 		/** 中 */
-		viewPager.setVisibility(View.GONE);
+		playViewPager.setVisibility(View.GONE);
 		playSurface.setVisibility(View.VISIBLE);
 		playSurface.setOnClickListener(myOnClickListener);
 		SurfaceHolder holder = playSurface.getHolder();

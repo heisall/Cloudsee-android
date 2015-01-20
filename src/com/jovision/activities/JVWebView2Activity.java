@@ -6,11 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -19,7 +17,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
@@ -43,7 +40,7 @@ import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.PlayUtil;
 
 public class JVWebView2Activity extends BaseActivity implements
-PlayWindowManager.OnUiListener {
+		PlayWindowManager.OnUiListener {
 
 	private static final String TAG = "JVWebView2Activity";
 
@@ -356,7 +353,7 @@ PlayWindowManager.OnUiListener {
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.demo);
-		zhezhaoLayout  = (RelativeLayout)findViewById(R.id.zhezhao);
+		zhezhaoLayout = (RelativeLayout) findViewById(R.id.zhezhao);
 		zhezhaoLayout.setLayoutParams(reParamstop1);
 		// loadingBar = (ProgressBar) findViewById(R.id.loadingbar);
 
@@ -419,7 +416,7 @@ PlayWindowManager.OnUiListener {
 										middle);
 								lastClickTime = 0;
 								break;
-								// 手势云台
+							// 手势云台
 							case MyGestureDispatcher.GESTURE_TO_LEFT:
 								gestureOnView(playChannel.getSurfaceView(),
 										playChannel, gesture, distance, vector,
@@ -447,7 +444,7 @@ PlayWindowManager.OnUiListener {
 										middle);
 								lastClickTime = 0;
 								break;
-								// 手势单击双击
+							// 手势单击双击
 							case MyGestureDispatcher.CLICK_EVENT:
 								if (0 == lastClickTime) {
 									isDoubleClickCheck = false;
@@ -595,17 +592,19 @@ PlayWindowManager.OnUiListener {
 			playLayout.setLayoutParams(reParamsV);
 			webView.setVisibility(View.VISIBLE);
 			topBar.setVisibility(View.VISIBLE);
-			webView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
+			webView.getViewTreeObserver().addOnGlobalLayoutListener(
+					new OnGlobalLayoutListener() {
 
-				@Override
-				public void onGlobalLayout() {
-					// TODO Auto-generated method stub
-					if (webView.getHeight()<500) {
-						zhezhaoLayout.setLayoutParams(reParamstop2);
-					}else {
-						zhezhaoLayout.setLayoutParams(reParamstop1);
-					}
-				}});
+						@Override
+						public void onGlobalLayout() {
+							// TODO Auto-generated method stub
+							if (webView.getHeight() < 500) {
+								zhezhaoLayout.setLayoutParams(reParamstop2);
+							} else {
+								zhezhaoLayout.setLayoutParams(reParamstop1);
+							}
+						}
+					});
 		}
 
 	}

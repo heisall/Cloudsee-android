@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
+
             <RelativeLayout
                 android:id="@+id/playlayout"
                 android:layout_width="match_parent"
@@ -124,7 +125,7 @@
                     android:layout_height="200dp"
                     android:background="#00000000" >
                 </RelativeLayout>
-			
+
                 <WebView
                     android:id="@+id/webview"
                     android:layout_width="match_parent"

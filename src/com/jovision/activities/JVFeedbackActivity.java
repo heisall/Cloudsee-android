@@ -51,12 +51,12 @@ public class JVFeedbackActivity extends BaseActivity {
 			builder.setCancelable(false);
 			builder.setPositiveButton(R.string.ok,
 					new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					JVFeedbackActivity.this.finish();
-					dialog.dismiss();
-				}
-			});
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							JVFeedbackActivity.this.finish();
+							dialog.dismiss();
+						}
+					});
 			builder.create().show();
 			break;
 
@@ -165,13 +165,14 @@ public class JVFeedbackActivity extends BaseActivity {
 				contentStr = content.getText().toString();// 反馈内容
 				if ("".equals(connectStr)) {
 					showTextToast(R.string.str_notice_connection);
-				}else if(!ConfigUtil.checkUserConnect(connectStr)){
+				} else if (!ConfigUtil.checkUserConnect(connectStr)) {
 					showTextToast(R.string.str_connect_error);
-				}else if (0 == content.getText().toString().length()||("").equals(contentStr)) {
+				} else if (0 == content.getText().toString().length()
+						|| ("").equals(contentStr)) {
 					showTextToast(R.string.str_notice_content);
-				}else if (!ConfigUtil.checkUserConnect(contentStr)) {
+				} else if (!ConfigUtil.checkUserConnect(contentStr)) {
 					showTextToast(R.string.str_content_error);
-				}else {
+				} else {
 					createDialog("", true);
 					FeedbackThread feedbackThread = new FeedbackThread();
 					feedbackThread.start();

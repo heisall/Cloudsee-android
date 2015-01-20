@@ -76,8 +76,8 @@ import com.jovision.utils.mails.MyAuthenticator;
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
 	public final static String ACCOUNT_VERSION = "V3.2.7";
-	public final static String PLAY_VERSION = "0.9a[e80bed1][2015-01-19]";
-	public final static String NETWORK_VERSION = "v2.0.76.3.29[private:v2.0.75.13 20150115.1]";
+	public final static String PLAY_VERSION = "0.9a[d62e771][2015-01-20]";
+	public final static String NETWORK_VERSION = "v2.0.76.3.30[private:v2.0.75.13 20150119.1]";
 
 	public static String GETACCTOUT_VERSION = "";
 	public static String GETPLAY_VERSION = "";
@@ -787,8 +787,6 @@ public class ConfigUtil {
 		return flag;
 	}
 
-	
-	
 	// 验证设备用户名
 	public static boolean checkDeviceUsername(String str) {
 		boolean flag = false;

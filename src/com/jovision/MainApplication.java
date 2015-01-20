@@ -54,7 +54,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	private ArrayList<String> markedAlarmList;// 存储已经阅读的报警ID
 	private int new_push_msg_cnt = 0;// 即时推送过来的消息总量
 
-	private boolean bAlarmConnectedFlag = false;//全局变量，用于报警历史视频和远程回放之间
+	private boolean bAlarmConnectedFlag = false;// 全局变量，用于报警历史视频和远程回放之间
+
 	/**
 	 * 获取活动集合
 	 * 
@@ -502,12 +503,12 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		}
 		return false;
 	}
-	
-	public synchronized boolean getAlarmConnectedFlag(){
+
+	public synchronized boolean getAlarmConnectedFlag() {
 		return bAlarmConnectedFlag;
 	}
-	
-	public synchronized void setAlarmConnectedFlag(boolean flag){
+
+	public synchronized void setAlarmConnectedFlag(boolean flag) {
 		bAlarmConnectedFlag = flag;
-	}	
+	}
 }

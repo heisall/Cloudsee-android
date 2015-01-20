@@ -42,7 +42,7 @@ import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.PlayUtil;
 
 public class JVWebView2Activity extends BaseActivity implements
-PlayWindowManager.OnUiListener {
+		PlayWindowManager.OnUiListener {
 
 	private static final String TAG = "JVWebView2Activity";
 
@@ -357,7 +357,7 @@ PlayWindowManager.OnUiListener {
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.demo);
-		zhezhaoLayout  = (RelativeLayout)findViewById(R.id.zhezhao);
+		zhezhaoLayout = (RelativeLayout) findViewById(R.id.zhezhao);
 		zhezhaoLayout.setLayoutParams(reParamstop1);
 		loadingBar = (ImageView) findViewById(R.id.loadingbar);
 		loadinglayout = (LinearLayout)findViewById(R.id.loadinglayout);
@@ -421,7 +421,7 @@ PlayWindowManager.OnUiListener {
 										middle);
 								lastClickTime = 0;
 								break;
-								// 手势云台
+							// 手势云台
 							case MyGestureDispatcher.GESTURE_TO_LEFT:
 								gestureOnView(playChannel.getSurfaceView(),
 										playChannel, gesture, distance, vector,
@@ -449,7 +449,7 @@ PlayWindowManager.OnUiListener {
 										middle);
 								lastClickTime = 0;
 								break;
-								// 手势单击双击
+							// 手势单击双击
 							case MyGestureDispatcher.CLICK_EVENT:
 								if (0 == lastClickTime) {
 									isDoubleClickCheck = false;
@@ -599,7 +599,8 @@ PlayWindowManager.OnUiListener {
 			playLayout.setLayoutParams(reParamsV);
 			webView.setVisibility(View.VISIBLE);
 			topBar.setVisibility(View.VISIBLE);
-			webView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
+			webView.getViewTreeObserver().addOnGlobalLayoutListener(
+					new OnGlobalLayoutListener() {
 
 				@Override
 				public void onGlobalLayout() {

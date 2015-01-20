@@ -3,11 +3,41 @@ package com.jovision.commons;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.test.JVACCOUNT;
+
+import com.jovision.Consts;
+import com.jovision.activities.BaseActivity;
+import com.jovision.utils.AccountUtil;
+import com.jovision.utils.BitmapCache;
+import com.jovision.utils.ConfigUtil;
 
 public class BootReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+
+		if (intent.getAction().compareTo(Intent.ACTION_LOCALE_CHANGED) == 0) {
+			// 处理
+			MyLog.v("切换语言了", "received ACTION_LOCALE_CHANGED");
+			if (!Boolean.valueOf(((BaseActivity) context).statusHashMap
+					.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
+				new Thread(new SetUserOnlineStatusThread(0)).start();
+				if (0 != AccountUtil.userLogout()) {
+					AccountUtil.userLogout();
+				}
+			}
+			BitmapCache.getInstance().clearAllCache();
+			ConfigUtil.stopBroadCast();
+			((BaseActivity) context).statusHashMap.put(Consts.HAG_GOT_DEVICE,
+					"false");
+			((BaseActivity) context).statusHashMap.put(
+					Consts.KEY_LAST_LOGIN_TIME, ConfigUtil.getCurrentDate());
+			MyActivityManager.getActivityManager()
+					.popAllActivityExceptOne(null);
+			android.os.Process.killProcess(android.os.Process.myPid());
+			System.exit(0);
+		}
+
 		// // 接收广播：系统启动完成后运行程序
 		// if
 		// (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
@@ -66,5 +96,18 @@ public class BootReceiver extends BroadcastReceiver {
 		// Toast.makeText(context, "卸掉一个软件", Toast.LENGTH_LONG).show();
 		// System.out.println("********************************");
 		// }
+	}
+
+	class SetUserOnlineStatusThread implements Runnable {
+		private int tag;
+
+		public SetUserOnlineStatusThread(int arg1) {
+			tag = arg1;
+		}
+
+		@Override
+		public void run() {
+			JVACCOUNT.SetUserOnlineStatus(tag);
+		}
 	}
 }

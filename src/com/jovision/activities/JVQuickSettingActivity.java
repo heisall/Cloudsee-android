@@ -513,7 +513,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					MyLog.e(TAG, "ip= " + ip);
 					break;
 				} else {
-					MyLog.e(TAG, "pppppppppppppppppppp  Thread.sleep(500);");
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {

@@ -497,6 +497,8 @@
     <string name="system_info_nomore">沒有更多了</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">請在此輸入您的問題或建議</string>
+    <string name="str_connect_error">聯系方式含有非法字符，系方式只能有數字、字母、漢字及特殊字符-_ @+().組成</string>
+     <string name="str_content_error">意見反饋的內容含有非法字符，內容只能有數字、字母、漢字及特殊字符-_ @+().組成</string>
     <string name="str_notice_connection">為方便後續跟蹤您提的問題和建議，請留下您的聯繫方式</string>
     <string name="str_idea_and_feedback">意見回饋</string>
     <string name="commit">提交</string>

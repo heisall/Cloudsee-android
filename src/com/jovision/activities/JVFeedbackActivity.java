@@ -166,9 +166,11 @@ public class JVFeedbackActivity extends BaseActivity {
 				if ("".equals(connectStr)) {
 					showTextToast(R.string.str_notice_connection);
 				}else if(!ConfigUtil.checkUserConnect(connectStr)){
-					showTextToast("含有非法字符！");
-				}else if (null == content||0 == content.getText().toString().length()||("").equals(connectStr)) {
+					showTextToast(R.string.str_connect_error);
+				}else if (0 == content.getText().toString().length()||("").equals(contentStr)) {
 					showTextToast(R.string.str_notice_content);
+				}else if (!ConfigUtil.checkUserConnect(contentStr)) {
+					showTextToast(R.string.str_content_error);
 				}else {
 					createDialog("", true);
 					FeedbackThread feedbackThread = new FeedbackThread();

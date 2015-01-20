@@ -51,12 +51,12 @@ public class JVFeedbackActivity extends BaseActivity {
 			builder.setCancelable(false);
 			builder.setPositiveButton(R.string.ok,
 					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							JVFeedbackActivity.this.finish();
-							dialog.dismiss();
-						}
-					});
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					JVFeedbackActivity.this.finish();
+					dialog.dismiss();
+				}
+			});
 			builder.create().show();
 			break;
 
@@ -165,20 +165,14 @@ public class JVFeedbackActivity extends BaseActivity {
 				contentStr = content.getText().toString();// 反馈内容
 				if ("".equals(connectStr)) {
 					showTextToast(R.string.str_notice_connection);
-				} else {
-					if (0 == content.getText().toString().length()
-							|| ("").equals(connectStr)) {
-						if (0 == content.getText().toString().length()) {
-							showTextToast(R.string.str_notice_content);
-						} else {
-							showTextToast(R.string.str_notice_connection);
-						}
-
-					} else {
-						createDialog("", true);
-						FeedbackThread feedbackThread = new FeedbackThread();
-						feedbackThread.start();
-					}
+				}else if(!ConfigUtil.checkUserConnect(connectStr)){
+					showTextToast("含有非法字符！");
+				}else if (null == content||0 == content.getText().toString().length()||("").equals(connectStr)) {
+					showTextToast(R.string.str_notice_content);
+				}else {
+					createDialog("", true);
+					FeedbackThread feedbackThread = new FeedbackThread();
+					feedbackThread.start();
 				}
 				break;
 			case R.id.wordsnum:

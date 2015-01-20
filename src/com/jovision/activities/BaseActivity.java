@@ -88,25 +88,31 @@ public abstract class BaseActivity extends FragmentActivity implements
 
 		@Override
 		public void handleMessage(Message msg) {
-			activity.notify.onHandler(msg.what, msg.arg1, msg.arg2, msg.obj);
-			switch (msg.what) {
-			case Consts.ALARM_NET:
-				if (null != alarmnet) {
-					alarmnet.setVisibility(View.GONE);
-					BaseFragment.isshow = true;
-					isshowActivity = true;
+			try {
+				activity.notify
+						.onHandler(msg.what, msg.arg1, msg.arg2, msg.obj);
+				switch (msg.what) {
+				case Consts.ALARM_NET:
+					if (null != alarmnet) {
+						alarmnet.setVisibility(View.GONE);
+						BaseFragment.isshow = true;
+						isshowActivity = true;
+					}
+					break;
+				case Consts.ALARM_NET_WEEK:
+					if (null != alarmnet) {
+						alarmnet.setVisibility(View.GONE);
+						BaseFragment.isshow = false;
+						isshowActivity = false;
+					}
+					break;
+				default:
+					break;
 				}
-				break;
-			case Consts.ALARM_NET_WEEK:
-				if (null != alarmnet) {
-					alarmnet.setVisibility(View.GONE);
-					BaseFragment.isshow = false;
-					isshowActivity = false;
-				}
-				break;
-			default:
-				break;
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+
 			super.handleMessage(msg);
 		}
 

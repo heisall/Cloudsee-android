@@ -304,10 +304,10 @@
                 android:layout_height="110dp"
                 android:layout_centerInParent="true"
                 ProgressWheel:barColor="#007aff"
-                ProgressWheel:barLength="30dp"
                 ProgressWheel:barWidth="5dp"
                 ProgressWheel:contourColor="#ffffff"
                 ProgressWheel:rimColor="#00000000"
+                ProgressWheel:rimWidth="5dp"
                 ProgressWheel:textColor="@color/more_fragment_color2"
                 ProgressWheel:textSize="18sp"
                 android:background="@drawable/soundwheel" />

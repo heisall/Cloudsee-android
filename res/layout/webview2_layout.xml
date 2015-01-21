@@ -156,7 +156,7 @@
                         android:text="正在努力加载。。。"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/more_fragment_color2"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>

@@ -520,12 +520,12 @@ public class AlarmUtil {
 		Device device = null;
 		boolean bfind = false;
 
-		ArrayList<Device> devCacheList = CacheUtil.getDevList(); 
+		ArrayList<Device> devCacheList = CacheUtil.getDevList();
 		for (int j = 0; j < devCacheList.size(); j++) {
-//			if(CacheUtil.getDevList().size() == 0){
-//				return -99;
-//			}			
-//			device = CacheUtil.getDevList().get(j);
+			// if(CacheUtil.getDevList().size() == 0){
+			// return -99;
+			// }
+			// device = CacheUtil.getDevList().get(j);
 			device = devCacheList.get(j);
 			MyLog.v("AlarmConnect", "dst:" + strYstNum + "---yst-num = "
 					+ device.getFullNo());
@@ -568,7 +568,7 @@ public class AlarmUtil {
 	public static boolean OnlyConnect2(String strYstNum) {
 		Device device = null;
 		boolean bfind = false;
-		ArrayList<Device> devCacheList = CacheUtil.getDevList(); 
+		ArrayList<Device> devCacheList = CacheUtil.getDevList();
 		for (int j = 0; j < devCacheList.size(); j++) {
 			device = devCacheList.get(j);
 			MyLog.v("AlarmConnect", "dst:" + strYstNum + "---yst-num = "

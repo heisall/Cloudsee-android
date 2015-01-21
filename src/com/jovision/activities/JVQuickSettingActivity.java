@@ -221,50 +221,67 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 		helpLayout = (LinearLayout) findViewById(R.id.helplayout);
 		helpIV = (ImageView) findViewById(R.id.helpimg);
-		if (Consts.LANGUAGE_ZH == ConfigUtil
-				.getLanguage2(JVQuickSettingActivity.this)) {// 中文
-			helpIV.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.h400_update));
-		} else {
-			helpIV.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.h400_update_en));
-		}
+//		if (Consts.LANGUAGE_ZH == ConfigUtil
+//				.getLanguage2(JVQuickSettingActivity.this)) {// 中文
+//			helpIV.setBackgroundDrawable(getResources().getDrawable(
+//					R.drawable.h400_update));
+//		} else {
+//			helpIV.setBackgroundDrawable(getResources().getDrawable(
+//					R.drawable.h400_update_en));
+//		}
 
 		showIpcLayout(true);
 
 		/************* 以下声波所需 **************/
 		quickSetParentLayout = (LinearLayout) findViewById(R.id.quickSetParentLayout);
-		try {
-			LayoutInflater layoutInflater = LayoutInflater.from(this);
-			View view = layoutInflater
-					.inflate(R.layout.quicksetsearching, null);
-			Display display = getWindowManager().getDefaultDisplay();
-			int screenWidth = display.getWidth();
-			int screenHeight = display.getHeight();
-			quickSetPop = new PopupWindow(view, screenWidth, screenHeight);
-
-			/**
-			 * 为控件添加事件
-			 * 
-			 */
-			quickSetBackImg = (Button) view.findViewById(R.id.quickSetBack);
-			quickSetBackImg.setOnClickListener(quickSetOnClick);
-
-			quickSetDeviceImg = (ImageView) view
-					.findViewById(R.id.quickSetDeviceImg);
-			quickSetDeviceImg.setOnClickListener(quickSetOnClick);
-			searchView = (SearchDevicesView) view.findViewById(R.id.searchView);
-			searchView.setWillNotDraw(false);
-
-			// 播放声音
-			playSound(Consts.TAG_SOUNDONE);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			LayoutInflater layoutInflater = LayoutInflater.from(this);
+//			View view = layoutInflater
+//					.inflate(R.layout.quicksetsearching, null);
+//			Display display = getWindowManager().getDefaultDisplay();
+//			int screenWidth = display.getWidth();
+//			int screenHeight = display.getHeight();
+//			quickSetPop = new PopupWindow(view, screenWidth, screenHeight);
+//
+//			/**
+//			 * 为控件添加事件
+//			 * 
+//			 */
+//			quickSetBackImg = (Button) view.findViewById(R.id.quickSetBack);
+//			quickSetBackImg.setOnClickListener(quickSetOnClick);
+//
+//			quickSetDeviceImg = (ImageView) view
+//					.findViewById(R.id.quickSetDeviceImg);
+//			quickSetDeviceImg.setOnClickListener(quickSetOnClick);
+//			searchView = (SearchDevicesView) view.findViewById(R.id.searchView);
+//			searchView.setWillNotDraw(false);
+//
+//			// 播放声音
+//			playSound(Consts.TAG_SOUNDONE);
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 	}
 
+	
+	@SuppressWarnings("deprecation")
+	private void setHelpBackground(boolean is){
+		if(is){
+			if (Consts.LANGUAGE_ZH == ConfigUtil
+					.getLanguage2(JVQuickSettingActivity.this)) {// 中文
+				helpIV.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.h400_update));
+			} else {
+				helpIV.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.h400_update_en));
+			}
+		}else{
+			helpIV.setBackgroundDrawable(null);
+		}
+	}
+	
 	/**
 	 * wifi列表刷新事件
 	 * 
@@ -725,9 +742,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				ApSetThread apSetThread = new ApSetThread();
 				apSetThread.start();
 
+				showQuickPopWindow();
 				showSearch(true);
 
-				showQuickPopWindow();
 
 				break;
 			}
@@ -745,8 +762,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	 * @param id
 	 */
 	public void backMethod() {
+		
 		if (null != searchView) {
-			searchView.stopPlayer();
+			searchView.stopPlayer();		
 		}
 
 		try {
@@ -759,6 +777,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				disConnectVideo();
 				if (View.VISIBLE == helpLayout.getVisibility()) {// 更新设备帮助文档
 					helpLayout.setVisibility(View.GONE);
+					setHelpBackground(false);
 					rightBtn.setVisibility(View.VISIBLE);
 					currentMenu.setText(R.string.str_quick_setting);
 				} else if (ipcLayout.getVisibility() == View.VISIBLE) {// 显示IPC网络信息列表（一级级wifi列表）
@@ -853,7 +872,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		alarmnet = null;
+		Log.v(TAG, "freeMe");
 	}
 
 	@Override
@@ -1165,16 +1185,19 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 								+ broadObj.optInt("no");
 						MyLog.v("广播回调", "未超时--" + hasBroadIP + "--"
 								+ broadDevNum);
-						if (broadDevNum.equalsIgnoreCase(ipcDevice.getFullNo())) {// 同一个设备
-							ipcDevice.setOnlineStateLan(1);
-							ipcDevice.setIp(broadObj.optString("ip"));
-							ipcDevice.setPort(broadObj.optInt("port"));
-							ipcDevice.setHasWifi(broadObj.optInt("netmod"));
-							hasBroadIP = true;
-						} else {
-							ipcDevice.setOnlineStateLan(0);
-							ipcDevice.setIp("");
-							ipcDevice.setPort(0);
+						if (null != ipcDevice) {
+							if (broadDevNum.equalsIgnoreCase(ipcDevice
+									.getFullNo())) {// 同一个设备
+								ipcDevice.setOnlineStateLan(1);
+								ipcDevice.setIp(broadObj.optString("ip"));
+								ipcDevice.setPort(broadObj.optInt("port"));
+								ipcDevice.setHasWifi(broadObj.optInt("netmod"));
+								hasBroadIP = true;
+							} else {
+								ipcDevice.setOnlineStateLan(0);
+								ipcDevice.setIp("");
+								ipcDevice.setPort(0);
+							}
 						}
 					}
 
@@ -1819,10 +1842,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	 * 显示
 	 */
 	private void showQuickPopWindow() {
-		if (null != quickSetPop) {
-			quickSetPop.showAtLocation(quickSetParentLayout, Gravity.CENTER, 0,
-					0);
+		if (null == quickSetPop) {
+			initPopwindow();
 		}
+		quickSetPop.showAtLocation(quickSetParentLayout, Gravity.CENTER, 0,
+				0);
 	}
 
 	/**
@@ -1831,6 +1855,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	private void dismisQuickPopWindow() {
 		if (null != quickSetPop && quickSetPop.isShowing()) {
 			quickSetPop.dismiss();
+			quickSetPop = null;
+			searchView = null;
 		}
 	}
 
@@ -2112,6 +2138,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						helpLayout.setVisibility(View.VISIBLE);
+						setHelpBackground(true);
 						rightBtn.setVisibility(View.GONE);
 						currentMenu
 								.setText(R.string.str_quick_setting_devupdate_order);
@@ -2153,6 +2180,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		BitmapCache.getInstance().clearCache();
 	}
 
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+	}
+	
 	public void disConnectVideo() {
 
 		if (PlayUtil.disconnectDevice()) {

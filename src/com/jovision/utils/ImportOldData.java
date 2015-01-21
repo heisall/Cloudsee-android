@@ -247,6 +247,12 @@ public class ImportOldData {
 		return list;
 	}
 
+	public void close() {
+		if (dbManager != null) {
+			dbManager = null;
+		}
+	}
+
 	public void getDevList() {
 		ArrayList<Device> devList = queryAllDevList();
 		ArrayList<Channel> channelList = queryAllChannelList();

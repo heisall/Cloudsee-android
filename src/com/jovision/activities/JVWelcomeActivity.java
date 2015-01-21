@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.test.AutoLoad;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -58,6 +59,7 @@ public class JVWelcomeActivity extends BaseActivity {
 			deleteDatabase(Consts.JVCONFIG_DATABASE);
 			MySharedPreference.putBoolean("HasImport", true);
 		}
+		importOld.close();
 
 		getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
 		statusHashMap.put(Consts.KEY_INIT_ACCOUNT_SDK, "false");
@@ -174,11 +176,14 @@ public class JVWelcomeActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
+		
 		dismissDialog();
 		// 关闭此定时器
 		initHandler.removeCallbacks(initThread);
 		BitmapCache.getInstance().clearCache();
-
+		welcomeImage.setBackgroundDrawable(null);
+		welcomeImage = null;
+		Log.v(TAG, "welcome activity freeme");
 	}
 
 	/**
@@ -290,4 +295,14 @@ public class JVWelcomeActivity extends BaseActivity {
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();	
+//		welcomeImage = null;
+
+	}
+	
+
+
 }

@@ -773,7 +773,28 @@ public class ConfigUtil {
 			byte[] b = str.getBytes("UTF-8");
 			str = new String(b, "UTF-8");
 			Pattern pattern = Pattern
-					.compile("^[A-Za-z0-9_.)(@ \\+\\-\\u4e00-\\u9fa5]{1,200}$");
+					.compile("^[A-Za-z0-9_.@ \\+\\-\\u4e00-\\u9fa5]{1,200}$");
+
+			Matcher matcher = pattern.matcher(str);
+			if (matcher.matches() && 200 >= str.getBytes().length) {
+				flag = true;
+			} else {
+				flag = false;
+			}
+		} catch (UnsupportedEncodingException e) {
+			flag = false;
+		}
+		return flag;
+	}
+
+	// 验证反馈内容
+	public static boolean checkUserContent(String str) {
+		boolean flag = false;
+		try {
+			byte[] b = str.getBytes("UTF-8");
+			str = new String(b, "UTF-8");
+			Pattern pattern = Pattern
+					.compile("^[A-Za-z0-9_.。，！？：”“%}{@ \\+\\-\\u4e00-\\u9fa5]{1,1000}$");
 
 			Matcher matcher = pattern.matcher(str);
 			if (matcher.matches() && 200 >= str.getBytes().length) {

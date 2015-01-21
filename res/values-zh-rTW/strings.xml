@@ -363,6 +363,7 @@
     <!-- JVDemoActivity -->
     <string name="demo">視頻廣場</string>
     <string name="demo_get_failed">視頻廣場加載失敗</string>
+    <string name="demo_loading">正在努力加載...</string>
     <!-- JVTab -->
     <string name="network_error">網路連接不可用,是否進行設置?</string>
     <string name="tips_3g">目前處於2G/3G網路，觀看視頻會產生大量流量費用（由運營商收取），建議使用Wi-Fi網路.</string>

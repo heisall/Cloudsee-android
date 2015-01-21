@@ -154,6 +154,9 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		if (Consts.LANGUAGE_ZH == ConfigUtil
 				.getLanguage2(JVRegisterActivity.this)) {// 中文
 			mWebView.loadUrl("file:///android_asset/UserResign.html");
+		} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+				.getLanguage2(JVRegisterActivity.this)) {// 台湾
+			mWebView.loadUrl("file:///android_asset/UserResign_tw.html");
 		} else {// 英文
 			mWebView.loadUrl("file:///android_asset/UserResign_en.html");
 		}

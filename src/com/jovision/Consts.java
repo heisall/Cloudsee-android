@@ -518,6 +518,9 @@ public class Consts {
 	/** 获取设备列表在线服务器检索失败 */
 	public static final int WHAT_DEVICE_GETDATA_SEARCH_FAILED = 0x67;// 在线服务器检索失败
 
+	/** 设备管理连接超时 */
+	public static final int WHAT_MANAGE_TIMEOUT = 0x68;// 设备管理连接超时
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像

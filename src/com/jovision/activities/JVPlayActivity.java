@@ -3314,7 +3314,7 @@ public class JVPlayActivity extends PlayActivity implements
 					System.out.println("gesture: left");
 					isScrollClickCheck = true;
 					if (originSize) {
-						c = JVNetConst.JVN_YTCTRL_L;
+						c = JVNetConst.JVN_YTCTRL_R;
 						sendCmd(c);
 					} else {
 						gestureOnView(manager.getView(index),
@@ -3330,7 +3330,7 @@ public class JVPlayActivity extends PlayActivity implements
 					System.out.println("gesture: up");
 					isScrollClickCheck = true;
 					if (originSize) {
-						c = JVNetConst.JVN_YTCTRL_U;
+						c = JVNetConst.JVN_YTCTRL_D;
 						sendCmd(c);
 					} else {
 						gestureOnView(manager.getView(index),
@@ -3346,7 +3346,7 @@ public class JVPlayActivity extends PlayActivity implements
 					System.out.println("gesture: right");
 					isScrollClickCheck = true;
 					if (originSize) {
-						c = JVNetConst.JVN_YTCTRL_R;
+						c = JVNetConst.JVN_YTCTRL_L;
 						sendCmd(c);
 					} else {
 						gestureOnView(manager.getView(index),
@@ -3362,7 +3362,7 @@ public class JVPlayActivity extends PlayActivity implements
 					System.out.println("gesture: down");
 					isScrollClickCheck = true;
 					if (originSize) {
-						c = JVNetConst.JVN_YTCTRL_D;
+						c = JVNetConst.JVN_YTCTRL_U;
 						sendCmd(c);
 					} else {
 						gestureOnView(manager.getView(index),

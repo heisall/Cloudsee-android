@@ -921,7 +921,7 @@ public class DeviceUtil {
 																obj.optString(JVDeviceConst.JK_DEVICE_GUID))) {
 													Device dev = deviceList
 															.get(k);
-													dev.setShortConnRes(rt);
+													// dev.setShortConnRes(-29);
 													dev.setOnlineStateNet(obj
 															.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));// dsls
 													dev.setHasWifi(obj

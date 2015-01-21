@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.test.JVACCOUNT;
 
-import com.jovision.Consts;
-import com.jovision.activities.BaseActivity;
-import com.jovision.utils.AccountUtil;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
 
@@ -19,19 +16,8 @@ public class BootReceiver extends BroadcastReceiver {
 		if (intent.getAction().compareTo(Intent.ACTION_LOCALE_CHANGED) == 0) {
 			// 处理
 			MyLog.v("切换语言了", "received ACTION_LOCALE_CHANGED");
-			if (!Boolean.valueOf(((BaseActivity) context).statusHashMap
-					.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
-				new Thread(new SetUserOnlineStatusThread(0)).start();
-				if (0 != AccountUtil.userLogout()) {
-					AccountUtil.userLogout();
-				}
-			}
 			BitmapCache.getInstance().clearAllCache();
 			ConfigUtil.stopBroadCast();
-			((BaseActivity) context).statusHashMap.put(Consts.HAG_GOT_DEVICE,
-					"false");
-			((BaseActivity) context).statusHashMap.put(
-					Consts.KEY_LAST_LOGIN_TIME, ConfigUtil.getCurrentDate());
 			MyActivityManager.getActivityManager()
 					.popAllActivityExceptOne(null);
 			android.os.Process.killProcess(android.os.Process.myPid());

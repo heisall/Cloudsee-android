@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
@@ -76,7 +78,9 @@ public class JVWebView2Activity extends BaseActivity implements
 	private String url = "";
 	private String rtmp = "";
 	private int titleID = 0;
-	// private ProgressBar loadingBar;
+	private ImageView loadingBar;
+	private LinearLayout loadinglayout;
+	
 	private boolean isDisConnected = false;// 断开成功标志
 	private boolean manuPause = false;// 人为暂停
 
@@ -355,7 +359,8 @@ public class JVWebView2Activity extends BaseActivity implements
 		currentMenu.setText(R.string.demo);
 		zhezhaoLayout = (RelativeLayout) findViewById(R.id.zhezhao);
 		zhezhaoLayout.setLayoutParams(reParamstop1);
-		// loadingBar = (ProgressBar) findViewById(R.id.loadingbar);
+		loadingBar = (ImageView) findViewById(R.id.loadingbar);
+		loadinglayout = (LinearLayout)findViewById(R.id.loadinglayout);
 
 		loadFailedLayout = (LinearLayout) findViewById(R.id.loadfailedlayout);
 		loadFailedLayout.setVisibility(View.GONE);
@@ -550,7 +555,9 @@ public class JVWebView2Activity extends BaseActivity implements
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
-				// loadingBar.setVisibility(View.VISIBLE);
+				loadinglayout.setVisibility(View.VISIBLE);
+				Animation anim = AnimationUtils.loadAnimation(JVWebView2Activity.this, R.anim.rotate);   
+				loadingBar.setAnimation(anim);
 				MyLog.v(TAG, "webView start load");
 			}
 
@@ -560,10 +567,10 @@ public class JVWebView2Activity extends BaseActivity implements
 				if (loadFailed) {
 					loadFailedLayout.setVisibility(View.VISIBLE);
 					demoLayout.setVisibility(View.GONE);
-					// loadingBar.setVisibility(View.GONE);
+					loadinglayout.setVisibility(View.GONE);
 				} else {
 					webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
-					// loadingBar.setVisibility(View.GONE);
+					loadinglayout.setVisibility(View.GONE);
 					demoLayout.setVisibility(View.VISIBLE);
 					loadFailedLayout.setVisibility(View.GONE);
 				}
@@ -595,20 +602,17 @@ public class JVWebView2Activity extends BaseActivity implements
 			webView.getViewTreeObserver().addOnGlobalLayoutListener(
 					new OnGlobalLayoutListener() {
 
-						@Override
-						public void onGlobalLayout() {
-							// TODO Auto-generated method stub
-							// Log.i("TAG",disMetrics.heightPixels-disMetrics.widthPixels*0.75-100+"高度"+webView.getHeight());
+				@Override
+				public void onGlobalLayout() {
+					// TODO Auto-generated method stub
+					//					Log.i("TAG",disMetrics.heightPixels-disMetrics.widthPixels*0.75-100+"高度"+webView.getHeight());
 
-							if ((disMetrics.heightPixels
-									- disMetrics.widthPixels * 0.75 - 100)
-									- webView.getHeight() > 200) {
-								zhezhaoLayout.setLayoutParams(reParamstop2);
-							} else {
-								zhezhaoLayout.setLayoutParams(reParamstop1);
-							}
-						}
-					});
+					if ((disMetrics.heightPixels-disMetrics.widthPixels*0.75-100)-webView.getHeight()>200) {
+						zhezhaoLayout.setLayoutParams(reParamstop2);
+					}else {
+						zhezhaoLayout.setLayoutParams(reParamstop1);
+					}
+				}});
 		}
 
 	}
@@ -686,7 +690,9 @@ public class JVWebView2Activity extends BaseActivity implements
 			}
 			case R.id.refreshimg: {
 				loadFailedLayout.setVisibility(View.GONE);
-				// loadingBar.setVisibility(View.VISIBLE);
+				loadinglayout.setVisibility(View.VISIBLE);
+				Animation anim = AnimationUtils.loadAnimation(JVWebView2Activity.this, R.anim.rotate);   
+				loadingBar.setAnimation(anim);
 				loadFailed = false;
 				webView.loadUrl(url);
 				break;

@@ -515,6 +515,9 @@ public class Consts {
 	/** 演示点url获取失败 */
 	public static final int WHAT_DEMO_URL_FAILED = 0x66;
 
+	/** 获取设备列表在线服务器检索失败 */
+	public static final int WHAT_DEVICE_GETDATA_SEARCH_FAILED = 0x67;// 在线服务器检索失败
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像

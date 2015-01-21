@@ -68,7 +68,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private WebView webView;
 
 	private boolean fullScreenFlag = false;
-	// private boolean pausedFlag = false;
+	private boolean pausedFlag = false;
 	private MyAudio playAudio;
 	private int audioByte = 0;
 	private Channel playChannel;
@@ -80,9 +80,10 @@ public class JVWebView2Activity extends BaseActivity implements
 	private int titleID = 0;
 	private ImageView loadingBar;
 	private LinearLayout loadinglayout;
-	
+
 	private boolean isDisConnected = false;// 断开成功标志
 	private boolean manuPause = false;// 人为暂停
+	private boolean onPause = false;// onPause
 
 	private LinearLayout loadFailedLayout;
 	private ImageView reloadImgView;
@@ -360,7 +361,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		zhezhaoLayout = (RelativeLayout) findViewById(R.id.zhezhao);
 		zhezhaoLayout.setLayoutParams(reParamstop1);
 		loadingBar = (ImageView) findViewById(R.id.loadingbar);
-		loadinglayout = (LinearLayout)findViewById(R.id.loadinglayout);
+		loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
 
 		loadFailedLayout = (LinearLayout) findViewById(R.id.loadfailedlayout);
 		loadFailedLayout.setVisibility(View.GONE);
@@ -506,16 +507,17 @@ public class JVWebView2Activity extends BaseActivity implements
 			@Override
 			public void surfaceChanged(SurfaceHolder holder, int format,
 					int width, int height) {
-				playChannel.setSurface(holder.getSurface());
+				if (!onPause) {
+					playChannel.setSurface(holder.getSurface());
 
-				if (false == playChannel.isConnected()
-						&& false == playChannel.isConnecting()) {
-					startConnect(rtmp, holder.getSurface());
-				} else {
-					tensileView(playChannel, playChannel.getSurfaceView());
-					resumeVideo();
+					if (false == playChannel.isConnected()
+							&& false == playChannel.isConnecting()) {
+						startConnect(rtmp, holder.getSurface());
+					} else {
+						tensileView(playChannel, playChannel.getSurfaceView());
+						resumeVideo();
+					}
 				}
-
 			}
 		});
 
@@ -556,7 +558,8 @@ public class JVWebView2Activity extends BaseActivity implements
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
 				loadinglayout.setVisibility(View.VISIBLE);
-				Animation anim = AnimationUtils.loadAnimation(JVWebView2Activity.this, R.anim.rotate);   
+				Animation anim = AnimationUtils.loadAnimation(
+						JVWebView2Activity.this, R.anim.rotate);
 				loadingBar.setAnimation(anim);
 				MyLog.v(TAG, "webView start load");
 			}
@@ -602,17 +605,20 @@ public class JVWebView2Activity extends BaseActivity implements
 			webView.getViewTreeObserver().addOnGlobalLayoutListener(
 					new OnGlobalLayoutListener() {
 
-				@Override
-				public void onGlobalLayout() {
-					// TODO Auto-generated method stub
-					//					Log.i("TAG",disMetrics.heightPixels-disMetrics.widthPixels*0.75-100+"高度"+webView.getHeight());
+						@Override
+						public void onGlobalLayout() {
+							// TODO Auto-generated method stub
+							// Log.i("TAG",disMetrics.heightPixels-disMetrics.widthPixels*0.75-100+"高度"+webView.getHeight());
 
-					if ((disMetrics.heightPixels-disMetrics.widthPixels*0.75-100)-webView.getHeight()>200) {
-						zhezhaoLayout.setLayoutParams(reParamstop2);
-					}else {
-						zhezhaoLayout.setLayoutParams(reParamstop1);
-					}
-				}});
+							if ((disMetrics.heightPixels
+									- disMetrics.widthPixels * 0.75 - 100)
+									- webView.getHeight() > 200) {
+								zhezhaoLayout.setLayoutParams(reParamstop2);
+							} else {
+								zhezhaoLayout.setLayoutParams(reParamstop1);
+							}
+						}
+					});
 		}
 
 	}
@@ -630,6 +636,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	 * 断开连接
 	 */
 	private boolean stopConnect() {
+		stopAudio(playChannel.getIndex());
 		return Jni.shutdownRTMP(playChannel.getIndex());
 	};
 
@@ -691,7 +698,8 @@ public class JVWebView2Activity extends BaseActivity implements
 			case R.id.refreshimg: {
 				loadFailedLayout.setVisibility(View.GONE);
 				loadinglayout.setVisibility(View.VISIBLE);
-				Animation anim = AnimationUtils.loadAnimation(JVWebView2Activity.this, R.anim.rotate);   
+				Animation anim = AnimationUtils.loadAnimation(
+						JVWebView2Activity.this, R.anim.rotate);
 				loadingBar.setAnimation(anim);
 				loadFailed = false;
 				webView.loadUrl(url);
@@ -790,7 +798,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	protected void onPause() {
 		super.onPause();
 		// handler.sendMessage(handler.obtainMessage(Consts.WHAT_DEMO_BUFFING));
-		manuPause = false;
+		onPause = true;
 		stopConnect();
 		// webView.onPause();
 	}
@@ -800,8 +808,10 @@ public class JVWebView2Activity extends BaseActivity implements
 		super.onResume();
 		// webView.onResume();
 		// resumeVideo();
-		handler.sendMessageDelayed(
-				handler.obtainMessage(Consts.WHAT_DEMO_RESUME), 500);
+		if (!manuPause) {
+			handler.sendMessageDelayed(
+					handler.obtainMessage(Consts.WHAT_DEMO_RESUME), 500);
+		}
 	}
 
 	@Override

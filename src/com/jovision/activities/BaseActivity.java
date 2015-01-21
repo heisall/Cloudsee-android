@@ -7,7 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -315,41 +315,61 @@ public abstract class BaseActivity extends FragmentActivity implements
 	 * 没有网络提示 打开设置网络界面
 	 * */
 	public void alertNetDialog() {
-		// 提示对话框
-		AlertDialog.Builder builder = new Builder(this);
-		builder.setTitle(R.string.tips)
-				.setMessage(R.string.network_error)
-				.setPositiveButton(R.string.setting,
-						new DialogInterface.OnClickListener() {
+		try {
+			// 提示对话框
+			AlertDialog.Builder builder = new Builder(this);
+			builder.setTitle(R.string.tips)
+					.setMessage(R.string.network_error)
+					.setPositiveButton(R.string.setting,
+							new DialogInterface.OnClickListener() {
 
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								Intent intent = null;
-								// 判断手机系统的版本 即API大于10 就是3.0或以上版本
-								if (android.os.Build.VERSION.SDK_INT > 10) {
-									intent = new Intent(
-											android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-								} else {
-									intent = new Intent();
-									ComponentName component = new ComponentName(
-											"com.android.settings",
-											"com.android.settings.WirelessSettings");
-									intent.setComponent(component);
-									intent.setAction("android.intent.action.VIEW");
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									// Intent intent = null;
+									// // 判断手机系统的版本 即API大于10 就是3.0或以上版本
+									// if (android.os.Build.VERSION.SDK_INT >
+									// 10) {
+									// intent = new Intent(
+									// android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+									// } else {
+									// intent = new Intent();
+									// ComponentName component = new
+									// ComponentName(
+									// "com.android.settings",
+									// "com.android.settings.WirelessSettings");
+									// intent.setComponent(component);
+									// intent.setAction("android.intent.action.VIEW");
+									// }
+									// if(!BaseActivity.this.isFinishing()){
+									// BaseActivity.this.startActivity(intent);
+									// }
+									//
+
+									if (android.os.Build.VERSION.SDK_INT > 10) {
+										startActivity(new Intent(
+												android.provider.Settings.ACTION_SETTINGS));
+									} else {
+										startActivity(new Intent(
+												android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+									}
+
 								}
-								BaseActivity.this.startActivity(intent);
-							}
-						})
-				.setNegativeButton(R.string.cancel,
-						new DialogInterface.OnClickListener() {
+							})
+					.setNegativeButton(R.string.cancel,
+							new DialogInterface.OnClickListener() {
 
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								dialog.dismiss();
-							}
-						}).create().show();
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									dialog.dismiss();
+								}
+							}).create().show();
+		} catch (ActivityNotFoundException e) {
+			showTextToast(R.string.network_error);
+			e.printStackTrace();
+		}
+
 	}
 
 	/**

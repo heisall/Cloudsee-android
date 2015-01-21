@@ -257,6 +257,11 @@ public class JVMoreFragment extends BaseFragment {
 				popupWindow.dismiss();
 				break;
 			case R.id.more_head_img:
+				StatService.trackCustomEvent(
+						mActivity,
+						"census_moreheadimg",
+						mActivity.getResources().getString(
+								R.string.census_moreheadimg));
 				popupWindow = new popw(mActivity, myOnClickListener);
 				popupWindow.setBackgroundDrawable(null);
 				popupWindow.setOutsideTouchable(true);
@@ -291,6 +296,11 @@ public class JVMoreFragment extends BaseFragment {
 
 				break;
 			case R.id.more_bindmail:
+				StatService.trackCustomEvent(
+						mActivity,
+						"MoreBindmail",
+						mActivity.getResources().getString(
+								R.string.census_morebindmail));
 				startActivity(new Intent(mActivity,
 						JVReBoundEmailActivity.class));
 				break;
@@ -548,6 +558,11 @@ public class JVMoreFragment extends BaseFragment {
 								MySharedPreference.putBoolean("SystemMessage",
 										true);
 							}
+							StatService.trackCustomEvent(
+									mActivity,
+									"MoreMessage",
+									mActivity.getResources().getString(
+											R.string.census_moremessage));
 							Intent infoIntent = new Intent();
 							infoIntent.setClass(mActivity,
 									JVSystemInfoActivity.class);

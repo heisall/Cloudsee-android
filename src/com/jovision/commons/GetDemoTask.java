@@ -11,6 +11,7 @@ import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVWebViewActivity;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
+import com.tencent.stat.StatService;
 
 //获取演示点 设置三种类型参数分别为String,Integer,String
 public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
@@ -45,6 +46,8 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 		((BaseActivity) mContext).dismissDialog();
 		if (0 == result) {
+			StatService.trackCustomEvent(mContext, "MoreDemo", mContext
+					.getResources().getString(R.string.census_moredemo));
 			Intent intentAD = new Intent(mContext, JVWebViewActivity.class);
 
 			// http://192.168.10.17:8080/WebPlatform/mobile/index.html?plat=A&platv=B&lang=C&sid=D

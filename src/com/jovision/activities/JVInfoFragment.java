@@ -33,6 +33,7 @@ import com.jovision.views.AlarmDialog;
 import com.jovision.views.MyAlertDialog;
 import com.jovision.views.XListView;
 import com.jovision.views.XListView.IXListViewListener;
+import com.tencent.stat.StatService;
 
 /**
  * 消息
@@ -82,6 +83,11 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				if (pushList.size() == 0) {
 					// mActivity.showTextToast(R.string.str_alarm_no_alarm_info);
 				} else {
+					StatService.trackCustomEvent(
+							mActivity,
+							"ClearAlarmMessage",
+							mActivity.getResources().getString(
+									R.string.census_clearalarmmessage));
 					mActivity.createDialog("", true);
 					ClearAlarmTask task = new ClearAlarmTask();
 					String[] params = new String[3];

@@ -18,7 +18,6 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -97,7 +96,7 @@ public class JVWebViewActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.demo);
 		loadingBar = (ImageView) findViewById(R.id.loadingbars);
-		loadinglayout = (LinearLayout)findViewById(R.id.loadinglayout);
+		loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
 
 		loadFailedLayout = (LinearLayout) findViewById(R.id.loadfailedlayout);
 		loadFailedLayout.setVisibility(View.GONE);

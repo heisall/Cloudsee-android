@@ -1185,16 +1185,19 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 								+ broadObj.optInt("no");
 						MyLog.v("广播回调", "未超时--" + hasBroadIP + "--"
 								+ broadDevNum);
-						if (broadDevNum.equalsIgnoreCase(ipcDevice.getFullNo())) {// 同一个设备
-							ipcDevice.setOnlineStateLan(1);
-							ipcDevice.setIp(broadObj.optString("ip"));
-							ipcDevice.setPort(broadObj.optInt("port"));
-							ipcDevice.setHasWifi(broadObj.optInt("netmod"));
-							hasBroadIP = true;
-						} else {
-							ipcDevice.setOnlineStateLan(0);
-							ipcDevice.setIp("");
-							ipcDevice.setPort(0);
+						if (null != ipcDevice) {
+							if (broadDevNum.equalsIgnoreCase(ipcDevice
+									.getFullNo())) {// 同一个设备
+								ipcDevice.setOnlineStateLan(1);
+								ipcDevice.setIp(broadObj.optString("ip"));
+								ipcDevice.setPort(broadObj.optInt("port"));
+								ipcDevice.setHasWifi(broadObj.optInt("netmod"));
+								hasBroadIP = true;
+							} else {
+								ipcDevice.setOnlineStateLan(0);
+								ipcDevice.setIp("");
+								ipcDevice.setPort(0);
+							}
 						}
 					}
 

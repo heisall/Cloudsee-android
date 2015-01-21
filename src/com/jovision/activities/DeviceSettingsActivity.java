@@ -639,8 +639,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 						R.string.str_setdev_params_timeout);
 				Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
-				 new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
-				 .start();//by lkp这地方不知道为啥屏蔽了。先放开吧
+				new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
+						.start();// by lkp这地方不知道为啥屏蔽了。先放开吧
 				return;
 			case JVNetConst.JVN_STREAM_INFO:
 				strDescString = getResources().getString(

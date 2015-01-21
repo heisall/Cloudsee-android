@@ -1,7 +1,8 @@
 package com.jovision.activities;
 
 import java.util.ArrayList;
-import java.util.concurrent.CountDownLatch;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +13,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -57,6 +57,8 @@ public class ManageFragment extends BaseFragment {
 	int devType = 0;
 	private boolean isConnected;
 	private Message connectMsg;
+
+	private Timer timeOutTimer = null;
 
 	public ManageFragment() {
 		deviceList = new ArrayList<Device>();
@@ -194,11 +196,68 @@ public class ManageFragment extends BaseFragment {
 		// "index="+deviceIndex+";device="+device.toString());
 	}
 
+	// Runnable runnable = new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	// // TODO Auto-generated method stub
+	// mActivity.showTextToast("连接失败");
+	// mActivity.dismissDialog();
+	// }
+	// };
+
+	/**
+	 * 超时任务
+	 * 
+	 * @author Administrator
+	 * 
+	 */
+	class TimerOutTask extends TimerTask {
+
+		@Override
+		public void run() {
+			fragHandler.sendMessage(fragHandler
+					.obtainMessage(Consts.WHAT_MANAGE_TIMEOUT));
+		}
+
+	}
+
+	/**
+	 * 计时开始
+	 */
+	private void startTimer() {
+		if (null != timeOutTimer) {
+			stopTimer();
+		}
+		timeOutTimer = new Timer();
+		timeOutTimer.schedule(new TimerOutTask(), 50 * 1000);
+	}
+
+	/**
+	 * 计时停止
+	 */
+	private void stopTimer() {
+		fragHandler.removeMessages(Consts.WHAT_MANAGE_TIMEOUT);
+		if (null != timeOutTimer) {
+			timeOutTimer.cancel();
+			timeOutTimer = null;
+		}
+	}
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		MyLog.i("ManageFragment", "onTabAction:what=" + what + ";arg1=" + arg1
 				+ ";arg2=" + arg1);
 		switch (what) {
+		case Consts.WHAT_MANAGE_TIMEOUT: {
+			stopTimer();
+			if (null != mActivity.proDialog && mActivity.proDialog.isShowing()) {
+				mActivity.proDialog.dismiss();
+			}
+			PlayUtil.disconnectDevice();
+			mActivity.showTextToast(R.string.connfailed_timeout);
+			break;
+		}
 		case Consts.WHAT_MANAGE_ITEM_CLICK: {// adapter item 单击事件
 			JVDeviceManageFragment.deviceIndex = arg2;
 			device = deviceList.get(JVDeviceManageFragment.deviceIndex);
@@ -209,8 +268,12 @@ public class ManageFragment extends BaseFragment {
 				if (2 == device.getIsDevice()) {
 					mActivity.showTextToast(R.string.ip_add_notallow);
 				} else {
+					startTimer();
 					mActivity.createDialog("", false);
 					PlayUtil.connectDevice(device);
+					// if (!isturn) {
+					// new Handler().postDelayed(runnable, 15000);
+					// }
 				}
 				break;
 			}
@@ -613,5 +676,17 @@ public class ManageFragment extends BaseFragment {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 
 		}
+	}
+
+	@Override
+	public void onPause() {
+		stopTimer();
+		super.onPause();
+	}
+
+	@Override
+	public void onDestroy() {
+		// isturn = true;
+		super.onDestroy();
 	}
 }

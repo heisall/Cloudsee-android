@@ -507,9 +507,8 @@ public class JVWebView2Activity extends BaseActivity implements
 			@Override
 			public void surfaceChanged(SurfaceHolder holder, int format,
 					int width, int height) {
-				if (!onPause) {
+				if (!onPause && !manuPause) {
 					playChannel.setSurface(holder.getSurface());
-
 					if (false == playChannel.isConnected()
 							&& false == playChannel.isConnecting()) {
 						startConnect(rtmp, holder.getSurface());

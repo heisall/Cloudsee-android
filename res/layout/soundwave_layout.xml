@@ -303,7 +303,7 @@
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_centerInParent="true"
-                ProgressWheel:barColor="@color/more_cancle"
+                ProgressWheel:barColor="@color/welcome_blue"
                 ProgressWheel:barWidth="5dp"
                 ProgressWheel:contourColor="@color/white"
                 ProgressWheel:rimColor="@color/transparent"

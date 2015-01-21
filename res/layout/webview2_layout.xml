@@ -123,14 +123,15 @@
                     android:id="@+id/zhezhao"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:background="#00000000" >
+                    android:background="@color/transparent" >
                 </RelativeLayout>
 
                 <WebView
                     android:id="@+id/webview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/zhezhao" />
+                    android:layout_below="@+id/zhezhao"
+                   />
 
                 <LinearLayout
                     android:id="@+id/loadinglayout"
@@ -152,6 +153,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:text="@string/demo_loading"
                         android:textColor="@color/more_fragment_color2"
                         android:textSize="16sp" />

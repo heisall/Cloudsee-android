@@ -194,6 +194,8 @@ public class JVDeviceConst {
 	public static final String JK_DEVICE_RESET_FLAG = "drf";
 	public static final String JK_DEVICE_VERIFY = "dverify";
 
+	public static final int YST_INDEX_SEND_ERROR = -29;// 云视通检索服务器通信异常。
+
 	public static final int GET_USER_DETAIL_INFO = 1016;
 	public static final int GET_USER_DETAIL_INFO_RESPONSE = 1017;
 

@@ -44,6 +44,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	public boolean bFromAlarm = false;// 是否报警视频
 	private boolean isAudio = false;// 是否正在监听
 	private MainApplication mainApp;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
@@ -54,40 +55,40 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			switch (arg2) {
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
-				mainApp.setAlarmConnectedFlag(true);//by lkp
+				mainApp.setAlarmConnectedFlag(true);// by lkp
 				break;
 			}
 			// 2 -- 断开连接成功
 			case JVNetConst.DISCONNECT_OK: {
 				showTextToast(R.string.closed);
-				mainApp.setAlarmConnectedFlag(false);//by lkp
+				mainApp.setAlarmConnectedFlag(false);// by lkp
 				this.finish();
 				break;
 			}
 			// 4 -- 连接失败
 			case JVNetConst.CONNECT_FAILED: {
 				showTextToast(R.string.closed);
-				mainApp.setAlarmConnectedFlag(false);//by lkp
+				mainApp.setAlarmConnectedFlag(false);// by lkp
 				this.finish();
 				break;
 			}
 			// 6 -- 连接异常断开
 			case JVNetConst.ABNORMAL_DISCONNECT: {
 				showTextToast(R.string.closed);
-				mainApp.setAlarmConnectedFlag(false);//by lkp
+				mainApp.setAlarmConnectedFlag(false);// by lkp
 				this.finish();
 				break;
 			}
 			// 7 -- 服务停止连接，连接断开
 			case JVNetConst.SERVICE_STOP: {
 				showTextToast(R.string.closed);
-				mainApp.setAlarmConnectedFlag(false);//by lkp
+				mainApp.setAlarmConnectedFlag(false);// by lkp
 				this.finish();
 				break;
 			}
 			case Consts.BAD_NOT_CONNECT: {
 				showTextToast(R.string.closed);
-				mainApp.setAlarmConnectedFlag(false);//by lkp
+				mainApp.setAlarmConnectedFlag(false);// by lkp
 				this.finish();
 				break;
 			}
@@ -97,7 +98,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			}
 			// 5 -- 没有连接
 			case JVNetConst.NO_CONNECT: {
-				mainApp.setAlarmConnectedFlag(false);//by lkp
+				mainApp.setAlarmConnectedFlag(false);// by lkp
 				break;
 			}
 			// 8 -- 断开连接失败
@@ -274,12 +275,12 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	@Override
 	protected void initUi() {
 		super.initUi();
-		mainApp = (MainApplication)getApplication();//by lkp
+		mainApp = (MainApplication) getApplication();// by lkp
 		selectScreenNum.setVisibility(View.GONE);
 		rightBtn.setVisibility(View.GONE);
 		playHelp.setVisibility(View.GONE);
 		/** 中 */
-		viewPager.setVisibility(View.GONE);
+		playViewPager.setVisibility(View.GONE);
 		playSurface.setVisibility(View.VISIBLE);
 		playSurface.setOnClickListener(myOnClickListener);
 		SurfaceHolder holder = playSurface.getHolder();

@@ -51,12 +51,12 @@ public class JVFeedbackActivity extends BaseActivity {
 			builder.setCancelable(false);
 			builder.setPositiveButton(R.string.ok,
 					new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					JVFeedbackActivity.this.finish();
-					dialog.dismiss();
-				}
-			});
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							JVFeedbackActivity.this.finish();
+							dialog.dismiss();
+						}
+					});
 			builder.create().show();
 			break;
 
@@ -163,13 +163,19 @@ public class JVFeedbackActivity extends BaseActivity {
 			case R.id.btn_right:
 				connectStr = connection.getText().toString();// 联系方式
 				contentStr = content.getText().toString();// 反馈内容
-				if ("".equals(connectStr)) {
-					showTextToast(R.string.str_notice_connection);
-				}else if(!ConfigUtil.checkUserConnect(connectStr)){
-					showTextToast("含有非法字符！");
-				}else if (null == content||0 == content.getText().toString().length()||("").equals(connectStr)) {
+				if ("".equals(connectStr) && !"".equals(contentStr)) {
+					createDialog("", true);
+					FeedbackThread feedbackThread = new FeedbackThread();
+					feedbackThread.start();
+				} else if (!"".equals(connectStr)
+						&& !ConfigUtil.checkUserConnect(connectStr)) {
+					showTextToast(R.string.str_connect_error);
+				} else if (0 == content.getText().toString().length()
+						|| ("").equals(contentStr)) {
 					showTextToast(R.string.str_notice_content);
-				}else {
+				} else if (!ConfigUtil.checkUserContent(contentStr)) {
+					showTextToast(R.string.str_content_error);
+				} else {
 					createDialog("", true);
 					FeedbackThread feedbackThread = new FeedbackThread();
 					feedbackThread.start();

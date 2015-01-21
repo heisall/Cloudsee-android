@@ -53,6 +53,7 @@ import com.jovision.bean.AD;
 import com.jovision.bean.APPImage;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
+import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -829,6 +830,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 				mPullRefreshListView.onRefreshComplete();
 				break;
 			}
+			// 云视通检索服务器通信异常
+			case Consts.WHAT_DEVICE_GETDATA_SEARCH_FAILED: {
+				mActivity.showTextToast(R.string.search_device_failed);
+				break;
+			}
 			// 从服务器端获取设备成功，但是没有设备
 			case Consts.WHAT_DEVICE_NO_DEVICE: {
 				break;
@@ -1488,10 +1494,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 				if (null != myDeviceList && 0 != myDeviceList.size()) {// 获取设备成功,去广播设备列表
-					getRes = Consts.WHAT_DEVICE_GETDATA_SUCCESS;
 					mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "true");
 					// 给设备列表设置小助手
 					PlayUtil.setHelperToList(myDeviceList);
+
+					if (JVDeviceConst.YST_INDEX_SEND_ERROR == myDeviceList.get(
+							0).getShortConnRes()) {
+						getRes = Consts.WHAT_DEVICE_GETDATA_SEARCH_FAILED;
+					} else {
+						getRes = Consts.WHAT_DEVICE_GETDATA_SUCCESS;
+					}
 				} else if (null != myDeviceList && 0 == myDeviceList.size()) {// 无数据
 					getRes = Consts.WHAT_DEVICE_NO_DEVICE;
 				} else {// 获取设备失败
@@ -1512,6 +1524,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
+			if ("0".equalsIgnoreCase(params[0])) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
 			return getRes;
 		}
 
@@ -1526,11 +1547,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 			refreshList();
 			mPullRefreshListView.onRefreshComplete();
 			initADViewPager();
+			mActivity.dismissDialog();
 			switch (result) {
 			// 从服务器端获取设备成功
 			case Consts.WHAT_DEVICE_GETDATA_SUCCESS: {
-				mActivity.dismissDialog();
 				broadTag = Consts.TAG_BROAD_DEVICE_LIST;
+				break;
+			}
+			// 在线服务器检索失败
+			case Consts.WHAT_DEVICE_GETDATA_SEARCH_FAILED: {
 				break;
 			}
 			// 从服务器端获取设备成功，但是没有设备

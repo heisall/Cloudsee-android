@@ -273,8 +273,13 @@ public class JVAddDeviceActivity extends BaseActivity {
 
 				// 非3G广播获取通道数量
 				if (PlayUtil.broadCast(JVAddDeviceActivity.this)) {
+					int errorCount = 0;
 					while (!hasBroadIP) {
-						Thread.sleep(100);
+						Thread.sleep(1000);
+						errorCount++;
+						if (errorCount >= 10) {
+							break;
+						}
 					}
 				}
 

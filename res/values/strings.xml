@@ -363,6 +363,7 @@
     <!-- JVDemoActivity -->
     <string name="demo">Demo</string>
     <string name="demo_get_failed">Failed to load demo video.</string>
+      <string name="demo_loading">Efforts are being made to load...</string>
     <!-- JVTab -->
     <string name="network_error">Network connection exception,please check the network.</string>
     <string name="tips_3g">You are using the 3G/4G network now.It shall cause a lot mobile data fee if you continute to view the video.You are suggested to use Wi-Fi network.</string>
@@ -395,7 +396,7 @@
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">Has chosen ?，</string>
     <string name="number">Total ?</string>
-    <string name="notwifi_forbid_func">This function is not available under 3G/4G network.</string>
+    <string name="notwifi_forbid_func">This function is not available under 2G/3G/4G network.</string>
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>
     <string name="str_modify">Modify</string>
@@ -410,6 +411,7 @@
     <string name="add_broad_dev">Broadcasting to ! devices,do you want to add?</string>
     <string name="broad_zero">Unable to broadcast device.</string>
     <string name="get_device_failed">Device loaded failed</string>
+    <string name="search_device_failed">检索服务器通信异常</string>
     <string name="press_screen_refresh">Click screen to refresh</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">No alarm now.</string>
@@ -498,6 +500,8 @@
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">Please input your problems or suggestion.</string>
     <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>
+    <string name="str_connect_error">Contact Information include Ilegal character,the NikeName should be English letter,number,or some special characters</string>
+    <string name="str_content_error">Feedback include Ilegal character,the NikeName should be English letter,number,or some special characters</string>
     <string name="str_idea_and_feedback">Feedback</string>
     <string name="commit">Send</string>
     <string name="str_commit_success">Thanks for your feedback, we shall work more to provide better service.</string>

@@ -363,6 +363,7 @@
     <!-- JVDemoActivity -->
     <string name="demo">視頻廣場</string>
     <string name="demo_get_failed">視頻廣場加載失敗</string>
+    <string name="demo_loading">正在努力加載...</string>
     <!-- JVTab -->
     <string name="network_error">網路連接不可用,是否進行設置?</string>
     <string name="tips_3g">目前處於2G/3G網路，觀看視頻會產生大量流量費用（由運營商收取），建議使用Wi-Fi網路.</string>
@@ -395,7 +396,7 @@
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">已選中?個，</string>
     <string name="number">共?個</string>
-    <string name="notwifi_forbid_func">3G狀態下不允許使用此功能</string>
+    <string name="notwifi_forbid_func">2G/3G/4G狀態下不允許使用此功能</string>
     <string name="del_device_succ">設備刪除成功</string>
     <string name="del_device_failed">設備刪除失敗</string>
     <string name="str_modify">修改</string>
@@ -410,6 +411,7 @@
     <string name="add_broad_dev">搜索到!個設備，是否立即添加?</string>
     <string name="broad_zero">未搜索到設備.</string>
     <string name="get_device_failed">設備加載失敗</string>
+    <string name="search_device_failed">檢索服務器通信異常</string>
     <string name="press_screen_refresh">點擊螢幕刷新</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">暫時沒有報警數據</string>
@@ -497,6 +499,8 @@
     <string name="system_info_nomore">沒有更多了</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">請在此輸入您的問題或建議</string>
+    <string name="str_connect_error">聯系方式含有非法字符，系方式只能有數字、字母、漢字及特殊字符-_ @+().組成</string>
+    <string name="str_content_error">意見反饋的內容含有非法字符，內容只能有數字、字母、漢字及特殊字符-_ @+().組成</string>
     <string name="str_notice_connection">為方便後續跟蹤您提的問題和建議，請留下您的聯繫方式</string>
     <string name="str_idea_and_feedback">意見回饋</string>
     <string name="commit">提交</string>

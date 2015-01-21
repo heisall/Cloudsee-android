@@ -13,6 +13,7 @@ import com.jovision.Consts;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
+import com.tencent.stat.StatService;
 
 public class ResetPwdChoiceActivity extends Activity implements OnClickListener {
 	private RelativeLayout rlyMailWay, rlyPhoneWay, rlyCance;
@@ -38,6 +39,11 @@ public class ResetPwdChoiceActivity extends Activity implements OnClickListener 
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.rly_mail_verify:// 邮箱
+			StatService.trackCustomEvent(
+					ResetPwdChoiceActivity.this,
+					"Findpasswrd by email",
+					ResetPwdChoiceActivity.this.getResources().getString(
+							R.string.census_findpasswpordbyemail));
 			Intent intentFP = new Intent(ResetPwdChoiceActivity.this,
 					JVWebViewActivity.class);
 			String findUrl = "";
@@ -65,6 +71,11 @@ public class ResetPwdChoiceActivity extends Activity implements OnClickListener 
 			break;
 		case R.id.rly_phone_verify:// 手机
 			// 跳转到验证码界面
+			StatService.trackCustomEvent(
+					ResetPwdChoiceActivity.this,
+					"Findpassword by Phone",
+					ResetPwdChoiceActivity.this.getResources().getString(
+							R.string.census_findpasswpordbyphone));
 			Intent intent = new Intent(ResetPwdChoiceActivity.this,
 					ResetPwdInputAccountActivity.class);
 			startActivity(intent);

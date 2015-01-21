@@ -47,7 +47,6 @@ public class ManageFragment extends BaseFragment {
 	private ArrayList<Device> deviceList;
 	private Device device;
 	public static int mScreenWidth;
-	private boolean isturn = false;
 
 	private GridView manageGridView;
 	private ManageAdapter manageAdapter;
@@ -271,7 +270,6 @@ public class ManageFragment extends BaseFragment {
 				} else {
 					startTimer();
 					mActivity.createDialog("", false);
-					isturn = false;
 					PlayUtil.connectDevice(device);
 					// if (!isturn) {
 					// new Handler().postDelayed(runnable, 15000);
@@ -449,7 +447,6 @@ public class ManageFragment extends BaseFragment {
 		case Consts.CALL_CONNECT_CHANGE: { // 连接回调
 			MyLog.i(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			isturn = true;
 			if (Consts.BAD_NOT_CONNECT == arg2) {
 				mActivity.dismissDialog();
 			} else if (JVNetConst.CONNECT_OK != arg2

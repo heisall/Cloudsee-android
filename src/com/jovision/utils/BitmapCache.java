@@ -190,12 +190,21 @@ public class BitmapCache {
 	public void cleanCache() {
 		BtimapRef ref = null;
 		while ((ref = (BtimapRef) q.poll()) != null) {
-			bitmapRefs.remove(ref._key);
+			if (!ref._key.startsWith(Consts.AD_PATH)) {
+				bitmapRefs.remove(ref._key);
+			}
 		}
 	}
 
 	// 清除Cache内的全部内容
 	public void clearCache() {
+		cleanCache();
+		System.gc();
+		System.runFinalization();
+	}
+
+	// 清除Cache内的全部内容
+	public void clearAllCache() {
 		cleanCache();
 		bitmapRefs.clear();
 		System.gc();

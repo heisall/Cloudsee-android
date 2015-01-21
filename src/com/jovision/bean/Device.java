@@ -99,6 +99,8 @@ public class Device {
 	/** 设备是否已在设备列表里 ，声波配置使用 */
 	private boolean oldDevice = false;// 连接视频判断新老设备连接的码流不一样，MobileQuality存在就是新设备，不存在就是老设备
 
+	private int shortConnRes = -1;// 设备短连接返回值
+
 	public Device() {
 		channelList = new MyList<Channel>(1);
 		thirdDevList = new ArrayList<ThirdAlarmDev>();
@@ -590,6 +592,14 @@ public class Device {
 
 	public void setOnlineStateLan(int onlineStateLan) {
 		this.onlineStateLan = onlineStateLan;
+	}
+
+	public int getShortConnRes() {
+		return shortConnRes;
+	}
+
+	public void setShortConnRes(int shortConnRes) {
+		this.shortConnRes = shortConnRes;
 	}
 
 }

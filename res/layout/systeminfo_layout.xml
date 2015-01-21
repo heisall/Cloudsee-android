@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:cacheColorHint="@color/transparent"
-            android:divider="@color/transparent"
+            android:divider="@color/info_divider"
             android:dividerHeight="1dp"
             android:fadingEdge="none"
             android:footerDividersEnabled="true"

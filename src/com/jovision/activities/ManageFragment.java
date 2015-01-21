@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -328,12 +330,12 @@ public class ManageFragment extends BaseFragment {
 			}
 			break;
 		}
-		case Consts.CALL_STAT_REPORT: {// 统计
-			// connect[1], has connected!!
-			MyLog.i(TAG, "CALL_STAT_REPORT: " + what + ", " + arg1 + ", "
-					+ arg2 + ", " + obj);
-			break;
-		}
+		// case Consts.CALL_STAT_REPORT: {// 统计
+		// // connect[1], has connected!!
+		// MyLog.i(TAG, "CALL_STAT_REPORT: " + what + ", " + arg1 + ", "
+		// + arg2 + ", " + obj);
+		// break;
+		// }
 		case Consts.CALL_NORMAL_DATA: {
 			try {
 				JSONObject jobj;
@@ -382,7 +384,6 @@ public class ManageFragment extends BaseFragment {
 		case Consts.CALL_CONNECT_CHANGE: { // 连接回调
 			MyLog.i(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-
 			if (Consts.BAD_NOT_CONNECT == arg2) {
 				mActivity.dismissDialog();
 			} else if (JVNetConst.CONNECT_OK != arg2
@@ -613,5 +614,4 @@ public class ManageFragment extends BaseFragment {
 
 		}
 	}
-
 }

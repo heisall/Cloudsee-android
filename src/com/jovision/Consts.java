@@ -501,6 +501,23 @@ public class Consts {
 	/** dialog 隐藏 */
 	public static final int WHAT_DIALOG_CLOSE = 0x62;
 
+	/** 音频播放 */
+	public static final int PLAY_AUDIO_WHAT = 0x26;
+
+	/** 演示点缓冲 */
+	public static final int WHAT_DEMO_BUFFING = 0x63;
+	/** 演示点resume */
+	public static final int WHAT_DEMO_RESUME = 0x64;
+
+	/** 演示点url获取成功 */
+	public static final int WHAT_DEMO_URL_SUCCESS = 0x65;
+
+	/** 演示点url获取失败 */
+	public static final int WHAT_DEMO_URL_FAILED = 0x66;
+
+	/** 获取设备列表在线服务器检索失败 */
+	public static final int WHAT_DEVICE_GETDATA_SEARCH_FAILED = 0x67;// 在线服务器检索失败
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像
@@ -619,7 +636,7 @@ public class Consts {
 	public static final int RC_GPIN_SECLECT = 0x12; // 外设报警查询
 	public static final int RC_GPIN_DEL = 0x13; // 外设报警查询
 	public static final int RC_GPIN_SET_SWITCH = 0x14; // 外设报警设置开关(只内部使用)
-	public static final int ONLY_CONNECT_INDEX = 0x00; // 仅供报警相关连接云视通的window
+	public static final int ONLY_CONNECT_INDEX = 99; // 仅供报警相关连接云视通的window
 														// index
 	public static String KEY_DEV_TOKEN = "DEV_TOKEN";
 	public static final String EXT_THUMBNAIL_STORE_DIR = ".JVSThumbs";

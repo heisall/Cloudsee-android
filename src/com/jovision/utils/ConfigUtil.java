@@ -76,8 +76,8 @@ import com.jovision.utils.mails.MyAuthenticator;
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
 	public final static String ACCOUNT_VERSION = "V3.2.7";
-	public final static String PLAY_VERSION = "0.9[c97df93][2015-01-15]";
-	public final static String NETWORK_VERSION = "v2.0.76.3.29[private:v2.0.75.13 20150115.1]";
+	public final static String PLAY_VERSION = "0.9a[d62e771][2015-01-20]";
+	public final static String NETWORK_VERSION = "v2.0.76.3.30[private:v2.0.75.13 20150119.1]";
 
 	public static String GETACCTOUT_VERSION = "";
 	public static String GETPLAY_VERSION = "";
@@ -149,7 +149,7 @@ public class ConfigUtil {
 			e.printStackTrace();
 		}
 
-		return version;
+		return "Beta " + version;
 	}
 
 	/**
@@ -766,6 +766,48 @@ public class ConfigUtil {
 		return flag;
 	}
 
+	// 验证联系方式
+	public static boolean checkUserConnect(String str) {
+		boolean flag = false;
+		try {
+			byte[] b = str.getBytes("UTF-8");
+			str = new String(b, "UTF-8");
+			Pattern pattern = Pattern
+					.compile("^[A-Za-z0-9_.@ \\+\\-\\u4e00-\\u9fa5]{1,200}$");
+
+			Matcher matcher = pattern.matcher(str);
+			if (matcher.matches() && 200 >= str.getBytes().length) {
+				flag = true;
+			} else {
+				flag = false;
+			}
+		} catch (UnsupportedEncodingException e) {
+			flag = false;
+		}
+		return flag;
+	}
+
+	// 验证反馈内容
+	public static boolean checkUserContent(String str) {
+		boolean flag = false;
+		try {
+			byte[] b = str.getBytes("UTF-8");
+			str = new String(b, "UTF-8");
+			Pattern pattern = Pattern
+					.compile("^[A-Za-z0-9_.,?!:。，！？：%}{@ \\+\\-\\u4e00-\\u9fa5]{1,1000}$");
+
+			Matcher matcher = pattern.matcher(str);
+			if (matcher.matches() && 200 >= str.getBytes().length) {
+				flag = true;
+			} else {
+				flag = false;
+			}
+		} catch (UnsupportedEncodingException e) {
+			flag = false;
+		}
+		return flag;
+	}
+
 	// 验证设备用户名
 	public static boolean checkDeviceUsername(String str) {
 		boolean flag = false;
@@ -1287,5 +1329,18 @@ public class ConfigUtil {
 			}
 		}
 		return line;
+	}
+
+	public static HashMap<String, String> genMsgMapFromhpget(String msg) {
+		HashMap<String, String> map = new HashMap<String, String>();
+
+		if (null == msg || "".equalsIgnoreCase(msg)) {
+			return null;
+		}
+		Matcher matcher = Pattern.compile("([^=&]+)=([^=&]+)").matcher(msg);
+		while (matcher.find()) {
+			map.put(matcher.group(1), matcher.group(2));
+		}
+		return map;
 	}
 }

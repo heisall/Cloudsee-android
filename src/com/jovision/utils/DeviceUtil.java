@@ -73,11 +73,13 @@ public class DeviceUtil {
 					if (null != temObj) {
 						// int mt =
 						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
-						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);//
 
-						if (0 != rt) {// 获取失败
-							deviceList = null;
-						} else {// 获取成功
+						// if (0 != rt) {// 获取失败
+						// deviceList = null;
+						// } else
+
+						if (0 == rt || JVDeviceConst.YST_INDEX_SEND_ERROR == rt) {// 获取成功0，-29
 							deviceList = new ArrayList<Device>();
 							// int mid =
 							// temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
@@ -88,6 +90,7 @@ public class DeviceUtil {
 									JSONObject obj = dlist.getJSONObject(i);
 									if (null != obj) {
 										Device dev = new Device();
+										dev.setShortConnRes(rt);
 										dev.setFullNo(obj
 												.optString(JVDeviceConst.JK_DEVICE_GUID));
 										dev.setGid(ConfigUtil.getGroup(obj
@@ -137,6 +140,8 @@ public class DeviceUtil {
 									}
 								}
 							}
+						} else {// 获取失败
+							deviceList = null;
 						}
 					}
 				} catch (Exception e) {
@@ -772,8 +777,15 @@ public class DeviceUtil {
 			device = DeviceUtil.getUserDeviceDetail(device, userName);
 		}
 		// tong bu map by lkp
-		CacheUtil
-				.setNickNameWithYstfn(device.getFullNo(), device.getNickName());
+		try {
+			if (null != device) {
+				CacheUtil.setNickNameWithYstfn(device.getFullNo(),
+						device.getNickName());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return device;
 	}
 
@@ -879,7 +891,7 @@ public class DeviceUtil {
 						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
 						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
 						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
-						if (0 == rt) {
+						if (0 == rt || JVDeviceConst.YST_INDEX_SEND_ERROR == rt) {// 获取成功0，-29
 							res = true;
 						}
 						if (null != temObj
@@ -909,6 +921,7 @@ public class DeviceUtil {
 																obj.optString(JVDeviceConst.JK_DEVICE_GUID))) {
 													Device dev = deviceList
 															.get(k);
+													dev.setShortConnRes(rt);
 													dev.setOnlineStateNet(obj
 															.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));// dsls
 													dev.setHasWifi(obj

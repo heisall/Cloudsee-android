@@ -139,10 +139,16 @@ public class DeviceSettingsActivity extends BaseActivity implements
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
+
 		// TODO Auto-generated method stub
 		switch (what) {
 		// 连接结果
 		case Consts.CALL_CONNECT_CHANGE:
+			if (window != arg1) {
+				MyLog.e("DeviceSetting",
+						"---------不是不是不是不是本window的回调---------->" + arg1);
+				return;
+			}
 			switch (arg2) {
 			// case JVNetConst.DISCONNECT_OK: {
 			// bConnectedFlag = false;
@@ -169,7 +175,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
 						showTextToast(R.string.connfailed_maxcount);
 					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
-						showTextToast(R.string.connfailed_timeout);
+						// showTextToast(R.string.connfailed_timeout);
 					} else {// "Connect failed!"
 						showTextToast(R.string.connect_failed);
 					}
@@ -633,8 +639,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 						R.string.str_setdev_params_timeout);
 				Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
-				// new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
-				// .start();
+				 new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
+				 .start();//by lkp这地方不知道为啥屏蔽了。先放开吧
 				return;
 			case JVNetConst.JVN_STREAM_INFO:
 				strDescString = getResources().getString(

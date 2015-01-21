@@ -38,7 +38,7 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		this.finish();
+		finish();
 		return false;
 	}
 
@@ -73,11 +73,11 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 		if (null != mVideoView) {
 			mVideoView.resume();
 		}
+
 	}
 
 	@Override
 	protected void onPause() {
-
 		getWindow().getDecorView().setKeepScreenOn(false);
 		if (null != mVideoView) {
 			mVideoView.pause();
@@ -147,4 +147,5 @@ public class JVVideoActivity extends BaseActivity implements OnErrorListener,
 	protected void freeMe() {
 
 	}
+
 }

@@ -54,6 +54,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	private ArrayList<String> markedAlarmList;// 存储已经阅读的报警ID
 	private int new_push_msg_cnt = 0;// 即时推送过来的消息总量
 
+	private boolean bAlarmConnectedFlag = false;// 全局变量，用于报警历史视频和远程回放之间
+
 	/**
 	 * 获取活动集合
 	 * 
@@ -109,6 +111,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		// new_push_msg_cnt =
 		// MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
 		new_push_msg_cnt = 0;
+		bAlarmConnectedFlag = false;
 		markedAlarmList = ((MainApplication) getApplicationContext())
 				.getMarkedAlarmList();
 		markedAlarmList = ConfigUtil.convertToArray(MySharedPreference
@@ -167,14 +170,6 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	public synchronized void onJniNotify(int what, int uchType, int channel,
 			Object obj) {
 		switch (what) {
-		// 连接回调
-		case Consts.CALL_CONNECT_CHANGE: {
-			MyLog.i("CONNECT_CALL", "onNotify: changed,what=" + what
-					+ ", arg1=" + uchType + ", arg2=" + channel + ", obj="
-					+ obj);
-			break;
-		}
-
 		// 广播回调
 		case Consts.CALL_LAN_SEARCH: {
 			if (null == myDeviceList || 0 == myDeviceList.size()) {
@@ -183,12 +178,17 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 			PlayUtil.broadIp(obj, myDeviceList);
 			break;
 		}
+
+		default:
+			break;
+		}
+
+		if (null != currentNotifyer) {
+			currentNotifyer.onNotify(what, uchType, channel, obj);
 		}
 
 		if (Consts.CALL_LIB_UNLOAD == what) {
 			AutoLoad.foo();
-		} else if (null != currentNotifyer) {
-			currentNotifyer.onNotify(what, uchType, channel, obj);
 		}
 	}
 
@@ -502,5 +502,13 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 			}
 		}
 		return false;
+	}
+
+	public synchronized boolean getAlarmConnectedFlag() {
+		return bAlarmConnectedFlag;
+	}
+
+	public synchronized void setAlarmConnectedFlag(boolean flag) {
+		bAlarmConnectedFlag = flag;
 	}
 }

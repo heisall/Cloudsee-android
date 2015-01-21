@@ -213,6 +213,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
 					// }
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
+					Log.e("TPush", "json is error:" + e.getMessage());
 					e.printStackTrace();
 					return;
 				}

@@ -185,7 +185,7 @@
 
                     <Button
                         android:id="@+id/showdemo"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_margin="30dp"
@@ -283,7 +283,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="10dp"
-                        android:divider="#00000000"
+                        android:divider="@color/transparent"
                         android:dividerHeight="10dp"
                         android:fadingEdge="none"
                         android:listSelector="@color/transparent" >
@@ -300,16 +300,17 @@
 
             <com.jovision.views.ProgressWheel
                 android:id="@+id/progressBarTwo"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_centerInParent="true"
-                ProgressWheel:barColor="#339BB9"
-                ProgressWheel:barLength="30dp"
+                ProgressWheel:barColor="@color/more_cancle"
                 ProgressWheel:barWidth="5dp"
-                ProgressWheel:rimColor="#44000000"
+                ProgressWheel:contourColor="@color/white"
+                ProgressWheel:rimColor="@color/transparent"
                 ProgressWheel:rimWidth="5dp"
-                ProgressWheel:textColor="#222222"
-                ProgressWheel:textSize="14sp" />
+                ProgressWheel:textColor="@color/more_fragment_color2"
+                ProgressWheel:textSize="18sp"
+                android:background="@drawable/soundwheel" />
         </RelativeLayout>
     </FrameLayout>
 

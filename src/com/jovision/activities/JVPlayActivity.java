@@ -28,6 +28,7 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -142,7 +143,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		switch (what) {
-		case PLAY_AUDIO_WHAT: {
+		case Consts.PLAY_AUDIO_WHAT: {
 			MyLog.v(TAG, "PLAY_AUDIO_WHAT:what=" + what + ",arg1=" + arg1
 					+ ",arg2=" + arg2 + ",obj=" + obj);
 			break;
@@ -169,13 +170,18 @@ public class JVPlayActivity extends PlayActivity implements
 			switch (arg2) {
 			// 1 -- 连接成功
 			case JVNetConst.CONNECT_OK: {
-				channel.setLastPortLeft(0);
-				channel.setLastPortBottom(0);
-				channel.setLastPortWidth(manager.getView(arg1).getWidth());
-				channel.setLastPortHeight(manager.getView(arg1).getHeight());
-				channel.setConnected(true);
-				handler.sendMessage(handler
-						.obtainMessage(what, arg1, arg2, obj));
+				try {
+					channel.setLastPortLeft(0);
+					channel.setLastPortBottom(0);
+					channel.setLastPortWidth(manager.getView(arg1).getWidth());
+					channel.setLastPortHeight(manager.getView(arg1).getHeight());
+					channel.setConnected(true);
+					handler.sendMessage(handler.obtainMessage(what, arg1, arg2,
+							obj));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 				break;
 			}
 
@@ -272,6 +278,10 @@ public class JVPlayActivity extends PlayActivity implements
 			return;
 		}
 		switch (what) {
+		case Consts.WHAT_DIALOG_CLOSE: {// 关闭dialog
+			dismissDialog();
+			break;
+		}
 		case Consts.WHAT_SURFACEVIEW_CLICK: {// 单击事件
 
 			if (isScrollClickCheck) {
@@ -300,8 +310,7 @@ public class JVPlayActivity extends PlayActivity implements
 				if (false == isBlockUi && isDoubleClickCheck
 						&& lastClickIndex == channel.getIndex()) {// 双击
 
-					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation
-							|| Consts.PLAY_AP == playFlag) {// 横屏
+					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 						Point vector = new Point();
 						Point middle = new Point();
 						middle.set(x, y);
@@ -369,11 +378,18 @@ public class JVPlayActivity extends PlayActivity implements
 			break;
 		}
 		case Consts.WHAT_CHECK_SURFACE: {
+			MyLog.w(Consts.TAG_XXX, "> before connector : CHECK_SURFACE");
+
 			boolean hasNull = false;
 			boolean hasChannel = false;
 
 			int size = currentPageChannelList.size();
 			for (int i = 0; i < size; i++) {
+
+				SurfaceView sf = currentPageChannelList.get(i).getSurfaceView();
+				// MyLog.v(Consts.TAG_XXX,
+				// "check surface.visible="+sf.getVisibility()+
+				// ",width="+sf.getWidth()+",height="+sf.getHeight());
 				hasChannel = true;
 				if (null == currentPageChannelList.get(i).getSurface()) {
 					hasNull = true;
@@ -393,8 +409,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 		case Consts.WHAT_RESTORE_UI: {
 			isBlockUi = false;
-			if (null != viewPager) {
-				viewPager.setDisableSliding(isBlockUi);
+			if (null != playViewPager) {
+				playViewPager.setDisableSliding(isBlockUi);
 			}
 			break;
 		}
@@ -1154,34 +1170,35 @@ public class JVPlayActivity extends PlayActivity implements
 				StringBuilder sBuilder = new StringBuilder(1024 * size);
 				for (int i = 0; i < size; i++) {
 					object = array.getJSONObject(i);
-					String msg = String
-							.format("%d(%s|%s), kbps=%.0fK, fps=%.0f+%.0f/%.0f/%d, %.0fms+%.0fms, left=%2d,\n",// \t\t%dx%d;
-									// audio(%d):
-									// kbps=%.2fK,
-									// fps=%.0f/%.0f,
-									// %.2fms+%.2fms
-									object.getInt("window"),
-									(object.getBoolean("is_turn") ? "TURN"
-											: "P2P"),
-									(object.getBoolean("is_omx") ? "HD" : "ff"),
-									object.getDouble("kbps"), object
-											.getDouble("decoder_fps"), object
-											.getDouble("jump_fps"), object
-											.getDouble("network_fps"), object
-											.getInt("space"), object
-											.getDouble("decoder_delay"), object
-											.getDouble("render_delay"), object
-											.getInt("left")
-							// ,object.getInt("width"), object
-							// .getInt("height"), object
-							// .getInt("audio_type"), object
-							// .getDouble("audio_kbps"), object
-							// .getDouble("audio_decoder_fps"),
-							// object.getDouble("audio_network_fps"),
-							// object.getDouble("audio_decoder_delay"),
-							// object.getDouble("audio_play_delay")
-							);
-					sBuilder.append(msg).append("\n");
+					// String msg = String
+					// .format("%d(%s|%s), kbps=%.0fK, fps=%.0f+%.0f/%.0f/%d, %.0fms+%.0fms, left=%2d,\n",//
+					// \t\t%dx%d;
+					// // audio(%d):
+					// // kbps=%.2fK,
+					// // fps=%.0f/%.0f,
+					// // %.2fms+%.2fms
+					// object.getInt("window"),
+					// (object.getBoolean("is_turn") ? "TURN"
+					// : "P2P"),
+					// (object.getBoolean("is_omx") ? "HD" : "ff"),
+					// object.getDouble("kbps"), object
+					// .getDouble("decoder_fps"), object
+					// .getDouble("jump_fps"), object
+					// .getDouble("network_fps"), object
+					// .getInt("space"), object
+					// .getDouble("decoder_delay"), object
+					// .getDouble("render_delay"), object
+					// .getInt("left")
+					// // ,object.getInt("width"), object
+					// // .getInt("height"), object
+					// // .getInt("audio_type"), object
+					// // .getDouble("audio_kbps"), object
+					// // .getDouble("audio_decoder_fps"),
+					// // object.getDouble("audio_network_fps"),
+					// // object.getDouble("audio_decoder_delay"),
+					// // object.getDouble("audio_play_delay")
+					// );
+					// sBuilder.append(msg).append("\n");
 
 					// [Neo] you fool
 					if (ONE_SCREEN == currentScreen) {
@@ -1192,9 +1209,10 @@ public class JVPlayActivity extends PlayActivity implements
 						// object.getDouble("jump_fps"),
 						// object.getDouble("network_fps")
 						int window = object.getInt("window");
-						loadingState(arg1, R.string.connecting_buffer1,
-								Consts.TAG_PLAY_CONNECTTED);
+						// loadingState(arg1, R.string.connecting_buffer1,
+						// Consts.TAG_PLAY_CONNECTTED);
 
+						double delay = object.getDouble("delay");
 						if (window == lastClickIndex) {
 							currentKbps.setText(String.format("%.1fk/%.1fk",
 									object.getDouble("kbps"),
@@ -1223,6 +1241,7 @@ public class JVPlayActivity extends PlayActivity implements
 									// .getFullNo())
 									);
 						}
+
 					}
 
 				}
@@ -1631,17 +1650,19 @@ public class JVPlayActivity extends PlayActivity implements
 	@Override
 	protected void initUi() {
 		// TODO
-		if (null != viewPager) {
-			MyLog.e("JUYANG--1", "viewPager=" + viewPager.getChildCount());
+		if (null != playViewPager) {
+			MyLog.e("JUYANG--1", "viewPager=" + playViewPager.getChildCount());
 		}
 		if (null != adapter) {
 			MyLog.e("JUYANG--1", "adapter=" + adapter.getCount());
 		}
 		super.initUi();
-		viewPager.setAdapter(null);
+		playViewPager.setAdapter(null);
 
-		if (null != viewPager) {
-			MyLog.e("JUYANG--2", "viewPager=" + viewPager.getChildCount());
+		MyLog.v(Consts.TAG_XXX, "playViewPager is null ");
+
+		if (null != playViewPager) {
+			MyLog.e("JUYANG--2", "viewPager=" + playViewPager.getChildCount());
 		}
 		if (null != adapter) {
 			MyLog.e("JUYANG--2", "adapter=" + adapter.getCount());
@@ -1705,11 +1726,11 @@ public class JVPlayActivity extends PlayActivity implements
 		right_btn_h.setOnClickListener(myOnClickListener);
 
 		/** 中 */
-		viewPager.setVisibility(View.VISIBLE);
+		playViewPager.setVisibility(View.VISIBLE);
 		playSurface.setVisibility(View.GONE);
 
-		if (null != viewPager) {
-			MyLog.e("JUYANG--3", "viewPager=" + viewPager.getChildCount());
+		if (null != playViewPager) {
+			MyLog.e("JUYANG--3", "viewPager=" + playViewPager.getChildCount());
 		}
 		if (null != adapter) {
 			MyLog.e("JUYANG--3", "adapter=" + adapter.getCount());
@@ -1719,99 +1740,106 @@ public class JVPlayActivity extends PlayActivity implements
 		// manager.genPageList(ONE_SCREEN);
 		// }
 
-		viewPager.setLongClickable(true);
-		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-			@Override
-			public void onPageSelected(int arg0) {
-				try {
-					// saveLastScreen(channelList.get(lastItemIndex));
-					closePopWindow();
-					varvoice.setBackgroundDrawable(getResources().getDrawable(
-							R.drawable.video_monitor_ico));
-					stopAllFunc();
-					MyLog.i(Consts.TAG_UI, ">>> pageSelected: " + arg0
-							+ ", to "
-							+ ((arg0 > lastItemIndex) ? "right" : "left"));
+		playViewPager.setLongClickable(true);
+		playViewPager
+				.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+					@Override
+					public void onPageSelected(int arg0) {
+						try {
+							// saveLastScreen(channelList.get(lastItemIndex));
+							closePopWindow();
+							varvoice.setBackgroundDrawable(getResources()
+									.getDrawable(R.drawable.video_monitor_ico));
+							stopAllFunc();
+							MyLog.i(Consts.TAG_UI, ">>> pageSelected: "
+									+ arg0
+									+ ", to "
+									+ ((arg0 > lastItemIndex) ? "right"
+											: "left"));
 
-					currentPageChannelList = manager.getValidChannelList(arg0);
-					int size = currentPageChannelList.size();
+							currentPageChannelList = manager
+									.getValidChannelList(arg0);
+							int size = currentPageChannelList.size();
 
-					int target = currentPageChannelList.get(0).getIndex();
-					for (int i = 0; i < size; i++) {
-						if (lastClickIndex == currentPageChannelList.get(i)
-								.getIndex()) {
-							target = lastClickIndex;
-							break;
-						}
-					}
-					changeBorder(target);
-					Jni.sendTextData(lastClickIndex,
-							JVNetConst.JVN_RSP_TEXTDATA, 8,
-							JVNetConst.JVN_STREAM_INFO);
-					if (false == isBlockUi) {
-						if (ONE_SCREEN == currentScreen) {
-							try {
-								pauseChannel(channelList.get(arg0 - 1));
-							} catch (Exception e) {
-								// [Neo] empty
+							int target = currentPageChannelList.get(0)
+									.getIndex();
+							for (int i = 0; i < size; i++) {
+								if (lastClickIndex == currentPageChannelList
+										.get(i).getIndex()) {
+									target = lastClickIndex;
+									break;
+								}
+							}
+							changeBorder(target);
+							Jni.sendTextData(lastClickIndex,
+									JVNetConst.JVN_RSP_TEXTDATA, 8,
+									JVNetConst.JVN_STREAM_INFO);
+							if (false == isBlockUi) {
+								if (ONE_SCREEN == currentScreen) {
+									try {
+										pauseChannel(channelList.get(arg0 - 1));
+									} catch (Exception e) {
+										// [Neo] empty
+									}
+
+									try {
+										pauseChannel(channelList.get(arg0 + 1));
+									} catch (Exception e) {
+										// [Neo] empty
+									}
+								} else {
+									disconnectChannelList.addAll(manager
+											.getValidChannelList(lastItemIndex));
+								}
+
+								isBlockUi = true;
+								playViewPager.setDisableSliding(isBlockUi);
+
+								handler.removeMessages(Consts.WHAT_CHECK_SURFACE);
+								handler.sendMessageDelayed(handler
+										.obtainMessage(
+												Consts.WHAT_CHECK_SURFACE,
+												arg0, lastClickIndex),
+										DELAY_CHECK_SURFACE);
+								handler.sendEmptyMessage(Consts.WHAT_SHOW_PROGRESS);
 							}
 
-							try {
-								pauseChannel(channelList.get(arg0 + 1));
-							} catch (Exception e) {
-								// [Neo] empty
-							}
-						} else {
-							disconnectChannelList.addAll(manager
-									.getValidChannelList(lastItemIndex));
+							lastItemIndex = arg0;
+
+							// if (Consts.PLAY_NORMAL == playFlag) {
+							// currentMenu_v.setText(channelList.get(lastClickIndex)
+							// .getChannelName());
+							// currentMenu_h.setText(channelList.get(lastClickIndex)
+							// .getChannelName());
+							// } else {
+							// currentMenu_h.setText(channelList.get(lastItemIndex)
+							// .getParent().getNickName());
+							// currentMenu_v.setText(channelList.get(lastItemIndex)
+							// .getParent().getNickName()
+							// + "-"
+							// + channelList.get(lastClickIndex).getChannel());
+							// }
+							setTitle();
+
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
 
-						isBlockUi = true;
-						viewPager.setDisableSliding(isBlockUi);
-
-						handler.removeMessages(Consts.WHAT_CHECK_SURFACE);
-						handler.sendMessageDelayed(handler
-								.obtainMessage(Consts.WHAT_CHECK_SURFACE, arg0,
-										lastClickIndex), DELAY_CHECK_SURFACE);
-						handler.sendEmptyMessage(Consts.WHAT_SHOW_PROGRESS);
 					}
 
-					lastItemIndex = arg0;
+					@Override
+					public void onPageScrolled(int arg0, float arg1, int arg2) {
+						// [Neo] Empty
+					}
 
-					// if (Consts.PLAY_NORMAL == playFlag) {
-					// currentMenu_v.setText(channelList.get(lastClickIndex)
-					// .getChannelName());
-					// currentMenu_h.setText(channelList.get(lastClickIndex)
-					// .getChannelName());
-					// } else {
-					// currentMenu_h.setText(channelList.get(lastItemIndex)
-					// .getParent().getNickName());
-					// currentMenu_v.setText(channelList.get(lastItemIndex)
-					// .getParent().getNickName()
-					// + "-"
-					// + channelList.get(lastClickIndex).getChannel());
-					// }
-					setTitle();
+					@Override
+					public void onPageScrollStateChanged(int arg0) {
+						// [Neo] Empty
+						// saveLastScreen(channelList.get(lastItemIndex));
+					}
+				});
 
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				// [Neo] Empty
-			}
-
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-				// [Neo] Empty
-				// saveLastScreen(channelList.get(lastItemIndex));
-			}
-		});
-
-		viewPager.setCurrentItem(lastItemIndex);
+		playViewPager.setCurrentItem(lastItemIndex);
 		playFunctionList.setOnItemClickListener(onItemClickListener);
 
 		autoimage.setOnTouchListener(new LongClickListener());
@@ -2015,18 +2043,19 @@ public class JVPlayActivity extends PlayActivity implements
 	private void changeWindow(int count) {
 		stopAllFunc();
 		currentScreen = count;
-		viewPager.setAdapter(null);
+		playViewPager.setAdapter(null);
+		MyLog.v(Consts.TAG_XXX, "playViewPager is null 2");
 		adapter.update(manager.genPageList(count));
 		// adapter.notifyDataSetChanged();
 		adapter.getCount();
 		lastItemIndex = lastClickIndex / currentScreen;
 		currentPageChannelList = manager.getValidChannelList(lastItemIndex);
 
-		viewPager.setAdapter(adapter);
-		viewPager.setCurrentItem(lastItemIndex, false);
+		playViewPager.setAdapter(adapter);
+		playViewPager.setCurrentItem(lastItemIndex, false);
 
 		isBlockUi = true;
-		viewPager.setDisableSliding(isBlockUi);
+		playViewPager.setDisableSliding(isBlockUi);
 		changeBorder(lastClickIndex);
 
 		setTitle();
@@ -2040,22 +2069,33 @@ public class JVPlayActivity extends PlayActivity implements
 		if (currentScreen > ONE_SCREEN) {
 			closePopWindow();
 		}
+		// dismissDialog();
+
+		// if (count > ONE_SCREEN) {
+		// Jni.setStat(false);
+		// } else {
+		// Jni.setStat(true);
+		// }
 	}
 
 	private void changeBorder(int currentIndex) {
-		if (lastClickIndex != currentIndex) {
-			if (lastClickIndex >= 0) {
+		try {
+			if (lastClickIndex != currentIndex) {
+				if (lastClickIndex >= 0) {
+					((View) manager.getView(lastClickIndex).getParent())
+							.setBackgroundColor(getResources().getColor(
+									R.color.videounselect));
+				}
+				lastClickIndex = currentIndex;
+			}
+
+			if (ONE_SCREEN != currentScreen) {
 				((View) manager.getView(lastClickIndex).getParent())
 						.setBackgroundColor(getResources().getColor(
-								R.color.videounselect));
+								R.color.videoselect));
 			}
-			lastClickIndex = currentIndex;
-		}
-
-		if (ONE_SCREEN != currentScreen) {
-			((View) manager.getView(lastClickIndex).getParent())
-					.setBackgroundColor(getResources().getColor(
-							R.color.videoselect));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -2106,9 +2146,10 @@ public class JVPlayActivity extends PlayActivity implements
 				savePath = Consts.SCENE_PATH + "demo_"
 						+ channel.getParent().getFullNo() + File.separator;
 			}
-			String fileName = channel.getChannel() + Consts.IMAGE_JPG_KIND;
+
 			MyLog.v("capture", "savePath=" + savePath);
 			MobileUtil.createDirectory(new File(savePath));
+			String fileName = channel.getChannel() + Consts.IMAGE_JPG_KIND;
 			fullPath = savePath + fileName;
 			MyLog.v("capture", "fullPath=" + fullPath);
 		}
@@ -2448,6 +2489,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 
 			case PlayWindowManager.STATUS_CHANGED:
+				MyLog.w(Consts.TAG_XXX, "> surface changed: " + index);
 				tensileView(channel, channel.getSurfaceView());
 				Jni.resume(index, surface);
 				break;
@@ -2675,6 +2717,9 @@ public class JVPlayActivity extends PlayActivity implements
 						screenPopWindow.showAsDropDown(currentMenu);
 					}
 				}
+				handler.sendMessageDelayed(
+						handler.obtainMessage(Consts.WHAT_DIALOG_CLOSE),
+						3 * 1000);
 				break;
 			case R.id.bottom_but8:
 			case R.id.varvoice_bg:
@@ -3923,6 +3968,9 @@ public class JVPlayActivity extends PlayActivity implements
 	protected void onResume() {
 		MyLog.v("onResume--ChannelList", channelList.toString());
 		super.onResume();
+		MyLog.v(Consts.TAG_XXX,
+				"onResume viewpager:width=" + playViewPager.getWidth()
+						+ "viewpager:height=" + playViewPager.getHeight());
 		isBlockUi = true;
 		updateStreaminfoFlag = false;
 		handler.removeMessages(Consts.WHAT_CHECK_SURFACE);
@@ -4010,9 +4058,9 @@ public class JVPlayActivity extends PlayActivity implements
 				changeWindow(ONE_SCREEN);
 			}
 
-			viewPager.setDisableSliding(true);
+			playViewPager.setDisableSliding(true);
 		} else {
-			viewPager.setDisableSliding(false);
+			playViewPager.setDisableSliding(false);
 		}
 
 		showFunc(channelList.get(lastClickIndex), currentScreen, lastClickIndex);

@@ -28,6 +28,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		int getRes = -1;// 0成功 1失败
 		sid = params[0];
 		demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);
+		// demoUrl = "http://www.cloudsee.net/phone.action";
 		if (null != demoUrl && !"".equalsIgnoreCase(demoUrl)) {
 			getRes = 0;
 		}
@@ -64,8 +65,8 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			} else {
 				lan = "en_us";
 			}
-
-			demoUrl = demoUrl + "?" + "plat=Android&platv="
+			// plat=android 要小写
+			demoUrl = demoUrl + "?" + "plat=android&platv="
 					+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
 					+ System.currentTimeMillis() + "&sid=" + sid;
 			MyLog.v("sid", sid);
@@ -82,7 +83,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			// } catch (Exception e) {
 			// e.printStackTrace();
 			// }
-			// demoUrl = "http://192.168.9.83:8080/m2obile/index.html";
+			// demoUrl = "http://192.168.9.83:8080/mobile/index.html";
 			intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intentAD.putExtra("URL", demoUrl);
 			intentAD.putExtra("title", -2);

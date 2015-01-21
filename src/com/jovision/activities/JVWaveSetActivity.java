@@ -281,17 +281,23 @@ public class JVWaveSetActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		wifiAdmin = new WifiAdmin(JVWaveSetActivity.this);
+		deviceList = CacheUtil.getDevList();
+		assetMgr = this.getAssets();
+		playAudio = MyAudio.getIntance(Consts.WHAT_PLAY_AUDIO_WHAT,
+				JVWaveSetActivity.this, audioSampleRate);
+	}
+
+	private void setCurrentWifi() {
+		if (null == wifiAdmin) {
+			wifiAdmin = new WifiAdmin(JVWaveSetActivity.this);
+		}
 		// wifi打开的前提下,获取oldwifiSSID
 		if (wifiAdmin.getWifiState()) {
 			if (null != wifiAdmin.getSSID()) {
 				oldWifiSSID = wifiAdmin.getSSID().replace("\"", "");
 			}
 		}
-		deviceList = CacheUtil.getDevList();
-		assetMgr = this.getAssets();
-		playAudio = MyAudio.getIntance(Consts.WHAT_PLAY_AUDIO_WHAT,
-				JVWaveSetActivity.this, audioSampleRate);
+		desWifiName.setText(oldWifiSSID);
 	}
 
 	@Override
@@ -322,9 +328,12 @@ public class JVWaveSetActivity extends BaseActivity {
 		instruction = (ImageView) findViewById(R.id.instruction);
 		pressToSendWave = (ImageView) findViewById(R.id.press_sendwave);
 		stepImage1.setImageResource(R.drawable.reset_bg);
-		if (Consts.LANGUAGE_EN == ConfigUtil
+		if (Consts.LANGUAGE_ZH == ConfigUtil
 				.getLanguage2(JVWaveSetActivity.this)) {
 			instruction.setImageResource(R.drawable.instruction_ch);
+		} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+				.getLanguage2(JVWaveSetActivity.this)) {
+			instruction.setImageResource(R.drawable.instruction_chtw);
 		} else {
 			instruction.setImageResource(R.drawable.instruction_en);
 		}
@@ -336,7 +345,7 @@ public class JVWaveSetActivity extends BaseActivity {
 
 		desWifiName = (EditText) findViewById(R.id.deswifiname);
 		desWifiPwd = (EditText) findViewById(R.id.deswifipwd);
-		desWifiName.setText(oldWifiSSID);
+		setCurrentWifi();
 		desPwdEye = (ToggleButton) findViewById(R.id.despwdeye);
 		devListView = (ListView) findViewById(R.id.devlistview);
 		pw_two = (ProgressWheel) findViewById(R.id.progressBarTwo);
@@ -544,6 +553,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		setCurrentWifi();
 		BitmapCache.getInstance().clearCache();
 	}
 

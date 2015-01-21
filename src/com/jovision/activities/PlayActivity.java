@@ -45,7 +45,6 @@ import com.jovision.views.MyViewPager;
 public abstract class PlayActivity extends BaseActivity implements
 		OnPageChangeListener {
 	private static final String TAG = "PlayActivity";
-	protected static final int PLAY_AUDIO_WHAT = 0x26;
 	public static MyAudio playAudio;
 
 	public MediaPlayer mediaPlayer = new MediaPlayer();
@@ -77,7 +76,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	protected ArrayList<Integer> screenList = new ArrayList<Integer>();// 分屏下拉选择列表
 
 	/** layout 中 */
-	protected MyViewPager viewPager;
+	protected MyViewPager playViewPager;
 	protected SurfaceView playSurface;
 	protected TextView linkMode;// 测试显示连接方式
 
@@ -233,8 +232,8 @@ public abstract class PlayActivity extends BaseActivity implements
 	protected void initUi() {
 		PlayUtil.setContext(PlayActivity.this);
 		// [Neo] TODO
-		playAudio = MyAudio
-				.getIntance(PLAY_AUDIO_WHAT, PlayActivity.this, 8000);
+		playAudio = MyAudio.getIntance(Consts.PLAY_AUDIO_WHAT,
+				PlayActivity.this, 8000);
 
 		setContentView(R.layout.play_layout);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);// 屏幕常亮
@@ -286,9 +285,9 @@ public abstract class PlayActivity extends BaseActivity implements
 		}
 
 		/** 中 */
-		viewPager = new MyViewPager(PlayActivity.this);
-		viewPager.setContext(this);
-		viewPager = (MyViewPager) findViewById(R.id.play_viewpager);
+		playViewPager = new MyViewPager(PlayActivity.this);
+		playViewPager.setContext(this);
+		playViewPager = (MyViewPager) findViewById(R.id.play_viewpager);
 		playSurface = (SurfaceView) findViewById(R.id.remotesurfaceview);
 		linkMode = (TextView) findViewById(R.id.linkstate);
 		playBackBar = (RelativeLayout) findViewById(R.id.playbackbar);
@@ -559,7 +558,7 @@ public abstract class PlayActivity extends BaseActivity implements
 				helpViewPager.setVisibility(View.VISIBLE);
 			}
 			horPlayHelp.setVisibility(View.GONE);
-			viewPager.setDisableSliding(false);
+			playViewPager.setDisableSliding(false);
 			getWindow()
 					.setFlags(
 							disMetrics.widthPixels
@@ -589,7 +588,15 @@ public abstract class PlayActivity extends BaseActivity implements
 
 			reParamsV = new RelativeLayout.LayoutParams(useWidth,
 					(int) (0.75 * useWidth));
-			viewPager.setLayoutParams(reParamsV);
+
+			MyLog.v(Consts.TAG_XXX, "useWidth=" + useWidth
+					+ "(int) (0.75 * useWidth)=" + (int) (0.75 * useWidth));
+
+			playViewPager.setLayoutParams(reParamsV);
+			// MyLog.v(Consts.TAG_XXX,
+			// "viewpager:width="+playViewPager.getWidth()
+			// + "viewpager:height="+playViewPager.getHeight());
+
 			playSurface.setLayoutParams(reParamsV);
 			decodeBtn.setVisibility(View.VISIBLE);
 			currentKbps.setVisibility(View.VISIBLE);
@@ -609,7 +616,7 @@ public abstract class PlayActivity extends BaseActivity implements
 				horViewPager.setAdapter(horadp);
 			}
 			playHelp.setVisibility(View.GONE);
-			viewPager.setDisableSliding(true);
+			playViewPager.setDisableSliding(true);
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			topBar.setVisibility(View.GONE);// 顶部标题栏
@@ -636,7 +643,10 @@ public abstract class PlayActivity extends BaseActivity implements
 			reParamsH = new RelativeLayout.LayoutParams(
 					ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.MATCH_PARENT);
-			viewPager.setLayoutParams(reParamsH);
+			playViewPager.setLayoutParams(reParamsH);
+			// MyLog.v(Consts.TAG_XXX,
+			// "viewpager:width="+playViewPager.getWidth()
+			// + "viewpager:height="+playViewPager.getHeight());
 			playSurface.setLayoutParams(reParamsH);
 			// [Neo] surface.step 0
 			if (surfaceWidth < 0 || surfaceHeight < 0) {

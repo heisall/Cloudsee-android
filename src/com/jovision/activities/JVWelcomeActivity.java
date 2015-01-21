@@ -176,7 +176,7 @@ public class JVWelcomeActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
-		
+
 		dismissDialog();
 		// 关闭此定时器
 		initHandler.removeCallbacks(initThread);
@@ -295,14 +295,13 @@ public class JVWelcomeActivity extends BaseActivity {
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}
+
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
-		super.onStop();	
-//		welcomeImage = null;
+		super.onStop();
+		// welcomeImage = null;
 
 	}
-	
-
 
 }

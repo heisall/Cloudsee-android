@@ -144,7 +144,7 @@ public class JVGuideActivity extends BaseActivity {
 		guideScroll.stopTimer();
 		guideScroll = null;
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();

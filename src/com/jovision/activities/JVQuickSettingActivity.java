@@ -221,54 +221,53 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 		helpLayout = (LinearLayout) findViewById(R.id.helplayout);
 		helpIV = (ImageView) findViewById(R.id.helpimg);
-//		if (Consts.LANGUAGE_ZH == ConfigUtil
-//				.getLanguage2(JVQuickSettingActivity.this)) {// 中文
-//			helpIV.setBackgroundDrawable(getResources().getDrawable(
-//					R.drawable.h400_update));
-//		} else {
-//			helpIV.setBackgroundDrawable(getResources().getDrawable(
-//					R.drawable.h400_update_en));
-//		}
+		// if (Consts.LANGUAGE_ZH == ConfigUtil
+		// .getLanguage2(JVQuickSettingActivity.this)) {// 中文
+		// helpIV.setBackgroundDrawable(getResources().getDrawable(
+		// R.drawable.h400_update));
+		// } else {
+		// helpIV.setBackgroundDrawable(getResources().getDrawable(
+		// R.drawable.h400_update_en));
+		// }
 
 		showIpcLayout(true);
 
 		/************* 以下声波所需 **************/
 		quickSetParentLayout = (LinearLayout) findViewById(R.id.quickSetParentLayout);
-//		try {
-//			LayoutInflater layoutInflater = LayoutInflater.from(this);
-//			View view = layoutInflater
-//					.inflate(R.layout.quicksetsearching, null);
-//			Display display = getWindowManager().getDefaultDisplay();
-//			int screenWidth = display.getWidth();
-//			int screenHeight = display.getHeight();
-//			quickSetPop = new PopupWindow(view, screenWidth, screenHeight);
-//
-//			/**
-//			 * 为控件添加事件
-//			 * 
-//			 */
-//			quickSetBackImg = (Button) view.findViewById(R.id.quickSetBack);
-//			quickSetBackImg.setOnClickListener(quickSetOnClick);
-//
-//			quickSetDeviceImg = (ImageView) view
-//					.findViewById(R.id.quickSetDeviceImg);
-//			quickSetDeviceImg.setOnClickListener(quickSetOnClick);
-//			searchView = (SearchDevicesView) view.findViewById(R.id.searchView);
-//			searchView.setWillNotDraw(false);
-//
-//			// 播放声音
-//			playSound(Consts.TAG_SOUNDONE);
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		// LayoutInflater layoutInflater = LayoutInflater.from(this);
+		// View view = layoutInflater
+		// .inflate(R.layout.quicksetsearching, null);
+		// Display display = getWindowManager().getDefaultDisplay();
+		// int screenWidth = display.getWidth();
+		// int screenHeight = display.getHeight();
+		// quickSetPop = new PopupWindow(view, screenWidth, screenHeight);
+		//
+		// /**
+		// * 为控件添加事件
+		// *
+		// */
+		// quickSetBackImg = (Button) view.findViewById(R.id.quickSetBack);
+		// quickSetBackImg.setOnClickListener(quickSetOnClick);
+		//
+		// quickSetDeviceImg = (ImageView) view
+		// .findViewById(R.id.quickSetDeviceImg);
+		// quickSetDeviceImg.setOnClickListener(quickSetOnClick);
+		// searchView = (SearchDevicesView) view.findViewById(R.id.searchView);
+		// searchView.setWillNotDraw(false);
+		//
+		// // 播放声音
+		// playSound(Consts.TAG_SOUNDONE);
+		//
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 
 	}
 
-	
 	@SuppressWarnings("deprecation")
-	private void setHelpBackground(boolean is){
-		if(is){
+	private void setHelpBackground(boolean is) {
+		if (is) {
 			if (Consts.LANGUAGE_ZH == ConfigUtil
 					.getLanguage2(JVQuickSettingActivity.this)) {// 中文
 				helpIV.setBackgroundDrawable(getResources().getDrawable(
@@ -277,11 +276,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				helpIV.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.h400_update_en));
 			}
-		}else{
+		} else {
 			helpIV.setBackgroundDrawable(null);
 		}
 	}
-	
+
 	/**
 	 * wifi列表刷新事件
 	 * 
@@ -745,7 +744,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				showQuickPopWindow();
 				showSearch(true);
 
-
 				break;
 			}
 		}
@@ -762,9 +760,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	 * @param id
 	 */
 	public void backMethod() {
-		
+
 		if (null != searchView) {
-			searchView.stopPlayer();		
+			searchView.stopPlayer();
 		}
 
 		try {
@@ -1845,8 +1843,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (null == quickSetPop) {
 			initPopwindow();
 		}
-		quickSetPop.showAtLocation(quickSetParentLayout, Gravity.CENTER, 0,
-				0);
+		quickSetPop.showAtLocation(quickSetParentLayout, Gravity.CENTER, 0, 0);
 	}
 
 	/**
@@ -2185,7 +2182,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		// TODO Auto-generated method stub
 		super.onStop();
 	}
-	
+
 	public void disConnectVideo() {
 
 		if (PlayUtil.disconnectDevice()) {

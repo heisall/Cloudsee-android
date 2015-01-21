@@ -137,6 +137,14 @@ public class JVGuideActivity extends BaseActivity {
 	}
 
 	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		guideScroll.stopTimer();
+		guideScroll = null;
+	}
+	
+	@Override
 	protected void onResume() {
 		super.onResume();
 	}

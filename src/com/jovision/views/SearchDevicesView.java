@@ -13,7 +13,6 @@ import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.AttributeSet;
-
 import com.jovetech.CloudSee.temp.BuildConfig;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -91,7 +90,7 @@ public class SearchDevicesView extends BaseView implements CommonInterface {
 	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
+		super.onDraw(canvas);		
 		// canvas.drawBitmap(bitmap, getWidth() / 2 - bitmap.getWidth() / 2,
 		// getHeight() / 2 - bitmap.getHeight() / 2, null);
 		Rect rMoon = new Rect(-(getHeight() - getWidth()) / 2 - getWidth() / 2,

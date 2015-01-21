@@ -123,7 +123,7 @@
                     android:id="@+id/zhezhao"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:background="#00000000" >
+                    android:background="@color/transparent" >
                 </RelativeLayout>
 
                 <WebView
@@ -131,7 +131,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/zhezhao"
-                    android:scrollbars="none" />
+                   />
 
                 <LinearLayout
                     android:id="@+id/loadinglayout"

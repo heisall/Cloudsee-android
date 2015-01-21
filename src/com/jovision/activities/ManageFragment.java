@@ -255,7 +255,7 @@ public class ManageFragment extends BaseFragment {
 				mActivity.proDialog.dismiss();
 			}
 			PlayUtil.disconnectDevice();
-			mActivity.showTextToast("再不疯狂就老了");
+			mActivity.showTextToast(R.string.connfailed_timeout);
 			break;
 		}
 		case Consts.WHAT_MANAGE_ITEM_CLICK: {// adapter item 单击事件
@@ -686,7 +686,7 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onDestroy() {
-		isturn = true;
+		// isturn = true;
 		super.onDestroy();
 	}
 }

@@ -504,7 +504,9 @@ public class JVMoreFragment extends BaseFragment {
 									.setTitle(
 											mActivity.getResources().getString(
 													R.string.census_version)
-													+ curVersion)
+													+ curVersion
+													+ "  "
+													+ ConfigUtil.sameVersion)
 									.setItems(
 											new String[] { itemzero, itemfive,
 													itemone, itemtwo,

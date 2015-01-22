@@ -63,13 +63,17 @@ public class APPImage {
 	public static APPImage fromJson(String string) {
 		APPImage app = new APPImage();
 		try {
-			JSONObject object = new JSONObject(string);
-			app.setAppImageUrlZh(ConfigUtil.getString(object, "appImageUrlZh"));
-			app.setAppImageUrlEN(ConfigUtil.getString(object, "appImageUrlEN"));
-			app.setAppImageUrlZht(ConfigUtil
-					.getString(object, "appImageUrlZht"));
-			app.setVersion(ConfigUtil.getInt(object, "version"));
-			app.setResult(ConfigUtil.getInt(object, "result"));
+			if (null != string && !"".equalsIgnoreCase(string)) {
+				JSONObject object = new JSONObject(string);
+				app.setAppImageUrlZh(ConfigUtil.getString(object,
+						"appImageUrlZh"));
+				app.setAppImageUrlEN(ConfigUtil.getString(object,
+						"appImageUrlEN"));
+				app.setAppImageUrlZht(ConfigUtil.getString(object,
+						"appImageUrlZht"));
+				app.setVersion(ConfigUtil.getInt(object, "version"));
+				app.setResult(ConfigUtil.getInt(object, "result"));
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

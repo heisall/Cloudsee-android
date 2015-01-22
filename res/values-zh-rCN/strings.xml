@@ -580,7 +580,7 @@
     <string name="show_demo">操作演示</string>
     <string name="search_list">搜索列表</string>
     <string name="prepare_step4">点击发送声波</string>
-    <string name="prepare_step5">请将手机靠近设备，点击声波发送按钮，\n配置设备</string>
+    <string name="prepare_step5">请将手机靠近设备，点击发送声波按钮，\n配置设备</string>
     <string name="prepare_step6">(摄像机暂不支持连接5G Wi-Fi)</string>
     <string name="wave_add_dev">确定添加设备</string>
     <!-- 包含云视通敏感词汇 -->

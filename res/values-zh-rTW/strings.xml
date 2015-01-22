@@ -580,7 +580,7 @@
     <string name="show_demo">操作演示</string>
     <string name="search_list">搜索列表</string>
     <string name="prepare_step4">點擊發送聲波</string>
-    <string name="prepare_step5">請將手機靠近設備，點擊聲波發送按鈕，\n配置設備</string>
+    <string name="prepare_step5">請將手機靠近設備，點擊發送聲波按鈕，\n配置設備</string>
     <string name="prepare_step6">(攝像機暫不支持連接5G Wi-Fi)</string>
     <string name="wave_add_dev">確定添加設備</string>
     <!-- 包含雲視通敏感辭彙 -->

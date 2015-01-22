@@ -205,10 +205,8 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 							progressBar.setMax(totalProgress);
 						}
 
-						if (0 == totalProgress) {
+						if (totalProgress < 0) {
 							progressBar.setVisibility(View.GONE);
-						} else {
-							progressBar.setVisibility(View.VISIBLE);
 						}
 
 					} catch (JSONException e) {
@@ -221,6 +219,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			case JVNetConst.JVN_DATA_B:
 			case JVNetConst.JVN_DATA_P: {
 				currentProgress++;
+				// MyLog.v(TAG, "currentProgress = " + currentProgress);
 				progressBar.setProgress(currentProgress);
 				break;
 			}

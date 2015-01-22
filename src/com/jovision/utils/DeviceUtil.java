@@ -2095,6 +2095,40 @@ public class DeviceUtil {
 											.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_NO));
 									cl.setChannelName(obj
 											.optString(JVDeviceConst.JK_DEVICE_CHANNEL_NAME));// BaseApp.UnicodeToString(obj.optString(JVDeviceConst.JK_DEVICE_NAME));
+									
+									int vipLevel = obj
+											.optInt(JVDeviceConst.JK_STREAMING_MEDIA_FLAG);// (是否支持流媒体
+																							// 0不支持
+																							// 1支持)
+									cl.setVipLevel(vipLevel);
+									if (vipLevel > 0) {
+										String smsrv = obj
+												.optString(JVDeviceConst.JK_STREAMING_MEDIA_SERVER);// (流媒体服务器信息
+																									// 格式
+																									// ip|rtmp端口|hls端口)
+										String suffixRtmp = obj
+												.optString(JVDeviceConst.JK_DEVICE_GUID)
+												+ "_"
+												+obj
+												.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_NO);
+										String rtmpUrl = "";
+										if (!"".equals(smsrv)) {
+											String array[] = smsrv
+													.split("\\|");
+											rtmpUrl = "rtmp://"
+													+ array[0] + ":"
+													+ array[1]
+													+ "/live/"
+													+ suffixRtmp;
+										} else {
+											rtmpUrl = "rtmp://"
+													+ "/live/"
+													+ suffixRtmp;
+										}
+										Log.i("RTMP", "rtmp_url:"
+												+ rtmpUrl);
+										cl.setRtmpUrl(rtmpUrl);
+									}									
 									channelList.add(cl);
 								}
 							}

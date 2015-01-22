@@ -442,7 +442,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						// Toast.makeText(getActivity(), text,
 						// Toast.LENGTH_SHORT)
 						// .show();
-						showTextToast(getActivity(),
+						showTextToast(getActivity().getApplicationContext(),
 								R.string.str_mdenabled_close_ok);
 						// Log.e("Alarm",
 						// "after func_motion_enabled:"+func_motion_enabled);
@@ -460,7 +460,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						// Toast.makeText(getActivity(), text,
 						// Toast.LENGTH_SHORT)
 						// .show();
-						showTextToast(getActivity(),
+						showTextToast(getActivity().getApplicationContext(),
 								R.string.str_mdenabled_open_ok);
 					} else {
 						// 隐藏
@@ -494,7 +494,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 							// R.string.protect_close_succ);
 							// Toast.makeText(getActivity(), text,
 							// Toast.LENGTH_SHORT).show();
-							showTextToast(getActivity(),
+							showTextToast(getActivity().getApplicationContext(),
 									R.string.protect_close_succ);
 						}
 						func_alert_enabled = 0;
@@ -522,7 +522,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 							// R.string.protect_open_succ);
 							// Toast.makeText(getActivity(), text,
 							// Toast.LENGTH_SHORT).show();
-							showTextToast(getActivity(),
+							showTextToast(getActivity().getApplicationContext(),
 									R.string.protect_open_succ);
 						}
 						func_alert_enabled = 1;
@@ -535,7 +535,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						// Toast.makeText(getActivity(), text,
 						// Toast.LENGTH_SHORT)
 						// .show();
-						showTextToast(getActivity(),
+						showTextToast(getActivity().getApplicationContext(),
 								R.string.str_operation_failed);
 					}
 				}

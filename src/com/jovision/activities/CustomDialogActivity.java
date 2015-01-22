@@ -175,19 +175,19 @@ public class CustomDialogActivity extends BaseActivity implements
 			}
 		} else if (alarmSolution == 1) {// 云存储报警,图片下载，视频边下边播
 			// 先调用接口获取计算签名参数
-//			String strSpKey = String.format(Consts.FORMATTER_CLOUD_DEV,
-//					pushInfo.ystNum, pushInfo.coonNum);
-//			storageJson = MySharedPreference.getString(strSpKey);
-//
-//			if (storageJson.equals("") || null == storageJson) {
-//				// storageJson =
-//				// DeviceUtil.getDevCloudStorageInfo(pushInfo.ystNum,
-//				// pushInfo.coonNum);
-//				new Thread(new GetCloudInfoThread(pushInfo.ystNum,
-//						pushInfo.coonNum)).start();
-//			} else {
-//				myHandler.sendEmptyMessage(0x01);
-//			}
+			// String strSpKey = String.format(Consts.FORMATTER_CLOUD_DEV,
+			// pushInfo.ystNum, pushInfo.coonNum);
+			// storageJson = MySharedPreference.getString(strSpKey);
+			//
+			// if (storageJson.equals("") || null == storageJson) {
+			// // storageJson =
+			// // DeviceUtil.getDevCloudStorageInfo(pushInfo.ystNum,
+			// // pushInfo.coonNum);
+			// new Thread(new GetCloudInfoThread(pushInfo.ystNum,
+			// pushInfo.coonNum)).start();
+			// } else {
+			// myHandler.sendEmptyMessage(0x01);
+			// }
 		}
 	}
 
@@ -315,11 +315,12 @@ public class CustomDialogActivity extends BaseActivity implements
 				}
 			} else {
 				// 云存储
-//				String temp[] = vod_uri_.split("com/");
-//				cloudResource = String.format("/%s/%s", cloudBucket, temp[1]);
-//				cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource,
-//						storageJson);
-//				new Thread(new HttpJudgeThread(cloudSignVodUri)).start();
+				// String temp[] = vod_uri_.split("com/");
+				// cloudResource = String.format("/%s/%s", cloudBucket,
+				// temp[1]);
+				// cloudSignVodUri = Jni.GenSignedCloudUri(cloudResource,
+				// storageJson);
+				// new Thread(new HttpJudgeThread(cloudSignVodUri)).start();
 			}
 			break;
 		case R.id.dialog_cancle_img:

@@ -5,6 +5,8 @@
     <color name="dot_orange">#FD8E35</color>
     <!-- 广告滚动选中橘黄 -->
     <color name="white">#FFFFFF</color>
+    <color name="user_list_divider">#CFD8DF</color>
+
     <!-- 白色 -->
     <color name="transparent">#00000000</color>
     <color name="halftransparent">#65000000</color>

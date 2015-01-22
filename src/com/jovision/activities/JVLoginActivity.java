@@ -310,15 +310,16 @@ public class JVLoginActivity extends BaseActivity {
 			case R.id.findpass_tv: {
 				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
 					alertNetDialog();
-				} else if(Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
-						|| Consts.LANGUAGE_ZHTW == ConfigUtil.getServerLanguage()){
+				} else if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
+						|| Consts.LANGUAGE_ZHTW == ConfigUtil
+								.getServerLanguage()) {
 					Intent intentFP = new Intent(JVLoginActivity.this,
 							ResetPwdChoiceActivity.class);
 					JVLoginActivity.this.startActivity(intentFP);
-				}else if (Consts.LANGUAGE_EN == ConfigUtil.getServerLanguage()) {
+				} else if (Consts.LANGUAGE_EN == ConfigUtil.getServerLanguage()) {
 					Intent intentFP = new Intent(JVLoginActivity.this,
 							JVWebViewActivity.class);
-					intentFP.putExtra("URL",Url.RESET_PWD_URL_FOREIGN_EN);
+					intentFP.putExtra("URL", Url.RESET_PWD_URL_FOREIGN_EN);
 					intentFP.putExtra("title", R.string.str_find_pass);
 					JVLoginActivity.this.startActivity(intentFP);
 				}
@@ -350,12 +351,13 @@ public class JVLoginActivity extends BaseActivity {
 				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				Log.i("TAG", ConfigUtil.getCountry().substring(0, 2));
 				if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
-						|| Consts.LANGUAGE_ZHTW == ConfigUtil.getServerLanguage()) {
+						|| Consts.LANGUAGE_ZHTW == ConfigUtil
+								.getServerLanguage()) {
 					Intent registIntent = new Intent();
 					registIntent.setClass(JVLoginActivity.this,
 							JVRegisterActivity.class);
 					JVLoginActivity.this.startActivity(registIntent);
-				} else if(Consts.LANGUAGE_EN == ConfigUtil.getServerLanguage()){
+				} else if (Consts.LANGUAGE_EN == ConfigUtil.getServerLanguage()) {
 					Intent registIntent = new Intent();
 					registIntent.setClass(JVLoginActivity.this,
 							JVRegisterByEmailActivity.class);

@@ -110,9 +110,7 @@ public class JVGuideActivity extends BaseActivity {
 
 	@Override
 	protected void freeMe() {
-		// guideScroll.stopTimer();
 		BitmapCache.getInstance().clearCache();
-
 	}
 
 	@Override

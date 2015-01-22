@@ -232,7 +232,7 @@
     <string name="str_newpass_notnull">Please input new password.</string>
     <string name="str_ensurenewpass_notnull">Please confirm the password.</string>
     <!-- 中间界面 -->
-    <string name="str_wifistr">WiFi</string>
+    <string name="str_wifistr">Wi-Fi</string>
     <string name="str_loading_data">Asking for device data,please wait…</string>
     <string name="str_loading_adddevice">Loading device now, please wait.</string>
     <string name="str_device_exsit">This device has been added already,and it can\'t be added again.</string>
@@ -266,10 +266,10 @@
     <string name="str_quick_setting_new_dev_tips">You are unable to use the latest functions due to version is not the latest.Suggest you update the camera software over to version V1.1.0.31.</string>
     <string name="str_quick_setting_devupdate_order">Demo for updating device.</string>
     <string name="str_quick_setting_update">Update</string>
-    <string name="str_device_ap_pro">WiFi configuration process</string>
+    <string name="str_device_ap_pro">Wi-Fi configuration process</string>
     <string name="str_quick_setting_exsit">Quiting</string>
     <string name="str_device_ap_start">Start</string>
-    <string name="str_device_ap_process">1.Choose the device that you want to configure Wifi.\n2.Choose the network\n3.Configure the device and the configuration is completed successfully when the power light turn to green and flashes once every second.</string>
+    <string name="str_device_ap_process">1.Choose the device that you want to configure Wi-Fi.\n2.Choose the network\n3.Configure the device and the configuration is completed successfully when the power light turn to green and flashes once every second.</string>
     <string name="str_quick_setting_no_tips">Not prompt</string>
     <string name="str_quick_setting">Quickset</string>
     <string name="str_quick_setting_alert_nowifi">Failed to find the device</string>
@@ -315,7 +315,7 @@
     <string name="str_wifi_detail_info">Wi-Fi detailed information</string>
     <string name="str_wifi_info">Wi-Fi Info</string>
     <string name="str_selectwifi">Please select Wi-Fi…</string>
-    <string name="str_wifiname_not_null">Please input the WiFi name.</string>
+    <string name="str_wifiname_not_null">Please input the Wi-Fi name.</string>
     <string name="str_obtain_automatically">DHCP</string>
     <string name="str_input_manually">Input Manually</string>
     <string name="str_ip_address">IP</string>
@@ -396,7 +396,7 @@
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">Has chosen ?，</string>
     <string name="number">Total ?</string>
-    <string name="notwifi_forbid_func">This function is not available under 2G/3G/4G network.</string>
+    <string name="notwifi_forbid_func">The function is only used in Wi-Fi environment.</string>
     <string name="del_device_succ">Device deleted successfully</string>
     <string name="del_device_failed">Device deleted failed</string>
     <string name="str_modify">Modify</string>
@@ -411,7 +411,7 @@
     <string name="add_broad_dev">Broadcasting to ! devices,do you want to add?</string>
     <string name="broad_zero">Unable to broadcast device.</string>
     <string name="get_device_failed">Device loaded failed</string>
-    <string name="search_device_failed">检索服务器通信异常</string>
+    <string name="search_device_failed">Check Device Online status failed</string>
     <string name="press_screen_refresh">Click screen to refresh</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">No alarm now.</string>
@@ -477,7 +477,7 @@
     <string name="quick_setting_exiting">Exiting configuration now</string>
     <string name="wifi_reset_failed">Failed to recover network</string>
     <string name="str_quick_install">Quick Install Wireless device</string>
-    <string name="str_quick_install_tips2">Step:\n1.Connect mobile phone to the same network with the device..\n2.Choose the device that you want to configure Wifi.\n3.Choose the network\n4.Configure the device and the configuration is completed successfully when you hear "Configured".</string>
+    <string name="str_quick_install_tips2">Step:\n1.Connect mobile phone to the same network with the device..\n2.Choose the device that you want to configure Wi-Fi.\n3.Choose the network\n4.Configure the device and the configuration is completed successfully when you hear "Configured".</string>
     <string name="video_check">Video Detection</string>
     <string name="voice_call_ap">Two-way Talk</string>
     <string name="voice_call_ap_tips">Realtime Two-way Talk</string>
@@ -500,8 +500,8 @@
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">Please input your problems or suggestion.</string>
     <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>
-    <string name="str_connect_error">Contact Information include Ilegal character,the NikeName should be English letter,number,or some special characters like _@.</string>
-    <string name="str_content_error">Feedback include Ilegal character,the NikeName should be English letter,number,or some special characters like _.,?!:%</string>
+    <string name="str_connect_error">Contact information contains illegal characters, content of contact information can only be Numbers, letters, Chinese characters and special characters _ @.</string>
+    <string name="str_content_error">The feedback content contains illegal characters, content of feedback can only be Numbers, letters, Chinese characters and special characters:_.,©!:。，！？：%</string>
     <string name="str_idea_and_feedback">Feedback</string>
     <string name="commit">Send</string>
     <string name="str_commit_success">Thanks for your feedback, we shall work more to provide better service.</string>

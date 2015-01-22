@@ -822,7 +822,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		case Consts.WHAT_DEV_GETFINISHED: {
 			// TODO
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			mActivity.dismissDialog();
+			// mActivity.dismissDialog();
 			refreshList();
 			initADViewPager();
 			switch (arg1) {

@@ -127,8 +127,10 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 		if (Consts.LANGUAGE_ZH == ConfigUtil
 				.getLanguage2(JVRegisterByEmailActivity.this)) {// 中文
 			mWebView.loadUrl("file:///android_asset/UserResign.html");
-		} else if (Consts.LANGUAGE_EN == ConfigUtil
-				.getLanguage2(JVRegisterByEmailActivity.this)) {// 英文
+		} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+				.getLanguage2(JVRegisterByEmailActivity.this)) {// 繁体
+			mWebView.loadUrl("file:///android_asset/UserResign_tw.html");
+		} else {// 英文
 			mWebView.loadUrl("file:///android_asset/UserResign_en.html");
 		}
 

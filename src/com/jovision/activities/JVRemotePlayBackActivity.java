@@ -26,6 +26,7 @@ import com.jovision.Jni;
 import com.jovision.MainApplication;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.PlayUtil;
 
 public class JVRemotePlayBackActivity extends PlayActivity {
@@ -288,6 +289,12 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		/** 中 */
 
 		playbackData = (TextView) findViewById(R.id.playbackdata);
+
+		if (MySharedPreference.getBoolean("LITTLE")) {
+			playbackData.setVisibility(View.VISIBLE);
+		} else {
+			playbackData.setVisibility(View.GONE);
+		}
 
 		playViewPager.setVisibility(View.GONE);
 		playSurface.setVisibility(View.VISIBLE);

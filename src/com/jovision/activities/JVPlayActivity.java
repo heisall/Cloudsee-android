@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
@@ -880,8 +881,14 @@ public class JVPlayActivity extends PlayActivity implements
 												.setAdmin(true);
 										channelList.get(arg1).getParent()
 												.setPower(power);
-										channelList.get(arg1).getParent()
-												.setDescript(descript);
+										if (null == descript || "".equals(descript)) {
+											channelList.get(arg1).getParent()
+											.setDescript("");
+										}else {
+											channelList.get(arg1).getParent()
+											.setDescript(descript);
+										}
+									
 									}
 								}
 							}

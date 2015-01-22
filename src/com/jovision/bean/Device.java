@@ -69,6 +69,7 @@ public class Device {
 	/*** 2014-12-25 ***/
 	private boolean admin;// 是否管理员用户
 	private int power;// 权限值
+	private String descript;// 描述
 	/**
 	 * 设备在线服务器（报警服务器）上线状态标识 dimols为0表示此设备在设备在线服务器离线，为1表示在线
 	 * 在设备管理界面（报警防护开关界面）需判断此标识，如果此标识为离线，则不允许用户操作报警防护开关。
@@ -600,6 +601,14 @@ public class Device {
 
 	public void setShortConnRes(int shortConnRes) {
 		this.shortConnRes = shortConnRes;
+	}
+
+	public String getDescript() {
+		return descript;
+	}
+
+	public void setDescript(String descript) {
+		this.descript = descript;
 	}
 
 }

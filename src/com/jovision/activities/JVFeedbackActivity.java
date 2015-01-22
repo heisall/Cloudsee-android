@@ -163,7 +163,7 @@ public class JVFeedbackActivity extends BaseActivity {
 			case R.id.btn_right:
 				connectStr = connection.getText().toString();// 联系方式
 				contentStr = content.getText().toString();// 反馈内容
-				 if (!"".equals(connectStr)
+				if (!"".equals(connectStr)
 						&& !ConfigUtil.checkUserConnect(connectStr)) {
 					showTextToast(R.string.str_connect_error);
 				} else if (0 == content.getText().toString().length()

@@ -69,6 +69,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private HashMap<String, String> streamMap;
 	public static boolean isadmin;
 	private int power;
+	public String descript;
 	public static String fullno;
 
 	@Override
@@ -86,6 +87,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		window = extras.getInt("window");
 		deviceIndex = extras.getInt("deviceIndex");
 		isadmin = extras.getBoolean("isadmin");
+		descript = extras.getString("descript");
 		fullno = extras.getString("fullno");
 		power = extras.getInt("power");
 		streamMap = (HashMap<String, String>) extras
@@ -156,36 +158,38 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			// }
 
 			// 4 -- 连接失败
-//			case JVNetConst.CONNECT_FAILED: {
-//				bConnectedFlag = false;
-//				if (waitingDialog != null && waitingDialog.isShowing())
-//					waitingDialog.dismiss();
-//				try {
-//					JSONObject connectObj = new JSONObject(obj.toString());
-//					String errorMsg = connectObj.getString("msg");
-//					if ("password is wrong!".equalsIgnoreCase(errorMsg)
-//							|| "pass word is wrong!".equalsIgnoreCase(errorMsg)) {// 密码错误时提示身份验证失败
-//						showTextToast(R.string.connfailed_auth);
-//					} else if ("channel is not open!"
-//							.equalsIgnoreCase(errorMsg)) {// 无该通道服务
-//						showTextToast(R.string.connfailed_channel_notopen);
-//					} else if ("connect type invalid!"
-//							.equalsIgnoreCase(errorMsg)) {// 连接类型无效
-//						showTextToast(R.string.connfailed_type_invalid);
-//					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
-//						showTextToast(R.string.connfailed_maxcount);
-//					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
-//						 showTextToast(R.string.connfailed_timeout);
-//					} else {// "Connect failed!"
-//						showTextToast(R.string.connect_failed);
-//					}
-//
-//				} catch (JSONException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			finish();
-//				break;
+			// case JVNetConst.CONNECT_FAILED: {
+			// bConnectedFlag = false;
+			// if (waitingDialog != null && waitingDialog.isShowing())
+			// waitingDialog.dismiss();
+			// try {
+			// JSONObject connectObj = new JSONObject(obj.toString());
+			// String errorMsg = connectObj.getString("msg");
+			// if ("password is wrong!".equalsIgnoreCase(errorMsg)
+			// || "pass word is wrong!".equalsIgnoreCase(errorMsg)) {//
+			// 密码错误时提示身份验证失败
+			// showTextToast(R.string.connfailed_auth);
+			// } else if ("channel is not open!"
+			// .equalsIgnoreCase(errorMsg)) {// 无该通道服务
+			// showTextToast(R.string.connfailed_channel_notopen);
+			// } else if ("connect type invalid!"
+			// .equalsIgnoreCase(errorMsg)) {// 连接类型无效
+			// showTextToast(R.string.connfailed_type_invalid);
+			// } else if ("client count limit!".equalsIgnoreCase(errorMsg)) {//
+			// 超过主控最大连接限制
+			// showTextToast(R.string.connfailed_maxcount);
+			// } else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
+			// showTextToast(R.string.connfailed_timeout);
+			// } else {// "Connect failed!"
+			// showTextToast(R.string.connect_failed);
+			// }
+			//
+			// } catch (JSONException e) {
+			// e.printStackTrace();
+			// }
+			// }
+			// finish();
+			// break;
 			case JVNetConst.CONNECT_FAILED:
 			case JVNetConst.ABNORMAL_DISCONNECT:
 			case JVNetConst.DISCONNECT_OK:
@@ -473,7 +477,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				paraObject = new JSONObject(params);
 				String userName = paraObject.getString("userName");
 				String userPwd = paraObject.getString("userPwd");
-				String des = "";
+				String des = descript;
 				byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
 						+ Consts.SIZE_DESCRIPT];
 				byte[] userNameByte = userName.getBytes();
@@ -669,8 +673,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		public void run() {
 			if (tag == JVNetConst.JVN_STREAM_INFO) {
 				Message msg = myHandler.obtainMessage(tag);
-//				myHandler.sendMessageDelayed(msg, 15000);
-				 myHandler.sendEmptyMessageDelayed(tag, 12000);
+				// myHandler.sendMessageDelayed(msg, 15000);
+				myHandler.sendEmptyMessageDelayed(tag, 12000);
 			} else {
 				onFuncOperationFlag = true;
 				Message msg = myHandler.obtainMessage(tag);

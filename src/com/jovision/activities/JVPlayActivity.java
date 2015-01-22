@@ -872,6 +872,7 @@ public class JVPlayActivity extends PlayActivity implements
 									idomap = ConfigUtil.genMsgMap(array[i]);
 									int power = Integer.parseInt(idomap
 											.get("POWER"));
+									String descript = idomap.get("DESCRIPT");
 									if (idomap.get("ID").equals("admin")
 											&& 4 == (0x04 & power)) {
 										MyLog.e("power-", "" + power);
@@ -879,6 +880,8 @@ public class JVPlayActivity extends PlayActivity implements
 												.setAdmin(true);
 										channelList.get(arg1).getParent()
 												.setPower(power);
+										channelList.get(arg1).getParent()
+												.setDescript(descript);
 									}
 								}
 							}
@@ -3758,6 +3761,9 @@ public class JVPlayActivity extends PlayActivity implements
 						intent.putExtra("power", channelList
 								.get(lastClickIndex).getParent().getPower());
 						intent.putExtra("window", lastClickIndex);
+						intent.putExtra("descript",
+								channelList.get(lastClickIndex).getParent()
+										.getDescript());
 						intent.putExtra("deviceIndex", deviceIndex);
 						intent.putExtra("fullno", deviceList.get(deviceIndex)
 								.getFullNo());

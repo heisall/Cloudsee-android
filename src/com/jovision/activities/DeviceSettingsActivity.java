@@ -69,6 +69,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private HashMap<String, String> streamMap;
 	public static boolean isadmin;
 	private int power;
+	public String descript;
 	public static String fullno;
 
 	@Override
@@ -86,6 +87,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		window = extras.getInt("window");
 		deviceIndex = extras.getInt("deviceIndex");
 		isadmin = extras.getBoolean("isadmin");
+		descript = extras.getString("descript");
 		fullno = extras.getString("fullno");
 		power = extras.getInt("power");
 		streamMap = (HashMap<String, String>) extras
@@ -475,7 +477,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				paraObject = new JSONObject(params);
 				String userName = paraObject.getString("userName");
 				String userPwd = paraObject.getString("userPwd");
-				String des = "";
+				String des = descript;
 				byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
 						+ Consts.SIZE_DESCRIPT];
 				byte[] userNameByte = userName.getBytes();

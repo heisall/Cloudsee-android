@@ -2095,7 +2095,7 @@ public class DeviceUtil {
 											.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_NO));
 									cl.setChannelName(obj
 											.optString(JVDeviceConst.JK_DEVICE_CHANNEL_NAME));// BaseApp.UnicodeToString(obj.optString(JVDeviceConst.JK_DEVICE_NAME));
-									
+
 									int vipLevel = obj
 											.optInt(JVDeviceConst.JK_STREAMING_MEDIA_FLAG);// (是否支持流媒体
 																							// 0不支持
@@ -2109,26 +2109,20 @@ public class DeviceUtil {
 										String suffixRtmp = obj
 												.optString(JVDeviceConst.JK_DEVICE_GUID)
 												+ "_"
-												+obj
-												.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_NO);
+												+ obj.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_NO);
 										String rtmpUrl = "";
 										if (!"".equals(smsrv)) {
-											String array[] = smsrv
-													.split("\\|");
-											rtmpUrl = "rtmp://"
-													+ array[0] + ":"
-													+ array[1]
-													+ "/live/"
+											String array[] = smsrv.split("\\|");
+											rtmpUrl = "rtmp://" + array[0]
+													+ ":" + array[1] + "/live/"
 													+ suffixRtmp;
 										} else {
-											rtmpUrl = "rtmp://"
-													+ "/live/"
+											rtmpUrl = "rtmp://" + "/live/"
 													+ suffixRtmp;
 										}
-										Log.i("RTMP", "rtmp_url:"
-												+ rtmpUrl);
+										Log.i("RTMP", "rtmp_url:" + rtmpUrl);
 										cl.setRtmpUrl(rtmpUrl);
-									}									
+									}
 									channelList.add(cl);
 								}
 							}

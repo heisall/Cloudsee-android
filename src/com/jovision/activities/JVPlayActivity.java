@@ -2161,7 +2161,7 @@ public class JVPlayActivity extends PlayActivity implements
 				&& false == channel.isConnecting()) {
 			int connect = 0;
 			if (1 == channel.getVipLevel()) {
-//				showTextToast("vip==1流媒体连接");
+				// showTextToast("vip==1流媒体连接");
 				MyLog.e(TAG, "vip == 1 ,流媒体");
 				connect = Jni.connectRTMP(channel.getIndex(),
 						channel.getRtmpUrl(), channel.getSurface(), false,
@@ -2185,10 +2185,9 @@ public class JVPlayActivity extends PlayActivity implements
 				// // ? 6 : 5),
 				// channel.getSurface(), false, isOmx,
 				// fullPath);
-			} 
-			else if(2 == channel.getVipLevel()){
-				//走全转发 by lkp
-//				showTextToast("vip==2全转发");
+			} else if (2 == channel.getVipLevel()) {
+				// 走全转发 by lkp
+				// showTextToast("vip==2全转发");
 				MyLog.e(TAG, "vip == 2,全转发");
 				Device device = channel.getParent();
 				int number = device.getNo();
@@ -2214,49 +2213,30 @@ public class JVPlayActivity extends PlayActivity implements
 				}
 
 				if (isPlayDirectly) {
-					connect = Jni
-							.connect(
-									channel.getIndex(),
-									channel.getChannel(),
-									conIp,
-									conPort,
-									device.getUser(),
-									device.getPwd(),
-									number,
-									device.getGid(),
-									true,
-									1,
-									true,
-									JVNetConst.JVN_ONLYTURN,// (device.isHomeProduct()
-									// ? 6 : 5),
-									channel.getSurface(), false, isOmx,
-									fullPath);
+					connect = Jni.connect(channel.getIndex(),
+							channel.getChannel(), conIp, conPort,
+							device.getUser(), device.getPwd(), number,
+							device.getGid(), true, 1, true,
+							JVNetConst.JVN_ONLYTURN,// (device.isHomeProduct()
+							// ? 6 : 5),
+							channel.getSurface(), false, isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
 				} else {
-					connect = Jni
-							.connect(
-									channel.getIndex(),
-									channel.getChannel(),
-									conIp,
-									conPort,
-									device.getUser(),
-									device.getPwd(),
-									number,
-									device.getGid(),
-									true,
-									1,
-									true,
-									JVNetConst.JVN_ONLYTURN,// (device.isHomeProduct()
-									// ? 6 : 5),
-									null, false, isOmx, fullPath);
+					connect = Jni.connect(channel.getIndex(),
+							channel.getChannel(), conIp, conPort,
+							device.getUser(), device.getPwd(), number,
+							device.getGid(), true, 1, true,
+							JVNetConst.JVN_ONLYTURN,// (device.isHomeProduct()
+							// ? 6 : 5),
+							null, false, isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(true);
 					}
-				}				
-			}else {
-//				showTextToast("v不是vip");
+				}
+			} else {
+				// showTextToast("v不是vip");
 				MyLog.e(TAG, "vip == 0,不是vip");
 				Device device = channel.getParent();
 

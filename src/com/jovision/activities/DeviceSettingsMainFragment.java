@@ -494,7 +494,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 							// R.string.protect_close_succ);
 							// Toast.makeText(getActivity(), text,
 							// Toast.LENGTH_SHORT).show();
-							showTextToast(getActivity().getApplicationContext(),
+							showTextToast(
+									getActivity().getApplicationContext(),
 									R.string.protect_close_succ);
 						}
 						func_alert_enabled = 0;
@@ -522,7 +523,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 							// R.string.protect_open_succ);
 							// Toast.makeText(getActivity(), text,
 							// Toast.LENGTH_SHORT).show();
-							showTextToast(getActivity().getApplicationContext(),
+							showTextToast(
+									getActivity().getApplicationContext(),
 									R.string.protect_open_succ);
 						}
 						func_alert_enabled = 1;

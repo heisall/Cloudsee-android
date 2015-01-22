@@ -957,10 +957,17 @@ public class CustomDialogActivity extends BaseActivity implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			int ret = storageObject.optInt("rt", -1);
-			if (ret == 0) {
-				try_get_cloud_param_cnt = 0;
+			if(storageObject == null){
+				try_get_cloud_param_cnt = 1;
+				storageJson = "{\"rt\":0}";
 			}
+			else{
+				int ret = storageObject.optInt("rt", -1);
+				if (ret == 0) {
+					try_get_cloud_param_cnt = 0;
+				}				
+			}
+
 
 			myHandler.sendEmptyMessage(0x01);
 		}

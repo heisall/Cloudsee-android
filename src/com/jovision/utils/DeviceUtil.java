@@ -2728,7 +2728,7 @@ public class DeviceUtil {
 
 						if (0 != rt) {// 获取失败
 							MySharedPreference.putString(strSpKey, "");
-							resJson = "";
+							resJson = temObj.toString();
 						} else {// 获取成功
 							MySharedPreference.putString(strSpKey,
 									temObj.toString());

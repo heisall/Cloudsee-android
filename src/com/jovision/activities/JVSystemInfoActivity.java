@@ -150,6 +150,12 @@ public class JVSystemInfoActivity extends BaseActivity implements
 				showTextToast(R.string.system_info_load_error);// 加载失败
 			}
 
+			if (tempList.size() < PAGECOUNT) {
+				infoListView.setPullLoadEnable(false);// 屏蔽上拉刷新
+			} else {
+				infoListView.setPullLoadEnable(true);// 设置上拉刷新
+
+			}
 			refreshLayout();
 			refreshFinished();
 

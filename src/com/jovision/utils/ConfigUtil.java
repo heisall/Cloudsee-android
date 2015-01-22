@@ -76,7 +76,7 @@ import com.jovision.utils.mails.MyAuthenticator;
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
 	public final static String ACCOUNT_VERSION = "V3.2.7";
-	public final static String PLAY_VERSION = "0.9a[ea9046f][2015-01-21]";
+	public final static String PLAY_VERSION = "0.9a[e21caf1][2015-01-22]";
 	public final static String NETWORK_VERSION = "v2.0.76.3.30[private:v2.0.75.13 20150119.1]";
 
 	public static String GETACCTOUT_VERSION = "";
@@ -96,6 +96,7 @@ public class ConfigUtil {
 	// return dbManager;
 	// }
 
+	public static String sameVersion = "";
 	public static String version = "";
 	public static String remoteJNIVersion = "";// 库里面的版本号
 
@@ -113,9 +114,11 @@ public class ConfigUtil {
 			GETNETWORK_VERSION = netVersion;
 			if (PLAY_VERSION.equalsIgnoreCase(playVersion)
 					&& NETWORK_VERSION.equalsIgnoreCase(netVersion)) {
+				sameVersion = "Same";
 				MyLog.v(TAG, "Same:localVer=" + PLAY_VERSION + "--"
 						+ NETWORK_VERSION + ";\nremoteVer=" + remoteJNIVersion);
 			} else {
+				sameVersion = "Not-Same";
 				MyLog.e(TAG, "Not-Same:localVer=" + PLAY_VERSION + "--"
 						+ NETWORK_VERSION + ";\nremoteVerStr="
 						+ remoteJNIVersion);

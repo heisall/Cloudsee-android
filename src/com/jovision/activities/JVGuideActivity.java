@@ -111,7 +111,6 @@ public class JVGuideActivity extends BaseActivity {
 	@Override
 	protected void freeMe() {
 		BitmapCache.getInstance().clearCache();
-
 	}
 
 	@Override
@@ -140,8 +139,10 @@ public class JVGuideActivity extends BaseActivity {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		guideScroll.stopTimer();
-		guideScroll = null;
+		if (guideScroll != null) {
+			guideScroll.stopTimer();
+			guideScroll = null;
+		}
 	}
 
 	@Override

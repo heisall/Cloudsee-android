@@ -63,7 +63,8 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			String lan = "";
 			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
 				lan = "zh_cn";
-			} else if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
+			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+					.getLanguage2(mContext)) {
 				lan = "zh_tw";
 			} else {
 				lan = "en_us";

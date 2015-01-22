@@ -790,7 +790,7 @@ public class JVMoreFragment extends BaseFragment {
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
-		if (littlenum < 10) {
+		if (littlenum < 20) {
 			littlenum = 0;
 		}
 		super.onPause();

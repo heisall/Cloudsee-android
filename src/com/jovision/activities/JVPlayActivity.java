@@ -836,6 +836,12 @@ public class JVPlayActivity extends PlayActivity implements
 				// 获取主控码流信息请求
 				Jni.sendTextData(arg1, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
+
+				// 2014-12-25 获取设备用户名密码,不区分家用和非家用产品
+				Jni.sendSuperBytes(arg1, JVNetConst.JVN_RSP_TEXTDATA, true,
+						Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_REFRESH,
+						Consts.POWER_ADMIN, 0, 0, new byte[0], 0);
+
 				channel.setAgreeTextData(true);
 				break;
 			case JVNetConst.JVN_CMD_TEXTSTOP:// 不同意文本聊天
@@ -938,14 +944,6 @@ public class JVPlayActivity extends PlayActivity implements
 							if (null != streamMap.get("MobileCH")
 									&& "2".equalsIgnoreCase(streamMap
 											.get("MobileCH"))) {
-
-								// 2014-12-25 获取设备用户名密码
-								Jni.sendSuperBytes(arg1,
-										JVNetConst.JVN_RSP_TEXTDATA, true,
-										Consts.RC_EX_ACCOUNT,
-										Consts.EX_ACCOUNT_REFRESH,
-										Consts.POWER_ADMIN, 0, 0, new byte[0],
-										0);
 								MyLog.e(TAG,
 										"MobileCH=" + streamMap.get("MobileCH")
 												+ "--单向对讲");
@@ -1025,7 +1023,6 @@ public class JVPlayActivity extends PlayActivity implements
 							// channel.setHasGotParams(true);
 							showFunc(channel, currentScreen, lastClickIndex);
 						}
-
 						break;
 					case JVNetConst.EX_WIFI_AP_CONFIG:// 11 ---新wifi配置流程
 						break;
@@ -3095,12 +3092,12 @@ public class JVPlayActivity extends PlayActivity implements
 					e.printStackTrace();
 				}
 
-				// int counts = 0;
+				int counts = 0;
 				while (!allDis(channelList)) {
-					// counts++;
-					// if (counts > 10) {
-					// break;
-					// }
+					counts++;
+					if (counts > 15) {
+						break;
+					}
 					try {
 						Thread.sleep(200);
 					} catch (InterruptedException e) {
@@ -3174,6 +3171,7 @@ public class JVPlayActivity extends PlayActivity implements
 						allDis = false;
 						MyLog.e(TAG, "Not-DisConnected-index="
 								+ channleList.get(i).getIndex());
+						Jni.disconnect(channleList.get(i).getIndex());
 						break;
 					}
 				}

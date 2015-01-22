@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -44,6 +45,8 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 	public boolean bFromAlarm = false;// 是否报警视频
 	private boolean isAudio = false;// 是否正在监听
 	private MainApplication mainApp;
+
+	private TextView playbackData;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -123,12 +126,16 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 					if (size > 0) {
 						object = array.getJSONObject(0);
 						left = object.getInt("left");
-						MyLog.v(TAG,
-								"stat-" + ": fps: "
-										+ object.getDouble("decoder_fps") + "+"
-										+ object.getDouble("jump_fps") + "/"
-										+ object.getDouble("network_fps")
-										+ ", left = " + left);
+						// MyLog.v(TAG,
+						// "stat-" + ": fps: "
+						// + object.getDouble("decoder_fps") + "+"
+						// + object.getDouble("jump_fps") + "/"
+						// + object.getDouble("network_fps")
+						// + ", left = " + left);
+
+						playbackData.setText(String.format("%.1fk/%.1fk",
+								object.getDouble("kbps"),
+								object.getDouble("audio_kbps")));
 					}
 				}
 			} catch (JSONException e) {
@@ -279,6 +286,9 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		rightBtn.setVisibility(View.GONE);
 		playHelp.setVisibility(View.GONE);
 		/** 中 */
+
+		playbackData = (TextView) findViewById(R.id.playbackdata);
+
 		playViewPager.setVisibility(View.GONE);
 		playSurface.setVisibility(View.VISIBLE);
 		playSurface.setOnClickListener(myOnClickListener);

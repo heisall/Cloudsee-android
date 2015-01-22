@@ -50,12 +50,20 @@
                 android:background="@color/halftransparent"
                 android:visibility="gone" >
 
+                <TextView
+                    android:textColor="@color/white"
+                    android:id="@+id/playbackdata"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp" />
+                
                 <Button
                     android:id="@+id/playbackpause"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="100dp"
                     android:background="@drawable/video_stop_icon" />
 
                 <SeekBar

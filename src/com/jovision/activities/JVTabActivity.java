@@ -36,6 +36,7 @@ import com.jovision.commons.TPushTips;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.DefaultExceptionHandler;
 import com.jovision.utils.PlayUtil;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
@@ -87,6 +88,8 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(
+				this));
 		// // 如果savedInstanceState!=null，说明在应用在后台被干掉，或者应用崩掉需要重新create
 		// if (savedInstanceState != null) {
 		// Intent newApp = new Intent(JVTabActivity.this,

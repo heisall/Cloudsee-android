@@ -2195,57 +2195,59 @@ public class JVPlayActivity extends PlayActivity implements
 				// // ? 6 : 5),
 				// channel.getSurface(), false, isOmx,
 				// fullPath);
-			} else if (2 == channel.getVipLevel()) {
-				// 走全转发 by lkp
-				// showTextToast("vip==2全转发");
-				MyLog.e(TAG, "vip == 2,全转发");
-				Device device = channel.getParent();
-				int number = device.getNo();
-				String conIp = device.getIp();
-				int conPort = device.getPort();
-				if (Consts.PLAY_AP == playFlag) {
-					conIp = Consts.IPC_DEFAULT_IP;
-					conPort = Consts.IPC_DEFAULT_PORT;
-				} else {
-					conIp = device.getIp();
-					conPort = device.getPort();
-				}
-				// 有ip通过ip连接
-				if (false == ("".equalsIgnoreCase(device.getIp()) || 0 == device
-						.getPort())) {
-					if (ConfigUtil.is3G(JVPlayActivity.this, false)
-							&& 0 == device.getIsDevice()) {// 普通设备3G情况不用ip连接
-						conIp = "";
-						conPort = 0;
-					} else {// 有ip非3G
-						number = -1;
-					}
-				}
-
-				if (isPlayDirectly) {
-					connect = Jni.connect(channel.getIndex(),
-							channel.getChannel(), conIp, conPort,
-							device.getUser(), device.getPwd(), number,
-							device.getGid(), true, 1, true,
-							JVNetConst.JVN_ONLYTURN,// (device.isHomeProduct()
-							// ? 6 : 5),
-							channel.getSurface(), false, isOmx, fullPath);
-					if (connect == channel.getIndex()) {
-						channel.setPaused(null == channel.getSurface());
-					}
-				} else {
-					connect = Jni.connect(channel.getIndex(),
-							channel.getChannel(), conIp, conPort,
-							device.getUser(), device.getPwd(), number,
-							device.getGid(), true, 1, true,
-							JVNetConst.JVN_ONLYTURN,// (device.isHomeProduct()
-							// ? 6 : 5),
-							null, false, isOmx, fullPath);
-					if (connect == channel.getIndex()) {
-						channel.setPaused(true);
-					}
-				}
-			} else {
+			}
+			// else if (2 == channel.getVipLevel()) {
+			// // 走全转发 by lkp
+			// // showTextToast("vip==2全转发");
+			// MyLog.e(TAG, "vip == 2,全转发");
+			// Device device = channel.getParent();
+			// int number = device.getNo();
+			// String conIp = device.getIp();
+			// int conPort = device.getPort();
+			// if (Consts.PLAY_AP == playFlag) {
+			// conIp = Consts.IPC_DEFAULT_IP;
+			// conPort = Consts.IPC_DEFAULT_PORT;
+			// } else {
+			// conIp = device.getIp();
+			// conPort = device.getPort();
+			// }
+			// // 有ip通过ip连接
+			// if (false == ("".equalsIgnoreCase(device.getIp()) || 0 == device
+			// .getPort())) {
+			// if (ConfigUtil.is3G(JVPlayActivity.this, false)
+			// && 0 == device.getIsDevice()) {// 普通设备3G情况不用ip连接
+			// conIp = "";
+			// conPort = 0;
+			// } else {// 有ip非3G
+			// number = -1;
+			// }
+			// }
+			//
+			// if (isPlayDirectly) {
+			// connect = Jni.connect(channel.getIndex(),
+			// channel.getChannel(), conIp, conPort,
+			// device.getUser(), device.getPwd(), number,
+			// device.getGid(), true, 1, true,
+			// JVNetConst.JVN_ONLYTURN,// (device.isHomeProduct()
+			// // ? 6 : 5),
+			// channel.getSurface(), false, isOmx, fullPath);
+			// if (connect == channel.getIndex()) {
+			// channel.setPaused(null == channel.getSurface());
+			// }
+			// } else {
+			// connect = Jni.connect(channel.getIndex(),
+			// channel.getChannel(), conIp, conPort,
+			// device.getUser(), device.getPwd(), number,
+			// device.getGid(), true, 1, true,
+			// JVNetConst.JVN_ONLYTURN,// (device.isHomeProduct()
+			// // ? 6 : 5),
+			// null, false, isOmx, fullPath);
+			// if (connect == channel.getIndex()) {
+			// channel.setPaused(true);
+			// }
+			// }
+			// }
+			else {
 				// showTextToast("v不是vip");
 				MyLog.e(TAG, "vip == 0,不是vip");
 				Device device = channel.getParent();

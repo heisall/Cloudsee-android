@@ -57,7 +57,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="100k"
+                    android:text="0k"
                     android:textColor="@color/white"
                     android:visibility="gone" />
 

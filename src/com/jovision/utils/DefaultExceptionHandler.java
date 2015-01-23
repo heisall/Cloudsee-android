@@ -24,7 +24,7 @@ public class DefaultExceptionHandler implements UncaughtExceptionHandler {
 	public static Boolean tipDialog = false;
 
 	public DefaultExceptionHandler(Context act) {
-		// this.context = act;
+		this.context = act;
 	}
 
 	@Override

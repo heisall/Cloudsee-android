@@ -537,9 +537,8 @@ public class JVMoreFragment extends BaseFragment {
 								if (!Boolean
 										.valueOf(((BaseActivity) activity).statusHashMap
 												.get(Consts.LOCAL_LOGIN))) {
-									byte[] session = new byte[34];
-									JVACCOUNT.GetSession(session);
-									String sessionResult = new String(session);
+									String sessionResult = ConfigUtil
+											.getSession();
 
 									MyLog.v("session", sessionResult);
 									demoParams[0] = sessionResult;

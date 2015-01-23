@@ -48,7 +48,6 @@ public class JVWebView2Activity extends BaseActivity implements
 
 	/** topBar **/
 	private RelativeLayout topBar;
-
 	protected RelativeLayout.LayoutParams reParamsV;
 	protected RelativeLayout.LayoutParams reParamsH;
 	protected RelativeLayout.LayoutParams reParamstop1;

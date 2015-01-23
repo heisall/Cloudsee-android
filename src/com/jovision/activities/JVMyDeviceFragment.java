@@ -22,6 +22,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -635,8 +636,43 @@ public class JVMyDeviceFragment extends BaseFragment {
 									if (null != adUrl
 											&& !"".equalsIgnoreCase(adUrl
 													.trim())) {
+
+										String lan = "";
+										if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity
+												.getApplicationContext())) {
+											lan = "zh_cn";
+										} else if (Consts.LANGUAGE_ZHTW == ConfigUtil.getLanguage2(mActivity
+												.getApplicationContext())) {
+											lan = "zh_tw";
+										} else {
+											lan = "en_us";
+										}
+										String sid = "";
+										if (!Boolean
+												.valueOf(mActivity.statusHashMap
+														.get(Consts.LOCAL_LOGIN))) {
+											sid = ConfigUtil.getSession();
+										}
+
+										if (adUrl.contains("platv=9999")) {// 视频广场特殊标识
+											adUrl = adUrl.substring(0,
+													adUrl.lastIndexOf("?"));
+											adUrl = adUrl
+													+ "?"
+													+ "plat=android&platv="
+													+ Build.VERSION.SDK_INT
+													+ "&lang="
+													+ lan
+													+ "&d="
+													+ System.currentTimeMillis()
+													+ "&sid=" + sid;
+											MyLog.v("adUrl", adUrl);
+											intentAD.putExtra("title", -2);
+										} else {
+											intentAD.putExtra("title", -1);
+										}
+
 										intentAD.putExtra("URL", adUrl);
-										intentAD.putExtra("title", -1);
 										mActivity.startActivity(intentAD);
 									}
 								}
@@ -822,7 +858,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 		case Consts.WHAT_DEV_GETFINISHED: {
 			// TODO
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			// mActivity.dismissDialog();
+			mActivity.dismissDialog();
+			mActivity.createDialog(getResources().getString(R.string.waiting)
+					+ "...", false);
 			refreshList();
 			initADViewPager();
 			switch (arg1) {

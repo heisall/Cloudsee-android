@@ -252,10 +252,10 @@ public class ImageViewPager extends ViewPager {
 
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
-			int pos = position % mListViews.size();
-			if (null != mListViews && mListViews.size() > pos) {
-				container.removeView(mListViews.get(pos));
-			}
+			// int pos = position % mListViews.size();
+			// if (null != mListViews && mListViews.size() > pos) {
+			// container.removeView(mListViews.get(pos));
+			// }
 		}
 
 		public boolean isViewFromObject(View arg0, Object arg1) {

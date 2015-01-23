@@ -23,6 +23,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -877,6 +878,7 @@ public class CustomDialogActivity extends BaseActivity implements
 				} else if (-99 == conn_ret) {
 					tag = -99;
 					myHandler.sendEmptyMessage(tag);
+					break;
 				} else {
 					// handler.sendMessage(handler.obtainMessage(
 					// Consts.WHAT_PLAY_STATUS, Consts.ONLY_CONNECT_INDEX,

@@ -79,9 +79,9 @@ public class AlarmDialog extends Dialog {
 
 	@Override
 	protected void onStop() {
-		synchronized (AlarmDialog.class) {
+//		synchronized (AlarmDialog.class) {
 			isshowing = false;
-		}
+//		}
 	}
 
 	// public synchronized static int getDialogObjs() {
@@ -188,9 +188,10 @@ public class AlarmDialog extends Dialog {
 
 	public void Show(Object obj) {
 
-		synchronized (AlarmDialog.class) {
+//		synchronized (AlarmDialog.class) {
 
 			if (obj == null) {
+				isshowing = false;
 				return;
 			}
 			// 已经在显示了，就不显示了
@@ -237,7 +238,7 @@ public class AlarmDialog extends Dialog {
 				// Toast.makeText(context, "收到信息，但不提示",
 				// Toast.LENGTH_SHORT).show();
 			}
-		}
+//		}
 	}
 
 	@Override

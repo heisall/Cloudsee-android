@@ -1351,4 +1351,19 @@ public class ConfigUtil {
 		}
 		return map;
 	}
+
+	/**
+	 * 获取session
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static String getSession() {
+		byte[] session = new byte[34];
+		JVACCOUNT.GetSession(session);
+		String sessionResult = new String(session);
+
+		MyLog.v("session", sessionResult);
+		return sessionResult;
+	}
 }

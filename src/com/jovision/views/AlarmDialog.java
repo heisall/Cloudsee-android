@@ -79,9 +79,9 @@ public class AlarmDialog extends Dialog {
 
 	@Override
 	protected void onStop() {
-//		synchronized (AlarmDialog.class) {
-			isshowing = false;
-//		}
+		// synchronized (AlarmDialog.class) {
+		isshowing = false;
+		// }
 	}
 
 	// public synchronized static int getDialogObjs() {
@@ -188,57 +188,56 @@ public class AlarmDialog extends Dialog {
 
 	public void Show(Object obj) {
 
-//		synchronized (AlarmDialog.class) {
+		// synchronized (AlarmDialog.class) {
 
-			if (obj == null) {
-				isshowing = false;
-				return;
-			}
-			// 已经在显示了，就不显示了
-			// if (getDialogObjs() <= 1) {
-			if (!isshowing) {
-				isshowing = true;
-				PushInfo pi = (PushInfo) obj;
-				ystNum = pi.ystNum;
-				deviceList = CacheUtil.getDevList();// 再取一次
-				int dev_index = getDeivceIndex(ystNum);
-				if (dev_index == -1) {
-					deviceNickName = pi.deviceNickName;
-				} else {
-					deviceNickName = deviceList.get(dev_index).getNickName();
-					if (pi.alarmType == 11)// 第三方
-					{
-						deviceNickName = deviceNickName + "-"
-								+ pi.deviceNickName;
-					}
-				}
-
-				// deviceNickName = pi.deviceNickName;
-
-				alarmTime = pi.alarmTime;
-				String strAlarmTypeName = "";
-				if (pi.alarmType == 7) {
-					strAlarmTypeName = context.getResources().getString(
-							R.string.str_alarm_type_move);
-				} else if (pi.alarmType == 11) {
-					strAlarmTypeName = context.getResources().getString(
-							R.string.str_alarm_type_third);
-				} else if (pi.alarmType == 4) {
-					strAlarmTypeName = context.getResources().getString(
-							R.string.str_alarm_type_external);
-				} else {
-					strAlarmTypeName = context.getResources().getString(
-							R.string.str_alarm_type_unknown);
-				}
-				alarmTypeName = strAlarmTypeName;
-				strAlarmGUID = pi.strGUID;
-				show();
+		if (obj == null) {
+			isshowing = false;
+			return;
+		}
+		// 已经在显示了，就不显示了
+		// if (getDialogObjs() <= 1) {
+		if (!isshowing) {
+			isshowing = true;
+			PushInfo pi = (PushInfo) obj;
+			ystNum = pi.ystNum;
+			deviceList = CacheUtil.getDevList();// 再取一次
+			int dev_index = getDeivceIndex(ystNum);
+			if (dev_index == -1) {
+				deviceNickName = pi.deviceNickName;
 			} else {
-				MyLog.e("Alarm", "收到信息，但不提示");
-				// Toast.makeText(context, "收到信息，但不提示",
-				// Toast.LENGTH_SHORT).show();
+				deviceNickName = deviceList.get(dev_index).getNickName();
+				if (pi.alarmType == 11)// 第三方
+				{
+					deviceNickName = deviceNickName + "-" + pi.deviceNickName;
+				}
 			}
-//		}
+
+			// deviceNickName = pi.deviceNickName;
+
+			alarmTime = pi.alarmTime;
+			String strAlarmTypeName = "";
+			if (pi.alarmType == 7) {
+				strAlarmTypeName = context.getResources().getString(
+						R.string.str_alarm_type_move);
+			} else if (pi.alarmType == 11) {
+				strAlarmTypeName = context.getResources().getString(
+						R.string.str_alarm_type_third);
+			} else if (pi.alarmType == 4) {
+				strAlarmTypeName = context.getResources().getString(
+						R.string.str_alarm_type_external);
+			} else {
+				strAlarmTypeName = context.getResources().getString(
+						R.string.str_alarm_type_unknown);
+			}
+			alarmTypeName = strAlarmTypeName;
+			strAlarmGUID = pi.strGUID;
+			show();
+		} else {
+			MyLog.e("Alarm", "收到信息，但不提示");
+			// Toast.makeText(context, "收到信息，但不提示",
+			// Toast.LENGTH_SHORT).show();
+		}
+		// }
 	}
 
 	@Override

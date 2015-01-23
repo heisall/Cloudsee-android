@@ -1275,10 +1275,15 @@ public abstract class PlayActivity extends BaseActivity implements
 	 * 
 	 * @return
 	 */
-	public boolean stopRecord() {
+	public boolean stopRecord(boolean autoStop) {// 是否自动断开
 		long recordTime = System.currentTimeMillis() - startRecordTime;
 		MyLog.e(TAG, "recordTime=" + recordTime);
-		boolean res = PlayUtil.stopVideoTape();
+
+		boolean res = false;
+		if (!autoStop) {// 自动断开
+			res = PlayUtil.stopVideoTape();
+		}
+
 		if (recordTime <= 3000) {
 			File recordFile = new File(recordingPath);
 			recordFile.delete();
@@ -1286,7 +1291,9 @@ public abstract class PlayActivity extends BaseActivity implements
 		} else {
 			showTextToast(Consts.VIDEO_PATH);
 		}
-		tapeSelected(false);
+		if (!autoStop) {// 自动断开
+			tapeSelected(false);
+		}
 		return res;
 	}
 

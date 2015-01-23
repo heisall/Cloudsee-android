@@ -609,6 +609,9 @@ public class JVPlayActivity extends PlayActivity implements
 					channel.setAudioByte(jobj.getInt("audio_bit"));
 					channel.setAudioEncType(jobj.getInt("audio_enc_type"));
 
+					// Boolean info = jobj.getBoolean("auto_stop_recorder");
+					// MyLog.e("wodimaya", "auto_stop_recorder"+info);
+
 					if (8 == channel.getAudioByte()
 							&& Consts.DEVICE_TYPE_DVR == type) {
 						channel.setSupportVoice(false);
@@ -675,6 +678,7 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 
 			if (recoding) {
+				stopRecord(true);
 				String path = PlayUtil.createRecordFile();
 				if (!PlayUtil.checkRecord(lastClickIndex)) {
 					startRecord(lastClickIndex, path);
@@ -2889,7 +2893,7 @@ public class JVPlayActivity extends PlayActivity implements
 					if (channelList.get(lastClickIndex).getParent().is05()) {
 						String path = PlayUtil.createRecordFile();
 						if (PlayUtil.checkRecord(lastClickIndex)) {
-							stopRecord();
+							stopRecord(false);
 						} else {
 							startRecord(lastClickIndex, path);
 						}
@@ -3210,7 +3214,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 		// 正在录像停止录像
 		if (PlayUtil.checkRecord(lastClickIndex)) {
-			stopRecord();
+			stopRecord(false);
 		}
 		// 停止对讲
 		if (channelList.get(lastClickIndex).isVoiceCall()) {

@@ -813,13 +813,6 @@ public class JVWebView2Activity extends BaseActivity implements
 	}
 
 	@Override
-	protected void onStop() {
-		stopConnect();
-		// webView.onPause();
-		super.onStop();
-	}
-
-	@Override
 	public void onClick(Channel channel, boolean isFromImageView, int viewId) {
 
 	}

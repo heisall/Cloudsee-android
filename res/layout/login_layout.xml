@@ -74,7 +74,7 @@
                     android:layout_below="@+id/user_icon"
                     android:layout_marginTop="5dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/login_user_divider" />
+                    android:background="@drawable/login_user_divider" />
             </RelativeLayout>
 
             <RelativeLayout

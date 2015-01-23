@@ -113,6 +113,7 @@ public class JVDeviceManageActivity extends BaseActivity {
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		rightBtn = (Button) findViewById(R.id.btn_right);
+		rightBtn.setVisibility(View.GONE);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 
 		currentMenu.setText(R.string.str_device_manage);
@@ -126,7 +127,6 @@ public class JVDeviceManageActivity extends BaseActivity {
 		manage_delect = (TextView) findViewById(R.id.manage_delect);
 
 		leftBtn.setOnClickListener(myOnClickListener);
-		rightBtn.setOnClickListener(myOnClickListener);
 		manageNick_Cancle.setOnClickListener(myOnClickListener);
 		manage_save.setOnClickListener(myOnClickListener);
 		manage_delect.setOnClickListener(myOnClickListener);
@@ -141,9 +141,6 @@ public class JVDeviceManageActivity extends BaseActivity {
 			switch (v.getId()) {
 			case R.id.btn_left:
 				JVDeviceManageActivity.this.finish();
-				break;
-			case R.id.btn_right:
-
 				break;
 			case R.id.manage_nick_cancle:
 

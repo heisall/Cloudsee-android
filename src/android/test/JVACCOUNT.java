@@ -13,6 +13,7 @@ public class JVACCOUNT {
 	 * System.loadLibrary("EventSo.2.0.21"); System.loadLibrary("Json7.6.1");
 	 * System.loadLibrary("stlport_shared"); System.loadLibrary("accountsdk"); }
 	 */
+    
 	public static JVACCOUNT jvAccount = new JVACCOUNT();
 
 	public static JVACCOUNT getInstance() {

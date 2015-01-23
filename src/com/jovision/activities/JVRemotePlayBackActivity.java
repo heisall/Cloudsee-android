@@ -592,7 +592,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 					if (hasSDCard()) {
 						String path = PlayUtil.createRecordFile();
 						if (PlayUtil.checkRecord(indexOfChannel)) {
-							stopRecord();
+							stopRecord(false);
 						} else {
 							startRecord(indexOfChannel, path);
 						}
@@ -664,7 +664,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		// 正在录像停止录像
 		if (PlayUtil.checkRecord(indexOfChannel)) {
 			if (PlayUtil.checkRecord(indexOfChannel)) {
-				stopRecord();
+				stopRecord(false);
 			}
 		}
 	}

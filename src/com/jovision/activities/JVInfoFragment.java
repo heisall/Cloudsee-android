@@ -124,12 +124,12 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			pushListView.setPullLoadEnable(false);
 			pushListView.setXListViewListener(this);
 			rightBtn.setVisibility(View.VISIBLE);
-//			pushListView.setVisibility(View.VISIBLE);
+			// pushListView.setVisibility(View.VISIBLE);
 		} else {
 			pushListView.setPullLoadEnable(false);
 			pushListView.setPullRefreshEnable(false);
 			rightBtn.setVisibility(View.GONE);
-//			pushListView.setVisibility(View.INVISIBLE);
+			// pushListView.setVisibility(View.INVISIBLE);
 		}
 		noMess = (ImageView) mParent.findViewById(R.id.nomess);
 		noMessTv = (TextView) mParent.findViewById(R.id.nomess_tv);

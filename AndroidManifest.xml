@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="42"
-    android:versionName="V4.3.47" >
+    android:versionName="V4.6.0" >
 
     <supports-screens
         android:anyDensity="true"
@@ -83,7 +83,7 @@
         <!-- 请将CHANNAL改为app的发布渠道 < -->
         <meta-data
             android:name="InstallChannel"
-            android:value="xiaomi" />
+            android:value="anzhi" />
         <!-- mta系统的权限< -->
         <meta-data
             android:name="UMENG_APPKEY"
@@ -91,7 +91,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="xiaomi" />
+            android:value="anzhi" />
 
         <activity
             android:name="com.jovision.activities.JVWelcomeActivity"

@@ -318,11 +318,14 @@ public abstract class PlayActivity extends BaseActivity implements
 
 			@Override
 			public void onClick(View arg0) {
-				closePopWindow();
-				if (View.VISIBLE == playStatistics.getVisibility()) {
-					playStatistics.setVisibility(View.GONE);
-				} else {
-					playStatistics.setVisibility(View.VISIBLE);
+
+				if (MySharedPreference.getBoolean("LITTLE")) {
+					closePopWindow();
+					if (View.VISIBLE == playStatistics.getVisibility()) {
+						playStatistics.setVisibility(View.GONE);
+					} else {
+						playStatistics.setVisibility(View.VISIBLE);
+					}
 				}
 			}
 		});

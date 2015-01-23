@@ -75,6 +75,11 @@ public class AlarmDialog extends Dialog {
 		dialogDeviceModle.setText(alarmTypeName);
 		dialogAlarmTime.setText(alarmTime);
 		// MyLog.e("AlarmDialog", "onStart" + getDialogObjs());
+		if(isshowing){
+			dismiss();
+			return;
+		}
+		isshowing = true;
 	}
 
 	@Override
@@ -94,9 +99,11 @@ public class AlarmDialog extends Dialog {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.dialog_cancel:
+				isshowing = false;
 				dismiss();
 				break;
 			case R.id.dialog_cancle_img:
+				isshowing = false;
 				dismiss();
 				break;
 			case R.id.dialog_view:
@@ -197,7 +204,7 @@ public class AlarmDialog extends Dialog {
 		// 已经在显示了，就不显示了
 		// if (getDialogObjs() <= 1) {
 		if (!isshowing) {
-			isshowing = true;
+//			isshowing = true;
 			PushInfo pi = (PushInfo) obj;
 			ystNum = pi.ystNum;
 			deviceList = CacheUtil.getDevList();// 再取一次
@@ -243,6 +250,7 @@ public class AlarmDialog extends Dialog {
 	@Override
 	public void dismiss() {
 		// TODO Auto-generated method stub
+		isshowing = false;
 		super.dismiss();
 	}
 

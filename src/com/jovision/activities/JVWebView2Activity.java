@@ -492,12 +492,15 @@ public class JVWebView2Activity extends BaseActivity implements
 		playSurfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
 			@Override
 			public void surfaceDestroyed(SurfaceHolder holder) {
+				MyLog.e("妈呀", "1");
+				MyLog.e("妈呀", "surfaceDestroyed");
 				stopConnect();
 				playChannel.setSurface(null);
 			}
 
 			@Override
 			public void surfaceCreated(SurfaceHolder holder) {
+				MyLog.e("妈呀", "surfaceCreated");
 				loadingState(Consts.TAG_PLAY_CONNECTING);
 				playChannel.setSurface(holder.getSurface());
 				tensileView(playChannel, playChannel.getSurfaceView());
@@ -506,6 +509,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			@Override
 			public void surfaceChanged(SurfaceHolder holder, int format,
 					int width, int height) {
+				MyLog.e("妈呀", "surfaceChanged");
 				if (!onPause && !manuPause) {
 					playChannel.setSurface(holder.getSurface());
 					if (false == playChannel.isConnected()
@@ -710,6 +714,7 @@ public class JVWebView2Activity extends BaseActivity implements
 					pause.setImageDrawable(getResources().getDrawable(
 							R.drawable.video_play_icon));
 					// 暂停视频
+					MyLog.e("妈呀", "2");
 					boolean res = stopConnect();
 				} else {
 					manuPause = false;
@@ -750,6 +755,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			webView.goBack(); // goBack()表示返回WebView的上一页面
 		} else {
 			createDialog("", false);
+			MyLog.e("妈呀", "3");
 			stopConnect();
 			while (!isDisConnected) {
 				try {
@@ -797,6 +803,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		super.onPause();
 		// handler.sendMessage(handler.obtainMessage(Consts.WHAT_DEMO_BUFFING));
 		onPause = true;
+		MyLog.e("妈呀", "4");
 		stopConnect();
 		// webView.onPause();
 	}
@@ -804,8 +811,10 @@ public class JVWebView2Activity extends BaseActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+		onPause = false;
 		// webView.onResume();
 		// resumeVideo();
+		MyLog.e("妈呀", "onResume");
 		if (!manuPause) {
 			handler.sendMessageDelayed(
 					handler.obtainMessage(Consts.WHAT_DEMO_RESUME), 500);

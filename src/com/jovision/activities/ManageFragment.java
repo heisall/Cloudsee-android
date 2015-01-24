@@ -219,9 +219,10 @@ public class ManageFragment extends BaseFragment {
 					mActivity.showTextToast(R.string.ip_add_notallow);
 				} else {
 					mActivity.createDialog("", false);
+					isturn = false;
 					PlayUtil.connectDevice(device);
 					if (!isturn) {
-						new Handler().postDelayed(runnable, 60000);
+						new Handler().postDelayed(runnable, 15000);
 					}
 				}
 				break;
@@ -396,7 +397,7 @@ public class ManageFragment extends BaseFragment {
 		case Consts.CALL_CONNECT_CHANGE: { // 连接回调
 			MyLog.i(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-
+			isturn = true;
 			if (Consts.BAD_NOT_CONNECT == arg2) {
 				mActivity.dismissDialog();
 			} else if (JVNetConst.CONNECT_OK != arg2

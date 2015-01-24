@@ -500,8 +500,8 @@
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">请在此输入您的问题或建议</string>
     <string name="str_notice_connection">为方便后续跟踪您提的问题和建议，请留下您的联系方式</string>
-    <string name="str_connect_error">联系方式含有非法字符，联系方式只能有数字、字母、汉字及一些特殊字符组成</string>
-    <string name="str_content_error">意见反馈的内容含有非法字符，内容只能有数字、字母、汉字及一些特殊字符组成</string>
+    <string name="str_connect_error">联系方式含有非法字符，系方式只能有数字、字母、汉字及特殊字符_@.组成</string>
+    <string name="str_content_error">意见反馈的内容含有非法字符，内容只能有数字、字母、汉字及特殊字符_.,?!:%组成</string>
     <string name="str_idea_and_feedback">意见反馈</string>
     <string name="commit">提交</string>
     <string name="str_commit_success">感谢您的反馈，我们将不断努力，为您提供更优质的服务</string>
@@ -684,6 +684,14 @@
     <string name="str_tpush_autostart_tips_v5">为保证离线报警功能正常使用，请您对手机做如下设置：\n在手机的\"安全中心\"->\"授权管理\"->\"自启动应用管理\"界面，将本软件手动添加到自启动应用中</string>
     <string name="str_tpush_autostart_tips_v6">为保证离线报警功能正常使用，请您对手机做如下设置：\n在手机的\"安全中心"->\"授权管理\"->\"自启动管理\"界面，将本软件设置为允许自动启动</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
+    <string name="census_findpasswpordbyemail">邮箱找回密码</string>
+    <string name="census_findpasswpordbyphone">电话找回密码</string>
+    <string name="census_ad">广告位</string>
+    <string name="census_moredemo">更多视频广场</string>
+    <string name="census_moremessage">更多系统消息</string>
+    <string name="census_clearalarmmessage">清除报警信息</string>
+    <string name="census_moreheadimg">选择头像</string>
+    <string name="census_morebindmail">更多绑定邮箱</string>
     <string name="census_login">本地登录</string>
     <string name="census_onlinelogin">在线登录</string>
     <string name="census_remoteset">远程设置</string>

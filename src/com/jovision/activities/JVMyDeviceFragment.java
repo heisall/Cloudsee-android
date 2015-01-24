@@ -610,6 +610,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 							imageView.setTag(i);
 							imageView.setOnClickListener(new OnClickListener() {
 								public void onClick(View v) {// 设置图片点击事件
+									StatService.trackCustomEvent(
+											mActivity,
+											"Ad",
+											mActivity.getResources().getString(
+													R.string.census_ad));
 									Intent intentAD = new Intent(mActivity,
 											JVWebViewActivity.class);
 									int index = (Integer) imageView.getTag();
@@ -676,7 +681,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 							}
 							if (null != bmp) {
 								imageView.setImageBitmap(bmp);
-								Log.i("TAG", "bitmap是空的！！！");
 							} else {
 								imageView
 										.setImageResource(R.drawable.ad_default);

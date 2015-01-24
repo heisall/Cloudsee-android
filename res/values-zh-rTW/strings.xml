@@ -499,8 +499,8 @@
     <string name="system_info_nomore">沒有更多了</string>
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">請在此輸入您的問題或建議</string>
-    <string name="str_connect_error">聯系方式含有非法字符，系方式只能有數字、字母、漢字及特殊字符-_ @+().組成</string>
-    <string name="str_content_error">意見反饋的內容含有非法字符，內容只能有數字、字母、漢字及特殊字符-_ @+().組成</string>
+    <string name="str_connect_error">聯系方式含有非法字符，系方式只能有數字、字母、漢字及特殊字符_@.組成</string>
+    <string name="str_content_error">意見反饋的內容含有非法字符，內容只能有數字、字母、漢字及特殊字符_.,?!:%組成</string>
     <string name="str_notice_connection">為方便後續跟蹤您提的問題和建議，請留下您的聯繫方式</string>
     <string name="str_idea_and_feedback">意見回饋</string>
     <string name="commit">提交</string>
@@ -684,6 +684,14 @@
     <string name="str_tpush_autostart_tips_v5">為保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心\"->\"授權管理\"->\"自啟動應用管理\"界面，將本軟件手動添加到自啟動應用中</string>
     <string name="str_tpush_autostart_tips_v6">爲保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心"->\"授權管理\"->\"自啟動管理\"界面，將本軟件設置爲允許自動啟動</string>
     <!-- 騰訊雲分析統計名稱 不用翻譯 -->
+    <string name="census_findpasswpordbyemail">邮箱找回密码</string>
+    <string name="census_findpasswpordbyphone">电话找回密码</string>
+    <string name="census_ad">广告位</string>
+    <string name="census_moredemo">更多视频广场</string>
+    <string name="census_moremessage">更多系统消息</string>
+    <string name="census_clearalarmmessage">清除报警信息</string>
+    <string name="census_moreheadimg">选择头像</string>
+    <string name="census_morebindmail">更多绑定邮箱</string>
     <string name="census_login">本地登錄</string>
     <string name="census_onlinelogin">線上登錄</string>
     <string name="census_remoteset">遠程設置</string>

@@ -499,8 +499,8 @@
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">Please input your problems or suggestion.</string>
     <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>
-    <string name="str_connect_error">Contact Information include Ilegal character,the NikeName should be English letter,number,or special characters like .–_+()</string>
-    <string name="str_content_error">Feedback include Ilegal character,the NikeName should be English letter,number,or special characters like .–_+()</string>
+    <string name="str_connect_error">Contact Information include Ilegal character,the NikeName should be English letter,number,or some special characters</string>
+    <string name="str_content_error">Feedback include Ilegal character,the NikeName should be English letter,number,or some special characters</string>
     <string name="str_idea_and_feedback">Feedback</string>
     <string name="commit">Send</string>
     <string name="str_commit_success">Thanks for your feedback, we shall work more to provide better service.</string>

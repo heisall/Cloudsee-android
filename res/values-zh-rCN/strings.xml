@@ -499,8 +499,8 @@
     <!-- JVFeedbackActivity -->
     <string name="str_notice_content">请在此输入您的问题或建议</string>
     <string name="str_notice_connection">为方便后续跟踪您提的问题和建议，请留下您的联系方式</string>
-    <string name="str_connect_error">联系方式含有非法字符，系方式只能有数字、字母、汉字及特殊字符-_ @+().组成</string>
-    <string name="str_content_error">意见反馈的内容含有非法字符，内容只能有数字、字母、汉字及特殊字符-_ @+().组成</string>
+    <string name="str_connect_error">联系方式含有非法字符，联系方式只能有数字、字母、汉字及一些特殊字符组成</string>
+    <string name="str_content_error">意见反馈的内容含有非法字符，内容只能有数字、字母、汉字及一些特殊字符组成</string>
     <string name="str_idea_and_feedback">意见反馈</string>
     <string name="commit">提交</string>
     <string name="str_commit_success">感谢您的反馈，我们将不断努力，为您提供更优质的服务</string>

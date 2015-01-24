@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ public class ManageFragment extends BaseFragment {
 	private ArrayList<Device> deviceList;
 	private Device device;
 	public static int mScreenWidth;
+	private boolean isturn = false;
 
 	private GridView manageGridView;
 	private ManageAdapter manageAdapter;
@@ -192,6 +194,15 @@ public class ManageFragment extends BaseFragment {
 		// "index="+deviceIndex+";device="+device.toString());
 	}
 
+	Runnable runnable = new Runnable() {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			mActivity.showTextToast("连接失败");
+			mActivity.dismissDialog();
+		}
+	};
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		MyLog.i("ManageFragment", "onTabAction:what=" + what + ";arg1=" + arg1
@@ -209,6 +220,9 @@ public class ManageFragment extends BaseFragment {
 				} else {
 					mActivity.createDialog("", false);
 					PlayUtil.connectDevice(device);
+					if (!isturn) {
+						new Handler().postDelayed(runnable, 60000);
+					}
 				}
 				break;
 			}
@@ -368,12 +382,12 @@ public class ManageFragment extends BaseFragment {
 				builder1.setMessage(R.string.not_support_this_func);
 				builder1.setNegativeButton(R.string.cancel,
 						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								dialog.dismiss();
-							}
-						});
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {
+						dialog.dismiss();
+					}
+				});
 				builder1.create().show();
 			}
 
@@ -397,11 +411,11 @@ public class ManageFragment extends BaseFragment {
 					} else if ("channel is not open!"
 							.equalsIgnoreCase(errorMsg)) {// 无该通道服务
 						mActivity
-								.showTextToast(R.string.connfailed_channel_notopen);
+						.showTextToast(R.string.connfailed_channel_notopen);
 					} else if ("connect type invalid!"
 							.equalsIgnoreCase(errorMsg)) {// 连接类型无效
 						mActivity
-								.showTextToast(R.string.connfailed_type_invalid);
+						.showTextToast(R.string.connfailed_type_invalid);
 					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
 						mActivity.showTextToast(R.string.connfailed_maxcount);
 					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
@@ -442,7 +456,7 @@ public class ManageFragment extends BaseFragment {
 					}
 				mActivity.dismissDialog();
 				mActivity
-						.showTextToast(R.string.str_only_administator_use_this_function);
+				.showTextToast(R.string.str_only_administator_use_this_function);
 				break;
 
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
@@ -613,5 +627,9 @@ public class ManageFragment extends BaseFragment {
 
 		}
 	}
-
+	@Override
+	public void onDestroy() {
+		isturn = true;
+		super.onDestroy();
+	}
 }

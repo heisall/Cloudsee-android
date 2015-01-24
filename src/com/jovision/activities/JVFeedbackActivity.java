@@ -163,14 +163,16 @@ public class JVFeedbackActivity extends BaseActivity {
 			case R.id.btn_right:
 				connectStr = connection.getText().toString();// 联系方式
 				contentStr = content.getText().toString();// 反馈内容
-				if ("".equals(connectStr)) {
-					showTextToast(R.string.str_notice_connection);
-				} else if (!ConfigUtil.checkUserConnect(connectStr)) {
+				if ("".equals(connectStr)&&!"".equals(contentStr)) {
+					createDialog("", true);
+					FeedbackThread feedbackThread = new FeedbackThread();
+					feedbackThread.start();
+				}else if (!"".equals(connectStr)&&!ConfigUtil.checkUserConnect(connectStr)) {
 					showTextToast(R.string.str_connect_error);
 				} else if (0 == content.getText().toString().length()
 						|| ("").equals(contentStr)) {
 					showTextToast(R.string.str_notice_content);
-				} else if (!ConfigUtil.checkUserConnect(contentStr)) {
+				} else if (!ConfigUtil.checkUserContent(contentStr)) {
 					showTextToast(R.string.str_content_error);
 				} else {
 					createDialog("", true);

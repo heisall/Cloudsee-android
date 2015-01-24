@@ -68,7 +68,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private WebView webView;
 
 	private boolean fullScreenFlag = false;
-	// private boolean pausedFlag = false;
+	private boolean pausedFlag = false;
 	private MyAudio playAudio;
 	private int audioByte = 0;
 	private Channel playChannel;
@@ -83,6 +83,7 @@ public class JVWebView2Activity extends BaseActivity implements
 
 	private boolean isDisConnected = false;// 断开成功标志
 	private boolean manuPause = false;// 人为暂停
+	private boolean onPause = false;// onPause
 
 	private LinearLayout loadFailedLayout;
 	private ImageView reloadImgView;
@@ -506,16 +507,17 @@ public class JVWebView2Activity extends BaseActivity implements
 			@Override
 			public void surfaceChanged(SurfaceHolder holder, int format,
 					int width, int height) {
-				playChannel.setSurface(holder.getSurface());
+				if (!onPause) {
+					playChannel.setSurface(holder.getSurface());
 
-				if (false == playChannel.isConnected()
-						&& false == playChannel.isConnecting()) {
-					startConnect(rtmp, holder.getSurface());
-				} else {
-					tensileView(playChannel, playChannel.getSurfaceView());
-					resumeVideo();
+					if (false == playChannel.isConnected()
+							&& false == playChannel.isConnecting()) {
+						startConnect(rtmp, holder.getSurface());
+					} else {
+						tensileView(playChannel, playChannel.getSurfaceView());
+						resumeVideo();
+					}
 				}
-
 			}
 		});
 
@@ -634,6 +636,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	 * 断开连接
 	 */
 	private boolean stopConnect() {
+		stopAudio(playChannel.getIndex());
 		return Jni.shutdownRTMP(playChannel.getIndex());
 	};
 
@@ -795,7 +798,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	protected void onPause() {
 		super.onPause();
 		// handler.sendMessage(handler.obtainMessage(Consts.WHAT_DEMO_BUFFING));
-		manuPause = false;
+		onPause = true;
 		stopConnect();
 		// webView.onPause();
 	}
@@ -805,8 +808,10 @@ public class JVWebView2Activity extends BaseActivity implements
 		super.onResume();
 		// webView.onResume();
 		// resumeVideo();
-		handler.sendMessageDelayed(
-				handler.obtainMessage(Consts.WHAT_DEMO_RESUME), 500);
+		if (!manuPause) {
+			handler.sendMessageDelayed(
+					handler.obtainMessage(Consts.WHAT_DEMO_RESUME), 500);
+		}
 	}
 
 	@Override

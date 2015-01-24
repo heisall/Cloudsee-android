@@ -152,7 +152,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:text="@string/demo_loading"
                         android:textColor="@color/more_fragment_color2"
                         android:textSize="16sp" />

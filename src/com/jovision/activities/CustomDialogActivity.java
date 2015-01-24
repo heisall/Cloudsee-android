@@ -783,8 +783,7 @@ public class CustomDialogActivity extends BaseActivity implements
 					progressdialog.dismiss();
 				}
 				String strDescString = getResources().getString(
-						R.string.connect_failed)
-						+ ":" + Consts.BAD_HAS_CONNECTED;
+						R.string.connect_failed);
 				showTextToast(strDescString);
 				if (!vod_uri_.equals("")) {
 					lookVideoBtn.setEnabled(true);
@@ -852,7 +851,7 @@ public class CustomDialogActivity extends BaseActivity implements
 
 		@Override
 		public void run() {
-			int try_cnt = 1;
+			int try_cnt = 2;
 			int conn_ret = -1;
 			do {
 				conn_ret = AlarmUtil.OnlyConnect(strYstNum);

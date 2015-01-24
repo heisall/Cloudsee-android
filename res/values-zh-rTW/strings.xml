@@ -396,7 +396,7 @@
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">已選中?個，</string>
     <string name="number">共?個</string>
-    <string name="notwifi_forbid_func">3G狀態下不允許使用此功能</string>
+    <string name="notwifi_forbid_func">2G/3G/4G狀態下不允許使用此功能</string>
     <string name="del_device_succ">設備刪除成功</string>
     <string name="del_device_failed">設備刪除失敗</string>
     <string name="str_modify">修改</string>
@@ -411,6 +411,7 @@
     <string name="add_broad_dev">搜索到!個設備，是否立即添加?</string>
     <string name="broad_zero">未搜索到設備.</string>
     <string name="get_device_failed">設備加載失敗</string>
+    <string name="search_device_failed">檢索服務器通信異常</string>
     <string name="press_screen_refresh">點擊螢幕刷新</string>
     <!-- JVInfoFragment -->
     <string name="nomessage">暫時沒有報警數據</string>

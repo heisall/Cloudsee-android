@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +47,6 @@ public class ManageFragment extends BaseFragment {
 	private ArrayList<Device> deviceList;
 	private Device device;
 	public static int mScreenWidth;
-	private boolean isturn = false;
 
 	private GridView manageGridView;
 	private ManageAdapter manageAdapter;
@@ -194,16 +194,6 @@ public class ManageFragment extends BaseFragment {
 		// "index="+deviceIndex+";device="+device.toString());
 	}
 
-	Runnable runnable = new Runnable() {
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			mActivity.showTextToast("连接失败");
-			mActivity.dismissDialog();
-		}
-	};
-
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		MyLog.i("ManageFragment", "onTabAction:what=" + what + ";arg1=" + arg1
@@ -220,11 +210,7 @@ public class ManageFragment extends BaseFragment {
 					mActivity.showTextToast(R.string.ip_add_notallow);
 				} else {
 					mActivity.createDialog("", false);
-					isturn = false;
 					PlayUtil.connectDevice(device);
-					if (!isturn) {
-						new Handler().postDelayed(runnable, 15000);
-					}
 				}
 				break;
 			}
@@ -398,7 +384,6 @@ public class ManageFragment extends BaseFragment {
 		case Consts.CALL_CONNECT_CHANGE: { // 连接回调
 			MyLog.i(TAG, "CONNECT_CHANGE: " + what + ", " + arg1 + ", " + arg2
 					+ ", " + obj);
-			isturn = true;
 			if (Consts.BAD_NOT_CONNECT == arg2) {
 				mActivity.dismissDialog();
 			} else if (JVNetConst.CONNECT_OK != arg2
@@ -628,11 +613,5 @@ public class ManageFragment extends BaseFragment {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 
 		}
-	}
-
-	@Override
-	public void onDestroy() {
-		isturn = true;
-		super.onDestroy();
 	}
 }

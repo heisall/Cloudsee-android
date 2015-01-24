@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
@@ -30,14 +32,14 @@ import com.jovision.utils.JSONUtil;
 public class JVWebViewActivity extends BaseActivity {
 
 	private static final String TAG = "JVWebViewActivity";
-
+	private LinearLayout loadinglayout;
 	/** topBar **/
 	private RelativeLayout topBar;
 
 	private WebView webView;
 	private String url = "";
 	private int titleID = 0;
-	private ProgressBar loadingBar;
+	private ImageView loadingBar;
 
 	private LinearLayout loadFailedLayout;
 	private ImageView reloadImgView;
@@ -94,7 +96,8 @@ public class JVWebViewActivity extends BaseActivity {
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.demo);
-		loadingBar = (ProgressBar) findViewById(R.id.loadingbars);
+		loadingBar = (ImageView) findViewById(R.id.loadingbars);
+		loadinglayout = (LinearLayout)findViewById(R.id.loadinglayout);
 
 		loadFailedLayout = (LinearLayout) findViewById(R.id.loadfailedlayout);
 		loadFailedLayout.setVisibility(View.GONE);
@@ -189,7 +192,10 @@ public class JVWebViewActivity extends BaseActivity {
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
 				if (!isfirst) {
-					loadingBar.setVisibility(View.VISIBLE);
+					loadinglayout.setVisibility(View.VISIBLE);
+					Animation anim = AnimationUtils.loadAnimation(
+							JVWebViewActivity.this, R.anim.rotate);
+					loadingBar.setAnimation(anim);
 					isfirst = true;
 				}
 				MyLog.v(TAG, "webView start load");
@@ -203,10 +209,10 @@ public class JVWebViewActivity extends BaseActivity {
 				if (loadFailed) {
 					loadFailedLayout.setVisibility(View.VISIBLE);
 					webView.setVisibility(View.GONE);
-					loadingBar.setVisibility(View.GONE);
+					loadinglayout.setVisibility(View.GONE);
 				} else {
 					webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
-					loadingBar.setVisibility(View.GONE);
+					loadinglayout.setVisibility(View.GONE);
 					webView.setVisibility(View.VISIBLE);
 					loadFailedLayout.setVisibility(View.GONE);
 				}
@@ -272,7 +278,10 @@ public class JVWebViewActivity extends BaseActivity {
 			}
 			case R.id.refreshimg: {
 				loadFailedLayout.setVisibility(View.GONE);
-				loadingBar.setVisibility(View.VISIBLE);
+				loadinglayout.setVisibility(View.VISIBLE);
+				Animation anim = AnimationUtils.loadAnimation(
+						JVWebViewActivity.this, R.anim.rotate);
+				loadingBar.setAnimation(anim);
 				loadFailed = false;
 				webView.loadUrl(url);
 				break;

@@ -80,7 +80,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private int titleID = 0;
 	private ImageView loadingBar;
 	private LinearLayout loadinglayout;
-	
+
 	private boolean isDisConnected = false;// 断开成功标志
 	private boolean manuPause = false;// 人为暂停
 
@@ -360,7 +360,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		zhezhaoLayout = (RelativeLayout) findViewById(R.id.zhezhao);
 		zhezhaoLayout.setLayoutParams(reParamstop1);
 		loadingBar = (ImageView) findViewById(R.id.loadingbar);
-		loadinglayout = (LinearLayout)findViewById(R.id.loadinglayout);
+		loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
 
 		loadFailedLayout = (LinearLayout) findViewById(R.id.loadfailedlayout);
 		loadFailedLayout.setVisibility(View.GONE);
@@ -556,7 +556,8 @@ public class JVWebView2Activity extends BaseActivity implements
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
 				loadinglayout.setVisibility(View.VISIBLE);
-				Animation anim = AnimationUtils.loadAnimation(JVWebView2Activity.this, R.anim.rotate);   
+				Animation anim = AnimationUtils.loadAnimation(
+						JVWebView2Activity.this, R.anim.rotate);
 				loadingBar.setAnimation(anim);
 				MyLog.v(TAG, "webView start load");
 			}
@@ -602,17 +603,20 @@ public class JVWebView2Activity extends BaseActivity implements
 			webView.getViewTreeObserver().addOnGlobalLayoutListener(
 					new OnGlobalLayoutListener() {
 
-				@Override
-				public void onGlobalLayout() {
-					// TODO Auto-generated method stub
-					//					Log.i("TAG",disMetrics.heightPixels-disMetrics.widthPixels*0.75-100+"高度"+webView.getHeight());
+						@Override
+						public void onGlobalLayout() {
+							// TODO Auto-generated method stub
+							// Log.i("TAG",disMetrics.heightPixels-disMetrics.widthPixels*0.75-100+"高度"+webView.getHeight());
 
-					if ((disMetrics.heightPixels-disMetrics.widthPixels*0.75-100)-webView.getHeight()>200) {
-						zhezhaoLayout.setLayoutParams(reParamstop2);
-					}else {
-						zhezhaoLayout.setLayoutParams(reParamstop1);
-					}
-				}});
+							if ((disMetrics.heightPixels
+									- disMetrics.widthPixels * 0.75 - 100)
+									- webView.getHeight() > 200) {
+								zhezhaoLayout.setLayoutParams(reParamstop2);
+							} else {
+								zhezhaoLayout.setLayoutParams(reParamstop1);
+							}
+						}
+					});
 		}
 
 	}
@@ -691,7 +695,8 @@ public class JVWebView2Activity extends BaseActivity implements
 			case R.id.refreshimg: {
 				loadFailedLayout.setVisibility(View.GONE);
 				loadinglayout.setVisibility(View.VISIBLE);
-				Animation anim = AnimationUtils.loadAnimation(JVWebView2Activity.this, R.anim.rotate);   
+				Animation anim = AnimationUtils.loadAnimation(
+						JVWebView2Activity.this, R.anim.rotate);
 				loadingBar.setAnimation(anim);
 				loadFailed = false;
 				webView.loadUrl(url);

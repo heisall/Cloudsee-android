@@ -203,6 +203,7 @@ public class ManageFragment extends BaseFragment {
 			mActivity.dismissDialog();
 		}
 	};
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		MyLog.i("ManageFragment", "onTabAction:what=" + what + ";arg1=" + arg1
@@ -383,12 +384,12 @@ public class ManageFragment extends BaseFragment {
 				builder1.setMessage(R.string.not_support_this_func);
 				builder1.setNegativeButton(R.string.cancel,
 						new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog,
-							int which) {
-						dialog.dismiss();
-					}
-				});
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.dismiss();
+							}
+						});
 				builder1.create().show();
 			}
 
@@ -412,11 +413,11 @@ public class ManageFragment extends BaseFragment {
 					} else if ("channel is not open!"
 							.equalsIgnoreCase(errorMsg)) {// 无该通道服务
 						mActivity
-						.showTextToast(R.string.connfailed_channel_notopen);
+								.showTextToast(R.string.connfailed_channel_notopen);
 					} else if ("connect type invalid!"
 							.equalsIgnoreCase(errorMsg)) {// 连接类型无效
 						mActivity
-						.showTextToast(R.string.connfailed_type_invalid);
+								.showTextToast(R.string.connfailed_type_invalid);
 					} else if ("client count limit!".equalsIgnoreCase(errorMsg)) {// 超过主控最大连接限制
 						mActivity.showTextToast(R.string.connfailed_maxcount);
 					} else if ("connect timeout!".equalsIgnoreCase(errorMsg)) {//
@@ -457,7 +458,7 @@ public class ManageFragment extends BaseFragment {
 					}
 				mActivity.dismissDialog();
 				mActivity
-				.showTextToast(R.string.str_only_administator_use_this_function);
+						.showTextToast(R.string.str_only_administator_use_this_function);
 				break;
 
 			case JVNetConst.JVN_RSP_TEXTDATA:// 文本数据
@@ -628,6 +629,7 @@ public class ManageFragment extends BaseFragment {
 
 		}
 	}
+
 	@Override
 	public void onDestroy() {
 		isturn = true;

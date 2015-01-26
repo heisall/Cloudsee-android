@@ -271,9 +271,6 @@ public class ManageFragment extends BaseFragment {
 					startTimer();
 					mActivity.createDialog("", false);
 					PlayUtil.connectDevice(device);
-					// if (!isturn) {
-					// new Handler().postDelayed(runnable, 15000);
-					// }
 				}
 				break;
 			}

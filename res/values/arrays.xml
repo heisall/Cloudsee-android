@@ -16,6 +16,7 @@
         <item>Viewing Mode(Single-device)</item>
         <item>Helper</item>
         <item>BroadCast</item>
+        <item>Test Switch</item>
         <item>Version</item>
         <item>Demo</item>
         <item>System Information</item>
@@ -30,6 +31,7 @@
         <item>Viewing Mode(Multi-device)</item>
         <item>Helper</item>
         <item>BroadCast</item>
+         <item>Test Switch</item>
         <item>Version</item>
         <item>Demo</item>
         <item>System Information</item>

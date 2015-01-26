@@ -84,7 +84,7 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 			});
 		}
-		if (position == 3 || position == 4 || position == 5) {
+		if (position == 3 || position == 4 || position == 5|| position == 6) {
 			if (!MySharedPreference.getBoolean("LITTLE")) {
 				more_item.setVisibility(View.GONE);
 				divider_img.setVisibility(View.GONE);
@@ -93,17 +93,17 @@ public class FragmentAdapter extends BaseAdapter {
 				divider_img.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 7) {
+		if (position == 8) {
 			if (!MySharedPreference.getBoolean("SystemMessage")) {
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 6) {
+		if (position == 7) {
 			if (!MySharedPreference.getBoolean("VideoSquer")) {
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 9
+		if (position == 10
 				&& "true".equalsIgnoreCase(((BaseActivity) mfragment
 						.getActivity()).statusHashMap
 						.get(Consts.NEUTRAL_VERSION))) {
@@ -111,7 +111,7 @@ public class FragmentAdapter extends BaseAdapter {
 			more_item.setVisibility(View.GONE);
 			divider_img.setVisibility(View.GONE);
 		}
-		if (position == 11) {
+		if (position == 12) {
 			item_next.setVisibility(View.GONE);
 			item_version.setVisibility(View.VISIBLE);
 			item_version
@@ -120,7 +120,7 @@ public class FragmentAdapter extends BaseAdapter {
 			// mfragment.getActivity().getResources()
 			// .getString(R.string.str_current_version));
 		}
-		if (position > -1 && position < 5) {
+		if (position > -1 && position < 6) {
 			item_next
 					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			switch (position) {
@@ -156,6 +156,12 @@ public class FragmentAdapter extends BaseAdapter {
 				break;
 			case 4:
 				if (MySharedPreference.getBoolean("BROADCASTSHOW")) {
+					item_next
+							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+				}
+				break;
+			case 5:
+				if (MySharedPreference.getBoolean("TESTSWITCH")) {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}

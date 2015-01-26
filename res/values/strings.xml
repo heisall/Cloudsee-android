@@ -14,8 +14,8 @@
     <string name="login_str_username_tips">Format for the username is not correct, and it can only be email address.</string>
     <string name="login_str_username_tips2">Username can\'t be all numbers.</string>
     <string name="login_str_username_tips3">User name should be composed of letter, number and -_</string>
-    <string name="login_str_username_tips4">Username should be 4–28 characters.</string>
-    <string name="login_str_password_tips1">Password should be 6–20 characters.</string>
+    <string name="login_str_username_tips4">Username should be 4-28 characters.</string>
+    <string name="login_str_password_tips1">Password should be 6-20 characters.</string>
     <string name="login_str_login_failed">Login failed</string>
     <string name="login_str_regist_success">Registed successfully</string>
     <string name="login_str_regist_failed">Registed failed</string>
@@ -24,13 +24,13 @@
     <string name="login_str_device">Device List</string>
     <string name="login_str_add_device">Add Device</string>
     <string name="login_str_device_devicename_notnull">Please input nickname for the device</string>
-    <string name="login_str_nike_name_order">Ilegal character,the NikeName should be English letter,number,or special characters like .–_+()</string>
+    <string name="login_str_nike_name_order">Ilegal character,the NikeName should be English letter,number,or special characters like .-_+()</string>
     <string name="login_str_device_account_notnull">Please input username.</string>
     <string name="login_str_device_pass_notnull">Please input password.</string>
     <string name="device_pass_notzh">Password can not be Chinese</string>
     <string name="login_str_device_connnum_notnull">number of channels can not be empty</string>
-    <string name="login_str_device_account_error">Username format incorrect, it can only be formed by 1–15 letters,numbers or. _–.</string>
-    <string name="login_str_device_pass_error">Password format incorrect, it can only be formed by 0–15 letters,numbers or _–.</string>
+    <string name="login_str_device_account_error">Username format incorrect, it can only be formed by 1-15 letters,numbers or. _-.</string>
+    <string name="login_str_device_pass_error">Password format incorrect, it can only be formed by 0-15 letters,numbers or _-.</string>
     <string name="login_str_device_add_success">Device added successfully</string>
     <string name="login_str_device_add_failed">Failed to add device</string>
     <string name="login_str_point_delete_success">Channel deleted successfully</string>
@@ -678,7 +678,7 @@
     <string name="str_mdenabled_open_failed">The motion detecting open failed</string>
     <string name="str_mdenabled_close_ok">The motion detecting close success</string>
     <string name="str_mdenabled_close_failed">The motion detecting close failed</string>
-    <string name="str_illegal_dev_nick">The nick name is illegal,should be English letter,number,or special characters like .–_+()</string>
+    <string name="str_illegal_dev_nick">The nick name is illegal,should be English letter,number,or special characters like .-_+()</string>
     <string name="str_cloud_file_error_1">The file is uploading or failure</string>
     <string name="str_cloud_file_error_2">There is no cloud strorage information at the channel.</string>
     <string name="str_tpush_autostart_tips_v5">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permission\"->\"Auto-start management\",Add the application into the auto-start apps manually.</string>

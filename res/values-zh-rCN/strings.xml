@@ -14,8 +14,8 @@
     <string name="login_str_username_tips">用户名格式不正确，只能为手机号或邮箱.</string>
     <string name="login_str_username_tips2">用户名不能全为数字，请确认输入的是手机号.</string>
     <string name="login_str_username_tips3">用户名由英文、数字及-_组成</string>
-    <string name="login_str_username_tips4">用户名长度只能在4–28位字符之间</string>
-    <string name="login_str_password_tips1">密码长度应在6~20位字符之间</string>
+    <string name="login_str_username_tips4">用户名长度只能在4-28位字符之间</string>
+    <string name="login_str_password_tips1">密码长度应在6-20位字符之间</string>
     <string name="login_str_login_failed">登录失败</string>
     <string name="login_str_regist_success">注册成功</string>
     <string name="login_str_regist_failed">注册失败</string>
@@ -24,13 +24,13 @@
     <string name="login_str_device">设备列表</string>
     <string name="login_str_add_device">增加设备</string>
     <string name="login_str_device_devicename_notnull">请输入设备昵称</string>
-    <string name="login_str_nike_name_order">含有非法字符,昵称由1–20个字母、数字、汉字及特殊字符–_+().组成</string>
+    <string name="login_str_nike_name_order">含有非法字符,昵称由1-20个字母、数字、汉字及特殊字符-_+().组成</string>
     <string name="login_str_device_account_notnull">请输入用户名</string>
     <string name="login_str_device_pass_notnull">请输入密码</string>
     <string name="device_pass_notzh">密码不能是中文</string>
     <string name="login_str_device_connnum_notnull">通道数量不能为空</string>
-    <string name="login_str_device_account_error">用户名格式不正确，用户名只能由1–16位的英文、数字及._–组成.</string>
-    <string name="login_str_device_pass_error">密码格式不正确，密码只能由0–16位字符组成.</string>
+    <string name="login_str_device_account_error">用户名格式不正确，用户名只能由1-16位的英文、数字及._-组成.</string>
+    <string name="login_str_device_pass_error">密码格式不正确，密码只能由0-16位字符组成.</string>
     <string name="login_str_device_add_success">添加设备成功</string>
     <string name="login_str_device_add_failed">添加设备失败</string>
     <string name="login_str_point_delete_success">通道删除成功</string>

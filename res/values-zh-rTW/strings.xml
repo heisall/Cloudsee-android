@@ -216,8 +216,8 @@
     <string name="str_skip">跳過</string>
     <string name="str_reset">正在重置</string>
     <!-- 修改密碼 -->
-    <string name="login_str_ipaddress">功能變數名稱/IP</string>
-    <string name="login_str_ipaddressdevice">功能變數名稱/IP</string>
+    <string name="login_str_ipaddress">域名/IP</string>
+    <string name="login_str_ipaddressdevice">域名/IP</string>
     <string name="login_str_port">端      口</string>
     <string name="login_str_user_name">用 戶 名</string>
     <string name="str_pass">密      碼</string>
@@ -304,7 +304,7 @@
     <string name="str_user_setting">口令設置</string>
     <string name="str_remote_setting">遠程設置</string>
     <string name="str_connect_mode">連接模式</string>
-    <string name="str_ip_connect">功能變數名稱/IP</string>
+    <string name="str_ip_connect">域名/IP</string>
     <string name="str_data_not_compare">本地數據與伺服器數據不一致，是否同步數據?</string>
     <string name="str_uploading">正在上傳…</string>
     <string name="str_ethernet">有線連接</string>
@@ -347,11 +347,11 @@
     <string name="str_crash_cancel">取消</string>
     <string name="str_send_success">郵件發送成功，感謝您的回饋!</string>
     <string name="str_wifi_pwd">12345678</string>
-    <string name="login_str_ipadress_format_err">功能變數名稱/IP不合法</string>
-    <string name="login_str_domain_format_err">功能變數名稱解析失敗</string>
+    <string name="login_str_ipadress_format_err">域名/IP不合法</string>
+    <string name="login_str_domain_format_err">域名解析失敗</string>
     <string name="login_str_port_notnull">請輸入端口號</string>
     <string name="login_str_port_format_err">端口號格式不正確</string>
-    <string name="login_str_ip_adress_notnull">功能變數名稱/IP不能為空</string>
+    <string name="login_str_ip_adress_notnull">域名/IP不能為空</string>
     <string name="str_qr_device">發現設備 </string>
     <string name="str_shake_scene_pic_tips">您的手機未插入SD卡，暫時無法使用場景圖片功能.</string>
     <!-- DeviceSettingsMainFragment -->
@@ -522,7 +522,7 @@
     <string name="str_fre">一共有</string>
     <string name="str_aft">個設備</string>
     <string name="delete_all_device">确定要删除所有设备吗？</string>
-    <string name="ip_add_notallow">功能變數名稱/IP添加的設備不支持此操作.</string>
+    <string name="ip_add_notallow">域名/IP添加的設備不支持此操作.</string>
     <string name="protect_open_succ">安全防護打開成功</string>
     <string name="protect_open_fail">安全防護打開失敗</string>
     <string name="protect_close_succ">安全防護關閉成功</string>
@@ -558,7 +558,7 @@
     <string name="str_help_zero">展開多種方式添加設備</string>
     <string name="str_help_one">遠程配置IPC設備的網路和碼流</string>
     <string name="str_help_two">修改、刪除設備</string>
-    <string name="str_help_three">切換功能變數名稱/IP直連和雲視通連接模式</string>
+    <string name="str_help_three">切換域名/IP直連和雲視通連接模式</string>
     <string name="str_help_four">添加、修改、刪除通道</string>
     <string name="str_help_five">添加報警設備</string>
     <string name="start_now">立即體驗</string>
@@ -584,7 +584,7 @@
     <string name="prepare_step6">(攝像機暫不支持連接5G Wi-Fi)</string>
     <string name="wave_add_dev">確定添加設備</string>
     <!-- 包含雲視通敏感辭彙 -->
-    <string name="str_help9">切換功能變數名稱/IP直連和雲視通連接模式</string>
+    <string name="str_help9">切換域名/IP直連和雲視通連接模式</string>
     <string name="str_cloudsee_id">雲視通號</string>
     <string name="str_yst_connect">雲視通連接</string>
     <string name="app_name">雲視通</string>
@@ -707,7 +707,7 @@
     <string name="census_addwifidev">無線設備</string>
     <string name="census_scanlandevice">局域網設備</string>
     <string name="census_soundwave">聲波配置</string>
-    <string name="census_ipdns">功能變數名稱/IP設備</string>
+    <string name="census_ipdns">域名/IP設備</string>
     <string name="census_demo">視頻廣場</string>
     <string name="census_register">註冊</string>
     <string name="census_media">媒體</string>

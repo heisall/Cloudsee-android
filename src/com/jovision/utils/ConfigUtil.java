@@ -76,7 +76,7 @@ import com.jovision.utils.mails.MyAuthenticator;
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
 	public final static String ACCOUNT_VERSION = "V3.2.7";
-	public final static String PLAY_VERSION = "0.9a[e21caf1][2015-01-22]";
+	public final static String PLAY_VERSION = "0.9a[4419110][2015-01-23]";
 	public final static String NETWORK_VERSION = "v2.0.76.3.30[private:v2.0.75.13 20150119.1]";
 
 	public static String GETACCTOUT_VERSION = "";
@@ -152,7 +152,7 @@ public class ConfigUtil {
 			e.printStackTrace();
 		}
 
-		return "Beta " + version;
+		return version;
 	}
 
 	/**
@@ -522,7 +522,7 @@ public class ConfigUtil {
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_CLOUD_SDK))) {
 			result = Jni.init(context, 9200, Consts.LOG_PATH);
 			ConfigUtil.getJNIVersion();
-			Jni.enableLog(true);
+			Jni.enableLog(false);
 			Jni.setThumb(320, 90);
 			Jni.setStat(true);
 			if (MySharedPreference.getBoolean("LITTLEHELP", true)) {

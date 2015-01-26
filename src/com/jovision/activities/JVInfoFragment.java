@@ -124,10 +124,12 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			pushListView.setPullLoadEnable(false);
 			pushListView.setXListViewListener(this);
 			rightBtn.setVisibility(View.VISIBLE);
+			// pushListView.setVisibility(View.VISIBLE);
 		} else {
 			pushListView.setPullLoadEnable(false);
 			pushListView.setPullRefreshEnable(false);
 			rightBtn.setVisibility(View.GONE);
+			// pushListView.setVisibility(View.INVISIBLE);
 		}
 		noMess = (ImageView) mParent.findViewById(R.id.nomess);
 		noMessTv = (TextView) mParent.findViewById(R.id.nomess_tv);
@@ -394,6 +396,10 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 	@Override
 	public void onResume() {
+		if (Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {
+			super.onResume();
+			return;
+		}
 		String arrayStr = mActivity.statusHashMap.get(Consts.PUSH_JSONARRAY);
 		mActivity.statusHashMap.put(Consts.PUSH_JSONARRAY, "");
 		String checkAlarmGuid = MySharedPreference

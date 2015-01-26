@@ -591,10 +591,17 @@ public class JVMoreFragment extends BaseFragment {
 					mActivity.startActivity(intentAD);
 					break;
 				case 10:
-					
+					Intent intentAD1 = new Intent(mActivity,JVWebViewActivity.class);
+					intentAD1.putExtra("URL", "http://www.qq.com");
+					intentAD1.putExtra("title", -2);
+					mActivity.startActivity(intentAD1);
 					break;
 					
 				case 11:
+					Intent intentAD2 = new Intent(mActivity,JVWebViewActivity.class);
+					intentAD2.putExtra("URL", "http://www.a67.com");
+					intentAD2.putExtra("title", -2);
+					mActivity.startActivity(intentAD2);
 					break;
 				case 12:// 媒体
 					StatService.trackCustomEvent(

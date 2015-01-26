@@ -102,6 +102,13 @@
                 android:text=""
                 android:textColor="@color/white"
                 android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/fullscreen"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/full_screen_icon" />
         </LinearLayout>
     </RelativeLayout>
 

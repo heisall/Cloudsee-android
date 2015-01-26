@@ -1804,7 +1804,7 @@ public class DeviceUtil {
 					JVDeviceConst.GET_PUBLISH_INFO);// 5504
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// 1.0
-			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, softName);// 0：CloudSEE//
+			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, 0);// 0：CloudSEE//
 																// 1：NVSIP
 			jObj.put(JVDeviceConst.JK_LANGUAGE_TYPE, language);// (语言 0简体中文 1英文
 																// 2繁体中文)

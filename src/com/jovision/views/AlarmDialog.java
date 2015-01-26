@@ -75,7 +75,7 @@ public class AlarmDialog extends Dialog {
 		dialogDeviceModle.setText(alarmTypeName);
 		dialogAlarmTime.setText(alarmTime);
 		// MyLog.e("AlarmDialog", "onStart" + getDialogObjs());
-		if(isshowing){
+		if (isshowing) {
 			dismiss();
 			return;
 		}
@@ -204,7 +204,7 @@ public class AlarmDialog extends Dialog {
 		// 已经在显示了，就不显示了
 		// if (getDialogObjs() <= 1) {
 		if (!isshowing) {
-//			isshowing = true;
+			// isshowing = true;
 			PushInfo pi = (PushInfo) obj;
 			ystNum = pi.ystNum;
 			deviceList = CacheUtil.getDevList();// 再取一次

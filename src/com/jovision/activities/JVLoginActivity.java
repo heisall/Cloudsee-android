@@ -426,17 +426,17 @@ public class JVLoginActivity extends BaseActivity {
 			handler.sendMessage(handler.obtainMessage(Consts.WHAT_SHOW_PRO, 0,
 					0, country));
 			String strRes = "";
-			Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")+"LOGIN");
+			Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH") + "LOGIN");
 			if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-				strRes =  AccountUtil.onLoginProcessV2(JVLoginActivity.this,
-					statusHashMap.get(Consts.KEY_USERNAME),
-					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,
-					Url.LONGSERVERIP);
-			}else {
 				strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
 						statusHashMap.get(Consts.KEY_USERNAME),
-						statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIPTEST,
-						Url.LONGSERVERIPTEST);
+						statusHashMap.get(Consts.KEY_PASSWORD),
+						Url.SHORTSERVERIP, Url.LONGSERVERIP);
+			} else {
+				strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
+						statusHashMap.get(Consts.KEY_USERNAME),
+						statusHashMap.get(Consts.KEY_PASSWORD),
+						Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
 			}
 			JSONObject respObj = null;
 			try {
@@ -445,8 +445,8 @@ public class JVLoginActivity extends BaseActivity {
 				loginRes2 = respObj.optInt("arg2", 0);
 				// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
 				if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-				MyLog.v(TAG, Url.SHORTSERVERIP + "--" + Url.LONGSERVERIP + "--"
-						+ country + "--" + strRes);
+					MyLog.v(TAG, Url.SHORTSERVERIP + "--" + Url.LONGSERVERIP
+							+ "--" + country + "--" + strRes);
 				}
 				String data = respObj.optString("data");
 				if (null != data && !"".equalsIgnoreCase(data)) {

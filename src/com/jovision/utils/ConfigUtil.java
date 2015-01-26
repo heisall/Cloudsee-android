@@ -459,11 +459,11 @@ public class ConfigUtil {
 				if (getNetWorkConnection(context)) {
 
 					if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-					MyLog.v("initAccountSDK", Url.SHORTSERVERIP + "--"
-							+ Url.LONGSERVERIP);
-					JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,
-							Url.LONGSERVERIP);
-					}else {
+						MyLog.v("initAccountSDK", Url.SHORTSERVERIP + "--"
+								+ Url.LONGSERVERIP);
+						JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,
+								Url.LONGSERVERIP);
+					} else {
 						MyLog.v("initAccountSDK", Url.SHORTSERVERIPTEST + "--"
 								+ Url.SHORTSERVERIPTEST);
 						JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIPTEST,

@@ -274,11 +274,11 @@ public class JVEditOldPassActivity extends BaseActivity {
 				// activity.statusHashMap.get("KEY_PASSWORD"), activity);
 				if (!MySharedPreference.getBoolean("TESTSWITCH")) {
 					strRes = AccountUtil.onLoginProcessV2(activity,
-						activity.statusHashMap.get(Consts.KEY_USERNAME),
-						activity.statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIP, Url.LONGSERVERIP);
-				}else {
-					 strRes = AccountUtil.onLoginProcessV2(activity,
+							activity.statusHashMap.get(Consts.KEY_USERNAME),
+							activity.statusHashMap.get(Consts.KEY_PASSWORD),
+							Url.SHORTSERVERIP, Url.LONGSERVERIP);
+				} else {
+					strRes = AccountUtil.onLoginProcessV2(activity,
 							activity.statusHashMap.get(Consts.KEY_USERNAME),
 							activity.statusHashMap.get(Consts.KEY_PASSWORD),
 							Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);

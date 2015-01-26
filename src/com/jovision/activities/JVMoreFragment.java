@@ -88,8 +88,7 @@ public class JVMoreFragment extends BaseFragment {
 	private int[] Image = { R.drawable.morefragment_help_icon,
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon, R.drawable.media_image,
-			R.drawable.morefragment_feedback_icon,
-			 R.drawable.media_image,
+			R.drawable.morefragment_feedback_icon, R.drawable.media_image,
 			R.drawable.morefragment_update_icon, R.drawable.more_videosquer,
 			R.drawable.more_message, R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon,
@@ -466,11 +465,17 @@ public class JVMoreFragment extends BaseFragment {
 							if (MySharedPreference.getBoolean("TESTSWITCH")) {
 								MySharedPreference.putBoolean("TESTSWITCH",
 										false);
-								Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")+"DSDSDSD");
+								Log.i("TAG",
+										MySharedPreference
+												.getBoolean("TESTSWITCH")
+												+ "DSDSDSD");
 							} else {
 								MySharedPreference.putBoolean("TESTSWITCH",
 										true);
-								Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")+"DSDSDSD");
+								Log.i("TAG",
+										MySharedPreference
+												.getBoolean("TESTSWITCH")
+												+ "DSDSDSD");
 							}
 							break;
 						case 6:// 版本号

@@ -128,11 +128,20 @@ public class JVRegisterCodeActivity extends BaseActivity {
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				registerRes = AccountUtil.userRegister(user);
 				if (JVAccountConst.SUCCESS == registerRes) {
-					String strRes = AccountUtil.onLoginProcessV2(
-							JVRegisterCodeActivity.this,
-							statusHashMap.get(Consts.KEY_USERNAME),
-							statusHashMap.get(Consts.KEY_PASSWORD),
-							Url.SHORTSERVERIP, Url.LONGSERVERIP);
+					String strRes = "";
+					if (!MySharedPreference.getBoolean("TESTSWITCH")) {
+						strRes = AccountUtil.onLoginProcessV2(
+								JVRegisterCodeActivity.this,
+								statusHashMap.get(Consts.KEY_USERNAME),
+								statusHashMap.get(Consts.KEY_PASSWORD),
+								Url.SHORTSERVERIP, Url.LONGSERVERIP);
+					}else {
+						strRes = AccountUtil.onLoginProcessV2(
+								JVRegisterCodeActivity.this,
+								statusHashMap.get(Consts.KEY_USERNAME),
+								statusHashMap.get(Consts.KEY_PASSWORD),
+								Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
+					}
 					JSONObject respObj = null;
 					try {
 						respObj = new JSONObject(strRes);
@@ -151,7 +160,7 @@ public class JVRegisterCodeActivity extends BaseActivity {
 								MySharedPreference.putString("OnlineIP",
 										onlineIp);
 								MySharedPreference
-										.putString("ChannelIP_en", "");
+								.putString("ChannelIP_en", "");
 								MySharedPreference.putString("OnlineIP_en", "");
 							} else {
 								MySharedPreference.putString("ChannelIP_en",
@@ -192,7 +201,7 @@ public class JVRegisterCodeActivity extends BaseActivity {
 			case JVAccountConst.SUCCESS:// 注册成功
 				StatService.trackCustomEvent(JVRegisterCodeActivity.this,
 						"Register", JVRegisterCodeActivity.this.getResources()
-								.getString(R.string.census_register));
+						.getString(R.string.census_register));
 				Log.i("TAG", loginRes1 + "DDDDDDDDDDD");
 				if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
 					statusHashMap.put(Consts.LOCAL_LOGIN, "false");

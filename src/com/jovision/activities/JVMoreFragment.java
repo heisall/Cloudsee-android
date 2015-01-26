@@ -20,6 +20,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.test.JVACCOUNT;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -88,6 +89,7 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon, R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon,
+			 R.drawable.media_image,
 			R.drawable.morefragment_update_icon, R.drawable.more_videosquer,
 			R.drawable.more_message, R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon,
@@ -460,7 +462,18 @@ public class JVMoreFragment extends BaseFragment {
 										true);
 							}
 							break;
-						case 5:// 版本号
+						case 5:
+							if (MySharedPreference.getBoolean("TESTSWITCH")) {
+								MySharedPreference.putBoolean("TESTSWITCH",
+										false);
+								Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")+"DSDSDSD");
+							} else {
+								MySharedPreference.putBoolean("TESTSWITCH",
+										true);
+								Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")+"DSDSDSD");
+							}
+							break;
+						case 6:// 版本号
 								// Intent intentAD = new Intent(mActivity,
 								// JVWebViewActivity.class);
 								// intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -516,7 +529,7 @@ public class JVMoreFragment extends BaseFragment {
 													R.string.ok), null).show();
 							// TODO
 							break;
-						case 6:
+						case 7:
 							if (!MySharedPreference.getBoolean("VideoSquer")) {
 								MySharedPreference.putBoolean("VideoSquer",
 										true);
@@ -554,7 +567,7 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							// TODO
 							break;
-						case 7:
+						case 8:
 							if (!MySharedPreference.getBoolean("SystemMessage")) {
 								MySharedPreference.putBoolean("SystemMessage",
 										true);
@@ -570,7 +583,7 @@ public class JVMoreFragment extends BaseFragment {
 							mActivity.startActivity(infoIntent);
 							// TODO
 							break;
-						case 8:// 媒体
+						case 9:// 媒体
 							StatService.trackCustomEvent(
 									mActivity,
 									"Media",
@@ -580,12 +593,12 @@ public class JVMoreFragment extends BaseFragment {
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);
 							break;
-						case 9:
+						case 10:
 							Intent intent = new Intent(mActivity,
 									JVFeedbackActivity.class);
 							startActivity(intent);
 							break;
-						case 10:
+						case 11:
 							mActivity.createDialog("", false);
 							CheckUpdateTask taskf = new CheckUpdateTask(
 									mActivity);
@@ -593,7 +606,7 @@ public class JVMoreFragment extends BaseFragment {
 							strParams[0] = "1";// 1,手动检查更新
 							taskf.execute(strParams);
 							break;
-						case 11:
+						case 12:
 							if (!MySharedPreference.getBoolean("LITTLE")) {
 								littlenum++;
 								if (littlenum < 20) {

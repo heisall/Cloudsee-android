@@ -1459,11 +1459,20 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							// statusHashMap.get(Consts.KEY_USERNAME),
 							// statusHashMap.get(Consts.KEY_PASSWORD),
 							// JVQuickSettingActivity.this);
-							String strRes = AccountUtil.onLoginProcessV2(
+							String strRes = "";
+							if (!MySharedPreference.getBoolean("TESTSWITCH")) {
+							 strRes = AccountUtil.onLoginProcessV2(
 									JVQuickSettingActivity.this,
 									statusHashMap.get(Consts.KEY_USERNAME),
 									statusHashMap.get(Consts.KEY_PASSWORD),
 									Url.SHORTSERVERIP, Url.LONGSERVERIP);
+							}else {
+								 strRes = AccountUtil.onLoginProcessV2(
+										JVQuickSettingActivity.this,
+										statusHashMap.get(Consts.KEY_USERNAME),
+										statusHashMap.get(Consts.KEY_PASSWORD),
+										Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
+							}
 							JSONObject respObj = null;
 
 							try {

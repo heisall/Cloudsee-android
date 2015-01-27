@@ -177,7 +177,8 @@ public class DeviceUtil {
 		// "dstat":在线状态 1：在线 0：离线
 
 		String onLineString = JVACCOUNT.GetDevicesOnlineStatus();
-		if (null != onLineString && "".equalsIgnoreCase(onLineString)) {
+		MyLog.v("refreshOnlineState---result", onLineString);
+		if (null != onLineString && !"".equalsIgnoreCase(onLineString)) {
 			try {
 				JSONObject resObject = new JSONObject(onLineString);
 				if (null != resObject) {

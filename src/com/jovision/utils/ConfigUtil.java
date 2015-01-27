@@ -324,9 +324,9 @@ public class ConfigUtil {
 		MyLog.v("language", "language=" + language);
 
 		int lan = Consts.LANGUAGE_ZH;
-		if (language.equalsIgnoreCase("cn")) {// 中文
+		if (language.equalsIgnoreCase("cn")) {// 简体
 			lan = Consts.LANGUAGE_ZH;
-		} else if (language.equalsIgnoreCase("tw")) {// 中文
+		} else if (language.equalsIgnoreCase("tw")) {// 繁体
 			lan = Consts.LANGUAGE_ZHTW;
 		} else {// 英文
 			lan = Consts.LANGUAGE_EN;

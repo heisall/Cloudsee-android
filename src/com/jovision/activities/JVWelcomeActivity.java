@@ -149,7 +149,6 @@ public class JVWelcomeActivity extends BaseActivity {
 			} catch (MtaSDkException e) {
 				e.printStackTrace();
 			}
-
 			StatService.trackCustomEvent(JVWelcomeActivity.this, "onCreat",
 					"welcome");
 		}

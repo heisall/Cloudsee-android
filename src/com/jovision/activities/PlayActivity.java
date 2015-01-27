@@ -86,6 +86,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	protected SeekBar progressBar;// 远程回放进度
 	protected Button playBackPause;// 远程回放暂停继续播
 	protected Button voiceListener;// 音频监听
+	protected ImageView fullScreen;// 全屏按钮
 
 	/** 　竖屏播放工具bar　 */
 	protected RelativeLayout verPlayBarLayout;
@@ -147,6 +148,8 @@ public abstract class PlayActivity extends BaseActivity implements
 	protected Button bottombut6;// 视频翻转
 	protected Button bottombut7;// 录像
 	protected Button bottombut8;// 音频监听
+	protected ImageView notFullScreen;// 非全屏按钮
+
 	protected TextView bottomStream;
 	protected boolean bottomboolean1;
 	private LinearLayout linear;
@@ -296,6 +299,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		voiceListener = (Button) findViewById(R.id.voice);
 		varvoice_bg = (RelativeLayout) findViewById(R.id.varvoice_bg);
 		varvoice = (ImageView) findViewById(R.id.varvoice);
+		fullScreen = (ImageView) findViewById(R.id.fullscreen);
 
 		linkMode.setVisibility(View.VISIBLE);
 
@@ -356,6 +360,8 @@ public abstract class PlayActivity extends BaseActivity implements
 		bottombut6 = (Button) findViewById(R.id.bottom_but6);
 		bottombut7 = (Button) findViewById(R.id.bottom_but7);
 		bottombut8 = (Button) findViewById(R.id.bottom_but8);
+		notFullScreen = (ImageView) findViewById(R.id.notfullscreen);
+
 		bottomStream = (TextView) findViewById(R.id.video_bq);
 		relative1 = (RelativeLayout) findViewById(R.id.relative1);
 		relative2 = (RelativeLayout) findViewById(R.id.relative2);
@@ -451,6 +457,22 @@ public abstract class PlayActivity extends BaseActivity implements
 		voiceCallTop1 = getResources().getDrawable(R.drawable.voice_call_1);
 		voiceCallTop2 = getResources().getDrawable(R.drawable.voice_call_2);
 		setPlayViewSize();
+
+		fullScreen.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
+			}
+		});
+
+		notFullScreen.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// 竖屏
+			}
+		});
 	}
 
 	// 云台按钮事件
@@ -463,6 +485,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		setPlayViewSize();
+		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		super.onConfigurationChanged(newConfig);
 
 	}

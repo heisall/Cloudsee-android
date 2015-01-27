@@ -4135,6 +4135,7 @@ public class JVPlayActivity extends PlayActivity implements
 		}
 
 		showFunc(channelList.get(lastClickIndex), currentScreen, lastClickIndex);
+		setPlayViewSize();
 	}
 
 	// /**

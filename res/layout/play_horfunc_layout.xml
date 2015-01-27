@@ -179,6 +179,21 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/video_monitor_ico" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relative9"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/notfullscreen"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/notfull_screen_icon" />
+            </RelativeLayout>
         </LinearLayout>
 
         <TextView

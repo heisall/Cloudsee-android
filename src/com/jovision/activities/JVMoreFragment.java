@@ -90,7 +90,8 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.morefragment_setting_icon, R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon, R.drawable.media_image,
 			R.drawable.morefragment_update_icon, R.drawable.more_videosquer,
-			R.drawable.more_message, R.drawable.media_image,
+			R.drawable.more_message,R.drawable.morefragment_update_icon, R.drawable.more_videosquer,
+			R.drawable.more_message,R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -395,249 +396,262 @@ public class JVMoreFragment extends BaseFragment {
 
 	private void listViewClick() {
 		more_listView
-				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view,
-							int position, long id) {
-						switch (position) {
-						case 0:
-							if (MySharedPreference.getBoolean("HELP")) {
-								MySharedPreference.putBoolean("HELP", false);
-								MySharedPreference.putBoolean("page1", true);
-								MySharedPreference.putBoolean("page2", true);
-							} else {
-								MySharedPreference.putBoolean("HELP", true);
-								MySharedPreference.putBoolean("page1", false);
-								MySharedPreference.putBoolean("page2", false);
-							}
-							break;
-						case 1:
-							AlarmTask task = new AlarmTask();
-							Integer[] params = new Integer[3];
-							if (!MySharedPreference.getBoolean("AlarmSwitch",
-									true)) {// 1是关
-								// 0是开
-								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
-							} else {
-								params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
-							}
-							task.execute(params);
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				switch (position) {
+				case 0:
+					if (MySharedPreference.getBoolean("HELP")) {
+						MySharedPreference.putBoolean("HELP", false);
+						MySharedPreference.putBoolean("page1", true);
+						MySharedPreference.putBoolean("page2", true);
+					} else {
+						MySharedPreference.putBoolean("HELP", true);
+						MySharedPreference.putBoolean("page1", false);
+						MySharedPreference.putBoolean("page2", false);
+					}
+					break;
+				case 1:
+					AlarmTask task = new AlarmTask();
+					Integer[] params = new Integer[3];
+					if (!MySharedPreference.getBoolean("AlarmSwitch",
+							true)) {// 1是关
+						// 0是开
+						params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
+					} else {
+						params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
+					}
+					task.execute(params);
 
-							break;
-						case 2:
-							if (MySharedPreference.getBoolean("PlayDeviceMode")) {
-								MySharedPreference.putBoolean("PlayDeviceMode",
-										false);
-								dataList.get(2).setName(
-										mActivity.getResources().getString(
-												R.string.str_video_modetwo));
-							} else {
-								MySharedPreference.putBoolean("PlayDeviceMode",
-										true);
-								dataList.get(2)
-										.setName(
-												mActivity
-														.getResources()
-														.getString(
-																R.string.str_video_more_modetwo));
-							}
-							break;
-						case 3:// 小助手
-							if (MySharedPreference.getBoolean("LITTLEHELP")) {
-								MySharedPreference.putBoolean("LITTLEHELP",
-										false);
-							} else {
-								MySharedPreference.putBoolean("LITTLEHELP",
-										true);
-							}
-							break;
-						case 4:
-							if (MySharedPreference.getBoolean("BROADCASTSHOW")) {
-								MySharedPreference.putBoolean("BROADCASTSHOW",
-										false);
-							} else {
-								MySharedPreference.putBoolean("BROADCASTSHOW",
-										true);
-							}
-							break;
-						case 5:
-							if (MySharedPreference.getBoolean("TESTSWITCH")) {
-								MySharedPreference.putBoolean("TESTSWITCH",
-										false);
-								Log.i("TAG",
-										MySharedPreference
-												.getBoolean("TESTSWITCH")
-												+ "DSDSDSD");
-							} else {
-								MySharedPreference.putBoolean("TESTSWITCH",
-										true);
-								Log.i("TAG",
-										MySharedPreference
-												.getBoolean("TESTSWITCH")
-												+ "DSDSDSD");
-							}
-							break;
-						case 6:// 版本号
-								// Intent intentAD = new Intent(mActivity,
-								// JVWebViewActivity.class);
-								// intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-								// intentAD.putExtra("URL",
-								// "http://look.appjx.cn/mobile_api.php?mod=news&id=12604");
-								// intentAD.putExtra("title", -2);
-								// mActivity.startActivity(intentAD);
+					break;
+				case 2:
+					if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+						MySharedPreference.putBoolean("PlayDeviceMode",
+								false);
+						dataList.get(2).setName(
+								mActivity.getResources().getString(
+										R.string.str_video_modetwo));
+					} else {
+						MySharedPreference.putBoolean("PlayDeviceMode",
+								true);
+						dataList.get(2)
+						.setName(
+								mActivity
+								.getResources()
+								.getString(
+										R.string.str_video_more_modetwo));
+					}
+					break;
+				case 3:// 小助手
+					if (MySharedPreference.getBoolean("LITTLEHELP")) {
+						MySharedPreference.putBoolean("LITTLEHELP",
+								false);
+					} else {
+						MySharedPreference.putBoolean("LITTLEHELP",
+								true);
+					}
+					break;
+				case 4:
+					if (MySharedPreference.getBoolean("BROADCASTSHOW")) {
+						MySharedPreference.putBoolean("BROADCASTSHOW",
+								false);
+					} else {
+						MySharedPreference.putBoolean("BROADCASTSHOW",
+								true);
+					}
+					break;
+				case 5:
+					if (MySharedPreference.getBoolean("TESTSWITCH")) {
+						MySharedPreference.putBoolean("TESTSWITCH",
+								false);
+						Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")+"DSDSDSD");
+					} else {
+						MySharedPreference.putBoolean("TESTSWITCH",
+								true);
+						Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")+"DSDSDSD");
+					}
+					break;
+				case 6:// 版本号
+					// Intent intentAD = new Intent(mActivity,
+					// JVWebViewActivity.class);
+					// intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					// intentAD.putExtra("URL",
+					// "http://look.appjx.cn/mobile_api.php?mod=news&id=12604");
+					// intentAD.putExtra("title", -2);
+					// mActivity.startActivity(intentAD);
 
-							int curVersion = 0;
-							try {
-								curVersion = mActivity.getPackageManager()
-										.getPackageInfo(
-												mActivity.getPackageName(), 0).versionCode;
-							} catch (NameNotFoundException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+					int curVersion = 0;
+					try {
+						curVersion = mActivity.getPackageManager()
+								.getPackageInfo(
+										mActivity.getPackageName(), 0).versionCode;
+					} catch (NameNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
-							String itemzero = mActivity.getResources()
-									.getString(R.string.census_accounts)
-									+ ":"
-									+ ConfigUtil.ACCOUNT_VERSION;
-							String itemone = mActivity.getResources()
-									.getString(R.string.census_network_version)
-									+ ":" + ConfigUtil.NETWORK_VERSION;
-							String itemtwo = mActivity.getResources()
-									.getString(R.string.census_play_version)
-									+ ":" + ConfigUtil.PLAY_VERSION;
-							String itemthree = mActivity.getResources()
-									.getString(
-											R.string.census_appnetwork_version)
+					String itemzero = mActivity.getResources()
+							.getString(R.string.census_accounts)
+							+ ":"
+							+ ConfigUtil.ACCOUNT_VERSION;
+					String itemone = mActivity.getResources()
+							.getString(R.string.census_network_version)
+							+ ":" + ConfigUtil.NETWORK_VERSION;
+					String itemtwo = mActivity.getResources()
+							.getString(R.string.census_play_version)
+							+ ":" + ConfigUtil.PLAY_VERSION;
+					String itemthree = mActivity.getResources()
+							.getString(
+									R.string.census_appnetwork_version)
 									+ ":" + ConfigUtil.GETNETWORK_VERSION;
-							String itemfour = mActivity.getResources()
-									.getString(R.string.census_appplay_version)
-									+ ":" + ConfigUtil.GETPLAY_VERSION;
-							String itemfive = mActivity.getResources()
-									.getString(R.string.census_appaccount)
-									+ ":" + JVACCOUNT.GetVersion(0);
-							new AlertDialog.Builder(new ContextThemeWrapper(
-									mActivity, R.style.AlertDialogCustom))
-									.setTitle(
-											mActivity.getResources().getString(
-													R.string.census_version)
-													+ curVersion
-													+ "  "
-													+ ConfigUtil.sameVersion)
+					String itemfour = mActivity.getResources()
+							.getString(R.string.census_appplay_version)
+							+ ":" + ConfigUtil.GETPLAY_VERSION;
+					String itemfive = mActivity.getResources()
+							.getString(R.string.census_appaccount)
+							+ ":" + JVACCOUNT.GetVersion(0);
+					new AlertDialog.Builder(new ContextThemeWrapper(
+							mActivity, R.style.AlertDialogCustom))
+					.setTitle(
+							mActivity.getResources().getString(
+									R.string.census_version)
+									+ curVersion
+									+ "  "
+									+ ConfigUtil.sameVersion)
 									.setItems(
 											new String[] { itemzero, itemfive,
 													itemone, itemtwo,
 													itemthree, itemfour }, null)
-									.setNegativeButton(
-											mActivity.getResources().getString(
-													R.string.ok), null).show();
-							// TODO
-							break;
-						case 7:
-							if (!MySharedPreference.getBoolean("VideoSquer")) {
-								MySharedPreference.putBoolean("VideoSquer",
-										true);
-							}
-
-							if (!ConfigUtil.isConnected(mActivity)) {
-								mActivity.alertNetDialog();
-							} else {
-								StatService.trackCustomEvent(
-										mActivity,
-										"Demo",
-										mActivity.getResources().getString(
-												R.string.census_demo));
-
-								GetDemoTask demoTask = new GetDemoTask(
-										mActivity);
-								String[] demoParams = new String[3];
-								if (!Boolean
-										.valueOf(((BaseActivity) activity).statusHashMap
-												.get(Consts.LOCAL_LOGIN))) {
-									String sessionResult = ConfigUtil
-											.getSession();
-
-									MyLog.v("session", sessionResult);
-									demoParams[0] = sessionResult;
-								} else {
-									demoParams[0] = "";
-								}
-								demoTask.execute(demoParams);
-
-								// Intent demoIntent = new Intent();
-								// demoIntent.setClass(JVLoginActivity.this,
-								// JVDemoActivity.class);
-								// JVLoginActivity.this.startActivity(demoIntent);
-							}
-							// TODO
-							break;
-						case 8:
-							if (!MySharedPreference.getBoolean("SystemMessage")) {
-								MySharedPreference.putBoolean("SystemMessage",
-										true);
-							}
-							StatService.trackCustomEvent(
-									mActivity,
-									"MoreMessage",
-									mActivity.getResources().getString(
-											R.string.census_moremessage));
-							Intent infoIntent = new Intent();
-							infoIntent.setClass(mActivity,
-									JVSystemInfoActivity.class);
-							mActivity.startActivity(infoIntent);
-							// TODO
-							break;
-						case 9:// 媒体
-							StatService.trackCustomEvent(
-									mActivity,
-									"Media",
-									mActivity.getResources().getString(
-											R.string.census_media));
-							Intent intentMedia = new Intent(mActivity,
-									JVMediaActivity.class);
-							mActivity.startActivity(intentMedia);
-							break;
-						case 10:
-							Intent intent = new Intent(mActivity,
-									JVFeedbackActivity.class);
-							startActivity(intent);
-							break;
-						case 11:
-							mActivity.createDialog("", false);
-							CheckUpdateTask taskf = new CheckUpdateTask(
-									mActivity);
-							String[] strParams = new String[3];
-							strParams[0] = "1";// 1,手动检查更新
-							taskf.execute(strParams);
-							break;
-						case 12:
-							if (!MySharedPreference.getBoolean("LITTLE")) {
-								littlenum++;
-								if (littlenum < 20) {
-									if (littlenum >= 17) {
-										mActivity
-												.showTextToast((20 - littlenum)
-														+ " ");
-									}
-								} else if (littlenum == 20) {
-									MySharedPreference.putBoolean("LITTLEHELP",
-											true);
-									MySharedPreference.putBoolean(
-											"BROADCASTSHOW", true);
-									MySharedPreference.putBoolean("LITTLE",
-											true);
-									ListViewUtil
-											.setListViewHeightBasedOnChildren(more_listView);
-								}
-							}
-							break;
-						default:
-							break;
-						}
-						adapter.notifyDataSetChanged();
+													.setNegativeButton(
+															mActivity.getResources().getString(
+																	R.string.ok), null).show();
+					// TODO
+					break;
+				case 7:
+					if (!MySharedPreference.getBoolean("VideoSquer")) {
+						MySharedPreference.putBoolean("VideoSquer",
+								true);
 					}
-				});
+
+					if (!ConfigUtil.isConnected(mActivity)) {
+						mActivity.alertNetDialog();
+					} else {
+						StatService.trackCustomEvent(
+								mActivity,
+								"Demo",
+								mActivity.getResources().getString(
+										R.string.census_demo));
+
+						GetDemoTask demoTask = new GetDemoTask(
+								mActivity);
+						String[] demoParams = new String[3];
+						if (!Boolean
+								.valueOf(((BaseActivity) activity).statusHashMap
+										.get(Consts.LOCAL_LOGIN))) {
+							String sessionResult = ConfigUtil
+									.getSession();
+
+							MyLog.v("session", sessionResult);
+							demoParams[0] = sessionResult;
+						} else {
+							demoParams[0] = "";
+						}
+						demoTask.execute(demoParams);
+
+						// Intent demoIntent = new Intent();
+						// demoIntent.setClass(JVLoginActivity.this,
+						// JVDemoActivity.class);
+						// JVLoginActivity.this.startActivity(demoIntent);
+					}
+					// TODO
+					break;
+				case 8:
+					if (!MySharedPreference.getBoolean("SystemMessage")) {
+						MySharedPreference.putBoolean("SystemMessage",
+								true);
+					}
+					StatService.trackCustomEvent(
+							mActivity,
+							"MoreMessage",
+							mActivity.getResources().getString(
+									R.string.census_moremessage));
+					Intent infoIntent = new Intent();
+					infoIntent.setClass(mActivity,
+							JVSystemInfoActivity.class);
+					mActivity.startActivity(infoIntent);
+					// TODO
+					break;
+				case 9:
+					Intent intentAD = new Intent(mActivity,JVWebViewActivity.class);
+					intentAD.putExtra("URL", "http://www.baidu.com");
+					intentAD.putExtra("title", -2);
+					mActivity.startActivity(intentAD);
+					break;
+				case 10:
+					Intent intentAD1 = new Intent(mActivity,JVWebViewActivity.class);
+					intentAD1.putExtra("URL", "http://www.qq.com");
+					intentAD1.putExtra("title", -2);
+					mActivity.startActivity(intentAD1);
+					break;
+					
+				case 11:
+					Intent intentAD2 = new Intent(mActivity,JVWebViewActivity.class);
+					intentAD2.putExtra("URL", "http://www.a67.com");
+					intentAD2.putExtra("title", -2);
+					mActivity.startActivity(intentAD2);
+					break;
+				case 12:// 媒体
+					StatService.trackCustomEvent(
+							mActivity,
+							"Media",
+							mActivity.getResources().getString(
+									R.string.census_media));
+					Intent intentMedia = new Intent(mActivity,
+							JVMediaActivity.class);
+					mActivity.startActivity(intentMedia);
+					break;
+				case 13:
+					Intent intent = new Intent(mActivity,
+							JVFeedbackActivity.class);
+					startActivity(intent);
+					break;
+				case 14:
+					mActivity.createDialog("", false);
+					CheckUpdateTask taskf = new CheckUpdateTask(
+							mActivity);
+					String[] strParams = new String[3];
+					strParams[0] = "1";// 1,手动检查更新
+					taskf.execute(strParams);
+					break;
+				case 15:
+					if (!MySharedPreference.getBoolean("LITTLE")) {
+						littlenum++;
+						if (littlenum < 20) {
+							if (littlenum >= 17) {
+								mActivity
+								.showTextToast((20 - littlenum)
+										+ " ");
+							}
+						} else if (littlenum == 20) {
+							MySharedPreference.putBoolean("LITTLEHELP",
+									true);
+							MySharedPreference.putBoolean(
+									"BROADCASTSHOW", true);
+							MySharedPreference.putBoolean("LITTLE",
+									true);
+							ListViewUtil
+							.setListViewHeightBasedOnChildren(more_listView);
+						}
+					}
+					break;
+				default:
+					break;
+				}
+				adapter.notifyDataSetChanged();
+			}
+		});
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
 					JVDeviceConst.GET_USER_DEVICES);
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
-					JVDeviceConst.PROTO_VERSION);
+					"2.0");
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);
 			jObj.put(JVDeviceConst.JK_USERNAME, userName);
@@ -867,7 +867,7 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
 					JVDeviceConst.GET_USER_DEVICES_STATUS_INFO);
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
-					JVDeviceConst.PROTO_VERSION);
+					"2.0");
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);
 			jObj.put(JVDeviceConst.JK_USERNAME, userName);
@@ -1808,7 +1808,7 @@ public class DeviceUtil {
 					JVDeviceConst.GET_PUBLISH_INFO);// 5504
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// 1.0
-			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, softName);// 0：CloudSEE//
+			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, 0);// 0：CloudSEE//
 																// 1：NVSIP
 			jObj.put(JVDeviceConst.JK_LANGUAGE_TYPE, language);// (语言 0简体中文 1英文
 																// 2繁体中文)

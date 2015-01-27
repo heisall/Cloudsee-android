@@ -250,6 +250,6 @@ public class JVACCOUNT {
 			String account_name);
 
 	public static native String GetVersion(int aaa);
-	
+
 	public static native String GetDevicesOnlineStatus();
 }

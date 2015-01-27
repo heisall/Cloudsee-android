@@ -46,7 +46,7 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
 					JVDeviceConst.GET_USER_DEVICES);
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
-					"2.0");
+					JVDeviceConst.PROTO_VERSION_2);
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);
 			jObj.put(JVDeviceConst.JK_USERNAME, userName);
@@ -157,10 +157,60 @@ public class DeviceUtil {
 		}
 
 		if (null != deviceList && 0 != deviceList.size()) {
-			refreshDeviceState(userName, deviceList);
+			refreshOnlineState(deviceList);
 		}
 
 		return deviceList;
+	}
+
+	/**
+	 * 2015-1-27 刷新设备在线状态
+	 * 
+	 * @param deviceList
+	 */
+	public static void refreshOnlineState(ArrayList<Device> deviceList) {
+
+		// {"dev_array":[{"dguid":"A361","dstat":1},{"dguid":"S23045624","dstat":0}],"ret":0}
+		// 优先判断"ret"的值，0成功，其他值失败，为0时再去取"dev_array"的值
+		// "dev_array"：是个json array
+		// "dguid"：设备云视通号
+		// "dstat":在线状态 1：在线 0：离线
+
+		String onLineString = JVACCOUNT.GetDevicesOnlineStatus();
+		MyLog.v("refreshOnlineState---result", onLineString);
+		if (null != onLineString && !"".equalsIgnoreCase(onLineString)) {
+			try {
+				JSONObject resObject = new JSONObject(onLineString);
+				if (null != resObject) {
+					int getRes = resObject.getInt("ret");
+					if (0 == getRes) {
+						String onLineRes = resObject.getString("dev_array");
+						if (null != onLineRes
+								&& !"".equalsIgnoreCase(onLineRes)) {
+							JSONArray resArray = new JSONArray(onLineRes);
+							if (null != resArray && 0 != resArray.length()) {
+								for (int i = 0; i < resArray.length(); i++) {
+									JSONObject devObj = new JSONObject(resArray
+											.get(i).toString());
+									if (null != devObj) {
+										String dGuid = devObj
+												.optString("dguid");
+										int onlineState = devObj
+												.optInt("dstat");
+										PlayUtil.refreshDevOnlineState(
+												deviceList, dGuid, onlineState);
+									}
+								}
+
+							}
+
+						}
+					}
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -867,7 +917,7 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
 					JVDeviceConst.GET_USER_DEVICES_STATUS_INFO);
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
-					"2.0");
+					JVDeviceConst.PROTO_VERSION_2);
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);
 			jObj.put(JVDeviceConst.JK_USERNAME, userName);
@@ -964,9 +1014,11 @@ public class DeviceUtil {
 			}
 		}
 
-		// if (res) {
-		// CacheUtil.saveDevList(deviceList);
-		// }
+		if (res) {
+			if (null != deviceList && 0 != deviceList.size()) {
+				refreshOnlineState(deviceList);
+			}
+		}
 		return res;
 	}
 

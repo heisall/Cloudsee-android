@@ -1,8 +1,5 @@
 package com.jovision.commons;
 
-import com.jovision.Consts;
-import com.jovision.utils.ConfigUtil;
-
 public class Url {
 	// 意见反馈地址
 	public static String FEED_BACK_URL = "http://182.92.242.230/api.php";
@@ -37,8 +34,13 @@ public class Url {
 	public static String SHORTSERVERIPTEST = "58.56.19.187";
 	public static String LONGSERVERIPTEST = "58.56.19.187";
 
-	public static String SHORTSERVERIP = ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "appchannel.afdvr.com"
-			: "appchannelen.afdvr.com"; // "appchannel.jovecloud.com";
-	public static String LONGSERVERIP = ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "apponline.afdvr.com"
-			: "apponlineen.afdvr.com"; // "apponline.jovecloud.com";
+	public static String SHORTSERVERIP = "58.56.19.187";
+	public static String LONGSERVERIP = "58.56.19.187";
+
+	// public static String SHORTSERVERIP = ConfigUtil.getServerLanguage() ==
+	// Consts.LANGUAGE_ZH ? "appchannel.afdvr.com"
+	// : "appchannelen.afdvr.com"; // "appchannel.jovecloud.com";
+	// public static String LONGSERVERIP = ConfigUtil.getServerLanguage() ==
+	// Consts.LANGUAGE_ZH ? "apponline.afdvr.com"
+	// : "apponlineen.afdvr.com"; // "apponline.jovecloud.com";
 }

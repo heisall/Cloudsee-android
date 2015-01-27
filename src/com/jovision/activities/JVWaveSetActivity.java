@@ -137,6 +137,9 @@ public class JVWaveSetActivity extends BaseActivity {
 			break;
 		}
 		case Consts.WHAT_BROAD_FINISHED: {// 广播超时
+			if (4 != currentStep) {
+				break;
+			}
 			dismissDialog();
 			if (null == broadList || 0 == broadList.size()) {
 				showTextToast(R.string.broad_zero);

@@ -25,6 +25,10 @@ import com.jovision.commons.MySharedPreference;
 //JK_MESSAGE_ID和JK_SESSION_ID  库自己添加，应用层不用传。
 
 public class DeviceUtil {
+	// 新获取在线状态接口调用流程：
+	// 获取用户设备列表（2003）-> 调用新接口获取在线状态 -> 定时调用刷新用户列表(2025)同时调用新接口。
+	//
+	// 和以前不同，也就是第一次调用完2003后已经获取了全部信息，不必调用用2025。等自动刷新时间到后再调用2025和新接口。
 
 	/**
 	 * 查询账号下设备列表
@@ -42,7 +46,7 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
 					JVDeviceConst.GET_USER_DEVICES);
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
-					JVDeviceConst.PROTO_VERSION);
+					"2.0");
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);
 			jObj.put(JVDeviceConst.JK_USERNAME, userName);
@@ -857,13 +861,13 @@ public class DeviceUtil {
 			ArrayList<Device> deviceList) {
 		boolean res = false;
 		// ArrayList<Device> deviceList = new ArrayList<Device>();
-		// 参数例子：{"mt":2023,"pv":"1.0","lpt":1,"username":"zhangs"}
+		// 参数例子：{"mt":2025,"pv":"1.0","lpt":1,"username":"zhangs"}
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
 					JVDeviceConst.GET_USER_DEVICES_STATUS_INFO);
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
-					JVDeviceConst.PROTO_VERSION);
+					"2.0");
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);
 			jObj.put(JVDeviceConst.JK_USERNAME, userName);

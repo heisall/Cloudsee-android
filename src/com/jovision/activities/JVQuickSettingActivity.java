@@ -124,6 +124,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 	/** 声波配置 */
 	private SearchDevicesView searchView = null;
+	public MediaPlayer myPlayer = new MediaPlayer();
 	private PopupWindow quickSetPop = null;// 快速设置弹出框
 	private LinearLayout quickSetParentLayout = null;// 父窗体布局
 	private ImageView quickSetDeviceImg = null;// 搜索动画上的小摄像头图标
@@ -136,7 +137,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 	@Override
 	protected void initSettings() {
-
+		// 播放声音
+		playSound(Consts.TAG_SOUNDONE);
 		MySharedPreference.putBoolean(Consts.AP_SETTING, true);
 		local = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 		// 首次提示设置步骤
@@ -728,7 +730,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			case R.id.btn_right:// 保存按钮
 				haveSet = true;
 				// 播放提示声音
-				playSound(Consts.TAG_SOUNDFIVE);
+//				playSound(Consts.TAG_SOUNDFIVE);
 				isSearching = true;
 				desWifiSSID = desWifiName.getText().toString();
 
@@ -761,8 +763,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	 */
 	public void backMethod() {
 
-		if (null != searchView) {
-			searchView.stopPlayer();
+		if (null != myPlayer) {
+			myPlayer.stop();
 		}
 
 		try {
@@ -864,7 +866,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		try {
 			stopTask = true;
 			// searchView.stopPlayer();
-			searchView.myPlayer.release();
+			myPlayer.release();
 			stopRefreshWifiTimer();
 			MySharedPreference.putBoolean(Consts.AP_SETTING, false);
 		} catch (Exception e) {
@@ -1824,22 +1826,18 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			// 资源管理器
 			AssetFileDescriptor afd = assetMgr.openFd(file);
 
-			if (null != searchView) {
-				if (null == searchView.myPlayer) {
-					searchView.myPlayer = new MediaPlayer();
+				if (null == myPlayer) {
+					myPlayer = new MediaPlayer();
 				}
-				searchView.myPlayer.reset();
+				myPlayer.reset();
 
-				// 使用searchView.myPlayer加载指定的声音文件。
-				searchView.myPlayer.setDataSource(afd.getFileDescriptor(),
+				// 使用myPlayer.myPlayer加载指定的声音文件。
+				myPlayer.setDataSource(afd.getFileDescriptor(),
 						afd.getStartOffset(), afd.getLength());
 				// 准备声音
-				searchView.myPlayer.prepare();
+				myPlayer.prepare();
 				// 播放
-				searchView.myPlayer.start();
-			} else {
-				MyLog.v("searchView", "searchView is null");
-			}
+				myPlayer.start();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1863,7 +1861,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (null != quickSetPop && quickSetPop.isShowing()) {
 			quickSetPop.dismiss();
 			quickSetPop = null;
-			searchView = null;
+			myPlayer = null;
 		}
 	}
 
@@ -1877,8 +1875,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			case R.id.quickSetBack:// 返回
 				// 暂停扫瞄器
 				showSearch(false);
-				if (null != searchView && null != searchView.myPlayer) {
-					searchView.myPlayer.stop();
+				if (null != myPlayer) {
+					myPlayer.stop();
 				}
 				dismisQuickPopWindow();
 				isBack = true;
@@ -1921,8 +1919,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			searchView = (SearchDevicesView) view.findViewById(R.id.searchView);
 			searchView.setWillNotDraw(false);
 
-			// 播放声音
-			playSound(Consts.TAG_SOUNDONE);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1953,8 +1949,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != searchView && null != searchView.myPlayer) {
-							searchView.myPlayer.stop();
+						if (null != myPlayer) {
+							myPlayer.stop();
 						}
 						dismisQuickPopWindow();
 						isBack = true;
@@ -2065,9 +2061,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							} else {
 								// 暂停扫瞄器
 								showSearch(false);
-								if (null != searchView
-										&& null != searchView.myPlayer) {
-									searchView.myPlayer.stop();
+								if (null != myPlayer) {
+									myPlayer.stop();
 								}
 								dismisQuickPopWindow();
 								isBack = true;
@@ -2115,7 +2110,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				// - getStatusHeight(JVQuickSettingActivity.this),
 				// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				isSearching = false;
-				searchView.stopPlayer();
+				myPlayer.stop();
 				quickSetBackImg.setVisibility(View.GONE);
 			}
 		}
@@ -2151,8 +2146,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 								.setText(R.string.str_quick_setting_devupdate_order);
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != searchView && null != searchView.myPlayer) {
-							searchView.myPlayer.stop();
+						if (null != searchView && null != myPlayer) {
+							myPlayer.stop();
 						}
 
 						dismisQuickPopWindow();
@@ -2166,8 +2161,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != searchView && null != searchView.myPlayer) {
-							searchView.myPlayer.stop();
+						if (null != searchView && null != myPlayer) {
+						myPlayer.stop();
 						}
 
 						dismisQuickPopWindow();

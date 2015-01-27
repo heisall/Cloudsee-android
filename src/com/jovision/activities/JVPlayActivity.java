@@ -1227,7 +1227,7 @@ public class JVPlayActivity extends PlayActivity implements
 						if (window == lastClickIndex) {
 							currentKbps.setText(String.format("%.1fk/%.1fk",
 									object.getDouble("kbps"),
-									object.getDouble("audio_kbps")));
+									object.getDouble("audio_network_fps")));
 							// + "("
 							// + (object.getBoolean("is_turn") ? "TURN"
 							// : "P2P") + ")");

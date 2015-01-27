@@ -134,6 +134,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	private boolean stopTask = false;// 是否停止线程
 	private boolean disConnected = false;// 视频是否断开
 
+	// 播放操作步骤音频
+	protected AssetManager assetMgr = null;
+	protected MediaPlayer mediaPlayer = new MediaPlayer();
+
 	@Override
 	protected void initSettings() {
 

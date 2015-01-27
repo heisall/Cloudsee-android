@@ -625,6 +625,7 @@
     <string name="str_third_device_name">設備名稱</string>
     <string name="str_door_device">門磁設備</string>
     <string name="str_bracelet_device">手環設備</string>
+    <string name="str_smoke_device">煙感設備</string>
     <string name="str_click_add_device">點擊此處添加新的設備</string>
     <string name="str_alarm_third_nickname">請輸入綁定設備昵稱 ：</string>
     <string name="str_alarm_manage">添加報警設備</string>

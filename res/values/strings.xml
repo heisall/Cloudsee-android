@@ -625,6 +625,7 @@
     <string name="str_third_device_name">Device Name</string>
     <string name="str_door_device">door magnetic devices</string>
     <string name="str_bracelet_device">hand ring devices</string>
+    <string name="str_smoke_device">smoke detector devices</string>
     <string name="str_click_add_device">click here to add new devices</string>
     <string name="str_alarm_third_nickname">please input nickname of binding devices:</string>
     <string name="str_alarm_manage">Add Alarm Device</string>

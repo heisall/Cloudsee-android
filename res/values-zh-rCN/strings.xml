@@ -625,6 +625,7 @@
     <string name="str_third_device_name">设备名称</string>
     <string name="str_door_device">门磁设备</string>
     <string name="str_bracelet_device">手环设备</string>
+    <string name="str_smoke_device">烟感设备</string>
     <string name="str_click_add_device">点击此处添加新的设备</string>
     <string name="str_alarm_third_nickname">请输入绑定设备昵称 ：</string>
     <string name="str_alarm_manage">添加报警设备</string>

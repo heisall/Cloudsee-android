@@ -263,9 +263,9 @@ public class JVLoginActivity extends BaseActivity {
 		findPassTV.setOnClickListener(myOnClickListener);
 
 		Intent intent = getIntent();
-		Boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
+//		Boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
 
-		if (autoLogin) {
+		if (MySharedPreference.getBoolean("REMEMBER", false)) {
 			String userName = intent.getStringExtra("UserName");
 			String userPass = intent.getStringExtra("UserPass");
 			statusHashMap.put(Consts.KEY_USERNAME, userName);
@@ -492,6 +492,8 @@ public class JVLoginActivity extends BaseActivity {
 				StatService.trackCustomEvent(JVLoginActivity.this,
 						"onlinelogin", JVLoginActivity.this.getResources()
 								.getString(R.string.census_onlinelogin));
+				MySharedPreference.putBoolean("REMEMBER",
+						true);
 				MySharedPreference.putString("UserName",
 						statusHashMap.get(Consts.KEY_USERNAME));
 				MySharedPreference.putString("PassWord",
@@ -536,7 +538,7 @@ public class JVLoginActivity extends BaseActivity {
 						&& "".equals(json.optString("mail")) && verifyCode > 0) {
 					intent.setClass(JVLoginActivity.this,
 							JVBoundEmailActivity.class);
-					intent.putExtra("AutoLogin", true);
+//					intent.putExtra("AutoLogin", true);
 					intent.putExtra("UserName",
 							statusHashMap.get(Consts.KEY_USERNAME));
 					intent.putExtra("UserPass",

@@ -12,6 +12,7 @@
     <!-- more feature func -->
     <string-array name="array_more">
         <item>Help</item>
+        <item>Remember Password</item>
         <item>Alarm</item>
         <item>Viewing Mode(Single-device)</item>
         <item>Helper</item>
@@ -30,6 +31,7 @@
     </string-array>
     <string-array name="array_moreduo">
         <item>Help</item>
+        <item>Remember Password</item>
         <item>Alarm</item>
         <item>Viewing Mode(Multi-device)</item>
         <item>Helper</item>

@@ -1455,77 +1455,90 @@ public class JVMyDeviceFragment extends BaseFragment {
 		protected Integer doInBackground(String... params) {// 0：获取，1：刷新
 			int getRes = 0;
 			try {
-				if (!Boolean.valueOf(mActivity.statusHashMap
-						.get(Consts.LOCAL_LOGIN))) {// 非本地登录，无论是否刷新都执行
-					// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次
-					if (null == myDeviceList || 0 == myDeviceList.size()) {
-						myDeviceList = DeviceUtil
-								.getUserDeviceList(mActivity.statusHashMap
-										.get(Consts.KEY_USERNAME));
-					} else {
-						DeviceUtil.refreshDeviceState(mActivity.statusHashMap
-								.get(Consts.KEY_USERNAME), myDeviceList);
-					}
-					if (null == myDeviceList || 0 == myDeviceList.size()) {
-						myDeviceList = DeviceUtil
-								.getUserDeviceList(mActivity.statusHashMap
-										.get(Consts.KEY_USERNAME));
-					}
-
-					if (null != myDeviceList && 0 != myDeviceList.size()) {
-						boolean hasChannel = true;
-						for (Device dev : myDeviceList) {
-							if (null == dev.getChannelList()
-									|| 0 == dev.getChannelList().size()) {
-								hasChannel = false;
-								break;
-							}
+				int errorCode = 0;
+				if (null != mActivity.statusHashMap.get(Consts.ACCOUNT_ERROR)) {
+					errorCode = Integer.parseInt(mActivity.statusHashMap
+							.get(Consts.ACCOUNT_ERROR));
+				}
+				if (errorCode == Consts.WHAT_HAS_NOT_LOGIN) {// 未登录，离线登陆
+					myDeviceList = CacheUtil.getOfflineDevList();
+				} else {
+					if (!Boolean.valueOf(mActivity.statusHashMap
+							.get(Consts.LOCAL_LOGIN))) {// 非本地登录，无论是否刷新都执行
+						// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次
+						if (null == myDeviceList || 0 == myDeviceList.size()) {
+							myDeviceList = DeviceUtil
+									.getUserDeviceList(mActivity.statusHashMap
+											.get(Consts.KEY_USERNAME));
+						} else {
+							DeviceUtil.refreshDeviceState(
+									mActivity.statusHashMap
+											.get(Consts.KEY_USERNAME),
+									myDeviceList);
+						}
+						if (null == myDeviceList || 0 == myDeviceList.size()) {
+							myDeviceList = DeviceUtil
+									.getUserDeviceList(mActivity.statusHashMap
+											.get(Consts.KEY_USERNAME));
 						}
 
-						if (!hasChannel) {
-							ArrayList<Channel> channelList = DeviceUtil
-									.getUserPointList();
-
-							if (null == channelList || 0 == channelList.size()) {
-								channelList = DeviceUtil.getUserPointList();
-							}
-
-							if (null != channelList && 0 != channelList.size()) {
-								for (Device dev : myDeviceList) {
-									MyList<Channel> chanList = new MyList<Channel>(
-											1);
-									for (Channel channel : channelList) {
-										if (channel.isHasFind()) {
-											continue;
-										}
-										if (channel.getDguid()
-												.equalsIgnoreCase(
-														dev.getFullNo())) {
-											chanList.add(channel);
-											channel.setHasFind(true);
-										}
-									}
-									dev.setChannelList(chanList);
+						if (null != myDeviceList && 0 != myDeviceList.size()) {
+							boolean hasChannel = true;
+							for (Device dev : myDeviceList) {
+								if (null == dev.getChannelList()
+										|| 0 == dev.getChannelList().size()) {
+									hasChannel = false;
+									break;
 								}
-							} else {
-								fragHandler
-										.sendMessage(fragHandler
-												.obtainMessage(Consts.WHAT_MYDEVICE_POINT_FAILED));
+							}
+
+							if (!hasChannel) {
+								ArrayList<Channel> channelList = DeviceUtil
+										.getUserPointList();
+
+								if (null == channelList
+										|| 0 == channelList.size()) {
+									channelList = DeviceUtil.getUserPointList();
+								}
+
+								if (null != channelList
+										&& 0 != channelList.size()) {
+									for (Device dev : myDeviceList) {
+										MyList<Channel> chanList = new MyList<Channel>(
+												1);
+										for (Channel channel : channelList) {
+											if (channel.isHasFind()) {
+												continue;
+											}
+											if (channel.getDguid()
+													.equalsIgnoreCase(
+															dev.getFullNo())) {
+												chanList.add(channel);
+												channel.setHasFind(true);
+											}
+										}
+										dev.setChannelList(chanList);
+									}
+								} else {
+									fragHandler
+											.sendMessage(fragHandler
+													.obtainMessage(Consts.WHAT_MYDEVICE_POINT_FAILED));
+								}
+
 							}
 
 						}
-
-					}
-					if (null != myDeviceList && 0 != myDeviceList.size()) {
-						if (null == mActivity) {
-							mActivity = (BaseActivity) getActivity();
+						if (null != myDeviceList && 0 != myDeviceList.size()) {
+							if (null == mActivity) {
+								mActivity = (BaseActivity) getActivity();
+							}
+							PlayUtil.sortList(myDeviceList, mActivity);
 						}
-						PlayUtil.sortList(myDeviceList, mActivity);
+						CacheUtil.saveDevList(myDeviceList);
+					} else if (Boolean.valueOf(mActivity.statusHashMap
+							.get(Consts.LOCAL_LOGIN))) {// 本地登录
+						myDeviceList = CacheUtil.getDevList();
 					}
-					CacheUtil.saveDevList(myDeviceList);
-				} else if (Boolean.valueOf(mActivity.statusHashMap
-						.get(Consts.LOCAL_LOGIN))) {// 本地登录
-					myDeviceList = CacheUtil.getDevList();
 				}
 
 				if (null == myDeviceList) {
@@ -1555,12 +1568,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 						Consts.WHAT_DEV_GETFINISHED, getRes, 0));
 				if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(
 						"false")) {
-					if ("0".equalsIgnoreCase(params[0])) {
-						downloadAppImage();
-						// TODO 获取广告
-						getADList();
+					if (errorCode == Consts.WHAT_HAS_NOT_LOGIN) {// 未登录，离线登陆
+
+					} else {
+						if ("0".equalsIgnoreCase(params[0])) {
+							if (!Boolean.valueOf(mActivity.statusHashMap
+									.get(Consts.LOCAL_LOGIN))) {// 在线登陆
+								downloadAppImage();
+							}
+							// TODO 获取广告
+							getADList();
+						}
 					}
-					// refreshAD();
+
 				}
 
 			} catch (Exception e) {

@@ -222,7 +222,7 @@ public class ConfigUtil {
 			try {
 				requestRes = JSONUtil.getRequest3(Url.COUNTRY_URL);
 				MyLog.v("getCountry--requestRes", requestRes);
-				if ("".equalsIgnoreCase(requestRes)) {
+				if (!"".equalsIgnoreCase(requestRes)) {
 					String jsonStr = requestRes.substring(
 							requestRes.indexOf("{"),
 							requestRes.indexOf("}") + 1);

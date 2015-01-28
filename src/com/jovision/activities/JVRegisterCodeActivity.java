@@ -56,6 +56,7 @@ public class JVRegisterCodeActivity extends BaseActivity {
 
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		account = getIntent().getStringExtra("phone");
 		currentMenu.setText(R.string.login_str_user_regist);

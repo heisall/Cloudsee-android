@@ -541,6 +541,7 @@ public class JVDeviceUpdateCloudSeeActivity extends BaseActivity {
 		/** topBar **/
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.device_version_info);
 		leftBtn.setOnClickListener(myOnClickListener);

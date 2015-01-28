@@ -318,10 +318,6 @@ public class Consts {
 	public static final int GET_DEVICE_LIST_FUNCTION = 0xB3;
 	/** 获取设备列表方法 */
 	public static final int GUID_FUNCTION = 0xB4;
-
-	// MainApplication 发消息给BaseActivity、BaseFragment
-	public static final int ALARM_NET = 0xF0;
-	public static final int ALARM_NET_WEEK = 0xF1;
 	// JVOfflineActivity
 	public static final int OFFLINE_COUNTS = 15;// 15秒倒计时
 	public static final int TAG_BROAD_DEVICE_LIST = 0x05;// 广播设备列表
@@ -521,6 +517,13 @@ public class Consts {
 	/** 设备管理连接超时 */
 	public static final int WHAT_MANAGE_TIMEOUT = 0x68;// 设备管理连接超时
 
+	// MainApplication 发消息给BaseActivity、BaseFragment
+	public static final int WHAT_ALARM_NET = 0x69;// 网络异常
+	public static final int WHAT_ALARM_NET_WEEK = 0x6A;// 网络正常
+	public static final int WHAT_HAS_NOT_LOGIN = 0x6B;// 未登录
+	public static final int WHAT_HAS_LOGIN_SUCCESS = 0x6C;// 登陆成功
+	public static final int WHAT_ACCOUNT_NORMAL = 0x6D;// 账号正常
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像
@@ -580,6 +583,12 @@ public class Consts {
 
 	/** 缓存设备列表key */
 	public static final String CACHE_DEVICE_LIST = "CACHE_DEVICE_LIST";
+
+	/** 离线缓存设备列表key */
+	public static final String OFFLINE_DEVICE_LIST = "OFFLINE_DEVICE_LIST";
+
+	/** 账号异常 key */
+	public static final String ACCOUNT_ERROR = "ACCOUNT_ERROR";// 账号异常
 
 	/** 本地存储AD列表key */
 	public static final String AD_LIST = "AD_LIST";

@@ -83,6 +83,7 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu.setText(R.string.str_help1_1);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		ipAddressEdt = (EditText) findViewById(R.id.addipconnnect_address);

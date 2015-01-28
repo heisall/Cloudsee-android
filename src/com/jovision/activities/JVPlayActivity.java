@@ -998,8 +998,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 									}
 								} else {
-									MySharedPreference.putBoolean(channel
-											.getParent().getFullNo(), true);
 									if (null != streamMap.get("MobileCH")
 											&& "2".equalsIgnoreCase(streamMap
 													.get("MobileCH"))) {
@@ -1017,7 +1015,14 @@ public class JVPlayActivity extends PlayActivity implements
 										} else {
 											channel.setStreamTag(3);
 										}
+										MySharedPreference.putBoolean(channel
+												.getParent().getFullNo(), true);
+									} else {
+										MySharedPreference
+												.putBoolean(channel.getParent()
+														.getFullNo(), false);
 									}
+
 								}
 							}
 

@@ -93,6 +93,7 @@ public class JVWebViewActivity extends BaseActivity {
 		topBar = (RelativeLayout) findViewById(R.id.topbarh);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.demo);
 		loadingBar = (ImageView) findViewById(R.id.loadingbars);

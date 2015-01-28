@@ -261,6 +261,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		topBar = (LinearLayout) findViewById(R.id.top_bar);// 顶部标题栏
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		ishitvis = (RelativeLayout) findViewById(R.id.ishitvis);
 		ht_motion = (ImageView) findViewById(R.id.ht_motion);

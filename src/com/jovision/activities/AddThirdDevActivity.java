@@ -113,6 +113,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 		rightBtn.setVisibility(View.GONE);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		leftBtn.setOnClickListener(this);
 		currentMenu.setText(R.string.str_help1_1);
 	}

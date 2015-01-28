@@ -40,6 +40,7 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 	private void initViews() {
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);

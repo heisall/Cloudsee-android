@@ -310,6 +310,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		topBar = (LinearLayout) findViewById(R.id.top_bar);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setText(R.string.prepare_step);

@@ -45,6 +45,7 @@ public class JVImageViewActivity extends BaseActivity {
 		setContentView(R.layout.imageview_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		leftBtn.setVisibility(View.VISIBLE);

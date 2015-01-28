@@ -131,8 +131,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		leftBtn.setOnClickListener(this);
 		currentMenu.setText(R.string.str_audio_monitor);
 

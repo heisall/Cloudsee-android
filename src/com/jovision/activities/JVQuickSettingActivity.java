@@ -867,7 +867,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		try {
 			stopTask = true;
 			// searchView.stopPlayer();
+			myPlayer.stop();
 			myPlayer.release();
+			myPlayer = null;
 			stopRefreshWifiTimer();
 			MySharedPreference.putBoolean(Consts.AP_SETTING, false);
 		} catch (Exception e) {

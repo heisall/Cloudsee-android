@@ -43,6 +43,7 @@ public class JVReBoundEmailActivity extends BaseActivity {
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		finish = (Button) findViewById(R.id.finish);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		reBindMail = (EditText) findViewById(R.id.rebindmail);

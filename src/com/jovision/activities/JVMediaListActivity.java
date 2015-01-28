@@ -130,6 +130,7 @@ public class JVMediaListActivity extends BaseActivity {
 		/** topBar **/
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		selectNum = JVMediaListActivity.this.getResources().getString(
 				R.string.selectnum);
 		totalNum = JVMediaListActivity.this.getResources().getString(

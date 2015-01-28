@@ -365,6 +365,8 @@
     <string name="demo_get_failed">视频广场加载失败</string>
     <string name="demo_loading">正在努力加载...</string>
     <!-- JVTab -->
+    <string name="account_error_tips">账号异常，点击登陆！</string>
+    <string name="network_error_tips">网络连接不可用,是否进行设置?</string>
     <string name="network_error">网络连接不可用,是否进行设置?</string>
     <string name="tips_3g">目前处于2G/3G网络，观看视频会产生大量流量费用（由运营商收取），建议使用Wi-Fi网络.</string>
     <string name="waiting">请稍等…</string>

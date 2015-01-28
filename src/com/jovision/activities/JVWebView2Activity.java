@@ -355,6 +355,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		topBar = (RelativeLayout) findViewById(R.id.topbarh);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.demo);
 		zhezhaoLayout = (RelativeLayout) findViewById(R.id.zhezhao);

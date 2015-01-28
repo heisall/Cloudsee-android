@@ -12,6 +12,7 @@
     <!-- more feature func -->
     <string-array name="array_more">
         <item>幫助</item>
+        <item>記住密碼</item>
         <item>報警消息推送</item>
         <item>觀看模式(單設備)</item>
         <item>小助手</item>
@@ -30,6 +31,7 @@
     </string-array>
     <string-array name="array_moreduo">
         <item>幫助</item>
+        <item>記住密碼</item>
         <item>報警消息推送</item>
         <item>觀看模式(多設備)</item>
         <item>小助手</item>

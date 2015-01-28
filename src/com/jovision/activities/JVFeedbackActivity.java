@@ -86,6 +86,7 @@ public class JVFeedbackActivity extends BaseActivity {
 		setContentView(R.layout.feedback_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		content = (EditText) findViewById(R.id.content);

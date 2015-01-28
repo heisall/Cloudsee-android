@@ -75,6 +75,8 @@ public class JVLoginActivity extends BaseActivity {
 
 	private String demoUrl = "";// 演示点网页地址
 
+	Boolean autoLogin = false;// 是否自动登陆
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
@@ -263,9 +265,9 @@ public class JVLoginActivity extends BaseActivity {
 		findPassTV.setOnClickListener(myOnClickListener);
 
 		Intent intent = getIntent();
-		Boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
+//		Boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
 
-		if (autoLogin) {
+		if (MySharedPreference.getBoolean("REMEMBER", false)) {
 			String userName = intent.getStringExtra("UserName");
 			String userPass = intent.getStringExtra("UserPass");
 			statusHashMap.put(Consts.KEY_USERNAME, userName);
@@ -486,12 +488,15 @@ public class JVLoginActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			autoLogin = true;
 			Intent intent = new Intent();
 			switch (result) {
 			case JVAccountConst.LOGIN_SUCCESS: {
 				StatService.trackCustomEvent(JVLoginActivity.this,
 						"onlinelogin", JVLoginActivity.this.getResources()
 								.getString(R.string.census_onlinelogin));
+				MySharedPreference.putBoolean("REMEMBER",
+						true);
 				MySharedPreference.putString("UserName",
 						statusHashMap.get(Consts.KEY_USERNAME));
 				MySharedPreference.putString("PassWord",
@@ -536,7 +541,7 @@ public class JVLoginActivity extends BaseActivity {
 						&& "".equals(json.optString("mail")) && verifyCode > 0) {
 					intent.setClass(JVLoginActivity.this,
 							JVBoundEmailActivity.class);
-					intent.putExtra("AutoLogin", true);
+//					intent.putExtra("AutoLogin", true);
 					intent.putExtra("UserName",
 							statusHashMap.get(Consts.KEY_USERNAME));
 					intent.putExtra("UserPass",
@@ -570,21 +575,39 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.LOGIN_FAILED_1: {
-				UserUtil.resetAllUser();
-				if (-5 == loginRes2) {
-					showTextToast(R.string.str_error_code_5);
-				} else if (-6 == loginRes2) {
-					showTextToast(R.string.str_error_code_6);
+
+				if (autoLogin) {// 自动登陆，离线登陆
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
+					intent.setClass(JVLoginActivity.this, JVTabActivity.class);
+					JVLoginActivity.this.startActivity(intent);
+					finish();
 				} else {
-					showTextToast(getResources().getString(
-							R.string.str_error_code)
-							+ (loginRes2 - 1000));
+					UserUtil.resetAllUser();
+					if (-5 == loginRes2) {
+						showTextToast(R.string.str_error_code_5);
+					} else if (-6 == loginRes2) {
+						showTextToast(R.string.str_error_code_6);
+					} else {
+						showTextToast(getResources().getString(
+								R.string.str_error_code)
+								+ (loginRes2 - 1000));
+					}
 				}
+
 				break;
 			}
 			case JVAccountConst.LOGIN_FAILED_2: {
-				UserUtil.resetAllUser();
-				showTextToast(R.string.str_other_error);
+				if (autoLogin) {// 自动登陆，离线登陆
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
+					intent.setClass(JVLoginActivity.this, JVTabActivity.class);
+					JVLoginActivity.this.startActivity(intent);
+					finish();
+				} else {
+					UserUtil.resetAllUser();
+					showTextToast(R.string.str_other_error);
+				}
 				break;
 			}
 			}

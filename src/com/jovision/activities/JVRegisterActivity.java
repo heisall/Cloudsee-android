@@ -134,6 +134,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		setContentView(R.layout.regist_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.login_str_user_regist);
 		rightBtn = (Button) findViewById(R.id.btn_right);

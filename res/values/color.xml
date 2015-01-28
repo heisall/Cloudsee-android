@@ -114,6 +114,9 @@
     <color name="info_content">#747474</color>
     <color name="func_divider">#D1D1D1</color>
 
+    <!-- 系统消息颜色 -->
+    <color name="account_error_bg">#FFF6D2</color>
+
     <!-- 象牙色 -->
     <color name="lightyellow">#FFFFE0</color>
     <!-- 亮黄色 -->

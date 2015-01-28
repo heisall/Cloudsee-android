@@ -86,12 +86,13 @@ public class JVMoreFragment extends BaseFragment {
 	private TextView more_bindmail;
 	// 图片数组
 	private int[] Image = { R.drawable.morefragment_help_icon,
+			R.drawable.morefragment_autologin_icon,
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon, R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon, R.drawable.media_image,
 			R.drawable.morefragment_update_icon, R.drawable.more_videosquer,
-			R.drawable.more_message, R.drawable.morefragment_update_icon,
-			R.drawable.more_videosquer, R.drawable.more_message,
+			R.drawable.more_message, R.drawable.morefragment_install_icon,
+			R.drawable.morefragment_sharedevice_icon, R.drawable.morefragment_data_icon,
 			R.drawable.media_image, R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };

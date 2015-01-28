@@ -146,6 +146,16 @@
         <item>版本信息</item>
     </string-array>
 
+    <!-- 第三方外设报警管理 -->
+    <string-array name="peripherals_manage">
+        <item>门磁</item>
+        <item>手环</item>
+        <item>遥控器</item>
+        <item>烟感探测器</item>
+        <item>幕帘探测器</item>
+        <item>红外探测器</item>
+        <item>燃气泄露探测器</item>
+    </string-array>
     <!-- 码流切换 -->
     <string-array name="array_stream">
         <item>高清</item>

@@ -5,61 +5,86 @@
     >
     <RelativeLayout 
     	android:layout_width="match_parent"
-    	android:layout_height="match_parent"
+    	android:layout_height="wrap_content"
     	android:background="@color/deviceitembgcolor"        
         >
 	    <LinearLayout
 	        android:id="@+id/top_layout1"
-	        android:layout_width="wrap_content"
+	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentTop="true"
-	        android:layout_centerHorizontal="true"
+	       	android:baselineAligned="false"
 	        android:layout_marginTop="15dip"
 	        android:orientation="horizontal" >
 	
 	        <RelativeLayout
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="10dip" >
+	            android:layout_weight="1" >
 	
 	            <Button
 	                android:id="@+id/add_door_btn"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:background="@drawable/third_door_bg" />
-	
+				  
 	            <TextView
-	                android:layout_width="wrap_content"
+	                android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
-	                android:layout_alignBottom="@id/add_door_btn"
+	                android:layout_below="@id/add_door_btn"
+	                android:layout_marginTop="@dimen/third_peripherals_top_margin_middle"
 	                android:layout_centerHorizontal="true"
-	                android:layout_marginBottom="18dp"
 	                android:text="@string/str_door_device"
-	                android:textColor="@color/white"
+	                android:textColor="@color/userinfocolor"
 	                android:textSize="16sp" />
+	                
 	        </RelativeLayout>
 	
 	        <RelativeLayout
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="8dip" >
+	            android:layout_weight="1" >
 	
 	            <Button
 	                android:id="@+id/add_bracelet_btn"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:background="@drawable/third_bracelet_bg" />
-	
+				
 	            <TextView
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_centerHorizontal="true"
+	                android:layout_below="@id/add_bracelet_btn"
+	                android:layout_marginTop="@dimen/third_peripherals_top_margin_middle"
+	                android:text="@string/str_bracelet_device"
+	                android:textColor="@color/userinfocolor"
+	                android:textSize="16sp" />
+	               
+	        </RelativeLayout>
+	        
+	        <RelativeLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1" >
+	
+	            <Button
+	                android:id="@+id/add_telecontrol_btn"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:layout_alignBottom="@id/add_bracelet_btn"
+	                android:background="@drawable/third_telecontrol_bg" />
+				
+	            <TextView
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
 	                android:layout_centerHorizontal="true"
-	                android:layout_marginBottom="18dp"
-	                android:text="@string/str_bracelet_device"
-	                android:textColor="@color/white"
+	                android:layout_below="@id/add_telecontrol_btn"
+	                android:layout_marginTop="@dimen/third_peripherals_top_margin_middle"
+	                android:text="@string/str_telecontrol_device"
+	                android:textColor="@color/userinfocolor"
 	                android:textSize="16sp" />
-	        </RelativeLayout>
+	                
+	        </RelativeLayout>	        
 	    </LinearLayout>
 	
 	    <LinearLayout
@@ -86,11 +111,11 @@
 	            <TextView
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:layout_alignBottom="@id/add_telecontrol_btn"
 	                android:layout_centerHorizontal="true"
-	                android:layout_marginBottom="18dp"
+	                android:layout_below="@id/add_telecontrol_btn"
+	                android:layout_marginTop="@dimen/third_peripherals_top_margin_middle"
 	                android:text="@string/str_telecontrol_device"
-	                android:textColor="@color/white"
+	                android:textColor="@color/userinfocolor"
 	                android:textSize="16sp" />
 	        </RelativeLayout>
 	        
@@ -103,7 +128,7 @@
 	                android:id="@+id/add_smoke_btn"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:background="@drawable/third_door_bg" />
+	                android:background="@drawable/third_smoke_bg" />
 	
 	            <TextView
 	                android:layout_width="wrap_content"
@@ -136,7 +161,7 @@
 	                android:id="@+id/add_curtain_btn"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:background="@drawable/third_telecontrol_bg" />
+	                android:background="@drawable/third_curtain_bg" />
 	
 	            <TextView
 	                android:layout_width="wrap_content"
@@ -158,7 +183,7 @@
 	                android:id="@+id/add_infrared_btn"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:background="@drawable/third_door_bg" />
+	                android:background="@drawable/third_infrared_bg" />
 	
 	            <TextView
 	                android:layout_width="wrap_content"
@@ -191,7 +216,7 @@
 	                android:id="@+id/add_gas_btn"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:background="@drawable/third_telecontrol_bg" />
+	                android:background="@drawable/third_gas_bg" />
 	
 	            <TextView
 	                android:layout_width="wrap_content"

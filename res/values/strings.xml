@@ -365,6 +365,8 @@
     <string name="demo_get_failed">Failed to load demo video.</string>
     <string name="demo_loading">Efforts are being made to load...</string>
     <!-- JVTab -->
+    <string name="account_error_tips">账号异常，点击登陆！</string>
+    <string name="network_error_tips">网络连接不可用,是否进行设置?</string>
     <string name="network_error">Network connection exception,please check the network.</string>
     <string name="tips_3g">You are using the 3G/4G network now.It shall cause a lot mobile data fee if you continute to view the video.You are suggested to use Wi-Fi network.</string>
     <string name="waiting">Waiting…</string>

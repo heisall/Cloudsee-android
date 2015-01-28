@@ -2,11 +2,16 @@ package com.jovision.activities;
 
 import java.lang.reflect.Field;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +26,14 @@ import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
+import com.jovision.bean.User;
+import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
+import com.jovision.commons.Url;
+import com.jovision.utils.AccountUtil;
+import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.UserUtil;
 import com.tencent.stat.StatService;
 
 /**
@@ -42,7 +55,9 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 	protected TextView currentMenu;
 	protected Button rightBtn;
 	protected static RelativeLayout alarmnet;
-	protected static boolean isshow;
+	protected TextView accountError;
+
+	// protected static boolean isshow;
 
 	protected static class FragHandler extends Handler {
 
@@ -59,18 +74,14 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 						msg.obj);
 			}
 			switch (msg.what) {
-			case Consts.ALARM_NET:
+			case Consts.WHAT_ALARM_NET:
 				if (null != alarmnet) {
-					alarmnet.setVisibility(View.GONE);
-					isshow = true;
-					BaseActivity.isshowActivity = true;
+					alarmnet.setVisibility(View.VISIBLE);
 				}
 				break;
-			case Consts.ALARM_NET_WEEK:
+			case Consts.WHAT_ALARM_NET_WEEK:
 				if (null != alarmnet) {
 					alarmnet.setVisibility(View.GONE);
-					isshow = false;
-					BaseActivity.isshowActivity = false;
 				}
 				break;
 
@@ -115,6 +126,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 		currentMenu = (TextView) mParent.findViewById(R.id.currentmenu);
 		rightBtn = (Button) mParent.findViewById(R.id.btn_right);
 		alarmnet = (RelativeLayout) mParent.findViewById(R.id.alarmnet);
+		accountError = (TextView) mParent.findViewById(R.id.accounterror);
 		try {
 			if (null != leftBtn) {
 				leftBtn.setOnClickListener(mOnClickListener);
@@ -122,14 +134,37 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (isshow) {
-			if (null != alarmnet) {
-				alarmnet.setVisibility(View.GONE);
-			}
-		} else {
-			if (null != alarmnet) {
-				alarmnet.setVisibility(View.GONE);
-			}
+
+		if (null != alarmnet) {
+			alarmnet.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					if (null != mActivity.statusHashMap
+							.get(Consts.ACCOUNT_ERROR)) {
+						int errorCode = Integer
+								.parseInt(mActivity.statusHashMap
+										.get(Consts.ACCOUNT_ERROR));
+						switch (errorCode) {
+						case Consts.WHAT_ALARM_NET:// 网络异常
+							if (android.os.Build.VERSION.SDK_INT > 10) {
+								startActivity(new Intent(
+										android.provider.Settings.ACTION_SETTINGS));
+							} else {
+								startActivity(new Intent(
+										android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+							}
+							break;
+						case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
+							mActivity.createDialog("", false);
+							ReloginTask reLoginTask = new ReloginTask();
+							String[] params = new String[3];
+							reLoginTask.execute(params);
+							break;
+						}
+					}
+				}
+			});
 		}
 	}
 
@@ -165,6 +200,39 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 	public void onResume() {
 		((MainApplication) mActivity.getApplication()).setCurrentNotifyer(this);
 		StatService.onResume(mActivity);
+		if (null != ((MainApplication) mActivity.getApplication()).statusHashMap
+				.get(Consts.ACCOUNT_ERROR)) {
+			int errorCode = Integer.parseInt(((MainApplication) mActivity
+					.getApplication()).statusHashMap.get(Consts.ACCOUNT_ERROR));
+			switch (errorCode) {
+			case Consts.WHAT_ALARM_NET:// 网络异常
+				if (null != alarmnet) {
+					alarmnet.setVisibility(View.VISIBLE);
+					if (null != accountError) {
+						accountError.setText(R.string.network_error_tips);
+					}
+				}
+				break;
+			case Consts.WHAT_ALARM_NET_WEEK:// 网络恢复正常
+				if (null != alarmnet) {
+					alarmnet.setVisibility(View.GONE);
+				}
+				break;
+			case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
+				if (null != alarmnet) {
+					alarmnet.setVisibility(View.VISIBLE);
+					if (null != accountError) {
+						accountError.setText(R.string.account_error_tips);
+					}
+				}
+				break;
+			case Consts.WHAT_HAS_LOGIN_SUCCESS:// 账号正常登陆
+				if (null != alarmnet) {
+					alarmnet.setVisibility(View.GONE);
+				}
+				break;
+			}
+		}
 		super.onResume();
 	}
 
@@ -187,6 +255,115 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 			throw new RuntimeException(e);
 		} catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	private int loginRes1 = 0;
+
+	// 设置三种类型参数分别为String,Integer,String
+	class ReloginTask extends AsyncTask<String, Integer, Integer> {
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			MyLog.v("BaseA", "LOGIN---E");
+			String strRes = "";
+			Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH") + "LOGIN");
+			if (!MySharedPreference.getBoolean("TESTSWITCH")) {
+				strRes = AccountUtil.onLoginProcessV2(mActivity,
+						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
+						mActivity.statusHashMap.get(Consts.KEY_PASSWORD),
+						Url.SHORTSERVERIP, Url.LONGSERVERIP);
+			} else {
+				strRes = AccountUtil.onLoginProcessV2(mActivity,
+						mActivity.statusHashMap.get(Consts.KEY_USERNAME),
+						mActivity.statusHashMap.get(Consts.KEY_PASSWORD),
+						Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
+			}
+			JSONObject respObj = null;
+			try {
+				respObj = new JSONObject(strRes);
+				loginRes1 = respObj.optInt("arg1", 1);
+				// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
+				if (!MySharedPreference.getBoolean("TESTSWITCH")) {
+				}
+				String data = respObj.optString("data");
+				if (null != data && !"".equalsIgnoreCase(data)) {
+					JSONObject dataObj = new JSONObject(data);
+					String channelIp = dataObj.optString("channel_ip");
+					String onlineIp = dataObj.optString("online_ip");
+					if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
+						MySharedPreference.putString("ChannelIP", channelIp);
+						MySharedPreference.putString("OnlineIP", onlineIp);
+						MySharedPreference.putString("ChannelIP_en", "");
+						MySharedPreference.putString("OnlineIP_en", "");
+					} else {
+						MySharedPreference.putString("ChannelIP_en", channelIp);
+						MySharedPreference.putString("OnlineIP_en", onlineIp);
+						MySharedPreference.putString("ChannelIP", "");
+						MySharedPreference.putString("OnlineIP", "");
+					}
+				}
+
+			} catch (JSONException e) {
+				loginRes1 = JVAccountConst.LOGIN_FAILED_2;
+				e.printStackTrace();
+			}
+			MyLog.v("BaseA", "LOGIN---X");
+			loginRes1 = 0;
+			return loginRes1;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			mActivity.dismissDialog();
+			switch (result) {
+			case JVAccountConst.LOGIN_SUCCESS: {
+				StatService.trackCustomEvent(
+						mActivity,
+						"onlinelogin",
+						mActivity.getResources().getString(
+								R.string.census_onlinelogin));
+				MySharedPreference.putString("UserName",
+						mActivity.statusHashMap.get(Consts.KEY_USERNAME));
+				MySharedPreference.putString("PassWord",
+						mActivity.statusHashMap.get(Consts.KEY_PASSWORD));
+				// 重置手动注销标志，离线报警使用，如果为手动注销账号，不接收离线报警
+				MySharedPreference.putBoolean(Consts.MANUAL_LOGOUT_TAG, false);
+				User user = new User();
+				user.setPrimaryID(System.currentTimeMillis());
+				user.setUserName(mActivity.statusHashMap
+						.get(Consts.KEY_USERNAME));
+				user.setUserPwd(mActivity.statusHashMap
+						.get(Consts.KEY_PASSWORD));
+				user.setLastLogin(1);
+				user.setJudgeFlag(1);
+				UserUtil.addUser(user);
+				MyLog.v("BaseA", "LoginSuccess");
+				mActivity.statusHashMap.put(Consts.ACCOUNT_ERROR,
+						String.valueOf(Consts.WHAT_ACCOUNT_NORMAL));
+				if (null != alarmnet) {
+					alarmnet.setVisibility(View.GONE);
+				}
+				break;
+			}
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			mActivity.createDialog("", true);
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
 }

@@ -90,7 +90,6 @@
         android:id="@+id/alarmnet"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="3dp"
         android:background="#FFF3BB"
         android:visibility="gone" >
 
@@ -103,6 +102,7 @@
             android:background="@drawable/tanhao" />
 
         <TextView
+            android:id="@+id/accounterror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -111,7 +111,7 @@
             android:layout_toLeftOf="@+id/next"
             android:layout_toRightOf="@+id/tanhao"
             android:singleLine="true"
-            android:text="世界上最遥远的距离就是没有网,检查设置。"
+            android:text="@string/network_error_tips"
             android:textSize="12sp" />
 
         <ImageView

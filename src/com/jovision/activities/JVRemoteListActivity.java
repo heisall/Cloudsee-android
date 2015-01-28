@@ -137,6 +137,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		leftBtn.setVisibility(View.VISIBLE);
 		rightBtn.setVisibility(View.GONE);
 

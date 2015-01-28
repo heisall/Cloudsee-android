@@ -133,6 +133,7 @@ public class JVIpconnectActivity extends BaseActivity {
 		currentMenu.setText(R.string.str_connect_mode);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
 

@@ -544,6 +544,23 @@
                 <action android:name="" />
             </intent-filter>
         </activity>
+        <!-- umeng分享相关的注册 START -->
+        <!-- 分享内容编辑页 -->
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <!-- 微信回调activity -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- umeng分享相关的注册 END -->
 
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver

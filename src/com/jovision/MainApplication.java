@@ -476,7 +476,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
 			} else if (JVAccountConst.PTCP_ERROR == res) {// TCP错误
-			// JVACCOUNT.StopHeartBeat();// 先停止心跳
+				// JVACCOUNT.StopHeartBeat();// 先停止心跳
 				MyLog.v("Account Error", "TCP错误");
 				if (null != currentNotifyer) {
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
@@ -489,7 +489,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				// startActivity(intent);
 			} else if (JVAccountConst.PTCP_CLOSED == res) {// TCP关闭
-			// JVACCOUNT.StopHeartBeat();// 先停止心跳
+				// JVACCOUNT.StopHeartBeat();// 先停止心跳
 				MyLog.v("Account Error", "TCP关闭");
 				if (null != currentNotifyer) {
 					statusHashMap.put(Consts.ACCOUNT_ERROR,

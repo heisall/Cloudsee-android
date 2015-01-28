@@ -224,7 +224,7 @@
 	                android:text="@string/str_smoke_device"
 	                android:textColor="@color/white"
 	                android:textSize="16sp" />
-	        </RelativeLayout>   
+	        </RelativeLayout>   
             -->
         </LinearLayout>
     </RelativeLayout>

@@ -90,9 +90,8 @@
         android:id="@+id/alarmnet"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="#FFF3BB"
-        android:visibility="gone"
-        >
+        android:background="@color/account_error_bg"
+        android:visibility="gone" >
 
         <ImageView
             android:id="@+id/tanhao"
@@ -113,6 +112,7 @@
             android:layout_toRightOf="@+id/tanhao"
             android:singleLine="true"
             android:text="@string/network_error_tips"
+            android:textColor="@color/logintextcolor1"
             android:textSize="12sp" />
 
         <ImageView

@@ -1,11 +1,13 @@
 package com.jovision.activities;
 
+import java.util.HashMap;
 import java.util.Timer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -29,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -39,12 +42,34 @@ import com.jovision.commons.MyAudio;
 import com.jovision.commons.MyGestureDispatcher;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.bean.SocializeEntity;
+import com.umeng.socialize.bean.StatusCode;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
+import com.umeng.socialize.media.SinaShareContent;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMVideo;
+import com.umeng.socialize.sso.SinaSsoHandler;
+import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socialize.weixin.controller.UMWXHandler;
+import com.umeng.socialize.weixin.media.CircleShareContent;
+import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 public class JVWebView2Activity extends BaseActivity implements
 		PlayWindowManager.OnUiListener {
 
 	private static final String TAG = "JVWebView2Activity";
+
+	/** umeng share **/
+	private static final String DESCRIPTOR = "com.umeng.share";
+	private final UMSocialService mController = UMServiceFactory
+			.getUMSocialService(DESCRIPTOR);
+	private boolean mIsShare;
+	private UMVideo mWeixinVideo, mCircleVideo, mWeiboVideo;
 
 	/** topBar **/
 	private RelativeLayout topBar;
@@ -305,6 +330,16 @@ public class JVWebView2Activity extends BaseActivity implements
 		reParamsH = new RelativeLayout.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT);
+		
+		// 判断是否展示分享功能
+		mIsShare = checkShareEnabled(url);
+		if (mIsShare) {
+			MyLog.v(TAG, "share is enable");
+			// 配置需要分享的相关平台
+			configPlatforms();
+			// 设置分享的内容
+			setShareContent();
+		}
 	}
 
 	/**
@@ -379,6 +414,12 @@ public class JVWebView2Activity extends BaseActivity implements
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
+		
+		if (mIsShare) {
+			// 分享的场合，更改标题栏右上角的图标
+			rightBtn.setBackgroundResource(R.drawable.share);
+			rightBtn.setOnClickListener(myOnClickListener);
+		}
 
 		demoLayout = (RelativeLayout) findViewById(R.id.demolayout);
 		playLayout = (RelativeLayout) findViewById(R.id.playlayout);
@@ -530,6 +571,15 @@ public class JVWebView2Activity extends BaseActivity implements
 				super.onReceivedTitle(view, title);
 				if (-2 == titleID) {
 					currentMenu.setText(title);
+					if (mIsShare) {
+						MyLog.v(TAG, "website's title:" + title);
+						// 从webview获取到title以后，展示分享按钮
+						rightBtn.setVisibility(View.VISIBLE);
+						// 设置视频标题
+						mWeixinVideo.setTitle(title);
+						mCircleVideo.setTitle(title);
+						mWeiboVideo.setTitle(title);
+					}
 				}
 			}
 		};
@@ -744,6 +794,14 @@ public class JVWebView2Activity extends BaseActivity implements
 				startConnect(rtmp, playChannel.getSurface());
 				break;
 			}
+			case R.id.btn_right: {
+				// 分享的场合
+				if (mIsShare) {
+					MyLog.v(TAG, "open share pane");
+					openSharePane();
+				}
+				break;
+			}
 			}
 		}
 	};
@@ -766,6 +824,11 @@ public class JVWebView2Activity extends BaseActivity implements
 				}
 			}
 			dismissDialog();
+			if (mIsShare) {
+				MyLog.v(TAG, "remove sina's sso handler and clear listeners");
+				mController.getConfig().cleanListeners();
+				mController.getConfig().removeSsoHandler(SHARE_MEDIA.SINA);
+			}
 			finish();
 		}
 	}
@@ -1025,4 +1088,192 @@ public class JVWebView2Activity extends BaseActivity implements
 
 	}
 
+	/**
+	 *  @功能描述 : 打开分享面板</br>
+	 *  @return
+	 */
+	private void openSharePane() {
+		// 设置分享平台
+		mController.getConfig().setPlatforms(SHARE_MEDIA.WEIXIN,
+				SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA);
+
+		// 清理监听
+		mController.getConfig().cleanListeners();
+		// 注册分享监听
+		mController.registerListener(new SnsPostListener() {
+			@Override
+			public void onStart() {
+			}
+
+			@Override
+			public void onComplete(SHARE_MEDIA platform, int stCode,
+					SocializeEntity entity) {
+				if (stCode == StatusCode.ST_CODE_SUCCESSED) {
+					Toast.makeText(JVWebView2Activity.this,
+							R.string.umeng_socialize_share_success,
+							Toast.LENGTH_SHORT).show();
+				} else if (stCode == StatusCode.ST_CODE_ERROR_CANCEL) {
+					Toast.makeText(JVWebView2Activity.this,
+							R.string.umeng_socialize_share_cancel,
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(JVWebView2Activity.this,
+							R.string.umeng_socialize_share_failed,
+							Toast.LENGTH_SHORT).show();
+					MyLog.v(TAG, "share failed, error code:" + stCode);
+				}
+			}
+		});
+
+		mController.openShare(JVWebView2Activity.this, false);
+	}
+
+	/**
+	 * @功能描述 : 配置分享平台参数</br>
+	 * @return
+	 */
+	private void configPlatforms() {
+		// 添加新浪SSO授权
+		mController.getConfig().setSsoHandler(new SinaSsoHandler());
+
+		// 添加微信、微信朋友圈平台
+		addWXPlatform();
+	}
+
+	/**
+	 * @功能描述 : 添加微信平台分享</br>
+	 * @return
+	 */
+	private void addWXPlatform() {
+		// 微信开发平台注册应用的AppID
+		String appId = "wx21141328bd509074";
+		String appSecret = "f9172781187afc8853803f681ab668bf";
+		// 添加微信平台
+		UMWXHandler wxHandler = new UMWXHandler(this, appId, appSecret);
+		wxHandler.addToSocialSDK();
+		// 设置不显示提示：大于32k 压缩图片
+		wxHandler.showCompressToast(false);
+
+		// 支持微信朋友圈
+		UMWXHandler wxCircleHandler = new UMWXHandler(this, appId, appSecret);
+		wxCircleHandler.setToCircle(true);
+		wxCircleHandler.addToSocialSDK();
+		// 设置不显示提示：大于32k 压缩图片
+		wxCircleHandler.showCompressToast(false);
+	}
+
+	/**
+	 * @功能描述 : 根据不同的平台设置不同的分享内容</br>
+	 * @return
+	 */
+	private void setShareContent() {
+		// 视频图标
+		UMImage urlImage = new UMImage(this, R.drawable.share_logo);
+
+		// 视频链接地址
+		String videoUrl = createVideoUrl();
+
+		// 视频内容
+		String videoContent = getString(R.string.umeng_socialize_share_video_content);
+
+		// 视频分享
+		mWeixinVideo = new UMVideo(createVideoUrlByPlatform(videoUrl, "weixin"));
+		mWeixinVideo.setThumb(urlImage);
+
+		// 设置微信分享的内容
+		WeiXinShareContent weixinContent = new WeiXinShareContent();
+		weixinContent.setShareContent(videoContent);
+		weixinContent.setShareMedia(urlImage);
+		weixinContent.setShareMedia(mWeixinVideo);
+		mController.setShareMedia(weixinContent);
+
+		// 视频分享
+		mCircleVideo = new UMVideo(createVideoUrlByPlatform(videoUrl, "pengyouquan"));
+		mCircleVideo.setThumb(urlImage);
+
+		// 设置朋友圈分享的内容
+		CircleShareContent circleContent = new CircleShareContent();
+		circleContent.setShareContent(videoContent);
+		circleContent.setShareMedia(urlImage);
+		circleContent.setShareMedia(mCircleVideo);
+		mController.setShareMedia(circleContent);
+
+		// 视频分享
+		mWeiboVideo = new UMVideo(createVideoUrlByPlatform(videoUrl, "weibo"));
+		mWeiboVideo.setThumb(urlImage);
+
+		// 设置新浪微博分享的内容
+		SinaShareContent sinaContent = new SinaShareContent();
+		sinaContent.setShareContent(videoContent);
+		sinaContent.setShareImage(urlImage);
+		sinaContent.setShareMedia(mWeiboVideo);
+		mController.setShareMedia(sinaContent);
+
+		// 关闭默认的Toast提示,回避Toast重复问题
+		mController.getConfig().closeToast();
+	}
+
+	/**
+	 * @功能描述：判断是否展示分享功能<br/>
+	 * @param pUrl 网址
+	 * @return true/false
+	 */
+	private boolean checkShareEnabled(String pUrl) {
+		MyLog.v(TAG, "check the url:" + pUrl);
+		if (pUrl.contains("allowshare")) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @功能描述 : 生成视频链接地址</br>
+	 * @return
+	 */
+	private String createVideoUrl() {
+		HashMap<String, String> urlParamsMap;
+		// 解析URL
+		String urlParamsArray[] = url.split("\\?");
+		urlParamsMap = ConfigUtil.genMsgMapFromhpget(urlParamsArray[1]);
+
+		String lang = urlParamsMap.get("lang");
+		String vid = urlParamsMap.get("vid");
+		String d = urlParamsMap.get("d");
+
+		// 拼接视频地址
+		StringBuffer urlStrBuf = new StringBuffer();
+		urlStrBuf.append(urlParamsArray[0]);
+		// 设置平台标记，不同平台使用时进行替换
+		urlStrBuf.append("?plat=platform_flag");
+		urlStrBuf.append("&lang=");
+		urlStrBuf.append(lang);
+		urlStrBuf.append("&vid=");
+		urlStrBuf.append(vid);
+		urlStrBuf.append("&d=");
+		urlStrBuf.append(d);
+
+		MyLog.v(TAG, "video url:" + urlStrBuf.toString());
+		return urlStrBuf.toString();
+	}
+
+	/**
+	 * @功能描述 : 根据不同的平台生成视频链接地址</br>
+	 * @param pVideoUrl 视频链接地址
+	 * @param platform 分享平台
+	 * @return
+	 */
+	private String createVideoUrlByPlatform(final String pVideoUrl,
+			final String platform) {
+		return pVideoUrl.replace("platform_flag", platform);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		/**使用SSO授权必须添加如下代码 */
+		UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode) ;
+		if(ssoHandler != null){
+			ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+		}
+	}
 }

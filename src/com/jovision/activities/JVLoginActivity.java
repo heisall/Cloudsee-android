@@ -265,23 +265,28 @@ public class JVLoginActivity extends BaseActivity {
 		findPassTV.setOnClickListener(myOnClickListener);
 
 		Intent intent = getIntent();
-//		Boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
+		// Boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
 
-		if (MySharedPreference.getBoolean("REMEMBER", false)) {
-			String userName = intent.getStringExtra("UserName");
-			String userPass = intent.getStringExtra("UserPass");
-			statusHashMap.put(Consts.KEY_USERNAME, userName);
-			statusHashMap.put(Consts.KEY_PASSWORD, userPass);
-			statusHashMap.put(Consts.LOCAL_LOGIN, "false");
+		if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
+			alertNetDialog();
+		} else {
+			if (MySharedPreference.getBoolean("REMEMBER", false)) {
+				String userName = intent.getStringExtra("UserName");
+				String userPass = intent.getStringExtra("UserPass");
+				statusHashMap.put(Consts.KEY_USERNAME, userName);
+				statusHashMap.put(Consts.KEY_PASSWORD, userPass);
+				statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 
-			userNameET.setText(userName);
-			passwordET.setText(userPass);
+				userNameET.setText(userName);
+				passwordET.setText(userPass);
 
-			createDialog(R.string.logining, true);
-			LoginTask task = new LoginTask();
-			String[] strParams = new String[3];
-			task.execute(strParams);
+				createDialog(R.string.logining, true);
+				LoginTask task = new LoginTask();
+				String[] strParams = new String[3];
+				task.execute(strParams);
+			}
 		}
+
 	}
 
 	/**
@@ -328,25 +333,31 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case R.id.onlinelogin_btn:// 在线登陆
-				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
-				// userNameET = null;
-				if ("".equalsIgnoreCase(userNameET.getText().toString())) {
-					showTextToast(R.string.login_str_username_notnull);
-				} else if ("".equalsIgnoreCase(passwordET.getText().toString())) {
-					showTextToast(R.string.login_str_loginpass1_notnull);
+				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
+					alertNetDialog();
 				} else {
-					userName = userNameET.getText().toString();
-					passWord = passwordET.getText().toString();
-					statusHashMap.put(Consts.KEY_USERNAME, userName);
-					statusHashMap.put(Consts.KEY_PASSWORD, passWord);
-					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
+					statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
+					// userNameET = null;
+					if ("".equalsIgnoreCase(userNameET.getText().toString())) {
+						showTextToast(R.string.login_str_username_notnull);
+					} else if ("".equalsIgnoreCase(passwordET.getText()
+							.toString())) {
+						showTextToast(R.string.login_str_loginpass1_notnull);
+					} else {
+						userName = userNameET.getText().toString();
+						passWord = passwordET.getText().toString();
+						statusHashMap.put(Consts.KEY_USERNAME, userName);
+						statusHashMap.put(Consts.KEY_PASSWORD, passWord);
+						statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 
-					// LoginThread lt = new LoginThread(JVLoginActivity.this);
-					// lt.start();
+						// LoginThread lt = new
+						// LoginThread(JVLoginActivity.this);
+						// lt.start();
 
-					LoginTask task = new LoginTask();
-					String[] strParams = new String[3];
-					task.execute(strParams);
+						LoginTask task = new LoginTask();
+						String[] strParams = new String[3];
+						task.execute(strParams);
+					}
 				}
 				break;
 			case R.id.regist_btn:// 注册
@@ -421,61 +432,70 @@ public class JVLoginActivity extends BaseActivity {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
-
-			country = ConfigUtil.getCountry();
-
-			MyLog.v(TAG, "LOGIN---E");
-			handler.sendMessage(handler.obtainMessage(Consts.WHAT_SHOW_PRO, 0,
-					0, country));
-			String strRes = "";
-			Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH") + "LOGIN");
-			if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-				strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
-						statusHashMap.get(Consts.KEY_USERNAME),
-						statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIP, Url.LONGSERVERIP);
+			if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
+				loginRes1 = JVAccountConst.LOGIN_FAILED_1;
 			} else {
-				strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
-						statusHashMap.get(Consts.KEY_USERNAME),
-						statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
-			}
-			JSONObject respObj = null;
-			try {
-				respObj = new JSONObject(strRes);
-				loginRes1 = respObj.optInt("arg1", 1);
-				loginRes2 = respObj.optInt("arg2", 0);
-				// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
-				if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-					MyLog.v(TAG, Url.SHORTSERVERIP + "--" + Url.LONGSERVERIP
-							+ "--" + country + "--" + strRes);
-				}
-				String data = respObj.optString("data");
-				if (null != data && !"".equalsIgnoreCase(data)) {
-					JSONObject dataObj = new JSONObject(data);
-					String channelIp = dataObj.optString("channel_ip");
-					String onlineIp = dataObj.optString("online_ip");
-					if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
-						MySharedPreference.putString("ChannelIP", channelIp);
-						MySharedPreference.putString("OnlineIP", onlineIp);
-						MySharedPreference.putString("ChannelIP_en", "");
-						MySharedPreference.putString("OnlineIP_en", "");
-					} else {
-						MySharedPreference.putString("ChannelIP_en", channelIp);
-						MySharedPreference.putString("OnlineIP_en", onlineIp);
-						MySharedPreference.putString("ChannelIP", "");
-						MySharedPreference.putString("OnlineIP", "");
-					}
-				}
+				country = ConfigUtil.getCountry();
 
-			} catch (JSONException e) {
-				loginRes1 = JVAccountConst.LOGIN_FAILED_2;
-				loginRes2 = 0;
-				e.printStackTrace();
+				MyLog.v(TAG, "LOGIN---E");
+				handler.sendMessage(handler.obtainMessage(Consts.WHAT_SHOW_PRO,
+						0, 0, country));
+				String strRes = "";
+				Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")
+						+ "LOGIN");
+				if (!MySharedPreference.getBoolean("TESTSWITCH")) {
+					strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
+							statusHashMap.get(Consts.KEY_USERNAME),
+							statusHashMap.get(Consts.KEY_PASSWORD),
+							Url.SHORTSERVERIP, Url.LONGSERVERIP);
+				} else {
+					strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
+							statusHashMap.get(Consts.KEY_USERNAME),
+							statusHashMap.get(Consts.KEY_PASSWORD),
+							Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
+				}
+				JSONObject respObj = null;
+				try {
+					respObj = new JSONObject(strRes);
+					loginRes1 = respObj.optInt("arg1", 1);
+					loginRes2 = respObj.optInt("arg2", 0);
+					// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
+					if (!MySharedPreference.getBoolean("TESTSWITCH")) {
+						MyLog.v(TAG, Url.SHORTSERVERIP + "--"
+								+ Url.LONGSERVERIP + "--" + country + "--"
+								+ strRes);
+					}
+					String data = respObj.optString("data");
+					if (null != data && !"".equalsIgnoreCase(data)) {
+						JSONObject dataObj = new JSONObject(data);
+						String channelIp = dataObj.optString("channel_ip");
+						String onlineIp = dataObj.optString("online_ip");
+						if (Consts.LANGUAGE_ZH == ConfigUtil
+								.getServerLanguage()) {
+							MySharedPreference
+									.putString("ChannelIP", channelIp);
+							MySharedPreference.putString("OnlineIP", onlineIp);
+							MySharedPreference.putString("ChannelIP_en", "");
+							MySharedPreference.putString("OnlineIP_en", "");
+						} else {
+							MySharedPreference.putString("ChannelIP_en",
+									channelIp);
+							MySharedPreference.putString("OnlineIP_en",
+									onlineIp);
+							MySharedPreference.putString("ChannelIP", "");
+							MySharedPreference.putString("OnlineIP", "");
+						}
+					}
+
+				} catch (JSONException e) {
+					loginRes1 = JVAccountConst.LOGIN_FAILED_2;
+					loginRes2 = 0;
+					e.printStackTrace();
+				}
+				MyLog.v(TAG, "LOGIN---X");
+				verifyCode = AccountUtil.VerifyUserName(JVLoginActivity.this,
+						statusHashMap.get(Consts.KEY_USERNAME));
 			}
-			MyLog.v(TAG, "LOGIN---X");
-			verifyCode = AccountUtil.VerifyUserName(JVLoginActivity.this,
-					statusHashMap.get(Consts.KEY_USERNAME));
 
 			return loginRes1;
 		}
@@ -488,15 +508,13 @@ public class JVLoginActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			autoLogin = true;
 			Intent intent = new Intent();
 			switch (result) {
 			case JVAccountConst.LOGIN_SUCCESS: {
 				StatService.trackCustomEvent(JVLoginActivity.this,
 						"onlinelogin", JVLoginActivity.this.getResources()
 								.getString(R.string.census_onlinelogin));
-				MySharedPreference.putBoolean("REMEMBER",
-						true);
+				MySharedPreference.putBoolean("REMEMBER", true);
 				MySharedPreference.putString("UserName",
 						statusHashMap.get(Consts.KEY_USERNAME));
 				MySharedPreference.putString("PassWord",
@@ -541,7 +559,7 @@ public class JVLoginActivity extends BaseActivity {
 						&& "".equals(json.optString("mail")) && verifyCode > 0) {
 					intent.setClass(JVLoginActivity.this,
 							JVBoundEmailActivity.class);
-//					intent.putExtra("AutoLogin", true);
+					// intent.putExtra("AutoLogin", true);
 					intent.putExtra("UserName",
 							statusHashMap.get(Consts.KEY_USERNAME));
 					intent.putExtra("UserPass",

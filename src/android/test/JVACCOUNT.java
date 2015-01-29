@@ -24,9 +24,9 @@ public class JVACCOUNT {
 
 	public static native boolean InitSDK(Object handle, String path);
 
-	// // 注册账号服务回调函数
-	// public static native void JVRegisterCallBack(String classUrl,
-	// String onlineCallBack, String pushCallBack);
+	// 注册账号服务回调函数
+	public static native void JVRegisterCallBack(String classUrl,
+			String onlineCallBack, String pushCallBack);
 
 	public static native void UninitSDK();
 

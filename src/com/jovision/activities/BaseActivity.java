@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -372,10 +373,16 @@ public abstract class BaseActivity extends FragmentActivity implements
 		return statusHeight;
 	}
 
+	public Dialog netErrorDialog;
+
 	/**
 	 * 没有网络提示 打开设置网络界面
 	 * */
 	public void alertNetDialog() {
+		if (null != netErrorDialog && netErrorDialog.isShowing()) {
+			return;
+		}
+
 		try {
 			// 提示对话框
 			AlertDialog.Builder builder = new Builder(this);
@@ -387,25 +394,6 @@ public abstract class BaseActivity extends FragmentActivity implements
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
-									// Intent intent = null;
-									// // 判断手机系统的版本 即API大于10 就是3.0或以上版本
-									// if (android.os.Build.VERSION.SDK_INT >
-									// 10) {
-									// intent = new Intent(
-									// android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-									// } else {
-									// intent = new Intent();
-									// ComponentName component = new
-									// ComponentName(
-									// "com.android.settings",
-									// "com.android.settings.WirelessSettings");
-									// intent.setComponent(component);
-									// intent.setAction("android.intent.action.VIEW");
-									// }
-									// if(!BaseActivity.this.isFinishing()){
-									// BaseActivity.this.startActivity(intent);
-									// }
-									//
 
 									if (android.os.Build.VERSION.SDK_INT > 10) {
 										startActivity(new Intent(
@@ -425,7 +413,10 @@ public abstract class BaseActivity extends FragmentActivity implements
 										int which) {
 									dialog.dismiss();
 								}
-							}).create().show();
+							});
+
+			netErrorDialog = builder.create();
+			netErrorDialog.show();
 		} catch (ActivityNotFoundException e) {
 			showTextToast(R.string.network_error);
 			e.printStackTrace();
@@ -527,51 +518,60 @@ public abstract class BaseActivity extends FragmentActivity implements
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
-			MyLog.v("BaseA", "LOGIN---E");
-			String strRes = "";
-			Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH") + "LOGIN");
-			if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-				strRes = AccountUtil.onLoginProcessV2(BaseActivity.this,
-						statusHashMap.get(Consts.KEY_USERNAME),
-						statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIP, Url.LONGSERVERIP);
+			if (!ConfigUtil.isConnected(BaseActivity.this)) {
+				loginRes1 = JVAccountConst.LOGIN_FAILED_1;
 			} else {
-				strRes = AccountUtil.onLoginProcessV2(BaseActivity.this,
-						statusHashMap.get(Consts.KEY_USERNAME),
-						statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
-			}
-			JSONObject respObj = null;
-			try {
-				respObj = new JSONObject(strRes);
-				loginRes1 = respObj.optInt("arg1", 1);
-				// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
+				MyLog.v("BaseA", "LOGIN---E");
+				String strRes = "";
+				Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")
+						+ "LOGIN");
 				if (!MySharedPreference.getBoolean("TESTSWITCH")) {
+					strRes = AccountUtil.onLoginProcessV2(BaseActivity.this,
+							statusHashMap.get(Consts.KEY_USERNAME),
+							statusHashMap.get(Consts.KEY_PASSWORD),
+							Url.SHORTSERVERIP, Url.LONGSERVERIP);
+				} else {
+					strRes = AccountUtil.onLoginProcessV2(BaseActivity.this,
+							statusHashMap.get(Consts.KEY_USERNAME),
+							statusHashMap.get(Consts.KEY_PASSWORD),
+							Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
 				}
-				String data = respObj.optString("data");
-				if (null != data && !"".equalsIgnoreCase(data)) {
-					JSONObject dataObj = new JSONObject(data);
-					String channelIp = dataObj.optString("channel_ip");
-					String onlineIp = dataObj.optString("online_ip");
-					if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
-						MySharedPreference.putString("ChannelIP", channelIp);
-						MySharedPreference.putString("OnlineIP", onlineIp);
-						MySharedPreference.putString("ChannelIP_en", "");
-						MySharedPreference.putString("OnlineIP_en", "");
-					} else {
-						MySharedPreference.putString("ChannelIP_en", channelIp);
-						MySharedPreference.putString("OnlineIP_en", onlineIp);
-						MySharedPreference.putString("ChannelIP", "");
-						MySharedPreference.putString("OnlineIP", "");
+				JSONObject respObj = null;
+				try {
+					respObj = new JSONObject(strRes);
+					loginRes1 = respObj.optInt("arg1", 1);
+					// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
+					if (!MySharedPreference.getBoolean("TESTSWITCH")) {
 					}
-				}
+					String data = respObj.optString("data");
+					if (null != data && !"".equalsIgnoreCase(data)) {
+						JSONObject dataObj = new JSONObject(data);
+						String channelIp = dataObj.optString("channel_ip");
+						String onlineIp = dataObj.optString("online_ip");
+						if (Consts.LANGUAGE_ZH == ConfigUtil
+								.getServerLanguage()) {
+							MySharedPreference
+									.putString("ChannelIP", channelIp);
+							MySharedPreference.putString("OnlineIP", onlineIp);
+							MySharedPreference.putString("ChannelIP_en", "");
+							MySharedPreference.putString("OnlineIP_en", "");
+						} else {
+							MySharedPreference.putString("ChannelIP_en",
+									channelIp);
+							MySharedPreference.putString("OnlineIP_en",
+									onlineIp);
+							MySharedPreference.putString("ChannelIP", "");
+							MySharedPreference.putString("OnlineIP", "");
+						}
+					}
 
-			} catch (JSONException e) {
-				loginRes1 = JVAccountConst.LOGIN_FAILED_2;
-				e.printStackTrace();
+				} catch (JSONException e) {
+					loginRes1 = JVAccountConst.LOGIN_FAILED_2;
+					e.printStackTrace();
+				}
+				MyLog.v("BaseA", "LOGIN---X");
 			}
-			MyLog.v("BaseA", "LOGIN---X");
-			loginRes1 = 0;
+
 			return loginRes1;
 		}
 

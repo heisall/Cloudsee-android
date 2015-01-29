@@ -1,234 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-    <RelativeLayout 
-    	android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:background="@color/deviceitembgcolor"        
-        >
-	    <LinearLayout
-	        android:id="@+id/top_layout1"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentTop="true"
-	       	android:baselineAligned="false"
-	        android:layout_marginTop="15dip"
-	        android:orientation="horizontal" >
-	
-	        <RelativeLayout
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1" >
-	
-	            <Button
-	                android:id="@+id/add_door_btn"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/third_door_bg" />
-				  
-	            <TextView
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_below="@id/add_door_btn"
-	                android:layout_marginTop="@dimen/third_peripherals_top_margin_middle"
-	                android:layout_centerHorizontal="true"
-	                android:text="@string/str_door_device"
-	                android:textColor="@color/userinfocolor"
-	                android:textSize="16sp" />
-	                
-	        </RelativeLayout>
-	
-	        <RelativeLayout
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1" >
-	
-	            <Button
-	                android:id="@+id/add_bracelet_btn"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/third_bracelet_bg" />
-				
-	            <TextView
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_centerHorizontal="true"
-	                android:layout_below="@id/add_bracelet_btn"
-	                android:layout_marginTop="@dimen/third_peripherals_top_margin_middle"
-	                android:text="@string/str_bracelet_device"
-	                android:textColor="@color/userinfocolor"
-	                android:textSize="16sp" />
-	               
-	        </RelativeLayout>
-	        
-	        <RelativeLayout
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1" >
-	
-	            <Button
-	                android:id="@+id/add_telecontrol_btn"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/third_telecontrol_bg" />
-				
-	            <TextView
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_centerHorizontal="true"
-	                android:layout_below="@id/add_telecontrol_btn"
-	                android:layout_marginTop="@dimen/third_peripherals_top_margin_middle"
-	                android:text="@string/str_telecontrol_device"
-	                android:textColor="@color/userinfocolor"
-	                android:textSize="16sp" />
-	                
-	        </RelativeLayout>	        
-	    </LinearLayout>
-	
-	    <LinearLayout
-	        android:id="@+id/top_layout2"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignLeft="@id/top_layout1"
-	        android:layout_alignParentLeft="false"
-	        android:layout_below="@id/top_layout1"
-	        android:layout_centerHorizontal="true"
-	        android:layout_marginTop="15dip" >
-	
-	        <RelativeLayout
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="10dip" >
-	
-	            <Button
-	                android:id="@+id/add_telecontrol_btn"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/third_telecontrol_bg" />
-	
-	            <TextView
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_centerHorizontal="true"
-	                android:layout_below="@id/add_telecontrol_btn"
-	                android:layout_marginTop="@dimen/third_peripherals_top_margin_middle"
-	                android:text="@string/str_telecontrol_device"
-	                android:textColor="@color/userinfocolor"
-	                android:textSize="16sp" />
-	        </RelativeLayout>
-	        
-	        <RelativeLayout
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="8dip" >
-	
-	            <Button
-	                android:id="@+id/add_smoke_btn"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/third_smoke_bg" />
-	
-	            <TextView
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_alignBottom="@id/add_smoke_btn"
-	                android:layout_centerHorizontal="true"
-	                android:layout_marginBottom="18dp"
-	                android:text="@string/str_smoke_device"
-	                android:textColor="@color/white"
-	                android:textSize="16sp" />
-	        </RelativeLayout>        
-	    </LinearLayout>
-	
-	    <LinearLayout
-	        android:id="@+id/top_layout3"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignLeft="@id/top_layout2"
-	        android:layout_alignParentLeft="false"
-	        android:layout_below="@id/top_layout2"
-	        android:layout_centerHorizontal="true"
-	        android:layout_marginTop="15dip" >
-	
-	        <RelativeLayout
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="10dip" >
-	
-	            <Button
-	                android:id="@+id/add_curtain_btn"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/third_curtain_bg" />
-	
-	            <TextView
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_alignBottom="@id/add_curtain_btn"
-	                android:layout_centerHorizontal="true"
-	                android:layout_marginBottom="18dp"
-	                android:text="@string/str_telecontrol_device"
-	                android:textColor="@color/white"
-	                android:textSize="16sp" />
-	        </RelativeLayout>
-	        
-	        <RelativeLayout
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="8dip" >
-	
-	            <Button
-	                android:id="@+id/add_infrared_btn"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/third_infrared_bg" />
-	
-	            <TextView
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_alignBottom="@id/add_infrared_btn"
-	                android:layout_centerHorizontal="true"
-	                android:layout_marginBottom="18dp"
-	                android:text="@string/str_smoke_device"
-	                android:textColor="@color/white"
-	                android:textSize="16sp" />
-	        </RelativeLayout>        
-	    </LinearLayout>
-	    
-	    <LinearLayout
-	        android:id="@+id/top_layout4"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignLeft="@id/top_layout3"
-	        android:layout_alignParentLeft="false"
-	        android:layout_below="@id/top_layout3"
-	        android:layout_centerHorizontal="true"
-	        android:layout_marginTop="15dip" >
-	
-	        <RelativeLayout
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="10dip" >
-	
-	            <Button
-	                android:id="@+id/add_gas_btn"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/third_gas_bg" />
-	
-	            <TextView
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_alignBottom="@id/add_gas_btn"
-	                android:layout_centerHorizontal="true"
-	                android:layout_marginBottom="18dp"
-	                android:text="@string/str_telecontrol_device"
-	                android:textColor="@color/white"
-	                android:textSize="16sp" />
-	        </RelativeLayout>
+    android:layout_height="match_parent" >
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/deviceitembgcolor" >
+
+        <LinearLayout
+            android:id="@+id/top_layout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="15dip"
+            android:baselineAligned="false"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/add_door_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/third_door_bg" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/add_door_btn"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/third_peripherals_top_margin_middle"
+                    android:text="@string/str_door_device"
+                    android:textColor="@color/userinfocolor"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/add_bracelet_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/third_bracelet_bg" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/add_bracelet_btn"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/third_peripherals_top_margin_middle"
+                    android:text="@string/str_bracelet_device"
+                    android:textColor="@color/userinfocolor"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/add_telecontrol_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/third_telecontrol_bg" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/add_telecontrol_btn"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/third_peripherals_top_margin_middle"
+                    android:text="@string/str_telecontrol_device"
+                    android:textColor="@color/userinfocolor"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/top_layout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/top_layout1"
+            android:layout_alignParentLeft="false"
+            android:layout_below="@id/top_layout1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dip" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip" >
+
+                <Button
+                    android:id="@+id/add_telecontrol_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/third_telecontrol_bg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/add_telecontrol_btn"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/third_peripherals_top_margin_middle"
+                    android:text="@string/str_telecontrol_device"
+                    android:textColor="@color/userinfocolor"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dip" >
+
+                <Button
+                    android:id="@+id/add_smoke_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/third_smoke_bg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/add_smoke_btn"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="18dp"
+                    android:text="@string/str_smoke_device"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/top_layout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/top_layout2"
+            android:layout_alignParentLeft="false"
+            android:layout_below="@id/top_layout2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dip" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip" >
+
+                <Button
+                    android:id="@+id/add_curtain_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/third_curtain_bg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/add_curtain_btn"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="18dp"
+                    android:text="@string/str_telecontrol_device"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dip" >
+
+                <Button
+                    android:id="@+id/add_infrared_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/third_infrared_bg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/add_infrared_btn"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="18dp"
+                    android:text="@string/str_smoke_device"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/top_layout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/top_layout3"
+            android:layout_alignParentLeft="false"
+            android:layout_below="@id/top_layout3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dip" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip" >
+
+                <Button
+                    android:id="@+id/add_gas_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/third_gas_bg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/add_gas_btn"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="18dp"
+                    android:text="@string/str_telecontrol_device"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
 

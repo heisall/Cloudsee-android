@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.adapters.UserSpinnerAdapter;
 import com.jovision.bean.Device;
 import com.jovision.bean.User;
@@ -437,6 +438,17 @@ public class JVLoginActivity extends BaseActivity {
 			} else {
 				country = ConfigUtil.getCountry();
 
+				if ("false".equals(statusHashMap
+						.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+					// Toast.makeText(mContext, "初始化账号SDK失败，请重新运行程序",
+					// Toast.LENGTH_LONG)
+					// .show();
+					// return "";
+					MyLog.e("Login", "初始化账号SDK失败");
+					ConfigUtil
+							.initAccountSDK(((MainApplication) getApplication()));// 初始化账号SDK
+				}
+
 				MyLog.v(TAG, "LOGIN---E");
 				handler.sendMessage(handler.obtainMessage(Consts.WHAT_SHOW_PRO,
 						0, 0, country));
@@ -508,7 +520,7 @@ public class JVLoginActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			// autoLogin = true;
+			dismissDialog();
 			Intent intent = new Intent();
 			switch (result) {
 			case JVAccountConst.LOGIN_SUCCESS: {
@@ -631,7 +643,6 @@ public class JVLoginActivity extends BaseActivity {
 			}
 			}
 
-			dismissDialog();
 		}
 
 		@Override

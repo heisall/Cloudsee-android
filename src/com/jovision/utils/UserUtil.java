@@ -114,7 +114,7 @@ public class UserUtil {
 			} else {
 				int size = userList.size();
 				for (int i = 0; i < size; i++) {
-					if (null != userList.get(i)) {
+					if (null != userName && null != userList.get(i)) {
 						if (userName.equalsIgnoreCase(userList.get(i)
 								.getUserName())) {
 							dstUser = userList.get(i);

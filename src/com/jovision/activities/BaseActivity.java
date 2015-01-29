@@ -68,6 +68,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	public TextView currentMenu;
 	protected static RelativeLayout alarmnet;
 	protected TextView accountError;
+	private static boolean local = false;// 是否本地登陆
 
 	// private long duration;
 	// private static final String RUNTIME = ".runtime";
@@ -107,7 +108,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 						.onHandler(msg.what, msg.arg1, msg.arg2, msg.obj);
 				switch (msg.what) {
 				case Consts.WHAT_ALARM_NET:
-					if (null != alarmnet) {
+					if (null != alarmnet && !local) {
 						alarmnet.setVisibility(View.VISIBLE);
 					}
 					break;
@@ -143,6 +144,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 		configuration = getResources().getConfiguration();
 		disMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
+		local = Boolean.valueOf(this.statusHashMap.get(Consts.LOCAL_LOGIN));
 		initSettings();
 		initUi();
 		if (null != alarmnet) {
@@ -187,7 +189,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 					.get(Consts.ACCOUNT_ERROR));
 			switch (errorCode) {
 			case Consts.WHAT_ALARM_NET:// 网络异常
-				if (null != alarmnet) {
+				if (null != alarmnet && !local) {
 					alarmnet.setVisibility(View.VISIBLE);
 					if (null != accountError) {
 						accountError.setText(R.string.network_error_tips);
@@ -203,7 +205,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 				}
 				break;
 			case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
-				if (null != alarmnet) {
+				if (null != alarmnet && !local) {
 					alarmnet.setVisibility(View.VISIBLE);
 					if (null != accountError) {
 						accountError.setText(R.string.account_error_tips);
@@ -382,7 +384,6 @@ public abstract class BaseActivity extends FragmentActivity implements
 		if (null != netErrorDialog && netErrorDialog.isShowing()) {
 			return;
 		}
-
 		try {
 			// 提示对话框
 			AlertDialog.Builder builder = new Builder(this);
@@ -522,6 +523,16 @@ public abstract class BaseActivity extends FragmentActivity implements
 				loginRes1 = JVAccountConst.LOGIN_FAILED_1;
 			} else {
 				MyLog.v("BaseA", "LOGIN---E");
+				if ("false".equals(statusHashMap
+						.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+					// Toast.makeText(mContext, "初始化账号SDK失败，请重新运行程序",
+					// Toast.LENGTH_LONG)
+					// .show();
+					// return "";
+					MyLog.e("Login", "初始化账号SDK失败");
+					ConfigUtil
+							.initAccountSDK(((MainApplication) getApplication()));// 初始化账号SDK
+				}
 				String strRes = "";
 				Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")
 						+ "LOGIN");

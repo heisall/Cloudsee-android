@@ -112,7 +112,6 @@ public class AccountUtil {
 			// .show();
 			// return "";
 			MyLog.e("Login", "初始化账号SDK失败");
-			ConfigUtil.initAccountSDK(mContext);
 		}
 		JSONObject mainObj = new JSONObject();
 		JSONObject reqObj = new JSONObject();

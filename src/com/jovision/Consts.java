@@ -71,6 +71,10 @@ public class Consts {
 	public static final int CALL_HDEC_TYPE = 0xAF;
 	public static final int CALL_LIB_UNLOAD = 0xB0;
 	public static final int CALL_GEN_VOICE = 0xB1;
+	public static final int CALL_PLAY_BUFFER = 0xB2;
+	
+	public static final int BUFFER_START = -1;
+	public static final int BUFFER_FINISH = -2;
 
 	public static final int RTMP_CONN_SCCUESS = (0x01 | 0xA0);
 	public static final int RTMP_CONN_FAILED = (0x02 | 0xA0);

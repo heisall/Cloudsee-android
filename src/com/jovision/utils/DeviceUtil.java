@@ -2192,7 +2192,127 @@ public class DeviceUtil {
 		}
 		return channelList;
 	}
+	/**
+	 * 获取用户通道列表V2,使用了V2版设备短连接接口，该函数已测试
+	 * 
+	 * @param dGuid
+	 *            设备云视通号
+	 * @return ArrayList<ConnPoint> 设备通道列表
+	 */
+	public static ArrayList<Channel> getUserPointListV2() {
+		ArrayList<Channel> channelList = new ArrayList<Channel>();
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.GET_USER_CHANNELS);
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.DEV_INFO_PRO);
+			// jObj.put(JVDeviceConst.JK_DEVICE_GUID, dGuid);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 
+		MyLog.v("getUserPointList---request", jObj.toString());
+//		byte[] resultStr = new byte[1024 * 30];
+		String strResp;
+		strResp = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServerV2(
+				jObj.toString());
+		MyLog.v("getUserPointList---result json", strResp);
+		JSONObject respObject = null;
+		try {
+			respObject = new JSONObject(strResp);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		int error = respObject.optInt("result", -1);
+		if (0 == error) {
+			
+
+			// {"mt":2050,"rt":0,"mid":9,"clist":
+			// [{"dguid":"A361","dcn":1,"dcname":"A361_1"},
+			// {"dguid":"A361","dcn":2,"dcname":"A361_2"},
+			// {"dguid":"A361","dcn":3,"dcname":"A361_3"},
+			// {"dguid":"A361","dcn":4,"dcname":"A361_4"},
+			// {"dguid":"A362","dcn":1,"dcname":"A362_1"},
+			// {"dguid":"A362","dcn":2,"dcname":"A362_2"},
+			// {"dguid":"A362","dcn":3,"dcname":"A362_3"},
+			// {"dguid":"A362","dcn":4,"dcname":"A362_4"},
+			// {"dguid":"S52942216","dcn":1,"dcname":"S52942216_1"},
+			// {"dguid":"S53530352","dcn":1,"dcname":"S53530352_1"},
+			// {"dguid":"S56658","dcn":1,"dcname":"S56658_1"}]}
+
+			String result = respObject.optString("resp", "");
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						// int mt =
+						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
+						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+
+						if (0 != rt) {// 获取失败
+							channelList = null;
+						} else {// 获取成功
+							channelList = new ArrayList<Channel>();
+						}
+						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
+						JSONArray plist = new JSONArray(
+								temObj.optString(JVDeviceConst.JK_CHANNEL_LIST));
+						if (null != plist && 0 != plist.length()) {
+							for (int i = 0; i < plist.length(); i++) {
+								JSONObject obj = plist.getJSONObject(i);
+								if (null != obj) {
+									Channel cl = new Channel();
+									cl.setDguid(obj
+											.optString(JVDeviceConst.JK_DEVICE_GUID));
+									cl.setChannel(obj
+											.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_NO));
+									cl.setChannelName(obj
+											.optString(JVDeviceConst.JK_DEVICE_CHANNEL_NAME));// BaseApp.UnicodeToString(obj.optString(JVDeviceConst.JK_DEVICE_NAME));
+
+									int vipLevel = obj
+											.optInt(JVDeviceConst.JK_STREAMING_MEDIA_FLAG);// (是否支持流媒体
+																							// 0不支持
+																							// 1支持)
+									cl.setVipLevel(vipLevel);
+									if (vipLevel > 0) {
+										String smsrv = obj
+												.optString(JVDeviceConst.JK_STREAMING_MEDIA_SERVER);// (流媒体服务器信息
+																									// 格式
+																									// ip|rtmp端口|hls端口)
+										String suffixRtmp = obj
+												.optString(JVDeviceConst.JK_DEVICE_GUID)
+												+ "_"
+												+ obj.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_NO);
+										String rtmpUrl = "";
+										if (!"".equals(smsrv)) {
+											String array[] = smsrv.split("\\|");
+											rtmpUrl = "rtmp://" + array[0]
+													+ ":" + array[1] + "/live/"
+													+ suffixRtmp;
+										} else {
+											rtmpUrl = "rtmp://" + "/live/"
+													+ suffixRtmp;
+										}
+										Log.i("RTMP", "rtmp_url:" + rtmpUrl);
+										cl.setRtmpUrl(rtmpUrl);
+									}
+									channelList.add(cl);
+								}
+							}
+						}
+
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return channelList;
+	}
 	/**
 	 * 2014-03-17 1.客户端获取是否有更新信息 lpt :1是短连接， 7是长连接 2013-3-18 cv改成dsv
 	 */

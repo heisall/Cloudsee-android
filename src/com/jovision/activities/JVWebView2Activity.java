@@ -137,7 +137,6 @@ public class JVWebView2Activity extends BaseActivity implements
 			loadingState(Consts.CALL_NEW_PICTURE);
 			break;
 		}
-
 		case Consts.WHAT_SURFACEVIEW_CLICK: {// 单击事件
 			Channel channel = (Channel) obj;
 			int x = arg1;

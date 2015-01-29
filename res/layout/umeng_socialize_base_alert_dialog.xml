@@ -11,8 +11,8 @@
         android:layout_marginTop="5dp"
         android:gravity="center_horizontal"
         android:text="使用已有账号发表评论"
-        android:visibility="gone"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/umeng_socialize_alert_body"
@@ -26,7 +26,8 @@
         android:paddingRight="20dp"
         android:paddingTop="5dp" >
 
-<!--          <Button
+        <!--
+              <Button
             android:id="@+id/umeng_socialize_bind_tel"
             android:layout_width="fill_parent"
             android:layout_height="38dp"
@@ -34,7 +35,8 @@
             android:background="@drawable/umeng_socialize_button_red_blue"
             android:text="腾讯微博"
             android:textColor="#000000"
-            android:textSize="14sp" />  -->
+            android:textSize="14sp" />
+        -->
     </LinearLayout>
 
     <LinearLayout
@@ -48,7 +50,8 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp" >
 
-<!--          <Button
+        <!--
+              <Button
             android:id="@+id/umeng_socialize_bind_cancel"
             android:layout_width="fill_parent"
             android:layout_height="38dp"
@@ -56,7 +59,8 @@
             android:background="@drawable/umeng_socialize_button_grey_blue"
             android:text="取消"
             android:textColor="#000000"
-            android:textSize="14sp" /> -->
+            android:textSize="14sp" />
+        -->
     </LinearLayout>
 
 </RelativeLayout>

@@ -330,7 +330,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		reParamsH = new RelativeLayout.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT);
-		
+
 		// 判断是否展示分享功能
 		mIsShare = checkShareEnabled(url);
 		if (mIsShare) {
@@ -414,7 +414,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
-		
+
 		if (mIsShare) {
 			// 分享的场合，更改标题栏右上角的图标
 			rightBtn.setBackgroundResource(R.drawable.share);
@@ -1089,8 +1089,8 @@ public class JVWebView2Activity extends BaseActivity implements
 	}
 
 	/**
-	 *  @功能描述 : 打开分享面板</br>
-	 *  @return
+	 * @功能描述 : 打开分享面板</br>
+	 * @return
 	 */
 	private void openSharePane() {
 		// 设置分享平台
@@ -1188,7 +1188,8 @@ public class JVWebView2Activity extends BaseActivity implements
 		mController.setShareMedia(weixinContent);
 
 		// 视频分享
-		mCircleVideo = new UMVideo(createVideoUrlByPlatform(videoUrl, "pengyouquan"));
+		mCircleVideo = new UMVideo(createVideoUrlByPlatform(videoUrl,
+				"pengyouquan"));
 		mCircleVideo.setThumb(urlImage);
 
 		// 设置朋友圈分享的内容
@@ -1215,7 +1216,8 @@ public class JVWebView2Activity extends BaseActivity implements
 
 	/**
 	 * @功能描述：判断是否展示分享功能<br/>
-	 * @param pUrl 网址
+	 * @param pUrl
+	 *            网址
 	 * @return true/false
 	 */
 	private boolean checkShareEnabled(String pUrl) {
@@ -1258,8 +1260,10 @@ public class JVWebView2Activity extends BaseActivity implements
 
 	/**
 	 * @功能描述 : 根据不同的平台生成视频链接地址</br>
-	 * @param pVideoUrl 视频链接地址
-	 * @param platform 分享平台
+	 * @param pVideoUrl
+	 *            视频链接地址
+	 * @param platform
+	 *            分享平台
 	 * @return
 	 */
 	private String createVideoUrlByPlatform(final String pVideoUrl,
@@ -1270,9 +1274,10 @@ public class JVWebView2Activity extends BaseActivity implements
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		/**使用SSO授权必须添加如下代码 */
-		UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode) ;
-		if(ssoHandler != null){
+		/** 使用SSO授权必须添加如下代码 */
+		UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
+				requestCode);
+		if (ssoHandler != null) {
 			ssoHandler.authorizeCallBack(requestCode, resultCode, data);
 		}
 	}

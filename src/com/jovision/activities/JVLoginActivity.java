@@ -527,7 +527,11 @@ public class JVLoginActivity extends BaseActivity {
 				StatService.trackCustomEvent(JVLoginActivity.this,
 						"onlinelogin", JVLoginActivity.this.getResources()
 								.getString(R.string.census_onlinelogin));
-				MySharedPreference.putBoolean("REMEMBER", true);
+				if (!MySharedPreference.getBoolean("LOGINFIRST", false)) {
+					MySharedPreference.putBoolean("REMEMBER", true);
+					MySharedPreference.putBoolean("LOGINFIRST", true);
+				}
+
 				MySharedPreference.putString("UserName",
 						statusHashMap.get(Consts.KEY_USERNAME));
 				MySharedPreference.putString("PassWord",

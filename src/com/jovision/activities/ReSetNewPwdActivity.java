@@ -161,7 +161,7 @@ public class ReSetNewPwdActivity extends BaseActivity implements
 				// 为了让用户加强印象，不直接登录，跳转到登录界面
 				Intent intent = new Intent();
 				intent.setClass(ReSetNewPwdActivity.this, JVLoginActivity.class);
-//				intent.putExtra("AutoLogin", false);
+				// intent.putExtra("AutoLogin", false);
 				intent.putExtra("UserName", account);
 				intent.putExtra("UserPass", "");
 				startActivity(intent);

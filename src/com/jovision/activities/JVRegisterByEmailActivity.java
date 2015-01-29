@@ -414,7 +414,7 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 						JVLoginActivity.class);
 				String userName = userNameEditText.getText().toString();
 				String userPass = pass1EditText.getText().toString();
-//				intent.putExtra("AutoLogin", true);
+				// intent.putExtra("AutoLogin", true);
 				intent.putExtra("UserName", userName);
 				intent.putExtra("UserPass", userPass);
 				JVRegisterByEmailActivity.this.startActivity(intent);

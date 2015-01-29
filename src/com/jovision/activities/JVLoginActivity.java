@@ -75,7 +75,7 @@ public class JVLoginActivity extends BaseActivity {
 
 	private String demoUrl = "";// 演示点网页地址
 
-//	Boolean autoLogin = false;// 是否自动登陆
+	// Boolean autoLogin = false;// 是否自动登陆
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -508,7 +508,7 @@ public class JVLoginActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-//			autoLogin = true;
+			// autoLogin = true;
 			Intent intent = new Intent();
 			switch (result) {
 			case JVAccountConst.LOGIN_SUCCESS: {
@@ -595,7 +595,7 @@ public class JVLoginActivity extends BaseActivity {
 			}
 			case JVAccountConst.LOGIN_FAILED_1: {
 
-				if (MySharedPreference.getBoolean("REMEMBER",false)){// 自动登陆，离线登陆
+				if (MySharedPreference.getBoolean("REMEMBER", false)) {// 自动登陆，离线登陆
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
 					intent.setClass(JVLoginActivity.this, JVTabActivity.class);
@@ -617,7 +617,7 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.LOGIN_FAILED_2: {
-				if (MySharedPreference.getBoolean("REMEMBER",false)) {// 自动登陆，离线登陆
+				if (MySharedPreference.getBoolean("REMEMBER", false)) {// 自动登陆，离线登陆
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
 					intent.setClass(JVLoginActivity.this, JVTabActivity.class);

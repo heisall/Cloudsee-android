@@ -211,7 +211,7 @@ public class JVRegisterCodeActivity extends BaseActivity {
 							JVRegisterCodeActivity.this,
 							JVBoundEmailActivity.class);
 					String userPass = registerpwd.getText().toString();
-//					emailIntent.putExtra("AutoLogin", true);
+					// emailIntent.putExtra("AutoLogin", true);
 					emailIntent.putExtra("UserName", account);
 					emailIntent.putExtra("UserPass", userPass);
 					JVRegisterCodeActivity.this.startActivity(emailIntent);

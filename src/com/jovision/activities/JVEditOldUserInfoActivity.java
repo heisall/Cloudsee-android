@@ -282,13 +282,12 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 			} else if (JVAccountConst.PHONE_NOT_TRUE == result) {
 				showTextToast(R.string.str_phone_num_error);
 			} else if (JVAccountConst.SUCCESS == result) {
-				MySharedPreference.putBoolean("REMEMBER",
-						true);
+				MySharedPreference.putBoolean("REMEMBER", true);
 				if (0 < verifyRes) {
 					Intent emailIntent = new Intent(
 							JVEditOldUserInfoActivity.this,
 							JVBoundEmailActivity.class);
-//					emailIntent.putExtra("AutoLogin", true);
+					// emailIntent.putExtra("AutoLogin", true);
 					emailIntent.putExtra("UserName",
 							statusHashMap.get(Consts.KEY_USERNAME));
 					emailIntent.putExtra("UserPass",
@@ -299,7 +298,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 					Intent intent = new Intent();
 					intent.setClass(JVEditOldUserInfoActivity.this,
 							JVLoginActivity.class);
-//					intent.putExtra("AutoLogin", true);
+					// intent.putExtra("AutoLogin", true);
 					intent.putExtra("UserName",
 							statusHashMap.get(Consts.KEY_USERNAME));
 					intent.putExtra("UserPass",

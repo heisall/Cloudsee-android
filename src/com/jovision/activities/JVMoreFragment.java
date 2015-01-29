@@ -607,7 +607,7 @@ public class JVMoreFragment extends BaseFragment {
 							// intentAD1.putExtra("URL", "http://www.qq.com");
 							// intentAD1.putExtra("title", -2);
 							// mActivity.startActivity(intentAD1);
-							DeviceUtil.getWebUrl(0);
+							DeviceUtil.getWebUrl();
 							break;
 
 						case 12:

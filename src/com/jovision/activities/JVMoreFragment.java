@@ -416,13 +416,12 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 1:
-							//TODO
+							// TODO
 							if (MySharedPreference.getBoolean("REMEMBER")) {
-								MySharedPreference.putBoolean("REMEMBER",
-										false);
+								MySharedPreference
+										.putBoolean("REMEMBER", false);
 							} else {
-								MySharedPreference.putBoolean("REMEMBER",
-										true);
+								MySharedPreference.putBoolean("REMEMBER", true);
 							}
 							break;
 						case 2:
@@ -821,8 +820,7 @@ public class JVMoreFragment extends BaseFragment {
 			Intent intent = new Intent();
 			String userName = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
 			intent.putExtra("UserName", userName);
-			MySharedPreference.putBoolean("REMEMBER",
-					false);
+			MySharedPreference.putBoolean("REMEMBER", false);
 			intent.setClass(mActivity, JVLoginActivity.class);
 			mActivity.startActivity(intent);
 			mActivity.finish();

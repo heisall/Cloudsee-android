@@ -86,6 +86,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 					file = "telecontrol.mp3";
 					break;
 				default:
+					file = "telecontrol.mp3";// 其他先用这个吧
 					break;
 				}
 			} else if (ConfigUtil.getLanguage2(context) == Consts.LANGUAGE_ZHTW) {
@@ -100,6 +101,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 					file = "telecontrol_tw.mp3";
 					break;
 				default:
+					file = "telecontrol_tw.mp3";
 					break;
 				}
 			} else {
@@ -114,6 +116,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 					file = "telecontrol_en.mp3";
 					break;
 				default:
+					file = "telecontrol_en.mp3";
 					break;
 				}
 			}

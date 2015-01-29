@@ -46,9 +46,13 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private int process_flag = 0; // 0 绑定设备 1绑定昵称
 	private boolean bind_nick_res = false;
 	private CustomDialog learningDialog;
-	private int[] add_device_types = { R.drawable.third_guide_door,
+	private int[] add_device_types = {
+			R.drawable.third_guide_door,// 这是占位的
 			R.drawable.third_guide_door, R.drawable.third_guide_bracelet,
-			R.drawable.third_guide_telecontrol, };
+			R.drawable.third_guide_telecontrol, R.drawable.third_guide_smoke,
+			R.drawable.third_guide_curtain, R.drawable.third_guide_infrared,
+			R.drawable.third_guide_gas, };
+	private String[] PeripheralArray;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -116,6 +120,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 		accountError = (TextView) findViewById(R.id.accounterror);
 		leftBtn.setOnClickListener(this);
 		currentMenu.setText(R.string.str_help1_1);
+		PeripheralArray = getResources().getStringArray(
+				R.array.peripherals_manage);
 	}
 
 	@Override
@@ -149,9 +155,11 @@ public class AddThirdDevActivity extends BaseActivity implements
 	public void OnDeviceClassSelected(int index) {
 		// TODO Auto-generated method stub
 		process_flag = 0;
+		// 1:门磁设备 2:手环设备 3:遥控 4:烟感 5:幕帘 6:红外探测器 7:燃气泄露
+		// index 外设功能编号从1开始
 		switch (index) {
 		case 1:
-			currentMenu.setText(R.string.str_door_device);
+			currentMenu.setText(PeripheralArray[0]);
 			dev_type_mark = 1;// 门禁
 
 			if (!bConnectedFlag) {
@@ -180,7 +188,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 			break;
 		case 2:
-			currentMenu.setText(R.string.str_bracelet_device);
+			currentMenu.setText(PeripheralArray[1]);
 			dev_type_mark = 2;// 手环
 
 			if (!bConnectedFlag) {
@@ -210,7 +218,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 			break;
 		case 3:
-			currentMenu.setText(R.string.str_telecontrol_device);
+			currentMenu.setText(PeripheralArray[2]);
 			dev_type_mark = 3;// 遥控
 
 			if (!bConnectedFlag) {
@@ -240,6 +248,33 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 			break;
 		default:
+			currentMenu.setText(PeripheralArray[index - 1]);
+			dev_type_mark = index;
+			if (!bConnectedFlag) {
+				waitingDialog.show();
+				if (!AlarmUtil.OnlyConnect2(strYstNum)) {
+					showTextToast(R.string.str_alarm_connect_failed_1);
+					waitingDialog.dismiss();
+				}
+			} else {
+
+				// 首先需要发送文本聊天请求
+				if (bNeedSendTextReq) {
+					waitingDialog.show();
+					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
+					// 10000);// 10秒获取不到就取消Dialog
+				} else {
+					learningDialog.Show(add_device_types[index], dev_type_mark);
+					String req_data = "type=" + dev_type_mark + ";";
+					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+							(byte) Consts.RC_GPIN_ADD, req_data.trim());
+					new Thread(new TimeOutProcess(Consts.RC_GPIN_ADD)).start();
+				}
+
+			}
 			break;
 		}
 	}

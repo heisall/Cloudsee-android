@@ -76,7 +76,7 @@ public class FragmentAdapter extends BaseAdapter {
 		if (position == 0) {
 			more_item.setVisibility(View.GONE);
 		}
-		if (position == 1&& localFlag) {
+		if (position == 1 && localFlag) {
 			more_item.setVisibility(View.GONE);
 		}
 		if (position == 2 && localFlag) {
@@ -87,7 +87,7 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 			});
 		}
-		if (position == 4 || position ==5 || position == 6 || position == 7) {
+		if (position == 4 || position == 5 || position == 6 || position == 7) {
 			if (!MySharedPreference.getBoolean("LITTLE")) {
 				more_item.setVisibility(View.GONE);
 				divider_img.setVisibility(View.GONE);

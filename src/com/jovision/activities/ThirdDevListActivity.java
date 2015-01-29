@@ -113,15 +113,15 @@ public class ThirdDevListActivity extends BaseActivity implements
 			dialog.setMessage(getResources().getString(
 					R.string.str_loading_data));
 		}
-//		dialog.show();
+		dialog.show();
 		myHandler = new MyHandler();
-//		if (!bConnectFlag) {
-//			if (!AlarmUtil.OnlyConnect2(strYstNum)) {
-//				showTextToast(R.string.str_alarm_connect_failed_1);
-//				dialog.dismiss();
-//				finish();
-//			}
-//		}
+		if (!bConnectFlag) {
+			if (!AlarmUtil.OnlyConnect2(strYstNum)) {
+				showTextToast(R.string.str_alarm_connect_failed_1);
+				dialog.dismiss();
+				finish();
+			}
+		}
 
 	}
 

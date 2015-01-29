@@ -193,8 +193,8 @@ public class JVACCOUNT {
 	 * @param response
 	 * @return
 	 */
-	public static native int GetResponseByRequestDeviceShortConnectionServer(
-			String request, byte[] response);
+	// public static native int GetResponseByRequestDeviceShortConnectionServer(
+	// String request, byte[] response);
 	/**
 	 * 设备接口短连接V2，调用
 	 * 
@@ -212,8 +212,9 @@ public class JVACCOUNT {
 	 * @param response
 	 * @return
 	 */
-	public static native int GetResponseByRequestDevicePersistConnectionServer(
-			String request, byte[] response);
+	// public static native int
+	// GetResponseByRequestDevicePersistConnectionServer(
+	// String request, byte[] response);
 	/**
 	 * 设备接口长连接V2，调用
 	 * 
@@ -223,6 +224,7 @@ public class JVACCOUNT {
 	 */
 	public static native String GetResponseByRequestDevicePersistConnectionServerV2(
 			String request);
+
 	/**
 	 * ALARM_ON = 0, ALARM_OFF = 1,
 	 * 

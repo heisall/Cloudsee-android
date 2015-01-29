@@ -11,11 +11,10 @@
         layout="@layout/top_bar_layout" />
 
     <TextView
-        android:layout_margin="2dp"
-        android:textSize="14sp"
         android:id="@+id/configinfo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:textSize="14sp" />
 
 </LinearLayout>

@@ -40,11 +40,22 @@ public class AlarmUtil {
 		MyLog.v("getAlarmPic", jObj.toString());
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 2];
-		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-				jObj.toString(), resultStr);
+		// byte[] resultStr = new byte[1024 * 2];
+		// int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		// jObj.toString(), resultStr);
+		String requesRes = JVACCOUNT
+				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
+						.toString());
+
+		JSONObject respObject = null;
+		try {
+			respObject = new JSONObject(requesRes);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		int ret = respObject.optInt("result", -1);
 		if (ret == 0) {
-			String result = new String(resultStr);
+			String result = respObject.optString("resp", "");
 
 			if (null != result && !"".equalsIgnoreCase(result)) {
 				try {
@@ -80,11 +91,22 @@ public class AlarmUtil {
 		MyLog.v("getAlarmVideo", jObj.toString());
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 2];
-		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-				jObj.toString(), resultStr);
+		// byte[] resultStr = new byte[1024 * 2];
+		// int ret =
+		String requesRes = JVACCOUNT
+				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
+						.toString());
+
+		JSONObject respObject = null;
+		try {
+			respObject = new JSONObject(requesRes);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		int ret = respObject.optInt("result", -1);
+
 		if (ret == 0) {
-			String result = new String(resultStr);
+			String result = respObject.optString("resp", "");
 
 			if (null != result && !"".equalsIgnoreCase(result)) {
 				try {
@@ -231,12 +253,25 @@ public class AlarmUtil {
 		MyLog.v("getUserAlarmList", jObj.toString());
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 10];
-		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-				jObj.toString(), resultStr);
-		if (ret == 0) {
+		// byte[] resultStr = new byte[1024 * 10];
+		// int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		// jObj.toString(), resultStr);
+		// if (ret == 0) {
+		//
+		// String result = new String(resultStr);
+		String requesRes = JVACCOUNT
+				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
+						.toString());
 
-			String result = new String(resultStr);
+		JSONObject respObject = null;
+		try {
+			respObject = new JSONObject(requesRes);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		int ret = respObject.optInt("result", -1);
+		if (ret == 0) {
+			String result = respObject.optString("resp", "");
 
 			MyLog.v("getUserAlarmList---result---res", result + "");
 
@@ -443,12 +478,25 @@ public class AlarmUtil {
 
 		MyLog.v("deleteAlarmInfo", jObj.toString());
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 2];
+		// byte[] resultStr = new byte[1024 * 2];
+		//
+		// int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		// jObj.toString(), resultStr);
+		// if (ret == 0) {// 操作成功
+		// String result = new String(resultStr);
+		String requesRes = JVACCOUNT
+				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
+						.toString());
 
-		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-				jObj.toString(), resultStr);
-		if (ret == 0) {// 操作成功
-			String result = new String(resultStr);
+		JSONObject respObject = null;
+		try {
+			respObject = new JSONObject(requesRes);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		int ret = respObject.optInt("result", -1);
+		if (ret == 0) {
+			String result = respObject.optString("resp", "");
 
 			if (null != result && !"".equalsIgnoreCase(result)) {
 				try {
@@ -491,12 +539,25 @@ public class AlarmUtil {
 
 		MyLog.v("Alarm", "clearAlarmInfo:" + jObj.toString());
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 2];
+		// byte[] resultStr = new byte[1024 * 2];
+		//
+		// int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		// jObj.toString(), resultStr);
+		// if (ret == 0) {// 操作成功
+		// String result = new String(resultStr);
+		String requesRes = JVACCOUNT
+				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
+						.toString());
 
-		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-				jObj.toString(), resultStr);
-		if (ret == 0) {// 操作成功
-			String result = new String(resultStr);
+		JSONObject respObject = null;
+		try {
+			respObject = new JSONObject(requesRes);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		int ret = respObject.optInt("result", -1);
+		if (ret == 0) {
+			String result = respObject.optString("resp", "");
 
 			if (null != result && !"".equalsIgnoreCase(result)) {
 				try {

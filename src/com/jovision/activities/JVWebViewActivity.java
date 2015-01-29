@@ -80,6 +80,7 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		url = getIntent().getStringExtra("URL");
+		MyLog.v(TAG, "webview-URL=" + url);
 		// url = "http://app.ys7.com/";
 		titleID = getIntent().getIntExtra("title", 0);
 	}

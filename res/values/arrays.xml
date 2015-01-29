@@ -185,6 +185,11 @@
         <item>Seperate the two parts of the magnetic alarm and wait until the setting finished.</item>
         <item>Long press the red button on the wrist ring and wait until the setting finished.</item>
         <item>Long press any button on the remote control and wait until the setting finished.</item>
+
+        <item>请长按任意键，等待配置完成。</item>
+        <item>请长按任意键，等待配置完成。</item>
+        <item>请长按任意键，等待配置完成。</item>
+        <item>请长按任意键，等待配置完成。</item>          
     </string-array>
 
 </resources>

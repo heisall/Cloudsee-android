@@ -681,4 +681,5 @@ public class Consts {
 	/** 实时报警条数 **/
 	public static final String NEW_PUSH_CNT_KEY = "NEW_PUSH_CNT_KEY";
 	public static final int NEW_PUSH_MSG_TAG = 0x9990;
+	public static final int WHAT_PERI_ITEM_CLICK = 0x90;// 外设菜单单击事件
 }

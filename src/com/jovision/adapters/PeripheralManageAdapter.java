@@ -1,9 +1,15 @@
 package com.jovision.adapters;
 
+import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.activities.AddThirdDeviceMenuFragment;
+import com.jovision.activities.BaseFragment;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -14,7 +20,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.BaseFragment;
 
 public class PeripheralManageAdapter extends BaseAdapter {
-	private BaseFragment mfragment;
+	private AddThirdDeviceMenuFragment mfragment;
 	private LayoutInflater inflater;
 	private int h, w;
 	private int screenWidth = 0;
@@ -25,7 +31,7 @@ public class PeripheralManageAdapter extends BaseAdapter {
 
 	private String[] PeripheralArray;
 
-	public PeripheralManageAdapter(BaseFragment fragment) {
+	public PeripheralManageAdapter(AddThirdDeviceMenuFragment fragment) {
 		mfragment = fragment;
 		inflater = (LayoutInflater) fragment.getActivity().getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
@@ -64,7 +70,7 @@ public class PeripheralManageAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		final ManageHolder holder;
 		if (null == convertView) {
@@ -90,6 +96,27 @@ public class PeripheralManageAdapter extends BaseAdapter {
 		holder.imgPeripheral.setLayoutParams(para);
 		holder.imgPeripheral.setBackgroundResource(manageBgArray[position]);
 		holder.tvPeripheral.setText(PeripheralArray[position]);
+
+		holder.rlItem.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// position从0开始，外设功能从1开始，因此这里+1，需注意
+				mfragment.MyOnNotify(Consts.WHAT_PERI_ITEM_CLICK, position + 1,
+						0, null);
+			}
+		});
+
+		holder.imgPeripheral.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// position从0开始，外设功能从1开始，因此这里+1，需注意
+				mfragment.MyOnNotify(Consts.WHAT_PERI_ITEM_CLICK, position + 1,
+						0, null);
+			}
+		});
+
 		return convertView;
 	}
 

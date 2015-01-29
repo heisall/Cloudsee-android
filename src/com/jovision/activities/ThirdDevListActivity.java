@@ -31,6 +31,7 @@ import com.jovision.bean.ThirdAlarmDev;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
+import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.views.XListView;
 
@@ -112,15 +113,15 @@ public class ThirdDevListActivity extends BaseActivity implements
 			dialog.setMessage(getResources().getString(
 					R.string.str_loading_data));
 		}
-		// dialog.show();
+		dialog.show();
 		myHandler = new MyHandler();
-		// if (!bConnectFlag) {
-		// if (!AlarmUtil.OnlyConnect2(strYstNum)) {
-		// showTextToast(R.string.str_alarm_connect_failed_1);
-		// dialog.dismiss();
-		// finish();
-		// }
-		// }
+		if (!bConnectFlag) {
+			if (!AlarmUtil.OnlyConnect2(strYstNum)) {
+				showTextToast(R.string.str_alarm_connect_failed_1);
+				dialog.dismiss();
+				finish();
+			}
+		}
 
 	}
 

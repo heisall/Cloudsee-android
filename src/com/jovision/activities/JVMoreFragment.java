@@ -8,9 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -21,7 +19,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.test.JVACCOUNT;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -492,59 +489,55 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 7:// 版本号
-								// Intent intentAD = new Intent(mActivity,
-								// JVWebViewActivity.class);
-								// intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-								// intentAD.putExtra("URL",
-								// "http://look.appjx.cn/mobile_api.php?mod=news&id=12604");
-								// intentAD.putExtra("title", -2);
-								// mActivity.startActivity(intentAD);
+							Intent intentVersion = new Intent(mActivity,
+									JVVersionActivity.class);
+							mActivity.startActivity(intentVersion);
 
-							int curVersion = 0;
-							try {
-								curVersion = mActivity.getPackageManager()
-										.getPackageInfo(
-												mActivity.getPackageName(), 0).versionCode;
-							} catch (NameNotFoundException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-
-							String itemzero = mActivity.getResources()
-									.getString(R.string.census_accounts)
-									+ ":"
-									+ ConfigUtil.ACCOUNT_VERSION;
-							String itemone = mActivity.getResources()
-									.getString(R.string.census_network_version)
-									+ ":" + ConfigUtil.NETWORK_VERSION;
-							String itemtwo = mActivity.getResources()
-									.getString(R.string.census_play_version)
-									+ ":" + ConfigUtil.PLAY_VERSION;
-							String itemthree = mActivity.getResources()
-									.getString(
-											R.string.census_appnetwork_version)
-									+ ":" + ConfigUtil.GETNETWORK_VERSION;
-							String itemfour = mActivity.getResources()
-									.getString(R.string.census_appplay_version)
-									+ ":" + ConfigUtil.GETPLAY_VERSION;
-							String itemfive = mActivity.getResources()
-									.getString(R.string.census_appaccount)
-									+ ":" + JVACCOUNT.GetVersion(0);
-							new AlertDialog.Builder(new ContextThemeWrapper(
-									mActivity, R.style.AlertDialogCustom))
-									.setTitle(
-											mActivity.getResources().getString(
-													R.string.census_version)
-													+ curVersion
-													+ "  "
-													+ ConfigUtil.sameVersion)
-									.setItems(
-											new String[] { itemzero, itemfive,
-													itemone, itemtwo,
-													itemthree, itemfour }, null)
-									.setNegativeButton(
-											mActivity.getResources().getString(
-													R.string.ok), null).show();
+							// int curVersion = 0;
+							// try {
+							// curVersion = mActivity.getPackageManager()
+							// .getPackageInfo(
+							// mActivity.getPackageName(), 0).versionCode;
+							// } catch (NameNotFoundException e) {
+							// // TODO Auto-generated catch block
+							// e.printStackTrace();
+							// }
+							//
+							// String itemzero = mActivity.getResources()
+							// .getString(R.string.census_accounts)
+							// + ":"
+							// + ConfigUtil.ACCOUNT_VERSION;
+							// String itemone = mActivity.getResources()
+							// .getString(R.string.census_network_version)
+							// + ":" + ConfigUtil.NETWORK_VERSION;
+							// String itemtwo = mActivity.getResources()
+							// .getString(R.string.census_play_version)
+							// + ":" + ConfigUtil.PLAY_VERSION;
+							// String itemthree = mActivity.getResources()
+							// .getString(
+							// R.string.census_appnetwork_version)
+							// + ":" + ConfigUtil.GETNETWORK_VERSION;
+							// String itemfour = mActivity.getResources()
+							// .getString(R.string.census_appplay_version)
+							// + ":" + ConfigUtil.GETPLAY_VERSION;
+							// String itemfive = mActivity.getResources()
+							// .getString(R.string.census_appaccount)
+							// + ":" + JVACCOUNT.GetVersion(0);
+							// new AlertDialog.Builder(new ContextThemeWrapper(
+							// mActivity, R.style.AlertDialogCustom))
+							// .setTitle(
+							// mActivity.getResources().getString(
+							// R.string.census_version)
+							// + curVersion
+							// + "  "
+							// + ConfigUtil.sameVersion)
+							// .setItems(
+							// new String[] { itemzero, itemfive,
+							// itemone, itemtwo,
+							// itemthree, itemfour }, null)
+							// .setNegativeButton(
+							// mActivity.getResources().getString(
+							// R.string.ok), null).show();
 							// TODO
 							break;
 						case 8:

@@ -13,8 +13,7 @@
         android:id="@+id/umeng_xp_ScrollView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="center"
-         >
+        android:layout_gravity="center" >
 
         <RelativeLayout
             android:layout_width="fill_parent"

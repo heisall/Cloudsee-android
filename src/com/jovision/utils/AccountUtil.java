@@ -112,6 +112,7 @@ public class AccountUtil {
 			// .show();
 			// return "";
 			MyLog.e("Login", "初始化账号SDK失败");
+			ConfigUtil.initAccountSDK(mContext);
 		}
 		JSONObject mainObj = new JSONObject();
 		JSONObject reqObj = new JSONObject();
@@ -347,6 +348,9 @@ public class AccountUtil {
 	 *         -4：用户名不符合规则
 	 */
 	public static int VerifyUserName(Context context, String userName) {
+		if (null == userName) {
+			return -1;
+		}
 		// int res = JVAccountConst.VALIDATIONUSERNAMETYPE_S;// 默认成功
 		// Pattern pattern = Pattern.compile("^.{4,18}$"); //
 		// 输入任意字符，但是必须要在（4～18）位之间

@@ -173,7 +173,7 @@
         <item>红外探测器</item>
         <item>燃气泄露探测器</item>
     </string-array>
-    
+
     <!-- 码流切换 -->
     <string-array name="array_stream">
         <item>&#160;&#160;&#160;HD&#160;&#160;&#160;</item>
@@ -192,5 +192,4 @@
         <item>请长按任意键，等待配置完成。</item>          
     </string-array>
 
-    
 </resources>

@@ -205,12 +205,13 @@ public class JVRegisterCodeActivity extends BaseActivity {
 								.getString(R.string.census_register));
 				Log.i("TAG", loginRes1 + "DDDDDDDDDDD");
 				if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
+					MySharedPreference.putBoolean("REMEMBER", true);
 					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 					Intent emailIntent = new Intent(
 							JVRegisterCodeActivity.this,
 							JVBoundEmailActivity.class);
 					String userPass = registerpwd.getText().toString();
-					emailIntent.putExtra("AutoLogin", true);
+					// emailIntent.putExtra("AutoLogin", true);
 					emailIntent.putExtra("UserName", account);
 					emailIntent.putExtra("UserPass", userPass);
 					JVRegisterCodeActivity.this.startActivity(emailIntent);

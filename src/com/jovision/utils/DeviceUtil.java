@@ -112,7 +112,7 @@ public class DeviceUtil {
 										dev.setIp(obj
 												.optString(
 														JVDeviceConst.JK_DEVICE_VIDEO_IP)
-														.trim());
+												.trim());
 										dev.setPort(obj
 												.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT));
 										/** 一键升级使用 */
@@ -1662,11 +1662,11 @@ public class DeviceUtil {
 	}
 
 	private static String urls[] = { "rtmp://119.188.172.3/live/a366_1",
-		"rtmp://119.188.172.3/live/a361_1",
-		"rtmp://119.188.172.3/live/a362_1",
-		"rtmp://119.188.172.3/live/s230348788_1",
-		"rtmp://119.188.172.3/live/a367_1",
-		"rtmp://119.188.172.3/live/a368_1", };
+			"rtmp://119.188.172.3/live/a361_1",
+			"rtmp://119.188.172.3/live/a362_1",
+			"rtmp://119.188.172.3/live/s230348788_1",
+			"rtmp://119.188.172.3/live/a367_1",
+			"rtmp://119.188.172.3/live/a368_1", };
 
 	/**
 	 * 2014-10-17 获取演示点设备
@@ -1759,8 +1759,8 @@ public class DeviceUtil {
 													rtmpUrl = "rtmp://"
 															+ array[0] + ":"
 															+ array[1]
-																	+ "/live/"
-																	+ suffixRtmp;
+															+ "/live/"
+															+ suffixRtmp;
 												} else {
 													rtmpUrl = "rtmp://"
 															+ "/live/"
@@ -2883,16 +2883,16 @@ public class DeviceUtil {
 						rt = temObj.optInt(JVDeviceConst.JK_RESULT);
 						if (0 == rt) {// // rt==0说明需要升级 18不需要升级 其他值是吧
 							appVersion
-							.setVersionName(temObj
-									.optString(JVDeviceConst.JK_APP_VERSION_FULL));
+									.setVersionName(temObj
+											.optString(JVDeviceConst.JK_APP_VERSION_FULL));
 							appVersion.setVersionCode(temObj
 									.optInt(JVDeviceConst.JK_APP_VERSION));
 							appVersion
-							.setVersionInfo(temObj
-									.optString(JVDeviceConst.JK_APP_VERSION_DESC));
+									.setVersionInfo(temObj
+											.optString(JVDeviceConst.JK_APP_VERSION_DESC));
 							appVersion
-							.setDownloadUrl(temObj
-									.optString(JVDeviceConst.JK_APP_VERSION_URL));
+									.setDownloadUrl(temObj
+											.optString(JVDeviceConst.JK_APP_VERSION_URL));
 						}
 
 					}
@@ -2923,6 +2923,7 @@ public class DeviceUtil {
 		}
 		return -1;
 	}
+
 	/**
 	 * 获取web URL
 	 * 
@@ -2933,22 +2934,22 @@ public class DeviceUtil {
 		try {
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.AD_PUBLISH_PROCESS);// 12
-					jObj.put(JVDeviceConst.JK_MESSAGE_TYPE, 5506);//
-					jObj.put(JVDeviceConst.JK_PROTO_VERSION,
-							JVDeviceConst.PROTO_VERSION);// 1.0
-					jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, Consts.PRODUCT_TYPE);// 0：CloudSEE
-					// 1：NVSIP
-					// 2-iPhone 3-iPad)
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE, 5506);//
+			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+					JVDeviceConst.PROTO_VERSION);// 1.0
+			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, Consts.PRODUCT_TYPE);// 0：CloudSEE
+			// 1：NVSIP
+			// 2-iPhone 3-iPad)
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		Log.i("TAG",  "====>"+jObj.toString());
+		Log.i("TAG", "====>" + jObj.toString());
 		// 接收返回数据
 		byte[] resultStr = new byte[1024 * 3];
 		int result = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		Log.i("TAG",  "<===="+result+",res:"+resultStr);
+		Log.i("TAG", "<====" + result + ",res:" + resultStr);
 		if (0 == result) {
 			Log.i("TAG", "Sccess");
 		}

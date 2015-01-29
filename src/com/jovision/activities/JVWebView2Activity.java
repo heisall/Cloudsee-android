@@ -137,6 +137,17 @@ public class JVWebView2Activity extends BaseActivity implements
 			loadingState(Consts.CALL_NEW_PICTURE);
 			break;
 		}
+
+		case Consts.CALL_PLAY_BUFFER: {
+			if (arg2 > 0) {
+				MyLog.i(Consts.TAG_PLAY, "buffering: " + arg2);// 0-99
+			} else if (Consts.BUFFER_START == arg2) {
+				MyLog.w(Consts.TAG_PLAY, "buffer started");// show
+			} else if (Consts.BUFFER_FINISH == arg2) {
+				MyLog.w(Consts.TAG_PLAY, "buffer finished");// dismiss
+			}
+			break;
+		}
 		case Consts.WHAT_SURFACEVIEW_CLICK: {// 单击事件
 			Channel channel = (Channel) obj;
 			int x = arg1;

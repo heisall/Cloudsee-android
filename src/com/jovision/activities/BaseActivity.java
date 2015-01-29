@@ -3,9 +3,6 @@ package com.jovision.activities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -16,7 +13,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Rect;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -24,7 +20,6 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.test.JVACCOUNT;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -38,17 +33,11 @@ import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
-import com.jovision.bean.User;
-import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.LoginTask;
 import com.jovision.commons.MyActivityManager;
-import com.jovision.commons.MyLog;
-import com.jovision.commons.MySharedPreference;
-import com.jovision.commons.Url;
-import com.jovision.utils.AccountUtil;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
-import com.jovision.utils.UserUtil;
 import com.tencent.stat.StatService;
 
 /**
@@ -167,9 +156,11 @@ public abstract class BaseActivity extends FragmentActivity implements
 							break;
 						case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
 							createDialog("", false);
-							ReloginTask reLoginTask = new ReloginTask();
+							LoginTask task = new LoginTask(BaseActivity.this,
+									(MainApplication) getApplication(),
+									statusHashMap, alarmnet);
 							String[] params = new String[3];
-							reLoginTask.execute(params);
+							task.execute(params);
 							break;
 						}
 					}
@@ -509,132 +500,6 @@ public abstract class BaseActivity extends FragmentActivity implements
 		@Override
 		public void run() {
 			JVACCOUNT.SetUserOnlineStatus(tag);
-		}
-	}
-
-	private int loginRes1 = 0;
-
-	// 设置三种类型参数分别为String,Integer,String
-	class ReloginTask extends AsyncTask<String, Integer, Integer> {
-		// 可变长的输入参数，与AsyncTask.exucute()对应
-		@Override
-		protected Integer doInBackground(String... params) {
-			if (!ConfigUtil.isConnected(BaseActivity.this)) {
-				loginRes1 = JVAccountConst.LOGIN_FAILED_1;
-			} else {
-				MyLog.v("BaseA", "LOGIN---E");
-				if ("false".equals(statusHashMap
-						.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-					// Toast.makeText(mContext, "初始化账号SDK失败，请重新运行程序",
-					// Toast.LENGTH_LONG)
-					// .show();
-					// return "";
-					MyLog.e("Login", "初始化账号SDK失败");
-					ConfigUtil
-							.initAccountSDK(((MainApplication) getApplication()));// 初始化账号SDK
-				}
-				String strRes = "";
-				Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")
-						+ "LOGIN");
-				if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-					strRes = AccountUtil.onLoginProcessV2(BaseActivity.this,
-							statusHashMap.get(Consts.KEY_USERNAME),
-							statusHashMap.get(Consts.KEY_PASSWORD),
-							Url.SHORTSERVERIP, Url.LONGSERVERIP);
-				} else {
-					strRes = AccountUtil.onLoginProcessV2(BaseActivity.this,
-							statusHashMap.get(Consts.KEY_USERNAME),
-							statusHashMap.get(Consts.KEY_PASSWORD),
-							Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
-				}
-				JSONObject respObj = null;
-				try {
-					respObj = new JSONObject(strRes);
-					loginRes1 = respObj.optInt("arg1", 1);
-					// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
-					if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-					}
-					String data = respObj.optString("data");
-					if (null != data && !"".equalsIgnoreCase(data)) {
-						JSONObject dataObj = new JSONObject(data);
-						String channelIp = dataObj.optString("channel_ip");
-						String onlineIp = dataObj.optString("online_ip");
-						if (Consts.LANGUAGE_ZH == ConfigUtil
-								.getServerLanguage()) {
-							MySharedPreference
-									.putString("ChannelIP", channelIp);
-							MySharedPreference.putString("OnlineIP", onlineIp);
-							MySharedPreference.putString("ChannelIP_en", "");
-							MySharedPreference.putString("OnlineIP_en", "");
-						} else {
-							MySharedPreference.putString("ChannelIP_en",
-									channelIp);
-							MySharedPreference.putString("OnlineIP_en",
-									onlineIp);
-							MySharedPreference.putString("ChannelIP", "");
-							MySharedPreference.putString("OnlineIP", "");
-						}
-					}
-
-				} catch (JSONException e) {
-					loginRes1 = JVAccountConst.LOGIN_FAILED_2;
-					e.printStackTrace();
-				}
-				MyLog.v("BaseA", "LOGIN---X");
-			}
-
-			return loginRes1;
-		}
-
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			dismissDialog();
-			switch (result) {
-			case JVAccountConst.LOGIN_SUCCESS: {
-				StatService.trackCustomEvent(
-						BaseActivity.this,
-						"onlinelogin",
-						BaseActivity.this.getResources().getString(
-								R.string.census_onlinelogin));
-				MySharedPreference.putString("UserName",
-						statusHashMap.get(Consts.KEY_USERNAME));
-				MySharedPreference.putString("PassWord",
-						statusHashMap.get(Consts.KEY_PASSWORD));
-				// 重置手动注销标志，离线报警使用，如果为手动注销账号，不接收离线报警
-				MySharedPreference.putBoolean(Consts.MANUAL_LOGOUT_TAG, false);
-				User user = new User();
-				user.setPrimaryID(System.currentTimeMillis());
-				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
-				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
-				user.setLastLogin(1);
-				user.setJudgeFlag(1);
-				UserUtil.addUser(user);
-				MyLog.v("BaseA", "LoginSuccess");
-				statusHashMap.put(Consts.ACCOUNT_ERROR,
-						String.valueOf(Consts.WHAT_ACCOUNT_NORMAL));
-				if (null != alarmnet) {
-					alarmnet.setVisibility(View.GONE);
-				}
-				break;
-			}
-			}
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			createDialog("", true);
-		}
-
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
 

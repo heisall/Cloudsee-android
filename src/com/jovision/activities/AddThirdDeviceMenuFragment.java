@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import android.R.integer;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,14 +8,12 @@ import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.PeripheralManageAdapter;
-import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 
 public class AddThirdDeviceMenuFragment extends Fragment {

@@ -1,15 +1,10 @@
 package com.jovision.adapters;
 
-import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
-import com.jovision.activities.AddThirdDeviceMenuFragment;
-import com.jovision.activities.BaseFragment;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -17,7 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.activities.BaseFragment;
+import com.jovision.Consts;
+import com.jovision.activities.AddThirdDeviceMenuFragment;
 
 public class PeripheralManageAdapter extends BaseAdapter {
 	private AddThirdDeviceMenuFragment mfragment;

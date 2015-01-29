@@ -169,11 +169,10 @@
         <item>请将设备打开，等待配置完成。</item>
         <item>请长按红色按键，等待配置完成。</item>
         <item>请长按任意键，等待配置完成。</item>
-        
         <item>请长按任意键，等待配置完成。</item>
         <item>请长按任意键，等待配置完成。</item>
         <item>请长按任意键，等待配置完成。</item>
-        <item>请长按任意键，等待配置完成。</item>                                
+        <item>请长按任意键，等待配置完成。</item>
     </string-array>
 
 </resources>

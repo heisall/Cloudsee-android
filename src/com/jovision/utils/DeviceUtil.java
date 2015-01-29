@@ -17,6 +17,7 @@ import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.bean.OneKeyUpdate;
 import com.jovision.bean.SystemInfo;
+import com.jovision.bean.WebUrl;
 import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
@@ -2927,8 +2928,9 @@ public class DeviceUtil {
 	 * 获取web URL
 	 * 
 	 * */
-	public static void getWebUrl(int adVersion) {
-
+	public static WebUrl getWebUrl() {
+		int rt = -1;
+		WebUrl webUrl = new WebUrl();
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
@@ -2946,11 +2948,32 @@ public class DeviceUtil {
 		Log.i("TAG",  "====>"+jObj.toString());
 		// 接收返回数据
 		byte[] resultStr = new byte[1024 * 3];
-		int result = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		int error = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
 				jObj.toString(), resultStr);
-		Log.i("TAG",  "<===="+result+",res:"+resultStr);
-		if (0 == result) {
-			Log.i("TAG", "Sccess");
+		Log.i("TAG",  "<===="+error+",res:"+resultStr);
+		if (0 == error) {
+			String result = new String(resultStr);
+			MyLog.v("checkSoftWareUpdate---result", result);
+
+			if (null != result && !"".equalsIgnoreCase(result)) {
+				try {
+					JSONObject temObj = new JSONObject(result);
+					if (null != temObj) {
+						rt = temObj.optInt(JVDeviceConst.JK_RESULT);
+						if (0 == rt) {
+							webUrl.setDemoUrl(temObj
+									.optString("demourl"));
+							webUrl.setCustUrl(temObj
+									.optString("custurl"));
+							webUrl.setStatUrl(temObj
+									.optString("staturl"));
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
+		return webUrl;
 	}
 }

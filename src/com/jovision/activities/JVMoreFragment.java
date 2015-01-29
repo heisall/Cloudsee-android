@@ -47,6 +47,7 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.ListViewUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
@@ -608,11 +609,12 @@ public class JVMoreFragment extends BaseFragment {
 							mActivity.startActivity(intentAD);
 							break;
 						case 11:
-							Intent intentAD1 = new Intent(mActivity,
-									JVWebViewActivity.class);
-							intentAD1.putExtra("URL", "http://www.qq.com");
-							intentAD1.putExtra("title", -2);
-							mActivity.startActivity(intentAD1);
+//							Intent intentAD1 = new Intent(mActivity,
+//									JVWebViewActivity.class);
+//							intentAD1.putExtra("URL", "http://www.qq.com");
+//							intentAD1.putExtra("title", -2);
+//							mActivity.startActivity(intentAD1);
+							DeviceUtil.getWebUrl(0);
 							break;
 
 						case 12:

@@ -112,7 +112,7 @@ public class DeviceUtil {
 										dev.setIp(obj
 												.optString(
 														JVDeviceConst.JK_DEVICE_VIDEO_IP)
-												.trim());
+														.trim());
 										dev.setPort(obj
 												.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT));
 										/** 一键升级使用 */
@@ -1259,7 +1259,7 @@ public class DeviceUtil {
 				saveKey = JVDeviceConst.JK_DEVICE_FULL_ALARM_MODE;
 				// TF卡开关
 				paramObj.put(JVDeviceConst.JK_DEVICE_FULL_ALARM_MODE, state);// 0关
-																				// 1开
+				// 1开
 				break;
 			case JVDeviceConst.DEVICE_ALARTM_BABY_SWITCH:// baby模式
 				saveKey = JVDeviceConst.JK_DEVICE_BABY_MODE;
@@ -1308,7 +1308,7 @@ public class DeviceUtil {
 						// int mt =
 						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
 						res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
-																		// ，其他失败
+						// ，其他失败
 						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
 					}
 				} catch (Exception e) {
@@ -1389,7 +1389,7 @@ public class DeviceUtil {
 						// int mt =
 						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
 						res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
-																		// ，其他失败
+						// ，其他失败
 						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
 					}
 				} catch (Exception e) {
@@ -1447,7 +1447,7 @@ public class DeviceUtil {
 						// int mt =
 						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
 						res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
-																		// ，其他失败
+						// ，其他失败
 						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
 					}
 				} catch (Exception e) {
@@ -1503,7 +1503,7 @@ public class DeviceUtil {
 						// int mt =
 						// temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);
 						res = temObj.optInt(JVDeviceConst.JK_RESULT);// 0：成功
-																		// ，其他失败
+						// ，其他失败
 						// int mid = temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);
 					}
 				} catch (Exception e) {
@@ -1647,7 +1647,7 @@ public class DeviceUtil {
 						if (0 == rt) {
 							res = temObj
 									.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS);// (1在线
-																					// 0不在线)
+							// 0不在线)
 						} else {
 							res = rt;
 						}
@@ -1662,11 +1662,11 @@ public class DeviceUtil {
 	}
 
 	private static String urls[] = { "rtmp://119.188.172.3/live/a366_1",
-			"rtmp://119.188.172.3/live/a361_1",
-			"rtmp://119.188.172.3/live/a362_1",
-			"rtmp://119.188.172.3/live/s230348788_1",
-			"rtmp://119.188.172.3/live/a367_1",
-			"rtmp://119.188.172.3/live/a368_1", };
+		"rtmp://119.188.172.3/live/a361_1",
+		"rtmp://119.188.172.3/live/a362_1",
+		"rtmp://119.188.172.3/live/s230348788_1",
+		"rtmp://119.188.172.3/live/a367_1",
+		"rtmp://119.188.172.3/live/a368_1", };
 
 	/**
 	 * 2014-10-17 获取演示点设备
@@ -1740,14 +1740,14 @@ public class DeviceUtil {
 													.get(j);
 											int vipLevel = obj
 													.optInt(JVDeviceConst.JK_STREAMING_MEDIA_FLAG);// (是否支持流媒体
-																									// 0不支持
-																									// 1支持)
+											// 0不支持
+											// 1支持)
 											channel.setVipLevel(vipLevel);
 											if (vipLevel > 0) {
 												String smsrv = obj
 														.optString(JVDeviceConst.JK_STREAMING_MEDIA_SERVER);// (流媒体服务器信息
-																											// 格式
-																											// ip|rtmp端口|hls端口)
+												// 格式
+												// ip|rtmp端口|hls端口)
 												String suffixRtmp = dev
 														.getFullNo()
 														+ "_"
@@ -1759,8 +1759,8 @@ public class DeviceUtil {
 													rtmpUrl = "rtmp://"
 															+ array[0] + ":"
 															+ array[1]
-															+ "/live/"
-															+ suffixRtmp;
+																	+ "/live/"
+																	+ suffixRtmp;
 												} else {
 													rtmpUrl = "rtmp://"
 															+ "/live/"
@@ -1861,9 +1861,9 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// 1.0
 			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, 0);// 0：CloudSEE//
-														// 1：NVSIP
+			// 1：NVSIP
 			jObj.put(JVDeviceConst.JK_LANGUAGE_TYPE, language);// (语言 0简体中文 1英文
-																// 2繁体中文)
+			// 2繁体中文)
 			jObj.put(JVDeviceConst.JK_PUB_INDEX_START, startIndex);// (获取信息的起始索引，从0开始)
 			jObj.put(JVDeviceConst.JK_PUB_COUNT, count);// (获取信息的个数)
 
@@ -1887,9 +1887,9 @@ public class DeviceUtil {
 					JSONObject temObj = new JSONObject(result);
 					if (null != temObj) {
 						getRes = temObj.optInt(JVDeviceConst.JK_RESULT);// (0正确,其他为错误码
-																		// -10请求格式错误;
-																		// -4数据库操作错误;
-																		// 6查询为空)
+						// -10请求格式错误;
+						// -4数据库操作错误;
+						// 6查询为空)
 						if (0 != getRes) {// 获取失败
 							infoList = null;
 						} else {// 获取成功
@@ -1935,11 +1935,11 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// 1.0
 			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, Consts.PRODUCT_TYPE);// 0：CloudSEE
-																			// 1：NVSIP
+			// 1：NVSIP
 			jObj.put(JVDeviceConst.JK_AD_VERSION, adVersion);// (当前广告版本号)
 			jObj.put(JVDeviceConst.JK_TERMINAL_TYPE, Consts.TERMINAL_TYPE);// (终端类型
-																			// 0-未知
-																			// 1-Android
+			// 0-未知
+			// 1-Android
 			// 2-iPhone 3-iPad)
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -2023,11 +2023,11 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// 1.0
 			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, Consts.PRODUCT_TYPE);// 0：CloudSEE
-																			// 1：NVSIP
+			// 1：NVSIP
 			jObj.put(JVDeviceConst.JK_PORTAL_VERSION, appVersion);// (当前广告版本号)
 			jObj.put(JVDeviceConst.JK_TERMINAL_TYPE, Consts.TERMINAL_TYPE);// (终端类型
-																			// 0-未知
-																			// 1-Android
+			// 0-未知
+			// 1-Android
 			// 2-iPhone 3-iPad)
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -2154,14 +2154,14 @@ public class DeviceUtil {
 
 									int vipLevel = obj
 											.optInt(JVDeviceConst.JK_STREAMING_MEDIA_FLAG);// (是否支持流媒体
-																							// 0不支持
-																							// 1支持)
+									// 0不支持
+									// 1支持)
 									cl.setVipLevel(vipLevel);
 									if (vipLevel > 0) {
 										String smsrv = obj
 												.optString(JVDeviceConst.JK_STREAMING_MEDIA_SERVER);// (流媒体服务器信息
-																									// 格式
-																									// ip|rtmp端口|hls端口)
+										// 格式
+										// ip|rtmp端口|hls端口)
 										String suffixRtmp = obj
 												.optString(JVDeviceConst.JK_DEVICE_GUID)
 												+ "_"
@@ -2247,11 +2247,11 @@ public class DeviceUtil {
 					if (null != temObj) {
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
 						res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
-																		// 返回值说明：有更新rt=0,无更新rt=14
-																		// (DEVICE_HAS_NO_UPDATE).
-																		// 其他值为其他错误码
+						// 返回值说明：有更新rt=0,无更新rt=14
+						// (DEVICE_HAS_NO_UPDATE).
+						// 其他值为其他错误码
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
-																	// 32
+						// 32
 						oku.setResultCode(res);
 						if (0 == res) {// 有更新
 							if (null != temObj
@@ -2352,9 +2352,9 @@ public class DeviceUtil {
 					if (null != temObj) {
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
 						res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
-																		// 返回值说明：成功0，其他为错误码
+						// 返回值说明：成功0，其他为错误码
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
-																	// 3013
+						// 3013
 
 					}
 				} catch (JSONException e) {
@@ -2427,9 +2427,9 @@ public class DeviceUtil {
 					if (null != temObj) {
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
 						res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
-																		// 返回值说明：成功0，其他为错误码
+						// 返回值说明：成功0，其他为错误码
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
-																	// 3013
+						// 3013
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -2515,13 +2515,13 @@ public class DeviceUtil {
 					if (null != temObj) {
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
 						int res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
-																			// 返回值说明：成功0，其他为错误码
+						// 返回值说明：成功0，其他为错误码
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
-																	// 3013
+						// 3013
 						if (0 == res) {
 							progress = temObj
 									.optInt(JVDeviceConst.JK_UPGRADE_DOWNLOAD_STEP);// udstep
-																					// 下载进度(udstep)
+							// 下载进度(udstep)
 						}
 
 					}
@@ -2595,13 +2595,13 @@ public class DeviceUtil {
 					if (null != temObj) {
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
 						int res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
-																			// 返回值说明：成功0，其他为错误码
+						// 返回值说明：成功0，其他为错误码
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
-																	// 3019
+						// 3019
 						if (0 == res) {
 							progress = temObj
 									.optInt(JVDeviceConst.JK_UPGRADE_WRITE_STEP);// 返回rt
-																					// 烧写进度(uwstep)
+							// 烧写进度(uwstep)
 						}
 					}
 				} catch (JSONException e) {
@@ -2685,9 +2685,9 @@ public class DeviceUtil {
 					if (null != temObj) {
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
 						res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
-																		// 返回值说明：成功0，其他为错误码
+						// 返回值说明：成功0，其他为错误码
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
-																	// 3013
+						// 3013
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -2754,11 +2754,11 @@ public class DeviceUtil {
 					JSONObject temObj = new JSONObject(result);
 					if (null != temObj) {
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_TYPE);// mt
-																		// 3015
+						// 3015
 						res = temObj.optInt(JVDeviceConst.JK_RESULT);// rt
-																		// 返回值说明：成功0，其他为错误码
+						// 返回值说明：成功0，其他为错误码
 						temObj.optInt(JVDeviceConst.JK_MESSAGE_ID);// mid
-																	// 420
+						// 420
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -2853,11 +2853,11 @@ public class DeviceUtil {
 			reqJson.put(JVDeviceConst.JK_APP_CURRENT_VERSION, currentVersion);// 当前VersionCode
 			reqJson.put(JVDeviceConst.JK_PRODUCT_TYPE, product);// 产品类型
 			reqJson.put(JVDeviceConst.JK_LANGUAGE_TYPE, language);// 语言类型(语言
-																	// 0简体中文
-																	// 1英文//
-																	// 2繁体中文)
+			// 0简体中文
+			// 1英文//
+			// 2繁体中文)
 			reqJson.put(JVDeviceConst.JK_APP_CLIENT_TYPE, platform);// 1:android
-																	// 2:ios
+			// 2:ios
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -2883,16 +2883,16 @@ public class DeviceUtil {
 						rt = temObj.optInt(JVDeviceConst.JK_RESULT);
 						if (0 == rt) {// // rt==0说明需要升级 18不需要升级 其他值是吧
 							appVersion
-									.setVersionName(temObj
-											.optString(JVDeviceConst.JK_APP_VERSION_FULL));
+							.setVersionName(temObj
+									.optString(JVDeviceConst.JK_APP_VERSION_FULL));
 							appVersion.setVersionCode(temObj
 									.optInt(JVDeviceConst.JK_APP_VERSION));
 							appVersion
-									.setVersionInfo(temObj
-											.optString(JVDeviceConst.JK_APP_VERSION_DESC));
+							.setVersionInfo(temObj
+									.optString(JVDeviceConst.JK_APP_VERSION_DESC));
 							appVersion
-									.setDownloadUrl(temObj
-											.optString(JVDeviceConst.JK_APP_VERSION_URL));
+							.setDownloadUrl(temObj
+									.optString(JVDeviceConst.JK_APP_VERSION_URL));
 						}
 
 					}
@@ -2922,5 +2922,35 @@ public class DeviceUtil {
 			}
 		}
 		return -1;
+	}
+	/**
+	 * 获取web URL
+	 * 
+	 * */
+	public static void getWebUrl(int adVersion) {
+
+		JSONObject jObj = new JSONObject();
+		try {
+			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
+					JVDeviceConst.AD_PUBLISH_PROCESS);// 12
+					jObj.put(JVDeviceConst.JK_MESSAGE_TYPE, 5506);//
+					jObj.put(JVDeviceConst.JK_PROTO_VERSION,
+							JVDeviceConst.PROTO_VERSION);// 1.0
+					jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, Consts.PRODUCT_TYPE);// 0：CloudSEE
+					// 1：NVSIP
+					// 2-iPhone 3-iPad)
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		Log.i("TAG",  "====>"+jObj.toString());
+		// 接收返回数据
+		byte[] resultStr = new byte[1024 * 3];
+		int result = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+				jObj.toString(), resultStr);
+		Log.i("TAG",  "<===="+result+",res:"+resultStr);
+		if (0 == result) {
+			Log.i("TAG", "Sccess");
+		}
 	}
 }

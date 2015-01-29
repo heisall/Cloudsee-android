@@ -609,11 +609,11 @@ public class JVMoreFragment extends BaseFragment {
 							mActivity.startActivity(intentAD);
 							break;
 						case 11:
-//							Intent intentAD1 = new Intent(mActivity,
-//									JVWebViewActivity.class);
-//							intentAD1.putExtra("URL", "http://www.qq.com");
-//							intentAD1.putExtra("title", -2);
-//							mActivity.startActivity(intentAD1);
+							// Intent intentAD1 = new Intent(mActivity,
+							// JVWebViewActivity.class);
+							// intentAD1.putExtra("URL", "http://www.qq.com");
+							// intentAD1.putExtra("title", -2);
+							// mActivity.startActivity(intentAD1);
 							DeviceUtil.getWebUrl();
 							break;
 

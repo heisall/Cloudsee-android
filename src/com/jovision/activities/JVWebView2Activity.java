@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
@@ -141,10 +142,13 @@ public class JVWebView2Activity extends BaseActivity implements
 		case Consts.CALL_PLAY_BUFFER: {
 			if (arg2 > 0) {
 				MyLog.i(Consts.TAG_PLAY, "buffering: " + arg2);// 0-99
+				bufferingState(Consts.TAG_PLAY_BUFFERING, arg2);
 			} else if (Consts.BUFFER_START == arg2) {
 				MyLog.w(Consts.TAG_PLAY, "buffer started");// show
+				bufferingState(Consts.TAG_PLAY_BUFFERING, 0);
 			} else if (Consts.BUFFER_FINISH == arg2) {
 				MyLog.w(Consts.TAG_PLAY, "buffer finished");// dismiss
+				bufferingState(Consts.TAG_PLAY_BUFFERED, 0);
 			}
 			break;
 		}
@@ -393,6 +397,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.webview2_layout);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		playAudio = MyAudio.getIntance(Consts.PLAY_AUDIO_WHAT,
 				JVWebView2Activity.this, 8000);
 
@@ -1094,6 +1099,32 @@ public class JVWebView2Activity extends BaseActivity implements
 			playImgView.setVisibility(View.GONE);
 			break;
 		}
+		}
+
+	}
+
+	/**
+	 * 修改连接状态
+	 * 
+	 * @param tag
+	 */
+	private void bufferingState(int tag, int process) {
+		switch (tag) {
+		case Consts.TAG_PLAY_BUFFERING: {// 已连接正在缓冲
+			loadingVideoBar.setVisibility(View.VISIBLE);
+			loadingState.setVisibility(View.VISIBLE);
+			playImgView.setVisibility(View.GONE);
+			loadingState.setText(getString(R.string.connecting_buffer2)
+					+ process + "%");
+			break;
+		}
+		case Consts.TAG_PLAY_BUFFERED: {// 缓冲完成
+			loadingVideoBar.setVisibility(View.GONE);
+			loadingState.setVisibility(View.GONE);
+			playImgView.setVisibility(View.GONE);
+			break;
+		}
+
 		}
 
 	}

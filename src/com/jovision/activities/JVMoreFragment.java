@@ -89,9 +89,9 @@ public class JVMoreFragment extends BaseFragment {
 	private int[] Image = { R.drawable.morefragment_help_icon,
 			R.drawable.morefragment_autologin_icon,
 			R.drawable.morefragment_warmmessage_icon,
-			R.drawable.morefragment_setting_icon, R.drawable.media_image,
-			R.drawable.morefragment_feedback_icon, R.drawable.media_image,
-			R.drawable.morefragment_update_icon, R.drawable.more_videosquer,
+			R.drawable.morefragment_setting_icon, R.drawable.develop_warning,
+			R.drawable.develop_warning, R.drawable.develop_warning,
+			R.drawable.develop_warning, R.drawable.more_videosquer,
 			R.drawable.more_message, R.drawable.morefragment_install_icon,
 			R.drawable.morefragment_sharedevice_icon,
 			R.drawable.morefragment_data_icon, R.drawable.media_image,
@@ -663,6 +663,15 @@ public class JVMoreFragment extends BaseFragment {
 									ListViewUtil
 											.setListViewHeightBasedOnChildren(more_listView);
 								}
+							} else {
+								littlenum = 0;
+								MySharedPreference.putBoolean("LITTLEHELP",
+										false);
+								MySharedPreference.putBoolean("BROADCASTSHOW",
+										false);
+								MySharedPreference.putBoolean("LITTLE", false);
+								ListViewUtil
+										.setListViewHeightBasedOnChildren(more_listView);
 							}
 							break;
 						default:

@@ -2190,7 +2190,6 @@ public class DeviceUtil {
 		String requesRes = JVACCOUNT
 				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
 						.toString());
-
 		JSONObject respObject = null;
 		try {
 			respObject = new JSONObject(requesRes);

@@ -141,6 +141,9 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 							String[] params = new String[3];
 							task.execute(params);
 							break;
+						case Consts.WHAT_SESSION_FAILURE:// session失效
+
+							break;
 						}
 					}
 				}
@@ -205,6 +208,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 						alarmnet.setVisibility(View.GONE);
 					}
 					break;
+
 				case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
 					if (null != alarmnet && !local) {
 						alarmnet.setVisibility(View.VISIBLE);
@@ -217,6 +221,9 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 					if (null != alarmnet) {
 						alarmnet.setVisibility(View.GONE);
 					}
+					break;
+				case Consts.WHAT_SESSION_FAILURE:// session失效
+
 					break;
 				}
 			}

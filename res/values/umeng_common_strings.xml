@@ -24,4 +24,8 @@
     <string name="umeng_socialize_share_failed">分享失败</string>
     <string name="umeng_socialize_share_video_content">这个视频很精彩，快来看看吧</string>
     <string name="umeng_socialize_share_editpage_title">分享到微博</string>
+    <string name="umeng_socialize_access_expired">授权已经过期，请重新授权</string>
+    <string name="umeng_socialize_text_waitting">请稍候...</string>
+    <string name="umeng_socialize_text_waitting_weixin">跳转微信中，请稍候...</string>
+    <string name="umeng_socialize_text_waitting_weixin_circle">跳转朋友圈中，请稍候...</string>
 </resources>

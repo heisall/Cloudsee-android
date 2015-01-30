@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -80,7 +81,6 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		url = getIntent().getStringExtra("URL");
-		MyLog.v(TAG, "webview-URL=" + url);
 		// url = "http://app.ys7.com/";
 		titleID = getIntent().getIntExtra("title", 0);
 	}
@@ -90,6 +90,14 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.findpass_layout);
+
+		if (url.contains("rotate=x")) {
+			url = url.replace("rotate=x", "");
+			url = "http://192.168.8.205:8080/ShowReport.action";
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
+		}
+
+		MyLog.v(TAG, "webview-URL=" + url);
 		/** topBar **/
 		topBar = (RelativeLayout) findViewById(R.id.topbarh);
 		leftBtn = (Button) findViewById(R.id.btn_left);

@@ -2080,7 +2080,9 @@ public class DeviceUtil {
 	}
 
 	/**
-	 * 2015-1-4 获取演示点网页地址
+	 * 2015-1-4 获取演示点网页地址         
+	 * 
+	 * (2015-01-30 暂停使用此接口)
 	 * 
 	 * @param
 	 * @return ArrayList<Device> 设备列表

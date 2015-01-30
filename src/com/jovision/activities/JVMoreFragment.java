@@ -544,6 +544,7 @@ public class JVMoreFragment extends BaseFragment {
 							// TODO
 							break;
 						case 8:
+							
 							if (!MySharedPreference.getBoolean("VideoSquer")) {
 								MySharedPreference.putBoolean("VideoSquer",
 										true);
@@ -557,7 +558,7 @@ public class JVMoreFragment extends BaseFragment {
 										"Demo",
 										mActivity.getResources().getString(
 												R.string.census_demo));
-
+								
 								GetDemoTask demoTask = new GetDemoTask(
 										mActivity);
 								String[] demoParams = new String[3];
@@ -572,6 +573,7 @@ public class JVMoreFragment extends BaseFragment {
 								} else {
 									demoParams[0] = "";
 								}
+								demoParams[1] = "1";
 								demoTask.execute(demoParams);
 
 								// Intent demoIntent = new Intent();
@@ -598,22 +600,37 @@ public class JVMoreFragment extends BaseFragment {
 							// TODO
 							break;
 						case 10:
-							GetUrlTask UrlTask = new GetUrlTask(mActivity);
-							String[] demoParams = new String[3];
-							demoParams[0] = "0";
-							UrlTask.execute(demoParams);
+							if (null != ((BaseActivity)mActivity).statusHashMap.get("CUSTURL")) {
+								Intent intentAD0 = new Intent(mActivity, JVWebViewActivity.class);
+								intentAD0.putExtra("URL",((BaseActivity)mActivity).statusHashMap.get("CUSTURL"));
+								intentAD0.putExtra("title", -2);
+								mActivity.startActivity(intentAD0);
+							}else {
+								GetDemoTask UrlTask = new GetDemoTask(mActivity);
+								String[] demoParams = new String[3];
+								demoParams[1] = "0";
+								UrlTask.execute(demoParams);
+							}
 							break;
 						case 11:
-							GetUrlTask UrlTask1 = new GetUrlTask(mActivity);
-							String[] demoParams1 = new String[3];
-							demoParams1[0] = "1";
-							UrlTask1.execute(demoParams1);
+//							GetDemoTask UrlTask1 = new GetDemoTask(mActivity);
+//							String[] demoParams1 = new String[3];
+//							demoParams1[0] = "1";
+//							UrlTask1.execute(demoParams1);
 							break;
 						case 12:
-							GetUrlTask UrlTask2 = new GetUrlTask(mActivity);
-							String[] demoParams2 = new String[3];
-							demoParams2[0] = "2";
-							UrlTask2.execute(demoParams2);
+						
+							if (null != ((BaseActivity)mActivity).statusHashMap.get("STATURL")) {
+								Intent intentAD0 = new Intent(mActivity, JVWebViewActivity.class);
+								intentAD0.putExtra("URL",((BaseActivity)mActivity).statusHashMap.get("STATURL"));
+								intentAD0.putExtra("title", -2);
+								mActivity.startActivity(intentAD0);
+							}else {
+								GetDemoTask UrlTask2 = new GetDemoTask(mActivity);
+								String[] demoParams2 = new String[3];
+								demoParams2[1] = "2";
+								UrlTask2.execute(demoParams2);
+							}
 							break;
 						case 13:// 媒体
 							StatService.trackCustomEvent(

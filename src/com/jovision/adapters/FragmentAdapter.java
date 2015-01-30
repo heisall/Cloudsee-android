@@ -96,6 +96,10 @@ public class FragmentAdapter extends BaseAdapter {
 				divider_img.setVisibility(View.GONE);
 			}
 		}
+		if (position == 11) {
+			more_item.setVisibility(View.GONE);
+			divider_img.setVisibility(View.GONE);
+		}
 		if (position == 4 || position == 5 || position == 6 || position == 7) {
 			if (!MySharedPreference.getBoolean("LITTLE")) {
 				more_item.setVisibility(View.GONE);

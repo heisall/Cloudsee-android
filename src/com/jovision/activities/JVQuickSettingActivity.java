@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -783,7 +784,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					currentMenu.setText(R.string.str_quick_setting);
 				} else if (ipcLayout.getVisibility() == View.VISIBLE) {// 显示IPC网络信息列表（一级级wifi列表）
 					stopTask = true;
-					createDialog(R.string.quick_setting_exiting, true);
+					createDialog(R.string.quick_setting_exiting, false);
 					isBack = true;
 					ResetWifiTask task = new ResetWifiTask();
 					String[] params = new String[3];
@@ -1916,7 +1917,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				}
 				dismisQuickPopWindow();
 				isBack = true;
-				createDialog(R.string.quick_setting_exiting, true);
+				createDialog(R.string.quick_setting_exiting, false);
 				ResetWifiTask task = new ResetWifiTask();
 				String[] params = new String[3];
 				params[0] = "false";
@@ -1984,12 +1985,15 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						// 暂停扫瞄器
 						showSearch(false);
+						searchView.stopPlayer();
 						if (null != myPlayer) {
 							myPlayer.stop();
+							myPlayer.release();
+							myPlayer = null;
 						}
 						dismisQuickPopWindow();
 						isBack = true;
-						createDialog(R.string.quick_setting_exiting, true);
+						createDialog(R.string.quick_setting_exiting, false);
 						ResetWifiTask task = new ResetWifiTask();
 						String[] params = new String[3];
 						params[0] = "false";
@@ -2102,7 +2106,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							}
 							dismisQuickPopWindow();
 							isBack = true;
-							createDialog(R.string.quick_setting_exiting, true);
+							createDialog(R.string.quick_setting_exiting, false);
 							ResetWifiTask task = new ResetWifiTask();
 							String[] params = new String[3];
 							params[0] = "false";

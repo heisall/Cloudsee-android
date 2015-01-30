@@ -165,6 +165,7 @@ public class JVMoreFragment extends BaseFragment {
 	}
 
 	private void intiUi(View view) {
+		url = DeviceUtil.getWebUrl();
 		activity = getActivity();
 		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
 			fragment_name = activity.getResources().getStringArray(
@@ -236,10 +237,6 @@ public class JVMoreFragment extends BaseFragment {
 					+ more_name + ".jpg");
 			more_head.setImageBitmap(bitmap);
 		}
-		url = DeviceUtil.getWebUrl();
-		Log.i("TAG",
-				"获取到的web" + url.getDemoUrl() + url.getCustUrl()
-						+ url.getStatUrl());
 	}
 
 	private void initDatalist() {

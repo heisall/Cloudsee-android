@@ -144,6 +144,10 @@ public class JVLoginActivity extends BaseActivity {
 		registBtn = (TextView) findViewById(R.id.regist_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
 
+		if ("true".equals(statusHashMap.get(Consts.KEY_GONE_MORE))) {
+			showPointBtn.setVisibility(View.GONE);
+		}
+
 		findPassTV.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
 		findPassTV.getPaint().setAntiAlias(true);
 		registBtn.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线

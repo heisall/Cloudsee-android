@@ -61,6 +61,8 @@ public class JVWelcomeActivity extends BaseActivity {
 		getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
 		statusHashMap.put(Consts.KEY_INIT_ACCOUNT_SDK, "false");
 		statusHashMap.put(Consts.KEY_INIT_CLOUD_SDK, "false");
+		statusHashMap.put(Consts.KEY_GONE_MORE, "false");// 是否屏蔽视频广场和更多中的专属功能
+															// false 显示，true 隐藏
 		statusHashMap.put(Consts.IMEI,
 				ConfigUtil.getIMEI(JVWelcomeActivity.this));
 		statusHashMap.put(Consts.NEUTRAL_VERSION, "false");// 默认非中性版本

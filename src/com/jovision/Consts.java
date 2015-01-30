@@ -333,6 +333,8 @@ public class Consts {
 	public static final int TAG_PLAY_DIS_CONNECTTED = 3;// 断开
 	public static final int TAG_PLAY_CONNECTING_BUFFER = 4;// 连接成功，正在缓冲数据。。。
 	public static final int TAG_PLAY_STATUS_UNKNOWN = 5;// 未知状态
+	public static final int TAG_PLAY_BUFFERING = 6;// 已连接，正在缓冲进度
+	public static final int TAG_PLAY_BUFFERED = 7;// 已连接，缓冲成功
 	public static final int ARG2_STATUS_CONNECTING = 0x01;
 	public static final int ARG2_STATUS_CONNECTED = 0x02;
 	public static final int ARG2_STATUS_BUFFERING = 0x03;
@@ -551,6 +553,8 @@ public class Consts {
 	public static final String KEY_INIT_ACCOUNT_SDK = "initAccountSdk";
 	/** 云视通sdk是否初始化的key */
 	public static final String KEY_INIT_CLOUD_SDK = "initCloudSdk";
+	/** 更多视频广场和登录视频广场 */
+	public static final String KEY_GONE_MORE = "GONEMORE";
 	/** 用户名key */
 	public static final String KEY_USERNAME = "USER_NAME";
 	/** 密码key */

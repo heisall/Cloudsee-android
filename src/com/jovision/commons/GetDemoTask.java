@@ -13,7 +13,6 @@ import com.jovision.activities.JVWebViewActivity;
 import com.jovision.bean.WebUrl;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
-import com.tencent.stat.StatService;
 
 //获取演示点 设置三种类型参数分别为String,Integer,String
 public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
@@ -33,15 +32,18 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		int getRes = -1;// 0成功 1失败
 		sid = params[0];
 		count = params[1];
-//		demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);
+		// demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);
 		// demoUrl = "http://www.cloudsee.net/phone.action";
 		webUrl = DeviceUtil.getWebUrl();
 		Log.i("TAG", webUrl.getDemoUrl());
 		if (null != webUrl) {
 			getRes = 0;
-			((BaseActivity)mContext).statusHashMap.put("DEMOURL", webUrl.getDemoUrl());
-			((BaseActivity)mContext).statusHashMap.put("CUSTURL", webUrl.getCustUrl());
-			((BaseActivity)mContext).statusHashMap.put("STATURL", webUrl.getStatUrl());
+			((BaseActivity) mContext).statusHashMap.put("DEMOURL",
+					webUrl.getDemoUrl());
+			((BaseActivity) mContext).statusHashMap.put("CUSTURL",
+					webUrl.getCustUrl());
+			((BaseActivity) mContext).statusHashMap.put("STATURL",
+					webUrl.getStatUrl());
 		}
 		return getRes;
 	}
@@ -104,7 +106,8 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			//
 			// 注意：aaa.html后为"?",参数之间使用"&"进行连接
 		} else {
-			((BaseActivity) mContext).showTextToast(R.string.str_video_load_failed);
+			((BaseActivity) mContext)
+					.showTextToast(R.string.str_video_load_failed);
 		}
 	}
 

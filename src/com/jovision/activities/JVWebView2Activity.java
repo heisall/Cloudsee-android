@@ -33,7 +33,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -48,11 +47,8 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.CustomShareBoard;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.SocializeEntity;
-import com.umeng.socialize.bean.StatusCode;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
 import com.umeng.socialize.media.SinaShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMVideo;
@@ -1140,7 +1136,8 @@ public class JVWebView2Activity extends BaseActivity implements
 	 */
 	private void openSharePane() {
 		CustomShareBoard shareBoard = new CustomShareBoard(this);
-		shareBoard.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+		shareBoard.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM,
+				0, 0);
 	}
 
 	/**
@@ -1232,7 +1229,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	/**
 	 * @功能描述：判断是否展示分享功能<br/>
 	 * @param pUrl
-	 *			网址
+	 *            网址
 	 * @return true/false
 	 */
 	private boolean checkShareEnabled(String pUrl) {
@@ -1276,9 +1273,9 @@ public class JVWebView2Activity extends BaseActivity implements
 	/**
 	 * @功能描述 : 根据不同的平台生成视频链接地址</br>
 	 * @param pVideoUrl
-	 *			视频链接地址
+	 *            视频链接地址
 	 * @param platform
-	 *			分享平台
+	 *            分享平台
 	 * @return
 	 */
 	private String createVideoUrlByPlatform(final String pVideoUrl,

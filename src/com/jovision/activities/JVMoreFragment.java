@@ -38,7 +38,6 @@ import com.jovision.bean.MoreFragmentBean;
 import com.jovision.bean.WebUrl;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.GetDemoTask;
-import com.jovision.commons.GetUrlTask;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
@@ -544,7 +543,7 @@ public class JVMoreFragment extends BaseFragment {
 							// TODO
 							break;
 						case 8:
-							
+
 							if (!MySharedPreference.getBoolean("VideoSquer")) {
 								MySharedPreference.putBoolean("VideoSquer",
 										true);
@@ -558,7 +557,7 @@ public class JVMoreFragment extends BaseFragment {
 										"Demo",
 										mActivity.getResources().getString(
 												R.string.census_demo));
-								
+
 								GetDemoTask demoTask = new GetDemoTask(
 										mActivity);
 								String[] demoParams = new String[3];
@@ -600,12 +599,18 @@ public class JVMoreFragment extends BaseFragment {
 							// TODO
 							break;
 						case 10:
-							if (null != ((BaseActivity)mActivity).statusHashMap.get("CUSTURL")) {
-								Intent intentAD0 = new Intent(mActivity, JVWebViewActivity.class);
-								intentAD0.putExtra("URL",((BaseActivity)mActivity).statusHashMap.get("CUSTURL"));
+							if (null != ((BaseActivity) mActivity).statusHashMap
+									.get("CUSTURL")) {
+								Intent intentAD0 = new Intent(mActivity,
+										JVWebViewActivity.class);
+								intentAD0
+										.putExtra(
+												"URL",
+												((BaseActivity) mActivity).statusHashMap
+														.get("CUSTURL"));
 								intentAD0.putExtra("title", -2);
 								mActivity.startActivity(intentAD0);
-							}else {
+							} else {
 								GetDemoTask UrlTask = new GetDemoTask(mActivity);
 								String[] demoParams = new String[3];
 								demoParams[1] = "0";
@@ -613,20 +618,28 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 11:
-//							GetDemoTask UrlTask1 = new GetDemoTask(mActivity);
-//							String[] demoParams1 = new String[3];
-//							demoParams1[0] = "1";
-//							UrlTask1.execute(demoParams1);
+							// GetDemoTask UrlTask1 = new
+							// GetDemoTask(mActivity);
+							// String[] demoParams1 = new String[3];
+							// demoParams1[0] = "1";
+							// UrlTask1.execute(demoParams1);
 							break;
 						case 12:
-						
-							if (null != ((BaseActivity)mActivity).statusHashMap.get("STATURL")) {
-								Intent intentAD0 = new Intent(mActivity, JVWebViewActivity.class);
-								intentAD0.putExtra("URL",((BaseActivity)mActivity).statusHashMap.get("STATURL"));
+
+							if (null != ((BaseActivity) mActivity).statusHashMap
+									.get("STATURL")) {
+								Intent intentAD0 = new Intent(mActivity,
+										JVWebViewActivity.class);
+								intentAD0
+										.putExtra(
+												"URL",
+												((BaseActivity) mActivity).statusHashMap
+														.get("STATURL"));
 								intentAD0.putExtra("title", -2);
 								mActivity.startActivity(intentAD0);
-							}else {
-								GetDemoTask UrlTask2 = new GetDemoTask(mActivity);
+							} else {
+								GetDemoTask UrlTask2 = new GetDemoTask(
+										mActivity);
 								String[] demoParams2 = new String[3];
 								demoParams2[1] = "2";
 								UrlTask2.execute(demoParams2);

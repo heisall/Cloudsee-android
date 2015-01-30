@@ -16,7 +16,7 @@
         android:textSize="12sp" />
 
     <!-- 由于友盟分享Android版本目前没有支持国际化，所以自定义分享面板 Start -->
-    <!-- 
+    <!--
     <TextView
         android:id="@+id/umeng_socialize_title_bar_middleTv"
         android:layout_width="fill_parent"
@@ -26,8 +26,9 @@
         android:gravity="center"
         android:text="@string/umeng_socialize_comment"
         android:textColor="@color/umeng_socialize_text_title"
-        android:textSize="20sp" />
-     -->
+        android:textSize="20sp" />
+    -->
+
     <TextView
         android:id="@+id/umeng_socialize_title_bar_middleTv"
         android:layout_width="fill_parent"
@@ -38,9 +39,9 @@
         android:text="@string/umeng_socialize_comment"
         android:textColor="@color/umeng_socialize_text_title"
         android:textSize="20sp"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
     <!-- 自定义的TextView来显示分享编辑页的标题 -->
+
     <TextView
         android:id="@+id/umeng_socialize_title_bar_custom_tv"
         android:layout_width="fill_parent"

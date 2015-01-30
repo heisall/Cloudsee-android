@@ -87,8 +87,11 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 			});
 		}
-		if (position == 8 || position == 9 || position == 10 || position == 11 || position == 12) {
-			if ("true".equals(((BaseActivity)mfragment.getActivity()).statusHashMap.get(Consts.KEY_GONE_MORE))) {
+		if (position == 8 || position == 9 || position == 10 || position == 11
+				|| position == 12) {
+			if ("true"
+					.equals(((BaseActivity) mfragment.getActivity()).statusHashMap
+							.get(Consts.KEY_GONE_MORE))) {
 				more_item.setVisibility(View.GONE);
 				divider_img.setVisibility(View.GONE);
 			}

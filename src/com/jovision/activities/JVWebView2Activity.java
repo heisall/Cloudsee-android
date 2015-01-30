@@ -128,6 +128,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			break;
 		}
 		case Consts.CALL_CONNECT_CHANGE: {
+			MyLog.v("妈呀", "connectChange=" + arg2);
 			loadingState(arg2);
 			break;
 		}

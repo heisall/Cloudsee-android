@@ -866,10 +866,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		}
 		try {
 			stopTask = true;
-			// searchView.stopPlayer();
-			myPlayer.stop();
-			myPlayer.release();
-			myPlayer = null;
+			searchView.stopPlayer();
+			if (null != myPlayer) {
+				myPlayer.stop();
+				myPlayer.release();
+				myPlayer = null;
+			}
 			stopRefreshWifiTimer();
 			MySharedPreference.putBoolean(Consts.AP_SETTING, false);
 		} catch (Exception e) {
@@ -1888,7 +1890,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (null != quickSetPop && quickSetPop.isShowing()) {
 			quickSetPop.dismiss();
 			quickSetPop = null;
-			myPlayer = null;
+			if (null != myPlayer) {
+				myPlayer.stop();
+				myPlayer.release();
+				myPlayer = null;
+			}
 		}
 	}
 
@@ -1902,8 +1908,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			case R.id.quickSetBack:// 返回
 				// 暂停扫瞄器
 				showSearch(false);
+				searchView.stopPlayer();
 				if (null != myPlayer) {
 					myPlayer.stop();
+					myPlayer.release();
+					myPlayer = null;
 				}
 				dismisQuickPopWindow();
 				isBack = true;
@@ -2137,6 +2146,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				isSearching = false;
 				myPlayer.stop();
+				myPlayer.release();
+				myPlayer = null;
 				quickSetBackImg.setVisibility(View.GONE);
 			}
 		}

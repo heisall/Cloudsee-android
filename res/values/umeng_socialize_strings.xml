@@ -69,9 +69,5 @@
     <string name="umeng_socialize_img_des"></string>
     <string name="umeng_socialize_share">分享</string>
     <string name="com_facebook_loading">Loading...</string>
-    <string name="umeng_socialize_share_success">分享成功</string>
-    <string name="umeng_socialize_share_cancel">取消分享</string>
-    <string name="umeng_socialize_share_failed">分享失败</string>
-    <string name="umeng_socialize_share_video_content">这个视频很精彩，快来看看吧</string>
 
 </resources>

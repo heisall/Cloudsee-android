@@ -13,5 +13,15 @@
     <string name="umeng_common_download_failed">Download Failed! </string>
     <string name="umeng_common_download_finish">Download finished,click to install it.</string>
     <string name="umeng_common_patch_finish">Patch finished,click to install it.</string>
-
+    <!-- umeng share content -->
+    <string name="umeng_socialize_share_title">分享</string>
+    <string name="umeng_socialize_share_to_wx">微信</string>
+    <string name="umeng_socialize_share_to_friends">朋友圈</string>
+    <string name="umeng_socialize_share_to_sina">微博</string>
+    <string name="umeng_socialize_share_btn_cancel">取消</string>
+    <string name="umeng_socialize_share_success">分享成功</string>
+    <string name="umeng_socialize_share_cancel">取消分享</string>
+    <string name="umeng_socialize_share_failed">分享失败</string>
+    <string name="umeng_socialize_share_video_content">这个视频很精彩，快来看看吧</string>
+    <string name="umeng_socialize_share_editpage_title">分享到微博</string>
 </resources>

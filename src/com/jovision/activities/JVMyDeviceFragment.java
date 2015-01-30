@@ -846,7 +846,18 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-
+		case Consts.WHAT_ALARM_NET:
+			if (null != alarmnet
+					&& !Boolean.valueOf(mActivity.statusHashMap
+							.get(Consts.LOCAL_LOGIN))) {
+				alarmnet.setVisibility(View.VISIBLE);
+			}
+			break;
+		case Consts.WHAT_ALARM_NET_WEEK:
+			if (null != alarmnet) {
+				alarmnet.setVisibility(View.GONE);
+			}
+			break;
 		case Consts.WHAT_AD_UPDATE: {
 			initADViewPager();
 			break;

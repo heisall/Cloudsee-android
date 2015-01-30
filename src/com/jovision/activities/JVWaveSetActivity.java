@@ -631,7 +631,7 @@ public class JVWaveSetActivity extends BaseActivity {
 				}
 
 				if (0 == addRes) {
-					// broadList.remove(index);
+					broadList.remove(index);
 					handler.sendMessage(handler
 							.obtainMessage(Consts.WHAT_BROAD_DEVICE));
 					addDevice.setOnlineStateLan(1);

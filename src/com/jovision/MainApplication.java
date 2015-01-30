@@ -45,7 +45,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 	public HashMap<String, String> statusHashMap;
 	private ArrayList<BaseActivity> openedActivityList;
-	private IHandlerLikeNotify currentNotifyer;
+	public IHandlerLikeNotify currentNotifyer;
 
 	protected NotificationManager mNotifyer;
 	private ActivityManager activityManager;

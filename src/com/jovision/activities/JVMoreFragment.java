@@ -38,6 +38,7 @@ import com.jovision.bean.MoreFragmentBean;
 import com.jovision.bean.WebUrl;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.GetDemoTask;
+import com.jovision.commons.GetUrlTask;
 import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
@@ -45,7 +46,6 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
-import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.ListViewUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
@@ -236,10 +236,6 @@ public class JVMoreFragment extends BaseFragment {
 					+ more_name + ".jpg");
 			more_head.setImageBitmap(bitmap);
 		}
-		url = DeviceUtil.getWebUrl();
-		Log.i("TAG",
-				"获取到的web" + url.getDemoUrl() + url.getCustUrl()
-						+ url.getStatUrl());
 	}
 
 	private void initDatalist() {
@@ -602,25 +598,22 @@ public class JVMoreFragment extends BaseFragment {
 							// TODO
 							break;
 						case 10:
-							Intent intentAD = new Intent(mActivity,
-									JVWebViewActivity.class);
-							intentAD.putExtra("URL", url.getDemoUrl());
-							intentAD.putExtra("title", -2);
-							mActivity.startActivity(intentAD);
+							GetUrlTask UrlTask = new GetUrlTask(mActivity);
+							String[] demoParams = new String[3];
+							demoParams[0] = "0";
+							UrlTask.execute(demoParams);
 							break;
 						case 11:
-							Intent intentAD1 = new Intent(mActivity,
-									JVWebViewActivity.class);
-							intentAD1.putExtra("URL", url.getCustUrl());
-							intentAD1.putExtra("title", -2);
-							mActivity.startActivity(intentAD1);
+							GetUrlTask UrlTask1 = new GetUrlTask(mActivity);
+							String[] demoParams1 = new String[3];
+							demoParams1[0] = "1";
+							UrlTask1.execute(demoParams1);
 							break;
 						case 12:
-							Intent intentAD2 = new Intent(mActivity,
-									JVWebViewActivity.class);
-							intentAD2.putExtra("URL", url.getStatUrl());
-							intentAD2.putExtra("title", -2);
-							mActivity.startActivity(intentAD2);
+							GetUrlTask UrlTask2 = new GetUrlTask(mActivity);
+							String[] demoParams2 = new String[3];
+							demoParams2[0] = "2";
+							UrlTask2.execute(demoParams2);
 							break;
 						case 13:// 媒体
 							StatService.trackCustomEvent(

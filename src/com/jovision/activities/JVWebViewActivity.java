@@ -93,7 +93,6 @@ public class JVWebViewActivity extends BaseActivity {
 
 		if (url.contains("rotate=x")) {
 			url = url.replace("rotate=x", "");
-			url = "http://192.168.8.205:8080/ShowReport.action";
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
 		}
 

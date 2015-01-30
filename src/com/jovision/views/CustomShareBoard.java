@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
@@ -19,7 +18,6 @@ import com.umeng.socialize.bean.StatusCode;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
-import com.umeng.socialize.utils.OauthHelper;
 
 /**
  * 由于友盟分享Android版本目前没有支持国际化，所以自定义分享面板
@@ -71,11 +69,12 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
             break;
         case R.id.share_overlay:
         case R.id.btn_cancel:
-            this.dismiss();
             break;
         default:
             break;
         }
+        // 关闭popupwindow
+        this.dismiss();
     }
 
     private void performShare(SHARE_MEDIA platform) {
@@ -95,6 +94,13 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
                     Toast.makeText(mActivity,
                             R.string.umeng_socialize_share_cancel,
                             Toast.LENGTH_SHORT).show();
+                } else if (stCode == StatusCode.ST_CODE_ACCESS_EXPIRED
+                        || stCode == StatusCode.ST_CODE_ACCESS_EXPIRED2) {
+                    Toast.makeText(mActivity,
+                            R.string.umeng_socialize_access_expired,
+                            Toast.LENGTH_SHORT).show();
+                    MyLog.v(TAG, "share failed, access expired. error code:"
+                            + stCode);
                 } else {
                     Toast.makeText(mActivity,
                             R.string.umeng_socialize_share_failed,

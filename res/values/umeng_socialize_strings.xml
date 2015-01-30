@@ -41,9 +41,12 @@
     <string name="umeng_socialize_text_tencent_oauth_login_fail">授权登录失败</string>
     <string name="umeng_socialize_text_tencent_version_no_match">版本不匹配，SSO只对微博客户端V3.8.1及以上的版本提供支持</string>
     <string name="umeng_socialize_text_tencent_no_install">未安装腾讯微博客户端</string>
+    <!-- 移到umeng_common_strings.xml中 -->
+    <!-- 
     <string name="umeng_socialize_text_waitting">请稍候...</string>
     <string name="umeng_socialize_text_waitting_weixin">跳转微信中，请稍候...</string>
     <string name="umeng_socialize_text_waitting_weixin_circle">跳转朋友圈中，请稍候...</string>
+    -->
     <string name="umeng_socialize_text_waitting_yixin">跳转易信中，请稍候...</string>
     <string name="umeng_socialize_text_waitting_yixin_circle">跳转易信朋友圈中，请稍候...</string>
     <string name="umeng_socialize_text_waitting_qq">跳转QQ中，请稍候...</string>

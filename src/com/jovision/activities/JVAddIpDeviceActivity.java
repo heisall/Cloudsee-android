@@ -92,12 +92,9 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 		passwordEdt = (EditText) findViewById(R.id.addipconnect_pwd);
 		saveButton = (Button) findViewById(R.id.addeditsave);
 
-		portEdt.setText(JVAddIpDeviceActivity.this.getResources().getString(
-				R.string.str_default_port));
-		userNameEdt.setText(JVAddIpDeviceActivity.this.getResources()
-				.getString(R.string.str_default_user));
-		passwordEdt.setText(JVAddIpDeviceActivity.this.getResources()
-				.getString(R.string.str_default_pass));
+		portEdt.setText(Consts.DEFAULT_PORT);
+		userNameEdt.setText(Consts.DEFAULT_USERNAME);
+		passwordEdt.setText(Consts.DEFAULT_PASSWORD);
 		saveButton.setOnClickListener(myOnClickListener);
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn.setOnClickListener(myOnClickListener);

@@ -988,11 +988,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 								&& !PlayUtil.hasDev(myDeviceList, broadDevNum,
 										ip, port, netmod)) {
 							Device broadDev = new Device(ip, port, gid, no,
-									mActivity.getResources().getString(
-											R.string.str_default_user),
-									mActivity.getResources().getString(
-											R.string.str_default_pass), false,
-									count, 0);
+									Consts.DEFAULT_USERNAME,
+									Consts.DEFAULT_PASSWORD, false, count, 0);
 							broadDev.setHasWifi(netmod);
 							broadDev.setOnlineStateLan(1);// 广播都在线
 							broadList.add(broadDev);

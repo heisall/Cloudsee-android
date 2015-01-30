@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
-    <string name="str_country">中国</string>
     <string name="logining">Login now…</string>
     <string name="login_str_username_notnull">Please input username.</string>
     <string name="login_str_loginpass1_notnull">Please input password.</string>
@@ -585,31 +584,6 @@
     <string name="prepare_step5">Please put the phone near device,click sending sound-wave  button,configure the device.</string>
     <string name="prepare_step6">(The device does not support 5G Wi-Fi)</string>
     <string name="wave_add_dev">Make sure to add device</string>
-    <!-- 包含云视通敏感词汇 -->
-    <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
-    <string name="str_cloudsee_id">CloudSEE ID</string>
-    <string name="str_yst_connect">CloudSEE</string>
-    <string name="app_name">CloudSEE</string>
-    <string name="login_str_device_ytnum_notnull">Please input CloudSEE ID.</string>
-    <string name="increct_yst_tips">CloudSEE ID Incorrect</string>
-    <string name="login_str_yst_num">CloudSEE ID</string>
-    <string name="str_not_qr_device">Not CloudSEE ID</string>
-    <!-- 中维版本值为1，oem版为2，nvsip版本为3 -->
-    <string name="str_update_app_version">1</string>
-    <!-- 下载的新apk名字 -->
-    <string name="str_save_apk_name">CloudSEE.apk</string>
-    <!-- 默认用户名 -->
-    <string name="str_default_user">abc</string>
-    <!-- 默认密码 -->
-    <string name="str_default_pass">123</string>
-    <!-- 默认端口号 -->
-    <string name="str_default_port">9101</string>
-    <!-- 录像保存路径 -->
-    <string name="str_video_path">video/</string>
-    <!-- 抓拍保存路径 -->
-    <string name="str_capture_path">capture/</string>
-    <!-- 版权 -->
-    <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->
     <string name="str_alarm_check">Check Now</string>
     <string name="str_pass_extra_err">Pass Data Extra Error</string>
@@ -756,5 +730,14 @@
     <string name="str_not_bind_phone_tips1">Your account is not bound with your mobile number. Please retrieve via email.</string>
     <string name="str_not_bind_phone_tips2">Your account is not bound with mobile number or email address. Please contact customer service. </string>
     <string name="str_not_bind_phone_tips3">The user doesn\'t exist.</string>
+    <!-- 包含云视通敏感词汇 -->
+    <string name="str_help9">Switch bwteen IP direct connection and CloudSEE connection modes.</string>
+    <string name="str_cloudsee_id">CloudSEE ID</string>
+    <string name="str_yst_connect">CloudSEE</string>
+    <string name="app_name">CloudSEE</string>
+    <string name="login_str_device_ytnum_notnull">Please input CloudSEE ID.</string>
+    <string name="increct_yst_tips">CloudSEE ID Incorrect</string>
+    <string name="login_str_yst_num">CloudSEE ID</string>
+    <string name="str_not_qr_device">Not CloudSEE ID</string>
 
 </resources>

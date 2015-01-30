@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
-    <string name="str_country">中国</string>
     <string name="logining">正在登录…</string>
     <string name="login_str_username_notnull">请输入用户名</string>
     <string name="login_str_loginpass1_notnull">请输入密码</string>
@@ -585,31 +584,6 @@
     <string name="prepare_step5">请将手机靠近设备，点击发送声波按钮，\n配置设备</string>
     <string name="prepare_step6">(摄像机暂不支持连接5G Wi-Fi)</string>
     <string name="wave_add_dev">确定添加设备</string>
-    <!-- 包含云视通敏感词汇 -->
-    <string name="str_help9">切换域名/IP直连和云视通连接模式</string>
-    <string name="str_cloudsee_id">云视通号</string>
-    <string name="str_yst_connect">云视通连接</string>
-    <string name="app_name">云视通</string>
-    <string name="login_str_device_ytnum_notnull">请输入云视通号</string>
-    <string name="increct_yst_tips">云视通号不正确</string>
-    <string name="login_str_yst_num">云视通号</string>
-    <string name="str_not_qr_device">不属于云视通设备</string>
-    <!-- 中维版本值为1，oem版为2，nvsip版本为3 ，ATVCloud版本为4， KEEPER版本为5，STARTVision版本为6 -->
-    <string name="str_update_app_version">1</string>
-    <!-- 下载的新apk名字 -->
-    <string name="str_save_apk_name">CloudSEE.apk</string>
-    <!-- 默认用户名 -->
-    <string name="str_default_user">abc</string>
-    <!-- 默认密码 -->
-    <string name="str_default_pass">123</string>
-    <!-- 默认端口号 -->
-    <string name="str_default_port">9101</string>
-    <!-- 录像保存路径 -->
-    <string name="str_video_path">video/</string>
-    <!-- 抓拍保存路径 -->
-    <string name="str_capture_path">capture/</string>
-    <!-- 版权 -->
-    <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->
     <string name="str_alarm_check">立即查看</string>
     <string name="str_pass_extra_err">传递数据异常</string>
@@ -756,5 +730,14 @@
     <string name="str_query_account_failed1">对不起，网络错误</string>
     <string name="str_not_bind_phone_tips2">您的账号没有绑定手机和邮箱，请联系客服</string>
     <string name="str_not_bind_phone_tips3">该用户不存在</string>
+    <!-- 包含云视通敏感词汇 -->
+    <string name="str_help9">切换域名/IP直连和云视通连接模式</string>
+    <string name="str_cloudsee_id">云视通号</string>
+    <string name="str_yst_connect">云视通连接</string>
+    <string name="app_name">云视通</string>
+    <string name="login_str_device_ytnum_notnull">请输入云视通号</string>
+    <string name="increct_yst_tips">云视通号不正确</string>
+    <string name="login_str_yst_num">云视通号</string>
+    <string name="str_not_qr_device">不属于云视通设备</string>
 
 </resources>

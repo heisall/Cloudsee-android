@@ -31,8 +31,7 @@ public class CheckUpdateTask extends AsyncTask<String, Integer, Integer> {
 		try {
 			int curVersion = mContext.getPackageManager().getPackageInfo(
 					mContext.getPackageName(), 0).versionCode;
-			String appTag = mContext.getResources().getString(
-					R.string.str_update_app_version);
+			String appTag = String.valueOf(Consts.APP_UPDATE_VERSION);
 			int language = ConfigUtil.getLanguage2(mContext) - 1;
 			// String lan = String.valueOf(ConfigUtil.getLanguage2(mContext));
 			// try {

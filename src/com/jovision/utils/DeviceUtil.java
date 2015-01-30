@@ -2155,8 +2155,8 @@ public class DeviceUtil {
 	 * @param
 	 * @return ArrayList<Device> 设备列表
 	 */
-	public static int getSystemInfoList(String softName, int language,
-			int startIndex, int count, ArrayList<SystemInfo> infoList) {
+	public static int getSystemInfoList(int language, int startIndex,
+			int count, ArrayList<SystemInfo> infoList) {
 		int getRes = -1;
 		JSONObject jObj = new JSONObject();
 		try {
@@ -2166,7 +2166,7 @@ public class DeviceUtil {
 					JVDeviceConst.GET_PUBLISH_INFO);// 5504
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// 1.0
-			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, 0);// 0：CloudSEE//
+			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, Consts.PRODUCT_TYPE);// 0：CloudSEE//
 			// 1：NVSIP
 			jObj.put(JVDeviceConst.JK_LANGUAGE_TYPE, language);// (语言 0简体中文 1英文
 			// 2繁体中文)

@@ -1681,8 +1681,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		int temPort = ipcDevice.getPort();
 		ipcDevice.setDeviceType(2);
 		boolean addSucc = false;
-		ipcDevice.setUser(getResources().getString(R.string.str_default_user));
-		ipcDevice.setPwd(getResources().getString(R.string.str_default_pass));
+		ipcDevice.setUser(Consts.DEFAULT_USERNAME);
+		ipcDevice.setPwd(Consts.DEFAULT_PASSWORD);
 		if (local) {
 			addSucc = true;
 		} else {

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -45,6 +46,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
+import com.jovision.views.CustomShareBoard;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.StatusCode;
@@ -1133,43 +1135,12 @@ public class JVWebView2Activity extends BaseActivity implements
 	}
 
 	/**
-	 * @功能描述 : 打开分享面板</br>
+	 * @功能描述 : 打开自定义的分享面板</br>
 	 * @return
 	 */
 	private void openSharePane() {
-		// 设置分享平台
-		mController.getConfig().setPlatforms(SHARE_MEDIA.WEIXIN,
-				SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA);
-
-		// 清理监听
-		mController.getConfig().cleanListeners();
-		// 注册分享监听
-		mController.registerListener(new SnsPostListener() {
-			@Override
-			public void onStart() {
-			}
-
-			@Override
-			public void onComplete(SHARE_MEDIA platform, int stCode,
-					SocializeEntity entity) {
-				if (stCode == StatusCode.ST_CODE_SUCCESSED) {
-					Toast.makeText(JVWebView2Activity.this,
-							R.string.umeng_socialize_share_success,
-							Toast.LENGTH_SHORT).show();
-				} else if (stCode == StatusCode.ST_CODE_ERROR_CANCEL) {
-					Toast.makeText(JVWebView2Activity.this,
-							R.string.umeng_socialize_share_cancel,
-							Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(JVWebView2Activity.this,
-							R.string.umeng_socialize_share_failed,
-							Toast.LENGTH_SHORT).show();
-					MyLog.v(TAG, "share failed, error code:" + stCode);
-				}
-			}
-		});
-
-		mController.openShare(JVWebView2Activity.this, false);
+		CustomShareBoard shareBoard = new CustomShareBoard(this);
+		shareBoard.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
 	}
 
 	/**
@@ -1261,7 +1232,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	/**
 	 * @功能描述：判断是否展示分享功能<br/>
 	 * @param pUrl
-	 *            网址
+	 *			网址
 	 * @return true/false
 	 */
 	private boolean checkShareEnabled(String pUrl) {
@@ -1305,9 +1276,9 @@ public class JVWebView2Activity extends BaseActivity implements
 	/**
 	 * @功能描述 : 根据不同的平台生成视频链接地址</br>
 	 * @param pVideoUrl
-	 *            视频链接地址
+	 *			视频链接地址
 	 * @param platform
-	 *            分享平台
+	 *			分享平台
 	 * @return
 	 */
 	private String createVideoUrlByPlatform(final String pVideoUrl,

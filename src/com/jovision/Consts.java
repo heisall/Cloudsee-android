@@ -553,6 +553,8 @@ public class Consts {
 	public static final String KEY_INIT_ACCOUNT_SDK = "initAccountSdk";
 	/** 云视通sdk是否初始化的key */
 	public static final String KEY_INIT_CLOUD_SDK = "initCloudSdk";
+	/** 更多视频广场和登录视频广场 */
+	public static final String KEY_GONE_MORE = "GONEMORE";
 	/** 用户名key */
 	public static final String KEY_USERNAME = "USER_NAME";
 	/** 密码key */

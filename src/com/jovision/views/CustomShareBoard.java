@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.MyLog;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.StatusCode;
@@ -28,12 +30,22 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 	protected static final String TAG = "CustomShareBoard";
 	private UMSocialService mController = UMServiceFactory
 			.getUMSocialService(DESCRIPTOR);
+	// 微信应用的APP_ID
+	private String APP_ID = "wx21141328bd509074";
+	// IWXAPI 是第三方app和微信通信的openapi接口
+	private IWXAPI mIwxapi;
 	private Activity mActivity;
+	private boolean mIsInstalled, mIsSupported;
 
 	public CustomShareBoard(Activity activity) {
 		super(activity);
 		this.mActivity = activity;
+		// 通过WXAPIFactory工厂，获取IWXAPI的实例
+		mIwxapi = WXAPIFactory.createWXAPI(activity, APP_ID, false);
+		// 初始化自定义分享面板
 		initView(activity);
+		// 检测微信是否安装
+		checkIsWXAppInstalledAndSupported();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -59,10 +71,18 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 		int id = v.getId();
 		switch (id) {
 		case R.id.wechat:
-			performShare(SHARE_MEDIA.WEIXIN);
+			if (mIsInstalled && mIsSupported) {
+				performShare(SHARE_MEDIA.WEIXIN);
+			} else {
+				toastCustomText();
+			}
 			break;
 		case R.id.wechat_circle:
-			performShare(SHARE_MEDIA.WEIXIN_CIRCLE);
+			if (mIsInstalled && mIsSupported) {
+				performShare(SHARE_MEDIA.WEIXIN_CIRCLE);
+			} else {
+				toastCustomText();
+			}
 			break;
 		case R.id.sina:
 			performShare(SHARE_MEDIA.SINA);
@@ -77,6 +97,12 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 		this.dismiss();
 	}
 
+	/**
+	 * 根据不同的平台分享内容
+	 * 
+	 * @param platform
+	 *			分享平台
+	 */
 	private void performShare(SHARE_MEDIA platform) {
 		mController.postShare(mActivity, platform, new SnsPostListener() {
 			@Override
@@ -109,6 +135,38 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 				}
 			}
 		});
+	}
+
+	/**
+	 * 分享时如果微信没有安装会弹出Toast，
+	 * 但是Toast的内容被友盟写死在了代码中 实现多语言支持，
+	 * 必须自己提前判断微信是否安装
+	 * 
+	 * @param context
+	 *			上下文对象
+	 */
+	private void checkIsWXAppInstalledAndSupported() {
+		mIsInstalled = mIwxapi.isWXAppInstalled();
+		mIsSupported = mIwxapi.isWXAppSupportAPI();
+	}
+
+	/**
+	 * 弹出自定义的信息，这样多语言就可以控制了
+	 */
+	private void toastCustomText() {
+		if (!mIsInstalled) {
+			// 未安装
+			Toast.makeText(mActivity,
+					R.string.umeng_socialize_share_wx_not_install,
+					Toast.LENGTH_SHORT).show();
+			MyLog.v(TAG, "weixin is not install");
+		} else if (!mIsSupported) {
+			// 版本不支持
+			Toast.makeText(mActivity,
+					R.string.umeng_socialize_share_wx_not_support,
+					Toast.LENGTH_SHORT).show();
+			MyLog.v(TAG, "weixin's version is not support");
+		}
 	}
 
 }

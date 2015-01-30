@@ -28,4 +28,6 @@
     <string name="umeng_socialize_text_waitting">請稍候...</string>
     <string name="umeng_socialize_text_waitting_weixin">跳轉微信中，請稍候...</string>
     <string name="umeng_socialize_text_waitting_weixin_circle">跳轉朋友圈中，請稍候...</string>
+    <string name="umeng_socialize_share_wx_not_install">妳還沒有安裝微信客戶端</string>
+    <string name="umeng_socialize_share_wx_not_support">微信客戶端版本不支持，請嘗試升級微信客戶端</string>
 </resources>

@@ -83,7 +83,7 @@ public class JVMoreFragment extends BaseFragment {
 	private TextView more_modifypwd;
 	// 绑定邮箱
 	private TextView more_bindmail;
-	//获取url
+	// 获取url
 	private WebUrl url;
 	// 图片数组
 	private int[] Image = { R.drawable.morefragment_help_icon,
@@ -237,7 +237,9 @@ public class JVMoreFragment extends BaseFragment {
 			more_head.setImageBitmap(bitmap);
 		}
 		url = DeviceUtil.getWebUrl();
-		Log.i("TAG","获取到的web"+url.getDemoUrl()+url.getCustUrl()+url.getStatUrl());
+		Log.i("TAG",
+				"获取到的web" + url.getDemoUrl() + url.getCustUrl()
+						+ url.getStatUrl());
 	}
 
 	private void initDatalist() {
@@ -602,18 +604,17 @@ public class JVMoreFragment extends BaseFragment {
 						case 10:
 							Intent intentAD = new Intent(mActivity,
 									JVWebViewActivity.class);
-							intentAD.putExtra("URL",url.getDemoUrl());
+							intentAD.putExtra("URL", url.getDemoUrl());
 							intentAD.putExtra("title", -2);
 							mActivity.startActivity(intentAD);
 							break;
 						case 11:
-							 Intent intentAD1 = new Intent(mActivity,
-							 JVWebViewActivity.class);
-							 intentAD1.putExtra("URL", url.getCustUrl());
-							 intentAD1.putExtra("title", -2);
-							 mActivity.startActivity(intentAD1);
+							Intent intentAD1 = new Intent(mActivity,
+									JVWebViewActivity.class);
+							intentAD1.putExtra("URL", url.getCustUrl());
+							intentAD1.putExtra("title", -2);
+							mActivity.startActivity(intentAD1);
 							break;
-
 						case 12:
 							Intent intentAD2 = new Intent(mActivity,
 									JVWebViewActivity.class);

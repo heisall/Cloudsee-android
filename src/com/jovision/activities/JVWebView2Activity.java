@@ -142,13 +142,13 @@ public class JVWebView2Activity extends BaseActivity implements
 
 		case Consts.CALL_PLAY_BUFFER: {
 			if (arg2 > 0) {
-				MyLog.i(Consts.TAG_PLAY, "buffering: " + arg2);// 0-99
+				// MyLog.i(Consts.TAG_PLAY, "buffering: " + arg2);// 0-99
 				bufferingState(Consts.TAG_PLAY_BUFFERING, arg2);
 			} else if (Consts.BUFFER_START == arg2) {
-				MyLog.w(Consts.TAG_PLAY, "buffer started");// show
+				// MyLog.w(Consts.TAG_PLAY, "buffer started");// show
 				bufferingState(Consts.TAG_PLAY_BUFFERING, 0);
 			} else if (Consts.BUFFER_FINISH == arg2) {
-				MyLog.w(Consts.TAG_PLAY, "buffer finished");// dismiss
+				// MyLog.w(Consts.TAG_PLAY, "buffer finished");// dismiss
 				bufferingState(Consts.TAG_PLAY_BUFFERED, 0);
 			}
 			break;

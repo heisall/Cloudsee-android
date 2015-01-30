@@ -9,7 +9,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.test.JVACCOUNT;
 import android.text.Editable;
@@ -144,7 +143,7 @@ public class JVLoginActivity extends BaseActivity {
 		showPointBtn = (TextView) findViewById(R.id.showpoint_btn);
 		registBtn = (TextView) findViewById(R.id.regist_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
-		
+
 		if ("true".equals(statusHashMap.get(Consts.KEY_GONE_MORE))) {
 			showPointBtn.setVisibility(View.GONE);
 		}

@@ -121,7 +121,7 @@
     <!-- PlayHelp -->
     <string name="playhelp_pull">change into multi-screen</string>
     <string name="playhelp_moreview">More→image view</string>
-    <string name="playhelp_maliu">swtich stream</string>
+    <string name="playhelp_maliu">switch stream</string>
     <string name="playhelp_voice">audio switch</string>
     <string name="playhelp_fanzhuan">turn video</string>
     <string name="playhelp_devicesetting">Setup the device functions</string>

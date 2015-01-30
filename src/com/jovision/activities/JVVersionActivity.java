@@ -58,11 +58,12 @@ public class JVVersionActivity extends BaseActivity {
 			configList.add("Update_Version="
 					+ this.getResources().getString(
 							R.string.str_update_app_version));
-
-			configList.add("Country=" + ConfigUtil.getCountry());
 			configList.add("VersionCode="
 					+ String.valueOf(this.getPackageManager().getPackageInfo(
 							this.getPackageName(), 0).versionCode) + "\n");
+
+			configList.add("Country=" + ConfigUtil.getCountry() + "("
+					+ ConfigUtil.getServerLanguage() + ")\n");
 
 			configList.add(this.getResources().getString(
 					R.string.census_accounts)

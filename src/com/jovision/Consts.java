@@ -540,6 +540,7 @@ public class Consts {
 	public static final int WHAT_HAS_NOT_LOGIN = 0x6B;// 未登录
 	public static final int WHAT_HAS_LOGIN_SUCCESS = 0x6C;// 登陆成功
 	public static final int WHAT_ACCOUNT_NORMAL = 0x6D;// 账号正常
+	public static final int WHAT_SESSION_FAILURE = 0x6E;// 网络异常
 
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像

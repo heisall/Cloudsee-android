@@ -232,7 +232,15 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				// if (null != currentNotifyer) {
 				// currentNotifyer.onNotify(Consts.ALARM_NET_WEEK, 0,0, null);
 				// }
-			} else {// 保持在线失败
+			} else if (res == 5) {// session失效
+				MyLog.v("Account Error", "session 失效");
+				if (null != currentNotifyer) {
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_SESSION_FAILURE));
+					currentNotifyer.onNotify(Consts.WHAT_SESSION_FAILURE, 0, 0,
+							null);
+				}
+			} else {
 				errorCount++;
 				if (4 == errorCount) {// 失败4次
 					MyLog.v("Account Error", "保持在线失败4次");

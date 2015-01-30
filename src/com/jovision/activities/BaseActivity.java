@@ -106,6 +106,9 @@ public abstract class BaseActivity extends FragmentActivity implements
 						alarmnet.setVisibility(View.GONE);
 					}
 					break;
+				case Consts.WHAT_SESSION_FAILURE:// session失效
+
+					break;
 				default:
 					break;
 				}
@@ -202,6 +205,9 @@ public abstract class BaseActivity extends FragmentActivity implements
 						accountError.setText(R.string.account_error_tips);
 					}
 				}
+				break;
+			case Consts.WHAT_SESSION_FAILURE:// session失效
+
 				break;
 			}
 		}

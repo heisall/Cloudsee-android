@@ -1078,6 +1078,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			loadingState.setVisibility(View.GONE);
 			playImgView.setVisibility(View.VISIBLE);
 			loadingState.setText(R.string.connect_failed);
+			linkSpeed.setVisibility(View.GONE);
 			break;
 		}
 		case Consts.RTMP_DISCONNECTED: {
@@ -1085,6 +1086,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			loadingState.setVisibility(View.GONE);
 			playImgView.setVisibility(View.VISIBLE);
 			loadingState.setText(R.string.closed);
+			linkSpeed.setVisibility(View.GONE);
 			break;
 		}
 		case Consts.RTMP_EDISCONNECT: {

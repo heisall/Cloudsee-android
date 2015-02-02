@@ -244,6 +244,9 @@ public class JVMoreFragment extends BaseFragment {
 					+ more_name + ".jpg");
 			more_head.setImageBitmap(bitmap);
 		}
+		int alarm_new_nums = mApp.getNewPushCnt();
+		adapter.setNewNums(alarm_new_nums);
+		adapter.notifyDataSetChanged();
 	}
 
 	private void initDatalist() {

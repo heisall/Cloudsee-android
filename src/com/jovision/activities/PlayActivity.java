@@ -1161,8 +1161,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		if (PlayUtil.checkRecord(index)) {// 正在录像，停止录像
 			PlayUtil.stopVideoTape();
 			showTextToast(getResources().getString(R.string.str_stop_record)
-					+ Consts.SD_CARD_PATH
-					+ getResources().getString(R.string.str_video_path));
+					+ Consts.VIDEO_PATH);
 			tapeSelected(false);
 		}
 

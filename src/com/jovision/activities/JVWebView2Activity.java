@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -32,7 +33,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -45,12 +45,10 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
+import com.jovision.views.CustomShareBoard;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.SocializeEntity;
-import com.umeng.socialize.bean.StatusCode;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
 import com.umeng.socialize.media.SinaShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMVideo;
@@ -1078,6 +1076,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			loadingState.setVisibility(View.GONE);
 			playImgView.setVisibility(View.VISIBLE);
 			loadingState.setText(R.string.connect_failed);
+			linkSpeed.setVisibility(View.GONE);
 			break;
 		}
 		case Consts.RTMP_DISCONNECTED: {
@@ -1085,6 +1084,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			loadingState.setVisibility(View.GONE);
 			playImgView.setVisibility(View.VISIBLE);
 			loadingState.setText(R.string.closed);
+			linkSpeed.setVisibility(View.GONE);
 			break;
 		}
 		case Consts.RTMP_EDISCONNECT: {
@@ -1131,43 +1131,13 @@ public class JVWebView2Activity extends BaseActivity implements
 	}
 
 	/**
-	 * @功能描述 : 打开分享面板</br>
+	 * @功能描述 : 打开自定义的分享面板</br>
 	 * @return
 	 */
 	private void openSharePane() {
-		// 设置分享平台
-		mController.getConfig().setPlatforms(SHARE_MEDIA.WEIXIN,
-				SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA);
-
-		// 清理监听
-		mController.getConfig().cleanListeners();
-		// 注册分享监听
-		mController.registerListener(new SnsPostListener() {
-			@Override
-			public void onStart() {
-			}
-
-			@Override
-			public void onComplete(SHARE_MEDIA platform, int stCode,
-					SocializeEntity entity) {
-				if (stCode == StatusCode.ST_CODE_SUCCESSED) {
-					Toast.makeText(JVWebView2Activity.this,
-							R.string.umeng_socialize_share_success,
-							Toast.LENGTH_SHORT).show();
-				} else if (stCode == StatusCode.ST_CODE_ERROR_CANCEL) {
-					Toast.makeText(JVWebView2Activity.this,
-							R.string.umeng_socialize_share_cancel,
-							Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(JVWebView2Activity.this,
-							R.string.umeng_socialize_share_failed,
-							Toast.LENGTH_SHORT).show();
-					MyLog.v(TAG, "share failed, error code:" + stCode);
-				}
-			}
-		});
-
-		mController.openShare(JVWebView2Activity.this, false);
+		CustomShareBoard shareBoard = new CustomShareBoard(this);
+		shareBoard.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM,
+				0, 0);
 	}
 
 	/**

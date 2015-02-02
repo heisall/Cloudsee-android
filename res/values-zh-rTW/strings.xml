@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
-    <string name="str_country">中国</string>
     <string name="logining">正在登錄…</string>
     <string name="login_str_username_notnull">請輸入用戶名</string>
     <string name="login_str_loginpass1_notnull">請輸入密碼</string>
@@ -585,31 +584,6 @@
     <string name="prepare_step5">請將手機靠近設備，點擊發送聲波按鈕，\n配置設備</string>
     <string name="prepare_step6">(攝像機暫不支持連接5G Wi-Fi)</string>
     <string name="wave_add_dev">確定添加設備</string>
-    <!-- 包含雲視通敏感辭彙 -->
-    <string name="str_help9">切換域名/IP直連和雲視通連接模式</string>
-    <string name="str_cloudsee_id">雲視通號</string>
-    <string name="str_yst_connect">雲視通連接</string>
-    <string name="app_name">雲視通</string>
-    <string name="login_str_device_ytnum_notnull">請輸入雲視通號</string>
-    <string name="increct_yst_tips">雲視通號不正確</string>
-    <string name="login_str_yst_num">雲視通號</string>
-    <string name="str_not_qr_device">不屬於雲視通設備</string>
-    <!-- 中維版本值為1，oem版為2，nvsip版本為3 ，ATVCloud版本為4， KEEPER版本為5，STARTVision版本為6 -->
-    <string name="str_update_app_version">1</string>
-    <!-- 下載的新apk名字 -->
-    <string name="str_save_apk_name">CloudSEE.apk</string>
-    <!-- 默認用戶名 -->
-    <string name="str_default_user">abc</string>
-    <!-- 默認密碼 -->
-    <string name="str_default_pass">123</string>
-    <!-- 默認端口號 -->
-    <string name="str_default_port">9101</string>
-    <!-- 錄影保存路徑 -->
-    <string name="str_video_path">video/</string>
-    <!-- 抓拍保存路徑 -->
-    <string name="str_capture_path">capture/</string>
-    <!-- 版權 -->
-    <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 報警 -->
     <string name="str_alarm_check">立即查看</string>
     <string name="str_pass_extra_err">傳遞數據異常</string>
@@ -637,7 +611,7 @@
     <string name="str_alarm_thirddev_bind_hint">設備昵稱</string>
     <string name="str_bind_finish">完  成</string>
     <string name="str_alarm_type_move">移動偵測</string>
-    <string name="str_alarm_type_third">門磁或者手環報警</string>
+    <string name="str_alarm_type_third">外設報警</string>
     <string name="str_alarm_type_external">外接報警</string>
     <string name="str_alarm_type_unknown">未知報警類型</string>
     <string name="str_telecontrol_device">遙控設備</string>
@@ -714,8 +688,10 @@
     <string name="census_demo">視頻廣場</string>
     <string name="census_register">註冊</string>
     <string name="census_media">媒體</string>
+    <string name="census_accounts">本地账号库</string>
     <string name="census_network_version">本地網路庫</string>
     <string name="census_play_version">本地播放庫</string>
+    <string name="census_appaccount">程序账号库</string>
     <string name="census_appnetwork_version">程式網路庫</string>
     <string name="census_appplsy_version">程式播放庫</string>
     <string name="census_version">版本號</string>
@@ -754,5 +730,14 @@
     <string name="str_not_bind_phone_tips1">您的賬號沒有綁定手機，請通過信箱找回</string>
     <string name="str_not_bind_phone_tips2">您的賬號沒有綁定手機和信箱，請聯系客服</string>
     <string name="str_not_bind_phone_tips3">該用戶不存在</string>
+    <!-- 包含雲視通敏感辭彙 -->
+    <string name="str_help9">切換域名/IP直連和雲視通連接模式</string>
+    <string name="str_cloudsee_id">雲視通號</string>
+    <string name="str_yst_connect">雲視通連接</string>
+    <string name="app_name">雲視通</string>
+    <string name="login_str_device_ytnum_notnull">請輸入雲視通號</string>
+    <string name="increct_yst_tips">雲視通號不正確</string>
+    <string name="login_str_yst_num">雲視通號</string>
+    <string name="str_not_qr_device">不屬於雲視通設備</string>
 
 </resources>

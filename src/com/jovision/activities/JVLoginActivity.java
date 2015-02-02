@@ -395,6 +395,7 @@ public class JVLoginActivity extends BaseActivity {
 					GetDemoTask task = new GetDemoTask(JVLoginActivity.this);
 					String[] params = new String[3];
 					params[0] = "";
+					params[1] = "1";
 					task.execute(params);
 
 					// Intent demoIntent = new Intent();

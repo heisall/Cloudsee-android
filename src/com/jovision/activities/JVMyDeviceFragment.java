@@ -846,7 +846,18 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-
+		case Consts.WHAT_ALARM_NET:
+			if (null != alarmnet
+					&& !Boolean.valueOf(mActivity.statusHashMap
+							.get(Consts.LOCAL_LOGIN))) {
+				alarmnet.setVisibility(View.VISIBLE);
+			}
+			break;
+		case Consts.WHAT_ALARM_NET_WEEK:
+			if (null != alarmnet) {
+				alarmnet.setVisibility(View.GONE);
+			}
+			break;
 		case Consts.WHAT_AD_UPDATE: {
 			initADViewPager();
 			break;
@@ -977,11 +988,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 								&& !PlayUtil.hasDev(myDeviceList, broadDevNum,
 										ip, port, netmod)) {
 							Device broadDev = new Device(ip, port, gid, no,
-									mActivity.getResources().getString(
-											R.string.str_default_user),
-									mActivity.getResources().getString(
-											R.string.str_default_pass), false,
-									count, 0);
+									Consts.DEFAULT_USERNAME,
+									Consts.DEFAULT_PASSWORD, false, count, 0);
 							broadDev.setHasWifi(netmod);
 							broadDev.setOnlineStateLan(1);// 广播都在线
 							broadList.add(broadDev);

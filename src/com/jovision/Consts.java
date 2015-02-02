@@ -6,14 +6,25 @@ import android.os.Environment;
 
 public class Consts {
 
-	public static int COUNT = -1;
-	// (终端类型 0-未知 1-Android 2-iPhone 3-iPad)
-	public static final int TERMINAL_TYPE = 1;
-	// 产品类型 0-CloudSEE 1-NVSIP 2-HITVIS 3-TONGFANG
-	public static final int PRODUCT_TYPE = 0;
+	/**************************** 中性软件修改变量 ******************************/
 	// 软件名
 	public static final String APP_NAME = "CloudSEE";
+	// (终端类型 0-未知 1-Android 2-iPhone 3-iPad)
+	public static final int TERMINAL_TYPE = 1;// 固定值，无需修改
+	// 产品类型 0-CloudSEE 1-NVSIP 2-HITVIS 3-TONGFANG
+	public static final int PRODUCT_TYPE = 0;// 推送定的值
+	// app 检查更新 key
+	public static final int APP_UPDATE_VERSION = 1;// 中维版本值为1，oem版为2，nvsip版本为3
+	// 添加设备默认的用户名
+	public static final String DEFAULT_USERNAME = "abc";// 中性软件改为admin
+	// 添加设备默认的密码
+	public static final String DEFAULT_PASSWORD = "123";// 中性软件改为空
+	// 添加设备默认的端口
+	public static final String DEFAULT_PORT = "9101";// 固定值，无需修改
 
+	/**************************** 华丽的分割线 ******************************/
+
+	public static int COUNT = -1;
 	public static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
 
 	/** 老数据库数据 **/
@@ -529,6 +540,7 @@ public class Consts {
 	public static final int WHAT_HAS_NOT_LOGIN = 0x6B;// 未登录
 	public static final int WHAT_HAS_LOGIN_SUCCESS = 0x6C;// 登陆成功
 	public static final int WHAT_ACCOUNT_NORMAL = 0x6D;// 账号正常
+	public static final int WHAT_SESSION_FAILURE = 0x6E;// 网络异常
 
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像

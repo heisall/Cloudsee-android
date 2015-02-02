@@ -22,6 +22,7 @@ import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
 import com.jovision.commons.LoginTask;
+import com.jovision.commons.MyLog;
 import com.tencent.stat.StatService;
 
 /**
@@ -61,21 +62,6 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 			if (null != msg) {
 				fragment.fragNotify.onHandler(msg.what, msg.arg1, msg.arg2,
 						msg.obj);
-			}
-			switch (msg.what) {
-			case Consts.WHAT_ALARM_NET:
-				if (null != alarmnet && !local) {
-					alarmnet.setVisibility(View.VISIBLE);
-				}
-				break;
-			case Consts.WHAT_ALARM_NET_WEEK:
-				if (null != alarmnet) {
-					alarmnet.setVisibility(View.GONE);
-				}
-				break;
-
-			default:
-				break;
 			}
 			super.handleMessage(msg);
 		}
@@ -155,6 +141,9 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 							String[] params = new String[3];
 							task.execute(params);
 							break;
+						case Consts.WHAT_SESSION_FAILURE:// session失效
+
+							break;
 						}
 					}
 				}
@@ -197,39 +186,52 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 	public void onResume() {
 		((MainApplication) mActivity.getApplication()).setCurrentNotifyer(this);
 		StatService.onResume(mActivity);
-		if (null != ((MainApplication) mActivity.getApplication()).statusHashMap
-				.get(Consts.ACCOUNT_ERROR)) {
-			int errorCode = Integer.parseInt(((MainApplication) mActivity
-					.getApplication()).statusHashMap.get(Consts.ACCOUNT_ERROR));
-			switch (errorCode) {
-			case Consts.WHAT_ALARM_NET:// 网络异常
-				if (null != alarmnet && !local) {
-					alarmnet.setVisibility(View.VISIBLE);
-					if (null != accountError) {
-						accountError.setText(R.string.network_error_tips);
+		MyLog.v("notifyer",
+				((MainApplication) mActivity.getApplication()).currentNotifyer
+						+ "");
+		String notifer = ((MainApplication) mActivity.getApplication()).currentNotifyer
+				+ "";
+		if (notifer.startsWith("JVMyDeviceFragment")) {
+			if (null != ((MainApplication) mActivity.getApplication()).statusHashMap
+					.get(Consts.ACCOUNT_ERROR)) {
+				int errorCode = Integer.parseInt(((MainApplication) mActivity
+						.getApplication()).statusHashMap
+						.get(Consts.ACCOUNT_ERROR));
+				switch (errorCode) {
+				case Consts.WHAT_ALARM_NET:// 网络异常
+					if (null != alarmnet && !local) {
+						alarmnet.setVisibility(View.VISIBLE);
+						if (null != accountError) {
+							accountError.setText(R.string.network_error_tips);
+						}
 					}
-				}
-				break;
-			case Consts.WHAT_ALARM_NET_WEEK:// 网络恢复正常
-				if (null != alarmnet) {
-					alarmnet.setVisibility(View.GONE);
-				}
-				break;
-			case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
-				if (null != alarmnet && !local) {
-					alarmnet.setVisibility(View.VISIBLE);
-					if (null != accountError) {
-						accountError.setText(R.string.account_error_tips);
+					break;
+				case Consts.WHAT_ALARM_NET_WEEK:// 网络恢复正常
+					if (null != alarmnet) {
+						alarmnet.setVisibility(View.GONE);
 					}
+					break;
+
+				case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
+					if (null != alarmnet && !local) {
+						alarmnet.setVisibility(View.VISIBLE);
+						if (null != accountError) {
+							accountError.setText(R.string.account_error_tips);
+						}
+					}
+					break;
+				case Consts.WHAT_HAS_LOGIN_SUCCESS:// 账号正常登陆
+					if (null != alarmnet) {
+						alarmnet.setVisibility(View.GONE);
+					}
+					break;
+				case Consts.WHAT_SESSION_FAILURE:// session失效
+
+					break;
 				}
-				break;
-			case Consts.WHAT_HAS_LOGIN_SUCCESS:// 账号正常登陆
-				if (null != alarmnet) {
-					alarmnet.setVisibility(View.GONE);
-				}
-				break;
 			}
 		}
+
 		super.onResume();
 	}
 

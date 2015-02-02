@@ -114,8 +114,8 @@ public class JVSystemInfoActivity extends BaseActivity implements
 			}
 			try {
 				int lang = ConfigUtil.getLanguage2(JVSystemInfoActivity.this) - 1;
-				getRes = DeviceUtil.getSystemInfoList(Consts.APP_NAME, lang,
-						infoList.size(), PAGECOUNT, tempList);
+				getRes = DeviceUtil.getSystemInfoList(lang, infoList.size(),
+						PAGECOUNT, tempList);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

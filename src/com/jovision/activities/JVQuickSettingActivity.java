@@ -783,7 +783,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					currentMenu.setText(R.string.str_quick_setting);
 				} else if (ipcLayout.getVisibility() == View.VISIBLE) {// 显示IPC网络信息列表（一级级wifi列表）
 					stopTask = true;
-					createDialog(R.string.quick_setting_exiting, true);
+					createDialog(R.string.quick_setting_exiting, false);
 					isBack = true;
 					ResetWifiTask task = new ResetWifiTask();
 					String[] params = new String[3];
@@ -866,10 +866,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		}
 		try {
 			stopTask = true;
-			// searchView.stopPlayer();
-			myPlayer.stop();
-			myPlayer.release();
-			myPlayer = null;
+			searchView.stopPlayer();
+			if (null != myPlayer) {
+				myPlayer.stop();
+				myPlayer.release();
+				myPlayer = null;
+			}
 			stopRefreshWifiTimer();
 			MySharedPreference.putBoolean(Consts.AP_SETTING, false);
 		} catch (Exception e) {
@@ -1681,8 +1683,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		int temPort = ipcDevice.getPort();
 		ipcDevice.setDeviceType(2);
 		boolean addSucc = false;
-		ipcDevice.setUser(getResources().getString(R.string.str_default_user));
-		ipcDevice.setPwd(getResources().getString(R.string.str_default_pass));
+		ipcDevice.setUser(Consts.DEFAULT_USERNAME);
+		ipcDevice.setPwd(Consts.DEFAULT_PASSWORD);
 		if (local) {
 			addSucc = true;
 		} else {
@@ -1888,7 +1890,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (null != quickSetPop && quickSetPop.isShowing()) {
 			quickSetPop.dismiss();
 			quickSetPop = null;
-			myPlayer = null;
+			if (null != myPlayer) {
+				myPlayer.stop();
+				myPlayer.release();
+				myPlayer = null;
+			}
 		}
 	}
 
@@ -1902,12 +1908,15 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			case R.id.quickSetBack:// 返回
 				// 暂停扫瞄器
 				showSearch(false);
+				searchView.stopPlayer();
 				if (null != myPlayer) {
 					myPlayer.stop();
+					myPlayer.release();
+					myPlayer = null;
 				}
 				dismisQuickPopWindow();
 				isBack = true;
-				createDialog(R.string.quick_setting_exiting, true);
+				createDialog(R.string.quick_setting_exiting, false);
 				ResetWifiTask task = new ResetWifiTask();
 				String[] params = new String[3];
 				params[0] = "false";
@@ -1975,12 +1984,15 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						// 暂停扫瞄器
 						showSearch(false);
+						searchView.stopPlayer();
 						if (null != myPlayer) {
 							myPlayer.stop();
+							myPlayer.release();
+							myPlayer = null;
 						}
 						dismisQuickPopWindow();
 						isBack = true;
-						createDialog(R.string.quick_setting_exiting, true);
+						createDialog(R.string.quick_setting_exiting, false);
 						ResetWifiTask task = new ResetWifiTask();
 						String[] params = new String[3];
 						params[0] = "false";
@@ -2093,7 +2105,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							}
 							dismisQuickPopWindow();
 							isBack = true;
-							createDialog(R.string.quick_setting_exiting, true);
+							createDialog(R.string.quick_setting_exiting, false);
 							ResetWifiTask task = new ResetWifiTask();
 							String[] params = new String[3];
 							params[0] = "false";
@@ -2137,6 +2149,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				isSearching = false;
 				myPlayer.stop();
+				myPlayer.release();
+				myPlayer = null;
 				quickSetBackImg.setVisibility(View.GONE);
 			}
 		}

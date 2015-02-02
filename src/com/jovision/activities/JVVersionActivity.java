@@ -53,14 +53,14 @@ public class JVVersionActivity extends BaseActivity {
 		ArrayList<String> configList = new ArrayList<String>();
 		try {
 			configList.add("AppName=" + Consts.APP_NAME);
-			configList.add("PRODUCT_TYPE="
-					+ String.valueOf(Consts.PRODUCT_TYPE));
-			configList.add("Update_Version="
-					+ this.getResources().getString(
-							R.string.str_update_app_version));
 			configList.add("VersionCode="
 					+ String.valueOf(this.getPackageManager().getPackageInfo(
 							this.getPackageName(), 0).versionCode) + "\n");
+
+			configList.add("PRODUCT_TYPE="
+					+ String.valueOf(Consts.PRODUCT_TYPE));
+			configList
+					.add("Update_Version=" + Consts.APP_UPDATE_VERSION + "\n");
 
 			configList.add("Country=" + ConfigUtil.getCountry() + "("
 					+ ConfigUtil.getServerLanguage() + ")\n");

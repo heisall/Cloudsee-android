@@ -249,11 +249,8 @@ public class JVWaveSetActivity extends BaseActivity {
 																// {//
 																// 带wifi设备且不在设备列表里面
 							Device addDev = new Device(ip, port, gid, no,
-									getResources().getString(
-											R.string.str_default_user),
-									getResources().getString(
-											R.string.str_default_pass), false,
-									count, 0);
+									Consts.DEFAULT_USERNAME,
+									Consts.DEFAULT_PASSWORD, false, count, 0);
 							addDev.setHasAdded(hasAdded);
 							if (!PlayUtil.addDev(broadList, addDev)) {
 								broadList.add(addDev);
@@ -631,7 +628,7 @@ public class JVWaveSetActivity extends BaseActivity {
 				}
 
 				if (0 == addRes) {
-					// broadList.remove(index);
+					broadList.remove(index);
 					handler.sendMessage(handler
 							.obtainMessage(Consts.WHAT_BROAD_DEVICE));
 					addDevice.setOnlineStateLan(1);

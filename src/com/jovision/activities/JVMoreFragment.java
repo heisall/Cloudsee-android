@@ -46,7 +46,6 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
-import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.ListViewUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
@@ -245,13 +244,6 @@ public class JVMoreFragment extends BaseFragment {
 					+ more_name + ".jpg");
 			more_head.setImageBitmap(bitmap);
 		}
-		url = DeviceUtil.getWebUrl();
-		Log.i("TAG",
-				"获取到的web" + url.getDemoUrl() + url.getCustUrl()
-						+ url.getStatUrl());
-		int new_alarm_nums = mApp.getNewPushCnt();
-		adapter.setNewNums(new_alarm_nums);
-		adapter.notifyDataSetChanged();
 	}
 
 	private void initDatalist() {
@@ -614,25 +606,51 @@ public class JVMoreFragment extends BaseFragment {
 							// TODO
 							break;
 						case 10:
-							Intent intentAD = new Intent(mActivity,
-									JVWebViewActivity.class);
-							intentAD.putExtra("URL", url.getDemoUrl());
-							intentAD.putExtra("title", -2);
-							mActivity.startActivity(intentAD);
+							if (null != ((BaseActivity) mActivity).statusHashMap
+									.get("CUSTURL")) {
+								Intent intentAD0 = new Intent(mActivity,
+										JVWebViewActivity.class);
+								intentAD0
+										.putExtra(
+												"URL",
+												((BaseActivity) mActivity).statusHashMap
+														.get("CUSTURL"));
+								intentAD0.putExtra("title", -2);
+								mActivity.startActivity(intentAD0);
+							} else {
+								GetDemoTask UrlTask = new GetDemoTask(mActivity);
+								String[] demoParams = new String[3];
+								demoParams[1] = "0";
+								UrlTask.execute(demoParams);
+							}
 							break;
 						case 11:
-							Intent intentAD1 = new Intent(mActivity,
-									JVWebViewActivity.class);
-							intentAD1.putExtra("URL", url.getCustUrl());
-							intentAD1.putExtra("title", -2);
-							mActivity.startActivity(intentAD1);
+							// GetDemoTask UrlTask1 = new
+							// GetDemoTask(mActivity);
+							// String[] demoParams1 = new String[3];
+							// demoParams1[0] = "1";
+							// UrlTask1.execute(demoParams1);
 							break;
 						case 12:
-							Intent intentAD2 = new Intent(mActivity,
-									JVWebViewActivity.class);
-							intentAD2.putExtra("URL", url.getStatUrl());
-							intentAD2.putExtra("title", -2);
-							mActivity.startActivity(intentAD2);
+
+							if (null != ((BaseActivity) mActivity).statusHashMap
+									.get("STATURL")) {
+								Intent intentAD0 = new Intent(mActivity,
+										JVWebViewActivity.class);
+								intentAD0
+										.putExtra(
+												"URL",
+												((BaseActivity) mActivity).statusHashMap
+														.get("STATURL"));
+								intentAD0.putExtra("title", -2);
+								mActivity.startActivity(intentAD0);
+							} else {
+								GetDemoTask UrlTask2 = new GetDemoTask(
+										mActivity);
+								String[] demoParams2 = new String[3];
+								demoParams2[1] = "2";
+								UrlTask2.execute(demoParams2);
+							}
 							break;
 						case 13:// 媒体
 							StatService.trackCustomEvent(

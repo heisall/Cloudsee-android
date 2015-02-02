@@ -13,5 +13,21 @@
     <string name="umeng_common_download_failed">下载失败</string>
     <string name="umeng_common_download_finish">下载完成，请点击安装</string>
     <string name="umeng_common_patch_finish">更新完成，请点击安装</string>
-
-</resources>
+    <!-- umeng share content -->
+    <string name="umeng_socialize_share_title">分享</string>
+    <string name="umeng_socialize_share_to_wx">微信</string>
+    <string name="umeng_socialize_share_to_friends">朋友圈</string>
+    <string name="umeng_socialize_share_to_sina">微博</string>
+    <string name="umeng_socialize_share_btn_cancel">取消</string>
+    <string name="umeng_socialize_share_success">分享成功</string>
+    <string name="umeng_socialize_share_cancel">取消分享</string>
+    <string name="umeng_socialize_share_failed">分享失败</string>
+    <string name="umeng_socialize_share_video_content">这个视频很精彩，快来看看吧</string>
+    <string name="umeng_socialize_share_editpage_title">分享到微博</string>
+    <string name="umeng_socialize_access_expired">授权已经过期，请重新授权</string>
+    <string name="umeng_socialize_text_waitting">请稍候...</string>
+    <string name="umeng_socialize_text_waitting_weixin">跳转微信中，请稍候...</string>
+    <string name="umeng_socialize_text_waitting_weixin_circle">跳转朋友圈中，请稍候...</string>
+    <string name="umeng_socialize_share_wx_not_install">你还没有安装微信客户端</string>
+    <string name="umeng_socialize_share_wx_not_support">微信客户端版本不支持，请尝试升级微信客户端</string>
+</resources>

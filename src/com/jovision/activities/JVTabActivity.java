@@ -29,7 +29,6 @@ import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
 import com.jovision.adapters.MyPagerAdp;
 import com.jovision.bean.Device;
 import com.jovision.commons.CheckUpdateTask;
-import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -481,10 +480,6 @@ public class JVTabActivity extends ShakeActivity implements
 							mApp.setNewPushCnt(0);
 							mIndicator.updateIndicator(1, 0, false);
 						}
-//						GetDemoTask UrlTask = new GetDemoTask(JVTabActivity.this);
-//						String[] demoParams = new String[3];
-//						demoParams[1] = "0";
-//						UrlTask.execute(demoParams);
 						break;
 					case 2:
 						myDeviceList = CacheUtil.getDevList();

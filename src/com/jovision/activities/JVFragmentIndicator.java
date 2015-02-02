@@ -127,14 +127,14 @@ public class JVFragmentIndicator extends LinearLayout implements
 				.findViewWithTag(R.id.tab_info_text);
 
 		switch (whitch) {
-		case 1: {// 报警消息条数
-			tabInfoText.setText(String.valueOf(msgCount));
-
-			if (show) {
-				tabInfo.setVisibility(View.VISIBLE);
-			} else {
-				tabInfo.setVisibility(View.GONE);
-			}
+		case 1: {// 报警消息条数,这个屏蔽掉，因为换位置了，避免出错，重新定义个值
+		// tabInfoText.setText(String.valueOf(msgCount));
+		//
+		// if (show) {
+		// tabInfo.setVisibility(View.VISIBLE);
+		// } else {
+		// tabInfo.setVisibility(View.GONE);
+		// }
 			break;
 		}
 		case 3: {// 更多功能，新

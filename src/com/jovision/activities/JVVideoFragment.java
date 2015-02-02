@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.zxing.client.result.ISBNParsedResult;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.MyLog;
@@ -47,6 +48,7 @@ public class JVVideoFragment extends BaseFragment {
 	private LinearLayout loadFailedLayout;
 	private ImageView reloadImgView;
 	private boolean loadFailed = false;
+	private boolean isConnected = false;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -83,7 +85,7 @@ public class JVVideoFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		if (rootView == null) {
-			rootView = inflater.inflate(R.layout.findpass_layout, container,
+			rootView = inflater.inflate(R.layout.demovideo_layout, container,
 					false);
 		}
 		ViewGroup parent = (ViewGroup) rootView.getParent();
@@ -122,34 +124,25 @@ public class JVVideoFragment extends BaseFragment {
 		loadFailedLayout.setVisibility(View.GONE);
 		reloadImgView = (ImageView) rootView.findViewById(R.id.refreshimg);
 		reloadImgView.setOnClickListener(myOnClickListener);
-		titleID = -2;
-		if (-1 == titleID) {
-			currentMenu.setText("");
-		} else if (-2 == titleID) {
-
-		} else {
-			currentMenu.setText(titleID);
-		}
-
+		currentMenu.setText(R.string.demo);
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn = (Button) rootView.findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
-
 		webView = (WebView) rootView.findViewById(R.id.findpasswebview);
 
-		WebChromeClient wvcc = new WebChromeClient() {
-			@Override
-			public void onReceivedTitle(WebView view, String title) {
-				super.onReceivedTitle(view, title);
-				if (-2 == titleID) {
-					currentMenu.setText(title);
-				}
-			}
-		};
+//		WebChromeClient wvcc = new WebChromeClient() {
+//			@Override
+//			public void onReceivedTitle(WebView view, String title) {
+//				super.onReceivedTitle(view, title);
+//				if (-2 == titleID) {
+//					
+//				}
+//			}
+//		};
 		webView.getSettings().setJavaScriptEnabled(true);
 
 		// 设置setWebChromeClient对象
-		webView.setWebChromeClient(wvcc);
+//		webView.setWebChromeClient(wvcc);
 		webView.requestFocus(View.FOCUS_DOWN);
 
 		// setting.setPluginState(PluginState.ON);
@@ -159,11 +152,15 @@ public class JVVideoFragment extends BaseFragment {
 			@Override
 			public void onReceivedError(WebView view, int errorCode,
 					String description, String failingUrl) {
+				super.onReceivedError(view, errorCode, description, failingUrl);
 				MyLog.v(TAG, "webView load failed");
 				loadFailed = true;
-				super.onReceivedError(view, errorCode, description, failingUrl);
+				loadFailedLayout.setVisibility(View.VISIBLE);
+				webView.setVisibility(View.GONE);
+				loadinglayout.setVisibility(View.GONE);
 			}
 
+			
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String newUrl) {
 				MyLog.v("new_url", newUrl);
@@ -211,9 +208,7 @@ public class JVVideoFragment extends BaseFragment {
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
 				loadinglayout.setVisibility(View.VISIBLE);
-				Animation anim = AnimationUtils.loadAnimation(mActivity,
-						R.anim.rotate);
-				loadingBar.setAnimation(anim);
+				loadingBar.setAnimation(AnimationUtils.loadAnimation(mActivity,R.anim.rotate));
 				MyLog.v(TAG, "webView start load");
 			}
 
@@ -226,16 +221,22 @@ public class JVVideoFragment extends BaseFragment {
 					loadFailedLayout.setVisibility(View.VISIBLE);
 					webView.setVisibility(View.GONE);
 					loadinglayout.setVisibility(View.GONE);
-				} else {
+				} 
+				else {
+					if (isConnected) {
 					webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
 					loadinglayout.setVisibility(View.GONE);
 					webView.setVisibility(View.VISIBLE);
 					loadFailedLayout.setVisibility(View.GONE);
+					}else {
+						loadFailedLayout.setVisibility(View.VISIBLE);
+						webView.setVisibility(View.GONE);
+						loadinglayout.setVisibility(View.GONE);
+					}
 				}
 				MyLog.v(TAG, "webView finish load");
 			}
 		});
-
 		loadFailed = false;
 		webView.loadUrl(urls);
 	}
@@ -293,13 +294,15 @@ public class JVVideoFragment extends BaseFragment {
 				break;
 			}
 			case R.id.refreshimg: {
-				loadFailedLayout.setVisibility(View.GONE);
-				loadinglayout.setVisibility(View.VISIBLE);
-				Animation anim = AnimationUtils.loadAnimation(mActivity,
-						R.anim.rotate);
-				loadingBar.setAnimation(anim);
-				loadFailed = false;
-				webView.loadUrl(urls);
+				if (ConfigUtil.isConnected(mActivity)) {
+					loadFailedLayout.setVisibility(View.GONE);
+					loadinglayout.setVisibility(View.VISIBLE);
+					loadingBar.setAnimation(AnimationUtils.loadAnimation(mActivity,R.anim.rotate));
+					loadFailed = false;
+					webView.loadUrl(urls);
+				}else {
+					mActivity.alertNetDialog();
+				}
 				break;
 			}
 			}
@@ -341,6 +344,16 @@ public class JVVideoFragment extends BaseFragment {
 	public void onResume() {
 		super.onResume();
 		webView.onResume();
+		if (!ConfigUtil.isConnected(mActivity)) {
+			isConnected  = false;
+			loadFailedLayout.setVisibility(View.VISIBLE);
+			webView.setVisibility(View.GONE);
+			loadinglayout.setVisibility(View.GONE);
+		}else {
+			isConnected = true;
+		}
+//		fragHandler.sendMessage(fragHandler
+//				.obtainMessage(2000, 0, 0, null));
 	}
 
 }

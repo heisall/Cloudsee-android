@@ -30,6 +30,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
+import com.jovision.views.AlarmDialog;
 
 public class JVVideoFragment extends BaseFragment {
 
@@ -71,6 +72,17 @@ public class JVVideoFragment extends BaseFragment {
 			mActivity.showTextToast(R.string.str_video_load_failed);
 			break;
 		}
+		case Consts.WHAT_PUSH_MESSAGE:
+			// 弹出对话框
+			if (null != mActivity) {
+				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG_PRIVATE, 0, 0, null);//
+				new AlarmDialog(mActivity).Show(obj);
+				// onResume();
+			} else {
+				MyLog.e("Alarm",
+						"onHandler mActivity is null ,so dont show the alarm dialog");
+			}
+			break;
 		}
 	}
 

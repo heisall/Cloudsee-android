@@ -51,6 +51,7 @@ import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
 import com.jovision.views.AlarmDialog;
 import com.jovision.views.popw;
+import com.tencent.mm.sdk.modelmsg.ShowMessageFromWX;
 import com.tencent.stat.StatService;
 
 /**
@@ -153,7 +154,7 @@ public class JVMoreFragment extends BaseFragment {
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
-				// mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG, 0, 0, null);//
+				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG_PRIVATE, 0, 0, null);//
 				// 通知显示报警信息条数
 				int new_alarm_nums = mApp.getNewPushCnt();
 				adapter.setNewNums(new_alarm_nums);
@@ -555,10 +556,16 @@ public class JVMoreFragment extends BaseFragment {
 							// TODO
 							break;
 						case 8:// 换成报警信息
-							mApp.setNewPushCnt(0);
-							Intent intent2 = new Intent(mActivity,
-									AlarmInfoActivity.class);
-							startActivity(intent2);
+							if (localFlag)// 本地登录
+							{
+								mActivity.showTextToast(R.string.more_nologin);
+							} else {
+								mApp.setNewPushCnt(0);
+								Intent intent2 = new Intent(mActivity,
+										AlarmInfoActivity.class);
+								startActivity(intent2);
+							}
+
 							// if (!MySharedPreference.getBoolean("VideoSquer"))
 							// {
 							// MySharedPreference.putBoolean("VideoSquer",

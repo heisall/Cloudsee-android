@@ -10,7 +10,7 @@ public class Consts {
 	// 软件名
 	public static final String APP_NAME = "CloudSEE";
 	// (终端类型 0-未知 1-Android 2-iPhone 3-iPad)
-	public static final int TERMINAL_TYPE = 1;// 固定值，无需修改
+	public static final int TERMINAL_TYPE = 1;// 固定值，无需NEW_PUSH_MSG_TAG修改
 	// 产品类型 0-CloudSEE 1-NVSIP 2-HITVIS 3-TONGFANG
 	public static final int PRODUCT_TYPE = 0;// 推送定的值
 	// app 检查更新 key
@@ -701,5 +701,6 @@ public class Consts {
 	/** 实时报警条数 **/
 	public static final String NEW_PUSH_CNT_KEY = "NEW_PUSH_CNT_KEY";
 	public static final int NEW_PUSH_MSG_TAG = 0x9990;
+	public static final int NEW_PUSH_MSG_TAG_PRIVATE = 0x9991;
 	public static final int WHAT_PERI_ITEM_CLICK = 0x90;// 外设菜单单击事件
 }

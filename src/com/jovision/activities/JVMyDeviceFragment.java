@@ -1094,7 +1094,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// ArrayList<Device> deviceList = CacheUtil.getDevList();
 			// MyLog.v("Alarm", "prepareConnect 00--" + deviceList.toString());
 			if (null != mActivity) {
-				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG, 0, 0, null);// 通知显示报警信息条数
+				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG_PRIVATE, 0, 0, null);// 通知显示报警信息条数
 				new AlarmDialog(mActivity).Show(obj);
 			} else {
 				MyLog.e("Alarm",

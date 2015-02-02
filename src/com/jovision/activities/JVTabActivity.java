@@ -355,13 +355,16 @@ public class JVTabActivity extends ShakeActivity implements
 			// }
 			// mIndicator.updateIndicator(1, cnt, show);
 			// }
-			mIndicator.updateIndicator(3, 0, true);
+			// mIndicator.updateIndicator(3, 0, true);
 			BaseFragment currentFrag = mFragments[currentIndex];
 			if (null != currentFrag) {
 				((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
 						obj);
 			}
 		}
+			break;
+		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
+			mIndicator.updateIndicator(3, 0, true);
 			break;
 		default:
 			BaseFragment currentFrag = mFragments[currentIndex];

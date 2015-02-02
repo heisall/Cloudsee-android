@@ -55,11 +55,11 @@
                     android:src="@drawable/morefragment_new" />
 
                 <TextView
+                    android:id="@+id/tv_item_new_nums"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="2dp"
-                    android:text="@string/new_tag"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
             </RelativeLayout>

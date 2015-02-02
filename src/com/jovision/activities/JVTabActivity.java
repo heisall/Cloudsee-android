@@ -224,8 +224,8 @@ public class JVTabActivity extends ShakeActivity implements
 		MyLog.v(TAG, "onResume----E");
 		if (null != mIndicator) {
 			boolean show = false;
-			if (!MySharedPreference.getBoolean("VideoSquer")
-					|| !MySharedPreference.getBoolean("SystemMessage")) {
+			int cnt = mApp.getNewPushCnt();
+			if (cnt > 0 || !MySharedPreference.getBoolean("SystemMessage")) {
 				show = true;
 			}
 			mIndicator.updateIndicator(3, 0, show);
@@ -247,20 +247,20 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 
 		}
-		if (currentIndex == 1) {
-			int cnt = mApp.getNewPushCnt();
-			if (cnt > 0) {
-				mApp.setNewPushCnt(0);
-				mIndicator.updateIndicator(1, 0, false);
-			}
-		} else {
-			int cnt = mApp.getNewPushCnt();
-			if (cnt > 0) {
-				mIndicator.updateIndicator(1, cnt, true);
-			} else {
-				mIndicator.updateIndicator(1, 0, false);
-			}
-		}
+		// if (currentIndex == 1) {
+		// int cnt = mApp.getNewPushCnt();
+		// if (cnt > 0) {
+		// mApp.setNewPushCnt(0);
+		// mIndicator.updateIndicator(1, 0, false);
+		// }
+		// } else {
+		// int cnt = mApp.getNewPushCnt();
+		// if (cnt > 0) {
+		// mIndicator.updateIndicator(1, cnt, true);
+		// } else {
+		// mIndicator.updateIndicator(1, 0, false);
+		// }
+		// }
 
 		MyLog.v(TAG, "onResume----X");
 	}
@@ -343,18 +343,19 @@ public class JVTabActivity extends ShakeActivity implements
 			break;
 		}
 		case Consts.NEW_PUSH_MSG_TAG: {
-			if (currentIndex == 1)// 在信息列表界面
-			{
-				mApp.setNewPushCnt(0);
-				mIndicator.updateIndicator(1, 0, false);
-			} else {
-				boolean show = false;
-				int cnt = mApp.getNewPushCnt();
-				if (cnt > 0) {
-					show = true;
-				}
-				mIndicator.updateIndicator(1, cnt, show);
-			}
+			// if (currentIndex == 1)// 在信息列表界面
+			// {
+			// mApp.setNewPushCnt(0);
+			// mIndicator.updateIndicator(1, 0, false);
+			// } else {
+			// boolean show = false;
+			// int cnt = mApp.getNewPushCnt();
+			// if (cnt > 0) {
+			// show = true;
+			// }
+			// mIndicator.updateIndicator(1, cnt, show);
+			// }
+			mIndicator.updateIndicator(3, 0, true);
 			BaseFragment currentFrag = mFragments[currentIndex];
 			if (null != currentFrag) {
 				((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
@@ -427,7 +428,7 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 		}
 		mFragments[0] = new JVMyDeviceFragment();
-		mFragments[1] = new JVInfoFragment();
+		mFragments[1] = new JVVideoFragment();
 		mFragments[2] = new JVDeviceManageFragment();
 		mFragments[3] = new JVMoreFragment();
 		if (!MySharedPreference.getBoolean("page2")) {
@@ -475,11 +476,11 @@ public class JVTabActivity extends ShakeActivity implements
 						}
 						break;
 					case 1:
-						int cnt = mApp.getNewPushCnt();
-						if (cnt > 0) {
-							mApp.setNewPushCnt(0);
-							mIndicator.updateIndicator(1, 0, false);
-						}
+						// int cnt = mApp.getNewPushCnt();
+						// if (cnt > 0) {
+						// mApp.setNewPushCnt(0);
+						// mIndicator.updateIndicator(1, 0, false);
+						// }
 						break;
 					case 2:
 						myDeviceList = CacheUtil.getDevList();

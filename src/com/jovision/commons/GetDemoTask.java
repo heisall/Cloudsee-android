@@ -21,6 +21,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 	private WebUrl webUrl;
 	private String sid;
 	private String count;
+	private String fragmentString;
 
 	public GetDemoTask(Context con) {
 		mContext = con;
@@ -32,17 +33,12 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		int getRes = -1;// 0成功 1失败
 		sid = params[0];
 		count = params[1];
+		fragmentString = params[2];
 		// demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);
 		// demoUrl = "http://www.cloudsee.net/phone.action";
 		webUrl = DeviceUtil.getWebUrl();
 		if (null != webUrl) {
 			getRes = 0;
-			((BaseActivity) mContext).statusHashMap.put("DEMOURL",
-					webUrl.getDemoUrl());
-			((BaseActivity) mContext).statusHashMap.put("CUSTURL",
-					webUrl.getCustUrl());
-			((BaseActivity) mContext).statusHashMap.put("STATURL",
-					webUrl.getStatUrl());
 		}
 		return getRes;
 	}
@@ -56,7 +52,12 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 	protected void onPostExecute(Integer result) {
 		// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 		((BaseActivity) mContext).dismissDialog();
+		Log.i("TAG", webUrl.getDemoUrl());
 		if (0 == result) {
+			((BaseActivity) mContext).statusHashMap.put("CUSTURL",
+					webUrl.getCustUrl());
+			((BaseActivity) mContext).statusHashMap.put("STATURL",
+					webUrl.getStatUrl());
 			int counts = Integer.valueOf(count);
 			switch (counts) {
 			case 0:
@@ -72,8 +73,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				mContext.startActivity(intentAD2);
 				break;
 			case 1:
-				Log.i("TAG", webUrl.getDemoUrl());
-				Intent intentAD = new Intent(mContext, JVWebViewActivity.class);
+				Log.i("TAG", "SDDDDDDDDDDDDD");
 				String lan = "";
 				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
 					lan = "zh_cn";
@@ -86,11 +86,16 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
 						+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
 						+ System.currentTimeMillis() + "&sid=" + sid;
-				MyLog.v("demoUrl", demoUrl);
-				intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				intentAD.putExtra("URL", demoUrl);
-				intentAD.putExtra("title", -2);
-				mContext.startActivity(intentAD);
+				((BaseActivity) mContext).statusHashMap.put("DEMOURL", demoUrl);
+				if (!"fragmentString".equals(fragmentString)) {
+					Log.i("TAG", webUrl.getDemoUrl());
+					Intent intentAD = new Intent(mContext,
+							JVWebViewActivity.class);
+					intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					intentAD.putExtra("URL", demoUrl);
+					intentAD.putExtra("title", -2);
+					mContext.startActivity(intentAD);
+				}
 				break;
 			default:
 				break;

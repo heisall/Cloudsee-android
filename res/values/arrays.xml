@@ -4,7 +4,7 @@
     <!-- 页卡数组 -->
     <string-array name="array_tab">
         <item>My Device</item>
-        <item>Alarm Message</item>
+        <item>Demo</item>
         <item>Setting</item>
         <item>More</item>
     </string-array>
@@ -19,7 +19,7 @@
         <item>BroadCast</item>
         <item>Test Switch</item>
         <item>Version</item>
-        <item>Demo</item>
+        <item>Alarm Message</item>
         <item>System Information</item>
         <item>我要装监控</item>
         <item>设备分享</item>
@@ -38,7 +38,7 @@
         <item>BroadCast</item>
         <item>Test Switch</item>
         <item>Version</item>
-        <item>Demo</item>
+        <item>Alarm Message</item>
         <item>System Information</item>
         <item>我要装监控</item>
         <item>设备分享</item>

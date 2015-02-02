@@ -528,6 +528,13 @@
             android:theme="@style/MyDialogStyleBottom"
             android:windowSoftInputMode="adjustPan" >
         </activity>
+        <activity
+            android:name="com.jovision.activities.AlarmInfoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
 
         <service
             android:name="com.jovision.CoreService"
@@ -651,11 +658,11 @@
         <!-- 【必须】  请修改为APP的ID -->
         <meta-data
             android:name="MOB_SMS_V1_APP_ID"
-            android:value="4ada4d64c4c4" />
+            android:value="4af19677c600" />
         <!-- 【必须】 请修改为APP的SECRET -->
         <meta-data
             android:name="MOB_SMS_V1_APP_SECRET"
-            android:value="0dd0668c1957b761d17b22a1fdd69e5e" />
+            android:value="61a3cbd497ebf1a3dee007592626afa6" />
     </application>
     <!-- 【必须】 信鸽SDK所需权限 -->
     <uses-permission android:name="android.permission.INTERNET" />

@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.bean.WebUrl;
@@ -117,10 +118,13 @@ public class JVMoreFragment extends BaseFragment {
 
 	private int littlenum = 0;
 
+	private MainApplication mApp;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_more, container, false);
+		mApp = (MainApplication) getActivity().getApplication();
 		intiUi(view);
 		return view;
 	}
@@ -149,7 +153,11 @@ public class JVMoreFragment extends BaseFragment {
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
-				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG, 0, 0, null);// 通知显示报警信息条数
+				// mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG, 0, 0, null);//
+				// 通知显示报警信息条数
+				int new_alarm_nums = mApp.getNewPushCnt();
+				adapter.setNewNums(new_alarm_nums);
+				adapter.notifyDataSetChanged();
 				new AlarmDialog(mActivity).Show(obj);
 			} else {
 				MyLog.e("Alarm",
@@ -223,6 +231,7 @@ public class JVMoreFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		MyLog.e("TMAC", "the JVMoreFragment onResume invoke~~~");
 		super.onResume();
 		more_bindmail.setVisibility(View.GONE);
 		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
@@ -235,6 +244,9 @@ public class JVMoreFragment extends BaseFragment {
 					+ more_name + ".jpg");
 			more_head.setImageBitmap(bitmap);
 		}
+		int alarm_new_nums = mApp.getNewPushCnt();
+		adapter.setNewNums(alarm_new_nums);
+		adapter.notifyDataSetChanged();
 	}
 
 	private void initDatalist() {
@@ -542,44 +554,42 @@ public class JVMoreFragment extends BaseFragment {
 							// R.string.ok), null).show();
 							// TODO
 							break;
-						case 8:
-
-							if (!MySharedPreference.getBoolean("VideoSquer")) {
-								MySharedPreference.putBoolean("VideoSquer",
-										true);
-							}
-
-							if (!ConfigUtil.isConnected(mActivity)) {
-								mActivity.alertNetDialog();
-							} else {
-								StatService.trackCustomEvent(
-										mActivity,
-										"Demo",
-										mActivity.getResources().getString(
-												R.string.census_demo));
-
-								GetDemoTask demoTask = new GetDemoTask(
-										mActivity);
-								String[] demoParams = new String[3];
-								if (!Boolean
-										.valueOf(((BaseActivity) activity).statusHashMap
-												.get(Consts.LOCAL_LOGIN))) {
-									String sessionResult = ConfigUtil
-											.getSession();
-
-									MyLog.v("session", sessionResult);
-									demoParams[0] = sessionResult;
-								} else {
-									demoParams[0] = "";
-								}
-								demoParams[1] = "1";
-								demoTask.execute(demoParams);
-
-								// Intent demoIntent = new Intent();
-								// demoIntent.setClass(JVLoginActivity.this,
-								// JVDemoActivity.class);
-								// JVLoginActivity.this.startActivity(demoIntent);
-							}
+						case 8:// 换成报警信息
+							mApp.setNewPushCnt(0);
+							Intent intent2 = new Intent(mActivity,
+									AlarmInfoActivity.class);
+							startActivity(intent2);
+							// if (!MySharedPreference.getBoolean("VideoSquer"))
+							// {
+							// MySharedPreference.putBoolean("VideoSquer",
+							// true);
+							// }
+							//
+							// if (!ConfigUtil.isConnected(mActivity)) {
+							// mActivity.alertNetDialog();
+							// } else {
+							// StatService.trackCustomEvent(
+							// mActivity,
+							// "Demo",
+							// mActivity.getResources().getString(
+							// R.string.census_demo));
+							//
+							// GetDemoTask demoTask = new GetDemoTask(
+							// mActivity);
+							// String[] demoParams = new String[3];
+							// if (!Boolean
+							// .valueOf(((BaseActivity) activity).statusHashMap
+							// .get(Consts.LOCAL_LOGIN))) {
+							// String sessionResult = ConfigUtil
+							// .getSession();
+							//
+							// MyLog.v("session", sessionResult);
+							// demoParams[0] = sessionResult;
+							// } else {
+							// demoParams[0] = "";
+							// }
+							// demoTask.execute(demoParams);
+							// }
 							// TODO
 							break;
 						case 9:

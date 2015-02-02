@@ -157,8 +157,11 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.btn_left:
-				if (!JVMyDeviceFragment.isshow) {
+				if (!JVMyDeviceFragment.isshow && !JVInfoFragment.isshow) {
 					mActivity.openExitDialog();
+				}
+				if (JVInfoFragment.isshow) {
+					mActivity.finish();
 				}
 				break;
 			default:

@@ -611,7 +611,7 @@
     <string name="str_alarm_thirddev_bind_hint">设备昵称</string>
     <string name="str_bind_finish">完  成</string>
     <string name="str_alarm_type_move">移动侦测</string>
-    <string name="str_alarm_type_third">门磁或者手环报警</string>
+    <string name="str_alarm_type_third">外设报警</string>
     <string name="str_alarm_type_external">外接报警</string>
     <string name="str_alarm_type_unknown">未知报警类型</string>
     <string name="str_telecontrol_device">遥控设备</string>

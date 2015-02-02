@@ -4,7 +4,7 @@
     <!-- 页卡数组 -->
     <string-array name="array_tab">
         <item>我的设备</item>
-        <item>报警消息</item>
+        <item>视频广场</item>
         <item>配置</item>
         <item>更多功能</item>
     </string-array>
@@ -19,7 +19,7 @@
         <item>广播</item>
         <item>测试开关</item>
         <item>版本号</item>
-        <item>视频广场</item>
+        <item>报警信息</item>
         <item>系统消息</item>
         <item>我要装监控</item>
         <item>设备分享</item>
@@ -38,7 +38,7 @@
         <item>广播</item>
         <item>测试开关</item>
         <item>版本号</item>
-        <item>视频广场</item>
+        <item>报警信息</item>
         <item>系统消息</item>
         <item>我要装监控</item>
         <item>设备分享</item>

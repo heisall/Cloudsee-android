@@ -21,8 +21,10 @@ import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
+import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.LoginTask;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.ConfigUtil;
 import com.tencent.stat.StatService;
 
 /**
@@ -211,6 +213,20 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 					if (null != alarmnet) {
 						alarmnet.setVisibility(View.GONE);
 					}
+					GetDemoTask demoTask = new GetDemoTask(mActivity);
+					String[] demoParams = new String[3];
+					if (!Boolean.valueOf(mActivity.statusHashMap
+							.get(Consts.LOCAL_LOGIN))) {
+						String sessionResult = ConfigUtil.getSession();
+
+						MyLog.v("session", sessionResult);
+						demoParams[0] = sessionResult;
+					} else {
+						demoParams[0] = "";
+					}
+					demoParams[1] = "1";
+					demoParams[2] = "fragmentString";
+					demoTask.execute(demoParams);
 					break;
 
 				case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录

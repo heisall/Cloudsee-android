@@ -192,7 +192,7 @@ public class DeviceUtil {
 		// "dstat":在线状态 1：在线 0：离线
 
 		String onLineString = JVACCOUNT.GetDevicesOnlineStatus();
-		MyLog.v("refreshOnlineState---result", onLineString);
+		MyLog.v("refreshOnlineState---result", onLineString);// {"dev_array":null,"ret":-6}
 		if (null != onLineString && !"".equalsIgnoreCase(onLineString)) {
 			try {
 				JSONObject resObject = new JSONObject(onLineString);
@@ -220,12 +220,16 @@ public class DeviceUtil {
 							}
 
 						}
+					} else {
+						MyLog.e("refreshOnlineState---result", "error");// {"dev_array":null,"ret":-6}
 					}
+
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
+		MyLog.v("refreshOnlineState---devList", deviceList.toString());
 	}
 
 	/**

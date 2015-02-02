@@ -51,7 +51,6 @@ import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
 import com.jovision.views.AlarmDialog;
 import com.jovision.views.popw;
-import com.tencent.mm.sdk.modelmsg.ShowMessageFromWX;
 import com.tencent.stat.StatService;
 
 /**

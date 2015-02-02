@@ -847,13 +847,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.WHAT_ALARM_NET:// 网络异常
-			if (null != alarmnet
-					&& !Boolean.valueOf(mActivity.statusHashMap
-							.get(Consts.LOCAL_LOGIN))) {
-				alarmnet.setVisibility(View.VISIBLE);
-				if (null != accountError) {
-					accountError.setText(getString(R.string.network_error_tips)
-							+ arg1);
+			if (this.isAdded()) {
+				if (null != alarmnet
+						&& !Boolean.valueOf(mActivity.statusHashMap
+								.get(Consts.LOCAL_LOGIN))) {
+					alarmnet.setVisibility(View.VISIBLE);
+					if (null != accountError) {
+						accountError.setText(mActivity.getResources()
+								.getString(R.string.network_error_tips) + arg1);
+					}
 				}
 			}
 			break;
@@ -864,12 +866,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 
 		case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
-			if (null != alarmnet
-					&& !Boolean.valueOf(mActivity.statusHashMap
-							.get(Consts.LOCAL_LOGIN))) {
-				alarmnet.setVisibility(View.VISIBLE);
-				if (null != accountError) {
-					accountError.setText(R.string.account_error_tips);
+			if (this.isAdded()) {
+				if (null != alarmnet
+						&& !Boolean.valueOf(mActivity.statusHashMap
+								.get(Consts.LOCAL_LOGIN))) {
+					alarmnet.setVisibility(View.VISIBLE);
+					if (null != accountError) {
+						accountError.setText(mActivity.getResources()
+								.getString(R.string.account_error_tips));
+					}
 				}
 			}
 			break;

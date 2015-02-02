@@ -52,7 +52,6 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 	protected void onPostExecute(Integer result) {
 		// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 		((BaseActivity) mContext).dismissDialog();
-		Log.i("TAG", webUrl.getDemoUrl());
 		if (0 == result) {
 			((BaseActivity) mContext).statusHashMap.put("CUSTURL",
 					webUrl.getCustUrl());

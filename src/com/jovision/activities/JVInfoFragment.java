@@ -29,7 +29,6 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
-import com.jovision.views.AlarmDialog;
 import com.jovision.views.MyAlertDialog;
 import com.jovision.views.XListView;
 import com.jovision.views.XListView.IXListViewListener;

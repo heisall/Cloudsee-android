@@ -846,17 +846,40 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case Consts.WHAT_ALARM_NET:
+		case Consts.WHAT_ALARM_NET:// 网络异常
 			if (null != alarmnet
 					&& !Boolean.valueOf(mActivity.statusHashMap
 							.get(Consts.LOCAL_LOGIN))) {
 				alarmnet.setVisibility(View.VISIBLE);
+				if (null != accountError) {
+					accountError.setText(getString(R.string.network_error_tips)
+							+ arg1);
+				}
 			}
 			break;
-		case Consts.WHAT_ALARM_NET_WEEK:
+		case Consts.WHAT_ALARM_NET_WEEK:// 网络恢复正常
 			if (null != alarmnet) {
 				alarmnet.setVisibility(View.GONE);
 			}
+			break;
+
+		case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
+			if (null != alarmnet
+					&& !Boolean.valueOf(mActivity.statusHashMap
+							.get(Consts.LOCAL_LOGIN))) {
+				alarmnet.setVisibility(View.VISIBLE);
+				if (null != accountError) {
+					accountError.setText(R.string.account_error_tips);
+				}
+			}
+			break;
+		case Consts.WHAT_HAS_LOGIN_SUCCESS:// 账号正常登陆
+			if (null != alarmnet) {
+				alarmnet.setVisibility(View.GONE);
+			}
+			break;
+		case Consts.WHAT_SESSION_FAILURE:// session失效
+
 			break;
 		case Consts.WHAT_AD_UPDATE: {
 			initADViewPager();

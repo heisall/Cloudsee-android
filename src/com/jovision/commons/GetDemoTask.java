@@ -35,7 +35,6 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		// demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);
 		// demoUrl = "http://www.cloudsee.net/phone.action";
 		webUrl = DeviceUtil.getWebUrl();
-		Log.i("TAG", webUrl.getDemoUrl());
 		if (null != webUrl) {
 			getRes = 0;
 			((BaseActivity) mContext).statusHashMap.put("DEMOURL",

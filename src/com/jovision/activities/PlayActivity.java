@@ -86,7 +86,8 @@ public abstract class PlayActivity extends BaseActivity implements
 	protected SeekBar progressBar;// 远程回放进度
 	protected Button playBackPause;// 远程回放暂停继续播
 	protected Button voiceListener;// 音频监听
-	protected ImageView fullScreen;// 全屏按钮
+	protected ImageView playBackFullScreen;// 远程回放全屏按钮
+	protected ImageView fullScreen;// 视频播放全屏按钮
 
 	/** 　竖屏播放工具bar　 */
 	protected RelativeLayout verPlayBarLayout;
@@ -301,7 +302,7 @@ public abstract class PlayActivity extends BaseActivity implements
 		varvoice_bg = (RelativeLayout) findViewById(R.id.varvoice_bg);
 		varvoice = (ImageView) findViewById(R.id.varvoice);
 		fullScreen = (ImageView) findViewById(R.id.fullscreen);
-
+		playBackFullScreen = (ImageView) findViewById(R.id.playbackfullscreen);
 		linkMode.setVisibility(View.VISIBLE);
 
 		linkState = (TextView) findViewById(R.id.playstate);// 连接文字
@@ -458,6 +459,23 @@ public abstract class PlayActivity extends BaseActivity implements
 		voiceCallTop1 = getResources().getDrawable(R.drawable.voice_call_1);
 		voiceCallTop2 = getResources().getDrawable(R.drawable.voice_call_2);
 		setPlayViewSize();
+
+		playBackFullScreen.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (Configuration.ORIENTATION_PORTRAIT == configuration.orientation) {// 竖屏
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
+					playBackFullScreen.setImageDrawable(getResources()
+							.getDrawable(R.drawable.notfull_screen_icon));
+				} else {
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// 竖屏
+					playBackFullScreen.setImageDrawable(getResources()
+							.getDrawable(R.drawable.full_screen_icon));
+				}
+
+			}
+		});
 
 		fullScreen.setOnClickListener(new OnClickListener() {
 

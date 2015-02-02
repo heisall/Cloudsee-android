@@ -199,7 +199,8 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 					if (null != alarmnet && !local) {
 						alarmnet.setVisibility(View.VISIBLE);
 						if (null != accountError) {
-							accountError.setText(R.string.network_error_tips);
+							accountError
+									.setText(getString(R.string.network_error_tips));
 						}
 					}
 					break;

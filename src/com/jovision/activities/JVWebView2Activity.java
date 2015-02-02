@@ -557,17 +557,19 @@ public class JVWebView2Activity extends BaseActivity implements
 			@Override
 			public void surfaceCreated(SurfaceHolder holder) {
 				MyLog.e("妈呀", "surfaceCreated");
-				loadingState(Consts.TAG_PLAY_CONNECTING);
 				playChannel.setSurface(holder.getSurface());
-				tensileView(playChannel, playChannel.getSurfaceView());
+				if (!manuPause) {
+					loadingState(Consts.TAG_PLAY_CONNECTING);
+					tensileView(playChannel, playChannel.getSurfaceView());
+				}
 			}
 
 			@Override
 			public void surfaceChanged(SurfaceHolder holder, int format,
 					int width, int height) {
 				MyLog.e("妈呀", "surfaceChanged");
+				playChannel.setSurface(holder.getSurface());
 				if (!onPause && !manuPause) {
-					playChannel.setSurface(holder.getSurface());
 					if (false == playChannel.isConnected()
 							&& false == playChannel.isConnecting()) {
 						startConnect(rtmp, holder.getSurface());
@@ -696,6 +698,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private void startConnect(String playUrl, Object surface) {
 		playChannel.setConnecting(true);
 		playChannel.setPaused(false);
+		manuPause = false;
 		Jni.connectRTMP(playChannel.getIndex(), playUrl, surface, false, null);
 	};
 
@@ -882,7 +885,10 @@ public class JVWebView2Activity extends BaseActivity implements
 		// handler.sendMessage(handler.obtainMessage(Consts.WHAT_DEMO_BUFFING));
 		onPause = true;
 		MyLog.e("妈呀", "4");
-		stopConnect();
+		if (!manuPause) {
+			stopConnect();
+		}
+
 		// webView.onPause();
 	}
 

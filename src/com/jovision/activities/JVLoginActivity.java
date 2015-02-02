@@ -82,7 +82,16 @@ public class JVLoginActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.WHAT_SHOW_PRO: {
-			createDialog("", false);
+			String tipMsg = "";
+			if (null != obj) {
+				tipMsg = obj.toString();
+			}
+			if (!MySharedPreference.getBoolean("LITTLE")) {
+				createDialog("", false);
+			} else {
+				createDialog(tipMsg, false);
+			}
+
 			break;
 		}
 		case Consts.WHAT_DELETE_USER:

@@ -2148,9 +2148,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				// - getStatusHeight(JVQuickSettingActivity.this),
 				// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				isSearching = false;
-				myPlayer.stop();
-				myPlayer.release();
-				myPlayer = null;
+				if (null != myPlayer) {
+					myPlayer.stop();
+					myPlayer.release();
+					myPlayer = null;
+				}
 				quickSetBackImg.setVisibility(View.GONE);
 			}
 		}

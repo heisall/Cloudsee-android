@@ -89,10 +89,19 @@
                     android:id="@+id/voice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/playbackfullscreen"
+                    android:background="@drawable/video_monitor_ico" />
+
+                <ImageView
+                    android:id="@+id/playbackfullscreen"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/video_monitor_ico" />
+                    android:src="@drawable/full_screen_icon" />
             </RelativeLayout>
 
             <TextView

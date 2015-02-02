@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -91,10 +90,11 @@ public class JVWebViewActivity extends BaseActivity {
 	protected void initUi() {
 		setContentView(R.layout.findpass_layout);
 
-		if (url.contains("rotate=x")) {
-			url = url.replace("rotate=x", "");
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
-		}
+		// if (url.contains("rotate=x")) {
+		// url = url.replace("rotate=x", "");
+		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//
+		// 横屏
+		// }
 
 		MyLog.v(TAG, "webview-URL=" + url);
 		/** topBar **/

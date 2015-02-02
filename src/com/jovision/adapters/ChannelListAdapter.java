@@ -106,11 +106,12 @@ public class ChannelListAdapter extends BaseAdapter {
 																	.getText()
 																	.toString());
 											dataList.get(i).setIspull(false);
+											notifyDataSetChanged();
 										}
 									} else {
 										dataList.get(i).setIspull(true);
+										notifyDataSetChanged();
 									}
-									notifyDataSetChanged();
 								} else {
 									dataList.get(i).setIspull(false);
 								}

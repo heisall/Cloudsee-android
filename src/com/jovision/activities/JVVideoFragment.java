@@ -12,9 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -24,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.zxing.client.result.ISBNParsedResult;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.MyLog;
@@ -142,19 +139,19 @@ public class JVVideoFragment extends BaseFragment {
 		rightBtn.setVisibility(View.GONE);
 		webView = (WebView) rootView.findViewById(R.id.findpasswebview);
 
-//		WebChromeClient wvcc = new WebChromeClient() {
-//			@Override
-//			public void onReceivedTitle(WebView view, String title) {
-//				super.onReceivedTitle(view, title);
-//				if (-2 == titleID) {
-//					
-//				}
-//			}
-//		};
+		// WebChromeClient wvcc = new WebChromeClient() {
+		// @Override
+		// public void onReceivedTitle(WebView view, String title) {
+		// super.onReceivedTitle(view, title);
+		// if (-2 == titleID) {
+		//
+		// }
+		// }
+		// };
 		webView.getSettings().setJavaScriptEnabled(true);
 
 		// 设置setWebChromeClient对象
-//		webView.setWebChromeClient(wvcc);
+		// webView.setWebChromeClient(wvcc);
 		webView.requestFocus(View.FOCUS_DOWN);
 
 		// setting.setPluginState(PluginState.ON);
@@ -172,7 +169,6 @@ public class JVVideoFragment extends BaseFragment {
 				loadinglayout.setVisibility(View.GONE);
 			}
 
-			
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String newUrl) {
 				MyLog.v("new_url", newUrl);
@@ -220,7 +216,8 @@ public class JVVideoFragment extends BaseFragment {
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
 				loadinglayout.setVisibility(View.VISIBLE);
-				loadingBar.setAnimation(AnimationUtils.loadAnimation(mActivity,R.anim.rotate));
+				loadingBar.setAnimation(AnimationUtils.loadAnimation(mActivity,
+						R.anim.rotate));
 				MyLog.v(TAG, "webView start load");
 			}
 
@@ -233,14 +230,13 @@ public class JVVideoFragment extends BaseFragment {
 					loadFailedLayout.setVisibility(View.VISIBLE);
 					webView.setVisibility(View.GONE);
 					loadinglayout.setVisibility(View.GONE);
-				} 
-				else {
+				} else {
 					if (isConnected) {
-					webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
-					loadinglayout.setVisibility(View.GONE);
-					webView.setVisibility(View.VISIBLE);
-					loadFailedLayout.setVisibility(View.GONE);
-					}else {
+						webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
+						loadinglayout.setVisibility(View.GONE);
+						webView.setVisibility(View.VISIBLE);
+						loadFailedLayout.setVisibility(View.GONE);
+					} else {
 						loadFailedLayout.setVisibility(View.VISIBLE);
 						webView.setVisibility(View.GONE);
 						loadinglayout.setVisibility(View.GONE);
@@ -309,10 +305,11 @@ public class JVVideoFragment extends BaseFragment {
 				if (ConfigUtil.isConnected(mActivity)) {
 					loadFailedLayout.setVisibility(View.GONE);
 					loadinglayout.setVisibility(View.VISIBLE);
-					loadingBar.setAnimation(AnimationUtils.loadAnimation(mActivity,R.anim.rotate));
+					loadingBar.setAnimation(AnimationUtils.loadAnimation(
+							mActivity, R.anim.rotate));
 					loadFailed = false;
 					webView.loadUrl(urls);
-				}else {
+				} else {
 					mActivity.alertNetDialog();
 				}
 				break;
@@ -357,15 +354,15 @@ public class JVVideoFragment extends BaseFragment {
 		super.onResume();
 		webView.onResume();
 		if (!ConfigUtil.isConnected(mActivity)) {
-			isConnected  = false;
+			isConnected = false;
 			loadFailedLayout.setVisibility(View.VISIBLE);
 			webView.setVisibility(View.GONE);
 			loadinglayout.setVisibility(View.GONE);
-		}else {
+		} else {
 			isConnected = true;
 		}
-//		fragHandler.sendMessage(fragHandler
-//				.obtainMessage(2000, 0, 0, null));
+		// fragHandler.sendMessage(fragHandler
+		// .obtainMessage(2000, 0, 0, null));
 	}
 
 }

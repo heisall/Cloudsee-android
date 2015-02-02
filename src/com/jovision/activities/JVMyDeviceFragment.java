@@ -54,6 +54,7 @@ import com.jovision.bean.AD;
 import com.jovision.bean.APPImage;
 import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
+import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
@@ -313,7 +314,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// // 非3G加广播设备
 			// startBroadTimer();
 		}
-
 	}
 
 	@Override
@@ -872,6 +872,20 @@ public class JVMyDeviceFragment extends BaseFragment {
 			mActivity.dismissDialog();
 			mActivity.createDialog(getResources().getString(R.string.waiting)
 					+ "...", false);
+			GetDemoTask demoTask = new GetDemoTask(mActivity);
+			String[] demoParams = new String[3];
+			if (!Boolean.valueOf(mActivity.statusHashMap
+					.get(Consts.LOCAL_LOGIN))) {
+				String sessionResult = ConfigUtil.getSession();
+
+				MyLog.v("session", sessionResult);
+				demoParams[0] = sessionResult;
+			} else {
+				demoParams[0] = "";
+			}
+			demoParams[1] = "1";
+			demoParams[2] = "fragmentString";
+			demoTask.execute(demoParams);
 			refreshList();
 			initADViewPager();
 			switch (arg1) {

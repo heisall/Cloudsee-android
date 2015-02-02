@@ -101,7 +101,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 	 * 根据不同的平台分享内容
 	 * 
 	 * @param platform
-	 *			分享平台
+	 *            分享平台
 	 */
 	private void performShare(SHARE_MEDIA platform) {
 		mController.postShare(mActivity, platform, new SnsPostListener() {
@@ -138,12 +138,10 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 	}
 
 	/**
-	 * 分享时如果微信没有安装会弹出Toast，
-	 * 但是Toast的内容被友盟写死在了代码中 实现多语言支持，
-	 * 必须自己提前判断微信是否安装
+	 * 分享时如果微信没有安装会弹出Toast， 但是Toast的内容被友盟写死在了代码中 实现多语言支持， 必须自己提前判断微信是否安装
 	 * 
 	 * @param context
-	 *			上下文对象
+	 *            上下文对象
 	 */
 	private void checkIsWXAppInstalledAndSupported() {
 		mIsInstalled = mIwxapi.isWXAppInstalled();

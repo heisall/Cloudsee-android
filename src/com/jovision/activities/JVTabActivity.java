@@ -427,7 +427,7 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 		}
 		mFragments[0] = new JVMyDeviceFragment();
-		mFragments[1] = new JVInfoFragment();
+		mFragments[1] = new JVVideoFragment();
 		mFragments[2] = new JVDeviceManageFragment();
 		mFragments[3] = new JVMoreFragment();
 		if (!MySharedPreference.getBoolean("page2")) {

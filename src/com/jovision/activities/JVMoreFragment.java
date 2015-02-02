@@ -573,6 +573,7 @@ public class JVMoreFragment extends BaseFragment {
 									demoParams[0] = "";
 								}
 								demoParams[1] = "1";
+								demoParams[2] = "";
 								demoTask.execute(demoParams);
 
 								// Intent demoIntent = new Intent();

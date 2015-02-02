@@ -868,12 +868,35 @@ public class JVMyDeviceFragment extends BaseFragment {
 					&& !Boolean.valueOf(mActivity.statusHashMap
 							.get(Consts.LOCAL_LOGIN))) {
 				alarmnet.setVisibility(View.VISIBLE);
+				if (null != accountError) {
+					accountError.setText(getString(R.string.network_error_tips)
+							+ arg1);
+				}
 			}
 			break;
-		case Consts.WHAT_ALARM_NET_WEEK:
+		case Consts.WHAT_ALARM_NET_WEEK:// 网络恢复正常
 			if (null != alarmnet) {
 				alarmnet.setVisibility(View.GONE);
 			}
+			break;
+
+		case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
+			if (null != alarmnet
+					&& !Boolean.valueOf(mActivity.statusHashMap
+							.get(Consts.LOCAL_LOGIN))) {
+				alarmnet.setVisibility(View.VISIBLE);
+				if (null != accountError) {
+					accountError.setText(R.string.account_error_tips);
+				}
+			}
+			break;
+		case Consts.WHAT_HAS_LOGIN_SUCCESS:// 账号正常登陆
+			if (null != alarmnet) {
+				alarmnet.setVisibility(View.GONE);
+			}
+			break;
+		case Consts.WHAT_SESSION_FAILURE:// session失效
+
 			break;
 		case Consts.WHAT_AD_UPDATE: {
 			initADViewPager();
@@ -1097,7 +1120,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// ArrayList<Device> deviceList = CacheUtil.getDevList();
 			// MyLog.v("Alarm", "prepareConnect 00--" + deviceList.toString());
 			if (null != mActivity) {
-				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG, 0, 0, null);// 通知显示报警信息条数
+				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG_PRIVATE, 0, 0, null);// 通知显示报警信息条数
 				new AlarmDialog(mActivity).Show(obj);
 			} else {
 				MyLog.e("Alarm",

@@ -655,7 +655,8 @@ public class JVWaveSetActivity extends BaseActivity {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			if (0 == result) {
 				showTextToast(R.string.add_device_succ);
-				if (0 == broadList.size()) {
+
+				if (!hasNewDevice()) {
 					finish();
 				}
 
@@ -673,6 +674,25 @@ public class JVWaveSetActivity extends BaseActivity {
 		protected void onProgressUpdate(Integer... values) {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
+	}
+
+	/**
+	 * 检查是否还有新设备
+	 * 
+	 * @return
+	 */
+	public boolean hasNewDevice() {
+		boolean hasNewDev = false;
+		if (null == broadList || 0 == broadList.size()) {
+		} else {
+			for (Device dev : broadList) {
+				if (!dev.isHasAdded()) {
+					hasNewDev = true;
+					break;
+				}
+			}
+		}
+		return hasNewDev;
 	}
 
 	/**

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.test.JVACCOUNT;
 
 import com.jovision.utils.BitmapCache;
-import com.jovision.utils.ConfigUtil;
 
 public class BootReceiver extends BroadcastReceiver {
 
@@ -17,7 +16,7 @@ public class BootReceiver extends BroadcastReceiver {
 			// 处理
 			MyLog.v("切换语言了", "received ACTION_LOCALE_CHANGED");
 			BitmapCache.getInstance().clearAllCache();
-			ConfigUtil.stopBroadCast();
+			// ConfigUtil.stopBroadCast();
 			MyActivityManager.getActivityManager()
 					.popAllActivityExceptOne(null);
 			android.os.Process.killProcess(android.os.Process.myPid());

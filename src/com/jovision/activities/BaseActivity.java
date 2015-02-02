@@ -95,23 +95,23 @@ public abstract class BaseActivity extends FragmentActivity implements
 			try {
 				activity.notify
 						.onHandler(msg.what, msg.arg1, msg.arg2, msg.obj);
-				switch (msg.what) {
-				case Consts.WHAT_ALARM_NET:
-					if (null != alarmnet && !local) {
-						alarmnet.setVisibility(View.VISIBLE);
-					}
-					break;
-				case Consts.WHAT_ALARM_NET_WEEK:
-					if (null != alarmnet) {
-						alarmnet.setVisibility(View.GONE);
-					}
-					break;
-				case Consts.WHAT_SESSION_FAILURE:// session失效
-
-					break;
-				default:
-					break;
-				}
+				// switch (msg.what) {
+				// case Consts.WHAT_ALARM_NET:
+				// if (null != alarmnet && !local) {
+				// alarmnet.setVisibility(View.VISIBLE);
+				// }
+				// break;
+				// case Consts.WHAT_ALARM_NET_WEEK:
+				// if (null != alarmnet) {
+				// alarmnet.setVisibility(View.GONE);
+				// }
+				// break;
+				// case Consts.WHAT_SESSION_FAILURE:// session失效
+				//
+				// break;
+				// default:
+				// break;
+				// }
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -178,39 +178,39 @@ public abstract class BaseActivity extends FragmentActivity implements
 		((MainApplication) getApplication()).setCurrentNotifyer(this);
 		super.onResume();
 		StatService.onResume(this);
-		if (null != statusHashMap.get(Consts.ACCOUNT_ERROR)) {
-			int errorCode = Integer.parseInt(statusHashMap
-					.get(Consts.ACCOUNT_ERROR));
-			switch (errorCode) {
-			case Consts.WHAT_ALARM_NET:// 网络异常
-				if (null != alarmnet && !local) {
-					alarmnet.setVisibility(View.VISIBLE);
-					if (null != accountError) {
-						accountError.setText(R.string.network_error_tips);
-					}
-				}
-
-				break;
-			case Consts.WHAT_HAS_LOGIN_SUCCESS:// 账号正常登陆
-			case Consts.WHAT_ALARM_NET_WEEK:// 网络恢复正常
-			case Consts.WHAT_ACCOUNT_NORMAL:// 账号恢复正常
-				if (null != alarmnet) {
-					alarmnet.setVisibility(View.GONE);
-				}
-				break;
-			case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
-				if (null != alarmnet && !local) {
-					alarmnet.setVisibility(View.VISIBLE);
-					if (null != accountError) {
-						accountError.setText(R.string.account_error_tips);
-					}
-				}
-				break;
-			case Consts.WHAT_SESSION_FAILURE:// session失效
-
-				break;
-			}
-		}
+		// if (null != statusHashMap.get(Consts.ACCOUNT_ERROR)) {
+		// int errorCode = Integer.parseInt(statusHashMap
+		// .get(Consts.ACCOUNT_ERROR));
+		// switch (errorCode) {
+		// case Consts.WHAT_ALARM_NET:// 网络异常
+		// if (null != alarmnet && !local) {
+		// alarmnet.setVisibility(View.VISIBLE);
+		// if (null != accountError) {
+		// accountError.setText(R.string.network_error_tips);
+		// }
+		// }
+		//
+		// break;
+		// case Consts.WHAT_HAS_LOGIN_SUCCESS:// 账号正常登陆
+		// case Consts.WHAT_ALARM_NET_WEEK:// 网络恢复正常
+		// case Consts.WHAT_ACCOUNT_NORMAL:// 账号恢复正常
+		// if (null != alarmnet) {
+		// alarmnet.setVisibility(View.GONE);
+		// }
+		// break;
+		// case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
+		// if (null != alarmnet && !local) {
+		// alarmnet.setVisibility(View.VISIBLE);
+		// if (null != accountError) {
+		// accountError.setText(R.string.account_error_tips);
+		// }
+		// }
+		// break;
+		// case Consts.WHAT_SESSION_FAILURE:// session失效
+		//
+		// break;
+		// }
+		// }
 
 		// duration = System.currentTimeMillis();
 	}

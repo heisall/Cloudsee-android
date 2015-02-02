@@ -247,7 +247,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 					if (null != currentNotifyer) {
 						statusHashMap.put(Consts.ACCOUNT_ERROR,
 								String.valueOf(Consts.WHAT_ALARM_NET));
-						currentNotifyer.onNotify(Consts.WHAT_ALARM_NET, 0, 0,
+						currentNotifyer.onNotify(Consts.WHAT_ALARM_NET, 4, 0,
 								null);
 					}
 					// JVACCOUNT.StopHeartBeat();// 先停止心跳
@@ -478,6 +478,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 				}
 			} else if (JVAccountConst.MESSAGE_OFFLINE == res) {// 提掉线
+				MyLog.v("Account Error", "提掉线");
 				Intent intent = new Intent(getApplicationContext(),
 						JVOffLineDialogActivity.class);
 				intent.putExtra("ErrorCode", JVAccountConst.MESSAGE_OFFLINE);
@@ -489,7 +490,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				if (null != currentNotifyer) {
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_ALARM_NET));
-					currentNotifyer.onNotify(Consts.WHAT_ALARM_NET, 0, 0, null);
+					currentNotifyer.onNotify(Consts.WHAT_ALARM_NET, res, 0,
+							null);
 				}
 				// Intent intent = new Intent(getApplicationContext(),
 				// JVOffLineDialogActivity.class);
@@ -502,7 +504,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				if (null != currentNotifyer) {
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_ALARM_NET));
-					currentNotifyer.onNotify(Consts.WHAT_ALARM_NET, 0, 0, null);
+					currentNotifyer.onNotify(Consts.WHAT_ALARM_NET, res, 0,
+							null);
 				}
 				// Intent intent = new Intent(getApplicationContext(),
 				// JVOffLineDialogActivity.class);

@@ -4,7 +4,7 @@
     <!-- 頁卡數組 -->
     <string-array name="array_tab">
         <item>我的設備</item>
-        <item>報警消息</item>
+        <item>視頻廣場</item>
         <item>配置</item>
         <item>更多功能</item>
     </string-array>
@@ -19,7 +19,7 @@
         <item>廣播</item>
         <item>測試開關</item>
         <item>版本號</item>
-        <item>視頻廣場</item>
+        <item>報警消息</item>
         <item>系統消息</item>
         <item>我要裝監控</item>
         <item>設備分享</item>
@@ -38,7 +38,7 @@
         <item>廣播</item>
         <item>測試開關</item>
         <item>版本號</item>
-        <item>視頻廣場</item>
+        <item>報警消息</item>
         <item>系統消息</item>
         <item>我要裝監控</item>
         <item>設備分享</item>
@@ -118,7 +118,7 @@
         <item>%%發生斷電報警。</item>
         <item>%%發生手動報警。</item>
         <item>%%發生GPS報警。</item>
-        <item>%%發生煙感報警。</item>
+        <item>%%發生報警。</item>
         <item>%%很安全，請主人不必擔心，我會好好看護的。</item>
         <item>%%有些異常舉動，請主人趕快採取措施。</item>
         <item>%%周圍溫度太高了。</item>

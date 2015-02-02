@@ -54,6 +54,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	private boolean bfirstrun = true;
 	private MyAlertDialog alertDialog;
 	private MainApplication mApp = null;
+	public static boolean isshow;
 
 	// private boolean firstIntoPush = false;// 是否第一次进入pushmessage界面
 
@@ -175,6 +176,9 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			switch (v.getId()) {
 			case R.id.btn_right:
 				alertDialog.show();
+				break;
+			case R.id.btn_left:
+				mActivity.finish();
 				break;
 			}
 		}
@@ -395,7 +399,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	}
 
 	@Override
+	public void onDestroy() {
+		isshow = false;
+		super.onDestroy();
+	}
+
+	@Override
 	public void onResume() {
+		isshow = true;
 		if (Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {
 			super.onResume();
 			return;
@@ -538,8 +549,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
-				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG, 0, 0, null);// 通知显示报警信息条数
-				new AlarmDialog(mActivity).Show(obj);
+				// new AlarmDialog(mActivity).Show(obj);
 				onResume();
 			} else {
 				MyLog.e("Alarm",

@@ -4,7 +4,7 @@
     <!-- 页卡数组 -->
     <string-array name="array_tab">
         <item>我的设备</item>
-        <item>报警消息</item>
+        <item>视频广场</item>
         <item>配置</item>
         <item>更多功能</item>
     </string-array>
@@ -19,7 +19,7 @@
         <item>广播</item>
         <item>测试开关</item>
         <item>版本号</item>
-        <item>视频广场</item>
+        <item>报警信息</item>
         <item>系统消息</item>
         <item>我要装监控</item>
         <item>设备分享</item>
@@ -38,7 +38,7 @@
         <item>广播</item>
         <item>测试开关</item>
         <item>版本号</item>
-        <item>视频广场</item>
+        <item>报警信息</item>
         <item>系统消息</item>
         <item>我要装监控</item>
         <item>设备分享</item>
@@ -118,7 +118,7 @@
         <item>%%发生断电报警。</item>
         <item>%%发生手动报警。</item>
         <item>%%发生GPS报警。</item>
-        <item>%%发生烟感报警。</item>
+        <item>%%发生报警。</item>
         <item>%%很安全，请主人不必担心，我会好好看护的。</item>
         <item>%%有些异常举动，请主人赶快采取措施。</item>
         <item>%%周围温度太高了。</item>

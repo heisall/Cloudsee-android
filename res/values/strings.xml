@@ -611,7 +611,7 @@
     <string name="str_alarm_thirddev_bind_hint">Device NickName</string>
     <string name="str_bind_finish">OK</string>
     <string name="str_alarm_type_move">Motion Detection</string>
-    <string name="str_alarm_type_third">Somke Alarm</string>
+    <string name="str_alarm_type_third">Peripheral Alarm</string>
     <string name="str_alarm_type_external">External Alarm</string>
     <string name="str_alarm_type_unknown">Unknown Alarm Type</string>
     <string name="str_telecontrol_device">remote control devices</string>

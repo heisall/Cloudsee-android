@@ -32,6 +32,9 @@ public class FragmentAdapter extends BaseAdapter {
 	private FrameLayout more_item;
 	private ImageView divider_img;
 	private RelativeLayout item_new;
+	private TextView tv_new_nums;
+
+	private int new_nums_;
 
 	public FragmentAdapter(BaseFragment mfragment,
 			ArrayList<MoreFragmentBean> dataList) {
@@ -54,6 +57,10 @@ public class FragmentAdapter extends BaseAdapter {
 		return position;
 	}
 
+	public void setNewNums(int nums) {
+		this.new_nums_ = nums;
+	}
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		convertView = LayoutInflater.from(mfragment.getActivity()).inflate(
@@ -73,6 +80,8 @@ public class FragmentAdapter extends BaseAdapter {
 						.get(Consts.LOCAL_LOGIN));
 		item_img.setBackgroundResource(dataList.get(position).getItem_img());
 		name.setText(dataList.get(position).getName());
+		tv_new_nums = (TextView) convertView
+				.findViewById(R.id.tv_item_new_nums);
 		if (position == 0) {
 			more_item.setVisibility(View.GONE);
 		}
@@ -111,12 +120,17 @@ public class FragmentAdapter extends BaseAdapter {
 		}
 		if (position == 9) {
 			if (!MySharedPreference.getBoolean("SystemMessage")) {
+				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
 		if (position == 8) {
-			if (!MySharedPreference.getBoolean("VideoSquer")) {
+			if (new_nums_ > 0) {
+				tv_new_nums.setText(String.valueOf(new_nums_));
 				item_new.setVisibility(View.VISIBLE);
+			} else {
+				tv_new_nums.setText("0");
+				item_new.setVisibility(View.INVISIBLE);
 			}
 		}
 		if (position == 14

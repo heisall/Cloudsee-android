@@ -185,6 +185,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
 				.get(Consts.HAG_GOT_DEVICE));
 		if (!hasGot) {
@@ -846,7 +847,23 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case Consts.WHAT_ALARM_NET:// 网络异常
+		case Consts.GETDEMOURL:
+			GetDemoTask demoTask = new GetDemoTask(mActivity);
+			String[] demoParams = new String[3];
+			if (!Boolean.valueOf(mActivity.statusHashMap
+					.get(Consts.LOCAL_LOGIN))) {
+				String sessionResult = ConfigUtil.getSession();
+
+				MyLog.v("session", sessionResult);
+				demoParams[0] = sessionResult;
+			} else {
+				demoParams[0] = "";
+			}
+			demoParams[1] = "1";
+			demoParams[2] = "fragmentString";
+			demoTask.execute(demoParams);
+			break;
+		case Consts.WHAT_ALARM_NET:
 			if (null != alarmnet
 					&& !Boolean.valueOf(mActivity.statusHashMap
 							.get(Consts.LOCAL_LOGIN))) {
@@ -895,20 +912,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			mActivity.dismissDialog();
 			mActivity.createDialog(getResources().getString(R.string.waiting)
 					+ "...", false);
-			GetDemoTask demoTask = new GetDemoTask(mActivity);
-			String[] demoParams = new String[3];
-			if (!Boolean.valueOf(mActivity.statusHashMap
-					.get(Consts.LOCAL_LOGIN))) {
-				String sessionResult = ConfigUtil.getSession();
-
-				MyLog.v("session", sessionResult);
-				demoParams[0] = sessionResult;
-			} else {
-				demoParams[0] = "";
-			}
-			demoParams[1] = "1";
-			demoParams[2] = "fragmentString";
-			demoTask.execute(demoParams);
 			refreshList();
 			initADViewPager();
 			switch (arg1) {

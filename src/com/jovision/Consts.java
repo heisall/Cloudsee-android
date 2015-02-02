@@ -373,6 +373,7 @@ public class Consts {
 
 	// TODO 程序用到消息值，确保没有重复使用
 	// JVLoginActivity
+	public static final int GETDEMOURL = 1000;
 	public static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
 	public static final int WHAT_DELETE_USER = 0x02;// 删除用户
 	public static final int WHAT_SELECT_USER = 0x03;// 选择用户

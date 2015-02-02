@@ -51,7 +51,6 @@ import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
 import com.jovision.views.AlarmDialog;
 import com.jovision.views.popw;
-import com.tencent.mm.sdk.modelmsg.ShowMessageFromWX;
 import com.tencent.stat.StatService;
 
 /**
@@ -92,7 +91,7 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.morefragment_setting_icon, R.drawable.develop_warning,
 			R.drawable.develop_warning, R.drawable.develop_warning,
-			R.drawable.develop_warning, R.drawable.more_videosquer,
+			R.drawable.develop_warning, R.drawable.more_alarm_icon,
 			R.drawable.more_message, R.drawable.morefragment_install_icon,
 			R.drawable.morefragment_sharedevice_icon,
 			R.drawable.morefragment_data_icon, R.drawable.media_image,

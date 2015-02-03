@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -57,6 +56,8 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					webUrl.getCustUrl());
 			((BaseActivity) mContext).statusHashMap.put("STATURL",
 					webUrl.getStatUrl());
+			((BaseActivity) mContext).statusHashMap.put("DEMOURL", 
+					webUrl.getDemoUrl());
 			int counts = Integer.valueOf(count);
 			switch (counts) {
 			case 0:
@@ -72,7 +73,6 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				mContext.startActivity(intentAD2);
 				break;
 			case 1:
-				Log.i("TAG", "SDDDDDDDDDDDDD");
 				String lan = "";
 				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
 					lan = "zh_cn";
@@ -85,9 +85,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
 						+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
 						+ System.currentTimeMillis() + "&sid=" + sid;
-				((BaseActivity) mContext).statusHashMap.put("DEMOURL", demoUrl);
 				if (!"fragmentString".equals(fragmentString)) {
-					Log.i("TAG", webUrl.getDemoUrl());
 					Intent intentAD = new Intent(mContext,
 							JVWebViewActivity.class);
 					intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

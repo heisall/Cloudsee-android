@@ -185,7 +185,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
+		if (null == ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
+			fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
+		}
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
 				.get(Consts.HAG_GOT_DEVICE));
 		if (!hasGot) {

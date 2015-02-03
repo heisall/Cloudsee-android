@@ -3592,6 +3592,8 @@ public class DeviceUtil {
 							webUrl.setDemoUrl(temObj.optString("demourl"));
 							webUrl.setCustUrl(temObj.optString("custurl"));
 							webUrl.setStatUrl(temObj.optString("staturl"));
+						} else {
+							webUrl = null;
 						}
 					}
 				} catch (Exception e) {

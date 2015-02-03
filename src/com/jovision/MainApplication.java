@@ -242,6 +242,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				}
 			} else {
 				errorCount++;
+				MyLog.v("Account Error", "保持在线失败" + errorCount + "次,errorCode="
+						+ res);
 				if (4 == errorCount) {// 失败4次
 					MyLog.v("Account Error", "保持在线失败4次");
 					if (null != currentNotifyer) {

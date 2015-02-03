@@ -814,10 +814,12 @@ public class JVWebView2Activity extends BaseActivity implements
 				break;
 			}
 			case R.id.btn_right: {
-				// 分享的场合
+				// 分享的场合,视频连接成功后才能分享
 				if (mIsShare) {
-					MyLog.v(TAG, "open share pane");
-					openSharePane();
+					if (playChannel.isConnected()) {
+						MyLog.v(TAG, "open share pane");
+						openSharePane();
+					}
 				}
 				break;
 			}

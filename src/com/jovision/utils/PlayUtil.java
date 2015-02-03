@@ -127,6 +127,7 @@ public class PlayUtil {
 		}
 		for (Device dev : devList) {
 			if (devNum.equalsIgnoreCase(dev.getFullNo())) {
+				MyLog.v("online-tag-1", dev.getFullNo() + "--" + onLineState);
 				dev.setOnlineStateNet(onLineState);
 				break;
 			}

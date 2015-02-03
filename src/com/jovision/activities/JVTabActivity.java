@@ -561,9 +561,13 @@ public class JVTabActivity extends ShakeActivity implements
 			String notifer = ((MainApplication) this.getApplication()).currentNotifyer
 					+ "";
 			if (notifer.startsWith("JVMyDeviceFragment")) {
-				JVMyDeviceFragment.isshow = false;
-				JVMyDeviceFragment.myDLAdapter.setShowDelete(false);
-				JVMyDeviceFragment.myDLAdapter.notifyDataSetChanged();
+				if (JVMyDeviceFragment.isshow) {
+					JVMyDeviceFragment.isshow = false;
+					JVMyDeviceFragment.myDLAdapter.setShowDelete(false);
+					JVMyDeviceFragment.myDLAdapter.notifyDataSetChanged();
+				} else {
+					exit();
+				}
 			} else if (notifer.startsWith("JVVideoFragment")) {
 				if (JVVideoFragment.webView.canGoBack()) {
 					JVVideoFragment.webView.goBack(); // goBack()表示返回WebView的上一页面

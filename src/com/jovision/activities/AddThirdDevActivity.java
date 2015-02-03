@@ -159,7 +159,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 		// index 外设功能编号从1开始
 		switch (index) {
 		case 1:
-			currentMenu.setText(PeripheralArray[0]);
+			// currentMenu.setText(PeripheralArray[0]);
 			dev_type_mark = 1;// 门禁
 
 			if (!bConnectedFlag) {
@@ -188,7 +188,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 			break;
 		case 2:
-			currentMenu.setText(PeripheralArray[1]);
+			// currentMenu.setText(PeripheralArray[1]);
 			dev_type_mark = 2;// 手环
 
 			if (!bConnectedFlag) {
@@ -218,7 +218,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 			break;
 		case 3:
-			currentMenu.setText(PeripheralArray[2]);
+			// currentMenu.setText(PeripheralArray[2]);
 			dev_type_mark = 3;// 遥控
 
 			if (!bConnectedFlag) {
@@ -248,7 +248,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 			break;
 		default:
-			currentMenu.setText(PeripheralArray[index - 1]);
+			// currentMenu.setText(PeripheralArray[index - 1]);
 			dev_type_mark = index;
 			if (!bConnectedFlag) {
 				waitingDialog.show();

@@ -185,7 +185,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
 				.get(Consts.HAG_GOT_DEVICE));
 		if (!hasGot) {
@@ -298,6 +297,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		// adUrlList
 		// .add("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
 		// }
+		fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
 			refreshList();
@@ -848,6 +848,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.GETDEMOURL:
+			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 			GetDemoTask demoTask = new GetDemoTask(mActivity);
 			String[] demoParams = new String[3];
 			if (!Boolean.valueOf(mActivity.statusHashMap
@@ -1507,15 +1508,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {// 0：获取，1：刷新
 			int getRes = 0;
+			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 			try {
 				int errorCode = 0;
 				if (null != mActivity.statusHashMap.get(Consts.ACCOUNT_ERROR)) {
 					errorCode = Integer.parseInt(mActivity.statusHashMap
 							.get(Consts.ACCOUNT_ERROR));
 				}
+
 				if (errorCode == Consts.WHAT_HAS_NOT_LOGIN) {// 未登录，离线登陆
 					myDeviceList = CacheUtil.getOfflineDevList();
+					MyLog.v("LoginState", "offline-" + errorCode);
 				} else {
+					MyLog.v("LoginState", "online-" + errorCode);
 					if (!Boolean.valueOf(mActivity.statusHashMap
 							.get(Consts.LOCAL_LOGIN))) {// 非本地登录，无论是否刷新都执行
 						// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次

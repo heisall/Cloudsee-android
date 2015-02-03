@@ -150,6 +150,8 @@ public class DeviceUtil {
 												.optInt(JVDeviceConst.JK_DEVICE_TYPE));
 										dev.setServerState(obj
 												.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
+										dev.setOnlineStateNet(obj
+												.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));
 										deviceList.add(dev);
 
 										// 同步map,也算是初始化
@@ -943,6 +945,8 @@ public class DeviceUtil {
 									.optInt(JVDeviceConst.JK_ALARM_SWITCH));
 							device.setOnlineStateNet(devObj
 									.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));
+							MyLog.v("online-tag-3", device.getFullNo() + "--"
+									+ device.getOnlineStateNet());
 							device.setServerState(devObj
 									.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
 							device.setHasWifi(devObj
@@ -1134,15 +1138,16 @@ public class DeviceUtil {
 																obj.optString(JVDeviceConst.JK_DEVICE_GUID))) {
 													Device dev = deviceList
 															.get(k);
-													// dev.setShortConnRes(-29);
+
 													dev.setOnlineStateNet(obj
 															.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));// dsls
+													MyLog.v("online-tag-2",
+															dev.getFullNo()
+																	+ "--"
+																	+ dev.getOnlineStateNet());
 													dev.setHasWifi(obj
 															.optInt(JVDeviceConst.JK_DEVICE_WIFI_FLAG));// dsls
-													MyLog.v("刷新:"
-															+ dev.getFullNo(),
-															"在线状态："
-																	+ dev.getOnlineStateNet());
+
 													dev.setDeviceType(obj
 															.optInt(JVDeviceConst.JK_DEVICE_TYPE));
 

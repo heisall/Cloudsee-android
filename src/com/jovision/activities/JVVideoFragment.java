@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,13 +38,14 @@ public class JVVideoFragment extends BaseFragment {
 	/** topBar **/
 	private RelativeLayout topBar;
 
-	private WebView webView;
+	public static WebView webView;
 	private String urls = "";
 	private int titleID = 0;
 	private ImageView loadingBar;
 	private View rootView;
+	private boolean isshow = false;
 
-	private LinearLayout loadFailedLayout;
+	private RelativeLayout loadFailedLayout;
 	private ImageView reloadImgView;
 	private boolean loadFailed = false;
 	private boolean isConnected = false;
@@ -108,7 +110,29 @@ public class JVVideoFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		if (null != ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
+			String sid = "";
+			String lan = "";
+			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {
+				lan = "zh_cn";
+			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+					.getLanguage2(mActivity)) {
+				lan = "zh_tw";
+			} else {
+				lan = "en_us";
+			}
 			urls = ((BaseActivity) mActivity).statusHashMap.get("DEMOURL");
+			if (!Boolean.valueOf(mActivity.statusHashMap
+					.get(Consts.LOCAL_LOGIN))) {
+				String sessionResult = ConfigUtil.getSession();
+				sid = sessionResult;
+			} else {
+				sid = "";
+			}
+			urls = urls + "?" + "plat=android&platv=" + Build.VERSION.SDK_INT
+					+ "&lang=" + lan + "&d=" + System.currentTimeMillis()
+					+ "&sid=" + sid;
+		} else {
+			isshow = true;
 		}
 		// url = "http://app.ys7.com/";
 		if (urls.contains("rotate=x")) {
@@ -128,7 +152,7 @@ public class JVVideoFragment extends BaseFragment {
 		loadinglayout = (LinearLayout) rootView
 				.findViewById(R.id.loadinglayout);
 
-		loadFailedLayout = (LinearLayout) rootView
+		loadFailedLayout = (RelativeLayout) rootView
 				.findViewById(R.id.loadfailedlayout);
 		loadFailedLayout.setVisibility(View.GONE);
 		reloadImgView = (ImageView) rootView.findViewById(R.id.refreshimg);
@@ -241,6 +265,11 @@ public class JVVideoFragment extends BaseFragment {
 						webView.setVisibility(View.GONE);
 						loadinglayout.setVisibility(View.GONE);
 					}
+				}
+				if (isshow) {
+					loadFailedLayout.setVisibility(View.VISIBLE);
+					webView.setVisibility(View.GONE);
+					loadinglayout.setVisibility(View.GONE);
 				}
 				MyLog.v(TAG, "webView finish load");
 			}

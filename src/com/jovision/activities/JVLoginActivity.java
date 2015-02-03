@@ -773,6 +773,7 @@ public class JVLoginActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		statusHashMap.put(Consts.ACCOUNT_ERROR, null);
 		MobclickAgent.onResume(this);
 	}
 

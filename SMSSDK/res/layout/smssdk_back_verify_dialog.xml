@@ -2,21 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/tv_dialog_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dip"
         android:layout_marginBottom="15dip"
+        android:layout_marginTop="15dip"
+        android:gravity="center"
+        android:lineSpacingExtra="5dip"
         android:paddingLeft="15dip"
         android:paddingRight="15dip"
-        android:lineSpacingExtra="5dip"
         android:text="@string/smssdk_make_sure_mobile_detail"
         android:textColor="#ffffff"
-        android:textSize="18sp"
-        android:gravity="center" />
+        android:textSize="18sp" />
 
     <View
         android:layout_width="match_parent"
@@ -37,12 +37,12 @@
             android:padding="10dip"
             android:text="@string/smssdk_ok"
             android:textColor="#ffffff" />
-        
+
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
             android:background="#ff737373" />
-        
+
         <Button
             android:id="@+id/btn_dialog_cancel"
             android:layout_width="0dip"
@@ -53,7 +53,6 @@
             android:padding="10dip"
             android:text="@string/smssdk_cancel"
             android:textColor="#ffffff" />
-        
     </LinearLayout>
 
 </LinearLayout>

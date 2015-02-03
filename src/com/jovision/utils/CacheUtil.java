@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.jovision.Consts;
 import com.jovision.bean.Device;
 import com.jovision.bean.User;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 
 public class CacheUtil {
@@ -57,7 +58,7 @@ public class CacheUtil {
 	 * @return
 	 */
 	public static ArrayList<Device> getOfflineDevList() {
-		// MyLog.e("CacheUtil---1", "getDevList");
+		MyLog.e("CacheUtil---getOfflineDev", "getDevList");
 		ArrayList<Device> devList = new ArrayList<Device>();
 		String devJsonString = MySharedPreference
 				.getString(Consts.OFFLINE_DEVICE_LIST);

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -108,7 +109,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private boolean manuPause = false;// 人为暂停
 	private boolean onPause = false;// onPause
 
-	private LinearLayout loadFailedLayout;
+	private RelativeLayout loadFailedLayout;
 	private ImageView reloadImgView;
 	private boolean loadFailed = false;
 
@@ -412,7 +413,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		loadingBar = (ImageView) findViewById(R.id.loadingbar);
 		loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
 
-		loadFailedLayout = (LinearLayout) findViewById(R.id.loadfailedlayout);
+		loadFailedLayout = (RelativeLayout) findViewById(R.id.loadfailedlayout);
 		loadFailedLayout.setVisibility(View.GONE);
 		reloadImgView = (ImageView) findViewById(R.id.refreshimg);
 		reloadImgView.setOnClickListener(myOnClickListener);
@@ -548,15 +549,12 @@ public class JVWebView2Activity extends BaseActivity implements
 		playSurfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
 			@Override
 			public void surfaceDestroyed(SurfaceHolder holder) {
-				MyLog.e("妈呀", "1");
-				MyLog.e("妈呀", "surfaceDestroyed");
 				stopConnect();
 				playChannel.setSurface(null);
 			}
 
 			@Override
 			public void surfaceCreated(SurfaceHolder holder) {
-				MyLog.e("妈呀", "surfaceCreated");
 				playChannel.setSurface(holder.getSurface());
 				if (!manuPause) {
 					loadingState(Consts.TAG_PLAY_CONNECTING);
@@ -567,7 +565,6 @@ public class JVWebView2Activity extends BaseActivity implements
 			@Override
 			public void surfaceChanged(SurfaceHolder holder, int format,
 					int width, int height) {
-				MyLog.e("妈呀", "surfaceChanged");
 				playChannel.setSurface(holder.getSurface());
 				if (!onPause && !manuPause) {
 					if (false == playChannel.isConnected()
@@ -613,6 +610,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			public void onReceivedError(WebView view, int errorCode,
 					String description, String failingUrl) {
 				MyLog.v(TAG, "webView load failed");
+				demoLayout.setVisibility(View.VISIBLE);
 				loadFailed = true;
 				super.onReceivedError(view, errorCode, description, failingUrl);
 			}
@@ -638,8 +636,8 @@ public class JVWebView2Activity extends BaseActivity implements
 				super.onPageFinished(view, url);
 				if (loadFailed) {
 					loadFailedLayout.setVisibility(View.VISIBLE);
-					demoLayout.setVisibility(View.GONE);
 					loadinglayout.setVisibility(View.GONE);
+					webView.setVisibility(View.GONE);
 				} else {
 					webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
 					loadinglayout.setVisibility(View.GONE);
@@ -648,6 +646,7 @@ public class JVWebView2Activity extends BaseActivity implements
 				}
 				// webView.loadUrl("javascript:videopayer.play()");
 				MyLog.v(TAG, "webView finish load");
+				demoLayout.setVisibility(View.VISIBLE);
 			}
 		});
 
@@ -678,7 +677,6 @@ public class JVWebView2Activity extends BaseActivity implements
 						public void onGlobalLayout() {
 							// TODO Auto-generated method stub
 							// Log.i("TAG",disMetrics.heightPixels-disMetrics.widthPixels*0.75-100+"高度"+webView.getHeight());
-
 							if ((disMetrics.heightPixels
 									- disMetrics.widthPixels * 0.75 - 100)
 									- webView.getHeight() > 200) {
@@ -772,7 +770,8 @@ public class JVWebView2Activity extends BaseActivity implements
 						JVWebView2Activity.this, R.anim.rotate);
 				loadingBar.setAnimation(anim);
 				loadFailed = false;
-				webView.loadUrl(url);
+				webView.reload();
+				// webView.loadUrl(url);
 				break;
 			}
 			case R.id.pause: {// 暂停
@@ -782,7 +781,6 @@ public class JVWebView2Activity extends BaseActivity implements
 					pause.setImageDrawable(getResources().getDrawable(
 							R.drawable.video_play_icon));
 					// 暂停视频
-					MyLog.e("妈呀", "2");
 					boolean res = stopConnect();
 				} else {
 					manuPause = false;
@@ -812,10 +810,12 @@ public class JVWebView2Activity extends BaseActivity implements
 				break;
 			}
 			case R.id.btn_right: {
-				// 分享的场合
+				// 分享的场合,视频连接成功后才能分享
 				if (mIsShare) {
-					MyLog.v(TAG, "open share pane");
-					openSharePane();
+					if (playChannel.isConnected()) {
+						MyLog.v(TAG, "open share pane");
+						openSharePane();
+					}
 				}
 				break;
 			}
@@ -830,8 +830,18 @@ public class JVWebView2Activity extends BaseActivity implements
 		if (webView.canGoBack()) {
 			webView.goBack(); // goBack()表示返回WebView的上一页面
 		} else {
-			createDialog("", false);
-			MyLog.e("妈呀", "3");
+			DisConnectTask disTask = new DisConnectTask();
+			String[] params = new String[3];
+			disTask.execute(params);
+		}
+	}
+
+	// 设置三种类型参数分别为String,Integer,String
+	class DisConnectTask extends AsyncTask<String, Integer, Integer> {
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int disRes = 0;// 0成功 1失败
 			stopConnect();
 			while (!isDisConnected) {
 				try {
@@ -840,13 +850,38 @@ public class JVWebView2Activity extends BaseActivity implements
 					e.printStackTrace();
 				}
 			}
+			return disRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
-			if (mIsShare) {
-				MyLog.v(TAG, "remove sina's sso handler and clear listeners");
-				mController.getConfig().cleanListeners();
-				mController.getConfig().removeSsoHandler(SHARE_MEDIA.SINA);
+			if (0 == result) {
+				if (mIsShare) {
+					MyLog.v(TAG,
+							"remove sina's sso handler and clear listeners");
+					mController.getConfig().cleanListeners();
+					mController.getConfig().removeSsoHandler(SHARE_MEDIA.SINA);
+				}
+				finish();
 			}
-			finish();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("", true);
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
 
@@ -884,7 +919,6 @@ public class JVWebView2Activity extends BaseActivity implements
 		super.onPause();
 		// handler.sendMessage(handler.obtainMessage(Consts.WHAT_DEMO_BUFFING));
 		onPause = true;
-		MyLog.e("妈呀", "4");
 		if (!manuPause) {
 			stopConnect();
 		}
@@ -898,7 +932,6 @@ public class JVWebView2Activity extends BaseActivity implements
 		onPause = false;
 		// webView.onResume();
 		// resumeVideo();
-		MyLog.e("妈呀", "onResume");
 		if (!manuPause) {
 			handler.sendMessageDelayed(
 					handler.obtainMessage(Consts.WHAT_DEMO_RESUME), 500);

@@ -185,7 +185,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
+		if (null == ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
+			fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
+		}
 		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
 				.get(Consts.HAG_GOT_DEVICE));
 		if (!hasGot) {
@@ -848,6 +850,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.GETDEMOURL:
+			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 			GetDemoTask demoTask = new GetDemoTask(mActivity);
 			String[] demoParams = new String[3];
 			if (!Boolean.valueOf(mActivity.statusHashMap
@@ -864,13 +867,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 			demoTask.execute(demoParams);
 			break;
 		case Consts.WHAT_ALARM_NET:
-			if (null != alarmnet
-					&& !Boolean.valueOf(mActivity.statusHashMap
-							.get(Consts.LOCAL_LOGIN))) {
-				alarmnet.setVisibility(View.VISIBLE);
-				if (null != accountError) {
-					accountError.setText(getString(R.string.network_error_tips)
-							+ arg1);
+			if (this.isAdded()) {
+				if (null != alarmnet
+						&& !Boolean.valueOf(mActivity.statusHashMap
+								.get(Consts.LOCAL_LOGIN))) {
+					alarmnet.setVisibility(View.VISIBLE);
+					if (null != accountError) {
+						accountError.setText(mActivity.getResources()
+								.getString(R.string.network_error_tips) + arg1);
+					}
 				}
 			}
 			break;
@@ -881,12 +886,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 			break;
 
 		case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
-			if (null != alarmnet
-					&& !Boolean.valueOf(mActivity.statusHashMap
-							.get(Consts.LOCAL_LOGIN))) {
-				alarmnet.setVisibility(View.VISIBLE);
-				if (null != accountError) {
-					accountError.setText(R.string.account_error_tips);
+			if (this.isAdded()) {
+				if (null != alarmnet
+						&& !Boolean.valueOf(mActivity.statusHashMap
+								.get(Consts.LOCAL_LOGIN))) {
+					alarmnet.setVisibility(View.VISIBLE);
+					if (null != accountError) {
+						accountError.setText(mActivity.getResources()
+								.getString(R.string.account_error_tips));
+					}
 				}
 			}
 			break;
@@ -910,7 +918,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// TODO
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mActivity.dismissDialog();
-			mActivity.createDialog(getResources().getString(R.string.waiting)
+			mActivity.createDialog(mActivity.getResources().getString(R.string.waiting)
 					+ "...", false);
 			refreshList();
 			initADViewPager();
@@ -1502,15 +1510,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 		@Override
 		protected Integer doInBackground(String... params) {// 0：获取，1：刷新
 			int getRes = 0;
+			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 			try {
 				int errorCode = 0;
 				if (null != mActivity.statusHashMap.get(Consts.ACCOUNT_ERROR)) {
 					errorCode = Integer.parseInt(mActivity.statusHashMap
 							.get(Consts.ACCOUNT_ERROR));
 				}
+
 				if (errorCode == Consts.WHAT_HAS_NOT_LOGIN) {// 未登录，离线登陆
 					myDeviceList = CacheUtil.getOfflineDevList();
+					MyLog.v("LoginState", "offline-" + errorCode);
 				} else {
+					MyLog.v("LoginState", "online-" + errorCode);
 					if (!Boolean.valueOf(mActivity.statusHashMap
 							.get(Consts.LOCAL_LOGIN))) {// 非本地登录，无论是否刷新都执行
 						// 获取所有设备列表和通道列表 ,如果设备请求失败，多请求一次

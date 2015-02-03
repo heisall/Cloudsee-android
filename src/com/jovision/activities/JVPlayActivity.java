@@ -4100,9 +4100,9 @@ public class JVPlayActivity extends PlayActivity implements
 		super.onConfigurationChanged(newConfig);
 		closePopWindow();
 
-		// [Neo] add black screen time
-		Jni.setColor(lastClickIndex, 0, 0, 0, 0);
-
+		// // [Neo] add black screen time
+		// Jni.setColor(lastClickIndex, 0, 0, 0, 0);
+		changeWindow(ONE_SCREEN);
 		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 			// if (channelList.get(lastClickIndex).getParent().isCard()
 			// || 8 == channelList.get(lastClickIndex).getAudioByte()) {
@@ -4131,7 +4131,6 @@ public class JVPlayActivity extends PlayActivity implements
 						pauseChannel(ch);
 					}
 				}
-				changeWindow(ONE_SCREEN);
 			}
 
 			playViewPager.setDisableSliding(true);

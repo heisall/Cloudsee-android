@@ -556,13 +556,30 @@ public class JVTabActivity extends ShakeActivity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-			if (JVMyDeviceFragment.isshow) {
-				JVMyDeviceFragment.isshow = false;
-				JVMyDeviceFragment.myDLAdapter.setShowDelete(false);
-				JVMyDeviceFragment.myDLAdapter.notifyDataSetChanged();
+
+			MyLog.v("notifyer",
+					((MainApplication) this.getApplication()).currentNotifyer
+							+ "");
+			String notifer = ((MainApplication) this.getApplication()).currentNotifyer
+					+ "";
+			if (notifer.startsWith("JVMyDeviceFragment")) {
+				if (JVMyDeviceFragment.isshow) {
+					JVMyDeviceFragment.isshow = false;
+					JVMyDeviceFragment.myDLAdapter.setShowDelete(false);
+					JVMyDeviceFragment.myDLAdapter.notifyDataSetChanged();
+				} else {
+					exit();
+				}
+			} else if (notifer.startsWith("JVVideoFragment")) {
+				if (JVVideoFragment.webView.canGoBack()) {
+					JVVideoFragment.webView.goBack(); // goBack()表示返回WebView的上一页面
+				} else {
+					exit();
+				}
 			} else {
 				exit();
 			}
+
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

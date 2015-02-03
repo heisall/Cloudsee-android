@@ -96,8 +96,13 @@ public class ManageFragment extends BaseFragment {
 			}
 			device = deviceList.get(deviceIndex);
 			if (null != device && null != manageAdapter) {
-				manageAdapter.setData(disMetrics.widthPixels, deviceIndex,
-						device, localFlag);
+				int w;
+				if (disMetrics.widthPixels < disMetrics.heightPixels) {
+					w = disMetrics.widthPixels;
+				} else {
+					w = disMetrics.heightPixels;
+				}
+				manageAdapter.setData(w, deviceIndex, device, localFlag);
 				manageGridView.setAdapter(manageAdapter);
 				manageAdapter.notifyDataSetChanged();
 			}

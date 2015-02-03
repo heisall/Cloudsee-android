@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -57,22 +56,36 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					webUrl.getCustUrl());
 			((BaseActivity) mContext).statusHashMap.put("STATURL",
 					webUrl.getStatUrl());
+			((BaseActivity) mContext).statusHashMap.put("DEMOURL",
+					webUrl.getDemoUrl());
 			int counts = Integer.valueOf(count);
 			switch (counts) {
 			case 0:
-				Intent intentAD0 = new Intent(mContext, JVWebViewActivity.class);
-				intentAD0.putExtra("URL", webUrl.getCustUrl());
-				intentAD0.putExtra("title", -2);
-				mContext.startActivity(intentAD0);
+				if (null != webUrl.getCustUrl()) {
+					Intent intentAD0 = new Intent(mContext,
+							JVWebViewActivity.class);
+					intentAD0.putExtra("URL", webUrl.getCustUrl());
+					intentAD0.putExtra("title", -2);
+					mContext.startActivity(intentAD0);
+				} else {
+					((BaseActivity) mContext)
+							.showTextToast(R.string.str_video_load_failed);
+				}
 				break;
 			case 2:
-				Intent intentAD2 = new Intent(mContext, JVWebViewActivity.class);
-				intentAD2.putExtra("URL", webUrl.getStatUrl());
-				intentAD2.putExtra("title", -2);
-				mContext.startActivity(intentAD2);
+				if (null != webUrl.getStatUrl()) {
+					Intent intentAD2 = new Intent(mContext,
+							JVWebViewActivity.class);
+					intentAD2.putExtra("URL", webUrl.getStatUrl());
+					intentAD2.putExtra("title", -2);
+					mContext.startActivity(intentAD2);
+				} else {
+					((BaseActivity) mContext)
+							.showTextToast(R.string.str_video_load_failed);
+				}
+
 				break;
 			case 1:
-				Log.i("TAG", "SDDDDDDDDDDDDD");
 				String lan = "";
 				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
 					lan = "zh_cn";
@@ -85,15 +98,18 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
 						+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
 						+ System.currentTimeMillis() + "&sid=" + sid;
-				((BaseActivity) mContext).statusHashMap.put("DEMOURL", demoUrl);
-				if (!"fragmentString".equals(fragmentString)) {
-					Log.i("TAG", webUrl.getDemoUrl());
+				if (!"fragmentString".equals(fragmentString)
+						&& null != webUrl.getDemoUrl()) {
 					Intent intentAD = new Intent(mContext,
 							JVWebViewActivity.class);
 					intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					intentAD.putExtra("URL", demoUrl);
 					intentAD.putExtra("title", -2);
 					mContext.startActivity(intentAD);
+				} else if (!"fragmentString".equals(fragmentString)
+						&& null == webUrl.getDemoUrl()) {
+					((BaseActivity) mContext)
+							.showTextToast(R.string.demo_get_failed);
 				}
 				break;
 			default:

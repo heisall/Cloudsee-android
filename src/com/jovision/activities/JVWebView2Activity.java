@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -830,7 +831,18 @@ public class JVWebView2Activity extends BaseActivity implements
 		if (webView.canGoBack()) {
 			webView.goBack(); // goBack()表示返回WebView的上一页面
 		} else {
-			createDialog("", false);
+			DisConnectTask disTask = new DisConnectTask();
+			String[] params = new String[3];
+			disTask.execute(params);
+		}
+	}
+
+	// 设置三种类型参数分别为String,Integer,String
+	class DisConnectTask extends AsyncTask<String, Integer, Integer> {
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int disRes = 0;// 0成功 1失败
 			MyLog.e("妈呀", "3");
 			stopConnect();
 			while (!isDisConnected) {
@@ -840,13 +852,38 @@ public class JVWebView2Activity extends BaseActivity implements
 					e.printStackTrace();
 				}
 			}
+			return disRes;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
-			if (mIsShare) {
-				MyLog.v(TAG, "remove sina's sso handler and clear listeners");
-				mController.getConfig().cleanListeners();
-				mController.getConfig().removeSsoHandler(SHARE_MEDIA.SINA);
+			if (0 == result) {
+				if (mIsShare) {
+					MyLog.v(TAG,
+							"remove sina's sso handler and clear listeners");
+					mController.getConfig().cleanListeners();
+					mController.getConfig().removeSsoHandler(SHARE_MEDIA.SINA);
+				}
+				finish();
 			}
-			finish();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("", true);
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
 

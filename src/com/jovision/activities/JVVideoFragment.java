@@ -37,7 +37,7 @@ public class JVVideoFragment extends BaseFragment {
 	/** topBar **/
 	private RelativeLayout topBar;
 
-	private WebView webView;
+	public static WebView webView;
 	private String urls = "";
 	private int titleID = 0;
 	private ImageView loadingBar;

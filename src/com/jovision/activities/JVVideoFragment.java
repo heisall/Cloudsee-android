@@ -127,9 +127,9 @@ public class JVVideoFragment extends BaseFragment {
 			} else {
 				sid = "";
 			}
-			urls = urls + "?" + "plat=android&platv="
-					+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
-					+ System.currentTimeMillis() + "&sid=" + sid;
+			urls = urls + "?" + "plat=android&platv=" + Build.VERSION.SDK_INT
+					+ "&lang=" + lan + "&d=" + System.currentTimeMillis()
+					+ "&sid=" + sid;
 		}
 		// url = "http://app.ys7.com/";
 		if (urls.contains("rotate=x")) {

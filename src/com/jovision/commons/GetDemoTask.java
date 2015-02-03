@@ -56,7 +56,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					webUrl.getCustUrl());
 			((BaseActivity) mContext).statusHashMap.put("STATURL",
 					webUrl.getStatUrl());
-			((BaseActivity) mContext).statusHashMap.put("DEMOURL", 
+			((BaseActivity) mContext).statusHashMap.put("DEMOURL",
 					webUrl.getDemoUrl());
 			int counts = Integer.valueOf(count);
 			switch (counts) {

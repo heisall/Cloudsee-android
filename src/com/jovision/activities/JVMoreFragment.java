@@ -599,38 +599,47 @@ public class JVMoreFragment extends BaseFragment {
 							// TODO
 							break;
 						case 9:
-							if (!MySharedPreference.getBoolean("SystemMessage")) {
-								MySharedPreference.putBoolean("SystemMessage",
-										true);
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								if (!MySharedPreference
+										.getBoolean("SystemMessage")) {
+									MySharedPreference.putBoolean(
+											"SystemMessage", true);
+								}
+								StatService.trackCustomEvent(
+										mActivity,
+										"MoreMessage",
+										mActivity.getResources().getString(
+												R.string.census_moremessage));
+								Intent infoIntent = new Intent();
+								infoIntent.setClass(mActivity,
+										JVSystemInfoActivity.class);
+								mActivity.startActivity(infoIntent);
 							}
-							StatService.trackCustomEvent(
-									mActivity,
-									"MoreMessage",
-									mActivity.getResources().getString(
-											R.string.census_moremessage));
-							Intent infoIntent = new Intent();
-							infoIntent.setClass(mActivity,
-									JVSystemInfoActivity.class);
-							mActivity.startActivity(infoIntent);
-							// TODO
 							break;
 						case 10:
-							if (null != ((BaseActivity) mActivity).statusHashMap
-									.get("CUSTURL")) {
-								Intent intentAD0 = new Intent(mActivity,
-										JVWebViewActivity.class);
-								intentAD0
-										.putExtra(
-												"URL",
-												((BaseActivity) mActivity).statusHashMap
-														.get("CUSTURL"));
-								intentAD0.putExtra("title", -2);
-								mActivity.startActivity(intentAD0);
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
 							} else {
-								GetDemoTask UrlTask = new GetDemoTask(mActivity);
-								String[] demoParams = new String[3];
-								demoParams[1] = "0";
-								UrlTask.execute(demoParams);
+								if (null != ((BaseActivity) mActivity).statusHashMap
+										.get("CUSTURL")) {
+									Intent intentAD0 = new Intent(mActivity,
+											JVWebViewActivity.class);
+									intentAD0
+											.putExtra(
+													"URL",
+													((BaseActivity) mActivity).statusHashMap
+															.get("CUSTURL"));
+									intentAD0.putExtra("title", -2);
+									mActivity.startActivity(intentAD0);
+								} else {
+									GetDemoTask UrlTask = new GetDemoTask(
+											mActivity);
+									String[] demoParams = new String[3];
+									demoParams[1] = "0";
+									UrlTask.execute(demoParams);
+								}
 							}
 							break;
 						case 11:
@@ -641,24 +650,27 @@ public class JVMoreFragment extends BaseFragment {
 							// UrlTask1.execute(demoParams1);
 							break;
 						case 12:
-
-							if (null != ((BaseActivity) mActivity).statusHashMap
-									.get("STATURL")) {
-								Intent intentAD0 = new Intent(mActivity,
-										JVWebViewActivity.class);
-								intentAD0
-										.putExtra(
-												"URL",
-												((BaseActivity) mActivity).statusHashMap
-														.get("STATURL"));
-								intentAD0.putExtra("title", -2);
-								mActivity.startActivity(intentAD0);
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
 							} else {
-								GetDemoTask UrlTask2 = new GetDemoTask(
-										mActivity);
-								String[] demoParams2 = new String[3];
-								demoParams2[1] = "2";
-								UrlTask2.execute(demoParams2);
+								if (null != ((BaseActivity) mActivity).statusHashMap
+										.get("STATURL")) {
+									Intent intentAD0 = new Intent(mActivity,
+											JVWebViewActivity.class);
+									intentAD0
+											.putExtra(
+													"URL",
+													((BaseActivity) mActivity).statusHashMap
+															.get("STATURL"));
+									intentAD0.putExtra("title", -2);
+									mActivity.startActivity(intentAD0);
+								} else {
+									GetDemoTask UrlTask2 = new GetDemoTask(
+											mActivity);
+									String[] demoParams2 = new String[3];
+									demoParams2[1] = "2";
+									UrlTask2.execute(demoParams2);
+								}
 							}
 							break;
 						case 13:// 媒体

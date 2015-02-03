@@ -549,15 +549,12 @@ public class JVWebView2Activity extends BaseActivity implements
 		playSurfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
 			@Override
 			public void surfaceDestroyed(SurfaceHolder holder) {
-				MyLog.e("妈呀", "1");
-				MyLog.e("妈呀", "surfaceDestroyed");
 				stopConnect();
 				playChannel.setSurface(null);
 			}
 
 			@Override
 			public void surfaceCreated(SurfaceHolder holder) {
-				MyLog.e("妈呀", "surfaceCreated");
 				playChannel.setSurface(holder.getSurface());
 				if (!manuPause) {
 					loadingState(Consts.TAG_PLAY_CONNECTING);
@@ -568,7 +565,6 @@ public class JVWebView2Activity extends BaseActivity implements
 			@Override
 			public void surfaceChanged(SurfaceHolder holder, int format,
 					int width, int height) {
-				MyLog.e("妈呀", "surfaceChanged");
 				playChannel.setSurface(holder.getSurface());
 				if (!onPause && !manuPause) {
 					if (false == playChannel.isConnected()
@@ -774,7 +770,8 @@ public class JVWebView2Activity extends BaseActivity implements
 						JVWebView2Activity.this, R.anim.rotate);
 				loadingBar.setAnimation(anim);
 				loadFailed = false;
-				webView.loadUrl(url);
+				webView.reload();
+				// webView.loadUrl(url);
 				break;
 			}
 			case R.id.pause: {// 暂停
@@ -784,7 +781,6 @@ public class JVWebView2Activity extends BaseActivity implements
 					pause.setImageDrawable(getResources().getDrawable(
 							R.drawable.video_play_icon));
 					// 暂停视频
-					MyLog.e("妈呀", "2");
 					boolean res = stopConnect();
 				} else {
 					manuPause = false;
@@ -846,7 +842,6 @@ public class JVWebView2Activity extends BaseActivity implements
 		@Override
 		protected Integer doInBackground(String... params) {
 			int disRes = 0;// 0成功 1失败
-			MyLog.e("妈呀", "3");
 			stopConnect();
 			while (!isDisConnected) {
 				try {
@@ -924,7 +919,6 @@ public class JVWebView2Activity extends BaseActivity implements
 		super.onPause();
 		// handler.sendMessage(handler.obtainMessage(Consts.WHAT_DEMO_BUFFING));
 		onPause = true;
-		MyLog.e("妈呀", "4");
 		if (!manuPause) {
 			stopConnect();
 		}
@@ -938,7 +932,6 @@ public class JVWebView2Activity extends BaseActivity implements
 		onPause = false;
 		// webView.onResume();
 		// resumeVideo();
-		MyLog.e("妈呀", "onResume");
 		if (!manuPause) {
 			handler.sendMessageDelayed(
 					handler.obtainMessage(Consts.WHAT_DEMO_RESUME), 500);

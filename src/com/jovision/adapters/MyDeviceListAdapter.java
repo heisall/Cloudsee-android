@@ -171,9 +171,9 @@ public class MyDeviceListAdapter extends BaseAdapter {
 					.getNickName());
 		} else {
 			deviceHolder.devNameL.setText(deviceList.get(position * 2)
-					.getNickName()
-					+ "-"
-					+ deviceList.get(position * 2).getOnlineStateNet());
+					.getNickName());
+			// + "-"
+			// + deviceList.get(position * 2).getOnlineStateNet());
 			deviceHolder.devnicknameL.setText(deviceList.get(position * 2)
 					.getNickName());
 		}
@@ -317,9 +317,9 @@ public class MyDeviceListAdapter extends BaseAdapter {
 						position * 2 + 1).getNickName());
 			} else {
 				deviceHolder.devNameR.setText(deviceList.get(position * 2 + 1)
-						.getNickName()
-						+ "-"
-						+ deviceList.get(position * 2 + 1).getOnlineStateNet());
+						.getNickName());
+				// + "-"
+				// + deviceList.get(position * 2 + 1).getOnlineStateNet());
 				deviceHolder.devnicknameR.setText(deviceList.get(
 						position * 2 + 1).getNickName());
 			}

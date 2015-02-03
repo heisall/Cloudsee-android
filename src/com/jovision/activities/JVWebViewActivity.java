@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings.RenderPriority;
@@ -289,7 +288,7 @@ public class JVWebViewActivity extends BaseActivity {
 				loadingBar.setAnimation(AnimationUtils.loadAnimation(
 						JVWebViewActivity.this, R.anim.rotate));
 				loadFailed = false;
-				webView.loadUrl(url);
+				webView.reload();
 				break;
 			}
 			}

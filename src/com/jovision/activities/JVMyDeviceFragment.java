@@ -918,8 +918,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 			// TODO
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mActivity.dismissDialog();
-			mActivity.createDialog(mActivity.getResources().getString(R.string.waiting)
-					+ "...", false);
+			mActivity.createDialog(
+					mActivity.getResources().getString(R.string.waiting)
+							+ "...", false);
 			refreshList();
 			initADViewPager();
 			switch (arg1) {

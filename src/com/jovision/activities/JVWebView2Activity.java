@@ -815,6 +815,8 @@ public class JVWebView2Activity extends BaseActivity implements
 					if (playChannel.isConnected()) {
 						MyLog.v(TAG, "open share pane");
 						openSharePane();
+					} else {
+						showTextToast(R.string.str_wait_connect);
 					}
 				}
 				break;
@@ -843,9 +845,14 @@ public class JVWebView2Activity extends BaseActivity implements
 		protected Integer doInBackground(String... params) {
 			int disRes = 0;// 0成功 1失败
 			stopConnect();
+			int errorCount = 0;
 			while (!isDisConnected) {
+				errorCount++;
+				if (errorCount > 60) {
+					break;
+				}
 				try {
-					Thread.sleep(100);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

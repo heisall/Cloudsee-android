@@ -288,7 +288,7 @@ public class JVWebViewActivity extends BaseActivity {
 				loadingBar.setAnimation(AnimationUtils.loadAnimation(
 						JVWebViewActivity.this, R.anim.rotate));
 				loadFailed = false;
-				webView.loadUrl(url);
+				webView.reload();
 				break;
 			}
 			}

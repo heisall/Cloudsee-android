@@ -131,8 +131,7 @@
                     android:id="@+id/webview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/zhezhao"
-                     />
+                    android:layout_below="@+id/zhezhao" />
 
                 <LinearLayout
                     android:id="@+id/loadinglayout"
@@ -167,8 +166,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="50dp"
-                    layout="@layout/load_failed_layout"
-                    >
+                    layout="@layout/load_failed_layout" >
                 </include>
             </RelativeLayout>
         </RelativeLayout>

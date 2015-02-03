@@ -274,10 +274,12 @@ public abstract class PlayActivity extends BaseActivity implements
 		if (Consts.ISHITVIS == 1) {
 			ishitvis.setVisibility(View.VISIBLE);
 		}
-//		reParamstop2 = new RelativeLayout.LayoutParams(400,
-//				400);
-//		reParamstop2.setMargins(0,0,30, 0); 
-//		rightBtn.setLayoutParams(reParamstop2);
+		reParamstop2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+		reParamstop2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT); 
+		reParamstop2.addRule(RelativeLayout.CENTER_VERTICAL); 
+		reParamstop2.setMargins(0, 0, 30, 0);
+		rightBtn.setLayoutParams(reParamstop2);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 
 		selectScreenNum = (ImageView) findViewById(R.id.selectscreen);

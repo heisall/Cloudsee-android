@@ -300,7 +300,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 		// adUrlList
 		// .add("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
 		// }
-		fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
 		if (hasGot) {
 			myDeviceList = CacheUtil.getDevList();
 			refreshList();

@@ -623,6 +623,12 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		stopAllFunc();
 		Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYSTOP, new byte[0],
 				0);
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		JVRemotePlayBackActivity.this.finish();
 	}
 

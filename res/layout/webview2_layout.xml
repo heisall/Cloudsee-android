@@ -126,21 +126,22 @@
                     android:layout_height="200dp"
                     android:background="@color/transparent" >
                 </RelativeLayout>
-
+				<RelativeLayout 
+				     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/zhezhao"
+				    >
                 <WebView
                     android:id="@+id/webview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/zhezhao"
-                     />
+                    />
 
                 <LinearLayout
                     android:id="@+id/loadinglayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="120dp"
+                    android:layout_centerInParent="true"
                     android:orientation="vertical"
                     android:visibility="gone" >
 
@@ -164,12 +165,12 @@
                     android:id="@+id/loadfailedlayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="50dp"
-                    layout="@layout/load_failed_layout"
+                    android:layout_centerInParent="true"
+                    layout="@layout/load_failed_layout" 
+                    android:visibility="gone"
                     >
                 </include>
+                </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
     </FrameLayout>

@@ -201,9 +201,8 @@ public class JVWebViewActivity extends BaseActivity {
 				super.onPageStarted(view, url, favicon);
 				if (!isfirst) {
 					loadinglayout.setVisibility(View.VISIBLE);
-					Animation anim = AnimationUtils.loadAnimation(
-							JVWebViewActivity.this, R.anim.rotate);
-					loadingBar.setAnimation(anim);
+					loadingBar.setAnimation(AnimationUtils.loadAnimation(
+							JVWebViewActivity.this, R.anim.rotate));
 					isfirst = true;
 				}
 				MyLog.v(TAG, "webView start load");
@@ -287,9 +286,8 @@ public class JVWebViewActivity extends BaseActivity {
 			case R.id.refreshimg: {
 				loadFailedLayout.setVisibility(View.GONE);
 				loadinglayout.setVisibility(View.VISIBLE);
-				Animation anim = AnimationUtils.loadAnimation(
-						JVWebViewActivity.this, R.anim.rotate);
-				loadingBar.setAnimation(anim);
+				loadingBar.setAnimation(AnimationUtils.loadAnimation(
+						JVWebViewActivity.this, R.anim.rotate));
 				loadFailed = false;
 				webView.loadUrl(url);
 				break;

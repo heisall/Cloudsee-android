@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -96,7 +97,13 @@ public class ManageFragment extends BaseFragment {
 			}
 			device = deviceList.get(deviceIndex);
 			if (null != device && null != manageAdapter) {
-				manageAdapter.setData(disMetrics.widthPixels, deviceIndex,
+				int w;
+				if (disMetrics.widthPixels < disMetrics.heightPixels) {
+					w = disMetrics.widthPixels;
+				}else {
+					w = disMetrics.heightPixels;
+				}
+				manageAdapter.setData(w, deviceIndex,
 						device, localFlag);
 				manageGridView.setAdapter(manageAdapter);
 				manageAdapter.notifyDataSetChanged();

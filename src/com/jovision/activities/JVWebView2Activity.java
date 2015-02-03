@@ -679,7 +679,6 @@ public class JVWebView2Activity extends BaseActivity implements
 						public void onGlobalLayout() {
 							// TODO Auto-generated method stub
 							// Log.i("TAG",disMetrics.heightPixels-disMetrics.widthPixels*0.75-100+"高度"+webView.getHeight());
-
 							if ((disMetrics.heightPixels
 									- disMetrics.widthPixels * 0.75 - 100)
 									- webView.getHeight() > 200) {

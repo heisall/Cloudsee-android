@@ -25,7 +25,9 @@ public class MySharedPreference {
 		}
 
 	}
-
+	public static Context getContext(){
+		return mContext;
+	}
 	/**
 	 * 保存String
 	 * 

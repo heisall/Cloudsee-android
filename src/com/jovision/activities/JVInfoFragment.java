@@ -121,7 +121,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		// pushListView.setOnItemLongClickListener(mOnLongClickListener);
 		pushAdapter = new PushAdapter(this);
 		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
-			pushListView.setPullLoadEnable(false);
+			pushListView.setPullLoadEnable(true);
 			pushListView.setXListViewListener(this);
 			rightBtn.setVisibility(View.VISIBLE);
 			// pushListView.setVisibility(View.VISIBLE);
@@ -355,6 +355,10 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					return;
 				}
 				int addLen = temList.size();
+				// 默认刷新下来的报警信息都是新的
+				for (int j = 0; j < temList.size(); j++) {
+					temList.get(j).newTag = true;
+				}				
 				pushList.addAll(temList);
 				Consts.pushHisCount = Consts.pushHisCount + addLen;
 				temList.clear();
@@ -549,6 +553,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			// 弹出对话框
 			if (null != mActivity) {
 				// new AlarmDialog(mActivity).Show(obj);
+				mApp.setNewPushCnt(0);
 				onResume();
 			} else {
 				MyLog.e("Alarm",

@@ -65,7 +65,7 @@ public class JVFeedbackActivity extends BaseActivity {
 			break;
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
-			new AlarmDialog(this).Show(obj);
+//			new AlarmDialog(this).Show(obj);
 			break;
 		}
 	}

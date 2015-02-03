@@ -482,7 +482,7 @@ public class JVPlayActivity extends PlayActivity implements
 						loadingState(arg1, R.string.connfailed_auth,
 								Consts.TAG_PLAY_DIS_CONNECTTED);
 						if (ONE_SCREEN == currentScreen) {
-							passErrorDialog(arg1);
+								passErrorDialog(arg1);
 						}
 
 					} else if ("channel is not open!"
@@ -1389,7 +1389,6 @@ public class JVPlayActivity extends PlayActivity implements
 								public void onClick(DialogInterface dialog,
 										int id) {
 									dialog.dismiss();
-									showingDialog = false;
 									initSummaryDialog(deviceList
 											.get(deviceIndex));
 								}
@@ -1439,6 +1438,7 @@ public class JVPlayActivity extends PlayActivity implements
 			@Override
 			public void onClick(View v) {
 				initDialog.dismiss();
+				showingDialog = false;
 			}
 		});
 		dialogCompleted.setOnClickListener(new View.OnClickListener() {
@@ -1446,6 +1446,7 @@ public class JVPlayActivity extends PlayActivity implements
 			@Override
 			public void onClick(View v) {
 				// 设备用户名不为空
+				showingDialog = false;
 				if ("".equalsIgnoreCase(devicepwd_nameet.getText().toString())) {
 					JVPlayActivity.this
 							.showTextToast(R.string.login_str_device_account_notnull);
@@ -2610,9 +2611,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 				break;
 			case R.id.dialogpwd_cancle_img:
-
+				showingDialog = false;
 				initDialog.dismiss();
-
 				break;
 			case R.id.nextstep: {// AP下一步
 				backMethod(false);

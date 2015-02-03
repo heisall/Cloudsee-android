@@ -12,6 +12,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -676,10 +677,12 @@ public class JVWebView2Activity extends BaseActivity implements
 						@Override
 						public void onGlobalLayout() {
 							// TODO Auto-generated method stub
-							// Log.i("TAG",disMetrics.heightPixels-disMetrics.widthPixels*0.75-100+"高度"+webView.getHeight());
+							Log.i("TAG", disMetrics.heightPixels
+									- disMetrics.widthPixels * 0.75 - 100
+									- webView.getHeight() + "高度");
 							if ((disMetrics.heightPixels
 									- disMetrics.widthPixels * 0.75 - 100)
-									- webView.getHeight() > 200) {
+									- webView.getHeight() > 300) {
 								zhezhaoLayout.setLayoutParams(reParamstop2);
 							} else {
 								zhezhaoLayout.setLayoutParams(reParamstop1);

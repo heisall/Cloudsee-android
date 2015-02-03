@@ -12,7 +12,7 @@
     <!-- more feature func -->
     <string-array name="array_more">
         <item>帮助</item>
-        <item>自动登陆</item>
+        <item>自动登录</item>
         <item>报警消息推送</item>
         <item>观看模式(单设备)</item>
         <item>小助手</item>
@@ -31,7 +31,7 @@
     </string-array>
     <string-array name="array_moreduo">
         <item>帮助</item>
-        <item>自动登陆</item>
+        <item>自动登录</item>
         <item>报警消息推送</item>
         <item>观看模式(多设备)</item>
         <item>小助手</item>

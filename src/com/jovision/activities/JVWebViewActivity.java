@@ -102,7 +102,7 @@ public class JVWebViewActivity extends BaseActivity {
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText(R.string.demo);
+		currentMenu.setText(R.string.pull_to_refresh_refreshing_label);
 		loadingBar = (ImageView) findViewById(R.id.loadingbars);
 		loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
 

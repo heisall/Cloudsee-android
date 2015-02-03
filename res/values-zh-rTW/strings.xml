@@ -64,7 +64,7 @@
     <string name="more_modify">修改資料</string>
     <string name="more_modifypwd">修改密碼</string>
     <string name="more_findpassword">找回密碼</string>
-    <string name="more_cancel">退出登陸</string>
+    <string name="more_cancel">退出登錄</string>
     <!-- JVWelcomeActivity -->
     <string name="cloud1">雲視通</string>
     <string name="cloud2">通天下</string>
@@ -419,7 +419,7 @@
     <string name="alarm_level">報警級別</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加載更多</string>
-    <string name="xlistview_no_more">沒有報警資訊了</string>
+    <string name="xlistview_no_more">沒有更多的報警資訊了</string>
     <string name="del_alarm_succ">報警刪除成功</string>
     <string name="del_alarm_failed">報警刪除失敗</string>
     <string name="get_alarm_list_failed">獲取報警資訊失敗</string>

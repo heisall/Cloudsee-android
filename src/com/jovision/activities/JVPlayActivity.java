@@ -1389,8 +1389,8 @@ public class JVPlayActivity extends PlayActivity implements
 								public void onClick(DialogInterface dialog,
 										int id) {
 									dialog.dismiss();
-									initSummaryDialog(deviceList
-											.get(deviceIndex));
+									initSummaryDialog(channelList.get(
+											lastClickIndex).getParent());
 								}
 							})
 					.setNegativeButton(R.string.cancel,
@@ -2732,6 +2732,11 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			case R.id.currentmenu:
 			case R.id.selectscreen:// 下拉选择多屏
+
+				if (Consts.PLAY_AP == playFlag) {
+					break;
+				}
+
 				if (null != streamListView
 						&& View.VISIBLE == streamListView.getVisibility()) {
 					streamListView.setVisibility(View.GONE);

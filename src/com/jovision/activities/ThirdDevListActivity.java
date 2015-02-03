@@ -179,7 +179,8 @@ public class ThirdDevListActivity extends BaseActivity implements
 			testThirdDev.dev_uid = data.getExtras().getInt("dev_uid");
 			testThirdDev.dev_nick_name = nickname;
 			testThirdDev.dev_type_mark = dev_type_mark;
-			testThirdDev.dev_safeguard_flag = 1;
+			testThirdDev.dev_safeguard_flag = data.getExtras().getInt(
+					"dev_alarm");
 			testThirdDev.dev_belong_yst = strYstNum;
 			thirdList.add(testThirdDev);
 			thirdDevAdapter.setDataList(thirdList);

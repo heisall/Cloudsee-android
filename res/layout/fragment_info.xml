@@ -13,6 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
+        <neo.droid.p2r.PullToRefreshListView
+            android:id="@+id/pushlistview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@color/deviceitembgcolor"
+            android:divider="@color/transparent"
+            android:dividerHeight="10dp"
+            android:fadingEdge="none"
+            android:fastScrollEnabled="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:smoothScrollbar="true" />
+        <!--
         <com.jovision.views.XListView
             android:id="@+id/pushlistview"
             android:layout_width="match_parent"
@@ -23,7 +36,8 @@
             android:dividerHeight="10dp"
             android:fadingEdge="none"
             android:footerDividersEnabled="true"
-            android:listSelector="@color/transparent" />
+            android:listSelector="@color/transparent" />
+        -->
 
         <LinearLayout
             android:layout_width="wrap_content"

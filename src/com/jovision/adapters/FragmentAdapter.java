@@ -125,11 +125,15 @@ public class FragmentAdapter extends BaseAdapter {
 			}
 		}
 		if (position == 8) {
-			if (new_nums_ > 0) {
-				tv_new_nums.setText(String.valueOf(new_nums_));
-				item_new.setVisibility(View.VISIBLE);
+			if (!localFlag) {
+				if (new_nums_ > 0) {
+					tv_new_nums.setText(String.valueOf(new_nums_));
+					item_new.setVisibility(View.VISIBLE);
+				} else {
+					tv_new_nums.setText("0");
+					item_new.setVisibility(View.INVISIBLE);
+				}
 			} else {
-				tv_new_nums.setText("0");
 				item_new.setVisibility(View.INVISIBLE);
 			}
 		}

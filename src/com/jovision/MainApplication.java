@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.test.AutoLoad;
 import android.test.JVACCOUNT;
+import android.util.Log;
 
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVOffLineDialogActivity;
@@ -108,9 +109,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		markedAlarmList = new ArrayList<String>();
 		MySharedPreference.init(this);
 		MySharedPreference.putString(Consts.CHECK_ALARM_KEY, "");
-		// new_push_msg_cnt =
-		// MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
-		new_push_msg_cnt = 0;
+
+		new_push_msg_cnt = MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
+		Log.e("TPush", "new_push_msg_cnt init:"+new_push_msg_cnt);
 		bAlarmConnectedFlag = false;
 		markedAlarmList = ((MainApplication) getApplicationContext())
 				.getMarkedAlarmList();
@@ -135,10 +136,12 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 	public synchronized void setNewPushCnt(int cnt) {
 		new_push_msg_cnt = cnt;
+		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, cnt);
 	}
 
 	public synchronized void add1NewPushCnt() {
 		new_push_msg_cnt++;
+		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, new_push_msg_cnt);
 	}
 
 	/**

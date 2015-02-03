@@ -74,6 +74,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
 		} else {
 			Log.e("TPush", "onTextMessage the context is not null");
 		}
+		MySharedPreference.init(context);
 		if (MySharedPreference.getBoolean(Consts.MANUAL_LOGOUT_TAG)) {
 			MyLog.e("TPush", "账号手动注销，不处理离线报警");
 			return;

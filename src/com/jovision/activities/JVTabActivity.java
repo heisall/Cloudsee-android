@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -150,8 +151,8 @@ public class JVTabActivity extends ShakeActivity implements
 		super.onDestroy();
 		// int cnt = mApp.getNewPushCnt();
 		MyLog.e(TAG, "onDestroy,invoke~~~~~ ");
-		mApp.setNewPushCnt(0);
-		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, 0);
+//		mApp.setNewPushCnt(0);
+//		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, 0);
 	}
 
 	private void getPic() {
@@ -225,6 +226,7 @@ public class JVTabActivity extends ShakeActivity implements
 		if (null != mIndicator) {
 			boolean show = false;
 			int cnt = mApp.getNewPushCnt();
+			Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():"+cnt);
 			if (cnt > 0 || !MySharedPreference.getBoolean("SystemMessage")) {
 				show = true;
 			}

@@ -109,7 +109,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private boolean manuPause = false;// 人为暂停
 	private boolean onPause = false;// onPause
 
-	private LinearLayout loadFailedLayout;
+	private RelativeLayout loadFailedLayout;
 	private ImageView reloadImgView;
 	private boolean loadFailed = false;
 
@@ -413,7 +413,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		loadingBar = (ImageView) findViewById(R.id.loadingbar);
 		loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
 
-		loadFailedLayout = (LinearLayout) findViewById(R.id.loadfailedlayout);
+		loadFailedLayout = (RelativeLayout) findViewById(R.id.loadfailedlayout);
 		loadFailedLayout.setVisibility(View.GONE);
 		reloadImgView = (ImageView) findViewById(R.id.refreshimg);
 		reloadImgView.setOnClickListener(myOnClickListener);
@@ -614,6 +614,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			public void onReceivedError(WebView view, int errorCode,
 					String description, String failingUrl) {
 				MyLog.v(TAG, "webView load failed");
+				demoLayout.setVisibility(View.VISIBLE);
 				loadFailed = true;
 				super.onReceivedError(view, errorCode, description, failingUrl);
 			}
@@ -639,8 +640,8 @@ public class JVWebView2Activity extends BaseActivity implements
 				super.onPageFinished(view, url);
 				if (loadFailed) {
 					loadFailedLayout.setVisibility(View.VISIBLE);
-					demoLayout.setVisibility(View.GONE);
 					loadinglayout.setVisibility(View.GONE);
+					webView.setVisibility(View.GONE);
 				} else {
 					webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
 					loadinglayout.setVisibility(View.GONE);
@@ -649,6 +650,7 @@ public class JVWebView2Activity extends BaseActivity implements
 				}
 				// webView.loadUrl("javascript:videopayer.play()");
 				MyLog.v(TAG, "webView finish load");
+				demoLayout.setVisibility(View.VISIBLE);
 			}
 		});
 

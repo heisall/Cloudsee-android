@@ -234,6 +234,61 @@ public class DeviceUtil {
 	}
 
 	/**
+	 * 2015-2-4 获取单个设备是否在线
+	 * 
+	 * @param deviceList
+	 */
+	public static int getOnlineState(String devFullNo) {
+		int devOnline = 1;
+		// {"dev_array":[{"dguid":"A361","dstat":1},{"dguid":"S23045624","dstat":0}],"ret":0}
+		// 优先判断"ret"的值，0成功，其他值失败，为0时再去取"dev_array"的值
+		// "dev_array"：是个json array
+		// "dguid"：设备云视通号
+		// "dstat":在线状态 1：在线 0：离线
+
+		String onLineString = JVACCOUNT.GetDevicesOnlineStatus();
+		MyLog.v("getDevOnlineState---result", onLineString);// {"dev_array":null,"ret":-6}
+		if (null != onLineString && !"".equalsIgnoreCase(onLineString)) {
+			try {
+				JSONObject resObject = new JSONObject(onLineString);
+				if (null != resObject) {
+					int getRes = resObject.getInt("ret");
+					if (0 == getRes) {
+						String onLineRes = resObject.getString("dev_array");
+						if (null != onLineRes
+								&& !"".equalsIgnoreCase(onLineRes)) {
+							JSONArray resArray = new JSONArray(onLineRes);
+							if (null != resArray && 0 != resArray.length()) {
+								for (int i = 0; i < resArray.length(); i++) {
+									JSONObject devObj = new JSONObject(resArray
+											.get(i).toString());
+									if (null != devObj) {
+										String dGuid = devObj
+												.optString("dguid");
+										if (devFullNo.equalsIgnoreCase(dGuid)) {
+											devOnline = devObj.optInt("dstat");
+											break;
+										}
+
+									}
+								}
+
+							}
+
+						}
+					} else {
+						MyLog.e("getDevOnlineState---result", "error");// {"dev_array":null,"ret":-6}
+					}
+
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return devOnline;
+	}
+
+	/**
 	 * 获取设备通道列表
 	 * 
 	 * @param dGuid
@@ -967,13 +1022,15 @@ public class DeviceUtil {
 		// tong bu map by lkp
 		try {
 			if (null != device) {
+				// 再取一下设备的在线状态
+				int onlineState = getOnlineState(device.getFullNo());
+				device.setOnlineStateNet(onlineState);
 				CacheUtil.setNickNameWithYstfn(device.getFullNo(),
 						device.getNickName());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return device;
 	}
 

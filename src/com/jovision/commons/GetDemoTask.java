@@ -61,16 +61,29 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			int counts = Integer.valueOf(count);
 			switch (counts) {
 			case 0:
-				Intent intentAD0 = new Intent(mContext, JVWebViewActivity.class);
-				intentAD0.putExtra("URL", webUrl.getCustUrl());
-				intentAD0.putExtra("title", -2);
-				mContext.startActivity(intentAD0);
+				if (null != webUrl.getCustUrl()) {
+					Intent intentAD0 = new Intent(mContext,
+							JVWebViewActivity.class);
+					intentAD0.putExtra("URL", webUrl.getCustUrl());
+					intentAD0.putExtra("title", -2);
+					mContext.startActivity(intentAD0);
+				} else {
+					((BaseActivity) mContext)
+							.showTextToast(R.string.str_video_load_failed);
+				}
 				break;
 			case 2:
-				Intent intentAD2 = new Intent(mContext, JVWebViewActivity.class);
-				intentAD2.putExtra("URL", webUrl.getStatUrl());
-				intentAD2.putExtra("title", -2);
-				mContext.startActivity(intentAD2);
+				if (null != webUrl.getStatUrl()) {
+					Intent intentAD2 = new Intent(mContext,
+							JVWebViewActivity.class);
+					intentAD2.putExtra("URL", webUrl.getStatUrl());
+					intentAD2.putExtra("title", -2);
+					mContext.startActivity(intentAD2);
+				} else {
+					((BaseActivity) mContext)
+							.showTextToast(R.string.str_video_load_failed);
+				}
+
 				break;
 			case 1:
 				String lan = "";
@@ -85,13 +98,18 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
 						+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
 						+ System.currentTimeMillis() + "&sid=" + sid;
-				if (!"fragmentString".equals(fragmentString)) {
+				if (!"fragmentString".equals(fragmentString)
+						&& null != webUrl.getDemoUrl()) {
 					Intent intentAD = new Intent(mContext,
 							JVWebViewActivity.class);
 					intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					intentAD.putExtra("URL", demoUrl);
 					intentAD.putExtra("title", -2);
 					mContext.startActivity(intentAD);
+				} else if (!"fragmentString".equals(fragmentString)
+						&& null == webUrl.getDemoUrl()) {
+					((BaseActivity) mContext)
+							.showTextToast(R.string.demo_get_failed);
 				}
 				break;
 			default:

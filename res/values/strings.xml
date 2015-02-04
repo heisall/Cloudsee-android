@@ -419,7 +419,7 @@
     <string name="alarm_level">Alarm Level</string>
     <string name="xlistview_footer_hint_normal">More</string>
     <string name="xlistview_footer_hint_ready">Pull up to load more.</string>
-    <string name="xlistview_no_more">No alert now</string>
+    <string name="xlistview_no_more">No more alert info now</string>
     <string name="del_alarm_succ">Delete alarm successfully.</string>
     <string name="del_alarm_failed">Failed to delete alarm.</string>
     <string name="get_alarm_list_failed">Get Alarm info list failed</string>

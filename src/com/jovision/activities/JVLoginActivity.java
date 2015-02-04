@@ -347,6 +347,10 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case R.id.onlinelogin_btn:// 在线登陆
+
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(onlineLoginBtn.getWindowToken(), 0); // 强制隐藏键盘
+
 				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
 					alertNetDialog();
 				} else {

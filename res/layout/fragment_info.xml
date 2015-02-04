@@ -36,7 +36,7 @@
             android:dividerHeight="10dp"
             android:fadingEdge="none"
             android:footerDividersEnabled="true"
-            android:listSelector="@color/transparent" />
+            android:listSelector="@color/transparent" />
         -->
 
         <LinearLayout

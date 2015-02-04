@@ -474,24 +474,24 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			currIndex = 0;
 
 			// 值为2双码流是家庭安防产品，显示加载wifi动画
-			if (null != settingMap.get("MobileCH")
-					&& "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {
-				// 可选取无线网络进行配置
-				wifiSelect.setVisibility(View.VISIBLE);
-				wifiListView.setVisibility(View.VISIBLE);
-				wifiListBG.setVisibility(View.VISIBLE);
-				loadingWifi.setVisibility(View.VISIBLE);
-				wifiName.setEnabled(true);
-				wifiPwd.setEnabled(true);
-			} else {// 非家庭安防不能修改,也不显示加载wifi动画
-					// 可选取无线网络进行配置
-				wifiSelect.setVisibility(View.GONE);
-				wifiListView.setVisibility(View.GONE);
-				wifiListBG.setVisibility(View.GONE);
-				loadingWifi.setVisibility(View.GONE);
-				wifiName.setEnabled(false);
-				wifiPwd.setEnabled(false);
-			}
+			// if (null != settingMap.get("MobileCH")
+			// && "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {
+			// 可选取无线网络进行配置
+			wifiSelect.setVisibility(View.VISIBLE);
+			wifiListView.setVisibility(View.VISIBLE);
+			wifiListBG.setVisibility(View.VISIBLE);
+			loadingWifi.setVisibility(View.VISIBLE);
+			wifiName.setEnabled(true);
+			wifiPwd.setEnabled(true);
+			// } else {// 非家庭安防不能修改,也不显示加载wifi动画
+			// // 可选取无线网络进行配置
+			// wifiSelect.setVisibility(View.GONE);
+			// wifiListView.setVisibility(View.GONE);
+			// wifiListBG.setVisibility(View.GONE);
+			// loadingWifi.setVisibility(View.GONE);
+			// wifiName.setEnabled(false);
+			// wifiPwd.setEnabled(false);
+			// }
 		} else if (null != settingMap
 				&& settingMap.get("ACTIVED").equalsIgnoreCase("2")) {// 无线
 			wifiDetail.setVisibility(View.VISIBLE);

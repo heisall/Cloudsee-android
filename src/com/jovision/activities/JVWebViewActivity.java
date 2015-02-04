@@ -300,6 +300,7 @@ public class JVWebViewActivity extends BaseActivity {
 	 * 返回事件
 	 */
 	private void backMethod() {
+		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
 		if (webView.canGoBack()) {
 			webView.goBack(); // goBack()表示返回WebView的上一页面
 		} else {

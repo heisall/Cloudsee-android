@@ -61,10 +61,13 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			int counts = Integer.valueOf(count);
 			switch (counts) {
 			case 0:
+				String custurl;
 				if (null != webUrl.getCustUrl()) {
 					Intent intentAD0 = new Intent(mContext,
 							JVWebViewActivity.class);
-					intentAD0.putExtra("URL", webUrl.getCustUrl());
+					custurl = webUrl.getCustUrl() + "&d="
+							+ System.currentTimeMillis();
+					intentAD0.putExtra("URL", custurl);
 					intentAD0.putExtra("title", -2);
 					mContext.startActivity(intentAD0);
 				} else {
@@ -73,10 +76,13 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				}
 				break;
 			case 2:
+				String staturl = "";
 				if (null != webUrl.getStatUrl()) {
 					Intent intentAD2 = new Intent(mContext,
 							JVWebViewActivity.class);
-					intentAD2.putExtra("URL", webUrl.getStatUrl());
+					staturl = webUrl.getStatUrl() + "&d="
+							+ System.currentTimeMillis();
+					intentAD2.putExtra("URL", staturl);
 					intentAD2.putExtra("title", -2);
 					mContext.startActivity(intentAD2);
 				} else {

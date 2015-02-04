@@ -161,7 +161,7 @@ public class JVEditPassActivity extends BaseActivity {
 				MySharedPreference.putString(Consts.KEY_LAST_LOGIN_USER,
 						userName);
 
-				// intent.putExtra("UserName", userName);
+				intent.putExtra("UserName", userName);
 				startActivity(intent);
 				JVEditPassActivity.this.finish();
 			} else {

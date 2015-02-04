@@ -419,7 +419,7 @@
     <string name="alarm_level">报警级别</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加载更多</string>
-    <string name="xlistview_no_more">没有报警信息了</string>
+    <string name="xlistview_no_more">没有更多的报警信息了</string>
     <string name="del_alarm_succ">报警删除成功</string>
     <string name="del_alarm_failed">报警删除失败</string>
     <string name="get_alarm_list_failed">获取报警信息失败</string>

@@ -64,7 +64,7 @@
     <string name="more_modify">修改資料</string>
     <string name="more_modifypwd">修改密碼</string>
     <string name="more_findpassword">找回密碼</string>
-    <string name="more_cancel">註銷帳號</string>
+    <string name="more_cancel">退出登陸</string>
     <!-- JVWelcomeActivity -->
     <string name="cloud1">雲視通</string>
     <string name="cloud2">通天下</string>
@@ -114,7 +114,7 @@
     <string name="record_failed">錄影無效</string>
     <string name="voice_send">按住說話</string>
     <string name="voice_stop">鬆開結束</string>
-    <string name="str_has_call">設備未開啟對講或已在其他客戶端開啟雲對講，請稍後重試.</string>
+    <string name="str_has_call">設備未開啟對講或已在其他客戶端開啟語音對講，請稍後重試.</string>
     <string name="str_call_close"> 對講功能成功關閉</string>
     <string name="play_failed"> 播放失敗</string>
     <!-- PlayHelp -->
@@ -454,7 +454,7 @@
     <string name="voice_tips1">親，你現在可以和對方說話了</string>
     <string name="voice_tips2">對講功能成功開啟，長按向對方喊話.</string>
     <string name="default_stream">碼流</string>
-    <string name="has_calling">設備未開啟對講或已在其他客戶端開啟雲對講，請稍後重試.</string>
+    <string name="has_calling">設備未開啟對講或已在其他客戶端開啟語音對講，請稍後重試.</string>
     <string name="str_capture_error">抓拍失敗</string>
     <!-- JVQuickSet -->
     <!-- ap配置流程模組 -->

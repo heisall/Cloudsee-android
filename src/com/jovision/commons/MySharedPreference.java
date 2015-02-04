@@ -16,11 +16,11 @@ public class MySharedPreference {
 	 */
 	public static void init(Context con) {
 		try {
-			if(mContext == null){
+			if (mContext == null) {
 				mContext = con;
 				sharedPreferences = mContext.getSharedPreferences("JVCONFIG",
 						Context.MODE_PRIVATE);
-				editor = sharedPreferences.edit();				
+				editor = sharedPreferences.edit();
 			}
 
 		} catch (Exception e) {
@@ -28,9 +28,11 @@ public class MySharedPreference {
 		}
 
 	}
-	public static Context getContext(){
+
+	public static Context getContext() {
 		return mContext;
 	}
+
 	/**
 	 * 保存String
 	 * 

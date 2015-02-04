@@ -245,7 +245,8 @@ public class AlarmUtil {
 			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_MT, 6000);
 			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_PV, "1.0");
 			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_AISTART, beginIndex);
-			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_AISTOP, beginIndex+count-1);
+			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_AISTOP, beginIndex + count
+					- 1);
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}

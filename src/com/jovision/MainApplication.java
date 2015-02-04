@@ -111,7 +111,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		MySharedPreference.putString(Consts.CHECK_ALARM_KEY, "");
 
 		new_push_msg_cnt = MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
-		Log.e("TPush", "new_push_msg_cnt init:"+new_push_msg_cnt);
+		Log.e("TPush", "new_push_msg_cnt init:" + new_push_msg_cnt);
 		bAlarmConnectedFlag = false;
 		markedAlarmList = ((MainApplication) getApplicationContext())
 				.getMarkedAlarmList();

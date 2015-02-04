@@ -358,7 +358,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 				// 默认刷新下来的报警信息都是新的
 				for (int j = 0; j < temList.size(); j++) {
 					temList.get(j).newTag = true;
-				}				
+				}
 				pushList.addAll(temList);
 				Consts.pushHisCount = Consts.pushHisCount + addLen;
 				temList.clear();

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import neo.droid.p2r.PullToRefreshBase;
 import neo.droid.p2r.PullToRefreshBase.Mode;
-import neo.droid.p2r.PullToRefreshListView;
 import neo.droid.p2r.PullToRefreshBase.OnRefreshListener2;
+import neo.droid.p2r.PullToRefreshListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import neo.droid.p2r.PullToRefreshBase;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -37,8 +36,6 @@ import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.views.MyAlertDialog;
-import com.jovision.views.XListView;
-import com.jovision.views.XListView.IXListViewListener;
 import com.tencent.stat.StatService;
 
 /**
@@ -131,8 +128,8 @@ public class JVInfoFragment extends BaseFragment {
 		// pushListView.setOnItemLongClickListener(mOnLongClickListener);
 		pushAdapter = new PushAdapter(this);
 		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
-		// pushListView.setPullLoadEnable(true);
-		// pushListView.setXListViewListener(this);
+			// pushListView.setPullLoadEnable(true);
+			// pushListView.setXListViewListener(this);
 			rightBtn.setVisibility(View.VISIBLE);
 			// pushListView.setVisibility(View.VISIBLE);
 		} else {

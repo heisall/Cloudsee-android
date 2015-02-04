@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 public class MySharedPreference {
-	private static Context mContext;
+	private static Context mContext = null;
 	private static SharedPreferences sharedPreferences = null;
 	private static Editor editor = null;// 获取编辑器
 
@@ -16,10 +16,13 @@ public class MySharedPreference {
 	 */
 	public static void init(Context con) {
 		try {
-			mContext = con;
-			sharedPreferences = mContext.getSharedPreferences("JVCONFIG",
-					Context.MODE_PRIVATE);
-			editor = sharedPreferences.edit();
+			if(mContext == null){
+				mContext = con;
+				sharedPreferences = mContext.getSharedPreferences("JVCONFIG",
+						Context.MODE_PRIVATE);
+				editor = sharedPreferences.edit();				
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

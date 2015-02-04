@@ -1390,8 +1390,8 @@ public class JVPlayActivity extends PlayActivity implements
 										int id) {
 									dialog.dismiss();
 									showingDialog = false;
-									initSummaryDialog(deviceList
-											.get(deviceIndex));
+									initSummaryDialog(channelList.get(
+											lastClickIndex).getParent());
 								}
 							})
 					.setNegativeButton(R.string.cancel,

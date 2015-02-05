@@ -310,6 +310,7 @@ public class JVLoginActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			switch (v.getId()) {
 			case R.id.username_et:
 				if (pop != null && pop.isShowing()) {
@@ -348,7 +349,6 @@ public class JVLoginActivity extends BaseActivity {
 			}
 			case R.id.onlinelogin_btn:// 在线登陆
 
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(onlineLoginBtn.getWindowToken(), 0); // 强制隐藏键盘
 
 				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
@@ -418,6 +418,7 @@ public class JVLoginActivity extends BaseActivity {
 				}
 				break;
 			case R.id.locallogin_btn:// 本地登录
+				imm.hideSoftInputFromWindow(onlineLoginBtn.getWindowToken(), 0); // 强制隐藏键盘
 				StatService.trackCustomEvent(JVLoginActivity.this,
 						"locallogin", JVLoginActivity.this.getResources()
 								.getString(R.string.census_login));

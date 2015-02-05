@@ -364,7 +364,7 @@
     <string name="demo_get_failed">視頻廣場加載失敗</string>
     <string name="demo_loading">正在努力加載...</string>
     <!-- JVTab -->
-    <string name="account_error_tips">賬號異常，點擊登陸！</string>
+    <string name="account_error_tips">賬號異常，點擊登錄。</string>
     <string name="network_error_tips">網絡連接不可用，是否進行設置?</string>
     <string name="network_error">網路連接不可用,是否進行設置?</string>
     <string name="tips_3g">目前處於2G/3G網路，觀看視頻會產生大量流量費用（由運營商收取），建議使用Wi-Fi網路.</string>
@@ -613,7 +613,7 @@
     <string name="str_alarm_thirddev_bind_hint">設備昵稱</string>
     <string name="str_bind_finish">完  成</string>
     <string name="str_alarm_type_move">移動偵測</string>
-    <string name="str_alarm_type_third">外設報警</string>
+    <string name="str_alarm_type_third">安全報警</string>
     <string name="str_alarm_type_external">外接報警</string>
     <string name="str_alarm_type_unknown">未知報警類型</string>
     <string name="str_telecontrol_device">遙控設備</string>

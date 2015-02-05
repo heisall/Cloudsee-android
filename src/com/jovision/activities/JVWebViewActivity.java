@@ -143,6 +143,7 @@ public class JVWebViewActivity extends BaseActivity {
 		// setting.setPluginState(PluginState.ON);
 		// 加快加载速度
 		webView.getSettings().setRenderPriority(RenderPriority.HIGH);
+		// webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onReceivedError(WebView view, int errorCode,
@@ -320,8 +321,10 @@ public class JVWebViewActivity extends BaseActivity {
 	// if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
 	// webView.goBack(); // goBack()表示返回WebView的上一页面
 	// return true;
+	// } else {
+	// JVWebViewActivity.this.finish();
 	// }
-	// return super.onKeyDown(keyCode, event);
+	// return false;
 	// }
 
 	@Override

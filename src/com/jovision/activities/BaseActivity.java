@@ -20,8 +20,6 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.test.JVACCOUNT;
 import android.util.DisplayMetrics;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -33,7 +31,6 @@ import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
-import com.jovision.commons.LoginTask;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
@@ -139,37 +136,37 @@ public abstract class BaseActivity extends FragmentActivity implements
 		local = Boolean.valueOf(this.statusHashMap.get(Consts.LOCAL_LOGIN));
 		initSettings();
 		initUi();
-		if (null != alarmnet) {
-			alarmnet.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View arg0) {
-					if (null != statusHashMap.get(Consts.ACCOUNT_ERROR)) {
-						int errorCode = Integer.parseInt(statusHashMap
-								.get(Consts.ACCOUNT_ERROR));
-						switch (errorCode) {
-						case Consts.WHAT_ALARM_NET:// 网络异常
-							if (android.os.Build.VERSION.SDK_INT > 10) {
-								startActivity(new Intent(
-										android.provider.Settings.ACTION_SETTINGS));
-							} else {
-								startActivity(new Intent(
-										android.provider.Settings.ACTION_WIRELESS_SETTINGS));
-							}
-							break;
-						case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
-							createDialog("", false);
-							LoginTask task = new LoginTask(BaseActivity.this,
-									(MainApplication) getApplication(),
-									statusHashMap, alarmnet);
-							String[] params = new String[3];
-							task.execute(params);
-							break;
-						}
-					}
-				}
-			});
-		}
+		// if (null != alarmnet) {
+		// alarmnet.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View arg0) {
+		// if (null != statusHashMap.get(Consts.ACCOUNT_ERROR)) {
+		// int errorCode = Integer.parseInt(statusHashMap
+		// .get(Consts.ACCOUNT_ERROR));
+		// switch (errorCode) {
+		// case Consts.WHAT_HEART_ERROR:// 心跳异常
+		// if (android.os.Build.VERSION.SDK_INT > 10) {
+		// startActivity(new Intent(
+		// android.provider.Settings.ACTION_SETTINGS));
+		// } else {
+		// startActivity(new Intent(
+		// android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+		// }
+		// break;
+		// case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
+		// createDialog("", false);
+		// LoginTask task = new LoginTask(BaseActivity.this,
+		// (MainApplication) getApplication(),
+		// statusHashMap, alarmnet);
+		// String[] params = new String[3];
+		// task.execute(params);
+		// break;
+		// }
+		// }
+		// }
+		// });
+		// }
 
 	}
 

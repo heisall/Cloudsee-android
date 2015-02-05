@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.LayoutParams;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	private int deviceIndex = 0;
 	private ArrayList<Device> deviceList;
 	private Device device;
-
+	protected RelativeLayout.LayoutParams reParamstop2;
 	/** bottom */
 	private ViewPager mPager;// 页卡内容
 	private List<View> listViews; // Tab页面列表
@@ -276,6 +277,12 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		currentMenu.setText(R.string.str_help1_0);
 		leftBtn.setOnClickListener(mOnClickListener);
 		rightBtn.setVisibility(View.VISIBLE);
+		reParamstop2 = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		reParamstop2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		reParamstop2.addRule(RelativeLayout.CENTER_VERTICAL);
+		reParamstop2.setMargins(0, 0, 30, 0);
+		rightBtn.setLayoutParams(reParamstop2);
 
 		rightBtn.setTextColor(Color.WHITE);
 		rightBtn.setBackgroundDrawable(getResources().getDrawable(

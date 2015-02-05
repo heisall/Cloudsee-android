@@ -376,7 +376,7 @@
     <string name="no_more_tips">不再提示</string>
     <string name="download">立即下载</string>
     <!-- JVOffline -->
-    <string name="offline_other_login">账号在其他地方登入或者账号异常.</string>
+    <string name="offline_other_login">账号在其他地方登录或者账号异常.</string>
     <string name="offline_net_error">网络连接异常，请重新登录.</string>
     <string name="exit">退出</string>
     <string name="keeponline">继续登录</string>
@@ -613,7 +613,7 @@
     <string name="str_alarm_thirddev_bind_hint">设备昵称</string>
     <string name="str_bind_finish">完  成</string>
     <string name="str_alarm_type_move">移动侦测</string>
-    <string name="str_alarm_type_third">外设报警</string>
+    <string name="str_alarm_type_third">安全报警</string>
     <string name="str_alarm_type_external">外接报警</string>
     <string name="str_alarm_type_unknown">未知报警类型</string>
     <string name="str_telecontrol_device">遥控设备</string>

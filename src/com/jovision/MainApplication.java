@@ -229,7 +229,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				if (null != currentNotifyer) {
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_ACCOUNT_NORMAL));
-					currentNotifyer.onNotify(Consts.WHAT_ALARM_NET_WEEK, 0, 0,
+					currentNotifyer.onNotify(Consts.WHAT_HEART_NORMAL, 0, 0,
 							null);
 				}
 				// if (null != currentNotifyer) {
@@ -251,8 +251,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 					MyLog.v("Account Error", "保持在线失败4次");
 					if (null != currentNotifyer) {
 						statusHashMap.put(Consts.ACCOUNT_ERROR,
-								String.valueOf(Consts.WHAT_ALARM_NET));
-						currentNotifyer.onNotify(Consts.WHAT_ALARM_NET, 4, 0,
+								String.valueOf(Consts.WHAT_HEART_ERROR));
+						currentNotifyer.onNotify(Consts.WHAT_HEART_ERROR, 4, 0,
 								null);
 					}
 					// JVACCOUNT.StopHeartBeat();// 先停止心跳
@@ -494,9 +494,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				MyLog.v("Account Error", "TCP错误");
 				if (null != currentNotifyer) {
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
-							String.valueOf(Consts.WHAT_ALARM_NET));
-					currentNotifyer.onNotify(Consts.WHAT_ALARM_NET, res, 0,
-							null);
+							String.valueOf(Consts.WHAT_HEART_TCP_ERROR));
+					currentNotifyer.onNotify(Consts.WHAT_HEART_TCP_ERROR, res,
+							0, null);
 				}
 				// Intent intent = new Intent(getApplicationContext(),
 				// JVOffLineDialogActivity.class);
@@ -508,9 +508,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				MyLog.v("Account Error", "TCP关闭");
 				if (null != currentNotifyer) {
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
-							String.valueOf(Consts.WHAT_ALARM_NET));
-					currentNotifyer.onNotify(Consts.WHAT_ALARM_NET, res, 0,
-							null);
+							String.valueOf(Consts.WHAT_HEART_TCP_CLOSED));
+					currentNotifyer.onNotify(Consts.WHAT_HEART_TCP_CLOSED, res,
+							0, null);
 				}
 				// Intent intent = new Intent(getApplicationContext(),
 				// JVOffLineDialogActivity.class);

@@ -387,8 +387,11 @@ public class JVLoginActivity extends BaseActivity {
 				}
 				break;
 			case R.id.regist_btn:// 注册
-				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
-				if (ConfigUtil.isConnected(JVLoginActivity.this)) {
+				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
+					alertNetDialog();
+				} else {
+					statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
+					Log.i("TAG", ConfigUtil.getCountry().substring(0, 2));
 					if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
 							|| Consts.LANGUAGE_ZHTW == ConfigUtil
 									.getServerLanguage()) {
@@ -403,8 +406,6 @@ public class JVLoginActivity extends BaseActivity {
 								JVRegisterByEmailActivity.class);
 						JVLoginActivity.this.startActivity(registIntent);
 					}
-				} else {
-					alertNetDialog();
 				}
 				break;
 			case R.id.showpoint_btn:// 演示点

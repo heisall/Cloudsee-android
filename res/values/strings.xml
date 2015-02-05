@@ -64,7 +64,7 @@
     <string name="more_modify">Modify</string>
     <string name="more_modifypwd">Change Password</string>
     <string name="more_findpassword">Retrieve Password</string>
-    <string name="more_cancel">退出登录</string>
+    <string name="more_cancel">Quit</string>
     <!-- JVWelcomeActivity -->
     <string name="cloud1">CloudSEE</string>
     <string name="cloud2">Vision to world</string>
@@ -364,8 +364,8 @@
     <string name="demo_get_failed">Failed to load demo video.</string>
     <string name="demo_loading">Efforts are being made to load...</string>
     <!-- JVTab -->
-    <string name="account_error_tips">账号异常，点击登陆!</string>
-    <string name="network_error_tips">网络连接不可用,是否进行设置?</string>
+    <string name="account_error_tips">Account abnormal, click to login!</string>
+    <string name="network_error_tips">Unable to connect with network, do you want to configure?</string>
     <string name="network_error">Network connection exception,please check the network.</string>
     <string name="tips_3g">You are using the 3G/4G network now.It shall cause a lot mobile data fee if you continute to view the video.You are suggested to use Wi-Fi network.</string>
     <string name="waiting">Waiting…</string>
@@ -426,7 +426,7 @@
     <string name="clear_alarm_succ">Clear alarm successfully.</string>
     <string name="clear_alarm_failed">Failed to clear alarm.</string>
     <string name="load_info_success">Loading info successfully.</string>
-    <string name="load_info_failed">Failed to load info.</string>    
+    <string name="load_info_failed">Failed to load info.</string>
     <!-- popupWindow -->
     <string name="pop_take">Capture</string>
     <string name="pop_pictrue">Choose from phone Album.</string>

@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.test.JVACCOUNT;
 import android.text.Editable;
@@ -64,6 +63,8 @@ public class JVLoginActivity extends BaseActivity {
 	private Button localLoginBtn;
 	private TextView showPointBtn;
 	private TextView findPassTV;
+	private ImageView logoImageView;
+	private RelativeLayout.LayoutParams params;
 
 	// 下拉箭头图片组件
 	private ImageView moreUserIV;
@@ -96,7 +97,7 @@ public class JVLoginActivity extends BaseActivity {
 		}
 		case Consts.WHAT_DELETE_USER:
 			// TODO
-			moreUserIV.setImageResource(R.drawable.login_pull_icon);
+			moreUserIV.setImageResource(R.drawable.login_pullhesui_icon);
 			pop.dismiss();
 			userNameET.setText("");
 			passwordET.setText("");
@@ -116,7 +117,7 @@ public class JVLoginActivity extends BaseActivity {
 			if (arg2 != Consts.WHAT_CLICK_USER) {
 				passwordET.setText(((User) obj).getUserPwd());
 			}
-			moreUserIV.setImageResource(R.drawable.login_pull_icon);
+			moreUserIV.setImageResource(R.drawable.login_pullhesui_icon);
 			pop.dismiss();
 			break;
 		}
@@ -145,6 +146,7 @@ public class JVLoginActivity extends BaseActivity {
 
 		userList = UserUtil.getUserList();
 		/** userlogin Fuction */
+		logoImageView = (ImageView) findViewById(R.id.logo);
 		userNameET = (EditText) findViewById(R.id.username_et);
 		passwordET = (EditText) findViewById(R.id.password_et);
 		onlineLoginBtn = (Button) findViewById(R.id.onlinelogin_btn);
@@ -153,14 +155,18 @@ public class JVLoginActivity extends BaseActivity {
 		registBtn = (TextView) findViewById(R.id.regist_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
 
+		params = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
+				(int) (0.3 * disMetrics.heightPixels));
+		logoImageView.setLayoutParams(params);
+
 		if ("true".equals(statusHashMap.get(Consts.KEY_GONE_MORE))) {
 			showPointBtn.setVisibility(View.GONE);
 		}
 
-		findPassTV.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
-		findPassTV.getPaint().setAntiAlias(true);
-		registBtn.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
-		registBtn.getPaint().setAntiAlias(true);
+		// findPassTV.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
+		// findPassTV.getPaint().setAntiAlias(true);
+		// registBtn.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
+		// registBtn.getPaint().setAntiAlias(true);
 
 		if (null != getIntent().getStringExtra("UserName")) {
 			userNameET.setText(getIntent().getStringExtra("UserName"));
@@ -242,7 +248,7 @@ public class JVLoginActivity extends BaseActivity {
 							@Override
 							public void run() {
 								moreUserIV
-										.setImageResource(R.drawable.login_pull_up_icon);
+										.setImageResource(R.drawable.login_pullhesui_up_icon);
 								pop.showAsDropDown(userNameLayout);
 							}
 						}, 200);
@@ -250,7 +256,8 @@ public class JVLoginActivity extends BaseActivity {
 				} else if (pop.isShowing()) {
 					userAdapter.notifyDataSetChanged();
 					pop.dismiss();
-					moreUserIV.setImageResource(R.drawable.login_pull_icon);
+					moreUserIV
+							.setImageResource(R.drawable.login_pullhesui_icon);
 				} else if (!pop.isShowing()) {
 					handler.postDelayed(new Runnable() {
 						@Override
@@ -258,7 +265,7 @@ public class JVLoginActivity extends BaseActivity {
 							userAdapter.notifyDataSetChanged();
 							pop.showAsDropDown(userNameLayout);
 							moreUserIV
-									.setImageResource(R.drawable.login_pull_up_icon);
+									.setImageResource(R.drawable.login_pullhesui_up_icon);
 						}
 					}, 200);
 
@@ -315,7 +322,8 @@ public class JVLoginActivity extends BaseActivity {
 			case R.id.username_et:
 				if (pop != null && pop.isShowing()) {
 					pop.dismiss();
-					moreUserIV.setImageResource(R.drawable.login_pull_icon);
+					moreUserIV
+							.setImageResource(R.drawable.login_pullhesui_icon);
 				}
 				break;
 			case R.id.btn_left: {

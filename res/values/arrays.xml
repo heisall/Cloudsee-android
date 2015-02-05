@@ -12,7 +12,7 @@
     <!-- more feature func -->
     <string-array name="array_more">
         <item>Help</item>
-        <item>自动登录</item>
+        <item>Auto-Login</item>
         <item>Alarm</item>
         <item>Viewing Mode(Single-device)</item>
         <item>Helper</item>
@@ -21,9 +21,9 @@
         <item>Version</item>
         <item>Alarm Message</item>
         <item>System Information</item>
-        <item>我要装监控</item>
-        <item>设备分享</item>
-        <item>云视通指数</item>
+        <item>I want this</item>
+        <item>Share</item>
+        <item>CloudSEE Index</item>
         <item>Image View</item>
         <item>Feedback</item>
         <item>Software Update</item>
@@ -31,7 +31,7 @@
     </string-array>
     <string-array name="array_moreduo">
         <item>Help</item>
-        <item>自动登录</item>
+        <item>Auto-Login</item>
         <item>Alarm</item>
         <item>Viewing Mode(Multi-device)</item>
         <item>Helper</item>
@@ -40,9 +40,9 @@
         <item>Version</item>
         <item>Alarm Message</item>
         <item>System Information</item>
-        <item>我要装监控</item>
-        <item>设备分享</item>
-        <item>云视通指数</item>
+        <item>I want this</item>
+        <item>Share</item>
+        <item>CloudSEE Index</item>
         <item>Image View</item>
         <item>Feedback</item>
         <item>Software Update</item>
@@ -165,13 +165,13 @@
 
     <!-- 第三方外设报警管理 -->
     <string-array name="peripherals_manage">
-        <item>门磁</item>
-        <item>手环</item>
-        <item>遥控器</item>
-        <item>烟感探测器</item>
-        <item>幕帘探测器</item>
-        <item>红外探测器</item>
-        <item>燃气泄露探测器</item>
+        <item>Door Magnetic</item>
+        <item>Hand Ring</item>
+        <item>Remote Control</item>
+        <item>Smoke Detector</item>
+        <item>PIR Detector</item>
+        <item>IR Detector</item>
+        <item>Gas Leak Detector</item>
     </string-array>
 
     <!-- 码流切换 -->
@@ -185,10 +185,10 @@
         <item>Seperate the two parts of the magnetic alarm and wait until the setting finished.</item>
         <item>Long press the red button on the wrist ring and wait until the setting finished.</item>
         <item>Long press any button on the remote control and wait until the setting finished.</item>
-        <item>请将设备测试开关拨到开启位置，等待配置完成。</item>
-        <item>请将设备测试开关拨到开启位置，等待配置完成。</item>
-        <item>请将手在设备正前方10厘米处挥动几次，等待配置完成。</item>
-        <item>请将设备测试开关拨到开启位置，等待配置完成。</item>
+        <item>Enable the device testing button, and wait until configuration finished.</item>
+        <item>Enable the device testing button, and wait until configuration finished.</item>
+        <item>Swing your arm for several times at around 10 centimeters in front of the device,and wait until configuration finished.</item>
+        <item>Enable the device testing button, and wait until configuration finished.</item>
     </string-array>
 
 </resources>

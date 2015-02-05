@@ -22,7 +22,12 @@
     <color name="device_color_2">#13C6CD</color>
     <color name="device_color_3">#84C914</color>
     <color name="device_color_4">#F4B613</color>
-
+    <!-- 登录界面贺岁版 -->
+    <color name="login_normal">#DE0000</color>
+    <color name="login_hover">#A40102</color>
+    <color name="loginvictor_normal">#FF9C94</color>
+    <color name="loginvictor_hover">#E86D68</color>
+    <color name="login_text">#5b5b5b</color>
     <!-- 通道的背景色 -->
     <color name="channel_color_1">#42BDE8</color>
     <color name="channel_color_2">#F5C132</color>

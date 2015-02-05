@@ -141,7 +141,6 @@ public class JVChannelListActivity extends BaseActivity {
 				strParams[0] = String.valueOf(deviceIndex);// 设备index
 				task.execute(strParams);
 				break;
-
 			default:
 				break;
 			}

@@ -426,7 +426,7 @@
     <string name="clear_alarm_succ">清空報警資訊成功</string>
     <string name="clear_alarm_failed">清空報警資訊失敗</string>
     <string name="load_info_success">加載資訊成功</string>
-    <string name="load_info_failed">加載資訊失敗</string>    
+    <string name="load_info_failed">加載資訊失敗</string>
     <!-- popupWindow -->
     <string name="pop_take">拍照</string>
     <string name="pop_pictrue">從相冊選擇</string>

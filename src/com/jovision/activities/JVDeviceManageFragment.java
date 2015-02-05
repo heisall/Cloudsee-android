@@ -364,10 +364,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 				break;
 			case R.id.devmorere:
-				device_num.setText(mActivity.getResources().getString(
-						R.string.str_fre)
-						+ manageDeviceList.size()
-						+ mActivity.getResources().getString(R.string.str_aft));
 				relalist.setVisibility(View.VISIBLE);
 				devicemanage_listView.setVisibility(View.VISIBLE);
 				managePager.setVisibility(View.GONE);
@@ -499,6 +495,9 @@ public class JVDeviceManageFragment extends BaseFragment {
 				}
 			}
 		}
+		device_num.setText(mActivity.getResources().getString(R.string.str_fre)
+				+ manageDeviceList.size()
+				+ mActivity.getResources().getString(R.string.str_aft));
 		String stateStr = ((BaseActivity) mActivity).statusHashMap
 				.get(Consts.DATA_LOADED_STATE);
 		if (null != stateStr) {

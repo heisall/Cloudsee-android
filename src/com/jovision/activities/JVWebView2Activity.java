@@ -12,7 +12,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -130,11 +129,11 @@ public class JVWebView2Activity extends BaseActivity implements
 		case Consts.CALL_CONNECT_CHANGE: {
 			if (arg2 == Consts.RTMP_EDISCONNECT) {
 				MyLog.v("reConnect", "connectChange=" + arg2);
-				startConnect(rtmp, playChannel.getSurface());
+				// startConnect(rtmp, playChannel.getSurface());
 			} else {
 				MyLog.v("妈呀", "connectChange=" + arg2);
-				loadingState(arg2);
 			}
+			loadingState(arg2);
 			break;
 		}
 		case Consts.CALL_NEW_PICTURE: {
@@ -682,9 +681,6 @@ public class JVWebView2Activity extends BaseActivity implements
 						@Override
 						public void onGlobalLayout() {
 							// TODO Auto-generated method stub
-							Log.i("TAG", disMetrics.heightPixels
-									- disMetrics.widthPixels * 0.75 - 100
-									- webView.getHeight() + "高度");
 							if ((disMetrics.heightPixels
 									- disMetrics.widthPixels * 0.75 - 100)
 									- webView.getHeight() > 300) {

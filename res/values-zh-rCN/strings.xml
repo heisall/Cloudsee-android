@@ -364,7 +364,7 @@
     <string name="demo_get_failed">视频广场加载失败</string>
     <string name="demo_loading">正在努力加载...</string>
     <!-- JVTab -->
-    <string name="account_error_tips">账号异常，点击登陆！</string>
+    <string name="account_error_tips">账号异常，点击登录。</string>
     <string name="network_error_tips">网络连接不可用,是否进行设置?</string>
     <string name="network_error">网络连接不可用,是否进行设置?</string>
     <string name="tips_3g">目前处于2G/3G网络，观看视频会产生大量流量费用（由运营商收取），建议使用Wi-Fi网络.</string>
@@ -376,7 +376,7 @@
     <string name="no_more_tips">不再提示</string>
     <string name="download">立即下载</string>
     <!-- JVOffline -->
-    <string name="offline_other_login">账号在其他地方登入或者账号异常.</string>
+    <string name="offline_other_login">账号在其他地方登录或者账号异常.</string>
     <string name="offline_net_error">网络连接异常，请重新登录.</string>
     <string name="exit">退出</string>
     <string name="keeponline">继续登录</string>

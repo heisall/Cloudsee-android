@@ -613,7 +613,7 @@
     <string name="str_alarm_thirddev_bind_hint">設備昵稱</string>
     <string name="str_bind_finish">完  成</string>
     <string name="str_alarm_type_move">移動偵測</string>
-    <string name="str_alarm_type_third">外設報警</string>
+    <string name="str_alarm_type_third">安全報警</string>
     <string name="str_alarm_type_external">外接報警</string>
     <string name="str_alarm_type_unknown">未知報警類型</string>
     <string name="str_telecontrol_device">遙控設備</string>

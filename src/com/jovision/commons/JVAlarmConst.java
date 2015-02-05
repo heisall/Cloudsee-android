@@ -44,7 +44,7 @@ public class JVAlarmConst {
 	public static final String JK_ALARM_NEW_ALARM_AISTART = "aistart";
 	public static final String JK_ALARM_NEW_ALARM_AISTOP = "aistop";
 	public static final String JK_ALARM_NEW_ALARM_THIRD_NICKNAME = "amsg";
-
+	public static final String JK_ALARM_NEW_ALARM_CUST_INFO = "csinfo";// 自定义报警信息提示
 	/* 报警服务器的消息类型 */
 	public static final int MID_RESPONSE_PUSHALARM = 1000; /* 告警服务器向客户端推送报警信息 */
 	public static final int MID_REQUEST_ALARMPICURL = 1001; /* 客户端获取报警图片的url地址 */

@@ -705,4 +705,25 @@ public class AlarmUtil {
 		return re_StrTime;
 
 	}
+
+	// 将字符串格式为yyyyMMddhhmmss转换为yyyy-MM-dd HH:mm:ss
+	public static String formatStrTime2(String dstTimeStr) {
+		String re_StrTime = null;
+		if (dstTimeStr.length() != 14) {
+			return "";
+		}
+		String strYear = dstTimeStr.substring(0, 3 + 1);
+		String strMonth = dstTimeStr.substring(4, 5 + 1);
+		String strDay = dstTimeStr.substring(6, 7 + 1);
+		String strHour = dstTimeStr.substring(8, 9 + 1);
+		String strMin = dstTimeStr.substring(10, 11 + 1);
+		String strSecond = dstTimeStr.substring(12, 13 + 1);
+
+		StringBuffer sbResBuffer = new StringBuffer(strHour);
+		sbResBuffer.append(":").append(strMin).append(":").append(strSecond);
+
+		re_StrTime = sbResBuffer.toString();
+		return re_StrTime;
+
+	}
 }

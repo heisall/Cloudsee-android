@@ -376,19 +376,23 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			case R.id.regist_btn:// 注册
 				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
-				Log.i("TAG", ConfigUtil.getCountry().substring(0, 2));
-				if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
-						|| Consts.LANGUAGE_ZHTW == ConfigUtil
-								.getServerLanguage()) {
-					Intent registIntent = new Intent();
-					registIntent.setClass(JVLoginActivity.this,
-							JVRegisterActivity.class);
-					JVLoginActivity.this.startActivity(registIntent);
-				} else if (Consts.LANGUAGE_EN == ConfigUtil.getServerLanguage()) {
-					Intent registIntent = new Intent();
-					registIntent.setClass(JVLoginActivity.this,
-							JVRegisterByEmailActivity.class);
-					JVLoginActivity.this.startActivity(registIntent);
+				if (ConfigUtil.isConnected(JVLoginActivity.this)) {
+					if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
+							|| Consts.LANGUAGE_ZHTW == ConfigUtil
+									.getServerLanguage()) {
+						Intent registIntent = new Intent();
+						registIntent.setClass(JVLoginActivity.this,
+								JVRegisterActivity.class);
+						JVLoginActivity.this.startActivity(registIntent);
+					} else if (Consts.LANGUAGE_EN == ConfigUtil
+							.getServerLanguage()) {
+						Intent registIntent = new Intent();
+						registIntent.setClass(JVLoginActivity.this,
+								JVRegisterByEmailActivity.class);
+						JVLoginActivity.this.startActivity(registIntent);
+					}
+				} else {
+					alertNetDialog();
 				}
 				break;
 			case R.id.showpoint_btn:// 演示点

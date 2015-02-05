@@ -9,7 +9,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
-import android.print.PrintAttributes.Margins;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
@@ -274,10 +273,10 @@ public abstract class PlayActivity extends BaseActivity implements
 		if (Consts.ISHITVIS == 1) {
 			ishitvis.setVisibility(View.VISIBLE);
 		}
-		reParamstop2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		reParamstop2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT); 
-		reParamstop2.addRule(RelativeLayout.CENTER_VERTICAL); 
+		reParamstop2 = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		reParamstop2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		reParamstop2.addRule(RelativeLayout.CENTER_VERTICAL);
 		reParamstop2.setMargins(0, 0, 30, 0);
 		rightBtn.setLayoutParams(reParamstop2);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);

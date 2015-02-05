@@ -482,7 +482,7 @@ public class JVPlayActivity extends PlayActivity implements
 						loadingState(arg1, R.string.connfailed_auth,
 								Consts.TAG_PLAY_DIS_CONNECTTED);
 						if (ONE_SCREEN == currentScreen) {
-								passErrorDialog(arg1);
+							passErrorDialog(arg1);
 						}
 
 					} else if ("channel is not open!"

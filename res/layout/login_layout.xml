@@ -2,16 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg" >
+    >
 
     <RelativeLayout
+        android:background="@color/login_bg" 
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
         <ImageView
             android:id="@+id/logo"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/login_logo_icon" >
         </ImageView>
@@ -118,14 +119,15 @@
                         android:src="@drawable/login_user_divider" />
                 </RelativeLayout>
             </LinearLayout>
+
             <Button
                 android:id="@+id/onlinelogin_btn"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_below="@+id/centerlayout"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/login"
                 android:text="@string/login_str_user_login"
-                android:layout_marginTop="20dp"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -145,7 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/locallogin_btn"
-                android:layout_margin="20dp" >
+                android:layout_margin="10dp" >
 
                 <TextView
                     android:id="@+id/regist_btn"
@@ -156,7 +158,7 @@
                     android:background="@color/transparent"
                     android:text="@string/login_str_user_regist"
                     android:textColor="@color/login_text"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/findpass_tv"
@@ -167,7 +169,7 @@
                     android:gravity="right"
                     android:text="@string/str_find_pass"
                     android:textColor="@color/login_text"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:visibility="visible" />
             </RelativeLayout>
 

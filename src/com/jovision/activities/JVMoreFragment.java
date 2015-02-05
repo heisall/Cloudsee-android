@@ -599,14 +599,14 @@ public class JVMoreFragment extends BaseFragment {
 							// TODO
 							break;
 						case 9:
+							if (!MySharedPreference
+									.getBoolean("SystemMessage")) {
+								MySharedPreference.putBoolean(
+										"SystemMessage", true);
+							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {
-								if (!MySharedPreference
-										.getBoolean("SystemMessage")) {
-									MySharedPreference.putBoolean(
-											"SystemMessage", true);
-								}
 								StatService.trackCustomEvent(
 										mActivity,
 										"MoreMessage",
@@ -619,6 +619,10 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 10:
+							if (!MySharedPreference.getBoolean("CUSTURL")) {
+								MySharedPreference.putBoolean("CUSTURL",
+										true);
+							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {
@@ -650,6 +654,10 @@ public class JVMoreFragment extends BaseFragment {
 							// UrlTask1.execute(demoParams1);
 							break;
 						case 12:
+							if (!MySharedPreference.getBoolean("STATURL")) {
+								MySharedPreference.putBoolean("STATURL",
+										true);
+							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {

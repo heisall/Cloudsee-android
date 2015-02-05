@@ -156,7 +156,7 @@ public class JVLoginActivity extends BaseActivity {
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
 
 		params = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
-				(int) (0.3 * disMetrics.heightPixels));
+				(int) (0.32 * disMetrics.heightPixels));
 		logoImageView.setLayoutParams(params);
 
 		if ("true".equals(statusHashMap.get(Consts.KEY_GONE_MORE))) {

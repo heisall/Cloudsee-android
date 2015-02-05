@@ -13,16 +13,23 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.widget.RelativeLayout.LayoutParams;
+import neo.droid.p2r.PullToRefreshBase;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
@@ -61,6 +68,12 @@ public class JVInfoFragment extends BaseFragment {
 	private MainApplication mApp = null;
 	public static boolean isshow;
 
+	private boolean mIsAnimation = false; // 默认为false
+	private Animation animationDown = null; // 向上动画
+	private Animation animationUp = null; // 下拉动画
+	private TextView infoHint = null; // 弹出的那个textview
+	private RelativeLayout main_fragment_info_rly;
+
 	// private boolean firstIntoPush = false;// 是否第一次进入pushmessage界面
 
 	@Override
@@ -94,7 +107,6 @@ public class JVInfoFragment extends BaseFragment {
 							"ClearAlarmMessage",
 							mActivity.getResources().getString(
 									R.string.census_clearalarmmessage));
-					mActivity.createDialog("", true);
 					ClearAlarmTask task = new ClearAlarmTask();
 					String[] params = new String[3];
 					task.execute(params);
@@ -103,7 +115,93 @@ public class JVInfoFragment extends BaseFragment {
 			}
 
 		});
+
+		main_fragment_info_rly = (RelativeLayout) rootView
+				.findViewById(R.id.main_fragment_info_rly);
+		initAnimation();
+		infoHint = (TextView) LayoutInflater.from(getActivity()).inflate(
+				R.layout.listview_infohint, null);
+		LayoutParams para = new LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.WRAP_CONTENT);
+		para.setMargins(0, 0, 0, 0);
+		infoHint.setLayoutParams(para);
+		infoHint.setVisibility(View.INVISIBLE);
+		main_fragment_info_rly.addView(infoHint);
+		// mActivity.addContentView(infoHint, para);
 		return rootView;
+	}
+
+	private void initAnimation() {
+		// TODO Auto-generated method stub
+		animationUp = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
+				Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF,
+				0.0f, Animation.RELATIVE_TO_SELF, -1);
+		animationUp.setDuration(1000);
+		animationUp.setRepeatCount(0);
+		animationUp.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// TODO Auto-generated method stub
+				infoHint.setVisibility(View.INVISIBLE);
+			}
+		});
+
+		animationDown = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
+				Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1,
+				Animation.RELATIVE_TO_SELF, 0.0f);
+		animationDown.setDuration(1000);
+		animationDown.setRepeatCount(0);
+		animationDown.setFillAfter(true);
+		animationDown.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO Auto-generated method stub
+				infoHint.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// TODO Auto-generated method stub
+				new Handler().postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						infoHint.startAnimation(animationUp);
+					}
+				}, 1000);
+			}
+		});
+
+	}
+
+	private void updateInfoHint(boolean success) {
+		if (success) {
+			infoHint.setText(R.string.load_info_success);
+		} else {
+			infoHint.setText(R.string.load_info_failed);
+		}
+		infoHint.startAnimation(animationDown);
 	}
 
 	@Override
@@ -151,7 +249,6 @@ public class JVInfoFragment extends BaseFragment {
 						if (!Boolean.valueOf(mActivity.statusHashMap
 								.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 							pullUp = false;
-							mActivity.createDialog("", true);
 							PullDownRefreshAlarmTask task = new PullDownRefreshAlarmTask();
 							String[] params = new String[3];
 							task.execute(params);
@@ -168,7 +265,6 @@ public class JVInfoFragment extends BaseFragment {
 						if (!Boolean.valueOf(mActivity.statusHashMap
 								.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 							pullUp = true;
-							mActivity.createDialog("", true);
 							PullUpRefreshAlarmTask task = new PullUpRefreshAlarmTask();
 							String[] params = new String[3];
 							task.execute(params);
@@ -317,16 +413,18 @@ public class JVInfoFragment extends BaseFragment {
 					}
 					pushAdapter.notifyDataSetChanged();
 				}
+				updateInfoHint(true);
+				// mActivity.showTextToast(R.string.load_info_success);
 			} else {
 				mPullRefreshListView.onRefreshComplete();
-				mActivity.showTextToast(R.string.get_alarm_list_failed);
+				mActivity.showTextToast(R.string.load_info_failed);
 			}
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			mActivity.createDialog("", true);
+			// mActivity.createDialog("", true);
 		}
 
 		@Override
@@ -371,7 +469,7 @@ public class JVInfoFragment extends BaseFragment {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			mActivity.dismissDialog();
+			// mActivity.dismissDialog();
 			if (1 == result) {
 				mPullRefreshListView.onRefreshComplete();
 				if (null == temList) {
@@ -403,16 +501,18 @@ public class JVInfoFragment extends BaseFragment {
 					}
 					pullUp = false;
 					pushAdapter.notifyDataSetChanged();
+					updateInfoHint(true);
+					// mActivity.showTextToast(R.string.load_info_success);
 				}
 			} else {
-				mActivity.showTextToast(R.string.get_alarm_list_failed);
+				mActivity.showTextToast(R.string.load_info_failed);
 			}
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			mActivity.createDialog("", true);
+			// mActivity.createDialog("", true);
 		}
 
 		@Override

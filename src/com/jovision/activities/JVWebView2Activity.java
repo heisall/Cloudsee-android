@@ -128,8 +128,13 @@ public class JVWebView2Activity extends BaseActivity implements
 			break;
 		}
 		case Consts.CALL_CONNECT_CHANGE: {
-			MyLog.v("妈呀", "connectChange=" + arg2);
-			loadingState(arg2);
+			if (arg2 == Consts.RTMP_EDISCONNECT) {
+				MyLog.v("reConnect", "connectChange=" + arg2);
+				startConnect(rtmp, playChannel.getSurface());
+			} else {
+				MyLog.v("妈呀", "connectChange=" + arg2);
+				loadingState(arg2);
+			}
 			break;
 		}
 		case Consts.CALL_NEW_PICTURE: {

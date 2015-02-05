@@ -125,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_below="@+id/centerlayout"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/login"
                 android:text="@string/login_str_user_login"
                 android:textColor="@color/white"

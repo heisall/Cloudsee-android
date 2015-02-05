@@ -125,7 +125,9 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 								.parseInt(mActivity.statusHashMap
 										.get(Consts.ACCOUNT_ERROR));
 						switch (errorCode) {
-						case Consts.WHAT_ALARM_NET:// 网络异常
+						case Consts.WHAT_HEART_TCP_ERROR:
+						case Consts.WHAT_HEART_TCP_CLOSED:
+						case Consts.WHAT_HEART_ERROR:// 心跳异常
 							if (android.os.Build.VERSION.SDK_INT > 10) {
 								startActivity(new Intent(
 										android.provider.Settings.ACTION_SETTINGS));
@@ -200,7 +202,18 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 						.getApplication()).statusHashMap
 						.get(Consts.ACCOUNT_ERROR));
 				switch (errorCode) {
-				case Consts.WHAT_ALARM_NET:// 网络异常
+				case Consts.WHAT_HEART_ERROR:// 心跳异常
+					if (null != alarmnet && !local) {
+						alarmnet.setVisibility(View.VISIBLE);
+						if (null != accountError) {
+							accountError
+									.setText(getString(R.string.network_error_tips)
+											+ "...");
+						}
+					}
+					break;
+				case Consts.WHAT_HEART_TCP_ERROR:
+				case Consts.WHAT_HEART_TCP_CLOSED:
 					if (null != alarmnet && !local) {
 						alarmnet.setVisibility(View.VISIBLE);
 						if (null != accountError) {
@@ -209,7 +222,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 						}
 					}
 					break;
-				case Consts.WHAT_ALARM_NET_WEEK:// 网络恢复正常
+				case Consts.WHAT_HEART_NORMAL:// 心跳恢复正常
 					if (null != alarmnet) {
 						alarmnet.setVisibility(View.GONE);
 					}

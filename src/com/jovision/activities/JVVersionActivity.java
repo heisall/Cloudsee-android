@@ -86,6 +86,8 @@ public class JVVersionActivity extends BaseActivity {
 					R.string.census_appnetwork_version)
 					+ "=" + ConfigUtil.GETNETWORK_VERSION + "\n");
 
+			configList.add(ConfigUtil.REMOTE_LOG.toString() + "\n");
+
 			if (ConfigUtil.ACCOUNT_VERSION.equalsIgnoreCase(JVACCOUNT
 					.GetVersion(0))
 					&& ConfigUtil.PLAY_VERSION

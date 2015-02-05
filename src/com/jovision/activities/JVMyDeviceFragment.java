@@ -866,7 +866,23 @@ public class JVMyDeviceFragment extends BaseFragment {
 			demoParams[2] = "fragmentString";
 			demoTask.execute(demoParams);
 			break;
-		case Consts.WHAT_ALARM_NET:
+		case Consts.WHAT_HEART_ERROR:// 心跳异常
+			if (this.isAdded()) {
+				if (null != alarmnet
+						&& !Boolean.valueOf(mActivity.statusHashMap
+								.get(Consts.LOCAL_LOGIN))) {
+					alarmnet.setVisibility(View.VISIBLE);
+					if (null != accountError) {
+						accountError
+								.setText(mActivity.getResources().getString(
+										R.string.network_error_tips)
+										+ "...");
+					}
+				}
+			}
+			break;
+		case Consts.WHAT_HEART_TCP_ERROR:
+		case Consts.WHAT_HEART_TCP_CLOSED:
 			if (this.isAdded()) {
 				if (null != alarmnet
 						&& !Boolean.valueOf(mActivity.statusHashMap
@@ -874,12 +890,12 @@ public class JVMyDeviceFragment extends BaseFragment {
 					alarmnet.setVisibility(View.VISIBLE);
 					if (null != accountError) {
 						accountError.setText(mActivity.getResources()
-								.getString(R.string.network_error_tips) + arg1);
+								.getString(R.string.network_error_tips));
 					}
 				}
 			}
 			break;
-		case Consts.WHAT_ALARM_NET_WEEK:// 网络恢复正常
+		case Consts.WHAT_HEART_NORMAL:// 心跳恢复正常
 			if (null != alarmnet) {
 				alarmnet.setVisibility(View.GONE);
 			}

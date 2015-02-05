@@ -27,6 +27,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Looper;
+import android.support.v4.view.ViewPager.LayoutParams;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Display;
@@ -87,6 +88,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	private boolean manuDiscon = false;// 手动调用断开
 
 	LayoutInflater layoutFlater = null;
+	protected RelativeLayout.LayoutParams reParamstop2;
 
 	/** IPCwifi列表 */
 	private LinearLayout ipcLayout;
@@ -176,6 +178,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		rightBtn.setText(getResources().getString(
 				R.string.str_quick_setting_connect));
 		rightBtn.setVisibility(View.VISIBLE);
+		reParamstop2 = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		reParamstop2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		reParamstop2.addRule(RelativeLayout.CENTER_VERTICAL);
+		reParamstop2.setMargins(0, 0, 30, 0);
+		rightBtn.setLayoutParams(reParamstop2);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.str_quick_setting);
 		leftBtn.setOnClickListener(onClickListener);

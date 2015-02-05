@@ -420,11 +420,13 @@
     <string name="xlistview_footer_hint_normal">More</string>
     <string name="xlistview_footer_hint_ready">Pull up to load more.</string>
     <string name="xlistview_no_more">No more alert info now</string>
-    <string name="del_alarm_succ">Delete alarm successfully.</string>
-    <string name="del_alarm_failed">Failed to delete alarm.</string>
+    <string name="del_alarm_succ">Delete alarm info successfully.</string>
+    <string name="del_alarm_failed">Failed to delete alarm info.</string>
     <string name="get_alarm_list_failed">Get Alarm info list failed</string>
     <string name="clear_alarm_succ">Clear alarm successfully.</string>
     <string name="clear_alarm_failed">Failed to clear alarm.</string>
+    <string name="load_info_success">Loading info successfully.</string>
+    <string name="load_info_failed">Failed to load info.</string>    
     <!-- popupWindow -->
     <string name="pop_take">Capture</string>
     <string name="pop_pictrue">Choose from phone Album.</string>

@@ -419,12 +419,14 @@
     <string name="alarm_level">報警級別</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加載更多</string>
-    <string name="xlistview_no_more">沒有更多的報警資訊了</string>
-    <string name="del_alarm_succ">報警刪除成功</string>
-    <string name="del_alarm_failed">報警刪除失敗</string>
+    <string name="xlistview_no_more">沒有更多報警資訊了</string>
+    <string name="del_alarm_succ">報警資訊刪除成功</string>
+    <string name="del_alarm_failed">報警資訊刪除失敗</string>
     <string name="get_alarm_list_failed">獲取報警資訊失敗</string>
     <string name="clear_alarm_succ">清空報警資訊成功</string>
     <string name="clear_alarm_failed">清空報警資訊失敗</string>
+    <string name="load_info_success">加載資訊成功</string>
+    <string name="load_info_failed">加載資訊失敗</string>    
     <!-- popupWindow -->
     <string name="pop_take">拍照</string>
     <string name="pop_pictrue">從相冊選擇</string>

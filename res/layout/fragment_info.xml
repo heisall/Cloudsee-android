@@ -2,17 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    >
 
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
 
-    <RelativeLayout
+   <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
+        android:layout_height="match_parent"
+        android:id="@+id/main_fragment_info_rly"  >
         <neo.droid.p2r.PullToRefreshListView
             android:id="@+id/pushlistview"
             android:layout_width="match_parent"
@@ -25,21 +26,7 @@
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
             android:smoothScrollbar="true" />
-        <!--
-        <com.jovision.views.XListView
-            android:id="@+id/pushlistview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:cacheColorHint="@color/deviceitembgcolor"
-            android:divider="@color/transparent"
-            android:dividerHeight="10dp"
-            android:fadingEdge="none"
-            android:footerDividersEnabled="true"
-            android:listSelector="@color/transparent" />
-        -->
-
-        <LinearLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

@@ -28,6 +28,7 @@
     <color name="loginvictor_normal">#FF9C94</color>
     <color name="loginvictor_hover">#E86D68</color>
     <color name="login_text">#5b5b5b</color>
+    <color name="login_bg">#fffcf0</color>
     <!-- 通道的背景色 -->
     <color name="channel_color_1">#42BDE8</color>
     <color name="channel_color_2">#F5C132</color>

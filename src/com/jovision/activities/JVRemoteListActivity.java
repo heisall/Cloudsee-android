@@ -25,7 +25,6 @@ import com.jovision.Consts;
 import com.jovision.adapters.RemoteVideoAdapter;
 import com.jovision.bean.RemoteVideo;
 import com.jovision.commons.MyLog;
-import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVRemoteListActivity extends BaseActivity {
@@ -187,12 +186,6 @@ public class JVRemoteListActivity extends BaseActivity {
 			RemoteVideo videoBean = videoList.get(arg2);
 			String acBuffStr = PlayUtil.getPlayFileString(videoBean, isJFH,
 					deviceType, year, month, day, arg2);
-
-			if (null == ConfigUtil.REMOTE_LOG) {
-				ConfigUtil.REMOTE_LOG = new StringBuffer();
-			}
-
-			ConfigUtil.REMOTE_LOG.append(acBuffStr + "\n");
 			MyLog.v(TAG, "acBuffStr:" + acBuffStr);
 			if (null != acBuffStr && !"".equalsIgnoreCase(acBuffStr)) {
 				Intent intent = new Intent();

@@ -79,8 +79,6 @@ public class ConfigUtil {
 	public final static String PLAY_VERSION = "0.9a[db96217][2015-02-03]";
 	public final static String NETWORK_VERSION = "v2.0.76.3.31[private:v2.0.75.13 20150129.1]";
 
-	public static StringBuffer REMOTE_LOG = null;
-
 	public static String GETACCTOUT_VERSION = "";
 	public static String GETPLAY_VERSION = "";
 	public static String GETNETWORK_VERSION = "";

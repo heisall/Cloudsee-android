@@ -1389,7 +1389,6 @@ public class JVPlayActivity extends PlayActivity implements
 								public void onClick(DialogInterface dialog,
 										int id) {
 									dialog.dismiss();
-									showingDialog = false;
 									initSummaryDialog(channelList.get(
 											lastClickIndex).getParent());
 								}
@@ -1439,6 +1438,7 @@ public class JVPlayActivity extends PlayActivity implements
 			@Override
 			public void onClick(View v) {
 				initDialog.dismiss();
+				showingDialog = false;
 			}
 		});
 		dialogCompleted.setOnClickListener(new View.OnClickListener() {
@@ -1446,6 +1446,7 @@ public class JVPlayActivity extends PlayActivity implements
 			@Override
 			public void onClick(View v) {
 				// 设备用户名不为空
+				showingDialog = false;
 				if ("".equalsIgnoreCase(devicepwd_nameet.getText().toString())) {
 					JVPlayActivity.this
 							.showTextToast(R.string.login_str_device_account_notnull);
@@ -2610,9 +2611,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 				break;
 			case R.id.dialogpwd_cancle_img:
-
+				showingDialog = false;
 				initDialog.dismiss();
-
 				break;
 			case R.id.nextstep: {// AP下一步
 				backMethod(false);
@@ -2732,6 +2732,11 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			case R.id.currentmenu:
 			case R.id.selectscreen:// 下拉选择多屏
+
+				if (Consts.PLAY_AP == playFlag) {
+					break;
+				}
+
 				if (null != streamListView
 						&& View.VISIBLE == streamListView.getVisibility()) {
 					streamListView.setVisibility(View.GONE);

@@ -4,10 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ActionBar.LayoutParams;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.print.PrintAttributes.Margins;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
@@ -88,6 +90,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	protected Button voiceListener;// 音频监听
 	protected ImageView playBackFullScreen;// 远程回放全屏按钮
 	protected ImageView fullScreen;// 视频播放全屏按钮
+	protected RelativeLayout.LayoutParams reParamstop2;
 
 	/** 　竖屏播放工具bar　 */
 	protected RelativeLayout verPlayBarLayout;
@@ -271,7 +274,12 @@ public abstract class PlayActivity extends BaseActivity implements
 		if (Consts.ISHITVIS == 1) {
 			ishitvis.setVisibility(View.VISIBLE);
 		}
-
+		reParamstop2 = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		reParamstop2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		reParamstop2.addRule(RelativeLayout.CENTER_VERTICAL);
+		reParamstop2.setMargins(0, 0, 30, 0);
+		rightBtn.setLayoutParams(reParamstop2);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 
 		selectScreenNum = (ImageView) findViewById(R.id.selectscreen);

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import neo.droid.p2r.PullToRefreshBase;
 import neo.droid.p2r.PullToRefreshBase.Mode;
-import neo.droid.p2r.PullToRefreshListView;
 import neo.droid.p2r.PullToRefreshBase.OnRefreshListener2;
+import neo.droid.p2r.PullToRefreshListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +30,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
 import neo.droid.p2r.PullToRefreshBase;
-
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
@@ -44,8 +43,6 @@ import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.views.MyAlertDialog;
-import com.jovision.views.XListView;
-import com.jovision.views.XListView.IXListViewListener;
 import com.tencent.stat.StatService;
 
 /**

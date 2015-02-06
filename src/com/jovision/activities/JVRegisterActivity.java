@@ -378,6 +378,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		SMSSDK.unregisterEventHandler(mhandler);
 		unregisterReceiver(smsReceiver);
 	}
+
 	OnClickListener onClickListener = new OnClickListener() {
 
 		@Override
@@ -402,10 +403,10 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				}
 				break;
 			case R.id.regist:
-				isclick = false; 
+				isclick = false;
 				if (!agreeProtocol) {
 					showTextToast(R.string.login_str_agreement_tips);
-				}else if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
+				} else if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
 						&& !"".equals(code.getText().toString())) {
 					// 验证填入的验证码
 					strIdentifyNum = code.getText().toString().trim();

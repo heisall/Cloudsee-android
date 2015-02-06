@@ -115,9 +115,16 @@ public class JVWebView2Activity extends BaseActivity implements
 
 	private RelativeLayout zhezhaoLayout;
 
+	private int connectRes3 = 0;
+	private int connectRes4 = 0;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case Consts.WHAT_NET_ERROR_DISCONNECT: {
+			startConnect(rtmp, playChannel.getSurface());
+			break;
+		}
 		case Consts.WHAT_DEMO_BUFFING: {// 缓存中
 			loadingState(Consts.RTMP_CONN_SCCUESS);
 			break;
@@ -127,13 +134,29 @@ public class JVWebView2Activity extends BaseActivity implements
 			break;
 		}
 		case Consts.CALL_CONNECT_CHANGE: {
-			if (arg2 == Consts.RTMP_EDISCONNECT) {
-				MyLog.v("reConnect", "connectChange=" + arg2);
-				// startConnect(rtmp, playChannel.getSurface());
-			} else {
-				MyLog.v("妈呀", "connectChange=" + arg2);
+
+			if (arg2 == Consts.BAD_NOT_CONNECT) {
+				connectRes3 = arg2;
+				MyLog.v("reConnect2", "connectRes3=" + connectRes3
+						+ ";connectRes4=" + connectRes4);
+			} else if (arg2 == Consts.RTMP_EDISCONNECT) {
+				connectRes4 = arg2;
+				MyLog.v("reConnect1", "connectRes3=" + connectRes3
+						+ ";connectRes4=" + connectRes4);
 			}
-			loadingState(arg2);
+			if (connectRes4 == Consts.RTMP_EDISCONNECT
+					&& connectRes3 == Consts.BAD_NOT_CONNECT) {
+				MyLog.v("reConnect3", "connectRes3=" + connectRes3
+						+ ";connectRes4=" + connectRes4);
+				connectRes3 = 0;
+				connectRes4 = 0;
+				handler.sendMessageDelayed(
+						handler.obtainMessage(Consts.WHAT_NET_ERROR_DISCONNECT),
+						200);
+			} else {
+				MyLog.v("reConnect0", "connectChange=" + arg2);
+				loadingState(arg2);
+			}
 			break;
 		}
 		case Consts.CALL_NEW_PICTURE: {
@@ -247,6 +270,8 @@ public class JVWebView2Activity extends BaseActivity implements
 			case Consts.BAD_NOT_CONNECT: {
 				isDisConnected = true;
 				MyLog.e("BAD_NOT_CONNECT", "-3");
+				handler.sendMessage(handler
+						.obtainMessage(what, arg1, arg2, obj));
 				break;
 			}
 			case Consts.RTMP_CONN_SCCUESS: {
@@ -273,7 +298,7 @@ public class JVWebView2Activity extends BaseActivity implements
 				break;
 			}
 			case Consts.RTMP_EDISCONNECT: {
-				playChannel.setConnected(true);
+				playChannel.setConnected(false);
 				handler.sendMessage(handler
 						.obtainMessage(what, arg1, arg2, obj));
 				break;

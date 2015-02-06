@@ -548,6 +548,8 @@ public class Consts {
 
 	/** 网络异常视频断开 */
 	public static final int WHAT_NET_ERROR_DISCONNECT = 0x72;// 网络异常视频断开
+	/** 远程回放视频断开 */
+	public static final int WHAT_VIDEO_DISCONNECT = 0x73;// 远程回放视频断开
 
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像

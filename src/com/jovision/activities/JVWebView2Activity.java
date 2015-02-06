@@ -148,6 +148,7 @@ public class JVWebView2Activity extends BaseActivity implements
 					&& connectRes3 == Consts.BAD_NOT_CONNECT) {
 				MyLog.v("reConnect3", "connectRes3=" + connectRes3
 						+ ";connectRes4=" + connectRes4);
+				loadingState(Consts.RTMP_CONN_SCCUESS);
 				connectRes3 = 0;
 				connectRes4 = 0;
 				handler.sendMessageDelayed(

@@ -546,6 +546,9 @@ public class Consts {
 	public static final int WHAT_HEART_TCP_ERROR = 0x70;// 账号库tcp连接断开
 	public static final int WHAT_HEART_TCP_CLOSED = 0x71;// 账号库tcp连接关闭
 
+	/** 网络异常视频断开 */
+	public static final int WHAT_NET_ERROR_DISCONNECT = 0x72;// 网络异常视频断开
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像

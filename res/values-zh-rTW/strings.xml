@@ -242,6 +242,7 @@
     <string name="pull_to_refresh_pull">下拉可以刷新</string>
     <string name="pull_to_refresh_release">鬆開可以刷新</string>
     <string name="pull_to_refresh_refreshing">加載中…</string>
+    <string name="pull_to_refresh_tap">點擊刷新</string>
     <string name="str_data_load_success">設備加載成功</string>
     <string name="str_data_load_failed1">設備加載失敗</string>
     <string name="str_update_at">更新於:</string>

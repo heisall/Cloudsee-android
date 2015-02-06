@@ -495,9 +495,15 @@ public class JVDeviceManageFragment extends BaseFragment {
 				}
 			}
 		}
-		device_num.setText(mActivity.getResources().getString(R.string.str_fre)
-				+ manageDeviceList.size()
-				+ mActivity.getResources().getString(R.string.str_aft));
+		if (Consts.LANGUAGE_EN == ConfigUtil.getLanguage2(mActivity)) {
+			device_num.setText(mActivity.getResources().getString(R.string.str_fre)+"   "
+					+ manageDeviceList.size()+"   "
+					+ mActivity.getResources().getString(R.string.str_aft));
+		}else {
+			device_num.setText(mActivity.getResources().getString(R.string.str_fre)
+					+ manageDeviceList.size()
+					+ mActivity.getResources().getString(R.string.str_aft));
+		}
 		String stateStr = ((BaseActivity) mActivity).statusHashMap
 				.get(Consts.DATA_LOADED_STATE);
 		if (null != stateStr) {

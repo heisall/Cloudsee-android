@@ -125,13 +125,13 @@ public class FragmentAdapter extends BaseAdapter {
 			}
 		}
 		if (position == 10) {
-			if (!MySharedPreference.getBoolean("STATURL")) {
+			if(!MySharedPreference.getBoolean("CUSTURL")) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
 		if (position == 12) {
-			if (!MySharedPreference.getBoolean("CUSTURL")) {
+			if(!MySharedPreference.getBoolean("STATURL")) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}

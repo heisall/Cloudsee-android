@@ -396,8 +396,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 							(byte) Consts.RC_GPIN_ADD, req_data.trim());
 					new Thread(new TimeOutProcess(Consts.RC_GPIN_ADD)).start();
-				} else {
+				} else if (process_flag == 1) {
 					SendBingNickName(nickName);
+				} else {
+					OnSetAlarmEnabled(true);
 				}
 				// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_RSP_TEXTDATA,
 				// 10000);// 10秒获取不到就取消Dialog

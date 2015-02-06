@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
+    <string name="loading">加載中…</string>
     <string name="logining">正在登錄…</string>
     <string name="login_str_username_notnull">請輸入用戶名</string>
     <string name="login_str_loginpass1_notnull">請輸入密碼</string>
@@ -238,9 +239,9 @@
     <string name="str_refresh_data">刷新數據</string>
     <string name="str_refreshing_data">正在刷新數據…</string>
     <string name="pull_from_time">更新於：</string>
-    <string name="pull_to_refresh_pull_label">下拉可以刷新</string>
-    <string name="pull_to_refresh_release_label">鬆開可以刷新</string>
-    <string name="pull_to_refresh_refreshing_label">加載中…</string>
+    <string name="pull_to_refresh_pull">下拉可以刷新</string>
+    <string name="pull_to_refresh_release">鬆開可以刷新</string>
+    <string name="pull_to_refresh_refreshing">加載中…</string>
     <string name="str_data_load_success">設備加載成功</string>
     <string name="str_data_load_failed1">設備加載失敗</string>
     <string name="str_update_at">更新於:</string>

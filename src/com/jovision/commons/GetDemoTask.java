@@ -59,7 +59,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			((BaseActivity) mContext).statusHashMap.put("DEMOURL",
 					webUrl.getDemoUrl());
 			int counts = Integer.valueOf(count);
-			
+
 			String lan = "";
 			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
 				lan = "zh_cn";
@@ -69,14 +69,14 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			} else {
 				lan = "en_us";
 			}
-			
+
 			switch (counts) {
 			case 0:
 				String custurl;
 				if (null != webUrl.getCustUrl()) {
 					Intent intentAD0 = new Intent(mContext,
 							JVWebViewActivity.class);
-					custurl = webUrl.getCustUrl() + "&lang=" + lan+"&d="
+					custurl = webUrl.getCustUrl() + "&lang=" + lan + "&d="
 							+ System.currentTimeMillis();
 					intentAD0.putExtra("URL", custurl);
 					intentAD0.putExtra("title", -2);
@@ -91,7 +91,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				if (null != webUrl.getStatUrl()) {
 					Intent intentAD2 = new Intent(mContext,
 							JVWebViewActivity.class);
-					staturl = webUrl.getStatUrl() + "&lang=" + lan+"&d="
+					staturl = webUrl.getStatUrl() + "&lang=" + lan + "&d="
 							+ System.currentTimeMillis();
 					intentAD2.putExtra("URL", staturl);
 					intentAD2.putExtra("title", -2);

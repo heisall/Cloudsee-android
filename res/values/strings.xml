@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
+    <string name="loading">Loading…</string>
     <string name="logining">Login now…</string>
     <string name="login_str_username_notnull">Please input username.</string>
     <string name="login_str_loginpass1_notnull">Please input password.</string>
@@ -72,7 +73,7 @@
     <!-- JVMoreFrament -->
     <string name="location_login">Visitor</string>
     <!-- leftMenu -->
-    <string name="devicecount">Total of 0 Device</string>
+    <string name="devicecount">Total of&#160;0&#160;Device</string>
     <string name="nikename">NickName</string>
     <string name="nikename2">NickName</string>
     <string name="str_deleting">Operating…</string>
@@ -238,9 +239,9 @@
     <string name="str_refresh_data">Refresh Data</string>
     <string name="str_refreshing_data">Refreshing Data…</string>
     <string name="pull_from_time">Update at:</string>
-    <string name="pull_to_refresh_pull_label">Pull to refresh…</string>
-    <string name="pull_to_refresh_release_label">Release to refresh…</string>
-    <string name="pull_to_refresh_refreshing_label">Loading…</string>
+    <string name="pull_to_refresh_pull">Pull to refresh…</string>
+    <string name="pull_to_refresh_release">Release to refresh…</string>
+    <string name="pull_to_refresh_refreshing">Loading…</string>
     <string name="str_data_load_success">Device loaded successfully</string>
     <string name="str_data_load_failed1">Failed to load device</string>
     <string name="str_update_at">Update at:</string>
@@ -504,7 +505,7 @@
     <string name="str_notice_content">Please input your problems or suggestion.</string>
     <string name="str_notice_connection">Your contact info(So we can contact you for feedback of your suggestion.)</string>
     <string name="str_connect_error">Contact information contains illegal characters, content of contact information can only be Numbers, letters, Chinese characters and special characters _ @.</string>
-    <string name="str_content_error">The feedback content contains illegal characters, content of feedback can only be Numbers, letters, Chinese characters and special characters:_.,!:。，！？：%</string>
+    <string name="str_content_error">The feedback content contains illegal characters, content of feedback can only be Numbers, letters, Chinese characters and special characters_.,?!:%</string>
     <string name="str_idea_and_feedback">Feedback</string>
     <string name="commit">Send</string>
     <string name="str_commit_success">Thanks for your feedback, we shall work more to provide better service.</string>
@@ -522,8 +523,8 @@
     <string name="str_device_online_lan">Lan online</string>
     <string name="str_device_offline">Offline</string>
     <!-- JVDeviceManageFragment -->
-    <string name="str_fre">Total</string>
-    <string name="str_aft">devices.</string>
+    <string name="str_fre">Total&#160;</string>
+    <string name="str_aft">&#160;devices.</string>
     <string name="delete_all_device">Delete all devices. Are you sure?</string>
     <string name="ip_add_notallow">Do not support devices added  by DNS/IP address.</string>
     <string name="protect_open_succ">Enable Security Protection Successfully.</string>

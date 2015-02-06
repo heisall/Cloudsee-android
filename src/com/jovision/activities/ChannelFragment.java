@@ -219,6 +219,8 @@ public class ChannelFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				initDialog.dismiss();
+				channelAdapter.setShowDelete(false);
+				channelAdapter.notifyDataSetChanged();
 			}
 		});
 		dialogCompleted.setOnClickListener(new View.OnClickListener() {

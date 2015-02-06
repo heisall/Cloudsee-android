@@ -119,28 +119,31 @@ public class FragmentAdapter extends BaseAdapter {
 			}
 		}
 		if (position == 9) {
-			if (!MySharedPreference.getBoolean("SystemMessage")
-					) {
+			if (!MySharedPreference.getBoolean("SystemMessage")) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
 		if (position == 10) {
-			if(!MySharedPreference.getBoolean("CUSTURL")) {
+			if (!MySharedPreference.getBoolean("CUSTURL")) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
 		if (position == 12) {
-			if(!MySharedPreference.getBoolean("STATURL")) {
+			if (!MySharedPreference.getBoolean("STATURL")) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 10&&Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment.getActivity())) {
+		if (position == 10
+				&& Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment
+						.getActivity())) {
 			more_item.setVisibility(View.VISIBLE);
 			divider_img.setVisibility(View.VISIBLE);
-		}else if(position == 10&&Consts.LANGUAGE_ZH != ConfigUtil.getLanguage2(mfragment.getActivity())){
+		} else if (position == 10
+				&& Consts.LANGUAGE_ZH != ConfigUtil.getLanguage2(mfragment
+						.getActivity())) {
 			more_item.setVisibility(View.GONE);
 			divider_img.setVisibility(View.GONE);
 		}

@@ -340,13 +340,11 @@ public class JVLoginActivity extends BaseActivity {
 			case R.id.findpass_tv: {
 				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
 					alertNetDialog();
-				} else if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
-						|| Consts.LANGUAGE_ZHTW == ConfigUtil
-								.getServerLanguage()) {
+				} else if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {// 中国服务器
 					Intent intentFP = new Intent(JVLoginActivity.this,
 							ResetPwdChoiceActivity.class);
 					JVLoginActivity.this.startActivity(intentFP);
-				} else if (Consts.LANGUAGE_EN == ConfigUtil.getServerLanguage()) {
+				} else {// 国外服务器
 					Intent intentFP = new Intent(JVLoginActivity.this,
 							JVWebViewActivity.class);
 					intentFP.putExtra("URL", Url.RESET_PWD_URL_FOREIGN_EN);

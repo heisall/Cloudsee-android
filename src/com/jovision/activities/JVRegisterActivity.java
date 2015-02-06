@@ -61,6 +61,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 	private EditText code;
 	private boolean isregister;
 	private GetPhoneNumber phoneNumber;
+	private boolean agreeProtocol = true;
 
 	/** 注册信息提示文本 */
 	private TextView registTips;
@@ -173,6 +174,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		regist.setOnClickListener(onClickListener);
 		agreeMent.setOnClickListener(onClickListener);
 		agreeTBtn.setChecked(true);
+		agreeProtocol = true;
 		agreeTBtn.setOnCheckedChangeListener(onCheckedChangeListener);
 
 		// 中性版本的隐藏注册协议
@@ -376,7 +378,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		SMSSDK.unregisterEventHandler(mhandler);
 		unregisterReceiver(smsReceiver);
 	}
-
 	OnClickListener onClickListener = new OnClickListener() {
 
 		@Override
@@ -401,8 +402,10 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				}
 				break;
 			case R.id.regist:
-				isclick = false;
-				if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
+				isclick = false; 
+				if (!agreeProtocol) {
+					showTextToast(R.string.login_str_agreement_tips);
+				}else if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
 						&& !"".equals(code.getText().toString())) {
 					// 验证填入的验证码
 					strIdentifyNum = code.getText().toString().trim();
@@ -489,6 +492,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		@Override
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 			agreeTBtn.setChecked(arg1);
+			agreeProtocol = arg1;
 		}
 
 	};

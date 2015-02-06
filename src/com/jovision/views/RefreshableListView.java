@@ -271,7 +271,7 @@ public class RefreshableListView extends ListView {
 			} else if (height < mHeaderHeight && mArrowUp) {
 				mArrow.startAnimation(AnimationUtils.loadAnimation(
 						getContext(), R.anim.rotate));
-				refreshState.setText(R.string.pull_to_refresh_pull_label);
+				refreshState.setText(R.string.pull_to_refresh_pull);
 				refreshTime.setText(getResources().getString(
 						R.string.str_update_at)
 						+ ConfigUtil.getCurrentTime());
@@ -302,7 +302,7 @@ public class RefreshableListView extends ListView {
 		mProgress.setVisibility(View.VISIBLE);
 		if (!repeatFlag)// 非重复刷新
 		{
-			refreshState.setText(R.string.pull_to_refresh_refreshing_label);
+			refreshState.setText(R.string.pull_to_refresh_refreshing);
 			if (!mIsRefreshing) {
 				mIsRefreshing = true;
 				if (mListener != null) {
@@ -311,7 +311,7 @@ public class RefreshableListView extends ListView {
 			}
 		} else {// 重复刷新
 
-			refreshState.setText(R.string.pull_to_refresh_refreshing_label);
+			refreshState.setText(R.string.pull_to_refresh_refreshing);
 			if (!mIsRefreshing) {
 				mIsRefreshing = true;
 				if (mListener != null) {

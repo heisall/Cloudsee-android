@@ -89,17 +89,17 @@ public class XListViewHeader extends LinearLayout {
 			if (mState == STATE_REFRESHING) {
 				mArrowImageView.clearAnimation();
 			}
-			mHintTextView.setText(R.string.pull_to_refresh_pull_label);
+			mHintTextView.setText(R.string.pull_to_refresh_pull);
 			break;
 		case STATE_READY:
 			if (mState != STATE_READY) {
 				mArrowImageView.clearAnimation();
 				mArrowImageView.startAnimation(mRotateUpAnim);
-				mHintTextView.setText(R.string.pull_to_refresh_release_label);
+				mHintTextView.setText(R.string.pull_to_refresh_release);
 			}
 			break;
 		case STATE_REFRESHING:
-			mHintTextView.setText(R.string.pull_to_refresh_refreshing_label);
+			mHintTextView.setText(R.string.pull_to_refresh_refreshing);
 			break;
 		default:
 		}

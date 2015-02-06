@@ -228,7 +228,8 @@ public class JVTabActivity extends ShakeActivity implements
 			int cnt = mApp.getNewPushCnt();
 			Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
 			if (cnt > 0 || !MySharedPreference.getBoolean("SystemMessage")
-					||(!MySharedPreference.getBoolean("CUSTURL")) ||(!MySharedPreference.getBoolean("STATURL"))) {
+					|| (!MySharedPreference.getBoolean("CUSTURL"))
+					|| (!MySharedPreference.getBoolean("STATURL"))) {
 				show = true;
 			}
 			mIndicator.updateIndicator(3, 0, show);

@@ -146,7 +146,7 @@ public class JVFragmentIndicator extends LinearLayout implements
 				tabInfo.setVisibility(View.GONE);
 			}
 			if (Consts.LANGUAGE_EN == ConfigUtil.getLanguage2(mContext)) {
-				tabInfoText.setTextSize((float)6.0);
+				tabInfoText.setTextSize((float) 6.0);
 			}
 			tabInfoText.setText(R.string.new_tag);
 			break;

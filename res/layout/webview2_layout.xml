@@ -61,6 +61,61 @@
                     android:textStyle="bold"
                     android:visibility="visible" />
 
+                
+                 <LinearLayout
+                     android:background="@color/halftransparent"
+                        android:id="@+id/linksetting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/playsurface"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:text="最小0-25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                        
+                        <EditText
+                            android:inputType="phone"
+                            android:text="5"
+                            android:id="@+id/mincache"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+                        <TextView
+                            android:text="目标25-1000"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                        
+                        <EditText
+                            android:inputType="phone"
+                            android:text="50"
+                            android:id="@+id/descache"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+                        
+                        <Button
+                            android:background="@drawable/setting_save_2"
+                            android:text="@string/save"
+                            android:id="@+id/savesetting"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                    
                 <RelativeLayout
                     android:id="@+id/playbar"
                     android:layout_width="match_parent"
@@ -88,7 +143,6 @@
                         android:layout_toRightOf="@+id/pause"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
-
                     <SeekBar
                         android:id="@+id/playback_seekback"
                         android:layout_width="wrap_content"

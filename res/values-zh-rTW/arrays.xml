@@ -147,7 +147,16 @@
         <item>報警設置</item>
         <item>版本資訊</item>
     </string-array>
-
+    <!-- 第三方外設報警管理 -->
+    <string-array name="peripherals_manage">
+        <item>門磁</item>
+        <item>手環</item>
+        <item>遙控器</item>
+        <item>煙感探測器</item>
+        <item>幕簾探測器</item>
+        <item>紅外探測器</item>
+        <item>燃氣泄露探測器</item>
+    </string-array>
     <!-- 碼流切換 -->
     <string-array name="array_stream">
         <item>高清</item>
@@ -159,10 +168,10 @@
         <item>請將設備打開，等待配置完成。</item>
         <item>請長按紅色按鍵，等待配置完成。</item>
         <item>請長按任意鍵，等待配置完成。</item>
-        <item>请将设备测试开关拨到开启位置，等待配置完成。</item>
-        <item>请将设备测试开关拨到开启位置，等待配置完成。</item>
-        <item>请将手在设备正前方10厘米处挥动几次，等待配置完成。</item>
-        <item>请将设备测试开关拨到开启位置，等待配置完成。</item>
+        <item>請將設備測試開關撥到開啟位置，等待配置完成。</item>
+        <item>請將設備測試開關撥到開啟位置，等待配置完成。</item>
+        <item>請用手在設備正前方10厘米處揮動幾次，等待配置完成。</item>
+        <item>請將設備測試開關撥到開啟位置，等待配置完成。</item>
     </string-array>
 
 </resources>

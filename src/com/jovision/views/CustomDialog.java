@@ -85,6 +85,14 @@ public class CustomDialog extends Dialog implements CommonInterface {
 				case 3:// 遥控器
 					file = "telecontrol.mp3";
 					break;
+				case 4:
+				case 5:
+				case 7:
+					file = "alarm_guide_zh4.mp3";
+					break;
+				case 6:
+					file = "alarm_guide_zh5.mp3";
+					break;
 				default:
 					// file = "telecontrol.mp3";// 其他先用这个吧
 					// break;
@@ -101,6 +109,14 @@ public class CustomDialog extends Dialog implements CommonInterface {
 				case 3:// 遥控器
 					file = "telecontrol_tw.mp3";
 					break;
+				case 4:
+				case 5:
+				case 7:
+					file = "alarm_guide_zh4.mp3";
+					break;
+				case 6:
+					file = "alarm_guide_zh5.mp3";
+					break;
 				default:
 					// file = "telecontrol_tw.mp3";
 					// break;
@@ -116,6 +132,14 @@ public class CustomDialog extends Dialog implements CommonInterface {
 					break;
 				case 3:// 遥控器
 					file = "telecontrol_en.mp3";
+					break;
+				case 4:
+				case 5:
+				case 7:
+					file = "alarm_guide_en4.mp3";
+					break;
+				case 6:
+					file = "alarm_guide_en5.mp3";
 					break;
 				default:
 					// file = "telecontrol_en.mp3";

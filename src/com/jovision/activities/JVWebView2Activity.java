@@ -1300,12 +1300,17 @@ public class JVWebView2Activity extends BaseActivity implements
 
 		// 关闭默认的Toast提示,回避Toast重复问题
 		mController.getConfig().closeToast();
+		/*
+		* 关闭新浪微博分享时的获取地理位置功能
+		* 原因是友盟不支持多语言,定位失败的Toast被写死在了代码里
+		*/
+		mController.getConfig().setDefaultShareLocation(false);
 	}
 
 	/**
 	 * @功能描述：判断是否展示分享功能<br/>
 	 * @param pUrl
-	 *            网址
+	 *			网址
 	 * @return true/false
 	 */
 	private boolean checkShareEnabled(String pUrl) {
@@ -1349,9 +1354,9 @@ public class JVWebView2Activity extends BaseActivity implements
 	/**
 	 * @功能描述 : 根据不同的平台生成视频链接地址</br>
 	 * @param pVideoUrl
-	 *            视频链接地址
+	 *			视频链接地址
 	 * @param platform
-	 *            分享平台
+	 *			分享平台
 	 * @return
 	 */
 	private String createVideoUrlByPlatform(final String pVideoUrl,

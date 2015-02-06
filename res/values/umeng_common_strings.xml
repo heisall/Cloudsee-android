@@ -30,5 +30,7 @@
     <string name="umeng_socialize_text_waitting_weixin_circle">Redirecting to Moments of Wechat App, please wait...</string>
     <string name="umeng_socialize_share_wx_not_install">You still have not installed Wechat App yet.</string>
     <string name="umeng_socialize_share_wx_not_support">The version of Wechat is too old, please try updating the Wechat App.</string>
+    <string name="umeng_socialize_share_at_hint_search">Search</string>
+    <string name="umeng_socialize_share_at_title">好友列表</string>
 
 </resources>

@@ -15,7 +15,7 @@
         android:textColor="#ffffff"
         android:textSize="12sp" />
 
-    <!-- 隐藏掉原有的标题，下面进行自定义一个标题，多语言可控 -->
+    <!-- 隐藏掉原有的标题，下面进行自定义一个标题(设成文字透明,因为友盟的代码里会让其显示)，多语言可控 -->
     <TextView
         android:id="@+id/umeng_socialize_title_bar_middleTv"
         android:layout_width="fill_parent"
@@ -24,7 +24,7 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:text="@string/umeng_socialize_comment"
-        android:textColor="@color/umeng_socialize_text_title"
+        android:textColor="@color/transparent"
         android:textSize="20sp"
         android:visibility="gone" />
     <!-- 自定义的TextView来显示分享编辑页的标题 -->

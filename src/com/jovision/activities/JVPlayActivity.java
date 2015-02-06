@@ -195,6 +195,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.SERVICE_STOP:
 				channel.setPaused(true);
 				msgList.add(arg1, handler.obtainMessage(what, arg1, arg2, obj));
+
 				break;
 			case Consts.BAD_NOT_CONNECT: {
 				channel.setConnected(false);

@@ -58,8 +58,8 @@ public class JVWaveSetActivity extends BaseActivity {
 	String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3",
 			"quicksetsound.mp3", "6.mp3" };
 
-	String[] stepSoundCHTW = { "voi_info_zhtw.mp3", "voi_next_zhtw.mp3",
-			"voi_send_zhtw.mp3", "quicksetsound.mp3", "6.mp3" };
+	// String[] stepSoundCHTW = { "voi_info_zhtw.mp3", "voi_next_zhtw.mp3",
+	// "voi_send_zhtw.mp3", "quicksetsound.mp3", "6.mp3" };
 
 	String[] stepSoundEN = { "voi_info_en.mp3", "voi_next_en.mp3",
 			"voi_send_en.mp3", "quicksetsound.mp3", "6.mp3" };
@@ -589,7 +589,7 @@ public class JVWaveSetActivity extends BaseActivity {
 				file = stepSoundCH[index];
 			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
 					.getLanguage2(JVWaveSetActivity.this)) {
-				file = stepSoundCHTW[index];
+				file = stepSoundCH[index];
 			} else {
 				file = stepSoundEN[index];
 			}

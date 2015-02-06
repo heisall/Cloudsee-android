@@ -774,6 +774,17 @@ public class Jni {
 	public static native boolean isPlayAudio(int window);
 
 	/**
+	 * 设置缓冲帧个数
+	 * 
+	 * @param min
+	 *            最小缓冲帧个数：0~25
+	 * @param buffer
+	 *            目标缓冲数量：25~1000
+	 * @return
+	 */
+	public static native boolean setFrameCounts(int min, int buffer);
+
+	/**
 	 * 设置显示图像的顶点坐标(坐标系原点在 Surface 左下顶点)和长宽
 	 * 
 	 * @param window

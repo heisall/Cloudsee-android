@@ -92,24 +92,24 @@ public class JVDeviceManageActivity extends BaseActivity {
 		deviceIndex = getIntent().getIntExtra("deviceIndex", 0);
 
 		cloudnumber_text = (TextView) findViewById(R.id.cloudnumber_text);
-		if (Consts.LANGUAGE_ZH == ConfigUtil
-				.getLanguage2(JVDeviceManageActivity.this)
-				|| Consts.LANGUAGE_ZHTW == ConfigUtil
-						.getLanguage2(JVDeviceManageActivity.this)) {
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.MATCH_PARENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT);
-			lp.setMargins(20, 0, 0, 0);
-			cloudnumber_text.setPadding(10, 13, 0, 13);
-			cloudnumber_text.setLayoutParams(lp);
-		} else {
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.MATCH_PARENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT);
-			lp.setMargins(8, 0, 0, 0);
-			cloudnumber_text.setPadding(10, 10, 0, 10);
-			cloudnumber_text.setLayoutParams(lp);
-		}
+//		if (Consts.LANGUAGE_ZH == ConfigUtil
+//				.getLanguage2(JVDeviceManageActivity.this)
+//				|| Consts.LANGUAGE_ZHTW == ConfigUtil
+//						.getLanguage2(JVDeviceManageActivity.this)) {
+//			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+//					LinearLayout.LayoutParams.MATCH_PARENT,
+//					LinearLayout.LayoutParams.WRAP_CONTENT);
+//			lp.setMargins(20, 0, 0, 0);
+//			cloudnumber_text.setPadding(10, 13, 0, 13);
+//			cloudnumber_text.setLayoutParams(lp);
+//		} else {
+//			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+//					LinearLayout.LayoutParams.MATCH_PARENT,
+//					LinearLayout.LayoutParams.WRAP_CONTENT);
+//			lp.setMargins(8, 0, 0, 0);
+//			cloudnumber_text.setPadding(10, 10, 0, 10);
+//			cloudnumber_text.setLayoutParams(lp);
+//		}
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		accountError = (TextView) findViewById(R.id.accounterror);

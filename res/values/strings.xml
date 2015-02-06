@@ -570,7 +570,7 @@
     <string name="select_all">select all</string>
     <string name="save">Save</string>
     <string name="str_devicename">Device Number</string>
-    <string name="str_username"> Username</string>
+    <string name="str_username">Username</string>
     <string name="str_password">Password </string>
     <string name="str_nicknametwo">Nickname </string>
     <!-- 声波配置 -->

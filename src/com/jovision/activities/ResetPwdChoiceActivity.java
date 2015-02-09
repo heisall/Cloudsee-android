@@ -49,7 +49,7 @@ public class ResetPwdChoiceActivity extends Activity implements OnClickListener 
 			String findUrl = "";
 			if (Consts.LANGUAGE_ZH == ConfigUtil
 					.getLanguage2(ResetPwdChoiceActivity.this)) {// 中文简体
-			// findUrl = Url.RESET_PWD_URL_ZH;
+				// findUrl = Url.RESET_PWD_URL_ZH;
 				if (Consts.LANGUAGE_EN == ConfigUtil.getServerLanguage()) {
 					findUrl = Url.RESET_PWD_URL_FOREIGN_ZH;
 				} else {
@@ -57,7 +57,7 @@ public class ResetPwdChoiceActivity extends Activity implements OnClickListener 
 				}
 			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
 					.getLanguage2(ResetPwdChoiceActivity.this)) {// 中文繁体
-			// findUrl = Url.RESET_PWD_URL_ZHT;
+				// findUrl = Url.RESET_PWD_URL_ZHT;
 				if (Consts.LANGUAGE_EN == ConfigUtil.getServerLanguage()) {
 					findUrl = Url.RESET_PWD_URL_FOREIGN_ZHT;
 				} else {

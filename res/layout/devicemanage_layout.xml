@@ -34,7 +34,7 @@
             android:layout_marginLeft="20dp"
             android:background="@null" >
 
-         <TextView
+            <TextView
                 android:id="@+id/cloudnumber_text"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -208,6 +208,5 @@
                 android:textSize="16sp" />
         </LinearLayout>
     </RelativeLayout>
-
 
 </LinearLayout>

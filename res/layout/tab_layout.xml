@@ -13,12 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_above="@+id/indicator"
-                android:background="@color/more_fragment_color4" />
-
             <com.jovision.activities.JVFragmentIndicator
                 android:id="@+id/indicator"
                 android:layout_width="match_parent"

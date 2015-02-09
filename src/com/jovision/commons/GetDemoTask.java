@@ -74,8 +74,8 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				if (null != webUrl.getCustUrl()) {
 					Intent intentAD0 = new Intent(mContext,
 							JVWebViewActivity.class);
-					custurl = webUrl.getCustUrl() + "?"+ "&lang=" + lan + "&d="
-							+ System.currentTimeMillis();
+					custurl = webUrl.getCustUrl() + "?" + "&lang=" + lan
+							+ "&d=" + System.currentTimeMillis();
 					((BaseActivity) mContext).statusHashMap.put("CUSTURL",
 							custurl);
 					Log.i("TAG", custurl);
@@ -84,16 +84,16 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					mContext.startActivity(intentAD0);
 				} else {
 					((BaseActivity) mContext)
-					.showTextToast(R.string.str_video_load_failed);
+							.showTextToast(R.string.str_video_load_failed);
 				}
 				break;
-			case 2://云视通指数
+			case 2:// 云视通指数
 				String staturl = "";
 				if (null != webUrl.getStatUrl()) {
 					Intent intentAD2 = new Intent(mContext,
 							JVWebViewActivity.class);
-					staturl = webUrl.getStatUrl() + "?"+ "&lang=" + lan + "&d="
-							+ System.currentTimeMillis();
+					staturl = webUrl.getStatUrl() + "?" + "&lang=" + lan
+							+ "&d=" + System.currentTimeMillis();
 					((BaseActivity) mContext).statusHashMap.put("STATURL",
 							staturl);
 
@@ -103,7 +103,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					mContext.startActivity(intentAD2);
 				} else {
 					((BaseActivity) mContext)
-					.showTextToast(R.string.str_video_load_failed);
+							.showTextToast(R.string.str_video_load_failed);
 				}
 
 				break;
@@ -122,7 +122,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				} else if (!"fragmentString".equals(fragmentString)
 						&& null == webUrl.getDemoUrl()) {
 					((BaseActivity) mContext)
-					.showTextToast(R.string.demo_get_failed);
+							.showTextToast(R.string.demo_get_failed);
 				}
 				break;
 			default:
@@ -139,7 +139,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			// 注意：aaa.html后为"?",参数之间使用"&"进行连接
 		} else {
 			((BaseActivity) mContext)
-			.showTextToast(R.string.str_video_load_failed);
+					.showTextToast(R.string.str_video_load_failed);
 		}
 	}
 

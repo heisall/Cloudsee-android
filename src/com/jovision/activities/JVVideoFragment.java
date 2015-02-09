@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -181,6 +182,8 @@ public class JVVideoFragment extends BaseFragment {
 		// setting.setPluginState(PluginState.ON);
 		// 加快加载速度
 		webView.getSettings().setRenderPriority(RenderPriority.HIGH);
+		webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);// 优先使用缓存
+		// webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);//不使用缓存
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onReceivedError(WebView view, int errorCode,

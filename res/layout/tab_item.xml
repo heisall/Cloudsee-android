@@ -8,6 +8,7 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
         android:background="@color/line" />
 
     <RelativeLayout
@@ -15,6 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/line"
+        android:layout_centerHorizontal="true"
         android:background="@color/tab_bg_color" >
 
         <ImageView

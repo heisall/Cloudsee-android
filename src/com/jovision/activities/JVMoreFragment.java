@@ -668,8 +668,10 @@ public class JVMoreFragment extends BaseFragment {
 													((BaseActivity) mActivity).statusHashMap
 															.get("STATURL"));
 									intentAD0.putExtra("title", -2);
-									Log.i("TAG", ((BaseActivity) mActivity).statusHashMap
-											.get("STATURL")+"dddddddddd");
+									Log.i("TAG",
+											((BaseActivity) mActivity).statusHashMap
+													.get("STATURL")
+													+ "dddddddddd");
 									mActivity.startActivity(intentAD0);
 								} else {
 									GetDemoTask UrlTask2 = new GetDemoTask(

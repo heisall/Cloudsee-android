@@ -672,9 +672,9 @@ public class JVMyDeviceFragment extends BaseFragment {
 											MyLog.v("adUrl", adUrl);
 											intentAD.putExtra("title", -2);
 										} else {
+											adUrl = adUrl + "?" + "&sid=" + sid;
 											intentAD.putExtra("title", -1);
 										}
-
 										intentAD.putExtra("URL", adUrl);
 										mActivity.startActivity(intentAD);
 									}

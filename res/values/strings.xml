@@ -699,11 +699,13 @@
     <string name="census_appnetwork_version">程序网络库</string>
     <string name="census_appplay_version">程序播放库</string>
     <string name="census_version">版本号</string>
+    <string name="str_error_vercode">无效验证码</string>
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
     <string name="reset_passwd_input_vercode"> verification code</string>
     <string name="str_vercode">Security code</string>
     <string name="reset_passwd_account">Account</string>
+    <string name="str_error_vercodeen">Verification code error</string>
     <string name="reset_passwd_new_passwd">Password</string>
     <string name="reset_passwd_confirm_passwd">Confirm Password</string>
     <string name="reset_passwd_new_passwd_hint">Enter the password</string>

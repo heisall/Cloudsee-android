@@ -229,7 +229,22 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 										.getMessage());
 								String des = object.optString("detail");
 								if (!TextUtils.isEmpty(des)) {
-									showTextToast(des);
+									Log.i("TAG", des);
+									String errorstring1 = JVRegisterActivity.this
+											.getResources().getString(
+													R.string.str_error_vercode);
+									Log.i("TAG", errorstring1);
+									int lan = ConfigUtil
+											.getLanguage2(JVRegisterActivity.this);
+									if (errorstring1.equals(des)
+											&& Consts.LANGUAGE_ZHTW == lan) {
+										showTextToast(R.string.str_error_vercodetw);
+									} else if (errorstring1.equals(des)
+											&& Consts.LANGUAGE_ZH == lan) {
+										showTextToast(R.string.str_error_vercode);
+									} else {
+										showTextToast(des);
+									}
 									return;
 								}
 							} catch (Exception e) {
@@ -566,7 +581,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				if (pd != null && pd.isShowing()) {
 					pd.dismiss();
 				}
-
 				if (result == SMSSDK.RESULT_COMPLETE) {
 					// 跳转到设置密码界面
 					Intent intent = new Intent(JVRegisterActivity.this,

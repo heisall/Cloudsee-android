@@ -23,7 +23,7 @@ public class Consts {
 	public static final String DEFAULT_PORT = "9101";// 固定值，无需修改
 
 	/**************************** 华丽的分割线 ******************************/
-
+	public static int CURRENT_LAN = -1;// 当前语言
 	public static int COUNT = -1;
 	public static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
 

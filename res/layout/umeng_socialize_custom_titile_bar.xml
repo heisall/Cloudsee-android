@@ -16,6 +16,7 @@
         android:textSize="12sp" />
 
     <!-- 隐藏掉原有的标题，下面进行自定义一个标题(设成文字透明,因为友盟的代码里会让其显示)，多语言可控 -->
+
     <TextView
         android:id="@+id/umeng_socialize_title_bar_middleTv"
         android:layout_width="fill_parent"
@@ -28,6 +29,7 @@
         android:textSize="20sp"
         android:visibility="gone" />
     <!-- 自定义的TextView来显示分享编辑页的标题 -->
+
     <TextView
         android:id="@+id/umeng_socialize_title_bar_custom_tv"
         android:layout_width="fill_parent"
@@ -68,6 +70,7 @@
     </RelativeLayout>
 
     <!-- 隐藏掉右侧的刷新按钮，因为点击后会出现Toast提示，多语言不可控 -->
+
     <RelativeLayout
         android:layout_width="48dp"
         android:layout_height="fill_parent"

@@ -4,18 +4,19 @@
     android:layout_height="fill_parent"
     android:background="#EEEEEE"
     android:orientation="vertical" >
-<!-- 屏蔽掉原有导入的头部 -->
-<!-- 
+
+    <!-- 屏蔽掉原有导入的头部 -->
+    <!--
     <include
         android:id="@+id/title"
         layout="@layout/umeng_socialize_titile_bar"
         />
- -->
-<!-- 加载自定义的头部，多语言可控 -->
+    -->
+    <!-- 加载自定义的头部，多语言可控 -->
+
     <include
         android:id="@+id/title"
-        layout="@layout/umeng_socialize_custom_titile_bar"
-        />
+        layout="@layout/umeng_socialize_custom_titile_bar" />
 
     <RelativeLayout
         android:layout_width="fill_parent"

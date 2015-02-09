@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -52,10 +53,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 		((BaseActivity) mContext).dismissDialog();
 		if (0 == result) {
-			((BaseActivity) mContext).statusHashMap.put("CUSTURL",
-					webUrl.getCustUrl());
-			((BaseActivity) mContext).statusHashMap.put("STATURL",
-					webUrl.getStatUrl());
+
 			((BaseActivity) mContext).statusHashMap.put("DEMOURL",
 					webUrl.getDemoUrl());
 			int counts = Integer.valueOf(count);
@@ -76,29 +74,36 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				if (null != webUrl.getCustUrl()) {
 					Intent intentAD0 = new Intent(mContext,
 							JVWebViewActivity.class);
-					custurl = webUrl.getCustUrl() + "&lang=" + lan + "&d="
+					custurl = webUrl.getCustUrl() + "?"+ "&lang=" + lan + "&d="
 							+ System.currentTimeMillis();
+					((BaseActivity) mContext).statusHashMap.put("CUSTURL",
+							custurl);
+					Log.i("TAG", custurl);
 					intentAD0.putExtra("URL", custurl);
 					intentAD0.putExtra("title", -2);
 					mContext.startActivity(intentAD0);
 				} else {
 					((BaseActivity) mContext)
-							.showTextToast(R.string.str_video_load_failed);
+					.showTextToast(R.string.str_video_load_failed);
 				}
 				break;
-			case 2:
+			case 2://云视通指数
 				String staturl = "";
 				if (null != webUrl.getStatUrl()) {
 					Intent intentAD2 = new Intent(mContext,
 							JVWebViewActivity.class);
-					staturl = webUrl.getStatUrl() + "&lang=" + lan + "&d="
+					staturl = webUrl.getStatUrl() + "?"+ "&lang=" + lan + "&d="
 							+ System.currentTimeMillis();
+					((BaseActivity) mContext).statusHashMap.put("STATURL",
+							staturl);
+
+					Log.i("TAG", staturl);
 					intentAD2.putExtra("URL", staturl);
 					intentAD2.putExtra("title", -2);
 					mContext.startActivity(intentAD2);
 				} else {
 					((BaseActivity) mContext)
-							.showTextToast(R.string.str_video_load_failed);
+					.showTextToast(R.string.str_video_load_failed);
 				}
 
 				break;
@@ -117,7 +122,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				} else if (!"fragmentString".equals(fragmentString)
 						&& null == webUrl.getDemoUrl()) {
 					((BaseActivity) mContext)
-							.showTextToast(R.string.demo_get_failed);
+					.showTextToast(R.string.demo_get_failed);
 				}
 				break;
 			default:
@@ -134,7 +139,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			// 注意：aaa.html后为"?",参数之间使用"&"进行连接
 		} else {
 			((BaseActivity) mContext)
-					.showTextToast(R.string.str_video_load_failed);
+			.showTextToast(R.string.str_video_load_failed);
 		}
 	}
 

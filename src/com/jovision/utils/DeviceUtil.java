@@ -1215,6 +1215,11 @@ public class DeviceUtil {
 													dev.setServerState(obj
 															.optInt(JVDeviceConst.JK_DEVICE_IM_ONLINE_STATUS));
 													flag[k] = true;
+													
+													// 同步map
+													CacheUtil.setNickNameWithYstfn(
+															dev.getFullNo(),
+															dev.getNickName());													
 												}
 											}
 										}

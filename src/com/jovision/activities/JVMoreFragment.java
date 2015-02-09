@@ -868,6 +868,7 @@ public class JVMoreFragment extends BaseFragment {
 				ConfigUtil.logOut();
 				UserUtil.resetAllUser();
 				BitmapCache.getInstance().clearAllCache();
+				mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				mActivity.statusHashMap.put(Consts.ACCOUNT_ERROR, null);
 			} catch (Exception e) {

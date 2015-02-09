@@ -375,6 +375,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 	 * 没有网络提示 打开设置网络界面
 	 * */
 	public void alertNetDialog() {
+		statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 		if (null != netErrorDialog && netErrorDialog.isShowing()) {
 			return;
 		}

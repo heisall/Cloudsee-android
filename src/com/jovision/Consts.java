@@ -643,6 +643,9 @@ public class Consts {
 	/** 网络切换需要广播 key */
 	public static final String NEED_BROAD = "NEED_BROAD";
 
+	/** 已经加载过视频广场 key */
+	public static final String HAS_LOAD_DEMO = "HAS_LOAD_DEMO";
+
 	/** 正在AP配置 key */
 	public static final String AP_SETTING = "AP_SETTING";
 

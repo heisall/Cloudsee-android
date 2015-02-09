@@ -52,6 +52,9 @@ public class JVVersionActivity extends BaseActivity {
 
 		ArrayList<String> configList = new ArrayList<String>();
 		try {
+			configList.add("Version" + "="
+					+ ConfigUtil.getVersion(JVVersionActivity.this) + "\n");
+
 			configList.add("AppName=" + Consts.APP_NAME);
 			configList.add("VersionCode="
 					+ String.valueOf(this.getPackageManager().getPackageInfo(
@@ -85,6 +88,8 @@ public class JVVersionActivity extends BaseActivity {
 			configList.add(this.getResources().getString(
 					R.string.census_appnetwork_version)
 					+ "=" + ConfigUtil.GETNETWORK_VERSION + "\n");
+
+			configList.add("SinaRes" + "=" + ConfigUtil.SINA_COUNTRY + "\n");
 
 			if (ConfigUtil.ACCOUNT_VERSION.equalsIgnoreCase(JVACCOUNT
 					.GetVersion(0))

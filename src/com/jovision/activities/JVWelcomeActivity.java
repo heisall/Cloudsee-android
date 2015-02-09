@@ -105,6 +105,8 @@ public class JVWelcomeActivity extends BaseActivity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.welcome_layout);
 
+		Consts.CURRENT_LAN = ConfigUtil.getLanguage2(this);
+
 		welcomeImage = (ImageView) findViewById(R.id.cloudseewelcome);
 
 		if ("false".equalsIgnoreCase(statusHashMap.get(Consts.NEUTRAL_VERSION))) {// 非中性软件

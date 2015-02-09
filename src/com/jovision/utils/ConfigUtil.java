@@ -76,13 +76,14 @@ import com.jovision.utils.mails.MyAuthenticator;
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
 	public final static String ACCOUNT_VERSION = "V3.2.13.2";
-	public final static String PLAY_VERSION = "0.9a[805d6a1][2015-02-06]";
+	public final static String PLAY_VERSION = "0.9a[cc863e0][2015-02-06]";
 	public final static String NETWORK_VERSION = "v2.0.76.3.32[private:v2.0.75.13 20150205.1]";
 
 	public static String GETACCTOUT_VERSION = "";
 	public static String GETPLAY_VERSION = "";
 	public static String GETNETWORK_VERSION = "";
 
+	public static String SINA_COUNTRY = "";
 	private final static String CHINA_JSON = "{\"country\":\"\u4e2d\u56fd\"}";
 	// /**
 	// * 获取本地数据库管理对象的引用
@@ -216,13 +217,16 @@ public class ConfigUtil {
 	// requestRes = in.readLine();
 	public static String getCountry() {
 		MyLog.v(TAG, "getCountry---E");
-		if ("".equalsIgnoreCase(country)) {
-			String requestRes = "China";
+		if ("".equalsIgnoreCase(country)) {// 国家未取到再调用新浪接口
+			String requestRes = "China0";
 			BufferedReader in = null;
 			try {
 				requestRes = JSONUtil.getRequest3(Url.COUNTRY_URL);
+				// requestRes = "";
+				SINA_COUNTRY = requestRes;
 				MyLog.v("getCountry--requestRes", requestRes);
-				if (!"".equalsIgnoreCase(requestRes)) {
+				if (null != requestRes && !"".equalsIgnoreCase(requestRes)) {// 字符串不为null
+																				// 且不为空
 					String jsonStr = requestRes.substring(
 							requestRes.indexOf("{"),
 							requestRes.indexOf("}") + 1);
@@ -232,10 +236,10 @@ public class ConfigUtil {
 							+ obj.getString("province") + "-"
 							+ obj.getString("city");
 				} else {
-					country = "China";
+					country = "EChina1";
 				}
 			} catch (Exception e) {
-				country = "China";
+				country = "EChina2";
 				e.printStackTrace();
 			} finally {
 				if (in != null) {
@@ -296,16 +300,24 @@ public class ConfigUtil {
 			e.printStackTrace();
 		}
 		if (-1 == lan) {
-			String country = getCountry();
+			String country = getCountry();// 可防止重复调用
 			MyLog.v("country",
 					"flag1-" + country.contains(china) + "-flag2-"
 							+ country.contains("China") + "-flag3-"
 							+ country.contains("china"));
-			if (country.contains(china) || country.contains("China")
-					|| country.contains("china")) {
-				lan = Consts.LANGUAGE_ZH;
+			if (country.contains("EChina")) {// 访问新浪接口出错
+				if (Consts.CURRENT_LAN == Consts.LANGUAGE_ZH) {
+					lan = Consts.LANGUAGE_ZH;
+				} else {
+					lan = Consts.LANGUAGE_EN;
+				}
 			} else {
-				lan = Consts.LANGUAGE_EN;
+				if (country.contains(china) || country.contains("China")
+						|| country.contains("china")) {
+					lan = Consts.LANGUAGE_ZH;
+				} else {
+					lan = Consts.LANGUAGE_EN;
+				}
 			}
 		}
 		MyLog.v("country", "lan=" + lan + ";中文 1 英文2");
@@ -950,7 +962,7 @@ public class ConfigUtil {
 
 	// 获取当前系统时间
 	public static String getCurrentTime() {
-		SimpleDateFormat formatter = new SimpleDateFormat("MM月 dd日  ahh:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
 		String time = formatter.format(curDate);
 		return time;

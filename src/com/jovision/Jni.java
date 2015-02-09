@@ -777,12 +777,12 @@ public class Jni {
 	 * 设置缓冲帧个数
 	 * 
 	 * @param min
-	 *            最小缓冲帧个数：0~25
+	 *            最小缓冲帧个数：0~25 5
 	 * @param buffer
-	 *            目标缓冲数量：25~1000
+	 *            目标缓冲数量：25~1000 50
 	 * @return
 	 */
-	public static native boolean setFrameCounts(int min, int buffer);
+	public static native boolean setFrameCounts(int window, int min, int buffer);
 
 	/**
 	 * 设置显示图像的顶点坐标(坐标系原点在 Surface 左下顶点)和长宽

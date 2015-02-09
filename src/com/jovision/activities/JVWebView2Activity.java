@@ -29,6 +29,7 @@ import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -43,6 +44,7 @@ import com.jovision.bean.Device;
 import com.jovision.commons.MyAudio;
 import com.jovision.commons.MyGestureDispatcher;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.PlayUtil;
@@ -90,6 +92,10 @@ public class JVWebView2Activity extends BaseActivity implements
 	private ImageView pause;
 	private ImageView fullScreen;
 	private WebView webView;
+	private LinearLayout linkSetting;
+	private EditText minCache;
+	private EditText desCache;
+	private Button saveSetting;
 
 	private boolean fullScreenFlag = false;
 	private boolean pausedFlag = false;
@@ -221,8 +227,10 @@ public class JVWebView2Activity extends BaseActivity implements
 
 					if (View.VISIBLE == playBar.getVisibility()) {
 						playBar.setVisibility(View.GONE);
+						linkSetting.setVisibility(View.GONE);
 					} else {
 						playBar.setVisibility(View.VISIBLE);
+						linkSetting.setVisibility(View.VISIBLE);
 					}
 				}
 			}
@@ -443,7 +451,17 @@ public class JVWebView2Activity extends BaseActivity implements
 		zhezhaoLayout.setLayoutParams(reParamstop1);
 		loadingBar = (ImageView) findViewById(R.id.loadingbar);
 		loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
+		linkSetting = (LinearLayout) findViewById(R.id.linksetting);
+		minCache = (EditText) findViewById(R.id.mincache);
+		desCache = (EditText) findViewById(R.id.descache);
+		saveSetting = (Button) findViewById(R.id.savesetting);
+		saveSetting.setOnClickListener(myOnClickListener);
 
+		if (MySharedPreference.getBoolean("LITTLE")) {// 调试版本
+			linkSetting.setVisibility(View.VISIBLE);
+		} else {
+			linkSetting.setVisibility(View.GONE);
+		}
 		loadFailedLayout = (RelativeLayout) findViewById(R.id.loadfailedlayout);
 		loadFailedLayout.setVisibility(View.GONE);
 		reloadImgView = (ImageView) findViewById(R.id.refreshimg);
@@ -791,6 +809,31 @@ public class JVWebView2Activity extends BaseActivity implements
 			switch (v.getId()) {
 			case R.id.btn_left: {
 				backMethod();
+				break;
+			}
+			case R.id.savesetting: {
+				if ("".equalsIgnoreCase(minCache.getText().toString())) {
+					showTextToast("哎呀妈呀，啥也不输让我设置啥呀！");
+				} else if ("".equalsIgnoreCase(desCache.getText().toString())) {
+					showTextToast("你在考验我的智商吗？");
+				} else {
+					int min = Integer.parseInt(minCache.getText().toString());
+					int des = Integer.parseInt(desCache.getText().toString());
+
+					if (min < 0 || min > 25) {
+						showTextToast("你没看到最小限定的范围吗？");
+					} else if (des < 25 || des > 1000) {
+						showTextToast("你没看到最大限定的范围吗？");
+					} else {
+						boolean res = Jni.setFrameCounts(
+								playChannel.getIndex(), min, des);
+						if (res) {
+							showTextToast("设置成功");
+						} else {
+							showTextToast("设置失败");
+						}
+					}
+				}
 				break;
 			}
 			case R.id.refreshimg: {
@@ -1300,6 +1343,10 @@ public class JVWebView2Activity extends BaseActivity implements
 
 		// 关闭默认的Toast提示,回避Toast重复问题
 		mController.getConfig().closeToast();
+		/*
+		 * 关闭新浪微博分享时的获取地理位置功能 原因是友盟不支持多语言,定位失败的Toast被写死在了代码里
+		 */
+		mController.getConfig().setDefaultShareLocation(false);
 	}
 
 	/**

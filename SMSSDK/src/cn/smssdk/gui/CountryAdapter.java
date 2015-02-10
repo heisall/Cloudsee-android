@@ -127,8 +127,14 @@ public class CountryAdapter extends GroupAdapter {
 	}
 
 	public String[] getItem(int group, int position) {
+		String[] countriesArray = null;
 		if(countries.size() != 0){
-			return countries.get(group).get(position);
+			try {
+				countriesArray = countries.get(group).get(position);
+			} catch (ArrayIndexOutOfBoundsException e) {
+				e.printStackTrace();
+			}
+			return countriesArray;
 		}else{
 			return null;
 		}

@@ -10,6 +10,8 @@ package cn.smssdk.gui;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+
+
 import android.app.Dialog;
 import android.content.Context;
 import android.text.Editable;
@@ -173,15 +175,19 @@ public class ContactsPage extends FakeActivity implements OnClickListener, TextW
 	}
 
 	public boolean onKeyEvent(int keyCode, KeyEvent event) {
-		int resId = getIdRes(activity, "llSearch");
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN
-				&& activity.findViewById(resId).getVisibility() == View.VISIBLE) {
-			activity.findViewById(resId).setVisibility(View.GONE);
-			resId = getIdRes(activity, "llTitle");
-			activity.findViewById(resId).setVisibility(View.VISIBLE);
-			etSearch.setText("");
-			return true;
+		try {
+			int resId = getIdRes(activity, "llSearch");
+			if (keyCode == KeyEvent.KEYCODE_BACK
+					&& event.getAction() == KeyEvent.ACTION_DOWN
+					&& activity.findViewById(resId).getVisibility() == View.VISIBLE) {
+				activity.findViewById(resId).setVisibility(View.GONE);
+				resId = getIdRes(activity, "llTitle");
+				activity.findViewById(resId).setVisibility(View.VISIBLE);
+				etSearch.setText("");
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return super.onKeyEvent(keyCode, event);
 	}

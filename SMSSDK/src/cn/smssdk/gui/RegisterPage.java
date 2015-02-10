@@ -36,11 +36,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.smssdk.EventHandler;
+import cn.smssdk.OnSendMessageHandler;
 import cn.smssdk.SMSSDK;
+import cn.smssdk.UserInterruptException;
 import cn.smssdk.framework.FakeActivity;
 
 /** 短信注册页面*/
-public class RegisterPage extends FakeActivity implements OnClickListener, TextWatcher {
+public class RegisterPage extends FakeActivity implements OnClickListener,
+		TextWatcher {
 
 	// 默认使用中国区号
 	private static final String DEFAULT_COUNTRY_ID = "42";
@@ -49,13 +52,13 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 
 	// 国家
 	private TextView tvCountry;
-	//手机号码
+	// 手机号码
 	private EditText etPhoneNum;
-	//国家编号
+	// 国家编号
 	private TextView tvCountryNum;
-	//clear 号码
+	// clear 号码
 	private ImageView ivClear;
-	//下一步按钮
+	// 下一步按钮
 	private Button btnNext;
 
 	private String currentId;
@@ -64,9 +67,14 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 	// 国家号码规则
 	private HashMap<String, String> countryRules;
 	private Dialog pd;
+	private OnSendMessageHandler osmHandler;
 
 	public void setRegisterCallback(EventHandler callback) {
 		this.callback = callback;
+	}
+
+	public void setOnSendMessageHandler(OnSendMessageHandler h) {
+		osmHandler = h;
 	}
 
 	public void show(Context context) {
@@ -82,7 +90,7 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 			resId = getIdRes(activity, "ll_back");
 			View llBack = activity.findViewById(resId);
 			resId = getIdRes(activity, "tv_title");
-			TextView tv = (TextView)activity.findViewById(resId);
+			TextView tv = (TextView) activity.findViewById(resId);
 			resId = getStringRes(activity, "smssdk_regist");
 			if (resId > 0) {
 				tv.setText(resId);
@@ -96,7 +104,7 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 			tvCountry = (TextView) activity.findViewById(resId);
 
 			String[] country = getCurrentCountry();
-//			String[] country = SMSSDK.getCountry(currentId);
+			// String[] country = SMSSDK.getCountry(currentId);
 			if (country != null) {
 				currentCode = country[1];
 				tvCountry.setText(country[0]);
@@ -110,7 +118,7 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 			etPhoneNum.setText("");
 			etPhoneNum.addTextChangedListener(this);
 			etPhoneNum.requestFocus();
-			if(etPhoneNum.getText().length() > 0){
+			if (etPhoneNum.getText().length() > 0) {
 				btnNext.setEnabled(true);
 				resId = getIdRes(activity, "iv_clear");
 				ivClear = (ImageView) activity.findViewById(resId);
@@ -131,7 +139,8 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 
 			handler = new EventHandler() {
 				@SuppressWarnings("unchecked")
-				public void afterEvent(final int event, final int result, final Object data) {
+				public void afterEvent(final int event, final int result,
+						final Object data) {
 					runOnUIThread(new Runnable() {
 						public void run() {
 							if (pd != null && pd.isShowing()) {
@@ -140,30 +149,41 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 							if (result == SMSSDK.RESULT_COMPLETE) {
 								if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
 									// 请求支持国家列表
-									onCountryListGot((ArrayList<HashMap<String,Object>>) data);
+									onCountryListGot((ArrayList<HashMap<String, Object>>) data);
 								} else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-									//请求验证码后，跳转到验证码填写页面
+									// 请求验证码后，跳转到验证码填写页面
 									afterVerificationCodeRequested();
 								}
 							} else {
+								if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE
+										&& data != null
+										&& (data instanceof UserInterruptException)) {
+									// 由于此处是开发者自己决定要中断发送的，因此什么都不用做
+									return;
+								}
+
 								// 根据服务器返回的网络错误，给toast提示
 								try {
 									((Throwable) data).printStackTrace();
 									Throwable throwable = (Throwable) data;
 
-									JSONObject object = new JSONObject(throwable.getMessage());
+									JSONObject object = new JSONObject(
+											throwable.getMessage());
 									String des = object.optString("detail");
 									if (!TextUtils.isEmpty(des)) {
-										Toast.makeText(activity, des, Toast.LENGTH_SHORT).show();
+										Toast.makeText(activity, des,
+												Toast.LENGTH_SHORT).show();
 										return;
 									}
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
 								// 如果木有找到资源，默认提示
-								int resId = getStringRes(activity, "smssdk_network_error");
+								int resId = getStringRes(activity,
+										"smssdk_network_error");
 								if (resId > 0) {
-									Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show();
+									Toast.makeText(activity, resId,
+											Toast.LENGTH_SHORT).show();
 								}
 							}
 						}
@@ -177,11 +197,11 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 	private String[] getCurrentCountry() {
 		String mcc = getMCC();
 		String[] country = null;
-		if(!TextUtils.isEmpty(mcc)) {
+		if (!TextUtils.isEmpty(mcc)) {
 			country = SMSSDK.getCountryByMCC(mcc);
 		}
 
-		if(country == null) {
+		if (country == null) {
 			Log.w("SMSSDK", "no country found by MCC: " + mcc);
 			country = SMSSDK.getCountry(DEFAULT_COUNTRY_ID);
 		}
@@ -189,7 +209,8 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 	}
 
 	private String getMCC() {
-		TelephonyManager tm = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+		TelephonyManager tm = (TelephonyManager) activity
+				.getSystemService(Context.TELEPHONY_SERVICE);
 		// 返回当前手机注册的网络运营商所在国家的MCC+MNC. 如果没注册到网络就为空.
 		String networkOperator = tm.getNetworkOperator();
 
@@ -197,12 +218,13 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 		String simOperator = tm.getSimOperator();
 
 		String mcc = null;
-		if(!TextUtils.isEmpty(networkOperator) && networkOperator.length() >= 5) {
+		if (!TextUtils.isEmpty(networkOperator)
+				&& networkOperator.length() >= 5) {
 			mcc = networkOperator.substring(0, 3);
 		}
 
-		if(TextUtils.isEmpty(mcc)) {
-			if(!TextUtils.isEmpty(simOperator) && simOperator.length() >= 5) {
+		if (TextUtils.isEmpty(mcc)) {
+			if (!TextUtils.isEmpty(simOperator) && simOperator.length() >= 5) {
 				mcc = simOperator.substring(0, 3);
 			}
 		}
@@ -222,6 +244,7 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 			int after) {
 
 	}
+
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 		if (s.length() > 0) {
 			btnNext.setEnabled(true);
@@ -254,13 +277,13 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 		if (id == id_ll_back) {
 			finish();
 		} else if (id == id_rl_country) {
-			//国家列表
+			// 国家列表
 			CountryPage countryPage = new CountryPage();
 			countryPage.setCountryId(currentId);
 			countryPage.setCountryRuls(countryRules);
 			countryPage.showForResult(activity, null, this);
 		} else if (id == id_btn_next) {
-			//请求发送短信验证码
+			// 请求发送短信验证码
 			if (countryRules == null || countryRules.size() <= 0) {
 				if (pd != null && pd.isShowing()) {
 					pd.dismiss();
@@ -272,12 +295,13 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 
 				SMSSDK.getSupportedCountries();
 			} else {
-				String phone = etPhoneNum.getText().toString().trim().replaceAll("\\s*", "");
+				String phone = etPhoneNum.getText().toString().trim()
+						.replaceAll("\\s*", "");
 				String code = tvCountryNum.getText().toString().trim();
 				checkPhoneNum(phone, code);
 			}
 		} else if (id == id_iv_clear) {
-			//清除电话号码输入框
+			// 清除电话号码输入框
 			etPhoneNum.getText().clear();
 		}
 	}
@@ -299,15 +323,20 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 			} else if (page == 2) {
 				// 验证码校验返回
 				Object res = data.get("res");
-				HashMap<String, Object> phoneMap = (HashMap<String, Object>) data.get("phone");
+				HashMap<String, Object> phoneMap = (HashMap<String, Object>) data
+						.get("phone");
 				if (res != null && phoneMap != null) {
-					int resId = getStringRes(activity, "smssdk_your_ccount_is_verified");
+					int resId = getStringRes(activity,
+							"smssdk_your_ccount_is_verified");
 					if (resId > 0) {
-						Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show();
+						Toast.makeText(activity, resId, Toast.LENGTH_SHORT)
+								.show();
 					}
 
 					if (callback != null) {
-						callback.afterEvent(SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE, SMSSDK.RESULT_COMPLETE, phoneMap);
+						callback.afterEvent(
+								SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE,
+								SMSSDK.RESULT_COMPLETE, phoneMap);
 					}
 					finish();
 				}
@@ -329,12 +358,14 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 			}
 			countryRules.put(code, rule);
 		}
-		// 回归检查手机号码
-		String phone = etPhoneNum.getText().toString().trim().replaceAll("\\s*", "");
+		// 检查手机号码
+		String phone = etPhoneNum.getText().toString().trim()
+				.replaceAll("\\s*", "");
 		String code = tvCountryNum.getText().toString().trim();
 		checkPhoneNum(phone, code);
 	}
-	//分割电话号码
+
+	/** 分割电话号码 */
 	private String splitPhoneNum(String phone) {
 		StringBuilder builder = new StringBuilder(phone);
 		builder.reverse();
@@ -344,13 +375,14 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 		builder.reverse();
 		return builder.toString();
 	}
-	//检查电话号码
+
+	/** 检查电话号码 */
 	private void checkPhoneNum(String phone, String code) {
 		if (code.startsWith("+")) {
 			code = code.substring(1);
 		}
 
-		if(TextUtils.isEmpty(phone)) {
+		if (TextUtils.isEmpty(phone)) {
 			int resId = getStringRes(activity, "smssdk_write_mobile_phone");
 			if (resId > 0) {
 				Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
@@ -369,11 +401,11 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 			}
 			return;
 		}
-		//弹出对话框，发送验证码
 		showDialog(phone, code);
 	}
-	//是否请求发送验证码，对话框
-	public void showDialog(final String phone, final String code){
+
+	/** 是否请求发送验证码，对话框 */
+	public void showDialog(final String phone, final String code) {
 		int resId = getStyleRes(activity, "CommonDialog");
 		if (resId > 0) {
 			final String phoneNum = "+" + code + " " + splitPhoneNum(phone);
@@ -392,47 +424,50 @@ public class RegisterPage extends FakeActivity implements OnClickListener, TextW
 				}
 				resId = getIdRes(activity, "btn_dialog_ok");
 				if (resId > 0) {
-					((Button) dialog.findViewById(resId)).setOnClickListener(
-							new OnClickListener() {
-						public void onClick(View v) {
-							// 跳转到验证码页面
-							dialog.dismiss();
+					((Button) dialog.findViewById(resId))
+							.setOnClickListener(new OnClickListener() {
+								public void onClick(View v) {
+									// 跳转到验证码页面
+									dialog.dismiss();
 
-							if (pd != null && pd.isShowing()) {
-								pd.dismiss();
-							}
-							pd = CommonDialog.ProgressDialog(activity);
-							if (pd != null) {
-								pd.show();
-							}
-							Log.e("verification phone ==>>", phone);
-							SMSSDK.getVerificationCode(code, phone.trim());
-						}
-					});
+									if (pd != null && pd.isShowing()) {
+										pd.dismiss();
+									}
+									pd = CommonDialog.ProgressDialog(activity);
+									if (pd != null) {
+										pd.show();
+									}
+									Log.e("verification phone ==>>", phone);
+									SMSSDK.getVerificationCode(code,
+											phone.trim(), osmHandler);
+								}
+							});
 				}
 				resId = getIdRes(activity, "btn_dialog_cancel");
 				if (resId > 0) {
-					((Button) dialog.findViewById(resId)).setOnClickListener(
-							new OnClickListener() {
-						public void onClick(View v) {
-							dialog.dismiss();
-						}
-					});
+					((Button) dialog.findViewById(resId))
+							.setOnClickListener(new OnClickListener() {
+								public void onClick(View v) {
+									dialog.dismiss();
+								}
+							});
 				}
 				dialog.setCanceledOnTouchOutside(true);
 				dialog.show();
 			}
 		}
 	}
-	/**请求验证码后，跳转到验证码填写页面*/
+
+	/** 请求验证码后，跳转到验证码填写页面 */
 	private void afterVerificationCodeRequested() {
-		String phone = etPhoneNum.getText().toString().trim().replaceAll("\\s*", "");
+		String phone = etPhoneNum.getText().toString().trim()
+				.replaceAll("\\s*", "");
 		String code = tvCountryNum.getText().toString().trim();
 		if (code.startsWith("+")) {
 			code = code.substring(1);
 		}
 		String formatedPhone = "+" + code + " " + splitPhoneNum(phone);
-		//验证码页面
+		// 验证码页面
 		IdentifyNumPage page = new IdentifyNumPage();
 		page.setPhone(phone, code, formatedPhone);
 		page.showForResult(activity, null, this);

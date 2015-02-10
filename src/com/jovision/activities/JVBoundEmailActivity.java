@@ -75,7 +75,7 @@ public class JVBoundEmailActivity extends BaseActivity {
 		leftBtn.setVisibility(View.GONE);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		reParamstop2 = new RelativeLayout.LayoutParams(
-				(int) (0.2 * disMetrics.widthPixels), 45);
+				(int) (0.2 * disMetrics.widthPixels), 55);
 		reParamstop2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		reParamstop2.addRule(RelativeLayout.CENTER_VERTICAL);
 		reParamstop2.setMargins(0, 0, 15, 0);

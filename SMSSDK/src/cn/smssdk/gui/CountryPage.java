@@ -54,7 +54,6 @@ public class CountryPage extends FakeActivity implements OnClickListener, TextWa
 		if (pd != null) {
 			pd.show();
 		}
-
 		// 初始化搜索引擎
 		SearchEngine.prepare(activity, new Runnable() {
 			public void run() {
@@ -166,14 +165,16 @@ public class CountryPage extends FakeActivity implements OnClickListener, TextWa
 	}
 
 	public void onItemClick(GroupListView parent, View view, int group, int position) {
-		String[] country = listView.getCountry(group, position);
-		if (countryRules != null && countryRules.containsKey(country[1])) {
-			id = country[2];
-			finish();
-		} else {
-			int resId = getStringRes(activity, "smssdk_country_not_support_currently");
-			if (resId > 0) {
-				Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show();
+		if(position >= 0){
+			String[] country = listView.getCountry(group, position);
+			if (countryRules != null && countryRules.containsKey(country[1])) {
+				id = country[2];
+				finish();
+			} else {
+				int resId = getStringRes(activity, "smssdk_country_not_support_currently");
+				if (resId > 0) {
+					Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show();
+				}
 			}
 		}
 	}
@@ -199,15 +200,19 @@ public class CountryPage extends FakeActivity implements OnClickListener, TextWa
 	}
 
 	public boolean onKeyEvent(int keyCode, KeyEvent event) {
-		int resId = getIdRes(activity, "llSearch");
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				&& event.getAction() == KeyEvent.ACTION_DOWN
-				&& activity.findViewById(resId).getVisibility() == View.VISIBLE) {
-			activity.findViewById(resId).setVisibility(View.GONE);
-			resId = getIdRes(activity, "llTitle");
-			activity.findViewById(resId).setVisibility(View.VISIBLE);
-			etSearch.setText("");
-			return true;
+		try {
+			int resId = getIdRes(activity, "llSearch");
+			if (keyCode == KeyEvent.KEYCODE_BACK
+					&& event.getAction() == KeyEvent.ACTION_DOWN
+					&& activity.findViewById(resId).getVisibility() == View.VISIBLE) {
+				activity.findViewById(resId).setVisibility(View.GONE);
+				resId = getIdRes(activity, "llTitle");
+				activity.findViewById(resId).setVisibility(View.VISIBLE);
+				etSearch.setText("");
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return super.onKeyEvent(keyCode, event);
 	}

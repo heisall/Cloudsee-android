@@ -366,7 +366,7 @@
     <string name="demo_get_failed">Failed to load demo video.</string>
     <string name="demo_loading">Efforts are being made to load...</string>
     <!-- JVTab -->
-    <string name="account_error_tips">Account abnormal, click to login!</string>
+    <string name="account_error_tips">You are offline，touch to login again.</string>
     <string name="network_error_tips">Unable to connect with network, do you want to configure?</string>
     <string name="network_error">Network connection exception,please check the network.</string>
     <string name="tips_3g">You are using the 3G/4G network now.It shall cause a lot mobile data fee if you continute to view the video.You are suggested to use Wi-Fi network.</string>
@@ -745,5 +745,4 @@
     <string name="increct_yst_tips">CloudSEE ID Incorrect</string>
     <string name="login_str_yst_num">CloudSEE ID</string>
     <string name="str_not_qr_device">Not CloudSEE ID</string>
-
 </resources>

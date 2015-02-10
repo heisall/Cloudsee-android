@@ -226,11 +226,21 @@ public class JVTabActivity extends ShakeActivity implements
 			boolean show = false;
 			int cnt = mApp.getNewPushCnt();
 			Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
-			if (cnt > 0 || !MySharedPreference.getBoolean("SystemMessage")
-					|| (!MySharedPreference.getBoolean("CUSTURL"))
-					|| (!MySharedPreference.getBoolean("STATURL"))) {
-				show = true;
+			int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
+			if(lan == Consts.LANGUAGE_ZH) {
+				if (cnt > 0 || !MySharedPreference.getBoolean("SystemMessage")
+						|| (!MySharedPreference.getBoolean("CUSTURL"))
+						|| (!MySharedPreference.getBoolean("STATURL"))) {
+					show = true;
+				}
+			}else {
+				if (cnt > 0 || !MySharedPreference.getBoolean("SystemMessage")
+						|| (!MySharedPreference.getBoolean("STATURL"))) {
+					show = true;
+				}
 			}
+				
+			
 			mIndicator.updateIndicator(3, 0, show);
 		}
 

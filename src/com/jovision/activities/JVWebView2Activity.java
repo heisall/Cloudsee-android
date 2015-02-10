@@ -92,7 +92,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private ImageView pause;
 	private ImageView fullScreen;
 	private WebView webView;
-	private LinearLayout linkSetting;
+	 private LinearLayout linkSetting;
 	private EditText minCache;
 	private EditText desCache;
 	private Button saveSetting;
@@ -227,10 +227,14 @@ public class JVWebView2Activity extends BaseActivity implements
 
 					if (View.VISIBLE == playBar.getVisibility()) {
 						playBar.setVisibility(View.GONE);
-						linkSetting.setVisibility(View.GONE);
+						if (MySharedPreference.getBoolean("LITTLE")) {// 调试版本
+							linkSetting.setVisibility(View.GONE);
+						}
 					} else {
 						playBar.setVisibility(View.VISIBLE);
-						linkSetting.setVisibility(View.VISIBLE);
+						if (MySharedPreference.getBoolean("LITTLE")) {// 调试版本
+							linkSetting.setVisibility(View.VISIBLE);
+						}
 					}
 				}
 			}

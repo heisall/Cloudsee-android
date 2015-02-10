@@ -875,8 +875,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 					if (null != accountError) {
 						accountError
 								.setText(mActivity.getResources().getString(
-										R.string.network_error_tips)
-										+ "...");
+										R.string.network_error_tips));
 					}
 				}
 			}

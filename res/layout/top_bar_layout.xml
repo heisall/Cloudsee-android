@@ -110,7 +110,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/next"
             android:layout_toRightOf="@+id/tanhao"
-            android:singleLine="true"
+            android:singleLine="false"
             android:text="@string/network_error_tips"
             android:textColor="@color/logintextcolor1"
             android:textSize="12sp" />

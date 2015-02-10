@@ -208,7 +208,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 						if (null != accountError) {
 							accountError
 									.setText(getString(R.string.network_error_tips)
-											+ "...");
+											);
 						}
 					}
 					break;

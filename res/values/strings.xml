@@ -745,4 +745,5 @@
     <string name="increct_yst_tips">CloudSEE ID Incorrect</string>
     <string name="login_str_yst_num">CloudSEE ID</string>
     <string name="str_not_qr_device">Not CloudSEE ID</string>
+
 </resources>

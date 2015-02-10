@@ -8,9 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,7 +18,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.test.JVACCOUNT;
-import android.view.ContextThemeWrapper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,8 +33,10 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
+import com.jovision.bean.WebUrl;
 import com.jovision.commons.CheckUpdateTask;
 import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.JVAlarmConst;
@@ -83,13 +83,18 @@ public class JVMoreFragment extends BaseFragment {
 	private TextView more_modifypwd;
 	// 绑定邮箱
 	private TextView more_bindmail;
+	// 获取url
+	private WebUrl url;
 	// 图片数组
 	private int[] Image = { R.drawable.morefragment_help_icon,
+			R.drawable.morefragment_autologin_icon,
 			R.drawable.morefragment_warmmessage_icon,
-			R.drawable.morefragment_setting_icon, R.drawable.media_image,
-			R.drawable.morefragment_feedback_icon,
-			R.drawable.morefragment_update_icon, R.drawable.more_videosquer,
-			R.drawable.more_message, R.drawable.media_image,
+			R.drawable.morefragment_setting_icon, R.drawable.develop_warning,
+			R.drawable.develop_warning, R.drawable.develop_warning,
+			R.drawable.develop_warning, R.drawable.alarm_info_icon,
+			R.drawable.more_message, R.drawable.morefragment_install_icon,
+			R.drawable.morefragment_sharedevice_icon,
+			R.drawable.morefragment_data_icon, R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -113,10 +118,13 @@ public class JVMoreFragment extends BaseFragment {
 
 	private int littlenum = 0;
 
+	private MainApplication mApp;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_more, container, false);
+		mApp = (MainApplication) getActivity().getApplication();
 		intiUi(view);
 		return view;
 	}
@@ -145,7 +153,11 @@ public class JVMoreFragment extends BaseFragment {
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
-				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG, 0, 0, null);// 通知显示报警信息条数
+				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG_PRIVATE, 0, 0, null);//
+				// 通知显示报警信息条数
+				int new_alarm_nums = mApp.getNewPushCnt();
+				adapter.setNewNums(new_alarm_nums);
+				adapter.notifyDataSetChanged();
 				new AlarmDialog(mActivity).Show(obj);
 			} else {
 				MyLog.e("Alarm",
@@ -219,6 +231,7 @@ public class JVMoreFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		MyLog.e("TMAC", "the JVMoreFragment onResume invoke~~~");
 		super.onResume();
 		more_bindmail.setVisibility(View.GONE);
 		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
@@ -231,6 +244,9 @@ public class JVMoreFragment extends BaseFragment {
 					+ more_name + ".jpg");
 			more_head.setImageBitmap(bitmap);
 		}
+		int alarm_new_nums = mApp.getNewPushCnt();
+		adapter.setNewNums(alarm_new_nums);
+		adapter.notifyDataSetChanged();
 	}
 
 	private void initDatalist() {
@@ -412,6 +428,15 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 1:
+							// TODO
+							if (MySharedPreference.getBoolean("REMEMBER")) {
+								MySharedPreference
+										.putBoolean("REMEMBER", false);
+							} else {
+								MySharedPreference.putBoolean("REMEMBER", true);
+							}
+							break;
+						case 2:
 							AlarmTask task = new AlarmTask();
 							Integer[] params = new Integer[3];
 							if (!MySharedPreference.getBoolean("AlarmSwitch",
@@ -424,17 +449,17 @@ public class JVMoreFragment extends BaseFragment {
 							task.execute(params);
 
 							break;
-						case 2:
+						case 3:
 							if (MySharedPreference.getBoolean("PlayDeviceMode")) {
 								MySharedPreference.putBoolean("PlayDeviceMode",
 										false);
-								dataList.get(2).setName(
+								dataList.get(3).setName(
 										mActivity.getResources().getString(
 												R.string.str_video_modetwo));
 							} else {
 								MySharedPreference.putBoolean("PlayDeviceMode",
 										true);
-								dataList.get(2)
+								dataList.get(3)
 										.setName(
 												mActivity
 														.getResources()
@@ -442,7 +467,7 @@ public class JVMoreFragment extends BaseFragment {
 																R.string.str_video_more_modetwo));
 							}
 							break;
-						case 3:// 小助手
+						case 4:// 小助手
 							if (MySharedPreference.getBoolean("LITTLEHELP")) {
 								MySharedPreference.putBoolean("LITTLEHELP",
 										false);
@@ -451,7 +476,7 @@ public class JVMoreFragment extends BaseFragment {
 										true);
 							}
 							break;
-						case 4:
+						case 5:
 							if (MySharedPreference.getBoolean("BROADCASTSHOW")) {
 								MySharedPreference.putBoolean("BROADCASTSHOW",
 										false);
@@ -460,117 +485,204 @@ public class JVMoreFragment extends BaseFragment {
 										true);
 							}
 							break;
-						case 5:// 版本号
-								// Intent intentAD = new Intent(mActivity,
-								// JVWebViewActivity.class);
-								// intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-								// intentAD.putExtra("URL",
-								// "http://look.appjx.cn/mobile_api.php?mod=news&id=12604");
-								// intentAD.putExtra("title", -2);
-								// mActivity.startActivity(intentAD);
-
-							int curVersion = 0;
-							try {
-								curVersion = mActivity.getPackageManager()
-										.getPackageInfo(
-												mActivity.getPackageName(), 0).versionCode;
-							} catch (NameNotFoundException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+						case 6:
+							if (MySharedPreference.getBoolean("TESTSWITCH")) {
+								MySharedPreference.putBoolean("TESTSWITCH",
+										false);
+								Log.i("TAG",
+										MySharedPreference
+												.getBoolean("TESTSWITCH")
+												+ "DSDSDSD");
+							} else {
+								MySharedPreference.putBoolean("TESTSWITCH",
+										true);
+								Log.i("TAG",
+										MySharedPreference
+												.getBoolean("TESTSWITCH")
+												+ "DSDSDSD");
 							}
+							break;
+						case 7:// 版本号
+							Intent intentVersion = new Intent(mActivity,
+									JVVersionActivity.class);
+							mActivity.startActivity(intentVersion);
 
-							String itemzero = mActivity.getResources()
-									.getString(R.string.census_accounts)
-									+ ":"
-									+ ConfigUtil.ACCOUNT_VERSION;
-							String itemone = mActivity.getResources()
-									.getString(R.string.census_network_version)
-									+ ":" + ConfigUtil.NETWORK_VERSION;
-							String itemtwo = mActivity.getResources()
-									.getString(R.string.census_play_version)
-									+ ":" + ConfigUtil.PLAY_VERSION;
-							String itemthree = mActivity.getResources()
-									.getString(
-											R.string.census_appnetwork_version)
-									+ ":" + ConfigUtil.GETNETWORK_VERSION;
-							String itemfour = mActivity.getResources()
-									.getString(R.string.census_appplay_version)
-									+ ":" + ConfigUtil.GETPLAY_VERSION;
-							String itemfive = mActivity.getResources()
-									.getString(R.string.census_appaccount)
-									+ ":" + JVACCOUNT.GetVersion(0);
-							new AlertDialog.Builder(new ContextThemeWrapper(
-									mActivity, R.style.AlertDialogCustom))
-									.setTitle(
-											mActivity.getResources().getString(
-													R.string.census_version)
-													+ curVersion
-													+ "  "
-													+ ConfigUtil.sameVersion)
-									.setItems(
-											new String[] { itemzero, itemfive,
-													itemone, itemtwo,
-													itemthree, itemfour }, null)
-									.setNegativeButton(
-											mActivity.getResources().getString(
-													R.string.ok), null).show();
+							// int curVersion = 0;
+							// try {
+							// curVersion = mActivity.getPackageManager()
+							// .getPackageInfo(
+							// mActivity.getPackageName(), 0).versionCode;
+							// } catch (NameNotFoundException e) {
+							// // TODO Auto-generated catch block
+							// e.printStackTrace();
+							// }
+							//
+							// String itemzero = mActivity.getResources()
+							// .getString(R.string.census_accounts)
+							// + ":"
+							// + ConfigUtil.ACCOUNT_VERSION;
+							// String itemone = mActivity.getResources()
+							// .getString(R.string.census_network_version)
+							// + ":" + ConfigUtil.NETWORK_VERSION;
+							// String itemtwo = mActivity.getResources()
+							// .getString(R.string.census_play_version)
+							// + ":" + ConfigUtil.PLAY_VERSION;
+							// String itemthree = mActivity.getResources()
+							// .getString(
+							// R.string.census_appnetwork_version)
+							// + ":" + ConfigUtil.GETNETWORK_VERSION;
+							// String itemfour = mActivity.getResources()
+							// .getString(R.string.census_appplay_version)
+							// + ":" + ConfigUtil.GETPLAY_VERSION;
+							// String itemfive = mActivity.getResources()
+							// .getString(R.string.census_appaccount)
+							// + ":" + JVACCOUNT.GetVersion(0);
+							// new AlertDialog.Builder(new ContextThemeWrapper(
+							// mActivity, R.style.AlertDialogCustom))
+							// .setTitle(
+							// mActivity.getResources().getString(
+							// R.string.census_version)
+							// + curVersion
+							// + "  "
+							// + ConfigUtil.sameVersion)
+							// .setItems(
+							// new String[] { itemzero, itemfive,
+							// itemone, itemtwo,
+							// itemthree, itemfour }, null)
+							// .setNegativeButton(
+							// mActivity.getResources().getString(
+							// R.string.ok), null).show();
 							// TODO
 							break;
-						case 6:
-							if (!MySharedPreference.getBoolean("VideoSquer")) {
-								MySharedPreference.putBoolean("VideoSquer",
-										true);
+						case 8:// 换成报警信息
+							if (localFlag)// 本地登录
+							{
+								mActivity.showTextToast(R.string.more_nologin);
+							} else {
+								mApp.setNewPushCnt(0);
+								Intent intent2 = new Intent(mActivity,
+										AlarmInfoActivity.class);
+								startActivity(intent2);
 							}
 
+							// if (!MySharedPreference.getBoolean("VideoSquer"))
+							// {
+							// MySharedPreference.putBoolean("VideoSquer",
+							// true);
+							// }
+							//
+							// if (!ConfigUtil.isConnected(mActivity)) {
+							// mActivity.alertNetDialog();
+							// } else {
+							// StatService.trackCustomEvent(
+							// mActivity,
+							// "Demo",
+							// mActivity.getResources().getString(
+							// R.string.census_demo));
+							//
+							// GetDemoTask demoTask = new GetDemoTask(
+							// mActivity);
+							// String[] demoParams = new String[3];
+							// if (!Boolean
+							// .valueOf(((BaseActivity) activity).statusHashMap
+							// .get(Consts.LOCAL_LOGIN))) {
+							// String sessionResult = ConfigUtil
+							// .getSession();
+							//
+							// MyLog.v("session", sessionResult);
+							// demoParams[0] = sessionResult;
+							// } else {
+							// demoParams[0] = "";
+							// }
+							// demoTask.execute(demoParams);
+							// }
+							// TODO
+							break;
+						case 9:
+							if (!MySharedPreference.getBoolean("SystemMessage")) {
+								MySharedPreference.putBoolean("SystemMessage",
+										true);
+							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {
 								StatService.trackCustomEvent(
 										mActivity,
-										"Demo",
+										"MoreMessage",
 										mActivity.getResources().getString(
-												R.string.census_demo));
-
-								GetDemoTask demoTask = new GetDemoTask(
-										mActivity);
-								String[] demoParams = new String[3];
-								if (!Boolean
-										.valueOf(((BaseActivity) activity).statusHashMap
-												.get(Consts.LOCAL_LOGIN))) {
-									String sessionResult = ConfigUtil
-											.getSession();
-
-									MyLog.v("session", sessionResult);
-									demoParams[0] = sessionResult;
+												R.string.census_moremessage));
+								Intent infoIntent = new Intent();
+								infoIntent.setClass(mActivity,
+										JVSystemInfoActivity.class);
+								mActivity.startActivity(infoIntent);
+							}
+							break;
+						case 10:
+							if (!MySharedPreference.getBoolean("CUSTURL")) {
+								MySharedPreference.putBoolean("CUSTURL", true);
+							}
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								if (null != ((BaseActivity) mActivity).statusHashMap
+										.get("CUSTURL")) {
+									Intent intentAD0 = new Intent(mActivity,
+											JVWebViewActivity.class);
+									intentAD0
+											.putExtra(
+													"URL",
+													((BaseActivity) mActivity).statusHashMap
+															.get("CUSTURL"));
+									intentAD0.putExtra("title", -2);
+									mActivity.startActivity(intentAD0);
 								} else {
-									demoParams[0] = "";
+									GetDemoTask UrlTask = new GetDemoTask(
+											mActivity);
+									String[] demoParams = new String[3];
+									demoParams[1] = "0";
+									UrlTask.execute(demoParams);
 								}
-								demoTask.execute(demoParams);
-
-								// Intent demoIntent = new Intent();
-								// demoIntent.setClass(JVLoginActivity.this,
-								// JVDemoActivity.class);
-								// JVLoginActivity.this.startActivity(demoIntent);
 							}
-							// TODO
 							break;
-						case 7:
-							if (!MySharedPreference.getBoolean("SystemMessage")) {
-								MySharedPreference.putBoolean("SystemMessage",
-										true);
+						case 11:
+							// GetDemoTask UrlTask1 = new
+							// GetDemoTask(mActivity);
+							// String[] demoParams1 = new String[3];
+							// demoParams1[0] = "1";
+							// UrlTask1.execute(demoParams1);
+							break;
+						case 12:
+							if (!MySharedPreference.getBoolean("STATURL")) {
+								MySharedPreference.putBoolean("STATURL", true);
 							}
-							StatService.trackCustomEvent(
-									mActivity,
-									"MoreMessage",
-									mActivity.getResources().getString(
-											R.string.census_moremessage));
-							Intent infoIntent = new Intent();
-							infoIntent.setClass(mActivity,
-									JVSystemInfoActivity.class);
-							mActivity.startActivity(infoIntent);
-							// TODO
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								if (null != ((BaseActivity) mActivity).statusHashMap
+										.get("STATURL")) {
+									Intent intentAD0 = new Intent(mActivity,
+											JVWebViewActivity.class);
+									intentAD0
+											.putExtra(
+													"URL",
+													((BaseActivity) mActivity).statusHashMap
+															.get("STATURL"));
+									intentAD0.putExtra("title", -2);
+									Log.i("TAG",
+											((BaseActivity) mActivity).statusHashMap
+													.get("STATURL")
+													+ "dddddddddd");
+									mActivity.startActivity(intentAD0);
+								} else {
+									GetDemoTask UrlTask2 = new GetDemoTask(
+											mActivity);
+									String[] demoParams2 = new String[3];
+									demoParams2[1] = "2";
+									UrlTask2.execute(demoParams2);
+								}
+							}
 							break;
-						case 8:// 媒体
+						case 13:// 媒体
 							StatService.trackCustomEvent(
 									mActivity,
 									"Media",
@@ -580,12 +692,12 @@ public class JVMoreFragment extends BaseFragment {
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);
 							break;
-						case 9:
+						case 14:
 							Intent intent = new Intent(mActivity,
 									JVFeedbackActivity.class);
 							startActivity(intent);
 							break;
-						case 10:
+						case 15:
 							mActivity.createDialog("", false);
 							CheckUpdateTask taskf = new CheckUpdateTask(
 									mActivity);
@@ -593,7 +705,7 @@ public class JVMoreFragment extends BaseFragment {
 							strParams[0] = "1";// 1,手动检查更新
 							taskf.execute(strParams);
 							break;
-						case 11:
+						case 16:
 							if (!MySharedPreference.getBoolean("LITTLE")) {
 								littlenum++;
 								if (littlenum < 20) {
@@ -612,6 +724,15 @@ public class JVMoreFragment extends BaseFragment {
 									ListViewUtil
 											.setListViewHeightBasedOnChildren(more_listView);
 								}
+							} else {
+								littlenum = 0;
+								MySharedPreference.putBoolean("LITTLEHELP",
+										false);
+								MySharedPreference.putBoolean("BROADCASTSHOW",
+										false);
+								MySharedPreference.putBoolean("LITTLE", false);
+								ListViewUtil
+										.setListViewHeightBasedOnChildren(more_listView);
 							}
 							break;
 						default:
@@ -747,7 +868,9 @@ public class JVMoreFragment extends BaseFragment {
 				ConfigUtil.logOut();
 				UserUtil.resetAllUser();
 				BitmapCache.getInstance().clearAllCache();
+				mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
+				mActivity.statusHashMap.put(Consts.ACCOUNT_ERROR, null);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -768,7 +891,7 @@ public class JVMoreFragment extends BaseFragment {
 			Intent intent = new Intent();
 			String userName = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
 			intent.putExtra("UserName", userName);
-
+			MySharedPreference.putBoolean("REMEMBER", false);
 			intent.setClass(mActivity, JVLoginActivity.class);
 			mActivity.startActivity(intent);
 			mActivity.finish();

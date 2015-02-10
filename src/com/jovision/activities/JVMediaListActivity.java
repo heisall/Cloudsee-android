@@ -130,6 +130,7 @@ public class JVMediaListActivity extends BaseActivity {
 		/** topBar **/
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		selectNum = JVMediaListActivity.this.getResources().getString(
 				R.string.selectnum);
 		totalNum = JVMediaListActivity.this.getResources().getString(
@@ -379,8 +380,23 @@ public class JVMediaListActivity extends BaseActivity {
 										list);
 							}
 						}
-						if (0 != fileList.size()) {
-							noFile = false;
+						if (0 != fileList.size()) {// 有文件
+							noFile = true;
+							for (File eFile : fileList) {
+								if (eFile.isFile()) {
+									noFile = false;
+									break;
+								} else if (eFile.isDirectory()) {
+									File[] eFileArray = eFile.listFiles();
+									if (null != eFileArray
+											&& 0 != eFileArray.length) {
+										noFile = false;
+										break;
+									}
+								}
+							}
+						} else {// 没文件
+							noFile = true;
 						}
 					}
 				}

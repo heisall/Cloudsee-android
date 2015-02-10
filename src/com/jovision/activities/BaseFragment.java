@@ -21,6 +21,10 @@ import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
+import com.jovision.commons.GetDemoTask;
+import com.jovision.commons.LoginTask;
+import com.jovision.commons.MyLog;
+import com.jovision.utils.ConfigUtil;
 import com.tencent.stat.StatService;
 
 /**
@@ -42,7 +46,10 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 	protected TextView currentMenu;
 	protected Button rightBtn;
 	protected static RelativeLayout alarmnet;
-	protected static boolean isshow;
+	protected TextView accountError;
+	private static boolean local = false;// 是否本地登陆
+
+	// protected static boolean isshow;
 
 	protected static class FragHandler extends Handler {
 
@@ -57,25 +64,6 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 			if (null != msg) {
 				fragment.fragNotify.onHandler(msg.what, msg.arg1, msg.arg2,
 						msg.obj);
-			}
-			switch (msg.what) {
-			case Consts.ALARM_NET:
-				if (null != alarmnet) {
-					alarmnet.setVisibility(View.GONE);
-					isshow = true;
-					BaseActivity.isshowActivity = true;
-				}
-				break;
-			case Consts.ALARM_NET_WEEK:
-				if (null != alarmnet) {
-					alarmnet.setVisibility(View.GONE);
-					isshow = false;
-					BaseActivity.isshowActivity = false;
-				}
-				break;
-
-			default:
-				break;
 			}
 			super.handleMessage(msg);
 		}
@@ -110,11 +98,14 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 					"mActivity must an IHandlerLikeNotify impl");
 		}
 
+		local = Boolean
+				.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN));
 		topBar = (LinearLayout) mParent.findViewById(R.id.top_bar);
 		leftBtn = (Button) mParent.findViewById(R.id.btn_left);
 		currentMenu = (TextView) mParent.findViewById(R.id.currentmenu);
 		rightBtn = (Button) mParent.findViewById(R.id.btn_right);
 		alarmnet = (RelativeLayout) mParent.findViewById(R.id.alarmnet);
+		accountError = (TextView) mParent.findViewById(R.id.accounterror);
 		try {
 			if (null != leftBtn) {
 				leftBtn.setOnClickListener(mOnClickListener);
@@ -122,14 +113,45 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (isshow) {
-			if (null != alarmnet) {
-				alarmnet.setVisibility(View.GONE);
-			}
-		} else {
-			if (null != alarmnet) {
-				alarmnet.setVisibility(View.GONE);
-			}
+
+		if (null != alarmnet) {
+			alarmnet.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					if (null != mActivity.statusHashMap
+							.get(Consts.ACCOUNT_ERROR)) {
+						int errorCode = Integer
+								.parseInt(mActivity.statusHashMap
+										.get(Consts.ACCOUNT_ERROR));
+						switch (errorCode) {
+						case Consts.WHAT_HEART_TCP_ERROR:
+						case Consts.WHAT_HEART_TCP_CLOSED:
+						case Consts.WHAT_HEART_ERROR:// 心跳异常
+							if (android.os.Build.VERSION.SDK_INT > 10) {
+								startActivity(new Intent(
+										android.provider.Settings.ACTION_SETTINGS));
+							} else {
+								startActivity(new Intent(
+										android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+							}
+							break;
+						case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
+							mActivity.createDialog("", false);
+							LoginTask task = new LoginTask(mActivity,
+									(MainApplication) mActivity
+											.getApplication(),
+									mActivity.statusHashMap, alarmnet);
+							String[] params = new String[3];
+							task.execute(params);
+							break;
+						case Consts.WHAT_SESSION_FAILURE:// session失效
+
+							break;
+						}
+					}
+				}
+			});
 		}
 	}
 
@@ -139,8 +161,11 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.btn_left:
-				if (!JVMyDeviceFragment.isshow) {
+				if (!JVMyDeviceFragment.isshow && !JVInfoFragment.isshow) {
 					mActivity.openExitDialog();
+				}
+				if (JVInfoFragment.isshow) {
+					mActivity.finish();
 				}
 				break;
 			default:
@@ -165,6 +190,78 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 	public void onResume() {
 		((MainApplication) mActivity.getApplication()).setCurrentNotifyer(this);
 		StatService.onResume(mActivity);
+		MyLog.v("notifyer",
+				((MainApplication) mActivity.getApplication()).currentNotifyer
+						+ "");
+		String notifer = ((MainApplication) mActivity.getApplication()).currentNotifyer
+				+ "";
+		if (notifer.startsWith("JVMyDeviceFragment")) {
+			if (null != ((MainApplication) mActivity.getApplication()).statusHashMap
+					.get(Consts.ACCOUNT_ERROR)) {
+				int errorCode = Integer.parseInt(((MainApplication) mActivity
+						.getApplication()).statusHashMap
+						.get(Consts.ACCOUNT_ERROR));
+				switch (errorCode) {
+				case Consts.WHAT_HEART_ERROR:// 心跳异常
+					if (null != alarmnet && !local) {
+						alarmnet.setVisibility(View.VISIBLE);
+						if (null != accountError) {
+							accountError
+									.setText(getString(R.string.network_error_tips)
+											);
+						}
+					}
+					break;
+				case Consts.WHAT_HEART_TCP_ERROR:
+				case Consts.WHAT_HEART_TCP_CLOSED:
+					if (null != alarmnet && !local) {
+						alarmnet.setVisibility(View.VISIBLE);
+						if (null != accountError) {
+							accountError
+									.setText(getString(R.string.network_error_tips));
+						}
+					}
+					break;
+				case Consts.WHAT_HEART_NORMAL:// 心跳恢复正常
+					if (null != alarmnet) {
+						alarmnet.setVisibility(View.GONE);
+					}
+					GetDemoTask demoTask = new GetDemoTask(mActivity);
+					String[] demoParams = new String[3];
+					if (!Boolean.valueOf(mActivity.statusHashMap
+							.get(Consts.LOCAL_LOGIN))) {
+						String sessionResult = ConfigUtil.getSession();
+
+						MyLog.v("session", sessionResult);
+						demoParams[0] = sessionResult;
+					} else {
+						demoParams[0] = "";
+					}
+					demoParams[1] = "1";
+					demoParams[2] = "fragmentString";
+					demoTask.execute(demoParams);
+					break;
+
+				case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
+					if (null != alarmnet && !local) {
+						alarmnet.setVisibility(View.VISIBLE);
+						if (null != accountError) {
+							accountError.setText(R.string.account_error_tips);
+						}
+					}
+					break;
+				case Consts.WHAT_HAS_LOGIN_SUCCESS:// 账号正常登陆
+					if (null != alarmnet) {
+						alarmnet.setVisibility(View.GONE);
+					}
+					break;
+				case Consts.WHAT_SESSION_FAILURE:// session失效
+
+					break;
+				}
+			}
+		}
+
 		super.onResume();
 	}
 
@@ -189,4 +286,5 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 			throw new RuntimeException(e);
 		}
 	}
+
 }

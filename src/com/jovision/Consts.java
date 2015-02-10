@@ -6,14 +6,25 @@ import android.os.Environment;
 
 public class Consts {
 
-	public static int COUNT = -1;
-	// (终端类型 0-未知 1-Android 2-iPhone 3-iPad)
-	public static final int TERMINAL_TYPE = 1;
-	// 产品类型 0-CloudSEE 1-NVSIP 2-HITVIS 3-TONGFANG
-	public static final int PRODUCT_TYPE = 0;
+	/**************************** 中性软件修改变量 ******************************/
 	// 软件名
 	public static final String APP_NAME = "CloudSEE";
+	// (终端类型 0-未知 1-Android 2-iPhone 3-iPad)
+	public static final int TERMINAL_TYPE = 1;// 固定值，无需NEW_PUSH_MSG_TAG修改
+	// 产品类型 0-CloudSEE 1-NVSIP 2-HITVIS 3-TONGFANG
+	public static final int PRODUCT_TYPE = 0;// 推送定的值
+	// app 检查更新 key
+	public static final int APP_UPDATE_VERSION = 1;// 中维版本值为1，oem版为2，nvsip版本为3
+	// 添加设备默认的用户名
+	public static final String DEFAULT_USERNAME = "abc";// 中性软件改为admin
+	// 添加设备默认的密码
+	public static final String DEFAULT_PASSWORD = "123";// 中性软件改为空
+	// 添加设备默认的端口
+	public static final String DEFAULT_PORT = "9101";// 固定值，无需修改
 
+	/**************************** 华丽的分割线 ******************************/
+	public static int CURRENT_LAN = -1;// 当前语言
+	public static int COUNT = -1;
 	public static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
 
 	/** 老数据库数据 **/
@@ -72,7 +83,7 @@ public class Consts {
 	public static final int CALL_LIB_UNLOAD = 0xB0;
 	public static final int CALL_GEN_VOICE = 0xB1;
 	public static final int CALL_PLAY_BUFFER = 0xB2;
-	
+
 	public static final int BUFFER_START = -1;
 	public static final int BUFFER_FINISH = -2;
 
@@ -322,10 +333,6 @@ public class Consts {
 	public static final int GET_DEVICE_LIST_FUNCTION = 0xB3;
 	/** 获取设备列表方法 */
 	public static final int GUID_FUNCTION = 0xB4;
-
-	// MainApplication 发消息给BaseActivity、BaseFragment
-	public static final int ALARM_NET = 0xF0;
-	public static final int ALARM_NET_WEEK = 0xF1;
 	// JVOfflineActivity
 	public static final int OFFLINE_COUNTS = 15;// 15秒倒计时
 	public static final int TAG_BROAD_DEVICE_LIST = 0x05;// 广播设备列表
@@ -337,6 +344,8 @@ public class Consts {
 	public static final int TAG_PLAY_DIS_CONNECTTED = 3;// 断开
 	public static final int TAG_PLAY_CONNECTING_BUFFER = 4;// 连接成功，正在缓冲数据。。。
 	public static final int TAG_PLAY_STATUS_UNKNOWN = 5;// 未知状态
+	public static final int TAG_PLAY_BUFFERING = 6;// 已连接，正在缓冲进度
+	public static final int TAG_PLAY_BUFFERED = 7;// 已连接，缓冲成功
 	public static final int ARG2_STATUS_CONNECTING = 0x01;
 	public static final int ARG2_STATUS_CONNECTED = 0x02;
 	public static final int ARG2_STATUS_BUFFERING = 0x03;
@@ -364,6 +373,7 @@ public class Consts {
 
 	// TODO 程序用到消息值，确保没有重复使用
 	// JVLoginActivity
+	public static final int GETDEMOURL = 1000;
 	public static final int WHAT_SHOW_PRO = 0x01;// 显示dialog
 	public static final int WHAT_DELETE_USER = 0x02;// 删除用户
 	public static final int WHAT_SELECT_USER = 0x03;// 选择用户
@@ -525,6 +535,22 @@ public class Consts {
 	/** 设备管理连接超时 */
 	public static final int WHAT_MANAGE_TIMEOUT = 0x68;// 设备管理连接超时
 
+	// MainApplication 发消息给BaseActivity、BaseFragment
+	public static final int WHAT_HEART_ERROR = 0x69;// 心跳异常
+	public static final int WHAT_HEART_NORMAL = 0x6A;// 心跳正常
+	public static final int WHAT_HAS_NOT_LOGIN = 0x6B;// 未登录
+	public static final int WHAT_HAS_LOGIN_SUCCESS = 0x6C;// 登陆成功
+	public static final int WHAT_ACCOUNT_NORMAL = 0x6D;// 账号正常
+	public static final int WHAT_SESSION_FAILURE = 0x6E;// 网络异常
+
+	public static final int WHAT_HEART_TCP_ERROR = 0x70;// 账号库tcp连接断开
+	public static final int WHAT_HEART_TCP_CLOSED = 0x71;// 账号库tcp连接关闭
+
+	/** 网络异常视频断开 */
+	public static final int WHAT_NET_ERROR_DISCONNECT = 0x72;// 网络异常视频断开
+	/** 远程回放视频断开 */
+	public static final int WHAT_VIDEO_DISCONNECT = 0x73;// 远程回放视频断开
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像
@@ -548,6 +574,8 @@ public class Consts {
 	public static final String KEY_INIT_ACCOUNT_SDK = "initAccountSdk";
 	/** 云视通sdk是否初始化的key */
 	public static final String KEY_INIT_CLOUD_SDK = "initCloudSdk";
+	/** 更多视频广场和登录视频广场 */
+	public static final String KEY_GONE_MORE = "GONEMORE";
 	/** 用户名key */
 	public static final String KEY_USERNAME = "USER_NAME";
 	/** 密码key */
@@ -585,6 +613,12 @@ public class Consts {
 	/** 缓存设备列表key */
 	public static final String CACHE_DEVICE_LIST = "CACHE_DEVICE_LIST";
 
+	/** 离线缓存设备列表key */
+	public static final String OFFLINE_DEVICE_LIST = "OFFLINE_DEVICE_LIST";
+
+	/** 账号异常 key */
+	public static final String ACCOUNT_ERROR = "ACCOUNT_ERROR";// 账号异常
+
 	/** 本地存储AD列表key */
 	public static final String AD_LIST = "AD_LIST";
 
@@ -608,6 +642,9 @@ public class Consts {
 
 	/** 网络切换需要广播 key */
 	public static final String NEED_BROAD = "NEED_BROAD";
+
+	/** 已经加载过视频广场 key */
+	public static final String HAS_LOAD_DEMO = "HAS_LOAD_DEMO";
 
 	/** 正在AP配置 key */
 	public static final String AP_SETTING = "AP_SETTING";
@@ -643,6 +680,7 @@ public class Consts {
 	public static final int RC_GPIN_SECLECT = 0x12; // 外设报警查询
 	public static final int RC_GPIN_DEL = 0x13; // 外设报警查询
 	public static final int RC_GPIN_SET_SWITCH = 0x14; // 外设报警设置开关(只内部使用)
+	public static final int RC_GPIN_SET_SWITCH_TIMEOUT = 0x15; // 外设报警设置开关
 	public static final int ONLY_CONNECT_INDEX = 99; // 仅供报警相关连接云视通的window
 														// index
 	public static String KEY_DEV_TOKEN = "DEV_TOKEN";
@@ -676,4 +714,6 @@ public class Consts {
 	/** 实时报警条数 **/
 	public static final String NEW_PUSH_CNT_KEY = "NEW_PUSH_CNT_KEY";
 	public static final int NEW_PUSH_MSG_TAG = 0x9990;
+	public static final int NEW_PUSH_MSG_TAG_PRIVATE = 0x9991;
+	public static final int WHAT_PERI_ITEM_CLICK = 0x90;// 外设菜单单击事件
 }

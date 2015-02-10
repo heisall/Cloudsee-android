@@ -6,6 +6,7 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -19,7 +20,6 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.test.JVACCOUNT;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -52,8 +52,9 @@ public abstract class BaseActivity extends FragmentActivity implements
 	public Button leftBtn;
 	public Button rightBtn;
 	public TextView currentMenu;
-	public static RelativeLayout alarmnet;
-	public static boolean isshowActivity;
+	protected static RelativeLayout alarmnet;
+	protected TextView accountError;
+	private static boolean local = false;// 是否本地登陆
 
 	// private long duration;
 	// private static final String RUNTIME = ".runtime";
@@ -91,24 +92,23 @@ public abstract class BaseActivity extends FragmentActivity implements
 			try {
 				activity.notify
 						.onHandler(msg.what, msg.arg1, msg.arg2, msg.obj);
-				switch (msg.what) {
-				case Consts.ALARM_NET:
-					if (null != alarmnet) {
-						alarmnet.setVisibility(View.GONE);
-						BaseFragment.isshow = true;
-						isshowActivity = true;
-					}
-					break;
-				case Consts.ALARM_NET_WEEK:
-					if (null != alarmnet) {
-						alarmnet.setVisibility(View.GONE);
-						BaseFragment.isshow = false;
-						isshowActivity = false;
-					}
-					break;
-				default:
-					break;
-				}
+				// switch (msg.what) {
+				// case Consts.WHAT_ALARM_NET:
+				// if (null != alarmnet && !local) {
+				// alarmnet.setVisibility(View.VISIBLE);
+				// }
+				// break;
+				// case Consts.WHAT_ALARM_NET_WEEK:
+				// if (null != alarmnet) {
+				// alarmnet.setVisibility(View.GONE);
+				// }
+				// break;
+				// case Consts.WHAT_SESSION_FAILURE:// session失效
+				//
+				// break;
+				// default:
+				// break;
+				// }
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -133,17 +133,41 @@ public abstract class BaseActivity extends FragmentActivity implements
 		configuration = getResources().getConfiguration();
 		disMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
+		local = Boolean.valueOf(this.statusHashMap.get(Consts.LOCAL_LOGIN));
 		initSettings();
 		initUi();
-		if (isshowActivity) {
-			if (null != alarmnet) {
-				alarmnet.setVisibility(View.GONE);
-			}
-		} else {
-			if (null != alarmnet) {
-				alarmnet.setVisibility(View.GONE);
-			}
-		}
+		// if (null != alarmnet) {
+		// alarmnet.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View arg0) {
+		// if (null != statusHashMap.get(Consts.ACCOUNT_ERROR)) {
+		// int errorCode = Integer.parseInt(statusHashMap
+		// .get(Consts.ACCOUNT_ERROR));
+		// switch (errorCode) {
+		// case Consts.WHAT_HEART_ERROR:// 心跳异常
+		// if (android.os.Build.VERSION.SDK_INT > 10) {
+		// startActivity(new Intent(
+		// android.provider.Settings.ACTION_SETTINGS));
+		// } else {
+		// startActivity(new Intent(
+		// android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+		// }
+		// break;
+		// case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
+		// createDialog("", false);
+		// LoginTask task = new LoginTask(BaseActivity.this,
+		// (MainApplication) getApplication(),
+		// statusHashMap, alarmnet);
+		// String[] params = new String[3];
+		// task.execute(params);
+		// break;
+		// }
+		// }
+		// }
+		// });
+		// }
+
 	}
 
 	@Override
@@ -151,6 +175,40 @@ public abstract class BaseActivity extends FragmentActivity implements
 		((MainApplication) getApplication()).setCurrentNotifyer(this);
 		super.onResume();
 		StatService.onResume(this);
+		// if (null != statusHashMap.get(Consts.ACCOUNT_ERROR)) {
+		// int errorCode = Integer.parseInt(statusHashMap
+		// .get(Consts.ACCOUNT_ERROR));
+		// switch (errorCode) {
+		// case Consts.WHAT_ALARM_NET:// 网络异常
+		// if (null != alarmnet && !local) {
+		// alarmnet.setVisibility(View.VISIBLE);
+		// if (null != accountError) {
+		// accountError.setText(R.string.network_error_tips);
+		// }
+		// }
+		//
+		// break;
+		// case Consts.WHAT_HAS_LOGIN_SUCCESS:// 账号正常登陆
+		// case Consts.WHAT_ALARM_NET_WEEK:// 网络恢复正常
+		// case Consts.WHAT_ACCOUNT_NORMAL:// 账号恢复正常
+		// if (null != alarmnet) {
+		// alarmnet.setVisibility(View.GONE);
+		// }
+		// break;
+		// case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
+		// if (null != alarmnet && !local) {
+		// alarmnet.setVisibility(View.VISIBLE);
+		// if (null != accountError) {
+		// accountError.setText(R.string.account_error_tips);
+		// }
+		// }
+		// break;
+		// case Consts.WHAT_SESSION_FAILURE:// session失效
+		//
+		// break;
+		// }
+		// }
+
 		// duration = System.currentTimeMillis();
 	}
 
@@ -311,10 +369,16 @@ public abstract class BaseActivity extends FragmentActivity implements
 		return statusHeight;
 	}
 
+	public Dialog netErrorDialog;
+
 	/**
 	 * 没有网络提示 打开设置网络界面
 	 * */
 	public void alertNetDialog() {
+		statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
+		if (null != netErrorDialog && netErrorDialog.isShowing()) {
+			return;
+		}
 		try {
 			// 提示对话框
 			AlertDialog.Builder builder = new Builder(this);
@@ -326,25 +390,6 @@ public abstract class BaseActivity extends FragmentActivity implements
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
-									// Intent intent = null;
-									// // 判断手机系统的版本 即API大于10 就是3.0或以上版本
-									// if (android.os.Build.VERSION.SDK_INT >
-									// 10) {
-									// intent = new Intent(
-									// android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-									// } else {
-									// intent = new Intent();
-									// ComponentName component = new
-									// ComponentName(
-									// "com.android.settings",
-									// "com.android.settings.WirelessSettings");
-									// intent.setComponent(component);
-									// intent.setAction("android.intent.action.VIEW");
-									// }
-									// if(!BaseActivity.this.isFinishing()){
-									// BaseActivity.this.startActivity(intent);
-									// }
-									//
 
 									if (android.os.Build.VERSION.SDK_INT > 10) {
 										startActivity(new Intent(
@@ -364,7 +409,10 @@ public abstract class BaseActivity extends FragmentActivity implements
 										int which) {
 									dialog.dismiss();
 								}
-							}).create().show();
+							});
+
+			netErrorDialog = builder.create();
+			netErrorDialog.show();
 		} catch (ActivityNotFoundException e) {
 			showTextToast(R.string.network_error);
 			e.printStackTrace();
@@ -458,4 +506,5 @@ public abstract class BaseActivity extends FragmentActivity implements
 			JVACCOUNT.SetUserOnlineStatus(tag);
 		}
 	}
+
 }

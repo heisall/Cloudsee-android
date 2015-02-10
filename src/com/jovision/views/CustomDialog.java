@@ -74,7 +74,8 @@ public class CustomDialog extends Dialog implements CommonInterface {
 		try {
 			// 打开指定音乐文件
 			String file = "";
-			if (ConfigUtil.getLanguage2(context) == Consts.LANGUAGE_ZH) {
+			if (ConfigUtil.getLanguage2(context) == Consts.LANGUAGE_ZH
+					|| ConfigUtil.getLanguage2(context) == Consts.LANGUAGE_ZHTW) {
 				switch (dev_mark_id) {
 				case 1:// 门磁
 					file = "menci.mp3";
@@ -85,23 +86,44 @@ public class CustomDialog extends Dialog implements CommonInterface {
 				case 3:// 遥控器
 					file = "telecontrol.mp3";
 					break;
-				default:
+				case 4:
+				case 5:
+				case 7:
+					file = "alarm_guide_zh4.mp3";
 					break;
-				}
-			} else if (ConfigUtil.getLanguage2(context) == Consts.LANGUAGE_ZHTW) {
-				switch (dev_mark_id) {
-				case 1:// 门磁
-					file = "menci_tw.mp3";
-					break;
-				case 2:// 手环
-					file = "shouhuan_tw.mp3";
-					break;
-				case 3:// 遥控器
-					file = "telecontrol_tw.mp3";
+				case 6:
+					file = "alarm_guide_zh5.mp3";
 					break;
 				default:
-					break;
+					// file = "telecontrol.mp3";// 其他先用这个吧
+					// break;
+					return;
 				}
+				// } else if (ConfigUtil.getLanguage2(context) ==
+				// Consts.LANGUAGE_ZHTW) {
+				// switch (dev_mark_id) {
+				// case 1:// 门磁
+				// file = "menci_tw.mp3";
+				// break;
+				// case 2:// 手环
+				// file = "shouhuan_tw.mp3";
+				// break;
+				// case 3:// 遥控器
+				// file = "telecontrol_tw.mp3";
+				// break;
+				// case 4:
+				// case 5:
+				// case 7:
+				// file = "alarm_guide_zh4.mp3";
+				// break;
+				// case 6:
+				// file = "alarm_guide_zh5.mp3";
+				// break;
+				// default:
+				// // file = "telecontrol_tw.mp3";
+				// // break;
+				// return;
+				// }
 			} else {
 				switch (dev_mark_id) {
 				case 1:// 门磁
@@ -113,8 +135,18 @@ public class CustomDialog extends Dialog implements CommonInterface {
 				case 3:// 遥控器
 					file = "telecontrol_en.mp3";
 					break;
-				default:
+				case 4:
+				case 5:
+				case 7:
+					file = "alarm_guide_en4.mp3";
 					break;
+				case 6:
+					file = "alarm_guide_en5.mp3";
+					break;
+				default:
+					// file = "telecontrol_en.mp3";
+					// break;
+					return;
 				}
 			}
 			int maxVolume = 100; // 最大音量值

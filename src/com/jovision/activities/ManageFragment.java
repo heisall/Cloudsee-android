@@ -96,8 +96,13 @@ public class ManageFragment extends BaseFragment {
 			}
 			device = deviceList.get(deviceIndex);
 			if (null != device && null != manageAdapter) {
-				manageAdapter.setData(disMetrics.widthPixels, deviceIndex,
-						device, localFlag);
+				int w;
+				if (disMetrics.widthPixels < disMetrics.heightPixels) {
+					w = disMetrics.widthPixels;
+				} else {
+					w = disMetrics.heightPixels;
+				}
+				manageAdapter.setData(w, deviceIndex, device, localFlag);
 				manageGridView.setAdapter(manageAdapter);
 				manageAdapter.notifyDataSetChanged();
 			}
@@ -271,9 +276,6 @@ public class ManageFragment extends BaseFragment {
 					startTimer();
 					mActivity.createDialog("", false);
 					PlayUtil.connectDevice(device);
-					// if (!isturn) {
-					// new Handler().postDelayed(runnable, 15000);
-					// }
 				}
 				break;
 			}
@@ -568,7 +570,7 @@ public class ManageFragment extends BaseFragment {
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
-				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG, 0, 0, null);// 通知显示报警信息条数
+				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG_PRIVATE, 0, 0, null);// 通知显示报警信息条数
 				new AlarmDialog(mActivity).Show(obj);
 			} else {
 				MyLog.e("Alarm",

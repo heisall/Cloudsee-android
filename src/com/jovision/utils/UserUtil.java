@@ -105,19 +105,27 @@ public class UserUtil {
 
 	public static User getUserByName(String userName) {
 		User dstUser = null;
-		ArrayList<User> userList = User.fromJsonArray(MySharedPreference
-				.getString(Consts.LOCAL_USER_LIST));
+		try {
+			ArrayList<User> userList = User.fromJsonArray(MySharedPreference
+					.getString(Consts.LOCAL_USER_LIST));
 
-		if (null == userList) {
-			return null;
-		} else {
-			int size = userList.size();
-			for (int i = 0; i < size; i++) {
-				if (userName.equalsIgnoreCase(userList.get(i).getUserName())) {
-					dstUser = userList.get(i);
-					break;
+			if (null == userList || 0 == userList.size()) {
+				return null;
+			} else {
+				int size = userList.size();
+				for (int i = 0; i < size; i++) {
+					if (null != userName && null != userList.get(i)) {
+						if (userName.equalsIgnoreCase(userList.get(i)
+								.getUserName())) {
+							dstUser = userList.get(i);
+							break;
+						}
+					}
 				}
 			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return dstUser;

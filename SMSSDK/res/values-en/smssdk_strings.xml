@@ -1,4 +1,5 @@
 <resources>
+
     <string name="smssdk_back">Back </string>
     <string name="smssdk_regist">Register with phone number</string>
     <string name="smssdk_make_sure_country_mobile">Please confirm country and input phone number</string>
@@ -40,4 +41,5 @@
     <string name="smssdk_add_contact">Add</string>
     <string name="smssdk_get_verifycode_frequentlly">Send verification code too frequently, please try later!</string>
     <string name="smssdk_get_phone_verifycode_today_frequentlly">I am sorry, the phone number for verification code number too much, please try again tomorrow!</string>
+
 </resources>

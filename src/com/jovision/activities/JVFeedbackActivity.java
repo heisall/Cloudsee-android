@@ -27,7 +27,6 @@ import com.jovision.net.RequestParams;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
-import com.jovision.views.AlarmDialog;
 
 public class JVFeedbackActivity extends BaseActivity {
 
@@ -65,7 +64,7 @@ public class JVFeedbackActivity extends BaseActivity {
 			break;
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
-			new AlarmDialog(this).Show(obj);
+			// new AlarmDialog(this).Show(obj);
 			break;
 		}
 	}
@@ -86,6 +85,7 @@ public class JVFeedbackActivity extends BaseActivity {
 		setContentView(R.layout.feedback_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		content = (EditText) findViewById(R.id.content);

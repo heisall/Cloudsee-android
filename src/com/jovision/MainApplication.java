@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.test.AutoLoad;
 import android.test.JVACCOUNT;
+import android.util.Log;
 
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVOffLineDialogActivity;
@@ -45,7 +46,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 	public HashMap<String, String> statusHashMap;
 	private ArrayList<BaseActivity> openedActivityList;
-	private IHandlerLikeNotify currentNotifyer;
+	public IHandlerLikeNotify currentNotifyer;
 
 	protected NotificationManager mNotifyer;
 	private ActivityManager activityManager;
@@ -108,9 +109,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		markedAlarmList = new ArrayList<String>();
 		MySharedPreference.init(this);
 		MySharedPreference.putString(Consts.CHECK_ALARM_KEY, "");
-		// new_push_msg_cnt =
-		// MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
-		new_push_msg_cnt = 0;
+
+		new_push_msg_cnt = MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
+		Log.e("TPush", "new_push_msg_cnt init:" + new_push_msg_cnt);
 		bAlarmConnectedFlag = false;
 		markedAlarmList = ((MainApplication) getApplicationContext())
 				.getMarkedAlarmList();
@@ -135,10 +136,12 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 	public synchronized void setNewPushCnt(int cnt) {
 		new_push_msg_cnt = cnt;
+		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, cnt);
 	}
 
 	public synchronized void add1NewPushCnt() {
 		new_push_msg_cnt++;
+		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, new_push_msg_cnt);
 	}
 
 	/**
@@ -222,18 +225,42 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		try {
 			if (res == 0) {// 保持在线成功
 				errorCount = 0;
+				MyLog.v("Account Error", "保持在线成功");
+				if (null != currentNotifyer) {
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_ACCOUNT_NORMAL));
+					currentNotifyer.onNotify(Consts.WHAT_HEART_NORMAL, 0, 0,
+							null);
+				}
 				// if (null != currentNotifyer) {
 				// currentNotifyer.onNotify(Consts.ALARM_NET_WEEK, 0,0, null);
 				// }
-			} else {// 保持在线失败
+			} else if (res == 5) {// session失效
+				MyLog.v("Account Error", "session 失效");
+				if (null != currentNotifyer) {
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_SESSION_FAILURE));
+					currentNotifyer.onNotify(Consts.WHAT_SESSION_FAILURE, 0, 0,
+							null);
+				}
+			} else {
 				errorCount++;
+				MyLog.v("Account Error", "保持在线失败" + errorCount + "次,errorCode="
+						+ res);
 				if (4 == errorCount) {// 失败4次
-					JVACCOUNT.StopHeartBeat();// 先停止心跳
-					Intent intent = new Intent(getApplicationContext(),
-							JVOffLineDialogActivity.class);
-					intent.putExtra("ErrorCode", 4);
-					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					startActivity(intent);
+					MyLog.v("Account Error", "保持在线失败4次");
+					if (null != currentNotifyer) {
+						statusHashMap.put(Consts.ACCOUNT_ERROR,
+								String.valueOf(Consts.WHAT_HEART_ERROR));
+						currentNotifyer.onNotify(Consts.WHAT_HEART_ERROR, 4, 0,
+								null);
+					}
+					// JVACCOUNT.StopHeartBeat();// 先停止心跳
+					// Intent intent = new Intent(getApplicationContext(),
+					// JVOffLineDialogActivity.class);
+					// intent.putExtra("ErrorCode", 4);
+					// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					// startActivity(intent);
 				}
 			}
 		} catch (Exception e) {
@@ -456,31 +483,40 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 				}
 			} else if (JVAccountConst.MESSAGE_OFFLINE == res) {// 提掉线
+				MyLog.v("Account Error", "提掉线");
 				Intent intent = new Intent(getApplicationContext(),
 						JVOffLineDialogActivity.class);
 				intent.putExtra("ErrorCode", JVAccountConst.MESSAGE_OFFLINE);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
 			} else if (JVAccountConst.PTCP_ERROR == res) {// TCP错误
-				JVACCOUNT.StopHeartBeat();// 先停止心跳
-				// if (null != currentNotifyer) {
-				// currentNotifyer.onNotify(Consts.ALARM_NET, 0,0, null);
-				// }
-				Intent intent = new Intent(getApplicationContext(),
-						JVOffLineDialogActivity.class);
-				intent.putExtra("ErrorCode", JVAccountConst.PTCP_ERROR);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
+				// JVACCOUNT.StopHeartBeat();// 先停止心跳
+				MyLog.v("Account Error", "TCP错误");
+				if (null != currentNotifyer) {
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_HEART_TCP_ERROR));
+					currentNotifyer.onNotify(Consts.WHAT_HEART_TCP_ERROR, res,
+							0, null);
+				}
+				// Intent intent = new Intent(getApplicationContext(),
+				// JVOffLineDialogActivity.class);
+				// intent.putExtra("ErrorCode", JVAccountConst.PTCP_ERROR);
+				// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				// startActivity(intent);
 			} else if (JVAccountConst.PTCP_CLOSED == res) {// TCP关闭
-				JVACCOUNT.StopHeartBeat();// 先停止心跳
-				// if (null != currentNotifyer) {
-				// currentNotifyer.onNotify(Consts.ALARM_NET, 0,0, null);
-				// }
-				Intent intent = new Intent(getApplicationContext(),
-						JVOffLineDialogActivity.class);
-				intent.putExtra("ErrorCode", JVAccountConst.PTCP_CLOSED);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
+				// JVACCOUNT.StopHeartBeat();// 先停止心跳
+				MyLog.v("Account Error", "TCP关闭");
+				if (null != currentNotifyer) {
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_HEART_TCP_CLOSED));
+					currentNotifyer.onNotify(Consts.WHAT_HEART_TCP_CLOSED, res,
+							0, null);
+				}
+				// Intent intent = new Intent(getApplicationContext(),
+				// JVOffLineDialogActivity.class);
+				// intent.putExtra("ErrorCode", JVAccountConst.PTCP_CLOSED);
+				// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				// startActivity(intent);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,6 @@ import com.tencent.android.tpush.XGPushManager;
 
 public class JVTabActivity extends ShakeActivity implements
 		OnPageChangeListener {
-
 	private static final String TAG = "JVTabActivity";
 	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
@@ -150,8 +150,8 @@ public class JVTabActivity extends ShakeActivity implements
 		super.onDestroy();
 		// int cnt = mApp.getNewPushCnt();
 		MyLog.e(TAG, "onDestroy,invoke~~~~~ ");
-		mApp.setNewPushCnt(0);
-		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, 0);
+		// mApp.setNewPushCnt(0);
+		// MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, 0);
 	}
 
 	private void getPic() {
@@ -224,10 +224,23 @@ public class JVTabActivity extends ShakeActivity implements
 		MyLog.v(TAG, "onResume----E");
 		if (null != mIndicator) {
 			boolean show = false;
-			if (!MySharedPreference.getBoolean("VideoSquer")
-					|| !MySharedPreference.getBoolean("SystemMessage")) {
-				show = true;
+			int cnt = mApp.getNewPushCnt();
+			Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
+			int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
+			if(lan == Consts.LANGUAGE_ZH) {
+				if (cnt > 0 || !MySharedPreference.getBoolean("SystemMessage")
+						|| (!MySharedPreference.getBoolean("CUSTURL"))
+						|| (!MySharedPreference.getBoolean("STATURL"))) {
+					show = true;
+				}
+			}else {
+				if (cnt > 0 || !MySharedPreference.getBoolean("SystemMessage")
+						|| (!MySharedPreference.getBoolean("STATURL"))) {
+					show = true;
+				}
 			}
+				
+			
 			mIndicator.updateIndicator(3, 0, show);
 		}
 
@@ -247,20 +260,20 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 
 		}
-		if (currentIndex == 1) {
-			int cnt = mApp.getNewPushCnt();
-			if (cnt > 0) {
-				mApp.setNewPushCnt(0);
-				mIndicator.updateIndicator(1, 0, false);
-			}
-		} else {
-			int cnt = mApp.getNewPushCnt();
-			if (cnt > 0) {
-				mIndicator.updateIndicator(1, cnt, true);
-			} else {
-				mIndicator.updateIndicator(1, 0, false);
-			}
-		}
+		// if (currentIndex == 1) {
+		// int cnt = mApp.getNewPushCnt();
+		// if (cnt > 0) {
+		// mApp.setNewPushCnt(0);
+		// mIndicator.updateIndicator(1, 0, false);
+		// }
+		// } else {
+		// int cnt = mApp.getNewPushCnt();
+		// if (cnt > 0) {
+		// mIndicator.updateIndicator(1, cnt, true);
+		// } else {
+		// mIndicator.updateIndicator(1, 0, false);
+		// }
+		// }
 
 		MyLog.v(TAG, "onResume----X");
 	}
@@ -343,24 +356,28 @@ public class JVTabActivity extends ShakeActivity implements
 			break;
 		}
 		case Consts.NEW_PUSH_MSG_TAG: {
-			if (currentIndex == 1)// 在信息列表界面
-			{
-				mApp.setNewPushCnt(0);
-				mIndicator.updateIndicator(1, 0, false);
-			} else {
-				boolean show = false;
-				int cnt = mApp.getNewPushCnt();
-				if (cnt > 0) {
-					show = true;
-				}
-				mIndicator.updateIndicator(1, cnt, show);
-			}
+			// if (currentIndex == 1)// 在信息列表界面
+			// {
+			// mApp.setNewPushCnt(0);
+			// mIndicator.updateIndicator(1, 0, false);
+			// } else {
+			// boolean show = false;
+			// int cnt = mApp.getNewPushCnt();
+			// if (cnt > 0) {
+			// show = true;
+			// }
+			// mIndicator.updateIndicator(1, cnt, show);
+			// }
+			// mIndicator.updateIndicator(3, 0, true);
 			BaseFragment currentFrag = mFragments[currentIndex];
 			if (null != currentFrag) {
 				((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
 						obj);
 			}
 		}
+			break;
+		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
+			mIndicator.updateIndicator(3, 0, true);
 			break;
 		default:
 			BaseFragment currentFrag = mFragments[currentIndex];
@@ -427,7 +444,7 @@ public class JVTabActivity extends ShakeActivity implements
 			}
 		}
 		mFragments[0] = new JVMyDeviceFragment();
-		mFragments[1] = new JVInfoFragment();
+		mFragments[1] = new JVVideoFragment();
 		mFragments[2] = new JVDeviceManageFragment();
 		mFragments[3] = new JVMoreFragment();
 		if (!MySharedPreference.getBoolean("page2")) {
@@ -475,11 +492,11 @@ public class JVTabActivity extends ShakeActivity implements
 						}
 						break;
 					case 1:
-						int cnt = mApp.getNewPushCnt();
-						if (cnt > 0) {
-							mApp.setNewPushCnt(0);
-							mIndicator.updateIndicator(1, 0, false);
-						}
+						// int cnt = mApp.getNewPushCnt();
+						// if (cnt > 0) {
+						// mApp.setNewPushCnt(0);
+						// mIndicator.updateIndicator(1, 0, false);
+						// }
 						break;
 					case 2:
 						myDeviceList = CacheUtil.getDevList();
@@ -550,13 +567,30 @@ public class JVTabActivity extends ShakeActivity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-			if (JVMyDeviceFragment.isshow) {
-				JVMyDeviceFragment.isshow = false;
-				JVMyDeviceFragment.myDLAdapter.setShowDelete(false);
-				JVMyDeviceFragment.myDLAdapter.notifyDataSetChanged();
+
+			MyLog.v("notifyer",
+					((MainApplication) this.getApplication()).currentNotifyer
+							+ "");
+			String notifer = ((MainApplication) this.getApplication()).currentNotifyer
+					+ "";
+			if (notifer.startsWith("JVMyDeviceFragment")) {
+				if (JVMyDeviceFragment.isshow) {
+					JVMyDeviceFragment.isshow = false;
+					JVMyDeviceFragment.myDLAdapter.setShowDelete(false);
+					JVMyDeviceFragment.myDLAdapter.notifyDataSetChanged();
+				} else {
+					exit();
+				}
+			} else if (notifer.startsWith("JVVideoFragment")) {
+				if (JVVideoFragment.webView.canGoBack()) {
+					JVVideoFragment.webView.goBack(); // goBack()表示返回WebView的上一页面
+				} else {
+					exit();
+				}
 			} else {
 				exit();
 			}
+
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

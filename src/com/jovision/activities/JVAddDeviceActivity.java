@@ -112,9 +112,9 @@ public class JVAddDeviceActivity extends BaseActivity {
 		/** top bar */
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
-		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		rightBtn.setBackgroundResource(R.drawable.qr_icon);
 		currentMenu.setText(R.string.str_help1_1);
 		leftBtn.setOnClickListener(mOnClickListener);
@@ -127,10 +127,8 @@ public class JVAddDeviceActivity extends BaseActivity {
 		pwdET = (EditText) findViewById(R.id.pwd_et);
 		saveBtn = (Button) findViewById(R.id.save_btn);
 
-		userET.setText(JVAddDeviceActivity.this.getResources().getString(
-				R.string.str_default_user));
-		pwdET.setText(JVAddDeviceActivity.this.getResources().getString(
-				R.string.str_default_pass));
+		userET.setText(Consts.DEFAULT_USERNAME);
+		pwdET.setText(Consts.DEFAULT_PASSWORD);
 		saveBtn.setBackgroundResource(R.drawable.blue_bg);
 		saveBtn.setOnClickListener(mOnClickListener);
 	}

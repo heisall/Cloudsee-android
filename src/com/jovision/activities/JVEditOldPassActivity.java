@@ -21,6 +21,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.UserUtil;
@@ -123,6 +124,7 @@ public class JVEditOldPassActivity extends BaseActivity {
 		setContentView(R.layout.oldpass_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.str_modify_user_info);
 		finish = (Button) findViewById(R.id.finish);
@@ -267,13 +269,21 @@ public class JVEditOldPassActivity extends BaseActivity {
 			// TODO Auto-generated method stub
 			JVEditOldPassActivity activity = mActivity.get();
 			if (null != activity && !activity.isFinishing()) {
+				String strRes = "";
 				// int result = AccountUtil.userLogin(
 				// activity.statusHashMap.get("KEY_USERNAME"),
 				// activity.statusHashMap.get("KEY_PASSWORD"), activity);
-				String strRes = AccountUtil.onLoginProcessV2(activity,
-						activity.statusHashMap.get(Consts.KEY_USERNAME),
-						activity.statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIP, Url.LONGSERVERIP);
+				if (!MySharedPreference.getBoolean("TESTSWITCH")) {
+					strRes = AccountUtil.onLoginProcessV2(activity,
+							activity.statusHashMap.get(Consts.KEY_USERNAME),
+							activity.statusHashMap.get(Consts.KEY_PASSWORD),
+							Url.SHORTSERVERIP, Url.LONGSERVERIP);
+				} else {
+					strRes = AccountUtil.onLoginProcessV2(activity,
+							activity.statusHashMap.get(Consts.KEY_USERNAME),
+							activity.statusHashMap.get(Consts.KEY_PASSWORD),
+							Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
+				}
 				JSONObject respObj = null;
 				int loginRes1 = -1;
 				int loginRes2 = -1;

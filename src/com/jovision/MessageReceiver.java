@@ -74,6 +74,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
 		} else {
 			Log.e("TPush", "onTextMessage the context is not null");
 		}
+		MySharedPreference.init(context);
 		if (MySharedPreference.getBoolean(Consts.MANUAL_LOGOUT_TAG)) {
 			MyLog.e("TPush", "账号手动注销，不处理离线报警");
 			return;
@@ -174,7 +175,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
 					// JSONObject object = new JSONObject(content);
 					// if(!object.isNull("key")){
 					// String strJsonValueString = object.getString("key");
-					Log.i("TPush", "custom content : " + content);
+					Log.i("TPush", "content : " + content);
 					JSONObject obj = new JSONObject(content);
 					PushInfo pi = new PushInfo();
 					String[] alarmArray = context.getResources()
@@ -197,16 +198,21 @@ public class MessageReceiver extends XGPushBaseReceiver {
 					if (!strTempTime.equals("")) {
 						// 有限取这个字段的时间，格式：yyyyMMddhhmmss
 						pi.timestamp = "";
-						pi.alarmTime = AlarmUtil.formatStrTime(strTempTime);
+						pi.alarmTime = AlarmUtil.formatStrTime2(strTempTime);
 					} else {
 						pi.timestamp = obj
 								.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME);
 						pi.alarmTime = AlarmUtil.getStrTime(pi.timestamp);
 					}
-					contentText = pi.alarmTime
-							+ " "
-							+ alarmArray[pi.alarmType].replace("%%",
-									pi.deviceNickName);
+					String disInfo = obj
+							.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_CUST_INFO);
+					if (disInfo == null || disInfo.equals("")) {
+						disInfo = alarmArray[pi.alarmType].replace("%%",
+								pi.deviceNickName);
+					} else {
+						disInfo = disInfo.replace("%%", pi.deviceNickName);
+					}
+					contentText = pi.alarmTime + " " + disInfo;
 
 					contentTitle = context.getResources().getString(
 							R.string.str_alarm_info);

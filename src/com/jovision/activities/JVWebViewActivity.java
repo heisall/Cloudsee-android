@@ -9,9 +9,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -89,12 +89,21 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.findpass_layout);
+
+		// if (url.contains("rotate=x")) {
+		// url = url.replace("rotate=x", "");
+		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//
+		// 横屏
+		// }
+
+		MyLog.v(TAG, "webview-URL=" + url);
 		/** topBar **/
 		topBar = (RelativeLayout) findViewById(R.id.topbarh);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText(R.string.demo);
+		currentMenu.setText(R.string.loading);
 		loadingBar = (ImageView) findViewById(R.id.loadingbars);
 		loadinglayout = (LinearLayout) findViewById(R.id.loadinglayout);
 
@@ -106,7 +115,7 @@ public class JVWebViewActivity extends BaseActivity {
 		if (-1 == titleID) {
 			currentMenu.setText("");
 		} else if (-2 == titleID) {
-
+			
 		} else {
 			currentMenu.setText(titleID);
 		}
@@ -135,6 +144,7 @@ public class JVWebViewActivity extends BaseActivity {
 		// setting.setPluginState(PluginState.ON);
 		// 加快加载速度
 		webView.getSettings().setRenderPriority(RenderPriority.HIGH);
+//		webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onReceivedError(WebView view, int errorCode,
@@ -192,9 +202,8 @@ public class JVWebViewActivity extends BaseActivity {
 				super.onPageStarted(view, url, favicon);
 				if (!isfirst) {
 					loadinglayout.setVisibility(View.VISIBLE);
-					Animation anim = AnimationUtils.loadAnimation(
-							JVWebViewActivity.this, R.anim.rotate);
-					loadingBar.setAnimation(anim);
+					loadingBar.setAnimation(AnimationUtils.loadAnimation(
+							JVWebViewActivity.this, R.anim.rotate));
 					isfirst = true;
 				}
 				MyLog.v(TAG, "webView start load");
@@ -278,11 +287,10 @@ public class JVWebViewActivity extends BaseActivity {
 			case R.id.refreshimg: {
 				loadFailedLayout.setVisibility(View.GONE);
 				loadinglayout.setVisibility(View.VISIBLE);
-				Animation anim = AnimationUtils.loadAnimation(
-						JVWebViewActivity.this, R.anim.rotate);
-				loadingBar.setAnimation(anim);
+				loadingBar.setAnimation(AnimationUtils.loadAnimation(
+						JVWebViewActivity.this, R.anim.rotate));
 				loadFailed = false;
-				webView.loadUrl(url);
+				webView.reload();
 				break;
 			}
 			}
@@ -294,6 +302,7 @@ public class JVWebViewActivity extends BaseActivity {
 	 * 返回事件
 	 */
 	private void backMethod() {
+		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
 		if (webView.canGoBack()) {
 			webView.goBack(); // goBack()表示返回WebView的上一页面
 		} else {
@@ -313,8 +322,10 @@ public class JVWebViewActivity extends BaseActivity {
 	// if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
 	// webView.goBack(); // goBack()表示返回WebView的上一页面
 	// return true;
+	// } else {
+	// JVWebViewActivity.this.finish();
 	// }
-	// return super.onKeyDown(keyCode, event);
+	// return false;
 	// }
 
 	@Override

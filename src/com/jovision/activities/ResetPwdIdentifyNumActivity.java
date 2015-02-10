@@ -215,6 +215,7 @@ public class ResetPwdIdentifyNumActivity extends BaseActivity implements
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		rightBtn.setVisibility(View.GONE);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		leftBtn.setOnClickListener(this);

@@ -61,6 +61,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 	private EditText code;
 	private boolean isregister;
 	private GetPhoneNumber phoneNumber;
+	private boolean agreeProtocol = true;
 
 	/** 注册信息提示文本 */
 	private TextView registTips;
@@ -134,6 +135,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		setContentView(R.layout.regist_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.login_str_user_regist);
 		rightBtn = (Button) findViewById(R.id.btn_right);
@@ -172,6 +174,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		regist.setOnClickListener(onClickListener);
 		agreeMent.setOnClickListener(onClickListener);
 		agreeTBtn.setChecked(true);
+		agreeProtocol = true;
 		agreeTBtn.setOnCheckedChangeListener(onCheckedChangeListener);
 
 		// 中性版本的隐藏注册协议
@@ -226,7 +229,22 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 										.getMessage());
 								String des = object.optString("detail");
 								if (!TextUtils.isEmpty(des)) {
-									showTextToast(des);
+									Log.i("TAG", des);
+									String errorstring1 = JVRegisterActivity.this
+											.getResources().getString(
+													R.string.str_error_vercode);
+									Log.i("TAG", errorstring1);
+									int lan = ConfigUtil
+											.getLanguage2(JVRegisterActivity.this);
+									if (errorstring1.equals(des)
+											&& Consts.LANGUAGE_ZHTW == lan) {
+										showTextToast(R.string.str_error_vercodetw);
+									} else if (errorstring1.equals(des)
+											&& Consts.LANGUAGE_ZH == lan) {
+										showTextToast(R.string.str_error_vercode);
+									} else {
+										showTextToast(des);
+									}
 									return;
 								}
 							} catch (Exception e) {
@@ -401,7 +419,9 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				break;
 			case R.id.regist:
 				isclick = false;
-				if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
+				if (!agreeProtocol) {
+					showTextToast(R.string.login_str_agreement_tips);
+				} else if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
 						&& !"".equals(code.getText().toString())) {
 					// 验证填入的验证码
 					strIdentifyNum = code.getText().toString().trim();
@@ -488,6 +508,7 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 		@Override
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 			agreeTBtn.setChecked(arg1);
+			agreeProtocol = arg1;
 		}
 
 	};
@@ -560,7 +581,6 @@ public class JVRegisterActivity extends BaseActivity implements TextWatcher {
 				if (pd != null && pd.isShowing()) {
 					pd.dismiss();
 				}
-
 				if (result == SMSSDK.RESULT_COMPLETE) {
 					// 跳转到设置密码界面
 					Intent intent = new Intent(JVRegisterActivity.this,

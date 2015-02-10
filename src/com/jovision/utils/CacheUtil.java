@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.jovision.Consts;
 import com.jovision.bean.Device;
 import com.jovision.bean.User;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 
 public class CacheUtil {
@@ -52,6 +53,22 @@ public class CacheUtil {
 	}
 
 	/**
+	 * 获取离线设备列表
+	 * 
+	 * @return
+	 */
+	public static ArrayList<Device> getOfflineDevList() {
+		MyLog.e("CacheUtil---getOfflineDev", "getDevList");
+		ArrayList<Device> devList = new ArrayList<Device>();
+		String devJsonString = MySharedPreference
+				.getString(Consts.OFFLINE_DEVICE_LIST);
+		if (null != devJsonString && !"".equals(devJsonString)) {
+			devList = Device.fromJsonArray(devJsonString);
+		}
+		return devList;
+	}
+
+	/**
 	 * 保存设备列表
 	 * 
 	 * @param userList
@@ -68,6 +85,9 @@ public class CacheUtil {
 		if (null != devList) {
 			MySharedPreference
 					.putString(Consts.DEVICE_LIST, devList.toString());
+			// 存一份缓存的数据
+			MySharedPreference.putString(Consts.OFFLINE_DEVICE_LIST,
+					devList.toString());
 		}
 
 		// 同步map,先不这样搞了。by lkp

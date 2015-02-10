@@ -102,6 +102,7 @@ public class JVChannelsActivity extends BaseActivity {
 		devmore_hide = (RelativeLayout) findViewById(R.id.devmore_hide);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.channal_list);
 		rightBtn = (Button) findViewById(R.id.btn_right);

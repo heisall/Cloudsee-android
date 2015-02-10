@@ -25,6 +25,8 @@ public class JVBoundEmailActivity extends BaseActivity {
 
 	private EditText userEmailEditText;
 
+	protected RelativeLayout.LayoutParams reParamstop2;
+
 	String userName;
 	String userPass;
 
@@ -69,8 +71,15 @@ public class JVBoundEmailActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		leftBtn.setVisibility(View.GONE);
 		rightBtn = (Button) findViewById(R.id.btn_right);
+		reParamstop2 = new RelativeLayout.LayoutParams(
+				(int) (0.2 * disMetrics.widthPixels), 45);
+		reParamstop2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		reParamstop2.addRule(RelativeLayout.CENTER_VERTICAL);
+		reParamstop2.setMargins(0, 0, 15, 0);
+		rightBtn.setLayoutParams(reParamstop2);
 		currentMenu.setVisibility(View.VISIBLE);
 		rightBtn.setVisibility(View.VISIBLE);
 		rightBtn.setBackgroundDrawable(getResources().getDrawable(

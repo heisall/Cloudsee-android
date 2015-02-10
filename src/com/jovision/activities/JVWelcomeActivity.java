@@ -61,6 +61,8 @@ public class JVWelcomeActivity extends BaseActivity {
 		getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
 		statusHashMap.put(Consts.KEY_INIT_ACCOUNT_SDK, "false");
 		statusHashMap.put(Consts.KEY_INIT_CLOUD_SDK, "false");
+		statusHashMap.put(Consts.KEY_GONE_MORE, "false");// 是否屏蔽视频广场和更多中的专属功能
+															// false 显示，true 隐藏
 		statusHashMap.put(Consts.IMEI,
 				ConfigUtil.getIMEI(JVWelcomeActivity.this));
 		statusHashMap.put(Consts.NEUTRAL_VERSION, "false");// 默认非中性版本
@@ -102,6 +104,8 @@ public class JVWelcomeActivity extends BaseActivity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.welcome_layout);
+
+		Consts.CURRENT_LAN = ConfigUtil.getLanguage2(this);
 
 		welcomeImage = (ImageView) findViewById(R.id.cloudseewelcome);
 
@@ -149,7 +153,6 @@ public class JVWelcomeActivity extends BaseActivity {
 			} catch (MtaSDkException e) {
 				e.printStackTrace();
 			}
-
 			StatService.trackCustomEvent(JVWelcomeActivity.this, "onCreat",
 					"welcome");
 		}
@@ -215,7 +218,7 @@ public class JVWelcomeActivity extends BaseActivity {
 
 					intent.setClass(JVWelcomeActivity.this,
 							JVLoginActivity.class);
-					intent.putExtra("AutoLogin", true);
+					// intent.putExtra("AutoLogin", true);
 					intent.putExtra("UserName", user.getUserName());
 					intent.putExtra("UserPass", user.getUserPwd());
 				} else {

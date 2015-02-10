@@ -17,12 +17,19 @@
     <color name="moretransparent">#19000000</color>
 
     <!-- 设备的背景色 -->
+    <color name="line">#B6B6B6</color>
     <color name="vercode">#bcbcbc</color>
     <color name="device_color_1">#378FE6</color>
     <color name="device_color_2">#13C6CD</color>
     <color name="device_color_3">#84C914</color>
     <color name="device_color_4">#F4B613</color>
-
+    <!-- 登录界面贺岁版 -->
+    <color name="login_normal">#DE0000</color>
+    <color name="login_hover">#A40102</color>
+    <color name="loginvictor_normal">#FF9C94</color>
+    <color name="loginvictor_hover">#E86D68</color>
+    <color name="login_text">#5b5b5b</color>
+    <color name="login_bg">#fffcf0</color>
     <!-- 通道的背景色 -->
     <color name="channel_color_1">#42BDE8</color>
     <color name="channel_color_2">#F5C132</color>
@@ -113,6 +120,9 @@
     <color name="info_time">#B2B2B2</color>
     <color name="info_content">#747474</color>
     <color name="func_divider">#D1D1D1</color>
+
+    <!-- 系统消息颜色 -->
+    <color name="account_error_bg">#FFF6D2</color>
 
     <!-- 象牙色 -->
     <color name="lightyellow">#FFFFE0</color>

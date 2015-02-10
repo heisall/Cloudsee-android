@@ -122,7 +122,9 @@ public class PushAdapter extends BaseAdapter {
 			if (pushList.get(position).newTag) {// 新的未读消息
 				viewHolder.newTag.setVisibility(View.VISIBLE);
 				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment
-						.getActivity())) {
+						.getActivity())
+						|| Consts.LANGUAGE_ZHTW == ConfigUtil
+								.getLanguage2(mfragment.getActivity())) {
 					viewHolder.newTag.setImageDrawable(mfragment.getActivity()
 							.getResources().getDrawable(R.drawable.new_tag_ch));
 				} else {

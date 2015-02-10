@@ -12,6 +12,7 @@
         layout="@layout/top_bar_layout" />
 
     <FrameLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/top" >
@@ -59,6 +60,61 @@
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/linksetting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/playsurface"
+                    android:background="@color/halftransparent"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="最小0-25"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <EditText
+                        android:id="@+id/mincache"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:inputType="phone"
+                        android:text="5"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="目标25-1000"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <EditText
+                        android:id="@+id/descache"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:inputType="phone"
+                        android:text="50"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/savesetting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/setting_save_2"
+                        android:text="@string/save"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/playbar"
@@ -126,47 +182,51 @@
                     android:background="@color/transparent" >
                 </RelativeLayout>
 
-                <WebView
-                    android:id="@+id/webview"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/zhezhao" />
+                    android:layout_below="@+id/zhezhao" >
 
-                <LinearLayout
-                    android:id="@+id/loadinglayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="120dp"
-                    android:orientation="vertical"
-                    android:visibility="gone" >
+                    <WebView
+                        android:id="@+id/webview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
-                    <ImageView
-                        android:id="@+id/loadingbar"
+                    <LinearLayout
+                        android:id="@+id/loadinglayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/loadingweb" />
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical"
+                        android:visibility="gone" >
 
-                    <TextView
+                        <ImageView
+                            android:id="@+id/loadingbar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/loadingweb" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/demo_loading"
+                            android:textColor="@color/more_fragment_color2"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/loadfailedlayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/demo_loading"
-                        android:textColor="@color/more_fragment_color2"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                        android:layout_centerInParent="true"
+                        layout="@layout/load_failed_layout"
+                        android:visibility="gone" >
+                    </include>
+                </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
     </FrameLayout>
-
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        layout="@layout/load_failed_layout"
-        android:visibility="gone" >
-    </include>
 
 </RelativeLayout>

@@ -137,6 +137,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		leftBtn.setVisibility(View.VISIBLE);
 		rightBtn.setVisibility(View.GONE);
 
@@ -195,11 +196,21 @@ public class JVRemoteListActivity extends BaseActivity {
 				intent.putExtra("is05", is05);
 				intent.putExtra("acBuffStr", acBuffStr);
 				intent.putExtra("AudioByte", audioByte);
-				JVRemoteListActivity.this.startActivity(intent);
+				// JVRemoteListActivity.this.startActivity(intent);
+				JVRemoteListActivity.this.startActivityForResult(intent, 0);
 			}
 			dismissDialog();
 		}
 	};
+
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		super.onActivityResult(arg0, arg1, arg2);
+		if (0 == arg0 && Consts.WHAT_VIDEO_DISCONNECT == arg1) {
+			// showTextToast(R.string.abnormal_closed);
+			this.finish();
+		}
+	}
 
 	/**
 	 * 单击事件

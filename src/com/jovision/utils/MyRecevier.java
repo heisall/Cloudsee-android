@@ -54,7 +54,7 @@ public class MyRecevier extends BroadcastReceiver {
 		}
 		try {
 			String action = intent.getAction();
-
+			// statusHashMap.put(Consts.HAS_LOAD_DEMO,"false");
 			if (TextUtils.equals(action, Consts.CONNECTIVITY_CHANGE_ACTION)) {// 网络变化的时候会发送通知
 
 				ConnectivityManager connectivityManager = (ConnectivityManager) context

@@ -78,20 +78,22 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 			}
 			// 6 -- 连接异常断开
 			case JVNetConst.ABNORMAL_DISCONNECT: {
-				showTextToast(R.string.closed);
+				showTextToast(R.string.abnormal_closed);
 				mainApp.setAlarmConnectedFlag(false);// by lkp
+				setResult(Consts.WHAT_VIDEO_DISCONNECT);
 				this.finish();
 				break;
 			}
 			// 7 -- 服务停止连接，连接断开
 			case JVNetConst.SERVICE_STOP: {
-				showTextToast(R.string.closed);
+				showTextToast(R.string.abnormal_closed);
 				mainApp.setAlarmConnectedFlag(false);// by lkp
+				setResult(Consts.WHAT_VIDEO_DISCONNECT);
 				this.finish();
 				break;
 			}
 			case Consts.BAD_NOT_CONNECT: {
-				showTextToast(R.string.closed);
+				// showTextToast(R.string.closed);
 				mainApp.setAlarmConnectedFlag(false);// by lkp
 				this.finish();
 				break;
@@ -623,6 +625,12 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 		stopAllFunc();
 		Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYSTOP, new byte[0],
 				0);
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		JVRemotePlayBackActivity.this.finish();
 	}
 

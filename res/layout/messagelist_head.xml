@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginLeft="15dp"
-            android:text="@string/pull_to_refresh_pull_label" />
+            android:text="@string/pull_to_refresh_pull" />
 
         <TextView
             android:id="@+id/refreshable_list_time"

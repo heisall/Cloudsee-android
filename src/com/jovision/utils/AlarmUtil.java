@@ -40,11 +40,22 @@ public class AlarmUtil {
 		MyLog.v("getAlarmPic", jObj.toString());
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 2];
-		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-				jObj.toString(), resultStr);
+		// byte[] resultStr = new byte[1024 * 2];
+		// int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		// jObj.toString(), resultStr);
+		String requesRes = JVACCOUNT
+				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
+						.toString());
+
+		JSONObject respObject = null;
+		try {
+			respObject = new JSONObject(requesRes);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		int ret = respObject.optInt("result", -1);
 		if (ret == 0) {
-			String result = new String(resultStr);
+			String result = respObject.optString("resp", "");
 
 			if (null != result && !"".equalsIgnoreCase(result)) {
 				try {
@@ -80,11 +91,22 @@ public class AlarmUtil {
 		MyLog.v("getAlarmVideo", jObj.toString());
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 2];
-		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-				jObj.toString(), resultStr);
+		// byte[] resultStr = new byte[1024 * 2];
+		// int ret =
+		String requesRes = JVACCOUNT
+				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
+						.toString());
+
+		JSONObject respObject = null;
+		try {
+			respObject = new JSONObject(requesRes);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		int ret = respObject.optInt("result", -1);
+
 		if (ret == 0) {
-			String result = new String(resultStr);
+			String result = respObject.optString("resp", "");
 
 			if (null != result && !"".equalsIgnoreCase(result)) {
 				try {
@@ -222,8 +244,9 @@ public class AlarmUtil {
 			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_LPT, 11);
 			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_MT, 6000);
 			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_PV, "1.0");
-			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_AISTART, 0);
-			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_AISTOP, 9);
+			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_AISTART, beginIndex);
+			jObj.put(JVAlarmConst.JK_ALARM_NEW_ALARM_AISTOP, beginIndex + count
+					- 1);
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
@@ -231,12 +254,25 @@ public class AlarmUtil {
 		MyLog.v("getUserAlarmList", jObj.toString());
 
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 10];
-		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-				jObj.toString(), resultStr);
-		if (ret == 0) {
+		// byte[] resultStr = new byte[1024 * 10];
+		// int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		// jObj.toString(), resultStr);
+		// if (ret == 0) {
+		//
+		// String result = new String(resultStr);
+		String requesRes = JVACCOUNT
+				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
+						.toString());
 
-			String result = new String(resultStr);
+		JSONObject respObject = null;
+		try {
+			respObject = new JSONObject(requesRes);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		int ret = respObject.optInt("result", -1);
+		if (ret == 0) {
+			String result = respObject.optString("resp", "");
 
 			MyLog.v("getUserAlarmList---result---res", result + "");
 
@@ -443,12 +479,25 @@ public class AlarmUtil {
 
 		MyLog.v("deleteAlarmInfo", jObj.toString());
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 2];
+		// byte[] resultStr = new byte[1024 * 2];
+		//
+		// int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		// jObj.toString(), resultStr);
+		// if (ret == 0) {// 操作成功
+		// String result = new String(resultStr);
+		String requesRes = JVACCOUNT
+				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
+						.toString());
 
-		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-				jObj.toString(), resultStr);
-		if (ret == 0) {// 操作成功
-			String result = new String(resultStr);
+		JSONObject respObject = null;
+		try {
+			respObject = new JSONObject(requesRes);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		int ret = respObject.optInt("result", -1);
+		if (ret == 0) {
+			String result = respObject.optString("resp", "");
 
 			if (null != result && !"".equalsIgnoreCase(result)) {
 				try {
@@ -491,12 +540,25 @@ public class AlarmUtil {
 
 		MyLog.v("Alarm", "clearAlarmInfo:" + jObj.toString());
 		// 接收返回数据
-		byte[] resultStr = new byte[1024 * 2];
+		// byte[] resultStr = new byte[1024 * 2];
+		//
+		// int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
+		// jObj.toString(), resultStr);
+		// if (ret == 0) {// 操作成功
+		// String result = new String(resultStr);
+		String requesRes = JVACCOUNT
+				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
+						.toString());
 
-		int ret = JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-				jObj.toString(), resultStr);
-		if (ret == 0) {// 操作成功
-			String result = new String(resultStr);
+		JSONObject respObject = null;
+		try {
+			respObject = new JSONObject(requesRes);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		int ret = respObject.optInt("result", -1);
+		if (ret == 0) {
+			String result = respObject.optString("resp", "");
 
 			if (null != result && !"".equalsIgnoreCase(result)) {
 				try {
@@ -638,6 +700,27 @@ public class AlarmUtil {
 		sbResBuffer.append("-").append(strMonth).append("-").append(strDay)
 				.append(" ").append(strHour).append(":").append(strMin)
 				.append(":").append(strSecond);
+
+		re_StrTime = sbResBuffer.toString();
+		return re_StrTime;
+
+	}
+
+	// 将字符串格式为yyyyMMddhhmmss转换为yyyy-MM-dd HH:mm:ss
+	public static String formatStrTime2(String dstTimeStr) {
+		String re_StrTime = null;
+		if (dstTimeStr.length() != 14) {
+			return "";
+		}
+		String strYear = dstTimeStr.substring(0, 3 + 1);
+		String strMonth = dstTimeStr.substring(4, 5 + 1);
+		String strDay = dstTimeStr.substring(6, 7 + 1);
+		String strHour = dstTimeStr.substring(8, 9 + 1);
+		String strMin = dstTimeStr.substring(10, 11 + 1);
+		String strSecond = dstTimeStr.substring(12, 13 + 1);
+
+		StringBuffer sbResBuffer = new StringBuffer(strHour);
+		sbResBuffer.append(":").append(strMin).append(":").append(strSecond);
 
 		re_StrTime = sbResBuffer.toString();
 		return re_StrTime;

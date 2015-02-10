@@ -83,6 +83,7 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu.setText(R.string.str_help1_1);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		ipAddressEdt = (EditText) findViewById(R.id.addipconnnect_address);
@@ -91,12 +92,9 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 		passwordEdt = (EditText) findViewById(R.id.addipconnect_pwd);
 		saveButton = (Button) findViewById(R.id.addeditsave);
 
-		portEdt.setText(JVAddIpDeviceActivity.this.getResources().getString(
-				R.string.str_default_port));
-		userNameEdt.setText(JVAddIpDeviceActivity.this.getResources()
-				.getString(R.string.str_default_user));
-		passwordEdt.setText(JVAddIpDeviceActivity.this.getResources()
-				.getString(R.string.str_default_pass));
+		portEdt.setText(Consts.DEFAULT_PORT);
+		userNameEdt.setText(Consts.DEFAULT_USERNAME);
+		passwordEdt.setText(Consts.DEFAULT_PASSWORD);
 		saveButton.setOnClickListener(myOnClickListener);
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn.setOnClickListener(myOnClickListener);

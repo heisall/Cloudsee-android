@@ -12,10 +12,12 @@ public class Url {
 	// http://int.dpool.sina.com.cn/iplookup/iplookup.php
 
 	// 找回密码
-	public static String RESET_PWD_URL_ZH = "http://webapp.afdvr.com:9006/findpwd?lang=0";// 重置密码地址
+	public static String RESET_PWD_URL_CHINA_ZH = "http://webapp.afdvr.com:9006/findpwd?lang=0";// 重置密码地址
+	public static String RESET_PWD_URL_FOREIGN_ZH = "http://webappen.afdvr.com:9006/findpwd?lang=0";// 重置密码地址
 	public static String RESET_PWD_URL_CHINA_EN = "http://webapp.afdvr.com:9006/findpwd?lang=1";// 重置密码地址国内服务器不带en
 	public static String RESET_PWD_URL_FOREIGN_EN = "http://webappen.afdvr.com:9006/findpwd?lang=1";// 重置密码地址国外服务器带en
-	public static String RESET_PWD_URL_ZHT = "http://webappen.afdvr.com:9006/findpwd?lang=2";// 重置密码地址
+	public static String RESET_PWD_URL_FOREIGN_ZHT = "http://webappen.afdvr.com:9006/findpwd?lang=2";// 重置密码地址
+	public static String RESET_PWD_URL_CHINA_ZHT = "http://webapp.afdvr.com:9006/findpwd?lang=2";// 重置密码地址
 	// public static String RESET_PWD_URL =
 	// "http://webapp.afdvr.com:9003/findpwd/index.html";// 重置密码地址
 	// public static String RESET_PWD_URL_EN =
@@ -34,11 +36,14 @@ public class Url {
 	// public static String SHORTSERVERIP = "98.126.77.202";
 	// public static String LONGSERVERIP = "98.126.77.202";
 
+	public static String SHORTSERVERIPTEST = "58.56.19.187";
+	public static String LONGSERVERIPTEST = "58.56.19.187";
+
 	// public static String SHORTSERVERIP = "58.56.19.187";
 	// public static String LONGSERVERIP = "58.56.19.187";
+
 	public static String SHORTSERVERIP = ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "appchannel.afdvr.com"
 			: "appchannelen.afdvr.com"; // "appchannel.jovecloud.com";
 	public static String LONGSERVERIP = ConfigUtil.getServerLanguage() == Consts.LANGUAGE_ZH ? "apponline.afdvr.com"
 			: "apponlineen.afdvr.com"; // "apponline.jovecloud.com";
-
 }

@@ -27,6 +27,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Looper;
+import android.support.v4.view.ViewPager.LayoutParams;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Display;
@@ -56,13 +57,9 @@ import com.jovision.adapters.MobileWifiAdapter;
 import com.jovision.bean.Device;
 import com.jovision.bean.WifiAdmin;
 import com.jovision.commons.CommonInterface;
-import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVNetConst;
-import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
-import com.jovision.commons.Url;
-import com.jovision.utils.AccountUtil;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
@@ -91,6 +88,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	private boolean manuDiscon = false;// 手动调用断开
 
 	LayoutInflater layoutFlater = null;
+	protected RelativeLayout.LayoutParams reParamstop2;
 
 	/** IPCwifi列表 */
 	private LinearLayout ipcLayout;
@@ -120,10 +118,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	// private String oldWifiSSID;
 	private WifiAdmin wifiAdmin;
 	private int connectFailedCounts = 0;// 连接设备失败次数
-	private Boolean hasLogout = false;// 是否已经注销账号
+	// private Boolean hasLogout = false;// 是否已经注销账号
 
 	/** 声波配置 */
 	private SearchDevicesView searchView = null;
+	public MediaPlayer myPlayer = new MediaPlayer();
 	private PopupWindow quickSetPop = null;// 快速设置弹出框
 	private LinearLayout quickSetParentLayout = null;// 父窗体布局
 	private ImageView quickSetDeviceImg = null;// 搜索动画上的小摄像头图标
@@ -134,9 +133,14 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	private boolean stopTask = false;// 是否停止线程
 	private boolean disConnected = false;// 视频是否断开
 
+	// 播放操作步骤音频
+	protected AssetManager assetMgr = null;
+	protected MediaPlayer mediaPlayer = new MediaPlayer();
+
 	@Override
 	protected void initSettings() {
-
+		// 播放声音
+		playSound(Consts.TAG_SOUNDONE);
 		MySharedPreference.putBoolean(Consts.AP_SETTING, true);
 		local = Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN));
 		// 首次提示设置步骤
@@ -166,6 +170,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		leftBtn.setVisibility(View.VISIBLE);
 		rightBtn.setTextColor(Color.WHITE);
 		rightBtn.setBackgroundDrawable(getResources().getDrawable(
@@ -173,6 +178,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		rightBtn.setText(getResources().getString(
 				R.string.str_quick_setting_connect));
 		rightBtn.setVisibility(View.VISIBLE);
+		reParamstop2 = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		reParamstop2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		reParamstop2.addRule(RelativeLayout.CENTER_VERTICAL);
+		reParamstop2.setMargins(0, 0, 30, 0);
+		rightBtn.setLayoutParams(reParamstop2);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.str_quick_setting);
 		leftBtn.setOnClickListener(onClickListener);
@@ -491,13 +502,13 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		protected Integer doInBackground(String... params) {
 			int connRes = -1;// 0：成功 1：失败
 
-			// 非本地登录,切未注销账号，调用注销
-			if (!local && !hasLogout) {
-				if (0 != AccountUtil.userLogout()) {
-					AccountUtil.userLogout();
-				}
-				hasLogout = true;
-			}
+			// // 非本地登录,切未注销账号，调用注销
+			// if (!local && !hasLogout) {
+			// if (0 != AccountUtil.userLogout()) {
+			// AccountUtil.userLogout();
+			// }
+			// hasLogout = true;
+			// }
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -728,7 +739,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			case R.id.btn_right:// 保存按钮
 				haveSet = true;
 				// 播放提示声音
-				playSound(Consts.TAG_SOUNDFIVE);
+				// playSound(Consts.TAG_SOUNDFIVE);
 				isSearching = true;
 				desWifiSSID = desWifiName.getText().toString();
 
@@ -761,8 +772,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 	 */
 	public void backMethod() {
 
-		if (null != searchView) {
-			searchView.stopPlayer();
+		if (null != myPlayer) {
+			myPlayer.stop();
 		}
 
 		try {
@@ -780,7 +791,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					currentMenu.setText(R.string.str_quick_setting);
 				} else if (ipcLayout.getVisibility() == View.VISIBLE) {// 显示IPC网络信息列表（一级级wifi列表）
 					stopTask = true;
-					createDialog(R.string.quick_setting_exiting, true);
+					createDialog(R.string.quick_setting_exiting, false);
 					isBack = true;
 					ResetWifiTask task = new ResetWifiTask();
 					String[] params = new String[3];
@@ -863,8 +874,12 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		}
 		try {
 			stopTask = true;
-			// searchView.stopPlayer();
-			searchView.myPlayer.release();
+			searchView.stopPlayer();
+			if (null != myPlayer) {
+				myPlayer.stop();
+				myPlayer.release();
+				myPlayer = null;
+			}
 			stopRefreshWifiTimer();
 			MySharedPreference.putBoolean(Consts.AP_SETTING, false);
 		} catch (Exception e) {
@@ -1114,14 +1129,15 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		case Consts.WHAT_QUICK_SETTING_WIFI_CHANGED_FAIL:// 切换到原来的wifi失败,回到登陆界面
 			showTextToast(R.string.str_wifi_reset_fail);
 			dismissDialog();
-			MyActivityManager.getActivityManager().popAllActivityExceptOne(
-					JVLoginActivity.class);
-			Intent intent = new Intent();
-			String userName = JVQuickSettingActivity.this.statusHashMap
-					.get(Consts.KEY_USERNAME);
-			intent.putExtra("UserName", userName);
-			intent.setClass(JVQuickSettingActivity.this, JVLoginActivity.class);
-			JVQuickSettingActivity.this.startActivity(intent);
+			// MyActivityManager.getActivityManager().popAllActivityExceptOne(
+			// JVLoginActivity.class);
+			// Intent intent = new Intent();
+			// String userName = JVQuickSettingActivity.this.statusHashMap
+			// .get(Consts.KEY_USERNAME);
+			// intent.putExtra("UserName", userName);
+			// intent.setClass(JVQuickSettingActivity.this,
+			// JVLoginActivity.class);
+			// JVQuickSettingActivity.this.startActivity(intent);
 
 			JVQuickSettingActivity.this.finish();
 			break;
@@ -1437,56 +1453,66 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			MyLog.v("网络恢复完成", changeRes + "");
 
 			// int reLoginRes = -1;
-			int loginRes1 = -1;
-			int loginRes2 = -1;
-			int time = 0;
+			// int loginRes1 = -1;
+			// int loginRes2 = -1;
+			// int time = 0;
 
 			// 网络恢复成功
 			if (changeRes) {
 				if (addFlag) {
 					// 在线
-					if (!local) {
-						// 重新登陆
-						while (JVAccountConst.LOGIN_SUCCESS != loginRes1
-								&& time <= 5) {
-							time++;
-							try {
-								Thread.sleep(3 * 1000);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							// reLoginRes = AccountUtil.userLogin(
-							// statusHashMap.get(Consts.KEY_USERNAME),
-							// statusHashMap.get(Consts.KEY_PASSWORD),
-							// JVQuickSettingActivity.this);
-							String strRes = AccountUtil.onLoginProcessV2(
-									JVQuickSettingActivity.this,
-									statusHashMap.get(Consts.KEY_USERNAME),
-									statusHashMap.get(Consts.KEY_PASSWORD),
-									Url.SHORTSERVERIP, Url.LONGSERVERIP);
-							JSONObject respObj = null;
-
-							try {
-								respObj = new JSONObject(strRes);
-								loginRes1 = respObj.optInt("arg1", 1);
-								loginRes2 = respObj.optInt("arg2", 0);
-								if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
-									hasLogout = false;
-								}
-							} catch (JSONException e) {
-								loginRes1 = JVAccountConst.LOGIN_FAILED_2;
-								loginRes2 = 0;
-								e.printStackTrace();
-							}
-							// if (JVAccountConst.SUCCESS == reLoginRes) {
-							// hasLogout = false;
-							// }
-							MyLog.v("网络恢复完成---重新登录---"
-									+ statusHashMap.get(Consts.KEY_USERNAME),
-									loginRes1 + "");
-						}
-
-					}
+					// if (!local) {
+					// // 重新登陆
+					// while (JVAccountConst.LOGIN_SUCCESS != loginRes1
+					// && time <= 5) {
+					// time++;
+					// try {
+					// Thread.sleep(3 * 1000);
+					// } catch (InterruptedException e) {
+					// e.printStackTrace();
+					// }
+					// // reLoginRes = AccountUtil.userLogin(
+					// // statusHashMap.get(Consts.KEY_USERNAME),
+					// // statusHashMap.get(Consts.KEY_PASSWORD),
+					// // JVQuickSettingActivity.this);
+					// String strRes = "";
+					// if (!MySharedPreference.getBoolean("TESTSWITCH")) {
+					// strRes = AccountUtil.onLoginProcessV2(
+					// JVQuickSettingActivity.this,
+					// statusHashMap.get(Consts.KEY_USERNAME),
+					// statusHashMap.get(Consts.KEY_PASSWORD),
+					// Url.SHORTSERVERIP, Url.LONGSERVERIP);
+					// } else {
+					// strRes = AccountUtil.onLoginProcessV2(
+					// JVQuickSettingActivity.this,
+					// statusHashMap.get(Consts.KEY_USERNAME),
+					// statusHashMap.get(Consts.KEY_PASSWORD),
+					// Url.SHORTSERVERIPTEST,
+					// Url.LONGSERVERIPTEST);
+					// }
+					// JSONObject respObj = null;
+					//
+					// try {
+					// respObj = new JSONObject(strRes);
+					// loginRes1 = respObj.optInt("arg1", 1);
+					// loginRes2 = respObj.optInt("arg2", 0);
+					// if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
+					// hasLogout = false;
+					// }
+					// } catch (JSONException e) {
+					// loginRes1 = JVAccountConst.LOGIN_FAILED_2;
+					// loginRes2 = 0;
+					// e.printStackTrace();
+					// }
+					// // if (JVAccountConst.SUCCESS == reLoginRes) {
+					// // hasLogout = false;
+					// // }
+					// MyLog.v("网络恢复完成---重新登录---"
+					// + statusHashMap.get(Consts.KEY_USERNAME),
+					// loginRes1 + "");
+					// }
+					//
+					// }
 
 					if (!ConfigUtil.is3G(JVQuickSettingActivity.this, false)) {
 						hasBroadIP = false;
@@ -1503,9 +1529,31 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 							Log.v("未广播到IP---" + hasBroadIP, "休眠1秒");
 						}
 					}
-
+					int counts = 0;
+					boolean heartState = false;
+					while (!heartState) {
+						if (counts > 20) {
+							break;
+						}
+						int errorCode = 0;
+						if (null != statusHashMap.get(Consts.ACCOUNT_ERROR)) {
+							errorCode = Integer.parseInt(statusHashMap
+									.get(Consts.ACCOUNT_ERROR));
+						}
+						if (errorCode == Consts.WHAT_ACCOUNT_NORMAL) {// 心跳成功
+							heartState = true;
+						} else {
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						counts++;
+					}
 					// 重新登陆成功 ,或者本地登陆
-					if (JVAccountConst.LOGIN_SUCCESS == loginRes1 || local) {
+					if (heartState || local) {
 						boolean addRes = addDevice(local);
 						if (!addRes) {
 							// handler.sendMessage(handler.obtainMessage(
@@ -1570,21 +1618,22 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			if (isBack) {
-				if (1004 == result) {
-					showTextToast(R.string.wifi_reset_failed);
-					dismissDialog();
-					MyActivityManager.getActivityManager()
-							.popAllActivityExceptOne(JVLoginActivity.class);
-					Intent intent = new Intent();
-					String userName = statusHashMap.get(Consts.KEY_USERNAME);
-					intent.putExtra("UserName", userName);
-					intent.setClass(JVQuickSettingActivity.this,
-							JVLoginActivity.class);
-					startActivity(intent);
-					JVQuickSettingActivity.this.finish();
-				} else {
-					JVQuickSettingActivity.this.finish();
-				}
+				JVQuickSettingActivity.this.finish();
+				// if (1004 == result) {
+				// showTextToast(R.string.wifi_reset_failed);
+				// dismissDialog();
+				// MyActivityManager.getActivityManager()
+				// .popAllActivityExceptOne(JVLoginActivity.class);
+				// Intent intent = new Intent();
+				// String userName = statusHashMap.get(Consts.KEY_USERNAME);
+				// intent.putExtra("UserName", userName);
+				// intent.setClass(JVQuickSettingActivity.this,
+				// JVLoginActivity.class);
+				// startActivity(intent);
+				// JVQuickSettingActivity.this.finish();
+				// } else {
+				// JVQuickSettingActivity.this.finish();
+				// }
 
 			} else {
 				if (0 == result) {
@@ -1642,8 +1691,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		int temPort = ipcDevice.getPort();
 		ipcDevice.setDeviceType(2);
 		boolean addSucc = false;
-		ipcDevice.setUser(getResources().getString(R.string.str_default_user));
-		ipcDevice.setPwd(getResources().getString(R.string.str_default_pass));
+		ipcDevice.setUser(Consts.DEFAULT_USERNAME);
+		ipcDevice.setPwd(Consts.DEFAULT_PASSWORD);
 		if (local) {
 			addSucc = true;
 		} else {
@@ -1712,7 +1761,9 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			// 打开指定音乐文件
 			String file = "";
 			if (Consts.LANGUAGE_ZH == ConfigUtil
-					.getLanguage2(JVQuickSettingActivity.this)) {
+					.getLanguage2(JVQuickSettingActivity.this)
+					|| Consts.LANGUAGE_ZHTW == ConfigUtil
+							.getLanguage2(JVQuickSettingActivity.this)) {
 				switch (soundType) {
 				case Consts.TAG_SOUNDONE:// 选择设备，并进入预览
 					file = "1.mp3";
@@ -1741,37 +1792,39 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				default:
 					break;
 				}
-			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
-					.getLanguage2(JVQuickSettingActivity.this)) {
-				switch (soundType) {
-				case Consts.TAG_SOUNDONE:// 选择设备，并进入预览
-					file = "1_zhtw.mp3";
-					break;
-				case Consts.TAG_SOUNDTOW:// 正在连接设备
-					file = "2_zhtw.mp3";
-					break;
-				case Consts.TAG_SOUNDTHREE:// 请点击下一步，配置无线网络
-					file = "3_zhtw.mp3";
-					break;
-				case Consts.TAG_SOUNDFOUR:// 请选择无线路由，输入密码，并点击右上角声波配置按钮
-					file = "4_zhtw.mp3";
-					break;
-				case Consts.TAG_SOUNDFIVE:// 请将手机靠近设备
-					file = "5_zhtw.mp3";
-					break;
-				case Consts.TAG_SOUNDSIX:// 叮
-					file = "6.mp3";
-					break;
-				case Consts.TAG_SOUNDSEVINE:// 配置完成，请点击图标查看设备
-					file = "7_zhtw.mp3";
-					break;
-				case Consts.TAG_SOUNDEIGHT:// 搜索声音
-					file = "quicksetsound.mp3";
-					break;
-				default:
-					break;
-				}
-			} else {
+			}
+			// else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+			// .getLanguage2(JVQuickSettingActivity.this)) {
+			// switch (soundType) {
+			// case Consts.TAG_SOUNDONE:// 选择设备，并进入预览
+			// file = "1_zhtw.mp3";
+			// break;
+			// case Consts.TAG_SOUNDTOW:// 正在连接设备
+			// file = "2_zhtw.mp3";
+			// break;
+			// case Consts.TAG_SOUNDTHREE:// 请点击下一步，配置无线网络
+			// file = "3_zhtw.mp3";
+			// break;
+			// case Consts.TAG_SOUNDFOUR:// 请选择无线路由，输入密码，并点击右上角声波配置按钮
+			// file = "4_zhtw.mp3";
+			// break;
+			// case Consts.TAG_SOUNDFIVE:// 请将手机靠近设备
+			// file = "5_zhtw.mp3";
+			// break;
+			// case Consts.TAG_SOUNDSIX:// 叮
+			// file = "6.mp3";
+			// break;
+			// case Consts.TAG_SOUNDSEVINE:// 配置完成，请点击图标查看设备
+			// file = "7_zhtw.mp3";
+			// break;
+			// case Consts.TAG_SOUNDEIGHT:// 搜索声音
+			// file = "quicksetsound.mp3";
+			// break;
+			// default:
+			// break;
+			// }
+			// }
+			else {
 				switch (soundType) {
 				case Consts.TAG_SOUNDONE:// 选择设备，并进入预览
 					file = "1_en.mp3";
@@ -1814,22 +1867,18 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			// 资源管理器
 			AssetFileDescriptor afd = assetMgr.openFd(file);
 
-			if (null != searchView) {
-				if (null == searchView.myPlayer) {
-					searchView.myPlayer = new MediaPlayer();
-				}
-				searchView.myPlayer.reset();
-
-				// 使用searchView.myPlayer加载指定的声音文件。
-				searchView.myPlayer.setDataSource(afd.getFileDescriptor(),
-						afd.getStartOffset(), afd.getLength());
-				// 准备声音
-				searchView.myPlayer.prepare();
-				// 播放
-				searchView.myPlayer.start();
-			} else {
-				MyLog.v("searchView", "searchView is null");
+			if (null == myPlayer) {
+				myPlayer = new MediaPlayer();
 			}
+			myPlayer.reset();
+
+			// 使用myPlayer.myPlayer加载指定的声音文件。
+			myPlayer.setDataSource(afd.getFileDescriptor(),
+					afd.getStartOffset(), afd.getLength());
+			// 准备声音
+			myPlayer.prepare();
+			// 播放
+			myPlayer.start();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1853,7 +1902,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 		if (null != quickSetPop && quickSetPop.isShowing()) {
 			quickSetPop.dismiss();
 			quickSetPop = null;
-			searchView = null;
+			if (null != myPlayer) {
+				myPlayer.stop();
+				myPlayer.release();
+				myPlayer = null;
+			}
 		}
 	}
 
@@ -1867,12 +1920,15 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			case R.id.quickSetBack:// 返回
 				// 暂停扫瞄器
 				showSearch(false);
-				if (null != searchView && null != searchView.myPlayer) {
-					searchView.myPlayer.stop();
+				searchView.stopPlayer();
+				if (null != myPlayer) {
+					myPlayer.stop();
+					myPlayer.release();
+					myPlayer = null;
 				}
 				dismisQuickPopWindow();
 				isBack = true;
-				createDialog(R.string.quick_setting_exiting, true);
+				createDialog(R.string.quick_setting_exiting, false);
 				ResetWifiTask task = new ResetWifiTask();
 				String[] params = new String[3];
 				params[0] = "false";
@@ -1911,9 +1967,6 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			searchView = (SearchDevicesView) view.findViewById(R.id.searchView);
 			searchView.setWillNotDraw(false);
 
-			// 播放声音
-			playSound(Consts.TAG_SOUNDONE);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1943,12 +1996,15 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != searchView && null != searchView.myPlayer) {
-							searchView.myPlayer.stop();
+						searchView.stopPlayer();
+						if (null != myPlayer) {
+							myPlayer.stop();
+							myPlayer.release();
+							myPlayer = null;
 						}
 						dismisQuickPopWindow();
 						isBack = true;
-						createDialog(R.string.quick_setting_exiting, true);
+						createDialog(R.string.quick_setting_exiting, false);
 						ResetWifiTask task = new ResetWifiTask();
 						String[] params = new String[3];
 						params[0] = "false";
@@ -2039,35 +2095,34 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 
-							if (1004 == errorCode || 1005 == errorCode) {
-								MyActivityManager.getActivityManager()
-										.popAllActivityExceptOne(
-												JVLoginActivity.class);
-								Intent intent = new Intent();
-								String userName = JVQuickSettingActivity.this.statusHashMap
-										.get(Consts.KEY_USERNAME);
-								intent.putExtra("UserName", userName);
-								intent.setClass(JVQuickSettingActivity.this,
-										JVLoginActivity.class);
-								JVQuickSettingActivity.this
-										.startActivity(intent);
-								JVQuickSettingActivity.this.finish();
-							} else {
-								// 暂停扫瞄器
-								showSearch(false);
-								if (null != searchView
-										&& null != searchView.myPlayer) {
-									searchView.myPlayer.stop();
-								}
-								dismisQuickPopWindow();
-								isBack = true;
-								createDialog(R.string.quick_setting_exiting,
-										true);
-								ResetWifiTask task = new ResetWifiTask();
-								String[] params = new String[3];
-								params[0] = "false";
-								task.execute(params);
+							// if (1004 == errorCode || 1005 == errorCode) {
+							// MyActivityManager.getActivityManager()
+							// .popAllActivityExceptOne(
+							// JVLoginActivity.class);
+							// Intent intent = new Intent();
+							// String userName =
+							// JVQuickSettingActivity.this.statusHashMap
+							// .get(Consts.KEY_USERNAME);
+							// intent.putExtra("UserName", userName);
+							// intent.setClass(JVQuickSettingActivity.this,
+							// JVLoginActivity.class);
+							// JVQuickSettingActivity.this
+							// .startActivity(intent);
+							// JVQuickSettingActivity.this.finish();
+							// } else {
+							// 暂停扫瞄器
+							showSearch(false);
+							if (null != myPlayer) {
+								myPlayer.stop();
 							}
+							dismisQuickPopWindow();
+							isBack = true;
+							createDialog(R.string.quick_setting_exiting, false);
+							ResetWifiTask task = new ResetWifiTask();
+							String[] params = new String[3];
+							params[0] = "false";
+							task.execute(params);
+							// }
 
 						}
 
@@ -2105,7 +2160,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				// - getStatusHeight(JVQuickSettingActivity.this),
 				// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				isSearching = false;
-				searchView.stopPlayer();
+				if (null != myPlayer) {
+					myPlayer.stop();
+					myPlayer.release();
+					myPlayer = null;
+				}
 				quickSetBackImg.setVisibility(View.GONE);
 			}
 		}
@@ -2141,8 +2200,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 								.setText(R.string.str_quick_setting_devupdate_order);
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != searchView && null != searchView.myPlayer) {
-							searchView.myPlayer.stop();
+						if (null != searchView && null != myPlayer) {
+							myPlayer.stop();
 						}
 
 						dismisQuickPopWindow();
@@ -2156,8 +2215,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						// 暂停扫瞄器
 						showSearch(false);
-						if (null != searchView && null != searchView.myPlayer) {
-							searchView.myPlayer.stop();
+						if (null != searchView && null != myPlayer) {
+							myPlayer.stop();
 						}
 
 						dismisQuickPopWindow();

@@ -188,9 +188,8 @@ public class JVUpdate {
 		@Override
 		public void run() {
 			try {
-				URL url = new URL(Url.APK_DOWNLOAD_URL
-						+ mContext.getResources().getString(
-								R.string.str_save_apk_name));
+				URL url = new URL(Url.APK_DOWNLOAD_URL + Consts.APP_NAME
+						+ ".apk");
 
 				HttpURLConnection conn = (HttpURLConnection) url
 						.openConnection();
@@ -199,9 +198,7 @@ public class JVUpdate {
 				InputStream is = conn.getInputStream();
 				File file = new File(Consts.SOFTWARE_PATH);
 				MobileUtil.createDirectory(file);
-				saveFileName = Consts.SOFTWARE_PATH
-						+ mContext.getResources().getString(
-								R.string.str_save_apk_name);
+				saveFileName = Consts.SOFTWARE_PATH + Consts.APP_NAME + ".apk";
 				// File file = new File(savePath);
 				// if (!file.exists()) {
 				// file.mkdir();
@@ -267,8 +264,7 @@ public class JVUpdate {
 	private void installApk() {
 		File file = new File(Consts.SOFTWARE_PATH);
 		MobileUtil.createDirectory(file);
-		saveFileName = Consts.SOFTWARE_PATH
-				+ mContext.getResources().getString(R.string.str_save_apk_name);
+		saveFileName = Consts.SOFTWARE_PATH + Consts.APP_NAME + ".apk";
 		File apkfile = new File(saveFileName);
 		if (!apkfile.exists()) {
 			return;

@@ -57,6 +57,7 @@ public class JVSystemInfoActivity extends BaseActivity implements
 		setContentView(R.layout.systeminfo_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.system_info);
@@ -113,8 +114,8 @@ public class JVSystemInfoActivity extends BaseActivity implements
 			}
 			try {
 				int lang = ConfigUtil.getLanguage2(JVSystemInfoActivity.this) - 1;
-				getRes = DeviceUtil.getSystemInfoList(Consts.APP_NAME, lang,
-						infoList.size(), PAGECOUNT, tempList);
+				getRes = DeviceUtil.getSystemInfoList(lang, infoList.size(),
+						PAGECOUNT, tempList);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
-    <string name="str_country">中国</string>
+    <string name="loading">加載中…</string>
     <string name="logining">正在登錄…</string>
     <string name="login_str_username_notnull">請輸入用戶名</string>
     <string name="login_str_loginpass1_notnull">請輸入密碼</string>
@@ -14,8 +14,8 @@
     <string name="login_str_username_tips">用戶名格式不正確，只能為手機號或郵箱.</string>
     <string name="login_str_username_tips2">用戶名不能全為數字，請確認輸入的是手機號.</string>
     <string name="login_str_username_tips3">用戶名由英文、數字及-_組成</string>
-    <string name="login_str_username_tips4">用戶名長度只能在4–28位字元之間</string>
-    <string name="login_str_password_tips1">密碼長度應在6~20位字元之間</string>
+    <string name="login_str_username_tips4">用戶名長度只能在4-28位字元之間</string>
+    <string name="login_str_password_tips1">密碼長度應在6-20位字元之間</string>
     <string name="login_str_login_failed">登錄失敗</string>
     <string name="login_str_regist_success">註冊成功</string>
     <string name="login_str_regist_failed">註冊失敗</string>
@@ -24,13 +24,13 @@
     <string name="login_str_device">設備列表</string>
     <string name="login_str_add_device">增加設備</string>
     <string name="login_str_device_devicename_notnull">請輸入設備昵稱</string>
-    <string name="login_str_nike_name_order">含有非法字元,昵稱由1–20個字母、數字、漢字及特殊字元–_+().組成</string>
+    <string name="login_str_nike_name_order">含有非法字元,昵稱由1-20個字母、數字、漢字及特殊字元-_+().組成</string>
     <string name="login_str_device_account_notnull">請輸入用戶名</string>
     <string name="login_str_device_pass_notnull">請輸入密碼</string>
     <string name="device_pass_notzh">密碼不能是中文</string>
     <string name="login_str_device_connnum_notnull">通道數量不能為空</string>
-    <string name="login_str_device_account_error">用戶名格式不正確，用戶名只能由1–16位的英文、數字及._–組成.</string>
-    <string name="login_str_device_pass_error">密碼格式不正確，密碼只能由0–16位字元組成.</string>
+    <string name="login_str_device_account_error">用戶名格式不正確，用戶名只能由1-16位的英文、數字及._-組成.</string>
+    <string name="login_str_device_pass_error">密碼格式不正確，密碼只能由0-16位字元組成.</string>
     <string name="login_str_device_add_success">添加設備成功</string>
     <string name="login_str_device_add_failed">添加設備失敗</string>
     <string name="login_str_point_delete_success">通道刪除成功</string>
@@ -65,7 +65,7 @@
     <string name="more_modify">修改資料</string>
     <string name="more_modifypwd">修改密碼</string>
     <string name="more_findpassword">找回密碼</string>
-    <string name="more_cancel">註銷帳號</string>
+    <string name="more_cancel">退出登錄</string>
     <!-- JVWelcomeActivity -->
     <string name="cloud1">雲視通</string>
     <string name="cloud2">通天下</string>
@@ -115,7 +115,7 @@
     <string name="record_failed">錄影無效</string>
     <string name="voice_send">按住說話</string>
     <string name="voice_stop">鬆開結束</string>
-    <string name="str_has_call">設備未開啟對講或已在其他客戶端開啟雲對講，請稍後重試.</string>
+    <string name="str_has_call">設備未開啟對講或已在其他客戶端開啟語音對講，請稍後重試.</string>
     <string name="str_call_close"> 對講功能成功關閉</string>
     <string name="play_failed"> 播放失敗</string>
     <!-- PlayHelp -->
@@ -239,9 +239,10 @@
     <string name="str_refresh_data">刷新數據</string>
     <string name="str_refreshing_data">正在刷新數據…</string>
     <string name="pull_from_time">更新於：</string>
-    <string name="pull_to_refresh_pull_label">下拉可以刷新</string>
-    <string name="pull_to_refresh_release_label">鬆開可以刷新</string>
-    <string name="pull_to_refresh_refreshing_label">加載中…</string>
+    <string name="pull_to_refresh_pull">下拉可以刷新</string>
+    <string name="pull_to_refresh_release">鬆開可以刷新</string>
+    <string name="pull_to_refresh_refreshing">加載中…</string>
+    <string name="pull_to_refresh_tap">點擊刷新</string>
     <string name="str_data_load_success">設備加載成功</string>
     <string name="str_data_load_failed1">設備加載失敗</string>
     <string name="str_update_at">更新於:</string>
@@ -365,6 +366,8 @@
     <string name="demo_get_failed">視頻廣場加載失敗</string>
     <string name="demo_loading">正在努力加載...</string>
     <!-- JVTab -->
+    <string name="account_error_tips">您已離線，請點擊登錄。</string>
+    <string name="network_error_tips">網絡連接不可用，是否進行設置?</string>
     <string name="network_error">網路連接不可用,是否進行設置?</string>
     <string name="tips_3g">目前處於2G/3G網路，觀看視頻會產生大量流量費用（由運營商收取），建議使用Wi-Fi網路.</string>
     <string name="waiting">請稍等…</string>
@@ -418,12 +421,14 @@
     <string name="alarm_level">報警級別</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加載更多</string>
-    <string name="xlistview_no_more">沒有報警資訊了</string>
-    <string name="del_alarm_succ">報警刪除成功</string>
-    <string name="del_alarm_failed">報警刪除失敗</string>
+    <string name="xlistview_no_more">沒有更多報警資訊了</string>
+    <string name="del_alarm_succ">報警資訊刪除成功</string>
+    <string name="del_alarm_failed">報警資訊刪除失敗</string>
     <string name="get_alarm_list_failed">獲取報警資訊失敗</string>
     <string name="clear_alarm_succ">清空報警資訊成功</string>
     <string name="clear_alarm_failed">清空報警資訊失敗</string>
+    <string name="load_info_success">加載資訊成功</string>
+    <string name="load_info_failed">加載資訊失敗</string>
     <!-- popupWindow -->
     <string name="pop_take">拍照</string>
     <string name="pop_pictrue">從相冊選擇</string>
@@ -453,7 +458,7 @@
     <string name="voice_tips1">親，你現在可以和對方說話了</string>
     <string name="voice_tips2">對講功能成功開啟，長按向對方喊話.</string>
     <string name="default_stream">碼流</string>
-    <string name="has_calling">設備未開啟對講或已在其他客戶端開啟雲對講，請稍後重試.</string>
+    <string name="has_calling">設備未開啟對講或已在其他客戶端開啟語音對講，請稍後重試.</string>
     <string name="str_capture_error">抓拍失敗</string>
     <!-- JVQuickSet -->
     <!-- ap配置流程模組 -->
@@ -583,31 +588,6 @@
     <string name="prepare_step5">請將手機靠近設備，點擊發送聲波按鈕，\n配置設備</string>
     <string name="prepare_step6">(攝像機暫不支持連接5G Wi-Fi)</string>
     <string name="wave_add_dev">確定添加設備</string>
-    <!-- 包含雲視通敏感辭彙 -->
-    <string name="str_help9">切換域名/IP直連和雲視通連接模式</string>
-    <string name="str_cloudsee_id">雲視通號</string>
-    <string name="str_yst_connect">雲視通連接</string>
-    <string name="app_name">雲視通</string>
-    <string name="login_str_device_ytnum_notnull">請輸入雲視通號</string>
-    <string name="increct_yst_tips">雲視通號不正確</string>
-    <string name="login_str_yst_num">雲視通號</string>
-    <string name="str_not_qr_device">不屬於雲視通設備</string>
-    <!-- 中維版本值為1，oem版為2，nvsip版本為3 ，ATVCloud版本為4， KEEPER版本為5，STARTVision版本為6 -->
-    <string name="str_update_app_version">1</string>
-    <!-- 下載的新apk名字 -->
-    <string name="str_save_apk_name">CloudSEE.apk</string>
-    <!-- 默認用戶名 -->
-    <string name="str_default_user">abc</string>
-    <!-- 默認密碼 -->
-    <string name="str_default_pass">123</string>
-    <!-- 默認端口號 -->
-    <string name="str_default_port">9101</string>
-    <!-- 錄影保存路徑 -->
-    <string name="str_video_path">video/</string>
-    <!-- 抓拍保存路徑 -->
-    <string name="str_capture_path">capture/</string>
-    <!-- 版權 -->
-    <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 報警 -->
     <string name="str_alarm_check">立即查看</string>
     <string name="str_pass_extra_err">傳遞數據異常</string>
@@ -625,6 +605,7 @@
     <string name="str_third_device_name">設備名稱</string>
     <string name="str_door_device">門磁設備</string>
     <string name="str_bracelet_device">手環設備</string>
+    <string name="str_smoke_device">煙感設備</string>
     <string name="str_click_add_device">點擊此處添加新的設備</string>
     <string name="str_alarm_third_nickname">請輸入綁定設備昵稱 ：</string>
     <string name="str_alarm_manage">添加報警設備</string>
@@ -634,7 +615,7 @@
     <string name="str_alarm_thirddev_bind_hint">設備昵稱</string>
     <string name="str_bind_finish">完  成</string>
     <string name="str_alarm_type_move">移動偵測</string>
-    <string name="str_alarm_type_third">門磁或者手環報警</string>
+    <string name="str_alarm_type_third">安全報警</string>
     <string name="str_alarm_type_external">外接報警</string>
     <string name="str_alarm_type_unknown">未知報警類型</string>
     <string name="str_telecontrol_device">遙控設備</string>
@@ -678,7 +659,7 @@
     <string name="str_mdenabled_open_failed">移動偵測打開失敗</string>
     <string name="str_mdenabled_close_ok">移動偵測關閉成功</string>
     <string name="str_mdenabled_close_failed">移動偵測關閉失敗</string>
-    <string name="str_illegal_dev_nick">輸入的昵稱不合法,限於字母、數字、漢字及特殊字元–_+()</string>
+    <string name="str_illegal_dev_nick">輸入的昵稱不合法,限於字母、數字、漢字及特殊字元-_+()</string>
     <string name="str_cloud_file_error_1">文件未上傳完畢或上傳失敗</string>
     <string name="str_cloud_file_error_2">此通道沒有雲存儲信息</string>
     <string name="str_tpush_autostart_tips_v5">為保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心\"->\"授權管理\"->\"自啟動應用管理\"界面，將本軟件手動添加到自啟動應用中</string>
@@ -711,16 +692,20 @@
     <string name="census_demo">視頻廣場</string>
     <string name="census_register">註冊</string>
     <string name="census_media">媒體</string>
+    <string name="census_accounts">本地账号库</string>
     <string name="census_network_version">本地網路庫</string>
     <string name="census_play_version">本地播放庫</string>
+    <string name="census_appaccount">程序账号库</string>
     <string name="census_appnetwork_version">程式網路庫</string>
     <string name="census_appplsy_version">程式播放庫</string>
     <string name="census_version">版本號</string>
+    <string name="str_error_vercode">无效验证码</string>
     <!-- 找回密碼 -->
     <string name="reset_passwd_input_account">請輸入需要重置密碼的帳號:</string>
     <string name="reset_passwd_input_vercode">獲取驗證碼</string>
     <string name="str_vercode">驗證碼</string>
     <string name="reset_passwd_account">賬 號</string>
+    <string name="str_error_vercodetw">無效驗證碼</string>
     <string name="reset_passwd_new_passwd">密 碼</string>
     <string name="reset_passwd_confirm_passwd">確認密碼</string>
     <string name="reset_passwd_new_passwd_hint">填寫密碼</string>
@@ -751,5 +736,14 @@
     <string name="str_not_bind_phone_tips1">您的賬號沒有綁定手機，請通過信箱找回</string>
     <string name="str_not_bind_phone_tips2">您的賬號沒有綁定手機和信箱，請聯系客服</string>
     <string name="str_not_bind_phone_tips3">該用戶不存在</string>
+    <!-- 包含雲視通敏感辭彙 -->
+    <string name="str_help9">切換域名/IP直連和雲視通連接模式</string>
+    <string name="str_cloudsee_id">雲視通號</string>
+    <string name="str_yst_connect">雲視通連接</string>
+    <string name="app_name">雲視通</string>
+    <string name="login_str_device_ytnum_notnull">請輸入雲視通號</string>
+    <string name="increct_yst_tips">雲視通號不正確</string>
+    <string name="login_str_yst_num">雲視通號</string>
+    <string name="str_not_qr_device">不屬於雲視通設備</string>
 
 </resources>

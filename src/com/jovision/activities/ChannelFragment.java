@@ -219,6 +219,8 @@ public class ChannelFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				initDialog.dismiss();
+				channelAdapter.setShowDelete(false);
+				channelAdapter.notifyDataSetChanged();
 			}
 		});
 		dialogCompleted.setOnClickListener(new View.OnClickListener() {
@@ -335,6 +337,7 @@ public class ChannelFragment extends BaseFragment {
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
+			channelAdapter.setShowDelete(false);
 			if (0 == result) {
 				((BaseActivity) mActivity)
 						.showTextToast(R.string.login_str_point_edit_success);

@@ -13,5 +13,24 @@
     <string name="umeng_common_download_failed">Download Failed! </string>
     <string name="umeng_common_download_finish">Download finished,click to install it.</string>
     <string name="umeng_common_patch_finish">Patch finished,click to install it.</string>
+    <!-- umeng share content -->
+    <string name="umeng_socialize_share_title">Share</string>
+    <string name="umeng_socialize_share_to_wx">Wechat</string>
+    <string name="umeng_socialize_share_to_friends">Moments</string>
+    <string name="umeng_socialize_share_to_sina">Weibo</string>
+    <string name="umeng_socialize_share_btn_cancel">Cancel</string>
+    <string name="umeng_socialize_share_success">Shared Successfully</string>
+    <string name="umeng_socialize_share_cancel">Cancel</string>
+    <string name="umeng_socialize_share_failed">Failed to Share</string>
+    <string name="umeng_socialize_share_video_content">This video is wonderful, come and have a look.</string>
+    <string name="umeng_socialize_share_editpage_title">Share to Weibo</string>
+    <string name="umeng_socialize_access_expired">Authorization invalid, please authorize again.</string>
+    <string name="umeng_socialize_text_waitting">Please Wait...</string>
+    <string name="umeng_socialize_text_waitting_weixin">Redirecting to Wechat App, please wait...</string>
+    <string name="umeng_socialize_text_waitting_weixin_circle">Redirecting to Moments of Wechat App, please wait...</string>
+    <string name="umeng_socialize_share_wx_not_install">You still have not installed Wechat App yet.</string>
+    <string name="umeng_socialize_share_wx_not_support">The version of Wechat is too old, please try updating the Wechat App.</string>
+    <string name="umeng_socialize_share_at_hint_search">Search</string>
+    <string name="umeng_socialize_share_at_title">Contacts</string>
 
 </resources>

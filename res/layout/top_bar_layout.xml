@@ -9,14 +9,14 @@
     <RelativeLayout
         android:id="@+id/topbarh"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="52dp"
         android:background="@color/welcome_blue"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/btn_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:background="@drawable/tab_1" />
@@ -41,8 +41,8 @@
 
         <Button
             android:id="@+id/btn_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
@@ -90,8 +90,7 @@
         android:id="@+id/alarmnet"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="3dp"
-        android:background="#FFF3BB"
+        android:background="@color/account_error_bg"
         android:visibility="gone" >
 
         <ImageView
@@ -100,9 +99,10 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/tanhao" />
+            android:background="@drawable/warning" />
 
         <TextView
+            android:id="@+id/accounterror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -110,8 +110,9 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/next"
             android:layout_toRightOf="@+id/tanhao"
-            android:singleLine="true"
-            android:text="世界上最遥远的距离就是没有网,检查设置。"
+            android:singleLine="false"
+            android:text="@string/network_error_tips"
+            android:textColor="@color/logintextcolor1"
             android:textSize="12sp" />
 
         <ImageView

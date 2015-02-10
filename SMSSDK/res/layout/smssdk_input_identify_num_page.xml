@@ -49,8 +49,8 @@
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:hint="@string/smssdk_write_identify_code"
-                android:singleLine="true"
-                android:inputType="number" />
+                android:inputType="number"
+                android:singleLine="true" />
 
             <ImageView
                 android:id="@+id/iv_clear"

@@ -24,9 +24,9 @@ public class JVACCOUNT {
 
 	public static native boolean InitSDK(Object handle, String path);
 
-	// // 注册账号服务回调函数
-	// public static native void JVRegisterCallBack(String classUrl,
-	// String onlineCallBack, String pushCallBack);
+	// 注册账号服务回调函数
+	public static native void JVRegisterCallBack(String classUrl,
+			String onlineCallBack, String pushCallBack);
 
 	public static native void UninitSDK();
 
@@ -193,8 +193,17 @@ public class JVACCOUNT {
 	 * @param response
 	 * @return
 	 */
-	public static native int GetResponseByRequestDeviceShortConnectionServer(
-			String request, byte[] response);
+	// public static native int GetResponseByRequestDeviceShortConnectionServer(
+	// String request, byte[] response);
+	/**
+	 * 设备接口短连接V2，调用
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public static native String GetResponseByRequestDeviceShortConnectionServerV2(
+			String request);
 
 	/**
 	 * 设备接口长连接，调用
@@ -203,8 +212,18 @@ public class JVACCOUNT {
 	 * @param response
 	 * @return
 	 */
-	public static native int GetResponseByRequestDevicePersistConnectionServer(
-			String request, byte[] response);
+	// public static native int
+	// GetResponseByRequestDevicePersistConnectionServer(
+	// String request, byte[] response);
+	/**
+	 * 设备接口长连接V2，调用
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public static native String GetResponseByRequestDevicePersistConnectionServerV2(
+			String request);
 
 	/**
 	 * ALARM_ON = 0, ALARM_OFF = 1,
@@ -250,4 +269,6 @@ public class JVACCOUNT {
 			String account_name);
 
 	public static native String GetVersion(int aaa);
+
+	public static native String GetDevicesOnlineStatus();
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
-    android:versionCode="42"
-    android:versionName="V4.6.0" >
+    android:versionCode="46"
+    android:versionName="V4.8.0" >
 
     <supports-screens
         android:anyDensity="true"
@@ -128,6 +128,13 @@
         </activity>
         <activity
             android:name="com.jovision.activities.JVImageViewActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.jovision.activities.JVVersionActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"
             android:screenOrientation="portrait"
@@ -521,6 +528,13 @@
             android:theme="@style/MyDialogStyleBottom"
             android:windowSoftInputMode="adjustPan" >
         </activity>
+        <activity
+            android:name="com.jovision.activities.AlarmInfoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
 
         <service
             android:name="com.jovision.CoreService"
@@ -544,6 +558,24 @@
                 <action android:name="" />
             </intent-filter>
         </activity>
+        <!-- umeng分享相关的注册 START -->
+        <!-- 分享内容编辑页 -->
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <!-- 微信回调activity -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- umeng分享相关的注册 END -->
+
 
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
@@ -598,7 +630,7 @@
               <service
             android:name="com.tencent.android.tpush.XGDownloadService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false" />
         -->
         <!-- 【可选】APP实现的Receiver，用于接收消息透传和操作结果的回调，请根据需要添加 -->
         <!-- YOUR_PACKAGE_PATH.CustomPushReceiver需要改为自己的Receiver： -->
@@ -626,11 +658,11 @@
         <!-- 【必须】  请修改为APP的ID -->
         <meta-data
             android:name="MOB_SMS_V1_APP_ID"
-            android:value="4ada4d64c4c4" />
+            android:value="4af19677c600" />
         <!-- 【必须】 请修改为APP的SECRET -->
         <meta-data
             android:name="MOB_SMS_V1_APP_SECRET"
-            android:value="0dd0668c1957b761d17b22a1fdd69e5e" />
+            android:value="61a3cbd497ebf1a3dee007592626afa6" />
     </application>
     <!-- 【必须】 信鸽SDK所需权限 -->
     <uses-permission android:name="android.permission.INTERNET" />

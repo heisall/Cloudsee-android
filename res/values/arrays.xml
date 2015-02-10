@@ -4,7 +4,7 @@
     <!-- 页卡数组 -->
     <string-array name="array_tab">
         <item>My Device</item>
-        <item>Alarm Message</item>
+        <item>Demo</item>
         <item>Setting</item>
         <item>More</item>
     </string-array>
@@ -12,13 +12,18 @@
     <!-- more feature func -->
     <string-array name="array_more">
         <item>Help</item>
+        <item>Auto-Login</item>
         <item>Alarm</item>
         <item>Viewing Mode(Single-device)</item>
         <item>Helper</item>
         <item>BroadCast</item>
+        <item>Test Switch</item>
         <item>Version</item>
-        <item>Demo</item>
+        <item>Alarm Message</item>
         <item>System Information</item>
+        <item>I want this</item>
+        <item>Share</item>
+        <item>CloudSEE Index</item>
         <item>Image View</item>
         <item>Feedback</item>
         <item>Software Update</item>
@@ -26,13 +31,18 @@
     </string-array>
     <string-array name="array_moreduo">
         <item>Help</item>
+        <item>Auto-Login</item>
         <item>Alarm</item>
         <item>Viewing Mode(Multi-device)</item>
         <item>Helper</item>
         <item>BroadCast</item>
+        <item>Test Switch</item>
         <item>Version</item>
-        <item>Demo</item>
+        <item>Alarm Message</item>
         <item>System Information</item>
+        <item>I want this</item>
+        <item>Share</item>
+        <item>CloudSEE Index</item>
         <item>Image View</item>
         <item>Feedback</item>
         <item>Software Update</item>
@@ -123,7 +133,7 @@
         <item>Power Off Alarm, Device:%%.</item>
         <item>Manual Alarm, Device:%%.</item>
         <item>GPS Alarm, Device:%%.</item>
-        <item>Alarm Occurs, Device:%%.</item>
+        <item>Security Alarm, Device:%%.</item>
         <item>ALARM_NONE, Device:%%.</item>
         <item>ALARM_NOTIFY, Device:%%.</item>
         <item>ALARM_TEMP_HIGH, Device:%%.</item>
@@ -153,6 +163,17 @@
         <item>Version info</item>
     </string-array>
 
+    <!-- 第三方外设报警管理 -->
+    <string-array name="peripherals_manage">
+        <item>Door Magnetic</item>
+        <item>Hand Ring</item>
+        <item>Remote Control</item>
+        <item>Smoke Detector</item>
+        <item>PIR Detector</item>
+        <item>IR Detector</item>
+        <item>Gas Leak Detector</item>
+    </string-array>
+
     <!-- 码流切换 -->
     <string-array name="array_stream">
         <item>&#160;&#160;&#160;HD&#160;&#160;&#160;</item>
@@ -164,6 +185,10 @@
         <item>Seperate the two parts of the magnetic alarm and wait until the setting finished.</item>
         <item>Long press the red button on the wrist ring and wait until the setting finished.</item>
         <item>Long press any button on the remote control and wait until the setting finished.</item>
+        <item>Enable the device testing button, and wait until configuration finished.</item>
+        <item>Enable the device testing button, and wait until configuration finished.</item>
+        <item>Swing your arm for several times at around 10 centimeters in front of the device,and wait until configuration finished.</item>
+        <item>Enable the device testing button, and wait until configuration finished.</item>
     </string-array>
 
 </resources>

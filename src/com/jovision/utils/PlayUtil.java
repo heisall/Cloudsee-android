@@ -114,6 +114,28 @@ public class PlayUtil {
 	}
 
 	/**
+	 * 刷新设备在线状态
+	 * 
+	 * @param devNum
+	 * @return
+	 */
+	public static boolean refreshDevOnlineState(ArrayList<Device> devList,
+			String devNum, int onLineState) {
+		boolean has = false;
+		if (null == devList) {
+			return has;
+		}
+		for (Device dev : devList) {
+			if (devNum.equalsIgnoreCase(dev.getFullNo())) {
+				MyLog.v("online-tag-1", dev.getFullNo() + "--" + onLineState);
+				dev.setOnlineStateNet(onLineState);
+				break;
+			}
+		}
+		return has;
+	}
+
+	/**
 	 * 判断设备是否在设备列表里并添加到设备列表里面
 	 * 
 	 * @param devNum

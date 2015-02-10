@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.test.JVACCOUNT;
 import android.text.Editable;
@@ -30,6 +29,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.adapters.UserSpinnerAdapter;
 import com.jovision.bean.Device;
 import com.jovision.bean.User;
@@ -63,6 +63,8 @@ public class JVLoginActivity extends BaseActivity {
 	private Button localLoginBtn;
 	private TextView showPointBtn;
 	private TextView findPassTV;
+	private ImageView logoImageView;
+	private RelativeLayout.LayoutParams params;
 
 	// 下拉箭头图片组件
 	private ImageView moreUserIV;
@@ -75,16 +77,27 @@ public class JVLoginActivity extends BaseActivity {
 
 	private String demoUrl = "";// 演示点网页地址
 
+	// Boolean autoLogin = false;// 是否自动登陆
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.WHAT_SHOW_PRO: {
-			createDialog("", false);
+			String tipMsg = "";
+			if (null != obj) {
+				tipMsg = obj.toString();
+			}
+			if (!MySharedPreference.getBoolean("LITTLE")) {
+				createDialog("", false);
+			} else {
+				createDialog(tipMsg, false);
+			}
+
 			break;
 		}
 		case Consts.WHAT_DELETE_USER:
 			// TODO
-			moreUserIV.setImageResource(R.drawable.login_pull_icon);
+			moreUserIV.setImageResource(R.drawable.login_pullhesui_icon);
 			pop.dismiss();
 			userNameET.setText("");
 			passwordET.setText("");
@@ -104,7 +117,7 @@ public class JVLoginActivity extends BaseActivity {
 			if (arg2 != Consts.WHAT_CLICK_USER) {
 				passwordET.setText(((User) obj).getUserPwd());
 			}
-			moreUserIV.setImageResource(R.drawable.login_pull_icon);
+			moreUserIV.setImageResource(R.drawable.login_pullhesui_icon);
 			pop.dismiss();
 			break;
 		}
@@ -133,6 +146,7 @@ public class JVLoginActivity extends BaseActivity {
 
 		userList = UserUtil.getUserList();
 		/** userlogin Fuction */
+		logoImageView = (ImageView) findViewById(R.id.logo);
 		userNameET = (EditText) findViewById(R.id.username_et);
 		passwordET = (EditText) findViewById(R.id.password_et);
 		onlineLoginBtn = (Button) findViewById(R.id.onlinelogin_btn);
@@ -141,10 +155,18 @@ public class JVLoginActivity extends BaseActivity {
 		registBtn = (TextView) findViewById(R.id.regist_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
 
-		findPassTV.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
-		findPassTV.getPaint().setAntiAlias(true);
-		registBtn.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
-		registBtn.getPaint().setAntiAlias(true);
+		params = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
+				(int) (0.32 * disMetrics.heightPixels));
+		logoImageView.setLayoutParams(params);
+
+		if ("true".equals(statusHashMap.get(Consts.KEY_GONE_MORE))) {
+			showPointBtn.setVisibility(View.GONE);
+		}
+
+		// findPassTV.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
+		// findPassTV.getPaint().setAntiAlias(true);
+		// registBtn.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
+		// registBtn.getPaint().setAntiAlias(true);
 
 		if (null != getIntent().getStringExtra("UserName")) {
 			userNameET.setText(getIntent().getStringExtra("UserName"));
@@ -226,7 +248,7 @@ public class JVLoginActivity extends BaseActivity {
 							@Override
 							public void run() {
 								moreUserIV
-										.setImageResource(R.drawable.login_pull_up_icon);
+										.setImageResource(R.drawable.login_pullhesui_up_icon);
 								pop.showAsDropDown(userNameLayout);
 							}
 						}, 200);
@@ -234,7 +256,8 @@ public class JVLoginActivity extends BaseActivity {
 				} else if (pop.isShowing()) {
 					userAdapter.notifyDataSetChanged();
 					pop.dismiss();
-					moreUserIV.setImageResource(R.drawable.login_pull_icon);
+					moreUserIV
+							.setImageResource(R.drawable.login_pullhesui_icon);
 				} else if (!pop.isShowing()) {
 					handler.postDelayed(new Runnable() {
 						@Override
@@ -242,7 +265,7 @@ public class JVLoginActivity extends BaseActivity {
 							userAdapter.notifyDataSetChanged();
 							pop.showAsDropDown(userNameLayout);
 							moreUserIV
-									.setImageResource(R.drawable.login_pull_up_icon);
+									.setImageResource(R.drawable.login_pullhesui_up_icon);
 						}
 					}, 200);
 
@@ -263,23 +286,28 @@ public class JVLoginActivity extends BaseActivity {
 		findPassTV.setOnClickListener(myOnClickListener);
 
 		Intent intent = getIntent();
-		Boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
+		// Boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
 
-		if (autoLogin) {
-			String userName = intent.getStringExtra("UserName");
-			String userPass = intent.getStringExtra("UserPass");
-			statusHashMap.put(Consts.KEY_USERNAME, userName);
-			statusHashMap.put(Consts.KEY_PASSWORD, userPass);
-			statusHashMap.put(Consts.LOCAL_LOGIN, "false");
+		if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
+			alertNetDialog();
+		} else {
+			if (MySharedPreference.getBoolean("REMEMBER", false)) {
+				String userName = intent.getStringExtra("UserName");
+				String userPass = intent.getStringExtra("UserPass");
+				statusHashMap.put(Consts.KEY_USERNAME, userName);
+				statusHashMap.put(Consts.KEY_PASSWORD, userPass);
+				statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 
-			userNameET.setText(userName);
-			passwordET.setText(userPass);
+				userNameET.setText(userName);
+				passwordET.setText(userPass);
 
-			createDialog(R.string.logining, true);
-			LoginTask task = new LoginTask();
-			String[] strParams = new String[3];
-			task.execute(strParams);
+				createDialog(R.string.logining, true);
+				LoginTask task = new LoginTask();
+				String[] strParams = new String[3];
+				task.execute(strParams);
+			}
 		}
+
 	}
 
 	/**
@@ -289,11 +317,13 @@ public class JVLoginActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			switch (v.getId()) {
 			case R.id.username_et:
 				if (pop != null && pop.isShowing()) {
 					pop.dismiss();
-					moreUserIV.setImageResource(R.drawable.login_pull_icon);
+					moreUserIV
+							.setImageResource(R.drawable.login_pullhesui_icon);
 				}
 				break;
 			case R.id.btn_left: {
@@ -310,13 +340,11 @@ public class JVLoginActivity extends BaseActivity {
 			case R.id.findpass_tv: {
 				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
 					alertNetDialog();
-				} else if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
-						|| Consts.LANGUAGE_ZHTW == ConfigUtil
-								.getServerLanguage()) {
+				} else if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {// 中国服务器
 					Intent intentFP = new Intent(JVLoginActivity.this,
 							ResetPwdChoiceActivity.class);
 					JVLoginActivity.this.startActivity(intentFP);
-				} else if (Consts.LANGUAGE_EN == ConfigUtil.getServerLanguage()) {
+				} else {// 国外服务器
 					Intent intentFP = new Intent(JVLoginActivity.this,
 							JVWebViewActivity.class);
 					intentFP.putExtra("URL", Url.RESET_PWD_URL_FOREIGN_EN);
@@ -326,42 +354,56 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case R.id.onlinelogin_btn:// 在线登陆
-				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
-				// userNameET = null;
-				if ("".equalsIgnoreCase(userNameET.getText().toString())) {
-					showTextToast(R.string.login_str_username_notnull);
-				} else if ("".equalsIgnoreCase(passwordET.getText().toString())) {
-					showTextToast(R.string.login_str_loginpass1_notnull);
+
+				imm.hideSoftInputFromWindow(onlineLoginBtn.getWindowToken(), 0); // 强制隐藏键盘
+
+				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
+					alertNetDialog();
 				} else {
-					userName = userNameET.getText().toString();
-					passWord = passwordET.getText().toString();
-					statusHashMap.put(Consts.KEY_USERNAME, userName);
-					statusHashMap.put(Consts.KEY_PASSWORD, passWord);
-					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
+					statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
+					// userNameET = null;
+					if ("".equalsIgnoreCase(userNameET.getText().toString())) {
+						showTextToast(R.string.login_str_username_notnull);
+					} else if ("".equalsIgnoreCase(passwordET.getText()
+							.toString())) {
+						showTextToast(R.string.login_str_loginpass1_notnull);
+					} else {
+						userName = userNameET.getText().toString();
+						passWord = passwordET.getText().toString();
+						statusHashMap.put(Consts.KEY_USERNAME, userName);
+						statusHashMap.put(Consts.KEY_PASSWORD, passWord);
+						statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 
-					// LoginThread lt = new LoginThread(JVLoginActivity.this);
-					// lt.start();
+						// LoginThread lt = new
+						// LoginThread(JVLoginActivity.this);
+						// lt.start();
 
-					LoginTask task = new LoginTask();
-					String[] strParams = new String[3];
-					task.execute(strParams);
+						LoginTask task = new LoginTask();
+						String[] strParams = new String[3];
+						task.execute(strParams);
+					}
 				}
 				break;
 			case R.id.regist_btn:// 注册
-				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
-				Log.i("TAG", ConfigUtil.getCountry().substring(0, 2));
-				if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
-						|| Consts.LANGUAGE_ZHTW == ConfigUtil
-								.getServerLanguage()) {
-					Intent registIntent = new Intent();
-					registIntent.setClass(JVLoginActivity.this,
-							JVRegisterActivity.class);
-					JVLoginActivity.this.startActivity(registIntent);
-				} else if (Consts.LANGUAGE_EN == ConfigUtil.getServerLanguage()) {
-					Intent registIntent = new Intent();
-					registIntent.setClass(JVLoginActivity.this,
-							JVRegisterByEmailActivity.class);
-					JVLoginActivity.this.startActivity(registIntent);
+				if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
+					alertNetDialog();
+				} else {
+					statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
+					Log.i("TAG", ConfigUtil.getCountry().substring(0, 2));
+					if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
+							|| Consts.LANGUAGE_ZHTW == ConfigUtil
+									.getServerLanguage()) {
+						Intent registIntent = new Intent();
+						registIntent.setClass(JVLoginActivity.this,
+								JVRegisterActivity.class);
+						JVLoginActivity.this.startActivity(registIntent);
+					} else if (Consts.LANGUAGE_EN == ConfigUtil
+							.getServerLanguage()) {
+						Intent registIntent = new Intent();
+						registIntent.setClass(JVLoginActivity.this,
+								JVRegisterByEmailActivity.class);
+						JVLoginActivity.this.startActivity(registIntent);
+					}
 				}
 				break;
 			case R.id.showpoint_btn:// 演示点
@@ -377,6 +419,7 @@ public class JVLoginActivity extends BaseActivity {
 					GetDemoTask task = new GetDemoTask(JVLoginActivity.this);
 					String[] params = new String[3];
 					params[0] = "";
+					params[1] = "1";
 					task.execute(params);
 
 					// Intent demoIntent = new Intent();
@@ -386,6 +429,7 @@ public class JVLoginActivity extends BaseActivity {
 				}
 				break;
 			case R.id.locallogin_btn:// 本地登录
+				imm.hideSoftInputFromWindow(onlineLoginBtn.getWindowToken(), 0); // 强制隐藏键盘
 				StatService.trackCustomEvent(JVLoginActivity.this,
 						"locallogin", JVLoginActivity.this.getResources()
 								.getString(R.string.census_login));
@@ -419,50 +463,81 @@ public class JVLoginActivity extends BaseActivity {
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
+			if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
+				loginRes1 = JVAccountConst.LOGIN_FAILED_1;
+			} else {
+				country = ConfigUtil.getCountry();
 
-			country = ConfigUtil.getCountry();
-
-			MyLog.v(TAG, "LOGIN---E");
-			handler.sendMessage(handler.obtainMessage(Consts.WHAT_SHOW_PRO, 0,
-					0, country));
-			String strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
-					statusHashMap.get(Consts.KEY_USERNAME),
-					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,
-					Url.LONGSERVERIP);
-			JSONObject respObj = null;
-			try {
-				respObj = new JSONObject(strRes);
-				loginRes1 = respObj.optInt("arg1", 1);
-				loginRes2 = respObj.optInt("arg2", 0);
-				// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
-				MyLog.v(TAG, Url.SHORTSERVERIP + "--" + Url.LONGSERVERIP + "--"
-						+ country + "--" + strRes);
-				String data = respObj.optString("data");
-				if (null != data && !"".equalsIgnoreCase(data)) {
-					JSONObject dataObj = new JSONObject(data);
-					String channelIp = dataObj.optString("channel_ip");
-					String onlineIp = dataObj.optString("online_ip");
-					if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()) {
-						MySharedPreference.putString("ChannelIP", channelIp);
-						MySharedPreference.putString("OnlineIP", onlineIp);
-						MySharedPreference.putString("ChannelIP_en", "");
-						MySharedPreference.putString("OnlineIP_en", "");
-					} else {
-						MySharedPreference.putString("ChannelIP_en", channelIp);
-						MySharedPreference.putString("OnlineIP_en", onlineIp);
-						MySharedPreference.putString("ChannelIP", "");
-						MySharedPreference.putString("OnlineIP", "");
-					}
+				if ("false".equals(statusHashMap
+						.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+					// Toast.makeText(mContext, "初始化账号SDK失败，请重新运行程序",
+					// Toast.LENGTH_LONG)
+					// .show();
+					// return "";
+					MyLog.e("Login", "初始化账号SDK失败");
+					ConfigUtil
+							.initAccountSDK(((MainApplication) getApplication()));// 初始化账号SDK
 				}
 
-			} catch (JSONException e) {
-				loginRes1 = JVAccountConst.LOGIN_FAILED_2;
-				loginRes2 = 0;
-				e.printStackTrace();
+				MyLog.v(TAG, "LOGIN---E");
+				handler.sendMessage(handler.obtainMessage(Consts.WHAT_SHOW_PRO,
+						0, 0, country));
+				String strRes = "";
+				Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")
+						+ "LOGIN");
+				if (!MySharedPreference.getBoolean("TESTSWITCH")) {
+					strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
+							statusHashMap.get(Consts.KEY_USERNAME),
+							statusHashMap.get(Consts.KEY_PASSWORD),
+							Url.SHORTSERVERIP, Url.LONGSERVERIP);
+				} else {
+					strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
+							statusHashMap.get(Consts.KEY_USERNAME),
+							statusHashMap.get(Consts.KEY_PASSWORD),
+							Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
+				}
+				JSONObject respObj = null;
+				try {
+					respObj = new JSONObject(strRes);
+					loginRes1 = respObj.optInt("arg1", 1);
+					loginRes2 = respObj.optInt("arg2", 0);
+					// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
+					if (!MySharedPreference.getBoolean("TESTSWITCH")) {
+						MyLog.v(TAG, Url.SHORTSERVERIP + "--"
+								+ Url.LONGSERVERIP + "--" + country + "--"
+								+ strRes);
+					}
+					String data = respObj.optString("data");
+					if (null != data && !"".equalsIgnoreCase(data)) {
+						JSONObject dataObj = new JSONObject(data);
+						String channelIp = dataObj.optString("channel_ip");
+						String onlineIp = dataObj.optString("online_ip");
+						if (Consts.LANGUAGE_ZH == ConfigUtil
+								.getServerLanguage()) {
+							MySharedPreference
+									.putString("ChannelIP", channelIp);
+							MySharedPreference.putString("OnlineIP", onlineIp);
+							MySharedPreference.putString("ChannelIP_en", "");
+							MySharedPreference.putString("OnlineIP_en", "");
+						} else {
+							MySharedPreference.putString("ChannelIP_en",
+									channelIp);
+							MySharedPreference.putString("OnlineIP_en",
+									onlineIp);
+							MySharedPreference.putString("ChannelIP", "");
+							MySharedPreference.putString("OnlineIP", "");
+						}
+					}
+
+				} catch (JSONException e) {
+					loginRes1 = JVAccountConst.LOGIN_FAILED_2;
+					loginRes2 = 0;
+					e.printStackTrace();
+				}
+				MyLog.v(TAG, "LOGIN---X");
+				verifyCode = AccountUtil.VerifyUserName(JVLoginActivity.this,
+						statusHashMap.get(Consts.KEY_USERNAME));
 			}
-			MyLog.v(TAG, "LOGIN---X");
-			verifyCode = AccountUtil.VerifyUserName(JVLoginActivity.this,
-					statusHashMap.get(Consts.KEY_USERNAME));
 
 			return loginRes1;
 		}
@@ -475,12 +550,19 @@ public class JVLoginActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
 			Intent intent = new Intent();
 			switch (result) {
 			case JVAccountConst.LOGIN_SUCCESS: {
 				StatService.trackCustomEvent(JVLoginActivity.this,
 						"onlinelogin", JVLoginActivity.this.getResources()
 								.getString(R.string.census_onlinelogin));
+				if (!MySharedPreference.getBoolean("LOGINFIRST", false)
+						|| !MySharedPreference.getBoolean("REMEMBER", false)) {
+					MySharedPreference.putBoolean("REMEMBER", true);
+					MySharedPreference.putBoolean("LOGINFIRST", true);
+				}
+
 				MySharedPreference.putString("UserName",
 						statusHashMap.get(Consts.KEY_USERNAME));
 				MySharedPreference.putString("PassWord",
@@ -525,7 +607,7 @@ public class JVLoginActivity extends BaseActivity {
 						&& "".equals(json.optString("mail")) && verifyCode > 0) {
 					intent.setClass(JVLoginActivity.this,
 							JVBoundEmailActivity.class);
-					intent.putExtra("AutoLogin", true);
+					// intent.putExtra("AutoLogin", true);
 					intent.putExtra("UserName",
 							statusHashMap.get(Consts.KEY_USERNAME));
 					intent.putExtra("UserPass",
@@ -559,26 +641,43 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.LOGIN_FAILED_1: {
-				UserUtil.resetAllUser();
-				if (-5 == loginRes2) {
-					showTextToast(R.string.str_error_code_5);
-				} else if (-6 == loginRes2) {
-					showTextToast(R.string.str_error_code_6);
+
+				if (MySharedPreference.getBoolean("REMEMBER", false)) {// 自动登陆，离线登陆
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
+					intent.setClass(JVLoginActivity.this, JVTabActivity.class);
+					JVLoginActivity.this.startActivity(intent);
+					finish();
 				} else {
-					showTextToast(getResources().getString(
-							R.string.str_error_code)
-							+ (loginRes2 - 1000));
+					UserUtil.resetAllUser();
+					if (-5 == loginRes2) {
+						showTextToast(R.string.str_error_code_5);
+					} else if (-6 == loginRes2) {
+						showTextToast(R.string.str_error_code_6);
+					} else {
+						showTextToast(getResources().getString(
+								R.string.str_error_code)
+								+ (loginRes2 - 1000));
+					}
 				}
+
 				break;
 			}
 			case JVAccountConst.LOGIN_FAILED_2: {
-				UserUtil.resetAllUser();
-				showTextToast(R.string.str_other_error);
+				if (MySharedPreference.getBoolean("REMEMBER", false)) {// 自动登陆，离线登陆
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
+					intent.setClass(JVLoginActivity.this, JVTabActivity.class);
+					JVLoginActivity.this.startActivity(intent);
+					finish();
+				} else {
+					UserUtil.resetAllUser();
+					showTextToast(R.string.str_other_error);
+				}
 				break;
 			}
 			}
 
-			dismissDialog();
 		}
 
 		@Override
@@ -691,6 +790,7 @@ public class JVLoginActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		statusHashMap.put(Consts.ACCOUNT_ERROR, null);
 		MobclickAgent.onResume(this);
 	}
 

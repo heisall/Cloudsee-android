@@ -23,6 +23,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 
@@ -407,12 +408,13 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 			dismissDialog();
 			switch (result) {
 			case JVAccountConst.SUCCESS:// 注册成功
+				MySharedPreference.putBoolean("REMEMBER", true);
 				Intent intent = new Intent();
 				intent.setClass(JVRegisterByEmailActivity.this,
 						JVLoginActivity.class);
 				String userName = userNameEditText.getText().toString();
 				String userPass = pass1EditText.getText().toString();
-				intent.putExtra("AutoLogin", true);
+				// intent.putExtra("AutoLogin", true);
 				intent.putExtra("UserName", userName);
 				intent.putExtra("UserPass", userPass);
 				JVRegisterByEmailActivity.this.startActivity(intent);

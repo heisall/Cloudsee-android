@@ -4,7 +4,7 @@
     <!-- 页卡数组 -->
     <string-array name="array_tab">
         <item>我的设备</item>
-        <item>报警消息</item>
+        <item>视频广场</item>
         <item>配置</item>
         <item>更多功能</item>
     </string-array>
@@ -12,13 +12,18 @@
     <!-- more feature func -->
     <string-array name="array_more">
         <item>帮助</item>
+        <item>自动登录</item>
         <item>报警消息推送</item>
         <item>观看模式(单设备)</item>
         <item>小助手</item>
         <item>广播</item>
+        <item>测试开关</item>
         <item>版本号</item>
-        <item>视频广场</item>
+        <item>报警信息</item>
         <item>系统消息</item>
+        <item>我要装监控</item>
+        <item>设备分享</item>
+        <item>云视通指数</item>
         <item>图像查看</item>
         <item>意见反馈</item>
         <item>检查更新</item>
@@ -26,13 +31,18 @@
     </string-array>
     <string-array name="array_moreduo">
         <item>帮助</item>
+        <item>自动登录</item>
         <item>报警消息推送</item>
         <item>观看模式(多设备)</item>
         <item>小助手</item>
         <item>广播</item>
+        <item>测试开关</item>
         <item>版本号</item>
-        <item>视频广场</item>
+        <item>报警信息</item>
         <item>系统消息</item>
+        <item>我要装监控</item>
+        <item>设备分享</item>
+        <item>云视通指数</item>
         <item>图像查看</item>
         <item>意见反馈</item>
         <item>检查更新</item>
@@ -108,7 +118,7 @@
         <item>%%发生断电报警。</item>
         <item>%%发生手动报警。</item>
         <item>%%发生GPS报警。</item>
-        <item>%%发生报警。</item>
+        <item>%%发生安全报警。</item>
         <item>%%很安全，请主人不必担心，我会好好看护的。</item>
         <item>%%有些异常举动，请主人赶快采取措施。</item>
         <item>%%周围温度太高了。</item>
@@ -138,6 +148,16 @@
         <item>版本信息</item>
     </string-array>
 
+    <!-- 第三方外设报警管理 -->
+    <string-array name="peripherals_manage">
+        <item>门磁</item>
+        <item>手环</item>
+        <item>遥控器</item>
+        <item>烟感探测器</item>
+        <item>幕帘探测器</item>
+        <item>红外探测器</item>
+        <item>燃气泄露探测器</item>
+    </string-array>
     <!-- 码流切换 -->
     <string-array name="array_stream">
         <item>高清</item>
@@ -149,6 +169,10 @@
         <item>请将设备打开，等待配置完成。</item>
         <item>请长按红色按键，等待配置完成。</item>
         <item>请长按任意键，等待配置完成。</item>
+        <item>请将设备测试开关拨到开启位置，等待配置完成。</item>
+        <item>请将设备测试开关拨到开启位置，等待配置完成。</item>
+        <item>请用手在设备正前方10厘米处挥动几次，等待配置完成。</item>
+        <item>请将设备测试开关拨到开启位置，等待配置完成。</item>
     </string-array>
 
 </resources>

@@ -195,6 +195,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case JVNetConst.SERVICE_STOP:
 				channel.setPaused(true);
 				msgList.add(arg1, handler.obtainMessage(what, arg1, arg2, obj));
+
 				break;
 			case Consts.BAD_NOT_CONNECT: {
 				channel.setConnected(false);
@@ -998,8 +999,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 									}
 								} else {
-									MySharedPreference.putBoolean(channel
-											.getParent().getFullNo(), true);
 									if (null != streamMap.get("MobileCH")
 											&& "2".equalsIgnoreCase(streamMap
 													.get("MobileCH"))) {
@@ -1017,7 +1016,14 @@ public class JVPlayActivity extends PlayActivity implements
 										} else {
 											channel.setStreamTag(3);
 										}
+										MySharedPreference.putBoolean(channel
+												.getParent().getFullNo(), true);
+									} else {
+										MySharedPreference
+												.putBoolean(channel.getParent()
+														.getFullNo(), false);
 									}
+
 								}
 							}
 
@@ -1227,7 +1233,7 @@ public class JVPlayActivity extends PlayActivity implements
 						if (window == lastClickIndex) {
 							currentKbps.setText(String.format("%.1fk/%.1fk",
 									object.getDouble("kbps"),
-									object.getDouble("audio_kbps")));
+									object.getDouble("audio_network_fps")));
 							// + "("
 							// + (object.getBoolean("is_turn") ? "TURN"
 							// : "P2P") + ")");
@@ -1384,9 +1390,8 @@ public class JVPlayActivity extends PlayActivity implements
 								public void onClick(DialogInterface dialog,
 										int id) {
 									dialog.dismiss();
-									showingDialog = false;
-									initSummaryDialog(deviceList
-											.get(deviceIndex));
+									initSummaryDialog(channelList.get(
+											lastClickIndex).getParent());
 								}
 							})
 					.setNegativeButton(R.string.cancel,
@@ -1434,6 +1439,7 @@ public class JVPlayActivity extends PlayActivity implements
 			@Override
 			public void onClick(View v) {
 				initDialog.dismiss();
+				showingDialog = false;
 			}
 		});
 		dialogCompleted.setOnClickListener(new View.OnClickListener() {
@@ -1441,6 +1447,7 @@ public class JVPlayActivity extends PlayActivity implements
 			@Override
 			public void onClick(View v) {
 				// 设备用户名不为空
+				showingDialog = false;
 				if ("".equalsIgnoreCase(devicepwd_nameet.getText().toString())) {
 					JVPlayActivity.this
 							.showTextToast(R.string.login_str_device_account_notnull);
@@ -2605,9 +2612,8 @@ public class JVPlayActivity extends PlayActivity implements
 
 				break;
 			case R.id.dialogpwd_cancle_img:
-
+				showingDialog = false;
 				initDialog.dismiss();
-
 				break;
 			case R.id.nextstep: {// AP下一步
 				backMethod(false);
@@ -2727,6 +2733,11 @@ public class JVPlayActivity extends PlayActivity implements
 			}
 			case R.id.currentmenu:
 			case R.id.selectscreen:// 下拉选择多屏
+
+				if (Consts.PLAY_AP == playFlag) {
+					break;
+				}
+
 				if (null != streamListView
 						&& View.VISIBLE == streamListView.getVisibility()) {
 					streamListView.setVisibility(View.GONE);
@@ -4095,9 +4106,8 @@ public class JVPlayActivity extends PlayActivity implements
 		super.onConfigurationChanged(newConfig);
 		closePopWindow();
 
-		// [Neo] add black screen time
-		Jni.setColor(lastClickIndex, 0, 0, 0, 0);
-
+		// // [Neo] add black screen time
+		// Jni.setColor(lastClickIndex, 0, 0, 0, 0);
 		if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 			// if (channelList.get(lastClickIndex).getParent().isCard()
 			// || 8 == channelList.get(lastClickIndex).getAudioByte()) {
@@ -4131,10 +4141,14 @@ public class JVPlayActivity extends PlayActivity implements
 
 			playViewPager.setDisableSliding(true);
 		} else {
+			if (ONE_SCREEN != currentScreen) {// 当前非单屏
+				changeWindow(ONE_SCREEN);
+			}
 			playViewPager.setDisableSliding(false);
 		}
 
 		showFunc(channelList.get(lastClickIndex), currentScreen, lastClickIndex);
+		setPlayViewSize();
 	}
 
 	// /**

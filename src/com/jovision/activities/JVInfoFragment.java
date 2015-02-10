@@ -2,19 +2,31 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import neo.droid.p2r.PullToRefreshBase;
+import neo.droid.p2r.PullToRefreshBase.Mode;
+import neo.droid.p2r.PullToRefreshBase.OnRefreshListener2;
+import neo.droid.p2r.PullToRefreshListView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -29,22 +41,21 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AlarmUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
-import com.jovision.views.AlarmDialog;
 import com.jovision.views.MyAlertDialog;
-import com.jovision.views.XListView;
-import com.jovision.views.XListView.IXListViewListener;
 import com.tencent.stat.StatService;
 
 /**
  * 消息
  */
 
-public class JVInfoFragment extends BaseFragment implements IXListViewListener {
+public class JVInfoFragment extends BaseFragment {
 	private static final String TAG = "JVInfoFragment";
 	private ImageView noMess;
 	private TextView noMessTv;
 	private int pushIndex = 0;// 推送消息index
-	private XListView pushListView;// 列表
+	// private XListView pushListView;// 列表
+	private PullToRefreshListView mPullRefreshListView;
+	private ListView pushListView;
 	private PushAdapter pushAdapter;
 	private View rootView;// 缓存Fragment view
 	private ArrayList<PushInfo> pushList = new ArrayList<PushInfo>();
@@ -54,6 +65,13 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	private boolean bfirstrun = true;
 	private MyAlertDialog alertDialog;
 	private MainApplication mApp = null;
+	public static boolean isshow;
+
+	private boolean mIsAnimation = false; // 默认为false
+	private Animation animationDown = null; // 向上动画
+	private Animation animationUp = null; // 下拉动画
+	private TextView infoHint = null; // 弹出的那个textview
+	private RelativeLayout main_fragment_info_rly;
 
 	// private boolean firstIntoPush = false;// 是否第一次进入pushmessage界面
 
@@ -88,7 +106,6 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 							"ClearAlarmMessage",
 							mActivity.getResources().getString(
 									R.string.census_clearalarmmessage));
-					mActivity.createDialog("", true);
 					ClearAlarmTask task = new ClearAlarmTask();
 					String[] params = new String[3];
 					task.execute(params);
@@ -97,7 +114,93 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			}
 
 		});
+
+		main_fragment_info_rly = (RelativeLayout) rootView
+				.findViewById(R.id.main_fragment_info_rly);
+		initAnimation();
+		infoHint = (TextView) LayoutInflater.from(getActivity()).inflate(
+				R.layout.listview_infohint, null);
+		LayoutParams para = new LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.WRAP_CONTENT);
+		para.setMargins(0, 0, 0, 0);
+		infoHint.setLayoutParams(para);
+		infoHint.setVisibility(View.INVISIBLE);
+		main_fragment_info_rly.addView(infoHint);
+		// mActivity.addContentView(infoHint, para);
 		return rootView;
+	}
+
+	private void initAnimation() {
+		// TODO Auto-generated method stub
+		animationUp = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
+				Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF,
+				0.0f, Animation.RELATIVE_TO_SELF, -1);
+		animationUp.setDuration(1000);
+		animationUp.setRepeatCount(0);
+		animationUp.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// TODO Auto-generated method stub
+				infoHint.setVisibility(View.INVISIBLE);
+			}
+		});
+
+		animationDown = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0,
+				Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -1,
+				Animation.RELATIVE_TO_SELF, 0.0f);
+		animationDown.setDuration(1000);
+		animationDown.setRepeatCount(0);
+		animationDown.setFillAfter(true);
+		animationDown.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO Auto-generated method stub
+				infoHint.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// TODO Auto-generated method stub
+				new Handler().postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						infoHint.startAnimation(animationUp);
+					}
+				}, 1000);
+			}
+		});
+
+	}
+
+	private void updateInfoHint(boolean success) {
+		if (success) {
+			infoHint.setText(R.string.load_info_success);
+		} else {
+			infoHint.setText(R.string.load_info_failed);
+		}
+		infoHint.startAnimation(animationDown);
 	}
 
 	@Override
@@ -109,7 +212,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		currentMenu.setText(mActivity.getResources().getString(
 				R.string.str_alarm_info));
 
-		pushListView = (XListView) mParent.findViewById(R.id.pushlistview);
+		mPullRefreshListView = (PullToRefreshListView) mParent
+				.findViewById(R.id.pushlistview);
 		mActivity.getResources().getDrawable(R.drawable.refresh_broadcast);
 		rightBtn.setBackgroundResource(R.drawable.clear);
 		rightBtn.setOnClickListener(onClickListener);
@@ -121,16 +225,54 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		// pushListView.setOnItemLongClickListener(mOnLongClickListener);
 		pushAdapter = new PushAdapter(this);
 		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
-			pushListView.setPullLoadEnable(false);
-			pushListView.setXListViewListener(this);
+			// pushListView.setPullLoadEnable(true);
+			// pushListView.setXListViewListener(this);
 			rightBtn.setVisibility(View.VISIBLE);
 			// pushListView.setVisibility(View.VISIBLE);
 		} else {
-			pushListView.setPullLoadEnable(false);
-			pushListView.setPullRefreshEnable(false);
+			// pushListView.setPullLoadEnable(false);
+			// pushListView.setPullRefreshEnable(false);
 			rightBtn.setVisibility(View.GONE);
 			// pushListView.setVisibility(View.INVISIBLE);
 		}
+		pushListView = mPullRefreshListView.getRefreshableView();
+		mPullRefreshListView.setMode(Mode.BOTH);
+		mPullRefreshListView
+				.setOnRefreshListener(new OnRefreshListener2<ListView>() {
+
+					@Override
+					public void onPullDownToRefresh(
+							PullToRefreshBase<ListView> refreshView) {
+						// TODO Auto-generated method stub
+						// 下拉
+						if (!Boolean.valueOf(mActivity.statusHashMap
+								.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
+							pullUp = false;
+							PullDownRefreshAlarmTask task = new PullDownRefreshAlarmTask();
+							String[] params = new String[3];
+							task.execute(params);
+						} else {
+							mPullRefreshListView.onRefreshComplete();
+						}
+					}
+
+					@Override
+					public void onPullUpToRefresh(
+							PullToRefreshBase<ListView> refreshView) {
+						// TODO Auto-generated method stub
+						// 上拉
+						if (!Boolean.valueOf(mActivity.statusHashMap
+								.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
+							pullUp = true;
+							PullUpRefreshAlarmTask task = new PullUpRefreshAlarmTask();
+							String[] params = new String[3];
+							task.execute(params);
+						} else {
+							mPullRefreshListView.onRefreshComplete();
+						}
+					}
+
+				});
 		noMess = (ImageView) mParent.findViewById(R.id.nomess);
 		noMessTv = (TextView) mParent.findViewById(R.id.nomess_tv);
 		noMess.setOnTouchListener(new OnTouchListener() {
@@ -142,7 +284,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 						.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 
 					mActivity.createDialog("", true);
-					RefreshAlarmTask task = new RefreshAlarmTask();
+					PullDownRefreshAlarmTask task = new PullDownRefreshAlarmTask();
 					String[] params = new String[3];
 					task.execute(params);
 				}
@@ -154,19 +296,19 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			// Consts.pushHisCount = 0;
 			// pushList.clear();
 			mActivity.createDialog("", true);
-			PullRefreshAlarmTask task = new PullRefreshAlarmTask();
+			PullDownRefreshAlarmTask task = new PullDownRefreshAlarmTask();
 			String[] params = new String[3];
 			task.execute(params);
 		}
 
 	}
 
-	// 上拉加载更多推送消息
-	private void onLoadPush() {
-		pushListView.stopRefresh();
-		pushListView.stopLoadMore();
-		pushListView.setRefreshTime(ConfigUtil.getCurrentTime());
-	}
+	// // 上拉加载更多推送消息
+	// private void onLoadPush() {
+	// pushListView.stopRefresh();
+	// pushListView.stopLoadMore();
+	// pushListView.setRefreshTime(ConfigUtil.getCurrentTime());
+	// }
 
 	OnClickListener onClickListener = new OnClickListener() {
 
@@ -176,32 +318,15 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			case R.id.btn_right:
 				alertDialog.show();
 				break;
+			case R.id.btn_left:
+				mActivity.finish();
+				break;
 			}
 		}
 	};
 
-	// 下拉刷新
-	@Override
-	public void onRefresh() {
-		pullUp = false;
-		mActivity.createDialog("", true);
-		PullRefreshAlarmTask task = new PullRefreshAlarmTask();
-		String[] params = new String[3];
-		task.execute(params);
-	}
-
-	// 上拉加载更多
-	@Override
-	public void onLoadMore() {
-		pullUp = true;
-		mActivity.createDialog("", true);
-		RefreshAlarmTask task = new RefreshAlarmTask();
-		String[] params = new String[3];
-		task.execute(params);
-	}
-
 	// 刷新报警信息线程
-	class PullRefreshAlarmTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+	class PullDownRefreshAlarmTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
@@ -237,7 +362,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mActivity.dismissDialog();
 			if (1 == result) {
-				onLoadPush();
+				mPullRefreshListView.onRefreshComplete();
 				if (null == temList) {
 					temList = new ArrayList<PushInfo>();
 				}
@@ -287,16 +412,18 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					}
 					pushAdapter.notifyDataSetChanged();
 				}
+				updateInfoHint(true);
+				// mActivity.showTextToast(R.string.load_info_success);
 			} else {
-				onLoadPush();
-				mActivity.showTextToast(R.string.get_alarm_list_failed);
+				mPullRefreshListView.onRefreshComplete();
+				mActivity.showTextToast(R.string.load_info_failed);
 			}
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			mActivity.createDialog("", true);
+			// mActivity.createDialog("", true);
 		}
 
 		@Override
@@ -306,7 +433,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	}
 
 	// 上拉加载报警信息线程
-	class RefreshAlarmTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+	class PullUpRefreshAlarmTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
@@ -341,17 +468,21 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			mActivity.dismissDialog();
+			// mActivity.dismissDialog();
 			if (1 == result) {
-				onLoadPush();
+				mPullRefreshListView.onRefreshComplete();
 				if (null == temList) {
 					temList = new ArrayList<PushInfo>();
 				}
 				if (temList.size() == 0) {
-					mActivity.showTextToast(R.string.nomessage);
+					mActivity.showTextToast(R.string.xlistview_no_more);
 					return;
 				}
 				int addLen = temList.size();
+				// 默认刷新下来的报警信息都是新的
+				for (int j = 0; j < temList.size(); j++) {
+					temList.get(j).newTag = true;
+				}
 				pushList.addAll(temList);
 				Consts.pushHisCount = Consts.pushHisCount + addLen;
 				temList.clear();
@@ -369,16 +500,18 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 					}
 					pullUp = false;
 					pushAdapter.notifyDataSetChanged();
+					updateInfoHint(true);
+					// mActivity.showTextToast(R.string.load_info_success);
 				}
 			} else {
-				mActivity.showTextToast(R.string.get_alarm_list_failed);
+				mActivity.showTextToast(R.string.load_info_failed);
 			}
 		}
 
 		@Override
 		protected void onPreExecute() {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-			mActivity.createDialog("", true);
+			// mActivity.createDialog("", true);
 		}
 
 		@Override
@@ -395,7 +528,14 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 	}
 
 	@Override
+	public void onDestroy() {
+		isshow = false;
+		super.onDestroy();
+	}
+
+	@Override
 	public void onResume() {
+		isshow = true;
 		if (Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {
 			super.onResume();
 			return;
@@ -538,8 +678,8 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 		case Consts.WHAT_PUSH_MESSAGE:
 			// 弹出对话框
 			if (null != mActivity) {
-				mActivity.onNotify(Consts.NEW_PUSH_MSG_TAG, 0, 0, null);// 通知显示报警信息条数
-				new AlarmDialog(mActivity).Show(obj);
+				// new AlarmDialog(mActivity).Show(obj);
+				mApp.setNewPushCnt(0);
 				onResume();
 			} else {
 				MyLog.e("Alarm",
@@ -605,7 +745,7 @@ public class JVInfoFragment extends BaseFragment implements IXListViewListener {
 
 						if (Consts.pushHisCount == 0) {
 							mActivity.createDialog("", true);
-							PullRefreshAlarmTask task = new PullRefreshAlarmTask();
+							PullDownRefreshAlarmTask task = new PullDownRefreshAlarmTask();
 							String[] params = new String[3];
 							task.execute(params);
 						}

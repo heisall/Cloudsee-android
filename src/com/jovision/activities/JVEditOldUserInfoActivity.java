@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.JVAccountConst;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 
 public class JVEditOldUserInfoActivity extends BaseActivity {
@@ -108,6 +109,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 		setContentView(R.layout.olduser_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.str_modify_user_info);
 		finish = (Button) findViewById(R.id.finish);
@@ -280,11 +282,12 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 			} else if (JVAccountConst.PHONE_NOT_TRUE == result) {
 				showTextToast(R.string.str_phone_num_error);
 			} else if (JVAccountConst.SUCCESS == result) {
+				MySharedPreference.putBoolean("REMEMBER", true);
 				if (0 < verifyRes) {
 					Intent emailIntent = new Intent(
 							JVEditOldUserInfoActivity.this,
 							JVBoundEmailActivity.class);
-					emailIntent.putExtra("AutoLogin", true);
+					// emailIntent.putExtra("AutoLogin", true);
 					emailIntent.putExtra("UserName",
 							statusHashMap.get(Consts.KEY_USERNAME));
 					emailIntent.putExtra("UserPass",
@@ -295,7 +298,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 					Intent intent = new Intent();
 					intent.setClass(JVEditOldUserInfoActivity.this,
 							JVLoginActivity.class);
-					intent.putExtra("AutoLogin", true);
+					// intent.putExtra("AutoLogin", true);
 					intent.putExtra("UserName",
 							statusHashMap.get(Consts.KEY_USERNAME));
 					intent.putExtra("UserPass",

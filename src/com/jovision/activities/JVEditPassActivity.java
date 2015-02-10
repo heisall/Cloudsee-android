@@ -49,6 +49,7 @@ public class JVEditPassActivity extends BaseActivity {
 		setContentView(R.layout.editpass_layout);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		// if (!TextUtils.isEmpty(statusHashMap.get(Consts.KEY_USERNAME))) {
@@ -160,7 +161,7 @@ public class JVEditPassActivity extends BaseActivity {
 				MySharedPreference.putString(Consts.KEY_LAST_LOGIN_USER,
 						userName);
 
-				// intent.putExtra("UserName", userName);
+				intent.putExtra("UserName", userName);
 				startActivity(intent);
 				JVEditPassActivity.this.finish();
 			} else {

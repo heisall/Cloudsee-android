@@ -46,9 +46,14 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private int process_flag = 0; // 0 绑定设备 1绑定昵称
 	private boolean bind_nick_res = false;
 	private CustomDialog learningDialog;
-	private int[] add_device_types = { R.drawable.third_guide_door,
+	private int[] add_device_types = {
+			R.drawable.third_guide_door,// 这是占位的
 			R.drawable.third_guide_door, R.drawable.third_guide_bracelet,
-			R.drawable.third_guide_telecontrol, };
+			R.drawable.third_guide_telecontrol, R.drawable.third_guide_smoke,
+			R.drawable.third_guide_curtain, R.drawable.third_guide_infrared,
+			R.drawable.third_guide_gas, };
+	private String[] PeripheralArray;
+	private int init_dev_alarm_tag = 0;// 默认是失败
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -113,8 +118,11 @@ public class AddThirdDevActivity extends BaseActivity implements
 		rightBtn.setVisibility(View.GONE);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		leftBtn.setOnClickListener(this);
 		currentMenu.setText(R.string.str_help1_1);
+		PeripheralArray = getResources().getStringArray(
+				R.array.peripherals_manage);
 	}
 
 	@Override
@@ -132,6 +140,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 								R.string.str_alarm_thirddev_default_name));
 				data.putExtra("dev_type_mark", dev_type_mark);
 				data.putExtra("dev_uid", dev_uid);
+				data.putExtra("dev_alarm", init_dev_alarm_tag);
 				// 请求代码可以自己设置，这里设置成10
 				setResult(10, data);
 				// 关闭掉这个Activity
@@ -148,9 +157,11 @@ public class AddThirdDevActivity extends BaseActivity implements
 	public void OnDeviceClassSelected(int index) {
 		// TODO Auto-generated method stub
 		process_flag = 0;
+		// 1:门磁设备 2:手环设备 3:遥控 4:烟感 5:幕帘 6:红外探测器 7:燃气泄露
+		// index 外设功能编号从1开始
 		switch (index) {
 		case 1:
-			currentMenu.setText(R.string.str_door_device);
+			// currentMenu.setText(PeripheralArray[0]);
 			dev_type_mark = 1;// 门禁
 
 			if (!bConnectedFlag) {
@@ -179,7 +190,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 			break;
 		case 2:
-			currentMenu.setText(R.string.str_bracelet_device);
+			// currentMenu.setText(PeripheralArray[1]);
 			dev_type_mark = 2;// 手环
 
 			if (!bConnectedFlag) {
@@ -209,7 +220,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 			break;
 		case 3:
-			currentMenu.setText(R.string.str_telecontrol_device);
+			// currentMenu.setText(PeripheralArray[2]);
 			dev_type_mark = 3;// 遥控
 
 			if (!bConnectedFlag) {
@@ -239,6 +250,33 @@ public class AddThirdDevActivity extends BaseActivity implements
 			}
 			break;
 		default:
+			// currentMenu.setText(PeripheralArray[index - 1]);
+			dev_type_mark = index;
+			if (!bConnectedFlag) {
+				waitingDialog.show();
+				if (!AlarmUtil.OnlyConnect2(strYstNum)) {
+					showTextToast(R.string.str_alarm_connect_failed_1);
+					waitingDialog.dismiss();
+				}
+			} else {
+
+				// 首先需要发送文本聊天请求
+				if (bNeedSendTextReq) {
+					waitingDialog.show();
+					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
+					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
+					// 10000);// 10秒获取不到就取消Dialog
+				} else {
+					learningDialog.Show(add_device_types[index], dev_type_mark);
+					String req_data = "type=" + dev_type_mark + ";";
+					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+							(byte) Consts.RC_GPIN_ADD, req_data.trim());
+					new Thread(new TimeOutProcess(Consts.RC_GPIN_ADD)).start();
+				}
+
+			}
 			break;
 		}
 	}
@@ -253,6 +291,15 @@ public class AddThirdDevActivity extends BaseActivity implements
 				// new Thread(new ToastProcess(0x9999)).start();
 				DismissDialog();
 				showTextToast(R.string.str_alarm_binddev_timeout);
+				break;
+			case Consts.RC_GPIN_SET:// 设置设备昵称
+				DismissDialog();
+				showTextToast(R.string.str_setdev_params_timeout);
+				break;
+			case Consts.RC_GPIN_SET_SWITCH_TIMEOUT:// 开关
+				init_dev_alarm_tag = 0;
+				DismissDialog();
+				showTextToast(R.string.str_setdev_params_timeout);
 				break;
 			default:
 				break;
@@ -349,8 +396,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 							(byte) Consts.RC_GPIN_ADD, req_data.trim());
 					new Thread(new TimeOutProcess(Consts.RC_GPIN_ADD)).start();
-				} else {
+				} else if (process_flag == 1) {
 					SendBingNickName(nickName);
+				} else {
+					OnSetAlarmEnabled(true);
 				}
 				// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_RSP_TEXTDATA,
 				// 10000);// 10秒获取不到就取消Dialog
@@ -456,7 +505,9 @@ public class AddThirdDevActivity extends BaseActivity implements
 					}
 					break;
 
-				case Consts.RC_GPIN_SET:// 设置昵称
+				case Consts.RC_GPIN_SET:// 设置昵称或开关
+					myHandler.removeMessages(Consts.RC_GPIN_SET);
+					myHandler.removeMessages(Consts.RC_GPIN_SET_SWITCH_TIMEOUT);
 					if (obj != null) {
 						if (waitingDialog != null && waitingDialog.isShowing())
 							waitingDialog.dismiss();
@@ -473,6 +524,11 @@ public class AddThirdDevActivity extends BaseActivity implements
 						}
 
 						if (setResult == 1) {// SET success
+							if (process_flag == 2) {
+								// 这是隐藏的设置开关
+								init_dev_alarm_tag = 1;
+								return;
+							}
 							for (int i = 0; i < setStrArray.length; i++) {
 								String[] split = setStrArray[i].split("=");
 								if ("guid".equals(split[0])) {
@@ -484,11 +540,13 @@ public class AddThirdDevActivity extends BaseActivity implements
 								}
 							}
 							// 成功
+							init_dev_alarm_tag = 1;
 							// 返回第三方设备列表activity
 							Intent data = new Intent();
 							data.putExtra("nickname", nickName);
 							data.putExtra("dev_type_mark", dev_type_mark);
 							data.putExtra("dev_uid", setalarm.dev_uid);
+							data.putExtra("dev_alarm", init_dev_alarm_tag);
 							// 请求代码可以自己设置，这里设置成10
 							setResult(10, data);
 							bind_nick_res = true;
@@ -576,6 +634,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 		Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 				(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 				(byte) Consts.RC_GPIN_SET, reqData.trim());
+		new Thread(new TimeOutProcess(Consts.RC_GPIN_SET)).start();
 	}
 
 	private void DismissDialog() {
@@ -609,5 +668,25 @@ public class AddThirdDevActivity extends BaseActivity implements
 		public void run() {
 			myHandler.sendEmptyMessageDelayed(tag, 2000);
 		}
+	}
+
+	@Override
+	public void OnSetAlarmEnabled(boolean enabled) {
+		// TODO Auto-generated method stub
+		waitingDialog.show();
+		process_flag = 2;// 区分出来
+		String strSwitch = "enable=1;";
+		if (enabled) {
+			strSwitch = "enable=1;";
+		} else {
+			strSwitch = "enable=0;";
+		}
+		String reqData = strSwitch;
+		MyLog.e("Alarm", "OnSetAlarmEnabled req:" + reqData);
+		Jni.sendString(Consts.ONLY_CONNECT_INDEX,
+				(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
+				(byte) Consts.RC_GPIN_SET, reqData.trim());
+		new Thread(new TimeOutProcess(Consts.RC_GPIN_SET_SWITCH_TIMEOUT))
+				.start();
 	}
 }

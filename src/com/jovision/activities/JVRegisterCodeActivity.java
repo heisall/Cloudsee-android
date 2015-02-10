@@ -56,6 +56,7 @@ public class JVRegisterCodeActivity extends BaseActivity {
 
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		account = getIntent().getStringExtra("phone");
 		currentMenu.setText(R.string.login_str_user_regist);
@@ -128,11 +129,20 @@ public class JVRegisterCodeActivity extends BaseActivity {
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
 				registerRes = AccountUtil.userRegister(user);
 				if (JVAccountConst.SUCCESS == registerRes) {
-					String strRes = AccountUtil.onLoginProcessV2(
-							JVRegisterCodeActivity.this,
-							statusHashMap.get(Consts.KEY_USERNAME),
-							statusHashMap.get(Consts.KEY_PASSWORD),
-							Url.SHORTSERVERIP, Url.LONGSERVERIP);
+					String strRes = "";
+					if (!MySharedPreference.getBoolean("TESTSWITCH")) {
+						strRes = AccountUtil.onLoginProcessV2(
+								JVRegisterCodeActivity.this,
+								statusHashMap.get(Consts.KEY_USERNAME),
+								statusHashMap.get(Consts.KEY_PASSWORD),
+								Url.SHORTSERVERIP, Url.LONGSERVERIP);
+					} else {
+						strRes = AccountUtil.onLoginProcessV2(
+								JVRegisterCodeActivity.this,
+								statusHashMap.get(Consts.KEY_USERNAME),
+								statusHashMap.get(Consts.KEY_PASSWORD),
+								Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
+					}
 					JSONObject respObj = null;
 					try {
 						respObj = new JSONObject(strRes);
@@ -195,12 +205,13 @@ public class JVRegisterCodeActivity extends BaseActivity {
 								.getString(R.string.census_register));
 				Log.i("TAG", loginRes1 + "DDDDDDDDDDD");
 				if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
+					MySharedPreference.putBoolean("REMEMBER", true);
 					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 					Intent emailIntent = new Intent(
 							JVRegisterCodeActivity.this,
 							JVBoundEmailActivity.class);
 					String userPass = registerpwd.getText().toString();
-					emailIntent.putExtra("AutoLogin", true);
+					// emailIntent.putExtra("AutoLogin", true);
 					emailIntent.putExtra("UserName", account);
 					emailIntent.putExtra("UserPass", userPass);
 					JVRegisterCodeActivity.this.startActivity(emailIntent);

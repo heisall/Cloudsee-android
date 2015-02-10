@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
+import com.jovision.utils.ConfigUtil;
 
 /**
  * @author Administrator 功能描述：自定义底部工具栏
@@ -25,7 +27,7 @@ public class JVFragmentIndicator extends LinearLayout implements
 	private static int mCurIndicator;
 	private static View[] mIndicators;
 	private OnIndicateListener mOnIndicateListener;
-	private Context mContext;
+	private static Context mContext;
 	private LayoutInflater inflater;
 
 	private static final String[] iconTagArray = { "icon_tag_0", "icon_tag_1",
@@ -127,14 +129,14 @@ public class JVFragmentIndicator extends LinearLayout implements
 				.findViewWithTag(R.id.tab_info_text);
 
 		switch (whitch) {
-		case 1: {// 报警消息条数
-			tabInfoText.setText(String.valueOf(msgCount));
-
-			if (show) {
-				tabInfo.setVisibility(View.VISIBLE);
-			} else {
-				tabInfo.setVisibility(View.GONE);
-			}
+		case 1: {// 报警消息条数,这个屏蔽掉，因为换位置了，避免出错，重新定义个值
+			// tabInfoText.setText(String.valueOf(msgCount));
+			//
+			// if (show) {
+			// tabInfo.setVisibility(View.VISIBLE);
+			// } else {
+			// tabInfo.setVisibility(View.GONE);
+			// }
 			break;
 		}
 		case 3: {// 更多功能，新
@@ -142,6 +144,9 @@ public class JVFragmentIndicator extends LinearLayout implements
 				tabInfo.setVisibility(View.VISIBLE);
 			} else {
 				tabInfo.setVisibility(View.GONE);
+			}
+			if (Consts.LANGUAGE_EN == ConfigUtil.getLanguage2(mContext)) {
+				tabInfoText.setTextSize((float) 6.0);
 			}
 			tabInfoText.setText(R.string.new_tag);
 			break;

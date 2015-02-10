@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.LayoutParams;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 	private int deviceIndex = 0;
 	private ArrayList<Device> deviceList;
 	private Device device;
-
+	protected RelativeLayout.LayoutParams reParamstop2;
 	/** bottom */
 	private ViewPager mPager;// 页卡内容
 	private List<View> listViews; // Tab页面列表
@@ -270,11 +271,18 @@ public class JVRemoteSettingActivity extends BaseActivity {
 		/** top bar */
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setText(R.string.str_help1_0);
 		leftBtn.setOnClickListener(mOnClickListener);
 		rightBtn.setVisibility(View.VISIBLE);
+		reParamstop2 = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		reParamstop2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		reParamstop2.addRule(RelativeLayout.CENTER_VERTICAL);
+		reParamstop2.setMargins(0, 0, 30, 0);
+		rightBtn.setLayoutParams(reParamstop2);
 
 		rightBtn.setTextColor(Color.WHITE);
 		rightBtn.setBackgroundDrawable(getResources().getDrawable(
@@ -473,24 +481,24 @@ public class JVRemoteSettingActivity extends BaseActivity {
 			currIndex = 0;
 
 			// 值为2双码流是家庭安防产品，显示加载wifi动画
-			if (null != settingMap.get("MobileCH")
-					&& "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {
-				// 可选取无线网络进行配置
-				wifiSelect.setVisibility(View.VISIBLE);
-				wifiListView.setVisibility(View.VISIBLE);
-				wifiListBG.setVisibility(View.VISIBLE);
-				loadingWifi.setVisibility(View.VISIBLE);
-				wifiName.setEnabled(true);
-				wifiPwd.setEnabled(true);
-			} else {// 非家庭安防不能修改,也不显示加载wifi动画
-					// 可选取无线网络进行配置
-				wifiSelect.setVisibility(View.GONE);
-				wifiListView.setVisibility(View.GONE);
-				wifiListBG.setVisibility(View.GONE);
-				loadingWifi.setVisibility(View.GONE);
-				wifiName.setEnabled(false);
-				wifiPwd.setEnabled(false);
-			}
+			// if (null != settingMap.get("MobileCH")
+			// && "2".equalsIgnoreCase(settingMap.get("MobileCH"))) {
+			// 可选取无线网络进行配置
+			wifiSelect.setVisibility(View.VISIBLE);
+			wifiListView.setVisibility(View.VISIBLE);
+			wifiListBG.setVisibility(View.VISIBLE);
+			loadingWifi.setVisibility(View.VISIBLE);
+			wifiName.setEnabled(true);
+			wifiPwd.setEnabled(true);
+			// } else {// 非家庭安防不能修改,也不显示加载wifi动画
+			// // 可选取无线网络进行配置
+			// wifiSelect.setVisibility(View.GONE);
+			// wifiListView.setVisibility(View.GONE);
+			// wifiListBG.setVisibility(View.GONE);
+			// loadingWifi.setVisibility(View.GONE);
+			// wifiName.setEnabled(false);
+			// wifiPwd.setEnabled(false);
+			// }
 		} else if (null != settingMap
 				&& settingMap.get("ACTIVED").equalsIgnoreCase("2")) {// 无线
 			wifiDetail.setVisibility(View.VISIBLE);

@@ -14,6 +14,7 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.support.v4.view.ViewPager.LayoutParams;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
@@ -57,8 +58,8 @@ public class JVWaveSetActivity extends BaseActivity {
 	String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3",
 			"quicksetsound.mp3", "6.mp3" };
 
-	String[] stepSoundCHTW = { "voi_info_zhtw.mp3", "voi_next_zhtw.mp3",
-			"voi_send_zhtw.mp3", "quicksetsound.mp3", "6.mp3" };
+	// String[] stepSoundCHTW = { "voi_info_zhtw.mp3", "voi_next_zhtw.mp3",
+	// "voi_send_zhtw.mp3", "quicksetsound.mp3", "6.mp3" };
 
 	String[] stepSoundEN = { "voi_info_en.mp3", "voi_next_en.mp3",
 			"voi_send_en.mp3", "quicksetsound.mp3", "6.mp3" };
@@ -79,6 +80,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	protected RelativeLayout stepLayout4;
 	protected RelativeLayout stepLayout5;
 	protected RelativeLayout stepLayout6;
+	protected RelativeLayout.LayoutParams reParamstop2;
 
 	private ProgressWheel pw_two;
 	int progress = 0;
@@ -137,6 +139,9 @@ public class JVWaveSetActivity extends BaseActivity {
 			break;
 		}
 		case Consts.WHAT_BROAD_FINISHED: {// 广播超时
+			if (4 != currentStep) {
+				break;
+			}
 			dismissDialog();
 			if (null == broadList || 0 == broadList.size()) {
 				showTextToast(R.string.broad_zero);
@@ -246,11 +251,8 @@ public class JVWaveSetActivity extends BaseActivity {
 																// {//
 																// 带wifi设备且不在设备列表里面
 							Device addDev = new Device(ip, port, gid, no,
-									getResources().getString(
-											R.string.str_default_user),
-									getResources().getString(
-											R.string.str_default_pass), false,
-									count, 0);
+									Consts.DEFAULT_USERNAME,
+									Consts.DEFAULT_PASSWORD, false, count, 0);
 							addDev.setHasAdded(hasAdded);
 							if (!PlayUtil.addDev(broadList, addDev)) {
 								broadList.add(addDev);
@@ -307,6 +309,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		topBar = (LinearLayout) findViewById(R.id.top_bar);
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
+		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		currentMenu.setText(R.string.prepare_step);
@@ -315,6 +318,12 @@ public class JVWaveSetActivity extends BaseActivity {
 		rightBtn.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.feedback_bg));
 		rightBtn.setVisibility(View.GONE);
+		reParamstop2 = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		reParamstop2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		reParamstop2.addRule(RelativeLayout.CENTER_VERTICAL);
+		reParamstop2.setMargins(0, 0, 30, 0);
+		rightBtn.setLayoutParams(reParamstop2);
 
 		stepLayout1 = (RelativeLayout) findViewById(R.id.step_layout1);
 		stepLayout2 = (RelativeLayout) findViewById(R.id.step_layout2);
@@ -580,7 +589,7 @@ public class JVWaveSetActivity extends BaseActivity {
 				file = stepSoundCH[index];
 			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
 					.getLanguage2(JVWaveSetActivity.this)) {
-				file = stepSoundCHTW[index];
+				file = stepSoundCH[index];
 			} else {
 				file = stepSoundEN[index];
 			}
@@ -611,36 +620,51 @@ public class JVWaveSetActivity extends BaseActivity {
 			String ip = addDevice.getIp();
 			int port = addDevice.getPort();
 			int addRes = -1;
-			boolean localFlag = Boolean.valueOf(statusHashMap
-					.get(Consts.LOCAL_LOGIN));
+
 			try {
-				if (null != addDevice) {
-					if (localFlag) {// 本地添加
+				for (Device dev : deviceList) {
+					if (dev.getFullNo() == addDevice.getFullNo()) {
 						addRes = 0;
-					} else {
-						addDevice = DeviceUtil.addDevice2(addDevice,
-								statusHashMap.get(Consts.KEY_USERNAME));
-						if (null != addDevice) {
-							addRes = 0;
-						}
+						break;
 					}
 				}
-
-				if (0 == addRes) {
-					// broadList.remove(index);
-					handler.sendMessage(handler
-							.obtainMessage(Consts.WHAT_BROAD_DEVICE));
-					addDevice.setOnlineStateLan(1);
-					addDevice.setIp(ip);
-					addDevice.setPort(port);
-					addDevice.setHasAdded(true);
-					deviceList.add(0, addDevice);
-					CacheUtil.saveDevList(deviceList);
-				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
+			if (0 != addRes) {
+				boolean localFlag = Boolean.valueOf(statusHashMap
+						.get(Consts.LOCAL_LOGIN));
+				try {
+					if (null != addDevice) {
+						if (localFlag) {// 本地添加
+							addRes = 0;
+						} else {
+							addDevice = DeviceUtil.addDevice2(addDevice,
+									statusHashMap.get(Consts.KEY_USERNAME));
+							if (null != addDevice) {
+								addRes = 0;
+							}
+						}
+					}
+
+					if (0 == addRes) {
+						broadList.remove(index);
+						handler.sendMessage(handler
+								.obtainMessage(Consts.WHAT_BROAD_DEVICE));
+						addDevice.setOnlineStateLan(1);
+						addDevice.setIp(ip);
+						addDevice.setPort(port);
+						addDevice.setHasAdded(true);
+						deviceList.add(0, addDevice);
+						CacheUtil.saveDevList(deviceList);
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
 			return addRes;
 		}
 
@@ -651,10 +675,12 @@ public class JVWaveSetActivity extends BaseActivity {
 
 		@Override
 		protected void onPostExecute(Integer result) {
+			dismissDialog();
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			if (0 == result) {
 				showTextToast(R.string.add_device_succ);
-				if (0 == broadList.size()) {
+
+				if (!hasNewDevice()) {
 					finish();
 				}
 
@@ -675,6 +701,25 @@ public class JVWaveSetActivity extends BaseActivity {
 	}
 
 	/**
+	 * 检查是否还有新设备
+	 * 
+	 * @return
+	 */
+	public boolean hasNewDevice() {
+		boolean hasNewDev = false;
+		if (null == broadList || 0 == broadList.size()) {
+		} else {
+			for (Device dev : broadList) {
+				if (!dev.isHasAdded()) {
+					hasNewDev = true;
+					break;
+				}
+			}
+		}
+		return hasNewDev;
+	}
+
+	/**
 	 * 弹出添加设备界面
 	 * */
 	public void alertAddDialog(final int index) {
@@ -690,6 +735,8 @@ public class JVWaveSetActivity extends BaseActivity {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
+								createDialog("", false);
+								dialog.dismiss();
 								AddDevTask task = new AddDevTask();
 								String[] params = new String[3];
 								params[0] = String.valueOf(index);

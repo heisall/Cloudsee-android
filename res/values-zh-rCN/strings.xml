@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
-    <string name="str_country">中国</string>
+    <string name="loading">加载中…</string>
     <string name="logining">正在登录…</string>
     <string name="login_str_username_notnull">请输入用户名</string>
     <string name="login_str_loginpass1_notnull">请输入密码</string>
@@ -14,8 +14,8 @@
     <string name="login_str_username_tips">用户名格式不正确，只能为手机号或邮箱.</string>
     <string name="login_str_username_tips2">用户名不能全为数字，请确认输入的是手机号.</string>
     <string name="login_str_username_tips3">用户名由英文、数字及-_组成</string>
-    <string name="login_str_username_tips4">用户名长度只能在4–28位字符之间</string>
-    <string name="login_str_password_tips1">密码长度应在6~20位字符之间</string>
+    <string name="login_str_username_tips4">用户名长度只能在4-28位字符之间</string>
+    <string name="login_str_password_tips1">密码长度应在6-20位字符之间</string>
     <string name="login_str_login_failed">登录失败</string>
     <string name="login_str_regist_success">注册成功</string>
     <string name="login_str_regist_failed">注册失败</string>
@@ -24,13 +24,13 @@
     <string name="login_str_device">设备列表</string>
     <string name="login_str_add_device">增加设备</string>
     <string name="login_str_device_devicename_notnull">请输入设备昵称</string>
-    <string name="login_str_nike_name_order">含有非法字符,昵称由1–20个字母、数字、汉字及特殊字符–_+().组成</string>
+    <string name="login_str_nike_name_order">含有非法字符,昵称由1-20个字母、数字、汉字及特殊字符-_+().组成</string>
     <string name="login_str_device_account_notnull">请输入用户名</string>
     <string name="login_str_device_pass_notnull">请输入密码</string>
     <string name="device_pass_notzh">密码不能是中文</string>
     <string name="login_str_device_connnum_notnull">通道数量不能为空</string>
-    <string name="login_str_device_account_error">用户名格式不正确，用户名只能由1–16位的英文、数字及._–组成.</string>
-    <string name="login_str_device_pass_error">密码格式不正确，密码只能由0–16位字符组成.</string>
+    <string name="login_str_device_account_error">用户名格式不正确，用户名只能由1-16位的英文、数字及._-组成.</string>
+    <string name="login_str_device_pass_error">密码格式不正确，密码只能由0-16位字符组成.</string>
     <string name="login_str_device_add_success">添加设备成功</string>
     <string name="login_str_device_add_failed">添加设备失败</string>
     <string name="login_str_point_delete_success">通道删除成功</string>
@@ -65,7 +65,7 @@
     <string name="more_modify">修改资料</string>
     <string name="more_modifypwd">修改密码</string>
     <string name="more_findpassword">找回密码</string>
-    <string name="more_cancel">注销账号</string>
+    <string name="more_cancel">退出登录</string>
     <!-- JVWelcomeActivity -->
     <string name="cloud1">云视通</string>
     <string name="cloud2">通天下</string>
@@ -115,7 +115,7 @@
     <string name="record_failed">录像无效</string>
     <string name="voice_send">按住说话</string>
     <string name="voice_stop">松开结束</string>
-    <string name="str_has_call">设备未开启对讲或已在其他客户端开启云对讲，请稍后重试.</string>
+    <string name="str_has_call">设备未开启对讲或已在其他客户端开启语音对讲，请稍后重试.</string>
     <string name="str_call_close"> 对讲功能成功关闭</string>
     <string name="play_failed"> 播放失败</string>
     <!-- PlayHelp -->
@@ -239,9 +239,10 @@
     <string name="str_refresh_data">刷新数据</string>
     <string name="str_refreshing_data">正在刷新数据…</string>
     <string name="pull_from_time">更新于：</string>
-    <string name="pull_to_refresh_pull_label">下拉可以刷新</string>
-    <string name="pull_to_refresh_release_label">松开可以刷新</string>
-    <string name="pull_to_refresh_refreshing_label">加载中…</string>
+    <string name="pull_to_refresh_pull">下拉可以刷新</string>
+    <string name="pull_to_refresh_release">松开可以刷新</string>
+    <string name="pull_to_refresh_refreshing">加载中…</string>
+    <string name="pull_to_refresh_tap">点击刷新</string>
     <string name="str_data_load_success">设备加载成功</string>
     <string name="str_data_load_failed1">设备加载失败</string>
     <string name="str_update_at">更新于:</string>
@@ -365,6 +366,8 @@
     <string name="demo_get_failed">视频广场加载失败</string>
     <string name="demo_loading">正在努力加载...</string>
     <!-- JVTab -->
+    <string name="account_error_tips">您已离线，请点击登录。</string>
+    <string name="network_error_tips">网络连接不可用,是否进行设置?</string>
     <string name="network_error">网络连接不可用,是否进行设置?</string>
     <string name="tips_3g">目前处于2G/3G网络，观看视频会产生大量流量费用（由运营商收取），建议使用Wi-Fi网络.</string>
     <string name="waiting">请稍等…</string>
@@ -375,7 +378,7 @@
     <string name="no_more_tips">不再提示</string>
     <string name="download">立即下载</string>
     <!-- JVOffline -->
-    <string name="offline_other_login">账号在其他地方登入或者账号异常.</string>
+    <string name="offline_other_login">账号在其他地方登录或者账号异常.</string>
     <string name="offline_net_error">网络连接异常，请重新登录.</string>
     <string name="exit">退出</string>
     <string name="keeponline">继续登录</string>
@@ -418,12 +421,14 @@
     <string name="alarm_level">报警级别</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">上拉加载更多</string>
-    <string name="xlistview_no_more">没有报警信息了</string>
-    <string name="del_alarm_succ">报警删除成功</string>
-    <string name="del_alarm_failed">报警删除失败</string>
+    <string name="xlistview_no_more">没有更多报警信息了</string>
+    <string name="del_alarm_succ">报警信息删除成功</string>
+    <string name="del_alarm_failed">报警信息删除失败</string>
     <string name="get_alarm_list_failed">获取报警信息失败</string>
     <string name="clear_alarm_succ">清空报警信息成功</string>
     <string name="clear_alarm_failed">清空报警信息失败</string>
+    <string name="load_info_success">加载信息成功</string>
+    <string name="load_info_failed">加载信息失败</string>
     <!-- popupWindow -->
     <string name="pop_take">拍照</string>
     <string name="pop_pictrue">从相册选择</string>
@@ -453,7 +458,7 @@
     <string name="voice_tips1">亲，你现在可以和对方说话了</string>
     <string name="voice_tips2">对讲功能成功开启，长按向对方喊话.</string>
     <string name="default_stream">码流</string>
-    <string name="has_calling">设备未开启对讲或已在其他客户端开启云对讲，请稍后重试.</string>
+    <string name="has_calling">设备未开启对讲或已在其他客户端开启语音对讲，请稍后重试.</string>
     <string name="str_capture_error">抓拍失败</string>
     <!-- JVQuickSet -->
     <!-- ap配置流程模块 -->
@@ -583,31 +588,6 @@
     <string name="prepare_step5">请将手机靠近设备，点击发送声波按钮，\n配置设备</string>
     <string name="prepare_step6">(摄像机暂不支持连接5G Wi-Fi)</string>
     <string name="wave_add_dev">确定添加设备</string>
-    <!-- 包含云视通敏感词汇 -->
-    <string name="str_help9">切换域名/IP直连和云视通连接模式</string>
-    <string name="str_cloudsee_id">云视通号</string>
-    <string name="str_yst_connect">云视通连接</string>
-    <string name="app_name">云视通</string>
-    <string name="login_str_device_ytnum_notnull">请输入云视通号</string>
-    <string name="increct_yst_tips">云视通号不正确</string>
-    <string name="login_str_yst_num">云视通号</string>
-    <string name="str_not_qr_device">不属于云视通设备</string>
-    <!-- 中维版本值为1，oem版为2，nvsip版本为3 ，ATVCloud版本为4， KEEPER版本为5，STARTVision版本为6 -->
-    <string name="str_update_app_version">1</string>
-    <!-- 下载的新apk名字 -->
-    <string name="str_save_apk_name">CloudSEE.apk</string>
-    <!-- 默认用户名 -->
-    <string name="str_default_user">abc</string>
-    <!-- 默认密码 -->
-    <string name="str_default_pass">123</string>
-    <!-- 默认端口号 -->
-    <string name="str_default_port">9101</string>
-    <!-- 录像保存路径 -->
-    <string name="str_video_path">video/</string>
-    <!-- 抓拍保存路径 -->
-    <string name="str_capture_path">capture/</string>
-    <!-- 版权 -->
-    <string name="copyright"> Copyright©2014 Jovision Technology Co., Ltd. All Rights Reserved.</string>
     <!-- 报警 -->
     <string name="str_alarm_check">立即查看</string>
     <string name="str_pass_extra_err">传递数据异常</string>
@@ -625,6 +605,7 @@
     <string name="str_third_device_name">设备名称</string>
     <string name="str_door_device">门磁设备</string>
     <string name="str_bracelet_device">手环设备</string>
+    <string name="str_smoke_device">烟感设备</string>
     <string name="str_click_add_device">点击此处添加新的设备</string>
     <string name="str_alarm_third_nickname">请输入绑定设备昵称 ：</string>
     <string name="str_alarm_manage">添加报警设备</string>
@@ -634,7 +615,7 @@
     <string name="str_alarm_thirddev_bind_hint">设备昵称</string>
     <string name="str_bind_finish">完  成</string>
     <string name="str_alarm_type_move">移动侦测</string>
-    <string name="str_alarm_type_third">门磁或者手环报警</string>
+    <string name="str_alarm_type_third">安全报警</string>
     <string name="str_alarm_type_external">外接报警</string>
     <string name="str_alarm_type_unknown">未知报警类型</string>
     <string name="str_telecontrol_device">遥控设备</string>
@@ -718,10 +699,12 @@
     <string name="census_appnetwork_version">程序网络库</string>
     <string name="census_appplay_version">程序播放库</string>
     <string name="census_version">版本号</string>
+    <string name="str_error_vercode">无效验证码</string>
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">请输入需要重置密码的账号:</string>
     <string name="reset_passwd_input_vercode">获取验证码</string>
     <string name="str_vercode">验证码</string>
+    <string name="str_error_vercodetw">无效验证码</string>
     <string name="reset_passwd_account">账 号</string>
     <string name="reset_passwd_new_passwd">密 码</string>
     <string name="reset_passwd_confirm_passwd">确认密码</string>
@@ -753,5 +736,14 @@
     <string name="str_query_account_failed1">对不起，网络错误</string>
     <string name="str_not_bind_phone_tips2">您的账号没有绑定手机和邮箱，请联系客服</string>
     <string name="str_not_bind_phone_tips3">该用户不存在</string>
+    <!-- 包含云视通敏感词汇 -->
+    <string name="str_help9">切换域名/IP直连和云视通连接模式</string>
+    <string name="str_cloudsee_id">云视通号</string>
+    <string name="str_yst_connect">云视通连接</string>
+    <string name="app_name">云视通</string>
+    <string name="login_str_device_ytnum_notnull">请输入云视通号</string>
+    <string name="increct_yst_tips">云视通号不正确</string>
+    <string name="login_str_yst_num">云视通号</string>
+    <string name="str_not_qr_device">不属于云视通设备</string>
 
 </resources>

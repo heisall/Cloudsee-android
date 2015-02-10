@@ -1,4 +1,5 @@
 <resources>
+
     <string name="smssdk_back">Back </string>
     <string name="smssdk_regist">Register with phone number</string>
     <string name="smssdk_make_sure_country_mobile">Please confirm country and input phone number</string>
@@ -43,4 +44,5 @@
     <string name="smssdk_send_sounds_identify_code">OK, the call your phone number, voice broadcast verification code. If you do not want to be disturbed by incoming calls using the SMS verification code.</string>
     <string name="smssdk_make_sure_send_sounds">Delivery confirmation?</string>
     <string name="smssdk_send_sounds_success">Voice verification code sent successfully</string>
+
 </resources>

@@ -48,8 +48,8 @@
                 android:layout_marginLeft="4dip"
                 android:background="#ffffff"
                 android:hint="@string/smssdk_write_identify_code"
-                android:singleLine="true"
-                android:inputType="number" />
+                android:inputType="number"
+                android:singleLine="true" />
 
             <ImageView
                 android:id="@+id/iv_clear"
@@ -59,22 +59,21 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/smssdk_clear_search"
                 android:scaleType="fitCenter"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_sounds"
                 android:layout_width="wrap_content"
                 android:layout_height="50dip"
                 android:layout_alignParentBottom="true"
-                android:text="点击发送语音验证"
-                android:textSize="12sp"
-                android:textColor="@color/smssdk_white"
+                android:layout_alignRight="@+id/et_put_identify"
                 android:background="@drawable/smssdk_btn_disenable"
                 android:padding="10dip"
-                android:layout_alignRight="@+id/et_put_identify"
+                android:text="点击发送语音验证"
+                android:textColor="@color/smssdk_white"
+                android:textSize="12sp"
                 android:visibility="gone" />
-
-</RelativeLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_unreceive_identify"

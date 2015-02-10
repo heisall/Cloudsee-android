@@ -477,7 +477,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				paraObject = new JSONObject(params);
 				String userName = paraObject.getString("userName");
 				String userPwd = paraObject.getString("userPwd");
-				String des = descript;
+				String des = "";//descript;
 				byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
 						+ Consts.SIZE_DESCRIPT];
 				byte[] userNameByte = userName.getBytes();

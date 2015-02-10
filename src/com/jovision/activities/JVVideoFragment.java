@@ -193,6 +193,7 @@ public class JVVideoFragment extends BaseFragment {
 				loadFailedLayout.setVisibility(View.VISIBLE);
 				webView.setVisibility(View.GONE);
 				loadinglayout.setVisibility(View.GONE);
+				mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 			}
 
 			@Override
@@ -256,22 +257,28 @@ public class JVVideoFragment extends BaseFragment {
 				// webView.loadUrl("javascript:videopayer.play()");
 
 				if (loadFailed) {
+					mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 					loadFailedLayout.setVisibility(View.VISIBLE);
 					webView.setVisibility(View.GONE);
 					loadinglayout.setVisibility(View.GONE);
 				} else {
 					if (isConnected) {
+						mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO,
+								"true");
 						webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
 						loadinglayout.setVisibility(View.GONE);
 						webView.setVisibility(View.VISIBLE);
 						loadFailedLayout.setVisibility(View.GONE);
 					} else {
+						mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO,
+								"false");
 						loadFailedLayout.setVisibility(View.VISIBLE);
 						webView.setVisibility(View.GONE);
 						loadinglayout.setVisibility(View.GONE);
 					}
 				}
 				if (isshow) {
+					mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 					loadFailedLayout.setVisibility(View.VISIBLE);
 					webView.setVisibility(View.GONE);
 					loadinglayout.setVisibility(View.GONE);
@@ -279,8 +286,20 @@ public class JVVideoFragment extends BaseFragment {
 				MyLog.v(TAG, "webView finish load");
 			}
 		});
-		loadFailed = false;
-		webView.loadUrl(urls);
+
+		boolean hasLoad = false;
+		if (null != mActivity.statusHashMap.get(Consts.HAS_LOAD_DEMO)) {
+			hasLoad = Boolean.parseBoolean(mActivity.statusHashMap
+					.get(Consts.HAS_LOAD_DEMO));
+		}
+		if (hasLoad && ConfigUtil.isConnected(mActivity)) {
+			webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
+		} else {
+			webView.getSettings().setCacheMode(
+					WebSettings.LOAD_CACHE_ELSE_NETWORK);
+			loadFailed = false;
+			webView.loadUrl(urls);
+		}
 	}
 
 	class GetPlayUrlThread extends Thread {
@@ -338,10 +357,14 @@ public class JVVideoFragment extends BaseFragment {
 			case R.id.refreshimg: {
 				if (ConfigUtil.isConnected(mActivity)) {
 					loadFailedLayout.setVisibility(View.GONE);
+					mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 					loadinglayout.setVisibility(View.VISIBLE);
 					loadingBar.setAnimation(AnimationUtils.loadAnimation(
 							mActivity, R.anim.rotate));
 					loadFailed = false;
+					if ("".equalsIgnoreCase(urls)) {
+						MyLog.v(TAG, "urls is null");
+					}
 					webView.loadUrl(urls);
 				} else {
 					mActivity.alertNetDialog();
@@ -390,6 +413,7 @@ public class JVVideoFragment extends BaseFragment {
 		if (!ConfigUtil.isConnected(mActivity)) {
 			isConnected = false;
 			loadFailedLayout.setVisibility(View.VISIBLE);
+			mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 			webView.setVisibility(View.GONE);
 			loadinglayout.setVisibility(View.GONE);
 		} else {

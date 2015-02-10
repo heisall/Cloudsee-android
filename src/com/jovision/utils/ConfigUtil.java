@@ -153,7 +153,7 @@ public class ConfigUtil {
 			e.printStackTrace();
 		}
 
-		return "Beta " + version;
+		return version;
 	}
 
 	/**

@@ -668,8 +668,10 @@ public class JVMoreFragment extends BaseFragment {
 													((BaseActivity) mActivity).statusHashMap
 															.get("STATURL"));
 									intentAD0.putExtra("title", -2);
-									Log.i("TAG", ((BaseActivity) mActivity).statusHashMap
-											.get("STATURL")+"dddddddddd");
+									Log.i("TAG",
+											((BaseActivity) mActivity).statusHashMap
+													.get("STATURL")
+													+ "dddddddddd");
 									mActivity.startActivity(intentAD0);
 								} else {
 									GetDemoTask UrlTask2 = new GetDemoTask(
@@ -866,6 +868,7 @@ public class JVMoreFragment extends BaseFragment {
 				ConfigUtil.logOut();
 				UserUtil.resetAllUser();
 				BitmapCache.getInstance().clearAllCache();
+				mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				mActivity.statusHashMap.put(Consts.ACCOUNT_ERROR, null);
 			} catch (Exception e) {

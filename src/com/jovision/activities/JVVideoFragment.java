@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
@@ -139,7 +140,7 @@ public class JVVideoFragment extends BaseFragment {
 		if (urls.contains("rotate=x")) {
 			urls = urls.replace("rotate=x", "");
 			mActivity
-					.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
+			.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
 		}
 
 		/** topBar **/
@@ -227,7 +228,7 @@ public class JVVideoFragment extends BaseFragment {
 
 						mActivity.createDialog("", false);
 						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
-								.start();
+						.start();
 					} else {
 						view.loadUrl(newUrl);
 					}
@@ -241,9 +242,12 @@ public class JVVideoFragment extends BaseFragment {
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
-				loadinglayout.setVisibility(View.VISIBLE);
-				loadingBar.setAnimation(AnimationUtils.loadAnimation(mActivity,
-						R.anim.rotate));
+				if (!MySharedPreference.getBoolean("webfirst")) {
+					MySharedPreference.putBoolean("webfirst", true);
+					loadinglayout.setVisibility(View.VISIBLE);
+					loadingBar.setAnimation(AnimationUtils.loadAnimation(mActivity,
+							R.anim.rotate));
+				}
 				MyLog.v(TAG, "webView start load");
 			}
 

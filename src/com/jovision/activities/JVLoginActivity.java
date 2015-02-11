@@ -496,6 +496,8 @@ public class JVLoginActivity extends BaseActivity {
 							statusHashMap.get(Consts.KEY_PASSWORD),
 							Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
 				}
+				
+				statusHashMap.put("LOGINRES",strRes);
 				JSONObject respObj = null;
 				try {
 					respObj = new JSONObject(strRes);

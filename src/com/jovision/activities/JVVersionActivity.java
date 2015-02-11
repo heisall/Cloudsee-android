@@ -91,17 +91,19 @@ public class JVVersionActivity extends BaseActivity {
 					R.string.census_appnetwork_version)
 					+ "=" + ConfigUtil.GETNETWORK_VERSION + "\n");
 
-			configList.add("短信库=SMSSDK-1.1.9.jar" + "\n");
+			configList.add("短信库=SMSSDK-1.1.9.jar" + "\n\n");
 
 
+			configList.add(" URL=null时点击一下对应的功能即可出现URL\n");
 			configList.add("视频广场 URL=" + statusHashMap.get("DEMOURL")+ "\n");
 			configList.add("我要装监控 URL=" + statusHashMap.get("CUSTURL")+"\n");
-			configList.add("云视通指数 URL=" + statusHashMap.get("STATURL")+"\n");
+			configList.add("云视通指数 URL=" + statusHashMap.get("STATURL")+"\n\n");
+			
+			configList.add("登陆返回结果=" + statusHashMap.get("LOGINRES")+"\n");			
+			configList.add("新浪接口调用结果" + "=" + ConfigUtil.SINA_COUNTRY + "\n");
+
 			configList.add("信鸽推送=" + statusHashMap.get("TPUSH")+"\n");
 			
-
-			configList.add("SinaRes" + "=" + ConfigUtil.SINA_COUNTRY + "\n");
-
 			if (ConfigUtil.ACCOUNT_VERSION.equalsIgnoreCase(JVACCOUNT
 					.GetVersion(0))
 					&& ConfigUtil.PLAY_VERSION

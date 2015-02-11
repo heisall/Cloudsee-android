@@ -97,8 +97,8 @@ public class JVVersionActivity extends BaseActivity {
 			configList.add("视频广场 URL=" + statusHashMap.get("DEMOURL")+ "\n");
 			configList.add("我要装监控 URL=" + statusHashMap.get("CUSTURL")+"\n");
 			configList.add("云视通指数 URL=" + statusHashMap.get("STATURL")+"\n");
-
-
+			configList.add("信鸽推送=" + statusHashMap.get("TPUSH")+"\n");
+			
 
 			configList.add("SinaRes" + "=" + ConfigUtil.SINA_COUNTRY + "\n");
 

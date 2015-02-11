@@ -10,11 +10,16 @@
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
 
-    <TextView
-        android:id="@+id/configinfo"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="2dp"
-        android:textSize="14sp" />
+        android:layout_height="match_parent" >
+
+        <EditText
+            android:id="@+id/configinfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:textSize="14sp" />
+    </ScrollView>
 
 </LinearLayout>

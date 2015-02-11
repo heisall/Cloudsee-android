@@ -616,11 +616,11 @@ public class JVRemoteSettingActivity extends BaseActivity {
 							back();
 						} else {
 
-							// 值为2双码流是家庭安防产品
-							if (null != settingMap
-									&& null != settingMap.get("MobileCH")
-									&& "2".equalsIgnoreCase(settingMap
-											.get("MobileCH"))) {
+//							// 值为2双码流是家庭安防产品
+//							if (null != settingMap
+//									&& null != settingMap.get("MobileCH")
+//									&& "2".equalsIgnoreCase(settingMap
+//											.get("MobileCH"))) {
 								String wifiname = wifiName.getText().toString();
 								String wifipwd = wifiPwd.getText().toString();
 
@@ -654,7 +654,7 @@ public class JVRemoteSettingActivity extends BaseActivity {
 
 								}
 
-							}
+//							}
 
 						}
 					}

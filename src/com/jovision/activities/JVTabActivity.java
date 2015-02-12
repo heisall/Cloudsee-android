@@ -118,6 +118,7 @@ public class JVTabActivity extends ShakeActivity implements
 						@Override
 						public void onSuccess(Object data, int flag) {
 							MyLog.d("TPush", "注册成功，设备token为：" + data);
+							statusHashMap.put("TPUSH", "注册成功："+data);
 							if (MySharedPreference.getString(
 									Consts.KEY_DEV_TOKEN).equals("")) {
 								MySharedPreference.putString(
@@ -134,6 +135,7 @@ public class JVTabActivity extends ShakeActivity implements
 						public void onFail(Object data, int errCode, String msg) {
 							MyLog.e("TPush", "注册失败，错误码：" + errCode + ",错误信息："
 									+ msg);
+							statusHashMap.put("TPUSH", "注册失败："+errCode+",错误信息:"+msg);
 						}
 					});
 		}

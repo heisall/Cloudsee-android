@@ -299,6 +299,7 @@ public class JVVideoFragment extends BaseFragment {
 		if (hasLoad && ConfigUtil.isConnected(mActivity)) {
 			webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
 		} else {
+			loadinglayout.setVisibility(View.VISIBLE);
 			webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 			loadFailed = false;
 			webView.loadUrl(urls);

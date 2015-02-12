@@ -890,6 +890,15 @@ public class JVMoreFragment extends BaseFragment {
 					JVLoginActivity.class);
 			Intent intent = new Intent();
 			String userName = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
+			mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
+
+			clearCacheFolder(mActivity.getCacheDir(),
+					System.currentTimeMillis());
+			
+			mActivity.deleteDatabase("webview.db");
+			mActivity.deleteDatabase("webviewCache.db");
+			
+			
 			intent.putExtra("UserName", userName);
 			MySharedPreference.putBoolean("REMEMBER", false);
 			intent.setClass(mActivity, JVLoginActivity.class);
@@ -916,5 +925,45 @@ public class JVMoreFragment extends BaseFragment {
 			littlenum = 0;
 		}
 		super.onPause();
+	}
+	
+	
+	private int clearCacheFolder(File dir, long numDays) {
+
+		int deletedFiles = 0;
+
+		if (dir != null && dir.isDirectory()) {
+
+			try {
+
+				for (File child : dir.listFiles()) {
+					if (child.isDirectory()) {
+
+						deletedFiles += clearCacheFolder(child, numDays);
+
+					}
+
+					if (child.lastModified() < numDays) {
+
+						if (child.delete()) {
+
+							deletedFiles++;
+
+						}
+
+					}
+
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}
+
+		}
+
+		return deletedFiles;
+
 	}
 }

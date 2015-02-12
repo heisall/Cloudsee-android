@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,6 +36,7 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
+import com.tencent.android.tpush.service.cache.CacheManager;
 import com.tencent.stat.StatService;
 
 /**
@@ -474,11 +476,27 @@ public abstract class BaseActivity extends FragmentActivity implements
 	private long exitTime = 0;
 
 	public void exit() {
+
+		// File file = CacheManager.getCacheFileBaseDir();
+		// if (file != null && file.exists() && file.isDirectory()) {
+		// for (File item : file.listFiles()) {
+		// item.delete();
+		// }
+		// file.delete();
+		// }
 		if ((System.currentTimeMillis() - exitTime) > 2000) {
 			Toast.makeText(getApplicationContext(), R.string.pressback_exit,
 					Toast.LENGTH_SHORT).show();
 			exitTime = System.currentTimeMillis();
 		} else {
+			statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
+
+			clearCacheFolder(BaseActivity.this.getCacheDir(),
+					System.currentTimeMillis());
+			
+			BaseActivity.this.deleteDatabase("webview.db");
+			BaseActivity.this.deleteDatabase("webviewCache.db");
+			
 			if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 				new Thread(new SetUserOnlineStatusThread(0)).start();
 			}
@@ -505,6 +523,45 @@ public abstract class BaseActivity extends FragmentActivity implements
 		public void run() {
 			JVACCOUNT.SetUserOnlineStatus(tag);
 		}
+	}
+
+	private int clearCacheFolder(File dir, long numDays) {
+
+		int deletedFiles = 0;
+
+		if (dir != null && dir.isDirectory()) {
+
+			try {
+
+				for (File child : dir.listFiles()) {
+					if (child.isDirectory()) {
+
+						deletedFiles += clearCacheFolder(child, numDays);
+
+					}
+
+					if (child.lastModified() < numDays) {
+
+						if (child.delete()) {
+
+							deletedFiles++;
+
+						}
+
+					}
+
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}
+
+		}
+
+		return deletedFiles;
+
 	}
 
 }

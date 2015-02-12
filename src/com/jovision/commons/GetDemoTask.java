@@ -67,7 +67,6 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			} else {
 				lan = "en_us";
 			}
-
 			switch (counts) {
 			case 0:
 				String custurl;

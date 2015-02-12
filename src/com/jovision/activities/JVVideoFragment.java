@@ -112,6 +112,7 @@ public class JVVideoFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		if (null != ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
+			
 			String sid = "";
 			String lan = "";
 			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {
@@ -123,6 +124,9 @@ public class JVVideoFragment extends BaseFragment {
 				lan = "en_us";
 			}
 			urls = ((BaseActivity) mActivity).statusHashMap.get("DEMOURL");
+//			urls = "http://test.cloudsee.net/phone.action";
+			
+			
 			if (!Boolean.valueOf(mActivity.statusHashMap
 					.get(Consts.LOCAL_LOGIN))) {
 				String sessionResult = ConfigUtil.getSession();
@@ -142,7 +146,7 @@ public class JVVideoFragment extends BaseFragment {
 			mActivity
 			.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
 		}
-
+		MyLog.e("yanshidian", urls);
 		/** topBar **/
 		topBar = (RelativeLayout) rootView.findViewById(R.id.topbarh);
 		leftBtn = (Button) rootView.findViewById(R.id.btn_left);
@@ -295,8 +299,7 @@ public class JVVideoFragment extends BaseFragment {
 		if (hasLoad && ConfigUtil.isConnected(mActivity)) {
 			webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
 		} else {
-			webView.getSettings().setCacheMode(
-					WebSettings.LOAD_CACHE_ELSE_NETWORK);
+			webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 			loadFailed = false;
 			webView.loadUrl(urls);
 		}

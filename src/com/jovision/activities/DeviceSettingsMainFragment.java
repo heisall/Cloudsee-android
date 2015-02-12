@@ -181,6 +181,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						startMin = "00";
 						break;
 					case 2:
+					case 3:
 						startHour = strs_s[0];
 						startMin = strs_s[1];
 						break;
@@ -202,6 +203,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						endMin = "00";
 						break;
 					case 2:
+					case 3:
 						endHour = strs_e[0];
 						endMin = strs_e[1];
 						break;

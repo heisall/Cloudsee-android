@@ -49,6 +49,10 @@ public class JVWelcomeActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
+		Consts.TEST_SERVER = MySharedPreference.getBoolean("TESTSWITCH",
+				false);//true  测试服务器 ;   false  正式服务器   
+		
+		
 		ConfigUtil.getJNIVersion();
 		ImportOldData importOld = new ImportOldData(JVWelcomeActivity.this);
 		if (!MySharedPreference.getBoolean("HasImport")) {
@@ -83,14 +87,7 @@ public class JVWelcomeActivity extends BaseActivity {
 
 		initThread.start();
 		
-//		Consts.TEST_SERVER = true;
-//		MyLog.v("test-Url.SHORTSERVERIP", Url.SHORTSERVERIP);
-//		MyLog.v("test-Url.LONGSERVERIP", Url.LONGSERVERIP);
-
 		
-		Consts.TEST_SERVER = false;
-		MyLog.v("Normal-Url.SHORTSERVERIP", Url.SHORTSERVERIP);
-		MyLog.v("Normal-Url.LONGSERVERIP", Url.LONGSERVERIP);
 		
 		initHandler = new Handler();
 		initHandler.postDelayed(jumpThread, 4000);
@@ -203,6 +200,8 @@ public class JVWelcomeActivity extends BaseActivity {
 	Thread jumpThread = new Thread() {
 		@Override
 		public void run() {
+			MyLog.v("Normal-Url.SHORTSERVERIP", Consts.TEST_SERVER+"--"+Url.SHORTSERVERIP);
+			MyLog.v("Normal-Url.LONGSERVERIP", Consts.TEST_SERVER+"--"+Url.LONGSERVERIP);
 			Intent intent = new Intent();
 			// 首次登陆,且非公共版本
 			if (MySharedPreference.getBoolean(Consts.KEY_SHOW_GUID, true)

@@ -14,7 +14,9 @@ import android.widget.ImageView.ScaleType;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.commons.Url;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ImportOldData;
@@ -80,7 +82,16 @@ public class JVWelcomeActivity extends BaseActivity {
 		}
 
 		initThread.start();
+		
+//		Consts.TEST_SERVER = true;
+//		MyLog.v("test-Url.SHORTSERVERIP", Url.SHORTSERVERIP);
+//		MyLog.v("test-Url.LONGSERVERIP", Url.LONGSERVERIP);
 
+		
+		Consts.TEST_SERVER = false;
+		MyLog.v("Normal-Url.SHORTSERVERIP", Url.SHORTSERVERIP);
+		MyLog.v("Normal-Url.LONGSERVERIP", Url.LONGSERVERIP);
+		
 		initHandler = new Handler();
 		initHandler.postDelayed(jumpThread, 4000);
 

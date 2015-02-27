@@ -2287,7 +2287,9 @@ public class JVPlayActivity extends PlayActivity implements
 					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
-
+					int connectWay = channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+							: JVNetConst.TYPE_3GMO_UDP;
+					MyLog.e(TAG, "连接方式 == "+connectWay);
 				} else {
 					int number = device.getNo();
 					String conIp = device.getIp();
@@ -2331,6 +2333,10 @@ public class JVPlayActivity extends PlayActivity implements
 										// ? 6 : 5),
 										channel.getSurface(), false, isOmx,
 										fullPath);
+						
+						int connectWay = channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+								: JVNetConst.TYPE_3GMO_UDP;
+						MyLog.e(TAG, "连接方式 == "+connectWay);
 						if (connect == channel.getIndex()) {
 							channel.setPaused(null == channel.getSurface());
 						}
@@ -2352,6 +2358,10 @@ public class JVPlayActivity extends PlayActivity implements
 												: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
 										// ? 6 : 5),
 										null, false, isOmx, fullPath);
+						
+						int connectWay = channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+								: JVNetConst.TYPE_3GMO_UDP;
+						MyLog.e(TAG, "连接方式 == "+connectWay);
 						if (connect == channel.getIndex()) {
 							channel.setPaused(true);
 						}

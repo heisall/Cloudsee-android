@@ -21,7 +21,9 @@ public class Consts {
 	public static final String DEFAULT_PASSWORD = "123";// 中性软件改为空
 	// 添加设备默认的端口
 	public static final String DEFAULT_PORT = "9101";// 固定值，无需修改
-
+	// 测试服务器
+	public static boolean TEST_SERVER = false;//true 测试服务器，  false  正式服务器
+	
 	/**************************** 华丽的分割线 ******************************/
 	public static int CURRENT_LAN = -1;// 当前语言
 	public static int COUNT = -1;

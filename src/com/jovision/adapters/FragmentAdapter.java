@@ -235,7 +235,7 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 				break;
 			default:
-				break;
+				break;                                                                                                                                                                                                                                                                                                                                        
 			}
 		}
 		return convertView;

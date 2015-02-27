@@ -1452,68 +1452,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 			MyLog.v("网络恢复完成", changeRes + "");
 
-			// int reLoginRes = -1;
-			// int loginRes1 = -1;
-			// int loginRes2 = -1;
-			// int time = 0;
-
+			
 			// 网络恢复成功
 			if (changeRes) {
 				if (addFlag) {
-					// 在线
-					// if (!local) {
-					// // 重新登陆
-					// while (JVAccountConst.LOGIN_SUCCESS != loginRes1
-					// && time <= 5) {
-					// time++;
-					// try {
-					// Thread.sleep(3 * 1000);
-					// } catch (InterruptedException e) {
-					// e.printStackTrace();
-					// }
-					// // reLoginRes = AccountUtil.userLogin(
-					// // statusHashMap.get(Consts.KEY_USERNAME),
-					// // statusHashMap.get(Consts.KEY_PASSWORD),
-					// // JVQuickSettingActivity.this);
-					// String strRes = "";
-					// if (!MySharedPreference.getBoolean(Consts.MORE_TESTSWITCH)) {
-					// strRes = AccountUtil.onLoginProcessV2(
-					// JVQuickSettingActivity.this,
-					// statusHashMap.get(Consts.KEY_USERNAME),
-					// statusHashMap.get(Consts.KEY_PASSWORD),
-					// Url.SHORTSERVERIP, Url.LONGSERVERIP);
-					// } else {
-					// strRes = AccountUtil.onLoginProcessV2(
-					// JVQuickSettingActivity.this,
-					// statusHashMap.get(Consts.KEY_USERNAME),
-					// statusHashMap.get(Consts.KEY_PASSWORD),
-					// Url.SHORTSERVERIPTEST,
-					// Url.LONGSERVERIPTEST);
-					// }
-					// JSONObject respObj = null;
-					//
-					// try {
-					// respObj = new JSONObject(strRes);
-					// loginRes1 = respObj.optInt("arg1", 1);
-					// loginRes2 = respObj.optInt("arg2", 0);
-					// if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
-					// hasLogout = false;
-					// }
-					// } catch (JSONException e) {
-					// loginRes1 = JVAccountConst.LOGIN_FAILED_2;
-					// loginRes2 = 0;
-					// e.printStackTrace();
-					// }
-					// // if (JVAccountConst.SUCCESS == reLoginRes) {
-					// // hasLogout = false;
-					// // }
-					// MyLog.v("网络恢复完成---重新登录---"
-					// + statusHashMap.get(Consts.KEY_USERNAME),
-					// loginRes1 + "");
-					// }
-					//
-					// }
-
+					
 					if (!ConfigUtil.is3G(JVQuickSettingActivity.this, false)) {
 						hasBroadIP = false;
 						Jni.queryDevice(

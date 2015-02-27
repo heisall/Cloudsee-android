@@ -47,25 +47,15 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 				ConfigUtil.initAccountSDK(application);// 初始化账号SDK
 			}
 			String strRes = "";
-			Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH") + "LOGIN");
-			if (!MySharedPreference.getBoolean("TESTSWITCH")) {
 				strRes = AccountUtil.onLoginProcessV2(mContext,
 						statusHashMap.get(Consts.KEY_USERNAME),
 						statusHashMap.get(Consts.KEY_PASSWORD),
 						Url.SHORTSERVERIP, Url.LONGSERVERIP);
-			} else {
-				strRes = AccountUtil.onLoginProcessV2(mContext,
-						statusHashMap.get(Consts.KEY_USERNAME),
-						statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
-			}
 			JSONObject respObj = null;
 			try {
 				respObj = new JSONObject(strRes);
 				loginRes1 = respObj.optInt("arg1", 1);
 				// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
-				if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-				}
 				String data = respObj.optString("data");
 				if (null != data && !"".equalsIgnoreCase(data)) {
 					JSONObject dataObj = new JSONObject(data);

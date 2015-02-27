@@ -489,17 +489,9 @@ public class JVMoreFragment extends BaseFragment {
 							if (MySharedPreference.getBoolean("TESTSWITCH")) {
 								MySharedPreference.putBoolean("TESTSWITCH",
 										false);
-								Log.i("TAG",
-										MySharedPreference
-												.getBoolean("TESTSWITCH")
-												+ "DSDSDSD");
 							} else {
 								MySharedPreference.putBoolean("TESTSWITCH",
 										true);
-								Log.i("TAG",
-										MySharedPreference
-												.getBoolean("TESTSWITCH")
-												+ "DSDSDSD");
 							}
 							break;
 						case 7:// 版本号

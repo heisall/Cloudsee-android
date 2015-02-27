@@ -470,17 +470,10 @@ public class ConfigUtil {
 			} else {
 				if (getNetWorkConnection(context)) {
 
-					if (!MySharedPreference.getBoolean("TESTSWITCH")) {
 						MyLog.v("initAccountSDK", Url.SHORTSERVERIP + "--"
 								+ Url.LONGSERVERIP);
 						JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,
 								Url.LONGSERVERIP);
-					} else {
-						MyLog.v("initAccountSDK", Url.SHORTSERVERIPTEST + "--"
-								+ Url.SHORTSERVERIPTEST);
-						JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIPTEST,
-								Url.SHORTSERVERIPTEST);
-					}
 					// String ip = JVACCOUNT.GetServerIP();
 					// if(ip.length() < 5){//无ip
 					// JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,

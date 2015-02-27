@@ -130,19 +130,11 @@ public class JVRegisterCodeActivity extends BaseActivity {
 				registerRes = AccountUtil.userRegister(user);
 				if (JVAccountConst.SUCCESS == registerRes) {
 					String strRes = "";
-					if (!MySharedPreference.getBoolean("TESTSWITCH")) {
 						strRes = AccountUtil.onLoginProcessV2(
 								JVRegisterCodeActivity.this,
 								statusHashMap.get(Consts.KEY_USERNAME),
 								statusHashMap.get(Consts.KEY_PASSWORD),
 								Url.SHORTSERVERIP, Url.LONGSERVERIP);
-					} else {
-						strRes = AccountUtil.onLoginProcessV2(
-								JVRegisterCodeActivity.this,
-								statusHashMap.get(Consts.KEY_USERNAME),
-								statusHashMap.get(Consts.KEY_PASSWORD),
-								Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
-					}
 					JSONObject respObj = null;
 					try {
 						respObj = new JSONObject(strRes);

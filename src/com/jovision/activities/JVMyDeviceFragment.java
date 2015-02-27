@@ -481,7 +481,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 							"Scan devices in LAN", mActivity.getResources()
 									.getString(R.string.str_scanlandevice));
 
-					if (!MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+					if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST, true)) {
 						MyLog.v(Consts.TAG_APP, "not broad = " + false);
 						break;
 					}

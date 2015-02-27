@@ -283,7 +283,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 			MyLog.v("JVPushCallBack", "res=" + res + ";time=" + time + ";msg="
 					+ msg);
 			if (JVAccountConst.MESSAGE_PUSH_TAG == res) {
-				if (MySharedPreference.getBoolean("AlarmSwitch", true)) {
+				if (MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH, true)) {
 					// if (null != currentNotifyer) {
 					// if (null != msg && !"".equalsIgnoreCase(msg)) {
 					// JSONObject obj = new JSONObject(msg);
@@ -364,7 +364,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				String strYstNumString = "";
 				// Toast.makeText(getApplicationContext(),
 				// "new msg push call back", Toast.LENGTH_SHORT).show();
-				if (MySharedPreference.getBoolean("AlarmSwitch", true)) {
+				if (MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH, true)) {
 					if (null != currentNotifyer && null != msg
 							&& !"".equalsIgnoreCase(msg)) {
 

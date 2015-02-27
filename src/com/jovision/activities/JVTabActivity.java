@@ -230,14 +230,14 @@ public class JVTabActivity extends ShakeActivity implements
 			Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
 			int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 			if(lan == Consts.LANGUAGE_ZH) {
-				if (cnt > 0 || !MySharedPreference.getBoolean("SystemMessage")
-						|| (!MySharedPreference.getBoolean("CUSTURL"))
-						|| (!MySharedPreference.getBoolean("STATURL"))) {
+				if (cnt > 0 || !MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+						|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
+						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					show = true;
 				}
 			}else {
-				if (cnt > 0 || !MySharedPreference.getBoolean("SystemMessage")
-						|| (!MySharedPreference.getBoolean("STATURL"))) {
+				if (cnt > 0 || !MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					show = true;
 				}
 			}
@@ -449,7 +449,7 @@ public class JVTabActivity extends ShakeActivity implements
 		mFragments[1] = new JVVideoFragment();
 		mFragments[2] = new JVDeviceManageFragment();
 		mFragments[3] = new JVMoreFragment();
-		if (!MySharedPreference.getBoolean("page2")) {
+		if (!MySharedPreference.getBoolean(Consts.MORE_PAGETWO)) {
 			ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 			ll_dot.setVisibility(View.GONE);
 			viewpager.setCurrentItem(0);
@@ -457,7 +457,7 @@ public class JVTabActivity extends ShakeActivity implements
 			getPicone();
 			adp = new MyPagerAdp(pics);
 			viewpager.setAdapter(adp);
-			MySharedPreference.putBoolean("page2", true);
+			MySharedPreference.putBoolean(Consts.MORE_PAGETWO, true);
 		}
 		mIndicator.setOnIndicateListener(new OnIndicateListener() {
 			@Override
@@ -469,7 +469,7 @@ public class JVTabActivity extends ShakeActivity implements
 							.commit();
 					switch (which) {
 					case 0:
-						if (!page2 && !MySharedPreference.getBoolean("page2")) {
+						if (!page2 && !MySharedPreference.getBoolean(Consts.MORE_PAGETWO)) {
 							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 							ll_dot.setVisibility(View.GONE);
 							viewpager.setCurrentItem(0);
@@ -477,10 +477,10 @@ public class JVTabActivity extends ShakeActivity implements
 							getPicone();
 							adp = new MyPagerAdp(pics);
 							viewpager.setAdapter(adp);
-							MySharedPreference.putBoolean("page2", true);
+							MySharedPreference.putBoolean(Consts.MORE_PAGETWO, true);
 						} else {
-							if (MySharedPreference.getBoolean("HELP")
-									&& !MySharedPreference.getBoolean("page2")) {
+							if (MySharedPreference.getBoolean(Consts.MORE_HELP)
+									&& !MySharedPreference.getBoolean(Consts.MORE_PAGETWO)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.GONE);
 								viewpager.setCurrentItem(0);
@@ -488,7 +488,7 @@ public class JVTabActivity extends ShakeActivity implements
 								getPicone();
 								adp = new MyPagerAdp(pics);
 								viewpager.setAdapter(adp);
-								MySharedPreference.putBoolean("page2", false);
+								MySharedPreference.putBoolean(Consts.MORE_PAGETWO, false);
 								page2 = true;
 							}
 						}
@@ -504,7 +504,7 @@ public class JVTabActivity extends ShakeActivity implements
 						myDeviceList = CacheUtil.getDevList();
 						if (0 != myDeviceList.size()) {
 							if (!page1
-									&& !MySharedPreference.getBoolean("page1")) {
+									&& !MySharedPreference.getBoolean(Consts.MORE_PAGEONE)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.VISIBLE);
 								viewpager.setCurrentItem(0);
@@ -512,11 +512,11 @@ public class JVTabActivity extends ShakeActivity implements
 								getPic();
 								adp = new MyPagerAdp(pics);
 								viewpager.setAdapter(adp);
-								MySharedPreference.putBoolean("page1", true);
+								MySharedPreference.putBoolean(Consts.MORE_PAGEONE, true);
 							} else {
-								if (MySharedPreference.getBoolean("HELP")
+								if (MySharedPreference.getBoolean(Consts.MORE_HELP)
 										&& !MySharedPreference
-												.getBoolean("page1")) {
+												.getBoolean(Consts.MORE_PAGEONE)) {
 									ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 									ll_dot.setVisibility(View.VISIBLE);
 									viewpager.setCurrentItem(0);
@@ -524,7 +524,7 @@ public class JVTabActivity extends ShakeActivity implements
 									getPic();
 									adp = new MyPagerAdp(pics);
 									viewpager.setAdapter(adp);
-									MySharedPreference.putBoolean("page1",
+									MySharedPreference.putBoolean(Consts.MORE_PAGEONE,
 											false);
 									page1 = true;
 								}
@@ -537,9 +537,9 @@ public class JVTabActivity extends ShakeActivity implements
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				if (MySharedPreference.getBoolean("page2")
-						&& MySharedPreference.getBoolean("page1")) {
-					MySharedPreference.putBoolean("HELP", false);
+				if (MySharedPreference.getBoolean(Consts.MORE_PAGETWO)
+						&& MySharedPreference.getBoolean(Consts.MORE_PAGEONE)) {
+					MySharedPreference.putBoolean(Consts.MORE_HELP, false);
 				}
 			}
 		});

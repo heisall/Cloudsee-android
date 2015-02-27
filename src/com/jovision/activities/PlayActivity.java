@@ -332,7 +332,7 @@ public abstract class PlayActivity extends BaseActivity implements
 			@Override
 			public void onClick(View arg0) {
 
-				if (MySharedPreference.getBoolean("LITTLE")) {
+				if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
 					closePopWindow();
 					if (View.VISIBLE == playStatistics.getVisibility()) {
 						playStatistics.setVisibility(View.GONE);

@@ -1593,7 +1593,7 @@ public class JVPlayActivity extends PlayActivity implements
 			startWindowIndex = 0;
 			channelList = new ArrayList<Channel>();
 
-			if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+			if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
 				int size = deviceList.size();
 				for (int i = 0; i < size; i++) {
 					ArrayList<Channel> cList = deviceList.get(i)

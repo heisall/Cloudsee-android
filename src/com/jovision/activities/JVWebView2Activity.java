@@ -227,12 +227,12 @@ public class JVWebView2Activity extends BaseActivity implements
 
 					if (View.VISIBLE == playBar.getVisibility()) {
 						playBar.setVisibility(View.GONE);
-						if (MySharedPreference.getBoolean("LITTLE")) {// 调试版本
+						if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {// 调试版本
 							linkSetting.setVisibility(View.GONE);
 						}
 					} else {
 						playBar.setVisibility(View.VISIBLE);
-						if (MySharedPreference.getBoolean("LITTLE")) {// 调试版本
+						if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {// 调试版本
 							linkSetting.setVisibility(View.VISIBLE);
 						}
 					}
@@ -461,7 +461,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		saveSetting = (Button) findViewById(R.id.savesetting);
 		saveSetting.setOnClickListener(myOnClickListener);
 
-		if (MySharedPreference.getBoolean("LITTLE")) {// 调试版本
+		if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {// 调试版本
 			linkSetting.setVisibility(View.VISIBLE);
 		} else {
 			linkSetting.setVisibility(View.GONE);

@@ -495,7 +495,7 @@ public class ConfigUtil {
 	 */
 	public static int openBroadCast() {
 		int res = -1;
-		if (MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+		if (MySharedPreference.getBoolean(Consts.MORE_BROADCAST, true)) {
 			MyLog.v(Consts.TAG_APP, "enable  broad = " + true);
 			res = Jni.searchLanServer(9400, 6666);
 		} else {
@@ -508,7 +508,7 @@ public class ConfigUtil {
 	 * 停止广播
 	 */
 	public static void stopBroadCast() {
-		if (MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+		if (MySharedPreference.getBoolean(Consts.MORE_BROADCAST, true)) {
 			Jni.stopSearchLanServer();
 		}
 	}
@@ -530,7 +530,7 @@ public class ConfigUtil {
 			Jni.enableLog(true);
 			Jni.setThumb(320, 90);
 			Jni.setStat(true);
-			if (MySharedPreference.getBoolean("LITTLEHELP", true)) {
+			if (MySharedPreference.getBoolean(Consts.MORE_LITTLEHELP, true)) {
 				Jni.enableLinkHelper(true, 3, 10);// 开小助手
 				MyLog.v(Consts.TAG_APP, "enable  helper = " + true);
 			} else {

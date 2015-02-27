@@ -292,7 +292,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 
 		playbackData = (TextView) findViewById(R.id.playbackdata);
 
-		if (MySharedPreference.getBoolean("LITTLE")) {
+		if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
 			playbackData.setVisibility(View.VISIBLE);
 		} else {
 			playbackData.setVisibility(View.GONE);

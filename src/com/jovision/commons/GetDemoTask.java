@@ -75,7 +75,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 							JVWebViewActivity.class);
 					custurl = webUrl.getCustUrl() + "?" + "&lang=" + lan
 							+ "&d=" + System.currentTimeMillis();
-					((BaseActivity) mContext).statusHashMap.put("CUSTURL",
+					((BaseActivity) mContext).statusHashMap.put(Consts.MORE_CUSTURL,
 							custurl);
 					Log.i("TAG", custurl);
 					intentAD0.putExtra("URL", custurl);
@@ -93,7 +93,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 							JVWebViewActivity.class);
 					staturl = webUrl.getStatUrl() + "?" + "&lang=" + lan
 							+ "&d=" + System.currentTimeMillis();
-					((BaseActivity) mContext).statusHashMap.put("STATURL",
+					((BaseActivity) mContext).statusHashMap.put(Consts.MORE_STATURL,
 							staturl);
 
 					Log.i("TAG", staturl);

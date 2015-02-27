@@ -87,7 +87,7 @@ public class JVLoginActivity extends BaseActivity {
 			if (null != obj) {
 				tipMsg = obj.toString();
 			}
-			if (!MySharedPreference.getBoolean("LITTLE")) {
+			if (!MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
 				createDialog("", false);
 			} else {
 				createDialog(tipMsg, false);
@@ -291,7 +291,7 @@ public class JVLoginActivity extends BaseActivity {
 		if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
 			alertNetDialog();
 		} else {
-			if (MySharedPreference.getBoolean("REMEMBER", false)) {
+			if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {
 				String userName = intent.getStringExtra("UserName");
 				String userPass = intent.getStringExtra("UserPass");
 				statusHashMap.put(Consts.KEY_USERNAME, userName);
@@ -545,8 +545,8 @@ public class JVLoginActivity extends BaseActivity {
 						"onlinelogin", JVLoginActivity.this.getResources()
 						.getString(R.string.census_onlinelogin));
 				if (!MySharedPreference.getBoolean("LOGINFIRST", false)
-						|| !MySharedPreference.getBoolean("REMEMBER", false)) {
-					MySharedPreference.putBoolean("REMEMBER", true);
+						|| !MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {
+					MySharedPreference.putBoolean(Consts.MORE_REMEMBER, true);
 					MySharedPreference.putBoolean("LOGINFIRST", true);
 				}
 
@@ -629,7 +629,7 @@ public class JVLoginActivity extends BaseActivity {
 			}
 			case JVAccountConst.LOGIN_FAILED_1: {
 
-				if (MySharedPreference.getBoolean("REMEMBER", false)) {// 自动登陆，离线登陆
+				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
 					intent.setClass(JVLoginActivity.this, JVTabActivity.class);
@@ -651,7 +651,7 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.LOGIN_FAILED_2: {
-				if (MySharedPreference.getBoolean("REMEMBER", false)) {// 自动登陆，离线登陆
+				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
 					intent.setClass(JVLoginActivity.this, JVTabActivity.class);

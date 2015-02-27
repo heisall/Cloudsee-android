@@ -173,7 +173,7 @@ public class JVMoreFragment extends BaseFragment {
 
 	private void intiUi(View view) {
 		activity = getActivity();
-		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+		if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
 			fragment_name = activity.getResources().getStringArray(
 					R.array.array_moreduo);
 		} else {
@@ -417,29 +417,29 @@ public class JVMoreFragment extends BaseFragment {
 							int position, long id) {
 						switch (position) {
 						case 0:  //帮助图片是否显示
-							if (MySharedPreference.getBoolean("HELP")) {
-								MySharedPreference.putBoolean("HELP", false);
-								MySharedPreference.putBoolean("page1", true);
-								MySharedPreference.putBoolean("page2", true);
+							if (MySharedPreference.getBoolean(Consts.MORE_HELP)) {
+								MySharedPreference.putBoolean(Consts.MORE_HELP, false);
+								MySharedPreference.putBoolean(Consts.MORE_PAGEONE, true);
+								MySharedPreference.putBoolean(Consts.MORE_PAGETWO, true);
 							} else {
-								MySharedPreference.putBoolean("HELP", true);
-								MySharedPreference.putBoolean("page1", false);
-								MySharedPreference.putBoolean("page2", false);
+								MySharedPreference.putBoolean(Consts.MORE_HELP, true);
+								MySharedPreference.putBoolean(Consts.MORE_PAGEONE, false);
+								MySharedPreference.putBoolean(Consts.MORE_PAGETWO, false);
 							}
 							break;
 						case 1:  //自动登录功能
 							// TODO
-							if (MySharedPreference.getBoolean("REMEMBER")) {
+							if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER)) {
 								MySharedPreference
-										.putBoolean("REMEMBER", false);
+										.putBoolean(Consts.MORE_REMEMBER, false);
 							} else {
-								MySharedPreference.putBoolean("REMEMBER", true);
+								MySharedPreference.putBoolean(Consts.MORE_REMEMBER, true);
 							}
 							break;
 						case 2:  //报警通知开关
 							AlarmTask task = new AlarmTask();
 							Integer[] params = new Integer[3];
-							if (!MySharedPreference.getBoolean("AlarmSwitch",
+							if (!MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
 									true)) {// 1是关
 								// 0是开
 								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
@@ -450,14 +450,14 @@ public class JVMoreFragment extends BaseFragment {
 
 							break;
 						case 3:  //观看模式（单设备，多设备）
-							if (MySharedPreference.getBoolean("PlayDeviceMode")) {
-								MySharedPreference.putBoolean("PlayDeviceMode",
+							if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
+								MySharedPreference.putBoolean(Consts.MORE_PLAYMODE,
 										false);
 								dataList.get(3).setName(
 										mActivity.getResources().getString(
 												R.string.str_video_modetwo));
 							} else {
-								MySharedPreference.putBoolean("PlayDeviceMode",
+								MySharedPreference.putBoolean(Consts.MORE_PLAYMODE,
 										true);
 								dataList.get(3)
 										.setName(
@@ -468,29 +468,29 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 4:// 小助手
-							if (MySharedPreference.getBoolean("LITTLEHELP")) {
-								MySharedPreference.putBoolean("LITTLEHELP",
+							if (MySharedPreference.getBoolean(Consts.MORE_LITTLEHELP)) {
+								MySharedPreference.putBoolean(Consts.MORE_LITTLEHELP,
 										false);
 							} else {
-								MySharedPreference.putBoolean("LITTLEHELP",
+								MySharedPreference.putBoolean(Consts.MORE_LITTLEHELP,
 										true);
 							}
 							break;
 						case 5://广播
-							if (MySharedPreference.getBoolean("BROADCASTSHOW")) {
-								MySharedPreference.putBoolean("BROADCASTSHOW",
+							if (MySharedPreference.getBoolean(Consts.MORE_BROADCAST)) {
+								MySharedPreference.putBoolean(Consts.MORE_BROADCAST,
 										false);
 							} else {
-								MySharedPreference.putBoolean("BROADCASTSHOW",
+								MySharedPreference.putBoolean(Consts.MORE_BROADCAST,
 										true);
 							}
 							break;
 						case 6://测试服务器开关
-							if (MySharedPreference.getBoolean("TESTSWITCH")) {
-								MySharedPreference.putBoolean("TESTSWITCH",
+							if (MySharedPreference.getBoolean(Consts.MORE_TESTSWITCH)) {
+								MySharedPreference.putBoolean(Consts.MORE_TESTSWITCH,
 										false);
 							} else {
-								MySharedPreference.putBoolean("TESTSWITCH",
+								MySharedPreference.putBoolean(Consts.MORE_TESTSWITCH,
 										true);
 							}
 							break;
@@ -591,8 +591,8 @@ public class JVMoreFragment extends BaseFragment {
 							// TODO
 							break;
 						case 9: //系统消息
-							if (!MySharedPreference.getBoolean("SystemMessage")) {
-								MySharedPreference.putBoolean("SystemMessage",
+							if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+								MySharedPreference.putBoolean(Consts.MORE_SYSTEMMESSAGE,
 										true);
 							}
 							if (!ConfigUtil.isConnected(mActivity)) {
@@ -610,21 +610,21 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 10:  //我要装监控
-							if (!MySharedPreference.getBoolean("CUSTURL")) {
-								MySharedPreference.putBoolean("CUSTURL", true);
+							if (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL)) {
+								MySharedPreference.putBoolean(Consts.MORE_CUSTURL, true);
 							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {
 								if (null != ((BaseActivity) mActivity).statusHashMap
-										.get("CUSTURL")) {
+										.get(Consts.MORE_CUSTURL)) {
 									Intent intentAD0 = new Intent(mActivity,
 											JVWebViewActivity.class);
 									intentAD0
 											.putExtra(
 													"URL",
 													((BaseActivity) mActivity).statusHashMap
-															.get("CUSTURL"));
+															.get(Consts.MORE_CUSTURL));
 									intentAD0.putExtra("title", -2);
 									mActivity.startActivity(intentAD0);
 								} else {
@@ -644,26 +644,22 @@ public class JVMoreFragment extends BaseFragment {
 							// UrlTask1.execute(demoParams1);
 							break;
 						case 12:  //云视通指数
-							if (!MySharedPreference.getBoolean("STATURL")) {
-								MySharedPreference.putBoolean("STATURL", true);
+							if (!MySharedPreference.getBoolean(Consts.MORE_STATURL)) {
+								MySharedPreference.putBoolean(Consts.MORE_STATURL, true);
 							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {
 								if (null != ((BaseActivity) mActivity).statusHashMap
-										.get("STATURL")) {
+										.get(Consts.MORE_STATURL)) {
 									Intent intentAD0 = new Intent(mActivity,
 											JVWebViewActivity.class);
 									intentAD0
 											.putExtra(
 													"URL",
 													((BaseActivity) mActivity).statusHashMap
-															.get("STATURL"));
+															.get(Consts.MORE_STATURL));
 									intentAD0.putExtra("title", -2);
-									Log.i("TAG",
-											((BaseActivity) mActivity).statusHashMap
-													.get("STATURL")
-													+ "dddddddddd");
 									mActivity.startActivity(intentAD0);
 								} else {
 									GetDemoTask UrlTask2 = new GetDemoTask(
@@ -698,7 +694,7 @@ public class JVMoreFragment extends BaseFragment {
 							taskf.execute(strParams);
 							break;
 						case 16: //关于
-							if (!MySharedPreference.getBoolean("LITTLE")) {
+							if (!MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
 								littlenum++;
 								if (littlenum < 20) {
 									if (littlenum >= 17) {
@@ -707,22 +703,22 @@ public class JVMoreFragment extends BaseFragment {
 														+ " ");
 									}
 								} else if (littlenum == 20) {
-									MySharedPreference.putBoolean("LITTLEHELP",
+									MySharedPreference.putBoolean(Consts.MORE_LITTLEHELP,
 											true);
 									MySharedPreference.putBoolean(
-											"BROADCASTSHOW", true);
-									MySharedPreference.putBoolean("LITTLE",
+											Consts.MORE_BROADCAST, true);
+									MySharedPreference.putBoolean(Consts.MORE_LITTLE,
 											true);
 									ListViewUtil
 											.setListViewHeightBasedOnChildren(more_listView);
 								}
 							} else {
 								littlenum = 0;
-								MySharedPreference.putBoolean("LITTLEHELP",
+								MySharedPreference.putBoolean(Consts.MORE_LITTLEHELP,
 										false);
-								MySharedPreference.putBoolean("BROADCASTSHOW",
+								MySharedPreference.putBoolean(Consts.MORE_BROADCAST,
 										false);
-								MySharedPreference.putBoolean("LITTLE", false);
+								MySharedPreference.putBoolean(Consts.MORE_LITTLE, false);
 								ListViewUtil
 										.setListViewHeightBasedOnChildren(more_listView);
 							}
@@ -801,14 +797,14 @@ public class JVMoreFragment extends BaseFragment {
 						JVAlarmConst.ALARM_ON, ConfigUtil.getIMEI(mActivity));
 				if (0 == switchRes) {
 					MyLog.e("JVAlarmConst.ALARM--ON-", switchRes + "");
-					MySharedPreference.putBoolean("AlarmSwitch", true);
+					MySharedPreference.putBoolean(Consts.MORE_ALARMSWITCH, true);
 				}
 			} else {// 关报警
 				switchRes = JVACCOUNT.SetCurrentAlarmFlag(
 						JVAlarmConst.ALARM_OFF, ConfigUtil.getIMEI(mActivity));
 				if (0 == switchRes) {
 					MyLog.e("JVAlarmConst.ALARM--CLOSE-", switchRes + "");
-					MySharedPreference.putBoolean("AlarmSwitch", false);
+					MySharedPreference.putBoolean(Consts.MORE_ALARMSWITCH, false);
 				}
 			}
 
@@ -892,7 +888,7 @@ public class JVMoreFragment extends BaseFragment {
 			
 			
 			intent.putExtra("UserName", userName);
-			MySharedPreference.putBoolean("REMEMBER", false);
+			MySharedPreference.putBoolean(Consts.MORE_REMEMBER, false);
 			intent.setClass(mActivity, JVLoginActivity.class);
 			mActivity.startActivity(intent);
 			mActivity.finish();

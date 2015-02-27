@@ -110,7 +110,7 @@ public class FragmentAdapter extends BaseAdapter {
 			divider_img.setVisibility(View.GONE);
 		}
 		if (position == 4 || position == 5 || position == 6 || position == 7) {
-			if (!MySharedPreference.getBoolean("LITTLE")) {
+			if (!MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
 				more_item.setVisibility(View.GONE);
 				divider_img.setVisibility(View.GONE);
 			} else {
@@ -119,19 +119,19 @@ public class FragmentAdapter extends BaseAdapter {
 			}
 		}
 		if (position == 9) {
-			if (!MySharedPreference.getBoolean("SystemMessage")) {
+			if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
 		if (position == 10) {
-			if (!MySharedPreference.getBoolean("CUSTURL")) {
+			if (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL)) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
 		if (position == 12) {
-			if (!MySharedPreference.getBoolean("STATURL")) {
+			if (!MySharedPreference.getBoolean(Consts.MORE_STATURL)) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
@@ -182,14 +182,14 @@ public class FragmentAdapter extends BaseAdapter {
 					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			switch (position) {
 			case 0:
-				if (MySharedPreference.getBoolean("HELP")) {
+				if (MySharedPreference.getBoolean(Consts.MORE_HELP)) {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}
 				break;
 			case 1:
 				if (!localFlag) {
-					if (MySharedPreference.getBoolean("REMEMBER", false)) {
+					if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {
 						item_next
 								.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					}
@@ -200,7 +200,7 @@ public class FragmentAdapter extends BaseAdapter {
 				break;
 			case 2:
 				if (!localFlag) {
-					if (MySharedPreference.getBoolean("AlarmSwitch", true)) {
+					if (MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH, true)) {
 						item_next
 								.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					}
@@ -210,26 +210,26 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 				break;
 			case 3:
-				if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+				if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 
 				}
 				break;
 			case 4:
-				if (MySharedPreference.getBoolean("LITTLEHELP")) {
+				if (MySharedPreference.getBoolean(Consts.MORE_LITTLEHELP)) {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}
 				break;
 			case 5:
-				if (MySharedPreference.getBoolean("BROADCASTSHOW")) {
+				if (MySharedPreference.getBoolean(Consts.MORE_BROADCAST)) {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}
 				break;
 			case 6:
-				if (MySharedPreference.getBoolean("TESTSWITCH")) {
+				if (MySharedPreference.getBoolean(Consts.MORE_TESTSWITCH)) {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}

@@ -416,7 +416,7 @@ public class JVMoreFragment extends BaseFragment {
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
 						switch (position) {
-						case 0:
+						case 0:  //帮助图片是否显示
 							if (MySharedPreference.getBoolean("HELP")) {
 								MySharedPreference.putBoolean("HELP", false);
 								MySharedPreference.putBoolean("page1", true);
@@ -427,7 +427,7 @@ public class JVMoreFragment extends BaseFragment {
 								MySharedPreference.putBoolean("page2", false);
 							}
 							break;
-						case 1:
+						case 1:  //自动登录功能
 							// TODO
 							if (MySharedPreference.getBoolean("REMEMBER")) {
 								MySharedPreference
@@ -436,7 +436,7 @@ public class JVMoreFragment extends BaseFragment {
 								MySharedPreference.putBoolean("REMEMBER", true);
 							}
 							break;
-						case 2:
+						case 2:  //报警通知开关
 							AlarmTask task = new AlarmTask();
 							Integer[] params = new Integer[3];
 							if (!MySharedPreference.getBoolean("AlarmSwitch",
@@ -449,7 +449,7 @@ public class JVMoreFragment extends BaseFragment {
 							task.execute(params);
 
 							break;
-						case 3:
+						case 3:  //观看模式（单设备，多设备）
 							if (MySharedPreference.getBoolean("PlayDeviceMode")) {
 								MySharedPreference.putBoolean("PlayDeviceMode",
 										false);
@@ -476,7 +476,7 @@ public class JVMoreFragment extends BaseFragment {
 										true);
 							}
 							break;
-						case 5:
+						case 5://广播
 							if (MySharedPreference.getBoolean("BROADCASTSHOW")) {
 								MySharedPreference.putBoolean("BROADCASTSHOW",
 										false);
@@ -485,7 +485,7 @@ public class JVMoreFragment extends BaseFragment {
 										true);
 							}
 							break;
-						case 6:
+						case 6://测试服务器开关
 							if (MySharedPreference.getBoolean("TESTSWITCH")) {
 								MySharedPreference.putBoolean("TESTSWITCH",
 										false);
@@ -554,7 +554,7 @@ public class JVMoreFragment extends BaseFragment {
 							// R.string.ok), null).show();
 							// TODO
 							break;
-						case 8:// 换成报警信息
+						case 8://  换成报警信息
 							if (localFlag)// 本地登录
 							{
 								mActivity.showTextToast(R.string.more_nologin);
@@ -598,7 +598,7 @@ public class JVMoreFragment extends BaseFragment {
 							// }
 							// TODO
 							break;
-						case 9:
+						case 9: //系统消息
 							if (!MySharedPreference.getBoolean("SystemMessage")) {
 								MySharedPreference.putBoolean("SystemMessage",
 										true);
@@ -617,7 +617,7 @@ public class JVMoreFragment extends BaseFragment {
 								mActivity.startActivity(infoIntent);
 							}
 							break;
-						case 10:
+						case 10:  //我要装监控
 							if (!MySharedPreference.getBoolean("CUSTURL")) {
 								MySharedPreference.putBoolean("CUSTURL", true);
 							}
@@ -644,14 +644,14 @@ public class JVMoreFragment extends BaseFragment {
 								}
 							}
 							break;
-						case 11:
+						case 11:  //设备分享
 							// GetDemoTask UrlTask1 = new
 							// GetDemoTask(mActivity);
 							// String[] demoParams1 = new String[3];
 							// demoParams1[0] = "1";
 							// UrlTask1.execute(demoParams1);
 							break;
-						case 12:
+						case 12:  //云视通指数
 							if (!MySharedPreference.getBoolean("STATURL")) {
 								MySharedPreference.putBoolean("STATURL", true);
 							}
@@ -682,7 +682,7 @@ public class JVMoreFragment extends BaseFragment {
 								}
 							}
 							break;
-						case 13:// 媒体
+						case 13:  // 图像查看
 							StatService.trackCustomEvent(
 									mActivity,
 									"Media",
@@ -692,12 +692,12 @@ public class JVMoreFragment extends BaseFragment {
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);
 							break;
-						case 14:
+						case 14:  //意见反馈
 							Intent intent = new Intent(mActivity,
 									JVFeedbackActivity.class);
 							startActivity(intent);
 							break;
-						case 15:
+						case 15:  //检查更新
 							mActivity.createDialog("", false);
 							CheckUpdateTask taskf = new CheckUpdateTask(
 									mActivity);
@@ -705,7 +705,7 @@ public class JVMoreFragment extends BaseFragment {
 							strParams[0] = "1";// 1,手动检查更新
 							taskf.execute(strParams);
 							break;
-						case 16:
+						case 16: //关于
 							if (!MySharedPreference.getBoolean("LITTLE")) {
 								littlenum++;
 								if (littlenum < 20) {

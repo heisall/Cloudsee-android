@@ -9,13 +9,9 @@ import android.view.Window;
 import android.widget.RelativeLayout;
 
 import com.jovetech.CloudSee.temp.R;
-import com.jovision.Consts;
-import com.jovision.commons.MyLog;
-import com.jovision.commons.Url;
-import com.jovision.utils.ConfigUtil;
-import com.tencent.stat.StatService;
 
-public class JVRegisterChoiceActivity extends Activity implements OnClickListener {
+public class JVRegisterChoiceActivity extends Activity implements
+		OnClickListener {
 	private RelativeLayout rlyMailWay, rlyPhoneWay, rlyCance;
 
 	@Override
@@ -53,7 +49,7 @@ public class JVRegisterChoiceActivity extends Activity implements OnClickListene
 			startActivity(registmailIntent);
 			finish();
 			break;
-		case R.id.rly_cancel://取消
+		case R.id.rly_cancel:// 取消
 			finish();
 			return;
 		default:

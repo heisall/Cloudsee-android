@@ -679,11 +679,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 											Intent zhidaoIntent = mActivity
 													.getPackageManager()
 													.getLaunchIntentForPackage(
-															"com.glviewer.temp");// com.jovision.zhidao.SplashActivity
+															"com.jovision.zhidao");// com.jovision.zhidao.SplashActivity
 											if (null == zhidaoIntent) {
-												mActivity
-														.showTextToast("请先安装小维知道");
-
 												try {
 													// URL url = new
 													// URL(Url.APK_DOWNLOAD_URL

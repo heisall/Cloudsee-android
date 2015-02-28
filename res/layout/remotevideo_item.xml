@@ -25,10 +25,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="60dp"
             android:gravity="center_horizontal"
             android:textColor="@color/listtextcolor"
             android:textSize="16sp" />
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/videodownload"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

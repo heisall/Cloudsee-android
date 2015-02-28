@@ -289,8 +289,10 @@ public class JVWebView2Activity extends BaseActivity implements
 			}
 			case Consts.RTMP_CONN_SCCUESS: {
 				playChannel.setConnected(true);
-				Jni.enablePlayAudio(playChannel.getIndex(), true);
+				boolean enable = Jni.enablePlayAudio(playChannel.getIndex(),
+						true);
 
+				MyLog.e("AudioEnable", enable + "");
 				if (playChannel.isPaused()) {
 					Jni.resume(playChannel.getIndex(), playChannel.getSurface());
 				}
@@ -339,7 +341,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			break;
 		}
 		case Consts.CALL_PLAY_AUDIO: {// 音频数据
-
+			MyLog.v("CALL_PLAY_AUDIO", ".....");
 			if (null != obj && null != playAudio) {
 				byte[] data = (byte[]) obj;
 				// audioQueue.offer(data);
@@ -425,13 +427,14 @@ public class JVWebView2Activity extends BaseActivity implements
 	 */
 	private boolean stopAudio(int index) {
 		boolean close = false;
-		if (PlayUtil.isPlayAudio(index)) {// 正在监听，停止监听
-			PlayUtil.stopAudioMonitor(index);// stop audio
-			playAudio.stopPlay();
-			close = true;
-		} else {// 确保不会重复关闭
-			close = true;
-		}
+		// if (PlayUtil.isPlayAudio(index)) {// 正在监听，停止监听
+		PlayUtil.stopAudioMonitor(index);// stop audio
+		playAudio.stopPlay();
+		close = true;
+
+		// } else {// 确保不会重复关闭
+		// close = true;
+		// }
 		return close;
 	}
 

@@ -87,7 +87,8 @@ public class AccountUtil {
 			int loginRes1 = respObj.optInt("arg1", 1);
 			if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
 
-				if (MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH, true)) {
+				if (MySharedPreference
+						.getBoolean(Consts.MORE_ALARMSWITCH, true)) {
 					JVACCOUNT.SetCurrentAlarmFlag(JVAlarmConst.ALARM_ON,
 							ConfigUtil.getIMEI(mContext));
 				} else {
@@ -130,8 +131,8 @@ public class AccountUtil {
 			}
 			reqObj.put("devuuid",
 					MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
-			boolean alarmSwitch = MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
-					true);
+			boolean alarmSwitch = MySharedPreference.getBoolean(
+					Consts.MORE_ALARMSWITCH, true);
 			reqObj.put("alarmflag", alarmSwitch ? 0 : 1);
 			User dstUser = UserUtil.getUserByName(userName);
 			if (dstUser == null) {
@@ -213,7 +214,8 @@ public class AccountUtil {
 	// res = reportClientPlatformInfo(con);
 	// }
 	//
-	// boolean alarmSwitch = MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
+	// boolean alarmSwitch =
+	// MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
 	// true);
 	//
 	// if (0 == res) {
@@ -250,8 +252,8 @@ public class AccountUtil {
 			cb.setLanguageType(Consts.LANGUAGE_EN);
 		}
 		cb.setDeviceUUID(MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
-		boolean alarmSwitch = MySharedPreference
-				.getBoolean(Consts.MORE_ALARMSWITCH, true);
+		boolean alarmSwitch = MySharedPreference.getBoolean(
+				Consts.MORE_ALARMSWITCH, true);
 		cb.setAlarmFlag(alarmSwitch ? 0 : 1);
 		res = JVACCOUNT.ReportClientPlatformInfo(cb);
 

@@ -75,7 +75,7 @@
                 android:textColor="@color/leftdevicecolor"
                 android:textSize="18sp" />
         </TableRow>
-        
+
         <TableRow
             android:id="@+id/accounttablelayout"
             android:layout_width="match_parent"

@@ -293,11 +293,10 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		protected Integer doInBackground(String... params) {
 			int loginRes = 0;
 			String strRes = "";
-			strRes = AccountUtil.onLoginProcess(
-					JVOffLineDialogActivity.this,
+			strRes = AccountUtil.onLoginProcess(JVOffLineDialogActivity.this,
 					statusHashMap.get(Consts.KEY_USERNAME),
-					statusHashMap.get(Consts.KEY_PASSWORD),
-					Url.SHORTSERVERIP, Url.LONGSERVERIP);
+					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,
+					Url.LONGSERVERIP);
 			JSONObject respObj = null;
 			try {
 				respObj = new JSONObject(strRes);

@@ -175,7 +175,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 					for (int i = 0; i < strs_s.length; i++) {
 						System.out.println(strs_s[i]);
 					}
-					switch(strs_s.length){
+					switch (strs_s.length) {
 					case 1:
 						startHour = strs_s[0];
 						startMin = "00";
@@ -186,18 +186,17 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						startMin = strs_s[1];
 						break;
 					default:
-						startHour="00";
+						startHour = "00";
 						startMin = "00";
-						break;						
+						break;
 					}
-
 
 					Pattern pattern_e = Pattern.compile(":");
 					String[] strs_e = pattern_e.split(endTime);
 					for (int i = 0; i < strs_e.length; i++) {
 						System.out.println(strs_e[i]);
 					}
-					switch(strs_e.length){
+					switch (strs_e.length) {
 					case 1:
 						endHour = strs_e[0];
 						endMin = "00";
@@ -208,10 +207,10 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						endMin = strs_e[1];
 						break;
 					default:
-						endHour="23";
+						endHour = "23";
 						endMin = "59";
-						break;						
-					}					
+						break;
+					}
 
 					startTime = String.format("%s:%s", startHour, startMin);
 					endTime = String.format("%s:%s", endHour, endMin);

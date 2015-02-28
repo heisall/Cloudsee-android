@@ -130,11 +130,11 @@ public class JVRegisterCodeActivity extends BaseActivity {
 				registerRes = AccountUtil.userRegister(user);
 				if (JVAccountConst.SUCCESS == registerRes) {
 					String strRes = "";
-						strRes = AccountUtil.onLoginProcessV2(
-								JVRegisterCodeActivity.this,
-								statusHashMap.get(Consts.KEY_USERNAME),
-								statusHashMap.get(Consts.KEY_PASSWORD),
-								Url.SHORTSERVERIP, Url.LONGSERVERIP);
+					strRes = AccountUtil.onLoginProcessV2(
+							JVRegisterCodeActivity.this,
+							statusHashMap.get(Consts.KEY_USERNAME),
+							statusHashMap.get(Consts.KEY_PASSWORD),
+							Url.SHORTSERVERIP, Url.LONGSERVERIP);
 					JSONObject respObj = null;
 					try {
 						respObj = new JSONObject(strRes);

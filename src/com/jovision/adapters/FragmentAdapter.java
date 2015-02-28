@@ -195,7 +195,8 @@ public class FragmentAdapter extends BaseAdapter {
 				break;
 			case 1:
 				if (!localFlag) {
-					if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {
+					if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER,
+							false)) {
 						item_next
 								.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					}
@@ -206,7 +207,8 @@ public class FragmentAdapter extends BaseAdapter {
 				break;
 			case 2:
 				if (!localFlag) {
-					if (MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH, true)) {
+					if (MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
+							true)) {
 						item_next
 								.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					}
@@ -241,7 +243,7 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 				break;
 			default:
-				break;                                                                                                                                                                                                                                                                                                                                        
+				break;
 			}
 		}
 		return convertView;

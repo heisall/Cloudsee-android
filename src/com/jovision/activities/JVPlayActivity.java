@@ -2289,7 +2289,7 @@ public class JVPlayActivity extends PlayActivity implements
 					}
 					int connectWay = channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 							: JVNetConst.TYPE_3GMO_UDP;
-					MyLog.e(TAG, "连接方式 == "+connectWay);
+					MyLog.e(TAG, "连接方式 == " + connectWay);
 				} else {
 					int number = device.getNo();
 					String conIp = device.getIp();
@@ -2333,10 +2333,10 @@ public class JVPlayActivity extends PlayActivity implements
 										// ? 6 : 5),
 										channel.getSurface(), false, isOmx,
 										fullPath);
-						
+
 						int connectWay = channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP;
-						MyLog.e(TAG, "连接方式 == "+connectWay);
+						MyLog.e(TAG, "连接方式 == " + connectWay);
 						if (connect == channel.getIndex()) {
 							channel.setPaused(null == channel.getSurface());
 						}
@@ -2358,10 +2358,10 @@ public class JVPlayActivity extends PlayActivity implements
 												: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
 										// ? 6 : 5),
 										null, false, isOmx, fullPath);
-						
+
 						int connectWay = channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP;
-						MyLog.e(TAG, "连接方式 == "+connectWay);
+						MyLog.e(TAG, "连接方式 == " + connectWay);
 						if (connect == channel.getIndex()) {
 							channel.setPaused(true);
 						}
@@ -2882,6 +2882,12 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
+				// Jni.sendSuperBytes(lastClickIndex,
+				// JVNetConst.JVN_RSP_TEXTDATA, true,
+				// Consts.RC_EX_FIRMUP,
+				// Consts.EX_FIRMUP_RESTORE,
+				// Consts.FIRMUP_HTTP, 0, 0,
+				// new byte[0], 0);
 				closePopWindow();
 				if (Consts.ISHITVIS == 1) {
 					PlayUtil.hitviscapture(lastClickIndex);

@@ -44,7 +44,7 @@ public class JVVersionActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(R.string.device_version_info);
 		configInfo = (EditText) findViewById(R.id.configinfo);
-//		configInfo.setEnabled(false);
+		// configInfo.setEnabled(false);
 		leftBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -66,7 +66,7 @@ public class JVVersionActivity extends BaseActivity {
 			configList.add("PRODUCT_TYPE="
 					+ String.valueOf(Consts.PRODUCT_TYPE));
 			configList
-			.add("Update_Version=" + Consts.APP_UPDATE_VERSION + "\n");
+					.add("Update_Version=" + Consts.APP_UPDATE_VERSION + "\n");
 
 			configList.add("Country=" + ConfigUtil.getCountry() + "("
 					+ ConfigUtil.getServerLanguage() + ")\n");
@@ -94,26 +94,26 @@ public class JVVersionActivity extends BaseActivity {
 
 			configList.add("短信库=SMSSDK-1.1.9.jar" + "\n\n");
 
-
 			configList.add(" URL=null时点击一下对应的功能即可出现URL\n");
-			configList.add("视频广场 URL=" + statusHashMap.get("DEMOURL")+ "\n");
-			configList.add("我要装监控 URL=" + statusHashMap.get(Consts.MORE_CUSTURL)+"\n");
-			configList.add("云视通指数 URL=" + statusHashMap.get(Consts.MORE_STATURL)+"\n\n");
-			
-			
-			configList.add("SHORTSERVERIP=" + Url.SHORTSERVERIP+"\n");
-			configList.add("LONGSERVERIP=" + Url.LONGSERVERIP+"\n");
-			configList.add("登陆返回结果=" + statusHashMap.get("LOGINRES")+"\n");			
+			configList.add("视频广场 URL=" + statusHashMap.get("DEMOURL") + "\n");
+			configList.add("我要装监控 URL="
+					+ statusHashMap.get(Consts.MORE_CUSTURL) + "\n");
+			configList.add("云视通指数 URL="
+					+ statusHashMap.get(Consts.MORE_STATURL) + "\n\n");
+
+			configList.add("SHORTSERVERIP=" + Url.SHORTSERVERIP + "\n");
+			configList.add("LONGSERVERIP=" + Url.LONGSERVERIP + "\n");
+			configList.add("登陆返回结果=" + statusHashMap.get("LOGINRES") + "\n");
 			configList.add("新浪接口调用结果" + "=" + ConfigUtil.SINA_COUNTRY + "\n");
 
-			configList.add("信鸽推送=" + statusHashMap.get("TPUSH")+"\n");
-			
+			configList.add("信鸽推送=" + statusHashMap.get("TPUSH") + "\n");
+
 			if (ConfigUtil.ACCOUNT_VERSION.equalsIgnoreCase(JVACCOUNT
 					.GetVersion(0))
 					&& ConfigUtil.PLAY_VERSION
-					.equalsIgnoreCase(ConfigUtil.GETPLAY_VERSION)
+							.equalsIgnoreCase(ConfigUtil.GETPLAY_VERSION)
 					&& ConfigUtil.NETWORK_VERSION
-					.equalsIgnoreCase(ConfigUtil.GETNETWORK_VERSION)) {
+							.equalsIgnoreCase(ConfigUtil.GETNETWORK_VERSION)) {
 				configList.add(0, "库没用错(Yes)" + "\n");
 				configInfo.setTextColor(Color.BLACK);
 			} else {

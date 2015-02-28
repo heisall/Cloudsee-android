@@ -92,7 +92,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private ImageView pause;
 	private ImageView fullScreen;
 	private WebView webView;
-	 private LinearLayout linkSetting;
+	private LinearLayout linkSetting;
 	private EditText minCache;
 	private EditText desCache;
 	private Button saveSetting;

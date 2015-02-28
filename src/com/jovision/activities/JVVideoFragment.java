@@ -112,7 +112,7 @@ public class JVVideoFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		if (null != ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
-			
+
 			String sid = "";
 			String lan = "";
 			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {
@@ -124,9 +124,8 @@ public class JVVideoFragment extends BaseFragment {
 				lan = "en_us";
 			}
 			urls = ((BaseActivity) mActivity).statusHashMap.get("DEMOURL");
-//			urls = "http://test.cloudsee.net/phone.action";
-			
-			
+			// urls = "http://test.cloudsee.net/phone.action";
+
 			if (!Boolean.valueOf(mActivity.statusHashMap
 					.get(Consts.LOCAL_LOGIN))) {
 				String sessionResult = ConfigUtil.getSession();
@@ -144,7 +143,7 @@ public class JVVideoFragment extends BaseFragment {
 		if (urls.contains("rotate=x")) {
 			urls = urls.replace("rotate=x", "");
 			mActivity
-			.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
+					.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
 		}
 		MyLog.e("yanshidian", urls);
 		/** topBar **/
@@ -232,7 +231,7 @@ public class JVVideoFragment extends BaseFragment {
 
 						mActivity.createDialog("", false);
 						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
-						.start();
+								.start();
 					} else {
 						view.loadUrl(newUrl);
 					}
@@ -249,8 +248,8 @@ public class JVVideoFragment extends BaseFragment {
 				if (!MySharedPreference.getBoolean("webfirst")) {
 					MySharedPreference.putBoolean("webfirst", true);
 					loadinglayout.setVisibility(View.VISIBLE);
-					loadingBar.setAnimation(AnimationUtils.loadAnimation(mActivity,
-							R.anim.rotate));
+					loadingBar.setAnimation(AnimationUtils.loadAnimation(
+							mActivity, R.anim.rotate));
 				}
 				MyLog.v(TAG, "webView start load");
 			}

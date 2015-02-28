@@ -127,7 +127,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 		devNumET = (EditText) findViewById(R.id.ystnum_et);
 		userET = (EditText) findViewById(R.id.user_et);
 		pwdET = (EditText) findViewById(R.id.pwd_et);
-		nickET = (EditText)findViewById(R.id.nick_et);
+		nickET = (EditText) findViewById(R.id.nick_et);
 		saveBtn = (Button) findViewById(R.id.save_btn);
 
 		userET.setText(Consts.DEFAULT_USERNAME);
@@ -161,7 +161,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 				String userName = userET.getText().toString();
 				String userPwd = pwdET.getText().toString();
 				nickString = nickET.getText().toString();
-				saveMethod(devNum, userName, userPwd,nickString);
+				saveMethod(devNum, userName, userPwd, nickString);
 				break;
 			}
 			default:
@@ -178,7 +178,8 @@ public class JVAddDeviceActivity extends BaseActivity {
 	 * @param userName
 	 * @param userPwd
 	 */
-	public void saveMethod(String devNum, String userName, String userPwd,String nickName) {
+	public void saveMethod(String devNum, String userName, String userPwd,
+			String nickName) {
 		if (null == deviceList) {
 			deviceList = new ArrayList<Device>();
 		}
@@ -189,10 +190,10 @@ public class JVAddDeviceActivity extends BaseActivity {
 		} else if (!ConfigUtil.checkYSTNum(devNum)) {// 验证云视通号是否合法
 			showTextToast(R.string.increct_yst_tips);
 			return;
-		} else if (!"".equals(nickName)&&!ConfigUtil.checkNickName(nickName)) {//昵称不合法
+		} else if (!"".equals(nickName) && !ConfigUtil.checkNickName(nickName)) {// 昵称不合法
 			showTextToast(R.string.login_str_nike_name_order);
 			return;
-		}else if ("".equalsIgnoreCase(userName)) {// 用户名不可为空
+		} else if ("".equalsIgnoreCase(userName)) {// 用户名不可为空
 			showTextToast(R.string.login_str_device_account_notnull);
 			return;
 		} else if (!ConfigUtil.checkDeviceUsername(userName)) {// 用户名是否合法
@@ -306,7 +307,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 						Integer.parseInt(params[1]), userET.getText()
 								.toString(), pwdET.getText().toString(), false,
 						channelCount, 0);
-				
+
 				// MyLog.v(TAG, "dev = " + addDev.toString());
 				if (null != addDevice) {
 					if (localFlag) {// 本地添加
@@ -316,7 +317,8 @@ public class JVAddDeviceActivity extends BaseActivity {
 						}
 					} else {
 						addDevice = DeviceUtil.addDevice2(addDevice,
-								statusHashMap.get(Consts.KEY_USERNAME),nickname);
+								statusHashMap.get(Consts.KEY_USERNAME),
+								nickname);
 						if (null != addDevice) {
 							addRes = 0;
 						}

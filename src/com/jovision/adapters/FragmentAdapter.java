@@ -34,7 +34,7 @@ public class FragmentAdapter extends BaseAdapter {
 	private ImageView divider_img;
 	private RelativeLayout item_new;
 	private TextView tv_new_nums;
-	private  LinearLayout kongbai;
+	private LinearLayout kongbai;
 
 	private int new_nums_;
 
@@ -71,7 +71,7 @@ public class FragmentAdapter extends BaseAdapter {
 				.findViewById(R.id.more_relative);
 		item_new = (RelativeLayout) convertView
 				.findViewById(R.id.item_new_layout);
-		kongbai = (LinearLayout)convertView.findViewById(R.id.kongbai);
+		kongbai = (LinearLayout) convertView.findViewById(R.id.kongbai);
 		more_item = (FrameLayout) convertView.findViewById(R.id.item);
 		divider_img = (ImageView) convertView.findViewById(R.id.divider_img);
 		item_img = (ImageView) convertView.findViewById(R.id.item_img);

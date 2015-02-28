@@ -540,6 +540,11 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 7:// 测试服务器开关
+							MySharedPreference.putString("ChannelIP", "");
+							MySharedPreference.putString("OnlineIP", "");
+							MySharedPreference.putString("ChannelIP_en", "");
+							MySharedPreference.putString("OnlineIP_en", "");
+
 							if (MySharedPreference
 									.getBoolean(Consts.MORE_TESTSWITCH)) {
 								MySharedPreference.putBoolean(

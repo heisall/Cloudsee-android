@@ -1643,7 +1643,8 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 			int addRes = -1;
 
 			ipcDevice = DeviceUtil.addDevice2(ipcDevice,
-					statusHashMap.get(Consts.KEY_USERNAME),ipcDevice.getNickName());
+					statusHashMap.get(Consts.KEY_USERNAME),
+					ipcDevice.getNickName());
 			if (null != ipcDevice) {
 				addRes = 0;
 				addSucc = true;

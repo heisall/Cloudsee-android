@@ -105,6 +105,11 @@ public class RemoteVideoAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 
+				// byte[] dataByte = strFilePath.getBytes();
+				// Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+				// (byte) JVNetConst.JVN_REQ_DOWNLOAD, dataByte,
+				// dataByte.length);
+
 			}
 		});
 

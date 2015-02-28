@@ -1777,7 +1777,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 							addDev = DeviceUtil.addDevice2(addDev,
 									mActivity.statusHashMap
-											.get(Consts.KEY_USERNAME),addDev.getNickName());
+											.get(Consts.KEY_USERNAME), addDev
+											.getNickName());
 							if (null != addDev) {
 								addCount++;
 								addRes = 0;

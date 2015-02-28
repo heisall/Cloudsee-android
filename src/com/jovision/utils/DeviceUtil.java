@@ -922,7 +922,9 @@ public class DeviceUtil {
 					JVDeviceConst.PROTO_VERSION_2);// pv 2.0
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);// lpt 1
-			jObj.put(JVDeviceConst.JK_DEVICE_NAME, nickName);
+			if (null != nickName && !"".equals(nickName)) {
+				jObj.put(JVDeviceConst.JK_DEVICE_NAME, nickName);
+			}
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, device.getFullNo());
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME, device.getUser());
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD, device.getPwd());// (服务端base64加密)

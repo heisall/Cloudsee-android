@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ public class FragmentAdapter extends BaseAdapter {
 	private ImageView divider_img;
 	private RelativeLayout item_new;
 	private TextView tv_new_nums;
+	private  LinearLayout kongbai;
 
 	private int new_nums_;
 
@@ -69,6 +71,7 @@ public class FragmentAdapter extends BaseAdapter {
 				.findViewById(R.id.more_relative);
 		item_new = (RelativeLayout) convertView
 				.findViewById(R.id.item_new_layout);
+		kongbai = (LinearLayout)convertView.findViewById(R.id.kongbai);
 		more_item = (FrameLayout) convertView.findViewById(R.id.item);
 		divider_img = (ImageView) convertView.findViewById(R.id.divider_img);
 		item_img = (ImageView) convertView.findViewById(R.id.item_img);
@@ -84,6 +87,9 @@ public class FragmentAdapter extends BaseAdapter {
 				.findViewById(R.id.tv_item_new_nums);
 		if (position == 0) {
 			more_item.setVisibility(View.GONE);
+		}
+		if (position == 5 || position == 14) {
+			kongbai.setVisibility(View.VISIBLE);
 		}
 		if (position == 1 && localFlag) {
 			more_item.setVisibility(View.GONE);

@@ -49,9 +49,10 @@ public class JVWelcomeActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
-		Consts.TEST_SERVER = MySharedPreference.getBoolean(
-				Consts.MORE_TESTSWITCH, false);// true 测试服务器 ; false 正式服务器
-
+		Consts.TEST_SERVER = MySharedPreference.getBoolean(Consts.MORE_TESTSWITCH,
+				false);//true  测试服务器 ;   false  正式服务器   
+		
+		
 		ConfigUtil.getJNIVersion();
 		ImportOldData importOld = new ImportOldData(JVWelcomeActivity.this);
 		if (!MySharedPreference.getBoolean("HasImport")) {

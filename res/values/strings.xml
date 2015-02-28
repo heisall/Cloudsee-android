@@ -18,6 +18,8 @@
     <string name="login_str_password_tips1">Password should be 6-20 characters.</string>
     <string name="login_str_login_failed">Login failed</string>
     <string name="login_str_regist_success">Registed successfully</string>
+    <string name="login_str_registerchoiceone">手机注册</string>
+    <string name="login_str_registerchoicetwo">邮箱注册</string>
     <string name="login_str_regist_failed">Registed failed</string>
     <string name="login_str_registing">Registing</string>
     <string name="str_have_registed">This user name has been registered</string>

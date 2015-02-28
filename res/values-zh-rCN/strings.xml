@@ -18,6 +18,8 @@
     <string name="login_str_password_tips1">密码长度应在6-20位字符之间</string>
     <string name="login_str_login_failed">登录失败</string>
     <string name="login_str_regist_success">注册成功</string>
+    <string name="login_str_registerchoiceone">手机注册</string>
+    <string name="login_str_registerchoicetwo">邮箱注册</string>
     <string name="login_str_regist_failed">注册失败</string>
     <string name="login_str_registing">正在注册</string>
     <string name="str_have_registed">用户名已被注册</string>

@@ -126,7 +126,7 @@ public class DeviceUtil {
 										dev.setIp(obj
 												.optString(
 														JVDeviceConst.JK_DEVICE_VIDEO_IP)
-												.trim());
+														.trim());
 										dev.setPort(obj
 												.optInt(JVDeviceConst.JK_DEVICE_VIDEO_PORT));
 										/** 一键升级使用 */
@@ -896,7 +896,7 @@ public class DeviceUtil {
 	/**
 	 * 用户绑定设备业务
 	 */
-	public static Device addDevice2(Device device, String userName) {
+	public static Device addDevice2(Device device, String userName,String nickName) {
 
 		int res = -1;
 		MyLog.v("addDevice2---before", device.toString());
@@ -921,6 +921,7 @@ public class DeviceUtil {
 					JVDeviceConst.PROTO_VERSION_2);// pv 2.0
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);// lpt 1
+			jObj.put(JVDeviceConst.JK_DEVICE_NAME, nickName);
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, device.getFullNo());
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME, device.getUser());
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD, device.getPwd());// (服务端base64加密)
@@ -960,7 +961,7 @@ public class DeviceUtil {
 		int ret = respObject.optInt("result", -1);
 		if (ret == 0) {
 			String result = respObject.optString("resp", "");
-			MyLog.v("addDevice2---result", result);
+			MyLog.v("addDevice3---result", result);
 			// String result = "{\"mt\":2016,\"rt\":0,\"mid\":1}";
 			if (null != result && !"".equalsIgnoreCase(result)) {
 				try {
@@ -1199,8 +1200,8 @@ public class DeviceUtil {
 															.optInt(JVDeviceConst.JK_DEVICES_ONLINE_STATUS));// dsls
 													MyLog.v("online-tag-2",
 															dev.getFullNo()
-																	+ "--"
-																	+ dev.getOnlineStateNet());
+															+ "--"
+															+ dev.getOnlineStateNet());
 													dev.setHasWifi(obj
 															.optInt(JVDeviceConst.JK_DEVICE_WIFI_FLAG));// dsls
 
@@ -1218,9 +1219,9 @@ public class DeviceUtil {
 
 													// 同步map
 													CacheUtil
-															.setNickNameWithYstfn(
-																	dev.getFullNo(),
-																	dev.getNickName());
+													.setNickNameWithYstfn(
+															dev.getFullNo(),
+															dev.getNickName());
 												}
 											}
 										}
@@ -2011,11 +2012,11 @@ public class DeviceUtil {
 	}
 
 	private static String urls[] = { "rtmp://119.188.172.3/live/a366_1",
-			"rtmp://119.188.172.3/live/a361_1",
-			"rtmp://119.188.172.3/live/a362_1",
-			"rtmp://119.188.172.3/live/s230348788_1",
-			"rtmp://119.188.172.3/live/a367_1",
-			"rtmp://119.188.172.3/live/a368_1", };
+		"rtmp://119.188.172.3/live/a361_1",
+		"rtmp://119.188.172.3/live/a362_1",
+		"rtmp://119.188.172.3/live/s230348788_1",
+		"rtmp://119.188.172.3/live/a367_1",
+		"rtmp://119.188.172.3/live/a368_1", };
 
 	/**
 	 * 2014-10-17 获取演示点设备
@@ -2122,8 +2123,8 @@ public class DeviceUtil {
 													rtmpUrl = "rtmp://"
 															+ array[0] + ":"
 															+ array[1]
-															+ "/live/"
-															+ suffixRtmp;
+																	+ "/live/"
+																	+ suffixRtmp;
 												} else {
 													rtmpUrl = "rtmp://"
 															+ "/live/"
@@ -2710,14 +2711,14 @@ public class DeviceUtil {
 
 									int vipLevel = obj
 											.optInt(JVDeviceConst.JK_STREAMING_MEDIA_FLAG);// (是否支持流媒体
-																							// 0不支持
-																							// 1支持)
+									// 0不支持
+									// 1支持)
 									cl.setVipLevel(vipLevel);
 									if (vipLevel > 0) {
 										String smsrv = obj
 												.optString(JVDeviceConst.JK_STREAMING_MEDIA_SERVER);// (流媒体服务器信息
-																									// 格式
-																									// ip|rtmp端口|hls端口)
+										// 格式
+										// ip|rtmp端口|hls端口)
 										String suffixRtmp = obj
 												.optString(JVDeviceConst.JK_DEVICE_GUID)
 												+ "_"
@@ -3561,16 +3562,16 @@ public class DeviceUtil {
 						rt = temObj.optInt(JVDeviceConst.JK_RESULT);
 						if (0 == rt) {// // rt==0说明需要升级 18不需要升级 其他值是吧
 							appVersion
-									.setVersionName(temObj
-											.optString(JVDeviceConst.JK_APP_VERSION_FULL));
+							.setVersionName(temObj
+									.optString(JVDeviceConst.JK_APP_VERSION_FULL));
 							appVersion.setVersionCode(temObj
 									.optInt(JVDeviceConst.JK_APP_VERSION));
 							appVersion
-									.setVersionInfo(temObj
-											.optString(JVDeviceConst.JK_APP_VERSION_DESC));
+							.setVersionInfo(temObj
+									.optString(JVDeviceConst.JK_APP_VERSION_DESC));
 							appVersion
-									.setDownloadUrl(temObj
-											.optString(JVDeviceConst.JK_APP_VERSION_URL));
+							.setDownloadUrl(temObj
+									.optString(JVDeviceConst.JK_APP_VERSION_URL));
 						}
 
 					}

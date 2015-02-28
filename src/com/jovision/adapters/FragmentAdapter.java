@@ -183,7 +183,7 @@ public class FragmentAdapter extends BaseAdapter {
 			// mfragment.getActivity().getResources()
 			// .getString(R.string.str_current_version));
 		}
-		if (position > -1 && position < 7 && position != 3) {
+		if (position > -1 && position < 8 && position != 3) {
 			item_next
 					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			switch (position) {

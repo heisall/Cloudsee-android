@@ -641,7 +641,7 @@ public class JVWaveSetActivity extends BaseActivity {
 							addRes = 0;
 						} else {
 							addDevice = DeviceUtil.addDevice2(addDevice,
-									statusHashMap.get(Consts.KEY_USERNAME));
+									statusHashMap.get(Consts.KEY_USERNAME),addDevice.getNickName());
 							if (null != addDevice) {
 								addRes = 0;
 							}

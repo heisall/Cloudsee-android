@@ -300,19 +300,19 @@ public class Consts {
 	public static final int FIRMUP_FILE = 0x01;
 	public static final int FIRMUP_FTP = 0x02;// 已废弃
 	/********************************      更多功能定义      **********************************************/
-	public static final String MORE_HELP = "HELP";
-	public static final String MORE_PAGEONE = "page1";
-	public static final String MORE_PAGETWO = "page2";
-	public static final String MORE_REMEMBER = "REMEMBER";
-	public static final String MORE_ALARMSWITCH = "AlarmSwitch";
-	public static final String MORE_PLAYMODE = "PlayDeviceMode";
-	public static final String MORE_LITTLEHELP = "LITTLEHELP";
-	public static final String MORE_BROADCAST = "BROADCASTSHOW";
-	public static final String MORE_LITTLE = "LITTLE";
-	public static final String MORE_SYSTEMMESSAGE = "SystemMessage";
-	public static final String MORE_CUSTURL = "CUSTURL";
-	public static final String MORE_STATURL = "STATURL";
-	public static final String MORE_TESTSWITCH = "TESTSWITCH";
+	public static final String MORE_HELP = "HELP";  //帮助图片显示
+	public static final String MORE_PAGEONE = "page1"; //我的设备界面帮助图
+	public static final String MORE_PAGETWO = "page2"; //配置界面帮助图
+	public static final String MORE_REMEMBER = "REMEMBER"; // 自动登录功能
+	public static final String MORE_ALARMSWITCH = "AlarmSwitch"; //报警通知开关
+	public static final String MORE_PLAYMODE = "PlayDeviceMode";//观看模式（单设备，多设备）
+	public static final String MORE_LITTLEHELP = "LITTLEHELP"; // 小助手
+	public static final String MORE_BROADCAST = "BROADCASTSHOW";  //广播
+	public static final String MORE_LITTLE = "LITTLE"; //关于
+	public static final String MORE_SYSTEMMESSAGE = "SystemMessage";  //系统消息
+	public static final String MORE_CUSTURL = "CUSTURL"; //我要装监控
+	public static final String MORE_STATURL = "STATURL";  //云视通指数
+	public static final String MORE_TESTSWITCH = "TESTSWITCH";  //测试服务器开关
 	
 
 	/********************************* 　以上修改设备用户名密码需要的宏定义　 ***************************************/

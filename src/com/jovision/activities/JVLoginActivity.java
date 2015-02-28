@@ -248,7 +248,7 @@ public class JVLoginActivity extends BaseActivity {
 							@Override
 							public void run() {
 								moreUserIV
-								.setImageResource(R.drawable.login_pullhesui_up_icon);
+										.setImageResource(R.drawable.login_pullhesui_up_icon);
 								pop.showAsDropDown(userNameLayout);
 							}
 						}, 200);
@@ -257,7 +257,7 @@ public class JVLoginActivity extends BaseActivity {
 					userAdapter.notifyDataSetChanged();
 					pop.dismiss();
 					moreUserIV
-					.setImageResource(R.drawable.login_pullhesui_icon);
+							.setImageResource(R.drawable.login_pullhesui_icon);
 				} else if (!pop.isShowing()) {
 					handler.postDelayed(new Runnable() {
 						@Override
@@ -265,7 +265,7 @@ public class JVLoginActivity extends BaseActivity {
 							userAdapter.notifyDataSetChanged();
 							pop.showAsDropDown(userNameLayout);
 							moreUserIV
-							.setImageResource(R.drawable.login_pullhesui_up_icon);
+									.setImageResource(R.drawable.login_pullhesui_up_icon);
 						}
 					}, 200);
 
@@ -323,7 +323,7 @@ public class JVLoginActivity extends BaseActivity {
 				if (pop != null && pop.isShowing()) {
 					pop.dismiss();
 					moreUserIV
-					.setImageResource(R.drawable.login_pullhesui_icon);
+							.setImageResource(R.drawable.login_pullhesui_icon);
 				}
 				break;
 			case R.id.btn_left: {
@@ -392,7 +392,7 @@ public class JVLoginActivity extends BaseActivity {
 					Log.i("TAG", ConfigUtil.getCountry().substring(0, 2));
 					if (Consts.LANGUAGE_ZH == ConfigUtil.getServerLanguage()
 							|| Consts.LANGUAGE_ZHTW == ConfigUtil
-							.getServerLanguage()) {
+									.getServerLanguage()) {
 						Intent registIntent = new Intent();
 						registIntent.setClass(JVLoginActivity.this,
 								JVRegisterActivity.class);
@@ -432,7 +432,7 @@ public class JVLoginActivity extends BaseActivity {
 				imm.hideSoftInputFromWindow(onlineLoginBtn.getWindowToken(), 0); // 强制隐藏键盘
 				StatService.trackCustomEvent(JVLoginActivity.this,
 						"locallogin", JVLoginActivity.this.getResources()
-						.getString(R.string.census_login));
+								.getString(R.string.census_login));
 				statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				Intent intentMain = new Intent(JVLoginActivity.this,
 						JVTabActivity.class);
@@ -476,7 +476,7 @@ public class JVLoginActivity extends BaseActivity {
 					// return "";
 					MyLog.e("Login", "初始化账号SDK失败");
 					ConfigUtil
-					.initAccountSDK(((MainApplication) getApplication()));// 初始化账号SDK
+							.initAccountSDK(((MainApplication) getApplication()));// 初始化账号SDK
 				}
 
 				MyLog.v(TAG, "LOGIN---E");
@@ -487,7 +487,7 @@ public class JVLoginActivity extends BaseActivity {
 						statusHashMap.get(Consts.KEY_USERNAME),
 						statusHashMap.get(Consts.KEY_PASSWORD),
 						Url.SHORTSERVERIP, Url.LONGSERVERIP);
-				statusHashMap.put("LOGINRES",strRes);
+				statusHashMap.put("LOGINRES", strRes);
 				JSONObject respObj = null;
 				try {
 					respObj = new JSONObject(strRes);
@@ -502,7 +502,7 @@ public class JVLoginActivity extends BaseActivity {
 						if (Consts.LANGUAGE_ZH == ConfigUtil
 								.getServerLanguage()) {
 							MySharedPreference
-							.putString("ChannelIP", channelIp);
+									.putString("ChannelIP", channelIp);
 							MySharedPreference.putString("OnlineIP", onlineIp);
 							MySharedPreference.putString("ChannelIP_en", "");
 							MySharedPreference.putString("OnlineIP_en", "");
@@ -543,9 +543,10 @@ public class JVLoginActivity extends BaseActivity {
 			case JVAccountConst.LOGIN_SUCCESS: {
 				StatService.trackCustomEvent(JVLoginActivity.this,
 						"onlinelogin", JVLoginActivity.this.getResources()
-						.getString(R.string.census_onlinelogin));
+								.getString(R.string.census_onlinelogin));
 				if (!MySharedPreference.getBoolean("LOGINFIRST", false)
-						|| !MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {
+						|| !MySharedPreference.getBoolean(Consts.MORE_REMEMBER,
+								false)) {
 					MySharedPreference.putBoolean(Consts.MORE_REMEMBER, true);
 					MySharedPreference.putBoolean("LOGINFIRST", true);
 				}

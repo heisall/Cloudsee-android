@@ -82,7 +82,7 @@ public class ConfigUtil {
 	public static String GETACCTOUT_VERSION = "";
 	public static String GETPLAY_VERSION = "";
 	public static String GETNETWORK_VERSION = "";
-	
+
 	public static String SINA_COUNTRY = "";
 	private final static String CHINA_JSON = "{\"country\":\"\u4e2d\u56fd\"}";
 	// /**
@@ -470,10 +470,10 @@ public class ConfigUtil {
 			} else {
 				if (getNetWorkConnection(context)) {
 
-						MyLog.v("initAccountSDK", Url.SHORTSERVERIP + "--"
-								+ Url.LONGSERVERIP);
-						JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,
-								Url.LONGSERVERIP);
+					MyLog.v("initAccountSDK", Url.SHORTSERVERIP + "--"
+							+ Url.LONGSERVERIP);
+					JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,
+							Url.LONGSERVERIP);
 					// String ip = JVACCOUNT.GetServerIP();
 					// if(ip.length() < 5){//无ip
 					// JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,

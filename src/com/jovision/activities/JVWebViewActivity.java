@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -80,7 +79,7 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		url = getIntent().getStringExtra("URL");
-//		url = "http://test.cloudsee.net/phone.action";
+		// url = "http://test.cloudsee.net/phone.action";
 		// url = "http://app.ys7.com/";
 		titleID = getIntent().getIntExtra("title", 0);
 	}
@@ -116,7 +115,7 @@ public class JVWebViewActivity extends BaseActivity {
 		if (-1 == titleID) {
 			currentMenu.setText("");
 		} else if (-2 == titleID) {
-			
+
 		} else {
 			currentMenu.setText(titleID);
 		}
@@ -145,7 +144,7 @@ public class JVWebViewActivity extends BaseActivity {
 		// setting.setPluginState(PluginState.ON);
 		// 加快加载速度
 		webView.getSettings().setRenderPriority(RenderPriority.HIGH);
-//		webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+		// webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onReceivedError(WebView view, int errorCode,

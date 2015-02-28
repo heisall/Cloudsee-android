@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -481,7 +482,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 							"Scan devices in LAN", mActivity.getResources()
 									.getString(R.string.str_scanlandevice));
 
-					if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST, true)) {
+					if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
+							true)) {
 						MyLog.v(Consts.TAG_APP, "not broad = " + false);
 						break;
 					}
@@ -671,12 +673,43 @@ public class JVMyDeviceFragment extends BaseFragment {
 													+ "&sid=" + sid;
 											MyLog.v("adUrl", adUrl);
 											intentAD.putExtra("title", -2);
+											intentAD.putExtra("URL", adUrl);
+											mActivity.startActivity(intentAD);
 										} else {
-											adUrl = adUrl + "?" + "&sid=" + sid;
-											intentAD.putExtra("title", -1);
+											Intent zhidaoIntent = mActivity
+													.getPackageManager()
+													.getLaunchIntentForPackage(
+															"com.glviewer.temp");// com.jovision.zhidao.SplashActivity
+											if (null == zhidaoIntent) {
+												mActivity
+														.showTextToast("请先安装小维知道");
+
+												try {
+													// URL url = new
+													// URL(Url.APK_DOWNLOAD_URL
+													// +
+													// mContext.getResources().getString(
+													// R.string.str_save_apk_name));
+
+													Uri uri = Uri
+															.parse("http://119.188.71.27/dd.myapp.com/16891/A18EEA25F34D8E04D5C8A2B9ECB558B4.apk?mkey=54f111fb5a25ce8e&f=e886&fsname=com.jovision.zhidao_1.0.1_3.apk&asr=8eff&p=.apk");
+													Intent it = new Intent(
+															Intent.ACTION_VIEW,
+															uri);
+													mActivity.startActivity(it);
+												} catch (Exception e) {
+													e.printStackTrace();
+												}
+
+											} else {
+												startActivity(zhidaoIntent);
+											}
+
+											// adUrl = adUrl + "?" + "&sid=" +
+											// sid;
+											// intentAD.putExtra("title", -1);
 										}
-										intentAD.putExtra("URL", adUrl);
-										mActivity.startActivity(intentAD);
+
 									}
 								}
 							});
@@ -873,9 +906,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 								.get(Consts.LOCAL_LOGIN))) {
 					alarmnet.setVisibility(View.VISIBLE);
 					if (null != accountError) {
-						accountError
-								.setText(mActivity.getResources().getString(
-										R.string.network_error_tips));
+						accountError.setText(mActivity.getResources()
+								.getString(R.string.network_error_tips));
 					}
 				}
 			}

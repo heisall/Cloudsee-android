@@ -36,7 +36,6 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
-import com.tencent.android.tpush.service.cache.CacheManager;
 import com.tencent.stat.StatService;
 
 /**
@@ -493,10 +492,10 @@ public abstract class BaseActivity extends FragmentActivity implements
 
 			clearCacheFolder(BaseActivity.this.getCacheDir(),
 					System.currentTimeMillis());
-			
+
 			BaseActivity.this.deleteDatabase("webview.db");
 			BaseActivity.this.deleteDatabase("webviewCache.db");
-			
+
 			if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 				new Thread(new SetUserOnlineStatusThread(0)).start();
 			}

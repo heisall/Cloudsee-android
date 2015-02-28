@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 
 import com.jovetech.CloudSee.temp.R;
@@ -47,10 +46,10 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 				ConfigUtil.initAccountSDK(application);// 初始化账号SDK
 			}
 			String strRes = "";
-				strRes = AccountUtil.onLoginProcessV2(mContext,
-						statusHashMap.get(Consts.KEY_USERNAME),
-						statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIP, Url.LONGSERVERIP);
+			strRes = AccountUtil.onLoginProcessV2(mContext,
+					statusHashMap.get(Consts.KEY_USERNAME),
+					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,
+					Url.LONGSERVERIP);
 			JSONObject respObj = null;
 			try {
 				respObj = new JSONObject(strRes);

@@ -1452,11 +1452,10 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 
 			MyLog.v("网络恢复完成", changeRes + "");
 
-			
 			// 网络恢复成功
 			if (changeRes) {
 				if (addFlag) {
-					
+
 					if (!ConfigUtil.is3G(JVQuickSettingActivity.this, false)) {
 						hasBroadIP = false;
 						Jni.queryDevice(

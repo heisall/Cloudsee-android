@@ -22,8 +22,8 @@ public class Consts {
 	// 添加设备默认的端口
 	public static final String DEFAULT_PORT = "9101";// 固定值，无需修改
 	// 测试服务器
-	public static boolean TEST_SERVER = false;//true 测试服务器，  false  正式服务器
-	
+	public static boolean TEST_SERVER = false;// true 测试服务器， false 正式服务器
+
 	/**************************** 华丽的分割线 ******************************/
 	public static int CURRENT_LAN = -1;// 当前语言
 	public static int COUNT = -1;
@@ -299,7 +299,7 @@ public class Consts {
 	public static final int FIRMUP_HTTP = 0x00;
 	public static final int FIRMUP_FILE = 0x01;
 	public static final int FIRMUP_FTP = 0x02;// 已废弃
-	/********************************      更多功能定义      **********************************************/
+	/******************************** 更多功能定义 **********************************************/
 	public static final String MORE_HELP = "HELP";
 	public static final String MORE_PAGEONE = "page1";
 	public static final String MORE_PAGETWO = "page2";
@@ -313,7 +313,6 @@ public class Consts {
 	public static final String MORE_CUSTURL = "CUSTURL";
 	public static final String MORE_STATURL = "STATURL";
 	public static final String MORE_TESTSWITCH = "TESTSWITCH";
-	
 
 	/********************************* 　以上修改设备用户名密码需要的宏定义　 ***************************************/
 

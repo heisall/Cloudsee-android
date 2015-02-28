@@ -89,12 +89,14 @@ public class JVMoreFragment extends BaseFragment {
 	private int[] Image = { R.drawable.morefragment_help_icon,
 			R.drawable.morefragment_autologin_icon,
 			R.drawable.morefragment_warmmessage_icon,
+			R.drawable.alarm_info_icon,
 			R.drawable.morefragment_setting_icon, R.drawable.develop_warning,
 			R.drawable.develop_warning, R.drawable.develop_warning,
-			R.drawable.develop_warning, R.drawable.alarm_info_icon,
-			R.drawable.more_message, R.drawable.morefragment_install_icon,
+			R.drawable.develop_warning, 
+			R.drawable.morefragment_install_icon,
 			R.drawable.morefragment_sharedevice_icon,
-			R.drawable.morefragment_data_icon, R.drawable.media_image,
+			R.drawable.morefragment_data_icon, R.drawable.more_message, 
+			R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -410,325 +412,326 @@ public class JVMoreFragment extends BaseFragment {
 
 	private void listViewClick() {
 		more_listView
-				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view,
-							int position, long id) {
-						switch (position) {
-						case 0:  //帮助图片是否显示
-							if (MySharedPreference.getBoolean(Consts.MORE_HELP)) {
-								MySharedPreference.putBoolean(Consts.MORE_HELP, false);
-								MySharedPreference.putBoolean(Consts.MORE_PAGEONE, true);
-								MySharedPreference.putBoolean(Consts.MORE_PAGETWO, true);
-							} else {
-								MySharedPreference.putBoolean(Consts.MORE_HELP, true);
-								MySharedPreference.putBoolean(Consts.MORE_PAGEONE, false);
-								MySharedPreference.putBoolean(Consts.MORE_PAGETWO, false);
-							}
-							break;
-						case 1:  //自动登录功能
-							// TODO
-							if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER)) {
-								MySharedPreference
-										.putBoolean(Consts.MORE_REMEMBER, false);
-							} else {
-								MySharedPreference.putBoolean(Consts.MORE_REMEMBER, true);
-							}
-							break;
-						case 2:  //报警通知开关
-							AlarmTask task = new AlarmTask();
-							Integer[] params = new Integer[3];
-							if (!MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
-									true)) {// 1是关
-								// 0是开
-								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
-							} else {
-								params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
-							}
-							task.execute(params);
-
-							break;
-						case 3:  //观看模式（单设备，多设备）
-							if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
-								MySharedPreference.putBoolean(Consts.MORE_PLAYMODE,
-										false);
-								dataList.get(3).setName(
-										mActivity.getResources().getString(
-												R.string.str_video_modetwo));
-							} else {
-								MySharedPreference.putBoolean(Consts.MORE_PLAYMODE,
-										true);
-								dataList.get(3)
-										.setName(
-												mActivity
-														.getResources()
-														.getString(
-																R.string.str_video_more_modetwo));
-							}
-							break;
-						case 4:// 小助手
-							if (MySharedPreference.getBoolean(Consts.MORE_LITTLEHELP)) {
-								MySharedPreference.putBoolean(Consts.MORE_LITTLEHELP,
-										false);
-							} else {
-								MySharedPreference.putBoolean(Consts.MORE_LITTLEHELP,
-										true);
-							}
-							break;
-						case 5://广播
-							if (MySharedPreference.getBoolean(Consts.MORE_BROADCAST)) {
-								MySharedPreference.putBoolean(Consts.MORE_BROADCAST,
-										false);
-							} else {
-								MySharedPreference.putBoolean(Consts.MORE_BROADCAST,
-										true);
-							}
-							break;
-						case 6://测试服务器开关
-							if (MySharedPreference.getBoolean(Consts.MORE_TESTSWITCH)) {
-								MySharedPreference.putBoolean(Consts.MORE_TESTSWITCH,
-										false);
-							} else {
-								MySharedPreference.putBoolean(Consts.MORE_TESTSWITCH,
-										true);
-							}
-							break;
-						case 7:// 版本号
-							Intent intentVersion = new Intent(mActivity,
-									JVVersionActivity.class);
-							mActivity.startActivity(intentVersion);
-
-							// int curVersion = 0;
-							// try {
-							// curVersion = mActivity.getPackageManager()
-							// .getPackageInfo(
-							// mActivity.getPackageName(), 0).versionCode;
-							// } catch (NameNotFoundException e) {
-							// // TODO Auto-generated catch block
-							// e.printStackTrace();
-							// }
-							//
-							// String itemzero = mActivity.getResources()
-							// .getString(R.string.census_accounts)
-							// + ":"
-							// + ConfigUtil.ACCOUNT_VERSION;
-							// String itemone = mActivity.getResources()
-							// .getString(R.string.census_network_version)
-							// + ":" + ConfigUtil.NETWORK_VERSION;
-							// String itemtwo = mActivity.getResources()
-							// .getString(R.string.census_play_version)
-							// + ":" + ConfigUtil.PLAY_VERSION;
-							// String itemthree = mActivity.getResources()
-							// .getString(
-							// R.string.census_appnetwork_version)
-							// + ":" + ConfigUtil.GETNETWORK_VERSION;
-							// String itemfour = mActivity.getResources()
-							// .getString(R.string.census_appplay_version)
-							// + ":" + ConfigUtil.GETPLAY_VERSION;
-							// String itemfive = mActivity.getResources()
-							// .getString(R.string.census_appaccount)
-							// + ":" + JVACCOUNT.GetVersion(0);
-							// new AlertDialog.Builder(new ContextThemeWrapper(
-							// mActivity, R.style.AlertDialogCustom))
-							// .setTitle(
-							// mActivity.getResources().getString(
-							// R.string.census_version)
-							// + curVersion
-							// + "  "
-							// + ConfigUtil.sameVersion)
-							// .setItems(
-							// new String[] { itemzero, itemfive,
-							// itemone, itemtwo,
-							// itemthree, itemfour }, null)
-							// .setNegativeButton(
-							// mActivity.getResources().getString(
-							// R.string.ok), null).show();
-							// TODO
-							break;
-						case 8://  换成报警信息
-							if (localFlag)// 本地登录
-							{
-								mActivity.showTextToast(R.string.more_nologin);
-							} else {
-								mApp.setNewPushCnt(0);
-								Intent intent2 = new Intent(mActivity,
-										AlarmInfoActivity.class);
-								startActivity(intent2);
-							}
-
-							// if (!MySharedPreference.getBoolean("VideoSquer"))
-							// {
-							// MySharedPreference.putBoolean("VideoSquer",
-							// true);
-							// }
-							//
-							// if (!ConfigUtil.isConnected(mActivity)) {
-							// mActivity.alertNetDialog();
-							// } else {
-							// StatService.trackCustomEvent(
-							// mActivity,
-							// "Demo",
-							// mActivity.getResources().getString(
-							// R.string.census_demo));
-							//
-							// GetDemoTask demoTask = new GetDemoTask(
-							// mActivity);
-							// String[] demoParams = new String[3];
-							// if (!Boolean
-							// .valueOf(((BaseActivity) activity).statusHashMap
-							// .get(Consts.LOCAL_LOGIN))) {
-							// String sessionResult = ConfigUtil
-							// .getSession();
-							//
-							// MyLog.v("session", sessionResult);
-							// demoParams[0] = sessionResult;
-							// } else {
-							// demoParams[0] = "";
-							// }
-							// demoTask.execute(demoParams);
-							// }
-							// TODO
-							break;
-						case 9: //系统消息
-							if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
-								MySharedPreference.putBoolean(Consts.MORE_SYSTEMMESSAGE,
-										true);
-							}
-							if (!ConfigUtil.isConnected(mActivity)) {
-								mActivity.alertNetDialog();
-							} else {
-								StatService.trackCustomEvent(
-										mActivity,
-										"MoreMessage",
-										mActivity.getResources().getString(
-												R.string.census_moremessage));
-								Intent infoIntent = new Intent();
-								infoIntent.setClass(mActivity,
-										JVSystemInfoActivity.class);
-								mActivity.startActivity(infoIntent);
-							}
-							break;
-						case 10:  //我要装监控
-							if (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL)) {
-								MySharedPreference.putBoolean(Consts.MORE_CUSTURL, true);
-							}
-							if (!ConfigUtil.isConnected(mActivity)) {
-								mActivity.alertNetDialog();
-							} else {
-								if (null != ((BaseActivity) mActivity).statusHashMap
-										.get(Consts.MORE_CUSTURL)) {
-									Intent intentAD0 = new Intent(mActivity,
-											JVWebViewActivity.class);
-									intentAD0
-											.putExtra(
-													"URL",
-													((BaseActivity) mActivity).statusHashMap
-															.get(Consts.MORE_CUSTURL));
-									intentAD0.putExtra("title", -2);
-									mActivity.startActivity(intentAD0);
-								} else {
-									GetDemoTask UrlTask = new GetDemoTask(
-											mActivity);
-									String[] demoParams = new String[3];
-									demoParams[1] = "0";
-									UrlTask.execute(demoParams);
-								}
-							}
-							break;
-						case 11:  //设备分享
-							// GetDemoTask UrlTask1 = new
-							// GetDemoTask(mActivity);
-							// String[] demoParams1 = new String[3];
-							// demoParams1[0] = "1";
-							// UrlTask1.execute(demoParams1);
-							break;
-						case 12:  //云视通指数
-							if (!MySharedPreference.getBoolean(Consts.MORE_STATURL)) {
-								MySharedPreference.putBoolean(Consts.MORE_STATURL, true);
-							}
-							if (!ConfigUtil.isConnected(mActivity)) {
-								mActivity.alertNetDialog();
-							} else {
-								if (null != ((BaseActivity) mActivity).statusHashMap
-										.get(Consts.MORE_STATURL)) {
-									Intent intentAD0 = new Intent(mActivity,
-											JVWebViewActivity.class);
-									intentAD0
-											.putExtra(
-													"URL",
-													((BaseActivity) mActivity).statusHashMap
-															.get(Consts.MORE_STATURL));
-									intentAD0.putExtra("title", -2);
-									mActivity.startActivity(intentAD0);
-								} else {
-									GetDemoTask UrlTask2 = new GetDemoTask(
-											mActivity);
-									String[] demoParams2 = new String[3];
-									demoParams2[1] = "2";
-									UrlTask2.execute(demoParams2);
-								}
-							}
-							break;
-						case 13:  // 图像查看
-							StatService.trackCustomEvent(
-									mActivity,
-									"Media",
-									mActivity.getResources().getString(
-											R.string.census_media));
-							Intent intentMedia = new Intent(mActivity,
-									JVMediaActivity.class);
-							mActivity.startActivity(intentMedia);
-							break;
-						case 14:  //意见反馈
-							Intent intent = new Intent(mActivity,
-									JVFeedbackActivity.class);
-							startActivity(intent);
-							break;
-						case 15:  //检查更新
-							mActivity.createDialog("", false);
-							CheckUpdateTask taskf = new CheckUpdateTask(
-									mActivity);
-							String[] strParams = new String[3];
-							strParams[0] = "1";// 1,手动检查更新
-							taskf.execute(strParams);
-							break;
-						case 16: //关于
-							if (!MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
-								littlenum++;
-								if (littlenum < 20) {
-									if (littlenum >= 17) {
-										mActivity
-												.showTextToast((20 - littlenum)
-														+ " ");
-									}
-								} else if (littlenum == 20) {
-									MySharedPreference.putBoolean(Consts.MORE_LITTLEHELP,
-											true);
-									MySharedPreference.putBoolean(
-											Consts.MORE_BROADCAST, true);
-									MySharedPreference.putBoolean(Consts.MORE_LITTLE,
-											true);
-									ListViewUtil
-											.setListViewHeightBasedOnChildren(more_listView);
-								}
-							} else {
-								littlenum = 0;
-								MySharedPreference.putBoolean(Consts.MORE_LITTLEHELP,
-										false);
-								MySharedPreference.putBoolean(Consts.MORE_BROADCAST,
-										false);
-								MySharedPreference.putBoolean(Consts.MORE_LITTLE, false);
-								ListViewUtil
-										.setListViewHeightBasedOnChildren(more_listView);
-							}
-							break;
-						default:
-							break;
-						}
-						adapter.notifyDataSetChanged();
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				switch (position) {
+				case 0:  //帮助图片是否显示
+					if (MySharedPreference.getBoolean(Consts.MORE_HELP)) {
+						MySharedPreference.putBoolean(Consts.MORE_HELP, false);
+						MySharedPreference.putBoolean(Consts.MORE_PAGEONE, true);
+						MySharedPreference.putBoolean(Consts.MORE_PAGETWO, true);
+					} else {
+						MySharedPreference.putBoolean(Consts.MORE_HELP, true);
+						MySharedPreference.putBoolean(Consts.MORE_PAGEONE, false);
+						MySharedPreference.putBoolean(Consts.MORE_PAGETWO, false);
 					}
-				});
+					break;
+				case 1:  //自动登录功能
+					// TODO
+					if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER)) {
+						MySharedPreference
+						.putBoolean(Consts.MORE_REMEMBER, false);
+					} else {
+						MySharedPreference.putBoolean(Consts.MORE_REMEMBER, true);
+					}
+					break;
+				case 2:  //报警通知开关
+					AlarmTask task = new AlarmTask();
+					Integer[] params = new Integer[3];
+					if (!MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
+							true)) {// 1是关
+						// 0是开
+						params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
+					} else {
+						params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
+					}
+					task.execute(params);
+
+					break;
+				case 3://  换成报警信息
+					if (localFlag)// 本地登录
+					{
+						mActivity.showTextToast(R.string.more_nologin);
+					} else {
+						mApp.setNewPushCnt(0);
+						Intent intent2 = new Intent(mActivity,
+								AlarmInfoActivity.class);
+						startActivity(intent2);
+					}
+
+					// if (!MySharedPreference.getBoolean("VideoSquer"))
+					// {
+					// MySharedPreference.putBoolean("VideoSquer",
+					// true);
+					// }
+					//
+					// if (!ConfigUtil.isConnected(mActivity)) {
+					// mActivity.alertNetDialog();
+					// } else {
+					// StatService.trackCustomEvent(
+					// mActivity,
+					// "Demo",
+					// mActivity.getResources().getString(
+					// R.string.census_demo));
+					//
+					// GetDemoTask demoTask = new GetDemoTask(
+					// mActivity);
+					// String[] demoParams = new String[3];
+					// if (!Boolean
+					// .valueOf(((BaseActivity) activity).statusHashMap
+					// .get(Consts.LOCAL_LOGIN))) {
+					// String sessionResult = ConfigUtil
+					// .getSession();
+					//
+					// MyLog.v("session", sessionResult);
+					// demoParams[0] = sessionResult;
+					// } else {
+					// demoParams[0] = "";
+					// }
+					// demoTask.execute(demoParams);
+					// }
+					// TODO
+					break;
+				case 4:  //观看模式（单设备，多设备）
+					if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
+						MySharedPreference.putBoolean(Consts.MORE_PLAYMODE,
+								false);
+						dataList.get(4).setName(
+								mActivity.getResources().getString(
+										R.string.str_video_modetwo));
+					} else {
+						MySharedPreference.putBoolean(Consts.MORE_PLAYMODE,
+								true);
+						dataList.get(4)
+						.setName(
+								mActivity
+								.getResources()
+								.getString(
+										R.string.str_video_more_modetwo));
+					}
+					break;
+				case 5:// 小助手
+					if (MySharedPreference.getBoolean(Consts.MORE_LITTLEHELP)) {
+						MySharedPreference.putBoolean(Consts.MORE_LITTLEHELP,
+								false);
+					} else {
+						MySharedPreference.putBoolean(Consts.MORE_LITTLEHELP,
+								true);
+					}
+					break;
+				case 6://广播
+					if (MySharedPreference.getBoolean(Consts.MORE_BROADCAST)) {
+						MySharedPreference.putBoolean(Consts.MORE_BROADCAST,
+								false);
+					} else {
+						MySharedPreference.putBoolean(Consts.MORE_BROADCAST,
+								true);
+					}
+					break;
+				case 7://测试服务器开关
+					if (MySharedPreference.getBoolean(Consts.MORE_TESTSWITCH)) {
+						MySharedPreference.putBoolean(Consts.MORE_TESTSWITCH,
+								false);
+					} else {
+						MySharedPreference.putBoolean(Consts.MORE_TESTSWITCH,
+								true);
+					}
+					break;
+				case 8:// 版本号
+					Intent intentVersion = new Intent(mActivity,
+							JVVersionActivity.class);
+					mActivity.startActivity(intentVersion);
+
+					// int curVersion = 0;
+					// try {
+					// curVersion = mActivity.getPackageManager()
+					// .getPackageInfo(
+					// mActivity.getPackageName(), 0).versionCode;
+					// } catch (NameNotFoundException e) {
+					// // TODO Auto-generated catch block
+					// e.printStackTrace();
+					// }
+					//
+					// String itemzero = mActivity.getResources()
+					// .getString(R.string.census_accounts)
+					// + ":"
+					// + ConfigUtil.ACCOUNT_VERSION;
+					// String itemone = mActivity.getResources()
+					// .getString(R.string.census_network_version)
+					// + ":" + ConfigUtil.NETWORK_VERSION;
+					// String itemtwo = mActivity.getResources()
+					// .getString(R.string.census_play_version)
+					// + ":" + ConfigUtil.PLAY_VERSION;
+					// String itemthree = mActivity.getResources()
+					// .getString(
+					// R.string.census_appnetwork_version)
+					// + ":" + ConfigUtil.GETNETWORK_VERSION;
+					// String itemfour = mActivity.getResources()
+					// .getString(R.string.census_appplay_version)
+					// + ":" + ConfigUtil.GETPLAY_VERSION;
+					// String itemfive = mActivity.getResources()
+					// .getString(R.string.census_appaccount)
+					// + ":" + JVACCOUNT.GetVersion(0);
+					// new AlertDialog.Builder(new ContextThemeWrapper(
+					// mActivity, R.style.AlertDialogCustom))
+					// .setTitle(
+					// mActivity.getResources().getString(
+					// R.string.census_version)
+					// + curVersion
+					// + "  "
+					// + ConfigUtil.sameVersion)
+					// .setItems(
+					// new String[] { itemzero, itemfive,
+					// itemone, itemtwo,
+					// itemthree, itemfour }, null)
+					// .setNegativeButton(
+					// mActivity.getResources().getString(
+					// R.string.ok), null).show();
+					// TODO
+					break;
+
+				case 9:  //我要装监控
+					if (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL)) {
+						MySharedPreference.putBoolean(Consts.MORE_CUSTURL, true);
+					}
+					if (!ConfigUtil.isConnected(mActivity)) {
+						mActivity.alertNetDialog();
+					} else {
+						if (null != ((BaseActivity) mActivity).statusHashMap
+								.get(Consts.MORE_CUSTURL)) {
+							Intent intentAD0 = new Intent(mActivity,
+									JVWebViewActivity.class);
+							intentAD0
+							.putExtra(
+									"URL",
+									((BaseActivity) mActivity).statusHashMap
+									.get(Consts.MORE_CUSTURL));
+							intentAD0.putExtra("title", -2);
+							mActivity.startActivity(intentAD0);
+						} else {
+							GetDemoTask UrlTask = new GetDemoTask(
+									mActivity);
+							String[] demoParams = new String[3];
+							demoParams[1] = "0";
+							UrlTask.execute(demoParams);
+						}
+					}
+					break;
+				case 10:  //设备分享
+					// GetDemoTask UrlTask1 = new
+					// GetDemoTask(mActivity);
+					// String[] demoParams1 = new String[3];
+					// demoParams1[0] = "1";
+					// UrlTask1.execute(demoParams1);
+					break;
+				case 11:  //云视通指数
+					if (!MySharedPreference.getBoolean(Consts.MORE_STATURL)) {
+						MySharedPreference.putBoolean(Consts.MORE_STATURL, true);
+					}
+					if (!ConfigUtil.isConnected(mActivity)) {
+						mActivity.alertNetDialog();
+					} else {
+						if (null != ((BaseActivity) mActivity).statusHashMap
+								.get(Consts.MORE_STATURL)) {
+							Intent intentAD0 = new Intent(mActivity,
+									JVWebViewActivity.class);
+							intentAD0
+							.putExtra(
+									"URL",
+									((BaseActivity) mActivity).statusHashMap
+									.get(Consts.MORE_STATURL));
+							intentAD0.putExtra("title", -2);
+							mActivity.startActivity(intentAD0);
+						} else {
+							GetDemoTask UrlTask2 = new GetDemoTask(
+									mActivity);
+							String[] demoParams2 = new String[3];
+							demoParams2[1] = "2";
+							UrlTask2.execute(demoParams2);
+						}
+					}
+					break;
+				case 12: //系统消息
+					if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						MySharedPreference.putBoolean(Consts.MORE_SYSTEMMESSAGE,
+								true);
+					}
+					if (!ConfigUtil.isConnected(mActivity)) {
+						mActivity.alertNetDialog();
+					} else {
+						StatService.trackCustomEvent(
+								mActivity,
+								"MoreMessage",
+								mActivity.getResources().getString(
+										R.string.census_moremessage));
+						Intent infoIntent = new Intent();
+						infoIntent.setClass(mActivity,
+								JVSystemInfoActivity.class);
+						mActivity.startActivity(infoIntent);
+					}
+					break;
+				case 13:  // 图像查看
+					StatService.trackCustomEvent(
+							mActivity,
+							"Media",
+							mActivity.getResources().getString(
+									R.string.census_media));
+					Intent intentMedia = new Intent(mActivity,
+							JVMediaActivity.class);
+					mActivity.startActivity(intentMedia);
+					break;
+				case 14:  //意见反馈
+					Intent intent = new Intent(mActivity,
+							JVFeedbackActivity.class);
+					startActivity(intent);
+					break;
+				case 15:  //检查更新
+					mActivity.createDialog("", false);
+					CheckUpdateTask taskf = new CheckUpdateTask(
+							mActivity);
+					String[] strParams = new String[3];
+					strParams[0] = "1";// 1,手动检查更新
+					taskf.execute(strParams);
+					break;
+				case 16: //关于
+					if (!MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
+						littlenum++;
+						if (littlenum < 20) {
+							if (littlenum >= 17) {
+								mActivity
+								.showTextToast((20 - littlenum)
+										+ " ");
+							}
+						} else if (littlenum == 20) {
+							MySharedPreference.putBoolean(Consts.MORE_LITTLEHELP,
+									true);
+							MySharedPreference.putBoolean(
+									Consts.MORE_BROADCAST, true);
+							MySharedPreference.putBoolean(Consts.MORE_LITTLE,
+									true);
+							ListViewUtil
+							.setListViewHeightBasedOnChildren(more_listView);
+						}
+					} else {
+						littlenum = 0;
+						MySharedPreference.putBoolean(Consts.MORE_LITTLEHELP,
+								false);
+						MySharedPreference.putBoolean(Consts.MORE_BROADCAST,
+								false);
+						MySharedPreference.putBoolean(Consts.MORE_LITTLE, false);
+						ListViewUtil
+						.setListViewHeightBasedOnChildren(more_listView);
+					}
+					break;
+				default:
+					break;
+				}
+				adapter.notifyDataSetChanged();
+			}
+		});
 	}
 
 	@Override
@@ -882,11 +885,11 @@ public class JVMoreFragment extends BaseFragment {
 
 			clearCacheFolder(mActivity.getCacheDir(),
 					System.currentTimeMillis());
-			
+
 			mActivity.deleteDatabase("webview.db");
 			mActivity.deleteDatabase("webviewCache.db");
-			
-			
+
+
 			intent.putExtra("UserName", userName);
 			MySharedPreference.putBoolean(Consts.MORE_REMEMBER, false);
 			intent.setClass(mActivity, JVLoginActivity.class);
@@ -914,8 +917,8 @@ public class JVMoreFragment extends BaseFragment {
 		}
 		super.onPause();
 	}
-	
-	
+
+
 	private int clearCacheFolder(File dir, long numDays) {
 
 		int deletedFiles = 0;

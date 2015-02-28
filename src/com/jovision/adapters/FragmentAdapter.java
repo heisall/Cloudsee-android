@@ -96,7 +96,7 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 			});
 		}
-		if (position == 8 || position == 9 || position == 10 || position == 11
+		if (position == 3 || position == 9 || position == 10 || position == 11
 				|| position == 12) {
 			if ("true"
 					.equals(((BaseActivity) mfragment.getActivity()).statusHashMap
@@ -105,11 +105,11 @@ public class FragmentAdapter extends BaseAdapter {
 				divider_img.setVisibility(View.GONE);
 			}
 		}
-		if (position == 11) {
+		if (position == 10) {
 			more_item.setVisibility(View.GONE);
 			divider_img.setVisibility(View.GONE);
 		}
-		if (position == 4 || position == 5 || position == 6 || position == 7) {
+		if (position == 5 || position == 6 || position == 7 || position == 8) {
 			if (!MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
 				more_item.setVisibility(View.GONE);
 				divider_img.setVisibility(View.GONE);
@@ -118,36 +118,36 @@ public class FragmentAdapter extends BaseAdapter {
 				divider_img.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 9) {
+		if (position == 12) {
 			if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 10) {
+		if (position == 11) {
 			if (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL)) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 12) {
+		if (position == 9) {
 			if (!MySharedPreference.getBoolean(Consts.MORE_STATURL)) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 10
+		if (position == 11
 				&& Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
 			more_item.setVisibility(View.VISIBLE);
 			divider_img.setVisibility(View.VISIBLE);
-		} else if (position == 10
+		} else if (position == 11
 				&& Consts.LANGUAGE_ZH != ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
 			more_item.setVisibility(View.GONE);
 			divider_img.setVisibility(View.GONE);
 		}
-		if (position == 8) {
+		if (position == 3) {
 			if (!localFlag) {
 				if (new_nums_ > 0) {
 					tv_new_nums.setText(String.valueOf(new_nums_));
@@ -177,7 +177,7 @@ public class FragmentAdapter extends BaseAdapter {
 			// mfragment.getActivity().getResources()
 			// .getString(R.string.str_current_version));
 		}
-		if (position > -1 && position < 7) {
+		if (position > -1 && position < 7 && position != 3) {
 			item_next
 					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			switch (position) {
@@ -209,26 +209,26 @@ public class FragmentAdapter extends BaseAdapter {
 							.setBackgroundResource(R.drawable.morefragment_normal_icon);
 				}
 				break;
-			case 3:
+			case 4:
 				if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 
 				}
 				break;
-			case 4:
+			case 5:
 				if (MySharedPreference.getBoolean(Consts.MORE_LITTLEHELP)) {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}
 				break;
-			case 5:
+			case 6:
 				if (MySharedPreference.getBoolean(Consts.MORE_BROADCAST)) {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}
 				break;
-			case 6:
+			case 7:
 				if (MySharedPreference.getBoolean(Consts.MORE_TESTSWITCH)) {
 					item_next
 							.setBackgroundResource(R.drawable.morefragment_selector_icon);

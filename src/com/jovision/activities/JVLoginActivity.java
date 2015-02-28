@@ -395,7 +395,7 @@ public class JVLoginActivity extends BaseActivity {
 							.getServerLanguage()) {
 						Intent registIntent = new Intent();
 						registIntent.setClass(JVLoginActivity.this,
-								JVRegisterActivity.class);
+								JVRegisterChoiceActivity.class);
 						JVLoginActivity.this.startActivity(registIntent);
 					} else if (Consts.LANGUAGE_EN == ConfigUtil
 							.getServerLanguage()) {

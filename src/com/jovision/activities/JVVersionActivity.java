@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
 
 public class JVVersionActivity extends BaseActivity {
@@ -99,6 +100,9 @@ public class JVVersionActivity extends BaseActivity {
 			configList.add("我要装监控 URL=" + statusHashMap.get("CUSTURL")+"\n");
 			configList.add("云视通指数 URL=" + statusHashMap.get("STATURL")+"\n\n");
 			
+			
+			configList.add("SHORTSERVERIP=" + Url.SHORTSERVERIP+"\n");
+			configList.add("LONGSERVERIP=" + Url.LONGSERVERIP+"\n");
 			configList.add("登陆返回结果=" + statusHashMap.get("LOGINRES")+"\n");			
 			configList.add("新浪接口调用结果" + "=" + ConfigUtil.SINA_COUNTRY + "\n");
 

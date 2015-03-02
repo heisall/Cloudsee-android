@@ -230,6 +230,7 @@ public class JVWelcomeActivity extends BaseActivity {
 					// intent.putExtra("AutoLogin", true);
 					intent.putExtra("UserName", user.getUserName());
 					intent.putExtra("UserPass", user.getUserPwd());
+
 				} else {
 					intent.setClass(JVWelcomeActivity.this,
 							JVLoginActivity.class);

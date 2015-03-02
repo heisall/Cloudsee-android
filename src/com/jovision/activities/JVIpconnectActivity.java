@@ -10,6 +10,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -34,6 +35,8 @@ public class JVIpconnectActivity extends BaseActivity {
 	private LinearLayout addressLayout;
 	// 输入云视通号的布局
 	private LinearLayout couldnumLayout;
+	//选择连接模式的布局
+	private LinearLayout tcpLayout;
 	// 输入接口的布局
 	private LinearLayout portLayout;
 	// 输入ip地址的edittext
@@ -51,7 +54,10 @@ public class JVIpconnectActivity extends BaseActivity {
 	// 更改形式的标志位
 	private boolean isTurn = false;
 	// 返回按钮
-
+	private ImageView tcpImageView;
+	
+	private boolean isTcpchose;
+	
 	private TextView cloud_number;
 
 	private RadioGroup change;
@@ -123,6 +129,8 @@ public class JVIpconnectActivity extends BaseActivity {
 		ipconnnect_cloud = (RadioButton) findViewById(R.id.ipconnect_cloud);
 		addressLayout = (LinearLayout) findViewById(R.id.Addresslayout);
 		couldnumLayout = (LinearLayout) findViewById(R.id.NumberLayout);
+		tcpLayout =  (LinearLayout)findViewById(R.id.tcp_layout);
+		tcpImageView = (ImageView)findViewById(R.id.tcp_img);
 		portLayout = (LinearLayout) findViewById(R.id.portlayout);
 		ipconnect_address = (EditText) findViewById(R.id.ipconnnect_address);
 		ipconnect_port = (EditText) findViewById(R.id.ipconnect_port);
@@ -141,6 +149,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			change.check(R.id.ipconnect_cloud);
 			isTurn = false;
 			addressLayout.setVisibility(View.GONE);
+			tcpLayout.setVisibility(View.GONE);
 			couldnumLayout.setVisibility(View.VISIBLE);
 			portLayout.setVisibility(View.GONE);
 			cloud_number.setText(editDevice.getFullNo());
@@ -150,6 +159,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			change.check(R.id.ipconnect_ip);
 			isTurn = true;
 			addressLayout.setVisibility(View.VISIBLE);
+			tcpLayout.setVisibility(View.VISIBLE);
 			couldnumLayout.setVisibility(View.GONE);
 			portLayout.setVisibility(View.VISIBLE);
 			ipconnect_address.setText(editDevice.getIp());
@@ -162,6 +172,8 @@ public class JVIpconnectActivity extends BaseActivity {
 			ipconnect_user.setText(editDevice.getUser());
 			ipconnect_pwd.setText(editDevice.getPwd());
 		}
+		
+		tcpLayout.setOnClickListener(myOnClickListener);
 		ipconnect_address.setFocusable(true);
 		ipconnect_address.setFocusableInTouchMode(true);
 		change.setOnCheckedChangeListener(mylistener);
@@ -194,6 +206,7 @@ public class JVIpconnectActivity extends BaseActivity {
 					public void onAnimationEnd(Animation animation) {
 						isTurn = true;
 						addressLayout.setVisibility(View.VISIBLE);
+						tcpLayout.setVisibility(View.VISIBLE);
 						couldnumLayout.setVisibility(View.GONE);
 						portLayout.setVisibility(View.VISIBLE);
 
@@ -228,6 +241,7 @@ public class JVIpconnectActivity extends BaseActivity {
 					public void onAnimationEnd(Animation animation) {
 						isTurn = false;
 						addressLayout.setVisibility(View.GONE);
+						tcpLayout.setVisibility(View.GONE);
 						couldnumLayout.setVisibility(View.VISIBLE);
 						portLayout.setVisibility(View.GONE);
 
@@ -353,6 +367,15 @@ public class JVIpconnectActivity extends BaseActivity {
 				break;
 			case R.id.btn_right:
 
+				break;
+			case R.id.tcp_layout:
+				if (!isTcpchose) {
+					tcpImageView.setImageResource(R.drawable.ipc_selector);
+					isTcpchose = true;
+				}else {
+					tcpImageView.setImageResource(R.drawable.ipc_normal);
+					isTcpchose = false;
+				}
 				break;
 			default:
 				break;

@@ -66,6 +66,9 @@ public class Device {
 	/** 局域网 是否在线 0.不在线 1.在线 */
 	private int onlineStateLan = 0;
 
+	/**** 2015-03-02 ***/
+	private int Tcp; //是否为TCP连接   0. TCP连接  1.非TCP
+	
 	/*** 2014-12-25 ***/
 	private boolean admin;// 是否管理员用户
 	private int power;// 权限值
@@ -611,4 +614,11 @@ public class Device {
 		this.descript = descript;
 	}
 
+	public int getTcp() {
+		return Tcp;
+	}
+
+	public void setTcp(int tcp) {
+		Tcp = tcp;
+	}
 }

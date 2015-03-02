@@ -34,7 +34,7 @@ import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 
 public class DeviceSettingsMainFragment extends Fragment implements
-		OnClickListener, OnMainListener {
+OnClickListener, OnMainListener {
 
 	private View rootView;// 缓存Fragment view
 	private ArrayList<Device> deviceList;
@@ -60,7 +60,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private String startHour = "", startMin = "";
 	private String endHour = "", endMin = "";
 	private RelativeLayout functionlayout1, functionlayout2, functionlayout3,
-			functionlayout4;
+	functionlayout4,functionlayout5;
 	private RelativeLayout functiontips1, functiontips2, functiontips3;
 	private TextView alarmTime0TextView;
 	private int power = 0;
@@ -68,6 +68,11 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private Dialog initDialog;// 显示弹出框
 	private TextView dialogCancel;// 取消按钮
 	private TextView dialogCompleted;// 确定按钮
+
+	private Dialog resetDialog;// 显示弹出框
+	private TextView resetCancel;// 取消按钮
+	private TextView resetCompleted;// 确定按钮
+
 	// 设备名称
 	private TextView device_name;
 	// 设备用户名
@@ -114,6 +119,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				.findViewById(R.id.funclayout3);
 		functionlayout4 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout4);
+		functionlayout5 = (RelativeLayout)rootView
+				.findViewById(R.id.funclayout5);
 
 		functiontips1 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_01);
 		functiontips2 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_02);
@@ -126,6 +133,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		func_swmotion.setOnClickListener(this);
 		functionlayout3.setOnClickListener(this);
 		functionlayout4.setOnClickListener(this);
+		functionlayout5.setOnClickListener(this);
 
 		Bundle data = getArguments();// 获得从activity中传递过来的值
 
@@ -144,11 +152,11 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				switch (func_alert_enabled) {
 				case 0:
 					func_swalert
-							.setBackgroundResource(R.drawable.morefragment_normal_icon);
+					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 					break;
 				case 1:
 					func_swalert
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					break;
 				case -1:
 					functionlayout1.setVisibility(View.GONE);
@@ -224,7 +232,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				switch (func_alert_enabled) {
 				case 0:
 					func_swalert
-							.setBackgroundResource(R.drawable.morefragment_normal_icon);
+					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 					functionlayout2.setVisibility(View.GONE);
 					functiontips2.setVisibility(View.GONE);
 					functionlayout3.setVisibility(View.GONE);
@@ -232,7 +240,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 					break;
 				case 1:
 					func_swalert
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					break;
 				case -1:
 					functionlayout1.setVisibility(View.GONE);
@@ -245,11 +253,11 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				switch (func_motion_enabled) {
 				case 0:
 					func_swmotion
-							.setBackgroundResource(R.drawable.morefragment_normal_icon);
+					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 					break;
 				case 1:
 					func_swmotion
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					break;
 				case -1:
 					functionlayout2.setVisibility(View.GONE);
@@ -310,6 +318,17 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			break;
 		case R.id.dialog_cancle_img:
 			initDialog.dismiss();
+			break;
+		case R.id.reset_cancel:
+			resetDialog.dismiss();
+			break;
+		case R.id.reset_completed:
+			mListener.OnFuncSelected(Consts.DEV_RESET_DEVICE,
+					"");
+			resetDialog.dismiss();
+			break;
+		case R.id.funclayout5:
+			ResetDialog();
 			break;
 		case R.id.funclayout4:
 			if (DeviceSettingsActivity.isadmin) {
@@ -433,6 +452,23 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		});
 	}
 
+	/** 是否确定重置设备 */
+	private void ResetDialog() {
+		resetDialog = new Dialog(getActivity(), R.style.mydialog);
+		View view = LayoutInflater.from(getActivity()).inflate(
+				R.layout.dialog_reset, null);
+		resetDialog.setContentView(view);
+
+		resetCancel = (TextView)view.findViewById(R.id.reset_cancel);
+		resetCompleted = (TextView)view.findViewById(R.id.reset_completed);
+
+		resetCancel.setOnClickListener(this);
+		resetCompleted.setOnClickListener(this);
+		resetDialog.show();
+
+	}
+
+
 	@Override
 	public void onMainAction(int packet_type, int packet_subtype, int ex_type,
 			int destFlag) {
@@ -462,7 +498,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						}
 						func_motion_enabled = 0;
 						func_swmotion
-								.setBackgroundResource(R.drawable.morefragment_normal_icon);
+						.setBackgroundResource(R.drawable.morefragment_normal_icon);
 						// String text = getResources().getString(
 						// R.string.str_mdenabled_close_ok);
 						// Toast.makeText(getActivity(), text,
@@ -480,7 +516,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						}
 						func_motion_enabled = 1;
 						func_swmotion
-								.setBackgroundResource(R.drawable.morefragment_selector_icon);
+						.setBackgroundResource(R.drawable.morefragment_selector_icon);
 						// String text = getResources().getString(
 						// R.string.str_mdenabled_open_ok);
 						// Toast.makeText(getActivity(), text,
@@ -526,7 +562,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						}
 						func_alert_enabled = 0;
 						func_swalert
-								.setBackgroundResource(R.drawable.morefragment_normal_icon);
+						.setBackgroundResource(R.drawable.morefragment_normal_icon);
 						// Log.e("Alarm",
 						// "after func_alert_enabled:"+func_alert_enabled);
 					} else if (func_alert_enabled == 0) {
@@ -555,7 +591,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						}
 						func_alert_enabled = 1;
 						func_swalert
-								.setBackgroundResource(R.drawable.morefragment_selector_icon);
+						.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					} else {
 						// 隐藏
 						// String text = getResources().getString(
@@ -572,7 +608,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				break;
 			}
 		}
-			break;
+		break;
 
 		default:
 			break;

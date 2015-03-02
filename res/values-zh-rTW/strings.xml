@@ -598,6 +598,8 @@
     <string name="str_alarm_no_video">暫無報警視頻</string>
     <string name="str_buffering">正在緩衝…</string>
     <string name="str_safe_protected">安全防護</string>
+    <string name="str_reset_device">重置設備功能</string>
+     <string name="str_reset_sure">確定重置設備嗎?</string>
     <string name="str_modify_pwd">修改設備管理員密碼</string>
     <string name="str_downloading_vod">正在獲取錄影檔…</string>
     <string name="str_alarm_dev">設備  :</string>

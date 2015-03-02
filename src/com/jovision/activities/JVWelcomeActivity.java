@@ -1,15 +1,11 @@
 package com.jovision.activities;
 
-import java.io.File;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Handler;
 import android.test.AutoLoad;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;

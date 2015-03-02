@@ -522,6 +522,11 @@ public class JVLoginActivity extends BaseActivity {
 						statusHashMap.get(Consts.KEY_USERNAME));
 			}
 
+			if(loginRes1 == JVAccountConst.LOGIN_FAILED_1 || loginRes2 == JVAccountConst.LOGIN_FAILED_1){
+				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
+					AccountUtil.userOnline();
+				}
+			}
 			return loginRes1;
 		}
 
@@ -627,7 +632,6 @@ public class JVLoginActivity extends BaseActivity {
 			case JVAccountConst.LOGIN_FAILED_1: {
 
 				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
-					AccountUtil.userOnline();
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
 					intent.setClass(JVLoginActivity.this, JVTabActivity.class);
@@ -650,7 +654,6 @@ public class JVLoginActivity extends BaseActivity {
 			}
 			case JVAccountConst.LOGIN_FAILED_2: {
 				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
-					AccountUtil.userOnline();
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
 					intent.setClass(JVLoginActivity.this, JVTabActivity.class);

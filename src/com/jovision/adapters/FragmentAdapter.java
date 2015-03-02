@@ -35,6 +35,7 @@ public class FragmentAdapter extends BaseAdapter {
 	private RelativeLayout item_new;
 	private TextView tv_new_nums;
 	private LinearLayout kongbai;
+	private ImageView divider_img_up;
 
 	private int new_nums_;
 
@@ -71,6 +72,7 @@ public class FragmentAdapter extends BaseAdapter {
 				.findViewById(R.id.more_relative);
 		item_new = (RelativeLayout) convertView
 				.findViewById(R.id.item_new_layout);
+		divider_img_up = (ImageView)convertView.findViewById(R.id.divider_img_up);
 		kongbai = (LinearLayout) convertView.findViewById(R.id.kongbai);
 		more_item = (FrameLayout) convertView.findViewById(R.id.item);
 		divider_img = (ImageView) convertView.findViewById(R.id.divider_img);
@@ -90,9 +92,11 @@ public class FragmentAdapter extends BaseAdapter {
 		}
 		if (position == 5 || position == 14) {
 			kongbai.setVisibility(View.VISIBLE);
+			divider_img_up.setVisibility(View.VISIBLE);
 		}
 		if (position == 1 && localFlag) {
 			more_item.setVisibility(View.GONE);
+			divider_img.setVisibility(View.GONE);
 		}
 		if (position == 2 && localFlag) {
 			more_relative.setVisibility(View.VISIBLE);
@@ -130,24 +134,24 @@ public class FragmentAdapter extends BaseAdapter {
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 11) {
+		if (position == 9) {
 			if (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL)) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 9) {
+		if (position == 11) {
 			if (!MySharedPreference.getBoolean(Consts.MORE_STATURL)) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 11
+		if (position == 9
 				&& Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
 			more_item.setVisibility(View.VISIBLE);
 			divider_img.setVisibility(View.VISIBLE);
-		} else if (position == 11
+		} else if (position == 9
 				&& Consts.LANGUAGE_ZH != ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
 			more_item.setVisibility(View.GONE);

@@ -12,6 +12,13 @@
         android:visibility="gone" >
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/divider_img_up"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/morefragment"
+        android:visibility="gone" />
+
     <FrameLayout
         android:id="@+id/item"
         android:layout_width="match_parent"

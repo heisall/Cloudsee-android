@@ -470,10 +470,6 @@ public class JVLoginActivity extends BaseActivity {
 
 				if ("false".equals(statusHashMap
 						.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-					// Toast.makeText(mContext, "初始化账号SDK失败，请重新运行程序",
-					// Toast.LENGTH_LONG)
-					// .show();
-					// return "";
 					MyLog.e("Login", "初始化账号SDK失败");
 					ConfigUtil
 							.initAccountSDK(((MainApplication) getApplication()));// 初始化账号SDK
@@ -631,6 +627,7 @@ public class JVLoginActivity extends BaseActivity {
 			case JVAccountConst.LOGIN_FAILED_1: {
 
 				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
+					AccountUtil.userOnline();
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
 					intent.setClass(JVLoginActivity.this, JVTabActivity.class);
@@ -653,6 +650,7 @@ public class JVLoginActivity extends BaseActivity {
 			}
 			case JVAccountConst.LOGIN_FAILED_2: {
 				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
+					AccountUtil.userOnline();
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
 					intent.setClass(JVLoginActivity.this, JVTabActivity.class);

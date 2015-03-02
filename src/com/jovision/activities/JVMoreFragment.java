@@ -879,7 +879,7 @@ public class JVMoreFragment extends BaseFragment {
 					MySharedPreference.putBoolean(Consts.MANUAL_LOGOUT_TAG,
 							true);
 				}
-				ConfigUtil.logOut();
+
 				UserUtil.resetAllUser();
 				BitmapCache.getInstance().clearAllCache();
 				mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");

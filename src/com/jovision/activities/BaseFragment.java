@@ -137,6 +137,14 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 							}
 							break;
 						case Consts.WHAT_HAS_NOT_LOGIN:// 账号未登录
+						case Consts.WHAT_SESSION_FAILURE:// session失效
+							if (null != alarmnet && !local) {
+								alarmnet.setVisibility(View.VISIBLE);
+								if (null != accountError) {
+									accountError
+											.setText(R.string.account_error_tips);
+								}
+							}
 							mActivity.createDialog("", false);
 							LoginTask task = new LoginTask(mActivity,
 									(MainApplication) mActivity
@@ -144,9 +152,6 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 									mActivity.statusHashMap, alarmnet);
 							String[] params = new String[3];
 							task.execute(params);
-							break;
-						case Consts.WHAT_SESSION_FAILURE:// session失效
-
 							break;
 						}
 					}
@@ -255,7 +260,18 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 					}
 					break;
 				case Consts.WHAT_SESSION_FAILURE:// session失效
-
+					if (null != alarmnet && !local) {
+						alarmnet.setVisibility(View.VISIBLE);
+						if (null != accountError) {
+							accountError.setText(R.string.account_error_tips);
+						}
+					}
+					mActivity.createDialog("", false);
+					LoginTask loginTask = new LoginTask(mActivity,
+							(MainApplication) mActivity.getApplication(),
+							mActivity.statusHashMap, alarmnet);
+					String[] params = new String[3];
+					loginTask.execute(params);
 					break;
 				}
 			}

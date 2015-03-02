@@ -289,10 +289,10 @@ public class JVWebView2Activity extends BaseActivity implements
 			}
 			case Consts.RTMP_CONN_SCCUESS: {
 				playChannel.setConnected(true);
-				boolean enable = Jni.enablePlayAudio(playChannel.getIndex(),
-						true);
-
-				MyLog.e("AudioEnable", enable + "");
+				// boolean enable = Jni.enablePlayAudio(playChannel.getIndex(),
+				// true);
+				//
+				// MyLog.e("AudioEnable", enable + "");
 				if (playChannel.isPaused()) {
 					Jni.resume(playChannel.getIndex(), playChannel.getSurface());
 				}
@@ -409,13 +409,13 @@ public class JVWebView2Activity extends BaseActivity implements
 	 */
 	private boolean startAudio(int index, int audioByte) {
 		boolean open = false;
-		if (PlayUtil.isPlayAudio(index)) {// 正在监听,确保不会重复开启
-			open = true;
-		} else {
-			PlayUtil.startAudioMonitor(index);// enable audio
-			playAudio.startPlay(audioByte, true);
-			open = true;
-		}
+		// if (PlayUtil.isPlayAudio(index)) {// 正在监听,确保不会重复开启
+		// open = true;
+		// } else {
+		PlayUtil.startAudioMonitor(index);// enable audio
+		playAudio.startPlay(audioByte, true);
+		open = true;
+		// }
 		return open;
 	}
 

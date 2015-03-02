@@ -48,6 +48,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.adapters.LanAdapter;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.adapters.PopWindowAdapter;
@@ -57,6 +58,7 @@ import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.JVDeviceConst;
+import com.jovision.commons.LoginTask;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -948,7 +950,20 @@ public class JVMyDeviceFragment extends BaseFragment {
 			}
 			break;
 		case Consts.WHAT_SESSION_FAILURE:// session失效
-
+			if (null != alarmnet
+					&& !Boolean.valueOf(mActivity.statusHashMap
+							.get(Consts.LOCAL_LOGIN))) {
+				alarmnet.setVisibility(View.VISIBLE);
+				if (null != accountError) {
+					accountError.setText(R.string.account_error_tips);
+				}
+			}
+			mActivity.createDialog("", false);
+			LoginTask loginTask = new LoginTask(mActivity,
+					(MainApplication) mActivity.getApplication(),
+					mActivity.statusHashMap, alarmnet);
+			String[] params = new String[3];
+			loginTask.execute(params);
 			break;
 		case Consts.WHAT_AD_UPDATE: {
 			initADViewPager();

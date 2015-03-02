@@ -100,6 +100,7 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
 		case R.id.btn_save:
 			startTime = tv_stime.getText().toString();
 			endTime = tv_etime.getText().toString();
+			mListener.OnAlarmTimeSaved(startTime, endTime);
 //			timeComputruer(startTime, endTime);
 			break;
 		default:

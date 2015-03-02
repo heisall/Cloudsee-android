@@ -117,6 +117,9 @@ public class ChannelFragment extends BaseFragment {
 
 	}
 
+	public void ChannelFragment() {
+	}
+
 	// 刷新数据
 	public void refreshData() {
 		deviceList = CacheUtil.getDevList();

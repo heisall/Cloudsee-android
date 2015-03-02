@@ -26,6 +26,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyLog;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 
@@ -92,7 +93,7 @@ public class JVChannelsActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.channels_layout);
-
+		MyLog.v(TAG, "Channel-initUi-1");
 		/** top bar */
 		relative = (RelativeLayout) findViewById(R.id.relative);
 		device_num = (TextView) findViewById(R.id.device_num);
@@ -123,13 +124,16 @@ public class JVChannelsActivity extends BaseActivity {
 		widthPixels = disMetrics.widthPixels;
 		// 初始化导航
 		initNav();
+		MyLog.v(TAG, "Channel-initUi-2");
 		// 初始化viewPager
 		initViewPager();
+		MyLog.v(TAG, "Channel-initUi-3");
 		channelPager.setCurrentItem(deviceIndex);
 		adapter = new ManageListAdapter(JVChannelsActivity.this);
 		adapter.setData(deviceList);
 		devicemanage_listView.setAdapter(adapter);
 		ListViewClick();
+		MyLog.v(TAG, "Channel-initUi-4");
 		handler.postDelayed(runnable, 200);
 	}
 
@@ -166,7 +170,6 @@ public class JVChannelsActivity extends BaseActivity {
 	private void initViewPager() {
 		fragments = new ArrayList<Fragment>();
 		int size = deviceList.size();
-
 		for (int i = 0; i < size; i++) {
 			// Bundle data = new Bundle();
 			// data.putString("DeviceList", deviceList.toString());
@@ -181,7 +184,6 @@ public class JVChannelsActivity extends BaseActivity {
 		channelPager.setAdapter(fragmentPagerAdapter);
 		fragmentPagerAdapter.setFragments(fragments);
 		channelPager.setOnPageChangeListener(new ChannelsPageChangeListener());
-
 	}
 
 	@Override

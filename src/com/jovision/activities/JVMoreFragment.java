@@ -84,7 +84,7 @@ public class JVMoreFragment extends BaseFragment {
 	private TextView more_bindmail;
 	// 获取url
 	private WebUrl url;
-	
+
 	private final String TAG = "JVMoreFragment";
 	// 图片数组
 	private int[] Image = { R.drawable.morefragment_help_icon,
@@ -872,9 +872,9 @@ public class JVMoreFragment extends BaseFragment {
 			try {
 				if (!localFlag) {
 					MyLog.v(TAG, "start-logout");
-//					if (0 != AccountUtil.userLogout()) {
-						AccountUtil.userLogout();
-//					}
+					// if (0 != AccountUtil.userLogout()) {
+					AccountUtil.userLogout();
+					// }
 					MyLog.v(TAG, "end-logout");
 					MySharedPreference.putString(Consts.KEY_LAST_LOGIN_USER,
 							more_name);
@@ -882,7 +882,7 @@ public class JVMoreFragment extends BaseFragment {
 					// 添加手动注销标志，离线报警使用，如果为手动注销账号，不接收离线报警
 					MySharedPreference.putBoolean(Consts.MANUAL_LOGOUT_TAG,
 							true);
-					
+
 				}
 
 				UserUtil.resetAllUser();

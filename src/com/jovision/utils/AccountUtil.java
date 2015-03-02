@@ -105,7 +105,9 @@ public class AccountUtil {
 	}
 
 	public static String onLoginProcessV2(Context mContext, String userName,
-			String pwd, String urlLgServ, String urlStServ) {
+			String pwd, String urlLgServ, String urlStServ, int startHeartBeat) {// 1:起心跳
+																					// 0：不需要起心跳
+
 		HashMap<String, String> statusHashMap = ((MainApplication) mContext
 				.getApplicationContext()).getStatusHashMap();
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
@@ -124,6 +126,7 @@ public class AccountUtil {
 			reqObj.put("producttype", Consts.PRODUCT_TYPE); // 0-CloudSEE
 															// 1-NVSIP 2-HITVIS
 															// 3-TONGFANG
+			reqObj.put("heartbeat", startHeartBeat);// 是否需要起心跳
 			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
 				reqObj.put("locales", Consts.LANGUAGE_ZH);
 			} else {

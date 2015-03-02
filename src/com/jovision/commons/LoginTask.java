@@ -49,7 +49,7 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 			strRes = AccountUtil.onLoginProcessV2(mContext,
 					statusHashMap.get(Consts.KEY_USERNAME),
 					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,
-					Url.LONGSERVERIP);
+					Url.LONGSERVERIP, 0);
 			JSONObject respObj = null;
 			try {
 				respObj = new JSONObject(strRes);

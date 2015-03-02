@@ -63,8 +63,8 @@ public class JVLoginActivity extends BaseActivity {
 	private Button localLoginBtn;
 	private TextView showPointBtn;
 	private TextView findPassTV;
-//	private ImageView logoImageView;
-//	private RelativeLayout.LayoutParams params;
+	// private ImageView logoImageView;
+	// private RelativeLayout.LayoutParams params;
 
 	// 下拉箭头图片组件
 	private ImageView moreUserIV;
@@ -146,7 +146,7 @@ public class JVLoginActivity extends BaseActivity {
 
 		userList = UserUtil.getUserList();
 		/** userlogin Fuction */
-//		logoImageView = (ImageView) findViewById(R.id.logo);
+		// logoImageView = (ImageView) findViewById(R.id.logo);
 		userNameET = (EditText) findViewById(R.id.username_et);
 		passwordET = (EditText) findViewById(R.id.password_et);
 		onlineLoginBtn = (Button) findViewById(R.id.onlinelogin_btn);
@@ -155,9 +155,9 @@ public class JVLoginActivity extends BaseActivity {
 		registBtn = (TextView) findViewById(R.id.regist_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
 
-//		params = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
-//				(int) (0.32 * disMetrics.heightPixels));
-//		logoImageView.setLayoutParams(params);
+		// params = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
+		// (int) (0.32 * disMetrics.heightPixels));
+		// logoImageView.setLayoutParams(params);
 
 		if ("true".equals(statusHashMap.get(Consts.KEY_GONE_MORE))) {
 			showPointBtn.setVisibility(View.GONE);
@@ -482,7 +482,7 @@ public class JVLoginActivity extends BaseActivity {
 				strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
 						statusHashMap.get(Consts.KEY_USERNAME),
 						statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIP, Url.LONGSERVERIP);
+						Url.SHORTSERVERIP, Url.LONGSERVERIP, 1);
 				statusHashMap.put("LOGINRES", strRes);
 				JSONObject respObj = null;
 				try {
@@ -522,7 +522,8 @@ public class JVLoginActivity extends BaseActivity {
 						statusHashMap.get(Consts.KEY_USERNAME));
 			}
 
-			if(loginRes1 == JVAccountConst.LOGIN_FAILED_1 || loginRes2 == JVAccountConst.LOGIN_FAILED_1){
+			if (loginRes1 == JVAccountConst.LOGIN_FAILED_1
+					|| loginRes2 == JVAccountConst.LOGIN_FAILED_1) {
 				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
 					AccountUtil.userOnline();
 				}

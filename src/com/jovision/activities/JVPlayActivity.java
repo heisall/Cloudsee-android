@@ -2883,11 +2883,9 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but3:
 			case R.id.capture:// 抓拍
 				// Jni.sendSuperBytes(lastClickIndex,
-				// JVNetConst.JVN_RSP_TEXTDATA, true,
-				// Consts.RC_EX_FIRMUP,
-				// Consts.EX_FIRMUP_RESTORE,
-				// Consts.FIRMUP_HTTP, 0, 0,
-				// new byte[0], 0);
+				// JVNetConst.JVN_RSP_TEXTDATA,
+				// true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_RESTORE,
+				// Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
 				closePopWindow();
 				if (Consts.ISHITVIS == 1) {
 					PlayUtil.hitviscapture(lastClickIndex);

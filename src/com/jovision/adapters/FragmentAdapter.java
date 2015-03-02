@@ -72,7 +72,8 @@ public class FragmentAdapter extends BaseAdapter {
 				.findViewById(R.id.more_relative);
 		item_new = (RelativeLayout) convertView
 				.findViewById(R.id.item_new_layout);
-		divider_img_up = (ImageView)convertView.findViewById(R.id.divider_img_up);
+		divider_img_up = (ImageView) convertView
+				.findViewById(R.id.divider_img_up);
 		kongbai = (LinearLayout) convertView.findViewById(R.id.kongbai);
 		more_item = (FrameLayout) convertView.findViewById(R.id.item);
 		divider_img = (ImageView) convertView.findViewById(R.id.divider_img);

@@ -276,7 +276,7 @@ public class JVEditOldPassActivity extends BaseActivity {
 				strRes = AccountUtil.onLoginProcessV2(activity,
 						activity.statusHashMap.get(Consts.KEY_USERNAME),
 						activity.statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIP, Url.LONGSERVERIP);
+						Url.SHORTSERVERIP, Url.LONGSERVERIP, 1);
 
 				JSONObject respObj = null;
 				int loginRes1 = -1;

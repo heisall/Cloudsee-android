@@ -134,7 +134,7 @@ public class JVRegisterCodeActivity extends BaseActivity {
 							JVRegisterCodeActivity.this,
 							statusHashMap.get(Consts.KEY_USERNAME),
 							statusHashMap.get(Consts.KEY_PASSWORD),
-							Url.SHORTSERVERIP, Url.LONGSERVERIP);
+							Url.SHORTSERVERIP, Url.LONGSERVERIP, 1);
 					JSONObject respObj = null;
 					try {
 						respObj = new JSONObject(strRes);

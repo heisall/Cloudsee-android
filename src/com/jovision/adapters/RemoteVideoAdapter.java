@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
@@ -64,8 +62,8 @@ public class RemoteVideoAdapter extends BaseAdapter {
 					.findViewById(R.id.videodate);
 			viewHolder.videoDisk = (TextView) convertView
 					.findViewById(R.id.videodisk);
-			viewHolder.videoDownLoad = (Button) convertView
-					.findViewById(R.id.videodownload);
+//			viewHolder.videoDownLoad = (Button) convertView
+//					.findViewById(R.id.videodownload);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -100,18 +98,18 @@ public class RemoteVideoAdapter extends BaseAdapter {
 			viewHolder.videoDisk.setText(videoList.get(position).remoteDisk);
 		}
 
-		viewHolder.videoDownLoad.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-
-				// byte[] dataByte = strFilePath.getBytes();
-				// Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
-				// (byte) JVNetConst.JVN_REQ_DOWNLOAD, dataByte,
-				// dataByte.length);
-
-			}
-		});
+//		viewHolder.videoDownLoad.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//
+//				// byte[] dataByte = strFilePath.getBytes();
+//				// Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
+//				// (byte) JVNetConst.JVN_REQ_DOWNLOAD, dataByte,
+//				// dataByte.length);
+//
+//			}
+//		});
 
 		return convertView;
 	}
@@ -119,6 +117,6 @@ public class RemoteVideoAdapter extends BaseAdapter {
 	class ViewHolder {
 		TextView videoDate;
 		TextView videoDisk;
-		Button videoDownLoad;
+//		Button videoDownLoad;
 	}
 }

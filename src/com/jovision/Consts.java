@@ -42,6 +42,8 @@ public class Consts {
 			+ File.separator + "capture" + File.separator;
 	public static final String VIDEO_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "video" + File.separator;
+	public static final String DOWNLOAD_VIDEO_PATH = Consts.SD_CARD_PATH
+			+ APP_NAME + File.separator + "downvideo" + File.separator;
 	public static final String SOFTWARE_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "software" + File.separator;
 	public static final String BUG_PATH = Consts.SD_CARD_PATH + APP_NAME
@@ -566,6 +568,8 @@ public class Consts {
 	public static final int WHAT_NET_ERROR_DISCONNECT = 0x72;// 网络异常视频断开
 	/** 远程回放视频断开 */
 	public static final int WHAT_VIDEO_DISCONNECT = 0x73;// 远程回放视频断开
+	/** 远程回放视频下载 */
+	public static final int PLAY_BACK_DOWNLOAD = 0x74;// 远程回放视频下载
 
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像

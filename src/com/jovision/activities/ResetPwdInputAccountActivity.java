@@ -126,6 +126,7 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 		String strResonse = "";
 		String strPhone = "";
 		String strMail = "";
+
 		@Override
 		protected Integer doInBackground(String... params) {
 			// TODO Auto-generated method stub
@@ -136,14 +137,14 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 			try {
 				resObject = new JSONObject(strResonse);
 				ret = resObject.optInt("result", 0x100);
-				if(ret == 0){
+				if (ret == 0) {
 					strPhone = resObject.optString("phone");
-					strMail = resObject.optString("mail");					
-				}				
+					strMail = resObject.optString("mail");
+				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}			
+			}
 			return ret;
 		}
 

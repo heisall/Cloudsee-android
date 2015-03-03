@@ -120,6 +120,8 @@ public class JVMediaListActivity extends BaseActivity {
 			mediaPath = Consts.CAPTURE_PATH;
 		} else if ("video".equalsIgnoreCase(media)) {
 			mediaPath = Consts.VIDEO_PATH;
+		} else if ("downVideo".equalsIgnoreCase(media)) {
+			mediaPath = Consts.DOWNLOAD_VIDEO_PATH;
 		}
 	}
 
@@ -148,6 +150,8 @@ public class JVMediaListActivity extends BaseActivity {
 			currentMenu.setText(R.string.media_image);
 		} else if ("video".equalsIgnoreCase(media)) {
 			currentMenu.setText(R.string.media_video);
+		} else if ("downVideo".equalsIgnoreCase(media)) {
+			currentMenu.setText(R.string.media_downvideo);
 		}
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setBackgroundResource(R.drawable.mydevice_cancale_icon);

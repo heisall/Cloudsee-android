@@ -256,8 +256,7 @@ public class JVLoginActivity extends BaseActivity {
 				} else if (pop.isShowing()) {
 					userAdapter.notifyDataSetChanged();
 					pop.dismiss();
-					moreUserIV
-							.setImageResource(R.drawable.login_pull_up_icon);
+					moreUserIV.setImageResource(R.drawable.login_pull_up_icon);
 				} else if (!pop.isShowing()) {
 					handler.postDelayed(new Runnable() {
 						@Override
@@ -322,8 +321,7 @@ public class JVLoginActivity extends BaseActivity {
 			case R.id.username_et:
 				if (pop != null && pop.isShowing()) {
 					pop.dismiss();
-					moreUserIV
-							.setImageResource(R.drawable.login_pull_up_icon);
+					moreUserIV.setImageResource(R.drawable.login_pull_up_icon);
 				}
 				break;
 			case R.id.btn_left: {

@@ -173,6 +173,8 @@
     <string name="str_end_time">End Time</string>
     <string name="str_save_path">Disk</string>
     <string name="str_disk">Disk</string>
+    <string name="video_download_success">录像下载成功</string>
+    <string name="video_download_failed">录像下载失败</string>
     <string name="str_video_play_failed">Failed to playback, please try again.</string>
     <string name="str_video_load_failed">Failed to load data</string>
     <string name="str_video_load_success">Loading data successfully</string>
@@ -557,6 +559,7 @@
     <string name="media">Image View</string>
     <string name="media_image">Image</string>
     <string name="media_video">Video</string>
+    <string name="media_downvideo">下载视频</string>
     <string name="media_other">Other</string>
     <string name="media_player">Select player.</string>
     <string name="media_play">Play</string>

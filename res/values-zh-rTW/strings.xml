@@ -173,6 +173,8 @@
     <string name="str_end_time">結束時間</string>
     <string name="str_save_path">盤符</string>
     <string name="str_disk">硬碟</string>
+    <string name="video_download_success">錄像下載成功</string>
+    <string name="video_download_failed">錄像下載失敗</string>
     <string name="str_video_load_failed">數據加載失敗</string>
     <string name="str_video_load_success">數據加載成功</string>
     <string name="str_video_nodata_failed">暫無遠程視頻檔</string>
@@ -557,6 +559,7 @@
     <string name="media">圖像查看</string>
     <string name="media_image">圖像</string>
     <string name="media_video">視頻</string>
+    <string name="media_downvideo">下載視頻</string>
     <string name="media_other">其他</string>
     <string name="media_player">選擇播放器</string>
     <string name="media_play">播放</string>

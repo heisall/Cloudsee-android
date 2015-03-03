@@ -33,6 +33,7 @@ import com.jovision.adapters.RemoteVideoAdapter;
 import com.jovision.bean.RemoteVideo;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 
@@ -80,12 +81,15 @@ public class JVRemoteListActivity extends BaseActivity {
 			MyLog.v(TAG, "acBuffStr:" + acBuffStr);
 			byte[] dataByte = acBuffStr.getBytes();
 
-			String downLoadPath = Consts.DOWNLOAD_VIDEO_PATH;
+			String downLoadPath = Consts.DOWNLOAD_VIDEO_PATH
+					+ ConfigUtil.getCurrentDate() + File.separator;
+			String fileName = String.valueOf(System.currentTimeMillis())
+					+ ".mp4";
+
 			File downFile = new File(downLoadPath);
 			MobileUtil.createDirectory(downFile);
 
-			Jni.setDownloadFileName(downLoadPath + System.currentTimeMillis()
-					+ ".mp4");
+			Jni.setDownloadFileName(downLoadPath + fileName);
 
 			Jni.sendBytes(indexOfChannel,
 					(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP, new byte[0], 0);
@@ -98,7 +102,7 @@ public class JVRemoteListActivity extends BaseActivity {
 			if (arg1 == indexOfChannel) {
 				switch (arg2) {
 				case JVNetConst.JVN_RSP_DOWNLOADDATA: {// 下载进度
-				// 进度{"length":2230204,"size":204800}
+					// 进度{"length":2230204,"size":204800}
 
 					if (null != obj) {
 
@@ -114,8 +118,8 @@ public class JVRemoteListActivity extends BaseActivity {
 								e.printStackTrace();
 							}
 						}
-						MyLog.v(TAG, "进度" + obj.toString());
-						MyLog.v(TAG, "当前进度" + hasDownLoadSize);
+						MyLog.v(TAG, "obj=" + obj.toString());
+						MyLog.v(TAG, "current-process" + hasDownLoadSize);
 					}
 
 					if (null != downloadDialog && downloadDialog.isShowing()) {
@@ -128,19 +132,19 @@ public class JVRemoteListActivity extends BaseActivity {
 					break;
 				}
 				case JVNetConst.JVN_RSP_DOWNLOADOVER: {// 下载完成
-					MyLog.e(TAG, "下载完成");
 					if (null != downloadDialog && downloadDialog.isShowing()) {
 						downloadDialog.dismiss();
 						downloadDialog = null;
 					}
+					showTextToast(R.string.video_download_success);
 					break;
 				}
 				case JVNetConst.JVN_RSP_DOWNLOADE: {// 下载失敗
-					MyLog.e(TAG, "下载失敗");
 					if (null != downloadDialog && downloadDialog.isShowing()) {
 						downloadDialog.dismiss();
 						downloadDialog = null;
 					}
+					showTextToast(R.string.video_download_failed);
 					break;
 				}
 				}

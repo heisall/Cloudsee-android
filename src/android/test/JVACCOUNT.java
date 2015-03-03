@@ -258,12 +258,11 @@ public class JVACCOUNT {
 
 	public static native String onLoginProcessV2(int reserve, String reqJson);
 
-	public static native int GetSession(byte[] session);
+	public static native String GetSession();
 
 	public static native int SetUserOnlineStatus(int online_state);
 
-	public static native int GetMailPhoneNoSession(String account_name,
-			byte[] response);
+	public static native String GetMailPhoneNoSession(String account_name);
 
 	public static native int ResetUserPasswordNoSession(String password,
 			String account_name);

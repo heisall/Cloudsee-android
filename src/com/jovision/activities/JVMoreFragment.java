@@ -765,15 +765,29 @@ public class JVMoreFragment extends BaseFragment {
 
 	class CheckUserInfoTask extends AsyncTask<String, Integer, Integer> {
 		String account = "";
-		byte[] response = null;
-
+		String strResonse = "";
+		String strPhone = "";
+		String strMail = "";
 		@Override
 		protected Integer doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			account = params[0];
-			response = new byte[1024];
 			int ret = -1;
-			ret = JVACCOUNT.GetMailPhoneNoSession(account, response);
+			strResonse = JVACCOUNT.GetMailPhoneNoSession(account);
+			JSONObject resObject = null;
+			try {
+				resObject = new JSONObject(strResonse);
+				ret = resObject.optInt("result", -2);
+				if(ret == 0){
+					strPhone = resObject.optString("phone");
+					strMail = resObject.optString("mail");					
+				}				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		
 			return ret;
 		}
 
@@ -786,19 +800,9 @@ public class JVMoreFragment extends BaseFragment {
 		protected void onPostExecute(Integer result) {
 			if (result == 0)// ok
 			{
-				String strPhone = "";
-				String strMail = "";
-				try {
-					JSONObject resObject = new JSONObject(new String(response));
-					strPhone = resObject.optString("phone");
-					strMail = resObject.optString("mail");
-					if ((strMail.equals("") || null == strMail)
-							&& (strPhone.equals("") || null == strPhone)) {
-						onNotify(Consts.WHAT_BIND, 0, 0, null);
-					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if ((strMail.equals("") || null == strMail)
+						&& (strPhone.equals("") || null == strPhone)) {
+					onNotify(Consts.WHAT_BIND, 0, 0, null);
 				}
 			} else {
 				// 重置失败

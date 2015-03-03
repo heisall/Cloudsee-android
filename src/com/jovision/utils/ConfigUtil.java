@@ -1371,10 +1371,7 @@ public class ConfigUtil {
 	 * @return
 	 */
 	public static String getSession() {
-		byte[] session = new byte[34];
-		JVACCOUNT.GetSession(session);
-		String sessionResult = new String(session);
-
+		String sessionResult = JVACCOUNT.GetSession();
 		MyLog.v("session", sessionResult);
 		return sessionResult;
 	}

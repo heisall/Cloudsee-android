@@ -9,8 +9,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/reset_dialog_bg"
-         >
+        android:background="@drawable/reset_dialog_bg" >
 
         <TextView
             android:id="@+id/device_namew"
@@ -22,25 +21,26 @@
             android:text="@string/tips"
             android:textColor="@color/dialogchannaltext"
             android:textSize="24sp" />
-	<ImageView 
-	    android:id="@+id/line"
-	    android:layout_width="match_parent"
-	    android:layout_height="1dp"
-	    android:layout_below="@+id/device_namew"
-	    android:layout_marginTop="5dp"
-	    android:background="@color/more_fragment_color4"
-	    />
-	<TextView 
-	    android:id="@+id/middle"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_marginLeft="20dp"
-	    android:layout_marginRight="20dp"
-	    android:text="@string/str_reset_sure"
-	    android:textSize="20sp"
-	    android:layout_marginTop="20dp"
-	    android:layout_below="@+id/line"
-	    />
+
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/device_namew"
+            android:layout_marginTop="5dp"
+            android:background="@color/more_fragment_color4" />
+
+        <TextView
+            android:id="@+id/middle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/str_reset_sure"
+            android:textSize="20sp" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,4 +79,5 @@
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
+
 </FrameLayout>

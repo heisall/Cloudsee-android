@@ -598,8 +598,8 @@
     <string name="str_alarm_no_video">No Alarm Video</string>
     <string name="str_buffering">Buffering…</string>
     <string name="str_safe_protected">Alert</string>
-     <string name="str_reset_device">重置设备功能</string>
-      <string name="str_reset_sure">确定重置设备吗?</string>
+    <string name="str_reset_device">重置设备功能</string>
+    <string name="str_reset_sure">确定重置设备吗?</string>
     <string name="str_modify_pwd">Modify device administrator is password.</string>
     <string name="str_downloading_vod">Getting the video file…</string>
     <string name="str_alarm_dev">Device :</string>

@@ -183,8 +183,10 @@ public class JVDeviceManageFragment extends BaseFragment {
 				}
 				adapter.notifyDataSetChanged();
 				deviceIndex = position;
-				((ManageFragment) fragments.get(position))
-						.setDevIndex(deviceIndex);
+				// ((ManageFragment) fragments.get(position))
+				// .setDevIndex(deviceIndex);
+				((ManageFragment) fragments.get(position)).setData(position,
+						manageDeviceList);
 				managePager.setCurrentItem(position);
 				relalist.setVisibility(View.GONE);
 				devicemanage_listView.setVisibility(View.GONE);
@@ -207,7 +209,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 			Bundle data = new Bundle();
 			data.putInt("DeviceIndex", i);
 			ManageFragment fragment = new ManageFragment();
-			fragment.setArguments(data);
+			// fragment.setArguments(data);
 			fragments.add(fragment);
 
 			// [Neo] nav
@@ -230,12 +232,18 @@ public class JVDeviceManageFragment extends BaseFragment {
 				public void onClick(View view) {
 					int index = (Integer) view.getTag();
 					deviceIndex = index;
-					((ManageFragment) fragments.get(index))
-							.setDevIndex(deviceIndex);
+					// ((ManageFragment) fragments.get(index))
+					// .setDevIndex(deviceIndex);
+					((ManageFragment) fragments.get(index)).setData(index,
+							manageDeviceList);
 					managePager.setCurrentItem(index);
 				}
 			});
 			layout.setTag(i);
+			if (i == deviceIndex) {
+				((ManageFragment) fragments.get(deviceIndex)).setData(
+						deviceIndex, manageDeviceList);
+			}
 		}
 
 	}
@@ -428,7 +436,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 				}
 			}
 			deviceIndex = position;
-			((ManageFragment) fragments.get(position)).setDevIndex(deviceIndex);
+			// ((ManageFragment)
+			// fragments.get(position)).setDevIndex(deviceIndex);
 			managePager.setCurrentItem(position);
 		}
 
@@ -436,6 +445,13 @@ public class JVDeviceManageFragment extends BaseFragment {
 		public void onPageScrolled(int position, float positionOffset,
 				int positionOffsetPixels) {
 			// MyLog.v(TAG, "onPageScrolled---position="+position);
+			try {
+				((ManageFragment) fragments.get(position)).setData(position,
+						manageDeviceList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			if (!isEnd) {
 				if (currentFragmentIndex == position) {
 					endPosition = item_width * currentFragmentIndex
@@ -524,16 +540,15 @@ public class JVDeviceManageFragment extends BaseFragment {
 				refreshlayout.setVisibility(View.GONE);
 				quickSetSV.setVisibility(View.GONE);
 				try {
-					// 初始化导航
-					initNav();
-					// 初始化viewPager
-					initViewPager();
-
-					ManageFragment fragement = ((ManageFragment) fragments
-							.get(deviceIndex));
-					if (null != fragement) {
-						fragement.setDevIndex(deviceIndex);
+					if (null == fragments || 0 == fragments.size()) {
+						// 初始化导航
+						initNav();
+						// 初始化viewPager
+						initViewPager();
 					}
+
+					((ManageFragment) fragments.get(deviceIndex)).setData(
+							deviceIndex, manageDeviceList);
 					managePager.setCurrentItem(deviceIndex);
 					mHorizontalScrollView.smoothScrollTo((deviceIndex - 1)
 							* item_width, 0);

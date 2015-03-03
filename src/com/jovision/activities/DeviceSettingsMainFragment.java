@@ -34,7 +34,7 @@ import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 
 public class DeviceSettingsMainFragment extends Fragment implements
-OnClickListener, OnMainListener {
+		OnClickListener, OnMainListener {
 
 	private View rootView;// 缓存Fragment view
 	private ArrayList<Device> deviceList;
@@ -60,7 +60,7 @@ OnClickListener, OnMainListener {
 	private String startHour = "", startMin = "";
 	private String endHour = "", endMin = "";
 	private RelativeLayout functionlayout1, functionlayout2, functionlayout3,
-	functionlayout4,functionlayout5;
+			functionlayout4, functionlayout5;
 	private RelativeLayout functiontips1, functiontips2, functiontips3;
 	private TextView alarmTime0TextView;
 	private int power = 0;
@@ -119,7 +119,7 @@ OnClickListener, OnMainListener {
 				.findViewById(R.id.funclayout3);
 		functionlayout4 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout4);
-		functionlayout5 = (RelativeLayout)rootView
+		functionlayout5 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout5);
 
 		functiontips1 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_01);
@@ -152,11 +152,11 @@ OnClickListener, OnMainListener {
 				switch (func_alert_enabled) {
 				case 0:
 					func_swalert
-					.setBackgroundResource(R.drawable.morefragment_normal_icon);
+							.setBackgroundResource(R.drawable.morefragment_normal_icon);
 					break;
 				case 1:
 					func_swalert
-					.setBackgroundResource(R.drawable.morefragment_selector_icon);
+							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					break;
 				case -1:
 					functionlayout1.setVisibility(View.GONE);
@@ -232,7 +232,7 @@ OnClickListener, OnMainListener {
 				switch (func_alert_enabled) {
 				case 0:
 					func_swalert
-					.setBackgroundResource(R.drawable.morefragment_normal_icon);
+							.setBackgroundResource(R.drawable.morefragment_normal_icon);
 					functionlayout2.setVisibility(View.GONE);
 					functiontips2.setVisibility(View.GONE);
 					functionlayout3.setVisibility(View.GONE);
@@ -240,7 +240,7 @@ OnClickListener, OnMainListener {
 					break;
 				case 1:
 					func_swalert
-					.setBackgroundResource(R.drawable.morefragment_selector_icon);
+							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					break;
 				case -1:
 					functionlayout1.setVisibility(View.GONE);
@@ -253,11 +253,11 @@ OnClickListener, OnMainListener {
 				switch (func_motion_enabled) {
 				case 0:
 					func_swmotion
-					.setBackgroundResource(R.drawable.morefragment_normal_icon);
+							.setBackgroundResource(R.drawable.morefragment_normal_icon);
 					break;
 				case 1:
 					func_swmotion
-					.setBackgroundResource(R.drawable.morefragment_selector_icon);
+							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					break;
 				case -1:
 					functionlayout2.setVisibility(View.GONE);
@@ -323,8 +323,7 @@ OnClickListener, OnMainListener {
 			resetDialog.dismiss();
 			break;
 		case R.id.reset_completed:
-			mListener.OnFuncSelected(Consts.DEV_RESET_DEVICE,
-					"");
+			mListener.OnFuncSelected(Consts.DEV_RESET_DEVICE, "");
 			resetDialog.dismiss();
 			break;
 		case R.id.funclayout5:
@@ -459,15 +458,14 @@ OnClickListener, OnMainListener {
 				R.layout.dialog_reset, null);
 		resetDialog.setContentView(view);
 
-		resetCancel = (TextView)view.findViewById(R.id.reset_cancel);
-		resetCompleted = (TextView)view.findViewById(R.id.reset_completed);
+		resetCancel = (TextView) view.findViewById(R.id.reset_cancel);
+		resetCompleted = (TextView) view.findViewById(R.id.reset_completed);
 
 		resetCancel.setOnClickListener(this);
 		resetCompleted.setOnClickListener(this);
 		resetDialog.show();
 
 	}
-
 
 	@Override
 	public void onMainAction(int packet_type, int packet_subtype, int ex_type,
@@ -498,7 +496,7 @@ OnClickListener, OnMainListener {
 						}
 						func_motion_enabled = 0;
 						func_swmotion
-						.setBackgroundResource(R.drawable.morefragment_normal_icon);
+								.setBackgroundResource(R.drawable.morefragment_normal_icon);
 						// String text = getResources().getString(
 						// R.string.str_mdenabled_close_ok);
 						// Toast.makeText(getActivity(), text,
@@ -516,7 +514,7 @@ OnClickListener, OnMainListener {
 						}
 						func_motion_enabled = 1;
 						func_swmotion
-						.setBackgroundResource(R.drawable.morefragment_selector_icon);
+								.setBackgroundResource(R.drawable.morefragment_selector_icon);
 						// String text = getResources().getString(
 						// R.string.str_mdenabled_open_ok);
 						// Toast.makeText(getActivity(), text,
@@ -562,7 +560,7 @@ OnClickListener, OnMainListener {
 						}
 						func_alert_enabled = 0;
 						func_swalert
-						.setBackgroundResource(R.drawable.morefragment_normal_icon);
+								.setBackgroundResource(R.drawable.morefragment_normal_icon);
 						// Log.e("Alarm",
 						// "after func_alert_enabled:"+func_alert_enabled);
 					} else if (func_alert_enabled == 0) {
@@ -591,7 +589,7 @@ OnClickListener, OnMainListener {
 						}
 						func_alert_enabled = 1;
 						func_swalert
-						.setBackgroundResource(R.drawable.morefragment_selector_icon);
+								.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					} else {
 						// 隐藏
 						// String text = getResources().getString(
@@ -608,7 +606,7 @@ OnClickListener, OnMainListener {
 				break;
 			}
 		}
-		break;
+			break;
 
 		default:
 			break;

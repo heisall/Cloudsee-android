@@ -551,6 +551,11 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			// Commit the transaction
 			transaction.commitAllowingStateLoss();
 			break;
+		case Consts.DEV_RESET_DEVICE: //重置设备功能
+			Jni.sendSuperBytes(window, JVNetConst.JVN_RSP_TEXTDATA,
+					true, Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_RESTORE,
+					Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+			break;
 		default:
 			break;
 		}

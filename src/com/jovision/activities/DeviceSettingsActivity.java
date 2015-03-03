@@ -688,7 +688,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	@Override
 	public void OnAlarmTimeSaved(String startTime, String endTime) {
 		// TODO Auto-generated method stub
-		if(startTime.equals(endTime)){
+		if (startTime.equals(endTime)) {
 			startTime = "00:00";
 			endTime = "23:59";
 		}

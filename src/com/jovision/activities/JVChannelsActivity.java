@@ -148,14 +148,14 @@ public class JVChannelsActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		deviceList = CacheUtil.getDevList();
-		try {
-			int size = fragments.size();
-			for (int i = 0; i < size; i++) {
-				((ChannelFragment) fragments.get(i)).refreshData();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// try {
+		// int size = fragments.size();
+		// for (int i = 0; i < size; i++) {
+		// ((ChannelFragment) fragments.get(i)).refreshData();
+		// }
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 
 		super.onResume();
 		for (int i = 0; i < deviceList.size(); i++) {
@@ -174,8 +174,7 @@ public class JVChannelsActivity extends BaseActivity {
 			// Bundle data = new Bundle();
 			// data.putString("DeviceList", deviceList.toString());
 			// data.putInt("DeviceIndex", deviceIndex);
-			ChannelFragment fragment = new ChannelFragment(i, deviceList,
-					widthPixels);
+			ChannelFragment fragment = new ChannelFragment();
 			// fragment.setArguments(data);
 			fragments.add(fragment);
 		}
@@ -217,6 +216,8 @@ public class JVChannelsActivity extends BaseActivity {
 					deviceIndex = index;
 					channelPager.setCurrentItem(index);
 					((ChannelFragment) fragments.get(index)).deviceIndex = deviceIndex;
+					((ChannelFragment) fragments.get(index)).setData(
+							deviceIndex, deviceList);
 				}
 			});
 			layout.setTag(i);
@@ -285,7 +286,7 @@ public class JVChannelsActivity extends BaseActivity {
 
 		@Override
 		public void onPageSelected(final int position) {
-			// MyLog.v(TAG, "onPageSelected---position="+position)
+			MyLog.v(TAG, "onPageSelected---position=" + position);
 			Animation animation = new TranslateAnimation(endPosition, position
 					* item_width, 0, 0);
 
@@ -322,7 +323,15 @@ public class JVChannelsActivity extends BaseActivity {
 		@Override
 		public void onPageScrolled(int position, float positionOffset,
 				int positionOffsetPixels) {
-			// MyLog.v(TAG, "onPageScrolled---position="+position);
+			MyLog.v(TAG, "onPageScrolled---position=" + position);
+			try {
+				((ChannelFragment) fragments.get(position)).setData(
+						deviceIndex, deviceList);
+			} catch (Exception e) {
+				MyLog.v("setData", "setData is null");
+				e.printStackTrace();
+			}
+
 			if (!isEnd) {
 				if (currentFragmentIndex == position) {
 					endPosition = item_width * currentFragmentIndex
@@ -362,8 +371,9 @@ public class JVChannelsActivity extends BaseActivity {
 					mHorizontalScrollView.invalidate();
 					endPosition = currentFragmentIndex * item_width;
 				}
-				// MyLog.v(TAG,
-				// "onPageScrollStateChanged---currentFragmentIndex="+currentFragmentIndex+"---deviceIndex="+deviceIndex);
+				MyLog.v(TAG, "onPageScrollStateChanged---currentFragmentIndex="
+						+ currentFragmentIndex + "---deviceIndex="
+						+ deviceIndex);
 			}
 		}
 

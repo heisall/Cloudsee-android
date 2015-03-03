@@ -90,18 +90,9 @@ public class ChannelFragment extends BaseFragment {
 		try {
 			mActivity = (BaseActivity) getActivity();
 			mParent = getView();
-			MyLog.e("ChannelFragment--E", "deviceList=" + deviceList.toString());
-			if (null == deviceList || 0 == deviceList.size()) {
-				deviceList = CacheUtil.getDevList();
-			}
-			widthPixels = mActivity.disMetrics.widthPixels;
 			channelGridView = (GridView) mParent
 					.findViewById(R.id.channel_gridview);
-			MyLog.e("ChannelFragment--X", "deviceList=" + deviceList.toString());
-			channelAdapter = new ChannelAdapter(this);
-			channelAdapter.setData(deviceList.get(deviceIndex).getChannelList()
-					.toList(), widthPixels);
-			channelGridView.setAdapter(channelAdapter);
+			widthPixels = mActivity.disMetrics.widthPixels;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,21 +100,27 @@ public class ChannelFragment extends BaseFragment {
 
 	}
 
-	public ChannelFragment(int devIndex, ArrayList<Device> devList,
-			int widthPixels) {
+	public void setData(int devIndex, ArrayList<Device> devList) {
 		deviceIndex = devIndex;
 		deviceList = devList;
-		this.widthPixels = widthPixels;
+		if (null == deviceList || 0 == deviceList.size()) {
+			deviceList = CacheUtil.getDevList();
+		}
+		channelAdapter = new ChannelAdapter(this);
+		channelAdapter.setData(deviceList.get(deviceIndex).getChannelList()
+				.toList(), widthPixels);
+		try {
+			channelGridView.setAdapter(channelAdapter);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
-	public void ChannelFragment() {
-	}
-
-	// 刷新数据
-	public void refreshData() {
-		deviceList = CacheUtil.getDevList();
-	}
+	// // 刷新数据
+	// public void refreshData() {
+	// deviceList = CacheUtil.getDevList();
+	// }
 
 	@Override
 	public void onPause() {

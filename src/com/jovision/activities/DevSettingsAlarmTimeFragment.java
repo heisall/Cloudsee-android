@@ -101,7 +101,7 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
 			startTime = tv_stime.getText().toString();
 			endTime = tv_etime.getText().toString();
 			mListener.OnAlarmTimeSaved(startTime, endTime);
-//			timeComputruer(startTime, endTime);
+			// timeComputruer(startTime, endTime);
 			break;
 		default:
 			break;

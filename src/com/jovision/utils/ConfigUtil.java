@@ -76,7 +76,7 @@ import com.jovision.utils.mails.MyAuthenticator;
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
 	public final static String ACCOUNT_VERSION = "V3.2.13.3";
-	public final static String PLAY_VERSION = "0.9a[cc863e0][2015-02-06]";
+	public final static String PLAY_VERSION = "0.9a[9d1fd1a][2015-03-02]";
 	public final static String NETWORK_VERSION = "v2.0.76.3.32[private:v2.0.75.13 20150205.1]";
 
 	public static String GETACCTOUT_VERSION = "";
@@ -1371,10 +1371,7 @@ public class ConfigUtil {
 	 * @return
 	 */
 	public static String getSession() {
-		byte[] session = new byte[34];
-		JVACCOUNT.GetSession(session);
-		String sessionResult = new String(session);
-
+		String sessionResult = JVACCOUNT.GetSession();
 		MyLog.v("session", sessionResult);
 		return sessionResult;
 	}

@@ -123,15 +123,27 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 
 	class CheckUserInfoTask extends AsyncTask<String, Integer, Integer> {
 		String account = "";
-		byte[] response = null;
-
+		String strResonse = "";
+		String strPhone = "";
+		String strMail = "";
 		@Override
 		protected Integer doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			account = params[0];
-			response = new byte[1024];
 			int ret = 0x100;
-			ret = JVACCOUNT.GetMailPhoneNoSession(account, response);
+			strResonse = JVACCOUNT.GetMailPhoneNoSession(account);
+			JSONObject resObject = null;
+			try {
+				resObject = new JSONObject(strResonse);
+				ret = resObject.optInt("result", 0x100);
+				if(ret == 0){
+					strPhone = resObject.optString("phone");
+					strMail = resObject.optString("mail");					
+				}				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
 			return ret;
 		}
 
@@ -147,36 +159,26 @@ public class ResetPwdInputAccountActivity extends BaseActivity implements
 			}
 			if (result == 0)// ok
 			{
-				String strPhone, strMail;
-
-				try {
-					JSONObject resObject = new JSONObject(new String(response));
-					strPhone = resObject.optString("phone");
-					strMail = resObject.optString("mail");
-					Log.i("TAG", "获取到的手机号" + strPhone);
-					if (strPhone.equals("") || null == strPhone) {
-						// 走之前的web找回密码
-						if (strMail.equals("") || null == strMail) {
-							// showTextToast(R.string.str_not_bind_phone_tips2);
-							tipTv.setText(R.string.str_not_bind_phone_tips2);
-							tipTv.setVisibility(View.VISIBLE);
-						} else {
-							// showTextToast(R.string.str_not_bind_phone_tips1);
-							tipTv.setText(R.string.str_not_bind_phone_tips1);
-							tipTv.setVisibility(View.VISIBLE);
-						}
+				Log.i("TAG", "获取到的手机号" + strPhone);
+				if (strPhone.equals("") || null == strPhone) {
+					// 走之前的web找回密码
+					if (strMail.equals("") || null == strMail) {
+						// showTextToast(R.string.str_not_bind_phone_tips2);
+						tipTv.setText(R.string.str_not_bind_phone_tips2);
+						tipTv.setVisibility(View.VISIBLE);
 					} else {
-						// 跳转到验证码界面
-						Intent intent = new Intent(
-								ResetPwdInputAccountActivity.this,
-								ResetPwdIdentifyNumActivity.class);
-						intent.putExtra("phone", strPhone);
-						intent.putExtra("account", strAccount);
-						startActivity(intent);
+						// showTextToast(R.string.str_not_bind_phone_tips1);
+						tipTv.setText(R.string.str_not_bind_phone_tips1);
+						tipTv.setVisibility(View.VISIBLE);
 					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} else {
+					// 跳转到验证码界面
+					Intent intent = new Intent(
+							ResetPwdInputAccountActivity.this,
+							ResetPwdIdentifyNumActivity.class);
+					intent.putExtra("phone", strPhone);
+					intent.putExtra("account", strAccount);
+					startActivity(intent);
 				}
 			} else {
 				// 重置失败

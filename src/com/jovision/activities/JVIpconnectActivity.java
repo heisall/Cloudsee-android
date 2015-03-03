@@ -35,7 +35,7 @@ public class JVIpconnectActivity extends BaseActivity {
 	private LinearLayout addressLayout;
 	// 输入云视通号的布局
 	private LinearLayout couldnumLayout;
-	//选择连接模式的布局
+	// 选择连接模式的布局
 	private LinearLayout tcpLayout;
 	// 输入接口的布局
 	private LinearLayout portLayout;
@@ -55,9 +55,9 @@ public class JVIpconnectActivity extends BaseActivity {
 	private boolean isTurn = false;
 	// 返回按钮
 	private ImageView tcpImageView;
-	
+
 	private boolean isTcpchose;
-	
+
 	private TextView cloud_number;
 
 	private RadioGroup change;
@@ -129,8 +129,8 @@ public class JVIpconnectActivity extends BaseActivity {
 		ipconnnect_cloud = (RadioButton) findViewById(R.id.ipconnect_cloud);
 		addressLayout = (LinearLayout) findViewById(R.id.Addresslayout);
 		couldnumLayout = (LinearLayout) findViewById(R.id.NumberLayout);
-		tcpLayout =  (LinearLayout)findViewById(R.id.tcp_layout);
-		tcpImageView = (ImageView)findViewById(R.id.tcp_img);
+		tcpLayout = (LinearLayout) findViewById(R.id.tcp_layout);
+		tcpImageView = (ImageView) findViewById(R.id.tcp_img);
 		portLayout = (LinearLayout) findViewById(R.id.portlayout);
 		ipconnect_address = (EditText) findViewById(R.id.ipconnnect_address);
 		ipconnect_port = (EditText) findViewById(R.id.ipconnect_port);
@@ -172,7 +172,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			ipconnect_user.setText(editDevice.getUser());
 			ipconnect_pwd.setText(editDevice.getPwd());
 		}
-		
+
 		tcpLayout.setOnClickListener(myOnClickListener);
 		ipconnect_address.setFocusable(true);
 		ipconnect_address.setFocusableInTouchMode(true);
@@ -372,7 +372,7 @@ public class JVIpconnectActivity extends BaseActivity {
 				if (!isTcpchose) {
 					tcpImageView.setImageResource(R.drawable.ipc_selector);
 					isTcpchose = true;
-				}else {
+				} else {
 					tcpImageView.setImageResource(R.drawable.ipc_normal);
 					isTcpchose = false;
 				}

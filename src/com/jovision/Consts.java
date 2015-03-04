@@ -560,6 +560,7 @@ public class Consts {
 	public static final int WHAT_HAS_LOGIN_SUCCESS = 0x6C;// 登陆成功
 	public static final int WHAT_ACCOUNT_NORMAL = 0x6D;// 账号正常
 	public static final int WHAT_SESSION_FAILURE = 0x6E;// 网络异常
+	public static final int WHAT_SESSION_AUTOLOGIN = 0x6F;// 自动登陆，跳过登陆界面
 
 	public static final int WHAT_HEART_TCP_ERROR = 0x70;// 账号库tcp连接断开
 	public static final int WHAT_HEART_TCP_CLOSED = 0x71;// 账号库tcp连接关闭

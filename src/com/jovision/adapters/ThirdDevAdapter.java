@@ -28,12 +28,13 @@ public class ThirdDevAdapter extends BaseAdapter {
 	private ArrayList<ThirdAlarmDev> third_dev_list_;
 	public LayoutInflater inflater;
 	private Device device_;
-//	private int[] device_types_array = { R.drawable.third_door_default,
-//			R.drawable.third_bracelet_default,
-//			R.drawable.third_telecontrol_default,
-//			R.drawable.third_smoke_default, R.drawable.third_curtain_default,
-//			R.drawable.third_infrared_default, R.drawable.third_gas_default };
+	// private int[] device_types_array = { R.drawable.third_door_default,
+	// R.drawable.third_bracelet_default,
+	// R.drawable.third_telecontrol_default,
+	// R.drawable.third_smoke_default, R.drawable.third_curtain_default,
+	// R.drawable.third_infrared_default, R.drawable.third_gas_default };
 	private String httpDownUri = "http://182.92.242.230/static/alarm/exdev/android/";
+
 	public ThirdDevAdapter(Context context, ArrayList<ThirdAlarmDev> devList,
 			Device device) {
 		context_ = context;
@@ -162,10 +163,13 @@ public class ThirdDevAdapter extends BaseAdapter {
 				viewHolder.switch_btn
 						.setBackgroundResource(R.drawable.morefragment_selector_icon);
 			}
-			String imgUri = String.format("%s/a1_%d.png", httpDownUri, devItem.dev_type_mark);
-//			viewHolder.dev_type_img
-//					.setBackgroundResource(device_types_array[devItem.dev_type_mark - 1]);
-			ImageUtil.displayImage(viewHolder.dev_type_img, imgUri, R.drawable.third_curtain_default);
+			String imgUri = String.format("%s/a1_%d.png", httpDownUri,
+					devItem.dev_type_mark);
+			// viewHolder.dev_type_img
+			// .setBackgroundResource(device_types_array[devItem.dev_type_mark -
+			// 1]);
+			ImageUtil.displayImage(viewHolder.dev_type_img, imgUri,
+					R.drawable.third_curtain_default);
 			// if (devItem.dev_type_mark == 1) {// 门磁设备
 			// viewHolder.dev_type_img
 			// .setBackgroundResource(R.drawable.third_door_default);

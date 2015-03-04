@@ -188,6 +188,13 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		mActivity.createDialog("", false);
+		LoginTask loginTask = new LoginTask(true, mActivity,
+				(MainApplication) mActivity.getApplication(),
+				mActivity.statusHashMap, alarmnet);
+		String[] params = new String[3];
+		loginTask.execute(params);
+
 		if (null == ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
 			fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
 		}
@@ -677,21 +684,16 @@ public class JVMyDeviceFragment extends BaseFragment {
 											intentAD.putExtra("title", -2);
 											intentAD.putExtra("URL", adUrl);
 											mActivity.startActivity(intentAD);
-										} else {
+										} else if (adUrl.contains("zhidao")) {// 小维知道特殊标识{
 											Intent zhidaoIntent = mActivity
 													.getPackageManager()
 													.getLaunchIntentForPackage(
 															"com.jovision.zhidao");// com.jovision.zhidao.SplashActivity
 											if (null == zhidaoIntent) {
 												try {
-													// URL url = new
-													// URL(Url.APK_DOWNLOAD_URL
-													// +
-													// mContext.getResources().getString(
-													// R.string.str_save_apk_name));
-
-													Uri uri = Uri
-															.parse("http://119.188.71.27/dd.myapp.com/16891/A18EEA25F34D8E04D5C8A2B9ECB558B4.apk?mkey=54f111fb5a25ce8e&f=e886&fsname=com.jovision.zhidao_1.0.1_3.apk&asr=8eff&p=.apk");
+													Uri uri = Uri.parse(adList
+															.get(index)
+															.getAdDesp());
 													Intent it = new Intent(
 															Intent.ACTION_VIEW,
 															uri);
@@ -703,10 +705,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 											} else {
 												startActivity(zhidaoIntent);
 											}
-
-											// adUrl = adUrl + "?" + "&sid=" +
-											// sid;
-											// intentAD.putExtra("title", -1);
+										} else {
+											MyLog.v("adUrl", adUrl);
+											intentAD.putExtra("title", -2);
+											intentAD.putExtra("URL", adUrl);
+											mActivity.startActivity(intentAD);
 										}
 
 									}
@@ -959,7 +962,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 				}
 			}
 			mActivity.createDialog("", false);
-			LoginTask loginTask = new LoginTask(mActivity,
+			LoginTask loginTask = new LoginTask(false, mActivity,
 					(MainApplication) mActivity.getApplication(),
 					mActivity.statusHashMap, alarmnet);
 			String[] params = new String[3];
@@ -1578,7 +1581,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 							.get(Consts.ACCOUNT_ERROR));
 				}
 
-				if (errorCode == Consts.WHAT_HAS_NOT_LOGIN) {// 未登录，离线登陆
+				if (errorCode == Consts.WHAT_HAS_NOT_LOGIN
+						|| errorCode == Consts.WHAT_SESSION_AUTOLOGIN) {// 未登录，离线登陆
 					myDeviceList = CacheUtil.getOfflineDevList();
 					MyLog.v("LoginState", "offline-" + errorCode);
 				} else {

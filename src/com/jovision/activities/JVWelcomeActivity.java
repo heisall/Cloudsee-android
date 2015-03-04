@@ -182,7 +182,7 @@ public class JVWelcomeActivity extends BaseActivity {
 		// 关闭此定时器
 		initHandler.removeCallbacks(initThread);
 		BitmapCache.getInstance().clearCache();
-		// welcomeImage.setBackgroundDrawable(null);
+		welcomeImage.setBackgroundResource(0);
 		welcomeImage = null;
 		Log.v(TAG, "welcome activity freeme");
 	}
@@ -221,9 +221,14 @@ public class JVWelcomeActivity extends BaseActivity {
 					statusHashMap.put(Consts.KEY_PASSWORD, user.getUserPwd());
 					// createDialog(R.string.logining, true);
 
-					intent.setClass(JVWelcomeActivity.this,
-							JVLoginActivity.class);
-					// intent.putExtra("AutoLogin", true);
+					// intent.setClass(JVWelcomeActivity.this,
+					// JVLoginActivity.class);
+					// // intent.putExtra("AutoLogin", true);
+					// intent.putExtra("UserName", user.getUserName());
+					// intent.putExtra("UserPass", user.getUserPwd());
+
+					intent.setClass(JVWelcomeActivity.this, JVTabActivity.class);
+					intent.putExtra("AutoLogin", true);
 					intent.putExtra("UserName", user.getUserName());
 					intent.putExtra("UserPass", user.getUserPwd());
 

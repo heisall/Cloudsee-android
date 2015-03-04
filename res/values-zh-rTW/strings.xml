@@ -559,7 +559,7 @@
     <string name="media">圖像查看</string>
     <string name="media_image">圖像</string>
     <string name="media_video">視頻</string>
-    <string name="media_downvideo">下載視頻</string>
+    <string name="media_downvideo">下載</string>
     <string name="media_other">其他</string>
     <string name="media_player">選擇播放器</string>
     <string name="media_play">播放</string>

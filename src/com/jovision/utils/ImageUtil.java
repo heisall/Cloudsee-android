@@ -977,10 +977,7 @@ public class ImageUtil {
 	//		imageScaleType(ImageScaleType.EXACTLY).
 			build();
 		} else {
-			options = new DisplayImageOptions.Builder().
-			showImageOnLoading(defaultResId).
-			showImageForEmptyUri(defaultResId).
-			showImageOnFail(defaultResId).					
+			options = new DisplayImageOptions.Builder().				
 			cacheInMemory(true).
 			cacheOnDisk(true).
 			considerExifParams(true).

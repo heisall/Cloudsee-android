@@ -182,7 +182,7 @@ public class JVWelcomeActivity extends BaseActivity {
 		// 关闭此定时器
 		initHandler.removeCallbacks(initThread);
 		BitmapCache.getInstance().clearCache();
-		welcomeImage.setBackgroundDrawable(null);
+		// welcomeImage.setBackgroundDrawable(null);
 		welcomeImage = null;
 		Log.v(TAG, "welcome activity freeme");
 	}

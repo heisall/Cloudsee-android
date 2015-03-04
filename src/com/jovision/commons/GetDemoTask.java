@@ -9,7 +9,6 @@ import android.util.Log;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
-import com.jovision.activities.JVLoginActivity;
 import com.jovision.activities.JVWebViewActivity;
 import com.jovision.bean.WebUrl;
 import com.jovision.utils.ConfigUtil;
@@ -23,7 +22,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 	private String sid;
 	private String count;
 	private String fragmentString;
-	
+
 	public GetDemoTask(Context con) {
 		mContext = con;
 	}
@@ -35,13 +34,13 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		sid = params[0];
 		count = params[1];
 		fragmentString = params[2];
-		
+
 		// demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);
 		// demoUrl = "http://www.cloudsee.net/phone.action";
 		webUrl = DeviceUtil.getWebUrl();
 		if (null != webUrl) {
 			getRes = 0;
-		}else {
+		} else {
 			webUrl = DeviceUtil.getWebUrl();
 		}
 		return getRes;

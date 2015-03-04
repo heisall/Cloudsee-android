@@ -3582,8 +3582,21 @@ public class JVPlayActivity extends PlayActivity implements
 	public void startRemote() {
 		stopAllFunc();
 
+		boolean supportDownload = false;// 支持下载
+		if (null == mobileQuality) {// 没这个字段说明是老设备，再判断MobileCH是否为2
+			if (mobileCH != null) {// 这种情况，直接不让进设备设置界面
+				if (mobileCH.equals("2")) {
+					supportDownload = true;
+				}
+			}
+		} else {
+			supportDownload = true;
+		}
+
 		Intent remoteIntent = new Intent();
 		remoteIntent.setClass(JVPlayActivity.this, JVRemoteListActivity.class);
+		remoteIntent.putExtra("supportDownload", supportDownload);
+
 		remoteIntent.putExtra("IndexOfChannel", channelList.get(lastClickIndex)
 				.getIndex());
 		remoteIntent.putExtra("ChannelOfChannel",

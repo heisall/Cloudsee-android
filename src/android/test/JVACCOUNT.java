@@ -270,4 +270,11 @@ public class JVACCOUNT {
 	public static native String GetVersion(int aaa);
 
 	public static native String GetDevicesOnlineStatus();
+	
+	public static native int ModifyMailPhone(int type,
+			String MailorPhone);
+	
+	public static native int SendResetMail(String Mail);	
+	
+	public static native int RandCodeCheck(String randCode);	
 }

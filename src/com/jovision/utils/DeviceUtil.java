@@ -3659,6 +3659,7 @@ public class DeviceUtil {
 							webUrl.setDemoUrl(temObj.optString("demourl"));
 							webUrl.setCustUrl(temObj.optString("custurl"));
 							webUrl.setStatUrl(temObj.optString("staturl"));
+							webUrl.setBbsUrlString(temObj.optString("bbsurl"));
 						} else {
 							webUrl = null;
 						}

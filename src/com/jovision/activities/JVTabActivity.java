@@ -235,7 +235,8 @@ public class JVTabActivity extends ShakeActivity implements
 						|| !MySharedPreference
 								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
 						|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
-						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
+						|| (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
 					show = true;
 				}
 			} else {

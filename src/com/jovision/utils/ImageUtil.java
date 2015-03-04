@@ -980,11 +980,8 @@ public class ImageUtil {
 					.showImageForEmptyUri(defaultResId)
 					.showImageOnFail(defaultResId).cacheInMemory(true)
 					.cacheOnDisk(true).considerExifParams(true).build();
-			options = new DisplayImageOptions.Builder().				
-			cacheInMemory(true).
-			cacheOnDisk(true).
-			considerExifParams(true).
-			build();
+			options = new DisplayImageOptions.Builder().cacheInMemory(true)
+					.cacheOnDisk(true).considerExifParams(true).build();
 		}
 
 		ImageLoader.getInstance().displayImage(resourceUri, imageView, options,

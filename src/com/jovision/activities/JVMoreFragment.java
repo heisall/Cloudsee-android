@@ -95,9 +95,8 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.develop_warning, R.drawable.develop_warning,
 			R.drawable.morefragment_install_icon,
 			R.drawable.morefragment_sharedevice_icon,
-			R.drawable.morefragment_data_icon, 
-			R.drawable.morefragment_data_icon, 
-			R.drawable.more_message,
+			R.drawable.morefragment_data_icon,
+			R.drawable.morefragment_data_icon, R.drawable.more_message,
 			R.drawable.media_image, R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -677,10 +676,9 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 12:
-							if (!MySharedPreference
-									.getBoolean(Consts.MORE_BBS)) {
-								MySharedPreference.putBoolean(
-										Consts.MORE_BBS, true);
+							if (!MySharedPreference.getBoolean(Consts.MORE_BBS)) {
+								MySharedPreference.putBoolean(Consts.MORE_BBS,
+										true);
 							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
@@ -698,14 +696,16 @@ public class JVMoreFragment extends BaseFragment {
 									mActivity.startActivity(intentAD0);
 								} else {
 									String sid = "";
-									if (!Boolean.valueOf(mActivity.statusHashMap
-											.get(Consts.LOCAL_LOGIN))) {
-										String sessionResult = ConfigUtil.getSession();
+									if (!Boolean
+											.valueOf(mActivity.statusHashMap
+													.get(Consts.LOCAL_LOGIN))) {
+										String sessionResult = ConfigUtil
+												.getSession();
 										sid = sessionResult;
 									} else {
 										sid = "";
 									}
-									
+
 									GetDemoTask UrlTask2 = new GetDemoTask(
 											mActivity);
 									String[] demoParams2 = new String[3];

@@ -97,7 +97,7 @@ public class JVLoginActivity extends BaseActivity {
 		}
 		case Consts.WHAT_DELETE_USER:
 			// TODO
-			moreUserIV.setImageResource(R.drawable.login_pull_up_icon);
+			moreUserIV.setImageResource(R.drawable.login_pull_icon);
 			pop.dismiss();
 			userNameET.setText("");
 			passwordET.setText("");
@@ -117,7 +117,7 @@ public class JVLoginActivity extends BaseActivity {
 			if (arg2 != Consts.WHAT_CLICK_USER) {
 				passwordET.setText(((User) obj).getUserPwd());
 			}
-			moreUserIV.setImageResource(R.drawable.login_pull_up_icon);
+			moreUserIV.setImageResource(R.drawable.login_pull_icon);
 			pop.dismiss();
 			break;
 		}
@@ -256,7 +256,7 @@ public class JVLoginActivity extends BaseActivity {
 				} else if (pop.isShowing()) {
 					userAdapter.notifyDataSetChanged();
 					pop.dismiss();
-					moreUserIV.setImageResource(R.drawable.login_pull_up_icon);
+					moreUserIV.setImageResource(R.drawable.login_pull_icon);
 				} else if (!pop.isShowing()) {
 					handler.postDelayed(new Runnable() {
 						@Override
@@ -321,7 +321,7 @@ public class JVLoginActivity extends BaseActivity {
 			case R.id.username_et:
 				if (pop != null && pop.isShowing()) {
 					pop.dismiss();
-					moreUserIV.setImageResource(R.drawable.login_pull_up_icon);
+					moreUserIV.setImageResource(R.drawable.login_pull_icon);
 				}
 				break;
 			case R.id.btn_left: {

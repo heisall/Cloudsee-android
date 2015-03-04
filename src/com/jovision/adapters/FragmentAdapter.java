@@ -91,7 +91,7 @@ public class FragmentAdapter extends BaseAdapter {
 		if (position == 0) {
 			more_item.setVisibility(View.GONE);
 		}
-		if (position == 5 || position == 14) {
+		if (position == 5 || position == 15) {
 			kongbai.setVisibility(View.VISIBLE);
 			divider_img_up.setVisibility(View.VISIBLE);
 		}
@@ -108,7 +108,7 @@ public class FragmentAdapter extends BaseAdapter {
 			});
 		}
 		if (position == 3 || position == 9 || position == 10 || position == 11
-				|| position == 12) {
+				|| position == 13 || position == 12) {
 			if ("true"
 					.equals(((BaseActivity) mfragment.getActivity()).statusHashMap
 							.get(Consts.KEY_GONE_MORE))) {
@@ -129,7 +129,7 @@ public class FragmentAdapter extends BaseAdapter {
 				divider_img.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 12) {
+		if (position == 13) {
 			if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
@@ -147,12 +147,18 @@ public class FragmentAdapter extends BaseAdapter {
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 9
+		if (position == 12) {
+			if (!MySharedPreference.getBoolean(Consts.MORE_BBS)) {
+				tv_new_nums.setText(R.string.new_tag);
+				item_new.setVisibility(View.VISIBLE);
+			}
+		}
+		if ((position == 9|| position == 12)
 				&& Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
 			more_item.setVisibility(View.VISIBLE);
 			divider_img.setVisibility(View.VISIBLE);
-		} else if (position == 9
+		} else if ((position == 9|| position == 12)
 				&& Consts.LANGUAGE_ZH != ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
 			more_item.setVisibility(View.GONE);
@@ -171,7 +177,7 @@ public class FragmentAdapter extends BaseAdapter {
 				item_new.setVisibility(View.INVISIBLE);
 			}
 		}
-		if (position == 14
+		if (position == 15
 				&& "true".equalsIgnoreCase(((BaseActivity) mfragment
 						.getActivity()).statusHashMap
 						.get(Consts.NEUTRAL_VERSION))) {
@@ -179,7 +185,7 @@ public class FragmentAdapter extends BaseAdapter {
 			more_item.setVisibility(View.GONE);
 			divider_img.setVisibility(View.GONE);
 		}
-		if (position == 16) {
+		if (position == 17) {
 			item_next.setVisibility(View.GONE);
 			item_version.setVisibility(View.VISIBLE);
 			item_version

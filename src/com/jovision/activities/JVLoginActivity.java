@@ -248,7 +248,7 @@ public class JVLoginActivity extends BaseActivity {
 							@Override
 							public void run() {
 								moreUserIV
-										.setImageResource(R.drawable.login_pullhesui_up_icon);
+										.setImageResource(R.drawable.login_pull_up_icon);
 								pop.showAsDropDown(userNameLayout);
 							}
 						}, 200);
@@ -264,7 +264,7 @@ public class JVLoginActivity extends BaseActivity {
 							userAdapter.notifyDataSetChanged();
 							pop.showAsDropDown(userNameLayout);
 							moreUserIV
-									.setImageResource(R.drawable.login_pullhesui_up_icon);
+									.setImageResource(R.drawable.login_pull_up_icon);
 						}
 					}, 200);
 

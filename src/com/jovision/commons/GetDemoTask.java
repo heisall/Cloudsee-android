@@ -86,9 +86,29 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					mContext.startActivity(intentAD0);
 				} else {
 					((BaseActivity) mContext)
-							.showTextToast(R.string.str_video_load_failed);
+					.showTextToast(R.string.str_video_load_failed);
 				}
 				break;
+
+			case 1:
+				demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
+						+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
+						+ System.currentTimeMillis() + "&sid=" + sid;
+				if (!"fragmentString".equals(fragmentString)
+						&& null != webUrl.getDemoUrl()) {
+					Intent intentAD = new Intent(mContext,
+							JVWebViewActivity.class);
+					intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					intentAD.putExtra("URL", demoUrl);
+					intentAD.putExtra("title", -2);
+					mContext.startActivity(intentAD);
+				} else if (!"fragmentString".equals(fragmentString)
+						&& null == webUrl.getDemoUrl()) {
+					((BaseActivity) mContext)
+					.showTextToast(R.string.demo_get_failed);
+				}
+				break;
+
 			case 2:// 云视通指数
 				String staturl = "";
 				if (null != webUrl.getStatUrl()) {
@@ -105,26 +125,26 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					mContext.startActivity(intentAD2);
 				} else {
 					((BaseActivity) mContext)
-							.showTextToast(R.string.str_video_load_failed);
+					.showTextToast(R.string.str_video_load_failed);
 				}
 
 				break;
-			case 1:
-				demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
-						+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
-						+ System.currentTimeMillis() + "&sid=" + sid;
-				if (!"fragmentString".equals(fragmentString)
-						&& null != webUrl.getDemoUrl()) {
-					Intent intentAD = new Intent(mContext,
+			case 3:
+				String bbsurl = "";
+				if (null != webUrl.getBbsUrlString()) {
+					Intent intentAD2 = new Intent(mContext,
 							JVWebViewActivity.class);
-					intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-					intentAD.putExtra("URL", demoUrl);
-					intentAD.putExtra("title", -2);
-					mContext.startActivity(intentAD);
-				} else if (!"fragmentString".equals(fragmentString)
-						&& null == webUrl.getDemoUrl()) {
+					bbsurl = webUrl.getBbsUrlString() + "?" + "&sid=" + sid;
+					((BaseActivity) mContext).statusHashMap.put(
+							Consts.MORE_BBS, bbsurl);
+
+					Log.i("TAG", bbsurl);
+					intentAD2.putExtra("URL", bbsurl);
+					intentAD2.putExtra("title", -2);
+					mContext.startActivity(intentAD2);
+				} else {
 					((BaseActivity) mContext)
-							.showTextToast(R.string.demo_get_failed);
+					.showTextToast(R.string.str_video_load_failed);
 				}
 				break;
 			default:
@@ -141,7 +161,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			// 注意：aaa.html后为"?",参数之间使用"&"进行连接
 		} else {
 			((BaseActivity) mContext)
-					.showTextToast(R.string.str_video_load_failed);
+			.showTextToast(R.string.str_video_load_failed);
 		}
 	}
 

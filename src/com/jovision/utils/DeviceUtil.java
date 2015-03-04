@@ -2402,6 +2402,8 @@ public class DeviceUtil {
 												.getString(JVDeviceConst.JK_AD_URL_ZHT));
 										ad.setAdLinkZht(obj
 												.getString(JVDeviceConst.JK_AD_LINK_ZHT));
+										ad.setAdDesp(obj
+												.getString(JVDeviceConst.JK_AD_DESP));
 										ad.setVersion(adver);
 										adList.add(ad);
 									}

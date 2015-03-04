@@ -7,12 +7,15 @@ import org.json.JSONObject;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
+import com.jovision.activities.JVEditOldUserInfoActivity;
+import com.jovision.activities.JVLoginActivity;
 import com.jovision.bean.User;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
@@ -26,9 +29,11 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 	private Application application;
 	private HashMap<String, String> statusHashMap;
 	private View alarmnet;
+	private boolean firstLogin;// 首页登陆
 
-	public LoginTask(Context con, Application app, HashMap<String, String> map,
-			View view) {
+	public LoginTask(boolean loginFlag, Context con, Application app,
+			HashMap<String, String> map, View view) {
+		firstLogin = loginFlag;
 		mContext = con;
 		application = app;
 		statusHashMap = map;
@@ -114,6 +119,69 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 					String.valueOf(Consts.WHAT_ACCOUNT_NORMAL));
 			if (null != alarmnet) {
 				alarmnet.setVisibility(View.GONE);
+			}
+			break;
+		}
+		case JVAccountConst.RESET_NAME_AND_PASS: {
+			if (firstLogin) {
+				Intent intent = new Intent();
+				intent.setClass(mContext, JVEditOldUserInfoActivity.class);
+				mContext.startActivity(intent);
+			}
+			break;
+		}
+
+		case JVAccountConst.PASSWORD_ERROR: {
+			if (firstLogin) {
+				UserUtil.resetAllUser();
+				((BaseActivity) mContext)
+						.showTextToast(R.string.str_userpass_error);
+				Intent intent = new Intent();
+				intent.setClass(mContext, JVLoginActivity.class);
+				mContext.startActivity(intent);
+			}
+			break;
+		}
+		case JVAccountConst.SESSION_NOT_EXSIT: {
+			if (firstLogin) {
+				((BaseActivity) mContext)
+						.showTextToast(R.string.str_session_not_exist);
+				Intent intent = new Intent();
+				intent.setClass(mContext, JVLoginActivity.class);
+				mContext.startActivity(intent);
+			}
+			break;
+		}
+		case JVAccountConst.USER_HAS_EXIST: {
+
+			break;
+		}
+		case JVAccountConst.USER_NOT_EXIST: {
+			if (firstLogin) {
+				UserUtil.resetAllUser();
+				((BaseActivity) mContext)
+						.showTextToast(R.string.str_user_not_exist);
+				Intent intent = new Intent();
+				intent.setClass(mContext, JVLoginActivity.class);
+				mContext.startActivity(intent);
+			}
+			break;
+		}
+		case JVAccountConst.LOGIN_FAILED_1: {
+			if (firstLogin) {
+				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
+				}
+			}
+			break;
+		}
+		case JVAccountConst.LOGIN_FAILED_2: {
+			if (firstLogin) {
+				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
+				}
 			}
 			break;
 		}

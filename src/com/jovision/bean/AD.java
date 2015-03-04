@@ -17,6 +17,7 @@ public class AD {
 	private String adImgUrlZht;// (广告图片URL)--繁体
 	private String adLinkZht;// (图片超链接)--繁体
 	private int version;// (广告版本)
+	private String adDesp;// (app下载地址)
 
 	// private String savePath;
 	// private String fileName;
@@ -45,6 +46,8 @@ public class AD {
 			object.put("adLinkZht", adLinkZht);
 
 			object.put("version", version);
+			object.put("adDesp", adDesp);
+
 			// object.put("savePath", savePath);
 			// object.put("fileName", fileName);
 		} catch (JSONException e) {
@@ -100,6 +103,7 @@ public class AD {
 			ad.setAdLinkZht(ConfigUtil.getString(object, "adLinkZht"));
 
 			ad.setVersion(ConfigUtil.getInt(object, "version"));
+			ad.setAdDesp(ConfigUtil.getString(object, "adDesp"));
 			// ad.setSavePath(ConfigUtil.getString(object,"savePath"));
 			// ad.setFileName(ConfigUtil.getString(object,"fileName"));
 		} catch (JSONException e) {
@@ -107,6 +111,14 @@ public class AD {
 		}
 
 		return ad;
+	}
+
+	public String getAdDesp() {
+		return adDesp;
+	}
+
+	public void setAdDesp(String adDesp) {
+		this.adDesp = adDesp;
 	}
 
 	public static ArrayList<AD> fromJsonArray(String string) {

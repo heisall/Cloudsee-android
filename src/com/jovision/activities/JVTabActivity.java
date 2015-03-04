@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.igexin.sdk.PushManager;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
@@ -88,6 +89,18 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		Intent intent = getIntent();
+		if (null != intent) {
+			boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
+			if (autoLogin) {
+				String userName = intent.getStringExtra("UserName");
+				String userPass = intent.getStringExtra("UserPass");
+				statusHashMap.put(Consts.ACCOUNT_ERROR,
+						String.valueOf(Consts.WHAT_SESSION_AUTOLOGIN));
+			}
+		}
+
 		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(
 				this));
 		// // 如果savedInstanceState!=null，说明在应用在后台被干掉，或者应用崩掉需要重新create
@@ -107,38 +120,8 @@ public class JVTabActivity extends ShakeActivity implements
 
 		// 开启logcat输出，方便debug，发布时请关闭
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
-			XGPushConfig.enableDebug(this, false);
-			// 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
-			// XGIOperateCallback)带callback版本
-			// 如果需要绑定账号，请使用registerPush(getApplicationContext(),"account")版本
-			// 具体可参考详细的开发指南
-			// 传递的参数为ApplicationContext
-			XGPushManager.registerPush(getApplicationContext(),
-					new XGIOperateCallback() {
-						@Override
-						public void onSuccess(Object data, int flag) {
-							MyLog.d("TPush", "注册成功，设备token为：" + data);
-							statusHashMap.put("TPUSH", "注册成功：" + data);
-							if (MySharedPreference.getString(
-									Consts.KEY_DEV_TOKEN).equals("")) {
-								MySharedPreference.putString(
-										Consts.KEY_DEV_TOKEN, data.toString());
-								AccountUtil
-										.reportClientPlatformInfo(JVTabActivity.this);
-							} else {
-								MySharedPreference.putString(
-										Consts.KEY_DEV_TOKEN, data.toString());
-							}
-						}
-
-						@Override
-						public void onFail(Object data, int errCode, String msg) {
-							MyLog.e("TPush", "注册失败，错误码：" + errCode + ",错误信息："
-									+ msg);
-							statusHashMap.put("TPUSH", "注册失败：" + errCode
-									+ ",错误信息:" + msg);
-						}
-					});
+			Log.d("GPush", "initializing sdk...");
+			PushManager.getInstance().initialize(this.getApplicationContext());
 		}
 		MyLog.v(TAG, "onCreate----X");
 	}

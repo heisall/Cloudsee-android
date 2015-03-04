@@ -95,7 +95,9 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.develop_warning, R.drawable.develop_warning,
 			R.drawable.morefragment_install_icon,
 			R.drawable.morefragment_sharedevice_icon,
-			R.drawable.morefragment_data_icon, R.drawable.more_message,
+			R.drawable.morefragment_data_icon, 
+			R.drawable.morefragment_data_icon, 
+			R.drawable.more_message,
 			R.drawable.media_image, R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -674,7 +676,46 @@ public class JVMoreFragment extends BaseFragment {
 								}
 							}
 							break;
-						case 12: // 系统消息
+						case 12:
+							if (!MySharedPreference
+									.getBoolean(Consts.MORE_BBS)) {
+								MySharedPreference.putBoolean(
+										Consts.MORE_BBS, true);
+							}
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								if (null != ((BaseActivity) mActivity).statusHashMap
+										.get(Consts.MORE_BBS)) {
+									Intent intentAD0 = new Intent(mActivity,
+											JVWebViewActivity.class);
+									intentAD0
+											.putExtra(
+													"URL",
+													((BaseActivity) mActivity).statusHashMap
+															.get(Consts.MORE_BBS));
+									intentAD0.putExtra("title", -2);
+									mActivity.startActivity(intentAD0);
+								} else {
+									String sid = "";
+									if (!Boolean.valueOf(mActivity.statusHashMap
+											.get(Consts.LOCAL_LOGIN))) {
+										String sessionResult = ConfigUtil.getSession();
+										sid = sessionResult;
+									} else {
+										sid = "";
+									}
+									
+									GetDemoTask UrlTask2 = new GetDemoTask(
+											mActivity);
+									String[] demoParams2 = new String[3];
+									demoParams2[0] = sid;
+									demoParams2[1] = "3";
+									UrlTask2.execute(demoParams2);
+								}
+							}
+							break;
+						case 13: // 系统消息
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 								MySharedPreference.putBoolean(
@@ -694,7 +735,7 @@ public class JVMoreFragment extends BaseFragment {
 								mActivity.startActivity(infoIntent);
 							}
 							break;
-						case 13: // 图像查看
+						case 14: // 图像查看
 							StatService.trackCustomEvent(
 									mActivity,
 									"Media",
@@ -704,12 +745,12 @@ public class JVMoreFragment extends BaseFragment {
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);
 							break;
-						case 14: // 意见反馈
+						case 15: // 意见反馈
 							Intent intent = new Intent(mActivity,
 									JVFeedbackActivity.class);
 							startActivity(intent);
 							break;
-						case 15: // 检查更新
+						case 16: // 检查更新
 							mActivity.createDialog("", false);
 							CheckUpdateTask taskf = new CheckUpdateTask(
 									mActivity);
@@ -717,7 +758,7 @@ public class JVMoreFragment extends BaseFragment {
 							strParams[0] = "1";// 1,手动检查更新
 							taskf.execute(strParams);
 							break;
-						case 16: // 关于
+						case 17: // 关于
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_LITTLE)) {
 								littlenum++;

@@ -314,6 +314,7 @@ public class Consts {
 	public static final String MORE_SYSTEMMESSAGE = "SystemMessage"; // 系统消息
 	public static final String MORE_CUSTURL = "CUSTURL"; // 我要装监控
 	public static final String MORE_STATURL = "STATURL"; // 云视通指数
+	public static final String MORE_BBS = "BBSURL"; // 云视通指数
 	public static final String MORE_TESTSWITCH = "TESTSWITCH"; // 测试服务器开关
 
 	/********************************* 　以上修改设备用户名密码需要的宏定义　 ***************************************/

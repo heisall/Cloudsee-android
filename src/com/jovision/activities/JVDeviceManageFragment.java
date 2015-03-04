@@ -161,6 +161,10 @@ public class JVDeviceManageFragment extends BaseFragment {
 			devmorere.setOnClickListener(mOnClickListener);
 			devmore_hie.setOnClickListener(mOnClickListener);
 			ListViewClick();
+			// 初始化导航
+			initNav();
+			// 初始化viewPager
+			initViewPager();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

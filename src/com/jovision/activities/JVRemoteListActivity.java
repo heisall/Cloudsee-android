@@ -1,9 +1,15 @@
 package com.jovision.activities;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.InputType;
 import android.view.MotionEvent;
@@ -22,9 +28,13 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.Jni;
 import com.jovision.adapters.RemoteVideoAdapter;
 import com.jovision.bean.RemoteVideo;
+import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVRemoteListActivity extends BaseActivity {
@@ -51,10 +61,97 @@ public class JVRemoteListActivity extends BaseActivity {
 	private int audioByte;// 音频监听比特率
 	private boolean is05;// 是否05版解码器
 
+	private int hasDownLoadSize = 0;// 已下载文件大小
+	private int downLoadFileSize = 0;// 下载文件大小
+	private ProgressDialog downloadDialog;// 下载进度
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 
 		switch (what) {
+		case Consts.PLAY_BACK_DOWNLOAD: {// 远程回放视频下载
+			createDialog("", false);
+
+			hasDownLoadSize = 0;// 已下载文件大小
+			downLoadFileSize = 0;// 下载文件大小
+
+			RemoteVideo videoBean = videoList.get(arg2);
+			String acBuffStr = PlayUtil.getPlayFileString(videoBean, isJFH,
+					deviceType, year, month, day, arg2);
+			MyLog.v(TAG, "acBuffStr:" + acBuffStr);
+			byte[] dataByte = acBuffStr.getBytes();
+
+			String downLoadPath = Consts.DOWNLOAD_VIDEO_PATH
+					+ ConfigUtil.getCurrentDate() + File.separator;
+			String fileName = String.valueOf(System.currentTimeMillis())
+					+ ".mp4";
+
+			File downFile = new File(downLoadPath);
+			MobileUtil.createDirectory(downFile);
+
+			Jni.setDownloadFileName(downLoadPath + fileName);
+
+			Jni.sendBytes(indexOfChannel,
+					(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP, new byte[0], 0);
+			Jni.sendBytes(indexOfChannel, (byte) JVNetConst.JVN_REQ_DOWNLOAD,
+					dataByte, dataByte.length);
+
+			break;
+		}
+		case Consts.CALL_DOWNLOAD: {// 远程回放文件下载
+			if (arg1 == indexOfChannel) {
+				switch (arg2) {
+				case JVNetConst.JVN_RSP_DOWNLOADDATA: {// 下载进度
+					// 进度{"length":2230204,"size":204800}
+
+					if (null != obj) {
+
+						String downRes = obj.toString();
+						if (null != downRes && !"".equalsIgnoreCase(downRes)) {
+							try {
+								JSONObject resObj = new JSONObject(downRes);
+								int size = resObj.getInt("size");
+								int length = resObj.getInt("length");
+								hasDownLoadSize = hasDownLoadSize + size;
+								downLoadFileSize = length;
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+						}
+						MyLog.v(TAG, "obj=" + obj.toString());
+						MyLog.v(TAG, "current-process" + hasDownLoadSize);
+					}
+
+					if (null != downloadDialog && downloadDialog.isShowing()) {
+						downloadDialog.setProgress(hasDownLoadSize);
+					} else {
+						dismissDialog();
+						createDownloadProDialog(downLoadFileSize);
+					}
+
+					break;
+				}
+				case JVNetConst.JVN_RSP_DOWNLOADOVER: {// 下载完成
+					if (null != downloadDialog && downloadDialog.isShowing()) {
+						downloadDialog.dismiss();
+						downloadDialog = null;
+					}
+					showTextToast(R.string.video_download_success);
+					break;
+				}
+				case JVNetConst.JVN_RSP_DOWNLOADE: {// 下载失敗
+					if (null != downloadDialog && downloadDialog.isShowing()) {
+						downloadDialog.dismiss();
+						downloadDialog = null;
+					}
+					showTextToast(R.string.video_download_failed);
+					break;
+				}
+				}
+			}
+			break;
+		}
+
 		case Consts.CALL_CHECK_RESULT: {// 查询远程回放数据
 			byte[] pBuffer = (byte[]) obj;
 			// TODO
@@ -115,12 +212,14 @@ public class JVRemoteListActivity extends BaseActivity {
 			// setResult(JVConst.REMTE_CLOSE_FETURE_);// 关闭远程回放界面
 			// finish();
 			break;
+
 		}
 
 	}
 
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
+
 		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 
 	}
@@ -303,5 +402,36 @@ public class JVRemoteListActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+	}
+
+	/**
+	 * 创建下载进度dialog
+	 */
+	@SuppressWarnings("deprecation")
+	private void createDownloadProDialog(int max) {
+		downloadDialog = null;
+		if (downloadDialog == null) {
+			downloadDialog = new ProgressDialog(JVRemoteListActivity.this);
+			downloadDialog.setCancelable(false);
+			downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			downloadDialog.setTitle(getResources().getString(
+					R.string.downloading_update));
+			downloadDialog.setIndeterminate(false);
+			downloadDialog.setMax(max);
+			downloadDialog.setProgressNumberFormat("%1d B/%2d B");
+			downloadDialog.setButton(
+					getResources().getString(R.string.str_crash_cancel),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO 取消下载
+							Jni.sendBytes(indexOfChannel,
+									(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
+									new byte[0], 0);
+							dialog.dismiss();
+						}
+					});
+		}
+		downloadDialog.show();
 	}
 }

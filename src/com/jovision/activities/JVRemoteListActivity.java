@@ -64,6 +64,7 @@ public class JVRemoteListActivity extends BaseActivity {
 	private int hasDownLoadSize = 0;// 已下载文件大小
 	private int downLoadFileSize = 0;// 下载文件大小
 	private ProgressDialog downloadDialog;// 下载进度
+	boolean supportDownload = false;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -167,21 +168,21 @@ public class JVRemoteListActivity extends BaseActivity {
 			break;
 		}
 		case Consts.WHAT_REMOTE_DATA_SUCCESS: {
-			remoteVideoAdapter.setData(videoList);
+			remoteVideoAdapter.setData(videoList, supportDownload);
 			remoteListView.setAdapter(remoteVideoAdapter);
 			remoteVideoAdapter.notifyDataSetChanged();
 			dismissDialog();
 			break;
 		}
 		case Consts.WHAT_REMOTE_DATA_FAILED: {
-			remoteVideoAdapter.setData(videoList);
+			remoteVideoAdapter.setData(videoList, supportDownload);
 			remoteVideoAdapter.notifyDataSetChanged();
 			showTextToast(R.string.str_video_load_failed);
 			dismissDialog();
 			break;
 		}
 		case Consts.WHAT_REMOTE_NO_DATA_FAILED: {
-			remoteVideoAdapter.setData(videoList);
+			remoteVideoAdapter.setData(videoList, supportDownload);
 			remoteVideoAdapter.notifyDataSetChanged();
 			showTextToast(R.string.str_video_nodata_failed);
 			dismissDialog();
@@ -263,6 +264,7 @@ public class JVRemoteListActivity extends BaseActivity {
 				month, day, year, month, day);
 		Intent intent = getIntent();
 		if (null != intent) {
+			supportDownload = intent.getBooleanExtra("supportDownload", false);
 			deviceType = intent.getIntExtra("DeviceType", 0);
 			indexOfChannel = intent.getIntExtra("IndexOfChannel", 0);
 			channelOfChannel = intent.getIntExtra("ChannelOfChannel", 0);

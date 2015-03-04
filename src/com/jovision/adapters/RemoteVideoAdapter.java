@@ -18,9 +18,10 @@ import com.jovision.bean.RemoteVideo;
 
 public class RemoteVideoAdapter extends BaseAdapter {
 
-	ArrayList<RemoteVideo> videoList = new ArrayList<RemoteVideo>();
-	public Context mContext = null;
-	public LayoutInflater inflater;
+	private ArrayList<RemoteVideo> videoList = new ArrayList<RemoteVideo>();
+	private Context mContext = null;
+	private LayoutInflater inflater;
+	private boolean supportDownload = false;
 
 	public RemoteVideoAdapter(Context con) {
 		mContext = con;
@@ -28,8 +29,9 @@ public class RemoteVideoAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public void setData(ArrayList<RemoteVideo> list) {
+	public void setData(ArrayList<RemoteVideo> list, boolean support) {
 		videoList = list;
+		supportDownload = support;
 	}
 
 	@Override
@@ -71,6 +73,12 @@ public class RemoteVideoAdapter extends BaseAdapter {
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
+		}
+
+		if (supportDownload) {
+			viewHolder.videoDownLoad.setVisibility(View.VISIBLE);
+		} else {
+			viewHolder.videoDownLoad.setVisibility(View.INVISIBLE);
 		}
 
 		if (null != videoList && 0 != videoList.size()

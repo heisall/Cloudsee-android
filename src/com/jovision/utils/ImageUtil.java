@@ -25,8 +25,13 @@ import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.ImageView;
 
 import com.jovision.commons.MyLog;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ImageUtil {
 
@@ -942,4 +947,46 @@ public class ImageUtil {
 	// return bitmapWithReflection;
 	// }
 
+	public static void displayImage(ImageView imageView,
+			String resourceUri, int defaultResId) {
+		
+		Log.d("displayimage", "displayImage resourceUri:"+resourceUri+", defeaultResourceId:"+defaultResId);
+
+		if (resourceUri == null) {
+			resourceUri = "";
+		}
+		
+		boolean showDefaultImage = !(defaultResId <= 0);
+		
+		if (TextUtils.isEmpty(resourceUri) && !showDefaultImage) {
+			Log.e("displayimage","unable to display image");
+			return;
+		}
+
+	
+		DisplayImageOptions options;
+		if (showDefaultImage) {
+			options = new DisplayImageOptions.Builder().
+			showImageOnLoading(defaultResId).
+			showImageForEmptyUri(defaultResId).
+			showImageOnFail(defaultResId).
+			cacheInMemory(true).
+			cacheOnDisk(true).
+			considerExifParams(true).
+	//		displayer(new RoundedBitmapDisplayer(5)).
+	//		imageScaleType(ImageScaleType.EXACTLY).
+			build();
+		} else {
+			options = new DisplayImageOptions.Builder().
+			showImageOnLoading(defaultResId).
+			showImageForEmptyUri(defaultResId).
+			showImageOnFail(defaultResId).					
+			cacheInMemory(true).
+			cacheOnDisk(true).
+			considerExifParams(true).
+			build();
+		}
+
+		ImageLoader.getInstance().displayImage(resourceUri, imageView, options, null);
+	}
 }

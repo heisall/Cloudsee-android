@@ -17,6 +17,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap.CompressFormat;
 import android.test.AutoLoad;
 import android.test.JVACCOUNT;
 import android.util.Log;
@@ -35,6 +36,11 @@ import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MyRecevier;
 import com.jovision.utils.PlayUtil;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 /**
  * 整个应用的入口，管理状态、活动集合，消息队列以及漏洞汇报
@@ -128,8 +134,27 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		activityManager = (ActivityManager) this
 				.getSystemService(Context.ACTIVITY_SERVICE);
 		packageName = this.getPackageName();
+		
+		//imageloader全局配置
+		initImageLoader(getApplicationContext());
 	}
-
+	private static void initImageLoader(Context context) {
+		// This configuration tuning is custom. You can tune every option, you may tune some of them,
+		// or you can create default configuration by
+		//  ImageLoaderConfiguration.createDefault(this);
+		// method.
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+			.threadPoolSize(3)//线程池内加载的数量  
+			.threadPriority(Thread.NORM_PRIORITY - 2)
+			.denyCacheImageMultipleSizesInMemory()
+			.diskCacheFileNameGenerator(new Md5FileNameGenerator())
+			.diskCacheSize(20 * 1024 * 1024) 
+			.tasksProcessingOrder(QueueProcessingType.LIFO)
+//				.writeDebugLogs() // todo eric Remove for release app
+			.build();
+		// Initialize ImageLoader with configuration.
+		ImageLoader.getInstance().init(config);
+	}
 	public int getNewPushCnt() {
 		return new_push_msg_cnt;
 	}

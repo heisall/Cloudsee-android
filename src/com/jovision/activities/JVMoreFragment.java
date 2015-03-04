@@ -96,7 +96,7 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.morefragment_install_icon,
 			R.drawable.morefragment_sharedevice_icon,
 			R.drawable.morefragment_data_icon, 
-			R.drawable.morefragment_data_icon, 
+			R.drawable.more_bbs, 
 			R.drawable.more_message,
 			R.drawable.media_image, R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,

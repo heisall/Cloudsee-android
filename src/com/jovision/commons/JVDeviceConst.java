@@ -117,6 +117,7 @@ public class JVDeviceConst {
 	public static final String JK_DEVICE_VIDEO_IP = "dvip";
 	public static final String JK_DEVICE_VIDEO_PORT = "dvport";
 	public static final String JK_DEVICE_WIFI_FLAG = "dwifi";
+	public static final String JK_DEVICE_VIDEO_TCP = "dvtcp";
 
 	public static final String JK_DEVICE_TEMPERATURE = "dtem";
 	public static final String JK_DEVICE_HUMIDNESS = "dhum";

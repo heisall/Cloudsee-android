@@ -18,7 +18,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.test.JVACCOUNT;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -277,20 +276,21 @@ public class JVMoreFragment extends BaseFragment {
 				popupWindow.dismiss();
 				break;
 			case R.id.more_uesrname:
-				//TODO
+				// TODO
 				break;
 			case R.id.more_head_img:
-				//TODO
-//				StatService.trackCustomEvent(
-//						mActivity,
-//						"census_moreheadimg",
-//						mActivity.getResources().getString(
-//								R.string.census_moreheadimg));
-//				popupWindow = new popw(mActivity, myOnClickListener);
-//				popupWindow.setBackgroundDrawable(null);
-//				popupWindow.setOutsideTouchable(true);
-//				popupWindow.showAtLocation(linear, Gravity.BOTTOM
-//						| Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+				// TODO
+				// StatService.trackCustomEvent(
+				// mActivity,
+				// "census_moreheadimg",
+				// mActivity.getResources().getString(
+				// R.string.census_moreheadimg));
+				// popupWindow = new popw(mActivity, myOnClickListener);
+				// popupWindow.setBackgroundDrawable(null);
+				// popupWindow.setOutsideTouchable(true);
+				// popupWindow.showAtLocation(linear, Gravity.BOTTOM
+				// | Gravity.CENTER_HORIZONTAL, 0, 0); //
+				// 设置layout在PopupWindow中显示的位置
 				break;
 			case R.id.btn_pick_photo: {
 				popupWindow.dismiss();

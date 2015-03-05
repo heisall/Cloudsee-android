@@ -158,13 +158,10 @@ public class JVChannelsActivity extends BaseActivity {
 		// }
 
 		super.onResume();
-		for (int i = 0; i < deviceList.size(); i++) {
-			if (deviceIndex == i) {
-				deviceList.get(i).setIsselect(true);
-			} else {
-				deviceList.get(i).setIsselect(false);
-			}
+		if (null != adapter) {
+			adapter.setSelectIndex(deviceIndex);
 		}
+
 	}
 
 	private void initViewPager() {
@@ -231,13 +228,14 @@ public class JVChannelsActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				for (int i = 0; i < deviceList.size(); i++) {
-					if (i == position) {
-						deviceList.get(i).setIsselect(true);
-					} else {
-						deviceList.get(i).setIsselect(false);
-					}
-				}
+				// for (int i = 0; i < deviceList.size(); i++) {
+				// if (i == position) {
+				// deviceList.get(i).setIsselect(true);
+				// } else {
+				// deviceList.get(i).setIsselect(false);
+				// }
+				// }
+				adapter.setSelectIndex(position);
 				adapter.notifyDataSetChanged();
 				deviceIndex = position;
 				channelPager.setCurrentItem(position);
@@ -261,6 +259,7 @@ public class JVChannelsActivity extends BaseActivity {
 				break;
 
 			case R.id.devmorerelative:
+				adapter.setSelectIndex(deviceIndex);
 				device_num.setText(JVChannelsActivity.this.getResources()
 						.getString(R.string.str_fre)
 						+ deviceList.size()
@@ -302,13 +301,13 @@ public class JVChannelsActivity extends BaseActivity {
 			}
 			for (int i = 0; i < deviceList.size(); i++) {
 				if (position == i) {
-					deviceList.get(i).setIsselect(true);
+					// deviceList.get(i).setIsselect(true);
 					TextView view = (TextView) mLinearLayout.getChildAt(i)
 							.findViewById(i);
 					view.setTextColor(JVChannelsActivity.this.getResources()
 							.getColor(R.color.quickinstall_btn_normal));
 				} else {
-					deviceList.get(i).setIsselect(false);
+					// deviceList.get(i).setIsselect(false);
 					TextView view = (TextView) mLinearLayout.getChildAt(i)
 							.findViewById(i);
 					view.setTextColor(JVChannelsActivity.this.getResources()

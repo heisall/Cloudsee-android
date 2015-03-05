@@ -427,7 +427,7 @@ public class JVIpconnectActivity extends BaseActivity {
 					if (1 == isDevice) {// IP
 						if (isTcpchose) {
 							deviceList.get(deviceIndex).setEnableTcpConnect(1);
-						}else {
+						} else {
 							deviceList.get(deviceIndex).setEnableTcpConnect(0);
 						}
 						deviceList.get(deviceIndex).setIp(

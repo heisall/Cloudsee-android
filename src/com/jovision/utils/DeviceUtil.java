@@ -147,8 +147,8 @@ public class DeviceUtil {
 											dev.setIsDevice(1);
 										}
 
-										dev.setEnableTcpConnect(Integer.parseInt(obj
-												.optString(JVDeviceConst.JK_DEVICE_VIDEO_TCP)));
+										dev.setEnableTcpConnect(obj
+												.optInt(JVDeviceConst.JK_DEVICE_VIDEO_TCP));
 										dev.setDeviceType(obj
 												.optInt(JVDeviceConst.JK_DEVICE_TYPE));
 										dev.setServerState(obj

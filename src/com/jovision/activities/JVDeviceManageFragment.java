@@ -186,13 +186,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				for (int i = 0; i < manageDeviceList.size(); i++) {
-					if (i == position) {
-						manageDeviceList.get(i).setIsselect(true);
-					} else {
-						manageDeviceList.get(i).setIsselect(false);
-					}
-				}
+
+				adapter.setSelectIndex(position);
 				adapter.notifyDataSetChanged();
 				deviceIndex = position;
 				// ((ManageFragment) fragments.get(position))
@@ -384,6 +379,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 				break;
 			case R.id.devmorere:
+				adapter.setSelectIndex(deviceIndex);
 				relalist.setVisibility(View.VISIBLE);
 				devicemanage_listView.setVisibility(View.VISIBLE);
 				managePager.setVisibility(View.GONE);
@@ -434,13 +430,11 @@ public class JVDeviceManageFragment extends BaseFragment {
 			}
 			for (int i = 0; i < manageDeviceList.size(); i++) {
 				if (position == i) {
-					manageDeviceList.get(i).setIsselect(true);
 					TextView view = (TextView) mLinearLayout.getChildAt(i)
 							.findViewById(i);
 					view.setTextColor(mActivity.getResources().getColor(
 							R.color.quickinstall_btn_normal));
 				} else {
-					manageDeviceList.get(i).setIsselect(false);
 					TextView view = (TextView) mLinearLayout.getChildAt(i)
 							.findViewById(i);
 					view.setTextColor(mActivity.getResources().getColor(
@@ -514,14 +508,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		manageDeviceList = CacheUtil.getDevList();
-		if (manageDeviceList != null) {
-			for (int i = 0; i < manageDeviceList.size(); i++) {
-				if (i == deviceIndex) {
-					manageDeviceList.get(i).setIsselect(true);
-				} else {
-					manageDeviceList.get(i).setIsselect(false);
-				}
-			}
+		if (adapter != null) {
+			adapter.setSelectIndex(deviceIndex);
 		}
 		if (Consts.LANGUAGE_EN == ConfigUtil.getLanguage2(mActivity)) {
 			device_num.setText(mActivity.getResources().getString(

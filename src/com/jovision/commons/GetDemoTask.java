@@ -57,7 +57,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		((BaseActivity) mContext).dismissDialog();
 		if (0 == result) {
 
-			((BaseActivity) mContext).statusHashMap.put("DEMOURL",
+			((BaseActivity) mContext).statusHashMap.put(Consts.MORE_DEMOURL,
 					webUrl.getDemoUrl());
 			int counts = Integer.valueOf(count);
 

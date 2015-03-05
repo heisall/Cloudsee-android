@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -111,7 +112,7 @@ public class JVVideoFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		if (null != ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
+		if (null != ((BaseActivity) mActivity).statusHashMap.get(Consts.MORE_DEMOURL)) {
 
 			String sid = "";
 			String lan = "";
@@ -123,7 +124,7 @@ public class JVVideoFragment extends BaseFragment {
 			} else {
 				lan = "en_us";
 			}
-			urls = ((BaseActivity) mActivity).statusHashMap.get("DEMOURL");
+			urls = ((BaseActivity) mActivity).statusHashMap.get(Consts.MORE_DEMOURL);
 			// urls = "http://test.cloudsee.net/phone.action";
 
 			if (!Boolean.valueOf(mActivity.statusHashMap

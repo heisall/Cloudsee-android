@@ -312,6 +312,7 @@ public class Consts {
 	public static final String MORE_BROADCAST = "BROADCASTSHOW"; // 广播
 	public static final String MORE_LITTLE = "LITTLE"; // 关于
 	public static final String MORE_SYSTEMMESSAGE = "SystemMessage"; // 系统消息
+	public static final String MORE_DEMOURL = "DEMOURL"; // 视频广场
 	public static final String MORE_CUSTURL = "CUSTURL"; // 我要装监控
 	public static final String MORE_STATURL = "STATURL"; // 云视通指数
 	public static final String MORE_BBS = "BBSURL"; // 云视通指数

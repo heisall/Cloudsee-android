@@ -1,25 +1,199 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lin"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-	
-     <include
+
+    <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
-		
-     <LinearLayout 
-         android:layout_width="match_parent"
-         android:layout_height="50dp"
-         android:layout_marginTop="15dp"
-         android:layout_marginLeft="15dp"
-         android:layout_marginRight="15dp"
-         >
-         <ImageView 
-             android:layout_width="match_parent"
-             android:layout_height="1dp"
-             android:background="@color/more_fragment_color4"
-             />
-     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/more_fragment_color4" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp" >
+
+            <ImageView
+                android:id="@+id/reband_hand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/reband_hand" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/reband_hand"
+                android:text="修改头像"
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:id="@+id/head_bg"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/head_bg" >
+
+                <ImageView
+                    android:id="@+id/reband_hand_img"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/reband_hand_img"
+                    android:scaleType="fitXY" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/more_fragment_color4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/more_fragment_color4" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp" >
+
+            <ImageView
+                android:id="@+id/reband_hand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/reband_phone" />
+
+            <TextView
+                android:id="@+id/hasband_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/reband_hand"
+                android:text="手机号 ："
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/reband_phone_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/hasband_phone"
+                android:text="18264112007"
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/reband_modify_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="更换"
+                android:textColor="@color/reband_modify"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/more_fragment_color4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp" >
+
+            <ImageView
+                android:id="@+id/reband_hand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/reband_email" />
+
+            <TextView
+                android:id="@+id/hasband_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/reband_hand"
+                android:text="邮箱 ："
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/reband_email_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/hasband_email"
+                android:text="1229774710@qq.com"
+                android:textColor="@color/more_fragment_color2"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/reband_modify_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="更换"
+                android:textColor="@color/reband_modify"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/more_fragment_color4" />
+    </LinearLayout>
+
 </LinearLayout>

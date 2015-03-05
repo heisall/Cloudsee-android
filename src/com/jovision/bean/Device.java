@@ -322,8 +322,6 @@ public class Device {
 			dev.setGid(ConfigUtil.getString(object, "gid"));
 			dev.setNo(ConfigUtil.getInt(object, "no"));
 			dev.setFullNo(ConfigUtil.getString(object, "fullNo"));
-			dev.setEnableTcpConnect(ConfigUtil.getString(object,
-					"enableTcpConnect"));
 			dev.setEnableTcpConnect(ConfigUtil.getInt(object, "enableTcpConnect"));
 			dev.setUser(ConfigUtil.getString(object, "user"));
 			dev.setPwd(ConfigUtil.getString(object, "pwd"));

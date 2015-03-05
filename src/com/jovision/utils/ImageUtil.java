@@ -947,36 +947,39 @@ public class ImageUtil {
 	// return bitmapWithReflection;
 	// }
 
-	public static void displayImage(ImageView imageView,
-			String resourceUri, int defaultResId) {
-		
-		Log.d("displayimage", "displayImage resourceUri:"+resourceUri+", defeaultResourceId:"+defaultResId);
+	public static void displayImage(ImageView imageView, String resourceUri,
+			int defaultResId) {
+
+		Log.d("displayimage", "displayImage resourceUri:" + resourceUri
+				+ ", defeaultResourceId:" + defaultResId);
 
 		if (resourceUri == null) {
 			resourceUri = "";
 		}
-		
+
 		boolean showDefaultImage = !(defaultResId <= 0);
-		
+
 		if (TextUtils.isEmpty(resourceUri) && !showDefaultImage) {
-			Log.e("displayimage","unable to display image");
+			Log.e("displayimage", "unable to display image");
 			return;
 		}
 
-	
 		DisplayImageOptions options;
 		if (showDefaultImage) {
-			options = new DisplayImageOptions.Builder().
-			showImageOnLoading(defaultResId).
-			showImageForEmptyUri(defaultResId).
-			showImageOnFail(defaultResId).
-			cacheInMemory(true).
-			cacheOnDisk(true).
-			considerExifParams(true).
-	//		displayer(new RoundedBitmapDisplayer(5)).
-	//		imageScaleType(ImageScaleType.EXACTLY).
-			build();
+			options = new DisplayImageOptions.Builder()
+					.showImageOnLoading(defaultResId)
+					.showImageForEmptyUri(defaultResId)
+					.showImageOnFail(defaultResId).cacheInMemory(true)
+					.cacheOnDisk(true).considerExifParams(true).
+					// displayer(new RoundedBitmapDisplayer(5)).
+					// imageScaleType(ImageScaleType.EXACTLY).
+					build();
 		} else {
+			options = new DisplayImageOptions.Builder()
+					.showImageOnLoading(defaultResId)
+					.showImageForEmptyUri(defaultResId)
+					.showImageOnFail(defaultResId).cacheInMemory(true)
+					.cacheOnDisk(true).considerExifParams(true).build();
 			options = new DisplayImageOptions.Builder().				
 			cacheInMemory(true).
 			cacheOnDisk(true).
@@ -984,6 +987,7 @@ public class ImageUtil {
 			build();
 		}
 
-		ImageLoader.getInstance().displayImage(resourceUri, imageView, options, null);
+		ImageLoader.getInstance().displayImage(resourceUri, imageView, options,
+				null);
 	}
 }

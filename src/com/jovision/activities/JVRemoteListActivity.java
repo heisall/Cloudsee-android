@@ -65,6 +65,8 @@ public class JVRemoteListActivity extends BaseActivity {
 	private int downLoadFileSize = 0;// 下载文件大小
 	private ProgressDialog downloadDialog;// 下载进度
 	boolean supportDownload = false;
+	boolean downloading = false;
+	private String downFileFullName = "";// 下载的文件的路径
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -86,17 +88,17 @@ public class JVRemoteListActivity extends BaseActivity {
 					+ ConfigUtil.getCurrentDate() + File.separator;
 			String fileName = String.valueOf(System.currentTimeMillis())
 					+ ".mp4";
-
+			downFileFullName = downLoadPath + fileName;
 			File downFile = new File(downLoadPath);
 			MobileUtil.createDirectory(downFile);
 
-			Jni.setDownloadFileName(downLoadPath + fileName);
+			Jni.setDownloadFileName(downFileFullName);
 
 			Jni.sendBytes(indexOfChannel,
-					(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP, new byte[0], 0);
+					(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP, new byte[0], 8);
 			Jni.sendBytes(indexOfChannel, (byte) JVNetConst.JVN_REQ_DOWNLOAD,
 					dataByte, dataByte.length);
-
+			downloading = true;
 			break;
 		}
 		case Consts.CALL_DOWNLOAD: {// 远程回放文件下载
@@ -105,31 +107,34 @@ public class JVRemoteListActivity extends BaseActivity {
 				case JVNetConst.JVN_RSP_DOWNLOADDATA: {// 下载进度
 					// 进度{"length":2230204,"size":204800}
 
-					if (null != obj) {
+					if (downloading) {
+						if (null != obj) {
 
-						String downRes = obj.toString();
-						if (null != downRes && !"".equalsIgnoreCase(downRes)) {
-							try {
-								JSONObject resObj = new JSONObject(downRes);
-								int size = resObj.getInt("size");
-								int length = resObj.getInt("length");
-								hasDownLoadSize = hasDownLoadSize + size;
-								downLoadFileSize = length;
-							} catch (JSONException e) {
-								e.printStackTrace();
+							String downRes = obj.toString();
+							if (null != downRes
+									&& !"".equalsIgnoreCase(downRes)) {
+								try {
+									JSONObject resObj = new JSONObject(downRes);
+									int size = resObj.getInt("size");
+									int length = resObj.getInt("length");
+									hasDownLoadSize = hasDownLoadSize + size;
+									downLoadFileSize = length;
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
 							}
+							MyLog.v(TAG, "obj=" + obj.toString());
+							MyLog.v(TAG, "current-process" + hasDownLoadSize);
 						}
-						MyLog.v(TAG, "obj=" + obj.toString());
-						MyLog.v(TAG, "current-process" + hasDownLoadSize);
-					}
 
-					if (null != downloadDialog && downloadDialog.isShowing()) {
-						downloadDialog.setProgress(hasDownLoadSize);
-					} else {
-						dismissDialog();
-						createDownloadProDialog(downLoadFileSize);
+						if (null != downloadDialog
+								&& downloadDialog.isShowing()) {
+							downloadDialog.setProgress(hasDownLoadSize);
+						} else {
+							dismissDialog();
+							createDownloadProDialog(downLoadFileSize);
+						}
 					}
-
 					break;
 				}
 				case JVNetConst.JVN_RSP_DOWNLOADOVER: {// 下载完成
@@ -426,10 +431,14 @@ public class JVRemoteListActivity extends BaseActivity {
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
+							downloading = false;
+							File downFile = new File(downFileFullName);
+							downFile.delete();
+
 							// TODO 取消下载
 							Jni.sendBytes(indexOfChannel,
 									(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
-									new byte[0], 0);
+									new byte[0], 8);
 							dialog.dismiss();
 						}
 					});

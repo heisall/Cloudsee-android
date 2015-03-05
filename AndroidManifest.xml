@@ -706,8 +706,7 @@
             android:process=":pushservice"
             android:taskAffinity="android.task.myServicetask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:exported="false" />
-        
+            android:exported="false" />        
         <receiver android:name="com.igexin.getuiext.service.PayloadReceiver" android:exported="false" >
             <intent-filter>
                 <!-- 这个com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4固定，不能修改  -->

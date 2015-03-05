@@ -67,7 +67,7 @@ public class Device {
 	private int onlineStateLan = 0;
 
 	/**** 2015-03-02 ***/
-	private int Tcp; // 是否为TCP连接 0. TCP连接 1.非TCP
+	private int enableTcpConnect; // 是否为TCP连接 0. TCP连接 1.非TCP
 
 	/*** 2014-12-25 ***/
 	private boolean admin;// 是否管理员用户
@@ -248,6 +248,7 @@ public class Device {
 			object.put("isHomeProduct", isHomeProduct);
 			object.put("deviceType", deviceType);
 			object.put("is05", is05);
+			object.put("enableTcpConnect", enableTcpConnect);
 			object.put("nickName", nickName);
 			object.put("deviceModel", deviceModel);// 设备型号
 			object.put("deviceVerName", deviceVerName);// 设备软件版本
@@ -314,13 +315,14 @@ public class Device {
 		Device dev = new Device();
 		try {
 			JSONObject object = new JSONObject(string);
-
+			
 			dev.setIp(ConfigUtil.getString(object, "ip"));
 			dev.setPort(ConfigUtil.getInt(object, "port"));
 			dev.setDoMain(ConfigUtil.getString(object, "doMain"));
 			dev.setGid(ConfigUtil.getString(object, "gid"));
 			dev.setNo(ConfigUtil.getInt(object, "no"));
 			dev.setFullNo(ConfigUtil.getString(object, "fullNo"));
+			dev.setEnableTcpConnect(ConfigUtil.getInt(object, "enableTcpConnect"));
 			dev.setUser(ConfigUtil.getString(object, "user"));
 			dev.setPwd(ConfigUtil.getString(object, "pwd"));
 			dev.setHomeProduct(ConfigUtil.getBoolean(object, "isHomeProduct"));
@@ -614,11 +616,11 @@ public class Device {
 		this.descript = descript;
 	}
 
-	public int getTcp() {
-		return Tcp;
+	public int getEnableTcpConnect() {
+		return enableTcpConnect;
 	}
 
-	public void setTcp(int tcp) {
-		Tcp = tcp;
+	public void setEnableTcpConnect(int enableTcpConnect) {
+		this.enableTcpConnect = enableTcpConnect;
 	}
 }

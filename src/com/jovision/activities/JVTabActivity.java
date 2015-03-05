@@ -89,6 +89,18 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		Intent intent = getIntent();
+		if (null != intent) {
+			boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
+			if (autoLogin) {
+				String userName = intent.getStringExtra("UserName");
+				String userPass = intent.getStringExtra("UserPass");
+				statusHashMap.put(Consts.ACCOUNT_ERROR,
+						String.valueOf(Consts.WHAT_SESSION_AUTOLOGIN));
+			}
+		}
+
 		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(
 				this));
 		// // 如果savedInstanceState!=null，说明在应用在后台被干掉，或者应用崩掉需要重新create

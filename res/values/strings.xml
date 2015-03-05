@@ -559,7 +559,7 @@
     <string name="media">Image View</string>
     <string name="media_image">Image</string>
     <string name="media_video">Video</string>
-    <string name="media_downvideo">下载视频</string>
+    <string name="media_downvideo">下载</string>
     <string name="media_other">Other</string>
     <string name="media_player">Select player.</string>
     <string name="media_play">Play</string>

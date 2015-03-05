@@ -117,6 +117,7 @@ public class JVDeviceConst {
 	public static final String JK_DEVICE_VIDEO_IP = "dvip";
 	public static final String JK_DEVICE_VIDEO_PORT = "dvport";
 	public static final String JK_DEVICE_WIFI_FLAG = "dwifi";
+	public static final String JK_DEVICE_VIDEO_TCP = "dvtcp";
 
 	public static final String JK_DEVICE_TEMPERATURE = "dtem";
 	public static final String JK_DEVICE_HUMIDNESS = "dhum";
@@ -461,6 +462,7 @@ public class JVDeviceConst {
 	public static final String JK_AD_LINK_EN = "adlen";
 	public static final String JK_AD_URL_ZHT = "adurlzht";
 	public static final String JK_AD_LINK_ZHT = "adlzht";
+	public static final String JK_AD_DESP = "addesp";
 
 	public static final int AD_PUBLISH_PROCESS = 12;
 	public static final int GET_AD_INFO = 5500;

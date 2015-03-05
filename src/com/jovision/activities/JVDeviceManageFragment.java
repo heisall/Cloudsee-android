@@ -84,8 +84,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		deviceIndex = 0;
-		currentFragmentIndex = 0;
+		// deviceIndex = 0;
+		// currentFragmentIndex = 0;
 		View view = inflater.inflate(R.layout.fragment_devicemanage, container,
 				false);
 		return view;
@@ -95,6 +95,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		try {
+			deviceIndex = 0;
+			currentFragmentIndex = 0;
 			mParent = getView();
 			mActivity = (BaseActivity) getActivity();
 
@@ -165,6 +167,12 @@ public class JVDeviceManageFragment extends BaseFragment {
 			initNav();
 			// 初始化viewPager
 			initViewPager();
+
+			((ManageFragment) fragments.get(deviceIndex)).setData(deviceIndex,
+					manageDeviceList);
+			managePager.setCurrentItem(deviceIndex);
+			mHorizontalScrollView.smoothScrollTo((currentFragmentIndex)
+					* item_width, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -244,10 +252,10 @@ public class JVDeviceManageFragment extends BaseFragment {
 				}
 			});
 			layout.setTag(i);
-			if (i == deviceIndex) {
-				((ManageFragment) fragments.get(deviceIndex)).setData(
-						deviceIndex, manageDeviceList);
-			}
+			// if (i == deviceIndex) {
+			// ((ManageFragment) fragments.get(deviceIndex)).setData(
+			// deviceIndex, manageDeviceList);
+			// }
 		}
 
 	}

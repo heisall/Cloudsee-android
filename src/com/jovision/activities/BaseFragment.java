@@ -146,7 +146,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 								}
 							}
 							mActivity.createDialog("", false);
-							LoginTask task = new LoginTask(mActivity,
+							LoginTask task = new LoginTask(false, mActivity,
 									(MainApplication) mActivity
 											.getApplication(),
 									mActivity.statusHashMap, alarmnet);
@@ -267,7 +267,7 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 						}
 					}
 					mActivity.createDialog("", false);
-					LoginTask loginTask = new LoginTask(mActivity,
+					LoginTask loginTask = new LoginTask(false, mActivity,
 							(MainApplication) mActivity.getApplication(),
 							mActivity.statusHashMap, alarmnet);
 					String[] params = new String[3];

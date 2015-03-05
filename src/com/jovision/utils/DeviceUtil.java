@@ -6,7 +6,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.integer;
+import android.renderscript.Sampler.Value;
 import android.test.JVACCOUNT;
+import android.util.Log;
 
 import com.jovision.Consts;
 import com.jovision.bean.AD;
@@ -144,7 +147,9 @@ public class DeviceUtil {
 										} else {
 											dev.setIsDevice(1);
 										}
-
+										
+										dev.setEnableTcpConnect(Integer.parseInt(obj
+												.optString(JVDeviceConst.JK_DEVICE_VIDEO_TCP)));
 										dev.setDeviceType(obj
 												.optInt(JVDeviceConst.JK_DEVICE_TYPE));
 										dev.setServerState(obj
@@ -750,6 +755,7 @@ public class DeviceUtil {
 			if (1 == device.getIsDevice()) {// IP
 				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_IP, device.getIp());// dvip
 				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PORT, device.getPort());// dvport
+				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_TCP, device.getEnableTcpConnect());// dvport
 			} else if (0 == device.getIsDevice()) {// 云视通
 				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_IP, "");// dvip
 				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PORT, 0);// dvport
@@ -2397,6 +2403,8 @@ public class DeviceUtil {
 												.getString(JVDeviceConst.JK_AD_URL_ZHT));
 										ad.setAdLinkZht(obj
 												.getString(JVDeviceConst.JK_AD_LINK_ZHT));
+										ad.setAdDesp(obj
+												.getString(JVDeviceConst.JK_AD_DESP));
 										ad.setVersion(adver);
 										adList.add(ad);
 									}

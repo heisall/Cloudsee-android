@@ -163,7 +163,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			couldnumLayout.setVisibility(View.GONE);
 			portLayout.setVisibility(View.VISIBLE);
 			ipconnect_address.setText(editDevice.getIp());
-			if (editDevice.getEnableTcpConnect() == "0") {
+			if (editDevice.getEnableTcpConnect() == 0) {
 				isTcpchose = false;
 				tcpImageView.setImageResource(R.drawable.ipc_normal);
 			}else {
@@ -400,9 +400,9 @@ public class JVIpconnectActivity extends BaseActivity {
 
 				if (1 == isDevice) {// IP
 					if (isTcpchose) {
-						editDevice.setEnableTcpConnect("1");
+						editDevice.setEnableTcpConnect(1);
 					}else {
-						editDevice.setEnableTcpConnect("0");
+						editDevice.setEnableTcpConnect(0);
 					}
 					editDevice.setIp(ConfigUtil.getIpAddress(ipString));
 					editDevice.setPort(Integer.valueOf(portString));
@@ -426,9 +426,9 @@ public class JVIpconnectActivity extends BaseActivity {
 				if (0 == editRes) {
 					if (1 == isDevice) {// IP
 						if (isTcpchose) {
-							deviceList.get(deviceIndex).setEnableTcpConnect("1");
+							deviceList.get(deviceIndex).setEnableTcpConnect(1);
 						}else {
-							deviceList.get(deviceIndex).setEnableTcpConnect("0");
+							deviceList.get(deviceIndex).setEnableTcpConnect(0);
 						}
 						deviceList.get(deviceIndex).setIp(
 								ConfigUtil.getIpAddress(ipString));

@@ -153,12 +153,12 @@ public class FragmentAdapter extends BaseAdapter {
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if ((position == 9|| position == 12)
+		if ((position == 9 || position == 12)
 				&& Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
 			more_item.setVisibility(View.VISIBLE);
 			divider_img.setVisibility(View.VISIBLE);
-		} else if ((position == 9|| position == 12)
+		} else if ((position == 9 || position == 12)
 				&& Consts.LANGUAGE_ZH != ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
 			more_item.setVisibility(View.GONE);

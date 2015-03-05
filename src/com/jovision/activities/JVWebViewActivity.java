@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -161,7 +160,7 @@ public class JVWebViewActivity extends BaseActivity {
 				// showTextToast(rtmp);//////////////等着去掉
 				try {
 
-					if (newUrl.contains("viewmode")) {//打开模式
+					if (newUrl.contains("viewmode")) {// 打开模式
 						Intent intentAD2 = new Intent(JVWebViewActivity.this,
 								JVWebViewActivity.class);
 						statusHashMap.put(Consts.MORE_STATURL, newUrl);
@@ -169,7 +168,7 @@ public class JVWebViewActivity extends BaseActivity {
 						intentAD2.putExtra("URL", newUrl);
 						intentAD2.putExtra("title", -2);
 						JVWebViewActivity.this.startActivity(intentAD2);
-					} else if (newUrl.contains("video")) {//是否含有视频
+					} else if (newUrl.contains("video")) {// 是否含有视频
 
 						String param_array[] = newUrl.split("\\?");
 						HashMap<String, String> resMap;

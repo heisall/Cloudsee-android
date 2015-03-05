@@ -35,14 +35,10 @@ import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.TPushTips;
-import com.jovision.utils.AccountUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DefaultExceptionHandler;
 import com.jovision.utils.PlayUtil;
-import com.tencent.android.tpush.XGIOperateCallback;
-import com.tencent.android.tpush.XGPushConfig;
-import com.tencent.android.tpush.XGPushManager;
 
 public class JVTabActivity extends ShakeActivity implements
 		OnPageChangeListener {

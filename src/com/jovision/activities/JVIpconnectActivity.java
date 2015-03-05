@@ -166,7 +166,7 @@ public class JVIpconnectActivity extends BaseActivity {
 			if (editDevice.getEnableTcpConnect() == 0) {
 				isTcpchose = false;
 				tcpImageView.setImageResource(R.drawable.ipc_normal);
-			}else {
+			} else {
 				isTcpchose = true;
 				tcpImageView.setImageResource(R.drawable.ipc_selector);
 			}
@@ -401,7 +401,7 @@ public class JVIpconnectActivity extends BaseActivity {
 				if (1 == isDevice) {// IP
 					if (isTcpchose) {
 						editDevice.setEnableTcpConnect(1);
-					}else {
+					} else {
 						editDevice.setEnableTcpConnect(0);
 					}
 					editDevice.setIp(ConfigUtil.getIpAddress(ipString));

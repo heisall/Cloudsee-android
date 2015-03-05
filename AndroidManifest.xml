@@ -58,24 +58,25 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
-    <!--<uses-permission android:name="getui.permission.GetuiService.第三方包名" />  -->
+    <!-- <uses-permission android:name="getui.permission.GetuiService.第三方包名" /> -->
     <uses-permission android:name="getui.permission.GetuiService.com.jovetech.CloudSee.temp" />
-    
-    
+
     <!-- 自定义权限 -->
-    <!-- <permission
+    <!--
+    <permission
         android:name="getui.permission.GetuiService.第三方包名"
         android:protectionLevel="normal" >
-    </permission> -->
+    </permission>
+    -->
     <permission
         android:name="getui.permission.GetuiService.com.jovetech.CloudSee.temp"
         android:protectionLevel="normal" >
     </permission>
 
     <!-- 个推SDK权限配置结束 -->
-        
+
     <application
         android:name="com.jovision.MainApplication"
         android:allowBackup="true"
@@ -612,6 +613,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- umeng分享相关的注册 END -->
 
+
         <!-- ============SMS SDK 华丽的分割线========= -->
         <!-- ============以下为mob SMS SDK必须的配置项======== -->
         <!-- 【必须】  请修改为APP的ID -->
@@ -622,7 +624,6 @@
         <meta-data
             android:name="MOB_SMS_V1_APP_SECRET"
             android:value="61a3cbd497ebf1a3dee007592626afa6" />
-        
 
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->
@@ -638,7 +639,7 @@
         <meta-data
             android:name="PUSH_GROUPID"
             android:value="" />
-           
+
         <!-- 配置第三方Receiver -->
         <receiver
             android:name="com.jovision.AlarmReceiver"
@@ -651,9 +652,9 @@
         <!-- 配置SDK核心服务 -->
         <service
             android:name="com.igexin.sdk.PushService"
-            android:process=":pushservice"
             android:exported="true"
-            android:label="NotificationCenter" >
+            android:label="NotificationCenter"
+            android:process=":pushservice" >
         </service>
 
         <receiver android:name="com.igexin.sdk.PushReceiver" >
@@ -664,13 +665,15 @@
                 <action android:name="com.igexin.sdk.action.refreshls" />
             </intent-filter>
         </receiver>
-        <!-- <receiver
+        <!--
+        <receiver
             android:name="com.igexin.sdk.PushReceiver"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.igexin.sdk.action.pushmanager" />
             </intent-filter>
-        </receiver> -->
+        </receiver>
+        -->
         <receiver
             android:name="com.igexin.sdk.PushManagerReceiver"
             android:exported="false" >
@@ -678,7 +681,7 @@
                 <action android:name="com.igexin.sdk.action.pushmanager" />
             </intent-filter>
         </receiver>
-        
+
         <activity
             android:name="com.igexin.sdk.PushActivity"
             android:excludeFromRecents="true"
@@ -687,38 +690,49 @@
             android:taskAffinity="com.igexin.sdk.PushActivityTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
-        
-        <service android:name="com.igexin.download.DownloadService" android:process=":pushservice" />
-        <receiver android:name="com.igexin.download.DownloadReceiver"> 
+
+        <service
+            android:name="com.igexin.download.DownloadService"
+            android:process=":pushservice" />
+
+        <receiver android:name="com.igexin.download.DownloadReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
         <provider
-            android:process=":pushservice" 
             android:name="com.igexin.download.DownloadProvider"
-            android:authorities="downloads.com.jovetech.CloudSee.temp"  />
-            <!-- android:authorities="downloads.第三方包名" -->
-        
-        <activity android:name="com.igexin.getuiext.activity.GetuiExtActivity"  
+            android:authorities="downloads.com.jovetech.CloudSee.temp"
+            android:process=":pushservice" />
+        <!-- android:authorities="downloads.第三方包名" -->
+
+        <activity
+            android:name="com.igexin.getuiext.activity.GetuiExtActivity"
             android:configChanges="orientation|keyboard|keyboardHidden"
             android:excludeFromRecents="true"
+            android:exported="false"
             android:process=":pushservice"
             android:taskAffinity="android.task.myServicetask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:exported="false" />        
-        <receiver android:name="com.igexin.getuiext.service.PayloadReceiver" android:exported="false" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <receiver
+            android:name="com.igexin.getuiext.service.PayloadReceiver"
+            android:exported="false" >
             <intent-filter>
-                <!-- 这个com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4固定，不能修改  -->
+
+                <!-- 这个com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4固定，不能修改 -->
                 <action android:name="com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4" />
-                <!-- android:name="com.igexin.sdk.action.第三方的appId" -->             
+                <!-- android:name="com.igexin.sdk.action.第三方的appId" -->
                 <action android:name="com.igexin.sdk.action.uCNWJROSSr7EnKBcptNKt7" />
             </intent-filter>
         </receiver>
-        
-        <service android:name="com.igexin.getuiext.service.GetuiExtService" android:process=":pushservice" />
-        
-        <!-- 个推SDK配置结束 -->        
+
+        <service
+            android:name="com.igexin.getuiext.service.GetuiExtService"
+            android:process=":pushservice" />
+
+        <!-- 个推SDK配置结束 -->
     </application>
 
 </manifest>

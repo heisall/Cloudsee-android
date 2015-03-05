@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import android.R.integer;
 import android.renderscript.Sampler.Value;
 import android.test.JVACCOUNT;
-import android.util.Log;
 
 import com.jovision.Consts;
 import com.jovision.bean.AD;
@@ -147,7 +146,7 @@ public class DeviceUtil {
 										} else {
 											dev.setIsDevice(1);
 										}
-										
+
 										dev.setEnableTcpConnect(Integer.parseInt(obj
 												.optString(JVDeviceConst.JK_DEVICE_VIDEO_TCP)));
 										dev.setDeviceType(obj
@@ -755,7 +754,8 @@ public class DeviceUtil {
 			if (1 == device.getIsDevice()) {// IP
 				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_IP, device.getIp());// dvip
 				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PORT, device.getPort());// dvport
-				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_TCP, device.getEnableTcpConnect());// dvport
+				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_TCP,
+						device.getEnableTcpConnect());// dvport
 			} else if (0 == device.getIsDevice()) {// 云视通
 				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_IP, "");// dvip
 				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PORT, 0);// dvport

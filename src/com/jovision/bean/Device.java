@@ -315,7 +315,7 @@ public class Device {
 		Device dev = new Device();
 		try {
 			JSONObject object = new JSONObject(string);
-			
+
 			dev.setIp(ConfigUtil.getString(object, "ip"));
 			dev.setPort(ConfigUtil.getInt(object, "port"));
 			dev.setDoMain(ConfigUtil.getString(object, "doMain"));
@@ -623,4 +623,5 @@ public class Device {
 	public void setEnableTcpConnect(int enableTcpConnect) {
 		this.enableTcpConnect = enableTcpConnect;
 	}
+
 }

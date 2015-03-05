@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.igexin.sdk.PushConsts;
-import com.igexin.sdk.PushManager;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.activities.JVWelcomeActivity;
 import com.jovision.bean.PushInfo;
@@ -29,6 +28,7 @@ import com.jovision.utils.AlarmUtil;
 public class AlarmReceiver extends BroadcastReceiver {
 
 	protected NotificationManager mNotifyer;
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Bundle bundle = intent.getExtras();
@@ -38,7 +38,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		if (MySharedPreference.getBoolean(Consts.MANUAL_LOGOUT_TAG)) {
 			MyLog.e("GPush", "账号手动注销，不处理离线报警");
 			return;
-		}		
+		}
 		switch (bundle.getInt(PushConsts.CMD_ACTION)) {
 
 		case PushConsts.GET_MSG_DATA:
@@ -65,7 +65,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 					|| currentActivity.getClass().getName()
 							.equals("com.jovision.activities.JVLoginActivity")) {
 				Log.e("GPush", "当前程序没有在运行，在通知栏显示....");
-				Notification notification = new Notification(icon, tickerText, when);
+				Notification notification = new Notification(icon, tickerText,
+						when);
 				notification.flags |= Notification.FLAG_AUTO_CANCEL;
 				// notification.defaults |= Notification.DEFAULT_SOUND;// 声音
 				notification.defaults |= Notification.DEFAULT_LIGHTS;// 灯
@@ -78,7 +79,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 				// CharSequence contentText = arg1.getContent();
 				// CharSequence contentTitle = arg1.getTitle();
 				CharSequence contentText = "";
-				CharSequence contentTitle = "";		
+				CharSequence contentTitle = "";
 				try {
 					// JSONObject object = new JSONObject(content);
 					// if(!object.isNull("key")){
@@ -130,54 +131,55 @@ public class AlarmReceiver extends BroadcastReceiver {
 					e.printStackTrace();
 					return;
 				}
-			
+
 				Intent notificationIntent = new Intent(Intent.ACTION_MAIN);
 				notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 				notificationIntent.setClass(context, JVWelcomeActivity.class);
 				notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 						| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-				PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-						notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-				notification.setLatestEventInfo(context, contentTitle+"-个推", contentText,
-						contentIntent);
+				PendingIntent contentIntent = PendingIntent.getActivity(
+						context, 0, notificationIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT);
+				notification.setLatestEventInfo(context, contentTitle + "-个推",
+						contentText, contentIntent);
 				// 用mNotificationManager的notify方法通知用户生成标题栏消息通知
-				mNotifyer.notify(1, notification);		
+				mNotifyer.notify(1, notification);
 			}
 			break;
 		case PushConsts.GET_CLIENTID:
 			// 获取ClientID(CID)
 			// 第三方应用需要将CID上传到第三方服务器，并且将当前用户帐号和CID进行关联，以便日后通过用户帐号查找CID进行消息推送
 			String cid = bundle.getString("clientid");
-			Log.e("GPush", "cid:"+cid);
-			if(null!=cid && !cid.equals("")){
-				if (MySharedPreference.getString(
-						Consts.KEY_DEV_TOKEN).equals("")) {
-					MySharedPreference.putString(
-							Consts.KEY_DEV_TOKEN, "@"+cid);
+			Log.e("GPush", "cid:" + cid);
+			if (null != cid && !cid.equals("")) {
+				if (MySharedPreference.getString(Consts.KEY_DEV_TOKEN).equals(
+						"")) {
+					MySharedPreference.putString(Consts.KEY_DEV_TOKEN, "@"
+							+ cid);
 					AccountUtil.reportClientPlatformInfo(context);
 				} else {
-					MySharedPreference.putString(
-							Consts.KEY_DEV_TOKEN, "@"+cid);
-				}				
+					MySharedPreference.putString(Consts.KEY_DEV_TOKEN, "@"
+							+ cid);
+				}
 			}
-			
+
 			break;
 		case PushConsts.THIRDPART_FEEDBACK:
-			/*String appid = bundle.getString("appid");
-			String taskid = bundle.getString("taskid");
-			String actionid = bundle.getString("actionid");
-			String result = bundle.getString("result");
-			long timestamp = bundle.getLong("timestamp");
-
-			Log.d("GetuiSdkDemo", "appid = " + appid);
-			Log.d("GetuiSdkDemo", "taskid = " + taskid);
-			Log.d("GetuiSdkDemo", "actionid = " + actionid);
-			Log.d("GetuiSdkDemo", "result = " + result);
-			Log.d("GetuiSdkDemo", "timestamp = " + timestamp);*/
+			/*
+			 * String appid = bundle.getString("appid"); String taskid =
+			 * bundle.getString("taskid"); String actionid =
+			 * bundle.getString("actionid"); String result =
+			 * bundle.getString("result"); long timestamp =
+			 * bundle.getLong("timestamp");
+			 * 
+			 * Log.d("GetuiSdkDemo", "appid = " + appid); Log.d("GetuiSdkDemo",
+			 * "taskid = " + taskid); Log.d("GetuiSdkDemo", "actionid = " +
+			 * actionid); Log.d("GetuiSdkDemo", "result = " + result);
+			 * Log.d("GetuiSdkDemo", "timestamp = " + timestamp);
+			 */
 			break;
 		default:
 			break;
 		}
 	}
 }
-

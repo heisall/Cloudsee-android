@@ -57,14 +57,13 @@ public class JVRemoteListActivity extends BaseActivity {
 	private int deviceType;// 设备类型
 	private int indexOfChannel;// 通道index
 	private int channelOfChannel;// 通道index
-	private boolean isJFH;// 是否05版解码器
+	private boolean isJFH;// 是否05版解码器,05版解码器才支持录像下载supportDownload
 	private int audioByte;// 音频监听比特率
 	private boolean is05;// 是否05版解码器
 
 	private int hasDownLoadSize = 0;// 已下载文件大小
 	private int downLoadFileSize = 0;// 下载文件大小
 	private ProgressDialog downloadDialog;// 下载进度
-	boolean supportDownload = false;
 	boolean downloading = false;
 	private String downFileFullName = "";// 下载的文件的路径
 
@@ -73,32 +72,37 @@ public class JVRemoteListActivity extends BaseActivity {
 
 		switch (what) {
 		case Consts.PLAY_BACK_DOWNLOAD: {// 远程回放视频下载
-			createDialog("", false);
+			if (hasSDCard(0)) {
+				createDialog("", false);
 
-			hasDownLoadSize = 0;// 已下载文件大小
-			downLoadFileSize = 0;// 下载文件大小
+				hasDownLoadSize = 0;// 已下载文件大小
+				downLoadFileSize = 0;// 下载文件大小
 
-			RemoteVideo videoBean = videoList.get(arg2);
-			String acBuffStr = PlayUtil.getPlayFileString(videoBean, isJFH,
-					deviceType, year, month, day, arg2);
-			MyLog.v(TAG, "acBuffStr:" + acBuffStr);
-			byte[] dataByte = acBuffStr.getBytes();
+				RemoteVideo videoBean = videoList.get(arg2);
+				String acBuffStr = PlayUtil.getPlayFileString(videoBean, isJFH,
+						deviceType, year, month, day, arg2);
+				MyLog.v(TAG, "acBuffStr:" + acBuffStr);
+				byte[] dataByte = acBuffStr.getBytes();
 
-			String downLoadPath = Consts.DOWNLOAD_VIDEO_PATH
-					+ ConfigUtil.getCurrentDate() + File.separator;
-			String fileName = String.valueOf(System.currentTimeMillis())
-					+ ".mp4";
-			downFileFullName = downLoadPath + fileName;
-			File downFile = new File(downLoadPath);
-			MobileUtil.createDirectory(downFile);
+				String downLoadPath = Consts.DOWNLOAD_VIDEO_PATH
+						+ ConfigUtil.getCurrentDate() + File.separator;
+				String fileName = String.valueOf(System.currentTimeMillis())
+						+ Consts.VIDEO_MP4_KIND;
+				downFileFullName = downLoadPath + fileName;
+				File downFile = new File(downLoadPath);
+				MobileUtil.createDirectory(downFile);
 
-			Jni.setDownloadFileName(downFileFullName);
+				Jni.setDownloadFileName(downFileFullName);
 
-			Jni.sendBytes(indexOfChannel,
-					(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP, new byte[0], 8);
-			Jni.sendBytes(indexOfChannel, (byte) JVNetConst.JVN_REQ_DOWNLOAD,
-					dataByte, dataByte.length);
-			downloading = true;
+				Jni.sendBytes(indexOfChannel,
+						(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP, new byte[0], 8);
+				Jni.sendBytes(indexOfChannel,
+						(byte) JVNetConst.JVN_REQ_DOWNLOAD, dataByte,
+						dataByte.length);
+				downloading = true;
+			} else {
+				dismissDialog();
+			}
 			break;
 		}
 		case Consts.CALL_DOWNLOAD: {// 远程回放文件下载
@@ -117,6 +121,23 @@ public class JVRemoteListActivity extends BaseActivity {
 									JSONObject resObj = new JSONObject(downRes);
 									int size = resObj.getInt("size");
 									int length = resObj.getInt("length");
+
+									if (!hasSDCard(length / 1024 / 1024)) {
+										dismissDialog();
+										// SD卡空间不足
+										showTextToast(R.string.str_sdcard_notenough);
+										downloading = false;
+										File downFile = new File(
+												downFileFullName);
+										downFile.delete();
+										Jni.sendBytes(
+												indexOfChannel,
+												(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
+												new byte[0], 8);
+										downloadDialog.dismiss();
+										break;
+									}
+
 									hasDownLoadSize = hasDownLoadSize + size;
 									downLoadFileSize = length;
 								} catch (JSONException e) {
@@ -129,7 +150,7 @@ public class JVRemoteListActivity extends BaseActivity {
 
 						if (null != downloadDialog
 								&& downloadDialog.isShowing()) {
-							downloadDialog.setProgress(hasDownLoadSize);
+							downloadDialog.setProgress(hasDownLoadSize / 1024);
 						} else {
 							dismissDialog();
 							createDownloadProDialog(downLoadFileSize);
@@ -173,21 +194,21 @@ public class JVRemoteListActivity extends BaseActivity {
 			break;
 		}
 		case Consts.WHAT_REMOTE_DATA_SUCCESS: {
-			remoteVideoAdapter.setData(videoList, supportDownload);
+			remoteVideoAdapter.setData(videoList, isJFH);
 			remoteListView.setAdapter(remoteVideoAdapter);
 			remoteVideoAdapter.notifyDataSetChanged();
 			dismissDialog();
 			break;
 		}
 		case Consts.WHAT_REMOTE_DATA_FAILED: {
-			remoteVideoAdapter.setData(videoList, supportDownload);
+			remoteVideoAdapter.setData(videoList, isJFH);
 			remoteVideoAdapter.notifyDataSetChanged();
 			showTextToast(R.string.str_video_load_failed);
 			dismissDialog();
 			break;
 		}
 		case Consts.WHAT_REMOTE_NO_DATA_FAILED: {
-			remoteVideoAdapter.setData(videoList, supportDownload);
+			remoteVideoAdapter.setData(videoList, isJFH);
 			remoteVideoAdapter.notifyDataSetChanged();
 			showTextToast(R.string.str_video_nodata_failed);
 			dismissDialog();
@@ -267,9 +288,11 @@ public class JVRemoteListActivity extends BaseActivity {
 
 		date = String.format("%04d%02d%02d000000%04d%02d%02d000000", year,
 				month, day, year, month, day);
+
 		Intent intent = getIntent();
 		if (null != intent) {
-			supportDownload = intent.getBooleanExtra("supportDownload", false);
+			// supportDownload = intent.getBooleanExtra("supportDownload",
+			// false);
 			deviceType = intent.getIntExtra("DeviceType", 0);
 			indexOfChannel = intent.getIntExtra("IndexOfChannel", 0);
 			channelOfChannel = intent.getIntExtra("ChannelOfChannel", 0);
@@ -416,6 +439,7 @@ public class JVRemoteListActivity extends BaseActivity {
 	 */
 	@SuppressWarnings("deprecation")
 	private void createDownloadProDialog(int max) {
+		max = max / 1024;
 		downloadDialog = null;
 		if (downloadDialog == null) {
 			downloadDialog = new ProgressDialog(JVRemoteListActivity.this);
@@ -425,7 +449,7 @@ public class JVRemoteListActivity extends BaseActivity {
 					R.string.downloading_update));
 			downloadDialog.setIndeterminate(false);
 			downloadDialog.setMax(max);
-			downloadDialog.setProgressNumberFormat("%1d B/%2d B");
+			downloadDialog.setProgressNumberFormat("%1d KB/%2d KB");
 			downloadDialog.setButton(
 					getResources().getString(R.string.str_crash_cancel),
 					new DialogInterface.OnClickListener() {

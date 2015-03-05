@@ -424,14 +424,14 @@ public abstract class BaseActivity extends FragmentActivity implements
 	/**
 	 * 判断是否有sd卡
 	 */
-	public boolean hasSDCard() {
+	public boolean hasSDCard(int minSize) {
 		boolean canSave = true;
 		if (!Environment.MEDIA_MOUNTED.equals(Environment
 				.getExternalStorageState())) {
 			showTextToast(R.string.str_out_memery);
 			canSave = false;
 		} else {
-			if (MobileUtil.getSDFreeSize() < 5) {
+			if (MobileUtil.getSDFreeSize() < minSize) {
 				showTextToast(R.string.str_sdcard_notenough);
 				canSave = false;
 			}

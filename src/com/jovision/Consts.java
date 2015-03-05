@@ -586,6 +586,7 @@ public class Consts {
 
 	public static final String IMAGE_PNG_KIND = ".png";// 图片类型
 	public static final String IMAGE_JPG_KIND = ".jpg";// 图片类型
+	public static final String VIDEO_MP4_KIND = ".mp4";// 视频类型
 
 	/*********************** 以下是状态变量key的声明 ********************************/
 

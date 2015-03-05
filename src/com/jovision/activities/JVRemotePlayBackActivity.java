@@ -567,7 +567,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				if (isRemotePause) {
 					showTextToast(R.string.forbidden_operation_when_paused);
 				} else {
-					if (hasSDCard()) {
+					if (hasSDCard(5)) {
 						boolean captureRes = PlayUtil.capture(indexOfChannel);
 						if (captureRes) {
 							PlayUtil.prepareAndPlay(mediaPlayer, true);
@@ -591,7 +591,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				if (isRemotePause) {
 					showTextToast(R.string.forbidden_operation_when_paused);
 				} else {
-					if (hasSDCard()) {
+					if (hasSDCard(5)) {
 						String path = PlayUtil.createRecordFile();
 						if (PlayUtil.checkRecord(indexOfChannel)) {
 							stopRecord(false);

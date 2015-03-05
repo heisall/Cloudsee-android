@@ -67,7 +67,7 @@ public class Device {
 	private int onlineStateLan = 0;
 
 	/**** 2015-03-02 ***/
-	private String enableTcpConnect; // 是否为TCP连接 0. TCP连接 1.非TCP
+	private int enableTcpConnect; // 是否为TCP连接 0. TCP连接 1.非TCP
 
 	/*** 2014-12-25 ***/
 	private boolean admin;// 是否管理员用户
@@ -324,6 +324,7 @@ public class Device {
 			dev.setFullNo(ConfigUtil.getString(object, "fullNo"));
 			dev.setEnableTcpConnect(ConfigUtil.getString(object,
 					"enableTcpConnect"));
+			dev.setEnableTcpConnect(ConfigUtil.getInt(object, "enableTcpConnect"));
 			dev.setUser(ConfigUtil.getString(object, "user"));
 			dev.setPwd(ConfigUtil.getString(object, "pwd"));
 			dev.setHomeProduct(ConfigUtil.getBoolean(object, "isHomeProduct"));
@@ -617,11 +618,11 @@ public class Device {
 		this.descript = descript;
 	}
 
-	public String getEnableTcpConnect() {
+	public int getEnableTcpConnect() {
 		return enableTcpConnect;
 	}
 
-	public void setEnableTcpConnect(String enableTcpConnect) {
+	public void setEnableTcpConnect(int enableTcpConnect) {
 		this.enableTcpConnect = enableTcpConnect;
 	}
 

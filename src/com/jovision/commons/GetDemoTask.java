@@ -134,7 +134,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				if (null != webUrl.getBbsUrlString()) {
 					Intent intentAD2 = new Intent(mContext,
 							JVWebViewActivity.class);
-					bbsurl = webUrl.getBbsUrlString() + "?" + "&sid=" + sid;
+					bbsurl = webUrl.getBbsUrlString() + "&sid=" + sid;
 					((BaseActivity) mContext).statusHashMap.put(
 							Consts.MORE_BBS, bbsurl);
 

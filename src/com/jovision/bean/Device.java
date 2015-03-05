@@ -67,7 +67,7 @@ public class Device {
 	private int onlineStateLan = 0;
 
 	/**** 2015-03-02 ***/
-	private int enableTcpConnect; // 是否为TCP连接 0. TCP连接 1.非TCP
+	private int enableTcpConnect; // 是否为TCP连接  0. 不开启TCP连接 1.开启TCP连接
 
 	/*** 2014-12-25 ***/
 	private boolean admin;// 是否管理员用户

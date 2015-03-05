@@ -276,17 +276,21 @@ public class JVMoreFragment extends BaseFragment {
 			case R.id.pop_outside:
 				popupWindow.dismiss();
 				break;
+			case R.id.more_uesrname:
+				//TODO
+				break;
 			case R.id.more_head_img:
-				StatService.trackCustomEvent(
-						mActivity,
-						"census_moreheadimg",
-						mActivity.getResources().getString(
-								R.string.census_moreheadimg));
-				popupWindow = new popw(mActivity, myOnClickListener);
-				popupWindow.setBackgroundDrawable(null);
-				popupWindow.setOutsideTouchable(true);
-				popupWindow.showAtLocation(linear, Gravity.BOTTOM
-						| Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+				//TODO
+//				StatService.trackCustomEvent(
+//						mActivity,
+//						"census_moreheadimg",
+//						mActivity.getResources().getString(
+//								R.string.census_moreheadimg));
+//				popupWindow = new popw(mActivity, myOnClickListener);
+//				popupWindow.setBackgroundDrawable(null);
+//				popupWindow.setOutsideTouchable(true);
+//				popupWindow.showAtLocation(linear, Gravity.BOTTOM
+//						| Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
 				break;
 			case R.id.btn_pick_photo: {
 				popupWindow.dismiss();

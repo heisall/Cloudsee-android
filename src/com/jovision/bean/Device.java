@@ -147,18 +147,23 @@ public class Device {
 	 */
 	public Device(String ip, int port, String gid, int no, String user,
 			String pwd, boolean isHomeProduct, int channelCount,
-			int startWindowIndex) {
+			int startWindowIndex, String devName) {
 		this.ip = ip;
 		this.port = port;
 		this.gid = gid;
 
-		if (-1 == no) {
-			this.no = -1;
-			this.fullNo = gid;
+		if (null == devName || "".equalsIgnoreCase(devName)) {
+			if (-1 == no) {
+				this.no = -1;
+				this.fullNo = gid;
+			} else {
+				this.no = no;
+				this.fullNo = gid + no;
+			}
 		} else {
-			this.no = no;
-			this.fullNo = gid + no;
+			this.fullNo = devName;
 		}
+
 		this.nickName = fullNo;
 		this.user = user;
 		this.pwd = pwd;

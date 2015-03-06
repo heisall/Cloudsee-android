@@ -461,8 +461,11 @@ public class JVMoreFragment extends BaseFragment {
 								MySharedPreference.putBoolean(
 										Consts.MORE_TESTSWITCH, false);
 							} else {
+								// 打开测试开关要关闭记住密码功能
 								MySharedPreference.putBoolean(
 										Consts.MORE_TESTSWITCH, true);
+								MySharedPreference.putBoolean(
+										Consts.MORE_REMEMBER, false);
 							}
 							break;
 						case 8:// 版本号

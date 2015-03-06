@@ -77,7 +77,7 @@ public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
 	public final static String ACCOUNT_VERSION = "V3.2.15.6";
 	public final static String PLAY_VERSION = "0.9a[][2015-03-03]";
-	public final static String NETWORK_VERSION = "v2.0.76.3.32[private:v2.0.75.13 20150205.1]";
+	public final static String NETWORK_VERSION = "v2.0.76.3.32[private:v2.0.75.13 20150304.1]";
 
 	public static String GETACCTOUT_VERSION = "";
 	public static String GETPLAY_VERSION = "";

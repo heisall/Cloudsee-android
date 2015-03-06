@@ -837,7 +837,7 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 								ConfigUtil.getGroup(deviceNum),
 								ConfigUtil.getYST(deviceNum),
 								Consts.IPC_DEFAULT_USER,
-								Consts.IPC_DEFAULT_PWD, true, 1, 1);
+								Consts.IPC_DEFAULT_PWD, true, 1, 1, null);
 
 						stopRefreshWifiTimer();
 

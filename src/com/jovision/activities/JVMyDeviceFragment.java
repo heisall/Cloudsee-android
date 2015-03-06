@@ -1100,7 +1100,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 										ip, port, netmod)) {
 							Device broadDev = new Device(ip, port, gid, no,
 									Consts.DEFAULT_USERNAME,
-									Consts.DEFAULT_PASSWORD, false, count, 0);
+									Consts.DEFAULT_PASSWORD, false, count, 0,
+									null);
 							broadDev.setHasWifi(netmod);
 							broadDev.setOnlineStateLan(1);// 广播都在线
 							broadList.add(broadDev);

@@ -167,6 +167,7 @@ public class Jni {
 	 * @param connectType
 	 * @param surface
 	 * @param isVip
+	 * @param isTcp
 	 * @param isTryOmx
 	 * @param thumbName
 	 * @return 连接结果，成功时返回窗口索引，失败时返回原因值
@@ -175,7 +176,7 @@ public class Jni {
 			int port, String username, String password, int cloudSeeId,
 			String groupId, boolean isLocalDetect, int turnType,
 			boolean isPhone, int connectType, Object surface, boolean isVip,
-			boolean isTryOmx, String thumbName);
+			boolean isTcp, boolean isTryOmx, String thumbName);
 
 	/**
 	 * 连接流媒体

@@ -1248,6 +1248,20 @@ public class JVPlayActivity extends PlayActivity implements
 							// + (object.getBoolean("is_turn") ? "TURN"
 							// : "P2P") + ")");
 
+							Channel channel = null;
+							if (arg1 < channelList.size()) {
+								channel = channelList.get(arg1);
+							}
+
+							if (null == channel) {
+								return;
+							}
+
+							Device device = channel.getParent();
+							boolean enableTcp = device.getEnableTcpConnect() == 1 ? true
+									: false;
+							MyLog.e(TAG, "启用TCP连接 == " + enableTcp);
+
 							playStatistics
 									.setText(String
 											.format("%.1fk/%.1fk/D:%.1fk/J:%.1fk/N:%.1fk/L:%dk",
@@ -1258,9 +1272,11 @@ public class JVPlayActivity extends PlayActivity implements
 													object.getDouble("network_fps"),
 													object.getInt("left"))
 
-											+ "("
+											+ "/"
 											+ (object.getBoolean("is_turn") ? "TURN"
-													: "P2P") + ")"
+													: "P2P")
+											+ "/"
+											+ "enableTcp=" + enableTcp + "/"
 									// + PlayUtil
 									// .hasEnableHelper(channelList
 									// .get(lastClickIndex)
@@ -2189,7 +2205,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 		boolean result = false;
 
-		
 		if (null != channel && false == channel.isConnected()
 				&& false == channel.isConnecting()) {
 			int connect = 0;
@@ -2274,10 +2289,11 @@ public class JVPlayActivity extends PlayActivity implements
 				// showTextToast("v不是vip");
 				MyLog.e(TAG, "vip == 0,不是vip");
 				Device device = channel.getParent();
-				
-				boolean enableTcp = device.getEnableTcpConnect() == 1 ? true:false;
+
+				boolean enableTcp = device.getEnableTcpConnect() == 1 ? true
+						: false;
 				MyLog.e(TAG, "启用TCP连接 == " + enableTcp);
-				
+
 				if (null != ssid
 						&& channel.getParent().getFullNo()
 								.equalsIgnoreCase(ssid)) {
@@ -2297,8 +2313,8 @@ public class JVPlayActivity extends PlayActivity implements
 									true,
 									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 											: JVNetConst.TYPE_3GMO_UDP, channel
-											.getSurface(), false,enableTcp, isOmx,
-									fullPath);
+											.getSurface(), false, enableTcp,
+									isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
@@ -2346,8 +2362,8 @@ public class JVPlayActivity extends PlayActivity implements
 										channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 												: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
 										// ? 6 : 5),
-										channel.getSurface(), false,enableTcp, isOmx,
-										fullPath);
+										channel.getSurface(), false, enableTcp,
+										isOmx, fullPath);
 
 						int connectWay = channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP;
@@ -2372,7 +2388,7 @@ public class JVPlayActivity extends PlayActivity implements
 										channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 												: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
 										// ? 6 : 5),
-										null, false, enableTcp,isOmx, fullPath);
+										null, false, enableTcp, isOmx, fullPath);
 
 						int connectWay = channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP;

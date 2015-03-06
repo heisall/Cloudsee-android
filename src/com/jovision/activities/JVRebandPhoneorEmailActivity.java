@@ -49,7 +49,8 @@ import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.GetPhoneNumber;
 
-public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWatcher {
+public class JVRebandPhoneorEmailActivity extends BaseActivity implements
+		TextWatcher {
 
 	private Button regist;
 	private ToggleButton agreeTBtn;
@@ -280,7 +281,8 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
-					if (!ConfigUtil.isConnected(JVRebandPhoneorEmailActivity.this)) {
+					if (!ConfigUtil
+							.isConnected(JVRebandPhoneorEmailActivity.this)) {
 						alertNetDialog();
 					} else {
 						// checkPhoneNum(userNameEditText.getText().toString(),
@@ -583,7 +585,8 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 				}
 				if (result == SMSSDK.RESULT_COMPLETE) {
 					// 跳转到设置密码界面
-					Intent intent = new Intent(JVRebandPhoneorEmailActivity.this,
+					Intent intent = new Intent(
+							JVRebandPhoneorEmailActivity.this,
 							JVRegisterCodeActivity.class);
 					intent.putExtra("phone", userNameEditText.getText()
 							.toString());

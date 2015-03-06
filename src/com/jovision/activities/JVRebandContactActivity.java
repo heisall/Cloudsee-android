@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -26,7 +25,7 @@ import com.jovision.utils.MobileUtil;
 import com.jovision.views.popw;
 import com.tencent.stat.StatService;
 
-public class JVRebandContactActivity extends BaseActivity{
+public class JVRebandContactActivity extends BaseActivity {
 
 	private TextView rebandPhone;
 	private TextView rebandEmail;
@@ -35,7 +34,7 @@ public class JVRebandContactActivity extends BaseActivity{
 	private ImageView rebandHeadImg;
 	private LinearLayout linear;
 
-	//设置头像
+	// 设置头像
 
 	private String more_name;// 用户名
 	private popw popupWindow; // 声明PopupWindow对象；
@@ -48,8 +47,8 @@ public class JVRebandContactActivity extends BaseActivity{
 	File tempFile;
 	// 新头像文件
 	File newFile;
-	// popupWindow滑出布局
 
+	// popupWindow滑出布局
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -62,6 +61,7 @@ public class JVRebandContactActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	protected void onResume() {
 		if (tempFile.exists()) {
@@ -71,6 +71,7 @@ public class JVRebandContactActivity extends BaseActivity{
 		}
 		super.onResume();
 	}
+
 	@Override
 	protected void initSettings() {
 		// TODO Auto-generated method stub
@@ -82,26 +83,24 @@ public class JVRebandContactActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 		setContentView(R.layout.rebandcontact);
 
-		leftBtn = (Button)findViewById(R.id.btn_left);
-		rightBtn = (Button)findViewById(R.id.btn_right);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
-		currentMenu = (TextView)findViewById(R.id.currentmenu);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText("解除账号");
-		
-		rebandEmail = (TextView)findViewById(R.id.reband_email_text);
-		rebandPhone = (TextView)findViewById(R.id.reband_phone_text);
-		rebandEmailModify = (TextView)findViewById(R.id.reband_modify_email);
-		rebandPhoneModify = (TextView)findViewById(R.id.reband_modify_phone);
-		rebandHeadImg = (ImageView)findViewById(R.id.reband_hand_img);
-		linear = (LinearLayout)findViewById(R.id.lin);
 
-		if (Boolean.valueOf((statusHashMap
-				.get(Consts.LOCAL_LOGIN)))) {
+		rebandEmail = (TextView) findViewById(R.id.reband_email_text);
+		rebandPhone = (TextView) findViewById(R.id.reband_phone_text);
+		rebandEmailModify = (TextView) findViewById(R.id.reband_modify_email);
+		rebandPhoneModify = (TextView) findViewById(R.id.reband_modify_phone);
+		rebandHeadImg = (ImageView) findViewById(R.id.reband_hand_img);
+		linear = (LinearLayout) findViewById(R.id.lin);
+
+		if (Boolean.valueOf((statusHashMap.get(Consts.LOCAL_LOGIN)))) {
 			more_name = JVRebandContactActivity.this.getResources().getString(
 					R.string.location_login);
 		} else {
-			more_name = (statusHashMap
-					.get(Consts.KEY_USERNAME));
+			more_name = (statusHashMap.get(Consts.KEY_USERNAME));
 		}
 		file = new File(Consts.HEAD_PATH);
 		MobileUtil.createDirectory(file);
@@ -132,7 +131,8 @@ public class JVRebandContactActivity extends BaseActivity{
 						"census_moreheadimg",
 						JVRebandContactActivity.this.getResources().getString(
 								R.string.census_moreheadimg));
-				popupWindow = new popw(JVRebandContactActivity.this, myOnClickListener);
+				popupWindow = new popw(JVRebandContactActivity.this,
+						myOnClickListener);
 				popupWindow.setBackgroundDrawable(null);
 				popupWindow.setOutsideTouchable(true);
 				popupWindow.showAtLocation(linear, Gravity.BOTTOM
@@ -164,7 +164,8 @@ public class JVRebandContactActivity extends BaseActivity{
 
 			case R.id.reband_modify_phone:
 
-				startActivity(new Intent(JVRebandContactActivity.this,JVRebandPhoneorEmailActivity.class));
+				startActivity(new Intent(JVRebandContactActivity.this,
+						JVRebandPhoneorEmailActivity.class));
 				break;
 
 			default:
@@ -172,7 +173,7 @@ public class JVRebandContactActivity extends BaseActivity{
 			}
 		}
 	};
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
@@ -242,7 +243,6 @@ public class JVRebandContactActivity extends BaseActivity{
 
 	}
 
-	
 	@Override
 	protected void saveSettings() {
 

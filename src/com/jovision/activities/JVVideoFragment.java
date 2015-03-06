@@ -9,7 +9,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -112,7 +111,8 @@ public class JVVideoFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		if (null != ((BaseActivity) mActivity).statusHashMap.get(Consts.MORE_DEMOURL)) {
+		if (null != ((BaseActivity) mActivity).statusHashMap
+				.get(Consts.MORE_DEMOURL)) {
 
 			String sid = "";
 			String lan = "";
@@ -124,7 +124,8 @@ public class JVVideoFragment extends BaseFragment {
 			} else {
 				lan = "en_us";
 			}
-			urls = ((BaseActivity) mActivity).statusHashMap.get(Consts.MORE_DEMOURL);
+			urls = ((BaseActivity) mActivity).statusHashMap
+					.get(Consts.MORE_DEMOURL);
 			// urls = "http://test.cloudsee.net/phone.action";
 
 			if (!Boolean.valueOf(mActivity.statusHashMap
@@ -205,7 +206,19 @@ public class JVVideoFragment extends BaseFragment {
 				MyLog.v("new_url", newUrl);
 				// showTextToast(rtmp);//////////////等着去掉
 				try {
-					if (newUrl.contains("viewmode")) {
+					if (newUrl.contains("open")) {// 打开新的WebView模式
+						Intent intentAD2 = new Intent(mActivity,
+								JVWebViewActivity.class);
+
+						intentAD2.putExtra("URL", newUrl);
+						intentAD2.putExtra("title", -2);
+						mActivity.startActivity(intentAD2);
+					}
+					// else if (newUrl.contains("close")) {// 关闭当前webview
+					// mActivity.this.finish();
+					// }
+					else if (newUrl.contains("video")
+							|| newUrl.contains("viewmode")) {// 是否含有视频
 
 						String param_array[] = newUrl.split("\\?");
 						HashMap<String, String> resMap;

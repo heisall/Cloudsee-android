@@ -21,51 +21,111 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:orientation="horizontal" >
+                android:layout_height="wrap_content" >
 
-                <RadioGroup
-                    android:id="@+id/change"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="2.2"
-                    android:orientation="horizontal" >
+                <RelativeLayout
+                    android:id="@+id/ipconnect_ip"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp" >
 
-                    <RadioButton
-                        android:id="@+id/ipconnect_ip"
+                    <TextView
+                        android:id="@+id/iptext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:button="@null"
-                        android:drawableLeft="@drawable/select_selector_ip"
-                        android:drawablePadding="5dp"
-                        android:paddingBottom="15dp"
-                        android:paddingTop="15dp"
+                        android:layout_centerInParent="true"
                         android:text="@string/str_ip_connect"
                         android:textColor="@color/leftdevicecolor"
                         android:textSize="18sp" />
 
-                    <RadioButton
-                        android:id="@+id/ipconnect_cloud"
+                    <ImageView
+                        android:id="@+id/ipimg"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/more_fragment_color11" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ipconnect_cloud"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@+id/ipconnect_ip" >
+
+                    <TextView
+                        android:id="@+id/cloudtext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:background="@null"
-                        android:button="@null"
-                        android:drawableLeft="@drawable/select_selector_ip"
-                        android:drawablePadding="5dp"
-                        android:paddingBottom="15dp"
-                        android:paddingTop="15dp"
+                        android:layout_centerInParent="true"
                         android:text="@string/str_yst_connect"
                         android:textColor="@color/leftdevicecolor"
                         android:textSize="18sp" />
-                </RadioGroup>
-            </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/cloudimg"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/more_fragment_color11" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/more_fragment_color10" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/tcp_layout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp" >
+
+                <ImageView
+                    android:id="@+id/oneline"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/more_fragment_color10" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开启TCP连接"
+                        android:textColor="@color/leftdevicecolor"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开启TCP连接开启TCP连接"
+                        android:textColor="@color/leftdevicecolor"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/more_fragment_color10" />
+                <ImageView 
+                    android:id="@+id/tcp_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ipc_normal"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/Addresslayout"
@@ -74,6 +134,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -107,6 +168,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:visibility="gone" >
 
@@ -237,37 +299,6 @@
                     android:password="true"
                     android:singleLine="true"
                     android:textColor="@color/leftdevicecolor" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/tcp_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:id="@+id/tcp_img"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="30dp"
-                    android:background="@drawable/ipc_normal" />
-
-                <TextView
-                    android:id="@+id/pwd"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="是否开启TCP连接"
-                    android:textColor="@color/leftdevicecolor"
-                    android:textSize="18sp"
-                    android:textStyle="normal" >
-                </TextView>
             </LinearLayout>
 
             <LinearLayout

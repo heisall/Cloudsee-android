@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,13 +15,11 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.test.JVACCOUNT;
 import android.text.Editable;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,15 +27,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import cn.smssdk.gui.SMSReceiver;
@@ -54,11 +48,7 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 		TextWatcher {
 
 	private Button regist;
-	private ToggleButton agreeTBtn;
-	private TextView agreeMent;
 	private EditText userNameEditText;
-	private WebView mWebView;
-	private LinearLayout agreeLayout;
 	private TextView registercode;
 	private EditText code;
 	private boolean isregister;
@@ -89,7 +79,10 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 	private boolean stop;
 	private boolean isclick = false;
 
+	// 头像文件
+	File tempFile;
 	private int isPhone;
+	private boolean ismailclick = false;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -109,8 +102,11 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 					isregister = false;
 				}
 			} else {
-				SentEmailCondTask task = new SentEmailCondTask();
-				task.execute("");
+				if (ismailclick) {
+					countDown();
+					SentEmailCondTask task = new SentEmailCondTask();
+					task.execute("");
+				}
 			}
 			break;
 		}
@@ -157,55 +153,31 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText("解除绑定");
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
-
+		tempFile = new File(Consts.HEAD_PATH + statusHashMap
+				.get(Consts.KEY_USERNAME) + ".jpg");
+			
+		
 		regist = (Button) findViewById(R.id.regist);
 		code = (EditText) findViewById(R.id.code);
 		registercode = (TextView) findViewById(R.id.registercode);
 		userNameEditText = (EditText) findViewById(R.id.registusername);
 		if (isPhone == 1) {
-			userNameEditText.setHint("请输入手机号");
+			userNameEditText.setHint(getResources().getString(R.string.str_enter_username1));
+			currentMenu.setText(getResources().getString(R.string.rebindcontactphone));
 		} else {
-			userNameEditText.setHint("请输入邮箱");
+			userNameEditText.setHint(getResources().getString(R.string.login_str_loginemail_notnull));
+			currentMenu.setText(getResources().getString(R.string.rebindcontactemail));
 		}
 		registTips = (TextView) findViewById(R.id.regist_tips);
-		agreeTBtn = (ToggleButton) findViewById(R.id.agree);
-		agreeMent = (TextView) findViewById(R.id.agreement);
-		agreeMent.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);// 下划线
-		agreeMent.getPaint().setAntiAlias(true);
-		mWebView = (WebView) findViewById(R.id.mywebview);
-		agreeLayout = (LinearLayout) findViewById(R.id.registagreelayout);
-		pd = new ProgressDialog(this);
-		if (Consts.LANGUAGE_ZH == ConfigUtil
-				.getLanguage2(JVRebandPhoneorEmailActivity.this)) {// 中文
-			mWebView.loadUrl("file:///android_asset/UserResign.html");
-		} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
-				.getLanguage2(JVRebandPhoneorEmailActivity.this)) {// 台湾
-			mWebView.loadUrl("file:///android_asset/UserResign_tw.html");
-		} else {// 英文
-			mWebView.loadUrl("file:///android_asset/UserResign_en.html");
-		}
-
-		// 给条款加超链接
-		SpannableString sp = new SpannableString(getResources().getString(
-				R.string.str_agreement));
-		agreeMent.setText(sp);
 
 		code.addTextChangedListener(this);
 		registercode.setOnClickListener(onClickListener);
 		leftBtn.setOnClickListener(onClickListener);
 		regist.setOnClickListener(onClickListener);
-		agreeMent.setOnClickListener(onClickListener);
-		agreeTBtn.setChecked(true);
 		agreeProtocol = true;
-		agreeTBtn.setOnCheckedChangeListener(onCheckedChangeListener);
 
-		// 中性版本的隐藏注册协议
-		if ("true".equalsIgnoreCase(statusHashMap.get(Consts.NEUTRAL_VERSION))) {
-			agreeLayout.setVisibility(View.GONE);
-		}
 		// appliction MetaData读取
 		ApplicationInfo info;
 		try {
@@ -377,6 +349,7 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 														.obtainMessage(
 																JVAccountConst.USERNAME_DETECTION_SUCCESS,
 																0, 0));
+												ismailclick = false;
 											} else {
 												handler.sendMessage(handler
 														.obtainMessage(
@@ -493,14 +466,14 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 							.isConnected(JVRebandPhoneorEmailActivity.this)) {
 						alertNetDialog();
 					} else {
-						if (!"已发送".equals(registercode.getText().toString())) {
+						if(!ismailclick){
 							if ("".equalsIgnoreCase(userNameEditText.getText()
 									.toString())) {
 								registTips.setVisibility(View.VISIBLE);
 								registTips.setTextColor(Color.rgb(217, 34, 38));
 								registTips.setText(getResources().getString(
 										R.string.login_str_loginemail_notnull));
-							} else {
+							} else{
 								createDialog("", true);
 								new Thread() {
 									public void run() {
@@ -520,6 +493,7 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 														.obtainMessage(
 																JVAccountConst.USERNAME_DETECTION_SUCCESS,
 																0, 0));
+												ismailclick = true;
 											} else {
 												handler.sendMessage(handler
 														.obtainMessage(
@@ -536,7 +510,7 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 								}.start();
 							}
 						} else {
-							showTextToast("邮件已发送至邮箱");
+							showTextToast(getResources().getString(R.string.rebindemailhassend));
 						}
 					}
 				}
@@ -590,11 +564,6 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 					}
 				}
 				break;
-			case R.id.agreement:
-				stop = true;
-				currentMenu.setText(R.string.str_agreement);
-				mWebView.setVisibility(View.VISIBLE);
-				break;
 			}
 		}
 
@@ -630,26 +599,8 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 	}
 
 	private void backMethod() {
-		if (mWebView.getVisibility() == View.VISIBLE) {
-			currentMenu.setText(R.string.login_str_user_regist);
-			mWebView.setVisibility(View.GONE);
-		} else {
-			JVRebandPhoneorEmailActivity.this.finish();
-		}
+		JVRebandPhoneorEmailActivity.this.finish();
 	}
-
-	/**
-	 * 单选框事件
-	 */
-	OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
-
-		@Override
-		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-			agreeTBtn.setChecked(arg1);
-			agreeProtocol = arg1;
-		}
-
-	};
 
 	private void onCountryListGot(ArrayList<HashMap<String, Object>> countries) {
 		// 解析国家列表
@@ -720,7 +671,10 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 					pd.dismiss();
 				}
 				if (result == SMSSDK.RESULT_COMPLETE) {// 验证通过
-					showTextToast("哈哈");
+
+					BindEmailorPhoneTask task = new BindEmailorPhoneTask();
+					task.execute("");
+
 					// // 跳转到设置密码界面
 					// Intent intent = new
 					// Intent(JVRebandPhoneorEmailActivity.this,
@@ -758,7 +712,12 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 					runOnUIThread(this, 1000);
 					if (time == 59) {
 						registercode.setBackgroundResource(R.drawable.vercode);
-						showTextToast(R.string.str_sms_sent);
+						if (isPhone == 1) {
+							showTextToast(R.string.str_sms_sent);
+						}
+						if (isPhone == 0) {
+							ismailclick = false;
+						}
 					}
 				}
 			}
@@ -821,22 +780,20 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
-			Log.i("TAG", "发送邮箱" + result);
 			switch (result) {
 			case 0:
-				showTextToast("发送过去了");
-				registercode.setText("已发送");
-				registercode.setBackgroundResource(R.drawable.vercode);
+				ismailclick = false;
+				showTextToast(getResources().getString(R.string.rebindemailhassend));
 				break;
 			case -1:
 				registercode.setText(getResources().getString(
 						R.string.str_resend_code));
-				showTextToast("邮件发送错误");
+				showTextToast(getResources().getString(R.string.rebindemailhassendfailed));
 				break;
 			case -11:
 				registercode.setText(getResources().getString(
 						R.string.str_resend_code));
-				showTextToast("邮件发送错误");
+				showTextToast(getResources().getString(R.string.rebindemailhassendfailed));
 				break;
 			}
 		}
@@ -877,18 +834,74 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			dismissDialog();
-			Log.i("TAG", "验证邮箱" + result);
 			switch (result) {
 			case 0:
-				showTextToast("yanzhen");
+				BindEmailorPhoneTask task = new BindEmailorPhoneTask();
+				task.execute("");
 				break;
 			case -1:
 				registercode.setBackgroundResource(R.drawable.vercode);
-				showTextToast("验证码错误");
+				showTextToast(getResources().getString(R.string.str_error_vercodetw));
 				break;
 			case -31:
 				registercode.setBackgroundResource(R.drawable.vercode);
-				showTextToast("验证码错误");
+				showTextToast(getResources().getString(R.string.str_error_vercodetw));
+				break;
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("", false);
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
+
+	// 绑定邮箱或者手机号
+	private class BindEmailorPhoneTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int Code = -1;
+			try {
+				createDialog("",true);
+				Code = JVACCOUNT.BindMailOrPhone(userNameEditText.getText().toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return Code;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
+			switch (result) {
+			case 0:
+				showTextToast(getResources().getString(R.string.rebindsussess));
+				if (isPhone == 1) {
+					MySharedPreference.putString("REBINDPHONE", userNameEditText.getText().toString());
+				}
+				if (isPhone == 0) {
+					MySharedPreference.putString("REBINDEMAIL",  userNameEditText.getText().toString());
+				}
+				if (tempFile.exists()) {
+					tempFile.renameTo(new File(Consts.HEAD_PATH + userNameEditText.getText().toString() + ".jpg"));
+				}
+				finish();
+				break;
+			case 2:
+				showTextToast(getResources().getString(R.string.rebindfailed));
 				break;
 			}
 		}

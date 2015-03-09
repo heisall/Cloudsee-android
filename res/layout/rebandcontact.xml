@@ -84,6 +84,7 @@
             android:background="@color/more_fragment_color4" />
 
         <RelativeLayout
+            android:id="@+id/rebind_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -114,20 +115,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/hasband_phone"
-                android:text="18264112007"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/phonenext"
+                android:text="@string/rebindhasnot"
                 android:textColor="@color/more_fragment_color2"
                 android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/reband_modify_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/phonenext"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="@string/rebandmodify"
-                android:textColor="@color/reband_modify"
-                android:textSize="16sp" />
+                android:layout_marginRight="5dp"
+                android:background="@drawable/morefragment_next_icon" />
         </RelativeLayout>
 
         <ImageView
@@ -143,6 +144,7 @@
         android:orientation="vertical" >
 
         <RelativeLayout
+            android:id="@+id/rebind_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -173,20 +175,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/hasband_email"
-                android:text="1229774710@qq.com"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/mailnext"
+                android:text="@string/rebindhasnot"
                 android:textColor="@color/more_fragment_color2"
                 android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/reband_modify_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/mailnext"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="@string/rebandmodify"
-                android:textColor="@color/reband_modify"
-                android:textSize="16sp" />
+                android:layout_marginRight="5dp"
+                android:background="@drawable/morefragment_next_icon" />
         </RelativeLayout>
 
         <ImageView

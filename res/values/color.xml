@@ -88,6 +88,8 @@
     <color name="more_fragment_color5">#727373</color>
     <color name="more_fragment_color6">#777878</color>
     <color name="more_fragment_color7">#999999</color>
+     <color name="more_fragment_color10">#D1D1D1</color>
+     <color name="more_fragment_color11">#1685FF</color>
     <color name="more_canclepre">#3f5fbf</color>
     <color name="more_devicename">#2886e4</color>
     <color name="morefragment_color1">#42BDE8</color>

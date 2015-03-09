@@ -233,7 +233,7 @@ public class JVMoreFragment extends BaseFragment {
 		}
 		if (tempFile.exists()) {
 			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
-					+ more_name + ".jpg");
+					+ more_name + Consts.IMAGE_JPG_KIND);
 			more_head.setImageBitmap(bitmap);
 		}
 		int alarm_new_nums = mApp.getNewPushCnt();

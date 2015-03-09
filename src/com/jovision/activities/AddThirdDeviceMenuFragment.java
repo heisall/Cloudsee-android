@@ -35,7 +35,9 @@ public class AddThirdDeviceMenuFragment extends Fragment {
 	public interface OnDeviceClassSelectedListener {
 		public void OnDeviceClassSelected(int index);
 	}
-
+	private String webUrlZH = "http://182.92.242.230:8081/device.html?lan=ch";
+	private String webUrlEN = "http://182.92.242.230:8081/device.html?lan=en";
+	
 	private OnDeviceClassSelectedListener mListener;
 
 	@Override
@@ -66,7 +68,14 @@ public class AddThirdDeviceMenuFragment extends Fragment {
         WebSettings webSettings = mWebView.getSettings();       
         webSettings.setJavaScriptEnabled(true);   
 
-        mWebView.loadUrl("http://172.16.28.252/yejian/device.html?lan=ch");   
+		if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
+				|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW){
+			mWebView.loadUrl(webUrlZH);   
+		}
+		else{
+			mWebView.loadUrl(webUrlEN); 
+		}
+          
         
         mWebView.setWebViewClient(new WebViewClient() {
 			@Override

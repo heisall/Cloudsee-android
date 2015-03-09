@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import com.jovision.commons.MyLog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 public class ImageUtil {
 
@@ -972,15 +973,14 @@ public class ImageUtil {
 					.showImageOnFail(defaultResId).cacheInMemory(true)
 					.cacheOnDisk(true).considerExifParams(true).
 					// displayer(new RoundedBitmapDisplayer(5)).
-					// imageScaleType(ImageScaleType.EXACTLY).
+					imageScaleType(ImageScaleType.NONE).
 					build();
 		} else {
 			options = new DisplayImageOptions.Builder()
 					.showImageOnLoading(defaultResId)
 					.showImageForEmptyUri(defaultResId)
 					.showImageOnFail(defaultResId).cacheInMemory(true)
-					.cacheOnDisk(true).considerExifParams(true).build();
-			options = new DisplayImageOptions.Builder().cacheInMemory(true)
+					.imageScaleType(ImageScaleType.NONE)
 					.cacheOnDisk(true).considerExifParams(true).build();
 		}
 

@@ -35,6 +35,7 @@ import com.jovision.IHandlerLikeNotify;
 import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
@@ -163,16 +164,26 @@ public class JVDeviceManageFragment extends BaseFragment {
 			devmorere.setOnClickListener(mOnClickListener);
 			devmore_hie.setOnClickListener(mOnClickListener);
 			ListViewClick();
-			// 初始化导航
-			initNav();
-			// 初始化viewPager
-			initViewPager();
+			// // 初始化导航
+			// initNav();
+			// // 初始化viewPager
+			// initViewPager();
+			//
+			// // ((ManageFragment)
+			// // fragments.get(deviceIndex)).setData(deviceIndex,
+			// // manageDeviceList);
+			// // managePager.setCurrentItem(deviceIndex);
+			// // mHorizontalScrollView.smoothScrollTo(0, 0);
+			// // mHorizontalScrollView.invalidate();
+			//
+			// ((ManageFragment)
+			// fragments.get(deviceIndex)).setData(deviceIndex,
+			// manageDeviceList);
+			// managePager.setCurrentItem(deviceIndex);
+			// mHorizontalScrollView.smoothScrollTo(
+			// (deviceIndex - 1) * item_width, 0);
+			// mHorizontalScrollView.invalidate();
 
-			((ManageFragment) fragments.get(deviceIndex)).setData(deviceIndex,
-					manageDeviceList);
-			managePager.setCurrentItem(deviceIndex);
-			mHorizontalScrollView.smoothScrollTo((currentFragmentIndex)
-					* item_width, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -213,8 +224,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 		mLinearLayout.removeAllViews();
 		for (int i = 0; i < size; i++) {
 			// [Neo] viewpager
-			Bundle data = new Bundle();
-			data.putInt("DeviceIndex", i);
+			// Bundle data = new Bundle();
+			// data.putInt("DeviceIndex", i);
 			ManageFragment fragment = new ManageFragment();
 			// fragment.setArguments(data);
 			fragments.add(fragment);
@@ -425,6 +436,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 				animation.setFillAfter(true);
 				animation.setDuration(0);
 				mImageView.startAnimation(animation);
+				MyLog.v(TAG, "smoothScrollTo---currentFragmentIndex="
+						+ currentFragmentIndex);
 				mHorizontalScrollView.smoothScrollTo((currentFragmentIndex)
 						* item_width, 0);
 			}
@@ -467,7 +480,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 					endPosition = item_width * currentFragmentIndex
 							- (int) (item_width * (1 - positionOffset));
 				}
-
+				MyLog.v(TAG, "Animation---beginPosition=" + beginPosition
+						+ ";endPosition=" + endPosition);
 				Animation mAnimation = new TranslateAnimation(beginPosition,
 						endPosition, 0, 0);
 				mAnimation.setFillAfter(true);

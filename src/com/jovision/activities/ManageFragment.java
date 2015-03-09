@@ -152,6 +152,9 @@ public class ManageFragment extends BaseFragment {
 
 	public void setData(int index, ArrayList<Device> dataList) {
 		try {
+			if (null == mActivity) {
+				mActivity = (BaseActivity) getActivity();
+			}
 			disMetrics = new DisplayMetrics();
 			mActivity.getWindowManager().getDefaultDisplay()
 					.getMetrics(disMetrics);

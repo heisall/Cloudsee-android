@@ -217,20 +217,21 @@ public class JVWelcomeActivity extends BaseActivity {
 						&& null != user
 						&& !"".equalsIgnoreCase(user.getUserName())
 						&& !"".equalsIgnoreCase(user.getUserPwd())) {
+
 					statusHashMap.put(Consts.KEY_USERNAME, user.getUserName());
 					statusHashMap.put(Consts.KEY_PASSWORD, user.getUserPwd());
-					// createDialog(R.string.logining, true);
-
-					// intent.setClass(JVWelcomeActivity.this,
-					// JVLoginActivity.class);
-					// // intent.putExtra("AutoLogin", true);
-					// intent.putExtra("UserName", user.getUserName());
-					// intent.putExtra("UserPass", user.getUserPwd());
-
-					intent.setClass(JVWelcomeActivity.this, JVTabActivity.class);
-					intent.putExtra("AutoLogin", true);
+					if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER)) {
+						intent.setClass(JVWelcomeActivity.this,
+								JVTabActivity.class);
+						intent.putExtra("AutoLogin", true);
+					} else {
+						intent.setClass(JVWelcomeActivity.this,
+								JVLoginActivity.class);
+						intent.putExtra("AutoLogin", false);
+					}
 					intent.putExtra("UserName", user.getUserName());
 					intent.putExtra("UserPass", user.getUserPwd());
+					// createDialog(R.string.logining, true);
 
 				} else {
 					intent.setClass(JVWelcomeActivity.this,

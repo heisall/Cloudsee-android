@@ -152,19 +152,20 @@ public class Device {
 		this.port = port;
 		this.gid = gid;
 
-		if (null == devName || "".equalsIgnoreCase(devName)) {
-			if (-1 == no) {
-				this.no = -1;
-				this.fullNo = gid;
-			} else {
-				this.no = no;
-				this.fullNo = gid + no;
-			}
+		if (-1 == no) {
+			this.no = -1;
+			this.fullNo = gid;
 		} else {
-			this.fullNo = devName;
+			this.no = no;
+			this.fullNo = gid + no;
 		}
 
-		this.nickName = fullNo;
+		if (null == devName || "".equalsIgnoreCase(devName)) {
+			this.nickName = fullNo;
+		} else {
+			this.nickName = devName;
+		}
+
 		this.user = user;
 		this.pwd = pwd;
 		this.isHomeProduct = isHomeProduct;

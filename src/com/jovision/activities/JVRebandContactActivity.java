@@ -39,7 +39,7 @@ public class JVRebandContactActivity extends BaseActivity {
 	private String showPhone = "";
 	private String showEmail = "";
 
-	//设置头像
+	// 设置头像
 
 	private String more_name;// 用户名
 	private popw popupWindow; // 声明PopupWindow对象；
@@ -88,7 +88,7 @@ public class JVRebandContactActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 
 		Intent intent = getIntent();
-		showPhone =  intent.getStringExtra("phone");
+		showPhone = intent.getStringExtra("phone");
 		showEmail = intent.getStringExtra("email");
 	}
 
@@ -114,12 +114,12 @@ public class JVRebandContactActivity extends BaseActivity {
 
 		if (showPhone.equals("nophone")) {
 			rebandPhone.setText("未绑定");
-		}else {
+		} else {
 			rebandPhone.setText(showPhone);
 		}
 		if (showEmail.equals("noemail")) {
 			rebandEmail.setText("未绑定");
-		}else {
+		} else {
 			rebandEmail.setText(showEmail);
 		}
 
@@ -267,7 +267,6 @@ public class JVRebandContactActivity extends BaseActivity {
 		}
 
 	}
-
 
 	@Override
 	protected void saveSettings() {

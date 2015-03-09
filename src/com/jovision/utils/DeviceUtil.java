@@ -980,11 +980,16 @@ public class DeviceUtil {
 						// DEVICE_CHANNEL_LIMIT(18)：超过最大允许通道数量；-1:其他错误)
 						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
 						if (0 == rt) {
+
+							// {"dvlt":0,"dname":"A361111",
+							// "dtype":0,"dvpassword":"123",
+							// "dwifi":0,"dvusername":"abc",
+							// "dvip":"","dvport":0,"dsls":1}
 							String devStr = temObj
 									.optString(JVDeviceConst.JK_DEVICE_INFO);
 							JSONObject devObj = new JSONObject(devStr);
-							device.setNickName(devObj
-									.optString(JVDeviceConst.JK_DEVICE_NAME));
+							// device.setNickName(devObj
+							// .optString(JVDeviceConst.JK_DEVICE_NAME));
 							device.setDeviceType(devObj
 									.optInt(JVDeviceConst.JK_DEVICE_TYPE));
 							device.setIsDevice(devObj

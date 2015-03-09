@@ -45,7 +45,7 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.GetPhoneNumber;
 
 public class JVRebandPhoneorEmailActivity extends BaseActivity implements
-TextWatcher {
+		TextWatcher {
 
 	private Button regist;
 	private EditText userNameEditText;
@@ -101,7 +101,7 @@ TextWatcher {
 					countDown();
 					isregister = false;
 				}
-			}else {
+			} else {
 				if (ismailclick) {
 					countDown();
 					SentEmailCondTask task = new SentEmailCondTask();
@@ -166,7 +166,7 @@ TextWatcher {
 		if (isPhone == 1) {
 			userNameEditText.setHint(getResources().getString(R.string.str_enter_username1));
 			currentMenu.setText(getResources().getString(R.string.rebindcontactphone));
-		}else {
+		} else {
 			userNameEditText.setHint(getResources().getString(R.string.login_str_loginemail_notnull));
 			currentMenu.setText(getResources().getString(R.string.rebindcontactemail));
 		}
@@ -322,8 +322,7 @@ TextWatcher {
 									};
 								}.start();
 							}
-						}
-						else if(isPhone == 0){
+						} else if (isPhone == 0) {
 							if ("".equalsIgnoreCase(userNameEditText.getText()
 									.toString())) {
 								registTips.setVisibility(View.VISIBLE);
@@ -337,7 +336,9 @@ TextWatcher {
 										nameExists = AccountUtil
 												.isUserExsit(userNameEditText
 														.getText().toString());
-										if (AccountUtil.verifyEmail(userNameEditText.getText().toString())) {
+										if (AccountUtil
+												.verifyEmail(userNameEditText
+														.getText().toString())) {
 											if (JVAccountConst.USER_HAS_EXIST == nameExists) {
 												handler.sendMessage(handler
 														.obtainMessage(
@@ -355,7 +356,7 @@ TextWatcher {
 																JVAccountConst.DEFAULT,
 																0, 0));
 											}
-										}else {
+										} else {
 											handler.sendMessage(handler
 													.obtainMessage(
 															JVAccountConst.MAIL_DETECTION_FAILED,
@@ -448,7 +449,8 @@ TextWatcher {
 				if (isPhone == 1) {
 					phoneNumber = new GetPhoneNumber(userNameEditText.getText()
 							.toString());
-					if (!ConfigUtil.isConnected(JVRebandPhoneorEmailActivity.this)) {
+					if (!ConfigUtil
+							.isConnected(JVRebandPhoneorEmailActivity.this)) {
 						alertNetDialog();
 					} else if (phoneNumber.matchNum() == 4
 							|| phoneNumber.matchNum() == 5) {
@@ -459,8 +461,9 @@ TextWatcher {
 					} else {
 						MakeSure();
 					}
-				}else {
-					if (!ConfigUtil.isConnected(JVRebandPhoneorEmailActivity.this)) {
+				} else {
+					if (!ConfigUtil
+							.isConnected(JVRebandPhoneorEmailActivity.this)) {
 						alertNetDialog();
 					} else {
 						if(!ismailclick){
@@ -477,7 +480,9 @@ TextWatcher {
 										nameExists = AccountUtil
 												.isUserExsit(userNameEditText
 														.getText().toString());
-										if (AccountUtil.verifyEmail(userNameEditText.getText().toString())) {
+										if (AccountUtil
+												.verifyEmail(userNameEditText
+														.getText().toString())) {
 											if (JVAccountConst.USER_HAS_EXIST == nameExists) {
 												handler.sendMessage(handler
 														.obtainMessage(
@@ -495,7 +500,7 @@ TextWatcher {
 																JVAccountConst.DEFAULT,
 																0, 0));
 											}
-										}else {
+										} else {
 											handler.sendMessage(handler
 													.obtainMessage(
 															JVAccountConst.MAIL_DETECTION_FAILED,
@@ -515,7 +520,8 @@ TextWatcher {
 					isclick = false;
 					if (!agreeProtocol) {
 						showTextToast(R.string.login_str_agreement_tips);
-					} else if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
+					} else if ((!"".equals(userNameEditText.getText()
+							.toString()) && !isregister)
 							&& !"".equals(code.getText().toString())) {
 						// 验证填入的验证码
 						strIdentifyNum = code.getText().toString().trim();
@@ -545,17 +551,16 @@ TextWatcher {
 					} else if ("".equals(registercode.getText().toString())) {
 						showTextToast(R.string.reset_passwd_tips6);
 					}
-				}else {
-					if(AccountUtil.verifyEmail(userNameEditText.getText().toString())){
-						SureEmailCondTask  task = new SureEmailCondTask();
-						String parms [] = new String [2]; 
-						parms [0] = code.getText().toString();
+				} else {
+					if (AccountUtil.verifyEmail(userNameEditText.getText()
+							.toString())) {
+						SureEmailCondTask task = new SureEmailCondTask();
+						String parms[] = new String[2];
+						parms[0] = code.getText().toString();
 						task.execute(parms);
-					}else{ 
-						handler.sendMessage(handler
-								.obtainMessage(
-										JVAccountConst.MAIL_DETECTION_FAILED,
-										0, 0));
+					} else {
+						handler.sendMessage(handler.obtainMessage(
+								JVAccountConst.MAIL_DETECTION_FAILED, 0, 0));
 					}
 				}
 				break;
@@ -665,17 +670,18 @@ TextWatcher {
 				if (pd != null && pd.isShowing()) {
 					pd.dismiss();
 				}
-				if (result == SMSSDK.RESULT_COMPLETE) {//验证通过
+				if (result == SMSSDK.RESULT_COMPLETE) {// 验证通过
 
 					BindEmailorPhoneTask task = new BindEmailorPhoneTask();
 					task.execute("");
 
-					//					// 跳转到设置密码界面
-					//					Intent intent = new Intent(JVRebandPhoneorEmailActivity.this,
-					//							JVRegisterCodeActivity.class);
-					//					intent.putExtra("phone", userNameEditText.getText()
-					//							.toString());
-					//					startActivity(intent);
+					// // 跳转到设置密码界面
+					// Intent intent = new
+					// Intent(JVRebandPhoneorEmailActivity.this,
+					// JVRegisterCodeActivity.class);
+					// intent.putExtra("phone", userNameEditText.getText()
+					// .toString());
+					// startActivity(intent);
 				} else {
 					((Throwable) data).printStackTrace();
 					// 验证码不正确
@@ -717,6 +723,7 @@ TextWatcher {
 			}
 		}, 1000);
 	}
+
 	private void runOnUIThread(Runnable runnable, int i) {
 		// TODO Auto-generated method stub
 		athandler.postDelayed(runnable, i);
@@ -755,8 +762,9 @@ TextWatcher {
 		protected Integer doInBackground(String... params) {
 			int Code = -1;
 			try {
-				createDialog("",true);
-				Code = JVACCOUNT.SendResetMail(userNameEditText.getText().toString());
+				createDialog("", true);
+				Code = JVACCOUNT.SendResetMail(userNameEditText.getText()
+						.toString());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -801,6 +809,7 @@ TextWatcher {
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
+
 	// 邮箱验证线程
 	private class SureEmailCondTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
@@ -808,7 +817,7 @@ TextWatcher {
 		protected Integer doInBackground(String... params) {
 			int Code = -1;
 			try {
-				createDialog("",true);
+				createDialog("", true);
 				Code = JVACCOUNT.RandCodeCheck(params[0]);
 			} catch (Exception e) {
 				e.printStackTrace();

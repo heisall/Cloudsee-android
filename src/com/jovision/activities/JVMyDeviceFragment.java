@@ -215,6 +215,7 @@ public class JVMyDeviceFragment extends BaseFragment {
 		currentMenu.setText(mActivity.getResources().getString(
 				R.string.my_device));
 		currentMenu.setText(R.string.my_device);
+		leftBtn.setVisibility(View.GONE);
 		leftBtn.setOnClickListener(myOnClickListener);
 		devicename = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
 		inflater = (LayoutInflater) mActivity
@@ -689,15 +690,19 @@ public class JVMyDeviceFragment extends BaseFragment {
 													.getPackageManager()
 													.getLaunchIntentForPackage(
 															"com.jovision.zhidao");// com.jovision.zhidao.SplashActivity
-											if (null == zhidaoIntent) {
+											if (null == zhidaoIntent) {// 提示下载小维知道
 												try {
-													Uri uri = Uri.parse(adList
-															.get(index)
-															.getAdDesp());
-													Intent it = new Intent(
-															Intent.ACTION_VIEW,
-															uri);
-													mActivity.startActivity(it);
+													if (mActivity.hasSDCard(20)) {
+														Uri uri = Uri
+																.parse(adList
+																		.get(index)
+																		.getAdDesp());
+														Intent it = new Intent(
+																Intent.ACTION_VIEW,
+																uri);
+														mActivity
+																.startActivity(it);
+													}
 												} catch (Exception e) {
 													e.printStackTrace();
 												}

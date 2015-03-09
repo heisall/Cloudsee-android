@@ -477,12 +477,20 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				paraObject = new JSONObject(params);
 				String userName = paraObject.getString("userName");
 				String userPwd = paraObject.getString("userPwd");
-				String des = "";// descript;
+				String desUTF8 = descript;
+
+				// String desGBK = "";
+				// try {
+				// desGBK = new String(desUTF8.getBytes(), "GBK");
+				// } catch (UnsupportedEncodingException e) {
+				// e.printStackTrace();
+				// }
+
 				byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
 						+ Consts.SIZE_DESCRIPT];
 				byte[] userNameByte = userName.getBytes();
 				byte[] userPwdByte = userPwd.getBytes();
-				byte[] desByte = des.getBytes();
+				byte[] desByte = desUTF8.getBytes("GBK");// 设备端是GBK编码
 				MyLog.e("byte-1", "userNameByte.length=" + userNameByte.length);
 				MyLog.e("byte-2", "userPwdByte.length=" + userPwdByte.length);
 				MyLog.e("byte-3", "desByte.length=" + desByte.length);
@@ -504,7 +512,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				Jni.sendSuperBytes(window, JVNetConst.JVN_RSP_TEXTDATA, true,
 						Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY, power,
 						0, 0, paramByte, paramByte.length);
-			} catch (JSONException e2) {
+			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 			break;

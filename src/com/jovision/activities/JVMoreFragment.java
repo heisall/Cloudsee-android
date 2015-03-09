@@ -99,7 +99,6 @@ public class JVMoreFragment extends BaseFragment {
 	// 新头像文件
 	File newFile;
 
-
 	private String hasbandEmail = "";
 	private String hasbandPhone = "";
 
@@ -149,6 +148,7 @@ public class JVMoreFragment extends BaseFragment {
 		currentMenu.setText(R.string.more_featrue);
 		rightBtn.setVisibility(View.GONE);
 
+		leftBtn.setVisibility(View.GONE);
 		if (null != mActivity.statusHashMap.get(Consts.KEY_LAST_LOGIN_TIME)) {
 			more_lasttime.setText(mActivity.statusHashMap
 					.get(Consts.KEY_LAST_LOGIN_TIME));
@@ -175,7 +175,7 @@ public class JVMoreFragment extends BaseFragment {
 			}
 			break;
 		case Consts.WHAT_BIND:
-			Log.i("TAG","邮箱："+"显示");
+			Log.i("TAG", "邮箱：" + "显示");
 			more_bindmail.setVisibility(View.VISIBLE);
 			break;
 		}
@@ -255,7 +255,7 @@ public class JVMoreFragment extends BaseFragment {
 		}
 		if (tempFile.exists()) {
 			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
-					+ more_name + ".jpg");
+					+ more_name + Consts.IMAGE_JPG_KIND);
 			more_head.setImageBitmap(bitmap);
 		}
 		int alarm_new_nums = mApp.getNewPushCnt();
@@ -307,13 +307,14 @@ public class JVMoreFragment extends BaseFragment {
 				break;
 			case R.id.more_uesrname:
 			case R.id.more_head_img:
-				//TODO
+				// TODO
 				if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
-						.get(Consts.LOCAL_LOGIN))&&isgetemail) {
-					Intent intentmore = new Intent(mActivity,JVRebandContactActivity.class);
+						.get(Consts.LOCAL_LOGIN)) && isgetemail) {
+					Intent intentmore = new Intent(mActivity,
+							JVRebandContactActivity.class);
 					intentmore.putExtra("phone", hasbandPhone);
 					intentmore.putExtra("email", hasbandEmail);
-					Log.i("TAG", hasbandPhone+hasbandEmail);
+					Log.i("TAG", hasbandPhone + hasbandEmail);
 					startActivity(intentmore);
 				}else if (!isgetemail) {
 					mActivity.showTextToast(R.string.str_video_load_failed);
@@ -873,19 +874,19 @@ public class JVMoreFragment extends BaseFragment {
 			if (result == 0)// ok
 			{
 				isgetemail = true;
-				Log.i("TAG","邮箱："+strMail+"手机号："+strPhone);
+				Log.i("TAG", "邮箱：" + strMail + "手机号：" + strPhone);
 				if ((strMail.equals("") || null == strMail)
 						&& (strPhone.equals("") || null == strPhone)) {
 					onNotify(Consts.WHAT_BIND, 0, 0, null);
 				}
 				if (!strMail.equals("") && null != strMail) {
 					hasbandEmail = strMail;
-				}else {
+				} else {
 					hasbandEmail = "noemail";
 				}
 				if (!strPhone.equals("") && null != strPhone) {
 					hasbandPhone = strPhone;
-				}else {
+				} else {
 					hasbandPhone = "nophone";
 				}
 			} else {
@@ -899,6 +900,7 @@ public class JVMoreFragment extends BaseFragment {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
 		}
 	}
+
 	// 设置三种类型参数分别为String,Integer,String
 	private class AlarmTask extends AsyncTask<Integer, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应

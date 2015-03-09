@@ -78,9 +78,9 @@ public class JVRemoteListActivity extends BaseActivity {
 				hasDownLoadSize = 0;// 已下载文件大小
 				downLoadFileSize = 0;// 下载文件大小
 
-				RemoteVideo videoBean = videoList.get(arg2);
+				RemoteVideo videoBean = videoList.get(arg1);
 				String acBuffStr = PlayUtil.getPlayFileString(videoBean, isJFH,
-						deviceType, year, month, day, arg2);
+						deviceType, year, month, day, arg1);
 				MyLog.v(TAG, "acBuffStr:" + acBuffStr);
 				byte[] dataByte = acBuffStr.getBytes();
 
@@ -458,7 +458,7 @@ public class JVRemoteListActivity extends BaseActivity {
 							downloading = false;
 							File downFile = new File(downFileFullName);
 							downFile.delete();
-
+							MyLog.e(TAG, "Cancel Download");
 							// TODO 取消下载
 							Jni.sendBytes(indexOfChannel,
 									(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,

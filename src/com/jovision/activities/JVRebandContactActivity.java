@@ -17,10 +17,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.MobileUtil;
 import com.jovision.views.popw;
 import com.tencent.stat.StatService;
@@ -29,10 +31,10 @@ public class JVRebandContactActivity extends BaseActivity {
 
 	private TextView rebandPhone;
 	private TextView rebandEmail;
-	private TextView rebandPhoneModify;
-	private TextView rebandEmailModify;
 	private ImageView rebandHeadImg;
 	private LinearLayout linear;
+	private RelativeLayout rebindphoneLayout;
+	private RelativeLayout rebindmaiLayout;
 
 	private String showPhone = "";
 	private String showEmail = "";
@@ -72,6 +74,12 @@ public class JVRebandContactActivity extends BaseActivity {
 					+ more_name + ".jpg");
 			rebandHeadImg.setImageBitmap(bitmap);
 		}
+		if (!"".equals(MySharedPreference.getString("REBINDPHONE"))&&null != MySharedPreference.getString("REBINDPHONE")) {
+			rebandPhone.setText(MySharedPreference.getString("REBINDPHONE"));
+		}
+		if (!"".equals(MySharedPreference.getString("REBINDEMAIL")) && null != MySharedPreference.getString("REBINDEMAIL")) {
+			rebandEmail.setText(MySharedPreference.getString("REBINDEMAIL"));
+		}
 		super.onResume();
 	}
 
@@ -93,26 +101,24 @@ public class JVRebandContactActivity extends BaseActivity {
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText("解除账号");
+		currentMenu.setText(getResources().getString(R.string.rebindcontact));
 
 		rebandEmail = (TextView)findViewById(R.id.reband_email_text);
 		rebandPhone = (TextView)findViewById(R.id.reband_phone_text);
-		rebandEmailModify = (TextView)findViewById(R.id.reband_modify_email);
-		rebandPhoneModify = (TextView)findViewById(R.id.reband_modify_phone);
 		rebandHeadImg = (ImageView)findViewById(R.id.reband_hand_img);
+		rebindphoneLayout  = (RelativeLayout)findViewById(R.id.rebind_phone);
+		rebindmaiLayout  = (RelativeLayout)findViewById(R.id.rebind_mail);
 		linear = (LinearLayout)findViewById(R.id.lin);
 
 		more_name = statusHashMap.get(Consts.KEY_USERNAME);
 
 		if (showPhone.equals("nophone")) {
-			rebandPhone.setText("未绑定手机号");
-			rebandPhoneModify.setText("绑定");
+			rebandPhone.setText("未绑定");
 		}else {
 			rebandPhone.setText(showPhone);
 		}
 		if (showEmail.equals("noemail")) {
-			rebandEmail.setText("未绑定邮箱");
-			rebandEmailModify.setText("绑定");
+			rebandEmail.setText("未绑定");
 		}else {
 			rebandEmail.setText(showEmail);
 		}
@@ -123,9 +129,9 @@ public class JVRebandContactActivity extends BaseActivity {
 		newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
 
 		rebandHeadImg.setOnClickListener(myOnClickListener);
-		rebandEmailModify.setOnClickListener(myOnClickListener);
-		rebandPhoneModify.setOnClickListener(myOnClickListener);
 		leftBtn.setOnClickListener(myOnClickListener);
+		rebindphoneLayout.setOnClickListener(myOnClickListener);
+		rebindmaiLayout.setOnClickListener(myOnClickListener);
 
 	}
 
@@ -173,28 +179,18 @@ public class JVRebandContactActivity extends BaseActivity {
 			case R.id.btn_cancel:
 				popupWindow.dismiss();
 				break;
-			case R.id.reband_modify_email:
-				if ("绑定".equals(rebandEmailModify.getText().toString())) {
-					startActivity(new Intent(JVRebandContactActivity.this,
-							JVReBoundEmailActivity.class));
-				}else {
-					Intent intentEmail = new Intent(JVRebandContactActivity.this,JVRebandPhoneorEmailActivity.class);
-					intentEmail.putExtra("PhoneEmail", "Email");
-					intentEmail.putExtra("isphone", 0);
-					startActivity(intentEmail);
-				}
+			case R.id.rebind_phone:
+				Intent intentEmail = new Intent(JVRebandContactActivity.this,JVRebandPhoneorEmailActivity.class);
+				intentEmail.putExtra("PhoneEmail", "Phone");
+				intentEmail.putExtra("isphone", 1);
+				startActivity(intentEmail);
 				break;
 
-			case R.id.reband_modify_phone:
-				if ("绑定".equals(rebandPhoneModify.getText().toString())) {
-					startActivity(new Intent(JVRebandContactActivity.this,
-							JVReBoundEmailActivity.class));
-				}else {
-					Intent intentPhone = new Intent(JVRebandContactActivity.this,JVRebandPhoneorEmailActivity.class);
-					intentPhone.putExtra("PhoneEmail", "Phone");
-					intentPhone.putExtra("isphone", 1);
-					startActivity(intentPhone);
-				}
+			case R.id.rebind_mail:
+				Intent intentPhone = new Intent(JVRebandContactActivity.this,JVRebandPhoneorEmailActivity.class);
+				intentPhone.putExtra("PhoneEmail", "Email");
+				intentPhone.putExtra("isphone", 0);
+				startActivity(intentPhone);
 				break;
 
 			default:

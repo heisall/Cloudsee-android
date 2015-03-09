@@ -70,43 +70,6 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/registagreelayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal" >
-
-                <ToggleButton
-                    android:id="@+id/agree"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/registe_checkbox"
-                    android:textOff=""
-                    android:textOn="" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/str_read_agree"
-                    android:textColor="@color/registtextcolor"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/agreement"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:autoLink="web"
-                    android:text="@string/str_agreement"
-                    android:textColor="@color/agreementcolor"
-                    android:textColorLink="@color/blue"
-                    android:textSize="14sp" />
-            </LinearLayout>
 
             <Button
                 android:id="@+id/login"

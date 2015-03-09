@@ -34,7 +34,10 @@ public class JVRebandContactActivity extends BaseActivity {
 	private ImageView rebandHeadImg;
 	private LinearLayout linear;
 
-	// 设置头像
+	private String showPhone = "";
+	private String showEmail = "";
+
+	//设置头像
 
 	private String more_name;// 用户名
 	private popw popupWindow; // 声明PopupWindow对象；
@@ -76,6 +79,9 @@ public class JVRebandContactActivity extends BaseActivity {
 	protected void initSettings() {
 		// TODO Auto-generated method stub
 
+		Intent intent = getIntent();
+		showPhone =  intent.getStringExtra("phone");
+		showEmail = intent.getStringExtra("email");
 	}
 
 	@Override
@@ -89,19 +95,28 @@ public class JVRebandContactActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText("解除账号");
 
-		rebandEmail = (TextView) findViewById(R.id.reband_email_text);
-		rebandPhone = (TextView) findViewById(R.id.reband_phone_text);
-		rebandEmailModify = (TextView) findViewById(R.id.reband_modify_email);
-		rebandPhoneModify = (TextView) findViewById(R.id.reband_modify_phone);
-		rebandHeadImg = (ImageView) findViewById(R.id.reband_hand_img);
-		linear = (LinearLayout) findViewById(R.id.lin);
+		rebandEmail = (TextView)findViewById(R.id.reband_email_text);
+		rebandPhone = (TextView)findViewById(R.id.reband_phone_text);
+		rebandEmailModify = (TextView)findViewById(R.id.reband_modify_email);
+		rebandPhoneModify = (TextView)findViewById(R.id.reband_modify_phone);
+		rebandHeadImg = (ImageView)findViewById(R.id.reband_hand_img);
+		linear = (LinearLayout)findViewById(R.id.lin);
 
-		if (Boolean.valueOf((statusHashMap.get(Consts.LOCAL_LOGIN)))) {
-			more_name = JVRebandContactActivity.this.getResources().getString(
-					R.string.location_login);
-		} else {
-			more_name = (statusHashMap.get(Consts.KEY_USERNAME));
+		more_name = statusHashMap.get(Consts.KEY_USERNAME);
+
+		if (showPhone.equals("nophone")) {
+			rebandPhone.setText("未绑定手机号");
+			rebandPhoneModify.setText("绑定");
+		}else {
+			rebandPhone.setText(showPhone);
 		}
+		if (showEmail.equals("noemail")) {
+			rebandEmail.setText("未绑定邮箱");
+			rebandEmailModify.setText("绑定");
+		}else {
+			rebandEmail.setText(showEmail);
+		}
+
 		file = new File(Consts.HEAD_PATH);
 		MobileUtil.createDirectory(file);
 		tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
@@ -159,13 +174,27 @@ public class JVRebandContactActivity extends BaseActivity {
 				popupWindow.dismiss();
 				break;
 			case R.id.reband_modify_email:
-
+				if ("绑定".equals(rebandEmailModify.getText().toString())) {
+					startActivity(new Intent(JVRebandContactActivity.this,
+							JVReBoundEmailActivity.class));
+				}else {
+					Intent intentEmail = new Intent(JVRebandContactActivity.this,JVRebandPhoneorEmailActivity.class);
+					intentEmail.putExtra("PhoneEmail", "Email");
+					intentEmail.putExtra("isphone", 0);
+					startActivity(intentEmail);
+				}
 				break;
 
 			case R.id.reband_modify_phone:
-
-				startActivity(new Intent(JVRebandContactActivity.this,
-						JVRebandPhoneorEmailActivity.class));
+				if ("绑定".equals(rebandPhoneModify.getText().toString())) {
+					startActivity(new Intent(JVRebandContactActivity.this,
+							JVReBoundEmailActivity.class));
+				}else {
+					Intent intentPhone = new Intent(JVRebandContactActivity.this,JVRebandPhoneorEmailActivity.class);
+					intentPhone.putExtra("PhoneEmail", "Phone");
+					intentPhone.putExtra("isphone", 1);
+					startActivity(intentPhone);
+				}
 				break;
 
 			default:
@@ -242,6 +271,7 @@ public class JVRebandContactActivity extends BaseActivity {
 		}
 
 	}
+
 
 	@Override
 	protected void saveSettings() {

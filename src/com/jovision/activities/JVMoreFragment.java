@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import org.json.JSONException;
@@ -10,9 +11,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.test.JVACCOUNT;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,6 +50,7 @@ import com.jovision.utils.ListViewUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
 import com.jovision.views.AlarmDialog;
+import com.jovision.views.popw;
 import com.tencent.stat.StatService;
 
 /**
@@ -78,6 +86,23 @@ public class JVMoreFragment extends BaseFragment {
 	// 获取url
 	private WebUrl url;
 
+	private boolean isgetemail;
+
+	private popw popupWindow; // 声明PopupWindow对象；
+	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
+	private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
+	private static final int PHOTO_REQUEST_CUT = 3;// 结果
+	// 存放头像的文件夹
+	File file;
+	// 旧头像文件
+	File tempFile;
+	// 新头像文件
+	File newFile;
+
+
+	private String hasbandEmail = "";
+	private String hasbandPhone = "";
+
 	private final String TAG = "JVMoreFragment";
 	// 图片数组
 	private int[] Image = { R.drawable.morefragment_help_icon,
@@ -89,9 +114,8 @@ public class JVMoreFragment extends BaseFragment {
 			R.drawable.morefragment_install_icon,
 			R.drawable.morefragment_sharedevice_icon,
 			R.drawable.morefragment_data_icon,
-			R.drawable.morefragment_data_icon, R.drawable.more_message,
-			R.drawable.morefragment_data_icon, R.drawable.more_bbs,
-			R.drawable.more_message, R.drawable.media_image,
+			R.drawable.more_bbs, R.drawable.more_message,
+			 R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
 			R.drawable.morefragment_aboutus_icon };
@@ -99,11 +123,6 @@ public class JVMoreFragment extends BaseFragment {
 	private String[] fragment_name;
 
 	public static boolean localFlag = false;// 本地登陆标志位
-
-	// 存放头像的文件夹
-	File file;
-	File tempFile;
-	// 新头像文件
 
 	private LinearLayout linear;
 
@@ -156,6 +175,7 @@ public class JVMoreFragment extends BaseFragment {
 			}
 			break;
 		case Consts.WHAT_BIND:
+			Log.i("TAG","邮箱："+"显示");
 			more_bindmail.setVisibility(View.VISIBLE);
 			break;
 		}
@@ -185,6 +205,7 @@ public class JVMoreFragment extends BaseFragment {
 		file = new File(Consts.HEAD_PATH);
 		MobileUtil.createDirectory(file);
 		tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
+		newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
 
 		more_modifypwd = (TextView) view.findViewById(R.id.more_modifypwd);
 		more_bindmail = (TextView) view.findViewById(R.id.more_bindmail);
@@ -261,26 +282,52 @@ public class JVMoreFragment extends BaseFragment {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
+			case R.id.pop_outside:
+				popupWindow.dismiss();
+				break;
+			case R.id.btn_pick_photo: {
+				popupWindow.dismiss();
+				Intent intent = new Intent(Intent.ACTION_PICK, null);
+				intent.setDataAndType(
+						MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+				startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+				break;
+			}
+			case R.id.btn_take_photo:
+				// 调用系统的拍照功能
+				popupWindow.dismiss();
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				// 指定调用相机拍照后照片的储存路径
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+				startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
+				break;
+			case R.id.btn_cancel:
+				popupWindow.dismiss();
+				break;
 			case R.id.more_uesrname:
 				// TODO
 				break;
 			case R.id.more_head_img:
-				// TODO
-				// StatService.trackCustomEvent(
-				// mActivity,
-				// "census_moreheadimg",
-				// mActivity.getResources().getString(
-				// R.string.census_moreheadimg));
-				// popupWindow = new popw(mActivity, myOnClickListener);
-				// popupWindow.setBackgroundDrawable(null);
-				// popupWindow.setOutsideTouchable(true);
-				// popupWindow.showAtLocation(linear, Gravity.BOTTOM
-				// | Gravity.CENTER_HORIZONTAL, 0, 0); //
-				// 设置layout在PopupWindow中显示的位置
-
-				startActivity(new Intent(mActivity,
-						JVRebandContactActivity.class));
-
+				//TODO
+				if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
+						.get(Consts.LOCAL_LOGIN))&&isgetemail) {
+					Intent intentmore = new Intent(mActivity,JVRebandContactActivity.class);
+					intentmore.putExtra("phone", hasbandPhone);
+					intentmore.putExtra("email", hasbandEmail);
+					Log.i("TAG", hasbandPhone+hasbandEmail);
+					startActivity(intentmore);
+				}else {
+					StatService.trackCustomEvent(
+							mActivity,
+							"census_moreheadimg",
+							mActivity.getResources().getString(
+									R.string.census_moreheadimg));
+					popupWindow = new popw(mActivity, myOnClickListener);
+					popupWindow.setBackgroundDrawable(null);
+					popupWindow.setOutsideTouchable(true);
+					popupWindow.showAtLocation(linear, Gravity.BOTTOM
+							| Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+				}
 				break;
 			case R.id.more_cancle:// 注销
 				LogOutTask task = new LogOutTask();
@@ -317,6 +364,76 @@ public class JVMoreFragment extends BaseFragment {
 			}
 		}
 	};
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case PHOTO_REQUEST_TAKEPHOTO:
+			if (resultCode == -1) {
+				startPhotoZoom(Uri.fromFile(newFile), 300);
+			}
+			break;
+
+		case PHOTO_REQUEST_GALLERY:
+			if (data != null)
+				startPhotoZoom(data.getData(), 300);
+			break;
+
+		case PHOTO_REQUEST_CUT:
+			if (data != null)
+				setPicToView(data);
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	private void startPhotoZoom(Uri uri, int size) {
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		// crop为true是设置在开启的intent中设置显示的view可以剪裁
+		intent.putExtra("crop", "true");
+
+		// aspectX aspectY 是宽高的比例
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+
+		// outputX,outputY 是剪裁图片的宽高
+		intent.putExtra("outputX", size);
+		intent.putExtra("outputY", size);
+		intent.putExtra("return-data", true);
+		startActivityForResult(intent, PHOTO_REQUEST_CUT);
+	}
+
+	// 将进行剪裁后的图片显示到UI界面上
+	private void setPicToView(Intent picdata) {
+		Bundle bundle = picdata.getExtras();
+		if (bundle != null) {
+			Bitmap photo = bundle.getParcelable("data");
+			saveBitmap(photo);
+			Drawable drawable = new BitmapDrawable(photo);
+			more_head.setBackgroundDrawable(drawable);
+		}
+	}
+
+	public void saveBitmap(Bitmap bm) {
+		if (null == bm) {
+			return;
+		}
+		File f = new File(Consts.HEAD_PATH + more_name + ".jpg");
+		if (f.exists()) {
+			f.delete();
+		}
+		try {
+			FileOutputStream out = new FileOutputStream(f);
+			bm.compress(Bitmap.CompressFormat.PNG, 90, out);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 
 	private void listViewClick() {
 		more_listView
@@ -728,6 +845,7 @@ public class JVMoreFragment extends BaseFragment {
 			int ret = -1;
 			strResonse = JVACCOUNT.GetMailPhoneNoSession(account);
 			JSONObject resObject = null;
+			Log.i("TAG", strResonse);
 			try {
 				resObject = new JSONObject(strResonse);
 				ret = resObject.optInt("result", -2);
@@ -739,7 +857,6 @@ public class JVMoreFragment extends BaseFragment {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 			return ret;
 		}
 
@@ -752,12 +869,24 @@ public class JVMoreFragment extends BaseFragment {
 		protected void onPostExecute(Integer result) {
 			if (result == 0)// ok
 			{
+				isgetemail = true;
+				Log.i("TAG","邮箱："+strMail+"手机号："+strPhone);
 				if ((strMail.equals("") || null == strMail)
 						&& (strPhone.equals("") || null == strPhone)) {
 					onNotify(Consts.WHAT_BIND, 0, 0, null);
 				}
+				if (!strMail.equals("") && null != strMail) {
+					hasbandEmail = strMail;
+				}else {
+					hasbandEmail = "noemail";
+				}
+				if (!strPhone.equals("") && null != strPhone) {
+					hasbandPhone = strPhone;
+				}else {
+					hasbandPhone = "nophone";
+				}
 			} else {
-				// 重置失败
+				isgetemail = false;
 				mActivity.showTextToast(R.string.str_video_load_failed);
 			}
 		}
@@ -767,7 +896,6 @@ public class JVMoreFragment extends BaseFragment {
 			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
 		}
 	}
-
 	// 设置三种类型参数分别为String,Integer,String
 	private class AlarmTask extends AsyncTask<Integer, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应

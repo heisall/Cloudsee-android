@@ -712,6 +712,7 @@
     <string name="census_appplay_version">程序播放库</string>
     <string name="census_version">版本号</string>
     <string name="str_error_vercode">无效验证码</string>
+    <string name="location_login_hand">访客</string>
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">请输入需要重置密码的账号:</string>
     <string name="reset_passwd_input_vercode">获取验证码</string>

@@ -97,4 +97,7 @@ public class JVAccountConst {
 	public static final int REKEEP_ONLINE_FAILED = 341;
 	/** 默认宏 */
 	public static final int DEFAULT = -255;
+	/** 默认宏 */
+	public static final int NOTEMAIL = 342;
+	
 }

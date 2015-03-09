@@ -70,13 +70,13 @@ public class ManageFragment extends BaseFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// bundle = getArguments();
-		// deviceIndex = bundle.getInt("DeviceIndex");
-		// deviceList = CacheUtil.getDevList();
-		// if (null != deviceList && 0 != deviceList.size()
-		// && deviceIndex < deviceList.size()) {
-		// device = deviceList.get(deviceIndex);
-		// }
+		bundle = getArguments();
+		deviceIndex = bundle.getInt("DeviceIndex");
+		deviceList = CacheUtil.getDevList();
+		if (null != deviceList && 0 != deviceList.size()
+				&& deviceIndex < deviceList.size()) {
+			device = deviceList.get(deviceIndex);
+		}
 		super.onCreate(savedInstanceState);
 	}
 
@@ -88,102 +88,12 @@ public class ManageFragment extends BaseFragment {
 		return view;
 	}
 
-	// public void setDevIndex(int index) {
-	// try {
-	// deviceIndex = index;
-	// if (null == deviceList || 0 == deviceList.size()) {
-	// deviceList = CacheUtil.getDevList();
-	// }
-	// device = deviceList.get(deviceIndex);
-	// if (null != device && null != manageAdapter) {
-	// int w;
-	// if (disMetrics.widthPixels < disMetrics.heightPixels) {
-	// w = disMetrics.widthPixels;
-	// } else {
-	// w = disMetrics.heightPixels;
-	// }
-	// manageAdapter.setData(w, deviceIndex, device, localFlag);
-	// manageGridView.setAdapter(manageAdapter);
-	// manageAdapter.notifyDataSetChanged();
-	// }
-	//
-	// } catch (Exception e) {
-	// MyLog.e(TAG, "setDevIndex=device" + device + "--" + localFlag);
-	// e.printStackTrace();
-	// }
-	// }
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		mActivity = (BaseActivity) getActivity();
-		mParent = getView();
-
-		// disMetrics = new DisplayMetrics();
-		// mActivity.getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
-		// manageGridView = (GridView)
-		// mParent.findViewById(R.id.manage_gridview);
-		// mScreenWidth = mActivity.disMetrics.widthPixels;
-		// manageGridView.setHorizontalSpacing(50);
-		// manageGridView.setVerticalSpacing(50);
-		// if (mScreenWidth == 480 || mScreenWidth == 540) {
-		// manageGridView.setHorizontalSpacing(20);
-		// manageGridView.setVerticalSpacing(20);
-		// }
-		// if (mScreenWidth == 1080) {
-		// manageGridView.setHorizontalSpacing(60);
-		// manageGridView.setVerticalSpacing(65);
-		// }
-		//
-		// localFlag = Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
-		// .get(Consts.LOCAL_LOGIN));
-		// manageAdapter = new ManageAdapter(this);
-		// try {
-		// if (null != device) {
-		// manageAdapter.setData(disMetrics.widthPixels, deviceIndex,
-		// device, localFlag);
-		// manageGridView.setAdapter(manageAdapter);
-		// manageAdapter.notifyDataSetChanged();
-		// }
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-	}
-
-	public void setData(int index, ArrayList<Device> dataList) {
+	public void setDevIndex(int index) {
 		try {
-			if (null == mActivity) {
-				mActivity = (BaseActivity) getActivity();
-			}
-			disMetrics = new DisplayMetrics();
-			mActivity.getWindowManager().getDefaultDisplay()
-					.getMetrics(disMetrics);
-			manageGridView = (GridView) mParent
-					.findViewById(R.id.manage_gridview);
-			mScreenWidth = mActivity.disMetrics.widthPixels;
-			manageGridView.setHorizontalSpacing(50);
-			manageGridView.setVerticalSpacing(50);
-			if (mScreenWidth == 480 || mScreenWidth == 540) {
-				manageGridView.setHorizontalSpacing(20);
-				manageGridView.setVerticalSpacing(20);
-			}
-			if (mScreenWidth == 1080) {
-				manageGridView.setHorizontalSpacing(60);
-				manageGridView.setVerticalSpacing(65);
-			}
-
-			localFlag = Boolean
-					.valueOf(((BaseActivity) mActivity).statusHashMap
-							.get(Consts.LOCAL_LOGIN));
-			manageAdapter = new ManageAdapter(this);
-
 			deviceIndex = index;
-			if (null == deviceList) {
-				deviceList = new ArrayList<Device>();
-			} else {
-				deviceList.clear();
+			if (null == deviceList || 0 == deviceList.size()) {
+				deviceList = CacheUtil.getDevList();
 			}
-			deviceList.addAll(dataList);
 			device = deviceList.get(deviceIndex);
 			if (null != device && null != manageAdapter) {
 				int w;
@@ -199,6 +109,41 @@ public class ManageFragment extends BaseFragment {
 
 		} catch (Exception e) {
 			MyLog.e(TAG, "setDevIndex=device" + device + "--" + localFlag);
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		mActivity = (BaseActivity) getActivity();
+		mParent = getView();
+		disMetrics = new DisplayMetrics();
+		mActivity.getWindowManager().getDefaultDisplay().getMetrics(disMetrics);
+		manageGridView = (GridView) mParent.findViewById(R.id.manage_gridview);
+		mScreenWidth = mActivity.disMetrics.widthPixels;
+		manageGridView.setHorizontalSpacing(50);
+		manageGridView.setVerticalSpacing(50);
+		if (mScreenWidth == 480 || mScreenWidth == 540) {
+			manageGridView.setHorizontalSpacing(20);
+			manageGridView.setVerticalSpacing(20);
+		}
+		if (mScreenWidth == 1080) {
+			manageGridView.setHorizontalSpacing(60);
+			manageGridView.setVerticalSpacing(65);
+		}
+
+		localFlag = Boolean.valueOf(((BaseActivity) mActivity).statusHashMap
+				.get(Consts.LOCAL_LOGIN));
+		manageAdapter = new ManageAdapter(this);
+		try {
+			if (null != device) {
+				manageAdapter.setData(disMetrics.widthPixels, deviceIndex,
+						device, localFlag);
+				manageGridView.setAdapter(manageAdapter);
+				manageAdapter.notifyDataSetChanged();
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -243,6 +188,17 @@ public class ManageFragment extends BaseFragment {
 					obj));
 			break;
 		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		deviceList = CacheUtil.getDevList();
+		mActivity = (BaseActivity) getActivity();
+		// isDevice = deviceList.get(deviceIndex).getIsDevice();
+		// device = deviceList.get(deviceIndex);
+		// MyLog.e("远程设置--setIndex",
+		// "index="+deviceIndex+";device="+device.toString());
 	}
 
 	// Runnable runnable = new Runnable() {
@@ -356,7 +312,7 @@ public class ManageFragment extends BaseFragment {
 						"ChannelList",
 						mActivity.getResources().getString(
 								R.string.census_channalmanage));
-				// deviceIndex = bundle.getInt("DeviceIndex");
+				deviceIndex = bundle.getInt("DeviceIndex");
 				Intent channerIntent = new Intent(mActivity,
 						JVChannelListActivity.class);
 				channerIntent.putExtra("deviceIndex", deviceIndex);

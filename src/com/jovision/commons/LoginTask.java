@@ -137,8 +137,14 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 				((BaseActivity) mContext)
 						.showTextToast(R.string.str_userpass_error);
 				Intent intent = new Intent();
+				intent.putExtra("AutoLogin", false);
+				intent.putExtra("UserName",
+						statusHashMap.get(Consts.KEY_USERNAME));
+				intent.putExtra("UserPass", "");
 				intent.setClass(mContext, JVLoginActivity.class);
 				mContext.startActivity(intent);
+				statusHashMap.put(Consts.KEY_USERNAME, "");
+				statusHashMap.put(Consts.KEY_PASSWORD, "");
 			}
 			break;
 		}
@@ -149,6 +155,8 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 				Intent intent = new Intent();
 				intent.setClass(mContext, JVLoginActivity.class);
 				mContext.startActivity(intent);
+				statusHashMap.put(Consts.KEY_USERNAME, "");
+				statusHashMap.put(Consts.KEY_PASSWORD, "");
 			}
 			break;
 		}
@@ -164,6 +172,8 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 				Intent intent = new Intent();
 				intent.setClass(mContext, JVLoginActivity.class);
 				mContext.startActivity(intent);
+				statusHashMap.put(Consts.KEY_USERNAME, "");
+				statusHashMap.put(Consts.KEY_PASSWORD, "");
 			}
 			break;
 		}

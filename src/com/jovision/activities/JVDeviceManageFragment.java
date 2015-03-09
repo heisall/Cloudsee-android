@@ -35,7 +35,6 @@ import com.jovision.IHandlerLikeNotify;
 import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
-import com.jovision.commons.MyLog;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
@@ -85,8 +84,8 @@ public class JVDeviceManageFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// deviceIndex = 0;
-		// currentFragmentIndex = 0;
+		deviceIndex = 0;
+		currentFragmentIndex = 0;
 		View view = inflater.inflate(R.layout.fragment_devicemanage, container,
 				false);
 		return view;
@@ -96,8 +95,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		try {
-			deviceIndex = 0;
-			currentFragmentIndex = 0;
 			mParent = getView();
 			mActivity = (BaseActivity) getActivity();
 
@@ -106,6 +103,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 					R.drawable.mydevice_cancale_icon));
 			rightBtn.setVisibility(View.VISIBLE);
 			rightBtn.setOnClickListener(mOnClickListener);
+			leftBtn.setVisibility(View.GONE);
 			manageDeviceList = CacheUtil.getDevList();
 
 			mScreenWidth = mActivity.disMetrics.widthPixels;
@@ -164,26 +162,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 			devmorere.setOnClickListener(mOnClickListener);
 			devmore_hie.setOnClickListener(mOnClickListener);
 			ListViewClick();
-			// // 初始化导航
-			// initNav();
-			// // 初始化viewPager
-			// initViewPager();
-			//
-			// // ((ManageFragment)
-			// // fragments.get(deviceIndex)).setData(deviceIndex,
-			// // manageDeviceList);
-			// // managePager.setCurrentItem(deviceIndex);
-			// // mHorizontalScrollView.smoothScrollTo(0, 0);
-			// // mHorizontalScrollView.invalidate();
-			//
-			// ((ManageFragment)
-			// fragments.get(deviceIndex)).setData(deviceIndex,
-			// manageDeviceList);
-			// managePager.setCurrentItem(deviceIndex);
-			// mHorizontalScrollView.smoothScrollTo(
-			// (deviceIndex - 1) * item_width, 0);
-			// mHorizontalScrollView.invalidate();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -197,14 +175,11 @@ public class JVDeviceManageFragment extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-
 				adapter.setSelectIndex(position);
 				adapter.notifyDataSetChanged();
 				deviceIndex = position;
-				// ((ManageFragment) fragments.get(position))
-				// .setDevIndex(deviceIndex);
-				((ManageFragment) fragments.get(position)).setData(position,
-						manageDeviceList);
+				((ManageFragment) fragments.get(position))
+						.setDevIndex(deviceIndex);
 				managePager.setCurrentItem(position);
 				relalist.setVisibility(View.GONE);
 				devicemanage_listView.setVisibility(View.GONE);
@@ -224,10 +199,10 @@ public class JVDeviceManageFragment extends BaseFragment {
 		mLinearLayout.removeAllViews();
 		for (int i = 0; i < size; i++) {
 			// [Neo] viewpager
-			// Bundle data = new Bundle();
-			// data.putInt("DeviceIndex", i);
+			Bundle data = new Bundle();
+			data.putInt("DeviceIndex", i);
 			ManageFragment fragment = new ManageFragment();
-			// fragment.setArguments(data);
+			fragment.setArguments(data);
 			fragments.add(fragment);
 
 			// [Neo] nav
@@ -250,18 +225,12 @@ public class JVDeviceManageFragment extends BaseFragment {
 				public void onClick(View view) {
 					int index = (Integer) view.getTag();
 					deviceIndex = index;
-					// ((ManageFragment) fragments.get(index))
-					// .setDevIndex(deviceIndex);
-					((ManageFragment) fragments.get(index)).setData(index,
-							manageDeviceList);
+					((ManageFragment) fragments.get(index))
+							.setDevIndex(deviceIndex);
 					managePager.setCurrentItem(index);
 				}
 			});
 			layout.setTag(i);
-			// if (i == deviceIndex) {
-			// ((ManageFragment) fragments.get(deviceIndex)).setData(
-			// deviceIndex, manageDeviceList);
-			// }
 		}
 
 	}
@@ -390,7 +359,9 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 				break;
 			case R.id.devmorere:
-				adapter.setSelectIndex(deviceIndex);
+				if (null != adapter) {
+					adapter.setSelectIndex(deviceIndex);
+				}
 				relalist.setVisibility(View.VISIBLE);
 				devicemanage_listView.setVisibility(View.VISIBLE);
 				managePager.setVisibility(View.GONE);
@@ -436,27 +407,25 @@ public class JVDeviceManageFragment extends BaseFragment {
 				animation.setFillAfter(true);
 				animation.setDuration(0);
 				mImageView.startAnimation(animation);
-				MyLog.v(TAG, "smoothScrollTo---currentFragmentIndex="
-						+ currentFragmentIndex);
 				mHorizontalScrollView.smoothScrollTo((currentFragmentIndex)
 						* item_width, 0);
 			}
 			for (int i = 0; i < manageDeviceList.size(); i++) {
+				TextView view = (TextView) mLinearLayout.getChildAt(i)
+						.findViewById(i);
 				if (position == i) {
-					TextView view = (TextView) mLinearLayout.getChildAt(i)
-							.findViewById(i);
+					// adapter.setSelectIndex(position);
+					// manageDeviceList.get(i).setIsselect(true);
 					view.setTextColor(mActivity.getResources().getColor(
 							R.color.quickinstall_btn_normal));
 				} else {
-					TextView view = (TextView) mLinearLayout.getChildAt(i)
-							.findViewById(i);
+					// manageDeviceList.get(i).setIsselect(false);
 					view.setTextColor(mActivity.getResources().getColor(
 							R.color.devicemanagename));
 				}
 			}
 			deviceIndex = position;
-			// ((ManageFragment)
-			// fragments.get(position)).setDevIndex(deviceIndex);
+			((ManageFragment) fragments.get(position)).setDevIndex(deviceIndex);
 			managePager.setCurrentItem(position);
 		}
 
@@ -464,13 +433,6 @@ public class JVDeviceManageFragment extends BaseFragment {
 		public void onPageScrolled(int position, float positionOffset,
 				int positionOffsetPixels) {
 			// MyLog.v(TAG, "onPageScrolled---position="+position);
-			try {
-				((ManageFragment) fragments.get(position)).setData(position,
-						manageDeviceList);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
 			if (!isEnd) {
 				if (currentFragmentIndex == position) {
 					endPosition = item_width * currentFragmentIndex
@@ -480,8 +442,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 					endPosition = item_width * currentFragmentIndex
 							- (int) (item_width * (1 - positionOffset));
 				}
-				MyLog.v(TAG, "Animation---beginPosition=" + beginPosition
-						+ ";endPosition=" + endPosition);
+
 				Animation mAnimation = new TranslateAnimation(beginPosition,
 						endPosition, 0, 0);
 				mAnimation.setFillAfter(true);
@@ -522,9 +483,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		manageDeviceList = CacheUtil.getDevList();
-		if (adapter != null) {
-			adapter.setSelectIndex(deviceIndex);
-		}
+
 		if (Consts.LANGUAGE_EN == ConfigUtil.getLanguage2(mActivity)) {
 			device_num.setText(mActivity.getResources().getString(
 					R.string.str_fre)
@@ -554,15 +513,16 @@ public class JVDeviceManageFragment extends BaseFragment {
 				refreshlayout.setVisibility(View.GONE);
 				quickSetSV.setVisibility(View.GONE);
 				try {
-					if (null == fragments || 0 == fragments.size()) {
-						// 初始化导航
-						initNav();
-						// 初始化viewPager
-						initViewPager();
-					}
+					// 初始化导航
+					initNav();
+					// 初始化viewPager
+					initViewPager();
 
-					((ManageFragment) fragments.get(deviceIndex)).setData(
-							deviceIndex, manageDeviceList);
+					ManageFragment fragement = ((ManageFragment) fragments
+							.get(deviceIndex));
+					if (null != fragement) {
+						fragement.setDevIndex(deviceIndex);
+					}
 					managePager.setCurrentItem(deviceIndex);
 					mHorizontalScrollView.smoothScrollTo((deviceIndex - 1)
 							* item_width, 0);
@@ -573,6 +533,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 			}
 		}
+
 		super.onResume();
 	}
 

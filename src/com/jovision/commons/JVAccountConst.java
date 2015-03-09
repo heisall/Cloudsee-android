@@ -99,5 +99,5 @@ public class JVAccountConst {
 	public static final int DEFAULT = -255;
 	/** 默认宏 */
 	public static final int NOTEMAIL = 342;
-	
+
 }

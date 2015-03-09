@@ -151,6 +151,7 @@ public class JVVideoFragment extends BaseFragment {
 		/** topBar **/
 		topBar = (RelativeLayout) rootView.findViewById(R.id.topbarh);
 		leftBtn = (Button) rootView.findViewById(R.id.btn_left);
+		leftBtn.setVisibility(View.GONE);
 		alarmnet = (RelativeLayout) rootView.findViewById(R.id.alarmnet);
 		accountError = (TextView) rootView.findViewById(R.id.accounterror);
 		currentMenu = (TextView) rootView.findViewById(R.id.currentmenu);

@@ -673,33 +673,46 @@ public class ConfigUtil {
 			int kkk;
 			for (kkk = 0; kkk < ystEdit.length(); kkk++) {
 				char c = ystEdit.charAt(kkk);
-				if (c <= '9' && c >= '0') {
+				if (java.lang.Character.isDigit(c)) {
 					break;
 				}
+				// if (c <= '9' && c >= '0') {
+				// break;
+				// }
 			}
 			String group = ystEdit.substring(0, kkk);
 			String yst = ystEdit.substring(kkk);
-			for (int mm = 0; mm < group.length(); mm++) {
+			if (group.length() <= 0 || group.length() > 4) {// 组号长度不对
+				flag = false;
+				return flag;
+			}
+			for (int mm = 0; mm < group.length(); mm++) {// 组号含有非字母
 				char c = ystEdit.charAt(mm);
-				if (mm == 0
-						&& ((c == 'A' || c == 'a' || c == 'B' || c == 'b'
-								|| c == 'S' || c == 's'))) {
-
-				} else {
+				boolean isLetter = java.lang.Character.isLetter(c);
+				if (!isLetter) {
 					flag = false;
+					return flag;
 				}
+
+				// if (mm == 0
+				// && ((c == 'A' || c == 'a' || c == 'B' || c == 'b'
+				// || c == 'S' || c == 's'))) {
+				//
+				// } else {
+				// flag = false;
+				// }
 			}
 
 			for (int i = 0; i < yst.length(); i++) {
 				char c = yst.charAt(i);
-				if ((c >= '0' && c <= '9')) {
+				if (java.lang.Character.isDigit(c)) {
 
 				} else {
 					flag = false;
 				}
 			}
 			int ystValue = "".equals(yst) ? 0 : Integer.parseInt(yst);
-			if (kkk >= 4 || kkk <= 0 || ystValue <= 0) {
+			if (ystValue <= 0) {// 云视通号不正确
 				flag = false;
 			}
 		} catch (Exception e) {

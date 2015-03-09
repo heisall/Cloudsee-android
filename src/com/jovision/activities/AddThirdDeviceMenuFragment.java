@@ -1,28 +1,37 @@
 package com.jovision.activities;
 
+import java.util.HashMap;
+
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.GridView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.adapters.PeripheralManageAdapter;
 import com.jovision.commons.MyLog;
+import com.jovision.utils.ConfigUtil;
 
 public class AddThirdDeviceMenuFragment extends Fragment {
 	private View rootView;// 缓存Fragment view
 	private GridView manageGridView;
 	private PeripheralManageAdapter manageAdapter;
 	DisplayMetrics disMetrics;
+	private WebView mWebView; 
 	private MyHandler myHandler;
-
+	private String mDevType = "";
 	public interface OnDeviceClassSelectedListener {
 		public void OnDeviceClassSelected(int index);
 	}
@@ -45,32 +54,103 @@ public class AddThirdDeviceMenuFragment extends Fragment {
 			Bundle savedInstanceState) {
 		if (rootView == null) {
 			rootView = inflater.inflate(
-					R.layout.new_add_thirddev_menu_fragment, container, false);
+					R.layout.web_add_exdev_menu_layout, container, false);
 		}
 		ViewGroup parent = (ViewGroup) rootView.getParent();
 		if (parent != null) {
 			parent.removeView(rootView);
 		}
 		myHandler = new MyHandler();
-		manageGridView = (GridView) rootView
-				.findViewById(R.id.third_alarm_gridview);
-		disMetrics = new DisplayMetrics();
-		getActivity().getWindowManager().getDefaultDisplay()
-				.getMetrics(disMetrics);
-		manageAdapter = new PeripheralManageAdapter(this);
-		manageAdapter.SetData(disMetrics.widthPixels);
-		manageGridView.setAdapter(manageAdapter);
-		manageAdapter.notifyDataSetChanged();
-		// doorBtn = (Button) rootView.findViewById(R.id.add_door_btn);
-		// doorBtn.setOnClickListener(this);
-		// braceletBtn = (Button) rootView.findViewById(R.id.add_bracelet_btn);
-		// braceletBtn.setOnClickListener(this);
-		// telecontrolBtn = (Button) rootView
-		// .findViewById(R.id.add_telecontrol_btn);
-		// telecontrolBtn.setOnClickListener(this);
+		
+        mWebView = (WebView) rootView.findViewById(R.id.webview);       
+        WebSettings webSettings = mWebView.getSettings();       
+        webSettings.setJavaScriptEnabled(true);   
+
+        mWebView.loadUrl("http://172.16.28.252/yejian/device.html?lan=ch");   
+        
+        mWebView.setWebViewClient(new WebViewClient() {
+			@Override
+			public void onReceivedError(WebView view, int errorCode,
+					String description, String failingUrl) {
+				Log.e("webv", "webView load failed");
+
+				super.onReceivedError(view, errorCode, description, failingUrl);
+			}
+
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String newUrl) {
+				view.loadUrl(newUrl);
+				Log.e("webv", "newUrl:"+newUrl);
+				if (newUrl.contains("&device=")) {
+
+					String param_array[] = newUrl.split("\\?");
+					HashMap<String, String> resMap;
+					resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
+
+					mDevType = resMap.get("device");
+				}
+				return true;
+			}
+
+			@Override
+			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+				super.onPageStarted(view, url, favicon);
+				Log.v("Test", "webView start load");
+//				mHandler.sendEmptyMessage(1);
+			}
+
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				super.onPageFinished(view, url);
+				Log.e("webv", "webView finish load");
+				if(mDevType!=null && !mDevType.equals("")){
+					mListener.OnDeviceClassSelected(Integer.parseInt(mDevType));
+				}
+			}	        	
+        });
+        
+//		manageGridView = (GridView) rootView
+//				.findViewById(R.id.third_alarm_gridview);
+//		disMetrics = new DisplayMetrics();
+//		getActivity().getWindowManager().getDefaultDisplay()
+//				.getMetrics(disMetrics);
+//		manageAdapter = new PeripheralManageAdapter(this);
+//		manageAdapter.SetData(disMetrics.widthPixels);
+//		manageGridView.setAdapter(manageAdapter);
+//		manageAdapter.notifyDataSetChanged();
 
 		return rootView;
-	}
+	}	
+//	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//			Bundle savedInstanceState) {
+//		if (rootView == null) {
+//			rootView = inflater.inflate(
+//					R.layout.new_add_thirddev_menu_fragment, container, false);
+//		}
+//		ViewGroup parent = (ViewGroup) rootView.getParent();
+//		if (parent != null) {
+//			parent.removeView(rootView);
+//		}
+//		myHandler = new MyHandler();
+//		manageGridView = (GridView) rootView
+//				.findViewById(R.id.third_alarm_gridview);
+//		disMetrics = new DisplayMetrics();
+//		getActivity().getWindowManager().getDefaultDisplay()
+//				.getMetrics(disMetrics);
+//		manageAdapter = new PeripheralManageAdapter(this);
+//		manageAdapter.SetData(disMetrics.widthPixels);
+//		manageGridView.setAdapter(manageAdapter);
+//		manageAdapter.notifyDataSetChanged();
+//		// doorBtn = (Button) rootView.findViewById(R.id.add_door_btn);
+//		// doorBtn.setOnClickListener(this);
+//		// braceletBtn = (Button) rootView.findViewById(R.id.add_bracelet_btn);
+//		// braceletBtn.setOnClickListener(this);
+//		// telecontrolBtn = (Button) rootView
+//		// .findViewById(R.id.add_telecontrol_btn);
+//		// telecontrolBtn.setOnClickListener(this);
+//
+//		return rootView;
+//	}
 
 	@Override
 	public void onResume() {

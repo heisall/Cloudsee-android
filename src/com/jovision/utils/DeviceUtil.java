@@ -2101,7 +2101,8 @@ public class DeviceUtil {
 										int counts = obj
 												.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_SUM);
 										Device dev = new Device("", 9101, gid,
-												no, user, pwd, true, counts, 1);
+												no, user, pwd, true, counts, 1,
+												null);
 										dev.setUser(user);
 										dev.setPwd(pwd);
 

@@ -160,15 +160,16 @@ public class JVWebViewActivity extends BaseActivity {
 				// showTextToast(rtmp);//////////////等着去掉
 				try {
 
-					if (newUrl.contains("viewmode")) {// 打开模式
+					if (newUrl.contains("open")) {// 打开新的WebView模式
 						Intent intentAD2 = new Intent(JVWebViewActivity.this,
 								JVWebViewActivity.class);
-						statusHashMap.put(Consts.MORE_STATURL, newUrl);
-
 						intentAD2.putExtra("URL", newUrl);
 						intentAD2.putExtra("title", -2);
 						JVWebViewActivity.this.startActivity(intentAD2);
-					} else if (newUrl.contains("video")) {// 是否含有视频
+					} else if (newUrl.contains("close")) {// 关闭当前webview
+						JVWebViewActivity.this.finish();
+					} else if (newUrl.contains("video")
+							|| newUrl.contains("viewmode")) {// 是否含有视频
 
 						String param_array[] = newUrl.split("\\?");
 						HashMap<String, String> resMap;

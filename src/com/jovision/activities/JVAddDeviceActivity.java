@@ -272,7 +272,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 		@Override
 		protected Integer doInBackground(String... params) {
 
-			String nickname = params[3];
+			String nickName = params[3];
 			int addRes = -1;
 			boolean localFlag = Boolean.valueOf(statusHashMap
 					.get(Consts.LOCAL_LOGIN));
@@ -306,19 +306,18 @@ public class JVAddDeviceActivity extends BaseActivity {
 				addDevice = new Device("", 0, params[0],
 						Integer.parseInt(params[1]), userET.getText()
 								.toString(), pwdET.getText().toString(), false,
-						channelCount, 0);
-
+						channelCount, 0, nickName);
 				// MyLog.v(TAG, "dev = " + addDev.toString());
 				if (null != addDevice) {
 					if (localFlag) {// 本地添加
 						addRes = 0;
-						if (!"".equals(nickname)) {
-							addDevice.setNickName(nickname);
+						if (!"".equals(nickName)) {
+							addDevice.setNickName(nickName);
 						}
 					} else {
 						addDevice = DeviceUtil.addDevice2(addDevice,
 								statusHashMap.get(Consts.KEY_USERNAME),
-								nickname);
+								nickName);
 						if (null != addDevice) {
 							addRes = 0;
 						}

@@ -400,7 +400,7 @@
     <string name="updated_at">The latest update within %1$s</string>
     <string name="updated_just_now">Just update</string>
     <string name="time_error">something wrong with the time</string>
-     <!-- JVRebandContact  -->
+    <!-- JVRebandContact -->
     <string name="rebandmodify">更换</string>
     <string name="rebandphone">手机号 :</string>
     <string name="rebandemail">邮箱 :</string>
@@ -712,6 +712,7 @@
     <string name="census_appplay_version">程序播放库</string>
     <string name="census_version">版本号</string>
     <string name="str_error_vercode">无效验证码</string>
+    <string name="location_login_hand">访客</string>
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
     <string name="reset_passwd_input_vercode"> verification code</string>

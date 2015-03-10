@@ -277,5 +277,6 @@ public class JVACCOUNT {
 
 	public static native int RandCodeCheck(String randCode);
 	
+	//reqJson:{"user":"111","phone":"18668923911","mail":"","nick":"nicheng"}
 	public static native int SetAccountInfo(String reqJson);
 }

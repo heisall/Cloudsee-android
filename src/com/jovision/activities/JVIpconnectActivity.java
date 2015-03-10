@@ -64,13 +64,13 @@ public class JVIpconnectActivity extends BaseActivity {
 	private int deviceIndex;
 
 	private int isDevice;
-	
+
 	private TextView ipText;
-	
+
 	private ImageView ipImg;
-	
+
 	private TextView cloudText;
-	
+
 	private ImageView cloudImg;
 
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
@@ -83,7 +83,7 @@ public class JVIpconnectActivity extends BaseActivity {
 	private String portString;
 	private String userString;
 	private String pwdString;
-	
+
 	protected RelativeLayout.LayoutParams reParamsip;
 	protected RelativeLayout.LayoutParams reParamscloud;
 
@@ -132,12 +132,12 @@ public class JVIpconnectActivity extends BaseActivity {
 			finish();
 			return;
 		}
-		
-		ipText = (TextView)findViewById(R.id.iptext);
-		ipImg = (ImageView)findViewById(R.id.ipimg);
-		cloudText = (TextView)findViewById(R.id.cloudtext);
-		cloudImg = (ImageView)findViewById(R.id.cloudimg);
-		
+
+		ipText = (TextView) findViewById(R.id.iptext);
+		ipImg = (ImageView) findViewById(R.id.ipimg);
+		cloudText = (TextView) findViewById(R.id.cloudtext);
+		cloudImg = (ImageView) findViewById(R.id.cloudimg);
+
 		mContainer = (LinearLayout) findViewById(R.id.mContainer);
 		cloud_number = (TextView) findViewById(R.id.cloudnumber_text);
 		ipconnnect_ip = (RelativeLayout) findViewById(R.id.ipconnect_ip);
@@ -159,7 +159,7 @@ public class JVIpconnectActivity extends BaseActivity {
 		accountError = (TextView) findViewById(R.id.accounterror);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
-		
+
 		int height = disMetrics.heightPixels;
 		int width = disMetrics.widthPixels;
 		int useWidth = 0;
@@ -168,17 +168,16 @@ public class JVIpconnectActivity extends BaseActivity {
 		} else {
 			useWidth = width;
 		}
-		reParamsip = new RelativeLayout.LayoutParams((useWidth)/2,
-				75);
-		reParamscloud = new RelativeLayout.LayoutParams((useWidth)/2,
-				75);
+		reParamsip = new RelativeLayout.LayoutParams((useWidth) / 2, 75);
+		reParamscloud = new RelativeLayout.LayoutParams((useWidth) / 2, 75);
 		reParamscloud.addRule(RelativeLayout.RIGHT_OF, R.id.ipconnect_ip);
 		ipconnnect_ip.setLayoutParams(reParamsip);
 		ipconnnect_cloud.setLayoutParams(reParamscloud);
 
 		if (isDevice == 0) {
 			isTurn = false;
-			ipText.setTextColor(getResources().getColor(R.color.leftdevicecolor));
+			ipText.setTextColor(getResources()
+					.getColor(R.color.leftdevicecolor));
 			cloudText.setTextColor(getResources().getColor(R.color.play_bq));
 			ipImg.setVisibility(View.GONE);
 			cloudImg.setVisibility(View.VISIBLE);
@@ -192,7 +191,8 @@ public class JVIpconnectActivity extends BaseActivity {
 		} else {
 			isTurn = true;
 			ipText.setTextColor(getResources().getColor(R.color.play_bq));
-			cloudText.setTextColor(getResources().getColor(R.color.leftdevicecolor));
+			cloudText.setTextColor(getResources().getColor(
+					R.color.leftdevicecolor));
 			ipImg.setVisibility(View.VISIBLE);
 			cloudImg.setVisibility(View.GONE);
 			addressLayout.setVisibility(View.VISIBLE);
@@ -231,7 +231,7 @@ public class JVIpconnectActivity extends BaseActivity {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			switch (checkedId) {
-			
+
 			default:
 				break;
 			}
@@ -257,8 +257,10 @@ public class JVIpconnectActivity extends BaseActivity {
 					@Override
 					public void onAnimationEnd(Animation animation) {
 						isTurn = true;
-						ipText.setTextColor(getResources().getColor(R.color.play_bq));
-						cloudText.setTextColor(getResources().getColor(R.color.leftdevicecolor));
+						ipText.setTextColor(getResources().getColor(
+								R.color.play_bq));
+						cloudText.setTextColor(getResources().getColor(
+								R.color.leftdevicecolor));
 						ipImg.setVisibility(View.VISIBLE);
 						cloudImg.setVisibility(View.GONE);
 						addressLayout.setVisibility(View.VISIBLE);
@@ -295,8 +297,10 @@ public class JVIpconnectActivity extends BaseActivity {
 					@Override
 					public void onAnimationEnd(Animation animation) {
 						isTurn = false;
-						ipText.setTextColor(getResources().getColor(R.color.leftdevicecolor));
-						cloudText.setTextColor(getResources().getColor(R.color.play_bq));
+						ipText.setTextColor(getResources().getColor(
+								R.color.leftdevicecolor));
+						cloudText.setTextColor(getResources().getColor(
+								R.color.play_bq));
 						ipImg.setVisibility(View.GONE);
 						cloudImg.setVisibility(View.VISIBLE);
 						addressLayout.setVisibility(View.GONE);

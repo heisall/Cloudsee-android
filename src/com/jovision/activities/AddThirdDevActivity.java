@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -45,7 +46,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private MyHandler myHandler;
 	private int process_flag = 0; // 0 绑定设备 1绑定昵称
 	private boolean bind_nick_res = false;
-	//private CustomDialog learningDialog;
+	// private CustomDialog learningDialog;
 	private int[] add_device_types = {
 			R.drawable.third_guide_door,// 这是占位的
 			R.drawable.third_guide_door, R.drawable.third_guide_bracelet,
@@ -54,6 +55,25 @@ public class AddThirdDevActivity extends BaseActivity implements
 			R.drawable.third_guide_gas, };
 	private String[] PeripheralArray;
 	private int init_dev_alarm_tag = 0;// 默认是失败
+
+	private OnMainListener mainListener;
+
+	// 接口
+	public interface OnMainListener {
+		public void onMainAction(int action);
+	}
+
+	// 绑定接口
+	@Override
+	public void onAttachFragment(Fragment fragment) {
+		try {
+			mainListener = (OnMainListener) fragment;
+		} catch (Exception e) {
+			throw new ClassCastException(this.toString()
+					+ " must implement OnMainListener");
+		}
+		super.onAttachFragment(fragment);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,10 +89,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 		strYstNum = extras.getString("dev_num");
 		bConnectedFlag = extras.getBoolean("conn_flag");
 		bNeedSendTextReq = extras.getBoolean("text_req_flag");
-//		if (null == learningDialog) {
-//			learningDialog = new CustomDialog(this);
-//			learningDialog.setCancelable(false);
-//		}
+		// if (null == learningDialog) {
+		// learningDialog = new CustomDialog(this);
+		// learningDialog.setCancelable(false);
+		// }
 		if (null == waitingDialog) {
 			waitingDialog = new ProgressDialog(this);
 			waitingDialog.setCancelable(false);
@@ -180,7 +200,9 @@ public class AddThirdDevActivity extends BaseActivity implements
 					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
 					// 10000);// 10秒获取不到就取消Dialog
 				} else {
-					//learningDialog.Show(add_device_types[index], dev_type_mark);
+					// learningDialog.Show(add_device_types[index],
+					// dev_type_mark);
+					waitingDialog.show();
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -209,7 +231,9 @@ public class AddThirdDevActivity extends BaseActivity implements
 					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
 					// 10000);// 10秒获取不到就取消Dialog
 				} else {
-					//learningDialog.Show(add_device_types[index], dev_type_mark);
+					// learningDialog.Show(add_device_types[index],
+					// dev_type_mark);
+					waitingDialog.show();
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -231,6 +255,13 @@ public class AddThirdDevActivity extends BaseActivity implements
 			case Consts.RC_GPIN_ADD:
 				// new Thread(new ToastProcess(0x9999)).start();
 				DismissDialog();
+				// 绑定超时，返回菜单
+				Log.e("webv", "before 绑定设备超时....0");
+				if (process_flag == 0)// 绑定设备
+				{
+					Log.e("webv", "绑定设备超时....0");
+					mainListener.onMainAction(0);
+				}
 				showTextToast(R.string.str_alarm_binddev_timeout);
 				break;
 			case Consts.RC_GPIN_SET:// 设置设备昵称
@@ -330,8 +361,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 					if (waitingDialog.isShowing()) {
 						waitingDialog.dismiss();
 					}
-					//learningDialog.Show(add_device_types[dev_type_mark],
-					//		dev_type_mark);
+					// learningDialog.Show(add_device_types[dev_type_mark],
+					// dev_type_mark);
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -371,9 +402,9 @@ public class AddThirdDevActivity extends BaseActivity implements
 				int flag = respObject.optInt("flag");
 				switch (flag) {
 				case Consts.RC_GPIN_ADD:// 绑定设备
-//					if (learningDialog.isShowing()) {
-//						learningDialog.dismiss();
-//					}
+					// if (learningDialog.isShowing()) {
+					// learningDialog.dismiss();
+					// }
 					myHandler.removeMessages(Consts.RC_GPIN_ADD);
 					if (obj != null) {
 						Log.e("Alarm", "绑定设备结果:" + obj.toString());
@@ -441,6 +472,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 							setResult(30, data);
 							finish();
 						} else {
+							mainListener.onMainAction(0);
 							showTextToast(R.string.str_alarm_binddev_timeout);
 						}
 					}
@@ -579,8 +611,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 	}
 
 	private void DismissDialog() {
-//		if (learningDialog != null && learningDialog.isShowing())
-//			learningDialog.dismiss();
+		// if (learningDialog != null && learningDialog.isShowing())
+		// learningDialog.dismiss();
 		if (waitingDialog != null && waitingDialog.isShowing())
 			waitingDialog.dismiss();
 	}

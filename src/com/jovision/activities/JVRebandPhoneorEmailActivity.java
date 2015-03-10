@@ -155,20 +155,23 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
-		tempFile = new File(Consts.HEAD_PATH + statusHashMap
-				.get(Consts.KEY_USERNAME) + ".jpg");
-			
-		
+		tempFile = new File(Consts.HEAD_PATH
+				+ statusHashMap.get(Consts.KEY_USERNAME) + ".jpg");
+
 		regist = (Button) findViewById(R.id.regist);
 		code = (EditText) findViewById(R.id.code);
 		registercode = (TextView) findViewById(R.id.registercode);
 		userNameEditText = (EditText) findViewById(R.id.registusername);
 		if (isPhone == 1) {
-			userNameEditText.setHint(getResources().getString(R.string.str_enter_username1));
-			currentMenu.setText(getResources().getString(R.string.rebindcontactphone));
+			userNameEditText.setHint(getResources().getString(
+					R.string.str_enter_username1));
+			currentMenu.setText(getResources().getString(
+					R.string.rebindcontactphone));
 		} else {
-			userNameEditText.setHint(getResources().getString(R.string.login_str_loginemail_notnull));
-			currentMenu.setText(getResources().getString(R.string.rebindcontactemail));
+			userNameEditText.setHint(getResources().getString(
+					R.string.login_str_loginemail_notnull));
+			currentMenu.setText(getResources().getString(
+					R.string.rebindcontactemail));
 		}
 		registTips = (TextView) findViewById(R.id.regist_tips);
 
@@ -466,14 +469,14 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 							.isConnected(JVRebandPhoneorEmailActivity.this)) {
 						alertNetDialog();
 					} else {
-						if(!ismailclick){
+						if (!ismailclick) {
 							if ("".equalsIgnoreCase(userNameEditText.getText()
 									.toString())) {
 								registTips.setVisibility(View.VISIBLE);
 								registTips.setTextColor(Color.rgb(217, 34, 38));
 								registTips.setText(getResources().getString(
 										R.string.login_str_loginemail_notnull));
-							} else{
+							} else {
 								createDialog("", true);
 								new Thread() {
 									public void run() {
@@ -510,7 +513,8 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 								}.start();
 							}
 						} else {
-							showTextToast(getResources().getString(R.string.rebindemailhassend));
+							showTextToast(getResources().getString(
+									R.string.rebindemailhassend));
 						}
 					}
 				}
@@ -783,17 +787,20 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 			switch (result) {
 			case 0:
 				ismailclick = false;
-				showTextToast(getResources().getString(R.string.rebindemailhassend));
+				showTextToast(getResources().getString(
+						R.string.rebindemailhassend));
 				break;
 			case -1:
 				registercode.setText(getResources().getString(
 						R.string.str_resend_code));
-				showTextToast(getResources().getString(R.string.rebindemailhassendfailed));
+				showTextToast(getResources().getString(
+						R.string.rebindemailhassendfailed));
 				break;
 			case -11:
 				registercode.setText(getResources().getString(
 						R.string.str_resend_code));
-				showTextToast(getResources().getString(R.string.rebindemailhassendfailed));
+				showTextToast(getResources().getString(
+						R.string.rebindemailhassendfailed));
 				break;
 			}
 		}
@@ -841,11 +848,13 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 				break;
 			case -1:
 				registercode.setBackgroundResource(R.drawable.vercode);
-				showTextToast(getResources().getString(R.string.str_error_vercodetw));
+				showTextToast(getResources().getString(
+						R.string.str_error_vercodetw));
 				break;
 			case -31:
 				registercode.setBackgroundResource(R.drawable.vercode);
-				showTextToast(getResources().getString(R.string.str_error_vercodetw));
+				showTextToast(getResources().getString(
+						R.string.str_error_vercodetw));
 				break;
 			}
 		}
@@ -863,14 +872,16 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 	}
 
 	// 绑定邮箱或者手机号
-	private class BindEmailorPhoneTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+	private class BindEmailorPhoneTask extends
+			AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {
 			int Code = -1;
 			try {
-				createDialog("",true);
-				Code = JVACCOUNT.BindMailOrPhone(userNameEditText.getText().toString());
+				createDialog("", true);
+				Code = JVACCOUNT.BindMailOrPhone(userNameEditText.getText()
+						.toString());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -890,13 +901,16 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 			case 0:
 				showTextToast(getResources().getString(R.string.rebindsussess));
 				if (isPhone == 1) {
-					MySharedPreference.putString("REBINDPHONE", userNameEditText.getText().toString());
+					MySharedPreference.putString("REBINDPHONE",
+							userNameEditText.getText().toString());
 				}
 				if (isPhone == 0) {
-					MySharedPreference.putString("REBINDEMAIL",  userNameEditText.getText().toString());
+					MySharedPreference.putString("REBINDEMAIL",
+							userNameEditText.getText().toString());
 				}
 				if (tempFile.exists()) {
-					tempFile.renameTo(new File(Consts.HEAD_PATH + userNameEditText.getText().toString() + ".jpg"));
+					tempFile.renameTo(new File(Consts.HEAD_PATH
+							+ userNameEditText.getText().toString() + ".jpg"));
 				}
 				finish();
 				break;

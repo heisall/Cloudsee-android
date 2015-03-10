@@ -13,10 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -24,7 +28,8 @@ import com.jovision.adapters.PeripheralManageAdapter;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
 
-public class AddThirdDeviceMenuFragment extends Fragment {
+public class AddThirdDeviceMenuFragment extends Fragment implements
+		AddThirdDevActivity.OnMainListener {
 	private View rootView;// 缓存Fragment view
 	private GridView manageGridView;
 	private PeripheralManageAdapter manageAdapter;
@@ -32,6 +37,9 @@ public class AddThirdDeviceMenuFragment extends Fragment {
 	private WebView mWebView;
 	private MyHandler myHandler;
 	private String mDevType = "";
+	private LinearLayout loadinglayout;
+	private ImageView loadingBar;
+	private boolean loadFailed = false;
 
 	public interface OnDeviceClassSelectedListener {
 		public void OnDeviceClassSelected(int index);
@@ -66,6 +74,10 @@ public class AddThirdDeviceMenuFragment extends Fragment {
 		}
 		myHandler = new MyHandler();
 		mWebView = (WebView) rootView.findViewById(R.id.webview);
+
+		loadingBar = (ImageView) rootView.findViewById(R.id.loadingbar);
+		loadinglayout = (LinearLayout) rootView
+				.findViewById(R.id.loadinglayout);
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 
@@ -81,7 +93,7 @@ public class AddThirdDeviceMenuFragment extends Fragment {
 			public void onReceivedError(WebView view, int errorCode,
 					String description, String failingUrl) {
 				Log.e("webv", "webView load failed");
-
+				loadFailed = true;
 				super.onReceivedError(view, errorCode, description, failingUrl);
 			}
 
@@ -89,7 +101,7 @@ public class AddThirdDeviceMenuFragment extends Fragment {
 			public boolean shouldOverrideUrlLoading(WebView view, String newUrl) {
 				view.loadUrl(newUrl);
 				Log.e("webv", "newUrl:" + newUrl);
-				if (newUrl.contains("&device=")) {
+				if (newUrl.contains("device=")) {
 
 					String param_array[] = newUrl.split("\\?");
 					HashMap<String, String> resMap;
@@ -103,6 +115,10 @@ public class AddThirdDeviceMenuFragment extends Fragment {
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
+				loadinglayout.setVisibility(View.VISIBLE);
+				Animation anim = AnimationUtils.loadAnimation(getActivity(),
+						R.anim.rotate);
+				loadingBar.setAnimation(anim);
 				Log.v("Test", "webView start load");
 				// mHandler.sendEmptyMessage(1);
 			}
@@ -110,10 +126,26 @@ public class AddThirdDeviceMenuFragment extends Fragment {
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
+				loadinglayout.setVisibility(View.GONE);
 				Log.e("webv", "webView finish load");
-				if (mDevType != null && !mDevType.equals("")) {
-					mListener.OnDeviceClassSelected(Integer.parseInt(mDevType));
+				if (loadFailed) {
+					Log.e("webv", "url:" + url + " load failed");
+					getActivity().finish();
+				} else {
+					if (url.contains("device=")) {
+
+						String param_array[] = url.split("\\?");
+						HashMap<String, String> resMap;
+						resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
+
+						mDevType = resMap.get("device");
+						if (mDevType != null && !mDevType.equals("")) {
+							mListener.OnDeviceClassSelected(Integer
+									.parseInt(mDevType));
+						}
+					}
 				}
+
 			}
 		});
 
@@ -193,5 +225,18 @@ public class AddThirdDeviceMenuFragment extends Fragment {
 	public void MyOnNotify(int what, int arg1, int arg2, Object obj) {
 		Message msg = myHandler.obtainMessage(what, arg1, arg2, obj);
 		myHandler.sendMessage(msg);
+	}
+
+	@Override
+	public void onMainAction(int action) {
+		// TODO Auto-generated method stub
+		if (action == 0) {
+			if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
+					|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
+				mWebView.loadUrl(webUrlZH);
+			} else {
+				mWebView.loadUrl(webUrlEN);
+			}
+		}
 	}
 }

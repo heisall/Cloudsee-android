@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -692,31 +691,40 @@ public class JVMyDeviceFragment extends BaseFragment {
 											intentAD.putExtra("title", -2);
 											intentAD.putExtra("URL", adUrl);
 											mActivity.startActivity(intentAD);
-										} else if (adUrl.contains("zhidao")) {// 小维知道特殊标识{
-											Intent zhidaoIntent = mActivity
-													.getPackageManager()
-													.getLaunchIntentForPackage(
-															"com.jovision.zhidao");// com.jovision.zhidao.SplashActivity
-											if (null == zhidaoIntent) {// 提示下载小维知道
-												try {
-													if (mActivity.hasSDCard(20)) {
-														Uri uri = Uri
-																.parse(adList
-																		.get(index)
-																		.getAdDesp());
-														Intent it = new Intent(
-																Intent.ACTION_VIEW,
-																uri);
-														mActivity
-																.startActivity(it);
-													}
-												} catch (Exception e) {
-													e.printStackTrace();
-												}
+										} else if (adUrl.contains("bbs")) {// 小维知道特殊标识{
 
-											} else {
-												startActivity(zhidaoIntent);
-											}
+											adUrl = adUrl + "&sid=" + sid;
+											MyLog.v("zhidaoUrl", adUrl);
+											intentAD.putExtra("title", -2);
+											intentAD.putExtra("URL", adUrl);
+											mActivity.startActivity(intentAD);
+
+											// Intent zhidaoIntent = mActivity
+											// .getPackageManager()
+											// .getLaunchIntentForPackage(
+											// "com.jovision.zhidao");//
+											// com.jovision.zhidao.SplashActivity
+											// if (null == zhidaoIntent) {//
+											// 提示下载小维知道
+											// try {
+											// if (mActivity.hasSDCard(20)) {
+											// Uri uri = Uri
+											// .parse(adList
+											// .get(index)
+											// .getAdDesp());
+											// Intent it = new Intent(
+											// Intent.ACTION_VIEW,
+											// uri);
+											// mActivity
+											// .startActivity(it);
+											// }
+											// } catch (Exception e) {
+											// e.printStackTrace();
+											// }
+											//
+											// } else {
+											// startActivity(zhidaoIntent);
+											// }
 										} else {
 											MyLog.v("adUrl", adUrl);
 											intentAD.putExtra("title", -2);

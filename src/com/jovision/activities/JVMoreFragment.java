@@ -46,6 +46,7 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.GetPhoneNumber;
 import com.jovision.utils.ListViewUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
@@ -87,6 +88,8 @@ public class JVMoreFragment extends BaseFragment {
 	private WebUrl url;
 
 	private boolean isgetemail;
+	
+	private GetPhoneNumber phoneNumber;
 
 	private popw popupWindow; // 声明PopupWindow对象；
 	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
@@ -127,6 +130,8 @@ public class JVMoreFragment extends BaseFragment {
 	private int littlenum = 0;
 
 	private MainApplication mApp;
+	
+	private ImageView more_camera;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -188,7 +193,8 @@ public class JVMoreFragment extends BaseFragment {
 			fragment_name = activity.getResources().getStringArray(
 					R.array.array_more);
 		}
-
+		MySharedPreference.putBoolean("ISPHONE", false);
+		MySharedPreference.putBoolean("ISEMAIL", false);
 		if (Boolean.valueOf(((BaseActivity) activity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			more_name = activity.getResources().getString(
@@ -196,6 +202,18 @@ public class JVMoreFragment extends BaseFragment {
 		} else {
 			more_name = ((BaseActivity) activity).statusHashMap
 					.get(Consts.KEY_USERNAME);
+			MySharedPreference.putString("ACCOUNT", more_name);
+		}
+		if (AccountUtil.verifyEmail(more_name)) {
+			MySharedPreference.putBoolean("ISEMAIL", true);
+		}else {
+			MySharedPreference.putBoolean("ISEMAIL", false);
+		}
+		phoneNumber = new GetPhoneNumber(more_name);
+		if (5 != phoneNumber.matchNum() && 4 != phoneNumber.matchNum() ) {
+			MySharedPreference.putBoolean("ISPHONE", true);
+		}else {
+			MySharedPreference.putBoolean("ISPHONE", false);
 		}
 		initDatalist();
 
@@ -204,6 +222,7 @@ public class JVMoreFragment extends BaseFragment {
 		tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
 		newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
 
+		more_camera = (ImageView)view.findViewById(R.id.more_camera);
 		more_modifypwd = (TextView) view.findViewById(R.id.more_modifypwd);
 		more_bindmail = (TextView) view.findViewById(R.id.more_bindmail);
 		more_cancle = (RelativeLayout) view.findViewById(R.id.more_cancle);
@@ -225,7 +244,6 @@ public class JVMoreFragment extends BaseFragment {
 		more_bindmail.setOnClickListener(myOnClickListener);
 		more_modifypwd.setOnClickListener(myOnClickListener);
 		more_cancle.setBackgroundResource(R.drawable.blue_bg);
-		more_username.setText(more_name);
 		more_head.setOnClickListener(myOnClickListener);
 		more_cancle.setOnClickListener(myOnClickListener);
 		more_modify.setOnClickListener(myOnClickListener);
@@ -255,13 +273,19 @@ public class JVMoreFragment extends BaseFragment {
 		super.onResume();
 		more_bindmail.setVisibility(View.GONE);
 		if (tempFile.exists()) {
+			more_camera.setVisibility(View.GONE);
 			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
 					+ more_name + Consts.IMAGE_JPG_KIND);
 			more_head.setImageBitmap(bitmap);
+			more_camera.setVisibility(View.GONE);
 		}
 		if (MySharedPreference.getBoolean("ISSHOW", false)) {
 			more_bindmail.setVisibility(View.VISIBLE);
 		}
+		if (!"".equals(MySharedPreference.getString("ACCOUNT")) && null != MySharedPreference.getString("ACCOUNT")) {
+			more_name = MySharedPreference.getString("ACCOUNT");
+		}
+		more_username.setText(more_name);
 		int alarm_new_nums = mApp.getNewPushCnt();
 		adapter.setNewNums(alarm_new_nums);
 		adapter.notifyDataSetChanged();
@@ -313,6 +337,7 @@ public class JVMoreFragment extends BaseFragment {
 			case R.id.more_head_img:
 				// TODO
 				isgetemail = true;
+				mActivity.createDialog("", true);
 				if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {
 					CheckUserInfoTask task = new CheckUserInfoTask();
@@ -774,9 +799,9 @@ public class JVMoreFragment extends BaseFragment {
 							mActivity.startActivity(intentMedia);
 							break;
 						case 15: // 意见反馈
-							Intent intent = new Intent(mActivity,
-									JVFeedbackActivity.class);
-							startActivity(intent);
+//							Intent intent = new Intent(mActivity,
+//									JVFeedbackActivity.class);
+//							startActivity(intent);
 							break;
 						case 16: // 检查更新
 							mActivity.createDialog("", false);
@@ -866,6 +891,7 @@ public class JVMoreFragment extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(Integer result) {
+			mActivity.dismissDialog();
 			if (result == 0)// ok
 			{
 				Log.i("TAG", "邮箱：" + strMail + "手机号：" + strPhone);
@@ -1005,6 +1031,7 @@ public class JVMoreFragment extends BaseFragment {
 			((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_DEMOURL,
 					null);
 			MySharedPreference.putBoolean("ISSHOW", false);
+			MySharedPreference.putString("ACCOUNT", "");
 			MyActivityManager.getActivityManager().popAllActivityExceptOne(
 					JVLoginActivity.class);
 			Intent intent = new Intent();

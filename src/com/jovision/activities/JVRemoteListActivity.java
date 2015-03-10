@@ -350,7 +350,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn_left:
-				if (proDialog.isShowing() && !downloading) {
+				if (null != proDialog && proDialog.isShowing() && !downloading) {
 					Jni.sendBytes(indexOfChannel,
 							(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
 							new byte[0], 8);

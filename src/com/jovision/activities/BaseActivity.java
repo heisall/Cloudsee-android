@@ -495,6 +495,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 					System.currentTimeMillis());
 
 			MySharedPreference.putBoolean("ISSHOW", false);
+			MySharedPreference.putString("ACCOUNT", "");
 			BaseActivity.this.deleteDatabase("webview.db");
 			BaseActivity.this.deleteDatabase("webviewCache.db");
 

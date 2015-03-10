@@ -973,15 +973,14 @@ public class ImageUtil {
 					.showImageOnFail(defaultResId).cacheInMemory(true)
 					.cacheOnDisk(true).considerExifParams(true).
 					// displayer(new RoundedBitmapDisplayer(5)).
-					imageScaleType(ImageScaleType.NONE).
-					build();
+					imageScaleType(ImageScaleType.NONE).build();
 		} else {
 			options = new DisplayImageOptions.Builder()
 					.showImageOnLoading(defaultResId)
 					.showImageForEmptyUri(defaultResId)
 					.showImageOnFail(defaultResId).cacheInMemory(true)
-					.imageScaleType(ImageScaleType.NONE)
-					.cacheOnDisk(true).considerExifParams(true).build();
+					.imageScaleType(ImageScaleType.NONE).cacheOnDisk(true)
+					.considerExifParams(true).build();
 		}
 
 		ImageLoader.getInstance().displayImage(resourceUri, imageView, options,

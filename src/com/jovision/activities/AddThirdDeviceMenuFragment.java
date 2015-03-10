@@ -36,9 +36,10 @@ public class AddThirdDeviceMenuFragment extends Fragment {
 	public interface OnDeviceClassSelectedListener {
 		public void OnDeviceClassSelected(int index);
 	}
+
 	private String webUrlZH = "http://182.92.242.230:8081/device.html?lan=ch";
 	private String webUrlEN = "http://182.92.242.230:8081/device.html?lan=en";
-	
+
 	private OnDeviceClassSelectedListener mListener;
 
 	@Override
@@ -63,21 +64,19 @@ public class AddThirdDeviceMenuFragment extends Fragment {
 		if (parent != null) {
 			parent.removeView(rootView);
 		}
-		myHandler = new MyHandler();	
-        mWebView = (WebView) rootView.findViewById(R.id.webview);       
-        WebSettings webSettings = mWebView.getSettings();       
-        webSettings.setJavaScriptEnabled(true);   
+		myHandler = new MyHandler();
+		mWebView = (WebView) rootView.findViewById(R.id.webview);
+		WebSettings webSettings = mWebView.getSettings();
+		webSettings.setJavaScriptEnabled(true);
 
 		if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
-				|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW){
-			mWebView.loadUrl(webUrlZH);   
+				|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
+			mWebView.loadUrl(webUrlZH);
+		} else {
+			mWebView.loadUrl(webUrlEN);
 		}
-		else{
-			mWebView.loadUrl(webUrlEN); 
-		}
-          
-        
-        mWebView.setWebViewClient(new WebViewClient() {
+
+		mWebView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onReceivedError(WebView view, int errorCode,
 					String description, String failingUrl) {

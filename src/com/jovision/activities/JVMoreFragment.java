@@ -147,7 +147,6 @@ public class JVMoreFragment extends BaseFragment {
 				.get(Consts.LOCAL_LOGIN));
 		currentMenu.setText(R.string.more_featrue);
 		rightBtn.setVisibility(View.GONE);
-
 		leftBtn.setVisibility(View.GONE);
 		if (null != mActivity.statusHashMap.get(Consts.KEY_LAST_LOGIN_TIME)) {
 			more_lasttime.setText(mActivity.statusHashMap
@@ -175,7 +174,6 @@ public class JVMoreFragment extends BaseFragment {
 			}
 			break;
 		case Consts.WHAT_BIND:
-			Log.i("TAG", "邮箱：" + "显示");
 			more_bindmail.setVisibility(View.VISIBLE);
 			break;
 		}
@@ -234,11 +232,20 @@ public class JVMoreFragment extends BaseFragment {
 		more_modify.setOnClickListener(myOnClickListener);
 		more_findpassword.setOnClickListener(myOnClickListener);
 
+		MySharedPreference.putString("REBINDPHONE","");
+		MySharedPreference.putString("REBINDEMAIL","");
+		
 		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			more_modifypwd.setVisibility(View.VISIBLE);
 		} else {
 			more_modifypwd.setVisibility(View.GONE);
+		}
+		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
+				.get(Consts.LOCAL_LOGIN))) {
+			isgetemail = false;
+			CheckUserInfoTask task = new CheckUserInfoTask();
+			task.execute(more_name);
 		}
 	}
 
@@ -248,15 +255,13 @@ public class JVMoreFragment extends BaseFragment {
 		MyLog.e("TMAC", "the JVMoreFragment onResume invoke~~~");
 		super.onResume();
 		more_bindmail.setVisibility(View.GONE);
-		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
-				.get(Consts.LOCAL_LOGIN))) {
-			CheckUserInfoTask task = new CheckUserInfoTask();
-			task.execute(more_name);
-		}
 		if (tempFile.exists()) {
 			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
 					+ more_name + Consts.IMAGE_JPG_KIND);
 			more_head.setImageBitmap(bitmap);
+		}
+		if (MySharedPreference.getBoolean("ISSHOW" , false)) {
+			more_bindmail.setVisibility(View.VISIBLE);
 		}
 		int alarm_new_nums = mApp.getNewPushCnt();
 		adapter.setNewNums(alarm_new_nums);
@@ -308,16 +313,11 @@ public class JVMoreFragment extends BaseFragment {
 			case R.id.more_uesrname:
 			case R.id.more_head_img:
 				// TODO
+				isgetemail  = true;
 				if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
-						.get(Consts.LOCAL_LOGIN)) && isgetemail) {
-					Intent intentmore = new Intent(mActivity,
-							JVRebandContactActivity.class);
-					intentmore.putExtra("phone", hasbandPhone);
-					intentmore.putExtra("email", hasbandEmail);
-					Log.i("TAG", hasbandPhone + hasbandEmail);
-					startActivity(intentmore);
-				}else if (!isgetemail) {
-					mActivity.showTextToast(R.string.str_video_load_failed);
+						.get(Consts.LOCAL_LOGIN))) {
+					CheckUserInfoTask task = new CheckUserInfoTask();
+					task.execute(more_name);
 				}
 				if (Boolean.valueOf(((BaseActivity) activity).statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {
@@ -873,24 +873,33 @@ public class JVMoreFragment extends BaseFragment {
 		protected void onPostExecute(Integer result) {
 			if (result == 0)// ok
 			{
-				isgetemail = true;
 				Log.i("TAG", "邮箱：" + strMail + "手机号：" + strPhone);
 				if ((strMail.equals("") || null == strMail)
 						&& (strPhone.equals("") || null == strPhone)) {
+					MySharedPreference.putBoolean("ISSHOW" , true);
 					onNotify(Consts.WHAT_BIND, 0, 0, null);
 				}
 				if (!strMail.equals("") && null != strMail) {
 					hasbandEmail = strMail;
+					MySharedPreference.putString("EMAIL", strMail);
 				} else {
 					hasbandEmail = "noemail";
 				}
 				if (!strPhone.equals("") && null != strPhone) {
 					hasbandPhone = strPhone;
+					MySharedPreference.putString("EMAIL", strMail);
 				} else {
 					hasbandPhone = "nophone";
 				}
+				if (isgetemail) {
+						Intent intentmore = new Intent(mActivity,
+								JVRebandContactActivity.class);
+						intentmore.putExtra("phone", hasbandPhone);
+						intentmore.putExtra("email", hasbandEmail);
+						Log.i("TAG", hasbandPhone + hasbandEmail);
+						startActivity(intentmore);
+				}
 			} else {
-				isgetemail = false;
 				mActivity.showTextToast(R.string.str_video_load_failed);
 			}
 		}
@@ -1001,6 +1010,7 @@ public class JVMoreFragment extends BaseFragment {
 					null);
 			((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_DEMOURL,
 					null);
+			MySharedPreference.putBoolean("ISSHOW",false);
 			MyActivityManager.getActivityManager().popAllActivityExceptOne(
 					JVLoginActivity.class);
 			Intent intent = new Intent();

@@ -906,6 +906,10 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 					if (MySharedPreference.getBoolean("ISPHONE")) {
 						MySharedPreference.putString("ACCOUNT", userNameEditText.getText().toString());
 						statusHashMap.put(Consts.KEY_USERNAME, userNameEditText.getText().toString());
+						if (tempFile.exists()) {
+							tempFile.renameTo(new File(Consts.HEAD_PATH
+									+ userNameEditText.getText().toString() + ".jpg"));
+						}
 					}	
 				}
 				if (isPhone == 0) {
@@ -914,11 +918,11 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 					if (MySharedPreference.getBoolean("ISEMAIL")) {
 						MySharedPreference.putString("ACCOUNT", userNameEditText.getText().toString());
 						statusHashMap.put(Consts.KEY_USERNAME, userNameEditText.getText().toString());
+						if (tempFile.exists()) {
+							tempFile.renameTo(new File(Consts.HEAD_PATH
+									+ userNameEditText.getText().toString() + ".jpg"));
+						}
 					}	
-				}
-				if (tempFile.exists()) {
-					tempFile.renameTo(new File(Consts.HEAD_PATH
-							+ userNameEditText.getText().toString() + ".jpg"));
 				}
 				finish();
 				break;

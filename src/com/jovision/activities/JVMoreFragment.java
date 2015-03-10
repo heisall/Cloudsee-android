@@ -773,11 +773,11 @@ public class JVMoreFragment extends BaseFragment {
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);
 							break;
-						case 15: // 意见反馈
-							Intent intent = new Intent(mActivity,
-									JVFeedbackActivity.class);
-							startActivity(intent);
-							break;
+						// case 15: // 意见反馈
+						// Intent intent = new Intent(mActivity,
+						// JVFeedbackActivity.class);
+						// startActivity(intent);
+						// break;
 						case 16: // 检查更新
 							mActivity.createDialog("", false);
 							CheckUpdateTask taskf = new CheckUpdateTask(

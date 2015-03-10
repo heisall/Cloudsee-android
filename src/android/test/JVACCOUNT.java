@@ -276,4 +276,6 @@ public class JVACCOUNT {
 	public static native int SendResetMail(String Mail);
 
 	public static native int RandCodeCheck(String randCode);
+	
+	public static native int SetAccountInfo(String reqJson);
 }

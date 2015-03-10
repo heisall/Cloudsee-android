@@ -140,7 +140,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 				PendingIntent contentIntent = PendingIntent.getActivity(
 						context, 0, notificationIntent,
 						PendingIntent.FLAG_UPDATE_CURRENT);
-				notification.setLatestEventInfo(context, contentTitle + "-个推",
+				notification.setLatestEventInfo(context, contentTitle,
 						contentText, contentIntent);
 				// 用mNotificationManager的notify方法通知用户生成标题栏消息通知
 				mNotifyer.notify(1, notification);

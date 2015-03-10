@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -53,6 +54,25 @@ public class AddThirdDevActivity extends BaseActivity implements
 			R.drawable.third_guide_gas, };
 	private String[] PeripheralArray;
 	private int init_dev_alarm_tag = 0;// 默认是失败
+
+	private OnMainListener mainListener;
+
+	// 接口
+	public interface OnMainListener {
+		public void onMainAction(int action);
+	}
+
+	// 绑定接口
+	@Override
+	public void onAttachFragment(Fragment fragment) {
+		try {
+			mainListener = (OnMainListener) fragment;
+		} catch (Exception e) {
+			throw new ClassCastException(this.toString()
+					+ " must implement OnMainListener");
+		}
+		super.onAttachFragment(fragment);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -181,6 +201,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 				} else {
 					// learningDialog.Show(add_device_types[index],
 					// dev_type_mark);
+					waitingDialog.show();
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -211,6 +232,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 				} else {
 					// learningDialog.Show(add_device_types[index],
 					// dev_type_mark);
+					waitingDialog.show();
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -232,6 +254,13 @@ public class AddThirdDevActivity extends BaseActivity implements
 			case Consts.RC_GPIN_ADD:
 				// new Thread(new ToastProcess(0x9999)).start();
 				DismissDialog();
+				// 绑定超时，返回菜单
+				Log.e("webv", "before 绑定设备超时....0");
+				if (process_flag == 0)// 绑定设备
+				{
+					Log.e("webv", "绑定设备超时....0");
+					mainListener.onMainAction(0);
+				}
 				showTextToast(R.string.str_alarm_binddev_timeout);
 				break;
 			case Consts.RC_GPIN_SET:// 设置设备昵称
@@ -442,6 +471,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 							setResult(30, data);
 							finish();
 						} else {
+							mainListener.onMainAction(0);
 							showTextToast(R.string.str_alarm_binddev_timeout);
 						}
 					}

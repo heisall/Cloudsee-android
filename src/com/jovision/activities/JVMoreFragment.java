@@ -914,6 +914,7 @@ public class JVMoreFragment extends BaseFragment {
 				if (isgetemail) {
 					Intent intentmore = new Intent(mActivity,
 							JVRebandContactActivity.class);
+					intentmore.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					intentmore.putExtra("phone", hasbandPhone);
 					intentmore.putExtra("email", hasbandEmail);
 					Log.i("TAG", hasbandPhone + hasbandEmail);

@@ -47,14 +47,14 @@
                             android:background="@drawable/morefragment_head_icon"
                             android:scaleType="fitXY" />
                     </RelativeLayout>
-                    <ImageView 
+
+                    <ImageView
                         android:id="@+id/more_camera"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:background="@drawable/more_camera"
                         android:layout_gravity="bottom|right"
                         android:layout_marginRight="5dp"
-                        />
+                        android:background="@drawable/more_camera" />
                 </FrameLayout>
 
                 <LinearLayout

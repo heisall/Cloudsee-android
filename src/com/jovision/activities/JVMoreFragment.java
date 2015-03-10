@@ -88,7 +88,7 @@ public class JVMoreFragment extends BaseFragment {
 	private WebUrl url;
 
 	private boolean isgetemail;
-	
+
 	private GetPhoneNumber phoneNumber;
 
 	private popw popupWindow; // 声明PopupWindow对象；
@@ -130,7 +130,7 @@ public class JVMoreFragment extends BaseFragment {
 	private int littlenum = 0;
 
 	private MainApplication mApp;
-	
+
 	private ImageView more_camera;
 
 	@Override
@@ -206,13 +206,13 @@ public class JVMoreFragment extends BaseFragment {
 		}
 		if (AccountUtil.verifyEmail(more_name)) {
 			MySharedPreference.putBoolean("ISEMAIL", true);
-		}else {
+		} else {
 			MySharedPreference.putBoolean("ISEMAIL", false);
 		}
 		phoneNumber = new GetPhoneNumber(more_name);
-		if (5 != phoneNumber.matchNum() && 4 != phoneNumber.matchNum() ) {
+		if (5 != phoneNumber.matchNum() && 4 != phoneNumber.matchNum()) {
 			MySharedPreference.putBoolean("ISPHONE", true);
-		}else {
+		} else {
 			MySharedPreference.putBoolean("ISPHONE", false);
 		}
 		initDatalist();
@@ -222,7 +222,7 @@ public class JVMoreFragment extends BaseFragment {
 		tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
 		newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
 
-		more_camera = (ImageView)view.findViewById(R.id.more_camera);
+		more_camera = (ImageView) view.findViewById(R.id.more_camera);
 		more_modifypwd = (TextView) view.findViewById(R.id.more_modifypwd);
 		more_bindmail = (TextView) view.findViewById(R.id.more_bindmail);
 		more_cancle = (RelativeLayout) view.findViewById(R.id.more_cancle);
@@ -282,7 +282,8 @@ public class JVMoreFragment extends BaseFragment {
 		if (MySharedPreference.getBoolean("ISSHOW", false)) {
 			more_bindmail.setVisibility(View.VISIBLE);
 		}
-		if (!"".equals(MySharedPreference.getString("ACCOUNT")) && null != MySharedPreference.getString("ACCOUNT")) {
+		if (!"".equals(MySharedPreference.getString("ACCOUNT"))
+				&& null != MySharedPreference.getString("ACCOUNT")) {
 			more_name = MySharedPreference.getString("ACCOUNT");
 		}
 		more_username.setText(more_name);
@@ -799,9 +800,9 @@ public class JVMoreFragment extends BaseFragment {
 							mActivity.startActivity(intentMedia);
 							break;
 						case 15: // 意见反馈
-//							Intent intent = new Intent(mActivity,
-//									JVFeedbackActivity.class);
-//							startActivity(intent);
+							// Intent intent = new Intent(mActivity,
+							// JVFeedbackActivity.class);
+							// startActivity(intent);
 							break;
 						case 16: // 检查更新
 							mActivity.createDialog("", false);
@@ -914,6 +915,7 @@ public class JVMoreFragment extends BaseFragment {
 				if (isgetemail) {
 					Intent intentmore = new Intent(mActivity,
 							JVRebandContactActivity.class);
+					intentmore.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					intentmore.putExtra("phone", hasbandPhone);
 					intentmore.putExtra("email", hasbandEmail);
 					Log.i("TAG", hasbandPhone + hasbandEmail);

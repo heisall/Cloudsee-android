@@ -898,6 +898,7 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 				if (tempFile.exists()) {
 					tempFile.renameTo(new File(Consts.HEAD_PATH + userNameEditText.getText().toString() + ".jpg"));
 				}
+				MySharedPreference.putString("ACCOUNT","HAVEACCOUTN");
 				finish();
 				break;
 			case 2:

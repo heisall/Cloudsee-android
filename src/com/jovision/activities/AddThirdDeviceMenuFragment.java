@@ -80,7 +80,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 				.findViewById(R.id.loadinglayout);
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
-
+		webSettings.setDomStorageEnabled(true);
 		if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
 				|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
 			mWebView.loadUrl(webUrlZH);

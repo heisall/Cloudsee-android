@@ -72,6 +72,15 @@
     <string name="cloud1">雲視通</string>
     <string name="cloud2">通天下</string>
     <!-- JVLoginActivity -->
+    <!-- JVRebindEmialorPhone -->
+    <string name="rebindcontact">修改綁定</string>
+    <string name="rebindcontactphone">修改綁定手機號</string>
+    <string name="rebindcontactemail">修改綁定郵箱</string>
+    <string name="rebindhasnot">未綁定</string>
+    <string name="rebindemailhassend">郵件已發送</string>
+    <string name="rebindemailhassendfailed">郵件發送錯誤</string>
+    <string name="rebindsussess">綁定成功</string>
+    <string name="rebindfailed">綁定失敗</string>
     <!-- JVMoreFrament -->
     <string name="location_login">訪客</string>
     <!-- leftMenu -->

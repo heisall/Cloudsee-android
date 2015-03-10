@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
+import android.media.Image;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,16 +28,16 @@ import com.jovision.utils.DeviceUtil;
 import com.jovision.views.AlarmDialog;
 
 public class JVIpconnectActivity extends BaseActivity {
-	// ip连接形式的RadioButton
-	private RadioButton ipconnnect_ip;
-	// 云视通号连接形式的RadioButton
-	private RadioButton ipconnnect_cloud;
+	// ip连接形式的布局
+	private RelativeLayout ipconnnect_ip;
+	// 云视通号连接形式的布局
+	private RelativeLayout ipconnnect_cloud;
 	// 输入ip地址的布局
 	private LinearLayout addressLayout;
 	// 输入云视通号的布局
 	private LinearLayout couldnumLayout;
 	// 选择连接模式的布局
-	private LinearLayout tcpLayout;
+	private RelativeLayout tcpLayout;
 	// 输入接口的布局
 	private LinearLayout portLayout;
 	// 输入ip地址的edittext
@@ -60,11 +61,17 @@ public class JVIpconnectActivity extends BaseActivity {
 
 	private TextView cloud_number;
 
-	private RadioGroup change;
-
 	private int deviceIndex;
 
 	private int isDevice;
+	
+	private TextView ipText;
+	
+	private ImageView ipImg;
+	
+	private TextView cloudText;
+	
+	private ImageView cloudImg;
 
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 
@@ -76,6 +83,9 @@ public class JVIpconnectActivity extends BaseActivity {
 	private String portString;
 	private String userString;
 	private String pwdString;
+	
+	protected RelativeLayout.LayoutParams reParamsip;
+	protected RelativeLayout.LayoutParams reParamscloud;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -122,14 +132,19 @@ public class JVIpconnectActivity extends BaseActivity {
 			finish();
 			return;
 		}
-		change = (RadioGroup) findViewById(R.id.change);
+		
+		ipText = (TextView)findViewById(R.id.iptext);
+		ipImg = (ImageView)findViewById(R.id.ipimg);
+		cloudText = (TextView)findViewById(R.id.cloudtext);
+		cloudImg = (ImageView)findViewById(R.id.cloudimg);
+		
 		mContainer = (LinearLayout) findViewById(R.id.mContainer);
 		cloud_number = (TextView) findViewById(R.id.cloudnumber_text);
-		ipconnnect_ip = (RadioButton) findViewById(R.id.ipconnect_ip);
-		ipconnnect_cloud = (RadioButton) findViewById(R.id.ipconnect_cloud);
+		ipconnnect_ip = (RelativeLayout) findViewById(R.id.ipconnect_ip);
+		ipconnnect_cloud = (RelativeLayout) findViewById(R.id.ipconnect_cloud);
 		addressLayout = (LinearLayout) findViewById(R.id.Addresslayout);
 		couldnumLayout = (LinearLayout) findViewById(R.id.NumberLayout);
-		tcpLayout = (LinearLayout) findViewById(R.id.tcp_layout);
+		tcpLayout = (RelativeLayout) findViewById(R.id.tcp_layout);
 		tcpImageView = (ImageView) findViewById(R.id.tcp_img);
 		portLayout = (LinearLayout) findViewById(R.id.portlayout);
 		ipconnect_address = (EditText) findViewById(R.id.ipconnnect_address);
@@ -144,10 +159,29 @@ public class JVIpconnectActivity extends BaseActivity {
 		accountError = (TextView) findViewById(R.id.accounterror);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
+		
+		int height = disMetrics.heightPixels;
+		int width = disMetrics.widthPixels;
+		int useWidth = 0;
+		if (height < width) {
+			useWidth = height;
+		} else {
+			useWidth = width;
+		}
+		reParamsip = new RelativeLayout.LayoutParams((useWidth)/2,
+				75);
+		reParamscloud = new RelativeLayout.LayoutParams((useWidth)/2,
+				75);
+		reParamscloud.addRule(RelativeLayout.RIGHT_OF, R.id.ipconnect_ip);
+		ipconnnect_ip.setLayoutParams(reParamsip);
+		ipconnnect_cloud.setLayoutParams(reParamscloud);
 
 		if (isDevice == 0) {
-			change.check(R.id.ipconnect_cloud);
 			isTurn = false;
+			ipText.setTextColor(getResources().getColor(R.color.leftdevicecolor));
+			cloudText.setTextColor(getResources().getColor(R.color.play_bq));
+			ipImg.setVisibility(View.GONE);
+			cloudImg.setVisibility(View.VISIBLE);
 			addressLayout.setVisibility(View.GONE);
 			tcpLayout.setVisibility(View.GONE);
 			couldnumLayout.setVisibility(View.VISIBLE);
@@ -156,8 +190,11 @@ public class JVIpconnectActivity extends BaseActivity {
 			ipconnect_user.setText(editDevice.getUser());
 			ipconnect_pwd.setText(editDevice.getPwd());
 		} else {
-			change.check(R.id.ipconnect_ip);
 			isTurn = true;
+			ipText.setTextColor(getResources().getColor(R.color.play_bq));
+			cloudText.setTextColor(getResources().getColor(R.color.leftdevicecolor));
+			ipImg.setVisibility(View.VISIBLE);
+			cloudImg.setVisibility(View.GONE);
 			addressLayout.setVisibility(View.VISIBLE);
 			tcpLayout.setVisibility(View.VISIBLE);
 			couldnumLayout.setVisibility(View.GONE);
@@ -182,7 +219,6 @@ public class JVIpconnectActivity extends BaseActivity {
 		tcpLayout.setOnClickListener(myOnClickListener);
 		ipconnect_address.setFocusable(true);
 		ipconnect_address.setFocusableInTouchMode(true);
-		change.setOnCheckedChangeListener(mylistener);
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn.setOnClickListener(myOnClickListener);
 		ipconnnect_ip.setOnClickListener(myOnClickListener);
@@ -195,8 +231,18 @@ public class JVIpconnectActivity extends BaseActivity {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			switch (checkedId) {
+			
+			default:
+				break;
+			}
+		}
+	};
+	OnClickListener myOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
 			case R.id.ipconnect_ip:
-				change.check(R.id.ipconnect_ip);
 				Animation ani = AnimationUtils.loadAnimation(
 						JVIpconnectActivity.this, R.anim.rotate_out);
 				ani.setAnimationListener(new AnimationListener() {
@@ -211,6 +257,10 @@ public class JVIpconnectActivity extends BaseActivity {
 					@Override
 					public void onAnimationEnd(Animation animation) {
 						isTurn = true;
+						ipText.setTextColor(getResources().getColor(R.color.play_bq));
+						cloudText.setTextColor(getResources().getColor(R.color.leftdevicecolor));
+						ipImg.setVisibility(View.VISIBLE);
+						cloudImg.setVisibility(View.GONE);
 						addressLayout.setVisibility(View.VISIBLE);
 						tcpLayout.setVisibility(View.VISIBLE);
 						couldnumLayout.setVisibility(View.GONE);
@@ -231,7 +281,6 @@ public class JVIpconnectActivity extends BaseActivity {
 				mContainer.startAnimation(ani);
 				break;
 			case R.id.ipconnect_cloud:
-				change.check(R.id.ipconnect_cloud);
 				Animation ani2 = AnimationUtils.loadAnimation(
 						JVIpconnectActivity.this, R.anim.rotate_out);
 				ani2.setAnimationListener(new AnimationListener() {
@@ -246,6 +295,10 @@ public class JVIpconnectActivity extends BaseActivity {
 					@Override
 					public void onAnimationEnd(Animation animation) {
 						isTurn = false;
+						ipText.setTextColor(getResources().getColor(R.color.leftdevicecolor));
+						cloudText.setTextColor(getResources().getColor(R.color.play_bq));
+						ipImg.setVisibility(View.GONE);
+						cloudImg.setVisibility(View.VISIBLE);
 						addressLayout.setVisibility(View.GONE);
 						tcpLayout.setVisibility(View.GONE);
 						couldnumLayout.setVisibility(View.VISIBLE);
@@ -264,16 +317,6 @@ public class JVIpconnectActivity extends BaseActivity {
 				});
 				mContainer.startAnimation(ani2);
 				break;
-			default:
-				break;
-			}
-		}
-	};
-	OnClickListener myOnClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
 			case R.id.editsave:
 				if (isTurn) {
 					ipString = ipconnect_address.getText().toString();

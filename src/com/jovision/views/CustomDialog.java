@@ -47,10 +47,10 @@ public class CustomDialog extends Dialog implements CommonInterface {
 		img_guide = (ImageView) findViewById(R.id.guide_img);
 		loadingTv = (TextView) findViewById(R.id.loadingText);
 		tipsTv = (TextView) findViewById(R.id.guide_text_tips);
-		// img_guide.setImageResource(img_res_id);
+		img_guide.setImageResource(img_res_id);
 		loadingTv.setText(third_guide_desc[dev_mark_id]);
 		tipsTv.setText(third_guide_desc[dev_mark_id]);
-		// myPlayer = new MediaPlayer();
+		myPlayer = new MediaPlayer();
 	}
 
 	@Override
@@ -64,8 +64,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 	public void Show(int img_id, int dev_mark) {
 		img_res_id = img_id;
 		dev_mark_id = dev_mark;
-		// this.show();
-		myPlayer = new MediaPlayer();
+		this.show();
 		playSound(dev_mark_id);
 	}
 

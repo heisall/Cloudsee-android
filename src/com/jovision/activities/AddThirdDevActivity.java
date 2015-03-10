@@ -45,7 +45,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private MyHandler myHandler;
 	private int process_flag = 0; // 0 绑定设备 1绑定昵称
 	private boolean bind_nick_res = false;
-	private CustomDialog learningDialog;
+	//private CustomDialog learningDialog;
 	private int[] add_device_types = {
 			R.drawable.third_guide_door,// 这是占位的
 			R.drawable.third_guide_door, R.drawable.third_guide_bracelet,
@@ -69,10 +69,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 		strYstNum = extras.getString("dev_num");
 		bConnectedFlag = extras.getBoolean("conn_flag");
 		bNeedSendTextReq = extras.getBoolean("text_req_flag");
-		if (null == learningDialog) {
-			learningDialog = new CustomDialog(this);
-			learningDialog.setCancelable(false);
-		}
+//		if (null == learningDialog) {
+//			learningDialog = new CustomDialog(this);
+//			learningDialog.setCancelable(false);
+//		}
 		if (null == waitingDialog) {
 			waitingDialog = new ProgressDialog(this);
 			waitingDialog.setCancelable(false);
@@ -160,65 +160,6 @@ public class AddThirdDevActivity extends BaseActivity implements
 		// 1:门磁设备 2:手环设备 3:遥控 4:烟感 5:幕帘 6:红外探测器 7:燃气泄露
 		// index 外设功能编号从1开始
 		switch (index) {
-		case 1:
-			// currentMenu.setText(PeripheralArray[0]);
-			dev_type_mark = 1;// 门禁
-
-			if (!bConnectedFlag) {
-				waitingDialog.show();
-				if (!AlarmUtil.OnlyConnect2(strYstNum)) {
-					showTextToast(R.string.str_alarm_connect_failed_1);
-					waitingDialog.dismiss();
-				}
-			} else {
-
-				if (bNeedSendTextReq) {
-					// 首先需要发送文本聊天请求
-					waitingDialog.show();
-					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
-							(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
-					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
-					// 10000);// 10秒获取不到就取消Dialog
-				} else {
-					learningDialog.Show(add_device_types[index], dev_type_mark);
-					String req_data = "type=" + dev_type_mark + ";";
-					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
-							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-							(byte) Consts.RC_GPIN_ADD, req_data.trim());
-					new Thread(new TimeOutProcess(Consts.RC_GPIN_ADD)).start();
-				}
-			}
-			break;
-		case 2:
-			// currentMenu.setText(PeripheralArray[1]);
-			dev_type_mark = 2;// 手环
-
-			if (!bConnectedFlag) {
-				waitingDialog.show();
-				if (!AlarmUtil.OnlyConnect2(strYstNum)) {
-					showTextToast(R.string.str_alarm_connect_failed_1);
-					waitingDialog.dismiss();
-				}
-			} else {
-
-				// 首先需要发送文本聊天请求
-				if (bNeedSendTextReq) {
-					waitingDialog.show();
-					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
-							(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
-					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
-					// 10000);// 10秒获取不到就取消Dialog
-				} else {
-					learningDialog.Show(add_device_types[index], dev_type_mark);
-					String req_data = "type=" + dev_type_mark + ";";
-					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
-							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-							(byte) Consts.RC_GPIN_ADD, req_data.trim());
-					new Thread(new TimeOutProcess(Consts.RC_GPIN_ADD)).start();
-				}
-
-			}
-			break;
 		case 3:
 			// currentMenu.setText(PeripheralArray[2]);
 			dev_type_mark = 3;// 遥控
@@ -239,7 +180,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
 					// 10000);// 10秒获取不到就取消Dialog
 				} else {
-					learningDialog.Show(add_device_types[index], dev_type_mark);
+					//learningDialog.Show(add_device_types[index], dev_type_mark);
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -268,7 +209,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
 					// 10000);// 10秒获取不到就取消Dialog
 				} else {
-					learningDialog.Show(add_device_types[index], dev_type_mark);
+					//learningDialog.Show(add_device_types[index], dev_type_mark);
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -389,8 +330,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 					if (waitingDialog.isShowing()) {
 						waitingDialog.dismiss();
 					}
-					learningDialog.Show(add_device_types[dev_type_mark],
-							dev_type_mark);
+					//learningDialog.Show(add_device_types[dev_type_mark],
+					//		dev_type_mark);
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -430,9 +371,9 @@ public class AddThirdDevActivity extends BaseActivity implements
 				int flag = respObject.optInt("flag");
 				switch (flag) {
 				case Consts.RC_GPIN_ADD:// 绑定设备
-					if (learningDialog.isShowing()) {
-						learningDialog.dismiss();
-					}
+//					if (learningDialog.isShowing()) {
+//						learningDialog.dismiss();
+//					}
 					myHandler.removeMessages(Consts.RC_GPIN_ADD);
 					if (obj != null) {
 						Log.e("Alarm", "绑定设备结果:" + obj.toString());
@@ -638,8 +579,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 	}
 
 	private void DismissDialog() {
-		if (learningDialog != null && learningDialog.isShowing())
-			learningDialog.dismiss();
+//		if (learningDialog != null && learningDialog.isShowing())
+//			learningDialog.dismiss();
 		if (waitingDialog != null && waitingDialog.isShowing())
 			waitingDialog.dismiss();
 	}

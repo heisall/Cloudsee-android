@@ -73,7 +73,7 @@ public class JVRemoteListActivity extends BaseActivity {
 		switch (what) {
 		case Consts.PLAY_BACK_DOWNLOAD: {// 远程回放视频下载
 			if (hasSDCard(0)) {
-				createDialog("", false);
+				createDialog("", true);
 
 				hasDownLoadSize = 0;// 已下载文件大小
 				downLoadFileSize = 0;// 下载文件大小
@@ -350,7 +350,13 @@ public class JVRemoteListActivity extends BaseActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.btn_left:
-				JVRemoteListActivity.this.finish();
+				if (proDialog.isShowing() && !downloading) {
+					Jni.sendBytes(indexOfChannel,
+							(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
+							new byte[0], 8);
+				} else {
+					JVRemoteListActivity.this.finish();
+				}
 				break;
 			case R.id.search:
 				searchRemoteData(100);

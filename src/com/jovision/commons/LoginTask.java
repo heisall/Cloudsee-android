@@ -153,6 +153,9 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 				((BaseActivity) mContext)
 						.showTextToast(R.string.str_session_not_exist);
 				Intent intent = new Intent();
+				intent.putExtra("AutoLogin", false);
+				intent.putExtra("UserName",
+						statusHashMap.get(Consts.KEY_USERNAME));
 				intent.setClass(mContext, JVLoginActivity.class);
 				mContext.startActivity(intent);
 				statusHashMap.put(Consts.KEY_USERNAME, "");

@@ -138,11 +138,11 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					if (!Boolean
 							.valueOf(((BaseActivity) mContext).statusHashMap
 									.get(Consts.LOCAL_LOGIN))) {// 在线
-						bbsurl = webUrl.getBbsUrlString() + "&sid=" + sid
-								+ "&act=login";
+						bbsurl = webUrl.getBbsUrlString() + "&sid=" + sid;
+						// + "&act=login";
 					} else {// 本地
-						bbsurl = webUrl.getBbsUrlString() + "&sid=" + sid
-								+ "&act=logout";
+						bbsurl = webUrl.getBbsUrlString() + "&sid=" + sid;
+						// + "&act=logout";
 					}
 
 					((BaseActivity) mContext).statusHashMap.put(

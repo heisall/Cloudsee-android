@@ -169,7 +169,7 @@ public class ThirdDevAdapter extends BaseAdapter {
 			// .setBackgroundResource(device_types_array[devItem.dev_type_mark -
 			// 1]);
 			ImageUtil.displayImage(viewHolder.dev_type_img, imgUri,
-					R.drawable.third_curtain_default);
+					R.drawable.third_exdev_default);
 			// if (devItem.dev_type_mark == 1) {// 门磁设备
 			// viewHolder.dev_type_img
 			// .setBackgroundResource(R.drawable.third_door_default);

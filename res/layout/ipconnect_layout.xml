@@ -116,15 +116,15 @@
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
                     android:background="@color/more_fragment_color10" />
-                <ImageView 
+
+                <ImageView
                     android:id="@+id/tcp_img"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:background="@drawable/ipc_normal"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    />
+                    android:background="@drawable/ipc_normal" />
             </RelativeLayout>
 
             <LinearLayout

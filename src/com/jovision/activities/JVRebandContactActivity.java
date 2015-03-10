@@ -74,10 +74,12 @@ public class JVRebandContactActivity extends BaseActivity {
 					+ more_name + ".jpg");
 			rebandHeadImg.setImageBitmap(bitmap);
 		}
-		if (!"".equals(MySharedPreference.getString("REBINDPHONE"))&&null != MySharedPreference.getString("REBINDPHONE")) {
+		if (!"".equals(MySharedPreference.getString("REBINDPHONE"))
+				&& null != MySharedPreference.getString("REBINDPHONE")) {
 			rebandPhone.setText(MySharedPreference.getString("REBINDPHONE"));
 		}
-		if (!"".equals(MySharedPreference.getString("REBINDEMAIL")) && null != MySharedPreference.getString("REBINDEMAIL")) {
+		if (!"".equals(MySharedPreference.getString("REBINDEMAIL"))
+				&& null != MySharedPreference.getString("REBINDEMAIL")) {
 			rebandEmail.setText(MySharedPreference.getString("REBINDEMAIL"));
 		}
 		super.onResume();
@@ -103,12 +105,12 @@ public class JVRebandContactActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(getResources().getString(R.string.rebindcontact));
 
-		rebandEmail = (TextView)findViewById(R.id.reband_email_text);
-		rebandPhone = (TextView)findViewById(R.id.reband_phone_text);
-		rebandHeadImg = (ImageView)findViewById(R.id.reband_hand_img);
-		rebindphoneLayout  = (RelativeLayout)findViewById(R.id.rebind_phone);
-		rebindmaiLayout  = (RelativeLayout)findViewById(R.id.rebind_mail);
-		linear = (LinearLayout)findViewById(R.id.lin);
+		rebandEmail = (TextView) findViewById(R.id.reband_email_text);
+		rebandPhone = (TextView) findViewById(R.id.reband_phone_text);
+		rebandHeadImg = (ImageView) findViewById(R.id.reband_hand_img);
+		rebindphoneLayout = (RelativeLayout) findViewById(R.id.rebind_phone);
+		rebindmaiLayout = (RelativeLayout) findViewById(R.id.rebind_mail);
+		linear = (LinearLayout) findViewById(R.id.lin);
 
 		more_name = statusHashMap.get(Consts.KEY_USERNAME);
 
@@ -180,14 +182,16 @@ public class JVRebandContactActivity extends BaseActivity {
 				popupWindow.dismiss();
 				break;
 			case R.id.rebind_phone:
-				Intent intentEmail = new Intent(JVRebandContactActivity.this,JVRebandPhoneorEmailActivity.class);
+				Intent intentEmail = new Intent(JVRebandContactActivity.this,
+						JVRebandPhoneorEmailActivity.class);
 				intentEmail.putExtra("PhoneEmail", "Phone");
 				intentEmail.putExtra("isphone", 1);
 				startActivity(intentEmail);
 				break;
 
 			case R.id.rebind_mail:
-				Intent intentPhone = new Intent(JVRebandContactActivity.this,JVRebandPhoneorEmailActivity.class);
+				Intent intentPhone = new Intent(JVRebandContactActivity.this,
+						JVRebandPhoneorEmailActivity.class);
 				intentPhone.putExtra("PhoneEmail", "Email");
 				intentPhone.putExtra("isphone", 0);
 				startActivity(intentPhone);

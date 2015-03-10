@@ -494,7 +494,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 			clearCacheFolder(BaseActivity.this.getCacheDir(),
 					System.currentTimeMillis());
 
-			MySharedPreference.putBoolean("ISSHOW",false);
+			MySharedPreference.putBoolean("ISSHOW", false);
 			BaseActivity.this.deleteDatabase("webview.db");
 			BaseActivity.this.deleteDatabase("webviewCache.db");
 

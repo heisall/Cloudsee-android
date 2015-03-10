@@ -189,12 +189,15 @@ public class JVMyDeviceFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		mActivity.createDialog("", false);
-		LoginTask loginTask = new LoginTask(true, mActivity,
-				(MainApplication) mActivity.getApplication(),
-				mActivity.statusHashMap, alarmnet);
-		String[] params = new String[3];
-		loginTask.execute(params);
-
+		Intent intent = mActivity.getIntent();
+		boolean firstLogin = intent.getBooleanExtra("FirstLogin", false);
+		if (firstLogin) {
+			LoginTask loginTask = new LoginTask(true, mActivity,
+					(MainApplication) mActivity.getApplication(),
+					mActivity.statusHashMap, alarmnet);
+			String[] params = new String[3];
+			loginTask.execute(params);
+		}
 		if (null == ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
 			fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
 		}

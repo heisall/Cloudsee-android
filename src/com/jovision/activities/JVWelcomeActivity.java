@@ -223,6 +223,7 @@ public class JVWelcomeActivity extends BaseActivity {
 					if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER)) {
 						intent.setClass(JVWelcomeActivity.this,
 								JVTabActivity.class);
+						intent.putExtra("FirstLogin", true);
 						intent.putExtra("AutoLogin", true);
 					} else {
 						intent.setClass(JVWelcomeActivity.this,

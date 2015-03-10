@@ -882,7 +882,6 @@ public class JVMoreFragment extends BaseFragment {
 				}
 				if (!strPhone.equals("") && null != strPhone) {
 					hasbandPhone = strPhone;
-					MySharedPreference.putString("EMAIL", strMail);
 				} else {
 					hasbandPhone = "nophone";
 				}

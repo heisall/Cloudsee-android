@@ -74,6 +74,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		}
 		myHandler = new MyHandler();
 		mWebView = (WebView) rootView.findViewById(R.id.webview);
+
 		loadingBar = (ImageView) rootView.findViewById(R.id.loadingbar);
 		loadinglayout = (LinearLayout) rootView
 				.findViewById(R.id.loadinglayout);

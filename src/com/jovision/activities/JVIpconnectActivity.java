@@ -2,7 +2,6 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
-import android.media.Image;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;

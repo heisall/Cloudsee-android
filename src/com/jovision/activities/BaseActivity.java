@@ -33,6 +33,7 @@ import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
@@ -493,6 +494,7 @@ public abstract class BaseActivity extends FragmentActivity implements
 			clearCacheFolder(BaseActivity.this.getCacheDir(),
 					System.currentTimeMillis());
 
+			MySharedPreference.putBoolean("ISSHOW", false);
 			BaseActivity.this.deleteDatabase("webview.db");
 			BaseActivity.this.deleteDatabase("webviewCache.db");
 

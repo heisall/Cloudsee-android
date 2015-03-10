@@ -544,7 +544,7 @@
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">一共有</string>
     <string name="str_aft">個設備</string>
-    <string name="delete_all_device">确定要删除所有设备吗？</string>
+    <string name="delete_all_device">確定要刪除所有設備嗎？</string>
     <string name="ip_add_notallow">域名/IP添加的設備不支持此操作.</string>
     <string name="protect_open_succ">安全防護打開成功</string>
     <string name="protect_open_fail">安全防護打開失敗</string>

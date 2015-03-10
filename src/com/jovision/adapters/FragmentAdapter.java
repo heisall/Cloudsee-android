@@ -116,7 +116,7 @@ public class FragmentAdapter extends BaseAdapter {
 				divider_img.setVisibility(View.GONE);
 			}
 		}
-		if (position == 10) {
+		if (position == 10 || position == 15) {
 			more_item.setVisibility(View.GONE);
 			divider_img.setVisibility(View.GONE);
 		}
@@ -177,14 +177,14 @@ public class FragmentAdapter extends BaseAdapter {
 				item_new.setVisibility(View.INVISIBLE);
 			}
 		}
-		if (position == 15
-				&& "true".equalsIgnoreCase(((BaseActivity) mfragment
-						.getActivity()).statusHashMap
-						.get(Consts.NEUTRAL_VERSION))) {
-			// 中性版本的隐藏注册协议
-			more_item.setVisibility(View.GONE);
-			divider_img.setVisibility(View.GONE);
-		}
+		// if (position == 15
+		// && "true".equalsIgnoreCase(((BaseActivity) mfragment
+		// .getActivity()).statusHashMap
+		// .get(Consts.NEUTRAL_VERSION))) {
+		// // 中性版本的隐藏注册协议
+		// more_item.setVisibility(View.GONE);
+		// divider_img.setVisibility(View.GONE);
+		// }
 		if (position == 17) {
 			item_next.setVisibility(View.GONE);
 			item_version.setVisibility(View.VISIBLE);

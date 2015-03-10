@@ -50,6 +50,11 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 				MyLog.e("Login", "初始化账号SDK失败,重新初始化");
 				ConfigUtil.initAccountSDK(application);// 初始化账号SDK
 			}
+
+			MyLog.e("Ignore Login",
+					"user=" + statusHashMap.get(Consts.KEY_USERNAME) + ";pass="
+							+ statusHashMap.get(Consts.KEY_PASSWORD));
+
 			String strRes = "";
 			strRes = AccountUtil.onLoginProcessV2(mContext,
 					statusHashMap.get(Consts.KEY_USERNAME),
@@ -97,6 +102,7 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 	protected void onPostExecute(Integer result) {
 		// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 		((BaseActivity) mContext).dismissDialog();
+
 		switch (result) {
 		case JVAccountConst.LOGIN_SUCCESS: {
 			StatService.trackCustomEvent(mContext, "onlinelogin", mContext
@@ -153,6 +159,9 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 				((BaseActivity) mContext)
 						.showTextToast(R.string.str_session_not_exist);
 				Intent intent = new Intent();
+				intent.putExtra("AutoLogin", false);
+				intent.putExtra("UserName",
+						statusHashMap.get(Consts.KEY_USERNAME));
 				intent.setClass(mContext, JVLoginActivity.class);
 				mContext.startActivity(intent);
 				statusHashMap.put(Consts.KEY_USERNAME, "");

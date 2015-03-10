@@ -29,7 +29,6 @@ import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.AlarmUtil;
-import com.jovision.views.CustomDialog;
 
 public class AddThirdDevActivity extends BaseActivity implements
 		OnClickListener, OnDeviceClassSelectedListener, OnSetNickNameListener {

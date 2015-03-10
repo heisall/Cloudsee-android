@@ -142,7 +142,7 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 	@Override
 	protected void initSettings() {
 		// 进注册清缓存
-		MySharedPreference.putString(Consts.CACHE_DEVICE_LIST, "");
+		// MySharedPreference.putString(Consts.CACHE_DEVICE_LIST, "");
 		isPhone = getIntent().getIntExtra("isphone", -1);
 	}
 
@@ -912,6 +912,7 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 					tempFile.renameTo(new File(Consts.HEAD_PATH
 							+ userNameEditText.getText().toString() + ".jpg"));
 				}
+				MySharedPreference.putString("ACCOUNT", "HAVEACCOUTN");
 				finish();
 				break;
 			case 2:

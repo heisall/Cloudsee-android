@@ -904,17 +904,21 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 					MySharedPreference.putString("REBINDPHONE",
 							userNameEditText.getText().toString());
 					if (MySharedPreference.getBoolean("ISPHONE")) {
-						MySharedPreference.putString("ACCOUNT", userNameEditText.getText().toString());
-						statusHashMap.put(Consts.KEY_USERNAME, userNameEditText.getText().toString());
-					}	
+						MySharedPreference.putString("ACCOUNT",
+								userNameEditText.getText().toString());
+						statusHashMap.put(Consts.KEY_USERNAME, userNameEditText
+								.getText().toString());
+					}
 				}
 				if (isPhone == 0) {
 					MySharedPreference.putString("REBINDEMAIL",
 							userNameEditText.getText().toString());
 					if (MySharedPreference.getBoolean("ISEMAIL")) {
-						MySharedPreference.putString("ACCOUNT", userNameEditText.getText().toString());
-						statusHashMap.put(Consts.KEY_USERNAME, userNameEditText.getText().toString());
-					}	
+						MySharedPreference.putString("ACCOUNT",
+								userNameEditText.getText().toString());
+						statusHashMap.put(Consts.KEY_USERNAME, userNameEditText
+								.getText().toString());
+					}
 				}
 				if (tempFile.exists()) {
 					tempFile.renameTo(new File(Consts.HEAD_PATH

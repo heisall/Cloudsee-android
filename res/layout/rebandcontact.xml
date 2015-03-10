@@ -3,9 +3,8 @@
     android:id="@+id/lin"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
     android:background="@color/white"
-    >
+    android:orientation="vertical" >
 
     <include
         android:layout_width="match_parent"
@@ -30,7 +29,6 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="5dp" >
-
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,7 +85,6 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="5dp" >
 
-
             <TextView
                 android:id="@+id/hasband_phone"
                 android:layout_width="wrap_content"
@@ -139,7 +136,6 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="5dp" >
-
 
             <TextView
                 android:id="@+id/hasband_email"

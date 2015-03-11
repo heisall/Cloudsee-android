@@ -90,7 +90,7 @@ public class JVRebandContactActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		// TODO Auto-generated method stub
-		
+
 		Intent intent = getIntent();
 		showPhone = intent.getStringExtra("phone");
 		showEmail = intent.getStringExtra("email");
@@ -118,12 +118,14 @@ public class JVRebandContactActivity extends BaseActivity {
 		more_name = statusHashMap.get(Consts.KEY_USERNAME);
 
 		if (showPhone.equals("nophone")) {
-			rebandPhone.setText(getResources().getString(R.string.rebindhasnot));
+			rebandPhone
+					.setText(getResources().getString(R.string.rebindhasnot));
 		} else {
 			rebandPhone.setText(showPhone);
 		}
 		if (showEmail.equals("noemail")) {
-			rebandEmail.setText(getResources().getString(R.string.rebindhasnot));
+			rebandEmail
+					.setText(getResources().getString(R.string.rebindhasnot));
 		} else {
 			rebandEmail.setText(showEmail);
 		}

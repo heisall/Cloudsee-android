@@ -107,7 +107,8 @@ public class JVVersionActivity extends BaseActivity {
 			configList.add("登陆返回结果=" + statusHashMap.get("LOGINRES") + "\n");
 			configList.add("新浪接口调用结果" + "=" + ConfigUtil.SINA_COUNTRY + "\n");
 
-			String gtClientID = MySharedPreference.getString(Consts.KEY_DEV_TOKEN);
+			String gtClientID = MySharedPreference
+					.getString(Consts.KEY_DEV_TOKEN);
 			configList.add("个推CID=" + gtClientID + "\n");
 
 			if (ConfigUtil.ACCOUNT_VERSION.equalsIgnoreCase(JVACCOUNT

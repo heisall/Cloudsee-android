@@ -78,6 +78,7 @@ public class JVMoreFragment extends BaseFragment {
 	private TextView more_username;
 	// 用户名
 	private String more_name;
+	
 	// 最后一次登录时间
 	private TextView more_lasttime;
 	// 修改密码
@@ -105,6 +106,7 @@ public class JVMoreFragment extends BaseFragment {
 	private String hasbandEmail = "";
 	private String hasbandPhone = "";
 	private String hasnicknameString = "";
+	private String usernameInfo = "";
 
 	private final String TAG = "JVMoreFragment";
 	// 图片数组
@@ -218,11 +220,6 @@ public class JVMoreFragment extends BaseFragment {
 		}
 		initDatalist();
 
-		file = new File(Consts.HEAD_PATH);
-		MobileUtil.createDirectory(file);
-		tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
-		newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
-
 		more_camera = (ImageView) view.findViewById(R.id.more_camera);
 		more_modifypwd = (TextView) view.findViewById(R.id.more_modifypwd);
 		more_bindmail = (TextView) view.findViewById(R.id.more_bindmail);
@@ -272,11 +269,14 @@ public class JVMoreFragment extends BaseFragment {
 		// TODO Auto-generated method stub
 		MyLog.e("TMAC", "the JVMoreFragment onResume invoke~~~");
 		super.onResume();
+		if ("" != MySharedPreference.getString("USERINFO")) {
+			usernameInfo = MySharedPreference.getString("");
+		}
 		more_bindmail.setVisibility(View.GONE);
-		if (tempFile.exists()) {
+		if (null != tempFile && tempFile.exists()) {
 			more_camera.setVisibility(View.GONE);
 			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
-					+ more_name + Consts.IMAGE_JPG_KIND);
+					+ usernameInfo + Consts.IMAGE_JPG_KIND);
 			more_head.setImageBitmap(bitmap);
 			more_camera.setVisibility(View.GONE);
 		}
@@ -447,7 +447,7 @@ public class JVMoreFragment extends BaseFragment {
 		if (null == bm) {
 			return;
 		}
-		File f = new File(Consts.HEAD_PATH + more_name + ".jpg");
+		File f = new File(Consts.HEAD_PATH + usernameInfo + ".jpg");
 		if (f.exists()) {
 			f.delete();
 		}
@@ -880,6 +880,8 @@ public class JVMoreFragment extends BaseFragment {
 					strPhone = resObject.optString("phone");
 					strMail = resObject.optString("mail");
 					hasnicknameString = resObject.optString("nickname");
+					usernameInfo = resObject.optString("username");
+					MySharedPreference.putString("USERINFO", usernameInfo);
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -897,6 +899,11 @@ public class JVMoreFragment extends BaseFragment {
 			mActivity.dismissDialog();
 			if (result == 0)// ok
 			{
+				file = new File(Consts.HEAD_PATH);
+				MobileUtil.createDirectory(file);
+				tempFile = new File(Consts.HEAD_PATH + usernameInfo + ".jpg");
+				newFile = new File(Consts.HEAD_PATH + usernameInfo + "1.jpg");
+				
 				if ((strMail.equals("") || null == strMail)
 						&& (strPhone.equals("") || null == strPhone)) {
 					MySharedPreference.putBoolean("ISSHOW", true);
@@ -919,6 +926,8 @@ public class JVMoreFragment extends BaseFragment {
 					intentmore.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					intentmore.putExtra("phone", hasbandPhone);
 					intentmore.putExtra("email", hasbandEmail);
+					intentmore.putExtra("nickname", hasnicknameString);
+					intentmore.putExtra("username", usernameInfo);
 					startActivity(intentmore);
 				}
 			} else {

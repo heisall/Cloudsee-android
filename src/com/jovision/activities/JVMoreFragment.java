@@ -605,6 +605,7 @@ public class JVMoreFragment extends BaseFragment {
 								MySharedPreference.putBoolean(
 										Consts.MORE_TESTSWITCH, false);
 							} else {
+								// MySharedPreference.clearAll();
 								// 打开测试开关要关闭记住密码功能
 								MySharedPreference.putBoolean(
 										Consts.MORE_TESTSWITCH, true);
@@ -686,6 +687,13 @@ public class JVMoreFragment extends BaseFragment {
 									intentAD0.putExtra("title", -2);
 									mActivity.startActivity(intentAD0);
 								} else {
+									if ("false".equals(mActivity.statusHashMap
+											.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+										MyLog.e("Login", "初始化账号SDK失败");
+										ConfigUtil
+												.initAccountSDK(((MainApplication) mActivity
+														.getApplication()));// 初始化账号SDK
+									}
 									GetDemoTask UrlTask = new GetDemoTask(
 											mActivity);
 									String[] demoParams = new String[3];
@@ -722,6 +730,13 @@ public class JVMoreFragment extends BaseFragment {
 									intentAD0.putExtra("title", -2);
 									mActivity.startActivity(intentAD0);
 								} else {
+									if ("false".equals(mActivity.statusHashMap
+											.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+										MyLog.e("Login", "初始化账号SDK失败");
+										ConfigUtil
+												.initAccountSDK(((MainApplication) mActivity
+														.getApplication()));// 初始化账号SDK
+									}
 									GetDemoTask UrlTask2 = new GetDemoTask(
 											mActivity);
 									String[] demoParams2 = new String[3];
@@ -759,6 +774,14 @@ public class JVMoreFragment extends BaseFragment {
 										sid = sessionResult;
 									} else {
 										sid = "";
+									}
+
+									if ("false".equals(mActivity.statusHashMap
+											.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+										MyLog.e("Login", "初始化账号SDK失败");
+										ConfigUtil
+												.initAccountSDK(((MainApplication) mActivity
+														.getApplication()));// 初始化账号SDK
 									}
 
 									GetDemoTask UrlTask2 = new GetDemoTask(

@@ -3,15 +3,23 @@ package com.jovision.activities;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import m.framework.network.StringPart;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint.Join;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.test.JVACCOUNT;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +44,8 @@ public class JVRebandContactActivity extends BaseActivity {
 	private LinearLayout linear;
 	private RelativeLayout rebindphoneLayout;
 	private RelativeLayout rebindmaiLayout;
+	private RelativeLayout rebindnickname;
+	private TextView reband_nickname_text;
 
 	private String showPhone = "";
 	private String showEmail = "";
@@ -109,6 +119,8 @@ public class JVRebandContactActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(getResources().getString(R.string.rebindcontact));
 
+		reband_nickname_text = (TextView)findViewById(R.id.reband_nickname_text);
+		rebindnickname = (RelativeLayout)findViewById(R.id.rebind_nickname);
 		rebandEmail = (TextView) findViewById(R.id.reband_email_text);
 		rebandPhone = (TextView) findViewById(R.id.reband_phone_text);
 		rebandHeadImg = (ImageView) findViewById(R.id.reband_hand_img);
@@ -116,6 +128,8 @@ public class JVRebandContactActivity extends BaseActivity {
 		rebindmaiLayout = (RelativeLayout) findViewById(R.id.rebind_mail);
 		linear = (LinearLayout) findViewById(R.id.lin);
 
+		reband_nickname_text.setText(showNickname);
+		
 		if (showPhone.equals("nophone")) {
 			rebandPhone
 					.setText(getResources().getString(R.string.rebindhasnot));
@@ -138,6 +152,7 @@ public class JVRebandContactActivity extends BaseActivity {
 		leftBtn.setOnClickListener(myOnClickListener);
 		rebindphoneLayout.setOnClickListener(myOnClickListener);
 		rebindmaiLayout.setOnClickListener(myOnClickListener);
+		rebindnickname.setOnClickListener(myOnClickListener);
 
 	}
 
@@ -151,6 +166,29 @@ public class JVRebandContactActivity extends BaseActivity {
 				break;
 			case R.id.pop_outside:
 				popupWindow.dismiss();
+				break;
+			case R.id.rebind_nickname:
+				if (!"".equals(showNickname)) {
+					showTextToast("木有权限修改");
+				}else {
+					reband_nickname_text.setText("奋斗的豆沙包");
+					// reqJson:{"user":"111","phone":"18668923911","mail":"","nick":"nicheng"}
+					JSONObject resObject = new JSONObject();
+					try {
+						resObject.put("user", more_name);
+						resObject.put("phone", showPhone);
+						resObject.put("mail", showEmail);
+						resObject.put("nick", reband_nickname_text.getText().toString());
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					SetAccountInfoTask task = new SetAccountInfoTask();
+					String params [] = new String [3];
+					params [0] = resObject.toString();
+					task.execute(params);
+					Log.i("TAG", params[0]);
+				}
 				break;
 			case R.id.reband_hand_img:
 				StatService.trackCustomEvent(
@@ -285,5 +323,32 @@ public class JVRebandContactActivity extends BaseActivity {
 	protected void freeMe() {
 
 	}
+	class SetAccountInfoTask extends AsyncTask<String, Integer, Integer> {
 
+		@Override
+		protected Integer doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			int ret = -1;
+			ret = JVACCOUNT.SetAccountInfo(params[0]);
+			return ret;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			if (result == 0)// ok
+			{
+				showTextToast("成功");
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+		}
+	}
 }

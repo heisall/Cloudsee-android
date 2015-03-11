@@ -26,7 +26,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 	private String[] third_guide_desc = null;
 	private MediaPlayer myPlayer = null;
 	private Context context;
-
+	private boolean native_ui =  false;
 	public CustomDialog(Context context) {
 		super(context, android.R.style.Theme_NoTitleBar_Fullscreen);
 		this.context = context;

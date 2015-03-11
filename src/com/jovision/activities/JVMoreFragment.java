@@ -256,12 +256,6 @@ public class JVMoreFragment extends BaseFragment {
 		} else {
 			more_modifypwd.setVisibility(View.GONE);
 		}
-		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
-				.get(Consts.LOCAL_LOGIN))) {
-			isgetemail = false;
-			CheckUserInfoTask task = new CheckUserInfoTask();
-			task.execute(more_name);
-		}
 	}
 
 	@Override
@@ -269,16 +263,17 @@ public class JVMoreFragment extends BaseFragment {
 		// TODO Auto-generated method stub
 		MyLog.e("TMAC", "the JVMoreFragment onResume invoke~~~");
 		super.onResume();
-		if ("" != MySharedPreference.getString("USERINFO")) {
-			usernameInfo = MySharedPreference.getString("");
-		}
 		more_bindmail.setVisibility(View.GONE);
-		if (null != tempFile && tempFile.exists()) {
+		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
+				.get(Consts.LOCAL_LOGIN)) && "".equals(MySharedPreference.getString("USERINFO"))) {
+			isgetemail = false;
+			CheckUserInfoTask task = new CheckUserInfoTask();
+			task.execute(more_name);
+		}else if (!"".equals(MySharedPreference.getString("USERINFO"))) {
 			more_camera.setVisibility(View.GONE);
 			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
-					+ usernameInfo + Consts.IMAGE_JPG_KIND);
+					+ MySharedPreference.getString("USERINFO") + Consts.IMAGE_JPG_KIND);
 			more_head.setImageBitmap(bitmap);
-			more_camera.setVisibility(View.GONE);
 		}
 		if (MySharedPreference.getBoolean("ISSHOW", false)) {
 			more_bindmail.setVisibility(View.VISIBLE);
@@ -904,6 +899,7 @@ public class JVMoreFragment extends BaseFragment {
 					strMail = resObject.optString("mail");
 					hasnicknameString = resObject.optString("nickname");
 					usernameInfo = resObject.optString("username");
+					Log.i("TAG", usernameInfo);
 					MySharedPreference.putString("USERINFO", usernameInfo);
 				}
 			} catch (JSONException e) {
@@ -926,6 +922,16 @@ public class JVMoreFragment extends BaseFragment {
 				MobileUtil.createDirectory(file);
 				tempFile = new File(Consts.HEAD_PATH + usernameInfo + ".jpg");
 				newFile = new File(Consts.HEAD_PATH + usernameInfo + "1.jpg");
+				
+				if (null != tempFile && tempFile.exists()) {
+					more_camera.setVisibility(View.GONE);
+					Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
+							+ usernameInfo + Consts.IMAGE_JPG_KIND);
+					Log.i("TAG", Consts.HEAD_PATH
+							+ usernameInfo + Consts.IMAGE_JPG_KIND);
+					more_head.setImageBitmap(bitmap);
+					more_camera.setVisibility(View.GONE);
+				}
 				
 				if ((strMail.equals("") || null == strMail)
 						&& (strPhone.equals("") || null == strPhone)) {
@@ -1042,6 +1048,7 @@ public class JVMoreFragment extends BaseFragment {
 				mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				mActivity.statusHashMap.put(Consts.ACCOUNT_ERROR, null);
+				MySharedPreference.putString("USERINFO","");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

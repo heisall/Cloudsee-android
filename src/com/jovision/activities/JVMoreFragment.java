@@ -104,6 +104,7 @@ public class JVMoreFragment extends BaseFragment {
 
 	private String hasbandEmail = "";
 	private String hasbandPhone = "";
+	private String hasnicknameString = "";
 
 	private final String TAG = "JVMoreFragment";
 	// 图片数组
@@ -869,7 +870,7 @@ public class JVMoreFragment extends BaseFragment {
 			// TODO Auto-generated method stub
 			account = params[0];
 			int ret = -1;
-			strResonse = JVACCOUNT.GetMailPhoneNoSession(account);
+			strResonse = JVACCOUNT.GetAccountInfo();
 			JSONObject resObject = null;
 			Log.i("TAG", strResonse);
 			try {
@@ -878,6 +879,7 @@ public class JVMoreFragment extends BaseFragment {
 				if (ret == 0) {
 					strPhone = resObject.optString("phone");
 					strMail = resObject.optString("mail");
+					hasnicknameString = resObject.optString("nickname");
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -895,7 +897,6 @@ public class JVMoreFragment extends BaseFragment {
 			mActivity.dismissDialog();
 			if (result == 0)// ok
 			{
-				Log.i("TAG", "邮箱：" + strMail + "手机号：" + strPhone);
 				if ((strMail.equals("") || null == strMail)
 						&& (strPhone.equals("") || null == strPhone)) {
 					MySharedPreference.putBoolean("ISSHOW", true);
@@ -918,7 +919,6 @@ public class JVMoreFragment extends BaseFragment {
 					intentmore.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					intentmore.putExtra("phone", hasbandPhone);
 					intentmore.putExtra("email", hasbandEmail);
-					Log.i("TAG", hasbandPhone + hasbandEmail);
 					startActivity(intentmore);
 				}
 			} else {

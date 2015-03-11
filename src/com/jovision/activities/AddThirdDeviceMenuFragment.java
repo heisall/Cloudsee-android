@@ -153,7 +153,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 					Log.e("webv", "webView finish load");
 					if (loadFailed) {
 						Log.e("webv", "url:" + url + " load failed");
-						getActivity().finish();
+						//getActivity().finish();
 					} 					
 				}
 

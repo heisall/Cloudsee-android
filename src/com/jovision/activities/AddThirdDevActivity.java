@@ -173,7 +173,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void OnDeviceClassSelected(int index) {
+	public void OnDeviceClassSelected(int index, String paras) {
 		// TODO Auto-generated method stub
 		process_flag = 0;
 		// 1:门磁设备 2:手环设备 3:遥控 4:烟感 5:幕帘 6:红外探测器 7:燃气泄露

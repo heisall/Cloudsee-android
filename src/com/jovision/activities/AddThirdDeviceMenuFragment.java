@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.GridView;
@@ -42,7 +44,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 	private boolean loadFailed = false;
 
 	public interface OnDeviceClassSelectedListener {
-		public void OnDeviceClassSelected(int index);
+		public void OnDeviceClassSelected(int index, String paras);
 	}
 
 	private String webUrlZH = "http://182.92.242.230:8081/device.html?lan=ch";
@@ -81,6 +83,9 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setDomStorageEnabled(true);
+		
+		mWebView.setWebChromeClient(m_chromeClient);
+		
 		if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
 				|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
 			mWebView.loadUrl(webUrlZH);
@@ -88,6 +93,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 			mWebView.loadUrl(webUrlEN);
 		}
 
+	    
 		mWebView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onReceivedError(WebView view, int errorCode,
@@ -108,8 +114,13 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 					resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
 
 					mDevType = resMap.get("device");
+					
+//					if (mDevType != null && !mDevType.equals("")) {
+//						mListener.OnDeviceClassSelected(Integer
+//							.parseInt(mDevType));
+//					}					
 				}
-				return true;
+				return false;
 			}
 
 			@Override
@@ -131,7 +142,8 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 				if (loadFailed) {
 					Log.e("webv", "url:" + url + " load failed");
 					getActivity().finish();
-				} else {
+				} 
+				else {
 					if (url.contains("device=")) {
 
 						String param_array[] = url.split("\\?");
@@ -141,7 +153,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 						mDevType = resMap.get("device");
 						if (mDevType != null && !mDevType.equals("")) {
 							mListener.OnDeviceClassSelected(Integer
-									.parseInt(mDevType));
+									.parseInt(mDevType), "");
 						}
 					}
 				}
@@ -149,6 +161,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 			}
 		});
 
+		
 		// manageGridView = (GridView) rootView
 		// .findViewById(R.id.third_alarm_gridview);
 		// disMetrics = new DisplayMetrics();
@@ -162,6 +175,16 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		return rootView;
 	}
 
+
+    private WebChromeClient m_chromeClient = new WebChromeClient() {
+        // 扩充缓存的容量
+        @Override
+        public void onReachedMaxAppCacheSize(long spaceNeeded,
+                long totalUsedQuota, WebStorage.QuotaUpdater quotaUpdater) {
+            quotaUpdater.updateQuota(spaceNeeded * 2);
+        }
+    };
+    
 	// public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	// Bundle savedInstanceState) {
 	// if (rootView == null) {
@@ -213,7 +236,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 			case Consts.WHAT_PERI_ITEM_CLICK: {
 				// arg1:外设功能编号从1开始
 				// 1:门磁设备 2:手环设备 3:遥控 4:烟感 5:幕帘 6:红外探测器 7:燃气泄露
-				mListener.OnDeviceClassSelected(msg.arg1);
+				mListener.OnDeviceClassSelected(msg.arg1, "");
 			}
 				break;
 			default:

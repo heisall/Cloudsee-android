@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
 
@@ -106,7 +107,8 @@ public class JVVersionActivity extends BaseActivity {
 			configList.add("登陆返回结果=" + statusHashMap.get("LOGINRES") + "\n");
 			configList.add("新浪接口调用结果" + "=" + ConfigUtil.SINA_COUNTRY + "\n");
 
-			configList.add("信鸽推送=" + statusHashMap.get("TPUSH") + "\n");
+			String gtClientID = MySharedPreference.getString(Consts.KEY_DEV_TOKEN);
+			configList.add("个推CID=" + gtClientID + "\n");
 
 			if (ConfigUtil.ACCOUNT_VERSION.equalsIgnoreCase(JVACCOUNT
 					.GetVersion(0))

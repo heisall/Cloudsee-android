@@ -123,4 +123,10 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void onBindResult(int ret, String paras) {
+		// TODO Auto-generated method stub
+		
+	}
 }

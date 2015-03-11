@@ -60,6 +60,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 	// 接口
 	public interface OnMainListener {
 		public void onMainAction(int action);
+		public void onBindResult(int ret, String paras);
 	}
 
 	// 绑定接口
@@ -201,7 +202,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 				} else {
 					// learningDialog.Show(add_device_types[index],
 					// dev_type_mark);
-					waitingDialog.show();
+					//waitingDialog.show();
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -232,7 +233,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 				} else {
 					// learningDialog.Show(add_device_types[index],
 					// dev_type_mark);
-					waitingDialog.show();
+					//waitingDialog.show();
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -256,11 +257,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 				DismissDialog();
 				// 绑定超时，返回菜单
 				Log.e("webv", "before 绑定设备超时....0");
-				if (process_flag == 0)// 绑定设备
-				{
-					Log.e("webv", "绑定设备超时....0");
-					mainListener.onMainAction(0);
-				}
+
 				showTextToast(R.string.str_alarm_binddev_timeout);
 				break;
 			case Consts.RC_GPIN_SET:// 设置设备昵称
@@ -337,14 +334,16 @@ public class AddThirdDevActivity extends BaseActivity implements
 				break;
 			case JVNetConst.ABNORMAL_DISCONNECT:
 			case JVNetConst.SERVICE_STOP:
-				if (waitingDialog != null && waitingDialog.isShowing())
-					waitingDialog.dismiss();
+//				if (waitingDialog != null && waitingDialog.isShowing())
+//					waitingDialog.dismiss();
+				DismissDialog();
 				bConnectedFlag = false;
 				showTextToast(R.string.str_alarm_connect_except);
 				break;
 			default:
-				if (waitingDialog != null && waitingDialog.isShowing())
-					waitingDialog.dismiss();
+//				if (waitingDialog != null && waitingDialog.isShowing())
+//					waitingDialog.dismiss();
+				DismissDialog();
 				bConnectedFlag = false;
 				break;
 			}
@@ -381,7 +380,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 				showTextToast(R.string.str_alarm_textdata_req_over);
 				break;
 			case JVNetConst.JVN_RSP_TEXTDATA: {
-				DismissDialog();
+				//DismissDialog();
+				if (waitingDialog.isShowing()) {
+					waitingDialog.dismiss();
+				}				
 				JSONObject respObject = null;
 				if (obj != null) {
 					try {
@@ -404,6 +406,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					// if (learningDialog.isShowing()) {
 					// learningDialog.dismiss();
 					// }
+					mainListener.onBindResult(0, "");
 					myHandler.removeMessages(Consts.RC_GPIN_ADD);
 					if (obj != null) {
 						Log.e("Alarm", "绑定设备结果:" + obj.toString());
@@ -431,6 +434,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 								}
 							}
 							showTextToast(R.string.str_alarm_binddev_success);
+//							mainListener.onMainAction(0);
+//							mainListener.onBindResult(addResult, "");							
 							dev_uid = addAlarm.dev_uid; // /////////////////////////
 							BindThirdDevNicknameFragment nicknameFragment = new BindThirdDevNicknameFragment();
 							FragmentTransaction transaction = getSupportFragmentManager()
@@ -451,6 +456,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 							transaction.commit();
 						} else if (addResult == 2) {// 超过最大数
 							showTextToast(R.string.str_alarm_binddev_max);
+//							mainListener.onMainAction(0);
+//							mainListener.onBindResult(addResult, "");							
 						} else if (addResult == 3) {// 重复绑定
 							ThirdAlarmDev tmp_alarm = new ThirdAlarmDev();
 							for (int i = 0; i < addStrArray.length; i++) {
@@ -471,7 +478,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 							setResult(30, data);
 							finish();
 						} else {
-							mainListener.onMainAction(0);
+//							mainListener.onMainAction(0);
+//							mainListener.onBindResult(addResult, "");
 							showTextToast(R.string.str_alarm_binddev_timeout);
 						}
 					}
@@ -612,6 +620,11 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private void DismissDialog() {
 		// if (learningDialog != null && learningDialog.isShowing())
 		// learningDialog.dismiss();
+		if (process_flag == 0)// 绑定设备
+		{
+			mainListener.onBindResult(-1, "");
+//			mainListener.onMainAction(0);
+		}
 		if (waitingDialog != null && waitingDialog.isShowing())
 			waitingDialog.dismiss();
 	}
@@ -661,4 +674,5 @@ public class AddThirdDevActivity extends BaseActivity implements
 		new Thread(new TimeOutProcess(Consts.RC_GPIN_SET_SWITCH_TIMEOUT))
 				.start();
 	}
+
 }

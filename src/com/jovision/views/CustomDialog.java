@@ -1,19 +1,32 @@
 package com.jovision.views;
 
 import java.io.IOException;
-
+import java.util.HashMap;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebStorage;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.activities.AddThirdDevActivity;
+import com.jovision.activities.AddThirdDeviceMenuFragment.OnDeviceClassSelectedListener;
 import com.jovision.commons.CommonInterface;
 import com.jovision.utils.ConfigUtil;
 
@@ -27,6 +40,12 @@ public class CustomDialog extends Dialog implements CommonInterface {
 	private MediaPlayer myPlayer = null;
 	private Context context;
 	private boolean native_ui =  false;
+	private WebView mWebView;
+	private LinearLayout loadinglayout;
+	private ImageView loadingBar;
+	private boolean loadFailed = false;
+	private OnDeviceClassSelectedListener mListener; 
+	private String mUrl;
 	public CustomDialog(Context context) {
 		super(context, android.R.style.Theme_NoTitleBar_Fullscreen);
 		this.context = context;
@@ -35,22 +54,113 @@ public class CustomDialog extends Dialog implements CommonInterface {
 		// TODO Auto-generated constructor stub
 	}
 
+	//专用
+	public CustomDialog(Context context, OnDeviceClassSelectedListener mainListener) {
+		super(context, android.R.style.Theme_NoTitleBar_Fullscreen);
+		this.context = context;
+		mListener = mainListener;
+		third_guide_desc = context.getResources().getStringArray(
+				R.array.array_third_guide);
+		// TODO Auto-generated constructor stub
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.guide_custom_dialog_layout);
+		if(native_ui){
+			this.setContentView(R.layout.guide_custom_dialog_layout);
+		}
+		else{
+			this.setContentView(R.layout.webview_dialog_layout);		
+		}
 		setCanceledOnTouchOutside(false);
+		setCancelable(false);
 	}
-
+    private WebChromeClient m_chromeClient = new WebChromeClient() {
+        // 扩充缓存的容量
+        @Override
+        public void onReachedMaxAppCacheSize(long spaceNeeded,
+                long totalUsedQuota, WebStorage.QuotaUpdater quotaUpdater) {
+            quotaUpdater.updateQuota(spaceNeeded * 2);
+        }
+    };
+	@SuppressLint("NewApi")
 	@Override
 	public void onStart() {
-		img_guide = (ImageView) findViewById(R.id.guide_img);
-		loadingTv = (TextView) findViewById(R.id.loadingText);
-		tipsTv = (TextView) findViewById(R.id.guide_text_tips);
-		img_guide.setImageResource(img_res_id);
-		loadingTv.setText(third_guide_desc[dev_mark_id]);
-		tipsTv.setText(third_guide_desc[dev_mark_id]);
-		myPlayer = new MediaPlayer();
+		if(native_ui){
+			img_guide = (ImageView) findViewById(R.id.guide_img);
+			loadingTv = (TextView) findViewById(R.id.loadingText);
+			tipsTv = (TextView) findViewById(R.id.guide_text_tips);
+			img_guide.setImageResource(img_res_id);
+			loadingTv.setText(third_guide_desc[dev_mark_id]);
+			tipsTv.setText(third_guide_desc[dev_mark_id]);
+			myPlayer = new MediaPlayer();			
+		}
+		else{
+			mWebView = (WebView) findViewById(R.id.webview);
+
+			loadingBar = (ImageView) findViewById(R.id.loadingbar);
+			loadinglayout = (LinearLayout)findViewById(R.id.loadinglayout);
+			WebSettings webSettings = mWebView.getSettings();
+			webSettings.setJavaScriptEnabled(true);
+			webSettings.setDomStorageEnabled(true);	
+			webSettings.setMediaPlaybackRequiresUserGesture(false);
+			mWebView.setWebChromeClient(m_chromeClient);
+			
+			mWebView.setWebViewClient(new WebViewClient() {
+				@Override
+				public void onReceivedError(WebView view, int errorCode,
+						String description, String failingUrl) {
+					Log.e("webv", "webView load failed");
+					loadFailed = true;
+					super.onReceivedError(view, errorCode, description, failingUrl);
+				}
+
+				@Override
+				public boolean shouldOverrideUrlLoading(WebView view, String newUrl) {
+					view.loadUrl(newUrl);					
+					return true;
+				}
+
+				@Override
+				public void onPageStarted(WebView view, String url, Bitmap favicon) {
+					super.onPageStarted(view, url, favicon);
+					loadinglayout.setVisibility(View.VISIBLE);
+					Animation anim = AnimationUtils.loadAnimation(context,
+							R.anim.rotate);
+					loadingBar.setAnimation(anim);
+					Log.v("Test", "webView start load");
+					// mHandler.sendEmptyMessage(1);
+				}
+
+				@Override
+				public void onPageFinished(WebView view, String url) {
+					super.onPageFinished(view, url);
+					loadinglayout.setVisibility(View.GONE);
+					Log.e("webv", "webView finish load");
+					if (loadFailed) {
+						Log.e("webv", "url:" + url + " load failed");
+						dismiss();
+					} 
+					else {
+						if (url.contains("device=")) {
+
+							String param_array[] = url.split("\\?");
+							HashMap<String, String> resMap;
+							resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
+
+							String mDevType = resMap.get("device");
+							if (mDevType != null && !mDevType.equals("")) {
+								mListener.OnDeviceClassSelected(Integer
+										.parseInt(mDevType), "");
+							}
+						}
+					}
+
+				}
+			});	
+			Log.e("webv","dialog load url:"+mUrl);
+			mWebView.loadUrl(mUrl);
+		}
 	}
 
 	@Override
@@ -66,6 +176,19 @@ public class CustomDialog extends Dialog implements CommonInterface {
 		dev_mark_id = dev_mark;
 		this.show();
 		playSound(dev_mark_id);
+	}
+
+	public void Show(int img_id, int dev_mark, String url) {
+		if(native_ui){
+			img_res_id = img_id;
+			dev_mark_id = dev_mark;
+			this.show();
+			playSound(dev_mark_id);			
+		}
+		else{
+			mUrl = url;
+			this.show();
+		}
 	}
 
 	@Override

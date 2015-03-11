@@ -127,11 +127,15 @@ public class AccountUtil {
 															// 1-NVSIP 2-HITVIS
 															// 3-TONGFANG
 			reqObj.put("heartbeat", startHeartBeat);// 是否需要起心跳
-			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
-				reqObj.put("locales", Consts.LANGUAGE_ZH);
-			} else {
-				reqObj.put("locales", Consts.LANGUAGE_EN);
-			}
+
+			reqObj.put("locales", ConfigUtil.getLanguage2(mContext) - 1);
+
+			// if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
+			// reqObj.put("locales", Consts.LANGUAGE_ZH);
+			// } else {
+			// reqObj.put("locales", Consts.LANGUAGE_EN);
+			// }
+
 			reqObj.put("devuuid",
 					MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
 			boolean alarmSwitch = MySharedPreference.getBoolean(

@@ -34,9 +34,9 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		sid = params[0];
 		count = params[1];
 		fragmentString = params[2];
-
 		// demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);
 		// demoUrl = "http://www.cloudsee.net/phone.action";
+
 		webUrl = DeviceUtil.getWebUrl();
 		if (null != webUrl) {
 			getRes = 0;

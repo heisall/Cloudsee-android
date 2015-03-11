@@ -95,6 +95,7 @@ public class JVRebandContactActivity extends BaseActivity {
 		showPhone = intent.getStringExtra("phone");
 		showEmail = intent.getStringExtra("email");
 		showNickname = intent.getStringExtra("nickname");
+		more_name = intent.getStringExtra("username");
 	}
 
 	@Override
@@ -114,8 +115,6 @@ public class JVRebandContactActivity extends BaseActivity {
 		rebindphoneLayout = (RelativeLayout) findViewById(R.id.rebind_phone);
 		rebindmaiLayout = (RelativeLayout) findViewById(R.id.rebind_mail);
 		linear = (LinearLayout) findViewById(R.id.lin);
-
-		more_name = statusHashMap.get(Consts.KEY_USERNAME);
 
 		if (showPhone.equals("nophone")) {
 			rebandPhone

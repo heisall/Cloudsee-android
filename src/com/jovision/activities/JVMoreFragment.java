@@ -78,7 +78,7 @@ public class JVMoreFragment extends BaseFragment {
 	private TextView more_username;
 	// 用户名
 	private String more_name;
-	
+
 	// 最后一次登录时间
 	private TextView more_lasttime;
 	// 修改密码
@@ -926,7 +926,7 @@ public class JVMoreFragment extends BaseFragment {
 				MobileUtil.createDirectory(file);
 				tempFile = new File(Consts.HEAD_PATH + usernameInfo + ".jpg");
 				newFile = new File(Consts.HEAD_PATH + usernameInfo + "1.jpg");
-				
+
 				if ((strMail.equals("") || null == strMail)
 						&& (strPhone.equals("") || null == strPhone)) {
 					MySharedPreference.putBoolean("ISSHOW", true);

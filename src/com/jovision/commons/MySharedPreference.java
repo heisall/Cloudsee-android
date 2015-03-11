@@ -155,4 +155,14 @@ public class MySharedPreference {
 		return sharedPreferences.getLong(key, defaultValue);
 	}
 
+	/**
+	 * 清空所有数据
+	 */
+
+	public static void clearAll() {
+		if (null != editor) {
+			editor.clear();
+			editor.commit();
+		}
+	}
 }

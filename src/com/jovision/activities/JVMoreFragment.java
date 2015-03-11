@@ -78,6 +78,7 @@ public class JVMoreFragment extends BaseFragment {
 	private TextView more_username;
 	// 用户名
 	private String more_name;
+
 	// 最后一次登录时间
 	private TextView more_lasttime;
 	// 修改密码
@@ -104,6 +105,8 @@ public class JVMoreFragment extends BaseFragment {
 
 	private String hasbandEmail = "";
 	private String hasbandPhone = "";
+	private String hasnicknameString = "";
+	private String usernameInfo = "";
 
 	private final String TAG = "JVMoreFragment";
 	// 图片数组
@@ -217,11 +220,6 @@ public class JVMoreFragment extends BaseFragment {
 		}
 		initDatalist();
 
-		file = new File(Consts.HEAD_PATH);
-		MobileUtil.createDirectory(file);
-		tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
-		newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
-
 		more_camera = (ImageView) view.findViewById(R.id.more_camera);
 		more_modifypwd = (TextView) view.findViewById(R.id.more_modifypwd);
 		more_bindmail = (TextView) view.findViewById(R.id.more_bindmail);
@@ -258,12 +256,6 @@ public class JVMoreFragment extends BaseFragment {
 		} else {
 			more_modifypwd.setVisibility(View.GONE);
 		}
-		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
-				.get(Consts.LOCAL_LOGIN))) {
-			isgetemail = false;
-			CheckUserInfoTask task = new CheckUserInfoTask();
-			task.execute(more_name);
-		}
 	}
 
 	@Override
@@ -272,12 +264,16 @@ public class JVMoreFragment extends BaseFragment {
 		MyLog.e("TMAC", "the JVMoreFragment onResume invoke~~~");
 		super.onResume();
 		more_bindmail.setVisibility(View.GONE);
-		if (tempFile.exists()) {
+		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
+				.get(Consts.LOCAL_LOGIN)) && "".equals(MySharedPreference.getString("USERINFO"))) {
+			isgetemail = false;
+			CheckUserInfoTask task = new CheckUserInfoTask();
+			task.execute(more_name);
+		}else if (!"".equals(MySharedPreference.getString("USERINFO"))) {
 			more_camera.setVisibility(View.GONE);
 			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
-					+ more_name + Consts.IMAGE_JPG_KIND);
+					+ MySharedPreference.getString("USERINFO") + Consts.IMAGE_JPG_KIND);
 			more_head.setImageBitmap(bitmap);
-			more_camera.setVisibility(View.GONE);
 		}
 		if (MySharedPreference.getBoolean("ISSHOW", false)) {
 			more_bindmail.setVisibility(View.VISIBLE);
@@ -446,7 +442,7 @@ public class JVMoreFragment extends BaseFragment {
 		if (null == bm) {
 			return;
 		}
-		File f = new File(Consts.HEAD_PATH + more_name + ".jpg");
+		File f = new File(Consts.HEAD_PATH + usernameInfo + ".jpg");
 		if (f.exists()) {
 			f.delete();
 		}
@@ -604,6 +600,7 @@ public class JVMoreFragment extends BaseFragment {
 								MySharedPreference.putBoolean(
 										Consts.MORE_TESTSWITCH, false);
 							} else {
+								// MySharedPreference.clearAll();
 								// 打开测试开关要关闭记住密码功能
 								MySharedPreference.putBoolean(
 										Consts.MORE_TESTSWITCH, true);
@@ -685,6 +682,13 @@ public class JVMoreFragment extends BaseFragment {
 									intentAD0.putExtra("title", -2);
 									mActivity.startActivity(intentAD0);
 								} else {
+									if ("false".equals(mActivity.statusHashMap
+											.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+										MyLog.e("Login", "初始化账号SDK失败");
+										ConfigUtil
+												.initAccountSDK(((MainApplication) mActivity
+														.getApplication()));// 初始化账号SDK
+									}
 									GetDemoTask UrlTask = new GetDemoTask(
 											mActivity);
 									String[] demoParams = new String[3];
@@ -721,6 +725,13 @@ public class JVMoreFragment extends BaseFragment {
 									intentAD0.putExtra("title", -2);
 									mActivity.startActivity(intentAD0);
 								} else {
+									if ("false".equals(mActivity.statusHashMap
+											.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+										MyLog.e("Login", "初始化账号SDK失败");
+										ConfigUtil
+												.initAccountSDK(((MainApplication) mActivity
+														.getApplication()));// 初始化账号SDK
+									}
 									GetDemoTask UrlTask2 = new GetDemoTask(
 											mActivity);
 									String[] demoParams2 = new String[3];
@@ -758,6 +769,14 @@ public class JVMoreFragment extends BaseFragment {
 										sid = sessionResult;
 									} else {
 										sid = "";
+									}
+
+									if ("false".equals(mActivity.statusHashMap
+											.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+										MyLog.e("Login", "初始化账号SDK失败");
+										ConfigUtil
+												.initAccountSDK(((MainApplication) mActivity
+														.getApplication()));// 初始化账号SDK
 									}
 
 									GetDemoTask UrlTask2 = new GetDemoTask(
@@ -869,7 +888,7 @@ public class JVMoreFragment extends BaseFragment {
 			// TODO Auto-generated method stub
 			account = params[0];
 			int ret = -1;
-			strResonse = JVACCOUNT.GetMailPhoneNoSession(account);
+			strResonse = JVACCOUNT.GetAccountInfo();
 			JSONObject resObject = null;
 			Log.i("TAG", strResonse);
 			try {
@@ -878,6 +897,10 @@ public class JVMoreFragment extends BaseFragment {
 				if (ret == 0) {
 					strPhone = resObject.optString("phone");
 					strMail = resObject.optString("mail");
+					hasnicknameString = resObject.optString("nickname");
+					usernameInfo = resObject.optString("username");
+					Log.i("TAG", usernameInfo);
+					MySharedPreference.putString("USERINFO", usernameInfo);
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -895,7 +918,21 @@ public class JVMoreFragment extends BaseFragment {
 			mActivity.dismissDialog();
 			if (result == 0)// ok
 			{
-				Log.i("TAG", "邮箱：" + strMail + "手机号：" + strPhone);
+				file = new File(Consts.HEAD_PATH);
+				MobileUtil.createDirectory(file);
+				tempFile = new File(Consts.HEAD_PATH + usernameInfo + ".jpg");
+				newFile = new File(Consts.HEAD_PATH + usernameInfo + "1.jpg");
+
+				if (null != tempFile && tempFile.exists()) {
+					more_camera.setVisibility(View.GONE);
+					Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
+							+ usernameInfo + Consts.IMAGE_JPG_KIND);
+					Log.i("TAG", Consts.HEAD_PATH
+							+ usernameInfo + Consts.IMAGE_JPG_KIND);
+					more_head.setImageBitmap(bitmap);
+					more_camera.setVisibility(View.GONE);
+				}
+				
 				if ((strMail.equals("") || null == strMail)
 						&& (strPhone.equals("") || null == strPhone)) {
 					MySharedPreference.putBoolean("ISSHOW", true);
@@ -918,7 +955,8 @@ public class JVMoreFragment extends BaseFragment {
 					intentmore.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					intentmore.putExtra("phone", hasbandPhone);
 					intentmore.putExtra("email", hasbandEmail);
-					Log.i("TAG", hasbandPhone + hasbandEmail);
+					intentmore.putExtra("nickname", hasnicknameString);
+					intentmore.putExtra("username", usernameInfo);
 					startActivity(intentmore);
 				}
 			} else {
@@ -1010,6 +1048,7 @@ public class JVMoreFragment extends BaseFragment {
 				mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				mActivity.statusHashMap.put(Consts.ACCOUNT_ERROR, null);
+				MySharedPreference.putString("USERINFO","");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

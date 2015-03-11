@@ -654,6 +654,23 @@ public class JVMyDeviceFragment extends BaseFragment {
 										adUrl = adList.get(index).getAdLinkEn();
 									}
 
+									String adDes = adList.get(index)
+											.getAdDesp();
+									int type = -1;
+									int action = -1;
+									if (null != adDes
+											&& !"".equalsIgnoreCase(adDes)) {
+										try {
+											JSONObject adObj = new JSONObject(
+													adDes);
+											type = adObj.optInt("type");
+											action = adObj.optInt("action");
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+
+									}
+
 									if (null != adUrl
 											&& !"".equalsIgnoreCase(adUrl
 													.trim())) {
@@ -675,7 +692,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 											sid = ConfigUtil.getSession();
 										}
 
-										if (adUrl.contains("platv=9999")) {// 视频广场特殊标识
+										if (adUrl.contains("platv=9999")
+												|| Consts.AD_TYPE_1 == type) {// 视频广场特殊标识
 											adUrl = adUrl.substring(0,
 													adUrl.lastIndexOf("?"));
 											adUrl = adUrl
@@ -691,7 +709,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 											intentAD.putExtra("title", -2);
 											intentAD.putExtra("URL", adUrl);
 											mActivity.startActivity(intentAD);
-										} else if (adUrl.contains("bbs")) {// 小维知道特殊标识{
+										} else if (adUrl.contains("bbs")
+												|| Consts.AD_TYPE_3 == type) {// 小维知道特殊标识{
 
 											adUrl = adUrl + "&sid=" + sid;
 											MyLog.v("zhidaoUrl", adUrl);
@@ -906,6 +925,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 		switch (what) {
 		case Consts.GETDEMOURL:
 			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+
+			if ("false".equals(mActivity.statusHashMap
+					.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+				MyLog.e("Login", "初始化账号SDK失败");
+				ConfigUtil.initAccountSDK(((MainApplication) mActivity
+						.getApplication()));// 初始化账号SDK
+			}
+
 			GetDemoTask demoTask = new GetDemoTask(mActivity);
 			String[] demoParams = new String[3];
 			if (!Boolean.valueOf(mActivity.statusHashMap

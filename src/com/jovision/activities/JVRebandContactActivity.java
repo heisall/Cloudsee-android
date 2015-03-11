@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.test.JVACCOUNT;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +39,7 @@ public class JVRebandContactActivity extends BaseActivity {
 
 	private String showPhone = "";
 	private String showEmail = "";
+	private String showNickname = "";
 
 	// 设置头像
 
@@ -92,6 +94,8 @@ public class JVRebandContactActivity extends BaseActivity {
 		Intent intent = getIntent();
 		showPhone = intent.getStringExtra("phone");
 		showEmail = intent.getStringExtra("email");
+		showNickname = intent.getStringExtra("nickname");
+		more_name = intent.getStringExtra("username");
 	}
 
 	@Override
@@ -112,19 +116,19 @@ public class JVRebandContactActivity extends BaseActivity {
 		rebindmaiLayout = (RelativeLayout) findViewById(R.id.rebind_mail);
 		linear = (LinearLayout) findViewById(R.id.lin);
 
-		more_name = statusHashMap.get(Consts.KEY_USERNAME);
-
 		if (showPhone.equals("nophone")) {
-			rebandPhone.setText("未绑定");
+			rebandPhone
+					.setText(getResources().getString(R.string.rebindhasnot));
 		} else {
 			rebandPhone.setText(showPhone);
 		}
 		if (showEmail.equals("noemail")) {
-			rebandEmail.setText("未绑定");
+			rebandEmail
+					.setText(getResources().getString(R.string.rebindhasnot));
 		} else {
 			rebandEmail.setText(showEmail);
 		}
-
+		JVACCOUNT.GetAccountInfo();
 		file = new File(Consts.HEAD_PATH);
 		MobileUtil.createDirectory(file);
 		tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");

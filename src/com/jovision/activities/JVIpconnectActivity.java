@@ -166,8 +166,9 @@ public class JVIpconnectActivity extends BaseActivity {
 		} else {
 			useWidth = width;
 		}
-		reParamsip = new RelativeLayout.LayoutParams((useWidth) / 2, 75);
-		reParamscloud = new RelativeLayout.LayoutParams((useWidth) / 2, 75);
+		reParamsip = new RelativeLayout.LayoutParams(useWidth / 2, useWidth / 6);
+		reParamscloud = new RelativeLayout.LayoutParams(useWidth / 2,
+				useWidth / 6);
 		reParamscloud.addRule(RelativeLayout.RIGHT_OF, R.id.ipconnect_ip);
 		ipconnnect_ip.setLayoutParams(reParamsip);
 		ipconnnect_cloud.setLayoutParams(reParamscloud);

@@ -414,6 +414,13 @@ public class JVLoginActivity extends BaseActivity {
 							JVLoginActivity.this.getResources().getString(
 									R.string.census_demo));
 
+					if ("false".equals(statusHashMap
+							.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+						MyLog.e("Login", "初始化账号SDK失败");
+						ConfigUtil
+								.initAccountSDK(((MainApplication) getApplication()));// 初始化账号SDK
+					}
+
 					GetDemoTask task = new GetDemoTask(JVLoginActivity.this);
 					String[] params = new String[3];
 					params[0] = "";

@@ -327,6 +327,7 @@ public class Consts {
 	public static final String IPC_DEFAULT_IP = "10.10.0.1";
 	public static final int IPC_DEFAULT_PORT = 9101;
 
+	// 张帅服务端0：中文，1：英文，2：繁体
 	public static final int LANGUAGE_ZH = 1;// 中文
 	public static final int LANGUAGE_EN = 2;// 英文
 	public static final int LANGUAGE_ZHTW = 3;// 繁体
@@ -588,6 +589,15 @@ public class Consts {
 	public static final String IMAGE_PNG_KIND = ".png";// 图片类型
 	public static final String IMAGE_JPG_KIND = ".jpg";// 图片类型
 	public static final String VIDEO_MP4_KIND = ".mp4";// 视频类型
+
+	// 账号库广告接口标识 type（广告类型）意义
+	public static final int AD_TYPE_1 = 1001;// 视频广场
+	public static final int AD_TYPE_2 = 1002;// 小维知道
+	public static final int AD_TYPE_3 = 1003;// 小维社区
+	public static final int AD_TYPE_4 = 1004;// 产品宣传
+
+	// action（广告行为）意义
+	public static final int AD_ACTION_1 = 101;// 直接打开URL
 
 	/*********************** 以下是状态变量key的声明 ********************************/
 

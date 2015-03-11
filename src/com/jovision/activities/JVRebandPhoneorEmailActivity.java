@@ -26,7 +26,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -118,7 +117,7 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 			if (isPhone == 1) {
 				registTips.setText(getResources().getString(
 						R.string.str_rebindphone_has_exist));
-			}else {
+			} else {
 				registTips.setText(getResources().getString(
 						R.string.str_rebindemail_has_exist));
 			}
@@ -281,103 +280,104 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 			Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
 					+ country[0]);
 		}
-//		userNameEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-//			@Override
-//			public void onFocusChange(View v, boolean hasFocus) {
-//				if (!hasFocus) {
-//					if (!ConfigUtil
-//							.isConnected(JVRebandPhoneorEmailActivity.this)) {
-//						alertNetDialog();
-//					} else {
-//						// checkPhoneNum(userNameEditText.getText().toString(),
-//						// currentCode);
-//						if (isPhone == 1) {
-//							phoneNumber = new GetPhoneNumber(userNameEditText
-//									.getText().toString());
-//							if ("".equalsIgnoreCase(userNameEditText.getText()
-//									.toString())) {
-//								registTips.setVisibility(View.VISIBLE);
-//								registTips.setTextColor(Color.rgb(217, 34, 38));
-//								registTips.setText(getResources().getString(
-//										R.string.login_str_username_notnull));
-//							} else if (phoneNumber.matchNum() == 4
-//									|| phoneNumber.matchNum() == 5) {
-//								registTips.setVisibility(View.VISIBLE);
-//								registTips.setTextColor(Color.rgb(217, 34, 38));
-//								registTips.setText(getResources().getString(
-//										R.string.str_phone_num_error));
-//							} else {
-//								createDialog("", true);
-//								new Thread() {
-//									public void run() {
-//										nameExists = AccountUtil
-//												.isUserExsit(userNameEditText
-//														.getText().toString());
-//										if (JVAccountConst.USER_HAS_EXIST == nameExists) {
-//											handler.sendMessage(handler
-//													.obtainMessage(
-//															JVAccountConst.USERNAME_DETECTION_FAILED,
-//															0, 0));
-//											isregister = true;
-//										} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
-//											handler.sendMessage(handler
-//													.obtainMessage(
-//															JVAccountConst.USERNAME_DETECTION_SUCCESS,
-//															0, 0));
-//											isregister = false;
-//											isclick = false;
-//										}
-//									};
-//								}.start();
-//							}
-//						} else if (isPhone == 0) {
-//							if ("".equalsIgnoreCase(userNameEditText.getText()
-//									.toString())) {
-//								registTips.setVisibility(View.VISIBLE);
-//								registTips.setTextColor(Color.rgb(217, 34, 38));
-//								registTips.setText(getResources().getString(
-//										R.string.login_str_loginemail_notnull));
-//							} else {
-//								createDialog("", hasFocus);
-//								new Thread() {
-//									public void run() {
-//										nameExists = AccountUtil
-//												.isUserExsit(userNameEditText
-//														.getText().toString());
-//										if (AccountUtil
-//												.verifyEmail(userNameEditText
-//														.getText().toString())) {
-//											if (JVAccountConst.USER_HAS_EXIST == nameExists) {
-//												handler.sendMessage(handler
-//														.obtainMessage(
-//																JVAccountConst.USERNAME_DETECTION_FAILED,
-//																0, 0));
-//											} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
-//												handler.sendMessage(handler
-//														.obtainMessage(
-//																JVAccountConst.USERNAME_DETECTION_SUCCESS,
-//																0, 0));
-//												ismailclick = false;
-//											} else {
-//												handler.sendMessage(handler
-//														.obtainMessage(
-//																JVAccountConst.DEFAULT,
-//																0, 0));
-//											}
-//										} else {
-//											handler.sendMessage(handler
-//													.obtainMessage(
-//															JVAccountConst.MAIL_DETECTION_FAILED,
-//															0, 0));
-//										}
-//									};
-//								}.start();
-//							}
-//						}
-//					}
-//				}
-//			}
-//		});
+		// userNameEditText.setOnFocusChangeListener(new OnFocusChangeListener()
+		// {
+		// @Override
+		// public void onFocusChange(View v, boolean hasFocus) {
+		// if (!hasFocus) {
+		// if (!ConfigUtil
+		// .isConnected(JVRebandPhoneorEmailActivity.this)) {
+		// alertNetDialog();
+		// } else {
+		// // checkPhoneNum(userNameEditText.getText().toString(),
+		// // currentCode);
+		// if (isPhone == 1) {
+		// phoneNumber = new GetPhoneNumber(userNameEditText
+		// .getText().toString());
+		// if ("".equalsIgnoreCase(userNameEditText.getText()
+		// .toString())) {
+		// registTips.setVisibility(View.VISIBLE);
+		// registTips.setTextColor(Color.rgb(217, 34, 38));
+		// registTips.setText(getResources().getString(
+		// R.string.login_str_username_notnull));
+		// } else if (phoneNumber.matchNum() == 4
+		// || phoneNumber.matchNum() == 5) {
+		// registTips.setVisibility(View.VISIBLE);
+		// registTips.setTextColor(Color.rgb(217, 34, 38));
+		// registTips.setText(getResources().getString(
+		// R.string.str_phone_num_error));
+		// } else {
+		// createDialog("", true);
+		// new Thread() {
+		// public void run() {
+		// nameExists = AccountUtil
+		// .isUserExsit(userNameEditText
+		// .getText().toString());
+		// if (JVAccountConst.USER_HAS_EXIST == nameExists) {
+		// handler.sendMessage(handler
+		// .obtainMessage(
+		// JVAccountConst.USERNAME_DETECTION_FAILED,
+		// 0, 0));
+		// isregister = true;
+		// } else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
+		// handler.sendMessage(handler
+		// .obtainMessage(
+		// JVAccountConst.USERNAME_DETECTION_SUCCESS,
+		// 0, 0));
+		// isregister = false;
+		// isclick = false;
+		// }
+		// };
+		// }.start();
+		// }
+		// } else if (isPhone == 0) {
+		// if ("".equalsIgnoreCase(userNameEditText.getText()
+		// .toString())) {
+		// registTips.setVisibility(View.VISIBLE);
+		// registTips.setTextColor(Color.rgb(217, 34, 38));
+		// registTips.setText(getResources().getString(
+		// R.string.login_str_loginemail_notnull));
+		// } else {
+		// createDialog("", hasFocus);
+		// new Thread() {
+		// public void run() {
+		// nameExists = AccountUtil
+		// .isUserExsit(userNameEditText
+		// .getText().toString());
+		// if (AccountUtil
+		// .verifyEmail(userNameEditText
+		// .getText().toString())) {
+		// if (JVAccountConst.USER_HAS_EXIST == nameExists) {
+		// handler.sendMessage(handler
+		// .obtainMessage(
+		// JVAccountConst.USERNAME_DETECTION_FAILED,
+		// 0, 0));
+		// } else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
+		// handler.sendMessage(handler
+		// .obtainMessage(
+		// JVAccountConst.USERNAME_DETECTION_SUCCESS,
+		// 0, 0));
+		// ismailclick = false;
+		// } else {
+		// handler.sendMessage(handler
+		// .obtainMessage(
+		// JVAccountConst.DEFAULT,
+		// 0, 0));
+		// }
+		// } else {
+		// handler.sendMessage(handler
+		// .obtainMessage(
+		// JVAccountConst.MAIL_DETECTION_FAILED,
+		// 0, 0));
+		// }
+		// };
+		// }.start();
+		// }
+		// }
+		// }
+		// }
+		// }
+		// });
 		GetVerificationCode();
 	}
 
@@ -554,7 +554,7 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 									userNameEditText.getText().toString(),
 									strIdentifyNum);
 						}
-					}  else if ("".equals(registercode.getText().toString())) {
+					} else if ("".equals(registercode.getText().toString())) {
 						showTextToast(R.string.reset_passwd_tips6);
 					}
 				} else {
@@ -906,25 +906,31 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 					MySharedPreference.putString("REBINDPHONE",
 							userNameEditText.getText().toString());
 					if (MySharedPreference.getBoolean("ISPHONE")) {
-						MySharedPreference.putString("ACCOUNT", userNameEditText.getText().toString());
-						statusHashMap.put(Consts.KEY_USERNAME, userNameEditText.getText().toString());
+						MySharedPreference.putString("ACCOUNT",
+								userNameEditText.getText().toString());
+						statusHashMap.put(Consts.KEY_USERNAME, userNameEditText
+								.getText().toString());
 						if (tempFile.exists()) {
 							tempFile.renameTo(new File(Consts.HEAD_PATH
-									+ userNameEditText.getText().toString() + ".jpg"));
+									+ userNameEditText.getText().toString()
+									+ ".jpg"));
 						}
-					}	
+					}
 				}
 				if (isPhone == 0) {
 					MySharedPreference.putString("REBINDEMAIL",
 							userNameEditText.getText().toString());
 					if (MySharedPreference.getBoolean("ISEMAIL")) {
-						MySharedPreference.putString("ACCOUNT", userNameEditText.getText().toString());
-						statusHashMap.put(Consts.KEY_USERNAME, userNameEditText.getText().toString());
+						MySharedPreference.putString("ACCOUNT",
+								userNameEditText.getText().toString());
+						statusHashMap.put(Consts.KEY_USERNAME, userNameEditText
+								.getText().toString());
 						if (tempFile.exists()) {
 							tempFile.renameTo(new File(Consts.HEAD_PATH
-									+ userNameEditText.getText().toString() + ".jpg"));
+									+ userNameEditText.getText().toString()
+									+ ".jpg"));
 						}
-					}	
+					}
 				}
 				finish();
 				break;
@@ -945,5 +951,5 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
-	
+
 }

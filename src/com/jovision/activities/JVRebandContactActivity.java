@@ -117,12 +117,14 @@ public class JVRebandContactActivity extends BaseActivity {
 		linear = (LinearLayout) findViewById(R.id.lin);
 
 		if (showPhone.equals("nophone")) {
-			rebandPhone.setText(getResources().getString(R.string.rebindhasnot));
+			rebandPhone
+					.setText(getResources().getString(R.string.rebindhasnot));
 		} else {
 			rebandPhone.setText(showPhone);
 		}
 		if (showEmail.equals("noemail")) {
-			rebandEmail.setText(getResources().getString(R.string.rebindhasnot));
+			rebandEmail
+					.setText(getResources().getString(R.string.rebindhasnot));
 		} else {
 			rebandEmail.setText(showEmail);
 		}

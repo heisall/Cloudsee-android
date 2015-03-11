@@ -203,6 +203,8 @@
     <string name="str_edit_pass">修改密码</string>
     <string name="str_find_pass">忘记密码</string>
     <string name="str_user_has_exist">亲， 用户名已经被别人占领，请修改.</string>
+    <string name="str_rebindemail_has_exist">邮箱已被绑定，请修改.</string>
+    <string name="str_rebindphone_has_exist">手机号已被绑定，请修改.</string>
     <string name="str_phone_num_error">手机号格式不正确.</string>
     <string name="str_user_not_exist">用户不存在.</string>
     <string name="str_user_not_exist2">恭喜，用户名已被您收入囊中.</string>

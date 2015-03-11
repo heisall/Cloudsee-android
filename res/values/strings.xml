@@ -203,6 +203,8 @@
     <string name="str_edit_pass">Modify</string>
     <string name="str_find_pass">Retrieve</string>
     <string name="str_user_has_exist">Username has been registered by others, please modify.</string>
+   <string name="str_rebindemail_has_exist">邮箱已被绑定，请修改.</string>
+    <string name="str_rebindphone_has_exist">手机号已被绑定，请修改.</string>
     <string name="str_phone_num_error">Mobile phone format is not correct.</string>
     <string name="str_user_not_exist">Username not exist.</string>
     <string name="str_user_not_exist2">Congratulations,username can register.</string>

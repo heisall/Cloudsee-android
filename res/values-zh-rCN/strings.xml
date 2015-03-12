@@ -77,6 +77,7 @@
     <string name="rebindcontactphone">修改绑定手机号</string>
     <string name="rebindcontactemail">修改绑定邮箱</string>
     <string name="rebindhasnot">未绑定</string>
+    <string name="rebindnicknamenull">未填写</string>
     <string name="rebindemailhassend">邮件已发送</string>
     <string name="rebindemailhassendfailed">邮件发送错误</string>
     <string name="rebindsussess">绑定成功</string>
@@ -414,9 +415,9 @@
     <string name="time_error">时间有问题</string>
     <!-- JVRebandContact -->
     <string name="rebandmodify">更换</string>
-    <string name="rebandphone">手机号 :</string>
-    <string name="rebandemail">邮箱 :</string>
-    <string name="rebandhand">修改头像</string>
+    <string name="rebandphone">手机号 </string>
+    <string name="rebandemail">邮箱 </string>
+    <string name="rebandhand">头像</string>
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">已选中?个，</string>
     <string name="number">共?个</string>

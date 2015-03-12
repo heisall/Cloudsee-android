@@ -187,152 +187,161 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		Intent intent = mActivity.getIntent();
-		if (null != intent) {
-			boolean firstLogin = intent.getBooleanExtra("FirstLogin", false);
-			if (firstLogin) {
-				mActivity.createDialog("", false);
-				LoginTask loginTask = new LoginTask(true, mActivity,
-						(MainApplication) mActivity.getApplication(),
-						mActivity.statusHashMap, alarmnet);
-				String[] params = new String[3];
-				loginTask.execute(params);
+		try {
+			Intent intent = mActivity.getIntent();
+			if (null != intent) {
+				boolean firstLogin = intent
+						.getBooleanExtra("FirstLogin", false);
+				if (firstLogin) {
+					mActivity.createDialog("", false);
+					LoginTask loginTask = new LoginTask(true, mActivity,
+							(MainApplication) mActivity.getApplication(),
+							mActivity.statusHashMap, alarmnet);
+					String[] params = new String[3];
+					loginTask.execute(params);
+				}
 			}
-		}
 
-		if (null == ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
-			fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
-		}
-		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
-				.get(Consts.HAG_GOT_DEVICE));
-		if (!hasGot) {
-			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
-		}
-		// getActivity() = (BaseActivity) getActivity();
-		mParent = getView();
-		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {
-			popFunArray = mActivity.getResources().getStringArray(
-					R.array.array_popno);
-		} else {
-			popFunArray = mActivity.getResources().getStringArray(
-					R.array.array_pop);
-		}
-		currentMenu.setText(mActivity.getResources().getString(
-				R.string.my_device));
-		currentMenu.setText(R.string.my_device);
-		leftBtn.setVisibility(View.GONE);
-		leftBtn.setOnClickListener(myOnClickListener);
-		devicename = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
-		inflater = (LayoutInflater) mActivity
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		// refreshableView = (RefreshableView) mParent
-		// .findViewById(R.id.device_refreshable_view);
+			if (null == ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
+				fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
+			}
+			boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
+					.get(Consts.HAG_GOT_DEVICE));
+			if (!hasGot) {
+				fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+			}
+			// getActivity() = (BaseActivity) getActivity();
+			mParent = getView();
+			if (!Boolean.valueOf(mActivity.statusHashMap
+					.get(Consts.LOCAL_LOGIN))) {
+				popFunArray = mActivity.getResources().getStringArray(
+						R.array.array_popno);
+			} else {
+				popFunArray = mActivity.getResources().getStringArray(
+						R.array.array_pop);
+			}
+			currentMenu.setText(mActivity.getResources().getString(
+					R.string.my_device));
+			currentMenu.setText(R.string.my_device);
+			leftBtn.setVisibility(View.GONE);
+			leftBtn.setOnClickListener(myOnClickListener);
+			devicename = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
+			inflater = (LayoutInflater) mActivity
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			// refreshableView = (RefreshableView) mParent
+			// .findViewById(R.id.device_refreshable_view);
 
-		mPullRefreshListView = (PullToRefreshListView) mActivity
-				.findViewById(R.id.device_refreshable_view);
+			mPullRefreshListView = (PullToRefreshListView) mActivity
+					.findViewById(R.id.device_refreshable_view);
 
-		mPullRefreshListView
-				.setOnRefreshListener(new OnRefreshListener<ListView>() {
-					@Override
-					public void onRefresh(
-							PullToRefreshBase<ListView> refreshView) {
-						String label = DateUtils.formatDateTime(mActivity,
-								System.currentTimeMillis(),
-								DateUtils.FORMAT_SHOW_TIME
-										| DateUtils.FORMAT_SHOW_DATE
-										| DateUtils.FORMAT_ABBREV_ALL);
+			mPullRefreshListView
+					.setOnRefreshListener(new OnRefreshListener<ListView>() {
+						@Override
+						public void onRefresh(
+								PullToRefreshBase<ListView> refreshView) {
+							String label = DateUtils.formatDateTime(mActivity,
+									System.currentTimeMillis(),
+									DateUtils.FORMAT_SHOW_TIME
+											| DateUtils.FORMAT_SHOW_DATE
+											| DateUtils.FORMAT_ABBREV_ALL);
 
-						// Update the LastUpdatedLabel
-						refreshView.getLoadingLayoutProxy()
-								.setLastUpdatedLabel(label);
+							// Update the LastUpdatedLabel
+							refreshView.getLoadingLayoutProxy()
+									.setLastUpdatedLabel(label);
 
-						fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+							fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 
-						GetDevTask task = new GetDevTask();
-						String[] strParams = new String[3];
-						strParams[0] = "1";
-						task.execute(strParams);
-					}
-				});
+							GetDevTask task = new GetDevTask();
+							String[] strParams = new String[3];
+							strParams[0] = "1";
+							task.execute(strParams);
+						}
+					});
 
-		mPullRefreshListView
-				.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+			mPullRefreshListView
+					.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
 
-					@Override
-					public void onLastItemVisible() {
-						mActivity.showTextToast(R.string.end_list);
-					}
-				});
+						@Override
+						public void onLastItemVisible() {
+							mActivity.showTextToast(R.string.end_list);
+						}
+					});
 
-		adView = inflater.inflate(R.layout.ad_layout, null);
+			adView = inflater.inflate(R.layout.ad_layout, null);
 
-		deviceLayout = (LinearLayout) mParent.findViewById(R.id.devicelayout);
-		refreshLayout = (RelativeLayout) mParent
-				.findViewById(R.id.refreshlayout);
-		quickSetSV = (LinearLayout) mParent
-				.findViewById(R.id.quickinstalllayout);
-		quickSet = (Button) mParent.findViewById(R.id.quickinstall);
-		quickinstall_img_bg = (ImageView) mParent
-				.findViewById(R.id.quickinstall_img_bg);
-		addDevice = (Button) mParent.findViewById(R.id.adddevice);
-		unwire_device_img_bg = (ImageView) mParent
-				.findViewById(R.id.unwire_device_img_bg);
-		refreshLayout.setOnClickListener(myOnClickListener);
-		quickSet.setOnClickListener(myOnClickListener);
-		quickinstall_img_bg.setOnClickListener(myOnClickListener);
-		addDevice.setOnClickListener(myOnClickListener);
-		unwire_device_img_bg.setOnClickListener(myOnClickListener);
+			deviceLayout = (LinearLayout) mParent
+					.findViewById(R.id.devicelayout);
+			refreshLayout = (RelativeLayout) mParent
+					.findViewById(R.id.refreshlayout);
+			quickSetSV = (LinearLayout) mParent
+					.findViewById(R.id.quickinstalllayout);
+			quickSet = (Button) mParent.findViewById(R.id.quickinstall);
+			quickinstall_img_bg = (ImageView) mParent
+					.findViewById(R.id.quickinstall_img_bg);
+			addDevice = (Button) mParent.findViewById(R.id.adddevice);
+			unwire_device_img_bg = (ImageView) mParent
+					.findViewById(R.id.unwire_device_img_bg);
+			refreshLayout.setOnClickListener(myOnClickListener);
+			quickSet.setOnClickListener(myOnClickListener);
+			quickinstall_img_bg.setOnClickListener(myOnClickListener);
+			addDevice.setOnClickListener(myOnClickListener);
+			unwire_device_img_bg.setOnClickListener(myOnClickListener);
 
-		if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals("false")) {// CloudSEE
-			quickinstall_img_bg.setImageDrawable(mActivity.getResources()
-					.getDrawable(R.drawable.wire_device_img));
-			unwire_device_img_bg.setImageDrawable(mActivity.getResources()
-					.getDrawable(R.drawable.unwire_device_img));
-		} else {
-			quickinstall_img_bg.setImageDrawable(mActivity.getResources()
-					.getDrawable(R.drawable.wire_devicen_img));
-			unwire_device_img_bg.setImageDrawable(mActivity.getResources()
-					.getDrawable(R.drawable.unwire_devicen_img));
-		}
-		/** 广告条 */
-		imageScroll = (ImageViewPager) adView.findViewById(R.id.imagescroll);
-		// 防止广告图片变形
-		RelativeLayout.LayoutParams reParams = new RelativeLayout.LayoutParams(
-				mActivity.disMetrics.widthPixels,
-				(int) (0.45 * mActivity.disMetrics.widthPixels));
-		imageScroll.setLayoutParams(reParams);
-		ovalLayout = (LinearLayout) adView.findViewById(R.id.dot_layout);
-		initADViewPager();
-		myDLAdapter = new MyDeviceListAdapter(mActivity, this);
-		myDeviceListView = mPullRefreshListView.getRefreshableView();
-		myDeviceListView.addHeaderView(adView);
-		rightBtn.setOnClickListener(myOnClickListener);
+			if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(
+					"false")) {// CloudSEE
+				quickinstall_img_bg.setImageDrawable(mActivity.getResources()
+						.getDrawable(R.drawable.wire_device_img));
+				unwire_device_img_bg.setImageDrawable(mActivity.getResources()
+						.getDrawable(R.drawable.unwire_device_img));
+			} else {
+				quickinstall_img_bg.setImageDrawable(mActivity.getResources()
+						.getDrawable(R.drawable.wire_devicen_img));
+				unwire_device_img_bg.setImageDrawable(mActivity.getResources()
+						.getDrawable(R.drawable.unwire_devicen_img));
+			}
+			/** 广告条 */
+			imageScroll = (ImageViewPager) adView
+					.findViewById(R.id.imagescroll);
+			// 防止广告图片变形
+			RelativeLayout.LayoutParams reParams = new RelativeLayout.LayoutParams(
+					mActivity.disMetrics.widthPixels,
+					(int) (0.45 * mActivity.disMetrics.widthPixels));
+			imageScroll.setLayoutParams(reParams);
+			ovalLayout = (LinearLayout) adView.findViewById(R.id.dot_layout);
+			initADViewPager();
+			myDLAdapter = new MyDeviceListAdapter(mActivity, this);
+			myDeviceListView = mPullRefreshListView.getRefreshableView();
+			myDeviceListView.addHeaderView(adView);
+			rightBtn.setOnClickListener(myOnClickListener);
 
-		// if (0 == adUrlList.size()) {
-		// adUrlList
-		// .add("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
-		// adUrlList
-		// .add("http://img4.imgtn.bdimg.com/it/u=1147331110,3253839708&fm=201&gp=0.jpg");
-		// adUrlList
-		// .add("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
-		// }
-		if (hasGot) {
-			myDeviceList = CacheUtil.getDevList();
-			refreshList();
-		} else {
-			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
-			GetDevTask task = new GetDevTask();
-			String[] strParams = new String[3];
-			strParams[0] = "0";
-			task.execute(strParams);
-		}
+			// if (0 == adUrlList.size()) {
+			// adUrlList
+			// .add("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
+			// adUrlList
+			// .add("http://img4.imgtn.bdimg.com/it/u=1147331110,3253839708&fm=201&gp=0.jpg");
+			// adUrlList
+			// .add("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
+			// }
+			if (hasGot) {
+				myDeviceList = CacheUtil.getDevList();
+				refreshList();
+			} else {
+				fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+				GetDevTask task = new GetDevTask();
+				String[] strParams = new String[3];
+				strParams[0] = "0";
+				task.execute(strParams);
+			}
 
-		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {
-			startAutoRefreshTimer();
-		} else {
-			// // 非3G加广播设备
-			// startBroadTimer();
+			if (!Boolean.valueOf(mActivity.statusHashMap
+					.get(Consts.LOCAL_LOGIN))) {
+				startAutoRefreshTimer();
+			} else {
+				// // 非3G加广播设备
+				// startBroadTimer();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

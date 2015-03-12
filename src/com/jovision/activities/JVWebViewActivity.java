@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import java.util.HashMap;
+import java.util.Stack;
 
 import org.json.JSONObject;
 
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -39,6 +41,7 @@ public class JVWebViewActivity extends BaseActivity {
 	private String url = "";
 	private int titleID = 0;
 	private ImageView loadingBar;
+	WebChromeClient wvcc = null;
 	String sid = "";
 	String lan = "";
 
@@ -46,6 +49,8 @@ public class JVWebViewActivity extends BaseActivity {
 	private ImageView reloadImgView;
 	private boolean loadFailed = false;
 	private boolean isfirst = false;
+
+	Stack<String> titleStack = new Stack<String>();// 标题栈，后进先出
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -144,14 +149,21 @@ public class JVWebViewActivity extends BaseActivity {
 
 		webView = (WebView) findViewById(R.id.findpasswebview);
 
-		WebChromeClient wvcc = new WebChromeClient() {
+		wvcc = new WebChromeClient() {
 			@Override
 			public void onReceivedTitle(WebView view, String title) {
 				super.onReceivedTitle(view, title);
 				if (-2 == titleID) {
 					currentMenu.setText(title);
+					titleStack.push(title);
 				}
 			}
+
+			@Override
+			public void onProgressChanged(WebView view, int newProgress) {
+				super.onProgressChanged(view, newProgress);
+			}
+
 		};
 		webView.getSettings().setJavaScriptEnabled(true);
 
@@ -162,6 +174,7 @@ public class JVWebViewActivity extends BaseActivity {
 		// setting.setPluginState(PluginState.ON);
 		// 加快加载速度
 		webView.getSettings().setRenderPriority(RenderPriority.HIGH);
+		webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 		// webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
@@ -178,16 +191,16 @@ public class JVWebViewActivity extends BaseActivity {
 				// showTextToast(rtmp);//////////////等着去掉
 				try {
 
-					// if (newUrl.contains("open")) {// 打开新的WebView模式
-					// Intent intentAD2 = new Intent(JVWebViewActivity.this,
-					// JVWebViewActivity.class);
-					// intentAD2.putExtra("URL", newUrl);
-					// intentAD2.putExtra("title", -2);
-					// JVWebViewActivity.this.startActivity(intentAD2);
-					// } else if (newUrl.contains("close")) {// 关闭当前webview
-					// JVWebViewActivity.this.finish();
-					// } else
-					if (newUrl.contains("video") || newUrl.contains("viewmode")) {// 是否含有视频
+					if (newUrl.contains("open")) {// 打开新的WebView模式
+						Intent intentAD2 = new Intent(JVWebViewActivity.this,
+								JVWebViewActivity.class);
+						intentAD2.putExtra("URL", newUrl);
+						intentAD2.putExtra("title", -2);
+						JVWebViewActivity.this.startActivity(intentAD2);
+					} else if (newUrl.contains("close")) {// 关闭当前webview
+						JVWebViewActivity.this.finish();
+					} else if (newUrl.contains("video")
+							|| newUrl.contains("viewmode")) {// 是否含有视频
 
 						String param_array[] = newUrl.split("\\?");
 						HashMap<String, String> resMap;
@@ -342,6 +355,13 @@ public class JVWebViewActivity extends BaseActivity {
 	private void backMethod() {
 		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
 		if (webView.canGoBack()) {
+			if (null != titleStack) {
+				titleStack.pop();
+				String lastTitle = titleStack.peek();
+				;
+				currentMenu.setText(lastTitle);
+			}
+
 			webView.goBack(); // goBack()表示返回WebView的上一页面
 		} else {
 			JVWebViewActivity.this.finish();

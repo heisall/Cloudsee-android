@@ -536,10 +536,14 @@ public class JVMoreFragment extends BaseFragment {
 							{
 								mActivity.showTextToast(R.string.more_nologin);
 							} else {
-								mApp.setNewPushCnt(0);
-								Intent intent2 = new Intent(mActivity,
-										AlarmInfoActivity.class);
-								startActivity(intent2);
+								if (!ConfigUtil.isConnected(mActivity)) {
+									mActivity.alertNetDialog();
+								} else {
+									mApp.setNewPushCnt(0);
+									Intent intent2 = new Intent(mActivity,
+											AlarmInfoActivity.class);
+									startActivity(intent2);
+								}
 							}
 
 							// if (!MySharedPreference.getBoolean("VideoSquer"))
@@ -647,52 +651,6 @@ public class JVMoreFragment extends BaseFragment {
 									JVVersionActivity.class);
 							mActivity.startActivity(intentVersion);
 
-							// int curVersion = 0;
-							// try {
-							// curVersion = mActivity.getPackageManager()
-							// .getPackageInfo(
-							// mActivity.getPackageName(), 0).versionCode;
-							// } catch (NameNotFoundException e) {
-							// // TODO Auto-generated catch block
-							// e.printStackTrace();
-							// }
-							//
-							// String itemzero = mActivity.getResources()
-							// .getString(R.string.census_accounts)
-							// + ":"
-							// + ConfigUtil.ACCOUNT_VERSION;
-							// String itemone = mActivity.getResources()
-							// .getString(R.string.census_network_version)
-							// + ":" + ConfigUtil.NETWORK_VERSION;
-							// String itemtwo = mActivity.getResources()
-							// .getString(R.string.census_play_version)
-							// + ":" + ConfigUtil.PLAY_VERSION;
-							// String itemthree = mActivity.getResources()
-							// .getString(
-							// R.string.census_appnetwork_version)
-							// + ":" + ConfigUtil.GETNETWORK_VERSION;
-							// String itemfour = mActivity.getResources()
-							// .getString(R.string.census_appplay_version)
-							// + ":" + ConfigUtil.GETPLAY_VERSION;
-							// String itemfive = mActivity.getResources()
-							// .getString(R.string.census_appaccount)
-							// + ":" + JVACCOUNT.GetVersion(0);
-							// new AlertDialog.Builder(new ContextThemeWrapper(
-							// mActivity, R.style.AlertDialogCustom))
-							// .setTitle(
-							// mActivity.getResources().getString(
-							// R.string.census_version)
-							// + curVersion
-							// + "  "
-							// + ConfigUtil.sameVersion)
-							// .setItems(
-							// new String[] { itemzero, itemfive,
-							// itemone, itemtwo,
-							// itemthree, itemfour }, null)
-							// .setNegativeButton(
-							// mActivity.getResources().getString(
-							// R.string.ok), null).show();
-							// TODO
 							break;
 
 						case 9: // 我要装监控
@@ -858,12 +816,17 @@ public class JVMoreFragment extends BaseFragment {
 							// startActivity(intent);
 							break;
 						case 16: // 检查更新
-							mActivity.createDialog("", false);
-							CheckUpdateTask taskf = new CheckUpdateTask(
-									mActivity);
-							String[] strParams = new String[3];
-							strParams[0] = "1";// 1,手动检查更新
-							taskf.execute(strParams);
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								mActivity.createDialog("", false);
+								CheckUpdateTask taskf = new CheckUpdateTask(
+										mActivity);
+								String[] strParams = new String[3];
+								strParams[0] = "1";// 1,手动检查更新
+								taskf.execute(strParams);
+							}
+
 							break;
 						case 17: // 关于
 							if (!MySharedPreference
@@ -1119,6 +1082,7 @@ public class JVMoreFragment extends BaseFragment {
 			mActivity.deleteDatabase("webviewCache.db");
 
 			intent.putExtra("UserName", userName);
+			// MySharedPreference.putBoolean(Consts.MORE_REMEMBER, false);
 			intent.setClass(mActivity, JVLoginActivity.class);
 			mActivity.startActivity(intent);
 			mActivity.finish();

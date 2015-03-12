@@ -73,9 +73,11 @@
     <string name="cloud2">通天下</string>
     <!-- JVLoginActivity -->
     <!-- JVRebindEmialorPhone -->
+    <string name="nicknamechose">选填</string>
     <string name="rebindcontact">修改绑定</string>
     <string name="rebindcontactphone">修改绑定手机号</string>
     <string name="rebindcontactemail">修改绑定邮箱</string>
+    <string name="rebindcontactnickname">修改昵称</string>
     <string name="rebindhasnot">未绑定</string>
     <string name="rebindnicknamenull">未填写</string>
     <string name="rebindemailhassend">邮件已发送</string>
@@ -322,6 +324,9 @@
     <string name="str_user_setting">口令设置</string>
     <string name="str_remote_setting">远程设置</string>
     <string name="str_connect_mode">连接模式</string>
+    <string name="str_connect_tcp">开启TCP连接</string>
+    <string name="str_connect_tcpdescri">启用TCP连接</string>
+    
     <string name="str_ip_connect">域名/IP</string>
     <string name="str_data_not_compare">本地数据与服务器数据不一致，是否同步数据?</string>
     <string name="str_uploading">正在上传…</string>
@@ -418,6 +423,8 @@
     <string name="rebandphone">手机号 </string>
     <string name="rebandemail">邮箱 </string>
     <string name="rebandhand">头像</string>
+    <string name="rebandtips">昵称仅能修改一次.</string>
+    <string name="rebandnotexit"> 请点击获取验证码</string>
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">已选中?个，</string>
     <string name="number">共?个</string>
@@ -620,6 +627,7 @@
     <string name="str_buffering">正在缓冲…</string>
     <string name="str_safe_protected">安全防护</string>
     <string name="str_reset_device">重置设备功能</string>
+    <string name="str_reset_devicedescri">重置后设备将恢复出厂设置。</string>
     <string name="str_reset_sure">确定重置设备吗?</string>
     <string name="str_modify_pwd">修改设备管理员密码</string>
     <string name="str_downloading_vod">正在获取录像文件…</string>
@@ -671,6 +679,7 @@
     <string name="str_alarm_setting_tips3">您可以选择一个合适的时间段来接收报警，让报警尽在掌握。</string>
     <string name="str_alarm_setting_tips2">开关打开时，设备如检测到移动物体，会提示报警。</string>
     <string name="str_alarm_setting_tips4">为了防止泄露隐私，建议及时修改设备管理员密码。</string>
+     <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置.</string>
     <string name="str_all_day">全天</string>
     <string name="str_protected_time">防护时间段</string>
     <string name="str_getdev_params_timeout">获取设备参数超时</string>

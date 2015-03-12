@@ -8,6 +8,7 @@ import m.framework.network.StringPart;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,9 +22,11 @@ import android.provider.MediaStore;
 import android.test.JVACCOUNT;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -32,6 +35,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.utils.AccountUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.views.popw;
 import com.tencent.stat.StatService;
@@ -50,6 +54,11 @@ public class JVRebandContactActivity extends BaseActivity {
 	private String showPhone = "";
 	private String showEmail = "";
 	private String showNickname = "";
+
+	private Dialog resetDialog;// 显示弹出框
+	private TextView resetCancel;// 取消按钮
+	private TextView resetCompleted;// 确定按钮
+	private EditText rebind_nicknametext;
 
 	// 设置头像
 
@@ -128,17 +137,21 @@ public class JVRebandContactActivity extends BaseActivity {
 		rebindmaiLayout = (RelativeLayout) findViewById(R.id.rebind_mail);
 		linear = (LinearLayout) findViewById(R.id.lin);
 
-		reband_nickname_text.setText(showNickname);
-		
+		if (!"".equals(showNickname)) {
+			reband_nickname_text.setText(showNickname);
+		}else {
+			reband_nickname_text.setText("未填写");
+		}
+
 		if (showPhone.equals("nophone")) {
 			rebandPhone
-					.setText(getResources().getString(R.string.rebindhasnot));
+			.setText(getResources().getString(R.string.rebindhasnot));
 		} else {
 			rebandPhone.setText(showPhone);
 		}
 		if (showEmail.equals("noemail")) {
 			rebandEmail
-					.setText(getResources().getString(R.string.rebindhasnot));
+			.setText(getResources().getString(R.string.rebindhasnot));
 		} else {
 			rebandEmail.setText(showEmail);
 		}
@@ -153,9 +166,28 @@ public class JVRebandContactActivity extends BaseActivity {
 		rebindphoneLayout.setOnClickListener(myOnClickListener);
 		rebindmaiLayout.setOnClickListener(myOnClickListener);
 		rebindnickname.setOnClickListener(myOnClickListener);
+		
+		
 
 	}
 
+	private void ResetDialog() {
+		resetDialog = new Dialog(JVRebandContactActivity.this, R.style.mydialog);
+		View view = LayoutInflater.from(JVRebandContactActivity.this).inflate(
+				R.layout.dialog_rebind, null);
+		resetDialog.setContentView(view);
+
+		rebind_nicknametext = (EditText)view.findViewById(R.id.rebind_nicknametext);
+		resetCancel = (TextView) view.findViewById(R.id.reset_cancel);
+		resetCompleted = (TextView) view.findViewById(R.id.reset_completed);
+
+		resetCancel.setOnClickListener(myOnClickListener);
+		resetCompleted.setOnClickListener(myOnClickListener);
+		resetDialog.show();
+
+	}
+
+	
 	OnClickListener myOnClickListener = new OnClickListener() {
 
 		@Override
@@ -167,27 +199,36 @@ public class JVRebandContactActivity extends BaseActivity {
 			case R.id.pop_outside:
 				popupWindow.dismiss();
 				break;
-			case R.id.rebind_nickname:
-				if (!"".equals(showNickname)) {
-					showTextToast("木有权限修改");
+			case R.id.reset_cancel:
+				resetDialog.dismiss();
+				break;
+			case R.id.reset_completed:
+				// reqJson:{"user":"111","phone":"18668923911","mail":"","nick":"nicheng"}
+				if ("".equals(rebind_nicknametext.getText().toString())) {
+					showTextToast(R.string.str_nikename_notnull);
 				}else {
-					reband_nickname_text.setText("奋斗的豆沙包");
-					// reqJson:{"user":"111","phone":"18668923911","mail":"","nick":"nicheng"}
-					JSONObject resObject = new JSONObject();
-					try {
-						resObject.put("user", more_name);
-						resObject.put("phone", showPhone);
-						resObject.put("mail", showEmail);
-						resObject.put("nick", reband_nickname_text.getText().toString());
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					SetAccountInfoTask task = new SetAccountInfoTask();
-					String params [] = new String [3];
-					params [0] = resObject.toString();
-					task.execute(params);
-					Log.i("TAG", params[0]);
+				JSONObject resObject = new JSONObject();
+				try {
+					resObject.put("user", more_name);
+					resObject.put("phone", showPhone);
+					resObject.put("mail", showEmail);
+					resObject.put("nick", rebind_nicknametext.getText().toString());
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				SetAccountInfoTask task = new SetAccountInfoTask();
+				String params [] = new String [3];
+				params [0] = resObject.toString();
+				task.execute(params);
+				Log.i("TAG", params[0]);
+				}
+				break;
+			case R.id.rebind_nickname:
+				if (!"".equals(reband_nickname_text.getText().toString())) {
+					showTextToast(R.string.edit_pass_not);
+				}else {
+					ResetDialog();
 				}
 				break;
 			case R.id.reband_hand_img:
@@ -328,6 +369,7 @@ public class JVRebandContactActivity extends BaseActivity {
 		@Override
 		protected Integer doInBackground(String... params) {
 			// TODO Auto-generated method stub
+			createDialog("", false);
 			int ret = -1;
 			ret = JVACCOUNT.SetAccountInfo(params[0]);
 			return ret;
@@ -342,7 +384,9 @@ public class JVRebandContactActivity extends BaseActivity {
 		protected void onPostExecute(Integer result) {
 			if (result == 0)// ok
 			{
-				showTextToast("成功");
+				dismissDialog();
+				resetDialog.dismiss();
+				reband_nickname_text.setText(rebind_nicknametext.getText().toString());
 			}
 		}
 

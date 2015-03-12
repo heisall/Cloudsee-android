@@ -59,8 +59,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 
 	// 接口
 	public interface OnMainListener {
-		public void onMainAction(int action);
-
+		//public void onMainAction(int action);
 		public void onBindResult(int ret, String paras);
 	}
 

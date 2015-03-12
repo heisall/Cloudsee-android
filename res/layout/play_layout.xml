@@ -143,8 +143,7 @@
                 android:id="@+id/yt_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="35dp"
                 layout="@layout/yt_vertical_layout"
                 android:visibility="gone" />
 

@@ -181,7 +181,7 @@ public class JVMoreFragment extends BaseFragment {
 			}
 			break;
 		case Consts.WHAT_BIND:
-			more_bindmail.setVisibility(View.VISIBLE);
+//			more_bindmail.setVisibility(View.VISIBLE);
 			break;
 		}
 
@@ -294,9 +294,9 @@ public class JVMoreFragment extends BaseFragment {
 				more_camera.setVisibility(View.GONE);
 			}
 		}
-		if (MySharedPreference.getBoolean("ISSHOW", false)) {
-			more_bindmail.setVisibility(View.VISIBLE);
-		}
+//		if (MySharedPreference.getBoolean("ISSHOW", false)) {
+//			more_bindmail.setVisibility(View.VISIBLE);
+//		}
 		if (!"".equals(MySharedPreference.getString("ACCOUNT"))
 				&& null != MySharedPreference.getString("ACCOUNT")) {
 			more_name = MySharedPreference.getString("ACCOUNT");

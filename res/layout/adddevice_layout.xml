@@ -71,6 +71,7 @@
                 android:inputType="textVisiblePassword"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
+                android:hint="@string/nicknamechose"
                 android:text=""
                 android:textColor="@color/leftdevicecolor"
                 android:textSize="18sp" />

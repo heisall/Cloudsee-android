@@ -46,15 +46,11 @@ public class JVRebandContactActivity extends BaseActivity {
 	private RelativeLayout rebindmaiLayout;
 	private RelativeLayout rebindnickname;
 	private TextView reband_nickname_text;
+	private ImageView nickImageView;
 
 	private String showPhone = "";
 	private String showEmail = "";
 	private String showNickname = "";
-
-	private Dialog resetDialog;// 显示弹出框
-	private TextView resetCancel;// 取消按钮
-	private TextView resetCompleted;// 确定按钮
-	private EditText rebind_nicknametext;
 
 	// 设置头像
 
@@ -99,6 +95,10 @@ public class JVRebandContactActivity extends BaseActivity {
 				&& null != MySharedPreference.getString("REBINDEMAIL")) {
 			rebandEmail.setText(MySharedPreference.getString("REBINDEMAIL"));
 		}
+		if (!"".equals(MySharedPreference.getString("NICKNAMEBBS"))) {
+			reband_nickname_text.setText(MySharedPreference.getString("NICKNAMEBBS"));
+			nickImageView.setVisibility(View.GONE);
+		}
 		super.onResume();
 	}
 
@@ -124,6 +124,7 @@ public class JVRebandContactActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(getResources().getString(R.string.rebindcontact));
 
+		nickImageView = (ImageView)findViewById(R.id.rebindnicknameimg);
 		reband_nickname_text = (TextView) findViewById(R.id.reband_nickname_text);
 		rebindnickname = (RelativeLayout) findViewById(R.id.rebind_nickname);
 		rebandEmail = (TextView) findViewById(R.id.reband_email_text);
@@ -132,9 +133,11 @@ public class JVRebandContactActivity extends BaseActivity {
 		rebindphoneLayout = (RelativeLayout) findViewById(R.id.rebind_phone);
 		rebindmaiLayout = (RelativeLayout) findViewById(R.id.rebind_mail);
 		linear = (LinearLayout) findViewById(R.id.lin);
-
+		
+		MySharedPreference.putString("NICKNAMEBBS", "");
 		if (!"".equals(showNickname)) {
 			reband_nickname_text.setText(showNickname);
+			nickImageView.setVisibility(View.GONE);
 		} else {
 			reband_nickname_text.setText(getResources().getString(
 					R.string.rebindnicknamenull));
@@ -165,23 +168,6 @@ public class JVRebandContactActivity extends BaseActivity {
 		rebindnickname.setOnClickListener(myOnClickListener);
 	}
 
-	private void ResetDialog() {
-		resetDialog = new Dialog(JVRebandContactActivity.this, R.style.mydialog);
-		View view = LayoutInflater.from(JVRebandContactActivity.this).inflate(
-				R.layout.dialog_rebind, null);
-		resetDialog.setContentView(view);
-
-		rebind_nicknametext = (EditText) view
-				.findViewById(R.id.rebind_nicknametext);
-		resetCancel = (TextView) view.findViewById(R.id.reset_cancel);
-		resetCompleted = (TextView) view.findViewById(R.id.reset_completed);
-
-		resetCancel.setOnClickListener(myOnClickListener);
-		resetCompleted.setOnClickListener(myOnClickListener);
-		resetDialog.show();
-
-	}
-
 	OnClickListener myOnClickListener = new OnClickListener() {
 
 		@Override
@@ -193,37 +179,15 @@ public class JVRebandContactActivity extends BaseActivity {
 			case R.id.pop_outside:
 				popupWindow.dismiss();
 				break;
-			case R.id.reset_cancel:
-				resetDialog.dismiss();
-				break;
-			case R.id.reset_completed:
-				// reqJson:{"user":"111","phone":"18668923911","mail":"","nick":"nicheng"}
-				if ("".equals(rebind_nicknametext.getText().toString())) {
-					showTextToast(R.string.str_nikename_notnull);
-				} else {
-					JSONObject resObject = new JSONObject();
-					try {
-						resObject.put("user", more_name);
-						resObject.put("phone", showPhone);
-						resObject.put("mail", showEmail);
-						resObject.put("nick", rebind_nicknametext.getText()
-								.toString());
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					SetAccountInfoTask task = new SetAccountInfoTask();
-					String params[] = new String[3];
-					params[0] = resObject.toString();
-					task.execute(params);
-					Log.i("TAG", params[0]);
-				}
-				break;
 			case R.id.rebind_nickname:
-				if (!"".equals(reband_nickname_text.getText().toString())) {
+				if (View.GONE == nickImageView.getVisibility()) {
 					showTextToast(R.string.edit_pass_not);
 				} else {
-					ResetDialog();
+					Intent nickIntent  = new Intent(JVRebandContactActivity.this,JVRebandNickActivity.class);
+					nickIntent.putExtra("phone", showPhone);
+					nickIntent.putExtra("email", showEmail);
+					nickIntent.putExtra("username", more_name);
+					startActivity(nickIntent);
 				}
 				break;
 			case R.id.reband_hand_img:
@@ -358,38 +322,5 @@ public class JVRebandContactActivity extends BaseActivity {
 	@Override
 	protected void freeMe() {
 
-	}
-
-	class SetAccountInfoTask extends AsyncTask<String, Integer, Integer> {
-
-		@Override
-		protected Integer doInBackground(String... params) {
-			// TODO Auto-generated method stub
-			createDialog("", false);
-			int ret = -1;
-			ret = JVACCOUNT.SetAccountInfo(params[0]);
-			return ret;
-		}
-
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			if (result == 0)// ok
-			{
-				dismissDialog();
-				resetDialog.dismiss();
-				reband_nickname_text.setText(rebind_nicknametext.getText()
-						.toString());
-			}
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
-		}
 	}
 }

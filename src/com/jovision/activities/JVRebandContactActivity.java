@@ -220,7 +220,7 @@ public class JVRebandContactActivity extends BaseActivity {
 				}
 				break;
 			case R.id.rebind_nickname:
-				if (!"".equals(reband_nickname_text.getText().toString())) {
+				if (!getResources().getString(R.string.rebindnicknamenull).equals(reband_nickname_text.getText().toString())) {
 					showTextToast(R.string.edit_pass_not);
 				} else {
 					ResetDialog();

@@ -29,6 +29,7 @@ import com.jovision.Consts;
 import com.jovision.adapters.PeripheralManageAdapter;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.views.CustomDialog;
 
 public class AddThirdDeviceMenuFragment extends Fragment implements
 		AddThirdDevActivity.OnMainListener {
@@ -42,7 +43,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 	private LinearLayout loadinglayout;
 	private ImageView loadingBar;
 	private boolean loadFailed = false;
-
+	private CustomDialog learnDialg;
 	public interface OnDeviceClassSelectedListener {
 		public void OnDeviceClassSelected(int index, String paras);
 	}
@@ -76,7 +77,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		}
 		myHandler = new MyHandler();
 		mWebView = (WebView) rootView.findViewById(R.id.webview);
-
+		learnDialg = new CustomDialog(getActivity(), mListener);
 		loadingBar = (ImageView) rootView.findViewById(R.id.loadingbar);
 		loadinglayout = (LinearLayout) rootView
 				.findViewById(R.id.loadinglayout);
@@ -105,58 +106,71 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String newUrl) {
-				view.loadUrl(newUrl);
+				//重载
+			
 				Log.e("webv", "newUrl:" + newUrl);
 				if (newUrl.contains("device=")) {
-
-					String param_array[] = newUrl.split("\\?");
-					HashMap<String, String> resMap;
-					resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
-
-					mDevType = resMap.get("device");
-					
-//					if (mDevType != null && !mDevType.equals("")) {
-//						mListener.OnDeviceClassSelected(Integer
-//							.parseInt(mDevType));
-//					}					
+					if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
+					|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
+						view.loadUrl(webUrlZH);
+					} else {
+						view.loadUrl(webUrlEN);
+					}						
+					learnDialg.Show(0, 0, newUrl);		
+					return false;
 				}
-				return false;
+				else{
+					return true;
+				}
+				
 			}
 
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
-				loadinglayout.setVisibility(View.VISIBLE);
-				Animation anim = AnimationUtils.loadAnimation(getActivity(),
-						R.anim.rotate);
-				loadingBar.setAnimation(anim);
-				Log.v("Test", "webView start load");
+				if (url.contains("device=")) {
+					return;
+				}
+				else{
+					loadinglayout.setVisibility(View.VISIBLE);
+					Animation anim = AnimationUtils.loadAnimation(getActivity(),
+							R.anim.rotate);
+					loadingBar.setAnimation(anim);
+					Log.e("webv", "webView start load");					
+				}
+
 				// mHandler.sendEmptyMessage(1);
 			}
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-				loadinglayout.setVisibility(View.GONE);
-				Log.e("webv", "webView finish load");
-				if (loadFailed) {
-					Log.e("webv", "url:" + url + " load failed");
-					getActivity().finish();
-				} 
-				else {
-					if (url.contains("device=")) {
-
-						String param_array[] = url.split("\\?");
-						HashMap<String, String> resMap;
-						resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
-
-						mDevType = resMap.get("device");
-						if (mDevType != null && !mDevType.equals("")) {
-							mListener.OnDeviceClassSelected(Integer
-									.parseInt(mDevType), "");
-						}
-					}
+				if (url.contains("device=")) {
+					return;
 				}
+				else{
+					loadinglayout.setVisibility(View.GONE);
+					Log.e("webv", "webView finish load");
+					if (loadFailed) {
+						Log.e("webv", "url:" + url + " load failed");
+						//getActivity().finish();
+					} 					
+				}
+
+//				else {
+//					if (url.contains("device=")) {
+//
+//						String param_array[] = url.split("\\?");
+//						HashMap<String, String> resMap;
+//						resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
+//
+//						mDevType = resMap.get("device");
+//						if (mDevType != null && !mDevType.equals("")) {
+//							mListener.OnDeviceClassSelected(Integer
+//									.parseInt(mDevType), "");
+//						}
+//					}
+//				}
 
 			}
 		});
@@ -253,13 +267,28 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 	@Override
 	public void onMainAction(int action) {
 		// TODO Auto-generated method stub
-		if (action == 0) {
-			if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
-					|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
-				mWebView.loadUrl(webUrlZH);
-			} else {
-				mWebView.loadUrl(webUrlEN);
-			}
+//		if (action == 0) {
+//			String currentUrl = mWebView.getUrl();
+//			if(currentUrl.equals(webUrlZH) || currentUrl.equals(webUrlEN)){
+//				return;
+//			}
+//			else{
+//				if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
+//						|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
+//					mWebView.loadUrl(webUrlZH);
+//				} else {
+//					mWebView.loadUrl(webUrlEN);
+//				}				
+//			}
+//
+//		}
+	}
+
+	@Override
+	public void onBindResult(int ret, String paras) {
+		// TODO Auto-generated method stub
+		if(null != learnDialg && learnDialg.isShowing()){
+			learnDialg.dismiss();
 		}
 	}
 }

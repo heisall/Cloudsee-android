@@ -81,6 +81,7 @@
     <string name="rebindemailhassendfailed">郵件發送錯誤</string>
     <string name="rebindsussess">綁定成功</string>
     <string name="rebindfailed">綁定失敗</string>
+    <string name="rebindnickname">NickName :</string>
     <!-- JVMoreFrament -->
     <string name="location_login">Visitor</string>
     <!-- leftMenu -->

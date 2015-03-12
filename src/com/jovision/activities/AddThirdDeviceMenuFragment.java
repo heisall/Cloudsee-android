@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
@@ -23,6 +24,7 @@ import android.webkit.WebViewClient;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -44,6 +46,9 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 	private ImageView loadingBar;
 	private boolean loadFailed = false;
 	private CustomDialog learnDialg;
+	private RelativeLayout loadFailedLayout;
+	private ImageView reloadImgView;
+	
 	public interface OnDeviceClassSelectedListener {
 		public void OnDeviceClassSelected(int index, String paras);
 	}
@@ -81,9 +86,25 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		loadingBar = (ImageView) rootView.findViewById(R.id.loadingbar);
 		loadinglayout = (LinearLayout) rootView
 				.findViewById(R.id.loadinglayout);
+		
+		loadFailedLayout = (RelativeLayout) rootView.findViewById(R.id.loadfailedlayout);
+		loadFailedLayout.setVisibility(View.GONE);
+		reloadImgView = (ImageView) rootView.findViewById(R.id.refreshimg);
+		reloadImgView.setOnClickListener(myOnClickListener);
+		
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setDomStorageEnabled(true);
+		webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+		
+//		webSettings.setBuiltInZoomControls(true); 
+//		webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS); 
+//		webSettings.setUseWideViewPort(true);
+//		webSettings.setLoadWithOverviewMode(true);
+//		webSettings.setSaveFormData(true);
+//		webSettings.setGeolocationEnabled(true);
+		mWebView.requestFocus();  
+		mWebView.setScrollBarStyle(0);
 		
 		mWebView.setWebChromeClient(m_chromeClient);
 		
@@ -149,12 +170,16 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 					return;
 				}
 				else{
-					loadinglayout.setVisibility(View.GONE);
-					Log.e("webv", "webView finish load");
 					if (loadFailed) {
+						loadFailedLayout.setVisibility(View.VISIBLE);
+						loadinglayout.setVisibility(View.GONE);
 						Log.e("webv", "url:" + url + " load failed");
-						//getActivity().finish();
-					} 					
+					}
+					else{
+						loadinglayout.setVisibility(View.GONE);
+						loadFailedLayout.setVisibility(View.GONE);
+					}				
+					Log.e("webv", "webView finish load");				
 				}
 
 //				else {
@@ -198,7 +223,37 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
             quotaUpdater.updateQuota(spaceNeeded * 2);
         }
     };
-    
+  
+	OnClickListener myOnClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+				case R.id.refreshimg: {
+					loadFailedLayout.setVisibility(View.GONE);
+					loadinglayout.setVisibility(View.VISIBLE);
+					Animation anim = AnimationUtils.loadAnimation(
+							getActivity(), R.anim.rotate);
+					loadingBar.setAnimation(anim);
+					loadFailed = false;
+					if(mWebView.getUrl().contains("device=")){
+						if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
+								|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
+							mWebView.loadUrl(webUrlZH);
+						} else {
+							mWebView.loadUrl(webUrlEN);
+						}							
+					}
+					else{
+						mWebView.reload();
+					}
+					
+					break;
+				}
+				default:
+					break;
+			}
+		}
+	};
 	// public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	// Bundle savedInstanceState) {
 	// if (rootView == null) {
@@ -264,25 +319,6 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		myHandler.sendMessage(msg);
 	}
 
-	@Override
-	public void onMainAction(int action) {
-		// TODO Auto-generated method stub
-//		if (action == 0) {
-//			String currentUrl = mWebView.getUrl();
-//			if(currentUrl.equals(webUrlZH) || currentUrl.equals(webUrlEN)){
-//				return;
-//			}
-//			else{
-//				if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
-//						|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
-//					mWebView.loadUrl(webUrlZH);
-//				} else {
-//					mWebView.loadUrl(webUrlEN);
-//				}				
-//			}
-//
-//		}
-	}
 
 	@Override
 	public void onBindResult(int ret, String paras) {

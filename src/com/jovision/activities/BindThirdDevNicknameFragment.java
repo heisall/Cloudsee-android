@@ -118,11 +118,11 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 		toast.show();
 	}
 
-	@Override
-	public void onMainAction(int action) {
-		// TODO Auto-generated method stub
-
-	}
+//	@Override
+//	public void onMainAction(int action) {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 	@Override
 	public void onBindResult(int ret, String paras) {

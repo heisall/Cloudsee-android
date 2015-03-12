@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
@@ -165,25 +166,34 @@ public class JVVideoFragment extends BaseFragment {
 		loadFailedLayout.setVisibility(View.GONE);
 		reloadImgView = (ImageView) rootView.findViewById(R.id.refreshimg);
 		reloadImgView.setOnClickListener(myOnClickListener);
-		currentMenu.setText(R.string.demo);
+//		currentMenu.setText(R.string.demo);
+//		
+//		if (-1 == titleID) {
+//			currentMenu.setText("");
+//		} else if (-2 == titleID) {
+//
+//		} else {
+//			currentMenu.setText(titleID);
+//		}
+		
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn = (Button) rootView.findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
 		webView = (WebView) rootView.findViewById(R.id.findpasswebview);
 
-		// WebChromeClient wvcc = new WebChromeClient() {
-		// @Override
-		// public void onReceivedTitle(WebView view, String title) {
-		// super.onReceivedTitle(view, title);
-		// if (-2 == titleID) {
-		//
-		// }
-		// }
-		// };
+		WebChromeClient wvcc = new WebChromeClient() {
+			@Override
+			public void onReceivedTitle(WebView view, String title) {
+				super.onReceivedTitle(view, title);
+//				if (-2 == titleID) {
+					currentMenu.setText(title);
+//				}
+			}
+		};
 		webView.getSettings().setJavaScriptEnabled(true);
 
 		// 设置setWebChromeClient对象
-		// webView.setWebChromeClient(wvcc);
+		webView.setWebChromeClient(wvcc);
 		webView.requestFocus(View.FOCUS_DOWN);
 
 		// setting.setPluginState(PluginState.ON);

@@ -542,7 +542,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					paramObject.put("st", "00:00");
 					paramObject.put("et", "23:59");
 				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
@@ -563,6 +562,13 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			Jni.sendSuperBytes(window, JVNetConst.JVN_RSP_TEXTDATA, true,
 					Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_RESTORE,
 					Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+			setResult(Consts.PLAY_DEVSET_RESPONSE);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			finish();
 			break;
 		default:
 			break;

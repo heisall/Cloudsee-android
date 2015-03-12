@@ -3876,7 +3876,7 @@ public class JVPlayActivity extends PlayActivity implements
 								.getFullNo());
 						intent.putExtra("updateflag", updateStreaminfoFlag);
 						intent.putExtra("streamMap", streamMap);
-						startActivity(intent);
+						startActivityForResult(intent,Consts.PLAY_DEVSET_REQUSET);
 					}
 				}
 				// 音频监听
@@ -3969,6 +3969,15 @@ public class JVPlayActivity extends PlayActivity implements
 			functionListAdapter.notifyDataSetChanged();
 		}
 	};
+	
+	
+	@Override
+	protected void onActivityResult(int requestCode, int responseCode, Intent arg2) {
+		super.onActivityResult(requestCode, responseCode, arg2);
+		if (Consts.PLAY_DEVSET_REQUSET == requestCode && Consts.PLAY_DEVSET_RESPONSE == responseCode) {
+			this.finish();
+		}
+	}
 
 	/**
 	 * 长按--云台事件

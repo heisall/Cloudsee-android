@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,6 +29,8 @@ public class JVSystemInfoActivity extends BaseActivity implements
 	private SystemInfoAdapter infoAdapter;
 	private XListView infoListView;
 	private LinearLayout noMessLayout;
+	private ImageView noMessIMG;
+	private TextView noMessTV;
 	private ArrayList<SystemInfo> infoList = new ArrayList<SystemInfo>();
 	private ArrayList<SystemInfo> tempList = new ArrayList<SystemInfo>();
 
@@ -35,7 +38,7 @@ public class JVSystemInfoActivity extends BaseActivity implements
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.WHAT_SYSTEMINFO_REFRESH_SUCC: {// 刷新成功
-			refreshLayout();
+			refreshLayout(0);
 			dismissDialog();
 			refreshFinished();
 			break;
@@ -63,6 +66,10 @@ public class JVSystemInfoActivity extends BaseActivity implements
 		currentMenu.setText(R.string.system_info);
 		rightBtn.setVisibility(View.GONE);
 		leftBtn.setOnClickListener(myOnClickListener);
+		
+		noMessIMG = (ImageView) findViewById(R.id.nomess);
+		noMessTV = (TextView)findViewById(R.id.nomess_tv);;
+		
 
 		infoListView = (XListView) findViewById(R.id.infolistview);
 		noMessLayout = (LinearLayout) findViewById(R.id.noinfolayout);
@@ -157,7 +164,7 @@ public class JVSystemInfoActivity extends BaseActivity implements
 				infoListView.setPullLoadEnable(true);// 设置上拉刷新
 
 			}
-			refreshLayout();
+			refreshLayout(result);
 			refreshFinished();
 
 		}
@@ -213,15 +220,25 @@ public class JVSystemInfoActivity extends BaseActivity implements
 		super.onResume();
 	}
 
-	private void refreshLayout() {
-		if (null == infoList || 0 == infoList.size()) {
+	private void refreshLayout(int errorCode) {
+		if(0 != errorCode && 6 != errorCode){
 			infoListView.setVisibility(View.GONE);
 			noMessLayout.setVisibility(View.VISIBLE);
-		} else {
-			infoListView.setVisibility(View.VISIBLE);
-			infoAdapter.setData(infoList);
-			infoListView.setAdapter(infoAdapter);
-			noMessLayout.setVisibility(View.GONE);
+			noMessIMG.setImageResource(R.drawable.mydevice_error);
+			noMessTV.setText(R.string.system_info_load_error);
+		}else{
+			if (null == infoList || 0 == infoList.size()) {
+				infoListView.setVisibility(View.GONE);
+				noMessLayout.setVisibility(View.VISIBLE);
+				noMessIMG.setImageResource(R.drawable.nomessage);
+				noMessTV.setText(R.string.system_info_nomessage);
+			} else {
+				infoListView.setVisibility(View.VISIBLE);
+				infoAdapter.setData(infoList);
+				infoListView.setAdapter(infoAdapter);
+				noMessLayout.setVisibility(View.GONE);
+			}
 		}
+		
 	}
 }

@@ -865,7 +865,11 @@ public class ConfigUtil {
 
 	}
 
-	// 验证设备密码
+	/**
+	 * 验证针对账号库的设备密码
+	 * @param str
+	 * @return
+	 */
 	public static boolean checkDevicePwd(String str) {
 		boolean flag = false;
 		// try {
@@ -888,7 +892,7 @@ public class ConfigUtil {
 	}
 
 	/**
-	 * 验证设备密码
+	 * 2015-3-11  验证针对设备密码
 	 * 
 	 * @param str
 	 * @return 中文返回false 非中文返回true

@@ -59,7 +59,7 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 		completeBtn.setOnClickListener(this);
 		nickNameEdt = (EditText) rootView.findViewById(R.id.third_dev_nick_edt);
 		nickNameEdt.setFocusable(true);
-		mListener.OnSetAlarmEnabled(true);
+		//mListener.OnSetAlarmEnabled(true);
 		return rootView;
 	}
 

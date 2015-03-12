@@ -79,7 +79,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		}
 		myHandler = new MyHandler();
 		mWebView = (WebView) rootView.findViewById(R.id.webview);
-		learnDialg = new CustomDialog(getActivity(), mListener);
+//		learnDialg = new CustomDialog(getActivity(), mListener);
 		loadingBar = (ImageView) rootView.findViewById(R.id.loadingbar);
 		loadinglayout = (LinearLayout) rootView
 				.findViewById(R.id.loadinglayout);
@@ -133,6 +133,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 					} else {
 						view.loadUrl(webUrlEN);
 					}
+					learnDialg = new CustomDialog(getActivity(), mListener);
 					learnDialg.Show(0, 0, newUrl);
 					return false;
 				} else {

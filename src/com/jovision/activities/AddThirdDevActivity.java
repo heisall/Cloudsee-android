@@ -397,7 +397,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					}
 				} else {
 					// showTextToast("TextData回调obj参数is null");
-					MyLog.e("Third Dev", "TextData回调obj参数is null");
+					Log.e("Alarm", "TextData回调obj参数is null");
 					return;
 				}
 				int flag = respObject.optInt("flag");
@@ -538,7 +538,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 						}
 					} else {
 						// showTextToast("TextData回调obj参数is null");
-						MyLog.e("Alarm", "TextData回调obj参数is null");
+						Log.e("Alarm", "TextData回调obj参数is null");
 					}
 					break;
 				default:
@@ -610,7 +610,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 		String strNickName = "name=" + nickName + ";";
 		String strSwitch = "enable=1;";
 		String reqData = strType + strGuid + strNickName + strSwitch;
-		MyLog.e("Third Dev", "bing nick name req:" + reqData);
+		Log.e("Alarm", "bing nick name req:" + reqData);
 		Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 				(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 				(byte) Consts.RC_GPIN_SET, reqData.trim());

@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +24,7 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.PlayUtil;
 
-//单例模式使用
+
 public class AlarmDialog extends Dialog {
 	private static AlarmDialog sSingleton = null;
 	private Context context;
@@ -75,17 +76,18 @@ public class AlarmDialog extends Dialog {
 		dialogDeviceModle.setText(alarmTypeName);
 		dialogAlarmTime.setText(alarmTime);
 		// MyLog.e("AlarmDialog", "onStart" + getDialogObjs());
-		if (isshowing) {
-			dismiss();
-			return;
-		}
-		isshowing = true;
+//		if (isshowing) {
+//			dismiss();
+//			return;
+//		}
+//		isshowing = true;
 	}
 
 	@Override
 	protected void onStop() {
 		// synchronized (AlarmDialog.class) {
 		isshowing = false;
+		Log.e("Alarm", "onStop, ishowing==false");
 		// }
 	}
 
@@ -99,11 +101,11 @@ public class AlarmDialog extends Dialog {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.dialog_cancel:
-				isshowing = false;
+				//isshowing = false;
 				dismiss();
 				break;
 			case R.id.dialog_cancle_img:
-				isshowing = false;
+				//isshowing = false;
 				dismiss();
 				break;
 			case R.id.dialog_view:
@@ -195,7 +197,11 @@ public class AlarmDialog extends Dialog {
 
 	public void Show(Object obj) {
 
-		// synchronized (AlarmDialog.class) {
+		if (isshowing) {
+			Log.e("Alarm", "isshowing is true, then return");
+			return;
+		}
+	synchronized (AlarmDialog.class) {
 
 		if (obj == null) {
 			isshowing = false;
@@ -204,7 +210,8 @@ public class AlarmDialog extends Dialog {
 		// 已经在显示了，就不显示了
 		// if (getDialogObjs() <= 1) {
 		if (!isshowing) {
-			// isshowing = true;
+			isshowing = true;
+			Log.e("Alarm","Show() isshowing == true");
 			PushInfo pi = (PushInfo) obj;
 			ystNum = pi.ystNum;
 			deviceList = CacheUtil.getDevList();// 再取一次
@@ -240,19 +247,19 @@ public class AlarmDialog extends Dialog {
 			strAlarmGUID = pi.strGUID;
 			show();
 		} else {
-			MyLog.e("Alarm", "收到信息，但不提示");
+			Log.e("Alarm", "收到信息，但不提示");
 			// Toast.makeText(context, "收到信息，但不提示",
 			// Toast.LENGTH_SHORT).show();
 		}
-		// }
+	}
 	}
 
-	@Override
-	public void dismiss() {
-		// TODO Auto-generated method stub
-		isshowing = false;
-		super.dismiss();
-	}
+//	@Override
+//	public void dismiss() {
+//		// TODO Auto-generated method stub
+//		isshowing = false;
+//		super.dismiss();
+//	}
 
 	/**
 	 * 弹系统消息

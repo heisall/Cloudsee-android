@@ -358,7 +358,7 @@ TextWatcher {
 														.obtainMessage(
 																JVAccountConst.USERNAME_DETECTION_SUCCESS,
 																0, 0));
-												ismailclick = true;
+												ismailclick = false;
 											} else {
 												handler.sendMessage(handler
 														.obtainMessage(

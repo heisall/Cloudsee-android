@@ -82,7 +82,7 @@
     <string name="rebindemailhassendfailed">邮件发送错误</string>
     <string name="rebindsussess">绑定成功</string>
     <string name="rebindfailed">绑定失败</string>
-    <string name="rebindnickname">NickName :</string>
+    <string name="rebindnickname">NickName</string>
     <!-- JVMoreFrament -->
     <string name="location_login">Visitor</string>
     <!-- leftMenu -->

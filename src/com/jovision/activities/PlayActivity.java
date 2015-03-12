@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.print.PrintAttributes.Margins;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
@@ -59,6 +60,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	/** 播放相关 */
 	protected RelativeLayout.LayoutParams reParamsV;
 	protected RelativeLayout.LayoutParams reParamsH;
+//	protected RelativeLayout.LayoutParams reParamsyt;
 	protected int surfaceWidth = -1;
 	protected int surfaceHeight = -1;
 	protected int playFlag = -1;
@@ -232,6 +234,8 @@ public abstract class PlayActivity extends BaseActivity implements
 	// 按钮图
 	protected Drawable alarmRecordDrawableTop = null;
 	protected Drawable normalRecordDrawableTop = null;
+	
+//	protected RelativeLayout mainfunctionLayout;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -311,6 +315,10 @@ public abstract class PlayActivity extends BaseActivity implements
 		}
 
 		/** 中 */
+//		mainfunctionLayout = (RelativeLayout)findViewById(R.id.mainfunction);
+//		reParamsyt = new RelativeLayout.LayoutParams(
+//				ViewGroup.LayoutParams.MATCH_PARENT,
+//				ViewGroup.LayoutParams.WRAP_CONTENT);
 		playViewPager = new MyViewPager(PlayActivity.this);
 		playViewPager.setContext(this);
 		playViewPager = (MyViewPager) findViewById(R.id.play_viewpager);
@@ -1194,6 +1202,9 @@ public abstract class PlayActivity extends BaseActivity implements
 	 */
 	protected void showPTZ() {
 		if (View.GONE == ytLayout.getVisibility()) {
+//			reParamsyt.setMargins(0, 0, 0, 80);
+//			reParamsyt.addRule(RelativeLayout.BELOW,R.id.videolayout);
+//			mainfunctionLayout.setLayoutParams(reParamsyt);
 			ytLayout.setVisibility(View.VISIBLE);
 			playFunctionList.setVisibility(View.GONE);
 			// playFuctionLayout.setVisibility(View.GONE);

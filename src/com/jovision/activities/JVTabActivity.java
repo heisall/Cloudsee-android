@@ -577,7 +577,8 @@ public class JVTabActivity extends ShakeActivity implements
 				}
 			} else if (notifer.startsWith("JVVideoFragment")) {
 				if (JVVideoFragment.webView.canGoBack()) {
-					JVVideoFragment.webView.goBack(); // goBack()表示返回WebView的上一页面
+					((MainApplication) this.getApplication()).currentNotifyer
+							.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
 				} else {
 					exit();
 				}

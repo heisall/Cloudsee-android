@@ -73,9 +73,11 @@
     <string name="cloud2">Vision to world</string>
     <!-- JVLoginActivity -->
     <!-- JVRebindEmialorPhone -->
+    <string name="nicknamechose">选填</string>
     <string name="rebindcontact">修改绑定</string>
     <string name="rebindcontactphone">修改绑定手机号</string>
     <string name="rebindcontactemail">修改绑定邮箱</string>
+    <string name="rebindcontactnickname">修改昵称</string>
     <string name="rebindhasnot">未绑定</string>
     <string name="rebindnicknamenull">未填写</string>
     <string name="rebindemailhassend">邮件已发送</string>
@@ -322,6 +324,8 @@
     <string name="str_user_setting">User Setting</string>
     <string name="str_remote_setting">Remote Setting</string>
     <string name="str_connect_mode">Link Mode</string>
+    <string name="str_connect_tcp">开启TCP连接</string>
+    <string name="str_connect_tcpdescri">启用TCP连接</string>
     <string name="str_ip_connect">IP/DNS</string>
     <string name="str_data_not_compare">Local data is inconsistent with data on server, do you want to synchronize?</string>
     <string name="str_uploading">Uploading…</string>
@@ -418,6 +422,8 @@
     <string name="rebandphone">手机号 </string>
     <string name="rebandemail">邮箱 </string>
     <string name="rebandhand">头像</string>
+    <string name="rebandtips">昵称仅能修改一次.</string>
+     <string name="rebandnotexit"> 请点击获取验证码</string>
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">Has chosen ?，</string>
     <string name="number">Total ?</string>
@@ -671,6 +677,7 @@
     <string name="str_alarm_setting_tips3">You can choose a suitable time scale to receive alert.</string>
     <string name="str_alarm_setting_tips2">Enable this function, the equipment such as moving object is detected, will be prompted to alarm.</string>
     <string name="str_alarm_setting_tips4">We suggest modify device administrator is password to avoid leakage of privacy.</string>
+    <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置.</string>
     <string name="str_all_day">All Day</string>
     <string name="str_protected_time">Safeguard time scale</string>
     <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>

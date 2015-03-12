@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="49"
-    android:versionName="V4.9.7" >
+    android:versionName="V4.9.8" >
 
     <supports-screens
         android:anyDensity="true"
@@ -68,7 +68,7 @@
     <permission
         android:name="getui.permission.GetuiService.第三方包名"
         android:protectionLevel="normal" >
-    </permission>
+    </permission>
     -->
     <permission
         android:name="getui.permission.GetuiService.com.jovetech.CloudSee.temp"
@@ -320,6 +320,13 @@
         </activity>
         <activity
             android:name="com.jovision.activities.JVSettingActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.jovision.activities.JVRebandNickActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="standard"
             android:screenOrientation="portrait"
@@ -686,7 +693,7 @@
             <intent-filter>
                 <action android:name="com.igexin.sdk.action.pushmanager" />
             </intent-filter>
-        </receiver>
+        </receiver>
         -->
         <receiver
             android:name="com.igexin.sdk.PushManagerReceiver"

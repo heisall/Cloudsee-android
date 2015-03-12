@@ -99,15 +99,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="开启TCP连接"
+                        android:text="@string/str_connect_tcp"
                         android:textColor="@color/leftdevicecolor"
                         android:textSize="18dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="开启TCP连接开启TCP连接"
+                        android:text="@string/str_connect_tcpdescri"
                         android:textColor="@color/leftdevicecolor"
+                        android:layout_marginTop="3dp"
                         android:textSize="14dp" />
                 </LinearLayout>
 

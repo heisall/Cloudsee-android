@@ -75,7 +75,7 @@ import com.jovision.utils.mails.MyAuthenticator;
 
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
-	public final static String ACCOUNT_VERSION = "V3.2.15.7";
+	public final static String ACCOUNT_VERSION = "V3.2.15.8";
 	public final static String PLAY_VERSION = "0.9a[][2015-03-03]";
 	public final static String NETWORK_VERSION = "v2.0.76.3.32[private:v2.0.75.13 20150304.1]";
 
@@ -867,6 +867,7 @@ public class ConfigUtil {
 
 	/**
 	 * 验证针对账号库的设备密码
+	 * 
 	 * @param str
 	 * @return
 	 */
@@ -892,7 +893,7 @@ public class ConfigUtil {
 	}
 
 	/**
-	 * 2015-3-11  验证针对设备密码
+	 * 2015-3-11 验证针对设备密码
 	 * 
 	 * @param str
 	 * @return 中文返回false 非中文返回true

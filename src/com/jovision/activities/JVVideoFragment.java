@@ -47,6 +47,8 @@ public class JVVideoFragment extends BaseFragment {
 	private ImageView loadingBar;
 	private View rootView;
 	private boolean isshow = false;
+	String sid = "";
+	String lan = "";
 
 	private RelativeLayout loadFailedLayout;
 	private ImageView reloadImgView;
@@ -115,8 +117,6 @@ public class JVVideoFragment extends BaseFragment {
 		if (null != ((BaseActivity) mActivity).statusHashMap
 				.get(Consts.MORE_DEMOURL)) {
 
-			String sid = "";
-			String lan = "";
 			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {
 				lan = "zh_cn";
 			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
@@ -166,16 +166,16 @@ public class JVVideoFragment extends BaseFragment {
 		loadFailedLayout.setVisibility(View.GONE);
 		reloadImgView = (ImageView) rootView.findViewById(R.id.refreshimg);
 		reloadImgView.setOnClickListener(myOnClickListener);
-//		currentMenu.setText(R.string.demo);
-//		
-//		if (-1 == titleID) {
-//			currentMenu.setText("");
-//		} else if (-2 == titleID) {
-//
-//		} else {
-//			currentMenu.setText(titleID);
-//		}
-		
+		// currentMenu.setText(R.string.demo);
+		//
+		// if (-1 == titleID) {
+		// currentMenu.setText("");
+		// } else if (-2 == titleID) {
+		//
+		// } else {
+		// currentMenu.setText(titleID);
+		// }
+
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn = (Button) rootView.findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
@@ -185,9 +185,9 @@ public class JVVideoFragment extends BaseFragment {
 			@Override
 			public void onReceivedTitle(WebView view, String title) {
 				super.onReceivedTitle(view, title);
-//				if (-2 == titleID) {
-					currentMenu.setText(title);
-//				}
+				// if (-2 == titleID) {
+				currentMenu.setText(title);
+				// }
 			}
 		};
 		webView.getSettings().setJavaScriptEnabled(true);
@@ -217,19 +217,19 @@ public class JVVideoFragment extends BaseFragment {
 				MyLog.v("new_url", newUrl);
 				// showTextToast(rtmp);//////////////等着去掉
 				try {
-					if (newUrl.contains("open")) {// 打开新的WebView模式
-						Intent intentAD2 = new Intent(mActivity,
-								JVWebViewActivity.class);
-
-						intentAD2.putExtra("URL", newUrl);
-						intentAD2.putExtra("title", -2);
-						mActivity.startActivity(intentAD2);
-					}
-					// else if (newUrl.contains("close")) {// 关闭当前webview
-					// mActivity.this.finish();
+					// if (newUrl.contains("open")) {// 打开新的WebView模式
+					// Intent intentAD2 = new Intent(mActivity,
+					// JVWebViewActivity.class);
+					//
+					// intentAD2.putExtra("URL", newUrl);
+					// intentAD2.putExtra("title", -2);
+					// mActivity.startActivity(intentAD2);
 					// }
-					else if (newUrl.contains("video")
-							|| newUrl.contains("viewmode")) {// 是否含有视频
+					// // else if (newUrl.contains("close")) {// 关闭当前webview
+					// // mActivity.this.finish();
+					// // }
+					// else
+					if (newUrl.contains("video") || newUrl.contains("viewmode")) {// 是否含有视频
 
 						String param_array[] = newUrl.split("\\?");
 						HashMap<String, String> resMap;
@@ -258,6 +258,15 @@ public class JVVideoFragment extends BaseFragment {
 						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
 								.start();
 					} else {
+						String plazzaUrl = ((BaseActivity) mActivity).statusHashMap
+								.get(Consts.MORE_DEMOURL);
+						if (newUrl.contains(plazzaUrl)) {
+							newUrl = newUrl + "?" + "plat=android&platv="
+									+ Build.VERSION.SDK_INT + "&lang=" + lan
+									+ "&d=" + System.currentTimeMillis()
+									+ "&sid=" + sid;
+						}
+
 						view.loadUrl(newUrl);
 					}
 				} catch (Exception e) {

@@ -66,10 +66,10 @@ public class JVSystemInfoActivity extends BaseActivity implements
 		currentMenu.setText(R.string.system_info);
 		rightBtn.setVisibility(View.GONE);
 		leftBtn.setOnClickListener(myOnClickListener);
-		
+
 		noMessIMG = (ImageView) findViewById(R.id.nomess);
-		noMessTV = (TextView)findViewById(R.id.nomess_tv);;
-		
+		noMessTV = (TextView) findViewById(R.id.nomess_tv);
+		;
 
 		infoListView = (XListView) findViewById(R.id.infolistview);
 		noMessLayout = (LinearLayout) findViewById(R.id.noinfolayout);
@@ -221,12 +221,12 @@ public class JVSystemInfoActivity extends BaseActivity implements
 	}
 
 	private void refreshLayout(int errorCode) {
-		if(0 != errorCode && 6 != errorCode){
+		if (0 != errorCode && 6 != errorCode) {
 			infoListView.setVisibility(View.GONE);
 			noMessLayout.setVisibility(View.VISIBLE);
 			noMessIMG.setImageResource(R.drawable.mydevice_error);
 			noMessTV.setText(R.string.system_info_load_error);
-		}else{
+		} else {
 			if (null == infoList || 0 == infoList.size()) {
 				infoListView.setVisibility(View.GONE);
 				noMessLayout.setVisibility(View.VISIBLE);
@@ -239,6 +239,6 @@ public class JVSystemInfoActivity extends BaseActivity implements
 				noMessLayout.setVisibility(View.GONE);
 			}
 		}
-		
+
 	}
 }

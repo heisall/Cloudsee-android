@@ -551,9 +551,10 @@ public class JVLoginActivity extends BaseActivity {
 						"onlinelogin", JVLoginActivity.this.getResources()
 								.getString(R.string.census_onlinelogin));
 				if (!MySharedPreference.getBoolean("LOGINFIRST", false)
-						|| !MySharedPreference.getBoolean(Consts.MORE_REMEMBER,
+						&& !MySharedPreference.getBoolean(Consts.MORE_REMEMBER,
 								false)) {
 					MySharedPreference.putBoolean("LOGINFIRST", true);
+					MySharedPreference.putBoolean(Consts.MORE_REMEMBER, true);
 				}
 
 				MySharedPreference.putString("UserName",

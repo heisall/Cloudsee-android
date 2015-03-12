@@ -265,25 +265,28 @@ public class JVMoreFragment extends BaseFragment {
 		super.onResume();
 		more_bindmail.setVisibility(View.GONE);
 		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
-				.get(Consts.LOCAL_LOGIN)) && "".equals(MySharedPreference.getString("USERINFO"))) {
+				.get(Consts.LOCAL_LOGIN))
+				&& "".equals(MySharedPreference.getString("USERINFO"))) {
 			isgetemail = false;
 			CheckUserInfoTask task = new CheckUserInfoTask();
 			task.execute(more_name);
-		}else if (!"".equals(MySharedPreference.getString("USERINFO"))) {
-			File file =  new File(Consts.HEAD_PATH + MySharedPreference.getString("USERINFO") + ".jpg");
+		} else if (!"".equals(MySharedPreference.getString("USERINFO"))) {
+			File file = new File(Consts.HEAD_PATH
+					+ MySharedPreference.getString("USERINFO") + ".jpg");
 			if (file.exists()) {
 				more_camera.setVisibility(View.GONE);
 			}
 			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
-					+ MySharedPreference.getString("USERINFO") + Consts.IMAGE_JPG_KIND);
+					+ MySharedPreference.getString("USERINFO")
+					+ Consts.IMAGE_JPG_KIND);
 			more_head.setImageBitmap(bitmap);
-		}else if (Boolean.valueOf(((BaseActivity) activity).statusHashMap
+		} else if (Boolean.valueOf(((BaseActivity) activity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			file = new File(Consts.HEAD_PATH);
 			MobileUtil.createDirectory(file);
 			tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
 			newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
-			
+
 			if (null != tempFile && tempFile.exists()) {
 				Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
 						+ more_name + Consts.IMAGE_JPG_KIND);
@@ -462,7 +465,7 @@ public class JVMoreFragment extends BaseFragment {
 		File f;
 		if (localFlag) {
 			f = new File(Consts.HEAD_PATH + more_name + ".jpg");
-		}else {
+		} else {
 			f = new File(Consts.HEAD_PATH + usernameInfo + ".jpg");
 		}
 		if (f.exists()) {
@@ -631,6 +634,15 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 8:// 版本号
+								// 获取用户未读消息
+								// v.php?mod=api&act=user_pm&sid=<>
+								// sid 用户标识
+								// return:
+								// {"success":true,"msg":null,"errCode":null,"data":[{"url":"","count":""}]}
+								// count:消息数量
+								// url:消息页面
+								// 现在success一直返回false
+
 							Intent intentVersion = new Intent(mActivity,
 									JVVersionActivity.class);
 							mActivity.startActivity(intentVersion);
@@ -948,12 +960,12 @@ public class JVMoreFragment extends BaseFragment {
 				if (null != tempFile && tempFile.exists()) {
 					Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
 							+ usernameInfo + Consts.IMAGE_JPG_KIND);
-					Log.i("TAG", Consts.HEAD_PATH
-							+ usernameInfo + Consts.IMAGE_JPG_KIND);
+					Log.i("TAG", Consts.HEAD_PATH + usernameInfo
+							+ Consts.IMAGE_JPG_KIND);
 					more_head.setImageBitmap(bitmap);
 					more_camera.setVisibility(View.GONE);
 				}
-				
+
 				if ((strMail.equals("") || null == strMail)
 						&& (strPhone.equals("") || null == strPhone)) {
 					MySharedPreference.putBoolean("ISSHOW", true);
@@ -1069,7 +1081,7 @@ public class JVMoreFragment extends BaseFragment {
 				mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				mActivity.statusHashMap.put(Consts.ACCOUNT_ERROR, null);
-				MySharedPreference.putString("USERINFO","");
+				MySharedPreference.putString("USERINFO", "");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

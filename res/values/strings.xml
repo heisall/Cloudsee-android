@@ -73,15 +73,16 @@
     <string name="cloud2">Vision to world</string>
     <!-- JVLoginActivity -->
     <!-- JVRebindEmialorPhone -->
-    <string name="rebindcontact">修改綁定</string>
-    <string name="rebindcontactphone">修改綁定手機號</string>
-    <string name="rebindcontactemail">修改綁定郵箱</string>
-    <string name="rebindhasnot">未綁定</string>
-    <string name="rebindemailhassend">郵件已發送</string>
-    <string name="rebindemailhassendfailed">郵件發送錯誤</string>
-    <string name="rebindsussess">綁定成功</string>
-    <string name="rebindfailed">綁定失敗</string>
-    <string name="rebindnickname">NickName :</string>
+    <string name="rebindcontact">修改绑定</string>
+    <string name="rebindcontactphone">修改绑定手机号</string>
+    <string name="rebindcontactemail">修改绑定邮箱</string>
+    <string name="rebindhasnot">未绑定</string>
+    <string name="rebindnicknamenull">未填写</string>
+    <string name="rebindemailhassend">邮件已发送</string>
+    <string name="rebindemailhassendfailed">邮件发送错误</string>
+    <string name="rebindsussess">绑定成功</string>
+    <string name="rebindfailed">绑定失败</string>
+    <string name="rebindnickname">NickName</string>
     <!-- JVMoreFrament -->
     <string name="location_login">Visitor</string>
     <!-- leftMenu -->
@@ -414,9 +415,9 @@
     <string name="time_error">something wrong with the time</string>
     <!-- JVRebandContact -->
     <string name="rebandmodify">更换</string>
-    <string name="rebandphone">手机号 :</string>
-    <string name="rebandemail">邮箱 :</string>
-    <string name="rebandhand">修改头像</string>
+    <string name="rebandphone">手机号 </string>
+    <string name="rebandemail">邮箱 </string>
+    <string name="rebandhand">头像</string>
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">Has chosen ?，</string>
     <string name="number">Total ?</string>

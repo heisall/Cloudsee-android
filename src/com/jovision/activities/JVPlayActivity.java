@@ -334,6 +334,7 @@ public class JVPlayActivity extends PlayActivity implements
 						}
 					}
 				} else {// 单击
+					closePopWindow();
 
 					if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 						if (View.VISIBLE == horPlayBarLayout.getVisibility()) {
@@ -2544,6 +2545,7 @@ public class JVPlayActivity extends PlayActivity implements
 		} else {// 单击
 			if (Configuration.ORIENTATION_LANDSCAPE == configuration.orientation) {// 横屏
 			} else {// 竖屏
+				closePopWindow();
 				if (ONE_SCREEN == currentScreen) {
 					if (View.VISIBLE == verPlayBarLayout.getVisibility()) {
 						verPlayBarLayout.setVisibility(View.GONE);

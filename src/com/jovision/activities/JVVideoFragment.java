@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import java.util.HashMap;
+import java.util.Stack;
 
 import org.json.JSONObject;
 
@@ -55,9 +56,20 @@ public class JVVideoFragment extends BaseFragment {
 	private boolean loadFailed = false;
 	private boolean isConnected = false;
 
+	Stack<String> titleStack = new Stack<String>();// 标题栈，后进先出
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case Consts.TAB_WEBVIEW_BACK: {// tab点击返回
+			if (null != titleStack) {
+				titleStack.pop();
+				String lastTitle = titleStack.peek();
+				currentMenu.setText(lastTitle);
+			}
+			webView.goBack(); // goBack()表示返回WebView的上一页面
+			break;
+		}
 		case Consts.WHAT_DEMO_URL_SUCCESS: {
 			mActivity.dismissDialog();
 			HashMap<String, String> paramMap = (HashMap<String, String>) obj;
@@ -187,6 +199,7 @@ public class JVVideoFragment extends BaseFragment {
 				super.onReceivedTitle(view, title);
 				// if (-2 == titleID) {
 				currentMenu.setText(title);
+				titleStack.push(title);
 				// }
 			}
 		};
@@ -217,19 +230,19 @@ public class JVVideoFragment extends BaseFragment {
 				MyLog.v("new_url", newUrl);
 				// showTextToast(rtmp);//////////////等着去掉
 				try {
-					// if (newUrl.contains("open")) {// 打开新的WebView模式
-					// Intent intentAD2 = new Intent(mActivity,
-					// JVWebViewActivity.class);
-					//
-					// intentAD2.putExtra("URL", newUrl);
-					// intentAD2.putExtra("title", -2);
-					// mActivity.startActivity(intentAD2);
+					if (newUrl.contains("open")) {// 打开新的WebView模式
+						Intent intentAD2 = new Intent(mActivity,
+								JVWebViewActivity.class);
+
+						intentAD2.putExtra("URL", newUrl);
+						intentAD2.putExtra("title", -2);
+						mActivity.startActivity(intentAD2);
+					}
+					// else if (newUrl.contains("close")) {// 关闭当前webview
+					// mActivity.this.finish();
 					// }
-					// // else if (newUrl.contains("close")) {// 关闭当前webview
-					// // mActivity.this.finish();
-					// // }
-					// else
-					if (newUrl.contains("video") || newUrl.contains("viewmode")) {// 是否含有视频
+					else if (newUrl.contains("video")
+							|| newUrl.contains("viewmode")) {// 是否含有视频
 
 						String param_array[] = newUrl.split("\\?");
 						HashMap<String, String> resMap;
@@ -418,6 +431,14 @@ public class JVVideoFragment extends BaseFragment {
 	 */
 	private void backMethod() {
 		if (webView.canGoBack()) {
+
+			if (null != titleStack) {
+				titleStack.pop();
+				String lastTitle = titleStack.peek();
+				;
+				currentMenu.setText(lastTitle);
+			}
+
 			webView.goBack(); // goBack()表示返回WebView的上一页面
 		} else {
 			mActivity.openExitDialog();

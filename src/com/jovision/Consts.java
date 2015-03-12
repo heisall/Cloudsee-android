@@ -579,6 +579,8 @@ public class Consts {
 	public static final int PLAY_DEVSET_REQUSET = 0x75;// 远程回放视频下载
 	/** 设备设置回视频播放 */
 	public static final int PLAY_DEVSET_RESPONSE = 0x76;// 远程回放视频下载
+	/** 设备设置回视频播放 */
+	public static final int TAB_WEBVIEW_BACK = 0x77;// tab页卡webview返回事件
 
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像

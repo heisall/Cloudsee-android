@@ -155,7 +155,7 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 							.showTextToast(R.string.login_str_device_account_error);
 				} else if (!ConfigUtil.checkDevicePwd(pwdString)) {
 					showTextToast(R.string.login_str_device_pass_error);
-				}else if (hasDev(ipString)) {// 已经添加过该设备
+				} else if (hasDev(ipString)) {// 已经添加过该设备
 					ipAddressEdt.setText("");
 					showTextToast(R.string.str_device_exsit);
 				} else {

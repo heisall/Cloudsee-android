@@ -1,7 +1,5 @@
 package com.jovision.activities;
 
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -44,6 +42,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 	private ImageView loadingBar;
 	private boolean loadFailed = false;
 	private CustomDialog learnDialg;
+
 	public interface OnDeviceClassSelectedListener {
 		public void OnDeviceClassSelected(int index, String paras);
 	}
@@ -84,9 +83,9 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setDomStorageEnabled(true);
-		
+
 		mWebView.setWebChromeClient(m_chromeClient);
-		
+
 		if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
 				|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
 			mWebView.loadUrl(webUrlZH);
@@ -94,7 +93,6 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 			mWebView.loadUrl(webUrlEN);
 		}
 
-	    
 		mWebView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onReceivedError(WebView view, int errorCode,
@@ -106,23 +104,22 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String newUrl) {
-				//重载
-			
+				// 重载
+
 				Log.e("webv", "newUrl:" + newUrl);
 				if (newUrl.contains("device=")) {
 					if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
-					|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
+							|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
 						view.loadUrl(webUrlZH);
 					} else {
 						view.loadUrl(webUrlEN);
-					}						
-					learnDialg.Show(0, 0, newUrl);		
+					}
+					learnDialg.Show(0, 0, newUrl);
 					return false;
-				}
-				else{
+				} else {
 					return true;
 				}
-				
+
 			}
 
 			@Override
@@ -130,13 +127,12 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 				super.onPageStarted(view, url, favicon);
 				if (url.contains("device=")) {
 					return;
-				}
-				else{
+				} else {
 					loadinglayout.setVisibility(View.VISIBLE);
-					Animation anim = AnimationUtils.loadAnimation(getActivity(),
-							R.anim.rotate);
+					Animation anim = AnimationUtils.loadAnimation(
+							getActivity(), R.anim.rotate);
 					loadingBar.setAnimation(anim);
-					Log.e("webv", "webView start load");					
+					Log.e("webv", "webView start load");
 				}
 
 				// mHandler.sendEmptyMessage(1);
@@ -147,35 +143,33 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 				super.onPageFinished(view, url);
 				if (url.contains("device=")) {
 					return;
-				}
-				else{
+				} else {
 					loadinglayout.setVisibility(View.GONE);
 					Log.e("webv", "webView finish load");
 					if (loadFailed) {
 						Log.e("webv", "url:" + url + " load failed");
-						//getActivity().finish();
-					} 					
+						// getActivity().finish();
+					}
 				}
 
-//				else {
-//					if (url.contains("device=")) {
-//
-//						String param_array[] = url.split("\\?");
-//						HashMap<String, String> resMap;
-//						resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
-//
-//						mDevType = resMap.get("device");
-//						if (mDevType != null && !mDevType.equals("")) {
-//							mListener.OnDeviceClassSelected(Integer
-//									.parseInt(mDevType), "");
-//						}
-//					}
-//				}
+				// else {
+				// if (url.contains("device=")) {
+				//
+				// String param_array[] = url.split("\\?");
+				// HashMap<String, String> resMap;
+				// resMap = ConfigUtil.genMsgMapFromhpget(param_array[1]);
+				//
+				// mDevType = resMap.get("device");
+				// if (mDevType != null && !mDevType.equals("")) {
+				// mListener.OnDeviceClassSelected(Integer
+				// .parseInt(mDevType), "");
+				// }
+				// }
+				// }
 
 			}
 		});
 
-		
 		// manageGridView = (GridView) rootView
 		// .findViewById(R.id.third_alarm_gridview);
 		// disMetrics = new DisplayMetrics();
@@ -189,16 +183,15 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		return rootView;
 	}
 
+	private WebChromeClient m_chromeClient = new WebChromeClient() {
+		// 扩充缓存的容量
+		@Override
+		public void onReachedMaxAppCacheSize(long spaceNeeded,
+				long totalUsedQuota, WebStorage.QuotaUpdater quotaUpdater) {
+			quotaUpdater.updateQuota(spaceNeeded * 2);
+		}
+	};
 
-    private WebChromeClient m_chromeClient = new WebChromeClient() {
-        // 扩充缓存的容量
-        @Override
-        public void onReachedMaxAppCacheSize(long spaceNeeded,
-                long totalUsedQuota, WebStorage.QuotaUpdater quotaUpdater) {
-            quotaUpdater.updateQuota(spaceNeeded * 2);
-        }
-    };
-    
 	// public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	// Bundle savedInstanceState) {
 	// if (rootView == null) {
@@ -267,27 +260,27 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 	@Override
 	public void onMainAction(int action) {
 		// TODO Auto-generated method stub
-//		if (action == 0) {
-//			String currentUrl = mWebView.getUrl();
-//			if(currentUrl.equals(webUrlZH) || currentUrl.equals(webUrlEN)){
-//				return;
-//			}
-//			else{
-//				if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
-//						|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
-//					mWebView.loadUrl(webUrlZH);
-//				} else {
-//					mWebView.loadUrl(webUrlEN);
-//				}				
-//			}
-//
-//		}
+		// if (action == 0) {
+		// String currentUrl = mWebView.getUrl();
+		// if(currentUrl.equals(webUrlZH) || currentUrl.equals(webUrlEN)){
+		// return;
+		// }
+		// else{
+		// if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
+		// || ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
+		// mWebView.loadUrl(webUrlZH);
+		// } else {
+		// mWebView.loadUrl(webUrlEN);
+		// }
+		// }
+		//
+		// }
 	}
 
 	@Override
 	public void onBindResult(int ret, String paras) {
 		// TODO Auto-generated method stub
-		if(null != learnDialg && learnDialg.isShowing()){
+		if (null != learnDialg && learnDialg.isShowing()) {
 			learnDialg.dismiss();
 		}
 	}

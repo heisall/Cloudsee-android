@@ -1758,7 +1758,10 @@ public class JVMyDeviceFragment extends BaseFragment {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
+			// String requestUrl =
+			// "http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid="+JVACCOUNT.GetSession();
+			// String result = JSONUtil.httpGet(requestUrl);
+			// MyLog.e("BBS_notread", "request="+requestUrl+";result="+result);
 			if ("0".equalsIgnoreCase(params[0])) {
 				try {
 					Thread.sleep(1000);

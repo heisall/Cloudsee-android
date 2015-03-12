@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -38,6 +39,8 @@ public class JVWebViewActivity extends BaseActivity {
 	private String url = "";
 	private int titleID = 0;
 	private ImageView loadingBar;
+	String sid = "";
+	String lan = "";
 
 	private LinearLayout loadFailedLayout;
 	private ImageView reloadImgView;
@@ -95,6 +98,21 @@ public class JVWebViewActivity extends BaseActivity {
 		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//
 		// 横屏
 		// }
+
+		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(this)) {
+			lan = "zh_cn";
+		} else if (Consts.LANGUAGE_ZHTW == ConfigUtil.getLanguage2(this)) {
+			lan = "zh_tw";
+		} else {
+			lan = "en_us";
+		}
+
+		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+			String sessionResult = ConfigUtil.getSession();
+			sid = sessionResult;
+		} else {
+			sid = "";
+		}
 
 		MyLog.v(TAG, "webview-URL=" + url);
 		/** topBar **/
@@ -160,16 +178,16 @@ public class JVWebViewActivity extends BaseActivity {
 				// showTextToast(rtmp);//////////////等着去掉
 				try {
 
-					if (newUrl.contains("open")) {// 打开新的WebView模式
-						Intent intentAD2 = new Intent(JVWebViewActivity.this,
-								JVWebViewActivity.class);
-						intentAD2.putExtra("URL", newUrl);
-						intentAD2.putExtra("title", -2);
-						JVWebViewActivity.this.startActivity(intentAD2);
-					} else if (newUrl.contains("close")) {// 关闭当前webview
-						JVWebViewActivity.this.finish();
-					} else if (newUrl.contains("video")
-							|| newUrl.contains("viewmode")) {// 是否含有视频
+					// if (newUrl.contains("open")) {// 打开新的WebView模式
+					// Intent intentAD2 = new Intent(JVWebViewActivity.this,
+					// JVWebViewActivity.class);
+					// intentAD2.putExtra("URL", newUrl);
+					// intentAD2.putExtra("title", -2);
+					// JVWebViewActivity.this.startActivity(intentAD2);
+					// } else if (newUrl.contains("close")) {// 关闭当前webview
+					// JVWebViewActivity.this.finish();
+					// } else
+					if (newUrl.contains("video") || newUrl.contains("viewmode")) {// 是否含有视频
 
 						String param_array[] = newUrl.split("\\?");
 						HashMap<String, String> resMap;
@@ -198,6 +216,16 @@ public class JVWebViewActivity extends BaseActivity {
 						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
 								.start();
 					} else {
+						String plazzaUrl = statusHashMap
+								.get(Consts.MORE_DEMOURL);
+						if (newUrl.contains(plazzaUrl)) {
+							newUrl = newUrl + "?" + "plat=android&platv="
+									+ Build.VERSION.SDK_INT + "&lang=" + lan
+									+ "&d=" + System.currentTimeMillis()
+									+ "&sid=" + sid;
+						}
+
+						view.loadUrl(newUrl);
 						view.loadUrl(newUrl);
 					}
 				} catch (Exception e) {

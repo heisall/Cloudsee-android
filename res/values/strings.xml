@@ -72,7 +72,7 @@
     <string name="cloud1">CloudSEE</string>
     <string name="cloud2">Vision to world</string>
     <!-- JVLoginActivity -->
-      <!-- JVRebindEmialorPhone -->
+    <!-- JVRebindEmialorPhone -->
     <string name="rebindcontact">修改绑定</string>
     <string name="rebindcontactphone">修改绑定手机号</string>
     <string name="rebindcontactemail">修改绑定邮箱</string>

@@ -554,8 +554,7 @@ public class JVLoginActivity extends BaseActivity {
 						&& !MySharedPreference.getBoolean(Consts.MORE_REMEMBER,
 								false)) {
 					MySharedPreference.putBoolean("LOGINFIRST", true);
-					MySharedPreference.putBoolean(Consts.MORE_REMEMBER,
-							true);
+					MySharedPreference.putBoolean(Consts.MORE_REMEMBER, true);
 				}
 
 				MySharedPreference.putString("UserName",

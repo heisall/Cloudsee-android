@@ -47,7 +47,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 	private OnDeviceClassSelectedListener mListener; 
 	private String mUrl;
 	public CustomDialog(Context context) {
-		super(context, android.R.style.Theme_NoTitleBar_Fullscreen);
+		super(context, android.R.style.Theme_NoTitleBar);
 		this.context = context;
 		third_guide_desc = context.getResources().getStringArray(
 				R.array.array_third_guide);
@@ -56,7 +56,7 @@ public class CustomDialog extends Dialog implements CommonInterface {
 
 	//专用
 	public CustomDialog(Context context, OnDeviceClassSelectedListener mainListener) {
-		super(context, android.R.style.Theme_NoTitleBar_Fullscreen);
+		super(context, android.R.style.Theme_NoTitleBar);
 		this.context = context;
 		mListener = mainListener;
 		third_guide_desc = context.getResources().getStringArray(

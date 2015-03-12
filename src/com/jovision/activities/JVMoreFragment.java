@@ -1107,7 +1107,6 @@ public class JVMoreFragment extends BaseFragment {
 			mActivity.deleteDatabase("webviewCache.db");
 
 			intent.putExtra("UserName", userName);
-			MySharedPreference.putBoolean(Consts.MORE_REMEMBER, false);
 			intent.setClass(mActivity, JVLoginActivity.class);
 			mActivity.startActivity(intent);
 			mActivity.finish();

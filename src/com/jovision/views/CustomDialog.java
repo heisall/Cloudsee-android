@@ -11,6 +11,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -108,7 +109,10 @@ public class CustomDialog extends Dialog implements CommonInterface {
 			webSettings.setJavaScriptEnabled(true);
 			webSettings.setDomStorageEnabled(true);
 			//webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-			webSettings.setMediaPlaybackRequiresUserGesture(false);
+			if(Build.VERSION.SDK_INT >= 17){
+				webSettings.setMediaPlaybackRequiresUserGesture(false);
+			}
+			
 			mWebView.setWebChromeClient(m_chromeClient);
 
 			mWebView.setWebViewClient(new WebViewClient() {

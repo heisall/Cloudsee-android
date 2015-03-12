@@ -136,7 +136,7 @@ public class JVRebandContactActivity extends BaseActivity {
 		if (!"".equals(showNickname)) {
 			reband_nickname_text.setText(showNickname);
 		} else {
-			reband_nickname_text.setText("未填写");
+			reband_nickname_text.setText(getResources().getString(R.string.rebindnicknamenull));
 		}
 
 		if (showPhone.equals("nophone")) {
@@ -162,7 +162,6 @@ public class JVRebandContactActivity extends BaseActivity {
 		rebindphoneLayout.setOnClickListener(myOnClickListener);
 		rebindmaiLayout.setOnClickListener(myOnClickListener);
 		rebindnickname.setOnClickListener(myOnClickListener);
-
 	}
 
 	private void ResetDialog() {
@@ -182,6 +181,7 @@ public class JVRebandContactActivity extends BaseActivity {
 
 	}
 
+
 	OnClickListener myOnClickListener = new OnClickListener() {
 
 		@Override
@@ -200,21 +200,20 @@ public class JVRebandContactActivity extends BaseActivity {
 				// reqJson:{"user":"111","phone":"18668923911","mail":"","nick":"nicheng"}
 				if ("".equals(rebind_nicknametext.getText().toString())) {
 					showTextToast(R.string.str_nikename_notnull);
-				} else {
+				}else {
 					JSONObject resObject = new JSONObject();
 					try {
 						resObject.put("user", more_name);
 						resObject.put("phone", showPhone);
 						resObject.put("mail", showEmail);
-						resObject.put("nick", rebind_nicknametext.getText()
-								.toString());
+						resObject.put("nick", rebind_nicknametext.getText().toString());
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					SetAccountInfoTask task = new SetAccountInfoTask();
-					String params[] = new String[3];
-					params[0] = resObject.toString();
+					String params [] = new String [3];
+					params [0] = resObject.toString();
 					task.execute(params);
 					Log.i("TAG", params[0]);
 				}

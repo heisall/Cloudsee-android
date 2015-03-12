@@ -77,11 +77,12 @@
     <string name="rebindcontactphone">修改綁定手機號</string>
     <string name="rebindcontactemail">修改綁定郵箱</string>
     <string name="rebindhasnot">未綁定</string>
+    <string name="rebindnicknamenull">未填寫</string>
     <string name="rebindemailhassend">郵件已發送</string>
     <string name="rebindemailhassendfailed">郵件發送錯誤</string>
     <string name="rebindsussess">綁定成功</string>
     <string name="rebindfailed">綁定失敗</string>
-    <string name="rebindnickname">昵稱 :</string>
+    <string name="rebindnickname">昵稱 </string>
     <!-- JVMoreFrament -->
     <string name="location_login">訪客</string>
     <!-- leftMenu -->
@@ -414,9 +415,9 @@
     <string name="time_error">時間有問題</string>
     <!-- JVRebandContact -->
     <string name="rebandmodify">更换</string>
-    <string name="rebandphone">手机号 :</string>
-    <string name="rebandemail">邮箱 :</string>
-    <string name="rebandhand">修改头像</string>
+    <string name="rebandphone">手机号 </string>
+    <string name="rebandemail">邮箱 </string>
+    <string name="rebandhand">头像</string>
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">已選中?個，</string>
     <string name="number">共?個</string>

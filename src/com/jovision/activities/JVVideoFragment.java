@@ -47,6 +47,8 @@ public class JVVideoFragment extends BaseFragment {
 	private ImageView loadingBar;
 	private View rootView;
 	private boolean isshow = false;
+	String sid = "";
+	String lan = "";
 
 	private RelativeLayout loadFailedLayout;
 	private ImageView reloadImgView;
@@ -115,8 +117,6 @@ public class JVVideoFragment extends BaseFragment {
 		if (null != ((BaseActivity) mActivity).statusHashMap
 				.get(Consts.MORE_DEMOURL)) {
 
-			String sid = "";
-			String lan = "";
 			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {
 				lan = "zh_cn";
 			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
@@ -258,6 +258,15 @@ public class JVVideoFragment extends BaseFragment {
 						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
 								.start();
 					} else {
+						String plazzaUrl = ((BaseActivity) mActivity).statusHashMap
+								.get(Consts.MORE_DEMOURL);
+						if (newUrl.contains(plazzaUrl)) {
+							newUrl = newUrl + "?" + "plat=android&platv="
+									+ Build.VERSION.SDK_INT + "&lang=" + lan
+									+ "&d=" + System.currentTimeMillis()
+									+ "&sid=" + sid;
+						}
+
 						view.loadUrl(newUrl);
 					}
 				} catch (Exception e) {

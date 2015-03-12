@@ -634,14 +634,14 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 8:// 版本号
-							// 获取用户未读消息
-							// v.php?mod=api&act=user_pm&sid=<>
-							// sid 用户标识
-							// return:
-							// {"success":true,"msg":null,"errCode":null,"data":[{"url":"","count":""}]}
-							// count:消息数量
-							// url:消息页面
-							// 现在success一直返回false
+								// 获取用户未读消息
+								// v.php?mod=api&act=user_pm&sid=<>
+								// sid 用户标识
+								// return:
+								// {"success":true,"msg":null,"errCode":null,"data":[{"url":"","count":""}]}
+								// count:消息数量
+								// url:消息页面
+								// 现在success一直返回false
 
 							Intent intentVersion = new Intent(mActivity,
 									JVVersionActivity.class);

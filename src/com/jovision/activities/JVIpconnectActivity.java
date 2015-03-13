@@ -35,7 +35,7 @@ public class JVIpconnectActivity extends BaseActivity {
 	// 输入云视通号的布局
 	private LinearLayout couldnumLayout;
 	// 选择连接模式的布局
-	private RelativeLayout tcpLayout;
+	private LinearLayout tcpLayout;
 	// 输入接口的布局
 	private LinearLayout portLayout;
 	// 输入ip地址的edittext
@@ -142,7 +142,7 @@ public class JVIpconnectActivity extends BaseActivity {
 		ipconnnect_cloud = (RelativeLayout) findViewById(R.id.ipconnect_cloud);
 		addressLayout = (LinearLayout) findViewById(R.id.Addresslayout);
 		couldnumLayout = (LinearLayout) findViewById(R.id.NumberLayout);
-		tcpLayout = (RelativeLayout) findViewById(R.id.tcp_layout);
+		tcpLayout = (LinearLayout) findViewById(R.id.tcp_layout);
 		tcpImageView = (ImageView) findViewById(R.id.tcp_img);
 		portLayout = (LinearLayout) findViewById(R.id.portlayout);
 		ipconnect_address = (EditText) findViewById(R.id.ipconnnect_address);

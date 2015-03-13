@@ -77,57 +77,6 @@
                     android:background="@color/more_fragment_color10" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/tcp_layout"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp" >
-
-                <ImageView
-                    android:id="@+id/oneline"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/more_fragment_color10" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/str_connect_tcp"
-                        android:textColor="@color/leftdevicecolor"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/str_connect_tcpdescri"
-                        android:textColor="@color/leftdevicecolor"
-                        android:layout_marginTop="3dp"
-                        android:textSize="14dp" />
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/more_fragment_color10" />
-
-                <ImageView
-                    android:id="@+id/tcp_img"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/ipc_normal" />
-            </RelativeLayout>
-
             <LinearLayout
                 android:id="@+id/Addresslayout"
                 android:layout_width="match_parent"
@@ -135,7 +84,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -300,6 +249,52 @@
                     android:password="true"
                     android:singleLine="true"
                     android:textColor="@color/leftdevicecolor" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/tcp_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/pwd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="@string/str_pass"
+                    android:textColor="@color/leftdevicecolor"
+                    android:textSize="18sp"
+                    android:visibility="invisible"
+                    android:textStyle="normal" >
+                </TextView>
+				<ImageView 
+				    android:id="@+id/tcp_img"
+				    android:layout_width="25dp"
+				    android:layout_height="25dp"
+				    android:background="@drawable/ipc_normal"
+				    />
+				<TextView 
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="@string/str_connect_tcp"
+				     android:textColor="@color/leftdevicecolor"
+                    android:textSize="18sp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+				    />
+				<TextView 
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="@string/str_connect_tcp"
+				     android:textColor="@color/leftdevicecolor"
+                    android:textSize="10sp"
+                    android:visibility="invisible"
+				    />
             </LinearLayout>
 
             <LinearLayout

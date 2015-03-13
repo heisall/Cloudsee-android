@@ -214,6 +214,7 @@ OnPageChangeListener,OnFuncActionListener{
 //		GetnoMessageTask task = new GetnoMessageTask();
 //		task.execute();
 		MyLog.v(TAG, "onResume----E");
+		countshow = 0;
 		if (null != mIndicator) {
 			if (!Boolean.valueOf(statusHashMap
 					.get(Consts.LOCAL_LOGIN))) {
@@ -399,6 +400,7 @@ OnPageChangeListener,OnFuncActionListener{
 		break;
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
 			Log.i("TAG","收到报警h");
+			countshow = 0;
 			if (null != mIndicator) {
 				if (!Boolean.valueOf(statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {
@@ -763,6 +765,7 @@ OnPageChangeListener,OnFuncActionListener{
 		// TODO Auto-generated method stub
 		switch (func_index) {
 		case 0:
+			countshow = 0;
 			if (null != mIndicator) {
 				if (!Boolean.valueOf(statusHashMap
 						.get(Consts.LOCAL_LOGIN))) {

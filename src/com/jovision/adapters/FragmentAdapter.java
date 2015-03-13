@@ -38,6 +38,7 @@ public class FragmentAdapter extends BaseAdapter {
 	private ImageView divider_img_up;
 
 	private int new_nums_;
+	private int new_bbsnums_;
 
 	public FragmentAdapter(BaseFragment mfragment,
 			ArrayList<MoreFragmentBean> dataList) {
@@ -177,6 +178,19 @@ public class FragmentAdapter extends BaseAdapter {
 				item_new.setVisibility(View.INVISIBLE);
 			}
 		}
+//		if (position == 12) {
+//			if (!localFlag) {
+//				if (new_nums_ > 0) {
+//					tv_new_nums.setText(String.valueOf(new_nums_));
+//					item_new.setVisibility(View.VISIBLE);
+//				} else {
+//					tv_new_nums.setText("0");
+//					item_new.setVisibility(View.INVISIBLE);
+//				}
+//			} else {
+//				item_new.setVisibility(View.INVISIBLE);
+//			}
+//		}
 		// if (position == 15
 		// && "true".equalsIgnoreCase(((BaseActivity) mfragment
 		// .getActivity()).statusHashMap

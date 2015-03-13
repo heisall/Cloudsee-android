@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
+import com.jovision.activities.AddThirdDevActivity.OnMainListener;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.bean.WebUrl;
@@ -135,7 +136,14 @@ public class JVMoreFragment extends BaseFragment {
 	private MainApplication mApp;
 
 	private ImageView more_camera;
+	
+	public interface OnFuncActionListener {
+		public void OnFuncEnabled(int func_index, int enabled);
+		
+		public void OnFuncSelected(int func_index, String params);
+	}
 
+	private OnFuncActionListener mListener;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -145,6 +153,16 @@ public class JVMoreFragment extends BaseFragment {
 		return view;
 	}
 
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			mListener = (OnFuncActionListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ "must implement OnFuncEnabledListener");
+		}
+	}
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -656,6 +674,7 @@ public class JVMoreFragment extends BaseFragment {
 						case 9: // 我要装监控
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_CUSTURL)) {
+								mListener.OnFuncEnabled(0, 1);
 								MySharedPreference.putBoolean(
 										Consts.MORE_CUSTURL, true);
 							}
@@ -699,6 +718,7 @@ public class JVMoreFragment extends BaseFragment {
 						case 11: // 云视通指数
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_STATURL)) {
+								mListener.OnFuncEnabled(0, 1);
 								MySharedPreference.putBoolean(
 										Consts.MORE_STATURL, true);
 							}
@@ -736,6 +756,7 @@ public class JVMoreFragment extends BaseFragment {
 							if (!MySharedPreference.getBoolean(Consts.MORE_BBS)) {
 								MySharedPreference.putBoolean(Consts.MORE_BBS,
 										true);
+								mListener.OnFuncEnabled(0, 1);
 							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
@@ -783,6 +804,7 @@ public class JVMoreFragment extends BaseFragment {
 						case 13: // 系统消息
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+								mListener.OnFuncEnabled(0, 1);
 								MySharedPreference.putBoolean(
 										Consts.MORE_SYSTEMMESSAGE, true);
 							}

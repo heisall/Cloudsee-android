@@ -28,6 +28,7 @@ import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.MainApplication;
 import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
+import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
 import com.jovision.adapters.MyPagerAdp;
 import com.jovision.bean.Device;
 import com.jovision.commons.CheckUpdateTask;
@@ -41,7 +42,7 @@ import com.jovision.utils.DefaultExceptionHandler;
 import com.jovision.utils.PlayUtil;
 
 public class JVTabActivity extends ShakeActivity implements
-		OnPageChangeListener {
+OnPageChangeListener,OnFuncActionListener{
 	private static final String TAG = "JVTabActivity";
 	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
@@ -112,8 +113,8 @@ public class JVTabActivity extends ShakeActivity implements
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+				| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// 开启logcat输出，方便debug，发布时请关闭
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
@@ -211,14 +212,14 @@ public class JVTabActivity extends ShakeActivity implements
 			Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
 			int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 			if (lan == Consts.LANGUAGE_ZH) {
-//				if (cnt > 0
-//						|| !MySharedPreference
-//								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
-//						|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
-//						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
-//						|| (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
-//					
-//				}
+				//				if (cnt > 0
+				//						|| !MySharedPreference
+				//								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+				//						|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
+				//						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
+				//						|| (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+				//					
+				//				}
 				if (!MySharedPreference
 						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
@@ -233,11 +234,11 @@ public class JVTabActivity extends ShakeActivity implements
 					countshow = countshow + 1;
 				}
 			} else {
-//				if (cnt > 0
-//						|| !MySharedPreference
-//								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
-//						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-//				}
+				//				if (cnt > 0
+				//						|| !MySharedPreference
+				//								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+				//						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				//				}
 				if (!MySharedPreference
 						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
@@ -261,8 +262,8 @@ public class JVTabActivity extends ShakeActivity implements
 			android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 			if (null != manager) {
 				getSupportFragmentManager().beginTransaction()
-						.replace(R.id.tab_fragment, mFragments[currentIndex])
-						.commit();
+				.replace(R.id.tab_fragment, mFragments[currentIndex])
+				.commit();
 			} else {
 				MyLog.e(TAG, "TAB_onresume_manager null" + currentIndex);
 				this.finish();
@@ -384,9 +385,55 @@ public class JVTabActivity extends ShakeActivity implements
 						obj);
 			}
 		}
-			break;
+		break;
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
-			mIndicator.updateIndicator(3, 0, true,countshow+1);
+			Log.i("TAG","收到报警h");
+			if (null != mIndicator) {
+				int cnt = mApp.getNewPushCnt();
+				countshow = cnt;
+				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
+				if (lan == Consts.LANGUAGE_ZH) {
+					//					if (cnt > 0
+					//							|| !MySharedPreference
+					//									.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+					//						
+					//					}
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+						countshow = countshow + 1;
+					}
+				} else {
+					//					if (cnt > 0
+					//							|| !MySharedPreference
+					//									.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+					//					}
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+				}
+				if (countshow > 0 ) {
+					mIndicator.updateIndicator(3, 0, true,countshow);
+				}else {
+					mIndicator.updateIndicator(3, 0, false,countshow);
+				}
+			}
 			break;
 		default:
 			BaseFragment currentFrag = mFragments[currentIndex];
@@ -443,10 +490,10 @@ public class JVTabActivity extends ShakeActivity implements
 				if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
 					if (strRom.equals("V6")) {
 						new TPushTips(this)
-								.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
+						.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
 					} else {
 						new TPushTips(this)
-								.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+						.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
 					}
 				}
 
@@ -472,13 +519,13 @@ public class JVTabActivity extends ShakeActivity implements
 				try {
 					currentIndex = which;
 					getSupportFragmentManager().beginTransaction()
-							.replace(R.id.tab_fragment, mFragments[which])
-							.commit();
+					.replace(R.id.tab_fragment, mFragments[which])
+					.commit();
 					switch (which) {
 					case 0:
 						if (!page2
 								&& !MySharedPreference
-										.getBoolean(Consts.MORE_PAGETWO)) {
+								.getBoolean(Consts.MORE_PAGETWO)) {
 							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 							ll_dot.setVisibility(View.GONE);
 							viewpager.setCurrentItem(0);
@@ -491,7 +538,7 @@ public class JVTabActivity extends ShakeActivity implements
 						} else {
 							if (MySharedPreference.getBoolean(Consts.MORE_HELP)
 									&& !MySharedPreference
-											.getBoolean(Consts.MORE_PAGETWO)) {
+									.getBoolean(Consts.MORE_PAGETWO)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.GONE);
 								viewpager.setCurrentItem(0);
@@ -517,7 +564,7 @@ public class JVTabActivity extends ShakeActivity implements
 						if (0 != myDeviceList.size()) {
 							if (!page1
 									&& !MySharedPreference
-											.getBoolean(Consts.MORE_PAGEONE)) {
+									.getBoolean(Consts.MORE_PAGEONE)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.VISIBLE);
 								viewpager.setCurrentItem(0);
@@ -531,7 +578,7 @@ public class JVTabActivity extends ShakeActivity implements
 								if (MySharedPreference
 										.getBoolean(Consts.MORE_HELP)
 										&& !MySharedPreference
-												.getBoolean(Consts.MORE_PAGEONE)) {
+										.getBoolean(Consts.MORE_PAGEONE)) {
 									ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 									ll_dot.setVisibility(View.VISIBLE);
 									viewpager.setCurrentItem(0);
@@ -562,7 +609,7 @@ public class JVTabActivity extends ShakeActivity implements
 		android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 		if (null != manager) {
 			manager.beginTransaction()
-					.replace(R.id.tab_fragment, mFragments[0]).commit();
+			.replace(R.id.tab_fragment, mFragments[0]).commit();
 		} else {
 			MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
 			this.finish();
@@ -587,7 +634,7 @@ public class JVTabActivity extends ShakeActivity implements
 
 			MyLog.v("notifyer",
 					((MainApplication) this.getApplication()).currentNotifyer
-							+ "");
+					+ "");
 			String notifer = ((MainApplication) this.getApplication()).currentNotifyer
 					+ "";
 			if (notifer.startsWith("JVMyDeviceFragment")) {
@@ -601,7 +648,7 @@ public class JVTabActivity extends ShakeActivity implements
 			} else if (notifer.startsWith("JVVideoFragment")) {
 				if (JVVideoFragment.webView.canGoBack()) {
 					((MainApplication) this.getApplication()).currentNotifyer
-							.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
+					.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
 				} else {
 					exit();
 				}
@@ -696,6 +743,68 @@ public class JVTabActivity extends ShakeActivity implements
 			broadTimerTask.cancel();
 			broadTimerTask = null;
 		}
+	}
+	@Override
+	public void OnFuncEnabled(int func_index, int enabled) {
+		// TODO Auto-generated method stub
+		switch (func_index) {
+		case 0:
+			if (null != mIndicator) {
+				int cnt = mApp.getNewPushCnt();
+				countshow = cnt;
+				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
+				if (lan == Consts.LANGUAGE_ZH) {
+					//					if (cnt > 0
+					//							|| !MySharedPreference
+					//									.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+					//						
+					//					}
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+						countshow = countshow + 1;
+					}
+				} else {
+					//					if (cnt > 0
+					//							|| !MySharedPreference
+					//									.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+					//					}
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+				}
+				if (countshow > 0) {
+					mIndicator.updateIndicator(3, 0, true,countshow);
+				}else {
+					mIndicator.updateIndicator(3, 0, false,countshow);
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void OnFuncSelected(int func_index, String params) {
+		// TODO Auto-generated method stub
 	}
 
 }

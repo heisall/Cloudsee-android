@@ -5,14 +5,17 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.test.JVACCOUNT;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -32,6 +35,7 @@ import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
 import com.jovision.adapters.MyPagerAdp;
 import com.jovision.bean.Device;
 import com.jovision.commons.CheckUpdateTask;
+import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -39,6 +43,7 @@ import com.jovision.commons.TPushTips;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DefaultExceptionHandler;
+import com.jovision.utils.JSONUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVTabActivity extends ShakeActivity implements
@@ -52,6 +57,7 @@ OnPageChangeListener,OnFuncActionListener{
 	protected RelativeLayout helpbg_relative;
 	protected Timer offlineTimer = new Timer();
 	private int countshow;
+	private int countbbs;
 	private BaseFragment mFragments[] = new BaseFragment[4];
 
 	private ViewPager viewpager;
@@ -205,11 +211,16 @@ OnPageChangeListener,OnFuncActionListener{
 	@Override
 	protected void onResume() {
 		super.onResume();
+//		GetnoMessageTask task = new GetnoMessageTask();
+//		task.execute();
 		MyLog.v(TAG, "onResume----E");
 		if (null != mIndicator) {
-			int cnt = mApp.getNewPushCnt();
-			countshow = cnt;
-			Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
+			if (!Boolean.valueOf(statusHashMap
+					.get(Consts.LOCAL_LOGIN))) {
+				int cnt = mApp.getNewPushCnt();
+				countshow = cnt;
+				Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
+			}
 			int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 			if (lan == Consts.LANGUAGE_ZH) {
 				//				if (cnt > 0
@@ -389,8 +400,11 @@ OnPageChangeListener,OnFuncActionListener{
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
 			Log.i("TAG","收到报警h");
 			if (null != mIndicator) {
-				int cnt = mApp.getNewPushCnt();
-				countshow = cnt;
+				if (!Boolean.valueOf(statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {
+					int cnt = mApp.getNewPushCnt();
+					countshow = cnt;
+				}
 				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 				if (lan == Consts.LANGUAGE_ZH) {
 					//					if (cnt > 0
@@ -750,8 +764,11 @@ OnPageChangeListener,OnFuncActionListener{
 		switch (func_index) {
 		case 0:
 			if (null != mIndicator) {
-				int cnt = mApp.getNewPushCnt();
-				countshow = cnt;
+				if (!Boolean.valueOf(statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {
+					int cnt = mApp.getNewPushCnt();
+					countshow = cnt;
+				}
 				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 				if (lan == Consts.LANGUAGE_ZH) {
 					//					if (cnt > 0
@@ -801,10 +818,53 @@ OnPageChangeListener,OnFuncActionListener{
 			break;
 		}
 	}
-
 	@Override
 	public void OnFuncSelected(int func_index, String params) {
 		// TODO Auto-generated method stub
+	}
+
+	// 获取论坛未读消息
+	private class GetnoMessageTask extends AsyncTask<Integer, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(Integer... params) {
+			String requestUrl =
+					"http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid="+JVACCOUNT.GetSession();
+			String result = JSONUtil.httpGet(requestUrl);
+			MyLog.e("BBS_notread", "request="+requestUrl+";result="+result);
+			//request=http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid=1dad46caaa92eb0ea59a4c348fd5de81;result={"msg":"ok","errCode":1,"data":[{"url":"","count":0}]}
+			try {
+				JSONObject responseObject = new JSONObject(result);
+				JSONArray dataArray = new JSONArray(responseObject.optString("data"));
+
+				countbbs = dataArray.getJSONObject(0).optInt("count");
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return countbbs;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			Log.i("TAG", "论坛数量"+result);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
 	}
 
 }

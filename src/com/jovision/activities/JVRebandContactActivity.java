@@ -3,27 +3,19 @@ package com.jovision.activities;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.test.JVACCOUNT;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -96,7 +88,8 @@ public class JVRebandContactActivity extends BaseActivity {
 			rebandEmail.setText(MySharedPreference.getString("REBINDEMAIL"));
 		}
 		if (!"".equals(MySharedPreference.getString("NICKNAMEBBS"))) {
-			reband_nickname_text.setText(MySharedPreference.getString("NICKNAMEBBS"));
+			reband_nickname_text.setText(MySharedPreference
+					.getString("NICKNAMEBBS"));
 			nickImageView.setVisibility(View.GONE);
 		}
 		super.onResume();
@@ -124,7 +117,7 @@ public class JVRebandContactActivity extends BaseActivity {
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText(getResources().getString(R.string.rebindcontact));
 
-		nickImageView = (ImageView)findViewById(R.id.rebindnicknameimg);
+		nickImageView = (ImageView) findViewById(R.id.rebindnicknameimg);
 		reband_nickname_text = (TextView) findViewById(R.id.reband_nickname_text);
 		rebindnickname = (RelativeLayout) findViewById(R.id.rebind_nickname);
 		rebandEmail = (TextView) findViewById(R.id.reband_email_text);
@@ -133,7 +126,7 @@ public class JVRebandContactActivity extends BaseActivity {
 		rebindphoneLayout = (RelativeLayout) findViewById(R.id.rebind_phone);
 		rebindmaiLayout = (RelativeLayout) findViewById(R.id.rebind_mail);
 		linear = (LinearLayout) findViewById(R.id.lin);
-		
+
 		MySharedPreference.putString("NICKNAMEBBS", "");
 		if (!"".equals(showNickname)) {
 			reband_nickname_text.setText(showNickname);
@@ -183,7 +176,9 @@ public class JVRebandContactActivity extends BaseActivity {
 				if (View.GONE == nickImageView.getVisibility()) {
 					showTextToast(R.string.edit_pass_not);
 				} else {
-					Intent nickIntent  = new Intent(JVRebandContactActivity.this,JVRebandNickActivity.class);
+					Intent nickIntent = new Intent(
+							JVRebandContactActivity.this,
+							JVRebandNickActivity.class);
 					nickIntent.putExtra("phone", showPhone);
 					nickIntent.putExtra("email", showEmail);
 					nickIntent.putExtra("username", more_name);

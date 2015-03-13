@@ -423,7 +423,7 @@
     <string name="rebandemail">邮箱 </string>
     <string name="rebandhand">头像</string>
     <string name="rebandtips">昵称仅能修改一次.</string>
-     <string name="rebandnotexit"> 请点击获取验证码</string>
+    <string name="rebandnotexit"> 请点击获取验证码</string>
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">已選中?個，</string>
     <string name="number">共?個</string>
@@ -627,7 +627,7 @@
     <string name="str_safe_protected">安全防護</string>
     <string name="str_reset_device">重置設備功能</string>
     <string name="str_reset_sure">確定重置設備嗎?</string>
-     <string name="str_reset_devicedescri">重置后设备将恢复出厂设置。</string>
+    <string name="str_reset_devicedescri">重置后设备将恢复出厂设置。</string>
     <string name="str_modify_pwd">修改設備管理員密碼</string>
     <string name="str_downloading_vod">正在獲取錄影檔…</string>
     <string name="str_alarm_dev">設備  :</string>
@@ -678,7 +678,7 @@
     <string name="str_alarm_setting_tips3">您可以選擇一個合適的時間段來接收報警，讓報警盡在掌握。</string>
     <string name="str_alarm_setting_tips2">開關打開時，設備如檢測到移動物體，會提示報警。</string>
     <string name="str_all_day">全天</string>
-     <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置.</string>
+    <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置.</string>
     <string name="str_alarm_setting_tips4">為了防止泄露隱私，建議及時修改設備管理員密碼。</string>
     <string name="str_protected_time">防護時間段</string>
     <string name="str_getdev_params_timeout">獲取設備參數超時</string>

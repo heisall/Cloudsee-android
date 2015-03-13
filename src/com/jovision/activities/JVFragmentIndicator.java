@@ -119,7 +119,8 @@ public class JVFragmentIndicator extends LinearLayout implements
 		}
 	}
 
-	public static void updateIndicator(int whitch, int msgCount, boolean show,int count) {
+	public static void updateIndicator(int whitch, int msgCount, boolean show,
+			int count) {
 
 		RelativeLayout tabInfo = (RelativeLayout) mIndicators[whitch]
 				.findViewWithTag(R.id.tab_info);
@@ -142,14 +143,14 @@ public class JVFragmentIndicator extends LinearLayout implements
 		case 3: {// 更多功能，新
 			if (show) {
 				tabInfo.setVisibility(View.VISIBLE);
-				tabInfoText.setText(count+"");
+				tabInfoText.setText(count + "");
 			} else {
 				tabInfo.setVisibility(View.GONE);
 			}
 			if (Consts.LANGUAGE_EN == ConfigUtil.getLanguage2(mContext)) {
 				tabInfoText.setTextSize((float) 6.0);
 			}
-			tabInfoText.setText(count+"");
+			tabInfoText.setText(count + "");
 			break;
 		}
 		}

@@ -29,13 +29,13 @@
             android:singleLine="true"
             android:textColor="@color/registtextcolor"
             android:visibility="visible" />
-        <TextView 
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="昵称仅能修改一次，请谨慎填写"
-            android:textSize="14sp"
             android:textColor="@color/welcome_blue"
-            />
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/reband_nick_save"
@@ -47,6 +47,5 @@
             android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
-
 
 </LinearLayout>

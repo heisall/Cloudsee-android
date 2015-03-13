@@ -250,6 +250,7 @@
                     android:singleLine="true"
                     android:textColor="@color/leftdevicecolor" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/tcp_layout"
                 android:layout_width="match_parent"
@@ -269,32 +270,32 @@
                     android:text="@string/str_pass"
                     android:textColor="@color/leftdevicecolor"
                     android:textSize="18sp"
-                    android:visibility="invisible"
-                    android:textStyle="normal" >
+                    android:textStyle="normal"
+                    android:visibility="invisible" >
                 </TextView>
-				<ImageView 
-				    android:id="@+id/tcp_img"
-				    android:layout_width="25dp"
-				    android:layout_height="25dp"
-				    android:background="@drawable/ipc_normal"
-				    />
-				<TextView 
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:text="@string/str_connect_tcp"
-				     android:textColor="@color/leftdevicecolor"
-                    android:textSize="18sp"
+
+                <ImageView
+                    android:id="@+id/tcp_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ipc_normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
-				    />
-				<TextView 
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:text="@string/str_connect_tcp"
-				     android:textColor="@color/leftdevicecolor"
+                    android:text="@string/str_connect_tcp"
+                    android:textColor="@color/leftdevicecolor"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_connect_tcp"
+                    android:textColor="@color/leftdevicecolor"
                     android:textSize="10sp"
-                    android:visibility="invisible"
-				    />
+                    android:visibility="invisible" />
             </LinearLayout>
 
             <LinearLayout

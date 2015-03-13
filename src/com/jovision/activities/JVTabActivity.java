@@ -211,45 +211,43 @@ public class JVTabActivity extends ShakeActivity implements
 			Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
 			int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 			if (lan == Consts.LANGUAGE_ZH) {
-//				if (cnt > 0
-//						|| !MySharedPreference
-//								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
-//						|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
-//						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
-//						|| (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
-//					
-//				}
-				if (!MySharedPreference
-						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+				// if (cnt > 0
+				// || !MySharedPreference
+				// .getBoolean(Consts.MORE_SYSTEMMESSAGE)
+				// || (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
+				// || (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
+				// || (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+				//
+				// }
+				if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
-				if((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+				if ((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
 					countshow = countshow + 1;
 				}
-				if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					countshow = countshow + 1;
 				}
-				if((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+				if ((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
 					countshow = countshow + 1;
 				}
 			} else {
-//				if (cnt > 0
-//						|| !MySharedPreference
-//								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
-//						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-//				}
-				if (!MySharedPreference
-						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+				// if (cnt > 0
+				// || !MySharedPreference
+				// .getBoolean(Consts.MORE_SYSTEMMESSAGE)
+				// || (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				// }
+				if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
-				if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					countshow = countshow + 1;
 				}
 			}
 			if (countshow > 0) {
-				mIndicator.updateIndicator(3, 0, true,countshow);
-			}else {
-				mIndicator.updateIndicator(3, 0, false,countshow);
+				mIndicator.updateIndicator(3, 0, true, countshow);
+			} else {
+				mIndicator.updateIndicator(3, 0, false, countshow);
 			}
 		}
 
@@ -386,7 +384,7 @@ public class JVTabActivity extends ShakeActivity implements
 		}
 			break;
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
-			mIndicator.updateIndicator(3, 0, true,countshow+1);
+			mIndicator.updateIndicator(3, 0, true, countshow + 1);
 			break;
 		default:
 			BaseFragment currentFrag = mFragments[currentIndex];

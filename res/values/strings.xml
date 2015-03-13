@@ -423,7 +423,7 @@
     <string name="rebandemail">邮箱 </string>
     <string name="rebandhand">头像</string>
     <string name="rebandtips">昵称仅能修改一次.</string>
-     <string name="rebandnotexit"> 请点击获取验证码</string>
+    <string name="rebandnotexit"> 请点击获取验证码</string>
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">Has chosen ?，</string>
     <string name="number">Total ?</string>

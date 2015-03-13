@@ -5,14 +5,17 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.test.JVACCOUNT;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -28,9 +31,11 @@ import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.MainApplication;
 import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
+import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
 import com.jovision.adapters.MyPagerAdp;
 import com.jovision.bean.Device;
 import com.jovision.commons.CheckUpdateTask;
+import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -38,10 +43,11 @@ import com.jovision.commons.TPushTips;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DefaultExceptionHandler;
+import com.jovision.utils.JSONUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVTabActivity extends ShakeActivity implements
-		OnPageChangeListener {
+OnPageChangeListener,OnFuncActionListener{
 	private static final String TAG = "JVTabActivity";
 	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
@@ -51,6 +57,7 @@ public class JVTabActivity extends ShakeActivity implements
 	protected RelativeLayout helpbg_relative;
 	protected Timer offlineTimer = new Timer();
 	private int countshow;
+	private int countbbs;
 	private BaseFragment mFragments[] = new BaseFragment[4];
 
 	private ViewPager viewpager;
@@ -112,8 +119,8 @@ public class JVTabActivity extends ShakeActivity implements
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+				| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// 开启logcat输出，方便debug，发布时请关闭
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
@@ -204,22 +211,28 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+//		GetnoMessageTask task = new GetnoMessageTask();
+//		task.execute();
 		MyLog.v(TAG, "onResume----E");
 		if (null != mIndicator) {
-			int cnt = mApp.getNewPushCnt();
-			countshow = cnt;
-			Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
+			if (!Boolean.valueOf(statusHashMap
+					.get(Consts.LOCAL_LOGIN))) {
+				int cnt = mApp.getNewPushCnt();
+				countshow = cnt;
+				Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
+			}
 			int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 			if (lan == Consts.LANGUAGE_ZH) {
-				// if (cnt > 0
-				// || !MySharedPreference
-				// .getBoolean(Consts.MORE_SYSTEMMESSAGE)
-				// || (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
-				// || (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
-				// || (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
-				//
-				// }
-				if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+				//				if (cnt > 0
+				//						|| !MySharedPreference
+				//								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+				//						|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
+				//						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
+				//						|| (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+				//					
+				//				}
+				if (!MySharedPreference
+						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
 				if ((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
@@ -238,6 +251,13 @@ public class JVTabActivity extends ShakeActivity implements
 				// || (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 				// }
 				if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+				//				if (cnt > 0
+				//						|| !MySharedPreference
+				//								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+				//						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				//				}
+				if (!MySharedPreference
+						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
 				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
@@ -259,8 +279,8 @@ public class JVTabActivity extends ShakeActivity implements
 			android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 			if (null != manager) {
 				getSupportFragmentManager().beginTransaction()
-						.replace(R.id.tab_fragment, mFragments[currentIndex])
-						.commit();
+				.replace(R.id.tab_fragment, mFragments[currentIndex])
+				.commit();
 			} else {
 				MyLog.e(TAG, "TAB_onresume_manager null" + currentIndex);
 				this.finish();
@@ -382,9 +402,58 @@ public class JVTabActivity extends ShakeActivity implements
 						obj);
 			}
 		}
-			break;
+		break;
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
-			mIndicator.updateIndicator(3, 0, true, countshow + 1);
+			Log.i("TAG","收到报警h");
+			if (null != mIndicator) {
+				if (!Boolean.valueOf(statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {
+					int cnt = mApp.getNewPushCnt();
+					countshow = cnt;
+				}
+				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
+				if (lan == Consts.LANGUAGE_ZH) {
+					//					if (cnt > 0
+					//							|| !MySharedPreference
+					//									.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+					//						
+					//					}
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+						countshow = countshow + 1;
+					}
+				} else {
+					//					if (cnt > 0
+					//							|| !MySharedPreference
+					//									.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+					//					}
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+				}
+				if (countshow > 0 ) {
+					mIndicator.updateIndicator(3, 0, true,countshow);
+				}else {
+					mIndicator.updateIndicator(3, 0, false,countshow);
+				}
+			}
 			break;
 		default:
 			BaseFragment currentFrag = mFragments[currentIndex];
@@ -441,10 +510,10 @@ public class JVTabActivity extends ShakeActivity implements
 				if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
 					if (strRom.equals("V6")) {
 						new TPushTips(this)
-								.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
+						.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
 					} else {
 						new TPushTips(this)
-								.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+						.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
 					}
 				}
 
@@ -470,13 +539,13 @@ public class JVTabActivity extends ShakeActivity implements
 				try {
 					currentIndex = which;
 					getSupportFragmentManager().beginTransaction()
-							.replace(R.id.tab_fragment, mFragments[which])
-							.commit();
+					.replace(R.id.tab_fragment, mFragments[which])
+					.commit();
 					switch (which) {
 					case 0:
 						if (!page2
 								&& !MySharedPreference
-										.getBoolean(Consts.MORE_PAGETWO)) {
+								.getBoolean(Consts.MORE_PAGETWO)) {
 							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 							ll_dot.setVisibility(View.GONE);
 							viewpager.setCurrentItem(0);
@@ -489,7 +558,7 @@ public class JVTabActivity extends ShakeActivity implements
 						} else {
 							if (MySharedPreference.getBoolean(Consts.MORE_HELP)
 									&& !MySharedPreference
-											.getBoolean(Consts.MORE_PAGETWO)) {
+									.getBoolean(Consts.MORE_PAGETWO)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.GONE);
 								viewpager.setCurrentItem(0);
@@ -515,7 +584,7 @@ public class JVTabActivity extends ShakeActivity implements
 						if (0 != myDeviceList.size()) {
 							if (!page1
 									&& !MySharedPreference
-											.getBoolean(Consts.MORE_PAGEONE)) {
+									.getBoolean(Consts.MORE_PAGEONE)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.VISIBLE);
 								viewpager.setCurrentItem(0);
@@ -529,7 +598,7 @@ public class JVTabActivity extends ShakeActivity implements
 								if (MySharedPreference
 										.getBoolean(Consts.MORE_HELP)
 										&& !MySharedPreference
-												.getBoolean(Consts.MORE_PAGEONE)) {
+										.getBoolean(Consts.MORE_PAGEONE)) {
 									ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 									ll_dot.setVisibility(View.VISIBLE);
 									viewpager.setCurrentItem(0);
@@ -560,7 +629,7 @@ public class JVTabActivity extends ShakeActivity implements
 		android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 		if (null != manager) {
 			manager.beginTransaction()
-					.replace(R.id.tab_fragment, mFragments[0]).commit();
+			.replace(R.id.tab_fragment, mFragments[0]).commit();
 		} else {
 			MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
 			this.finish();
@@ -585,7 +654,7 @@ public class JVTabActivity extends ShakeActivity implements
 
 			MyLog.v("notifyer",
 					((MainApplication) this.getApplication()).currentNotifyer
-							+ "");
+					+ "");
 			String notifer = ((MainApplication) this.getApplication()).currentNotifyer
 					+ "";
 			if (notifer.startsWith("JVMyDeviceFragment")) {
@@ -599,7 +668,7 @@ public class JVTabActivity extends ShakeActivity implements
 			} else if (notifer.startsWith("JVVideoFragment")) {
 				if (JVVideoFragment.webView.canGoBack()) {
 					((MainApplication) this.getApplication()).currentNotifyer
-							.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
+					.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
 				} else {
 					exit();
 				}
@@ -693,6 +762,114 @@ public class JVTabActivity extends ShakeActivity implements
 			MyLog.e("注销停止broadTimerTask", "stop--broadTimerTask");
 			broadTimerTask.cancel();
 			broadTimerTask = null;
+		}
+	}
+	@Override
+	public void OnFuncEnabled(int func_index, int enabled) {
+		// TODO Auto-generated method stub
+		switch (func_index) {
+		case 0:
+			if (null != mIndicator) {
+				if (!Boolean.valueOf(statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {
+					int cnt = mApp.getNewPushCnt();
+					countshow = cnt;
+				}
+				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
+				if (lan == Consts.LANGUAGE_ZH) {
+					//					if (cnt > 0
+					//							|| !MySharedPreference
+					//									.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+					//						
+					//					}
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+						countshow = countshow + 1;
+					}
+				} else {
+					//					if (cnt > 0
+					//							|| !MySharedPreference
+					//									.getBoolean(Consts.MORE_SYSTEMMESSAGE)
+					//							|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+					//					}
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+				}
+				if (countshow > 0) {
+					mIndicator.updateIndicator(3, 0, true,countshow);
+				}else {
+					mIndicator.updateIndicator(3, 0, false,countshow);
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+	@Override
+	public void OnFuncSelected(int func_index, String params) {
+		// TODO Auto-generated method stub
+	}
+
+	// 获取论坛未读消息
+	private class GetnoMessageTask extends AsyncTask<Integer, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(Integer... params) {
+			String requestUrl =
+					"http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid="+JVACCOUNT.GetSession();
+			String result = JSONUtil.httpGet(requestUrl);
+			MyLog.e("BBS_notread", "request="+requestUrl+";result="+result);
+			//request=http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid=1dad46caaa92eb0ea59a4c348fd5de81;result={"msg":"ok","errCode":1,"data":[{"url":"","count":0}]}
+			try {
+				JSONObject responseObject = new JSONObject(result);
+				JSONArray dataArray = new JSONArray(responseObject.optString("data"));
+
+				countbbs = dataArray.getJSONObject(0).optInt("count");
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return countbbs;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			Log.i("TAG", "论坛数量"+result);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
 

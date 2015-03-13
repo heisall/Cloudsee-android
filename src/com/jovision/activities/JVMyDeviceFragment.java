@@ -24,6 +24,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.test.JVACCOUNT;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,6 +66,7 @@ import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
+import com.jovision.utils.JSONUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.AlarmDialog;
@@ -1767,10 +1769,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			// String requestUrl =
-			// "http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid="+JVACCOUNT.GetSession();
-			// String result = JSONUtil.httpGet(requestUrl);
-			// MyLog.e("BBS_notread", "request="+requestUrl+";result="+result);
 			if ("0".equalsIgnoreCase(params[0])) {
 				try {
 					Thread.sleep(1000);

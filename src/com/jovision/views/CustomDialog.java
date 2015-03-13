@@ -108,11 +108,11 @@ public class CustomDialog extends Dialog implements CommonInterface {
 			WebSettings webSettings = mWebView.getSettings();
 			webSettings.setJavaScriptEnabled(true);
 			webSettings.setDomStorageEnabled(true);
-			//webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-			if(Build.VERSION.SDK_INT >= 17){
+			// webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+			if (Build.VERSION.SDK_INT >= 17) {
 				webSettings.setMediaPlaybackRequiresUserGesture(false);
 			}
-			
+
 			mWebView.setWebChromeClient(m_chromeClient);
 
 			mWebView.setWebViewClient(new WebViewClient() {

@@ -10,8 +10,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
@@ -46,6 +46,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 	private CustomDialog learnDialg;
 	private RelativeLayout loadFailedLayout;
 	private ImageView reloadImgView;
+
 	public interface OnDeviceClassSelectedListener {
 		public void OnDeviceClassSelected(int index, String paras);
 	}
@@ -79,29 +80,30 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		}
 		myHandler = new MyHandler();
 		mWebView = (WebView) rootView.findViewById(R.id.webview);
-//		learnDialg = new CustomDialog(getActivity(), mListener);
+		// learnDialg = new CustomDialog(getActivity(), mListener);
 		loadingBar = (ImageView) rootView.findViewById(R.id.loadingbar);
 		loadinglayout = (LinearLayout) rootView
 				.findViewById(R.id.loadinglayout);
-		
-		loadFailedLayout = (RelativeLayout) rootView.findViewById(R.id.loadfailedlayout);
+
+		loadFailedLayout = (RelativeLayout) rootView
+				.findViewById(R.id.loadfailedlayout);
 		loadFailedLayout.setVisibility(View.GONE);
 		reloadImgView = (ImageView) rootView.findViewById(R.id.refreshimg);
 		reloadImgView.setOnClickListener(myOnClickListener);
-		
+
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setDomStorageEnabled(true);
 
 		webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-		
-//		webSettings.setBuiltInZoomControls(true); 
-//		webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS); 
-//		webSettings.setUseWideViewPort(true);
-//		webSettings.setLoadWithOverviewMode(true);
-//		webSettings.setSaveFormData(true);
-//		webSettings.setGeolocationEnabled(true);
-		mWebView.requestFocus();  
+
+		// webSettings.setBuiltInZoomControls(true);
+		// webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+		// webSettings.setUseWideViewPort(true);
+		// webSettings.setLoadWithOverviewMode(true);
+		// webSettings.setSaveFormData(true);
+		// webSettings.setGeolocationEnabled(true);
+		mWebView.requestFocus();
 		mWebView.setScrollBarStyle(0);
 		mWebView.setWebChromeClient(m_chromeClient);
 
@@ -163,18 +165,16 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 				super.onPageFinished(view, url);
 				if (url.contains("device=")) {
 					return;
-				}
-				else{
+				} else {
 					if (loadFailed) {
 						loadFailedLayout.setVisibility(View.VISIBLE);
 						loadinglayout.setVisibility(View.GONE);
 						Log.e("webv", "url:" + url + " load failed");
-					}
-					else{
+					} else {
 						loadinglayout.setVisibility(View.GONE);
 						loadFailedLayout.setVisibility(View.GONE);
-					}				
-					Log.e("webv", "webView finish load");				
+					}
+					Log.e("webv", "webView finish load");
 				}
 
 				// else {
@@ -221,32 +221,32 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-				case R.id.refreshimg: {
-					loadFailedLayout.setVisibility(View.GONE);
-					loadinglayout.setVisibility(View.VISIBLE);
-					Animation anim = AnimationUtils.loadAnimation(
-							getActivity(), R.anim.rotate);
-					loadingBar.setAnimation(anim);
-					loadFailed = false;
-					if(mWebView.getUrl().contains("device=")){
-						if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
-								|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
-							mWebView.loadUrl(webUrlZH);
-						} else {
-							mWebView.loadUrl(webUrlEN);
-						}							
+			case R.id.refreshimg: {
+				loadFailedLayout.setVisibility(View.GONE);
+				loadinglayout.setVisibility(View.VISIBLE);
+				Animation anim = AnimationUtils.loadAnimation(getActivity(),
+						R.anim.rotate);
+				loadingBar.setAnimation(anim);
+				loadFailed = false;
+				if (mWebView.getUrl().contains("device=")) {
+					if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
+							|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
+						mWebView.loadUrl(webUrlZH);
+					} else {
+						mWebView.loadUrl(webUrlEN);
 					}
-					else{
-						mWebView.reload();
-					}
-					
-					break;
+				} else {
+					mWebView.reload();
 				}
-				default:
-					break;
+
+				break;
+			}
+			default:
+				break;
 			}
 		}
 	};
+
 	// public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	// Bundle savedInstanceState) {
 	// if (rootView == null) {

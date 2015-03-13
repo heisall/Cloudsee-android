@@ -271,14 +271,15 @@ public class JVVideoFragment extends BaseFragment {
 						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
 								.start();
 					} else {
-						String plazzaUrl = ((BaseActivity) mActivity).statusHashMap
-								.get(Consts.MORE_DEMOURL);
-						if (newUrl.contains(plazzaUrl)) {
-							newUrl = newUrl + "?" + "plat=android&platv="
-									+ Build.VERSION.SDK_INT + "&lang=" + lan
-									+ "&d=" + System.currentTimeMillis()
-									+ "&sid=" + sid;
-						}
+						// String plazzaUrl = ((BaseActivity)
+						// mActivity).statusHashMap
+						// .get(Consts.MORE_DEMOURL);
+						// if (newUrl.contains(plazzaUrl)) {
+						// newUrl = newUrl + "?" + "plat=android&platv="
+						// + Build.VERSION.SDK_INT + "&lang=" + lan
+						// + "&d=" + System.currentTimeMillis()
+						// + "&sid=" + sid;
+						// }
 
 						view.loadUrl(newUrl);
 					}

@@ -236,16 +236,22 @@ OnPageChangeListener,OnFuncActionListener{
 						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
-				if((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+				if ((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
 					countshow = countshow + 1;
 				}
-				if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					countshow = countshow + 1;
 				}
-				if((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+				if ((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
 					countshow = countshow + 1;
 				}
 			} else {
+				// if (cnt > 0
+				// || !MySharedPreference
+				// .getBoolean(Consts.MORE_SYSTEMMESSAGE)
+				// || (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				// }
+				if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 				//				if (cnt > 0
 				//						|| !MySharedPreference
 				//								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
@@ -255,14 +261,14 @@ OnPageChangeListener,OnFuncActionListener{
 						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
-				if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					countshow = countshow + 1;
 				}
 			}
 			if (countshow > 0) {
-				mIndicator.updateIndicator(3, 0, true,countshow);
-			}else {
-				mIndicator.updateIndicator(3, 0, false,countshow);
+				mIndicator.updateIndicator(3, 0, true, countshow);
+			} else {
+				mIndicator.updateIndicator(3, 0, false, countshow);
 			}
 		}
 

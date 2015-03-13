@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -229,16 +228,15 @@ public class JVWebViewActivity extends BaseActivity {
 						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
 								.start();
 					} else {
-						String plazzaUrl = statusHashMap
-								.get(Consts.MORE_DEMOURL);
-						if (newUrl.contains(plazzaUrl)) {
-							newUrl = newUrl + "?" + "plat=android&platv="
-									+ Build.VERSION.SDK_INT + "&lang=" + lan
-									+ "&d=" + System.currentTimeMillis()
-									+ "&sid=" + sid;
-						}
+						// String plazzaUrl = statusHashMap
+						// .get(Consts.MORE_DEMOURL);
+						// if (newUrl.contains(plazzaUrl)) {
+						// newUrl = newUrl + "?" + "plat=android&platv="
+						// + Build.VERSION.SDK_INT + "&lang=" + lan
+						// + "&d=" + System.currentTimeMillis()
+						// + "&sid=" + sid;
+						// }
 
-						view.loadUrl(newUrl);
 						view.loadUrl(newUrl);
 					}
 				} catch (Exception e) {

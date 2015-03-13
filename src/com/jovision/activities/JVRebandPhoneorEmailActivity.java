@@ -45,7 +45,7 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.GetPhoneNumber;
 
 public class JVRebandPhoneorEmailActivity extends BaseActivity implements
-TextWatcher {
+		TextWatcher {
 
 	private Button regist;
 	private EditText userNameEditText;
@@ -92,8 +92,8 @@ TextWatcher {
 			dismissDialog();
 			registTips.setVisibility(View.VISIBLE);
 			registTips.setTextColor(Color.rgb(21, 103, 215));
-			registTips.setText(getResources().getString(
-					R.string.rebandnotexit));
+			registTips
+					.setText(getResources().getString(R.string.rebandnotexit));
 			if (isPhone == 1) {
 				if (isclick) {
 					SMSSDK.getVerificationCode(currentCode, userNameEditText
@@ -281,8 +281,7 @@ TextWatcher {
 			Log.i(TAG, "currentCode:" + currentCode + ", countryName:"
 					+ country[0]);
 		}
-		userNameEditText.setOnFocusChangeListener(new OnFocusChangeListener()
-		{
+		userNameEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
@@ -877,7 +876,7 @@ TextWatcher {
 
 	// 绑定邮箱或者手机号
 	private class BindEmailorPhoneTask extends
-	AsyncTask<String, Integer, Integer> {// A,361,2000
+			AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(String... params) {

@@ -24,7 +24,6 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.PlayUtil;
 
-
 public class AlarmDialog extends Dialog {
 	private static AlarmDialog sSingleton = null;
 	private Context context;
@@ -76,11 +75,11 @@ public class AlarmDialog extends Dialog {
 		dialogDeviceModle.setText(alarmTypeName);
 		dialogAlarmTime.setText(alarmTime);
 		// MyLog.e("AlarmDialog", "onStart" + getDialogObjs());
-//		if (isshowing) {
-//			dismiss();
-//			return;
-//		}
-//		isshowing = true;
+		// if (isshowing) {
+		// dismiss();
+		// return;
+		// }
+		// isshowing = true;
 	}
 
 	@Override
@@ -101,11 +100,11 @@ public class AlarmDialog extends Dialog {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.dialog_cancel:
-				//isshowing = false;
+				// isshowing = false;
 				dismiss();
 				break;
 			case R.id.dialog_cancle_img:
-				//isshowing = false;
+				// isshowing = false;
 				dismiss();
 				break;
 			case R.id.dialog_view:
@@ -201,65 +200,66 @@ public class AlarmDialog extends Dialog {
 			Log.e("Alarm", "isshowing is true, then return");
 			return;
 		}
-	synchronized (AlarmDialog.class) {
+		synchronized (AlarmDialog.class) {
 
-		if (obj == null) {
-			isshowing = false;
-			return;
-		}
-		// 已经在显示了，就不显示了
-		// if (getDialogObjs() <= 1) {
-		if (!isshowing) {
-			isshowing = true;
-			Log.e("Alarm","Show() isshowing == true");
-			PushInfo pi = (PushInfo) obj;
-			ystNum = pi.ystNum;
-			deviceList = CacheUtil.getDevList();// 再取一次
-			int dev_index = getDeivceIndex(ystNum);
-			if (dev_index == -1) {
-				deviceNickName = pi.deviceNickName;
-			} else {
-				deviceNickName = deviceList.get(dev_index).getNickName();
-				if (pi.alarmType == 11)// 第三方
-				{
-					deviceNickName = deviceNickName + "-" + pi.deviceNickName;
+			if (obj == null) {
+				isshowing = false;
+				return;
+			}
+			// 已经在显示了，就不显示了
+			// if (getDialogObjs() <= 1) {
+			if (!isshowing) {
+				isshowing = true;
+				Log.e("Alarm", "Show() isshowing == true");
+				PushInfo pi = (PushInfo) obj;
+				ystNum = pi.ystNum;
+				deviceList = CacheUtil.getDevList();// 再取一次
+				int dev_index = getDeivceIndex(ystNum);
+				if (dev_index == -1) {
+					deviceNickName = pi.deviceNickName;
+				} else {
+					deviceNickName = deviceList.get(dev_index).getNickName();
+					if (pi.alarmType == 11)// 第三方
+					{
+						deviceNickName = deviceNickName + "-"
+								+ pi.deviceNickName;
+					}
 				}
-			}
 
-			// deviceNickName = pi.deviceNickName;
+				// deviceNickName = pi.deviceNickName;
 
-			alarmTime = pi.alarmTime;
-			String strAlarmTypeName = "";
-			if (pi.alarmType == 7) {
-				strAlarmTypeName = context.getResources().getString(
-						R.string.str_alarm_type_move);
-			} else if (pi.alarmType == 11) {
-				strAlarmTypeName = context.getResources().getString(
-						R.string.str_alarm_type_third);
-			} else if (pi.alarmType == 4) {
-				strAlarmTypeName = context.getResources().getString(
-						R.string.str_alarm_type_external);
+				alarmTime = pi.alarmTime;
+				String strAlarmTypeName = "";
+				if (pi.alarmType == 7) {
+					strAlarmTypeName = context.getResources().getString(
+							R.string.str_alarm_type_move);
+				} else if (pi.alarmType == 11) {
+					strAlarmTypeName = context.getResources().getString(
+							R.string.str_alarm_type_third);
+				} else if (pi.alarmType == 4) {
+					strAlarmTypeName = context.getResources().getString(
+							R.string.str_alarm_type_external);
+				} else {
+					strAlarmTypeName = context.getResources().getString(
+							R.string.str_alarm_type_unknown);
+				}
+				alarmTypeName = strAlarmTypeName;
+				strAlarmGUID = pi.strGUID;
+				show();
 			} else {
-				strAlarmTypeName = context.getResources().getString(
-						R.string.str_alarm_type_unknown);
+				Log.e("Alarm", "收到信息，但不提示");
+				// Toast.makeText(context, "收到信息，但不提示",
+				// Toast.LENGTH_SHORT).show();
 			}
-			alarmTypeName = strAlarmTypeName;
-			strAlarmGUID = pi.strGUID;
-			show();
-		} else {
-			Log.e("Alarm", "收到信息，但不提示");
-			// Toast.makeText(context, "收到信息，但不提示",
-			// Toast.LENGTH_SHORT).show();
 		}
 	}
-	}
 
-//	@Override
-//	public void dismiss() {
-//		// TODO Auto-generated method stub
-//		isshowing = false;
-//		super.dismiss();
-//	}
+	// @Override
+	// public void dismiss() {
+	// // TODO Auto-generated method stub
+	// isshowing = false;
+	// super.dismiss();
+	// }
 
 	/**
 	 * 弹系统消息

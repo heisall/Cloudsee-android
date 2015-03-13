@@ -15,15 +15,15 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.commons.MySharedPreference;
 
-public class JVRebandNickActivity extends BaseActivity{
+public class JVRebandNickActivity extends BaseActivity {
 
 	private Button rebandNickSaveButton;
 	private EditText inputNickname;
-	
+
 	private String username;
 	private String email;
 	private String phone;
-	
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
@@ -39,11 +39,11 @@ public class JVRebandNickActivity extends BaseActivity{
 	@Override
 	protected void initSettings() {
 		// TODO Auto-generated method stub
-		
+
 		username = getIntent().getStringExtra("username");
 		phone = getIntent().getStringExtra("phone");
 		email = getIntent().getStringExtra("email");
-		
+
 	}
 
 	@Override
@@ -51,13 +51,14 @@ public class JVRebandNickActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 		setContentView(R.layout.reband_nick_layout);
 
-		leftBtn = (Button)findViewById(R.id.btn_left);
-		rightBtn = (Button)findViewById(R.id.btn_right);
-		currentMenu = (TextView)findViewById(R.id.currentmenu);
-		rebandNickSaveButton = (Button)findViewById(R.id.reband_nick_save);
-		inputNickname = (EditText)findViewById(R.id.inputnickname);
-		
-		currentMenu.setText(getResources().getString(R.string.rebindcontactnickname));
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		rightBtn = (Button) findViewById(R.id.btn_right);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
+		rebandNickSaveButton = (Button) findViewById(R.id.reband_nick_save);
+		inputNickname = (EditText) findViewById(R.id.inputnickname);
+
+		currentMenu.setText(getResources().getString(
+				R.string.rebindcontactnickname));
 		rightBtn.setVisibility(View.GONE);
 		rebandNickSaveButton.setOnClickListener(myOnClickListener);
 		leftBtn.setOnClickListener(myOnClickListener);
@@ -101,6 +102,7 @@ public class JVRebandNickActivity extends BaseActivity{
 			}
 		}
 	};
+
 	@Override
 	protected void saveSettings() {
 		// TODO Auto-generated method stub
@@ -112,6 +114,7 @@ public class JVRebandNickActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 
 	}
+
 	class SetAccountInfoTask extends AsyncTask<String, Integer, Integer> {
 
 		@Override
@@ -132,7 +135,8 @@ public class JVRebandNickActivity extends BaseActivity{
 		protected void onPostExecute(Integer result) {
 			if (result == 0)// ok
 			{
-				MySharedPreference.putString("NICKNAMEBBS", inputNickname.getText().toString());
+				MySharedPreference.putString("NICKNAMEBBS", inputNickname
+						.getText().toString());
 				dismissDialog();
 				finish();
 			}

@@ -32,7 +32,7 @@
             android:textColor="@color/more_fragment_color2"
             android:textSize="16sp" />
     </LinearLayout>
-    
+
     <include
         android:id="@+id/loadfailedlayout"
         android:layout_width="wrap_content"
@@ -41,4 +41,5 @@
         layout="@layout/load_failed_layout"
         android:visibility="gone" >
     </include>
+
 </RelativeLayout>

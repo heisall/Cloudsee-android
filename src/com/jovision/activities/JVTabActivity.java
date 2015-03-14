@@ -13,6 +13,7 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.test.JVACCOUNT;
@@ -35,7 +36,6 @@ import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
 import com.jovision.adapters.MyPagerAdp;
 import com.jovision.bean.Device;
 import com.jovision.commons.CheckUpdateTask;
-import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -58,6 +58,7 @@ OnPageChangeListener,OnFuncActionListener{
 	protected Timer offlineTimer = new Timer();
 	private int countshow;
 	private int countbbs;
+	private OnMainListener mainListener;
 	private BaseFragment mFragments[] = new BaseFragment[4];
 
 	private ViewPager viewpager;
@@ -90,10 +91,10 @@ OnPageChangeListener,OnFuncActionListener{
 	JVFragmentIndicator mIndicator;
 	private MainApplication mApp;
 
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		Intent intent = getIntent();
 		if (null != intent) {
 			boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
@@ -134,6 +135,22 @@ OnPageChangeListener,OnFuncActionListener{
 	protected void onStart() {
 		super.onStart();
 	}
+
+	// 绑定接口
+		@Override
+		public void onAttachFragment(Fragment fragment) {
+			try {
+				mainListener = (OnMainListener) fragment;
+			} catch (Exception e) {
+				throw new ClassCastException(this.toString()
+						+ " must implement OnMainListener");
+			}
+			super.onAttachFragment(fragment);
+		}
+
+		public interface OnMainListener {
+			public void onMainAction(int count);
+		}
 
 	@Override
 	protected void onDestroy() {
@@ -192,6 +209,7 @@ OnPageChangeListener,OnFuncActionListener{
 				ll_dot.setVisibility(View.GONE);
 			}
 		});
+
 	}
 
 	private void initDot(int dotnum) {
@@ -211,10 +229,10 @@ OnPageChangeListener,OnFuncActionListener{
 	@Override
 	protected void onResume() {
 		super.onResume();
-//		GetnoMessageTask task = new GetnoMessageTask();
-//		task.execute();
-		MyLog.v(TAG, "onResume----E");
+		GetnoMessageTask task = new GetnoMessageTask();
+		task.execute();
 		countshow = 0;
+		MyLog.v(TAG, "onResume----E");
 		if (null != mIndicator) {
 			if (!Boolean.valueOf(statusHashMap
 					.get(Consts.LOCAL_LOGIN))) {
@@ -224,51 +242,29 @@ OnPageChangeListener,OnFuncActionListener{
 			}
 			int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 			if (lan == Consts.LANGUAGE_ZH) {
-				//				if (cnt > 0
-				//						|| !MySharedPreference
-				//								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
-				//						|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
-				//						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
-				//						|| (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
-				//					
-				//				}
 				if (!MySharedPreference
 						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
-				if ((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+				if((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
 					countshow = countshow + 1;
 				}
-				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-					countshow = countshow + 1;
-				}
-				if ((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+				if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					countshow = countshow + 1;
 				}
 			} else {
-				// if (cnt > 0
-				// || !MySharedPreference
-				// .getBoolean(Consts.MORE_SYSTEMMESSAGE)
-				// || (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-				// }
-				if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
-				//				if (cnt > 0
-				//						|| !MySharedPreference
-				//								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
-				//						|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-				//				}
 				if (!MySharedPreference
 						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
-				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					countshow = countshow + 1;
 				}
 			}
 			if (countshow > 0) {
-				mIndicator.updateIndicator(3, 0, true, countshow);
-			} else {
-				mIndicator.updateIndicator(3, 0, false, countshow);
+				mIndicator.updateIndicator(3, 0, true,countshow+countbbs);
+			}else {
+				mIndicator.updateIndicator(3, 0, false,countshow+countbbs);
 			}
 		}
 
@@ -405,7 +401,6 @@ OnPageChangeListener,OnFuncActionListener{
 		}
 		break;
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
-			Log.i("TAG","收到报警h");
 			countshow = 0;
 			if (null != mIndicator) {
 				if (!Boolean.valueOf(statusHashMap
@@ -433,9 +428,6 @@ OnPageChangeListener,OnFuncActionListener{
 					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 						countshow = countshow + 1;
 					}
-					if((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
-						countshow = countshow + 1;
-					}
 				} else {
 					//					if (cnt > 0
 					//							|| !MySharedPreference
@@ -451,9 +443,9 @@ OnPageChangeListener,OnFuncActionListener{
 					}
 				}
 				if (countshow > 0 ) {
-					mIndicator.updateIndicator(3, 0, true,countshow);
+					mIndicator.updateIndicator(3, 0, true,countshow+countbbs);
 				}else {
-					mIndicator.updateIndicator(3, 0, false,countshow);
+					mIndicator.updateIndicator(3, 0, false,countshow+countbbs);
 				}
 			}
 			break;
@@ -540,9 +532,9 @@ OnPageChangeListener,OnFuncActionListener{
 			public void onIndicate(View v, int which) {
 				try {
 					currentIndex = which;
-					getSupportFragmentManager().beginTransaction()
-					.replace(R.id.tab_fragment, mFragments[which])
-					.commit();
+						getSupportFragmentManager().beginTransaction()
+						.replace(R.id.tab_fragment, mFragments[which])
+						.commit();
 					switch (which) {
 					case 0:
 						if (!page2
@@ -614,6 +606,10 @@ OnPageChangeListener,OnFuncActionListener{
 								}
 							}
 						}
+						break;
+					case 3:
+						GetnoMessageTask task = new GetnoMessageTask();
+						task.execute();
 						break;
 					default:
 						break;
@@ -780,16 +776,7 @@ OnPageChangeListener,OnFuncActionListener{
 				}
 				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 				if (lan == Consts.LANGUAGE_ZH) {
-					//					if (cnt > 0
-					//							|| !MySharedPreference
-					//									.getBoolean(Consts.MORE_SYSTEMMESSAGE)
-					//							|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
-					//							|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
-					//							|| (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
-					//						
-					//					}
-					if (!MySharedPreference
-							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+					if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 						countshow = countshow + 1;
 					}
 					if((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
@@ -798,15 +785,7 @@ OnPageChangeListener,OnFuncActionListener{
 					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 						countshow = countshow + 1;
 					}
-					if((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
-						countshow = countshow + 1;
-					}
 				} else {
-					//					if (cnt > 0
-					//							|| !MySharedPreference
-					//									.getBoolean(Consts.MORE_SYSTEMMESSAGE)
-					//							|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-					//					}
 					if (!MySharedPreference
 							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 						countshow = countshow + 1;
@@ -816,9 +795,9 @@ OnPageChangeListener,OnFuncActionListener{
 					}
 				}
 				if (countshow > 0) {
-					mIndicator.updateIndicator(3, 0, true,countshow);
+					mIndicator.updateIndicator(3, 0, true,countshow+countbbs);
 				}else {
-					mIndicator.updateIndicator(3, 0, false,countshow);
+					mIndicator.updateIndicator(3, 0, false,countshow+countbbs);
 				}
 			}
 			break;
@@ -827,6 +806,7 @@ OnPageChangeListener,OnFuncActionListener{
 			break;
 		}
 	}
+	
 	@Override
 	public void OnFuncSelected(int func_index, String params) {
 		// TODO Auto-generated method stub
@@ -837,6 +817,7 @@ OnPageChangeListener,OnFuncActionListener{
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
 		protected Integer doInBackground(Integer... params) {
+			countbbs = 0;
 			String requestUrl =
 					"http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid="+JVACCOUNT.GetSession();
 			String result = JSONUtil.httpGet(requestUrl);
@@ -862,7 +843,9 @@ OnPageChangeListener,OnFuncActionListener{
 		@Override
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
-			Log.i("TAG", "论坛数量"+result);
+			mainListener.onMainAction(result);
+			onNotify(Consts.NEW_BBS, result, 0, null);
+			showTextToast("处置获得结果");
 		}
 
 		@Override
@@ -875,5 +858,4 @@ OnPageChangeListener,OnFuncActionListener{
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
-
 }

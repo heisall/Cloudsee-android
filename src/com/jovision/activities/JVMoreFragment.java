@@ -183,7 +183,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 				showGCS = false;
 			}
 		}
-		showGCS = false;
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 		currentMenu.setText(R.string.more_featrue);

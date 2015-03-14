@@ -316,7 +316,7 @@ public class Consts {
 	public static final String MORE_CUSTURL = "CUSTURL"; // 我要装监控
 	public static final String MORE_STATURL = "STATURL"; // 云视通指数
 	public static final String MORE_BBS = "BBSURL"; // 论坛
-	public static final String MORE_GCSURL = "STATURL"; // 工程商入住
+	public static final String MORE_GCSURL = "CUSTURL"; // 工程商入住
 
 	public static final String MORE_DEMO_SWITCH = "DEMO_SWITCH"; // 视频广场开关
 	public static final String MORE_CUST_SWITCH = "CUST_SWITCH"; // 我要装监控开关

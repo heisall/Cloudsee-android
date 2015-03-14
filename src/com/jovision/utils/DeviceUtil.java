@@ -3619,6 +3619,7 @@ public class DeviceUtil {
 	}
 
 	/**
+	 * 2015-3-13
 	 * 获取web URL
 	 * 
 	 * */
@@ -3629,7 +3630,7 @@ public class DeviceUtil {
 		try {
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.AD_PUBLISH_PROCESS);// 12
-			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE, 5506);//
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE, JVDeviceConst.GET_WEBFUNC_INFO);//
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// 1.0
 			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, Consts.PRODUCT_TYPE);// 0：CloudSEE
@@ -3640,14 +3641,6 @@ public class DeviceUtil {
 		}
 
 		MyLog.v("getWebUrl---request", jObj.toString());
-		// 接收返回数据
-		// byte[] resultStr = new byte[1024 * 3];
-		// int error =
-		// JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-		// jObj.toString(), resultStr);
-		// MyLog.i("TAG", "<===="+error+",res:"+resultStr);
-		// if (0 == error) {
-		// String result = new String(resultStr);
 		String requesRes = JVACCOUNT
 				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
 						.toString());
@@ -3668,10 +3661,18 @@ public class DeviceUtil {
 					if (null != temObj) {
 						rt = temObj.optInt(JVDeviceConst.JK_RESULT);
 						if (0 == rt) {
-							webUrl.setDemoUrl(temObj.optString("demourl"));
-							webUrl.setCustUrl(temObj.optString("custurl"));
-							webUrl.setStatUrl(temObj.optString("staturl"));
-							webUrl.setBbsUrlString(temObj.optString("bbsurl"));
+							webUrl.setDemoUrl(temObj.optString(JVDeviceConst.JK_WEB_DEMO_URL));
+							webUrl.setCustUrl(temObj.optString(JVDeviceConst.JK_WEB_CUST_URL));
+							webUrl.setStatUrl(temObj.optString(JVDeviceConst.JK_WEB_STAT_URL));
+							webUrl.setBbsUrl(temObj.optString(JVDeviceConst.JK_WEB_BBS_URL));
+							webUrl.setGcsUrl(temObj.optString(JVDeviceConst.JK_WEB_GCS_URL));
+							
+							webUrl.setDemoSwitch(temObj.optInt(JVDeviceConst.JK_WEB_DEMO_FLAG));
+							webUrl.setCustSwitch(temObj.optInt(JVDeviceConst.JK_WEB_CUST_FLAG));
+							webUrl.setStatSwitch(temObj.optInt(JVDeviceConst.JK_WEB_STAT_FLAG));
+							webUrl.setBbsSwitch(temObj.optInt(JVDeviceConst.JK_WEB_BBS_FLAG));
+							webUrl.setGcsSwitch(temObj.optInt(JVDeviceConst.JK_WEB_GCS_FLAG));
+							
 						} else {
 							webUrl = null;
 						}
@@ -3683,4 +3684,6 @@ public class DeviceUtil {
 		}
 		return webUrl;
 	}
+	
+
 }

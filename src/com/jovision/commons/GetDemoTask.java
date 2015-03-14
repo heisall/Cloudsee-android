@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.test.JVACCOUNT;
 import android.util.Log;
 
 import com.jovetech.CloudSee.temp.R;
@@ -32,6 +33,14 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 	protected Integer doInBackground(String... params) {
 		int getRes = -1;// 0成功 1失败
 		sid = params[0];
+		if (!Boolean
+				.valueOf(((BaseActivity) mContext).statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {// 在线
+			sid = JVACCOUNT.GetSession();
+		}else{
+			sid = "";
+		}
+		
 		count = params[1];
 		fragmentString = params[2];
 		// demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);
@@ -70,14 +79,22 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			} else {
 				lan = "en_us";
 			}
+
+			if (null != webUrl.getGcsUrl()) {
+				((BaseActivity) mContext).statusHashMap.put(
+						Consts.MORE_CUST_SWITCH,
+						String.valueOf(webUrl.getGcsSwitch()));
+			}
+
 			switch (counts) {
-			case 0:
+			case 0:// 2015-3-13从我要装监控变成工程商入驻
 				String custurl;
-				if (null != webUrl.getCustUrl()) {
+				if (null != webUrl.getGcsUrl()) {
 					Intent intentAD0 = new Intent(mContext,
 							JVWebViewActivity.class);
-					custurl = webUrl.getCustUrl() + "?" + "&lang=" + lan
-							+ "&d=" + System.currentTimeMillis();
+					custurl = webUrl.getGcsUrl() + "&sid=" + sid;
+					// + "?" + "&lang=" + lan + "&d="
+					// + System.currentTimeMillis();
 					((BaseActivity) mContext).statusHashMap.put(
 							Consts.MORE_CUSTURL, custurl);
 					Log.i("TAG", custurl);
@@ -131,17 +148,17 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				break;
 			case 3:
 				String bbsurl = "";
-				if (null != webUrl.getBbsUrlString()) {
+				if (null != webUrl.getBbsUrl()) {
 					Intent intentAD2 = new Intent(mContext,
 							JVWebViewActivity.class);
 
 					if (!Boolean
 							.valueOf(((BaseActivity) mContext).statusHashMap
 									.get(Consts.LOCAL_LOGIN))) {// 在线
-						bbsurl = webUrl.getBbsUrlString() + "&sid=" + sid;
+						bbsurl = webUrl.getBbsUrl() + "&sid=" + sid;
 						// + "&act=login";
 					} else {// 本地
-						bbsurl = webUrl.getBbsUrlString() + "&sid=" + sid;
+						bbsurl = webUrl.getBbsUrl() + "&sid=" + sid;
 						// + "&act=logout";
 					}
 

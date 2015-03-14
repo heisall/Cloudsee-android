@@ -34,7 +34,6 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
-import com.jovision.activities.AddThirdDevActivity.OnMainListener;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.bean.WebUrl;
@@ -136,14 +135,17 @@ public class JVMoreFragment extends BaseFragment {
 	private MainApplication mApp;
 
 	private ImageView more_camera;
-	
+
+	private boolean showGCS = false;// 是否显示工程商
+
 	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
-		
+
 		public void OnFuncSelected(int func_index, String params);
 	}
 
 	private OnFuncActionListener mListener;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -163,11 +165,24 @@ public class JVMoreFragment extends BaseFragment {
 					+ "must implement OnFuncEnabledListener");
 		}
 	}
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
+
+		// 判断是否显示工程商
+		String showGcsStr = mActivity.statusHashMap
+				.get(Consts.MORE_CUST_SWITCH);
+		if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
+			if (1 == Integer.parseInt(showGcsStr)) {
+				showGCS = true;
+			} else {
+				showGCS = false;
+			}
+		}
+
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 		currentMenu.setText(R.string.more_featrue);
@@ -251,7 +266,7 @@ public class JVMoreFragment extends BaseFragment {
 		more_head = (ImageView) view.findViewById(R.id.more_head_img);
 
 		more_listView = (ListView) view.findViewById(R.id.more_listView);
-		adapter = new FragmentAdapter(JVMoreFragment.this, dataList);
+		adapter = new FragmentAdapter(JVMoreFragment.this, dataList, showGCS);
 		more_listView.setAdapter(adapter);
 		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
 		listViewClick();
@@ -672,6 +687,9 @@ public class JVMoreFragment extends BaseFragment {
 							break;
 
 						case 9: // 我要装监控
+							if (!showGCS) {
+								break;
+							}
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_CUSTURL)) {
 								mListener.OnFuncEnabled(0, 1);
@@ -689,7 +707,7 @@ public class JVMoreFragment extends BaseFragment {
 											.putExtra(
 													"URL",
 													((BaseActivity) mActivity).statusHashMap
-															.get(Consts.MORE_CUSTURL));
+															.get(Consts.MORE_GCSURL));
 									intentAD0.putExtra("title", -2);
 									mActivity.startActivity(intentAD0);
 								} else {

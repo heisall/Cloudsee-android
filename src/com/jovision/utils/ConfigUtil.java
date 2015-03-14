@@ -1354,7 +1354,8 @@ public class ConfigUtil {
 					new InputStreamReader(p.getInputStream()), 1024);
 			line = input.readLine();
 			input.close();
-		} catch (IOException ex) {
+		} catch (Exception ex) {
+			ex.printStackTrace();
 			MyLog.e(TAG, "Unable to read sysprop " + propName);
 			return null;
 		} finally {

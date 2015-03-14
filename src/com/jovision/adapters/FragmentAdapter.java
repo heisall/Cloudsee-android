@@ -38,11 +38,14 @@ public class FragmentAdapter extends BaseAdapter {
 	private ImageView divider_img_up;
 
 	private int new_nums_;
+	
+	private boolean showGCS = false;
 
 	public FragmentAdapter(BaseFragment mfragment,
-			ArrayList<MoreFragmentBean> dataList) {
+			ArrayList<MoreFragmentBean> dataList,boolean showGCS) {
 		this.mfragment = mfragment;
 		this.dataList = dataList;
+		this.showGCS = showGCS;
 	}
 
 	@Override
@@ -136,10 +139,15 @@ public class FragmentAdapter extends BaseAdapter {
 			}
 		}
 		if (position == 9) {
-			if (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL)) {
-				tv_new_nums.setText(R.string.new_tag);
-				item_new.setVisibility(View.VISIBLE);
+			if(showGCS){
+				if (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL)) {
+					tv_new_nums.setText(R.string.new_tag);
+					item_new.setVisibility(View.VISIBLE);
+				}
+			}else{
+				item_new.setVisibility(View.GONE);
 			}
+			
 		}
 		if (position == 11) {
 			if (!MySharedPreference.getBoolean(Consts.MORE_STATURL)) {
@@ -156,8 +164,14 @@ public class FragmentAdapter extends BaseAdapter {
 		if ((position == 9 || position == 12)
 				&& Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
-			more_item.setVisibility(View.VISIBLE);
-			divider_img.setVisibility(View.VISIBLE);
+			if(!showGCS && position == 9){
+				more_item.setVisibility(View.GONE);
+				divider_img.setVisibility(View.GONE);
+			}else{
+				more_item.setVisibility(View.VISIBLE);
+				divider_img.setVisibility(View.VISIBLE);
+			}
+			
 		} else if ((position == 9 || position == 12)
 				&& Consts.LANGUAGE_ZH != ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {

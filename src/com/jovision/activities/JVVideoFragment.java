@@ -62,12 +62,16 @@ public class JVVideoFragment extends BaseFragment {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.TAB_WEBVIEW_BACK: {// tab点击返回
-			if (null != titleStack) {
-				titleStack.pop();
-				String lastTitle = titleStack.peek();
-				currentMenu.setText(lastTitle);
+			try {
+				if (null != titleStack) {
+					titleStack.pop();
+					String lastTitle = titleStack.peek();
+					currentMenu.setText(lastTitle);
+				}
+				webView.goBack(); // goBack()表示返回WebView的上一页面
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			webView.goBack(); // goBack()表示返回WebView的上一页面
 			break;
 		}
 		case Consts.WHAT_DEMO_URL_SUCCESS: {

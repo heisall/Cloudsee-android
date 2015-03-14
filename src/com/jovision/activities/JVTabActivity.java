@@ -35,7 +35,6 @@ import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
 import com.jovision.adapters.MyPagerAdp;
 import com.jovision.bean.Device;
 import com.jovision.commons.CheckUpdateTask;
-import com.jovision.commons.JVAlarmConst;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -235,22 +234,16 @@ OnPageChangeListener,OnFuncActionListener{
 						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
-				if ((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+				if((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
 					countshow = countshow + 1;
 				}
-				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					countshow = countshow + 1;
 				}
-				if ((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+				if((!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
 					countshow = countshow + 1;
 				}
 			} else {
-				// if (cnt > 0
-				// || !MySharedPreference
-				// .getBoolean(Consts.MORE_SYSTEMMESSAGE)
-				// || (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-				// }
-				if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 				//				if (cnt > 0
 				//						|| !MySharedPreference
 				//								.getBoolean(Consts.MORE_SYSTEMMESSAGE)
@@ -260,14 +253,14 @@ OnPageChangeListener,OnFuncActionListener{
 						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
-				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					countshow = countshow + 1;
 				}
 			}
 			if (countshow > 0) {
-				mIndicator.updateIndicator(3, 0, true, countshow);
-			} else {
-				mIndicator.updateIndicator(3, 0, false, countshow);
+				mIndicator.updateIndicator(3, 0, true,countshow);
+			}else {
+				mIndicator.updateIndicator(3, 0, false,countshow);
 			}
 		}
 

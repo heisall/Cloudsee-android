@@ -326,7 +326,6 @@
     <string name="str_connect_mode">连接模式</string>
     <string name="str_connect_tcp">开启TCP连接</string>
     <string name="str_connect_tcpdescri">启用TCP连接</string>
-    
     <string name="str_ip_connect">域名/IP</string>
     <string name="str_data_not_compare">本地数据与服务器数据不一致，是否同步数据?</string>
     <string name="str_uploading">正在上传…</string>
@@ -679,7 +678,7 @@
     <string name="str_alarm_setting_tips3">您可以选择一个合适的时间段来接收报警，让报警尽在掌握。</string>
     <string name="str_alarm_setting_tips2">开关打开时，设备如检测到移动物体，会提示报警。</string>
     <string name="str_alarm_setting_tips4">为了防止泄露隐私，建议及时修改设备管理员密码。</string>
-     <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置.</string>
+    <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置.</string>
     <string name="str_all_day">全天</string>
     <string name="str_protected_time">防护时间段</string>
     <string name="str_getdev_params_timeout">获取设备参数超时</string>

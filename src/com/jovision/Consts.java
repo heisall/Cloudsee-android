@@ -766,4 +766,5 @@ public class Consts {
 	public static final int NEW_PUSH_MSG_TAG = 0x9990;
 	public static final int NEW_PUSH_MSG_TAG_PRIVATE = 0x9991;
 	public static final int WHAT_PERI_ITEM_CLICK = 0x90;// 外设菜单单击事件
+	public static final int NEW_BBS = 0x99992;// 外设菜单单击事件
 }

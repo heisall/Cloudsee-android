@@ -48,6 +48,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
+import com.jovision.activities.JVTabActivity.OnMainListener;
 import com.jovision.adapters.LanAdapter;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.adapters.PopWindowAdapter;
@@ -74,7 +75,7 @@ import com.tencent.stat.StatService;
 /**
  * 我的设备
  */
-public class JVMyDeviceFragment extends BaseFragment {
+public class JVMyDeviceFragment extends BaseFragment implements OnMainListener{
 
 	private String TAG = "MyDeviceFragment";
 
@@ -2082,5 +2083,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 			BitmapCache.getInstance().getBitmap(app.getAppImageUrlZh(),
 					"welcome", fileName);
 		}
+	}
+
+	@Override
+	public void onMainAction(int packet_type) {
+		// TODO Auto-generated method stub
+		
 	}
 }

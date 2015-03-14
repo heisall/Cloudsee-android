@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
+import com.jovision.activities.JVTabActivity.OnMainListener;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.bean.WebUrl;
@@ -57,7 +58,7 @@ import com.tencent.stat.StatService;
 /**
  * 更多
  */
-public class JVMoreFragment extends BaseFragment {
+public class JVMoreFragment extends BaseFragment implements OnMainListener{
 	// Adapter 存储模块文字和图标
 	private ArrayList<MoreFragmentBean> dataList;
 	// 模块listView
@@ -215,6 +216,11 @@ public class JVMoreFragment extends BaseFragment {
 			break;
 		case Consts.WHAT_BIND:
 			// more_bindmail.setVisibility(View.VISIBLE);
+			break;
+		case Consts.NEW_BBS:
+			adapter.setBBSNums(36);
+			adapter.notifyDataSetChanged();
+			mActivity.showTextToast("获得结果");
 			break;
 		}
 
@@ -692,9 +698,9 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_CUSTURL)) {
-								mListener.OnFuncEnabled(0, 1);
 								MySharedPreference.putBoolean(
 										Consts.MORE_CUSTURL, true);
+								mListener.OnFuncEnabled(0, 1);
 							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
@@ -736,9 +742,9 @@ public class JVMoreFragment extends BaseFragment {
 						case 11: // 云视通指数
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_STATURL)) {
-								mListener.OnFuncEnabled(0, 1);
 								MySharedPreference.putBoolean(
 										Consts.MORE_STATURL, true);
+								mListener.OnFuncEnabled(0, 1);
 							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
@@ -771,11 +777,11 @@ public class JVMoreFragment extends BaseFragment {
 							}
 							break;
 						case 12:
-							if (!MySharedPreference.getBoolean(Consts.MORE_BBS)) {
-								MySharedPreference.putBoolean(Consts.MORE_BBS,
-										true);
-								mListener.OnFuncEnabled(0, 1);
-							}
+//							if (!MySharedPreference.getBoolean(Consts.MORE_BBS)) {
+//								MySharedPreference.putBoolean(Consts.MORE_BBS,
+//										true);
+//								mListener.OnFuncEnabled(0, 1);
+//							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {
@@ -783,6 +789,8 @@ public class JVMoreFragment extends BaseFragment {
 										.get(Consts.MORE_BBS)) {
 									Intent intentAD0 = new Intent(mActivity,
 											JVWebViewActivity.class);
+									adapter.setBBSNums(0);
+									adapter.notifyDataSetChanged();
 									intentAD0
 											.putExtra(
 													"URL",
@@ -809,7 +817,8 @@ public class JVMoreFragment extends BaseFragment {
 												.initAccountSDK(((MainApplication) mActivity
 														.getApplication()));// 初始化账号SDK
 									}
-
+									adapter.setBBSNums(0);
+									adapter.notifyDataSetChanged();
 									GetDemoTask UrlTask2 = new GetDemoTask(
 											mActivity);
 									String[] demoParams2 = new String[3];
@@ -822,9 +831,9 @@ public class JVMoreFragment extends BaseFragment {
 						case 13: // 系统消息
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
-								mListener.OnFuncEnabled(0, 1);
 								MySharedPreference.putBoolean(
 										Consts.MORE_SYSTEMMESSAGE, true);
+								mListener.OnFuncEnabled(0, 1);
 							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
@@ -1186,5 +1195,11 @@ public class JVMoreFragment extends BaseFragment {
 
 		return deletedFiles;
 
+	}
+
+	@Override
+	public void onMainAction(int packet_type) {
+		// TODO Auto-generated method stub
+		
 	}
 }

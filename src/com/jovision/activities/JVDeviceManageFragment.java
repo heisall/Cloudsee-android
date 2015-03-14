@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
+import com.jovision.activities.JVTabActivity.OnMainListener;
 import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
@@ -42,7 +43,7 @@ import com.jovision.utils.DeviceUtil;
 /**
  * 设备管理
  */
-public class JVDeviceManageFragment extends BaseFragment {
+public class JVDeviceManageFragment extends BaseFragment implements OnMainListener{
 
 	private String TAG = "JVDeviceManageFragment";
 
@@ -562,6 +563,12 @@ public class JVDeviceManageFragment extends BaseFragment {
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		fragHandler.sendMessage(fragHandler
 				.obtainMessage(what, arg1, arg2, obj));
+	}
+
+	@Override
+	public void onMainAction(int packet_type) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

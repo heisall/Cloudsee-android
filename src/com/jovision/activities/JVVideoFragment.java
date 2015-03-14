@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.activities.JVTabActivity.OnMainListener;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
@@ -35,7 +36,7 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
 import com.jovision.views.AlarmDialog;
 
-public class JVVideoFragment extends BaseFragment {
+public class JVVideoFragment extends BaseFragment implements OnMainListener{
 
 	private static final String TAG = "JVWebViewActivity";
 	private LinearLayout loadinglayout;
@@ -484,6 +485,12 @@ public class JVVideoFragment extends BaseFragment {
 		}
 		// fragHandler.sendMessage(fragHandler
 		// .obtainMessage(2000, 0, 0, null));
+	}
+
+	@Override
+	public void onMainAction(int packet_type) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

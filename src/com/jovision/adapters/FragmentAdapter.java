@@ -38,8 +38,7 @@ public class FragmentAdapter extends BaseAdapter {
 	private ImageView divider_img_up;
 
 	private int new_nums_;
-	
-	private boolean showGCS = false;
+	private int new_bbsnums_;
 
 	public FragmentAdapter(BaseFragment mfragment,
 			ArrayList<MoreFragmentBean> dataList,boolean showGCS) {
@@ -65,6 +64,10 @@ public class FragmentAdapter extends BaseAdapter {
 
 	public void setNewNums(int nums) {
 		this.new_nums_ = nums;
+	}
+	
+	public void setBBSNums(int nums) {
+		this.new_bbsnums_ = nums;
 	}
 
 	@Override
@@ -155,12 +158,6 @@ public class FragmentAdapter extends BaseAdapter {
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 12) {
-			if (!MySharedPreference.getBoolean(Consts.MORE_BBS)) {
-				tv_new_nums.setText(R.string.new_tag);
-				item_new.setVisibility(View.VISIBLE);
-			}
-		}
 		if ((position == 9 || position == 12)
 				&& Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
@@ -182,6 +179,19 @@ public class FragmentAdapter extends BaseAdapter {
 			if (!localFlag) {
 				if (new_nums_ > 0) {
 					tv_new_nums.setText(String.valueOf(new_nums_));
+					item_new.setVisibility(View.VISIBLE);
+				} else {
+					tv_new_nums.setText("0");
+					item_new.setVisibility(View.INVISIBLE);
+				}
+			} else {
+				item_new.setVisibility(View.INVISIBLE);
+			}
+		}
+		if (position == 12) {
+			if (!localFlag) {
+				if (new_bbsnums_ > 0) {
+					tv_new_nums.setText(String.valueOf(new_bbsnums_));
 					item_new.setVisibility(View.VISIBLE);
 				} else {
 					tv_new_nums.setText("0");

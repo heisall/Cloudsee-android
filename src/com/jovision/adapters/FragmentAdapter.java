@@ -39,20 +39,18 @@ public class FragmentAdapter extends BaseAdapter {
 
 	private int new_nums_;
 	private int new_bbsnums_;
-
-	private boolean showGCS = false;
+	
+	private boolean showGCS = false;//是否显示工程
 
 	public FragmentAdapter(BaseFragment mfragment,
-			ArrayList<MoreFragmentBean> dataList, boolean showGCS) {
+			ArrayList<MoreFragmentBean> dataList) {
 		this.mfragment = mfragment;
 		this.dataList = dataList;
-		this.showGCS = showGCS;
 	}
 
 	public void setShowGCS(boolean show) {
 		this.showGCS = show;
 	}
-
 	@Override
 	public int getCount() {
 		return dataList.size();
@@ -71,7 +69,7 @@ public class FragmentAdapter extends BaseAdapter {
 	public void setNewNums(int nums) {
 		this.new_nums_ = nums;
 	}
-
+	
 	public void setBBSNums(int nums) {
 		this.new_bbsnums_ = nums;
 	}
@@ -148,15 +146,14 @@ public class FragmentAdapter extends BaseAdapter {
 			}
 		}
 		if (position == 9) {
-			if (showGCS) {
-				if (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL)) {
+			if (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL)) {
+				if (showGCS) {
 					tv_new_nums.setText(R.string.new_tag);
 					item_new.setVisibility(View.VISIBLE);
+				}else {
+					item_new.setVisibility(View.GONE);
 				}
-			} else {
-				item_new.setVisibility(View.GONE);
 			}
-
 		}
 		if (position == 11) {
 			if (!MySharedPreference.getBoolean(Consts.MORE_STATURL)) {
@@ -167,14 +164,13 @@ public class FragmentAdapter extends BaseAdapter {
 		if ((position == 9 || position == 12)
 				&& Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
-			if (!showGCS && position == 9) {
+			if (position == 9 && !showGCS) {
 				more_item.setVisibility(View.GONE);
 				divider_img.setVisibility(View.GONE);
-			} else {
+			}else {
 				more_item.setVisibility(View.VISIBLE);
 				divider_img.setVisibility(View.VISIBLE);
 			}
-
 		} else if ((position == 9 || position == 12)
 				&& Consts.LANGUAGE_ZH != ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {

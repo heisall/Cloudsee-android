@@ -1,16 +1,16 @@
 package com.jovision.bean;
 
 public class WebUrl {
-	private String demoUrl;//(视频广场url)
-	private int demoSwitch;//(视频广场开关 0屏蔽 1开启)
-	private String custUrl;//(我要装监控url)
-	private int custSwitch;//(我要装监控开关 0屏蔽 1开启)
-	private String statUrl;//(云视通指数url)
-	private int statSwitch;//(云视通指数开关 0屏蔽 1开启)
-	private String bbsUrl;//(论坛url)
-	private int bbsSwitch;//(论坛开关 0屏蔽 1开启)
-	private String gcsUrl;//(我是工程商url)
-	private int gcsSwitch;//(我是工程商开关 0屏蔽 1开启)
+	private String demoUrl;// (视频广场url)
+	private int demoSwitch;// (视频广场开关 0屏蔽 1开启)
+	private String custUrl;// (我要装监控url)
+	private int custSwitch;// (我要装监控开关 0屏蔽 1开启)
+	private String statUrl;// (云视通指数url)
+	private int statSwitch;// (云视通指数开关 0屏蔽 1开启)
+	private String bbsUrl;// (论坛url)
+	private int bbsSwitch;// (论坛开关 0屏蔽 1开启)
+	private String gcsUrl;// (我是工程商url)
+	private int gcsSwitch;// (我是工程商开关 0屏蔽 1开启)
 
 	public String getDemoUrl() {
 		return demoUrl;
@@ -91,8 +91,5 @@ public class WebUrl {
 	public void setGcsUrl(String gcsUrl) {
 		this.gcsUrl = gcsUrl;
 	}
-
-
-	
 
 }

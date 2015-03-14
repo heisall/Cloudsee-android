@@ -33,14 +33,13 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 	protected Integer doInBackground(String... params) {
 		int getRes = -1;// 0成功 1失败
 		sid = params[0];
-		if (!Boolean
-				.valueOf(((BaseActivity) mContext).statusHashMap
-						.get(Consts.LOCAL_LOGIN))) {// 在线
+		if (!Boolean.valueOf(((BaseActivity) mContext).statusHashMap
+				.get(Consts.LOCAL_LOGIN))) {// 在线
 			sid = JVACCOUNT.GetSession();
-		}else{
+		} else {
 			sid = "";
 		}
-		
+
 		count = params[1];
 		fragmentString = params[2];
 		// demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);

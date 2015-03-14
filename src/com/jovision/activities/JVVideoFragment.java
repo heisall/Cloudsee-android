@@ -36,7 +36,7 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
 import com.jovision.views.AlarmDialog;
 
-public class JVVideoFragment extends BaseFragment implements OnMainListener{
+public class JVVideoFragment extends BaseFragment implements OnMainListener {
 
 	private static final String TAG = "JVWebViewActivity";
 	private LinearLayout loadinglayout;
@@ -490,7 +490,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener{
 	@Override
 	public void onMainAction(int packet_type) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

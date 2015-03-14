@@ -352,7 +352,7 @@ public class JVWebViewActivity extends BaseActivity {
 	 */
 	private void backMethod() {
 		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
-		try{
+		try {
 			if (webView.canGoBack()) {
 				if (null != titleStack) {
 					titleStack.pop();
@@ -364,10 +364,10 @@ public class JVWebViewActivity extends BaseActivity {
 			} else {
 				JVWebViewActivity.this.finish();
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override

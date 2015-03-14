@@ -43,7 +43,8 @@ import com.jovision.utils.DeviceUtil;
 /**
  * 设备管理
  */
-public class JVDeviceManageFragment extends BaseFragment implements OnMainListener{
+public class JVDeviceManageFragment extends BaseFragment implements
+		OnMainListener {
 
 	private String TAG = "JVDeviceManageFragment";
 
@@ -568,7 +569,7 @@ public class JVDeviceManageFragment extends BaseFragment implements OnMainListen
 	@Override
 	public void onMainAction(int packet_type) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

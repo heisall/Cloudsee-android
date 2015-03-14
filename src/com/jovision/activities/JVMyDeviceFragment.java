@@ -75,7 +75,7 @@ import com.tencent.stat.StatService;
 /**
  * 我的设备
  */
-public class JVMyDeviceFragment extends BaseFragment implements OnMainListener{
+public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 
 	private String TAG = "MyDeviceFragment";
 
@@ -2088,6 +2088,6 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener{
 	@Override
 	public void onMainAction(int packet_type) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -58,7 +58,7 @@ import com.tencent.stat.StatService;
 /**
  * 更多
  */
-public class JVMoreFragment extends BaseFragment implements OnMainListener{
+public class JVMoreFragment extends BaseFragment implements OnMainListener {
 	// Adapter 存储模块文字和图标
 	private ArrayList<MoreFragmentBean> dataList;
 	// 模块listView
@@ -220,7 +220,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener{
 		case Consts.NEW_BBS:
 			adapter.setBBSNums(arg1);
 			adapter.notifyDataSetChanged();
-//			mActivity.showTextToast("获得结果");
+			// mActivity.showTextToast("获得结果");
 			break;
 		}
 
@@ -343,6 +343,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener{
 		more_username.setText(more_name);
 		int alarm_new_nums = mApp.getNewPushCnt();
 		adapter.setNewNums(alarm_new_nums);
+		adapter.setShowGCS(showGCS);
 		adapter.notifyDataSetChanged();
 	}
 
@@ -777,11 +778,13 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener{
 							}
 							break;
 						case 12:
-//							if (!MySharedPreference.getBoolean(Consts.MORE_BBS)) {
-//								MySharedPreference.putBoolean(Consts.MORE_BBS,
-//										true);
-//								mListener.OnFuncEnabled(0, 1);
-//							}
+							// if
+							// (!MySharedPreference.getBoolean(Consts.MORE_BBS))
+							// {
+							// MySharedPreference.putBoolean(Consts.MORE_BBS,
+							// true);
+							// mListener.OnFuncEnabled(0, 1);
+							// }
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {
@@ -1200,6 +1203,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener{
 	@Override
 	public void onMainAction(int packet_type) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

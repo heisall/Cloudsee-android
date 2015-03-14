@@ -47,7 +47,7 @@ import com.jovision.utils.JSONUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVTabActivity extends ShakeActivity implements
-OnPageChangeListener,OnFuncActionListener{
+		OnPageChangeListener, OnFuncActionListener {
 	private static final String TAG = "JVTabActivity";
 	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
@@ -91,7 +91,6 @@ OnPageChangeListener,OnFuncActionListener{
 	JVFragmentIndicator mIndicator;
 	private MainApplication mApp;
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -120,8 +119,8 @@ OnPageChangeListener,OnFuncActionListener{
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-				| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// 开启logcat输出，方便debug，发布时请关闭
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
@@ -137,20 +136,20 @@ OnPageChangeListener,OnFuncActionListener{
 	}
 
 	// 绑定接口
-		@Override
-		public void onAttachFragment(Fragment fragment) {
-			try {
-				mainListener = (OnMainListener) fragment;
-			} catch (Exception e) {
-				throw new ClassCastException(this.toString()
-						+ " must implement OnMainListener");
-			}
-			super.onAttachFragment(fragment);
+	@Override
+	public void onAttachFragment(Fragment fragment) {
+		try {
+			mainListener = (OnMainListener) fragment;
+		} catch (Exception e) {
+			throw new ClassCastException(this.toString()
+					+ " must implement OnMainListener");
 		}
+		super.onAttachFragment(fragment);
+	}
 
-		public interface OnMainListener {
-			public void onMainAction(int count);
-		}
+	public interface OnMainListener {
+		public void onMainAction(int count);
+	}
 
 	@Override
 	protected void onDestroy() {
@@ -234,37 +233,34 @@ OnPageChangeListener,OnFuncActionListener{
 		countshow = 0;
 		MyLog.v(TAG, "onResume----E");
 		if (null != mIndicator) {
-			if (!Boolean.valueOf(statusHashMap
-					.get(Consts.LOCAL_LOGIN))) {
+			if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
 				int cnt = mApp.getNewPushCnt();
 				countshow = cnt;
 				Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
 			}
 			int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 			if (lan == Consts.LANGUAGE_ZH) {
-				if (!MySharedPreference
-						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+				if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
-				if((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+				if ((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
 					countshow = countshow + 1;
 				}
-				if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					countshow = countshow + 1;
 				}
 			} else {
-				if (!MySharedPreference
-						.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+				if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
-				if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					countshow = countshow + 1;
 				}
 			}
 			if (countshow > 0) {
-				mIndicator.updateIndicator(3, 0, true,countshow+countbbs);
-			}else {
-				mIndicator.updateIndicator(3, 0, false,countshow+countbbs);
+				mIndicator.updateIndicator(3, 0, true, countshow + countbbs);
+			} else {
+				mIndicator.updateIndicator(3, 0, false, countshow + countbbs);
 			}
 		}
 
@@ -276,8 +272,8 @@ OnPageChangeListener,OnFuncActionListener{
 			android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 			if (null != manager) {
 				getSupportFragmentManager().beginTransaction()
-				.replace(R.id.tab_fragment, mFragments[currentIndex])
-				.commit();
+						.replace(R.id.tab_fragment, mFragments[currentIndex])
+						.commit();
 			} else {
 				MyLog.e(TAG, "TAB_onresume_manager null" + currentIndex);
 				this.finish();
@@ -399,53 +395,55 @@ OnPageChangeListener,OnFuncActionListener{
 						obj);
 			}
 		}
-		break;
+			break;
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
 			countshow = 0;
 			if (null != mIndicator) {
-				if (!Boolean.valueOf(statusHashMap
-						.get(Consts.LOCAL_LOGIN))) {
+				if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
 					int cnt = mApp.getNewPushCnt();
 					countshow = cnt;
 				}
 				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 				if (lan == Consts.LANGUAGE_ZH) {
-					//					if (cnt > 0
-					//							|| !MySharedPreference
-					//									.getBoolean(Consts.MORE_SYSTEMMESSAGE)
-					//							|| (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
-					//							|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
-					//							|| (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
-					//						
-					//					}
+					// if (cnt > 0
+					// || !MySharedPreference
+					// .getBoolean(Consts.MORE_SYSTEMMESSAGE)
+					// || (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
+					// || (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
+					// || (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+					//
+					// }
 					if (!MySharedPreference
 							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 						countshow = countshow + 1;
 					}
-					if((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+					if ((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
 						countshow = countshow + 1;
 					}
-					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 						countshow = countshow + 1;
 					}
 				} else {
-					//					if (cnt > 0
-					//							|| !MySharedPreference
-					//									.getBoolean(Consts.MORE_SYSTEMMESSAGE)
-					//							|| (!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
-					//					}
+					// if (cnt > 0
+					// || !MySharedPreference
+					// .getBoolean(Consts.MORE_SYSTEMMESSAGE)
+					// || (!MySharedPreference.getBoolean(Consts.MORE_STATURL)))
+					// {
+					// }
 					if (!MySharedPreference
 							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 						countshow = countshow + 1;
 					}
-					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 						countshow = countshow + 1;
 					}
 				}
-				if (countshow > 0 ) {
-					mIndicator.updateIndicator(3, 0, true,countshow+countbbs);
-				}else {
-					mIndicator.updateIndicator(3, 0, false,countshow+countbbs);
+				if (countshow > 0) {
+					mIndicator
+							.updateIndicator(3, 0, true, countshow + countbbs);
+				} else {
+					mIndicator.updateIndicator(3, 0, false, countshow
+							+ countbbs);
 				}
 			}
 			break;
@@ -504,10 +502,10 @@ OnPageChangeListener,OnFuncActionListener{
 				if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
 					if (strRom.equals("V6")) {
 						new TPushTips(this)
-						.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
+								.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
 					} else {
 						new TPushTips(this)
-						.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+								.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
 					}
 				}
 
@@ -532,14 +530,14 @@ OnPageChangeListener,OnFuncActionListener{
 			public void onIndicate(View v, int which) {
 				try {
 					currentIndex = which;
-						getSupportFragmentManager().beginTransaction()
-						.replace(R.id.tab_fragment, mFragments[which])
-						.commit();
+					getSupportFragmentManager().beginTransaction()
+							.replace(R.id.tab_fragment, mFragments[which])
+							.commit();
 					switch (which) {
 					case 0:
 						if (!page2
 								&& !MySharedPreference
-								.getBoolean(Consts.MORE_PAGETWO)) {
+										.getBoolean(Consts.MORE_PAGETWO)) {
 							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 							ll_dot.setVisibility(View.GONE);
 							viewpager.setCurrentItem(0);
@@ -552,7 +550,7 @@ OnPageChangeListener,OnFuncActionListener{
 						} else {
 							if (MySharedPreference.getBoolean(Consts.MORE_HELP)
 									&& !MySharedPreference
-									.getBoolean(Consts.MORE_PAGETWO)) {
+											.getBoolean(Consts.MORE_PAGETWO)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.GONE);
 								viewpager.setCurrentItem(0);
@@ -578,7 +576,7 @@ OnPageChangeListener,OnFuncActionListener{
 						if (0 != myDeviceList.size()) {
 							if (!page1
 									&& !MySharedPreference
-									.getBoolean(Consts.MORE_PAGEONE)) {
+											.getBoolean(Consts.MORE_PAGEONE)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.VISIBLE);
 								viewpager.setCurrentItem(0);
@@ -592,7 +590,7 @@ OnPageChangeListener,OnFuncActionListener{
 								if (MySharedPreference
 										.getBoolean(Consts.MORE_HELP)
 										&& !MySharedPreference
-										.getBoolean(Consts.MORE_PAGEONE)) {
+												.getBoolean(Consts.MORE_PAGEONE)) {
 									ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 									ll_dot.setVisibility(View.VISIBLE);
 									viewpager.setCurrentItem(0);
@@ -627,7 +625,7 @@ OnPageChangeListener,OnFuncActionListener{
 		android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 		if (null != manager) {
 			manager.beginTransaction()
-			.replace(R.id.tab_fragment, mFragments[0]).commit();
+					.replace(R.id.tab_fragment, mFragments[0]).commit();
 		} else {
 			MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
 			this.finish();
@@ -652,7 +650,7 @@ OnPageChangeListener,OnFuncActionListener{
 
 			MyLog.v("notifyer",
 					((MainApplication) this.getApplication()).currentNotifyer
-					+ "");
+							+ "");
 			String notifer = ((MainApplication) this.getApplication()).currentNotifyer
 					+ "";
 			if (notifer.startsWith("JVMyDeviceFragment")) {
@@ -666,7 +664,7 @@ OnPageChangeListener,OnFuncActionListener{
 			} else if (notifer.startsWith("JVVideoFragment")) {
 				if (JVVideoFragment.webView.canGoBack()) {
 					((MainApplication) this.getApplication()).currentNotifyer
-					.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
+							.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
 				} else {
 					exit();
 				}
@@ -762,6 +760,7 @@ OnPageChangeListener,OnFuncActionListener{
 			broadTimerTask = null;
 		}
 	}
+
 	@Override
 	public void OnFuncEnabled(int func_index, int enabled) {
 		// TODO Auto-generated method stub
@@ -769,20 +768,20 @@ OnPageChangeListener,OnFuncActionListener{
 		case 0:
 			countshow = 0;
 			if (null != mIndicator) {
-				if (!Boolean.valueOf(statusHashMap
-						.get(Consts.LOCAL_LOGIN))) {
+				if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
 					int cnt = mApp.getNewPushCnt();
 					countshow = cnt;
 				}
 				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 				if (lan == Consts.LANGUAGE_ZH) {
-					if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 						countshow = countshow + 1;
 					}
-					if((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+					if ((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
 						countshow = countshow + 1;
 					}
-					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 						countshow = countshow + 1;
 					}
 				} else {
@@ -790,14 +789,16 @@ OnPageChangeListener,OnFuncActionListener{
 							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 						countshow = countshow + 1;
 					}
-					if((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 						countshow = countshow + 1;
 					}
 				}
 				if (countshow > 0) {
-					mIndicator.updateIndicator(3, 0, true,countshow+countbbs);
-				}else {
-					mIndicator.updateIndicator(3, 0, false,countshow+countbbs);
+					mIndicator
+							.updateIndicator(3, 0, true, countshow + countbbs);
+				} else {
+					mIndicator.updateIndicator(3, 0, false, countshow
+							+ countbbs);
 				}
 			}
 			break;
@@ -806,7 +807,7 @@ OnPageChangeListener,OnFuncActionListener{
 			break;
 		}
 	}
-	
+
 	@Override
 	public void OnFuncSelected(int func_index, String params) {
 		// TODO Auto-generated method stub
@@ -818,14 +819,16 @@ OnPageChangeListener,OnFuncActionListener{
 		@Override
 		protected Integer doInBackground(Integer... params) {
 			countbbs = 0;
-			String requestUrl =
-					"http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid="+JVACCOUNT.GetSession();
+			String requestUrl = "http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid="
+					+ JVACCOUNT.GetSession();
 			String result = JSONUtil.httpGet(requestUrl);
-			MyLog.e("BBS_notread", "request="+requestUrl+";result="+result);
-			//request=http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid=1dad46caaa92eb0ea59a4c348fd5de81;result={"msg":"ok","errCode":1,"data":[{"url":"","count":0}]}
+			MyLog.e("BBS_notread", "request=" + requestUrl + ";result="
+					+ result);
+			// request=http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid=1dad46caaa92eb0ea59a4c348fd5de81;result={"msg":"ok","errCode":1,"data":[{"url":"","count":0}]}
 			try {
 				JSONObject responseObject = new JSONObject(result);
-				JSONArray dataArray = new JSONArray(responseObject.optString("data"));
+				JSONArray dataArray = new JSONArray(
+						responseObject.optString("data"));
 
 				countbbs = dataArray.getJSONObject(0).optInt("count");
 			} catch (JSONException e) {
@@ -845,7 +848,7 @@ OnPageChangeListener,OnFuncActionListener{
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mainListener.onMainAction(result);
 			onNotify(Consts.NEW_BBS, result, 0, null);
-//			showTextToast("处置获得结果");
+			// showTextToast("处置获得结果");
 		}
 
 		@Override

@@ -202,9 +202,9 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener{
 			// more_bindmail.setVisibility(View.VISIBLE);
 			break;
 		case Consts.NEW_BBS:
-			adapter.setBBSNums(36);
+			adapter.setBBSNums(arg1);
 			adapter.notifyDataSetChanged();
-			mActivity.showTextToast("获得结果");
+//			mActivity.showTextToast("获得结果");
 			break;
 		}
 

@@ -779,13 +779,13 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 							}
 							break;
 						case 12:
-							// if
-							// (!MySharedPreference.getBoolean(Consts.MORE_BBS))
-							// {
-							// MySharedPreference.putBoolean(Consts.MORE_BBS,
-							// true);
-							// mListener.OnFuncEnabled(0, 1);
-							// }
+//							 if
+//							 (!MySharedPreference.getBoolean(Consts.MORE_BBS))
+//							 {
+//							 MySharedPreference.putBoolean(Consts.MORE_BBS,
+//							 true);
+//							 mListener.OnFuncEnabled(0, 1);
+//							 }
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {

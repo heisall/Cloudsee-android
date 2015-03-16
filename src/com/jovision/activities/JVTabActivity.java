@@ -848,7 +848,13 @@ public class JVTabActivity extends ShakeActivity implements
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mainListener.onMainAction(result);
 			onNotify(Consts.NEW_BBS, result, 0, null);
-			// showTextToast("处置获得结果");
+			if (countshow > 0) {
+				mIndicator
+						.updateIndicator(3, 0, true, countshow + result);
+			} else {
+				mIndicator.updateIndicator(3, 0, false, countshow
+						+ result);
+			}
 		}
 
 		@Override

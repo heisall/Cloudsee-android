@@ -110,6 +110,7 @@ public class JVVersionActivity extends BaseActivity {
 			String gtClientID = MySharedPreference
 					.getString(Consts.KEY_DEV_TOKEN);
 			configList.add("个推CID=" + gtClientID + "\n");
+			configList.add("OS MODEL=" + android.os.Build.MODEL + "\n");
 
 			if (ConfigUtil.ACCOUNT_VERSION.equalsIgnoreCase(JVACCOUNT
 					.GetVersion(0))

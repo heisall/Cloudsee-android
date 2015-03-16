@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.jovision.Consts;
 import com.jovision.commons.MyList;
+import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 
 /**
@@ -376,6 +377,10 @@ public class Device {
 					Device dev = fromJson(devArray.get(i).toString());
 					if (null != dev) {
 						devList.add(dev);
+						CacheUtil
+						.setNickNameWithYstfn(
+								dev.getFullNo(),
+								dev.getNickName());						
 					}
 				}
 			}

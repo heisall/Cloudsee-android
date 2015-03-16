@@ -126,6 +126,10 @@ public class JVTabActivity extends ShakeActivity implements
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
 			Log.d("GPush", "initializing sdk...");
 			PushManager.getInstance().initialize(this.getApplicationContext());
+			String userName = statusHashMap.get(Consts.KEY_USERNAME);
+			MySharedPreference.putString(Consts.KEY_USERNAME, userName);
+			mApp.initNewPushCnt(userName);	
+			Log.e("GPush", "android.os.Build.MODEL:"+android.os.Build.MODEL);
 		}
 		MyLog.v(TAG, "onCreate----X");
 	}
@@ -233,7 +237,7 @@ public class JVTabActivity extends ShakeActivity implements
 		countshow = 0;
 		MyLog.v(TAG, "onResume----E");
 		if (null != mIndicator) {
-			if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+			if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {				
 				int cnt = mApp.getNewPushCnt();
 				countshow = cnt;
 				Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
@@ -493,22 +497,29 @@ public class JVTabActivity extends ShakeActivity implements
 		// if(strModel.toUpperCase().substring(0, 1+1).equals("MI")){
 		// new TPushTips(this).showNoticeDialog();
 		// }
-		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
-			String strRom = ConfigUtil
-					.getSystemProperty("ro.miui.ui.version.name");
-			if (strRom == null || strRom.equals("")) {
-				// showTextToast("不是MIUI");
-			} else {
-				if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
-					if (strRom.equals("V6")) {
-						new TPushTips(this)
-								.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
-					} else {
-						new TPushTips(this)
-								.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {		
+			String model = android.os.Build.MODEL;
+			Log.e("OS", "model:"+model);
+			if(model.startsWith("MI") || model.startsWith("HM")){//对于刷机的手机好像有影响
+				String strRom = ConfigUtil
+						.getSystemProperty("ro.miui.ui.version.name");
+				if (strRom == null || strRom.equals("")) {
+					// showTextToast("不是MIUI");
+				} else {
+					if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
+						if (strRom.equals("V6")) {
+							new TPushTips(this)
+									.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
+						} else {
+							new TPushTips(this)
+									.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+						}
 					}
-				}
 
+				}				
+			}
+			else{
+				Log.e("OS","不是小米或者红米系列");
 			}
 		}
 		mFragments[0] = new JVMyDeviceFragment();

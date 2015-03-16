@@ -199,9 +199,7 @@ public class FragmentAdapter extends BaseAdapter {
 					tv_new_nums.setText("0");
 					item_new.setVisibility(View.INVISIBLE);
 				}
-			} else {
-				item_new.setVisibility(View.INVISIBLE);
-			}
+		}
 		// if (position == 15
 		// && "true".equalsIgnoreCase(((BaseActivity) mfragment
 		// .getActivity()).statusHashMap

@@ -92,7 +92,7 @@ public class JVRemoteListActivity extends BaseActivity {
 				File downFile = new File(downLoadPath);
 				MobileUtil.createDirectory(downFile);
 
-				Jni.setDownloadFileName(downFileFullName);
+				Jni.setDownloadFileName(downFileFullName);// 下载之前必须先调用此方法设置文件名
 
 				Jni.sendBytes(indexOfChannel,
 						(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP, new byte[0], 8);
@@ -127,13 +127,14 @@ public class JVRemoteListActivity extends BaseActivity {
 										// SD卡空间不足
 										showTextToast(R.string.str_sdcard_notenough);
 										downloading = false;
-										File downFile = new File(
-												downFileFullName);
-										downFile.delete();
+										// File downFile = new File(
+										// downFileFullName);
+										// downFile.delete();
 										Jni.sendBytes(
 												indexOfChannel,
 												(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
 												new byte[0], 8);
+										Jni.cancelDownload();
 										downloadDialog.dismiss();
 										break;
 									}
@@ -354,6 +355,7 @@ public class JVRemoteListActivity extends BaseActivity {
 					Jni.sendBytes(indexOfChannel,
 							(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
 							new byte[0], 8);
+					// Jni.cancelDownload();
 				} else {
 					JVRemoteListActivity.this.finish();
 				}
@@ -462,13 +464,14 @@ public class JVRemoteListActivity extends BaseActivity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							downloading = false;
-							File downFile = new File(downFileFullName);
-							downFile.delete();
+							// File downFile = new File(downFileFullName);
+							// downFile.delete();
 							MyLog.e(TAG, "Cancel Download");
 							// TODO 取消下载
 							Jni.sendBytes(indexOfChannel,
 									(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
 									new byte[0], 8);
+							Jni.cancelDownload();
 							dialog.dismiss();
 						}
 					});

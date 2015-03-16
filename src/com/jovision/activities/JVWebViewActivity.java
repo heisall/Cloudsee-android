@@ -356,7 +356,7 @@ public class JVWebViewActivity extends BaseActivity {
 		Log.i("TAG","返回显示"+webView.canGoBack());
 		try {
 			if (webView.canGoBack()) {
-				if (null != titleStack) {
+				if (null != titleStack && 0 != titleStack.size()) {
 					titleStack.pop();
 					String lastTitle = titleStack.peek();
 					currentMenu.setText(lastTitle);

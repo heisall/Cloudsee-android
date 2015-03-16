@@ -2951,7 +2951,7 @@ public class JVPlayActivity extends PlayActivity implements
 					voiceCallSelected(false);
 					horfunc_talk.setVisibility(View.GONE);
 					ishonfunctalk = false;
-					talkMothed();
+					talkMethod();
 				}
 				break;
 			case R.id.funclayout:// AP功能列表对讲功能
@@ -2959,7 +2959,7 @@ public class JVPlayActivity extends PlayActivity implements
 				voiceCall(channel);
 				if (istalk) {
 					istalk = false;
-					talkMothed();
+					talkMethod();
 					voiceCallSelected(false);
 					function.setVisibility(View.VISIBLE);
 					talk_eachother.setVisibility(View.GONE);
@@ -2967,7 +2967,7 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.talk_cancel:
 				voiceCall(channel);
-				talkMothed();
+				talkMethod();
 				voiceCallSelected(false);
 				function.setVisibility(View.VISIBLE);
 				talk_eachother.setVisibility(View.GONE);
@@ -4470,11 +4470,13 @@ public class JVPlayActivity extends PlayActivity implements
 	// }
 	//
 	// };
+	
 	/*
-	 * 
+	 *  2015-03-16
+	 * // 单向对讲方法
 	 * */
-	private void talkMothed() {
-		if (channelList.get(lastClickIndex).isSingleVoice() && VOICECALLING) {// 单向对讲
+	private void talkMethod() {
+		if (channelList.get(lastClickIndex).isSingleVoice() && VOICECALLING) {
 			handler.sendMessage(handler.obtainMessage(Consts.STOP_AUDIO_GATHER));
 			new TalkThread(lastClickIndex, 0).start();
 			VOICECALL_LONG_CLICK = false;
@@ -4498,7 +4500,7 @@ public class JVPlayActivity extends PlayActivity implements
 					talk_img.setVisibility(View.GONE);
 				}
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					talkMothed();
+					talkMethod();
 					talk_img_down.setVisibility(View.GONE);
 					talk_img.setVisibility(View.VISIBLE);
 				}
@@ -4510,7 +4512,7 @@ public class JVPlayActivity extends PlayActivity implements
 					horfunc_talk_normal.setVisibility(View.GONE);
 				}
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					talkMothed();
+					talkMethod();
 					horfunc_talk_down.setVisibility(View.GONE);
 					horfunc_talk_normal.setVisibility(View.VISIBLE);
 				}

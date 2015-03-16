@@ -114,8 +114,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		MySharedPreference.init(this);
 		MySharedPreference.putString(Consts.CHECK_ALARM_KEY, "");
 
-		new_push_msg_cnt = MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
-		Log.e("TPush", "new_push_msg_cnt init:" + new_push_msg_cnt);
+//		new_push_msg_cnt = MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
+//		Log.e("TPush", "new_push_msg_cnt init:" + new_push_msg_cnt);
 		bAlarmConnectedFlag = false;
 		markedAlarmList = ((MainApplication) getApplicationContext())
 				.getMarkedAlarmList();
@@ -158,18 +158,29 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		ImageLoader.getInstance().init(config);
 	}
 
+	public synchronized void initNewPushCnt(String strAccount){
+		String key = Consts.NEW_PUSH_CNT_KEY+"_"+strAccount;
+		new_push_msg_cnt = MySharedPreference.getInt(key);
+		Log.e("GPush", "new_push_msg_cnt init:" + new_push_msg_cnt+",key:"+key);
+	}
 	public int getNewPushCnt() {
 		return new_push_msg_cnt;
 	}
 
 	public synchronized void setNewPushCnt(int cnt) {
 		new_push_msg_cnt = cnt;
-		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, cnt);
+		String strAccount = MySharedPreference.getString(Consts.KEY_USERNAME);
+		String key = Consts.NEW_PUSH_CNT_KEY+"_"+strAccount;
+		Log.e("GPush", "setNewPushCnt set:" + cnt+",key:"+key);
+		MySharedPreference.putInt(key, cnt);
 	}
 
 	public synchronized void add1NewPushCnt() {
 		new_push_msg_cnt++;
-		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, new_push_msg_cnt);
+		String strAccount = MySharedPreference.getString(Consts.KEY_USERNAME);
+		String key = Consts.NEW_PUSH_CNT_KEY+"_"+strAccount;
+		Log.e("GPush", "add1NewPushCnt new_push_msg_cnt:" + new_push_msg_cnt+",key:"+key);
+		MySharedPreference.putInt(key, new_push_msg_cnt);
 	}
 
 	/**
@@ -427,16 +438,40 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 							// BaseApp.getNikeName(pi.ystNum);
 							pi.alarmType = obj
 									.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
-							if (pi.alarmType == 7 || pi.alarmType == 4) {
-								pi.deviceNickName = obj
+//							if (pi.alarmType == 7 || pi.alarmType == 4) {
+//								pi.deviceNickName = obj
+//										.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+//							} else if (pi.alarmType == 11)// 第三方
+//							{
+//								pi.deviceNickName = obj
+//										.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+//							} else {
+//
+//							}
+							
+							String deviceNickName = CacheUtil
+									.getNickNameByYstfn(pi.ystNum);
+							if (deviceNickName == null || deviceNickName.equals("")) {
+								//deviceNickName = pi.deviceNickName;
+								if (pi.alarmType == 7 || pi.alarmType == 4) {
+									deviceNickName = obj
 										.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
-							} else if (pi.alarmType == 11)// 第三方
-							{
-								pi.deviceNickName = obj
+								} else if (pi.alarmType == 11)// 第三方
+								{
+									deviceNickName = obj
 										.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
-							} else {
+								} else {
 
+								}								
+							} else {
+								if (pi.alarmType == 11)// 第三方
+								{
+									deviceNickName = deviceNickName+"-"+obj
+											.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+								}
 							}
+							pi.deviceNickName = deviceNickName;
+							
 							String strTempTime = "";
 							strTempTime = obj
 									.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME_STR);

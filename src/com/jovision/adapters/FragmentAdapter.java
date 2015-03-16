@@ -39,8 +39,8 @@ public class FragmentAdapter extends BaseAdapter {
 
 	private int new_nums_;
 	private int new_bbsnums_;
-	
-	private boolean showGCS = false;//是否显示工程
+
+	private boolean showGCS = false;// 是否显示工程
 
 	public FragmentAdapter(BaseFragment mfragment,
 			ArrayList<MoreFragmentBean> dataList) {
@@ -51,6 +51,7 @@ public class FragmentAdapter extends BaseAdapter {
 	public void setShowGCS(boolean show) {
 		this.showGCS = show;
 	}
+
 	@Override
 	public int getCount() {
 		return dataList.size();
@@ -69,7 +70,7 @@ public class FragmentAdapter extends BaseAdapter {
 	public void setNewNums(int nums) {
 		this.new_nums_ = nums;
 	}
-	
+
 	public void setBBSNums(int nums) {
 		this.new_bbsnums_ = nums;
 	}
@@ -146,11 +147,11 @@ public class FragmentAdapter extends BaseAdapter {
 			}
 		}
 		if (position == 9) {
-			if (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL)) {
+			if (!MySharedPreference.getBoolean(Consts.MORE_GCSURL)) {
 				if (showGCS) {
 					tv_new_nums.setText(R.string.new_tag);
 					item_new.setVisibility(View.VISIBLE);
-				}else {
+				} else {
 					item_new.setVisibility(View.GONE);
 				}
 			}
@@ -167,7 +168,7 @@ public class FragmentAdapter extends BaseAdapter {
 			if (position == 9 && !showGCS) {
 				more_item.setVisibility(View.GONE);
 				divider_img.setVisibility(View.GONE);
-			}else {
+			} else {
 				more_item.setVisibility(View.VISIBLE);
 				divider_img.setVisibility(View.VISIBLE);
 			}

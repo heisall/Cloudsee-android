@@ -97,8 +97,8 @@ public class JVVersionActivity extends BaseActivity {
 
 			configList.add(" URL=null时点击一下对应的功能即可出现URL\n");
 			configList.add("视频广场 URL=" + statusHashMap.get("DEMOURL") + "\n");
-			configList.add("我要装监控 URL="
-					+ statusHashMap.get(Consts.MORE_CUSTURL) + "\n");
+			configList.add("工程商入驻 URL=" + statusHashMap.get(Consts.MORE_GCSURL)
+					+ "\n");
 			configList.add("云视通指数 URL="
 					+ statusHashMap.get(Consts.MORE_STATURL) + "\n\n");
 

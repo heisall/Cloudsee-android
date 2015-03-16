@@ -313,13 +313,13 @@ public class Consts {
 	public static final String MORE_LITTLE = "LITTLE"; // 关于
 	public static final String MORE_SYSTEMMESSAGE = "SystemMessage"; // 系统消息
 	public static final String MORE_DEMOURL = "DEMOURL"; // 视频广场
-	public static final String MORE_CUSTURL = "CUSTURL"; // 我要装监控
+	// public static final String MORE_CUSTURL = "CUSTURL"; // 我要装监控
 	public static final String MORE_STATURL = "STATURL"; // 云视通指数
 	public static final String MORE_BBS = "BBSURL"; // 论坛
 	public static final String MORE_GCSURL = "CUSTURL"; // 工程商入住
 
 	public static final String MORE_DEMO_SWITCH = "DEMO_SWITCH"; // 视频广场开关
-	public static final String MORE_CUST_SWITCH = "CUST_SWITCH"; // 我要装监控开关
+	// public static final String MORE_CUST_SWITCH = "CUST_SWITCH"; // 我要装监控开关
 	public static final String MORE_STAT_SWITCH = "STAT_SWITCH"; // 云视通指数开关
 	public static final String MORE_BBS_SWITCH = "BBS_SWITCH"; // 论坛开关
 	public static final String MORE_GCS_SWITCH = "STAT_SWITCH"; // 工程商入住开关

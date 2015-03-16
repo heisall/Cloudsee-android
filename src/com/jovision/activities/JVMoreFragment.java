@@ -174,8 +174,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 		mActivity = (BaseActivity) getActivity();
 
 		// 判断是否显示工程商
-		String showGcsStr = mActivity.statusHashMap
-				.get(Consts.MORE_CUST_SWITCH);
+		String showGcsStr = mActivity.statusHashMap.get(Consts.MORE_GCS_SWITCH);
 		if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
 			if (1 == Integer.parseInt(showGcsStr)) {
 				showGCS = true;
@@ -344,8 +343,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 		adapter.setNewNums(alarm_new_nums);
 		adapter.setShowGCS(showGCS);
 		adapter.notifyDataSetChanged();
-		ListViewUtil
-		.setListViewHeightBasedOnChildren(more_listView);
+		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
 	}
 
 	private void initDatalist() {
@@ -694,21 +692,21 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 
 							break;
 
-						case 9: // 我要装监控
+						case 9: // 2015.3.16 我要装监控改为工程商入驻
 							if (!showGCS) {
 								break;
 							}
 							if (!MySharedPreference
-									.getBoolean(Consts.MORE_CUSTURL)) {
+									.getBoolean(Consts.MORE_GCSURL)) {
 								MySharedPreference.putBoolean(
-										Consts.MORE_CUSTURL, true);
+										Consts.MORE_GCSURL, true);
 								mListener.OnFuncEnabled(0, 1);
 							}
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {
 								if (null != ((BaseActivity) mActivity).statusHashMap
-										.get(Consts.MORE_CUSTURL)) {
+										.get(Consts.MORE_GCSURL)) {
 									Intent intentAD0 = new Intent(mActivity,
 											JVWebViewActivity.class);
 									intentAD0
@@ -1116,7 +1114,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 			((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_BBS, null);
 			((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_STATURL,
 					null);
-			((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_CUSTURL,
+			((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_GCSURL,
 					null);
 			((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_DEMOURL,
 					null);

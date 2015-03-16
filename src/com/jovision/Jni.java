@@ -235,6 +235,12 @@ public class Jni {
 	public static native String getDownloadFileName();
 
 	/**
+	 * 取消下载，删除正在下载的文件
+	 * 
+	 */
+	public static native void cancelDownload();
+
+	/**
 	 * 暂停底层显示
 	 * 
 	 * @param window

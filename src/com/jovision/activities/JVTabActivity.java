@@ -243,7 +243,7 @@ public class JVTabActivity extends ShakeActivity implements
 				if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 					countshow = countshow + 1;
 				}
-				if ((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+				if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
 					countshow = countshow + 1;
 				}
 				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
@@ -417,7 +417,7 @@ public class JVTabActivity extends ShakeActivity implements
 							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 						countshow = countshow + 1;
 					}
-					if ((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
 						countshow = countshow + 1;
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
@@ -778,7 +778,7 @@ public class JVTabActivity extends ShakeActivity implements
 							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 						countshow = countshow + 1;
 					}
-					if ((!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))) {
+					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
 						countshow = countshow + 1;
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {

@@ -79,9 +79,9 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				lan = "en_us";
 			}
 
-			if (null != webUrl.getGcsUrl()) {
+			if (null != webUrl.getGcsUrl()) {// 获取工程商开关
 				((BaseActivity) mContext).statusHashMap.put(
-						Consts.MORE_CUST_SWITCH,
+						Consts.MORE_GCS_SWITCH,
 						String.valueOf(webUrl.getGcsSwitch()));
 			}
 
@@ -95,7 +95,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					// + "?" + "&lang=" + lan + "&d="
 					// + System.currentTimeMillis();
 					((BaseActivity) mContext).statusHashMap.put(
-							Consts.MORE_CUSTURL, custurl);
+							Consts.MORE_GCSURL, custurl);
 					Log.i("TAG", custurl);
 					intentAD0.putExtra("URL", custurl);
 					intentAD0.putExtra("title", -2);

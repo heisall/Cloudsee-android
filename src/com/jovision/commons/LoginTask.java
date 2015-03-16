@@ -56,10 +56,16 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 							+ statusHashMap.get(Consts.KEY_PASSWORD));
 
 			String strRes = "";
+
+			int needOnline = 0;// 1:起心跳 0：不需要起心跳
+
+			if (firstLogin) {
+				needOnline = 1; // 第一次登陆需要起心跳
+			}
 			strRes = AccountUtil.onLoginProcessV2(mContext,
 					statusHashMap.get(Consts.KEY_USERNAME),
 					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,
-					Url.LONGSERVERIP, 0);
+					Url.LONGSERVERIP, needOnline);
 			JSONObject respObj = null;
 			try {
 				respObj = new JSONObject(strRes);

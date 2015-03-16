@@ -192,7 +192,6 @@ public class FragmentAdapter extends BaseAdapter {
 			}
 		}
 		if (position == 12) {
-			if (!localFlag) {
 				if (new_bbsnums_ > 0) {
 					tv_new_nums.setText(String.valueOf(new_bbsnums_));
 					item_new.setVisibility(View.VISIBLE);
@@ -200,9 +199,6 @@ public class FragmentAdapter extends BaseAdapter {
 					tv_new_nums.setText("0");
 					item_new.setVisibility(View.INVISIBLE);
 				}
-			} else {
-				item_new.setVisibility(View.INVISIBLE);
-			}
 		}
 		// if (position == 15
 		// && "true".equalsIgnoreCase(((BaseActivity) mfragment

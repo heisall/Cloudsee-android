@@ -47,7 +47,7 @@ import com.jovision.utils.JSONUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVTabActivity extends ShakeActivity implements
-		OnPageChangeListener, OnFuncActionListener {
+OnPageChangeListener, OnFuncActionListener {
 	private static final String TAG = "JVTabActivity";
 	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
@@ -119,8 +119,8 @@ public class JVTabActivity extends ShakeActivity implements
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+				| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// 开启logcat输出，方便debug，发布时请关闭
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
@@ -232,8 +232,10 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-		GetnoMessageTask task = new GetnoMessageTask();
-		task.execute();
+		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(JVTabActivity.this)) {
+			GetnoMessageTask task = new GetnoMessageTask();
+			task.execute();
+		}
 		countshow = 0;
 		MyLog.v(TAG, "onResume----E");
 		if (null != mIndicator) {
@@ -276,8 +278,8 @@ public class JVTabActivity extends ShakeActivity implements
 			android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 			if (null != manager) {
 				getSupportFragmentManager().beginTransaction()
-						.replace(R.id.tab_fragment, mFragments[currentIndex])
-						.commit();
+				.replace(R.id.tab_fragment, mFragments[currentIndex])
+				.commit();
 			} else {
 				MyLog.e(TAG, "TAB_onresume_manager null" + currentIndex);
 				this.finish();
@@ -399,7 +401,7 @@ public class JVTabActivity extends ShakeActivity implements
 						obj);
 			}
 		}
-			break;
+		break;
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
 			countshow = 0;
 			if (null != mIndicator) {
@@ -444,7 +446,7 @@ public class JVTabActivity extends ShakeActivity implements
 				}
 				if (countshow > 0) {
 					mIndicator
-							.updateIndicator(3, 0, true, countshow + countbbs);
+					.updateIndicator(3, 0, true, countshow + countbbs);
 				} else {
 					mIndicator.updateIndicator(3, 0, false, countshow
 							+ countbbs);
@@ -542,13 +544,13 @@ public class JVTabActivity extends ShakeActivity implements
 				try {
 					currentIndex = which;
 					getSupportFragmentManager().beginTransaction()
-							.replace(R.id.tab_fragment, mFragments[which])
-							.commit();
+					.replace(R.id.tab_fragment, mFragments[which])
+					.commit();
 					switch (which) {
 					case 0:
 						if (!page2
 								&& !MySharedPreference
-										.getBoolean(Consts.MORE_PAGETWO)) {
+								.getBoolean(Consts.MORE_PAGETWO)) {
 							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 							ll_dot.setVisibility(View.GONE);
 							viewpager.setCurrentItem(0);
@@ -561,7 +563,7 @@ public class JVTabActivity extends ShakeActivity implements
 						} else {
 							if (MySharedPreference.getBoolean(Consts.MORE_HELP)
 									&& !MySharedPreference
-											.getBoolean(Consts.MORE_PAGETWO)) {
+									.getBoolean(Consts.MORE_PAGETWO)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.GONE);
 								viewpager.setCurrentItem(0);
@@ -587,7 +589,7 @@ public class JVTabActivity extends ShakeActivity implements
 						if (0 != myDeviceList.size()) {
 							if (!page1
 									&& !MySharedPreference
-											.getBoolean(Consts.MORE_PAGEONE)) {
+									.getBoolean(Consts.MORE_PAGEONE)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.VISIBLE);
 								viewpager.setCurrentItem(0);
@@ -601,7 +603,7 @@ public class JVTabActivity extends ShakeActivity implements
 								if (MySharedPreference
 										.getBoolean(Consts.MORE_HELP)
 										&& !MySharedPreference
-												.getBoolean(Consts.MORE_PAGEONE)) {
+										.getBoolean(Consts.MORE_PAGEONE)) {
 									ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 									ll_dot.setVisibility(View.VISIBLE);
 									viewpager.setCurrentItem(0);
@@ -617,8 +619,10 @@ public class JVTabActivity extends ShakeActivity implements
 						}
 						break;
 					case 3:
-						GetnoMessageTask task = new GetnoMessageTask();
-						task.execute();
+						if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(JVTabActivity.this)) {
+							GetnoMessageTask task = new GetnoMessageTask();
+							task.execute();
+						}
 						break;
 					default:
 						break;
@@ -636,7 +640,7 @@ public class JVTabActivity extends ShakeActivity implements
 		android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 		if (null != manager) {
 			manager.beginTransaction()
-					.replace(R.id.tab_fragment, mFragments[0]).commit();
+			.replace(R.id.tab_fragment, mFragments[0]).commit();
 		} else {
 			MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
 			this.finish();
@@ -661,7 +665,7 @@ public class JVTabActivity extends ShakeActivity implements
 
 			MyLog.v("notifyer",
 					((MainApplication) this.getApplication()).currentNotifyer
-							+ "");
+					+ "");
 			String notifer = ((MainApplication) this.getApplication()).currentNotifyer
 					+ "";
 			if (notifer.startsWith("JVMyDeviceFragment")) {
@@ -675,7 +679,7 @@ public class JVTabActivity extends ShakeActivity implements
 			} else if (notifer.startsWith("JVVideoFragment")) {
 				if (JVVideoFragment.webView.canGoBack()) {
 					((MainApplication) this.getApplication()).currentNotifyer
-							.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
+					.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
 				} else {
 					exit();
 				}
@@ -806,7 +810,7 @@ public class JVTabActivity extends ShakeActivity implements
 				}
 				if (countshow > 0) {
 					mIndicator
-							.updateIndicator(3, 0, true, countshow + countbbs);
+					.updateIndicator(3, 0, true, countshow + countbbs);
 				} else {
 					mIndicator.updateIndicator(3, 0, false, countshow
 							+ countbbs);
@@ -859,7 +863,13 @@ public class JVTabActivity extends ShakeActivity implements
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mainListener.onMainAction(result);
 			onNotify(Consts.NEW_BBS, result, 0, null);
-			// showTextToast("处置获得结果");
+			if (countshow > 0) {
+				mIndicator
+				.updateIndicator(3, 0, true, countshow + result);
+			} else {
+				mIndicator.updateIndicator(3, 0, false, countshow
+						+ result);
+			}
 		}
 
 		@Override

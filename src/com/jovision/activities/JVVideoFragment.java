@@ -64,7 +64,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 		switch (what) {
 		case Consts.TAB_WEBVIEW_BACK: {// tab点击返回
 			try {
-				if (null != titleStack) {
+				if (null != titleStack && 0 != titleStack.size()) {
 					titleStack.pop();
 					String lastTitle = titleStack.peek();
 					currentMenu.setText(lastTitle);
@@ -75,6 +75,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 			}
 			break;
 		}
+		
 		case Consts.WHAT_DEMO_URL_SUCCESS: {
 			mActivity.dismissDialog();
 			HashMap<String, String> paramMap = (HashMap<String, String>) obj;
@@ -197,6 +198,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 		rightBtn = (Button) rootView.findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
 		webView = (WebView) rootView.findViewById(R.id.findpasswebview);
+		
 
 		WebChromeClient wvcc = new WebChromeClient() {
 			@Override
@@ -349,7 +351,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 					.get(Consts.HAS_LOAD_DEMO));
 		}
 		if (hasLoad && ConfigUtil.isConnected(mActivity)) {
-			webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
+			webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK );
 		} else {
 			loadinglayout.setVisibility(View.VISIBLE);
 			webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);

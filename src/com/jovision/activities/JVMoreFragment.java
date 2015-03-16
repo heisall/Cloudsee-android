@@ -777,13 +777,13 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 							}
 							break;
 						case 12:
-							// if
-							// (!MySharedPreference.getBoolean(Consts.MORE_BBS))
-							// {
-							// MySharedPreference.putBoolean(Consts.MORE_BBS,
-							// true);
-							// mListener.OnFuncEnabled(0, 1);
-							// }
+//							 if
+//							 (!MySharedPreference.getBoolean(Consts.MORE_BBS))
+//							 {
+//							 MySharedPreference.putBoolean(Consts.MORE_BBS,
+//							 true);
+//							 mListener.OnFuncEnabled(0, 1);
+//							 }
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {
@@ -791,8 +791,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 										.get(Consts.MORE_BBS)) {
 									Intent intentAD0 = new Intent(mActivity,
 											JVWebViewActivity.class);
-									adapter.setBBSNums(0);
-									adapter.notifyDataSetChanged();
 									intentAD0
 											.putExtra(
 													"URL",

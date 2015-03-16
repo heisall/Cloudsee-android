@@ -4470,11 +4470,10 @@ public class JVPlayActivity extends PlayActivity implements
 	// }
 	//
 	// };
-	
+
 	/*
-	 *  2015-03-16
-	 * // 单向对讲方法
-	 * */
+	 * 2015-03-16 // 单向对讲方法
+	 */
 	private void talkMethod() {
 		if (channelList.get(lastClickIndex).isSingleVoice() && VOICECALLING) {
 			handler.sendMessage(handler.obtainMessage(Consts.STOP_AUDIO_GATHER));

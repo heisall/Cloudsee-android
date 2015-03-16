@@ -73,7 +73,7 @@
     <string name="cloud2">通天下</string>
     <!-- JVLoginActivity -->
     <!-- JVRebindEmialorPhone -->
-    <string name="nicknamechose">选填</string>
+    <string name="nicknamechose">選填</string>
     <string name="rebindcontact">修改綁定</string>
     <string name="rebindcontactphone">修改綁定手機號</string>
     <string name="rebindcontactemail">修改綁定郵箱</string>
@@ -324,8 +324,8 @@
     <string name="str_user_setting">口令設置</string>
     <string name="str_remote_setting">遠程設置</string>
     <string name="str_connect_mode">連接模式</string>
-    <string name="str_connect_tcp">开启TCP连接</string>
-    <string name="str_connect_tcpdescri">启用TCP连接</string>
+    <string name="str_connect_tcp">開啟TCP連接</string>
+    <string name="str_connect_tcpdescri">開啟TCP連接</string>
     <string name="str_ip_connect">域名/IP</string>
     <string name="str_data_not_compare">本地數據與伺服器數據不一致，是否同步數據?</string>
     <string name="str_uploading">正在上傳…</string>
@@ -418,12 +418,12 @@
     <string name="updated_just_now">剛剛更新</string>
     <string name="time_error">時間有問題</string>
     <!-- JVRebandContact -->
-    <string name="rebandmodify">更换</string>
-    <string name="rebandphone">手机号 </string>
-    <string name="rebandemail">邮箱 </string>
-    <string name="rebandhand">头像</string>
-    <string name="rebandtips">昵称仅能修改一次.</string>
-    <string name="rebandnotexit"> 请点击获取验证码</string>
+    <string name="rebandmodify">更換</string>
+    <string name="rebandphone">手機號 </string>
+    <string name="rebandemail">郵箱 </string>
+    <string name="rebandhand">頭像</string>
+    <string name="rebandtips">昵稱僅能修改壹次.</string>
+    <string name="rebandnotexit"> 請點擊獲取驗證碼</string>
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">已選中?個，</string>
     <string name="number">共?個</string>

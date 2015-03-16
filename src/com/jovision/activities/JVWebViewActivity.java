@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -352,14 +353,14 @@ public class JVWebViewActivity extends BaseActivity {
 	 */
 	private void backMethod() {
 		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
+		Log.i("TAG","返回显示"+webView.canGoBack());
 		try {
 			if (webView.canGoBack()) {
-				if (null != titleStack) {
+				if (null != titleStack && 0 != titleStack.size()) {
 					titleStack.pop();
 					String lastTitle = titleStack.peek();
 					currentMenu.setText(lastTitle);
 				}
-
 				webView.goBack(); // goBack()表示返回WebView的上一页面
 			} else {
 				JVWebViewActivity.this.finish();

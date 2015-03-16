@@ -259,7 +259,7 @@ OnPageChangeListener, OnFuncActionListener {
 					countshow = countshow + 1;
 				}
 			}
-			if (countshow > 0) {
+			if (countshow+ countbbs > 0) {
 				mIndicator.updateIndicator(3, 0, true, countshow + countbbs);
 			} else {
 				mIndicator.updateIndicator(3, 0, false, countshow + countbbs);
@@ -440,7 +440,7 @@ OnPageChangeListener, OnFuncActionListener {
 						countshow = countshow + 1;
 					}
 				}
-				if (countshow > 0) {
+				if (countshow+ countbbs > 0) {
 					mIndicator
 					.updateIndicator(3, 0, true, countshow + countbbs);
 				} else {
@@ -852,7 +852,7 @@ OnPageChangeListener, OnFuncActionListener {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mainListener.onMainAction(result);
 			onNotify(Consts.NEW_BBS, result, 0, null);
-			if (countshow > 0) {
+			if (countshow+ result > 0) {
 				mIndicator
 				.updateIndicator(3, 0, true, countshow + result);
 			} else {

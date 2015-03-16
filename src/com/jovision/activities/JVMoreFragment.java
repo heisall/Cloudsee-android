@@ -791,8 +791,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 										.get(Consts.MORE_BBS)) {
 									Intent intentAD0 = new Intent(mActivity,
 											JVWebViewActivity.class);
-									adapter.setBBSNums(0);
-									adapter.notifyDataSetChanged();
 									intentAD0
 											.putExtra(
 													"URL",

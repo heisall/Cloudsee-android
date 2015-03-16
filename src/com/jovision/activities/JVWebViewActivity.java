@@ -354,7 +354,7 @@ public class JVWebViewActivity extends BaseActivity {
 		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
 		try {
 			if (webView.canGoBack()) {
-				if (null != titleStack) {
+				if (null != titleStack && 0 != titleStack.size()) {
 					titleStack.pop();
 					String lastTitle = titleStack.peek();
 					currentMenu.setText(lastTitle);

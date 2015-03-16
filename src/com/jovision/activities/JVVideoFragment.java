@@ -64,7 +64,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 		switch (what) {
 		case Consts.TAB_WEBVIEW_BACK: {// tab点击返回
 			try {
-				if (null != titleStack) {
+				if (null != titleStack && 0 != titleStack.size()) {
 					titleStack.pop();
 					String lastTitle = titleStack.peek();
 					currentMenu.setText(lastTitle);

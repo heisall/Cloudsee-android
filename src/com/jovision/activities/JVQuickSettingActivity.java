@@ -753,6 +753,11 @@ public class JVQuickSettingActivity extends ShakeActivity implements
 				apSetThread.start();
 
 				showQuickPopWindow();
+				if (null != myPlayer && myPlayer.isPlaying()) {
+					myPlayer.stop();
+					myPlayer.release();
+					myPlayer = null;
+				}
 				showSearch(true);
 
 				break;

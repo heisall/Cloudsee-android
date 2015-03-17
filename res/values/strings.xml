@@ -7,8 +7,8 @@
     <string name="login_str_loginpass1_notnull">Please input password.</string>
     <string name="login_str_loginpass2_notnull">Please input password confirmation.</string>
     <string name="login_str_loginephone_tips">Error Mobile phone No.</string>
-    <string name="login_str_loginemail_tips">The format of email is wrong</string>
-    <string name="login_str_loginemail_notnull">Please input email address.</string>
+    <string name="login_str_loginemail_tips">The format of E-mail is wrong</string>
+    <string name="login_str_loginemail_notnull">Please input E-mail address.</string>
     <string name="login_str_loginpass_notsame">Password is inconsistent.</string>
     <string name="login_str_password_same">New password can\'t be the same with the old one, please input again.</string>
     <string name="login_str_username_tips">Format for the username is not correct, and it can only be email address.</string>
@@ -76,7 +76,7 @@
     <string name="nicknamechose">Choose to fill in</string>
     <string name="rebindcontact">Modify the binding</string>
     <string name="rebindcontactphone">Modify the phone</string>
-    <string name="rebindcontactemail">Modify the e-mail</string>
+    <string name="rebindcontactemail">Modify the E-mail</string>
     <string name="rebindcontactnickname">Modify your nick-name</string>
     <string name="rebindhasnot">Unbounded</string>
     <string name="rebindnicknamenull">Did not fill in</string>
@@ -170,7 +170,7 @@
     <string name="str_enter_username1">Phone</string>
     <string name="str_enter_pass1">Password</string>
     <string name="str_enter_pass2">Confirm password</string>
-    <string name="str_enter_email">Please input Email</string>
+    <string name="str_enter_email">Please input E-mail</string>
     <string name="str_enter_phone">Please input Phone</string>
     <string name="login_str_bind">Combine</string>
     <string name="str_read_agree">Read and agree  </string>
@@ -218,7 +218,7 @@
     <string name="str_error_code">Unable to communicate with server, code:</string>
     <string name="str_error_code_5">Timeout,please try again later.</string>
     <string name="str_error_code_6">Connection timeout.</string>
-    <string name="str_email_has_exist">Email has been registered by others, please modify.</string>
+    <string name="str_email_has_exist">E-mail has been registered by others, please modify.</string>
     <string name="str_email_not_exist">Congratulations,email can register.</string>
     <string name="str_reset_not_success">Failed to modify.</string>
     <string name="str_modify_user_info">Complete the user info</string>

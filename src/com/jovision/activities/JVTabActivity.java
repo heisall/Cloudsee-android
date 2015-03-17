@@ -235,6 +235,7 @@ OnPageChangeListener, OnFuncActionListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
 		if (null == (statusHashMap.get(
 				Consts.MORE_BBSNUM)) || "".equals((statusHashMap.get(
 						Consts.MORE_BBSNUM)))) {

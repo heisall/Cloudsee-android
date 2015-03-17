@@ -82,6 +82,8 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				((BaseActivity) mContext).statusHashMap.put(
 						Consts.MORE_GCS_SWITCH,
 						String.valueOf(webUrl.getGcsSwitch()));
+				((BaseActivity) mContext).onNotify(Consts.MORE_BBSNUMNOTY, 0, 0, null);
+				Log.i("TAG", webUrl.getGcsSwitch()+"  FDF ");
 			}
 
 			switch (counts) {

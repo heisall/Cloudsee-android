@@ -182,6 +182,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 				showGCS = false;
 			}
 		}
+	
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 		currentMenu.setText(R.string.more_featrue);
@@ -789,44 +790,60 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 					if (!ConfigUtil.isConnected(mActivity)) {
 						mActivity.alertNetDialog();
 					} else {
+						onNotify(Consts.NEW_BBS,0, 0, null);
 						if (null != ((BaseActivity) mActivity).statusHashMap
-								.get(Consts.MORE_BBS)) {
+								.get(Consts.MORE_BBSNUMURL) && !"".equals(((BaseActivity) mActivity).statusHashMap
+										.get(Consts.MORE_BBSNUMURL))) {
+							mActivity.statusHashMap.put(Consts.MORE_BBSNUMURL,"");
 							Intent intentAD0 = new Intent(mActivity,
 									JVWebViewActivity.class);
 							intentAD0
 							.putExtra(
 									"URL",
 									((BaseActivity) mActivity).statusHashMap
-									.get(Consts.MORE_BBS));
+									.get(Consts.MORE_BBSNUMURL));
 							intentAD0.putExtra("title", -2);
 							mActivity.startActivity(intentAD0);
-						} else {
-							String sid = "";
-							if (!Boolean
-									.valueOf(mActivity.statusHashMap
-											.get(Consts.LOCAL_LOGIN))) {
-								String sessionResult = ConfigUtil
-										.getSession();
-								sid = sessionResult;
+						}else {
+							if (null != ((BaseActivity) mActivity).statusHashMap
+									.get(Consts.MORE_BBS)) {
+								Intent intentAD0 = new Intent(mActivity,
+										JVWebViewActivity.class);
+								intentAD0
+								.putExtra(
+										"URL",
+										((BaseActivity) mActivity).statusHashMap
+										.get(Consts.MORE_BBS));
+								intentAD0.putExtra("title", -2);
+								mActivity.startActivity(intentAD0);
 							} else {
-								sid = "";
-							}
+								String sid = "";
+								if (!Boolean
+										.valueOf(mActivity.statusHashMap
+												.get(Consts.LOCAL_LOGIN))) {
+									String sessionResult = ConfigUtil
+											.getSession();
+									sid = sessionResult;
+								} else {
+									sid = "";
+								}
 
-							if ("false".equals(mActivity.statusHashMap
-									.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-								MyLog.e("Login", "初始化账号SDK失败");
-								ConfigUtil
-								.initAccountSDK(((MainApplication) mActivity
-										.getApplication()));// 初始化账号SDK
+								if ("false".equals(mActivity.statusHashMap
+										.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+									MyLog.e("Login", "初始化账号SDK失败");
+									ConfigUtil
+									.initAccountSDK(((MainApplication) mActivity
+											.getApplication()));// 初始化账号SDK
+								}
+								adapter.setBBSNums(0);
+								adapter.notifyDataSetChanged();
+								GetDemoTask UrlTask2 = new GetDemoTask(
+										mActivity);
+								String[] demoParams2 = new String[3];
+								demoParams2[0] = sid;
+								demoParams2[1] = "3";
+								UrlTask2.execute(demoParams2);
 							}
-							adapter.setBBSNums(0);
-							adapter.notifyDataSetChanged();
-							GetDemoTask UrlTask2 = new GetDemoTask(
-									mActivity);
-							String[] demoParams2 = new String[3];
-							demoParams2[0] = sid;
-							demoParams2[1] = "3";
-							UrlTask2.execute(demoParams2);
 						}
 					}
 					break;

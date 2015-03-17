@@ -318,6 +318,8 @@ public class Consts {
 	public static final String MORE_BBS = "BBSURL"; // 论坛
 	public static final String MORE_GCSURL = "CUSTURL"; // 工程商入住
 	public static final String MORE_BBSNUM = "BBSNUM"; // 论坛未读消息数量
+	public static final int MORE_BBSNUMNOTY = 0x999991; // 论坛未读消息数量
+	public static final String MORE_BBSNUMURL = "BBSNUMURL"; // 论坛未读消息数量
 
 	public static final String MORE_DEMO_SWITCH = "DEMO_SWITCH"; // 视频广场开关
 	// public static final String MORE_CUST_SWITCH = "CUST_SWITCH"; // 我要装监控开关

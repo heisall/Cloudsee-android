@@ -169,7 +169,7 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 		userNameEditText = (EditText) findViewById(R.id.registusername);
 		if (isPhone == 1) {
 			userNameEditText.setHint(getResources().getString(
-					R.string.str_enter_username1));
+					R.string.str_enter_phone));
 			currentMenu.setText(getResources().getString(
 					R.string.rebindcontactphone));
 		} else {
@@ -299,7 +299,7 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 								registTips.setVisibility(View.VISIBLE);
 								registTips.setTextColor(Color.rgb(217, 34, 38));
 								registTips.setText(getResources().getString(
-										R.string.login_str_username_notnull));
+										R.string.str_enter_phone));
 							} else if (phoneNumber.matchNum() == 4
 									|| phoneNumber.matchNum() == 5) {
 								registTips.setVisibility(View.VISIBLE);

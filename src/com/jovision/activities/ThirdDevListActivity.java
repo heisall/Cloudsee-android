@@ -64,6 +64,7 @@ public class ThirdDevListActivity extends BaseActivity implements
 		mActivity = this;
 
 		setContentView(R.layout.third_alarm_device_main);
+		deviceList = CacheUtil.getDevList();
 		InitViews();
 		InitData();
 	}
@@ -629,7 +630,6 @@ public class ThirdDevListActivity extends BaseActivity implements
 	@Override
 	protected void initSettings() {
 		// TODO Auto-generated method stub
-		deviceList = CacheUtil.getDevList();
 	}
 
 	@Override

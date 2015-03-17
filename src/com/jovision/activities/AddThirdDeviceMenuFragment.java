@@ -52,6 +52,7 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 	}
 
 	private String webUrlZH = "http://182.92.242.230:8081/device.html?lan=ch";
+	private String webUrlTW = "http://182.92.242.230:8081/device.html?lan=tw";
 	private String webUrlEN = "http://182.92.242.230:8081/device.html?lan=en";
 
 	private OnDeviceClassSelectedListener mListener;
@@ -107,10 +108,12 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		mWebView.setScrollBarStyle(0);
 		mWebView.setWebChromeClient(m_chromeClient);
 
-		if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
-				|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
+		if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH){
 			mWebView.loadUrl(webUrlZH);
-		} else {
+		}else if(ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW){
+			mWebView.loadUrl(webUrlTW);
+		}
+		else {
 			mWebView.loadUrl(webUrlEN);
 		}
 
@@ -129,12 +132,14 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 
 				Log.e("webv", "newUrl:" + newUrl);
 				if (newUrl.contains("device=")) {
-					if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
-							|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
+					if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH){
 						view.loadUrl(webUrlZH);
-					} else {
-						view.loadUrl(webUrlEN);
+					}else if(ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW){
+						view.loadUrl(webUrlTW);
 					}
+					else {
+						view.loadUrl(webUrlEN);
+					}					
 					learnDialg = new CustomDialog(getActivity(), mListener);
 					learnDialg.Show(0, 0, newUrl);
 					return false;
@@ -229,10 +234,13 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 				loadingBar.setAnimation(anim);
 				loadFailed = false;
 				if (mWebView.getUrl().contains("device=")) {
-					if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH
-							|| ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
+					if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH) {
 						mWebView.loadUrl(webUrlZH);
-					} else {
+					} 
+					else if(ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW){
+						mWebView.loadUrl(webUrlTW);
+					}
+					else {
 						mWebView.loadUrl(webUrlEN);
 					}
 				} else {

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jovetech.CloudSee.temp"
     android:versionCode="49"
-    android:versionName="V4.9.14" >
+    android:versionName="V4.9.15" >
 
     <supports-screens
         android:anyDensity="true"

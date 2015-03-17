@@ -591,6 +591,9 @@ public class Consts {
 	/** 设备设置回视频播放 */
 	public static final int TAB_WEBVIEW_BACK = 0x77;// tab页卡webview返回事件
 
+	/** 视频广场重新加载url */
+	public static final int TAB_PLAZZA_RELOAD_URL = 0x78;// 视频广场重新加载url
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像

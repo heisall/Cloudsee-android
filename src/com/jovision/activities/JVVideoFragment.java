@@ -28,7 +28,9 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.activities.JVTabActivity.OnMainListener;
+import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
@@ -62,6 +64,14 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case Consts.TAB_PLAZZA_RELOAD_URL: {
+			if (null != obj && !"".equalsIgnoreCase(obj.toString())) {
+				isshow = false;
+				urls = obj.toString();
+				webView.loadUrl(urls);
+			}
+			break;
+		}
 		case Consts.TAB_WEBVIEW_BACK: {// tab点击返回
 			try {
 				if (null != titleStack && 0 != titleStack.size()) {
@@ -420,7 +430,20 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 					loadingBar.setAnimation(AnimationUtils.loadAnimation(
 							mActivity, R.anim.rotate));
 					loadFailed = false;
-					if ("".equalsIgnoreCase(urls)) {
+					if (null == urls || "".equalsIgnoreCase(urls)) {
+						if ("false".equals(mActivity.statusHashMap
+								.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+							MyLog.e("Login", "初始化账号SDK失败");
+							ConfigUtil
+									.initAccountSDK(((MainApplication) mActivity
+											.getApplication()));// 初始化账号SDK
+						}
+
+						GetDemoTask task = new GetDemoTask(mActivity);
+						String[] params = new String[3];
+						params[0] = "";
+						params[1] = "5";//
+						task.execute(params);
 						MyLog.v(TAG, "urls is null");
 					}
 					webView.loadUrl(urls);

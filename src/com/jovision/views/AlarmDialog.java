@@ -46,10 +46,12 @@ public class AlarmDialog extends Dialog {
 	private Toast toast;
 	private String strAlarmGUID;
 	private Vibrator vibrator;
+
 	public AlarmDialog(Context context) {
 		super(context, R.style.mydialog);
 		this.context = context;
-		vibrator = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);	
+		vibrator = (Vibrator) context
+				.getSystemService(Service.VIBRATOR_SERVICE);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -215,7 +217,7 @@ public class AlarmDialog extends Dialog {
 			if (!isshowing) {
 				isshowing = true;
 				Log.e("Alarm", "Show() isshowing == true");
-				vibrator.vibrate(new long[]{500, 2000, 500, 2000}, 0);
+				vibrator.vibrate(new long[] { 500, 2000, 500, 2000 }, 0);
 				PushInfo pi = (PushInfo) obj;
 				ystNum = pi.ystNum;
 				deviceNickName = pi.deviceNickName;

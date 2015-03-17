@@ -118,7 +118,7 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 			});
 		}
-		if (position == 3 || position == 9 || position == 10 || position == 11
+		if (position == 3  || position == 10 || position == 11
 				|| position == 13 || position == 12) {
 			if ("true"
 					.equals(((BaseActivity) mfragment.getActivity()).statusHashMap
@@ -156,23 +156,32 @@ public class FragmentAdapter extends BaseAdapter {
 				}
 			}
 		}
+		if (position == 9) {
+			if (!showGCS) {
+				more_item.setVisibility(View.GONE);
+				divider_img.setVisibility(View.GONE);
+			}else {
+				more_item.setVisibility(View.VISIBLE);
+				divider_img.setVisibility(View.VISIBLE);
+			}
+		}
 		if (position == 11) {
 			if (!MySharedPreference.getBoolean(Consts.MORE_STATURL)) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if ((position == 9 || position == 12)
+		if (( position == 12)//position == 9 ||
 				&& Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
-			if (position == 9 && !showGCS) {
-				more_item.setVisibility(View.GONE);
-				divider_img.setVisibility(View.GONE);
-			} else {
-				more_item.setVisibility(View.VISIBLE);
-				divider_img.setVisibility(View.VISIBLE);
-			}
-		} else if ((position == 9 || position == 12)
+			//			if (position == 9 && !showGCS) {
+			//				more_item.setVisibility(View.GONE);
+			//				divider_img.setVisibility(View.GONE);
+			//			} else {
+			more_item.setVisibility(View.VISIBLE);
+			divider_img.setVisibility(View.VISIBLE);
+			//			}
+		} else if ((position == 12)//position == 9 || 
 				&& Consts.LANGUAGE_ZH != ConfigUtil.getLanguage2(mfragment
 						.getActivity())) {
 			more_item.setVisibility(View.GONE);
@@ -212,19 +221,19 @@ public class FragmentAdapter extends BaseAdapter {
 			item_next.setVisibility(View.GONE);
 			item_version.setVisibility(View.VISIBLE);
 			item_version
-					.setText(ConfigUtil.getVersion(mfragment.getActivity()));
+			.setText(ConfigUtil.getVersion(mfragment.getActivity()));
 
 			// mfragment.getActivity().getResources()
 			// .getString(R.string.str_current_version));
 		}
 		if (position > -1 && position < 8 && position != 3) {
 			item_next
-					.setBackgroundResource(R.drawable.morefragment_normal_icon);
+			.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			switch (position) {
 			case 0:
 				if (MySharedPreference.getBoolean(Consts.MORE_HELP)) {
 					item_next
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}
 				break;
 			case 1:
@@ -232,11 +241,11 @@ public class FragmentAdapter extends BaseAdapter {
 					if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER,
 							false)) {
 						item_next
-								.setBackgroundResource(R.drawable.morefragment_selector_icon);
+						.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					}
 				} else {
 					item_next
-							.setBackgroundResource(R.drawable.morefragment_normal_icon);
+					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 				}
 				break;
 			case 2:
@@ -244,36 +253,36 @@ public class FragmentAdapter extends BaseAdapter {
 					if (MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
 							true)) {
 						item_next
-								.setBackgroundResource(R.drawable.morefragment_selector_icon);
+						.setBackgroundResource(R.drawable.morefragment_selector_icon);
 					}
 				} else {
 					item_next
-							.setBackgroundResource(R.drawable.morefragment_normal_icon);
+					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 				}
 				break;
 			case 4:
 				if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
 					item_next
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					.setBackgroundResource(R.drawable.morefragment_selector_icon);
 
 				}
 				break;
 			case 5:
 				if (MySharedPreference.getBoolean(Consts.MORE_LITTLEHELP)) {
 					item_next
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}
 				break;
 			case 6:
 				if (MySharedPreference.getBoolean(Consts.MORE_BROADCAST)) {
 					item_next
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}
 				break;
 			case 7:
 				if (MySharedPreference.getBoolean(Consts.MORE_TESTSWITCH)) {
 					item_next
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+					.setBackgroundResource(R.drawable.morefragment_selector_icon);
 				}
 				break;
 			default:

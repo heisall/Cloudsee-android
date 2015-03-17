@@ -102,7 +102,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					mContext.startActivity(intentAD0);
 				} else {
 					((BaseActivity) mContext)
-							.showTextToast(R.string.str_video_load_failed);
+					.showTextToast(R.string.str_video_load_failed);
 				}
 				break;
 
@@ -121,7 +121,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				} else if (!"fragmentString".equals(fragmentString)
 						&& null == webUrl.getDemoUrl()) {
 					((BaseActivity) mContext)
-							.showTextToast(R.string.demo_get_failed);
+					.showTextToast(R.string.demo_get_failed);
 				}
 				break;
 
@@ -141,7 +141,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					mContext.startActivity(intentAD2);
 				} else {
 					((BaseActivity) mContext)
-							.showTextToast(R.string.str_video_load_failed);
+					.showTextToast(R.string.str_video_load_failed);
 				}
 
 				break;
@@ -170,7 +170,28 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					mContext.startActivity(intentAD2);
 				} else {
 					((BaseActivity) mContext)
-							.showTextToast(R.string.str_video_load_failed);
+					.showTextToast(R.string.str_video_load_failed);
+				}
+				break;
+			case 4:
+				
+				String bbsnum  = " ";
+				if (null != webUrl.getBbsUrl()) {
+					bbsnum = webUrl.getBbsUrl();
+					String [] array = bbsnum.split("mod");
+					if (!Boolean
+							.valueOf(((BaseActivity) mContext).statusHashMap
+									.get(Consts.LOCAL_LOGIN))) {
+						bbsnum = array[0]+"mod=api&act=user_pm&sid="
+								+ JVACCOUNT.GetSession();
+					}else {
+						bbsnum = array[0]+"mod=api&act=user_pm";
+					}
+					((BaseActivity) mContext).statusHashMap.put(
+							Consts.MORE_BBSNUM, bbsnum);
+				}else {
+					((BaseActivity) mContext)
+					.showTextToast(R.string.str_video_load_failed);
 				}
 				break;
 			default:
@@ -187,7 +208,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			// 注意：aaa.html后为"?",参数之间使用"&"进行连接
 		} else {
 			((BaseActivity) mContext)
-					.showTextToast(R.string.str_video_load_failed);
+			.showTextToast(R.string.str_video_load_failed);
 		}
 	}
 

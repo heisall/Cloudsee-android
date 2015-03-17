@@ -1617,9 +1617,6 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 
 		MySharedPreference.putBoolean(Consts.AD_UPDATE, true);
 
-		for (int i = 0; i < adList.size(); i++) {
-			Log.i("TAG", adList.get(i).getAdImgUrlCh());
-		}
 	}
 
 	// 获取设备列表线程

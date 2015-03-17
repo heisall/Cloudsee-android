@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,10 +45,11 @@ public class AlarmDialog extends Dialog {
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private Toast toast;
 	private String strAlarmGUID;
-
+	private Vibrator vibrator;
 	public AlarmDialog(Context context) {
 		super(context, R.style.mydialog);
 		this.context = context;
+		vibrator = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);	
 		// TODO Auto-generated constructor stub
 	}
 
@@ -87,6 +90,7 @@ public class AlarmDialog extends Dialog {
 		// synchronized (AlarmDialog.class) {
 		isshowing = false;
 		Log.e("Alarm", "onStop, ishowing==false");
+		vibrator.cancel();
 		// }
 	}
 
@@ -211,6 +215,7 @@ public class AlarmDialog extends Dialog {
 			if (!isshowing) {
 				isshowing = true;
 				Log.e("Alarm", "Show() isshowing == true");
+				vibrator.vibrate(new long[]{500, 2000, 500, 2000}, 0);
 				PushInfo pi = (PushInfo) obj;
 				ystNum = pi.ystNum;
 				deviceNickName = pi.deviceNickName;

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import m.framework.network.StringPart;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -233,9 +235,23 @@ OnPageChangeListener, OnFuncActionListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(JVTabActivity.this)) {
+		if (null == (statusHashMap.get(
+				Consts.MORE_BBSNUM)) || "".equals((statusHashMap.get(
+						Consts.MORE_BBSNUM)))) {
+			GetDemoTask taskdemo  =  new GetDemoTask(JVTabActivity.this);
+			String  [] params= new String[3];
+			params [1] = "4";
+			taskdemo.execute(params);
+		}
+		if (null != (statusHashMap.get(
+				Consts.MORE_BBSNUM)) && !"".equals((statusHashMap.get(
+						Consts.MORE_BBSNUM)))&&Consts.LANGUAGE_ZH == ConfigUtil
+						.getLanguage2(JVTabActivity.this)) {
 			GetnoMessageTask task = new GetnoMessageTask();
-			task.execute();
+			String  [] param  = new String[3];
+			param [0] = statusHashMap.get(
+					Consts.MORE_BBSNUM);
+			task.execute(param);
 		}
 		countshow = 0;
 		MyLog.v(TAG, "onResume----E");
@@ -619,10 +635,24 @@ OnPageChangeListener, OnFuncActionListener {
 						}
 						break;
 					case 3:
-						if (Consts.LANGUAGE_ZH == ConfigUtil
-						.getLanguage2(JVTabActivity.this)) {
+						if (null == (statusHashMap.get(
+								Consts.MORE_BBSNUM)) || "".equals((statusHashMap.get(
+										Consts.MORE_BBSNUM)))) {
+							GetDemoTask taskdemo  =  new GetDemoTask(JVTabActivity.this);
+							String params [] = new String[3];
+							params [1] = "4";
+							taskdemo.execute(params);
+						}
+
+						if (null != (statusHashMap.get(
+								Consts.MORE_BBSNUM)) && !"".equals((statusHashMap.get(
+										Consts.MORE_BBSNUM)))&&Consts.LANGUAGE_ZH == ConfigUtil
+										.getLanguage2(JVTabActivity.this)) {
 							GetnoMessageTask task = new GetnoMessageTask();
-							task.execute();
+							String  [] param  = new String[3];
+							param [0] = statusHashMap.get(
+									Consts.MORE_BBSNUM);
+							task.execute(param);
 						}
 						break;
 					default:
@@ -830,18 +860,17 @@ OnPageChangeListener, OnFuncActionListener {
 	}
 
 	// 获取论坛未读消息
-	private class GetnoMessageTask extends AsyncTask<Integer, Integer, Integer> {// A,361,2000
+	private class GetnoMessageTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
 		@Override
-		protected Integer doInBackground(Integer... params) {
+		protected Integer doInBackground(String... params) {
 			countbbs = 0;
-			String requestUrl = "http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid="
-					+ JVACCOUNT.GetSession();
-			String result = JSONUtil.httpGet(requestUrl);
-			MyLog.e("BBS_notread", "request=" + requestUrl + ";result="
+			String result = JSONUtil.httpGet(params [0]);
+			MyLog.e("BBS_notread", "request=" + params [0] + ";result="
 					+ result);
+			//request=http://bbs.cloudsee.net/v.php?mod=auth&act=sid_login&next=/&sid=c01ed43499478b62f4cb233112a41fe8
 			// request=http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid=1dad46caaa92eb0ea59a4c348fd5de81;result={"msg":"ok","errCode":1,"data":[{"url":"","count":0}]}
-			try {
+			try {                                            
 				JSONObject responseObject = new JSONObject(result);
 				JSONArray dataArray = new JSONArray(
 						responseObject.optString("data"));

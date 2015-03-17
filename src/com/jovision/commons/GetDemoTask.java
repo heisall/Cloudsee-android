@@ -64,7 +64,6 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 		((BaseActivity) mContext).dismissDialog();
 		if (0 == result) {
-
 			((BaseActivity) mContext).statusHashMap.put(Consts.MORE_DEMOURL,
 					webUrl.getDemoUrl());
 			int counts = Integer.valueOf(count);
@@ -102,14 +101,15 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					mContext.startActivity(intentAD0);
 				} else {
 					((BaseActivity) mContext)
-					.showTextToast(R.string.str_video_load_failed);
+							.showTextToast(R.string.str_video_load_failed);
 				}
 				break;
 
-			case 1:
+			case 1:// 视频广场
 				demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
 						+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
 						+ System.currentTimeMillis() + "&sid=" + sid;
+
 				if (!"fragmentString".equals(fragmentString)
 						&& null != webUrl.getDemoUrl()) {
 					Intent intentAD = new Intent(mContext,
@@ -121,8 +121,9 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				} else if (!"fragmentString".equals(fragmentString)
 						&& null == webUrl.getDemoUrl()) {
 					((BaseActivity) mContext)
-					.showTextToast(R.string.demo_get_failed);
+							.showTextToast(R.string.demo_get_failed);
 				}
+
 				break;
 
 			case 2:// 云视通指数
@@ -141,11 +142,11 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					mContext.startActivity(intentAD2);
 				} else {
 					((BaseActivity) mContext)
-					.showTextToast(R.string.str_video_load_failed);
+							.showTextToast(R.string.str_video_load_failed);
 				}
 
 				break;
-			case 3:
+			case 3:// 社区论坛
 				String bbsurl = "";
 				if (null != webUrl.getBbsUrl()) {
 					Intent intentAD2 = new Intent(mContext,
@@ -170,28 +171,34 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					mContext.startActivity(intentAD2);
 				} else {
 					((BaseActivity) mContext)
-					.showTextToast(R.string.str_video_load_failed);
+							.showTextToast(R.string.str_video_load_failed);
 				}
 				break;
-			case 4:
-				
-				String bbsnum  = " ";
+			case 4:// 论坛条数
+
+				String bbsnum = " ";
 				if (null != webUrl.getBbsUrl()) {
 					bbsnum = webUrl.getBbsUrl();
-					String [] array = bbsnum.split("mod");
+					String[] array = bbsnum.split("mod");
 					if (!Boolean
 							.valueOf(((BaseActivity) mContext).statusHashMap
 									.get(Consts.LOCAL_LOGIN))) {
-						bbsnum = array[0]+"mod=api&act=user_pm&sid="
+						bbsnum = array[0] + "mod=api&act=user_pm&sid="
 								+ JVACCOUNT.GetSession();
-					}else {
-						bbsnum = array[0]+"mod=api&act=user_pm";
+					} else {
+						bbsnum = array[0] + "mod=api&act=user_pm";
 					}
 					((BaseActivity) mContext).statusHashMap.put(
 							Consts.MORE_BBSNUM, bbsnum);
-				}else {
-					((BaseActivity) mContext)
-					.showTextToast(R.string.str_video_load_failed);
+				}
+				break;
+			case 5:// tab页卡视频广场刷新
+				demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
+						+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
+						+ System.currentTimeMillis() + "&sid=" + sid;
+				if (null != webUrl.getDemoUrl()) {
+					((BaseActivity) mContext).onNotify(
+							Consts.TAB_PLAZZA_RELOAD_URL, 0, 0, demoUrl);
 				}
 				break;
 			default:
@@ -208,7 +215,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			// 注意：aaa.html后为"?",参数之间使用"&"进行连接
 		} else {
 			((BaseActivity) mContext)
-			.showTextToast(R.string.str_video_load_failed);
+					.showTextToast(R.string.str_video_load_failed);
 		}
 	}
 

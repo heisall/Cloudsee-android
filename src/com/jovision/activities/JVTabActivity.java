@@ -268,7 +268,7 @@ public class JVTabActivity extends ShakeActivity implements
 					if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
 						if (1 == Integer.parseInt(showGcsStr)) {
 							countshow = countshow + 1;
-						} 
+						}
 					}
 				}
 				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
@@ -443,10 +443,11 @@ public class JVTabActivity extends ShakeActivity implements
 						countshow = countshow + 1;
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
-						if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
+						if (null != showGcsStr
+								&& !"".equalsIgnoreCase(showGcsStr)) {
 							if (1 == Integer.parseInt(showGcsStr)) {
 								countshow = countshow + 1;
-							} 
+							}
 						}
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
@@ -836,10 +837,11 @@ public class JVTabActivity extends ShakeActivity implements
 						countshow = countshow + 1;
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
-						if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
+						if (null != showGcsStr
+								&& !"".equalsIgnoreCase(showGcsStr)) {
 							if (1 == Integer.parseInt(showGcsStr)) {
 								countshow = countshow + 1;
-							} 
+							}
 						}
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {

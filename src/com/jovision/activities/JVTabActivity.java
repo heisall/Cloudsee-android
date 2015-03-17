@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import m.framework.network.StringPart;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +16,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.test.JVACCOUNT;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -235,13 +232,12 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
-		if (null == (statusHashMap.get(
-				Consts.MORE_BBSNUM)) || "".equals((statusHashMap.get(
-						Consts.MORE_BBSNUM)))) {
-			GetDemoTask taskdemo  =  new GetDemoTask(JVTabActivity.this);
-			String  [] params= new String[3];
-			params [1] = "4";
+
+		if (null == (statusHashMap.get(Consts.MORE_BBSNUM))
+				|| "".equals((statusHashMap.get(Consts.MORE_BBSNUM)))) {
+			GetDemoTask taskdemo = new GetDemoTask(JVTabActivity.this);
+			String[] params = new String[3];
+			params[1] = "4";
 			taskdemo.execute(params);
 		}
 		if (null != (statusHashMap.get(Consts.MORE_BBSNUM))

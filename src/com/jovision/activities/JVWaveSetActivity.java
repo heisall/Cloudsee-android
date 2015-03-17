@@ -729,7 +729,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		AlertDialog.Builder builder = new Builder(this);
 		builder.setTitle(R.string.tips)
 				.setMessage(
-						getResources().getString(R.string.wave_add_dev)+"   "
+						getResources().getString(R.string.wave_add_dev) + "   "
 								+ broadList.get(index).getFullNo())
 				.setPositiveButton(R.string.sure,
 						new DialogInterface.OnClickListener() {

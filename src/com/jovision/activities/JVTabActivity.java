@@ -36,7 +36,6 @@ import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
 import com.jovision.adapters.MyPagerAdp;
 import com.jovision.bean.Device;
 import com.jovision.commons.CheckUpdateTask;
-import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -48,7 +47,7 @@ import com.jovision.utils.JSONUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVTabActivity extends ShakeActivity implements
-OnPageChangeListener, OnFuncActionListener {
+		OnPageChangeListener, OnFuncActionListener {
 	private static final String TAG = "JVTabActivity";
 	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
@@ -120,8 +119,8 @@ OnPageChangeListener, OnFuncActionListener {
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-				| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// 开启logcat输出，方便debug，发布时请关闭
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
@@ -279,8 +278,8 @@ OnPageChangeListener, OnFuncActionListener {
 			android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 			if (null != manager) {
 				getSupportFragmentManager().beginTransaction()
-				.replace(R.id.tab_fragment, mFragments[currentIndex])
-				.commit();
+						.replace(R.id.tab_fragment, mFragments[currentIndex])
+						.commit();
 			} else {
 				MyLog.e(TAG, "TAB_onresume_manager null" + currentIndex);
 				this.finish();
@@ -402,7 +401,7 @@ OnPageChangeListener, OnFuncActionListener {
 						obj);
 			}
 		}
-		break;
+			break;
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
 			countshow = 0;
 			if (null != mIndicator) {
@@ -447,7 +446,7 @@ OnPageChangeListener, OnFuncActionListener {
 				}
 				if (countshow + countbbs > 0) {
 					mIndicator
-					.updateIndicator(3, 0, true, countshow + countbbs);
+							.updateIndicator(3, 0, true, countshow + countbbs);
 				} else {
 					mIndicator.updateIndicator(3, 0, false, countshow
 							+ countbbs);
@@ -512,10 +511,10 @@ OnPageChangeListener, OnFuncActionListener {
 					if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
 						if (strRom.equals("V6")) {
 							new TPushTips(this)
-							.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
+									.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
 						} else {
 							new TPushTips(this)
-							.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+									.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
 						}
 					}
 
@@ -544,13 +543,13 @@ OnPageChangeListener, OnFuncActionListener {
 				try {
 					currentIndex = which;
 					getSupportFragmentManager().beginTransaction()
-					.replace(R.id.tab_fragment, mFragments[which])
-					.commit();
+							.replace(R.id.tab_fragment, mFragments[which])
+							.commit();
 					switch (which) {
 					case 0:
 						if (!page2
 								&& !MySharedPreference
-								.getBoolean(Consts.MORE_PAGETWO)) {
+										.getBoolean(Consts.MORE_PAGETWO)) {
 							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 							ll_dot.setVisibility(View.GONE);
 							viewpager.setCurrentItem(0);
@@ -563,7 +562,7 @@ OnPageChangeListener, OnFuncActionListener {
 						} else {
 							if (MySharedPreference.getBoolean(Consts.MORE_HELP)
 									&& !MySharedPreference
-									.getBoolean(Consts.MORE_PAGETWO)) {
+											.getBoolean(Consts.MORE_PAGETWO)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.GONE);
 								viewpager.setCurrentItem(0);
@@ -589,7 +588,7 @@ OnPageChangeListener, OnFuncActionListener {
 						if (0 != myDeviceList.size()) {
 							if (!page1
 									&& !MySharedPreference
-									.getBoolean(Consts.MORE_PAGEONE)) {
+											.getBoolean(Consts.MORE_PAGEONE)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.VISIBLE);
 								viewpager.setCurrentItem(0);
@@ -603,7 +602,7 @@ OnPageChangeListener, OnFuncActionListener {
 								if (MySharedPreference
 										.getBoolean(Consts.MORE_HELP)
 										&& !MySharedPreference
-										.getBoolean(Consts.MORE_PAGEONE)) {
+												.getBoolean(Consts.MORE_PAGEONE)) {
 									ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 									ll_dot.setVisibility(View.VISIBLE);
 									viewpager.setCurrentItem(0);
@@ -620,7 +619,7 @@ OnPageChangeListener, OnFuncActionListener {
 						break;
 					case 3:
 						if (Consts.LANGUAGE_ZH == ConfigUtil
-						.getLanguage2(JVTabActivity.this)) {
+								.getLanguage2(JVTabActivity.this)) {
 							GetnoMessageTask task = new GetnoMessageTask();
 							task.execute();
 						}
@@ -641,7 +640,7 @@ OnPageChangeListener, OnFuncActionListener {
 		android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 		if (null != manager) {
 			manager.beginTransaction()
-			.replace(R.id.tab_fragment, mFragments[0]).commit();
+					.replace(R.id.tab_fragment, mFragments[0]).commit();
 		} else {
 			MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
 			this.finish();
@@ -666,7 +665,7 @@ OnPageChangeListener, OnFuncActionListener {
 
 			MyLog.v("notifyer",
 					((MainApplication) this.getApplication()).currentNotifyer
-					+ "");
+							+ "");
 			String notifer = ((MainApplication) this.getApplication()).currentNotifyer
 					+ "";
 			if (notifer.startsWith("JVMyDeviceFragment")) {
@@ -680,7 +679,7 @@ OnPageChangeListener, OnFuncActionListener {
 			} else if (notifer.startsWith("JVVideoFragment")) {
 				if (JVVideoFragment.webView.canGoBack()) {
 					((MainApplication) this.getApplication()).currentNotifyer
-					.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
+							.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
 				} else {
 					exit();
 				}
@@ -811,7 +810,7 @@ OnPageChangeListener, OnFuncActionListener {
 				}
 				if (countshow > 0) {
 					mIndicator
-					.updateIndicator(3, 0, true, countshow + countbbs);
+							.updateIndicator(3, 0, true, countshow + countbbs);
 				} else {
 					mIndicator.updateIndicator(3, 0, false, countshow
 							+ countbbs);

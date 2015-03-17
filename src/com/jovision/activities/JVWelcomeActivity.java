@@ -1,11 +1,16 @@
 package com.jovision.activities;
 
+import java.io.File;
+
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.test.AutoLoad;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.RelativeLayout;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -28,9 +33,9 @@ public class JVWelcomeActivity extends BaseActivity {
 	private final String TAG = "JVWelcomeActivity";
 	private Handler initHandler;
 	private ImageView welcomeImage;
-	// private String welcomePath = "";
-	// private RelativeLayout cloudseeLayout;
-	// private RelativeLayout neturalLayout;
+	private String welcomePath = "";
+	private RelativeLayout cloudseeLayout;
+	private RelativeLayout neturalLayout;
 
 	// private static boolean HAS_LOADED = false;
 
@@ -111,34 +116,34 @@ public class JVWelcomeActivity extends BaseActivity {
 		welcomeImage = (ImageView) findViewById(R.id.cloudseewelcome);
 
 		if ("false".equalsIgnoreCase(statusHashMap.get(Consts.NEUTRAL_VERSION))) {// 非中性软件
-			// String fileName = "";
-			// if (Consts.LANGUAGE_ZH == ConfigUtil
-			// .getLanguage2(JVWelcomeActivity.this)) {
-			// fileName = "welcome_zh";
-			// } else if (Consts.LANGUAGE_ZHTW == ConfigUtil
-			// .getLanguage2(JVWelcomeActivity.this)) {
-			// fileName = "welcome_zht";
-			// } else {
-			// fileName = "welcome_en";
-			// }
-			//
-			// welcomePath = Consts.WELCOME_IMG_PATH + fileName
-			// + Consts.IMAGE_JPG_KIND;
-			// File imgFile = new File(welcomePath);
-			// welcomeImage.setScaleType(ScaleType.FIT_XY);
-			// if (imgFile.exists()) {
-			// Bitmap bitmap = BitmapCache.getInstance().getBitmap(
-			// welcomePath, "welcome", fileName);
-			// if (null != bitmap) {
-			// welcomeImage.setImageBitmap(bitmap);
-			// } else {
-			// welcomeImage.setBackgroundDrawable(getResources()
-			// .getDrawable(R.drawable.welcome_default));
-			// }
-			// } else {
-			// welcomeImage.setBackgroundDrawable(getResources().getDrawable(
-			// R.drawable.welcome_default));
-			// }
+			String fileName = "";
+			if (Consts.LANGUAGE_ZH == ConfigUtil
+					.getLanguage2(JVWelcomeActivity.this)) {
+				fileName = "welcome_zh";
+			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+					.getLanguage2(JVWelcomeActivity.this)) {
+				fileName = "welcome_zht";
+			} else {
+				fileName = "welcome_en";
+			}
+
+			welcomePath = Consts.WELCOME_IMG_PATH + fileName
+					+ Consts.IMAGE_JPG_KIND;
+			File imgFile = new File(welcomePath);
+			welcomeImage.setScaleType(ScaleType.FIT_XY);
+			if (imgFile.exists()) {
+				Bitmap bitmap = BitmapCache.getInstance().getBitmap(
+						welcomePath, "welcome", fileName);
+				if (null != bitmap) {
+					welcomeImage.setImageBitmap(bitmap);
+				} else {
+					welcomeImage.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.welcome_default));
+				}
+			} else {
+				welcomeImage.setBackgroundDrawable(getResources().getDrawable(
+						R.drawable.welcome_default));
+			}
 		} else {// 中性软件
 			welcomeImage.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.welcome_netural));

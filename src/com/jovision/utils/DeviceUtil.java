@@ -3622,7 +3622,7 @@ public class DeviceUtil {
 	 * 2015-3-13 获取web URL
 	 * 
 	 * */
-	public static WebUrl getWebUrl() {
+	public static WebUrl getWebUrl(int language) {
 		int rt = -1;
 		WebUrl webUrl = new WebUrl();
 		JSONObject jObj = new JSONObject();
@@ -3634,8 +3634,10 @@ public class DeviceUtil {
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// 1.0
 			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, Consts.PRODUCT_TYPE);// 0：CloudSEE
-			// 1：NVSIP
-			// 2-iPhone 3-iPad)
+																			// //
+																			// 1：NVSIP
+			jObj.put(JVDeviceConst.JK_LANGUAGE_TYPE, language);// 当前语音
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

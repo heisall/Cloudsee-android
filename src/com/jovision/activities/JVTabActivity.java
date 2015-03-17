@@ -274,7 +274,7 @@ OnPageChangeListener, OnFuncActionListener {
 					if (null != statusHashMap.get(Consts.MORE_GCS_SWITCH) && !"".equalsIgnoreCase(statusHashMap.get(Consts.MORE_GCS_SWITCH))) {
 						if (1 == Integer.parseInt(statusHashMap.get(Consts.MORE_GCS_SWITCH))) {
 							countshow = countshow + 1;
-						} 
+						}
 					}
 				}
 				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
@@ -491,10 +491,11 @@ OnPageChangeListener, OnFuncActionListener {
 						countshow = countshow + 1;
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
-						if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
+						if (null != showGcsStr
+								&& !"".equalsIgnoreCase(showGcsStr)) {
 							if (1 == Integer.parseInt(showGcsStr)) {
 								countshow = countshow + 1;
-							} 
+							}
 						}
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
@@ -886,10 +887,11 @@ OnPageChangeListener, OnFuncActionListener {
 						countshow = countshow + 1;
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
-						if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
+						if (null != showGcsStr
+								&& !"".equalsIgnoreCase(showGcsStr)) {
 							if (1 == Integer.parseInt(showGcsStr)) {
 								countshow = countshow + 1;
-							} 
+							}
 						}
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {

@@ -45,11 +45,12 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		// demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);
 		// demoUrl = "http://www.cloudsee.net/phone.action";
 
-		webUrl = DeviceUtil.getWebUrl();
+		webUrl = DeviceUtil.getWebUrl(ConfigUtil.getLanguage2(mContext) - 1);
 		if (null != webUrl) {
 			getRes = 0;
 		} else {
-			webUrl = DeviceUtil.getWebUrl();
+			webUrl = DeviceUtil
+					.getWebUrl(ConfigUtil.getLanguage2(mContext) - 1);
 		}
 		return getRes;
 	}

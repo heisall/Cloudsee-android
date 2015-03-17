@@ -108,12 +108,11 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 		mWebView.setScrollBarStyle(0);
 		mWebView.setWebChromeClient(m_chromeClient);
 
-		if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH){
+		if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH) {
 			mWebView.loadUrl(webUrlZH);
-		}else if(ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW){
+		} else if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
 			mWebView.loadUrl(webUrlTW);
-		}
-		else {
+		} else {
 			mWebView.loadUrl(webUrlEN);
 		}
 
@@ -132,14 +131,13 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 
 				Log.e("webv", "newUrl:" + newUrl);
 				if (newUrl.contains("device=")) {
-					if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH){
+					if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH) {
 						view.loadUrl(webUrlZH);
-					}else if(ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW){
+					} else if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
 						view.loadUrl(webUrlTW);
-					}
-					else {
+					} else {
 						view.loadUrl(webUrlEN);
-					}					
+					}
 					learnDialg = new CustomDialog(getActivity(), mListener);
 					learnDialg.Show(0, 0, newUrl);
 					return false;
@@ -236,11 +234,9 @@ public class AddThirdDeviceMenuFragment extends Fragment implements
 				if (mWebView.getUrl().contains("device=")) {
 					if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZH) {
 						mWebView.loadUrl(webUrlZH);
-					} 
-					else if(ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW){
+					} else if (ConfigUtil.getLanguage2(getActivity()) == Consts.LANGUAGE_ZHTW) {
 						mWebView.loadUrl(webUrlTW);
-					}
-					else {
+					} else {
 						mWebView.loadUrl(webUrlEN);
 					}
 				} else {

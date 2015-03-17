@@ -491,7 +491,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					if (obj != null) {
 						if (waitingDialog != null && waitingDialog.isShowing())
 							waitingDialog.dismiss();
-						Log.e("Alarm", "设置结果:"+respObject.toString());
+						Log.e("Alarm", "设置结果:" + respObject.toString());
 						String setStr = respObject.optString("msg");
 						String setStrArray[] = setStr.split(";");
 						ThirdAlarmDev setalarm = new ThirdAlarmDev();
@@ -532,7 +532,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 							setResult(10, data);
 							bind_nick_res = true;
 							// 关闭掉这个Activity
-							Log.e("Alarm","设置成功，执行finish()");
+							Log.e("Alarm", "设置成功，执行finish()");
 							finish();
 						} else {
 							// 失败

@@ -616,7 +616,7 @@
     <string name="prepare_step4">Click to send sound-wave</string>
     <string name="prepare_step5">Please put the phone near device,click sending sound-wave  button,configure the device.</string>
     <string name="prepare_step6">(The device does not support 5G Wi-Fi)</string>
-    <string name="wave_add_dev">Make sure to add device   </string>
+    <string name="wave_add_dev">Make sure to add device</string>
     <!-- 报警 -->
     <string name="str_alarm_check">Check Now</string>
     <string name="str_pass_extra_err">Pass Data Extra Error</string>

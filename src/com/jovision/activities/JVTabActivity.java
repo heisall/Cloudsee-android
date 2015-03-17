@@ -63,6 +63,7 @@ public class JVTabActivity extends ShakeActivity implements
 	private int countbbs;
 	private OnMainListener mainListener;
 	private BaseFragment mFragments[] = new BaseFragment[4];
+	private String showGcsStr;
 
 	private ViewPager viewpager;
 
@@ -253,6 +254,7 @@ public class JVTabActivity extends ShakeActivity implements
 			param[0] = statusHashMap.get(Consts.MORE_BBSNUM);
 			task.execute(param);
 		}
+		showGcsStr = statusHashMap.get(Consts.MORE_GCS_SWITCH);
 		countshow = 0;
 		MyLog.v(TAG, "onResume----E");
 		if (null != mIndicator) {
@@ -267,7 +269,11 @@ public class JVTabActivity extends ShakeActivity implements
 					countshow = countshow + 1;
 				}
 				if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
-					countshow = countshow + 1;
+					if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
+						if (1 == Integer.parseInt(showGcsStr)) {
+							countshow = countshow + 1;
+						} 
+					}
 				}
 				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 					countshow = countshow + 1;
@@ -441,7 +447,11 @@ public class JVTabActivity extends ShakeActivity implements
 						countshow = countshow + 1;
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
-						countshow = countshow + 1;
+						if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
+							if (1 == Integer.parseInt(showGcsStr)) {
+								countshow = countshow + 1;
+							} 
+						}
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 						countshow = countshow + 1;
@@ -830,7 +840,11 @@ public class JVTabActivity extends ShakeActivity implements
 						countshow = countshow + 1;
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
-						countshow = countshow + 1;
+						if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
+							if (1 == Integer.parseInt(showGcsStr)) {
+								countshow = countshow + 1;
+							} 
+						}
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 						countshow = countshow + 1;

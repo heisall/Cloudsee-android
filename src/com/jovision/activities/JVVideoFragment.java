@@ -75,6 +75,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 			}
 			break;
 		}
+
 		case Consts.WHAT_DEMO_URL_SUCCESS: {
 			mActivity.dismissDialog();
 			HashMap<String, String> paramMap = (HashMap<String, String>) obj;
@@ -349,7 +350,8 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 					.get(Consts.HAS_LOAD_DEMO));
 		}
 		if (hasLoad && ConfigUtil.isConnected(mActivity)) {
-			webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
+			webView.getSettings().setCacheMode(
+					WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		} else {
 			loadinglayout.setVisibility(View.VISIBLE);
 			webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);

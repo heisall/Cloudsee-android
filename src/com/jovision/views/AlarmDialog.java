@@ -213,18 +213,20 @@ public class AlarmDialog extends Dialog {
 				Log.e("Alarm", "Show() isshowing == true");
 				PushInfo pi = (PushInfo) obj;
 				ystNum = pi.ystNum;
-				deviceList = CacheUtil.getDevList();// 再取一次
-				int dev_index = getDeivceIndex(ystNum);
-				if (dev_index == -1) {
-					deviceNickName = pi.deviceNickName;
-				} else {
-					deviceNickName = deviceList.get(dev_index).getNickName();
-					if (pi.alarmType == 11)// 第三方
-					{
-						deviceNickName = deviceNickName + "-"
-								+ pi.deviceNickName;
-					}
-				}
+				deviceNickName = pi.deviceNickName;
+				// deviceList = CacheUtil.getDevList();// 再取一次
+				// int dev_index = getDeivceIndex(ystNum);
+				// if (dev_index == -1) {
+				// deviceNickName = pi.deviceNickName;
+				// } else {
+				// // deviceNickName = deviceList.get(dev_index).getNickName();
+				// deviceNickName = pi.deviceNickName;
+				// if (pi.alarmType == 11)// 第三方
+				// {
+				// deviceNickName = deviceNickName + "-"
+				// + pi.deviceNickName;
+				// }
+				// }
 
 				// deviceNickName = pi.deviceNickName;
 

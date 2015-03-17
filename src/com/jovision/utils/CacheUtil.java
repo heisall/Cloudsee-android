@@ -110,7 +110,7 @@ public class CacheUtil {
 		return nickNameMap.remove(ystFullNo);
 	}
 
-	public static void clearNickNameMap() {
+	public static void clearNickNameMap1() {
 		nickNameMap.clear();
 	}
 }

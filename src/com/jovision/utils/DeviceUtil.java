@@ -1230,10 +1230,10 @@ public class DeviceUtil {
 													flag[k] = true;
 
 													// 同步map
-													CacheUtil
-															.setNickNameWithYstfn(
-																	dev.getFullNo(),
-																	dev.getNickName());
+													// CacheUtil
+													// .setNickNameWithYstfn(
+													// dev.getFullNo(),
+													// dev.getNickName());
 												}
 											}
 										}

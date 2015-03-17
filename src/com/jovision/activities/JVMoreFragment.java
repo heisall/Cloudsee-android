@@ -216,8 +216,10 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 			// more_bindmail.setVisibility(View.VISIBLE);
 			break;
 		case Consts.NEW_BBS:
-			adapter.setBBSNums(arg1);
-			adapter.notifyDataSetChanged();
+			if (null != adapter) {
+				adapter.setBBSNums(arg1);
+				adapter.notifyDataSetChanged();
+			}
 			// mActivity.showTextToast("获得结果");
 			break;
 		}
@@ -791,8 +793,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 										.get(Consts.MORE_BBS)) {
 									Intent intentAD0 = new Intent(mActivity,
 											JVWebViewActivity.class);
-									adapter.setBBSNums(0);
-									adapter.notifyDataSetChanged();
 									intentAD0
 											.putExtra(
 													"URL",

@@ -189,18 +189,15 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		try {
-			Intent intent = mActivity.getIntent();
-			if (null != intent) {
-				boolean firstLogin = intent
-						.getBooleanExtra("FirstLogin", false);
-				if (firstLogin) {
-					mActivity.createDialog("", false);
-					LoginTask loginTask = new LoginTask(true, mActivity,
-							(MainApplication) mActivity.getApplication(),
-							mActivity.statusHashMap, alarmnet);
-					String[] params = new String[3];
-					loginTask.execute(params);
-				}
+			boolean firstLogin = MySharedPreference.getBoolean(
+					Consts.FIRST_LOGIN, false);
+			if (firstLogin) {
+				mActivity.createDialog("", false);
+				LoginTask loginTask = new LoginTask(true, mActivity,
+						(MainApplication) mActivity.getApplication(),
+						mActivity.statusHashMap, alarmnet);
+				String[] params = new String[3];
+				loginTask.execute(params);
 			}
 
 			if (null == ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {

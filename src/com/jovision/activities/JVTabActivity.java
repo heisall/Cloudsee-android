@@ -50,7 +50,7 @@ import com.jovision.utils.JSONUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVTabActivity extends ShakeActivity implements
-OnPageChangeListener, OnFuncActionListener {
+		OnPageChangeListener, OnFuncActionListener {
 	private static final String TAG = "JVTabActivity";
 	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
@@ -122,8 +122,8 @@ OnPageChangeListener, OnFuncActionListener {
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-				| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// 开启logcat输出，方便debug，发布时请关闭
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
@@ -244,14 +244,13 @@ OnPageChangeListener, OnFuncActionListener {
 			params [1] = "4";
 			taskdemo.execute(params);
 		}
-		if (null != (statusHashMap.get(
-				Consts.MORE_BBSNUM)) && !"".equals((statusHashMap.get(
-						Consts.MORE_BBSNUM)))&&Consts.LANGUAGE_ZH == ConfigUtil
+		if (null != (statusHashMap.get(Consts.MORE_BBSNUM))
+				&& !"".equals((statusHashMap.get(Consts.MORE_BBSNUM)))
+				&& Consts.LANGUAGE_ZH == ConfigUtil
 						.getLanguage2(JVTabActivity.this)) {
 			GetnoMessageTask task = new GetnoMessageTask();
-			String  [] param  = new String[3];
-			param [0] = statusHashMap.get(
-					Consts.MORE_BBSNUM);
+			String[] param = new String[3];
+			param[0] = statusHashMap.get(Consts.MORE_BBSNUM);
 			task.execute(param);
 		}
 		countshow = 0;
@@ -296,8 +295,8 @@ OnPageChangeListener, OnFuncActionListener {
 			android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 			if (null != manager) {
 				getSupportFragmentManager().beginTransaction()
-				.replace(R.id.tab_fragment, mFragments[currentIndex])
-				.commit();
+						.replace(R.id.tab_fragment, mFragments[currentIndex])
+						.commit();
 			} else {
 				MyLog.e(TAG, "TAB_onresume_manager null" + currentIndex);
 				this.finish();
@@ -419,7 +418,7 @@ OnPageChangeListener, OnFuncActionListener {
 						obj);
 			}
 		}
-		break;
+			break;
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
 			countshow = 0;
 			if (null != mIndicator) {
@@ -464,7 +463,7 @@ OnPageChangeListener, OnFuncActionListener {
 				}
 				if (countshow + countbbs > 0) {
 					mIndicator
-					.updateIndicator(3, 0, true, countshow + countbbs);
+							.updateIndicator(3, 0, true, countshow + countbbs);
 				} else {
 					mIndicator.updateIndicator(3, 0, false, countshow
 							+ countbbs);
@@ -529,10 +528,10 @@ OnPageChangeListener, OnFuncActionListener {
 					if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
 						if (strRom.equals("V6")) {
 							new TPushTips(this)
-							.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
+									.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
 						} else {
 							new TPushTips(this)
-							.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+									.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
 						}
 					}
 
@@ -561,13 +560,13 @@ OnPageChangeListener, OnFuncActionListener {
 				try {
 					currentIndex = which;
 					getSupportFragmentManager().beginTransaction()
-					.replace(R.id.tab_fragment, mFragments[which])
-					.commit();
+							.replace(R.id.tab_fragment, mFragments[which])
+							.commit();
 					switch (which) {
 					case 0:
 						if (!page2
 								&& !MySharedPreference
-								.getBoolean(Consts.MORE_PAGETWO)) {
+										.getBoolean(Consts.MORE_PAGETWO)) {
 							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 							ll_dot.setVisibility(View.GONE);
 							viewpager.setCurrentItem(0);
@@ -580,7 +579,7 @@ OnPageChangeListener, OnFuncActionListener {
 						} else {
 							if (MySharedPreference.getBoolean(Consts.MORE_HELP)
 									&& !MySharedPreference
-									.getBoolean(Consts.MORE_PAGETWO)) {
+											.getBoolean(Consts.MORE_PAGETWO)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.GONE);
 								viewpager.setCurrentItem(0);
@@ -606,7 +605,7 @@ OnPageChangeListener, OnFuncActionListener {
 						if (0 != myDeviceList.size()) {
 							if (!page1
 									&& !MySharedPreference
-									.getBoolean(Consts.MORE_PAGEONE)) {
+											.getBoolean(Consts.MORE_PAGEONE)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.VISIBLE);
 								viewpager.setCurrentItem(0);
@@ -620,7 +619,7 @@ OnPageChangeListener, OnFuncActionListener {
 								if (MySharedPreference
 										.getBoolean(Consts.MORE_HELP)
 										&& !MySharedPreference
-										.getBoolean(Consts.MORE_PAGEONE)) {
+												.getBoolean(Consts.MORE_PAGEONE)) {
 									ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 									ll_dot.setVisibility(View.VISIBLE);
 									viewpager.setCurrentItem(0);
@@ -636,24 +635,29 @@ OnPageChangeListener, OnFuncActionListener {
 						}
 						break;
 					case 3:
-						if (null == (statusHashMap.get(
-								Consts.MORE_BBSNUM)) || "".equals((statusHashMap.get(
-										Consts.MORE_BBSNUM)))) {
-							GetDemoTask taskdemo  =  new GetDemoTask(JVTabActivity.this);
-							String params [] = new String[3];
-							params [1] = "4";
-							taskdemo.execute(params);
-						}
+						if (Consts.LANGUAGE_ZH == ConfigUtil
+								.getLanguage2(JVTabActivity.this)) {
+							if (null == (statusHashMap.get(Consts.MORE_BBSNUM))
+									|| "".equals((statusHashMap
+											.get(Consts.MORE_BBSNUM)))) {
+								GetDemoTask taskdemo = new GetDemoTask(
+										JVTabActivity.this);
+								String params[] = new String[3];
+								params[1] = "4";
+								taskdemo.execute(params);
+							}
 
-						if (null != (statusHashMap.get(
-								Consts.MORE_BBSNUM)) && !"".equals((statusHashMap.get(
-										Consts.MORE_BBSNUM)))&&Consts.LANGUAGE_ZH == ConfigUtil
-										.getLanguage2(JVTabActivity.this)) {
-							GetnoMessageTask task = new GetnoMessageTask();
-							String  [] param  = new String[3];
-							param [0] = statusHashMap.get(
-									Consts.MORE_BBSNUM);
-							task.execute(param);
+							if (null != (statusHashMap.get(Consts.MORE_BBSNUM))
+									&& !"".equals((statusHashMap
+											.get(Consts.MORE_BBSNUM)))
+									&& Consts.LANGUAGE_ZH == ConfigUtil
+											.getLanguage2(JVTabActivity.this)) {
+								GetnoMessageTask task = new GetnoMessageTask();
+								String[] param = new String[3];
+								param[0] = statusHashMap
+										.get(Consts.MORE_BBSNUM);
+								task.execute(param);
+							}
 						}
 						break;
 					default:
@@ -672,7 +676,7 @@ OnPageChangeListener, OnFuncActionListener {
 		android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 		if (null != manager) {
 			manager.beginTransaction()
-			.replace(R.id.tab_fragment, mFragments[0]).commit();
+					.replace(R.id.tab_fragment, mFragments[0]).commit();
 		} else {
 			MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
 			this.finish();
@@ -697,7 +701,7 @@ OnPageChangeListener, OnFuncActionListener {
 
 			MyLog.v("notifyer",
 					((MainApplication) this.getApplication()).currentNotifyer
-					+ "");
+							+ "");
 			String notifer = ((MainApplication) this.getApplication()).currentNotifyer
 					+ "";
 			if (notifer.startsWith("JVMyDeviceFragment")) {
@@ -711,7 +715,7 @@ OnPageChangeListener, OnFuncActionListener {
 			} else if (notifer.startsWith("JVVideoFragment")) {
 				if (JVVideoFragment.webView.canGoBack()) {
 					((MainApplication) this.getApplication()).currentNotifyer
-					.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
+							.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
 				} else {
 					exit();
 				}
@@ -842,7 +846,7 @@ OnPageChangeListener, OnFuncActionListener {
 				}
 				if (countshow > 0) {
 					mIndicator
-					.updateIndicator(3, 0, true, countshow + countbbs);
+							.updateIndicator(3, 0, true, countshow + countbbs);
 				} else {
 					mIndicator.updateIndicator(3, 0, false, countshow
 							+ countbbs);
@@ -866,12 +870,11 @@ OnPageChangeListener, OnFuncActionListener {
 		@Override
 		protected Integer doInBackground(String... params) {
 			countbbs = 0;
-			String result = JSONUtil.httpGet(params [0]);
-			MyLog.e("BBS_notread", "request=" + params [0] + ";result="
-					+ result);
-			//request=http://bbs.cloudsee.net/v.php?mod=auth&act=sid_login&next=/&sid=c01ed43499478b62f4cb233112a41fe8
+			String result = JSONUtil.httpGet(params[0]);
+			MyLog.e("BBS_notread", "request=" + params[0] + ";result=" + result);
+			// request=http://bbs.cloudsee.net/v.php?mod=auth&act=sid_login&next=/&sid=c01ed43499478b62f4cb233112a41fe8
 			// request=http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid=1dad46caaa92eb0ea59a4c348fd5de81;result={"msg":"ok","errCode":1,"data":[{"url":"","count":0}]}
-			try {                                            
+			try {
 				JSONObject responseObject = new JSONObject(result);
 				JSONArray dataArray = new JSONArray(
 						responseObject.optString("data"));

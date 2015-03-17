@@ -69,7 +69,7 @@
     <permission
         android:name="getui.permission.GetuiService.第三方包名"
         android:protectionLevel="normal" >
-    </permission>
+    </permission>
     -->
     <permission
         android:name="getui.permission.GetuiService.com.jovetech.CloudSee.temp"
@@ -166,7 +166,7 @@
         <activity
             android:name="com.jovision.activities.JVRebandContactActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -187,7 +187,7 @@
         <activity
             android:name="com.jovision.activities.JVReBoundEmailActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -201,7 +201,7 @@
         <activity
             android:name="com.jovision.activities.JVSystemInfoActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -396,7 +396,7 @@
         </activity>
         <activity
             android:name="com.jovision.activities.JVEditPassActivity"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" >
         </activity>
@@ -590,7 +590,7 @@
         <activity
             android:name="com.jovision.activities.AlarmInfoActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -694,7 +694,7 @@
             <intent-filter>
                 <action android:name="com.igexin.sdk.action.pushmanager" />
             </intent-filter>
-        </receiver>
+        </receiver>
         -->
         <receiver
             android:name="com.igexin.sdk.PushManagerReceiver"

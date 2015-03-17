@@ -257,8 +257,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal" >
+
                 <TextView
                     android:id="@+id/tcp"
                     android:layout_width="0dp"
@@ -269,8 +269,8 @@
                     android:text="@string/str_pass"
                     android:textColor="@color/leftdevicecolor"
                     android:textSize="18sp"
-                    android:visibility="invisible"
-                    android:textStyle="normal" >
+                    android:textStyle="normal"
+                    android:visibility="invisible" >
                 </TextView>
 
                 <RelativeLayout
@@ -290,8 +290,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
                         android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/tcp_img"
                         android:text="@string/str_connect_tcp"
                         android:textColor="@color/leftdevicecolor"

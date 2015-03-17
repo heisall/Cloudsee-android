@@ -702,6 +702,9 @@ public class Consts {
 	/** 广告检查过更新 */
 	public static final String AD_UPDATE = "AD_UPDATE";
 
+	/** 免登陆第一次登陆 */
+	public static final String FIRST_LOGIN = "FIRST_LOGIN";
+
 	// /** 功能设置页面场景图片标志位 */
 	// public static String SETTING_SCENE = "SCENE";
 	//

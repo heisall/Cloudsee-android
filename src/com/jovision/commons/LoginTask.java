@@ -111,6 +111,7 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 
 		switch (result) {
 		case JVAccountConst.LOGIN_SUCCESS: {
+			MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
 			StatService.trackCustomEvent(mContext, "onlinelogin", mContext
 					.getResources().getString(R.string.census_onlinelogin));
 			MySharedPreference.putString("UserName",
@@ -136,6 +137,7 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 		}
 		case JVAccountConst.RESET_NAME_AND_PASS: {
 			if (firstLogin) {
+				MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
 				Intent intent = new Intent();
 				intent.setClass(mContext, JVEditOldUserInfoActivity.class);
 				mContext.startActivity(intent);
@@ -145,6 +147,7 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 
 		case JVAccountConst.PASSWORD_ERROR: {
 			if (firstLogin) {
+				MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
 				UserUtil.resetAllUser();
 				((BaseActivity) mContext)
 						.showTextToast(R.string.str_userpass_error);
@@ -162,6 +165,7 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 		}
 		case JVAccountConst.SESSION_NOT_EXSIT: {
 			if (firstLogin) {
+				MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
 				((BaseActivity) mContext)
 						.showTextToast(R.string.str_session_not_exist);
 				Intent intent = new Intent();
@@ -181,6 +185,7 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 		}
 		case JVAccountConst.USER_NOT_EXIST: {
 			if (firstLogin) {
+				MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
 				UserUtil.resetAllUser();
 				((BaseActivity) mContext)
 						.showTextToast(R.string.str_user_not_exist);
@@ -194,6 +199,7 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 		}
 		case JVAccountConst.LOGIN_FAILED_1: {
 			if (firstLogin) {
+				MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
 				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
@@ -203,6 +209,7 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 		}
 		case JVAccountConst.LOGIN_FAILED_2: {
 			if (firstLogin) {
+				MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
 				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));

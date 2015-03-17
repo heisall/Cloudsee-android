@@ -36,6 +36,7 @@ import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
 import com.jovision.adapters.MyPagerAdp;
 import com.jovision.bean.Device;
 import com.jovision.commons.CheckUpdateTask;
+import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -47,7 +48,7 @@ import com.jovision.utils.JSONUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVTabActivity extends ShakeActivity implements
-OnPageChangeListener, OnFuncActionListener {
+		OnPageChangeListener, OnFuncActionListener {
 	private static final String TAG = "JVTabActivity";
 	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
@@ -119,8 +120,8 @@ OnPageChangeListener, OnFuncActionListener {
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-				| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// 开启logcat输出，方便debug，发布时请关闭
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
@@ -128,8 +129,8 @@ OnPageChangeListener, OnFuncActionListener {
 			PushManager.getInstance().initialize(this.getApplicationContext());
 			String userName = statusHashMap.get(Consts.KEY_USERNAME);
 			MySharedPreference.putString(Consts.KEY_USERNAME, userName);
-			mApp.initNewPushCnt(userName);	
-			Log.e("GPush", "android.os.Build.MODEL:"+android.os.Build.MODEL);
+			mApp.initNewPushCnt(userName);
+			Log.e("GPush", "android.os.Build.MODEL:" + android.os.Build.MODEL);
 		}
 		MyLog.v(TAG, "onCreate----X");
 	}
@@ -239,7 +240,7 @@ OnPageChangeListener, OnFuncActionListener {
 		countshow = 0;
 		MyLog.v(TAG, "onResume----E");
 		if (null != mIndicator) {
-			if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {				
+			if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
 				int cnt = mApp.getNewPushCnt();
 				countshow = cnt;
 				Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
@@ -263,7 +264,7 @@ OnPageChangeListener, OnFuncActionListener {
 					countshow = countshow + 1;
 				}
 			}
-			if (countshow+ countbbs > 0) {
+			if (countshow + countbbs > 0) {
 				mIndicator.updateIndicator(3, 0, true, countshow + countbbs);
 			} else {
 				mIndicator.updateIndicator(3, 0, false, countshow + countbbs);
@@ -278,13 +279,33 @@ OnPageChangeListener, OnFuncActionListener {
 			android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 			if (null != manager) {
 				getSupportFragmentManager().beginTransaction()
-				.replace(R.id.tab_fragment, mFragments[currentIndex])
-				.commit();
+						.replace(R.id.tab_fragment, mFragments[currentIndex])
+						.commit();
 			} else {
 				MyLog.e(TAG, "TAB_onresume_manager null" + currentIndex);
 				this.finish();
 			}
 
+				if ("false".equals(statusHashMap
+						.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+					MyLog.e("Login", "初始化账号SDK失败");
+					ConfigUtil.initAccountSDK(((MainApplication)getApplication()));// 初始化账号SDK
+				}
+
+				GetDemoTask demoTask = new GetDemoTask(JVTabActivity.this);
+				String[] demoParams = new String[3];
+				if (!Boolean.valueOf(statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {
+					String sessionResult = ConfigUtil.getSession();
+
+					MyLog.v("session", sessionResult);
+					demoParams[0] = sessionResult;
+				} else {
+					demoParams[0] = "";
+				}
+				demoParams[1] = "1";
+				demoParams[2] = "fragmentString";
+				demoTask.execute(demoParams);
 		}
 		// if (currentIndex == 1) {
 		// int cnt = mApp.getNewPushCnt();
@@ -401,7 +422,7 @@ OnPageChangeListener, OnFuncActionListener {
 						obj);
 			}
 		}
-		break;
+			break;
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
 			countshow = 0;
 			if (null != mIndicator) {
@@ -444,9 +465,9 @@ OnPageChangeListener, OnFuncActionListener {
 						countshow = countshow + 1;
 					}
 				}
-				if (countshow+ countbbs > 0) {
+				if (countshow + countbbs > 0) {
 					mIndicator
-					.updateIndicator(3, 0, true, countshow + countbbs);
+							.updateIndicator(3, 0, true, countshow + countbbs);
 				} else {
 					mIndicator.updateIndicator(3, 0, false, countshow
 							+ countbbs);
@@ -499,10 +520,10 @@ OnPageChangeListener, OnFuncActionListener {
 		// if(strModel.toUpperCase().substring(0, 1+1).equals("MI")){
 		// new TPushTips(this).showNoticeDialog();
 		// }
-		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {		
+		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
 			String model = android.os.Build.MODEL;
-			Log.e("OS", "model:"+model);
-			if(model.startsWith("MI") || model.startsWith("HM")){//对于刷机的手机好像有影响
+			Log.e("OS", "model:" + model);
+			if (model.startsWith("MI") || model.startsWith("HM")) {// 对于刷机的手机好像有影响
 				String strRom = ConfigUtil
 						.getSystemProperty("ro.miui.ui.version.name");
 				if (strRom == null || strRom.equals("")) {
@@ -518,10 +539,9 @@ OnPageChangeListener, OnFuncActionListener {
 						}
 					}
 
-				}				
-			}
-			else{
-				Log.e("OS","不是小米或者红米系列");
+				}
+			} else {
+				Log.e("OS", "不是小米或者红米系列");
 			}
 		}
 		mFragments[0] = new JVMyDeviceFragment();
@@ -544,13 +564,13 @@ OnPageChangeListener, OnFuncActionListener {
 				try {
 					currentIndex = which;
 					getSupportFragmentManager().beginTransaction()
-					.replace(R.id.tab_fragment, mFragments[which])
-					.commit();
+							.replace(R.id.tab_fragment, mFragments[which])
+							.commit();
 					switch (which) {
 					case 0:
 						if (!page2
 								&& !MySharedPreference
-								.getBoolean(Consts.MORE_PAGETWO)) {
+										.getBoolean(Consts.MORE_PAGETWO)) {
 							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 							ll_dot.setVisibility(View.GONE);
 							viewpager.setCurrentItem(0);
@@ -563,7 +583,7 @@ OnPageChangeListener, OnFuncActionListener {
 						} else {
 							if (MySharedPreference.getBoolean(Consts.MORE_HELP)
 									&& !MySharedPreference
-									.getBoolean(Consts.MORE_PAGETWO)) {
+											.getBoolean(Consts.MORE_PAGETWO)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.GONE);
 								viewpager.setCurrentItem(0);
@@ -589,7 +609,7 @@ OnPageChangeListener, OnFuncActionListener {
 						if (0 != myDeviceList.size()) {
 							if (!page1
 									&& !MySharedPreference
-									.getBoolean(Consts.MORE_PAGEONE)) {
+											.getBoolean(Consts.MORE_PAGEONE)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.VISIBLE);
 								viewpager.setCurrentItem(0);
@@ -603,7 +623,7 @@ OnPageChangeListener, OnFuncActionListener {
 								if (MySharedPreference
 										.getBoolean(Consts.MORE_HELP)
 										&& !MySharedPreference
-										.getBoolean(Consts.MORE_PAGEONE)) {
+												.getBoolean(Consts.MORE_PAGEONE)) {
 									ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 									ll_dot.setVisibility(View.VISIBLE);
 									viewpager.setCurrentItem(0);
@@ -619,7 +639,8 @@ OnPageChangeListener, OnFuncActionListener {
 						}
 						break;
 					case 3:
-						if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(JVTabActivity.this)) {
+						if (Consts.LANGUAGE_ZH == ConfigUtil
+								.getLanguage2(JVTabActivity.this)) {
 							GetnoMessageTask task = new GetnoMessageTask();
 							task.execute();
 						}
@@ -640,7 +661,7 @@ OnPageChangeListener, OnFuncActionListener {
 		android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 		if (null != manager) {
 			manager.beginTransaction()
-			.replace(R.id.tab_fragment, mFragments[0]).commit();
+					.replace(R.id.tab_fragment, mFragments[0]).commit();
 		} else {
 			MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
 			this.finish();
@@ -665,7 +686,7 @@ OnPageChangeListener, OnFuncActionListener {
 
 			MyLog.v("notifyer",
 					((MainApplication) this.getApplication()).currentNotifyer
-					+ "");
+							+ "");
 			String notifer = ((MainApplication) this.getApplication()).currentNotifyer
 					+ "";
 			if (notifer.startsWith("JVMyDeviceFragment")) {
@@ -679,7 +700,7 @@ OnPageChangeListener, OnFuncActionListener {
 			} else if (notifer.startsWith("JVVideoFragment")) {
 				if (JVVideoFragment.webView.canGoBack()) {
 					((MainApplication) this.getApplication()).currentNotifyer
-					.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
+							.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
 				} else {
 					exit();
 				}
@@ -810,7 +831,7 @@ OnPageChangeListener, OnFuncActionListener {
 				}
 				if (countshow > 0) {
 					mIndicator
-					.updateIndicator(3, 0, true, countshow + countbbs);
+							.updateIndicator(3, 0, true, countshow + countbbs);
 				} else {
 					mIndicator.updateIndicator(3, 0, false, countshow
 							+ countbbs);
@@ -863,12 +884,10 @@ OnPageChangeListener, OnFuncActionListener {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mainListener.onMainAction(result);
 			onNotify(Consts.NEW_BBS, result, 0, null);
-			if (countshow+ result > 0) {
-				mIndicator
-				.updateIndicator(3, 0, true, countshow + result);
+			if (countshow + result > 0) {
+				mIndicator.updateIndicator(3, 0, true, countshow + result);
 			} else {
-				mIndicator.updateIndicator(3, 0, false, countshow
-						+ result);
+				mIndicator.updateIndicator(3, 0, false, countshow + result);
 			}
 		}
 

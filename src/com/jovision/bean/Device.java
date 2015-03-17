@@ -377,10 +377,8 @@ public class Device {
 					Device dev = fromJson(devArray.get(i).toString());
 					if (null != dev) {
 						devList.add(dev);
-						CacheUtil
-						.setNickNameWithYstfn(
-								dev.getFullNo(),
-								dev.getNickName());						
+						CacheUtil.setNickNameWithYstfn(dev.getFullNo(),
+								dev.getNickName());
 					}
 				}
 			}

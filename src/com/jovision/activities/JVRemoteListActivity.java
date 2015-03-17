@@ -66,6 +66,7 @@ public class JVRemoteListActivity extends BaseActivity {
 	private ProgressDialog downloadDialog;// 下载进度
 	boolean downloading = false;
 	private String downFileFullName = "";// 下载的文件的路径
+	private boolean iscancel;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -91,7 +92,7 @@ public class JVRemoteListActivity extends BaseActivity {
 				downFileFullName = downLoadPath + fileName;
 				File downFile = new File(downLoadPath);
 				MobileUtil.createDirectory(downFile);
-
+				iscancel = false;
 				Jni.setDownloadFileName(downFileFullName);// 下载之前必须先调用此方法设置文件名
 
 				Jni.sendBytes(indexOfChannel,
@@ -160,11 +161,14 @@ public class JVRemoteListActivity extends BaseActivity {
 					break;
 				}
 				case JVNetConst.JVN_RSP_DOWNLOADOVER: {// 下载完成
-					if (null != downloadDialog && downloadDialog.isShowing()) {
-						downloadDialog.dismiss();
-						downloadDialog = null;
+					if (!iscancel) {
+						if (null != downloadDialog
+								&& downloadDialog.isShowing()) {
+							downloadDialog.dismiss();
+							downloadDialog = null;
+						}
+						showTextToast(R.string.video_download_success);
 					}
-					showTextToast(R.string.video_download_success);
 					break;
 				}
 				case JVNetConst.JVN_RSP_DOWNLOADE: {// 下载失敗
@@ -471,6 +475,7 @@ public class JVRemoteListActivity extends BaseActivity {
 							Jni.sendBytes(indexOfChannel,
 									(byte) JVNetConst.JVN_CMD_DOWNLOADSTOP,
 									new byte[0], 8);
+							iscancel = true;
 							Jni.cancelDownload();
 							dialog.dismiss();
 						}

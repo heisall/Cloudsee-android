@@ -347,17 +347,17 @@ public class AlarmUtil {
 										// "apic":".\/rec\/00\/20141014\/A01092715.jpg","avd":"1413278835","ats":1413278835},}
 										pi.alarmType = obj
 												.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
-//										if (pi.alarmType == 7
-//												|| pi.alarmType == 4) {
-//											pi.deviceNickName = obj
-//													.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
-//										} else if (pi.alarmType == 11)// 第三方
-//										{
-//											pi.deviceNickName = obj
-//													.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
-//										} else {
-//
-//										}
+										// if (pi.alarmType == 7
+										// || pi.alarmType == 4) {
+										// pi.deviceNickName = obj
+										// .optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+										// } else if (pi.alarmType == 11)// 第三方
+										// {
+										// pi.deviceNickName = obj
+										// .optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+										// } else {
+										//
+										// }
 
 										pi.strGUID = obj
 												.optString(JVAlarmConst.JK_ALARM_NEW_GUID);
@@ -384,8 +384,7 @@ public class AlarmUtil {
 											{
 												deviceNickName = deviceNickName
 														+ "-"
-														+  obj
-														.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+														+ obj.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
 											}
 										}
 										pi.deviceNickName = deviceNickName;

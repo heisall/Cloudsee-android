@@ -579,16 +579,16 @@ public class JVInfoFragment extends BaseFragment {
 						// pi.deviceNickName = BaseApp.getNikeName(pi.ystNum);
 						pi.alarmType = obj
 								.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
-//						if (pi.alarmType == 7 || pi.alarmType == 4) {
-//							pi.deviceNickName = obj
-//									.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
-//						} else if (pi.alarmType == 11)// 第三方
-//						{
-//							pi.deviceNickName = obj
-//									.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
-//						} else {
-//
-//						}
+						// if (pi.alarmType == 7 || pi.alarmType == 4) {
+						// pi.deviceNickName = obj
+						// .optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+						// } else if (pi.alarmType == 11)// 第三方
+						// {
+						// pi.deviceNickName = obj
+						// .optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+						// } else {
+						//
+						// }
 
 						// ArrayList<Device> deviceList =
 						// CacheUtil.getDevList();// 再取一次
@@ -602,9 +602,9 @@ public class JVInfoFragment extends BaseFragment {
 							// .getNickName();
 							if (pi.alarmType == 11)// 第三方
 							{
-								deviceNickName = deviceNickName + "-"
-										+  obj
-										.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+								deviceNickName = deviceNickName
+										+ "-"
+										+ obj.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
 							}
 						}
 						pi.deviceNickName = deviceNickName;

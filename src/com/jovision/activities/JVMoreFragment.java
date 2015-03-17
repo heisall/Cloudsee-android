@@ -216,8 +216,10 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 			// more_bindmail.setVisibility(View.VISIBLE);
 			break;
 		case Consts.NEW_BBS:
-			adapter.setBBSNums(arg1);
-			adapter.notifyDataSetChanged();
+			if (null != adapter) {
+				adapter.setBBSNums(arg1);
+				adapter.notifyDataSetChanged();
+			}
 			// mActivity.showTextToast("获得结果");
 			break;
 		}
@@ -777,13 +779,13 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 							}
 							break;
 						case 12:
-//							 if
-//							 (!MySharedPreference.getBoolean(Consts.MORE_BBS))
-//							 {
-//							 MySharedPreference.putBoolean(Consts.MORE_BBS,
-//							 true);
-//							 mListener.OnFuncEnabled(0, 1);
-//							 }
+							// if
+							// (!MySharedPreference.getBoolean(Consts.MORE_BBS))
+							// {
+							// MySharedPreference.putBoolean(Consts.MORE_BBS,
+							// true);
+							// mListener.OnFuncEnabled(0, 1);
+							// }
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {

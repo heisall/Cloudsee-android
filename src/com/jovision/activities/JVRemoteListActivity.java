@@ -71,6 +71,55 @@ public class JVRemoteListActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 
 		switch (what) {
+		case Consts.CALL_CONNECT_CHANGE: {
+			MyLog.i(TAG, "CALL_CONNECT_CHANGE:what=" + what + ",arg1=" + arg1
+					+ ",arg2=" + arg2 + ",obj=" + obj);
+			switch (arg2) {
+			// 1 -- 连接成功
+			case JVNetConst.CONNECT_OK: {
+				break;
+			}
+			// 2 -- 断开连接成功
+			case JVNetConst.DISCONNECT_OK: {
+				cancelDownload();
+				break;
+			}
+			// 4 -- 连接失败
+			case JVNetConst.CONNECT_FAILED: {
+				cancelDownload();
+				break;
+			}
+			// 6 -- 连接异常断开
+			case JVNetConst.ABNORMAL_DISCONNECT: {
+				cancelDownload();
+				break;
+			}
+			// 7 -- 服务停止连接，连接断开
+			case JVNetConst.SERVICE_STOP: {
+				cancelDownload();
+				break;
+			}
+			case Consts.BAD_NOT_CONNECT: {
+				break;
+			}
+			// 3 -- 不必要重复连接
+			case JVNetConst.NO_RECONNECT: {
+				break;
+			}
+			// 5 -- 没有连接
+			case JVNetConst.NO_CONNECT: {
+				break;
+			}
+			// 8 -- 断开连接失败
+			case JVNetConst.DISCONNECT_FAILED: {
+				break;
+			}
+			// 9 -- 其他错误
+			case JVNetConst.OHTER_ERROR: {
+				break;
+			}
+			}
+		}
 		case Consts.PLAY_BACK_DOWNLOAD: {// 远程回放视频下载
 			if (hasSDCard(0)) {
 				createDialog("", true);
@@ -160,19 +209,28 @@ public class JVRemoteListActivity extends BaseActivity {
 					break;
 				}
 				case JVNetConst.JVN_RSP_DOWNLOADOVER: {// 下载完成
-					if (null != downloadDialog && downloadDialog.isShowing()) {
-						downloadDialog.dismiss();
-						downloadDialog = null;
+					if (downloading) {
+						if (null != downloadDialog
+								&& downloadDialog.isShowing()) {
+							downloadDialog.dismiss();
+							downloadDialog = null;
+						}
+						showTextToast(R.string.video_download_success);
+						downloading = false;
 					}
-					showTextToast(R.string.video_download_success);
+
 					break;
 				}
 				case JVNetConst.JVN_RSP_DOWNLOADE: {// 下载失敗
-					if (null != downloadDialog && downloadDialog.isShowing()) {
-						downloadDialog.dismiss();
-						downloadDialog = null;
+					if (downloading) {
+						if (null != downloadDialog
+								&& downloadDialog.isShowing()) {
+							downloadDialog.dismiss();
+							downloadDialog = null;
+						}
+						showTextToast(R.string.video_download_failed);
+						downloading = false;
 					}
-					showTextToast(R.string.video_download_failed);
 					break;
 				}
 				}
@@ -477,5 +535,17 @@ public class JVRemoteListActivity extends BaseActivity {
 					});
 		}
 		downloadDialog.show();
+	}
+
+	/**
+	 * 网络断开，如果正在下载取消下载
+	 */
+	private void cancelDownload() {
+		if (downloading) {
+			downloading = false;
+			Jni.cancelDownload();
+			downloadDialog.dismiss();
+		}
+		this.finish();
 	}
 }

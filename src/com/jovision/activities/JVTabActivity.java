@@ -849,11 +849,9 @@ public class JVTabActivity extends ShakeActivity implements
 			mainListener.onMainAction(result);
 			onNotify(Consts.NEW_BBS, result, 0, null);
 			if (countshow > 0) {
-				mIndicator
-						.updateIndicator(3, 0, true, countshow + result);
+				mIndicator.updateIndicator(3, 0, true, countshow + result);
 			} else {
-				mIndicator.updateIndicator(3, 0, false, countshow
-						+ result);
+				mIndicator.updateIndicator(3, 0, false, countshow + result);
 			}
 		}
 

@@ -353,7 +353,7 @@ public class JVWebViewActivity extends BaseActivity {
 	 */
 	private void backMethod() {
 		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
-		Log.i("TAG","返回显示"+webView.canGoBack());
+		Log.i("TAG", "返回显示" + webView.canGoBack());
 		try {
 			if (webView.canGoBack()) {
 				if (null != titleStack && 0 != titleStack.size()) {

@@ -189,9 +189,6 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 					}
 					((BaseActivity) mContext).statusHashMap.put(
 							Consts.MORE_BBSNUM, bbsnum);
-				}else {
-					((BaseActivity) mContext)
-					.showTextToast(R.string.str_video_load_failed);
 				}
 				break;
 			default:

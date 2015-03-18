@@ -74,7 +74,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 	// 头像
 	private ImageView more_head;
 	// 注销按钮
-	private RelativeLayout more_cancle;
+	private RelativeLayout more_cancle; 
 	// 用户名称
 	private TextView more_username;
 	// 用户名
@@ -182,7 +182,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 				showGCS = false;
 			}
 		}
-
+	
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 		currentMenu.setText(R.string.more_featrue);
@@ -771,11 +771,11 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 								.initAccountSDK(((MainApplication) mActivity
 										.getApplication()));// 初始化账号SDK
 							}
-							GetDemoTask UrlTask2 = new GetDemoTask(mActivity);
+							GetDemoTask UrlTask2 = new GetDemoTask(
+									mActivity);
 							String[] demoParams2 = new String[3];
 							demoParams2[1] = "2";
 							UrlTask2.execute(demoParams2);
-							break;
 						}
 					}
 					break;
@@ -818,47 +818,15 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 								intentAD0.putExtra("title", -2);
 								mActivity.startActivity(intentAD0);
 							} else {
-								onNotify(Consts.NEW_BBS, 0, 0, null);
-								if (null != ((BaseActivity) mActivity).statusHashMap
-										.get(Consts.MORE_BBSNUMURL)
-										&& !"".equals(((BaseActivity) mActivity).statusHashMap
-												.get(Consts.MORE_BBSNUMURL))) {
-									mActivity.statusHashMap.put(
-											Consts.MORE_BBSNUMURL, "");
-									Intent intentAD0 = new Intent(mActivity,
-											JVWebViewActivity.class);
-									intentAD0
-											.putExtra(
-													"URL",
-													((BaseActivity) mActivity).statusHashMap
-															.get(Consts.MORE_BBSNUMURL));
-									intentAD0.putExtra("title", -2);
-									mActivity.startActivity(intentAD0);
+								String sid = "";
+								if (!Boolean
+										.valueOf(mActivity.statusHashMap
+												.get(Consts.LOCAL_LOGIN))) {
+									String sessionResult = ConfigUtil
+											.getSession();
+									sid = sessionResult;
 								} else {
-									if (null != ((BaseActivity) mActivity).statusHashMap
-											.get(Consts.MORE_BBS)) {
-										Intent intentAD0 = new Intent(
-												mActivity,
-												JVWebViewActivity.class);
-										intentAD0
-												.putExtra(
-														"URL",
-														((BaseActivity) mActivity).statusHashMap
-																.get(Consts.MORE_BBS));
-										intentAD0.putExtra("title", -2);
-										mActivity.startActivity(intentAD0);
-									} else {
-										String sid = "";
-										if (!Boolean
-												.valueOf(mActivity.statusHashMap
-														.get(Consts.LOCAL_LOGIN))) {
-											String sessionResult = ConfigUtil
-													.getSession();
-											sid = sessionResult;
-										} else {
-											sid = "";
-										}
-									}
+									sid = "";
 								}
 
 								if ("false".equals(mActivity.statusHashMap
@@ -872,10 +840,61 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 								adapter.notifyDataSetChanged();
 								GetDemoTask UrlTask2 = new GetDemoTask(
 										mActivity);
-								String[] strParams = new String[3];
-								strParams[0] = "1";// 1,手动检查更新
-								taskf.execute(strParams);
+								String[] demoParams2 = new String[3];
+								demoParams2[0] = sid;
+								demoParams2[1] = "3";
+								UrlTask2.execute(demoParams2);
 							}
+						}
+					}
+					break;
+				case 13: // 系统消息
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						MySharedPreference.putBoolean(
+								Consts.MORE_SYSTEMMESSAGE, true);
+						mListener.OnFuncEnabled(0, 1);
+					}
+					if (!ConfigUtil.isConnected(mActivity)) {
+						mActivity.alertNetDialog();
+					} else {
+						StatService.trackCustomEvent(
+								mActivity,
+								"MoreMessage",
+								mActivity.getResources().getString(
+										R.string.census_moremessage));
+						Intent infoIntent = new Intent();
+						infoIntent.setClass(mActivity,
+								JVSystemInfoActivity.class);
+						mActivity.startActivity(infoIntent);
+					}
+					break;
+				case 14: // 图像查看
+					StatService.trackCustomEvent(
+							mActivity,
+							"Media",
+							mActivity.getResources().getString(
+									R.string.census_media));
+					Intent intentMedia = new Intent(mActivity,
+							JVMediaActivity.class);
+					mActivity.startActivity(intentMedia);
+					break;
+				case 15: // 意见反馈
+					// Intent intent = new Intent(mActivity,
+					// JVFeedbackActivity.class);
+					// startActivity(intent);
+					break;
+				case 16: // 检查更新
+					if (!ConfigUtil.isConnected(mActivity)) {
+						mActivity.alertNetDialog();
+					} else {
+						mActivity.createDialog("", false);
+						CheckUpdateTask taskf = new CheckUpdateTask(
+								mActivity);
+						String[] strParams = new String[3];
+						strParams[0] = "1";// 1,手动检查更新
+						taskf.execute(strParams);
+					}
 
 					break;
 				case 17: // 关于

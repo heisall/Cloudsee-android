@@ -150,7 +150,8 @@ public class MediaFolderAdapter extends BaseAdapter {
 								imageIntent.putExtra("FileIndex", position);
 								mContext.startActivity(imageIntent);
 							}
-						} else if ("video".equalsIgnoreCase(media)) {
+						} else if ("video".equalsIgnoreCase(media)
+								|| "downVideo".equalsIgnoreCase(media)) {
 							if (isdelect) {
 								selectPlayerDialog(mContext,
 										fileArray[position].getAbsolutePath());

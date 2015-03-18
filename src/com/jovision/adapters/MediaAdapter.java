@@ -82,7 +82,8 @@ public class MediaAdapter extends BaseAdapter {
 		try {
 			if ("image".equalsIgnoreCase(media)) {
 				fileHolder.playImg.setVisibility(View.GONE);
-			} else if ("video".equalsIgnoreCase(media)) {
+			} else if ("video".equalsIgnoreCase(media)
+					|| "downVideo".equalsIgnoreCase(media)) {
 				fileHolder.playImg.setVisibility(View.VISIBLE);
 			}
 			if (!isdelect) {

@@ -50,6 +50,29 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/horfunc_talk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/horfunc_talk_normal"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/talk_normal" />
+
+        <ImageView
+            android:id="@+id/horfunc_talk_down"
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/talk_down"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="45dp"

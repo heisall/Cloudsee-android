@@ -63,8 +63,8 @@ public class JVLoginActivity extends BaseActivity {
 	private Button localLoginBtn;
 	private TextView showPointBtn;
 	private TextView findPassTV;
-	private ImageView logoImageView;
-	private RelativeLayout.LayoutParams params;
+	// private ImageView logoImageView;
+	// private RelativeLayout.LayoutParams params;
 
 	// 下拉箭头图片组件
 	private ImageView moreUserIV;
@@ -87,7 +87,7 @@ public class JVLoginActivity extends BaseActivity {
 			if (null != obj) {
 				tipMsg = obj.toString();
 			}
-			if (!MySharedPreference.getBoolean("LITTLE")) {
+			if (!MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
 				createDialog("", false);
 			} else {
 				createDialog(tipMsg, false);
@@ -97,7 +97,7 @@ public class JVLoginActivity extends BaseActivity {
 		}
 		case Consts.WHAT_DELETE_USER:
 			// TODO
-			moreUserIV.setImageResource(R.drawable.login_pullhesui_icon);
+			moreUserIV.setImageResource(R.drawable.login_pull_icon);
 			pop.dismiss();
 			userNameET.setText("");
 			passwordET.setText("");
@@ -117,7 +117,7 @@ public class JVLoginActivity extends BaseActivity {
 			if (arg2 != Consts.WHAT_CLICK_USER) {
 				passwordET.setText(((User) obj).getUserPwd());
 			}
-			moreUserIV.setImageResource(R.drawable.login_pullhesui_icon);
+			moreUserIV.setImageResource(R.drawable.login_pull_icon);
 			pop.dismiss();
 			break;
 		}
@@ -146,7 +146,7 @@ public class JVLoginActivity extends BaseActivity {
 
 		userList = UserUtil.getUserList();
 		/** userlogin Fuction */
-		logoImageView = (ImageView) findViewById(R.id.logo);
+		// logoImageView = (ImageView) findViewById(R.id.logo);
 		userNameET = (EditText) findViewById(R.id.username_et);
 		passwordET = (EditText) findViewById(R.id.password_et);
 		onlineLoginBtn = (Button) findViewById(R.id.onlinelogin_btn);
@@ -155,9 +155,9 @@ public class JVLoginActivity extends BaseActivity {
 		registBtn = (TextView) findViewById(R.id.regist_btn);
 		localLoginBtn = (Button) findViewById(R.id.locallogin_btn);
 
-		params = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
-				(int) (0.32 * disMetrics.heightPixels));
-		logoImageView.setLayoutParams(params);
+		// params = new RelativeLayout.LayoutParams(disMetrics.widthPixels,
+		// (int) (0.32 * disMetrics.heightPixels));
+		// logoImageView.setLayoutParams(params);
 
 		if ("true".equals(statusHashMap.get(Consts.KEY_GONE_MORE))) {
 			showPointBtn.setVisibility(View.GONE);
@@ -248,7 +248,7 @@ public class JVLoginActivity extends BaseActivity {
 							@Override
 							public void run() {
 								moreUserIV
-										.setImageResource(R.drawable.login_pullhesui_up_icon);
+										.setImageResource(R.drawable.login_pull_up_icon);
 								pop.showAsDropDown(userNameLayout);
 							}
 						}, 200);
@@ -256,8 +256,7 @@ public class JVLoginActivity extends BaseActivity {
 				} else if (pop.isShowing()) {
 					userAdapter.notifyDataSetChanged();
 					pop.dismiss();
-					moreUserIV
-							.setImageResource(R.drawable.login_pullhesui_icon);
+					moreUserIV.setImageResource(R.drawable.login_pull_icon);
 				} else if (!pop.isShowing()) {
 					handler.postDelayed(new Runnable() {
 						@Override
@@ -265,7 +264,7 @@ public class JVLoginActivity extends BaseActivity {
 							userAdapter.notifyDataSetChanged();
 							pop.showAsDropDown(userNameLayout);
 							moreUserIV
-									.setImageResource(R.drawable.login_pullhesui_up_icon);
+									.setImageResource(R.drawable.login_pull_up_icon);
 						}
 					}, 200);
 
@@ -291,7 +290,7 @@ public class JVLoginActivity extends BaseActivity {
 		if (!ConfigUtil.isConnected(JVLoginActivity.this)) {
 			alertNetDialog();
 		} else {
-			if (MySharedPreference.getBoolean("REMEMBER", false)) {
+			if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {
 				String userName = intent.getStringExtra("UserName");
 				String userPass = intent.getStringExtra("UserPass");
 				statusHashMap.put(Consts.KEY_USERNAME, userName);
@@ -322,8 +321,7 @@ public class JVLoginActivity extends BaseActivity {
 			case R.id.username_et:
 				if (pop != null && pop.isShowing()) {
 					pop.dismiss();
-					moreUserIV
-							.setImageResource(R.drawable.login_pullhesui_icon);
+					moreUserIV.setImageResource(R.drawable.login_pull_icon);
 				}
 				break;
 			case R.id.btn_left: {
@@ -395,7 +393,7 @@ public class JVLoginActivity extends BaseActivity {
 									.getServerLanguage()) {
 						Intent registIntent = new Intent();
 						registIntent.setClass(JVLoginActivity.this,
-								JVRegisterActivity.class);
+								JVRegisterChoiceActivity.class);
 						JVLoginActivity.this.startActivity(registIntent);
 					} else if (Consts.LANGUAGE_EN == ConfigUtil
 							.getServerLanguage()) {
@@ -416,12 +414,18 @@ public class JVLoginActivity extends BaseActivity {
 							JVLoginActivity.this.getResources().getString(
 									R.string.census_demo));
 
+					if ("false".equals(statusHashMap
+							.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+						MyLog.e("Login", "初始化账号SDK失败");
+						ConfigUtil
+								.initAccountSDK(((MainApplication) getApplication()));// 初始化账号SDK
+					}
+
 					GetDemoTask task = new GetDemoTask(JVLoginActivity.this);
 					String[] params = new String[3];
 					params[0] = "";
 					params[1] = "1";
 					task.execute(params);
-
 					// Intent demoIntent = new Intent();
 					// demoIntent.setClass(JVLoginActivity.this,
 					// JVDemoActivity.class);
@@ -470,10 +474,6 @@ public class JVLoginActivity extends BaseActivity {
 
 				if ("false".equals(statusHashMap
 						.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-					// Toast.makeText(mContext, "初始化账号SDK失败，请重新运行程序",
-					// Toast.LENGTH_LONG)
-					// .show();
-					// return "";
 					MyLog.e("Login", "初始化账号SDK失败");
 					ConfigUtil
 							.initAccountSDK(((MainApplication) getApplication()));// 初始化账号SDK
@@ -483,32 +483,17 @@ public class JVLoginActivity extends BaseActivity {
 				handler.sendMessage(handler.obtainMessage(Consts.WHAT_SHOW_PRO,
 						0, 0, country));
 				String strRes = "";
-				Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH")
-						+ "LOGIN");
-				if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-					strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
-							statusHashMap.get(Consts.KEY_USERNAME),
-							statusHashMap.get(Consts.KEY_PASSWORD),
-							Url.SHORTSERVERIP, Url.LONGSERVERIP);
-				} else {
-					strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
-							statusHashMap.get(Consts.KEY_USERNAME),
-							statusHashMap.get(Consts.KEY_PASSWORD),
-							Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
-				}
-				
-				statusHashMap.put("LOGINRES",strRes);
+				strRes = AccountUtil.onLoginProcessV2(JVLoginActivity.this,
+						statusHashMap.get(Consts.KEY_USERNAME),
+						statusHashMap.get(Consts.KEY_PASSWORD),
+						Url.SHORTSERVERIP, Url.LONGSERVERIP, 1);
+				statusHashMap.put("LOGINRES", strRes);
 				JSONObject respObj = null;
 				try {
 					respObj = new JSONObject(strRes);
 					loginRes1 = respObj.optInt("arg1", 1);
 					loginRes2 = respObj.optInt("arg2", 0);
 					// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
-					if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-						MyLog.v(TAG, Url.SHORTSERVERIP + "--"
-								+ Url.LONGSERVERIP + "--" + country + "--"
-								+ strRes);
-					}
 					String data = respObj.optString("data");
 					if (null != data && !"".equalsIgnoreCase(data)) {
 						JSONObject dataObj = new JSONObject(data);
@@ -541,6 +526,12 @@ public class JVLoginActivity extends BaseActivity {
 						statusHashMap.get(Consts.KEY_USERNAME));
 			}
 
+			if (loginRes1 == JVAccountConst.LOGIN_FAILED_1
+					|| loginRes2 == JVAccountConst.LOGIN_FAILED_1) {
+				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
+					AccountUtil.userOnline();
+				}
+			}
 			return loginRes1;
 		}
 
@@ -560,9 +551,10 @@ public class JVLoginActivity extends BaseActivity {
 						"onlinelogin", JVLoginActivity.this.getResources()
 								.getString(R.string.census_onlinelogin));
 				if (!MySharedPreference.getBoolean("LOGINFIRST", false)
-						|| !MySharedPreference.getBoolean("REMEMBER", false)) {
-					MySharedPreference.putBoolean("REMEMBER", true);
+						&& !MySharedPreference.getBoolean(Consts.MORE_REMEMBER,
+								false)) {
 					MySharedPreference.putBoolean("LOGINFIRST", true);
+					MySharedPreference.putBoolean(Consts.MORE_REMEMBER, true);
 				}
 
 				MySharedPreference.putString("UserName",
@@ -644,7 +636,7 @@ public class JVLoginActivity extends BaseActivity {
 			}
 			case JVAccountConst.LOGIN_FAILED_1: {
 
-				if (MySharedPreference.getBoolean("REMEMBER", false)) {// 自动登陆，离线登陆
+				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
 					intent.setClass(JVLoginActivity.this, JVTabActivity.class);
@@ -666,7 +658,7 @@ public class JVLoginActivity extends BaseActivity {
 				break;
 			}
 			case JVAccountConst.LOGIN_FAILED_2: {
-				if (MySharedPreference.getBoolean("REMEMBER", false)) {// 自动登陆，离线登陆
+				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
 					statusHashMap.put(Consts.ACCOUNT_ERROR,
 							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
 					intent.setClass(JVLoginActivity.this, JVTabActivity.class);

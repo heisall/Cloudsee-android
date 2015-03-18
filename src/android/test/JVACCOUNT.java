@@ -258,12 +258,11 @@ public class JVACCOUNT {
 
 	public static native String onLoginProcessV2(int reserve, String reqJson);
 
-	public static native int GetSession(byte[] session);
+	public static native String GetSession();
 
 	public static native int SetUserOnlineStatus(int online_state);
 
-	public static native int GetMailPhoneNoSession(String account_name,
-			byte[] response);
+	public static native String GetMailPhoneNoSession(String account_name);
 
 	public static native int ResetUserPasswordNoSession(String password,
 			String account_name);
@@ -271,4 +270,13 @@ public class JVACCOUNT {
 	public static native String GetVersion(int aaa);
 
 	public static native String GetDevicesOnlineStatus();
+
+	public static native int ModifyMailPhone(int type, String MailorPhone);
+
+	public static native int SendResetMail(String Mail);
+
+	public static native int RandCodeCheck(String randCode);
+
+	// reqJson:{"user":"111","phone":"18668923911","mail":"","nick":"nicheng"}
+	public static native int SetAccountInfo(String reqJson);
 }

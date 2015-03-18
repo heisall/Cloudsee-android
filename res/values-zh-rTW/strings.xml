@@ -18,6 +18,8 @@
     <string name="login_str_password_tips1">密碼長度應在6-20位字元之間</string>
     <string name="login_str_login_failed">登錄失敗</string>
     <string name="login_str_regist_success">註冊成功</string>
+    <string name="login_str_registerchoiceone">手機註冊</string>
+    <string name="login_str_registerchoicetwo">郵箱註冊</string>
     <string name="login_str_regist_failed">註冊失敗</string>
     <string name="login_str_registing">正在註冊</string>
     <string name="str_have_registed">用戶名已被註冊</string>
@@ -70,6 +72,19 @@
     <string name="cloud1">雲視通</string>
     <string name="cloud2">通天下</string>
     <!-- JVLoginActivity -->
+    <!-- JVRebindEmialorPhone -->
+    <string name="nicknamechose">選填</string>
+    <string name="rebindcontact">修改綁定</string>
+    <string name="rebindcontactphone">修改綁定手機號</string>
+    <string name="rebindcontactemail">修改綁定郵箱</string>
+    <string name="rebindcontactnickname">修改昵称</string>
+    <string name="rebindhasnot">未綁定</string>
+    <string name="rebindnicknamenull">未填寫</string>
+    <string name="rebindemailhassend">郵件已發送</string>
+    <string name="rebindemailhassendfailed">郵件發送錯誤</string>
+    <string name="rebindsussess">綁定成功</string>
+    <string name="rebindfailed">綁定失敗</string>
+    <string name="rebindnickname">昵稱 </string>
     <!-- JVMoreFrament -->
     <string name="location_login">訪客</string>
     <!-- leftMenu -->
@@ -171,6 +186,8 @@
     <string name="str_end_time">結束時間</string>
     <string name="str_save_path">盤符</string>
     <string name="str_disk">硬碟</string>
+    <string name="video_download_success">錄像下載成功</string>
+    <string name="video_download_failed">錄像下載失敗</string>
     <string name="str_video_load_failed">數據加載失敗</string>
     <string name="str_video_load_success">數據加載成功</string>
     <string name="str_video_nodata_failed">暫無遠程視頻檔</string>
@@ -190,6 +207,8 @@
     <string name="str_edit_pass">修改密碼</string>
     <string name="str_find_pass">忘記密碼</string>
     <string name="str_user_has_exist">親， 用戶名已經被別人佔領，請修改.</string>
+    <string name="str_rebindemail_has_exist">郵箱已被綁定，請修改.</string>
+    <string name="str_rebindphone_has_exist">手機號已被綁定，請修改.</string>
     <string name="str_phone_num_error">手機號格式不正確.</string>
     <string name="str_user_not_exist">用戶不存在.</string>
     <string name="str_user_not_exist2">恭喜，用戶名已被您收入囊中.</string>
@@ -305,6 +324,8 @@
     <string name="str_user_setting">口令設置</string>
     <string name="str_remote_setting">遠程設置</string>
     <string name="str_connect_mode">連接模式</string>
+    <string name="str_connect_tcp">開啟TCP連接</string>
+    <string name="str_connect_tcpdescri">開啟TCP連接</string>
     <string name="str_ip_connect">域名/IP</string>
     <string name="str_data_not_compare">本地數據與伺服器數據不一致，是否同步數據?</string>
     <string name="str_uploading">正在上傳…</string>
@@ -396,6 +417,13 @@
     <string name="updated_at">上次更新於%1$s前</string>
     <string name="updated_just_now">剛剛更新</string>
     <string name="time_error">時間有問題</string>
+    <!-- JVRebandContact -->
+    <string name="rebandmodify">更換</string>
+    <string name="rebandphone">手機號 </string>
+    <string name="rebandemail">郵箱 </string>
+    <string name="rebandhand">頭像</string>
+    <string name="rebandtips">昵稱僅能修改壹次.</string>
+    <string name="rebandnotexit"> 請點擊獲取驗證碼</string>
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">已選中?個，</string>
     <string name="number">共?個</string>
@@ -526,7 +554,7 @@
     <!-- JVDeviceManageFragment -->
     <string name="str_fre">一共有</string>
     <string name="str_aft">個設備</string>
-    <string name="delete_all_device">确定要删除所有设备吗？</string>
+    <string name="delete_all_device">確定要刪除所有設備嗎？</string>
     <string name="ip_add_notallow">域名/IP添加的設備不支持此操作.</string>
     <string name="protect_open_succ">安全防護打開成功</string>
     <string name="protect_open_fail">安全防護打開失敗</string>
@@ -555,6 +583,7 @@
     <string name="media">圖像查看</string>
     <string name="media_image">圖像</string>
     <string name="media_video">視頻</string>
+    <string name="media_downvideo">下載</string>
     <string name="media_other">其他</string>
     <string name="media_player">選擇播放器</string>
     <string name="media_play">播放</string>
@@ -596,6 +625,9 @@
     <string name="str_alarm_no_video">暫無報警視頻</string>
     <string name="str_buffering">正在緩衝…</string>
     <string name="str_safe_protected">安全防護</string>
+    <string name="str_reset_device">重置設備功能</string>
+    <string name="str_reset_sure">確定重置設備嗎?</string>
+    <string name="str_reset_devicedescri">重置后设备将恢复出厂设置。</string>
     <string name="str_modify_pwd">修改設備管理員密碼</string>
     <string name="str_downloading_vod">正在獲取錄影檔…</string>
     <string name="str_alarm_dev">設備  :</string>
@@ -646,6 +678,7 @@
     <string name="str_alarm_setting_tips3">您可以選擇一個合適的時間段來接收報警，讓報警盡在掌握。</string>
     <string name="str_alarm_setting_tips2">開關打開時，設備如檢測到移動物體，會提示報警。</string>
     <string name="str_all_day">全天</string>
+    <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置.</string>
     <string name="str_alarm_setting_tips4">為了防止泄露隱私，建議及時修改設備管理員密碼。</string>
     <string name="str_protected_time">防護時間段</string>
     <string name="str_getdev_params_timeout">獲取設備參數超時</string>
@@ -700,6 +733,7 @@
     <string name="census_appplsy_version">程式播放庫</string>
     <string name="census_version">版本號</string>
     <string name="str_error_vercode">无效验证码</string>
+    <string name="location_login_hand">访客</string>
     <!-- 找回密碼 -->
     <string name="reset_passwd_input_account">請輸入需要重置密碼的帳號:</string>
     <string name="reset_passwd_input_vercode">獲取驗證碼</string>

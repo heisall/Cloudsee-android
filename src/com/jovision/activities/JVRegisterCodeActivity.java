@@ -130,19 +130,11 @@ public class JVRegisterCodeActivity extends BaseActivity {
 				registerRes = AccountUtil.userRegister(user);
 				if (JVAccountConst.SUCCESS == registerRes) {
 					String strRes = "";
-					if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-						strRes = AccountUtil.onLoginProcessV2(
-								JVRegisterCodeActivity.this,
-								statusHashMap.get(Consts.KEY_USERNAME),
-								statusHashMap.get(Consts.KEY_PASSWORD),
-								Url.SHORTSERVERIP, Url.LONGSERVERIP);
-					} else {
-						strRes = AccountUtil.onLoginProcessV2(
-								JVRegisterCodeActivity.this,
-								statusHashMap.get(Consts.KEY_USERNAME),
-								statusHashMap.get(Consts.KEY_PASSWORD),
-								Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
-					}
+					strRes = AccountUtil.onLoginProcessV2(
+							JVRegisterCodeActivity.this,
+							statusHashMap.get(Consts.KEY_USERNAME),
+							statusHashMap.get(Consts.KEY_PASSWORD),
+							Url.SHORTSERVERIP, Url.LONGSERVERIP, 1);
 					JSONObject respObj = null;
 					try {
 						respObj = new JSONObject(strRes);
@@ -205,7 +197,7 @@ public class JVRegisterCodeActivity extends BaseActivity {
 								.getString(R.string.census_register));
 				Log.i("TAG", loginRes1 + "DDDDDDDDDDD");
 				if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
-					MySharedPreference.putBoolean("REMEMBER", true);
+					MySharedPreference.putBoolean(Consts.MORE_REMEMBER, true);
 					statusHashMap.put(Consts.LOCAL_LOGIN, "false");
 					Intent emailIntent = new Intent(
 							JVRegisterCodeActivity.this,

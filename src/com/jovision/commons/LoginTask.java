@@ -7,13 +7,15 @@ import org.json.JSONObject;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
+import com.jovision.activities.JVEditOldUserInfoActivity;
+import com.jovision.activities.JVLoginActivity;
 import com.jovision.bean.User;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
@@ -27,9 +29,11 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 	private Application application;
 	private HashMap<String, String> statusHashMap;
 	private View alarmnet;
+	private boolean firstLogin;// 首页登陆
 
-	public LoginTask(Context con, Application app, HashMap<String, String> map,
-			View view) {
+	public LoginTask(boolean loginFlag, Context con, Application app,
+			HashMap<String, String> map, View view) {
+		firstLogin = loginFlag;
 		mContext = con;
 		application = app;
 		statusHashMap = map;
@@ -46,26 +50,27 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 				MyLog.e("Login", "初始化账号SDK失败,重新初始化");
 				ConfigUtil.initAccountSDK(application);// 初始化账号SDK
 			}
+
+			MyLog.e("Ignore Login",
+					"user=" + statusHashMap.get(Consts.KEY_USERNAME) + ";pass="
+							+ statusHashMap.get(Consts.KEY_PASSWORD));
+
 			String strRes = "";
-			Log.i("TAG", MySharedPreference.getBoolean("TESTSWITCH") + "LOGIN");
-			if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-				strRes = AccountUtil.onLoginProcessV2(mContext,
-						statusHashMap.get(Consts.KEY_USERNAME),
-						statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIP, Url.LONGSERVERIP);
-			} else {
-				strRes = AccountUtil.onLoginProcessV2(mContext,
-						statusHashMap.get(Consts.KEY_USERNAME),
-						statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
+
+			int needOnline = 0;// 1:起心跳 0：不需要起心跳
+
+			if (firstLogin) {
+				needOnline = 1; // 第一次登陆需要起心跳
 			}
+			strRes = AccountUtil.onLoginProcessV2(mContext,
+					statusHashMap.get(Consts.KEY_USERNAME),
+					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,
+					Url.LONGSERVERIP, needOnline);
 			JSONObject respObj = null;
 			try {
 				respObj = new JSONObject(strRes);
 				loginRes1 = respObj.optInt("arg1", 1);
 				// {"arg1":8,"arg2":0,"data":{"channel_ip":"210.14.156.66","online_ip":"210.14.156.66"},"desc":"after the judge and longin , begin the big switch...","result":0}
-				if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-				}
 				String data = respObj.optString("data");
 				if (null != data && !"".equalsIgnoreCase(data)) {
 					JSONObject dataObj = new JSONObject(data);
@@ -103,8 +108,10 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 	protected void onPostExecute(Integer result) {
 		// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 		((BaseActivity) mContext).dismissDialog();
+
 		switch (result) {
 		case JVAccountConst.LOGIN_SUCCESS: {
+			MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
 			StatService.trackCustomEvent(mContext, "onlinelogin", mContext
 					.getResources().getString(R.string.census_onlinelogin));
 			MySharedPreference.putString("UserName",
@@ -125,6 +132,88 @@ public class LoginTask extends AsyncTask<String, Integer, Integer> {
 					String.valueOf(Consts.WHAT_ACCOUNT_NORMAL));
 			if (null != alarmnet) {
 				alarmnet.setVisibility(View.GONE);
+			}
+			break;
+		}
+		case JVAccountConst.RESET_NAME_AND_PASS: {
+			if (firstLogin) {
+				MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
+				Intent intent = new Intent();
+				intent.setClass(mContext, JVEditOldUserInfoActivity.class);
+				mContext.startActivity(intent);
+			}
+			break;
+		}
+
+		case JVAccountConst.PASSWORD_ERROR: {
+			if (firstLogin) {
+				MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
+				UserUtil.resetAllUser();
+				((BaseActivity) mContext)
+						.showTextToast(R.string.str_userpass_error);
+				Intent intent = new Intent();
+				intent.putExtra("AutoLogin", false);
+				intent.putExtra("UserName",
+						statusHashMap.get(Consts.KEY_USERNAME));
+				intent.putExtra("UserPass", "");
+				intent.setClass(mContext, JVLoginActivity.class);
+				mContext.startActivity(intent);
+				statusHashMap.put(Consts.KEY_USERNAME, "");
+				statusHashMap.put(Consts.KEY_PASSWORD, "");
+			}
+			break;
+		}
+		case JVAccountConst.SESSION_NOT_EXSIT: {
+			if (firstLogin) {
+				MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
+				((BaseActivity) mContext)
+						.showTextToast(R.string.str_session_not_exist);
+				Intent intent = new Intent();
+				intent.putExtra("AutoLogin", false);
+				intent.putExtra("UserName",
+						statusHashMap.get(Consts.KEY_USERNAME));
+				intent.setClass(mContext, JVLoginActivity.class);
+				mContext.startActivity(intent);
+				statusHashMap.put(Consts.KEY_USERNAME, "");
+				statusHashMap.put(Consts.KEY_PASSWORD, "");
+			}
+			break;
+		}
+		case JVAccountConst.USER_HAS_EXIST: {
+
+			break;
+		}
+		case JVAccountConst.USER_NOT_EXIST: {
+			if (firstLogin) {
+				MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
+				UserUtil.resetAllUser();
+				((BaseActivity) mContext)
+						.showTextToast(R.string.str_user_not_exist);
+				Intent intent = new Intent();
+				intent.setClass(mContext, JVLoginActivity.class);
+				mContext.startActivity(intent);
+				statusHashMap.put(Consts.KEY_USERNAME, "");
+				statusHashMap.put(Consts.KEY_PASSWORD, "");
+			}
+			break;
+		}
+		case JVAccountConst.LOGIN_FAILED_1: {
+			if (firstLogin) {
+				MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
+				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
+				}
+			}
+			break;
+		}
+		case JVAccountConst.LOGIN_FAILED_2: {
+			if (firstLogin) {
+				MySharedPreference.putBoolean(Consts.FIRST_LOGIN, false);
+				if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER, false)) {// 自动登陆，离线登陆
+					statusHashMap.put(Consts.ACCOUNT_ERROR,
+							String.valueOf(Consts.WHAT_HAS_NOT_LOGIN));
+				}
 			}
 			break;
 		}

@@ -75,9 +75,9 @@ import com.jovision.utils.mails.MyAuthenticator;
 
 public class ConfigUtil {
 	private final static String TAG = "ConfigUtil";
-	public final static String ACCOUNT_VERSION = "V3.2.13.2";
-	public final static String PLAY_VERSION = "0.9a[cc863e0][2015-02-06]";
-	public final static String NETWORK_VERSION = "v2.0.76.3.32[private:v2.0.75.13 20150205.1]";
+	public final static String ACCOUNT_VERSION = "V3.2.15.8";
+	public final static String PLAY_VERSION = "0.9a[26d8fbc][2015-03-17]";
+	public final static String NETWORK_VERSION = "v2.0.76.3.32[private:v2.0.75.13 20150317.1]";
 
 	public static String GETACCTOUT_VERSION = "";
 	public static String GETPLAY_VERSION = "";
@@ -470,17 +470,10 @@ public class ConfigUtil {
 			} else {
 				if (getNetWorkConnection(context)) {
 
-					if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-						MyLog.v("initAccountSDK", Url.SHORTSERVERIP + "--"
-								+ Url.LONGSERVERIP);
-						JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,
-								Url.LONGSERVERIP);
-					} else {
-						MyLog.v("initAccountSDK", Url.SHORTSERVERIPTEST + "--"
-								+ Url.SHORTSERVERIPTEST);
-						JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIPTEST,
-								Url.SHORTSERVERIPTEST);
-					}
+					MyLog.v("initAccountSDK", Url.SHORTSERVERIP + "--"
+							+ Url.LONGSERVERIP);
+					JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,
+							Url.LONGSERVERIP);
 					// String ip = JVACCOUNT.GetServerIP();
 					// if(ip.length() < 5){//无ip
 					// JVACCOUNT.ConfigServerAddress(Url.SHORTSERVERIP,
@@ -502,7 +495,7 @@ public class ConfigUtil {
 	 */
 	public static int openBroadCast() {
 		int res = -1;
-		if (MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+		if (MySharedPreference.getBoolean(Consts.MORE_BROADCAST, true)) {
 			MyLog.v(Consts.TAG_APP, "enable  broad = " + true);
 			res = Jni.searchLanServer(9400, 6666);
 		} else {
@@ -515,7 +508,7 @@ public class ConfigUtil {
 	 * 停止广播
 	 */
 	public static void stopBroadCast() {
-		if (MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+		if (MySharedPreference.getBoolean(Consts.MORE_BROADCAST, true)) {
 			Jni.stopSearchLanServer();
 		}
 	}
@@ -537,7 +530,7 @@ public class ConfigUtil {
 			Jni.enableLog(false);
 			Jni.setThumb(320, 90);
 			Jni.setStat(true);
-			if (MySharedPreference.getBoolean("LITTLEHELP", true)) {
+			if (MySharedPreference.getBoolean(Consts.MORE_LITTLEHELP, true)) {
 				Jni.enableLinkHelper(true, 3, 10);// 开小助手
 				MyLog.v(Consts.TAG_APP, "enable  helper = " + true);
 			} else {
@@ -680,33 +673,46 @@ public class ConfigUtil {
 			int kkk;
 			for (kkk = 0; kkk < ystEdit.length(); kkk++) {
 				char c = ystEdit.charAt(kkk);
-				if (c <= '9' && c >= '0') {
+				if (java.lang.Character.isDigit(c)) {
 					break;
 				}
+				// if (c <= '9' && c >= '0') {
+				// break;
+				// }
 			}
 			String group = ystEdit.substring(0, kkk);
 			String yst = ystEdit.substring(kkk);
-			for (int mm = 0; mm < group.length(); mm++) {
+			if (group.length() <= 0 || group.length() > 4) {// 组号长度不对
+				flag = false;
+				return flag;
+			}
+			for (int mm = 0; mm < group.length(); mm++) {// 组号含有非字母
 				char c = ystEdit.charAt(mm);
-				if (mm == 0
-						&& ((c == 'A' || c == 'a' || c == 'B' || c == 'b'
-								|| c == 'S' || c == 's'))) {
-
-				} else {
+				boolean isLetter = java.lang.Character.isLetter(c);
+				if (!isLetter) {
 					flag = false;
+					return flag;
 				}
+
+				// if (mm == 0
+				// && ((c == 'A' || c == 'a' || c == 'B' || c == 'b'
+				// || c == 'S' || c == 's'))) {
+				//
+				// } else {
+				// flag = false;
+				// }
 			}
 
 			for (int i = 0; i < yst.length(); i++) {
 				char c = yst.charAt(i);
-				if ((c >= '0' && c <= '9')) {
+				if (java.lang.Character.isDigit(c)) {
 
 				} else {
 					flag = false;
 				}
 			}
 			int ystValue = "".equals(yst) ? 0 : Integer.parseInt(yst);
-			if (kkk >= 4 || kkk <= 0 || ystValue <= 0) {
+			if (ystValue <= 0) {// 云视通号不正确
 				flag = false;
 			}
 		} catch (Exception e) {
@@ -859,7 +865,12 @@ public class ConfigUtil {
 
 	}
 
-	// 验证设备密码
+	/**
+	 * 验证针对账号库的设备密码
+	 * 
+	 * @param str
+	 * @return
+	 */
 	public static boolean checkDevicePwd(String str) {
 		boolean flag = false;
 		// try {
@@ -882,7 +893,7 @@ public class ConfigUtil {
 	}
 
 	/**
-	 * 验证设备密码
+	 * 2015-3-11 验证针对设备密码
 	 * 
 	 * @param str
 	 * @return 中文返回false 非中文返回true
@@ -1343,7 +1354,8 @@ public class ConfigUtil {
 					new InputStreamReader(p.getInputStream()), 1024);
 			line = input.readLine();
 			input.close();
-		} catch (IOException ex) {
+		} catch (Exception ex) {
+			ex.printStackTrace();
 			MyLog.e(TAG, "Unable to read sysprop " + propName);
 			return null;
 		} finally {
@@ -1378,10 +1390,7 @@ public class ConfigUtil {
 	 * @return
 	 */
 	public static String getSession() {
-		byte[] session = new byte[34];
-		JVACCOUNT.GetSession(session);
-		String sessionResult = new String(session);
-
+		String sessionResult = JVACCOUNT.GetSession();
 		MyLog.v("session", sessionResult);
 		return sessionResult;
 	}

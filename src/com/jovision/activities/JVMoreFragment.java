@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.MainApplication;
+import com.jovision.activities.JVTabActivity.OnMainListener;
 import com.jovision.adapters.FragmentAdapter;
 import com.jovision.bean.MoreFragmentBean;
 import com.jovision.bean.WebUrl;
@@ -46,6 +47,7 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
+import com.jovision.utils.GetPhoneNumber;
 import com.jovision.utils.ListViewUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
@@ -56,7 +58,7 @@ import com.tencent.stat.StatService;
 /**
  * 更多
  */
-public class JVMoreFragment extends BaseFragment {
+public class JVMoreFragment extends BaseFragment implements OnMainListener {
 	// Adapter 存储模块文字和图标
 	private ArrayList<MoreFragmentBean> dataList;
 	// 模块listView
@@ -72,11 +74,12 @@ public class JVMoreFragment extends BaseFragment {
 	// 头像
 	private ImageView more_head;
 	// 注销按钮
-	private RelativeLayout more_cancle;
+	private RelativeLayout more_cancle; 
 	// 用户名称
 	private TextView more_username;
 	// 用户名
 	private String more_name;
+
 	// 最后一次登录时间
 	private TextView more_lasttime;
 	// 修改密码
@@ -85,23 +88,10 @@ public class JVMoreFragment extends BaseFragment {
 	private TextView more_bindmail;
 	// 获取url
 	private WebUrl url;
-	// 图片数组
-	private int[] Image = { R.drawable.morefragment_help_icon,
-			R.drawable.morefragment_autologin_icon,
-			R.drawable.morefragment_warmmessage_icon,
-			R.drawable.morefragment_setting_icon, R.drawable.develop_warning,
-			R.drawable.develop_warning, R.drawable.develop_warning,
-			R.drawable.develop_warning, R.drawable.alarm_info_icon,
-			R.drawable.more_message, R.drawable.morefragment_install_icon,
-			R.drawable.morefragment_sharedevice_icon,
-			R.drawable.morefragment_data_icon, R.drawable.media_image,
-			R.drawable.morefragment_feedback_icon,
-			R.drawable.morefragment_update_icon,
-			R.drawable.morefragment_aboutus_icon };
-	// 功能名称数组
-	private String[] fragment_name;
 
-	public static boolean localFlag = false;// 本地登陆标志位
+	private boolean isgetemail;
+
+	private GetPhoneNumber phoneNumber;
 
 	private popw popupWindow; // 声明PopupWindow对象；
 	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
@@ -113,12 +103,49 @@ public class JVMoreFragment extends BaseFragment {
 	File tempFile;
 	// 新头像文件
 	File newFile;
-	// popupWindow滑出布局
+
+	private String hasbandEmail = "";
+	private String hasbandPhone = "";
+	private String hasnicknameString = "";
+	private String usernameInfo = "";
+
+	private final String TAG = "JVMoreFragment";
+	// 图片数组
+	private int[] Image = { R.drawable.morefragment_help_icon,
+			R.drawable.morefragment_autologin_icon,
+			R.drawable.morefragment_warmmessage_icon,
+			R.drawable.alarm_info_icon, R.drawable.morefragment_setting_icon,
+			R.drawable.develop_warning, R.drawable.develop_warning,
+			R.drawable.develop_warning, R.drawable.develop_warning,
+			R.drawable.morefragment_install_icon,
+			R.drawable.morefragment_sharedevice_icon,
+			R.drawable.morefragment_data_icon, R.drawable.more_bbs,
+			R.drawable.more_message, R.drawable.media_image,
+			R.drawable.morefragment_feedback_icon,
+			R.drawable.morefragment_update_icon,
+			R.drawable.morefragment_aboutus_icon };
+	// 功能名称数组
+	private String[] fragment_name;
+
+	public static boolean localFlag = false;// 本地登陆标志位
+
 	private LinearLayout linear;
 
 	private int littlenum = 0;
 
 	private MainApplication mApp;
+
+	private ImageView more_camera;
+
+	private boolean showGCS = false;// 是否显示工程商
+
+	public interface OnFuncActionListener {
+		public void OnFuncEnabled(int func_index, int enabled);
+
+		public void OnFuncSelected(int func_index, String params);
+	}
+
+	private OnFuncActionListener mListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -130,15 +157,37 @@ public class JVMoreFragment extends BaseFragment {
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			mListener = (OnFuncActionListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ "must implement OnFuncEnabledListener");
+		}
+	}
+
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
+
+		// 判断是否显示工程商
+		String showGcsStr = mActivity.statusHashMap.get(Consts.MORE_GCS_SWITCH);
+		if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
+			if (1 == Integer.parseInt(showGcsStr)) {
+				showGCS = true;
+			} else {
+				showGCS = false;
+			}
+		}
+	
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
 		currentMenu.setText(R.string.more_featrue);
 		rightBtn.setVisibility(View.GONE);
-
+		leftBtn.setVisibility(View.GONE);
 		if (null != mActivity.statusHashMap.get(Consts.KEY_LAST_LOGIN_TIME)) {
 			more_lasttime.setText(mActivity.statusHashMap
 					.get(Consts.KEY_LAST_LOGIN_TIME));
@@ -165,7 +214,14 @@ public class JVMoreFragment extends BaseFragment {
 			}
 			break;
 		case Consts.WHAT_BIND:
-			more_bindmail.setVisibility(View.VISIBLE);
+			// more_bindmail.setVisibility(View.VISIBLE);
+			break;
+		case Consts.NEW_BBS:
+			if (null != adapter) {
+				adapter.setBBSNums(arg1);
+				adapter.notifyDataSetChanged();
+			}
+			// mActivity.showTextToast("获得结果");
 			break;
 		}
 
@@ -173,14 +229,15 @@ public class JVMoreFragment extends BaseFragment {
 
 	private void intiUi(View view) {
 		activity = getActivity();
-		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+		if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
 			fragment_name = activity.getResources().getStringArray(
 					R.array.array_moreduo);
 		} else {
 			fragment_name = activity.getResources().getStringArray(
 					R.array.array_more);
 		}
-
+		MySharedPreference.putBoolean("ISPHONE", false);
+		MySharedPreference.putBoolean("ISEMAIL", false);
 		if (Boolean.valueOf(((BaseActivity) activity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
 			more_name = activity.getResources().getString(
@@ -188,12 +245,22 @@ public class JVMoreFragment extends BaseFragment {
 		} else {
 			more_name = ((BaseActivity) activity).statusHashMap
 					.get(Consts.KEY_USERNAME);
+			MySharedPreference.putString("ACCOUNT", more_name);
+		}
+		if (AccountUtil.verifyEmail(more_name)) {
+			MySharedPreference.putBoolean("ISEMAIL", true);
+		} else {
+			MySharedPreference.putBoolean("ISEMAIL", false);
+		}
+		phoneNumber = new GetPhoneNumber(more_name);
+		if (5 != phoneNumber.matchNum() && 4 != phoneNumber.matchNum()) {
+			MySharedPreference.putBoolean("ISPHONE", true);
+		} else {
+			MySharedPreference.putBoolean("ISPHONE", false);
 		}
 		initDatalist();
-		file = new File(Consts.HEAD_PATH);
-		MobileUtil.createDirectory(file);
-		tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
-		newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
+
+		more_camera = (ImageView) view.findViewById(R.id.more_camera);
 		more_modifypwd = (TextView) view.findViewById(R.id.more_modifypwd);
 		more_bindmail = (TextView) view.findViewById(R.id.more_bindmail);
 		more_cancle = (RelativeLayout) view.findViewById(R.id.more_cancle);
@@ -211,14 +278,17 @@ public class JVMoreFragment extends BaseFragment {
 		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
 		listViewClick();
 
+		more_username.setOnClickListener(myOnClickListener);
 		more_bindmail.setOnClickListener(myOnClickListener);
 		more_modifypwd.setOnClickListener(myOnClickListener);
 		more_cancle.setBackgroundResource(R.drawable.blue_bg);
-		more_username.setText(more_name);
 		more_head.setOnClickListener(myOnClickListener);
 		more_cancle.setOnClickListener(myOnClickListener);
 		more_modify.setOnClickListener(myOnClickListener);
 		more_findpassword.setOnClickListener(myOnClickListener);
+
+		MySharedPreference.putString("REBINDPHONE", "");
+		MySharedPreference.putString("REBINDEMAIL", "");
 
 		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))) {
@@ -235,18 +305,48 @@ public class JVMoreFragment extends BaseFragment {
 		super.onResume();
 		more_bindmail.setVisibility(View.GONE);
 		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
-				.get(Consts.LOCAL_LOGIN))) {
+				.get(Consts.LOCAL_LOGIN))
+				&& "".equals(MySharedPreference.getString("USERINFO"))) {
+			isgetemail = false;
 			CheckUserInfoTask task = new CheckUserInfoTask();
 			task.execute(more_name);
-		}
-		if (tempFile.exists()) {
+		} else if (!"".equals(MySharedPreference.getString("USERINFO"))) {
+			File file = new File(Consts.HEAD_PATH
+					+ MySharedPreference.getString("USERINFO") + ".jpg");
+			if (file.exists()) {
+				more_camera.setVisibility(View.GONE);
+			}
 			Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
-					+ more_name + ".jpg");
+					+ MySharedPreference.getString("USERINFO")
+					+ Consts.IMAGE_JPG_KIND);
 			more_head.setImageBitmap(bitmap);
+		} else if (Boolean.valueOf(((BaseActivity) activity).statusHashMap
+				.get(Consts.LOCAL_LOGIN))) {
+			file = new File(Consts.HEAD_PATH);
+			MobileUtil.createDirectory(file);
+			tempFile = new File(Consts.HEAD_PATH + more_name + ".jpg");
+			newFile = new File(Consts.HEAD_PATH + more_name + "1.jpg");
+
+			if (null != tempFile && tempFile.exists()) {
+				Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
+						+ more_name + Consts.IMAGE_JPG_KIND);
+				more_head.setImageBitmap(bitmap);
+				more_camera.setVisibility(View.GONE);
+			}
 		}
+		// if (MySharedPreference.getBoolean("ISSHOW", false)) {
+		// more_bindmail.setVisibility(View.VISIBLE);
+		// }
+		if (!"".equals(MySharedPreference.getString("ACCOUNT"))
+				&& null != MySharedPreference.getString("ACCOUNT")) {
+			more_name = MySharedPreference.getString("ACCOUNT");
+		}
+		more_username.setText(more_name);
 		int alarm_new_nums = mApp.getNewPushCnt();
 		adapter.setNewNums(alarm_new_nums);
+		adapter.setShowGCS(showGCS);
 		adapter.notifyDataSetChanged();
+		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
 	}
 
 	private void initDatalist() {
@@ -272,18 +372,6 @@ public class JVMoreFragment extends BaseFragment {
 			case R.id.pop_outside:
 				popupWindow.dismiss();
 				break;
-			case R.id.more_head_img:
-				StatService.trackCustomEvent(
-						mActivity,
-						"census_moreheadimg",
-						mActivity.getResources().getString(
-								R.string.census_moreheadimg));
-				popupWindow = new popw(mActivity, myOnClickListener);
-				popupWindow.setBackgroundDrawable(null);
-				popupWindow.setOutsideTouchable(true);
-				popupWindow.showAtLocation(linear, Gravity.BOTTOM
-						| Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
-				break;
 			case R.id.btn_pick_photo: {
 				popupWindow.dismiss();
 				Intent intent = new Intent(Intent.ACTION_PICK, null);
@@ -302,6 +390,28 @@ public class JVMoreFragment extends BaseFragment {
 				break;
 			case R.id.btn_cancel:
 				popupWindow.dismiss();
+				break;
+			case R.id.more_uesrname:
+			case R.id.more_head_img:
+				// TODO
+				isgetemail = true;
+				if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {
+					mActivity.createDialog("", true);
+					CheckUserInfoTask task = new CheckUserInfoTask();
+					task.execute(more_name);
+				}
+				if (Boolean.valueOf(((BaseActivity) activity).statusHashMap
+						.get(Consts.LOCAL_LOGIN))) {
+					StatService.trackCustomEvent(mActivity,
+							"census_moreheadimg", mActivity.getResources()
+							.getString(R.string.census_moreheadimg));
+					popupWindow = new popw(mActivity, myOnClickListener);
+					popupWindow.setBackgroundDrawable(null);
+					popupWindow.setOutsideTouchable(true);
+					popupWindow.showAtLocation(linear, Gravity.BOTTOM
+							| Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+				}
 				break;
 			case R.id.more_cancle:// 注销
 				LogOutTask task = new LogOutTask();
@@ -385,6 +495,7 @@ public class JVMoreFragment extends BaseFragment {
 			Bitmap photo = bundle.getParcelable("data");
 			saveBitmap(photo);
 			Drawable drawable = new BitmapDrawable(photo);
+			more_camera.setVisibility(View.GONE);
 			more_head.setBackgroundDrawable(drawable);
 		}
 	}
@@ -393,7 +504,12 @@ public class JVMoreFragment extends BaseFragment {
 		if (null == bm) {
 			return;
 		}
-		File f = new File(Consts.HEAD_PATH + more_name + ".jpg");
+		File f;
+		if (localFlag) {
+			f = new File(Consts.HEAD_PATH + more_name + ".jpg");
+		} else {
+			f = new File(Consts.HEAD_PATH + usernameInfo + ".jpg");
+		}
 		if (f.exists()) {
 			f.delete();
 		}
@@ -410,337 +526,415 @@ public class JVMoreFragment extends BaseFragment {
 
 	private void listViewClick() {
 		more_listView
-				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view,
-							int position, long id) {
-						switch (position) {
-						case 0:
-							if (MySharedPreference.getBoolean("HELP")) {
-								MySharedPreference.putBoolean("HELP", false);
-								MySharedPreference.putBoolean("page1", true);
-								MySharedPreference.putBoolean("page2", true);
-							} else {
-								MySharedPreference.putBoolean("HELP", true);
-								MySharedPreference.putBoolean("page1", false);
-								MySharedPreference.putBoolean("page2", false);
-							}
-							break;
-						case 1:
-							// TODO
-							if (MySharedPreference.getBoolean("REMEMBER")) {
-								MySharedPreference
-										.putBoolean("REMEMBER", false);
-							} else {
-								MySharedPreference.putBoolean("REMEMBER", true);
-							}
-							break;
-						case 2:
-							AlarmTask task = new AlarmTask();
-							Integer[] params = new Integer[3];
-							if (!MySharedPreference.getBoolean("AlarmSwitch",
-									true)) {// 1是关
-								// 0是开
-								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
-							} else {
-								params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
-							}
-							task.execute(params);
-
-							break;
-						case 3:
-							if (MySharedPreference.getBoolean("PlayDeviceMode")) {
-								MySharedPreference.putBoolean("PlayDeviceMode",
-										false);
-								dataList.get(3).setName(
-										mActivity.getResources().getString(
-												R.string.str_video_modetwo));
-							} else {
-								MySharedPreference.putBoolean("PlayDeviceMode",
-										true);
-								dataList.get(3)
-										.setName(
-												mActivity
-														.getResources()
-														.getString(
-																R.string.str_video_more_modetwo));
-							}
-							break;
-						case 4:// 小助手
-							if (MySharedPreference.getBoolean("LITTLEHELP")) {
-								MySharedPreference.putBoolean("LITTLEHELP",
-										false);
-							} else {
-								MySharedPreference.putBoolean("LITTLEHELP",
-										true);
-							}
-							break;
-						case 5:
-							if (MySharedPreference.getBoolean("BROADCASTSHOW")) {
-								MySharedPreference.putBoolean("BROADCASTSHOW",
-										false);
-							} else {
-								MySharedPreference.putBoolean("BROADCASTSHOW",
-										true);
-							}
-							break;
-						case 6:
-							if (MySharedPreference.getBoolean("TESTSWITCH")) {
-								MySharedPreference.putBoolean("TESTSWITCH",
-										false);
-								Log.i("TAG",
-										MySharedPreference
-												.getBoolean("TESTSWITCH")
-												+ "DSDSDSD");
-							} else {
-								MySharedPreference.putBoolean("TESTSWITCH",
-										true);
-								Log.i("TAG",
-										MySharedPreference
-												.getBoolean("TESTSWITCH")
-												+ "DSDSDSD");
-							}
-							break;
-						case 7:// 版本号
-							Intent intentVersion = new Intent(mActivity,
-									JVVersionActivity.class);
-							mActivity.startActivity(intentVersion);
-
-							// int curVersion = 0;
-							// try {
-							// curVersion = mActivity.getPackageManager()
-							// .getPackageInfo(
-							// mActivity.getPackageName(), 0).versionCode;
-							// } catch (NameNotFoundException e) {
-							// // TODO Auto-generated catch block
-							// e.printStackTrace();
-							// }
-							//
-							// String itemzero = mActivity.getResources()
-							// .getString(R.string.census_accounts)
-							// + ":"
-							// + ConfigUtil.ACCOUNT_VERSION;
-							// String itemone = mActivity.getResources()
-							// .getString(R.string.census_network_version)
-							// + ":" + ConfigUtil.NETWORK_VERSION;
-							// String itemtwo = mActivity.getResources()
-							// .getString(R.string.census_play_version)
-							// + ":" + ConfigUtil.PLAY_VERSION;
-							// String itemthree = mActivity.getResources()
-							// .getString(
-							// R.string.census_appnetwork_version)
-							// + ":" + ConfigUtil.GETNETWORK_VERSION;
-							// String itemfour = mActivity.getResources()
-							// .getString(R.string.census_appplay_version)
-							// + ":" + ConfigUtil.GETPLAY_VERSION;
-							// String itemfive = mActivity.getResources()
-							// .getString(R.string.census_appaccount)
-							// + ":" + JVACCOUNT.GetVersion(0);
-							// new AlertDialog.Builder(new ContextThemeWrapper(
-							// mActivity, R.style.AlertDialogCustom))
-							// .setTitle(
-							// mActivity.getResources().getString(
-							// R.string.census_version)
-							// + curVersion
-							// + "  "
-							// + ConfigUtil.sameVersion)
-							// .setItems(
-							// new String[] { itemzero, itemfive,
-							// itemone, itemtwo,
-							// itemthree, itemfour }, null)
-							// .setNegativeButton(
-							// mActivity.getResources().getString(
-							// R.string.ok), null).show();
-							// TODO
-							break;
-						case 8:// 换成报警信息
-							if (localFlag)// 本地登录
-							{
-								mActivity.showTextToast(R.string.more_nologin);
-							} else {
-								mApp.setNewPushCnt(0);
-								Intent intent2 = new Intent(mActivity,
-										AlarmInfoActivity.class);
-								startActivity(intent2);
-							}
-
-							// if (!MySharedPreference.getBoolean("VideoSquer"))
-							// {
-							// MySharedPreference.putBoolean("VideoSquer",
-							// true);
-							// }
-							//
-							// if (!ConfigUtil.isConnected(mActivity)) {
-							// mActivity.alertNetDialog();
-							// } else {
-							// StatService.trackCustomEvent(
-							// mActivity,
-							// "Demo",
-							// mActivity.getResources().getString(
-							// R.string.census_demo));
-							//
-							// GetDemoTask demoTask = new GetDemoTask(
-							// mActivity);
-							// String[] demoParams = new String[3];
-							// if (!Boolean
-							// .valueOf(((BaseActivity) activity).statusHashMap
-							// .get(Consts.LOCAL_LOGIN))) {
-							// String sessionResult = ConfigUtil
-							// .getSession();
-							//
-							// MyLog.v("session", sessionResult);
-							// demoParams[0] = sessionResult;
-							// } else {
-							// demoParams[0] = "";
-							// }
-							// demoTask.execute(demoParams);
-							// }
-							// TODO
-							break;
-						case 9:
-							if (!MySharedPreference.getBoolean("SystemMessage")) {
-								MySharedPreference.putBoolean("SystemMessage",
-										true);
-							}
-							if (!ConfigUtil.isConnected(mActivity)) {
-								mActivity.alertNetDialog();
-							} else {
-								StatService.trackCustomEvent(
-										mActivity,
-										"MoreMessage",
-										mActivity.getResources().getString(
-												R.string.census_moremessage));
-								Intent infoIntent = new Intent();
-								infoIntent.setClass(mActivity,
-										JVSystemInfoActivity.class);
-								mActivity.startActivity(infoIntent);
-							}
-							break;
-						case 10:
-							if (!MySharedPreference.getBoolean("CUSTURL")) {
-								MySharedPreference.putBoolean("CUSTURL", true);
-							}
-							if (!ConfigUtil.isConnected(mActivity)) {
-								mActivity.alertNetDialog();
-							} else {
-								if (null != ((BaseActivity) mActivity).statusHashMap
-										.get("CUSTURL")) {
-									Intent intentAD0 = new Intent(mActivity,
-											JVWebViewActivity.class);
-									intentAD0
-											.putExtra(
-													"URL",
-													((BaseActivity) mActivity).statusHashMap
-															.get("CUSTURL"));
-									intentAD0.putExtra("title", -2);
-									mActivity.startActivity(intentAD0);
-								} else {
-									GetDemoTask UrlTask = new GetDemoTask(
-											mActivity);
-									String[] demoParams = new String[3];
-									demoParams[1] = "0";
-									UrlTask.execute(demoParams);
-								}
-							}
-							break;
-						case 11:
-							// GetDemoTask UrlTask1 = new
-							// GetDemoTask(mActivity);
-							// String[] demoParams1 = new String[3];
-							// demoParams1[0] = "1";
-							// UrlTask1.execute(demoParams1);
-							break;
-						case 12:
-							if (!MySharedPreference.getBoolean("STATURL")) {
-								MySharedPreference.putBoolean("STATURL", true);
-							}
-							if (!ConfigUtil.isConnected(mActivity)) {
-								mActivity.alertNetDialog();
-							} else {
-								if (null != ((BaseActivity) mActivity).statusHashMap
-										.get("STATURL")) {
-									Intent intentAD0 = new Intent(mActivity,
-											JVWebViewActivity.class);
-									intentAD0
-											.putExtra(
-													"URL",
-													((BaseActivity) mActivity).statusHashMap
-															.get("STATURL"));
-									intentAD0.putExtra("title", -2);
-									Log.i("TAG",
-											((BaseActivity) mActivity).statusHashMap
-													.get("STATURL")
-													+ "dddddddddd");
-									mActivity.startActivity(intentAD0);
-								} else {
-									GetDemoTask UrlTask2 = new GetDemoTask(
-											mActivity);
-									String[] demoParams2 = new String[3];
-									demoParams2[1] = "2";
-									UrlTask2.execute(demoParams2);
-								}
-							}
-							break;
-						case 13:// 媒体
-							StatService.trackCustomEvent(
-									mActivity,
-									"Media",
-									mActivity.getResources().getString(
-											R.string.census_media));
-							Intent intentMedia = new Intent(mActivity,
-									JVMediaActivity.class);
-							mActivity.startActivity(intentMedia);
-							break;
-						case 14:
-							Intent intent = new Intent(mActivity,
-									JVFeedbackActivity.class);
-							startActivity(intent);
-							break;
-						case 15:
-							mActivity.createDialog("", false);
-							CheckUpdateTask taskf = new CheckUpdateTask(
-									mActivity);
-							String[] strParams = new String[3];
-							strParams[0] = "1";// 1,手动检查更新
-							taskf.execute(strParams);
-							break;
-						case 16:
-							if (!MySharedPreference.getBoolean("LITTLE")) {
-								littlenum++;
-								if (littlenum < 20) {
-									if (littlenum >= 17) {
-										mActivity
-												.showTextToast((20 - littlenum)
-														+ " ");
-									}
-								} else if (littlenum == 20) {
-									MySharedPreference.putBoolean("LITTLEHELP",
-											true);
-									MySharedPreference.putBoolean(
-											"BROADCASTSHOW", true);
-									MySharedPreference.putBoolean("LITTLE",
-											true);
-									ListViewUtil
-											.setListViewHeightBasedOnChildren(more_listView);
-								}
-							} else {
-								littlenum = 0;
-								MySharedPreference.putBoolean("LITTLEHELP",
-										false);
-								MySharedPreference.putBoolean("BROADCASTSHOW",
-										false);
-								MySharedPreference.putBoolean("LITTLE", false);
-								ListViewUtil
-										.setListViewHeightBasedOnChildren(more_listView);
-							}
-							break;
-						default:
-							break;
-						}
-						adapter.notifyDataSetChanged();
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				switch (position) {
+				case 0: // 帮助图片是否显示
+					if (MySharedPreference.getBoolean(Consts.MORE_HELP)) {
+						MySharedPreference.putBoolean(Consts.MORE_HELP,
+								false);
+						MySharedPreference.putBoolean(
+								Consts.MORE_PAGEONE, true);
+						MySharedPreference.putBoolean(
+								Consts.MORE_PAGETWO, true);
+					} else {
+						MySharedPreference.putBoolean(Consts.MORE_HELP,
+								true);
+						MySharedPreference.putBoolean(
+								Consts.MORE_PAGEONE, false);
+						MySharedPreference.putBoolean(
+								Consts.MORE_PAGETWO, false);
 					}
-				});
+					break;
+				case 1: // 自动登录功能
+					// TODO
+					if (MySharedPreference
+							.getBoolean(Consts.MORE_REMEMBER)) {
+						MySharedPreference.putBoolean(
+								Consts.MORE_REMEMBER, false);
+					} else {
+						MySharedPreference.putBoolean(
+								Consts.MORE_REMEMBER, true);
+					}
+					break;
+				case 2: // 报警通知开关
+					AlarmTask task = new AlarmTask();
+					Integer[] params = new Integer[3];
+					if (!MySharedPreference.getBoolean(
+							Consts.MORE_ALARMSWITCH, true)) {// 1是关
+						// 0是开
+						params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
+					} else {
+						params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
+					}
+					task.execute(params);
+
+					break;
+				case 3:// 换成报警信息
+					if (localFlag)// 本地登录
+					{
+						mActivity.showTextToast(R.string.more_nologin);
+					} else {
+						if (!ConfigUtil.isConnected(mActivity)) {
+							mActivity.alertNetDialog();
+						} else {
+							mApp.setNewPushCnt(0);
+							Intent intent2 = new Intent(mActivity,
+									AlarmInfoActivity.class);
+							startActivity(intent2);
+						}
+					}
+
+					// if (!MySharedPreference.getBoolean("VideoSquer"))
+					// {
+					// MySharedPreference.putBoolean("VideoSquer",
+					// true);
+					// }
+					//
+					// if (!ConfigUtil.isConnected(mActivity)) {
+					// mActivity.alertNetDialog();
+					// } else {
+					// StatService.trackCustomEvent(
+					// mActivity,
+					// "Demo",
+					// mActivity.getResources().getString(
+					// R.string.census_demo));
+					//
+					// GetDemoTask demoTask = new GetDemoTask(
+					// mActivity);
+					// String[] demoParams = new String[3];
+					// if (!Boolean
+					// .valueOf(((BaseActivity) activity).statusHashMap
+					// .get(Consts.LOCAL_LOGIN))) {
+					// String sessionResult = ConfigUtil
+					// .getSession();
+					//
+					// MyLog.v("session", sessionResult);
+					// demoParams[0] = sessionResult;
+					// } else {
+					// demoParams[0] = "";
+					// }
+					// demoTask.execute(demoParams);
+					// }
+					// TODO
+					break;
+				case 4: // 观看模式（单设备，多设备）
+					if (MySharedPreference
+							.getBoolean(Consts.MORE_PLAYMODE)) {
+						MySharedPreference.putBoolean(
+								Consts.MORE_PLAYMODE, false);
+						dataList.get(4).setName(
+								mActivity.getResources().getString(
+										R.string.str_video_modetwo));
+					} else {
+						MySharedPreference.putBoolean(
+								Consts.MORE_PLAYMODE, true);
+						dataList.get(4)
+						.setName(
+								mActivity
+								.getResources()
+								.getString(
+										R.string.str_video_more_modetwo));
+					}
+					break;
+				case 5:// 小助手
+					if (MySharedPreference
+							.getBoolean(Consts.MORE_LITTLEHELP)) {
+						MySharedPreference.putBoolean(
+								Consts.MORE_LITTLEHELP, false);
+					} else {
+						MySharedPreference.putBoolean(
+								Consts.MORE_LITTLEHELP, true);
+					}
+					break;
+				case 6:// 广播
+					if (MySharedPreference
+							.getBoolean(Consts.MORE_BROADCAST)) {
+						MySharedPreference.putBoolean(
+								Consts.MORE_BROADCAST, false);
+					} else {
+						MySharedPreference.putBoolean(
+								Consts.MORE_BROADCAST, true);
+					}
+					break;
+				case 7:// 测试服务器开关
+					MySharedPreference.putString("ChannelIP", "");
+					MySharedPreference.putString("OnlineIP", "");
+					MySharedPreference.putString("ChannelIP_en", "");
+					MySharedPreference.putString("OnlineIP_en", "");
+
+					if (MySharedPreference
+							.getBoolean(Consts.MORE_TESTSWITCH)) {
+						MySharedPreference.putBoolean(
+								Consts.MORE_TESTSWITCH, false);
+					} else {
+						// MySharedPreference.clearAll();
+						// 打开测试开关要关闭记住密码功能
+						MySharedPreference.putBoolean(
+								Consts.MORE_TESTSWITCH, true);
+						MySharedPreference.putBoolean(
+								Consts.MORE_REMEMBER, false);
+					}
+					break;
+				case 8:// 版本号
+					// 获取用户未读消息
+					// v.php?mod=api&act=user_pm&sid=<>
+					// sid 用户标识
+					// return:
+					// {"success":true,"msg":null,"errCode":null,"data":[{"url":"","count":""}]}
+					// count:消息数量
+					// url:消息页面
+					// 现在success一直返回false
+
+					Intent intentVersion = new Intent(mActivity,
+							JVVersionActivity.class);
+					mActivity.startActivity(intentVersion);
+
+					break;
+
+				case 9: // 2015.3.16 我要装监控改为工程商入驻
+					if (!showGCS) {
+						break;
+					}
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_GCSURL)) {
+						MySharedPreference.putBoolean(
+								Consts.MORE_GCSURL, true);
+						mListener.OnFuncEnabled(0, 1);
+					}
+					if (!ConfigUtil.isConnected(mActivity)) {
+						mActivity.alertNetDialog();
+					} else {
+						if (null != ((BaseActivity) mActivity).statusHashMap
+								.get(Consts.MORE_GCSURL)) {
+							Intent intentAD0 = new Intent(mActivity,
+									JVWebViewActivity.class);
+							intentAD0
+							.putExtra(
+									"URL",
+									((BaseActivity) mActivity).statusHashMap
+									.get(Consts.MORE_GCSURL));
+							intentAD0.putExtra("title", -2);
+							mActivity.startActivity(intentAD0);
+						} else {
+							if ("false".equals(mActivity.statusHashMap
+									.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+								MyLog.e("Login", "初始化账号SDK失败");
+								ConfigUtil
+								.initAccountSDK(((MainApplication) mActivity
+										.getApplication()));// 初始化账号SDK
+							}
+							GetDemoTask UrlTask = new GetDemoTask(
+									mActivity);
+							String[] demoParams = new String[3];
+							demoParams[1] = "0";
+							UrlTask.execute(demoParams);
+						}
+					}
+					break;
+				case 10: // 设备分享
+					// GetDemoTask UrlTask1 = new
+					// GetDemoTask(mActivity);
+					// String[] demoParams1 = new String[3];
+					// demoParams1[0] = "1";
+					// UrlTask1.execute(demoParams1);
+					break;
+				case 11: // 云视通指数
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_STATURL)) {
+						MySharedPreference.putBoolean(
+								Consts.MORE_STATURL, true);
+						mListener.OnFuncEnabled(0, 1);
+					}
+					if (!ConfigUtil.isConnected(mActivity)) {
+						mActivity.alertNetDialog();
+					} else {
+						if (null != ((BaseActivity) mActivity).statusHashMap
+								.get(Consts.MORE_STATURL)) {
+							Intent intentAD0 = new Intent(mActivity,
+									JVWebViewActivity.class);
+							intentAD0
+							.putExtra(
+									"URL",
+									((BaseActivity) mActivity).statusHashMap
+									.get(Consts.MORE_STATURL));
+							intentAD0.putExtra("title", -2);
+							mActivity.startActivity(intentAD0);
+						} else {
+							if ("false".equals(mActivity.statusHashMap
+									.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+								MyLog.e("Login", "初始化账号SDK失败");
+								ConfigUtil
+								.initAccountSDK(((MainApplication) mActivity
+										.getApplication()));// 初始化账号SDK
+							}
+							GetDemoTask UrlTask2 = new GetDemoTask(
+									mActivity);
+							String[] demoParams2 = new String[3];
+							demoParams2[1] = "2";
+							UrlTask2.execute(demoParams2);
+						}
+					}
+					break;
+				case 12:
+					// if
+					// (!MySharedPreference.getBoolean(Consts.MORE_BBS))
+					// {
+					// MySharedPreference.putBoolean(Consts.MORE_BBS,
+					// true);
+					// mListener.OnFuncEnabled(0, 1);
+					// }
+					if (!ConfigUtil.isConnected(mActivity)) {
+						mActivity.alertNetDialog();
+					} else {
+						onNotify(Consts.NEW_BBS,0, 0, null);
+						if (null != ((BaseActivity) mActivity).statusHashMap
+								.get(Consts.MORE_BBSNUMURL) && !"".equals(((BaseActivity) mActivity).statusHashMap
+										.get(Consts.MORE_BBSNUMURL))) {
+							Intent intentAD0 = new Intent(mActivity,
+									JVWebViewActivity.class);
+							intentAD0
+							.putExtra(
+									"URL",
+									((BaseActivity) mActivity).statusHashMap
+									.get(Consts.MORE_BBSNUMURL));
+							intentAD0.putExtra("title", -2);
+							mActivity.startActivity(intentAD0);
+							((BaseActivity) mActivity).statusHashMap
+							.put(Consts.MORE_BBSNUMURL,"");
+						}else {
+							if (null != ((BaseActivity) mActivity).statusHashMap
+									.get(Consts.MORE_BBS)) {
+								Intent intentAD0 = new Intent(mActivity,
+										JVWebViewActivity.class);
+								intentAD0
+								.putExtra(
+										"URL",
+										((BaseActivity) mActivity).statusHashMap
+										.get(Consts.MORE_BBS));
+								intentAD0.putExtra("title", -2);
+								mActivity.startActivity(intentAD0);
+							} else {
+								String sid = "";
+								if (!Boolean
+										.valueOf(mActivity.statusHashMap
+												.get(Consts.LOCAL_LOGIN))) {
+									String sessionResult = ConfigUtil
+											.getSession();
+									sid = sessionResult;
+								} else {
+									sid = "";
+								}
+
+								if ("false".equals(mActivity.statusHashMap
+										.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+									MyLog.e("Login", "初始化账号SDK失败");
+									ConfigUtil
+									.initAccountSDK(((MainApplication) mActivity
+											.getApplication()));// 初始化账号SDK
+								}
+								adapter.setBBSNums(0);
+								adapter.notifyDataSetChanged();
+								GetDemoTask UrlTask2 = new GetDemoTask(
+										mActivity);
+								String[] demoParams2 = new String[3];
+								demoParams2[0] = sid;
+								demoParams2[1] = "3";
+								UrlTask2.execute(demoParams2);
+							}
+						}
+					}
+					break;
+				case 13: // 系统消息
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						MySharedPreference.putBoolean(
+								Consts.MORE_SYSTEMMESSAGE, true);
+						mListener.OnFuncEnabled(0, 1);
+					}
+					if (!ConfigUtil.isConnected(mActivity)) {
+						mActivity.alertNetDialog();
+					} else {
+						StatService.trackCustomEvent(
+								mActivity,
+								"MoreMessage",
+								mActivity.getResources().getString(
+										R.string.census_moremessage));
+						Intent infoIntent = new Intent();
+						infoIntent.setClass(mActivity,
+								JVSystemInfoActivity.class);
+						mActivity.startActivity(infoIntent);
+					}
+					break;
+				case 14: // 图像查看
+					StatService.trackCustomEvent(
+							mActivity,
+							"Media",
+							mActivity.getResources().getString(
+									R.string.census_media));
+					Intent intentMedia = new Intent(mActivity,
+							JVMediaActivity.class);
+					mActivity.startActivity(intentMedia);
+					break;
+				case 15: // 意见反馈
+					// Intent intent = new Intent(mActivity,
+					// JVFeedbackActivity.class);
+					// startActivity(intent);
+					break;
+				case 16: // 检查更新
+					if (!ConfigUtil.isConnected(mActivity)) {
+						mActivity.alertNetDialog();
+					} else {
+						mActivity.createDialog("", false);
+						CheckUpdateTask taskf = new CheckUpdateTask(
+								mActivity);
+						String[] strParams = new String[3];
+						strParams[0] = "1";// 1,手动检查更新
+						taskf.execute(strParams);
+					}
+
+					break;
+				case 17: // 关于
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_LITTLE)) {
+						littlenum++;
+						if (littlenum < 20) {
+							if (littlenum >= 17) {
+								mActivity
+								.showTextToast((20 - littlenum)
+										+ " ");
+							}
+						} else if (littlenum == 20) {
+							MySharedPreference.putBoolean(
+									Consts.MORE_LITTLEHELP, true);
+							MySharedPreference.putBoolean(
+									Consts.MORE_BROADCAST, true);
+							MySharedPreference.putBoolean(
+									Consts.MORE_LITTLE, true);
+							ListViewUtil
+							.setListViewHeightBasedOnChildren(more_listView);
+						}
+					} else {
+						littlenum = 0;
+						MySharedPreference.putBoolean(
+								Consts.MORE_LITTLEHELP, false);
+						MySharedPreference.putBoolean(
+								Consts.MORE_BROADCAST, false);
+						MySharedPreference.putBoolean(
+								Consts.MORE_LITTLE, false);
+						ListViewUtil
+						.setListViewHeightBasedOnChildren(more_listView);
+					}
+					break;
+				default:
+					break;
+				}
+				adapter.notifyDataSetChanged();
+			}
+		});
 	}
 
 	@Override
@@ -751,15 +945,32 @@ public class JVMoreFragment extends BaseFragment {
 
 	class CheckUserInfoTask extends AsyncTask<String, Integer, Integer> {
 		String account = "";
-		byte[] response = null;
+		String strResonse = "";
+		String strPhone = "";
+		String strMail = "";
 
 		@Override
 		protected Integer doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			account = params[0];
-			response = new byte[1024];
 			int ret = -1;
-			ret = JVACCOUNT.GetMailPhoneNoSession(account, response);
+			strResonse = JVACCOUNT.GetAccountInfo();
+			JSONObject resObject = null;
+			Log.i("TAG", strResonse);
+			try {
+				resObject = new JSONObject(strResonse);
+				ret = resObject.optInt("result", -2);
+				if (ret == 0) {
+					strPhone = resObject.optString("phone");
+					strMail = resObject.optString("mail");
+					hasnicknameString = resObject.optString("nickname");
+					usernameInfo = resObject.optString("username");
+					Log.i("TAG", usernameInfo);
+					MySharedPreference.putString("USERINFO", usernameInfo);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 			return ret;
 		}
 
@@ -770,24 +981,50 @@ public class JVMoreFragment extends BaseFragment {
 
 		@Override
 		protected void onPostExecute(Integer result) {
+			mActivity.dismissDialog();
 			if (result == 0)// ok
 			{
-				String strPhone = "";
-				String strMail = "";
-				try {
-					JSONObject resObject = new JSONObject(new String(response));
-					strPhone = resObject.optString("phone");
-					strMail = resObject.optString("mail");
-					if ((strMail.equals("") || null == strMail)
-							&& (strPhone.equals("") || null == strPhone)) {
-						onNotify(Consts.WHAT_BIND, 0, 0, null);
-					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				file = new File(Consts.HEAD_PATH);
+				MobileUtil.createDirectory(file);
+				tempFile = new File(Consts.HEAD_PATH + usernameInfo + ".jpg");
+				newFile = new File(Consts.HEAD_PATH + usernameInfo + "1.jpg");
+
+				if (null != tempFile && tempFile.exists()) {
+					Bitmap bitmap = BitmapFactory.decodeFile(Consts.HEAD_PATH
+							+ usernameInfo + Consts.IMAGE_JPG_KIND);
+					Log.i("TAG", Consts.HEAD_PATH + usernameInfo
+							+ Consts.IMAGE_JPG_KIND);
+					more_head.setImageBitmap(bitmap);
+					more_camera.setVisibility(View.GONE);
+				}
+
+				if ((strMail.equals("") || null == strMail)
+						&& (strPhone.equals("") || null == strPhone)) {
+					MySharedPreference.putBoolean("ISSHOW", true);
+					onNotify(Consts.WHAT_BIND, 0, 0, null);
+				}
+				if (!strMail.equals("") && null != strMail) {
+					hasbandEmail = strMail;
+					MySharedPreference.putString("EMAIL", strMail);
+				} else {
+					hasbandEmail = "noemail";
+				}
+				if (!strPhone.equals("") && null != strPhone) {
+					hasbandPhone = strPhone;
+				} else {
+					hasbandPhone = "nophone";
+				}
+				if (isgetemail) {
+					Intent intentmore = new Intent(mActivity,
+							JVRebandContactActivity.class);
+					intentmore.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					intentmore.putExtra("phone", hasbandPhone);
+					intentmore.putExtra("email", hasbandEmail);
+					intentmore.putExtra("nickname", hasnicknameString);
+					intentmore.putExtra("username", usernameInfo);
+					startActivity(intentmore);
 				}
 			} else {
-				// 重置失败
 				mActivity.showTextToast(R.string.str_video_load_failed);
 			}
 		}
@@ -809,14 +1046,16 @@ public class JVMoreFragment extends BaseFragment {
 						JVAlarmConst.ALARM_ON, ConfigUtil.getIMEI(mActivity));
 				if (0 == switchRes) {
 					MyLog.e("JVAlarmConst.ALARM--ON-", switchRes + "");
-					MySharedPreference.putBoolean("AlarmSwitch", true);
+					MySharedPreference
+					.putBoolean(Consts.MORE_ALARMSWITCH, true);
 				}
 			} else {// 关报警
 				switchRes = JVACCOUNT.SetCurrentAlarmFlag(
 						JVAlarmConst.ALARM_OFF, ConfigUtil.getIMEI(mActivity));
 				if (0 == switchRes) {
 					MyLog.e("JVAlarmConst.ALARM--CLOSE-", switchRes + "");
-					MySharedPreference.putBoolean("AlarmSwitch", false);
+					MySharedPreference.putBoolean(Consts.MORE_ALARMSWITCH,
+							false);
 				}
 			}
 
@@ -855,22 +1094,26 @@ public class JVMoreFragment extends BaseFragment {
 			int logRes = -1;
 			try {
 				if (!localFlag) {
-					if (0 != AccountUtil.userLogout()) {
-						AccountUtil.userLogout();
-					}
+					MyLog.v(TAG, "start-logout");
+					// if (0 != AccountUtil.userLogout()) {
+					AccountUtil.userLogout();
+					// }
+					MyLog.v(TAG, "end-logout");
 					MySharedPreference.putString(Consts.KEY_LAST_LOGIN_USER,
 							more_name);
 					MySharedPreference.putString(Consts.DEVICE_LIST, "");
 					// 添加手动注销标志，离线报警使用，如果为手动注销账号，不接收离线报警
 					MySharedPreference.putBoolean(Consts.MANUAL_LOGOUT_TAG,
 							true);
+
 				}
-				ConfigUtil.logOut();
+
 				UserUtil.resetAllUser();
 				BitmapCache.getInstance().clearAllCache();
 				mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 				mActivity.statusHashMap.put(Consts.HAG_GOT_DEVICE, "false");
 				mActivity.statusHashMap.put(Consts.ACCOUNT_ERROR, null);
+				MySharedPreference.putString("USERINFO", "");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -886,6 +1129,15 @@ public class JVMoreFragment extends BaseFragment {
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			((BaseActivity) mActivity).dismissDialog();
+			((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_BBS, null);
+			((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_STATURL,
+					null);
+			((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_GCSURL,
+					null);
+			((BaseActivity) mActivity).statusHashMap.put(Consts.MORE_DEMOURL,
+					null);
+			MySharedPreference.putBoolean("ISSHOW", false);
+			MySharedPreference.putString("ACCOUNT", "");
 			MyActivityManager.getActivityManager().popAllActivityExceptOne(
 					JVLoginActivity.class);
 			Intent intent = new Intent();
@@ -894,13 +1146,12 @@ public class JVMoreFragment extends BaseFragment {
 
 			clearCacheFolder(mActivity.getCacheDir(),
 					System.currentTimeMillis());
-			
+
 			mActivity.deleteDatabase("webview.db");
 			mActivity.deleteDatabase("webviewCache.db");
-			
-			
+
 			intent.putExtra("UserName", userName);
-			MySharedPreference.putBoolean("REMEMBER", false);
+			// MySharedPreference.putBoolean(Consts.MORE_REMEMBER, false);
 			intent.setClass(mActivity, JVLoginActivity.class);
 			mActivity.startActivity(intent);
 			mActivity.finish();
@@ -926,8 +1177,7 @@ public class JVMoreFragment extends BaseFragment {
 		}
 		super.onPause();
 	}
-	
-	
+
 	private int clearCacheFolder(File dir, long numDays) {
 
 		int deletedFiles = 0;
@@ -964,6 +1214,12 @@ public class JVMoreFragment extends BaseFragment {
 		}
 
 		return deletedFiles;
+
+	}
+
+	@Override
+	public void onMainAction(int packet_type) {
+		// TODO Auto-generated method stub
 
 	}
 }

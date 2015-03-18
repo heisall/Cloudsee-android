@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import java.util.HashMap;
+import java.util.Stack;
 
 import org.json.JSONObject;
 
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
@@ -26,6 +28,9 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.MainApplication;
+import com.jovision.activities.JVTabActivity.OnMainListener;
+import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
@@ -33,7 +38,7 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
 import com.jovision.views.AlarmDialog;
 
-public class JVVideoFragment extends BaseFragment {
+public class JVVideoFragment extends BaseFragment implements OnMainListener {
 
 	private static final String TAG = "JVWebViewActivity";
 	private LinearLayout loadinglayout;
@@ -46,15 +51,41 @@ public class JVVideoFragment extends BaseFragment {
 	private ImageView loadingBar;
 	private View rootView;
 	private boolean isshow = false;
+	String sid = "";
+	String lan = "";
 
 	private RelativeLayout loadFailedLayout;
 	private ImageView reloadImgView;
 	private boolean loadFailed = false;
 	private boolean isConnected = false;
 
+	Stack<String> titleStack = new Stack<String>();// 标题栈，后进先出
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case Consts.TAB_PLAZZA_RELOAD_URL: {
+			if (null != obj && !"".equalsIgnoreCase(obj.toString())) {
+				isshow = false;
+				urls = obj.toString();
+				webView.loadUrl(urls);
+			}
+			break;
+		}
+		case Consts.TAB_WEBVIEW_BACK: {// tab点击返回
+			try {
+				if (null != titleStack && 0 != titleStack.size()) {
+					titleStack.pop();
+					String lastTitle = titleStack.peek();
+					currentMenu.setText(lastTitle);
+				}
+				webView.goBack(); // goBack()表示返回WebView的上一页面
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		}
+
 		case Consts.WHAT_DEMO_URL_SUCCESS: {
 			mActivity.dismissDialog();
 			HashMap<String, String> paramMap = (HashMap<String, String>) obj;
@@ -111,10 +142,9 @@ public class JVVideoFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		if (null != ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
-			
-			String sid = "";
-			String lan = "";
+		if (null != ((BaseActivity) mActivity).statusHashMap
+				.get(Consts.MORE_DEMOURL)) {
+
 			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mActivity)) {
 				lan = "zh_cn";
 			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
@@ -123,10 +153,10 @@ public class JVVideoFragment extends BaseFragment {
 			} else {
 				lan = "en_us";
 			}
-			urls = ((BaseActivity) mActivity).statusHashMap.get("DEMOURL");
-//			urls = "http://test.cloudsee.net/phone.action";
-			
-			
+			urls = ((BaseActivity) mActivity).statusHashMap
+					.get(Consts.MORE_DEMOURL);
+			// urls = "http://test.cloudsee.net/phone.action";
+
 			if (!Boolean.valueOf(mActivity.statusHashMap
 					.get(Consts.LOCAL_LOGIN))) {
 				String sessionResult = ConfigUtil.getSession();
@@ -144,12 +174,13 @@ public class JVVideoFragment extends BaseFragment {
 		if (urls.contains("rotate=x")) {
 			urls = urls.replace("rotate=x", "");
 			mActivity
-			.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
+					.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
 		}
 		MyLog.e("yanshidian", urls);
 		/** topBar **/
 		topBar = (RelativeLayout) rootView.findViewById(R.id.topbarh);
 		leftBtn = (Button) rootView.findViewById(R.id.btn_left);
+		leftBtn.setVisibility(View.GONE);
 		alarmnet = (RelativeLayout) rootView.findViewById(R.id.alarmnet);
 		accountError = (TextView) rootView.findViewById(R.id.accounterror);
 		currentMenu = (TextView) rootView.findViewById(R.id.currentmenu);
@@ -163,25 +194,35 @@ public class JVVideoFragment extends BaseFragment {
 		loadFailedLayout.setVisibility(View.GONE);
 		reloadImgView = (ImageView) rootView.findViewById(R.id.refreshimg);
 		reloadImgView.setOnClickListener(myOnClickListener);
-		currentMenu.setText(R.string.demo);
+		// currentMenu.setText(R.string.demo);
+		//
+		// if (-1 == titleID) {
+		// currentMenu.setText("");
+		// } else if (-2 == titleID) {
+		//
+		// } else {
+		// currentMenu.setText(titleID);
+		// }
+
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn = (Button) rootView.findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
 		webView = (WebView) rootView.findViewById(R.id.findpasswebview);
 
-		// WebChromeClient wvcc = new WebChromeClient() {
-		// @Override
-		// public void onReceivedTitle(WebView view, String title) {
-		// super.onReceivedTitle(view, title);
-		// if (-2 == titleID) {
-		//
-		// }
-		// }
-		// };
+		WebChromeClient wvcc = new WebChromeClient() {
+			@Override
+			public void onReceivedTitle(WebView view, String title) {
+				super.onReceivedTitle(view, title);
+				// if (-2 == titleID) {
+				currentMenu.setText(title);
+				titleStack.push(title);
+				// }
+			}
+		};
 		webView.getSettings().setJavaScriptEnabled(true);
 
 		// 设置setWebChromeClient对象
-		// webView.setWebChromeClient(wvcc);
+		webView.setWebChromeClient(wvcc);
 		webView.requestFocus(View.FOCUS_DOWN);
 
 		// setting.setPluginState(PluginState.ON);
@@ -205,7 +246,19 @@ public class JVVideoFragment extends BaseFragment {
 				MyLog.v("new_url", newUrl);
 				// showTextToast(rtmp);//////////////等着去掉
 				try {
-					if (newUrl.contains("viewmode")) {
+					if (newUrl.contains("open")) {// 打开新的WebView模式
+						Intent intentAD2 = new Intent(mActivity,
+								JVWebViewActivity.class);
+
+						intentAD2.putExtra("URL", newUrl);
+						intentAD2.putExtra("title", -2);
+						mActivity.startActivity(intentAD2);
+					}
+					// else if (newUrl.contains("close")) {// 关闭当前webview
+					// mActivity.this.finish();
+					// }
+					else if (newUrl.contains("video")
+							|| newUrl.contains("viewmode")) {// 是否含有视频
 
 						String param_array[] = newUrl.split("\\?");
 						HashMap<String, String> resMap;
@@ -232,8 +285,18 @@ public class JVVideoFragment extends BaseFragment {
 
 						mActivity.createDialog("", false);
 						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
-						.start();
+								.start();
 					} else {
+						// String plazzaUrl = ((BaseActivity)
+						// mActivity).statusHashMap
+						// .get(Consts.MORE_DEMOURL);
+						// if (newUrl.contains(plazzaUrl)) {
+						// newUrl = newUrl + "?" + "plat=android&platv="
+						// + Build.VERSION.SDK_INT + "&lang=" + lan
+						// + "&d=" + System.currentTimeMillis()
+						// + "&sid=" + sid;
+						// }
+
 						view.loadUrl(newUrl);
 					}
 				} catch (Exception e) {
@@ -249,8 +312,8 @@ public class JVVideoFragment extends BaseFragment {
 				if (!MySharedPreference.getBoolean("webfirst")) {
 					MySharedPreference.putBoolean("webfirst", true);
 					loadinglayout.setVisibility(View.VISIBLE);
-					loadingBar.setAnimation(AnimationUtils.loadAnimation(mActivity,
-							R.anim.rotate));
+					loadingBar.setAnimation(AnimationUtils.loadAnimation(
+							mActivity, R.anim.rotate));
 				}
 				MyLog.v(TAG, "webView start load");
 			}
@@ -297,7 +360,8 @@ public class JVVideoFragment extends BaseFragment {
 					.get(Consts.HAS_LOAD_DEMO));
 		}
 		if (hasLoad && ConfigUtil.isConnected(mActivity)) {
-			webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
+			webView.getSettings().setCacheMode(
+					WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		} else {
 			loadinglayout.setVisibility(View.VISIBLE);
 			webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -366,7 +430,20 @@ public class JVVideoFragment extends BaseFragment {
 					loadingBar.setAnimation(AnimationUtils.loadAnimation(
 							mActivity, R.anim.rotate));
 					loadFailed = false;
-					if ("".equalsIgnoreCase(urls)) {
+					if (null == urls || "".equalsIgnoreCase(urls)) {
+						if ("false".equals(mActivity.statusHashMap
+								.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+							MyLog.e("Login", "初始化账号SDK失败");
+							ConfigUtil
+									.initAccountSDK(((MainApplication) mActivity
+											.getApplication()));// 初始化账号SDK
+						}
+
+						GetDemoTask task = new GetDemoTask(mActivity);
+						String[] params = new String[3];
+						params[0] = "";
+						params[1] = "5";//
+						task.execute(params);
 						MyLog.v(TAG, "urls is null");
 					}
 					webView.loadUrl(urls);
@@ -385,6 +462,14 @@ public class JVVideoFragment extends BaseFragment {
 	 */
 	private void backMethod() {
 		if (webView.canGoBack()) {
+
+			if (null != titleStack) {
+				titleStack.pop();
+				String lastTitle = titleStack.peek();
+				;
+				currentMenu.setText(lastTitle);
+			}
+
 			webView.goBack(); // goBack()表示返回WebView的上一页面
 		} else {
 			mActivity.openExitDialog();
@@ -425,6 +510,12 @@ public class JVVideoFragment extends BaseFragment {
 		}
 		// fragHandler.sendMessage(fragHandler
 		// .obtainMessage(2000, 0, 0, null));
+	}
+
+	@Override
+	public void onMainAction(int packet_type) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +26,6 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.PlayUtil;
 
-//单例模式使用
 public class AlarmDialog extends Dialog {
 	private static AlarmDialog sSingleton = null;
 	private Context context;
@@ -43,10 +45,13 @@ public class AlarmDialog extends Dialog {
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private Toast toast;
 	private String strAlarmGUID;
+	private Vibrator vibrator;
 
 	public AlarmDialog(Context context) {
 		super(context, R.style.mydialog);
 		this.context = context;
+		vibrator = (Vibrator) context
+				.getSystemService(Service.VIBRATOR_SERVICE);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -75,17 +80,19 @@ public class AlarmDialog extends Dialog {
 		dialogDeviceModle.setText(alarmTypeName);
 		dialogAlarmTime.setText(alarmTime);
 		// MyLog.e("AlarmDialog", "onStart" + getDialogObjs());
-		if (isshowing) {
-			dismiss();
-			return;
-		}
-		isshowing = true;
+		// if (isshowing) {
+		// dismiss();
+		// return;
+		// }
+		// isshowing = true;
 	}
 
 	@Override
 	protected void onStop() {
 		// synchronized (AlarmDialog.class) {
 		isshowing = false;
+		Log.e("Alarm", "onStop, ishowing==false");
+		vibrator.cancel();
 		// }
 	}
 
@@ -99,11 +106,11 @@ public class AlarmDialog extends Dialog {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.dialog_cancel:
-				isshowing = false;
+				// isshowing = false;
 				dismiss();
 				break;
 			case R.id.dialog_cancle_img:
-				isshowing = false;
+				// isshowing = false;
 				dismiss();
 				break;
 			case R.id.dialog_view:
@@ -195,64 +202,73 @@ public class AlarmDialog extends Dialog {
 
 	public void Show(Object obj) {
 
-		// synchronized (AlarmDialog.class) {
-
-		if (obj == null) {
-			isshowing = false;
+		if (isshowing) {
+			Log.e("Alarm", "isshowing is true, then return");
 			return;
 		}
-		// 已经在显示了，就不显示了
-		// if (getDialogObjs() <= 1) {
-		if (!isshowing) {
-			// isshowing = true;
-			PushInfo pi = (PushInfo) obj;
-			ystNum = pi.ystNum;
-			deviceList = CacheUtil.getDevList();// 再取一次
-			int dev_index = getDeivceIndex(ystNum);
-			if (dev_index == -1) {
+		synchronized (AlarmDialog.class) {
+
+			if (obj == null) {
+				isshowing = false;
+				return;
+			}
+			// 已经在显示了，就不显示了
+			// if (getDialogObjs() <= 1) {
+			if (!isshowing) {
+				isshowing = true;
+				Log.e("Alarm", "Show() isshowing == true");
+				vibrator.vibrate(new long[] { 500, 2000, 500, 2000 }, 0);
+				PushInfo pi = (PushInfo) obj;
+				ystNum = pi.ystNum;
 				deviceNickName = pi.deviceNickName;
-			} else {
-				deviceNickName = deviceList.get(dev_index).getNickName();
-				if (pi.alarmType == 11)// 第三方
-				{
-					deviceNickName = deviceNickName + "-" + pi.deviceNickName;
+				// deviceList = CacheUtil.getDevList();// 再取一次
+				// int dev_index = getDeivceIndex(ystNum);
+				// if (dev_index == -1) {
+				// deviceNickName = pi.deviceNickName;
+				// } else {
+				// // deviceNickName = deviceList.get(dev_index).getNickName();
+				// deviceNickName = pi.deviceNickName;
+				// if (pi.alarmType == 11)// 第三方
+				// {
+				// deviceNickName = deviceNickName + "-"
+				// + pi.deviceNickName;
+				// }
+				// }
+
+				// deviceNickName = pi.deviceNickName;
+
+				alarmTime = pi.alarmTime;
+				String strAlarmTypeName = "";
+				if (pi.alarmType == 7) {
+					strAlarmTypeName = context.getResources().getString(
+							R.string.str_alarm_type_move);
+				} else if (pi.alarmType == 11) {
+					strAlarmTypeName = context.getResources().getString(
+							R.string.str_alarm_type_third);
+				} else if (pi.alarmType == 4) {
+					strAlarmTypeName = context.getResources().getString(
+							R.string.str_alarm_type_external);
+				} else {
+					strAlarmTypeName = context.getResources().getString(
+							R.string.str_alarm_type_unknown);
 				}
-			}
-
-			// deviceNickName = pi.deviceNickName;
-
-			alarmTime = pi.alarmTime;
-			String strAlarmTypeName = "";
-			if (pi.alarmType == 7) {
-				strAlarmTypeName = context.getResources().getString(
-						R.string.str_alarm_type_move);
-			} else if (pi.alarmType == 11) {
-				strAlarmTypeName = context.getResources().getString(
-						R.string.str_alarm_type_third);
-			} else if (pi.alarmType == 4) {
-				strAlarmTypeName = context.getResources().getString(
-						R.string.str_alarm_type_external);
+				alarmTypeName = strAlarmTypeName;
+				strAlarmGUID = pi.strGUID;
+				show();
 			} else {
-				strAlarmTypeName = context.getResources().getString(
-						R.string.str_alarm_type_unknown);
+				Log.e("Alarm", "收到信息，但不提示");
+				// Toast.makeText(context, "收到信息，但不提示",
+				// Toast.LENGTH_SHORT).show();
 			}
-			alarmTypeName = strAlarmTypeName;
-			strAlarmGUID = pi.strGUID;
-			show();
-		} else {
-			MyLog.e("Alarm", "收到信息，但不提示");
-			// Toast.makeText(context, "收到信息，但不提示",
-			// Toast.LENGTH_SHORT).show();
 		}
-		// }
 	}
 
-	@Override
-	public void dismiss() {
-		// TODO Auto-generated method stub
-		isshowing = false;
-		super.dismiss();
-	}
+	// @Override
+	// public void dismiss() {
+	// // TODO Auto-generated method stub
+	// isshowing = false;
+	// super.dismiss();
+	// }
 
 	/**
 	 * 弹系统消息

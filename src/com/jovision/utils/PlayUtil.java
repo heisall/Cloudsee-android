@@ -54,7 +54,7 @@ public class PlayUtil {
 	 */
 	public static boolean broadCast(Context con) {
 		boolean canBroad = false;
-		if (!MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+		if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST, true)) {
 			MyLog.v(Consts.TAG_APP, "not broad = " + canBroad);
 			return canBroad;
 		}
@@ -510,7 +510,6 @@ public class PlayUtil {
 	 * @return
 	 */
 	public static boolean startVideoTape(int index, String savePath) {
-
 		boolean startSuccess = Jni.startRecord(index, savePath, true, false);
 		return startSuccess;
 	}
@@ -622,7 +621,7 @@ public class PlayUtil {
 	 */
 	public static void setHelperToList(ArrayList<Device> deviceList) {
 
-		if (MySharedPreference.getBoolean("LITTLEHELP", true)) {
+		if (MySharedPreference.getBoolean(Consts.MORE_LITTLEHELP, true)) {
 			HashMap<String, Boolean> helperMap = getEnableHelperArray();
 			JSONArray array = new JSONArray();
 			JSONObject object = null;
@@ -1057,7 +1056,7 @@ public class PlayUtil {
 	//
 	// ArrayList<Channel> clist = new ArrayList<Channel>();
 	//
-	// if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+	// if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
 	// for (Device device : deviceList) {
 	// clist.addAll(device.getChannelList().toList());
 	// }
@@ -1095,7 +1094,7 @@ public class PlayUtil {
 			ArrayList<Device> deviceList, int deviceIndex) {
 		ArrayList<Channel> clist = new ArrayList<Channel>();
 
-		if (MySharedPreference.getBoolean("PlayDeviceMode")) {
+		if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
 			for (Device device : deviceList) {
 				clist.addAll(device.getChannelList().toList());
 			}
@@ -1248,14 +1247,16 @@ public class PlayUtil {
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(), dev
 					.getPwd(), -1, ConfigUtil.getGroup(dev.getFullNo()), true,
 					1, true, dev.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-							: JVNetConst.TYPE_3GMO_UDP, null, false, false,
+							: JVNetConst.TYPE_3GMO_UDP, null, false, dev
+							.getEnableTcpConnect() == 1 ? true : false, false,
 					null);
 		} else {
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(), dev
 					.getPwd(), ConfigUtil.getYST(dev.getFullNo()), ConfigUtil
 					.getGroup(dev.getFullNo()), true, 1, true, dev
 					.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-					: JVNetConst.TYPE_3GMO_UDP, null, false, false, null);
+					: JVNetConst.TYPE_3GMO_UDP, null, false, dev
+					.getEnableTcpConnect() == 1 ? true : false, false, null);
 		}
 
 	}

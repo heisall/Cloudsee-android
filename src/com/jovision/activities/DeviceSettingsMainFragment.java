@@ -60,7 +60,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private String startHour = "", startMin = "";
 	private String endHour = "", endMin = "";
 	private RelativeLayout functionlayout1, functionlayout2, functionlayout3,
-			functionlayout4;
+			functionlayout4, functionlayout5;
 	private RelativeLayout functiontips1, functiontips2, functiontips3;
 	private TextView alarmTime0TextView;
 	private int power = 0;
@@ -68,6 +68,11 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private Dialog initDialog;// 显示弹出框
 	private TextView dialogCancel;// 取消按钮
 	private TextView dialogCompleted;// 确定按钮
+
+	private Dialog resetDialog;// 显示弹出框
+	private TextView resetCancel;// 取消按钮
+	private TextView resetCompleted;// 确定按钮
+
 	// 设备名称
 	private TextView device_name;
 	// 设备用户名
@@ -114,6 +119,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				.findViewById(R.id.funclayout3);
 		functionlayout4 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout4);
+		functionlayout5 = (RelativeLayout) rootView
+				.findViewById(R.id.funclayout5);
 
 		functiontips1 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_01);
 		functiontips2 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_02);
@@ -126,6 +133,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		func_swmotion.setOnClickListener(this);
 		functionlayout3.setOnClickListener(this);
 		functionlayout4.setOnClickListener(this);
+		functionlayout5.setOnClickListener(this);
 
 		Bundle data = getArguments();// 获得从activity中传递过来的值
 
@@ -175,7 +183,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 					for (int i = 0; i < strs_s.length; i++) {
 						System.out.println(strs_s[i]);
 					}
-					switch(strs_s.length){
+					switch (strs_s.length) {
 					case 1:
 						startHour = strs_s[0];
 						startMin = "00";
@@ -186,18 +194,17 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						startMin = strs_s[1];
 						break;
 					default:
-						startHour="00";
+						startHour = "00";
 						startMin = "00";
-						break;						
+						break;
 					}
-
 
 					Pattern pattern_e = Pattern.compile(":");
 					String[] strs_e = pattern_e.split(endTime);
 					for (int i = 0; i < strs_e.length; i++) {
 						System.out.println(strs_e[i]);
 					}
-					switch(strs_e.length){
+					switch (strs_e.length) {
 					case 1:
 						endHour = strs_e[0];
 						endMin = "00";
@@ -208,10 +215,10 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						endMin = strs_e[1];
 						break;
 					default:
-						endHour="23";
+						endHour = "23";
 						endMin = "59";
-						break;						
-					}					
+						break;
+					}
 
 					startTime = String.format("%s:%s", startHour, startMin);
 					endTime = String.format("%s:%s", endHour, endMin);
@@ -311,6 +318,16 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			break;
 		case R.id.dialog_cancle_img:
 			initDialog.dismiss();
+			break;
+		case R.id.reset_cancel:
+			resetDialog.dismiss();
+			break;
+		case R.id.reset_completed:
+			mListener.OnFuncSelected(Consts.DEV_RESET_DEVICE, "");
+			resetDialog.dismiss();
+			break;
+		case R.id.funclayout5:
+			ResetDialog();
 			break;
 		case R.id.funclayout4:
 			if (DeviceSettingsActivity.isadmin) {
@@ -432,6 +449,22 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				}
 			}
 		});
+	}
+
+	/** 是否确定重置设备 */
+	private void ResetDialog() {
+		resetDialog = new Dialog(getActivity(), R.style.mydialog);
+		View view = LayoutInflater.from(getActivity()).inflate(
+				R.layout.dialog_reset, null);
+		resetDialog.setContentView(view);
+
+		resetCancel = (TextView) view.findViewById(R.id.reset_cancel);
+		resetCompleted = (TextView) view.findViewById(R.id.reset_completed);
+
+		resetCancel.setOnClickListener(this);
+		resetCompleted.setOnClickListener(this);
+		resetDialog.show();
+
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.utils.RegularUtil;
 
 public class BindThirdDevNicknameFragment extends Fragment implements
-		OnClickListener {
+		OnClickListener, AddThirdDevActivity.OnMainListener {
 
 	private View rootView;// 缓存Fragment view
 	private Button completeBtn;
@@ -59,7 +59,7 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 		completeBtn.setOnClickListener(this);
 		nickNameEdt = (EditText) rootView.findViewById(R.id.third_dev_nick_edt);
 		nickNameEdt.setFocusable(true);
-		mListener.OnSetAlarmEnabled(true);
+		// mListener.OnSetAlarmEnabled(true);
 		return rootView;
 	}
 
@@ -116,5 +116,17 @@ public class BindThirdDevNicknameFragment extends Fragment implements
 			toast.setText(msg);
 		}
 		toast.show();
+	}
+
+	// @Override
+	// public void onMainAction(int action) {
+	// // TODO Auto-generated method stub
+	//
+	// }
+
+	@Override
+	public void onBindResult(int ret, String paras) {
+		// TODO Auto-generated method stub
+
 	}
 }

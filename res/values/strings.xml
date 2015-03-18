@@ -7,8 +7,8 @@
     <string name="login_str_loginpass1_notnull">Please input password.</string>
     <string name="login_str_loginpass2_notnull">Please input password confirmation.</string>
     <string name="login_str_loginephone_tips">Error Mobile phone No.</string>
-    <string name="login_str_loginemail_tips">The format of email is wrong</string>
-    <string name="login_str_loginemail_notnull">Please input email address.</string>
+    <string name="login_str_loginemail_tips">The format of E-mail is wrong</string>
+    <string name="login_str_loginemail_notnull">Please input E-mail address.</string>
     <string name="login_str_loginpass_notsame">Password is inconsistent.</string>
     <string name="login_str_password_same">New password can\'t be the same with the old one, please input again.</string>
     <string name="login_str_username_tips">Format for the username is not correct, and it can only be email address.</string>
@@ -18,6 +18,8 @@
     <string name="login_str_password_tips1">Password should be 6-20 characters.</string>
     <string name="login_str_login_failed">Login failed</string>
     <string name="login_str_regist_success">Registed successfully</string>
+    <string name="login_str_registerchoiceone">Phone register</string>
+    <string name="login_str_registerchoicetwo">E-mail register</string>
     <string name="login_str_regist_failed">Registed failed</string>
     <string name="login_str_registing">Registing</string>
     <string name="str_have_registed">This user name has been registered</string>
@@ -70,6 +72,19 @@
     <string name="cloud1">CloudSEE</string>
     <string name="cloud2">Vision to world</string>
     <!-- JVLoginActivity -->
+    <!-- JVRebindEmialorPhone -->
+    <string name="nicknamechose">Choose to fill in</string>
+    <string name="rebindcontact">Modify the binding</string>
+    <string name="rebindcontactphone">Modify the phone</string>
+    <string name="rebindcontactemail">Modify the E-mail</string>
+    <string name="rebindcontactnickname">Modify your nick-name</string>
+    <string name="rebindhasnot">Unbounded</string>
+    <string name="rebindnicknamenull">Did not fill in</string>
+    <string name="rebindemailhassend">E-mail has been send</string>
+    <string name="rebindemailhassendfailed">E-mail error</string>
+    <string name="rebindsussess">Binding  success</string>
+    <string name="rebindfailed">Binding  failed</string>
+    <string name="rebindnickname">NickName</string>
     <!-- JVMoreFrament -->
     <string name="location_login">Visitor</string>
     <!-- leftMenu -->
@@ -155,7 +170,7 @@
     <string name="str_enter_username1">Phone</string>
     <string name="str_enter_pass1">Password</string>
     <string name="str_enter_pass2">Confirm password</string>
-    <string name="str_enter_email">Please input Email</string>
+    <string name="str_enter_email">Please input E-mail</string>
     <string name="str_enter_phone">Please input Phone</string>
     <string name="login_str_bind">Combine</string>
     <string name="str_read_agree">Read and agree  </string>
@@ -171,6 +186,8 @@
     <string name="str_end_time">End Time</string>
     <string name="str_save_path">Disk</string>
     <string name="str_disk">Disk</string>
+    <string name="video_download_success">Video download success</string>
+    <string name="video_download_failed">Video download failed</string>
     <string name="str_video_play_failed">Failed to playback, please try again.</string>
     <string name="str_video_load_failed">Failed to load data</string>
     <string name="str_video_load_success">Loading data successfully</string>
@@ -190,6 +207,8 @@
     <string name="str_edit_pass">Modify</string>
     <string name="str_find_pass">Retrieve</string>
     <string name="str_user_has_exist">Username has been registered by others, please modify.</string>
+    <string name="str_rebindemail_has_exist">E-mail has been bound ,please modify</string>
+    <string name="str_rebindphone_has_exist">Mobail phone number has been bound ,please modify</string>
     <string name="str_phone_num_error">Mobile phone format is not correct.</string>
     <string name="str_user_not_exist">Username not exist.</string>
     <string name="str_user_not_exist2">Congratulations,username can register.</string>
@@ -199,7 +218,7 @@
     <string name="str_error_code">Unable to communicate with server, code:</string>
     <string name="str_error_code_5">Timeout,please try again later.</string>
     <string name="str_error_code_6">Connection timeout.</string>
-    <string name="str_email_has_exist">Email has been registered by others, please modify.</string>
+    <string name="str_email_has_exist">E-mail has been registered by others, please modify.</string>
     <string name="str_email_not_exist">Congratulations,email can register.</string>
     <string name="str_reset_not_success">Failed to modify.</string>
     <string name="str_modify_user_info">Complete the user info</string>
@@ -305,6 +324,8 @@
     <string name="str_user_setting">User Setting</string>
     <string name="str_remote_setting">Remote Setting</string>
     <string name="str_connect_mode">Link Mode</string>
+    <string name="str_connect_tcp">Open the TCP connection</string>
+    <string name="str_connect_tcpdescri">Open the TCP connection</string>
     <string name="str_ip_connect">IP/DNS</string>
     <string name="str_data_not_compare">Local data is inconsistent with data on server, do you want to synchronize?</string>
     <string name="str_uploading">Uploading…</string>
@@ -396,6 +417,13 @@
     <string name="updated_at">The latest update within %1$s</string>
     <string name="updated_just_now">Just update</string>
     <string name="time_error">something wrong with the time</string>
+    <!-- JVRebandContact -->
+    <string name="rebandmodify">Replace</string>
+    <string name="rebandphone">Phone</string>
+    <string name="rebandemail">E-mail </string>
+    <string name="rebandhand">Head portrait</string>
+    <string name="rebandtips">Head portrait can be modified only once</string>
+    <string name="rebandnotexit">Please click to get verification code</string>
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">Has chosen ?，</string>
     <string name="number">Total ?</string>
@@ -555,6 +583,7 @@
     <string name="media">Image View</string>
     <string name="media_image">Image</string>
     <string name="media_video">Video</string>
+    <string name="media_downvideo">Download</string>
     <string name="media_other">Other</string>
     <string name="media_player">Select player.</string>
     <string name="media_play">Play</string>
@@ -578,7 +607,7 @@
     <string name="wave_set">Sound-wave Configuration</string>
     <string name="prepare_step">Preparating</string>
     <string name="check_step">View operation demo</string>
-    <string name="prepare_set">Preparing configuration</string>
+    <string name="prepare_set">Preparing Configuration</string>
     <string name="prepare_step1">Please press the reset button , then release the button after hearing the voice guide.</string>
     <string name="prepare_step2">Please input password of the network.</string>
     <string name="prepare_step3">View operation demo</string>
@@ -596,6 +625,8 @@
     <string name="str_alarm_no_video">No Alarm Video</string>
     <string name="str_buffering">Buffering…</string>
     <string name="str_safe_protected">Alert</string>
+    <string name="str_reset_device">Reset the device</string>
+    <string name="str_reset_sure">Are you sure to reset?</string>
     <string name="str_modify_pwd">Modify device administrator is password.</string>
     <string name="str_downloading_vod">Getting the video file…</string>
     <string name="str_alarm_dev">Device :</string>
@@ -646,6 +677,7 @@
     <string name="str_alarm_setting_tips3">You can choose a suitable time scale to receive alert.</string>
     <string name="str_alarm_setting_tips2">Enable this function, the equipment such as moving object is detected, will be prompted to alarm.</string>
     <string name="str_alarm_setting_tips4">We suggest modify device administrator is password to avoid leakage of privacy.</string>
+    <string name="str_alarm_setting_tips5">After reset device will restore factory Settings</string>
     <string name="str_all_day">All Day</string>
     <string name="str_protected_time">Safeguard time scale</string>
     <string name="str_getdev_params_timeout">Get the equipment parameter timeout</string>
@@ -700,6 +732,7 @@
     <string name="census_appplay_version">程序播放库</string>
     <string name="census_version">版本号</string>
     <string name="str_error_vercode">无效验证码</string>
+    <string name="location_login_hand">访客</string>
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">Please enter the account to reset your password:</string>
     <string name="reset_passwd_input_vercode"> verification code</string>

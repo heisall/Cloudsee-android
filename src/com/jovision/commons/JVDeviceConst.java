@@ -117,6 +117,7 @@ public class JVDeviceConst {
 	public static final String JK_DEVICE_VIDEO_IP = "dvip";
 	public static final String JK_DEVICE_VIDEO_PORT = "dvport";
 	public static final String JK_DEVICE_WIFI_FLAG = "dwifi";
+	public static final String JK_DEVICE_VIDEO_TCP = "dvtcp";
 
 	public static final String JK_DEVICE_TEMPERATURE = "dtem";
 	public static final String JK_DEVICE_HUMIDNESS = "dhum";
@@ -461,6 +462,7 @@ public class JVDeviceConst {
 	public static final String JK_AD_LINK_EN = "adlen";
 	public static final String JK_AD_URL_ZHT = "adurlzht";
 	public static final String JK_AD_LINK_ZHT = "adlzht";
+	public static final String JK_AD_DESP = "addesp";
 
 	public static final int AD_PUBLISH_PROCESS = 12;
 	public static final int GET_AD_INFO = 5500;
@@ -514,4 +516,19 @@ public class JVDeviceConst {
 	public static final int UPDATE_PROCESS = 4;
 	public static final int SOFT_UPDATE_REQUEST = 5000;
 	public static final int SOFT_UPDATE_RESPONSE = 5001;
+
+	/** 网页功能配置接口 */
+	public static final int GET_WEBFUNC_INFO = 5506;
+	public static final String JK_WEB_DEMO_URL = "demourl";
+	public static final String JK_WEB_DEMO_FLAG = "demof";
+	public static final String JK_WEB_CUST_URL = "custurl";
+	public static final String JK_WEB_CUST_FLAG = "custf";
+	public static final String JK_WEB_STAT_URL = "staturl";
+	public static final String JK_WEB_STAT_FLAG = "statf";
+
+	public static final String JK_WEB_BBS_URL = "bbsurl";
+	public static final String JK_WEB_BBS_FLAG = "bbsf";
+	public static final String JK_WEB_GCS_URL = "gcsurl";
+	public static final String JK_WEB_GCS_FLAG = "gcsf";
+
 }

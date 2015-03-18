@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
@@ -22,29 +25,29 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.igexin.sdk.PushManager;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.MainApplication;
 import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
+import com.jovision.activities.JVMoreFragment.OnFuncActionListener;
 import com.jovision.adapters.MyPagerAdp;
 import com.jovision.bean.Device;
 import com.jovision.commons.CheckUpdateTask;
+import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.MyActivityManager;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.TPushTips;
-import com.jovision.utils.AccountUtil;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DefaultExceptionHandler;
+import com.jovision.utils.JSONUtil;
 import com.jovision.utils.PlayUtil;
-import com.tencent.android.tpush.XGIOperateCallback;
-import com.tencent.android.tpush.XGPushConfig;
-import com.tencent.android.tpush.XGPushManager;
 
 public class JVTabActivity extends ShakeActivity implements
-		OnPageChangeListener {
+		OnPageChangeListener, OnFuncActionListener {
 	private static final String TAG = "JVTabActivity";
 	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
@@ -53,7 +56,11 @@ public class JVTabActivity extends ShakeActivity implements
 	protected int timer = 16;
 	protected RelativeLayout helpbg_relative;
 	protected Timer offlineTimer = new Timer();
+	private int countshow;
+	private int countbbs;
+	private OnMainListener mainListener;
 	private BaseFragment mFragments[] = new BaseFragment[4];
+	private String showGcsStr;
 
 	private ViewPager viewpager;
 
@@ -88,6 +95,17 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Intent intent = getIntent();
+		if (null != intent) {
+			boolean autoLogin = intent.getBooleanExtra("AutoLogin", false);
+			if (autoLogin) {
+				String userName = intent.getStringExtra("UserName");
+				String userPass = intent.getStringExtra("UserPass");
+				statusHashMap.put(Consts.ACCOUNT_ERROR,
+						String.valueOf(Consts.WHAT_SESSION_AUTOLOGIN));
+			}
+		}
+
 		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(
 				this));
 		// // 如果savedInstanceState!=null，说明在应用在后台被干掉，或者应用崩掉需要重新create
@@ -107,37 +125,12 @@ public class JVTabActivity extends ShakeActivity implements
 
 		// 开启logcat输出，方便debug，发布时请关闭
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
-			XGPushConfig.enableDebug(this, false);
-			// 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
-			// XGIOperateCallback)带callback版本
-			// 如果需要绑定账号，请使用registerPush(getApplicationContext(),"account")版本
-			// 具体可参考详细的开发指南
-			// 传递的参数为ApplicationContext
-			XGPushManager.registerPush(getApplicationContext(),
-					new XGIOperateCallback() {
-						@Override
-						public void onSuccess(Object data, int flag) {
-							MyLog.d("TPush", "注册成功，设备token为：" + data);
-							statusHashMap.put("TPUSH", "注册成功："+data);
-							if (MySharedPreference.getString(
-									Consts.KEY_DEV_TOKEN).equals("")) {
-								MySharedPreference.putString(
-										Consts.KEY_DEV_TOKEN, data.toString());
-								AccountUtil
-										.reportClientPlatformInfo(JVTabActivity.this);
-							} else {
-								MySharedPreference.putString(
-										Consts.KEY_DEV_TOKEN, data.toString());
-							}
-						}
-
-						@Override
-						public void onFail(Object data, int errCode, String msg) {
-							MyLog.e("TPush", "注册失败，错误码：" + errCode + ",错误信息："
-									+ msg);
-							statusHashMap.put("TPUSH", "注册失败："+errCode+",错误信息:"+msg);
-						}
-					});
+			Log.d("GPush", "initializing sdk...");
+			PushManager.getInstance().initialize(this.getApplicationContext());
+			String userName = statusHashMap.get(Consts.KEY_USERNAME);
+			MySharedPreference.putString(Consts.KEY_USERNAME, userName);
+			mApp.initNewPushCnt(userName);
+			Log.e("GPush", "android.os.Build.MODEL:" + android.os.Build.MODEL);
 		}
 		MyLog.v(TAG, "onCreate----X");
 	}
@@ -145,6 +138,22 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	protected void onStart() {
 		super.onStart();
+	}
+
+	// 绑定接口
+	@Override
+	public void onAttachFragment(Fragment fragment) {
+		try {
+			mainListener = (OnMainListener) fragment;
+		} catch (Exception e) {
+			throw new ClassCastException(this.toString()
+					+ " must implement OnMainListener");
+		}
+		super.onAttachFragment(fragment);
+	}
+
+	public interface OnMainListener {
+		public void onMainAction(int count);
 	}
 
 	@Override
@@ -204,6 +213,7 @@ public class JVTabActivity extends ShakeActivity implements
 				ll_dot.setVisibility(View.GONE);
 			}
 		});
+
 	}
 
 	private void initDot(int dotnum) {
@@ -223,27 +233,68 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		if (null == (statusHashMap.get(Consts.MORE_BBSNUM))
+				|| "".equals((statusHashMap.get(Consts.MORE_BBSNUM)))) {
+			GetDemoTask taskdemo = new GetDemoTask(JVTabActivity.this);
+			String[] params = new String[3];
+			params[1] = "4";
+			taskdemo.execute(params);
+		}
+		if (null != (statusHashMap.get(Consts.MORE_BBSNUM))
+				&& !"".equals((statusHashMap.get(Consts.MORE_BBSNUM)))
+				&& Consts.LANGUAGE_ZH == ConfigUtil
+						.getLanguage2(JVTabActivity.this)
+				&& !"hasget".equals(statusHashMap.get("GETNUM"))) {
+			GetnoMessageTask task = new GetnoMessageTask();
+			String[] param = new String[3];
+			param[0] = statusHashMap.get(Consts.MORE_BBSNUM);
+			task.execute(param);
+		}
+		showGcsStr = statusHashMap.get(Consts.MORE_GCS_SWITCH);
+
+		countshow = 0;
 		MyLog.v(TAG, "onResume----E");
-		if (null != mIndicator) {
-			boolean show = false;
-			int cnt = mApp.getNewPushCnt();
-			Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
+		if ("hasget".equals(statusHashMap.get("GETNUM"))) {
+			countbbs = 0;
+		}
+		if (null != mIndicator && null != showGcsStr) {
+			if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+				int cnt = mApp.getNewPushCnt();
+				countshow = cnt;
+				Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
+			}
 			int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
-			if(lan == Consts.LANGUAGE_ZH) {
-				if (cnt > 0 || !MySharedPreference.getBoolean("SystemMessage")
-						|| (!MySharedPreference.getBoolean("CUSTURL"))
-						|| (!MySharedPreference.getBoolean("STATURL"))) {
-					show = true;
+			if (lan == Consts.LANGUAGE_ZH) {
+				if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+					countshow = countshow + 1;
 				}
-			}else {
-				if (cnt > 0 || !MySharedPreference.getBoolean("SystemMessage")
-						|| (!MySharedPreference.getBoolean("STATURL"))) {
-					show = true;
+				if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
+					if (null != statusHashMap.get(Consts.MORE_GCS_SWITCH)
+							&& !"".equalsIgnoreCase(statusHashMap
+									.get(Consts.MORE_GCS_SWITCH))) {
+						if (1 == Integer.parseInt(statusHashMap
+								.get(Consts.MORE_GCS_SWITCH))) {
+							countshow = countshow + 1;
+						}
+					}
+				}
+				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+					countshow = countshow + 1;
+				}
+			} else {
+				if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+					countshow = countshow + 1;
+				}
+				if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+					countshow = countshow + 1;
 				}
 			}
-				
-			
-			mIndicator.updateIndicator(3, 0, show);
+			if (countshow + countbbs > 0) {
+				mIndicator.updateIndicator(3, 0, true, countshow + countbbs);
+			} else {
+				mIndicator.updateIndicator(3, 0, false, countshow + countbbs);
+			}
 		}
 
 		Intent intent = getIntent();
@@ -261,23 +312,23 @@ public class JVTabActivity extends ShakeActivity implements
 				this.finish();
 			}
 
-		}
-		// if (currentIndex == 1) {
-		// int cnt = mApp.getNewPushCnt();
-		// if (cnt > 0) {
-		// mApp.setNewPushCnt(0);
-		// mIndicator.updateIndicator(1, 0, false);
-		// }
-		// } else {
-		// int cnt = mApp.getNewPushCnt();
-		// if (cnt > 0) {
-		// mIndicator.updateIndicator(1, cnt, true);
-		// } else {
-		// mIndicator.updateIndicator(1, 0, false);
-		// }
-		// }
+			// if (currentIndex == 1) {
+			// int cnt = mApp.getNewPushCnt();
+			// if (cnt > 0) {
+			// mApp.setNewPushCnt(0);
+			// mIndicator.updateIndicator(1, 0, false);
+			// }
+			// } else {
+			// int cnt = mApp.getNewPushCnt();
+			// if (cnt > 0) {
+			// mIndicator.updateIndicator(1, cnt, true);
+			// } else {
+			// mIndicator.updateIndicator(1, 0, false);
+			// }
+			// }
 
-		MyLog.v(TAG, "onResume----X");
+			MyLog.v(TAG, "onResume----X");
+		}
 	}
 
 	@Override
@@ -323,6 +374,57 @@ public class JVTabActivity extends ShakeActivity implements
 		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
 		// TODO 增加过滤
 		switch (what) {
+		case Consts.MORE_BBSNUMNOTY:
+			countshow = 0;
+			if ("hasget".equals(statusHashMap.get("GETNUM"))) {
+				countbbs = 0;
+			}
+			if (null != mIndicator
+					&& !"hasget".equals(statusHashMap.get("GETNUM"))) {
+				if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+					int cnt = mApp.getNewPushCnt();
+					countshow = cnt;
+					Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():"
+							+ cnt);
+				}
+				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
+				if (lan == Consts.LANGUAGE_ZH) {
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
+						if (null != statusHashMap.get(Consts.MORE_GCS_SWITCH)
+								&& !"".equalsIgnoreCase(statusHashMap
+										.get(Consts.MORE_GCS_SWITCH))) {
+							if (1 == Integer.parseInt(statusHashMap
+									.get(Consts.MORE_GCS_SWITCH))) {
+								countshow = countshow + 1;
+							}
+						}
+					}
+					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+				} else {
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+				}
+				if (countshow + countbbs > 0) {
+					mIndicator
+							.updateIndicator(3, 0, true, countshow + countbbs);
+				} else {
+					mIndicator.updateIndicator(3, 0, false, countshow
+							+ countbbs);
+				}
+			}
+
+			break;
 		case Consts.CALL_LAN_SEARCH: {
 			// PlayUtil.broadIp(obj,JVTabActivity.this);
 			// myDeviceList = CacheUtil.getDevList();
@@ -379,7 +481,60 @@ public class JVTabActivity extends ShakeActivity implements
 		}
 			break;
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
-			mIndicator.updateIndicator(3, 0, true);
+			countshow = 0;
+			if (null != mIndicator) {
+				if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+					int cnt = mApp.getNewPushCnt();
+					countshow = cnt;
+				}
+				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
+				if (lan == Consts.LANGUAGE_ZH) {
+					// if (cnt > 0
+					// || !MySharedPreference
+					// .getBoolean(Consts.MORE_SYSTEMMESSAGE)
+					// || (!MySharedPreference.getBoolean(Consts.MORE_CUSTURL))
+					// || (!MySharedPreference.getBoolean(Consts.MORE_STATURL))
+					// || (!MySharedPreference.getBoolean(Consts.MORE_BBS))) {
+					//
+					// }
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
+						if (null != showGcsStr
+								&& !"".equalsIgnoreCase(showGcsStr)) {
+							if (1 == Integer.parseInt(showGcsStr)) {
+								countshow = countshow + 1;
+							}
+						}
+					}
+					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+				} else {
+					// if (cnt > 0
+					// || !MySharedPreference
+					// .getBoolean(Consts.MORE_SYSTEMMESSAGE)
+					// || (!MySharedPreference.getBoolean(Consts.MORE_STATURL)))
+					// {
+					// }
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+				}
+				if (countshow + countbbs > 0) {
+					mIndicator
+							.updateIndicator(3, 0, true, countshow + countbbs);
+				} else {
+					mIndicator.updateIndicator(3, 0, false, countshow
+							+ countbbs);
+				}
+			}
 			break;
 		default:
 			BaseFragment currentFrag = mFragments[currentIndex];
@@ -428,28 +583,34 @@ public class JVTabActivity extends ShakeActivity implements
 		// new TPushTips(this).showNoticeDialog();
 		// }
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
-			String strRom = ConfigUtil
-					.getSystemProperty("ro.miui.ui.version.name");
-			if (strRom == null || strRom.equals("")) {
-				// showTextToast("不是MIUI");
-			} else {
-				if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
-					if (strRom.equals("V6")) {
-						new TPushTips(this)
-								.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
-					} else {
-						new TPushTips(this)
-								.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+			String model = android.os.Build.MODEL;
+			Log.e("OS", "model:" + model);
+			if (model.startsWith("MI") || model.startsWith("HM")) {// 对于刷机的手机好像有影响
+				String strRom = ConfigUtil
+						.getSystemProperty("ro.miui.ui.version.name");
+				if (strRom == null || strRom.equals("")) {
+					// showTextToast("不是MIUI");
+				} else {
+					if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
+						if (strRom.equals("V6")) {
+							new TPushTips(this)
+									.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
+						} else {
+							new TPushTips(this)
+									.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+						}
 					}
-				}
 
+				}
+			} else {
+				Log.e("OS", "不是小米或者红米系列");
 			}
 		}
 		mFragments[0] = new JVMyDeviceFragment();
 		mFragments[1] = new JVVideoFragment();
 		mFragments[2] = new JVDeviceManageFragment();
 		mFragments[3] = new JVMoreFragment();
-		if (!MySharedPreference.getBoolean("page2")) {
+		if (!MySharedPreference.getBoolean(Consts.MORE_PAGETWO)) {
 			ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 			ll_dot.setVisibility(View.GONE);
 			viewpager.setCurrentItem(0);
@@ -457,7 +618,7 @@ public class JVTabActivity extends ShakeActivity implements
 			getPicone();
 			adp = new MyPagerAdp(pics);
 			viewpager.setAdapter(adp);
-			MySharedPreference.putBoolean("page2", true);
+			MySharedPreference.putBoolean(Consts.MORE_PAGETWO, true);
 		}
 		mIndicator.setOnIndicateListener(new OnIndicateListener() {
 			@Override
@@ -469,7 +630,9 @@ public class JVTabActivity extends ShakeActivity implements
 							.commit();
 					switch (which) {
 					case 0:
-						if (!page2 && !MySharedPreference.getBoolean("page2")) {
+						if (!page2
+								&& !MySharedPreference
+										.getBoolean(Consts.MORE_PAGETWO)) {
 							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 							ll_dot.setVisibility(View.GONE);
 							viewpager.setCurrentItem(0);
@@ -477,10 +640,12 @@ public class JVTabActivity extends ShakeActivity implements
 							getPicone();
 							adp = new MyPagerAdp(pics);
 							viewpager.setAdapter(adp);
-							MySharedPreference.putBoolean("page2", true);
+							MySharedPreference.putBoolean(Consts.MORE_PAGETWO,
+									true);
 						} else {
-							if (MySharedPreference.getBoolean("HELP")
-									&& !MySharedPreference.getBoolean("page2")) {
+							if (MySharedPreference.getBoolean(Consts.MORE_HELP)
+									&& !MySharedPreference
+											.getBoolean(Consts.MORE_PAGETWO)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.GONE);
 								viewpager.setCurrentItem(0);
@@ -488,7 +653,8 @@ public class JVTabActivity extends ShakeActivity implements
 								getPicone();
 								adp = new MyPagerAdp(pics);
 								viewpager.setAdapter(adp);
-								MySharedPreference.putBoolean("page2", false);
+								MySharedPreference.putBoolean(
+										Consts.MORE_PAGETWO, false);
 								page2 = true;
 							}
 						}
@@ -504,7 +670,8 @@ public class JVTabActivity extends ShakeActivity implements
 						myDeviceList = CacheUtil.getDevList();
 						if (0 != myDeviceList.size()) {
 							if (!page1
-									&& !MySharedPreference.getBoolean("page1")) {
+									&& !MySharedPreference
+											.getBoolean(Consts.MORE_PAGEONE)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.VISIBLE);
 								viewpager.setCurrentItem(0);
@@ -512,11 +679,13 @@ public class JVTabActivity extends ShakeActivity implements
 								getPic();
 								adp = new MyPagerAdp(pics);
 								viewpager.setAdapter(adp);
-								MySharedPreference.putBoolean("page1", true);
+								MySharedPreference.putBoolean(
+										Consts.MORE_PAGEONE, true);
 							} else {
-								if (MySharedPreference.getBoolean("HELP")
+								if (MySharedPreference
+										.getBoolean(Consts.MORE_HELP)
 										&& !MySharedPreference
-												.getBoolean("page1")) {
+												.getBoolean(Consts.MORE_PAGEONE)) {
 									ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 									ll_dot.setVisibility(View.VISIBLE);
 									viewpager.setCurrentItem(0);
@@ -524,10 +693,38 @@ public class JVTabActivity extends ShakeActivity implements
 									getPic();
 									adp = new MyPagerAdp(pics);
 									viewpager.setAdapter(adp);
-									MySharedPreference.putBoolean("page1",
-											false);
+									MySharedPreference.putBoolean(
+											Consts.MORE_PAGEONE, false);
 									page1 = true;
 								}
+							}
+						}
+						break;
+					case 3:
+						if (Consts.LANGUAGE_ZH == ConfigUtil
+								.getLanguage2(JVTabActivity.this)) {
+							if (null == (statusHashMap.get(Consts.MORE_BBSNUM))
+									|| "".equals((statusHashMap
+											.get(Consts.MORE_BBSNUM)))) {
+								GetDemoTask taskdemo = new GetDemoTask(
+										JVTabActivity.this);
+								String params[] = new String[3];
+								params[1] = "4";
+								taskdemo.execute(params);
+							}
+
+							if (null != (statusHashMap.get(Consts.MORE_BBSNUM))
+									&& !"".equals((statusHashMap
+											.get(Consts.MORE_BBSNUM)))
+									&& Consts.LANGUAGE_ZH == ConfigUtil
+											.getLanguage2(JVTabActivity.this)
+									&& !"hasget".equals(statusHashMap
+											.get("GETNUM"))) {
+								GetnoMessageTask task = new GetnoMessageTask();
+								String[] param = new String[3];
+								param[0] = statusHashMap
+										.get(Consts.MORE_BBSNUM);
+								task.execute(param);
 							}
 						}
 						break;
@@ -537,9 +734,9 @@ public class JVTabActivity extends ShakeActivity implements
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				if (MySharedPreference.getBoolean("page2")
-						&& MySharedPreference.getBoolean("page1")) {
-					MySharedPreference.putBoolean("HELP", false);
+				if (MySharedPreference.getBoolean(Consts.MORE_PAGETWO)
+						&& MySharedPreference.getBoolean(Consts.MORE_PAGEONE)) {
+					MySharedPreference.putBoolean(Consts.MORE_HELP, false);
 				}
 			}
 		});
@@ -585,7 +782,8 @@ public class JVTabActivity extends ShakeActivity implements
 				}
 			} else if (notifer.startsWith("JVVideoFragment")) {
 				if (JVVideoFragment.webView.canGoBack()) {
-					JVVideoFragment.webView.goBack(); // goBack()表示返回WebView的上一页面
+					((MainApplication) this.getApplication()).currentNotifyer
+							.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
 				} else {
 					exit();
 				}
@@ -682,4 +880,120 @@ public class JVTabActivity extends ShakeActivity implements
 		}
 	}
 
+	@Override
+	public void OnFuncEnabled(int func_index, int enabled) {
+		// TODO Auto-generated method stub
+		switch (func_index) {
+		case 0:
+			countshow = 0;
+			if ("hasget".equals(statusHashMap.get("GETNUM"))) {
+				countbbs = 0;
+			}
+			if (null != mIndicator) {
+				if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
+					int cnt = mApp.getNewPushCnt();
+					countshow = cnt;
+				}
+				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
+				if (lan == Consts.LANGUAGE_ZH) {
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
+						if (null != showGcsStr
+								&& !"".equalsIgnoreCase(showGcsStr)) {
+							if (1 == Integer.parseInt(showGcsStr)) {
+								countshow = countshow + 1;
+							}
+						}
+					}
+					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+				} else {
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+						countshow = countshow + 1;
+					}
+					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
+						countshow = countshow + 1;
+					}
+				}
+				if (countshow > 0) {
+					mIndicator
+							.updateIndicator(3, 0, true, countshow + countbbs);
+				} else {
+					mIndicator.updateIndicator(3, 0, false, countshow
+							+ countbbs);
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void OnFuncSelected(int func_index, String params) {
+		// TODO Auto-generated method stub
+	}
+
+	// 获取论坛未读消息
+	private class GetnoMessageTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			countbbs = 0;
+			String gcsString = "";
+			// String gcsurlString =
+			// "http://bbs.cloudsee.net/v.php?mod=api&act=user_pm"+"&sid ="+JVACCOUNT.GetSession()
+			String result = JSONUtil.httpGet(params[0]);
+			MyLog.e("BBS_notread", "request=" + params[0] + ";result=" + result);
+			// request=http://bbs.cloudsee.net/v.php?mod=auth&act=sid_login&next=/&sid=c01ed43499478b62f4cb233112a41fe8
+			// request=http://bbs.cloudsee.net/v.php?mod=api&act=user_pm&sid=1dad46caaa92eb0ea59a4c348fd5de81;result={"msg":"ok","errCode":1,"data":[{"url":"","count":0}]}
+			try {
+				JSONObject responseObject = new JSONObject(result);
+				JSONArray dataArray = new JSONArray(
+						responseObject.optString("data"));
+
+				countbbs = dataArray.getJSONObject(0).optInt("count");
+				gcsString = dataArray.getJSONObject(0).optString("url");
+				statusHashMap.put(Consts.MORE_BBSNUMURL, gcsString);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return countbbs;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			mainListener.onMainAction(result);
+			statusHashMap.put("GETNUM", "hasget");
+			onNotify(Consts.NEW_BBS, result, 0, null);
+			if (countshow + result > 0) {
+				mIndicator.updateIndicator(3, 0, true, countshow + result);
+			} else {
+				mIndicator.updateIndicator(3, 0, false, countshow + result);
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
 }

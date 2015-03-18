@@ -477,12 +477,20 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				paraObject = new JSONObject(params);
 				String userName = paraObject.getString("userName");
 				String userPwd = paraObject.getString("userPwd");
-				String des = "";//descript;
+				String desUTF8 = descript;
+
+				// String desGBK = "";
+				// try {
+				// desGBK = new String(desUTF8.getBytes(), "GBK");
+				// } catch (UnsupportedEncodingException e) {
+				// e.printStackTrace();
+				// }
+
 				byte[] paramByte = new byte[Consts.SIZE_ID + Consts.SIZE_PW
 						+ Consts.SIZE_DESCRIPT];
 				byte[] userNameByte = userName.getBytes();
 				byte[] userPwdByte = userPwd.getBytes();
-				byte[] desByte = des.getBytes();
+				byte[] desByte = desUTF8.getBytes("GBK");// 设备端是GBK编码
 				MyLog.e("byte-1", "userNameByte.length=" + userNameByte.length);
 				MyLog.e("byte-2", "userPwdByte.length=" + userPwdByte.length);
 				MyLog.e("byte-3", "desByte.length=" + desByte.length);
@@ -504,7 +512,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				Jni.sendSuperBytes(window, JVNetConst.JVN_RSP_TEXTDATA, true,
 						Consts.RC_EX_ACCOUNT, Consts.EX_ACCOUNT_MODIFY, power,
 						0, 0, paramByte, paramByte.length);
-			} catch (JSONException e2) {
+			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 			break;
@@ -534,7 +542,6 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					paramObject.put("st", "00:00");
 					paramObject.put("et", "23:59");
 				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
@@ -550,6 +557,18 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			fragment_tag = 1;
 			// Commit the transaction
 			transaction.commitAllowingStateLoss();
+			break;
+		case Consts.DEV_RESET_DEVICE: // 重置设备功能
+			Jni.sendSuperBytes(window, JVNetConst.JVN_RSP_TEXTDATA, true,
+					Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_RESTORE,
+					Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+			setResult(Consts.PLAY_DEVSET_RESPONSE);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			finish();
 			break;
 		default:
 			break;
@@ -688,6 +707,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	@Override
 	public void OnAlarmTimeSaved(String startTime, String endTime) {
 		// TODO Auto-generated method stub
+		if (startTime.equals(endTime)) {
+			startTime = "00:00";
+			endTime = "23:59";
+		}
 		startTimeSetting = startTime;
 		endTimeSetting = endTime;
 

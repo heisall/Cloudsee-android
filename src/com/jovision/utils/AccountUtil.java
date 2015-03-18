@@ -87,7 +87,8 @@ public class AccountUtil {
 			int loginRes1 = respObj.optInt("arg1", 1);
 			if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
 
-				if (MySharedPreference.getBoolean("AlarmSwitch", true)) {
+				if (MySharedPreference
+						.getBoolean(Consts.MORE_ALARMSWITCH, true)) {
 					JVACCOUNT.SetCurrentAlarmFlag(JVAlarmConst.ALARM_ON,
 							ConfigUtil.getIMEI(mContext));
 				} else {
@@ -104,7 +105,9 @@ public class AccountUtil {
 	}
 
 	public static String onLoginProcessV2(Context mContext, String userName,
-			String pwd, String urlLgServ, String urlStServ) {
+			String pwd, String urlLgServ, String urlStServ, int startHeartBeat) {// 1:起心跳
+																					// 0：不需要起心跳
+
 		HashMap<String, String> statusHashMap = ((MainApplication) mContext
 				.getApplicationContext()).getStatusHashMap();
 		if ("false".equals(statusHashMap.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
@@ -123,15 +126,20 @@ public class AccountUtil {
 			reqObj.put("producttype", Consts.PRODUCT_TYPE); // 0-CloudSEE
 															// 1-NVSIP 2-HITVIS
 															// 3-TONGFANG
-			if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
-				reqObj.put("locales", Consts.LANGUAGE_ZH);
-			} else {
-				reqObj.put("locales", Consts.LANGUAGE_EN);
-			}
+			reqObj.put("heartbeat", startHeartBeat);// 是否需要起心跳
+
+			reqObj.put("locales", ConfigUtil.getLanguage2(mContext) - 1);
+
+			// if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mContext)) {
+			// reqObj.put("locales", Consts.LANGUAGE_ZH);
+			// } else {
+			// reqObj.put("locales", Consts.LANGUAGE_EN);
+			// }
+
 			reqObj.put("devuuid",
 					MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
-			boolean alarmSwitch = MySharedPreference.getBoolean("AlarmSwitch",
-					true);
+			boolean alarmSwitch = MySharedPreference.getBoolean(
+					Consts.MORE_ALARMSWITCH, true);
 			reqObj.put("alarmflag", alarmSwitch ? 0 : 1);
 			User dstUser = UserUtil.getUserByName(userName);
 			if (dstUser == null) {
@@ -157,7 +165,7 @@ public class AccountUtil {
 		// int loginRes1 = respObj.optInt("arg1", 1);
 		// if (JVAccountConst.LOGIN_SUCCESS == loginRes1) {
 		//
-		// if (MySharedPreference.getBoolean("AlarmSwitch")) {
+		// if (MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH)) {
 		// JVACCOUNT.SetCurrentAlarmFlag(JVAlarmConst.ALARM_ON,
 		// ConfigUtil.getIMEI(mContext));
 		// } else {
@@ -213,7 +221,8 @@ public class AccountUtil {
 	// res = reportClientPlatformInfo(con);
 	// }
 	//
-	// boolean alarmSwitch = MySharedPreference.getBoolean("AlarmSwitch",
+	// boolean alarmSwitch =
+	// MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
 	// true);
 	//
 	// if (0 == res) {
@@ -250,8 +259,8 @@ public class AccountUtil {
 			cb.setLanguageType(Consts.LANGUAGE_EN);
 		}
 		cb.setDeviceUUID(MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
-		boolean alarmSwitch = MySharedPreference
-				.getBoolean("AlarmSwitch", true);
+		boolean alarmSwitch = MySharedPreference.getBoolean(
+				Consts.MORE_ALARMSWITCH, true);
 		cb.setAlarmFlag(alarmSwitch ? 0 : 1);
 		res = JVACCOUNT.ReportClientPlatformInfo(cb);
 

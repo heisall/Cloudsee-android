@@ -25,7 +25,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,6 +46,8 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.MainApplication;
+import com.jovision.activities.JVTabActivity.OnMainListener;
 import com.jovision.adapters.LanAdapter;
 import com.jovision.adapters.MyDeviceListAdapter;
 import com.jovision.adapters.PopWindowAdapter;
@@ -56,6 +57,7 @@ import com.jovision.bean.Channel;
 import com.jovision.bean.Device;
 import com.jovision.commons.GetDemoTask;
 import com.jovision.commons.JVDeviceConst;
+import com.jovision.commons.LoginTask;
 import com.jovision.commons.MyList;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -72,7 +74,7 @@ import com.tencent.stat.StatService;
 /**
  * 我的设备
  */
-public class JVMyDeviceFragment extends BaseFragment {
+public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 
 	private String TAG = "MyDeviceFragment";
 
@@ -185,137 +187,158 @@ public class JVMyDeviceFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		if (null == ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
-			fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
-		}
-		boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
-				.get(Consts.HAG_GOT_DEVICE));
-		if (!hasGot) {
-			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
-		}
-		// getActivity() = (BaseActivity) getActivity();
-		mParent = getView();
-		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {
-			popFunArray = mActivity.getResources().getStringArray(
-					R.array.array_popno);
-		} else {
-			popFunArray = mActivity.getResources().getStringArray(
-					R.array.array_pop);
-		}
-		currentMenu.setText(mActivity.getResources().getString(
-				R.string.my_device));
-		currentMenu.setText(R.string.my_device);
-		leftBtn.setOnClickListener(myOnClickListener);
-		devicename = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
-		inflater = (LayoutInflater) mActivity
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		// refreshableView = (RefreshableView) mParent
-		// .findViewById(R.id.device_refreshable_view);
+		try {
+			boolean firstLogin = MySharedPreference.getBoolean(
+					Consts.FIRST_LOGIN, false);
+			if (firstLogin) {
+				mActivity.createDialog("", false);
+				LoginTask loginTask = new LoginTask(true, mActivity,
+						(MainApplication) mActivity.getApplication(),
+						mActivity.statusHashMap, alarmnet);
+				String[] params = new String[3];
+				loginTask.execute(params);
+			}
 
-		mPullRefreshListView = (PullToRefreshListView) mActivity
-				.findViewById(R.id.device_refreshable_view);
+			if (null == ((BaseActivity) mActivity).statusHashMap.get("DEMOURL")) {
+				fragHandler.sendEmptyMessage(Consts.GETDEMOURL);
+			}
+			boolean hasGot = Boolean.parseBoolean(mActivity.statusHashMap
+					.get(Consts.HAG_GOT_DEVICE));
+			if (!hasGot) {
+				fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+			}
+			// getActivity() = (BaseActivity) getActivity();
+			mParent = getView();
+			if (!Boolean.valueOf(mActivity.statusHashMap
+					.get(Consts.LOCAL_LOGIN))) {
+				popFunArray = mActivity.getResources().getStringArray(
+						R.array.array_popno);
+			} else {
+				popFunArray = mActivity.getResources().getStringArray(
+						R.array.array_pop);
+			}
+			currentMenu.setText(mActivity.getResources().getString(
+					R.string.my_device));
+			currentMenu.setText(R.string.my_device);
+			leftBtn.setVisibility(View.GONE);
+			leftBtn.setOnClickListener(myOnClickListener);
+			devicename = mActivity.statusHashMap.get(Consts.KEY_USERNAME);
+			inflater = (LayoutInflater) mActivity
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			// refreshableView = (RefreshableView) mParent
+			// .findViewById(R.id.device_refreshable_view);
 
-		mPullRefreshListView
-				.setOnRefreshListener(new OnRefreshListener<ListView>() {
-					@Override
-					public void onRefresh(
-							PullToRefreshBase<ListView> refreshView) {
-						String label = DateUtils.formatDateTime(mActivity,
-								System.currentTimeMillis(),
-								DateUtils.FORMAT_SHOW_TIME
-										| DateUtils.FORMAT_SHOW_DATE
-										| DateUtils.FORMAT_ABBREV_ALL);
+			mPullRefreshListView = (PullToRefreshListView) mActivity
+					.findViewById(R.id.device_refreshable_view);
 
-						// Update the LastUpdatedLabel
-						refreshView.getLoadingLayoutProxy()
-								.setLastUpdatedLabel(label);
+			mPullRefreshListView
+					.setOnRefreshListener(new OnRefreshListener<ListView>() {
+						@Override
+						public void onRefresh(
+								PullToRefreshBase<ListView> refreshView) {
+							String label = DateUtils.formatDateTime(mActivity,
+									System.currentTimeMillis(),
+									DateUtils.FORMAT_SHOW_TIME
+											| DateUtils.FORMAT_SHOW_DATE
+											| DateUtils.FORMAT_ABBREV_ALL);
 
-						fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+							// Update the LastUpdatedLabel
+							refreshView.getLoadingLayoutProxy()
+									.setLastUpdatedLabel(label);
 
-						GetDevTask task = new GetDevTask();
-						String[] strParams = new String[3];
-						strParams[0] = "1";
-						task.execute(strParams);
-					}
-				});
+							fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 
-		mPullRefreshListView
-				.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+							GetDevTask task = new GetDevTask();
+							String[] strParams = new String[3];
+							strParams[0] = "1";
+							task.execute(strParams);
+						}
+					});
 
-					@Override
-					public void onLastItemVisible() {
-						mActivity.showTextToast(R.string.end_list);
-					}
-				});
+			mPullRefreshListView
+					.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
 
-		adView = inflater.inflate(R.layout.ad_layout, null);
+						@Override
+						public void onLastItemVisible() {
+							mActivity.showTextToast(R.string.end_list);
+						}
+					});
 
-		deviceLayout = (LinearLayout) mParent.findViewById(R.id.devicelayout);
-		refreshLayout = (RelativeLayout) mParent
-				.findViewById(R.id.refreshlayout);
-		quickSetSV = (LinearLayout) mParent
-				.findViewById(R.id.quickinstalllayout);
-		quickSet = (Button) mParent.findViewById(R.id.quickinstall);
-		quickinstall_img_bg = (ImageView) mParent
-				.findViewById(R.id.quickinstall_img_bg);
-		addDevice = (Button) mParent.findViewById(R.id.adddevice);
-		unwire_device_img_bg = (ImageView) mParent
-				.findViewById(R.id.unwire_device_img_bg);
-		refreshLayout.setOnClickListener(myOnClickListener);
-		quickSet.setOnClickListener(myOnClickListener);
-		quickinstall_img_bg.setOnClickListener(myOnClickListener);
-		addDevice.setOnClickListener(myOnClickListener);
-		unwire_device_img_bg.setOnClickListener(myOnClickListener);
+			adView = inflater.inflate(R.layout.ad_layout, null);
 
-		if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals("false")) {// CloudSEE
-			quickinstall_img_bg.setImageDrawable(mActivity.getResources()
-					.getDrawable(R.drawable.wire_device_img));
-			unwire_device_img_bg.setImageDrawable(mActivity.getResources()
-					.getDrawable(R.drawable.unwire_device_img));
-		} else {
-			quickinstall_img_bg.setImageDrawable(mActivity.getResources()
-					.getDrawable(R.drawable.wire_devicen_img));
-			unwire_device_img_bg.setImageDrawable(mActivity.getResources()
-					.getDrawable(R.drawable.unwire_devicen_img));
-		}
-		/** 广告条 */
-		imageScroll = (ImageViewPager) adView.findViewById(R.id.imagescroll);
-		// 防止广告图片变形
-		RelativeLayout.LayoutParams reParams = new RelativeLayout.LayoutParams(
-				mActivity.disMetrics.widthPixels,
-				(int) (0.45 * mActivity.disMetrics.widthPixels));
-		imageScroll.setLayoutParams(reParams);
-		ovalLayout = (LinearLayout) adView.findViewById(R.id.dot_layout);
-		initADViewPager();
-		myDLAdapter = new MyDeviceListAdapter(mActivity, this);
-		myDeviceListView = mPullRefreshListView.getRefreshableView();
-		myDeviceListView.addHeaderView(adView);
-		rightBtn.setOnClickListener(myOnClickListener);
+			deviceLayout = (LinearLayout) mParent
+					.findViewById(R.id.devicelayout);
+			refreshLayout = (RelativeLayout) mParent
+					.findViewById(R.id.refreshlayout);
+			quickSetSV = (LinearLayout) mParent
+					.findViewById(R.id.quickinstalllayout);
+			quickSet = (Button) mParent.findViewById(R.id.quickinstall);
+			quickinstall_img_bg = (ImageView) mParent
+					.findViewById(R.id.quickinstall_img_bg);
+			addDevice = (Button) mParent.findViewById(R.id.adddevice);
+			unwire_device_img_bg = (ImageView) mParent
+					.findViewById(R.id.unwire_device_img_bg);
+			refreshLayout.setOnClickListener(myOnClickListener);
+			quickSet.setOnClickListener(myOnClickListener);
+			quickinstall_img_bg.setOnClickListener(myOnClickListener);
+			addDevice.setOnClickListener(myOnClickListener);
+			unwire_device_img_bg.setOnClickListener(myOnClickListener);
 
-		// if (0 == adUrlList.size()) {
-		// adUrlList
-		// .add("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
-		// adUrlList
-		// .add("http://img4.imgtn.bdimg.com/it/u=1147331110,3253839708&fm=201&gp=0.jpg");
-		// adUrlList
-		// .add("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
-		// }
-		if (hasGot) {
-			myDeviceList = CacheUtil.getDevList();
-			refreshList();
-		} else {
-			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
-			GetDevTask task = new GetDevTask();
-			String[] strParams = new String[3];
-			strParams[0] = "0";
-			task.execute(strParams);
-		}
+			if (mActivity.statusHashMap.get(Consts.NEUTRAL_VERSION).equals(
+					"false")) {// CloudSEE
+				quickinstall_img_bg.setImageDrawable(mActivity.getResources()
+						.getDrawable(R.drawable.wire_device_img));
+				unwire_device_img_bg.setImageDrawable(mActivity.getResources()
+						.getDrawable(R.drawable.unwire_device_img));
+			} else {
+				quickinstall_img_bg.setImageDrawable(mActivity.getResources()
+						.getDrawable(R.drawable.wire_devicen_img));
+				unwire_device_img_bg.setImageDrawable(mActivity.getResources()
+						.getDrawable(R.drawable.unwire_devicen_img));
+			}
+			/** 广告条 */
+			imageScroll = (ImageViewPager) adView
+					.findViewById(R.id.imagescroll);
+			// 防止广告图片变形
+			RelativeLayout.LayoutParams reParams = new RelativeLayout.LayoutParams(
+					mActivity.disMetrics.widthPixels,
+					(int) (0.45 * mActivity.disMetrics.widthPixels));
+			imageScroll.setLayoutParams(reParams);
+			ovalLayout = (LinearLayout) adView.findViewById(R.id.dot_layout);
+			initADViewPager();
+			myDLAdapter = new MyDeviceListAdapter(mActivity, this);
+			myDeviceListView = mPullRefreshListView.getRefreshableView();
+			myDeviceListView.addHeaderView(adView);
+			rightBtn.setOnClickListener(myOnClickListener);
 
-		if (!Boolean.valueOf(mActivity.statusHashMap.get(Consts.LOCAL_LOGIN))) {
-			startAutoRefreshTimer();
-		} else {
-			// // 非3G加广播设备
-			// startBroadTimer();
+			// if (0 == adUrlList.size()) {
+			// adUrlList
+			// .add("http://xx.53shop.com/uploads/allimg/c090325/123O60E4530-2V016.jpg");
+			// adUrlList
+			// .add("http://img4.imgtn.bdimg.com/it/u=1147331110,3253839708&fm=201&gp=0.jpg");
+			// adUrlList
+			// .add("http://img2.imgtn.bdimg.com/it/u=3597069752,2844048456&fm=201&gp=0.jpg");
+			// }
+			if (hasGot) {
+				myDeviceList = CacheUtil.getDevList();
+				refreshList();
+			} else {
+				fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+				GetDevTask task = new GetDevTask();
+				String[] strParams = new String[3];
+				strParams[0] = "0";
+				task.execute(strParams);
+			}
+
+			if (!Boolean.valueOf(mActivity.statusHashMap
+					.get(Consts.LOCAL_LOGIN))) {
+				startAutoRefreshTimer();
+			} else {
+				// // 非3G加广播设备
+				// startBroadTimer();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -481,7 +504,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 							"Scan devices in LAN", mActivity.getResources()
 									.getString(R.string.str_scanlandevice));
 
-					if (!MySharedPreference.getBoolean("BROADCASTSHOW", true)) {
+					if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
+							true)) {
 						MyLog.v(Consts.TAG_APP, "not broad = " + false);
 						break;
 					}
@@ -636,6 +660,23 @@ public class JVMyDeviceFragment extends BaseFragment {
 										adUrl = adList.get(index).getAdLinkEn();
 									}
 
+									String adDes = adList.get(index)
+											.getAdDesp();
+									int type = -1;
+									int action = -1;
+									if (null != adDes
+											&& !"".equalsIgnoreCase(adDes)) {
+										try {
+											JSONObject adObj = new JSONObject(
+													adDes);
+											type = adObj.optInt("type");
+											action = adObj.optInt("action");
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+
+									}
+
 									if (null != adUrl
 											&& !"".equalsIgnoreCase(adUrl
 													.trim())) {
@@ -657,7 +698,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 											sid = ConfigUtil.getSession();
 										}
 
-										if (adUrl.contains("platv=9999")) {// 视频广场特殊标识
+										if (adUrl.contains("platv=9999")
+												|| Consts.AD_TYPE_1 == type) {// 视频广场特殊标识
 											adUrl = adUrl.substring(0,
 													adUrl.lastIndexOf("?"));
 											adUrl = adUrl
@@ -671,12 +713,50 @@ public class JVMyDeviceFragment extends BaseFragment {
 													+ "&sid=" + sid;
 											MyLog.v("adUrl", adUrl);
 											intentAD.putExtra("title", -2);
+											intentAD.putExtra("URL", adUrl);
+											mActivity.startActivity(intentAD);
+										} else if (adUrl.contains("bbs")
+												|| Consts.AD_TYPE_3 == type) {// 小维知道特殊标识{
+
+											adUrl = adUrl + "&sid=" + sid;
+											MyLog.v("zhidaoUrl", adUrl);
+											intentAD.putExtra("title", -2);
+											intentAD.putExtra("URL", adUrl);
+											mActivity.startActivity(intentAD);
+
+											// Intent zhidaoIntent = mActivity
+											// .getPackageManager()
+											// .getLaunchIntentForPackage(
+											// "com.jovision.zhidao");//
+											// com.jovision.zhidao.SplashActivity
+											// if (null == zhidaoIntent) {//
+											// 提示下载小维知道
+											// try {
+											// if (mActivity.hasSDCard(20)) {
+											// Uri uri = Uri
+											// .parse(adList
+											// .get(index)
+											// .getAdDesp());
+											// Intent it = new Intent(
+											// Intent.ACTION_VIEW,
+											// uri);
+											// mActivity
+											// .startActivity(it);
+											// }
+											// } catch (Exception e) {
+											// e.printStackTrace();
+											// }
+											//
+											// } else {
+											// startActivity(zhidaoIntent);
+											// }
 										} else {
-											adUrl = adUrl + "?" + "&sid=" + sid;
-											intentAD.putExtra("title", -1);
+											MyLog.v("adUrl", adUrl);
+											intentAD.putExtra("title", -2);
+											intentAD.putExtra("URL", adUrl);
+											mActivity.startActivity(intentAD);
 										}
-										intentAD.putExtra("URL", adUrl);
-										mActivity.startActivity(intentAD);
+
 									}
 								}
 							});
@@ -851,6 +931,14 @@ public class JVMyDeviceFragment extends BaseFragment {
 		switch (what) {
 		case Consts.GETDEMOURL:
 			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+
+			if ("false".equals(mActivity.statusHashMap
+					.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+				MyLog.e("Login", "初始化账号SDK失败");
+				ConfigUtil.initAccountSDK(((MainApplication) mActivity
+						.getApplication()));// 初始化账号SDK
+			}
+
 			GetDemoTask demoTask = new GetDemoTask(mActivity);
 			String[] demoParams = new String[3];
 			if (!Boolean.valueOf(mActivity.statusHashMap
@@ -873,9 +961,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 								.get(Consts.LOCAL_LOGIN))) {
 					alarmnet.setVisibility(View.VISIBLE);
 					if (null != accountError) {
-						accountError
-								.setText(mActivity.getResources().getString(
-										R.string.network_error_tips));
+						accountError.setText(mActivity.getResources()
+								.getString(R.string.network_error_tips));
 					}
 				}
 			}
@@ -919,7 +1006,20 @@ public class JVMyDeviceFragment extends BaseFragment {
 			}
 			break;
 		case Consts.WHAT_SESSION_FAILURE:// session失效
-
+			if (null != alarmnet
+					&& !Boolean.valueOf(mActivity.statusHashMap
+							.get(Consts.LOCAL_LOGIN))) {
+				alarmnet.setVisibility(View.VISIBLE);
+				if (null != accountError) {
+					accountError.setText(R.string.account_error_tips);
+				}
+			}
+			mActivity.createDialog("", false);
+			LoginTask loginTask = new LoginTask(false, mActivity,
+					(MainApplication) mActivity.getApplication(),
+					mActivity.statusHashMap, alarmnet);
+			String[] params = new String[3];
+			loginTask.execute(params);
 			break;
 		case Consts.WHAT_AD_UPDATE: {
 			initADViewPager();
@@ -1053,7 +1153,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 										ip, port, netmod)) {
 							Device broadDev = new Device(ip, port, gid, no,
 									Consts.DEFAULT_USERNAME,
-									Consts.DEFAULT_PASSWORD, false, count, 0);
+									Consts.DEFAULT_PASSWORD, false, count, 0,
+									null);
 							broadDev.setHasWifi(netmod);
 							broadDev.setOnlineStateLan(1);// 广播都在线
 							broadList.add(broadDev);
@@ -1515,9 +1616,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 		MySharedPreference.putBoolean(Consts.AD_UPDATE, true);
 
-		for (int i = 0; i < adList.size(); i++) {
-			Log.i("TAG", adList.get(i).getAdImgUrlCh());
-		}
 	}
 
 	// 获取设备列表线程
@@ -1534,7 +1632,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 							.get(Consts.ACCOUNT_ERROR));
 				}
 
-				if (errorCode == Consts.WHAT_HAS_NOT_LOGIN) {// 未登录，离线登陆
+				if (errorCode == Consts.WHAT_HAS_NOT_LOGIN
+						|| errorCode == Consts.WHAT_SESSION_AUTOLOGIN) {// 未登录，离线登陆
 					myDeviceList = CacheUtil.getOfflineDevList();
 					MyLog.v("LoginState", "offline-" + errorCode);
 				} else {
@@ -1662,7 +1761,6 @@ public class JVMyDeviceFragment extends BaseFragment {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			if ("0".equalsIgnoreCase(params[0])) {
 				try {
 					Thread.sleep(1000);
@@ -1748,7 +1846,8 @@ public class JVMyDeviceFragment extends BaseFragment {
 
 							addDev = DeviceUtil.addDevice2(addDev,
 									mActivity.statusHashMap
-											.get(Consts.KEY_USERNAME));
+											.get(Consts.KEY_USERNAME), addDev
+											.getNickName());
 							if (null != addDev) {
 								addCount++;
 								addRes = 0;
@@ -1977,5 +2076,11 @@ public class JVMyDeviceFragment extends BaseFragment {
 			BitmapCache.getInstance().getBitmap(app.getAppImageUrlZh(),
 					"welcome", fileName);
 		}
+	}
+
+	@Override
+	public void onMainAction(int packet_type) {
+		// TODO Auto-generated method stub
+
 	}
 }

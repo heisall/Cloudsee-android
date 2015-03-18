@@ -21,6 +21,8 @@ public class Consts {
 	public static final String DEFAULT_PASSWORD = "123";// 中性软件改为空
 	// 添加设备默认的端口
 	public static final String DEFAULT_PORT = "9101";// 固定值，无需修改
+	// 测试服务器
+	public static boolean TEST_SERVER = false;// true 测试服务器， false 正式服务器
 
 	/**************************** 华丽的分割线 ******************************/
 	public static int CURRENT_LAN = -1;// 当前语言
@@ -40,6 +42,8 @@ public class Consts {
 			+ File.separator + "capture" + File.separator;
 	public static final String VIDEO_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "video" + File.separator;
+	public static final String DOWNLOAD_VIDEO_PATH = Consts.SD_CARD_PATH
+			+ APP_NAME + File.separator + "downvideo" + File.separator;
 	public static final String SOFTWARE_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "software" + File.separator;
 	public static final String BUG_PATH = Consts.SD_CARD_PATH + APP_NAME
@@ -297,6 +301,33 @@ public class Consts {
 	public static final int FIRMUP_HTTP = 0x00;
 	public static final int FIRMUP_FILE = 0x01;
 	public static final int FIRMUP_FTP = 0x02;// 已废弃
+	/******************************** 更多功能定义 **********************************************/
+	public static final String MORE_HELP = "HELP"; // 帮助图片显示
+	public static final String MORE_PAGEONE = "page1"; // 我的设备界面帮助图
+	public static final String MORE_PAGETWO = "page2"; // 配置界面帮助图
+	public static final String MORE_REMEMBER = "REMEMBER"; // 自动登录功能
+	public static final String MORE_ALARMSWITCH = "AlarmSwitch"; // 报警通知开关
+	public static final String MORE_PLAYMODE = "PlayDeviceMode";// 观看模式（单设备，多设备）
+	public static final String MORE_LITTLEHELP = "LITTLEHELP"; // 小助手
+	public static final String MORE_BROADCAST = "BROADCASTSHOW"; // 广播
+	public static final String MORE_LITTLE = "LITTLE"; // 关于
+	public static final String MORE_SYSTEMMESSAGE = "SystemMessage"; // 系统消息
+	public static final String MORE_DEMOURL = "DEMOURL"; // 视频广场
+	// public static final String MORE_CUSTURL = "CUSTURL"; // 我要装监控
+	public static final String MORE_STATURL = "STATURL"; // 云视通指数
+	public static final String MORE_BBS = "BBSURL"; // 论坛
+	public static final String MORE_GCSURL = "CUSTURL"; // 工程商入住
+	public static final String MORE_BBSNUM = "BBSNUM"; // 论坛未读消息数量
+	public static final int MORE_BBSNUMNOTY = 0x999991; // 论坛未读消息数量
+	public static final String MORE_BBSNUMURL = "BBSNUMURL"; // 论坛未读消息数量
+
+	public static final String MORE_DEMO_SWITCH = "DEMO_SWITCH"; // 视频广场开关
+	// public static final String MORE_CUST_SWITCH = "CUST_SWITCH"; // 我要装监控开关
+	public static final String MORE_STAT_SWITCH = "STAT_SWITCH"; // 云视通指数开关
+	public static final String MORE_BBS_SWITCH = "BBS_SWITCH"; // 论坛开关
+	public static final String MORE_GCS_SWITCH = "STAT_SWITCH"; // 工程商入住开关
+
+	public static final String MORE_TESTSWITCH = "TESTSWITCH"; // 测试服务器开关
 
 	/********************************* 　以上修改设备用户名密码需要的宏定义　 ***************************************/
 
@@ -307,6 +338,7 @@ public class Consts {
 	public static final String IPC_DEFAULT_IP = "10.10.0.1";
 	public static final int IPC_DEFAULT_PORT = 9101;
 
+	// 张帅服务端0：中文，1：英文，2：繁体
 	public static final int LANGUAGE_ZH = 1;// 中文
 	public static final int LANGUAGE_EN = 2;// 英文
 	public static final int LANGUAGE_ZHTW = 3;// 繁体
@@ -542,6 +574,7 @@ public class Consts {
 	public static final int WHAT_HAS_LOGIN_SUCCESS = 0x6C;// 登陆成功
 	public static final int WHAT_ACCOUNT_NORMAL = 0x6D;// 账号正常
 	public static final int WHAT_SESSION_FAILURE = 0x6E;// 网络异常
+	public static final int WHAT_SESSION_AUTOLOGIN = 0x6F;// 自动登陆，跳过登陆界面
 
 	public static final int WHAT_HEART_TCP_ERROR = 0x70;// 账号库tcp连接断开
 	public static final int WHAT_HEART_TCP_CLOSED = 0x71;// 账号库tcp连接关闭
@@ -550,6 +583,18 @@ public class Consts {
 	public static final int WHAT_NET_ERROR_DISCONNECT = 0x72;// 网络异常视频断开
 	/** 远程回放视频断开 */
 	public static final int WHAT_VIDEO_DISCONNECT = 0x73;// 远程回放视频断开
+	/** 远程回放视频下载 */
+	public static final int PLAY_BACK_DOWNLOAD = 0x74;// 远程回放视频下载
+
+	/** 视频播放进设备设置 */
+	public static final int PLAY_DEVSET_REQUSET = 0x75;// 远程回放视频下载
+	/** 设备设置回视频播放 */
+	public static final int PLAY_DEVSET_RESPONSE = 0x76;// 远程回放视频下载
+	/** 设备设置回视频播放 */
+	public static final int TAB_WEBVIEW_BACK = 0x77;// tab页卡webview返回事件
+
+	/** 视频广场重新加载url */
+	public static final int TAB_PLAZZA_RELOAD_URL = 0x78;// 视频广场重新加载url
 
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
@@ -564,6 +609,16 @@ public class Consts {
 
 	public static final String IMAGE_PNG_KIND = ".png";// 图片类型
 	public static final String IMAGE_JPG_KIND = ".jpg";// 图片类型
+	public static final String VIDEO_MP4_KIND = ".mp4";// 视频类型
+
+	// 账号库广告接口标识 type（广告类型）意义
+	public static final int AD_TYPE_1 = 1001;// 视频广场
+	public static final int AD_TYPE_2 = 1002;// 小维知道
+	public static final int AD_TYPE_3 = 1003;// 小维社区
+	public static final int AD_TYPE_4 = 1004;// 产品宣传
+
+	// action（广告行为）意义
+	public static final int AD_ACTION_1 = 101;// 直接打开URL
 
 	/*********************** 以下是状态变量key的声明 ********************************/
 
@@ -652,6 +707,9 @@ public class Consts {
 	/** 广告检查过更新 */
 	public static final String AD_UPDATE = "AD_UPDATE";
 
+	/** 免登陆第一次登陆 */
+	public static final String FIRST_LOGIN = "FIRST_LOGIN";
+
 	// /** 功能设置页面场景图片标志位 */
 	// public static String SETTING_SCENE = "SCENE";
 	//
@@ -707,6 +765,7 @@ public class Consts {
 	public static final int DEV_SETTINGS_ALARM = 0x01; // 安全防护开关
 	public static final int DEV_SETTINGS_MD = 0x02; // 移动侦测开关
 	public static final int DEV_SETTINGS_ALARMTIME = 0x03; // 防护时间段
+	public static final int DEV_RESET_DEVICE = 0x04; // 防护时间段
 	/** 手动注销标志key */
 	public static String MANUAL_LOGOUT_TAG = "MANUAL_LOGOUT_TAG";
 	/** 实时弹出报警查看后标志guid **/
@@ -716,4 +775,5 @@ public class Consts {
 	public static final int NEW_PUSH_MSG_TAG = 0x9990;
 	public static final int NEW_PUSH_MSG_TAG_PRIVATE = 0x9991;
 	public static final int WHAT_PERI_ITEM_CLICK = 0x90;// 外设菜单单击事件
+	public static final int NEW_BBS = 0x99992;// 外设菜单单击事件
 }

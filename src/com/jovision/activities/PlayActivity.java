@@ -59,6 +59,7 @@ public abstract class PlayActivity extends BaseActivity implements
 	/** 播放相关 */
 	protected RelativeLayout.LayoutParams reParamsV;
 	protected RelativeLayout.LayoutParams reParamsH;
+	// protected RelativeLayout.LayoutParams reParamsyt;
 	protected int surfaceWidth = -1;
 	protected int surfaceHeight = -1;
 	protected int playFlag = -1;
@@ -106,6 +107,20 @@ public abstract class PlayActivity extends BaseActivity implements
 	// protected Button remotePlayback;// 远程回放
 	protected LinearLayout ytLayout;// 云台布局
 	// protected LinearLayout playFuctionLayout;// 小分辨率时功能界面
+
+	protected LinearLayout function; // 显示远程回放等功能
+	protected RelativeLayout talk_eachother; // 显示对讲页面
+	protected ImageView talk_img;// 对讲图片
+	protected ImageView talk_cancel;// 取消对讲
+	protected ImageView talk_img_down;// 语音外圈
+
+	/**
+	 * 横屏对讲
+	 * */
+	protected RelativeLayout horfunc_talk;
+	protected ImageView horfunc_talk_normal;
+	protected ImageView horfunc_talk_down;
+
 	protected ListView playFunctionList;// 大分辨率时功能列表
 	protected FuntionAdapter functionListAdapter;
 	protected ArrayList<String> functionList = new ArrayList<String>();
@@ -219,6 +234,8 @@ public abstract class PlayActivity extends BaseActivity implements
 	protected Drawable alarmRecordDrawableTop = null;
 	protected Drawable normalRecordDrawableTop = null;
 
+	// protected RelativeLayout mainfunctionLayout;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 
@@ -297,6 +314,10 @@ public abstract class PlayActivity extends BaseActivity implements
 		}
 
 		/** 中 */
+		// mainfunctionLayout = (RelativeLayout)findViewById(R.id.mainfunction);
+		// reParamsyt = new RelativeLayout.LayoutParams(
+		// ViewGroup.LayoutParams.MATCH_PARENT,
+		// ViewGroup.LayoutParams.WRAP_CONTENT);
 		playViewPager = new MyViewPager(PlayActivity.this);
 		playViewPager.setContext(this);
 		playViewPager = (MyViewPager) findViewById(R.id.play_viewpager);
@@ -332,7 +353,7 @@ public abstract class PlayActivity extends BaseActivity implements
 			@Override
 			public void onClick(View arg0) {
 
-				if (MySharedPreference.getBoolean("LITTLE")) {
+				if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
 					closePopWindow();
 					if (View.VISIBLE == playStatistics.getVisibility()) {
 						playStatistics.setVisibility(View.GONE);
@@ -397,6 +418,16 @@ public abstract class PlayActivity extends BaseActivity implements
 		// findViewById(R.id.remote_playback);// 远程回放
 
 		/** 大分辨率功能 */
+		function = (LinearLayout) findViewById(R.id.function);
+		talk_eachother = (RelativeLayout) findViewById(R.id.talk_eachother);
+		talk_img_down = (ImageView) findViewById(R.id.talk_img_down);
+		talk_img = (ImageView) findViewById(R.id.talk_img);
+		talk_cancel = (ImageView) findViewById(R.id.talk_cancel);
+
+		horfunc_talk = (RelativeLayout) findViewById(R.id.horfunc_talk);
+		horfunc_talk_normal = (ImageView) findViewById(R.id.horfunc_talk_normal);
+		horfunc_talk_down = (ImageView) findViewById(R.id.horfunc_talk_down);
+
 		playFunctionList = (ListView) findViewById(R.id.play_function_list_layout);
 		functionList.add(getResources().getString(R.string.str_yt_operate));
 		functionList
@@ -963,7 +994,6 @@ public abstract class PlayActivity extends BaseActivity implements
 			}
 			AUDIO_SINGLE = false;// 单向对讲标志
 			VOICECALL_LONG_CLICK = false;// 语音喊话flag长按状态,长按发送数据
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 			VOICECALLING = false;// 对讲功能已经开启
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1171,6 +1201,9 @@ public abstract class PlayActivity extends BaseActivity implements
 	 */
 	protected void showPTZ() {
 		if (View.GONE == ytLayout.getVisibility()) {
+			// reParamsyt.setMargins(0, 0, 0, 80);
+			// reParamsyt.addRule(RelativeLayout.BELOW,R.id.videolayout);
+			// mainfunctionLayout.setLayoutParams(reParamsyt);
 			ytLayout.setVisibility(View.VISIBLE);
 			playFunctionList.setVisibility(View.GONE);
 			// playFuctionLayout.setVisibility(View.GONE);

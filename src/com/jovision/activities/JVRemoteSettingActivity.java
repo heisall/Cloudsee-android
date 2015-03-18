@@ -616,45 +616,44 @@ public class JVRemoteSettingActivity extends BaseActivity {
 							back();
 						} else {
 
-//							// 值为2双码流是家庭安防产品
-//							if (null != settingMap
-//									&& null != settingMap.get("MobileCH")
-//									&& "2".equalsIgnoreCase(settingMap
-//											.get("MobileCH"))) {
-								String wifiname = wifiName.getText().toString();
-								String wifipwd = wifiPwd.getText().toString();
+							// // 值为2双码流是家庭安防产品
+							// if (null != settingMap
+							// && null != settingMap.get("MobileCH")
+							// && "2".equalsIgnoreCase(settingMap
+							// .get("MobileCH"))) {
+							String wifiname = wifiName.getText().toString();
+							String wifipwd = wifiPwd.getText().toString();
 
-								if ("".equalsIgnoreCase(wifiname)) {
-									showTextToast(R.string.str_wifiname_not_null);
-								} else {
+							if ("".equalsIgnoreCase(wifiname)) {
+								showTextToast(R.string.str_wifiname_not_null);
+							} else {
 
-									String auth = "";
-									String enc = "";
+								String auth = "";
+								String enc = "";
 
-									if (null != wifiList
-											&& 0 != wifiList.size()
-											&& wifiIndex >= 0
-											&& wifiIndex < wifiList.size()) {
-										auth = String.valueOf(wifiList
-												.get(wifiIndex).wifiAuth);
-										enc = String.valueOf(wifiList
-												.get(wifiIndex).wifiEnc);
-									}
-
-									Jni.saveWifi(1,
-											(byte) JVNetConst.JVN_RSP_TEXTDATA,
-											wifiname, wifipwd, 2, 9, auth, enc);
-
-									try {
-										Thread.sleep(20);
-									} catch (InterruptedException e) {
-										e.printStackTrace();
-									}
-									back();
-
+								if (null != wifiList && 0 != wifiList.size()
+										&& wifiIndex >= 0
+										&& wifiIndex < wifiList.size()) {
+									auth = String.valueOf(wifiList
+											.get(wifiIndex).wifiAuth);
+									enc = String.valueOf(wifiList
+											.get(wifiIndex).wifiEnc);
 								}
 
-//							}
+								Jni.saveWifi(1,
+										(byte) JVNetConst.JVN_RSP_TEXTDATA,
+										wifiname, wifipwd, 2, 9, auth, enc);
+
+								try {
+									Thread.sleep(20);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								back();
+
+							}
+
+							// }
 
 						}
 					}

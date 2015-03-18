@@ -22,6 +22,7 @@ import com.jovision.Consts;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.BaseFragment;
 import com.jovision.bean.Channel;
+import com.jovision.commons.MyLog;
 
 public class ChannelAdapter extends BaseAdapter {
 
@@ -44,17 +45,29 @@ public class ChannelAdapter extends BaseAdapter {
 
 	public ChannelAdapter(BaseFragment fragment) {
 		mfragment = fragment;
-		inflater = (LayoutInflater) fragment.getActivity().getSystemService(
-				Context.LAYOUT_INFLATER_SERVICE);
+		try {
+			inflater = (LayoutInflater) fragment.getActivity()
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		} catch (Exception e) {
+			MyLog.v("ChannelAdapter", "ChannelAdapter is null");
+			e.printStackTrace();
+		}
+
 	}
 
 	public void setData(ArrayList<Channel> dataList, int width) {
 		channelList = dataList;
 
-		if (width <= 0) {
-			screenWidth = ((BaseActivity) mfragment.getActivity()).disMetrics.widthPixels;
-		} else {
-			screenWidth = width;
+		try {
+			if (width <= 0) {
+				screenWidth = ((BaseActivity) mfragment.getActivity()).disMetrics.widthPixels;
+			} else {
+				screenWidth = width;
+			}
+
+		} catch (Exception e) {
+			MyLog.v("setData", "setData is null");
+			e.printStackTrace();
 		}
 
 		notifyDataSetChanged();

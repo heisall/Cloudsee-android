@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.test.JVACCOUNT;
 import android.util.Log;
 
 import com.jovetech.CloudSee.temp.R;
@@ -32,13 +33,24 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 	protected Integer doInBackground(String... params) {
 		int getRes = -1;// 0成功 1失败
 		sid = params[0];
+		if (!Boolean.valueOf(((BaseActivity) mContext).statusHashMap
+				.get(Consts.LOCAL_LOGIN))) {// 在线
+			sid = JVACCOUNT.GetSession();
+		} else {
+			sid = "";
+		}
+
 		count = params[1];
 		fragmentString = params[2];
 		// demoUrl = DeviceUtil.getDemoDeviceList2(Consts.APP_NAME);
 		// demoUrl = "http://www.cloudsee.net/phone.action";
-		webUrl = DeviceUtil.getWebUrl();
+
+		webUrl = DeviceUtil.getWebUrl(ConfigUtil.getLanguage2(mContext) - 1);
 		if (null != webUrl) {
 			getRes = 0;
+		} else {
+			webUrl = DeviceUtil
+					.getWebUrl(ConfigUtil.getLanguage2(mContext) - 1);
 		}
 		return getRes;
 	}
@@ -53,8 +65,7 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 		// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 		((BaseActivity) mContext).dismissDialog();
 		if (0 == result) {
-
-			((BaseActivity) mContext).statusHashMap.put("DEMOURL",
+			((BaseActivity) mContext).statusHashMap.put(Consts.MORE_DEMOURL,
 					webUrl.getDemoUrl());
 			int counts = Integer.valueOf(count);
 
@@ -67,16 +78,27 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 			} else {
 				lan = "en_us";
 			}
+
+			if (null != webUrl.getGcsUrl()) {// 获取工程商开关
+				((BaseActivity) mContext).statusHashMap.put(
+						Consts.MORE_GCS_SWITCH,
+						String.valueOf(webUrl.getGcsSwitch()));
+				((BaseActivity) mContext).onNotify(Consts.MORE_BBSNUMNOTY, 0,
+						0, null);
+				Log.i("TAG", webUrl.getGcsSwitch() + "  FDF ");
+			}
+
 			switch (counts) {
-			case 0:
+			case 0:// 2015-3-13从我要装监控变成工程商入驻
 				String custurl;
-				if (null != webUrl.getCustUrl()) {
+				if (null != webUrl.getGcsUrl()) {
 					Intent intentAD0 = new Intent(mContext,
 							JVWebViewActivity.class);
-					custurl = webUrl.getCustUrl() + "?" + "&lang=" + lan
-							+ "&d=" + System.currentTimeMillis();
-					((BaseActivity) mContext).statusHashMap.put("CUSTURL",
-							custurl);
+					custurl = webUrl.getGcsUrl() + "&sid=" + sid;
+					// + "?" + "&lang=" + lan + "&d="
+					// + System.currentTimeMillis();
+					((BaseActivity) mContext).statusHashMap.put(
+							Consts.MORE_GCSURL, custurl);
 					Log.i("TAG", custurl);
 					intentAD0.putExtra("URL", custurl);
 					intentAD0.putExtra("title", -2);
@@ -86,30 +108,12 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 							.showTextToast(R.string.str_video_load_failed);
 				}
 				break;
-			case 2:// 云视通指数
-				String staturl = "";
-				if (null != webUrl.getStatUrl()) {
-					Intent intentAD2 = new Intent(mContext,
-							JVWebViewActivity.class);
-					staturl = webUrl.getStatUrl() + "?" + "&lang=" + lan
-							+ "&d=" + System.currentTimeMillis();
-					((BaseActivity) mContext).statusHashMap.put("STATURL",
-							staturl);
 
-					Log.i("TAG", staturl);
-					intentAD2.putExtra("URL", staturl);
-					intentAD2.putExtra("title", -2);
-					mContext.startActivity(intentAD2);
-				} else {
-					((BaseActivity) mContext)
-							.showTextToast(R.string.str_video_load_failed);
-				}
-
-				break;
-			case 1:
+			case 1:// 视频广场
 				demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
 						+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
 						+ System.currentTimeMillis() + "&sid=" + sid;
+
 				if (!"fragmentString".equals(fragmentString)
 						&& null != webUrl.getDemoUrl()) {
 					Intent intentAD = new Intent(mContext,
@@ -122,6 +126,83 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 						&& null == webUrl.getDemoUrl()) {
 					((BaseActivity) mContext)
 							.showTextToast(R.string.demo_get_failed);
+				}
+
+				break;
+
+			case 2:// 云视通指数
+				String staturl = "";
+				if (null != webUrl.getStatUrl()) {
+					Intent intentAD2 = new Intent(mContext,
+							JVWebViewActivity.class);
+					staturl = webUrl.getStatUrl() + "?" + "&lang=" + lan
+							+ "&d=" + System.currentTimeMillis();
+					((BaseActivity) mContext).statusHashMap.put(
+							Consts.MORE_STATURL, staturl);
+
+					Log.i("TAG", staturl);
+					intentAD2.putExtra("URL", staturl);
+					intentAD2.putExtra("title", -2);
+					mContext.startActivity(intentAD2);
+				} else {
+					((BaseActivity) mContext)
+							.showTextToast(R.string.str_video_load_failed);
+				}
+
+				break;
+			case 3:// 社区论坛
+				String bbsurl = "";
+				if (null != webUrl.getBbsUrl()) {
+					Intent intentAD2 = new Intent(mContext,
+							JVWebViewActivity.class);
+
+					if (!Boolean
+							.valueOf(((BaseActivity) mContext).statusHashMap
+									.get(Consts.LOCAL_LOGIN))) {// 在线
+						bbsurl = webUrl.getBbsUrl() + "&sid=" + sid;
+						// + "&act=login";
+					} else {// 本地
+						bbsurl = webUrl.getBbsUrl() + "&sid=" + sid;
+						// + "&act=logout";
+					}
+
+					((BaseActivity) mContext).statusHashMap.put(
+							Consts.MORE_BBS, bbsurl);
+
+					Log.i("TAG", bbsurl);
+					intentAD2.putExtra("URL", bbsurl);
+					intentAD2.putExtra("title", -2);
+					mContext.startActivity(intentAD2);
+				} else {
+					((BaseActivity) mContext)
+							.showTextToast(R.string.str_video_load_failed);
+				}
+				break;
+			case 4:// 论坛条数
+
+				String bbsnum = " ";
+				if (null != webUrl.getBbsUrl()) {
+					bbsnum = webUrl.getBbsUrl();
+					String[] array = bbsnum.split("mod");
+					if (!Boolean
+							.valueOf(((BaseActivity) mContext).statusHashMap
+									.get(Consts.LOCAL_LOGIN))) {
+						bbsnum = array[0] + "mod=api&act=user_pm&sid="
+								+ JVACCOUNT.GetSession();
+					} else {
+						bbsnum = array[0] + "mod=api&act=user_pm";
+					}
+					((BaseActivity) mContext).statusHashMap.put(
+							Consts.MORE_BBSNUM, bbsnum);
+				}
+				break;
+			case 5:// tab页卡视频广场刷新
+				demoUrl = webUrl.getDemoUrl() + "?" + "plat=android&platv="
+						+ Build.VERSION.SDK_INT + "&lang=" + lan + "&d="
+						+ System.currentTimeMillis() + "&sid=" + sid;
+				if (null != webUrl.getDemoUrl()) {
+					((BaseActivity) mContext).onNotify(
+							Consts.TAB_PLAZZA_RELOAD_URL, 0, 0, demoUrl);
 				}
 				break;
 			default:

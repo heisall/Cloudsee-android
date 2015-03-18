@@ -88,15 +88,13 @@ public class NewFeedbackActivity extends BaseActivity {
 			myWebView
 					.loadUrl("http://182.92.242.230/member.php?mod=mobile&session=0&username=jv_guest");
 		} else {
-			byte[] session = new byte[32];
-			JVACCOUNT.GetSession(session);
-			if (session.length != 32) {
-				String strSession = new String(session);
+			String strSession = "";
+			strSession = JVACCOUNT.GetSession();
+			if (strSession.length() != 32) {
 				MyLog.e("FeedBack", "获取session失败:" + strSession);
 				showTextToast("session error");
 				finish();
 			} else {
-				String strSession = new String(session);
 				String userName = statusHashMap.get(Consts.KEY_USERNAME);
 				StringBuffer sbParamBuffer = new StringBuffer(
 						"http://182.92.242.230/member.php?mod=mobile&session=");

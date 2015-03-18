@@ -26,6 +26,7 @@ import com.jovetech.CloudSee.temp.R;
 import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
+import com.jovision.commons.MyLog;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 
@@ -92,7 +93,7 @@ public class JVChannelsActivity extends BaseActivity {
 	@Override
 	protected void initUi() {
 		setContentView(R.layout.channels_layout);
-
+		MyLog.v(TAG, "Channel-initUi-1");
 		/** top bar */
 		relative = (RelativeLayout) findViewById(R.id.relative);
 		device_num = (TextView) findViewById(R.id.device_num);
@@ -123,13 +124,16 @@ public class JVChannelsActivity extends BaseActivity {
 		widthPixels = disMetrics.widthPixels;
 		// 初始化导航
 		initNav();
+		MyLog.v(TAG, "Channel-initUi-2");
 		// 初始化viewPager
 		initViewPager();
+		MyLog.v(TAG, "Channel-initUi-3");
 		channelPager.setCurrentItem(deviceIndex);
 		adapter = new ManageListAdapter(JVChannelsActivity.this);
 		adapter.setData(deviceList);
 		devicemanage_listView.setAdapter(adapter);
 		ListViewClick();
+		MyLog.v(TAG, "Channel-initUi-4");
 		handler.postDelayed(runnable, 200);
 	}
 
@@ -144,35 +148,30 @@ public class JVChannelsActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		deviceList = CacheUtil.getDevList();
-		try {
-			int size = fragments.size();
-			for (int i = 0; i < size; i++) {
-				((ChannelFragment) fragments.get(i)).refreshData();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// try {
+		// int size = fragments.size();
+		// for (int i = 0; i < size; i++) {
+		// ((ChannelFragment) fragments.get(i)).refreshData();
+		// }
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 
 		super.onResume();
-		for (int i = 0; i < deviceList.size(); i++) {
-			if (deviceIndex == i) {
-				deviceList.get(i).setIsselect(true);
-			} else {
-				deviceList.get(i).setIsselect(false);
-			}
+		if (null != adapter) {
+			adapter.setSelectIndex(deviceIndex);
 		}
+
 	}
 
 	private void initViewPager() {
 		fragments = new ArrayList<Fragment>();
 		int size = deviceList.size();
-
 		for (int i = 0; i < size; i++) {
 			// Bundle data = new Bundle();
 			// data.putString("DeviceList", deviceList.toString());
 			// data.putInt("DeviceIndex", deviceIndex);
-			ChannelFragment fragment = new ChannelFragment(i, deviceList,
-					widthPixels);
+			ChannelFragment fragment = new ChannelFragment();
 			// fragment.setArguments(data);
 			fragments.add(fragment);
 		}
@@ -181,7 +180,6 @@ public class JVChannelsActivity extends BaseActivity {
 		channelPager.setAdapter(fragmentPagerAdapter);
 		fragmentPagerAdapter.setFragments(fragments);
 		channelPager.setOnPageChangeListener(new ChannelsPageChangeListener());
-
 	}
 
 	@Override
@@ -215,6 +213,8 @@ public class JVChannelsActivity extends BaseActivity {
 					deviceIndex = index;
 					channelPager.setCurrentItem(index);
 					((ChannelFragment) fragments.get(index)).deviceIndex = deviceIndex;
+					((ChannelFragment) fragments.get(index)).setData(
+							deviceIndex, deviceList);
 				}
 			});
 			layout.setTag(i);
@@ -228,13 +228,14 @@ public class JVChannelsActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				for (int i = 0; i < deviceList.size(); i++) {
-					if (i == position) {
-						deviceList.get(i).setIsselect(true);
-					} else {
-						deviceList.get(i).setIsselect(false);
-					}
-				}
+				// for (int i = 0; i < deviceList.size(); i++) {
+				// if (i == position) {
+				// deviceList.get(i).setIsselect(true);
+				// } else {
+				// deviceList.get(i).setIsselect(false);
+				// }
+				// }
+				adapter.setSelectIndex(position);
 				adapter.notifyDataSetChanged();
 				deviceIndex = position;
 				channelPager.setCurrentItem(position);
@@ -258,6 +259,7 @@ public class JVChannelsActivity extends BaseActivity {
 				break;
 
 			case R.id.devmorerelative:
+				adapter.setSelectIndex(deviceIndex);
 				device_num.setText(JVChannelsActivity.this.getResources()
 						.getString(R.string.str_fre)
 						+ deviceList.size()
@@ -283,7 +285,7 @@ public class JVChannelsActivity extends BaseActivity {
 
 		@Override
 		public void onPageSelected(final int position) {
-			// MyLog.v(TAG, "onPageSelected---position="+position)
+			MyLog.v(TAG, "onPageSelected---position=" + position);
 			Animation animation = new TranslateAnimation(endPosition, position
 					* item_width, 0, 0);
 
@@ -299,13 +301,13 @@ public class JVChannelsActivity extends BaseActivity {
 			}
 			for (int i = 0; i < deviceList.size(); i++) {
 				if (position == i) {
-					deviceList.get(i).setIsselect(true);
+					// deviceList.get(i).setIsselect(true);
 					TextView view = (TextView) mLinearLayout.getChildAt(i)
 							.findViewById(i);
 					view.setTextColor(JVChannelsActivity.this.getResources()
 							.getColor(R.color.quickinstall_btn_normal));
 				} else {
-					deviceList.get(i).setIsselect(false);
+					// deviceList.get(i).setIsselect(false);
 					TextView view = (TextView) mLinearLayout.getChildAt(i)
 							.findViewById(i);
 					view.setTextColor(JVChannelsActivity.this.getResources()
@@ -320,7 +322,15 @@ public class JVChannelsActivity extends BaseActivity {
 		@Override
 		public void onPageScrolled(int position, float positionOffset,
 				int positionOffsetPixels) {
-			// MyLog.v(TAG, "onPageScrolled---position="+position);
+			MyLog.v(TAG, "onPageScrolled---position=" + position);
+			try {
+				((ChannelFragment) fragments.get(position)).setData(
+						deviceIndex, deviceList);
+			} catch (Exception e) {
+				MyLog.v("setData", "setData is null");
+				e.printStackTrace();
+			}
+
 			if (!isEnd) {
 				if (currentFragmentIndex == position) {
 					endPosition = item_width * currentFragmentIndex
@@ -360,8 +370,9 @@ public class JVChannelsActivity extends BaseActivity {
 					mHorizontalScrollView.invalidate();
 					endPosition = currentFragmentIndex * item_width;
 				}
-				// MyLog.v(TAG,
-				// "onPageScrollStateChanged---currentFragmentIndex="+currentFragmentIndex+"---deviceIndex="+deviceIndex);
+				MyLog.v(TAG, "onPageScrollStateChanged---currentFragmentIndex="
+						+ currentFragmentIndex + "---deviceIndex="
+						+ deviceIndex);
 			}
 		}
 

@@ -35,6 +35,10 @@ import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MyRecevier;
 import com.jovision.utils.PlayUtil;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 /**
  * 整个应用的入口，管理状态、活动集合，消息队列以及漏洞汇报
@@ -110,8 +114,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		MySharedPreference.init(this);
 		MySharedPreference.putString(Consts.CHECK_ALARM_KEY, "");
 
-		new_push_msg_cnt = MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
-		Log.e("TPush", "new_push_msg_cnt init:" + new_push_msg_cnt);
+		// new_push_msg_cnt =
+		// MySharedPreference.getInt(Consts.NEW_PUSH_CNT_KEY);
+		// Log.e("TPush", "new_push_msg_cnt init:" + new_push_msg_cnt);
 		bAlarmConnectedFlag = false;
 		markedAlarmList = ((MainApplication) getApplicationContext())
 				.getMarkedAlarmList();
@@ -128,6 +133,37 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		activityManager = (ActivityManager) this
 				.getSystemService(Context.ACTIVITY_SERVICE);
 		packageName = this.getPackageName();
+
+		// imageloader全局配置
+		initImageLoader(getApplicationContext());
+	}
+
+	private static void initImageLoader(Context context) {
+		// This configuration tuning is custom. You can tune every option, you
+		// may tune some of them,
+		// or you can create default configuration by
+		// ImageLoaderConfiguration.createDefault(this);
+		// method.
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				context)
+				.threadPoolSize(3)
+				// 线程池内加载的数量
+				.threadPriority(Thread.NORM_PRIORITY - 2)
+				.denyCacheImageMultipleSizesInMemory()
+				.diskCacheFileNameGenerator(new Md5FileNameGenerator())
+				.diskCacheSize(20 * 1024 * 1024)
+				.tasksProcessingOrder(QueueProcessingType.LIFO)
+				// .writeDebugLogs() // todo eric Remove for release app
+				.build();
+		// Initialize ImageLoader with configuration.
+		ImageLoader.getInstance().init(config);
+	}
+
+	public synchronized void initNewPushCnt(String strAccount) {
+		String key = Consts.NEW_PUSH_CNT_KEY + "_" + strAccount;
+		new_push_msg_cnt = MySharedPreference.getInt(key);
+		Log.e("GPush", "new_push_msg_cnt init:" + new_push_msg_cnt + ",key:"
+				+ key);
 	}
 
 	public int getNewPushCnt() {
@@ -136,12 +172,19 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 	public synchronized void setNewPushCnt(int cnt) {
 		new_push_msg_cnt = cnt;
-		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, cnt);
+		String strAccount = MySharedPreference.getString(Consts.KEY_USERNAME);
+		String key = Consts.NEW_PUSH_CNT_KEY + "_" + strAccount;
+		Log.e("GPush", "setNewPushCnt set:" + cnt + ",key:" + key);
+		MySharedPreference.putInt(key, cnt);
 	}
 
 	public synchronized void add1NewPushCnt() {
 		new_push_msg_cnt++;
-		MySharedPreference.putInt(Consts.NEW_PUSH_CNT_KEY, new_push_msg_cnt);
+		String strAccount = MySharedPreference.getString(Consts.KEY_USERNAME);
+		String key = Consts.NEW_PUSH_CNT_KEY + "_" + strAccount;
+		Log.e("GPush", "add1NewPushCnt new_push_msg_cnt:" + new_push_msg_cnt
+				+ ",key:" + key);
+		MySharedPreference.putInt(key, new_push_msg_cnt);
 	}
 
 	/**
@@ -283,7 +326,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 			MyLog.v("JVPushCallBack", "res=" + res + ";time=" + time + ";msg="
 					+ msg);
 			if (JVAccountConst.MESSAGE_PUSH_TAG == res) {
-				if (MySharedPreference.getBoolean("AlarmSwitch", true)) {
+				if (MySharedPreference
+						.getBoolean(Consts.MORE_ALARMSWITCH, true)) {
 					// if (null != currentNotifyer) {
 					// if (null != msg && !"".equalsIgnoreCase(msg)) {
 					// JSONObject obj = new JSONObject(msg);
@@ -364,7 +408,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 				String strYstNumString = "";
 				// Toast.makeText(getApplicationContext(),
 				// "new msg push call back", Toast.LENGTH_SHORT).show();
-				if (MySharedPreference.getBoolean("AlarmSwitch", true)) {
+				if (MySharedPreference
+						.getBoolean(Consts.MORE_ALARMSWITCH, true)) {
 					if (null != currentNotifyer && null != msg
 							&& !"".equalsIgnoreCase(msg)) {
 
@@ -397,16 +442,42 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 							// BaseApp.getNikeName(pi.ystNum);
 							pi.alarmType = obj
 									.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
-							if (pi.alarmType == 7 || pi.alarmType == 4) {
-								pi.deviceNickName = obj
-										.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
-							} else if (pi.alarmType == 11)// 第三方
-							{
-								pi.deviceNickName = obj
-										.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
-							} else {
+							// if (pi.alarmType == 7 || pi.alarmType == 4) {
+							// pi.deviceNickName = obj
+							// .optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+							// } else if (pi.alarmType == 11)// 第三方
+							// {
+							// pi.deviceNickName = obj
+							// .optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+							// } else {
+							//
+							// }
 
+							String deviceNickName = CacheUtil
+									.getNickNameByYstfn(pi.ystNum);
+							if (deviceNickName == null
+									|| deviceNickName.equals("")) {
+								// deviceNickName = pi.deviceNickName;
+								if (pi.alarmType == 7 || pi.alarmType == 4) {
+									deviceNickName = obj
+											.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+								} else if (pi.alarmType == 11)// 第三方
+								{
+									deviceNickName = obj
+											.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+								} else {
+
+								}
+							} else {
+								if (pi.alarmType == 11)// 第三方
+								{
+									deviceNickName = deviceNickName
+											+ "-"
+											+ obj.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+								}
 							}
+							pi.deviceNickName = deviceNickName;
+
 							String strTempTime = "";
 							strTempTime = obj
 									.optString(JVAlarmConst.JK_ALARM_NEW_ALARMTIME_STR);

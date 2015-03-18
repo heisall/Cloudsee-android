@@ -167,6 +167,7 @@ public class Jni {
 	 * @param connectType
 	 * @param surface
 	 * @param isVip
+	 * @param isTcp
 	 * @param isTryOmx
 	 * @param thumbName
 	 * @return 连接结果，成功时返回窗口索引，失败时返回原因值
@@ -175,7 +176,7 @@ public class Jni {
 			int port, String username, String password, int cloudSeeId,
 			String groupId, boolean isLocalDetect, int turnType,
 			boolean isPhone, int connectType, Object surface, boolean isVip,
-			boolean isTryOmx, String thumbName);
+			boolean isTcp, boolean isTryOmx, String thumbName);
 
 	/**
 	 * 连接流媒体
@@ -232,6 +233,12 @@ public class Jni {
 	 * @return
 	 */
 	public static native String getDownloadFileName();
+
+	/**
+	 * 取消下载，删除正在下载的文件
+	 * 
+	 */
+	public static native void cancelDownload();
 
 	/**
 	 * 暂停底层显示
@@ -845,11 +852,12 @@ public class Jni {
 	public static native void setThumb(int width, int quality);
 
 	/**
-	 * 生成声波配置数据
+	 * 生成声波配置数据，重复多次会阻塞执行
 	 * 
 	 * @param data
+	 * @param times
 	 */
-	public static native void genVoice(String data);
+	public static native void genVoice(String data, int times);
 
 	/**
 	 * TCP 连接，参考

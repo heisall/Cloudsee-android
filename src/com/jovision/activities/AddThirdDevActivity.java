@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -28,7 +29,6 @@ import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.PlayWindowManager;
 import com.jovision.utils.AlarmUtil;
-import com.jovision.views.CustomDialog;
 
 public class AddThirdDevActivity extends BaseActivity implements
 		OnClickListener, OnDeviceClassSelectedListener, OnSetNickNameListener {
@@ -45,7 +45,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 	private MyHandler myHandler;
 	private int process_flag = 0; // 0 绑定设备 1绑定昵称
 	private boolean bind_nick_res = false;
-	private CustomDialog learningDialog;
+	// private CustomDialog learningDialog;
 	private int[] add_device_types = {
 			R.drawable.third_guide_door,// 这是占位的
 			R.drawable.third_guide_door, R.drawable.third_guide_bracelet,
@@ -54,6 +54,26 @@ public class AddThirdDevActivity extends BaseActivity implements
 			R.drawable.third_guide_gas, };
 	private String[] PeripheralArray;
 	private int init_dev_alarm_tag = 0;// 默认是失败
+
+	private OnMainListener mainListener;
+
+	// 接口
+	public interface OnMainListener {
+		// public void onMainAction(int action);
+		public void onBindResult(int ret, String paras);
+	}
+
+	// 绑定接口
+	@Override
+	public void onAttachFragment(Fragment fragment) {
+		try {
+			mainListener = (OnMainListener) fragment;
+		} catch (Exception e) {
+			throw new ClassCastException(this.toString()
+					+ " must implement OnMainListener");
+		}
+		super.onAttachFragment(fragment);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,10 +89,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 		strYstNum = extras.getString("dev_num");
 		bConnectedFlag = extras.getBoolean("conn_flag");
 		bNeedSendTextReq = extras.getBoolean("text_req_flag");
-		if (null == learningDialog) {
-			learningDialog = new CustomDialog(this);
-			learningDialog.setCancelable(false);
-		}
+		// if (null == learningDialog) {
+		// learningDialog = new CustomDialog(this);
+		// learningDialog.setCancelable(false);
+		// }
 		if (null == waitingDialog) {
 			waitingDialog = new ProgressDialog(this);
 			waitingDialog.setCancelable(false);
@@ -154,71 +174,12 @@ public class AddThirdDevActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void OnDeviceClassSelected(int index) {
+	public void OnDeviceClassSelected(int index, String paras) {
 		// TODO Auto-generated method stub
 		process_flag = 0;
 		// 1:门磁设备 2:手环设备 3:遥控 4:烟感 5:幕帘 6:红外探测器 7:燃气泄露
 		// index 外设功能编号从1开始
 		switch (index) {
-		case 1:
-			// currentMenu.setText(PeripheralArray[0]);
-			dev_type_mark = 1;// 门禁
-
-			if (!bConnectedFlag) {
-				waitingDialog.show();
-				if (!AlarmUtil.OnlyConnect2(strYstNum)) {
-					showTextToast(R.string.str_alarm_connect_failed_1);
-					waitingDialog.dismiss();
-				}
-			} else {
-
-				if (bNeedSendTextReq) {
-					// 首先需要发送文本聊天请求
-					waitingDialog.show();
-					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
-							(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
-					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
-					// 10000);// 10秒获取不到就取消Dialog
-				} else {
-					learningDialog.Show(add_device_types[index], dev_type_mark);
-					String req_data = "type=" + dev_type_mark + ";";
-					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
-							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-							(byte) Consts.RC_GPIN_ADD, req_data.trim());
-					new Thread(new TimeOutProcess(Consts.RC_GPIN_ADD)).start();
-				}
-			}
-			break;
-		case 2:
-			// currentMenu.setText(PeripheralArray[1]);
-			dev_type_mark = 2;// 手环
-
-			if (!bConnectedFlag) {
-				waitingDialog.show();
-				if (!AlarmUtil.OnlyConnect2(strYstNum)) {
-					showTextToast(R.string.str_alarm_connect_failed_1);
-					waitingDialog.dismiss();
-				}
-			} else {
-
-				// 首先需要发送文本聊天请求
-				if (bNeedSendTextReq) {
-					waitingDialog.show();
-					Jni.sendBytes(Consts.ONLY_CONNECT_INDEX,
-							(byte) JVNetConst.JVN_REQ_TEXT, new byte[0], 8);
-					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
-					// 10000);// 10秒获取不到就取消Dialog
-				} else {
-					learningDialog.Show(add_device_types[index], dev_type_mark);
-					String req_data = "type=" + dev_type_mark + ";";
-					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
-							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
-							(byte) Consts.RC_GPIN_ADD, req_data.trim());
-					new Thread(new TimeOutProcess(Consts.RC_GPIN_ADD)).start();
-				}
-
-			}
-			break;
 		case 3:
 			// currentMenu.setText(PeripheralArray[2]);
 			dev_type_mark = 3;// 遥控
@@ -239,7 +200,9 @@ public class AddThirdDevActivity extends BaseActivity implements
 					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
 					// 10000);// 10秒获取不到就取消Dialog
 				} else {
-					learningDialog.Show(add_device_types[index], dev_type_mark);
+					// learningDialog.Show(add_device_types[index],
+					// dev_type_mark);
+					// waitingDialog.show();
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -268,7 +231,9 @@ public class AddThirdDevActivity extends BaseActivity implements
 					// myHandler.sendEmptyMessageDelayed(JVNetConst.JVN_REQ_TEXT,
 					// 10000);// 10秒获取不到就取消Dialog
 				} else {
-					learningDialog.Show(add_device_types[index], dev_type_mark);
+					// learningDialog.Show(add_device_types[index],
+					// dev_type_mark);
+					// waitingDialog.show();
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -290,6 +255,9 @@ public class AddThirdDevActivity extends BaseActivity implements
 			case Consts.RC_GPIN_ADD:
 				// new Thread(new ToastProcess(0x9999)).start();
 				DismissDialog();
+				// 绑定超时，返回菜单
+				Log.e("webv", "before 绑定设备超时....0");
+
 				showTextToast(R.string.str_alarm_binddev_timeout);
 				break;
 			case Consts.RC_GPIN_SET:// 设置设备昵称
@@ -366,14 +334,16 @@ public class AddThirdDevActivity extends BaseActivity implements
 				break;
 			case JVNetConst.ABNORMAL_DISCONNECT:
 			case JVNetConst.SERVICE_STOP:
-				if (waitingDialog != null && waitingDialog.isShowing())
-					waitingDialog.dismiss();
+				// if (waitingDialog != null && waitingDialog.isShowing())
+				// waitingDialog.dismiss();
+				DismissDialog();
 				bConnectedFlag = false;
 				showTextToast(R.string.str_alarm_connect_except);
 				break;
 			default:
-				if (waitingDialog != null && waitingDialog.isShowing())
-					waitingDialog.dismiss();
+				// if (waitingDialog != null && waitingDialog.isShowing())
+				// waitingDialog.dismiss();
+				DismissDialog();
 				bConnectedFlag = false;
 				break;
 			}
@@ -389,8 +359,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 					if (waitingDialog.isShowing()) {
 						waitingDialog.dismiss();
 					}
-					learningDialog.Show(add_device_types[dev_type_mark],
-							dev_type_mark);
+					// learningDialog.Show(add_device_types[dev_type_mark],
+					// dev_type_mark);
 					String req_data = "type=" + dev_type_mark + ";";
 					Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 							(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
@@ -410,7 +380,10 @@ public class AddThirdDevActivity extends BaseActivity implements
 				showTextToast(R.string.str_alarm_textdata_req_over);
 				break;
 			case JVNetConst.JVN_RSP_TEXTDATA: {
-				DismissDialog();
+				// DismissDialog();
+				if (waitingDialog.isShowing()) {
+					waitingDialog.dismiss();
+				}
 				JSONObject respObject = null;
 				if (obj != null) {
 					try {
@@ -424,15 +397,16 @@ public class AddThirdDevActivity extends BaseActivity implements
 					}
 				} else {
 					// showTextToast("TextData回调obj参数is null");
-					MyLog.e("Third Dev", "TextData回调obj参数is null");
+					Log.e("Alarm", "TextData回调obj参数is null");
 					return;
 				}
 				int flag = respObject.optInt("flag");
 				switch (flag) {
 				case Consts.RC_GPIN_ADD:// 绑定设备
-					if (learningDialog.isShowing()) {
-						learningDialog.dismiss();
-					}
+					// if (learningDialog.isShowing()) {
+					// learningDialog.dismiss();
+					// }
+					mainListener.onBindResult(0, "");
 					myHandler.removeMessages(Consts.RC_GPIN_ADD);
 					if (obj != null) {
 						Log.e("Alarm", "绑定设备结果:" + obj.toString());
@@ -460,6 +434,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 								}
 							}
 							showTextToast(R.string.str_alarm_binddev_success);
+							// mainListener.onMainAction(0);
+							// mainListener.onBindResult(addResult, "");
 							dev_uid = addAlarm.dev_uid; // /////////////////////////
 							BindThirdDevNicknameFragment nicknameFragment = new BindThirdDevNicknameFragment();
 							FragmentTransaction transaction = getSupportFragmentManager()
@@ -480,6 +456,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 							transaction.commit();
 						} else if (addResult == 2) {// 超过最大数
 							showTextToast(R.string.str_alarm_binddev_max);
+							// mainListener.onMainAction(0);
+							// mainListener.onBindResult(addResult, "");
 						} else if (addResult == 3) {// 重复绑定
 							ThirdAlarmDev tmp_alarm = new ThirdAlarmDev();
 							for (int i = 0; i < addStrArray.length; i++) {
@@ -500,6 +478,8 @@ public class AddThirdDevActivity extends BaseActivity implements
 							setResult(30, data);
 							finish();
 						} else {
+							// mainListener.onMainAction(0);
+							// mainListener.onBindResult(addResult, "");
 							showTextToast(R.string.str_alarm_binddev_timeout);
 						}
 					}
@@ -511,6 +491,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 					if (obj != null) {
 						if (waitingDialog != null && waitingDialog.isShowing())
 							waitingDialog.dismiss();
+						Log.e("Alarm", "设置结果:" + respObject.toString());
 						String setStr = respObject.optString("msg");
 						String setStrArray[] = setStr.split(";");
 						ThirdAlarmDev setalarm = new ThirdAlarmDev();
@@ -551,6 +532,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 							setResult(10, data);
 							bind_nick_res = true;
 							// 关闭掉这个Activity
+							Log.e("Alarm", "设置成功，执行finish()");
 							finish();
 						} else {
 							// 失败
@@ -558,7 +540,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 						}
 					} else {
 						// showTextToast("TextData回调obj参数is null");
-						MyLog.e("Alarm", "TextData回调obj参数is null");
+						Log.e("Alarm", "TextData回调obj参数is null");
 					}
 					break;
 				default:
@@ -630,7 +612,7 @@ public class AddThirdDevActivity extends BaseActivity implements
 		String strNickName = "name=" + nickName + ";";
 		String strSwitch = "enable=1;";
 		String reqData = strType + strGuid + strNickName + strSwitch;
-		MyLog.e("Third Dev", "bing nick name req:" + reqData);
+		Log.e("Alarm", "bing nick name req:" + reqData);
 		Jni.sendString(Consts.ONLY_CONNECT_INDEX,
 				(byte) JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 				(byte) Consts.RC_GPIN_SET, reqData.trim());
@@ -638,8 +620,13 @@ public class AddThirdDevActivity extends BaseActivity implements
 	}
 
 	private void DismissDialog() {
-		if (learningDialog != null && learningDialog.isShowing())
-			learningDialog.dismiss();
+		// if (learningDialog != null && learningDialog.isShowing())
+		// learningDialog.dismiss();
+		if (process_flag == 0)// 绑定设备
+		{
+			mainListener.onBindResult(-1, "");
+			// mainListener.onMainAction(0);
+		}
 		if (waitingDialog != null && waitingDialog.isShowing())
 			waitingDialog.dismiss();
 	}
@@ -689,4 +676,5 @@ public class AddThirdDevActivity extends BaseActivity implements
 		new Thread(new TimeOutProcess(Consts.RC_GPIN_SET_SWITCH_TIMEOUT))
 				.start();
 	}
+
 }

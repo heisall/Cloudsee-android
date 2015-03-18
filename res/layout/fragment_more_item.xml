@@ -4,11 +4,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <LinearLayout
+        android:id="@+id/kongbai"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/white"
+        android:visibility="gone" >
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/divider_img_up"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/morefragment"
+        android:visibility="gone" />
+
     <FrameLayout
         android:id="@+id/item"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/more_fragment_color3" >
+        android:background="@color/more_fragment_color8" >
 
         <RelativeLayout
             android:layout_width="match_parent"

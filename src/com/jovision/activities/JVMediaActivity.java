@@ -41,6 +41,7 @@ public class JVMediaActivity extends BaseActivity {
 		mediaList.clear();
 		mediaList.add(getResources().getString(R.string.media_image));
 		mediaList.add(getResources().getString(R.string.media_video));
+		mediaList.add(getResources().getString(R.string.media_downvideo));
 	}
 
 	@Override
@@ -96,6 +97,10 @@ public class JVMediaActivity extends BaseActivity {
 			}
 			case 1: {
 				mediaListIntent.putExtra("Media", "video");
+				break;
+			}
+			case 2: {
+				mediaListIntent.putExtra("Media", "downVideo");
 				break;
 			}
 			}

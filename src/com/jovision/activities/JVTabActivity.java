@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.test.JVACCOUNT;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -48,7 +47,7 @@ import com.jovision.utils.JSONUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVTabActivity extends ShakeActivity implements
-OnPageChangeListener, OnFuncActionListener {
+		OnPageChangeListener, OnFuncActionListener {
 	private static final String TAG = "JVTabActivity";
 	int flag = 0;
 	private int currentIndex = 0;// 当前页卡index
@@ -107,7 +106,6 @@ OnPageChangeListener, OnFuncActionListener {
 			}
 		}
 
-
 		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(
 				this));
 		// // 如果savedInstanceState!=null，说明在应用在后台被干掉，或者应用崩掉需要重新create
@@ -122,8 +120,8 @@ OnPageChangeListener, OnFuncActionListener {
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-				| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+						| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+						| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// 开启logcat输出，方便debug，发布时请关闭
 		if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才有离线推送
@@ -246,7 +244,8 @@ OnPageChangeListener, OnFuncActionListener {
 		if (null != (statusHashMap.get(Consts.MORE_BBSNUM))
 				&& !"".equals((statusHashMap.get(Consts.MORE_BBSNUM)))
 				&& Consts.LANGUAGE_ZH == ConfigUtil
-				.getLanguage2(JVTabActivity.this)&&!"hasget".equals(statusHashMap.get("GETNUM"))) {
+						.getLanguage2(JVTabActivity.this)
+				&& !"hasget".equals(statusHashMap.get("GETNUM"))) {
 			GetnoMessageTask task = new GetnoMessageTask();
 			String[] param = new String[3];
 			param[0] = statusHashMap.get(Consts.MORE_BBSNUM);
@@ -259,7 +258,7 @@ OnPageChangeListener, OnFuncActionListener {
 		if ("hasget".equals(statusHashMap.get("GETNUM"))) {
 			countbbs = 0;
 		}
-		if (null != mIndicator && null != showGcsStr)   {
+		if (null != mIndicator && null != showGcsStr) {
 			if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
 				int cnt = mApp.getNewPushCnt();
 				countshow = cnt;
@@ -271,8 +270,11 @@ OnPageChangeListener, OnFuncActionListener {
 					countshow = countshow + 1;
 				}
 				if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
-					if (null != statusHashMap.get(Consts.MORE_GCS_SWITCH) && !"".equalsIgnoreCase(statusHashMap.get(Consts.MORE_GCS_SWITCH))) {
-						if (1 == Integer.parseInt(statusHashMap.get(Consts.MORE_GCS_SWITCH))) {
+					if (null != statusHashMap.get(Consts.MORE_GCS_SWITCH)
+							&& !"".equalsIgnoreCase(statusHashMap
+									.get(Consts.MORE_GCS_SWITCH))) {
+						if (1 == Integer.parseInt(statusHashMap
+								.get(Consts.MORE_GCS_SWITCH))) {
 							countshow = countshow + 1;
 						}
 					}
@@ -303,8 +305,8 @@ OnPageChangeListener, OnFuncActionListener {
 			android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 			if (null != manager) {
 				getSupportFragmentManager().beginTransaction()
-				.replace(R.id.tab_fragment, mFragments[currentIndex])
-				.commit();
+						.replace(R.id.tab_fragment, mFragments[currentIndex])
+						.commit();
 			} else {
 				MyLog.e(TAG, "TAB_onresume_manager null" + currentIndex);
 				this.finish();
@@ -377,29 +379,36 @@ OnPageChangeListener, OnFuncActionListener {
 			if ("hasget".equals(statusHashMap.get("GETNUM"))) {
 				countbbs = 0;
 			}
-			if (null != mIndicator&&!"hasget".equals(statusHashMap.get("GETNUM"))) {
+			if (null != mIndicator
+					&& !"hasget".equals(statusHashMap.get("GETNUM"))) {
 				if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {
 					int cnt = mApp.getNewPushCnt();
 					countshow = cnt;
-					Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():" + cnt);
+					Log.e("TPush", "JVTab onResume cnt mApp.getNewPushCnt():"
+							+ cnt);
 				}
 				int lan = ConfigUtil.getLanguage2(JVTabActivity.this);
 				if (lan == Consts.LANGUAGE_ZH) {
-					if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 						countshow = countshow + 1;
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_GCSURL))) {
-						if (null != statusHashMap.get(Consts.MORE_GCS_SWITCH) && !"".equalsIgnoreCase(statusHashMap.get(Consts.MORE_GCS_SWITCH))) {
-							if (1 == Integer.parseInt(statusHashMap.get(Consts.MORE_GCS_SWITCH))) {
+						if (null != statusHashMap.get(Consts.MORE_GCS_SWITCH)
+								&& !"".equalsIgnoreCase(statusHashMap
+										.get(Consts.MORE_GCS_SWITCH))) {
+							if (1 == Integer.parseInt(statusHashMap
+									.get(Consts.MORE_GCS_SWITCH))) {
 								countshow = countshow + 1;
-							} 
+							}
 						}
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
 						countshow = countshow + 1;
 					}
 				} else {
-					if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+					if (!MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 						countshow = countshow + 1;
 					}
 					if ((!MySharedPreference.getBoolean(Consts.MORE_STATURL))) {
@@ -407,9 +416,11 @@ OnPageChangeListener, OnFuncActionListener {
 					}
 				}
 				if (countshow + countbbs > 0) {
-					mIndicator.updateIndicator(3, 0, true, countshow + countbbs);
+					mIndicator
+							.updateIndicator(3, 0, true, countshow + countbbs);
 				} else {
-					mIndicator.updateIndicator(3, 0, false, countshow + countbbs);
+					mIndicator.updateIndicator(3, 0, false, countshow
+							+ countbbs);
 				}
 			}
 
@@ -468,7 +479,7 @@ OnPageChangeListener, OnFuncActionListener {
 						obj);
 			}
 		}
-		break;
+			break;
 		case Consts.NEW_PUSH_MSG_TAG_PRIVATE:
 			countshow = 0;
 			if (null != mIndicator) {
@@ -518,9 +529,10 @@ OnPageChangeListener, OnFuncActionListener {
 				}
 				if (countshow + countbbs > 0) {
 					mIndicator
-					.updateIndicator(3, 0, true, countshow + countbbs);
+							.updateIndicator(3, 0, true, countshow + countbbs);
 				} else {
-					mIndicator.updateIndicator(3, 0, false, countshow+ countbbs);
+					mIndicator.updateIndicator(3, 0, false, countshow
+							+ countbbs);
 				}
 			}
 			break;
@@ -582,10 +594,10 @@ OnPageChangeListener, OnFuncActionListener {
 					if (!MySharedPreference.getBoolean("TP_AUTO_TIPS", false)) {
 						if (strRom.equals("V6")) {
 							new TPushTips(this)
-							.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
+									.showNoticeDialog(R.string.str_tpush_autostart_tips_v6);
 						} else {
 							new TPushTips(this)
-							.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
+									.showNoticeDialog(R.string.str_tpush_autostart_tips_v5);
 						}
 					}
 
@@ -614,13 +626,13 @@ OnPageChangeListener, OnFuncActionListener {
 				try {
 					currentIndex = which;
 					getSupportFragmentManager().beginTransaction()
-					.replace(R.id.tab_fragment, mFragments[which])
-					.commit();
+							.replace(R.id.tab_fragment, mFragments[which])
+							.commit();
 					switch (which) {
 					case 0:
 						if (!page2
 								&& !MySharedPreference
-								.getBoolean(Consts.MORE_PAGETWO)) {
+										.getBoolean(Consts.MORE_PAGETWO)) {
 							ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 							ll_dot.setVisibility(View.GONE);
 							viewpager.setCurrentItem(0);
@@ -633,7 +645,7 @@ OnPageChangeListener, OnFuncActionListener {
 						} else {
 							if (MySharedPreference.getBoolean(Consts.MORE_HELP)
 									&& !MySharedPreference
-									.getBoolean(Consts.MORE_PAGETWO)) {
+											.getBoolean(Consts.MORE_PAGETWO)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.GONE);
 								viewpager.setCurrentItem(0);
@@ -659,7 +671,7 @@ OnPageChangeListener, OnFuncActionListener {
 						if (0 != myDeviceList.size()) {
 							if (!page1
 									&& !MySharedPreference
-									.getBoolean(Consts.MORE_PAGEONE)) {
+											.getBoolean(Consts.MORE_PAGEONE)) {
 								ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 								ll_dot.setVisibility(View.VISIBLE);
 								viewpager.setCurrentItem(0);
@@ -673,7 +685,7 @@ OnPageChangeListener, OnFuncActionListener {
 								if (MySharedPreference
 										.getBoolean(Consts.MORE_HELP)
 										&& !MySharedPreference
-										.getBoolean(Consts.MORE_PAGEONE)) {
+												.getBoolean(Consts.MORE_PAGEONE)) {
 									ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 									ll_dot.setVisibility(View.VISIBLE);
 									viewpager.setCurrentItem(0);
@@ -690,7 +702,7 @@ OnPageChangeListener, OnFuncActionListener {
 						break;
 					case 3:
 						if (Consts.LANGUAGE_ZH == ConfigUtil
-						.getLanguage2(JVTabActivity.this)) {
+								.getLanguage2(JVTabActivity.this)) {
 							if (null == (statusHashMap.get(Consts.MORE_BBSNUM))
 									|| "".equals((statusHashMap
 											.get(Consts.MORE_BBSNUM)))) {
@@ -704,8 +716,10 @@ OnPageChangeListener, OnFuncActionListener {
 							if (null != (statusHashMap.get(Consts.MORE_BBSNUM))
 									&& !"".equals((statusHashMap
 											.get(Consts.MORE_BBSNUM)))
-											&& Consts.LANGUAGE_ZH == ConfigUtil
-											.getLanguage2(JVTabActivity.this)&&!"hasget".equals(statusHashMap.get("GETNUM"))) {
+									&& Consts.LANGUAGE_ZH == ConfigUtil
+											.getLanguage2(JVTabActivity.this)
+									&& !"hasget".equals(statusHashMap
+											.get("GETNUM"))) {
 								GetnoMessageTask task = new GetnoMessageTask();
 								String[] param = new String[3];
 								param[0] = statusHashMap
@@ -730,7 +744,7 @@ OnPageChangeListener, OnFuncActionListener {
 		android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 		if (null != manager) {
 			manager.beginTransaction()
-			.replace(R.id.tab_fragment, mFragments[0]).commit();
+					.replace(R.id.tab_fragment, mFragments[0]).commit();
 		} else {
 			MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
 			this.finish();
@@ -745,7 +759,7 @@ OnPageChangeListener, OnFuncActionListener {
 
 	@Override
 	protected void freeMe() {
-		
+
 	}
 
 	@Override
@@ -755,7 +769,7 @@ OnPageChangeListener, OnFuncActionListener {
 
 			MyLog.v("notifyer",
 					((MainApplication) this.getApplication()).currentNotifyer
-					+ "");
+							+ "");
 			String notifer = ((MainApplication) this.getApplication()).currentNotifyer
 					+ "";
 			if (notifer.startsWith("JVMyDeviceFragment")) {
@@ -769,7 +783,7 @@ OnPageChangeListener, OnFuncActionListener {
 			} else if (notifer.startsWith("JVVideoFragment")) {
 				if (JVVideoFragment.webView.canGoBack()) {
 					((MainApplication) this.getApplication()).currentNotifyer
-					.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
+							.onNotify(Consts.TAB_WEBVIEW_BACK, 0, 0, null);
 				} else {
 					exit();
 				}
@@ -908,7 +922,7 @@ OnPageChangeListener, OnFuncActionListener {
 				}
 				if (countshow > 0) {
 					mIndicator
-					.updateIndicator(3, 0, true, countshow + countbbs);
+							.updateIndicator(3, 0, true, countshow + countbbs);
 				} else {
 					mIndicator.updateIndicator(3, 0, false, countshow
 							+ countbbs);
@@ -933,7 +947,8 @@ OnPageChangeListener, OnFuncActionListener {
 		protected Integer doInBackground(String... params) {
 			countbbs = 0;
 			String gcsString = "";
-			//			String gcsurlString = "http://bbs.cloudsee.net/v.php?mod=api&act=user_pm"+"&sid ="+JVACCOUNT.GetSession()
+			// String gcsurlString =
+			// "http://bbs.cloudsee.net/v.php?mod=api&act=user_pm"+"&sid ="+JVACCOUNT.GetSession()
 			String result = JSONUtil.httpGet(params[0]);
 			MyLog.e("BBS_notread", "request=" + params[0] + ";result=" + result);
 			// request=http://bbs.cloudsee.net/v.php?mod=auth&act=sid_login&next=/&sid=c01ed43499478b62f4cb233112a41fe8
@@ -945,7 +960,7 @@ OnPageChangeListener, OnFuncActionListener {
 
 				countbbs = dataArray.getJSONObject(0).optInt("count");
 				gcsString = dataArray.getJSONObject(0).optString("url");
-				statusHashMap.put(Consts.MORE_BBSNUMURL,gcsString);
+				statusHashMap.put(Consts.MORE_BBSNUMURL, gcsString);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

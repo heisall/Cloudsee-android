@@ -103,8 +103,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		// intent.setClass(this, MainService.class);
 		// startService(intent);
 		MyLog.init(Consts.LOG_PATH);
-		MyLog.enableFile(true);
-		MyLog.enableLogcat(true);
+		MyLog.enableFile(false);
+		MyLog.enableLogcat(false);
 
 		// 注册网络切换广播
 		registerDateTransReceiver();

@@ -695,7 +695,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 
 							break;
 
-						case 9: {// 2015.3.16 我要装监控改为工程商入驻
+						case 9: // 2015.3.16 我要装监控改为工程商入驻
 							if (!showGCS) {
 								break;
 							}
@@ -705,13 +705,81 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 										Consts.MORE_GCSURL, true);
 								mListener.OnFuncEnabled(0, 1);
 							}
-							GetDemoTask UrlTask2 = new GetDemoTask(mActivity);
-							String[] demoParams2 = new String[3];
-							demoParams2[1] = "2";
-							UrlTask2.execute(demoParams2);
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								if (null != ((BaseActivity) mActivity).statusHashMap
+										.get(Consts.MORE_GCSURL)) {
+									Intent intentAD0 = new Intent(mActivity,
+											JVWebViewActivity.class);
+									intentAD0
+											.putExtra(
+													"URL",
+													((BaseActivity) mActivity).statusHashMap
+															.get(Consts.MORE_GCSURL));
+									intentAD0.putExtra("title", -2);
+									mActivity.startActivity(intentAD0);
+								} else {
+									if ("false".equals(mActivity.statusHashMap
+											.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+										MyLog.e("Login", "初始化账号SDK失败");
+										ConfigUtil
+												.initAccountSDK(((MainApplication) mActivity
+														.getApplication()));// 初始化账号SDK
+									}
+									GetDemoTask UrlTask = new GetDemoTask(
+											mActivity);
+									String[] demoParams = new String[3];
+									demoParams[1] = "0";
+									UrlTask.execute(demoParams);
+								}
+							}
 							break;
-						}
-						case 12:{
+						case 10: // 设备分享
+							// GetDemoTask UrlTask1 = new
+							// GetDemoTask(mActivity);
+							// String[] demoParams1 = new String[3];
+							// demoParams1[0] = "1";
+							// UrlTask1.execute(demoParams1);
+							break;
+						case 11: // 云视通指数
+							if (!MySharedPreference
+									.getBoolean(Consts.MORE_STATURL)) {
+								MySharedPreference.putBoolean(
+										Consts.MORE_STATURL, true);
+								mListener.OnFuncEnabled(0, 1);
+							}
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								if (null != ((BaseActivity) mActivity).statusHashMap
+										.get(Consts.MORE_STATURL)) {
+									Intent intentAD0 = new Intent(mActivity,
+											JVWebViewActivity.class);
+									intentAD0
+											.putExtra(
+													"URL",
+													((BaseActivity) mActivity).statusHashMap
+															.get(Consts.MORE_STATURL));
+									intentAD0.putExtra("title", -2);
+									mActivity.startActivity(intentAD0);
+								} else {
+									if ("false".equals(mActivity.statusHashMap
+											.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+										MyLog.e("Login", "初始化账号SDK失败");
+										ConfigUtil
+												.initAccountSDK(((MainApplication) mActivity
+														.getApplication()));// 初始化账号SDK
+									}
+									GetDemoTask UrlTask2 = new GetDemoTask(
+											mActivity);
+									String[] demoParams2 = new String[3];
+									demoParams2[1] = "2";
+									UrlTask2.execute(demoParams2);
+								}
+							}
+							break;
+						case 12:
 							// if
 							// (!MySharedPreference.getBoolean(Consts.MORE_BBS))
 							// {
@@ -727,8 +795,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 										.get(Consts.MORE_BBSNUMURL)
 										&& !"".equals(((BaseActivity) mActivity).statusHashMap
 												.get(Consts.MORE_BBSNUMURL))) {
-									mActivity.statusHashMap.put(
-											Consts.MORE_BBSNUMURL, "");
 									Intent intentAD0 = new Intent(mActivity,
 											JVWebViewActivity.class);
 									intentAD0
@@ -738,6 +804,8 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 															.get(Consts.MORE_BBSNUMURL));
 									intentAD0.putExtra("title", -2);
 									mActivity.startActivity(intentAD0);
+									((BaseActivity) mActivity).statusHashMap
+											.put(Consts.MORE_BBSNUMURL, "");
 								} else {
 									if (null != ((BaseActivity) mActivity).statusHashMap
 											.get(Consts.MORE_BBS)) {
@@ -762,59 +830,26 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 										} else {
 											sid = "";
 										}
-									}
-								}
-							}
 
-							break;
-						}
-						case 10: // 设备分享
-							// GetDemoTask UrlTask1 = new
-							// GetDemoTask(mActivity);
-							// String[] demoParams1 = new String[3];
-							// demoParams1[0] = "1";
-							// UrlTask1.execute(demoParams1);
-							break;
-						case 11: {// 云视通指数
-							if (!MySharedPreference
-									.getBoolean(Consts.MORE_STATURL)) {
-								MySharedPreference.putBoolean(
-										Consts.MORE_STATURL, true);
-								mListener.OnFuncEnabled(0, 1);
-							}
-							if (!ConfigUtil.isConnected(mActivity)) {
-								mActivity.alertNetDialog();
-							} else {
-								if (null != ((BaseActivity) mActivity).statusHashMap
-										.get(Consts.MORE_STATURL)) {
-									Intent intentAD0 = new Intent(mActivity,
-											JVWebViewActivity.class);
-									intentAD0
-											.putExtra(
-													"URL",
-													((BaseActivity) mActivity).statusHashMap
-															.get(Consts.MORE_STATURL));
-									intentAD0.putExtra("title", -2);
-									intentAD0
-											.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-									mActivity.startActivity(intentAD0);
-								} else {
-									if ("false".equals(mActivity.statusHashMap
-											.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-										MyLog.e("Login", "初始化账号SDK失败");
-										ConfigUtil
-												.initAccountSDK(((MainApplication) mActivity
-														.getApplication()));// 初始化账号SDK
+										if ("false".equals(mActivity.statusHashMap
+												.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+											MyLog.e("Login", "初始化账号SDK失败");
+											ConfigUtil
+													.initAccountSDK(((MainApplication) mActivity
+															.getApplication()));// 初始化账号SDK
+										}
+										adapter.setBBSNums(0);
+										adapter.notifyDataSetChanged();
+										GetDemoTask UrlTask2 = new GetDemoTask(
+												mActivity);
+										String[] demoParams2 = new String[3];
+										demoParams2[0] = sid;
+										demoParams2[1] = "3";
+										UrlTask2.execute(demoParams2);
 									}
-									GetDemoTask UrlTask2 = new GetDemoTask(
-											mActivity);
-									String[] demoParams2 = new String[3];
-									demoParams2[1] = "2";
-									UrlTask2.execute(demoParams2);
 								}
 							}
 							break;
-						}
 						case 13: // 系统消息
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {

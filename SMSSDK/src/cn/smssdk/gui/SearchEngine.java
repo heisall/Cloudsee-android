@@ -12,13 +12,14 @@ import java.util.zip.GZIPInputStream;
 
 import m.framework.utils.Hashon;
 import android.content.Context;
+import android.widget.VideoView;
 
 public class SearchEngine {
 	private static final String DB_FILE = "smssdk_pydb";
 	private static HashMap<String, Object> hanzi2Pinyin;
 	private boolean caseSensitive;
 	private ArrayList<SearchIndex> index;
-
+	
 	public static void prepare(final Context context, final Runnable afterPrepare) {
 		Runnable act = new Runnable() {
 			public void run() {

@@ -465,6 +465,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		saveSetting.setOnClickListener(myOnClickListener);
 
 		if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {// 调试版本
+			minCache.setText(url);
 			linkSetting.setVisibility(View.VISIBLE);
 		} else {
 			linkSetting.setVisibility(View.GONE);

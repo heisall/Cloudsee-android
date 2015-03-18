@@ -169,7 +169,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		}
 		case Consts.WHAT_SEND_WAVE: {// 发送声波命令
 			waveScaleAnim.start();
-			Jni.genVoice(params);
+			Jni.genVoice(params, 1);
 			break;
 		}
 
@@ -539,7 +539,7 @@ public class JVWaveSetActivity extends BaseActivity {
 					waveScaleAnim.start();
 					params = desWifiName.getText() + ";" + desWifiPwd.getText();
 					MyLog.v(TAG, "params:" + params);
-					Jni.genVoice(params);
+					Jni.genVoice(params, 1);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

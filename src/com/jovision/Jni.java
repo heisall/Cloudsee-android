@@ -852,11 +852,12 @@ public class Jni {
 	public static native void setThumb(int width, int quality);
 
 	/**
-	 * 生成声波配置数据
+	 * 生成声波配置数据，重复多次会阻塞执行
 	 * 
 	 * @param data
+	 * @param times
 	 */
-	public static native void genVoice(String data);
+	public static native void genVoice(String data, int times);
 
 	/**
 	 * TCP 连接，参考

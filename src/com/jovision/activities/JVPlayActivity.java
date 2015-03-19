@@ -2944,6 +2944,7 @@ public class JVPlayActivity extends PlayActivity implements
 					}
 
 				}
+
 				break;
 			case R.id.bottom_but5:
 				voiceCall(channel);

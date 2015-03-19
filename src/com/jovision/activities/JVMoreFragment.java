@@ -74,7 +74,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 	// 头像
 	private ImageView more_head;
 	// 注销按钮
-	private RelativeLayout more_cancle;
+	private RelativeLayout more_cancle; 
 	// 用户名称
 	private TextView more_username;
 	// 用户名

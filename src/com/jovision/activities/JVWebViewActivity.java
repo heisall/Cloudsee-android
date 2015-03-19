@@ -1,17 +1,25 @@
 package com.jovision.activities;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Stack;
 
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
@@ -29,6 +37,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
+import com.jovision.utils.MobileUtil;
 
 public class JVWebViewActivity extends BaseActivity {
 
@@ -87,6 +96,8 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		url = getIntent().getStringExtra("URL");
+		// url =
+		// "http://bbst.cloudsee.net/forum.php?mod=forumdisplay&fid=36&mobile=2";
 		// url = "http://test.cloudsee.net/phone.action";
 		// url = "http://app.ys7.com/";
 		titleID = getIntent().getIntExtra("title", 0);
@@ -162,6 +173,28 @@ public class JVWebViewActivity extends BaseActivity {
 			@Override
 			public void onProgressChanged(WebView view, int newProgress) {
 				super.onProgressChanged(view, newProgress);
+			}
+
+			// For Android 3.0-
+			@SuppressWarnings("unused")
+			public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+				mUploadMessage = uploadMsg;
+				openFileChooser(uploadMsg, "");
+			}
+
+			// For Android 3.0+
+			public void openFileChooser(ValueCallback<Uri> uploadMsg,
+					String acceptType) {
+				mUploadMessage = uploadMsg;
+				selectImage();
+			}
+
+			// For Android 4.1
+			@SuppressWarnings("unused")
+			public void openFileChooser(ValueCallback<Uri> uploadMsg,
+					String acceptType, String capture) {
+				mUploadMessage = uploadMsg;
+				openFileChooser(uploadMsg, "");
 			}
 
 		};
@@ -269,6 +302,7 @@ public class JVWebViewActivity extends BaseActivity {
 					webView.setVisibility(View.GONE);
 					loadinglayout.setVisibility(View.GONE);
 				} else {
+					webView.loadUrl("javascript:function uploadPicFromMobile(str){fileupload.addFileList(str);}");
 					webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
 					loadinglayout.setVisibility(View.GONE);
 					webView.setVisibility(View.VISIBLE);
@@ -410,6 +444,87 @@ public class JVWebViewActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 		webView.onResume();
+	}
+
+	protected ValueCallback<Uri> mUploadMessage;
+	protected int FILECHOOSER_RESULTCODE = 1;
+	private Uri imageUri;
+
+	protected final void selectImage() {
+		AlertDialog.Builder builder = new Builder(JVWebViewActivity.this);
+		// builder.setTitle("插入照片");
+		builder.setItems(new String[] { "拍照上传", "选择图片" },
+				new DialogInterface.OnClickListener() {
+					@SuppressLint("SdCardPath")
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						Intent intent = null;
+						switch (which) {
+						case 0:
+							intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+							// 必须确保文件夹路径存在，否则拍照后无法完成回调
+							File vFile = new File(Consts.BBSIMG_PATH
+									+ (System.currentTimeMillis() + ".jpg"));
+							if (!vFile.exists()) {
+								File folderFile = new File(Consts.BBSIMG_PATH);
+								MobileUtil.createDirectory(folderFile);
+							} else {
+								if (vFile.exists()) {
+									vFile.delete();
+								}
+							}
+							imageUri = Uri.fromFile(vFile);
+							intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+							JVWebViewActivity.this.startActivityForResult(
+									intent, REQ_CAMERA);
+							break;
+						case 1:
+							intent = new Intent(Intent.ACTION_PICK, null);
+							intent.setDataAndType(
+									MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+									"image/*");
+							JVWebViewActivity.this.startActivityForResult(
+									Intent.createChooser(intent, "选择图片"),
+									REQ_CHOOSER);
+							break;
+						}
+					}
+				});
+		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				webView.setFocusable(true);
+			}
+		});
+		builder.create().show();
+	}
+
+	public static final int REQ_CAMERA = 0;
+	public static final int REQ_CHOOSER = 1;
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode,
+			Intent intent) {
+		switch (requestCode) {
+		case REQ_CHOOSER:
+			if (null == mUploadMessage)
+				return;
+			Uri result = intent == null || resultCode != RESULT_OK ? null
+					: intent.getData();
+			mUploadMessage.onReceiveValue(result);
+			mUploadMessage = null;
+			break;
+		case REQ_CAMERA:
+			if (resultCode == Activity.RESULT_OK) {
+				mUploadMessage.onReceiveValue(imageUri);
+				mUploadMessage = null;
+			}
+			break;
+		default:
+			webView.requestFocus();
+			// mWebView.setFocusable(true);
+			break;
+		}
 	}
 
 }

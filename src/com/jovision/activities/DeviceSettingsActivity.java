@@ -50,6 +50,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private int mdEnabled = -1;
 	private int alarmEnabling = -1;
 	private int mdEnabling = -1;
+	private int alarmSoundEnabling = -1;
 	private int window = 0;
 	private OnMainListener mainListener;
 	private JSONObject initDevParamObject;
@@ -94,7 +95,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				.getSerializable("streamMap");
 		deviceList = CacheUtil.getDevList();
 		boolean update_flag = extras.getBoolean("updateflag");
-		funcParamArray = new String[3];// 目前就3个功能，安全防护、移动侦测、防护时间段，当然这个只要比功能大就行
+		funcParamArray = new String[4];// 目前就3个功能，安全防护、移动侦测、防护时间段，当然这个只要比功能大就行
 		if (0 != deviceList.size()) {
 			device = deviceList.get(deviceIndex);
 		}
@@ -247,6 +248,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
 						break;
 					}
 
+					// CALL_TEXT_DATA: 165, 0, 81,
+					// {"extend_arg1":0,"extend_arg2":0,"extend_arg3":0,
+					// "extend_type":2,"flag":0,"packet_count":7,
+					// "packet_id":0,"packet_length":0,"packet_type":6}
 					int packet_type = dataObj.getInt("packet_type");
 					switch (packet_type) {
 					// case JVNetConst.RC_GETPARAM:
@@ -259,6 +264,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 						int ex_type = dataObj.optInt("extend_type");
 						if (packet_subtype == JVNetConst.RC_EX_MD
 								&& ex_type == JVNetConst.EX_MD_SUBMIT) {
+
 							// 移动侦测 ok
 							Log.e("Alarm", "EX_MD_SUBMIT---:" + mdEnabled
 									+ "--" + mdEnabling);
@@ -357,6 +363,16 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					0x02, String.format(Consts.FORMATTER_SET_MDENABLE, enabled));
 			new Thread(new TimeOutProcess(Consts.DEV_SETTINGS_ALARM)).start();
 			break;
+		case Consts.DEV_ALARAM_SOUND: {// 设备报警声音
+			alarmSoundEnabling = enabled;
+			MyLog.e("enable alarmSound", "success");
+			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
+					0x02, String.format(Consts.FORMATTER_SET_ALARM_SOUND,
+							alarmSoundEnabling));
+
+			// new Thread(new TimeOutProcess(Consts.DEV_ALARAM_SOUND)).start();
+			break;
+		}
 		default:
 			break;
 		}
@@ -866,6 +882,9 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			alarmTime0 = map.get("alarmTime0");// alarmTime0
 			funcParamArray[Consts.DEV_SETTINGS_ALARMTIME - 1] = alarmTime0;
 
+			String md_bAlarmSound = map.get("bAlarmSound");
+			funcParamArray[Consts.DEV_SETTINGS_MD - 1] = md_bAlarmSound;
+
 			Log.e("Alarm", "ResolveStreamInfo >> " + alarm_enable + "--"
 					+ md_enable + "--" + alarmTime0);
 			// 兼容没有返回值的设备
@@ -898,8 +917,11 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			alarmEnabled = device.getAlarmSwitch();
 		}
 
+		String alarm_Sound = map.get("bAlarmSound");
+
 		initDevParamObject = new JSONObject();
 		try {
+			initDevParamObject.put("bAlarmSound", alarm_Sound);
 			initDevParamObject.put("bAlarmEnable", alarmEnabled);
 			initDevParamObject.put("bMDEnable", mdEnabled);
 			initDevParamObject.put("alarmTime0", alarmTime0);

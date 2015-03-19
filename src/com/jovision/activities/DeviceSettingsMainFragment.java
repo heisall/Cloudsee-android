@@ -114,7 +114,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		func_swmotion = (ImageView) rootView
 				.findViewById(R.id.function_switch_21);
 		funcAlaramSound = (ImageView) rootView
-				.findViewById(R.id.function_alarm_sound);
+				.findViewById(R.id.function_switch_31);
 		functionlayout1 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout1);
 		functionlayout2 = (RelativeLayout) rootView
@@ -148,6 +148,14 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			JSONObject paramObject = new JSONObject(strParam);
 
 			func_alarm_sound = paramObject.optInt("bAlarmSound", -1);
+			if (0 == func_alarm_sound) {
+				funcAlaramSound
+						.setBackgroundResource(R.drawable.morefragment_normal_icon);
+			} else if (1 == func_alarm_sound) {
+				funcAlaramSound
+						.setBackgroundResource(R.drawable.morefragment_selector_icon);
+			}
+
 			MyLog.v("func_alarm_sound", strParam + "");
 			alarm_way_flag = paramObject.optInt("alarmWay", -1);
 			if (alarm_way_flag == 0) {
@@ -321,7 +329,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				// 隐藏
 			}
 			break;
-		case R.id.function_alarm_sound: {// 报警声音
+		case R.id.function_switch_31: {// 报警声音
 			if (func_alarm_sound == 1) {
 				// 打开--->关闭
 				mListener.OnFuncEnabled(Consts.DEV_ALARAM_SOUND, 0);

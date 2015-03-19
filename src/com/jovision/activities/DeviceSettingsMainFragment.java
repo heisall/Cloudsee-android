@@ -51,8 +51,10 @@ public class DeviceSettingsMainFragment extends Fragment implements
 	private OnFuncActionListener mListener;
 	private ImageView func_swalert;
 	private ImageView func_swmotion;
+	private ImageView funcAlaramSound;
 	private int func_alert_enabled = -1;
 	private int func_motion_enabled = -1;
+	private int func_alarm_sound = -1;// 1：开启 0：关闭
 	private int alarm_way_flag = -1;// ///////////判断的优先级最高
 	private String strParam = "";
 	private String alarmTime0 = "";
@@ -111,6 +113,8 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				.findViewById(R.id.function_switch_11);
 		func_swmotion = (ImageView) rootView
 				.findViewById(R.id.function_switch_21);
+		funcAlaramSound = (ImageView) rootView
+				.findViewById(R.id.function_alarm_sound);
 		functionlayout1 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout1);
 		functionlayout2 = (RelativeLayout) rootView
@@ -131,6 +135,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 
 		func_swalert.setOnClickListener(this);
 		func_swmotion.setOnClickListener(this);
+		funcAlaramSound.setOnClickListener(this);
 		functionlayout3.setOnClickListener(this);
 		functionlayout4.setOnClickListener(this);
 		functionlayout5.setOnClickListener(this);
@@ -141,6 +146,9 @@ public class DeviceSettingsMainFragment extends Fragment implements
 
 		try {
 			JSONObject paramObject = new JSONObject(strParam);
+
+			func_alarm_sound = paramObject.optInt("bAlarmSound", -1);
+			MyLog.v("func_alarm_sound", strParam + "");
 			alarm_way_flag = paramObject.optInt("alarmWay", -1);
 			if (alarm_way_flag == 0) {
 				// 走设备服务器
@@ -313,6 +321,18 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				// 隐藏
 			}
 			break;
+		case R.id.function_alarm_sound: {// 报警声音
+			if (func_alarm_sound == 1) {
+				// 打开--->关闭
+				mListener.OnFuncEnabled(Consts.DEV_ALARAM_SOUND, 0);
+			} else if (func_alarm_sound == 0) {
+				// 关闭--->打开
+				mListener.OnFuncEnabled(Consts.DEV_ALARAM_SOUND, 1);
+			} else {
+				// 隐藏
+			}
+			break;
+		}
 		case R.id.device_passwrodet_cancle:
 			device_passwordet.setText("");
 			break;

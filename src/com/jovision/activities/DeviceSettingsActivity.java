@@ -357,6 +357,15 @@ public class DeviceSettingsActivity extends BaseActivity implements
 					0x02, String.format(Consts.FORMATTER_SET_MDENABLE, enabled));
 			new Thread(new TimeOutProcess(Consts.DEV_SETTINGS_ALARM)).start();
 			break;
+		case Consts.DEV_ALARAM_SOUND: {// 设备报警声音
+			mdEnabling = enabled;
+			MyLog.e("enable alarmSound", "success");
+			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
+					0x02,
+					String.format(Consts.FORMATTER_SET_ALARM_SOUND, enabled));
+			new Thread(new TimeOutProcess(Consts.DEV_ALARAM_SOUND)).start();
+			break;
+		}
 		default:
 			break;
 		}

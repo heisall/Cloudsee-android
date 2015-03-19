@@ -56,7 +56,8 @@ public class Consts {
 			+ APP_NAME + File.separator + "welcome" + File.separator;
 	public static final String SCENE_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "scene" + File.separator;
-
+	public static final String BBSIMG_PATH = Consts.SD_CARD_PATH + APP_NAME
+			+ File.separator + "bbsimage" + File.separator;
 	public static final String DB_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "db" + File.separator;
 
@@ -126,6 +127,7 @@ public class Consts {
 	public static final String FORMATTER_SET_MDENABLE = "bMDEnable=%d;";
 	public static final String FORMATTER_SET_ALARM_TIME = "alarmTime0=%s;";
 	public static final String FORMATTER_SET_ALARM_ONLY = "bAlarmEnable=%d;";
+	public static final String FORMATTER_SET_ALARM_SOUND = "bAlarmSound=%d;";
 	public static final String FORMATTER_CLOUD_DEV = "CLOUD_%s_%d";
 	public static int pushHisCount = 0;
 	public static final int PUSH_PAGESIZE = 5;
@@ -766,6 +768,7 @@ public class Consts {
 	public static final int DEV_SETTINGS_MD = 0x02; // 移动侦测开关
 	public static final int DEV_SETTINGS_ALARMTIME = 0x03; // 防护时间段
 	public static final int DEV_RESET_DEVICE = 0x04; // 防护时间段
+	public static final int DEV_ALARAM_SOUND = 0x05; // 设备报警声音
 	/** 手动注销标志key */
 	public static String MANUAL_LOGOUT_TAG = "MANUAL_LOGOUT_TAG";
 	/** 实时弹出报警查看后标志guid **/

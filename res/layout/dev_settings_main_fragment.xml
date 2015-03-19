@@ -384,6 +384,82 @@
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
             </RelativeLayout>
+
+            <!-- 设备报警声音 -->
+
+            <RelativeLayout
+                android:id="@+id/funclayout6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/dev_settting_function_background"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp" >
+
+                <ImageView
+                    android:id="@+id/funtion_image6"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/safety_protection" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/funtion_image6"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/funtion_titile1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/str_safe_protected"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/funtion_titile2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/str_audio_monitor_tips"
+                        android:textColor="@color/userinfocolor"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/function_alarm_sound"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:clickable="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/morefragment_normal_icon" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_tips_01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:paddingLeft="10dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/str_alarm_setting_tips1"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

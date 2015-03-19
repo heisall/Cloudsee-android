@@ -96,8 +96,7 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		url = getIntent().getStringExtra("URL");
-		// url =
-		// "http://bbst.cloudsee.net/forum.php?mod=forumdisplay&fid=36&mobile=2";
+		url = "http://bbst.cloudsee.net/forum.php?mod=forumdisplay&fid=36&mobile=2";
 		// url = "http://test.cloudsee.net/phone.action";
 		// url = "http://app.ys7.com/";
 		titleID = getIntent().getIntExtra("title", 0);
@@ -303,7 +302,7 @@ public class JVWebViewActivity extends BaseActivity {
 					loadinglayout.setVisibility(View.GONE);
 				} else {
 					webView.loadUrl("javascript:function uploadPicFromMobile(str){fileupload.addFileList(str);}");
-					webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
+					// webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
 					loadinglayout.setVisibility(View.GONE);
 					webView.setVisibility(View.VISIBLE);
 					loadFailedLayout.setVisibility(View.GONE);
@@ -512,12 +511,14 @@ public class JVWebViewActivity extends BaseActivity {
 				return;
 			Uri result = intent == null || resultCode != RESULT_OK ? null
 					: intent.getData();
+			showTextToast(result.toString());
 			mUploadMessage.onReceiveValue(result);
 			mUploadMessage = null;
 			break;
 		case REQ_CAMERA:
 			if (resultCode == Activity.RESULT_OK) {
 				mUploadMessage.onReceiveValue(imageUri);
+				showTextToast(imageUri.toString());
 				mUploadMessage = null;
 			}
 			break;

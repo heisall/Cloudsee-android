@@ -30,6 +30,16 @@
             android:paddingRight="10dip"
             android:text="@string/str_return_qr_device"
             android:textColor="@color/white" />
+        <Button
+            android:id="@+id/zing_chose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/quick_set_back"
+            android:paddingRight="10dip"
+            android:text="@string/str_return_qr_device"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/scaning"

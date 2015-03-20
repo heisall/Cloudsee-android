@@ -434,7 +434,7 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/function_alarm_sound"
+                    android:id="@+id/function_switch_31"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_alignParentRight="true"

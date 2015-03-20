@@ -114,7 +114,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 		func_swmotion = (ImageView) rootView
 				.findViewById(R.id.function_switch_21);
 		funcAlaramSound = (ImageView) rootView
-				.findViewById(R.id.function_alarm_sound);
+				.findViewById(R.id.function_switch_31);
 		functionlayout1 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout1);
 		functionlayout2 = (RelativeLayout) rootView
@@ -146,9 +146,16 @@ public class DeviceSettingsMainFragment extends Fragment implements
 
 		try {
 			JSONObject paramObject = new JSONObject(strParam);
-
+			Log.e("Alarm", "paramObject:"+strParam);
 			func_alarm_sound = paramObject.optInt("bAlarmSound", -1);
-			MyLog.v("func_alarm_sound", strParam + "");
+			if (0 == func_alarm_sound) {
+				funcAlaramSound
+						.setBackgroundResource(R.drawable.morefragment_normal_icon);
+			} else if (1 == func_alarm_sound) {
+				funcAlaramSound
+						.setBackgroundResource(R.drawable.morefragment_selector_icon);
+			}
+
 			alarm_way_flag = paramObject.optInt("alarmWay", -1);
 			if (alarm_way_flag == 0) {
 				// 走设备服务器
@@ -177,6 +184,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				// 走云视通
 				func_alert_enabled = paramObject.optInt("bAlarmEnable", -1);
 				func_motion_enabled = paramObject.optInt("bMDEnable", -1);
+				func_alarm_sound = paramObject.optInt("bAlarmSound", -1);
 				alarmTime0 = paramObject.optString("alarmTime0", "");
 				Pattern pattern = Pattern.compile("-");
 				String[] strs = pattern.split(alarmTime0);
@@ -275,6 +283,24 @@ public class DeviceSettingsMainFragment extends Fragment implements
 					break;
 				}
 
+				
+//				switch (func_alarm_sound) {
+//				case 0:
+//					funcAlaramSound
+//							.setBackgroundResource(R.drawable.morefragment_normal_icon);
+//					break;
+//				case 1:
+//					funcAlaramSound
+//							.setBackgroundResource(R.drawable.morefragment_selector_icon);
+//					break;
+//				case -1:
+//					functionlayout5.setVisibility(View.GONE);
+//					functiontips2.setVisibility(View.GONE);
+//					break;
+//				default:
+//					break;
+//				}
+				
 				if (alarmTime0.equals("")
 						|| (startTime.equals("00:00") && endTime
 								.equals("23:59"))) {
@@ -321,7 +347,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				// 隐藏
 			}
 			break;
-		case R.id.function_alarm_sound: {// 报警声音
+		case R.id.function_switch_31: {// 报警声音
 			if (func_alarm_sound == 1) {
 				// 打开--->关闭
 				mListener.OnFuncEnabled(Consts.DEV_ALARAM_SOUND, 0);
@@ -489,7 +515,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 
 	@Override
 	public void onMainAction(int packet_type, int packet_subtype, int ex_type,
-			int destFlag) {
+			int func_index, int destFlag) {
 		Log.e("Alarm", "----onMainAction---" + packet_type + "," + packet_type
 				+ "," + ex_type);
 		switch (packet_type) {
@@ -506,6 +532,7 @@ public class DeviceSettingsMainFragment extends Fragment implements
 			switch (packet_subtype) {
 			case JVNetConst.RC_EX_MD:
 				if (ex_type == JVNetConst.EX_MD_SUBMIT) {
+					//移动侦测
 					if (func_motion_enabled == 1) {
 						// 打开--->关闭
 						// Log.e("Alarm",
@@ -555,7 +582,60 @@ public class DeviceSettingsMainFragment extends Fragment implements
 				}
 				break;
 			case JVNetConst.RC_EX_ALARM:
+				//安全防护与报警声音开关返回值是一样的，这里要做区分
 				if (ex_type == JVNetConst.EX_ALARM_SUBMIT) {
+					switch(func_index){					
+					case Consts.DEV_ALARAM_SOUND://报警声音开关
+					{
+						if (func_alarm_sound == 1) {
+							// 打开--->关闭
+							// Log.e("Alarm",
+							// "before func_motion_enabled:"+func_motion_enabled+","+destFlag);
+							if (func_alarm_sound == destFlag) {
+								Log.e("Alarm", "middle Don't need to change");
+								return;
+							}
+							func_alarm_sound = 0;
+							funcAlaramSound
+									.setBackgroundResource(R.drawable.morefragment_normal_icon);
+							// String text = getResources().getString(
+							// R.string.str_mdenabled_close_ok);
+							// Toast.makeText(getActivity(), text,
+							// Toast.LENGTH_SHORT)
+							// .show();
+							showTextToast(getActivity().getApplicationContext(),
+									R.string.str_mdenabled_close_ok);
+							// Log.e("Alarm",
+							// "after func_motion_enabled:"+func_motion_enabled);
+						} else if (func_alarm_sound == 0) {
+							// 关闭--->打开
+							if (func_alarm_sound == destFlag) {
+								Log.e("Alarm", "middle Don't need to change");
+								return;
+							}
+							func_alarm_sound = 1;
+							funcAlaramSound
+									.setBackgroundResource(R.drawable.morefragment_selector_icon);
+							// String text = getResources().getString(
+							// R.string.str_mdenabled_open_ok);
+							// Toast.makeText(getActivity(), text,
+							// Toast.LENGTH_SHORT)
+							// .show();
+							showTextToast(getActivity().getApplicationContext(),
+									R.string.str_mdenabled_open_ok);
+						} else {
+							// 隐藏
+							// String text = getResources().getString(
+							// R.string.str_operation_failed);
+							// Toast.makeText(getActivity(), text,
+							// Toast.LENGTH_SHORT)
+							// .show();
+							showTextToast(getActivity(),
+									R.string.str_operation_failed);
+						}						
+					}
+					break;
+					default:
 					if (func_alert_enabled == 1) {
 						// 打开--->关闭
 						// Log.e("Alarm",
@@ -620,6 +700,9 @@ public class DeviceSettingsMainFragment extends Fragment implements
 						showTextToast(getActivity().getApplicationContext(),
 								R.string.str_operation_failed);
 					}
+					break;
+					}
+
 				}
 				break;
 			default:

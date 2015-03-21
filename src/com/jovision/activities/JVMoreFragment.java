@@ -1,6 +1,7 @@
 package com.jovision.activities;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import org.json.JSONException;
@@ -10,9 +11,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.test.JVACCOUNT;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,6 +50,7 @@ import com.jovision.utils.ListViewUtil;
 import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UserUtil;
 import com.jovision.views.AlarmDialog;
+import com.jovision.views.popw;
 import com.tencent.stat.StatService;
 
 /**

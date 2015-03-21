@@ -54,7 +54,7 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.GetPhoneNumber;
 
 public class JVRebandPhoneorEmailActivity extends BaseActivity implements
-		TextWatcher {
+TextWatcher {
 
 	private Button regist;
 	private ToggleButton agreeTBtn;
@@ -111,6 +111,9 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 					countDown();
 					isregister = false;
 				}
+			}else {
+				SentEmailCondTask task = new SentEmailCondTask();
+				task.execute("");
 			}
 			break;
 		}
@@ -383,10 +386,10 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 																0, 0));
 											}
 										}else {
-											registTips.setVisibility(View.VISIBLE);
-											registTips.setTextColor(Color.rgb(217, 34, 38));
-											registTips.setText(getResources().getString(
-													R.string.login_str_loginemail_tips));
+											handler.sendMessage(handler
+													.obtainMessage(
+															JVAccountConst.MAIL_DETECTION_FAILED,
+															0, 0));
 										}
 									};
 								}.start();
@@ -489,11 +492,50 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 				}else {
 					if (!ConfigUtil.isConnected(JVRebandPhoneorEmailActivity.this)) {
 						alertNetDialog();
-					} else if(!"已发送".equals(registercode.getText().toString())){
-						SentEmailCondTask task = new SentEmailCondTask();
-						task.execute("");
 					} else {
-						showTextToast("邮件已发送至邮箱");
+						if(!"已发送".equals(registercode.getText().toString())){
+							if ("".equalsIgnoreCase(userNameEditText.getText()
+									.toString())) {
+								registTips.setVisibility(View.VISIBLE);
+								registTips.setTextColor(Color.rgb(217, 34, 38));
+								registTips.setText(getResources().getString(
+										R.string.login_str_loginemail_notnull));
+							} else {
+								createDialog("", true);
+								new Thread() {
+									public void run() {
+										nameExists = AccountUtil
+												.isUserExsit(userNameEditText
+														.getText().toString());
+										if (AccountUtil.verifyEmail(userNameEditText.getText().toString())) {
+											if (JVAccountConst.USER_HAS_EXIST == nameExists) {
+												handler.sendMessage(handler
+														.obtainMessage(
+																JVAccountConst.USERNAME_DETECTION_FAILED,
+																0, 0));
+											} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
+												handler.sendMessage(handler
+														.obtainMessage(
+																JVAccountConst.USERNAME_DETECTION_SUCCESS,
+																0, 0));
+											} else {
+												handler.sendMessage(handler
+														.obtainMessage(
+																JVAccountConst.DEFAULT,
+																0, 0));
+											}
+										}else {
+											handler.sendMessage(handler
+													.obtainMessage(
+															JVAccountConst.MAIL_DETECTION_FAILED,
+															0, 0));
+										}
+									};
+								}.start();
+							}
+						} else {
+							showTextToast("邮件已发送至邮箱");
+						}
 					}
 				}
 				break;
@@ -532,11 +574,18 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements
 					} else if ("".equals(registercode.getText().toString())) {
 						showTextToast(R.string.reset_passwd_tips6);
 					}
-				}else if("".equals(code.getText().toString())){
-					SureEmailCondTask  task = new SureEmailCondTask();
-					String parms [] = new String [2]; 
-					parms [0] = code.getText().toString();
-					task.execute(parms);
+				}else {
+					if(AccountUtil.verifyEmail(userNameEditText.getText().toString())){
+						SureEmailCondTask  task = new SureEmailCondTask();
+						String parms [] = new String [2]; 
+						parms [0] = code.getText().toString();
+						task.execute(parms);
+					}else{ 
+						handler.sendMessage(handler
+								.obtainMessage(
+										JVAccountConst.MAIL_DETECTION_FAILED,
+										0, 0));
+					}
 				}
 				break;
 			case R.id.agreement:

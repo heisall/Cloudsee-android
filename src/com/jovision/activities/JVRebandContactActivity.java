@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -26,7 +25,7 @@ import com.jovision.utils.MobileUtil;
 import com.jovision.views.popw;
 import com.tencent.stat.StatService;
 
-public class JVRebandContactActivity extends BaseActivity{
+public class JVRebandContactActivity extends BaseActivity {
 
 	private TextView rebandPhone;
 	private TextView rebandEmail;
@@ -51,8 +50,8 @@ public class JVRebandContactActivity extends BaseActivity{
 	File tempFile;
 	// 新头像文件
 	File newFile;
-	// popupWindow滑出布局
 
+	// popupWindow滑出布局
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -65,6 +64,7 @@ public class JVRebandContactActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	protected void onResume() {
 		if (tempFile.exists()) {
@@ -74,6 +74,7 @@ public class JVRebandContactActivity extends BaseActivity{
 		}
 		super.onResume();
 	}
+
 	@Override
 	protected void initSettings() {
 		// TODO Auto-generated method stub
@@ -88,10 +89,10 @@ public class JVRebandContactActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 		setContentView(R.layout.rebandcontact);
 
-		leftBtn = (Button)findViewById(R.id.btn_left);
-		rightBtn = (Button)findViewById(R.id.btn_right);
+		leftBtn = (Button) findViewById(R.id.btn_left);
+		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
-		currentMenu = (TextView)findViewById(R.id.currentmenu);
+		currentMenu = (TextView) findViewById(R.id.currentmenu);
 		currentMenu.setText("解除账号");
 
 		rebandEmail = (TextView)findViewById(R.id.reband_email_text);
@@ -145,7 +146,8 @@ public class JVRebandContactActivity extends BaseActivity{
 						"census_moreheadimg",
 						JVRebandContactActivity.this.getResources().getString(
 								R.string.census_moreheadimg));
-				popupWindow = new popw(JVRebandContactActivity.this, myOnClickListener);
+				popupWindow = new popw(JVRebandContactActivity.this,
+						myOnClickListener);
 				popupWindow.setBackgroundDrawable(null);
 				popupWindow.setOutsideTouchable(true);
 				popupWindow.showAtLocation(linear, Gravity.BOTTOM

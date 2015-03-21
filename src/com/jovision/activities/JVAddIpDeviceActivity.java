@@ -211,7 +211,7 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 				int count = broadChannelCount > 0 ? broadChannelCount : 4;
 				Device dev = new Device(resolvedIp,
 						Integer.valueOf(portString), ipString, -1, userString,
-						pwdString, false, count, 0);
+						pwdString, false, count, 0, nickString);
 				dev.setIsDevice(2);
 				dev.setDoMain(ipString);
 				if (!"".equals(nickString)) {

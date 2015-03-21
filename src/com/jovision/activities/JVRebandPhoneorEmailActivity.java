@@ -53,7 +53,8 @@ import com.jovision.utils.AccountUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.GetPhoneNumber;
 
-public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWatcher {
+public class JVRebandPhoneorEmailActivity extends BaseActivity implements
+		TextWatcher {
 
 	private Button regist;
 	private ToggleButton agreeTBtn;
@@ -304,7 +305,8 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
-					if (!ConfigUtil.isConnected(JVRebandPhoneorEmailActivity.this)) {
+					if (!ConfigUtil
+							.isConnected(JVRebandPhoneorEmailActivity.this)) {
 						alertNetDialog();
 					} else {
 						// checkPhoneNum(userNameEditText.getText().toString(),

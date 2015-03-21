@@ -252,7 +252,8 @@ public class JVWaveSetActivity extends BaseActivity {
 																// 带wifi设备且不在设备列表里面
 							Device addDev = new Device(ip, port, gid, no,
 									Consts.DEFAULT_USERNAME,
-									Consts.DEFAULT_PASSWORD, false, count, 0);
+									Consts.DEFAULT_PASSWORD, false, count, 0,
+									null);
 							addDev.setHasAdded(hasAdded);
 							if (!PlayUtil.addDev(broadList, addDev)) {
 								broadList.add(addDev);

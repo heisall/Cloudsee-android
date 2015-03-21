@@ -83,7 +83,8 @@ public class BitmapCache {
 			if ("image".equalsIgnoreCase(kind)) {
 				bmp = loadImageBitmap(path, 5);// BitmapFactory.decodeResource(context.getResources(),
 				this.addCacheBitmap(bmp, path);
-			} else if ("video".equalsIgnoreCase(kind)) {
+			} else if (("video".equalsIgnoreCase(kind))
+					|| ("downVideo".equalsIgnoreCase(kind))) {
 				bmp = loadVideoBitmap(path);
 				this.addCacheBitmap(bmp, path);
 			} else if ("net".equalsIgnoreCase(kind)) {

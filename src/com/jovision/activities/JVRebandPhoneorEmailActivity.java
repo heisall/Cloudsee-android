@@ -16,8 +16,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
+import android.test.JVACCOUNT;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -42,6 +44,8 @@ import cn.smssdk.gui.SMSReceiver;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.activities.JVMoreFragment.CheckUserInfoTask;
+import com.jovision.bean.User;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -87,6 +91,8 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 	private boolean stop;
 	private boolean isclick = false;
 
+	private int isPhone;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
@@ -97,11 +103,13 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 			registTips.setTextColor(Color.rgb(21, 103, 215));
 			registTips.setText(getResources().getString(
 					R.string.str_user_not_exist2));
-			if (isclick) {
-				SMSSDK.getVerificationCode(currentCode, userNameEditText
-						.getText().toString().trim());
-				countDown();
-				isregister = false;
+			if (isPhone == 1) {
+				if (isclick) {
+					SMSSDK.getVerificationCode(currentCode, userNameEditText
+							.getText().toString().trim());
+					countDown();
+					isregister = false;
+				}
 			}
 			break;
 		}
@@ -112,7 +120,18 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 			registTips.setTextColor(Color.rgb(217, 34, 38));
 			registTips.setText(getResources().getString(
 					R.string.str_user_has_exist));
-			isregister = true;
+			if (isPhone == 1) {
+				isregister = true;
+			}
+			break;
+		}
+		/** 邮箱不符合规则 */
+		case JVAccountConst.MAIL_DETECTION_FAILED: {
+			dismissDialog();
+			registTips.setVisibility(View.VISIBLE);
+			registTips.setTextColor(Color.rgb(217, 34, 38));
+			registTips.setText(getResources().getString(
+					R.string.login_str_loginemail_tips));
 			break;
 		}
 		}
@@ -121,13 +140,13 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		handler.sendMessage(handler.obtainMessage(what, arg1, arg2, obj));
-
 	}
 
 	@Override
 	protected void initSettings() {
 		// 进注册清缓存
 		MySharedPreference.putString(Consts.CACHE_DEVICE_LIST, "");
+		isPhone = getIntent().getIntExtra("isphone", -1);
 	}
 
 	@Override
@@ -137,7 +156,7 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 		alarmnet = (RelativeLayout) findViewById(R.id.alarmnet);
 		accountError = (TextView) findViewById(R.id.accounterror);
 		currentMenu = (TextView) findViewById(R.id.currentmenu);
-		currentMenu.setText(R.string.login_str_user_regist);
+		currentMenu.setText("解除绑定");
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
 
@@ -145,6 +164,11 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 		code = (EditText) findViewById(R.id.code);
 		registercode = (TextView) findViewById(R.id.registercode);
 		userNameEditText = (EditText) findViewById(R.id.registusername);
+		if (isPhone == 1) {
+			userNameEditText.setHint("请输入手机号");
+		}else {
+			userNameEditText.setHint("请输入邮箱");
+		}
 		registTips = (TextView) findViewById(R.id.regist_tips);
 		agreeTBtn = (ToggleButton) findViewById(R.id.agree);
 		agreeMent = (TextView) findViewById(R.id.agreement);
@@ -285,43 +309,86 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 					} else {
 						// checkPhoneNum(userNameEditText.getText().toString(),
 						// currentCode);
-						phoneNumber = new GetPhoneNumber(userNameEditText
-								.getText().toString());
-						if ("".equalsIgnoreCase(userNameEditText.getText()
-								.toString())) {
-							registTips.setVisibility(View.VISIBLE);
-							registTips.setTextColor(Color.rgb(217, 34, 38));
-							registTips.setText(getResources().getString(
-									R.string.login_str_username_notnull));
-						} else if (phoneNumber.matchNum() == 4
-								|| phoneNumber.matchNum() == 5) {
-							registTips.setVisibility(View.VISIBLE);
-							registTips.setTextColor(Color.rgb(217, 34, 38));
-							registTips.setText(getResources().getString(
-									R.string.str_phone_num_error));
-						} else {
-							createDialog("", true);
-							new Thread() {
-								public void run() {
-									nameExists = AccountUtil
-											.isUserExsit(userNameEditText
-													.getText().toString());
-									if (JVAccountConst.USER_HAS_EXIST == nameExists) {
-										handler.sendMessage(handler
-												.obtainMessage(
-														JVAccountConst.USERNAME_DETECTION_FAILED,
-														0, 0));
-										isregister = true;
-									} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
-										handler.sendMessage(handler
-												.obtainMessage(
-														JVAccountConst.USERNAME_DETECTION_SUCCESS,
-														0, 0));
-										isregister = false;
-										isclick = false;
-									}
-								};
-							}.start();
+						if (isPhone == 1) {
+							phoneNumber = new GetPhoneNumber(userNameEditText
+									.getText().toString());
+							if ("".equalsIgnoreCase(userNameEditText.getText()
+									.toString())) {
+								registTips.setVisibility(View.VISIBLE);
+								registTips.setTextColor(Color.rgb(217, 34, 38));
+								registTips.setText(getResources().getString(
+										R.string.login_str_username_notnull));
+							} else if (phoneNumber.matchNum() == 4
+									|| phoneNumber.matchNum() == 5) {
+								registTips.setVisibility(View.VISIBLE);
+								registTips.setTextColor(Color.rgb(217, 34, 38));
+								registTips.setText(getResources().getString(
+										R.string.str_phone_num_error));
+							} else {
+								createDialog("", true);
+								new Thread() {
+									public void run() {
+										nameExists = AccountUtil
+												.isUserExsit(userNameEditText
+														.getText().toString());
+										if (JVAccountConst.USER_HAS_EXIST == nameExists) {
+											handler.sendMessage(handler
+													.obtainMessage(
+															JVAccountConst.USERNAME_DETECTION_FAILED,
+															0, 0));
+											isregister = true;
+										} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
+											handler.sendMessage(handler
+													.obtainMessage(
+															JVAccountConst.USERNAME_DETECTION_SUCCESS,
+															0, 0));
+											isregister = false;
+											isclick = false;
+										}
+									};
+								}.start();
+							}
+						}
+						else if(isPhone == 0){
+							if ("".equalsIgnoreCase(userNameEditText.getText()
+									.toString())) {
+								registTips.setVisibility(View.VISIBLE);
+								registTips.setTextColor(Color.rgb(217, 34, 38));
+								registTips.setText(getResources().getString(
+										R.string.login_str_loginemail_notnull));
+							} else {
+								createDialog("", hasFocus);
+								new Thread() {
+									public void run() {
+										nameExists = AccountUtil
+												.isUserExsit(userNameEditText
+														.getText().toString());
+										if (AccountUtil.verifyEmail(userNameEditText.getText().toString())) {
+											if (JVAccountConst.USER_HAS_EXIST == nameExists) {
+												handler.sendMessage(handler
+														.obtainMessage(
+																JVAccountConst.USERNAME_DETECTION_FAILED,
+																0, 0));
+											} else if (JVAccountConst.USER_NOT_EXIST == nameExists) {
+												handler.sendMessage(handler
+														.obtainMessage(
+																JVAccountConst.USERNAME_DETECTION_SUCCESS,
+																0, 0));
+											} else {
+												handler.sendMessage(handler
+														.obtainMessage(
+																JVAccountConst.DEFAULT,
+																0, 0));
+											}
+										}else {
+											registTips.setVisibility(View.VISIBLE);
+											registTips.setTextColor(Color.rgb(217, 34, 38));
+											registTips.setText(getResources().getString(
+													R.string.login_str_loginemail_tips));
+										}
+									};
+								}.start();
+							}
 						}
 					}
 				}
@@ -403,53 +470,71 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 				backMethod();
 				break;
 			case R.id.registercode:
-				phoneNumber = new GetPhoneNumber(userNameEditText.getText()
-						.toString());
-				if (!ConfigUtil.isConnected(JVRebandPhoneorEmailActivity.this)) {
-					alertNetDialog();
-				} else if (phoneNumber.matchNum() == 4
-						|| phoneNumber.matchNum() == 5) {
-					registTips.setVisibility(View.VISIBLE);
-					registTips.setTextColor(Color.rgb(217, 34, 38));
-					registTips.setText(getResources().getString(
-							R.string.str_phone_num_error));
-				} else {
-					MakeSure();
+				if (isPhone == 1) {
+					phoneNumber = new GetPhoneNumber(userNameEditText.getText()
+							.toString());
+					if (!ConfigUtil.isConnected(JVRebandPhoneorEmailActivity.this)) {
+						alertNetDialog();
+					} else if (phoneNumber.matchNum() == 4
+							|| phoneNumber.matchNum() == 5) {
+						registTips.setVisibility(View.VISIBLE);
+						registTips.setTextColor(Color.rgb(217, 34, 38));
+						registTips.setText(getResources().getString(
+								R.string.str_phone_num_error));
+					} else {
+						MakeSure();
+					}
+				}else {
+					if (!ConfigUtil.isConnected(JVRebandPhoneorEmailActivity.this)) {
+						alertNetDialog();
+					} else if(!"已发送".equals(registercode.getText().toString())){
+						SentEmailCondTask task = new SentEmailCondTask();
+						task.execute("");
+					} else {
+						showTextToast("邮件已发送至邮箱");
+					}
 				}
 				break;
 			case R.id.regist:
-				isclick = false;
-				if (!agreeProtocol) {
-					showTextToast(R.string.login_str_agreement_tips);
-				} else if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
-						&& !"".equals(code.getText().toString())) {
-					// 验证填入的验证码
-					strIdentifyNum = code.getText().toString().trim();
-					Log.i("TAG", currentCode
-							+ userNameEditText.getText().toString()
-							+ strIdentifyNum);
-					// 提交验证
-					if (!TextUtils.isEmpty(currentCode)) {
-						if (pd != null && pd.isShowing()) {
-							pd.dismiss();
-						}
-						if (pd != null) {
-							pd.setMessage(getResources().getString(
-									R.string.reset_passwd_tips3));
-							pd.show();
-						}
+				if (isPhone == 1) {
+					isclick = false;
+					if (!agreeProtocol) {
+						showTextToast(R.string.login_str_agreement_tips);
+					} else if ((!"".equals(userNameEditText.getText().toString()) && !isregister)
+							&& !"".equals(code.getText().toString())) {
+						// 验证填入的验证码
+						strIdentifyNum = code.getText().toString().trim();
 						Log.i("TAG", currentCode
 								+ userNameEditText.getText().toString()
 								+ strIdentifyNum);
-						SMSSDK.submitVerificationCode(currentCode,
-								userNameEditText.getText().toString(),
-								strIdentifyNum);
+						// 提交验证
+						if (!TextUtils.isEmpty(currentCode)) {
+							if (pd != null && pd.isShowing()) {
+								pd.dismiss();
+							}
+							if (pd != null) {
+								pd.setMessage(getResources().getString(
+										R.string.reset_passwd_tips3));
+								pd.show();
+							}
+							Log.i("TAG", currentCode
+									+ userNameEditText.getText().toString()
+									+ strIdentifyNum);
+							SMSSDK.submitVerificationCode(currentCode,
+									userNameEditText.getText().toString(),
+									strIdentifyNum);
+						}
+					} else if (isregister) {
+						showTextToast(getResources().getString(
+								R.string.str_user_has_exist));
+					} else if ("".equals(registercode.getText().toString())) {
+						showTextToast(R.string.reset_passwd_tips6);
 					}
-				} else if (isregister) {
-					showTextToast(getResources().getString(
-							R.string.str_user_has_exist));
-				} else if ("".equals(registercode.getText().toString())) {
-					showTextToast(R.string.reset_passwd_tips6);
+				}else if("".equals(code.getText().toString())){
+					SureEmailCondTask  task = new SureEmailCondTask();
+					String parms [] = new String [2]; 
+					parms [0] = code.getText().toString();
+					task.execute(parms);
 				}
 				break;
 			case R.id.agreement:
@@ -581,13 +666,14 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 				if (pd != null && pd.isShowing()) {
 					pd.dismiss();
 				}
-				if (result == SMSSDK.RESULT_COMPLETE) {
-					// 跳转到设置密码界面
-					Intent intent = new Intent(JVRebandPhoneorEmailActivity.this,
-							JVRegisterCodeActivity.class);
-					intent.putExtra("phone", userNameEditText.getText()
-							.toString());
-					startActivity(intent);
+				if (result == SMSSDK.RESULT_COMPLETE) {//验证通过
+					showTextToast("哈哈");
+					//					// 跳转到设置密码界面
+					//					Intent intent = new Intent(JVRebandPhoneorEmailActivity.this,
+					//							JVRegisterCodeActivity.class);
+					//					intent.putExtra("phone", userNameEditText.getText()
+					//							.toString());
+					//					startActivity(intent);
 				} else {
 					((Throwable) data).printStackTrace();
 					// 验证码不正确
@@ -624,7 +710,6 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 			}
 		}, 1000);
 	}
-
 	private void runOnUIThread(Runnable runnable, int i) {
 		// TODO Auto-generated method stub
 		athandler.postDelayed(runnable, i);
@@ -653,6 +738,113 @@ public class JVRebandPhoneorEmailActivity extends BaseActivity implements TextWa
 			regist.setEnabled(true);
 		} else {
 			regist.setEnabled(false);
+		}
+	}
+
+	// 获取邮箱验证码线程
+	private class SentEmailCondTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int Code = -1;
+			try {
+				createDialog("",true);
+				Code = JVACCOUNT.SendResetMail(userNameEditText.getText().toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return Code;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
+			Log.i("TAG", "发送邮箱"+result);
+			switch (result) {
+			case 0:
+				showTextToast("发送过去了");
+				registercode.setText("已发送");
+				registercode.setBackgroundResource(R.drawable.vercode);
+				break;
+			case -1:
+				registercode.setText(getResources().getString(
+						R.string.str_resend_code));
+				showTextToast("邮件发送错误");
+				break;
+			case -11:
+				registercode.setText(getResources().getString(
+						R.string.str_resend_code));
+				showTextToast("邮件发送错误");
+				break;
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("", false);
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
+		}
+	}
+	// 邮箱验证线程
+	private class SureEmailCondTask extends AsyncTask<String, Integer, Integer> {// A,361,2000
+		// 可变长的输入参数，与AsyncTask.exucute()对应
+		@Override
+		protected Integer doInBackground(String... params) {
+			int Code = -1;
+			try {
+				createDialog("",true);
+				Code = JVACCOUNT.RandCodeCheck(params[0]);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return Code;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
+			dismissDialog();
+			Log.i("TAG", "验证邮箱"+result);
+			switch (result) {
+			case 0:
+				showTextToast("yanzhen");
+				break;
+			case -1:
+				registercode.setBackgroundResource(R.drawable.vercode);
+				showTextToast("验证码错误");
+				break;
+			case -31:
+				registercode.setBackgroundResource(R.drawable.vercode);
+				showTextToast("验证码错误");
+				break;
+			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 任务启动，可以在这里显示一个对话框，这里简单处理,当任务执行之前开始调用此方法，可以在这里显示进度对话框。
+			createDialog("", false);
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
 }

@@ -6,8 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
-import android.renderscript.Sampler.Value;
 import android.test.JVACCOUNT;
 
 import com.jovision.Consts;
@@ -147,8 +145,8 @@ public class DeviceUtil {
 											dev.setIsDevice(1);
 										}
 
-										dev.setEnableTcpConnect(Integer.parseInt(obj
-												.optString(JVDeviceConst.JK_DEVICE_VIDEO_TCP)));
+										dev.setEnableTcpConnect(obj
+												.optInt(JVDeviceConst.JK_DEVICE_VIDEO_TCP));
 										dev.setDeviceType(obj
 												.optInt(JVDeviceConst.JK_DEVICE_TYPE));
 										dev.setServerState(obj

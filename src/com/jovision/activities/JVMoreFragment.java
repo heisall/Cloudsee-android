@@ -270,7 +270,7 @@ public class JVMoreFragment extends BaseFragment {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.more_uesrname:
-				//TODO
+				// TODO
 				break;
 			case R.id.more_head_img:
 				//TODO

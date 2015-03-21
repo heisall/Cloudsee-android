@@ -67,7 +67,7 @@ public class Device {
 	private int onlineStateLan = 0;
 
 	/**** 2015-03-02 ***/
-	private int enableTcpConnect; // 是否为TCP连接  0. 不开启TCP连接 1.开启TCP连接
+	private int enableTcpConnect; // 是否为TCP连接 0. 不开启TCP连接 1.开启TCP连接
 
 	/*** 2014-12-25 ***/
 	private boolean admin;// 是否管理员用户
@@ -83,8 +83,6 @@ public class Device {
 
 	/** 设备是否带Wi-Fi */
 	private int hasWifi = 0;
-	/** 设备列表中是否被选中 */
-	private Boolean isselect = false;
 	/** 局域网是否添加设备 */
 	private boolean islanselect = true;
 	private int alarmSwitch = 0;// 告警开关，0-关闭，1-打开
@@ -322,7 +320,8 @@ public class Device {
 			dev.setGid(ConfigUtil.getString(object, "gid"));
 			dev.setNo(ConfigUtil.getInt(object, "no"));
 			dev.setFullNo(ConfigUtil.getString(object, "fullNo"));
-			dev.setEnableTcpConnect(ConfigUtil.getInt(object, "enableTcpConnect"));
+			dev.setEnableTcpConnect(ConfigUtil.getInt(object,
+					"enableTcpConnect"));
 			dev.setUser(ConfigUtil.getString(object, "user"));
 			dev.setPwd(ConfigUtil.getString(object, "pwd"));
 			dev.setHomeProduct(ConfigUtil.getBoolean(object, "isHomeProduct"));
@@ -470,14 +469,6 @@ public class Device {
 
 	public void setPrimaryID(long primaryID) {
 		this.primaryID = primaryID;
-	}
-
-	public Boolean getIsselect() {
-		return isselect;
-	}
-
-	public void setIsselect(Boolean isselect) {
-		this.isselect = isselect;
 	}
 
 	public int getServerState() {

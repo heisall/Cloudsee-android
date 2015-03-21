@@ -42,7 +42,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/reband_hand"
-                android:text="ä¿®æ”¹å¤´åƒ"
+                android:text="ÐÞ¸ÄÍ·Ïñ"
                 android:textColor="@color/more_fragment_color2"
                 android:textSize="16sp" />
 
@@ -105,7 +105,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/reband_hand"
-                android:text="æ‰‹æœºå· ï¼š"
+                android:text="ÊÖ»úºÅ £º"
                 android:textColor="@color/more_fragment_color2"
                 android:textSize="16sp" />
 
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="æ›´æ¢"
+                android:text="¸ü»»"
                 android:textColor="@color/reband_modify"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -164,7 +164,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/reband_hand"
-                android:text="é‚®ç®± ï¼š"
+                android:text="ÓÊÏä £º"
                 android:textColor="@color/more_fragment_color2"
                 android:textSize="16sp" />
 
@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="æ›´æ¢"
+                android:text="¸ü»»"
                 android:textColor="@color/reband_modify"
                 android:textSize="16sp" />
         </RelativeLayout>

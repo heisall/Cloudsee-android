@@ -21,6 +21,7 @@ public class ManageListAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private BaseFragment fragment;
 	private ArrayList<Device> dataList;
+	private int selectIndex = 0;;
 
 	public ManageListAdapter(Activity activitys) {
 		activity = activitys;
@@ -36,6 +37,10 @@ public class ManageListAdapter extends BaseAdapter {
 
 	public void setData(ArrayList<Device> dataLis) {
 		dataList = dataLis;
+	}
+
+	public void setSelectIndex(int index) {
+		selectIndex = index;
 	}
 
 	@Override
@@ -75,7 +80,8 @@ public class ManageListAdapter extends BaseAdapter {
 
 		if (null != dataList && position < dataList.size()
 				&& null != dataList.get(position)) {
-			if (dataList.get(position).getIsselect()) {
+
+			if (position == selectIndex) {
 				Holder.manage_item_img.setVisibility(View.VISIBLE);
 				Holder.listitem_img
 						.setImageResource(R.drawable.devicemanage_selected_icon);
@@ -100,6 +106,12 @@ public class ManageListAdapter extends BaseAdapter {
 				Holder.listitem_img
 						.setImageResource(R.drawable.devicemanage_normal_icon);
 			}
+
+			// if (dataList.get(position).getIsselect()) {
+			//
+			// } else {
+			//
+			// }
 			if (2 == dataList.get(position).getIsDevice()) {
 				Holder.listitem_name
 						.setText(dataList.get(position).getDoMain());

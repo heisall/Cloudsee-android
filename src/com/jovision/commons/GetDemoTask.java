@@ -134,7 +134,17 @@ public class GetDemoTask extends AsyncTask<String, Integer, Integer> {
 				if (null != webUrl.getBbsUrlString()) {
 					Intent intentAD2 = new Intent(mContext,
 							JVWebViewActivity.class);
-					bbsurl = webUrl.getBbsUrlString() + "&sid=" + sid;
+
+					if (!Boolean
+							.valueOf(((BaseActivity) mContext).statusHashMap
+									.get(Consts.LOCAL_LOGIN))) {// 在线
+						bbsurl = webUrl.getBbsUrlString() + "&sid=" + sid
+								+ "&act=login";
+					} else {// 本地
+						bbsurl = webUrl.getBbsUrlString() + "&sid=" + sid
+								+ "&act=logout";
+					}
+
 					((BaseActivity) mContext).statusHashMap.put(
 							Consts.MORE_BBS, bbsurl);
 

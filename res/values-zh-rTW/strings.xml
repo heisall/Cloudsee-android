@@ -400,6 +400,11 @@
     <string name="updated_at">上次更新於%1$s前</string>
     <string name="updated_just_now">剛剛更新</string>
     <string name="time_error">時間有問題</string>
+     <!-- JVRebandContact  -->
+    <string name="rebandmodify">更换</string>
+    <string name="rebandphone">手机号 :</string>
+    <string name="rebandemail">邮箱 :</string>
+    <string name="rebandhand">修改头像</string>
     <!-- JVMyDeviceFragment -->
     <string name="selectnum">已選中?個，</string>
     <string name="number">共?個</string>

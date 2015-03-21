@@ -42,7 +42,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/reband_hand"
-                android:text="修改头像"
+                android:text="@string/rebandhand"
                 android:textColor="@color/more_fragment_color2"
                 android:textSize="16sp" />
 
@@ -105,7 +105,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/reband_hand"
-                android:text="手机号 ："
+                android:text="@string/rebandphone"
                 android:textColor="@color/more_fragment_color2"
                 android:textSize="16sp" />
 
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="更换"
+                android:text="@string/rebandmodify"
                 android:textColor="@color/reband_modify"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -164,7 +164,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/reband_hand"
-                android:text="邮箱 ："
+                android:text="@string/rebandemail"
                 android:textColor="@color/more_fragment_color2"
                 android:textSize="16sp" />
 
@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="更换"
+                android:text="@string/rebandmodify"
                 android:textColor="@color/reband_modify"
                 android:textSize="16sp" />
         </RelativeLayout>

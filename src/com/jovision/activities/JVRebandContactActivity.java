@@ -35,20 +35,20 @@ public class JVRebandContactActivity extends BaseActivity{
 	private ImageView rebandHeadImg;
 	private LinearLayout linear;
 
-	//ÉèÖÃÍ·Ïñ
+	//è®¾ç½®å¤´åƒ
 
-	private String more_name;// ÓÃ»§Ãû
-	private popw popupWindow; // ÉùÃ÷PopupWindow¶ÔÏó£»
-	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// ÅÄÕÕ
-	private static final int PHOTO_REQUEST_GALLERY = 2;// ´ÓÏà²áÖĞÑ¡Ôñ
-	private static final int PHOTO_REQUEST_CUT = 3;// ½á¹û
-	// ´æ·ÅÍ·ÏñµÄÎÄ¼ş¼Ğ
+	private String more_name;// ç”¨æˆ·å
+	private popw popupWindow; // å£°æ˜PopupWindowå¯¹è±¡ï¼›
+	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// æ‹ç…§
+	private static final int PHOTO_REQUEST_GALLERY = 2;// ä»ç›¸å†Œä¸­é€‰æ‹©
+	private static final int PHOTO_REQUEST_CUT = 3;// ç»“æœ
+	// å­˜æ”¾å¤´åƒçš„æ–‡ä»¶å¤¹
 	File file;
-	// ¾ÉÍ·ÏñÎÄ¼ş
+	// æ—§å¤´åƒæ–‡ä»¶
 	File tempFile;
-	// ĞÂÍ·ÏñÎÄ¼ş
+	// æ–°å¤´åƒæ–‡ä»¶
 	File newFile;
-	// popupWindow»¬³ö²¼¾Ö
+	// popupWindowæ»‘å‡ºå¸ƒå±€
 
 
 	@Override
@@ -86,7 +86,7 @@ public class JVRebandContactActivity extends BaseActivity{
 		rightBtn = (Button)findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
 		currentMenu = (TextView)findViewById(R.id.currentmenu);
-		currentMenu.setText("½â³ıÕËºÅ");
+		currentMenu.setText("è§£é™¤è´¦å·");
 		
 		rebandEmail = (TextView)findViewById(R.id.reband_email_text);
 		rebandPhone = (TextView)findViewById(R.id.reband_phone_text);
@@ -136,7 +136,7 @@ public class JVRebandContactActivity extends BaseActivity{
 				popupWindow.setBackgroundDrawable(null);
 				popupWindow.setOutsideTouchable(true);
 				popupWindow.showAtLocation(linear, Gravity.BOTTOM
-						| Gravity.CENTER_HORIZONTAL, 0, 0); // ÉèÖÃlayoutÔÚPopupWindowÖĞÏÔÊ¾µÄÎ»ÖÃ
+						| Gravity.CENTER_HORIZONTAL, 0, 0); // è®¾ç½®layoutåœ¨PopupWindowä¸­æ˜¾ç¤ºçš„ä½ç½®
 				break;
 
 			case R.id.btn_pick_photo: {
@@ -148,10 +148,10 @@ public class JVRebandContactActivity extends BaseActivity{
 				break;
 			}
 			case R.id.btn_take_photo:
-				// µ÷ÓÃÏµÍ³µÄÅÄÕÕ¹¦ÄÜ
+				// è°ƒç”¨ç³»ç»Ÿçš„æ‹ç…§åŠŸèƒ½
 				popupWindow.dismiss();
 				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				// Ö¸¶¨µ÷ÓÃÏà»úÅÄÕÕºóÕÕÆ¬µÄ´¢´æÂ·¾¶
+				// æŒ‡å®šè°ƒç”¨ç›¸æœºæ‹ç…§åç…§ç‰‡çš„å‚¨å­˜è·¯å¾„
 				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
 				startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
 				break;
@@ -164,6 +164,7 @@ public class JVRebandContactActivity extends BaseActivity{
 
 			case R.id.reband_modify_phone:
 
+				startActivity(new Intent(JVRebandContactActivity.this,JVRebandPhoneorEmailActivity.class));
 				break;
 
 			default:
@@ -197,21 +198,21 @@ public class JVRebandContactActivity extends BaseActivity{
 	private void startPhotoZoom(Uri uri, int size) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
-		// cropÎªtrueÊÇÉèÖÃÔÚ¿ªÆôµÄintentÖĞÉèÖÃÏÔÊ¾µÄview¿ÉÒÔ¼ô²Ã
+		// cropä¸ºtrueæ˜¯è®¾ç½®åœ¨å¼€å¯çš„intentä¸­è®¾ç½®æ˜¾ç¤ºçš„viewå¯ä»¥å‰ªè£
 		intent.putExtra("crop", "true");
 
-		// aspectX aspectY ÊÇ¿í¸ßµÄ±ÈÀı
+		// aspectX aspectY æ˜¯å®½é«˜çš„æ¯”ä¾‹
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
 
-		// outputX,outputY ÊÇ¼ô²ÃÍ¼Æ¬µÄ¿í¸ß
+		// outputX,outputY æ˜¯å‰ªè£å›¾ç‰‡çš„å®½é«˜
 		intent.putExtra("outputX", size);
 		intent.putExtra("outputY", size);
 		intent.putExtra("return-data", true);
 		startActivityForResult(intent, PHOTO_REQUEST_CUT);
 	}
 
-	// ½«½øĞĞ¼ô²ÃºóµÄÍ¼Æ¬ÏÔÊ¾µ½UI½çÃæÉÏ
+	// å°†è¿›è¡Œå‰ªè£åçš„å›¾ç‰‡æ˜¾ç¤ºåˆ°UIç•Œé¢ä¸Š
 	private void setPicToView(Intent picdata) {
 		Bundle bundle = picdata.getExtras();
 		if (bundle != null) {

@@ -608,28 +608,18 @@ public class AlarmUtil {
 						device.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP, null, false, device
 								.getEnableTcpConnect() == 1 ? true : false,
-						false, null);
+						false, false, null);
 			} else {
 				// IP直连
 				MyLog.v("New Alarm",
 						device.getNo() + "--IP--连接：" + device.getIp());
-				con_res = Jni
-						.connect(
-								Consts.ONLY_CONNECT_INDEX,
-								1,
-								device.getIp(),
-								device.getPort(),
-								device.getUser(),
-								device.getPwd(),
-								-1,
-								device.getGid(),
-								true,
-								1,
-								true,
-								device.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-										: JVNetConst.TYPE_3GMO_UDP, null,
-								false, device.getEnableTcpConnect() == 1 ? true
-										: false, false, null);
+				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1, device
+						.getIp(), device.getPort(), device.getUser(), device
+						.getPwd(), -1, device.getGid(), true, 1, true, device
+						.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+						: JVNetConst.TYPE_3GMO_UDP, null, false, device
+						.getEnableTcpConnect() == 1 ? true : false, false,
+						false, null);
 
 			}
 
@@ -665,28 +655,18 @@ public class AlarmUtil {
 						device.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP, null, false, device
 								.getEnableTcpConnect() == 1 ? true : false,
-						false, null) >= 0;
+						false, false, null) >= 0;
 			} else {
 				// IP直连
 				MyLog.v("New Alarm",
 						device.getNo() + "--IP--连接：" + device.getIp());
-				con_res = Jni
-						.connect(
-								Consts.ONLY_CONNECT_INDEX,
-								1,
-								device.getIp(),
-								device.getPort(),
-								device.getUser(),
-								device.getPwd(),
-								-1,
-								device.getGid(),
-								true,
-								1,
-								true,
-								device.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-										: JVNetConst.TYPE_3GMO_UDP, null,
-								false, device.getEnableTcpConnect() == 1 ? true
-										: false, false, null) >= 0;
+				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1, device
+						.getIp(), device.getPort(), device.getUser(), device
+						.getPwd(), -1, device.getGid(), true, 1, true, device
+						.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+						: JVNetConst.TYPE_3GMO_UDP, null, false, device
+						.getEnableTcpConnect() == 1 ? true : false, false,
+						false, null) >= 0;
 
 			}
 			return con_res;

@@ -2321,7 +2321,7 @@ public class JVPlayActivity extends PlayActivity implements
 									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 											: JVNetConst.TYPE_3GMO_UDP, channel
 											.getSurface(), false, enableTcp,
-									isOmx, fullPath);
+									false, isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
@@ -2370,7 +2370,7 @@ public class JVPlayActivity extends PlayActivity implements
 												: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
 										// ? 6 : 5),
 										channel.getSurface(), false, enableTcp,
-										isOmx, fullPath);
+										false, isOmx, fullPath);
 
 						int connectWay = channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP;
@@ -2395,7 +2395,8 @@ public class JVPlayActivity extends PlayActivity implements
 										channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 												: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
 										// ? 6 : 5),
-										null, false, enableTcp, isOmx, fullPath);
+										null, false, enableTcp, false, isOmx,
+										fullPath);
 
 						int connectWay = channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP;

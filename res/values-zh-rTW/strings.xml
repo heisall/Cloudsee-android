@@ -627,6 +627,8 @@
     <string name="str_safe_protected">安全防護</string>
     <string name="str_reset_device">重置設備功能</string>
     <string name="str_reset_sure">確定重置設備嗎?</string>
+    <string name="dev_alarm_sound">啓動報警聲音</string>
+    <string name="dev_alarm_sound_tips">报警声音关闭后，当发生报警时，设备将不发出声音 。</string>
     <string name="str_reset_devicedescri">重置后设备将恢复出厂设置。</string>
     <string name="str_modify_pwd">修改設備管理員密碼</string>
     <string name="str_downloading_vod">正在獲取錄影檔…</string>
@@ -687,6 +689,7 @@
     <string name="str_computre_time3"> 開始時間不能等於結束時間</string>
     <string name="str_setting_time">設置時間</string>
     <string name="str_disconnect_resp_timeout">斷開連接超時</string>
+    <string name="str_operation_success">操作成功</string>
     <string name="str_operation_failed">操作不成功</string>
     <string name="str_mdenabled_open_ok">移動偵測打開成功</string>
     <string name="str_mdenabled_open_failed">移動偵測打開失敗</string>

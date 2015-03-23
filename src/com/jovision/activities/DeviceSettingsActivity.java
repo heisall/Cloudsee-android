@@ -66,13 +66,14 @@ public class DeviceSettingsActivity extends BaseActivity implements
 	private int deviceIndex = 0;
 	private DeviceSettingsActivity activity;
 	private boolean onFuncOperationFlag = false;// 标志进入到这个界面后用户是否有过操作标志
-	private int funcIndex = -1;//标示当前点击的那个设备功能
+	private int funcIndex = -1;// 标示当前点击的那个设备功能
 	private String[] funcParamArray;
 	private HashMap<String, String> streamMap;
 	public static boolean isadmin;
 	private int power;
 	public String descript;
 	public static String fullno;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -233,7 +234,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 						if (Consts.EX_ACCOUNT_MODIFY == extend_type) {
 							// --修改设备的用户名密码，只要走回调就修改成功了
 							mainListener.onMainAction(
-									JVNetConst.JVN_GET_USERINFO, 0, 0, Consts.DEV_MOD_USERINFO, 0);
+									JVNetConst.JVN_GET_USERINFO, 0, 0,
+									Consts.DEV_MOD_USERINFO, 0);
 						}
 						break;
 					}
@@ -264,34 +266,38 @@ public class DeviceSettingsActivity extends BaseActivity implements
 						int ex_type = dataObj.optInt("extend_type");
 						if (packet_subtype == JVNetConst.RC_EX_MD
 								&& ex_type == JVNetConst.EX_MD_SUBMIT) {
-//							if(funcIndex == Consts.DEV_SETTINGS_MD){
-								// 移动侦测 ok
-								Log.e("Alarm", "EX_MD_SUBMIT---:" + mdEnabled
-										+ "--" + mdEnabling);
-								mdEnabled = mdEnabling;
-								initDevParamObject.put("bMDEnable", mdEnabled);
-								mainListener.onMainAction(packet_type,
-										packet_subtype, ex_type, funcIndex, mdEnabling);								
-//							}
+							// if(funcIndex == Consts.DEV_SETTINGS_MD){
+							// 移动侦测 ok
+							Log.e("Alarm", "EX_MD_SUBMIT---:" + mdEnabled
+									+ "--" + mdEnabling);
+							mdEnabled = mdEnabling;
+							initDevParamObject.put("bMDEnable", mdEnabled);
+							mainListener.onMainAction(packet_type,
+									packet_subtype, ex_type, funcIndex,
+									mdEnabling);
+							// }
 						} else if (packet_subtype == JVNetConst.RC_EX_ALARM
 								&& ex_type == JVNetConst.EX_ALARM_SUBMIT) {
-							if(funcIndex == Consts.DEV_ALARAM_SOUND){
-								Log.e("Alarm", "EX_ALARM_SOUND_SUBMIT---:" + alarmSoundEnabled
-										+ "--" + alarmSoundEnabling);
+							if (funcIndex == Consts.DEV_ALARAM_SOUND) {
+								Log.e("Alarm", "EX_ALARM_SOUND_SUBMIT---:"
+										+ alarmSoundEnabled + "--"
+										+ alarmSoundEnabling);
 								alarmSoundEnabled = alarmSoundEnabling;
-								initDevParamObject.put("bAlarmSound", alarmSoundEnabled);
+								initDevParamObject.put("bAlarmSound",
+										alarmSoundEnabled);
 								mainListener.onMainAction(packet_type,
-										packet_subtype, ex_type, funcIndex, alarmSoundEnabling);									
-							}
-							else{
+										packet_subtype, ex_type, funcIndex,
+										alarmSoundEnabling);
+							} else {
 								// 安全防护或者设置安全防护时间ok
-								Log.e("Alarm", "EX_ALARM_SUBMIT---:" + alarmEnabled
-										+ "--" + alarmEnabling);
+								Log.e("Alarm", "EX_ALARM_SUBMIT---:"
+										+ alarmEnabled + "--" + alarmEnabling);
 								alarmEnabled = alarmEnabling;
-								initDevParamObject
-										.put("bAlarmEnable", alarmEnabled);
+								initDevParamObject.put("bAlarmEnable",
+										alarmEnabled);
 								mainListener.onMainAction(packet_type,
-										packet_subtype, ex_type, funcIndex, alarmEnabling);								
+										packet_subtype, ex_type, funcIndex,
+										alarmEnabling);
 							}
 
 						} else {
@@ -377,10 +383,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			break;
 		case Consts.DEV_ALARAM_SOUND: {// 设备报警声音
 			alarmSoundEnabling = enabled;
-			MyLog.e("Alarm", "alarm sound start...>>"+enabled);
+			MyLog.e("Alarm", "alarm sound start...>>" + enabled);
 			Jni.sendString(window, JVNetConst.JVN_RSP_TEXTDATA, true, 0x07,
-					0x02, String.format(Consts.FORMATTER_SET_ALARM_SOUND,
-							enabled));
+					0x02,
+					String.format(Consts.FORMATTER_SET_ALARM_SOUND, enabled));
 			// new Thread(new TimeOutProcess(Consts.DEV_ALARAM_SOUND)).start();
 			break;
 		}
@@ -792,8 +798,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 		switch (func_index) {
 		case Consts.DEV_SETTINGS_ALARM:// 安全防护
 			// alarmEnabling已经是即将要改变的状态,详情见onFuncEnabled
-			if (alarmEnabling == Integer
-					.valueOf(funcParamArray[func_index])) {
+			if (alarmEnabling == Integer.valueOf(funcParamArray[func_index])) {
 				// 成功
 				// 安全防护或者设置安全防护时间ok
 				alarmEnabled = alarmEnabling;
@@ -842,7 +847,8 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			if (alarmTime0ing.equals(funcParamArray[func_index])) {
 				// 成功
 				mainListener.onMainAction(JVNetConst.RC_EXTEND,
-						JVNetConst.RC_EX_ALARM, JVNetConst.EX_ALARM_SUBMIT, funcIndex, 0);
+						JVNetConst.RC_EX_ALARM, JVNetConst.EX_ALARM_SUBMIT,
+						funcIndex, 0);
 				// showTextToast("防护时间段成功");
 			} else {
 				// 失败
@@ -851,9 +857,10 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				finish();
 			}
 			break;
-		case Consts.DEV_ALARAM_SOUND://报警声音开关
+		case Consts.DEV_ALARAM_SOUND:// 报警声音开关
 			// alarmSoundEnabling已经是即将要改变的状态,详情见onFuncEnabled
-			if (alarmSoundEnabling == Integer.valueOf(funcParamArray[func_index])) {
+			if (alarmSoundEnabling == Integer
+					.valueOf(funcParamArray[func_index])) {
 				// 成功
 				// 报警声音开关ok
 				alarmSoundEnabled = alarmSoundEnabling;
@@ -872,7 +879,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				showTextToast(getResources().getString(
 						R.string.str_operation_failed));
 				finish();
-			}			
+			}
 			break;
 		default:
 			break;
@@ -921,7 +928,7 @@ public class DeviceSettingsActivity extends BaseActivity implements
 			funcParamArray[Consts.DEV_ALARAM_SOUND] = alarmsound_enable;
 
 			Log.e("Alarm", "ResolveStreamInfo >> " + alarm_enable + "--"
-					+ md_enable + "--" + alarmTime0 + "--"+alarmsound_enable);
+					+ md_enable + "--" + alarmTime0 + "--" + alarmsound_enable);
 			// 兼容没有返回值的设备
 			if (onFuncOperationFlag) {
 				myHandler.removeMessages(Consts.DEV_SETTINGS_ALARM);
@@ -948,15 +955,15 @@ public class DeviceSettingsActivity extends BaseActivity implements
 				alarmTime0 = "";
 			}
 			alarmTime0ing = alarmTime0;
-			
-			//报警声音开关
+
+			// 报警声音开关
 			if (alarmsound_enable == null) {
 				// showTextToast(R.string.not_support_this_func);
 				alarmSoundEnabled = -1;
 			} else {
 				alarmSoundEnabled = Integer.valueOf(alarmsound_enable);
 			}
-			alarmSoundEnabling = alarmSoundEnabled;			
+			alarmSoundEnabling = alarmSoundEnabled;
 		} else {
 			alarmEnabled = device.getAlarmSwitch();
 		}

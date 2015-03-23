@@ -315,6 +315,8 @@ public class Consts {
 	public static final String MORE_LITTLE = "LITTLE"; // 关于
 	public static final String MORE_SYSTEMMESSAGE = "SystemMessage"; // 系统消息
 	public static final String MORE_DEMOURL = "DEMOURL"; // 视频广场
+	public static final String ALARM_SETTING_SOUND = "AlarmSound"; // 报警声音开关
+	public static final String ALARM_SETTING_VIBRATE = "AlarmVibrate";//报警振动开关	
 	// public static final String MORE_CUSTURL = "CUSTURL"; // 我要装监控
 	public static final String MORE_STATURL = "STATURL"; // 云视通指数
 	public static final String MORE_BBS = "BBSURL"; // 论坛

@@ -164,6 +164,9 @@
     <string name="str_about">關於</string>
     <string name="str_feedback">回饋</string>
     <string name="str_login_out">註銷</string>
+    <string name="str_alarm_settings">報警設置</string>
+    <string name="str_alarm_pushon_failed">打开报警消息推送失败</string>
+    <string name="str_alarm_pushoff_failed">关闭报警消息推送失败</string>    
     <!-- 註冊 -->
     <string name="str_enter_username">手機號/信箱/用户名</string>
     <string name="str_enter_emails">信箱</string>
@@ -460,6 +463,7 @@
     <!-- popupWindow -->
     <string name="pop_take">拍照</string>
     <string name="pop_pictrue">從相冊選擇</string>
+    <string name="code_pictrue">相冊</string>
     <!-- JVPlayActivity -->
     <string name="offline_not_play1">設備已處於離線狀態,不能進行操作.</string>
     <string name="connfailed_auth">用戶名或密碼錯誤 </string>

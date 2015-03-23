@@ -596,16 +596,25 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 							}
 						} else if (dataList.get(position).getItemFlag()
 								.equals(Consts.MORE_ALARMSWITCH)) {
-							AlarmTask task = new AlarmTask();
-							Integer[] params = new Integer[3];
-							if (!MySharedPreference.getBoolean(
-									Consts.MORE_ALARMSWITCH, true)) {// 1是关//
-																		// 0是开
-								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
-							} else {
-								params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
+//							AlarmTask task = new AlarmTask();
+//							Integer[] params = new Integer[3];
+//							if (!MySharedPreference.getBoolean(
+//									Consts.MORE_ALARMSWITCH, true)) {// 1是关//
+//																		// 0是开
+//								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
+//							} else {
+//								params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
+//							}
+//							task.execute(params);
+							if (localFlag)// 本地登录
+							{
+								mActivity.showTextToast(R.string.more_nologin);
 							}
-							task.execute(params);
+							else{
+								Intent intent = new Intent(mActivity,
+										AlarmSettingsActivity.class);
+								mActivity.startActivity(intent);								
+							}							
 						} else if (dataList.get(position).getItemFlag()
 								.equals(Consts.MORE_ALARMMSG)) {
 							if (localFlag) {

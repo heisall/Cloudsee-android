@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="Nick Name"
-                android:textColor="@color/deviceinfocolor"
+                android:textColor="@color/more_fragment_color5"
                 android:textSize="22sp" />
 
             <TextView

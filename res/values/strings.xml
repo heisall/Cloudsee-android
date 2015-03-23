@@ -164,6 +164,9 @@
     <string name="str_about">About</string>
     <string name="str_feedback">Suggestion and FeedBack</string>
     <string name="str_login_out">Log Out</string>
+    <string name="str_alarm_settings">Alarm Settings</string>
+    <string name="str_alarm_pushon_failed">打开报警消息推送失败</string>
+    <string name="str_alarm_pushoff_failed">关闭报警消息推送失败</string>
     <!-- 注册 -->
     <string name="str_enter_username">Phone/Email/Username</string>
     <string name="str_enter_emails">Email</string>
@@ -460,6 +463,7 @@
     <!-- popupWindow -->
     <string name="pop_take">Capture</string>
     <string name="pop_pictrue">Choose from phone Album.</string>
+    <string name="code_pictrue">Phone Album</string>
     <!-- JVPlayActivity -->
     <string name="offline_not_play1">Unable to operate due to device has been offline.</string>
     <string name="connfailed_auth">Username or password wrong</string>

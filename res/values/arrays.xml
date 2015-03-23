@@ -13,7 +13,7 @@
     <string-array name="array_more">
         <item>Help</item>
         <item>Auto-Login</item>
-        <item>Alarm</item>
+        <item>Alarm Setting</item>
         <item>Alarm Message</item>
         <item>Viewing Mode(Single-device)</item>
         <item>Share</item>
@@ -33,7 +33,7 @@
     <string-array name="array_moreduo">
         <item>Help</item>
         <item>Auto-Login</item>
-        <item>Alarm</item>
+        <item>Alarm Setting</item>
         <item>Alarm Message</item>
         <item>Viewing Mode(Multi-device)</item>
         <item>Share</item>
@@ -193,4 +193,20 @@
         <item>Enable the device testing button, and wait until configuration finished.</item>
     </string-array>
 
+    <!-- 报警设置功能标题数组 -->
+    <string-array name="alarm_settings_title">
+        <item>消息推送</item> <!-- tag -->
+        <item>报警消息推送</item>
+        <item>提示音效</item> <!-- tag -->
+        <item>铃声</item>
+        <item>震动</item>
+    </string-array>    
+    <!-- 报警设置功能子标题数组与上边那个一一对应 -->
+    <string-array name="alarm_settings_tips">
+        <item>0</item> <!-- tag 无子标题tips-->
+        <item>开启后可接收新的报警消息</item>
+        <item>2</item><!-- tag 无子标题tips-->
+        <item>通知时铃声提醒</item>
+        <item>通知时振动提醒</item>
+    </string-array>     
 </resources>

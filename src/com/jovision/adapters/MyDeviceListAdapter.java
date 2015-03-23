@@ -33,7 +33,7 @@ public class MyDeviceListAdapter extends BaseAdapter {
 	private ArrayList<Device> deviceList;
 	private BaseFragment mfragment;
 	private LayoutInflater inflater;
-	private boolean showDelete = false;
+	public boolean showDelete = false;
 
 	private int[] devResArray = { R.drawable.device_bg_1,
 			R.drawable.device_bg_2, R.drawable.device_bg_3,

@@ -110,14 +110,14 @@ public class FragmentAdapter extends BaseAdapter {
 			more_item.setVisibility(View.GONE);
 			divider_img.setVisibility(View.GONE);
 		}
-		if (position == 2 && localFlag) {
-			more_relative.setVisibility(View.VISIBLE);
-			more_relative.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-				}
-			});
-		}
+//		if (position == 2 && localFlag) {
+//			more_relative.setVisibility(View.VISIBLE);
+//			more_relative.setOnClickListener(new View.OnClickListener() {
+//				@Override
+//				public void onClick(View v) {
+//				}
+//			});
+//		}
 		if (position == 3 || position == 10 || position == 11 || position == 13
 				|| position == 12) {
 			if ("true"
@@ -226,7 +226,7 @@ public class FragmentAdapter extends BaseAdapter {
 			// mfragment.getActivity().getResources()
 			// .getString(R.string.str_current_version));
 		}
-		if (position > -1 && position < 8 && position != 3) {
+		if (position > -1 && position < 8 && position != 3 && position != 2) {
 			item_next
 					.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			switch (position) {
@@ -248,18 +248,18 @@ public class FragmentAdapter extends BaseAdapter {
 							.setBackgroundResource(R.drawable.morefragment_normal_icon);
 				}
 				break;
-			case 2:
-				if (!localFlag) {
-					if (MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
-							true)) {
-						item_next
-								.setBackgroundResource(R.drawable.morefragment_selector_icon);
-					}
-				} else {
-					item_next
-							.setBackgroundResource(R.drawable.morefragment_normal_icon);
-				}
-				break;
+//			case 2:
+//				if (!localFlag) {
+//					if (MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
+//							true)) {
+//						item_next
+//								.setBackgroundResource(R.drawable.morefragment_selector_icon);
+//					}
+//				} else {
+//					item_next
+//							.setBackgroundResource(R.drawable.morefragment_normal_icon);
+//				}
+//				break;
 			case 4:
 				if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
 					item_next

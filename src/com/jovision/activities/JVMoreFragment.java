@@ -560,19 +560,28 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 										Consts.MORE_REMEMBER, true);
 							}
 							break;
-						case 2: // 报警通知开关
-							AlarmTask task = new AlarmTask();
-							Integer[] params = new Integer[3];
-							if (!MySharedPreference.getBoolean(
-									Consts.MORE_ALARMSWITCH, true)) {// 1是关
-								// 0是开
-								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
-							} else {
-								params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
+						case 2: // 报警设置(之前是报警通知开关)
+//							AlarmTask task = new AlarmTask();
+//							Integer[] params = new Integer[3];
+//							if (!MySharedPreference.getBoolean(
+//									Consts.MORE_ALARMSWITCH, true)) {// 1是关
+//								// 0是开
+//								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
+//							} else {
+//								params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
+//							}
+//							task.execute(params);
+							if (localFlag)// 本地登录
+							{
+								mActivity.showTextToast(R.string.more_nologin);
 							}
-							task.execute(params);
+							else{
+								Intent intent = new Intent(mActivity,
+										AlarmSettingsActivity.class);
+								mActivity.startActivity(intent);								
+							}
 
-							break;
+							return;
 						case 3:// 换成报警信息
 							if (localFlag)// 本地登录
 							{

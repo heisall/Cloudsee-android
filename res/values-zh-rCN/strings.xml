@@ -164,6 +164,9 @@
     <string name="str_about">关于</string>
     <string name="str_feedback">反馈</string>
     <string name="str_login_out">注销</string>
+    <string name="str_alarm_settings">报警设置</string>
+    <string name="str_alarm_pushon_failed">打开报警消息推送失败</string>
+    <string name="str_alarm_pushoff_failed">关闭报警消息推送失败</string>
     <!-- 注册 -->
     <string name="str_enter_username">手机号/邮箱/用户名</string>
     <string name="str_enter_emails">邮箱</string>

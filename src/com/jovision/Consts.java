@@ -798,8 +798,9 @@ public class Consts {
 	public static final int DEV_SETTINGS_ALARM = 0x01; // 安全防护开关
 	public static final int DEV_SETTINGS_MD = 0x02; // 移动侦测开关
 	public static final int DEV_SETTINGS_ALARMTIME = 0x03; // 防护时间段
-	public static final int DEV_RESET_DEVICE = 0x04; // 防护时间段
-	public static final int DEV_ALARAM_SOUND = 0x05; // 设备报警声音
+	public static final int DEV_RESET_DEVICE = 0x04; // 设备重置
+	public static final int DEV_MOD_USERINFO = 0x05; // 修改用户名密码
+	public static final int DEV_ALARAM_SOUND = 0x06; // 设备报警声音
 	/** 手动注销标志key */
 	public static String MANUAL_LOGOUT_TAG = "MANUAL_LOGOUT_TAG";
 	/** 实时弹出报警查看后标志guid **/

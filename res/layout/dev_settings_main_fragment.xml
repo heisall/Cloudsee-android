@@ -415,19 +415,17 @@
                     android:orientation="vertical" >
 
                     <TextView
-                        android:id="@+id/funtion_titile1"
+                        android:id="@+id/funtion_titile6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/str_safe_protected"
+                        android:text="@string/dev_alarm_sound"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/funtion_titile2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="@string/str_audio_monitor_tips"
                         android:textColor="@color/userinfocolor"
                         android:textSize="14sp"
                         android:visibility="gone" />
@@ -446,7 +444,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rl_tips_01"
+                android:id="@+id/rl_tips_06"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
@@ -456,7 +454,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@string/str_alarm_setting_tips1"
+                    android:text="@string/dev_alarm_sound_tips"
                     android:textColor="@color/gray"
                     android:textSize="16sp" />
             </RelativeLayout>

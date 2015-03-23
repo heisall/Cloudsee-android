@@ -112,7 +112,7 @@ public class JVWaveSetActivity extends BaseActivity {
 
 	// 声波
 	protected int animTime = 1000;
-	protected int sendCounts = 0;
+	// protected int sendCounts = 0;
 	protected String params = "";
 	protected MyAudio playAudio;
 	protected static int audioSampleRate = 48000;
@@ -131,7 +131,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			isshow = false;
 			break;
 		case Consts.WHAT_SEND_WAVE_FINISHED: {// 声波发送完毕
-			sendCounts = 0;
+		// sendCounts = 0;
 			nextBtn3.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.blue_bg));
 			nextBtn3.setClickable(true);
@@ -169,7 +169,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		}
 		case Consts.WHAT_SEND_WAVE: {// 发送声波命令
 			waveScaleAnim.start();
-			Jni.genVoice(params, 1);
+			Jni.genVoice(params, 3);
 			break;
 		}
 
@@ -191,14 +191,15 @@ public class JVWaveSetActivity extends BaseActivity {
 			}
 			case MyAudio.ARG2_WAVE_FINISH: {// 声波播放完毕
 				MyLog.v(TAG, "ARG2_WAVE_FINISH");
-				sendCounts++;
-				if (sendCounts < 3) {
-					handler.sendMessageDelayed(
-							handler.obtainMessage(Consts.WHAT_SEND_WAVE), 500);
-				} else {
-					handler.sendMessageDelayed(handler
-							.obtainMessage(Consts.WHAT_SEND_WAVE_FINISHED), 500);
-				}
+				// sendCounts++;
+				// if (sendCounts < 3) {
+				// handler.sendMessageDelayed(
+				// handler.obtainMessage(Consts.WHAT_SEND_WAVE), 500);
+				// } else {
+				handler.sendMessageDelayed(
+						handler.obtainMessage(Consts.WHAT_SEND_WAVE_FINISHED),
+						500);
+				// }
 				break;
 			}
 			}
@@ -391,7 +392,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		waveAlphaAnim = new AlphaAnimation(0.1f, 1.0f);
 		waveAlphaAnim.setDuration(animTime);// 设置动画持续时间
 		waveAlphaAnim.setRepeatCount(3);// 设置重复次数
-		waveAlphaAnim.setStartOffset(200);// 执行前的等待时间
+		waveAlphaAnim.setStartOffset(0);// 执行前的等待时间
 		waveImage.setAnimation(waveScaleAnim);
 		showLayoutAtIndex(currentStep);
 
@@ -539,7 +540,7 @@ public class JVWaveSetActivity extends BaseActivity {
 					waveScaleAnim.start();
 					params = desWifiName.getText() + ";" + desWifiPwd.getText();
 					MyLog.v(TAG, "params:" + params);
-					Jni.genVoice(params, 1);
+					Jni.genVoice(params, 3);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

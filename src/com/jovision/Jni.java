@@ -176,7 +176,7 @@ public class Jni {
 			int port, String username, String password, int cloudSeeId,
 			String groupId, boolean isLocalDetect, int turnType,
 			boolean isPhone, int connectType, Object surface, boolean isVip,
-			boolean isTcp, boolean isTryOmx, String thumbName);
+			boolean isTcp, boolean isAp, boolean isTryOmx, String thumbName);
 
 	/**
 	 * 连接流媒体

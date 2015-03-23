@@ -128,8 +128,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/pai"
-                android:layout_marginLeft="50dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginLeft="50dp"
                 android:text="@string/playhelp_moreview"
                 android:textColor="@color/white"
                 android:textSize="20sp" />

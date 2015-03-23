@@ -9,24 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="55dp" >
 
-
         <ImageView
             android:id="@+id/mydevice_img"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_toLeftOf="@+id/mydevice_imgtopright"
             android:background="@drawable/light_bg" >
-        
         </ImageView>
-        
-          <ImageView
+
+        <ImageView
             android:id="@+id/mydevice_imgtopright"
             android:layout_width="5dp"
             android:layout_height="55dp"
             android:layout_alignParentRight="true"
             android:background="@color/helptransparent" >
         </ImageView>
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

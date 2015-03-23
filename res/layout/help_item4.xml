@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/item_one"
         android:layout_width="match_parent"
-        android:layout_height="225dp"
+        android:layout_height="230dp"
         android:background="@color/helptransparent"
         android:orientation="horizontal" >
     </LinearLayout>
@@ -15,11 +15,11 @@
     <RelativeLayout
         android:id="@+id/mydevice_relative"
         android:layout_width="match_parent"
-        android:layout_height="110dp" >
+        android:layout_height="90dp" >
 
         <LinearLayout
             android:id="@+id/item_two"
-            android:layout_width="15dp"
+            android:layout_width="30dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:background="@color/helptransparent"
@@ -35,8 +35,8 @@
 
         <ImageView
             android:id="@+id/mydevice_img"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_toRightOf="@+id/item_two"
             android:background="@drawable/light_bg" />
     </RelativeLayout>
@@ -63,7 +63,7 @@
             android:layout_marginTop="5dp"
             android:text="@string/str_help_four"
             android:textColor="@color/more_fragment_color3"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
     </RelativeLayout>
 
 </LinearLayout>

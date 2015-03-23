@@ -15,7 +15,7 @@
     <RelativeLayout
         android:id="@+id/mydevice_relative"
         android:layout_width="match_parent"
-        android:layout_height="110dp" >
+        android:layout_height="100dp" >
 
         <LinearLayout
             android:id="@+id/item_two"
@@ -36,8 +36,8 @@
 
         <ImageView
             android:id="@+id/mydevice_img"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_toLeftOf="@+id/item_three"
             android:background="@drawable/light_bg" />
     </RelativeLayout>
@@ -65,7 +65,7 @@
             android:layout_marginTop="5dp"
             android:text="@string/str_help_five"
             android:textColor="@color/more_fragment_color3"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -69,12 +69,13 @@ public class AlarmSettingsAdapter extends BaseAdapter {
 			   convertView = _layoutInflater.inflate(R.layout.alarm_settings_list_tag, null);
 			   tv_title = (TextView)convertView.findViewById(R.id.tv_title);
 			   View tv_divider = (View)convertView.findViewById(R.id.group_divider);
-			   if(position == 0){			   
-				   tv_divider.setVisibility(View.GONE);
-			   }
-			   else{
-				   tv_divider.setVisibility(View.VISIBLE);
-			   }
+			   tv_divider.setVisibility(View.GONE);
+//			   if(position == 0){			   
+//				   tv_divider.setVisibility(View.GONE);
+//			   }
+//			   else{
+//				   tv_divider.setVisibility(View.VISIBLE);
+//			   }
 		   } 		
 		   else{
 			   convertView = _layoutInflater.inflate(R.layout.alarm_settings_list_item, null);

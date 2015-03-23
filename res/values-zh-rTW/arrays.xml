@@ -16,19 +16,19 @@
         <item>報警設置</item>
         <item>報警消息</item>
         <item>觀看模式(單設備)</item>
-        <item>小助手</item>
-        <item>廣播</item>
-        <item>測試開關</item>
-        <item>版本號</item>
-        <item>工程商入駐</item>
         <item>設備分享</item>
         <item>雲視通指數</item>
+        <item>工程商入駐</item>
         <item>进入社区</item>
         <item>系統消息</item>
         <item>圖像查看</item>
         <item>意見回饋</item>
         <item>檢查更新</item>
         <item>關於</item>
+        <item>小助手</item>
+        <item>廣播</item>
+        <item>測試開關</item>
+        <item>版本號</item>
     </string-array>
     <string-array name="array_moreduo">
         <item>幫助</item>
@@ -36,19 +36,19 @@
         <item>報警設置</item>
         <item>報警消息</item>
         <item>觀看模式(多設備)</item>
-        <item>小助手</item>
-        <item>廣播</item>
-        <item>測試開關</item>
-        <item>版本號</item>
-        <item>工程商入駐</item>
         <item>設備分享</item>
         <item>雲視通指數</item>
+        <item>工程商入駐</item>
         <item>进入社区</item>
         <item>系統消息</item>
         <item>圖像查看</item>
         <item>意見回饋</item>
         <item>檢查更新</item>
         <item>關於</item>
+        <item>小助手</item>
+        <item>廣播</item>
+        <item>測試開關</item>
+        <item>版本號</item>
     </string-array>
     <!-- add Dev pop menu -->
     <string-array name="array_pop">

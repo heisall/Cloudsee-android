@@ -510,7 +510,7 @@ public class PlayUtil {
 	 * @return
 	 */
 	public static boolean startVideoTape(int index, String savePath) {
-		boolean startSuccess = Jni.startRecord(index, savePath, true, false);
+		boolean startSuccess = Jni.startRecord(index, savePath, true, true);
 		return startSuccess;
 	}
 
@@ -1249,14 +1249,15 @@ public class PlayUtil {
 					1, true, dev.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 							: JVNetConst.TYPE_3GMO_UDP, null, false, dev
 							.getEnableTcpConnect() == 1 ? true : false, false,
-					null);
+					false, null);
 		} else {
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(), dev
 					.getPwd(), ConfigUtil.getYST(dev.getFullNo()), ConfigUtil
 					.getGroup(dev.getFullNo()), true, 1, true, dev
 					.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 					: JVNetConst.TYPE_3GMO_UDP, null, false, dev
-					.getEnableTcpConnect() == 1 ? true : false, false, null);
+					.getEnableTcpConnect() == 1 ? true : false, false, false,
+					null);
 		}
 
 	}

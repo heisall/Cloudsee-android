@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -96,7 +95,8 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		url = getIntent().getStringExtra("URL");
-		url = "http://bbst.cloudsee.net/forum.php?mod=forumdisplay&fid=36&mobile=2";
+		// url =
+		// "http://bbst.cloudsee.net/forum.php?mod=forumdisplay&fid=36&mobile=2";
 		// url = "http://test.cloudsee.net/phone.action";
 		// url = "http://app.ys7.com/";
 		titleID = getIntent().getIntExtra("title", 0);

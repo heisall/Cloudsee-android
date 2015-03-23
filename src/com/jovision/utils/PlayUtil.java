@@ -510,7 +510,7 @@ public class PlayUtil {
 	 * @return
 	 */
 	public static boolean startVideoTape(int index, String savePath) {
-		boolean startSuccess = Jni.startRecord(index, savePath, true, false);
+		boolean startSuccess = Jni.startRecord(index, savePath, true, true);
 		return startSuccess;
 	}
 

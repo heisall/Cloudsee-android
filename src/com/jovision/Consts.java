@@ -331,6 +331,37 @@ public class Consts {
 
 	public static final String MORE_TESTSWITCH = "TESTSWITCH"; // 测试服务器开关
 
+	public static final String MORE_ALARMMSG = "AlarmMsg"; // 报警信息
+	public static final String MORE_VERSION = "Version"; // 版本
+	public static final String MORE_DEVICESHARE = "DEVICE_SHARE"; // 设备分享
+	public static final String MORE_SHOWMEDIA = "SHOW_MEDIA"; // 察看图像
+	public static final String MORE_FEEDBACK = "FEED_BACK"; // 反馈
+	public static final String MORE_UPDATE = "UPDATE"; // 更新
+
+	/** 更多 list菜单每个item对应的属性标志 **/
+	public static final String[] moreListItemFlag = new String[] { MORE_HELP, /*
+																			 * 0
+																			 * 帮助
+																			 */
+	MORE_REMEMBER, /* 1 自动登陆 */
+	MORE_ALARMSWITCH, /* 2 警告信息推送 */
+	MORE_ALARMMSG, /* 3报警信息 */
+	MORE_PLAYMODE, /* 4 观看模式 */
+	MORE_DEVICESHARE, /* 5设备分享 */
+	MORE_STATURL, /* 6 云视通指数 */
+	MORE_GCSURL, /* 7 工程商入住 */
+	MORE_BBS, /* 8进入社区 */
+	MORE_SYSTEMMESSAGE, /* 9 系统消息 */
+	MORE_SHOWMEDIA, /* 10 图像察看 */
+	MORE_FEEDBACK, /* 11 反馈 */
+	MORE_UPDATE, /* 12 检查更新 */
+	MORE_LITTLE, /* 13关于 */
+	MORE_LITTLEHELP, /* 14 小助手 */
+	MORE_BROADCAST, /* 15广播 */
+	MORE_TESTSWITCH, /* 16 测试开关 */
+	MORE_VERSION /* 17 版本 */
+	};
+
 	/********************************* 　以上修改设备用户名密码需要的宏定义　 ***************************************/
 
 	public static final String IPC_FLAG = "IPC-";

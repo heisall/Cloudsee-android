@@ -40,7 +40,7 @@ public class FragmentAdapter extends BaseAdapter {
 	private int new_nums_;
 	private int new_bbsnums_;
 
-	private boolean showGCS = false;// 是否显示工程
+	// private boolean showGCS = false;// 是否显示工程
 
 	public FragmentAdapter(BaseFragment mfragment,
 			ArrayList<MoreFragmentBean> dataList) {
@@ -48,9 +48,9 @@ public class FragmentAdapter extends BaseAdapter {
 		this.dataList = dataList;
 	}
 
-	public void setShowGCS(boolean show) {
-		this.showGCS = show;
-	}
+	// public void setShowGCS(boolean show) {
+	// this.showGCS = show;
+	// }
 
 	@Override
 	public int getCount() {
@@ -99,95 +99,49 @@ public class FragmentAdapter extends BaseAdapter {
 		name.setText(dataList.get(position).getName());
 		tv_new_nums = (TextView) convertView
 				.findViewById(R.id.tv_item_new_nums);
-		if (position == 0) {
+
+		/** 设置隐藏 **/
+		if (dataList.get(position).isDismiss()) {
 			more_item.setVisibility(View.GONE);
+			divider_img.setVisibility(View.GONE);
+		} else {
+			more_item.setVisibility(View.VISIBLE);
+			divider_img.setVisibility(View.VISIBLE);
 		}
-		if (position == 5 || position == 15) {
+
+		/** 显示白框 **/
+		if (dataList.get(position).isShowWhiteBlock()) {
 			kongbai.setVisibility(View.VISIBLE);
 			divider_img_up.setVisibility(View.VISIBLE);
 		}
-		if (position == 1 && localFlag) {
-			more_item.setVisibility(View.GONE);
-			divider_img.setVisibility(View.GONE);
-		}
-		if (position == 2 && localFlag) {
-			more_relative.setVisibility(View.VISIBLE);
-			more_relative.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-				}
-			});
-		}
-		if (position == 3 || position == 10 || position == 11 || position == 13
-				|| position == 12) {
-			if ("true"
-					.equals(((BaseActivity) mfragment.getActivity()).statusHashMap
-							.get(Consts.KEY_GONE_MORE))) {
-				more_item.setVisibility(View.GONE);
-				divider_img.setVisibility(View.GONE);
-			}
-		}
-		if (position == 10 || position == 15) {
-			more_item.setVisibility(View.GONE);
-			divider_img.setVisibility(View.GONE);
-		}
-		if (position == 5 || position == 6 || position == 7 || position == 8) {
-			if (!MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
-				more_item.setVisibility(View.GONE);
-				divider_img.setVisibility(View.GONE);
+
+		/** 显示右侧圆形按钮 **/
+		if (dataList.get(position).isShowRightCircleBtn()) {
+			if (MySharedPreference.getBoolean(dataList.get(position)
+					.getItemFlag(), false)) {
+				item_next
+						.setBackgroundResource(R.drawable.morefragment_selector_icon);
 			} else {
-				more_item.setVisibility(View.VISIBLE);
-				divider_img.setVisibility(View.VISIBLE);
+				item_next
+						.setBackgroundResource(R.drawable.morefragment_normal_icon);
 			}
 		}
-		if (position == 13) {
-			if (!MySharedPreference.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+
+		/** 是否显示”新“ **/
+		if (dataList.get(position).isIsnew()) {
+			if (!MySharedPreference.getBoolean(dataList.get(position)
+					.getItemFlag())) {
 				tv_new_nums.setText(R.string.new_tag);
 				item_new.setVisibility(View.VISIBLE);
 			}
 		}
-		if (position == 9) {
-			if (!MySharedPreference.getBoolean(Consts.MORE_GCSURL)) {
-				if (showGCS) {
-					tv_new_nums.setText(R.string.new_tag);
-					item_new.setVisibility(View.VISIBLE);
-				} else {
-					item_new.setVisibility(View.GONE);
-				}
-			}
+		/** 显示白框 **/
+		if (dataList.get(position).isShowWhiteBlock()) {
+			kongbai.setVisibility(View.VISIBLE);
+			divider_img_up.setVisibility(View.VISIBLE);
 		}
-		if (position == 9) {
-			if (!showGCS) {
-				more_item.setVisibility(View.GONE);
-				divider_img.setVisibility(View.GONE);
-			} else {
-				more_item.setVisibility(View.VISIBLE);
-				divider_img.setVisibility(View.VISIBLE);
-			}
-		}
-		if (position == 11) {
-			if (!MySharedPreference.getBoolean(Consts.MORE_STATURL)) {
-				tv_new_nums.setText(R.string.new_tag);
-				item_new.setVisibility(View.VISIBLE);
-			}
-		}
-		if ((position == 12)// position == 9 ||
-				&& Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(mfragment
-						.getActivity())) {
-			// if (position == 9 && !showGCS) {
-			// more_item.setVisibility(View.GONE);
-			// divider_img.setVisibility(View.GONE);
-			// } else {
-			more_item.setVisibility(View.VISIBLE);
-			divider_img.setVisibility(View.VISIBLE);
-			// }
-		} else if ((position == 12)// position == 9 ||
-				&& Consts.LANGUAGE_ZH != ConfigUtil.getLanguage2(mfragment
-						.getActivity())) {
-			more_item.setVisibility(View.GONE);
-			divider_img.setVisibility(View.GONE);
-		}
-		if (position == 3) {
+		/** 显示信息数目 **/
+		if (dataList.get(position).isShowTVNews()) {
 			if (!localFlag) {
 				if (new_nums_ > 0) {
 					tv_new_nums.setText(String.valueOf(new_nums_));
@@ -200,7 +154,8 @@ public class FragmentAdapter extends BaseAdapter {
 				item_new.setVisibility(View.INVISIBLE);
 			}
 		}
-		if (position == 12) {
+		/** 显示论坛信息数目 **/
+		if (dataList.get(position).isShowBBSNews()) {
 			if (new_bbsnums_ > 0) {
 				tv_new_nums.setText(String.valueOf(new_bbsnums_));
 				item_new.setVisibility(View.VISIBLE);
@@ -209,86 +164,14 @@ public class FragmentAdapter extends BaseAdapter {
 				item_new.setVisibility(View.INVISIBLE);
 			}
 		}
-		// if (position == 15
-		// && "true".equalsIgnoreCase(((BaseActivity) mfragment
-		// .getActivity()).statusHashMap
-		// .get(Consts.NEUTRAL_VERSION))) {
-		// // 中性版本的隐藏注册协议
-		// more_item.setVisibility(View.GONE);
-		// divider_img.setVisibility(View.GONE);
-		// }
-		if (position == 17) {
+		/** 显示版本信息 **/
+		if (dataList.get(position).isShowVersion()) {
 			item_next.setVisibility(View.GONE);
 			item_version.setVisibility(View.VISIBLE);
 			item_version
 					.setText(ConfigUtil.getVersion(mfragment.getActivity()));
-
-			// mfragment.getActivity().getResources()
-			// .getString(R.string.str_current_version));
 		}
-		if (position > -1 && position < 8 && position != 3) {
-			item_next
-					.setBackgroundResource(R.drawable.morefragment_normal_icon);
-			switch (position) {
-			case 0:
-				if (MySharedPreference.getBoolean(Consts.MORE_HELP)) {
-					item_next
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
-				}
-				break;
-			case 1:
-				if (!localFlag) {
-					if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER,
-							false)) {
-						item_next
-								.setBackgroundResource(R.drawable.morefragment_selector_icon);
-					}
-				} else {
-					item_next
-							.setBackgroundResource(R.drawable.morefragment_normal_icon);
-				}
-				break;
-			case 2:
-				if (!localFlag) {
-					if (MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
-							true)) {
-						item_next
-								.setBackgroundResource(R.drawable.morefragment_selector_icon);
-					}
-				} else {
-					item_next
-							.setBackgroundResource(R.drawable.morefragment_normal_icon);
-				}
-				break;
-			case 4:
-				if (MySharedPreference.getBoolean(Consts.MORE_PLAYMODE)) {
-					item_next
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
 
-				}
-				break;
-			case 5:
-				if (MySharedPreference.getBoolean(Consts.MORE_LITTLEHELP)) {
-					item_next
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
-				}
-				break;
-			case 6:
-				if (MySharedPreference.getBoolean(Consts.MORE_BROADCAST)) {
-					item_next
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
-				}
-				break;
-			case 7:
-				if (MySharedPreference.getBoolean(Consts.MORE_TESTSWITCH)) {
-					item_next
-							.setBackgroundResource(R.drawable.morefragment_selector_icon);
-				}
-				break;
-			default:
-				break;
-			}
-		}
 		return convertView;
 	}
 }

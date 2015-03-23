@@ -460,6 +460,7 @@
     <!-- popupWindow -->
     <string name="pop_take">Capture</string>
     <string name="pop_pictrue">Choose from phone Album.</string>
+    <string name="code_pictrue">Phone Album</string>
     <!-- JVPlayActivity -->
     <string name="offline_not_play1">Unable to operate due to device has been offline.</string>
     <string name="connfailed_auth">Username or password wrong</string>

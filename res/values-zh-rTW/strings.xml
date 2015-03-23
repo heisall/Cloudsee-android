@@ -460,6 +460,7 @@
     <!-- popupWindow -->
     <string name="pop_take">拍照</string>
     <string name="pop_pictrue">從相冊選擇</string>
+    <string name="code_pictrue">相冊</string>
     <!-- JVPlayActivity -->
     <string name="offline_not_play1">設備已處於離線狀態,不能進行操作.</string>
     <string name="connfailed_auth">用戶名或密碼錯誤 </string>

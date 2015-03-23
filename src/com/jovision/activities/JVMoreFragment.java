@@ -115,15 +115,15 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 			R.drawable.morefragment_autologin_icon,
 			R.drawable.morefragment_warmmessage_icon,
 			R.drawable.alarm_info_icon, R.drawable.morefragment_setting_icon,
-			R.drawable.develop_warning, R.drawable.develop_warning,
-			R.drawable.develop_warning, R.drawable.develop_warning,
-			R.drawable.morefragment_install_icon,
 			R.drawable.morefragment_sharedevice_icon,
-			R.drawable.morefragment_data_icon, R.drawable.more_bbs,
+			R.drawable.morefragment_data_icon,
+			R.drawable.morefragment_install_icon, R.drawable.more_bbs,
 			R.drawable.more_message, R.drawable.media_image,
 			R.drawable.morefragment_feedback_icon,
 			R.drawable.morefragment_update_icon,
-			R.drawable.morefragment_aboutus_icon };
+			R.drawable.morefragment_aboutus_icon, R.drawable.develop_warning,
+			R.drawable.develop_warning, R.drawable.develop_warning,
+			R.drawable.develop_warning, };
 	// 功能名称数组
 	private String[] fragment_name;
 
@@ -136,8 +136,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 	private MainApplication mApp;
 
 	private ImageView more_camera;
-
-	private boolean showGCS = false;// 是否显示工程商
 
 	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
@@ -172,16 +170,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 		super.onActivityCreated(savedInstanceState);
 		mParent = getView();
 		mActivity = (BaseActivity) getActivity();
-
-		// 判断是否显示工程商
-		String showGcsStr = mActivity.statusHashMap.get(Consts.MORE_GCS_SWITCH);
-		if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
-			if (1 == Integer.parseInt(showGcsStr)) {
-				showGCS = true;
-			} else {
-				showGCS = false;
-			}
-		}
 
 		localFlag = Boolean.valueOf(mActivity.statusHashMap
 				.get(Consts.LOCAL_LOGIN));
@@ -273,6 +261,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 		more_head = (ImageView) view.findViewById(R.id.more_head_img);
 
 		more_listView = (ListView) view.findViewById(R.id.more_listView);
+
 		adapter = new FragmentAdapter(JVMoreFragment.this, dataList);
 		more_listView.setAdapter(adapter);
 		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
@@ -303,6 +292,9 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 		// TODO Auto-generated method stub
 		MyLog.e("TMAC", "the JVMoreFragment onResume invoke~~~");
 		super.onResume();
+
+		((MainApplication) mActivity.getApplication()).initDefaultMoreList();
+		adapter.notifyDataSetChanged();
 		more_bindmail.setVisibility(View.GONE);
 		if (!Boolean.valueOf(((BaseActivity) activity).statusHashMap
 				.get(Consts.LOCAL_LOGIN))
@@ -344,24 +336,9 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 		more_username.setText(more_name);
 		int alarm_new_nums = mApp.getNewPushCnt();
 		adapter.setNewNums(alarm_new_nums);
-		adapter.setShowGCS(showGCS);
+		// adapter.setShowGCS(showGCS);
 		adapter.notifyDataSetChanged();
 		ListViewUtil.setListViewHeightBasedOnChildren(more_listView);
-	}
-
-	private void initDatalist() {
-		try {
-			dataList = new ArrayList<MoreFragmentBean>();
-			for (int i = 0; i < Image.length; i++) {
-				MoreFragmentBean bean = new MoreFragmentBean();
-				bean.setItem_img(Image[i]);
-				bean.setName(fragment_name[i]);
-				dataList.add(bean);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	OnClickListener myOnClickListener = new OnClickListener() {
@@ -440,11 +417,9 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 				}
 				break;
 			case R.id.more_findpassword:
-
 				break;
 			default:
 				break;
-
 			}
 		}
 	};
@@ -524,6 +499,70 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 
 	}
 
+	private void initDatalist() {
+		((MainApplication) activity.getApplication()).initDefaultMoreList();
+		ArrayList<MoreFragmentBean> defaultMoreList = mApp.getDefaultMoreList();
+		try {
+			dataList = new ArrayList<MoreFragmentBean>();
+			for (int i = 0; i < defaultMoreList.size(); i++) {
+				MoreFragmentBean bean = new MoreFragmentBean();
+				bean.setDismiss(defaultMoreList.get(i).isDismiss());
+				bean.setIsnew(defaultMoreList.get(i).isIsnew());
+				bean.setShowTVNews(defaultMoreList.get(i).isShowTVNews());
+				bean.setShowBBSNews(defaultMoreList.get(i).isShowBBSNews());
+				bean.setShowWhiteBlock(defaultMoreList.get(i)
+						.isShowWhiteBlock());
+				bean.setShowRightCircleBtn(defaultMoreList.get(i)
+						.isShowRightCircleBtn());
+				bean.setShowVersion(defaultMoreList.get(i).isShowVersion());
+				bean.setItem_img(Image[i]);
+				bean.setName(fragment_name[i]);
+				bean.setItemFlag(defaultMoreList.get(i).getItemFlag());
+				dataList.add(bean);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void dismissLittleHelper() {
+		for (MoreFragmentBean bean : mApp.getDefaultMoreList()) {
+			if (bean.getItemFlag().equals(Consts.MORE_LITTLEHELP)
+					|| bean.getItemFlag().equals(Consts.MORE_BROADCAST)
+					|| bean.getItemFlag().equals(Consts.MORE_TESTSWITCH)
+					|| bean.getItemFlag().equals(Consts.MORE_VERSION)) {
+				bean.setDismiss(true);
+			}
+		}
+		for (MoreFragmentBean bean : dataList) {
+			if (bean.getItemFlag().equals(Consts.MORE_LITTLEHELP)
+					|| bean.getItemFlag().equals(Consts.MORE_BROADCAST)
+					|| bean.getItemFlag().equals(Consts.MORE_TESTSWITCH)
+					|| bean.getItemFlag().equals(Consts.MORE_VERSION)) {
+				bean.setDismiss(true);
+			}
+		}
+	}
+
+	private void showLittleHelper() {
+		for (MoreFragmentBean bean : mApp.getDefaultMoreList()) {
+			if (bean.getItemFlag().equals(Consts.MORE_LITTLEHELP)
+					|| bean.getItemFlag().equals(Consts.MORE_BROADCAST)
+					|| bean.getItemFlag().equals(Consts.MORE_TESTSWITCH)
+					|| bean.getItemFlag().equals(Consts.MORE_VERSION)) {
+				bean.setDismiss(false);
+			}
+		}
+		for (MoreFragmentBean bean : dataList) {
+			if (bean.getItemFlag().equals(Consts.MORE_LITTLEHELP)
+					|| bean.getItemFlag().equals(Consts.MORE_BROADCAST)
+					|| bean.getItemFlag().equals(Consts.MORE_TESTSWITCH)
+					|| bean.getItemFlag().equals(Consts.MORE_VERSION)) {
+				bean.setDismiss(false);
+			}
+		}
+	}
+
 	private void listViewClick() {
 		more_listView
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -531,8 +570,12 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
-						switch (position) {
-						case 0: // 帮助图片是否显示
+						System.out
+								.println("===============postion================"
+										+ position);
+
+						if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_HELP)) {
 							if (MySharedPreference.getBoolean(Consts.MORE_HELP)) {
 								MySharedPreference.putBoolean(Consts.MORE_HELP,
 										false);
@@ -540,17 +583,9 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 										Consts.MORE_PAGEONE, true);
 								MySharedPreference.putBoolean(
 										Consts.MORE_PAGETWO, true);
-							} else {
-								MySharedPreference.putBoolean(Consts.MORE_HELP,
-										true);
-								MySharedPreference.putBoolean(
-										Consts.MORE_PAGEONE, false);
-								MySharedPreference.putBoolean(
-										Consts.MORE_PAGETWO, false);
 							}
-							break;
-						case 1: // 自动登录功能
-							// TODO
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_REMEMBER)) {
 							if (MySharedPreference
 									.getBoolean(Consts.MORE_REMEMBER)) {
 								MySharedPreference.putBoolean(
@@ -559,23 +594,21 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 								MySharedPreference.putBoolean(
 										Consts.MORE_REMEMBER, true);
 							}
-							break;
-						case 2: // 报警通知开关
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_ALARMSWITCH)) {
 							AlarmTask task = new AlarmTask();
 							Integer[] params = new Integer[3];
 							if (!MySharedPreference.getBoolean(
-									Consts.MORE_ALARMSWITCH, true)) {// 1是关
-								// 0是开
+									Consts.MORE_ALARMSWITCH, true)) {// 1是关//
+																		// 0是开
 								params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
 							} else {
 								params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
 							}
 							task.execute(params);
-
-							break;
-						case 3:// 换成报警信息
-							if (localFlag)// 本地登录
-							{
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_ALARMMSG)) {
+							if (localFlag) {
 								mActivity.showTextToast(R.string.more_nologin);
 							} else {
 								if (!ConfigUtil.isConnected(mActivity)) {
@@ -587,60 +620,29 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 									startActivity(intent2);
 								}
 							}
-
-							// if (!MySharedPreference.getBoolean("VideoSquer"))
-							// {
-							// MySharedPreference.putBoolean("VideoSquer",
-							// true);
-							// }
-							//
-							// if (!ConfigUtil.isConnected(mActivity)) {
-							// mActivity.alertNetDialog();
-							// } else {
-							// StatService.trackCustomEvent(
-							// mActivity,
-							// "Demo",
-							// mActivity.getResources().getString(
-							// R.string.census_demo));
-							//
-							// GetDemoTask demoTask = new GetDemoTask(
-							// mActivity);
-							// String[] demoParams = new String[3];
-							// if (!Boolean
-							// .valueOf(((BaseActivity) activity).statusHashMap
-							// .get(Consts.LOCAL_LOGIN))) {
-							// String sessionResult = ConfigUtil
-							// .getSession();
-							//
-							// MyLog.v("session", sessionResult);
-							// demoParams[0] = sessionResult;
-							// } else {
-							// demoParams[0] = "";
-							// }
-							// demoTask.execute(demoParams);
-							// }
-							// TODO
-							break;
-						case 4: // 观看模式（单设备，多设备）
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_PLAYMODE)) {
+							// 观看模式（单设备，多设备）
 							if (MySharedPreference
 									.getBoolean(Consts.MORE_PLAYMODE)) {
 								MySharedPreference.putBoolean(
 										Consts.MORE_PLAYMODE, false);
-								dataList.get(4).setName(
+								dataList.get(position).setName(
 										mActivity.getResources().getString(
 												R.string.str_video_modetwo));
 							} else {
 								MySharedPreference.putBoolean(
 										Consts.MORE_PLAYMODE, true);
-								dataList.get(4)
+								dataList.get(position)
 										.setName(
 												mActivity
 														.getResources()
 														.getString(
 																R.string.str_video_more_modetwo));
 							}
-							break;
-						case 5:// 小助手
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_LITTLEHELP)) {
+
 							if (MySharedPreference
 									.getBoolean(Consts.MORE_LITTLEHELP)) {
 								MySharedPreference.putBoolean(
@@ -649,8 +651,9 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 								MySharedPreference.putBoolean(
 										Consts.MORE_LITTLEHELP, true);
 							}
-							break;
-						case 6:// 广播
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_BROADCAST)) {
+							// 广播
 							if (MySharedPreference
 									.getBoolean(Consts.MORE_BROADCAST)) {
 								MySharedPreference.putBoolean(
@@ -659,8 +662,9 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 								MySharedPreference.putBoolean(
 										Consts.MORE_BROADCAST, true);
 							}
-							break;
-						case 7:// 测试服务器开关
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_TESTSWITCH)) {
+							// 测试服务器开关
 							MySharedPreference.putString("ChannelIP", "");
 							MySharedPreference.putString("OnlineIP", "");
 							MySharedPreference.putString("ChannelIP_en", "");
@@ -678,27 +682,23 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 								MySharedPreference.putBoolean(
 										Consts.MORE_REMEMBER, false);
 							}
-							break;
-						case 8:// 版本号
-								// 获取用户未读消息
-								// v.php?mod=api&act=user_pm&sid=<>
-								// sid 用户标识
-								// return:
-								// {"success":true,"msg":null,"errCode":null,"data":[{"url":"","count":""}]}
-								// count:消息数量
-								// url:消息页面
-								// 现在success一直返回false
-
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_VERSION)) {
+							// 版本号
+							// 获取用户未读消息
+							// v.php?mod=api&act=user_pm&sid=<>
+							// sid 用户标识
+							// return:
+							// {"success":true,"msg":null,"errCode":null,"data":[{"url":"","count":""}]}
+							// count:消息数量
+							// url:消息页面
+							// 现在success一直返回false
 							Intent intentVersion = new Intent(mActivity,
 									JVVersionActivity.class);
 							mActivity.startActivity(intentVersion);
-
-							break;
-
-						case 9: // 2015.3.16 我要装监控改为工程商入驻
-							if (!showGCS) {
-								break;
-							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_GCSURL)) {
+							// 2015.3.16 我要装监控改为工程商入驻
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_GCSURL)) {
 								MySharedPreference.putBoolean(
@@ -734,15 +734,12 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 									UrlTask.execute(demoParams);
 								}
 							}
-							break;
-						case 10: // 设备分享
-							// GetDemoTask UrlTask1 = new
-							// GetDemoTask(mActivity);
-							// String[] demoParams1 = new String[3];
-							// demoParams1[0] = "1";
-							// UrlTask1.execute(demoParams1);
-							break;
-						case 11: // 云视通指数
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_DEVICESHARE)) {
+							// 设备分享
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_STATURL)) {
+							// 云视通指数
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_STATURL)) {
 								MySharedPreference.putBoolean(
@@ -778,15 +775,8 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 									UrlTask2.execute(demoParams2);
 								}
 							}
-							break;
-						case 12:
-							// if
-							// (!MySharedPreference.getBoolean(Consts.MORE_BBS))
-							// {
-							// MySharedPreference.putBoolean(Consts.MORE_BBS,
-							// true);
-							// mListener.OnFuncEnabled(0, 1);
-							// }
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_BBS)) {
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {
@@ -849,8 +839,9 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 									}
 								}
 							}
-							break;
-						case 13: // 系统消息
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_SYSTEMMESSAGE)) {
+							// 系统消息
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
 								MySharedPreference.putBoolean(
@@ -870,8 +861,9 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 										JVSystemInfoActivity.class);
 								mActivity.startActivity(infoIntent);
 							}
-							break;
-						case 14: // 图像查看
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_SHOWMEDIA)) {
+							// 图像查看
 							StatService.trackCustomEvent(
 									mActivity,
 									"Media",
@@ -880,13 +872,12 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 							Intent intentMedia = new Intent(mActivity,
 									JVMediaActivity.class);
 							mActivity.startActivity(intentMedia);
-							break;
-						case 15: // 意见反馈
-							// Intent intent = new Intent(mActivity,
-							// JVFeedbackActivity.class);
-							// startActivity(intent);
-							break;
-						case 16: // 检查更新
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_FEEDBACK)) {
+							// 意见反馈
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_UPDATE)) {
+							// 检查更新
 							if (!ConfigUtil.isConnected(mActivity)) {
 								mActivity.alertNetDialog();
 							} else {
@@ -897,12 +888,15 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 								strParams[0] = "1";// 1,手动检查更新
 								taskf.execute(strParams);
 							}
-
-							break;
-						case 17: // 关于
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_LITTLE)) {
+							// 关于
 							if (!MySharedPreference
 									.getBoolean(Consts.MORE_LITTLE)) {
 								littlenum++;
+								System.out
+										.println("=========================littlenum======"
+												+ littlenum);
 								if (littlenum < 20) {
 									if (littlenum >= 17) {
 										mActivity
@@ -916,6 +910,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 											Consts.MORE_BROADCAST, true);
 									MySharedPreference.putBoolean(
 											Consts.MORE_LITTLE, true);
+									showLittleHelper();
 									ListViewUtil
 											.setListViewHeightBasedOnChildren(more_listView);
 								}
@@ -927,12 +922,10 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 										Consts.MORE_BROADCAST, false);
 								MySharedPreference.putBoolean(
 										Consts.MORE_LITTLE, false);
+								dismissLittleHelper();
 								ListViewUtil
 										.setListViewHeightBasedOnChildren(more_listView);
 							}
-							break;
-						default:
-							break;
 						}
 						adapter.notifyDataSetChanged();
 					}

@@ -71,7 +71,8 @@ public final class RGBLuminanceSource extends LuminanceSource {
 	@Override
 	public byte[] getRow(int y, byte[] row) {
 		if (y < 0 || y >= getHeight()) {
-			throw new IllegalArgumentException("Requested row is outside the image: " + y);
+			throw new IllegalArgumentException(
+					"Requested row is outside the image: " + y);
 		}
 		int width = getWidth();
 		if (row == null || row.length < width) {

@@ -16,18 +16,18 @@
         <item>Alarm</item>
         <item>Alarm Message</item>
         <item>Viewing Mode(Single-device)</item>
-        <item>Helper</item>
-        <item>BroadCast</item>
-        <item>Test Switch</item>
-        <item>Version</item>
-        <item>I want this</item>
         <item>Share</item>
         <item>CloudSEE Index</item>
+        <item>I want this</item>
         <item>进入社区</item>
         <item>System Information</item>
         <item>Image View</item>
         <item>Feedback</item>
         <item>Software Update</item>
+        <item>Version</item>
+        <item>Helper</item>
+        <item>BroadCast</item>
+        <item>Test Switch</item>
         <item>Version</item>
     </string-array>
     <string-array name="array_moreduo">
@@ -36,18 +36,18 @@
         <item>Alarm</item>
         <item>Alarm Message</item>
         <item>Viewing Mode(Multi-device)</item>
-        <item>Helper</item>
-        <item>BroadCast</item>
-        <item>Test Switch</item>
-        <item>Version</item>
-        <item>I want this</item>
         <item>Share</item>
         <item>CloudSEE Index</item>
+        <item>I want this</item>
         <item>进入社区</item>
         <item>System Information</item>
         <item>Image View</item>
         <item>Feedback</item>
         <item>Software Update</item>
+        <item>Version</item>
+        <item>Helper</item>
+        <item>BroadCast</item>
+        <item>Test Switch</item>
         <item>Version</item>
     </string-array>
     <!-- setting -->

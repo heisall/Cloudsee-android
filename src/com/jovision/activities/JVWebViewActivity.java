@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -303,7 +302,7 @@ public class JVWebViewActivity extends BaseActivity {
 					loadinglayout.setVisibility(View.GONE);
 				} else {
 					webView.loadUrl("javascript:function uploadPicFromMobile(str){fileupload.addFileList(str);}");
-					webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
+					// webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
 					loadinglayout.setVisibility(View.GONE);
 					webView.setVisibility(View.VISIBLE);
 					loadFailedLayout.setVisibility(View.GONE);
@@ -511,12 +510,14 @@ public class JVWebViewActivity extends BaseActivity {
 				return;
 			Uri result = intent == null || resultCode != RESULT_OK ? null
 					: intent.getData();
+			showTextToast(result.toString());
 			mUploadMessage.onReceiveValue(result);
 			mUploadMessage = null;
 			break;
 		case REQ_CAMERA:
 			if (resultCode == Activity.RESULT_OK) {
 				mUploadMessage.onReceiveValue(imageUri);
+				showTextToast(imageUri.toString());
 				mUploadMessage = null;
 			}
 			break;

@@ -494,6 +494,9 @@ public class JVWebViewActivity extends BaseActivity {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
 				webView.setFocusable(true);
+				webView.onResume();
+				mUploadMessage.onReceiveValue(null);
+				mUploadMessage = null;
 			}
 		});
 		builder.create().show();
@@ -501,6 +504,7 @@ public class JVWebViewActivity extends BaseActivity {
 
 	public static final int REQ_CAMERA = 0;
 	public static final int REQ_CHOOSER = 1;
+	public static final int REQ_NULL = 2;
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode,
@@ -524,6 +528,7 @@ public class JVWebViewActivity extends BaseActivity {
 			break;
 		default:
 			webView.requestFocus();
+			mUploadMessage = null;
 			// mWebView.setFocusable(true);
 			break;
 		}

@@ -3,9 +3,6 @@ package com.jovision.activities;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.test.JVACCOUNT;
@@ -27,7 +24,8 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 
-public class AlarmSettingsActivity extends BaseActivity implements View.OnClickListener{
+public class AlarmSettingsActivity extends BaseActivity implements
+		View.OnClickListener {
 
 	private String[] titleArray;
 	private String[] tipsArray;
@@ -36,7 +34,8 @@ public class AlarmSettingsActivity extends BaseActivity implements View.OnClickL
 	private AlarmSettingsAdapter alarmAdapter;
 	private ListView dataListView;
 	private AlarmSettingsActivity mActivity;
-	private int currentClickItemPosition = 0;//当前点击的位置
+	private int currentClickItemPosition = 0;// 当前点击的位置
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,6 +45,7 @@ public class AlarmSettingsActivity extends BaseActivity implements View.OnClickL
 		InitViews();
 		InitData();
 	}
+
 	private void InitViews() {
 		leftBtn = (Button) findViewById(R.id.btn_left);
 		rightBtn = (Button) findViewById(R.id.btn_right);
@@ -55,92 +55,96 @@ public class AlarmSettingsActivity extends BaseActivity implements View.OnClickL
 		accountError = (TextView) findViewById(R.id.accounterror);
 		leftBtn.setOnClickListener(this);
 		currentMenu.setText(R.string.str_alarm_settings);
-		dataListView = (ListView)findViewById(R.id.list_func);
-	}	
-	
-	private void InitData(){
+		dataListView = (ListView) findViewById(R.id.list_func);
+	}
+
+	private void InitData() {
 		mActivity = this;
 		dataList = new ArrayList<AlarmSettingsItemBean>();
-		//功能编号从0开始
-		titleArray = getResources().getStringArray(R.array.alarm_settings_title);
+		// 功能编号从0开始
+		titleArray = getResources()
+				.getStringArray(R.array.alarm_settings_title);
 		tipsArray = getResources().getStringArray(R.array.alarm_settings_tips);
-		
+
 		try {
-			//0:消息推送tag
+			// 0:消息推送tag
 			AlarmSettingsItemBean item0 = new AlarmSettingsItemBean();
 			item0.setIsTag(true);
 			item0.setTitle(titleArray[0]);
 			item0.setTips(tipsArray[0]);
 			item0.setSwitch(SWITCH_GONE);
 			item0.setEnabled(true);
-			
+
 			dataList.add(item0);
-			
-			//1:消息推送data
-			
+
+			// 1:消息推送data
+
 			AlarmSettingsItemBean item1 = new AlarmSettingsItemBean();
 			item1.setIsTag(false);
 			item1.setTitle(titleArray[1]);
 			item1.setTips(tipsArray[1]);
 			item1.setSwitch(MySharedPreference.getBoolean(
-					Consts.MORE_ALARMSWITCH, true)?1:0);
-			item1.setEnabled(true);	
-			
+					Consts.MORE_ALARMSWITCH, true) ? 1 : 0);
+			item1.setEnabled(true);
+
 			dataList.add(item1);
-			
-			//2:音效tag
+
+			// 2:音效tag
 			AlarmSettingsItemBean item2 = new AlarmSettingsItemBean();
 			item2.setIsTag(true);
 			item2.setTitle(titleArray[2]);
 			item2.setTips(tipsArray[2]);
 			item2.setSwitch(SWITCH_GONE);
-			item2.setEnabled(true);		
-			
+			item2.setEnabled(true);
+
 			dataList.add(item2);
-			
-			//3:铃声data
+
+			// 3:铃声data
 			AlarmSettingsItemBean item3 = new AlarmSettingsItemBean();
 			item3.setIsTag(false);
 			item3.setTitle(titleArray[3]);
 			item3.setTips(tipsArray[3]);
 			item3.setSwitch(MySharedPreference.getBoolean(
-					Consts.ALARM_SETTING_SOUND, true)?1:0);
+					Consts.ALARM_SETTING_SOUND, true) ? 1 : 0);
 			item3.setEnabled(MySharedPreference.getBoolean(
 					Consts.MORE_ALARMSWITCH, true));
-			
+
 			dataList.add(item3);
-			
-			//4:振动data
+
+			// 4:振动data
 			AlarmSettingsItemBean item4 = new AlarmSettingsItemBean();
 			item4.setIsTag(false);
 			item4.setTitle(titleArray[4]);
 			item4.setTips(tipsArray[4]);
 			item4.setSwitch(MySharedPreference.getBoolean(
-					Consts.ALARM_SETTING_VIBRATE, true)?1:0);
+					Consts.ALARM_SETTING_VIBRATE, true) ? 1 : 0);
 			item4.setEnabled(MySharedPreference.getBoolean(
 					Consts.MORE_ALARMSWITCH, true));
-			
+
 			dataList.add(item4);
-			
+
 			alarmAdapter = new AlarmSettingsAdapter(this, dataList);
 			dataListView.setAdapter(alarmAdapter);
-			
+
 			listViewClick();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 	}
+
 	private void listViewClick() {
-		dataListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		dataListView
+				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
 						currentClickItemPosition = position;
-						Log.e("Alarm", "alarm setting onclick position:"+currentClickItemPosition);
-						AlarmSettingsItemBean itemObj = dataList.get(currentClickItemPosition);
+						Log.e("Alarm", "alarm setting onclick position:"
+								+ currentClickItemPosition);
+						AlarmSettingsItemBean itemObj = dataList
+								.get(currentClickItemPosition);
 						switch (position) {
 						case 1: // 报警消息推送开关
 							AlarmTask task = new AlarmTask();
@@ -154,7 +158,7 @@ public class AlarmSettingsActivity extends BaseActivity implements View.OnClickL
 							}
 							task.execute(params);
 							return;
-						case 3://铃声开关
+						case 3:// 铃声开关
 							if (MySharedPreference
 									.getBoolean(Consts.ALARM_SETTING_SOUND)) {
 								MySharedPreference.putBoolean(
@@ -163,9 +167,10 @@ public class AlarmSettingsActivity extends BaseActivity implements View.OnClickL
 								MySharedPreference.putBoolean(
 										Consts.ALARM_SETTING_SOUND, true);
 							}
-							itemObj.setSwitch(MySharedPreference.getBoolean(Consts.ALARM_SETTING_SOUND,true)?1:0);
+							itemObj.setSwitch(MySharedPreference.getBoolean(
+									Consts.ALARM_SETTING_SOUND, true) ? 1 : 0);
 							break;
-						case 4://振动开关
+						case 4:// 振动开关
 							if (MySharedPreference
 									.getBoolean(Consts.ALARM_SETTING_VIBRATE)) {
 								MySharedPreference.putBoolean(
@@ -173,22 +178,24 @@ public class AlarmSettingsActivity extends BaseActivity implements View.OnClickL
 							} else {
 								MySharedPreference.putBoolean(
 										Consts.ALARM_SETTING_VIBRATE, true);
-							}								
-							itemObj.setSwitch(MySharedPreference.getBoolean(Consts.ALARM_SETTING_VIBRATE,true)?1:0);
-						break;
+							}
+							itemObj.setSwitch(MySharedPreference.getBoolean(
+									Consts.ALARM_SETTING_VIBRATE, true) ? 1 : 0);
+							break;
 						default:
-							break;						
+							break;
 						}
 						dataList.set(currentClickItemPosition, itemObj);
 						alarmAdapter.notifyDataSetChanged();
 					}
 				});
 	}
-	
+
 	// 设置三种类型参数分别为String,Integer,String
 	private class AlarmTask extends AsyncTask<Integer, Integer, Integer> {// A,361,2000
 		// 可变长的输入参数，与AsyncTask.exucute()对应
-		private int flag = -1;//标志开关操作
+		private int flag = -1;// 标志开关操作
+
 		@Override
 		protected Integer doInBackground(Integer... params) {
 			int switchRes = -1;
@@ -224,28 +231,27 @@ public class AlarmSettingsActivity extends BaseActivity implements View.OnClickL
 		protected void onPostExecute(Integer result) {
 			// 返回HTML页面的内容此方法在主线程执行，任务执行的结果作为此方法的参数返回。
 			mActivity.dismissDialog();
-			if(result == 0){
-				AlarmSettingsItemBean itemObj = dataList.get(currentClickItemPosition);
-				itemObj.setSwitch(MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
-								true)?1:0);
-				for(int i=0; i<dataList.size(); i++){
-					if(i != currentClickItemPosition){
-						//报警消息推送开关选项没有enable设置
+			if (result == 0) {
+				AlarmSettingsItemBean itemObj = dataList
+						.get(currentClickItemPosition);
+				itemObj.setSwitch(MySharedPreference.getBoolean(
+						Consts.MORE_ALARMSWITCH, true) ? 1 : 0);
+				for (int i = 0; i < dataList.size(); i++) {
+					if (i != currentClickItemPosition) {
+						// 报警消息推送开关选项没有enable设置
 						AlarmSettingsItemBean itemObj_tmp = dataList.get(i);
-						itemObj_tmp.setEnabled(MySharedPreference.getBoolean(Consts.MORE_ALARMSWITCH,
-								true));
+						itemObj_tmp.setEnabled(MySharedPreference.getBoolean(
+								Consts.MORE_ALARMSWITCH, true));
 						dataList.set(i, itemObj_tmp);
 					}
 				}
 
 				dataList.set(currentClickItemPosition, itemObj);
-				alarmAdapter.notifyDataSetChanged();				
-			}
-			else{
-				if(flag == JVAlarmConst.ALARM_ON){
+				alarmAdapter.notifyDataSetChanged();
+			} else {
+				if (flag == JVAlarmConst.ALARM_ON) {
 					mActivity.showTextToast(R.string.str_alarm_pushon_failed);
-				}
-				else{
+				} else {
 					mActivity.showTextToast(R.string.str_alarm_pushoff_failed);
 				}
 			}
@@ -263,7 +269,7 @@ public class AlarmSettingsActivity extends BaseActivity implements View.OnClickL
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
-	
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		// TODO Auto-generated method stub
@@ -299,10 +305,11 @@ public class AlarmSettingsActivity extends BaseActivity implements View.OnClickL
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		switch(v.getId()){
+		switch (v.getId()) {
 		case R.id.btn_left:
 			finish();
 			break;

@@ -13,11 +13,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -26,7 +23,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -54,7 +50,7 @@ import com.jovision.Consts;
 import com.jovision.utils.RegularUtil;
 
 public class MipcaActivityCapture extends Activity implements Callback,
-View.OnClickListener {
+		View.OnClickListener {
 
 	private CaptureActivityHandler handler;
 	private ViewfinderView viewfinderView;
@@ -70,7 +66,6 @@ View.OnClickListener {
 	private TextView scaningTxt;
 	// 扫描结果
 	String resultString = "";
-
 
 	private static final int PHOTO_REQUEST_CUT = 3;// 结果
 	private static final int REQUEST_CODE = 100;
@@ -160,17 +155,18 @@ View.OnClickListener {
 					startPhotoZoom(data.getData(), PARSE_BARCODE_SUC);
 				break;
 			case PHOTO_REQUEST_CUT:
-				if (data != null){
-//					Cursor cursor = getContentResolver().query(data.getData(),
-//							null, null, null, null);
-//					if (cursor.moveToFirst()) {
-//						photo_path = cursor.getString(cursor
-//								.getColumnIndex(MediaStore.Images.Media.DATA));
-//					}
-//					cursor.close();
+				if (data != null) {
+					// Cursor cursor =
+					// getContentResolver().query(data.getData(),
+					// null, null, null, null);
+					// if (cursor.moveToFirst()) {
+					// photo_path = cursor.getString(cursor
+					// .getColumnIndex(MediaStore.Images.Media.DATA));
+					// }
+					// cursor.close();
 
 					setPicToView(data);
-					
+
 					mProgress = new ProgressDialog(MipcaActivityCapture.this);
 					mProgress.setMessage("");
 					mProgress.setCancelable(false);
@@ -216,20 +212,21 @@ View.OnClickListener {
 		intent.putExtra("return-data", true);
 		startActivityForResult(intent, PHOTO_REQUEST_CUT);
 	}
-	
+
 	private void setPicToView(Intent picdata) {
 		Bundle bundle = picdata.getExtras();
 		if (bundle != null) {
 			Bitmap photo = bundle.getParcelable("data");
 			saveBitmap(photo);
-			photo_path = Consts.HEAD_PATH  + "erweima.jpg";
+			photo_path = Consts.HEAD_PATH + "erweima.jpg";
 		}
 	}
+
 	public void saveBitmap(Bitmap bm) {
 		if (null == bm) {
 			return;
 		}
-		File f = new File(Consts.HEAD_PATH  + "erweima.jpg");
+		File f = new File(Consts.HEAD_PATH + "erweima.jpg");
 		if (f.exists()) {
 			f.delete();
 		}
@@ -242,6 +239,7 @@ View.OnClickListener {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * ɨ���ά��ͼƬ�ķ���
 	 * 
@@ -403,61 +401,61 @@ View.OnClickListener {
 
 		builder.setPositiveButton(R.string.login_str_add,
 				new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				Intent resultIntent = new Intent();
-				Bundle bundle = new Bundle();
-				bundle.putString("result", resultString);
-				resultIntent.putExtras(bundle);
-				MipcaActivityCapture.this.setResult(
-						Consts.WHAT_BARCODE_RESULT, resultIntent);
-				MipcaActivityCapture.this.finish();
-			}
-		});
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Intent resultIntent = new Intent();
+						Bundle bundle = new Bundle();
+						bundle.putString("result", resultString);
+						resultIntent.putExtras(bundle);
+						MipcaActivityCapture.this.setResult(
+								Consts.WHAT_BARCODE_RESULT, resultIntent);
+						MipcaActivityCapture.this.finish();
+					}
+				});
 		builder.setNegativeButton(R.string.str_continue_qr_device,
 				new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// 先销毁
-				if (handler != null) {
-					handler.quitSynchronously();
-					handler = null;
-				}
-				CameraManager.get().closeDriver();
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// 先销毁
+						if (handler != null) {
+							handler.quitSynchronously();
+							handler = null;
+						}
+						CameraManager.get().closeDriver();
 
-				inactivityTimer.shutdown();
+						inactivityTimer.shutdown();
 
-				// 从新开启
-				hasSurface = true;
-				inactivityTimer = new InactivityTimer(
-						MipcaActivityCapture.this);
+						// 从新开启
+						hasSurface = true;
+						inactivityTimer = new InactivityTimer(
+								MipcaActivityCapture.this);
 
-				SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
-				SurfaceHolder surfaceHolder = surfaceView.getHolder();
-				if (hasSurface) {
-					initCamera(surfaceHolder);
-				} else {
-					surfaceHolder
-					.addCallback(MipcaActivityCapture.this);
-					surfaceHolder
-					.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-				}
-				decodeFormats = null;
-				characterSet = null;
+						SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
+						SurfaceHolder surfaceHolder = surfaceView.getHolder();
+						if (hasSurface) {
+							initCamera(surfaceHolder);
+						} else {
+							surfaceHolder
+									.addCallback(MipcaActivityCapture.this);
+							surfaceHolder
+									.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+						}
+						decodeFormats = null;
+						characterSet = null;
 
-				playBeep = true;
-				AudioManager audioService = (AudioManager) getSystemService(AUDIO_SERVICE);
-				if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
-					playBeep = false;
-				}
-				initBeepSound();
-				vibrate = true;
+						playBeep = true;
+						AudioManager audioService = (AudioManager) getSystemService(AUDIO_SERVICE);
+						if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
+							playBeep = false;
+						}
+						initBeepSound();
+						vibrate = true;
 
-				scaningTxt.setText(R.string.str_scanning_device);
-				// quit the scan view
+						scaningTxt.setText(R.string.str_scanning_device);
+						// quit the scan view
 
-			}
-		});
+					}
+				});
 		Dialog dialog = builder.create();
 		dialog.setCancelable(false);
 		dialog.show();
@@ -473,46 +471,46 @@ View.OnClickListener {
 
 		builder.setPositiveButton(R.string.str_continue_qr_device,
 				new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// 先销毁
-				if (handler != null) {
-					handler.quitSynchronously();
-					handler = null;
-				}
-				CameraManager.get().closeDriver();
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// 先销毁
+						if (handler != null) {
+							handler.quitSynchronously();
+							handler = null;
+						}
+						CameraManager.get().closeDriver();
 
-				inactivityTimer.shutdown();
+						inactivityTimer.shutdown();
 
-				// 从新开启
-				hasSurface = true;
-				inactivityTimer = new InactivityTimer(
-						MipcaActivityCapture.this);
+						// 从新开启
+						hasSurface = true;
+						inactivityTimer = new InactivityTimer(
+								MipcaActivityCapture.this);
 
-				SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
-				SurfaceHolder surfaceHolder = surfaceView.getHolder();
-				if (hasSurface) {
-					initCamera(surfaceHolder);
-				} else {
-					surfaceHolder
-					.addCallback(MipcaActivityCapture.this);
-					surfaceHolder
-					.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-				}
-				decodeFormats = null;
-				characterSet = null;
+						SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
+						SurfaceHolder surfaceHolder = surfaceView.getHolder();
+						if (hasSurface) {
+							initCamera(surfaceHolder);
+						} else {
+							surfaceHolder
+									.addCallback(MipcaActivityCapture.this);
+							surfaceHolder
+									.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+						}
+						decodeFormats = null;
+						characterSet = null;
 
-				playBeep = true;
-				AudioManager audioService = (AudioManager) getSystemService(AUDIO_SERVICE);
-				if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
-					playBeep = false;
-				}
-				initBeepSound();
-				vibrate = true;
+						playBeep = true;
+						AudioManager audioService = (AudioManager) getSystemService(AUDIO_SERVICE);
+						if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
+							playBeep = false;
+						}
+						initBeepSound();
+						vibrate = true;
 
-				scaningTxt.setText(R.string.str_scanning_device);
-			}
-		});
+						scaningTxt.setText(R.string.str_scanning_device);
+					}
+				});
 
 		builder.create().show();
 	}

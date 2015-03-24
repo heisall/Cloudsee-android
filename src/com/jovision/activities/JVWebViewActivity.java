@@ -159,6 +159,7 @@ public class JVWebViewActivity extends BaseActivity {
 
 		webView = (WebView) findViewById(R.id.findpasswebview);
 
+		// url = "http://172.16.25.228:8080/dev/test/upload.html";
 		wvcc = new WebChromeClient() {
 			@Override
 			public void onReceivedTitle(WebView view, String title) {

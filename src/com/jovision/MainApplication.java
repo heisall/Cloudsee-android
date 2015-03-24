@@ -681,7 +681,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 			/** 显示圆形按钮 **/
 			if (itemFlag.equals(Consts.MORE_REMEMBER)
-//					|| itemFlag.equals(Consts.MORE_ALARMSWITCH)
+					// || itemFlag.equals(Consts.MORE_ALARMSWITCH)
 					|| itemFlag.equals(Consts.MORE_TESTSWITCH)
 					|| itemFlag.equals(Consts.MORE_PLAYMODE)
 					|| itemFlag.equals(Consts.MORE_LITTLEHELP)

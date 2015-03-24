@@ -3,15 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/top_bar_layout" />
-    
+
     <ListView
         android:id="@+id/list_func"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null" />    
+        android:divider="@null" />
+
 </LinearLayout>

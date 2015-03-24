@@ -131,7 +131,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			isshow = false;
 			break;
 		case Consts.WHAT_SEND_WAVE_FINISHED: {// 声波发送完毕
-		// sendCounts = 0;
+			// sendCounts = 0;
 			nextBtn3.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.blue_bg));
 			nextBtn3.setClickable(true);

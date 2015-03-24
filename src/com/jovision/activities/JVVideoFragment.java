@@ -1,20 +1,28 @@
 package com.jovision.activities;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Stack;
 
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
@@ -36,6 +44,7 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
+import com.jovision.utils.MobileUtil;
 import com.jovision.views.AlarmDialog;
 
 public class JVVideoFragment extends BaseFragment implements OnMainListener {
@@ -60,6 +69,10 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 	private boolean isConnected = false;
 
 	Stack<String> titleStack = new Stack<String>();// 标题栈，后进先出
+
+	protected static ValueCallback<Uri> mUploadMessage;
+	protected int FILECHOOSER_RESULTCODE = 1;
+	protected static Uri imageUri;
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -170,6 +183,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 		} else {
 			isshow = true;
 		}
+
 		// url = "http://app.ys7.com/";
 		if (urls.contains("rotate=x")) {
 			urls = urls.replace("rotate=x", "");
@@ -217,6 +231,28 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 				currentMenu.setText(title);
 				titleStack.push(title);
 				// }
+			}
+
+			// For Android 3.0-
+			@SuppressWarnings("unused")
+			public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+				mUploadMessage = uploadMsg;
+				openFileChooser(uploadMsg, "");
+			}
+
+			// For Android 3.0+
+			public void openFileChooser(ValueCallback<Uri> uploadMsg,
+					String acceptType) {
+				mUploadMessage = uploadMsg;
+				selectImage();
+			}
+
+			// For Android 4.1
+			@SuppressWarnings("unused")
+			public void openFileChooser(ValueCallback<Uri> uploadMsg,
+					String acceptType, String capture) {
+				mUploadMessage = uploadMsg;
+				openFileChooser(uploadMsg, "");
 			}
 		};
 		webView.getSettings().setJavaScriptEnabled(true);
@@ -516,6 +552,65 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 	public void onMainAction(int packet_type) {
 		// TODO Auto-generated method stub
 
+	}
+
+	protected final void selectImage() {
+		AlertDialog.Builder builder = new Builder(mActivity);
+		// builder.setTitle("插入照片");
+		builder.setItems(
+				new String[] {
+						getResources().getString(R.string.capture_to_upload),
+						getResources().getString(R.string.select_to_upload) },
+				new DialogInterface.OnClickListener() {
+					@SuppressLint("SdCardPath")
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						Intent intent = null;
+						switch (which) {
+						case 0:
+							intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+							// 必须确保文件夹路径存在，否则拍照后无法完成回调
+							File vFile = new File(Consts.BBSIMG_PATH
+									+ (System.currentTimeMillis() + ".jpg"));
+							if (!vFile.exists()) {
+								File folderFile = new File(Consts.BBSIMG_PATH);
+								MobileUtil.createDirectory(folderFile);
+							} else {
+								if (vFile.exists()) {
+									vFile.delete();
+								}
+							}
+							imageUri = Uri.fromFile(vFile);
+							intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+							mActivity.startActivityForResult(intent,
+									JVTabActivity.REQ_CAMERA);
+							break;
+						case 1:
+							intent = new Intent(Intent.ACTION_PICK, null);
+							intent.setDataAndType(
+									MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+									"image/*");
+							mActivity.startActivityForResult(
+									Intent.createChooser(
+											intent,
+											getResources().getString(
+													R.string.select_to_upload)),
+									JVTabActivity.REQ_CHOOSER);
+							break;
+						}
+					}
+				});
+		builder.setNegativeButton(R.string.cancel,
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						webView.setFocusable(true);
+						webView.onResume();
+						mUploadMessage.onReceiveValue(null);
+						mUploadMessage = null;
+					}
+				});
+		builder.create().show();
 	}
 
 }

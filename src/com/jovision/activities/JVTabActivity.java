@@ -9,8 +9,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -334,18 +336,6 @@ public class JVTabActivity extends ShakeActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		// //添加设备请求
-		// if(JVMyDeviceFragment.ADD_DEV_REQUEST == requestCode){
-		// if(JVAddDeviceActivity.ADD_DEV_SUCCESS == resultCode){
-		// PlayUtil.broadCast(this);
-		// }
-		// }
-
 	}
 
 	@Override
@@ -996,4 +986,32 @@ public class JVTabActivity extends ShakeActivity implements
 			// 更新进度,此方法在主线程执行，用于显示任务执行的进度。
 		}
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode,
+			Intent intent) {
+		switch (requestCode) {
+		case REQ_CHOOSER:
+			if (null == JVVideoFragment.mUploadMessage)
+				return;
+			Uri result = intent == null || resultCode != RESULT_OK ? null
+					: intent.getData();
+			// showTextToast(result.toString());
+			JVVideoFragment.mUploadMessage.onReceiveValue(result);
+			JVVideoFragment.mUploadMessage = null;
+			break;
+		case REQ_CAMERA:
+			if (resultCode == Activity.RESULT_OK) {
+				JVVideoFragment.mUploadMessage
+						.onReceiveValue(JVVideoFragment.imageUri);
+				// showTextToast(JVVideoFragment.imageUri.toString());
+				JVVideoFragment.mUploadMessage = null;
+			}
+			break;
+		}
+	}
+
+	public static final int REQ_CAMERA = 0;
+	public static final int REQ_CHOOSER = 1;
+	public static final int REQ_NULL = 2;
 }

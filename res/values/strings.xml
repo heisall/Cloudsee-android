@@ -703,6 +703,9 @@
     <string name="str_cloud_file_error_2">There is no cloud strorage information at the channel.</string>
     <string name="str_tpush_autostart_tips_v5">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permission\"->\"Auto-start management\",Add the application into the auto-start apps manually.</string>
     <string name="str_tpush_autostart_tips_v6">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permissions\"->\"Autostart\",make the application allowed to auto start</string>
+    <!-- JVWebviewActivity -->
+    <string name="capture_to_upload">拍照上传</string>
+    <string name="select_to_upload">选择图片</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="census_findpasswpordbyemail">邮箱找回密码</string>
     <string name="census_findpasswpordbyphone">电话找回密码</string>

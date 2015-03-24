@@ -60,6 +60,10 @@ public class JVWebViewActivity extends BaseActivity {
 
 	Stack<String> titleStack = new Stack<String>();// 标题栈，后进先出
 
+	protected ValueCallback<Uri> mUploadMessage;
+	protected int FILECHOOSER_RESULTCODE = 1;
+	private Uri imageUri;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
@@ -446,14 +450,13 @@ public class JVWebViewActivity extends BaseActivity {
 		webView.onResume();
 	}
 
-	protected ValueCallback<Uri> mUploadMessage;
-	protected int FILECHOOSER_RESULTCODE = 1;
-	private Uri imageUri;
-
 	protected final void selectImage() {
 		AlertDialog.Builder builder = new Builder(JVWebViewActivity.this);
 		// builder.setTitle("插入照片");
-		builder.setItems(new String[] { "拍照上传", "选择图片" },
+		builder.setItems(
+				new String[] {
+						getResources().getString(R.string.capture_to_upload),
+						getResources().getString(R.string.select_to_upload) },
 				new DialogInterface.OnClickListener() {
 					@SuppressLint("SdCardPath")
 					public void onClick(DialogInterface dialog, int which) {
@@ -484,21 +487,25 @@ public class JVWebViewActivity extends BaseActivity {
 									MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
 									"image/*");
 							JVWebViewActivity.this.startActivityForResult(
-									Intent.createChooser(intent, "选择图片"),
+									Intent.createChooser(
+											intent,
+											getResources().getString(
+													R.string.select_to_upload)),
 									REQ_CHOOSER);
 							break;
 						}
 					}
 				});
-		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-				webView.setFocusable(true);
-				webView.onResume();
-				mUploadMessage.onReceiveValue(null);
-				mUploadMessage = null;
-			}
-		});
+		builder.setNegativeButton(R.string.cancel,
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						webView.setFocusable(true);
+						webView.onResume();
+						mUploadMessage.onReceiveValue(null);
+						mUploadMessage = null;
+					}
+				});
 		builder.create().show();
 	}
 
@@ -515,14 +522,14 @@ public class JVWebViewActivity extends BaseActivity {
 				return;
 			Uri result = intent == null || resultCode != RESULT_OK ? null
 					: intent.getData();
-			showTextToast(result.toString());
+			// showTextToast(result.toString());
 			mUploadMessage.onReceiveValue(result);
 			mUploadMessage = null;
 			break;
 		case REQ_CAMERA:
 			if (resultCode == Activity.RESULT_OK) {
 				mUploadMessage.onReceiveValue(imageUri);
-				showTextToast(imageUri.toString());
+				// showTextToast(imageUri.toString());
 				mUploadMessage = null;
 			}
 			break;

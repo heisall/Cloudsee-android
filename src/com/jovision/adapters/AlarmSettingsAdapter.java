@@ -57,33 +57,39 @@ public class AlarmSettingsAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup arg2) {
 		// TODO Auto-generated method stub
-		//istag:标示是否是tag; title：标题; tips:标题下的提示; switch:功能开关(-1:无;0:关闭;1:开启); enabled:功能能否使用
-	   AlarmSettingsItemBean dataObj = _listData.get(position);
-	   boolean enabled = true;
-	   TextView tv_title = null;
-	   try {
-		   if (dataObj.getIsTag()) {  	  
-			   convertView = _layoutInflater.inflate(R.layout.alarm_settings_list_tag, null);
-			   tv_title = (TextView)convertView.findViewById(R.id.tv_title);
-			   View tv_divider = (View)convertView.findViewById(R.id.group_divider);
-			   tv_divider.setVisibility(View.GONE);
-//			   if(position == 0){			   
-//				   tv_divider.setVisibility(View.GONE);
-//			   }
-//			   else{
-//				   tv_divider.setVisibility(View.VISIBLE);
-//			   }
-		   } 		
-		   else{
-			   convertView = _layoutInflater.inflate(R.layout.alarm_settings_list_item, null);
-			   tv_title = (TextView)convertView.findViewById(R.id.tv_title);
-			   enabled = dataObj.getEnabled();
-			   RelativeLayout rl_item = (RelativeLayout)convertView.findViewById(R.id.rl_item);
-			   TextView tv_tips = (TextView)convertView.findViewById(R.id.tv_tips);	
-			   ImageView img_func_sw = (ImageView)convertView.findViewById(R.id.item_switch);
-			   if(!enabled){
-				   rl_item.setEnabled(false);
-				   rl_item.setOnClickListener(new View.OnClickListener() {
+		// istag:标示是否是tag; title：标题; tips:标题下的提示; switch:功能开关(-1:无;0:关闭;1:开启);
+		// enabled:功能能否使用
+		AlarmSettingsItemBean dataObj = _listData.get(position);
+		boolean enabled = true;
+		TextView tv_title = null;
+		try {
+			if (dataObj.getIsTag()) {
+				convertView = _layoutInflater.inflate(
+						R.layout.alarm_settings_list_tag, null);
+				tv_title = (TextView) convertView.findViewById(R.id.tv_title);
+				View tv_divider = (View) convertView
+						.findViewById(R.id.group_divider);
+				tv_divider.setVisibility(View.GONE);
+				// if(position == 0){
+				// tv_divider.setVisibility(View.GONE);
+				// }
+				// else{
+				// tv_divider.setVisibility(View.VISIBLE);
+				// }
+			} else {
+				convertView = _layoutInflater.inflate(
+						R.layout.alarm_settings_list_item, null);
+				tv_title = (TextView) convertView.findViewById(R.id.tv_title);
+				enabled = dataObj.getEnabled();
+				RelativeLayout rl_item = (RelativeLayout) convertView
+						.findViewById(R.id.rl_item);
+				TextView tv_tips = (TextView) convertView
+						.findViewById(R.id.tv_tips);
+				ImageView img_func_sw = (ImageView) convertView
+						.findViewById(R.id.item_switch);
+				if (!enabled) {
+					rl_item.setEnabled(false);
+					rl_item.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
 						}

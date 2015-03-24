@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 layout="@layout/top_bar_layout" />
 
-            <RelativeLayout
+              <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
@@ -180,91 +180,10 @@
                         android:textSize="20sp" />
                 </RelativeLayout>
 
+
+
                 <RelativeLayout
                     android:id="@+id/step_layout3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone" >
-
-                    <ImageView
-                        android:id="@+id/wavebg"
-                        android:layout_width="130dp"
-                        android:layout_height="130dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/press_wave" />
-
-                    <Button
-                        android:id="@+id/showdemo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_margin="30dp"
-                        android:layout_marginTop="10dip"
-                        android:background="@drawable/quick_install_bg"
-                        android:text="@string/prepare_step3"
-                        android:textColor="@color/quickinstall_btn_normal"
-                        android:textSize="20sp" />
-
-                    <ImageView
-                        android:id="@+id/press_sendwave"
-                        android:layout_width="130dp"
-                        android:layout_height="130dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/press_sendwave" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/press_sendwave"
-                        android:layout_centerHorizontal="true"
-                        android:layout_margin="10dp"
-                        android:text="@string/prepare_step4"
-                        android:textColor="@color/userinfocolor"
-                        android:textSize="18sp" />
-
-                    <Button
-                        android:id="@+id/step_btn3"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_margin="30dp"
-                        android:background="@drawable/blue_bg"
-                        android:text="@string/next_step"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/step_layout4"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone" >
-
-                    <Button
-                        android:id="@+id/instruction_bg"
-                        android:layout_width="300dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_margin="30dp"
-                        android:background="@drawable/instruction_bg"
-                        android:paddingTop="-10dp"
-                        android:text="@string/prepare_step5"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-
-                    <ImageView
-                        android:id="@+id/instruction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/instruction_bg"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/instruction_ch" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/step_layout5"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"

@@ -54,16 +54,16 @@ import com.jovision.views.ProgressWheel;
 
 public class SmartConnectionConfigActivity extends BaseActivity {
 
-	private static final String TAG = "JVWaveSetActivity";
+	private static final String TAG = "SmartConnectionConfigActivity";
 
-	String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3",
-			"quicksetsound.mp3", "6.mp3" };
+//	String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3",
+//			"quicksetsound.mp3", "6.mp3" };
 
 	// String[] stepSoundCHTW = { "voi_info_zhtw.mp3", "voi_next_zhtw.mp3",
 	// "voi_send_zhtw.mp3", "quicksetsound.mp3", "6.mp3" };
 
-	String[] stepSoundEN = { "voi_info_en.mp3", "voi_next_en.mp3",
-			"voi_send_en.mp3", "quicksetsound.mp3", "6.mp3" };
+//	String[] stepSoundEN = { "voi_info_en.mp3", "voi_next_en.mp3",
+//			"voi_send_en.mp3", "quicksetsound.mp3", "6.mp3" };
 	int[] titleID = { R.string.prepare_step, R.string.prepare_set,
 			R.string.wave_set, R.string.show_demo, R.string.search_list };
 
@@ -78,8 +78,8 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	protected RelativeLayout stepLayout1;
 	protected RelativeLayout stepLayout2;
 	protected RelativeLayout stepLayout3;
-	protected RelativeLayout stepLayout4;
-	protected RelativeLayout stepLayout5;
+//	protected RelativeLayout stepLayout4;
+//	protected RelativeLayout stepLayout5;
 	protected RelativeLayout stepLayout6;
 	protected RelativeLayout.LayoutParams reParamstop2;
 
@@ -88,22 +88,21 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	private boolean isshow = false;
 
 	protected ImageView stepImage1;
-	protected ImageView waveImage;// 声波动画按钮
-	protected ImageView pressToSendWave;// 点击发送声波按钮
-	protected ImageView instruction;//
+//	protected ImageView waveImage;// 声波动画按钮
+//	protected ImageView pressToSendWave;// 点击发送声波按钮
+//	protected ImageView instruction;//
 	protected EditText desWifiName;
 	protected EditText desWifiPwd;
 	protected ToggleButton desPwdEye;
 	protected ListView devListView;// 广播到的设备列表
-	protected ProgressBar loading;
+//	protected ProgressBar loading;
 	protected WaveDevlListAdapter wdListAdapter;// 设备列表adaper
 
 	ArrayList<RelativeLayout> layoutList = new ArrayList<RelativeLayout>();
 
 	protected Button nextBtn1;
 	protected Button nextBtn2;
-	protected Button showDemoBtn;// 观看操作演示
-	protected Button nextBtn3;// 只有发送完声波此按钮才管用
+//	protected Button showDemoBtn;// 观看操作演示
 
 	protected int currentStep = 0;
 
@@ -119,9 +118,6 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	protected static int audioSampleRate = 48000;
 	protected static int playBytes = 16;
 
-	ScaleAnimation waveScaleAnim = null;// 发送声波动画
-	AlphaAnimation waveAlphaAnim = null;// 发送声波动画
-
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -131,14 +127,6 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 			stepLayout6.setVisibility(View.GONE);
 			isshow = false;
 			break;
-		case Consts.WHAT_SEND_WAVE_FINISHED: {// 声波发送完毕
-			// sendCounts = 0;
-			nextBtn3.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.blue_bg));
-			nextBtn3.setClickable(true);
-			waveScaleAnim.cancel();
-			break;
-		}
 		case Consts.WHAT_BROAD_FINISHED: {// 广播超时
 			if (4 != currentStep) {
 				break;
@@ -152,7 +140,6 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 				devListView.setAdapter(wdListAdapter);
 			}
 			playSoundStep(4);
-			loading.setVisibility(View.GONE);
 			rightBtn.setVisibility(View.VISIBLE);
 			break;
 		}
@@ -168,11 +155,6 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 			alertAddDialog(arg1);
 			break;
 		}
-		case Consts.WHAT_SEND_WAVE: {// 发送声波命令
-			waveScaleAnim.start();
-			Jni.genVoice(params, 3);
-			break;
-		}
 
 		}
 	}
@@ -180,45 +162,6 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case Consts.WHAT_PLAY_AUDIO_WHAT: {
-			switch (arg2) {
-			case MyAudio.ARG2_START: {
-				MyLog.v(TAG, "ARG2_START");
-				break;
-			}
-			case MyAudio.ARG2_FINISH: {
-				MyLog.v(TAG, "ARG2_FINISH");
-				break;
-			}
-			case MyAudio.ARG2_WAVE_FINISH: {// 声波播放完毕
-				MyLog.v(TAG, "ARG2_WAVE_FINISH");
-				// sendCounts++;
-				// if (sendCounts < 3) {
-				// handler.sendMessageDelayed(
-				// handler.obtainMessage(Consts.WHAT_SEND_WAVE), 500);
-				// } else {
-				handler.sendMessageDelayed(
-						handler.obtainMessage(Consts.WHAT_SEND_WAVE_FINISHED),
-						500);
-				// }
-				break;
-			}
-			}
-			break;
-		}
-		// 获取到声波音频
-		case Consts.CALL_GEN_VOICE: {
-			if (1 == arg2) {// 数据
-				if (null != obj && null != playAudio) {
-					byte[] data = (byte[]) obj;
-					playAudio.put(data);
-				}
-			} else if (0 == arg2) {// 结束
-				byte[] data = { 'F', 'i', 'n' };
-				playAudio.put(data);
-			}
-			break;
-		}
 		// 广播回调
 		case Consts.CALL_QUERY_DEVICE: {// nNetMod 设备是否带wifi nCurMod
 										// 设备是否正在使用wifi
@@ -307,7 +250,7 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 
 	@Override
 	protected void initUi() {
-		setContentView(R.layout.soundwave_layout);
+		setContentView(R.layout.smart_connection_layout);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		topBar = (LinearLayout) findViewById(R.id.top_bar);
 		leftBtn = (Button) findViewById(R.id.btn_left);
@@ -331,29 +274,16 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 		stepLayout1 = (RelativeLayout) findViewById(R.id.step_layout1);
 		stepLayout2 = (RelativeLayout) findViewById(R.id.step_layout2);
 		stepLayout3 = (RelativeLayout) findViewById(R.id.step_layout3);
-		stepLayout4 = (RelativeLayout) findViewById(R.id.step_layout4);
-		stepLayout5 = (RelativeLayout) findViewById(R.id.step_layout5);
+
 		stepLayout6 = (RelativeLayout) findViewById(R.id.step_layout6);
 
 		stepImage1 = (ImageView) findViewById(R.id.step_img1);
-		waveImage = (ImageView) findViewById(R.id.wavebg);
-		instruction = (ImageView) findViewById(R.id.instruction);
-		pressToSendWave = (ImageView) findViewById(R.id.press_sendwave);
 		stepImage1.setImageResource(R.drawable.reset_bg);
-		if (Consts.LANGUAGE_ZH == ConfigUtil
-				.getLanguage2(SmartConnectionConfigActivity.this)) {
-			instruction.setImageResource(R.drawable.instruction_ch);
-		} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
-				.getLanguage2(SmartConnectionConfigActivity.this)) {
-			instruction.setImageResource(R.drawable.instruction_chtw);
-		} else {
-			instruction.setImageResource(R.drawable.instruction_en);
-		}
+
 		layoutList.add(0, stepLayout1);
 		layoutList.add(1, stepLayout2);
 		layoutList.add(2, stepLayout3);
-		layoutList.add(3, stepLayout4);
-		layoutList.add(4, stepLayout5);
+
 
 		desWifiName = (EditText) findViewById(R.id.deswifiname);
 		desWifiPwd = (EditText) findViewById(R.id.deswifipwd);
@@ -361,40 +291,19 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 		desPwdEye = (ToggleButton) findViewById(R.id.despwdeye);
 		devListView = (ListView) findViewById(R.id.devlistview);
 		pw_two = (ProgressWheel) findViewById(R.id.progressBarTwo);
-		loading = (ProgressBar) findViewById(R.id.loading);
-		loading.setVisibility(View.GONE);
 
 		desPwdEye.setChecked(true);
 		desPwdEye.setOnCheckedChangeListener(myOnCheckedChangeListener);
 
 		nextBtn1 = (Button) findViewById(R.id.step_btn1);
 		nextBtn2 = (Button) findViewById(R.id.step_btn2);
-		nextBtn3 = (Button) findViewById(R.id.step_btn3);
-		showDemoBtn = (Button) findViewById(R.id.showdemo);
 
 		stepLayout6.setOnClickListener(myOnClickListener);
 		rightBtn.setOnClickListener(myOnClickListener);
 		leftBtn.setOnClickListener(myOnClickListener);
 		nextBtn1.setOnClickListener(myOnClickListener);
 		nextBtn2.setOnClickListener(myOnClickListener);
-		showDemoBtn.setOnClickListener(myOnClickListener);
-		nextBtn3.setOnClickListener(myOnClickListener);
-		pressToSendWave.setOnClickListener(myOnClickListener);
-		waveImage.setOnClickListener(myOnClickListener);
 
-		/** 设置缩放动画 */
-		waveScaleAnim = new ScaleAnimation(0.0f, 5.0f, 0.0f, 5.0f,
-				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-				0.5f);
-		waveScaleAnim.setDuration(800);// 设置动画持续时间
-		waveScaleAnim.setRepeatCount(99999);// 设置重复次数
-		// animation.setFillAfter(boolean);//动画执行完后是否停留在执行完的状态
-		// animation.setStartOffset(long startOffset);//执行前的等待时间
-		waveAlphaAnim = new AlphaAnimation(0.1f, 1.0f);
-		waveAlphaAnim.setDuration(animTime);// 设置动画持续时间
-		waveAlphaAnim.setRepeatCount(3);// 设置重复次数
-		waveAlphaAnim.setStartOffset(0);// 执行前的等待时间
-		waveImage.setAnimation(waveScaleAnim);
 		showLayoutAtIndex(currentStep);
 
 	}
@@ -445,10 +354,6 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	 */
 	@SuppressWarnings("deprecation")
 	private void showLayoutAtIndex(int showIndex) {
-		nextBtn3.setClickable(false);
-		nextBtn3.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.login_blue_bg));
-		waveScaleAnim.cancel();
 		if (showIndex < 0) {
 			SmartConnectionConfigActivity.this.finish();
 		} else {
@@ -522,7 +427,6 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 				pw_two.resetCount();
 				Thread s = new Thread(r);
 				s.start();
-				loading.setVisibility(View.GONE);
 				playSoundStep(3);
 				broadList.clear();
 				Jni.queryDevice("", 0, 40 * 1000);
@@ -530,22 +434,6 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 				showLayoutAtIndex(currentStep);
 				break;
 			case R.id.step_layout6:
-				break;
-			case R.id.press_sendwave:
-
-				try {
-					if (null != mediaPlayer) {
-						mediaPlayer.stop();
-					}
-					playAudio.startPlay(playBytes, true);
-					waveScaleAnim.start();
-					params = desWifiName.getText() + ";" + desWifiPwd.getText();
-					MyLog.v(TAG, "params:" + params);
-					Jni.genVoice(params, 3);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
 				break;
 			case R.id.showdemo:
 				currentStep = 3;
@@ -585,32 +473,32 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	}
 
 	private void playSoundStep(int index) {
-		try {
-			String file = "";
-			if (Consts.LANGUAGE_ZH == ConfigUtil
-					.getLanguage2(SmartConnectionConfigActivity.this)) {
-				file = stepSoundCH[index];
-			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
-					.getLanguage2(SmartConnectionConfigActivity.this)) {
-				file = stepSoundCH[index];
-			} else {
-				file = stepSoundEN[index];
-			}
-
-			AssetFileDescriptor afd = assetMgr.openFd(file);
-			mediaPlayer.reset();
-
-			// 使用MediaPlayer加载指定的声音文件。
-			mediaPlayer.setDataSource(afd.getFileDescriptor(),
-					afd.getStartOffset(), afd.getLength());
-			// 准备声音
-			mediaPlayer.prepare();
-			// 播放
-			mediaPlayer.start();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			String file = "";
+//			if (Consts.LANGUAGE_ZH == ConfigUtil
+//					.getLanguage2(SmartConnectionConfigActivity.this)) {
+//				file = stepSoundCH[index];
+//			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+//					.getLanguage2(SmartConnectionConfigActivity.this)) {
+//				file = stepSoundCH[index];
+//			} else {
+//				file = stepSoundEN[index];
+//			}
+//
+//			AssetFileDescriptor afd = assetMgr.openFd(file);
+//			mediaPlayer.reset();
+//
+//			// 使用MediaPlayer加载指定的声音文件。
+//			mediaPlayer.setDataSource(afd.getFileDescriptor(),
+//					afd.getStartOffset(), afd.getLength());
+//			// 准备声音
+//			mediaPlayer.prepare();
+//			// 播放
+//			mediaPlayer.start();
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	// 设置三种类型参数分别为String,Integer,String

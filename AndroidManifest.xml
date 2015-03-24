@@ -601,7 +601,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>
-
+        <activity
+            android:name="com.jovision.activities.SmartConnectionConfigActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
         <service
             android:name="com.jovision.CoreService"
             android:enabled="true" >

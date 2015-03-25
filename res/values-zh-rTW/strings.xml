@@ -623,7 +623,7 @@
     <string name="wave_add_dev">確定添加設備</string>
     <!-- 智联路由 -->
     <string name="smart_conn_guide_1">接通电源\n等待指示灯变成橙灯闪烁</string>
-    <string name="smart_conn_indicator_help">指示灯没有闪烁怎么办？</string>    
+    <string name="smart_conn_indicator_help">指示灯没有闪烁怎么办？</string>
     <!-- 報警 -->
     <string name="str_alarm_check">立即查看</string>
     <string name="str_pass_extra_err">傳遞數據異常</string>

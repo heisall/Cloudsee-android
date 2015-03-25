@@ -25,7 +25,7 @@ public class Jni {
 	 * @return json: {"jni":"xx","net":"xx"}
 	 */
 	public static native String getVersion();
-	
+
 	/**
 	 * 清理小助手缓存
 	 * 

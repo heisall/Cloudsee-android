@@ -248,7 +248,27 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		if (null != currentNotifyer) {
-			currentNotifyer.onNotify(what, arg1, arg2, obj);
+			switch (what) {
+			case Consts.NET_CHANGE_CLEAR_CACHE: {// 网络切换清缓存
+				MyLog.i("MyRecevier", "网络变化了--正常网络");
+				Jni.getVersion();
+				Jni.clearCache();
+
+				if (null == myDeviceList || 0 == myDeviceList.size()) {
+					myDeviceList = CacheUtil.getDevList();
+				}
+
+				if (null != myDeviceList && 0 != myDeviceList.size()) {
+					PlayUtil.setHelperToList(myDeviceList);
+				}
+				break;
+			}
+			default: {
+				currentNotifyer.onNotify(what, arg1, arg2, obj);
+				break;
+			}
+			}
+
 		}
 	}
 

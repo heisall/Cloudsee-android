@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 layout="@layout/top_bar_layout" />
 
-              <RelativeLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
@@ -180,8 +180,6 @@
                         android:textColor="@color/white"
                         android:textSize="20sp" />
                 </RelativeLayout>
-
-
 
                 <RelativeLayout
                     android:id="@+id/step_layout3"

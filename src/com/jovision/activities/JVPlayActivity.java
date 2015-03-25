@@ -1090,18 +1090,19 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 同意语音请求
 			case JVNetConst.JVN_RSP_CHATACCEPT: {
-				if (!ishonfunctalk) {
-					ishonfunctalk = true;
-					horfunc_talk.setVisibility(View.VISIBLE);
-				}
-				if (!istalk) {
-					function.setVisibility(View.GONE);
-					talk_eachother.setVisibility(View.VISIBLE);
-					istalk = true;
-				}
+
 				Channel channel = channelList.get(lastClickIndex);
 				if (channel.isSingleVoice()) {
 					showTextToast(R.string.voice_tips2);
+					if (!ishonfunctalk) {
+						ishonfunctalk = true;
+						horfunc_talk.setVisibility(View.VISIBLE);
+					}
+					if (!istalk) {
+						function.setVisibility(View.GONE);
+						talk_eachother.setVisibility(View.VISIBLE);
+						istalk = true;
+					}
 				}
 				// recorder.start(channelList.get(lastClickIndex).getAudioType(),
 				// channelList.get(lastClickIndex).getAudioByte());

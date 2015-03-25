@@ -61,18 +61,18 @@
     <!-- add Dev pop menu -->
     <string-array name="array_pop">
         <item>Add by CloudSEE ID</item>
-        <item>Scan QR Code</item>
-        <item>Add Wi-Fi Device</item>
-        <item>Scan devices in LAN</item>
         <item>Add by sound wave</item>
+        <item>智联路由</item>
+        <item>Add Wi-Fi Device</item>
+        <item>Scan QR Code</item>
         <item>IP/DNS</item>
     </string-array>
     <string-array name="array_popno">
         <item>Add by CloudSEE ID</item>
-        <item>Scan QR Code</item>
-        <item>Add Wi-Fi Device</item>
-        <item>Scan devices in LAN</item>
         <item>Add by sound wave</item>
+        <item>Scan devices in LAN</item>
+        <item>Add Wi-Fi Device</item>
+        <item>Scan QR Code</item>
     </string-array>
 
     <!-- 家庭安防产品 -->

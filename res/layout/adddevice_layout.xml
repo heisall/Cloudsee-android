@@ -69,7 +69,6 @@
                 android:layout_marginLeft="12dp"
                 android:background="@drawable/editimport"
                 android:hint="@string/nicknamechose"
-                android:inputType="textVisiblePassword"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:text=""

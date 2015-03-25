@@ -32,49 +32,12 @@
                     android:visibility="gone" >
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_margin="30dp"
-                        android:text="@string/prepare_step1"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                    <ImageView
-                        android:id="@+id/step_img1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginRight="50dp"
-                        android:src="@drawable/reset_bg" />
-
-                    <Button
-                        android:id="@+id/step_btn1"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_margin="30dp"
-                        android:background="@drawable/blue_bg"
-                        android:text="@string/next_step"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/step_layout2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone" >
-
-                    <TextView
-                        android:id="@+id/prepare_step2"
+                        android:id="@+id/prepare_step1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="15dp"
-                        android:text="@string/prepare_step2"
+                        android:text="@string/prepare_step1"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -82,7 +45,7 @@
                         android:id="@+id/notice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/prepare_step2"
+                        android:layout_below="@+id/prepare_step1"
                         android:layout_marginBottom="5dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
@@ -158,11 +121,48 @@
                     </LinearLayout>
 
                     <Button
-                        android:id="@+id/step_btn2"
+                        android:id="@+id/step_btn1"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_below="@+id/wifi_edit_bg"
                         android:layout_margin="15dp"
+                        android:background="@drawable/blue_bg"
+                        android:text="@string/next_step"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/step_layout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="30dp"
+                        android:text="@string/prepare_step2"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/step_img1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:src="@drawable/reset_bg" />
+
+                    <Button
+                        android:id="@+id/step_btn2"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="30dp"
                         android:background="@drawable/blue_bg"
                         android:text="@string/next_step"
                         android:textColor="@color/white"

@@ -391,6 +391,12 @@ public class JVWebViewActivity extends BaseActivity {
 	 */
 	private void backMethod() {
 		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
+
+		if (null != mUploadMessage) {
+			mUploadMessage.onReceiveValue(null);
+			mUploadMessage = null;
+		}
+
 		try {
 			if (webView.canGoBack()) {
 				if (null != titleStack && 0 != titleStack.size()) {
@@ -448,6 +454,10 @@ public class JVWebViewActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 		webView.onResume();
+		if (null != mUploadMessage) {
+			mUploadMessage.onReceiveValue(null);
+			mUploadMessage = null;
+		}
 	}
 
 	protected final void selectImage() {
@@ -500,13 +510,16 @@ public class JVWebViewActivity extends BaseActivity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
-						webView.setFocusable(true);
-						webView.onResume();
-						mUploadMessage.onReceiveValue(null);
-						mUploadMessage = null;
+						if (null != mUploadMessage) {
+							mUploadMessage.onReceiveValue(null);
+							mUploadMessage = null;
+						}
 					}
 				});
-		builder.create().show();
+
+		AlertDialog dialog = builder.create();
+		dialog.setCancelable(false);
+		dialog.show();
 	}
 
 	public static final int REQ_CAMERA = 0;

@@ -612,8 +612,8 @@
     <string name="prepare_step">Preparating</string>
     <string name="check_step">View operation demo</string>
     <string name="prepare_set">Preparing Configuration</string>
-    <string name="prepare_step1">Please press the reset button , then release the button after hearing the voice guide.</string>
-    <string name="prepare_step2">Please input password of the network.</string>
+    <string name="prepare_step2">Please press the reset button , then release the button after hearing the voice guide.</string>
+    <string name="prepare_step1">Please input password of the network.</string>
     <string name="prepare_step3">View operation demo</string>
     <string name="show_demo">Operation demo</string>
     <string name="search_list">Search list</string>

@@ -612,8 +612,8 @@
     <string name="prepare_step">准备步骤</string>
     <string name="check_step">查看演示说明</string>
     <string name="prepare_set">准备配置</string>
-    <string name="prepare_step1">请用顶针轻插设备背后的reset孔，\n听到“开始声波配置”提示音后松开顶针。</string>
-    <string name="prepare_step2">请输入摄像头要连接的无线网络密码</string>
+    <string name="prepare_step2">请用顶针轻插设备背后的reset孔，\n听到“开始声波配置”提示音后松开顶针。</string>
+    <string name="prepare_step1">请输入摄像头要连接的无线网络密码</string>
     <string name="prepare_step3">观看操作演示</string>
     <string name="show_demo">操作演示</string>
     <string name="search_list">搜索列表</string>

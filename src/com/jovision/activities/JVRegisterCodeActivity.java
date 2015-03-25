@@ -127,6 +127,7 @@ public class JVRegisterCodeActivity extends BaseActivity {
 				User user = new User();
 				user.setUserName(statusHashMap.get(Consts.KEY_USERNAME));
 				user.setUserPwd(statusHashMap.get(Consts.KEY_PASSWORD));
+				
 				registerRes = AccountUtil.userRegister(user);
 				if (JVAccountConst.SUCCESS == registerRes) {
 					String strRes = "";

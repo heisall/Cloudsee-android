@@ -46,7 +46,7 @@ public class AccountUtil {
 	 */
 	public static int userRegister(User user) {
 		int res = -1;
-		res = JVACCOUNT.UserRegister(user.getUserName(), user.getUserPwd());
+		res = JVACCOUNT.UserRegister(user.getUserName(),user.getUserPwd(),Consts.APP_NAME);
 		MyLog.v("userRegister--", "-----|||||" + res + "");
 
 		return res;

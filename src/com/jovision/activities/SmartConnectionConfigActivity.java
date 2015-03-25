@@ -63,7 +63,7 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	// String[] stepSoundEN = { "voi_info_en.mp3", "voi_next_en.mp3",
 	// "voi_send_en.mp3", "quicksetsound.mp3", "6.mp3" };
 	int[] titleID = { R.string.prepare_step, R.string.prepare_set,
-			R.string.wave_set, R.string.show_demo, R.string.search_list };
+			R.string.smart_connection, R.string.show_demo, R.string.search_list };
 
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private ArrayList<Device> broadList = new ArrayList<Device>();
@@ -511,8 +511,9 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 				pw_two.setVisibility(View.VISIBLE);
 				stepLayout6.setVisibility(View.VISIBLE);
 				Log.e(TAG, "开始智联路由...StartSmartConnection");
-				elian.InitSmartConnection(null, 0, 1);//V4
+				elian.InitSmartConnection(null, 1, 0);//V1
 				elian.StartSmartConnection(mConnectedSsid, mPassword, "android smart custom", mAuthMode);				
+				showTextToast("ssid:"+mConnectedSsid+", mAuthMode="+mAuthMode);
 				progress = 0;
 				pw_two.resetCount();
 				Thread s = new Thread(r);
@@ -558,7 +559,11 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	protected void freeMe() {
 		mediaPlayer.release();
 	}
-
+	@Override
+	protected void onDestroy() {
+		elian.StopSmartConnection();		
+		super.onDestroy();
+	}
 	private void playSoundStep(int index) {
 		// try {
 		// String file = "";

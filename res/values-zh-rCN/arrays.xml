@@ -53,18 +53,18 @@
     <!-- add Dev pop menu -->
     <string-array name="array_pop">
         <item>云视通号</item>
-        <item>二维码扫描</item>
-        <item>无线设备</item>
-        <item>局域网设备</item>
         <item>声波配置</item>
+        <item>智联路由</item>
+        <item>无线设备</item>
+        <item>二维码扫描</item>
         <item>IP/域名设备</item>
     </string-array>
     <string-array name="array_popno">
         <item>云视通号</item>
-        <item>二维码扫描</item>
-        <item>无线设备</item>
-        <item>局域网设备</item>
         <item>声波配置</item>
+        <item>智联路由</item>
+        <item>无线设备</item>
+        <item>二维码扫描</item>
     </string-array>
     <!-- 家庭安防产品 -->
     <!-- 图片质量 -->

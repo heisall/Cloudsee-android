@@ -46,6 +46,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.Jni;
 import com.jovision.MainApplication;
 import com.jovision.activities.JVTabActivity.OnMainListener;
 import com.jovision.adapters.LanAdapter;
@@ -481,48 +482,40 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 					mActivity.startActivity(addIntent);
 					break;
 				}
-				case 1: {// 二维码扫描
+
+				case 1: {// 声波配置
 					StatService.trackCustomEvent(
 							mActivity,
-							"Scan QR Code",
+							"SoundWave",
 							mActivity.getResources().getString(
-									R.string.census_scanqrcod));
-					Intent addIntent = new Intent();
-					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
-					addIntent.putExtra("QR", true);
-					mActivity.startActivity(addIntent);
+									R.string.census_soundwave));
+					Intent intent = new Intent();
+					intent.setClass(mActivity, JVWaveSetActivity.class);
+					mActivity.startActivity(intent);
 					break;
 				}
-				case 2: {// 无线设备
-					StatService.trackCustomEvent(
-							mActivity,
-							"Add Wi_Fi Device",
-							mActivity.getResources().getString(
-									R.string.census_addwifidev));
-					((ShakeActivity) getActivity()).startSearch(false);
-					break;
-				}
+
 				// TODO
-				case 3: {// 局域网设备-->即将改成智联路由...
-				// StatService.trackCustomEvent(mActivity,
-				// "Scan devices in LAN", mActivity.getResources()
-				// .getString(R.string.str_scanlandevice));
-				//
-				// if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
-				// true)) {
-				// MyLog.v(Consts.TAG_APP, "not broad = " + false);
-				// break;
-				// }
-				//
-				// if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
-				// fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
-				// broadTag = Consts.TAG_BROAD_ADD_DEVICE;
-				// broadList.clear();
-				// PlayUtil.deleteDevIp(myDeviceList);
-				// PlayUtil.broadCast(mActivity);
-				// } else {
-				// mActivity.showTextToast(R.string.notwifi_forbid_func);
-				// }
+				case 2: {// 局域网设备-->即将改成智联路由...
+					// StatService.trackCustomEvent(mActivity,
+					// "Scan devices in LAN", mActivity.getResources()
+					// .getString(R.string.str_scanlandevice));
+					//
+					// if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
+					// true)) {
+					// MyLog.v(Consts.TAG_APP, "not broad = " + false);
+					// break;
+					// }
+					//
+					// if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
+					// fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+					// broadTag = Consts.TAG_BROAD_ADD_DEVICE;
+					// broadList.clear();
+					// PlayUtil.deleteDevIp(myDeviceList);
+					// PlayUtil.broadCast(mActivity);
+					// } else {
+					// mActivity.showTextToast(R.string.notwifi_forbid_func);
+					// }
 					/************ 智联路由 begin ***********/
 					StatService.trackCustomEvent(
 							mActivity,
@@ -547,15 +540,26 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 					/************ 智联路由 end ***********/
 					break;
 				}
-				case 4: {// 声波配置
+
+				case 3: {// 无线设备
 					StatService.trackCustomEvent(
 							mActivity,
-							"SoundWave",
+							"Add Wi_Fi Device",
 							mActivity.getResources().getString(
-									R.string.census_soundwave));
-					Intent intent = new Intent();
-					intent.setClass(mActivity, JVWaveSetActivity.class);
-					mActivity.startActivity(intent);
+									R.string.census_addwifidev));
+					((ShakeActivity) getActivity()).startSearch(false);
+					break;
+				}
+				case 4: {// 二维码扫描
+					StatService.trackCustomEvent(
+							mActivity,
+							"Scan QR Code",
+							mActivity.getResources().getString(
+									R.string.census_scanqrcod));
+					Intent addIntent = new Intent();
+					addIntent.setClass(mActivity, JVAddDeviceActivity.class);
+					addIntent.putExtra("QR", true);
+					mActivity.startActivity(addIntent);
 					break;
 				}
 				case 5: {// IP/域名设备
@@ -962,6 +966,20 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case Consts.NET_CHANGE_CLEAR_CACHE: {// 网络切换清缓存
+			MyLog.i("MyRecevier", "网络变化了--正常网络");
+			Jni.getVersion();
+			Jni.clearCache();
+
+			if (null == myDeviceList || 0 == myDeviceList.size()) {
+				myDeviceList = CacheUtil.getDevList();
+			}
+
+			if (null != myDeviceList && 0 != myDeviceList.size()) {
+				PlayUtil.setHelperToList(myDeviceList);
+			}
+			break;
+		}
 		case Consts.GETDEMOURL:
 			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 

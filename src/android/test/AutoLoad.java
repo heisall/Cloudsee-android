@@ -13,7 +13,7 @@ public class AutoLoad {
 			System.loadLibrary("stlport_shared");
 			System.loadLibrary("accountsdk");
 			System.loadLibrary("tools");
-
+			System.loadLibrary("elianjni");
 			System.loadLibrary("play");
 			result = true;
 			MyLog.e(Consts.TAG_APP, "AutoLoad libs have done!");

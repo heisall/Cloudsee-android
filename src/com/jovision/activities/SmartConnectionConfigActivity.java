@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
 import android.net.wifi.ScanResult;
@@ -24,9 +22,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -35,7 +30,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -50,7 +44,6 @@ import com.jovision.commons.MyAudio;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
-import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.ProgressWheel;
@@ -59,14 +52,14 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 
 	private static final String TAG = "SmartConnectionConfigActivity";
 
-//	String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3",
-//			"quicksetsound.mp3", "6.mp3" };
+	// String[] stepSoundCH = { "voi_info.mp3", "voi_next.mp3", "voi_send.mp3",
+	// "quicksetsound.mp3", "6.mp3" };
 
 	// String[] stepSoundCHTW = { "voi_info_zhtw.mp3", "voi_next_zhtw.mp3",
 	// "voi_send_zhtw.mp3", "quicksetsound.mp3", "6.mp3" };
 
-//	String[] stepSoundEN = { "voi_info_en.mp3", "voi_next_en.mp3",
-//			"voi_send_en.mp3", "quicksetsound.mp3", "6.mp3" };
+	// String[] stepSoundEN = { "voi_info_en.mp3", "voi_next_en.mp3",
+	// "voi_send_en.mp3", "quicksetsound.mp3", "6.mp3" };
 	int[] titleID = { R.string.prepare_step, R.string.prepare_set,
 			R.string.wave_set, R.string.show_demo, R.string.search_list };
 
@@ -81,8 +74,8 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	protected RelativeLayout stepLayout1;
 	protected RelativeLayout stepLayout2;
 	protected RelativeLayout stepLayout3;
-//	protected RelativeLayout stepLayout4;
-//	protected RelativeLayout stepLayout5;
+	// protected RelativeLayout stepLayout4;
+	// protected RelativeLayout stepLayout5;
 	protected RelativeLayout stepLayout6;
 	protected RelativeLayout.LayoutParams reParamstop2;
 
@@ -91,21 +84,21 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	private boolean isshow = false;
 
 	protected ImageView stepImage1;
-//	protected ImageView waveImage;// 声波动画按钮
-//	protected ImageView pressToSendWave;// 点击发送声波按钮
-//	protected ImageView instruction;//
+	// protected ImageView waveImage;// 声波动画按钮
+	// protected ImageView pressToSendWave;// 点击发送声波按钮
+	// protected ImageView instruction;//
 	protected EditText desWifiName;
 	protected EditText desWifiPwd;
 	protected ToggleButton desPwdEye;
 	protected ListView devListView;// 广播到的设备列表
-//	protected ProgressBar loading;
+	// protected ProgressBar loading;
 	protected WaveDevlListAdapter wdListAdapter;// 设备列表adaper
 
 	ArrayList<RelativeLayout> layoutList = new ArrayList<RelativeLayout>();
 
 	protected Button nextBtn1;
 	protected Button nextBtn2;
-//	protected Button showDemoBtn;// 观看操作演示
+	// protected Button showDemoBtn;// 观看操作演示
 
 	protected int currentStep = 0;
 
@@ -128,10 +121,11 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	private byte AuthModeWPAPSK = 0x04;
 	private byte AuthModeWPANone = 0x05;
 	private byte AuthModeWPA2 = 0x06;
-	private byte AuthModeWPA2PSK = 0x07;   
+	private byte AuthModeWPA2PSK = 0x07;
 	private byte AuthModeWPA1WPA2 = 0x08;
 	private byte AuthModeWPA1PSKWPA2PSK = 0x09;
 	private byte mAuthMode = 0;;
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -262,80 +256,68 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 			}
 		}
 		desWifiName.setText(oldWifiSSID);
-		//TODO
+		// TODO
 		WifiManager mWifiManager;
 		String mConnectedSsid;
-		mWifiManager = (WifiManager) getSystemService (Context.WIFI_SERVICE); 
-		if(mWifiManager.isWifiEnabled())
-		{
-        	WifiInfo WifiInfo = mWifiManager.getConnectionInfo();
-        	mConnectedSsid = WifiInfo.getSSID();
+		mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		if (mWifiManager.isWifiEnabled()) {
+			WifiInfo WifiInfo = mWifiManager.getConnectionInfo();
+			mConnectedSsid = WifiInfo.getSSID();
 			int iLen = mConnectedSsid.length();
 
-			if (iLen == 0)
-			{
+			if (iLen == 0) {
 				return;
 			}
-			
-			if (mConnectedSsid.startsWith("\"") && mConnectedSsid.endsWith("\""))
-			{
+
+			if (mConnectedSsid.startsWith("\"")
+					&& mConnectedSsid.endsWith("\"")) {
 				mConnectedSsid = mConnectedSsid.substring(1, iLen - 1);
-			}			
+			}
 			List<ScanResult> ScanResultlist = mWifiManager.getScanResults();
-			for (int i = 0, len = ScanResultlist.size(); i < len; i++) 
-			{
-				ScanResult AccessPoint = ScanResultlist.get(i);			
-				
-				if (AccessPoint.SSID.equals(mConnectedSsid))
-				{		
-					boolean WpaPsk = AccessPoint.capabilities.contains("WPA-PSK");
-		        	boolean Wpa2Psk = AccessPoint.capabilities.contains("WPA2-PSK");
+			for (int i = 0, len = ScanResultlist.size(); i < len; i++) {
+				ScanResult AccessPoint = ScanResultlist.get(i);
+
+				if (AccessPoint.SSID.equals(mConnectedSsid)) {
+					boolean WpaPsk = AccessPoint.capabilities
+							.contains("WPA-PSK");
+					boolean Wpa2Psk = AccessPoint.capabilities
+							.contains("WPA2-PSK");
 					boolean Wpa = AccessPoint.capabilities.contains("WPA-EAP");
-		        	boolean Wpa2 = AccessPoint.capabilities.contains("WPA2-EAP");
-					
-					if (AccessPoint.capabilities.contains("WEP"))
-					{
+					boolean Wpa2 = AccessPoint.capabilities
+							.contains("WPA2-EAP");
+
+					if (AccessPoint.capabilities.contains("WEP")) {
 						mAuthMode = AuthModeOpen;
 						break;
 					}
-	
-					if (WpaPsk && Wpa2Psk)
-					{
+
+					if (WpaPsk && Wpa2Psk) {
 						mAuthMode = AuthModeWPA1PSKWPA2PSK;
 						break;
-					}
-					else if (Wpa2Psk)
-					{
+					} else if (Wpa2Psk) {
 						mAuthMode = AuthModeWPA2PSK;
 						break;
-					}
-					else if (WpaPsk)
-					{
+					} else if (WpaPsk) {
 						mAuthMode = AuthModeWPAPSK;
 						break;
 					}
-	
-					if (Wpa && Wpa2)
-					{
+
+					if (Wpa && Wpa2) {
 						mAuthMode = AuthModeWPA1WPA2;
 						break;
-					}
-					else if (Wpa2)
-					{
+					} else if (Wpa2) {
 						mAuthMode = AuthModeWPA2;
 						break;
-					}
-					else if (Wpa)
-					{
+					} else if (Wpa) {
 						mAuthMode = AuthModeWPA;
 						break;
-					}				
-					
+					}
+
 					mAuthMode = AuthModeOpen;
-					
+
 				}
 			}
-		}		
+		}
 	}
 
 	@Override
@@ -373,7 +355,6 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 		layoutList.add(0, stepLayout1);
 		layoutList.add(1, stepLayout2);
 		layoutList.add(2, stepLayout3);
-
 
 		desWifiName = (EditText) findViewById(R.id.deswifiname);
 		desWifiPwd = (EditText) findViewById(R.id.deswifipwd);
@@ -506,9 +487,9 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 			case R.id.step_btn2:
 				currentStep = 2;
 				showLayoutAtIndex(currentStep);
-//				break;
+				// break;
 			case R.id.btn_right:// 发局域网广播搜索局域网设备
-//			case R.id.step_btn3:// 发局域网广播搜索局域网设备
+				// case R.id.step_btn3:// 发局域网广播搜索局域网设备
 				// createDialog("", false);
 				isshow = true;
 				pw_two.setVisibility(View.VISIBLE);
@@ -520,8 +501,8 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 				playSoundStep(3);
 				broadList.clear();
 				Jni.queryDevice("", 0, 40 * 1000);
-//				currentStep = 4;
-//				showLayoutAtIndex(currentStep);
+				// currentStep = 4;
+				// showLayoutAtIndex(currentStep);
 				break;
 			case R.id.step_layout6:
 				break;
@@ -559,32 +540,32 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	}
 
 	private void playSoundStep(int index) {
-//		try {
-//			String file = "";
-//			if (Consts.LANGUAGE_ZH == ConfigUtil
-//					.getLanguage2(SmartConnectionConfigActivity.this)) {
-//				file = stepSoundCH[index];
-//			} else if (Consts.LANGUAGE_ZHTW == ConfigUtil
-//					.getLanguage2(SmartConnectionConfigActivity.this)) {
-//				file = stepSoundCH[index];
-//			} else {
-//				file = stepSoundEN[index];
-//			}
-//
-//			AssetFileDescriptor afd = assetMgr.openFd(file);
-//			mediaPlayer.reset();
-//
-//			// 使用MediaPlayer加载指定的声音文件。
-//			mediaPlayer.setDataSource(afd.getFileDescriptor(),
-//					afd.getStartOffset(), afd.getLength());
-//			// 准备声音
-//			mediaPlayer.prepare();
-//			// 播放
-//			mediaPlayer.start();
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		// String file = "";
+		// if (Consts.LANGUAGE_ZH == ConfigUtil
+		// .getLanguage2(SmartConnectionConfigActivity.this)) {
+		// file = stepSoundCH[index];
+		// } else if (Consts.LANGUAGE_ZHTW == ConfigUtil
+		// .getLanguage2(SmartConnectionConfigActivity.this)) {
+		// file = stepSoundCH[index];
+		// } else {
+		// file = stepSoundEN[index];
+		// }
+		//
+		// AssetFileDescriptor afd = assetMgr.openFd(file);
+		// mediaPlayer.reset();
+		//
+		// // 使用MediaPlayer加载指定的声音文件。
+		// mediaPlayer.setDataSource(afd.getFileDescriptor(),
+		// afd.getStartOffset(), afd.getLength());
+		// // 准备声音
+		// mediaPlayer.prepare();
+		// // 播放
+		// mediaPlayer.start();
+		//
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	// 设置三种类型参数分别为String,Integer,String

@@ -502,9 +502,30 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 					((ShakeActivity) getActivity()).startSearch(false);
 					break;
 				}
-				case 3: {// 局域网设备
+				//TODO
+				case 3: {// 局域网设备-->即将改成智联路由...
+//					StatService.trackCustomEvent(mActivity,
+//							"Scan devices in LAN", mActivity.getResources()
+//									.getString(R.string.str_scanlandevice));
+//
+//					if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
+//							true)) {
+//						MyLog.v(Consts.TAG_APP, "not broad = " + false);
+//						break;
+//					}
+//
+//					if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
+//						fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+//						broadTag = Consts.TAG_BROAD_ADD_DEVICE;
+//						broadList.clear();
+//						PlayUtil.deleteDevIp(myDeviceList);
+//						PlayUtil.broadCast(mActivity);
+//					} else {
+//						mActivity.showTextToast(R.string.notwifi_forbid_func);
+//					}
+					/************智联路由 begin***********/
 					StatService.trackCustomEvent(mActivity,
-							"Scan devices in LAN", mActivity.getResources()
+							"Smart Connection", mActivity.getResources()
 									.getString(R.string.str_scanlandevice));
 
 					if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
@@ -514,14 +535,13 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 					}
 
 					if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
-						fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
-						broadTag = Consts.TAG_BROAD_ADD_DEVICE;
-						broadList.clear();
-						PlayUtil.deleteDevIp(myDeviceList);
-						PlayUtil.broadCast(mActivity);
+						Intent intent = new Intent();
+						intent.setClass(mActivity, SmartConnectionConfigActivity.class);
+						mActivity.startActivity(intent);						
 					} else {
 						mActivity.showTextToast(R.string.notwifi_forbid_func);
 					}
+					/************智联路由 end***********/
 					break;
 				}
 				case 4: {// 声波配置

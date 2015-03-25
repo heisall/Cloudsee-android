@@ -504,28 +504,8 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 				}
 				//TODO
 				case 3: {// 局域网设备-->即将改成智联路由...
-					StatService.trackCustomEvent(mActivity,
-							"Scan devices in LAN", mActivity.getResources()
-									.getString(R.string.str_scanlandevice));
-
-					if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
-							true)) {
-						MyLog.v(Consts.TAG_APP, "not broad = " + false);
-						break;
-					}
-
-					if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
-						fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
-						broadTag = Consts.TAG_BROAD_ADD_DEVICE;
-						broadList.clear();
-						PlayUtil.deleteDevIp(myDeviceList);
-						PlayUtil.broadCast(mActivity);
-					} else {
-						mActivity.showTextToast(R.string.notwifi_forbid_func);
-					}
-					/************智联路由 begin***********/
 //					StatService.trackCustomEvent(mActivity,
-//							"Smart Connection", mActivity.getResources()
+//							"Scan devices in LAN", mActivity.getResources()
 //									.getString(R.string.str_scanlandevice));
 //
 //					if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
@@ -535,12 +515,32 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 //					}
 //
 //					if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
-//						Intent intent = new Intent();
-//						intent.setClass(mActivity, SmartConnectionConfigActivity.class);
-//						mActivity.startActivity(intent);						
+//						fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+//						broadTag = Consts.TAG_BROAD_ADD_DEVICE;
+//						broadList.clear();
+//						PlayUtil.deleteDevIp(myDeviceList);
+//						PlayUtil.broadCast(mActivity);
 //					} else {
 //						mActivity.showTextToast(R.string.notwifi_forbid_func);
 //					}
+					/************智联路由 begin***********/
+					StatService.trackCustomEvent(mActivity,
+							"Smart Connection", mActivity.getResources()
+									.getString(R.string.str_scanlandevice));
+
+					if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
+							true)) {
+						MyLog.v(Consts.TAG_APP, "not broad = " + false);
+						break;
+					}
+
+					if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
+						Intent intent = new Intent();
+						intent.setClass(mActivity, SmartConnectionConfigActivity.class);
+						mActivity.startActivity(intent);						
+					} else {
+						mActivity.showTextToast(R.string.notwifi_forbid_func);
+					}
 					/************智联路由 end***********/
 					break;
 				}

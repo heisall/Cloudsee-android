@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +14,9 @@ import android.content.DialogInterface;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.support.v4.view.ViewPager.LayoutParams;
 import android.text.InputType;
@@ -118,6 +122,17 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	protected static int audioSampleRate = 48000;
 	protected static int playBytes = 16;
 
+	private byte AuthModeOpen = 0x00;
+	private byte AuthModeShared = 0x01;
+	private byte AuthModeAutoSwitch = 0x02;
+	private byte AuthModeWPA = 0x03;
+	private byte AuthModeWPAPSK = 0x04;
+	private byte AuthModeWPANone = 0x05;
+	private byte AuthModeWPA2 = 0x06;
+	private byte AuthModeWPA2PSK = 0x07;   
+	private byte AuthModeWPA1WPA2 = 0x08;
+	private byte AuthModeWPA1PSKWPA2PSK = 0x09;
+	private byte mAuthMode = 0;;
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -128,7 +143,7 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 			isshow = false;
 			break;
 		case Consts.WHAT_BROAD_FINISHED: {// 广播超时
-			if (4 != currentStep) {
+			if (2 != currentStep) {
 				break;
 			}
 			dismissDialog();
@@ -246,6 +261,80 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 			}
 		}
 		desWifiName.setText(oldWifiSSID);
+		//TODO
+		WifiManager mWifiManager;
+		String mConnectedSsid;
+		mWifiManager = (WifiManager) getSystemService (Context.WIFI_SERVICE); 
+		if(mWifiManager.isWifiEnabled())
+		{
+        	WifiInfo WifiInfo = mWifiManager.getConnectionInfo();
+        	mConnectedSsid = WifiInfo.getSSID();
+			int iLen = mConnectedSsid.length();
+
+			if (iLen == 0)
+			{
+				return;
+			}
+			
+			if (mConnectedSsid.startsWith("\"") && mConnectedSsid.endsWith("\""))
+			{
+				mConnectedSsid = mConnectedSsid.substring(1, iLen - 1);
+			}			
+			List<ScanResult> ScanResultlist = mWifiManager.getScanResults();
+			for (int i = 0, len = ScanResultlist.size(); i < len; i++) 
+			{
+				ScanResult AccessPoint = ScanResultlist.get(i);			
+				
+				if (AccessPoint.SSID.equals(mConnectedSsid))
+				{		
+					boolean WpaPsk = AccessPoint.capabilities.contains("WPA-PSK");
+		        	boolean Wpa2Psk = AccessPoint.capabilities.contains("WPA2-PSK");
+					boolean Wpa = AccessPoint.capabilities.contains("WPA-EAP");
+		        	boolean Wpa2 = AccessPoint.capabilities.contains("WPA2-EAP");
+					
+					if (AccessPoint.capabilities.contains("WEP"))
+					{
+						mAuthMode = AuthModeOpen;
+						break;
+					}
+	
+					if (WpaPsk && Wpa2Psk)
+					{
+						mAuthMode = AuthModeWPA1PSKWPA2PSK;
+						break;
+					}
+					else if (Wpa2Psk)
+					{
+						mAuthMode = AuthModeWPA2PSK;
+						break;
+					}
+					else if (WpaPsk)
+					{
+						mAuthMode = AuthModeWPAPSK;
+						break;
+					}
+	
+					if (Wpa && Wpa2)
+					{
+						mAuthMode = AuthModeWPA1WPA2;
+						break;
+					}
+					else if (Wpa2)
+					{
+						mAuthMode = AuthModeWPA2;
+						break;
+					}
+					else if (Wpa)
+					{
+						mAuthMode = AuthModeWPA;
+						break;
+					}				
+					
+					mAuthMode = AuthModeOpen;
+					
+				}
+			}
+		}		
 	}
 
 	@Override
@@ -416,9 +505,9 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 			case R.id.step_btn2:
 				currentStep = 2;
 				showLayoutAtIndex(currentStep);
-				break;
+//				break;
 			case R.id.btn_right:// 发局域网广播搜索局域网设备
-			case R.id.step_btn3:// 发局域网广播搜索局域网设备
+//			case R.id.step_btn3:// 发局域网广播搜索局域网设备
 				// createDialog("", false);
 				isshow = true;
 				pw_two.setVisibility(View.VISIBLE);
@@ -430,14 +519,10 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 				playSoundStep(3);
 				broadList.clear();
 				Jni.queryDevice("", 0, 40 * 1000);
-				currentStep = 4;
-				showLayoutAtIndex(currentStep);
+//				currentStep = 4;
+//				showLayoutAtIndex(currentStep);
 				break;
 			case R.id.step_layout6:
-				break;
-			case R.id.showdemo:
-				currentStep = 3;
-				showLayoutAtIndex(currentStep);
 				break;
 			default:
 				break;

@@ -20,6 +20,7 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.support.v4.view.ViewPager.LayoutParams;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -55,6 +56,7 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.ProgressWheel;
+import com.mediatek.elian.ElianNative;
 
 public class SmartConnectionConfigActivity extends BaseActivity {
 
@@ -132,7 +134,11 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	private byte AuthModeWPA2PSK = 0x07;   
 	private byte AuthModeWPA1WPA2 = 0x08;
 	private byte AuthModeWPA1PSKWPA2PSK = 0x09;
-	private byte mAuthMode = 0;;
+	private byte mAuthMode = 0;
+	private ElianNative elian;
+	private WifiManager mWifiManager;
+	private	String mConnectedSsid;
+	private String mPassword; 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -154,6 +160,7 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 				wdListAdapter.setData(broadList);
 				devListView.setAdapter(wdListAdapter);
 			}
+			elian.StopSmartConnection();
 			playSoundStep(4);
 			rightBtn.setVisibility(View.VISIBLE);
 			break;
@@ -248,6 +255,13 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 		assetMgr = this.getAssets();
 		playAudio = MyAudio.getIntance(Consts.WHAT_PLAY_AUDIO_WHAT,
 				SmartConnectionConfigActivity.this, audioSampleRate);
+		boolean result = ElianNative.LoadLib();
+		if (!result)
+		{
+			Log.e(TAG, "can't load elianjni lib");
+			return;
+		}		
+		elian = new ElianNative();
 	}
 
 	private void setCurrentWifi() {
@@ -262,8 +276,7 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 		}
 		desWifiName.setText(oldWifiSSID);
 		//TODO
-		WifiManager mWifiManager;
-		String mConnectedSsid;
+
 		mWifiManager = (WifiManager) getSystemService (Context.WIFI_SERVICE); 
 		if(mWifiManager.isWifiEnabled())
 		{
@@ -503,21 +516,28 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 				showLayoutAtIndex(currentStep);
 				break;
 			case R.id.step_btn2:
-				currentStep = 2;
+				currentStep = 2;// 发局域网广播搜索局域网设备
+				mPassword = desWifiPwd.getText().toString();
+				if(mPassword.length() < 8){
+					showTextToast("请输入合法的wifi密码");
+					break;
+				}
 				showLayoutAtIndex(currentStep);
-//				break;
 			case R.id.btn_right:// 发局域网广播搜索局域网设备
-//			case R.id.step_btn3:// 发局域网广播搜索局域网设备
 				// createDialog("", false);
 				isshow = true;
 				pw_two.setVisibility(View.VISIBLE);
 				stepLayout6.setVisibility(View.VISIBLE);
+				Log.e(TAG, "开始智联路由...StartSmartConnection");
+				elian.InitSmartConnection(null, 0, 1);//V4
+				elian.StartSmartConnection(mConnectedSsid, mPassword, "android smart custom", mAuthMode);				
 				progress = 0;
 				pw_two.resetCount();
 				Thread s = new Thread(r);
 				s.start();
 				playSoundStep(3);
 				broadList.clear();
+				
 				Jni.queryDevice("", 0, 40 * 1000);
 //				currentStep = 4;
 //				showLayoutAtIndex(currentStep);

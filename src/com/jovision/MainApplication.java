@@ -671,6 +671,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 					MyLog.v("GCS-tag", showGcsStr);
 					if (1 == Integer.parseInt(showGcsStr)) {
 						item.setDismiss(false);
+						if (!MySharedPreference.getBoolean(Consts.MORE_GCSURL)) {
+							item.setIsnew(true);
+						}
 					} else {
 						item.setDismiss(true);
 					}

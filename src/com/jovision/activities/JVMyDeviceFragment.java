@@ -725,8 +725,12 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 
 										if (adUrl.contains("platv=9999")
 												|| Consts.AD_TYPE_1 == type) {// 视频广场特殊标识
-											adUrl = adUrl.substring(0,
-													adUrl.lastIndexOf("?"));
+
+											if (adUrl.contains("?")) {
+												adUrl = adUrl.substring(0,
+														adUrl.lastIndexOf("?"));
+											}
+
 											adUrl = adUrl
 													+ "?"
 													+ "plat=android&platv="
@@ -833,6 +837,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 							imageView.setScaleType(ScaleType.FIT_CENTER);
 							listViews.add(imageView);
 						}
+
 					} else {
 						refreshAD();
 						// for (int i = 0; i < listViews.size(); i++) {

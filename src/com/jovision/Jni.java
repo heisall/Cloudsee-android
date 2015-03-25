@@ -25,6 +25,12 @@ public class Jni {
 	 * @return json: {"jni":"xx","net":"xx"}
 	 */
 	public static native String getVersion();
+	
+	/**
+	 * 清理小助手缓存
+	 * 
+	 */
+	public static native void clearCache();
 
 	/**
 	 * 初始化，参考 {@link JVSUDT#JVC_InitSDK(int, Object)}

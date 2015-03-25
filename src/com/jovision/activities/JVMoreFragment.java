@@ -523,6 +523,10 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		// 关于
+		if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {
+			showLittleHelper();
+		}
 	}
 
 	private void dismissLittleHelper() {

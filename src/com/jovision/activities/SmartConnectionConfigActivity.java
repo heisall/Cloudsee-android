@@ -23,14 +23,15 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,12 +40,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.Jni;
-import com.jovision.activities.JVWaveSetActivity.AddDevTask;
 import com.jovision.adapters.WaveDevlListAdapter;
 import com.jovision.bean.Device;
 import com.jovision.bean.WifiAdmin;
@@ -156,7 +155,8 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 			if (null == broadList || 0 == broadList.size()) {
 				showTextToast(R.string.broad_zero);
 			} else {
-				wdListAdapter = new WaveDevlListAdapter(SmartConnectionConfigActivity.this);
+				wdListAdapter = new WaveDevlListAdapter(
+						SmartConnectionConfigActivity.this);
 				wdListAdapter.setData(broadList);
 				devListView.setAdapter(wdListAdapter);
 			}
@@ -167,7 +167,8 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 		}
 		case Consts.WHAT_BROAD_DEVICE: {// 广播到一个设备
 			if (null != broadList) {
-				wdListAdapter = new WaveDevlListAdapter(SmartConnectionConfigActivity.this);
+				wdListAdapter = new WaveDevlListAdapter(
+						SmartConnectionConfigActivity.this);
 				wdListAdapter.setData(broadList);
 				devListView.setAdapter(wdListAdapter);
 			}

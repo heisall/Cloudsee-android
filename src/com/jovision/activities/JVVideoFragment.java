@@ -78,6 +78,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.TAB_PLAZZA_RELOAD_URL: {
+
 			if (null != obj && !"".equalsIgnoreCase(obj.toString())) {
 				isshow = false;
 				urls = obj.toString();
@@ -87,6 +88,10 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 		}
 		case Consts.TAB_WEBVIEW_BACK: {// tab点击返回
 			try {
+				if (null != mUploadMessage) {
+					mUploadMessage.onReceiveValue(null);
+					mUploadMessage = null;
+				}
 				if (null != titleStack && 0 != titleStack.size()) {
 					titleStack.pop();
 					String lastTitle = titleStack.peek();
@@ -534,6 +539,10 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 	@Override
 	public void onResume() {
 		super.onResume();
+		if (null != mUploadMessage) {
+			mUploadMessage.onReceiveValue(null);
+			mUploadMessage = null;
+		}
 		webView.onResume();
 		if (!ConfigUtil.isConnected(mActivity)) {
 			isConnected = false;
@@ -604,13 +613,15 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
-						webView.setFocusable(true);
-						webView.onResume();
-						mUploadMessage.onReceiveValue(null);
-						mUploadMessage = null;
+						if (null != mUploadMessage) {
+							mUploadMessage.onReceiveValue(null);
+							mUploadMessage = null;
+						}
 					}
 				});
-		builder.create().show();
+		AlertDialog dialog = builder.create();
+		dialog.setCancelable(false);
+		dialog.show();
 	}
 
 }

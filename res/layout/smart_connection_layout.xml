@@ -36,9 +36,9 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_margin="30dp"
+                        android:gravity="center"
                         android:text="@string/smart_conn_guide_1"
                         android:textColor="@color/black"
-                        android:gravity="center"
                         android:textSize="18sp" />
 
                     <ImageView
@@ -49,17 +49,18 @@
                         android:layout_marginLeft="50dp"
                         android:layout_marginRight="50dp"
                         android:src="@drawable/reset_bg" />
-                    <TextView 
+
+                    <TextView
                         android:id="@+id/indicator_help"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/smart_conn_indicator_help"
                         android:layout_below="@id/step_img1"
                         android:layout_centerHorizontal="true"
-                        android:textSize="12sp"
-                        android:textColor="@color/link_color"
                         android:layout_marginTop="6dp"
-                        />
+                        android:text="@string/smart_conn_indicator_help"
+                        android:textColor="@color/link_color"
+                        android:textSize="12sp" />
+
                     <Button
                         android:id="@+id/step_btn1"
                         android:layout_width="match_parent"

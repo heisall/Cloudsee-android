@@ -724,7 +724,13 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 			}
 			/** 设置BBS信息 **/
 			if (itemFlag.equals(Consts.MORE_BBS)) {
-				item.setShowBBSNews(true);
+				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(this)) {
+					item.setShowBBSNews(true);
+					item.setDismiss(false);
+				} else {
+					item.setDismiss(true);
+				}
+
 			}
 			/** 显示空白栏 **/
 			if (itemFlag.equals(Consts.MORE_STATURL)

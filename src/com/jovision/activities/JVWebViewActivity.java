@@ -473,7 +473,7 @@ public class JVWebViewActivity extends BaseActivity {
 						dialog.dismiss();
 						Intent intent = null;
 						switch (which) {
-						case 0:
+						case REQ_CAMERA:
 							intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 							// 必须确保文件夹路径存在，否则拍照后无法完成回调
 							File vFile = new File(Consts.BBSIMG_PATH
@@ -491,7 +491,7 @@ public class JVWebViewActivity extends BaseActivity {
 							JVWebViewActivity.this.startActivityForResult(
 									intent, REQ_CAMERA);
 							break;
-						case 1:
+						case REQ_CHOOSER:
 							intent = new Intent(Intent.ACTION_PICK, null);
 							intent.setDataAndType(
 									MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -524,7 +524,6 @@ public class JVWebViewActivity extends BaseActivity {
 
 	public static final int REQ_CAMERA = 0;
 	public static final int REQ_CHOOSER = 1;
-	public static final int REQ_NULL = 2;
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode,
@@ -535,8 +534,12 @@ public class JVWebViewActivity extends BaseActivity {
 				return;
 			Uri result = intent == null || resultCode != RESULT_OK ? null
 					: intent.getData();
-			// showTextToast(result.toString());
-			mUploadMessage.onReceiveValue(result);
+
+			String realPath = MobileUtil.getRealPath(JVWebViewActivity.this,
+					result);
+			// showTextToast(realPath);
+			File file = new File(realPath);
+			mUploadMessage.onReceiveValue(Uri.fromFile(file));
 			mUploadMessage = null;
 			break;
 		case REQ_CAMERA:

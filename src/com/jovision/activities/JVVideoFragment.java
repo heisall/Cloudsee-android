@@ -576,7 +576,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 						dialog.dismiss();
 						Intent intent = null;
 						switch (which) {
-						case 0:
+						case JVTabActivity.REQ_CAMERA:
 							intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 							// 必须确保文件夹路径存在，否则拍照后无法完成回调
 							File vFile = new File(Consts.BBSIMG_PATH
@@ -594,7 +594,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 							mActivity.startActivityForResult(intent,
 									JVTabActivity.REQ_CAMERA);
 							break;
-						case 1:
+						case JVTabActivity.REQ_CHOOSER:
 							intent = new Intent(Intent.ACTION_PICK, null);
 							intent.setDataAndType(
 									MediaStore.Images.Media.EXTERNAL_CONTENT_URI,

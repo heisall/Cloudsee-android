@@ -57,10 +57,12 @@ public class MyRecevier extends BroadcastReceiver {
 						.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 				NetworkInfo wifiNetInfo = connectivityManager
 						.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-				if (wifiNetInfo.isConnected()) {
-					((MainApplication) context.getApplicationContext())
-							.onNotify(Consts.NET_CHANGE_CLEAR_CACHE, 0, 0, 0);
-				}
+				MyLog.v("changewifi", "切网络");
+				// Toast.makeText(context, "切网络了", 3000).show();
+				// if (wifiNetInfo.isConnected()) {
+				((MainApplication) context.getApplicationContext()).onNotify(
+						Consts.NET_CHANGE_CLEAR_CACHE, 0, 0, 0);
+				// }
 			}
 
 			if (!MySharedPreference.getBoolean(Consts.LOCAL_LOGIN)) {

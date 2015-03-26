@@ -1,5 +1,6 @@
 package com.jovision.activities;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -46,6 +47,7 @@ import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DefaultExceptionHandler;
 import com.jovision.utils.JSONUtil;
+import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVTabActivity extends ShakeActivity implements
@@ -996,8 +998,12 @@ public class JVTabActivity extends ShakeActivity implements
 				return;
 			Uri result = intent == null || resultCode != RESULT_OK ? null
 					: intent.getData();
-			// showTextToast(result.toString());
-			JVVideoFragment.mUploadMessage.onReceiveValue(result);
+
+			String realPath = MobileUtil
+					.getRealPath(JVTabActivity.this, result);
+			// showTextToast(realPath);
+			File file = new File(realPath);
+			JVVideoFragment.mUploadMessage.onReceiveValue(Uri.fromFile(file));
 			JVVideoFragment.mUploadMessage = null;
 			break;
 		case REQ_CAMERA:

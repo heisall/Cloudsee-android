@@ -129,8 +129,9 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	private byte mAuthMode = 0;
 	private ElianNative elian;
 	private WifiManager mWifiManager;
-	private	String mConnectedSsid;
-	private String mPassword; 
+	private String mConnectedSsid;
+	private String mPassword;
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -250,11 +251,10 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 		playAudio = MyAudio.getIntance(Consts.WHAT_PLAY_AUDIO_WHAT,
 				SmartConnectionConfigActivity.this, audioSampleRate);
 		boolean result = ElianNative.LoadLib();
-		if (!result)
-		{
+		if (!result) {
 			Log.e(TAG, "can't load elianjni lib");
 			return;
-		}		
+		}
 		elian = new ElianNative();
 	}
 
@@ -269,13 +269,12 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 			}
 		}
 		desWifiName.setText(oldWifiSSID);
-		//TODO
+		// TODO
 
-		mWifiManager = (WifiManager) getSystemService (Context.WIFI_SERVICE); 
-		if(mWifiManager.isWifiEnabled())
-		{
-        	WifiInfo WifiInfo = mWifiManager.getConnectionInfo();
-        	mConnectedSsid = WifiInfo.getSSID();
+		mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		if (mWifiManager.isWifiEnabled()) {
+			WifiInfo WifiInfo = mWifiManager.getConnectionInfo();
+			mConnectedSsid = WifiInfo.getSSID();
 			int iLen = mConnectedSsid.length();
 
 			if (iLen == 0) {
@@ -500,7 +499,7 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 			case R.id.step_btn2:
 				currentStep = 2;// 发局域网广播搜索局域网设备
 				mPassword = desWifiPwd.getText().toString();
-				if(mPassword.length() < 8){
+				if (mPassword.length() < 8) {
 					showTextToast("请输入合法的wifi密码");
 					break;
 				}
@@ -511,16 +510,18 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 				pw_two.setVisibility(View.VISIBLE);
 				stepLayout6.setVisibility(View.VISIBLE);
 				Log.e(TAG, "开始智联路由...StartSmartConnection");
-				elian.InitSmartConnection(null, 1, 0);//V1
-				elian.StartSmartConnection(mConnectedSsid, mPassword, "android smart custom", mAuthMode);				
-				showTextToast("ssid:"+mConnectedSsid+", mAuthMode="+mAuthMode);
+				elian.InitSmartConnection(null, 1, 0);// V1
+				elian.StartSmartConnection(mConnectedSsid, mPassword,
+						"android smart custom", mAuthMode);
+				showTextToast("ssid:" + mConnectedSsid + ", mAuthMode="
+						+ mAuthMode);
 				progress = 0;
 				pw_two.resetCount();
 				Thread s = new Thread(r);
 				s.start();
 				playSoundStep(3);
 				broadList.clear();
-				
+
 				Jni.queryDevice("", 0, 40 * 1000);
 				// currentStep = 4;
 				// showLayoutAtIndex(currentStep);
@@ -559,11 +560,13 @@ public class SmartConnectionConfigActivity extends BaseActivity {
 	protected void freeMe() {
 		mediaPlayer.release();
 	}
+
 	@Override
 	protected void onDestroy() {
-		elian.StopSmartConnection();		
+		elian.StopSmartConnection();
 		super.onDestroy();
 	}
+
 	private void playSoundStep(int index) {
 		// try {
 		// String file = "";

@@ -160,7 +160,7 @@ public class AlarmSettingsActivity extends BaseActivity implements
 							return;
 						case 3:// 铃声开关
 							if (MySharedPreference
-									.getBoolean(Consts.ALARM_SETTING_SOUND)) {
+									.getBoolean(Consts.ALARM_SETTING_SOUND, true)) {
 								MySharedPreference.putBoolean(
 										Consts.ALARM_SETTING_SOUND, false);
 							} else {
@@ -172,7 +172,7 @@ public class AlarmSettingsActivity extends BaseActivity implements
 							break;
 						case 4:// 振动开关
 							if (MySharedPreference
-									.getBoolean(Consts.ALARM_SETTING_VIBRATE)) {
+									.getBoolean(Consts.ALARM_SETTING_VIBRATE, true)) {
 								MySharedPreference.putBoolean(
 										Consts.ALARM_SETTING_VIBRATE, false);
 							} else {

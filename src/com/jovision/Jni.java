@@ -247,6 +247,24 @@ public class Jni {
 	public static native void cancelDownload();
 
 	/**
+	 * 恢复底层音频播放
+	 * 
+	 * @param window
+	 *            窗口索引
+	 * @return
+	 */
+	public static native boolean resumeAudio(int window);
+
+	/**
+	 * 暂停底层音频播放
+	 * 
+	 * @param window
+	 *            窗口索引
+	 * @return
+	 */
+	public static native boolean pauseAudio(int window);
+
+	/**
 	 * 暂停底层显示
 	 * 
 	 * @param window

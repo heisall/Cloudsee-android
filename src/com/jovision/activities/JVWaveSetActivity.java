@@ -2,6 +2,7 @@ package com.jovision.activities;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,9 +14,13 @@ import android.content.DialogInterface;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.support.v4.view.ViewPager.LayoutParams;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,6 +55,7 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.ProgressWheel;
+import com.mediatek.elian.ElianNative;
 
 public class JVWaveSetActivity extends BaseActivity {
 
@@ -65,7 +71,6 @@ public class JVWaveSetActivity extends BaseActivity {
 			"voi_send_en.mp3", "quicksetsound.mp3", "6.mp3" };
 	int[] titleID = { R.string.prepare_step, R.string.prepare_set,
 			R.string.wave_set, R.string.show_demo, R.string.search_list };
-
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
 	private ArrayList<Device> broadList = new ArrayList<Device>();
 
@@ -121,6 +126,27 @@ public class JVWaveSetActivity extends BaseActivity {
 	ScaleAnimation waveScaleAnim = null;// 发送声波动画
 	AlphaAnimation waveAlphaAnim = null;// 发送声波动画
 
+	/*智联路由SDK*/
+	private byte AuthModeOpen = 0x00;
+	private byte AuthModeShared = 0x01;
+	private byte AuthModeAutoSwitch = 0x02;
+	private byte AuthModeWPA = 0x03;
+	private byte AuthModeWPAPSK = 0x04;
+	private byte AuthModeWPANone = 0x05;
+	private byte AuthModeWPA2 = 0x06;
+	private byte AuthModeWPA2PSK = 0x07;
+	private byte AuthModeWPA1WPA2 = 0x08;
+	private byte AuthModeWPA1PSKWPA2PSK = 0x09;	
+	private WifiManager mWifiManager;
+	private ElianNative elian;
+	private final static int WAVE_FLAG = 0;
+	private final static int SMART_CONNECT_FLAG = 1;
+	private int func_flag = WAVE_FLAG;//默认进来是声波配置
+	private byte mAuthMode = 0;
+	private String mConnectedSsid;
+	private String mPassword;
+	private Button btn_smart_connect;
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -135,6 +161,10 @@ public class JVWaveSetActivity extends BaseActivity {
 			nextBtn3.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.blue_bg));
 			nextBtn3.setClickable(true);
+			/*智联路由按钮*/
+//			btn_smart_connect.setBackgroundDrawable(getResources().getDrawable(
+//					R.drawable.blue_bg));
+//			btn_smart_connect.setClickable(true);			
 			waveScaleAnim.cancel();
 			break;
 		}
@@ -153,6 +183,9 @@ public class JVWaveSetActivity extends BaseActivity {
 			playSoundStep(4);
 			loading.setVisibility(View.GONE);
 			rightBtn.setVisibility(View.VISIBLE);
+			if(func_flag == SMART_CONNECT_FLAG){
+				elian.StopSmartConnection();
+			}
 			break;
 		}
 		case Consts.WHAT_BROAD_DEVICE: {// 广播到一个设备
@@ -282,13 +315,24 @@ public class JVWaveSetActivity extends BaseActivity {
 		}
 
 	}
-
+	@Override
+	protected void onDestroy() {
+		elian.StopSmartConnection();
+		super.onDestroy();
+	}
 	@Override
 	protected void initSettings() {
 		deviceList = CacheUtil.getDevList();
 		assetMgr = this.getAssets();
 		playAudio = MyAudio.getIntance(Consts.WHAT_PLAY_AUDIO_WHAT,
 				JVWaveSetActivity.this, audioSampleRate);
+		/*智联路由*/
+		boolean result = ElianNative.LoadLib();
+		if (!result) {
+			Log.e(TAG, "can't load elianjni lib");
+			return;
+		}
+		elian = new ElianNative();		
 	}
 
 	private void setCurrentWifi() {
@@ -302,6 +346,68 @@ public class JVWaveSetActivity extends BaseActivity {
 			}
 		}
 		desWifiName.setText(oldWifiSSID);
+		
+		//TODO
+
+		mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		if (mWifiManager.isWifiEnabled()) {
+			WifiInfo WifiInfo = mWifiManager.getConnectionInfo();
+			mConnectedSsid = WifiInfo.getSSID();
+			int iLen = mConnectedSsid.length();
+
+			if (iLen == 0) {
+				return;
+			}
+
+			if (mConnectedSsid.startsWith("\"")
+					&& mConnectedSsid.endsWith("\"")) {
+				mConnectedSsid = mConnectedSsid.substring(1, iLen - 1);
+			}
+			List<ScanResult> ScanResultlist = mWifiManager.getScanResults();
+			for (int i = 0, len = ScanResultlist.size(); i < len; i++) {
+				ScanResult AccessPoint = ScanResultlist.get(i);
+
+				if (AccessPoint.SSID.equals(mConnectedSsid)) {
+					boolean WpaPsk = AccessPoint.capabilities
+							.contains("WPA-PSK");
+					boolean Wpa2Psk = AccessPoint.capabilities
+							.contains("WPA2-PSK");
+					boolean Wpa = AccessPoint.capabilities.contains("WPA-EAP");
+					boolean Wpa2 = AccessPoint.capabilities
+							.contains("WPA2-EAP");
+
+					if (AccessPoint.capabilities.contains("WEP")) {
+						mAuthMode = AuthModeOpen;
+						break;
+					}
+
+					if (WpaPsk && Wpa2Psk) {
+						mAuthMode = AuthModeWPA1PSKWPA2PSK;
+						break;
+					} else if (Wpa2Psk) {
+						mAuthMode = AuthModeWPA2PSK;
+						break;
+					} else if (WpaPsk) {
+						mAuthMode = AuthModeWPAPSK;
+						break;
+					}
+
+					if (Wpa && Wpa2) {
+						mAuthMode = AuthModeWPA1WPA2;
+						break;
+					} else if (Wpa2) {
+						mAuthMode = AuthModeWPA2;
+						break;
+					} else if (Wpa) {
+						mAuthMode = AuthModeWPA;
+						break;
+					}
+
+					mAuthMode = AuthModeOpen;
+
+				}
+			}
+		}
 	}
 
 	@Override
@@ -370,7 +476,9 @@ public class JVWaveSetActivity extends BaseActivity {
 		nextBtn2 = (Button) findViewById(R.id.step_btn2);
 		nextBtn3 = (Button) findViewById(R.id.step_btn3);
 		showDemoBtn = (Button) findViewById(R.id.showdemo);
-
+		/*智联路由*/
+		btn_smart_connect = (Button) findViewById(R.id.btn_smart_conn);	
+		
 		stepLayout6.setOnClickListener(myOnClickListener);
 		rightBtn.setOnClickListener(myOnClickListener);
 		leftBtn.setOnClickListener(myOnClickListener);
@@ -380,6 +488,8 @@ public class JVWaveSetActivity extends BaseActivity {
 		nextBtn3.setOnClickListener(myOnClickListener);
 		pressToSendWave.setOnClickListener(myOnClickListener);
 		waveImage.setOnClickListener(myOnClickListener);
+		/*智联路由*/
+		btn_smart_connect.setOnClickListener(myOnClickListener);		
 
 		/** 设置缩放动画 */
 		waveScaleAnim = new ScaleAnimation(0.0f, 5.0f, 0.0f, 5.0f,
@@ -444,6 +554,9 @@ public class JVWaveSetActivity extends BaseActivity {
 	 */
 	@SuppressWarnings("deprecation")
 	private void showLayoutAtIndex(int showIndex) {
+		
+//		btn_smart_connect.setClickable(false);
+		
 		nextBtn3.setClickable(false);
 		nextBtn3.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.login_blue_bg));
@@ -505,15 +618,30 @@ public class JVWaveSetActivity extends BaseActivity {
 				break;
 			case R.id.step_btn1:
 				currentStep = 1;
+				mPassword = desWifiPwd.getText().toString();
+				if (mPassword.length() < 8) {
+					showTextToast("请输入合法的wifi密码");
+					break;
+				}				
 				showLayoutAtIndex(currentStep);
 				break;
 			case R.id.step_btn2:
 				currentStep = 2;
 				showLayoutAtIndex(currentStep);
 				break;
+			case R.id.btn_smart_conn://智联路由
+				func_flag = SMART_CONNECT_FLAG;				
 			case R.id.btn_right:// 发局域网广播搜索局域网设备
 			case R.id.step_btn3:// 发局域网广播搜索局域网设备
 				// createDialog("", false);
+				if(func_flag == SMART_CONNECT_FLAG){
+					Log.e(TAG, "开始智联路由...StartSmartConnection");
+					elian.InitSmartConnection(null, 1, 0);// V1
+					elian.StartSmartConnection(mConnectedSsid, mPassword,
+							"android smart custom", mAuthMode);
+					showTextToast("ssid:" + mConnectedSsid + ", mAuthMode="
+							+ mAuthMode);					
+				}
 				isshow = true;
 				pw_two.setVisibility(View.VISIBLE);
 				stepLayout6.setVisibility(View.VISIBLE);
@@ -531,7 +659,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			case R.id.step_layout6:
 				break;
 			case R.id.press_sendwave:
-
+				func_flag = WAVE_FLAG;
 				try {
 					if (null != mediaPlayer) {
 						mediaPlayer.stop();

@@ -403,8 +403,11 @@ public class JVWebViewActivity extends BaseActivity {
 					titleStack.pop();
 					String lastTitle = titleStack.peek();
 					currentMenu.setText(lastTitle);
+					webView.goBack(); // goBack()表示返回WebView的上一页面
+				}else{
+					JVWebViewActivity.this.finish();
 				}
-				webView.goBack(); // goBack()表示返回WebView的上一页面
+				
 			} else {
 				JVWebViewActivity.this.finish();
 			}

@@ -709,7 +709,7 @@
     <string name="str_mdenabled_open_failed">移動偵測打開失敗</string>
     <string name="str_mdenabled_close_ok">移動偵測關閉成功</string>
     <string name="str_mdenabled_close_failed">移動偵測關閉失敗</string>
-    <string name="str_illegal_dev_nick">昵稱应由1-20個字母、數字、漢字及特殊字元-_+().組成</string>
+    <string name="str_illegal_dev_nick">昵稱应由1-24個字母、數字、漢字及特殊字元-_+().組成</string>
     <string name="str_cloud_file_error_1">文件未上傳完畢或上傳失敗</string>
     <string name="str_cloud_file_error_2">此通道沒有雲存儲信息</string>
     <string name="str_tpush_autostart_tips_v5">為保證離線報警功能正常使用，請您對手機做如下設置：\n在手機的\"安全中心\"->\"授權管理\"->\"自啟動應用管理\"界面，將本軟件手動添加到自啟動應用中</string>

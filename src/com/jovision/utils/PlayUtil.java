@@ -438,6 +438,7 @@ public class PlayUtil {
 	 * 开始音频监听
 	 */
 	public static boolean startAudioMonitor(int index) {
+		Jni.resumeAudio(index);
 		return Jni.enablePlayAudio(index, true);
 	}
 
@@ -445,6 +446,7 @@ public class PlayUtil {
 	 * 停止音频监听
 	 */
 	public static boolean stopAudioMonitor(int index) {
+		Jni.pause(index);
 		return Jni.enablePlayAudio(index, false);
 	}
 
@@ -1242,6 +1244,7 @@ public class PlayUtil {
 	 * @param ipcWifi
 	 */
 	public static void connectDevice(Device dev) {
+		Jni.pauseAudio(1);
 		Jni.enablePlayAudio(1, false);
 		if (!"".equalsIgnoreCase(dev.getIp())) {// IP直连云视通号置为-1
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(), dev

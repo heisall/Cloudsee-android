@@ -511,6 +511,13 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 					// 继续播放视频
 					Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYGOON,
 							new byte[0], 0);
+
+					if (isAudio) {
+						Jni.resumeAudio(indexOfChannel);
+					} else {
+						Jni.pauseAudio(indexOfChannel);
+					}
+
 					Jni.enablePlayAudio(indexOfChannel, isAudio);
 					isRemotePause = false;
 				} else {

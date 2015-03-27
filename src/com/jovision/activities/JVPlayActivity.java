@@ -1093,6 +1093,7 @@ public class JVPlayActivity extends PlayActivity implements
 
 				Channel channel = channelList.get(lastClickIndex);
 				if (channel.isSingleVoice()) {
+					Jni.resumeAudio(channel.getIndex());
 					showTextToast(R.string.voice_tips2);
 					if (!ishonfunctalk) {
 						ishonfunctalk = true;
@@ -4552,6 +4553,13 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		public void run() {
 			// "talkSwitch=" + tag;// 1开始 0关闭
+
+			if (1 == param) {
+				Jni.pauseAudio(index);
+			} else {
+				Jni.resumeAudio(index);
+			}
+
 			for (int i = 0; i < 3; i++) {
 				Jni.sendString(index, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 						Consts.TYPE_SET_PARAM,

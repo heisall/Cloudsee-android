@@ -1,6 +1,5 @@
 package com.jovision.activities;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -10,10 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -47,7 +44,6 @@ import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DefaultExceptionHandler;
 import com.jovision.utils.JSONUtil;
-import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 
 public class JVTabActivity extends ShakeActivity implements
@@ -990,34 +986,9 @@ public class JVTabActivity extends ShakeActivity implements
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode,
-			Intent intent) {
-		switch (requestCode) {
-		case REQ_CHOOSER:
-			if (null == JVVideoFragment.mUploadMessage)
-				return;
-			Uri result = intent == null || resultCode != RESULT_OK ? null
-					: intent.getData();
-
-			String realPath = MobileUtil
-					.getRealPath(JVTabActivity.this, result);
-			// showTextToast(realPath);
-			File file = new File(realPath);
-			JVVideoFragment.mUploadMessage.onReceiveValue(Uri.fromFile(file));
-			JVVideoFragment.mUploadMessage = null;
-			break;
-		case REQ_CAMERA:
-			if (resultCode == Activity.RESULT_OK) {
-				JVVideoFragment.mUploadMessage
-						.onReceiveValue(JVVideoFragment.imageUri);
-				// showTextToast(JVVideoFragment.imageUri.toString());
-				JVVideoFragment.mUploadMessage = null;
-			}
-			break;
-		}
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		onNotify(Consts.TAB_ON_ACTIVITY_RESULT, requestCode, resultCode, data);
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	public static final int REQ_CAMERA = 0;
-	public static final int REQ_CHOOSER = 1;
-	public static final int REQ_NULL = 2;
 }

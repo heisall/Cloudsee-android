@@ -637,10 +637,10 @@ public class JVWaveSetActivity extends BaseActivity {
 			case R.id.step_btn1:
 				currentStep = 1;
 				mPassword = desWifiPwd.getText().toString();
-//				if (mPassword.length() < 8) {
-//					showTextToast("请输入合法的wifi密码");
-//					break;
-//				}
+				// if (mPassword.length() < 8) {
+				// showTextToast("请输入合法的wifi密码");
+				// break;
+				// }
 				showLayoutAtIndex(currentStep);
 				break;
 			case R.id.step_btn2:
@@ -927,16 +927,16 @@ public class JVWaveSetActivity extends BaseActivity {
 			return false;
 		}
 	}
-	
-	private class onStopSmartConnect implements Runnable{
+
+	private class onStopSmartConnect implements Runnable {
 
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
-			if(null != elian){
+			if (null != elian) {
 				elian.StopSmartConnection();
 			}
 		}
-		
+
 	}
 }

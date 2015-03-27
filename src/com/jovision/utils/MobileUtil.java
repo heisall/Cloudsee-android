@@ -185,17 +185,16 @@ public class MobileUtil {
 		}
 		return fileName;
 	}
-	
+
 	/**
 	 * 
 	 * [获取cpu类型和架构]
 	 * 
-	 * @return 
-	 * 三个参数类型的数组，第一个参数标识是不是ARM架构，第二个参数标识是V6还是V7架构，第三个参数标识是不是neon指令集
+	 * @return 三个参数类型的数组，第一个参数标识是不是ARM架构，第二个参数标识是V6还是V7架构，第三个参数标识是不是neon指令集
 	 */
 	public static Object[] getCpuArchitecture() {
 		Object[] mArmArchitecture = new Object[32];
-		for(int i=0; i<mArmArchitecture.length; i++){
+		for (int i = 0; i < mArmArchitecture.length; i++) {
 			mArmArchitecture[i] = "0";
 		}
 		if (Integer.parseInt(mArmArchitecture[1].toString()) != -1) {
@@ -266,5 +265,5 @@ public class MobileUtil {
 		}
 
 		return mArmArchitecture;
-	}	
+	}
 }

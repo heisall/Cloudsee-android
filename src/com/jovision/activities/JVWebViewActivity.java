@@ -159,7 +159,7 @@ public class JVWebViewActivity extends BaseActivity {
 
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn = (Button) findViewById(R.id.btn_right);
-		rightBtn.setVisibility(View.VISIBLE);
+		rightBtn.setVisibility(View.GONE);
 		rightBtn.setOnClickListener(myOnClickListener);
 
 		webView = (WebView) findViewById(R.id.findpasswebview);

@@ -26,7 +26,7 @@
     <string name="login_str_device">設備列表</string>
     <string name="login_str_add_device">增加設備</string>
     <string name="login_str_device_devicename_notnull">請輸入設備昵稱</string>
-    <string name="login_str_nike_name_order">含有非法字元,昵稱由1-20個字母、數字、漢字及特殊字元-_+().組成</string>
+    <string name="login_str_nike_name_order">昵稱由1-20個字母、數字、漢字及特殊字元-_+().組成</string>
     <string name="login_str_device_account_notnull">請輸入用戶名</string>
     <string name="login_str_device_pass_notnull">請輸入密碼</string>
     <string name="device_pass_notzh">密碼不能是中文</string>

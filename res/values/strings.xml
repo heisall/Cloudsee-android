@@ -26,7 +26,7 @@
     <string name="login_str_device">Device List</string>
     <string name="login_str_add_device">Add Device</string>
     <string name="login_str_device_devicename_notnull">Please input nickname for the device</string>
-    <string name="login_str_nike_name_order">Ilegal character,the NikeName should be English letter,number,or special characters like .-_+()</string>
+    <string name="login_str_nike_name_order">The NikeName should be English letter,number,or special characters like .-_+()</string>
     <string name="login_str_device_account_notnull">Please input username.</string>
     <string name="login_str_device_pass_notnull">Please input password.</string>
     <string name="device_pass_notzh">Password can not be Chinese</string>

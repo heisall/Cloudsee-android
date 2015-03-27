@@ -232,16 +232,31 @@
                             android:textColor="@color/white"
                             android:textSize="20sp" />
 
-                        <Button
-                            android:id="@+id/btn_smart_conn"
+                        <RelativeLayout 
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginBottom="6dp"
-                            android:layout_marginTop="16dp"
-                            android:background="@drawable/blue_bg"
-                            android:text="@string/smart_connection"
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:layout_height="wrap_content"   
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="16dp"                            
+                            >
+                            <TextView 
+                                android:id="@+id/tv_smart_guide"
+	                            android:layout_width="wrap_content"
+	                            android:layout_height="wrap_content"
+	                            android:text="@string/smart_conn_indicator_help1"
+	                            android:textColor="@color/more_fragment_color7"
+	                            android:textSize="14sp"    
+	                            android:layout_centerVertical="true"                                                            
+                            />
+	                       <Button
+	                            android:id="@+id/btn_smart_conn"
+	                            android:layout_width="55dp"
+	                            android:layout_height="55dp"
+	                            android:background="@drawable/smart_conn_selector"
+	                            android:layout_alignParentRight="true"
+	                            android:layout_centerVertical="true"   
+                            />                            
+                        </RelativeLayout>
+ 
                     </LinearLayout>
                 </RelativeLayout>
 

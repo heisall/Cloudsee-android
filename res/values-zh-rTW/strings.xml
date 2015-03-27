@@ -631,6 +631,7 @@
     <string name="smart_connection">智连路由</string>
     <string name="smart_conn_guide_1">接通电源\n等待指示灯变成橙灯闪烁</string>
     <string name="smart_conn_indicator_help">指示灯没有闪烁怎么办？</string>
+    <string name="smart_conn_indicator_help1">没听到\"配置成功\"?请试试智连路由模式</string>
     <!-- 報警 -->
     <string name="str_alarm_check">立即查看</string>
     <string name="str_pass_extra_err">傳遞數據異常</string>

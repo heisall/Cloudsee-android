@@ -400,15 +400,39 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 			hasLoad = Boolean.parseBoolean(mActivity.statusHashMap
 					.get(Consts.HAS_LOAD_DEMO));
 		}
+
+		if (null != titleStack) {
+			if (titleStack.size() <= 1) {
+				titleStack.clear();
+			}
+		}
+
 		if (hasLoad && ConfigUtil.isConnected(mActivity)) {
-			webView.getSettings().setCacheMode(
-					WebSettings.LOAD_CACHE_ELSE_NETWORK);
+			if (null == titleStack || 0 == titleStack.size()) {
+				webView.getSettings().setCacheMode(
+						WebSettings.LOAD_CACHE_ELSE_NETWORK);// LOAD_CACHE_ELSE_NETWORK
+			} else {
+				webView.clearCache(true);
+				loadinglayout.setVisibility(View.VISIBLE);
+				webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+				loadFailed = false;
+				webView.loadUrl(urls);
+
+				if (null != titleStack) {
+					titleStack.clear();
+				}
+			}
 		} else {
+			webView.clearCache(true);
 			loadinglayout.setVisibility(View.VISIBLE);
 			webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 			loadFailed = false;
 			webView.loadUrl(urls);
+			if (null != titleStack) {
+				titleStack.clear();
+			}
 		}
+
 	}
 
 	class GetPlayUrlThread extends Thread {

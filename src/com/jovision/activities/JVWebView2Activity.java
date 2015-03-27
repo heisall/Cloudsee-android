@@ -146,6 +146,7 @@ public class JVWebView2Activity extends BaseActivity implements
 				MyLog.v("reConnect2", "connectRes3=" + connectRes3
 						+ ";connectRes4=" + connectRes4);
 			} else if (arg2 == Consts.RTMP_EDISCONNECT) {
+				showTextToast("网络库异常断开，返回值4");
 				connectRes4 = arg2;
 				MyLog.v("reConnect1", "connectRes3=" + connectRes3
 						+ ";connectRes4=" + connectRes4);

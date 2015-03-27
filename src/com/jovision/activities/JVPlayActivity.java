@@ -1104,6 +1104,7 @@ public class JVPlayActivity extends PlayActivity implements
 						istalk = true;
 					}
 				}
+				Jni.resumeAudio(channel.getIndex());
 				// recorder.start(channelList.get(lastClickIndex).getAudioType(),
 				// channelList.get(lastClickIndex).getAudioByte());
 
@@ -3078,6 +3079,7 @@ public class JVPlayActivity extends PlayActivity implements
 			} else {
 				if (channelList.get(lastClickIndex).isVoiceCall()) {
 					stopVoiceCall(lastClickIndex);
+					Jni.pauseAudio(lastClickIndex);
 					channelList.get(lastClickIndex).setVoiceCall(false);
 					realStop = true;
 					voiceCallSelected(false);
@@ -4552,6 +4554,13 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		public void run() {
 			// "talkSwitch=" + tag;// 1开始 0关闭
+
+			if (1 == param) {
+				Jni.pauseAudio(index);
+			} else {
+				Jni.resumeAudio(index);
+			}
+
 			for (int i = 0; i < 3; i++) {
 				Jni.sendString(index, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 						Consts.TYPE_SET_PARAM,

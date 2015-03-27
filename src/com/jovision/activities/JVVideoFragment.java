@@ -412,6 +412,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 				webView.getSettings().setCacheMode(
 						WebSettings.LOAD_CACHE_ELSE_NETWORK);// LOAD_CACHE_ELSE_NETWORK
 			} else {
+				webView.clearCache(true);
 				loadinglayout.setVisibility(View.VISIBLE);
 				webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 				loadFailed = false;
@@ -422,6 +423,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 				}
 			}
 		} else {
+			webView.clearCache(true);
 			loadinglayout.setVisibility(View.VISIBLE);
 			webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 			loadFailed = false;

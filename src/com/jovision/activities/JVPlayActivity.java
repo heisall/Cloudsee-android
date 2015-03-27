@@ -1093,7 +1093,6 @@ public class JVPlayActivity extends PlayActivity implements
 
 				Channel channel = channelList.get(lastClickIndex);
 				if (channel.isSingleVoice()) {
-					Jni.resumeAudio(channel.getIndex());
 					showTextToast(R.string.voice_tips2);
 					if (!ishonfunctalk) {
 						ishonfunctalk = true;
@@ -1105,6 +1104,7 @@ public class JVPlayActivity extends PlayActivity implements
 						istalk = true;
 					}
 				}
+				Jni.resumeAudio(channel.getIndex());
 				// recorder.start(channelList.get(lastClickIndex).getAudioType(),
 				// channelList.get(lastClickIndex).getAudioByte());
 
@@ -3079,6 +3079,7 @@ public class JVPlayActivity extends PlayActivity implements
 			} else {
 				if (channelList.get(lastClickIndex).isVoiceCall()) {
 					stopVoiceCall(lastClickIndex);
+					Jni.pauseAudio(lastClickIndex);
 					channelList.get(lastClickIndex).setVoiceCall(false);
 					realStop = true;
 					voiceCallSelected(false);

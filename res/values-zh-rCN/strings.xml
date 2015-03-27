@@ -608,6 +608,11 @@
     <string name="str_password">密       码 </string>
     <string name="str_nicknametwo">昵       称 </string>
     <!-- 声波配置 -->
+    <string name="wave_first">第一步</string>
+    <string name="wave_firstdescrione">请将手机的扬声器对准设备的麦克孔</string>
+    <string name="wave_firstdescritwo">(距离15厘米内)</string>
+    <string name="wave_second">第二步</string>
+    <string name="wave_seconddescri">发送声波，当听到设备发出配置成功语音提示后，点击下一步</string>
     <string name="wave_set">声波配置</string>
     <string name="prepare_step">准备步骤</string>
     <string name="check_step">查看演示说明</string>
@@ -615,6 +620,7 @@
     <string name="prepare_step2">请用顶针轻插设备背后的reset孔，\n听到“开始声波配置”提示音后松开顶针。</string>
     <string name="prepare_step1">请输入摄像头要连接的无线网络密码</string>
     <string name="prepare_step3">观看操作演示</string>
+    <string name="wave_show">演示说明</string>
     <string name="show_demo">操作演示</string>
     <string name="search_list">搜索列表</string>
     <string name="prepare_step4">点击发送声波</string>

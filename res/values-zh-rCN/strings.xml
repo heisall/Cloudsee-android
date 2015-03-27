@@ -643,7 +643,6 @@
     <string name="str_reset_device">重置设备功能</string>
     <string name="dev_alarm_sound">启动报警声音</string>
     <string name="dev_alarm_sound_tips">报警声音关闭后，当发生报警时，设备将不发出声音 。</string>
-    <string name="str_reset_devicedescri">重置后设备将恢复出厂设置。</string>
     <string name="str_reset_sure">确定重置设备吗?</string>
     <string name="str_modify_pwd">修改设备管理员密码</string>
     <string name="str_downloading_vod">正在获取录像文件…</string>
@@ -800,5 +799,4 @@
     <string name="increct_yst_tips">云视通号不正确</string>
     <string name="login_str_yst_num">云视通号</string>
     <string name="str_not_qr_device">不属于云视通设备</string>
-
-</resources>
+</resources>

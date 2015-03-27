@@ -644,7 +644,6 @@
     <string name="str_reset_sure">確定重置設備嗎?</string>
     <string name="dev_alarm_sound">啓動報警聲音</string>
     <string name="dev_alarm_sound_tips">报警声音关闭后，当发生报警时，设备将不发出声音 。</string>
-    <string name="str_reset_devicedescri">重置后设备将恢复出厂设置。</string>
     <string name="str_modify_pwd">修改設備管理員密碼</string>
     <string name="str_downloading_vod">正在獲取錄影檔…</string>
     <string name="str_alarm_dev">設備  :</string>
@@ -800,5 +799,4 @@
     <string name="increct_yst_tips">雲視通號不正確</string>
     <string name="login_str_yst_num">雲視通號</string>
     <string name="str_not_qr_device">不屬於雲視通設備</string>
-
-</resources>
+</resources>

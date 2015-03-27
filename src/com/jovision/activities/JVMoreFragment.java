@@ -470,7 +470,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 			Bitmap photo = bundle.getParcelable("data");
 			saveBitmap(photo);
 			Drawable drawable = new BitmapDrawable(photo);
-			more_camera.setVisibility(View.GONE);
 			more_head.setBackgroundDrawable(drawable);
 		}
 	}

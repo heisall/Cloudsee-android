@@ -676,6 +676,10 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 					|| itemFlag.equals(Consts.MORE_VERSION)) {
 				item.setDismiss(true);
 			}
+			if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))
+					&& itemFlag.equals(Consts.MORE_REMEMBER)) {
+				item.setDismiss(true);
+			}
 			if (itemFlag.equals(Consts.MORE_HELP)
 					|| itemFlag.equals(Consts.MORE_GCSURL)
 					|| itemFlag.equals(Consts.MORE_DEVICESHARE)

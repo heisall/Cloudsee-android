@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-               <RelativeLayout
+                <RelativeLayout
                     android:id="@+id/step_layout1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -130,7 +130,6 @@
                         android:text="@string/next_step"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
-                   
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -213,37 +212,36 @@
                         android:text="@string/prepare_step4"
                         android:textColor="@color/userinfocolor"
                         android:textSize="18sp" />
-                    <LinearLayout 
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true" 
-                        android:orientation="vertical"   
-                        android:paddingLeft="30dp"    
-                        android:paddingRight="30dp"  
+                        android:layout_alignParentBottom="true"
                         android:layout_below="@id/tv_tips"
-                        android:layout_marginTop="12dp"               
-                        >
-                    <Button
-                        android:id="@+id/step_btn3"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@drawable/blue_bg"
-                        android:text="@string/next_step"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-                    
-                    
-                    <Button
-                        android:id="@+id/btn_smart_conn"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/blue_bg"
-                        android:text="@string/smart_connection"
-                        android:textColor="@color/white"
-                        android:layout_marginBottom="6dp"
-                        android:textSize="20sp" />     
-                        
+                        android:layout_marginTop="12dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="30dp" >
+
+                        <Button
+                            android:id="@+id/step_btn3"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="@drawable/blue_bg"
+                            android:text="@string/next_step"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <Button
+                            android:id="@+id/btn_smart_conn"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/blue_bg"
+                            android:text="@string/smart_connection"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
                     </LinearLayout>
                 </RelativeLayout>
 

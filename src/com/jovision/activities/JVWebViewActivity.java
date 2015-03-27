@@ -159,7 +159,8 @@ public class JVWebViewActivity extends BaseActivity {
 
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn = (Button) findViewById(R.id.btn_right);
-		rightBtn.setVisibility(View.GONE);
+		rightBtn.setVisibility(View.VISIBLE);
+		rightBtn.setOnClickListener(myOnClickListener);
 
 		webView = (WebView) findViewById(R.id.findpasswebview);
 
@@ -372,6 +373,10 @@ public class JVWebViewActivity extends BaseActivity {
 				backMethod();
 				break;
 			}
+			case R.id.btn_right: {// 关闭当前网页
+				backWebview();
+				break;
+			}
 			case R.id.refreshimg: {
 				loadFailedLayout.setVisibility(View.GONE);
 				loadinglayout.setVisibility(View.VISIBLE);
@@ -391,6 +396,21 @@ public class JVWebViewActivity extends BaseActivity {
 	 */
 	private void backMethod() {
 		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
+		if (null != mUploadMessage) {
+			mUploadMessage.onReceiveValue(null);
+			mUploadMessage = null;
+		}
+		try {
+			JVWebViewActivity.this.finish();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	// webview返回
+	public void backWebview() {
+		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
 
 		if (null != mUploadMessage) {
 			mUploadMessage.onReceiveValue(null);
@@ -404,17 +424,11 @@ public class JVWebViewActivity extends BaseActivity {
 					String lastTitle = titleStack.peek();
 					currentMenu.setText(lastTitle);
 					webView.goBack(); // goBack()表示返回WebView的上一页面
-				} else {
-					JVWebViewActivity.this.finish();
 				}
-
-			} else {
-				JVWebViewActivity.this.finish();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override

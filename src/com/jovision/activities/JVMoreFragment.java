@@ -479,7 +479,12 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 		if (null == bm) {
 			return;
 		}
-		File f = new File(Consts.HEAD_PATH + more_name + ".jpg");
+		File f;
+		if (localFlag) {
+			f = new File(Consts.HEAD_PATH + more_name + ".jpg");
+		} else {
+			f = new File(Consts.HEAD_PATH + usernameInfo + ".jpg");
+		}
 		if (f.exists()) {
 			f.delete();
 		}

@@ -189,7 +189,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			loading.setVisibility(View.GONE);
 			rightBtn.setVisibility(View.VISIBLE);
 			if (func_flag == SMART_CONNECT_FLAG) {
-				elian.StopSmartConnection();
+				new Thread(new onStopSmartConnect()).start();
 			}
 			break;
 		}
@@ -323,7 +323,9 @@ public class JVWaveSetActivity extends BaseActivity {
 
 	@Override
 	protected void onDestroy() {
-		elian.StopSmartConnection();
+		if (func_flag == SMART_CONNECT_FLAG) {
+			new Thread(new onStopSmartConnect()).start();
+		}
 		super.onDestroy();
 	}
 
@@ -635,10 +637,10 @@ public class JVWaveSetActivity extends BaseActivity {
 			case R.id.step_btn1:
 				currentStep = 1;
 				mPassword = desWifiPwd.getText().toString();
-				if (mPassword.length() < 8) {
-					showTextToast("请输入合法的wifi密码");
-					break;
-				}
+//				if (mPassword.length() < 8) {
+//					showTextToast("请输入合法的wifi密码");
+//					break;
+//				}
 				showLayoutAtIndex(currentStep);
 				break;
 			case R.id.step_btn2:
@@ -924,5 +926,17 @@ public class JVWaveSetActivity extends BaseActivity {
 		} else {
 			return false;
 		}
+	}
+	
+	private class onStopSmartConnect implements Runnable{
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			if(null != elian){
+				elian.StopSmartConnection();
+			}
+		}
+		
 	}
 }

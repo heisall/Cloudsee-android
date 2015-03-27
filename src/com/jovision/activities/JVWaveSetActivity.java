@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,9 +20,12 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.support.v4.view.ViewPager.LayoutParams;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -47,12 +51,14 @@ import com.jovision.Jni;
 import com.jovision.adapters.WaveDevlListAdapter;
 import com.jovision.bean.Device;
 import com.jovision.bean.WifiAdmin;
+import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyAudio;
 import com.jovision.commons.MyLog;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
+import com.jovision.utils.MobileUtil;
 import com.jovision.utils.PlayUtil;
 import com.jovision.views.ProgressWheel;
 import com.mediatek.elian.ElianNative;
@@ -62,7 +68,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	private static final String TAG = "JVWaveSetActivity";
 
 	String[] stepSoundCH = { "voi_next.mp3", "voi_info.mp3", "voi_send.mp3",
-			"quicksetsound.mp3", "6.mp3" };
+			"quicksetsound.mp3", "6.mp3", "wave_show.mp3" };
 
 	// String[] stepSoundCHTW = { "voi_info_zhtw.mp3", "voi_next_zhtw.mp3",
 	// "voi_send_zhtw.mp3", "quicksetsound.mp3", "6.mp3" };
@@ -147,6 +153,10 @@ public class JVWaveSetActivity extends BaseActivity {
 	private String mPassword;
 	private Button btn_smart_connect;
 
+	private Dialog initDialog;// 显示弹出框
+	private ImageView dialogCancel;// 取消按钮
+
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -161,10 +171,10 @@ public class JVWaveSetActivity extends BaseActivity {
 			nextBtn3.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.blue_bg));
 			nextBtn3.setClickable(true);
-			/* 智联路由按钮 */
-			// btn_smart_connect.setBackgroundDrawable(getResources().getDrawable(
-			// R.drawable.blue_bg));
-			// btn_smart_connect.setClickable(true);
+			/*智联路由按钮*/
+			//			btn_smart_connect.setBackgroundDrawable(getResources().getDrawable(
+			//					R.drawable.blue_bg));
+			//			btn_smart_connect.setClickable(true);			
 			waveScaleAnim.cancel();
 			break;
 		}
@@ -253,7 +263,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		}
 		// 广播回调
 		case Consts.CALL_QUERY_DEVICE: {// nNetMod 设备是否带wifi nCurMod
-										// 设备是否正在使用wifi
+			// 设备是否正在使用wifi
 
 			MyLog.v(TAG, "CALL_LAN_SEARCH = what=" + what + ";arg1=" + arg1
 					+ ";arg2=" + arg1 + ";obj=" + obj.toString());
@@ -282,8 +292,8 @@ public class JVWaveSetActivity extends BaseActivity {
 						Boolean hasAdded = PlayUtil.hasDev(deviceList,
 								broadDevNum, ip, port, netmod);
 						if (1 == broadObj.optInt("netmod")) {// && !hasAdded)
-																// {//
-																// 带wifi设备且不在设备列表里面
+							// {//
+							// 带wifi设备且不在设备列表里面
 							Device addDev = new Device(ip, port, gid, no,
 									Consts.DEFAULT_USERNAME,
 									Consts.DEFAULT_PASSWORD, false, count, 0,
@@ -348,6 +358,8 @@ public class JVWaveSetActivity extends BaseActivity {
 			}
 		}
 		desWifiName.setText(oldWifiSSID);
+
+		//TODO
 
 		// TODO
 
@@ -478,8 +490,8 @@ public class JVWaveSetActivity extends BaseActivity {
 		nextBtn2 = (Button) findViewById(R.id.step_btn2);
 		nextBtn3 = (Button) findViewById(R.id.step_btn3);
 		showDemoBtn = (Button) findViewById(R.id.showdemo);
-		/* 智联路由 */
-		btn_smart_connect = (Button) findViewById(R.id.btn_smart_conn);
+		/*智联路由*/
+		btn_smart_connect = (Button) findViewById(R.id.btn_smart_conn);	
 
 		stepLayout6.setOnClickListener(myOnClickListener);
 		rightBtn.setOnClickListener(myOnClickListener);
@@ -538,7 +550,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 			if (arg1) {
 				desWifiPwd
-						.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);// 显示密码
+				.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);// 显示密码
 			} else {
 				desWifiPwd.setInputType(InputType.TYPE_CLASS_TEXT
 						| InputType.TYPE_TEXT_VARIATION_PASSWORD);// 隐藏密码
@@ -557,7 +569,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	@SuppressWarnings("deprecation")
 	private void showLayoutAtIndex(int showIndex) {
 
-		// btn_smart_connect.setClickable(false);
+		//		btn_smart_connect.setClickable(false);
 
 		nextBtn3.setClickable(false);
 		nextBtn3.setBackgroundDrawable(getResources().getDrawable(
@@ -615,6 +627,13 @@ public class JVWaveSetActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
+
+			case R.id.waveshow_cancle:
+				initDialog.dismiss();
+				if (null != mediaPlayer && mediaPlayer.isPlaying()) {
+					mediaPlayer.stop();
+				}
+				break;
 			case R.id.btn_left:
 				backMethod();
 				break;
@@ -677,14 +696,28 @@ public class JVWaveSetActivity extends BaseActivity {
 
 				break;
 			case R.id.showdemo:
-				currentStep = 3;
-				showLayoutAtIndex(currentStep);
+				//				currentStep = 3;
+				//				showLayoutAtIndex(currentStep);
+				//TODO
+				initSummaryDialog();
 				break;
 			default:
 				break;
 			}
 		}
 	};
+
+	/** 弹出框初始化 */
+	private void initSummaryDialog() {
+		initDialog = new Dialog(JVWaveSetActivity.this, R.style.mydialog);
+		View view = LayoutInflater.from(JVWaveSetActivity.this).inflate(
+				R.layout.dialog_wave, null);
+		initDialog.setContentView(view);
+		dialogCancel = (ImageView)view.findViewById(R.id.waveshow_cancle);
+		dialogCancel.setOnClickListener(myOnClickListener);
+		initDialog.show();
+		playSoundStep(5);
+	}
 
 	@Override
 	protected void saveSettings() {
@@ -859,11 +892,11 @@ public class JVWaveSetActivity extends BaseActivity {
 		// 提示对话框
 		AlertDialog.Builder builder = new Builder(this);
 		builder.setTitle(R.string.tips)
-				.setMessage(
-						getResources().getString(R.string.wave_add_dev) + "   "
-								+ broadList.get(index).getFullNo())
-				.setPositiveButton(R.string.sure,
-						new DialogInterface.OnClickListener() {
+		.setMessage(
+				getResources().getString(R.string.wave_add_dev) + "   "
+						+ broadList.get(index).getFullNo())
+						.setPositiveButton(R.string.sure,
+								new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
@@ -876,8 +909,8 @@ public class JVWaveSetActivity extends BaseActivity {
 								task.execute(params);
 							}
 						})
-				.setNegativeButton(R.string.cancel,
-						new DialogInterface.OnClickListener() {
+						.setNegativeButton(R.string.cancel,
+								new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,

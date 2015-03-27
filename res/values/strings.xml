@@ -26,7 +26,7 @@
     <string name="login_str_device">Device List</string>
     <string name="login_str_add_device">Add Device</string>
     <string name="login_str_device_devicename_notnull">Please input nickname for the device</string>
-    <string name="login_str_nike_name_order">Ilegal character,the NikeName should be English letter,number,or special characters like .-_+()</string>
+    <string name="login_str_nike_name_order">The NikeName should be English letter,number,or special characters like .-_+()</string>
     <string name="login_str_device_account_notnull">Please input username.</string>
     <string name="login_str_device_pass_notnull">Please input password.</string>
     <string name="device_pass_notzh">Password can not be Chinese</string>
@@ -608,6 +608,11 @@
     <string name="str_password">Password </string>
     <string name="str_nicknametwo">Nickname </string>
     <!-- 声波配置 -->
+    <string name="wave_first">第一步</string>
+    <string name="wave_firstdescrione">请将手机的扬声器对准设备的麦克孔</string>
+    <string name="wave_firstdescritwo">(距离15厘米内)</string>
+    <string name="wave_second">第二步</string>
+    <string name="wave_seconddescri">发送声波，当听到设备发出配置成功语音提示后，点击下一步</string>
     <string name="wave_set">Sound-wave Configuration</string>
     <string name="prepare_step">Preparating</string>
     <string name="check_step">View operation demo</string>
@@ -615,6 +620,7 @@
     <string name="prepare_step2">Please press the reset button , then release the button after hearing the voice guide.</string>
     <string name="prepare_step1">Please input password of the network.</string>
     <string name="prepare_step3">View operation demo</string>
+    <string name="wave_show">演示说明</string>
     <string name="show_demo">Operation demo</string>
     <string name="search_list">Search list</string>
     <string name="prepare_step4">Click to send sound-wave</string>

@@ -26,7 +26,7 @@
     <string name="login_str_device">設備列表</string>
     <string name="login_str_add_device">增加設備</string>
     <string name="login_str_device_devicename_notnull">請輸入設備昵稱</string>
-    <string name="login_str_nike_name_order">含有非法字元,昵稱由1-20個字母、數字、漢字及特殊字元-_+().組成</string>
+    <string name="login_str_nike_name_order">昵稱由1-20個字母、數字、漢字及特殊字元-_+().組成</string>
     <string name="login_str_device_account_notnull">請輸入用戶名</string>
     <string name="login_str_device_pass_notnull">請輸入密碼</string>
     <string name="device_pass_notzh">密碼不能是中文</string>
@@ -608,6 +608,11 @@
     <string name="str_password">密       碼 </string>
     <string name="str_nicknametwo">昵       稱 </string>
     <!-- 聲波配置 -->
+    <string name="wave_first">第壹步</string>
+    <string name="wave_firstdescrione">請將手機的揚聲器對準設備的麥克孔</string>
+    <string name="wave_firstdescritwo">(距離15厘米內)</string>
+    <string name="wave_second">第二步</string>
+    <string name="wave_seconddescri">發送聲波，當聽到設備發出配置成功語音提示後，點擊下壹步</string>
     <string name="wave_set">聲波配置</string>
     <string name="prepare_step">準備步驟</string>
     <string name="check_step">查看演示說明</string>
@@ -615,6 +620,7 @@
     <string name="prepare_step2">請用頂針輕插設備背後的reset孔，聽到“開始聲波配置”提示音後松開頂針。</string>
     <string name="prepare_step1">請輸入攝像頭要連接的無線網路密碼</string>
     <string name="prepare_step3">觀看操作演示</string>
+    <string name="wave_show">演示說明</string>
     <string name="show_demo">操作演示</string>
     <string name="search_list">搜索列表</string>
     <string name="prepare_step4">點擊發送聲波</string>

@@ -151,15 +151,15 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 		// method.
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				context)
-		.threadPoolSize(3)
-		// 线程池内加载的数量
-		.threadPriority(Thread.NORM_PRIORITY - 2)
-		.denyCacheImageMultipleSizesInMemory()
-		.diskCacheFileNameGenerator(new Md5FileNameGenerator())
-		.diskCacheSize(20 * 1024 * 1024)
-		.tasksProcessingOrder(QueueProcessingType.LIFO)
-		// .writeDebugLogs() // todo eric Remove for release app
-		.build();
+				.threadPoolSize(3)
+				// 线程池内加载的数量
+				.threadPriority(Thread.NORM_PRIORITY - 2)
+				.denyCacheImageMultipleSizesInMemory()
+				.diskCacheFileNameGenerator(new Md5FileNameGenerator())
+				.diskCacheSize(20 * 1024 * 1024)
+				.tasksProcessingOrder(QueueProcessingType.LIFO)
+				// .writeDebugLogs() // todo eric Remove for release app
+				.build();
 		// Initialize ImageLoader with configuration.
 		ImageLoader.getInstance().init(config);
 	}
@@ -552,7 +552,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 											getApplicationContext(),
 											currentActivity.getClass());
 									intentMain
-									.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+											.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 									// statusHashMap.put(Consts.LOCAL_LOGIN,
 									// "false");
 									startActivity(intentMain);
@@ -564,7 +564,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 									MyLog.v("PushCallBack",
 											"this "
 													+ currentActivity
-													.toString()
+															.toString()
 													+ " is not need to pop alarm activity");
 								}
 							}
@@ -676,8 +676,8 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 					|| itemFlag.equals(Consts.MORE_VERSION)) {
 				item.setDismiss(true);
 			}
-			if (Boolean.valueOf(statusHashMap
-					.get(Consts.LOCAL_LOGIN)) && itemFlag.equals(Consts.MORE_REMEMBER)) {
+			if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))
+					&& itemFlag.equals(Consts.MORE_REMEMBER)) {
 				item.setDismiss(true);
 			}
 			if (itemFlag.equals(Consts.MORE_HELP)

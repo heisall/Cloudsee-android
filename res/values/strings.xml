@@ -165,8 +165,8 @@
     <string name="str_feedback">Suggestion and FeedBack</string>
     <string name="str_login_out">Log Out</string>
     <string name="str_alarm_settings">Alarm Settings</string>
-    <string name="str_alarm_pushon_failed">打开报警消息推送失败</string>
-    <string name="str_alarm_pushoff_failed">关闭报警消息推送失败</string>
+    <string name="str_alarm_pushon_failed">Failed to enable the alarm message delivery</string>
+    <string name="str_alarm_pushoff_failed">Failed to disable the alarm message</string>
     <!-- 注册 -->
     <string name="str_enter_username">Phone/Email/Username</string>
     <string name="str_enter_emails">Email</string>
@@ -608,10 +608,10 @@
     <string name="str_password">Password </string>
     <string name="str_nicknametwo">Nickname </string>
     <!-- 声波配置 -->
-    <string name="wave_first">第一步</string>
-    <string name="wave_firstdescrione">请将手机的扬声器对准设备的麦克孔(距离15厘米内)</string>
-    <string name="wave_second">第二步</string>
-    <string name="wave_seconddescri">发送声波，当听到设备发出配置成功语音提示后，点击下一步</string>
+    <string name="wave_first">The 1st step</string>
+    <string name="wave_firstdescrione">Please put your mobile phone speaker near the microphone port (within 15cm)</string>
+    <string name="wave_second">The 2nd step</string>
+    <string name="wave_seconddescri">Sound wave sending, when hearing device configurationsuccess voice, click the next step</string>
     <string name="wave_set">Sound-wave Configuration</string>
     <string name="prepare_step">Preparating</string>
     <string name="check_step">View operation demo</string>
@@ -619,7 +619,7 @@
     <string name="prepare_step2">Please press the reset button , then release the button after hearing the voice guide.</string>
     <string name="prepare_step1">Please input password of the network.</string>
     <string name="prepare_step3">View operation demo</string>
-    <string name="wave_show">演示说明</string>
+    <string name="wave_show">Demonstration</string>
     <string name="show_demo">Operation demo</string>
     <string name="search_list">Search list</string>
     <string name="prepare_step4">Click to send sound-wave</string>
@@ -627,10 +627,10 @@
     <string name="prepare_step6">(The device does not support 5G Wi-Fi)</string>
     <string name="wave_add_dev">Make sure to add device</string>
     <!-- 智联路由 -->
-    <string name="smart_connection">智连路由</string>
-    <string name="smart_conn_guide_1">接通电源\n等待指示灯变成橙灯闪烁</string>
-    <string name="smart_conn_indicator_help">指示灯没有闪烁怎么办？</string>
-    <string name="smart_conn_indicator_help1">没听到\"配置成功\"?请试试智连路由模式</string>
+    <string name="smart_connection">Router connected intelligently</string>
+    <string name="smart_conn_guide_1">Power-on and wait until indicator blinking in orange</string>
+    <string name="smart_conn_indicator_help">What to do if indicator not flash?</string>
+    <string name="smart_conn_indicator_help1">If not hear “configuration complete” warning tone, please attempt to use intelligent router connection mode</string>
     <!-- 报警 -->
     <string name="str_alarm_check">Check Now</string>
     <string name="str_pass_extra_err">Pass Data Extra Error</string>
@@ -641,8 +641,8 @@
     <string name="str_safe_protected">Alert</string>
     <string name="str_reset_device">Reset the device</string>
     <string name="str_reset_sure">Are you sure to reset?</string>
-    <string name="dev_alarm_sound">启动报警声音</string>
-    <string name="dev_alarm_sound_tips">报警声音关闭后，当发生报警时，设备将不发出声音 .</string>
+    <string name="dev_alarm_sound">Startup the alarm sound</string>
+    <string name="dev_alarm_sound_tips">If alarm sound is turned off, the device will not sound when alarming.</string>
     <string name="str_modify_pwd">Modify device administrator is password.</string>
     <string name="str_downloading_vod">Getting the video file…</string>
     <string name="str_alarm_dev">Device :</string>
@@ -701,7 +701,7 @@
     <string name="str_computre_time1">The end time can\'t be earlier than the start time.</string>
     <string name="str_computre_time3">The end time can\'t the same as the start time.</string>
     <string name="str_disconnect_resp_timeout">Disconnect the connection timeout</string>
-    <string name="str_operation_success">操作成功</string>
+    <string name="str_operation_success">Operation succeed.</string>
     <string name="str_operation_failed">Operation failed</string>
     <string name="str_setting_time">Setting Time</string>
     <string name="str_mdenabled_open_ok">The motion detecting open success</string>
@@ -714,8 +714,8 @@
     <string name="str_tpush_autostart_tips_v5">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permission\"->\"Auto-start management\",Add the application into the auto-start apps manually.</string>
     <string name="str_tpush_autostart_tips_v6">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permissions\"->\"Autostart\",make the application allowed to auto start</string>
     <!-- JVWebviewActivity -->
-    <string name="capture_to_upload">拍照上传</string>
-    <string name="select_to_upload">选择图片</string>
+    <string name="capture_to_upload">Upload photos</string>
+    <string name="select_to_upload">Selecting photos</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="census_findpasswpordbyemail">邮箱找回密码</string>
     <string name="census_findpasswpordbyphone">电话找回密码</string>

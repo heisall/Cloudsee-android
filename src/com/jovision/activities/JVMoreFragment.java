@@ -382,7 +382,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 						.get(Consts.LOCAL_LOGIN))) {
 					StatService.trackCustomEvent(mActivity,
 							"census_moreheadimg", mActivity.getResources()
-							.getString(R.string.census_moreheadimg));
+									.getString(R.string.census_moreheadimg));
 					popupWindow = new popw(mActivity, myOnClickListener);
 					popupWindow.setBackgroundDrawable(null);
 					popupWindow.setOutsideTouchable(true);
@@ -423,7 +423,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 			}
 		}
 	};
-
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -499,7 +498,6 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 
 	}
 
-
 	private void initDatalist() {
 		((MainApplication) activity.getApplication()).initDefaultMoreList();
 		ArrayList<MoreFragmentBean> defaultMoreList = mApp.getDefaultMoreList();
@@ -570,379 +568,379 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 
 	private void listViewClick() {
 		more_listView
-		.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				System.out
-				.println("===============postion================"
-						+ position);
-
-				if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_HELP)) {
-					if (MySharedPreference.getBoolean(Consts.MORE_HELP)) {
-						MySharedPreference.putBoolean(Consts.MORE_HELP,
-								false);
-						MySharedPreference.putBoolean(
-								Consts.MORE_PAGEONE, true);
-						MySharedPreference.putBoolean(
-								Consts.MORE_PAGETWO, true);
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_REMEMBER)) {
-					if (MySharedPreference
-							.getBoolean(Consts.MORE_REMEMBER)) {
-						MySharedPreference.putBoolean(
-								Consts.MORE_REMEMBER, false);
-					} else {
-						MySharedPreference.putBoolean(
-								Consts.MORE_REMEMBER, true);
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_ALARMSWITCH)) {
-					// AlarmTask task = new AlarmTask();
-					// Integer[] params = new Integer[3];
-					// if (!MySharedPreference.getBoolean(
-					// Consts.MORE_ALARMSWITCH, true)) {// 1是关//
-					// // 0是开
-					// params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
-					// } else {
-					// params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
-					// }
-					// task.execute(params);
-					if (localFlag)// 本地登录
-					{
-						mActivity.showTextToast(R.string.more_nologin);
-					} else {
-						Intent intent = new Intent(mActivity,
-								AlarmSettingsActivity.class);
-						mActivity.startActivity(intent);
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_ALARMMSG)) {
-					if (localFlag) {
-						mActivity.showTextToast(R.string.more_nologin);
-					} else {
-						if (!ConfigUtil.isConnected(mActivity)) {
-							mActivity.alertNetDialog();
-						} else {
-							mApp.setNewPushCnt(0);
-							Intent intent2 = new Intent(mActivity,
-									AlarmInfoActivity.class);
-							startActivity(intent2);
-						}
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_PLAYMODE)) {
-					// 观看模式（单设备，多设备）
-					if (MySharedPreference
-							.getBoolean(Consts.MORE_PLAYMODE)) {
-						MySharedPreference.putBoolean(
-								Consts.MORE_PLAYMODE, false);
-						dataList.get(position).setName(
-								mActivity.getResources().getString(
-										R.string.str_video_modetwo));
-					} else {
-						MySharedPreference.putBoolean(
-								Consts.MORE_PLAYMODE, true);
-						dataList.get(position)
-						.setName(
-								mActivity
-								.getResources()
-								.getString(
-										R.string.str_video_more_modetwo));
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_LITTLEHELP)) {
-
-					if (MySharedPreference
-							.getBoolean(Consts.MORE_LITTLEHELP)) {
-						MySharedPreference.putBoolean(
-								Consts.MORE_LITTLEHELP, false);
-					} else {
-						MySharedPreference.putBoolean(
-								Consts.MORE_LITTLEHELP, true);
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_BROADCAST)) {
-					// 广播
-					if (MySharedPreference
-							.getBoolean(Consts.MORE_BROADCAST)) {
-						MySharedPreference.putBoolean(
-								Consts.MORE_BROADCAST, false);
-					} else {
-						MySharedPreference.putBoolean(
-								Consts.MORE_BROADCAST, true);
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_TESTSWITCH)) {
-					// 测试服务器开关
-					MySharedPreference.putString("ChannelIP", "");
-					MySharedPreference.putString("OnlineIP", "");
-					MySharedPreference.putString("ChannelIP_en", "");
-					MySharedPreference.putString("OnlineIP_en", "");
-
-					if (MySharedPreference
-							.getBoolean(Consts.MORE_TESTSWITCH)) {
-						MySharedPreference.putBoolean(
-								Consts.MORE_TESTSWITCH, false);
-					} else {
-						// MySharedPreference.clearAll();
-						// 打开测试开关要关闭记住密码功能
-						MySharedPreference.putBoolean(
-								Consts.MORE_TESTSWITCH, true);
-						MySharedPreference.putBoolean(
-								Consts.MORE_REMEMBER, false);
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_VERSION)) {
-					// 版本号
-					// 获取用户未读消息
-					// v.php?mod=api&act=user_pm&sid=<>
-					// sid 用户标识
-					// return:
-					// {"success":true,"msg":null,"errCode":null,"data":[{"url":"","count":""}]}
-					// count:消息数量
-					// url:消息页面
-					// 现在success一直返回false
-					Intent intentVersion = new Intent(mActivity,
-							JVVersionActivity.class);
-					mActivity.startActivity(intentVersion);
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_GCSURL)) {
-					// 2015.3.16 我要装监控改为工程商入驻
-					if (!MySharedPreference
-							.getBoolean(Consts.MORE_GCSURL)) {
-						MySharedPreference.putBoolean(
-								Consts.MORE_GCSURL, true);
-						mListener.OnFuncEnabled(0, 1);
-					}
-					if (!ConfigUtil.isConnected(mActivity)) {
-						mActivity.alertNetDialog();
-					} else {
-						if (null != ((BaseActivity) mActivity).statusHashMap
-								.get(Consts.MORE_GCSURL)) {
-							Intent intentAD0 = new Intent(mActivity,
-									JVWebViewActivity.class);
-							intentAD0
-							.putExtra(
-									"URL",
-									((BaseActivity) mActivity).statusHashMap
-									.get(Consts.MORE_GCSURL));
-							intentAD0.putExtra("title", -2);
-							mActivity.startActivity(intentAD0);
-						} else {
-							if ("false".equals(mActivity.statusHashMap
-									.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-								MyLog.e("Login", "初始化账号SDK失败");
-								ConfigUtil
-								.initAccountSDK(((MainApplication) mActivity
-										.getApplication()));// 初始化账号SDK
-							}
-							GetDemoTask UrlTask = new GetDemoTask(
-									mActivity);
-							String[] demoParams = new String[3];
-							demoParams[1] = "0";
-							UrlTask.execute(demoParams);
-						}
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_DEVICESHARE)) {
-					// 设备分享
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_STATURL)) {
-					// 云视通指数
-					if (!MySharedPreference
-							.getBoolean(Consts.MORE_STATURL)) {
-						MySharedPreference.putBoolean(
-								Consts.MORE_STATURL, true);
-						mListener.OnFuncEnabled(0, 1);
-					}
-					if (!ConfigUtil.isConnected(mActivity)) {
-						mActivity.alertNetDialog();
-					} else {
-						if (null != ((BaseActivity) mActivity).statusHashMap
-								.get(Consts.MORE_STATURL)) {
-							Intent intentAD0 = new Intent(mActivity,
-									JVWebViewActivity.class);
-							intentAD0
-							.putExtra(
-									"URL",
-									((BaseActivity) mActivity).statusHashMap
-									.get(Consts.MORE_STATURL));
-							intentAD0.putExtra("title", -2);
-							mActivity.startActivity(intentAD0);
-						} else {
-							if ("false".equals(mActivity.statusHashMap
-									.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-								MyLog.e("Login", "初始化账号SDK失败");
-								ConfigUtil
-								.initAccountSDK(((MainApplication) mActivity
-										.getApplication()));// 初始化账号SDK
-							}
-							GetDemoTask UrlTask2 = new GetDemoTask(
-									mActivity);
-							String[] demoParams2 = new String[3];
-							demoParams2[1] = "2";
-							UrlTask2.execute(demoParams2);
-						}
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_BBS)) {
-					if (!ConfigUtil.isConnected(mActivity)) {
-						mActivity.alertNetDialog();
-					} else {
-						onNotify(Consts.NEW_BBS, 0, 0, null);
-						if (null != ((BaseActivity) mActivity).statusHashMap
-								.get(Consts.MORE_BBSNUMURL)
-								&& !"".equals(((BaseActivity) mActivity).statusHashMap
-										.get(Consts.MORE_BBSNUMURL))) {
-							Intent intentAD0 = new Intent(mActivity,
-									JVWebViewActivity.class);
-							intentAD0
-							.putExtra(
-									"URL",
-									((BaseActivity) mActivity).statusHashMap
-									.get(Consts.MORE_BBSNUMURL));
-							intentAD0.putExtra("title", -2);
-							mActivity.startActivity(intentAD0);
-							((BaseActivity) mActivity).statusHashMap
-							.put(Consts.MORE_BBSNUMURL, "");
-						} else {
-							if (null != ((BaseActivity) mActivity).statusHashMap
-									.get(Consts.MORE_BBS)) {
-								Intent intentAD0 = new Intent(
-										mActivity,
-										JVWebViewActivity.class);
-								intentAD0
-								.putExtra(
-										"URL",
-										((BaseActivity) mActivity).statusHashMap
-										.get(Consts.MORE_BBS));
-								intentAD0.putExtra("title", -2);
-								mActivity.startActivity(intentAD0);
-							} else {
-								String sid = "";
-								if (!Boolean
-										.valueOf(mActivity.statusHashMap
-												.get(Consts.LOCAL_LOGIN))) {
-									String sessionResult = ConfigUtil
-											.getSession();
-									sid = sessionResult;
-								} else {
-									sid = "";
-								}
-
-								if ("false".equals(mActivity.statusHashMap
-										.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
-									MyLog.e("Login", "初始化账号SDK失败");
-									ConfigUtil
-									.initAccountSDK(((MainApplication) mActivity
-											.getApplication()));// 初始化账号SDK
-								}
-								adapter.setBBSNums(0);
-								adapter.notifyDataSetChanged();
-								GetDemoTask UrlTask2 = new GetDemoTask(
-										mActivity);
-								String[] demoParams2 = new String[3];
-								demoParams2[0] = sid;
-								demoParams2[1] = "3";
-								UrlTask2.execute(demoParams2);
-							}
-						}
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_SYSTEMMESSAGE)) {
-					// 系统消息
-					if (!MySharedPreference
-							.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
-						MySharedPreference.putBoolean(
-								Consts.MORE_SYSTEMMESSAGE, true);
-						mListener.OnFuncEnabled(0, 1);
-					}
-					if (!ConfigUtil.isConnected(mActivity)) {
-						mActivity.alertNetDialog();
-					} else {
-						StatService.trackCustomEvent(
-								mActivity,
-								"MoreMessage",
-								mActivity.getResources().getString(
-										R.string.census_moremessage));
-						Intent infoIntent = new Intent();
-						infoIntent.setClass(mActivity,
-								JVSystemInfoActivity.class);
-						mActivity.startActivity(infoIntent);
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_SHOWMEDIA)) {
-					// 图像查看
-					StatService.trackCustomEvent(
-							mActivity,
-							"Media",
-							mActivity.getResources().getString(
-									R.string.census_media));
-					Intent intentMedia = new Intent(mActivity,
-							JVMediaActivity.class);
-					mActivity.startActivity(intentMedia);
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_FEEDBACK)) {
-					// 意见反馈
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_UPDATE)) {
-					// 检查更新
-					if (!ConfigUtil.isConnected(mActivity)) {
-						mActivity.alertNetDialog();
-					} else {
-						mActivity.createDialog("", false);
-						CheckUpdateTask taskf = new CheckUpdateTask(
-								mActivity);
-						String[] strParams = new String[3];
-						strParams[0] = "1";// 1,手动检查更新
-						taskf.execute(strParams);
-					}
-				} else if (dataList.get(position).getItemFlag()
-						.equals(Consts.MORE_LITTLE)) {
-					// 关于
-					if (!MySharedPreference
-							.getBoolean(Consts.MORE_LITTLE)) {
-						littlenum++;
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
 						System.out
-						.println("=========================littlenum======"
-								+ littlenum);
-						if (littlenum < 20) {
-							if (littlenum >= 17) {
-								mActivity
-								.showTextToast((20 - littlenum)
-										+ " ");
+								.println("===============postion================"
+										+ position);
+
+						if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_HELP)) {
+							if (MySharedPreference.getBoolean(Consts.MORE_HELP)) {
+								MySharedPreference.putBoolean(Consts.MORE_HELP,
+										false);
+								MySharedPreference.putBoolean(
+										Consts.MORE_PAGEONE, true);
+								MySharedPreference.putBoolean(
+										Consts.MORE_PAGETWO, true);
 							}
-						} else if (littlenum == 20) {
-							MySharedPreference.putBoolean(
-									Consts.MORE_LITTLEHELP, true);
-							MySharedPreference.putBoolean(
-									Consts.MORE_BROADCAST, true);
-							MySharedPreference.putBoolean(
-									Consts.MORE_LITTLE, true);
-							showLittleHelper();
-							ListViewUtil
-							.setListViewHeightBasedOnChildren(more_listView);
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_REMEMBER)) {
+							if (MySharedPreference
+									.getBoolean(Consts.MORE_REMEMBER)) {
+								MySharedPreference.putBoolean(
+										Consts.MORE_REMEMBER, false);
+							} else {
+								MySharedPreference.putBoolean(
+										Consts.MORE_REMEMBER, true);
+							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_ALARMSWITCH)) {
+							// AlarmTask task = new AlarmTask();
+							// Integer[] params = new Integer[3];
+							// if (!MySharedPreference.getBoolean(
+							// Consts.MORE_ALARMSWITCH, true)) {// 1是关//
+							// // 0是开
+							// params[0] = JVAlarmConst.ALARM_ON;// 关闭状态，去打开报警
+							// } else {
+							// params[0] = JVAlarmConst.ALARM_OFF;// 已经打开了，要去关闭
+							// }
+							// task.execute(params);
+							if (localFlag)// 本地登录
+							{
+								mActivity.showTextToast(R.string.more_nologin);
+							} else {
+								Intent intent = new Intent(mActivity,
+										AlarmSettingsActivity.class);
+								mActivity.startActivity(intent);
+							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_ALARMMSG)) {
+							if (localFlag) {
+								mActivity.showTextToast(R.string.more_nologin);
+							} else {
+								if (!ConfigUtil.isConnected(mActivity)) {
+									mActivity.alertNetDialog();
+								} else {
+									mApp.setNewPushCnt(0);
+									Intent intent2 = new Intent(mActivity,
+											AlarmInfoActivity.class);
+									startActivity(intent2);
+								}
+							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_PLAYMODE)) {
+							// 观看模式（单设备，多设备）
+							if (MySharedPreference
+									.getBoolean(Consts.MORE_PLAYMODE)) {
+								MySharedPreference.putBoolean(
+										Consts.MORE_PLAYMODE, false);
+								dataList.get(position).setName(
+										mActivity.getResources().getString(
+												R.string.str_video_modetwo));
+							} else {
+								MySharedPreference.putBoolean(
+										Consts.MORE_PLAYMODE, true);
+								dataList.get(position)
+										.setName(
+												mActivity
+														.getResources()
+														.getString(
+																R.string.str_video_more_modetwo));
+							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_LITTLEHELP)) {
+
+							if (MySharedPreference
+									.getBoolean(Consts.MORE_LITTLEHELP)) {
+								MySharedPreference.putBoolean(
+										Consts.MORE_LITTLEHELP, false);
+							} else {
+								MySharedPreference.putBoolean(
+										Consts.MORE_LITTLEHELP, true);
+							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_BROADCAST)) {
+							// 广播
+							if (MySharedPreference
+									.getBoolean(Consts.MORE_BROADCAST)) {
+								MySharedPreference.putBoolean(
+										Consts.MORE_BROADCAST, false);
+							} else {
+								MySharedPreference.putBoolean(
+										Consts.MORE_BROADCAST, true);
+							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_TESTSWITCH)) {
+							// 测试服务器开关
+							MySharedPreference.putString("ChannelIP", "");
+							MySharedPreference.putString("OnlineIP", "");
+							MySharedPreference.putString("ChannelIP_en", "");
+							MySharedPreference.putString("OnlineIP_en", "");
+
+							if (MySharedPreference
+									.getBoolean(Consts.MORE_TESTSWITCH)) {
+								MySharedPreference.putBoolean(
+										Consts.MORE_TESTSWITCH, false);
+							} else {
+								// MySharedPreference.clearAll();
+								// 打开测试开关要关闭记住密码功能
+								MySharedPreference.putBoolean(
+										Consts.MORE_TESTSWITCH, true);
+								MySharedPreference.putBoolean(
+										Consts.MORE_REMEMBER, false);
+							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_VERSION)) {
+							// 版本号
+							// 获取用户未读消息
+							// v.php?mod=api&act=user_pm&sid=<>
+							// sid 用户标识
+							// return:
+							// {"success":true,"msg":null,"errCode":null,"data":[{"url":"","count":""}]}
+							// count:消息数量
+							// url:消息页面
+							// 现在success一直返回false
+							Intent intentVersion = new Intent(mActivity,
+									JVVersionActivity.class);
+							mActivity.startActivity(intentVersion);
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_GCSURL)) {
+							// 2015.3.16 我要装监控改为工程商入驻
+							if (!MySharedPreference
+									.getBoolean(Consts.MORE_GCSURL)) {
+								MySharedPreference.putBoolean(
+										Consts.MORE_GCSURL, true);
+								mListener.OnFuncEnabled(0, 1);
+							}
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								if (null != ((BaseActivity) mActivity).statusHashMap
+										.get(Consts.MORE_GCSURL)) {
+									Intent intentAD0 = new Intent(mActivity,
+											JVWebViewActivity.class);
+									intentAD0
+											.putExtra(
+													"URL",
+													((BaseActivity) mActivity).statusHashMap
+															.get(Consts.MORE_GCSURL));
+									intentAD0.putExtra("title", -2);
+									mActivity.startActivity(intentAD0);
+								} else {
+									if ("false".equals(mActivity.statusHashMap
+											.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+										MyLog.e("Login", "初始化账号SDK失败");
+										ConfigUtil
+												.initAccountSDK(((MainApplication) mActivity
+														.getApplication()));// 初始化账号SDK
+									}
+									GetDemoTask UrlTask = new GetDemoTask(
+											mActivity);
+									String[] demoParams = new String[3];
+									demoParams[1] = "0";
+									UrlTask.execute(demoParams);
+								}
+							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_DEVICESHARE)) {
+							// 设备分享
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_STATURL)) {
+							// 云视通指数
+							if (!MySharedPreference
+									.getBoolean(Consts.MORE_STATURL)) {
+								MySharedPreference.putBoolean(
+										Consts.MORE_STATURL, true);
+								mListener.OnFuncEnabled(0, 1);
+							}
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								if (null != ((BaseActivity) mActivity).statusHashMap
+										.get(Consts.MORE_STATURL)) {
+									Intent intentAD0 = new Intent(mActivity,
+											JVWebViewActivity.class);
+									intentAD0
+											.putExtra(
+													"URL",
+													((BaseActivity) mActivity).statusHashMap
+															.get(Consts.MORE_STATURL));
+									intentAD0.putExtra("title", -2);
+									mActivity.startActivity(intentAD0);
+								} else {
+									if ("false".equals(mActivity.statusHashMap
+											.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+										MyLog.e("Login", "初始化账号SDK失败");
+										ConfigUtil
+												.initAccountSDK(((MainApplication) mActivity
+														.getApplication()));// 初始化账号SDK
+									}
+									GetDemoTask UrlTask2 = new GetDemoTask(
+											mActivity);
+									String[] demoParams2 = new String[3];
+									demoParams2[1] = "2";
+									UrlTask2.execute(demoParams2);
+								}
+							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_BBS)) {
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								onNotify(Consts.NEW_BBS, 0, 0, null);
+								if (null != ((BaseActivity) mActivity).statusHashMap
+										.get(Consts.MORE_BBSNUMURL)
+										&& !"".equals(((BaseActivity) mActivity).statusHashMap
+												.get(Consts.MORE_BBSNUMURL))) {
+									Intent intentAD0 = new Intent(mActivity,
+											JVWebViewActivity.class);
+									intentAD0
+											.putExtra(
+													"URL",
+													((BaseActivity) mActivity).statusHashMap
+															.get(Consts.MORE_BBSNUMURL));
+									intentAD0.putExtra("title", -2);
+									mActivity.startActivity(intentAD0);
+									((BaseActivity) mActivity).statusHashMap
+											.put(Consts.MORE_BBSNUMURL, "");
+								} else {
+									if (null != ((BaseActivity) mActivity).statusHashMap
+											.get(Consts.MORE_BBS)) {
+										Intent intentAD0 = new Intent(
+												mActivity,
+												JVWebViewActivity.class);
+										intentAD0
+												.putExtra(
+														"URL",
+														((BaseActivity) mActivity).statusHashMap
+																.get(Consts.MORE_BBS));
+										intentAD0.putExtra("title", -2);
+										mActivity.startActivity(intentAD0);
+									} else {
+										String sid = "";
+										if (!Boolean
+												.valueOf(mActivity.statusHashMap
+														.get(Consts.LOCAL_LOGIN))) {
+											String sessionResult = ConfigUtil
+													.getSession();
+											sid = sessionResult;
+										} else {
+											sid = "";
+										}
+
+										if ("false".equals(mActivity.statusHashMap
+												.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
+											MyLog.e("Login", "初始化账号SDK失败");
+											ConfigUtil
+													.initAccountSDK(((MainApplication) mActivity
+															.getApplication()));// 初始化账号SDK
+										}
+										adapter.setBBSNums(0);
+										adapter.notifyDataSetChanged();
+										GetDemoTask UrlTask2 = new GetDemoTask(
+												mActivity);
+										String[] demoParams2 = new String[3];
+										demoParams2[0] = sid;
+										demoParams2[1] = "3";
+										UrlTask2.execute(demoParams2);
+									}
+								}
+							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_SYSTEMMESSAGE)) {
+							// 系统消息
+							if (!MySharedPreference
+									.getBoolean(Consts.MORE_SYSTEMMESSAGE)) {
+								MySharedPreference.putBoolean(
+										Consts.MORE_SYSTEMMESSAGE, true);
+								mListener.OnFuncEnabled(0, 1);
+							}
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								StatService.trackCustomEvent(
+										mActivity,
+										"MoreMessage",
+										mActivity.getResources().getString(
+												R.string.census_moremessage));
+								Intent infoIntent = new Intent();
+								infoIntent.setClass(mActivity,
+										JVSystemInfoActivity.class);
+								mActivity.startActivity(infoIntent);
+							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_SHOWMEDIA)) {
+							// 图像查看
+							StatService.trackCustomEvent(
+									mActivity,
+									"Media",
+									mActivity.getResources().getString(
+											R.string.census_media));
+							Intent intentMedia = new Intent(mActivity,
+									JVMediaActivity.class);
+							mActivity.startActivity(intentMedia);
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_FEEDBACK)) {
+							// 意见反馈
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_UPDATE)) {
+							// 检查更新
+							if (!ConfigUtil.isConnected(mActivity)) {
+								mActivity.alertNetDialog();
+							} else {
+								mActivity.createDialog("", false);
+								CheckUpdateTask taskf = new CheckUpdateTask(
+										mActivity);
+								String[] strParams = new String[3];
+								strParams[0] = "1";// 1,手动检查更新
+								taskf.execute(strParams);
+							}
+						} else if (dataList.get(position).getItemFlag()
+								.equals(Consts.MORE_LITTLE)) {
+							// 关于
+							if (!MySharedPreference
+									.getBoolean(Consts.MORE_LITTLE)) {
+								littlenum++;
+								System.out
+										.println("=========================littlenum======"
+												+ littlenum);
+								if (littlenum < 20) {
+									if (littlenum >= 17) {
+										mActivity
+												.showTextToast((20 - littlenum)
+														+ " ");
+									}
+								} else if (littlenum == 20) {
+									MySharedPreference.putBoolean(
+											Consts.MORE_LITTLEHELP, true);
+									MySharedPreference.putBoolean(
+											Consts.MORE_BROADCAST, true);
+									MySharedPreference.putBoolean(
+											Consts.MORE_LITTLE, true);
+									showLittleHelper();
+									ListViewUtil
+											.setListViewHeightBasedOnChildren(more_listView);
+								}
+							} else {
+								littlenum = 0;
+								MySharedPreference.putBoolean(
+										Consts.MORE_LITTLEHELP, false);
+								MySharedPreference.putBoolean(
+										Consts.MORE_BROADCAST, false);
+								MySharedPreference.putBoolean(
+										Consts.MORE_LITTLE, false);
+								dismissLittleHelper();
+								ListViewUtil
+										.setListViewHeightBasedOnChildren(more_listView);
+							}
 						}
-					} else {
-						littlenum = 0;
-						MySharedPreference.putBoolean(
-								Consts.MORE_LITTLEHELP, false);
-						MySharedPreference.putBoolean(
-								Consts.MORE_BROADCAST, false);
-						MySharedPreference.putBoolean(
-								Consts.MORE_LITTLE, false);
-						dismissLittleHelper();
-						ListViewUtil
-						.setListViewHeightBasedOnChildren(more_listView);
+						adapter.notifyDataSetChanged();
 					}
-				}
-				adapter.notifyDataSetChanged();
-			}
-		});
+				});
 	}
 
 	@Override
@@ -1055,7 +1053,7 @@ public class JVMoreFragment extends BaseFragment implements OnMainListener {
 				if (0 == switchRes) {
 					MyLog.e("JVAlarmConst.ALARM--ON-", switchRes + "");
 					MySharedPreference
-					.putBoolean(Consts.MORE_ALARMSWITCH, true);
+							.putBoolean(Consts.MORE_ALARMSWITCH, true);
 				}
 			} else {// 关报警
 				switchRes = JVACCOUNT.SetCurrentAlarmFlag(

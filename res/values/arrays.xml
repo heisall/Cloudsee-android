@@ -62,7 +62,6 @@
     <string-array name="array_pop">
         <item>Add by CloudSEE ID</item>
         <item>Add by sound wave</item>
-        <item>智联路由</item>
         <item>Add Wi-Fi Device</item>
         <item>Scan QR Code</item>
         <item>IP/DNS</item>

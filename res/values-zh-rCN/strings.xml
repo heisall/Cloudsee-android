@@ -609,8 +609,7 @@
     <string name="str_nicknametwo">昵       称 </string>
     <!-- 声波配置 -->
     <string name="wave_first">第一步</string>
-    <string name="wave_firstdescrione">请将手机的扬声器对准设备的麦克孔</string>
-    <string name="wave_firstdescritwo">(距离15厘米内)</string>
+    <string name="wave_firstdescrione">请将手机的扬声器对准设备的麦克孔(距离15厘米内)</string>
     <string name="wave_second">第二步</string>
     <string name="wave_seconddescri">发送声波，当听到设备发出配置成功语音提示后，点击下一步</string>
     <string name="wave_set">声波配置</string>
@@ -631,6 +630,7 @@
     <string name="smart_connection">智连路由</string>
     <string name="smart_conn_guide_1">接通电源\n等待指示灯变成橙灯闪烁</string>
     <string name="smart_conn_indicator_help">指示灯没有闪烁怎么办？</string>
+    <string name="smart_conn_indicator_help1">没听到\"配置成功\"?请试试智连路由模式</string>
     <!-- 报警 -->
     <string name="str_alarm_check">立即查看</string>
     <string name="str_pass_extra_err">传递数据异常</string>
@@ -798,4 +798,5 @@
     <string name="increct_yst_tips">云视通号不正确</string>
     <string name="login_str_yst_num">云视通号</string>
     <string name="str_not_qr_device">不属于云视通设备</string>
+
 </resources>

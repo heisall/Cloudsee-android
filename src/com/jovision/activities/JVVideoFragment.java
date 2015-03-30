@@ -7,6 +7,7 @@ import java.util.Stack;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
@@ -74,9 +75,45 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 	protected int FILECHOOSER_RESULTCODE = 1;
 	protected static Uri imageUri;
 
+	public static final int REQ_CAMERA = 0;
+	public static final int REQ_CHOOSER = 1;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case Consts.TAB_ON_ACTIVITY_RESULT: {// 论坛传照片回调
+			switch (arg1) {
+			case REQ_CHOOSER:
+				if (null == JVVideoFragment.mUploadMessage)
+					return;
+				Uri result = obj == null || arg2 != Activity.RESULT_OK ? null
+						: ((Intent) obj).getData();
+
+				String realPath = MobileUtil.getRealPath(mActivity, result);
+				// showTextToast(realPath);
+
+				if (null != realPath && !"".equalsIgnoreCase(realPath)) {
+					File file = new File(realPath);
+					mUploadMessage.onReceiveValue(Uri.fromFile(file));
+				} else {
+					mUploadMessage.onReceiveValue(null);
+				}
+
+				JVVideoFragment.mUploadMessage = null;
+				break;
+			case REQ_CAMERA:
+				if (arg2 == Activity.RESULT_OK) {
+					JVVideoFragment.mUploadMessage
+							.onReceiveValue(JVVideoFragment.imageUri);
+					// showTextToast(JVVideoFragment.imageUri.toString());
+					JVVideoFragment.mUploadMessage = null;
+				}
+				break;
+			}
+
+			break;
+		}
+
 		case Consts.TAB_PLAZZA_RELOAD_URL: {
 
 			if (null != obj && !"".equalsIgnoreCase(obj.toString())) {
@@ -412,7 +449,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 				webView.getSettings().setCacheMode(
 						WebSettings.LOAD_CACHE_ELSE_NETWORK);// LOAD_CACHE_ELSE_NETWORK
 			} else {
-				webView.clearCache(true);
+
 				loadinglayout.setVisibility(View.VISIBLE);
 				webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 				loadFailed = false;
@@ -423,7 +460,6 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 				}
 			}
 		} else {
-			webView.clearCache(true);
 			loadinglayout.setVisibility(View.VISIBLE);
 			webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 			loadFailed = false;
@@ -555,18 +591,30 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 	public void onPause() {
 		super.onPause();
 		webView.onPause();
+
 		// if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 		// webView.onPause(); // 暂停网页中正在播放的视频
 		// }
 	}
 
 	@Override
+	public void onDestroy() {
+		if (null != titleStack) {
+			if (titleStack.size() > 1) {
+				webView.loadDataWithBaseURL(null, "", "text/html", "utf-8",
+						null);
+			}
+		}
+		super.onDestroy();
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
-		if (null != mUploadMessage) {
-			mUploadMessage.onReceiveValue(null);
-			mUploadMessage = null;
-		}
+		// if (null != mUploadMessage) {
+		// mUploadMessage.onReceiveValue(null);
+		// mUploadMessage = null;
+		// }
 		webView.onResume();
 		if (!ConfigUtil.isConnected(mActivity)) {
 			isConnected = false;
@@ -600,7 +648,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 						dialog.dismiss();
 						Intent intent = null;
 						switch (which) {
-						case JVTabActivity.REQ_CAMERA:
+						case REQ_CAMERA:
 							intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 							// 必须确保文件夹路径存在，否则拍照后无法完成回调
 							File vFile = new File(Consts.BBSIMG_PATH
@@ -615,10 +663,10 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 							}
 							imageUri = Uri.fromFile(vFile);
 							intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-							mActivity.startActivityForResult(intent,
-									JVTabActivity.REQ_CAMERA);
+							mActivity
+									.startActivityForResult(intent, REQ_CAMERA);
 							break;
-						case JVTabActivity.REQ_CHOOSER:
+						case REQ_CHOOSER:
 							intent = new Intent(Intent.ACTION_PICK, null);
 							intent.setDataAndType(
 									MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -628,7 +676,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 											intent,
 											getResources().getString(
 													R.string.select_to_upload)),
-									JVTabActivity.REQ_CHOOSER);
+									REQ_CHOOSER);
 							break;
 						}
 					}

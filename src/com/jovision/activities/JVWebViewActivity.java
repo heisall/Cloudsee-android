@@ -555,8 +555,13 @@ public class JVWebViewActivity extends BaseActivity {
 			String realPath = MobileUtil.getRealPath(JVWebViewActivity.this,
 					result);
 			// showTextToast(realPath);
-			File file = new File(realPath);
-			mUploadMessage.onReceiveValue(Uri.fromFile(file));
+			if (null != realPath && !"".equalsIgnoreCase(realPath)) {
+				File file = new File(realPath);
+				mUploadMessage.onReceiveValue(Uri.fromFile(file));
+			} else {
+				mUploadMessage.onReceiveValue(null);
+			}
+
 			mUploadMessage = null;
 			break;
 		case REQ_CAMERA:

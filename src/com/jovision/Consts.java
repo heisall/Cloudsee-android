@@ -634,6 +634,10 @@ public class Consts {
 	/** 网络切换清小助手缓存 */
 	public static final int NET_CHANGE_CLEAR_CACHE = 0x79;// 网络切换清小助手缓存
 
+	/** tab onActivityResult */
+	public static final int TAB_ON_ACTIVITY_RESULT = 0x80;// tab
+															// onActivityResult
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像

@@ -209,10 +209,11 @@ public class UploadUtil {
 	 * 
 	 * */
 
-	public static void post() {
+	public static String post() {
+		String result = "";
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost(
-				"http://192.168.1.102:8080/uploadFile/up");
+				"http://172.16.25.228:8080/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1&XDEBUG_SESSION_START=PHPSTORM");
 
 		try {
 			// 为httpPost设置HttpEntity对象
@@ -226,8 +227,9 @@ public class UploadUtil {
 			// 得到服务器响应实体对象
 			HttpEntity responseEntity = response.getEntity();
 			if (responseEntity != null) {
-				System.out.println(EntityUtils
-						.toString(responseEntity, "utf-8"));
+				result = EntityUtils.toString(responseEntity, "utf-8");
+				// System.out.println(EntityUtils
+				// .toString(responseEntity, "utf-8"));
 				System.out.println("表单上传成功！");
 				Log.e("===================", "表单上传成功！");
 			} else {
@@ -240,5 +242,6 @@ public class UploadUtil {
 			// 释放资源
 			httpClient.getConnectionManager().shutdown();
 		}
+		return result;
 	}
 }

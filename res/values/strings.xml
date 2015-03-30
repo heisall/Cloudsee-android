@@ -642,7 +642,7 @@
     <string name="str_reset_device">Reset the device</string>
     <string name="str_reset_sure">Are you sure to reset?</string>
     <string name="dev_alarm_sound">启动报警声音</string>
-    <string name="dev_alarm_sound_tips">报警声音关闭后，当发生报警时，设备将不发出声音 。</string>
+    <string name="dev_alarm_sound_tips">报警声音关闭后，当发生报警时，设备将不发出声音 .</string>
     <string name="str_modify_pwd">Modify device administrator is password.</string>
     <string name="str_downloading_vod">Getting the video file…</string>
     <string name="str_alarm_dev">Device :</string>

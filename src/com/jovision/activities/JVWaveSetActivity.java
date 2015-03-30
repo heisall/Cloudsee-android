@@ -646,6 +646,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			case R.id.step_btn2:
 				currentStep = 2;
 				showLayoutAtIndex(currentStep);
+				initSummaryDialog();
 				break;
 			case R.id.btn_smart_conn:// 智联路由
 				func_flag = SMART_CONNECT_FLAG;

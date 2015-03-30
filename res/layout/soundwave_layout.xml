@@ -232,31 +232,29 @@
                             android:textColor="@color/white"
                             android:textSize="20sp" />
 
-                        <RelativeLayout 
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"   
+                            android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
-                            android:layout_marginTop="16dp"                            
-                            >
-                            <TextView 
+                            android:layout_marginTop="16dp" >
+
+                            <TextView
                                 android:id="@+id/tv_smart_guide"
-	                            android:layout_width="wrap_content"
-	                            android:layout_height="wrap_content"
-	                            android:text="@string/smart_conn_indicator_help1"
-	                            android:textColor="@color/more_fragment_color7"
-	                            android:textSize="14sp"    
-	                            android:layout_centerVertical="true"                                                            
-                            />
-	                       <Button
-	                            android:id="@+id/btn_smart_conn"
-	                            android:layout_width="55dp"
-	                            android:layout_height="55dp"
-	                            android:background="@drawable/smart_conn_selector"
-	                            android:layout_alignParentRight="true"
-	                            android:layout_centerVertical="true"   
-                            />                            
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="@string/smart_conn_indicator_help1"
+                                android:textColor="@color/more_fragment_color7"
+                                android:textSize="14sp" />
+
+                            <Button
+                                android:id="@+id/btn_smart_conn"
+                                android:layout_width="55dp"
+                                android:layout_height="55dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/smart_conn_selector" />
                         </RelativeLayout>
- 
                     </LinearLayout>
                 </RelativeLayout>
 

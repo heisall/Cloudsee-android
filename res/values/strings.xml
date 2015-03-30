@@ -609,8 +609,7 @@
     <string name="str_nicknametwo">Nickname </string>
     <!-- 声波配置 -->
     <string name="wave_first">第一步</string>
-    <string name="wave_firstdescrione">请将手机的扬声器对准设备的麦克孔</string>
-    <string name="wave_firstdescritwo">(距离15厘米内)</string>
+    <string name="wave_firstdescrione">请将手机的扬声器对准设备的麦克孔(距离15厘米内)</string>
     <string name="wave_second">第二步</string>
     <string name="wave_seconddescri">发送声波，当听到设备发出配置成功语音提示后，点击下一步</string>
     <string name="wave_set">Sound-wave Configuration</string>
@@ -631,7 +630,7 @@
     <string name="smart_connection">智连路由</string>
     <string name="smart_conn_guide_1">接通电源\n等待指示灯变成橙灯闪烁</string>
     <string name="smart_conn_indicator_help">指示灯没有闪烁怎么办？</string>
-    <string name="smart_conn_indicator_help1">没听到\"配置成功\"?请试试智连路由模式</string>    
+    <string name="smart_conn_indicator_help1">没听到\"配置成功\"?请试试智连路由模式</string>
     <!-- 报警 -->
     <string name="str_alarm_check">Check Now</string>
     <string name="str_pass_extra_err">Pass Data Extra Error</string>
@@ -799,4 +798,5 @@
     <string name="increct_yst_tips">CloudSEE ID Incorrect</string>
     <string name="login_str_yst_num">CloudSEE ID</string>
     <string name="str_not_qr_device">Not CloudSEE ID</string>
-</resources>
+
+</resources>

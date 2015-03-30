@@ -646,6 +646,7 @@ public class JVWaveSetActivity extends BaseActivity {
 			case R.id.step_btn2:
 				currentStep = 2;
 				showLayoutAtIndex(currentStep);
+				initSummaryDialog();
 				break;
 			case R.id.btn_smart_conn:// 智联路由
 				func_flag = SMART_CONNECT_FLAG;
@@ -657,8 +658,6 @@ public class JVWaveSetActivity extends BaseActivity {
 					elian.InitSmartConnection(null, 1, 0);// V1
 					elian.StartSmartConnection(mConnectedSsid, mPassword,
 							"android smart custom", mAuthMode);
-					showTextToast("ssid:" + mConnectedSsid + ", mAuthMode="
-							+ mAuthMode);
 				}
 				isshow = true;
 				pw_two.setVisibility(View.VISIBLE);

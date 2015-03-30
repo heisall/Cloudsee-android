@@ -91,9 +91,14 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 
 				String realPath = MobileUtil.getRealPath(mActivity, result);
 				// showTextToast(realPath);
-				File file = new File(realPath);
-				JVVideoFragment.mUploadMessage.onReceiveValue(Uri
-						.fromFile(file));
+
+				if (null != realPath && !"".equalsIgnoreCase(realPath)) {
+					File file = new File(realPath);
+					mUploadMessage.onReceiveValue(Uri.fromFile(file));
+				} else {
+					mUploadMessage.onReceiveValue(null);
+				}
+
 				JVVideoFragment.mUploadMessage = null;
 				break;
 			case REQ_CAMERA:

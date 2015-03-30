@@ -609,8 +609,7 @@
     <string name="str_nicknametwo">昵       稱 </string>
     <!-- 聲波配置 -->
     <string name="wave_first">第壹步</string>
-    <string name="wave_firstdescrione">請將手機的揚聲器對準設備的麥克孔</string>
-    <string name="wave_firstdescritwo">(距離15厘米內)</string>
+    <string name="wave_firstdescrione">請將手機的揚聲器對準設備的麥克孔(距離15厘米內)</string>
     <string name="wave_second">第二步</string>
     <string name="wave_seconddescri">發送聲波，當聽到設備發出配置成功語音提示後，點擊下壹步</string>
     <string name="wave_set">聲波配置</string>
@@ -799,4 +798,5 @@
     <string name="increct_yst_tips">雲視通號不正確</string>
     <string name="login_str_yst_num">雲視通號</string>
     <string name="str_not_qr_device">不屬於雲視通設備</string>
-</resources>
+
+</resources>

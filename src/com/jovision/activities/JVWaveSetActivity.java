@@ -70,7 +70,8 @@ public class JVWaveSetActivity extends BaseActivity {
 	// "voi_send_zhtw.mp3", "quicksetsound.mp3", "6.mp3" };
 
 	String[] stepSoundEN = { "voi_next_en.mp3", "voi_info_en.mp3",
-			"voi_send_en.mp3", "quicksetsound.mp3", "6.mp3", "wave_showimgen.mp3" };
+			"voi_send_en.mp3", "quicksetsound.mp3", "6.mp3",
+			"wave_showimgen.mp3" };
 	int[] titleID = { R.string.prepare_step, R.string.prepare_set,
 			R.string.wave_set, R.string.show_demo, R.string.search_list };
 	private ArrayList<Device> deviceList = new ArrayList<Device>();

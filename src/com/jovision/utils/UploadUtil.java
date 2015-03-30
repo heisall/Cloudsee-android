@@ -44,9 +44,9 @@ public class UploadUtil {
 	 * @return 返回响应的内容
 	 * @author sea
 	 */
-	public static int uploadFile(File file, String RequestURL) {
+	public static String uploadFile(File file, String RequestURL) {
 		int res = 0;
-		String result = null;
+		String result = "";
 		String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
 		String PREFIX = "--", LINE_END = "\r\n";
 		String CONTENT_TYPE = "multipart/form-data"; // 内容类型
@@ -79,7 +79,7 @@ public class UploadUtil {
 				 * 这里重点注意： name里面的值为服务器端需要key 只有这个key 才可以得到对应的文件
 				 * filename是文件的名字，包含后缀名
 				 */
-				sb.append("Content-Disposition: form-data; name=\"face\"; filename=\""
+				sb.append("Content-Disposition: form-data; name=\"Filedata\"; filename=\""
 						+ file.getName() + "\"" + LINE_END);
 				sb.append("Content-Type: application/octet-stream; charset="
 						+ CHARSET + LINE_END);
@@ -121,7 +121,7 @@ public class UploadUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return res;
+		return result;
 	}
 
 	/*
@@ -143,8 +143,9 @@ public class UploadUtil {
 			httpURLConnection.setRequestMethod("POST"); // 设置以Post方式提交数据
 			httpURLConnection.setUseCaches(false); // 使用Post方式不能使用缓存
 			// 设置请求体的类型是文本类型
-			httpURLConnection.setRequestProperty("Content-Type",
-					"application/x-www-form-urlencoded");
+			httpURLConnection
+					.setRequestProperty("Content-Type",
+							"multipart/form-data; boundary=------multipartformboundary1427708337262");
 			// 设置请求体的长度
 			httpURLConnection.setRequestProperty("Content-Length",
 					String.valueOf(data.length));

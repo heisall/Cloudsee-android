@@ -985,11 +985,12 @@ public class JVTabActivity extends ShakeActivity implements
 		}
 
 	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		onNotify(Consts.TAB_ON_ACTIVITY_RESULT, requestCode, resultCode, data);
-		super.onActivityResult(requestCode, resultCode, data);
-	}
+	//
+	// @Override
+	// public void onActivityResult(int requestCode, int resultCode, Intent
+	// data) {
+	// onNotify(Consts.TAB_ON_ACTIVITY_RESULT, requestCode, resultCode, data);
+	// super.onActivityResult(requestCode, resultCode, data);
+	// }
 
 }

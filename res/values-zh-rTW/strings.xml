@@ -616,7 +616,7 @@
     <string name="prepare_step">準備步驟</string>
     <string name="check_step">查看演示說明</string>
     <string name="prepare_set">準備配置</string>
-    <string name="prepare_step2">請用頂針輕插設備背後的reset孔，聽到“開始聲波配置”提示音後松開頂針。</string>
+    <string name="prepare_step2">請用頂針輕插設備背後的reset孔，聽到“開始配置”提示音後松開頂針。</string>
     <string name="prepare_step1">請輸入攝像頭要連接的無線網路密碼</string>
     <string name="prepare_step3">觀看操作演示</string>
     <string name="wave_show">演示說明</string>

@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -37,6 +38,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
@@ -46,7 +48,7 @@ import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
 import com.jovision.utils.UploadUtil;
 
-public class JVWebViewActivity extends BaseActivity {
+public class JVWebViewActivity1 extends BaseActivity {
 
 	private static final String TAG = "JVWebViewActivity";
 	private LinearLayout loadinglayout;
@@ -87,19 +89,10 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case 9898: {
-			if (null != obj) {
-				showTextToast(obj.toString());
-			} else {
-				showTextToast("null");
-			}
-
-			break;
-		}
 		case Consts.WHAT_DEMO_URL_SUCCESS: {
 			dismissDialog();
 			HashMap<String, String> paramMap = (HashMap<String, String>) obj;
-			Intent intentAD = new Intent(JVWebViewActivity.this,
+			Intent intentAD = new Intent(JVWebViewActivity1.this,
 					JVWebView2Activity.class);
 			intentAD.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intentAD.putExtra("URL", paramMap.get("new_url"));
@@ -108,7 +101,7 @@ public class JVWebViewActivity extends BaseActivity {
 			intentAD.putExtra("cloudnum", paramMap.get("cloud_num"));
 			intentAD.putExtra("channel", paramMap.get("channel"));
 
-			JVWebViewActivity.this.startActivity(intentAD);
+			JVWebViewActivity1.this.startActivity(intentAD);
 			break;
 		}
 		case Consts.WHAT_DEMO_URL_FAILED: {
@@ -260,13 +253,13 @@ public class JVWebViewActivity extends BaseActivity {
 				try {
 
 					if (newUrl.contains("open")) {// 打开新的WebView模式
-						Intent intentAD2 = new Intent(JVWebViewActivity.this,
-								JVWebViewActivity.class);
+						Intent intentAD2 = new Intent(JVWebViewActivity1.this,
+								JVWebViewActivity1.class);
 						intentAD2.putExtra("URL", newUrl);
 						intentAD2.putExtra("title", -2);
-						JVWebViewActivity.this.startActivity(intentAD2);
+						JVWebViewActivity1.this.startActivity(intentAD2);
 					} else if (newUrl.contains("close")) {// 关闭当前webview
-						JVWebViewActivity.this.finish();
+						JVWebViewActivity1.this.finish();
 					} else if (newUrl.contains("video")
 							|| newUrl.contains("viewmode")) {// 是否含有视频
 
@@ -321,7 +314,7 @@ public class JVWebViewActivity extends BaseActivity {
 				if (!isfirst) {
 					loadinglayout.setVisibility(View.VISIBLE);
 					loadingBar.setAnimation(AnimationUtils.loadAnimation(
-							JVWebViewActivity.this, R.anim.rotate));
+							JVWebViewActivity1.this, R.anim.rotate));
 					isfirst = true;
 				}
 				MyLog.v(TAG, "webView start load");
@@ -411,7 +404,7 @@ public class JVWebViewActivity extends BaseActivity {
 				loadFailedLayout.setVisibility(View.GONE);
 				loadinglayout.setVisibility(View.VISIBLE);
 				loadingBar.setAnimation(AnimationUtils.loadAnimation(
-						JVWebViewActivity.this, R.anim.rotate));
+						JVWebViewActivity1.this, R.anim.rotate));
 				loadFailed = false;
 				webView.reload();
 				break;
@@ -431,7 +424,7 @@ public class JVWebViewActivity extends BaseActivity {
 		// mUploadMessage = null;
 		// }
 		try {
-			JVWebViewActivity.this.finish();
+			JVWebViewActivity1.this.finish();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -508,7 +501,7 @@ public class JVWebViewActivity extends BaseActivity {
 	}
 
 	// protected final void selectImage() {
-	// AlertDialog.Builder builder = new Builder(JVWebViewActivity.this);
+	// AlertDialog.Builder builder = new Builder(JVWebViewActivity1.this);
 	// // builder.setTitle("插入照片");
 	// builder.setItems(
 	// new String[] {
@@ -535,7 +528,7 @@ public class JVWebViewActivity extends BaseActivity {
 	// }
 	// imageUri = Uri.fromFile(vFile);
 	// intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-	// JVWebViewActivity.this.startActivityForResult(
+	// JVWebViewActivity1.this.startActivityForResult(
 	// intent, REQ_CAMERA);
 	// break;
 	// case REQ_CHOOSER:
@@ -543,7 +536,7 @@ public class JVWebViewActivity extends BaseActivity {
 	// intent.setDataAndType(
 	// MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
 	// "image/*");
-	// JVWebViewActivity.this.startActivityForResult(
+	// JVWebViewActivity1.this.startActivityForResult(
 	// Intent.createChooser(
 	// intent,
 	// getResources().getString(
@@ -582,7 +575,7 @@ public class JVWebViewActivity extends BaseActivity {
 	// Uri result = intent == null || resultCode != RESULT_OK ? null
 	// : intent.getData();
 	//
-	// String realPath = MobileUtil.getRealPath(JVWebViewActivity.this,
+	// String realPath = MobileUtil.getRealPath(JVWebViewActivity1.this,
 	// result);
 	// // showTextToast(realPath);
 	// if (null != realPath && !"".equalsIgnoreCase(realPath)) {
@@ -610,30 +603,9 @@ public class JVWebViewActivity extends BaseActivity {
 	// }
 
 	public void startFunction(final String str) {
-		// Toast.makeText(this, str + "页面js调用的java方法",
-		// Toast.LENGTH_SHORT).show();
-		// runOnUiThread(new Runnable() {
-		//
-		// @TargetApi(Build.VERSION_CODES.FROYO)
-		// @Override
-		// public void run() {
-		// Map<String, Object> map = new HashMap<String, Object>();
-		// byte[] m = image2byte(new File(PHOTO_DIR, "1426573739396.jpg")); //
-		// 将图片转换成二进制数组
-		// // base64编码转换成String
-		// String pic = Base64.encodeToString(m, Base64.DEFAULT);
-		// map.put("filename", "1426573739396.jpg");
-		// map.put("filedata", pic);
-		// map.put("filetype", 1);
-		// map.put("fileextension", "jpg");
-		// String s = UploadUtil.submitPostData(map, "GBK",
-		// "http://bbst.cloudsee.net/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1");
-		// // msgView.setText(msgView.getText() + s);
-		// MyLog.v("startFunction", s);
-		// }
-		// });
+		Toast.makeText(this, str + "页面js调用的java方法", Toast.LENGTH_SHORT).show();
+		runOnUiThread(new Runnable() {
 
-		Thread uploadThread = new Thread() {
 			@TargetApi(Build.VERSION_CODES.FROYO)
 			@Override
 			public void run() {
@@ -645,30 +617,21 @@ public class JVWebViewActivity extends BaseActivity {
 				map.put("filedata", pic);
 				map.put("filetype", 1);
 				map.put("fileextension", "jpg");
-				String s = UploadUtil
-						.submitPostData(
-								map,
-								"GBK",
-								"http://172.16.25.228:8080/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1&XDEBUG_SESSION_START=PHPSTORM");
+				String s = UploadUtil.submitPostData(map, "GBK",
+						"http://192.168.1.102:8080/uploadFile/up");
 				// msgView.setText(msgView.getText() + s);
 				MyLog.v("startFunction", s);
 			}
-		};
-
-		uploadThread.start();
+		});
 	}
 
 	public void cutpic() {
-		new AlertDialog.Builder(JVWebViewActivity.this)
-				.setTitle(getResources().getString(R.string.str_delete_tip))
-				.setItems(
-						new String[] {
-								getResources().getString(
-										R.string.capture_to_upload),
-								getResources().getString(
-										R.string.select_to_upload),
-								getResources().getString(R.string.cancel) },
+		new AlertDialog.Builder(JVWebViewActivity1.this)
+				.setTitle("图片选项")
+				.setItems(new String[] { "手机拍照", "手机相册", "取消" },
 						new OnMyOnClickListener()).show();
+
+		MyLog.v("cutpic", "圖片已經處理完成，請點擊上傳");
 
 	}
 
@@ -687,8 +650,8 @@ public class JVWebViewActivity extends BaseActivity {
 							"temp_camera_headimg.jpg");
 					Intent it_camera = new Intent(
 							MediaStore.ACTION_IMAGE_CAPTURE);
-					it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
-							Uri.fromFile(mCurrentPhotoFile));
+					// it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
+					// Uri.fromFile(mCurrentPhotoFile));
 					startActivityForResult(it_camera,
 							REQUEST_CODE_IMAGE_CAPTURE);
 				} catch (Exception e) {
@@ -712,7 +675,7 @@ public class JVWebViewActivity extends BaseActivity {
 					// 跳转至系统功能
 					startActivityForResult(it_photo, REQUEST_CODE_IMAGE_SELECTE);
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 			} else if (which == 2) {
 				/** 取消 */
@@ -732,21 +695,7 @@ public class JVWebViewActivity extends BaseActivity {
 					&& resultCode == Activity.RESULT_OK) {
 				if (mCurrentPhotoFile != null) {
 					// 方法1：读取缓存图片
-					// startPhotoZoom(Uri.fromFile(mCurrentPhotoFile));
-
-					Thread uploadThread = new Thread() {
-
-						@Override
-						public void run() {
-							startFunction("");
-							String res = UploadUtil.post();
-
-							handler.sendMessage(handler.obtainMessage(9898, 0,
-									0, res));
-							super.run();
-						}
-					};
-					uploadThread.start();
+					startPhotoZoom(Uri.fromFile(mCurrentPhotoFile));
 				}
 				// ==========相册============
 			} else if (requestCode == REQUEST_CODE_IMAGE_SELECTE
@@ -755,30 +704,19 @@ public class JVWebViewActivity extends BaseActivity {
 				if (cameraBitmap != null) {
 					// //////chuantupian
 					// }
-
-					Thread uploadThread = new Thread() {
-
-						@Override
-						public void run() {
-							startFunction("");
-							String res = UploadUtil.post();
-							handler.sendMessage(handler.obtainMessage(9898, 0,
-									0, res));
-							super.run();
-						}
-					};
-					uploadThread.start();
 				}
 			} else {
 				return;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			// TODO: handle exception
+			// System.out.println(e.getMessage());
+			Log.e("*****************", e.getMessage());
 		}
 	}
 
 	/** 缩放拍摄图片 */
-	public void startPhotoZoom1(Uri uri) {
+	public void startPhotoZoom(Uri uri) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
 		intent.putExtra("crop", "true");

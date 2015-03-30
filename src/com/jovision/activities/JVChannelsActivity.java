@@ -316,6 +316,9 @@ public class JVChannelsActivity extends BaseActivity {
 			}
 			deviceIndex = position;
 			((ChannelFragment) fragments.get(position)).deviceIndex = deviceIndex;
+			adapter.setSelectIndex(position);
+			adapter.notifyDataSetChanged();
+			deviceIndex = position;
 			channelPager.setCurrentItem(position);
 		}
 

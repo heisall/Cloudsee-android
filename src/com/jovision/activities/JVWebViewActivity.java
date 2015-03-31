@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -85,7 +87,8 @@ public class JVWebViewActivity extends BaseActivity {
 	private ImageView dialog_cancle_img;
 	private TextView capturetext;
 	private TextView selecttext;
-
+	private View view;
+	
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
@@ -277,7 +280,7 @@ public class JVWebViewActivity extends BaseActivity {
 
 						createDialog("", false);
 						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
-								.start();
+						.start();
 					} else {
 						// String plazzaUrl = statusHashMap
 						// .get(Consts.MORE_DEMOURL);
@@ -497,7 +500,7 @@ public class JVWebViewActivity extends BaseActivity {
 	 * */
 	public void cutpic() {
 		initDialog = new Dialog(JVWebViewActivity.this, R.style.mydialog);
-		View view = LayoutInflater.from(JVWebViewActivity.this).inflate(
+		 view = LayoutInflater.from(JVWebViewActivity.this).inflate(
 				R.layout.dialog_capture, null);
 		initDialog.setContentView(view);
 
@@ -552,7 +555,6 @@ public class JVWebViewActivity extends BaseActivity {
 								R.drawable.dialog_wavebg_color));
 						capturetext.setTextColor(getResources().getColor(
 								R.color.more_fragment_color2));
-						initDialog.dismiss();
 						MobileUtil
 								.createDirectory(new File(Consts.BBSIMG_PATH));
 						imageTempUri = Uri.fromFile(new File(
@@ -566,6 +568,8 @@ public class JVWebViewActivity extends BaseActivity {
 								MediaStore.ACTION_IMAGE_CAPTURE);
 						it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
 								Uri.fromFile(mCurrentPhotoFile));
+						view.setVisibility(View.GONE);
+						initDialog.dismiss();
 						startActivityForResult(it_camera,
 								REQUEST_CODE_IMAGE_CAPTURE);
 					} catch (Exception e) {
@@ -586,7 +590,6 @@ public class JVWebViewActivity extends BaseActivity {
 								R.color.white));
 						selecttext.setTextColor(getResources().getColor(
 								R.color.more_fragment_color2));
-						initDialog.dismiss();
 						MobileUtil
 								.createDirectory(new File(Consts.BBSIMG_PATH));
 						imageTempUri = Uri.fromFile(new File(
@@ -604,8 +607,9 @@ public class JVWebViewActivity extends BaseActivity {
 						// it_photo.putExtra("crop", "true");
 						// it_photo.putExtra("scale", true);
 						// 跳转至系统功能
-						startActivityForResult(it_photo,
-								REQUEST_CODE_IMAGE_SELECTE);
+						view.setVisibility(View.GONE);
+						initDialog.dismiss();
+						startActivityForResult(it_photo, REQUEST_CODE_IMAGE_SELECTE);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

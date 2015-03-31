@@ -167,7 +167,7 @@
 
                 <TextView
                     android:id="@+id/dialog_completed"
-                    android:layout_width="100dp"
+                    android:layout_width="80dp"
                     android:layout_height="40dp"
                     android:background="@drawable/blue_bg"
                     android:gravity="center"
@@ -177,7 +177,7 @@
 
                 <TextView
                     android:id="@+id/dialog_cancel"
-                    android:layout_width="100dp"
+                    android:layout_width="80dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="40dp"
                     android:background="@drawable/blue_bg"

@@ -80,11 +80,12 @@ public class JVWebViewActivity extends BaseActivity {
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
 		case Consts.BBS_IMG_UPLOAD_SUCCESS: {
+			dismissDialog();
 			if (null != obj) {
-				showTextToast(obj.toString());
+//				showTextToast(obj.toString());
 				webView.loadUrl("javascript:uppic(\"" + obj.toString() + "\")");
 			} else {
-				showTextToast("null");
+//				showTextToast("null");
 			}
 
 			break;
@@ -186,7 +187,7 @@ public class JVWebViewActivity extends BaseActivity {
 
 		webView = (WebView) findViewById(R.id.findpasswebview);
 
-		url = "http://172.16.25.228:8080/";
+		// url = "http://172.16.25.228:8080/";
 		wvcc = new WebChromeClient() {
 			@Override
 			public void onReceivedTitle(WebView view, String title) {
@@ -522,17 +523,15 @@ public class JVWebViewActivity extends BaseActivity {
 			if (requestCode == REQUEST_CODE_IMAGE_CAPTURE
 					&& resultCode == Activity.RESULT_OK) {
 				if (mCurrentPhotoFile != null) {
+					createDialog("", false);
 					Thread uploadThread = new Thread() {
 
 						@Override
 						public void run() {
-							if (null != mCurrentPhotoFile) {
-								String res = UploadUtil.uploadFile(
-										mCurrentPhotoFile, uploadUrl);
-								handler.sendMessage(handler.obtainMessage(
-										Consts.BBS_IMG_UPLOAD_SUCCESS, 0, 0,
-										res));
-							}
+							String res = UploadUtil.uploadFile(
+									mCurrentPhotoFile, uploadUrl);
+							handler.sendMessage(handler.obtainMessage(
+									Consts.BBS_IMG_UPLOAD_SUCCESS, 0, 0, res));
 							super.run();
 						}
 					};
@@ -543,19 +542,20 @@ public class JVWebViewActivity extends BaseActivity {
 					&& resultCode == Activity.RESULT_OK) {
 				Uri uri = data.getData();
 				mCurrentPhotoFile = getFileFromUri(uri);// 根据uri获取文件
-				Thread uploadThread = new Thread() {
-					@Override
-					public void run() {
-						if (null != mCurrentPhotoFile) {
+				if (mCurrentPhotoFile != null) {
+					createDialog("", false);
+					Thread uploadThread = new Thread() {
+						@Override
+						public void run() {
 							String res = UploadUtil.uploadFile(
 									mCurrentPhotoFile, uploadUrl);
 							handler.sendMessage(handler.obtainMessage(
 									Consts.BBS_IMG_UPLOAD_SUCCESS, 0, 0, res));
+							super.run();
 						}
-						super.run();
-					}
-				};
-				uploadThread.start();
+					};
+					uploadThread.start();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

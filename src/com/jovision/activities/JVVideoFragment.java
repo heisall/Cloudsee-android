@@ -80,72 +80,19 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 	private File mCurrentPhotoFile;
 	// 缓存图片URI
 	Uri imageTempUri = Uri.fromFile(new File(PHOTO_DIR, "1426573739396.jpg"));
-	private String uploadUrl = "http://172.16.25.228:8080/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1&XDEBUG_SESSION_START=PHPSTORM";
+	private String uploadUrl = "http://bbs.cloudsee.net/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1&XDEBUG_SESSION_START=PHPSTORM";
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case Consts.TAB_ON_ACTIVITY_RESULT: {// 论坛传照片回调
-			switch (arg1) {
-			case REQUEST_CODE_IMAGE_CAPTURE: {
-				if (arg2 == Activity.RESULT_OK) {
-					if (mCurrentPhotoFile != null) {
-						Thread uploadThread = new Thread() {
-
-							@Override
-							public void run() {
-								if (null != mCurrentPhotoFile) {
-									String res = UploadUtil.uploadFile(
-											mCurrentPhotoFile, uploadUrl);
-									fragHandler
-											.sendMessage(fragHandler
-													.obtainMessage(
-															Consts.BBS_IMG_UPLOAD_SUCCESS,
-															0, 0, res));
-								}
-								super.run();
-							}
-						};
-						uploadThread.start();
-					}
-				}
-
-				break;
-			}
-			case REQUEST_CODE_IMAGE_SELECTE: {
-				if (arg2 == Activity.RESULT_OK) {
-					Uri uri = ((Intent) obj).getData();
-					mCurrentPhotoFile = getFileFromUri(uri);// 根据uri获取文件
-					Thread uploadThread = new Thread() {
-						@Override
-						public void run() {
-							if (null != mCurrentPhotoFile) {
-								String res = UploadUtil.uploadFile(
-										mCurrentPhotoFile, uploadUrl);
-								fragHandler.sendMessage(fragHandler
-										.obtainMessage(
-												Consts.BBS_IMG_UPLOAD_SUCCESS,
-												0, 0, res));
-							}
-							super.run();
-						}
-					};
-					uploadThread.start();
-				}
-				break;
-			}
-
-			}
-
-			break;
-		}
 
 		case Consts.BBS_IMG_UPLOAD_SUCCESS: {
+			mActivity.dismissDialog();
 			if (null != obj) {
-				mActivity.showTextToast(obj.toString());
+//				mActivity.showTextToast(obj.toString());
 				webView.loadUrl("javascript:uppic(\"" + obj.toString() + "\")");
 			} else {
-				mActivity.showTextToast("null");
+//				mActivity.showTextToast("null");
 			}
 
 			break;
@@ -292,7 +239,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 		// currentMenu.setText(titleID);
 		// }
 
-		urls = "http://172.16.25.228:8080/";
+		// urls = "http://172.16.25.228:8080/";
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn = (Button) rootView.findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
@@ -734,18 +681,14 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 			if (requestCode == REQUEST_CODE_IMAGE_CAPTURE
 					&& resultCode == Activity.RESULT_OK) {
 				if (mCurrentPhotoFile != null) {
+					mActivity.createDialog("", false);
 					Thread uploadThread = new Thread() {
-
 						@Override
 						public void run() {
-							if (null != mCurrentPhotoFile) {
-								String res = UploadUtil.uploadFile(
-										mCurrentPhotoFile, uploadUrl);
-								fragHandler.sendMessage(fragHandler
-										.obtainMessage(
-												Consts.BBS_IMG_UPLOAD_SUCCESS,
-												0, 0, res));
-							}
+							String res = UploadUtil.uploadFile(
+									mCurrentPhotoFile, uploadUrl);
+							fragHandler.sendMessage(fragHandler.obtainMessage(
+									Consts.BBS_IMG_UPLOAD_SUCCESS, 0, 0, res));
 							super.run();
 						}
 					};
@@ -756,19 +699,20 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 					&& resultCode == Activity.RESULT_OK) {
 				Uri uri = data.getData();
 				mCurrentPhotoFile = getFileFromUri(uri);// 根据uri获取文件
-				Thread uploadThread = new Thread() {
-					@Override
-					public void run() {
-						if (null != mCurrentPhotoFile) {
+				if (mCurrentPhotoFile != null) {
+					mActivity.createDialog("", false);
+					Thread uploadThread = new Thread() {
+						@Override
+						public void run() {
 							String res = UploadUtil.uploadFile(
 									mCurrentPhotoFile, uploadUrl);
 							fragHandler.sendMessage(fragHandler.obtainMessage(
 									Consts.BBS_IMG_UPLOAD_SUCCESS, 0, 0, res));
+							super.run();
 						}
-						super.run();
-					}
-				};
-				uploadThread.start();
+					};
+					uploadThread.start();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

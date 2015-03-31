@@ -62,6 +62,7 @@
     <color name="ivory">#FFFFF0</color>
     <color name="mydevice_online">#99595757</color>
     <!-- Dialog颜色值 -->
+    <color name="dialogcapture">#E6E6E6</color>
     <color name="dialognum">#dddddd</color>
     <color name="dialogchannal">#404040</color>
     <color name="dialogchannaltext">#55A0FF</color>

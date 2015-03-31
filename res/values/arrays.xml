@@ -69,7 +69,6 @@
     <string-array name="array_popno">
         <item>Add by CloudSEE ID</item>
         <item>Add by sound wave</item>
-        <item>Scan devices in LAN</item>
         <item>Add Wi-Fi Device</item>
         <item>Scan QR Code</item>
     </string-array>

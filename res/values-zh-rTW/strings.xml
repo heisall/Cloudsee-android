@@ -165,8 +165,8 @@
     <string name="str_feedback">回饋</string>
     <string name="str_login_out">註銷</string>
     <string name="str_alarm_settings">報警設置</string>
-    <string name="str_alarm_pushon_failed">打开报警消息推送失败</string>
-    <string name="str_alarm_pushoff_failed">关闭报警消息推送失败</string>
+    <string name="str_alarm_pushon_failed">打開報警消息推送失敗</string>
+    <string name="str_alarm_pushoff_failed">關閉報警消息推送失敗</string>
     <!-- 註冊 -->
     <string name="str_enter_username">手機號/信箱/用户名</string>
     <string name="str_enter_emails">信箱</string>
@@ -627,10 +627,10 @@
     <string name="prepare_step6">(攝像機暫不支持連接5G Wi-Fi)</string>
     <string name="wave_add_dev">確定添加設備</string>
     <!-- 智联路由 -->
-    <string name="smart_connection">智连路由</string>
+    <string name="smart_connection">智連路由</string>
     <string name="smart_conn_guide_1">接通电源\n等待指示灯变成橙灯闪烁</string>
     <string name="smart_conn_indicator_help">指示灯没有闪烁怎么办？</string>
-    <string name="smart_conn_indicator_help1">没听到\"配置成功\"?请试试智连路由模式</string>
+    <string name="smart_conn_indicator_help1">沒聽到\"配置成功\"?請試試智連路由模式</string>
     <!-- 報警 -->
     <string name="str_alarm_check">立即查看</string>
     <string name="str_pass_extra_err">傳遞數據異常</string>
@@ -642,7 +642,7 @@
     <string name="str_reset_device">重置設備功能</string>
     <string name="str_reset_sure">確定重置設備嗎?</string>
     <string name="dev_alarm_sound">啓動報警聲音</string>
-    <string name="dev_alarm_sound_tips">报警声音关闭后，当发生报警时，设备将不发出声音 。</string>
+    <string name="dev_alarm_sound_tips">報警聲音關閉後，當發生報警時，設備將不發出聲音 。</string>
     <string name="str_modify_pwd">修改設備管理員密碼</string>
     <string name="str_downloading_vod">正在獲取錄影檔…</string>
     <string name="str_alarm_dev">設備  :</string>
@@ -693,7 +693,7 @@
     <string name="str_alarm_setting_tips3">您可以選擇一個合適的時間段來接收報警，讓報警盡在掌握。</string>
     <string name="str_alarm_setting_tips2">開關打開時，設備如檢測到移動物體，會提示報警。</string>
     <string name="str_all_day">全天</string>
-    <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置.</string>
+    <string name="str_alarm_setting_tips5">重置後設備將恢復出廠設置。</string>
     <string name="str_alarm_setting_tips4">為了防止泄露隱私，建議及時修改設備管理員密碼。</string>
     <string name="str_protected_time">防護時間段</string>
     <string name="str_getdev_params_timeout">獲取設備參數超時</string>

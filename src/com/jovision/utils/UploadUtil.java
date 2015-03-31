@@ -11,21 +11,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 
 import android.util.Log;
 
@@ -205,44 +193,44 @@ public class UploadUtil {
 		return stringBuffer;
 	}
 
-	/**
-	 * 简单的上传方法
-	 * 
-	 * */
-
-	public static String post() {
-		String result = "";
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpPost httpPost = new HttpPost(
-				"http://172.16.25.228:8080/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1&XDEBUG_SESSION_START=PHPSTORM");
-
-		try {
-			// 为httpPost设置HttpEntity对象
-			List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-			parameters.add(new BasicNameValuePair("username", "zhangsan"));
-			parameters.add(new BasicNameValuePair("password", "123321"));
-			HttpEntity entity = new UrlEncodedFormEntity(parameters);
-			httpPost.setEntity(entity);
-			// httpClient执行httpPost表单提交
-			HttpResponse response = httpClient.execute(httpPost);
-			// 得到服务器响应实体对象
-			HttpEntity responseEntity = response.getEntity();
-			if (responseEntity != null) {
-				result = EntityUtils.toString(responseEntity, "utf-8");
-				// System.out.println(EntityUtils
-				// .toString(responseEntity, "utf-8"));
-				System.out.println("表单上传成功！");
-				Log.e("===================", "表单上传成功！");
-			} else {
-				System.out.println("服务器无响应！");
-				Log.e("===================", "服务器无响应！");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			// 释放资源
-			httpClient.getConnectionManager().shutdown();
-		}
-		return result;
-	}
+	// /**
+	// * 简单的上传方法
+	// *
+	// * */
+	//
+	// public static String post() {
+	// String result = "";
+	// HttpClient httpClient = new DefaultHttpClient();
+	// HttpPost httpPost = new HttpPost(
+	// "http://172.16.25.228:8080/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1&XDEBUG_SESSION_START=PHPSTORM");
+	//
+	// try {
+	// // 为httpPost设置HttpEntity对象
+	// List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+	// parameters.add(new BasicNameValuePair("username", "zhangsan"));
+	// parameters.add(new BasicNameValuePair("password", "123321"));
+	// HttpEntity entity = new UrlEncodedFormEntity(parameters);
+	// httpPost.setEntity(entity);
+	// // httpClient执行httpPost表单提交
+	// HttpResponse response = httpClient.execute(httpPost);
+	// // 得到服务器响应实体对象
+	// HttpEntity responseEntity = response.getEntity();
+	// if (responseEntity != null) {
+	// result = EntityUtils.toString(responseEntity, "utf-8");
+	// // System.out.println(EntityUtils
+	// // .toString(responseEntity, "utf-8"));
+	// System.out.println("表单上传成功！");
+	// Log.e("===================", "表单上传成功！");
+	// } else {
+	// System.out.println("服务器无响应！");
+	// Log.e("===================", "服务器无响应！");
+	// }
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// } finally {
+	// // 释放资源
+	// httpClient.getConnectionManager().shutdown();
+	// }
+	// return result;
+	// }
 }

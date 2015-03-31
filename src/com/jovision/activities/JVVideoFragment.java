@@ -16,7 +16,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +43,7 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
+import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UploadUtil;
 import com.jovision.views.AlarmDialog;
 
@@ -73,14 +73,14 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 	protected static final int REQUEST_CODE_IMAGE_CAPTURE = 0;
 	protected static final int REQUEST_CODE_IMAGE_SELECTE = 1;
 	protected static final int REQUEST_CODE_IMAGE_CROP = 2;
-	/* 拍照的照片存储位置 */
-	private static final File PHOTO_DIR = new File(
-			Environment.getExternalStorageDirectory() + "/DCIM/Camera");
+	// /* 拍照的照片存储位置 */
+	// private static final File PHOTO_DIR = new File(
+	// Environment.getExternalStorageDirectory() + "/DCIM/Camera");
 	// 照相机拍照得到的图片
 	private File mCurrentPhotoFile;
 	// 缓存图片URI
-	Uri imageTempUri = Uri.fromFile(new File(PHOTO_DIR, "1426573739396.jpg"));
-	private String uploadUrl = "http://bbs.cloudsee.net/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1&XDEBUG_SESSION_START=PHPSTORM";
+	private Uri imageTempUri = null;
+	private String uploadUrl = "";// "http://bbs.cloudsee.net/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1";
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -89,10 +89,10 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 		case Consts.BBS_IMG_UPLOAD_SUCCESS: {
 			mActivity.dismissDialog();
 			if (null != obj) {
-//				mActivity.showTextToast(obj.toString());
+				// mActivity.showTextToast(obj.toString());
 				webView.loadUrl("javascript:uppic(\"" + obj.toString() + "\")");
 			} else {
-//				mActivity.showTextToast("null");
+				// mActivity.showTextToast("null");
 			}
 
 			break;
@@ -360,7 +360,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
 				// webView.loadUrl("javascript:videopayer.play()");
-
+				webView.loadUrl("javascript:upload_url()");// 调用js 获取图片上传地址
 				if (loadFailed) {
 					mActivity.statusHashMap.put(Consts.HAS_LOAD_DEMO, "false");
 					loadFailedLayout.setVisibility(View.VISIBLE);
@@ -431,6 +431,12 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 
 	}
 
+	/**
+	 * 获取播放地址
+	 * 
+	 * @author Administrator
+	 * 
+	 */
 	class GetPlayUrlThread extends Thread {
 		String requestUrl;
 		HashMap<String, String> paramMap;
@@ -588,6 +594,19 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 
 	}
 
+	/**
+	 * upload_url js的返回值
+	 * 
+	 * @param upUrl
+	 *            即js的返回值
+	 */
+	public void getUploadUrl(String upUrl) {
+		uploadUrl = upUrl;
+	}
+
+	/**
+	 * js window.wst.cutpic()
+	 */
 	public void cutpic() {
 		new AlertDialog.Builder(mActivity)
 				.setTitle(getResources().getString(R.string.str_delete_tip))
@@ -611,10 +630,15 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 			/** 从摄像头获取 */
 			if (which == 0) {
 				try {
-					// 从摄像头拍照取头像
-					PHOTO_DIR.mkdirs(); // 创建照片的存储目录
-					mCurrentPhotoFile = new File(PHOTO_DIR,
-							"temp_camera_headimg.jpg");
+
+					MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
+					imageTempUri = Uri
+							.fromFile(new File(Consts.BBSIMG_PATH, System
+									.currentTimeMillis()
+									+ Consts.IMAGE_JPG_KIND));
+
+					mCurrentPhotoFile = new File(Consts.BBSIMG_PATH,
+							System.currentTimeMillis() + Consts.IMAGE_JPG_KIND);
 					Intent it_camera = new Intent(
 							MediaStore.ACTION_IMAGE_CAPTURE);
 					it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
@@ -628,6 +652,11 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 				/** 从相册获取 */
 				try {
 
+					// MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
+					// imageTempUri = Uri
+					// .fromFile(new File(Consts.BBSIMG_PATH, System
+					// .currentTimeMillis()
+					// + Consts.IMAGE_JPG_KIND));
 					// 从相册取相片
 					Intent it_photo = new Intent(Intent.ACTION_GET_CONTENT);
 					it_photo.addCategory(Intent.CATEGORY_OPENABLE);

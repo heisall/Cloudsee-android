@@ -149,7 +149,7 @@ public class JVWaveSetActivity extends BaseActivity {
 	private String mConnectedSsid;
 	private String mPassword;
 	private Button btn_smart_connect;
-
+	private RelativeLayout rl_smart_conn;
 	private Dialog initDialog;// 显示弹出框
 	private ImageView dialogCancel;// 取消按钮
 
@@ -489,6 +489,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		nextBtn3 = (Button) findViewById(R.id.step_btn3);
 		showDemoBtn = (Button) findViewById(R.id.showdemo);
 		/* 智联路由 */
+		rl_smart_conn = (RelativeLayout)findViewById(R.id.smart_conn_layout);
 		btn_smart_connect = (Button) findViewById(R.id.btn_smart_conn);
 
 		stepLayout6.setOnClickListener(myOnClickListener);
@@ -502,7 +503,9 @@ public class JVWaveSetActivity extends BaseActivity {
 		waveImage.setOnClickListener(myOnClickListener);
 		/* 智联路由 */
 		btn_smart_connect.setOnClickListener(myOnClickListener);
-
+		if(!Consts.SMART_CONN_ENABLED){
+			rl_smart_conn.setVisibility(View.INVISIBLE);
+		}
 		/** 设置缩放动画 */
 		waveScaleAnim = new ScaleAnimation(0.0f, 5.0f, 0.0f, 5.0f,
 				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,

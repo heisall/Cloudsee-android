@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +35,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
+import com.jovision.utils.MobileUtil;
 import com.jovision.utils.UploadUtil;
 
 public class JVWebViewActivity extends BaseActivity {
@@ -67,14 +67,14 @@ public class JVWebViewActivity extends BaseActivity {
 	protected static final int REQUEST_CODE_IMAGE_CAPTURE = 0;
 	protected static final int REQUEST_CODE_IMAGE_SELECTE = 1;
 	protected static final int REQUEST_CODE_IMAGE_CROP = 2;
-	/* 拍照的照片存储位置 */
-	private static final File PHOTO_DIR = new File(
-			Environment.getExternalStorageDirectory() + "/DCIM/Camera");
+	// /* 拍照的照片存储位置 */
+	// private static final File PHOTO_DIR = new File(
+	// Environment.getExternalStorageDirectory() + "/DCIM/Camera");
 	// 照相机拍照得到的图片
 	private File mCurrentPhotoFile;
 	// 缓存图片URI
-	Uri imageTempUri = Uri.fromFile(new File(PHOTO_DIR, "1426573739396.jpg"));
-	private String uploadUrl = "http://172.16.25.228:8080/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1&XDEBUG_SESSION_START=PHPSTORM";
+	Uri imageTempUri = null;
+	private String uploadUrl = "";// "http://bbs.cloudsee.net/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1";
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -82,10 +82,10 @@ public class JVWebViewActivity extends BaseActivity {
 		case Consts.BBS_IMG_UPLOAD_SUCCESS: {
 			dismissDialog();
 			if (null != obj) {
-//				showTextToast(obj.toString());
+				// showTextToast(obj.toString());
 				webView.loadUrl("javascript:uppic(\"" + obj.toString() + "\")");
 			} else {
-//				showTextToast("null");
+				// showTextToast("null");
 			}
 
 			break;
@@ -303,7 +303,7 @@ public class JVWebViewActivity extends BaseActivity {
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
 				// webView.loadUrl("javascript:videopayer.play()");
-
+				webView.loadUrl("javascript:upload_url()");// 调用js 获取图片上传地址
 				if (loadFailed) {
 					loadFailedLayout.setVisibility(View.VISIBLE);
 					webView.setVisibility(View.GONE);
@@ -450,6 +450,19 @@ public class JVWebViewActivity extends BaseActivity {
 		webView.onResume();
 	}
 
+	/**
+	 * upload_url js的返回值
+	 * 
+	 * @param upUrl
+	 *            即js的返回值
+	 */
+	public void getUploadUrl(String upUrl) {
+		uploadUrl = upUrl;
+	}
+
+	/**
+	 * js window.wst.cutpic()
+	 */
 	public void cutpic() {
 		new AlertDialog.Builder(JVWebViewActivity.this)
 				.setTitle(getResources().getString(R.string.str_delete_tip))
@@ -473,10 +486,14 @@ public class JVWebViewActivity extends BaseActivity {
 			/** 从摄像头获取 */
 			if (which == 0) {
 				try {
-					// 从摄像头拍照取头像
-					PHOTO_DIR.mkdirs(); // 创建照片的存储目录
-					mCurrentPhotoFile = new File(PHOTO_DIR,
-							"temp_camera_headimg.jpg");
+					MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
+					imageTempUri = Uri
+							.fromFile(new File(Consts.BBSIMG_PATH, System
+									.currentTimeMillis()
+									+ Consts.IMAGE_JPG_KIND));
+
+					mCurrentPhotoFile = new File(Consts.BBSIMG_PATH,
+							System.currentTimeMillis() + Consts.IMAGE_JPG_KIND);
 					Intent it_camera = new Intent(
 							MediaStore.ACTION_IMAGE_CAPTURE);
 					it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
@@ -490,6 +507,11 @@ public class JVWebViewActivity extends BaseActivity {
 				/** 从相册获取 */
 				try {
 
+					MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
+					imageTempUri = Uri
+							.fromFile(new File(Consts.BBSIMG_PATH, System
+									.currentTimeMillis()
+									+ Consts.IMAGE_JPG_KIND));
 					// 从相册取相片
 					Intent it_photo = new Intent(Intent.ACTION_GET_CONTENT);
 					it_photo.addCategory(Intent.CATEGORY_OPENABLE);

@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -92,8 +93,9 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 	private ImageView dialog_cancle_img;
 	private TextView capturetext;
 	private TextView selecttext;
+	private View view ;
 
-	
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
@@ -221,7 +223,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 		if (urls.contains("rotate=x")) {
 			urls = urls.replace("rotate=x", "");
 			mActivity
-					.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
+			.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);// 横屏
 		}
 		MyLog.e("yanshidian", urls);
 		/** topBar **/
@@ -335,7 +337,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 
 						mActivity.createDialog("", false);
 						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
-								.start();
+						.start();
 					} else {
 						// String plazzaUrl = ((BaseActivity)
 						// mActivity).statusHashMap
@@ -517,8 +519,8 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 								.get(Consts.KEY_INIT_ACCOUNT_SDK))) {
 							MyLog.e("Login", "初始化账号SDK失败");
 							ConfigUtil
-									.initAccountSDK(((MainApplication) mActivity
-											.getApplication()));// 初始化账号SDK
+							.initAccountSDK(((MainApplication) mActivity
+									.getApplication()));// 初始化账号SDK
 						}
 
 						GetDemoTask task = new GetDemoTask(mActivity);
@@ -619,23 +621,23 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 		uploadUrl = upUrl;
 	}
 
-//	/**
-//	 * js window.wst.cutpic()
-//	 */
-//	public void cutpic() {
-//		new AlertDialog.Builder(mActivity)
-//				.setTitle(getResources().getString(R.string.str_delete_tip))
-//				.setItems(
-//						new String[] {
-//								getResources().getString(
-//										R.string.capture_to_upload),
-//								getResources().getString(
-//										R.string.select_to_upload),
-//								getResources().getString(R.string.cancel) },
-//						new OnMyOnClickListener()).show();
+	//	/**
+	//	 * js window.wst.cutpic()
+	//	 */
+	//	public void cutpic() {
+	//		new AlertDialog.Builder(mActivity)
+	//				.setTitle(getResources().getString(R.string.str_delete_tip))
+	//				.setItems(
+	//						new String[] {
+	//								getResources().getString(
+	//										R.string.capture_to_upload),
+	//								getResources().getString(
+	//										R.string.select_to_upload),
+	//								getResources().getString(R.string.cancel) },
+	//						new OnMyOnClickListener()).show();
 
-//	}
-	
+	//	}
+
 	/**
 	 * 
 	 * 2015-03-31 修改上传照片dialog
@@ -643,7 +645,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 	 * */
 	public void cutpic() {
 		initDialog = new Dialog(mActivity, R.style.mydialog);
-		View view = LayoutInflater.from(mActivity).inflate(
+		view = LayoutInflater.from(mActivity).inflate(
 				R.layout.dialog_capture, null);
 		initDialog.setContentView(view);
 
@@ -689,6 +691,8 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 								MediaStore.ACTION_IMAGE_CAPTURE);
 						it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
 								Uri.fromFile(mCurrentPhotoFile));
+						view.setVisibility(View.GONE);
+						initDialog.dismiss();
 						startActivityForResult(it_camera,
 								REQUEST_CODE_IMAGE_CAPTURE);
 					} catch (Exception e) {
@@ -723,6 +727,8 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 						// it_photo.putExtra("crop", "true");
 						// it_photo.putExtra("scale", true);
 						// 跳转至系统功能
+						view.setVisibility(View.GONE);
+						initDialog.dismiss();
 						startActivityForResult(it_photo, REQUEST_CODE_IMAGE_SELECTE);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -736,69 +742,69 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 			return true;
 		}
 	};
-	
-	
-	
-	
-//	/** 图片来源菜单响应类 */
-//	protected class OnMyOnClickListener implements
-//			DialogInterface.OnClickListener {
-//
-//		@Override
-//		public void onClick(DialogInterface dialog, int which) {
-//			/** 从摄像头获取 */
-//			if (which == 0) {
-//				try {
-//
-//					MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
-//					imageTempUri = Uri
-//							.fromFile(new File(Consts.BBSIMG_PATH, System
-//									.currentTimeMillis()
-//									+ Consts.IMAGE_JPG_KIND));
-//
-//					mCurrentPhotoFile = new File(Consts.BBSIMG_PATH,
-//							System.currentTimeMillis() + Consts.IMAGE_JPG_KIND);
-//					Intent it_camera = new Intent(
-//							MediaStore.ACTION_IMAGE_CAPTURE);
-//					it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
-//							Uri.fromFile(mCurrentPhotoFile));
-//					startActivityForResult(it_camera,
-//							REQUEST_CODE_IMAGE_CAPTURE);
-//				} catch (Exception e) {
-//					System.out.println(e.getMessage());
-//				}
-//			} else if (which == 1) {
-//				/** 从相册获取 */
-//				try {
-//
-//					// MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
-//					// imageTempUri = Uri
-//					// .fromFile(new File(Consts.BBSIMG_PATH, System
-//					// .currentTimeMillis()
-//					// + Consts.IMAGE_JPG_KIND));
-//					// 从相册取相片
-//					Intent it_photo = new Intent(Intent.ACTION_GET_CONTENT);
-//					it_photo.addCategory(Intent.CATEGORY_OPENABLE);
-//					// 设置数据类型
-//					it_photo.setType("image/*");
-//					// 设置返回方式
-//					// intent.putExtra("return-data", true);
-//					it_photo.putExtra(MediaStore.EXTRA_OUTPUT, imageTempUri);
-//					// 设置截图
-//					// it_photo.putExtra("crop", "true");
-//					// it_photo.putExtra("scale", true);
-//					// 跳转至系统功能
-//					startActivityForResult(it_photo, REQUEST_CODE_IMAGE_SELECTE);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			} else if (which == 2) {
-//				/** 取消 */
-//				dialog.dismiss();
-//			}
-//		}
 
-//	}
+
+
+
+	//	/** 图片来源菜单响应类 */
+	//	protected class OnMyOnClickListener implements
+	//			DialogInterface.OnClickListener {
+	//
+	//		@Override
+	//		public void onClick(DialogInterface dialog, int which) {
+	//			/** 从摄像头获取 */
+	//			if (which == 0) {
+	//				try {
+	//
+	//					MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
+	//					imageTempUri = Uri
+	//							.fromFile(new File(Consts.BBSIMG_PATH, System
+	//									.currentTimeMillis()
+	//									+ Consts.IMAGE_JPG_KIND));
+	//
+	//					mCurrentPhotoFile = new File(Consts.BBSIMG_PATH,
+	//							System.currentTimeMillis() + Consts.IMAGE_JPG_KIND);
+	//					Intent it_camera = new Intent(
+	//							MediaStore.ACTION_IMAGE_CAPTURE);
+	//					it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
+	//							Uri.fromFile(mCurrentPhotoFile));
+	//					startActivityForResult(it_camera,
+	//							REQUEST_CODE_IMAGE_CAPTURE);
+	//				} catch (Exception e) {
+	//					System.out.println(e.getMessage());
+	//				}
+	//			} else if (which == 1) {
+	//				/** 从相册获取 */
+	//				try {
+	//
+	//					// MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
+	//					// imageTempUri = Uri
+	//					// .fromFile(new File(Consts.BBSIMG_PATH, System
+	//					// .currentTimeMillis()
+	//					// + Consts.IMAGE_JPG_KIND));
+	//					// 从相册取相片
+	//					Intent it_photo = new Intent(Intent.ACTION_GET_CONTENT);
+	//					it_photo.addCategory(Intent.CATEGORY_OPENABLE);
+	//					// 设置数据类型
+	//					it_photo.setType("image/*");
+	//					// 设置返回方式
+	//					// intent.putExtra("return-data", true);
+	//					it_photo.putExtra(MediaStore.EXTRA_OUTPUT, imageTempUri);
+	//					// 设置截图
+	//					// it_photo.putExtra("crop", "true");
+	//					// it_photo.putExtra("scale", true);
+	//					// 跳转至系统功能
+	//					startActivityForResult(it_photo, REQUEST_CODE_IMAGE_SELECTE);
+	//				} catch (Exception e) {
+	//					e.printStackTrace();
+	//				}
+	//			} else if (which == 2) {
+	//				/** 取消 */
+	//				dialog.dismiss();
+	//			}
+	//		}
+
+	//	}
 
 	/**
 	 * 根据uri获取文件

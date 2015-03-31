@@ -11,7 +11,7 @@
         android:right="0dip"
         android:top="0dip" />
     <!-- 主要内容的padding 文字距离上下左右的距离 -->
-     <gradient
+    <gradient
         android:angle="270"
         android:endColor="@color/dialog_bg_color"
         android:startColor="@color/dialog_bg_color" />
@@ -19,5 +19,5 @@
     <solid android:color="@color/dialog_bg_color" />
     <!-- 没有描边的中间部分 -->
     <!-- solid 与  gradient 只能显示在代码最后那个 -->
-    
+
 </shape>

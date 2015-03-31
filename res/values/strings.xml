@@ -630,7 +630,7 @@
     <string name="smart_connection">Router connected intelligently</string>
     <string name="smart_conn_guide_1">Power-on and wait until indicator blinking in orange</string>
     <string name="smart_conn_indicator_help">What to do if indicator not flash?</string>
-    <string name="smart_conn_indicator_help1">If not hear “configuration complete” warning tone, please attempt to use intelligent router connection mode</string>
+    <string name="smart_conn_indicator_help1">If not hear “configuration success” warning tone, please attempt to use intelligent router connection mode</string>
     <!-- 报警 -->
     <string name="str_alarm_check">Check Now</string>
     <string name="str_pass_extra_err">Pass Data Extra Error</string>

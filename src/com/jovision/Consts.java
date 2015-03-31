@@ -28,8 +28,8 @@ public class Consts {
 	public static int CURRENT_LAN = -1;// 当前语言
 	public static int COUNT = -1;
 	public static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
-	
-	public static final boolean SMART_CONN_ENABLED = false;//智连路由功能是否可用标志
+
+	public static final boolean SMART_CONN_ENABLED = false;// 智连路由功能是否可用标志
 
 	/** 老数据库数据 **/
 	public static final String JVCONFIG_DATABASE = "JVConfigTemp.db";

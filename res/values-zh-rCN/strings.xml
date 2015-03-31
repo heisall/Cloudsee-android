@@ -693,7 +693,7 @@
     <string name="str_alarm_setting_tips3">您可以选择一个合适的时间段来接收报警，让报警尽在掌握。</string>
     <string name="str_alarm_setting_tips2">开关打开时，设备如检测到移动物体，会提示报警。</string>
     <string name="str_alarm_setting_tips4">为了防止泄露隐私，建议及时修改设备管理员密码。</string>
-    <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置.</string>
+    <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置。</string>
     <string name="str_all_day">全天</string>
     <string name="str_protected_time">防护时间段</string>
     <string name="str_getdev_params_timeout">获取设备参数超时</string>

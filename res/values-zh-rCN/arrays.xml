@@ -8,7 +8,6 @@
         <item>配置</item>
         <item>更多功能</item>
     </string-array>
-
     <!-- more feature func -->
     <string-array name="array_more">
         <item>帮助</item>
@@ -85,7 +84,6 @@
         <item>256</item>
         <item>384</item>
     </string-array>
-
     <!-- 非家庭安防产品 -->
     <!-- 图片质量 -->
     <string-array name="array_image_quality_not">
@@ -104,7 +102,12 @@
         <item>256</item>
         <item>384</item>
     </string-array>
-
+    <!-- 分屏数 -->
+    <integer-array name="array_screen">
+        <item>4</item>
+        <item>9</item>
+        <item>16</item>
+    </integer-array>
     <!-- 报警类型 -->
     <string-array name="alarm_type">
         <item>%%发生存储错误报警。</item>
@@ -130,13 +133,11 @@
         <item>%%周围温度过高、湿度过低。</item>
         <item>%%周围温度过低、湿度过低。</item>
     </string-array>
-
     <!-- 播放器选择 -->
     <string-array name="player_selector">
         <item>系统播放器</item>
         <item>第三方播放器</item>
     </string-array>
-
     <!-- 视频管理功能 -->
     <string-array name="manage_function">
         <item>网络设置</item>
@@ -147,7 +148,6 @@
         <item>报警设置</item>
         <item>版本信息</item>
     </string-array>
-
     <!-- 第三方外设报警管理 -->
     <string-array name="peripherals_manage">
         <item>门磁</item>
@@ -174,7 +174,6 @@
         <item>请用手在设备正前方10厘米处挥动几次，等待配置完成。</item>
         <item>请将设备测试开关拨到开启位置，等待配置完成。</item>
     </string-array>
-
     <!-- 报警设置功能标题数组 -->
     <string-array name="alarm_settings_title">
         <item>消息推送</item>

@@ -501,12 +501,13 @@ public class JVWebViewActivity extends BaseActivity {
 				R.layout.dialog_capture, null);
 		initDialog.setContentView(view);
 
-		captureparent = (RelativeLayout)view.findViewById(R.id.captureparent);
-		capture_Load = (RelativeLayout)view.findViewById(R.id.capture_upload);
-		select_Load = (RelativeLayout)view.findViewById(R.id.select_upload);
-		dialog_cancle_img = (ImageView) view.findViewById(R.id.dialog_cancle_img);
-		capturetext = (TextView)view.findViewById(R.id.capturetext);
-		selecttext = (TextView)view.findViewById(R.id.selecttext);
+		captureparent = (RelativeLayout) view.findViewById(R.id.captureparent);
+		capture_Load = (RelativeLayout) view.findViewById(R.id.capture_upload);
+		select_Load = (RelativeLayout) view.findViewById(R.id.select_upload);
+		dialog_cancle_img = (ImageView) view
+				.findViewById(R.id.dialog_cancle_img);
+		capturetext = (TextView) view.findViewById(R.id.capturetext);
+		selecttext = (TextView) view.findViewById(R.id.selecttext);
 
 		capture_Load.setOnTouchListener(myOnTouchListetner);
 		select_Load.setOnTouchListener(myOnTouchListetner);
@@ -541,21 +542,26 @@ public class JVWebViewActivity extends BaseActivity {
 			case R.id.capture_upload:
 				/** 从摄像头获取 */
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					capture_Load.setBackgroundColor(getResources().getColor(R.color.welcome_blue));
-					capturetext.setTextColor(getResources().getColor(R.color.white));
-				}else if (event.getAction() == MotionEvent.ACTION_UP) {
+					capture_Load.setBackgroundColor(getResources().getColor(
+							R.color.welcome_blue));
+					capturetext.setTextColor(getResources().getColor(
+							R.color.white));
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
 					try {
-						capture_Load.setBackground(getResources().getDrawable(R.drawable.dialog_wavebg_color));
-						capturetext.setTextColor(getResources().getColor(R.color.more_fragment_color2));
+						capture_Load.setBackground(getResources().getDrawable(
+								R.drawable.dialog_wavebg_color));
+						capturetext.setTextColor(getResources().getColor(
+								R.color.more_fragment_color2));
 						initDialog.dismiss();
-						MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
-						imageTempUri = Uri
-								.fromFile(new File(Consts.BBSIMG_PATH, System
-										.currentTimeMillis()
+						MobileUtil
+								.createDirectory(new File(Consts.BBSIMG_PATH));
+						imageTempUri = Uri.fromFile(new File(
+								Consts.BBSIMG_PATH, System.currentTimeMillis()
 										+ Consts.IMAGE_JPG_KIND));
 
 						mCurrentPhotoFile = new File(Consts.BBSIMG_PATH,
-								System.currentTimeMillis() + Consts.IMAGE_JPG_KIND);
+								System.currentTimeMillis()
+										+ Consts.IMAGE_JPG_KIND);
 						Intent it_camera = new Intent(
 								MediaStore.ACTION_IMAGE_CAPTURE);
 						it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
@@ -570,17 +576,21 @@ public class JVWebViewActivity extends BaseActivity {
 			case R.id.select_upload:
 				/** 从相册获取 */
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					select_Load.setBackgroundColor(getResources().getColor(R.color.welcome_blue));
-					selecttext.setTextColor(getResources().getColor(R.color.white));
-				}else if (event.getAction() == MotionEvent.ACTION_UP) {
+					select_Load.setBackgroundColor(getResources().getColor(
+							R.color.welcome_blue));
+					selecttext.setTextColor(getResources().getColor(
+							R.color.white));
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
 					try {
-						select_Load.setBackgroundColor(getResources().getColor(R.color.white));
-						selecttext.setTextColor(getResources().getColor(R.color.more_fragment_color2));
+						select_Load.setBackgroundColor(getResources().getColor(
+								R.color.white));
+						selecttext.setTextColor(getResources().getColor(
+								R.color.more_fragment_color2));
 						initDialog.dismiss();
-						MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
-						imageTempUri = Uri
-								.fromFile(new File(Consts.BBSIMG_PATH, System
-										.currentTimeMillis()
+						MobileUtil
+								.createDirectory(new File(Consts.BBSIMG_PATH));
+						imageTempUri = Uri.fromFile(new File(
+								Consts.BBSIMG_PATH, System.currentTimeMillis()
 										+ Consts.IMAGE_JPG_KIND));
 						// 从相册取相片
 						Intent it_photo = new Intent(Intent.ACTION_GET_CONTENT);
@@ -594,7 +604,8 @@ public class JVWebViewActivity extends BaseActivity {
 						// it_photo.putExtra("crop", "true");
 						// it_photo.putExtra("scale", true);
 						// 跳转至系统功能
-						startActivityForResult(it_photo, REQUEST_CODE_IMAGE_SELECTE);
+						startActivityForResult(it_photo,
+								REQUEST_CODE_IMAGE_SELECTE);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

@@ -41,8 +41,7 @@
             <RelativeLayout
                 android:id="@+id/capture_upload"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                 >
+                android:layout_height="50dp" >
 
                 <TextView
                     android:id="@+id/capturetext"
@@ -64,8 +63,7 @@
             <RelativeLayout
                 android:id="@+id/select_upload"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                >
+                android:layout_height="50dp" >
 
                 <TextView
                     android:id="@+id/selecttext"

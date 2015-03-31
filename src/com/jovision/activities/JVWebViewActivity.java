@@ -9,12 +9,14 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -75,6 +77,14 @@ public class JVWebViewActivity extends BaseActivity {
 	// 缓存图片URI
 	Uri imageTempUri = null;
 	private String uploadUrl = "";// "http://bbs.cloudsee.net/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1";
+
+	private Dialog initDialog;
+	private RelativeLayout capture_Load;
+	private RelativeLayout select_Load;
+	private ImageView dialog_cancle_img;
+	private TextView capturetext;
+	private TextView selecttext;
+
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -267,7 +277,7 @@ public class JVWebViewActivity extends BaseActivity {
 
 						createDialog("", false);
 						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
-								.start();
+						.start();
 					} else {
 						// String plazzaUrl = statusHashMap
 						// .get(Consts.MORE_DEMOURL);
@@ -371,6 +381,60 @@ public class JVWebViewActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
+			case R.id.capture_upload:
+				/** 从摄像头获取 */
+				try {
+					MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
+					imageTempUri = Uri
+							.fromFile(new File(Consts.BBSIMG_PATH, System
+									.currentTimeMillis()
+									+ Consts.IMAGE_JPG_KIND));
+
+					mCurrentPhotoFile = new File(Consts.BBSIMG_PATH,
+							System.currentTimeMillis() + Consts.IMAGE_JPG_KIND);
+					Intent it_camera = new Intent(
+							MediaStore.ACTION_IMAGE_CAPTURE);
+					it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
+							Uri.fromFile(mCurrentPhotoFile));
+					startActivityForResult(it_camera,
+							REQUEST_CODE_IMAGE_CAPTURE);
+					initDialog.dismiss();
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				break;
+			case R.id.select_upload:
+				/** 从相册获取 */
+				try {
+
+					MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
+					imageTempUri = Uri
+							.fromFile(new File(Consts.BBSIMG_PATH, System
+									.currentTimeMillis()
+									+ Consts.IMAGE_JPG_KIND));
+					// 从相册取相片
+					Intent it_photo = new Intent(Intent.ACTION_GET_CONTENT);
+					it_photo.addCategory(Intent.CATEGORY_OPENABLE);
+					// 设置数据类型
+					it_photo.setType("image/*");
+					// 设置返回方式
+					// intent.putExtra("return-data", true);
+					it_photo.putExtra(MediaStore.EXTRA_OUTPUT, imageTempUri);
+					// 设置截图
+					// it_photo.putExtra("crop", "true");
+					// it_photo.putExtra("scale", true);
+					// 跳转至系统功能
+					startActivityForResult(it_photo, REQUEST_CODE_IMAGE_SELECTE);
+					initDialog.dismiss();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+
+				break;
+			case R.id.dialog_cancle_img:
+				initDialog.dismiss();
+				break;
 			case R.id.btn_left: {
 				backMethod();
 				break;
@@ -463,78 +527,60 @@ public class JVWebViewActivity extends BaseActivity {
 	/**
 	 * js window.wst.cutpic()
 	 */
+	//	public void cutpic() {
+	//		new AlertDialog.Builder(JVWebViewActivity.this)
+	//				.setTitle(getResources().getString(R.string.str_delete_tip))
+	//				.setItems(
+	//						new String[] {
+	//								getResources().getString(
+	//										R.string.capture_to_upload),
+	//								getResources().getString(
+	//										R.string.select_to_upload),
+	//								getResources().getString(R.string.cancel) },
+	//						new OnMyOnClickListener()).show();
+	//
+	//	}
+
+	/**
+	 * 
+	 * 2015-03-31 修改上传照片dialog
+	 * 
+	 * */
 	public void cutpic() {
-		new AlertDialog.Builder(JVWebViewActivity.this)
-				.setTitle(getResources().getString(R.string.str_delete_tip))
-				.setItems(
-						new String[] {
-								getResources().getString(
-										R.string.capture_to_upload),
-								getResources().getString(
-										R.string.select_to_upload),
-								getResources().getString(R.string.cancel) },
-						new OnMyOnClickListener()).show();
+		initDialog = new Dialog(JVWebViewActivity.this, R.style.mydialog);
+		View view = LayoutInflater.from(JVWebViewActivity.this).inflate(
+				R.layout.dialog_capture, null);
+		initDialog.setContentView(view);
 
+		capture_Load = (RelativeLayout)view.findViewById(R.id.capture_upload);
+		select_Load = (RelativeLayout)view.findViewById(R.id.select_upload);
+		dialog_cancle_img = (ImageView) view.findViewById(R.id.dialog_cancle_img);
+		capturetext = (TextView)view.findViewById(R.id.capturetext);
+		selecttext = (TextView)view.findViewById(R.id.selecttext);
+
+		capture_Load.setOnClickListener(myOnClickListener);
+		select_Load.setOnClickListener(myOnClickListener);
+		dialog_cancle_img.setOnClickListener(myOnClickListener);
+		initDialog.show();
 	}
 
-	/** 图片来源菜单响应类 */
-	protected class OnMyOnClickListener implements
-			DialogInterface.OnClickListener {
-
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			/** 从摄像头获取 */
-			if (which == 0) {
-				try {
-					MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
-					imageTempUri = Uri
-							.fromFile(new File(Consts.BBSIMG_PATH, System
-									.currentTimeMillis()
-									+ Consts.IMAGE_JPG_KIND));
-
-					mCurrentPhotoFile = new File(Consts.BBSIMG_PATH,
-							System.currentTimeMillis() + Consts.IMAGE_JPG_KIND);
-					Intent it_camera = new Intent(
-							MediaStore.ACTION_IMAGE_CAPTURE);
-					it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
-							Uri.fromFile(mCurrentPhotoFile));
-					startActivityForResult(it_camera,
-							REQUEST_CODE_IMAGE_CAPTURE);
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-			} else if (which == 1) {
-				/** 从相册获取 */
-				try {
-
-					// MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
-					// imageTempUri = Uri
-					// .fromFile(new File(Consts.BBSIMG_PATH, System
-					// .currentTimeMillis()
-					// + Consts.IMAGE_JPG_KIND));
-					// 从相册取相片
-					Intent it_photo = new Intent(Intent.ACTION_GET_CONTENT);
-					it_photo.addCategory(Intent.CATEGORY_OPENABLE);
-					// 设置数据类型
-					it_photo.setType("image/*");
-					// 设置返回方式
-					// intent.putExtra("return-data", true);
-					it_photo.putExtra(MediaStore.EXTRA_OUTPUT, imageTempUri);
-					// 设置截图
-					// it_photo.putExtra("crop", "true");
-					// it_photo.putExtra("scale", true);
-					// 跳转至系统功能
-					startActivityForResult(it_photo, REQUEST_CODE_IMAGE_SELECTE);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} else if (which == 2) {
-				/** 取消 */
-				dialog.dismiss();
-			}
-		}
-
-	}
+	//	/** 图片来源菜单响应类 */
+	//	protected class OnMyOnClickListener implements
+	//			DialogInterface.OnClickListener {
+	//
+	//		@Override
+	//		public void onClick(DialogInterface dialog, int which) {
+	//			if (which == 0) {
+	//				
+	//			} else if (which == 1) {
+	//			
+	//			} else if (which == 2) {
+	//				/** 取消 */
+	//				dialog.dismiss();
+	//			}
+	//		}
+	//
+	//	}
 
 	/** 获取调用摄像头以及相册返回数据 */
 	@SuppressLint("NewApi")

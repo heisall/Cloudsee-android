@@ -446,7 +446,7 @@ public class PlayUtil {
 	 * 停止音频监听
 	 */
 	public static boolean stopAudioMonitor(int index) {
-		Jni.pause(index);
+		Jni.pauseAudio(index);
 		return Jni.enablePlayAudio(index, false);
 	}
 

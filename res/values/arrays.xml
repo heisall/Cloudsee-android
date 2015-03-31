@@ -8,7 +8,6 @@
         <item>Setting</item>
         <item>More</item>
     </string-array>
-
     <!-- more feature func -->
     <string-array name="array_more">
         <item>Help</item>
@@ -50,14 +49,6 @@
         <item>Test Switch</item>
         <item>Version</item>
     </string-array>
-    <!-- setting -->
-    <string-array name="array_setting">
-        <item>Scene Picture</item>
-        <item> Help</item>
-        <item> Alarm</item>
-        <item> Viewing Mode(Single-device)</item>
-    </string-array>
-
     <!-- add Dev pop menu -->
     <string-array name="array_pop">
         <item>Add by CloudSEE ID</item>
@@ -72,7 +63,6 @@
         <item>Add Wi-Fi Device</item>
         <item>Scan QR Code</item>
     </string-array>
-
     <!-- 家庭安防产品 -->
     <!-- 图片质量 -->
     <string-array name="array_image_quality">
@@ -94,7 +84,6 @@
         <item>256</item>
         <item>384</item>
     </string-array>
-
     <!-- 非家庭安防产品 -->
     <!-- 图片质量 -->
     <string-array name="array_image_quality_not">
@@ -119,7 +108,6 @@
         <item>9</item>
         <item>16</item>
     </integer-array>
-
     <!-- 告警类型 -->
     <string-array name="alarm_type">
         <item>Disk Error Alarm, Device:%%.</item>
@@ -144,9 +132,7 @@
         <item>ALARM_TEMP_HIGH_HUM_LOW, Device:%%.</item>
         <item>ALARM_TEMP_LOW_HUM_HIGH, Device:%%.</item>
         <item>ALARM_TEMP_LOW_HUM_LOW, Device:%%.</item>
-        <item>ALARM_TOTAL, Device:%%.</item>
     </string-array>
-
     <!-- 播放器选择 -->
     <string-array name="player_selector">
         <item>System player</item>
@@ -162,7 +148,6 @@
         <item>Alarm Setting</item>
         <item>Version info</item>
     </string-array>
-
     <!-- 第三方外设报警管理 -->
     <string-array name="peripherals_manage">
         <item>Door Magnetic</item>
@@ -173,7 +158,6 @@
         <item>IR Detector</item>
         <item>Gas Leak Detector</item>
     </string-array>
-
     <!-- 码流切换 -->
     <string-array name="array_stream">
         <item>&#160;&#160;&#160;HD&#160;&#160;&#160;</item>
@@ -190,7 +174,6 @@
         <item>Swing your arm for several times at around 10 centimeters in front of the device,and wait until configuration finished.</item>
         <item>Enable the device testing button, and wait until configuration finished.</item>
     </string-array>
-
     <!-- 报警设置功能标题数组 -->
     <string-array name="alarm_settings_title">
         <item>Information Delivery</item>

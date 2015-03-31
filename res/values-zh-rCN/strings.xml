@@ -189,7 +189,7 @@
     <string name="str_end_time">结束时间</string>
     <string name="str_save_path">盘符</string>
     <string name="str_disk">硬盘</string>
-    <string name="video_download_success">录像下载成功</string>
+    <string name="video_download_success">录像下载成功，快到更多功能-图像查看-下载中查看吧。</string>
     <string name="video_download_failed">录像下载失败</string>
     <string name="str_video_load_failed">数据加载失败</string>
     <string name="str_video_load_success">数据加载成功</string>

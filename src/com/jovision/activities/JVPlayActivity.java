@@ -1265,15 +1265,39 @@ public class JVPlayActivity extends PlayActivity implements
 									: false;
 							MyLog.e(TAG, "启用TCP连接 == " + enableTcp);
 
+							// playStatistics
+							// .setText(String
+							// .format("%.1fk/%.1fk/D:%.1fk/J:%.1fk/N:%.1fk/L:%dk",
+							// object.getDouble("kbps"),
+							// object.getDouble("audio_kbps"),
+							// object.getDouble("decoder_fps"),
+							// object.getDouble("jump_fps"),
+							// object.getDouble("network_fps"),
+							// object.getInt("left"))
+							//
+							// + "/"
+							// + (object.getBoolean("is_turn") ? "TURN"
+							// : "P2P")
+							// + "/"
+							// + "enableTcp=" + enableTcp + "/"
+							// // + PlayUtil
+							// // .hasEnableHelper(channelList
+							// // .get(lastClickIndex)
+							// // .getParent()
+							// // .getFullNo())
+							// );
+
 							playStatistics
 									.setText(String
-											.format("%.1fk/%.1fk/D:%.1fk/J:%.1fk/N:%.1fk/L:%dk",
+											.format("%.1fk/%.1fk/D:%.1fk/AJ:%.1fk/VJ:%.1fk/N:%.1fk/AL:%dk/VL:%dk",
 													object.getDouble("kbps"),
 													object.getDouble("audio_kbps"),
 													object.getDouble("decoder_fps"),
-													object.getDouble("jump_fps"),
+													object.getDouble("audio_jump_fps"),
+													object.getDouble("video_jump_fps"),
 													object.getDouble("network_fps"),
-													object.getInt("left"))
+													object.getInt("audio_left"),
+													object.getInt("video_left"))
 
 											+ "/"
 											+ (object.getBoolean("is_turn") ? "TURN"

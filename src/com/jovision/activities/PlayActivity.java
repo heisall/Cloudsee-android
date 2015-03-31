@@ -1227,9 +1227,9 @@ public abstract class PlayActivity extends BaseActivity implements
 			PlayUtil.stopAudioMonitor(index);
 			functionListAdapter.selectIndex = -1;
 			functionListAdapter.notifyDataSetChanged();
-			bottombut8.setBackground(getResources().getDrawable(
+			bottombut8.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.video_monitor_ico));
-			varvoice.setBackground(getResources().getDrawable(
+			varvoice.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.video_monitor_ico));
 		}
 

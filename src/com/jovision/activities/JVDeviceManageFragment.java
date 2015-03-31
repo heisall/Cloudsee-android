@@ -213,7 +213,7 @@ public class JVDeviceManageFragment extends BaseFragment implements
 			TextView view = new TextView(mActivity);
 			view.setText(manageDeviceList.get(i).getNickName());
 			view.setSingleLine(true);
-			view.setTextSize(TypedValue.COMPLEX_UNIT_DIP,16);//22DIP
+			view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);// 22DIP
 			view.setId(i);
 			view.setTextColor(mActivity.getResources().getColor(
 					R.color.devicemanagename));

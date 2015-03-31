@@ -30,8 +30,10 @@ public class JVAddDeviceActivity extends BaseActivity {
 	private static final String TAG = "JVAddDeviceActivity";
 	/** add device layout */
 	private EditText devNumET;
+	private EditText nickET;
 	private EditText userET;
 	private EditText pwdET;
+	private String nickString;
 	private Button saveBtn;
 
 	private ArrayList<Device> deviceList = new ArrayList<Device>();
@@ -125,6 +127,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 		devNumET = (EditText) findViewById(R.id.ystnum_et);
 		userET = (EditText) findViewById(R.id.user_et);
 		pwdET = (EditText) findViewById(R.id.pwd_et);
+		nickET = (EditText) findViewById(R.id.nick_et);
 		saveBtn = (Button) findViewById(R.id.save_btn);
 
 		userET.setText(Consts.DEFAULT_USERNAME);
@@ -157,7 +160,8 @@ public class JVAddDeviceActivity extends BaseActivity {
 				String devNum = devNumET.getText().toString().toUpperCase();
 				String userName = userET.getText().toString();
 				String userPwd = pwdET.getText().toString();
-				saveMethod(devNum, userName, userPwd);
+				nickString = nickET.getText().toString();
+				saveMethod(devNum, userName, userPwd, nickString);
 				break;
 			}
 			default:
@@ -174,7 +178,8 @@ public class JVAddDeviceActivity extends BaseActivity {
 	 * @param userName
 	 * @param userPwd
 	 */
-	public void saveMethod(String devNum, String userName, String userPwd) {
+	public void saveMethod(String devNum, String userName, String userPwd,
+			String nickName) {
 		if (null == deviceList) {
 			deviceList = new ArrayList<Device>();
 		}
@@ -184,6 +189,9 @@ public class JVAddDeviceActivity extends BaseActivity {
 			return;
 		} else if (!ConfigUtil.checkYSTNum(devNum)) {// 验证云视通号是否合法
 			showTextToast(R.string.increct_yst_tips);
+			return;
+		} else if (!"".equals(nickName) && !ConfigUtil.checkNickName(nickName)) {// 昵称不合法
+			showTextToast(R.string.login_str_nike_name_order);
 			return;
 		} else if ("".equalsIgnoreCase(userName)) {// 用户名不可为空
 			showTextToast(R.string.login_str_device_account_notnull);
@@ -218,10 +226,11 @@ public class JVAddDeviceActivity extends BaseActivity {
 		}
 
 		AddDevTask task = new AddDevTask();
-		String[] strParams = new String[3];
+		String[] strParams = new String[4];
 		strParams[0] = ConfigUtil.getGroup(devNum);
 		strParams[1] = String.valueOf(ConfigUtil.getYST(devNum));
 		strParams[2] = String.valueOf(2);
+		strParams[3] = nickName;
 		task.execute(strParams);
 	}
 
@@ -263,6 +272,7 @@ public class JVAddDeviceActivity extends BaseActivity {
 		@Override
 		protected Integer doInBackground(String... params) {
 
+			String nickName = params[3];
 			int addRes = -1;
 			boolean localFlag = Boolean.valueOf(statusHashMap
 					.get(Consts.LOCAL_LOGIN));
@@ -296,15 +306,18 @@ public class JVAddDeviceActivity extends BaseActivity {
 				addDevice = new Device("", 0, params[0],
 						Integer.parseInt(params[1]), userET.getText()
 								.toString(), pwdET.getText().toString(), false,
-						channelCount, 0);
-
+						channelCount, 0, nickName);
 				// MyLog.v(TAG, "dev = " + addDev.toString());
 				if (null != addDevice) {
 					if (localFlag) {// 本地添加
 						addRes = 0;
+						if (!"".equals(nickName)) {
+							addDevice.setNickName(nickName);
+						}
 					} else {
 						addDevice = DeviceUtil.addDevice2(addDevice,
-								statusHashMap.get(Consts.KEY_USERNAME));
+								statusHashMap.get(Consts.KEY_USERNAME),
+								nickName);
 						if (null != addDevice) {
 							addRes = 0;
 						}

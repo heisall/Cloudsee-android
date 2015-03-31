@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.IHandlerLikeNotify;
+import com.jovision.activities.JVTabActivity.OnMainListener;
 import com.jovision.adapters.ManageListAdapter;
 import com.jovision.adapters.TabPagerAdapter;
 import com.jovision.bean.Device;
@@ -42,7 +43,8 @@ import com.jovision.utils.DeviceUtil;
 /**
  * 设备管理
  */
-public class JVDeviceManageFragment extends BaseFragment {
+public class JVDeviceManageFragment extends BaseFragment implements
+		OnMainListener {
 
 	private String TAG = "JVDeviceManageFragment";
 
@@ -103,6 +105,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 					R.drawable.mydevice_cancale_icon));
 			rightBtn.setVisibility(View.VISIBLE);
 			rightBtn.setOnClickListener(mOnClickListener);
+			leftBtn.setVisibility(View.GONE);
 			manageDeviceList = CacheUtil.getDevList();
 
 			mScreenWidth = mActivity.disMetrics.widthPixels;
@@ -174,13 +177,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				for (int i = 0; i < manageDeviceList.size(); i++) {
-					if (i == position) {
-						manageDeviceList.get(i).setIsselect(true);
-					} else {
-						manageDeviceList.get(i).setIsselect(false);
-					}
-				}
+				adapter.setSelectIndex(position);
 				adapter.notifyDataSetChanged();
 				deviceIndex = position;
 				((ManageFragment) fragments.get(position))
@@ -364,6 +361,9 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 				break;
 			case R.id.devmorere:
+				if (null != adapter) {
+					adapter.setSelectIndex(deviceIndex);
+				}
 				relalist.setVisibility(View.VISIBLE);
 				devicemanage_listView.setVisibility(View.VISIBLE);
 				managePager.setVisibility(View.GONE);
@@ -413,16 +413,15 @@ public class JVDeviceManageFragment extends BaseFragment {
 						* item_width, 0);
 			}
 			for (int i = 0; i < manageDeviceList.size(); i++) {
+				TextView view = (TextView) mLinearLayout.getChildAt(i)
+						.findViewById(i);
 				if (position == i) {
-					manageDeviceList.get(i).setIsselect(true);
-					TextView view = (TextView) mLinearLayout.getChildAt(i)
-							.findViewById(i);
+					// adapter.setSelectIndex(position);
+					// manageDeviceList.get(i).setIsselect(true);
 					view.setTextColor(mActivity.getResources().getColor(
 							R.color.quickinstall_btn_normal));
 				} else {
-					manageDeviceList.get(i).setIsselect(false);
-					TextView view = (TextView) mLinearLayout.getChildAt(i)
-							.findViewById(i);
+					// manageDeviceList.get(i).setIsselect(false);
 					view.setTextColor(mActivity.getResources().getColor(
 							R.color.devicemanagename));
 				}
@@ -486,15 +485,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		manageDeviceList = CacheUtil.getDevList();
-		if (manageDeviceList != null) {
-			for (int i = 0; i < manageDeviceList.size(); i++) {
-				if (i == deviceIndex) {
-					manageDeviceList.get(i).setIsselect(true);
-				} else {
-					manageDeviceList.get(i).setIsselect(false);
-				}
-			}
-		}
+
 		if (Consts.LANGUAGE_EN == ConfigUtil.getLanguage2(mActivity)) {
 			device_num.setText(mActivity.getResources().getString(
 					R.string.str_fre)
@@ -544,6 +535,7 @@ public class JVDeviceManageFragment extends BaseFragment {
 
 			}
 		}
+
 		super.onResume();
 	}
 
@@ -572,6 +564,12 @@ public class JVDeviceManageFragment extends BaseFragment {
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		fragHandler.sendMessage(fragHandler
 				.obtainMessage(what, arg1, arg2, obj));
+	}
+
+	@Override
+	public void onMainAction(int packet_type) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

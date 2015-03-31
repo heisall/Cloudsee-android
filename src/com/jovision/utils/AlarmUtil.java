@@ -347,17 +347,17 @@ public class AlarmUtil {
 										// "apic":".\/rec\/00\/20141014\/A01092715.jpg","avd":"1413278835","ats":1413278835},}
 										pi.alarmType = obj
 												.optInt(JVAlarmConst.JK_ALARM_NEW_ALARMTYPE);
-										if (pi.alarmType == 7
-												|| pi.alarmType == 4) {
-											pi.deviceNickName = obj
-													.optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
-										} else if (pi.alarmType == 11)// 第三方
-										{
-											pi.deviceNickName = obj
-													.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
-										} else {
-
-										}
+										// if (pi.alarmType == 7
+										// || pi.alarmType == 4) {
+										// pi.deviceNickName = obj
+										// .optString(JVAlarmConst.JK_ALARM_NEW_CLOUDNAME);
+										// } else if (pi.alarmType == 11)// 第三方
+										// {
+										// pi.deviceNickName = obj
+										// .optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
+										// } else {
+										//
+										// }
 
 										pi.strGUID = obj
 												.optString(JVAlarmConst.JK_ALARM_NEW_GUID);
@@ -384,7 +384,7 @@ public class AlarmUtil {
 											{
 												deviceNickName = deviceNickName
 														+ "-"
-														+ pi.deviceNickName;
+														+ obj.optString(JVAlarmConst.JK_ALARM_NEW_ALARM_THIRD_NICKNAME);
 											}
 										}
 										pi.deviceNickName = deviceNickName;
@@ -606,17 +606,30 @@ public class AlarmUtil {
 						.getPwd(), device.getNo(), device.getGid(), true, 1,
 						true,
 						device.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-								: JVNetConst.TYPE_3GMO_UDP, null, false, false,
-						null);
+								: JVNetConst.TYPE_3GMO_UDP, null, false, device
+								.getEnableTcpConnect() == 1 ? true : false,
+						false, null);
 			} else {
 				// IP直连
 				MyLog.v("New Alarm",
 						device.getNo() + "--IP--连接：" + device.getIp());
-				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1, device
-						.getIp(), device.getPort(), device.getUser(), device
-						.getPwd(), -1, device.getGid(), true, 1, true, device
-						.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-						: JVNetConst.TYPE_3GMO_UDP, null, false, false, null);
+				con_res = Jni
+						.connect(
+								Consts.ONLY_CONNECT_INDEX,
+								1,
+								device.getIp(),
+								device.getPort(),
+								device.getUser(),
+								device.getPwd(),
+								-1,
+								device.getGid(),
+								true,
+								1,
+								true,
+								device.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+										: JVNetConst.TYPE_3GMO_UDP, null,
+								false, device.getEnableTcpConnect() == 1 ? true
+										: false, false, null);
 
 			}
 
@@ -650,17 +663,30 @@ public class AlarmUtil {
 						.getPwd(), device.getNo(), device.getGid(), true, 1,
 						true,
 						device.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-								: JVNetConst.TYPE_3GMO_UDP, null, false, false,
-						null) >= 0;
+								: JVNetConst.TYPE_3GMO_UDP, null, false, device
+								.getEnableTcpConnect() == 1 ? true : false,
+						false, null) >= 0;
 			} else {
 				// IP直连
 				MyLog.v("New Alarm",
 						device.getNo() + "--IP--连接：" + device.getIp());
-				con_res = Jni.connect(Consts.ONLY_CONNECT_INDEX, 1, device
-						.getIp(), device.getPort(), device.getUser(), device
-						.getPwd(), -1, device.getGid(), true, 1, true, device
-						.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
-						: JVNetConst.TYPE_3GMO_UDP, null, false, false, null) >= 0;
+				con_res = Jni
+						.connect(
+								Consts.ONLY_CONNECT_INDEX,
+								1,
+								device.getIp(),
+								device.getPort(),
+								device.getUser(),
+								device.getPwd(),
+								-1,
+								device.getGid(),
+								true,
+								1,
+								true,
+								device.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
+										: JVNetConst.TYPE_3GMO_UDP, null,
+								false, device.getEnableTcpConnect() == 1 ? true
+										: false, false, null) >= 0;
 
 			}
 			return con_res;

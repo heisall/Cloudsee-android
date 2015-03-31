@@ -33,10 +33,10 @@ import com.jovision.IHandlerLikeNotify;
 import com.jovision.IHandlerNotify;
 import com.jovision.MainApplication;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.MobileUtil;
-import com.tencent.android.tpush.service.cache.CacheManager;
 import com.tencent.stat.StatService;
 
 /**
@@ -425,14 +425,14 @@ public abstract class BaseActivity extends FragmentActivity implements
 	/**
 	 * 判断是否有sd卡
 	 */
-	public boolean hasSDCard() {
+	public boolean hasSDCard(int minSize) {
 		boolean canSave = true;
 		if (!Environment.MEDIA_MOUNTED.equals(Environment
 				.getExternalStorageState())) {
 			showTextToast(R.string.str_out_memery);
 			canSave = false;
 		} else {
-			if (MobileUtil.getSDFreeSize() < 5) {
+			if (MobileUtil.getSDFreeSize() < minSize) {
 				showTextToast(R.string.str_sdcard_notenough);
 				canSave = false;
 			}
@@ -493,10 +493,12 @@ public abstract class BaseActivity extends FragmentActivity implements
 
 			clearCacheFolder(BaseActivity.this.getCacheDir(),
 					System.currentTimeMillis());
-			
+
+			MySharedPreference.putBoolean("ISSHOW", false);
+			MySharedPreference.putString("ACCOUNT", "");
 			BaseActivity.this.deleteDatabase("webview.db");
 			BaseActivity.this.deleteDatabase("webviewCache.db");
-			
+
 			if (!Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))) {// 非本地登录才加载报警信息
 				new Thread(new SetUserOnlineStatusThread(0)).start();
 			}

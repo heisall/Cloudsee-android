@@ -145,6 +145,8 @@ public class DeviceUtil {
 											dev.setIsDevice(1);
 										}
 
+										dev.setEnableTcpConnect(obj
+												.optInt(JVDeviceConst.JK_DEVICE_VIDEO_TCP));
 										dev.setDeviceType(obj
 												.optInt(JVDeviceConst.JK_DEVICE_TYPE));
 										dev.setServerState(obj
@@ -750,6 +752,8 @@ public class DeviceUtil {
 			if (1 == device.getIsDevice()) {// IP
 				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_IP, device.getIp());// dvip
 				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PORT, device.getPort());// dvport
+				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_TCP,
+						device.getEnableTcpConnect());// dvport
 			} else if (0 == device.getIsDevice()) {// 云视通
 				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_IP, "");// dvip
 				jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PORT, 0);// dvport
@@ -896,7 +900,8 @@ public class DeviceUtil {
 	/**
 	 * 用户绑定设备业务
 	 */
-	public static Device addDevice2(Device device, String userName) {
+	public static Device addDevice2(Device device, String userName,
+			String nickName) {
 
 		int res = -1;
 		MyLog.v("addDevice2---before", device.toString());
@@ -921,6 +926,9 @@ public class DeviceUtil {
 					JVDeviceConst.PROTO_VERSION_2);// pv 2.0
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.DEV_INFO_PRO);// lpt 1
+			if (null != nickName && !"".equals(nickName)) {
+				jObj.put(JVDeviceConst.JK_DEVICE_NAME, nickName);
+			}
 			jObj.put(JVDeviceConst.JK_DEVICE_GUID, device.getFullNo());
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_USERNAME, device.getUser());
 			jObj.put(JVDeviceConst.JK_DEVICE_VIDEO_PASSWORD, device.getPwd());// (服务端base64加密)
@@ -960,7 +968,7 @@ public class DeviceUtil {
 		int ret = respObject.optInt("result", -1);
 		if (ret == 0) {
 			String result = respObject.optString("resp", "");
-			MyLog.v("addDevice2---result", result);
+			MyLog.v("addDevice3---result", result);
 			// String result = "{\"mt\":2016,\"rt\":0,\"mid\":1}";
 			if (null != result && !"".equalsIgnoreCase(result)) {
 				try {
@@ -972,11 +980,16 @@ public class DeviceUtil {
 						// DEVICE_CHANNEL_LIMIT(18)：超过最大允许通道数量；-1:其他错误)
 						int rt = temObj.optInt(JVDeviceConst.JK_RESULT);
 						if (0 == rt) {
+
+							// {"dvlt":0,"dname":"A361111",
+							// "dtype":0,"dvpassword":"123",
+							// "dwifi":0,"dvusername":"abc",
+							// "dvip":"","dvport":0,"dsls":1}
 							String devStr = temObj
 									.optString(JVDeviceConst.JK_DEVICE_INFO);
 							JSONObject devObj = new JSONObject(devStr);
-							device.setNickName(devObj
-									.optString(JVDeviceConst.JK_DEVICE_NAME));
+							// device.setNickName(devObj
+							// .optString(JVDeviceConst.JK_DEVICE_NAME));
 							device.setDeviceType(devObj
 									.optInt(JVDeviceConst.JK_DEVICE_TYPE));
 							device.setIsDevice(devObj
@@ -1217,10 +1230,10 @@ public class DeviceUtil {
 													flag[k] = true;
 
 													// 同步map
-													CacheUtil
-															.setNickNameWithYstfn(
-																	dev.getFullNo(),
-																	dev.getNickName());
+													// CacheUtil
+													// .setNickNameWithYstfn(
+													// dev.getFullNo(),
+													// dev.getNickName());
 												}
 											}
 										}
@@ -2093,7 +2106,8 @@ public class DeviceUtil {
 										int counts = obj
 												.optInt(JVDeviceConst.JK_DEVICE_CHANNEL_SUM);
 										Device dev = new Device("", 9101, gid,
-												no, user, pwd, true, counts, 1);
+												no, user, pwd, true, counts, 1,
+												null);
 										dev.setUser(user);
 										dev.setPwd(pwd);
 
@@ -2393,6 +2407,8 @@ public class DeviceUtil {
 												.getString(JVDeviceConst.JK_AD_URL_ZHT));
 										ad.setAdLinkZht(obj
 												.getString(JVDeviceConst.JK_AD_LINK_ZHT));
+										ad.setAdDesp(obj
+												.getString(JVDeviceConst.JK_AD_DESP));
 										ad.setVersion(adver);
 										adList.add(ad);
 									}
@@ -2710,14 +2726,14 @@ public class DeviceUtil {
 
 									int vipLevel = obj
 											.optInt(JVDeviceConst.JK_STREAMING_MEDIA_FLAG);// (是否支持流媒体
-																							// 0不支持
-																							// 1支持)
+									// 0不支持
+									// 1支持)
 									cl.setVipLevel(vipLevel);
 									if (vipLevel > 0) {
 										String smsrv = obj
 												.optString(JVDeviceConst.JK_STREAMING_MEDIA_SERVER);// (流媒体服务器信息
-																									// 格式
-																									// ip|rtmp端口|hls端口)
+										// 格式
+										// ip|rtmp端口|hls端口)
 										String suffixRtmp = obj
 												.optString(JVDeviceConst.JK_DEVICE_GUID)
 												+ "_"
@@ -3603,35 +3619,30 @@ public class DeviceUtil {
 	}
 
 	/**
-	 * 获取web URL
+	 * 2015-3-13 获取web URL
 	 * 
 	 * */
-	public static WebUrl getWebUrl() {
+	public static WebUrl getWebUrl(int language) {
 		int rt = -1;
 		WebUrl webUrl = new WebUrl();
 		JSONObject jObj = new JSONObject();
 		try {
 			jObj.put(JVDeviceConst.JK_LOGIC_PROCESS_TYPE,
 					JVDeviceConst.AD_PUBLISH_PROCESS);// 12
-			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE, 5506);//
+			jObj.put(JVDeviceConst.JK_MESSAGE_TYPE,
+					JVDeviceConst.GET_WEBFUNC_INFO);//
 			jObj.put(JVDeviceConst.JK_PROTO_VERSION,
 					JVDeviceConst.PROTO_VERSION);// 1.0
 			jObj.put(JVDeviceConst.JK_PRODUCT_TYPE, Consts.PRODUCT_TYPE);// 0：CloudSEE
-			// 1：NVSIP
-			// 2-iPhone 3-iPad)
+																			// //
+																			// 1：NVSIP
+			jObj.put(JVDeviceConst.JK_LANGUAGE_TYPE, language);// 当前语音
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
 		MyLog.v("getWebUrl---request", jObj.toString());
-		// 接收返回数据
-		// byte[] resultStr = new byte[1024 * 3];
-		// int error =
-		// JVACCOUNT.GetResponseByRequestDeviceShortConnectionServer(
-		// jObj.toString(), resultStr);
-		// MyLog.i("TAG", "<===="+error+",res:"+resultStr);
-		// if (0 == error) {
-		// String result = new String(resultStr);
 		String requesRes = JVACCOUNT
 				.GetResponseByRequestDeviceShortConnectionServerV2(jObj
 						.toString());
@@ -3652,9 +3663,28 @@ public class DeviceUtil {
 					if (null != temObj) {
 						rt = temObj.optInt(JVDeviceConst.JK_RESULT);
 						if (0 == rt) {
-							webUrl.setDemoUrl(temObj.optString("demourl"));
-							webUrl.setCustUrl(temObj.optString("custurl"));
-							webUrl.setStatUrl(temObj.optString("staturl"));
+							webUrl.setDemoUrl(temObj
+									.optString(JVDeviceConst.JK_WEB_DEMO_URL));
+							webUrl.setCustUrl(temObj
+									.optString(JVDeviceConst.JK_WEB_CUST_URL));
+							webUrl.setStatUrl(temObj
+									.optString(JVDeviceConst.JK_WEB_STAT_URL));
+							webUrl.setBbsUrl(temObj
+									.optString(JVDeviceConst.JK_WEB_BBS_URL));
+							webUrl.setGcsUrl(temObj
+									.optString(JVDeviceConst.JK_WEB_GCS_URL));
+
+							webUrl.setDemoSwitch(temObj
+									.optInt(JVDeviceConst.JK_WEB_DEMO_FLAG));
+							webUrl.setCustSwitch(temObj
+									.optInt(JVDeviceConst.JK_WEB_CUST_FLAG));
+							webUrl.setStatSwitch(temObj
+									.optInt(JVDeviceConst.JK_WEB_STAT_FLAG));
+							webUrl.setBbsSwitch(temObj
+									.optInt(JVDeviceConst.JK_WEB_BBS_FLAG));
+							webUrl.setGcsSwitch(temObj
+									.optInt(JVDeviceConst.JK_WEB_GCS_FLAG));
+
 						} else {
 							webUrl = null;
 						}
@@ -3666,4 +3696,5 @@ public class DeviceUtil {
 		}
 		return webUrl;
 	}
+
 }

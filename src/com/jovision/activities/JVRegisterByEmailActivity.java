@@ -408,7 +408,7 @@ public class JVRegisterByEmailActivity extends BaseActivity {
 			dismissDialog();
 			switch (result) {
 			case JVAccountConst.SUCCESS:// 注册成功
-				MySharedPreference.putBoolean("REMEMBER", true);
+				MySharedPreference.putBoolean(Consts.MORE_REMEMBER, true);
 				Intent intent = new Intent();
 				intent.setClass(JVRegisterByEmailActivity.this,
 						JVLoginActivity.class);

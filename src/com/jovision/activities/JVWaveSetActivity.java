@@ -252,7 +252,8 @@ public class JVWaveSetActivity extends BaseActivity {
 																// 带wifi设备且不在设备列表里面
 							Device addDev = new Device(ip, port, gid, no,
 									Consts.DEFAULT_USERNAME,
-									Consts.DEFAULT_PASSWORD, false, count, 0);
+									Consts.DEFAULT_PASSWORD, false, count, 0,
+									null);
 							addDev.setHasAdded(hasAdded);
 							if (!PlayUtil.addDev(broadList, addDev)) {
 								broadList.add(addDev);
@@ -641,7 +642,8 @@ public class JVWaveSetActivity extends BaseActivity {
 							addRes = 0;
 						} else {
 							addDevice = DeviceUtil.addDevice2(addDevice,
-									statusHashMap.get(Consts.KEY_USERNAME));
+									statusHashMap.get(Consts.KEY_USERNAME),
+									addDevice.getNickName());
 							if (null != addDevice) {
 								addRes = 0;
 							}
@@ -727,7 +729,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		AlertDialog.Builder builder = new Builder(this);
 		builder.setTitle(R.string.tips)
 				.setMessage(
-						getResources().getString(R.string.wave_add_dev)
+						getResources().getString(R.string.wave_add_dev) + "   "
 								+ broadList.get(index).getFullNo())
 				.setPositiveButton(R.string.sure,
 						new DialogInterface.OnClickListener() {

@@ -293,19 +293,10 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		protected Integer doInBackground(String... params) {
 			int loginRes = 0;
 			String strRes = "";
-			if (!MySharedPreference.getBoolean("TESTSWITCH")) {
-				strRes = AccountUtil.onLoginProcess(
-						JVOffLineDialogActivity.this,
-						statusHashMap.get(Consts.KEY_USERNAME),
-						statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIP, Url.LONGSERVERIP);
-			} else {
-				strRes = AccountUtil.onLoginProcess(
-						JVOffLineDialogActivity.this,
-						statusHashMap.get(Consts.KEY_USERNAME),
-						statusHashMap.get(Consts.KEY_PASSWORD),
-						Url.SHORTSERVERIPTEST, Url.LONGSERVERIPTEST);
-			}
+			strRes = AccountUtil.onLoginProcess(JVOffLineDialogActivity.this,
+					statusHashMap.get(Consts.KEY_USERNAME),
+					statusHashMap.get(Consts.KEY_PASSWORD), Url.SHORTSERVERIP,
+					Url.LONGSERVERIP);
 			JSONObject respObj = null;
 			try {
 				respObj = new JSONObject(strRes);

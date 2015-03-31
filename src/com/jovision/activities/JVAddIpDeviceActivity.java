@@ -25,10 +25,12 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 	/** topBar */
 	private EditText ipAddressEdt;
 	private EditText portEdt;
+	private EditText nickNameEdt;
 	private EditText userNameEdt;
 	private EditText passwordEdt;
 	private Button saveButton;
 	private String ipString;
+	private String nickString;
 	private String portString;
 	private String userString;
 	private String pwdString;
@@ -88,6 +90,7 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		ipAddressEdt = (EditText) findViewById(R.id.addipconnnect_address);
 		portEdt = (EditText) findViewById(R.id.addipconnect_port);
+		nickNameEdt = (EditText) findViewById(R.id.addipconnect_nickname);
 		userNameEdt = (EditText) findViewById(R.id.addipconnect_username);
 		passwordEdt = (EditText) findViewById(R.id.addipconnect_pwd);
 		saveButton = (Button) findViewById(R.id.addeditsave);
@@ -125,6 +128,7 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 			case R.id.addeditsave:
 				ipString = ipAddressEdt.getText().toString();
 				portString = portEdt.getText().toString();
+				nickString = nickNameEdt.getText().toString();
 				userString = userNameEdt.getText().toString();
 				pwdString = passwordEdt.getText().toString();
 				if ("".equalsIgnoreCase(ipString)) {
@@ -139,12 +143,18 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 				} else if (!ConfigUtil.checkPortNum(portString)) {
 					JVAddIpDeviceActivity.this
 							.showTextToast(R.string.login_str_port_format_err);
+				} else if (!"".equals(nickString)
+						&& !ConfigUtil.checkNickName(nickString)) {
+					JVAddIpDeviceActivity.this
+							.showTextToast(R.string.login_str_nike_name_order);
 				} else if ("".equalsIgnoreCase(userString)) {
 					JVAddIpDeviceActivity.this
 							.showTextToast(R.string.login_str_device_account_notnull);
 				} else if (!ConfigUtil.checkDeviceUsername(userString)) {
 					JVAddIpDeviceActivity.this
 							.showTextToast(R.string.login_str_device_account_error);
+				} else if (!ConfigUtil.checkDevicePwd(pwdString)) {
+					showTextToast(R.string.login_str_device_pass_error);
 				} else if (hasDev(ipString)) {// 已经添加过该设备
 					ipAddressEdt.setText("");
 					showTextToast(R.string.str_device_exsit);
@@ -203,15 +213,17 @@ public class JVAddIpDeviceActivity extends BaseActivity {
 				int count = broadChannelCount > 0 ? broadChannelCount : 4;
 				Device dev = new Device(resolvedIp,
 						Integer.valueOf(portString), ipString, -1, userString,
-						pwdString, false, count, 0);
+						pwdString, false, count, 0, nickString);
 				dev.setIsDevice(2);
 				dev.setDoMain(ipString);
+				if (!"".equals(nickString)) {
+					dev.setNickName(nickString);
+				}
 				deviceList.add(0, dev);
 				addRes = 0;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			CacheUtil.saveDevList(deviceList);
 			return addRes;
 		}

@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_bar_layout" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/inputnickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/str_nikename_notnull"
+            android:paddingLeft="20dp"
+            android:singleLine="true"
+            android:textColor="@color/registtextcolor"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="昵称仅能修改一次，请谨慎填写"
+            android:textColor="@color/welcome_blue"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/reband_nick_save"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/blue_bg"
+            android:text="@string/str_finish"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</LinearLayout>

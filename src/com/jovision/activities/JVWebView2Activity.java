@@ -92,7 +92,7 @@ public class JVWebView2Activity extends BaseActivity implements
 	private ImageView pause;
 	private ImageView fullScreen;
 	private WebView webView;
-	 private LinearLayout linkSetting;
+	private LinearLayout linkSetting;
 	private EditText minCache;
 	private EditText desCache;
 	private Button saveSetting;
@@ -227,12 +227,12 @@ public class JVWebView2Activity extends BaseActivity implements
 
 					if (View.VISIBLE == playBar.getVisibility()) {
 						playBar.setVisibility(View.GONE);
-						if (MySharedPreference.getBoolean("LITTLE")) {// 调试版本
+						if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {// 调试版本
 							linkSetting.setVisibility(View.GONE);
 						}
 					} else {
 						playBar.setVisibility(View.VISIBLE);
-						if (MySharedPreference.getBoolean("LITTLE")) {// 调试版本
+						if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {// 调试版本
 							linkSetting.setVisibility(View.VISIBLE);
 						}
 					}
@@ -289,8 +289,10 @@ public class JVWebView2Activity extends BaseActivity implements
 			}
 			case Consts.RTMP_CONN_SCCUESS: {
 				playChannel.setConnected(true);
-				Jni.enablePlayAudio(playChannel.getIndex(), true);
-
+				// boolean enable = Jni.enablePlayAudio(playChannel.getIndex(),
+				// true);
+				//
+				// MyLog.e("AudioEnable", enable + "");
 				if (playChannel.isPaused()) {
 					Jni.resume(playChannel.getIndex(), playChannel.getSurface());
 				}
@@ -339,7 +341,7 @@ public class JVWebView2Activity extends BaseActivity implements
 			break;
 		}
 		case Consts.CALL_PLAY_AUDIO: {// 音频数据
-
+			MyLog.v("CALL_PLAY_AUDIO", ".....");
 			if (null != obj && null != playAudio) {
 				byte[] data = (byte[]) obj;
 				// audioQueue.offer(data);
@@ -407,13 +409,13 @@ public class JVWebView2Activity extends BaseActivity implements
 	 */
 	private boolean startAudio(int index, int audioByte) {
 		boolean open = false;
-		if (PlayUtil.isPlayAudio(index)) {// 正在监听,确保不会重复开启
-			open = true;
-		} else {
-			PlayUtil.startAudioMonitor(index);// enable audio
-			playAudio.startPlay(audioByte, true);
-			open = true;
-		}
+		// if (PlayUtil.isPlayAudio(index)) {// 正在监听,确保不会重复开启
+		// open = true;
+		// } else {
+		PlayUtil.startAudioMonitor(index);// enable audio
+		playAudio.startPlay(audioByte, true);
+		open = true;
+		// }
 		return open;
 	}
 
@@ -425,13 +427,14 @@ public class JVWebView2Activity extends BaseActivity implements
 	 */
 	private boolean stopAudio(int index) {
 		boolean close = false;
-		if (PlayUtil.isPlayAudio(index)) {// 正在监听，停止监听
-			PlayUtil.stopAudioMonitor(index);// stop audio
-			playAudio.stopPlay();
-			close = true;
-		} else {// 确保不会重复关闭
-			close = true;
-		}
+		// if (PlayUtil.isPlayAudio(index)) {// 正在监听，停止监听
+		PlayUtil.stopAudioMonitor(index);// stop audio
+		playAudio.stopPlay();
+		close = true;
+
+		// } else {// 确保不会重复关闭
+		// close = true;
+		// }
 		return close;
 	}
 
@@ -461,7 +464,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		saveSetting = (Button) findViewById(R.id.savesetting);
 		saveSetting.setOnClickListener(myOnClickListener);
 
-		if (MySharedPreference.getBoolean("LITTLE")) {// 调试版本
+		if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {// 调试版本
 			linkSetting.setVisibility(View.VISIBLE);
 		} else {
 			linkSetting.setVisibility(View.GONE);

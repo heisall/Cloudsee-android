@@ -10,11 +10,14 @@ import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.RelativeLayout;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
 import com.jovision.bean.User;
+import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
+import com.jovision.commons.Url;
 import com.jovision.utils.BitmapCache;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.ImportOldData;
@@ -31,8 +34,8 @@ public class JVWelcomeActivity extends BaseActivity {
 	private Handler initHandler;
 	private ImageView welcomeImage;
 	private String welcomePath = "";
-	// private RelativeLayout cloudseeLayout;
-	// private RelativeLayout neturalLayout;
+	private RelativeLayout cloudseeLayout;
+	private RelativeLayout neturalLayout;
 
 	// private static boolean HAS_LOADED = false;
 
@@ -47,6 +50,9 @@ public class JVWelcomeActivity extends BaseActivity {
 
 	@Override
 	protected void initSettings() {
+		Consts.TEST_SERVER = MySharedPreference.getBoolean(
+				Consts.MORE_TESTSWITCH, false);// true 测试服务器 ; false 正式服务器
+
 		ConfigUtil.getJNIVersion();
 		ImportOldData importOld = new ImportOldData(JVWelcomeActivity.this);
 		if (!MySharedPreference.getBoolean("HasImport")) {
@@ -181,7 +187,7 @@ public class JVWelcomeActivity extends BaseActivity {
 		// 关闭此定时器
 		initHandler.removeCallbacks(initThread);
 		BitmapCache.getInstance().clearCache();
-		welcomeImage.setBackgroundDrawable(null);
+		welcomeImage.setBackgroundResource(0);
 		welcomeImage = null;
 		Log.v(TAG, "welcome activity freeme");
 	}
@@ -192,6 +198,10 @@ public class JVWelcomeActivity extends BaseActivity {
 	Thread jumpThread = new Thread() {
 		@Override
 		public void run() {
+			MyLog.v("Normal-Url.SHORTSERVERIP", Consts.TEST_SERVER + "--"
+					+ Url.SHORTSERVERIP);
+			MyLog.v("Normal-Url.LONGSERVERIP", Consts.TEST_SERVER + "--"
+					+ Url.LONGSERVERIP);
 			Intent intent = new Intent();
 			// 首次登陆,且非公共版本
 			if (MySharedPreference.getBoolean(Consts.KEY_SHOW_GUID, true)
@@ -212,15 +222,24 @@ public class JVWelcomeActivity extends BaseActivity {
 						&& null != user
 						&& !"".equalsIgnoreCase(user.getUserName())
 						&& !"".equalsIgnoreCase(user.getUserPwd())) {
+
 					statusHashMap.put(Consts.KEY_USERNAME, user.getUserName());
 					statusHashMap.put(Consts.KEY_PASSWORD, user.getUserPwd());
-					// createDialog(R.string.logining, true);
-
-					intent.setClass(JVWelcomeActivity.this,
-							JVLoginActivity.class);
-					// intent.putExtra("AutoLogin", true);
+					if (MySharedPreference.getBoolean(Consts.MORE_REMEMBER)) {
+						intent.setClass(JVWelcomeActivity.this,
+								JVTabActivity.class);
+						// intent.putExtra("FirstLogin", true);
+						MySharedPreference.putBoolean(Consts.FIRST_LOGIN, true);
+						intent.putExtra("AutoLogin", true);
+					} else {
+						intent.setClass(JVWelcomeActivity.this,
+								JVLoginActivity.class);
+						intent.putExtra("AutoLogin", false);
+					}
 					intent.putExtra("UserName", user.getUserName());
 					intent.putExtra("UserPass", user.getUserPwd());
+					// createDialog(R.string.logining, true);
+
 				} else {
 					intent.setClass(JVWelcomeActivity.this,
 							JVLoginActivity.class);

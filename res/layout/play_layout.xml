@@ -136,7 +136,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/videolayout"
-            android:layout_marginBottom="50dp"
             android:background="@color/white"
             android:visibility="visible" >
 
@@ -144,12 +143,12 @@
                 android:id="@+id/yt_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="35dp"
                 layout="@layout/yt_vertical_layout"
                 android:visibility="gone" />
 
             <LinearLayout
+                android:id="@+id/function"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
@@ -166,6 +165,55 @@
                     android:fadingEdge="none"
                     android:visibility="gone" />
             </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/talk_eachother"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="30dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/textone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/voice_send"
+                    android:textColor="@color/more_fragment_color6"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/talk_img"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_below="@+id/textone"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="13dp"
+                    android:background="@drawable/talk_normal" />
+
+                <ImageView
+                    android:id="@+id/talk_img_down"
+                    android:layout_width="145dp"
+                    android:layout_height="145dp"
+                    android:layout_below="@+id/textone"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/talk_down"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/talk_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/talk_close"
+                    android:padding="10dp" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout

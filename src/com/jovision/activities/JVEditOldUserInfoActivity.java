@@ -282,7 +282,7 @@ public class JVEditOldUserInfoActivity extends BaseActivity {
 			} else if (JVAccountConst.PHONE_NOT_TRUE == result) {
 				showTextToast(R.string.str_phone_num_error);
 			} else if (JVAccountConst.SUCCESS == result) {
-				MySharedPreference.putBoolean("REMEMBER", true);
+				MySharedPreference.putBoolean(Consts.MORE_REMEMBER, true);
 				if (0 < verifyRes) {
 					Intent emailIntent = new Intent(
 							JVEditOldUserInfoActivity.this,

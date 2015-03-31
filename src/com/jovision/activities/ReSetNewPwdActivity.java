@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
+import com.jovision.Consts;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.AccountUtil;
 
@@ -156,7 +157,7 @@ public class ReSetNewPwdActivity extends BaseActivity implements
 			}
 			if (result == 0)// ok,直接登录
 			{
-				MySharedPreference.putBoolean("REMEMBER", false);
+				MySharedPreference.putBoolean(Consts.MORE_REMEMBER, false);
 				showTextToast(R.string.str_set_new_pwd_ok);
 				// 为了让用户加强印象，不直接登录，跳转到登录界面
 				Intent intent = new Intent();

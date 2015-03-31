@@ -8,9 +8,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -87,7 +85,6 @@ public class JVWebViewActivity extends BaseActivity {
 	private ImageView dialog_cancle_img;
 	private TextView capturetext;
 	private TextView selecttext;
-
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
@@ -280,7 +277,7 @@ public class JVWebViewActivity extends BaseActivity {
 
 						createDialog("", false);
 						new GetPlayUrlThread(paramMap, getPlayUtlRequest)
-						.start();
+								.start();
 					} else {
 						// String plazzaUrl = statusHashMap
 						// .get(Consts.MORE_DEMOURL);
@@ -479,19 +476,19 @@ public class JVWebViewActivity extends BaseActivity {
 	/**
 	 * js window.wst.cutpic()
 	 */
-	//	public void cutpic() {
-	//		new AlertDialog.Builder(JVWebViewActivity.this)
-	//				.setTitle(getResources().getString(R.string.str_delete_tip))
-	//				.setItems(
-	//						new String[] {
-	//								getResources().getString(
-	//										R.string.capture_to_upload),
-	//								getResources().getString(
-	//										R.string.select_to_upload),
-	//								getResources().getString(R.string.cancel) },
-	//						new OnMyOnClickListener()).show();
+	// public void cutpic() {
+	// new AlertDialog.Builder(JVWebViewActivity.this)
+	// .setTitle(getResources().getString(R.string.str_delete_tip))
+	// .setItems(
+	// new String[] {
+	// getResources().getString(
+	// R.string.capture_to_upload),
+	// getResources().getString(
+	// R.string.select_to_upload),
+	// getResources().getString(R.string.cancel) },
+	// new OnMyOnClickListener()).show();
 	//
-	//	}
+	// }
 
 	/**
 	 * 
@@ -517,23 +514,23 @@ public class JVWebViewActivity extends BaseActivity {
 		initDialog.show();
 	}
 
-	//	/** 图片来源菜单响应类 */
-	//	protected class OnMyOnClickListener implements
-	//			DialogInterface.OnClickListener {
+	// /** 图片来源菜单响应类 */
+	// protected class OnMyOnClickListener implements
+	// DialogInterface.OnClickListener {
 	//
-	//		@Override
-	//		public void onClick(DialogInterface dialog, int which) {
-	//			if (which == 0) {
-	//				
-	//			} else if (which == 1) {
-	//			
-	//			} else if (which == 2) {
-	//				/** 取消 */
-	//				dialog.dismiss();
-	//			}
-	//		}
+	// @Override
+	// public void onClick(DialogInterface dialog, int which) {
+	// if (which == 0) {
 	//
-	//	}
+	// } else if (which == 1) {
+	//
+	// } else if (which == 2) {
+	// /** 取消 */
+	// dialog.dismiss();
+	// }
+	// }
+	//
+	// }
 
 	OnTouchListener myOnTouchListetner = new OnTouchListener() {
 

@@ -189,7 +189,7 @@
     <string name="str_end_time">End Time</string>
     <string name="str_save_path">Disk</string>
     <string name="str_disk">Disk</string>
-    <string name="video_download_success">Video download success</string>
+    <string name="video_download_success">Video download success.Please check it through [More]-[Image View]-[Download]</string>
     <string name="video_download_failed">Video download failed</string>
     <string name="str_video_play_failed">Failed to playback, please try again.</string>
     <string name="str_video_load_failed">Failed to load data</string>

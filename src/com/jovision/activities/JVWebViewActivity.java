@@ -507,11 +507,11 @@ public class JVWebViewActivity extends BaseActivity {
 				/** 从相册获取 */
 				try {
 
-					MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
-					imageTempUri = Uri
-							.fromFile(new File(Consts.BBSIMG_PATH, System
-									.currentTimeMillis()
-									+ Consts.IMAGE_JPG_KIND));
+					// MobileUtil.createDirectory(new File(Consts.BBSIMG_PATH));
+					// imageTempUri = Uri
+					// .fromFile(new File(Consts.BBSIMG_PATH, System
+					// .currentTimeMillis()
+					// + Consts.IMAGE_JPG_KIND));
 					// 从相册取相片
 					Intent it_photo = new Intent(Intent.ACTION_GET_CONTENT);
 					it_photo.addCategory(Intent.CATEGORY_OPENABLE);

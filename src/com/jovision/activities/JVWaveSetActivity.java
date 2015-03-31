@@ -489,7 +489,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		nextBtn3 = (Button) findViewById(R.id.step_btn3);
 		showDemoBtn = (Button) findViewById(R.id.showdemo);
 		/* 智联路由 */
-		rl_smart_conn = (RelativeLayout)findViewById(R.id.smart_conn_layout);
+		rl_smart_conn = (RelativeLayout) findViewById(R.id.smart_conn_layout);
 		btn_smart_connect = (Button) findViewById(R.id.btn_smart_conn);
 
 		stepLayout6.setOnClickListener(myOnClickListener);
@@ -503,7 +503,7 @@ public class JVWaveSetActivity extends BaseActivity {
 		waveImage.setOnClickListener(myOnClickListener);
 		/* 智联路由 */
 		btn_smart_connect.setOnClickListener(myOnClickListener);
-		if(!Consts.SMART_CONN_ENABLED){
+		if (!Consts.SMART_CONN_ENABLED) {
 			rl_smart_conn.setVisibility(View.INVISIBLE);
 		}
 		/** 设置缩放动画 */

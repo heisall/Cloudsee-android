@@ -44,7 +44,7 @@
 
             <TextView
                 android:id="@+id/tv_confirm_title"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:gravity="center_vertical"
@@ -57,7 +57,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical" >
 
             <TextView
@@ -80,10 +80,10 @@
                 android:hint="@string/reset_passwd_new_passwd_hint"
                 android:inputType="textPassword"
                 android:orientation="horizontal"
-                android:paddingLeft="6dp"
                 android:singleLine="true"
+                android:paddingLeft="5dp"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/edt_confirm_pwd"
@@ -94,10 +94,10 @@
                 android:hint="@string/reset_passwd_confirm_passwd_hint"
                 android:inputType="textPassword"
                 android:orientation="horizontal"
-                android:paddingLeft="6dp"
                 android:singleLine="true"
+                android:paddingLeft="5dp"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btn_submit"

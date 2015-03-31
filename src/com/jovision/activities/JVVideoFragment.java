@@ -6,24 +6,23 @@ import java.util.Stack;
 
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
@@ -45,7 +44,7 @@ import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
-import com.jovision.utils.MobileUtil;
+import com.jovision.utils.UploadUtil;
 import com.jovision.views.AlarmDialog;
 
 public class JVVideoFragment extends BaseFragment implements OnMainListener {
@@ -71,49 +70,33 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 
 	Stack<String> titleStack = new Stack<String>();// 标题栈，后进先出
 
-	protected static ValueCallback<Uri> mUploadMessage;
-	protected int FILECHOOSER_RESULTCODE = 1;
-	protected static Uri imageUri;
-
-	public static final int REQ_CAMERA = 0;
-	public static final int REQ_CHOOSER = 1;
+	protected static final int REQUEST_CODE_IMAGE_CAPTURE = 0;
+	protected static final int REQUEST_CODE_IMAGE_SELECTE = 1;
+	protected static final int REQUEST_CODE_IMAGE_CROP = 2;
+	/* 拍照的照片存储位置 */
+	private static final File PHOTO_DIR = new File(
+			Environment.getExternalStorageDirectory() + "/DCIM/Camera");
+	// 照相机拍照得到的图片
+	private File mCurrentPhotoFile;
+	// 缓存图片URI
+	Uri imageTempUri = Uri.fromFile(new File(PHOTO_DIR, "1426573739396.jpg"));
+	private String uploadUrl = "http://bbs.cloudsee.net/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1&XDEBUG_SESSION_START=PHPSTORM";
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
-		case Consts.TAB_ON_ACTIVITY_RESULT: {// 论坛传照片回调
-			switch (arg1) {
-			case REQ_CHOOSER:
-				if (null == JVVideoFragment.mUploadMessage)
-					return;
-				Uri result = obj == null || arg2 != Activity.RESULT_OK ? null
-						: ((Intent) obj).getData();
 
-				String realPath = MobileUtil.getRealPath(mActivity, result);
-				// showTextToast(realPath);
-
-				if (null != realPath && !"".equalsIgnoreCase(realPath)) {
-					File file = new File(realPath);
-					mUploadMessage.onReceiveValue(Uri.fromFile(file));
-				} else {
-					mUploadMessage.onReceiveValue(null);
-				}
-
-				JVVideoFragment.mUploadMessage = null;
-				break;
-			case REQ_CAMERA:
-				if (arg2 == Activity.RESULT_OK) {
-					JVVideoFragment.mUploadMessage
-							.onReceiveValue(JVVideoFragment.imageUri);
-					// showTextToast(JVVideoFragment.imageUri.toString());
-					JVVideoFragment.mUploadMessage = null;
-				}
-				break;
+		case Consts.BBS_IMG_UPLOAD_SUCCESS: {
+			mActivity.dismissDialog();
+			if (null != obj) {
+//				mActivity.showTextToast(obj.toString());
+				webView.loadUrl("javascript:uppic(\"" + obj.toString() + "\")");
+			} else {
+//				mActivity.showTextToast("null");
 			}
 
 			break;
 		}
-
 		case Consts.TAB_PLAZZA_RELOAD_URL: {
 
 			if (null != obj && !"".equalsIgnoreCase(obj.toString())) {
@@ -125,10 +108,6 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 		}
 		case Consts.TAB_WEBVIEW_BACK: {// tab点击返回
 			try {
-				if (null != mUploadMessage) {
-					mUploadMessage.onReceiveValue(null);
-					mUploadMessage = null;
-				}
 				if (null != titleStack && 0 != titleStack.size()) {
 					titleStack.pop();
 					String lastTitle = titleStack.peek();
@@ -260,6 +239,7 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 		// currentMenu.setText(titleID);
 		// }
 
+		// urls = "http://172.16.25.228:8080/";
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn = (Button) rootView.findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
@@ -275,29 +255,9 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 				// }
 			}
 
-			// For Android 3.0-
-			@SuppressWarnings("unused")
-			public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-				mUploadMessage = uploadMsg;
-				openFileChooser(uploadMsg, "");
-			}
-
-			// For Android 3.0+
-			public void openFileChooser(ValueCallback<Uri> uploadMsg,
-					String acceptType) {
-				mUploadMessage = uploadMsg;
-				selectImage();
-			}
-
-			// For Android 4.1
-			@SuppressWarnings("unused")
-			public void openFileChooser(ValueCallback<Uri> uploadMsg,
-					String acceptType, String capture) {
-				mUploadMessage = uploadMsg;
-				openFileChooser(uploadMsg, "");
-			}
 		};
 		webView.getSettings().setJavaScriptEnabled(true);
+		webView.addJavascriptInterface(this, "wst");
 
 		// 设置setWebChromeClient对象
 		webView.setWebChromeClient(wvcc);
@@ -611,10 +571,6 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 	@Override
 	public void onResume() {
 		super.onResume();
-		// if (null != mUploadMessage) {
-		// mUploadMessage.onReceiveValue(null);
-		// mUploadMessage = null;
-		// }
 		webView.onResume();
 		if (!ConfigUtil.isConnected(mActivity)) {
 			isConnected = false;
@@ -625,75 +581,142 @@ public class JVVideoFragment extends BaseFragment implements OnMainListener {
 		} else {
 			isConnected = true;
 		}
-		// fragHandler.sendMessage(fragHandler
-		// .obtainMessage(2000, 0, 0, null));
 	}
 
 	@Override
 	public void onMainAction(int packet_type) {
-		// TODO Auto-generated method stub
 
 	}
 
-	protected final void selectImage() {
-		AlertDialog.Builder builder = new Builder(mActivity);
-		// builder.setTitle("插入照片");
-		builder.setItems(
-				new String[] {
-						getResources().getString(R.string.capture_to_upload),
-						getResources().getString(R.string.select_to_upload) },
-				new DialogInterface.OnClickListener() {
-					@SuppressLint("SdCardPath")
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						Intent intent = null;
-						switch (which) {
-						case REQ_CAMERA:
-							intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-							// 必须确保文件夹路径存在，否则拍照后无法完成回调
-							File vFile = new File(Consts.BBSIMG_PATH
-									+ (System.currentTimeMillis() + ".jpg"));
-							if (!vFile.exists()) {
-								File folderFile = new File(Consts.BBSIMG_PATH);
-								MobileUtil.createDirectory(folderFile);
-							} else {
-								if (vFile.exists()) {
-									vFile.delete();
-								}
-							}
-							imageUri = Uri.fromFile(vFile);
-							intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-							mActivity
-									.startActivityForResult(intent, REQ_CAMERA);
-							break;
-						case REQ_CHOOSER:
-							intent = new Intent(Intent.ACTION_PICK, null);
-							intent.setDataAndType(
-									MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-									"image/*");
-							mActivity.startActivityForResult(
-									Intent.createChooser(
-											intent,
-											getResources().getString(
-													R.string.select_to_upload)),
-									REQ_CHOOSER);
-							break;
+	public void cutpic() {
+		new AlertDialog.Builder(mActivity)
+				.setTitle(getResources().getString(R.string.str_delete_tip))
+				.setItems(
+						new String[] {
+								getResources().getString(
+										R.string.capture_to_upload),
+								getResources().getString(
+										R.string.select_to_upload),
+								getResources().getString(R.string.cancel) },
+						new OnMyOnClickListener()).show();
+
+	}
+
+	/** 图片来源菜单响应类 */
+	protected class OnMyOnClickListener implements
+			DialogInterface.OnClickListener {
+
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			/** 从摄像头获取 */
+			if (which == 0) {
+				try {
+					// 从摄像头拍照取头像
+					PHOTO_DIR.mkdirs(); // 创建照片的存储目录
+					mCurrentPhotoFile = new File(PHOTO_DIR,
+							"temp_camera_headimg.jpg");
+					Intent it_camera = new Intent(
+							MediaStore.ACTION_IMAGE_CAPTURE);
+					it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
+							Uri.fromFile(mCurrentPhotoFile));
+					startActivityForResult(it_camera,
+							REQUEST_CODE_IMAGE_CAPTURE);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			} else if (which == 1) {
+				/** 从相册获取 */
+				try {
+
+					// 从相册取相片
+					Intent it_photo = new Intent(Intent.ACTION_GET_CONTENT);
+					it_photo.addCategory(Intent.CATEGORY_OPENABLE);
+					// 设置数据类型
+					it_photo.setType("image/*");
+					// 设置返回方式
+					// intent.putExtra("return-data", true);
+					it_photo.putExtra(MediaStore.EXTRA_OUTPUT, imageTempUri);
+					// 设置截图
+					// it_photo.putExtra("crop", "true");
+					// it_photo.putExtra("scale", true);
+					// 跳转至系统功能
+					startActivityForResult(it_photo, REQUEST_CODE_IMAGE_SELECTE);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else if (which == 2) {
+				/** 取消 */
+				dialog.dismiss();
+			}
+		}
+
+	}
+
+	/**
+	 * 根据uri获取文件
+	 * 
+	 * @param uri
+	 * @return
+	 */
+	public File getFileFromUri(Uri uri) {
+		File file = null;
+
+		String[] proj = { MediaStore.Images.Media.DATA };
+		Cursor actualimagecursor = mActivity.managedQuery(uri, proj, null,
+				null, null);
+		int actual_image_column_index = actualimagecursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		actualimagecursor.moveToFirst();
+		String img_path = actualimagecursor
+				.getString(actual_image_column_index);
+		file = new File(img_path);
+		return file;
+	}
+
+	/** 获取调用摄像头以及相册返回数据 */
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		try {
+			// ==========摄像头===========
+			if (requestCode == REQUEST_CODE_IMAGE_CAPTURE
+					&& resultCode == Activity.RESULT_OK) {
+				if (mCurrentPhotoFile != null) {
+					mActivity.createDialog("", false);
+					Thread uploadThread = new Thread() {
+						@Override
+						public void run() {
+							String res = UploadUtil.uploadFile(
+									mCurrentPhotoFile, uploadUrl);
+							fragHandler.sendMessage(fragHandler.obtainMessage(
+									Consts.BBS_IMG_UPLOAD_SUCCESS, 0, 0, res));
+							super.run();
 						}
-					}
-				});
-		builder.setNegativeButton(R.string.cancel,
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						if (null != mUploadMessage) {
-							mUploadMessage.onReceiveValue(null);
-							mUploadMessage = null;
+					};
+					uploadThread.start();
+				}
+				// ==========相册============
+			} else if (requestCode == REQUEST_CODE_IMAGE_SELECTE
+					&& resultCode == Activity.RESULT_OK) {
+				Uri uri = data.getData();
+				mCurrentPhotoFile = getFileFromUri(uri);// 根据uri获取文件
+				if (mCurrentPhotoFile != null) {
+					mActivity.createDialog("", false);
+					Thread uploadThread = new Thread() {
+						@Override
+						public void run() {
+							String res = UploadUtil.uploadFile(
+									mCurrentPhotoFile, uploadUrl);
+							fragHandler.sendMessage(fragHandler.obtainMessage(
+									Consts.BBS_IMG_UPLOAD_SUCCESS, 0, 0, res));
+							super.run();
 						}
-					}
-				});
-		AlertDialog dialog = builder.create();
-		dialog.setCancelable(false);
-		dialog.show();
+					};
+					uploadThread.start();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

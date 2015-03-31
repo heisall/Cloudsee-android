@@ -638,6 +638,9 @@ public class Consts {
 	public static final int TAB_ON_ACTIVITY_RESULT = 0x80;// tab
 															// onActivityResult
 
+	/** 社区图片上传成功 */
+	public static final int BBS_IMG_UPLOAD_SUCCESS = 0x81;// 小维社区发帖图片上传成功
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像

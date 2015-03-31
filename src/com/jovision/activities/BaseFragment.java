@@ -82,7 +82,8 @@ public abstract class BaseFragment extends Fragment implements IHandlerNotify,
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+		// onNotify(Consts.TAB_ON_ACTIVITY_RESULT, requestCode, resultCode,
+		// data);
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 

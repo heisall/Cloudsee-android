@@ -9,16 +9,16 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
-import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
@@ -36,7 +36,7 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
-import com.jovision.utils.MobileUtil;
+import com.jovision.utils.UploadUtil;
 
 public class JVWebViewActivity extends BaseActivity {
 
@@ -60,13 +60,36 @@ public class JVWebViewActivity extends BaseActivity {
 
 	Stack<String> titleStack = new Stack<String>();// 标题栈，后进先出
 
-	protected ValueCallback<Uri> mUploadMessage;
-	protected int FILECHOOSER_RESULTCODE = 1;
-	private Uri imageUri;
+	// protected ValueCallback<Uri> mUploadMessage;
+	// protected int FILECHOOSER_RESULTCODE = 1;
+	// private Uri imageUri;
+
+	protected static final int REQUEST_CODE_IMAGE_CAPTURE = 0;
+	protected static final int REQUEST_CODE_IMAGE_SELECTE = 1;
+	protected static final int REQUEST_CODE_IMAGE_CROP = 2;
+	/* 拍照的照片存储位置 */
+	private static final File PHOTO_DIR = new File(
+			Environment.getExternalStorageDirectory() + "/DCIM/Camera");
+	// 照相机拍照得到的图片
+	private File mCurrentPhotoFile;
+	// 缓存图片URI
+	Uri imageTempUri = Uri.fromFile(new File(PHOTO_DIR, "1426573739396.jpg"));
+	private String uploadUrl = "http://172.16.25.228:8080/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1&XDEBUG_SESSION_START=PHPSTORM";
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case Consts.BBS_IMG_UPLOAD_SUCCESS: {
+			dismissDialog();
+			if (null != obj) {
+//				showTextToast(obj.toString());
+				webView.loadUrl("javascript:uppic(\"" + obj.toString() + "\")");
+			} else {
+//				showTextToast("null");
+			}
+
+			break;
+		}
 		case Consts.WHAT_DEMO_URL_SUCCESS: {
 			dismissDialog();
 			HashMap<String, String> paramMap = (HashMap<String, String>) obj;
@@ -164,7 +187,7 @@ public class JVWebViewActivity extends BaseActivity {
 
 		webView = (WebView) findViewById(R.id.findpasswebview);
 
-		// url = "http://172.16.25.228:8080/dev/test/upload.html";
+		// url = "http://172.16.25.228:8080/";
 		wvcc = new WebChromeClient() {
 			@Override
 			public void onReceivedTitle(WebView view, String title) {
@@ -180,30 +203,9 @@ public class JVWebViewActivity extends BaseActivity {
 				super.onProgressChanged(view, newProgress);
 			}
 
-			// For Android 3.0-
-			@SuppressWarnings("unused")
-			public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-				mUploadMessage = uploadMsg;
-				openFileChooser(uploadMsg, "");
-			}
-
-			// For Android 3.0+
-			public void openFileChooser(ValueCallback<Uri> uploadMsg,
-					String acceptType) {
-				mUploadMessage = uploadMsg;
-				selectImage();
-			}
-
-			// For Android 4.1
-			@SuppressWarnings("unused")
-			public void openFileChooser(ValueCallback<Uri> uploadMsg,
-					String acceptType, String capture) {
-				mUploadMessage = uploadMsg;
-				openFileChooser(uploadMsg, "");
-			}
-
 		};
 		webView.getSettings().setJavaScriptEnabled(true);
+		webView.addJavascriptInterface(this, "wst");
 
 		// 设置setWebChromeClient对象
 		webView.setWebChromeClient(wvcc);
@@ -396,10 +398,6 @@ public class JVWebViewActivity extends BaseActivity {
 	 */
 	private void backMethod() {
 		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
-		if (null != mUploadMessage) {
-			mUploadMessage.onReceiveValue(null);
-			mUploadMessage = null;
-		}
 		try {
 			JVWebViewActivity.this.finish();
 		} catch (Exception e) {
@@ -411,11 +409,6 @@ public class JVWebViewActivity extends BaseActivity {
 	// webview返回
 	public void backWebview() {
 		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
-
-		if (null != mUploadMessage) {
-			mUploadMessage.onReceiveValue(null);
-			mUploadMessage = null;
-		}
 
 		try {
 			if (webView.canGoBack()) {
@@ -436,19 +429,6 @@ public class JVWebViewActivity extends BaseActivity {
 		backMethod();
 	}
 
-	// @Override
-	// // 设置回退
-	// // 覆盖Activity类的onKeyDown(int keyCoder,KeyEvent event)方法
-	// public boolean onKeyDown(int keyCode, KeyEvent event) {
-	// if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-	// webView.goBack(); // goBack()表示返回WebView的上一页面
-	// return true;
-	// } else {
-	// JVWebViewActivity.this.finish();
-	// }
-	// return false;
-	// }
-
 	@Override
 	protected void saveSettings() {
 
@@ -462,121 +442,143 @@ public class JVWebViewActivity extends BaseActivity {
 	protected void onPause() {
 		super.onPause();
 		webView.onPause();
-		// if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-		// webView.onPause(); // 暂停网页中正在播放的视频
-		// }
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		webView.onResume();
-		if (null != mUploadMessage) {
-			mUploadMessage.onReceiveValue(null);
-			mUploadMessage = null;
+	}
+
+	public void cutpic() {
+		new AlertDialog.Builder(JVWebViewActivity.this)
+				.setTitle(getResources().getString(R.string.str_delete_tip))
+				.setItems(
+						new String[] {
+								getResources().getString(
+										R.string.capture_to_upload),
+								getResources().getString(
+										R.string.select_to_upload),
+								getResources().getString(R.string.cancel) },
+						new OnMyOnClickListener()).show();
+
+	}
+
+	/** 图片来源菜单响应类 */
+	protected class OnMyOnClickListener implements
+			DialogInterface.OnClickListener {
+
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			/** 从摄像头获取 */
+			if (which == 0) {
+				try {
+					// 从摄像头拍照取头像
+					PHOTO_DIR.mkdirs(); // 创建照片的存储目录
+					mCurrentPhotoFile = new File(PHOTO_DIR,
+							"temp_camera_headimg.jpg");
+					Intent it_camera = new Intent(
+							MediaStore.ACTION_IMAGE_CAPTURE);
+					it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
+							Uri.fromFile(mCurrentPhotoFile));
+					startActivityForResult(it_camera,
+							REQUEST_CODE_IMAGE_CAPTURE);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			} else if (which == 1) {
+				/** 从相册获取 */
+				try {
+
+					// 从相册取相片
+					Intent it_photo = new Intent(Intent.ACTION_GET_CONTENT);
+					it_photo.addCategory(Intent.CATEGORY_OPENABLE);
+					// 设置数据类型
+					it_photo.setType("image/*");
+					// 设置返回方式
+					// intent.putExtra("return-data", true);
+					it_photo.putExtra(MediaStore.EXTRA_OUTPUT, imageTempUri);
+					// 设置截图
+					// it_photo.putExtra("crop", "true");
+					// it_photo.putExtra("scale", true);
+					// 跳转至系统功能
+					startActivityForResult(it_photo, REQUEST_CODE_IMAGE_SELECTE);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else if (which == 2) {
+				/** 取消 */
+				dialog.dismiss();
+			}
+		}
+
+	}
+
+	/** 获取调用摄像头以及相册返回数据 */
+	@SuppressLint("NewApi")
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		try {
+			super.onActivityResult(requestCode, resultCode, data);
+			// ==========摄像头===========
+			if (requestCode == REQUEST_CODE_IMAGE_CAPTURE
+					&& resultCode == Activity.RESULT_OK) {
+				if (mCurrentPhotoFile != null) {
+					createDialog("", false);
+					Thread uploadThread = new Thread() {
+
+						@Override
+						public void run() {
+							String res = UploadUtil.uploadFile(
+									mCurrentPhotoFile, uploadUrl);
+							handler.sendMessage(handler.obtainMessage(
+									Consts.BBS_IMG_UPLOAD_SUCCESS, 0, 0, res));
+							super.run();
+						}
+					};
+					uploadThread.start();
+				}
+				// ==========相册============
+			} else if (requestCode == REQUEST_CODE_IMAGE_SELECTE
+					&& resultCode == Activity.RESULT_OK) {
+				Uri uri = data.getData();
+				mCurrentPhotoFile = getFileFromUri(uri);// 根据uri获取文件
+				if (mCurrentPhotoFile != null) {
+					createDialog("", false);
+					Thread uploadThread = new Thread() {
+						@Override
+						public void run() {
+							String res = UploadUtil.uploadFile(
+									mCurrentPhotoFile, uploadUrl);
+							handler.sendMessage(handler.obtainMessage(
+									Consts.BBS_IMG_UPLOAD_SUCCESS, 0, 0, res));
+							super.run();
+						}
+					};
+					uploadThread.start();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
-	protected final void selectImage() {
-		AlertDialog.Builder builder = new Builder(JVWebViewActivity.this);
-		// builder.setTitle("插入照片");
-		builder.setItems(
-				new String[] {
-						getResources().getString(R.string.capture_to_upload),
-						getResources().getString(R.string.select_to_upload) },
-				new DialogInterface.OnClickListener() {
-					@SuppressLint("SdCardPath")
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						Intent intent = null;
-						switch (which) {
-						case REQ_CAMERA:
-							intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-							// 必须确保文件夹路径存在，否则拍照后无法完成回调
-							File vFile = new File(Consts.BBSIMG_PATH
-									+ (System.currentTimeMillis() + ".jpg"));
-							if (!vFile.exists()) {
-								File folderFile = new File(Consts.BBSIMG_PATH);
-								MobileUtil.createDirectory(folderFile);
-							} else {
-								if (vFile.exists()) {
-									vFile.delete();
-								}
-							}
-							imageUri = Uri.fromFile(vFile);
-							intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-							JVWebViewActivity.this.startActivityForResult(
-									intent, REQ_CAMERA);
-							break;
-						case REQ_CHOOSER:
-							intent = new Intent(Intent.ACTION_PICK, null);
-							intent.setDataAndType(
-									MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-									"image/*");
-							JVWebViewActivity.this.startActivityForResult(
-									Intent.createChooser(
-											intent,
-											getResources().getString(
-													R.string.select_to_upload)),
-									REQ_CHOOSER);
-							break;
-						}
-					}
-				});
-		builder.setNegativeButton(R.string.cancel,
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						if (null != mUploadMessage) {
-							mUploadMessage.onReceiveValue(null);
-							mUploadMessage = null;
-						}
-					}
-				});
+	/**
+	 * 根据uri获取文件
+	 * 
+	 * @param uri
+	 * @return
+	 */
+	public File getFileFromUri(Uri uri) {
+		File file = null;
 
-		AlertDialog dialog = builder.create();
-		dialog.setCancelable(false);
-		dialog.show();
+		String[] proj = { MediaStore.Images.Media.DATA };
+		Cursor actualimagecursor = managedQuery(uri, proj, null, null, null);
+		int actual_image_column_index = actualimagecursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		actualimagecursor.moveToFirst();
+		String img_path = actualimagecursor
+				.getString(actual_image_column_index);
+		file = new File(img_path);
+		return file;
 	}
-
-	public static final int REQ_CAMERA = 0;
-	public static final int REQ_CHOOSER = 1;
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode,
-			Intent intent) {
-		switch (requestCode) {
-		case REQ_CHOOSER:
-			if (null == mUploadMessage)
-				return;
-			Uri result = intent == null || resultCode != RESULT_OK ? null
-					: intent.getData();
-
-			String realPath = MobileUtil.getRealPath(JVWebViewActivity.this,
-					result);
-			// showTextToast(realPath);
-			if (null != realPath && !"".equalsIgnoreCase(realPath)) {
-				File file = new File(realPath);
-				mUploadMessage.onReceiveValue(Uri.fromFile(file));
-			} else {
-				mUploadMessage.onReceiveValue(null);
-			}
-
-			mUploadMessage = null;
-			break;
-		case REQ_CAMERA:
-			if (resultCode == Activity.RESULT_OK) {
-				mUploadMessage.onReceiveValue(imageUri);
-				// showTextToast(imageUri.toString());
-				mUploadMessage = null;
-			}
-			break;
-		default:
-			webView.requestFocus();
-			mUploadMessage = null;
-			// mWebView.setFocusable(true);
-			break;
-		}
-	}
-
 }

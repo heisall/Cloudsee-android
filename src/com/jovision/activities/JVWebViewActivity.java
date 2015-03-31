@@ -74,7 +74,7 @@ public class JVWebViewActivity extends BaseActivity {
 	private File mCurrentPhotoFile;
 	// 缓存图片URI
 	Uri imageTempUri = Uri.fromFile(new File(PHOTO_DIR, "1426573739396.jpg"));
-	private String uploadUrl = "http://172.16.25.228:8080/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1&XDEBUG_SESSION_START=PHPSTORM";
+	private String uploadUrl = "http://bbs.cloudsee.net/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1";
 
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {

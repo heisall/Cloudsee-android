@@ -11,6 +11,10 @@ import org.json.JSONObject;
 
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.TrafficStats;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +32,7 @@ import android.widget.RelativeLayout;
 import com.igexin.sdk.PushManager;
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.Global;
 import com.jovision.IHandlerLikeNotify;
 import com.jovision.MainApplication;
 import com.jovision.activities.JVFragmentIndicator.OnIndicateListener;
@@ -116,6 +121,33 @@ public class JVTabActivity extends ShakeActivity implements
 		// finish();
 		// }
 		MyLog.v(TAG, "onCreate----E");
+		
+		/*流量统计接口begin*/
+		String strSupportTraffic = "测试流量统计接口结果未知";
+	    PackageManager pm = getPackageManager();
+	    ApplicationInfo ai = null;
+	    Log.e("Traffic", "-----------packgeName:"+this.getPackageName());    
+	    try {
+	        ai = pm.getApplicationInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
+		    Log.e("Traffic", "-----------uid:"+ai.uid);
+		    if(TrafficStats.getUidRxBytes(ai.uid)==TrafficStats.UNSUPPORTED){	    
+		    	strSupportTraffic = "对不起，您的手机不支持流量统计";
+		    	Log.e("Traffic",strSupportTraffic);
+		    }
+		    else{	    
+		    	strSupportTraffic = "恭喜您，您的手机支持流量统计";
+		    	Log.e("Traffic",strSupportTraffic);
+		    }	
+		    Global.STR_TRAFFICSTATS_CMPT_RES = strSupportTraffic;	        
+	    } catch (NameNotFoundException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+	    }catch(Exception e2){
+	    	e2.printStackTrace();
+	    }
+
+	    /*流量统计接口end*/
+	    
 		mApp = (MainApplication) getApplication();
 		MyActivityManager.getActivityManager().pushAlarmActivity(this);
 		getWindow().addFlags(

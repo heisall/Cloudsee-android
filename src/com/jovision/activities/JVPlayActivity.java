@@ -2209,7 +2209,8 @@ public class JVPlayActivity extends PlayActivity implements
 	 */
 	private boolean connect(Channel channel, boolean isPlayDirectly) {
 		String fullPath = "";
-		if (Consts.PLAY_AP != playFlag && hasSDCard(5) && null != channel) {
+		if (Consts.PLAY_AP != playFlag && hasSDCard(5, false)
+				&& null != channel) {
 			String savePath = "";
 			if (Consts.PLAY_NORMAL == playFlag) {
 				if (2 == channel.getParent().getIsDevice()) {
@@ -2959,7 +2960,7 @@ public class JVPlayActivity extends PlayActivity implements
 							true, JVNetConst.RC_EX_FlashJpeg,
 							JVNetConst.RC_EXTEND, null);
 				} else {
-					if (hasSDCard(5) && allowThisFuc(false)) {
+					if (hasSDCard(5, true) && allowThisFuc(false)) {
 						boolean captureRes = PlayUtil.capture(lastClickIndex);
 						if (captureRes) {
 							PlayUtil.prepareAndPlay(mediaPlayer, true);
@@ -3008,7 +3009,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but7:
 			case R.id.videotape:// 录像
 				closePopWindow();
-				if (hasSDCard(5) && allowThisFuc(true)) {
+				if (hasSDCard(5, true) && allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).getParent().is05()) {
 						String path = PlayUtil.createRecordFile();
 						if (PlayUtil.checkRecord(lastClickIndex)) {

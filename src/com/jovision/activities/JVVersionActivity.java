@@ -2,13 +2,9 @@ package com.jovision.activities;
 
 import java.util.ArrayList;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
-import android.net.TrafficStats;
 import android.test.JVACCOUNT;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -58,7 +54,7 @@ public class JVVersionActivity extends BaseActivity {
 				JVVersionActivity.this.finish();
 			}
 		});
-	    
+
 		ArrayList<String> configList = new ArrayList<String>();
 		try {
 			configList.add("Version" + "="
@@ -117,8 +113,9 @@ public class JVVersionActivity extends BaseActivity {
 			configList.add("个推CID=" + gtClientID + "\n");
 			configList.add("OS MODEL=" + android.os.Build.MODEL + "\n");
 
-			configList.add("流量统计兼容测试:" + Global.STR_TRAFFICSTATS_CMPT_RES + "\n");
-			
+			configList.add("流量统计兼容测试:" + Global.STR_TRAFFICSTATS_CMPT_RES
+					+ "\n");
+
 			if (ConfigUtil.ACCOUNT_VERSION.equalsIgnoreCase(JVACCOUNT
 					.GetVersion(0))
 					&& ConfigUtil.PLAY_VERSION

@@ -630,7 +630,10 @@ public class JVWebViewActivity extends BaseActivity {
 			// ==========摄像头===========
 			if (requestCode == REQUEST_CODE_IMAGE_CAPTURE
 					&& resultCode == Activity.RESULT_OK) {
+				// mCurrentPhotoFile =
+				// ImageUtil.getImageFile(mCurrentPhotoFile.getAbsolutePath());
 				if (mCurrentPhotoFile != null) {
+
 					createDialog("", false);
 					Thread uploadThread = new Thread() {
 
@@ -650,6 +653,8 @@ public class JVWebViewActivity extends BaseActivity {
 					&& resultCode == Activity.RESULT_OK) {
 				Uri uri = data.getData();
 				mCurrentPhotoFile = getFileFromUri(uri);// 根据uri获取文件
+				// mCurrentPhotoFile =
+				// ImageUtil.getImageFile(mCurrentPhotoFile.getAbsolutePath());
 				if (mCurrentPhotoFile != null) {
 					createDialog("", false);
 					Thread uploadThread = new Thread() {
@@ -689,4 +694,5 @@ public class JVWebViewActivity extends BaseActivity {
 		file = new File(img_path);
 		return file;
 	}
+
 }

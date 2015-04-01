@@ -3024,34 +3024,41 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.video_bq:
 			case R.id.more_features:// 码流
-				if (null != screenPopWindow && screenPopWindow.isShowing()) {
-					screenPopWindow.dismiss();
-				}
-				int rows = 3;
-				if (channelList.get(lastClickIndex).isNewIpcFlag()
-						|| channelList.get(lastClickIndex).getParent()
-								.isOldDevice()) {
-					streamListView.setBackgroundDrawable(getResources()
-							.getDrawable(R.drawable.stream_selector_bg3));
-					rows = 3;
-				} else {
-					streamListView.setBackgroundDrawable(getResources()
-							.getDrawable(R.drawable.stream_selector_bg2));
-					rows = 2;
 
-				}
-
-				if (View.VISIBLE == streamListView.getVisibility()) {
-					closePopWindow();
+				// 2015.4.1启用TCP连接提示不支持码流切换
+				if (1 == channelList.get(lastClickIndex).getParent()
+						.getEnableTcpConnect()) {
+					showTextToast(R.string.not_support_this_func);
 				} else {
-					if (allowThisFuc(true)) {
-						if (-1 == channelList.get(lastClickIndex)
-								.getStreamTag()) {
-							showTextToast(R.string.not_support_this_func);
-						} else {
-							streamAdapter.setChangeCounts(rows);
-							streamAdapter.notifyDataSetChanged();
-							streamListView.setVisibility(View.VISIBLE);
+					if (null != screenPopWindow && screenPopWindow.isShowing()) {
+						screenPopWindow.dismiss();
+					}
+					int rows = 3;
+					if (channelList.get(lastClickIndex).isNewIpcFlag()
+							|| channelList.get(lastClickIndex).getParent()
+									.isOldDevice()) {
+						streamListView.setBackgroundDrawable(getResources()
+								.getDrawable(R.drawable.stream_selector_bg3));
+						rows = 3;
+					} else {
+						streamListView.setBackgroundDrawable(getResources()
+								.getDrawable(R.drawable.stream_selector_bg2));
+						rows = 2;
+
+					}
+
+					if (View.VISIBLE == streamListView.getVisibility()) {
+						closePopWindow();
+					} else {
+						if (allowThisFuc(true)) {
+							if (-1 == channelList.get(lastClickIndex)
+									.getStreamTag()) {
+								showTextToast(R.string.not_support_this_func);
+							} else {
+								streamAdapter.setChangeCounts(rows);
+								streamAdapter.notifyDataSetChanged();
+								streamListView.setVisibility(View.VISIBLE);
+							}
 						}
 					}
 				}

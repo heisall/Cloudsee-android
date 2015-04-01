@@ -353,6 +353,8 @@ public class JVOffLineDialogActivity extends BaseActivity {
 		if (!localFlag) {
 			MySharedPreference.putString(Consts.DEVICE_LIST, "");
 		}
+		JVOffLineDialogActivity.this.statusHashMap.put(Consts.HAS_LOAD_DEMO,
+				"false");
 		intent.setClass(JVOffLineDialogActivity.this, JVLoginActivity.class);
 		JVOffLineDialogActivity.this.startActivity(intent);
 		JVOffLineDialogActivity.this.finish();

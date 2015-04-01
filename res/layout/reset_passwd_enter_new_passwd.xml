@@ -80,8 +80,8 @@
                 android:hint="@string/reset_passwd_new_passwd_hint"
                 android:inputType="textPassword"
                 android:orientation="horizontal"
-                android:singleLine="true"
                 android:paddingLeft="5dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -94,8 +94,8 @@
                 android:hint="@string/reset_passwd_confirm_passwd_hint"
                 android:inputType="textPassword"
                 android:orientation="horizontal"
-                android:singleLine="true"
                 android:paddingLeft="5dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 

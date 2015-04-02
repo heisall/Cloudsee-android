@@ -11,13 +11,6 @@
         android:right="0dip"
         android:top="0dip" />
     <!-- 主要内容的padding 文字距离上下左右的距离 -->
-    <corners
-        android:bottomLeftRadius="2dip"
-        android:bottomRightRadius="2dip"
-        android:topLeftRadius="2dip"
-        android:topRightRadius="2dip" />
-    <!-- 圆角的半径  也可以统一设置半径 android:radius="9dip" -->
-
     <gradient
         android:angle="270"
         android:endColor="@color/dialog_bg_color"

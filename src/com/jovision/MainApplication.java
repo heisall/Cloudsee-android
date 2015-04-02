@@ -24,6 +24,7 @@ import android.util.Log;
 import com.jovision.activities.BaseActivity;
 import com.jovision.activities.JVOffLineDialogActivity;
 import com.jovision.bean.Device;
+import com.jovision.bean.MoreFragmentBean;
 import com.jovision.bean.PushInfo;
 import com.jovision.commons.JVAccountConst;
 import com.jovision.commons.JVAlarmConst;
@@ -61,6 +62,9 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 	private boolean bAlarmConnectedFlag = false;// 全局变量，用于报警历史视频和远程回放之间
 
+	private ArrayList<MoreFragmentBean> defaultMoreList;
+
+	/** 默认的更多列表 **/
 	/**
 	 * 获取活动集合
 	 * 
@@ -136,6 +140,7 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 		// imageloader全局配置
 		initImageLoader(getApplicationContext());
+		// initDefaultMoreList();
 	}
 
 	private static void initImageLoader(Context context) {
@@ -243,7 +248,27 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 	@Override
 	public void onNotify(int what, int arg1, int arg2, Object obj) {
 		if (null != currentNotifyer) {
-			currentNotifyer.onNotify(what, arg1, arg2, obj);
+			switch (what) {
+			case Consts.NET_CHANGE_CLEAR_CACHE: {// 网络切换清缓存
+				MyLog.i("MyRecevier", "网络变化了--正常网络");
+				Jni.getVersion();
+				Jni.clearCache();
+
+				if (null == myDeviceList || 0 == myDeviceList.size()) {
+					myDeviceList = CacheUtil.getDevList();
+				}
+
+				if (null != myDeviceList && 0 != myDeviceList.size()) {
+					PlayUtil.setHelperToList(myDeviceList);
+				}
+				break;
+			}
+			default: {
+				currentNotifyer.onNotify(what, arg1, arg2, obj);
+				break;
+			}
+			}
+
 		}
 	}
 
@@ -617,5 +642,112 @@ public class MainApplication extends Application implements IHandlerLikeNotify {
 
 	public synchronized void setAlarmConnectedFlag(boolean flag) {
 		bAlarmConnectedFlag = flag;
+	}
+
+	public ArrayList<MoreFragmentBean> getDefaultMoreList() {
+		return defaultMoreList;
+	}
+
+	public void setDefaultMoreList(ArrayList<MoreFragmentBean> defaultMoreList) {
+		this.defaultMoreList = defaultMoreList;
+	}
+
+	/***
+	 * 初始化默认设备列表
+	 */
+	public void initDefaultMoreList() {
+		defaultMoreList = new ArrayList<MoreFragmentBean>();
+
+		for (int i = 0; i < Consts.moreListItemFlag.length; i++) {
+			MoreFragmentBean item = new MoreFragmentBean();
+			item.setItemFlag(Consts.moreListItemFlag[i]);
+			item.setDismiss(false);
+			item.setIsnew(false);
+			item.setShowWhiteBlock(false);
+			item.setShowRightCircleBtn(false);
+			item.setShowVersion(false);
+			item.setShowTVNews(false);
+			item.setShowBBSNews(false);
+			String itemFlag = item.getItemFlag();
+			/** 设置隐藏 **/
+			if (itemFlag.equals(Consts.MORE_LITTLEHELP)
+					|| itemFlag.equals(Consts.MORE_BROADCAST)
+					|| itemFlag.equals(Consts.MORE_TESTSWITCH)
+					|| itemFlag.equals(Consts.MORE_VERSION)) {
+				item.setDismiss(true);
+			}
+			if (Boolean.valueOf(statusHashMap.get(Consts.LOCAL_LOGIN))
+					&& itemFlag.equals(Consts.MORE_REMEMBER)) {
+				item.setDismiss(true);
+			}
+			if (itemFlag.equals(Consts.MORE_HELP)
+					|| itemFlag.equals(Consts.MORE_GCSURL)
+					|| itemFlag.equals(Consts.MORE_DEVICESHARE)
+					|| itemFlag.equals(Consts.MORE_FEEDBACK)) {
+				item.setDismiss(true);
+			}
+
+			if (itemFlag.equals(Consts.MORE_GCSURL)) {// 如果是工程商
+
+				// 判断是否显示工程商
+				String showGcsStr = statusHashMap.get(Consts.MORE_GCS_SWITCH);
+				if (null != showGcsStr && !"".equalsIgnoreCase(showGcsStr)) {
+					MyLog.v("GCS-tag", showGcsStr);
+					if (1 == Integer.parseInt(showGcsStr)) {
+						item.setDismiss(false);
+						if (!MySharedPreference.getBoolean(Consts.MORE_GCSURL)) {
+							item.setIsnew(true);
+						}
+					} else {
+						item.setDismiss(true);
+					}
+				} else {
+					item.setDismiss(true);
+				}
+			}
+
+			/** 显示圆形按钮 **/
+			if (itemFlag.equals(Consts.MORE_REMEMBER)
+					// || itemFlag.equals(Consts.MORE_ALARMSWITCH)
+					|| itemFlag.equals(Consts.MORE_TESTSWITCH)
+					|| itemFlag.equals(Consts.MORE_PLAYMODE)
+					|| itemFlag.equals(Consts.MORE_LITTLEHELP)
+					|| itemFlag.equals(Consts.MORE_BROADCAST)) {
+				item.setShowRightCircleBtn(true);
+			}
+			/** 设置"新"功能 **/
+			if ((itemFlag.equals(Consts.MORE_STATURL) && !MySharedPreference
+					.getBoolean(Consts.MORE_STATURL))
+					|| (itemFlag.equals(Consts.MORE_SYSTEMMESSAGE) && !MySharedPreference
+							.getBoolean(Consts.MORE_SYSTEMMESSAGE))) {
+				item.setIsnew(true);
+			}
+			/** 设置alarm信息 **/
+			if (itemFlag.equals(Consts.MORE_ALARMMSG)) {
+				item.setShowTVNews(true);
+			}
+			/** 设置BBS信息 **/
+			if (itemFlag.equals(Consts.MORE_BBS)) {
+				if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(this)) {
+					item.setShowBBSNews(true);
+					item.setDismiss(false);
+				} else {
+					item.setDismiss(true);
+				}
+
+			}
+			/** 显示空白栏 **/
+			if (itemFlag.equals(Consts.MORE_STATURL)
+					|| itemFlag.equals(Consts.MORE_UPDATE)
+					|| itemFlag.equals(Consts.MORE_LITTLEHELP)) {
+				item.setShowWhiteBlock(true);
+			}
+			/** 关于 **/
+			if (itemFlag.equals(Consts.MORE_LITTLE)) {
+				item.setShowVersion(true);
+			}
+
+			defaultMoreList.add(item);
+		}
 	}
 }

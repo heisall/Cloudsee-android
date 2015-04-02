@@ -438,6 +438,7 @@ public class PlayUtil {
 	 * 开始音频监听
 	 */
 	public static boolean startAudioMonitor(int index) {
+		Jni.resumeAudio(index);
 		return Jni.enablePlayAudio(index, true);
 	}
 
@@ -445,6 +446,7 @@ public class PlayUtil {
 	 * 停止音频监听
 	 */
 	public static boolean stopAudioMonitor(int index) {
+		Jni.pauseAudio(index);
 		return Jni.enablePlayAudio(index, false);
 	}
 
@@ -510,7 +512,7 @@ public class PlayUtil {
 	 * @return
 	 */
 	public static boolean startVideoTape(int index, String savePath) {
-		boolean startSuccess = Jni.startRecord(index, savePath, true, false);
+		boolean startSuccess = Jni.startRecord(index, savePath, true, true);
 		return startSuccess;
 	}
 
@@ -1242,6 +1244,7 @@ public class PlayUtil {
 	 * @param ipcWifi
 	 */
 	public static void connectDevice(Device dev) {
+		Jni.pauseAudio(1);
 		Jni.enablePlayAudio(1, false);
 		if (!"".equalsIgnoreCase(dev.getIp())) {// IP直连云视通号置为-1
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(), dev
@@ -1249,14 +1252,15 @@ public class PlayUtil {
 					1, true, dev.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 							: JVNetConst.TYPE_3GMO_UDP, null, false, dev
 							.getEnableTcpConnect() == 1 ? true : false, false,
-					null);
+					false, null);
 		} else {
 			Jni.connect(1, 1, dev.getIp(), dev.getPort(), dev.getUser(), dev
 					.getPwd(), ConfigUtil.getYST(dev.getFullNo()), ConfigUtil
 					.getGroup(dev.getFullNo()), true, 1, true, dev
 					.isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 					: JVNetConst.TYPE_3GMO_UDP, null, false, dev
-					.getEnableTcpConnect() == 1 ? true : false, false, null);
+					.getEnableTcpConnect() == 1 ? true : false, false, false,
+					null);
 		}
 
 	}

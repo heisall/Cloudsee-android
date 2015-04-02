@@ -26,7 +26,7 @@
     <string name="login_str_device">设备列表</string>
     <string name="login_str_add_device">增加设备</string>
     <string name="login_str_device_devicename_notnull">请输入设备昵称</string>
-    <string name="login_str_nike_name_order">含有非法字符,昵称由1-20个字母、数字、汉字及特殊字符-_+().组成</string>
+    <string name="login_str_nike_name_order">昵称由1-20个字母、数字、汉字及特殊字符-_+().组成</string>
     <string name="login_str_device_account_notnull">请输入用户名</string>
     <string name="login_str_device_pass_notnull">请输入密码</string>
     <string name="device_pass_notzh">密码不能是中文</string>
@@ -164,6 +164,9 @@
     <string name="str_about">关于</string>
     <string name="str_feedback">反馈</string>
     <string name="str_login_out">注销</string>
+    <string name="str_alarm_settings">报警设置</string>
+    <string name="str_alarm_pushon_failed">打开报警消息推送失败</string>
+    <string name="str_alarm_pushoff_failed">关闭报警消息推送失败</string>
     <!-- 注册 -->
     <string name="str_enter_username">手机号/邮箱/用户名</string>
     <string name="str_enter_emails">邮箱</string>
@@ -186,7 +189,7 @@
     <string name="str_end_time">结束时间</string>
     <string name="str_save_path">盘符</string>
     <string name="str_disk">硬盘</string>
-    <string name="video_download_success">录像下载成功</string>
+    <string name="video_download_success">录像下载成功，快到更多功能-图像查看-下载中查看吧。</string>
     <string name="video_download_failed">录像下载失败</string>
     <string name="str_video_load_failed">数据加载失败</string>
     <string name="str_video_load_success">数据加载成功</string>
@@ -460,6 +463,7 @@
     <!-- popupWindow -->
     <string name="pop_take">拍照</string>
     <string name="pop_pictrue">从相册选择</string>
+    <string name="code_pictrue">相册</string>
     <!-- JVPlayActivity -->
     <string name="offline_not_play1">设备已处于离线状态,不能进行操作.</string>
     <string name="connfailed_auth">用户名或密码错误 </string>
@@ -604,19 +608,29 @@
     <string name="str_password">密       码 </string>
     <string name="str_nicknametwo">昵       称 </string>
     <!-- 声波配置 -->
+    <string name="wave_first">第一步</string>
+    <string name="wave_firstdescrione">请将手机的扬声器对准设备的麦克孔(距离15厘米内)</string>
+    <string name="wave_second">第二步</string>
+    <string name="wave_seconddescri">发送声波，当听到设备发出配置成功语音提示后，点击下一步</string>
     <string name="wave_set">声波配置</string>
     <string name="prepare_step">准备步骤</string>
     <string name="check_step">查看演示说明</string>
     <string name="prepare_set">准备配置</string>
-    <string name="prepare_step1">请用顶针轻插设备背后的reset孔，\n听到“开始声波配置”提示音后松开顶针。</string>
-    <string name="prepare_step2">请输入摄像头要连接的无线网络密码</string>
+    <string name="prepare_step2">请用顶针轻插设备背后的reset孔，\n听到“开始配置”提示音后松开顶针。</string>
+    <string name="prepare_step1">请输入摄像头要连接的无线网络密码</string>
     <string name="prepare_step3">观看操作演示</string>
+    <string name="wave_show">演示说明</string>
     <string name="show_demo">操作演示</string>
     <string name="search_list">搜索列表</string>
     <string name="prepare_step4">点击发送声波</string>
     <string name="prepare_step5">请将手机靠近设备，点击发送声波按钮，\n配置设备</string>
     <string name="prepare_step6">(摄像机暂不支持连接5G Wi-Fi)</string>
     <string name="wave_add_dev">确定添加设备</string>
+    <!-- 智联路由 -->
+    <string name="smart_connection">智连路由</string>
+    <string name="smart_conn_guide_1">接通电源\n等待指示灯变成橙灯闪烁</string>
+    <string name="smart_conn_indicator_help">指示灯没有闪烁怎么办？</string>
+    <string name="smart_conn_indicator_help1">没听到\"配置成功\"?请试试智连路由模式</string>
     <!-- 报警 -->
     <string name="str_alarm_check">立即查看</string>
     <string name="str_pass_extra_err">传递数据异常</string>
@@ -626,7 +640,8 @@
     <string name="str_buffering">正在缓冲…</string>
     <string name="str_safe_protected">安全防护</string>
     <string name="str_reset_device">重置设备功能</string>
-    <string name="str_reset_devicedescri">重置后设备将恢复出厂设置。</string>
+    <string name="dev_alarm_sound">启动报警声音</string>
+    <string name="dev_alarm_sound_tips">报警声音关闭后，当发生报警时，设备将不发出声音.</string>
     <string name="str_reset_sure">确定重置设备吗?</string>
     <string name="str_modify_pwd">修改设备管理员密码</string>
     <string name="str_downloading_vod">正在获取录像文件…</string>
@@ -678,7 +693,7 @@
     <string name="str_alarm_setting_tips3">您可以选择一个合适的时间段来接收报警，让报警尽在掌握。</string>
     <string name="str_alarm_setting_tips2">开关打开时，设备如检测到移动物体，会提示报警。</string>
     <string name="str_alarm_setting_tips4">为了防止泄露隐私，建议及时修改设备管理员密码。</string>
-    <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置.</string>
+    <string name="str_alarm_setting_tips5">重置后设备将恢复出厂设置。</string>
     <string name="str_all_day">全天</string>
     <string name="str_protected_time">防护时间段</string>
     <string name="str_getdev_params_timeout">获取设备参数超时</string>
@@ -687,16 +702,20 @@
     <string name="str_computre_time3"> 开始时间不能等于结束时间</string>
     <string name="str_setting_time">设置时间</string>
     <string name="str_disconnect_resp_timeout">断开连接超时</string>
+    <string name="str_operation_success">操作成功</string>
     <string name="str_operation_failed">操作不成功</string>
     <string name="str_mdenabled_open_ok">移动侦测打开成功</string>
     <string name="str_mdenabled_open_failed">移动侦测打开失败</string>
     <string name="str_mdenabled_close_ok">移动侦测关闭成功</string>
     <string name="str_mdenabled_close_failed">移动侦测关闭失败</string>
-    <string name="str_illegal_dev_nick">输入的昵称不合法,限于字母、数字、汉字及特殊字符-_+()</string>
+    <string name="str_illegal_dev_nick">昵称应由1-24个字母、数字、汉字及特殊字符-_+().组成</string>
     <string name="str_cloud_file_error_1">文件未上传完毕或上传失败</string>
     <string name="str_cloud_file_error_2">此通道没有云存储信息</string>
     <string name="str_tpush_autostart_tips_v5">为保证离线报警功能正常使用，请您对手机做如下设置：\n在手机的\"安全中心\"->\"授权管理\"->\"自启动应用管理\"界面，将本软件手动添加到自启动应用中</string>
     <string name="str_tpush_autostart_tips_v6">为保证离线报警功能正常使用，请您对手机做如下设置：\n在手机的\"安全中心"->\"授权管理\"->\"自启动管理\"界面，将本软件设置为允许自动启动</string>
+    <!-- JVWebviewActivity -->
+    <string name="capture_to_upload">拍照上传</string>
+    <string name="select_to_upload">选择图片</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="census_findpasswpordbyemail">邮箱找回密码</string>
     <string name="census_findpasswpordbyphone">电话找回密码</string>

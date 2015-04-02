@@ -46,6 +46,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.Jni;
 import com.jovision.MainApplication;
 import com.jovision.activities.JVTabActivity.OnMainListener;
 import com.jovision.adapters.LanAdapter;
@@ -165,13 +166,13 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 	private int[] popDrawarray = new int[] {
 			R.drawable.mydevice_popwindowonse_icon,
 			R.drawable.mydevice_popwindowtwo_icon,
-			R.drawable.mydevice_popwindowthree_icon,
+			// R.drawable.mydevice_popwindowthree_icon,
 			R.drawable.mydevice_popwindowfour_icon,
 			R.drawable.mydevice_popwindowsix_icon };
 	private int[] popDrawarrayno = new int[] {
 			R.drawable.mydevice_popwindowonse_icon,
 			R.drawable.mydevice_popwindowtwo_icon,
-			R.drawable.mydevice_popwindowthree_icon,
+			// R.drawable.mydevice_popwindowthree_icon,
 			R.drawable.mydevice_popwindowfour_icon,
 			R.drawable.mydevice_popwindowsix_icon,
 			R.drawable.mydevice_popwindowfive_icon };
@@ -309,6 +310,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 			myDLAdapter = new MyDeviceListAdapter(mActivity, this);
 			myDeviceListView = mPullRefreshListView.getRefreshableView();
 			myDeviceListView.addHeaderView(adView);
+
 			rightBtn.setOnClickListener(myOnClickListener);
 
 			// if (0 == adUrlList.size()) {
@@ -377,6 +379,8 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 					popupWindow.showAsDropDown(view,
 							(mActivity.disMetrics.widthPixels / 2), 10);
 				}
+				myDLAdapter.setShowDelete(false);
+				myDLAdapter.notifyDataSetChanged();
 				break;
 			case R.id.device_nameet_cancle:
 				device_nameet.setText("");
@@ -478,7 +482,75 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 					mActivity.startActivity(addIntent);
 					break;
 				}
-				case 1: {// 二维码扫描
+
+				case 1: {// 声波配置
+					StatService.trackCustomEvent(
+							mActivity,
+							"SoundWave",
+							mActivity.getResources().getString(
+									R.string.census_soundwave));
+					Intent intent = new Intent();
+					intent.setClass(mActivity, JVWaveSetActivity.class);
+					mActivity.startActivity(intent);
+					break;
+				}
+
+				// // TODO
+				// case 2: {// 局域网设备-->即将改成智联路由...
+				// // StatService.trackCustomEvent(mActivity,
+				// // "Scan devices in LAN", mActivity.getResources()
+				// // .getString(R.string.str_scanlandevice));
+				// //
+				// // if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
+				// // true)) {
+				// // MyLog.v(Consts.TAG_APP, "not broad = " + false);
+				// // break;
+				// // }
+				// //
+				// // if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
+				// // fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
+				// // broadTag = Consts.TAG_BROAD_ADD_DEVICE;
+				// // broadList.clear();
+				// // PlayUtil.deleteDevIp(myDeviceList);
+				// // PlayUtil.broadCast(mActivity);
+				// // } else {
+				// // mActivity.showTextToast(R.string.notwifi_forbid_func);
+				// // }
+				// /************ 智联路由 begin ***********/
+				// StatService.trackCustomEvent(
+				// mActivity,
+				// "Smart Connection",
+				// mActivity.getResources().getString(
+				// R.string.str_scanlandevice));
+				//
+				// if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
+				// true)) {
+				// MyLog.v(Consts.TAG_APP, "not broad = " + false);
+				// break;
+				// }
+				//
+				// if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
+				// Intent intent = new Intent();
+				// intent.setClass(mActivity,
+				// SmartConnectionConfigActivity.class);
+				// mActivity.startActivity(intent);
+				// } else {
+				// mActivity.showTextToast(R.string.notwifi_forbid_func);
+				// }
+				// /************ 智联路由 end ***********/
+				// break;
+				// }
+
+				case 2: {// 无线设备
+					StatService.trackCustomEvent(
+							mActivity,
+							"Add Wi_Fi Device",
+							mActivity.getResources().getString(
+									R.string.census_addwifidev));
+					((ShakeActivity) getActivity()).startSearch(false);
+					break;
+				}
+				case 3: {// 二维码扫描
 					StatService.trackCustomEvent(
 							mActivity,
 							"Scan QR Code",
@@ -490,49 +562,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 					mActivity.startActivity(addIntent);
 					break;
 				}
-				case 2: {// 无线设备
-					StatService.trackCustomEvent(
-							mActivity,
-							"Add Wi_Fi Device",
-							mActivity.getResources().getString(
-									R.string.census_addwifidev));
-					((ShakeActivity) getActivity()).startSearch(false);
-					break;
-				}
-				case 3: {// 局域网设备
-					StatService.trackCustomEvent(mActivity,
-							"Scan devices in LAN", mActivity.getResources()
-									.getString(R.string.str_scanlandevice));
-
-					if (!MySharedPreference.getBoolean(Consts.MORE_BROADCAST,
-							true)) {
-						MyLog.v(Consts.TAG_APP, "not broad = " + false);
-						break;
-					}
-
-					if (!ConfigUtil.is3G(mActivity, false)) {// 3G网提示不支持
-						fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
-						broadTag = Consts.TAG_BROAD_ADD_DEVICE;
-						broadList.clear();
-						PlayUtil.deleteDevIp(myDeviceList);
-						PlayUtil.broadCast(mActivity);
-					} else {
-						mActivity.showTextToast(R.string.notwifi_forbid_func);
-					}
-					break;
-				}
-				case 4: {// 声波配置
-					StatService.trackCustomEvent(
-							mActivity,
-							"SoundWave",
-							mActivity.getResources().getString(
-									R.string.census_soundwave));
-					Intent intent = new Intent();
-					intent.setClass(mActivity, JVWaveSetActivity.class);
-					mActivity.startActivity(intent);
-					break;
-				}
-				case 5: {// IP/域名设备
+				case 4: {// IP/域名设备
 					StatService.trackCustomEvent(mActivity, "IP/DNS", mActivity
 							.getResources().getString(R.string.census_ipdns));
 					Intent intent = new Intent();
@@ -605,6 +635,8 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 	@Override
 	public void onPause() {
 		super.onPause();
+		myDLAdapter.setShowDelete(false);
+		myDLAdapter.notifyDataSetChanged();
 		BitmapCache.getInstance().clearCache();
 		// stopRefreshWifiTimer();
 		// stopBroadTimer();
@@ -700,8 +732,12 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 
 										if (adUrl.contains("platv=9999")
 												|| Consts.AD_TYPE_1 == type) {// 视频广场特殊标识
-											adUrl = adUrl.substring(0,
-													adUrl.lastIndexOf("?"));
+
+											if (adUrl.contains("?")) {
+												adUrl = adUrl.substring(0,
+														adUrl.lastIndexOf("?"));
+											}
+
 											adUrl = adUrl
 													+ "?"
 													+ "plat=android&platv="
@@ -808,6 +844,7 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 							imageView.setScaleType(ScaleType.FIT_CENTER);
 							listViews.add(imageView);
 						}
+
 					} else {
 						refreshAD();
 						// for (int i = 0; i < listViews.size(); i++) {
@@ -929,6 +966,20 @@ public class JVMyDeviceFragment extends BaseFragment implements OnMainListener {
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case Consts.NET_CHANGE_CLEAR_CACHE: {// 网络切换清缓存
+			MyLog.i("MyRecevier", "网络变化了--正常网络");
+			Jni.getVersion();
+			Jni.clearCache();
+
+			if (null == myDeviceList || 0 == myDeviceList.size()) {
+				myDeviceList = CacheUtil.getDevList();
+			}
+
+			if (null != myDeviceList && 0 != myDeviceList.size()) {
+				PlayUtil.setHelperToList(myDeviceList);
+			}
+			break;
+		}
 		case Consts.GETDEMOURL:
 			fragHandler.sendEmptyMessage(Consts.WHAT_SHOW_PRO);
 

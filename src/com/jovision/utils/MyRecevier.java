@@ -35,6 +35,7 @@ import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 
 import com.jovision.Consts;
+import com.jovision.MainApplication;
 import com.jovision.bean.Device;
 import com.jovision.commons.MyLog;
 import com.jovision.commons.MySharedPreference;
@@ -43,17 +44,36 @@ public class MyRecevier extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		MySharedPreference.init(context);
-		if (!MySharedPreference.getBoolean(Consts.LOCAL_LOGIN)) {
-			return;
-		}
-
-		if (MySharedPreference.getBoolean(Consts.AP_SETTING)) {
-			MyLog.e("MyRecevier", "AP配置网络变化了");
-			return;
-		}
 		try {
+			MySharedPreference.init(context);
+
 			String action = intent.getAction();
+			ArrayList<Device> myDeviceList = CacheUtil.getDevList();
+
+			if (TextUtils.equals(action, Consts.CONNECTIVITY_CHANGE_ACTION)) {// 网络变化的时候会发送通知
+				ConnectivityManager connectivityManager = (ConnectivityManager) context
+						.getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo mobNetInfo = connectivityManager
+						.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+				NetworkInfo wifiNetInfo = connectivityManager
+						.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+				MyLog.v("changewifi", "切网络");
+				// Toast.makeText(context, "切网络了", 3000).show();
+				// if (wifiNetInfo.isConnected()) {
+				((MainApplication) context.getApplicationContext()).onNotify(
+						Consts.NET_CHANGE_CLEAR_CACHE, 0, 0, 0);
+				// }
+			}
+
+			if (!MySharedPreference.getBoolean(Consts.LOCAL_LOGIN)) {
+				return;
+			}
+
+			if (MySharedPreference.getBoolean(Consts.AP_SETTING)) {
+				MyLog.e("MyRecevier", "AP配置网络变化了");
+				return;
+			}
+
 			// statusHashMap.put(Consts.HAS_LOAD_DEMO,"false");
 			if (TextUtils.equals(action, Consts.CONNECTIVITY_CHANGE_ACTION)) {// 网络变化的时候会发送通知
 
@@ -70,7 +90,6 @@ public class MyRecevier extends BroadcastReceiver {
 				} else {
 					// 改变背景或者 处理网络的全局变量
 					String wifi = getCurrentWifi(context);
-					ArrayList<Device> myDeviceList = CacheUtil.getDevList();
 					PlayUtil.deleteDevIp(myDeviceList);
 					CacheUtil.saveDevList(myDeviceList);
 					MyLog.i("MyRecevier", "清空IP并保存");
@@ -83,7 +102,6 @@ public class MyRecevier extends BroadcastReceiver {
 						MyLog.i("MyRecevier", "网络变化了,不需要重新发广播,当前网络：" + wifi);
 					}
 				}
-
 				return;
 			}
 		} catch (Exception e) {

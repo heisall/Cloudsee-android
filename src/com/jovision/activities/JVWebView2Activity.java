@@ -146,6 +146,7 @@ public class JVWebView2Activity extends BaseActivity implements
 				MyLog.v("reConnect2", "connectRes3=" + connectRes3
 						+ ";connectRes4=" + connectRes4);
 			} else if (arg2 == Consts.RTMP_EDISCONNECT) {
+				// showTextToast("error code 4");
 				connectRes4 = arg2;
 				MyLog.v("reConnect1", "connectRes3=" + connectRes3
 						+ ";connectRes4=" + connectRes4);
@@ -465,6 +466,7 @@ public class JVWebView2Activity extends BaseActivity implements
 		saveSetting.setOnClickListener(myOnClickListener);
 
 		if (MySharedPreference.getBoolean(Consts.MORE_LITTLE)) {// 调试版本
+			// minCache.setText(url);
 			linkSetting.setVisibility(View.VISIBLE);
 		} else {
 			linkSetting.setVisibility(View.GONE);

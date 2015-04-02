@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.jovetech.CloudSee.temp.R;
 import com.jovision.Consts;
+import com.jovision.Global;
 import com.jovision.commons.MySharedPreference;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
@@ -111,6 +112,9 @@ public class JVVersionActivity extends BaseActivity {
 					.getString(Consts.KEY_DEV_TOKEN);
 			configList.add("个推CID=" + gtClientID + "\n");
 			configList.add("OS MODEL=" + android.os.Build.MODEL + "\n");
+
+			configList.add("流量统计兼容测试:" + Global.STR_TRAFFICSTATS_CMPT_RES
+					+ "\n");
 
 			if (ConfigUtil.ACCOUNT_VERSION.equalsIgnoreCase(JVACCOUNT
 					.GetVersion(0))

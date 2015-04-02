@@ -29,6 +29,8 @@ public class Consts {
 	public static int COUNT = -1;
 	public static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
 
+	public static final boolean SMART_CONN_ENABLED = false;// 智连路由功能是否可用标志
+
 	/** 老数据库数据 **/
 	public static final String JVCONFIG_DATABASE = "JVConfigTemp.db";
 	public static final int JVCONFIG_DB_VER = 2;
@@ -56,7 +58,8 @@ public class Consts {
 			+ APP_NAME + File.separator + "welcome" + File.separator;
 	public static final String SCENE_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "scene" + File.separator;
-
+	public static final String BBSIMG_PATH = Consts.SD_CARD_PATH + APP_NAME
+			+ File.separator + "bbsimage" + File.separator;
 	public static final String DB_PATH = Consts.SD_CARD_PATH + APP_NAME
 			+ File.separator + "db" + File.separator;
 
@@ -126,6 +129,7 @@ public class Consts {
 	public static final String FORMATTER_SET_MDENABLE = "bMDEnable=%d;";
 	public static final String FORMATTER_SET_ALARM_TIME = "alarmTime0=%s;";
 	public static final String FORMATTER_SET_ALARM_ONLY = "bAlarmEnable=%d;";
+	public static final String FORMATTER_SET_ALARM_SOUND = "bAlarmSound=%d;";
 	public static final String FORMATTER_CLOUD_DEV = "CLOUD_%s_%d";
 	public static int pushHisCount = 0;
 	public static final int PUSH_PAGESIZE = 5;
@@ -313,10 +317,12 @@ public class Consts {
 	public static final String MORE_LITTLE = "LITTLE"; // 关于
 	public static final String MORE_SYSTEMMESSAGE = "SystemMessage"; // 系统消息
 	public static final String MORE_DEMOURL = "DEMOURL"; // 视频广场
+	public static final String ALARM_SETTING_SOUND = "AlarmSound"; // 报警声音开关
+	public static final String ALARM_SETTING_VIBRATE = "AlarmVibrate";// 报警振动开关
 	// public static final String MORE_CUSTURL = "CUSTURL"; // 我要装监控
 	public static final String MORE_STATURL = "STATURL"; // 云视通指数
 	public static final String MORE_BBS = "BBSURL"; // 论坛
-	public static final String MORE_GCSURL = "CUSTURL"; // 工程商入住
+	public static final String MORE_GCSURL = "GCSURL"; // 工程商入住
 	public static final String MORE_BBSNUM = "BBSNUM"; // 论坛未读消息数量
 	public static final int MORE_BBSNUMNOTY = 0x999991; // 论坛未读消息数量
 	public static final String MORE_BBSNUMURL = "BBSNUMURL"; // 论坛未读消息数量
@@ -325,9 +331,40 @@ public class Consts {
 	// public static final String MORE_CUST_SWITCH = "CUST_SWITCH"; // 我要装监控开关
 	public static final String MORE_STAT_SWITCH = "STAT_SWITCH"; // 云视通指数开关
 	public static final String MORE_BBS_SWITCH = "BBS_SWITCH"; // 论坛开关
-	public static final String MORE_GCS_SWITCH = "STAT_SWITCH"; // 工程商入住开关
+	public static final String MORE_GCS_SWITCH = "GCS_SWITCH"; // 工程商入住开关
 
 	public static final String MORE_TESTSWITCH = "TESTSWITCH"; // 测试服务器开关
+
+	public static final String MORE_ALARMMSG = "AlarmMsg"; // 报警信息
+	public static final String MORE_VERSION = "Version"; // 版本
+	public static final String MORE_DEVICESHARE = "DEVICE_SHARE"; // 设备分享
+	public static final String MORE_SHOWMEDIA = "SHOW_MEDIA"; // 察看图像
+	public static final String MORE_FEEDBACK = "FEED_BACK"; // 反馈
+	public static final String MORE_UPDATE = "UPDATE"; // 更新
+
+	/** 更多 list菜单每个item对应的属性标志 **/
+	public static final String[] moreListItemFlag = new String[] { MORE_HELP, /*
+																			 * 0
+																			 * 帮助
+																			 */
+	MORE_REMEMBER, /* 1 自动登陆 */
+	MORE_ALARMSWITCH, /* 2 警告信息推送 */
+	MORE_ALARMMSG, /* 3报警信息 */
+	MORE_PLAYMODE, /* 4 观看模式 */
+	MORE_DEVICESHARE, /* 5设备分享 */
+	MORE_STATURL, /* 6 云视通指数 */
+	MORE_GCSURL, /* 7 工程商入住 */
+	MORE_BBS, /* 8进入社区 */
+	MORE_SYSTEMMESSAGE, /* 9 系统消息 */
+	MORE_SHOWMEDIA, /* 10 图像察看 */
+	MORE_FEEDBACK, /* 11 反馈 */
+	MORE_UPDATE, /* 12 检查更新 */
+	MORE_LITTLE, /* 13关于 */
+	MORE_LITTLEHELP, /* 14 小助手 */
+	MORE_BROADCAST, /* 15广播 */
+	MORE_TESTSWITCH, /* 16 测试开关 */
+	MORE_VERSION /* 17 版本 */
+	};
 
 	/********************************* 　以上修改设备用户名密码需要的宏定义　 ***************************************/
 
@@ -596,6 +633,16 @@ public class Consts {
 	/** 视频广场重新加载url */
 	public static final int TAB_PLAZZA_RELOAD_URL = 0x78;// 视频广场重新加载url
 
+	/** 网络切换清小助手缓存 */
+	public static final int NET_CHANGE_CLEAR_CACHE = 0x79;// 网络切换清小助手缓存
+
+	/** tab onActivityResult */
+	public static final int TAB_ON_ACTIVITY_RESULT = 0x80;// tab
+															// onActivityResult
+
+	/** 社区图片上传成功 */
+	public static final int BBS_IMG_UPLOAD_SUCCESS = 0x81;// 小维社区发帖图片上传成功
+
 	/** 设备接口对应值 **/
 	public static final int STORAGEMODE_NORMAL = 1;// 手动录像
 	public static final int STORAGEMODE_ALARM = 2;// 报警录像
@@ -765,7 +812,9 @@ public class Consts {
 	public static final int DEV_SETTINGS_ALARM = 0x01; // 安全防护开关
 	public static final int DEV_SETTINGS_MD = 0x02; // 移动侦测开关
 	public static final int DEV_SETTINGS_ALARMTIME = 0x03; // 防护时间段
-	public static final int DEV_RESET_DEVICE = 0x04; // 防护时间段
+	public static final int DEV_RESET_DEVICE = 0x04; // 设备重置
+	public static final int DEV_MOD_USERINFO = 0x05; // 修改用户名密码
+	public static final int DEV_ALARAM_SOUND = 0x06; // 设备报警声音
 	/** 手动注销标志key */
 	public static String MANUAL_LOGOUT_TAG = "MANUAL_LOGOUT_TAG";
 	/** 实时弹出报警查看后标志guid **/

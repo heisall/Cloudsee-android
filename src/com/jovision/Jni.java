@@ -27,6 +27,12 @@ public class Jni {
 	public static native String getVersion();
 
 	/**
+	 * 清理小助手缓存
+	 * 
+	 */
+	public static native void clearCache();
+
+	/**
 	 * 初始化，参考 {@link JVSUDT#JVC_InitSDK(int, Object)}
 	 * 
 	 * @param handle
@@ -176,7 +182,7 @@ public class Jni {
 			int port, String username, String password, int cloudSeeId,
 			String groupId, boolean isLocalDetect, int turnType,
 			boolean isPhone, int connectType, Object surface, boolean isVip,
-			boolean isTcp, boolean isTryOmx, String thumbName);
+			boolean isTcp, boolean isAp, boolean isTryOmx, String thumbName);
 
 	/**
 	 * 连接流媒体
@@ -239,6 +245,24 @@ public class Jni {
 	 * 
 	 */
 	public static native void cancelDownload();
+
+	/**
+	 * 恢复底层音频播放
+	 * 
+	 * @param window
+	 *            窗口索引
+	 * @return
+	 */
+	public static native boolean resumeAudio(int window);
+
+	/**
+	 * 暂停底层音频播放
+	 * 
+	 * @param window
+	 *            窗口索引
+	 * @return
+	 */
+	public static native boolean pauseAudio(int window);
 
 	/**
 	 * 暂停底层显示
@@ -852,11 +876,12 @@ public class Jni {
 	public static native void setThumb(int width, int quality);
 
 	/**
-	 * 生成声波配置数据
+	 * 生成声波配置数据，重复多次会阻塞执行
 	 * 
 	 * @param data
+	 * @param times
 	 */
-	public static native void genVoice(String data);
+	public static native void genVoice(String data, int times);
 
 	/**
 	 * TCP 连接，参考

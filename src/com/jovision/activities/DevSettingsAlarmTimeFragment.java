@@ -131,7 +131,7 @@ public class DevSettingsAlarmTimeFragment extends Fragment implements
 
 	@Override
 	public void onMainAction(int packet_type, int packet_subtype, int ex_type,
-			int destFlag) {
+			int func_index, int destFlag) {
 		// TODO Auto-generated method stub
 		mListener.OnAlarmTimeSavedResult(0);
 	}

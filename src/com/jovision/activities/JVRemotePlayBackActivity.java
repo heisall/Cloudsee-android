@@ -511,6 +511,13 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 					// 继续播放视频
 					Jni.sendBytes(indexOfChannel, JVNetConst.JVN_CMD_PLAYGOON,
 							new byte[0], 0);
+
+					if (isAudio) {
+						Jni.resumeAudio(indexOfChannel);
+					} else {
+						Jni.pauseAudio(indexOfChannel);
+					}
+
 					Jni.enablePlayAudio(indexOfChannel, isAudio);
 					isRemotePause = false;
 				} else {
@@ -567,7 +574,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				if (isRemotePause) {
 					showTextToast(R.string.forbidden_operation_when_paused);
 				} else {
-					if (hasSDCard(5)) {
+					if (hasSDCard(5, true)) {
 						boolean captureRes = PlayUtil.capture(indexOfChannel);
 						if (captureRes) {
 							PlayUtil.prepareAndPlay(mediaPlayer, true);
@@ -591,7 +598,7 @@ public class JVRemotePlayBackActivity extends PlayActivity {
 				if (isRemotePause) {
 					showTextToast(R.string.forbidden_operation_when_paused);
 				} else {
-					if (hasSDCard(5)) {
+					if (hasSDCard(5, true)) {
 						String path = PlayUtil.createRecordFile();
 						if (PlayUtil.checkRecord(indexOfChannel)) {
 							stopRecord(false);

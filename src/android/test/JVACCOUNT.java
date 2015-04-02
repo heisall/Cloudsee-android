@@ -67,7 +67,8 @@ public class JVACCOUNT {
 	 *            用户基本信息（目前只包括用户名和邮箱），用户密码（由上层直接传入加密的密码）
 	 * @return
 	 */
-	public static native int UserRegister(String username, String password);
+	public static native int UserRegister(String username, String password,
+			String customtype);
 
 	/**
 	 * 3-用户登录 2014-04-22

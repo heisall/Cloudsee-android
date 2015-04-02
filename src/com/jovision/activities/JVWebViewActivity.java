@@ -1,16 +1,24 @@
 package com.jovision.activities;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Stack;
 
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.util.Log;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -29,6 +37,8 @@ import com.jovision.commons.MyLog;
 import com.jovision.commons.Url;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.JSONUtil;
+import com.jovision.utils.MobileUtil;
+import com.jovision.utils.UploadUtil;
 
 public class JVWebViewActivity extends BaseActivity {
 
@@ -52,9 +62,45 @@ public class JVWebViewActivity extends BaseActivity {
 
 	Stack<String> titleStack = new Stack<String>();// 标题栈，后进先出
 
+	// protected ValueCallback<Uri> mUploadMessage;
+	// protected int FILECHOOSER_RESULTCODE = 1;
+	// private Uri imageUri;
+
+	protected static final int REQUEST_CODE_IMAGE_CAPTURE = 0;
+	protected static final int REQUEST_CODE_IMAGE_SELECTE = 1;
+	protected static final int REQUEST_CODE_IMAGE_CROP = 2;
+	// /* 拍照的照片存储位置 */
+	// private static final File PHOTO_DIR = new File(
+	// Environment.getExternalStorageDirectory() + "/DCIM/Camera");
+	// 照相机拍照得到的图片
+	private File mCurrentPhotoFile;
+	// 缓存图片URI
+	Uri imageTempUri = null;
+	private String uploadUrl = "";// "http://bbs.cloudsee.net/misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2&uid=1";
+
+	private Dialog initDialog;
+	private RelativeLayout capture_Load;
+	private RelativeLayout select_Load;
+	private RelativeLayout captureparent;
+	private ImageView dialog_cancle_img;
+	private TextView capturetext;
+	private TextView selecttext;
+	private View view;
+
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
+		case Consts.BBS_IMG_UPLOAD_SUCCESS: {
+			dismissDialog();
+			if (null != obj) {
+				// showTextToast(obj.toString());
+				webView.loadUrl("javascript:uppic(\"" + obj.toString() + "\")");
+			} else {
+				// showTextToast("null");
+			}
+
+			break;
+		}
 		case Consts.WHAT_DEMO_URL_SUCCESS: {
 			dismissDialog();
 			HashMap<String, String> paramMap = (HashMap<String, String>) obj;
@@ -87,6 +133,8 @@ public class JVWebViewActivity extends BaseActivity {
 	@Override
 	protected void initSettings() {
 		url = getIntent().getStringExtra("URL");
+		// url =
+		// "http://bbst.cloudsee.net/forum.php?mod=forumdisplay&fid=36&mobile=2";
 		// url = "http://test.cloudsee.net/phone.action";
 		// url = "http://app.ys7.com/";
 		titleID = getIntent().getIntExtra("title", 0);
@@ -146,9 +194,11 @@ public class JVWebViewActivity extends BaseActivity {
 		leftBtn.setOnClickListener(myOnClickListener);
 		rightBtn = (Button) findViewById(R.id.btn_right);
 		rightBtn.setVisibility(View.GONE);
+		rightBtn.setOnClickListener(myOnClickListener);
 
 		webView = (WebView) findViewById(R.id.findpasswebview);
 
+		// url = "http://172.16.25.228:8080/";
 		wvcc = new WebChromeClient() {
 			@Override
 			public void onReceivedTitle(WebView view, String title) {
@@ -166,6 +216,7 @@ public class JVWebViewActivity extends BaseActivity {
 
 		};
 		webView.getSettings().setJavaScriptEnabled(true);
+		webView.addJavascriptInterface(this, "wst");
 
 		// 设置setWebChromeClient对象
 		webView.setWebChromeClient(wvcc);
@@ -263,13 +314,14 @@ public class JVWebViewActivity extends BaseActivity {
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
 				// webView.loadUrl("javascript:videopayer.play()");
-
+				webView.loadUrl("javascript:upload_url()");// 调用js 获取图片上传地址
 				if (loadFailed) {
 					loadFailedLayout.setVisibility(View.VISIBLE);
 					webView.setVisibility(View.GONE);
 					loadinglayout.setVisibility(View.GONE);
 				} else {
-					webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
+					webView.loadUrl("javascript:function uploadPicFromMobile(str){fileupload.addFileList(str);}");
+					// webView.loadUrl("javascript:(function() { var videos = document.getElementsByTagName('video'); for(var i=0;i<videos.length;i++){videos[i].play();}})()");
 					loadinglayout.setVisibility(View.GONE);
 					webView.setVisibility(View.VISIBLE);
 					loadFailedLayout.setVisibility(View.GONE);
@@ -330,8 +382,15 @@ public class JVWebViewActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
+			case R.id.dialog_cancle_img:
+				initDialog.dismiss();
+				break;
 			case R.id.btn_left: {
 				backMethod();
+				break;
+			}
+			case R.id.btn_right: {// 关闭当前网页
+				backWebview();
 				break;
 			}
 			case R.id.refreshimg: {
@@ -353,41 +412,38 @@ public class JVWebViewActivity extends BaseActivity {
 	 */
 	private void backMethod() {
 		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
-		Log.i("TAG", "返回显示" + webView.canGoBack());
 		try {
-			if (webView.canGoBack()) {
-				if (null != titleStack && 0 != titleStack.size()) {
-					titleStack.pop();
-					String lastTitle = titleStack.peek();
-					currentMenu.setText(lastTitle);
-				}
-				webView.goBack(); // goBack()表示返回WebView的上一页面
-			} else {
-				JVWebViewActivity.this.finish();
-			}
+			JVWebViewActivity.this.finish();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	@Override
-	public void onBackPressed() {
-		backMethod();
+	// webview返回
+	public void backWebview() {
+		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
+		try {
+			if (webView.canGoBack()) {
+				if (null != titleStack && 0 != titleStack.size()) {
+					titleStack.pop();
+					String lastTitle = titleStack.peek();
+					currentMenu.setText(lastTitle);
+					webView.goBack(); // goBack()表示返回WebView的上一页面
+				}
+			}else{
+			    JVWebViewActivity.this.finish();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	// @Override
-	// // 设置回退
-	// // 覆盖Activity类的onKeyDown(int keyCoder,KeyEvent event)方法
-	// public boolean onKeyDown(int keyCode, KeyEvent event) {
-	// if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-	// webView.goBack(); // goBack()表示返回WebView的上一页面
-	// return true;
-	// } else {
-	// JVWebViewActivity.this.finish();
-	// }
-	// return false;
-	// }
+	@Override
+	public void onBackPressed() {
+//		backMethod();
+	    backWebview();
+	}
 
 	@Override
 	protected void saveSettings() {
@@ -402,15 +458,243 @@ public class JVWebViewActivity extends BaseActivity {
 	protected void onPause() {
 		super.onPause();
 		webView.onPause();
-		// if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-		// webView.onPause(); // 暂停网页中正在播放的视频
-		// }
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		webView.onResume();
+	}
+
+	/**
+	 * upload_url js的返回值
+	 * 
+	 * @param upUrl
+	 *            即js的返回值
+	 */
+	public void getUploadUrl(String upUrl) {
+		uploadUrl = upUrl;
+	}
+
+	/**
+	 * js window.wst.cutpic()
+	 */
+	// public void cutpic() {
+	// new AlertDialog.Builder(JVWebViewActivity.this)
+	// .setTitle(getResources().getString(R.string.str_delete_tip))
+	// .setItems(
+	// new String[] {
+	// getResources().getString(
+	// R.string.capture_to_upload),
+	// getResources().getString(
+	// R.string.select_to_upload),
+	// getResources().getString(R.string.cancel) },
+	// new OnMyOnClickListener()).show();
+	//
+	// }
+
+	/**
+	 * 
+	 * 2015-03-31 修改上传照片dialog
+	 * 
+	 * */
+	public void cutpic() {
+		initDialog = new Dialog(JVWebViewActivity.this, R.style.mydialog);
+		view = LayoutInflater.from(JVWebViewActivity.this).inflate(
+				R.layout.dialog_capture, null);
+		initDialog.setContentView(view);
+
+		captureparent = (RelativeLayout) view.findViewById(R.id.captureparent);
+		capture_Load = (RelativeLayout) view.findViewById(R.id.capture_upload);
+		select_Load = (RelativeLayout) view.findViewById(R.id.select_upload);
+		dialog_cancle_img = (ImageView) view
+				.findViewById(R.id.dialog_cancle_img);
+		capturetext = (TextView) view.findViewById(R.id.capturetext);
+		selecttext = (TextView) view.findViewById(R.id.selecttext);
+
+		capture_Load.setOnTouchListener(myOnTouchListetner);
+		select_Load.setOnTouchListener(myOnTouchListetner);
+		dialog_cancle_img.setOnClickListener(myOnClickListener);
+		initDialog.show();
+	}
+
+	// /** 图片来源菜单响应类 */
+	// protected class OnMyOnClickListener implements
+	// DialogInterface.OnClickListener {
+	//
+	// @Override
+	// public void onClick(DialogInterface dialog, int which) {
+	// if (which == 0) {
+	//
+	// } else if (which == 1) {
+	//
+	// } else if (which == 2) {
+	// /** 取消 */
+	// dialog.dismiss();
+	// }
+	// }
+	//
+	// }
+
+	OnTouchListener myOnTouchListetner = new OnTouchListener() {
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			// TODO Auto-generated method stub
+			switch (v.getId()) {
+			case R.id.capture_upload:
+				/** 从摄像头获取 */
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					capture_Load.setBackgroundColor(getResources().getColor(
+							R.color.welcome_blue));
+					capturetext.setTextColor(getResources().getColor(
+							R.color.white));
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					try {
+						capture_Load.setBackground(getResources().getDrawable(
+								R.drawable.dialog_wavebg_color));
+						capturetext.setTextColor(getResources().getColor(
+								R.color.more_fragment_color2));
+						MobileUtil
+								.createDirectory(new File(Consts.BBSIMG_PATH));
+						imageTempUri = Uri.fromFile(new File(
+								Consts.BBSIMG_PATH, System.currentTimeMillis()
+										+ Consts.IMAGE_JPG_KIND));
+
+						mCurrentPhotoFile = new File(Consts.BBSIMG_PATH,
+								System.currentTimeMillis()
+										+ Consts.IMAGE_JPG_KIND);
+						Intent it_camera = new Intent(
+								MediaStore.ACTION_IMAGE_CAPTURE);
+						it_camera.putExtra(MediaStore.EXTRA_OUTPUT,
+								Uri.fromFile(mCurrentPhotoFile));
+						view.setVisibility(View.GONE);
+						initDialog.dismiss();
+						startActivityForResult(it_camera,
+								REQUEST_CODE_IMAGE_CAPTURE);
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				}
+				break;
+			case R.id.select_upload:
+				/** 从相册获取 */
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					select_Load.setBackgroundColor(getResources().getColor(
+							R.color.welcome_blue));
+					selecttext.setTextColor(getResources().getColor(
+							R.color.white));
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					try {
+						select_Load.setBackgroundColor(getResources().getColor(
+								R.color.white));
+						selecttext.setTextColor(getResources().getColor(
+								R.color.more_fragment_color2));
+						MobileUtil
+								.createDirectory(new File(Consts.BBSIMG_PATH));
+						imageTempUri = Uri.fromFile(new File(
+								Consts.BBSIMG_PATH, System.currentTimeMillis()
+										+ Consts.IMAGE_JPG_KIND));
+						// 从相册取相片
+						Intent it_photo = new Intent(Intent.ACTION_GET_CONTENT);
+						it_photo.addCategory(Intent.CATEGORY_OPENABLE);
+						// 设置数据类型
+						it_photo.setType("image/*");
+						// 设置返回方式
+						// intent.putExtra("return-data", true);
+						it_photo.putExtra(MediaStore.EXTRA_OUTPUT, imageTempUri);
+						// 设置截图
+						// it_photo.putExtra("crop", "true");
+						// it_photo.putExtra("scale", true);
+						// 跳转至系统功能
+						view.setVisibility(View.GONE);
+						initDialog.dismiss();
+						startActivityForResult(it_photo,
+								REQUEST_CODE_IMAGE_SELECTE);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				break;
+
+			default:
+				break;
+			}
+			return true;
+		}
+	};
+
+	/** 获取调用摄像头以及相册返回数据 */
+	@SuppressLint("NewApi")
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		try {
+			super.onActivityResult(requestCode, resultCode, data);
+			// ==========摄像头===========
+			if (requestCode == REQUEST_CODE_IMAGE_CAPTURE
+					&& resultCode == Activity.RESULT_OK) {
+				// mCurrentPhotoFile =
+				// ImageUtil.getImageFile(mCurrentPhotoFile.getAbsolutePath());
+				if (mCurrentPhotoFile != null) {
+
+					createDialog("", false);
+					Thread uploadThread = new Thread() {
+
+						@Override
+						public void run() {
+							String res = UploadUtil.uploadFile(
+									mCurrentPhotoFile, uploadUrl);
+							handler.sendMessage(handler.obtainMessage(
+									Consts.BBS_IMG_UPLOAD_SUCCESS, 0, 0, res));
+							super.run();
+						}
+					};
+					uploadThread.start();
+				}
+				// ==========相册============
+			} else if (requestCode == REQUEST_CODE_IMAGE_SELECTE
+					&& resultCode == Activity.RESULT_OK) {
+				Uri uri = data.getData();
+				mCurrentPhotoFile = getFileFromUri(uri);// 根据uri获取文件
+				// mCurrentPhotoFile =
+				// ImageUtil.getImageFile(mCurrentPhotoFile.getAbsolutePath());
+				if (mCurrentPhotoFile != null) {
+					createDialog("", false);
+					Thread uploadThread = new Thread() {
+						@Override
+						public void run() {
+							String res = UploadUtil.uploadFile(
+									mCurrentPhotoFile, uploadUrl);
+							handler.sendMessage(handler.obtainMessage(
+									Consts.BBS_IMG_UPLOAD_SUCCESS, 0, 0, res));
+							super.run();
+						}
+					};
+					uploadThread.start();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 根据uri获取文件
+	 * 
+	 * @param uri
+	 * @return
+	 */
+	public File getFileFromUri(Uri uri) {
+		File file = null;
+
+		String[] proj = { MediaStore.Images.Media.DATA };
+		Cursor actualimagecursor = managedQuery(uri, proj, null, null, null);
+		int actual_image_column_index = actualimagecursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		actualimagecursor.moveToFirst();
+		String img_path = actualimagecursor
+				.getString(actual_image_column_index);
+		file = new File(img_path);
+		return file;
 	}
 
 }

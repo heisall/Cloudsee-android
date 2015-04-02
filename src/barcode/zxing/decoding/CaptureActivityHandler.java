@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import barcode.zxing.activity.MipcaActivityCapture;
 import barcode.zxing.camera.CameraManager;
 import barcode.zxing.view.ViewfinderResultPointCallback;
@@ -81,7 +82,7 @@ public final class CaptureActivityHandler extends Handler {
 		case R.id.decode_succeeded:
 			state = State.SUCCESS;
 			Bundle bundle = message.getData();
-
+			Log.i("TAG", "扫描成功");
 			/***********************************************************************/
 			Bitmap barcode = bundle == null ? null : (Bitmap) bundle
 					.getParcelable(DecodeThread.BARCODE_BITMAP);// 锟斤拷锟矫憋拷锟斤拷锟竭筹拷

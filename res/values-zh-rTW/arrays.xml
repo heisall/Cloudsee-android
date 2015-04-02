@@ -8,63 +8,60 @@
         <item>配置</item>
         <item>更多功能</item>
     </string-array>
-
     <!-- more feature func -->
     <string-array name="array_more">
         <item>幫助</item>
         <item>自動登錄</item>
-        <item>報警消息推送</item>
+        <item>報警設置</item>
         <item>報警消息</item>
         <item>觀看模式(單設備)</item>
-        <item>小助手</item>
-        <item>廣播</item>
-        <item>測試開關</item>
-        <item>版本號</item>
-        <item>工程商入駐</item>
         <item>設備分享</item>
         <item>雲視通指數</item>
+        <item>工程商入駐</item>
         <item>进入社区</item>
         <item>系統消息</item>
         <item>圖像查看</item>
         <item>意見回饋</item>
         <item>檢查更新</item>
         <item>關於</item>
+        <item>小助手</item>
+        <item>廣播</item>
+        <item>測試開關</item>
+        <item>版本號</item>
     </string-array>
     <string-array name="array_moreduo">
         <item>幫助</item>
         <item>自動登錄</item>
-        <item>報警消息推送</item>
+        <item>報警設置</item>
         <item>報警消息</item>
         <item>觀看模式(多設備)</item>
-        <item>小助手</item>
-        <item>廣播</item>
-        <item>測試開關</item>
-        <item>版本號</item>
-        <item>工程商入駐</item>
         <item>設備分享</item>
         <item>雲視通指數</item>
+        <item>工程商入駐</item>
         <item>进入社区</item>
         <item>系統消息</item>
         <item>圖像查看</item>
         <item>意見回饋</item>
         <item>檢查更新</item>
         <item>關於</item>
+        <item>小助手</item>
+        <item>廣播</item>
+        <item>測試開關</item>
+        <item>版本號</item>
     </string-array>
     <!-- add Dev pop menu -->
     <string-array name="array_pop">
         <item>雲視通號</item>
-        <item>二維碼掃描</item>
-        <item>無線設備</item>
-        <item>局域網設備</item>
         <item>聲波配置</item>
+        <item>無線設備</item>
+        <item>二維碼掃描</item>
         <item>IP/域名設備</item>
     </string-array>
     <string-array name="array_popno">
         <item>雲視通號</item>
-        <item>二維碼掃描</item>
-        <item>無線設備</item>
-        <item>局域網設備</item>
         <item>聲波配置</item>
+        <item>無線設備</item>
+        <item>二維碼掃描</item>
     </string-array>
     <!-- 家庭安防產品 -->
     <!-- 圖片品質 -->
@@ -87,7 +84,6 @@
         <item>256</item>
         <item>384</item>
     </string-array>
-
     <!-- 非家庭安防產品 -->
     <!-- 圖片品質 -->
     <string-array name="array_image_quality_not">
@@ -106,7 +102,12 @@
         <item>256</item>
         <item>384</item>
     </string-array>
-
+    <!-- 分屏数 -->
+    <integer-array name="array_screen">
+        <item>4</item>
+        <item>9</item>
+        <item>16</item>
+    </integer-array>
     <!-- 報警類型 -->
     <string-array name="alarm_type">
         <item>%%發生存儲錯誤報警。</item>
@@ -132,13 +133,11 @@
         <item>%%周圍溫度過高、濕度過低。</item>
         <item>%%周圍溫度過低、濕度過低。</item>
     </string-array>
-
     <!-- 播放器選擇 -->
     <string-array name="player_selector">
         <item>系統播放器</item>
         <item>第三方播放器</item>
     </string-array>
-
     <!-- 視頻管理功能 -->
     <string-array name="manage_function">
         <item>網路設置</item>
@@ -174,6 +173,26 @@
         <item>請將設備測試開關撥到開啟位置，等待配置完成。</item>
         <item>請用手在設備正前方10厘米處揮動幾次，等待配置完成。</item>
         <item>請將設備測試開關撥到開啟位置，等待配置完成。</item>
+    </string-array>
+    <!-- 报警设置功能标题数组 -->
+    <string-array name="alarm_settings_title">
+        <item>消息推送</item>
+        <!-- tag -->
+        <item>報警消息推送</item>
+        <item>提示音效</item>
+        <!-- tag -->
+        <item>鈴聲</item>
+        <item>振動</item>
+    </string-array>
+    <!-- 報警設置功能子標題數組與上邊那個壹壹對應 -->
+    <string-array name="alarm_settings_tips">
+        <item>0</item>
+        <!-- tag 無子標題tips -->
+        <item>開啟後可接收新的報警消息</item>
+        <item>2</item>
+        <!-- tag 無子標題tips -->
+        <item>通知時鈴聲提醒</item>
+        <item>通知時振動提醒</item>
     </string-array>
 
 </resources>

@@ -121,7 +121,7 @@ public class JVRemoteListActivity extends BaseActivity {
 			}
 		}
 		case Consts.PLAY_BACK_DOWNLOAD: {// 远程回放视频下载
-			if (hasSDCard(0)) {
+			if (hasSDCard(0, true)) {
 				createDialog("", true);
 
 				hasDownLoadSize = 0;// 已下载文件大小
@@ -170,7 +170,7 @@ public class JVRemoteListActivity extends BaseActivity {
 									int size = resObj.getInt("size");
 									int length = resObj.getInt("length");
 
-									if (!hasSDCard(length / 1024 / 1024)) {
+									if (!hasSDCard(length / 1024 / 1024, true)) {
 										dismissDialog();
 										// SD卡空间不足
 										showTextToast(R.string.str_sdcard_notenough);

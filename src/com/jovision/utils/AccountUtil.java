@@ -46,7 +46,8 @@ public class AccountUtil {
 	 */
 	public static int userRegister(User user) {
 		int res = -1;
-		res = JVACCOUNT.UserRegister(user.getUserName(), user.getUserPwd());
+		res = JVACCOUNT.UserRegister(user.getUserName(), user.getUserPwd(),
+				Consts.APP_NAME);
 		MyLog.v("userRegister--", "-----|||||" + res + "");
 
 		return res;
@@ -254,9 +255,9 @@ public class AccountUtil {
 		ClientBean cb = new ClientBean();
 		cb.setPlatformType(1);
 		if (Consts.LANGUAGE_ZH == ConfigUtil.getLanguage2(con)) {
-			cb.setLanguageType(Consts.LANGUAGE_ZH);
+			cb.setLanguageType(Consts.LANGUAGE_ZH - 1);
 		} else {
-			cb.setLanguageType(Consts.LANGUAGE_EN);
+			cb.setLanguageType(Consts.LANGUAGE_EN - 1);
 		}
 		cb.setDeviceUUID(MySharedPreference.getString(Consts.KEY_DEV_TOKEN));
 		boolean alarmSwitch = MySharedPreference.getBoolean(

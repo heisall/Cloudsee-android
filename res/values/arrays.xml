@@ -8,73 +8,61 @@
         <item>Setting</item>
         <item>More</item>
     </string-array>
-
     <!-- more feature func -->
     <string-array name="array_more">
         <item>Help</item>
         <item>Auto-Login</item>
-        <item>Alarm</item>
+        <item>Alarm Setting</item>
         <item>Alarm Message</item>
         <item>Viewing Mode(Single-device)</item>
-        <item>Helper</item>
-        <item>BroadCast</item>
-        <item>Test Switch</item>
-        <item>Version</item>
-        <item>I want this</item>
         <item>Share</item>
         <item>CloudSEE Index</item>
-        <item>进入社区</item>
+        <item>I want this</item>
+        <item>Enter into community</item>
         <item>System Information</item>
         <item>Image View</item>
         <item>Feedback</item>
         <item>Software Update</item>
+        <item>Version</item>
+        <item>Helper</item>
+        <item>BroadCast</item>
+        <item>Test Switch</item>
         <item>Version</item>
     </string-array>
     <string-array name="array_moreduo">
         <item>Help</item>
         <item>Auto-Login</item>
-        <item>Alarm</item>
+        <item>Alarm Setting</item>
         <item>Alarm Message</item>
         <item>Viewing Mode(Multi-device)</item>
-        <item>Helper</item>
-        <item>BroadCast</item>
-        <item>Test Switch</item>
-        <item>Version</item>
-        <item>I want this</item>
         <item>Share</item>
         <item>CloudSEE Index</item>
-        <item>进入社区</item>
+        <item>I want this</item>
+        <item>Enter into community</item>
         <item>System Information</item>
         <item>Image View</item>
         <item>Feedback</item>
         <item>Software Update</item>
         <item>Version</item>
+        <item>Helper</item>
+        <item>BroadCast</item>
+        <item>Test Switch</item>
+        <item>Version</item>
     </string-array>
-    <!-- setting -->
-    <string-array name="array_setting">
-        <item>Scene Picture</item>
-        <item> Help</item>
-        <item> Alarm</item>
-        <item> Viewing Mode(Single-device)</item>
-    </string-array>
-
     <!-- add Dev pop menu -->
     <string-array name="array_pop">
         <item>Add by CloudSEE ID</item>
-        <item>Scan QR Code</item>
-        <item>Add Wi-Fi Device</item>
-        <item>Scan devices in LAN</item>
         <item>Add by sound wave</item>
+        <item>Add Wi-Fi Device</item>
+        <item>Scan QR Code</item>
         <item>IP/DNS</item>
     </string-array>
     <string-array name="array_popno">
         <item>Add by CloudSEE ID</item>
-        <item>Scan QR Code</item>
-        <item>Add Wi-Fi Device</item>
-        <item>Scan devices in LAN</item>
         <item>Add by sound wave</item>
+        <item>Add Wi-Fi Device</item>
+        <item>Scan QR Code</item>
     </string-array>
-
     <!-- 家庭安防产品 -->
     <!-- 图片质量 -->
     <string-array name="array_image_quality">
@@ -96,7 +84,6 @@
         <item>256</item>
         <item>384</item>
     </string-array>
-
     <!-- 非家庭安防产品 -->
     <!-- 图片质量 -->
     <string-array name="array_image_quality_not">
@@ -121,7 +108,6 @@
         <item>9</item>
         <item>16</item>
     </integer-array>
-
     <!-- 告警类型 -->
     <string-array name="alarm_type">
         <item>Disk Error Alarm, Device:%%.</item>
@@ -146,9 +132,7 @@
         <item>ALARM_TEMP_HIGH_HUM_LOW, Device:%%.</item>
         <item>ALARM_TEMP_LOW_HUM_HIGH, Device:%%.</item>
         <item>ALARM_TEMP_LOW_HUM_LOW, Device:%%.</item>
-        <item>ALARM_TOTAL, Device:%%.</item>
     </string-array>
-
     <!-- 播放器选择 -->
     <string-array name="player_selector">
         <item>System player</item>
@@ -164,7 +148,6 @@
         <item>Alarm Setting</item>
         <item>Version info</item>
     </string-array>
-
     <!-- 第三方外设报警管理 -->
     <string-array name="peripherals_manage">
         <item>Door Magnetic</item>
@@ -175,7 +158,6 @@
         <item>IR Detector</item>
         <item>Gas Leak Detector</item>
     </string-array>
-
     <!-- 码流切换 -->
     <string-array name="array_stream">
         <item>&#160;&#160;&#160;HD&#160;&#160;&#160;</item>
@@ -191,6 +173,26 @@
         <item>Enable the device testing button, and wait until configuration finished.</item>
         <item>Swing your arm for several times at around 10 centimeters in front of the device,and wait until configuration finished.</item>
         <item>Enable the device testing button, and wait until configuration finished.</item>
+    </string-array>
+    <!-- 报警设置功能标题数组 -->
+    <string-array name="alarm_settings_title">
+        <item>Information Delivery</item>
+        <!-- tag -->
+        <item>Alarm Information Delivery</item>
+        <item>Warning Tone</item>
+        <!-- tag -->
+        <item>Bell</item>
+        <item>Vibration</item>
+    </string-array>
+    <!-- 报警设置功能子标题数组与上边那个一一对应 -->
+    <string-array name="alarm_settings_tips">
+        <item>0</item>
+        <!-- tag 无子标题tips -->
+        <item>New alarm info can be received after start-up</item>
+        <item>2</item>
+        <!-- tag 无子标题tips -->
+        <item>Bell remind when get notification</item>
+        <item>Vibration remind when get notification</item>
     </string-array>
 
 </resources>

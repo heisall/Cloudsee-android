@@ -62,8 +62,11 @@ public class PopWindowAdapter extends BaseAdapter {
 		} else {
 			Holder = (DeviceHolder) convertView.getTag();
 		}
-		Holder.listitem_name.setText(array[position]);
-		Holder.listitem_img.setImageResource(drawablearray[position]);
+
+		if (position < drawablearray.length) {
+			Holder.listitem_name.setText(array[position]);
+			Holder.listitem_img.setImageResource(drawablearray[position]);
+		}
 		return convertView;
 	}
 

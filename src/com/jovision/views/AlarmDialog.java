@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
@@ -46,6 +47,7 @@ public class AlarmDialog extends Dialog {
 	private Toast toast;
 	private String strAlarmGUID;
 	private Vibrator vibrator;
+	private MediaPlayer player;
 
 	public AlarmDialog(Context context) {
 		super(context, R.style.mydialog);
@@ -53,6 +55,26 @@ public class AlarmDialog extends Dialog {
 		vibrator = (Vibrator) context
 				.getSystemService(Service.VIBRATOR_SERVICE);
 		// TODO Auto-generated constructor stub
+		player = new MediaPlayer();
+		player = MediaPlayer.create(this.context, R.raw.alarm);
+		// try {
+		// player.setDataSource(this.context, RingtoneManager
+		// .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+		// player.prepare();
+		// } catch (IllegalArgumentException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (SecurityException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (IllegalStateException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+
 	}
 
 	@Override
@@ -72,6 +94,7 @@ public class AlarmDialog extends Dialog {
 		dialogView.setOnClickListener(myOnClickListener);
 		dialogCancleImg.setOnClickListener(myOnClickListener);
 		// MyLog.e("AlarmDialog", "onCreate" + getDialogObjs());
+
 	}
 
 	@Override
@@ -217,7 +240,16 @@ public class AlarmDialog extends Dialog {
 			if (!isshowing) {
 				isshowing = true;
 				Log.e("Alarm", "Show() isshowing == true");
-				vibrator.vibrate(new long[] { 500, 2000, 500, 2000 }, 0);
+				if (MySharedPreference.getBoolean(Consts.ALARM_SETTING_VIBRATE,
+						true)) {
+					vibrator.vibrate(new long[] { 500, 2000, 500, 2000 }, -1);
+					// vibrator.vibrate(2000);
+				}
+				if (MySharedPreference.getBoolean(Consts.ALARM_SETTING_SOUND,
+						true)) {
+					player.start();
+				}
+
 				PushInfo pi = (PushInfo) obj;
 				ystNum = pi.ystNum;
 				deviceNickName = pi.deviceNickName;

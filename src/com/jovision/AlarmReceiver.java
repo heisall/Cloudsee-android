@@ -70,10 +70,16 @@ public class AlarmReceiver extends BroadcastReceiver {
 				notification.flags |= Notification.FLAG_AUTO_CANCEL;
 				// notification.defaults |= Notification.DEFAULT_SOUND;// 声音
 				notification.defaults |= Notification.DEFAULT_LIGHTS;// 灯
-				notification.defaults |= Notification.DEFAULT_VIBRATE;// 震动
+				if (MySharedPreference.getBoolean(Consts.ALARM_SETTING_VIBRATE,
+						true)) {
+					notification.defaults |= Notification.DEFAULT_VIBRATE;// 震动
+				}
+				if (MySharedPreference.getBoolean(Consts.ALARM_SETTING_SOUND,
+						true)) {
+					notification.sound = Uri.parse("android.resource://"
+							+ context.getPackageName() + "/" + R.raw.alarm);
+				}
 
-				notification.sound = Uri.parse("android.resource://"
-						+ context.getPackageName() + "/" + R.raw.alarm);
 				// 定义下拉通知栏时要展现的内容信息
 
 				// CharSequence contentText = arg1.getContent();

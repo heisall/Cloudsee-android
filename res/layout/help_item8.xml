@@ -13,7 +13,7 @@
     <LinearLayout
         android:id="@+id/autoRelative"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:background="@color/helptransparent"
         android:orientation="horizontal" >
 
@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="30dp" >
+            android:layout_marginLeft="50dp" >
 
             <TextView
                 android:id="@+id/one"
@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/one"
                 android:layout_centerHorizontal="true"
+                android:layout_marginLeft="30dp"
                 android:background="@drawable/play_maliu" />
         </RelativeLayout>
 
@@ -66,7 +67,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp" >
+        android:layout_height="55dp" >
 
         <LinearLayout
             android:id="@+id/one"
@@ -78,16 +79,16 @@
 
         <ImageView
             android:id="@+id/two"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_toRightOf="@+id/one"
             android:background="@drawable/light_bg" />
 
         <ImageView
             android:id="@+id/three"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/four"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_toLeftOf="@+id/right_one"
             android:background="@drawable/light_bg" />
 
         <ImageView
@@ -99,7 +100,7 @@
             android:background="@color/helptransparent" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/three"
             android:layout_toRightOf="@+id/two"
@@ -107,7 +108,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="75dp"
+            android:id="@+id/right_one"
+            android:layout_width="95dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:background="@color/helptransparent" >
@@ -138,7 +140,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp" >
+        android:layout_height="55dp" >
 
         <LinearLayout
             android:layout_width="10dp"
@@ -148,8 +150,8 @@
 
         <ImageView
             android:id="@+id/middle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/light_bg" />
 

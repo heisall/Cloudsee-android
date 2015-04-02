@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -212,7 +213,7 @@ public class JVDeviceManageFragment extends BaseFragment implements
 			TextView view = new TextView(mActivity);
 			view.setText(manageDeviceList.get(i).getNickName());
 			view.setSingleLine(true);
-			view.setTextSize(16);
+			view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);// 22DIP
 			view.setId(i);
 			view.setTextColor(mActivity.getResources().getColor(
 					R.color.devicemanagename));

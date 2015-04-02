@@ -7,7 +7,23 @@
     <RelativeLayout
         android:id="@+id/mydevice_relative"
         android:layout_width="match_parent"
-        android:layout_height="60dp" >
+        android:layout_height="55dp" >
+
+        <ImageView
+            android:id="@+id/mydevice_img"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_toLeftOf="@+id/mydevice_imgtopright"
+            android:background="@drawable/light_bg" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/mydevice_imgtopright"
+            android:layout_width="5dp"
+            android:layout_height="55dp"
+            android:layout_alignParentRight="true"
+            android:background="@color/helptransparent" >
+        </ImageView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -15,14 +31,6 @@
             android:layout_toLeftOf="@+id/mydevice_img"
             android:background="@color/helptransparent" >
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/mydevice_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/light_bg" >
-        </ImageView>
     </RelativeLayout>
 
     <RelativeLayout
@@ -36,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="35dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/help_rightup_icon" />
 
         <TextView
@@ -44,11 +52,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/help_img"
-            android:layout_marginRight="80dp"
+            android:layout_marginRight="40dp"
             android:layout_marginTop="5dp"
             android:text="@string/str_help_zero"
             android:textColor="@color/more_fragment_color3"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
     </RelativeLayout>
 
 </LinearLayout>

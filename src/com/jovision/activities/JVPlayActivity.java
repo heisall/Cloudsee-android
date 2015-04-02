@@ -1090,19 +1090,21 @@ public class JVPlayActivity extends PlayActivity implements
 
 			// 同意语音请求
 			case JVNetConst.JVN_RSP_CHATACCEPT: {
-				if (!ishonfunctalk) {
-					ishonfunctalk = true;
-					horfunc_talk.setVisibility(View.VISIBLE);
-				}
-				if (!istalk) {
-					function.setVisibility(View.GONE);
-					talk_eachother.setVisibility(View.VISIBLE);
-					istalk = true;
-				}
+
 				Channel channel = channelList.get(lastClickIndex);
 				if (channel.isSingleVoice()) {
 					showTextToast(R.string.voice_tips2);
+					if (!ishonfunctalk) {
+						ishonfunctalk = true;
+						horfunc_talk.setVisibility(View.VISIBLE);
+					}
+					if (!istalk) {
+						function.setVisibility(View.GONE);
+						talk_eachother.setVisibility(View.VISIBLE);
+						istalk = true;
+					}
 				}
+				Jni.resumeAudio(channel.getIndex());
 				// recorder.start(channelList.get(lastClickIndex).getAudioType(),
 				// channelList.get(lastClickIndex).getAudioByte());
 
@@ -1263,15 +1265,39 @@ public class JVPlayActivity extends PlayActivity implements
 									: false;
 							MyLog.e(TAG, "启用TCP连接 == " + enableTcp);
 
+							// playStatistics
+							// .setText(String
+							// .format("%.1fk/%.1fk/D:%.1fk/J:%.1fk/N:%.1fk/L:%dk",
+							// object.getDouble("kbps"),
+							// object.getDouble("audio_kbps"),
+							// object.getDouble("decoder_fps"),
+							// object.getDouble("jump_fps"),
+							// object.getDouble("network_fps"),
+							// object.getInt("left"))
+							//
+							// + "/"
+							// + (object.getBoolean("is_turn") ? "TURN"
+							// : "P2P")
+							// + "/"
+							// + "enableTcp=" + enableTcp + "/"
+							// // + PlayUtil
+							// // .hasEnableHelper(channelList
+							// // .get(lastClickIndex)
+							// // .getParent()
+							// // .getFullNo())
+							// );
+
 							playStatistics
 									.setText(String
-											.format("%.1fk/%.1fk/D:%.1fk/J:%.1fk/N:%.1fk/L:%dk",
+											.format("%.1fk/%.1fk/D:%.1fk/AJ:%.1fk/VJ:%.1fk/N:%.1fk/AL:%dk/VL:%dk",
 													object.getDouble("kbps"),
 													object.getDouble("audio_kbps"),
 													object.getDouble("decoder_fps"),
-													object.getDouble("jump_fps"),
+													object.getDouble("audio_jump_fps"),
+													object.getDouble("video_jump_fps"),
 													object.getDouble("network_fps"),
-													object.getInt("left"))
+													object.getInt("audio_left"),
+													object.getInt("video_left"))
 
 											+ "/"
 											+ (object.getBoolean("is_turn") ? "TURN"
@@ -2183,7 +2209,8 @@ public class JVPlayActivity extends PlayActivity implements
 	 */
 	private boolean connect(Channel channel, boolean isPlayDirectly) {
 		String fullPath = "";
-		if (Consts.PLAY_AP != playFlag && hasSDCard(5) && null != channel) {
+		if (Consts.PLAY_AP != playFlag && hasSDCard(5, false)
+				&& null != channel) {
 			String savePath = "";
 			if (Consts.PLAY_NORMAL == playFlag) {
 				if (2 == channel.getParent().getIsDevice()) {
@@ -2321,7 +2348,7 @@ public class JVPlayActivity extends PlayActivity implements
 									channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 											: JVNetConst.TYPE_3GMO_UDP, channel
 											.getSurface(), false, enableTcp,
-									isOmx, fullPath);
+									false, isOmx, fullPath);
 					if (connect == channel.getIndex()) {
 						channel.setPaused(null == channel.getSurface());
 					}
@@ -2370,7 +2397,7 @@ public class JVPlayActivity extends PlayActivity implements
 												: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
 										// ? 6 : 5),
 										channel.getSurface(), false, enableTcp,
-										isOmx, fullPath);
+										false, isOmx, fullPath);
 
 						int connectWay = channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP;
@@ -2395,7 +2422,8 @@ public class JVPlayActivity extends PlayActivity implements
 										channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 												: JVNetConst.TYPE_3GMO_UDP,// (device.isHomeProduct()
 										// ? 6 : 5),
-										null, false, enableTcp, isOmx, fullPath);
+										null, false, enableTcp, false, isOmx,
+										fullPath);
 
 						int connectWay = channel.getParent().isOldDevice() ? JVNetConst.TYPE_3GMOHOME_UDP
 								: JVNetConst.TYPE_3GMO_UDP;
@@ -2932,7 +2960,7 @@ public class JVPlayActivity extends PlayActivity implements
 							true, JVNetConst.RC_EX_FlashJpeg,
 							JVNetConst.RC_EXTEND, null);
 				} else {
-					if (hasSDCard(5) && allowThisFuc(false)) {
+					if (hasSDCard(5, true) && allowThisFuc(false)) {
 						boolean captureRes = PlayUtil.capture(lastClickIndex);
 						if (captureRes) {
 							PlayUtil.prepareAndPlay(mediaPlayer, true);
@@ -2944,6 +2972,7 @@ public class JVPlayActivity extends PlayActivity implements
 					}
 
 				}
+
 				break;
 			case R.id.bottom_but5:
 				voiceCall(channel);
@@ -2980,7 +3009,7 @@ public class JVPlayActivity extends PlayActivity implements
 			case R.id.bottom_but7:
 			case R.id.videotape:// 录像
 				closePopWindow();
-				if (hasSDCard(5) && allowThisFuc(true)) {
+				if (hasSDCard(5, true) && allowThisFuc(true)) {
 					if (channelList.get(lastClickIndex).getParent().is05()) {
 						String path = PlayUtil.createRecordFile();
 						if (PlayUtil.checkRecord(lastClickIndex)) {
@@ -2996,34 +3025,41 @@ public class JVPlayActivity extends PlayActivity implements
 				break;
 			case R.id.video_bq:
 			case R.id.more_features:// 码流
-				if (null != screenPopWindow && screenPopWindow.isShowing()) {
-					screenPopWindow.dismiss();
-				}
-				int rows = 3;
-				if (channelList.get(lastClickIndex).isNewIpcFlag()
-						|| channelList.get(lastClickIndex).getParent()
-								.isOldDevice()) {
-					streamListView.setBackgroundDrawable(getResources()
-							.getDrawable(R.drawable.stream_selector_bg3));
-					rows = 3;
-				} else {
-					streamListView.setBackgroundDrawable(getResources()
-							.getDrawable(R.drawable.stream_selector_bg2));
-					rows = 2;
 
-				}
-
-				if (View.VISIBLE == streamListView.getVisibility()) {
-					closePopWindow();
+				// 2015.4.1启用TCP连接提示不支持码流切换
+				if (1 == channelList.get(lastClickIndex).getParent()
+						.getEnableTcpConnect()) {
+					showTextToast(R.string.not_support_this_func);
 				} else {
-					if (allowThisFuc(true)) {
-						if (-1 == channelList.get(lastClickIndex)
-								.getStreamTag()) {
-							showTextToast(R.string.not_support_this_func);
-						} else {
-							streamAdapter.setChangeCounts(rows);
-							streamAdapter.notifyDataSetChanged();
-							streamListView.setVisibility(View.VISIBLE);
+					if (null != screenPopWindow && screenPopWindow.isShowing()) {
+						screenPopWindow.dismiss();
+					}
+					int rows = 3;
+					if (channelList.get(lastClickIndex).isNewIpcFlag()
+							|| channelList.get(lastClickIndex).getParent()
+									.isOldDevice()) {
+						streamListView.setBackgroundDrawable(getResources()
+								.getDrawable(R.drawable.stream_selector_bg3));
+						rows = 3;
+					} else {
+						streamListView.setBackgroundDrawable(getResources()
+								.getDrawable(R.drawable.stream_selector_bg2));
+						rows = 2;
+
+					}
+
+					if (View.VISIBLE == streamListView.getVisibility()) {
+						closePopWindow();
+					} else {
+						if (allowThisFuc(true)) {
+							if (-1 == channelList.get(lastClickIndex)
+									.getStreamTag()) {
+								showTextToast(R.string.not_support_this_func);
+							} else {
+								streamAdapter.setChangeCounts(rows);
+								streamAdapter.notifyDataSetChanged();
+								streamListView.setVisibility(View.VISIBLE);
+							}
 						}
 					}
 				}
@@ -3075,6 +3111,7 @@ public class JVPlayActivity extends PlayActivity implements
 			} else {
 				if (channelList.get(lastClickIndex).isVoiceCall()) {
 					stopVoiceCall(lastClickIndex);
+					Jni.pauseAudio(lastClickIndex);
 					channelList.get(lastClickIndex).setVoiceCall(false);
 					realStop = true;
 					voiceCallSelected(false);
@@ -4549,6 +4586,13 @@ public class JVPlayActivity extends PlayActivity implements
 		@Override
 		public void run() {
 			// "talkSwitch=" + tag;// 1开始 0关闭
+
+			if (1 == param) {
+				Jni.pauseAudio(index);
+			} else {
+				Jni.resumeAudio(index);
+			}
+
 			for (int i = 0; i < 3; i++) {
 				Jni.sendString(index, JVNetConst.JVN_RSP_TEXTDATA, false, 0,
 						Consts.TYPE_SET_PARAM,

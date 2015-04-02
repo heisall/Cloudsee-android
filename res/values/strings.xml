@@ -26,7 +26,7 @@
     <string name="login_str_device">Device List</string>
     <string name="login_str_add_device">Add Device</string>
     <string name="login_str_device_devicename_notnull">Please input nickname for the device</string>
-    <string name="login_str_nike_name_order">Ilegal character,the NikeName should be English letter,number,or special characters like .-_+()</string>
+    <string name="login_str_nike_name_order">The NikeName should be English letter,number,or special characters like .-_+()</string>
     <string name="login_str_device_account_notnull">Please input username.</string>
     <string name="login_str_device_pass_notnull">Please input password.</string>
     <string name="device_pass_notzh">Password can not be Chinese</string>
@@ -164,6 +164,9 @@
     <string name="str_about">About</string>
     <string name="str_feedback">Suggestion and FeedBack</string>
     <string name="str_login_out">Log Out</string>
+    <string name="str_alarm_settings">Alarm Settings</string>
+    <string name="str_alarm_pushon_failed">Failed to enable the alarm message delivery</string>
+    <string name="str_alarm_pushoff_failed">Failed to disable the alarm message</string>
     <!-- 注册 -->
     <string name="str_enter_username">Phone/Email/Username</string>
     <string name="str_enter_emails">Email</string>
@@ -186,7 +189,7 @@
     <string name="str_end_time">End Time</string>
     <string name="str_save_path">Disk</string>
     <string name="str_disk">Disk</string>
-    <string name="video_download_success">Video download success</string>
+    <string name="video_download_success">Video download success.Please check it through [More]-[Image View]-[Download]</string>
     <string name="video_download_failed">Video download failed</string>
     <string name="str_video_play_failed">Failed to playback, please try again.</string>
     <string name="str_video_load_failed">Failed to load data</string>
@@ -460,6 +463,7 @@
     <!-- popupWindow -->
     <string name="pop_take">Capture</string>
     <string name="pop_pictrue">Choose from phone Album.</string>
+    <string name="code_pictrue">Phone Album</string>
     <!-- JVPlayActivity -->
     <string name="offline_not_play1">Unable to operate due to device has been offline.</string>
     <string name="connfailed_auth">Username or password wrong</string>
@@ -604,19 +608,29 @@
     <string name="str_password">Password </string>
     <string name="str_nicknametwo">Nickname </string>
     <!-- 声波配置 -->
+    <string name="wave_first">The 1st step</string>
+    <string name="wave_firstdescrione">Please put your mobile phone speaker near the microphone port (within 15cm)</string>
+    <string name="wave_second">The 2nd step</string>
+    <string name="wave_seconddescri">Sound wave sending, when hearing device configuration success voice, click the next step</string>
     <string name="wave_set">Sound-wave Configuration</string>
     <string name="prepare_step">Preparating</string>
     <string name="check_step">View operation demo</string>
     <string name="prepare_set">Preparing Configuration</string>
-    <string name="prepare_step1">Please press the reset button , then release the button after hearing the voice guide.</string>
-    <string name="prepare_step2">Please input password of the network.</string>
+    <string name="prepare_step2">Please press the reset button , then release the button after hearing the voice guide.</string>
+    <string name="prepare_step1">Please input password of the network.</string>
     <string name="prepare_step3">View operation demo</string>
+    <string name="wave_show">Demonstration</string>
     <string name="show_demo">Operation demo</string>
     <string name="search_list">Search list</string>
     <string name="prepare_step4">Click to send sound-wave</string>
     <string name="prepare_step5">Please put the phone near device,click sending sound-wave  button,configure the device.</string>
     <string name="prepare_step6">(The device does not support 5G Wi-Fi)</string>
     <string name="wave_add_dev">Make sure to add device</string>
+    <!-- 智联路由 -->
+    <string name="smart_connection">Router connected intelligently</string>
+    <string name="smart_conn_guide_1">Power-on and wait until indicator blinking in orange</string>
+    <string name="smart_conn_indicator_help">What to do if indicator not flash?</string>
+    <string name="smart_conn_indicator_help1">If not hear “configuration success” warning tone, please attempt to use intelligent router connection mode</string>
     <!-- 报警 -->
     <string name="str_alarm_check">Check Now</string>
     <string name="str_pass_extra_err">Pass Data Extra Error</string>
@@ -627,6 +641,8 @@
     <string name="str_safe_protected">Alert</string>
     <string name="str_reset_device">Reset the device</string>
     <string name="str_reset_sure">Are you sure to reset?</string>
+    <string name="dev_alarm_sound">Startup the alarm sound</string>
+    <string name="dev_alarm_sound_tips">If alarm sound is turned off, the device will not sound when alarming.</string>
     <string name="str_modify_pwd">Modify device administrator is password.</string>
     <string name="str_downloading_vod">Getting the video file…</string>
     <string name="str_alarm_dev">Device :</string>
@@ -685,17 +701,21 @@
     <string name="str_computre_time1">The end time can\'t be earlier than the start time.</string>
     <string name="str_computre_time3">The end time can\'t the same as the start time.</string>
     <string name="str_disconnect_resp_timeout">Disconnect the connection timeout</string>
+    <string name="str_operation_success">Operation succeed.</string>
     <string name="str_operation_failed">Operation failed</string>
     <string name="str_setting_time">Setting Time</string>
     <string name="str_mdenabled_open_ok">The motion detecting open success</string>
     <string name="str_mdenabled_open_failed">The motion detecting open failed</string>
     <string name="str_mdenabled_close_ok">The motion detecting close success</string>
     <string name="str_mdenabled_close_failed">The motion detecting close failed</string>
-    <string name="str_illegal_dev_nick">The nick name is illegal,should be English letter,number,or special characters like .-_+()</string>
+    <string name="str_illegal_dev_nick">The NikeName should be formed by 1-24 english letter,number,or special characters like .-_+()</string>
     <string name="str_cloud_file_error_1">The file is uploading or failure</string>
     <string name="str_cloud_file_error_2">There is no cloud strorage information at the channel.</string>
     <string name="str_tpush_autostart_tips_v5">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permission\"->\"Auto-start management\",Add the application into the auto-start apps manually.</string>
     <string name="str_tpush_autostart_tips_v6">In order to guarantee alarm function is normal when offline, please do the following settings on your phone:\n \"Security\"->\"Permissions\"->\"Autostart\",make the application allowed to auto start</string>
+    <!-- JVWebviewActivity -->
+    <string name="capture_to_upload">Upload photos</string>
+    <string name="select_to_upload">Selecting photos</string>
     <!-- 腾讯云分析统计名称 不用翻译 -->
     <string name="census_findpasswpordbyemail">邮箱找回密码</string>
     <string name="census_findpasswpordbyphone">电话找回密码</string>

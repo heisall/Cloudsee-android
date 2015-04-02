@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,6 +43,7 @@ public class ChannelFragment extends BaseFragment {
 
 	private GridView channelGridView;
 	private ChannelAdapter channelAdapter;
+	// private RelativeLayout channal_moddle;
 	/** 弹出框 */
 	private Dialog initDialog;// 显示弹出框
 	private TextView dialogCancel;// 取消按钮
@@ -80,6 +80,8 @@ public class ChannelFragment extends BaseFragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.channel_layout, null);
 		connectAll = (Button) view.findViewById(R.id.connect_all);
+		// channal_moddle =
+		// (RelativeLayout)view.findViewById(R.id.channal_moddle);
 		connectAll.setOnClickListener(myOnClickListener);
 		return view;
 	}
@@ -94,6 +96,19 @@ public class ChannelFragment extends BaseFragment {
 					.findViewById(R.id.channel_gridview);
 			widthPixels = mActivity.disMetrics.widthPixels;
 
+			// channelGridView.setOnTouchListener(new View.OnTouchListener() {
+			//
+			// @Override
+			// public boolean onTouch(View v, MotionEvent event) {
+			// if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			// channelAdapter.setShowDelete(false);
+			// channelAdapter.notifyDataSetChanged();
+			// }
+			// // TODO Auto-generated method stub
+			// return true;
+			// }
+			// });
+			//
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -254,6 +269,11 @@ public class ChannelFragment extends BaseFragment {
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
+
+			case R.id.channal_moddle:
+				channelAdapter.setShowDelete(false);
+				channelAdapter.notifyDataSetChanged();
+				break;
 			case R.id.device_numet_cancle: {
 				device_numet.setText("");
 				break;
@@ -520,9 +540,6 @@ public class ChannelFragment extends BaseFragment {
 						// // .get("KEY_USERNAME")));
 						// }
 						deviceList.get(deviceIndex).setChannelList(list);
-						Log.i("TAG", deviceList.get(deviceIndex)
-								.getChannelList().size()
-								+ "添加后的数量");
 					}
 
 				} catch (Exception e) {

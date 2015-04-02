@@ -423,7 +423,6 @@ public class JVWebViewActivity extends BaseActivity {
 	// webview返回
 	public void backWebview() {
 		MyLog.v("webView.canGoBack()", "" + webView.canGoBack());
-
 		try {
 			if (webView.canGoBack()) {
 				if (null != titleStack && 0 != titleStack.size()) {
@@ -432,6 +431,8 @@ public class JVWebViewActivity extends BaseActivity {
 					currentMenu.setText(lastTitle);
 					webView.goBack(); // goBack()表示返回WebView的上一页面
 				}
+			}else{
+			    JVWebViewActivity.this.finish();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -440,7 +441,8 @@ public class JVWebViewActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		backMethod();
+//		backMethod();
+	    backWebview();
 	}
 
 	@Override

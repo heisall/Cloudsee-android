@@ -44,4 +44,10 @@ public class ConfigTab implements ITabItem {
         return null;
     }
 
+    @Override
+    public boolean isCustomize() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

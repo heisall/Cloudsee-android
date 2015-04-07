@@ -5,6 +5,8 @@ public interface ITabItem {
 
     public String message = null;
     
+    public boolean isCustomize();
+    
     public String getName();
 
     public int getDrawable();

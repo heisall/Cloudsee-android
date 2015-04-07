@@ -39,4 +39,10 @@ public class CustomizeTab implements ITabItem {
         return null;
     }
 
+    @Override
+    public boolean isCustomize() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
 }

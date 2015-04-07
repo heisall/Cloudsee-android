@@ -510,4 +510,8 @@
     <color name="link_color">#ff406ca2</color>
     <color name="link_color_pressed">#ff7a93af</color>
 
+    <!-- customize -->
+    <color name="tab_text_normal">#898989</color>
+    <color name="tab_text_selected">#898989</color>
+    <color name="customize_item_text_color">#ff828282</color>
 </resources>

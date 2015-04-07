@@ -1,18 +1,19 @@
-
 package com.jovetech.product;
+
+import android.content.Context;
+
+import com.jovetech.CloudSee.temp.R;
 
 public class CustomizeTab implements ITabItem {
 
     @Override
-    public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+    public String getName(Context context) {
+        return "";
     }
 
     @Override
     public int getDrawable() {
-        // TODO Auto-generated method stub
-        return 0;
+        return R.drawable.tab_customize_selector;
     }
 
     @Override
@@ -23,13 +24,11 @@ public class CustomizeTab implements ITabItem {
 
     @Override
     public char getTag() {
-        // TODO Auto-generated method stub
         return 'c';
     }
 
     @Override
     public int getLayoutType() {
-        // TODO Auto-generated method stub
         return 1;
     }
 
@@ -41,7 +40,6 @@ public class CustomizeTab implements ITabItem {
 
     @Override
     public boolean isCustomize() {
-        // TODO Auto-generated method stub
         return true;
     }
 

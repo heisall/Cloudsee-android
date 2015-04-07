@@ -323,7 +323,7 @@ public class CustomizeIconTabIndicator extends LinearLayout {
             default:
                 view = View.inflate(context, R.layout.tab_item, null);
                 // 消息
-                mInfoImage = (ImageView) view.findViewById(R.id.tab_info_icon);
+                mInfoImage = (ImageView) view.findViewById(R.id.tab_info_img);
                 mInfoText = (TextView) view.findViewById(R.id.tab_info_text);
             }
             // indicator's title

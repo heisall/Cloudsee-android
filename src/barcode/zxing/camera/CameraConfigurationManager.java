@@ -297,7 +297,7 @@ final class CameraConfigurationManager {
                     });
             if (downPolymorphic != null)
                 downPolymorphic.invoke(camera, new Object[] {
-                    angle
+                        angle
                 });
         } catch (Exception e1) {
         }

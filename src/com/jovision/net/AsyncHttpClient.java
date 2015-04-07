@@ -577,7 +577,7 @@ public class AsyncHttpClient {
             };
 
             sslContext.init(null, new TrustManager[] {
-                tm
+                    tm
             }, null);
         }
 

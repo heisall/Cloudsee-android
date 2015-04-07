@@ -684,7 +684,7 @@ public class JVWebViewActivity extends BaseActivity {
         File file = null;
 
         String[] proj = {
-            MediaStore.Images.Media.DATA
+                MediaStore.Images.Media.DATA
         };
         Cursor actualimagecursor = managedQuery(uri, proj, null, null, null);
         int actual_image_column_index = actualimagecursor

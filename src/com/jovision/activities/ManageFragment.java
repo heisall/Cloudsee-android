@@ -295,14 +295,14 @@ public class ManageFragment extends BaseFragment {
 			case 2: {// 连接模式
 				StatService.trackCustomEvent(mActivity, "Ipconnect", mActivity
 						.getResources().getString(R.string.census_ipconect));
-				if (2 == device.getIsDevice()) {
-					mActivity.showTextToast(R.string.ip_add_notallow);
-				} else {
+//				if (2 == device.getIsDevice()) {
+//					mActivity.showTextToast(R.string.ip_add_notallow);
+//				} else {
 					Intent intent = new Intent(mActivity,
 							JVIpconnectActivity.class);
 					intent.putExtra("deviceIndex", deviceIndex);
 					startActivity(intent);
-				}
+//				}
 
 				break;
 			}

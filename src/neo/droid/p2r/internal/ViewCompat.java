@@ -1,3 +1,4 @@
+
 package neo.droid.p2r.internal;
 
 import android.annotation.TargetApi;
@@ -8,48 +9,48 @@ import android.view.View;
 
 public class ViewCompat {
 
-	public static void postOnAnimation(View view, Runnable runnable) {
-		if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) {
-			SDK16.postOnAnimation(view, runnable);
-		} else {
-			view.postDelayed(runnable, 16);
-		}
-	}
+    public static void postOnAnimation(View view, Runnable runnable) {
+        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) {
+            SDK16.postOnAnimation(view, runnable);
+        } else {
+            view.postDelayed(runnable, 16);
+        }
+    }
 
-	public static void setBackground(View view, Drawable background) {
-		if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) {
-			SDK16.setBackground(view, background);
-		} else {
-			 view.setBackgroundDrawable(background);
-//			view.setBackground(background);
-		}
-	}
+    public static void setBackground(View view, Drawable background) {
+        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) {
+            SDK16.setBackground(view, background);
+        } else {
+             view.setBackgroundDrawable(background);
+//            view.setBackground(background);
+        }
+    }
 
-	public static void setLayerType(View view, int layerType) {
-		if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
-			SDK11.setLayerType(view, layerType);
-		}
-	}
+    public static void setLayerType(View view, int layerType) {
+        if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
+            SDK11.setLayerType(view, layerType);
+        }
+    }
 
-	@TargetApi(11)
-	static class SDK11 {
+    @TargetApi(11)
+    static class SDK11 {
 
-		public static void setLayerType(View view, int layerType) {
-			view.setLayerType(layerType, null);
-		}
-	}
+        public static void setLayerType(View view, int layerType) {
+            view.setLayerType(layerType, null);
+        }
+    }
 
-	@TargetApi(16)
-	static class SDK16 {
+    @TargetApi(16)
+    static class SDK16 {
 
-		public static void postOnAnimation(View view, Runnable runnable) {
-			view.postOnAnimation(runnable);
-		}
+        public static void postOnAnimation(View view, Runnable runnable) {
+            view.postOnAnimation(runnable);
+        }
 
-		public static void setBackground(View view, Drawable background) {
-			view.setBackground(background);
-		}
+        public static void setBackground(View view, Drawable background) {
+            view.setBackground(background);
+        }
 
-	}
+    }
 
 }

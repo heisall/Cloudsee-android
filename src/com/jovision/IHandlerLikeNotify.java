@@ -1,3 +1,4 @@
+
 package com.jovision;
 
 /**
@@ -7,17 +8,13 @@ package com.jovision;
  */
 public interface IHandlerLikeNotify {
 
-	/**
-	 * 消息通知
-	 * 
-	 * @param what
-	 *            分类
-	 * @param arg1
-	 *            参数1
-	 * @param arg2
-	 *            参数2
-	 * @param obj
-	 *            附加对象
-	 */
-	public void onNotify(int what, int arg1, int arg2, Object obj);
+    /**
+     * 消息通知
+     * 
+     * @param what 分类
+     * @param arg1 参数1
+     * @param arg2 参数2
+     * @param obj 附加对象
+     */
+    public void onNotify(int what, int arg1, int arg2, Object obj);
 }

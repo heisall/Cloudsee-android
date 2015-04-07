@@ -130,6 +130,7 @@
     <string name="record_failed">錄影無效</string>
     <string name="voice_send">按住說話</string>
     <string name="voice_stop">鬆開結束</string>
+    <string name="voice_ear_tips">戴耳機使用音頻，效果更佳</string>
     <string name="str_has_call">設備未開啟對講或已在其他客戶端開啟語音對講，請稍後重試.</string>
     <string name="str_call_close"> 對講功能成功關閉</string>
     <string name="play_failed"> 播放失敗</string>

@@ -130,6 +130,7 @@
     <string name="record_failed">The video is invalid</string>
     <string name="voice_send">Hold to talk</string>
     <string name="voice_stop">Release to Send</string>
+    <string name="voice_ear_tips">It will be better by earphone when you use audio.</string>
     <string name="str_has_call">Another client is using Talk function, please use this function later.</string>
     <string name="str_call_close">Disabled the Two-way talk function.</string>
     <string name="play_failed"> play the video failed</string>

@@ -626,9 +626,9 @@ public class Consts {
     public static final int PLAY_BACK_DOWNLOAD = 0x74;// 远程回放视频下载
 
     /** 视频播放进设备设置 */
-    public static final int PLAY_DEVSET_REQUSET = 0x75;// 远程回放视频下载
+    public static final int PLAY_DEVSET_REQUSET = 0x75;// 视频播放进设备设置 
     /** 设备设置回视频播放 */
-    public static final int PLAY_DEVSET_RESPONSE = 0x76;// 远程回放视频下载
+    public static final int PLAY_DEVSET_RESPONSE = 0x76;// 设备设置回视频播放
     /** 设备设置回视频播放 */
     public static final int TAB_WEBVIEW_BACK = 0x77;// tab页卡webview返回事件
 
@@ -815,6 +815,7 @@ public class Consts {
     public static final int DEV_SETTINGS_MD = 0x02; // 移动侦测开关
     public static final int DEV_SETTINGS_ALARMTIME = 0x03; // 防护时间段
     public static final int DEV_RESET_DEVICE = 0x04; // 设备重置
+    public static final int DEV_RESTART_DEVICE = 0x07; // 设备重置
     public static final int DEV_MOD_USERINFO = 0x05; // 修改用户名密码
     public static final int DEV_ALARAM_SOUND = 0x06; // 设备报警声音
     /** 手动注销标志key */

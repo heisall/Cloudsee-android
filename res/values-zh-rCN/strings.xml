@@ -641,6 +641,7 @@
     <string name="str_buffering">正在缓冲…</string>
     <string name="str_safe_protected">安全防护</string>
     <string name="str_reset_device">重置设备功能</string>
+    <string name="str_restart_device">重启设备功能</string>
     <string name="dev_alarm_sound">启动报警声音</string>
     <string name="dev_alarm_sound_tips">报警声音关闭后，当发生报警时，设备将不发出声音.</string>
     <string name="str_reset_sure">确定重置设备吗?</string>

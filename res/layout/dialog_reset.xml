@@ -31,7 +31,7 @@
             android:background="@color/more_fragment_color4" />
 
         <TextView
-            android:id="@+id/middle"
+            android:id="@+id/retext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/line"
@@ -44,7 +44,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/middle"
+            android:layout_below="@+id/retext"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="20dp"

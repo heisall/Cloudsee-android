@@ -4,6 +4,7 @@ package com.jovision.activities;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -42,6 +43,7 @@ OnClickListener, OnMainListener {
 	private String devicename;
 	private int channelIndex;// 窗口
 	protected Toast toast;
+	private int dialogflag; // 0表示重置设备，1表示重启设备;
 
 	public interface OnFuncActionListener {
 		public void OnFuncEnabled(int func_index, int enabled);
@@ -63,7 +65,7 @@ OnClickListener, OnMainListener {
 	private String startHour = "", startMin = "";
 	private String endHour = "", endMin = "";
 	private RelativeLayout functionlayout1, functionlayout2, functionlayout3,
-	functionlayout4, functionlayout5, functionlayout6,functionlayout7;
+	functionlayout4, functionlayout5, functionlayout6,functionlayout7,functionlayout8;
 	private RelativeLayout functiontips1, functiontips2, functiontips3,
 	functiontips6;
 	private TextView alarmTime0TextView , funtion_titile_71;
@@ -76,6 +78,7 @@ OnClickListener, OnMainListener {
 	private Dialog resetDialog;// 显示弹出框
 	private TextView resetCancel;// 取消按钮
 	private TextView resetCompleted;// 确定按钮
+	private TextView retext;//提示内容
 
 	// 设备名称
 	private TextView device_name;
@@ -131,6 +134,8 @@ OnClickListener, OnMainListener {
 				.findViewById(R.id.funclayout6);
 		functionlayout7 = (RelativeLayout) rootView
 				.findViewById(R.id.funclayout7);
+		functionlayout8 = (RelativeLayout) rootView
+				.findViewById(R.id.funclayout8);
 
 		functiontips1 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_01);
 		functiontips2 = (RelativeLayout) rootView.findViewById(R.id.rl_tips_02);
@@ -150,6 +155,7 @@ OnClickListener, OnMainListener {
 		functionlayout5.setOnClickListener(this);
 		functionlayout6.setOnClickListener(this);
 		functionlayout7.setOnClickListener(this);
+		functionlayout8.setOnClickListener(this);
 
 		Bundle data = getArguments();// 获得从activity中传递过来的值
 
@@ -299,13 +305,13 @@ OnClickListener, OnMainListener {
 
 				// switch (func_alarm_sound) {
 				// case 0:
-					// funcAlaramSound
-					// .setBackgroundResource(R.drawable.morefragment_normal_icon);
-					// break;
-					// case 1:
-						// funcAlaramSound
-						// .setBackgroundResource(R.drawable.morefragment_selector_icon);
-						// break;
+				// funcAlaramSound
+				// .setBackgroundResource(R.drawable.morefragment_normal_icon);
+				// break;
+				// case 1:
+				// funcAlaramSound
+				// .setBackgroundResource(R.drawable.morefragment_selector_icon);
+				// break;
 				// case -1:
 				// functionlayout5.setVisibility(View.GONE);
 				// functiontips2.setVisibility(View.GONE);
@@ -382,10 +388,15 @@ OnClickListener, OnMainListener {
 			resetDialog.dismiss();
 			break;
 		case R.id.reset_completed:
-			mListener.OnFuncSelected(Consts.DEV_RESET_DEVICE, "");
+			if (0 == dialogflag) {
+				mListener.OnFuncSelected(Consts.DEV_RESET_DEVICE, "");
+			}else if (1 == dialogflag) {
+				mListener.OnFuncSelected(Consts.DEV_RESTART_DEVICE, "");
+			}
 			resetDialog.dismiss();
 			break;
 		case R.id.funclayout5:
+			dialogflag = 0;
 			ResetDialog();
 			break;
 		case R.id.funclayout6:
@@ -411,7 +422,12 @@ OnClickListener, OnMainListener {
 					paraObject.toString());
 			break;
 		case R.id.funclayout7:
-
+			mListener.OnFuncSelected(JVNetConst.TIME_ZONE,
+					null);
+			break;
+		case R.id.funclayout8:
+			dialogflag = 1;
+			ResetDialog();
 			break;
 		default:
 			break;
@@ -524,7 +540,13 @@ OnClickListener, OnMainListener {
 
 		resetCancel = (TextView) view.findViewById(R.id.reset_cancel);
 		resetCompleted = (TextView) view.findViewById(R.id.reset_completed);
+		retext = (TextView)view.findViewById(R.id.retext);
 
+		if (0 == dialogflag) {
+			retext.setText(getResources().getString(R.string.str_reset_device));	
+		}else if (1 == dialogflag) {
+			retext.setText(getResources().getString(R.string.str_restart_device));	
+		}
 		resetCancel.setOnClickListener(this);
 		resetCompleted.setOnClickListener(this);
 		resetDialog.show();
@@ -550,6 +572,7 @@ OnClickListener, OnMainListener {
 			switch (packet_subtype) {
 			case JVNetConst.TIME_ZONE:
 				//TODO
+				funtion_titile_71.setText(Content);
 				break;
 			case JVNetConst.RC_EX_MD:
 				if (ex_type == JVNetConst.EX_MD_SUBMIT) {
@@ -677,8 +700,8 @@ OnClickListener, OnMainListener {
 								functiontips3.setVisibility(View.GONE);
 
 								// String text =
-										// getResources().getString(
-												// R.string.protect_close_succ);
+								// getResources().getString(
+								// R.string.protect_close_succ);
 								// Toast.makeText(getActivity(),
 								// text,
 								// Toast.LENGTH_SHORT).show();
@@ -708,11 +731,11 @@ OnClickListener, OnMainListener {
 									functiontips3.setVisibility(View.VISIBLE);
 								}
 								// String text =
-										// getResources().getString(
-												// R.string.protect_open_succ);
+								// getResources().getString(
+								// R.string.protect_open_succ);
 								// Toast.makeText(getActivity(),
-										// text,
-										// Toast.LENGTH_SHORT).show();
+								// text,
+								// Toast.LENGTH_SHORT).show();
 								showTextToast(getActivity()
 										.getApplicationContext(),
 										R.string.protect_open_succ);

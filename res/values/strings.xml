@@ -641,6 +641,7 @@
     <string name="str_buffering">Buffering…</string>
     <string name="str_safe_protected">Alert</string>
     <string name="str_reset_device">Reset the device</string>
+    <string name="str_restart_device">重启设备功能</string>
     <string name="str_reset_sure">Are you sure to reset?</string>
     <string name="dev_alarm_sound">Startup the alarm sound</string>
     <string name="dev_alarm_sound_tips">If alarm sound is turned off, the device will not sound when alarming.</string>

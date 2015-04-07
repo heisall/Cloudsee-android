@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -24,6 +25,8 @@ import com.jovision.Consts;
 import com.jovision.Jni;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyActivityManager;
+import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.ConfigUtil;
 
 public class JVTimeZoneActivity extends BaseActivity {
@@ -37,7 +40,7 @@ public class JVTimeZoneActivity extends BaseActivity {
 	private Button rightButton;
 	private ProgressBar timezone_progress;
 	private int window;
-
+	private String timezone;
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 		switch (what) {
@@ -49,7 +52,6 @@ public class JVTimeZoneActivity extends BaseActivity {
 					JSONObject dataObj = new JSONObject(allStr);
 					switch (dataObj.getInt("flag")) {
 					case JVNetConst.JVN_STREAM_INFO:// 3-- 码流配置请求
-						// MyLog.i(TAG, "码流配置请求--" + obj.toString());
 						String pnJSON = dataObj.getString("msg");
 						HashMap<String, String> pnMap = ConfigUtil
 								.genMsgMap(pnJSON);
@@ -58,6 +60,8 @@ public class JVTimeZoneActivity extends BaseActivity {
 							int index = Integer.valueOf(pnMap.get("timezone"));
 							currentTimeZone
 									.setText(getResources().getStringArray(
+											R.array.time_zone)[12 - index]);
+							MySharedPreference.putString("TIMEZONE", getResources().getStringArray(
 											R.array.time_zone)[12 - index]);
 						}
 						break;
@@ -84,9 +88,9 @@ public class JVTimeZoneActivity extends BaseActivity {
 		Bundle extras = getIntent().getExtras();
 		if (null != extras) {
 			window = extras.getInt("window");
+			timezone = extras.getString("timezone");
 		}
-		Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
-				JVNetConst.JVN_STREAM_INFO);
+		Log.i("TAG",timezone+"JJJJJJJJ");
 	}
 
 	@Override
@@ -100,7 +104,7 @@ public class JVTimeZoneActivity extends BaseActivity {
 		currentTimeZone = (TextView) findViewById(R.id.current_time_zone);
 		selectListView = (ListView) findViewById(R.id.select_time_zone);
 		String[] array = getResources().getStringArray(R.array.time_zone);
-		currentTimeZone.setText(array[12 - currentZone]);
+		currentTimeZone.setText(timezone);
 		for (int i = 0; i < 25; i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("time", array[i]);

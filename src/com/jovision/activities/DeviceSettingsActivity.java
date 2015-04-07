@@ -2,6 +2,7 @@
 package com.jovision.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import com.jovision.bean.Device;
 import com.jovision.commons.JVDeviceConst;
 import com.jovision.commons.JVNetConst;
 import com.jovision.commons.MyLog;
+import com.jovision.commons.MySharedPreference;
 import com.jovision.utils.CacheUtil;
 import com.jovision.utils.ConfigUtil;
 import com.jovision.utils.DeviceUtil;
@@ -74,6 +76,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 	private int power;
 	public String descript;
 	public static String fullno;
+	public String timezones;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -96,7 +99,7 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 		streamMap = (HashMap<String, String>) extras
 				.getSerializable("streamMap");
 		deviceList = CacheUtil.getDevList();
-		boolean update_flag = extras.getBoolean("updateflag");
+		boolean update_flag = extras.getBoolean("updateflag");//如果播放界面没取到码流数据，再取一遍
 		funcParamArray = new String[10];// 目前就3个功能，安全防护、移动侦测、防护时间段，当然这个只要比功能大就行
 		if (0 != deviceList.size()) {
 			device = deviceList.get(deviceIndex);
@@ -142,6 +145,28 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 		ResolveStreamInfo(streamMap);
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if (null != streamMap.get("timezone") && "".equals(MySharedPreference.getString("TIMEZONE"))) {
+			int index = Integer.valueOf(streamMap
+					.get("timezone"));
+			mainListener.onMainAction(JVNetConst.RC_EXTEND,
+					JVNetConst.TIME_ZONE,0,0,0,getString(R.string.str_timezone)
+					+ "("
+					+ getResources().getStringArray(
+							R.array.time_zone)[12 - index]
+									+ ")");
+			timezones = getResources().getStringArray(
+					R.array.time_zone)[12 - index];
+		}else if (!"".equals(MySharedPreference.getString("TIMEZONE"))) {
+			mainListener.onMainAction(JVNetConst.RC_EXTEND,
+					JVNetConst.TIME_ZONE,0,0,0,getString(R.string.str_timezone)
+					+ "("+MySharedPreference.getString("TIMEZONE")+ ")");
+			timezones = MySharedPreference.getString("TIMEZONE");
+		}
+	}
 	@Override
 	public void onHandler(int what, int arg1, int arg2, Object obj) {
 
@@ -242,17 +267,15 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 						}
 						break;
 					}
-					case JVNetConst.JVN_STREAM_INFO:
+					case JVNetConst.JVN_STREAM_INFO://码流
 						myHandler.removeMessages(JVNetConst.JVN_STREAM_INFO);
 						HashMap<String, String> map = ConfigUtil
 								.genMsgMap(dataObj.getString("msg"));
 						// streamMap = map;
 						ResolveStreamInfo(map);
-
-						if (null != streamMap.get("timezone")) {
-							int index = Integer.valueOf(streamMap
+						if (null != map.get("timezone")) {
+							int index = Integer.valueOf(map
 									.get("timezone"));
-							
 							mainListener.onMainAction(JVNetConst.RC_EXTEND,
 									JVNetConst.TIME_ZONE,0,0,0,getString(R.string.str_timezone)
 									+ "("
@@ -620,6 +643,26 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 			}
 			finish();
 			break;
+		case Consts.DEV_RESTART_DEVICE: // 重启设备功能
+			 Jni.sendSuperBytes(window,
+                     JVNetConst.JVN_RSP_TEXTDATA, true,
+                     Consts.RC_EX_FIRMUP, Consts.EX_FIRMUP_REBOOT,
+                     Consts.FIRMUP_HTTP, 0, 0, new byte[0], 0);
+			setResult(Consts.PLAY_DEVSET_RESPONSE);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			finish();
+			break;
+		case JVNetConst.TIME_ZONE:
+			Intent timeIntent  = new Intent(DeviceSettingsActivity.this,JVTimeZoneActivity.class);
+			Log.i("TAG",timezones+"ddddddd");
+			timeIntent.putExtra("timezone", timezones);
+			timeIntent.putExtra("window", window);
+			startActivity(timeIntent);
+			break;
 		default:
 			break;
 		}
@@ -713,8 +756,10 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 			case Consts.DEV_SETTINGS_ALARM:
 				strDescString = getResources().getString(
 						R.string.str_setdev_params_timeout);
+				
 				Jni.sendTextData(window, JVNetConst.JVN_RSP_TEXTDATA, 8,
 						JVNetConst.JVN_STREAM_INFO);
+				
 				new Thread(new TimeOutProcess(JVNetConst.JVN_STREAM_INFO))
 				.start();// by lkp这地方不知道为啥屏蔽了。先放开吧
 				return;
@@ -942,7 +987,6 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 
 			String alarmsound_enable = map.get("bAlarmSound");
 			funcParamArray[Consts.DEV_ALARAM_SOUND] = alarmsound_enable;
-
 			Log.e("Alarm", "ResolveStreamInfo >> " + alarm_enable + "--"
 					+ md_enable + "--" + alarmTime0 + "--" + alarmsound_enable);
 			// 兼容没有返回值的设备
@@ -1025,5 +1069,11 @@ OnFuncActionListener, OnClickListener, OnAlarmTimeActionListener {
 		}
 		return 0;
 
+	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MySharedPreference.putString("TIMEZONE", "");
 	}
 }

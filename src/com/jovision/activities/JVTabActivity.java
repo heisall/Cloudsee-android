@@ -67,7 +67,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -125,6 +127,9 @@ public class JVTabActivity extends ShakeActivity implements
 // -------------customize start---------------
     private static final CharSequence EMPTY = "";
     private CustomizeIconTabIndicator mIndicator;
+    private Map<Character, IFragmentFactory> mFactoryMap;
+    private Map<Character, BaseFragment> mFragmentsMap;
+    private Map<Character, ITabItem> mTabsMap;
 
     private int mIndicatorCount = 5;
     private char mIndicatorSequence[];
@@ -414,7 +419,7 @@ public class JVTabActivity extends ShakeActivity implements
     public void onBackPressed() {
 // -------------customize start--------------
 //      BaseFragment currentFrag = mFragments[currentIndex];
-      BaseFragment currentFrag = getCurrentFragment(currentIndex);
+      BaseFragment currentFrag = getFragmentByTag(currentIndex);
 // -------------customize end----------------
         if (null != currentFrag) {
             ((IHandlerLikeNotify) currentFrag).onNotify(Consts.WHAT_TAB_BACK,
@@ -527,7 +532,7 @@ public class JVTabActivity extends ShakeActivity implements
 
 // -------------customize start--------------
 //                BaseFragment currentFrag = mFragments[currentIndex];
-                BaseFragment currentFrag = getCurrentFragment(currentIndex);
+                BaseFragment currentFrag = getFragmentByTag(currentIndex);
 // -------------customize end----------------
                 if (null != currentFrag) {
                     ((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
@@ -551,7 +556,7 @@ public class JVTabActivity extends ShakeActivity implements
                 // mIndicator.updateIndicator(3, 0, true);
 // -------------customize start--------------
 //                BaseFragment currentFrag = mFragments[currentIndex];
-                BaseFragment currentFrag = getCurrentFragment(currentIndex);
+                BaseFragment currentFrag = getFragmentByTag(currentIndex);
 // -------------customize end----------------
                 if (null != currentFrag) {
                     ((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
@@ -630,7 +635,7 @@ public class JVTabActivity extends ShakeActivity implements
             default:
 // -------------customize start--------------
 //                BaseFragment currentFrag = mFragments[currentIndex];
-                BaseFragment currentFrag = getCurrentFragment(currentIndex);
+                BaseFragment currentFrag = getFragmentByTag(currentIndex);
 // -------------customize end----------------
                 if (null != currentFrag) {
                     ((IHandlerLikeNotify) currentFrag).onNotify(what, arg1, arg2,
@@ -735,7 +740,7 @@ public class JVTabActivity extends ShakeActivity implements
 //            manager.beginTransaction()
 //                     .replace(R.id.tab_fragment, mFragments[0]).commit();
             manager.beginTransaction()
-                   .replace(R.id.tab_fragment, getCurrentFragment('a')).commit();
+                   .replace(R.id.tab_fragment, getFragmentByTag('a')).commit();
 // -------------customize end--------------
         } else {
             MyLog.e(TAG, "TAB_initUI_manager null" + currentIndex);
@@ -1015,9 +1020,15 @@ public class JVTabActivity extends ShakeActivity implements
 // ## customize 
 // ---------------------------------------------------------------------
     private void initCustomizeViews() {
+        mFactoryMap = new HashMap<Character, IFragmentFactory>();
+        mFragmentsMap = new HashMap<Character, BaseFragment>();
+        mTabsMap = new HashMap<Character, ITabItem>();
+
         mIndicator = (CustomizeIconTabIndicator) findViewById(R.id.indicator);
+
         List<ITabItem> tabItems = initTabs();
         mIndicator.setIndicator(tabItems);
+
         initIndicatorListener();
     }
 
@@ -1030,8 +1041,8 @@ public class JVTabActivity extends ShakeActivity implements
 
         mIndicatorSequence = getIndicatorSequence();
         for (int i = 0; i < mIndicatorSequence.length; i++) {
-            IFragmentFactory fragmentFactory = getFragmentFactoryByTag(mIndicatorSequence[i]);
-            tabItems.add(fragmentFactory.getTab());
+            initFramentsAndTabs(mIndicatorSequence[i]);
+            tabItems.add(getTabByTag(mIndicatorSequence[i]));
         }
 
         return tabItems;
@@ -1047,12 +1058,12 @@ public class JVTabActivity extends ShakeActivity implements
             @Override
             public void onTabSelected(int position, int oldPosition, char tag,
                     boolean isCustomize) {
-                Log.v("demo", "--------onTabSelected start-------");
-                Log.v("demo", "position=>" + position);
-                Log.v("demo", "oldPosition=>" + oldPosition);
-                Log.v("demo", "tag=>" + tag);
-                Log.v("demo", "isCustomize=>" + isCustomize);
-                Log.v("demo", "--------onTabSelected end-------");
+                MyLog.v(TAG, "--------onTabSelected start-------");
+                MyLog.v(TAG, "position=>" + position);
+                MyLog.v(TAG, "oldPosition=>" + oldPosition);
+                MyLog.v(TAG, "tag=>" + tag);
+                MyLog.v(TAG, "isCustomize=>" + isCustomize);
+                MyLog.v(TAG, "--------onTabSelected end  -------");
 
                 if (isCustomize) {
                     CustomizeBoard shareBoard = new CustomizeBoard(
@@ -1063,12 +1074,11 @@ public class JVTabActivity extends ShakeActivity implements
                 } else {
                     // 保存当前的fragment标记
                     currentIndex = tag;
-                    Log.v("demo", "--fragment replace--");
-                    IFragmentFactory fragmentFactory = getFragmentFactoryByTag(tag);
+                    MyLog.v(TAG, "--fragment replace--");
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.tab_fragment,
-                                    fragmentFactory.newInstance()).commit();
+                                    getFragmentByTag(tag)).commit();
                     // 执行旧版的indicator中的其它操作
                     oldTabIndicate(null, position);
                 }
@@ -1077,11 +1087,11 @@ public class JVTabActivity extends ShakeActivity implements
             @Override
             public void onTabReselected(int position, char tag,
                     boolean isCustomize) {
-                Log.v("demo", "--------onTabReselected start-------");
-                Log.v("demo", "position=>" + position);
-                Log.v("demo", "tag=>" + tag);
-                Log.v("demo", "isCustomize=>" + isCustomize);
-                Log.v("demo", "--------onTabReselected end-------");
+                MyLog.v(TAG, "--------onTabReselected start-------");
+                MyLog.v(TAG, "position=>" + position);
+                MyLog.v(TAG, "tag=>" + tag);
+                MyLog.v(TAG, "isCustomize=>" + isCustomize);
+                MyLog.v(TAG, "--------onTabReselected end-------");
 
             }
 
@@ -1105,54 +1115,75 @@ public class JVTabActivity extends ShakeActivity implements
             // 保存选项卡配置
             MySharedPreference.putString("indicator_sequence", indicatorSeq);
         }
-        Log.v("demo", "--indicator Sequence--" + indicatorSeq);
+        MyLog.v(TAG, "--indicator Sequence--" + indicatorSeq);
         return indicatorSeq.toCharArray();
     }
 
     /**
-     * 通过标记获取对应的fragment factory
+     * 初始化工厂,保存tabs和fragments
      * 
      * @param tag
      *            标记
      * @return fragment factory
      */
-    private IFragmentFactory getFragmentFactoryByTag(char tag) {
+    private void initFramentsAndTabs(char tag) {
         IFragmentFactory fragmentFactory = null;
-        switch (tag) {
-        case 'a':
-            fragmentFactory = new MyDeviceFragmentFactory();
-            break;
-        case 'b':
-            fragmentFactory = new VideoFragmentFactory();
-            break;
-        case 'c':
-            fragmentFactory = new CustomizeFragmentFactory();
-            break;
-        case 'd':
-            fragmentFactory = new ConfigFragmentFactory();
-            break;
-        case 'e':
-            fragmentFactory = new MoreFragmentFactory();
-            break;
-        case 'g':
-            break;
-        case 'h':
-            break;
-        default:
-            Log.v("demo", "--default tab--");
+
+        if (!mFactoryMap.containsKey(tag)) {
+            switch (tag) {
+            case 'a':
+                fragmentFactory = new MyDeviceFragmentFactory();
+                break;
+            case 'b':
+                fragmentFactory = new VideoFragmentFactory();
+                break;
+            case 'c':
+                fragmentFactory = new CustomizeFragmentFactory();
+                break;
+            case 'd':
+                fragmentFactory = new ConfigFragmentFactory();
+                break;
+            case 'e':
+                fragmentFactory = new MoreFragmentFactory();
+                break;
+            case 'g':
+                break;
+            case 'h':
+                break;
+            default:
+                MyLog.v(TAG, "--default tab--");
+            }
+            // 保存工厂
+            mFactoryMap.put(tag, fragmentFactory);
+        } else {
+            fragmentFactory = mFactoryMap.get(tag);
         }
 
-        return fragmentFactory;
+        // 保存tab
+        if (!mTabsMap.containsKey(tag)) {
+            mTabsMap.put(tag, fragmentFactory.getTab());
+        }
+        // 保存fragment
+        if (!mFragmentsMap.containsKey(tag)) {
+            mFragmentsMap.put(tag, (BaseFragment) fragmentFactory.newInstance());
+        }
     }
 
     /**
-     * 获取当前的Fragment
+     * 通过标记获取Fragment
      * @param mark fragment对应的标记
      */
-    private BaseFragment getCurrentFragment(int mark) {
-        char tag = (char) mark;
-        IFragmentFactory fragmentFactory = getFragmentFactoryByTag(tag);
-        return (BaseFragment) fragmentFactory.newInstance();
+    private BaseFragment getFragmentByTag(int mark) {
+        char charTag = (char) mark;
+        return mFragmentsMap.get(charTag);
+    }
+    
+    /**
+     * 通过标记获取Tab
+     */
+    private ITabItem getTabByTag(int mark) {
+        char charTag = (char) mark;
+        return mTabsMap.get(charTag);
     }
 
     /**

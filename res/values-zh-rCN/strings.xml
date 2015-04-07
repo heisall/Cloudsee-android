@@ -754,6 +754,10 @@
     <string name="census_version">版本号</string>
     <string name="str_error_vercode">无效验证码</string>
     <string name="location_login_hand">访客</string>
+    <!-- 时区设置 -->
+    <string name="str_timezone">时区设置</string>
+    <string name="str_current_time_zone">目前所在时区</string>
+    <string name="time_zone">时区设置</string>
     <!-- 找回密码 -->
     <string name="reset_passwd_input_account">请输入需要重置密码的账号:</string>
     <string name="reset_passwd_input_vercode">获取验证码</string>

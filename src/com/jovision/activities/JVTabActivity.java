@@ -1,14 +1,5 @@
 package com.jovision.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -31,6 +22,11 @@ import android.widget.RelativeLayout;
 
 import com.igexin.sdk.PushManager;
 import com.jovetech.CloudSee.temp.R;
+import com.jovetech.product.ConfigFragmentFactory;
+import com.jovetech.product.IFragmentFactory;
+import com.jovetech.product.MoreFragmentFactory;
+import com.jovetech.product.MyDeviceFragmentFactory;
+import com.jovetech.product.VideoFragmentFactory;
 import com.jovision.Consts;
 import com.jovision.Global;
 import com.jovision.IHandlerLikeNotify;
@@ -51,6 +47,15 @@ import com.jovision.utils.DefaultExceptionHandler;
 import com.jovision.utils.JSONUtil;
 import com.jovision.utils.PlayUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class JVTabActivity extends ShakeActivity implements
 		OnPageChangeListener, OnFuncActionListener {
 	private static final String TAG = "JVTabActivity";
@@ -65,6 +70,8 @@ public class JVTabActivity extends ShakeActivity implements
 	private int countbbs;
 	private OnMainListener mainListener;
 	private BaseFragment mFragments[] = new BaseFragment[4];
+		
+	private List<IFragmentFactory> mFragmentFactorys;
 	private String showGcsStr;
 
 	private ViewPager viewpager;
@@ -626,10 +633,27 @@ public class JVTabActivity extends ShakeActivity implements
 				Log.e("OS", "不是小米或者红米系列");
 			}
 		}
-		mFragments[0] = new JVMyDeviceFragment();
-		mFragments[1] = new JVVideoFragment();
-		mFragments[2] = new JVDeviceManageFragment();
-		mFragments[3] = new JVMoreFragment();
+		
+		mFragmentFactorys = new ArrayList<IFragmentFactory>();
+		
+        mFragmentFactorys.add(new MyDeviceFragmentFactory());
+        mFragmentFactorys.add(new VideoFragmentFactory());
+        mFragmentFactorys.add(new ConfigFragmentFactory());
+        mFragmentFactorys.add(new MoreFragmentFactory());
+        
+        
+//		mFragments[0] = new JVMyDeviceFragment();
+//		mFragments[1] = new JVVideoFragment();
+//		mFragments[2] = new JVDeviceManageFragment();
+//		mFragments[3] = new JVMoreFragment();
+        
+        mFragments[0] = (BaseFragment) mFragmentFactorys.get(0).newInstance();
+        mFragments[1] = (BaseFragment) mFragmentFactorys.get(1).newInstance();
+        mFragments[2] = (BaseFragment) mFragmentFactorys.get(2).newInstance();
+        mFragments[3] = (BaseFragment) mFragmentFactorys.get(3).newInstance();
+
+        
+        
 		if (!MySharedPreference.getBoolean(Consts.MORE_PAGETWO)) {
 			ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
 			ll_dot.setVisibility(View.GONE);

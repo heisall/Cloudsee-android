@@ -20,8 +20,8 @@ public class ViewCompat {
 		if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) {
 			SDK16.setBackground(view, background);
 		} else {
-			// view.setBackgroundDrawable(background);
-			view.setBackground(background);
+			 view.setBackgroundDrawable(background);
+//			view.setBackground(background);
 		}
 	}
 

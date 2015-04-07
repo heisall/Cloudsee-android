@@ -103,6 +103,7 @@ public class JVTabActivity extends ShakeActivity implements
 
     JVFragmentIndicator mIndicator;
     private MainApplication mApp;
+    private ArrayList<IFragmentFactory> mFragmentFactorys;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -637,10 +638,26 @@ public class JVTabActivity extends ShakeActivity implements
                 Log.e("OS", "不是小米或者红米系列");
             }
         }
-        mFragments[0] = new JVMyDeviceFragment();
-        mFragments[1] = new JVVideoFragment();
-        mFragments[2] = new JVDeviceManageFragment();
-        mFragments[3] = new JVMoreFragment();
+
+        
+        
+//      mFragments[0] = new JVMyDeviceFragment();
+//      mFragments[1] = new JVVideoFragment();
+//      mFragments[2] = new JVDeviceManageFragment();
+//      mFragments[3] = new JVMoreFragment();
+        
+        mFragmentFactorys = new ArrayList<IFragmentFactory>();
+        
+        mFragmentFactorys.add(new MyDeviceFragmentFactory());
+        mFragmentFactorys.add(new VideoFragmentFactory());
+        mFragmentFactorys.add(new ConfigFragmentFactory());
+        mFragmentFactorys.add(new MoreFragmentFactory());
+        
+        mFragments[0] = (BaseFragment) mFragmentFactorys.get(0).newInstance();
+        mFragments[1] = (BaseFragment) mFragmentFactorys.get(1).newInstance();
+        mFragments[2] = (BaseFragment) mFragmentFactorys.get(2).newInstance();
+        mFragments[3] = (BaseFragment) mFragmentFactorys.get(3).newInstance();
+        
         if (!MySharedPreference.getBoolean(Consts.MORE_PAGETWO)) {
             ll_dot = (LinearLayout) findViewById(R.id.tab_ll_dot);
             ll_dot.setVisibility(View.GONE);
